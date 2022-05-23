@@ -28,10 +28,10 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
         id: 'workspace_limits.menu_limit.view_plans',
         defaultMessage: 'View plans',
     });
-    if (usageRatio >= limitThresholds.danger && isAdminUser) {
+    if (isAdminUser) {
         callToAction = intl.formatMessage({
             id: 'workspace_limits.menu_limit.view_upgrade_options',
-            defaultMessage: 'View upgrade options',
+            defaultMessage: 'View upgrade options.',
         });
     }
 
@@ -51,12 +51,12 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
         let defaultMessage = 'You’re getting closer to the free message limit. Upgrade to unlock unlimited messages. <a>{callToAction}</a>';
         if (usageRatio >= limitThresholds.danger) {
             id = t('workspace_limits.menu_limit.critical.messages_history');
-            defaultMessage = 'You’re close to hitting the free {limit} message history limit <a>{callToAction}</a>.';
+            defaultMessage = 'You’re close to hitting the free {limit} message history limit <a>{callToAction}</a>';
             values.limit = intl.formatNumber(highestLimit.limit);
         }
         if (usageRatio >= limitThresholds.exceeded) {
             id = t('workspace_limits.menu_limit.over.messages_history');
-            defaultMessage = 'You’re over the free message history limit. You can only view up to the last {limit} messages in your history. <a>{callToAction}.</a>';
+            defaultMessage = 'You’re over the free message history limit. You can only view up to the last {limit} messages in your history. <a>{callToAction}</a>';
         }
         return {
             title: intl.formatMessage({
@@ -78,12 +78,12 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
         let defaultMessage = 'You’re getting closer to the free file storage limit. Upgrade to increase storage limit. <a>{callToAction}</a>';
         if (usageRatio >= limitThresholds.danger) {
             id = t('workspace_limits.menu_limit.critical.files_storage');
-            defaultMessage = 'You’re close to hitting the free {limit} file storage limit <a>{callToAction}</a>.';
+            defaultMessage = 'You’re close to hitting the free {limit} file storage limit <a>{callToAction}</a>';
             values.limit = asGBString(highestLimit.limit, intl.formatNumber);
         }
         if (usageRatio >= limitThresholds.exceeded) {
             id = t('workspace_limits.menu_limit.over.files_storage');
-            defaultMessage = 'You’re over the free {limit} file storage limit. Older files are automatically archived. <a>{callToAction}.</a>';
+            defaultMessage = 'You’re over the free {limit} file storage limit. Older files are automatically archived. <a>{callToAction}</a>';
         }
         return {
             title: intl.formatMessage({
@@ -106,11 +106,11 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
         values.limit = highestLimit.limit;
         if (usageRatio >= limitThresholds.danger) {
             id = t('workspace_limits.menu_limit.critical.integrations_enabled');
-            defaultMessage = 'You’re close to hitting the free {limit} enabled integrations limit <a>{callToAction}</a>.';
+            defaultMessage = 'You’re close to hitting the free {limit} enabled integrations limit <a>{callToAction}</a>';
         }
         if (usageRatio >= limitThresholds.exceeded) {
             id = t('workspace_limits.menu_limit.over.integrations_enabled');
-            defaultMessage = 'You’re over the free enabled integrations limit. You can only have {limit} integrations enabled. <a>{callToAction}.</a>';
+            defaultMessage = 'You’re over the free enabled integrations limit. You can only have {limit} integrations enabled. <a>{callToAction}</a>';
         }
         return {
             title: intl.formatMessage({
@@ -132,12 +132,12 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
         let defaultMessage = 'You’re getting closer to the free Boards cards limit. Upgrade to unlock unlimited Boards cards. <a>{callToAction}</a>';
         if (usageRatio >= limitThresholds.danger) {
             id = t('workspace_limits.menu_limit.critical.boards_cards');
-            defaultMessage = 'You’re close to hitting the free {limit} Boards cards limit <a>{callToAction}</a>.';
+            defaultMessage = 'You’re close to hitting the free {limit} Boards cards limit <a>{callToAction}</a>';
             values.limit = asGBString(highestLimit.limit, intl.formatNumber);
         }
         if (usageRatio >= limitThresholds.exceeded) {
             id = 'workspace_limits.menu_limit.over.boards_cards';
-            defaultMessage = 'You’re over the free Boards cards limit. You can only view the last {limit} Boards cards. <a>{callToAction}.</a>';
+            defaultMessage = 'You’re over the free Boards cards limit. You can only view the last {limit} Boards cards. <a>{callToAction}</a>';
         }
         return {
             title: intl.formatMessage({
