@@ -502,7 +502,7 @@
   "admin.cluster.enableTitle": "高可用モードを有効にする:",
   "admin.cluster.loadedFrom": "この設定ファイルはノードID {clusterId} からロードされます。ロードバランサーを通じてシステムコンソールにアクセスしている場合や問題が発生している場合は、<link>説明文書</link> のTroubleshooting Guideを参照してください。",
   "admin.cluster.noteDescription": "このセクションでの設定値の変更を有効にするには、サーバーを再起動する必要があります。",
-  "admin.cluster.should_not_change": "警告: これらの設定はクラスター内の他のサーバーと同期されません。高可用なノード間接続は、全てのサーバーのconfig.jsonを同一に設定し、Mattermostを再起動するまで開始されません。クラスターからサーバーを追加/削除する方法については[説明文書](!http://docs.mattermost.com/deployment/cluster.html)を参照してください。 ロードバランサーを通じてシステムコンソールにアクセスしている場合や問題が発生している場合は、[説明文書](!http://docs.mattermost.com/deployment/cluster.html) のTroubleshooting Guideを参照してください。",
+  "admin.cluster.should_not_change": "警告: これらの設定はクラスター内の他のサーバーと同期されません。高可用なノード間接続は、全てのサーバーのconfig.jsonを同一に設定し、Mattermostを再起動するまで開始されません。クラスターからサーバーを追加/削除する方法については<linkCluster>説明文書</linkCluster>を参照してください。 ロードバランサーを通じてシステムコンソールにアクセスしている場合や問題が発生している場合は、<linkCluster>説明文書</linkCluster> のTroubleshooting Guideを参照してください。",
   "admin.cluster.status_table.config_hash": "設定ファイルのMD5ハッシュ値",
   "admin.cluster.status_table.hostname": "ホスト名",
   "admin.cluster.status_table.reload": " クラスターの状態をリロードしてください",

@@ -487,7 +487,7 @@
   "admin.cluster.enableTitle": "고 가용성 모드:",
   "admin.cluster.loadedFrom": "이 구성 파일은 노드 ID {clusterId}에서 로드됨. 로드 밸런서를 통해 시스템 콘솔에 액세스할 때 문제가 발생하는 경우 <link>문서</link>의 문제 해결 가이드를 참조하십시오.",
   "admin.cluster.noteDescription": "해당 섹션의 속성 변경 시 서버 재시작이 필요하다.",
-  "admin.cluster.should_not_change": "경고: 이러한 설정은 클러스터의 다른 서버와 동기화되지 않을 수 있음. 모든 서버에서 동일한 config.json을 수정하고 Mattermost를 다시 시작해야 High Availability in-Node 통신이 시작됨. 클러스터에서 서버를 추가하거나 제거하는 방법은 [문서](!http://docs.mattermost.com/deployment/cluster.html)를 참조하십시오. 로드 밸런서를 통해 시스템 콘솔에 액세스하고 문제가 발생하면 [문서](!http://docs.mattermost.com/deployment/cluster.html)의 문제 해결 가이드를 참조하십시오.",
+  "admin.cluster.should_not_change": "경고: 이러한 설정은 클러스터의 다른 서버와 동기화되지 않을 수 있음. 모든 서버에서 동일한 config.json을 수정하고 Mattermost를 다시 시작해야 High Availability in-Node 통신이 시작됨. 클러스터에서 서버를 추가하거나 제거하는 방법은 <linkCluster>문서</linkCluster>를 참조하십시오. 로드 밸런서를 통해 시스템 콘솔에 액세스하고 문제가 발생하면 <linkCluster>문서</linkCluster>의 문제 해결 가이드를 참조하십시오.",
   "admin.cluster.status_table.config_hash": "설정 파일 MD5",
   "admin.cluster.status_table.hostname": "호스트명",
   "admin.cluster.status_table.reload": " 클러스터 상태 새로고침",
