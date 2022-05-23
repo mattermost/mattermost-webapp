@@ -2914,7 +2914,7 @@
   "user.settings.tokens.deactivatedWarning": "(Не активний)",
   "user.settings.tokens.delete": "Видалити",
   "user.settings.tokens.description": "<linkTokens>Токени особистого доступу</linkTokens>  функція аналогічна токенам сесії і може бути використана для інтеграції з <linkAPI>автентифікація проти REST API</linkAPI> .",
-  "user.settings.tokens.description_mobile": "[Токени особистого доступу] (!https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/) функція аналогічна токенам сесії і може бути використана для інтеграції з [автентифікація проти REST API] (!https://api.mattermost.com/#tag/authentication). Створіть нові токени на своєму робочому столі.",
+  "user.settings.tokens.description_mobile": "<linkTokens>Токени особистого доступу</linkTokens>  функція аналогічна токенам сесії і може бути використана для інтеграції з <linkAPI>автентифікація проти REST API</linkAPI> . Створіть нові токени на своєму робочому столі.",
   "user.settings.tokens.id": "Токен ID: ",
   "user.settings.tokens.name": "Токен опис:",
   "user.settings.tokens.nameHelp": "Введіть назву для токена, щоб запам'ятати для яких він цілей",

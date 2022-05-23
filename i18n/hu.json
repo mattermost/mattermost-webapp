@@ -4984,7 +4984,7 @@
   "user.settings.tokens.deactivatedWarning": "(Letiltva)",
   "user.settings.tokens.delete": "Törlés",
   "user.settings.tokens.description": "<linkTokens>Személyes hozzáférési tokenek</linkTokens> function similarly to session tokens and can be used by integrations to <linkAPI>authenticate against the REST API</linkAPI>.",
-  "user.settings.tokens.description_mobile": "[Személyes hozzáférési tokenek](!https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/) function similarly to session tokens and can be used by integrations to [authenticate against the REST API](!https://api.mattermost.com/#tag/authentication). Create new tokens on your desktop.",
+  "user.settings.tokens.description_mobile": "<linkTokens>Személyes hozzáférési tokenek</linkTokens> function similarly to session tokens and can be used by integrations to <linkAPI>authenticate against the REST API</linkAPI>. Create new tokens on your desktop.",
   "user.settings.tokens.id": "Token azonosító: ",
   "user.settings.tokens.name": "Token leírás: ",
   "user.settings.tokens.nameHelp": "Írja le a token leírását, hogy emlékezzen arra, mit csinál.",

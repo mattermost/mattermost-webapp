@@ -4311,7 +4311,7 @@
   "user.settings.tokens.deactivatedWarning": "(Dezactivat)",
   "user.settings.tokens.delete": "Șterge",
   "user.settings.tokens.description": "<linkTokens>Personal token-uri de acces</linkTokens> funcționează similar cu sesiune de token-uri și pot fi utilizate de către integrări a <linkAPI>a autentifica împotriva REST API</linkAPI>.",
-  "user.settings.tokens.description_mobile": "[Personal token-uri de acces](!https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/) funcționează similar cu sesiune de token-uri și pot fi utilizate de către integrări a [a autentifica împotriva REST API](!https://api.mattermost.com/#tag/authentication). Crearea de noi token-uri pe desktop.",
+  "user.settings.tokens.description_mobile": "<linkTokens>Personal token-uri de acces</linkTokens> funcționează similar cu sesiune de token-uri și pot fi utilizate de către integrări a <linkAPI>a autentifica împotriva REST API</linkAPI>. Crearea de noi token-uri pe desktop.",
   "user.settings.tokens.id": "Id Jeton: ",
   "user.settings.tokens.name": "Descrierea jetonului: ",
   "user.settings.tokens.nameHelp": "Introduceți o descriere pentru tokenul dvs. pentru a vă reaminti ce face.",

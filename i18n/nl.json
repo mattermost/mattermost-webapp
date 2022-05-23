@@ -4972,7 +4972,7 @@
   "user.settings.tokens.deactivatedWarning": "(Uitgeschakeld)",
   "user.settings.tokens.delete": "Verwijderen",
   "user.settings.tokens.description": "<linkTokens>Persoonlijke toegangstokens</linkTokens>  werken op dezelfde manier als sessietokens en kunnen worden gebruikt door integraties voor <linkAPI>verificatie met de REST API</linkAPI> .",
-  "user.settings.tokens.description_mobile": "[Persoonlijke toegangstokens] (!https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/) werken op dezelfde manier als sessietokens en kunnen worden gebruikt door integraties voor [ verificatie met de REST API] (!https://api.mattermost.com/#tag/authentication). Maak nieuwe tokens op jouw computer.",
+  "user.settings.tokens.description_mobile": "<linkTokens>Persoonlijke toegangstokens</linkTokens>  werken op dezelfde manier als sessietokens en kunnen worden gebruikt door integraties voor <linkAPI> verificatie met de REST API</linkAPI> . Maak nieuwe tokens op jouw computer.",
   "user.settings.tokens.id": "Token-ID: ",
   "user.settings.tokens.name": "Token Omschrijving: ",
   "user.settings.tokens.nameHelp": "Voer een beschrijving in voor jouw token om te onthouden wat het doet.",

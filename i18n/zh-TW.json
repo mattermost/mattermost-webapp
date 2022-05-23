@@ -3750,7 +3750,7 @@
   "user.settings.tokens.deactivatedWarning": "(停用)",
   "user.settings.tokens.delete": "刪除",
   "user.settings.tokens.description": "<linkTokens>個人存取 Token</linkTokens> 的功能類似工作階段 Token，可被外部整合用於 <linkAPI>與 REST API 認證</linkAPI>。",
-  "user.settings.tokens.description_mobile": "[個人存取 Token](!https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/) 的功能類似工作階段 Token，可被外部整合用於 [與 REST API 認證](!https://api.mattermost.com/#tag/authentication)。請用電腦建立新 Token。",
+  "user.settings.tokens.description_mobile": "<linkTokens>個人存取 Token</linkTokens> 的功能類似工作階段 Token，可被外部整合用於 <linkAPI>與 REST API 認證</linkAPI>。請用電腦建立新 Token。",
   "user.settings.tokens.id": "Token ID：",
   "user.settings.tokens.name": "Token 敘述：",
   "user.settings.tokens.nameHelp": "為 Token 輸入描述以便於記憶此 Token 用途。",

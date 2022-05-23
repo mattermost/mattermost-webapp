@@ -4123,7 +4123,7 @@
   "user.settings.tokens.deactivatedWarning": "(Desativado)",
   "user.settings.tokens.delete": "Deletar",
   "user.settings.tokens.description": "<linkTokens>Tokens de acesso individual</linkTokens> funcionam similarmente a tokens de sessão e podem ser usados por integrações para <linkAPI>autenticar em uma API REST</linkAPI>.",
-  "user.settings.tokens.description_mobile": "[Tokens de acesso individual](!https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/) funcionam similarmente a tokens de sessão e podem ser usados por integrações para [autenticar em uma API REST](!https://api.mattermost.com/#tag/authentication). Crie novos tokens no seu computador.",
+  "user.settings.tokens.description_mobile": "<linkTokens>Tokens de acesso individual</linkTokens> funcionam similarmente a tokens de sessão e podem ser usados por integrações para <linkAPI>autenticar em uma API REST</linkAPI>. Crie novos tokens no seu computador.",
   "user.settings.tokens.id": "Token ID: ",
   "user.settings.tokens.name": "Descrição Token: ",
   "user.settings.tokens.nameHelp": "Digite a descrição para seu token para lembrar o que ele faz.",

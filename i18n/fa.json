@@ -4346,7 +4346,7 @@
   "user.settings.tokens.deactivatedWarning": "(معلول)",
   "user.settings.tokens.delete": "حذف",
   "user.settings.tokens.description": "<linkTokens>توکن‌های دسترسی شخصی</linkTokens> مشابه توکن‌های جلسه عمل می‌کنند و می‌توانند توسط ادغام‌ها برای <linkAPI>تأیید هویت در برابر REST API</linkAPI> استفاده شوند .",
-  "user.settings.tokens.description_mobile": "[توکن‌های دسترسی شخصی](!https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/) مشابه توکن‌های جلسه عمل می‌کنند و می‌توانند توسط ادغام‌ها برای [تأیید هویت در برابر REST API] استفاده شوند (!https:// about.mattermost.com/default-api-authentication). توکن های جدید روی دسکتاپ خود ایجاد کنید.",
+  "user.settings.tokens.description_mobile": "<linkTokens>توکن‌های دسترسی شخصی</linkTokens> مشابه توکن‌های جلسه عمل می‌کنند و می‌توانند توسط ادغام‌ها برای <linkAPI>تأیید هویت در برابر REST API</linkAPI> استفاده شوند . توکن های جدید روی دسکتاپ خود ایجاد کنید.",
   "user.settings.tokens.id": "شناسه رمز: ",
   "user.settings.tokens.name": "توضیحات توکن: ",
   "user.settings.tokens.nameHelp": "توضیحی برای توکن خود وارد کنید تا به خاطر بیاورید که چه کاری انجام می دهد.",

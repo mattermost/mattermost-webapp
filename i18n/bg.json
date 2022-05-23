@@ -4514,7 +4514,7 @@
   "user.settings.tokens.deactivatedWarning": "(Забранен)",
   "user.settings.tokens.delete": "Изтрий",
   "user.settings.tokens.description": "<linkTokens>Личните маркери за достъп</linkTokens> функционират подобно на маркерите за сесия и могат да се използват от интеграции за <linkAPI>удостоверяване вместо REST API</linkAPI>.",
-  "user.settings.tokens.description_mobile": "[Личните маркери за достъп](!https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/) функционират подобно на маркерите за сесия и могат да се използват от интеграции за [удостоверяване вместо REST API](!https://api.mattermost.com/#tag/authentication). Създайте нови маркери от компютъра си.",
+  "user.settings.tokens.description_mobile": "<linkTokens>Личните маркери за достъп</linkTokens> функционират подобно на маркерите за сесия и могат да се използват от интеграции за <linkAPI>удостоверяване вместо REST API</linkAPI>. Създайте нови маркери от компютъра си.",
   "user.settings.tokens.id": "ID на маркера: ",
   "user.settings.tokens.name": "Описание на маркера: ",
   "user.settings.tokens.nameHelp": "Въведете описание на маркера си, за да запомните какво прави.",

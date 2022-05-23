@@ -4549,7 +4549,7 @@
   "user.settings.tokens.deactivatedWarning": "(已停用)",
   "user.settings.tokens.delete": "删除",
   "user.settings.tokens.description": "<linkTokens>个人访问令牌</linkTokens>功能与会话令牌类似并可以被整合<linkAPI>与 REST API 验证</linkAPI>。",
-  "user.settings.tokens.description_mobile": "[个人访问令牌](!https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/)功能与会话令牌类似并可以被整合[与 REST API 验证](!https://api.mattermost.com/#tag/authentication)。在您的桌面创建新令牌。",
+  "user.settings.tokens.description_mobile": "<linkTokens>个人访问令牌</linkTokens>功能与会话令牌类似并可以被整合<linkAPI>与 REST API 验证</linkAPI>。在您的桌面创建新令牌。",
   "user.settings.tokens.id": "令牌 ID： ",
   "user.settings.tokens.name": "令牌描述：",
   "user.settings.tokens.nameHelp": "输入您的令牌描述以便记住它的作用。",

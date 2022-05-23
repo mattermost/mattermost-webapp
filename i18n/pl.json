@@ -4984,7 +4984,7 @@
   "user.settings.tokens.deactivatedWarning": "(Wyłączone)",
   "user.settings.tokens.delete": "Usuń",
   "user.settings.tokens.description": "<linkTokens>Osobiste tokeny dostępu</linkTokens> działają podobnie do tokenów sesji i mogą być używane przez integracje do <linkAPI>uwierzytelniania za pomocą REST API</linkAPI>.",
-  "user.settings.tokens.description_mobile": "[Osobiste tokeny dostępu](!https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/) działają podobnie do tokenów sesji i mogą być używane przez integracje do [uwierzytelniania za pomocą REST API](!https://api.mattermost.com/#tag/authentication). Utwórz nowe tokeny na swoim pulpicie.",
+  "user.settings.tokens.description_mobile": "<linkTokens>Osobiste tokeny dostępu</linkTokens> działają podobnie do tokenów sesji i mogą być używane przez integracje do <linkAPI>uwierzytelniania za pomocą REST API</linkAPI>. Utwórz nowe tokeny na swoim pulpicie.",
   "user.settings.tokens.id": "Token ID: ",
   "user.settings.tokens.name": "Opis Tokena: ",
   "user.settings.tokens.nameHelp": "Wprowadź opis tokena, aby zapamiętać co on robi.",

@@ -4984,7 +4984,7 @@
   "user.settings.tokens.deactivatedWarning": "(無効)",
   "user.settings.tokens.delete": "削除",
   "user.settings.tokens.description": "パーソナルアクセストークン機能はセッショントークンと同様、<linkTokens>REST APIに対する認証を行う</linkTokens>統合機能で使用することができます。",
-  "user.settings.tokens.description_mobile": "パーソナルアクセストークン機能はセッショントークンと同様、[REST APIに対して認証を行う](!https://api.mattermost.com/#tag/authentication)統合機能で使用することができます。デスクトップから新しいトークンを作成してください。",
+  "user.settings.tokens.description_mobile": "パーソナルアクセストークン機能はセッショントークンと同様、<linkTokens>REST APIに対して認証を行う</linkTokens>統合機能で使用することができます。デスクトップから新しいトークンを作成してください。",
   "user.settings.tokens.id": "トークンID: ",
   "user.settings.tokens.name": "トークンの説明: ",
   "user.settings.tokens.nameHelp": "何をするためのトークンかを思い出すために説明を入力してください。",

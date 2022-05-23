@@ -4721,7 +4721,7 @@
   "user.settings.tokens.deactivatedWarning": "(Inaktivera)",
   "user.settings.tokens.delete": "Ta bort",
   "user.settings.tokens.description": "<linkTokens>Personal access tokens</linkTokens> är en liknande funktion som sessions-tokens och kan användas av integrationer med <linkAPI>autentisera mot REST API</linkAPI>.",
-  "user.settings.tokens.description_mobile": "[Personal access tokens](!https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/) är en liknande funktion som sessions-tokens och kan användas av integrationer med [autentisera mot REST API](!https://api.mattermost.com/#tag/authentication). Skapa nya tokens med din dator.",
+  "user.settings.tokens.description_mobile": "<linkTokens>Personal access tokens</linkTokens> är en liknande funktion som sessions-tokens och kan användas av integrationer med <linkAPI>autentisera mot REST API</linkAPI>. Skapa nya tokens med din dator.",
   "user.settings.tokens.id": "Token ID: ",
   "user.settings.tokens.name": "Token-beskrivning ",
   "user.settings.tokens.nameHelp": "Skriv något som gör att du kommer ihåg vad ditt token gör.",

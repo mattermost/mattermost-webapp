@@ -4970,7 +4970,7 @@
   "user.settings.tokens.deactivatedWarning": "(Выключено)",
   "user.settings.tokens.delete": "Удалить",
   "user.settings.tokens.description": "<linkTokens>Персональные токены доступа</linkTokens> функционируют так же, как токены сеансов, и могут использоваться интеграциями для <linkAPI>аутентификации по API REST</linkAPI>.",
-  "user.settings.tokens.description_mobile": "[Персональные токены доступа](!https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/) функционируют так же, как токены сеансов, и могут использоваться интеграциями для [аутентификации по API REST](!https://api.mattermost.com/#tag/authentication). Создайте новые токены на настольном пк.",
+  "user.settings.tokens.description_mobile": "<linkTokens>Персональные токены доступа</linkTokens> функционируют так же, как токены сеансов, и могут использоваться интеграциями для <linkAPI>аутентификации по API REST</linkAPI>. Создайте новые токены на настольном пк.",
   "user.settings.tokens.id": "Идентификатор токена: ",
   "user.settings.tokens.name": "Описание токена: ",
   "user.settings.tokens.nameHelp": "Введите название для токена, чтобы запомнить для каких он целей.",
