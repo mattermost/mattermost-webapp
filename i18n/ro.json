@@ -4133,7 +4133,7 @@
   "user.settings.import_theme.submit": "Trimite",
   "user.settings.import_theme.submitError": "Formatul nevalid, încercați copierea și inserarea din nou.",
   "user.settings.languages.change": "Modificați limba interfeței",
-  "user.settings.languages.promote": "Selectați limba în care Mattermost afișează în interfața cu utilizatorul.\n \nVrei pentru a ajuta cu traduceri? Alăturați-vă [Mattermost Traducere Server](!http://translate.mattermost.com/) pentru a contribui.",
+  "user.settings.languages.promote": "Selectați limba în care Mattermost afișează în interfața cu utilizatorul.\n \nVrei pentru a ajuta cu traduceri? Alăturați-vă <link>Mattermost Traducere Server</link> pentru a contribui.",
   "user.settings.mfa.add": "Adăugați MFA în contul dvs",
   "user.settings.mfa.addHelp": "Adăugarea autentificării cu mai mulți factori va face ca contul dvs. să fie mai sigur prin solicitarea unui cod de pe telefonul dvs. mobil de fiecare dată când vă conectați.",
   "user.settings.mfa.remove": "Eliminați MFA din contul dvs",

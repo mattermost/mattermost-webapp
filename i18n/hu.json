@@ -4797,7 +4797,7 @@
   "user.settings.import_theme.submit": "Küldés",
   "user.settings.import_theme.submitError": "Érvénytelen formátum, próbálja meg újra másolni és beilleszteni.",
   "user.settings.languages.change": "Kezelőfelület nyelvének módosítása",
-  "user.settings.languages.promote": "Válassza ki, hogy a Mattermost felhasználói felületen melyik nyelv jelenik meg.\n \nSzeretne segíteni a fordításokban? A közreműködéshez csatlakozzon a [Mattermost fordítás szerverhezhez](!http://translate.mattermost.com/).",
+  "user.settings.languages.promote": "Válassza ki, hogy a Mattermost felhasználói felületen melyik nyelv jelenik meg.\n \nSzeretne segíteni a fordításokban? A közreműködéshez csatlakozzon a <link>Mattermost fordítás szerverhezhez</link>.",
   "user.settings.mfa.add": "MFA hozzáadása a fiókhoz",
   "user.settings.mfa.addHelp": "Többtényezős hitelesítés hozzáadása biztonságosabbá teszi fiókját, mivel minden bejelentkezéskor kódot igényel a mobiltelefonjától.",
   "user.settings.mfa.remove": "MFA eltávolítása a fiókról",

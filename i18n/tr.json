@@ -4781,7 +4781,7 @@
   "user.settings.import_theme.submit": "Gönder",
   "user.settings.import_theme.submitError": "Biçim geçersiz, lütfen yeniden kopyalayıp yapıştırmayı deneyin.",
   "user.settings.languages.change": "Arayüz dilini değiştir",
-  "user.settings.languages.promote": "Mattermost kullanıcı arayüzünde kullanılacak dili seçin.\n\nÇevirilere yardım etmek isterseniz [Mattermost Çeviri Sunucusu](!http://translate.mattermost.com/) üzerinden katkıda bulunabilirsiniz.",
+  "user.settings.languages.promote": "Mattermost kullanıcı arayüzünde kullanılacak dili seçin.\n\nÇevirilere yardım etmek isterseniz <link>Mattermost Çeviri Sunucusu</link> üzerinden katkıda bulunabilirsiniz.",
   "user.settings.mfa.add": "Hesaba çok aşamalı kimlik doğrulaması ekle",
   "user.settings.mfa.addHelp": "Hesabınıza çok aşamalı kimlik doğrulamasını eklediğinizde, her oturum açışınızda cep telefonunuzdaki uygulamadan oluşturacağınız kodu yazmanız istenerek güvenlik arttırılır.",
   "user.settings.mfa.remove": "Hesaptan çok aşamalı kimlik doğrulamayı kaldır",

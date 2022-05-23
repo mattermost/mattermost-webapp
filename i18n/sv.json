@@ -4534,7 +4534,7 @@
   "user.settings.import_theme.submit": "Skicka in",
   "user.settings.import_theme.submitError": "Ogiltigt format, försök klippa och klistra igen.",
   "user.settings.languages.change": "Byt språk för gränssnitt",
-  "user.settings.languages.promote": "Välj vilket språk som Mattermost använder i gränssnittet. \n\nVill du hjälpa till att översätta? Gå med i [Mattermost Translation Server](!http:/translate.mattermost.com/) för att bidra.",
+  "user.settings.languages.promote": "Välj vilket språk som Mattermost använder i gränssnittet. \n\nVill du hjälpa till att översätta? Gå med i <link>Mattermost Translation Server</link> för att bidra.",
   "user.settings.mfa.add": "Lägg till MFA till kontot",
   "user.settings.mfa.addHelp": "När du lägger till flerfaktorsinloggning (MFA) gör du ditt konto mer säkert genom att du får en kod till din telefon varje gång du loggar in.",
   "user.settings.mfa.remove": "Ta bort MFA från ditt konto",

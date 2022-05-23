@@ -4797,7 +4797,7 @@
   "user.settings.import_theme.submit": "Wyślij",
   "user.settings.import_theme.submitError": "Niepoprawny format, proszę spróbuj skopiować i wklejić ponownie.",
   "user.settings.languages.change": "Zmień język interfejsu",
-  "user.settings.languages.promote": "Wybierz język wyświetlany w interfejsie użytkownika Mattermost.\n \nCzy chciałbyś pomóc przy tłumaczeniach? Dołącz do [Mattermost Translation Server](!http://translate.mattermost.com/) i wnieś własny wkład.",
+  "user.settings.languages.promote": "Wybierz język wyświetlany w interfejsie użytkownika Mattermost.\n \nCzy chciałbyś pomóc przy tłumaczeniach? Dołącz do <link>Mattermost Translation Server</link> i wnieś własny wkład.",
   "user.settings.mfa.add": "Dodaj Uwierzytelnianie Wieloskładnikowe (MFA) do Konta",
   "user.settings.mfa.addHelp": "Dodanie uwierzytelniania wieloskładnikowego uczyni twoje konto bardziej bezpieczne poprzez wymaganie kodu z twojego telefonu komórkowego podczas każdego logowania.",
   "user.settings.mfa.remove": "Usuń uwierzytelnianie wieloskładnikowe z twojego konta",

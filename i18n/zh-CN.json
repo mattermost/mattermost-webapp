@@ -4367,7 +4367,7 @@
   "user.settings.import_theme.submit": "提交",
   "user.settings.import_theme.submitError": "无效格式，请尝试再次复制粘贴。",
   "user.settings.languages.change": "更改界面语言",
-  "user.settings.languages.promote": "选择 Mattermost 给用户显示的界面语言。\n\n您想帮助翻译吗？加入 [Mattermost 翻译服务器](!http://translate.mattermost.com/)。",
+  "user.settings.languages.promote": "选择 Mattermost 给用户显示的界面语言。\n\n您想帮助翻译吗？加入 <link>Mattermost 翻译服务器</link>。",
   "user.settings.mfa.add": "添加多重验证到帐号",
   "user.settings.mfa.addHelp": "添加多重验证将需要每次登入时获取手机令牌使您的帐号更安全。",
   "user.settings.mfa.remove": "从账户中移除多重验证",

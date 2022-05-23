@@ -4336,7 +4336,7 @@
   "user.settings.import_theme.submit": "Изпрати",
   "user.settings.import_theme.submitError": "Невалиден формат, моля, опитайте отново да копирате и поставите.",
   "user.settings.languages.change": "Промяна на езика на интерфейса",
-  "user.settings.languages.promote": "Изберете кой език Mattermost показва в потребителския интерфейс.\n\nИскате ли да помогнете с преводите? Присъединете се към [Mattermost сървър за превод](!http://translate.mattermost.com/), за да помагате.",
+  "user.settings.languages.promote": "Изберете кой език Mattermost показва в потребителския интерфейс.\n\nИскате ли да помогнете с преводите? Присъединете се към <link>Mattermost сървър за превод</link>, за да помагате.",
   "user.settings.mfa.add": "Добавете МФУ към профила",
   "user.settings.mfa.addHelp": "Добавянето на многофакторно удостоверяване ще направи акаунта ви по-защитен, като изисква код от мобилния Ви телефон всеки път, когато влизате.",
   "user.settings.mfa.remove": "Премахване на МФУ от профила",

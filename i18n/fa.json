@@ -4166,7 +4166,7 @@
   "user.settings.import_theme.submit": "ارسال",
   "user.settings.import_theme.submitError": "قالب نامعتبر است، لطفاً دوباره کپی و جایگذاری کنید.",
   "user.settings.languages.change": "تغییر زبان رابط",
-  "user.settings.languages.promote": "انتخاب کنید که Mattermost چه زبانی را در رابط کاربری نمایش دهد.\n \nآیا می خواهید در ترجمه کمک کنید؟ برای مشارکت به [سرور ترجمه Mattermost] (!http://translate.mattermost.com/) بپیوندید.",
+  "user.settings.languages.promote": "انتخاب کنید که Mattermost چه زبانی را در رابط کاربری نمایش دهد.\n \nآیا می خواهید در ترجمه کمک کنید؟ برای مشارکت به <link>سرور ترجمه Mattermost</link>  بپیوندید.",
   "user.settings.mfa.add": "MFA را به حساب اضافه کنید",
   "user.settings.mfa.addHelp": "افزودن احراز هویت چند عاملی با درخواست کد از تلفن همراه هر بار که وارد سیستم می شوید، حساب شما را ایمن تر می کند.",
   "user.settings.mfa.remove": "MFA را از حساب حذف کنید",

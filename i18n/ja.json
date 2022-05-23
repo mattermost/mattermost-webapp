@@ -4797,7 +4797,7 @@
   "user.settings.import_theme.submit": "送信する",
   "user.settings.import_theme.submitError": "不正な形式です。もう一度コピーアンドペーストしてください。",
   "user.settings.languages.change": "インターフェイスの言語を変更する",
-  "user.settings.languages.promote": "ユーザーインタフェースで表示するMattermostの言語を選択してください。\n \n翻訳を手伝っていただけますか？是非、[Mattermost Translation Server](!http://translate.mattermost.com/) に参加してください。",
+  "user.settings.languages.promote": "ユーザーインタフェースで表示するMattermostの言語を選択してください。\n \n翻訳を手伝っていただけますか？是非、<link>Mattermost Translation Server</link> に参加してください。",
   "user.settings.mfa.add": "アカウントに多要素認証を追加する",
   "user.settings.mfa.addHelp": "多要素認証を追加するとサインインの度にあなたの携帯電話からコードの入力が求められるため、あなたのアカウントがより安全になります。",
   "user.settings.mfa.remove": "アカウントから多要素認証を削除する",

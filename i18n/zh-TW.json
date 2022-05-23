@@ -3580,7 +3580,7 @@
   "user.settings.import_theme.submit": "送出",
   "user.settings.import_theme.submitError": "無效的格式，請再一次嘗試複製貼上。",
   "user.settings.languages.change": "變更介面語言",
-  "user.settings.languages.promote": "選擇 Mattermost 用哪種語言顯示使用者界面。\n \n想要幫忙翻譯嘛？加入 [Mattermost 翻譯伺服器](!http://translate.mattermost.com/)來幫忙。",
+  "user.settings.languages.promote": "選擇 Mattermost 用哪種語言顯示使用者界面。\n \n想要幫忙翻譯嘛？加入 <link>Mattermost 翻譯伺服器</link>來幫忙。",
   "user.settings.mfa.add": "將帳號增加多重要素驗證",
   "user.settings.mfa.addHelp": "增加多重要素驗證將會在每次登入時要求輸入來自手機上的代碼，藉此讓您的帳號更為安全。",
   "user.settings.mfa.remove": "從帳號移除多重要素驗證",

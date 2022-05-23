@@ -4733,7 +4733,7 @@
   "user.settings.import_theme.submit": "Envoyer",
   "user.settings.import_theme.submitError": "Format invalide, veuillez réessayer de copier-coller.",
   "user.settings.languages.change": "Changer la langue de l'interface",
-  "user.settings.languages.promote": "Sélectionnez la langue dans laquelle Mattermost s'affiche dans l'interface utilisateur.\n\nVous souhaitez apporter votre aide pour traduire ? Rejoignez le [serveur de traduction Mattermost](!http://translate.mattermost.com/) pour contribuer.",
+  "user.settings.languages.promote": "Sélectionnez la langue dans laquelle Mattermost s'affiche dans l'interface utilisateur.\n\nVous souhaitez apporter votre aide pour traduire ? Rejoignez le <link>serveur de traduction Mattermost</link> pour contribuer.",
   "user.settings.mfa.add": "Ajouter l'authentification multi-facteurs (MFA) au compte",
   "user.settings.mfa.addHelp": "Ajouter l'authentification multi-facteurs va rendre votre compte plus sécurisé en demandant un code à partir de votre téléphone mobile à chaque fois que vous vous connecterez.",
   "user.settings.mfa.remove": "Retirer l’authentification multi-facteurs (MFA) du compte",

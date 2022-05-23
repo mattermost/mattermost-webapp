@@ -3535,7 +3535,7 @@
   "user.settings.import_theme.submit": "Invia",
   "user.settings.import_theme.submitError": "Formato invalido, prova a copiare e incollare ancora.",
   "user.settings.languages.change": "Cambia la lingua",
-  "user.settings.languages.promote": "Seleziona la lingua in cui visualizzare l'interfaccia utente di Mattermost.\n \nVuoi contribuire alle traduzioni? Entra nell [Server di traduzioni Mattermost](!http://translate.mattermost.com/) per aiutare.",
+  "user.settings.languages.promote": "Seleziona la lingua in cui visualizzare l'interfaccia utente di Mattermost.\n \nVuoi contribuire alle traduzioni? Entra nell <link>Server di traduzioni Mattermost</link> per aiutare.",
   "user.settings.mfa.add": "Aggiungi MFA all'account",
   "user.settings.mfa.addHelp": "Aggiungere l'autenticazione multifattore renderà il tuo account ancora più sicuro, richiedendo un codice da un tuo dispositivo mobile ad ogni accesso.",
   "user.settings.mfa.remove": "Togli MFA dal tuo account",

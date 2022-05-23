@@ -4797,7 +4797,7 @@
   "user.settings.import_theme.submit": "Absenden",
   "user.settings.import_theme.submitError": "Falsches Format, bitte mit erneut kopieren und einfügen ausprobieren.",
   "user.settings.languages.change": "Sprache ändern",
-  "user.settings.languages.promote": "Wähle die Sprache der Mattermost Benutzeroberfläche.\n\nMöchtest du bei der Übersetzung helfen? Tritt dem [Mattermost Translation Server](!http://translate.mattermost.com/) bei, um zu unterstützen.",
+  "user.settings.languages.promote": "Wähle die Sprache der Mattermost Benutzeroberfläche.\n\nMöchtest du bei der Übersetzung helfen? Tritt dem <link>Mattermost Translation Server</link> bei, um zu unterstützen.",
   "user.settings.mfa.add": "MFA zum Konto hinzufügen",
   "user.settings.mfa.addHelp": "Das Hinzufügen von Multi-Faktor-Authentifizierung wird deinen Zugang sicherer machen, da ein Code von deinem Smartphone zu jeder Anmeldung erforderlich wird.",
   "user.settings.mfa.remove": "MFA vom Konto entfernen",

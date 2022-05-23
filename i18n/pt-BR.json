@@ -3946,7 +3946,7 @@
   "user.settings.import_theme.submit": "Enviar",
   "user.settings.import_theme.submitError": "Formato inválido, por favor tente copiar e colar novamente.",
   "user.settings.languages.change": "Alterar o idioma da interface",
-  "user.settings.languages.promote": "Selecione o idioma que o Mattermost exibirá na interface do usuário.\n \nVocê gostaria de ajudar com traduções? Junte-se ao [Mattermost Translation Server](!http://translate.mattermost.com/) para contribuir.",
+  "user.settings.languages.promote": "Selecione o idioma que o Mattermost exibirá na interface do usuário.\n \nVocê gostaria de ajudar com traduções? Junte-se ao <link>Mattermost Translation Server</link> para contribuir.",
   "user.settings.mfa.add": "Adicionar MFA a Conta",
   "user.settings.mfa.addHelp": "Adicionando autenticação multi-fator irá tornar sua conta mais segura requisitando um código do seu smartphone a cada vez que você fizer login",
   "user.settings.mfa.remove": "Remover MFA da Conta",

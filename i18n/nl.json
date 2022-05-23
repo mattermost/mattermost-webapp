@@ -4785,7 +4785,7 @@
   "user.settings.import_theme.submit": "Verzenden",
   "user.settings.import_theme.submitError": "Ongeldig formaat, probeer het kopiëren en plakken opnieuw.",
   "user.settings.languages.change": "Taal van de interface wijzigen",
-  "user.settings.languages.promote": "Selecteer de taal van Mattermost die wordt weergegeven in de gebruikersinterface.\n \nWil je helpen met de vertaling? Doe mee aan de [Mattermost Vertaling Server](!https://translate.mattermost.com/) om bij te dragen.",
+  "user.settings.languages.promote": "Selecteer de taal van Mattermost die wordt weergegeven in de gebruikersinterface.\n \nWil je helpen met de vertaling? Doe mee aan de <link>Mattermost Vertaling Server</link> om bij te dragen.",
   "user.settings.mfa.add": "MFA toevoegen aan account",
   "user.settings.mfa.addHelp": "Het toevoegen van multi-factor authenticatie zal jouw account veiliger maken door het vereisen van een code van jouw mobiele telefoon elke keer dat je zich aanmeldt.",
   "user.settings.mfa.remove": "MFA uit account verwijderen",
