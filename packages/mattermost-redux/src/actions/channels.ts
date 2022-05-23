@@ -530,6 +530,7 @@ export function fetchAllMyTeamsChannelsAndChannelMembers(): ActionFunc {
         let page = 0;
         do {
             try {
+                // eslint-disable-next-line no-await-in-loop
                 await Client4.getAllChannelsMembers(currentUserId, page, 100).then((data) => {
                     channelsMembers = [...channelsMembers, ...data];
                     page++;
@@ -545,7 +546,6 @@ export function fetchAllMyTeamsChannelsAndChannelMembers(): ActionFunc {
         } while (allMembers);
         try {
             channels = await Client4.getAllTeamsChannels();
-            channelsMembers = await Client4.getAllChannelsMembers(currentUserId);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
             dispatch(logError(error));
