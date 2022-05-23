@@ -339,23 +339,34 @@ export function makeSortChannelsByRecency(): (state: GlobalState, channels: Chan
         isCollapsedThreadsEnabled,
         (channels, lastPosts, crtEnabled) => {
             return [...channels].sort((a, b) => {
-                // If available, get the last post time from the loaded posts for the channel, but fall back to the
-                // channel's last_post_at if that's not available. The last post time from the loaded posts is more
-                // accurate because channel.last_post_at is not updated on the client as new messages come in.
-
-                let aLastPostAt = crtEnabled ? a.last_root_post_at : a.last_post_at;
-                if (lastPosts[a.id] && lastPosts[a.id].create_at > a.last_post_at) {
-                    aLastPostAt = lastPosts[a.id].create_at;
-                }
-
-                let bLastPostAt = crtEnabled ? b.last_root_post_at : b.last_post_at;
-                if (lastPosts[b.id] && lastPosts[b.id].create_at > b.last_post_at) {
-                    bLastPostAt = lastPosts[b.id].create_at;
-                }
-
+                let aLastPostAt = Math.max(crtEnabled ? (a.last_root_post_at || a.last_post_at) : a.last_post_at, a.create_at);
+                let bLastPostAt = Math.max(crtEnabled ? (b.last_root_post_at || b.last_post_at) : b.last_post_at, b.create_at);
                 return bLastPostAt - aLastPostAt;
             });
         },
+    );
+}
+
+export function makeUnshiftCurrentUserWithDMs(): (state: GlobalState, channels: Channel[]) => Channel[] {
+    return createSelector(
+        'makeUnshiftCurrentUserWithDMs',
+        (_state: GlobalState, channels: Channel[]) => channels,
+        getCurrentUserId,
+        (channels: Channel[], currentUserId: string) => {
+            let sortedChannels = [...channels];
+            for (let i = 0; i < channels.length; i++) {
+                const channel = channels[i];
+                const teammateId = getUserIdFromChannelName(currentUserId, channel.name);
+                if(teammateId && teammateId === currentUserId){
+                    // DM (you) need to be on top of the list of reads DMs
+                    sortedChannels.splice(i, 1);
+                    sortedChannels.unshift(channel);
+                    break;
+                }
+            }
+
+            return sortedChannels;
+        }
     );
 }
 
@@ -363,15 +374,21 @@ export function makeSortChannels() {
     const sortChannelsByName = makeSortChannelsByName();
     const sortChannelsByNameWithDMs = makeSortChannelsByNameWithDMs();
     const sortChannelsByRecency = makeSortChannelsByRecency();
+    const unshiftCurrentUserWithDMs = makeUnshiftCurrentUserWithDMs();
 
     return (state: GlobalState, originalChannels: Channel[], category: ChannelCategory) => {
         let channels = originalChannels;
 
+
         // While this function isn't memoized, sortChannelsByX should be since they know what parts of state
         // will affect sort order.
+        
 
         if (category.sorting === CategorySorting.Recency) {
             channels = sortChannelsByRecency(state, channels);
+            if(channels.some((channel) => channel.type === General.DM_CHANNEL)){
+                channels = unshiftCurrentUserWithDMs(state, channels)
+            }
         } else if (category.sorting === CategorySorting.Alphabetical || category.sorting === CategorySorting.Default) {
             if (channels.some((channel) => channel.type === General.DM_CHANNEL || channel.type === General.GM_CHANNEL)) {
                 channels = sortChannelsByNameWithDMs(state, channels);
