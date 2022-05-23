@@ -94,6 +94,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
         }
         this.handleAfterTrialRequest();
     }
+
     handleAfterTrialRequest = () => {
         this.setState({gettingTrial: false});
         this.props.actions.getLicenseConfig();

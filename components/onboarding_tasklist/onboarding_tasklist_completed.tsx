@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 import {FormattedMessage, useIntl} from 'react-intl';
 
-import {useSelector, useDispatch, shallowEqual} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
@@ -125,7 +125,7 @@ const Completed = (props: Props): JSX.Element => {
     const isCurrentLicensed = license?.IsLicensed;
 
     // Cloud conditions
-    const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription, shallowEqual);
+    const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
     const isCloud = license?.Cloud === 'true';
     const isFreeTrial = subscription?.is_free_trial === 'true';
     const hadPrevCloudTrial = subscription?.is_free_trial === 'false' && subscription?.trial_end_at > 0;
@@ -186,6 +186,7 @@ const Completed = (props: Props): JSX.Element => {
                                     message={formatMessage({id: 'menu.cloudFree.tryFreeFor30Days', defaultMessage: 'Try free for 30 days'})}
                                     telemetryId={'start_cloud_trial_after_completing_steps'}
                                     extraClass={'btn btn-primary'}
+                                    afterTrialRequest={dismissAction}
                                 />
                             ) : (
                                 <StartTrialBtn
