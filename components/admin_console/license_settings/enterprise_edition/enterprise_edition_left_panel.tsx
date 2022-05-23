@@ -9,16 +9,11 @@ import {LicenseSkus} from 'mattermost-redux/types/general';
 import {Client4} from 'mattermost-redux/client';
 
 import {getRemainingDaysFromFutureTimestamp, toTitleCase} from 'utils/utils';
-import {FileTypes, ModalIdentifiers} from 'utils/constants';
+import {FileTypes} from 'utils/constants';
 
 import Badge from 'components/widgets/badges/badge';
 
 import './enterprise_edition.scss';
-import { trackEvent } from 'actions/telemetry_actions';
-import { openModal } from 'actions/views/modals';
-import PurchaseModal from 'components/purchase_modal';
-import BillingPage from 'components/billing_page';
-import { useDispatch } from 'react-redux';
 
 export interface EnterpriseEditionProps {
     openEELicenseModal: () => void;
@@ -158,22 +153,6 @@ const renderLicenseContent = (
 ) => {
     // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
 
-    const dispatch = useDispatch();
-
-    const onUpgradeMattermostCloud = () => {
-        dispatch(openModal({
-            modalId: ModalIdentifiers.CLOUD_PURCHASE,
-            dialogType: PurchaseModal,
-        }));
-    };
-
-    const onBillingPage = () => {
-        dispatch(openModal({
-            modalId: ModalIdentifiers.BILLING_PAGE,
-            dialogType: BillingPage,
-        }));
-    };
-
     const sku = license.SkuShortName ? <>{`Mattermost ${toTitleCase(skuName)}${isTrialLicense ? ' License Trial' : ''}`}</> : null;
 
     const users = <FormattedNumber value={parseInt(license.Users, 10)}/>;
@@ -220,8 +199,6 @@ const renderLicenseContent = (
             <hr/>
             {renderAddNewLicenseButton(fileInputRef, handleChange)}
             {renderRemoveButton(handleRemove, isDisabled, removing)}
-            <button onClick={onUpgradeMattermostCloud}>{'OPen purchase modal'}</button>
-            <button onClick={onBillingPage}>{'Open billing page'}</button>
         </div>
     );
 };
