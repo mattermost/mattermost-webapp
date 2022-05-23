@@ -1,9 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {CloudUsage, IntegrationsUsage} from '@mattermost/types/cloud';
 import {GlobalState} from '@mattermost/types/store';
-import {IntegrationsUsage} from '@mattermost/types/usage';
+
+export function getUsage(state: GlobalState): CloudUsage {
+    return state.entities.usage;
+}
 
 export function getIntegrationsUsage(state: GlobalState): IntegrationsUsage {
-    return state.entities.usage.integrations;
+    return getUsage(state).integrations;
 }

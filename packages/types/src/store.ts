@@ -5,7 +5,7 @@ import {AdminState} from './admin';
 import {Bot} from './bots';
 import {ChannelsState} from './channels';
 import {ChannelCategoriesState} from './channel_categories';
-import {CloudState} from './cloud';
+import {CloudState, CloudUsage} from './cloud';
 import {EmojisState} from './emojis';
 import {FilesState} from './files';
 import {GeneralState} from './general';
@@ -67,6 +67,7 @@ export type GlobalState = {
         channelCategories: ChannelCategoriesState;
         apps: AppsState;
         cloud: CloudState;
+        usage: CloudUsage;
         insights: InsightsState;
         usage: UsageState;
     };

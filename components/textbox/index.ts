@@ -28,6 +28,8 @@ type Props = {
     rootId?: string;
 };
 
+export type TextboxElement = HTMLInputElement | HTMLTextAreaElement;
+
 const makeMapStateToProps = () => {
     const getProfilesForThread = makeGetProfilesForThread();
     return (state: GlobalState, ownProps: Props) => {

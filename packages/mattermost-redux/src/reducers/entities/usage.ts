@@ -1,26 +1,69 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {combineReducers} from 'redux';
-
-import {UsageTypes, UserTypes} from 'mattermost-redux/action_types';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {IntegrationsUsage} from '@mattermost/types/usage';
+import {CloudUsage} from 'mattermost-redux/types/cloud';
+import {CloudTypes} from 'mattermost-redux/action_types';
 
-// integrations tracks the count of integrations enabled on this server
-function integrations(state = {count: 0}, action: GenericAction): IntegrationsUsage | null {
+const emptyUsage = {
+    files: {
+        totalStorage: 0,
+        totalStorageLoaded: false,
+    },
+    messages: {
+        history: 0,
+        historyLoaded: false,
+    },
+    boards: {
+        cards: 0,
+        cardsLoaded: false,
+    },
+    integrations: {
+        enabled: 0,
+        enabledLoaded: false,
+    },
+};
+
+// represents the usage associated with this workspace
+export default function usage(state: CloudUsage = emptyUsage, action: GenericAction) {
     switch (action.type) {
-    case UsageTypes.RECEIVED_INTEGRATIONS_USAGE:
-        return action.data ? action.data : state;
-    case UserTypes.LOGOUT_SUCCESS:
-        return null;
+    case CloudTypes.RECEIVED_MESSAGES_USAGE: {
+        return {
+            ...state,
+            messages: {
+                history: action.data,
+                historyLoaded: true,
+            },
+        };
+    }
+    case CloudTypes.RECEIVED_FILES_USAGE: {
+        return {
+            ...state,
+            files: {
+                totalStorage: action.data,
+                totalStorageLoaded: true,
+            },
+        };
+    }
+    case CloudTypes.RECEIVED_INTEGRATIONS_USAGE: {
+        return {
+            ...state,
+            integrations: {
+                enabled: action.data,
+                enabledLoaded: true,
+            },
+        };
+    }
+    case CloudTypes.RECEIVED_BOARDS_USAGE: {
+        return {
+            ...state,
+            boards: {
+                cards: action.data,
+                cardsLoaded: true,
+            },
+        };
+    }
     default:
         return state;
     }
 }
-
-export default combineReducers({
-
-    // usage of integrations
-    integrations,
-});

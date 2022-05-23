@@ -191,8 +191,21 @@ const state: GlobalState = {
             },
         },
         usage: {
+            files: {
+                totalStorage: 0,
+                totalStorageLoaded: false,
+            },
+            messages: {
+                history: 0,
+                historyLoaded: false,
+            },
+            boards: {
+                cards: 0,
+                cardsLoaded: false,
+            },
             integrations: {
-                count: 0,
+                enabled: 0,
+                enabledLoaded: false,
             },
         },
         insights: {
