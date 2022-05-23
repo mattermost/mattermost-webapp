@@ -16,3 +16,21 @@ export function inK(num: number): string {
 export function toUsagePercent(usage: number, limit: number): number {
     return Math.floor((usage / limit) * 100);
 }
+
+// These are to be used when we need values
+// even if network requests are failing for some reason.
+// Use as a fallback.
+export const fallbackStarterLimits = {
+    messages: {
+        history: 10000,
+    },
+    files: {
+        totalStorage: FileSizes.Gigabyte * 10,
+    },
+    integrations: {
+        enabled: 10,
+    },
+    boards: {
+        cards: 500,
+    },
+};
