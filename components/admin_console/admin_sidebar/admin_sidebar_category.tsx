@@ -1,7 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {isValidElement} from 'react';
+import classNames from 'classnames';
 import {NavLink, Route} from 'react-router-dom';
 
 type Props = {
@@ -41,16 +42,17 @@ const AdminSidebarCategory = ({icon, title, action, children, definitionKey, nam
     }
 
     let clonedChildren = null;
+    const sectionsClassName = classNames('sections', sectionClass);
     if (children) {
         const renderedChildren = () => (
-            <ul className={'sections ' + sectionClass}>
+            <ul className={sectionsClassName}>
                 {
                     React.Children.map(children, (child) => {
-                        if (child === null) {
+                        if (!isValidElement(child)) {
                             return null;
                         }
 
-                        return React.cloneElement(child, {
+                        return React.cloneElement(child as JSX.Element, {
                             parentLink: link,
                         });
                     })
