@@ -500,7 +500,7 @@
   "admin.cluster.UseIPAddressDesc": "When true, the cluster will attempt to communicate via IP Address vs using the hostname.",
   "admin.cluster.enableDescription": "When true, Mattermost will run in High Availability mode. Please see <link>documentation</link> to learn more about configuring High Availability for Mattermost.",
   "admin.cluster.enableTitle": "Enable High Availability Mode:",
-  "admin.cluster.loadedFrom": "This configuration file was loaded from Node ID {clusterId}. Please see the Troubleshooting Guide in our [documentation](!http://docs.mattermost.com/deployment/cluster.html) if you are accessing the System Console through a load balancer and experiencing issues.",
+  "admin.cluster.loadedFrom": "This configuration file was loaded from Node ID {clusterId}. Please see the Troubleshooting Guide in our <link>documentation</link> if you are accessing the System Console through a load balancer and experiencing issues.",
   "admin.cluster.noteDescription": "Changing properties in this section will require a server restart before taking effect.",
   "admin.cluster.should_not_change": "WARNING: These settings may not sync with the other servers in the cluster. High Availability inter-node communication will not start until you modify the config.json to be identical on all servers and restart Mattermost. Please see the [documentation](!http://docs.mattermost.com/deployment/cluster.html) on how to add or remove a server from the cluster. If you are accessing the System Console through a load balancer and experiencing issues, please see the Troubleshooting Guide in our [documentation](!http://docs.mattermost.com/deployment/cluster.html).",
   "admin.cluster.status_table.config_hash": "Config File MD5",

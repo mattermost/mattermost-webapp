@@ -500,7 +500,7 @@
   "admin.cluster.UseIPAddressDesc": "När aktiverad kommer klustret försöka ansluta via IP-adress istället för servernamnet.",
   "admin.cluster.enableDescription": "När markerad kommer Mattermost vara i High Availability-läge. Läs <link>dokumentationen</link> för att läsa mer om hur High Availability konfigureras i Mattermost.",
   "admin.cluster.enableTitle": "Aktivera Hög tillgänglighet:",
-  "admin.cluster.loadedFrom": "Konfigurationen hämtades från Node ID {clusterId}. Läs Troubleshooting Guide i [dokumentationen](!http://docs.mattermost.com/deployment/cluster.html) om du anropar systemkonsolen via en lastbalanserare och upplever problem.",
+  "admin.cluster.loadedFrom": "Konfigurationen hämtades från Node ID {clusterId}. Läs Troubleshooting Guide i <link>dokumentationen</link> om du anropar systemkonsolen via en lastbalanserare och upplever problem.",
   "admin.cluster.noteDescription": "För att ändrade inställningar i denna sektion ska aktiveras krävs en omstart av servern.",
   "admin.cluster.should_not_change": "VARNING: Dessa inställningar kommer kanske inte att synkas med andra servrar i klustret. Hög Tillgänglighet för nodkommunikation kommer inte starta före du modifierat config.json så att den är identisk på alla servrar och startat om Mattermost. Vänlige se [documentation](!http://docs.mattermost.com/deployment/cluster.html) gällande hur servrar läggs till eller tas bort från klustret. Om du når systemkonsollen genom en lastbalanserare och upplever problem, vänligen vänd dig till Felsökningsguiden i vår [dokumentation](!http://docs.mattermost.com/deployment/cluster.html).",
   "admin.cluster.status_table.config_hash": "Konfigurationsfilens MD5",

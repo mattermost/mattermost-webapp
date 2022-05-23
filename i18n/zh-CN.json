@@ -500,7 +500,7 @@
   "admin.cluster.UseIPAddressDesc": "当为是时，集群将尝试通过 IP 地址而不是使用主机名进行通信。",
   "admin.cluster.enableDescription": "当设为是时，Mattermost 将以高可用性模式运行。请参考<link>文档</link>了解 Mattermost 的高可用性。",
   "admin.cluster.enableTitle": "开启高可用性模式：",
-  "admin.cluster.loadedFrom": "此配置文件是从节点 ID {clusterId} 加载的。如果您在通过负载均衡服务器访问系统控制时遇到问题，请参考我们的[文档](!http://docs.mattermost.com/deployment/cluster.html)中的排错手册。",
+  "admin.cluster.loadedFrom": "此配置文件是从节点 ID {clusterId} 加载的。如果您在通过负载均衡服务器访问系统控制时遇到问题，请参考我们的<link>文档</link>中的排错手册。",
   "admin.cluster.noteDescription": "修改这段属性需要重启服务器才能生效。",
   "admin.cluster.should_not_change": "警告：这些设定可能不会与其他机群服务器同步。高可用性互连节点通讯只会在您确保所有服务器中的 config.json 一致并重启 Mattermost 后开启。请见[文档](!http://docs.mattermost.com/deployment/cluster.html)了解如何从机群里添加或删除服务器。如果您在通过负载均衡服务器访问系统控制且遇到问题，请见我们的[文档](!http://docs.mattermost.com/deployment/cluster.html)中的排错手册。",
   "admin.cluster.status_table.config_hash": "配置文件MD5",

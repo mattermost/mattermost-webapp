@@ -324,7 +324,7 @@
   "admin.cluster.StreamingPortEx": "如：\":8075\"",
   "admin.cluster.enableDescription": "啟用時，Mattermost 將會運行於高可用性模式。請參閱<link>說明文件</link>以了解如何設定 Mattermost 的高可用性。",
   "admin.cluster.enableTitle": "啟用高可用性模式：",
-  "admin.cluster.loadedFrom": "此設定檔是從節點 ID {clusterId} 讀取。如果您是經由負載平衡器存取系統控制台且遇到了問題，請參閱[文件](!http://docs.mattermost.com/deployment/cluster.html)中的疑難排解指引。",
+  "admin.cluster.loadedFrom": "此設定檔是從節點 ID {clusterId} 讀取。如果您是經由負載平衡器存取系統控制台且遇到了問題，請參閱<link>文件</link>中的疑難排解指引。",
   "admin.cluster.noteDescription": "變更此段落設定必須重啟伺服器以生效。",
   "admin.cluster.should_not_change": "警告：這些設定可能不會跟此叢集內其他的伺服器同步。高可用性節點間通訊在所有伺服器的 config.json 被修改成一樣並重新啟動 Mattermost 之前不會開始。如何從叢集中增加或移除伺服器請看[文件](!http://docs.mattermost.com/deployment/cluster.html)。如果您是經由負載平衡器存取系統控制台且遇到了問題，請參閱[文件](!http://docs.mattermost.com/deployment/cluster.html)中的疑難排解指引。",
   "admin.cluster.status_table.config_hash": "設定檔 MD5",

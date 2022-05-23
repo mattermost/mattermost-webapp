@@ -493,7 +493,7 @@
   "admin.cluster.GossipPort": "Gossip Port:",
   "admin.cluster.GossipPortDesc": "The port used for the gossip protocol.  Both UDP and TCP should be allowed on this port.",
   "admin.cluster.GossipPortEx": "E.g.: \"8074\"",
-  "admin.cluster.loadedFrom": "This configuration file was loaded from Node ID {clusterId}. Please see the Troubleshooting Guide in our [documentation](!http://docs.mattermost.com/deployment/cluster.html) if you are accessing the System Console through a load balancer and experiencing issues.",
+  "admin.cluster.loadedFrom": "This configuration file was loaded from Node ID {clusterId}. Please see the Troubleshooting Guide in our <link>documentation</link> if you are accessing the System Console through a load balancer and experiencing issues.",
   "admin.cluster.noteDescription": "Changing properties in this section will require a server restart before taking effect.",
   "admin.cluster.OverrideHostname": "Override Hostname:",
   "admin.cluster.OverrideHostnameDesc": "The default value of '<blank>' will attempt to get the Hostname from the OS or use the IP Address.  You can override the hostname of this server with this property.  It is not recommended to override the Hostname unless needed. This property can also be set to a specific IP Address if needed.",

@@ -465,7 +465,7 @@
   "admin.cluster.UseIPAddressDesc": "وقتی درست باشد، خوشه سعی می کند از طریق آدرس IP در مقابل استفاده از نام میزبان ارتباط برقرار کند.",
   "admin.cluster.enableDescription": "وقتی درست باشد، Mattermost در حالت دسترسی بالا اجرا می شود. لطفاً برای کسب اطلاعات بیشتر در مورد پیکربندی High Availability برای Mattermost، به <link>Documentation</link> مراجعه کنید.",
   "admin.cluster.enableTitle": "حالت دسترسی بالا را فعال کنید:",
-  "admin.cluster.loadedFrom": "این فایل پیکربندی از Node ID {clusterId} بارگیری شده است. اگر از طریق یک متعادل کننده بار به کنسول سیستم دسترسی دارید و با مشکلاتی مواجه هستید، لطفاً راهنمای عیب‌یابی را در [اسناد] (!http://docs.mattermost.com/deployment/cluster.html) ما ببینید.",
+  "admin.cluster.loadedFrom": "این فایل پیکربندی از Node ID {clusterId} بارگیری شده است. اگر از طریق یک متعادل کننده بار به کنسول سیستم دسترسی دارید و با مشکلاتی مواجه هستید، لطفاً راهنمای عیب‌یابی را در <link>اسناد</link>  ما ببینید.",
   "admin.cluster.noteDescription": "تغییر خصوصیات در این بخش نیاز به راه اندازی مجدد سرور قبل از اعمال دارد.",
   "admin.cluster.should_not_change": "هشدار: این تنظیمات ممکن است با سرورهای دیگر در خوشه همگام سازی نشوند. ارتباط بین گره‌ای با دسترسی بالا شروع نمی‌شود مگر اینکه config.json را تغییر دهید تا در همه سرورها یکسان باشد و Mattermost را مجدداً راه‌اندازی کنید. لطفاً [مستندات] (!http://docs.mattermost.com/deployment/cluster.html) را در مورد نحوه افزودن یا حذف یک سرور از خوشه ببینید. اگر از طریق یک متعادل کننده بار به کنسول سیستم دسترسی دارید و مشکلاتی را تجربه می کنید، لطفاً راهنمای عیب یابی را در [مستندات] ما ببینید (!http://docs.mattermost.com/deployment/cluster.html).",
   "admin.cluster.status_table.config_hash": "فایل پیکربندی MD5",

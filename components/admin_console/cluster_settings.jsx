@@ -80,9 +80,19 @@ export default class ClusterSettings extends AdminSettings {
                     <WarningIcon/>
                     <FormattedMarkdownMessage
                         id='admin.cluster.loadedFrom'
-                        defaultMessage='This configuration file was loaded from Node ID {clusterId}. Please see the Troubleshooting Guide in our [documentation](!http://docs.mattermost.com/deployment/cluster.html) if you are accessing the System Console through a load balancer and experiencing issues.'
+                        defaultMessage='This configuration file was loaded from Node ID {clusterId}. Please see the Troubleshooting Guide in our <link>documentation</link> if you are accessing the System Console through a load balancer and experiencing issues.'
                         values={{
                             clusterId: Client4.clusterId,
+                            link: (msg) => (
+                                <a
+                                    href='http://docs.mattermost.com/deployment/cluster.html'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
                         }}
                     />
                 </div>
@@ -145,7 +155,7 @@ export default class ClusterSettings extends AdminSettings {
                                         {msg}
                                     </a>
                                 ),
-                              }}
+                            }}
                         />
                     }
                     value={this.state.Enable}
