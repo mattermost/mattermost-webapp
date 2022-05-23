@@ -498,7 +498,7 @@
   "admin.cluster.StreamingPortEx": "Например: \"8075\"",
   "admin.cluster.UseIPAddress": "Использовать IP-адрес:",
   "admin.cluster.UseIPAddressDesc": "Если установлено значение \"да\", кластер будет пытаться взаимодействовать через IP-адрес, а не через название хоста.",
-  "admin.cluster.enableDescription": "При значении \"да\" Mattermost запустится в режиме высокой доступности. Пожалуйста, обратитесь к [документации](!http://docs.mattermost.com/deployment/cluster.html) для получения сведений по настройкам режима High Availability (Высокой доступности).",
+  "admin.cluster.enableDescription": "При значении \"да\" Mattermost запустится в режиме высокой доступности. Пожалуйста, обратитесь к <link>документации</link> для получения сведений по настройкам режима High Availability (Высокой доступности).",
   "admin.cluster.enableTitle": "Включить режим высокой доступности:",
   "admin.cluster.loadedFrom": "Конфигурационный файл был загружен с узла с идентификатором {clusterId}. Пожалуйста, обратитесь к **Руководству по устранению проблем** в нашей [документации](!http://docs.mattermost.com/deployment/cluster.html), если вы открываете системную консоль через балансировщик нагрузки и испытываете проблемы.",
   "admin.cluster.noteDescription": "Изменение параметров в этой секции потребует перезагрузки сервера.",

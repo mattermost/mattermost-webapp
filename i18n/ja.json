@@ -498,7 +498,7 @@
   "admin.cluster.StreamingPortEx": "例: \":8075\"",
   "admin.cluster.UseIPAddress": "IPアドレスを使用する:",
   "admin.cluster.UseIPAddressDesc": "有効な場合、クラスターはホスト名ではなくIPアドレスを通じて通信を行おうとします。",
-  "admin.cluster.enableDescription": "有効な場合、Mattermostは高可用モードで動作するようになります。高可用モードの設定について詳しくは、[説明文書](!http://docs.mattermost.com/deployment/cluster.html)を参照してください。",
+  "admin.cluster.enableDescription": "有効な場合、Mattermostは高可用モードで動作するようになります。高可用モードの設定について詳しくは、<link>説明文書</link>を参照してください。",
   "admin.cluster.enableTitle": "高可用モードを有効にする:",
   "admin.cluster.loadedFrom": "この設定ファイルはノードID {clusterId} からロードされます。ロードバランサーを通じてシステムコンソールにアクセスしている場合や問題が発生している場合は、[説明文書](!http://docs.mattermost.com/deployment/cluster.html) のTroubleshooting Guideを参照してください。",
   "admin.cluster.noteDescription": "このセクションでの設定値の変更を有効にするには、サーバーを再起動する必要があります。",

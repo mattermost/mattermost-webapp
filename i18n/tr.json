@@ -498,7 +498,7 @@
   "admin.cluster.StreamingPortEx": "Örnek: \"8075\"",
   "admin.cluster.UseIPAddress": "IP adresi kullanılsın:",
   "admin.cluster.UseIPAddressDesc": "Bu seçenek etkinleştirildiğinde, küme sunucu adı yerine IP adresi ile iletişim kurmayı dener.",
-  "admin.cluster.enableDescription": "Bu seçenek etkinleştirildiğinde, Mattermost yüksek erişilebilirlik kipinde çalışır. Mattermost yüksek erişilebilirlik yapılandırması hakkında ayrıntılı bilgi almak için [belgeler](!http://docs.mattermost.com/deployment/cluster.html) bölümüne bakabilirsiniz.",
+  "admin.cluster.enableDescription": "Bu seçenek etkinleştirildiğinde, Mattermost yüksek erişilebilirlik kipinde çalışır. Mattermost yüksek erişilebilirlik yapılandırması hakkında ayrıntılı bilgi almak için <link>belgeler</link> bölümüne bakabilirsiniz.",
   "admin.cluster.enableTitle": "Yüksek erişilebilirlik kipi kullanılsın:",
   "admin.cluster.loadedFrom": "Bu yapılandırma dosyası {clusterId} kodlu düğümden yüklendi. Sistem panosuna bir yük dengeleyici üzerinden bağlanıyor ve sorun yaşıyorsanız sorunu çözmek için [belgeler](!http://docs.mattermost.com/deployment/cluster.html) bölümüne bakabilirsiniz.",
   "admin.cluster.noteDescription": "Bu bölümde yapılan değişikliklerin etkin olması için sunucu yeniden başlatılmalıdır.",

@@ -498,7 +498,7 @@
   "admin.cluster.StreamingPortEx": "Bijv.: \":8075\"",
   "admin.cluster.UseIPAddress": "Gebruik IP-adres:",
   "admin.cluster.UseIPAddressDesc": "Wanneer waar, zal de cluster proberen te communiceren via het IP-adres en niet met behulp van de hostnaam.",
-  "admin.cluster.enableDescription": "Is dit waar, dan zal Mattermost functioneren in High Availability mode. Mattermost SAML logins toestaan. Lees de [documentatie](!http://docs.mattermost.com/deployment/cluster.html) om meer te leren over het configureren van High Availability voor Mattermost.",
+  "admin.cluster.enableDescription": "Is dit waar, dan zal Mattermost functioneren in High Availability mode. Mattermost SAML logins toestaan. Lees de <link>documentatie</link> om meer te leren over het configureren van High Availability voor Mattermost.",
   "admin.cluster.enableTitle": "High Availability modus aanzetten:",
   "admin.cluster.loadedFrom": "Het configuratiebestand is geladen vanaf Node ID {clusterId}. Zie de Administrator Guide in onze [documentatie](!http://docs.mattermost.com/deployment/cluster.html) als u toegang verkrijgt tot de Systeem Console van het Systeem met behulp van een load balancer en problemen ervaart.",
   "admin.cluster.noteDescription": "Wanneer u wijzigingen aanbrengt in deze sectie moet de server opnieuw worden opgestart.",

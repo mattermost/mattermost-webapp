@@ -498,7 +498,7 @@
   "admin.cluster.StreamingPortEx": "T.ex.: \"8075\"",
   "admin.cluster.UseIPAddress": "Använd IP-adress:",
   "admin.cluster.UseIPAddressDesc": "När aktiverad kommer klustret försöka ansluta via IP-adress istället för servernamnet.",
-  "admin.cluster.enableDescription": "När markerad kommer Mattermost vara i High Availability-läge. Läs [dokumentationen](!http://docs.mattermost.com/deployment/cluster.html) för att läsa mer om hur High Availability konfigureras i Mattermost.",
+  "admin.cluster.enableDescription": "När markerad kommer Mattermost vara i High Availability-läge. Läs <link>dokumentationen</link> för att läsa mer om hur High Availability konfigureras i Mattermost.",
   "admin.cluster.enableTitle": "Aktivera Hög tillgänglighet:",
   "admin.cluster.loadedFrom": "Konfigurationen hämtades från Node ID {clusterId}. Läs Troubleshooting Guide i [dokumentationen](!http://docs.mattermost.com/deployment/cluster.html) om du anropar systemkonsolen via en lastbalanserare och upplever problem.",
   "admin.cluster.noteDescription": "För att ändrade inställningar i denna sektion ska aktiveras krävs en omstart av servern.",

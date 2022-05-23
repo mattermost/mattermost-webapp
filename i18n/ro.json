@@ -450,7 +450,7 @@
   "admin.cluster.StreamingPort": "Portul de streaming:",
   "admin.cluster.StreamingPortDesc": "Portul folosit pentru streaming de date între servere.",
   "admin.cluster.StreamingPortEx": "De exemplu: \"8075\"",
-  "admin.cluster.enableDescription": "Când adevărat, Mattermost va rula în Disponibilitate Ridicata modul. Vă rugăm să consultați [documentația](!http://docs.mattermost.com/deployment/cluster.html) pentru a afla mai multe despre configurarea Disponibilitate Ridicată pentru Mattermost.",
+  "admin.cluster.enableDescription": "Când adevărat, Mattermost va rula în Disponibilitate Ridicata modul. Vă rugăm să consultați <link>documentația</link> pentru a afla mai multe despre configurarea Disponibilitate Ridicată pentru Mattermost.",
   "admin.cluster.enableTitle": "Activați modul de disponibilitate înaltă:",
   "admin.cluster.loadedFrom": "Acest fișier de configurare a fost încărcat de la ID Nod {clusterId}. Vă rugăm să consultați Ghidul de Depanare în [documentația](!http://docs.mattermost.com/deployment/cluster.html) dacă accesați Consola de Sistem printr-o echilibrare și se confruntă cu probleme.",
   "admin.cluster.noteDescription": "Schimbarea proprietăților din această secțiune va necesita o repornire a serverului înainte de a intra în vigoare.",

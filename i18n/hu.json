@@ -498,7 +498,7 @@
   "admin.cluster.StreamingPortEx": "Pl.: \"8075\"",
   "admin.cluster.UseIPAddress": "Használandó IP cím:",
   "admin.cluster.UseIPAddressDesc": "Ha igaz, akkor a fürt ezzel az IP címmel próbál meg kommunikálni és nem a hosztnévvel.",
-  "admin.cluster.enableDescription": "Ha igaz, Mattermost magas rendelkezésre állású módban fog futni. Lásd [a dokumentációt](!https://docs.mattermost.com/deployment/cluster.html) hogy többet tudj meg a magas elérhetőségű mód beállításáról.",
+  "admin.cluster.enableDescription": "Ha igaz, Mattermost magas rendelkezésre állású módban fog futni. Lásd <link>a dokumentációt</link> hogy többet tudj meg a magas elérhetőségű mód beállításáról.",
   "admin.cluster.enableTitle": "Magas rendelkezésre állás mód engedélyezése:",
   "admin.cluster.loadedFrom": "Ezt a konfigurációs fájlt a {clusterId} csomópont azonosítóból töltötték be. Kérjük, olvassa el a [dokumentáció](!http://docs.mattermost.com/deployment/cluster.html) hibaelhárítási útmutatóját, ha terheléselosztón keresztül éri el a Rendszerkonzolt és problémákat tapasztal.",
   "admin.cluster.noteDescription": "Ebben a szakaszban lévő beállítások megváltoztatásához a kiszolgáló újraindítása szükséges.",

@@ -369,7 +369,7 @@
   "admin.cluster.StreamingPort": "Porta Streaming:",
   "admin.cluster.StreamingPortDesc": "Questa porta è utilizzata per trasferire dati tra i server.",
   "admin.cluster.StreamingPortEx": "E.s.: \"8075\"",
-  "admin.cluster.enableDescription": "Quando abilitato, Mattermost funzionerà in modalità Alta disponibilità. Vedi la [documentazione](!http://docs.mattermost.com/deployment/cluster.html) per altri particolari sulla configurazione dell'alta disponibilità di Mattermost.",
+  "admin.cluster.enableDescription": "Quando abilitato, Mattermost funzionerà in modalità Alta disponibilità. Vedi la <link>documentazione</link> per altri particolari sulla configurazione dell'alta disponibilità di Mattermost.",
   "admin.cluster.enableTitle": "Abilita modalità Alta disponibilità:",
   "admin.cluster.loadedFrom": "Questo file di configurazione è stato caricato dal nodo con ID {clusterId}. Vedi la Guida alla soluzione dei problemi nella [documentazione](!http://docs.mattermost.com/deployment/cluster.html) se si sta accedendo alla Console di sistema attraverso un load balancer e si verificano problemi.",
   "admin.cluster.noteDescription": "Modificare le impostazioni in questa sezione richiede un riavvio del server affinché abbiano effetto.",

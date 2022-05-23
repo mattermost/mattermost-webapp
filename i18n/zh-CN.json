@@ -498,7 +498,7 @@
   "admin.cluster.StreamingPortEx": "例如：\"8075\"",
   "admin.cluster.UseIPAddress": "使用 IP 地址：",
   "admin.cluster.UseIPAddressDesc": "当为是时，集群将尝试通过 IP 地址而不是使用主机名进行通信。",
-  "admin.cluster.enableDescription": "当设为是时，Mattermost 将以高可用性模式运行。请参考[文档](!http://docs.mattermost.com/deployment/cluster.html)了解 Mattermost 的高可用性。",
+  "admin.cluster.enableDescription": "当设为是时，Mattermost 将以高可用性模式运行。请参考<link>文档</link>了解 Mattermost 的高可用性。",
   "admin.cluster.enableTitle": "开启高可用性模式：",
   "admin.cluster.loadedFrom": "此配置文件是从节点 ID {clusterId} 加载的。如果您在通过负载均衡服务器访问系统控制时遇到问题，请参考我们的[文档](!http://docs.mattermost.com/deployment/cluster.html)中的排错手册。",
   "admin.cluster.noteDescription": "修改这段属性需要重启服务器才能生效。",

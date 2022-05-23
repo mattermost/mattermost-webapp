@@ -425,7 +425,7 @@
   "admin.cluster.StreamingPort": "Porta Streaming:",
   "admin.cluster.StreamingPortDesc": "A porta usada para o fluxo de dados entre os servidores.",
   "admin.cluster.StreamingPortEx": "Ex.: \"8075\"",
-  "admin.cluster.enableDescription": "Quando verdadeiro, Mattermost irá executar no modo de Alta Disponibilidade. Por favor leia [documentação](http://docs.mattermost.com/deployment/cluster.html) para aprender mais sobre configurar Alta Disponibilidade para o Mattermost.",
+  "admin.cluster.enableDescription": "Quando verdadeiro, Mattermost irá executar no modo de Alta Disponibilidade. Por favor leia <link>documentação</link>(http://docs.mattermost.com/deployment/cluster.html) para aprender mais sobre configurar Alta Disponibilidade para o Mattermost.",
   "admin.cluster.enableTitle": "Ativar modo Alta Disponibilidade:",
   "admin.cluster.loadedFrom": "Esta configuração foi carregada do Node ID {clusterId}. Por favor consulte o Guia de Resolução de Problemas na nossa [documentação](http://docs.mattermost.com/deployment/cluster.html) se você está acessando o Console do Sistema através de um balanceador de carga e enfrentando problemas.",
   "admin.cluster.noteDescription": "Alterando as propriedades nesta seção irá exigir que o servidor seja reiniciado para que tenha efeito.",

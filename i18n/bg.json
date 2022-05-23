@@ -491,7 +491,7 @@
   "admin.cluster.StreamingPortEx": "Например: \"8075\"",
   "admin.cluster.UseIPAddress": "Използвай IP адрес:",
   "admin.cluster.UseIPAddressDesc": "Когато е true, клъстерът ще се опита да комуникира чрез IP адрес вместо да използва името на хоста.",
-  "admin.cluster.enableDescription": "Когато е true, Mattermost ще работи в режим на висока достъпност. Моля, вижте [документация](!http://docs.mattermost.com/deployment/cluster.html), за да научите повече за конфигурирането на висока достъпност за Mattermost.",
+  "admin.cluster.enableDescription": "Когато е true, Mattermost ще работи в режим на висока достъпност. Моля, вижте <link>документация</link>, за да научите повече за конфигурирането на висока достъпност за Mattermost.",
   "admin.cluster.enableTitle": "Разреши режим на висока достъпност:",
   "admin.cluster.loadedFrom": "Този конфигурационен файл беше зареден от Node ID {clusterId}. Моля, вижте Ръководството за отстраняване на проблеми в нашата [документация](!http://docs.mattermost.com/deployment/cluster.html), ако осъществявате достъп до системната конзола чрез балансиращо натоварване и имате проблеми.",
   "admin.cluster.noteDescription": "Промяната на свойства в този раздел ще изисква рестартиране на сървъра, за да влезе в сила.",

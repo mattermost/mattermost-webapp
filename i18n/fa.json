@@ -463,7 +463,7 @@
   "admin.cluster.StreamingPortEx": "به عنوان مثال: \"8075\"",
   "admin.cluster.UseIPAddress": "استفاده از آدرس IP:",
   "admin.cluster.UseIPAddressDesc": "وقتی درست باشد، خوشه سعی می کند از طریق آدرس IP در مقابل استفاده از نام میزبان ارتباط برقرار کند.",
-  "admin.cluster.enableDescription": "وقتی درست باشد، Mattermost در حالت دسترسی بالا اجرا می شود. لطفاً برای کسب اطلاعات بیشتر در مورد پیکربندی High Availability برای Mattermost، به [Documentation](!http://docs.mattermost.com/deployment/cluster.html) مراجعه کنید.",
+  "admin.cluster.enableDescription": "وقتی درست باشد، Mattermost در حالت دسترسی بالا اجرا می شود. لطفاً برای کسب اطلاعات بیشتر در مورد پیکربندی High Availability برای Mattermost، به <link>Documentation</link> مراجعه کنید.",
   "admin.cluster.enableTitle": "حالت دسترسی بالا را فعال کنید:",
   "admin.cluster.loadedFrom": "این فایل پیکربندی از Node ID {clusterId} بارگیری شده است. اگر از طریق یک متعادل کننده بار به کنسول سیستم دسترسی دارید و با مشکلاتی مواجه هستید، لطفاً راهنمای عیب‌یابی را در [اسناد] (!http://docs.mattermost.com/deployment/cluster.html) ما ببینید.",
   "admin.cluster.noteDescription": "تغییر خصوصیات در این بخش نیاز به راه اندازی مجدد سرور قبل از اعمال دارد.",

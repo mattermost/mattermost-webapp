@@ -498,7 +498,7 @@
   "admin.cluster.StreamingPortEx": "E.g.: '8075'",
   "admin.cluster.UseIPAddress": "Use IP Address:",
   "admin.cluster.UseIPAddressDesc": "When true, the cluster will attempt to communicate via IP Address vs using the hostname.",
-  "admin.cluster.enableDescription": "When true, Mattermost will run in High Availability mode. Please see [documentation](!http://docs.mattermost.com/deployment/cluster.html) to learn more about configuring High Availability for Mattermost.",
+  "admin.cluster.enableDescription": "When true, Mattermost will run in High Availability mode. Please see <link>documentation</link> to learn more about configuring High Availability for Mattermost.",
   "admin.cluster.enableTitle": "Enable High Availability Mode:",
   "admin.cluster.loadedFrom": "This configuration file was loaded from Node ID {clusterId}. Please see the Troubleshooting Guide in our [documentation](!http://docs.mattermost.com/deployment/cluster.html) if you are accessing the System Console through a load balancer and experiencing issues.",
   "admin.cluster.noteDescription": "Changing properties in this section will require a server restart before taking effect.",

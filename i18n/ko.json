@@ -483,7 +483,7 @@
   "admin.cluster.StreamingPort": "스트리밍 포트:",
   "admin.cluster.StreamingPortDesc": "서버 간 데이터를 전달할 때 사용되는 포트.",
   "admin.cluster.StreamingPortEx": "예시: \"8075\"",
-  "admin.cluster.enableDescription": "활성화 시, Mattermost가 고가용성 모드로 동작합니다. 고가용성 모드 설정에 대한 자세한 내용은 [문서](!http://docs.mattermost.com/deployment/cluster.html) 를 참고하세요.",
+  "admin.cluster.enableDescription": "활성화 시, Mattermost가 고가용성 모드로 동작합니다. 고가용성 모드 설정에 대한 자세한 내용은 <link>문서</link> 를 참고하세요.",
   "admin.cluster.enableTitle": "고 가용성 모드:",
   "admin.cluster.loadedFrom": "이 구성 파일은 노드 ID {clusterId}에서 로드됨. 로드 밸런서를 통해 시스템 콘솔에 액세스할 때 문제가 발생하는 경우 [문서](!http://docs.mattermost.com/deployment/cluster.html)의 문제 해결 가이드를 참조하십시오.",
   "admin.cluster.noteDescription": "해당 섹션의 속성 변경 시 서버 재시작이 필요하다.",

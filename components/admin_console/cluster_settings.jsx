@@ -131,9 +131,21 @@ export default class ClusterSettings extends AdminSettings {
                         />
                     }
                     helpText={
-                        <FormattedMarkdownMessage
+                        <FormattedMessage
                             id='admin.cluster.enableDescription'
-                            defaultMessage='When true, Mattermost will run in High Availability mode. Please see [documentation](!http://docs.mattermost.com/deployment/cluster.html) to learn more about configuring High Availability for Mattermost.'
+                            defaultMessage='When true, Mattermost will run in High Availability mode. Please see <link>documentation</link> to learn more about configuring High Availability for Mattermost.'
+                            values={{
+                                link: (msg) => (
+                                    <a
+                                        href='http://docs.mattermost.com/deployment/cluster.html'
+                                        referrer='noreferrer'
+                                        target='_blank'
+                                        rel='noreferrer'
+                                    >
+                                        {msg}
+                                    </a>
+                                ),
+                              }}
                         />
                     }
                     value={this.state.Enable}

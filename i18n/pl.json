@@ -498,7 +498,7 @@
   "admin.cluster.StreamingPortEx": "Np. \"8075\"",
   "admin.cluster.UseIPAddress": "Użyj adresu IP:",
   "admin.cluster.UseIPAddressDesc": "Jeśli włączone, ten klaster będzie próbował się komunikować przez adres IP zamiast używać nazwy hosta.",
-  "admin.cluster.enableDescription": "W przypadku wartości true, Mattermost będzie działał w trybie Wysokiej Dostępności (HA). Proszę zobaczyć [dokumentację](!http://docs.mattermost.com/deployment/cluster.html) aby dowiedzieć się więcej na temat konfigurowania Wysokiej Dostępności w Mattermost.",
+  "admin.cluster.enableDescription": "W przypadku wartości true, Mattermost będzie działał w trybie Wysokiej Dostępności (HA). Proszę zobaczyć <link>dokumentację</link> aby dowiedzieć się więcej na temat konfigurowania Wysokiej Dostępności w Mattermost.",
   "admin.cluster.enableTitle": "Włącz tryb Wysokiej Dostępności:",
   "admin.cluster.loadedFrom": "Ta konfiguracja została wczytana z węzła o ID {clusterId}. Proszę zobacz podręcznik rozwiązywania problemów w naszej [dokumentacji](!http://docs.mattermost.com/deployment/cluster.html) jeśli korzystasz z Konsoli Systemowej przez load balancer i masz jakieś problemy.",
   "admin.cluster.noteDescription": "Zmiana właściwości w tej sekcji będzie wymagała restartu serwera aby zaczęły one działać.",

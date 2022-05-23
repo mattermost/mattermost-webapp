@@ -322,7 +322,7 @@
   "admin.cluster.StreamingPort": "串流通訊埠：",
   "admin.cluster.StreamingPortDesc": "用以在伺服器之間串流資料的通訊埠。",
   "admin.cluster.StreamingPortEx": "如：\":8075\"",
-  "admin.cluster.enableDescription": "啟用時，Mattermost 將會運行於高可用性模式。請參閱[說明文件](!http://docs.mattermost.com/deployment/cluster.html)以了解如何設定 Mattermost 的高可用性。",
+  "admin.cluster.enableDescription": "啟用時，Mattermost 將會運行於高可用性模式。請參閱<link>說明文件</link>以了解如何設定 Mattermost 的高可用性。",
   "admin.cluster.enableTitle": "啟用高可用性模式：",
   "admin.cluster.loadedFrom": "此設定檔是從節點 ID {clusterId} 讀取。如果您是經由負載平衡器存取系統控制台且遇到了問題，請參閱[文件](!http://docs.mattermost.com/deployment/cluster.html)中的疑難排解指引。",
   "admin.cluster.noteDescription": "變更此段落設定必須重啟伺服器以生效。",
