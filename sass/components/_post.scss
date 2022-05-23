@@ -673,11 +673,7 @@
     word-wrap: break-word;
 
     &:not(.post--editing):not(.post--editing):hover {
-        background-color: rgba(v(center-channel-color-rgb), 0.04);
-
-        .post__header {
-            padding: 0 55px 0 0;
-        }
+        background-color: rgba(var(--center-channel-color-rgb), 0.04);
     }
 
     .hide-element {

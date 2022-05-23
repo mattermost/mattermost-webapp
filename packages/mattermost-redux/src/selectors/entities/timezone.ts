@@ -11,11 +11,6 @@ import {createSelector} from 'reselect';
 
 import {getUserCurrentTimezone, getTimezoneLabel as getTimezoneLabelUtil} from 'mattermost-redux/utils/timezone_utils';
 
-export function getUserTimezone(state: GlobalState, id: string) {
-    const profile = state.entities.users.profiles[id];
-    return getTimezoneForUserProfile(profile);
-}
-
 export function getTimezoneForUserProfile(profile: UserProfile) {
     if (profile && profile.timezone) {
         return {
@@ -36,7 +31,7 @@ export function isTimezoneEnabled(state: GlobalState) {
     return config.ExperimentalTimezone === 'true';
 }
 
-export const makeGetUserTimezone: (state: GlobalState, userId: string) => UserTimezone = createSelector(
+export const makeGetUserTimezone = () => createSelector(
     'makeGetUserTimezone',
     (state: GlobalState, userId: string) => getUser(state, userId),
     (user: UserProfile) => {
@@ -47,7 +42,7 @@ export const makeGetUserTimezone: (state: GlobalState, userId: string) => UserTi
 export const getTimezoneLabel: (state: GlobalState, userId: UserProfile['id']) => string = createSelector(
     'getTimezoneLabel',
     () => timezones,
-    makeGetUserTimezone,
+    makeGetUserTimezone(),
     (timezones: Timezone[], timezoneObject: UserTimezone) => {
         const timezone = getUserCurrentTimezone(timezoneObject);
         if (!timezone) {

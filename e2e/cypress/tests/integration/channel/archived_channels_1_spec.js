@@ -74,7 +74,8 @@ describe('Leave an archived channel', () => {
 
             // * Verify that the thread is visible and marked as archived
             cy.get(`#rhsPost_${archivedPostId}`).should('be.visible');
-            cy.get('#rhsContainer .channel-archived-warning').should('be.visible');
+            cy.get('#rhsContainer .channel-archived-warning__container').should('be.visible');
+            cy.get('#rhsContainer .channel-archived-warning__content').should('be.visible');
         });
     });
 

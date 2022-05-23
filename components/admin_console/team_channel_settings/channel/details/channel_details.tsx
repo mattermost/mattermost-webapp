@@ -9,7 +9,6 @@ import {Groups, Permissions} from 'mattermost-redux/constants';
 import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Scheme} from 'mattermost-redux/types/schemes';
-import {ChannelModerationRoles} from 'mattermost-redux/types/roles';
 import {SyncablePatch, Group, SyncableType} from 'mattermost-redux/types/groups';
 import {Channel, ChannelModeration as ChannelPermissions, ChannelModerationPatch} from 'mattermost-redux/types/channels';
 import {Team} from 'mattermost-redux/types/teams';
@@ -34,6 +33,8 @@ import {ChannelGroups} from './channel_groups';
 import {ChannelProfile} from './channel_profile';
 import ChannelMembers from './channel_members';
 import ChannelModeration from './channel_moderation';
+
+import {ChannelModerationRoles} from './types';
 
 export interface ChannelDetailsProps {
     channelID: string;

@@ -128,7 +128,29 @@ exports[`plugins/MainMenuActions should match snapshot in mobile view with some 
           ]
         }
         teamId="someteamid"
-      />
+      >
+        <MenuItemToggleModalRedux
+          dialogType={
+            Object {
+              "$$typeof": Symbol(react.memo),
+              "WrappedComponent": [Function],
+              "compare": null,
+              "displayName": "Connect(InvitationModal)",
+              "type": [Function],
+            }
+          }
+          extraText="Add people to the team"
+          icon={
+            <i
+              className="fa fa-user-plus"
+            />
+          }
+          id="invitePeople"
+          modalId="invitation"
+          show={true}
+          text="Invite People"
+        />
+      </Connect(TeamPermissionGate)>
     </MenuGroup>
     <MenuGroup>
       <Connect(TeamPermissionGate)
@@ -332,17 +354,6 @@ exports[`plugins/MainMenuActions should match snapshot in mobile view with some 
         show={false}
         text="Help"
       />
-      <MenuItemAction
-        icon={
-          <i
-            className="icon icon-play"
-          />
-        }
-        id="gettingStarted"
-        onClick={[Function]}
-        show={false}
-        text="Getting Started"
-      />
       <MenuItemExternalLink
         icon={
           <i
@@ -446,7 +457,25 @@ exports[`plugins/MainMenuActions should match snapshot in web view 1`] = `
           ]
         }
         teamId="someteamid"
-      />
+      >
+        <MenuItemToggleModalRedux
+          dialogType={
+            Object {
+              "$$typeof": Symbol(react.memo),
+              "WrappedComponent": [Function],
+              "compare": null,
+              "displayName": "Connect(InvitationModal)",
+              "type": [Function],
+            }
+          }
+          extraText="Add people to the team"
+          icon={false}
+          id="invitePeople"
+          modalId="invitation"
+          show={true}
+          text="Invite People"
+        />
+      </Connect(TeamPermissionGate)>
       <Connect(TeamPermissionGate)
         permissions={
           Array [
