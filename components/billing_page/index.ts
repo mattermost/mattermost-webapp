@@ -21,8 +21,9 @@ import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
 
 import {ModalIdentifiers} from 'utils/constants';
 
-import {closeModal} from 'actions/views/modals';
+import {closeModal, openModal} from 'actions/views/modals';
 import {completeStripeAddPaymentMethod, subscribeCloudSubscription} from 'actions/cloud';
+import {ModalData} from 'types/actions';
 
 const PurchaseModal = makeAsyncComponent('PurchaseModal', React.lazy(() => import('./purchase_modal')));
 
@@ -43,6 +44,7 @@ function mapStateToProps(state: GlobalState) {
 }
 type Actions = {
     closeModal: () => void;
+    openModal: <P>(modalData: ModalData<P>) => void;
     getCloudProducts: () => void;
     completeStripeAddPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) => Promise<boolean | null>;
     subscribeCloudSubscription: (productId: string) => Promise<boolean | null>;
@@ -55,6 +57,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
         actions: bindActionCreators<ActionCreatorsMapObject<Action>, Actions>(
             {
                 closeModal: () => closeModal(ModalIdentifiers.BILLING_PAGE),
+                openModal,
                 getCloudProducts,
                 completeStripeAddPaymentMethod,
                 subscribeCloudSubscription,

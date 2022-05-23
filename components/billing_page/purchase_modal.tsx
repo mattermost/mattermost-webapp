@@ -21,6 +21,7 @@ import {
     CloudLinks,
     CloudProducts,
     BillingSchemes,
+    ModalIdentifiers,
 } from 'utils/constants';
 import {areBillingDetailsValid, BillingDetails} from '../../types/cloud/sku';
 
@@ -33,6 +34,8 @@ import Tooltip from 'components/tooltip';
 import UpgradeSvg from 'components/common/svg_images_components/upgrade_svg';
 import BackgroundSvg from 'components/common/svg_images_components/background_svg';
 import StarMarkSvg from 'components/widgets/icons/star_mark_icon';
+import PricingModal from 'components/pricing_modal';
+import {ModalData} from 'types/actions';
 
 import {getNextBillingDate} from 'utils/utils';
 
@@ -80,6 +83,7 @@ type Props = {
     isFreeTier: boolean;
     productId: string | undefined;
     actions: {
+        openModal: <P>(modalData: ModalData<P>) => void;
         closeModal: () => void;
         getCloudProducts: () => void;
         completeStripeAddPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) => Promise<boolean | null>;
@@ -267,27 +271,24 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
         this.setState({isUpgradeFromTrial: false});
     }
 
-    comparePlan = (
-        <a
-            className='ml-1'
-            href={CloudLinks.PRICING}
-            target='_blank'
-            rel='noreferrer'
-            onMouseDown={(e) => {
-                e.preventDefault();
+    openPricingModal = () => {
+        trackEvent('cloud_admin', 'click_open_pricing_modal');
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.PRICING_MODAL,
+            dialogType: PricingModal,
+        });
+    };
 
-                // MouseDown to track regular + middle clicks
-                trackEvent(
-                    TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
-                    'click_compare_plans',
-                );
-            }}
+    comparePlan = (
+        <button
+            className='ml-1'
+            onClick={this.openPricingModal}
         >
             <FormattedMessage
                 id='cloud_subscribe.contact_support'
                 defaultMessage='Compare plans'
             />
-        </a>
+        </button>
     );
 
     contactSalesLink = (text: ReactNode) => {
@@ -485,8 +486,8 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                     </div>
                     <Card
                         topColor='#4A69AC'
-                        plan={this.state.selectedProduct?.sku}
-                        price={this.state.selectedProduct?.price_per_seat.toString()}
+                        plan={this.state.selectedProduct?.name.split(' ')[1]}
+                        price={`$${this.state.selectedProduct?.price_per_seat.toString()}`}
                         rate='/user/month'
                         planBriefing={this.paymentFooterText()}
                         buttonDetails={{
