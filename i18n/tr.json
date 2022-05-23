@@ -934,7 +934,7 @@
   "admin.filter.reset_teams": "Tüm takımlar olarak sıfırla",
   "admin.filter.showing_all_teams": "Tüm takımlar görüntüleniyor",
   "admin.filter.title": "Şuna göre süz",
-  "admin.general.localization.availableLocalesDescription": "**Ayarlar > Görünüm > Dil** bölümünde kullanıcılara sunulacak dilleri seçin (desteklenen tüm dillerin kullanılabilmesi için boş bırakın). El ile yeni diller ekliyorsanız, bu ayar kaydedilmeden önce **Varsayılan istemci dili** eklenmelidir.\n\nÇevirilere yardımcı olmak isterseniz, katkıda bulunmak için [Mattermost çeviri sunucusu](!http://translate.mattermost.com/) üzerinde bir hesap açın.",
+  "admin.general.localization.availableLocalesDescription": "**Ayarlar > Görünüm > Dil** bölümünde kullanıcılara sunulacak dilleri seçin (desteklenen tüm dillerin kullanılabilmesi için boş bırakın). El ile yeni diller ekliyorsanız, bu ayar kaydedilmeden önce **Varsayılan istemci dili** eklenmelidir.\n\nÇevirilere yardımcı olmak isterseniz, katkıda bulunmak için <link>Mattermost çeviri sunucusu</link> üzerinde bir hesap açın.",
   "admin.general.localization.availableLocalesNoResults": "Herhangi bir sonuç bulunamadı",
   "admin.general.localization.availableLocalesNotPresent": "Varsayılan istemci dili kullanılabilecek diller listesinde bulunmalıdır",
   "admin.general.localization.availableLocalesTitle": "Kullanılabilecek diller:",

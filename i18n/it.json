@@ -702,7 +702,7 @@
   "admin.file_upload.chooseFile": "Scegliere file",
   "admin.file_upload.noFile": "Nessun file caricato",
   "admin.file_upload.uploadFile": "Carica",
-  "admin.general.localization.availableLocalesDescription": "Impostare quali lingue sono disponibili per gli utenti nelle Impostazioni Account (lasciare in bianco per tutte le lingue disponibili). Se si stanno aggiungendo manualmente altre lingue, si deve aggiungere la **Lingua predefinita utente** prima di salvare.\n \nVuoi contribuire alle traduzioni? Iscriviti al [Server traduzioni Mattermost](!http://translate.mattermost.com/) per contribuire.",
+  "admin.general.localization.availableLocalesDescription": "Impostare quali lingue sono disponibili per gli utenti nelle Impostazioni Account (lasciare in bianco per tutte le lingue disponibili). Se si stanno aggiungendo manualmente altre lingue, si deve aggiungere la **Lingua predefinita utente** prima di salvare.\n \nVuoi contribuire alle traduzioni? Iscriviti al <link>Server traduzioni Mattermost</link> per contribuire.",
   "admin.general.localization.availableLocalesNoResults": "Nessun risultato trovato",
   "admin.general.localization.availableLocalesNotPresent": "La lingua predefinita del client deve essere inclusa nella lista di quelle disponibili",
   "admin.general.localization.availableLocalesTitle": "Lingue disponibili:",

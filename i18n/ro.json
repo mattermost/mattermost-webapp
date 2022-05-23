@@ -854,7 +854,7 @@
   "admin.filter.reset_teams": "Resetați la toate echipele",
   "admin.filter.showing_all_teams": "Afișarea tuturor echipelor",
   "admin.filter.title": "Filtrează după",
-  "admin.general.localization.availableLocalesDescription": "Stabiliți ce limbi sunt disponibile pentru utilizatori în Setările contului (lăsați acest câmp necompletat pentru a fi disponibile toate limbile acceptate). Dacă adăugați manual limbi noi, trebuie adăugată **Limba de client implicită** înainte de a salva această setare.\n\nDoriți să ajutați cu traducerile? Alăturați-vă la (http://translate.mattermost.com/)[serverul de traduceri Mattermost] pentru a contribui.",
+  "admin.general.localization.availableLocalesDescription": "Stabiliți ce limbi sunt disponibile pentru utilizatori în Setările contului (lăsați acest câmp necompletat pentru a fi disponibile toate limbile acceptate). Dacă adăugați manual limbi noi, trebuie adăugată **Limba de client implicită** înainte de a salva această setare.\n\nDoriți să ajutați cu traducerile? Alăturați-vă la (http://translate.mattermost.com/)<link>serverul de traduceri Mattermost</link> pentru a contribui.",
   "admin.general.localization.availableLocalesNoResults": "Niciun rezultat găsit",
   "admin.general.localization.availableLocalesNotPresent": "Limba client implicită trebuie inclusă în lista disponibilă",
   "admin.general.localization.availableLocalesTitle": "Limbi disponibile:",

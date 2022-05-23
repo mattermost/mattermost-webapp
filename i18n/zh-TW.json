@@ -665,7 +665,7 @@
   "admin.filter.reset_teams": "重置所有團隊",
   "admin.filter.showing_all_teams": "顯示所有團隊",
   "admin.filter.title": "過濾",
-  "admin.general.localization.availableLocalesDescription": "設定在帳號設定中使用者可以使用哪些語言 (留空則為全部支援的語言) 。如果要手動增加新語言，必須包含**預設的用戶端語言**在內。\n\n想要幫忙翻譯嘛？加入[Mattermost 翻譯伺服器](!http://translate.mattermost.com/)來幫忙。",
+  "admin.general.localization.availableLocalesDescription": "設定在帳號設定中使用者可以使用哪些語言 (留空則為全部支援的語言) 。如果要手動增加新語言，必須包含**預設的用戶端語言**在內。\n\n想要幫忙翻譯嘛？加入<link>Mattermost 翻譯伺服器</link>來幫忙。",
   "admin.general.localization.availableLocalesNoResults": "找不到任何資料",
   "admin.general.localization.availableLocalesNotPresent": "用戶端的預設語言必須包含在可用語言中",
   "admin.general.localization.availableLocalesTitle": "可用語言：",

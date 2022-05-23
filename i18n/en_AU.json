@@ -934,7 +934,7 @@
   "admin.filter.reset_teams": "Reset to all teams",
   "admin.filter.showing_all_teams": "Showing all teams",
   "admin.filter.title": "Filter by",
-  "admin.general.localization.availableLocalesDescription": "Set which languages are available for users in **Settings > Display > Language** (leave this field blank to have all supported languages available). If you're manually adding new languages, the **Default Client Language** must be added before saving this setting.\n \nWould like to help with translations? Join the [Mattermost Translation Server](!http://translate.mattermost.com/) to contribute.",
+  "admin.general.localization.availableLocalesDescription": "Set which languages are available for users in **Settings > Display > Language** (leave this field blank to have all supported languages available). If you're manually adding new languages, the **Default Client Language** must be added before saving this setting.\n \nWould like to help with translations? Join the <link>Mattermost Translation Server</link> to contribute.",
   "admin.general.localization.availableLocalesNoResults": "No results found",
   "admin.general.localization.availableLocalesNotPresent": "The default client language must be included in the available list",
   "admin.general.localization.availableLocalesTitle": "Available Languages:",

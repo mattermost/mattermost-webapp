@@ -926,7 +926,7 @@
   "admin.filter.reset_teams": "重置所有团队",
   "admin.filter.showing_all_teams": "显示所有团队",
   "admin.filter.title": "过滤",
-  "admin.general.localization.availableLocalesDescription": "设置用户在**设定 > 设定 > 语言**可用的语言（留空将可用所有语言）。如果您手动添加新语言，必须在保存前先添加**默认客户端语言**。\n\n想要帮忙翻译吗？加入[Mattermost 翻译服务器](!http://translate.mattermost.com/)。",
+  "admin.general.localization.availableLocalesDescription": "设置用户在**设定 > 设定 > 语言**可用的语言（留空将可用所有语言）。如果您手动添加新语言，必须在保存前先添加**默认客户端语言**。\n\n想要帮忙翻译吗？加入<link>Mattermost 翻译服务器</link>。",
   "admin.general.localization.availableLocalesNoResults": "未找到结果",
   "admin.general.localization.availableLocalesNotPresent": "默认客户端语言必须包含在可用列表里",
   "admin.general.localization.availableLocalesTitle": "可用的语言：",

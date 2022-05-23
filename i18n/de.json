@@ -934,7 +934,7 @@
   "admin.filter.reset_teams": "Zurücksetzen für alle Teams",
   "admin.filter.showing_all_teams": "Alle Teams anzeigen",
   "admin.filter.title": "Filtern nach",
-  "admin.general.localization.availableLocalesDescription": "Einstellen, welche Sprachen für die Benutzer in den **Einstellungen > Anzeige > Sprache** verfügbar sind (lasse dieses Feld leer, um alle verfügbaren Sprachen zur Verfügung zu stellen). Falls du neue Sprachen manuell hinzufügst, muss die **Standardsprache Client** vor dem Speichern der Einstellung geändert werden.\n \nMöchtest du uns bei der Übersetzung unterstützen? Tritt dem [Mattermost Translation Server](!http://translate.mattermost.com/) bei, um deinen Beitrag zu leisten.",
+  "admin.general.localization.availableLocalesDescription": "Einstellen, welche Sprachen für die Benutzer in den **Einstellungen > Anzeige > Sprache** verfügbar sind (lasse dieses Feld leer, um alle verfügbaren Sprachen zur Verfügung zu stellen). Falls du neue Sprachen manuell hinzufügst, muss die **Standardsprache Client** vor dem Speichern der Einstellung geändert werden.\n \nMöchtest du uns bei der Übersetzung unterstützen? Tritt dem <link>Mattermost Translation Server</link> bei, um deinen Beitrag zu leisten.",
   "admin.general.localization.availableLocalesNoResults": "Keine Ergebnisse gefunden",
   "admin.general.localization.availableLocalesNotPresent": "Die Standardsprache für die Benutzer muss in der Liste der verfügbaren Sprachen aufgeführt sein",
   "admin.general.localization.availableLocalesTitle": "Verfügbare Sprachen:",

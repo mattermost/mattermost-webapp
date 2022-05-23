@@ -934,7 +934,7 @@
   "admin.filter.reset_teams": "Återställ till alla team",
   "admin.filter.showing_all_teams": "Visar alla team",
   "admin.filter.title": "Filtrera med",
-  "admin.general.localization.availableLocalesDescription": "Ange vilka språk som finns tillgängliga för användaren i **Inställningar > Utseende > Språk** (lämna fältet blankt för att tillåta alla tillgängliga språk). Om du manuellt lägger till språk så måste **Förvalt klientspråk** läggas till innan inställningen sparas.\n\nVill du hjälpa till med översättningar? Gå med i [Mattermost Translation Server](!http://translate.mattermost.com/) för att bidra.",
+  "admin.general.localization.availableLocalesDescription": "Ange vilka språk som finns tillgängliga för användaren i **Inställningar > Utseende > Språk** (lämna fältet blankt för att tillåta alla tillgängliga språk). Om du manuellt lägger till språk så måste **Förvalt klientspråk** läggas till innan inställningen sparas.\n\nVill du hjälpa till med översättningar? Gå med i <link>Mattermost Translation Server</link> för att bidra.",
   "admin.general.localization.availableLocalesNoResults": "Inga resultat hittades",
   "admin.general.localization.availableLocalesNotPresent": "Det förvalda klientspråket måste finnas med i listan med tillgängliga språk",
   "admin.general.localization.availableLocalesTitle": "Tillgängliga språk:",

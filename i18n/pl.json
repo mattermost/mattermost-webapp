@@ -934,7 +934,7 @@
   "admin.filter.reset_teams": "Reset dla wszystkich zespołów",
   "admin.filter.showing_all_teams": "Wyświetlanie wszystkich zespołów",
   "admin.filter.title": "Filtrowanie według",
-  "admin.general.localization.availableLocalesDescription": "Ustaw języki, które mają być dostępne dla użytkowników w **Ustawienia > Widok > Język** (pozostaw to pole puste, aby dostępne były wszystkie obsługiwane języki). Jeśli dodajesz ręcznie nowe języki, **Domyślny Język Klienta** powinien zostać dodany przed zapisem ustawień.\n \nChcesz pomóc w tłumaczeniach? Dołącz do [Serwera Tłumaczeń Mattermost](!http://translate.mattermost.com/) w celu współpracy.",
+  "admin.general.localization.availableLocalesDescription": "Ustaw języki, które mają być dostępne dla użytkowników w **Ustawienia > Widok > Język** (pozostaw to pole puste, aby dostępne były wszystkie obsługiwane języki). Jeśli dodajesz ręcznie nowe języki, **Domyślny Język Klienta** powinien zostać dodany przed zapisem ustawień.\n \nChcesz pomóc w tłumaczeniach? Dołącz do <link>Serwera Tłumaczeń Mattermost</link> w celu współpracy.",
   "admin.general.localization.availableLocalesNoResults": "Brak wyników",
   "admin.general.localization.availableLocalesNotPresent": "Domyślny język klienta musi być uwzględniony w liście dostępnych języków",
   "admin.general.localization.availableLocalesTitle": "Dostępne języki:",

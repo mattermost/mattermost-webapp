@@ -934,7 +934,7 @@
   "admin.filter.reset_teams": "Visszaállítás az összes csapathoz",
   "admin.filter.showing_all_teams": "Összes csapat megjelenítése",
   "admin.filter.title": "Szűrés",
-  "admin.general.localization.availableLocalesDescription": "Állítsa be a felhasználók számára elérhető nyelveket a **Beállítások > Megjelenítés > Nyelv** beállításoknál (hagyja ezt a mezőt üresen, hogy az összes támogatott nyelv elérhető legyen). Ha kézzel ad hozzá új nyelveket, akkor a beállítás mentése előtt hozzá kell adnia az **Alapértelmezett kliens nyelvet**.\n \nSzeretne segíteni a fordításokban? Csatlakozzon a [Mattermost fordítás szerverhez](!http://translate.mattermost.com/), hogy hozzájárulhasson.",
+  "admin.general.localization.availableLocalesDescription": "Állítsa be a felhasználók számára elérhető nyelveket a **Beállítások > Megjelenítés > Nyelv** beállításoknál (hagyja ezt a mezőt üresen, hogy az összes támogatott nyelv elérhető legyen). Ha kézzel ad hozzá új nyelveket, akkor a beállítás mentése előtt hozzá kell adnia az **Alapértelmezett kliens nyelvet**.\n \nSzeretne segíteni a fordításokban? Csatlakozzon a <link>Mattermost fordítás szerverhez</link>, hogy hozzájárulhasson.",
   "admin.general.localization.availableLocalesNoResults": "Nincs találat",
   "admin.general.localization.availableLocalesNotPresent": "Az alapértelmezett kliens nyelvének szerepelnie kell az elérhető nyelvek listájában",
   "admin.general.localization.availableLocalesTitle": "Elérhető nyelvek:",

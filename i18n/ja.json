@@ -934,7 +934,7 @@
   "admin.filter.reset_teams": "全チームをリセットする",
   "admin.filter.showing_all_teams": "全チームを表示する",
   "admin.filter.title": "フィルター",
-  "admin.general.localization.availableLocalesDescription": "**設定 > 表示 > 言語**からユーザーが利用可能な言語を設定してください（空欄にすると全てのサポート済み言語が利用可能になります）。手作業で新しい言語を追加する場合、この設定を保存する前に**デフォルトのクライアント言語**を追加しなくてはいけません。\n \n翻訳を手伝っていただけますか？ 是非、[Mattermost Translation Server](!http://translate.mattermost.com/)に参加してください。",
+  "admin.general.localization.availableLocalesDescription": "**設定 > 表示 > 言語**からユーザーが利用可能な言語を設定してください（空欄にすると全てのサポート済み言語が利用可能になります）。手作業で新しい言語を追加する場合、この設定を保存する前に**デフォルトのクライアント言語**を追加しなくてはいけません。\n \n翻訳を手伝っていただけますか？ 是非、<link>Mattermost Translation Server</link>に参加してください。",
   "admin.general.localization.availableLocalesNoResults": "結果が見付かりません",
   "admin.general.localization.availableLocalesNotPresent": "デフォルトのクライアント言語は利用可能な言語リストに含まれている必要があります",
   "admin.general.localization.availableLocalesTitle": "利用可能な言語:",

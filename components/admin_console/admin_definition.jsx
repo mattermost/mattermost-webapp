@@ -2126,7 +2126,19 @@ const AdminDefinition = {
                         label_default: 'Available Languages:',
                         help_text: t('admin.general.localization.availableLocalesDescription'),
                         help_text_markdown: true,
-                        help_text_default: 'Set which languages are available for users in **Settings > Display > Language** (leave this field blank to have all supported languages available). If you\'re manually adding new languages, the **Default Client Language** must be added before saving this setting.\n \nWould like to help with translations? Join the [Mattermost Translation Server](!http://translate.mattermost.com/) to contribute.',
+                        help_text_default: 'Set which languages are available for users in **Settings > Display > Language** (leave this field blank to have all supported languages available). If you\'re manually adding new languages, the **Default Client Language** must be added before saving this setting.\n \nWould like to help with translations? Join the <link>Mattermost Translation Server</link> to contribute.',
+                        help_text_values: {
+                            link: (msg) => (
+                                <a
+                                    href='http://translate.mattermost.com/'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        },
                         multiple: true,
                         no_result: t('admin.general.localization.availableLocalesNoResults'),
                         no_result_default: 'No results found',

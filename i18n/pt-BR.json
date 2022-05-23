@@ -778,7 +778,7 @@
   "admin.filter.reset_teams": "Redefinir para todas as equipes",
   "admin.filter.showing_all_teams": "Exibindo todas as equipes",
   "admin.filter.title": "Filtrar por",
-  "admin.general.localization.availableLocalesDescription": "Defina qual idioma está disponível para os usuários em Configurações de Conta (deixe este campo em branco para ter todos os idiomas disponíveis). Se você está adicionando novos idiomas manualmente, o **Idioma Padrão do Cliente** precisa ser adicionado antes de salvar esta configuração.\n \nGostaria de ajudar com tradução? Entre no <[Servidor Mattermost de Tradução](!http://translate.mattermost.com/) para contribuir.",
+  "admin.general.localization.availableLocalesDescription": "Defina qual idioma está disponível para os usuários em Configurações de Conta (deixe este campo em branco para ter todos os idiomas disponíveis). Se você está adicionando novos idiomas manualmente, o **Idioma Padrão do Cliente** precisa ser adicionado antes de salvar esta configuração.\n \nGostaria de ajudar com tradução? Entre no <<link>Servidor Mattermost de Tradução</link> para contribuir.",
   "admin.general.localization.availableLocalesNoResults": "Nenhum resultado encontrado",
   "admin.general.localization.availableLocalesNotPresent": "O idioma padrão deve ser incluído na lista",
   "admin.general.localization.availableLocalesTitle": "Idiomas Disponíveis:",

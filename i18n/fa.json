@@ -881,7 +881,7 @@
   "admin.filter.reset_teams": "بازنشانی به همه تیم ها",
   "admin.filter.showing_all_teams": "نمایش همه تیم ها",
   "admin.filter.title": "محدود شده توسط",
-  "admin.general.localization.availableLocalesDescription": "در **تنظیمات > نمایشگر > زبان**، زبان هایی را برای کاربران در دسترس قرار دهید (این قسمت را خالی بگذارید تا همه زبان های پشتیبانی شده در دسترس باشند). اگر به صورت دستی زبان‌های جدیدی اضافه می‌کنید، **زبان پیش‌فرض کلاینت** باید قبل از ذخیره این تنظیم اضافه شود.\n \nآیا می خواهید در ترجمه کمک کنید؟ برای مشارکت به [سرور ترجمه Mattermost] (!http://translate.mattermost.com/) بپیوندید.",
+  "admin.general.localization.availableLocalesDescription": "در **تنظیمات > نمایشگر > زبان**، زبان هایی را برای کاربران در دسترس قرار دهید (این قسمت را خالی بگذارید تا همه زبان های پشتیبانی شده در دسترس باشند). اگر به صورت دستی زبان‌های جدیدی اضافه می‌کنید، **زبان پیش‌فرض کلاینت** باید قبل از ذخیره این تنظیم اضافه شود.\n \nآیا می خواهید در ترجمه کمک کنید؟ برای مشارکت به <link>سرور ترجمه Mattermost</link>  بپیوندید.",
   "admin.general.localization.availableLocalesNoResults": "نتیجه ای پیدا نشد",
   "admin.general.localization.availableLocalesNotPresent": "زبان مشتری پیش فرض باید در لیست موجود گنجانده شود",
   "admin.general.localization.availableLocalesTitle": "زبان های موجود:",
