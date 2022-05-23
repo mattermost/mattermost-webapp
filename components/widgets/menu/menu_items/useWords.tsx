@@ -48,11 +48,12 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
     switch (highestLimit.id) {
     case LimitTypes.messageHistory: {
         let id = t('workspace_limits.menu_limit.warn.messages_history');
-        let defaultMessage = 'You’re getting closer to the free message limit. Upgrade to unlock unlimited messages. <a>{callToAction}</a>';
+
+        let defaultMessage = 'You’re getting closer to the free {limit} message limit. Upgrade to unlock unlimited messages. <a>{callToAction}</a>';
+        values.limit = intl.formatNumber(highestLimit.limit);
         if (usageRatio >= limitThresholds.danger) {
             id = t('workspace_limits.menu_limit.critical.messages_history');
             defaultMessage = 'You’re close to hitting the free {limit} message history limit <a>{callToAction}</a>';
-            values.limit = intl.formatNumber(highestLimit.limit);
         }
         if (usageRatio >= limitThresholds.exceeded) {
             id = t('workspace_limits.menu_limit.over.messages_history');
@@ -70,7 +71,7 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
                 },
                 values,
             ),
-            status: inK(highestLimit.limit),
+            status: inK(highestLimit.usage),
         };
     }
     case LimitTypes.fileStorage: {
@@ -97,7 +98,7 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
                 },
                 values,
             ),
-            status: asGBString(highestLimit.limit, intl.formatNumber),
+            status: asGBString(highestLimit.usage, intl.formatNumber),
         };
     }
     case LimitTypes.enabledIntegrations: {
@@ -124,7 +125,7 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
                 },
                 values,
             ),
-            status: highestLimit.limit,
+            status: highestLimit.usage,
         };
     }
     case LimitTypes.boardsCards: {
@@ -151,7 +152,7 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
                 },
                 values,
             ),
-            status: highestLimit.limit,
+            status: highestLimit.usage,
         };
     }
     default:
