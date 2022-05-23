@@ -2033,7 +2033,7 @@
   "bots.manage.add.creating": "建立中...",
   "bots.manage.add.invalid_username": "使用者名稱必須要以小寫英字母開頭，最少 3 個最多 22 個字，能使用小寫英字母、數字、'.'、'-'跟'_'。",
   "bots.manage.bot_accounts": "機器人帳號",
-  "bots.manage.created.text": "已建立機器人帳號 **{botname}**。請用下列的存取 Token 以跟機器人連線(詳情請參閱[文件](https://mattermost.com/pl/default-bot-accounts))。",
+  "bots.manage.created.text": "已建立機器人帳號 **{botname}**。請用下列的存取 Token 以跟機器人連線(詳情請參閱<link>文件</link>(https://mattermost.com/pl/default-bot-accounts))。",
   "bots.manage.description": "用機器人帳號透過模組或 API 與 Mattermost 整合",
   "bots.manage.edit": "編輯",
   "bots.manage.edit.editing": "更新中...",

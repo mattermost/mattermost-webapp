@@ -2568,7 +2568,7 @@
   "bots.manage.add.invalid_last_char": "机器人用户名不能以句点作为最后一个字符",
   "bots.manage.add.invalid_username": "用户名必须小写字母开头并且为 3-22 字符长。您可以使用小写字母、数字、句号、破折号以及下划线。",
   "bots.manage.bot_accounts": "机器人账户",
-  "bots.manage.created.text": "您的机器人账户 **{botname}** 创建成功。请使用以下访问令牌连接到机器人 (参见[文件](https://mattermost.com/pl/default-bot-accounts)了解更多)。",
+  "bots.manage.created.text": "您的机器人账户 **{botname}** 创建成功。请使用以下访问令牌连接到机器人 (参见<link>文件</link>(https://mattermost.com/pl/default-bot-accounts)了解更多)。",
   "bots.manage.description": "使用机器人以插件和 API 进行与 Mattermost 整合",
   "bots.manage.edit": "编辑",
   "bots.manage.edit.editing": "更新中...",

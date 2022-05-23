@@ -2441,7 +2441,7 @@
   "bots.manage.add.invalid_last_char": "Numele de utilizator bot nu pot avea o perioadă ca ultimul caracter",
   "bots.manage.add.invalid_username": "Numele de utilizator trebuie să înceapă cu o literă mică și să aibă o lungime de 3-22 de caractere. Puteți utiliza litere mici, numere, perioade, liniuțe și sublinieri.",
   "bots.manage.bot_accounts": "Conturi Bot",
-  "bots.manage.created.text": "Contul tău de bot **{botname}** a fost creat cu succes. Utilizați următorul simbol de acces pentru a vă conecta la bot (consultați [documentația] (https://mattermost.com/pl/default-bot-accounts) pentru mai multe detalii).",
+  "bots.manage.created.text": "Contul tău de bot **{botname}** a fost creat cu succes. Utilizați următorul simbol de acces pentru a vă conecta la bot (consultați <link>documentația</link> (https://mattermost.com/pl/default-bot-accounts) pentru mai multe detalii).",
   "bots.manage.description": "Utilizați conturile bot pentru a se integra cu Mattermost prin pluginuri sau API",
   "bots.manage.edit": "Editați",
   "bots.manage.edit.editing": "Se actualizează ...",

@@ -2683,7 +2683,7 @@
   "bots.manage.add.invalid_last_char": "Bot kullanıcı adlarının son karakteri nokta olamaz",
   "bots.manage.add.invalid_username": "Kullanıcı adları bir küçük harf ile başlamalı ve 3 ile 22 karakter arasında bir uzunluğa sahip olmalıdır. Küçük harfleri, rakamları, nokta, tire ve alt çizgi karakterlerini kullanabilirsiniz.",
   "bots.manage.bot_accounts": "Bot hesapları",
-  "bots.manage.created.text": "**{botname}** bot hesabınız oluşturuldu. Lütfen bot bağlantısını kurmak için aşağıdaki erişim kodunu kullanın (ayrıntılı bilgi almak için [belgeler](https://mattermost.com/pl/default-bot-accounts) bölümüne bakabilirsiniz).",
+  "bots.manage.created.text": "**{botname}** bot hesabınız oluşturuldu. Lütfen bot bağlantısını kurmak için aşağıdaki erişim kodunu kullanın (ayrıntılı bilgi almak için <link>belgeler</link>(https://mattermost.com/pl/default-bot-accounts) bölümüne bakabilirsiniz).",
   "bots.manage.description": "Uygulama ekleri ya da API üzerinden Mattermost bütünleştirmesi için bot hesapları kullanılsın",
   "bots.manage.edit": "Düzenle",
   "bots.manage.edit.editing": "Güncelleniyor...",

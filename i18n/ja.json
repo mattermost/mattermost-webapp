@@ -2691,7 +2691,7 @@
   "bots.manage.add.invalid_last_char": "Botユーザー名は最後の文字としてピリオドを使用することはできません",
   "bots.manage.add.invalid_username": "ユーザー名は英小文字で始ま理、3-22文字以内でなければなりません。英小文字、数字、ピリオド、ダッシュ、アンダースコアが使用できます。",
   "bots.manage.bot_accounts": "Botアカウント",
-  "bots.manage.created.text": "Botアカウント **{botname}** が正常に作成されました。Botへ接続するには下記のアクセストークンを使用してください（詳しくは、[説明文書](https://mattermost.com/pl/default-bot-accounts)を参照してください）。",
+  "bots.manage.created.text": "Botアカウント **{botname}** が正常に作成されました。Botへ接続するには下記のアクセストークンを使用してください（詳しくは、<link>説明文書</link>(https://mattermost.com/pl/default-bot-accounts)を参照してください）。",
   "bots.manage.description": "プラグインやAPIを通じてMattermostと連携するにはBotアカウントを使用してください",
   "bots.manage.edit": "編集する",
   "bots.manage.edit.editing": "アップロードしています...",

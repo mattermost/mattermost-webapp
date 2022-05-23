@@ -2691,7 +2691,7 @@
   "bots.manage.add.invalid_last_char": "Bot usernames cannot have a full stop as the last character",
   "bots.manage.add.invalid_username": "Usernames have to begin with a lowercase letter and be 3-22 characters long. You can use lowercase letters, numbers, full stops, dashes, and underscores.",
   "bots.manage.bot_accounts": "Bot Accounts",
-  "bots.manage.created.text": "Your bot account **{botname}** has been created successfully. Please use the following access token to connect to the bot (see [documentation](https://mattermost.com/pl/default-bot-accounts) for further details).",
+  "bots.manage.created.text": "Your bot account **{botname}** has been created successfully. Please use the following access token to connect to the bot (see <link>documentation</link>(https://mattermost.com/pl/default-bot-accounts) for further details).",
   "bots.manage.description": "Use bot accounts to integrate with Mattermost through plugins or the API",
   "bots.manage.edit": "Edit",
   "bots.manage.edit.editing": "Updating...",

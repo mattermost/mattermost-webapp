@@ -2578,7 +2578,7 @@
   "bots.manage.add.invalid_last_char": "Потребителските имена на ботове не могат да завършват с точка",
   "bots.manage.add.invalid_username": "Потребителските имена трябва да започват с малка буква и да са с дължина 3-22 знака. Можете да използвате малки букви, цифри, точки, тирета и долни черти.",
   "bots.manage.bot_accounts": "Бот профили",
-  "bots.manage.created.text": "Вашият ботов акаунт **{botname}** е създаден успешно. Моля, използвайте следния маркер за достъп, за да се свържете с бота (вижте [документация](https://mattermost.com/pl/default-bot-accounts) за повече подробности).",
+  "bots.manage.created.text": "Вашият ботов акаунт **{botname}** е създаден успешно. Моля, използвайте следния маркер за достъп, за да се свържете с бота (вижте <link>документация</link>(https://mattermost.com/pl/default-bot-accounts) за повече подробности).",
   "bots.manage.description": "Използвайте ботови акаунти, за да се интегрирате с Mattermost чрез плъгини или API",
   "bots.manage.edit": "Редактирай",
   "bots.manage.edit.editing": "Актуализира ...",

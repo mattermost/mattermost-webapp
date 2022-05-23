@@ -2681,7 +2681,7 @@
   "bots.manage.add.invalid_last_char": "Имена ботов не могут иметь последним символом точку",
   "bots.manage.add.invalid_username": "Имена пользователей должны начинаться со строчной буквы и иметь длину 3-22 символа. Вы можете использовать строчные буквы, цифры, точки, тире и подчеркивания.",
   "bots.manage.bot_accounts": "Учетные записи ботов",
-  "bots.manage.created.text": "Учетная запись вашего бота **{botname}** была успешно создана. Используйте указанный токен для подключения бота (для подробностей см. [документацию](https://mattermost.com/pl/default-bot-accounts)).",
+  "bots.manage.created.text": "Учетная запись вашего бота **{botname}** была успешно создана. Используйте указанный токен для подключения бота (для подробностей см. <link>документацию</link>(https://mattermost.com/pl/default-bot-accounts)).",
   "bots.manage.description": "Используйте учетные записи для интеграции с Mattermost через плагины или API",
   "bots.manage.edit": "Изменить",
   "bots.manage.edit.editing": "Обновление…",

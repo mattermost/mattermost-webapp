@@ -2555,7 +2555,7 @@
   "bots.manage.add.invalid_last_char": "Los nombres de usuario de los Bot no pueden tener un punto como último carácter",
   "bots.manage.add.invalid_username": "Los nombres de usuario deben comenzar con una letra en minúscula y debe tener entre 3 y 22 caracteres de longitud. Puedes utilizar letras en minúsculas, números, puntos, guiones y guiones bajos.",
   "bots.manage.bot_accounts": "Cuentas Bot",
-  "bots.manage.created.text": "Tu cuenta bot **{botname}** ha sido creada satisfactoriamente. Por favor utiliza el siguiente token de acceso para conectar el bot (ve la [documentación](https://mattermost.com/pl/default-bot-accounts) para más detalles).",
+  "bots.manage.created.text": "Tu cuenta bot **{botname}** ha sido creada satisfactoriamente. Por favor utiliza el siguiente token de acceso para conectar el bot (ve la <link>documentación</link>(https://mattermost.com/pl/default-bot-accounts) para más detalles).",
   "bots.manage.description": "Utiliza cuentas bot para integrarte con Mattermost a través de plugins o la API",
   "bots.manage.edit": "Editar",
   "bots.manage.edit.editing": "Actualizando…",

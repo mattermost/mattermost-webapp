@@ -2686,7 +2686,7 @@
   "bots.manage.add.invalid_last_char": "Bot:ars användarnamn kan inte avslutas med en punkt",
   "bots.manage.add.invalid_username": "Användarnamn måste börja med en gemen och kan var 3-22 tecken långt. Du kan använda gemener, siffror, punkt, streck och understreck.",
   "bots.manage.bot_accounts": "Bot-konton",
-  "bots.manage.created.text": "Ditt bot-konto **{botname}** har skapats. Använd följande åtkomst-token för att ansluta till botten (läs [dokumentationen](https://mattermost.com/pl/default-bot-accounts) för detaljer).",
+  "bots.manage.created.text": "Ditt bot-konto **{botname}** har skapats. Använd följande åtkomst-token för att ansluta till botten (läs <link>dokumentationen</link>(https://mattermost.com/pl/default-bot-accounts) för detaljer).",
   "bots.manage.description": "Använd bot-konton för att integrera via plugins eller API med Mattermost",
   "bots.manage.edit": "Redigera",
   "bots.manage.edit.editing": "Uppdaterar...",

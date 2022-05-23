@@ -2691,7 +2691,7 @@
   "bots.manage.add.invalid_last_char": "Nazwy kont botów nie mogą zawierać kropki jako ostatniego znaku",
   "bots.manage.add.invalid_username": "Nazwa użytkownika musi się zaczynać małą literą oraz nie może przekraczać długości od 3 do 22 znaków. Możesz użyć małych liter, cyfr, kropek, myślników, oraz podkreśleń.",
   "bots.manage.bot_accounts": "Konta botów",
-  "bots.manage.created.text": "Twoje konto bota **{botname}** zostało pomyślnie utworzone. Użyj następujących tokenów dostępu, aby połączyć się z botem (patrz [dokumentacja](https://mattermost.com/pl/default-bot-accounts), aby uzyskać więcej informacji).",
+  "bots.manage.created.text": "Twoje konto bota **{botname}** zostało pomyślnie utworzone. Użyj następujących tokenów dostępu, aby połączyć się z botem (patrz <link>dokumentacja</link>(https://mattermost.com/pl/default-bot-accounts), aby uzyskać więcej informacji).",
   "bots.manage.description": "Użyj kont botów do integracji z Mattermostem poprzez pluginy lub API",
   "bots.manage.edit": "Edytuj",
   "bots.manage.edit.editing": "Aktualizowanie...",

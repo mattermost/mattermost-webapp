@@ -2037,7 +2037,7 @@
   "bots.manage.add.creating": "Creazione...",
   "bots.manage.add.invalid_username": "I nomi utente devono iniziare con una lettera minuscolo ed essere lunghi tra i 3 e i 22 caratteri. Puoi usare lettere minuscole, numeri, punti, trattini e trattini bassi.",
   "bots.manage.bot_accounts": "Account bot",
-  "bots.manage.created.text": "Il tuo account bot **{botname}** è stato creato con successo. Per favore utilizza il token seguente per collegarti al bot (vedere la [documentazione](https://mattermost.com/pl/default-bot-accounts) per ulteriori dettagli).",
+  "bots.manage.created.text": "Il tuo account bot **{botname}** è stato creato con successo. Per favore utilizza il token seguente per collegarti al bot (vedere la <link>documentazione</link>(https://mattermost.com/pl/default-bot-accounts) per ulteriori dettagli).",
   "bots.manage.description": "Utilizzare gli account bot integrare Mattermost attraverso le API e i plugin",
   "bots.manage.edit": "Modifica",
   "bots.manage.edit.editing": "Aggiornamento...",

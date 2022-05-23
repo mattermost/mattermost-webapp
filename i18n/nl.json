@@ -2687,7 +2687,7 @@
   "bots.manage.add.invalid_last_char": "Bot gebruikersnamen kunnen geen punt hebben als laatste karakter",
   "bots.manage.add.invalid_username": "Gebruikersnamen moeten beginnen met een kleine letter en 3-22 tekens lang zijn. Je kan kleine letters, cijfers, punten, streepjes en liggende streepjes gebruiken.",
   "bots.manage.bot_accounts": "Bot-accounts",
-  "bots.manage.created.text": "Je bot-account **{botname}** is succesvol aangemaakt. Gebruik het volgende toegangstoken om verbinding te maken met de bot (zie [documentatie](https://mattermost.com/pl/default-bot-accounts) voor meer informatie).",
+  "bots.manage.created.text": "Je bot-account **{botname}** is succesvol aangemaakt. Gebruik het volgende toegangstoken om verbinding te maken met de bot (zie <link>documentatie</link>(https://mattermost.com/pl/default-bot-accounts) voor meer informatie).",
   "bots.manage.description": "Gebruik bot accounts om te integreren met Mattermost via plugins of de API",
   "bots.manage.edit": "Bewerken",
   "bots.manage.edit.editing": "Bezig met bijwerken...",

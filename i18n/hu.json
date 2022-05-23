@@ -2691,7 +2691,7 @@
   "bots.manage.add.invalid_last_char": "A bot felhasználónévnek nem lehet pont az utolsó karaktere",
   "bots.manage.add.invalid_username": "A felhasználónévnek kisbetűvel kell kezdődnie, és 3-22 karakter hosszúnak kell lennie. Használhat kisbetűket, számokat, pontokat, kötőjeleket és aláhúzásokat.",
   "bots.manage.bot_accounts": "Bot fiókok",
-  "bots.manage.created.text": "Bot fiókját **{botname}** sikeresen létrehozta. Kérjük, használja a következő hozzáférési tokent a bothoz való csatlakozáshoz (további részletekért lásd a [dokumentációt](https://mattermost.com/pl/default-bot-accounts)).",
+  "bots.manage.created.text": "Bot fiókját **{botname}** sikeresen létrehozta. Kérjük, használja a következő hozzáférési tokent a bothoz való csatlakozáshoz (további részletekért lásd a <link>dokumentációt</link>(https://mattermost.com/pl/default-bot-accounts)).",
   "bots.manage.description": "A botfiókok segítségével integrálódhat a Mattermostal a beépülő modulokon vagy az API-n keresztül",
   "bots.manage.edit": "Szerkesztés",
   "bots.manage.edit.editing": "Frissítés...",
