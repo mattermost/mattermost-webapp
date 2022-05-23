@@ -18,7 +18,6 @@ import {
     PreferenceTypes,
     AppsTypes,
     CloudTypes,
-    UsageTypes,
 } from 'mattermost-redux/action_types';
 import {WebsocketEvents, General, Permissions, Preferences} from 'mattermost-redux/constants';
 import {addChannelToInitialCategory, fetchMyCategories, receivedCategoryOrder} from 'mattermost-redux/actions/channel_categories';
@@ -1342,7 +1341,7 @@ function handlePluginStatusesChangedEvent(msg) {
 }
 
 function handleIntegrationsUsageChangedEvent(msg) {
-    store.dispatch({type: UsageTypes.RECEIVED_INTEGRATIONS_USAGE, data: msg.data.usage});
+    store.dispatch({type: CloudTypes.RECEIVED_INTEGRATIONS_USAGE, data: msg.data.usage.count});
 }
 
 function handleOpenDialogEvent(msg) {

@@ -25,7 +25,6 @@ import CloudTypes from './cloud';
 import AppsTypes from './apps';
 import ThreadTypes from './threads';
 import InsightTypes from './insights';
-import UsageTypes from './usage';
 
 export {
     ErrorTypes,
@@ -52,5 +51,4 @@ export {
     AppsTypes,
     ThreadTypes,
     InsightTypes,
-    UsageTypes,
 };
