@@ -3,6 +3,7 @@
 
 /* eslint-disable max-lines */
 
+import {PreferenceType} from '@mattermost/types/preferences';
 import FormData from 'form-data';
 
 import {SystemSetting} from '@mattermost/types/general';
