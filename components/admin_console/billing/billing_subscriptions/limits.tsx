@@ -165,7 +165,7 @@ function TempLaunchModalsComponent() {
 }
 
 interface Props {
-    showAnnualCard: boolean;
+    showAnnualCard?: boolean;
 }
 
 const Limits = (props: Props): JSX.Element | null => {
@@ -351,17 +351,17 @@ const Limits = (props: Props): JSX.Element | null => {
         );
     }
 
-    let panelClassname = 'ProductLimitsPanel'
+    let panelClassname = 'ProductLimitsPanel';
     if (singleLimitPanel) {
         if (props.showAnnualCard) {
-            panelClassname += ' ProductLimitsPanel--left-panel'
+            panelClassname += ' ProductLimitsPanel--left-panel';
         } else {
-            panelClassname += ' ProductLimitsPanel--single-panel'
+            panelClassname += ' ProductLimitsPanel--single-panel';
         }
     }
-    let actionsClassname = 'ProductLimitsPanel__actions'
+    let actionsClassname = 'ProductLimitsPanel__actions';
     if (singleLimitPanel) {
-        actionsClassname += ' ProductLimitsPanel__actions--single'
+        actionsClassname += ' ProductLimitsPanel__actions--single';
     }
     return (
         <div className={panelClassname}>
@@ -402,10 +402,13 @@ const Limits = (props: Props): JSX.Element | null => {
                     </>
                 )}
                 {subscriptionProduct.sku === CloudProducts.PROFESSIONAL && (
-                    <a onClick={openSalesLink} className="ProductLimitsPanel__contact-link">
+                    <a
+                        onClick={openSalesLink}
+                        className='ProductLimitsPanel__contact-link'
+                    >
                         <FormattedMessage
-                            id="workspace_limits.contact_to_upgrade"
-                            defaultMessage="Contact us to upgrade"
+                            id='workspace_limits.contact_to_upgrade'
+                            defaultMessage='Contact us to upgrade'
                         />
                     </a>
                 )}
