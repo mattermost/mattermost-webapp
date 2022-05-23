@@ -8,7 +8,7 @@ import {Role} from 'mattermost-redux/types/roles';
 import {Team} from 'mattermost-redux/types/teams';
 
 const myDataQueryString = `
-{
+query MyData {
     config
     license
     user(id: "me") {
@@ -60,7 +60,9 @@ const myDataQueryString = `
         id
       }
       roles {
+        id
         name
+        permissions
       }
       delete_at: deleteAt
       scheme_guest: schemeGuest
@@ -70,7 +72,7 @@ const myDataQueryString = `
 }
 `;
 
-export const myDataQuery = JSON.stringify({query: myDataQueryString});
+export const myDataQuery = JSON.stringify({query: myDataQueryString, operationName: 'MyData'});
 
 export type MyDataQueryResponseType = {
     data: {
@@ -92,15 +94,29 @@ export type MyDataQueryResponseType = {
     };
 };
 
-export function convertRolesArrayToString(roles: Role[]): string {
-    return roles.map((role) => role.name!).join(',') ?? '';
+export function convertRolesNamesArrayToString(roles: Role[]): string {
+    return roles.map((role) => role.name!).join(' ') ?? '';
+}
+
+export function transformToRecievedRolesReducerPayload(
+    userRoles: MyDataQueryResponseType['data']['user']['roles'],
+    teamMembers: MyDataQueryResponseType['data']['teamMembers']): Role[] {
+    let roles: Role[] = [...userRoles];
+
+    teamMembers.forEach((teamMember) => {
+        if (teamMember.roles) {
+            roles = [...roles, ...teamMember.roles];
+        }
+    });
+
+    return roles;
 }
 
 export function transformToRecievedMeReducerPayload(user: Partial<MyDataQueryResponseType['data']['user']>) {
     return {
         ...user,
         position: user?.position ?? '',
-        roles: convertRolesArrayToString(user?.roles ?? []),
+        roles: convertRolesNamesArrayToString(user?.roles ?? []),
 
         // below fields arent included in the response but not inside of user rest api types
         auth_data: '',
@@ -120,7 +136,7 @@ export function transformToRecievedMyTeamMembersReducerPayload(teamsMembers: Par
         team_id: teamMember?.team?.id ?? '',
         user_id: teamMember?.user?.id ?? '',
         delete_at: teamMember?.delete_at ?? 0,
-        roles: convertRolesArrayToString(teamMember?.roles ?? []),
+        roles: convertRolesNamesArrayToString(teamMember?.roles ?? []),
         scheme_admin: teamMember?.scheme_admin ?? false,
         scheme_guest: teamMember?.scheme_guest ?? false,
         scheme_user: teamMember?.scheme_user ?? false,

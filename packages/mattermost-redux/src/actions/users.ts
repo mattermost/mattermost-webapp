@@ -8,7 +8,7 @@ import {Client4} from 'mattermost-redux/client';
 
 import {ActionFunc, ActionResult, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {UserProfile, UserStatus, GetFilteredUsersStatsOpts, UsersStats, UserCustomStatus} from 'mattermost-redux/types/users';
-import {UserTypes, AdminTypes, GeneralTypes, PreferenceTypes, TeamTypes} from 'mattermost-redux/action_types';
+import {UserTypes, AdminTypes, GeneralTypes, PreferenceTypes, TeamTypes, RoleTypes} from 'mattermost-redux/action_types';
 
 import {setServerVersion, getClientConfig, getLicenseConfig} from 'mattermost-redux/actions/general';
 import {getMyTeams, getMyTeamMembers, getMyTeamUnreads} from 'mattermost-redux/actions/teams';
@@ -16,7 +16,14 @@ import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
 import {bindClientFunc, forceLogoutIfNecessary, debounce} from 'mattermost-redux/actions/helpers';
 import {logError} from 'mattermost-redux/actions/errors';
 import {getMyPreferences} from 'mattermost-redux/actions/preferences';
-import {convertRolesArrayToString, myDataQuery, MyDataQueryResponseType, transformToRecievedMeReducerPayload, transformToRecievedMyTeamMembersReducerPayload} from 'mattermost-redux/actions/users_queries';
+import {
+    convertRolesNamesArrayToString,
+    myDataQuery,
+    MyDataQueryResponseType,
+    transformToRecievedMeReducerPayload,
+    transformToRecievedMyTeamMembersReducerPayload,
+    transformToRecievedRolesReducerPayload,
+} from 'mattermost-redux/actions/users_queries';
 
 import {getServerVersion} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUserId, getUsers} from 'mattermost-redux/selectors/entities/users';
@@ -230,6 +237,10 @@ export function loadMe(): ActionFunc {
                     data: transformToRecievedMeReducerPayload(responseData.user),
                 },
                 {
+                    type: RoleTypes.RECEIVED_ROLES,
+                    data: transformToRecievedRolesReducerPayload(responseData.user.roles, responseData.teamMembers),
+                },
+                {
                     type: PreferenceTypes.RECEIVED_ALL_PREFERENCES,
                     data: responseData.user.preferences,
                 },
@@ -248,7 +259,7 @@ export function loadMe(): ActionFunc {
 
         if (responseData.user.id) {
             Client4.setUserId(responseData.user.id);
-            Client4.setUserRoles(convertRolesArrayToString(responseData.user.roles));
+            Client4.setUserRoles(convertRolesNamesArrayToString(responseData.user.roles));
         }
 
         return {data: true};
