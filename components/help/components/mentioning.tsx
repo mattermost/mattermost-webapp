@@ -45,7 +45,18 @@ export default function Mentioning(): JSX.Element {
             <p>
                 <FormattedMarkdownMessage
                     id='help.mentioning.username.description2'
-                    defaultMessage='Type `@` to bring up a list of team members who can be mentioned. To filter the list, type the first few letters of any username, first name, last name, or nickname. Use the **Up** and **Down** keyboard arrow keys to scroll through entries in the list, then press **ENTER** to select the user to mention. Once selected, the username is automatically replaced with the full name or nickname. The following example sends a special mention notification to **alice** that alerts her of the channel and message where she has been mentioned. If **alice** is away from Mattermost and has [email notifications](!https://docs.mattermost.com/messaging/configuring-notifications.html#email-notifications) turned on, then she will receive an email alert for the mention along with the message text.'
+                    defaultMessage='Type `@` to bring up a list of team members who can be mentioned. To filter the list, type the first few letters of any username, first name, last name, or nickname. Use the **Up** and **Down** keyboard arrow keys to scroll through entries in the list, then press **ENTER** to select the user to mention. Once selected, the username is automatically replaced with the full name or nickname. The following example sends a special mention notification to **alice** that alerts her of the channel and message where she has been mentioned. If **alice** is away from Mattermost and has <link>email notifications</link> turned on, then she will receive an email alert for the mention along with the message text.'
+                    values={{
+                        link: (msg: React.ReactNode) => (
+                            <a
+                                href='https://docs.mattermost.com/messaging/configuring-notifications.html#email-notifications'
+                                target='_blank'
+                                rel='noreferrer'
+                            >
+                                {msg}
+                            </a>
+                        ),
+                    }}
                 />
             </p>
             <div className='post-code post-code--wrap'>

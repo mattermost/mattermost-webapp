@@ -2565,7 +2565,7 @@
   "help.mentioning.recent.title": "최근 멘션",
   "help.mentioning.triggers.description": "@username과 @channel의 통지를 받는 것 외에도, **Account Settings* > **Notifications* > **멘션 트리거 단어** 를 사용해서 알림을 만들수 있습니다. 기본적으로, 당신은 당신의 이름에 대한 언급 통지를 받게 될 것이고, 당신은 쉼표로 구분된 입력란에 그것들을 입력함으로써 더 많은 단어를 추가할 수 있습니다. 이는 특정 주제에 대한 모든 게시물(예: \"인터뷰\" 또는 \"마케팅\")을 통지받으려면 유용합니다.",
   "help.mentioning.triggers.title": "멘션 알림",
-  "help.mentioning.username.description2": "언급할 수 있는 팀원 목록을 가져오려면 '@'를 입력하십시오. 목록을 필터링하려면 사용자 이름, 이름, 성 또는 닉네임의 처음 몇 글자를 입력하십시오. 그런 다음 **Up** 및 **Down** 화살표 키를 사용하여 목록의 항목을 스크롤할 수 있으며, **엔터**를 누르면 언급할 사용자를 선택할 수 있습니다. 일단 선택되면, 사용자 이름은 자동으로 전체 이름이나 닉네임을 대체하게 됩니다. 다음 예는 **alice**에게 그녀가 언급된 채널과 메시지를 알려주는 특별 언급 통지를 보냅니다. 만약 **alice**가 자리비움 상태이고 [전자우편 알림](http://docs.mattermost.com/help/getting-started/configuring-notifications.html#email-notifications)이 켜져 있다면, 그녀는 메시지 텍스트와 함께 그녀의 언급에 대한 전자우편 알림을 받게 될 것입니다.",
+  "help.mentioning.username.description2": "언급할 수 있는 팀원 목록을 가져오려면 '@'를 입력하십시오. 목록을 필터링하려면 사용자 이름, 이름, 성 또는 닉네임의 처음 몇 글자를 입력하십시오. 그런 다음 **Up** 및 **Down** 화살표 키를 사용하여 목록의 항목을 스크롤할 수 있으며, **엔터**를 누르면 언급할 사용자를 선택할 수 있습니다. 일단 선택되면, 사용자 이름은 자동으로 전체 이름이나 닉네임을 대체하게 됩니다. 다음 예는 **alice**에게 그녀가 언급된 채널과 메시지를 알려주는 특별 언급 통지를 보냅니다. 만약 **alice**가 자리비움 상태이고 <link>전자우편 알림</link>(http://docs.mattermost.com/help/getting-started/configuring-notifications.html#email-notifications)이 켜져 있다면, 그녀는 메시지 텍스트와 함께 그녀의 언급에 대한 전자우편 알림을 받게 될 것입니다.",
   "help.mentioning.username.title": "사용자명",
   "help.messaging.emoji": "\":\"를 눌러 <strong>이모티콘을 추가</strong>하세요. 사용할 수 있는 이모티콘 목록이 나타나고 자동완성 됩니다. 당신이 원하는 이모티콘이 목록에 없다면, 새로운 <link>커스텀 이모티콘</link>을 추가하여 사용하세요.",
   "help.messaging.format": "**마크다운으로 글을 작성**하여 제목, 목록, 링크, 이모티콘, 코드, 인용문, 표, 이미지 등을 삽입할 수 있습니다.",
