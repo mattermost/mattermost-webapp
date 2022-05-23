@@ -1312,7 +1312,7 @@
   "admin.manage_tokens.userAccessTokensNone": "无个人访问令牌。",
   "admin.member_list_group.name": "名称",
   "admin.member_list_group.notFound": "未找到用户",
-  "admin.metrics.enableDescription": "当设置为是时，Mattermost 会启用性能监控收集和分析。请查看[文档](!http://docs.mattermost.com/deployment/metrics.html)了解更多Mattermost 性能监控配置信息。",
+  "admin.metrics.enableDescription": "当设置为是时，Mattermost 会启用性能监控收集和分析。请查看<link>文档</link>了解更多Mattermost 性能监控配置信息。",
   "admin.metrics.enableTitle": "开启性能监视：",
   "admin.metrics.listenAddressDesc": "服务端监听的地址以公开性能指标数据。",
   "admin.metrics.listenAddressEx": "例如：\":8065\"",

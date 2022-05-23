@@ -1250,7 +1250,7 @@
   "admin.manage_tokens.userAccessTokensNone": "بدون نشانه دسترسی شخصی",
   "admin.member_list_group.name": "نام",
   "admin.member_list_group.notFound": "کاربری پیدا نشد",
-  "admin.metrics.enableDescription": "زمانی که درست باشد، Mattermost جمع آوری و پروفایل نظارت بر عملکرد را فعال می کند. لطفاً برای کسب اطلاعات بیشتر درباره پیکربندی نظارت بر عملکرد برای Mattermost، به [Documentation] (!http://docs.mattermost.com/deployment/metrics.html) مراجعه کنید.",
+  "admin.metrics.enableDescription": "زمانی که درست باشد، Mattermost جمع آوری و پروفایل نظارت بر عملکرد را فعال می کند. لطفاً برای کسب اطلاعات بیشتر درباره پیکربندی نظارت بر عملکرد برای Mattermost، به <link>Documentation</link>  مراجعه کنید.",
   "admin.metrics.enableTitle": "فعال کردن نظارت بر عملکرد:",
   "admin.metrics.listenAddressDesc": "آدرسی که سرور به آن گوش می دهد تا معیارهای عملکرد را نشان دهد.",
   "admin.metrics.listenAddressEx": "به عنوان مثال: \":8067\"",

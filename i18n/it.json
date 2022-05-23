@@ -1028,7 +1028,7 @@
   "admin.manage_tokens.userAccessTokensNone": "Nessun Token di accesso personale.",
   "admin.member_list_group.name": "Nome",
   "admin.member_list_group.notFound": "Nessun utente trovato",
-  "admin.metrics.enableDescription": "Quando abilitato, Mattermost abiliterà il monitoraggio e l'analisi delle prestazioni. Consultare la [documentazione](!http://docs.mattermost.com/deployment/metrics.html) per ottenere maggiori informazioni su come configurare il monitoraggio delle prestazioni per Mattermost.",
+  "admin.metrics.enableDescription": "Quando abilitato, Mattermost abiliterà il monitoraggio e l'analisi delle prestazioni. Consultare la <link>documentazione</link> per ottenere maggiori informazioni su come configurare il monitoraggio delle prestazioni per Mattermost.",
   "admin.metrics.enableTitle": "Abilitare il monitor delle performance:",
   "admin.metrics.listenAddressDesc": "L'indirizzo su cui il server starà in ascolto per esporre le informazioni di performace.",
   "admin.metrics.listenAddressEx": "Es.: \":8067\"",

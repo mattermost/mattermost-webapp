@@ -1335,7 +1335,7 @@
   "admin.manage_tokens.userAccessTokensNone": "Herhangi bir kişisel erişim kodu yok.",
   "admin.member_list_group.name": "Ad",
   "admin.member_list_group.notFound": "Herhangi bir kullanıcı bulunamadı",
-  "admin.metrics.enableDescription": "Bu seçenek etkinleştirildiğinde, Mattermost başarım izleme derleme ve profillemesi kullanılır. Lütfen Mattermost başarım izlemesi ayarları hakkında ayrıntılı bilgi almak için [belgeler](!http://docs.mattermost.com/deployment/metrics.html) bölümüne bakabilirsiniz.",
+  "admin.metrics.enableDescription": "Bu seçenek etkinleştirildiğinde, Mattermost başarım izleme derleme ve profillemesi kullanılır. Lütfen Mattermost başarım izlemesi ayarları hakkında ayrıntılı bilgi almak için <link>belgeler</link> bölümüne bakabilirsiniz.",
   "admin.metrics.enableTitle": "Başarım izlemesi kullanılsın:",
   "admin.metrics.listenAddressDesc": "Başarım ölçütlerinin dinleneceği sunucu adresi.",
   "admin.metrics.listenAddressEx": "Örnek: \":8067\"",

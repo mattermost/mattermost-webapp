@@ -1335,7 +1335,7 @@
   "admin.manage_tokens.userAccessTokensNone": "パーソナルアクセストークンが存在しません。",
   "admin.member_list_group.name": "名前",
   "admin.member_list_group.notFound": "ユーザーが見付かりません",
-  "admin.metrics.enableDescription": "有効な場合、Mattermostのパフォーマンスのモニタリングやプロファイリングが可能になります。パフォーマンスモニタリングの設定については[説明文書](!http://docs.mattermost.com/deployment/metrics.html)を参照してください。",
+  "admin.metrics.enableDescription": "有効な場合、Mattermostのパフォーマンスのモニタリングやプロファイリングが可能になります。パフォーマンスモニタリングの設定については<link>説明文書</link>を参照してください。",
   "admin.metrics.enableTitle": "パフォーマンスモニタリングを有効にする:",
   "admin.metrics.listenAddressDesc": "パフォーマンスメトリクス公開先のサーバーが接続待ちをしているアドレスです。",
   "admin.metrics.listenAddressEx": "例: \":8067\"",

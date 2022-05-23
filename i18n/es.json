@@ -1296,7 +1296,7 @@
   "admin.manage_tokens.userAccessTokensNone": "No hay tokens de acceso personales.",
   "admin.member_list_group.name": "Nombre",
   "admin.member_list_group.notFound": "No se encontraron usuarios",
-  "admin.metrics.enableDescription": "Cuando es verdadero, Mattermost habilitará el monitoreo de desempeño, la recolección y la elaboración de perfiles. Por favor, consulta la [documentación](!http://docs.mattermost.com/deployment/metrics.html) para obtener más información acerca de la configuración del monitoreo del rendimiento para Mattermost.",
+  "admin.metrics.enableDescription": "Cuando es verdadero, Mattermost habilitará el monitoreo de desempeño, la recolección y la elaboración de perfiles. Por favor, consulta la <link>documentación</link> para obtener más información acerca de la configuración del monitoreo del rendimiento para Mattermost.",
   "admin.metrics.enableTitle": "Habilitar el Monitoreo de Desempeño:",
   "admin.metrics.listenAddressDesc": "La dirección del servidor que escuchará para mostrar las métricas de rendimiento.",
   "admin.metrics.listenAddressEx": "Ej: \":8067\"",

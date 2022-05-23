@@ -1298,7 +1298,7 @@
   "admin.manage_tokens.userAccessTokensNone": "Няма лични маркери за достъп.",
   "admin.member_list_group.name": "Име",
   "admin.member_list_group.notFound": "Не са намерени потребители",
-  "admin.metrics.enableDescription": "Когато е true, Mattermost ще позволи събиране и профилиране на мониторинг на производителността. Моля, вижте [документация](!http://docs.mattermost.com/deployment/metrics.html), за да научите повече за конфигуриране мониторинг на производителността за Mattermost.",
+  "admin.metrics.enableDescription": "Когато е true, Mattermost ще позволи събиране и профилиране на мониторинг на производителността. Моля, вижте <link>документация</link>, за да научите повече за конфигуриране мониторинг на производителността за Mattermost.",
   "admin.metrics.enableTitle": "Разреши мониторинг на производителността:",
   "admin.metrics.listenAddressDesc": "Адресът, който сървърът ще слуша, за да показва показатели за ефективността.",
   "admin.metrics.listenAddressEx": "Например: \": 8067\"",

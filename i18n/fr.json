@@ -1328,7 +1328,7 @@
   "admin.manage_tokens.userAccessTokensNone": "Aucun jeton d'accès personnel.",
   "admin.member_list_group.name": "Nom",
   "admin.member_list_group.notFound": "Aucun utilisateur trouvé",
-  "admin.metrics.enableDescription": "Si activé, Mattermost active la collecte des rapports de performance et le profilage. Consultez notre [documentation](!http://docs.mattermost.com/deployment/metrics.html) pour en savoir plus sur la configuration du suivi des performances de Mattermost.",
+  "admin.metrics.enableDescription": "Si activé, Mattermost active la collecte des rapports de performance et le profilage. Consultez notre <link>documentation</link> pour en savoir plus sur la configuration du suivi des performances de Mattermost.",
   "admin.metrics.enableTitle": "Activer le suivi des performances :",
   "admin.metrics.listenAddressDesc": "L'adresse d'écoute du serveur pour publier les mesures de performances.",
   "admin.metrics.listenAddressEx": "Ex. : « :8067 »",

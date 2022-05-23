@@ -1335,7 +1335,7 @@
   "admin.manage_tokens.userAccessTokensNone": "Inga personliga access-token.",
   "admin.member_list_group.name": "Namn",
   "admin.member_list_group.notFound": "Inga användare",
-  "admin.metrics.enableDescription": "När aktiverad kommer Mattermost göra det möjligt för prestandaövervakning och profilering. Läs [dokumentation](!http://docs.mattermost.com/deployment/metrics.html) för mer information om prestandaövervakning i Mattermost.",
+  "admin.metrics.enableDescription": "När aktiverad kommer Mattermost göra det möjligt för prestandaövervakning och profilering. Läs <link>dokumentation</link> för mer information om prestandaövervakning i Mattermost.",
   "admin.metrics.enableTitle": "Aktiverar prestandamonitorering:",
   "admin.metrics.listenAddressDesc": "Adress där prestandastatistik presenteras.",
   "admin.metrics.listenAddressEx": "T.ex.: \":8067\"",

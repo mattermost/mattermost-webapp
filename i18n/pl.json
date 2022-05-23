@@ -1335,7 +1335,7 @@
   "admin.manage_tokens.userAccessTokensNone": "Brak osobistych tokenów dostępu.",
   "admin.member_list_group.name": "Nazwa",
   "admin.member_list_group.notFound": "Nie znaleziono użytkowników",
-  "admin.metrics.enableDescription": "Jeśli wartość jest ustawiona na true, Mattermost włączy monitorowanie wydajności oraz profilowanie. Zobacz proszę [dokumentacje](!http://docs.mattermost.com/deployment/metrics.html), aby dowiedzieć się więcej na temat konfiguracji monitoringu wydajności dla Mattermost.",
+  "admin.metrics.enableDescription": "Jeśli wartość jest ustawiona na true, Mattermost włączy monitorowanie wydajności oraz profilowanie. Zobacz proszę <link>dokumentacje</link>, aby dowiedzieć się więcej na temat konfiguracji monitoringu wydajności dla Mattermost.",
   "admin.metrics.enableTitle": "Włącz Monitorowanie Wydajności:",
   "admin.metrics.listenAddressDesc": "Adres na którym serwer będzie nasłuchiwał aby udostępnić metrykę wydajności.",
   "admin.metrics.listenAddressEx": "Np. \":8067\"",

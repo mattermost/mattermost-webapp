@@ -1335,7 +1335,7 @@
   "admin.manage_tokens.userAccessTokensNone": "Keine Benutzer-Zugriffs-Token.",
   "admin.member_list_group.name": "Name",
   "admin.member_list_group.notFound": "Keine Benutzer gefunden",
-  "admin.metrics.enableDescription": "Wenn \"wahr\", wird Mattermost Performance-Daten sammeln. Erfahre mehr über die Konfiguration von Performance-Überwachung für Mattermost in der [Dokumentation](!http://docs.mattermost.com/deployment/metrics.html).",
+  "admin.metrics.enableDescription": "Wenn \"wahr\", wird Mattermost Performance-Daten sammeln. Erfahre mehr über die Konfiguration von Performance-Überwachung für Mattermost in der <link>Dokumentation</link>.",
   "admin.metrics.enableTitle": "Performance Monitoring aktivieren:",
   "admin.metrics.listenAddressDesc": "Die Adresse auf die der Server hören wird um die Performancemetriken auszugeben.",
   "admin.metrics.listenAddressEx": "Z.B.: \":8067\"",

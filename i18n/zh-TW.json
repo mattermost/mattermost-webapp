@@ -1003,7 +1003,7 @@
   "admin.manage_tokens.userAccessTokensNone": "沒有個人存取 Token。",
   "admin.member_list_group.name": "名字",
   "admin.member_list_group.notFound": "找不到任何使用者",
-  "admin.metrics.enableDescription": "啟用時，Mattermost 會啟用效能監視的收集與分析。詳細如何設定 Mattermost 的效能監視，請參閱[文件](!http://docs.mattermost.com/deployment/metrics.html)。",
+  "admin.metrics.enableDescription": "啟用時，Mattermost 會啟用效能監視的收集與分析。詳細如何設定 Mattermost 的效能監視，請參閱<link>文件</link>。",
   "admin.metrics.enableTitle": "啟用效能監視：",
   "admin.metrics.listenAddressDesc": "伺服器將監聽以公開效能計量值的位址。",
   "admin.metrics.listenAddressEx": "如：\":8065\"",

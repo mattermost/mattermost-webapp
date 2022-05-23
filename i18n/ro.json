@@ -1209,7 +1209,7 @@
   "admin.manage_tokens.userAccessTokensNone": "Nu există jetoane de acces personale.",
   "admin.member_list_group.name": "Nume",
   "admin.member_list_group.notFound": "Utilizatori găsiți",
-  "admin.metrics.enableDescription": "Când este adevărat, Mattermost va permite colectarea și profilarea monitorizării performanței. Consultați [documentația](!http://docs.mattermost.com/deployment/metrics.html) pentru a afla mai multe despre configurarea monitorizării performanței pentru Mattermost.",
+  "admin.metrics.enableDescription": "Când este adevărat, Mattermost va permite colectarea și profilarea monitorizării performanței. Consultați <link>documentația</link> pentru a afla mai multe despre configurarea monitorizării performanței pentru Mattermost.",
   "admin.metrics.enableTitle": "Activați monitorizarea performanțelor:",
   "admin.metrics.listenAddressDesc": "Adresa pe care serverul o va asculta va expune măsurătorile de performanță.",
   "admin.metrics.listenAddressEx": "De exemplu: \":8067\"",

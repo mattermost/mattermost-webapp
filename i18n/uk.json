@@ -691,7 +691,7 @@
   "admin.manage_tokens.userAccessTokensNone": "Немає особистих токенів доступу.",
   "admin.member_list_group.name": "Ім'я",
   "admin.member_list_group.notFound": "Користувачів не знайдено",
-  "admin.metrics.enableDescription": "Якщо включено, в Mattermost буде включено збір даних про продуктивність і профілювання. Додаткову інформацію по конфігурації моніторингу продуктивності дивіться в [документації] (!http://docs.mattermost.com/deployment/metrics.html).",
+  "admin.metrics.enableDescription": "Якщо включено, в Mattermost буде включено збір даних про продуктивність і профілювання. Додаткову інформацію по конфігурації моніторингу продуктивності дивіться в <link>документації</link> .",
   "admin.metrics.enableTitle": "Включити моніторинг продуктивності",
   "admin.metrics.listenAddressDesc": "Адреса, прослуховується сервером для надання метрик продуктивності",
   "admin.metrics.listenAddressEx": "Наприклад: \":8067\"",

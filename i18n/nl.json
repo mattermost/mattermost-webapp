@@ -1335,7 +1335,7 @@
   "admin.manage_tokens.userAccessTokensNone": "Geen persoonlijke toegangstokens.",
   "admin.member_list_group.name": "Naam",
   "admin.member_list_group.notFound": "Geen gebruikers gevonden",
-  "admin.metrics.enableDescription": "Wanneer het waar is, schakelt Matterbost de performantie monitoring collectie en profilering in. Zie [documentatie](!https://docs.mattermost.com/deployment/metrics.html] voor meer informatie over het configureren van prestatiemonitoring voor Mattermost.",
+  "admin.metrics.enableDescription": "Wanneer het waar is, schakelt Matterbost de performantie monitoring collectie en profilering in. Zie <link>documentatie</link>(!https://docs.mattermost.com/deployment/metrics.html] voor meer informatie over het configureren van prestatiemonitoring voor Mattermost.",
   "admin.metrics.enableTitle": "Prestatiemonitoring Inschakelen:",
   "admin.metrics.listenAddressDesc": "Het adres waar de server de performance statistieken op zal publiceren.",
   "admin.metrics.listenAddressEx": "Bijv.: \":8067\"",

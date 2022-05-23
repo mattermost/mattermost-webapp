@@ -1165,7 +1165,7 @@
   "admin.manage_tokens.userAccessTokensNone": "개인 액세스 토큰이 없습니다.",
   "admin.member_list_group.name": "이름",
   "admin.member_list_group.notFound": "사용자를 찾을 수 없습니다",
-  "admin.metrics.enableDescription": "활성화 시, Mattermost의 성능 모니터링 수집 및 프로파일링이 활성화 됩니다. Mattermost의 성능 모니터링 구성에 대한 자세한 내용은 [문서](!http://docs.mattermost.com/deployment/metrics.html)을 참조하십시오.",
+  "admin.metrics.enableDescription": "활성화 시, Mattermost의 성능 모니터링 수집 및 프로파일링이 활성화 됩니다. Mattermost의 성능 모니터링 구성에 대한 자세한 내용은 <link>문서</link>을 참조하십시오.",
   "admin.metrics.enableTitle": "성능 모니터링:",
   "admin.metrics.listenAddressEx": "예시: \":8067\"",
   "admin.nav.administratorsGuide": "관리자 가이드",

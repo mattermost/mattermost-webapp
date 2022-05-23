@@ -1335,7 +1335,7 @@
   "admin.manage_tokens.userAccessTokensNone": "Nincsenek személyes hozzáférési tokenek.",
   "admin.member_list_group.name": "Név",
   "admin.member_list_group.notFound": "Nem található felhasználó",
-  "admin.metrics.enableDescription": "Ha igaz, a Mattermost lehetővé teszi a teljesítmény figyelemmel kísérését és a profilalkotást. Kérjük, olvassa el a [dokumentáció](!http://docs.mattermost.com/deployment/metrics.html) oldalt, ha többet szeretne megtudni a teljesítményfigyelés beállításáról a Mattermost számára.",
+  "admin.metrics.enableDescription": "Ha igaz, a Mattermost lehetővé teszi a teljesítmény figyelemmel kísérését és a profilalkotást. Kérjük, olvassa el a <link>dokumentáció</link> oldalt, ha többet szeretne megtudni a teljesítményfigyelés beállításáról a Mattermost számára.",
   "admin.metrics.enableTitle": "Teljesítmény monitorozás engedélyezése:",
   "admin.metrics.listenAddressDesc": "Az a cím, amelyet a szerver hallgat a teljesítménymutatók feltárására.",
   "admin.metrics.listenAddressEx": "Pl.: \":8067\"",

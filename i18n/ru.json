@@ -1335,7 +1335,7 @@
   "admin.manage_tokens.userAccessTokensNone": "Нет личных токенов доступа.",
   "admin.member_list_group.name": "Имя",
   "admin.member_list_group.notFound": "Пользователи не найдены",
-  "admin.metrics.enableDescription": "При значении \"да\" в Mattermost будет включен сбор данных о производительности и профилирование. Дополнительную информацию по конфигурации мониторинга производительности смотрите в [документации](!http://docs.mattermost.com/deployment/metrics.html).",
+  "admin.metrics.enableDescription": "При значении \"да\" в Mattermost будет включен сбор данных о производительности и профилирование. Дополнительную информацию по конфигурации мониторинга производительности смотрите в <link>документации</link>.",
   "admin.metrics.enableTitle": "Включить мониторинг производительности:",
   "admin.metrics.listenAddressDesc": "Адрес, прослушиваемый сервером для предоставления метрик производительности.",
   "admin.metrics.listenAddressEx": "Например: \":8067\"",
