@@ -5,8 +5,11 @@
 
 .header {
     position: relative;
-    display: block;
+    display: flex;
+    width: 100%;
+    max-width: 1520px;
     min-height: 100px;
+    align-self: center;
     padding: 0 40px;
 
     .header-main {
@@ -57,6 +60,7 @@
         bottom: 0;
         width: auto;
         padding: 0 0 0 40px;
+        background: none;
 
         a {
             @include link;
@@ -80,6 +84,10 @@
                     display: none;
                 }
             }
+        }
+
+        .header-back-button {
+            padding: 0 0 0 24px;
         }
     }
 }
