@@ -8,7 +8,7 @@ import {ActionFunc} from 'mattermost-redux/types/actions';
 import {AdminConfig, EnvironmentConfig, ClientLicense} from 'mattermost-redux/types/config';
 import {Role} from 'mattermost-redux/types/roles';
 import {ConsoleAccess} from 'mattermost-redux/types/admin';
-import {CloudState} from 'mattermost-redux/types/cloud';
+import {CloudState} from '@mattermost/types/cloud';
 import {Team} from 'mattermost-redux/types/teams';
 import {DeepPartial} from 'mattermost-redux/types/utilities';
 

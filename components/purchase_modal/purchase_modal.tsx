@@ -9,7 +9,7 @@ import {Elements} from '@stripe/react-stripe-js';
 
 import {isEmpty} from 'lodash';
 
-import {CloudCustomer, Product} from 'mattermost-redux/types/cloud';
+import {CloudCustomer, Product} from '@mattermost/types/cloud';
 
 import {trackEvent, pageVisited} from 'actions/telemetry_actions';
 import {
