@@ -8,7 +8,7 @@ import {FileTypes} from 'mattermost-redux/action_types';
 
 import {DispatchFunc, GetStateFunc, ActionFunc} from 'mattermost-redux/types/actions';
 
-import {FileUploadResponse, FileSearchResultItem} from 'mattermost-redux/types/files';
+import {FileUploadResponse, FileSearchResultItem} from '@mattermost/types/files';
 import {Post} from 'mattermost-redux/types/posts';
 
 import {logError} from './errors';

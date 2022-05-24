@@ -12,7 +12,7 @@ import {ActionResult, DispatchFunc, GetStateFunc, ActionFunc} from 'mattermost-r
 
 import {Post} from 'mattermost-redux/types/posts';
 
-import {FileSearchResults, FileSearchResultItem} from 'mattermost-redux/types/files';
+import {FileSearchResults, FileSearchResultItem} from '@mattermost/types/files';
 
 import {SearchParameter} from 'mattermost-redux/types/search';
 

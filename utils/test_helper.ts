@@ -6,7 +6,7 @@ import {Role} from 'mattermost-redux/types/roles';
 import {UserProfile, UserAccessToken} from 'mattermost-redux/types/users';
 import {Team, TeamMembership} from 'mattermost-redux/types/teams';
 import {Group} from 'mattermost-redux/types/groups';
-import {FileInfo} from 'mattermost-redux/types/files';
+import {FileInfo} from '@mattermost/types/files';
 import {Post} from 'mattermost-redux/types/posts';
 import {CategorySorting, ChannelCategory} from '@mattermost/types/channel_categories';
 import {Command, IncomingWebhook} from 'mattermost-redux/types/integrations';

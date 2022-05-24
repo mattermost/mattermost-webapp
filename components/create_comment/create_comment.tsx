@@ -45,7 +45,7 @@ import {FilePreviewInfo} from 'components/file_preview/file_preview';
 import {Emoji} from '@mattermost/types/emojis';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {ServerError} from '@mattermost/types/errors';
-import {FileInfo} from 'mattermost-redux/types/files';
+import {FileInfo} from '@mattermost/types/files';
 import {
     applyMarkdown,
     ApplyMarkdownOptions,

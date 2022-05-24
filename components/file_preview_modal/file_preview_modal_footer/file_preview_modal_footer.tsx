@@ -3,7 +3,7 @@
 
 import React, {memo} from 'react';
 
-import {FileInfo} from 'mattermost-redux/types/files';
+import {FileInfo} from '@mattermost/types/files';
 import {Post} from 'mattermost-redux/types/posts';
 
 import FilePreviewModalInfo from '../file_preview_modal_info/file_preview_modal_info';

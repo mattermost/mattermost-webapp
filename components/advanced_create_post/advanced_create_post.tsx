@@ -48,7 +48,7 @@ import {ServerError} from '@mattermost/types/errors';
 import {CommandArgs} from 'mattermost-redux/types/integrations';
 import {Group} from 'mattermost-redux/types/groups';
 import {ModalData} from 'types/actions';
-import {FileInfo} from 'mattermost-redux/types/files';
+import {FileInfo} from '@mattermost/types/files';
 import {Emoji} from '@mattermost/types/emojis';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
 import {ApplyMarkdownOptions, applyMarkdown} from 'utils/markdown/apply_markdown';

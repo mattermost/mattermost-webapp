@@ -5,7 +5,7 @@ import {createSelector} from 'reselect';
 
 import {getCurrentUserLocale} from 'mattermost-redux/selectors/entities/i18n';
 
-import {FileInfo, FileSearchResultItem} from 'mattermost-redux/types/files';
+import {FileInfo, FileSearchResultItem} from '@mattermost/types/files';
 import {GlobalState} from 'mattermost-redux/types/store';
 
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';

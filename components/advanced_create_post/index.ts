@@ -8,7 +8,7 @@ import {GlobalState} from 'types/store/index.js';
 
 import {Post} from 'mattermost-redux/types/posts.js';
 
-import {FileInfo} from 'mattermost-redux/types/files.js';
+import {FileInfo} from '@mattermost/types/files.js';
 
 import {ActionResult} from 'mattermost-redux/types/actions.js';
 
