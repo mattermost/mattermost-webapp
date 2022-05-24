@@ -92,6 +92,8 @@ export default class PostList extends React.PureComponent {
 
         isMobileView: PropTypes.bool.isRequired,
 
+        needMoreToReachUnread: PropTypes.bool.isRequired,
+
         actions: PropTypes.shape({
 
             /**
@@ -120,6 +122,8 @@ export default class PostList extends React.PureComponent {
             changeUnreadChunkTimeStamp: PropTypes.func.isRequired,
 
             updateNewMessagesAtInChannel: PropTypes.func.isRequired,
+
+            toggleShouldStartFromBottomWhenUnread: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -523,6 +527,12 @@ export default class PostList extends React.PureComponent {
         }
     }
 
+    scrollToUnreadMessages = () => {
+        if (this.props.needMoreToReachUnread) {
+            this.props.actions.toggleShouldStartFromBottomWhenUnread();
+        }
+    }
+
     scrollToBottom = () => {
         this.listRef.current.scrollToItem(0, 'end');
     }
@@ -544,8 +554,10 @@ export default class PostList extends React.PureComponent {
                 width={width}
                 lastViewedBottom={this.state.lastViewedBottom}
                 latestPostTimeStamp={this.props.latestPostTimeStamp}
+                scrollToUnreadMessages={this.scrollToUnreadMessages}
                 scrollToNewMessage={this.scrollToNewMessage}
                 scrollToLatestMessages={this.scrollToLatestMessages}
+                needMoreToReachUnread={this.props.needMoreToReachUnread}
                 updateNewMessagesAtInChannel={this.updateNewMessagesAtInChannel}
                 updateLastViewedBottomAt={this.updateLastViewedBottomAt}
                 channelId={this.props.channelId}

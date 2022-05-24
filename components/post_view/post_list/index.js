@@ -86,6 +86,7 @@ function makeMapStateToProps() {
             postListIds: postIds,
             isPrefetchingInProcess,
             channelManuallyUnread,
+            needMoreToReachUnread,
             isMobileView: getIsMobileView(state),
         };
     };

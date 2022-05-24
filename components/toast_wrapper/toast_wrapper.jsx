@@ -37,9 +37,11 @@ class ToastWrapper extends React.PureComponent {
         lastViewedAt: PropTypes.number,
         focusedPostId: PropTypes.string,
         initScrollOffsetFromBottom: PropTypes.number,
+        needMoreToReachUnread: PropTypes.bool,
         updateNewMessagesAtInChannel: PropTypes.func,
         scrollToNewMessage: PropTypes.func,
         scrollToLatestMessages: PropTypes.func,
+        scrollToUnreadMessages: PropTypes.func,
         updateLastViewedBottomAt: PropTypes.func,
         showSearchHintToast: PropTypes.bool,
         onSearchHintDismiss: PropTypes.func,
@@ -86,9 +88,9 @@ class ToastWrapper extends React.PureComponent {
     }
 
     static getDerivedStateFromProps(props, prevState) {
-        let {showUnreadToast, showNewMessagesToast, showMessageHistoryToast} = prevState;
+        let {showUnreadToast, showNewMessagesToast, showMessageHistoryToast, showUnreadFromBottomToast} = prevState;
         let unreadCount;
-        if (props.atLatestPost) {
+        if (props.atLatestPost && !props.needMoreToReachUnread) {
             unreadCount = ToastWrapper.countNewMessages(props.postListIds, props.rootPosts, props.isCollapsedThreadsEnabled);
         } else if (props.channelMarkedAsUnread) {
             unreadCount = prevState.unreadCountInChannel;
@@ -125,10 +127,15 @@ class ToastWrapper extends React.PureComponent {
             showUnreadToast = false;
         }
 
+        if (props.needMoreToReachUnread) {
+            showUnreadFromBottomToast = true;
+        }
+
         return {
             unreadCount,
             showUnreadToast,
             showNewMessagesToast,
+            showUnreadFromBottomToast,
             lastViewedAt: props.lastViewedAt,
             channelMarkedAsUnread: props.channelMarkedAsUnread,
             showMessageHistoryToast,
@@ -137,19 +144,20 @@ class ToastWrapper extends React.PureComponent {
 
     componentDidMount() {
         this.mounted = true;
-        const {showUnreadToast, showNewMessagesToast, showMessageHistoryToast} = this.state;
-        const toastPresent = Boolean(showUnreadToast || showNewMessagesToast || showMessageHistoryToast);
+        const {showUnreadToast, showNewMessagesToast, showMessageHistoryToast, showUnreadFromBottomToast} = this.state;
+        const toastPresent = Boolean(showUnreadToast || showNewMessagesToast || showMessageHistoryToast || showUnreadFromBottomToast);
         document.addEventListener('keydown', this.handleShortcut);
         this.props.actions.updateToastStatus(toastPresent);
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const {showUnreadToast, showNewMessagesToast, showMessageHistoryToast} = this.state;
+        const {showUnreadToast, showNewMessagesToast, showMessageHistoryToast, showUnreadFromBottomToast} = this.state;
         const {
             atBottom,
             atLatestPost,
             postListIds,
             lastViewedBottom,
+            needMoreToReachUnread,
             updateNewMessagesAtInChannel,
             actions,
         } = this.props;
@@ -158,6 +166,10 @@ class ToastWrapper extends React.PureComponent {
             this.hideNewMessagesToast(false);
             this.hideUnreadToast();
             this.hideArchiveToast();
+        }
+
+        if (prevProps.needMoreToReachUnread && !needMoreToReachUnread) {
+            this.hideUnreadFromBottomToast();
         }
 
         const prevPostsCount = prevProps.postListIds.length;
@@ -173,10 +185,11 @@ class ToastWrapper extends React.PureComponent {
 
         const toastStateChanged = prevState.showUnreadToast !== showUnreadToast ||
                                   prevState.showNewMessagesToast !== showNewMessagesToast ||
-                                  prevState.showMessageHistoryToast !== showMessageHistoryToast;
+                                  prevState.showMessageHistoryToast !== showMessageHistoryToast ||
+                                  prevState.showUnreadFromBottomToast !== showUnreadFromBottomToast;
 
         if (toastStateChanged) {
-            const toastPresent = Boolean(showUnreadToast || showNewMessagesToast || showMessageHistoryToast);
+            const toastPresent = Boolean(showUnreadToast || showNewMessagesToast || showMessageHistoryToast || showUnreadFromBottomToast);
             actions.updateToastStatus(toastPresent);
         }
     }
@@ -227,6 +240,14 @@ class ToastWrapper extends React.PureComponent {
     hideSearchHintToast = () => {
         if (this.props.onSearchHintDismiss) {
             this.props.onSearchHintDismiss();
+        }
+    }
+
+    hideUnreadFromBottomToast = () => {
+        if (this.state.showUnreadFromBottomToast) {
+            this.setState({
+                showUnreadFromBottomToast: false,
+            });
         }
     }
 
@@ -319,9 +340,14 @@ class ToastWrapper extends React.PureComponent {
         this.hideUnreadToast();
     }
 
+    scrollToUnreadMessages = () => {
+        this.props.scrollToUnreadMessages();
+        this.hideUnreadFromBottomToast();
+    }
+
     getToastToRender() {
-        const {atLatestPost, atBottom, width, lastViewedAt, showSearchHintToast} = this.props;
-        const {showUnreadToast, showNewMessagesToast, showMessageHistoryToast, unreadCount} = this.state;
+        const {atLatestPost, atBottom, width, lastViewedAt, showSearchHintToast, needMoreToReachUnread} = this.props;
+        const {showUnreadToast, showNewMessagesToast, showMessageHistoryToast, showUnreadFromBottomToast, unreadCount} = this.state;
 
         const unreadToastProps = {
             show: true,
@@ -335,6 +361,24 @@ class ToastWrapper extends React.PureComponent {
         if (showUnreadToast && unreadCount > 0) {
             return (
                 <Toast {...unreadToastProps}>
+                    {this.newMessagesToastText(unreadCount, lastViewedAt)}
+                </Toast>
+            );
+        }
+
+        const unreadFromBottomToastProps = {
+            show: true,
+            width,
+            onDismiss: this.hideUnreadFromBottomToast,
+            onClick: this.scrollToUnreadMessages,
+            onClickMessage: Utils.localizeMessage('postlist.toast.scrollToUnread', 'Jump to unreads'),
+            showActions: needMoreToReachUnread,
+            jumpDirection: 'up',
+        };
+
+        if (showUnreadFromBottomToast && unreadCount > 0) {
+            return (
+                <Toast {...unreadFromBottomToastProps}>
                     {this.newMessagesToastText(unreadCount, lastViewedAt)}
                 </Toast>
             );

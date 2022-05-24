@@ -24,6 +24,7 @@ export type Props = {
     width: number;
     extraClasses?: string;
     overlayPlacement?: OverlayTriggerProps['placement'];
+    jumpDirection?: 'up' | 'down';
 }
 
 export default class Toast extends React.PureComponent<Props> {
@@ -31,6 +32,7 @@ export default class Toast extends React.PureComponent<Props> {
 
     static defaultProps = {
         overlayPlacement: 'bottom',
+        jumpDirection: 'down',
     }
 
     componentDidMount() {
@@ -49,7 +51,8 @@ export default class Toast extends React.PureComponent<Props> {
 
     render() {
         let toastClass = 'toast';
-        const {show, extraClasses, showActions, width, overlayPlacement} = this.props;
+        const {show, extraClasses, showActions, width, overlayPlacement, jumpDirection} = this.props;
+
         if (extraClasses) {
             toastClass += ` ${extraClasses}`;
         }
@@ -68,7 +71,7 @@ export default class Toast extends React.PureComponent<Props> {
                 <div
                     className='toast__jump'
                 >
-                    <UnreadBelowIcon/>
+                    {jumpDirection === 'down' && <UnreadBelowIcon/>}
                     {width > Constants.MOBILE_SCREEN_WIDTH && this.props.onClickMessage}
                 </div>
             );

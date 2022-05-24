@@ -4107,6 +4107,7 @@
   "postlist.toast.newMessagesSince": "{count, number} new {count, plural, one {message} other {messages}} {isToday, select, true {} other {since}} {date}",
   "postlist.toast.scrollToBottom": "Jump to recents",
   "postlist.toast.scrollToLatest": "Jump to new messages",
+  "postlist.toast.scrollToUnread": "Jump to unreads",
   "postlist.toast.searchHint": "Tip: Try {searchShortcut} to search this channel",
   "posts_view.loadMore": "Load More messages",
   "posts_view.newMsg": "New Messages",
