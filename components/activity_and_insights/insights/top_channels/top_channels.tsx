@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {memo, useCallback, useEffect, useState} from 'react';
+import React, {memo, useCallback, useEffect, useMemo, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Link} from 'react-router-dom';
 
@@ -15,7 +15,7 @@ import widgetHoc, {WidgetHocProps} from '../widget_hoc/widget_hoc';
 
 import {getCurrentRelativeTeamUrl, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getMyTopChannels, getTopChannelsForTeam} from 'mattermost-redux/actions/insights';
-import {TopChannel, TopChannelGraphData} from '@mattermost/types/insights';
+import {TimeFrames, TopChannel, TopChannelGraphData} from '@mattermost/types/insights';
 import WidgetEmptyState from '../widget_empty_state/widget_empty_state';
 import OverlayTrigger from 'components/overlay_trigger';
 
@@ -32,53 +32,53 @@ const TopChannels = (props: WidgetHocProps) => {
     const [topChannels, setTopChannels] = useState([] as TopChannel[]);
     const [channelLineChartData] = useState({
         '2022-05-01': {
-            sia4n8chebbimdjreqpjtqq4th: 93,
-            kf8hegqirty38c1eoqr8gbar4c: 114,
-            josruzafdpy67xrp9akhujumoc: 324,
-            a5dqixb9xbfjzfy3t5bjt6swjc: 342,
-            '7sembkzk5jf9bkzxahdaydetee': 169,
+            i3kena4xkiru8grub5nftprfbr: 93,
+            j98i9uwz4fgsjjknyixc5qs7no: 114,
+            d33nuk9mftyi9moy8xjujpmegr: 324,
+            f4fdzjpzhtnp3n6w87gak883iw: 342,
+            '4fpa8crxji89zryzit9kquocdw': 169,
         },
         '2022-05-02': {
-            sia4n8chebbimdjreqpjtqq4th: 203,
-            kf8hegqirty38c1eoqr8gbar4c: 14,
-            josruzafdpy67xrp9akhujumoc: 304,
-            a5dqixb9xbfjzfy3t5bjt6swjc: 267,
-            '7sembkzk5jf9bkzxahdaydetee': 109,
+            i3kena4xkiru8grub5nftprfbr: 203,
+            j98i9uwz4fgsjjknyixc5qs7no: 14,
+            d33nuk9mftyi9moy8xjujpmegr: 304,
+            f4fdzjpzhtnp3n6w87gak883iw: 267,
+            '4fpa8crxji89zryzit9kquocdw': 109,
         },
         '2022-05-03': {
-            sia4n8chebbimdjreqpjtqq4th: 230,
-            kf8hegqirty38c1eoqr8gbar4c: 140,
-            josruzafdpy67xrp9akhujumoc: 340,
-            a5dqixb9xbfjzfy3t5bjt6swjc: 190,
-            '7sembkzk5jf9bkzxahdaydetee': 110,
+            i3kena4xkiru8grub5nftprfbr: 230,
+            j98i9uwz4fgsjjknyixc5qs7no: 140,
+            d33nuk9mftyi9moy8xjujpmegr: 340,
+            f4fdzjpzhtnp3n6w87gak883iw: 190,
+            '4fpa8crxji89zryzit9kquocdw': 110,
         },
         '2022-05-04': {
-            sia4n8chebbimdjreqpjtqq4th: 123,
-            kf8hegqirty38c1eoqr8gbar4c: 114,
-            josruzafdpy67xrp9akhujumoc: 134,
-            a5dqixb9xbfjzfy3t5bjt6swjc: 100,
-            '7sembkzk5jf9bkzxahdaydetee': 219,
+            i3kena4xkiru8grub5nftprfbr: 123,
+            j98i9uwz4fgsjjknyixc5qs7no: 114,
+            d33nuk9mftyi9moy8xjujpmegr: 134,
+            f4fdzjpzhtnp3n6w87gak883iw: 100,
+            '4fpa8crxji89zryzit9kquocdw': 219,
         },
         '2022-05-05': {
-            sia4n8chebbimdjreqpjtqq4th: 430,
-            kf8hegqirty38c1eoqr8gbar4c: 119,
-            josruzafdpy67xrp9akhujumoc: 234,
-            a5dqixb9xbfjzfy3t5bjt6swjc: 160,
-            '7sembkzk5jf9bkzxahdaydetee': 284,
+            i3kena4xkiru8grub5nftprfbr: 430,
+            j98i9uwz4fgsjjknyixc5qs7no: 119,
+            d33nuk9mftyi9moy8xjujpmegr: 234,
+            f4fdzjpzhtnp3n6w87gak883iw: 160,
+            '4fpa8crxji89zryzit9kquocdw': 284,
         },
         '2022-05-06': {
-            sia4n8chebbimdjreqpjtqq4th: 123,
-            kf8hegqirty38c1eoqr8gbar4c: 114,
-            josruzafdpy67xrp9akhujumoc: 134,
-            a5dqixb9xbfjzfy3t5bjt6swjc: 100,
-            '7sembkzk5jf9bkzxahdaydetee': 219,
+            i3kena4xkiru8grub5nftprfbr: 123,
+            j98i9uwz4fgsjjknyixc5qs7no: 114,
+            d33nuk9mftyi9moy8xjujpmegr: 134,
+            f4fdzjpzhtnp3n6w87gak883iw: 100,
+            '4fpa8crxji89zryzit9kquocdw': 219,
         },
         '2022-05-07': {
-            sia4n8chebbimdjreqpjtqq4th: 203,
-            kf8hegqirty38c1eoqr8gbar4c: 14,
-            josruzafdpy67xrp9akhujumoc: 304,
-            a5dqixb9xbfjzfy3t5bjt6swjc: 267,
-            '7sembkzk5jf9bkzxahdaydetee': 109,
+            i3kena4xkiru8grub5nftprfbr: 203,
+            j98i9uwz4fgsjjknyixc5qs7no: 14,
+            d33nuk9mftyi9moy8xjujpmegr: 304,
+            f4fdzjpzhtnp3n6w87gak883iw: 267,
+            '4fpa8crxji89zryzit9kquocdw': 109,
         },
     } as TopChannelGraphData);
 
@@ -134,8 +134,12 @@ const TopChannels = (props: WidgetHocProps) => {
         return titles;
     }, []);
 
+    const getLabels = useMemo(() => {
+        return Object.keys(channelLineChartData);
+    }, [channelLineChartData]);
+
     const sortGraphData = () => {
-        const labels = Object.keys(channelLineChartData);
+        const labels = getLabels;
         const values = {} as any;
         for (let i = 0; i < labels.length; i++) {
             const item = channelLineChartData[labels[i]];
@@ -286,6 +290,15 @@ const TopChannels = (props: WidgetHocProps) => {
                                         xAxes: [{
                                             gridLines: {
                                                 drawOnChartArea: false,
+                                            },
+                                            ticks: {
+                                                callback: function(val, index) {
+                                                    // Hide every 4th tick label for 28 day time frame
+                                                    if (props.timeFrame === TimeFrames.INSIGHTS_28_DAYS) {
+                                                        return index % 4 === 0 ? val : '';
+                                                    }
+                                                    return val;
+                                                },
                                             },
                                         }],
                                         yAxes: [{
