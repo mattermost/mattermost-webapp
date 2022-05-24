@@ -14,7 +14,7 @@ import {Post} from '@mattermost/types/posts';
 
 import {FileSearchResults, FileSearchResultItem} from '@mattermost/types/files';
 
-import {SearchParameter} from 'mattermost-redux/types/search';
+import {SearchParameter} from '@mattermost/types/search';
 
 import {getChannelAndMyMember, getChannelMembers} from './channels';
 import {forceLogoutIfNecessary} from './helpers';
