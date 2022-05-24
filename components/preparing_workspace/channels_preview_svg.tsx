@@ -106,7 +106,7 @@ export default (props: Props) => {
                     style={{
                         fontSize: '16px',
                         fontWeight: 'bold',
-                        fontFamily: 'Metropolis', sans-serif,
+                        fontFamily: 'Metropolis, sans-serif',
                     }}
                     ref={teamRef}
                 >
