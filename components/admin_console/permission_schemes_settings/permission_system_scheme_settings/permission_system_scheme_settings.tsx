@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import GeneralConstants from 'mattermost-redux/constants/general';
 import {ClientConfig, ClientLicense} from '@mattermost/types/config';
-import {Role} from 'mattermost-redux/types/roles';
+import {Role} from '@mattermost/types/roles';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {PermissionsScope, DefaultRolePermissions} from 'utils/constants';

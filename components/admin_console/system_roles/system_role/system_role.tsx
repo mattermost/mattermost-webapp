@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {uniq, difference} from 'lodash';
 
-import {Role} from 'mattermost-redux/types/roles';
+import {Role} from '@mattermost/types/roles';
 import {Client4} from 'mattermost-redux/client';
 
 import {UserProfile} from 'mattermost-redux/types/users';

@@ -5,7 +5,7 @@ import {createSelector} from 'reselect';
 
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
 
-import {Role} from 'mattermost-redux/types/roles';
+import {Role} from '@mattermost/types/roles';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {UserProfile} from 'mattermost-redux/types/users';
 

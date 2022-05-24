@@ -20,7 +20,7 @@ declare namespace Cypress {
     type PluginsResponse = import('@mattermost/types/plugins').PluginsResponse;
     type PreferenceType = import('@mattermost/types/preferences').PreferenceType;
     type Product = import('@mattermost/types/cloud').Product;
-    type Role = import('mattermost-redux/types/roles').Role;
+    type Role = import('@mattermost/types/roles').Role;
     type Scheme = import('mattermost-redux/types/schemes').Scheme;
     type Session = import('mattermost-redux/types/sessions').Session;
     type Subscription = import('@mattermost/types/cloud').Subscription;

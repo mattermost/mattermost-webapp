@@ -6,7 +6,7 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {GlobalState} from 'mattermost-redux/types/store.js';
 import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions.js';
-import {Role} from 'mattermost-redux/types/roles.js';
+import {Role} from '@mattermost/types/roles.js';
 
 import {loadRolesIfNeeded, editRole} from 'mattermost-redux/actions/roles';
 import {getRoles} from 'mattermost-redux/selectors/entities/roles';

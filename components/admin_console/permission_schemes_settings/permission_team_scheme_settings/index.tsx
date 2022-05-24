@@ -17,7 +17,7 @@ import {updateTeamScheme} from 'mattermost-redux/actions/teams';
 import {setNavigationBlocked} from 'actions/admin_actions';
 
 import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
-import {Role} from 'mattermost-redux/types/roles';
+import {Role} from '@mattermost/types/roles';
 import {Scheme, SchemePatch} from 'mattermost-redux/types/schemes';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {ServerError} from '@mattermost/types/errors';

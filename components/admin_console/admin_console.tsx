@@ -6,7 +6,7 @@ import {Route, Switch, Redirect} from 'react-router-dom';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import {AdminConfig, EnvironmentConfig, ClientLicense} from '@mattermost/types/config';
-import {Role} from 'mattermost-redux/types/roles';
+import {Role} from '@mattermost/types/roles';
 import {ConsoleAccess} from 'mattermost-redux/types/admin';
 import {CloudState} from '@mattermost/types/cloud';
 import {Team} from 'mattermost-redux/types/teams';

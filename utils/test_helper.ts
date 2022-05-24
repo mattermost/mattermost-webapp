@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 import {Channel, ChannelMembership, ChannelNotifyProps, ChannelWithTeamData} from '@mattermost/types/channels';
 import {Bot} from '@mattermost/types/bots';
-import {Role} from 'mattermost-redux/types/roles';
+import {Role} from '@mattermost/types/roles';
 import {UserProfile, UserAccessToken} from 'mattermost-redux/types/users';
 import {Team, TeamMembership} from 'mattermost-redux/types/teams';
 import {Group} from '@mattermost/types/groups';

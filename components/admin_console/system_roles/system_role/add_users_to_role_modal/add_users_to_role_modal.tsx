@@ -6,7 +6,7 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {UserProfile} from 'mattermost-redux/types/users';
-import {Role} from 'mattermost-redux/types/roles';
+import {Role} from '@mattermost/types/roles';
 
 import {filterProfilesStartingWithTerm, profileListToMap, isGuest} from 'mattermost-redux/utils/user_utils';
 import {filterProfiles} from 'mattermost-redux/selectors/entities/users';
