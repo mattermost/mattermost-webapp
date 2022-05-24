@@ -92,7 +92,7 @@ describe('Signup Email page', () => {
         } = FixedCloudConfig.SupportSettings;
 
         // * Check elements in the footer
-        cy.get('.footer').scrollIntoView().should('be.visible').within(() => {
+        cy.get('.hfroute-footer').scrollIntoView().should('be.visible').within(() => {
             // * Check if about footer link is present
             cy.findByText('About').should('exist').
                 and('have.attr', 'href', config.SupportSettings.AboutLink || ABOUT_LINK);
