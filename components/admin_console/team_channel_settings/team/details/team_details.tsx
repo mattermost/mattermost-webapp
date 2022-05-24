@@ -220,8 +220,8 @@ export default class TeamDetails extends React.PureComponent<Props, State> {
         const userRolesToUpdate = Object.keys(rolesToUpdate);
         const usersToUpdate = usersToAddList.length > 0 || usersToRemoveList.length > 0 || userRolesToUpdate.length > 0;
         if (usersToUpdate && !syncChecked) {
-            const addUserActions: Array<Promise<{error?: ServerError; data?: null}>> = [];
-            const removeUserActions: Array<Promise<{error?: ServerError; data?: null}>> = [];
+            const addUserActions: Array<Promise<ActionResult>> = [];
+            const removeUserActions: Array<Promise<ActionResult>> = [];
             const {addUserToTeam, removeUserFromTeam, updateTeamMemberSchemeRoles} = this.props.actions;
             usersToAddList.forEach((user: UserProfile) => {
                 addUserActions.push(addUserToTeam(teamID, user.id));
@@ -254,8 +254,8 @@ export default class TeamDetails extends React.PureComponent<Props, State> {
                 }
             }
 
-            const rolesToPromote: Array<Promise<{error?: ServerError; data?: null}>> = [];
-            const rolesToDemote: Array<Promise<{error?: ServerError; data?: null}>> = [];
+            const rolesToPromote: Array<Promise<ActionResult>> = [];
+            const rolesToDemote: Array<Promise<ActionResult>> = [];
             userRolesToUpdate.forEach((userId) => {
                 const {schemeUser, schemeAdmin} = rolesToUpdate[userId];
                 if (schemeAdmin) {
@@ -390,13 +390,9 @@ export default class TeamDetails extends React.PureComponent<Props, State> {
         this.processGroupsChange(groups);
     }
 
-    hideRemoveUsersModal = () => {
-        this.setState({showRemoveConfirmation: false});
-    }
+    hideRemoveUsersModal = () => this.setState({showRemoveConfirmation: false});
 
-    hideArchiveConfirmModal = () => {
-        this.setState({showArchiveConfirmModal: false});
-    };
+    hideArchiveConfirmModal = () => this.setState({showArchiveConfirmModal: false});
 
     onSave = () => {
         if (this.teamToBeArchived()) {
