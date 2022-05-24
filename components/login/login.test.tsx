@@ -6,8 +6,9 @@ import {shallow, mount} from 'enzyme';
 import {FormattedMessage, IntlProvider} from 'react-intl';
 
 import AlertBanner from 'components/alert_banner';
+import ExternalLoginButton from 'components/external_login_button/external_login_button';
 import LoadingScreen from 'components/loading_screen';
-import Login, {ExternalLoginButton} from 'components/login/login';
+import Login from 'components/login/login';
 import Input from 'components/widgets/inputs/input/input';
 import PasswordInput from 'components/widgets/inputs/password_input/password_input';
 import SaveButton from 'components/save_button';
