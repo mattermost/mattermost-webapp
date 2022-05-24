@@ -40,15 +40,15 @@ const useResponsiveFormattingBar = (ref: React.RefObject<HTMLDivElement>): WideM
             return () => {};
         }
 
-        let RO: ResizeObserver | null = new ResizeObserver(() =>
+        let sizeObserver: ResizeObserver | null = new ResizeObserver(() =>
             handleResize(),
         );
 
-        RO.observe(ref.current);
+        sizeObserver.observe(ref.current);
 
         return () => {
-            RO!.disconnect();
-            RO = null;
+            sizeObserver!.disconnect();
+            sizeObserver = null;
         };
     }, [handleResize, ref]);
 
