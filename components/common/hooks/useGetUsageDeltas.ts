@@ -8,8 +8,6 @@ import {CloudUsage} from '@mattermost/types/cloud';
 import useGetUsage from './useGetUsage';
 import useGetLimits from './useGetLimits';
 
-// TODO: Replace this with actual usages stored in redux,
-// that ideally are updated with a websocket event in near real time.
 export default function useGetUsageDeltas(): CloudUsage {
     const usage = useGetUsage();
     const cloudLimits = useGetLimits();

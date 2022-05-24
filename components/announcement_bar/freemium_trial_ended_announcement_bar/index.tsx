@@ -20,10 +20,9 @@ import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {
     getCurrentUser,
 } from 'mattermost-redux/selectors/entities/users';
-import {anyUsageDeltaValueIsNegative} from 'utils/utils';
-import './freemium_trial_ended_announcement_bar.scss';
+import {anyUsageDeltaValueIsNegative} from 'utils/limits';
 
-const CloudFreemiumTrialEndAnnouncementBar: React.FC = () => {
+const CloudFreemiumTrialEndAnnouncementBar = () => {
     const usageDeltas = useGetUsageDeltas();
     const limits = useGetLimits();
     const subscription = useGetSubscription();
@@ -106,13 +105,10 @@ const CloudFreemiumTrialEndAnnouncementBar: React.FC = () => {
             }}
             modalButtonText={t('more.details')}
             modalButtonDefaultText={'More details'}
-            message={(
-                <FormattedMessage
-                    {...message}
-                />)}
+            message={<FormattedMessage {...message}/>}
             showLinkAsButton={true}
             isTallBanner={true}
-            icon={<i className='alert-icon'>{'\u{F002A}'}</i>}
+            icon={<i className='icon icon-alert-outline'/>}
             handleClose={handleClose}
         />
     );

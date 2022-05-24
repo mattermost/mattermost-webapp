@@ -10,7 +10,6 @@ import cssVars from 'css-vars-ponyfill';
 import moment from 'moment';
 
 import Constants, {FileTypes, ValidationErrors} from 'utils/constants';
-import {CloudUsage} from '@mattermost/types/cloud';
 
 import {
     getChannel as getChannelAction,
@@ -1820,18 +1819,4 @@ export function numberToFixedDynamic(num: number, places: number): string {
         return str;
     }
     return str.slice(0, indexToExclude);
-}
-
-// A negative usage value means they are over the limit. This function simply tells you whether ANY LIMIT has been reached/surpassed.
-export function anyUsageDeltaValueIsNegative(deltas: CloudUsage) {
-    let foundANegative = false;
-
-    // JSON.parse recursively moves through the object tree, passing the key and value post transformation
-    // We can use the `reviewer` argument to see if any of those arguments are numbers, and negative.
-    JSON.parse(JSON.stringify(deltas), (key, value) => {
-        if (typeof value === 'number' && value < 0) {
-            foundANegative = true;
-        }
-    });
-    return foundANegative;
 }
