@@ -9,7 +9,7 @@ import {GeneralTypes} from 'mattermost-redux/action_types';
 
 import {getServerVersion} from 'mattermost-redux/selectors/entities/general';
 import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
-import {GeneralState} from 'mattermost-redux/types/general';
+import {GeneralState} from '@mattermost/types/general';
 import {LogLevel} from '@mattermost/types/client4';
 import {GetStateFunc, DispatchFunc, ActionFunc} from 'mattermost-redux/types/actions';
 
