@@ -11,7 +11,7 @@ import {Post} from '@mattermost/types/posts';
 import {CategorySorting, ChannelCategory} from '@mattermost/types/channel_categories';
 import {Command, IncomingWebhook} from '@mattermost/types/integrations';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
-import {Session} from 'mattermost-redux/types/sessions';
+import {Session} from '@mattermost/types/sessions';
 import {ProductComponent} from 'types/store/plugins';
 
 export class TestHelper {

@@ -22,7 +22,7 @@ declare namespace Cypress {
     type Product = import('@mattermost/types/cloud').Product;
     type Role = import('@mattermost/types/roles').Role;
     type Scheme = import('@mattermost/types/schemes').Scheme;
-    type Session = import('mattermost-redux/types/sessions').Session;
+    type Session = import('@mattermost/types/sessions').Session;
     type Subscription = import('@mattermost/types/cloud').Subscription;
     type Team = import('mattermost-redux/types/teams').Team;
     type TeamMembership = import('mattermost-redux/types/teams').TeamMembership;
