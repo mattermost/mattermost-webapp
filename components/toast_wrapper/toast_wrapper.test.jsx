@@ -487,7 +487,7 @@ describe('components/ToastWrapper', () => {
             expect(baseProps.updateNewMessagesAtInChannel).toHaveBeenCalledTimes(1);
         });
 
-        test('Should have unreadFromBottom toast if unreadCount > 0 and needMoreToReachUnread', () => {
+        test('Should have unreadWithBottomStart toast if unreadCount > 0 and needMoreToReachUnread', () => {
             const props = {
                 ...baseProps,
                 unreadCountInChannel: 10,
@@ -495,17 +495,17 @@ describe('components/ToastWrapper', () => {
             };
 
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
-            expect(wrapper.state('showUnreadFromBottomToast')).toBe(true);
+            expect(wrapper.state('showUnreadWithBottomStartToast')).toBe(true);
         });
 
-        test('Should hide unreadFromBottom toast if not needMoreToReachUnread', () => {
+        test('Should hide unreadWithBottomStart toast if not needMoreToReachUnread', () => {
             const props = {
                 ...baseProps,
                 needMoreToReachUnread: false,
             };
 
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
-            expect(wrapper.state('showUnreadFromBottomToast')).toBeFalsy();
+            expect(wrapper.state('showUnreadWithBottomStartToast')).toBeFalsy();
         });
     });
 
