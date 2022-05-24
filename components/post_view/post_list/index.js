@@ -44,15 +44,18 @@ function makeMapStateToProps() {
         let atLatestPost = false;
         let atOldestPost = false;
         let formattedPostIds;
-        const {focusedPostId, unreadChunkTimeStamp, channelId} = ownProps;
+        const {focusedPostId, unreadChunkTimeStamp, channelId, shouldStartFromBottomWhenUnread} = ownProps;
         const channelViewState = state.views.channel;
         const lastViewedAt = channelViewState.lastChannelViewTime[channelId];
         const isPrefetchingInProcess = channelViewState.channelPrefetchStatus[channelId] === RequestStatus.STARTED;
         const channelManuallyUnread = isManuallyUnread(state, channelId);
 
+        const orders = state.entities.posts.postsInChannel[channelId] ?? [];
+        const needMoreToReachUnread = shouldStartFromBottomWhenUnread && orders.length > 1;
+
         if (focusedPostId && unreadChunkTimeStamp !== '') {
             chunk = getPostsChunkAroundPost(state, focusedPostId, channelId);
-        } else if (unreadChunkTimeStamp) {
+        } else if (unreadChunkTimeStamp && !shouldStartFromBottomWhenUnread) {
             chunk = getUnreadPostsChunk(state, channelId, unreadChunkTimeStamp);
         } else {
             chunk = getRecentPostsChunkInChannel(state, channelId);
@@ -65,7 +68,7 @@ function makeMapStateToProps() {
         }
 
         if (postIds) {
-            formattedPostIds = preparePostIdsForPostList(state, {postIds, lastViewedAt, indicateNewMessages: true, channelId});
+            formattedPostIds = preparePostIdsForPostList(state, {postIds, lastViewedAt, indicateNewMessages: !needMoreToReachUnread, channelId});
             if (postIds.length) {
                 const latestPostId = memoizedGetLatestPostId(postIds);
                 const latestPost = getPost(state, latestPostId);

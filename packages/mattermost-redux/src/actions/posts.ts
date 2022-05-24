@@ -21,7 +21,7 @@ import {GlobalState} from 'mattermost-redux/types/store';
 import {Post, PostList} from 'mattermost-redux/types/posts';
 import {Reaction} from 'mattermost-redux/types/reactions';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getUnreadScrollPositionPreference, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {getProfilesByIds, getProfilesByUsernames, getStatusesByIds} from './users';
 import {
@@ -776,11 +776,18 @@ export function getPosts(channelId: string, page = 0, perPage = Posts.POST_CHUNK
 
 export function getPostsUnread(channelId: string, fetchThreads = true, collapsedThreadsExtended = false) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const shouldLoadRecent = getUnreadScrollPositionPreference(getState()) === Preferences.UNREAD_SCROLL_POSITION_START_FROM_NEWEST;
         const collapsedThreadsEnabled = isCollapsedThreadsEnabled(getState());
         const userId = getCurrentUserId(getState());
         let posts;
+        let recentPosts;
         try {
             posts = await Client4.getPostsUnread(channelId, userId, DEFAULT_LIMIT_BEFORE, DEFAULT_LIMIT_AFTER, fetchThreads, collapsedThreadsEnabled, collapsedThreadsExtended);
+
+            if (posts.next_post_id && shouldLoadRecent) {
+                recentPosts = await Client4.getPosts(channelId, 0, Posts.POST_CHUNK_SIZE / 2, fetchThreads, collapsedThreadsEnabled, collapsedThreadsExtended);
+            }
+
             getProfilesAndStatusesForPosts(posts.posts, dispatch, getState);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
@@ -788,9 +795,15 @@ export function getPostsUnread(channelId: string, fetchThreads = true, collapsed
             return {error};
         }
 
+        const recentPostsActions = recentPosts ? [
+            receivedPosts(recentPosts),
+            receivedPostsInChannel(recentPosts, channelId, recentPosts.next_post_id === '', recentPosts.prev_post_id === ''),
+        ] : [];
+
         dispatch(batchActions([
             receivedPosts(posts),
             receivedPostsInChannel(posts, channelId, posts.next_post_id === '', posts.prev_post_id === ''),
+            ...recentPostsActions,
         ]));
         dispatch({
             type: PostTypes.RECEIVED_POSTS,
