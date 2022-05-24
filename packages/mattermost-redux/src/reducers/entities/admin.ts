@@ -8,7 +8,7 @@ import {Stats} from 'mattermost-redux/constants';
 import PluginState from 'mattermost-redux/constants/plugins';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {ClusterInfo, AnalyticsRow} from 'mattermost-redux/types/admin';
+import {ClusterInfo, AnalyticsRow} from '@mattermost/types/admin';
 import {Audit} from 'mattermost-redux/types/audits';
 import {Compliance} from 'mattermost-redux/types/compliance';
 import {AdminConfig, EnvironmentConfig} from 'mattermost-redux/types/config';

@@ -4,7 +4,7 @@
 import React from 'react';
 import {FormattedDate, FormattedMessage} from 'react-intl';
 
-import {AnalyticsRow} from 'mattermost-redux/types/admin';
+import {AnalyticsRow} from '@mattermost/types/admin';
 import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {General} from 'mattermost-redux/constants';
 import {Team} from 'mattermost-redux/types/teams';

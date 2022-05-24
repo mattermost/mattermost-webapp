@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {ClientConfig, ClientLicense} from 'mattermost-redux/types/config';
 
-import {AnalyticsRow} from 'mattermost-redux/types/admin';
+import {AnalyticsRow} from '@mattermost/types/admin';
 
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 

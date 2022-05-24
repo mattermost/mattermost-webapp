@@ -6,7 +6,7 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {UserProfile} from 'mattermost-redux/types/users';
-import {AnalyticsRow} from 'mattermost-redux/types/admin';
+import {AnalyticsRow} from '@mattermost/types/admin';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {WarnMetricStatus} from 'mattermost-redux/types/config';
 

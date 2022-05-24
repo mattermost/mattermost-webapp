@@ -9,7 +9,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {AnalyticsRow} from 'mattermost-redux/types/admin';
+import {AnalyticsRow} from '@mattermost/types/admin';
 import {Subscription} from 'mattermost-redux/types/cloud';
 
 import {trackEvent} from 'actions/telemetry_actions';
