@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import type {UserAutocomplete} from 'mattermost-redux/types/autocomplete';
+import type {UserAutocomplete} from '@mattermost/types/autocomplete';
 import type {AutocompleteSuggestion} from 'mattermost-redux/types/integrations';
 import type {Channel} from 'mattermost-redux/types/channels';
 import type {UserProfile} from 'mattermost-redux/types/users';

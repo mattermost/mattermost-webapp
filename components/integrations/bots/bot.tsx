@@ -7,7 +7,7 @@ import {Link} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {Bot as BotType} from 'mattermost-redux/types/bots';
+import {Bot as BotType} from '@mattermost/types/bots';
 import {UserProfile, UserAccessToken} from 'mattermost-redux/types/users';
 import {Team} from 'mattermost-redux/types/teams';
 

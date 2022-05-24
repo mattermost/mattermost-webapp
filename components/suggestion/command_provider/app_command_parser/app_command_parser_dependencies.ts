@@ -42,7 +42,7 @@ import type {
 
 export type {
     UserAutocomplete,
-} from 'mattermost-redux/types/autocomplete';
+} from '@mattermost/types/autocomplete';
 
 import type {
     UserProfile,

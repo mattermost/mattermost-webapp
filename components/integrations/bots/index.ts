@@ -13,7 +13,7 @@ import {createUserAccessToken, revokeUserAccessToken, enableUserAccessToken, dis
 import * as UserSelectors from 'mattermost-redux/selectors/entities/users';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {GenericAction, ActionResult, ActionFunc} from 'mattermost-redux/types/actions';
-import {Bot as BotType} from 'mattermost-redux/types/bots';
+import {Bot as BotType} from '@mattermost/types/bots';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
