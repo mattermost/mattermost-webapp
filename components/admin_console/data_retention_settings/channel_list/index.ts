@@ -16,7 +16,7 @@ import {Channel, ChannelSearchOpts, ChannelWithTeamData} from '@mattermost/types
 import {GlobalState} from 'types/store';
 
 import {setChannelListSearch, setChannelListFilters} from 'actions/views/search';
-import {DataRetentionCustomPolicy} from 'mattermost-redux/types/data_retention';
+import {DataRetentionCustomPolicy} from '@mattermost/types/data_retention';
 
 import ChannelList from './channel_list';
 

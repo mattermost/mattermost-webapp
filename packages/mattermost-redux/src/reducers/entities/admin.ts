@@ -18,7 +18,7 @@ import {SamlCertificateStatus, SamlMetadataResponse} from 'mattermost-redux/type
 import {Team} from 'mattermost-redux/types/teams';
 import {UserAccessToken, UserProfile} from 'mattermost-redux/types/users';
 import {RelationOneToOne, IDMappedObjects} from 'mattermost-redux/types/utilities';
-import {DataRetentionCustomPolicy} from 'mattermost-redux/types/data_retention';
+import {DataRetentionCustomPolicy} from '@mattermost/types/data_retention';
 
 function logs(state: string[] = [], action: GenericAction) {
     switch (action.type) {

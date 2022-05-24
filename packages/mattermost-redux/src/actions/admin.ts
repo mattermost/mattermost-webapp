@@ -13,7 +13,7 @@ import {Compliance} from '@mattermost/types/compliance';
 import {GroupSearchOpts} from 'mattermost-redux/types/groups';
 import {
     CreateDataRetentionCustomPolicy,
-} from 'mattermost-redux/types/data_retention';
+} from '@mattermost/types/data_retention';
 import {
     TeamSearchOpts,
 } from 'mattermost-redux/types/teams';

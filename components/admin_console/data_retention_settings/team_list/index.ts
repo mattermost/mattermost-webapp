@@ -16,7 +16,7 @@ import {Team, TeamSearchOpts} from 'mattermost-redux/types/teams';
 import {GlobalState} from 'types/store';
 import {setTeamListSearch} from 'actions/views/search';
 
-import {DataRetentionCustomPolicy} from 'mattermost-redux/types/data_retention';
+import {DataRetentionCustomPolicy} from '@mattermost/types/data_retention';
 
 import TeamList from './team_list';
 

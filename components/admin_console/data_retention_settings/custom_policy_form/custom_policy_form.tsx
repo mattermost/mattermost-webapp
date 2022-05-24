@@ -8,7 +8,7 @@ import {
     DataRetentionCustomPolicy,
     CreateDataRetentionCustomPolicy,
     PatchDataRetentionCustomPolicy,
-} from 'mattermost-redux/types/data_retention';
+} from '@mattermost/types/data_retention';
 import {Team} from 'mattermost-redux/types/teams';
 import {IDMappedObjects} from 'mattermost-redux/types/utilities';
 

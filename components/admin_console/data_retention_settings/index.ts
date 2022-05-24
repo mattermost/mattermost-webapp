@@ -9,7 +9,7 @@ import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {getDataRetentionCustomPolicies as fetchDataRetentionCustomPolicies, deleteDataRetentionCustomPolicy, updateConfig} from 'mattermost-redux/actions/admin';
 import {getDataRetentionCustomPolicies, getDataRetentionCustomPoliciesCount} from 'mattermost-redux/selectors/entities/admin';
 import {GenericAction, ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
-import {DataRetentionCustomPolicies} from 'mattermost-redux/types/data_retention';
+import {DataRetentionCustomPolicies} from '@mattermost/types/data_retention';
 import {createJob, getJobsByType} from 'mattermost-redux/actions/jobs';
 
 import {GlobalState} from 'types/store';
