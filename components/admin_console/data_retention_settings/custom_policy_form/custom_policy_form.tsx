@@ -10,7 +10,7 @@ import {
     PatchDataRetentionCustomPolicy,
 } from '@mattermost/types/data_retention';
 import {Team} from '@mattermost/types/teams';
-import {IDMappedObjects} from 'mattermost-redux/types/utilities';
+import {IDMappedObjects} from '@mattermost/types/utilities';
 
 import * as Utils from 'utils/utils';
 

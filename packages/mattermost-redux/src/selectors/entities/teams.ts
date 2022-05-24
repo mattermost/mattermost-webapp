@@ -11,7 +11,7 @@ import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles_h
 import {GlobalState} from '@mattermost/types/store';
 import {Team, TeamMembership, TeamStats} from '@mattermost/types/teams';
 import {UserProfile} from '@mattermost/types/users';
-import {IDMappedObjects, RelationOneToOne} from 'mattermost-redux/types/utilities';
+import {IDMappedObjects, RelationOneToOne} from '@mattermost/types/utilities';
 
 import {createIdsSelector} from 'mattermost-redux/utils/helpers';
 import {isTeamAdmin} from 'mattermost-redux/utils/user_utils';

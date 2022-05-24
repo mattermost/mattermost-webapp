@@ -8,7 +8,7 @@ import {GlobalState} from '@mattermost/types/store';
 import {Team} from '@mattermost/types/teams';
 import {UserThread, ThreadsState, UserThreadType, UserThreadSynthetic} from '@mattermost/types/threads';
 import {Post} from '@mattermost/types/posts';
-import {IDMappedObjects, RelationOneToMany} from 'mattermost-redux/types/utilities';
+import {IDMappedObjects, RelationOneToMany} from '@mattermost/types/utilities';
 
 export function getThreadsInTeam(state: GlobalState): RelationOneToMany<Team, UserThread> {
     return state.entities.threads.threadsInTeam;

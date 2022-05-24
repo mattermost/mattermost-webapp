@@ -9,7 +9,7 @@ import classNames from 'classnames';
 
 import PluginState from 'mattermost-redux/constants/plugins';
 import {AdminConfig} from '@mattermost/types/config';
-import {DeepPartial} from 'mattermost-redux/types/utilities';
+import {DeepPartial} from '@mattermost/types/utilities';
 
 import * as Utils from 'utils/utils';
 import LoadingScreen from 'components/loading_screen';

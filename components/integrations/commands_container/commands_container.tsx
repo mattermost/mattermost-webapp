@@ -8,7 +8,7 @@ import {Team} from '@mattermost/types/teams';
 
 import {UserProfile} from '@mattermost/types/users';
 
-import {RelationOneToOne} from 'mattermost-redux/types/utilities';
+import {RelationOneToOne} from '@mattermost/types/utilities';
 
 import {Command} from '@mattermost/types/integrations';
 

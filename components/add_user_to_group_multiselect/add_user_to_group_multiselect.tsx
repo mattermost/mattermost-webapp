@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {RelationOneToOne} from 'mattermost-redux/types/utilities';
+import {RelationOneToOne} from '@mattermost/types/utilities';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {UserProfile} from '@mattermost/types/users';
 

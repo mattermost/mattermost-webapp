@@ -11,7 +11,7 @@ import {SearchTypes} from 'mattermost-redux/action_types';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {Post} from '@mattermost/types/posts';
 import {UserProfile} from '@mattermost/types/users';
-import {IDMappedObjects} from 'mattermost-redux/types/utilities';
+import {IDMappedObjects} from '@mattermost/types/utilities';
 
 import {
     updateRhsState,

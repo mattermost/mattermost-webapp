@@ -10,7 +10,7 @@ import {AdminConfig} from '@mattermost/types/config';
 import {UserProfile} from '@mattermost/types/users';
 import {ServerError} from '@mattermost/types/errors';
 import {Bot} from '@mattermost/types/bots';
-import {DeepPartial} from 'mattermost-redux/types/utilities';
+import {DeepPartial} from '@mattermost/types/utilities';
 
 import {adminResetMfa} from 'actions/admin_actions.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';

@@ -27,7 +27,7 @@ import {
     IDMappedObjects,
     RelationOneToOne,
     RelationOneToMany,
-} from 'mattermost-redux/types/utilities';
+} from '@mattermost/types/utilities';
 
 import {createIdsSelector} from 'mattermost-redux/utils/helpers';
 import {

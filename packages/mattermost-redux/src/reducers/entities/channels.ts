@@ -24,7 +24,7 @@ import {
     RelationOneToMany,
     RelationOneToOne,
     IDMappedObjects,
-} from 'mattermost-redux/types/utilities';
+} from '@mattermost/types/utilities';
 
 import {Team} from '@mattermost/types/teams';
 import {channelListToMap, splitRoles} from 'mattermost-redux/utils/channel_utils';

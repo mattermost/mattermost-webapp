@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {AdminConfig} from '@mattermost/types/config';
-import {DeepPartial} from 'mattermost-redux/types/utilities';
+import {DeepPartial} from '@mattermost/types/utilities';
 
 import * as Utils from 'utils/utils';
 import Card from 'components/card/card';

@@ -6,7 +6,7 @@ import {AdminTypes, ChannelTypes, TeamTypes, UserTypes, SchemeTypes, GroupTypes}
 import {teamListToMap} from 'mattermost-redux/utils/team_utils';
 import {Team, TeamMembership, TeamUnread} from '@mattermost/types/teams';
 import {UserProfile} from '@mattermost/types/users';
-import {RelationOneToOne, IDMappedObjects} from 'mattermost-redux/types/utilities';
+import {RelationOneToOne, IDMappedObjects} from '@mattermost/types/utilities';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 function currentTeamId(state = '', action: GenericAction) {

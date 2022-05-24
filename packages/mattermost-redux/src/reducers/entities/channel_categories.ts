@@ -8,7 +8,7 @@ import {ChannelCategoryTypes, TeamTypes, UserTypes, ChannelTypes} from 'mattermo
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {ChannelCategory} from '@mattermost/types/channel_categories';
 import {Team} from '@mattermost/types/teams';
-import {IDMappedObjects, RelationOneToOne} from 'mattermost-redux/types/utilities';
+import {IDMappedObjects, RelationOneToOne} from '@mattermost/types/utilities';
 
 import {removeItem} from 'mattermost-redux/utils/array_utils';
 

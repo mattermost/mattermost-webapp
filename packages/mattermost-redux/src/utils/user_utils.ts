@@ -5,7 +5,7 @@ import {localizeMessage} from 'mattermost-redux/utils/i18n_utils';
 import {ChannelMembership} from '@mattermost/types/channels';
 import {TeamMembership} from '@mattermost/types/teams';
 import {UserProfile} from '@mattermost/types/users';
-import {IDMappedObjects} from 'mattermost-redux/types/utilities';
+import {IDMappedObjects} from '@mattermost/types/utilities';
 export function getFullName(user: UserProfile): string {
     if (user.first_name && user.last_name) {
         return user.first_name + ' ' + user.last_name;

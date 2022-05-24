@@ -6,7 +6,7 @@ import classNames from 'classnames';
 
 import {Client4} from 'mattermost-redux/client';
 import {UserProfile} from '@mattermost/types/users';
-import {RelationOneToOne} from 'mattermost-redux/types/utilities';
+import {RelationOneToOne} from '@mattermost/types/utilities';
 
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 import {displayEntireNameForUser} from 'utils/utils';

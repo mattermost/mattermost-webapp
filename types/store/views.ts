@@ -3,7 +3,7 @@
 
 import {Channel} from '@mattermost/types/channels';
 import {MarketplaceApp, MarketplacePlugin} from '@mattermost/types/marketplace';
-import {RelationOneToOne} from 'mattermost-redux/types/utilities';
+import {RelationOneToOne} from '@mattermost/types/utilities';
 import {Team} from '@mattermost/types/teams';
 import {UserThread} from '@mattermost/types/threads';
 

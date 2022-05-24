@@ -20,7 +20,7 @@ import {shouldShowUnreadsCategory, isCollapsedThreadsEnabled} from 'mattermost-r
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {Channel} from '@mattermost/types/channels';
 import {CategorySorting, ChannelCategory} from '@mattermost/types/channel_categories';
-import {RelationOneToOne} from 'mattermost-redux/types/utilities';
+import {RelationOneToOne} from '@mattermost/types/utilities';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
 import {DraggingState, GlobalState} from 'types/store';

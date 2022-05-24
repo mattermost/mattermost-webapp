@@ -20,7 +20,7 @@ import {
     RelationOneToOne,
     IDMappedObjects,
     RelationOneToMany,
-} from 'mattermost-redux/types/utilities';
+} from '@mattermost/types/utilities';
 
 import {comparePosts, isPermalink, shouldUpdatePost} from 'mattermost-redux/utils/post_utils';
 

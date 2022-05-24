@@ -38,7 +38,7 @@ import {
     RelationOneToMany,
     RelationOneToManyUnique,
     RelationOneToOne,
-} from 'mattermost-redux/types/utilities';
+} from '@mattermost/types/utilities';
 import {Reaction} from '@mattermost/types/reactions';
 
 export {getCurrentUser, getCurrentUserId, getUsers};

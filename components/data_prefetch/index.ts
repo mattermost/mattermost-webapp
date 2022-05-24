@@ -12,7 +12,7 @@ import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/commo
 import {Channel, ChannelMembership} from '@mattermost/types/channels';
 import {PostList} from '@mattermost/types/posts';
 
-import {RelationOneToOne} from 'mattermost-redux/types/utilities';
+import {RelationOneToOne} from '@mattermost/types/utilities';
 
 import {prefetchChannelPosts} from 'actions/views/channel';
 

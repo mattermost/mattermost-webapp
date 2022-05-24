@@ -8,7 +8,7 @@ import {Channel, ChannelMembership, ChannelNotifyProps, ChannelMessageCount} fro
 import {Post} from '@mattermost/types/posts';
 import {UsersState, UserProfile, UserNotifyProps} from '@mattermost/types/users';
 import {GlobalState} from '@mattermost/types/store';
-import {IDMappedObjects, RelationOneToManyUnique, RelationOneToOne} from 'mattermost-redux/types/utilities';
+import {IDMappedObjects, RelationOneToManyUnique, RelationOneToOne} from '@mattermost/types/utilities';
 
 import {displayUsername} from './user_utils';
 

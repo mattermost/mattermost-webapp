@@ -7,7 +7,7 @@ import ReactSelect from 'react-select';
 
 import {AdminConfig} from '@mattermost/types/config';
 import {DataRetentionCustomPolicies, DataRetentionCustomPolicy} from '@mattermost/types/data_retention';
-import {DeepPartial} from 'mattermost-redux/types/utilities';
+import {DeepPartial} from '@mattermost/types/utilities';
 
 import {JobTypes} from 'utils/constants';
 import * as Utils from 'utils/utils';

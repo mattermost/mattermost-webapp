@@ -52,7 +52,7 @@ import {
     RelationOneToMany,
     RelationOneToManyUnique,
     RelationOneToOne,
-} from 'mattermost-redux/types/utilities';
+} from '@mattermost/types/utilities';
 
 import {
     calculateUnreadCount,

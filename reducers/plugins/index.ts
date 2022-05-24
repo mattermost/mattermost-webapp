@@ -7,7 +7,7 @@ import remove from 'lodash/remove';
 
 import {UserTypes} from 'mattermost-redux/action_types';
 import type {GenericAction} from 'mattermost-redux/types/actions';
-import {IDMappedObjects} from 'mattermost-redux/types/utilities';
+import {IDMappedObjects} from '@mattermost/types/utilities';
 import {ClientPluginManifest} from '@mattermost/types/plugins';
 
 import type {PluginsState, PluginComponent, AdminConsolePluginComponent, Menu} from 'types/store/plugins';
