@@ -14,6 +14,7 @@ export default function useGetUsage(): CloudUsage {
     const totalStorage = useSelector(() => 3 * FileSizes.Gigabyte);
     const boardsCards = useSelector(() => 400);
     const boardsViews = useSelector(() => 2);
+    const activeTeams = useSelector(() => 1);
     const integrationsEnabled = useSelector(() => 3);
     const messageHistory = useSelector(() => 6000);
 
@@ -28,6 +29,9 @@ export default function useGetUsage(): CloudUsage {
             boards: {
                 cards: boardsCards,
                 views: boardsViews,
+            },
+            teams: {
+                active: activeTeams,
             },
             integrations: {
                 enabled: integrationsEnabled,

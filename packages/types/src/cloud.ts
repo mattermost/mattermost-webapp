@@ -155,6 +155,9 @@ export interface CloudUsage {
         cards: number;
         views: number;
     };
+    teams: {
+        active: number;
+    };
     integrations: {
         enabled: number;
     };

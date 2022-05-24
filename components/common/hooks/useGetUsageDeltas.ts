@@ -25,6 +25,9 @@ export default function useGetUsageDeltas(): CloudUsage {
                 cards: usage.boards.cards - (limits.boards?.cards || 0),
                 views: usage.boards.views - (limits.boards?.views || 0),
             },
+            teams: {
+                active: usage.teams.active - (limits.teams?.active || 0),
+            },
             integrations: {
                 enabled: usage.integrations.enabled - (limits.integrations?.enabled || 0),
             },
