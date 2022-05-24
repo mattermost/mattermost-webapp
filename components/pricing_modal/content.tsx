@@ -177,7 +177,8 @@ function Content(props: ContentProps) {
     }
 
     const openPurchaseModal = () => {
-        trackEvent('cloud_admin', 'click_open_purchase_modal');
+        const utcTimeStamp = new Date().toISOString();
+        trackEvent('cloud_admin', 'click_open_purchase_modal', {utcTimeStamp, epochTimeStamp: Date.parse(utcTimeStamp)});
         props.onHide();
         dispatch(openModal({
             modalId: ModalIdentifiers.CLOUD_PURCHASE,
@@ -186,10 +187,8 @@ function Content(props: ContentProps) {
     };
 
     const openLearnMoreTrialModal = () => {
-        trackEvent(
-            TELEMETRY_CATEGORIES.SELF_HOSTED_START_TRIAL_MODAL,
-            'open_learn_more_trial_modal',
-        );
+        const utcTimeStamp = new Date().toISOString();
+        trackEvent('cloud_admin', 'open_learn_more_trial_modal', {utcTimeStamp, epochTimeStamp: Date.parse(utcTimeStamp)});
         props.onHide();
         dispatch(openModal({
             modalId: ModalIdentifiers.LEARN_MORE_TRIAL_MODAL,
@@ -320,6 +319,8 @@ function Content(props: ContentProps) {
                     }}
                     extraAction={isPostTrial ? undefined : {
                         action: () => {
+                            const utcTimeStamp = new Date().toISOString();
+                            trackEvent('cloud_admin', 'click_enterprise_contact_sales', {utcTimeStamp, epochTimeStamp: Date.parse(utcTimeStamp)});
                             window.open(contactSalesLink, '_blank');
                         },
                         text: formatMessage({id: 'pricing_modal.btn.contactSales', defaultMessage: 'Contact Sales'}),
