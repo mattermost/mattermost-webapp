@@ -12,6 +12,7 @@ import {
     getFilesUsage,
     getIntegrationsUsage,
     getBoardsUsage,
+    getTeamsUsage,
 } from 'actions/cloud';
 
 export default function useGetUsage(): CloudUsage {
@@ -51,6 +52,14 @@ export default function useGetUsage(): CloudUsage {
             setRequestedBoardsUsage(true);
         }
     }, [isCloudFreeEnabled, requestedBoardsUsage, usage.boards.cardsLoaded]);
+
+    const [requestedTeamsUsage, setRequestedTeamsUsage] = useState(false);
+    useEffect(() => {
+        if (isCloudFreeEnabled && !requestedTeamsUsage && !usage.teams.teamsLoaded) {
+            dispatch(getTeamsUsage());
+            setRequestedTeamsUsage(true);
+        }
+    }, [isCloudFreeEnabled, requestedTeamsUsage, usage.teams.teamsLoaded]);
 
     return usage;
 }

@@ -180,3 +180,23 @@ export function getBoardsUsage(): ActionFunc {
         return {data: false};
     };
 }
+
+export function getTeamsUsage(): ActionFunc {
+    return async (dispatch: DispatchFunc) => {
+        try {
+            const result = await Client4.getTeamsUsage();
+            if (result) {
+                dispatch({
+                    type: CloudTypes.RECEIVED_TEAMS_USAGE,
+
+                    // the views and cards properties are the limits, not usage.
+                    // So they are not passed in to the usage.
+                    data: result.active,
+                });
+            }
+        } catch (error) {
+            return error;
+        }
+        return {data: false};
+    };
+}

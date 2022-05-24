@@ -67,6 +67,15 @@ export default function usage(state: CloudUsage = emptyUsage, action: GenericAct
             },
         };
     }
+    case CloudTypes.RECEIVED_TEAMS_USAGE: {
+        return {
+            ...state,
+            teams: {
+                active: action.data,
+                teamsLoaded: true,
+            },
+        };
+    }
     default:
         return state;
     }

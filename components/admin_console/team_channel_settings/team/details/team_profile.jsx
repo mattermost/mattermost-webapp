@@ -1,17 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
+import useGetUsageDeltas from 'components/common/hooks/useGetUsageDeltas';
 import {t} from 'utils/i18n';
 
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import ArchiveIcon from 'components/widgets/icons/archive_icon';
 import UnarchiveIcon from 'components/widgets/icons/unarchive_icon';
+import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 
 import * as Utils from 'utils/utils';
 
@@ -19,6 +22,13 @@ import TeamIcon from 'components/widgets/team_icon/team_icon';
 
 export function TeamProfile({team, isArchived, isDisabled, onToggleArchive}) {
     const teamIconUrl = Utils.imageURLForTeam(team);
+    const usageDeltas = useGetUsageDeltas();
+    const [unarchivedDisabled, setUnarchivedDisabled] = useState(false);
+
+    useEffect(() => {
+        setUnarchivedDisabled(usageDeltas.teams.teamsLoaded && usageDeltas.teams.active >= 0);
+        console.log(unarchivedDisabled);
+    }, [usageDeltas]);
 
     let archiveBtnID;
     let archiveBtnDefault;
@@ -70,30 +80,46 @@ export function TeamProfile({team, isArchived, isDisabled, onToggleArchive}) {
                         </div>
                     </div>
                     <div className='AdminChannelDetails_archiveContainer'>
-                        <button
-                            type='button'
-                            className={
-                                classNames(
-                                    'btn',
-                                    'btn-secondary',
-                                    'ArchiveButton',
-                                    {ArchiveButton___archived: isArchived},
-                                    {ArchiveButton___unarchived: !isArchived},
-                                    {disabled: isDisabled},
-                                )
+                        <OverlayTrigger
+                            delayShow={400}
+                            placement='right'
+                            disabled={unarchivedDisabled === false}
+                            overlay={
+                                <Tooltip id='sharedTooltip'>
+                                    <div>
+                                        {'You\'ve reached the team limit for your current plan. Consider upgrading or deactivating other teams'}
+                                    </div>
+                                </Tooltip>
                             }
-                            onClick={onToggleArchive}
                         >
-                            {isArchived ? (
-                                <UnarchiveIcon className='channel-icon channel-icon__unarchive'/>
-                            ) : (
-                                <ArchiveIcon className='channel-icon channel-icon__archive'/>
-                            )}
-                            <FormattedMessage
-                                id={archiveBtnID}
-                                defaultMessage={archiveBtnDefault}
-                            />
-                        </button>
+                            <button
+                                type='button'
+                                disabled={unarchivedDisabled}
+                                className={
+                                    classNames(
+                                        'btn',
+                                        'btn-secondary',
+                                        'ArchiveButton',
+                                        {ArchiveButton___archived: isArchived},
+                                        {ArchiveButton___unarchived: !isArchived},
+                                        {disabled: isDisabled},
+                                    )
+                                }
+                                onClick={onToggleArchive}
+                            >
+                                {isArchived ? (
+                                    <UnarchiveIcon
+                                        className='channel-icon channel-icon__unarchive'
+                                    />
+                                ) : (
+                                    <ArchiveIcon className='channel-icon channel-icon__archive'/>
+                                )}
+                                <FormattedMessage
+                                    id={archiveBtnID}
+                                    defaultMessage={archiveBtnDefault}
+                                />
+                            </button>
+                        </OverlayTrigger>
                     </div>
                 </div>
             </div>

@@ -76,7 +76,7 @@ import type {
     MarketplaceApp,
     MarketplacePlugin,
 } from '@mattermost/types/marketplace';
-import {Post, PostList, PostSearchResults, OpenGraphMetadata, PostsUsageResponse} from '@mattermost/types/posts';
+import {Post, PostList, PostSearchResults, OpenGraphMetadata, PostsUsageResponse, TeamsUsageResponse} from '@mattermost/types/posts';
 import {BoardsUsageResponse} from '@mattermost/types/boards';
 import {PreferenceType} from '@mattermost/types/preferences';
 import {Reaction} from '@mattermost/types/reactions';
@@ -3832,6 +3832,13 @@ export default class Client4 {
     getPostsUsage = () => {
         return this.doFetch<PostsUsageResponse>(
             `${this.getUsageRoute()}/posts`,
+            {method: 'get'},
+        );
+    }
+
+    getTeamsUsage = () => {
+        return this.doFetch<TeamsUsageResponse>(
+            `${this.getUsageRoute()}/teams`,
             {method: 'get'},
         );
     }
