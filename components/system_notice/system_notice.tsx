@@ -8,7 +8,7 @@ import {ClientConfig, ClientLicense} from '@mattermost/types/config';
 
 import {AnalyticsRow} from '@mattermost/types/admin';
 
-import {PreferenceType} from 'mattermost-redux/types/preferences';
+import {PreferenceType} from '@mattermost/types/preferences';
 
 import {Preferences} from 'utils/constants';
 import {t} from 'utils/i18n';

@@ -10,7 +10,7 @@ import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions.js';
 
 import {UserStatus} from 'mattermost-redux/types/users.js';
 
-import {PreferenceType} from 'mattermost-redux/types/preferences.js';
+import {PreferenceType} from '@mattermost/types/preferences.js';
 
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {setStatus} from 'mattermost-redux/actions/users';

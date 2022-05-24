@@ -9,7 +9,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {Timezone} from 'timezones.json';
 
-import {PreferenceType} from 'mattermost-redux/types/preferences';
+import {PreferenceType} from '@mattermost/types/preferences';
 import {UserProfile, UserTimezone} from 'mattermost-redux/types/users';
 
 import {trackEvent} from 'actions/telemetry_actions';

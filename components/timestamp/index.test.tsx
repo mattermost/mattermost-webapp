@@ -3,7 +3,7 @@
 
 import {GlobalState} from 'types/store';
 import {UserTimezone} from 'mattermost-redux/types/users';
-import {PreferenceType} from 'mattermost-redux/types/preferences';
+import {PreferenceType} from '@mattermost/types/preferences';
 
 import * as Timestamp from './timestamp';
 

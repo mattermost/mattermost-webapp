@@ -8,7 +8,7 @@ import {Client4} from 'mattermost-redux/client';
 
 import {Channel} from '@mattermost/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {PreferenceType} from 'mattermost-redux/types/preferences';
+import {PreferenceType} from '@mattermost/types/preferences';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import ProfilePicture from 'components/profile_picture';
