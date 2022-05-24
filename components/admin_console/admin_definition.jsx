@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable indent */
 /* eslint-disable max-lines */
 
 import React from 'react';
@@ -247,11 +246,13 @@ const usesLegacyOauth = (config, state, license, enterpriseReady, consoleAccess,
 
 const AdminDefinition = {
     about: {
-        icon: <InformationOutlineIcon
-            size={16}
-            className={'category-icon fa'}
-            color={'currentColor'}
-              />,
+        icon: (
+            <InformationOutlineIcon
+                size={16}
+                className={'category-icon fa'}
+                color={'currentColor'}
+            />
+        ),
         sectionTitle: t('admin.sidebar.about'),
         sectionTitleDefault: 'About',
         isHidden: it.any(
@@ -281,11 +282,13 @@ const AdminDefinition = {
         },
     },
     billing: {
-        icon: <CreditCardOutlineIcon
-            size={16}
-            className={'category-icon fa'}
-            color={'currentColor'}
-              />,
+        icon: (
+            <CreditCardOutlineIcon
+                size={16}
+                className={'category-icon fa'}
+                color={'currentColor'}
+            />
+        ),
         sectionTitle: t('admin.sidebar.billing'),
         sectionTitleDefault: 'Billing & Account',
         isHidden: it.any(
@@ -364,11 +367,13 @@ const AdminDefinition = {
         },
     },
     reporting: {
-        icon: <ChartBarIcon
-            size={16}
-            className={'category-icon fa'}
-            color={'currentColor'}
-              />,
+        icon: (
+            <ChartBarIcon
+                size={16}
+                className={'category-icon fa'}
+                color={'currentColor'}
+            />
+        ),
         sectionTitle: t('admin.sidebar.reporting'),
         sectionTitleDefault: 'Reporting',
         isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.REPORTING)),
@@ -455,11 +460,13 @@ const AdminDefinition = {
         },
     },
     user_management: {
-        icon: <AccountMultipleOutlineIcon
-            size={16}
-            className={'category-icon fa'}
-            color={'currentColor'}
-              />,
+        icon: (
+            <AccountMultipleOutlineIcon
+                size={16}
+                className={'category-icon fa'}
+                color={'currentColor'}
+            />
+        ),
         sectionTitle: t('admin.sidebar.userManagement'),
         sectionTitleDefault: 'User Management',
         isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.USER_MANAGEMENT)),
@@ -670,11 +677,13 @@ const AdminDefinition = {
         },
     },
     environment: {
-        icon: <ServerVariantIcon
-            size={16}
-            className={'category-icon fa'}
-            color={'currentColor'}
-              />,
+        icon: (
+            <ServerVariantIcon
+                size={16}
+                className={'category-icon fa'}
+                color={'currentColor'}
+            />
+        ),
         sectionTitle: t('admin.sidebar.environment'),
         sectionTitleDefault: 'Environment',
         isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.ENVIRONMENT)),
@@ -1885,11 +1894,13 @@ const AdminDefinition = {
         },
     },
     site: {
-        icon: <CogOutlineIcon
-            size={16}
-            className={'category-icon fa'}
-            color={'currentColor'}
-              />,
+        icon: (
+            <CogOutlineIcon
+                size={16}
+                className={'category-icon fa'}
+                color={'currentColor'}
+            />
+        ),
         sectionTitle: t('admin.sidebar.site'),
         sectionTitleDefault: 'Site Configuration',
         isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.SITE)),
@@ -2802,11 +2813,13 @@ const AdminDefinition = {
         },
     },
     authentication: {
-        icon: <ShieldOutlineIcon
-            size={16}
-            className={'category-icon fa'}
-            color={'currentColor'}
-              />,
+        icon: (
+            <ShieldOutlineIcon
+                size={16}
+                className={'category-icon fa'}
+                color={'currentColor'}
+            />
+        ),
         sectionTitle: t('admin.sidebar.authentication'),
         sectionTitleDefault: 'Authentication',
         isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.AUTHENTICATION)),
@@ -5194,11 +5207,13 @@ const AdminDefinition = {
         },
     },
     plugins: {
-        icon: <PowerPlugOutlineIcon
-            size={16}
-            className={'category-icon fa'}
-            color={'currentColor'}
-              />,
+        icon: (
+            <PowerPlugOutlineIcon
+                size={16}
+                className={'category-icon fa'}
+                color={'currentColor'}
+            />
+        ),
         sectionTitle: t('admin.sidebar.plugins'),
         sectionTitleDefault: 'Plugins',
         id: 'plugins',
@@ -5241,11 +5256,13 @@ const AdminDefinition = {
         },
     },
     integrations: {
-        icon: <SitemapIcon
-            size={16}
-            className={'category-icon fa'}
-            color={'currentColor'}
-              />,
+        icon: (
+            <SitemapIcon
+                size={16}
+                className={'category-icon fa'}
+                color={'currentColor'}
+            />
+        ),
         sectionTitle: t('admin.sidebar.integrations'),
         sectionTitleDefault: 'Integrations',
         id: 'integrations',
@@ -5526,11 +5543,13 @@ const AdminDefinition = {
         },
     },
     compliance: {
-        icon: <FormatListBulletedIcon
-            size={16}
-            className={'category-icon fa'}
-            color={'currentColor'}
-              />,
+        icon: (
+            <FormatListBulletedIcon
+                size={16}
+                className={'category-icon fa'}
+                color={'currentColor'}
+            />
+        ),
         sectionTitle: t('admin.sidebar.compliance'),
         sectionTitleDefault: 'Compliance',
         isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.COMPLIANCE)),
@@ -5795,11 +5814,13 @@ const AdminDefinition = {
         },
     },
     experimental: {
-        icon: <FlaskOutlineIcon
-            size={16}
-            className={'category-icon fa'}
-            color={'currentColor'}
-              />,
+        icon: (
+            <FlaskOutlineIcon
+                size={16}
+                className={'category-icon fa'}
+                color={'currentColor'}
+            />
+        ),
         sectionTitle: t('admin.sidebar.experimental'),
         sectionTitleDefault: 'Experimental',
         isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.EXPERIMENTAL)),
