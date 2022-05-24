@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
-import {ProductNotices} from 'mattermost-redux/types/product_notices';
+import {ProductNotices} from '@mattermost/types/product_notices';
 import {WebsocketStatus} from 'mattermost-redux/types/websocket';
 import {getInProductNotices, updateNoticesAsViewed} from 'mattermost-redux/actions/teams';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
