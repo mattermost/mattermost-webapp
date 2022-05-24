@@ -35,6 +35,7 @@ import UpgradeSvg from 'components/common/svg_images_components/upgrade_svg';
 import BackgroundSvg from 'components/common/svg_images_components/background_svg';
 import StarMarkSvg from 'components/widgets/icons/star_mark_icon';
 import PricingModal from 'components/pricing_modal';
+import PlanLabel from 'components/common/plan_label';
 import {ModalData} from 'types/actions';
 
 import {getNextBillingDate} from 'utils/utils';
@@ -145,30 +146,6 @@ function getSelectedProduct(products: Record<string, Product> | undefined, produ
         nextSku = CloudProducts.ENTERPRISE;
     }
     return findProductInDictionary(products, null, nextSku);
-}
-
-type PlanLabelProps = {
-    text: string;
-    bgColor: string;
-    color: string;
-    firstSvg: JSX.Element;
-    secondSvg?: JSX.Element;
-}
-
-function PlanLabel(props: PlanLabelProps) {
-    return (
-        <div
-            className='planLabel'
-            style={{
-                backgroundColor: props.bgColor,
-                color: props.color,
-            }}
-        >
-            {props.firstSvg}
-            {props.text}
-            {props.secondSvg}
-        </div>
-    );
 }
 
 function Card(props: CardProps) {
@@ -442,6 +419,8 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             validBillingDetails = areBillingDetailsValid(initialBillingDetails);
         }
 
+        const showPlanLabel = this.state.selectedProduct?.sku === CloudProducts.PROFESSIONAL;
+
         return (
             <div className={this.state.processing ? 'processing' : ''}>
                 <div className='LHS'>
@@ -487,7 +466,10 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                     }
                 </div>
                 <div className='RHS'>
-                    <div className='plan_comparison'>
+                    <div
+                        className='plan_comparison'
+                        style={{marginBottom: `${showPlanLabel ? '51' : '0'}px`}}//remove bottom pace when not taken up by PlanLabel
+                    >
                         {this.comparePlan}
                     </div>
                     <Card
@@ -502,7 +484,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                             customClass: (!this.state.paymentInfoIsValid || this.state.selectedProduct?.billing_scheme === BillingSchemes.SALES_SERVE) ? ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.special,
                             disabled: !this.state.paymentInfoIsValid || this.state.selectedProduct?.billing_scheme === BillingSchemes.SALES_SERVE,
                         }}
-                        planLabel={this.state.selectedProduct?.sku === CloudProducts.PROFESSIONAL ? (
+                        planLabel={showPlanLabel ? (
                             <PlanLabel
                                 text='MOST POPULAR'
                                 bgColor='#1E325C'

@@ -157,7 +157,6 @@
             }
 
             .plan_comparison {
-                margin-bottom: 51px;
                 text-align: center;
 
                 button,
@@ -223,8 +222,8 @@
                         line-height: 14px;
 
                         &.grayed {
-                            background: rgba(63, 67, 80, 0.08);
-                            color: rgba(63, 67, 80, 0.32);
+                            background: rgba(var(--center-channel-text-rgb), 0.08);
+                            color: rgba(var(--center-channel-text-rgb), 0.32);
                         }
 
                         &.active {
@@ -242,14 +241,14 @@
                         height: 150px;
                         border-bottom: 1px solid #dadfe5;
                         text-align: center;
+                        font-weight: 400;
+                        letter-spacing: -0.02em;
 
                         h4 {
                             color: rgba(33, 63, 107, 0.8);
                             font-family: 'Metropolis';
                             font-size: 20px;
                             font-style: normal;
-                            font-weight: 400;
-                            letter-spacing: -0.02em;
                             line-height: 30px;
                         }
 
@@ -259,7 +258,6 @@
                             font-size: 52px;
                             font-style: normal;
                             font-weight: 700;
-                            letter-spacing: -0.02em;
                             line-height: 60px;
                         }
 
@@ -272,8 +270,6 @@
                             font-family: 'Metropolis';
                             font-size: 18px;
                             font-style: normal;
-                            font-weight: 400;
-                            letter-spacing: -0.02em;
                             line-height: 20px;
                         }
                     }
@@ -282,7 +278,6 @@
                         margin-top: 16px;
                         margin-bottom: 24px;
                         color: #3f4350;
-                        font-family: 'Open Sans';
                         font-size: 14px;
                         font-style: normal;
                         font-weight: 400;
@@ -292,7 +287,6 @@
                     .plan_billing_cycle {
                         margin-top: 24px;
                         color: rgba(63, 67, 80, 0.72);
-                        font-family: 'Open Sans';
                         font-size: 12px;
                         font-style: normal;
                         font-weight: 400;

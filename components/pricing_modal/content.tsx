@@ -21,6 +21,7 @@ import PurchaseModal from 'components/purchase_modal';
 import {makeAsyncComponent} from 'components/async_load';
 import StarMarkSvg from 'components/widgets/icons/star_mark_icon';
 import CheckMarkSvg from 'components/widgets/icons/check_mark_icon';
+import PlanLabel from 'components/common/plan_label';
 
 const LearnMoreTrialModal = makeAsyncComponent('LearnMoreTrialModal', React.lazy(() => import('components/learn_more_trial_modal/learn_more_trial_modal')));
 
@@ -64,36 +65,9 @@ type ContentProps = {
     onHide: () => void;
 }
 
-type PlanLabelProps = {
-    text: string;
-    bgColor: string;
-    color: string;
-    firstSvg: JSX.Element;
-    secondSvg?: JSX.Element;
-}
-
 type StyledProps = {
     bgColor?: string;
     color?: string;
-}
-
-const StyledPlanLabel = styled.div<StyledProps>`
-background-color: ${(props) => props.bgColor};
-color: ${(props) => props.color};
-`;
-
-function PlanLabel(props: PlanLabelProps) {
-    return (
-        <StyledPlanLabel
-            className='planLabel'
-            bgColor={props.bgColor}
-            color={props.color}
-        >
-            {props.firstSvg}
-            {props.text}
-            {props.secondSvg}
-        </StyledPlanLabel>
-    );
 }
 
 const StyledDiv = styled.div<StyledProps>`
