@@ -14,7 +14,7 @@ import {createJob, getJobsByType} from 'mattermost-redux/actions/jobs';
 
 import {GlobalState} from 'types/store';
 
-import {JobTypeBase, JobType} from 'mattermost-redux/types/jobs';
+import {JobTypeBase, JobType} from '@mattermost/types/jobs';
 
 import DataRetentionSettings from './data_retention_settings';
 

@@ -3,7 +3,7 @@
 
 import {createSelector} from 'reselect';
 
-import {JobType, Job, JobsByType} from 'mattermost-redux/types/jobs';
+import {JobType, Job, JobsByType} from '@mattermost/types/jobs';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {IDMappedObjects} from 'mattermost-redux/types/utilities';
 

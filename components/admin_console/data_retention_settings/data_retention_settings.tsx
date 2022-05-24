@@ -19,7 +19,7 @@ import JobsTable from 'components/admin_console/jobs';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import {browserHistory} from 'utils/browser_history';
-import {JobTypeBase, JobType} from 'mattermost-redux/types/jobs';
+import {JobTypeBase, JobType} from '@mattermost/types/jobs';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
 import './data_retention_settings.scss';
