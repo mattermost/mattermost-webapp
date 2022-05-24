@@ -29,7 +29,7 @@ const CloudTrialEndAnnouncementBar: React.FC = () => {
     const getCategory = makeGetCategory();
     const dispatch = useDispatch();
     const preferences = useSelector((state: GlobalState) =>
-        getCategory(state, Preferences.FREEMIUM_TRIAL_END_BANNER),
+        getCategory(state, Preferences.CLOUD_TRIAL_END_BANNER),
     );
     const currentUser = useSelector((state: GlobalState) =>
         getCurrentUser(state),
@@ -79,7 +79,7 @@ const CloudTrialEndAnnouncementBar: React.FC = () => {
         dispatch(
             savePreferences(currentUser.id, [
                 {
-                    category: Preferences.FREEMIUM_TRIAL_END_BANNER,
+                    category: Preferences.CLOUD_TRIAL_END_BANNER,
                     user_id: currentUser.id,
                     name: CloudBanners.HIDE,
                     value: 'true',

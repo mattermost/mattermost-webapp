@@ -29,7 +29,7 @@ describe('components/global/CloudTrialEndAnnouncementBar', () => {
         entities: {
             preferences: {
                 myPreferences: {
-                    category: Preferences.FREEMIUM_TRIAL_END_BANNER,
+                    category: Preferences.CLOUD_TRIAL_END_BANNER,
                     name: CloudBanners.HIDE,
                     user_id: 'current_user_id',
                     value: 'false',
@@ -241,7 +241,10 @@ describe('components/global/CloudTrialEndAnnouncementBar', () => {
         const state = JSON.parse(JSON.stringify(initialState));
         state.entities.preferences = {
             myPreferences: {
-                [getPreferenceKey(Preferences.FREEMIUM_TRIAL_END_BANNER, CloudBanners.HIDE)]: {name: CloudBanners.HIDE, value: 'true'},
+                [getPreferenceKey(
+                    Preferences.CLOUD_TRIAL_END_BANNER,
+                    CloudBanners.HIDE,
+                )]: {name: CloudBanners.HIDE, value: 'true'},
             },
         };
 
