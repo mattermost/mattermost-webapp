@@ -93,6 +93,11 @@ export function getTopThreadsForTeam(teamId: string, page: number, perPage: numb
             return {error};
         }
 
+        dispatch({
+            type: InsightTypes.RECEIVED_TOP_THREADS,
+            data,
+        });
+
         return {data};
     };
 }
@@ -107,6 +112,11 @@ export function getMyTopThreads(teamId: string, page: number, perPage: number, t
             dispatch(logError(error));
             return {error};
         }
+
+        dispatch({
+            type: InsightTypes.RECEIVED_MY_TOP_THREADS,
+            data,
+        });
 
         return {data};
     };

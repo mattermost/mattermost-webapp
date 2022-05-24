@@ -1,18 +1,22 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React, {memo, useEffect, useState, useCallback, useMemo} from 'react';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
-import {getTopReactionsForTeam, getMyTopReactions, getMyTopThreads, getTopThreadsForTeam} from 'mattermost-redux/actions/insights';
-import {getTopReactionsForCurrentTeam, getMyTopReactionsForCurrentTeam} from 'mattermost-redux/selectors/entities/insights';
+import {getMyTopThreads, getTopThreadsForTeam} from 'mattermost-redux/actions/insights';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {Post} from '@mattermost/types/posts';
 import {TopThread} from '@mattermost/types/insights';
+
+import {selectPost} from 'actions/views/rhs';
 
 import Badge from 'components/widgets/badges/badge';
 import Avatar from 'components/widgets/users/avatar';
+import Markdown from 'components/markdown';
+import Attachment from 'components/threading/global_threads/thread_item/attachments';
 
 import {InsightsScopes} from 'utils/constants';
+import {imageURLForUser} from 'utils/utils';
 
 import TitleLoader from '../skeleton_loader/title_loader/title_loader';
 import CircleLoader from '../skeleton_loader/circle_loader/circle_loader';
@@ -21,11 +25,6 @@ import widgetHoc, {WidgetHocProps} from '../widget_hoc/widget_hoc';
 import WidgetEmptyState from '../widget_empty_state/widget_empty_state';
 
 import './../../activity_and_insights.scss';
-import { imageURLForUser } from 'utils/utils';
-import Markdown from 'components/markdown';
-import Attachment from 'components/threading/global_threads/thread_item/attachments';
-import { selectPost } from 'actions/views/rhs';
-import { Post } from '@mattermost/types/posts';
 
 const TopThreads = (props: WidgetHocProps) => {
     const dispatch = useDispatch();
@@ -94,7 +93,7 @@ const TopThreads = (props: WidgetHocProps) => {
         return entries;
     }, []);
 
-    const openRHS = (post: Post) => {
+    const openRHS = async (post: Post) => {
         dispatch(selectPost(post));
     }
 
@@ -113,7 +112,6 @@ const TopThreads = (props: WidgetHocProps) => {
                                 <div
                                     className='thread-item'
                                     onClick={() => {
-                                        console.log('thus is a rst');
                                         openRHS(thread.post);
                                     }}
                                     key={key}
