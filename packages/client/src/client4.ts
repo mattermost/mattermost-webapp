@@ -3803,6 +3803,13 @@ export default class Client4 {
         );
     }
 
+    validateBusinessEmail = () => {
+        return this.doFetchWithResponse<CloudCustomer>(
+            `${this.getCloudRoute()}/validate-business-email`,
+            {method: 'post'},
+        );
+    }
+
     getSubscription = () => {
         return this.doFetch<Subscription>(
             `${this.getCloudRoute()}/subscription`,

@@ -103,6 +103,18 @@ export function requestCloudTrial(page: string) {
     };
 }
 
+export function validateBusinessEmail() {
+    trackEvent('api', 'api_validate_business_email');
+    return async () => {
+        try {
+            await Client4.validateBusinessEmail();
+        } catch (error) {
+            return false;
+        }
+        return true;
+    };
+}
+
 export function getCloudLimits(): ActionFunc {
     return async (dispatch: DispatchFunc) => {
         try {

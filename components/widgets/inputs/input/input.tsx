@@ -1,9 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useIntl} from 'react-intl';
+
 import classNames from 'classnames';
+
+import {ItemStatus} from 'utils/constants';
 
 import './input.scss';
 
@@ -27,6 +30,8 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     inputClassName?: string;
     limit?: number;
     useLegend?: boolean;
+
+    customMessage?: {type: 'info' | 'error' | 'warning' | 'ok'; value: string} | null;
     inputSize?: SIZE;
 }
 
@@ -50,6 +55,7 @@ const Input = React.forwardRef((
         wrapperClassName,
         inputClassName,
         limit,
+        customMessage,
         maxLength,
         inputSize = SIZE.MEDIUM,
         disabled,
@@ -63,7 +69,22 @@ const Input = React.forwardRef((
     const {formatMessage} = useIntl();
 
     const [focused, setFocused] = useState(false);
-    const [stateError, setStateError] = useState('');
+    const [customInputLabel, setCustomInputLabel] = useState<{type: 'info' | 'error' | 'warning' | 'ok'; value: string} | null>(null);
+
+    useEffect(() => {
+        if (customMessage !== undefined && customMessage !== null && customMessage.value !== '') {
+            setCustomInputLabel(customMessage);
+        }
+    }, [customMessage]);
+
+    // temporal, ideally replace all these values from the places that use the Input component
+    useEffect(() => {
+        if (propError !== undefined && propError !== null && propError !== '') {
+            setCustomInputLabel({type: 'error', value: propError});
+        } else if (info !== undefined && info !== null && info !== '') {
+            setCustomInputLabel({type: 'info', value: info});
+        }
+    }, [propError, info]);
 
     const handleOnFocus = (event: React.FocusEvent<HTMLInputElement>) => {
         setFocused(true);
@@ -83,7 +104,7 @@ const Input = React.forwardRef((
     };
 
     const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setStateError('');
+        setCustomInputLabel(null);
 
         if (onChange) {
             onChange(event);
@@ -91,16 +112,15 @@ const Input = React.forwardRef((
     };
 
     const validateInput = () => {
-        setStateError(required && (value == null || value === '') ? (
-            formatMessage({
-                id: 'widget.input.required',
-                defaultMessage: 'This field is required',
-            })) : '',
-        );
+        if (!required || (value !== null && value !== '')) {
+            return;
+        }
+        const validationErrorMsg = formatMessage({id: 'widget.input.required', defaultMessage: 'This field is required'});
+        setCustomInputLabel({type: 'error', value: validationErrorMsg});
     };
 
     const showLegend = Boolean(focused || value);
-    const error = propError || stateError;
+    const error = customInputLabel?.type === 'error';
     const limitExceeded = limit && value && !Array.isArray(value) ? value.toString().length - limit : 0;
 
     return (
@@ -142,14 +162,17 @@ const Input = React.forwardRef((
                 </div>
                 {addon}
             </fieldset>
-            {error ? (
-                <div className='Input___error'>
-                    <i className='icon icon-alert-outline'/>
-                    <span>{error}</span>
-                </div>
-            ) : info && (
-                <div className='Input___info'>
-                    {info}
+            {customInputLabel && (
+                <div className={`Input___customMessage Input___${customInputLabel.type}`}>
+                    <i
+                        className={classNames(`icon ${customInputLabel.type}`, {
+                            'icon-alert-outline': customInputLabel.type === ItemStatus.WARNING,
+                            'icon-alert-circle-outline': customInputLabel.type === ItemStatus.ERROR,
+                            'icon-information-outline': customInputLabel.type === ItemStatus.INFO,
+                            'icon-check': customInputLabel.type === ItemStatus.OK,
+                        })}
+                    />
+                    <span>{customInputLabel.value}</span>
                 </div>
             )}
         </div>

@@ -376,6 +376,7 @@ export const ModalIdentifiers = {
     UPLOAD_LICENSE: 'upload_license',
     INSIGHTS: 'insights',
     CLOUD_LIMITS: 'cloud_limits',
+    REQUEST_BUSINESS_EMAIL_MODAL: 'request_business_email_modal',
 };
 
 export const UserStatuses = {
@@ -551,6 +552,14 @@ export const TopLevelProducts = {
     PLAYBOOKS: 'Playbooks',
 };
 
+export enum ItemStatus {
+    NONE = 'none',
+    OK = 'ok',
+    INFO = 'info',
+    WARNING = 'warning',
+    ERROR = 'error',
+}
+
 export const RecommendedNextStepsLegacy = {
     COMPLETE_PROFILE: 'complete_profile',
     TEAM_SETUP: 'team_setup',
@@ -590,6 +599,7 @@ export const TELEMETRY_CATEGORIES = {
     CLOUD_START_TRIAL_BUTTON: 'cloud_start_trial_button',
     SELF_HOSTED_START_TRIAL_TASK_LIST: 'self_hosted_start_trial_task_list',
     WORKSPACE_OPTIMIZATION_DASHBOARD: 'workspace_optimization_dashboard',
+    REQUEST_BUSINESS_EMAIL: 'request_business_email',
 };
 
 export const TELEMETRY_LABELS = {
