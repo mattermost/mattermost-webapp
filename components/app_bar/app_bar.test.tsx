@@ -4,10 +4,11 @@
 import React from 'react';
 import {mount} from 'enzyme';
 
+import {AppBinding} from '@mattermost/types/apps';
+
 import {PluginComponent} from 'types/store/plugins';
 import {GlobalState} from 'types/store';
 
-import {AppBinding} from 'mattermost-redux/types/apps';
 import {AppBindingLocations} from 'mattermost-redux/constants/apps';
 
 import AppBar from './app_bar';

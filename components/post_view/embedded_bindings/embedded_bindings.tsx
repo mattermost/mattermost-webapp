@@ -4,7 +4,7 @@ import React from 'react';
 
 import {Post} from 'mattermost-redux/types/posts';
 
-import {AppBinding} from 'mattermost-redux/types/apps';
+import {AppBinding} from '@mattermost/types/apps';
 
 import {TextFormattingOptions} from 'utils/text_formatting';
 

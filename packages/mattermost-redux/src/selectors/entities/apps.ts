@@ -4,7 +4,7 @@
 import {createSelector} from 'reselect';
 
 import {GlobalState} from 'mattermost-redux/types/store';
-import {AppBinding} from 'mattermost-redux/types/apps';
+import {AppBinding} from '@mattermost/types/apps';
 import {ClientConfig} from 'mattermost-redux/types/config';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';

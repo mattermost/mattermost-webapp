@@ -16,7 +16,7 @@ export type {
     AutocompleteChannelSelect,
     AppLookupResponse,
     AppSelectOption,
-} from 'mattermost-redux/types/apps';
+} from '@mattermost/types/apps';
 
 export type {
     DoAppCallResult,

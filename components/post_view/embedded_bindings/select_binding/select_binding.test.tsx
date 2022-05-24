@@ -4,7 +4,8 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {AppBinding, AppCallResponse} from 'mattermost-redux/types/apps';
+import {AppBinding, AppCallResponse} from '@mattermost/types/apps';
+
 import {Post} from 'mattermost-redux/types/posts';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';

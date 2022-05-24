@@ -3,7 +3,7 @@
 
 import {createSelector} from 'reselect';
 
-import {AppBinding} from 'mattermost-redux/types/apps';
+import {AppBinding} from '@mattermost/types/apps';
 import {appBarEnabled, getAppBarAppBindings} from 'mattermost-redux/selectors/entities/apps';
 
 import {GlobalState} from 'types/store';

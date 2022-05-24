@@ -11,7 +11,7 @@ import {Tooltip} from 'react-bootstrap';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 import {Post} from 'mattermost-redux/types/posts';
-import {AppBinding} from 'mattermost-redux/types/apps';
+import {AppBinding} from '@mattermost/types/apps';
 import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
 import {HandleBindingClick, PostEphemeralCallResponseForPost, OpenAppsModal} from 'types/apps';

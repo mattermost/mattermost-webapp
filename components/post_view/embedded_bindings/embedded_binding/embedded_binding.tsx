@@ -4,7 +4,7 @@
 
 import React, {CSSProperties} from 'react';
 
-import {AppBinding} from 'mattermost-redux/types/apps';
+import {AppBinding} from '@mattermost/types/apps';
 
 import {Post} from 'mattermost-redux/types/posts';
 

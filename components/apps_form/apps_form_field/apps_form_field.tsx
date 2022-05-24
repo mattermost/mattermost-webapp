@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {AppField, AppSelectOption} from 'mattermost-redux/types/apps';
+import {AppField, AppSelectOption} from '@mattermost/types/apps';
 import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 
