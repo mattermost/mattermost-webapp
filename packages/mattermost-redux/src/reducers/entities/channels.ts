@@ -19,7 +19,7 @@ import {
     ChannelMemberCountByGroup,
     ChannelMemberCountsByGroup,
     ServerChannel,
-} from 'mattermost-redux/types/channels';
+} from '@mattermost/types/channels';
 import {
     RelationOneToMany,
     RelationOneToOne,

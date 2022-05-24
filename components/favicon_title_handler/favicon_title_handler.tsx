@@ -4,7 +4,7 @@
 import React from 'react';
 import {injectIntl, IntlShape} from 'react-intl';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 import {Team} from 'mattermost-redux/types/teams';
 
 import * as UserAgent from 'utils/user_agent';

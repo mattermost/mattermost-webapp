@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import {Constants, NotificationLevels} from 'utils/constants';

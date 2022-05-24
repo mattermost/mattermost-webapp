@@ -9,7 +9,7 @@ import {ConnectedComponent} from 'react-redux';
 import {Client4} from 'mattermost-redux/client';
 
 import {UserProfile} from 'mattermost-redux/types/users';
-import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
+import {Channel, ChannelMembership} from '@mattermost/types/channels';
 import {ServerError} from 'mattermost-redux/types/errors';
 
 import * as Utils from 'utils/utils';

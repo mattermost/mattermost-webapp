@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import {General, Posts} from 'mattermost-redux/constants';
 import {Post} from 'mattermost-redux/types/posts';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 
 import * as Utils from 'utils/utils';
 import {TextFormattingOptions} from 'utils/text_formatting';

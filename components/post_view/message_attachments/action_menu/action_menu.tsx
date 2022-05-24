@@ -6,7 +6,7 @@ import React from 'react';
 import {ActionResult, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {PostAction} from 'mattermost-redux/types/integration_actions';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 import {ServerError} from 'mattermost-redux/types/errors';
 
 import MenuActionProvider from 'components/suggestion/menu_action_provider';

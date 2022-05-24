@@ -10,7 +10,7 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 import {Post} from 'mattermost-redux/types/posts';
 
 import {AppBinding} from '@mattermost/types/apps';
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 
 import {AppBindingLocations, AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 

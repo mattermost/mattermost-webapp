@@ -3,7 +3,7 @@
 
 import type {UserAutocomplete} from '@mattermost/types/autocomplete';
 import type {AutocompleteSuggestion} from 'mattermost-redux/types/integrations';
-import type {Channel} from 'mattermost-redux/types/channels';
+import type {Channel} from '@mattermost/types/channels';
 import type {UserProfile} from 'mattermost-redux/types/users';
 import type {DispatchFunc} from 'mattermost-redux/types/actions';
 import type {GlobalState} from 'types/store';

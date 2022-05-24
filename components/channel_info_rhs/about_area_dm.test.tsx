@@ -9,7 +9,7 @@ import {Provider} from 'react-redux';
 
 import {renderWithIntl} from 'tests/react_testing_utils';
 import Constants from 'utils/constants';
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import AboutAreaDM from './about_area_dm';

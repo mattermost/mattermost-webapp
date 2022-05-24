@@ -14,7 +14,7 @@ import {getLastPostPerChannel} from 'mattermost-redux/selectors/entities/posts';
 import {getMyPreferences, getTeammateNameDisplaySetting, getInt, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
-import {Channel, ChannelMembership, ChannelMessageCount} from 'mattermost-redux/types/channels';
+import {Channel, ChannelMembership, ChannelMessageCount} from '@mattermost/types/channels';
 import {ChannelCategory, ChannelCategoryType, CategorySorting} from '@mattermost/types/channel_categories';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {UserProfile} from 'mattermost-redux/types/users';

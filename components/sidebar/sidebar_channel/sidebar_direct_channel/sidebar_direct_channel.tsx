@@ -6,7 +6,7 @@ import {IntlShape, injectIntl} from 'react-intl';
 
 import {Client4} from 'mattermost-redux/client';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 

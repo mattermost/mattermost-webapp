@@ -10,7 +10,7 @@ import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Scheme} from 'mattermost-redux/types/schemes';
 import {SyncablePatch, Group, SyncableType} from 'mattermost-redux/types/groups';
-import {Channel, ChannelModeration as ChannelPermissions, ChannelModerationPatch} from 'mattermost-redux/types/channels';
+import {Channel, ChannelModeration as ChannelPermissions, ChannelModerationPatch} from '@mattermost/types/channels';
 import {Team} from 'mattermost-redux/types/teams';
 
 import {ServerError} from 'mattermost-redux/types/errors';

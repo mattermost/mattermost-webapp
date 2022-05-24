@@ -11,7 +11,7 @@ import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 
 import DialogElement from './dialog_element';
 

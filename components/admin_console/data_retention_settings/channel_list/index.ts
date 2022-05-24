@@ -11,7 +11,7 @@ import {filterChannelsMatchingTerm, channelListToMap} from 'mattermost-redux/uti
 
 import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
 
-import {Channel, ChannelSearchOpts, ChannelWithTeamData} from 'mattermost-redux/types/channels';
+import {Channel, ChannelSearchOpts, ChannelWithTeamData} from '@mattermost/types/channels';
 
 import {GlobalState} from 'types/store';
 

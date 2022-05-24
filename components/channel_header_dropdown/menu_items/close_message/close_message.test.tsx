@@ -5,7 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {TeamType} from 'mattermost-redux/types/teams';
-import {ChannelType} from 'mattermost-redux/types/channels';
+import {ChannelType} from '@mattermost/types/channels';
 
 import Menu from 'components/widgets/menu/menu';
 import {Constants} from 'utils/constants';

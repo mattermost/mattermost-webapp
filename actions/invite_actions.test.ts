@@ -6,7 +6,7 @@ import configureStore from 'redux-mock-store';
 import {sendMembersInvites, sendGuestsInvites} from 'actions/invite_actions';
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 jest.mock('actions/team_actions', () => ({

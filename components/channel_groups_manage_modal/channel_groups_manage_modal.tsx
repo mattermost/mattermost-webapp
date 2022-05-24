@@ -8,7 +8,7 @@ import Groups from 'mattermost-redux/constants/groups';
 
 import {Group} from 'mattermost-redux/types/groups';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 
 import AddGroupsToChannelModal from 'components/add_groups_to_channel_modal';
 

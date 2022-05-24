@@ -17,7 +17,7 @@ import {getThread as fetchThread, updateThreadRead} from 'mattermost-redux/actio
 
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {UserThread} from 'mattermost-redux/types/threads';
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 
 import {getSocketStatus} from 'selectors/views/websocket';
 import {selectPostCard} from 'actions/views/rhs';

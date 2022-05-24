@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {Post, PostType} from 'mattermost-redux/types/posts';
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {FileInfo} from 'mattermost-redux/types/files';
 

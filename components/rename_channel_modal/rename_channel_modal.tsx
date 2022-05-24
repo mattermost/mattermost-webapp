@@ -5,7 +5,7 @@ import React, {ChangeEvent, MouseEvent} from 'react';
 import {Modal} from 'react-bootstrap';
 import {defineMessages, FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 import {Team} from 'mattermost-redux/types/teams';
 import {ServerError} from 'mattermost-redux/types/errors';
 

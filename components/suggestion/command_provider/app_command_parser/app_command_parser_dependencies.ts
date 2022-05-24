@@ -29,7 +29,7 @@ export type {AutocompleteSuggestion};
 
 import type {
     Channel,
-} from 'mattermost-redux/types/channels';
+} from '@mattermost/types/channels';
 export type {Channel};
 
 import {

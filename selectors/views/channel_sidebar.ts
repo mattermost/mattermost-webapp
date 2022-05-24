@@ -18,7 +18,7 @@ import {
 import {getLastPostPerChannel} from 'mattermost-redux/selectors/entities/posts';
 import {shouldShowUnreadsCategory, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 import {CategorySorting, ChannelCategory} from '@mattermost/types/channel_categories';
 import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';

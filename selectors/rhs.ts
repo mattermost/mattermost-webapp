@@ -6,7 +6,7 @@ import {createSelector} from 'reselect';
 import {makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
 import {Post, PostType} from 'mattermost-redux/types/posts';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 
 import {makeGetGlobalItem} from 'selectors/storage';
 import {PostTypes} from 'utils/constants';

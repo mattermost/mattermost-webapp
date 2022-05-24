@@ -8,7 +8,7 @@ import {action} from '@storybook/addon-actions';
 
 import StoryBox from 'storybook/story_box';
 
-import {ChannelType} from 'mattermost-redux/types/channels';
+import {ChannelType} from '@mattermost/types/channels';
 import {Constants} from 'utils/constants';
 
 import PublicPrivateSelector from './public-private-selector';

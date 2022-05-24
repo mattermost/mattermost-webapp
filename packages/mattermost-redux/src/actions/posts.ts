@@ -16,7 +16,7 @@ import {getCurrentUserId, getUsersByUsername} from 'mattermost-redux/selectors/e
 import {isCombinedUserActivityPost} from 'mattermost-redux/utils/post_list';
 
 import {ActionResult, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-import {ChannelUnread} from 'mattermost-redux/types/channels';
+import {ChannelUnread} from '@mattermost/types/channels';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {Post, PostList} from 'mattermost-redux/types/posts';
 import {Reaction} from 'mattermost-redux/types/reactions';

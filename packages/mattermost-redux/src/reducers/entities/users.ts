@@ -9,7 +9,7 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 import {UserAccessToken, UserProfile, UserStatus} from 'mattermost-redux/types/users';
 import {RelationOneToMany, IDMappedObjects, RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {Team} from 'mattermost-redux/types/teams';
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 import {Group} from 'mattermost-redux/types/groups';
 
 function profilesToSet(state: RelationOneToMany<Team, UserProfile>, action: GenericAction) {

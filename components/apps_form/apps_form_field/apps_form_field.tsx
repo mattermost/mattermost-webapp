@@ -4,7 +4,7 @@
 import React from 'react';
 
 import {AppField, AppSelectOption} from '@mattermost/types/apps';
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import {AppFieldTypes} from 'mattermost-redux/constants/apps';

@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 import React from 'react';
 
 import GroupDetails from 'components/admin_console/group_settings/group_details/group_details';
-import {ChannelWithTeamData} from 'mattermost-redux/types/channels';
+import {ChannelWithTeamData} from '@mattermost/types/channels';
 import {Group, GroupChannel, GroupTeam} from 'mattermost-redux/types/groups';
 import {Team} from 'mattermost-redux/types/teams';
 import {UserProfile} from 'mattermost-redux/types/users';

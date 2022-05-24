@@ -12,7 +12,7 @@ import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import {Team} from 'mattermost-redux/types/teams';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import {trackEvent} from 'actions/telemetry_actions';

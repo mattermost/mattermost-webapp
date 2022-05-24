@@ -5,7 +5,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Constants from 'utils/constants';
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import {DMUser} from './channel_info_rhs';

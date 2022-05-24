@@ -19,7 +19,7 @@ import {
 } from 'mattermost-redux/types/teams';
 import {
     ChannelSearchOpts,
-} from 'mattermost-redux/types/channels';
+} from '@mattermost/types/channels';
 
 import {CompleteOnboardingRequest} from 'mattermost-redux/types/setup';
 

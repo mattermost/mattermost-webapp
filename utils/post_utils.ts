@@ -17,7 +17,7 @@ import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles'
 import {getCurrentTeamId, getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {makeGetDisplayName, getCurrentUserId, getUser, UserMentionKey} from 'mattermost-redux/selectors/entities/users';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 import {ClientConfig, ClientLicense} from 'mattermost-redux/types/config';
 import {ServerError} from 'mattermost-redux/types/errors';
 import {Group} from 'mattermost-redux/types/groups';

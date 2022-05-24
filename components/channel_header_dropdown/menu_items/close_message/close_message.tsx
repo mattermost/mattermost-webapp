@@ -5,7 +5,7 @@ import React from 'react';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Team} from 'mattermost-redux/types/teams';
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 
 import {localizeMessage} from 'utils/utils';

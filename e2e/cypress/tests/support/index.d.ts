@@ -8,11 +8,11 @@ declare namespace Cypress {
     type AnalyticsRow = import('mattermost-redux/types/admin').AnalyticsRow;
     type Bot = import('@mattermost/types/bots').Bot;
     type BotPatch = import('@mattermost/types/bots').BotPatch;
-    type Channel = import('mattermost-redux/types/channels').Channel;
+    type Channel = import('@mattermost/types/channels').Channel;
     type Client = import('./client-impl').E2EClient;
     type ClientLicense = import('mattermost-redux/types/config').ClientLicense;
-    type ChannelMembership = import('mattermost-redux/types/channels').ChannelMembership;
-    type ChannelType = import('mattermost-redux/types/channels').ChannelType;
+    type ChannelMembership = import('@mattermost/types/channels').ChannelMembership;
+    type ChannelType = import('@mattermost/types/channels').ChannelType;
     type IncomingWebhook = import('mattermost-redux/types/integrations').IncomingWebhook;
     type OutgoingWebhook = import('mattermost-redux/types/integrations').OutgoingWebhook;
     type Permissions = string[];

@@ -5,7 +5,7 @@ import React from 'react';
 import styled from 'styled-components';
 import {useIntl} from 'react-intl';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 import Markdown from 'components/markdown';
 import {UserProfile} from 'mattermost-redux/types/users';
 import ProfilePicture from 'components/profile_picture';

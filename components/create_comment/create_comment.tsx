@@ -40,7 +40,7 @@ import TextboxLinks from 'components/textbox/textbox_links';
 import MessageSubmitError from 'components/message_submit_error';
 import {PostDraft} from 'types/store/rhs';
 import {Group} from 'mattermost-redux/types/groups';
-import {ChannelMemberCountsByGroup} from 'mattermost-redux/types/channels';
+import {ChannelMemberCountsByGroup} from '@mattermost/types/channels';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
 import {Emoji} from 'mattermost-redux/types/emojis';
 import {ActionResult} from 'mattermost-redux/types/actions';

@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
+import {Channel, ChannelMembership} from '@mattermost/types/channels';
 import {Theme} from 'mattermost-redux/types/themes';
 
 import ChannelHeaderPlug from 'plugins/channel_header_plug/channel_header_plug';

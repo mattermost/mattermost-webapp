@@ -9,7 +9,7 @@ import {Permissions} from 'mattermost-redux/constants';
 
 import {UserProfile as UserProfileRedux} from 'mattermost-redux/types/users';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';

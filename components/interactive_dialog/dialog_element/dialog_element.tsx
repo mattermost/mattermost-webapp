@@ -15,7 +15,7 @@ import ModalSuggestionList from 'components/suggestion/modal_suggestion_list.jsx
 import BoolSetting from 'components/widgets/settings/bool_setting';
 import RadioSetting from 'components/widgets/settings/radio_setting';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 import Provider from 'components/suggestion/provider';
 
 const TEXT_DEFAULT_MAX_LENGTH = 150;

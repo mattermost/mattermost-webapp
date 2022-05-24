@@ -3,7 +3,7 @@
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import Permissions from 'mattermost-redux/constants/permissions';
 
-import {Channel, ChannelType} from 'mattermost-redux/types/channels';
+import {Channel, ChannelType} from '@mattermost/types/channels';
 import {Team} from 'mattermost-redux/types/teams';
 import {GetStateFunc, DispatchFunc, ActionFunc} from 'mattermost-redux/types/actions';
 import {removeUserFromTeam} from 'mattermost-redux/actions/teams';

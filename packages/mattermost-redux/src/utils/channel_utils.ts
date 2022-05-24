@@ -4,7 +4,7 @@
 import {General, Users} from '../constants';
 import {MarkUnread} from 'mattermost-redux/constants/channels';
 
-import {Channel, ChannelMembership, ChannelNotifyProps, ChannelMessageCount} from 'mattermost-redux/types/channels';
+import {Channel, ChannelMembership, ChannelNotifyProps, ChannelMessageCount} from '@mattermost/types/channels';
 import {Post} from 'mattermost-redux/types/posts';
 import {UsersState, UserProfile, UserNotifyProps} from 'mattermost-redux/types/users';
 import {GlobalState} from 'mattermost-redux/types/store';
