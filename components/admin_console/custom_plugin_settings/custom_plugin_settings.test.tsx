@@ -7,7 +7,7 @@ import {shallow} from 'enzyme';
 import CustomPluginSettings from 'components/admin_console/custom_plugin_settings/custom_plugin_settings';
 import SchemaAdminSettings from 'components/admin_console/schema_admin_settings';
 
-import {PluginSettings} from 'mattermost-redux/types/config';
+import {PluginSettings} from '@mattermost/types/config';
 import {PluginRedux} from 'mattermost-redux/types/plugins';
 
 describe('components/admin_console/CustomPluginSettings', () => {

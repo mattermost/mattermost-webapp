@@ -11,7 +11,7 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 import {ClusterInfo, AnalyticsRow} from '@mattermost/types/admin';
 import {Audit} from '@mattermost/types/audits';
 import {Compliance} from '@mattermost/types/compliance';
-import {AdminConfig, EnvironmentConfig} from 'mattermost-redux/types/config';
+import {AdminConfig, EnvironmentConfig} from '@mattermost/types/config';
 import {MixedUnlinkedGroupRedux} from 'mattermost-redux/types/groups';
 import {PluginRedux, PluginStatusRedux} from 'mattermost-redux/types/plugins';
 import {SamlCertificateStatus, SamlMetadataResponse} from 'mattermost-redux/types/saml';

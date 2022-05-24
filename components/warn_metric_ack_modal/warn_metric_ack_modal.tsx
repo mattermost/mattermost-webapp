@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {AnalyticsRow} from '@mattermost/types/admin';
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {WarnMetricStatus} from 'mattermost-redux/types/config';
+import {WarnMetricStatus} from '@mattermost/types/config';
 
 import {getSiteURL} from 'utils/url';
 import {t} from 'utils/i18n';

@@ -4,7 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {ClientConfig, ClientLicense} from 'mattermost-redux/types/config.js';
+import {ClientConfig, ClientLicense} from '@mattermost/types/config.js';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 import {Role} from 'mattermost-redux/types/roles';

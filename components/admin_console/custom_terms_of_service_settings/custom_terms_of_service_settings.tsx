@@ -4,7 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {AdminConfig, ClientLicense} from 'mattermost-redux/types/config';
+import {AdminConfig, ClientLicense} from '@mattermost/types/config';
 import {TermsOfService} from 'mattermost-redux/types/terms_of_service';
 
 import AdminSettings, {BaseProps, BaseState} from 'components/admin_console/admin_settings';

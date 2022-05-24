@@ -8,7 +8,7 @@ import {Link} from 'react-router-dom';
 import classNames from 'classnames';
 
 import PluginState from 'mattermost-redux/constants/plugins';
-import {AdminConfig} from 'mattermost-redux/types/config';
+import {AdminConfig} from '@mattermost/types/config';
 import {DeepPartial} from 'mattermost-redux/types/utilities';
 
 import * as Utils from 'utils/utils';

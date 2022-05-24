@@ -10,7 +10,7 @@ import {WebsocketStatus} from 'mattermost-redux/types/websocket';
 import {getInProductNotices, updateNoticesAsViewed} from 'mattermost-redux/actions/teams';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {ClientConfig} from 'mattermost-redux/types/config';
+import {ClientConfig} from '@mattermost/types/config';
 
 import {getSocketStatus} from 'selectors/views/websocket';
 import {GlobalState} from 'types/store';

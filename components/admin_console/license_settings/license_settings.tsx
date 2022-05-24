@@ -6,7 +6,7 @@
 /* eslint-disable max-lines */
 import React from 'react';
 
-import {ClientConfig, ClientLicense} from 'mattermost-redux/types/config';
+import {ClientConfig, ClientLicense} from '@mattermost/types/config';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {StatusOK} from '@mattermost/types/client4';
 
