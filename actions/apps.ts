@@ -6,7 +6,7 @@ import {Action, ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
 import {AppCallResponse, AppForm, AppCallRequest, AppContext, AppBinding} from '@mattermost/types/apps';
 import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 import {Post} from 'mattermost-redux/types/posts';
-import {CommandArgs} from 'mattermost-redux/types/integrations';
+import {CommandArgs} from '@mattermost/types/integrations';
 
 import {openModal} from 'actions/views/modals';
 

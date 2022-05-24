@@ -24,7 +24,7 @@ export type {
 
 import type {
     AutocompleteSuggestion,
-} from 'mattermost-redux/types/integrations';
+} from '@mattermost/types/integrations';
 export type {AutocompleteSuggestion};
 
 import type {

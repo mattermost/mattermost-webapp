@@ -9,7 +9,7 @@ import {Group} from '@mattermost/types/groups';
 import {FileInfo} from '@mattermost/types/files';
 import {Post} from 'mattermost-redux/types/posts';
 import {CategorySorting, ChannelCategory} from '@mattermost/types/channel_categories';
-import {Command, IncomingWebhook} from 'mattermost-redux/types/integrations';
+import {Command, IncomingWebhook} from '@mattermost/types/integrations';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 import {Session} from 'mattermost-redux/types/sessions';
 import {ProductComponent} from 'types/store/plugins';

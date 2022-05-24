@@ -4,7 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {OAuthApp} from 'mattermost-redux/types/integrations';
+import {OAuthApp} from '@mattermost/types/integrations';
 import {Team} from 'mattermost-redux/types/teams';
 import {ActionResult} from 'mattermost-redux/types/actions';
 

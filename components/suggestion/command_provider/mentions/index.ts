@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import type {UserAutocomplete} from '@mattermost/types/autocomplete';
-import type {AutocompleteSuggestion} from 'mattermost-redux/types/integrations';
+import type {AutocompleteSuggestion} from '@mattermost/types/integrations';
 import type {Channel} from '@mattermost/types/channels';
 import type {UserProfile} from 'mattermost-redux/types/users';
 import type {DispatchFunc} from 'mattermost-redux/types/actions';

@@ -12,7 +12,7 @@ import {FileInfo} from '@mattermost/types/files.js';
 
 import {ActionResult} from 'mattermost-redux/types/actions.js';
 
-import {CommandArgs} from 'mattermost-redux/types/integrations.js';
+import {CommandArgs} from '@mattermost/types/integrations.js';
 
 import {PostDraft} from 'types/store/rhs.js';
 

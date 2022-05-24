@@ -9,7 +9,7 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {GlobalState} from 'mattermost-redux/types/store';
 import {Action, GenericAction} from 'mattermost-redux/types/actions';
-import {IncomingWebhook} from 'mattermost-redux/types/integrations';
+import {IncomingWebhook} from '@mattermost/types/integrations';
 
 import AddIncomingWebhook from './add_incoming_webhook';
 

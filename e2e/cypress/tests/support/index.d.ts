@@ -13,8 +13,8 @@ declare namespace Cypress {
     type ClientLicense = import('@mattermost/types/config').ClientLicense;
     type ChannelMembership = import('@mattermost/types/channels').ChannelMembership;
     type ChannelType = import('@mattermost/types/channels').ChannelType;
-    type IncomingWebhook = import('mattermost-redux/types/integrations').IncomingWebhook;
-    type OutgoingWebhook = import('mattermost-redux/types/integrations').OutgoingWebhook;
+    type IncomingWebhook = import('@mattermost/types/integrations').IncomingWebhook;
+    type OutgoingWebhook = import('@mattermost/types/integrations').OutgoingWebhook;
     type Permissions = string[];
     type PluginManifest = import('mattermost-redux/types/plugins').PluginManifest;
     type PluginsResponse = import('mattermost-redux/types/plugins').PluginsResponse;

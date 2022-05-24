@@ -9,7 +9,7 @@ import {getCommands} from 'mattermost-redux/selectors/entities/integrations';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
-import {Command} from 'mattermost-redux/types/integrations';
+import {Command} from '@mattermost/types/integrations';
 
 import EditCommand from './edit_command';
 

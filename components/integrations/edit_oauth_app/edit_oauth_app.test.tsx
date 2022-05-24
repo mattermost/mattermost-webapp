@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {OAuthApp} from 'mattermost-redux/types/integrations';
+import {OAuthApp} from '@mattermost/types/integrations';
 
 import {Team} from 'mattermost-redux/types/teams';
 

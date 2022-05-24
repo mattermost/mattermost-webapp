@@ -10,7 +10,7 @@ import {UserProfile} from 'mattermost-redux/types/users';
 
 import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 
-import {Command} from 'mattermost-redux/types/integrations';
+import {Command} from '@mattermost/types/integrations';
 
 import InstalledCommands from 'components/integrations/installed_commands';
 import AddCommand from 'components/integrations/add_command';

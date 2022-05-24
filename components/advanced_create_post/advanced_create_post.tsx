@@ -45,7 +45,7 @@ import {PreferenceType} from 'mattermost-redux/types/preferences';
 import EmojiMap from 'utils/emoji_map';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {ServerError} from '@mattermost/types/errors';
-import {CommandArgs} from 'mattermost-redux/types/integrations';
+import {CommandArgs} from '@mattermost/types/integrations';
 import {Group} from '@mattermost/types/groups';
 import {ModalData} from 'types/actions';
 import {FileInfo} from '@mattermost/types/files';

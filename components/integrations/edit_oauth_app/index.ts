@@ -12,7 +12,7 @@ import {getOAuthApp, editOAuthApp} from 'mattermost-redux/actions/integrations';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
-import {OAuthApp} from 'mattermost-redux/types/integrations';
+import {OAuthApp} from '@mattermost/types/integrations';
 
 import EditOAuthApp from './edit_oauth_app';
 
