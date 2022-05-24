@@ -14,7 +14,7 @@ import {
 } from 'react-intl';
 
 import {UserProfile} from 'mattermost-redux/types/users';
-import {StatusOK} from 'mattermost-redux/types/client4';
+import {StatusOK} from '@mattermost/types/client4';
 
 import store from 'stores/redux_store.jsx';
 

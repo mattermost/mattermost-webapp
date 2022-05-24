@@ -8,7 +8,7 @@ import React from 'react';
 
 import {ClientConfig, ClientLicense} from 'mattermost-redux/types/config';
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {StatusOK} from 'mattermost-redux/types/client4';
+import {StatusOK} from '@mattermost/types/client4';
 
 import {isLicenseExpired, isLicenseExpiring, isTrialLicense, isEnterpriseOrE20License} from 'utils/license_utils';
 

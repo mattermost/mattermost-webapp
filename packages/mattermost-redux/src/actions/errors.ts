@@ -7,7 +7,7 @@ import {ErrorTypes} from 'mattermost-redux/action_types';
 import {Client4} from 'mattermost-redux/client';
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 import {DispatchFunc, ActionFunc} from 'mattermost-redux/types/actions';
-import {LogLevel} from 'mattermost-redux/types/client4';
+import {LogLevel} from '@mattermost/types/client4';
 import {ServerError} from 'mattermost-redux/types/errors';
 
 export function dismissErrorObject(index: number) {
