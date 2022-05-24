@@ -7,7 +7,7 @@ import {browserHistory} from 'utils/browser_history';
 
 import {openModal} from 'actions/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
-import {imageURLForUser} from 'utils/utils.jsx';
+import {imageURLForUser} from 'utils/utils';
 
 import ChannelInviteModal from 'components/channel_invite_modal';
 import ChannelMembersModal from 'components/channel_members_modal';
@@ -15,6 +15,8 @@ import PurchaseModal from 'components/purchase_modal';
 import Timestamp from 'components/timestamp';
 import Avatar from 'components/widgets/users/avatar';
 import BotBadge from 'components/widgets/badges/bot_badge';
+
+import {openPricingModal} from '../components/global_header/right_controls/cloud_upgrade_button';
 
 import Textbox from './textbox';
 
@@ -39,6 +41,12 @@ window.WebappUtils = {
     browserHistory,
     modals: {openModal, ModalIdentifiers},
 };
+
+// This need to be a function because `openPricingModal`
+// is initialized when `UpgradeCloudButton` is loaded.
+// So if we export `openPricingModal` directly, it will be locked
+// to the initial value of undefined.
+window.openPricingModal = () => openPricingModal;
 
 // Components exposed on window FOR INTERNAL PLUGIN USE ONLY. These components may have breaking changes in the future
 // outside of major releases. They will be replaced by common components once that project is more mature and able to

@@ -185,7 +185,32 @@ const state: GlobalState = {
             pluginEnabled: true,
         },
         cloud: {
-            limits: {},
+            limits: {
+                limits: {},
+                limitsLoaded: false,
+            },
+        },
+        usage: {
+            files: {
+                totalStorage: 0,
+                totalStorageLoaded: false,
+            },
+            messages: {
+                history: 0,
+                historyLoaded: false,
+            },
+            boards: {
+                cards: 0,
+                cardsLoaded: false,
+            },
+            integrations: {
+                enabled: 0,
+                enabledLoaded: false,
+            },
+        },
+        insights: {
+            topReactions: {},
+            myTopReactions: {},
         },
     },
     errors: [],

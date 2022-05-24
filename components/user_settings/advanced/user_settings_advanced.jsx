@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {emitUserLoggedOutEvent} from 'actions/global_actions';
 import Constants from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import {t} from 'utils/i18n';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
@@ -24,6 +24,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
     static propTypes = {
         currentUser: PropTypes.object.isRequired,
         advancedSettingsCategory: PropTypes.array.isRequired,
+        isAdvancedTextEditorEnabled: PropTypes.bool,
         sendOnCtrlEnter: PropTypes.string.isRequired,
         codeBlockOnCtrlEnter: PropTypes.bool,
         formatting: PropTypes.string.isRequired,
@@ -459,7 +460,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
             );
         }
 
-        const formattingSection = this.renderFormattingSection();
+        const formattingSection = this.props.isAdvancedTextEditorEnabled ? null : this.renderFormattingSection();
         let formattingSectionDivider = null;
         if (formattingSection) {
             formattingSectionDivider = <div className='divider-light'/>;

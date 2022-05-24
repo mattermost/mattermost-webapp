@@ -18,7 +18,7 @@ import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 import {browserHistory} from 'utils/browser_history';
 import messageHtmlToComponent from 'utils/message_html_to_component';
 import {formatText} from 'utils/text_formatting';
-import {Constants} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants';
 import EmojiMap from 'utils/emoji_map';
 
 export interface UpdateMyTermsOfServiceStatusResponse {
@@ -114,7 +114,7 @@ export default class TermsOfService extends React.PureComponent<TermsOfServicePr
                 } else if (this.props.useCaseOnboarding) {
                     // need info about whether admin or not,
                     // and whether admin has already completed
-                    // first tiem onboarding. Instead of fetching and orchestrating that here,
+                    // first time onboarding. Instead of fetching and orchestrating that here,
                     // let the default root component handle it.
                     browserHistory.push('/');
                 } else {

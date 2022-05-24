@@ -4,8 +4,9 @@ import React, {memo, useEffect, useState, useCallback} from 'react';
 import {useDispatch} from 'react-redux';
 
 import {selectChannel} from 'mattermost-redux/actions/channels';
+import {CardSizes, InsightsWidgetTypes, TimeFrames} from '@mattermost/types/insights';
 
-import {InsightsTimeFrames, InsightsScopes} from 'utils/constants';
+import {InsightsScopes} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
 
 import InsightsHeader from './insights_header/insights_header';
@@ -14,19 +15,12 @@ import TopReactions from './top_reactions/top_reactions';
 
 import './../activity_and_insights.scss';
 
-export enum CardSizes {
-    large = 'lg',
-    medium = 'md',
-    small = 'sm',
-}
-export type CardSize = CardSizes;
-
 const Insights = () => {
     const dispatch = useDispatch();
     const [filterType, setFilterType] = useState(InsightsScopes.MY);
     const [timeFrame, setTimeFrame] = useState({
-        value: InsightsTimeFrames.INSIGHTS_7_DAYS,
-        label: localizeMessage('insights.timeFrame.today', 'Today'),
+        value: TimeFrames.INSIGHTS_7_DAYS,
+        label: localizeMessage('insights.timeFrame.mediumRange', 'Last 7 days'),
     });
 
     const setFilterTypeTeam = useCallback(() => {
@@ -58,14 +52,18 @@ const Insights = () => {
                 <TopChannels
                     size={CardSizes.large}
                     filterType={filterType}
-                    widgetType={'TOP_CHANNELS'}
+                    widgetType={InsightsWidgetTypes.TOP_CHANNELS}
                     class={'top-channels-card'}
+                    timeFrame={timeFrame.value}
+                    timeFrameLabel={timeFrame.label}
                 />
                 <TopReactions
                     size={CardSizes.small}
                     filterType={filterType}
-                    widgetType={'TOP_REACTIONS'}
+                    widgetType={InsightsWidgetTypes.TOP_REACTIONS}
                     class={'top-reactions-card'}
+                    timeFrame={timeFrame.value}
+                    timeFrameLabel={timeFrame.label}
                 />
             </div>
         </>

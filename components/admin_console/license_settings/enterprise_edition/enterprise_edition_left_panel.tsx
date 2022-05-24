@@ -1,11 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {RefObject} from 'react';
+import React, {RefObject, useEffect, useState} from 'react';
 
-import {FormattedMessage, FormattedNumber} from 'react-intl';
+import {FormattedDate, FormattedMessage, FormattedNumber, FormattedTime} from 'react-intl';
 
 import {ClientLicense} from 'mattermost-redux/types/config';
 import {LicenseSkus} from 'mattermost-redux/types/general';
+import {Client4} from 'mattermost-redux/client';
 
 import {getRemainingDaysFromFutureTimestamp, toTitleCase} from 'utils/utils';
 import {FileTypes} from 'utils/constants';
@@ -19,9 +20,6 @@ export interface EnterpriseEditionProps {
     upgradedFromTE: boolean;
     license: ClientLicense;
     isTrialLicense: boolean;
-    issued: JSX.Element;
-    startsAt: JSX.Element;
-    expiresAt: JSX.Element;
     handleRemove: (e: React.MouseEvent<HTMLButtonElement>) => Promise<void>;
     isDisabled: boolean;
     removing: boolean;
@@ -59,17 +57,27 @@ const EnterpriseEditionLeftPanel: React.FC<EnterpriseEditionProps> = ({
     upgradedFromTE,
     license,
     isTrialLicense,
-    issued,
-    startsAt,
-    expiresAt,
     handleRemove,
     isDisabled,
     removing,
     fileInputRef,
     handleChange,
 }: EnterpriseEditionProps) => {
-    const skuName = getSkuDisplayName(license.SkuShortName, license.IsGovSku === 'true');
-    const expirationDays = getRemainingDaysFromFutureTimestamp(parseInt(license.ExpiresAt, 10));
+    const [unsanitizedLicense, setUnsanitizedLicense] = useState(license);
+    useEffect(() => {
+        async function fetchUnSanitizedLicense() {
+            // This solves this the issue reported here: https://mattermost.atlassian.net/browse/MM-42906
+            try {
+                const unsanitizedL = await Client4.getClientLicenseOld();
+                setUnsanitizedLicense(unsanitizedL);
+            // eslint-disable-next-line no-empty
+            } catch {}
+        }
+        fetchUnSanitizedLicense();
+    }, [license]);
+
+    const skuName = getSkuDisplayName(unsanitizedLicense.SkuShortName, unsanitizedLicense.IsGovSku === 'true');
+    const expirationDays = getRemainingDaysFromFutureTimestamp(parseInt(unsanitizedLicense.ExpiresAt, 10));
     return (
         <div className='EnterpriseEditionLeftPanel'>
             <div className='pre-title'>
@@ -99,11 +107,8 @@ const EnterpriseEditionLeftPanel: React.FC<EnterpriseEditionProps> = ({
                 </div>
                 {
                     renderLicenseContent(
-                        license,
+                        unsanitizedLicense,
                         isTrialLicense,
-                        issued,
-                        startsAt,
-                        expiresAt,
                         handleRemove,
                         isDisabled,
                         removing,
@@ -139,9 +144,6 @@ const EnterpriseEditionLeftPanel: React.FC<EnterpriseEditionProps> = ({
 const renderLicenseContent = (
     license: ClientLicense,
     isTrialLicense: boolean,
-    issued: JSX.Element,
-    startsAt: JSX.Element,
-    expiresAt: JSX.Element,
     handleRemove: (e: React.MouseEvent<HTMLButtonElement>) => Promise<void>,
     isDisabled: boolean,
     removing: boolean,
@@ -154,6 +156,16 @@ const renderLicenseContent = (
     const sku = license.SkuShortName ? <>{`Mattermost ${toTitleCase(skuName)}${isTrialLicense ? ' License Trial' : ''}`}</> : null;
 
     const users = <FormattedNumber value={parseInt(license.Users, 10)}/>;
+    const startsAt = <FormattedDate value={new Date(parseInt(license.StartsAt, 10))}/>;
+    const expiresAt = <FormattedDate value={new Date(parseInt(license.ExpiresAt, 10))}/>;
+
+    const issued = (
+        <>
+            <FormattedDate value={new Date(parseInt(license.IssuedAt, 10))}/>
+            {' '}
+            <FormattedTime value={new Date(parseInt(license.IssuedAt, 10))}/>
+        </>
+    );
 
     const licenseValues: Array<{
         legend: string;

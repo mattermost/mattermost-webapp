@@ -10,6 +10,7 @@
 // Stage: @prod
 // Group: @system_console @enterprise @cloud_only
 
+import * as TIMEOUTS from '../../../fixtures/timeouts';
 import {SupportSettings} from '../../../utils/constants';
 
 describe('SupportSettings', () => {
@@ -50,7 +51,7 @@ describe('SupportSettings', () => {
 
         const guides = [
             {text: 'About', link: SupportSettings.ABOUT_LINK},
-            {text: 'Privacy', link: SupportSettings.PRIVACY_POLICY_LINK},
+            {text: 'Privacy Policy', link: SupportSettings.PRIVACY_POLICY_LINK},
             {text: 'Terms', link: SupportSettings.TERMS_OF_SERVICE_LINK},
             {text: 'Help', link: SupportSettings.HELP_LINK},
         ];
@@ -63,7 +64,7 @@ describe('SupportSettings', () => {
         });
 
         // # Visit signup page
-        cy.get('#signup').click();
+        cy.findByText('Create an account', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').click();
         cy.url().should('include', '/signup_user_complete');
 
         // * Verify that links are correct at signup page

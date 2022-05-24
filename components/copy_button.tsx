@@ -8,7 +8,7 @@ import {Tooltip} from 'react-bootstrap';
 import OverlayTrigger from 'components/overlay_trigger';
 
 import Constants from 'utils/constants';
-import {copyToClipboard} from 'utils/utils.jsx';
+import {copyToClipboard} from 'utils/utils';
 import {t} from 'utils/i18n';
 
 type Props = {

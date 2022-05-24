@@ -1,9 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable max-lines */
-
-import React from 'react';
+import React, {CSSProperties, SyntheticEvent} from 'react';
 import classNames from 'classnames';
 import {injectIntl, IntlShape} from 'react-intl';
 
@@ -24,7 +22,7 @@ import {
 } from 'utils/post_utils';
 import {getTable, formatMarkdownTableMessage, formatGithubCodePaste, isGitHubCodeBlock} from 'utils/paste';
 import * as UserAgent from 'utils/user_agent';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 import NotifyConfirmModal from 'components/notify_confirm_modal';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
@@ -37,7 +35,7 @@ import LocalizedIcon from 'components/localized_icon';
 import MsgTyping from 'components/msg_typing';
 import ResetStatusModal from 'components/reset_status_modal';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
-import Textbox from 'components/textbox';
+import Textbox, {TextboxElement} from 'components/textbox';
 import TextboxClass from 'components/textbox/textbox';
 import TextboxLinks from 'components/textbox/textbox_links';
 
@@ -56,6 +54,7 @@ import {FileInfo} from 'mattermost-redux/types/files';
 import {Emoji} from 'mattermost-redux/types/emojis';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
 import {SendMessageTour} from 'components/onboarding_tour';
+import {ApplyMarkdownOptions, applyMarkdown} from 'utils/markdown/apply_markdown';
 const KeyCodes = Constants.KeyCodes;
 
 const CreatePostDraftTimeoutMilliseconds = 500;
@@ -72,222 +71,222 @@ function trimRight(str: string) {
 type Props = {
 
     /**
-         *  ref passed from channelView for EmojiPickerOverlay
-         */
+     *  ref passed from channelView for EmojiPickerOverlay
+     */
     getChannelView?: () => void;
 
     /**
-  *  Data used in notifying user for @all and @channel
-  */
+     *  Data used in notifying user for @all and @channel
+     */
     currentChannelMembersCount: number;
 
     /**
-  *  Data used in multiple places of the component
-  */
+     *  Data used in multiple places of the component
+     */
     currentChannel: Channel;
 
     /**
-  *  Data used for DM prewritten messages
-  */
+     *  Data used for DM prewritten messages
+     */
     currentChannelTeammateUsername?: string;
 
     /**
-  *  Data used in executing commands for channel actions passed down to client4 function
-  */
+     *  Data used in executing commands for channel actions passed down to client4 function
+     */
     currentTeamId: string;
 
     /**
-  *  Data used for posting message
-  */
+     *  Data used for posting message
+     */
     currentUserId: string;
 
     /**
-  * Force message submission on CTRL/CMD + ENTER
-  */
+     * Force message submission on CTRL/CMD + ENTER
+     */
     codeBlockOnCtrlEnter?: boolean;
 
     /**
-  *  Flag used for handling submit
-  */
+     *  Flag used for handling submit
+     */
     ctrlSend?: boolean;
 
     /**
-  *  Flag used for adding a class center to Postbox based on user pref
-  */
+     *  Flag used for adding a class center to Postbox based on user pref
+     */
     fullWidthTextBox?: boolean;
 
     /**
-  *  Data used for deciding if tutorial tip is to be shown
-  */
+     *  Data used for deciding if tutorial tip is to be shown
+     */
     showSendTutorialTip: boolean;
 
     /**
-  *  Data used populating message state when triggered by shortcuts
-  */
+     *  Data used populating message state when triggered by shortcuts
+     */
     messageInHistoryItem?: string;
 
     /**
-  *  Data used for populating message state from previous draft
-  */
+     *  Data used for populating message state from previous draft
+     */
     draft: PostDraft;
 
     /**
-  *  Data used dispatching handleViewAction ex: edit post
-  */
+     *  Data used dispatching handleViewAction ex: edit post
+     */
     latestReplyablePostId?: string;
     locale: string;
 
     /**
-  *  Data used for calling edit of post
-  */
+     *  Data used for calling edit of post
+     */
     currentUsersLatestPost?: Post | null;
 
     /**
-  * Whether or not file upload is allowed.
-  */
+     * Whether or not file upload is allowed.
+     */
     canUploadFiles: boolean;
 
     /**
-  * Whether to show the emoji picker.
-  */
+     * Whether to show the emoji picker.
+     */
     enableEmojiPicker: boolean;
 
     /**
-  * Whether to show the gif picker.
-  */
+     * Whether to show the gif picker.
+     */
     enableGifPicker: boolean;
 
     /**
-  * Whether to check with the user before notifying the whole channel.
-  */
+     * Whether to check with the user before notifying the whole channel.
+     */
     enableConfirmNotificationsToChannel: boolean;
 
     /**
-  * The maximum length of a post
-  */
+     * The maximum length of a post
+     */
     maxPostSize: number;
     emojiMap: EmojiMap;
 
     /**
-  * If our connection is bad
-  */
+     * If our connection is bad
+     */
     badConnection: boolean;
 
     /**
-  * Whether to display a confirmation modal to reset status.
-  */
+     * Whether to display a confirmation modal to reset status.
+     */
     userIsOutOfOffice: boolean;
     rhsExpanded: boolean;
 
     /**
-  * To check if the timezones are enable on the server.
-  */
+     * To check if the timezones are enable on the server.
+     */
     isTimezoneEnabled: boolean;
 
     canPost: boolean;
 
     /**
-  * To determine if the current user can send special channel mentions
-  */
+     * To determine if the current user can send special channel mentions
+     */
     useChannelMentions: boolean;
 
     intl: IntlShape;
 
     /**
-  * Should preview be showed
-  */
+     * Should preview be showed
+     */
     shouldShowPreview: boolean;
 
     actions: {
 
         /**
-      * Set show preview for textbox
-      */
+         * Set show preview for textbox
+         */
         setShowPreview: (showPreview: boolean) => void;
 
         /**
-      *  func called after message submit.
-      */
+         *  func called after message submit.
+         */
         addMessageIntoHistory: (message: string) => void;
 
         /**
-      *  func called for navigation through messages by Up arrow
-      */
+         *  func called for navigation through messages by Up arrow
+         */
         moveHistoryIndexBack: (index: string) => Promise<void>;
 
         /**
-      *  func called for navigation through messages by Down arrow
-      */
+         *  func called for navigation through messages by Down arrow
+         */
         moveHistoryIndexForward: (index: string) => Promise<void>;
 
         /**
-      *  func called for adding a reaction
-      */
+         *  func called for adding a reaction
+         */
         addReaction: (postId: string, emojiName: string) => void;
 
         /**
-      *  func called for posting message
-      */
+         *  func called for posting message
+         */
         onSubmitPost: (post: Post, fileInfos: FileInfo[]) => void;
 
         /**
-      *  func called for removing a reaction
-      */
+         *  func called for removing a reaction
+         */
         removeReaction: (postId: string, emojiName: string) => void;
 
         /**
-      *  func called on load of component to clear drafts
-      */
+         *  func called on load of component to clear drafts
+         */
         clearDraftUploads: () => void;
 
         /**
-      * hooks called before a message is sent to the server
-      */
+         * hooks called before a message is sent to the server
+         */
         runMessageWillBePostedHooks: (originalPost: Post) => ActionResult;
 
         /**
-      * hooks called before a slash command is sent to the server
-      */
+         * hooks called before a slash command is sent to the server
+         */
         runSlashCommandWillBePostedHooks: (originalMessage: string, originalArgs: CommandArgs) => ActionResult;
 
         /**
-      *  func called for setting drafts
-      */
+         *  func called for setting drafts
+         */
         setDraft: (name: string, value: PostDraft | null) => void;
 
         /**
-      *  func called for editing posts
-      */
+         *  func called for editing posts
+         */
         setEditingPost: (postId?: string, refocusId?: string, title?: string, isRHS?: boolean) => void;
 
         /**
-      *  func called for opening the last replayable post in the RHS
-      */
+         *  func called for opening the last replayable post in the RHS
+         */
         selectPostFromRightHandSideSearchByPostId: (postId: string) => void;
 
         /**
-      * Function to open a modal
-      */
+         * Function to open a modal
+         */
         openModal: <P>(modalData: ModalData<P>) => void;
 
         executeCommand: (message: string, args: CommandArgs) => ActionResult;
 
         /**
-      * Function to get the users timezones in the channel
-      */
+         * Function to get the users timezones in the channel
+         */
         getChannelTimezones: (channelId: string) => ActionResult;
         scrollPostListToBottom: () => void;
 
         /**
-      * Function to set or unset emoji picker for last message
-      */
+         * Function to set or unset emoji picker for last message
+         */
         emitShortcutReactToLastPostFrom: (emittedFrom: string) => void;
 
         getChannelMemberCountsByGroup: (channelId: string, includeTimezones: boolean) => void;
 
         /**
-      * Function used to advance the tutorial forward
-      */
+         * Function used to advance the tutorial forward
+         */
         savePreferences: (userId: string, preferences: PreferenceType[]) => ActionResult;
     };
 
@@ -856,7 +855,7 @@ class CreatePost extends React.PureComponent<Props, State> {
         GlobalActions.emitLocalUserTypingEvent(channelId, '');
     }
 
-    handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleChange = (e: React.ChangeEvent<TextboxElement>) => {
         const message = e.target.value;
         const channelId = this.props.currentChannel.id;
 
@@ -1082,18 +1081,17 @@ class CreatePost extends React.PureComponent<Props, State> {
         }
     }
 
-    handleMouseUpKeyUp = (e: React.MouseEvent | React.KeyboardEvent) => {
-        const caretPosition = Utils.getCaretPosition(e.target as HTMLElement);
+    handleMouseUpKeyUp = (e: React.MouseEvent<TextboxElement> | React.KeyboardEvent<TextboxElement>) => {
         this.setState({
-            caretPosition,
+            caretPosition: e.currentTarget.selectionStart || 0,
         });
     }
 
-    handleSelect = (e: React.SyntheticEvent) => {
+    handleSelect = (e: SyntheticEvent<TextboxElement>) => {
         Utils.adjustSelection(this.textboxRef.current?.getInputBox(), e);
     }
 
-    handleKeyDown = (e: React.KeyboardEvent) => {
+    handleKeyDown = (e: React.KeyboardEvent<TextboxElement>) => {
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         const messageIsEmpty = this.state.message.length === 0;
         const draftMessageIsEmpty = this.props.draft.message.length === 0;
@@ -1101,13 +1099,18 @@ class CreatePost extends React.PureComponent<Props, State> {
         const upKeyOnly = !ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
         const shiftUpKeyCombo = !ctrlOrMetaKeyPressed && !e.altKey && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
         const ctrlKeyCombo = Utils.cmdOrCtrlPressed(e) && !e.altKey && !e.shiftKey;
-        const markdownHotkey = Utils.isKeyPressed(e, KeyCodes.B) || Utils.isKeyPressed(e, KeyCodes.I);
         const ctrlAltCombo = Utils.cmdOrCtrlPressed(e, true) && e.altKey;
         const markdownLinkKey = Utils.isKeyPressed(e, KeyCodes.K);
 
+        const {
+            selectionStart,
+            selectionEnd,
+            value,
+        } = e.target as TextboxElement;
+
         // listen for line break key combo and insert new line character
         if (Utils.isUnhandledLineBreakKeyCombo(e)) {
-            this.setState({message: Utils.insertLineBreakFromKeyEvent(e)});
+            this.setState({message: Utils.insertLineBreakFromKeyEvent(e as React.KeyboardEvent<HTMLTextAreaElement>)});
         } else if (ctrlEnterKeyCombo) {
             this.postMsgKeyPress(e);
         } else if (upKeyOnly && messageIsEmpty) {
@@ -1118,8 +1121,27 @@ class CreatePost extends React.PureComponent<Props, State> {
             this.loadPrevMessage(e);
         } else if (ctrlKeyCombo && draftMessageIsEmpty && Utils.isKeyPressed(e, KeyCodes.DOWN)) {
             this.loadNextMessage(e);
-        } else if ((ctrlKeyCombo && markdownHotkey) || (ctrlAltCombo && markdownLinkKey)) {
-            this.applyHotkeyMarkdown(e);
+        } else if (ctrlAltCombo && markdownLinkKey) {
+            this.applyMarkdown({
+                markdownMode: 'link',
+                selectionStart,
+                selectionEnd,
+                message: value,
+            });
+        } else if (ctrlKeyCombo && Utils.isKeyPressed(e, KeyCodes.B)) {
+            this.applyMarkdown({
+                markdownMode: 'bold',
+                selectionStart,
+                selectionEnd,
+                message: value,
+            });
+        } else if (ctrlKeyCombo && Utils.isKeyPressed(e, KeyCodes.I)) {
+            this.applyMarkdown({
+                markdownMode: 'italic',
+                selectionStart,
+                selectionEnd,
+                message: value,
+            });
         }
     }
 
@@ -1165,8 +1187,8 @@ class CreatePost extends React.PureComponent<Props, State> {
         this.props.actions.moveHistoryIndexForward(Posts.MESSAGE_TYPES.POST).then(() => this.fillMessageFromHistory());
     }
 
-    applyHotkeyMarkdown = (e: React.KeyboardEvent) => {
-        const res = Utils.applyHotkeyMarkdown(e);
+    applyMarkdown = (params: ApplyMarkdownOptions) => {
+        const res = applyMarkdown(params);
 
         this.setState({
             message: res.message,
@@ -1432,7 +1454,7 @@ class CreatePost extends React.PureComponent<Props, State> {
             >
                 <div
                     className={'post-create' + attachmentsDisabled + scrollbarClass}
-                    style={this.state.renderScrollbar && this.state.scrollbarWidth ? {'--detected-scrollbar-width': `${this.state.scrollbarWidth}px`} as any : undefined}
+                    style={this.state.renderScrollbar && this.state.scrollbarWidth ? {'--detected-scrollbar-width': `${this.state.scrollbarWidth}px`} as CSSProperties : undefined}
                 >
                     <div className='post-create-body'>
                         <div

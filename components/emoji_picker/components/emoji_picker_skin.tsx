@@ -120,7 +120,7 @@ export class EmojiPickerSkin extends React.PureComponent<Props, State> {
             </Tooltip>);
         return (
             <OverlayTrigger
-                trigger={['hover']}
+                trigger={['hover', 'focus']}
                 delayShow={Constants.OVERLAY_TIME_DELAY}
                 placement='top'
                 overlay={tooltip}
