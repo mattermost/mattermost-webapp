@@ -17,6 +17,7 @@ import {trackEvent} from 'actions/telemetry_actions';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import PurchaseModal from 'components/purchase_modal';
+import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
 
 import {ModalData} from 'types/actions';
 
@@ -45,6 +46,10 @@ type Props = {
         openModal: <P>(modalData: ModalData<P>) => void;
     };
     isCloud: boolean;
+    isCloudTrial: boolean;
+    isCloudFreeEnabled: boolean;
+    hadPrevCloudTrial: boolean;
+    isCloudFreePaidSubscription: boolean;
 }
 
 type State = {
@@ -112,7 +117,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                 defaultMessage='Start trial'
             />
         );
-        if (this.props.isCloud) {
+        if (this.props.isCloud && !this.props.isCloudFreeEnabled) {
             primaryMessage = (
                 <FormattedMessage
                     id='admin.ldap_feature_discovery_cloud.call_to_action.primary'
@@ -120,21 +125,39 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                 />
             );
         }
+        const {
+            isCloud,
+            isCloudTrial,
+            isCloudFreeEnabled,
+            hadPrevCloudTrial,
+            isCloudFreePaidSubscription,
+        } = this.props;
+        const canRequestCloudFreeTrial = isCloud && isCloudFreeEnabled && !isCloudTrial && !hadPrevCloudTrial && !isCloudFreePaidSubscription;
+
+        const ctaTrialButton = canRequestCloudFreeTrial ? (
+            <CloudStartTrialButton
+                message={Utils.localizeMessage('admin.ldap_feature_discovery.call_to_action.primary', 'Start trial')}
+                telemetryId={'start_cloud_trial_feature_discovery'}
+                extraClass='btn btn-primary'
+            />
+        ) : (
+            <button
+                type='button'
+                className='btn btn-primary'
+                data-testid='featureDiscovery_primaryCallToAction'
+                onClick={this.props.isCloud ? this.openUpgradeModal : this.requestLicense}
+            >
+                <LoadingWrapper
+                    loading={this.state.gettingTrial}
+                    text={Utils.localizeMessage('admin.license.trial-request.loading', 'Getting trial')}
+                >
+                    {primaryMessage}
+                </LoadingWrapper>
+            </button>
+        );
         return (
             <React.Fragment>
-                <button
-                    type='button'
-                    className='btn btn-primary'
-                    data-testid='featureDiscovery_primaryCallToAction'
-                    onClick={this.props.isCloud ? this.openUpgradeModal : this.requestLicense}
-                >
-                    <LoadingWrapper
-                        loading={this.state.gettingTrial}
-                        text={Utils.localizeMessage('admin.license.trial-request.loading', 'Getting trial')}
-                    >
-                        {primaryMessage}
-                    </LoadingWrapper>
-                </button>
+                {ctaTrialButton}
                 <a
                     className='btn btn-secondary'
                     href={learnMoreURL}
@@ -148,7 +171,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                     />
                 </a>
                 {gettingTrialError}
-                {!this.props.isCloud && <p className='trial-legal-terms'>
+                {(!this.props.isCloud || canRequestCloudFreeTrial) && <p className='trial-legal-terms'>
                     <FormattedMarkdownMessage
                         id='admin.license.trial-request.accept-terms'
                         defaultMessage='By clicking **Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails.'
