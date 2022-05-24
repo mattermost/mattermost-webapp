@@ -40,7 +40,7 @@ import {initializePlugins} from 'plugins';
 import 'plugins/export.js';
 import Pluggable from 'plugins/pluggable';
 import BrowserStore from 'stores/browser_store';
-import Constants, {StoragePrefixes, WindowSizes} from 'utils/constants';
+import Constants, {StoragePrefixes, WindowSizes, RecommendedNextStepsLegacy, Preferences} from 'utils/constants';
 import {EmojiIndicesByAlias} from 'utils/emoji.jsx';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils';
@@ -401,6 +401,12 @@ export default class Root extends React.PureComponent {
                 user_id: this.props.userId,
                 category: OnboardingTaskCategory,
                 name: OnboardingTaskList.ONBOARDING_TASK_LIST_OPEN,
+                value: 'true',
+            },
+            {
+                user_id: this.props.userId,
+                category: Preferences.RECOMMENDED_NEXT_STEPS,
+                name: RecommendedNextStepsLegacy.HIDE,
                 value: 'true',
             },
         ]);
