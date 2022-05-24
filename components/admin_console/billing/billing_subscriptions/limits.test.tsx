@@ -113,17 +113,6 @@ describe('Limits', () => {
         screen.getByText('3 of 5 integrations (60%)');
     });
 
-    test('requests limits when cloud free feature is enabled', () => {
-        const mockGetLimits = jest.fn();
-        jest.spyOn(cloudActions, 'getCloudLimits').mockImplementation(mockGetLimits);
-        jest.spyOn(redux, 'useDispatch').mockImplementation(jest.fn(() => jest.fn()));
-        const spy = jest.spyOn(redux, 'useSelector');
-        mockUseSelector(spy, true);
-
-        renderWithIntl(<Limits/>);
-        expect(mockGetLimits).toHaveBeenCalled();
-    });
-
     test('does not request limits when cloud free feature is disabled', () => {
         const mockGetLimits = jest.fn();
         jest.spyOn(cloudActions, 'getCloudLimits').mockImplementation(mockGetLimits);
