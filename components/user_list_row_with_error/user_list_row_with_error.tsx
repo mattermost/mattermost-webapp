@@ -10,7 +10,7 @@ import {Client4} from 'mattermost-redux/client';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Channel, ChannelMembership} from '@mattermost/types/channels';
-import {ServerError} from 'mattermost-redux/types/errors';
+import {ServerError} from '@mattermost/types/errors';
 
 import * as Utils from 'utils/utils';
 import ProfilePicture from 'components/profile_picture';

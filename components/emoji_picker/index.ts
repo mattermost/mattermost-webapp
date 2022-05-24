@@ -8,7 +8,7 @@ import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {getCustomEmojisEnabled} from 'mattermost-redux/selectors/entities/emojis';
 import {getCustomEmojis, searchCustomEmojis} from 'mattermost-redux/actions/emojis';
 import {CustomEmoji} from '@mattermost/types/emojis';
-import {ServerError} from 'mattermost-redux/types/errors';
+import {ServerError} from '@mattermost/types/errors';
 
 import {GlobalState} from 'types/store';
 

@@ -11,7 +11,7 @@ import {Group, SyncablePatch} from 'mattermost-redux/types/groups';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
-import {ServerError} from 'mattermost-redux/types/errors';
+import {ServerError} from '@mattermost/types/errors';
 
 import Constants from 'utils/constants';
 import {localizeMessage} from 'utils/utils';

@@ -13,7 +13,7 @@ import {Team, TeamMembership} from 'mattermost-redux/types/teams';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 
-import {ServerError} from 'mattermost-redux/types/errors';
+import {ServerError} from '@mattermost/types/errors';
 
 import {adminResetMfa, adminResetEmail} from 'actions/admin_actions.jsx';
 

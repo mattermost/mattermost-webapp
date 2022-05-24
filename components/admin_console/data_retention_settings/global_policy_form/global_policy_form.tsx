@@ -16,7 +16,7 @@ import {keepForeverOption, yearsOption, daysOption, FOREVER, YEARS, DAYS} from '
 
 import './global_policy_form.scss';
 import SaveButton from 'components/save_button';
-import {ServerError} from 'mattermost-redux/types/errors';
+import {ServerError} from '@mattermost/types/errors';
 
 type ValueType = {
     label: string | JSX.Element;

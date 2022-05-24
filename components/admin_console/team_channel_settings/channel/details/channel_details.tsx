@@ -13,7 +13,7 @@ import {SyncablePatch, Group, SyncableType} from 'mattermost-redux/types/groups'
 import {Channel, ChannelModeration as ChannelPermissions, ChannelModerationPatch} from '@mattermost/types/channels';
 import {Team} from 'mattermost-redux/types/teams';
 
-import {ServerError} from 'mattermost-redux/types/errors';
+import {ServerError} from '@mattermost/types/errors';
 
 import ConfirmModal from 'components/confirm_modal';
 import BlockableLink from 'components/admin_console/blockable_link';

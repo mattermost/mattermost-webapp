@@ -19,7 +19,7 @@ import {makeGetDisplayName, getCurrentUserId, getUser, UserMentionKey} from 'mat
 
 import {Channel} from '@mattermost/types/channels';
 import {ClientConfig, ClientLicense} from '@mattermost/types/config';
-import {ServerError} from 'mattermost-redux/types/errors';
+import {ServerError} from '@mattermost/types/errors';
 import {Group} from 'mattermost-redux/types/groups';
 import {Post} from 'mattermost-redux/types/posts';
 import {Reaction} from 'mattermost-redux/types/reactions';

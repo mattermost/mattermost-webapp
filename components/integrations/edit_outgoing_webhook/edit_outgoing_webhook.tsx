@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {Team} from 'mattermost-redux/types/teams';
 import {OutgoingWebhook} from 'mattermost-redux/types/integrations';
-import {ServerError} from 'mattermost-redux/types/errors';
+import {ServerError} from '@mattermost/types/errors';
 
 import {browserHistory} from 'utils/browser_history';
 import ConfirmModal from 'components/confirm_modal';

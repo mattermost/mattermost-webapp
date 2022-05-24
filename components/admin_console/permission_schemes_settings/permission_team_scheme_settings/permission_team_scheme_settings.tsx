@@ -28,7 +28,7 @@ import {Role} from 'mattermost-redux/types/roles';
 import {ClientConfig, ClientLicense} from '@mattermost/types/config';
 import {Team} from 'mattermost-redux/types/teams';
 import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
-import {ServerError} from 'mattermost-redux/types/errors';
+import {ServerError} from '@mattermost/types/errors';
 
 import PermissionsTreePlaybooks from '../permissions_tree_playbooks';
 

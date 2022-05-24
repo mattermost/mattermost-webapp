@@ -44,7 +44,7 @@ import {Post, PostMetadata} from 'mattermost-redux/types/posts';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import EmojiMap from 'utils/emoji_map';
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {ServerError} from 'mattermost-redux/types/errors';
+import {ServerError} from '@mattermost/types/errors';
 import {CommandArgs} from 'mattermost-redux/types/integrations';
 import {Group} from 'mattermost-redux/types/groups';
 import {ModalData} from 'types/actions';

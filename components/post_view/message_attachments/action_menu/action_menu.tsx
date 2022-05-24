@@ -7,7 +7,7 @@ import {ActionResult, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/a
 import {PostAction} from 'mattermost-redux/types/integration_actions';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Channel} from '@mattermost/types/channels';
-import {ServerError} from 'mattermost-redux/types/errors';
+import {ServerError} from '@mattermost/types/errors';
 
 import MenuActionProvider from 'components/suggestion/menu_action_provider';
 import GenericUserProvider from 'components/suggestion/generic_user_provider.jsx';

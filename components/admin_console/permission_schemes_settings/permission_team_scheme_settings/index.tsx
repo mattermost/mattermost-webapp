@@ -20,7 +20,7 @@ import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/ac
 import {Role} from 'mattermost-redux/types/roles';
 import {Scheme, SchemePatch} from 'mattermost-redux/types/schemes';
 import {GlobalState} from 'mattermost-redux/types/store';
-import {ServerError} from 'mattermost-redux/types/errors';
+import {ServerError} from '@mattermost/types/errors';
 
 import PermissionTeamSchemeSettings, {Props} from './permission_team_scheme_settings';
 

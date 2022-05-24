@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {Emoji} from 'mattermost-redux/constants';
 import {CustomEmoji} from '@mattermost/types/emojis';
-import {ServerError} from 'mattermost-redux/types/errors';
+import {ServerError} from '@mattermost/types/errors';
 import {deleteCustomEmoji} from 'mattermost-redux/actions/emojis';
 
 import LoadingScreen from 'components/loading_screen';
