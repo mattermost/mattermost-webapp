@@ -1716,7 +1716,7 @@
   "admin.permissions.system_role_users.add_people": "Személyek hozzáadása",
   "admin.permissions.system_role_users.description": "Ehhez a rendszer szerepkörhöz rendelt személyek listája.",
   "admin.permissions.system_role_users.title": "Hozzárendelt személyek",
-  "admin.permissions.teamOverrideSchemesBannerText": "Akkor használja, ha bizonyos csapatoknak engedélykivételekre van szükségük a [Rendszerséma](!https://docs.mattermost.com/onboard/advanced-permissions.html) alól.",
+  "admin.permissions.teamOverrideSchemesBannerText": "Akkor használja, ha bizonyos csapatoknak engedélykivételekre van szükségük a <link>Rendszerséma</link> alól.",
   "admin.permissions.teamOverrideSchemesInProgress": "Migrációs munka folyamatban: A csapat felülírási sémái mindaddig nem állnak rendelkezésre, amíg a munkaszerver nem fejezi be az engedélyek migrálását. További információ a {documentationLink} oldalon.",
   "admin.permissions.teamOverrideSchemesNewButton": "Új csapat felülírás séma",
   "admin.permissions.teamOverrideSchemesNoJobsEnabled": "Migrációs munka felfüggesztve: A csapat felülírási sémái mindaddig nem állnak rendelkezésre, amíg a munkaszerver nem tudja végrehajtani az engedélyek áttelepítését. A munka automatikusan elindul, amikor a munkaszerver engedélyezve van. További információ a {documentationLink} oldalon.",

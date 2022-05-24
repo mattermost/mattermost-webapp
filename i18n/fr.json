@@ -1709,7 +1709,7 @@
   "admin.permissions.system_role_users.add_people": "Ajouter des utilisateurs",
   "admin.permissions.system_role_users.description": "Liste des utilisateurs assignés à ce rôle système.",
   "admin.permissions.system_role_users.title": "Utilisateurs assignés",
-  "admin.permissions.teamOverrideSchemesBannerText": "Utilisez un schéma de permissions personnalisé lorsque des équipes spécifiques nécessitent des exceptions au [schéma de permissions système](!https://docs.mattermost.com/onboard/advanced-permissions.html).",
+  "admin.permissions.teamOverrideSchemesBannerText": "Utilisez un schéma de permissions personnalisé lorsque des équipes spécifiques nécessitent des exceptions au <link>schéma de permissions système</link>.",
   "admin.permissions.teamOverrideSchemesInProgress": "Tâche de migration en cours : les schémas de permissions personnalisés ne sont pas disponibles jusqu'à ce que le serveur de tâches termine la migration des permissions. Consultez la {documentationLink} pour en savoir plus.",
   "admin.permissions.teamOverrideSchemesNewButton": "Nouveau schéma de permissions personnalisé",
   "admin.permissions.teamOverrideSchemesNoJobsEnabled": "Tâche de migration suspendue : les schémas de permissions personnalisés ne sont pas disponibles jusqu'à ce que le serveur de tâches termine la migration des permissions. La tâche sera redémarrée automatiquement dés que le serveur de tâche sera lui-même démarré. Consultez notre {documentationLink} pour en savoir plus.",

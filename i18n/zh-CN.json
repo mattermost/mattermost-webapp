@@ -1665,7 +1665,7 @@
   "admin.permissions.system_role_users.add_people": "添加人员",
   "admin.permissions.system_role_users.description": "分配给该系统身份的人员列表。",
   "admin.permissions.system_role_users.title": "分配的人员",
-  "admin.permissions.teamOverrideSchemesBannerText": "在指定的团队需要[系统方案](!https://docs.mattermost.com/onboard/advanced-permissions.html)特例时使用。",
+  "admin.permissions.teamOverrideSchemesBannerText": "在指定的团队需要<link>系统方案</link>特例时使用。",
   "admin.permissions.teamOverrideSchemesInProgress": "数据转移任务进行中：团队覆盖方案在任务服务器完成转移权限前不可用。参阅 {documentationLink} 了解详情。",
   "admin.permissions.teamOverrideSchemesNewButton": "新团队覆盖方案",
   "admin.permissions.teamOverrideSchemesNoJobsEnabled": "数据转移任务暂停中：团队覆盖方案在任务服务器可以转移权限前不可用。任务将在任务服务器开启后自动开始运行。参阅 {documentationLink} 了解详情。",

@@ -1675,7 +1675,7 @@
   "admin.permissions.system_role_users.add_people": "Добавяне на хора",
   "admin.permissions.system_role_users.description": "Списък на хората, назначени за тази системна роля.",
   "admin.permissions.system_role_users.title": "Назначени хора",
-  "admin.permissions.teamOverrideSchemesBannerText": "Използвайте, когато конкретни екипи се нуждаят от различни права, от тези в [системната схема](!https://docs.mattermost.com/onboard/advanced-permissions.html).",
+  "admin.permissions.teamOverrideSchemesBannerText": "Използвайте, когато конкретни екипи се нуждаят от различни права, от тези в <link>системната схема</link>.",
   "admin.permissions.teamOverrideSchemesInProgress": "Работата по миграция в ход: Припокриващите схеми за екип не са налични, докато сървърът за задачи не завърши миграцията на права. Научете повече в {documentationLink}.",
   "admin.permissions.teamOverrideSchemesNewButton": "Нова припокриваща схема за екип",
   "admin.permissions.teamOverrideSchemesNoJobsEnabled": "Задържана задача за миграция: Припокриващите схеми за екип не са налични, докато сървърът за задачи не изпълни миграцията на права. Заданието ще се стартира автоматично, когато сървърът за работа е разрешен. Научете повече в {documentationLink}.",

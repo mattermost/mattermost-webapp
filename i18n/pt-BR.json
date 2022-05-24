@@ -1477,7 +1477,7 @@
   "admin.permissions.system_role_users.add_people": "Adicionar Pessoas",
   "admin.permissions.system_role_users.description": "Pode adicionar, editar e excluir qualquer coisa nesta seção.",
   "admin.permissions.system_role_users.title": "Pessoas Designadas",
-  "admin.permissions.teamOverrideSchemesBannerText": "Use quando equipes específicas precisarem de exceções de permissão para o [Esquema do Sistema](!https://docs.mattermost.com/onboard/advanced-permissions.html).",
+  "admin.permissions.teamOverrideSchemesBannerText": "Use quando equipes específicas precisarem de exceções de permissão para o <link>Esquema do Sistema</link>.",
   "admin.permissions.teamOverrideSchemesInProgress": "Tarefa de migração em progresso: Esquema de Substituição de Equipe não estão disponíveis até a tarefa de migração de permissões no servidor estar completa. Saiba mais em {documentationLink}.",
   "admin.permissions.teamOverrideSchemesNewButton": "Novo Esquema de Substituição de Equipe",
   "admin.permissions.teamOverrideSchemesNoJobsEnabled": "Tarefa de migração em espera: Esquema de Substituição de Equipe não estão disponíveis até que a tarefa de migração de permissões possa ser executada no servidor. Saiba mais em {documentationLink}.",

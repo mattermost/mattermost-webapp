@@ -873,7 +873,7 @@
   "admin.permissions.systemSchemeBannerButton": "Редагувати схему",
   "admin.permissions.systemSchemeBannerText": "Встановіть стандартні дозволи, успадковані всіма командами, якщо не застосовано схему <link>Team Override Scheme</link> .",
   "admin.permissions.systemSchemeBannerTitle": "Системна схема",
-  "admin.permissions.teamOverrideSchemesBannerText": "Використовуйте, коли для певних команд потрібні дозволи на винятки з [Схема системи] (!https://docs.mattermost.com/onboard/advanced-permissions.html).",
+  "admin.permissions.teamOverrideSchemesBannerText": "Використовуйте, коли для певних команд потрібні дозволи на винятки з <link>Схема системи</link> .",
   "admin.permissions.teamOverrideSchemesInProgress": "Робота з міграцією не відбувається: схеми заміщення команди недоступні, поки сервер роботи не завершить міграцію дозволів. Дізнайтеся більше в {documentationLink}",
   "admin.permissions.teamOverrideSchemesNewButton": "Нова схема заміни команди",
   "admin.permissions.teamOverrideSchemesNoJobsEnabled": "Робота міграції призупинена: схеми заміщення команди недоступні, поки сервер роботи не зможе виконати міграцію дозволів. Робота буде автоматично запущена при включенні сервера завдань. Дізнайтеся більше в {documentLink}.",

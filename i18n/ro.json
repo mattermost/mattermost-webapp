@@ -1560,7 +1560,7 @@
   "admin.permissions.system_role_users.add_people": "Adaugă persoane",
   "admin.permissions.system_role_users.description": "Lista persoanelor atribuite acestui rol de sistem.",
   "admin.permissions.system_role_users.title": "Oameni desemnați",
-  "admin.permissions.teamOverrideSchemesBannerText": "Utilizați când anumite echipe au nevoie de excepții de la permisiunea [System Scheme] (! Https: //about.mattermost.com/default-system-scheme).",
+  "admin.permissions.teamOverrideSchemesBannerText": "Utilizați când anumite echipe au nevoie de excepții de la permisiunea <link>System Scheme</link> .",
   "admin.permissions.teamOverrideSchemesInProgress": "Activitatea de migrare în curs: Schemele de suprascriere a echipei nu sunt disponibile până când serverul de lucrări nu termină migrarea permisiunilor. Aflați mai multe în {documentationLink}.",
   "admin.permissions.teamOverrideSchemesNewButton": "Noua schemă de depășire a echipei",
   "admin.permissions.teamOverrideSchemesNoJobsEnabled": "Activarea migrării în așteptare: Schemele de suprascriere a echipelor nu sunt disponibile până când serverul de locuri de muncă nu poate executa migrarea permisiunilor. Lucrarea va fi pornită automat când serverul de sarcini este activat. Aflați mai multe în documentația {documentationLink}.",

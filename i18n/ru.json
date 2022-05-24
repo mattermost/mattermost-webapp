@@ -1716,7 +1716,7 @@
   "admin.permissions.system_role_users.add_people": "Добавить людей",
   "admin.permissions.system_role_users.description": "Список людей, назначенных на эту системную роль.",
   "admin.permissions.system_role_users.title": "Назначенные люди",
-  "admin.permissions.teamOverrideSchemesBannerText": "Используется, когда определенным группам требуются исключения из прав доступа к [Системной схеме](!https://docs.mattermost.com/onboard/advanced-permissions.html).",
+  "admin.permissions.teamOverrideSchemesBannerText": "Используется, когда определенным группам требуются исключения из прав доступа к <link>Системной схеме</link>.",
   "admin.permissions.teamOverrideSchemesInProgress": "Выполняемое задание на миграцию: командное переопределение схемы недоступно, пока сервер заданий не завершит перенос прав доступа. Подробнее читайте в {documentationLink}.",
   "admin.permissions.teamOverrideSchemesNewButton": "Новое командное переопределение схемы",
   "admin.permissions.teamOverrideSchemesNoJobsEnabled": "Задание на миграцию в ожидании: командное переопределение схемы недоступно, пока сервер заданий не сможет выполнить миграцию прав доступа. Задание будет автоматически запущено при включении сервера заданий. Подробнее читайте в {documentationLink}.",

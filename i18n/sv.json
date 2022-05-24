@@ -1716,7 +1716,7 @@
   "admin.permissions.system_role_users.add_people": "Lägg till personer",
   "admin.permissions.system_role_users.description": "Lista personer tilldelade denna systemroll.",
   "admin.permissions.system_role_users.title": "Tilldelade personer",
-  "admin.permissions.teamOverrideSchemesBannerText": "Använd när utvalda team behöver undantag av behörigheter i [System Scheme](!https://docs.mattermost.com/onboard/advanced-permissions.html).",
+  "admin.permissions.teamOverrideSchemesBannerText": "Använd när utvalda team behöver undantag av behörigheter i <link>System Scheme</link>.",
   "admin.permissions.teamOverrideSchemesInProgress": "Migrering pågår: Åsidosättning av gruppschema är inte tillgängligt förrän migrationen av behörigheterna är slutförd på servern. Läs mer i {documentationLink}.",
   "admin.permissions.teamOverrideSchemesNewButton": "Nytt gruppschema för åsidosättning",
   "admin.permissions.teamOverrideSchemesNoJobsEnabled": "Migrering pausad: Åsidosättning av gruppschema är inte tillgängligt förrän servern kan slutföra migreringen av behörigheter. Jobbet startar automatiskt när servern blir tillgänglig. Läs mer i {documentationLink}.",

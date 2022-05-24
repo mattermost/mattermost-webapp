@@ -1716,7 +1716,7 @@
   "admin.permissions.system_role_users.add_people": "Benutzer hinzufügen",
   "admin.permissions.system_role_users.description": "Liste von Benutzern, die dieser Systemrolle zugewiesen sind.",
   "admin.permissions.system_role_users.title": "Zugewiesene Benutzer",
-  "admin.permissions.teamOverrideSchemesBannerText": "Verwenden, wenn spezifische Teams Ausnahmen vom [Systemschema](!https://docs.mattermost.com/onboard/advanced-permissions.html) benötigen.",
+  "admin.permissions.teamOverrideSchemesBannerText": "Verwenden, wenn spezifische Teams Ausnahmen vom <link>Systemschema</link> benötigen.",
   "admin.permissions.teamOverrideSchemesInProgress": "Migrations-Job läuft. Übergeordnete Teamschemen sind nicht verfügbar, bis der Job-Server die Berechtigungsmigration abgeschlossen hat. Lerne mehr in der {documentationLink}.",
   "admin.permissions.teamOverrideSchemesNewButton": "Neues übergeordnetes Teamschema",
   "admin.permissions.teamOverrideSchemesNoJobsEnabled": "Migrations-Job pausiert: Übergeordnete Teamschemen sind nicht verfügbar, bis der Job-Server die Berechtigungsmigration ausführen kann. Der Job wird automatisch gestartet, wenn der Job-Server aktiviert ist. Lerne mehr in der {documentationLink}.",

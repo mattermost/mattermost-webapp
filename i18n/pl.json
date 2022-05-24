@@ -1716,7 +1716,7 @@
   "admin.permissions.system_role_users.add_people": "Dodaj Osoby",
   "admin.permissions.system_role_users.description": "Lista osób przypisanych do tej roli systemowej.",
   "admin.permissions.system_role_users.title": "Przypisane Osoby",
-  "admin.permissions.teamOverrideSchemesBannerText": "Używaj tylko wtedy gdy konkretny zespół potrzebuje uprawnień innych niż [Systemowy Schemat](!https://docs.mattermost.com/onboard/advanced-permissions.html).",
+  "admin.permissions.teamOverrideSchemesBannerText": "Używaj tylko wtedy gdy konkretny zespół potrzebuje uprawnień innych niż <link>Systemowy Schemat</link>.",
   "admin.permissions.teamOverrideSchemesInProgress": "Trwające zadanie migracji: Schematy Zastąpienia Zespołów są niedostępne, dopóki serwer zadań nie zakończy migracji uprawnień. Dowiedź się więcej w {documentationLink}.",
   "admin.permissions.teamOverrideSchemesNewButton": "Nowy schemat zespołu",
   "admin.permissions.teamOverrideSchemesNoJobsEnabled": "Zadanie migracji wstrzymane: Schematy Zastąpienia Zespołu są niedostępne do momentu, w którym serwer zadań może wykonać migrację uprawnień. Zadanie zostanie automatycznie uruchomione po włączeniu serwera zadań. Dowiedz się więcej w {documentationLink}.",

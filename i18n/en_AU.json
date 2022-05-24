@@ -1716,7 +1716,7 @@
   "admin.permissions.system_role_users.add_people": "Add People",
   "admin.permissions.system_role_users.description": "List of people assigned to this system role.",
   "admin.permissions.system_role_users.title": "Assigned People",
-  "admin.permissions.teamOverrideSchemesBannerText": "Use when specific teams need permission exceptions to the [System Scheme](!https://docs.mattermost.com/onboard/advanced-permissions.html).",
+  "admin.permissions.teamOverrideSchemesBannerText": "Use when specific teams need permission exceptions to the <link>System Scheme</link>.",
   "admin.permissions.teamOverrideSchemesInProgress": "Migration job in progress: Team Override Schemes are not available until the job server completes the permissions migration. Learn more in the {documentationLink}.",
   "admin.permissions.teamOverrideSchemesNewButton": "New Team Override Scheme",
   "admin.permissions.teamOverrideSchemesNoJobsEnabled": "Migration job on hold: Team Override Schemes are not available until the job server can execute the permissions migration. The job will be automatically started when the job server is enabled. Learn more in the {documentationLink}.",

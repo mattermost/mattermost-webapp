@@ -1514,7 +1514,7 @@
   "admin.permissions.systemSchemeBannerButton": "ویرایش طرح",
   "admin.permissions.systemSchemeBannerText": "مجوزهای پیش‌فرض به ارث رسیده توسط همه تیم‌ها را تنظیم کنید، مگر اینکه <link>Team Override Scheme</link>  اعمال شود.",
   "admin.permissions.systemSchemeBannerTitle": "طرح سیستم",
-  "admin.permissions.teamOverrideSchemesBannerText": "زمانی استفاده کنید که تیم‌های خاصی به استثناهای مجوز [System Scheme] (!https://docs.mattermost.com/onboard/advanced-permissions.html) نیاز داشته باشند.",
+  "admin.permissions.teamOverrideSchemesBannerText": "زمانی استفاده کنید که تیم‌های خاصی به استثناهای مجوز <link>System Scheme</link>  نیاز داشته باشند.",
   "admin.permissions.teamOverrideSchemesInProgress": "کار انتقال در حال انجام است: تا زمانی که سرور کار انتقال مجوزها را کامل نکند، طرح‌های لغو تیم در دسترس نیستند. در {documentationLink} بیشتر بیاموزید.",
   "admin.permissions.teamOverrideSchemesNewButton": "طرح نادیده گرفتن تیم جدید",
   "admin.permissions.teamOverrideSchemesNoJobsEnabled": "کار انتقال در انتظار: طرح‌های لغو تیم تا زمانی که سرور شغل نتواند انتقال مجوزها را اجرا کند، در دسترس نیستند. هنگامی که سرور شغل فعال شود، کار به طور خودکار شروع می شود. در {documentationLink} بیشتر بیاموزید.",

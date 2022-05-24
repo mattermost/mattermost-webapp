@@ -1716,7 +1716,7 @@
   "admin.permissions.system_role_users.add_people": "Kişi ekle",
   "admin.permissions.system_role_users.description": "Bu sistem rolüne eklenmiş kişileri görüntüler.",
   "admin.permissions.system_role_users.title": "Atanmış kişiler",
-  "admin.permissions.teamOverrideSchemesBannerText": "Belirli takımlar için [sistem şeması](!https://docs.mattermost.com/onboard/advanced-permissions.html) dışında izin ayrıcalıkları gerektiğinde kullanabilirsiniz.",
+  "admin.permissions.teamOverrideSchemesBannerText": "Belirli takımlar için <link>sistem şeması</link> dışında izin ayrıcalıkları gerektiğinde kullanabilirsiniz.",
   "admin.permissions.teamOverrideSchemesInProgress": "Aktarım işlemi sürüyor: Görev sunucusu izin aktarımı işlemini tamamlayana kadar takım değişikliği şemaları kullanılamaz. Ayrıntılı bilgi almak için {documentationLink} bağlantısına bakabilirsiniz.",
   "admin.permissions.teamOverrideSchemesNewButton": "Yeni takım değişikliği şeması",
   "admin.permissions.teamOverrideSchemesNoJobsEnabled": "Aktarım işlemi bekliyor: Görev sunucusu izin aktarımı işlemini yürütüne kadar takım değişikliği şemaları kullanılamaz. Görev sunucusu etkinleştirildiğinde görev otomatik olarak başlatılacak. Ayrıntılı bilgi almak için {documentationLink} bağlantısına bakabilirsiniz.",

@@ -1716,7 +1716,7 @@
   "admin.permissions.system_role_users.add_people": "ユーザーを追加する",
   "admin.permissions.system_role_users.description": "このシステムロールに割り当てられたユーザーのリスト。",
   "admin.permissions.system_role_users.title": "割り当て",
-  "admin.permissions.teamOverrideSchemesBannerText": "特定のチームが[システムスキーム](!https://docs.mattermost.com/onboard/advanced-permissions.html)とは異なる権限設定を必要とする場合に使用します。",
+  "admin.permissions.teamOverrideSchemesBannerText": "特定のチームが<link>システムスキーム</link>とは異なる権限設定を必要とする場合に使用します。",
   "admin.permissions.teamOverrideSchemesInProgress": "移行ジョブが進行中です: チーム上書きスキームは権限移行が完了するまで利用できません。詳しくは {documentationLink} を参照してください。",
   "admin.permissions.teamOverrideSchemesNewButton": "新しいチーム上書きスキーム",
   "admin.permissions.teamOverrideSchemesNoJobsEnabled": "移行ジョブが保留中です: チーム上書きスキームはジョブサーバーが権限移行処理を実行可能になるまで利用できません。ジョブサーバーが有効になると自動でジョブが開始されます。詳しくは {documentationLink} を参照してください。",

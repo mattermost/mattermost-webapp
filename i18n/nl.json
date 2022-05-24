@@ -1716,7 +1716,7 @@
   "admin.permissions.system_role_users.add_people": "Mensen toevoegen",
   "admin.permissions.system_role_users.description": "Lijst van mensen toegewezen aan deze systeemrol.",
   "admin.permissions.system_role_users.title": "Toegewezen mensen",
-  "admin.permissions.teamOverrideSchemesBannerText": "Gebruiken wanneer specifieke teams toestemming nodig hebben voor het [Systeemschema] (!https://docs.mattermost.com/onboard/advanced-permissions.html).",
+  "admin.permissions.teamOverrideSchemesBannerText": "Gebruiken wanneer specifieke teams toestemming nodig hebben voor het <link>Systeemschema</link> .",
   "admin.permissions.teamOverrideSchemesInProgress": "Migratietaak in uitvoering: Teamtoestemmingsschema's zijn pas beschikbaar als de taakserver de migratie van machtigingen voltooid. Meer informatie vind je hier {documentationLink}.",
   "admin.permissions.teamOverrideSchemesNewButton": "Nieuwe aangepast teamtoestemmingsschema",
   "admin.permissions.teamOverrideSchemesNoJobsEnabled": "Migratietaak gepauzeerd: Team Ophef-schema's zijn niet beschikbaar totdat de taakserver de migratie van machtigingen kan uitvoeren. De taak wordt automatisch gestart wanneer de taakserver is ingeschakeld. Meer informatie in de {documentationLink}.",

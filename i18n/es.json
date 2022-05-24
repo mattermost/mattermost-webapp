@@ -1649,7 +1649,7 @@
   "admin.permissions.system_role_users.add_people": "Agregar personas",
   "admin.permissions.system_role_users.description": "Lista de personas asignadas a este rol del sistema.",
   "admin.permissions.system_role_users.title": "Personas asignadas",
-  "admin.permissions.teamOverrideSchemesBannerText": "Utilizado cuando los equipos necesitan excepciones a los permisos del [Esquema del Sistema](!https://docs.mattermost.com/onboard/advanced-permissions.html).",
+  "admin.permissions.teamOverrideSchemesBannerText": "Utilizado cuando los equipos necesitan excepciones a los permisos del <link>Esquema del Sistema</link>.",
   "admin.permissions.teamOverrideSchemesInProgress": "Tarea de migración en progreso: Los Esquemas Sobrescritos de Equipo no están disponibles hasta que la tarea de migración de permisos haya sido completada por el servidor. Aprende más en la documentación {documentationLink}.",
   "admin.permissions.teamOverrideSchemesNewButton": "Nuevo Esquema Sobrescrito de Equipo",
   "admin.permissions.teamOverrideSchemesNoJobsEnabled": "Tarea de migración en espera: Los Esquemas Sobrescritos de Equipo no están disponibles hasta que la tarea de migración de permisos haya podido ser ejecutada por el servidor. La tarea se iniciará automáticamente cuando el servidor de tareas este habilitado. Aprenda más en la documentación {documentationLink}.",

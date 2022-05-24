@@ -1228,7 +1228,7 @@
   "admin.permissions.systemSchemeBannerButton": "Modifica Schema",
   "admin.permissions.systemSchemeBannerText": "Imposta i permessi predefiniti ereditati da tuttie le squadre a meno che non presentino un <link>Team Override Scheme</link>.",
   "admin.permissions.systemSchemeBannerTitle": "Schema di Sistema",
-  "admin.permissions.teamOverrideSchemesBannerText": "Usato quando specifiche squadre necessitano di permessi straordinari non definiti dallo [System Scheme](!https://docs.mattermost.com/onboard/advanced-permissions.html).",
+  "admin.permissions.teamOverrideSchemesBannerText": "Usato quando specifiche squadre necessitano di permessi straordinari non definiti dallo <link>System Scheme</link>.",
   "admin.permissions.teamOverrideSchemesInProgress": "Lavoro di migrazione in corso: Sovrascrivi Schema Squadra non è disponibile fino a quando il lavoro non completa la migrazione dei permessi. Scropri di più su {documentationLink}.",
   "admin.permissions.teamOverrideSchemesNewButton": "Nuovo Sovrascrivi Schema Squadra",
   "admin.permissions.teamOverrideSchemesNoJobsEnabled": "Lavoro di migrazione in sospeso: Sovrascrivi Schema Squadra non è disponibile fino a quando il lavoro di migrazione dei permessi non viene eseguito. Il lavoro verrà avviato automaticamente quando il server dei lavoro verrà attivato. Scopri di più su {documentationLink}.",
