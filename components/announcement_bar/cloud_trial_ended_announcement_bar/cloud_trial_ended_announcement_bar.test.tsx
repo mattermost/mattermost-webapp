@@ -50,6 +50,28 @@ describe('components/global/CloudTrialEndAnnouncementBar', () => {
                     current_user_id: {roles: 'system_admin'},
                 },
             },
+            usage: {
+                integrations: {
+                    enabled: 11,
+                    enabledLoaded: true,
+                },
+                messages: {
+                    history: 10000,
+                    historyLoaded: true,
+                },
+                files: {
+                    totalStorage: 10 * FileSizes.Gigabyte,
+                    totalStorageLoaded: true,
+                },
+                teams: {
+                    active: 1,
+                    teamsLoaded: true,
+                },
+                boards: {
+                    cards: 500,
+                    cardsLoaded: true,
+                },
+            },
             cloud: {
                 subscription: {
                     product_id: 'test_prod_1',
@@ -88,9 +110,14 @@ describe('components/global/CloudTrialEndAnnouncementBar', () => {
         },
     };
     it('Should show banner when not on free trial with a trial_end_at in the past', () => {
-        const state = {
-            ...initialState,
+        const state = JSON.parse(JSON.stringify(initialState));
+        state.entities.cloud.subscription = {
+            ...state.entities.cloud.subscription,
+            trial_end_at: 1655577344,
         };
+
+        // Set the system time to be June 20th, since this banner won't show for trial's ending prior to June 15
+        jest.useFakeTimers().setSystemTime(new Date('2022-06-20'));
 
         const mockStore = configureStore();
         const store = mockStore(state);
@@ -145,6 +172,28 @@ describe('components/global/CloudTrialEndAnnouncementBar', () => {
                         cards: 500,
                         views: 5,
                     },
+                },
+            },
+            usage: {
+                integrations: {
+                    enabled: 11,
+                    enabledLoaded: true,
+                },
+                messages: {
+                    history: 10000,
+                    historyLoaded: true,
+                },
+                files: {
+                    totalStorage: 10 * FileSizes.Gigabyte,
+                    totalStorageLoaded: true,
+                },
+                teams: {
+                    active: 1,
+                    teamsLoaded: true,
+                },
+                boards: {
+                    cards: 500,
+                    cardsLoaded: true,
                 },
             },
         };
