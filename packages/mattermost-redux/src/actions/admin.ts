@@ -21,7 +21,7 @@ import {
     ChannelSearchOpts,
 } from '@mattermost/types/channels';
 
-import {CompleteOnboardingRequest} from 'mattermost-redux/types/setup';
+import {CompleteOnboardingRequest} from '@mattermost/types/setup';
 
 import {bindClientFunc, forceLogoutIfNecessary} from './helpers';
 import {logError} from './errors';
