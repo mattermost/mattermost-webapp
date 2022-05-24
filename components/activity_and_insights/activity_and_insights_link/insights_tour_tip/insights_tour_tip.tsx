@@ -8,6 +8,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {setInsightsInitialisationState} from 'mattermost-redux/actions/preferences';
 
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 
 import {GlobalState as EntitiesGlobalState} from 'mattermost-redux/types/store';
 
@@ -18,6 +19,8 @@ import {showInsightsPulsatingDot} from 'selectors/insights';
 import {GlobalState} from 'types/store';
 
 import insightsPreview from 'images/Insights-Preview-Image.jpg';
+
+import {browserHistory} from 'utils/browser_history';
 
 import TourTip, {useMeasurePunchouts} from 'components/widgets/tour_tip';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
@@ -61,8 +64,9 @@ const nextBtn = (
 const InsightsTourTip = () => {
     const dispatch = useDispatch();
     const showTip = useSelector(showInsightsPulsatingDot);
-    const showNextStepsEphemeral = useSelector((state: GlobalState) => state.views.nextSteps.show);
     const showTaskList = useSelector((state: EntitiesGlobalState) => getBool(state, OnboardingTaskCategory, OnboardingTaskList.ONBOARDING_TASK_LIST_SHOW));
+    const teamUrl = useSelector((state: GlobalState) => getCurrentRelativeTeamUrl(state));
+    const nextUrl = `${teamUrl}/activity-and-insights`;
 
     const [tipOpened, setTipOpened] = useState(showTip);
 
@@ -75,19 +79,27 @@ const InsightsTourTip = () => {
     const handleNext = useCallback(() => {
         dispatch(setInsightsInitialisationState({[Preferences.INSIGHTS_VIEWED]: true}));
         setTipOpened(false);
+        browserHistory.push(nextUrl);
     }, []);
 
     const handleOpen = useCallback((e: React.MouseEvent) => {
         e.stopPropagation();
-        setTipOpened(true);
+        e.preventDefault();
+
+        if (tipOpened) {
+            dispatch(setInsightsInitialisationState({[Preferences.INSIGHTS_VIEWED]: true}));
+            setTipOpened(false);
+        } else {
+            setTipOpened(true);
+        }
     }, []);
 
     const isOnboardingOngoing = useCallback(() => {
-        if (showTaskList || showNextStepsEphemeral) {
+        if (showTaskList) {
             return true;
         }
         return false;
-    }, [showTaskList, showNextStepsEphemeral]);
+    }, [showTaskList]);
 
     const overlayPunchOut = useMeasurePunchouts(['sidebar-insights-button'], []);
 

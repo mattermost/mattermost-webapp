@@ -62,8 +62,8 @@ const ActivityAndInsightsLink = () => {
                             {formatMessage({id: t('activityAndInsights.sidebarLink'), defaultMessage: 'Insights'})}
                         </span>
                     </div>
-                    <InsightsTourTip/>
                 </Link>
+                <InsightsTourTip/>
             </li>
         </ul>
     );
