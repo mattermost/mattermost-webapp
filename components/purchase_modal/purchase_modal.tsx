@@ -4,7 +4,7 @@
 /* eslint-disable max-lines */
 
 import React, {ReactNode} from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import {Stripe, StripeCardElementChangeEvent} from '@stripe/stripe-js';
 import {loadStripe} from '@stripe/stripe-js/pure'; // https://github.com/stripe/stripe-js#importing-loadstripe-without-side-effects
@@ -83,6 +83,7 @@ type Props = {
     isFreeTrial: boolean;
     isFreeTier: boolean;
     productId: string | undefined;
+    intl: IntlShape;
     actions: {
         openModal: <P>(modalData: ModalData<P>) => void;
         closeModal: () => void;
@@ -197,7 +198,7 @@ function Card(props: CardProps) {
     );
 }
 
-export default class PurchaseModal extends React.PureComponent<Props, State> {
+class PurchaseModal extends React.PureComponent<Props, State> {
     modal = React.createRef();
 
     public constructor(props: Props) {
@@ -394,6 +395,15 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
         return payment;
     }
 
+    getPlanNameFromProductName = (productName: string): string => {
+        if (productName.length > 0) {
+            const [name] = productName.split(' ').slice(-1);
+            return name;
+        }
+
+        return productName;
+    }
+
     purchaseScreen = () => {
         const title = (
             <FormattedMessage
@@ -420,6 +430,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
         }
 
         const showPlanLabel = this.state.selectedProduct?.sku === CloudProducts.PROFESSIONAL;
+        const {formatMessage} = this.props.intl;
 
         return (
             <div className={this.state.processing ? 'processing' : ''}>
@@ -474,8 +485,8 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                     </div>
                     <Card
                         topColor='#4A69AC'
-                        plan={this.state.selectedProduct ? this.state.selectedProduct.name.split(' ')[1] : ''}
-                        price={`$${this.state.selectedProduct?.price_per_seat.toString()}`}
+                        plan={this.getPlanNameFromProductName(this.state.selectedProduct ? this.state.selectedProduct.name : '')}
+                        price={`$${this.state.selectedProduct?.price_per_seat?.toString()}`}
                         rate='/user/month'
                         planBriefing={this.paymentFooterText()}
                         buttonDetails={{
@@ -486,9 +497,9 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                         }}
                         planLabel={showPlanLabel ? (
                             <PlanLabel
-                                text='MOST POPULAR'
-                                bgColor='#1E325C'
-                                color='#FFFFFF'
+                                text={formatMessage({id: 'pricing_modal.planLabel.mostPopular', defaultMessage: 'MOST POPULAR'})}
+                                bgColor='var(--title-color-indigo-500)'
+                                color='var(--center-channel-bg)'
                                 firstSvg={<StarMarkSvg/>}
                                 secondSvg={<StarMarkSvg/>}
                             />) : undefined}
@@ -562,3 +573,5 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
         );
     }
 }
+
+export default injectIntl(PurchaseModal);
