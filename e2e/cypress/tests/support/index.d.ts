@@ -21,7 +21,7 @@ declare namespace Cypress {
     type PreferenceType = import('@mattermost/types/preferences').PreferenceType;
     type Product = import('@mattermost/types/cloud').Product;
     type Role = import('@mattermost/types/roles').Role;
-    type Scheme = import('mattermost-redux/types/schemes').Scheme;
+    type Scheme = import('@mattermost/types/schemes').Scheme;
     type Session = import('mattermost-redux/types/sessions').Session;
     type Subscription = import('@mattermost/types/cloud').Subscription;
     type Team = import('mattermost-redux/types/teams').Team;

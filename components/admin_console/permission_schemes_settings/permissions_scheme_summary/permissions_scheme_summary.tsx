@@ -12,7 +12,7 @@ import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 
 import * as Utils from 'utils/utils';
 import Constants from 'utils/constants';
-import {Scheme} from 'mattermost-redux/types/schemes';
+import {Scheme} from '@mattermost/types/schemes';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {Team} from 'mattermost-redux/types/teams';
 

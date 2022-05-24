@@ -18,7 +18,7 @@ import {setNavigationBlocked} from 'actions/admin_actions';
 
 import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
 import {Role} from '@mattermost/types/roles';
-import {Scheme, SchemePatch} from 'mattermost-redux/types/schemes';
+import {Scheme, SchemePatch} from '@mattermost/types/schemes';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {ServerError} from '@mattermost/types/errors';
 

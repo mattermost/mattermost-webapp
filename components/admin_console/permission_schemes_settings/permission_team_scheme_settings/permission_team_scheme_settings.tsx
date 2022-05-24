@@ -23,7 +23,7 @@ import GuestPermissionsTree, {GUEST_INCLUDED_PERMISSIONS} from '../guest_permiss
 
 import LocalizedInput from 'components/localized_input/localized_input';
 
-import {Scheme, SchemePatch} from 'mattermost-redux/types/schemes';
+import {Scheme, SchemePatch} from '@mattermost/types/schemes';
 import {Role} from '@mattermost/types/roles';
 import {ClientConfig, ClientLicense} from '@mattermost/types/config';
 import {Team} from 'mattermost-redux/types/teams';
