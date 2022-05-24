@@ -11,7 +11,7 @@ import ThreadConstants from 'mattermost-redux/constants/threads';
 
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
-import type {UserThread, UserThreadList} from 'mattermost-redux/types/threads';
+import type {UserThread, UserThreadList} from '@mattermost/types/threads';
 
 import {Post} from '@mattermost/types/posts';
 

@@ -25,7 +25,7 @@ import * as Utils from 'utils/utils';
 
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 
-import {ThreadsState} from 'mattermost-redux/types/threads';
+import {ThreadsState} from '@mattermost/types/threads';
 
 import {ProductComponent} from '../../types/store/plugins';
 

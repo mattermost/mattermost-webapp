@@ -12,7 +12,7 @@ import {isTimezoneEnabled} from 'mattermost-redux/selectors/entities/timezone';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
 
 import {Team} from '@mattermost/types/teams';
-import {UserThread} from 'mattermost-redux/types/threads';
+import {UserThread} from '@mattermost/types/threads';
 import {Post} from '@mattermost/types/posts';
 
 import {DATE_LINE, makeCombineUserActivityPosts, START_OF_NEW_MESSAGES, CREATE_COMMENT} from 'mattermost-redux/utils/post_list';

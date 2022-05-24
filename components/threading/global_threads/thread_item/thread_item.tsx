@@ -8,7 +8,7 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import {Channel} from '@mattermost/types/channels';
 import {Post} from '@mattermost/types/posts';
-import {UserThread} from 'mattermost-redux/types/threads';
+import {UserThread} from '@mattermost/types/threads';
 import {getChannel as fetchChannel} from 'mattermost-redux/actions/channels';
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';

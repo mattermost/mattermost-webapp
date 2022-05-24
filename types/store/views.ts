@@ -5,7 +5,7 @@ import {Channel} from '@mattermost/types/channels';
 import {MarketplaceApp, MarketplacePlugin} from '@mattermost/types/marketplace';
 import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {Team} from '@mattermost/types/teams';
-import {UserThread} from 'mattermost-redux/types/threads';
+import {UserThread} from '@mattermost/types/threads';
 
 import {I18nState} from './i18n';
 import {RhsViewState} from './rhs';
