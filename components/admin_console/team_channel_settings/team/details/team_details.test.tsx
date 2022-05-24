@@ -1,30 +1,33 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {ComponentProps} from 'react';
 import {shallow} from 'enzyme';
+
+import {TestHelper} from 'utils/test_helper';
 
 import TeamDetails from './team_details';
 
 describe('admin_console/team_channel_settings/team/TeamDetails', () => {
-    const groups = [{
+    const groups = [TestHelper.getGroupMock({
         id: '123',
         display_name: 'DN',
         member_count: 3,
-    }];
+    })];
     const allGroups = {
         123: groups[0],
     };
-    const testTeam = {
+
+    const testTeam = TestHelper.getTeamMock({
         id: '123',
         allow_open_invite: false,
         allowed_domains: '',
         group_constrained: false,
         display_name: 'team',
         delete_at: 0,
-    };
+    });
 
-    const baseProps = {
+    const baseProps: ComponentProps<typeof TeamDetails> = {
         groups,
         totalGroups: groups.length,
         team: testTeam,

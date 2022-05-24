@@ -333,7 +333,7 @@ export default class TeamDetails extends React.PureComponent<Props, State> {
                         );
                     }
                 }
-            } catch (ex: any) {
+            } catch (ex) {
                 serverError = ex;
             }
         }
@@ -450,7 +450,6 @@ export default class TeamDetails extends React.PureComponent<Props, State> {
     };
 
     render = () => {
-        console.log('rolesToUpdate:', this.state.rolesToUpdate);
         const {team, isLicensedForLDAPGroups} = this.props;
         const {totalGroups, saving, saveNeeded, serverError, groups, allAllowedChecked, allowedDomainsChecked, allowedDomains, syncChecked, showRemoveConfirmation, usersToRemoveCount, isLocalArchived, showArchiveConfirmModal} = this.state;
         const missingGroup = (og: {id: string}) => !groups.find((g) => g.id === og.id);
