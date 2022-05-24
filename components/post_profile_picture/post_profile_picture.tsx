@@ -11,7 +11,7 @@ import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils';
 
 import {Post} from '@mattermost/types/posts';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 type Props = {
     availabilityStatusOnPosts: string;

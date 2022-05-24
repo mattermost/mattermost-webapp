@@ -22,7 +22,7 @@ import {
 } from '@mattermost/types/posts';
 import {Reaction} from '@mattermost/types/reactions';
 import {GlobalState} from '@mattermost/types/store';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 import {
     IDMappedObjects,
     RelationOneToOne,

@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 import {Channel, ChannelNotifyProps} from '@mattermost/types/channels';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 

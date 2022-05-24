@@ -8,7 +8,7 @@ import {shallow} from 'enzyme';
 import {Post} from '@mattermost/types/posts';
 import {TestHelper} from 'utils/test_helper';
 import {Channel} from '@mattermost/types/channels';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import VirtualizedThreadViewer from './virtualized_thread_viewer';
 

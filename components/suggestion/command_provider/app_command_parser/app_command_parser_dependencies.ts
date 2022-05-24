@@ -46,7 +46,7 @@ export type {
 
 import type {
     UserProfile,
-} from 'mattermost-redux/types/users';
+} from '@mattermost/types/users';
 export type {UserProfile};
 
 export {

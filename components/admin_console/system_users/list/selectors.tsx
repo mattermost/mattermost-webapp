@@ -3,7 +3,7 @@
 
 import {getUser, getProfiles, getProfilesInTeam, getProfilesWithoutTeam, makeSearchProfilesStartingWithTerm, searchProfilesInTeam} from 'mattermost-redux/selectors/entities/users';
 import {GlobalState} from '@mattermost/types/store';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import {userSelectorOptionsFromFilter} from 'utils/filter_users';
 

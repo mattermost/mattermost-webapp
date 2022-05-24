@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {Channel} from '@mattermost/types/channels';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import {Value} from 'components/multiselect/multiselect';
 

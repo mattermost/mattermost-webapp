@@ -3,7 +3,7 @@
 import {Channel, ChannelMembership, ChannelNotifyProps, ChannelWithTeamData} from '@mattermost/types/channels';
 import {Bot} from '@mattermost/types/bots';
 import {Role} from '@mattermost/types/roles';
-import {UserProfile, UserAccessToken} from 'mattermost-redux/types/users';
+import {UserProfile, UserAccessToken} from '@mattermost/types/users';
 import {Team, TeamMembership} from '@mattermost/types/teams';
 import {Group} from '@mattermost/types/groups';
 import {FileInfo} from '@mattermost/types/files';

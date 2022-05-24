@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 
 import {Team} from '@mattermost/types/teams';
 import {CustomEmoji} from '@mattermost/types/emojis';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import EmojiMap from 'utils/emoji_map.js';
 

@@ -7,7 +7,7 @@ import {IntlShape, injectIntl} from 'react-intl';
 import {Client4} from 'mattermost-redux/client';
 
 import {Channel} from '@mattermost/types/channels';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 import {PreferenceType} from '@mattermost/types/preferences';
 
 import {trackEvent} from 'actions/telemetry_actions';

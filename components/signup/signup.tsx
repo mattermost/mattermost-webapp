@@ -39,7 +39,7 @@ import {getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferen
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {ServerError} from '@mattermost/types/errors';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
 import {getGlobalItem} from 'selectors/storage';

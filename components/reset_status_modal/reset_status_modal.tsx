@@ -10,7 +10,7 @@ import ConfirmModal from 'components/confirm_modal';
 import {toTitleCase} from 'utils/utils';
 import {UserStatuses} from 'utils/constants';
 import {t} from 'utils/i18n';
-import {UserStatus} from 'mattermost-redux/types/users';
+import {UserStatus} from '@mattermost/types/users';
 import {PreferenceType} from '@mattermost/types/preferences';
 
 t('modal.manual_status.auto_responder.message_');

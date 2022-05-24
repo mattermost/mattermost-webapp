@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Team} from '@mattermost/types/teams';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {Command} from '@mattermost/types/integrations';
 import {ActionResult} from 'mattermost-redux/types/actions';

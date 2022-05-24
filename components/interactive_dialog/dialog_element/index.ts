@@ -9,7 +9,7 @@ import {autocompleteUsers} from 'actions/user_actions';
 
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import {Channel} from '@mattermost/types/channels';
 

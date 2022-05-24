@@ -32,7 +32,7 @@ import {Channel, ChannelMembership} from '@mattermost/types/channels';
 import {GlobalState} from '@mattermost/types/store';
 import {Team, TeamMembership} from '@mattermost/types/teams';
 import {Group} from '@mattermost/types/groups';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 import {
     IDMappedObjects,
     RelationOneToMany,

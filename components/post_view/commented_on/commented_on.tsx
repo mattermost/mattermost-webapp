@@ -4,7 +4,7 @@
 import React, {PureComponent} from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {UserProfile as UserProfileType} from 'mattermost-redux/types/users';
+import {UserProfile as UserProfileType} from '@mattermost/types/users';
 
 import {Post} from '@mattermost/types/posts';
 

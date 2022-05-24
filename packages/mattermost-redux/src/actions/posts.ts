@@ -20,7 +20,7 @@ import {ChannelUnread} from '@mattermost/types/channels';
 import {GlobalState} from '@mattermost/types/store';
 import {Post, PostList} from '@mattermost/types/posts';
 import {Reaction} from '@mattermost/types/reactions';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {getProfilesByIds, getProfilesByUsernames, getStatusesByIds} from './users';

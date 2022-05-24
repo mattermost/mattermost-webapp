@@ -11,7 +11,7 @@ import {isEmail} from 'mattermost-redux/utils/helpers';
 
 import {Team, TeamMembership} from '@mattermost/types/teams';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import {ServerError} from '@mattermost/types/errors';
 

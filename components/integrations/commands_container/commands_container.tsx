@@ -6,7 +6,7 @@ import {Route, Switch, Redirect} from 'react-router-dom';
 
 import {Team} from '@mattermost/types/teams';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 

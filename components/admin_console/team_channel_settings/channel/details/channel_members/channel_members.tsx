@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {ServerError} from '@mattermost/types/errors';
-import {UserProfile, UsersStats, GetFilteredUsersStatsOpts} from 'mattermost-redux/types/users';
+import {UserProfile, UsersStats, GetFilteredUsersStatsOpts} from '@mattermost/types/users';
 import {Channel, ChannelMembership} from '@mattermost/types/channels';
 import GeneralConstants from 'mattermost-redux/constants/general';
 

@@ -5,7 +5,7 @@ import React from 'react';
 
 import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import {filterProfilesStartingWithTerm} from 'mattermost-redux/utils/user_utils';
 import {localizeMessage} from 'utils/utils';

@@ -7,7 +7,7 @@ import React from 'react';
 
 import {Permissions} from 'mattermost-redux/constants';
 
-import {UserProfile as UserProfileRedux} from 'mattermost-redux/types/users';
+import {UserProfile as UserProfileRedux} from '@mattermost/types/users';
 
 import {Channel} from '@mattermost/types/channels';
 

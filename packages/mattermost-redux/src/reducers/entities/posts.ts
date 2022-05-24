@@ -14,7 +14,7 @@ import {
     PostOrderBlock,
     MessageHistory,
 } from '@mattermost/types/posts';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 import {Reaction} from '@mattermost/types/reactions';
 import {
     RelationOneToOne,

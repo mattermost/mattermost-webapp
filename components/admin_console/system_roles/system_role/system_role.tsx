@@ -8,7 +8,7 @@ import {uniq, difference} from 'lodash';
 import {Role} from '@mattermost/types/roles';
 import {Client4} from 'mattermost-redux/client';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
 import Permissions from 'mattermost-redux/constants/permissions';

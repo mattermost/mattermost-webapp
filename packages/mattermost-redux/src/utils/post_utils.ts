@@ -6,7 +6,7 @@ import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles'
 import {GlobalState} from '@mattermost/types/store';
 import {PreferenceType} from '@mattermost/types/preferences';
 import {Post, PostType, PostMetadata, PostEmbed} from '@mattermost/types/posts';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 import {Team} from '@mattermost/types/teams';
 import {Channel} from '@mattermost/types/channels';
 

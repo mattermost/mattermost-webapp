@@ -12,7 +12,7 @@ import {getMembersInCurrentTeam} from 'mattermost-redux/selectors/entities/teams
 import {getChannelStats, getChannelMembers} from 'mattermost-redux/actions/channels';
 import {searchProfiles} from 'mattermost-redux/actions/users';
 import {sortByUsername} from 'mattermost-redux/utils/user_utils';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 import {Channel, ChannelMembership} from '@mattermost/types/channels';
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 

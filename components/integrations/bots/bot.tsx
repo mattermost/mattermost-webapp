@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {Bot as BotType} from '@mattermost/types/bots';
-import {UserProfile, UserAccessToken} from 'mattermost-redux/types/users';
+import {UserProfile, UserAccessToken} from '@mattermost/types/users';
 import {Team} from '@mattermost/types/teams';
 
 import ConfirmModal from 'components/confirm_modal';

@@ -3,7 +3,7 @@
 
 import {ErrorPageTypes} from 'utils/constants';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import {ClientLicense} from '@mattermost/types/config';
 

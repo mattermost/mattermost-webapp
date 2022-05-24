@@ -8,7 +8,7 @@ import {ConnectedComponent} from 'react-redux';
 
 import {Client4} from 'mattermost-redux/client';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 import {Channel, ChannelMembership} from '@mattermost/types/channels';
 import {ServerError} from '@mattermost/types/errors';
 

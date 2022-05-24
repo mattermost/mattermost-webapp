@@ -5,7 +5,7 @@ import {ChannelTypes, PostTypes, ThreadTypes, UserTypes} from 'mattermost-redux/
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {Post} from '@mattermost/types/posts';
 import {ThreadsState, UserThread} from '@mattermost/types/threads';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 import {IDMappedObjects} from 'mattermost-redux/types/utilities';
 
 import {threadsInTeamReducer, unreadThreadsInTeamReducer} from './threadsInTeam';

@@ -8,7 +8,7 @@ import {isEmpty} from 'lodash';
 import {FormattedMessage} from 'react-intl';
 
 import {PreferenceType} from '@mattermost/types/preferences';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 import {AnalyticsRow} from '@mattermost/types/admin';
 import {Subscription} from '@mattermost/types/cloud';
 

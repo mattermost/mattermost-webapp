@@ -8,7 +8,7 @@ import {AnalyticsRow} from '@mattermost/types/admin';
 import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {General} from 'mattermost-redux/constants';
 import {Team} from '@mattermost/types/teams';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import LoadingScreen from 'components/loading_screen';
 

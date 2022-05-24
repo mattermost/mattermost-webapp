@@ -7,7 +7,7 @@ import {cloneDeep} from 'lodash';
 
 import {Groups, Permissions} from 'mattermost-redux/constants';
 import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 import {Scheme} from '@mattermost/types/schemes';
 import {SyncablePatch, Group, SyncableType} from '@mattermost/types/groups';
 import {Channel, ChannelModeration as ChannelPermissions, ChannelModerationPatch} from '@mattermost/types/channels';

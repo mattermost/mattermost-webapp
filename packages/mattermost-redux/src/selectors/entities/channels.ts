@@ -46,7 +46,7 @@ import {
 import {Post} from '@mattermost/types/posts';
 import {GlobalState} from '@mattermost/types/store';
 import {Team} from '@mattermost/types/teams';
-import {UserProfile, UsersState} from 'mattermost-redux/types/users';
+import {UserProfile, UsersState} from '@mattermost/types/users';
 import {
     IDMappedObjects,
     RelationOneToMany,

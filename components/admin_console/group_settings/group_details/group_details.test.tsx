@@ -9,7 +9,7 @@ import GroupDetails from 'components/admin_console/group_settings/group_details/
 import {ChannelWithTeamData} from '@mattermost/types/channels';
 import {Group, GroupChannel, GroupTeam} from '@mattermost/types/groups';
 import {Team} from '@mattermost/types/teams';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 describe('components/admin_console/group_settings/group_details/GroupDetails', () => {
     const defaultProps = {

@@ -7,7 +7,7 @@ import {TeamMemberWithError, TeamInviteWithError} from '@mattermost/types/teams'
 
 import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 import {getChannelMembersInChannels} from 'mattermost-redux/selectors/entities/channels';
 import {joinChannel} from 'mattermost-redux/actions/channels';
 import {Channel, ChannelMembership} from '@mattermost/types/channels';

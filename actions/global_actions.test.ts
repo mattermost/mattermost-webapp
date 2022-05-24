@@ -3,7 +3,7 @@
 
 import configureStore from 'redux-mock-store';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 import {Team} from '@mattermost/types/teams';
 
 import {browserHistory} from 'utils/browser_history';

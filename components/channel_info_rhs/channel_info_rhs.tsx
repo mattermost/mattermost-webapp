@@ -5,7 +5,7 @@ import React, {memo} from 'react';
 
 import styled from 'styled-components';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 import {Channel, ChannelStats} from '@mattermost/types/channels';
 import {getSiteURL} from 'utils/url';
 import ChannelInviteModal from 'components/channel_invite_modal';

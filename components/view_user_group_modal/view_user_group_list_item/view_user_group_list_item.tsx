@@ -3,7 +3,7 @@
 import React, {useCallback} from 'react';
 
 import {Group} from '@mattermost/types/groups';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import Avatar from 'components/widgets/users/avatar';
 import * as Utils from 'utils/utils';

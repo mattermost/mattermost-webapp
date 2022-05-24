@@ -5,7 +5,7 @@ import React from 'react';
 
 import {ActionResult, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {PostAction} from '@mattermost/types/integration_actions';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 import {Channel} from '@mattermost/types/channels';
 import {ServerError} from '@mattermost/types/errors';
 

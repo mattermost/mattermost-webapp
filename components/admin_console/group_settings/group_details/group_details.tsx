@@ -28,7 +28,7 @@ import {
     SyncableType,
 } from '@mattermost/types/groups';
 import {Team} from '@mattermost/types/teams';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import {t} from 'utils/i18n';
 import {localizeMessage} from 'utils/utils';

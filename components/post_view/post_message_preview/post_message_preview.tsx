@@ -9,7 +9,7 @@ import classNames from 'classnames';
 
 import {Post, PostPreviewMetadata} from '@mattermost/types/posts';
 import UserProfileComponent from 'components/user_profile';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 import Avatar from 'components/widgets/users/avatar';
 import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils';

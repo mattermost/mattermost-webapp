@@ -7,7 +7,7 @@ import {DynamicSizeList, OnScrollArgs, OnItemsRenderedArgs} from 'dynamic-virtua
 
 import {Channel} from '@mattermost/types/channels';
 import {Post} from '@mattermost/types/posts';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import {isDateLine, isStartOfNewMessages, isCreateComment} from 'mattermost-redux/utils/post_list';
 

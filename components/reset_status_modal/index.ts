@@ -8,7 +8,7 @@ import {GlobalState} from 'types/store/index.js';
 
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions.js';
 
-import {UserStatus} from 'mattermost-redux/types/users.js';
+import {UserStatus} from '@mattermost/types/users.js';
 
 import {PreferenceType} from '@mattermost/types/preferences.js';
 

@@ -7,7 +7,7 @@ import {sendMembersInvites, sendGuestsInvites} from 'actions/invite_actions';
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
 import {Channel} from '@mattermost/types/channels';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 jest.mock('actions/team_actions', () => ({
     addUsersToTeam: () => ({ // since we are using addUsersToTeamGracefully, this call will always succeed

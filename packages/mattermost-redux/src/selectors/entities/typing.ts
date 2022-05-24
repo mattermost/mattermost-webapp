@@ -8,7 +8,7 @@ import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities
 
 import {GlobalState} from '@mattermost/types/store';
 import {Typing} from '@mattermost/types/typing';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 import {IDMappedObjects} from 'mattermost-redux/types/utilities';
 
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
