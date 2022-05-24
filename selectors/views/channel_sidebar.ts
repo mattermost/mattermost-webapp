@@ -135,7 +135,7 @@ export const getUnreadChannels = (() => {
                 }
             }
 
-            return unreadChannels;
+            return unreadChannels.filter(Boolean);
         },
     );
 
