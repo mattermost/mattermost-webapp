@@ -10,17 +10,17 @@ import {t} from 'utils/i18n';
 
 import AnnouncementBar from '../default_announcement_bar';
 import {AnnouncementBarTypes, Preferences, CloudBanners} from 'utils/constants';
+import {anyUsageDeltaValueIsNegative} from 'utils/limits';
+import {GlobalState} from 'types/store';
 import useGetUsageDeltas from 'components/common/hooks/useGetUsageDeltas';
 import useGetLimits from 'components/common/hooks/useGetLimits';
-import {GlobalState} from 'types/store';
+import useGetSubscription from 'components/common/hooks/useGetSubscription';
 import {isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
-import useGetSubscription from 'components/common/hooks/useGetSubscription';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {
     getCurrentUser,
 } from 'mattermost-redux/selectors/entities/users';
-import {anyUsageDeltaValueIsNegative} from 'utils/limits';
 
 const CloudTrialEndAnnouncementBar: React.FC = () => {
     const usageDeltas = useGetUsageDeltas();
@@ -40,7 +40,8 @@ const CloudTrialEndAnnouncementBar: React.FC = () => {
             return false;
         }
 
-        if (!limits[1]) {
+        // Make sure limits are loaded before showing banner
+        if (!limits || !limits[1]) {
             return false;
         }
 
