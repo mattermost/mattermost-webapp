@@ -10,7 +10,7 @@ import {getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferen
 
 import {GlobalState} from '@mattermost/types/store';
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
-import {TermsOfService as ReduxTermsOfService} from 'mattermost-redux/types/terms_of_service';
+import {TermsOfService as ReduxTermsOfService} from '@mattermost/types/terms_of_service';
 
 import {getEmojiMap} from 'selectors/emojis';
 
