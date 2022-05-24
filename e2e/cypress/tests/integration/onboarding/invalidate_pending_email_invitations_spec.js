@@ -71,7 +71,7 @@ describe('Onboarding', () => {
 
         // # Invite two more users and close the modal
         inviteNewUser(emailTwo);
-        cy.get('.invite-more').click();
+        cy.findByTestId('invite-more').click();
         inviteNewUser(emailThree);
         cy.findByText('Done').should('be.visible').click();
 

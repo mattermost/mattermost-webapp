@@ -178,7 +178,6 @@ describe('System Console', () => {
             });
 
             cy.apiSaveTutorialStep(user.id, '999');
-            cy.apiSaveOnboardingPreference(user.id, 'hide', 'true');
         });
     });
 
