@@ -127,7 +127,7 @@ class ToastWrapper extends React.PureComponent {
             showUnreadToast = false;
         }
 
-        if (props.needMoreToReachUnread) {
+        if (props.needMoreToReachUnread && unreadCount > 0) {
             showUnreadFromBottomToast = true;
         }
 

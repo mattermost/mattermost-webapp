@@ -17,6 +17,7 @@ describe('components/ToastWrapper', () => {
         unreadCountInChannel: 0,
         newRecentMessagesCount: 0,
         channelMarkedAsUnread: false,
+        needMoreToReachUnread: false,
         atLatestPost: false,
         postListIds: [
             'post1',
@@ -55,7 +56,7 @@ describe('components/ToastWrapper', () => {
             expect(wrapper.state('unreadCount')).toBe(15);
         });
 
-        test('If atLatestPost then unread count is based on the number of posts below the new message indicator', () => {
+        test('If atLatestPost and not needMoreToReachUnread then unread count is based on the number of posts below the new message indicator', () => {
             const props = {
                 ...baseProps,
                 atLatestPost: true,
@@ -72,6 +73,27 @@ describe('components/ToastWrapper', () => {
 
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
             expect(wrapper.state('unreadCount')).toBe(3);
+        });
+
+        test('If atLatestPost and needMoreToReachUnread then unread count is based on the unreadCountInChannel', () => {
+            const props = {
+                ...baseProps,
+                needMoreToReachUnread: true,
+                atLatestPost: true,
+                unreadCountInChannel: 10,
+                postListIds: [ //order of the postIds is in reverse order so unreadCount should be 3
+                    'post1',
+                    'post2',
+                    'post3',
+                    PostListRowListIds.START_OF_NEW_MESSAGES,
+                    DATE_LINE + 1551711600000,
+                    'post4',
+                    'post5',
+                ],
+            };
+
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            expect(wrapper.state('unreadCount')).toBe(10);
         });
 
         test('If channelMarkedAsUnread then unread count should be based on the unreadCountInChannel', () => {
@@ -463,6 +485,27 @@ describe('components/ToastWrapper', () => {
                 ],
             });
             expect(baseProps.updateNewMessagesAtInChannel).toHaveBeenCalledTimes(1);
+        });
+
+        test('Should have unreadFromBottom toast if unreadCount > 0 and needMoreToReachUnread', () => {
+            const props = {
+                ...baseProps,
+                unreadCountInChannel: 10,
+                needMoreToReachUnread: true,
+            };
+
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            expect(wrapper.state('showUnreadFromBottomToast')).toBe(true);
+        });
+
+        test('Should hide unreadFromBottom toast if not needMoreToReachUnread', () => {
+            const props = {
+                ...baseProps,
+                needMoreToReachUnread: false,
+            };
+
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            expect(wrapper.state('showUnreadFromBottomToast')).toBeFalsy();
         });
     });
 
