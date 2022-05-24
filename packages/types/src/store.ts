@@ -30,7 +30,6 @@ import {Typing} from './typing';
 import {UsersState} from './users';
 import {AppsState} from './apps';
 import {InsightsState} from './insights';
-import {UsageState} from './usage';
 
 export type GlobalState = {
     entities: {
@@ -69,7 +68,6 @@ export type GlobalState = {
         cloud: CloudState;
         usage: CloudUsage;
         insights: InsightsState;
-        usage: UsageState;
     };
     errors: any[];
     requests: {
