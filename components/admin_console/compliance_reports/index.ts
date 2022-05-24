@@ -12,7 +12,7 @@ import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {Compliance} from '@mattermost/types/compliance';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import ComplianceReports from './compliance_reports';

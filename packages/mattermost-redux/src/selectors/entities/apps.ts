@@ -3,7 +3,7 @@
 
 import {createSelector} from 'reselect';
 
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 import {AppBinding} from '@mattermost/types/apps';
 import {ClientConfig} from '@mattermost/types/config';
 

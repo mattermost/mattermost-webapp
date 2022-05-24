@@ -8,7 +8,7 @@ import {setCategoryMuted, setCategorySorting} from 'mattermost-redux/actions/cha
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {Action} from 'mattermost-redux/types/actions';
 import {CategorySorting} from '@mattermost/types/channel_categories';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 
 import {openModal} from 'actions/views/modals';
 

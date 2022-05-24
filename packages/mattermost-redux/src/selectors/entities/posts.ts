@@ -21,7 +21,7 @@ import {
     PostOrderBlock,
 } from '@mattermost/types/posts';
 import {Reaction} from '@mattermost/types/reactions';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {
     IDMappedObjects,

@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
-import {GlobalState} from 'mattermost-redux/types/store.js';
+import {GlobalState} from '@mattermost/types/store.js';
 import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions.js';
 import {Role} from '@mattermost/types/roles.js';
 

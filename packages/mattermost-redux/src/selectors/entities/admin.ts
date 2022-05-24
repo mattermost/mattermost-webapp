@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {DataRetentionCustomPolicies, DataRetentionCustomPolicy} from '@mattermost/types/data_retention';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 
 export function getLogs(state: GlobalState) {
     return state.entities.admin.logs;

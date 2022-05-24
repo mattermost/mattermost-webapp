@@ -4,7 +4,7 @@
 import {createSelector} from 'reselect';
 
 import {Bot} from '@mattermost/types/bots';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 import {getUsers} from 'mattermost-redux/selectors/entities/common';
 
 export const ExternalBotAccountNames: string[] = ['mattermost-advisor'];

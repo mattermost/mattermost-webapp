@@ -10,7 +10,7 @@ import {getTeams} from 'mattermost-redux/selectors/entities/teams';
 
 import {Channel} from '@mattermost/types/channels';
 import {Scheme} from '@mattermost/types/schemes';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 import {Team} from '@mattermost/types/teams';
 
 export function getSchemes(state: GlobalState): {

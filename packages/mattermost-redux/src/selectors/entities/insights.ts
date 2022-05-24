@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 import {createSelector} from 'reselect';
 
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 import {TimeFrame, TimeFrames, TopReaction} from '@mattermost/types/insights';
 
 import {getCurrentTeamId} from './teams';

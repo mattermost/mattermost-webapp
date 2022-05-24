@@ -3,7 +3,7 @@
 import {Posts, Preferences, Permissions} from '../constants';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 import {PreferenceType} from '@mattermost/types/preferences';
 import {Post, PostType, PostMetadata, PostEmbed} from '@mattermost/types/posts';
 import {UserProfile} from 'mattermost-redux/types/users';

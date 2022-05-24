@@ -17,7 +17,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {General, Permissions} from 'mattermost-redux/constants';
 
 import {Role} from '@mattermost/types/roles';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 import {GroupMembership, GroupPermissions} from '@mattermost/types/groups';
 
 export {getMySystemPermissions, getMySystemRoles, getRoles, haveISystemPermission};

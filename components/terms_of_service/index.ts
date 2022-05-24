@@ -8,7 +8,7 @@ import {getTermsOfService, updateMyTermsOfServiceStatus} from 'mattermost-redux/
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
 
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {TermsOfService as ReduxTermsOfService} from 'mattermost-redux/types/terms_of_service';
 

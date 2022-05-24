@@ -6,7 +6,7 @@ import {createSelector} from 'reselect';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import {OutgoingWebhook, Command} from '@mattermost/types/integrations';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 import {IDMappedObjects} from 'mattermost-redux/types/utilities';
 
 import {appsEnabled} from './apps';

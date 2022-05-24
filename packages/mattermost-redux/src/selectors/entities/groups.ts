@@ -8,7 +8,7 @@ import {filterGroupsMatchingTerm, sortGroups} from 'mattermost-redux/utils/group
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {UserMentionKey} from 'mattermost-redux/selectors/entities/users';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 
 import Constants from 'utils/constants';
 

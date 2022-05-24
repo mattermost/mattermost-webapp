@@ -44,7 +44,7 @@ import {
     ChannelStats,
 } from '@mattermost/types/channels';
 import {Post} from '@mattermost/types/posts';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 import {Team} from '@mattermost/types/teams';
 import {UserProfile, UsersState} from 'mattermost-redux/types/users';
 import {

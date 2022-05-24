@@ -8,7 +8,7 @@ import {Permissions} from 'mattermost-redux/constants';
 import {getConfig, getCurrentUrl, isCompatibleWithJoinViewTeamPermissions} from 'mattermost-redux/selectors/entities/general';
 import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles_helpers';
 
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 import {Team, TeamMembership, TeamStats} from '@mattermost/types/teams';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {IDMappedObjects, RelationOneToOne} from 'mattermost-redux/types/utilities';

@@ -11,7 +11,7 @@ import {addUserToTeam} from 'mattermost-redux/actions/teams';
 
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 
 import {ServerError} from '@mattermost/types/errors';
 

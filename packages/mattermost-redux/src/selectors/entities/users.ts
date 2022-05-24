@@ -29,7 +29,7 @@ import {
 } from 'mattermost-redux/utils/user_utils';
 
 import {Channel, ChannelMembership} from '@mattermost/types/channels';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 import {Team, TeamMembership} from '@mattermost/types/teams';
 import {Group} from '@mattermost/types/groups';
 import {UserProfile} from 'mattermost-redux/types/users';

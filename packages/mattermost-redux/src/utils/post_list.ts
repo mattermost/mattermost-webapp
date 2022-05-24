@@ -19,7 +19,7 @@ import {isUserActivityPost, shouldFilterJoinLeavePost, isFromWebhook} from 'matt
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
 
 import {Post} from '@mattermost/types/posts';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 
 export const COMBINED_USER_ACTIVITY = 'user-activity-';
 export const CREATE_COMMENT = 'create-comment';
