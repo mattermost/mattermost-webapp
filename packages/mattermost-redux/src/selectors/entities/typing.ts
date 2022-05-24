@@ -7,7 +7,7 @@ import {getCurrentChannelId, getUsers} from 'mattermost-redux/selectors/entities
 import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 
 import {GlobalState} from '@mattermost/types/store';
-import {Typing} from 'mattermost-redux/types/typing';
+import {Typing} from '@mattermost/types/typing';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {IDMappedObjects} from 'mattermost-redux/types/utilities';
 
