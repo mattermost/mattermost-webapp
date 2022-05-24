@@ -207,6 +207,16 @@ declare namespace Cypress {
         apiCreateUser(options: Record<string, any>): Chainable<UserProfile>;
 
         /**
+         * SHow onboarding task list for a given user ID.
+         * @param {string} userId - user ID
+         * @param {boolean} show - false (default) or true to show on boarding task list
+         *
+         * @example
+         *   cy.apiShowOnboardingTaskList('user-id', true);
+         */
+        apiShowOnboardingTaskList(userId: string, show: boolean): Chainable;
+
+        /**
          * Create a new guest user with an options to set name prefix and be able to bypass tutorial steps.
          * @param {string} options.prefix - 'guest' (default) or any prefix to easily identify a guest
          * @param {boolean} options.bypassTutorial - true (default) or false for guest to go thru tutorial steps

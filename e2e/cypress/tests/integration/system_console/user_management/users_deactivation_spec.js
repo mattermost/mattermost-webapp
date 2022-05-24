@@ -95,7 +95,7 @@ describe('System Console > User Management > Deactivation', () => {
 
             // # Start typing part of a username that matches previously created users
             cy.findByRole('textbox', {name: 'Search for people'}).click({force: true}).
-                type(other.username).wait(TIMEOUTS.ONE_SEC);
+                type(other.username, {force: true}).wait(TIMEOUTS.ONE_SEC);
 
             // * Verify user is marked as deactivated
             cy.get('#displayedUserName' + other.username).parent().contains('Deactivated');
@@ -126,7 +126,7 @@ describe('System Console > User Management > Deactivation', () => {
 
                 // # Type the user name of user1 on Channel switcher input
                 cy.findByRole('textbox', {name: 'Search for people'}).click({force: true}).
-                    type(user1.username).wait(TIMEOUTS.ONE_SEC);
+                    type(user1.username, {force: true}).wait(TIMEOUTS.ONE_SEC);
 
                 // # Click on the user
                 cy.get('#displayedUserName' + user1.username).click();

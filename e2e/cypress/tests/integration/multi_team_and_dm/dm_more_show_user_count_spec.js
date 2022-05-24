@@ -55,7 +55,7 @@ describe('Multi Team and DM', () => {
             const totalUsers = number.text().split(' ').slice(2, 3);
 
             // * Assert that 2 unique users are displayed
-            cy.findByText('Search for people').click().type(unique).then(() => {
+            cy.findByText('Search for people').click().type(unique, {force: true}).then(() => {
                 cy.get('#multiSelectList').within(() => {
                     cy.get('.more-modal__details').should('have.length', 2);
                 });

@@ -221,9 +221,7 @@ function setLDAPTestSettings(config) {
 
 function disableOnboardingTaskList(ldapLogin) {
     cy.apiLogin(ldapLogin).then(({user}) => {
-        cy.apiSaveOnboardingTaskListPreference(user.id, 'onboarding_task_list_open', 'false');
-        cy.apiSaveOnboardingTaskListPreference(user.id, 'onboarding_task_list_show', 'false');
-        cy.apiSaveSkipStepsPreference(user.id, 'true');
+        cy.apiShowOnboardingTaskList(user.id, false);
     });
 }
 

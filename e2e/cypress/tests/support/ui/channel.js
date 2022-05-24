@@ -35,7 +35,7 @@ Cypress.Commands.add('uiAddUsersToCurrentChannel', (usernameList) => {
         cy.get('#channelAddMembers').click();
         cy.get('#addUsersToChannelModal').should('be.visible');
         usernameList.forEach((username) => {
-            cy.get('#react-select-2-input').type(`@${username}{enter}`);
+            cy.get('#react-select-2-input').type(`@${username}{enter}`, {force: true});
         });
         cy.get('#saveItems').click();
         cy.get('#addUsersToChannelModal').should('not.exist');
@@ -72,8 +72,8 @@ Cypress.Commands.add('goToDm', (username) => {
     cy.get('#selectItems input').type(username, {force: true});
     cy.findByRole('dialog', {name: 'Direct Messages'}).should('be.visible').wait(TIMEOUTS.ONE_SEC);
     cy.findByRole('textbox', {name: 'Search for people'}).click({force: true}).
-        type(username).wait(TIMEOUTS.ONE_SEC).
-        type('{enter}');
+        type(username, {force: true}).wait(TIMEOUTS.ONE_SEC).
+        type('{enter}', {force: true});
 
     // # Save the selected item
     return cy.get('#saveItems').click().wait(TIMEOUTS.HALF_SEC);

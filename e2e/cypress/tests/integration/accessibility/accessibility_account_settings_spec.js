@@ -183,34 +183,37 @@ describe('Verify Accessibility Support in different sections in Settings and Pro
 
         cy.get('#displayButton').click();
         cy.get('#languagesEdit').click();
-        cy.get('#displayLanguage').within(() => {
-            cy.get('input').should('have.attr', 'aria-autocomplete', 'list').and('have.attr', 'aria-labelledby', 'changeInterfaceLanguageLabel').as('inputEl');
-        });
+        cy.get('#displayLanguage').
+            should('be.visible').
+            find('input').
+            should('have.attr', 'aria-autocomplete', 'list').
+            and('have.attr', 'aria-labelledby', 'changeInterfaceLanguageLabel').
+            as('inputEl');
         cy.get('#changeInterfaceLanguageLabel').should('be.visible').and('have.text', 'Change interface language');
 
         // # When enter key is pressed on dropdown, it should expand and collapse
-        cy.get('@inputEl').type('{enter}');
+        cy.get('@inputEl').type('{enter}', {force: true});
         cy.get('#displayLanguage>div').should('have.class', 'react-select__control--menu-is-open');
-        cy.get('@inputEl').type('{enter}');
+        cy.get('@inputEl').type('{enter}', {force: true});
         cy.get('#displayLanguage>div').should('not.have.class', 'react-select__control--menu-is-open');
 
         // # Press down arrow twice and check aria label
-        cy.get('@inputEl').type('{enter}');
-        cy.get('@inputEl').type('{downarrow}{downarrow}');
+        cy.get('@inputEl').type('{enter}', {force: true});
+        cy.get('@inputEl').type('{downarrow}{downarrow}', {force: true});
         cy.get('#displayLanguage>span').as('ariaEl').within(($el) => {
             cy.wrap($el).should('have.attr', 'aria-live', 'assertive');
             cy.get('#aria-context').should('contain', 'option English (Australia) focused').and('contain', 'Use Up and Down to choose options, press Enter to select the currently focused option, press Escape to exit the menu, press Tab to select the option and exit the menu.');
         });
 
         // # Check if language setting gets changed after user presses enter
-        cy.get('@inputEl').type('{enter}');
+        cy.get('@inputEl').type('{enter}', {force: true});
         cy.get('#displayLanguage').should('contain', 'English (Australia)');
         cy.get('@ariaEl').get('#aria-selection-event').should('contain', 'option English (Australia), selected');
 
         // # Press down arrow, then up arrow and press enter
-        cy.get('@inputEl').type('{downarrow}{downarrow}{downarrow}{uparrow}');
+        cy.get('@inputEl').type('{downarrow}{downarrow}{downarrow}{uparrow}', {force: true});
         cy.get('@ariaEl').get('#aria-context').should('contain', 'option English (US) focused');
-        cy.get('@inputEl').type('{enter}');
+        cy.get('@inputEl').type('{enter}', {force: true});
         cy.get('#displayLanguage').should('contain', 'English (US)');
         cy.get('@ariaEl').get('#aria-selection-event').should('contain', 'option English (US), selected');
     });

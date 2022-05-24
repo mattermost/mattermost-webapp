@@ -174,8 +174,8 @@ describe('Verify Guest User Identification in different screens', () => {
         cy.uiAddDirectMessage().click();
         cy.findByRole('dialog', {name: 'Direct Messages'}).should('be.visible').wait(TIMEOUTS.ONE_SEC);
         cy.findByRole('textbox', {name: 'Search for people'}).should('have.focused').
-            type(guest.username).wait(TIMEOUTS.ONE_SEC).
-            type('{enter}');
+            type(guest.username, {force: true}).wait(TIMEOUTS.ONE_SEC).
+            type('{enter}', {force: true});
         cy.uiGetButton('Go').click().wait(TIMEOUTS.HALF_SEC);
 
         // * Verify Guest Badge in DM header
@@ -188,11 +188,11 @@ describe('Verify Guest User Identification in different screens', () => {
         cy.uiAddDirectMessage().click();
         cy.findByRole('dialog', {name: 'Direct Messages'}).should('be.visible').wait(TIMEOUTS.ONE_SEC);
         cy.findByRole('textbox', {name: 'Search for people'}).should('have.focused').
-            type(guest.username).wait(TIMEOUTS.ONE_SEC).
-            type('{enter}');
+            type(guest.username, {force: true}).wait(TIMEOUTS.ONE_SEC).
+            type('{enter}', {force: true});
         cy.findByRole('textbox', {name: 'Search for people'}).should('have.focused').
-            type(admin.username).wait(TIMEOUTS.ONE_SEC).
-            type('{enter}');
+            type(admin.username, {force: true}).wait(TIMEOUTS.ONE_SEC).
+            type('{enter}', {force: true});
         cy.uiGetButton('Go').click().wait(TIMEOUTS.HALF_SEC);
 
         // * Verify Guest Badge in GM header

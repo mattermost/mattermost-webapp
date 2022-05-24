@@ -62,8 +62,8 @@ describe('Header', () => {
         cy.uiAddDirectMessage().click().wait(TIMEOUTS.ONE_SEC);
         cy.findByRole('dialog', {name: 'Direct Messages'}).should('be.visible').wait(TIMEOUTS.ONE_SEC);
         cy.findByRole('textbox', {name: 'Search for people'}).click({force: true}).
-            type('matterpoll').wait(TIMEOUTS.ONE_SEC).
-            type('{enter}');
+            type('matterpoll', {force: true}).wait(TIMEOUTS.ONE_SEC).
+            type('{enter}', {force: true});
         cy.get('#selectItems').contains('matterpoll');
         cy.get('#saveItems').click();
 

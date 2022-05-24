@@ -124,7 +124,7 @@ describe('Custom Status - Verifying Where Custom Status Appears', () => {
         cy.get('#moreDmModal').should('exist');
 
         // # Search the current user's username in the search input
-        cy.get('#moreDmModal #react-select-2-input').type(currentUser.username);
+        cy.get('#moreDmModal #react-select-2-input').type(currentUser.username, {force: true});
 
         // * Custom status emoji should be visible next to the username of the current user
         cy.get('#moreDmModal .more-modal__row span.emoticon').should('exist').invoke('attr', 'data-emoticon').should('contain', customStatus.emoji);

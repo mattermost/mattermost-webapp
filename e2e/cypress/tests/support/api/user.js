@@ -248,20 +248,11 @@ Cypress.Commands.add('apiCreateUser', ({
 
         const createdUser = userRes.body;
 
-        // // hide the onboarding task list by default so it doesn't block the execution of subsequent tests
-        cy.apiSaveSkipStepsPreference(createdUser.id, 'true');
-        cy.apiSaveOnboardingTaskListPreference(createdUser.id, 'onboarding_task_list_open', 'false');
-        cy.apiSaveOnboardingTaskListPreference(createdUser.id, 'onboarding_task_list_show', 'false');
-
         if (bypassTutorial) {
             cy.apiSaveTutorialStep(createdUser.id, '999');
         }
 
-        if (showOnboarding) {
-            cy.apiSaveSkipStepsPreference(createdUser.id, 'false');
-            cy.apiSaveOnboardingTaskListPreference(createdUser.id, 'onboarding_task_list_open', 'false');
-            cy.apiSaveOnboardingTaskListPreference(createdUser.id, 'onboarding_task_list_show', 'true');
-        }
+        cy.apiShowOnboardingTaskList(createdUser.id, showOnboarding);
 
         if (hideActionsMenu) {
             cy.apiSaveActionsMenuPreference(createdUser.id, true);
@@ -269,6 +260,19 @@ Cypress.Commands.add('apiCreateUser', ({
 
         return cy.wrap({user: {...createdUser, password: newUser.password}});
     });
+});
+
+Cypress.Commands.add('apiShowOnboardingTaskList', (userId = '', show = false) => {
+    cy.apiSaveOnboardingTaskListPreference(userId, 'onboarding_task_list_open', 'false');
+
+    if (show) {
+        cy.apiSaveSkipStepsPreference(userId, 'false');
+        cy.apiSaveOnboardingTaskListPreference(userId, 'onboarding_task_list_show', 'true');
+    } else {
+        // hide the onboarding task list by default so it doesn't block the execution of subsequent tests
+        cy.apiSaveSkipStepsPreference(userId, 'true');
+        cy.apiSaveOnboardingTaskListPreference(userId, 'onboarding_task_list_show', 'false');
+    }
 });
 
 Cypress.Commands.add('apiCreateGuestUser', ({

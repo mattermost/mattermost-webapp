@@ -155,11 +155,6 @@ describe('MM-23102 - Channel Moderation - Channel Mentions', () => {
         disablePermission(checkboxesTitleToIdMap.CHANNEL_MENTIONS_MEMBERS);
         saveConfigForChannel();
 
-        // # Set @channel and @all confirmation dialog to true
-        cy.visit('admin_console/environment/notifications');
-        cy.findByTestId('TeamSettings.EnableConfirmNotificationsToChanneltrue').check();
-        cy.uiSaveConfig();
-
         // # Visit test channel
         visitChannel(regularUser, testChannel, testTeam);
 

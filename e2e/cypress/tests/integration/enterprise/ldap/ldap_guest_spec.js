@@ -281,13 +281,12 @@ function setGuestAccess(enable) {
             cy.findByTestId(inputId).check().should('be.checked');
 
             // # Save settings
-            cy.findByTestId('saveSetting').click();
+            cy.uiSaveConfig();
 
             if (!enable) {
                 // # Confirm the modal button
                 cy.get('#confirmModalButton').click();
             }
-            cy.uiSaveConfig();
         }
     });
 }
@@ -310,6 +309,5 @@ function updateGuestFilter(value) {
     }
 
     // # Save config settings and wait until saved
-    cy.findByTestId('saveSetting').click();
     cy.uiSaveConfig();
 }

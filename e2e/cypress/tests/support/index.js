@@ -225,9 +225,7 @@ function resetUserPreference(userId) {
     cy.apiSaveCollapsePreviewsPreference('false');
     cy.apiSaveClockDisplayModeTo24HourPreference(false);
     cy.apiSaveTutorialStep(userId, '999');
-    cy.apiSaveOnboardingTaskListPreference(userId, 'onboarding_task_list_open', 'false');
-    cy.apiSaveOnboardingTaskListPreference(userId, 'onboarding_task_list_show', 'false');
     cy.apiSaveCloudTrialBannerPreference(userId, 'trial', '14_days_banner');
     cy.apiSaveActionsMenuPreference(userId);
-    cy.apiSaveSkipStepsPreference(userId, 'true');
+    cy.apiShowOnboardingTaskList(userId, false);
 }
