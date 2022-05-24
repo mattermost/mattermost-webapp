@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 
 import {MessageAttachment as MessageAttachmentType} from 'mattermost-redux/types/message_attachments';
 import {PostImage} from 'mattermost-redux/types/posts';
-import {PostAction} from 'mattermost-redux/types/integration_actions';
+import {PostAction} from '@mattermost/types/integration_actions';
 
 import {Constants} from 'utils/constants';
 

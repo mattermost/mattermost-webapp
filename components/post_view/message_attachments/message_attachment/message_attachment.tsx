@@ -6,7 +6,7 @@ import React, {CSSProperties} from 'react';
 import truncate from 'lodash/truncate';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {PostAction, PostActionOption} from 'mattermost-redux/types/integration_actions';
+import {PostAction, PostActionOption} from '@mattermost/types/integration_actions';
 import {
     MessageAttachment as MessageAttachmentType,
     MessageAttachmentField,
