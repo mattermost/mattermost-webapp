@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import TeamDetails from './team_details.jsx';
+import TeamDetails from './team_details';
 
 describe('admin_console/team_channel_settings/team/TeamDetails', () => {
     const groups = [{

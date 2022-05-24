@@ -21,8 +21,10 @@ import SaveChangesPanel from '../../save_changes_panel';
 
 import {Team} from '@mattermost/types/teams';
 import {UserProfile} from '@mattermost/types/users';
-import {Group, SyncablePatch, SyncableType, UsersWithGroupsAndCount} from '@mattermost/types/groups';
+import {Group, SyncablePatch, SyncableType} from '@mattermost/types/groups';
 import {ServerError} from '@mattermost/types/errors';
+
+import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {TeamProfile} from './team_profile';
 import {TeamModes} from './team_modes';
@@ -34,23 +36,23 @@ export type Props = {
     team: Team;
     totalGroups: number;
     groups: Group[];
-    allGroups: any; // TODO
+    allGroups: Record<string, Group>;
     isDisabled?: boolean;
     isLicensedForLDAPGroups?: boolean;
     actions: {
         setNavigationBlocked: (blocked: boolean) => void;
-        getTeam: (teamId: string) => Promise<{ error?: ServerError; data?: null }>;
-        linkGroupSyncable: (groupId: string, syncableId: string, syncableType: SyncableType, patch: SyncablePatch) => Promise<{ error?: ServerError; data?: null }>;
-        unlinkGroupSyncable: (groupId: string, syncableId: string, syncableType: SyncableType) => Promise<{ error?: ServerError; data?: null }>;
-        membersMinusGroupMembers: (teamId: string, groupIds: string[], page?: number, perPage?: number) => Promise<{ error?: ServerError; data?: UsersWithGroupsAndCount }>;
-        getGroups: (teamId: string, q?: string, page?: number, perPage?: number, filterAllowReference?: boolean) => Promise<{ error?: ServerError; data?: null }>;
-        patchTeam: (team: Team) => Promise<{ error?: ServerError; data?: null }>;
-        patchGroupSyncable: (groupId: string, syncableId: string, syncableType: SyncableType, patch: Partial<SyncablePatch>) => Promise<{ error?: ServerError; data?: null }>;
-        addUserToTeam: (teamId: string, userId: string) => Promise<{ error?: ServerError; data?: null }>;
-        removeUserFromTeam: (teamId: string, userId: string) => Promise<{ error?: ServerError; data?: null }>;
-        updateTeamMemberSchemeRoles: (teamId: string, userId: string, isSchemeUser: boolean, isSchemeAdmin: boolean) => Promise<{ error?: ServerError; data?: null }>;
-        deleteTeam: (teamId: string) => Promise<{ error?: ServerError; data?: null }>;
-        unarchiveTeam: (teamId: string) => Promise<{ error?: ServerError; data?: null }>;
+        getTeam: (teamId: string) => Promise<ActionResult>;
+        linkGroupSyncable: (groupId: string, syncableId: string, syncableType: SyncableType, patch: SyncablePatch) => Promise<ActionResult>;
+        unlinkGroupSyncable: (groupId: string, syncableId: string, syncableType: SyncableType) => Promise<ActionResult>;
+        membersMinusGroupMembers: (teamId: string, groupIds: string[], page?: number, perPage?: number) => Promise<ActionResult>;
+        getGroups: (teamId: string, q?: string, page?: number, perPage?: number, filterAllowReference?: boolean) => Promise<ActionResult>;
+        patchTeam: (team: Team) => ActionResult;
+        patchGroupSyncable: (groupId: string, syncableId: string, syncableType: SyncableType, patch: Partial<SyncablePatch>) => Promise<ActionResult>;
+        addUserToTeam: (teamId: string, userId: string) => Promise<ActionResult>;
+        removeUserFromTeam: (teamId: string, userId: string) => Promise<ActionResult>;
+        updateTeamMemberSchemeRoles: (teamId: string, userId: string, isSchemeUser: boolean, isSchemeAdmin: boolean) => Promise<ActionResult>;
+        deleteTeam: (teamId: string) => Promise<ActionResult>;
+        unarchiveTeam: (teamId: string) => Promise<ActionResult>;
     };
 };
 
@@ -65,18 +67,23 @@ type State = {
     usersToRemoveCount: number;
     usersToRemove: {[id: string]: UserProfile};
     usersToAdd: {[id: string]: UserProfile};
-    rolesToUpdate: any; //todo
+    rolesToUpdate: {
+        [userId: string]: {
+            schemeUser: boolean;
+            schemeAdmin: boolean;
+        };
+    };
     totalGroups: number;
     saveNeeded: boolean;
-    serverError: any; //todo
-    previousServerError: any; //todo
+    serverError: JSX.Element | null;
+    previousServerError: JSX.Element | null;
     isLocalArchived: boolean;
     showArchiveConfirmModal: boolean;
 };
 
 export default class TeamDetails extends React.PureComponent<Props, State> {
     static defaultProps = {
-        team: {display_name: '', id: ''},
+        team: {display_name: '', id: ''} as Team,
     };
 
     constructor(props: Props) {
@@ -326,7 +333,7 @@ export default class TeamDetails extends React.PureComponent<Props, State> {
                         );
                     }
                 }
-            } catch (ex) {
+            } catch (ex: any) {
                 serverError = ex;
             }
         }
@@ -419,11 +426,11 @@ export default class TeamDetails extends React.PureComponent<Props, State> {
         if (isDisabled) {
             return;
         }
-        const newState = {
+        const newState: Partial<State> = {
             saveNeeded: true,
             isLocalArchived: !isLocalArchived,
-            previousServerError: null, // todo
-            serverError: null, // todo
+            previousServerError: null,
+            serverError: null,
         };
 
         if (newState.isLocalArchived) {
@@ -439,10 +446,11 @@ export default class TeamDetails extends React.PureComponent<Props, State> {
             newState.previousServerError = null;
         }
         this.props.actions.setNavigationBlocked(true);
-        this.setState(newState);
+        this.setState(newState as State);
     };
 
     render = () => {
+        console.log('rolesToUpdate:', this.state.rolesToUpdate);
         const {team, isLicensedForLDAPGroups} = this.props;
         const {totalGroups, saving, saveNeeded, serverError, groups, allAllowedChecked, allowedDomainsChecked, allowedDomains, syncChecked, showRemoveConfirmation, usersToRemoveCount, isLocalArchived, showArchiveConfirmModal} = this.state;
         const missingGroup = (og: {id: string}) => !groups.find((g) => g.id === og.id);
