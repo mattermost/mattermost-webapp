@@ -42,7 +42,7 @@
     "path": "0.12.7",
     "pdf-parse": "1.1.1",
     "pg": "8.7.3",
-    "pretty-format": "28.1.0",
+    "pretty-format": "27.5.1",
     "recursive-readdir": "2.2.2",
     "shelljs": "0.8.5",
     "timezones.json": "1.6.1",
