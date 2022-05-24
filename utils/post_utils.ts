@@ -22,7 +22,7 @@ import {ClientConfig, ClientLicense} from '@mattermost/types/config';
 import {ServerError} from '@mattermost/types/errors';
 import {Group} from '@mattermost/types/groups';
 import {Post} from '@mattermost/types/posts';
-import {Reaction} from 'mattermost-redux/types/reactions';
+import {Reaction} from '@mattermost/types/reactions';
 
 import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
 import * as PostListUtils from 'mattermost-redux/utils/post_list';

@@ -8,7 +8,7 @@ import {createSelector} from 'reselect';
 import {getCurrentUserId, makeGetProfilesForReactions} from 'mattermost-redux/selectors/entities/users';
 import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 
-import {Reaction as ReactionType} from 'mattermost-redux/types/reactions';
+import {Reaction as ReactionType} from '@mattermost/types/reactions';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import {displayUsername} from 'mattermost-redux/utils/user_utils';

@@ -4,7 +4,7 @@
 import React from 'react';
 
 import {Post} from '@mattermost/types/posts';
-import {Reaction as ReactionType} from 'mattermost-redux/types/reactions';
+import {Reaction as ReactionType} from '@mattermost/types/reactions';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';

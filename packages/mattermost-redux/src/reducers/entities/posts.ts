@@ -15,7 +15,7 @@ import {
     MessageHistory,
 } from '@mattermost/types/posts';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {Reaction} from 'mattermost-redux/types/reactions';
+import {Reaction} from '@mattermost/types/reactions';
 import {
     RelationOneToOne,
     IDMappedObjects,
