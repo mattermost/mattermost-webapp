@@ -52,14 +52,6 @@ const useResponsiveFormattingBar = (ref: React.RefObject<HTMLDivElement>): WideM
         };
     }, [handleResize, ref]);
 
-    useEffect(() => {
-        handleResize();
-        window.addEventListener('resize', handleResize);
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, [handleResize]);
-
     return wideMode;
 };
 
