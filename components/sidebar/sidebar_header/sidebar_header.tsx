@@ -79,7 +79,7 @@ const SidebarHeading = styled(Heading).attrs(() => ({
     }
 
     #SidebarContainer & {
-        font-family: Metropolis, sans-serif;
+        font-family: 'Metropolis', sans-serif;
     }
 `;
 

@@ -17,7 +17,7 @@ import LineLimiter from './components/linelimiter';
 import EditableArea from './components/editable_area';
 
 const Username = styled.p`
-    font-family: Metropolis, sans-serif;
+    font-family: 'Metropolis', sans-serif;
     font-size: 18px;
     line-height: 24px;
     color: rgb(var(--center-channel-color-rgb));
