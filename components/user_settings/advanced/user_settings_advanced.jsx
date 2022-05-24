@@ -436,7 +436,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                         defaultMessage='Scroll position when viewing an unread channel'
                     />
                 }
-                describe={this.renderUnreadScrollPositionLabel(this.state.settings.unreadScrollPosition)}
+                describe={this.renderUnreadScrollPositionLabel(this.state.settings[Preferences.UNREAD_SCROLL_POSITION])}
                 section={Preferences.UNREAD_SCROLL_POSITION}
                 updateSection={this.handleUpdateSection}
             />
