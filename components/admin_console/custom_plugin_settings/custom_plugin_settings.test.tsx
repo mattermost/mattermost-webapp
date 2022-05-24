@@ -8,7 +8,7 @@ import CustomPluginSettings from 'components/admin_console/custom_plugin_setting
 import SchemaAdminSettings from 'components/admin_console/schema_admin_settings';
 
 import {PluginSettings} from '@mattermost/types/config';
-import {PluginRedux} from 'mattermost-redux/types/plugins';
+import {PluginRedux} from '@mattermost/types/plugins';
 
 describe('components/admin_console/CustomPluginSettings', () => {
     let plugin: PluginRedux = {} as PluginRedux;

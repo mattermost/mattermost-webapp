@@ -16,8 +16,8 @@ declare namespace Cypress {
     type IncomingWebhook = import('@mattermost/types/integrations').IncomingWebhook;
     type OutgoingWebhook = import('@mattermost/types/integrations').OutgoingWebhook;
     type Permissions = string[];
-    type PluginManifest = import('mattermost-redux/types/plugins').PluginManifest;
-    type PluginsResponse = import('mattermost-redux/types/plugins').PluginsResponse;
+    type PluginManifest = import('@mattermost/types/plugins').PluginManifest;
+    type PluginsResponse = import('@mattermost/types/plugins').PluginsResponse;
     type PreferenceType = import('mattermost-redux/types/preferences').PreferenceType;
     type Product = import('@mattermost/types/cloud').Product;
     type Role = import('mattermost-redux/types/roles').Role;

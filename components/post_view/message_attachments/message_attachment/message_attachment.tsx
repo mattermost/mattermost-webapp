@@ -10,7 +10,7 @@ import {PostAction, PostActionOption} from '@mattermost/types/integration_action
 import {
     MessageAttachment as MessageAttachmentType,
     MessageAttachmentField,
-} from 'mattermost-redux/types/message_attachments';
+} from '@mattermost/types/message_attachments';
 import {PostImage} from 'mattermost-redux/types/posts';
 
 import {isUrlSafe} from 'utils/url';

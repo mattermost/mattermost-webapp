@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 import React from 'react';
 
-import {MessageAttachment as MessageAttachmentType} from 'mattermost-redux/types/message_attachments';
+import {MessageAttachment as MessageAttachmentType} from '@mattermost/types/message_attachments';
 import {PostImage} from 'mattermost-redux/types/posts';
 
 import {TextFormattingOptions} from 'utils/text_formatting';

@@ -13,7 +13,7 @@ import {Audit} from '@mattermost/types/audits';
 import {Compliance} from '@mattermost/types/compliance';
 import {AdminConfig, EnvironmentConfig} from '@mattermost/types/config';
 import {MixedUnlinkedGroupRedux} from '@mattermost/types/groups';
-import {PluginRedux, PluginStatusRedux} from 'mattermost-redux/types/plugins';
+import {PluginRedux, PluginStatusRedux} from '@mattermost/types/plugins';
 import {SamlCertificateStatus, SamlMetadataResponse} from 'mattermost-redux/types/saml';
 import {Team} from 'mattermost-redux/types/teams';
 import {UserAccessToken, UserProfile} from 'mattermost-redux/types/users';

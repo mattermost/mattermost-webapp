@@ -8,7 +8,7 @@ import {createSelector} from 'reselect';
 import {getRoles} from 'mattermost-redux/selectors/entities/roles';
 import {appsFeatureFlagEnabled} from 'mattermost-redux/selectors/entities/apps';
 import {GlobalState} from 'mattermost-redux/types/store';
-import {PluginRedux} from 'mattermost-redux/types/plugins';
+import {PluginRedux} from '@mattermost/types/plugins';
 
 import {Constants} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
