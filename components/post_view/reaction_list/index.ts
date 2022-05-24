@@ -8,7 +8,7 @@ import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {canAddReactions} from 'mattermost-redux/selectors/entities/reactions';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 import {Reaction} from 'mattermost-redux/types/reactions';
 
 import {GlobalState} from 'types/store';

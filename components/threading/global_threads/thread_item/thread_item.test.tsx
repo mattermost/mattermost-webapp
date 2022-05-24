@@ -5,7 +5,7 @@ import React, {ComponentProps} from 'react';
 import {shallow} from 'enzyme';
 
 import {UserThread} from 'mattermost-redux/types/threads';
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 import {Channel} from '@mattermost/types/channels';
 
 import * as Utils from 'utils/utils';

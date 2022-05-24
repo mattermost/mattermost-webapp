@@ -7,7 +7,7 @@ import {injectIntl, IntlShape} from 'react-intl';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
 
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 
 import {AppBinding} from '@mattermost/types/apps';
 import {Channel} from '@mattermost/types/channels';

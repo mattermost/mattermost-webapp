@@ -3,7 +3,7 @@
 import React from 'react';
 
 import {MessageAttachment as MessageAttachmentType} from '@mattermost/types/message_attachments';
-import {PostImage} from 'mattermost-redux/types/posts';
+import {PostImage} from '@mattermost/types/posts';
 
 import {TextFormattingOptions} from 'utils/text_formatting';
 

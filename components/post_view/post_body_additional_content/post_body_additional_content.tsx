@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {Post, PostEmbed} from 'mattermost-redux/types/posts';
+import {Post, PostEmbed} from '@mattermost/types/posts';
 
 import {getEmbedFromMetadata} from 'mattermost-redux/utils/post_utils';
 import {AppBinding} from '@mattermost/types/apps';

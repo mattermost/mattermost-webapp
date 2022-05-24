@@ -9,7 +9,7 @@ import {getSearchMatches, getSearchResults} from 'mattermost-redux/selectors/ent
 import {getSearchFilesResults} from 'mattermost-redux/selectors/entities/files';
 import * as PreferenceSelectors from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentSearchForCurrentTeam} from 'mattermost-redux/selectors/entities/search';
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 import {FileSearchResultItem} from '@mattermost/types/files';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 

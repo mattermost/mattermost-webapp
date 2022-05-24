@@ -13,7 +13,7 @@ import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
 import type {UserThread, UserThreadList} from 'mattermost-redux/types/threads';
 
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 
 import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
 

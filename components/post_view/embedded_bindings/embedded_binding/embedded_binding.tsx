@@ -6,7 +6,7 @@ import React, {CSSProperties} from 'react';
 
 import {AppBinding} from '@mattermost/types/apps';
 
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 
 import * as Utils from 'utils/utils';
 import LinkOnlyRenderer from 'utils/markdown/link_only_renderer';

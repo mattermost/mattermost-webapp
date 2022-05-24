@@ -7,7 +7,7 @@ import {bindActionCreators, Dispatch} from 'redux';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {Channel} from '@mattermost/types/channels';
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 
 import {getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis';
 import {emitShortcutReactToLastPostFrom} from 'actions/post_actions.jsx';

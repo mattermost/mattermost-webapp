@@ -9,7 +9,7 @@ import './thread_footer.scss';
 
 import {GlobalState} from 'types/store';
 
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 import {threadIsSynthetic, UserThread} from 'mattermost-redux/types/threads';
 
 import {setThreadFollow, getThread as fetchThread} from 'mattermost-redux/actions/threads';

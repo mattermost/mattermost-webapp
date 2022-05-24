@@ -11,7 +11,7 @@ import classNames from 'classnames';
 import {debounce} from 'mattermost-redux/actions/helpers';
 import {FileSearchResultItem as FileSearchResultItemType} from '@mattermost/types/files';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 
 import {getFilesDropdownPluginMenuItems} from 'selectors/plugins';
 

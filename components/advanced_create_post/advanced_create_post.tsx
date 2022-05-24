@@ -40,7 +40,7 @@ import TextboxClass from 'components/textbox/textbox';
 
 import {Channel, ChannelMemberCountsByGroup} from '@mattermost/types/channels';
 import {PostDraft} from 'types/store/rhs';
-import {Post, PostMetadata} from 'mattermost-redux/types/posts';
+import {Post, PostMetadata} from '@mattermost/types/posts';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import EmojiMap from 'utils/emoji_map';
 import {ActionResult} from 'mattermost-redux/types/actions';

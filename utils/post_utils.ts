@@ -21,7 +21,7 @@ import {Channel} from '@mattermost/types/channels';
 import {ClientConfig, ClientLicense} from '@mattermost/types/config';
 import {ServerError} from '@mattermost/types/errors';
 import {Group} from '@mattermost/types/groups';
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 import {Reaction} from 'mattermost-redux/types/reactions';
 
 import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';

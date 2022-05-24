@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 import React from 'react';
 
 import {ChannelType} from '@mattermost/types/channels';
-import {Post, PostEmbed} from 'mattermost-redux/types/posts';
+import {Post, PostEmbed} from '@mattermost/types/posts';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import {General} from 'mattermost-redux/constants';

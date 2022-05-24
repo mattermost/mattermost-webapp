@@ -8,7 +8,7 @@ import {TIconGlyph} from '@mattermost/compass-components/foundations/icon';
 import {ClientPluginManifest} from '@mattermost/types/plugins';
 import {PluginAnalyticsRow} from '@mattermost/types/admin';
 import {FileInfo} from '@mattermost/types/files';
-import {Post, PostEmbed} from 'mattermost-redux/types/posts';
+import {Post, PostEmbed} from '@mattermost/types/posts';
 import {IDMappedObjects} from 'mattermost-redux/types/utilities';
 
 export type PluginSiteStatsHandler = () => Promise<Record<string, PluginAnalyticsRow>>;

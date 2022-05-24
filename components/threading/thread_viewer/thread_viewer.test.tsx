@@ -5,7 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {Channel} from '@mattermost/types/channels';
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 import {UserThread} from 'mattermost-redux/types/threads';
 
 import {TestHelper} from 'utils/test_helper';

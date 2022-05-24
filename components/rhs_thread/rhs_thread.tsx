@@ -5,7 +5,7 @@ import React, {memo} from 'react';
 /* eslint-disable react/no-string-refs */
 
 import {Channel} from '@mattermost/types/channels';
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 
 import {FakePost} from 'types/store/rhs';
 

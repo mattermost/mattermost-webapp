@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 
 import {AppBinding, AppCallResponse} from '@mattermost/types/apps';
 
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 

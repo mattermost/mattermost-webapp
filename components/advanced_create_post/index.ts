@@ -6,7 +6,7 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {GlobalState} from 'types/store/index.js';
 
-import {Post} from 'mattermost-redux/types/posts.js';
+import {Post} from '@mattermost/types/posts.js';
 
 import {FileInfo} from '@mattermost/types/files.js';
 

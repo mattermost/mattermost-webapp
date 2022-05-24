@@ -4,7 +4,7 @@
 import React, {MouseEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 import {FileInfo} from '@mattermost/types/files';
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {ExtendedPost} from 'mattermost-redux/actions/posts';

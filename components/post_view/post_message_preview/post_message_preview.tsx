@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import classNames from 'classnames';
 
-import {Post, PostPreviewMetadata} from 'mattermost-redux/types/posts';
+import {Post, PostPreviewMetadata} from '@mattermost/types/posts';
 import UserProfileComponent from 'components/user_profile';
 import {UserProfile} from 'mattermost-redux/types/users';
 import Avatar from 'components/widgets/users/avatar';

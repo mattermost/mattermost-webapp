@@ -4,7 +4,7 @@
 import {createSelector} from 'reselect';
 
 import {makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
-import {Post, PostType} from 'mattermost-redux/types/posts';
+import {Post, PostType} from '@mattermost/types/posts';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {Channel} from '@mattermost/types/channels';
 

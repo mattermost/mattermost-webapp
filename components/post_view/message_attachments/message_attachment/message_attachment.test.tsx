@@ -5,7 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {MessageAttachment as MessageAttachmentType} from '@mattermost/types/message_attachments';
-import {PostImage} from 'mattermost-redux/types/posts';
+import {PostImage} from '@mattermost/types/posts';
 import {PostAction} from '@mattermost/types/integration_actions';
 
 import {Constants} from 'utils/constants';

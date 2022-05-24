@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 
 import {Channel} from '@mattermost/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 
 import {TestHelper} from 'utils/test_helper';
 

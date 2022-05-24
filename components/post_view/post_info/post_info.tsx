@@ -9,7 +9,7 @@ import ActionsMenu from 'components/actions_menu';
 import {Posts, Preferences} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 import {ExtendedPost} from 'mattermost-redux/actions/posts';
 
 import {trackEvent} from 'actions/telemetry_actions';

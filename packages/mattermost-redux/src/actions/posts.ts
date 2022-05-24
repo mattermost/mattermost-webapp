@@ -18,7 +18,7 @@ import {isCombinedUserActivityPost} from 'mattermost-redux/utils/post_list';
 import {ActionResult, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {ChannelUnread} from '@mattermost/types/channels';
 import {GlobalState} from 'mattermost-redux/types/store';
-import {Post, PostList} from 'mattermost-redux/types/posts';
+import {Post, PostList} from '@mattermost/types/posts';
 import {Reaction} from 'mattermost-redux/types/reactions';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';

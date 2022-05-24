@@ -11,14 +11,15 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
 import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {getUsers, getCurrentUserId, getUserStatuses} from 'mattermost-redux/selectors/entities/users';
 
+import {PostWithFormatData} from 'mattermost-redux/types/posts';
+
 import {Channel} from '@mattermost/types/channels';
 import {
     MessageHistory,
     OpenGraphMetadata,
     Post,
     PostOrderBlock,
-    PostWithFormatData,
-} from 'mattermost-redux/types/posts';
+} from '@mattermost/types/posts';
 import {Reaction} from 'mattermost-redux/types/reactions';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {UserProfile} from 'mattermost-redux/types/users';

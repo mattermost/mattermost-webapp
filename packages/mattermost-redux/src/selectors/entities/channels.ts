@@ -43,7 +43,7 @@ import {
     ChannelSearchOpts,
     ChannelStats,
 } from '@mattermost/types/channels';
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {Team} from 'mattermost-redux/types/teams';
 import {UserProfile, UsersState} from 'mattermost-redux/types/users';

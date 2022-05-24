@@ -13,7 +13,7 @@ import {
     PostsState,
     PostOrderBlock,
     MessageHistory,
-} from 'mattermost-redux/types/posts';
+} from '@mattermost/types/posts';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Reaction} from 'mattermost-redux/types/reactions';
 import {

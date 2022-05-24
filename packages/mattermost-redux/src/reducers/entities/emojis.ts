@@ -6,7 +6,7 @@ import {combineReducers} from 'redux';
 import {EmojiTypes, PostTypes, UserTypes} from 'mattermost-redux/action_types';
 import {EmojisState, CustomEmoji} from '@mattermost/types/emojis';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 import {IDMappedObjects} from 'mattermost-redux/types/utilities';
 
 export function customEmoji(state: IDMappedObjects<CustomEmoji> = {}, action: GenericAction): IDMappedObjects<CustomEmoji> {

@@ -11,7 +11,7 @@ import {
     MessageAttachment as MessageAttachmentType,
     MessageAttachmentField,
 } from '@mattermost/types/message_attachments';
-import {PostImage} from 'mattermost-redux/types/posts';
+import {PostImage} from '@mattermost/types/posts';
 
 import {isUrlSafe} from 'utils/url';
 import {Constants, ModalIdentifiers} from 'utils/constants';

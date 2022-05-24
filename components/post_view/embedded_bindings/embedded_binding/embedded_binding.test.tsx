@@ -7,7 +7,7 @@ import {shallow} from 'enzyme';
 import {AppBinding} from '@mattermost/types/apps';
 
 import {MessageAttachment as MessageAttachmentType} from '@mattermost/types/message_attachments';
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 
 import EmbeddedBinding from './embedded_binding';
 
