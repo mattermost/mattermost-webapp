@@ -172,6 +172,12 @@ function PlanLabel(props: PlanLabelProps) {
 }
 
 function Card(props: CardProps) {
+    const seeHowBillingWorks = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+        e.preventDefault();
+        const utcTimeStamp = new Date().toISOString();
+        trackEvent(TELEMETRY_CATEGORIES.CLOUD_ADMIN, 'click_see_how_billing_works', {utcTimeStamp, epochTimeStamp: Date.parse(utcTimeStamp)});
+        window.open(CloudLinks.BILLING_DOCS, '_blank');
+    };
     return (
         <div className='PlanCard'>
             {props.planLabel && props.planLabel}
@@ -201,9 +207,7 @@ function Card(props: CardProps) {
                         id={'admin.billing.subscription.freeTrialDisclaimer'}
                     />
                     <a
-                        href={CloudLinks.BILLING_DOCS}
-                        target='_blank'
-                        rel='noopener noreferrer'
+                        onClick={seeHowBillingWorks}
                     >
                         <FormattedMessage
                             defaultMessage={'See how billing works.'}
@@ -272,7 +276,8 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
     }
 
     openPricingModal = () => {
-        trackEvent('cloud_admin', 'click_open_pricing_modal');
+        const utcTimeStamp = new Date().toISOString();
+        trackEvent('cloud_admin', 'click_open_pricing_modal', {utcTimeStamp, epochTimeStamp: Date.parse(utcTimeStamp)});
         this.props.actions.openModal({
             modalId: ModalIdentifiers.PRICING_MODAL,
             dialogType: PricingModal,
@@ -296,9 +301,11 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             <a
                 className='footer-text'
                 onClick={() => {
+                    const utcTimeStamp = new Date().toISOString();
                     trackEvent(
                         TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
                         'click_contact_sales',
+                        {utcTimeStamp, epochTimeStamp: Date.parse(utcTimeStamp)},
                     );
                 }}
                 href={this.props.contactSalesLink}
