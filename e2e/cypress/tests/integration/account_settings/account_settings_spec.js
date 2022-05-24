@@ -12,13 +12,11 @@
 describe('Account Settings', () => {
     let testUser;
     let testTeam;
-    let offTopic;
 
     before(() => {
         // # Login as new user and visit off-topic
         cy.apiInitSetup({prefix: 'other', loginAfter: true}).then(({offTopicUrl, user, team}) => {
             cy.visit(offTopicUrl);
-            offTopic = offTopicUrl;
             testUser = user;
             testTeam = team;
         });
@@ -62,51 +60,40 @@ describe('Account Settings', () => {
 
     it('MM-T2074 New email not visible to other users until it has been confirmed', () => {
         // # Login as admin
-        cy.apiLogout();
         cy.apiAdminLogin();
-
-        // * Set require email verification to true
-        cy.visit('/admin_console/authentication/email');
-        cy.get('[id="EmailSettings.EnableSignInWithEmailtrue"]').should('be.visible').click();
-        cy.get('#saveSetting').invoke('attr', 'disabled').
-            then((disabled) => {
-                disabled ? '' : cy.uiSave();
-            });
-        cy.visit(offTopic);
 
         // # Create user
         cy.apiCreateUser({prefix: 'test'}).then(({user: newUser}) => {
             // # Add user to team
-            cy.apiAddUserToTeam(testTeam.id, newUser.id).then(() => {
-                // # Create DM channel
-                cy.apiCreateDirectChannel([testUser.id, newUser.id]).then(({channel}) => {
-                    // # Login to first user
-                    cy.uiLogout();
-                    cy.uiLogin(testUser);
-                    cy.visit(offTopic);
+            cy.apiAddUserToTeam(testTeam.id, newUser.id);
 
-                    // * Update email
-                    const oldEMail = testUser.email;
-                    const newEMail = 'test@example.com';
-                    cy.uiOpenProfileModal();
-                    cy.get('#emailEdit').should('be.visible').click();
-                    cy.get('#primaryEmail').should('be.visible').type(newEMail);
-                    cy.get('#confirmEmail').should('be.visible').type(newEMail);
-                    cy.get('#currentPassword').should('be.visible').type(testUser.password);
-                    cy.uiSaveAndClose();
+            // # Create DM channel
+            cy.apiCreateDirectChannel([testUser.id, newUser.id]).then(({channel}) => {
+                // # Login to first user
+                cy.apiLogout();
+                cy.visit('/');
+                cy.uiLogin(testUser);
 
-                    // * Send DM
-                    cy.postMessageAs({sender: testUser, message: `@${newUser.username}`, channelId: channel.id});
+                // * Update email
+                const oldEMail = testUser.email;
+                const newEMail = 'test@example.com';
+                cy.uiOpenProfileModal();
+                cy.get('#emailEdit').should('be.visible').click();
+                cy.get('#primaryEmail').should('be.visible').type(newEMail);
+                cy.get('#confirmEmail').should('be.visible').type(newEMail);
+                cy.get('#currentPassword').should('be.visible').type(testUser.password);
+                cy.uiSaveAndClose();
 
-                    // # Login to 2nd user
-                    cy.uiLogout();
-                    cy.uiLogin(newUser);
+                // * Send DM
+                cy.postMessageAs({sender: testUser, message: `@${newUser.username}`, channelId: channel.id});
 
-                    // * Check if email updated
-                    cy.visit(`/${testTeam.name}/messages/@${testUser.username}`);
-                    cy.get('#channelIntro .user-popover').should('be.visible').click();
-                    cy.get('#user-profile-popover').should('be.visible').should('contain', oldEMail);
-                });
+                // # Login to 2nd user
+                cy.apiLogin(newUser);
+
+                // * Check if email updated
+                cy.visit(`/${testTeam.name}/messages/@${testUser.username}`);
+                cy.get('#channelIntro .user-popover').should('be.visible').click();
+                cy.get('#user-profile-popover').should('be.visible').should('contain', oldEMail);
             });
         });
     });

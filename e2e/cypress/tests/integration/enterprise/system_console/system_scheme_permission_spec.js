@@ -70,13 +70,6 @@ const setUserTeamAndChannelMemberships = (user, team, channel, channelAdmin = fa
     cy.externalRequest({user: admin, method: 'put', path: `channels/${channel.id}/members/${user.id}/schemeRoles`, data: {scheme_user: true, scheme_admin: channelAdmin}});
 };
 
-const saveConfig = () => {
-    cy.get('#saveSetting').click();
-    cy.waitUntil(() => cy.get('#saveSetting').then((el) => {
-        return el[0].innerText === 'Save';
-    }));
-};
-
 const enablePermission = (permissionCheckBoxTestId) => {
     cy.findByTestId(permissionCheckBoxTestId).then((el) => {
         if (!el.hasClass('checked')) {
@@ -144,7 +137,7 @@ const resetPermissionsToDefault = () => {
     cy.get('#confirmModalButton').click();
 
     // # Save
-    saveConfig();
+    cy.uiSaveConfig();
 };
 
 const checkChannelPermission = (permissionName, hasChannelPermissionCheckFunc, notHasChannelPermissionCheckFunc, testUser, testTeam, testChannel) => {
@@ -175,14 +168,14 @@ const checkChannelPermission = (permissionName, hasChannelPermissionCheckFunc, n
 
     // # Remove permission from guests and save
     removePermission(guestsTestId);
-    saveConfig();
+    cy.uiSave();
 
     // * Ensure that the permission removed is now removed
     cy.findByTestId(guestsTestId).should('not.have.class', 'checked');
 
     // # Remove permission from all users and save
     removePermission(usersTestId);
-    saveConfig();
+    cy.uiSaveConfig();
 
     // * Ensure that the permission is not removed from all roles except All Members
     cy.findByTestId(usersTestId).should('not.have.class', 'checked');
@@ -191,7 +184,7 @@ const checkChannelPermission = (permissionName, hasChannelPermissionCheckFunc, n
 
     // # Remove permission for channel admins and save
     removePermission(channelTestId);
-    saveConfig();
+    cy.uiSaveConfig();
 
     // * Ensure that the permission is removed from all roles except team admins
     cy.findByTestId(teamTestId).should('have.class', 'checked');
@@ -200,7 +193,7 @@ const checkChannelPermission = (permissionName, hasChannelPermissionCheckFunc, n
 
     // # Enable permission for channel admins and save
     enablePermission(channelTestId);
-    saveConfig();
+    cy.uiSaveConfig();
 
     // * Ensure that the permission is only removed from regular users
     cy.findByTestId(teamTestId).should('have.class', 'checked');
@@ -227,7 +220,7 @@ const checkChannelPermission = (permissionName, hasChannelPermissionCheckFunc, n
     cy.apiAdminLogin();
     cy.visit('/admin_console/user_management/permissions/system_scheme');
     removePermission(channelTestId);
-    saveConfig();
+    cy.uiSaveConfig();
 
     // # Log back in as regular user
     cy.apiLogin(testUser);
@@ -248,7 +241,7 @@ const checkChannelPermission = (permissionName, hasChannelPermissionCheckFunc, n
     cy.apiAdminLogin();
     cy.visit('/admin_console/user_management/permissions/system_scheme');
     removePermission(teamTestId);
-    saveConfig();
+    cy.uiSaveConfig();
 
     // # Log back in as regular user
     cy.apiLogin(testUser);

@@ -27,7 +27,7 @@ describe('Channels', () => {
 
         // # Enable convert public channels to private for all users
         enablePermission('all_users-public_channel-convert_public_channel_to_private-checkbox');
-        saveConfig();
+        cy.uiSaveConfig();
 
         // # Login as a regular user
         cy.apiLogin(testUser);
@@ -74,7 +74,7 @@ describe('Channels', () => {
 
         // # Remove permission from team admins
         removePermission('team_admin-public_channel-convert_public_channel_to_private-checkbox');
-        saveConfig();
+        cy.uiSaveConfig();
 
         // # Promote user to team admin
         cy.apiUpdateTeamMemberSchemeRole(testTeam.id, testUser.id, {scheme_admin: true, scheme_user: true});
@@ -121,13 +121,6 @@ describe('Channels', () => {
     });
 });
 
-const saveConfig = () => {
-    cy.get('#saveSetting').click();
-    cy.waitUntil(() => cy.get('#saveSetting').then((el) => {
-        return el[0].innerText === 'Save';
-    }));
-};
-
 const enablePermission = (permissionCheckBoxTestId) => {
     cy.findByTestId(permissionCheckBoxTestId).then((el) => {
         if (!el.hasClass('checked')) {
@@ -154,5 +147,5 @@ const resetPermissionsToDefault = () => {
     cy.get('#confirmModalButton').click();
 
     // # Save
-    saveConfig();
+    cy.uiSaveConfig();
 };

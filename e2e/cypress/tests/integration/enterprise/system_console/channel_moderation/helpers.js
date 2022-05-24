@@ -145,31 +145,6 @@ export const postChannelMentionsAndVerifySystemMessageNotExist = (channel) => {
     });
 };
 
-// # Wait's until the Saving text becomes Save
-const waitUntilConfigSave = () => {
-    cy.waitUntil(() => cy.get('#saveSetting').then((el) => {
-        return el[0].innerText === 'Save';
-    }));
-};
-
-// Clicks the save button in the system console page.
-// waitUntilConfigSaved: If we need to wait for the save button to go from saving -> save.
-// Usually we need to wait unless we are doing this in team override scheme
-export const saveConfigForScheme = (waitUntilConfigSaved = true, clickConfirmationButton = false) => {
-    // # Save if possible (if previous test ended abruptly all permissions may already be enabled)
-    cy.get('#saveSetting').then((btn) => {
-        if (btn.is(':enabled')) {
-            btn.click();
-        }
-    });
-    if (clickConfirmationButton) {
-        cy.get('#confirmModalButton').click();
-    }
-    if (waitUntilConfigSaved) {
-        waitUntilConfigSave();
-    }
-};
-
 // # Goes to the System Scheme page as System Admin
 export const goToSystemScheme = () => {
     cy.apiAdminLogin();
@@ -187,8 +162,7 @@ export const goToPermissionsAndCreateTeamOverrideScheme = (schemeName, team) => 
     cy.get('#selectItems').click().type(team.display_name);
     cy.get('#multiSelectList').should('be.visible').children().first().click({force: true});
     cy.get('#saveItems').should('be.visible').click();
-    saveConfigForScheme(false);
-    cy.wait(TIMEOUTS.ONE_SEC);
+    cy.uiSaveConfig({confirm: false});
 };
 
 // # Goes to the permissions page and clicks edit or delete for a team override scheme
@@ -246,15 +220,6 @@ export const enableDisableAllChannelModeratedPermissionsViaAPI = (channel, enabl
                 ],
         },
     );
-};
-
-// # This goes to the system scheme and clicks the reset permissions to default and then saves the setting
-export const resetSystemSchemePermissionsToDefault = () => {
-    cy.apiAdminLogin();
-    cy.visit('/admin_console/user_management/permissions/system_scheme');
-    cy.findByTestId('resetPermissionsToDefault').click();
-    cy.get('#confirmModalButton').click();
-    saveConfigForScheme();
 };
 
 export const demoteToChannelOrTeamMember = (userId, id, channelsOrTeams = 'channels') => {

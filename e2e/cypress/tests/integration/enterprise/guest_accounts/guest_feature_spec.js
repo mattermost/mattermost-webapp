@@ -22,6 +22,8 @@ describe('Guest Accounts', () => {
 
         cy.apiCreateGuestUser().then(({guest}) => {
             guestUser = guest;
+
+            cy.apiUpdateConfig({GuestAccountsSettings: {Enable: false}});
         });
     });
 
@@ -33,15 +35,7 @@ describe('Guest Accounts', () => {
         cy.findByTestId('GuestAccountsSettings.Enabletrue').check();
 
         // # Click "Save".
-        cy.get('#saveSetting').then((btn) => {
-            if (btn.is(':enabled')) {
-                btn.on('click');
-
-                cy.waitUntil(() => cy.get('#saveSetting').then((el) => {
-                    return el[0].innerText === 'Save';
-                }));
-            }
-        });
+        cy.uiSaveConfig();
 
         // # Ensure there are active Guest users.
         checkUserListStatus(guestUser, 'Guest');
@@ -53,7 +47,7 @@ describe('Guest Accounts', () => {
         cy.findByTestId('GuestAccountsSettings.Enablefalse').check();
 
         // # Click "Save".
-        cy.get('#saveSetting').scrollIntoView().click();
+        cy.uiSaveConfig();
         cy.get('#confirmModal').should('be.visible').within(() => {
             cy.get('#confirmModalButton').should('have.text', 'Save and Disable Guest Access').click();
         });
@@ -68,7 +62,7 @@ describe('Guest Accounts', () => {
         cy.findByTestId('GuestAccountsSettings.Enabletrue').check();
 
         // # Click "Save".
-        cy.get('#saveSetting').scrollIntoView().click();
+        cy.uiSaveConfig();
 
         // * Guest users are shown as "Inactive".
         checkUserListStatus(guestUser, 'Inactive');

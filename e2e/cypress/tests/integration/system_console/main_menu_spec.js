@@ -10,6 +10,8 @@
 // Stage: @prod
 // Group: @system_console
 
+import {DEFAULT_TEAM} from '../../support/constants';
+
 describe('Main menu', () => {
     before(() => {
         cy.visit('/admin_console');
@@ -28,7 +30,7 @@ describe('Main menu', () => {
 
     it('MM-T909 Can switch to team', () => {
         // * Verify teams are visible
-        cy.findByText('Switch to eligendi').should('be.visible');
+        cy.findByText(`Switch to ${DEFAULT_TEAM.name}`).should('be.visible');
     });
 
     it('MM-T910 Can open Administrators Guide', () => {

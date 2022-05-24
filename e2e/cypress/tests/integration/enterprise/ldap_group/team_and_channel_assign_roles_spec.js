@@ -13,7 +13,7 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 // # Save setting and get back to the resource page
 const saveAndNavigateBackTo = (name, displayName, page) => {
-    cy.get('#saveSetting').should('be.enabled').click().wait(TIMEOUTS.HALF_SEC);
+    cy.uiSaveConfig();
 
     // * Verify that it redirects to page and wait for a while to load
     cy.url().should('include', `/admin_console/user_management/${page}`).wait(TIMEOUTS.TWO_SEC);

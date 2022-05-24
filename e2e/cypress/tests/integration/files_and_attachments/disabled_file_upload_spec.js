@@ -26,7 +26,7 @@ describe('Upload Files - Settings', () => {
 
         // # Set file sharing to false
         cy.findByTestId('FileSettings.EnableFileAttachmentsfalse').click();
-        cy.get('#saveSetting').click();
+        cy.uiSaveConfig();
 
         // # Create new team and new user and visit test channel
         cy.apiInitSetup({loginAfter: true}).then(({channelUrl: url}) => {

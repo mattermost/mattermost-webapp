@@ -13,7 +13,7 @@
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 import {TERMS_OF_SERVICE_LINK} from '../../../utils/constants';
 
-import {backToTeam, saveSetting} from './helper';
+import {backToTeam} from './helper';
 
 describe('SupportSettings', () => {
     const tosLink = 'https://github.com/mattermost/platform/blob/master/README.md';
@@ -44,7 +44,7 @@ describe('SupportSettings', () => {
         cy.findByTestId('SupportSettings.ReportAProblemLinkinput').clear().type(problemLink);
 
         // # Save setting then back to team view
-        saveSetting();
+        cy.uiSaveConfig();
         backToTeam();
 
         // # Open about modal
@@ -96,7 +96,7 @@ describe('SupportSettings', () => {
         cy.findByTestId('SupportSettings.TermsOfServiceLinkinput').type('any').clear();
 
         // # Save setting
-        saveSetting();
+        cy.uiSaveConfig();
 
         // # Logout
         cy.apiLogout();
@@ -115,7 +115,7 @@ describe('SupportSettings', () => {
         cy.findByTestId('SupportSettings.ReportAProblemLinkinput').type('any').clear();
 
         // # Save setting and back to team view
-        saveSetting();
+        cy.uiSaveConfig();
         backToTeam();
 
         // * Verify that report link does not exist
@@ -131,7 +131,7 @@ describe('SupportSettings', () => {
         cy.findByTestId('NativeAppSettings.AppDownloadLinkinput').clear().type(link);
 
         // # Save setting then back to team view
-        saveSetting();
+        cy.uiSaveConfig();
         backToTeam();
 
         // # Open about modal
@@ -186,7 +186,7 @@ describe('SupportSettings', () => {
         cy.findByTestId('SupportSettings.ReportAProblemLinkinput').clear().type(problemLink);
 
         // # Save setting and back to team view
-        saveSetting();
+        cy.uiSaveConfig();
         backToTeam();
 
         // # Open help menu

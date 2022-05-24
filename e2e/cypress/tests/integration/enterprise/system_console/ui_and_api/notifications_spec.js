@@ -79,7 +79,7 @@ describe('System Console', () => {
             cy.findByTestId('EmailSettings.PushNotificationContentsdropdown').
                 select(option.label).
                 and('have.value', option.value);
-            cy.get('#saveSetting').click();
+            cy.uiSaveConfig();
 
             cy.apiGetConfig().then(({config}) => {
                 expect(config.EmailSettings.PushNotificationContents).to.equal(option.value);
@@ -103,7 +103,7 @@ describe('System Console', () => {
         cy.findByTestId('SupportSettings.SupportEmail').find('input').clear().type(newEmail).should('have.value', newEmail);
 
         // # Save setting
-        cy.get('#saveSetting').click();
+        cy.uiSaveConfig();
 
         // * Verify that the config is correctly saved in the server
         cy.apiGetConfig().then(({config}) => {

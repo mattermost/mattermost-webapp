@@ -22,7 +22,6 @@ import {
     goToPermissionsAndCreateTeamOverrideScheme,
     goToSystemScheme,
     saveConfigForChannel,
-    saveConfigForScheme,
     visitChannel,
     visitChannelConfigPage,
 } from './helpers';
@@ -131,7 +130,7 @@ describe('MM-23102 - Channel Moderation - Post Reactions', () => {
         cy.get('.guest').should('be.visible').within(() => {
             cy.findByText('Post Reactions').click();
         });
-        saveConfigForScheme();
+        cy.uiSaveConfig();
 
         // # Visit the Channels page and click on a channel.
         visitChannelConfigPage(testChannel);
@@ -146,7 +145,7 @@ describe('MM-23102 - Channel Moderation - Post Reactions', () => {
         // # Go to system admin page and then go to the system scheme and remove post reaction option for all members and save
         goToSystemScheme();
         cy.get('#all_users-posts-reactions').click();
-        saveConfigForScheme();
+        cy.uiSaveConfig();
 
         visitChannelConfigPage(testChannel);
 
@@ -204,7 +203,7 @@ describe('MM-23102 - Channel Moderation - Post Reactions', () => {
         // # Go to system admin page and then go to the system scheme and remove post reaction option for all members and save
         deleteOrEditTeamScheme(teamOverrideSchemeName, 'edit');
         cy.get('#all_users-posts-reactions').click();
-        saveConfigForScheme(false);
+        cy.uiSaveConfig({confirm: false});
 
         // # Wait until the groups have been saved (since it redirects you)
         cy.wait(TIMEOUTS.ONE_SEC);

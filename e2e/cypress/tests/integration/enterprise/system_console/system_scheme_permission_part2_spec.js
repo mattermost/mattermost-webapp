@@ -34,7 +34,7 @@ describe('System Scheme', () => {
         cy.findByTestId('all_users-teams-invite_guest-checkbox').should('not.have.class', 'checked').click();
 
         // # Save scheme
-        cy.get('#saveSetting').click().wait(TIMEOUTS.TWO_SEC);
+        cy.uiSaveConfig();
 
         // # Go back to the `Permission Schemes` page
         cy.visit('/admin_console/user_management/permissions');
@@ -64,7 +64,7 @@ describe('System Scheme', () => {
         cy.findByTestId('all_users-private_channel-create_private_channel-checkbox').should('have.class', 'checked').click();
 
         // # Save changes
-        cy.get('#saveSetting').click().wait(TIMEOUTS.HALF_SEC);
+        cy.uiSaveConfig();
 
         // # Go back to the `Permission Schemes` page
         cy.visit('/admin_console/user_management/permissions');
@@ -84,7 +84,7 @@ describe('System Scheme', () => {
         cy.get('#confirmModalButton').click().wait(TIMEOUTS.HALF_SEC);
 
         // # Save changes
-        cy.get('#saveSetting').click().wait(TIMEOUTS.TWO_SEC);
+        cy.uiSaveConfig();
 
         // # Reload the page
         cy.reload();

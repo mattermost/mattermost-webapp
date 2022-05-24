@@ -51,7 +51,7 @@ describe('Team Scheme', () => {
         cy.findByTestId(checkId).click();
 
         // # Save scheme
-        cy.get('#saveSetting').click().wait(TIMEOUTS.TWO_SEC);
+        cy.uiSaveConfig();
 
         // * Verify user is returned to the `Permission Schemes` page
         cy.url().should('include', '/admin_console/user_management/permissions');

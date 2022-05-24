@@ -16,7 +16,6 @@ import {checkboxesTitleToIdMap} from '../system_console/channel_moderation/const
 import {
     enablePermission,
     goToSystemScheme,
-    saveConfigForScheme,
 } from '../system_console/channel_moderation/helpers';
 
 describe('Integrations page', () => {
@@ -53,7 +52,7 @@ describe('Integrations page', () => {
 
         goToSystemScheme();
         enablePermission(checkboxesTitleToIdMap.ALL_USERS_MANAGE_OAUTH_APPLICATIONS);
-        saveConfigForScheme();
+        cy.uiSaveConfig();
     });
 
     it('MM-T646 OAuth 2.0 trusted', () => {

@@ -55,7 +55,7 @@ describe('Team Scheme Channel Mentions Permissions Test', () => {
         cy.get('#saveItems').click();
 
         // # Save config
-        cy.get('#saveSetting').click();
+        cy.uiSaveConfig();
 
         // * Ensure that the team scheme was created and assigned to the team
         cy.findByTestId('permissions-scheme-summary').within(() => {
@@ -101,7 +101,7 @@ const setUserTeamAndChannelMemberships = (user, team, channel, channelAdmin = fa
 };
 
 const saveConfig = () => {
-    cy.get('#saveSetting').click();
+    cy.uiSaveConfig();
     cy.url().should('equal', `${Cypress.config('baseUrl')}/admin_console/user_management/permissions`);
 };
 

@@ -16,7 +16,7 @@ import {
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
-import {backToTeam, saveSetting} from './helper';
+import {backToTeam} from './helper';
 
 describe('SupportSettings', () => {
     const tosLink = 'https://github.com/mattermost/platform/blob/master/README.md';
@@ -46,7 +46,7 @@ describe('SupportSettings', () => {
         cy.findByTestId('SupportSettings.PrivacyPolicyLinkinput').clear().type(privacyLink);
 
         // # Save setting then back to team view
-        saveSetting();
+        cy.uiSaveConfig();
         backToTeam();
 
         // # Open about modal
@@ -62,7 +62,7 @@ describe('SupportSettings', () => {
         cy.findByTestId('SupportSettings.TermsOfServiceLinkinput').type('any').clear();
 
         // # Save setting then back to team view
-        saveSetting();
+        cy.uiSaveConfig();
         backToTeam();
 
         // # Open about modal
@@ -76,7 +76,7 @@ describe('SupportSettings', () => {
         cy.findByTestId('SupportSettings.PrivacyPolicyLinkinput').clear();
 
         // # Save setting then back to team view
-        saveSetting();
+        cy.uiSaveConfig();
         backToTeam();
 
         // # Open about modal

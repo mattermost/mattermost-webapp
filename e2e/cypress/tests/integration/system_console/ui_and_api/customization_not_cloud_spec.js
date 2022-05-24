@@ -10,8 +10,6 @@
 // Stage: @prod
 // Group: @not_cloud @system_console
 
-import * as TIMEOUTS from '../../../fixtures/timeouts';
-
 describe('Customization', () => {
     let origConfig;
 
@@ -43,7 +41,7 @@ describe('Customization', () => {
         cy.findByTestId('SupportSettings.ReportAProblemLinkinput').clear().type(reportAProblemLink);
 
         // # Save setting
-        saveSetting();
+        cy.uiSaveConfig();
 
         // Get config again
         cy.apiGetConfig().then(({config}) => {
@@ -68,7 +66,7 @@ describe('Customization', () => {
         cy.findByTestId('SupportSettings.PrivacyPolicyLinkinput').clear().type(stringToSave);
 
         // # Save setting
-        saveSetting();
+        cy.uiSaveConfig();
 
         // * Verify that the value is save, directly via REST API
         cy.apiGetConfig().then(({config}) => {
@@ -95,7 +93,7 @@ describe('Customization', () => {
         cy.findByTestId('NativeAppSettings.AndroidAppDownloadLinkinput').clear().type(newAndroidAppDownloadLink).should('have.value', newAndroidAppDownloadLink);
 
         // # Save setting
-        saveSetting();
+        cy.uiSaveConfig();
 
         // * Verify that the config is correctly saved in the server
         cy.apiGetConfig().then(({config}) => {
@@ -122,7 +120,7 @@ describe('Customization', () => {
         cy.findByTestId('NativeAppSettings.IosAppDownloadLinkinput').clear().type(newIosAppDownloadLink).should('have.value', newIosAppDownloadLink);
 
         // # Save setting
-        saveSetting();
+        cy.uiSaveConfig();
 
         // * Verify that the config is correctly saved in the server
         cy.apiGetConfig().then(({config}) => {
@@ -145,7 +143,7 @@ describe('Customization', () => {
         cy.findByTestId('NativeAppSettings.AppDownloadLinkinput').clear().type(newAppDownloadLink);
 
         // # Save setting
-        saveSetting();
+        cy.uiSaveConfig();
 
         // Get config again
         cy.apiGetConfig().then(({config}) => {
@@ -170,7 +168,7 @@ describe('Customization', () => {
         cy.findByTestId('SupportSettings.HelpLinkinput').clear().type(stringToSave);
 
         // # Save setting
-        saveSetting();
+        cy.uiSaveConfig();
 
         // * Verify that the value is save, directly via REST API
         cy.apiGetConfig().then(({config}) => {
@@ -194,7 +192,7 @@ describe('Customization', () => {
         cy.findByTestId('SupportSettings.AboutLinkinput').clear().type(newAboutLink);
 
         // # Save setting
-        saveSetting();
+        cy.uiSaveConfig();
 
         cy.apiGetConfig().then(({config}) => {
             expect(config.SupportSettings.AboutLink).to.equal(newAboutLink);
@@ -221,7 +219,7 @@ describe('Customization', () => {
         cy.findByTestId('SupportSettings.TermsOfServiceLinkinput').clear().type(newValue);
 
         // # Save setting
-        saveSetting();
+        cy.uiSaveConfig();
 
         // Get config again
         cy.apiGetConfig().then(({config}) => {
@@ -230,13 +228,3 @@ describe('Customization', () => {
         });
     });
 });
-
-function saveSetting() {
-    // # Click save button, and verify text and visibility
-    cy.get('#saveSetting').
-        should('have.text', 'Save').
-        and('be.enabled').
-        click().
-        should('be.disabled').
-        wait(TIMEOUTS.HALF_SEC);
-}

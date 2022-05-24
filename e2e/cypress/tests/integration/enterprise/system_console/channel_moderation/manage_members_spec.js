@@ -10,7 +10,6 @@
 // Stage: @prod
 // Group: @enterprise @system_console @channel_moderation
 
-import * as TIMEOUTS from '../../../../fixtures/timeouts';
 import {getRandomId} from '../../../../utils';
 
 import {checkboxesTitleToIdMap} from './constants';
@@ -22,7 +21,6 @@ import {
     goToPermissionsAndCreateTeamOverrideScheme,
     goToSystemScheme,
     saveConfigForChannel,
-    saveConfigForScheme,
     viewManageChannelMembersRHS,
     visitChannel,
     visitChannelConfigPage,
@@ -109,7 +107,7 @@ describe('MM-23102 - Channel Moderation - Manage Members', () => {
         // Edit the System Scheme and disable the Manage Members option for Members & Save.
         goToSystemScheme();
         disablePermission(checkboxesTitleToIdMap.ALL_USERS_MANAGE_PUBLIC_CHANNEL_MEMBERS);
-        saveConfigForScheme();
+        cy.uiSaveConfig();
 
         // # Visit test channel page
         visitChannelConfigPage(testChannel);
@@ -131,7 +129,7 @@ describe('MM-23102 - Channel Moderation - Manage Members', () => {
         // Edit the System Scheme and enable the Manage Members option for Members & Save.
         goToSystemScheme();
         enablePermission(checkboxesTitleToIdMap.ALL_USERS_MANAGE_PUBLIC_CHANNEL_MEMBERS);
-        saveConfigForScheme();
+        cy.uiSaveConfig();
 
         // # Visit test channel page
         visitChannelConfigPage(testChannel);
@@ -157,8 +155,7 @@ describe('MM-23102 - Channel Moderation - Manage Members', () => {
         // # Disable mange channel members
         deleteOrEditTeamScheme(teamOverrideSchemeName, 'edit');
         disablePermission(checkboxesTitleToIdMap.ALL_USERS_MANAGE_PUBLIC_CHANNEL_MEMBERS);
-        saveConfigForScheme(false);
-        cy.wait(TIMEOUTS.FIVE_SEC);
+        cy.uiSaveConfig({confirm: false});
 
         // * Assert that Manage Members is disabled for members and a message is displayed
         visitChannelConfigPage(testChannel);
@@ -177,8 +174,7 @@ describe('MM-23102 - Channel Moderation - Manage Members', () => {
         // # Enable manage channel members
         deleteOrEditTeamScheme(teamOverrideSchemeName, 'edit');
         enablePermission(checkboxesTitleToIdMap.ALL_USERS_MANAGE_PUBLIC_CHANNEL_MEMBERS);
-        saveConfigForScheme(false);
-        cy.wait(TIMEOUTS.FIVE_SEC);
+        cy.uiSaveConfig({confirm: false});
 
         visitChannelConfigPage(testChannel);
         cy.findByTestId('admin-channel_settings-channel_moderation-manageMembers-disabledMember').

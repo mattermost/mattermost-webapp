@@ -32,7 +32,7 @@ describe('Environment', () => {
         cy.findByTestId('ServiceSettings.WebserverModedropdown').select('gzip');
 
         // # Click Save button to save the settings
-        cy.get('#saveSetting').click().wait(TIMEOUTS.ONE_SEC);
+        cy.uiSaveConfig();
 
         // # Navigate to a channel
         cy.visit(townsquareLink);
@@ -84,7 +84,7 @@ describe('Environment', () => {
         cy.findByTestId('ServiceSettings.WebserverModedropdown').select('Uncompressed');
 
         // # Click Save button to save the settings
-        cy.get('#saveSetting').click().wait(TIMEOUTS.ONE_SEC);
+        cy.uiSaveConfig();
 
         // # Navigate to a channel
         cy.visit(townsquareLink);
@@ -136,7 +136,7 @@ describe('Environment', () => {
         cy.findByTestId('ServiceSettings.WebserverModedropdown').select('Disabled');
 
         // # Click Save button to save the settings
-        cy.get('#saveSetting').click().wait(TIMEOUTS.ONE_SEC);
+        cy.uiSaveConfig();
 
         // # Navigate to a channel
         cy.visit(townsquareLink);
@@ -190,7 +190,7 @@ describe('Environment', () => {
         cy.findByTestId('maxOpenConnsinput').clear().type(maxOpenConnsValue);
 
         // # Click Save button to save the settings
-        cy.get('#saveSetting').click().wait(TIMEOUTS.ONE_SEC);
+        cy.uiSaveConfig();
 
         // Get config again
         cy.apiGetConfig().then(({config}) => {
@@ -208,7 +208,7 @@ describe('Environment', () => {
             cy.findByTestId('minimumHashtagLengthinput').clear().type(length);
 
             // # Click Save button to save the settings
-            cy.get('#saveSetting').click({force: true}).wait(TIMEOUTS.ONE_SEC);
+            cy.uiSaveConfig();
 
             // * Verify saved config value
             cy.apiGetConfig().then(({config}) => {
@@ -247,7 +247,7 @@ describe('Environment', () => {
         cy.findByTestId('FileSettings.AmazonS3PathPrefixinput').clear().type(amazonS3PathPrefix);
 
         // # Click Save button to save the settings
-        cy.get('#saveSetting').click().wait(TIMEOUTS.ONE_SEC);
+        cy.uiSaveConfig();
 
         // Get config again
         cy.apiGetConfig().then(({config}) => {
@@ -268,7 +268,7 @@ describe('Environment', () => {
         cy.findByTestId('FileSettings.AmazonS3PathPrefixinput').scrollIntoView().clear().type(amazonS3PathPrefix);
 
         // # Click Save button to save the settings
-        cy.get('#saveSetting').click().wait(TIMEOUTS.ONE_SEC);
+        cy.uiSaveConfig();
 
         cy.get('#TestS3Connection').scrollIntoView().should('be.visible').within(() => {
             cy.findByText('Test Connection').should('be.visible').click().wait(TIMEOUTS.ONE_SEC);
@@ -279,7 +279,7 @@ describe('Environment', () => {
         cy.findByTestId('FileSettings.AmazonS3Bucketinput').clear().type(amazonS3BucketName);
 
         // # Click Save button to save the settings
-        cy.get('#saveSetting').click().wait(TIMEOUTS.ONE_SEC);
+        cy.uiSaveConfig();
 
         cy.get('#TestS3Connection').scrollIntoView().should('be.visible').within(() => {
             cy.findByText('Test Connection').should('be.visible').click().wait(TIMEOUTS.ONE_SEC);

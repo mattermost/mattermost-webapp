@@ -18,7 +18,6 @@ import {
     postChannelMentionsAndVerifySystemMessageExist,
     postChannelMentionsAndVerifySystemMessageNotExist,
     saveConfigForChannel,
-    saveConfigForScheme,
     visitChannel,
     visitChannelConfigPage,
 } from './helpers';
@@ -159,7 +158,7 @@ describe('MM-23102 - Channel Moderation - Channel Mentions', () => {
         // # Set @channel and @all confirmation dialog to true
         cy.visit('admin_console/environment/notifications');
         cy.findByTestId('TeamSettings.EnableConfirmNotificationsToChanneltrue').check();
-        saveConfigForScheme();
+        cy.uiSaveConfig();
 
         // # Visit test channel
         visitChannel(regularUser, testChannel, testTeam);

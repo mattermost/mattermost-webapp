@@ -75,7 +75,7 @@ describe('group configuration', () => {
         it('does add a team when saved', () => {
             addGroupSyncable('team', (teamName) => {
                 // # Save the settings
-                savePage();
+                cy.uiSaveConfig();
 
                 // # Reload the page
                 cy.visit(`/admin_console/user_management/groups/${groupID}`);
@@ -120,7 +120,7 @@ describe('group configuration', () => {
         it('does add a channel when saved', () => {
             addGroupSyncable('channel', (channelName) => {
                 // # Save the settings
-                savePage();
+                cy.uiSaveConfig();
 
                 // # Reload the page
                 cy.visit(`/admin_console/user_management/groups/${groupID}`);
@@ -192,7 +192,7 @@ describe('group configuration', () => {
                 cy.get('#cancelModalButton').click();
 
                 // # Save the settings
-                savePage();
+                cy.uiSaveConfig();
 
                 // # Reload the page
                 cy.visit(`/admin_console/user_management/groups/${groupID}`);
@@ -259,7 +259,7 @@ describe('group configuration', () => {
             cy.get('#cancelModalButton').click();
 
             // # Save the settings
-            savePage();
+            cy.uiSaveConfig();
 
             // # Reload the page
             cy.visit(`/admin_console/user_management/groups/${groupID}`);
@@ -287,7 +287,7 @@ describe('group configuration', () => {
                 cy.get('#cancelModalButton').click();
 
                 // # Save the settings
-                savePage();
+                cy.uiSaveConfig();
 
                 // # Reload the page
                 cy.visit(`/admin_console/user_management/groups/${groupID}`);
@@ -321,7 +321,7 @@ describe('group configuration', () => {
             cy.get('#cancelModalButton').click();
 
             // # Save settings
-            savePage();
+            cy.uiSaveConfig();
 
             // # Reload the page
             cy.visit(`/admin_console/user_management/groups/${groupID}`);
@@ -384,7 +384,7 @@ describe('group configuration', () => {
             cy.get('#cancelModalButton').click();
 
             // # Save settings
-            savePage();
+            cy.uiSaveConfig();
 
             // * Check the groupteam via the API to ensure its role wasn't updated
             cy.apiGetGroupTeam(groupID, testTeam.id).then(({body}) => {
@@ -411,7 +411,7 @@ describe('group configuration', () => {
                 cy.get('#cancelModalButton').click();
 
                 // # Save the settings
-                savePage();
+                cy.uiSaveConfig();
 
                 // # Reload the page
                 cy.visit(`/admin_console/user_management/groups/${groupID}`);
@@ -445,7 +445,7 @@ describe('group configuration', () => {
             cy.get('#cancelModalButton').click();
 
             // # Save settings
-            savePage();
+            cy.uiSaveConfig();
 
             // # Reload the page
             cy.visit(`/admin_console/user_management/groups/${groupID}`);
@@ -509,7 +509,7 @@ describe('group configuration', () => {
             cy.get('#cancelModalButton').click();
 
             // # Save settings
-            savePage();
+            cy.uiSaveConfig();
 
             // * Check the groupteam via the API to ensure its role wasn't updated
             cy.apiGetGroupChannel(groupID, testChannel.id).then(({body}) => {
@@ -545,11 +545,6 @@ function addGroupSyncable(type, callback) {
 function changeRole(teamOrChannel, newRole) {
     cy.findByTestId(`${teamOrChannel}_current_role`, {timeout: TIMEOUTS.ONE_MIN}).click();
     cy.get('.Menu__content').should('be.visible').findByText(newRole).click();
-}
-
-function savePage() {
-    cy.get('#saveSetting', {timeout: TIMEOUTS.TWO_SEC}).click();
-    cy.get('#saveSetting', {timeout: TIMEOUTS.TWO_SEC}).should('be.disabled');
 }
 
 function removeAndConfirm(name) {

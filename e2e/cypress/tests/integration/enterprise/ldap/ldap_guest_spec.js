@@ -202,7 +202,7 @@ describe('LDAP guest', () => {
                     cy.uiGetButton('Add').click();
 
                     // # Save settings
-                    cy.get('#saveSetting').should('be.enabled').click();
+                    cy.uiSaveConfig();
 
                     // # Accept confirmation modal
                     cy.get('#confirmModalButton').should('be.visible').click();
@@ -287,7 +287,7 @@ function setGuestAccess(enable) {
                 // # Confirm the modal button
                 cy.get('#confirmModalButton').click();
             }
-            waitUntilConfigSave();
+            cy.uiSaveConfig();
         }
     });
 }
@@ -311,12 +311,5 @@ function updateGuestFilter(value) {
 
     // # Save config settings and wait until saved
     cy.findByTestId('saveSetting').click();
-    waitUntilConfigSave();
+    cy.uiSaveConfig();
 }
-
-// # Wait's until the Saving text becomes Save
-const waitUntilConfigSave = () => {
-    cy.waitUntil(() => cy.findByTestId('saveSetting').then((el) => {
-        return el[0].innerText === 'Save';
-    }));
-};

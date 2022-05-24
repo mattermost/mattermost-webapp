@@ -24,7 +24,6 @@ import {
     postChannelMentionsAndVerifySystemMessageNotExist,
     promoteToChannelOrTeamAdmin,
     saveConfigForChannel,
-    saveConfigForScheme,
     viewManageChannelMembersModal,
     visitChannel,
     visitChannelConfigPage,
@@ -71,7 +70,7 @@ describe('MM-23102 - Channel Moderation - Higher Scoped Scheme', () => {
 
         goToSystemScheme();
         disablePermission(checkboxesTitleToIdMap.ALL_USERS_MANAGE_PUBLIC_CHANNEL_MEMBERS);
-        saveConfigForScheme();
+        cy.uiSaveConfig();
 
         // * Ensure manage members for members is disabled
         visitChannelConfigPage(testChannel);
@@ -92,7 +91,7 @@ describe('MM-23102 - Channel Moderation - Higher Scoped Scheme', () => {
         cy.apiCreateChannel(testTeam.id, 'never-modified', `Never Modified ${getRandomId()}`).then(({channel}) => {
             goToSystemScheme();
             cy.findByTestId(checkboxesTitleToIdMap.ALL_USERS_MANAGE_PUBLIC_CHANNEL_MEMBERS).click();
-            saveConfigForScheme();
+            cy.uiSaveConfig();
 
             // # Visit Channel page and Search for the channel.
             // * ensure manage members for members is disabled
@@ -116,7 +115,7 @@ describe('MM-23102 - Channel Moderation - Higher Scoped Scheme', () => {
             goToPermissionsAndCreateTeamOverrideScheme(channel.name, testTeam);
             deleteOrEditTeamScheme(channel.name, 'edit');
             cy.findByTestId(checkboxesTitleToIdMap.ALL_USERS_MANAGE_PUBLIC_CHANNEL_MEMBERS).click();
-            saveConfigForScheme(false);
+            cy.uiSaveConfig({confirm: false});
 
             // # Visit Channel page and Search for the channel.
             // * Assert message for manage member for members appears and that it's disabled
@@ -151,7 +150,7 @@ describe('MM-23102 - Channel Moderation - Higher Scoped Scheme', () => {
         goToPermissionsAndCreateTeamOverrideScheme(teamOverrideSchemeName, testTeam);
         deleteOrEditTeamScheme(teamOverrideSchemeName, 'edit');
         cy.findByTestId(checkboxesTitleToIdMap.ALL_USERS_MANAGE_PUBLIC_CHANNEL_MEMBERS).click();
-        saveConfigForScheme(false);
+        cy.uiSaveConfig({confirm: false});
 
         // # Visit Channel page and Search for the channel.
         // * Assert message shows and manage members for members is disabled
@@ -178,7 +177,7 @@ describe('MM-23102 - Channel Moderation - Higher Scoped Scheme', () => {
         deleteOrEditTeamScheme(teamOverrideSchemeName, 'edit');
         cy.findByTestId(checkboxesTitleToIdMap.ALL_USERS_MANAGE_PUBLIC_CHANNEL_MEMBERS).click();
         cy.findByTestId(checkboxesTitleToIdMap.ALL_USERS_MANAGE_PRIVATE_CHANNEL_MEMBERS).should('be.visible').and('have.class', 'checked');
-        saveConfigForScheme(false);
+        cy.uiSaveConfig({confirm: false});
 
         // # Visit Channel page and Search for the channel.
         // * Ensure message is disabled and manage members for members is disabled
@@ -215,7 +214,7 @@ describe('MM-23102 - Channel Moderation - Higher Scoped Scheme', () => {
         deleteOrEditTeamScheme(teamOverrideSchemeName, 'edit');
         cy.findByTestId(checkboxesTitleToIdMap.ALL_USERS_MANAGE_PRIVATE_CHANNEL_MEMBERS).click();
         cy.findByTestId(checkboxesTitleToIdMap.ALL_USERS_MANAGE_PUBLIC_CHANNEL_MEMBERS).should('be.visible').and('have.class', 'checked');
-        saveConfigForScheme(false);
+        cy.uiSaveConfig({confirm: false});
 
         // # Visit Channel page and Search for the channel.
         visitChannelConfigPage(testChannel);

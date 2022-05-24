@@ -95,7 +95,7 @@ context('ldap', () => {
             cy.uiGetButton('Add').click();
 
             // # Click save settings on bottom screen to save settings
-            cy.get('#saveSetting').should('be.enabled').click();
+            cy.uiSaveConfig({confirm: false});
             cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Mattermost Channels');
 
             // # Go back to the testChannel management page
@@ -109,8 +109,8 @@ context('ldap', () => {
             });
 
             // # Save settings
-            cy.get('#saveSetting').should('be.enabled').click();
-            cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Channel Configuration');
+            cy.uiSaveConfig({confirm: false});
+            cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Mattermost Channels');
 
             // # Go back to testChannel management page
             cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
@@ -139,7 +139,7 @@ context('ldap', () => {
             cy.uiGetButton('Add').click();
 
             // # Save settings
-            cy.get('#saveSetting').should('be.enabled').click();
+            cy.uiSaveConfig();
 
             // # Accept confirmation modal
             cy.get('#confirmModalButton').should('be.visible').click();
@@ -157,7 +157,7 @@ context('ldap', () => {
 
             // # Accept the modal and save settings
             cy.get('#confirmModalButton').should('be.visible').click();
-            cy.get('#saveSetting').click();
+            cy.uiSaveConfig();
         });
 
         it('MM-T2621 - Team List Management Column', () => {
@@ -172,7 +172,7 @@ context('ldap', () => {
             cy.findByTestId('allowAllToggleSwitch').scrollIntoView().click();
 
             // # Save the settings
-            cy.get('#saveSetting').should('be.enabled').click();
+            cy.uiSaveConfig({confirm: false});
             cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Mattermost Teams');
 
             // # Start with a new team
@@ -218,7 +218,7 @@ context('ldap', () => {
 
             // Make it private and save
             cy.findByTestId('allow-all-toggle').click();
-            cy.get('#saveSetting').should('be.enabled').click();
+            cy.uiSaveConfig();
             cy.get('#confirmModalButton').click();
 
             // # Visit the channel config page for testChannel
@@ -265,7 +265,7 @@ context('ldap', () => {
                 // Make it public and save
                 // * Ensure it still showing the channel as private
                 cy.findByTestId('allow-all-toggle').should('has.have.text', 'Private').click();
-                cy.get('#saveSetting').should('be.enabled').click();
+                cy.uiSaveConfig();
                 cy.get('#confirmModalButton').click();
                 cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Mattermost Channels');
 

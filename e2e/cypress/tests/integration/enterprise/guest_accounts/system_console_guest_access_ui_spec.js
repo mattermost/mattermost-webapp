@@ -14,6 +14,8 @@
  * Note: This test requires Enterprise license to be uploaded
  */
 
+import {DEFAULT_TEAM} from '../../../support/constants';
+
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Guest Account - Verify Guest Access UI', () => {
@@ -78,7 +80,7 @@ describe('Guest Account - Verify Guest Access UI', () => {
         });
 
         // # Click on the Save Settings
-        cy.get('#saveSetting').should('be.visible').click();
+        cy.uiSaveConfig();
 
         // * Verify the confirmation message displayed
         cy.get('#confirmModal').should('be.visible').within(() => {
@@ -93,13 +95,13 @@ describe('Guest Account - Verify Guest Access UI', () => {
         cy.get('.error-message').should('be.visible');
 
         // # Click on the Save Settings, confirm and wait for some time to complete successful save
-        cy.get('#saveSetting').should('be.visible').click();
+        cy.uiSaveConfig();
         cy.get('#confirmModalButton').should('be.visible').click().wait(TIMEOUTS.TWO_SEC);
 
         // # Visit the chat facing application
         cy.get('.header__info').should('be.visible').click();
         cy.findByLabelText('Admin Console Menu').should('exist').within(() => {
-            cy.findByText('Switch to eligendi').click();
+            cy.findByText(`Switch to ${DEFAULT_TEAM.name}`).click();
         });
 
         // # Open team menu and click 'Invite People'

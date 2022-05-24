@@ -25,10 +25,7 @@ describe('Site URL', () => {
             cy.findByTestId('ServiceSettings.SiteURLinput').clear();
 
             // # Save
-            cy.findAllByTestId('saveSetting').click();
-            cy.waitUntil(() => cy.findAllByTestId('saveSetting').then((el) => {
-                return el[0].innerText === 'Save';
-            }));
+            cy.uiSaveConfig();
 
             // * Check that the error message is present
             cy.findByTestId('errorMessage').contains('Site URL cannot be cleared.');

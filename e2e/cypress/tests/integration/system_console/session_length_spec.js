@@ -10,37 +10,6 @@
 // Stage: @prod
 // Group: @not_cloud @system_console
 
-// # Goes to the System Scheme page as System Admin
-const goToSessionLengths = () => {
-    cy.apiAdminLogin();
-    cy.visit('/admin_console/environment/session_lengths');
-};
-
-// # Wait's until the Saving text becomes Save
-const waitUntilConfigSave = () => {
-    cy.waitUntil(() => cy.get('#saveSetting').then((el) => {
-        return el[0].innerText === 'Save';
-    }));
-};
-
-// Clicks the save button in the system console page.
-// waitUntilConfigSaved: If we need to wait for the save button to go from saving -> save.
-// Usually we need to wait unless we are doing this in team override scheme
-const saveConfig = (waitUntilConfigSaved = true, clickConfirmationButton = false) => {
-    // # Save if possible (if previous test ended abruptly all permissions may already be enabled)
-    cy.get('#saveSetting').then((btn) => {
-        if (btn.is(':enabled')) {
-            btn.click();
-        }
-    });
-    if (clickConfirmationButton) {
-        cy.get('#confirmModalButton').click();
-    }
-    if (waitUntilConfigSaved) {
-        waitUntilConfigSave();
-    }
-};
-
 describe('MM-T2574 Session Lengths', () => {
     before(() => {
         cy.shouldNotRunOnCloudEdition();
@@ -64,7 +33,7 @@ describe('MM-T2574 Session Lengths', () => {
     describe('Session Lengths settings should save successfully', () => {
         it('Setting "Extend session length with activity" to TRUE should save in UI', () => {
             cy.get('#extendSessionLengthWithActivitytrue').check();
-            saveConfig();
+            cy.uiSaveConfig();
             cy.get('#extendSessionLengthWithActivitytrue').should('be.checked');
         });
         it('Setting "Extend session length with activity" to TRUE is saved in the server configuration', () => {
@@ -75,7 +44,7 @@ describe('MM-T2574 Session Lengths', () => {
         });
         it('Setting "Extend session length with activity" to FALSE should save in UI', () => {
             cy.get('#extendSessionLengthWithActivityfalse').check();
-            saveConfig();
+            cy.uiSaveConfig();
             cy.get('#extendSessionLengthWithActivityfalse').should('be.checked');
         });
         it('Setting "Extend session length with activity" to FALSE is saved in the server configuration', () => {
@@ -88,7 +57,7 @@ describe('MM-T2574 Session Lengths', () => {
             cy.findByTestId('sessionLengthWebInHoursinput').
                 should('have.value', '720').
                 clear().type('744');
-            saveConfig();
+            cy.uiSaveConfig();
             cy.findByTestId('sessionLengthWebInHoursinput').should('have.value', '744');
         });
         it('Setting "Session Length AD/LDAP and Email (hours)" should be saved in the server configuration', () => {
@@ -101,7 +70,7 @@ describe('MM-T2574 Session Lengths', () => {
             cy.findByTestId('sessionLengthMobileInHoursinput').
                 should('have.value', '720').
                 clear().type('744');
-            saveConfig();
+            cy.uiSaveConfig();
             cy.findByTestId('sessionLengthMobileInHoursinput').should('have.value', '744');
         });
         it('Setting "Session Length Mobile (hours)" should be saved in the server configuration', () => {
@@ -114,7 +83,7 @@ describe('MM-T2574 Session Lengths', () => {
             cy.findByTestId('sessionLengthSSOInHoursinput').
                 should('have.value', '720').
                 clear().type('744');
-            saveConfig();
+            cy.uiSaveConfig();
             cy.findByTestId('sessionLengthSSOInHoursinput').should('have.value', '744');
         });
         it('Setting "Session Length SSO (hours)" should be saved in the server configuration', () => {
@@ -127,7 +96,7 @@ describe('MM-T2574 Session Lengths', () => {
             cy.get('#sessionCacheInMinutes').
                 should('have.value', '10').
                 clear().type('11');
-            saveConfig();
+            cy.uiSaveConfig();
             cy.get('#sessionCacheInMinutes').should('have.value', '11');
         });
         it('Setting "Session Cache (minutes)" should be saved in the server configuration', () => {
@@ -138,3 +107,9 @@ describe('MM-T2574 Session Lengths', () => {
         });
     });
 });
+
+// # Goes to the System Scheme page as System Admin
+const goToSessionLengths = () => {
+    cy.apiAdminLogin();
+    cy.visit('/admin_console/environment/session_lengths');
+};

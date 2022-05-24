@@ -19,7 +19,6 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 import {
     enablePermission,
     goToSystemScheme,
-    saveConfigForScheme,
 } from '../../enterprise/system_console/channel_moderation/helpers';
 
 import {addNewCommand} from './helpers';
@@ -59,7 +58,7 @@ describe('Slash commands', () => {
 
         goToSystemScheme();
         enablePermission('all_users-integrations-manage_slash_commands-checkbox');
-        saveConfigForScheme();
+        cy.uiSaveConfig();
 
         // # Login as another user
         cy.apiLogin(user2);

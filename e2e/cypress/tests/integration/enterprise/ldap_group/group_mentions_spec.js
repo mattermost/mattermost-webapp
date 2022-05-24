@@ -111,20 +111,6 @@ const assertGroupMentionEnabled = (groupName) => {
     });
 };
 
-// Clicks the save button in the system console page.
-const saveConfig = () => {
-    // # Save if possible (if previous test ended abruptly all permissions may already be enabled)
-    cy.get('#saveSetting').then((btn) => {
-        if (btn.is(':enabled')) {
-            btn.click();
-
-            cy.waitUntil(() => cy.get('#saveSetting').then((el) => {
-                return el[0].innerText === 'Save';
-            }));
-        }
-    });
-};
-
 describe('System Console', () => {
     before(() => {
         // * Check if server has license for LDAP Groups
@@ -195,7 +181,7 @@ describe('System Console', () => {
             cy.get('#groupMention').find('input').clear().type(groupName);
 
             // # Click save button
-            saveConfig();
+            cy.uiSaveConfig();
 
             // * Assert that the group mention works as expected since the group is enabled and sysadmin always has permission to mention
             assertGroupMentionEnabled(groupName);
@@ -208,7 +194,7 @@ describe('System Console', () => {
                 elSwitch.find('button').click();
 
                 // # Click save button
-                saveConfig();
+                cy.uiSaveConfig();
 
                 // * Assert that the group mention does not do anything since the group is disabled even though sysadmin has permission to mention
                 assertGroupMentionDisabled(groupName);
@@ -231,7 +217,7 @@ describe('System Console', () => {
         // # Click reset to defaults, confirm and save
         cy.findByTestId('resetPermissionsToDefault').click({force: true});
         cy.get('#confirmModalButton').click({force: true});
-        saveConfig();
+        cy.uiSaveConfig();
 
         // # Login as a normal user
         cy.apiLogin(regularUser);
@@ -249,7 +235,7 @@ describe('System Console', () => {
                 btn.click();
             }
 
-            saveConfig();
+            cy.uiSaveConfig();
 
             // # Login as a regular member
             cy.apiLogin(regularUser);
@@ -267,6 +253,6 @@ describe('System Console', () => {
         // # Click reset to defaults confirm and save
         cy.findByTestId('resetPermissionsToDefault').click();
         cy.get('#confirmModalButton').click();
-        saveConfig();
+        cy.uiSaveConfig();
     });
 });

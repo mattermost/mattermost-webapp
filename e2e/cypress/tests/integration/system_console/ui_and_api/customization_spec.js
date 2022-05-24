@@ -10,8 +10,6 @@
 // Stage: @prod
 // Group: @system_console
 
-import * as TIMEOUTS from '../../../fixtures/timeouts';
-
 describe('Customization', () => {
     let origConfig;
 
@@ -47,7 +45,7 @@ describe('Customization', () => {
         });
 
         // # Save setting
-        saveSetting();
+        cy.uiSaveConfig();
 
         // # Verify that after page reload image exist
         cy.reload();
@@ -71,7 +69,7 @@ describe('Customization', () => {
         cy.findByTestId('TeamSettings.SiteNameinput').clear().type(siteName);
 
         // # Save setting
-        saveSetting();
+        cy.uiSaveConfig();
 
         // Get config again
         cy.apiGetConfig().then(({config}) => {
@@ -95,7 +93,7 @@ describe('Customization', () => {
         cy.findByTestId('TeamSettings.CustomDescriptionTextinput').clear().type(siteDescription);
 
         // # Save setting
-        saveSetting();
+        cy.uiSaveConfig();
 
         // Get config again
         cy.apiGetConfig().then(({config}) => {
@@ -122,7 +120,7 @@ describe('Customization', () => {
         cy.findByTestId('TeamSettings.CustomBrandTextinput').clear().type(customBrandText);
 
         // # Save setting
-        saveSetting();
+        cy.uiSaveConfig();
 
         // Get config again
         cy.apiGetConfig().then(({config}) => {
@@ -149,7 +147,7 @@ describe('Customization', () => {
         });
 
         // # Save setting
-        saveSetting();
+        cy.uiSaveConfig();
 
         // * Verify that the value is save, directly via REST API
         cy.apiGetConfig().then(({config}) => {
@@ -160,7 +158,7 @@ describe('Customization', () => {
         cy.findByTestId('TeamSettings.EnableCustomBrandfalse').check();
 
         // # Save setting
-        saveSetting();
+        cy.uiSaveConfig();
 
         // * Verify that the value is save, directly via REST API
         cy.apiGetConfig().then(({config}) => {
@@ -168,13 +166,3 @@ describe('Customization', () => {
         });
     });
 });
-
-function saveSetting() {
-    // # Click save button, and verify text and visibility
-    cy.get('#saveSetting').
-        should('have.text', 'Save').
-        and('be.enabled').
-        click().
-        should('be.disabled').
-        wait(TIMEOUTS.HALF_SEC);
-}

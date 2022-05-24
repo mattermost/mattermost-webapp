@@ -44,7 +44,7 @@ describe('Custom Terms of Service', () => {
         cy.findByTestId('SupportSettings.CustomTermsOfServiceTextinput').clear().type(customTermsOfServiceText);
 
         // # Save config
-        cy.get('#saveSetting').click();
+        cy.uiSaveConfig();
 
         // # Login as the test user
         cy.apiLogin(testUser);
@@ -89,7 +89,7 @@ describe('Custom Terms of Service', () => {
         cy.findByTestId('SupportSettings.CustomTermsOfServiceTextinput').clear().type(firstTOS);
 
         // # Save config
-        cy.get('#saveSetting').click();
+        cy.uiSaveConfig();
 
         // # Accept the terms as sysadmin
         cy.get('#acceptTerms').should('be.visible').click();
@@ -116,7 +116,7 @@ describe('Custom Terms of Service', () => {
         cy.findByTestId('SupportSettings.CustomTermsOfServiceTextinput').clear().type(secondTOS);
 
         // # Save config
-        cy.get('#saveSetting').click();
+        cy.uiSaveConfig();
 
         // * Ensure that the terms of service text shows as expected
         cy.findByTestId('termsOfService').should('be.visible').and('contain.text', secondTOS);

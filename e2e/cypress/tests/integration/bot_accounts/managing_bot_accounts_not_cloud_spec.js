@@ -55,7 +55,7 @@ describe('Managing bot accounts', () => {
         cy.findByTestId('ServiceSettings.EnableBotAccountCreationfalse', {timeout: TIMEOUTS.ONE_MIN}).click();
 
         // # Save
-        cy.findByTestId('saveSetting').should('be.enabled').click();
+        cy.uiSaveConfig();
 
         // # Visit the integrations
         cy.visit(`/${newTeam.name}/integrations/bots`);
@@ -72,7 +72,7 @@ describe('Managing bot accounts', () => {
         cy.findByTestId('ServiceSettings.DisableBotsWhenOwnerIsDeactivatedfalse', {timeout: TIMEOUTS.ONE_MIN}).click();
 
         // # Save
-        cy.findByTestId('saveSetting').should('be.enabled').click();
+        cy.uiSaveConfig();
 
         // # Create another admin account
         cy.apiCreateCustomAdmin().then(({sysadmin}) => {

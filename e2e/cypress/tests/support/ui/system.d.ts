@@ -35,10 +35,11 @@ declare namespace Cypress {
 
         /**
          * Save settings located in System Console
+         * @param {boolean} options.confirm - true (default) or false to confirm by waiting for button text to change from "Saving" to "Save"
          *
          * @example
          *   cy.uiSaveConfig();
          */
-        uiSaveConfig(): Chainable;
+        uiSaveConfig(options: Record<string, boolean>): Chainable;
     }
 }

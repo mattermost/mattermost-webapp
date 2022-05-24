@@ -41,7 +41,7 @@ const createTeamOverrideSchemeWithPermission = (name, team, permissionId, permis
     cy.get('#multiSelectList div.more-modal__row.clickable').eq(0).click().wait(TIMEOUTS.HALF_SEC);
 
     // # Save scheme
-    cy.get('#saveItems').should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
+    cy.uiSaveConfig();
 
     // # Modify the permissions scheme
     cy.findByTestId(permissionId).then((el) => {
@@ -51,7 +51,7 @@ const createTeamOverrideSchemeWithPermission = (name, team, permissionId, permis
     });
 
     // # Save scheme
-    cy.get('#saveSetting').click().wait(TIMEOUTS.TWO_SEC);
+    cy.uiSaveConfig();
     cy.apiLogout();
 };
 

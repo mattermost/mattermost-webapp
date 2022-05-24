@@ -10,8 +10,6 @@
 // Stage: @prod
 // Group: @system_console
 
-import * as TIMEOUTS from '../../../fixtures/timeouts';
-
 describe('Customization', () => {
     beforeEach(() => {
         // # as many of the tests logout the user, ensure it's logged
@@ -37,7 +35,7 @@ describe('Customization', () => {
         cy.findByTestId('TeamSettings.CustomDescriptionTextinput').clear().type(siteDescription);
 
         // # Save setting
-        saveSetting();
+        cy.uiSaveConfig();
 
         // # Logout
         cy.apiLogout();
@@ -59,7 +57,7 @@ describe('Customization', () => {
         cy.findByTestId('TeamSettings.SiteNameinput').clear().type(siteName);
 
         // # Save setting
-        saveSetting();
+        cy.uiSaveConfig();
 
         // # Exit settings
         cy.visit('/');
@@ -85,7 +83,7 @@ describe('Customization', () => {
         cy.findByTestId('TeamSettings.SiteNameinput').should('have.value', siteName);
 
         // # Save setting
-        saveSetting();
+        cy.uiSaveConfig();
 
         // * Verify that the value was saved correctly, without the extra characters
         cy.apiGetConfig().then(({config}) => {
@@ -102,7 +100,7 @@ describe('Customization', () => {
         cy.findByTestId('TeamSettings.EnableCustomBrandtrue').check();
 
         // # Save setting
-        saveSetting();
+        cy.uiSaveConfig();
 
         // # Logout from the current user
         cy.apiLogout();
@@ -138,7 +136,7 @@ describe('Customization', () => {
         cy.findByTestId('TeamSettings.CustomBrandTextinput').clear().type(customBrandText);
 
         // # Save setting
-        saveSetting();
+        cy.uiSaveConfig();
 
         // # Logout from the current user
         cy.apiLogout();
@@ -164,7 +162,7 @@ describe('Customization', () => {
         cy.findByTestId('ServiceSettings.EnableCustomEmojitrue').check();
 
         // # Save setting
-        saveSetting();
+        cy.uiSaveConfig();
 
         // * Visit the add custom emoji page for ad-1
         cy.visit('/ad-1/emoji/add');
@@ -205,7 +203,7 @@ describe('Customization', () => {
         cy.findByTestId('TeamSettings.CustomBrandTextinput').clear().type(customBrandText);
 
         // # Save setting
-        saveSetting();
+        cy.uiSaveConfig();
 
         // # Logout
         cy.apiLogout();
@@ -267,7 +265,7 @@ describe('Customization', () => {
         cy.findByTestId('TeamSettings.EnableCustomBrandfalse').check();
 
         // # Save setting
-        saveSetting();
+        cy.uiSaveConfig();
 
         // # Logout
         cy.apiLogout();
@@ -297,7 +295,7 @@ describe('Customization', () => {
         cy.findByTestId('TeamSettings.SiteNameinput').clear().type(siteName);
 
         // # Save setting
-        saveSetting();
+        cy.uiSaveConfig();
 
         // # Logout
         cy.apiLogout();
@@ -321,7 +319,7 @@ describe('Customization', () => {
         cy.findByTestId('TeamSettings.SiteNameinput').clear();
 
         // # Save setting
-        saveSetting();
+        cy.uiSaveConfig();
 
         // # Logout
         cy.apiLogout();
@@ -342,16 +340,6 @@ describe('Customization', () => {
         verifySiteNameInAboutModal('Mattermost');
     });
 });
-
-function saveSetting() {
-    // # Click save button, and verify text and visibility
-    cy.get('#saveSetting').
-        should('have.text', 'Save').
-        and('be.enabled').
-        click().
-        should('be.disabled').
-        wait(TIMEOUTS.HALF_SEC);
-}
 
 function verifySiteNameInAboutModal(siteName) {
     // # Open the hamburger menu
