@@ -10,6 +10,7 @@
 // Stage: @prod
 // Group: @system_console @enterprise @e20_only @not_cloud
 
+import * as TIMEOUTS from '../../../fixtures/timeouts';
 import {TERMS_OF_SERVICE_LINK} from '../../../utils/constants';
 
 import {backToTeam, saveSetting} from './helper';
@@ -67,7 +68,7 @@ describe('SupportSettings', () => {
 
         const guides = [
             {text: 'About', link: aboutLink},
-            {text: 'Privacy', link: privacyLink},
+            {text: 'Privacy Policy', link: privacyLink},
             {text: 'Terms', link: tosLink},
             {text: 'Help', link: helpLink},
         ];
@@ -75,19 +76,19 @@ describe('SupportSettings', () => {
         // * Verify that links are correct at login page
         guides.forEach((guide) => {
             cy.findByText(guide.text).
-                parent().
                 should('have.attr', 'href', guide.link);
         });
 
         // # Visit signup page
-        cy.get('#signup').click();
+        cy.findByText('Create an account', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').click();
         cy.url().should('include', '/signup_user_complete');
 
         // * Verify that links are correct at signup page
-        guides.forEach((guide) => {
-            cy.findByText(guide.text).
-                parent().
-                should('have.attr', 'href', guide.link);
+        cy.get('.footer').scrollIntoView().should('be.visible').within(() => {
+            guides.forEach((guide) => {
+                cy.findByText(guide.text).
+                    should('have.attr', 'href', guide.link);
+            });
         });
     });
 
@@ -106,7 +107,6 @@ describe('SupportSettings', () => {
 
         // * Verify that terms of services link is set to default
         cy.findByText('Terms').
-            parent().
             should('have.attr', 'href', TERMS_OF_SERVICE_LINK);
     });
 

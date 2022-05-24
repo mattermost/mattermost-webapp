@@ -198,6 +198,9 @@ describe('Verify Accessibility Support in different input fields', () => {
 
             // * Verify if the focus is on the help link
             cy.get('.textbox-help-link').should('have.class', 'a11y--active a11y--focused').tab();
+
+            // * Verify if the focus is on the Reply button
+            cy.uiGetReply().should('have.class', 'a11y--active a11y--focused');
         });
     });
 });

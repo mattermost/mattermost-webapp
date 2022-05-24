@@ -12,8 +12,6 @@
 
 import {
     FixedPublicLinks,
-    isMac,
-    isWindows,
 } from '../../../utils';
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
@@ -24,7 +22,6 @@ describe('SupportSettings', () => {
     const tosLink = 'https://github.com/mattermost/platform/blob/master/README.md';
     const privacyLink = 'https://github.com/mattermost/platform/blob/master/README.md';
 
-    let testTeam;
     let siteName;
 
     before(() => {
@@ -32,10 +29,6 @@ describe('SupportSettings', () => {
 
         cy.apiGetConfig().then(({config}) => {
             siteName = config.TeamSettings.SiteName;
-        });
-
-        cy.apiInitSetup().then(({team}) => {
-            testTeam = team;
         });
     });
 
@@ -102,58 +95,14 @@ describe('SupportSettings', () => {
         cy.url().should('include', '/login');
 
         // * Verify no privacy link
-        cy.get('#privacy_link').should('not.exist');
+        cy.findByText('Privacy Policy').should('not.exist');
 
         // # Visit signup page
-        cy.get('#signup').click();
+        cy.findByText('Create an account', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').click();
 
         // * Verify no privacy link
-        cy.get('#privacy_link').should('not.exist');
-    });
-
-    it('MM-T1039 - Customization App download link - Remove', () => {
-        cy.apiUpdateConfig({
-            ServiceSettings: {EnableOnboardingFlow: true},
-        });
-        cy.reload();
-
-        // # Edit links in the support email field
-        cy.findByTestId('NativeAppSettings.AppDownloadLinkinput').type('any').clear();
-
-        // # Save setting then back to team view
-        saveSetting();
-        backToTeam();
-
-        // # Open about modal
-        cy.uiOpenProductMenu().within(() => {
-            // * Verify that 'Download Apps' does not exist
-            cy.findByText('Download Apps').should('not.exist');
-        });
-
-        // # Create new user to run tutorial
-        cy.apiCreateUser({
-            bypassTutorial: false,
-            hideOnboarding: false,
-        }).then(({user: user1}) => {
-            cy.apiAddUserToTeam(testTeam.id, user1.id);
-
-            // # Logout then login as new user
-            cy.uiLogout();
-            cy.uiLogin(user1).wait(TIMEOUTS.FIVE_SEC);
-
-            // * Verify that onboarding page is shown
-            cy.findByText(`Welcome to ${siteName}`);
-
-            cy.findAllByText('Download the Desktop and Mobile apps');
-            cy.findAllByText('See all the apps');
-
-            let suffix = '';
-            if (isMac()) {
-                suffix = ' for Mac';
-            } else if (isWindows()) {
-                suffix = ' for Windows';
-            }
-            cy.findAllByText(`Get Mattermost${suffix}`);
+        cy.get('.footer').scrollIntoView().should('be.visible').within(() => {
+            cy.findByText('Privacy Policy').should('not.exist');
         });
     });
 });
