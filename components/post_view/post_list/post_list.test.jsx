@@ -20,6 +20,7 @@ const actionsProp = {
     markChannelAsViewed: jest.fn(),
     markChannelAsRead: jest.fn(),
     updateNewMessagesAtInChannel: jest.fn(),
+    toggleShouldStartFromBottomWhenUnread: jest.fn(),
 };
 
 const lastViewedAt = 1532345226632;
@@ -40,6 +41,8 @@ const baseProps = {
     channelId,
     postListIds: [],
     changeUnreadChunkTimeStamp: jest.fn(),
+    toggleShouldStartFromBottomWhenUnread: jest.fn(),
+    needMoreToReachUnread: false,
     isFirstLoad: true,
     atLatestPost: false,
     formattedPostIds: [],

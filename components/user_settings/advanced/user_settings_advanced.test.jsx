@@ -6,6 +6,7 @@ import {shallow} from 'enzyme';
 
 import AdvancedSettingsDisplay from 'components/user_settings/advanced/user_settings_advanced.jsx';
 import * as Utils from 'utils/utils';
+import {Preferences} from 'utils/constants';
 
 jest.mock('actions/global_actions');
 jest.mock('utils/utils');
@@ -37,6 +38,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         sendOnCtrlEnter: '',
         formatting: '',
         joinLeave: '',
+        unreadScrollPosition: Preferences.UNREAD_SCROLL_POSITION_START_FROM_LEFT,
     };
 
     test('should have called handleSubmit', async () => {

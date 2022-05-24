@@ -19,6 +19,7 @@ describe('PostList', () => {
         loadNewerPosts: jest.fn(),
         canLoadMorePosts: jest.fn(),
         changeUnreadChunkTimeStamp: jest.fn(),
+        toggleShouldStartFromBottomWhenUnread: jest.fn(),
         updateNewMessagesAtInChannel: jest.fn(),
     };
 
@@ -37,6 +38,7 @@ describe('PostList', () => {
         atOldestPost: false,
         atLatestPost: false,
         isMobileView: false,
+        needMoreToReachUnread: false,
         actions: baseActions,
     };
 
