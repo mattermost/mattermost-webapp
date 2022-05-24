@@ -1699,7 +1699,7 @@
   "admin.permissions.systemScheme.teamAdminsDescription": "チーム作成者とチーム管理者となったユーザーに付与される権限。",
   "admin.permissions.systemScheme.teamAdminsTitle": "チーム管理者",
   "admin.permissions.systemSchemeBannerButton": "スキームを編集する",
-  "admin.permissions.systemSchemeBannerText": "[チーム上書きスキーム](!https://docs.mattermost.com/onboard/advanced-permissions.html)が適用されない限り、全チームに継承されるデフォルトの権限を設定します。",
+  "admin.permissions.systemSchemeBannerText": "<link>チーム上書きスキーム</link>が適用されない限り、全チームに継承されるデフォルトの権限を設定します。",
   "admin.permissions.systemSchemeBannerTitle": "システムスキーム",
   "admin.permissions.system_role_permissions.change_access": "システムコンソール内のセクションに関するアクセス権を変更する",
   "admin.permissions.system_role_permissions.description": "システムコンソールのアクセスレベルです。",

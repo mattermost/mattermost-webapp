@@ -871,7 +871,7 @@
   "admin.permissions.systemScheme.teamAdminsDescription": "Дозволи, надані творцям команди та будь-яким користувачам, які пройшли до команди адміністратора.",
   "admin.permissions.systemScheme.teamAdminsTitle": "Адміністратори команди",
   "admin.permissions.systemSchemeBannerButton": "Редагувати схему",
-  "admin.permissions.systemSchemeBannerText": "Встановіть стандартні дозволи, успадковані всіма командами, якщо не застосовано схему [Team Override Scheme] (!https://docs.mattermost.com/onboard/advanced-permissions.html).",
+  "admin.permissions.systemSchemeBannerText": "Встановіть стандартні дозволи, успадковані всіма командами, якщо не застосовано схему <link>Team Override Scheme</link> .",
   "admin.permissions.systemSchemeBannerTitle": "Системна схема",
   "admin.permissions.teamOverrideSchemesBannerText": "Використовуйте, коли для певних команд потрібні дозволи на винятки з [Схема системи] (!https://docs.mattermost.com/onboard/advanced-permissions.html).",
   "admin.permissions.teamOverrideSchemesInProgress": "Робота з міграцією не відбувається: схеми заміщення команди недоступні, поки сервер роботи не завершить міграцію дозволів. Дізнайтеся більше в {documentationLink}",

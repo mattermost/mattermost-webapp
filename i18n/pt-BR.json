@@ -1460,7 +1460,7 @@
   "admin.permissions.systemScheme.teamAdminsDescription": "Permissões concedidas para criadores de equipes e qualquer usuário promovido a Administrador de Equipe.",
   "admin.permissions.systemScheme.teamAdminsTitle": "Administradores de Equipe",
   "admin.permissions.systemSchemeBannerButton": "Editar Esquema",
-  "admin.permissions.systemSchemeBannerText": "Defina as permissões padrão herdadas por todas as equipes, a menos que um [Esquema de Substituição de Equipe](!https://docs.mattermost.com/onboard/advanced-permissions.html) seja aplicado.",
+  "admin.permissions.systemSchemeBannerText": "Defina as permissões padrão herdadas por todas as equipes, a menos que um <link>Esquema de Substituição de Equipe</link> seja aplicado.",
   "admin.permissions.systemSchemeBannerTitle": "Esquema do Sistema",
   "admin.permissions.system_role_permissions.change_access": "Alterar o acesso à função em uma seção do console do sistema",
   "admin.permissions.system_role_permissions.description": "Nível de acesso ao console do sistema.",

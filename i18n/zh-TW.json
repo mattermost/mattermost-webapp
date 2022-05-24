@@ -1215,7 +1215,7 @@
   "admin.permissions.systemScheme.teamAdminsDescription": "授予團隊建立者以及團隊管理員的權限。",
   "admin.permissions.systemScheme.teamAdminsTitle": "團隊管理員",
   "admin.permissions.systemSchemeBannerButton": "編輯配置",
-  "admin.permissions.systemSchemeBannerText": "設定被所有團隊繼承的預設權限，除非個別團隊有[團隊覆蓋配置](!https://docs.mattermost.com/onboard/advanced-permissions.html)。 ",
+  "admin.permissions.systemSchemeBannerText": "設定被所有團隊繼承的預設權限，除非個別團隊有<link>團隊覆蓋配置</link>。 ",
   "admin.permissions.systemSchemeBannerTitle": "系統配置",
   "admin.permissions.teamOverrideSchemesBannerText": "當特定團隊需要除了[系統配置](!https://docs.mattermost.com/onboard/advanced-permissions.html)以外的權限時使用。",
   "admin.permissions.teamOverrideSchemesInProgress": "移轉工作執行中：在權限移轉完成前無法使用團隊覆蓋配置。詳情請參閱{documentationLink}。",

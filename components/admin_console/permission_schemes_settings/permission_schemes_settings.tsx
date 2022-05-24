@@ -242,7 +242,18 @@ export default class PermissionSchemesSettings extends React.PureComponent<Props
                             titleId={t('admin.permissions.systemSchemeBannerTitle')}
                             titleDefault='System Scheme'
                             subtitleId={t('admin.permissions.systemSchemeBannerText')}
-                            subtitleDefault='Set the default permissions inherited by all teams unless a [Team Override Scheme](!https://docs.mattermost.com/onboard/advanced-permissions.html) is applied.'
+                            subtitleDefault='Set the default permissions inherited by all teams unless a <link>Team Override Scheme</link> is applied.'
+                            subtitleValues={{
+                                link: (msg: React.ReactNode) => (
+                                    <a
+                                        href='https://docs.mattermost.com/onboard/advanced-permissions.html'
+                                        target='_blank'
+                                        rel='noreferrer'
+                                    >
+                                        {msg}
+                                    </a>
+                                ),
+                            }}
                             url='/admin_console/user_management/permissions/system_scheme'
                             disabled={teamOverrideView !== null}
                             linkTextId={t('admin.permissions.systemSchemeBannerButton')}

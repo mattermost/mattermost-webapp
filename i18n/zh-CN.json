@@ -1648,7 +1648,7 @@
   "admin.permissions.systemScheme.teamAdminsDescription": "已给予权限至频道创建者以及任何频道管理员。",
   "admin.permissions.systemScheme.teamAdminsTitle": "团读管理员",
   "admin.permissions.systemSchemeBannerButton": "编辑方案",
-  "admin.permissions.systemSchemeBannerText": "设置将被所有团队继承的默认权限方案，除非[团队覆盖方案](!https://docs.mattermost.com/onboard/advanced-permissions.html)已设置。",
+  "admin.permissions.systemSchemeBannerText": "设置将被所有团队继承的默认权限方案，除非<link>团队覆盖方案</link>已设置。",
   "admin.permissions.systemSchemeBannerTitle": "系统方案",
   "admin.permissions.system_role_permissions.change_access": "在系统控制台更改身份访问",
   "admin.permissions.system_role_permissions.description": "对系统控制台的访问级别。",

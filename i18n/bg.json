@@ -1658,7 +1658,7 @@
   "admin.permissions.systemScheme.teamAdminsDescription": "Права, предоставени на създателите на екипи и всички потребители, повишени в администратор на екип.",
   "admin.permissions.systemScheme.teamAdminsTitle": "Администратор на екип",
   "admin.permissions.systemSchemeBannerButton": "Редактирай схема",
-  "admin.permissions.systemSchemeBannerText": "Задайте права по подразбиране, наследявани от всички екипи, освен ако не се прилага [припокриваща схема за екип](!https://docs.mattermost.com/onboard/advanced-permissions.html).",
+  "admin.permissions.systemSchemeBannerText": "Задайте права по подразбиране, наследявани от всички екипи, освен ако не се прилага <link>припокриваща схема за екип</link>.",
   "admin.permissions.systemSchemeBannerTitle": "Системна схема",
   "admin.permissions.system_role_permissions.change_access": "Променя достъпа на роли в раздела на системната конзола",
   "admin.permissions.system_role_permissions.description": "Ниво на достъп до системната конзола.",

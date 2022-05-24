@@ -1720,7 +1720,7 @@
   "admin.permissions.systemScheme.teamAdminsDescription": "Permissions granted to team creators and any users promoted to Team Administrator.",
   "admin.permissions.systemScheme.teamAdminsTitle": "Team Administrators",
   "admin.permissions.systemSchemeBannerButton": "Edit Scheme",
-  "admin.permissions.systemSchemeBannerText": "Set the default permissions inherited by all teams unless a [Team Override Scheme](!https://docs.mattermost.com/onboard/advanced-permissions.html) is applied.",
+  "admin.permissions.systemSchemeBannerText": "Set the default permissions inherited by all teams unless a <link>Team Override Scheme</link> is applied.",
   "admin.permissions.systemSchemeBannerTitle": "System Scheme",
   "admin.permissions.teamOverrideSchemesBannerText": "Use when specific teams need permission exceptions to the [System Scheme](!https://docs.mattermost.com/onboard/advanced-permissions.html).",
   "admin.permissions.teamOverrideSchemesInProgress": "Migration job in progress: Team Override Schemes are not available until the job server completes the permissions migration. Learn more in the {documentationLink}.",

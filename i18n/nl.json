@@ -1699,7 +1699,7 @@
   "admin.permissions.systemScheme.teamAdminsDescription": "Machtigingen verleend aan teammakers en gebruikers die zijn gepromoveerd naar Teambeheerder.",
   "admin.permissions.systemScheme.teamAdminsTitle": "Teambeheerders",
   "admin.permissions.systemSchemeBannerButton": "Schema Bewerken",
-  "admin.permissions.systemSchemeBannerText": "Stel de standaardmachtigingen in die door alle teams zijn overgenomen, tenzij een [teamtoestemmingsschema](!https://docs.mattermost.com/onboard/advanced-permissions.html) wordt toegepast.",
+  "admin.permissions.systemSchemeBannerText": "Stel de standaardmachtigingen in die door alle teams zijn overgenomen, tenzij een <link>teamtoestemmingsschema</link> wordt toegepast.",
   "admin.permissions.systemSchemeBannerTitle": "Systeemschema",
   "admin.permissions.system_role_permissions.change_access": "Wijzig toegang voor bepaalde rollen op een sectie van de systeemconsole",
   "admin.permissions.system_role_permissions.description": "Niveau van toegang tot de systeemconsole.",

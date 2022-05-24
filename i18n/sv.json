@@ -1699,7 +1699,7 @@
   "admin.permissions.systemScheme.teamAdminsDescription": "Behörighet som ges till skapare av team och användare som blivit teamadministratör.",
   "admin.permissions.systemScheme.teamAdminsTitle": "Gruppadministratör",
   "admin.permissions.systemSchemeBannerButton": "Redigera schema",
-  "admin.permissions.systemSchemeBannerText": "Välj standardbehörighet som ärvs av alla grupper om inte ett [Team Override Scheme](!https://docs.mattermost.com/onboard/advanced-permissions.html) är satt.",
+  "admin.permissions.systemSchemeBannerText": "Välj standardbehörighet som ärvs av alla grupper om inte ett <link>Team Override Scheme</link> är satt.",
   "admin.permissions.systemSchemeBannerTitle": "Systemschema",
   "admin.permissions.system_role_permissions.change_access": "Ändra rollbehörighet på ett avsnitt i systemkonsolen",
   "admin.permissions.system_role_permissions.description": "Nivå av tillgång till systemkonsolen.",

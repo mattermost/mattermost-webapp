@@ -1543,7 +1543,7 @@
   "admin.permissions.systemScheme.teamAdminsDescription": "Permisiuni acordate creatorilor de echipe și oricărui utilizator care a fost promovat la Administratorul echipei.",
   "admin.permissions.systemScheme.teamAdminsTitle": "Administratorii echipei",
   "admin.permissions.systemSchemeBannerButton": "Editați schema",
-  "admin.permissions.systemSchemeBannerText": "Setați permisiunile implicite moștenite de toate echipele, cu excepția cazului în care este aplicată o schemă [Team Override Scheme] (! Https: //about.mattermost.com/default-team-override-scheme).",
+  "admin.permissions.systemSchemeBannerText": "Setați permisiunile implicite moștenite de toate echipele, cu excepția cazului în care este aplicată o schemă <link>Team Override Scheme</link> .",
   "admin.permissions.systemSchemeBannerTitle": "Schema sistemului",
   "admin.permissions.system_role_permissions.change_access": "Schimbați accesul la roluri pe o secțiune a consolei de sistem",
   "admin.permissions.system_role_permissions.description": "Nivelul de acces la consola sistemului.",

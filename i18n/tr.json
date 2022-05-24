@@ -1699,7 +1699,7 @@
   "admin.permissions.systemScheme.teamAdminsDescription": "Takım oluşturucuları ve takım yöneticiliği rolüne yükseltilmiş diğer kullanıcılara verilmiş izinler.",
   "admin.permissions.systemScheme.teamAdminsTitle": "Takım yöneticileri",
   "admin.permissions.systemSchemeBannerButton": "Şemayı düzenle",
-  "admin.permissions.systemSchemeBannerText": "Belirli takımlara uygulanan bir [takım değişiklik şeması](!https://docs.mattermost.com/onboard/advanced-permissions.html) olmadıkça tüm takımlar tarafından devir alınacak varsayılan izinleri ayarlayın.",
+  "admin.permissions.systemSchemeBannerText": "Belirli takımlara uygulanan bir <link>takım değişiklik şeması</link> olmadıkça tüm takımlar tarafından devir alınacak varsayılan izinleri ayarlayın.",
   "admin.permissions.systemSchemeBannerTitle": "Sistem şeması",
   "admin.permissions.system_role_permissions.change_access": "Sistem panosu bölümünden rol erişimini değiştirebilir",
   "admin.permissions.system_role_permissions.description": "Sistem panosuna erişim düzeyi.",

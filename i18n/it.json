@@ -1226,7 +1226,7 @@
   "admin.permissions.systemScheme.teamAdminsDescription": "Permessi garantiti ai creatori della squadra e a tutti gli utenti promossi ad Amministratori di Squadra.",
   "admin.permissions.systemScheme.teamAdminsTitle": "Amministratori di Squadra",
   "admin.permissions.systemSchemeBannerButton": "Modifica Schema",
-  "admin.permissions.systemSchemeBannerText": "Imposta i permessi predefiniti ereditati da tuttie le squadre a meno che non presentino un [Team Override Scheme](!https://docs.mattermost.com/onboard/advanced-permissions.html).",
+  "admin.permissions.systemSchemeBannerText": "Imposta i permessi predefiniti ereditati da tuttie le squadre a meno che non presentino un <link>Team Override Scheme</link>.",
   "admin.permissions.systemSchemeBannerTitle": "Schema di Sistema",
   "admin.permissions.teamOverrideSchemesBannerText": "Usato quando specifiche squadre necessitano di permessi straordinari non definiti dallo [System Scheme](!https://docs.mattermost.com/onboard/advanced-permissions.html).",
   "admin.permissions.teamOverrideSchemesInProgress": "Lavoro di migrazione in corso: Sovrascrivi Schema Squadra non è disponibile fino a quando il lavoro non completa la migrazione dei permessi. Scropri di più su {documentationLink}.",

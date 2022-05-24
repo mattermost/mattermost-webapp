@@ -1699,7 +1699,7 @@
   "admin.permissions.systemScheme.teamAdminsDescription": "Uprawnienia przyznane twórcom zespołów i wszystkim użytkownikom promowanym do Administratora zespołu.",
   "admin.permissions.systemScheme.teamAdminsTitle": "Administratorzy Zespołu",
   "admin.permissions.systemSchemeBannerButton": "Edytuj Schemat",
-  "admin.permissions.systemSchemeBannerText": "Ustaw domyślne uprawnienia dziedziczone przez wszystkie zespoły, jeśli nie ustawiono [Zespołowego schematu uprawnień](!https://docs.mattermost.com/onboard/advanced-permissions.html).",
+  "admin.permissions.systemSchemeBannerText": "Ustaw domyślne uprawnienia dziedziczone przez wszystkie zespoły, jeśli nie ustawiono <link>Zespołowego schematu uprawnień</link>.",
   "admin.permissions.systemSchemeBannerTitle": "Schemat Systemowy",
   "admin.permissions.system_role_permissions.change_access": "Zmiana dostępu do roli w sekcji konsoli systemowej",
   "admin.permissions.system_role_permissions.description": "Poziom dostępu do konsoli systemowej.",

@@ -1699,7 +1699,7 @@
   "admin.permissions.systemScheme.teamAdminsDescription": "Jogosultságok megadva a csapat alkotóinak és minden olyan felhasználónak aki csapat adminisztrátorrá lépett elő.",
   "admin.permissions.systemScheme.teamAdminsTitle": "Csapat adminisztrátorok",
   "admin.permissions.systemSchemeBannerButton": "Séma szerkesztése",
-  "admin.permissions.systemSchemeBannerText": "Állítsa be az összes csapat által örökölt alapértelmezett engedélyeket, kivéve, ha a [Csapat felülbírálási sémája](!https://docs.mattermost.com/onboard/advanced-permissions.html) alkalmazandó.",
+  "admin.permissions.systemSchemeBannerText": "Állítsa be az összes csapat által örökölt alapértelmezett engedélyeket, kivéve, ha a <link>Csapat felülbírálási sémája</link> alkalmazandó.",
   "admin.permissions.systemSchemeBannerTitle": "Rendszer séma",
   "admin.permissions.system_role_permissions.change_access": "Szerepkör megváltoztatása egy rendszerkonzol szakaszon",
   "admin.permissions.system_role_permissions.description": "A rendszerkonzolhoz való hozzáférés szintje.",

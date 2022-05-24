@@ -1692,7 +1692,7 @@
   "admin.permissions.systemScheme.teamAdminsDescription": "Autorisations accordées aux créateurs d'équipes ou tout utilisateur promu administrateur d'équipe.",
   "admin.permissions.systemScheme.teamAdminsTitle": "Administrateurs d'équipe",
   "admin.permissions.systemSchemeBannerButton": "Modifier le schéma de permissions",
-  "admin.permissions.systemSchemeBannerText": "Définit les permissions par défaut héritées par toutes les équipes à moins qu'un [schéma de permissions personnalisé](!https://docs.mattermost.com/onboard/advanced-permissions.html) ne soit appliqué.",
+  "admin.permissions.systemSchemeBannerText": "Définit les permissions par défaut héritées par toutes les équipes à moins qu'un <link>schéma de permissions personnalisé</link> ne soit appliqué.",
   "admin.permissions.systemSchemeBannerTitle": "Schéma système de permissions",
   "admin.permissions.system_role_permissions.change_access": "Modifier l'accès aux rôles via une section de la console système",
   "admin.permissions.system_role_permissions.description": "Niveau d'accès à la console du système.",

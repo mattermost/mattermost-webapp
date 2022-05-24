@@ -1699,7 +1699,7 @@
   "admin.permissions.systemScheme.teamAdminsDescription": "Berechtigung für Teamersteller und alle Benutzer, die zu Teamadministratoren heraufgestuft werden.",
   "admin.permissions.systemScheme.teamAdminsTitle": "Teamadministratoren",
   "admin.permissions.systemSchemeBannerButton": "Schema bearbeiten",
-  "admin.permissions.systemSchemeBannerText": "Setze die Standard-Berechtigungen, die von allen Teams geerbt werden, außer es wird ein [übergeordnetes Teamschema](!https://docs.mattermost.com/onboard/advanced-permissions.html) angewendet.",
+  "admin.permissions.systemSchemeBannerText": "Setze die Standard-Berechtigungen, die von allen Teams geerbt werden, außer es wird ein <link>übergeordnetes Teamschema</link> angewendet.",
   "admin.permissions.systemSchemeBannerTitle": "Systemschema",
   "admin.permissions.system_role_permissions.change_access": "Ändern des Rollenzugriffs auf einer Sektion der Systemkonsole",
   "admin.permissions.system_role_permissions.description": "Zugriffsebene auf die Systemkonsole.",

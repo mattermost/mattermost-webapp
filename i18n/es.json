@@ -1632,7 +1632,7 @@
   "admin.permissions.systemScheme.teamAdminsDescription": "Permisos concedidos a creadores de equipo y a cualquier usuario promocionado a Administrador del Equipo.",
   "admin.permissions.systemScheme.teamAdminsTitle": "Administradores del Equipo",
   "admin.permissions.systemSchemeBannerButton": "Editar Esquema",
-  "admin.permissions.systemSchemeBannerText": "Establecer los permisos predeterminados a ser heredados por todos los equipos, a menos que un [Reemplazo de Esquema de Equipo](!https://docs.mattermost.com/onboard/advanced-permissions.html) sea aplicado.",
+  "admin.permissions.systemSchemeBannerText": "Establecer los permisos predeterminados a ser heredados por todos los equipos, a menos que un <link>Reemplazo de Esquema de Equipo</link> sea aplicado.",
   "admin.permissions.systemSchemeBannerTitle": "Esquema de Sistema",
   "admin.permissions.system_role_permissions.change_access": "Cambiar el acceso del rol en una sección de la consola del sistema",
   "admin.permissions.system_role_permissions.description": "Nivel de acceso a la consola del sistema.",

@@ -404,6 +404,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             <FormattedMarkdownMessage
                 id={description.id}
                 defaultMessage={description.message}
+                values={description.values}
             />
         );
 

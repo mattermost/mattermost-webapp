@@ -1512,7 +1512,7 @@
   "admin.permissions.systemScheme.teamAdminsDescription": "مجوزهایی که به سازندگان تیم و هر کاربر ارتقا یافته به Team Administrator داده شده است.",
   "admin.permissions.systemScheme.teamAdminsTitle": "مدیران تیم",
   "admin.permissions.systemSchemeBannerButton": "ویرایش طرح",
-  "admin.permissions.systemSchemeBannerText": "مجوزهای پیش‌فرض به ارث رسیده توسط همه تیم‌ها را تنظیم کنید، مگر اینکه [Team Override Scheme] (!https://docs.mattermost.com/onboard/advanced-permissions.html) اعمال شود.",
+  "admin.permissions.systemSchemeBannerText": "مجوزهای پیش‌فرض به ارث رسیده توسط همه تیم‌ها را تنظیم کنید، مگر اینکه <link>Team Override Scheme</link>  اعمال شود.",
   "admin.permissions.systemSchemeBannerTitle": "طرح سیستم",
   "admin.permissions.teamOverrideSchemesBannerText": "زمانی استفاده کنید که تیم‌های خاصی به استثناهای مجوز [System Scheme] (!https://docs.mattermost.com/onboard/advanced-permissions.html) نیاز داشته باشند.",
   "admin.permissions.teamOverrideSchemesInProgress": "کار انتقال در حال انجام است: تا زمانی که سرور کار انتقال مجوزها را کامل نکند، طرح‌های لغو تیم در دسترس نیستند. در {documentationLink} بیشتر بیاموزید.",

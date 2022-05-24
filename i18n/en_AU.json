@@ -1699,7 +1699,7 @@
   "admin.permissions.systemScheme.teamAdminsDescription": "Permissions granted to team creators and any users promoted to Team Administrator.",
   "admin.permissions.systemScheme.teamAdminsTitle": "Team Administrators",
   "admin.permissions.systemSchemeBannerButton": "Edit Scheme",
-  "admin.permissions.systemSchemeBannerText": "Set the default permissions inherited by all teams unless a [Team Override Scheme](!https://docs.mattermost.com/onboard/advanced-permissions.html) is applied.",
+  "admin.permissions.systemSchemeBannerText": "Set the default permissions inherited by all teams unless a <link>Team Override Scheme</link> is applied.",
   "admin.permissions.systemSchemeBannerTitle": "System Scheme",
   "admin.permissions.system_role_permissions.change_access": "Change role access on a system console section",
   "admin.permissions.system_role_permissions.description": "Level of access to the system console.",
