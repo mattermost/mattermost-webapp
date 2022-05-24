@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {Channel} from '@mattermost/types/channels';
-import {MarketplaceApp, MarketplacePlugin} from 'mattermost-redux/types/marketplace';
+import {MarketplaceApp, MarketplacePlugin} from '@mattermost/types/marketplace';
 import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {Team} from 'mattermost-redux/types/teams';
 import {UserThread} from 'mattermost-redux/types/threads';

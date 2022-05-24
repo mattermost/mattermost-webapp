@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {AuthorType, MarketplacePlugin, ReleaseStage} from 'mattermost-redux/types/marketplace';
+import {AuthorType, MarketplacePlugin, ReleaseStage} from '@mattermost/types/marketplace';
 import type {PluginStatusRedux} from 'mattermost-redux/types/plugins';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';

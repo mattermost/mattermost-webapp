@@ -7,7 +7,7 @@ import debounce from 'lodash/debounce';
 import {Tabs, Tab, SelectCallback} from 'react-bootstrap';
 
 import {PluginStatusRedux} from 'mattermost-redux/types/plugins';
-import type {MarketplaceApp, MarketplacePlugin} from 'mattermost-redux/types/marketplace';
+import type {MarketplaceApp, MarketplacePlugin} from '@mattermost/types/marketplace';
 
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import RootPortal from 'components/root_portal';
