@@ -22,7 +22,6 @@ import SaveChangesPanel from '../../save_changes_panel';
 import {Team} from '@mattermost/types/teams';
 import {UserProfile} from '@mattermost/types/users';
 import {Group, SyncablePatch, SyncableType} from '@mattermost/types/groups';
-import {ServerError} from '@mattermost/types/errors';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
 
