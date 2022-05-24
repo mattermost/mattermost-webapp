@@ -15,7 +15,7 @@ import {getMyPreferences, getTeammateNameDisplaySetting, getInt, isCollapsedThre
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {Channel, ChannelMembership, ChannelMessageCount} from 'mattermost-redux/types/channels';
-import {ChannelCategory, ChannelCategoryType, CategorySorting} from 'mattermost-redux/types/channel_categories';
+import {ChannelCategory, ChannelCategoryType, CategorySorting} from '@mattermost/types/channel_categories';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {IDMappedObjects, RelationOneToOne} from 'mattermost-redux/types/utilities';

@@ -5,7 +5,7 @@ import React from 'react';
 import {injectIntl, IntlShape} from 'react-intl';
 
 import {Preferences} from 'mattermost-redux/constants';
-import {ChannelCategory, CategorySorting} from 'mattermost-redux/types/channel_categories';
+import {ChannelCategory, CategorySorting} from '@mattermost/types/channel_categories';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 
 import Constants from 'utils/constants';
