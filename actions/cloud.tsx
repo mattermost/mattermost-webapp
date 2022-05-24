@@ -154,7 +154,7 @@ export function getIntegrationsUsage(): ActionFunc {
         const data = await Client4.getIntegrationsUsage();
         dispatch({
             type: CloudTypes.RECEIVED_INTEGRATIONS_USAGE,
-            data: data.count,
+            data: data.enabled,
         });
 
         return {data: true};

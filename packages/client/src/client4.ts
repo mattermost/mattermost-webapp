@@ -11,7 +11,7 @@ import type {AppBinding, AppCallRequest, AppCallResponse} from '@mattermost/type
 import {Audit} from '@mattermost/types/audits';
 import {UserAutocomplete, AutocompleteSuggestion} from '@mattermost/types/autocomplete';
 import {Bot, BotPatch} from '@mattermost/types/bots';
-import {Product, Subscription, CloudCustomer, Address, CloudCustomerPatch, Invoice, Limits} from '@mattermost/types/cloud';
+import {Product, Subscription, CloudCustomer, Address, CloudCustomerPatch, Invoice, Limits, IntegrationsUsage} from '@mattermost/types/cloud';
 import {ChannelCategory, OrderedChannelCategories} from '@mattermost/types/channel_categories';
 import {
     Channel,
@@ -116,7 +116,6 @@ import {
 import {CompleteOnboardingRequest} from '@mattermost/types/setup';
 
 import {UserThreadList, UserThread, UserThreadWithPost} from '@mattermost/types/threads';
-import {IntegrationsUsage} from '@mattermost/types/usage';
 import {TopChannelResponse, TopReactionResponse} from '@mattermost/types/insights';
 
 import {cleanUrlForLogging} from './errors';

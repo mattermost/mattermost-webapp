@@ -1341,7 +1341,7 @@ function handlePluginStatusesChangedEvent(msg) {
 }
 
 function handleIntegrationsUsageChangedEvent(msg) {
-    store.dispatch({type: CloudTypes.RECEIVED_INTEGRATIONS_USAGE, data: msg.data.usage.count});
+    store.dispatch({type: CloudTypes.RECEIVED_INTEGRATIONS_USAGE, data: msg.data.usage.enabled});
 }
 
 function handleOpenDialogEvent(msg) {
