@@ -95,7 +95,7 @@ const TopThreads = (props: WidgetHocProps) => {
 
     const openRHS = async (post: Post) => {
         dispatch(selectPost(post));
-    }
+    };
 
     return (
         <div className='top-thread-container'>
@@ -154,7 +154,7 @@ const TopThreads = (props: WidgetHocProps) => {
                         })
                     }
                 </div>
-                
+
             }
             {
                 (topThreads.length === 0 && !loading) &&

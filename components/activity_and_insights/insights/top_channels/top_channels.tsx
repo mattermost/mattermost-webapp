@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {memo, useCallback, useEffect, useRef, useState} from 'react';
+import React, {memo, useCallback, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Link} from 'react-router-dom';
 
@@ -23,7 +23,6 @@ import './../../activity_and_insights.scss';
 import LineChart from 'components/analytics/line_chart';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import Tooltip from 'components/tooltip';
-import tinycolor from 'tinycolor2';
 
 const TopChannels = (props: WidgetHocProps) => {
     const dispatch = useDispatch();
@@ -32,52 +31,52 @@ const TopChannels = (props: WidgetHocProps) => {
     const [topChannels, setTopChannels] = useState([] as TopChannel[]);
     const [channelLineChartData] = useState({
         '2022-05-01': {
-            'sia4n8chebbimdjreqpjtqq4th': 93,
-            'kf8hegqirty38c1eoqr8gbar4c': 114,
-            'josruzafdpy67xrp9akhujumoc': 324,
-            'a5dqixb9xbfjzfy3t5bjt6swjc': 342,
+            sia4n8chebbimdjreqpjtqq4th: 93,
+            kf8hegqirty38c1eoqr8gbar4c: 114,
+            josruzafdpy67xrp9akhujumoc: 324,
+            a5dqixb9xbfjzfy3t5bjt6swjc: 342,
             '7sembkzk5jf9bkzxahdaydetee': 169,
         },
         '2022-05-02': {
-            'sia4n8chebbimdjreqpjtqq4th': 203,
-            'kf8hegqirty38c1eoqr8gbar4c': 14,
-            'josruzafdpy67xrp9akhujumoc': 304,
-            'a5dqixb9xbfjzfy3t5bjt6swjc': 267,
+            sia4n8chebbimdjreqpjtqq4th: 203,
+            kf8hegqirty38c1eoqr8gbar4c: 14,
+            josruzafdpy67xrp9akhujumoc: 304,
+            a5dqixb9xbfjzfy3t5bjt6swjc: 267,
             '7sembkzk5jf9bkzxahdaydetee': 109,
         },
         '2022-05-03': {
-            'sia4n8chebbimdjreqpjtqq4th': 230,
-            'kf8hegqirty38c1eoqr8gbar4c': 140,
-            'josruzafdpy67xrp9akhujumoc': 340,
-            'a5dqixb9xbfjzfy3t5bjt6swjc': 190,
+            sia4n8chebbimdjreqpjtqq4th: 230,
+            kf8hegqirty38c1eoqr8gbar4c: 140,
+            josruzafdpy67xrp9akhujumoc: 340,
+            a5dqixb9xbfjzfy3t5bjt6swjc: 190,
             '7sembkzk5jf9bkzxahdaydetee': 110,
         },
         '2022-05-04': {
-            'sia4n8chebbimdjreqpjtqq4th': 123,
-            'kf8hegqirty38c1eoqr8gbar4c': 114,
-            'josruzafdpy67xrp9akhujumoc': 134,
-            'a5dqixb9xbfjzfy3t5bjt6swjc': 100,
+            sia4n8chebbimdjreqpjtqq4th: 123,
+            kf8hegqirty38c1eoqr8gbar4c: 114,
+            josruzafdpy67xrp9akhujumoc: 134,
+            a5dqixb9xbfjzfy3t5bjt6swjc: 100,
             '7sembkzk5jf9bkzxahdaydetee': 219,
         },
         '2022-05-05': {
-            'sia4n8chebbimdjreqpjtqq4th': 430,
-            'kf8hegqirty38c1eoqr8gbar4c': 119,
-            'josruzafdpy67xrp9akhujumoc': 234,
-            'a5dqixb9xbfjzfy3t5bjt6swjc': 160,
+            sia4n8chebbimdjreqpjtqq4th: 430,
+            kf8hegqirty38c1eoqr8gbar4c: 119,
+            josruzafdpy67xrp9akhujumoc: 234,
+            a5dqixb9xbfjzfy3t5bjt6swjc: 160,
             '7sembkzk5jf9bkzxahdaydetee': 284,
         },
         '2022-05-06': {
-            'sia4n8chebbimdjreqpjtqq4th': 123,
-            'kf8hegqirty38c1eoqr8gbar4c': 114,
-            'josruzafdpy67xrp9akhujumoc': 134,
-            'a5dqixb9xbfjzfy3t5bjt6swjc': 100,
+            sia4n8chebbimdjreqpjtqq4th: 123,
+            kf8hegqirty38c1eoqr8gbar4c: 114,
+            josruzafdpy67xrp9akhujumoc: 134,
+            a5dqixb9xbfjzfy3t5bjt6swjc: 100,
             '7sembkzk5jf9bkzxahdaydetee': 219,
         },
         '2022-05-07': {
-            'sia4n8chebbimdjreqpjtqq4th': 203,
-            'kf8hegqirty38c1eoqr8gbar4c': 14,
-            'josruzafdpy67xrp9akhujumoc': 304,
-            'a5dqixb9xbfjzfy3t5bjt6swjc': 267,
+            sia4n8chebbimdjreqpjtqq4th: 203,
+            kf8hegqirty38c1eoqr8gbar4c: 14,
+            josruzafdpy67xrp9akhujumoc: 304,
+            a5dqixb9xbfjzfy3t5bjt6swjc: 267,
             '7sembkzk5jf9bkzxahdaydetee': 109,
         },
     });
@@ -141,7 +140,7 @@ const TopChannels = (props: WidgetHocProps) => {
             const item = channelLineChartData[labels[i]];
 
             const channelIds = Object.keys(item);
-            
+
             for (let j = 0; j < channelIds.length; j++) {
                 const count = item[channelIds[j]];
                 if (values[channelIds[j]]) {

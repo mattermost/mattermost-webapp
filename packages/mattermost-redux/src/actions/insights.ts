@@ -81,7 +81,6 @@ export function getMyTopChannels(teamId: string, page: number, perPage: number, 
     };
 }
 
-
 export function getTopThreadsForTeam(teamId: string, page: number, perPage: number, timeFrame: TimeFrame): (dispatch: DispatchFunc, getState: GetStateFunc) => Promise<TopThreadActionResult> | TopThreadActionResult {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         let data: TopThreadResponse;
