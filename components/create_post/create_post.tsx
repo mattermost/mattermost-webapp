@@ -51,7 +51,7 @@ import {CommandArgs} from 'mattermost-redux/types/integrations';
 import {Group} from 'mattermost-redux/types/groups';
 import {ModalData} from 'types/actions';
 import {FileInfo} from 'mattermost-redux/types/files';
-import {Emoji} from 'mattermost-redux/types/emojis';
+import {Emoji} from '@mattermost/types/emojis';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
 import {SendMessageTour} from 'components/onboarding_tour';
 import {ApplyMarkdownOptions, applyMarkdown} from 'utils/markdown/apply_markdown';

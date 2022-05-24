@@ -4,7 +4,7 @@
 import {combineReducers} from 'redux';
 
 import {EmojiTypes, PostTypes, UserTypes} from 'mattermost-redux/action_types';
-import {EmojisState, CustomEmoji} from 'mattermost-redux/types/emojis';
+import {EmojisState, CustomEmoji} from '@mattermost/types/emojis';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {Post} from 'mattermost-redux/types/posts';
 import {IDMappedObjects} from 'mattermost-redux/types/utilities';
