@@ -30,11 +30,11 @@
                         .content {
                             position: relative;
                         }
-    
+
                         .chartjs-render-monitor {
-                            max-height: 192px;
                             width: 100% !important;
                             min-height: 192px !important;
+                            max-height: 192px;
 
                             &:hover {
                                 cursor: pointer;
