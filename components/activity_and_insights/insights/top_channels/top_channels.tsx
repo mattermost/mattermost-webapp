@@ -292,7 +292,7 @@ const TopChannels = (props: WidgetHocProps) => {
                                                 drawOnChartArea: false,
                                             },
                                             ticks: {
-                                                callback: function(val, index) {
+                                                callback(val, index) {
                                                     // Hide every 4th tick label for 28 day time frame
                                                     if (props.timeFrame === TimeFrames.INSIGHTS_28_DAYS) {
                                                         return index % 4 === 0 ? val : '';
