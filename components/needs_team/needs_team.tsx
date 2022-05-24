@@ -7,7 +7,7 @@ import iNoBounce from 'inobounce';
 
 import {Channel, ChannelMembership} from '@mattermost/types/channels';
 import {Team, TeamMembership} from 'mattermost-redux/types/teams';
-import {Group} from 'mattermost-redux/types/groups';
+import {Group} from '@mattermost/types/groups';
 import {UserProfile, UserStatus} from 'mattermost-redux/types/users';
 
 import {startPeriodicStatusUpdates, stopPeriodicStatusUpdates} from 'actions/status_actions.jsx';

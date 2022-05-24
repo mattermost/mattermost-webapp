@@ -10,7 +10,7 @@ import {Client4} from 'mattermost-redux/client';
 
 import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {Compliance} from '@mattermost/types/compliance';
-import {GroupSearchOpts} from 'mattermost-redux/types/groups';
+import {GroupSearchOpts} from '@mattermost/types/groups';
 import {
     CreateDataRetentionCustomPolicy,
 } from '@mattermost/types/data_retention';

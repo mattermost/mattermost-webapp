@@ -7,7 +7,7 @@ import {useIntl} from 'react-intl';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {TeamMembership} from 'mattermost-redux/types/teams';
 import {ChannelMembership} from '@mattermost/types/channels';
-import {Group} from 'mattermost-redux/types/groups';
+import {Group} from '@mattermost/types/groups';
 
 type ProfileWithGroups = Partial<UserProfile & {
     groups: Array<Partial<Group>>;

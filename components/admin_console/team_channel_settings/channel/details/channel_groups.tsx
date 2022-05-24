@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Channel} from '@mattermost/types/channels';
-import {Group} from 'mattermost-redux/types/groups';
+import {Group} from '@mattermost/types/groups';
 
 import AddGroupsToChannelModal from 'components/add_groups_to_channel_modal';
 import ToggleModalButton from 'components/toggle_modal_button';

@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {UserProfile} from 'mattermost-redux/types/users';
-import {GroupStats} from 'mattermost-redux/types/groups';
+import {GroupStats} from '@mattermost/types/groups';
 
 import Constants from 'utils/constants';
 import UserGridName from 'components/admin_console/user_grid/user_grid_name';

@@ -31,7 +31,7 @@ import {
 import {Channel, ChannelMembership} from '@mattermost/types/channels';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {Team, TeamMembership} from 'mattermost-redux/types/teams';
-import {Group} from 'mattermost-redux/types/groups';
+import {Group} from '@mattermost/types/groups';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {
     IDMappedObjects,

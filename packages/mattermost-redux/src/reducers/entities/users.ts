@@ -10,7 +10,7 @@ import {UserAccessToken, UserProfile, UserStatus} from 'mattermost-redux/types/u
 import {RelationOneToMany, IDMappedObjects, RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {Team} from 'mattermost-redux/types/teams';
 import {Channel} from '@mattermost/types/channels';
-import {Group} from 'mattermost-redux/types/groups';
+import {Group} from '@mattermost/types/groups';
 
 function profilesToSet(state: RelationOneToMany<Team, UserProfile>, action: GenericAction) {
     const id = action.id;

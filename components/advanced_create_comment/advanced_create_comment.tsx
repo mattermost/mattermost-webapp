@@ -30,7 +30,7 @@ import NotifyConfirmModal from 'components/notify_confirm_modal';
 import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload';
 import PostDeletedModal from 'components/post_deleted_modal';
 import {PostDraft} from 'types/store/rhs';
-import {Group} from 'mattermost-redux/types/groups';
+import {Group} from '@mattermost/types/groups';
 import {ChannelMemberCountsByGroup} from '@mattermost/types/channels';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
 import {Emoji} from '@mattermost/types/emojis';

@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 import React, {useCallback} from 'react';
 
-import {Group} from 'mattermost-redux/types/groups';
+import {Group} from '@mattermost/types/groups';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import Avatar from 'components/widgets/users/avatar';

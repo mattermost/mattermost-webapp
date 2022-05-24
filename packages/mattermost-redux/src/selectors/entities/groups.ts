@@ -3,7 +3,7 @@
 
 import {createSelector} from 'reselect';
 
-import {Group} from 'mattermost-redux/types/groups';
+import {Group} from '@mattermost/types/groups';
 import {filterGroupsMatchingTerm, sortGroups} from 'mattermost-redux/utils/group_utils';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getTeam} from 'mattermost-redux/selectors/entities/teams';

@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {Group} from 'mattermost-redux/types/groups';
+import {Group} from '@mattermost/types/groups';
 import {Channel} from '@mattermost/types/channels';
 
 import {ChannelGroups} from './channel_groups';

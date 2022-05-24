@@ -4,7 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Group} from 'mattermost-redux/types/groups';
+import {Group} from '@mattermost/types/groups';
 import {Channel} from '@mattermost/types/channels';
 
 import AbstractList from 'components/admin_console/team_channel_settings/abstract_list.jsx';

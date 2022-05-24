@@ -6,7 +6,7 @@ import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import Groups from 'mattermost-redux/constants/groups';
 
-import {Group} from 'mattermost-redux/types/groups';
+import {Group} from '@mattermost/types/groups';
 
 import {Channel} from '@mattermost/types/channels';
 

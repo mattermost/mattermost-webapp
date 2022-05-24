@@ -5,7 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {UserProfile} from 'mattermost-redux/types/users';
-import {Group} from 'mattermost-redux/types/groups';
+import {Group} from '@mattermost/types/groups';
 
 import {TestHelper} from 'utils/test_helper';
 

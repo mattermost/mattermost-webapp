@@ -26,7 +26,7 @@ import {
     GroupTeam,
     SyncablePatch,
     SyncableType,
-} from 'mattermost-redux/types/groups';
+} from '@mattermost/types/groups';
 import {Team} from 'mattermost-redux/types/teams';
 import {UserProfile} from 'mattermost-redux/types/users';
 

@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {Groups} from 'mattermost-redux/constants';
 
-import {Group, SyncablePatch} from 'mattermost-redux/types/groups';
+import {Group, SyncablePatch} from '@mattermost/types/groups';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
 

@@ -11,7 +11,7 @@ import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 
 import {Channel} from '@mattermost/types/channels';
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
-import {Group} from 'mattermost-redux/types/groups';
+import {Group} from '@mattermost/types/groups';
 
 import {GlobalState} from 'types/store';
 import {setModalSearchTerm} from 'actions/views/search';
