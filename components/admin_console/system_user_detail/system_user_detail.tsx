@@ -9,7 +9,7 @@ import {Overlay} from 'react-bootstrap';
 
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
-import {Team, TeamMembership} from 'mattermost-redux/types/teams';
+import {Team, TeamMembership} from '@mattermost/types/teams';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 

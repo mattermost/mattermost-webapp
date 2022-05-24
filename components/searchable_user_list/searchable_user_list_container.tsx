@@ -5,7 +5,7 @@ import React, {useState} from 'react';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Channel, ChannelMembership} from '@mattermost/types/channels';
-import {TeamMembership} from 'mattermost-redux/types/teams';
+import {TeamMembership} from '@mattermost/types/teams';
 
 import SearchableUserList from './searchable_user_list';
 

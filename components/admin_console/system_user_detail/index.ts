@@ -15,7 +15,7 @@ import {GlobalState} from 'mattermost-redux/types/store';
 
 import {ServerError} from '@mattermost/types/errors';
 
-import {TeamMembership} from 'mattermost-redux/types/teams';
+import {TeamMembership} from '@mattermost/types/teams';
 
 import {setNavigationBlocked} from 'actions/admin_actions.jsx';
 

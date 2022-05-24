@@ -3,7 +3,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {Team, TeamMembership} from 'mattermost-redux/types/teams';
+import {Team, TeamMembership} from '@mattermost/types/teams';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 import {TestHelper} from '../../../../../../utils/test_helper';

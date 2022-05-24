@@ -15,7 +15,7 @@ import {RouteComponentProps} from 'react-router-dom';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 
-import {Team, TeamMembership} from 'mattermost-redux/types/teams';
+import {Team, TeamMembership} from '@mattermost/types/teams';
 
 import {GenericAction, GetStateFunc} from 'mattermost-redux/types/actions';
 

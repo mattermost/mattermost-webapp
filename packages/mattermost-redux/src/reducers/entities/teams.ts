@@ -4,7 +4,7 @@ import {combineReducers} from 'redux';
 
 import {AdminTypes, ChannelTypes, TeamTypes, UserTypes, SchemeTypes, GroupTypes} from 'mattermost-redux/action_types';
 import {teamListToMap} from 'mattermost-redux/utils/team_utils';
-import {Team, TeamMembership, TeamUnread} from 'mattermost-redux/types/teams';
+import {Team, TeamMembership, TeamUnread} from '@mattermost/types/teams';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {RelationOneToOne, IDMappedObjects} from 'mattermost-redux/types/utilities';
 import {GenericAction} from 'mattermost-redux/types/actions';

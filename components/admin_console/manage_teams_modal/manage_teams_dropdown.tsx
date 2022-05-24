@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {isAdmin, isSystemAdmin, isGuest} from 'mattermost-redux/utils/user_utils';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {Team, TeamMembership} from 'mattermost-redux/types/teams';
+import {Team, TeamMembership} from '@mattermost/types/teams';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {localizeMessage} from 'utils/utils';

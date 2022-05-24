@@ -3,7 +3,7 @@
 
 import * as TeamActions from 'mattermost-redux/actions/teams';
 import {getTeamMember} from 'mattermost-redux/selectors/entities/teams';
-import {TeamMemberWithError, TeamInviteWithError} from 'mattermost-redux/types/teams';
+import {TeamMemberWithError, TeamInviteWithError} from '@mattermost/types/teams';
 
 import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';

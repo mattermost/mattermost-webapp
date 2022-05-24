@@ -9,7 +9,7 @@ import {getConfig, getCurrentUrl, isCompatibleWithJoinViewTeamPermissions} from 
 import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles_helpers';
 
 import {GlobalState} from 'mattermost-redux/types/store';
-import {Team, TeamMembership, TeamStats} from 'mattermost-redux/types/teams';
+import {Team, TeamMembership, TeamStats} from '@mattermost/types/teams';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {IDMappedObjects, RelationOneToOne} from 'mattermost-redux/types/utilities';
 

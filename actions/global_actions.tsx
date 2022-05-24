@@ -22,7 +22,7 @@ import {fetchAppBindings} from 'mattermost-redux/actions/apps';
 import {Channel, ChannelMembership} from '@mattermost/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 import {calculateUnreadCount} from 'mattermost-redux/utils/channel_utils';
 
 import {browserHistory} from 'utils/browser_history';

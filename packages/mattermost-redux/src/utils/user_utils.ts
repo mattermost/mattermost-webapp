@@ -3,7 +3,7 @@
 import {General, Preferences} from '../constants';
 import {localizeMessage} from 'mattermost-redux/utils/i18n_utils';
 import {ChannelMembership} from '@mattermost/types/channels';
-import {TeamMembership} from 'mattermost-redux/types/teams';
+import {TeamMembership} from '@mattermost/types/teams';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {IDMappedObjects} from 'mattermost-redux/types/utilities';
 export function getFullName(user: UserProfile): string {

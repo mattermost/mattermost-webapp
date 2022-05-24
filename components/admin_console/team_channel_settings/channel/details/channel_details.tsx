@@ -11,7 +11,7 @@ import {UserProfile} from 'mattermost-redux/types/users';
 import {Scheme} from '@mattermost/types/schemes';
 import {SyncablePatch, Group, SyncableType} from '@mattermost/types/groups';
 import {Channel, ChannelModeration as ChannelPermissions, ChannelModerationPatch} from '@mattermost/types/channels';
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 
 import {ServerError} from '@mattermost/types/errors';
 

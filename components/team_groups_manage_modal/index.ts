@@ -12,7 +12,7 @@ import {closeModal, openModal} from 'actions/views/modals';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {Action} from 'mattermost-redux/types/actions';
 import {Group, SyncablePatch, SyncableType} from '@mattermost/types/groups';
-import {TeamMembership} from 'mattermost-redux/types/teams';
+import {TeamMembership} from '@mattermost/types/teams';
 
 import {ModalData} from 'types/actions';
 

@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 import {PostImage, PostType} from '@mattermost/types/posts';
 
 import messageHtmlToComponent from 'utils/message_html_to_component';

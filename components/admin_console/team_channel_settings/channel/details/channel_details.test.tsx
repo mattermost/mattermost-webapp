@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 
 import {Group} from '@mattermost/types/groups';
 import {Channel} from '@mattermost/types/channels';
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 import {Scheme} from '@mattermost/types/schemes';
 
 import ChannelDetails from './channel_details';

@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
 import {getTeamStats, getTeamMembers} from 'mattermost-redux/actions/teams';
-import {GetTeamMembersOpts, TeamStats, TeamMembership} from 'mattermost-redux/types/teams';
+import {GetTeamMembersOpts, TeamStats, TeamMembership} from '@mattermost/types/teams';
 import {haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getMembersInCurrentTeam, getCurrentTeamStats} from 'mattermost-redux/selectors/entities/teams';
 import {getProfilesInCurrentTeam, searchProfilesInCurrentTeam} from 'mattermost-redux/selectors/entities/users';

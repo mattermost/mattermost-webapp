@@ -6,7 +6,7 @@ import {Route, Switch, Redirect, RouteComponentProps} from 'react-router-dom';
 
 import {Channel} from '@mattermost/types/channels';
 
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 
 import AnnouncementBar from 'components/announcement_bar';
 import BackButton from 'components/common/back_button';

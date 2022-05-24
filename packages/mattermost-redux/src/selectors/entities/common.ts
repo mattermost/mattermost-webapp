@@ -4,7 +4,7 @@
 import {createSelector} from 'reselect';
 
 import {ChannelMembership, Channel} from '@mattermost/types/channels';
-import {TeamMembership} from 'mattermost-redux/types/teams';
+import {TeamMembership} from '@mattermost/types/teams';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {RelationOneToOne, IDMappedObjects} from 'mattermost-redux/types/utilities';

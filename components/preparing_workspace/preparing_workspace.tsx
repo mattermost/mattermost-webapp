@@ -12,7 +12,7 @@ import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {createChannel} from 'mattermost-redux/actions/channels';
 import {getFirstAdminSetupComplete as getFirstAdminSetupCompleteAction} from 'mattermost-redux/actions/general';
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 import {Channel} from '@mattermost/types/channels';
 import {sendEmailInvitesToTeamGracefully} from 'mattermost-redux/actions/teams';
 import {getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';

@@ -4,7 +4,7 @@
 import React from 'react';
 
 import {UserProfile} from 'mattermost-redux/types/users';
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 import {Channel} from '@mattermost/types/channels';
 import {PreferenceType} from '@mattermost/types/preferences';
 

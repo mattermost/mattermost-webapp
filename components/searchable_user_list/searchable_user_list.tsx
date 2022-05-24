@@ -7,7 +7,7 @@ import Scrollbars from 'react-custom-scrollbars';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Channel, ChannelMembership} from '@mattermost/types/channels';
-import {TeamMembership} from 'mattermost-redux/types/teams';
+import {TeamMembership} from '@mattermost/types/teams';
 
 import QuickInput from 'components/quick_input';
 import UserList from 'components/user_list.jsx';

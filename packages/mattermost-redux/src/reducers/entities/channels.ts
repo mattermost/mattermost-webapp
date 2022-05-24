@@ -26,7 +26,7 @@ import {
     IDMappedObjects,
 } from 'mattermost-redux/types/utilities';
 
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 import {channelListToMap, splitRoles} from 'mattermost-redux/utils/channel_utils';
 
 import messageCounts from './channels/message_counts';

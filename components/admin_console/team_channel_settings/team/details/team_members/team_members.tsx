@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import {ServerError} from '@mattermost/types/errors';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {UserProfile, UsersStats, GetFilteredUsersStatsOpts} from 'mattermost-redux/types/users';
-import {TeamMembership, Team} from 'mattermost-redux/types/teams';
+import {TeamMembership, Team} from '@mattermost/types/teams';
 import GeneralConstants from 'mattermost-redux/constants/general';
 
 import {t} from 'utils/i18n';

@@ -5,7 +5,7 @@ import React from 'react';
 import {useIntl} from 'react-intl';
 
 import {UserProfile} from 'mattermost-redux/types/users';
-import {TeamMembership} from 'mattermost-redux/types/teams';
+import {TeamMembership} from '@mattermost/types/teams';
 import {ChannelMembership} from '@mattermost/types/channels';
 import {Group} from '@mattermost/types/groups';
 

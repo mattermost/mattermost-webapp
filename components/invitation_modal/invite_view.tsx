@@ -8,7 +8,7 @@ import {FormattedMessage, useIntl} from 'react-intl';
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
 import {Channel} from '@mattermost/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 
 import {getSiteURL} from 'utils/url';
 import {Constants} from 'utils/constants';

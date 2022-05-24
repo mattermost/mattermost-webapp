@@ -11,7 +11,7 @@ import {teamListToMap, filterTeamsStartingWithTerm} from 'mattermost-redux/utils
 
 import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
 
-import {Team, TeamSearchOpts} from 'mattermost-redux/types/teams';
+import {Team, TeamSearchOpts} from '@mattermost/types/teams';
 
 import {GlobalState} from 'types/store';
 import {setTeamListSearch} from 'actions/views/search';

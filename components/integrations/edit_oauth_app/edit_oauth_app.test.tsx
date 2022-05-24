@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 
 import {OAuthApp} from '@mattermost/types/integrations';
 
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 
 import {browserHistory} from 'utils/browser_history';
 

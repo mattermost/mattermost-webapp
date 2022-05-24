@@ -11,7 +11,7 @@ import {getThreads} from 'mattermost-redux/selectors/entities/threads';
 import {isTimezoneEnabled} from 'mattermost-redux/selectors/entities/timezone';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
 
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 import {UserThread} from 'mattermost-redux/types/threads';
 import {Post} from '@mattermost/types/posts';
 

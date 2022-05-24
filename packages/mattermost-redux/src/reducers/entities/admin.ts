@@ -15,7 +15,7 @@ import {AdminConfig, EnvironmentConfig} from '@mattermost/types/config';
 import {MixedUnlinkedGroupRedux} from '@mattermost/types/groups';
 import {PluginRedux, PluginStatusRedux} from '@mattermost/types/plugins';
 import {SamlCertificateStatus, SamlMetadataResponse} from '@mattermost/types/saml';
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 import {UserAccessToken, UserProfile} from 'mattermost-redux/types/users';
 import {RelationOneToOne, IDMappedObjects} from 'mattermost-redux/types/utilities';
 import {DataRetentionCustomPolicy} from '@mattermost/types/data_retention';

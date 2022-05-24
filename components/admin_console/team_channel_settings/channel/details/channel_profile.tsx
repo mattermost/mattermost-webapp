@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
 import {Channel} from '@mattermost/types/channels';
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 
 import {t} from 'utils/i18n';
 

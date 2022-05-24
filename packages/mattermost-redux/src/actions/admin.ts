@@ -16,7 +16,7 @@ import {
 } from '@mattermost/types/data_retention';
 import {
     TeamSearchOpts,
-} from 'mattermost-redux/types/teams';
+} from '@mattermost/types/teams';
 import {
     ChannelSearchOpts,
 } from '@mattermost/types/channels';

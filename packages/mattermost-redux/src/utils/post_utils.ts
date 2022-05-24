@@ -7,7 +7,7 @@ import {GlobalState} from 'mattermost-redux/types/store';
 import {PreferenceType} from '@mattermost/types/preferences';
 import {Post, PostType, PostMetadata, PostEmbed} from '@mattermost/types/posts';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 import {Channel} from '@mattermost/types/channels';
 
 import {getPreferenceKey} from './preference_utils';

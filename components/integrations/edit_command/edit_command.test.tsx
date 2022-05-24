@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 import {Command} from '@mattermost/types/integrations';
 
 import {TestHelper} from 'utils/test_helper';

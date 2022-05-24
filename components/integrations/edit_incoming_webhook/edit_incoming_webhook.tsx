@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 import {IncomingWebhook} from '@mattermost/types/integrations';
 import {ActionResult} from 'mattermost-redux/types/actions';
 

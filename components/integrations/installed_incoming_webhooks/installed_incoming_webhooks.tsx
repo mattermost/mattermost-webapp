@@ -4,7 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 import {Channel} from '@mattermost/types/channels';
 import {IncomingWebhook} from '@mattermost/types/integrations';
 import {ActionResult} from 'mattermost-redux/types/actions';

@@ -6,7 +6,7 @@ import {Route, Switch} from 'react-router-dom';
 import iNoBounce from 'inobounce';
 
 import {Channel, ChannelMembership} from '@mattermost/types/channels';
-import {Team, TeamMembership} from 'mattermost-redux/types/teams';
+import {Team, TeamMembership} from '@mattermost/types/teams';
 import {Group} from '@mattermost/types/groups';
 import {UserProfile, UserStatus} from 'mattermost-redux/types/users';
 

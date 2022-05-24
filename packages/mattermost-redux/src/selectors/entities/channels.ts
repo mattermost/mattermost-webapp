@@ -45,7 +45,7 @@ import {
 } from '@mattermost/types/channels';
 import {Post} from '@mattermost/types/posts';
 import {GlobalState} from 'mattermost-redux/types/store';
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 import {UserProfile, UsersState} from 'mattermost-redux/types/users';
 import {
     IDMappedObjects,

@@ -23,7 +23,7 @@ import {
     CreateDataRetentionCustomPolicy,
     PatchDataRetentionCustomPolicy,
 } from '@mattermost/types/data_retention';
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 
 import {GlobalState} from 'types/store';
 

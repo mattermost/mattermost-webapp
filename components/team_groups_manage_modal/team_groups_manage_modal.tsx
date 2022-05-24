@@ -23,7 +23,7 @@ import Menu from 'components/widgets/menu/menu';
 import {ModalData} from 'types/actions';
 
 import * as Utils from 'utils/utils';
-import {Team, TeamMembership} from 'mattermost-redux/types/teams';
+import {Team, TeamMembership} from '@mattermost/types/teams';
 import {Group, SyncablePatch, SyncableType} from '@mattermost/types/groups';
 
 type Props = {
