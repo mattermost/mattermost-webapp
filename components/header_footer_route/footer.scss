@@ -3,13 +3,15 @@
 
 @import 'utils/mixins';
 
-.footer {
+.hfroute-footer {
     display: flex;
     width: 100%;
+    max-width: 1520px;
     height: auto;
     min-height: 80px;
     flex-flow: wrap;
     align-items: center;
+    align-self: center;
     padding: 0 40px;
     margin-top: auto;
 
@@ -35,7 +37,7 @@
 }
 
 @media screen and (max-width: 699px) {
-    .footer {
+    .hfroute-footer {
         padding: 0 24px;
     }
 }

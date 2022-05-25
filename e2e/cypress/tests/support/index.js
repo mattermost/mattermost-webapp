@@ -31,7 +31,6 @@ import './ldap_server_commands';
 import './okta_commands';
 import './saml_commands';
 import './shell';
-import './storybook_commands';
 import './task_commands';
 import './ui';
 import './ui_commands'; // soon to deprecate

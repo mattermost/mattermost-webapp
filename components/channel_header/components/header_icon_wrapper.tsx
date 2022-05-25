@@ -146,7 +146,7 @@ const HeaderIconWrapper: React.FC<Props> = (props: Props) => {
         return (
             <div>
                 <OverlayTrigger
-                    trigger={['hover']}
+                    trigger={['hover', 'focus']}
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='bottom'
                     overlay={isRhsOpen ? <></> : tooltip}

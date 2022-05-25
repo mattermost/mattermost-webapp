@@ -84,10 +84,11 @@ describe('SupportSettings', () => {
         cy.url().should('include', '/signup_user_complete');
 
         // * Verify that links are correct at signup page
-        guides.forEach((guide) => {
-            cy.findByText(guide.text).
-                parent().
-                should('have.attr', 'href', guide.link);
+        cy.get('.hfroute-footer').scrollIntoView().should('be.visible').within(() => {
+            guides.forEach((guide) => {
+                cy.findByText(guide.text).
+                    should('have.attr', 'href', guide.link);
+            });
         });
     });
 
