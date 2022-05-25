@@ -51,6 +51,81 @@ export function TeamProfile({team, isArchived, isDisabled, onToggleArchive}) {
         archiveBtnDefault = 'Archive Team';
     }
 
+    const button = () => {
+        if (restoreDisabled) {
+            return (
+                <div
+                    onClick={() => {
+                        dispatch(openModal({
+                            modalId: ModalIdentifiers.PRICING_MODAL,
+                            dialogType: PricingModal,
+                        }));
+                    }}
+                    style={{display: 'inline-block', cursor: 'pointer'}}
+                >
+                    <button
+                        type='button'
+                        style={{pointerEvents: 'none'}}
+                        className={
+                            classNames(
+                                'btn',
+                                'btn-secondary',
+                                'ArchiveButton',
+                                {ArchiveButton___archived: isArchived},
+                                {ArchiveButton___unarchived: !isArchived},
+                                {disabled: isDisabled},
+                                'cloud-limits-disabled',
+                            )
+                        }
+                        onClick={onToggleArchive}
+                    >
+                        {isArchived ? (
+                            <UnarchiveIcon
+                                className='channel-icon channel-icon__unarchive'
+                            />
+                        ) : (
+                            <ArchiveIcon className='channel-icon channel-icon__archive'/>
+                        )}
+                        <FormattedMessage
+                            id={archiveBtnID}
+                            defaultMessage={archiveBtnDefault}
+                        />
+                    </button>
+                </div>
+            );
+        }
+        return (
+            <button
+                type='button'
+                disabled={restoreDisabled}
+                className={
+                    classNames(
+                        'btn',
+                        'btn-secondary',
+                        'ArchiveButton',
+                        {ArchiveButton___archived: isArchived},
+                        {ArchiveButton___unarchived: !isArchived},
+                        {disabled: isDisabled},
+                        'cloud-limits-disabled',
+                    )
+                }
+                onClick={onToggleArchive}
+            >
+                {isArchived ? (
+                    <UnarchiveIcon
+                        className='channel-icon channel-icon__unarchive'
+                    />
+                ) : (
+                    <ArchiveIcon className='channel-icon channel-icon__archive'/>
+                )}
+                <FormattedMessage
+                    id={archiveBtnID}
+                    defaultMessage={archiveBtnDefault}
+                />
+            </button>
+        );
+    };
+
     return (
         <AdminPanel
             id='team_profile'
@@ -105,77 +180,7 @@ export function TeamProfile({team, isArchived, isDisabled, onToggleArchive}) {
                                 </Tooltip>
                             }
                         >
-                            {/* See" https://github.com/react-bootstrap/react-bootstrap/issues/1588 - you can't use overlaytrigger with a disabled button.
-                                workaround: https://github.com/react-bootstrap/react-bootstrap/issues/2428#issuecomment-407800236
-
-                            */}
-                            {restoreDisabled ? <div
-                                onClick={() => {
-                                    dispatch(openModal({
-                                        modalId: ModalIdentifiers.PRICING_MODAL,
-                                        dialogType: PricingModal,
-                                    }));
-                                }}
-                                style={{display: 'inline-block', cursor: 'pointer'}}
-                            >
-                                <button
-                                    type='button'
-                                    disabled={restoreDisabled}
-                                    style={{pointerEvents: 'none'}}
-                                    className={
-                                        classNames(
-                                            'btn',
-                                            'btn-secondary',
-                                            'ArchiveButton',
-                                            {ArchiveButton___archived: isArchived},
-                                            {ArchiveButton___unarchived: !isArchived},
-                                            {disabled: isDisabled},
-                                            'cloud-limits-disabled',
-                                        )
-                                    }
-                                    onClick={onToggleArchive}
-                                >
-                                    {isArchived ? (
-                                        <UnarchiveIcon
-                                            className='channel-icon channel-icon__unarchive'
-                                        />
-                                    ) : (
-                                        <ArchiveIcon className='channel-icon channel-icon__archive'/>
-                                    )}
-                                    <FormattedMessage
-                                        id={archiveBtnID}
-                                        defaultMessage={archiveBtnDefault}
-                                    />
-                                </button>
-                            </div> : <button
-                                type='button'
-                                disabled={restoreDisabled}
-                                className={
-                                    classNames(
-                                        'btn',
-                                        'btn-secondary',
-                                        'ArchiveButton',
-                                        {ArchiveButton___archived: isArchived},
-                                        {ArchiveButton___unarchived: !isArchived},
-                                        {disabled: isDisabled},
-                                        'cloud-limits-disabled',
-                                    )
-                                }
-                                onClick={onToggleArchive}
-                            >
-                                {isArchived ? (
-                                    <UnarchiveIcon
-                                        className='channel-icon channel-icon__unarchive'
-                                    />
-                                ) : (
-                                    <ArchiveIcon className='channel-icon channel-icon__archive'/>
-                                )}
-                                <FormattedMessage
-                                    id={archiveBtnID}
-                                    defaultMessage={archiveBtnDefault}
-                                />
-                            </button>
-                            }
+                            {button()}
                         </OverlayTrigger>
                     </div>
                 </div>

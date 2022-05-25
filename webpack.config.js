@@ -415,12 +415,13 @@ if (targetIsTest) {
 }
 
 if (targetIsDevServer) {
+    console.log('TARGET IS DEV SERVER');
     config = {
         ...config,
         devtool: 'eval-cheap-module-source-map',
         devServer: {
             hot: true,
-            liveReload: false,
+            liveReload: true,
             proxy: [{
                 context: () => true,
                 bypass(req) {

@@ -287,6 +287,7 @@
     "build": "cross-env NODE_ENV=production webpack",
     "run": "webpack --progress --watch",
     "dev-server": "webpack serve --mode development",
+    "dev": "webpack-dev-server",
     "test": "cross-env TZ=Etc/UTC jest --maxWorkers=50%",
     "test-ci": "cross-env NODE_OPTIONS=--max_old_space_size=500 TZ=Etc/UTC jest --ci --maxWorkers=8",
     "stats": "cross-env NODE_ENV=production webpack --profile --json > webpack_stats.json",
