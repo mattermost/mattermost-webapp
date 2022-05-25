@@ -23,6 +23,7 @@ import {localizeMessage} from 'utils/utils';
 
 import './marketplace_modal.scss';
 import MarketplaceList from './marketplace_list/marketplace_list';
+import MarketplaceUsageMessage from './marketplace_usage_message';
 
 const MarketplaceTabs = {
     ALL_LISTING: 'allListing',
@@ -102,6 +103,8 @@ export type MarketplaceModalProps = {
         fetchListing(localOnly?: boolean): Promise<{error?: Error}>;
         filterListing(filter: string): Promise<{error?: Error}>;
         setFirstAdminVisitMarketplaceStatus: () => void;
+        getPluginStatuses: () => void;
+        getIntegrationsUsage: () => void;
     };
 };
 
@@ -133,6 +136,8 @@ export default class MarketplaceModal extends React.PureComponent<MarketplaceMod
         trackEvent('plugins', 'ui_marketplace_opened');
 
         this.fetchListing();
+        this.props.actions.getPluginStatuses();
+        this.props.actions.getIntegrationsUsage();
         if (!this.props.firstAdminVisitMarketplaceStatus) {
             trackEvent('plugins', 'ui_first_admin_visit_marketplace_status');
 
@@ -245,6 +250,7 @@ export default class MarketplaceModal extends React.PureComponent<MarketplaceMod
                                 />
                             </strong>
                         </h1>
+                        <MarketplaceUsageMessage/>
                         {input}
                         <Tabs
                             id='marketplaceTabs'

@@ -10,12 +10,15 @@ import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import type {MarketplaceLabel} from 'mattermost-redux/types/marketplace';
+import {PluginStatus} from '@mattermost/types/plugins';
+import PluginState from 'mattermost-redux/constants/plugins';
 
 import MarketplaceItem from '../marketplace_item';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import ConfirmModal from 'components/confirm_modal';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
+import Toggle from 'components/toggle';
 
 import {localizeMessage} from 'utils/utils';
 
@@ -226,9 +229,12 @@ export type MarketplaceItemPluginProps = {
     error?: string;
     isDefaultMarketplace: boolean;
     trackEvent: (category: string, event: string, props?: unknown) => void;
+    pluginStatus: PluginStatus
 
     actions: {
         installPlugin: (category: string, event: string) => void;
+        enablePlugin: (pluginId: string) => void;
+        disablePlugin: (pluginId: string) => void;
         closeMarketplaceModal: () => void;
     };
 };
@@ -284,9 +290,49 @@ export default class MarketplaceItemPlugin extends React.PureComponent <Marketpl
         this.props.actions.installPlugin(this.props.id, this.props.version);
     }
 
+    getPluginStatusButton(): JSX.Element {
+        const pluginEnabled = this.props.pluginStatus?.state === PluginState.PLUGIN_STATE_RUNNING;
+        const switchDisabled = this.props.pluginStatus?.state !== PluginState.PLUGIN_STATE_RUNNING && this.props.pluginStatus?.state !== PluginState.PLUGIN_STATE_NOT_RUNNING;
+
+        const label = pluginEnabled ? (
+            <FormattedMessage
+                id='marketplace_modal.plugin_status.enabled'
+                defaultMessage='Enabled'
+            />
+        ): (
+            <FormattedMessage
+                id='marketplace_modal.plugin_status.disabled'
+                defaultMessage='Disabled'
+            />
+        );
+
+        return (
+            <>
+                <Toggle
+                    id={`plugin-enable-toggle-${this.props.id}`}
+                    disabled={switchDisabled}
+                    onToggle={() => {
+                        if (pluginEnabled) {
+                            this.props.actions.disablePlugin(this.props.id);
+                        } else {
+                            this.props.actions.enablePlugin(this.props.id);
+                        }
+                    }}
+                    toggled={pluginEnabled}
+                    className='btn-sm'
+                />
+                <span>
+                    {label}
+                </span>
+            </>
+        );
+    }
+
     getItemButton(): JSX.Element {
+        let actionButton: React.ReactNode;
+
         if (this.props.installedVersion !== '' && !this.props.installing && !this.props.error) {
-            return (
+            actionButton = (
                 <Link
                     to={'/admin_console/plugins/plugin_' + this.props.id}
                 >
@@ -301,39 +347,47 @@ export default class MarketplaceItemPlugin extends React.PureComponent <Marketpl
                     </button>
                 </Link>
             );
-        }
-
-        let actionButton: JSX.Element;
-        if (this.props.error) {
-            actionButton = (
-                <FormattedMessage
-                    id='marketplace_modal.list.try_again'
-                    defaultMessage='Try Again'
-                />
-            );
         } else {
-            actionButton = (
-                <FormattedMessage
-                    id='marketplace_modal.list.install'
-                    defaultMessage='Install'
-                />
+            let actionLabel: JSX.Element;
+            if (this.props.error) {
+                actionLabel = (
+                    <FormattedMessage
+                        id='marketplace_modal.list.try_again'
+                        defaultMessage='Try Again'
+                    />
+                    );
+            } else {
+                actionLabel = (
+                    <FormattedMessage
+                        id='marketplace_modal.list.install'
+                        defaultMessage='Install'
+                    />
+                );
+            }
+
+            actionButton =  (
+                <button
+                    onClick={this.onInstall}
+                    className='btn btn-primary'
+                    disabled={this.props.installing}
+                >
+                    <LoadingWrapper
+                        loading={this.props.installing}
+                        text={localizeMessage('marketplace_modal.installing', 'Installing...')}
+                    >
+                        {actionLabel}
+                    </LoadingWrapper>
+
+                </button>
             );
         }
 
+        const statusToggle = this.getPluginStatusButton();
         return (
-            <button
-                onClick={this.onInstall}
-                className='btn btn-primary'
-                disabled={this.props.installing}
-            >
-                <LoadingWrapper
-                    loading={this.props.installing}
-                    text={localizeMessage('marketplace_modal.installing', 'Installing...')}
-                >
-                    {actionButton}
-                </LoadingWrapper>
-
-            </button>
+            <>
+                {actionButton}
+                {statusToggle}
+            </>
         );
     }
 

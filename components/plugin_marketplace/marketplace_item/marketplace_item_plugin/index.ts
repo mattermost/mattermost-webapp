@@ -6,6 +6,7 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {GenericAction} from 'mattermost-redux/types/actions';
+import {disablePlugin, enablePlugin} from 'mattermost-redux/actions/admin';
 
 import {GlobalState} from 'types/store';
 
@@ -26,11 +27,15 @@ function mapStateToProps(state: GlobalState, props: Props) {
     const error = getError(state, props.id);
     const isDefaultMarketplace = getConfig(state).IsDefaultMarketplace === 'true';
 
+    const pluginStatuses = state.entities.admin.pluginStatuses;
+    const pluginStatus = pluginStatuses?.[props.id];
+
     return {
         installing,
         error,
         isDefaultMarketplace,
         trackEvent,
+        pluginStatus,
     };
 }
 
@@ -38,6 +43,8 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject, MarketplaceItemPluginProps['actions']>({
             installPlugin,
+            enablePlugin,
+            disablePlugin,
             closeMarketplaceModal: () => closeModal(ModalIdentifiers.PLUGIN_MARKETPLACE),
         }, dispatch),
     };

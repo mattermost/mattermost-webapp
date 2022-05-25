@@ -37,6 +37,7 @@ export default class LineSwitch extends React.PureComponent {
                         toggled={toggled}
                         onText={onText}
                         offText={offText}
+                        className='btn-lg'
                     />
                 </div>
             </div>

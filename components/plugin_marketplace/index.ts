@@ -11,6 +11,7 @@ import {GlobalState} from 'types/store';
 import {getListing, getInstalledListing} from 'selectors/views/marketplace';
 import {setFirstAdminVisitMarketplaceStatus} from 'mattermost-redux/actions/general';
 import {getFirstAdminVisitMarketplaceStatus} from 'mattermost-redux/selectors/entities/general';
+import {getPluginStatuses} from 'mattermost-redux/actions/admin';
 
 import {makeAsyncComponent} from 'components/async_load';
 
@@ -20,6 +21,7 @@ import {getSiteURL} from 'utils/url';
 
 import {closeModal} from 'actions/views/modals';
 import {fetchListing, filterListing} from 'actions/marketplace';
+import {getIntegrationsUsage} from 'actions/cloud';
 
 const MarketplaceModal = makeAsyncComponent('MarketplaceModal', React.lazy(() => import('./marketplace_modal')));
 
@@ -48,6 +50,8 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             fetchListing,
             filterListing,
             setFirstAdminVisitMarketplaceStatus,
+            getPluginStatuses,
+            getIntegrationsUsage,
         }, dispatch),
     };
 }
