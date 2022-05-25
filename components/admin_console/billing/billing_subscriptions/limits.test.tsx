@@ -25,7 +25,7 @@ import Limits from './limits';
 
 const freeLimits = {
     integrations: {
-        enabled: 10,
+        enabled: 5,
     },
     messages: {
         history: 10000,
@@ -67,7 +67,7 @@ function setupStore(hasLimits: boolean) {
                     cardsLoaded: true,
                 },
                 integrations: {
-                    enabled: 0,
+                    enabled: 3,
                     enabledLoaded: true,
                 },
             },
@@ -103,6 +103,14 @@ describe('Limits', () => {
         renderWithIntl(<Provider store={store}><Limits/></Provider>);
         screen.getByText('File Storage');
         screen.getByText(/of 10GB/);
+    });
+
+    test('enabled integration count is shown', () => {
+        const store = setupStore(true);
+
+        renderWithIntl(<Provider store={store}><Limits/></Provider>);
+        screen.getByText('Enabled Integrations');
+        screen.getByText('3 of 5 integrations (60%)');
     });
 
     test('does not request limits when cloud free feature is disabled', () => {
