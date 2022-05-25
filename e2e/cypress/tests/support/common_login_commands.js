@@ -28,7 +28,7 @@ Cypress.Commands.add('checkLoginFailed', () => {
         cy.get('.login-body-card-form-input .Input_fieldset').should('have.class', 'Input_fieldset___error');
 
         // * Check the password input in error
-        cy.get('.login-body-card-form-password-input .Input_fieldset').should('have.class', 'Input_fieldset___error');
+        cy.get('.login-body-card-form-password-input.Input_fieldset').should('have.class', 'Input_fieldset___error');
 
         // * Check the Log in button disabled
         cy.get('#saveSetting').should('be.disabled');

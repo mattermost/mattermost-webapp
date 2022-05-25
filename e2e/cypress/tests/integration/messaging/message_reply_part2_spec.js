@@ -47,17 +47,40 @@ describe('Message Reply', () => {
         });
     });
 
+    it('MM-T2133 - Reply arrow opens RHS with Reply button disabled until text entered', () => {
+        // # Click on the `...` menu icon and click on `Reply`
+        cy.uiClickPostDropdownMenu(rootId, 'Reply', 'CENTER');
+
+        // * RHS is open
+        cy.get('#rhsContainer').should('be.visible');
+
+        // * Reply button is disabled
+        cy.uiGetReply().should('be.disabled');
+
+        // # Type a character in the comment box
+        cy.get('#reply_textbox').type('A');
+
+        // * Reply button is not disabled
+        cy.uiGetReply().should('not.be.disabled');
+
+        // # Clear comment box
+        cy.get('#reply_textbox').clear();
+
+        // # Close RHS
+        cy.uiCloseRHS();
+    });
+
     it('MM-T2134 - Reply to message displays in RHS and center and shows reply count', () => {
         // # Open RHS comment menu
         cy.clickPostCommentIcon(rootId);
 
         const msg = 'reply1';
 
-        // # Type message and post reply
+        // # Type message
         cy.get('#reply_textbox').type(msg);
 
-        // # Press `Enter`
-        cy.get('#reply_textbox').type('{enter}');
+        // # Post reply
+        cy.get('#addCommentButton').click();
 
         cy.getLastPostId().then((replyId) => {
             // * Message displays in center
@@ -80,7 +103,7 @@ describe('Message Reply', () => {
 
     it('MM-T2135 - Can open reply thread from reply count arrow and reply', () => {
         // # Click reply icon
-        cy.get(`#CENTER_commentIcon_${rootId}`).click({force: true}).wait(TIMEOUTS.HALF_SEC);
+        cy.get(`#CENTER_commentIcon_${rootId}`).click().wait(TIMEOUTS.HALF_SEC);
 
         const msg = 'reply2';
 
@@ -118,8 +141,8 @@ describe('Message Reply', () => {
         // # Type message
         cy.get('#reply_textbox').type(msg);
 
-        // # Press `Enter`
-        cy.get('#reply_textbox').type('{enter}');
+        // # Post reply
+        cy.get('#addCommentButton').click().wait(TIMEOUTS.HALF_SEC);
 
         // * Center channel has not changed
         cy.get('#channelHeaderTitle').should('contain', otherChannel.display_name);
