@@ -3,6 +3,9 @@
 import React, {memo, useCallback, useEffect, useMemo, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
+
+import classNames from 'classnames';
+
 import {selectPost} from 'actions/views/rhs';
 
 import {TimeFrame, TopThread} from '@mattermost/types/insights';
@@ -23,7 +26,6 @@ import Attachment from 'components/threading/global_threads/thread_item/attachme
 
 import './../../../activity_and_insights.scss';
 import '../top_threads.scss';
-import classNames from 'classnames';
 
 type Props = {
     filterType: string;
@@ -81,7 +83,7 @@ const TopThreadsTable = (props: Props) => {
     const openThread = (post: Post) => {
         dispatch(selectPost(post));
         closeModal();
-    }
+    };
 
     const getColumns = useMemo((): Column[] => {
         const columns: Column[] = [
@@ -183,7 +185,7 @@ const TopThreadsTable = (props: Props) => {
                                     />
                                 ) : null}
                             </>
-                            
+
                         ),
                         replies: (
                             <span className='replies'>{thread.reply_count}</span>

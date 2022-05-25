@@ -63,7 +63,7 @@ const InsightsModal = (props: Props) => {
                     timeFrame={timeFrame.value}
                     closeModal={doHide}
                 />
-            )
+            );
         default:
             return null;
         }

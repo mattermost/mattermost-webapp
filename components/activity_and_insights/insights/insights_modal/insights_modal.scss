@@ -141,11 +141,11 @@
                         }
 
                         .DataGrid_cell {
+                            display: flex;
+                            align-items: center;
                             padding: 0 16px;
                             margin: 0;
                             white-space: normal;
-                            display: flex;
-                            align-items: center;
 
                             &.rankCell {
                                 flex: 0.2 0;
@@ -190,8 +190,8 @@
 
                             .times-used-container {
                                 display: flex;
-                                align-items: center;
                                 width: 100%;
+                                align-items: center;
 
                                 span.cell-text {
                                     flex: 0.1 0;

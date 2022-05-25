@@ -20,6 +20,7 @@
             .Card__header {
                 padding-bottom: 16px;
             }
+
             .Card__body {
                 padding: 0 12px 12px;
             }
@@ -45,11 +46,11 @@
                         .content {
                             position: relative;
                         }
-    
+
                         .chartjs-render-monitor {
-                            max-height: 192px;
                             width: 100% !important;
                             min-height: 192px !important;
+                            max-height: 192px;
 
                             &:hover {
                                 cursor: pointer;
@@ -305,19 +306,20 @@
                 &:nth-of-type(3) {
                     margin-top: 20px;
                 }
-                
+
                 .top-thread-loading-row {
                     display: flex;
                     align-items: center;
                     padding-bottom: 8px;
-    
+
                     .skeleton-loader {
                         &.title {
-                            margin-left: 8px;
                             flex: 0.5;
+                            margin-left: 8px;
                         }
                     }
                 }
+
                 .loading-lines {
                     .skeleton-loader {
                         &.title {
@@ -327,6 +329,7 @@
                     }
                 }
             }
+
             .thread-list {
                 .thread-item {
                     padding: 8px 12px;
