@@ -302,9 +302,6 @@ describe('Keyboard Shortcuts', () => {
         // # Add some text to the previous message and save
         cy.get('#edit_textbox').type('Test{enter}');
 
-        // # Wait for the editing mode to close
-        cy.wait(TIMEOUTS.FIVE_SEC);
-
         cy.getLastPost().within(() => {
             // * Posted message should be correct
             cy.get('.post-message__text').should('contain.text', 'Test');

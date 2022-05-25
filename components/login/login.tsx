@@ -22,6 +22,8 @@ import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {Team} from 'mattermost-redux/types/teams';
 
 import AlertBanner, {ModeType, AlertBannerProps} from 'components/alert_banner';
+import ExternalLoginButton, {ExternalLoginButtonType} from 'components/external_login_button/external_login_button';
+import ColumnLayout from 'components/header_footer_route/content_layouts/column';
 import {CustomizeHeaderType} from 'components/header_footer_route/header_footer_route';
 import LoadingScreen from 'components/loading_screen';
 import Markdown from 'components/markdown';
@@ -43,34 +45,6 @@ import {setCSRFFromCookie} from 'utils/utils';
 import LoginMfa from './login_mfa';
 
 import './login.scss';
-
-type ExternalLoginButtonType = {
-    id: string;
-    url: string;
-    icon: React.ReactNode;
-    label: string;
-    style?: React.CSSProperties;
-};
-
-export const ExternalLoginButton = ({
-    id,
-    url,
-    icon,
-    label,
-    style,
-}: ExternalLoginButtonType) => (
-    <a
-        id={id}
-        className={classNames('login-body-card-form-login-option', id)}
-        href={url}
-        style={style}
-    >
-        {icon}
-        <span className='login-body-card-form-login-option-label'>
-            {label}
-        </span>
-    </a>
-);
 
 type LoginProps = {
     onCustomizeHeader?: CustomizeHeaderType;
@@ -600,7 +574,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
         } else if (useCaseOnboarding) {
             // need info about whether admin or not,
             // and whether admin has already completed
-            // first tiem onboarding. Instead of fetching and orchestrating that here,
+            // first time onboarding. Instead of fetching and orchestrating that here,
             // let the default root component handle it.
             history.push('/');
         } else {
@@ -684,14 +658,10 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
 
         if (!enableBaseLogin && !enableExternalSignup) {
             return (
-                <div className='login-body-no-login'>
-                    <h1 className='login-body-no-login-title'>
-                        {formatMessage({id: 'login.noMethods.title', defaultMessage: 'This server doesn’t have any sign-in methods enabled'})}
-                    </h1>
-                    <p className='login-body-no-login-subtitle'>
-                        {formatMessage({id: 'login.noMethods.subtitle', defaultMessage: 'Please contact your System Administrator to resolve this.'})}
-                    </p>
-                </div>
+                <ColumnLayout
+                    title={formatMessage({id: 'login.noMethods.title', defaultMessage: 'This server doesn’t have any sign-in methods enabled'})}
+                    message={formatMessage({id: 'login.noMethods.subtitle', defaultMessage: 'Please contact your System Administrator to resolve this.'})}
+                />
             );
         }
 
@@ -779,7 +749,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
                         {enableBaseLogin && enableExternalSignup && (
                             <div className='login-body-card-form-divider'>
                                 <span className='login-body-card-form-divider-label'>
-                                    {formatMessage({id: 'login.or', defaultMessage: 'or'})}
+                                    {formatMessage({id: 'login.or', defaultMessage: 'or log in with'})}
                                 </span>
                             </div>
                         )}
@@ -788,6 +758,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
                                 {getExternalLoginOptions().map((option) => (
                                     <ExternalLoginButton
                                         key={option.id}
+                                        direction={enableBaseLogin ? undefined : 'column'}
                                         {...option}
                                     />
                                 ))}
