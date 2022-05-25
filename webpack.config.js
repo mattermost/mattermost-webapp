@@ -415,10 +415,10 @@ if (targetIsTest) {
 }
 
 if (targetIsDevServer) {
-    console.log('TARGET IS DEV SERVER');
     config = {
         ...config,
         devtool: 'eval-cheap-module-source-map',
+        entry: ['./root.jsx'],
         devServer: {
             hot: true,
             liveReload: true,

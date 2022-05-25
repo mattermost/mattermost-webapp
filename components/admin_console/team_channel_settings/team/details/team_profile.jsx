@@ -65,6 +65,7 @@ export function TeamProfile({team, isArchived, isDisabled, onToggleArchive}) {
                 >
                     <button
                         type='button'
+                        disabled={restoreDisabled}
                         style={{pointerEvents: 'none'}}
                         className={
                             classNames(
