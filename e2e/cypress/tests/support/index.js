@@ -229,4 +229,5 @@ function resetUserPreference(userId) {
     cy.apiSaveCloudTrialBannerPreference(userId, 'trial', '14_days_banner');
     cy.apiSaveActionsMenuPreference(userId);
     cy.apiSaveSkipStepsPreference(userId, 'true');
+    cy.apiSaveStartTrialModal(userId, 'true');
 }

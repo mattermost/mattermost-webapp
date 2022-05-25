@@ -129,8 +129,8 @@ declare namespace Cypress {
          * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
          *
          * @example
-         *   cy.apiSaveShowStartTrialModal('user-id', 'true');
+         *   cy.apiSaveStartTrialModal('user-id', 'true');
          */
-        apiSaveShowStartTrialModal(userId: string, value: string): Chainable<Response>;
+        apiSaveStartTrialModal(userId: string, value: string): Chainable<Response>;
     }
 }

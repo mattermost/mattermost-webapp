@@ -483,6 +483,21 @@ function pluginStatuses(state: Record<string, PluginStatusRedux> = {}, action: G
         };
     }
 
+    case AdminTypes.ENABLE_PLUGIN_FAILURE: {
+        const pluginId = action.data;
+        if (!state[pluginId]) {
+            return state;
+        }
+
+        return {
+            ...state,
+            [pluginId]: {
+                ...state[pluginId],
+                state: PluginState.PLUGIN_STATE_NOT_RUNNING,
+            },
+        };
+    }
+
     case AdminTypes.DISABLE_PLUGIN_REQUEST: {
         const pluginId = action.data;
         if (!state[pluginId]) {
