@@ -50,7 +50,7 @@ const UpgradeCloudButton = (): JSX.Element | null => {
             dispatch(getCloudSubscription());
             dispatch(getCloudProducts());
         }
-    }, []);
+    }, [isCloud]);
 
     openPricingModal = () => {
         trackEvent('cloud_admin', 'click_open_pricing_modal');
