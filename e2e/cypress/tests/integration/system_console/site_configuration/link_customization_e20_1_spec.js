@@ -84,7 +84,7 @@ describe('SupportSettings', () => {
         cy.url().should('include', '/signup_user_complete');
 
         // * Verify that links are correct at signup page
-        cy.get('.footer').scrollIntoView().should('be.visible').within(() => {
+        cy.get('.hfroute-footer').scrollIntoView().should('be.visible').within(() => {
             guides.forEach((guide) => {
                 cy.findByText(guide.text).
                     should('have.attr', 'href', guide.link);
