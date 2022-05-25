@@ -2,9 +2,9 @@
 // See LICENSE.txt for license information.
 
 import {TeamTypes} from 'mattermost-redux/action_types';
-import {viewChannel, getChannelStats} from 'mattermost-redux/actions/channels';
+import {getChannelStats} from 'mattermost-redux/actions/channels';
 import * as TeamActions from 'mattermost-redux/actions/teams';
-import {getCurrentChannelId, isManuallyUnread} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {getUser} from 'mattermost-redux/actions/users';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
@@ -81,16 +81,15 @@ export function addUsersToTeam(teamId, userIds) {
     };
 }
 
-export function switchTeam(url, setTeam = undefined) {
-    return (dispatch, getState) => {
-        const state = getState();
-        const currentChannelId = getCurrentChannelId(state);
-        if (!isManuallyUnread(state, currentChannelId)) {
-            dispatch(viewChannel(currentChannelId));
-        }
-
-        if (setTeam) {
-            dispatch(selectTeam(setTeam));
+export function switchTeam(url, team) {
+    return (dispatch) => {
+        // In Channels, the team argument is undefined, and team switching is done by pushing a URL onto history.
+        // In other products, a team is passed instead of a URL because the current team isn't tied to the page URL.
+        //
+        // Note that url may also be a non-team URL since this is called when switching to the Create Team page
+        // from the team sidebar as well.
+        if (team) {
+            dispatch(selectTeam(team));
         } else {
             browserHistory.push(url);
         }

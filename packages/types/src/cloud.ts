@@ -162,8 +162,10 @@ export interface CloudUsage {
         active: number;
         teamsLoaded: boolean;
     };
-    integrations: {
-        enabled: number;
-        enabledLoaded: boolean;
-    };
+    integrations: IntegrationsUsage;
+}
+
+export interface IntegrationsUsage {
+    enabled: number;
+    enabledLoaded: boolean;
 }
