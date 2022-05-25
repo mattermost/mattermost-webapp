@@ -62,7 +62,8 @@ export const shouldShowAppBar = createSelector(
     appBarEnabled,
     getAppBarAppBindings,
     getAppBarPluginComponents,
-    (enabled: boolean, bindings: AppBinding[], pluginComponents: PluginComponent[]) => {
-        return enabled && Boolean(bindings.length || pluginComponents.length);
+    getChannelHeaderPluginComponents,
+    (enabled: boolean, bindings: AppBinding[], appBarComponents: PluginComponent[], channelHeaderComponents) => {
+        return enabled && Boolean(bindings.length || appBarComponents.length || channelHeaderComponents.length);
     },
 );
