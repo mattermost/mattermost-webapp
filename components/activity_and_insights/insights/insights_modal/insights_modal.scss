@@ -41,6 +41,14 @@
                 padding: 0;
                 background: var(--center-channel-bg);
 
+                &.TopThreadsTable {
+                    .DataGrid_row {
+                        &:hover {
+                            cursor: pointer;
+                        }
+                    }
+                }
+
                 .DataGrid_header {
                     padding: 12px 0;
                     border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
@@ -69,12 +77,12 @@
                         padding: 0;
                         border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
                         border-left: none;
-                        background-color: var(--center-channel-bg) !important;
+                        background-color: var(--center-channel-bg);
                         color: var(--center-channel-color);
 
                         &:hover {
                             border-left: none;
-                            background-color: rgba(var(--button-bg-rgb), 0.08);
+                            background-color: rgba(var(--center-channel-color-rgb), 0.08);
                             color: var(--center-channel-color);
                         }
 
@@ -136,6 +144,8 @@
                             padding: 0 16px;
                             margin: 0;
                             white-space: normal;
+                            display: flex;
+                            align-items: center;
 
                             &.rankCell {
                                 flex: 0.2 0;
@@ -145,6 +155,7 @@
                                 margin: 12px 12px 12px 0;
                             }
 
+                            span.replies,
                             span.cell-text {
                                 display: inline-block;
                                 padding: 14px 0;
@@ -180,6 +191,7 @@
                             .times-used-container {
                                 display: flex;
                                 align-items: center;
+                                width: 100%;
 
                                 span.cell-text {
                                     flex: 0.1 0;
@@ -192,6 +204,22 @@
                                     background: var(--button-bg);
                                     border-radius: 6px;
                                 }
+                            }
+
+                            .thread-item {
+                                padding: 12px 0;
+
+                                .preview {
+                                    height: auto;
+                                }
+                            }
+
+                            .Avatars___xs {
+                                margin-left: auto;
+                            }
+
+                            .replies {
+                                margin-left: auto;
                             }
                         }
                     }

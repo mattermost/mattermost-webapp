@@ -25,6 +25,7 @@ import widgetHoc, {WidgetHocProps} from '../widget_hoc/widget_hoc';
 import WidgetEmptyState from '../widget_empty_state/widget_empty_state';
 
 import './../../activity_and_insights.scss';
+import './top_threads.scss';
 
 const TopThreads = (props: WidgetHocProps) => {
     const dispatch = useDispatch();

@@ -21,6 +21,7 @@
     &.small {
         width: calc((100%/3) - 16px);
         float: left;
+        min-height: 310px;
     }
 
     .Card__header {
