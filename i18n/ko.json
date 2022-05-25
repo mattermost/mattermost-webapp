@@ -1493,7 +1493,7 @@
   "admin.saml.emailAttrEx": "예시 \"Email\" 또는 \"PrimaryEmail\"",
   "admin.saml.emailAttrTitle": "전자우편 속성:",
   "admin.saml.enableAdminAttrTitle": "어드민 속성 활성화:",
-  "admin.saml.enableDescription": "활성화 시, Mattermost는 SAML 2.0을 사용한 로그인을 허용합니다. Mattermost에 대한 SAML 구성에 대한 자세한 내용은 [문서](!http://docs.mattermost.com/deployment/sso-saml.html)을 참조하십시오.",
+  "admin.saml.enableDescription": "활성화 시, Mattermost는 SAML 2.0을 사용한 로그인을 허용합니다. Mattermost에 대한 SAML 구성에 대한 자세한 내용은 <link>문서</link>을 참조하십시오.",
   "admin.saml.enableSyncWithLdapIncludeAuthTitle": "AD/LDAP 정보로 SAML 바인드 데이터를 오버라이딩:",
   "admin.saml.enableSyncWithLdapTitle": "AD/LDAP과 SAML 계정 동기화 :",
   "admin.saml.enableTitle": "SAML 2.0으로 로그인:",

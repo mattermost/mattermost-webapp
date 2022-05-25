@@ -3938,8 +3938,20 @@ const AdminDefinition = {
                         label: t('admin.saml.enableTitle'),
                         label_default: 'Enable Login With SAML 2.0:',
                         help_text: t('admin.saml.enableDescription'),
-                        help_text_default: 'When true, Mattermost allows login using SAML 2.0. Please see [documentation](!http://docs.mattermost.com/deployment/sso-saml.html) to learn more about configuring SAML for Mattermost.',
+                        help_text_default: 'When true, Mattermost allows login using SAML 2.0. Please see <link>documentation</link> to learn more about configuring SAML for Mattermost.',
                         help_text_markdown: true,
+                        help_text_values: {
+                            link: (msg) => (
+                                <a
+                                    href='http://docs.mattermost.com/deployment/sso-saml.html'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        },
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
                     },
                     {

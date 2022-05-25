@@ -3,9 +3,10 @@
 /* eslint-disable react/no-string-refs */
 
 import deepEqual from 'fast-deep-equal';
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import {FormattedMessage} from 'react-intl';
+import {PrimitiveType, FormatXMLElementFn} from 'intl-messageformat';
 
 import {Timezone} from 'timezones.json';
 
@@ -20,7 +21,6 @@ import {getBrowserTimezone} from 'utils/timezone.jsx';
 import * as I18n from 'i18n/i18n.jsx';
 import {t} from 'utils/i18n';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 import ThemeSetting from 'components/user_settings/display/user_settings_theme';
@@ -71,6 +71,7 @@ type SectionProps ={
     description: {
         id: string;
         message: string;
+        values?: Record<string, PrimitiveType | Element<string, string>>;
     };
     disabled?: boolean;
 }
@@ -401,7 +402,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
         );
 
         const messageDesc = (
-            <FormattedMarkdownMessage
+            <FormattedMessage
                 id={description.id}
                 defaultMessage={description.message}
                 values={description.values}
@@ -803,7 +804,18 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                 },
                 description: {
                     id: t('user.settings.display.collapsedReplyThreadsDescription'),
-                    message: 'When enabled, reply messages are not shown in the channel and you\'ll be notified about threads you\'re following in the "Threads" view.\nPlease review our [documentation for known issues](!https://docs.mattermost.com/messaging/organizing-conversations.html) and help provide feedback in our [community channel](!https://community-daily.mattermost.com/core/channels/folded-reply-threads).',
+                    message: 'When enabled, reply messages are not shown in the channel and you\'ll be notified about threads you\'re following in the "Threads" view.\nPlease review our <link>documentation for known issues</link> and help provide feedback in our [community channel](!https://community-daily.mattermost.com/core/channels/folded-reply-threads).',
+                    values: {
+                        link: (msg) => (
+                            <a
+                                href='https://docs.mattermost.com/messaging/organizing-conversations.html'
+                                target='_blank'
+                                rel='noreferrer'
+                            >
+                                {msg}
+                            </a>
+                        ),
+                    },
                 },
             });
         }

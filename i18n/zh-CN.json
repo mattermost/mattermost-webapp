@@ -1817,7 +1817,7 @@
   "admin.saml.emailAttrEx": "例如 \"Email\" 或 \"PrimaryEmail\"",
   "admin.saml.emailAttrTitle": "电子邮箱属性：",
   "admin.saml.enableAdminAttrTitle": "开启管理员属性：",
-  "admin.saml.enableDescription": "当设为是时，Mattermost 允许通过 SAML 2.0 登陆。请参考[文档](!http://docs.mattermost.com/deployment/sso-saml.html)了解 Mattermost 配置 SAML。",
+  "admin.saml.enableDescription": "当设为是时，Mattermost 允许通过 SAML 2.0 登陆。请参考<link>文档</link>了解 Mattermost 配置 SAML。",
   "admin.saml.enableSyncWithLdapDescription": "当设为是时，Mattermost 定期同步 SAML 用户属性，包括从 AD/LDAP 里的用户停用和删除。在**验证 > AD/LDAP**开启以及配置同步。当设为否时，用户属性将在用户登入时从 SAML 更新。详情参见<link>文档</link>了解更多。",
   "admin.saml.enableSyncWithLdapIncludeAuthDescription": "当设为是时，Mattermost 将使用 AD/LDAP ID 属性覆盖 SAML ID 或在没有 SAML ID 属性时用 AD/LDAP 电子邮件属性覆盖。这将允许您自动将用户从电子邮件绑定转移至 ID 绑定以防止用户修改邮件地址时创建新用户。停用此项将停止覆盖。\n\n**注意：**SAML ID 必须匹配 LDAP ID 以防止停用帐号。请查阅<link>文档</link>>了解更多。",
   "admin.saml.enableSyncWithLdapIncludeAuthTitle": "使用 AD/LDAP 覆盖 SAML 绑定数据：",

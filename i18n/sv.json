@@ -1917,7 +1917,7 @@
   "admin.saml.emailAttrEx": "T.ex.: \"Email\" eller \"PrimaryEmail\"",
   "admin.saml.emailAttrTitle": "Attribut för mejl:",
   "admin.saml.enableAdminAttrTitle": "Aktivera Admin-attribut:",
-  "admin.saml.enableDescription": "När aktiverad kommer Mattermost tillåta inloggning via SAML 2.0. Läs [dokumentationen](!http://docs.mattermost.com/deployment/cluster.html) för att veta mer om hur SAML konfigureras för Mattermost.",
+  "admin.saml.enableDescription": "När aktiverad kommer Mattermost tillåta inloggning via SAML 2.0. Läs <link>dokumentationen</link> för att veta mer om hur SAML konfigureras för Mattermost.",
   "admin.saml.enableSyncWithLdapDescription": "När aktiverad kommer Mattermost periodvis synkronisera SAML-attribut, inklusive att spärra konto och ta bort,från AD/LDAP. Aktivera och konfigurera synkronisationsinställningar i **Authentication > AD/LDAP**. När avaktiverad kommer attributen bli uppdaterade från SAML vid inloggning. Lär dig mer om detta i <link>dokumentationen</link>.",
   "admin.saml.enableSyncWithLdapIncludeAuthDescription": "När aktiverad kommer Mattermost ersätta ID-attributet från SAML med ID-attributet från AD/LDAP om det finns, eller med Email-attributet om ID-attributet saknas. Detta tillåter dig att migrera från Email-koppling till ID-koppling för att förhindra att ny användare skapas om användarens e-postadress förändras.\n\n**Notera** SAML ID:s måste matcha LDAP ID:s för att förhindra att konton dekativeras. Läs <link>>dokumentationen</link>> för mer information.",
   "admin.saml.enableSyncWithLdapIncludeAuthTitle": "Ignorera SAML-data och använd AD/LDAP-information istället:",

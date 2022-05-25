@@ -1917,7 +1917,7 @@
   "admin.saml.emailAttrEx": "Z.B.: \"Email\" oder \"PrimaryEmail\"",
   "admin.saml.emailAttrTitle": "E-Mail Attribut:",
   "admin.saml.enableAdminAttrTitle": "Admin-Attribut aktivieren:",
-  "admin.saml.enableDescription": "Wenn wahr, erlaubt Mattermost Login mit SAML 2.0. Erfahre mehr über die SAML-Konfiguration für Mattermost in der [Dokumentation](!http://docs.mattermost.com/deployment/sso-saml.html).",
+  "admin.saml.enableDescription": "Wenn wahr, erlaubt Mattermost Login mit SAML 2.0. Erfahre mehr über die SAML-Konfiguration für Mattermost in der <link>Dokumentation</link>.",
   "admin.saml.enableSyncWithLdapDescription": "Wenn wahr, synchronisiert Mattermost periodisch SAML-Benutzerattribute, inklusive Benutzer-Deaktivierung und -Entfernung, vom AD/LDAP. Aktiviere und konfiguriere die Synchronisierungseinstellungen unter **Authentifizierung > AD/LDAP**. Erfahre mehr in der <link>Dokumentation</link>.",
   "admin.saml.enableSyncWithLdapIncludeAuthDescription": "Wenn wahr, wird Mattermost das SAML-ID-Attribut mit dem AD/LDAP-ID-Attribut überschreiben, falls es konfiguriert ist, oder das SAML-E-Mail-Attribut mit dem AD/LDAP-E-Mail-Attribut überschrieben, falls das SAML-ID-Attribut nicht vorhanden ist.  Dies wird es dir erlauben, Benutzer automatisch vom E-Mail-Binding zu migrieren um zu verhindern, dass bei der Änderung der E-Mail-Adresse eines Benutzers ein neues Konto angelegt wird. Die Umstellung von wahr auf falsch wird die verhindert das Überschreiben.\n \n**Achtung:** SAML-IDs müssen den LDAP-IDs entsprechen um die Deaktivierung von Benutzerkonten zu verhindern.  Erfahre mehr in der <link>>Dokumentation</link>>.",
   "admin.saml.enableSyncWithLdapIncludeAuthTitle": "SAML-Bind-Daten mit AD/LDAP-Informationen überschreiben:",
