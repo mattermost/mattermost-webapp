@@ -8,7 +8,6 @@ import styled from 'styled-components';
 
 import {CloudProducts, ModalIdentifiers} from 'utils/constants';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
-import {GlobalState} from 'types/store';
 import {trackEvent} from 'actions/telemetry_actions';
 import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCloudProducts, getCloudSubscription} from 'mattermost-redux/actions/cloud';
@@ -39,10 +38,18 @@ const UpgradeCloudButton = (): JSX.Element | null => {
     const dispatch = useDispatch();
     const {formatMessage} = useIntl();
 
+    const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
+    const isAdmin = useSelector(isCurrentUserSystemAdmin);
+    const subscription = useSelector(selectCloudSubscription);
+    const product = useSelector(selectSubscriptionProduct);
+    const isCloud = useSelector(isCurrentLicenseCloud);
+
     useEffect(() => {
-        dispatch(getCloudSubscription());
-        dispatch(getCloudProducts());
-    }, []);
+        if (isCloud) {
+            dispatch(getCloudSubscription());
+            dispatch(getCloudProducts());
+        }
+    }, [isCloud]);
 
     openPricingModal = () => {
         trackEvent('cloud_admin', 'click_open_pricing_modal');
@@ -51,12 +58,6 @@ const UpgradeCloudButton = (): JSX.Element | null => {
             dialogType: PricingModal,
         }));
     };
-
-    const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
-    const isAdmin = useSelector((state: GlobalState) => isCurrentUserSystemAdmin(state));
-    const subscription = useSelector(selectCloudSubscription);
-    const product = useSelector(selectSubscriptionProduct);
-    const isCloud = useSelector(isCurrentLicenseCloud);
 
     const isEnterpriseTrial = subscription?.is_free_trial === 'true';
     const isStarter = product?.sku === CloudProducts.STARTER;

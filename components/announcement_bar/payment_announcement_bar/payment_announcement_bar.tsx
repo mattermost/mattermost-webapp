@@ -5,7 +5,7 @@ import React from 'react';
 
 import {isEmpty} from 'lodash';
 
-import {CloudCustomer, Subscription} from 'mattermost-redux/types/cloud';
+import {CloudCustomer, Subscription} from '@mattermost/types/cloud';
 
 import {browserHistory} from 'utils/browser_history';
 import {isCustomerCardExpired} from 'utils/cloud_utils';

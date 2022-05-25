@@ -835,6 +835,8 @@
   "admin.experimental.emailSettingsLoginButtonColor.title": "Email Login Button Color:",
   "admin.experimental.emailSettingsLoginButtonTextColor.desc": "Specify the color of the email login button text for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.",
   "admin.experimental.emailSettingsLoginButtonTextColor.title": "Email Login Button Text Color:",
+  "admin.experimental.enableAppBar.desc": "When true, all integrations move from the channel header to the App Bar. Channel header plugin icons that haven't explicitly registered an App Bar icon will be moved to the App Bar which may result in rendering issues. [See the documentation to learn more](https://docs.mattermost.com/welcome/what-changed-in-v70.html).",
+  "admin.experimental.enableAppBar.title": "Enable App Bar:",
   "admin.experimental.enableChannelViewedMessages.desc": "This setting determines whether `channel_viewed` WebSocket events are sent, which synchronize unread notifications across clients and devices. Disabling the setting in larger deployments may improve server performance.",
   "admin.experimental.enableChannelViewedMessages.title": "Enable Channel Viewed WebSocket Messages:",
   "admin.experimental.enableOnboardingFlow.desc": "When true, new users are shown steps to complete as part of an onboarding process",

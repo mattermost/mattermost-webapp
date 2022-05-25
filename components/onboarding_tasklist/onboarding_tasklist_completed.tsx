@@ -12,7 +12,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import completedImg from 'images/completed.svg';
 
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';

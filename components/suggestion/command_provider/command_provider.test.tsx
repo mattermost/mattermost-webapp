@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 
 import {Client4} from 'mattermost-redux/client';
 
-import {AutocompleteSuggestion} from 'mattermost-redux/types/integrations';
+import {AutocompleteSuggestion} from '@mattermost/types/integrations';
 
 import CommandProvider, {CommandSuggestion, Results} from './command_provider';
 

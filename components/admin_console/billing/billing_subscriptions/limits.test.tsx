@@ -20,7 +20,7 @@ import {GlobalState} from '@mattermost/types/store';
 import {UserProfile, UsersState} from '@mattermost/types/users';
 import {Constants} from 'utils/constants';
 
-import {Subscription, Product} from 'mattermost-redux/types/cloud';
+import {Subscription, Product} from '@mattermost/types/cloud';
 
 import Limits from './limits';
 

@@ -7,7 +7,7 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import styled from 'styled-components';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 import {RHSStates} from 'utils/constants';
 import {RhsState} from 'types/store/rhs';

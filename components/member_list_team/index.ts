@@ -5,14 +5,14 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
 import {getTeamStats, getTeamMembers} from 'mattermost-redux/actions/teams';
-import {GetTeamMembersOpts, TeamStats, TeamMembership} from 'mattermost-redux/types/teams';
+import {GetTeamMembersOpts, TeamStats, TeamMembership} from '@mattermost/types/teams';
 import {haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getMembersInCurrentTeam, getCurrentTeamStats} from 'mattermost-redux/selectors/entities/teams';
 import {getProfilesInCurrentTeam, searchProfilesInCurrentTeam} from 'mattermost-redux/selectors/entities/users';
 import {Permissions} from 'mattermost-redux/constants';
 import {searchProfiles} from 'mattermost-redux/actions/users';
 import {ActionFunc, GenericAction, ActionResult} from 'mattermost-redux/types/actions';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import {loadStatusesForProfilesList} from 'actions/status_actions.jsx';
 import {loadProfilesAndTeamMembers, loadTeamMembersForProfilesList} from 'actions/user_actions.jsx';

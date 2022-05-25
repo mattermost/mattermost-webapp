@@ -6,8 +6,8 @@ import {createSelector} from 'reselect';
 import {getMyChannelMemberships, getAllDmChannels} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId, getUserStatuses} from 'mattermost-redux/selectors/entities/users';
 
-import {GlobalState} from 'mattermost-redux/types/store';
-import {UserProfile, UserProfileWithLastViewAt} from 'mattermost-redux/types/users';
+import {GlobalState} from '@mattermost/types/store';
+import {UserProfile, UserProfileWithLastViewAt} from '@mattermost/types/users';
 import {getDirectChannelName} from 'mattermost-redux/utils/channel_utils';
 
 export function makeAddLastViewAtToProfiles(): (state: GlobalState, profiles: UserProfile[]) => UserProfileWithLastViewAt[] {
