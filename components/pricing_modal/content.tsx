@@ -255,18 +255,18 @@ function Content(props: ContentProps) {
                     plan='Starter'
                     price={formatMessage({id: 'pricing_modal.price.free', defaultMessage: 'Free'})}
                     briefing={{
-                        title: 'Top features',
+                        title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),
                         items: [
-                            'Access to 10,000 most recent messages, 500 most recent board',
+                            formatMessage({id: 'pricing_modal.briefing.starter.recentMessageBoards', defaultMessage: 'Access to {messages} most recent messages, {boards} most recent board'}, {messages: '10,000', boards: '500'}),
                             formatMessage({id: 'pricing_modal.briefing.storage', defaultMessage: '{storage}GB file storage limit'}, {storage: '10'}),
-                            'One team per workspace',
-                            '5 integrations with other apps like GitHub, Jira and Jenkins',
+                            formatMessage({id: 'pricing_modal.briefing.starter.oneTeamPerWorkspace', defaultMessage: 'One team per workspace'}),
+                            formatMessage({id: 'pricing_modal.briefing.starter.integrations', defaultMessage: '{integrations} integrations with other apps like GitHub, Jira and Jenkins'}, {integrations: '5'}),
                         ],
                     }}
                     extraBriefing={{
-                        title: 'More features',
+                        title: formatMessage({id: 'pricing_modal.extra_briefing.title', defaultMessage: 'More features'}),
                         items: [
-                            '1:1 audio calls and screen share',
+                            formatMessage({id: 'pricing_modal.extra_briefing.starter.calls', defaultMessage: '1:1 audio calls and screen share'}),
                         ],
                     }}
                     buttonDetails={{
@@ -292,19 +292,19 @@ function Content(props: ContentProps) {
                     price={`$${professionalProduct ? professionalProduct.price_per_seat : '10'}`}
                     rate={formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: '/user/month'})}
                     briefing={{
-                        title: 'Top features',
+                        title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),
                         items: [
-                            'Unlimited access to messages and boards history, teams, integrations and calls',
+                            formatMessage({id: 'pricing_modal.briefing.professional.messageBoardsIntegrationsCalls', defaultMessage: 'Unlimited access to messages and boards history, teams, integrations and calls'}),
                             formatMessage({id: 'pricing_modal.briefing.storage', defaultMessage: '{storage}GB file storage limit'}, {storage: '250'}),
-                            'Advanced Playbook workflows with retrospectives',
+                            formatMessage({id: 'pricing_modal.briefing.professional.advancedPlaybook', defaultMessage: 'Advanced Playbook workflows with retrospectives'}),
                         ],
                     }}
                     extraBriefing={{
-                        title: 'More features',
+                        title: formatMessage({id: 'pricing_modal.extra_briefing.title', defaultMessage: 'More features'}),
                         items: [
-                            'SSO support with AD/LDAP, Google, O365, OpenID',
-                            'SSO with SAML 2.0, including Okta, OneLogin and ADFS',
-                            'Guest access with MFA enforcement',
+                            formatMessage({id: 'pricing_modal.extra_briefing.professional.ssoadLdap', defaultMessage: 'SSO support with AD/LDAP, Google, O365, OpenID'}),
+                            formatMessage({id: 'pricing_modal.extra_briefing.professional.ssoSaml', defaultMessage: 'SSO with SAML 2.0, including Okta, OneLogin and ADFS'}),
+                            formatMessage({id: 'pricing_modal.extra_briefing.professional.guestAccess', defaultMessage: 'Guest access with MFA enforcement'}),
                         ],
                     }}
                     buttonDetails={{
@@ -327,19 +327,19 @@ function Content(props: ContentProps) {
                     plan='Enterprise'
                     price={formatMessage({id: 'pricing_modal.price.contactSales', defaultMessage: 'Contact sales'})}
                     briefing={{
-                        title: 'Top features',
+                        title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),
                         items: [
-                            'Unlimited file storage',
-                            'AD/LDAP group sync',
-                            'Advanced mobile security via ID-only push notifications',
-                            'Advanced roles and permissions',
-                            'Advanced compliance management',
+                            formatMessage({id: 'pricing_modal.briefing.enterprise.unlimitedFileStorage', defaultMessage: 'Unlimited file storage'}),
+                            formatMessage({id: 'pricing_modal.briefing.enterprise.groupSync', defaultMessage: 'AD/LDAP group sync'}),
+                            formatMessage({id: 'pricing_modal.briefing.enterprise.mobileSecurity', defaultMessage: 'Advanced mobile security via ID-only push notifications'}),
+                            formatMessage({id: 'pricing_modal.briefing.enterprise.rolesAndPermissions', defaultMessage: 'Advanced roles and permissions'}),
+                            formatMessage({id: 'pricing_modal.briefing.enterprise.compliance', defaultMessage: 'Advanced compliance management'}),
                         ],
                     }}
                     extraBriefing={{
-                        title: 'More features',
+                        title: formatMessage({id: 'pricing_modal.extra_briefing.title', defaultMessage: 'More features'}),
                         items: [
-                            'Playbook analytics dashboard',
+                            formatMessage({id: 'pricing_modal.extra_briefing.enterprise.playBookAnalytics', defaultMessage: 'Playbook analytics dashboard'}),
                         ],
                     }}
                     buttonDetails={isPostTrial ? {
