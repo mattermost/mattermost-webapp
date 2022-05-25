@@ -17,7 +17,7 @@ type Props = {
 };
 
 const LimitCard = (props: Props) => {
-    const barWidth = props.barWidth === undefined ? 155 : props.barWidth;
+    const barWidth = props.barWidth ?? 155;
     let className = 'ProductLimitCard';
     if (props.fullWidth) {
         className += ' ProductLimitCard--full-width';
