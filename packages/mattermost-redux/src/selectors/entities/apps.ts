@@ -39,8 +39,7 @@ export const appBarEnabled = createSelector(
     'appBarEnabled',
     (state: GlobalState) => getConfig(state),
     (config?: Partial<ClientConfig>) => {
-        const enabled = config?.['FeatureFlagAppBarEnabled' as keyof Partial<ClientConfig>];
-        return enabled === 'true';
+        return config?.EnableAppBar === 'true';
     },
 );
 
