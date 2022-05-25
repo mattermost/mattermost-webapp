@@ -54,6 +54,7 @@ type CardProps = {
     price: string;
     rate?: string;
     briefing: PlanBriefing;
+    extraBriefing: PlanBriefing;
     planDisclaimer?: string;
     buttonDetails: ButtonDetails;
     extraAction?: ButtonDetails;
@@ -148,6 +149,19 @@ function Card(props: CardProps) {
                         onClick={props.extraAction?.action}
                     >{props.extraAction?.text}</button>
                 )}
+                <div className='plan_extra_briefing'>
+                    <span>{props.extraBriefing.title}</span>
+                    {props.extraBriefing.items.map((i) => {
+                        return (
+                            <div
+                                className='item'
+                                key={i}
+                            >
+                                <i className='fa fa-circle bullet'/><p>{i}</p>
+                            </div>
+                        );
+                    })}
+                </div>
             </div>
         </div>
     );
@@ -241,12 +255,19 @@ function Content(props: ContentProps) {
                     plan='Starter'
                     price={formatMessage({id: 'pricing_modal.price.free', defaultMessage: 'Free'})}
                     briefing={{
-                        title: formatMessage({id: 'pricing_modal.briefing.starter', defaultMessage: 'Starter comes with...'}),
+                        title: 'Top features',
                         items: [
-                            formatMessage({id: 'pricing_modal.briefing.storage', defaultMessage: '{storage}GB file storage'}, {storage: '10'}),
-                            formatMessage({id: 'pricing_modal.briefing.starter.messageHistory', defaultMessage: 'Limited message history'}),
-                            formatMessage({id: 'pricing_modal.briefing.starter.boardCards', defaultMessage: '{boards} Boards cards per server'}, {boards: '500'}),
-                            formatMessage({id: 'pricing_modal.briefing.starter.teamCount', defaultMessage: 'Limited to one team'})],
+                            'Access to 10,000 most recent messages, 500 most recent board',
+                            formatMessage({id: 'pricing_modal.briefing.storage', defaultMessage: '{storage}GB file storage limit'}, {storage: '10'}),
+                            'One team per workspace',
+                            '5 integrations with other apps like GitHub, Jira and Jenkins',
+                        ],
+                    }}
+                    extraBriefing={{
+                        title: 'More features',
+                        items: [
+                            '1:1 audio calls and screen share',
+                        ],
                     }}
                     buttonDetails={{
                         action: () => {}, // noop until we support downgrade
@@ -271,13 +292,20 @@ function Content(props: ContentProps) {
                     price={`$${professionalProduct ? professionalProduct.price_per_seat : '10'}`}
                     rate={formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: '/user/month'})}
                     briefing={{
-                        title: formatMessage({id: 'pricing_modal.briefing.professional', defaultMessage: 'All the features of Starter, plus'}),
+                        title: 'Top features',
                         items: [
-                            formatMessage({id: 'pricing_modal.briefing.storage', defaultMessage: '{storage}GB file storage'}, {storage: '250'}),
-                            'OneLogin/ADFS SAML 2.0',
-                            'OpenID connect',
-                            'Office365 suite integration',
-                            formatMessage({id: 'pricing_modal.briefing.professional.readOnlyAnnoucementChannels', defaultMessage: 'Read-only announcement channels'})],
+                            'Unlimited access to messages and boards history, teams, integrations and calls',
+                            formatMessage({id: 'pricing_modal.briefing.storage', defaultMessage: '{storage}GB file storage limit'}, {storage: '250'}),
+                            'Advanced Playbook workflows with retrospectives',
+                        ],
+                    }}
+                    extraBriefing={{
+                        title: 'More features',
+                        items: [
+                            'SSO support with AD/LDAP, Google, O365, OpenID',
+                            'SSO with SAML 2.0, including Okta, OneLogin and ADFS',
+                            'Guest access with MFA enforcement',
+                        ],
                     }}
                     buttonDetails={{
                         action: openPurchaseModal,
@@ -299,12 +327,20 @@ function Content(props: ContentProps) {
                     plan='Enterprise'
                     price={formatMessage({id: 'pricing_modal.price.contactSales', defaultMessage: 'Contact sales'})}
                     briefing={{
-                        title: formatMessage({id: 'pricing_modal.briefing.enterprise', defaultMessage: 'All the features of Professional, plus'}),
+                        title: 'Top features',
                         items: [
-                            'LDAP group sync',
-                            formatMessage({id: 'pricing_modal.briefing.professional.highAvailability', defaultMessage: 'High Availability'}),
-                            formatMessage({id: 'pricing_modal.briefing.enterprise.advancedCompliance', defaultMessage: 'Advanced compliance'}),
-                            formatMessage({id: 'pricing_modal.briefing.professional.advancedRolesAndPermissions', defaultMessage: 'Advanced roles and permissions'})],
+                            'Unlimited file storage',
+                            'AD/LDAP group sync',
+                            'Advanced mobile security via ID-only push notifications',
+                            'Advanced roles and permissions',
+                            'Advanced compliance management',
+                        ],
+                    }}
+                    extraBriefing={{
+                        title: 'More features',
+                        items: [
+                            'Playbook analytics dashboard',
+                        ],
                     }}
                     buttonDetails={isPostTrial ? {
                         action: () => {

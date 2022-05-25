@@ -4121,7 +4121,7 @@
   "pricing_modal.briefing.starter.boardCards": "{boards} Boards cards per server",
   "pricing_modal.briefing.starter.messageHistory": "Limited message history",
   "pricing_modal.briefing.starter.teamCount": "Limited to one team",
-  "pricing_modal.briefing.storage": "{storage}GB file storage",
+  "pricing_modal.briefing.storage": "{storage}GB file storage limit",
   "pricing_modal.btn.contactSales": "Contact Sales",
   "pricing_modal.btn.tryDays": "Try free for {days} days",
   "pricing_modal.btn.upgrade": "Upgrade",

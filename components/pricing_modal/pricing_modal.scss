@@ -139,7 +139,7 @@ $geyser: #dadfe5;
         .PlanCard {
             position: relative;
             width: 280px;
-            height: 490px;
+            // height: 686px;
 
             .planLabel {
                 position: absolute;
@@ -162,15 +162,15 @@ $geyser: #dadfe5;
             }
 
             .bottom {
-                height: 472px;
+                height: 668px;
                 padding-right: 24px;
                 padding-left: 24px;
                 border: 1px solid $geyser;
                 background-color: var(--center-channel-bg);
                 border-radius: 0 0 4px 4px;
 
-                .plan_briefing {
-                    height: 200px;
+                .plan_briefing, .plan_extra_briefing {
+                    height: 250px;
                     margin-top: 16px;
 
                     span {
@@ -186,7 +186,8 @@ $geyser: #dadfe5;
 
                     .item {
                         display: flex;
-                        height: 24px;
+                        // height: 24px;
+                        max-height: 72px;
 
                         .bullet {
                             display: inline-block;
@@ -203,6 +204,7 @@ $geyser: #dadfe5;
                             font-weight: 400;
                             letter-spacing: -0.02em;
                             line-height: 24px;
+                            margin: 0;
                         }
                     }
 
@@ -214,6 +216,14 @@ $geyser: #dadfe5;
                         font-style: normal;
                         font-weight: 600;
                         line-height: 16px;
+                    }
+                }
+
+                .plan_extra_briefing {
+                    height: 200px;
+
+                    span {
+                        font-size: 12px;
                     }
                 }
 
