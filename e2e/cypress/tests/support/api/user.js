@@ -170,12 +170,14 @@ Cypress.Commands.add('apiPatchMe', (data) => {
     });
 });
 
-Cypress.Commands.add('apiCreateCustomAdmin', ({loginAfter = false} = {}) => {
+Cypress.Commands.add('apiCreateCustomAdmin', ({loginAfter = false, hideAdminTrialModal = true} = {}) => {
     const sysadminUser = generateRandomUser('other-admin');
 
     return cy.apiCreateUser({user: sysadminUser}).then(({user}) => {
         return cy.apiPatchUserRoles(user.id, ['system_admin', 'system_user']).then(() => {
             const data = {sysadmin: user};
+
+            cy.apiSaveStartTrialModal(user.id, hideAdminTrialModal.toString());
 
             if (loginAfter) {
                 return cy.apiLogin(user).then(() => {
