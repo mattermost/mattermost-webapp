@@ -23,7 +23,7 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
     if (!highestLimit) {
         return false;
     }
-    const usageRatio = highestLimit.usage / highestLimit.limit;
+    const usageRatio = (highestLimit.usage / highestLimit.limit) * 100;
     let callToAction = intl.formatMessage({
         id: 'workspace_limits.menu_limit.view_plans',
         defaultMessage: 'View plans',
