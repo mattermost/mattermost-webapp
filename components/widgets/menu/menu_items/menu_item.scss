@@ -1,7 +1,7 @@
 @import '../../../../sass/utils/module';
 
-$menu_item_warn: #FFD47029;
-$menu_item_critical: #D24B4E29;
+$menu_item_warn: #ffd47029;
+$menu_item_critical: #d24b4e29;
 
 .Menu {
     .MenuItem {
@@ -195,9 +195,9 @@ $menu_item_critical: #D24B4E29;
     }
 
     .MenuItemCloudLimit {
+        padding: 16px 20px;
         margin-top: 0;
         background-color: $menu_item_warn;
-        padding: 16px 20px;
 
         &--critical {
             background-color: $menu_item_critical;
@@ -214,17 +214,17 @@ $menu_item_critical: #D24B4E29;
         }
 
         &__title {
+            display: flex;
+            align-items: center;
+            padding-bottom: 5px;
+            color: var(--center-channel-text);
             font-size: 14px;
             font-weight: bold;
-            color: var(--center-channel-text);
-            padding-bottom: 5px;
-            align-items: center;
-            display: flex;
         }
 
         &__description {
-            font-size: 12px;
             padding-bottom: 12px;
+            font-size: 12px;
         }
 
         &__usage {
@@ -233,10 +233,10 @@ $menu_item_critical: #D24B4E29;
         }
 
         &__usage-label {
+            padding-left: 18px;
+            color: rgba(var(--center-channel-text-rgb), 0.56);
             font-size: 11px;
             font-weight: bold;
-            color: rgba(var(--center-channel-text-rgb), 0.56);
-            padding-left: 18px;
         }
     }
 
