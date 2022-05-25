@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {ClientLicense, ClientConfig, WarnMetricStatus} from 'mattermost-redux/types/config';
+import {ClientLicense, ClientConfig, WarnMetricStatus} from '@mattermost/types/config';
 import withGetCloudSubscription from '../common/hocs/cloud/with_get_cloud_subscription';
 
 import ConfigurationAnnouncementBar from './configuration_bar';

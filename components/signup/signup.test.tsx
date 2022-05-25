@@ -16,7 +16,7 @@ import PasswordInput from 'components/widgets/inputs/password_input/password_inp
 import SaveButton from 'components/save_button';
 
 import {RequestStatus} from 'mattermost-redux/constants';
-import {ClientConfig} from 'mattermost-redux/types/config';
+import {ClientConfig} from '@mattermost/types/config';
 import {GlobalState} from 'types/store';
 
 let mockState: GlobalState;

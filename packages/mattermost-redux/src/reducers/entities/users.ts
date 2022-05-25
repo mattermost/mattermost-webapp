@@ -6,11 +6,11 @@ import {combineReducers} from 'redux';
 
 import {UserTypes, ChannelTypes} from 'mattermost-redux/action_types';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {UserAccessToken, UserProfile, UserStatus} from 'mattermost-redux/types/users';
-import {RelationOneToMany, IDMappedObjects, RelationOneToOne} from 'mattermost-redux/types/utilities';
-import {Team} from 'mattermost-redux/types/teams';
-import {Channel} from 'mattermost-redux/types/channels';
-import {Group} from 'mattermost-redux/types/groups';
+import {UserAccessToken, UserProfile, UserStatus} from '@mattermost/types/users';
+import {RelationOneToMany, IDMappedObjects, RelationOneToOne} from '@mattermost/types/utilities';
+import {Team} from '@mattermost/types/teams';
+import {Channel} from '@mattermost/types/channels';
+import {Group} from '@mattermost/types/groups';
 
 function profilesToSet(state: RelationOneToMany<Team, UserProfile>, action: GenericAction) {
     const id = action.id;

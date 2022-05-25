@@ -10,7 +10,7 @@ import TrialBenefitsModal from 'components/trial_benefits_modal/trial_benefits_m
 import LearnMoreTrialModal from 'components/learn_more_trial_modal/learn_more_trial_modal';
 
 import {DispatchFunc} from 'mattermost-redux/types/actions';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {LicenseSkus} from 'mattermost-redux/types/general';

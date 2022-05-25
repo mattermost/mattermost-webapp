@@ -8,17 +8,17 @@ import {Stats} from 'mattermost-redux/constants';
 import PluginState from 'mattermost-redux/constants/plugins';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {ClusterInfo, AnalyticsRow} from 'mattermost-redux/types/admin';
-import {Audit} from 'mattermost-redux/types/audits';
-import {Compliance} from 'mattermost-redux/types/compliance';
-import {AdminConfig, EnvironmentConfig} from 'mattermost-redux/types/config';
-import {MixedUnlinkedGroupRedux} from 'mattermost-redux/types/groups';
-import {PluginRedux, PluginStatusRedux} from 'mattermost-redux/types/plugins';
-import {SamlCertificateStatus, SamlMetadataResponse} from 'mattermost-redux/types/saml';
-import {Team} from 'mattermost-redux/types/teams';
-import {UserAccessToken, UserProfile} from 'mattermost-redux/types/users';
-import {RelationOneToOne, IDMappedObjects} from 'mattermost-redux/types/utilities';
-import {DataRetentionCustomPolicy} from 'mattermost-redux/types/data_retention';
+import {ClusterInfo, AnalyticsRow} from '@mattermost/types/admin';
+import {Audit} from '@mattermost/types/audits';
+import {Compliance} from '@mattermost/types/compliance';
+import {AdminConfig, EnvironmentConfig} from '@mattermost/types/config';
+import {MixedUnlinkedGroupRedux} from '@mattermost/types/groups';
+import {PluginRedux, PluginStatusRedux} from '@mattermost/types/plugins';
+import {SamlCertificateStatus, SamlMetadataResponse} from '@mattermost/types/saml';
+import {Team} from '@mattermost/types/teams';
+import {UserAccessToken, UserProfile} from '@mattermost/types/users';
+import {RelationOneToOne, IDMappedObjects} from '@mattermost/types/utilities';
+import {DataRetentionCustomPolicy} from '@mattermost/types/data_retention';
 
 function logs(state: string[] = [], action: GenericAction) {
     switch (action.type) {

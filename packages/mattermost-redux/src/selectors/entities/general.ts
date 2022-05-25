@@ -5,8 +5,8 @@ import {createSelector} from 'reselect';
 
 import {General} from 'mattermost-redux/constants';
 
-import {GlobalState} from 'mattermost-redux/types/store';
-import {ClientConfig, FeatureFlags, ClientLicense} from 'mattermost-redux/types/config';
+import {GlobalState} from '@mattermost/types/store';
+import {ClientConfig, FeatureFlags, ClientLicense} from '@mattermost/types/config';
 
 import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
 

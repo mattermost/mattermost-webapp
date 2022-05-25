@@ -5,8 +5,8 @@ import React from 'react';
 import styled from 'styled-components';
 import {CSSTransition} from 'react-transition-group';
 
-import {UserProfile} from 'mattermost-redux/types/users';
-import {Channel} from 'mattermost-redux/types/channels';
+import {UserProfile} from '@mattermost/types/users';
+import {Channel} from '@mattermost/types/channels';
 
 import Member from './member';
 import {ChannelMember} from './channel_members_rhs';

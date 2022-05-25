@@ -5,8 +5,8 @@ import timezones, {Timezone} from 'timezones.json';
 
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 
-import {GlobalState} from 'mattermost-redux/types/store';
-import {UserProfile, UserTimezone} from 'mattermost-redux/types/users';
+import {GlobalState} from '@mattermost/types/store';
+import {UserProfile, UserTimezone} from '@mattermost/types/users';
 import {createSelector} from 'reselect';
 
 import {getUserCurrentTimezone, getTimezoneLabel as getTimezoneLabelUtil} from 'mattermost-redux/utils/timezone_utils';
