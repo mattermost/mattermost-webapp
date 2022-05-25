@@ -15,7 +15,7 @@ import {RouteComponentProps} from 'react-router-dom';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 
-import {Team, TeamMembership} from 'mattermost-redux/types/teams';
+import {Team, TeamMembership} from '@mattermost/types/teams';
 
 import {GenericAction, GetStateFunc} from 'mattermost-redux/types/actions';
 
@@ -25,7 +25,7 @@ import * as Utils from 'utils/utils';
 
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 
-import {ThreadsState} from 'mattermost-redux/types/threads';
+import {ThreadsState} from '@mattermost/types/threads';
 
 import {ProductComponent} from '../../types/store/plugins';
 

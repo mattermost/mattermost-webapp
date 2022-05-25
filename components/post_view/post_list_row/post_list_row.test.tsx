@@ -6,7 +6,7 @@ import React from 'react';
 
 import * as PostListUtils from 'mattermost-redux/utils/post_list';
 
-import {ChannelType} from 'mattermost-redux/types/channels';
+import {ChannelType} from '@mattermost/types/channels';
 
 import CombinedUserActivityPost from 'components/post_view/combined_user_activity_post';
 import Post from 'components/post_view/post';

@@ -6,7 +6,7 @@ import {injectIntl, IntlShape, MessageDescriptor} from 'react-intl';
 
 import {Posts} from 'mattermost-redux/constants';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
 

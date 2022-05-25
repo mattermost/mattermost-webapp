@@ -19,7 +19,7 @@ import {FileSizes} from 'utils/file_utils';
 import {GlobalState} from '@mattermost/types/store';
 import {Constants} from 'utils/constants';
 
-import {Subscription} from 'mattermost-redux/types/cloud';
+import {Subscription} from '@mattermost/types/cloud';
 
 import Limits from './limits';
 

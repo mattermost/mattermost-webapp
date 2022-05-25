@@ -6,7 +6,7 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {Client4} from 'mattermost-redux/client';
-import {UserAccessToken, UserProfile} from 'mattermost-redux/types/users';
+import {UserAccessToken, UserProfile} from '@mattermost/types/users';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
 

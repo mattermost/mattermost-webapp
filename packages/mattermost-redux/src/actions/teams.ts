@@ -17,9 +17,9 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {GetStateFunc, DispatchFunc, ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 
-import {Team, TeamMembership, TeamMemberWithError, GetTeamMembersOpts, TeamsWithCount, TeamSearchOpts} from 'mattermost-redux/types/teams';
+import {Team, TeamMembership, TeamMemberWithError, GetTeamMembersOpts, TeamsWithCount, TeamSearchOpts} from '@mattermost/types/teams';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import {isCollapsedThreadsEnabled} from '../selectors/entities/preferences';
 
