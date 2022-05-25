@@ -138,7 +138,7 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
             defaultMessage = 'You’re getting closer to the {limit} board card limit. <a>{callToAction}</a>';
         }
         if (usageRatio >= limitThresholds.exceeded) {
-            id = 'workspace_limits.menu_limit.over.boards_cards';
+            id = t('workspace_limits.menu_limit.over.boards_cards');
             defaultMessage = 'You’re over the {limit} board card limit. You can only access the most recent {limit} board cards. <a>{callToAction}</a>';
         }
         return {
