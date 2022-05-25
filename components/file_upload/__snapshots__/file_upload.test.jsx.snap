@@ -37,31 +37,32 @@ exports[`components/FileUpload should match snapshot 1`] = `
   <div
     className="style--none"
   >
-    <button
-      aria-label="attachment"
-      className="style--none AdvancedTextEditor__action-button"
-      id="fileUploadButton"
-      onClick={[Function]}
-      onTouchEnd={[Function]}
-      type="button"
-    >
-      <PaperclipIcon
-        aria-label="Attachment Icon"
-        color="currentColor"
-        size={18}
+    <div>
+      <button
+        aria-label="attachment"
+        className="style--none AdvancedTextEditor__action-button"
+        id="fileUploadButton"
+        onClick={[Function]}
+        onTouchEnd={[Function]}
+        type="button"
+      >
+        <PaperclipIcon
+          aria-label="Attachment Icon"
+          color="currentColor"
+          size={18}
+        />
+      </button>
+      <input
+        accept=""
+        aria-label="Upload files"
+        id="fileUploadInput"
+        multiple={true}
+        onChange={[Function]}
+        onClick={[Function]}
+        tabIndex="-1"
+        type="file"
       />
-    </button>
-    <input
-      accept=""
-      aria-label="Upload files"
-      className="hidden"
-      id="fileUploadInput"
-      multiple={true}
-      onChange={[Function]}
-      onClick={[Function]}
-      tabIndex="-1"
-      type="file"
-    />
+    </div>
   </div>
 </OverlayTrigger>
 `;
