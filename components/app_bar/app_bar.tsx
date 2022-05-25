@@ -36,7 +36,7 @@ export default function AppBar() {
             return b.pluginId === 'playbooks' ? 1 : -1;
 
         default:
-            return 0;
+            return 1;
         }
     });
 
