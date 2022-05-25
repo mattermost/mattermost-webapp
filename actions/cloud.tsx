@@ -151,12 +151,12 @@ export function getFilesUsage(): ActionFunc {
 
 export function getIntegrationsUsage(): ActionFunc {
     return async (dispatch: DispatchFunc) => {
+        const data = await Client4.getIntegrationsUsage();
         dispatch({
             type: CloudTypes.RECEIVED_INTEGRATIONS_USAGE,
-
-            // TODO: Fill this in with the backing client API method once it is available in the server
-            data: 3,
+            data: data.enabled,
         });
+
         return {data: true};
     };
 }
