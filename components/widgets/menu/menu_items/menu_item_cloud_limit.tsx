@@ -4,8 +4,10 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
 
-import {GlobalState} from 'mattermost-redux/types/store';
 import {isCloudLicense} from 'mattermost-redux/selectors/entities/general';
+import {getCloudSubscription} from 'mattermost-redux/selectors/entities/cloud';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {isAdmin} from 'mattermost-redux/utils/user_utils';
 
 import {limitThresholds} from 'utils/limits';
 
@@ -24,13 +26,14 @@ type Props = {
 }
 
 const MenuItemCloudLimit = ({id}: Props) => {
-    const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
+    const subscription = useSelector(getCloudSubscription);
+    const isAdminUser = isAdmin(useSelector(getCurrentUser).roles);
     const isCloud = useSelector(isCloudLicense);
     const isFreeTrial = subscription?.is_free_trial === 'true';
     const [limits] = useGetLimits();
     const usage = useGetUsage();
     const highestLimit = useGetHighestThresholdCloudLimit(usage, limits);
-    const words = useWords(highestLimit, false);
+    const words = useWords(highestLimit, isAdminUser);
 
     const show = isCloud && !isFreeTrial;
     if (!show || !words || !highestLimit) {
