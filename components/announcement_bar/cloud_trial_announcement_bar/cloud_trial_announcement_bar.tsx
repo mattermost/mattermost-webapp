@@ -34,7 +34,6 @@ import AnnouncementBar from '../default_announcement_bar';
 type Props = {
     userIsAdmin: boolean;
     isFreeTrial: boolean;
-    cloudFreeEnabled: boolean;
     currentUser: UserProfile;
     preferences: PreferenceType[];
     daysLeftOnTrial: number;
@@ -52,7 +51,6 @@ type Props = {
 const MAX_DAYS_BANNER = 'max_days_banner';
 const THREE_DAYS_BANNER = '3_days_banner';
 class CloudTrialAnnouncementBar extends React.PureComponent<Props> {
-
     async componentDidMount() {
         if (isEmpty(this.props.analytics)) {
             await this.props.actions.getStandardAnalytics();
