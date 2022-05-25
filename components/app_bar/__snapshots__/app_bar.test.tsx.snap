@@ -72,7 +72,7 @@ exports[`components/app_bar/app_bar should match snapshot on mount 1`] = `
             onMouseOver={[Function]}
           >
             <div
-              className="app-bar__icon-inner app-bar__icon-inner--centered"
+              className="app-bar__old-icon app-bar__icon-inner app-bar__icon-inner--centered"
             >
               fallback_component
             </div>
