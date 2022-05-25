@@ -15,6 +15,7 @@ import Constants from 'utils/constants';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import {getCurrentLocale} from 'selectors/i18n';
+import ToggleFormattingBar from '../toggle_formatting_bar/toggle_formatting_bar';
 
 import FormattingIcon, {IconContainer} from './formatting_icon';
 
@@ -44,7 +45,7 @@ const FormattingBarContainer = styled.div<FormattingBarContainerProps>`
     max-height: ${(props) => (props.open ? '100px' : 0)};
     padding-left: 7px;
     overflow: hidden;
-    background: rgba(var(--center-channel-color-rgb), 0.08);
+    background: rgba(var(--center-channel-color-rgb), 0.04);
     align-items: center;
     gap: 4px;
     transform-origin: top;
@@ -148,6 +149,11 @@ interface FormattingBarProps {
     isOpen: boolean;
 
     /**
+     * prop that determines if the Formatting Controls are visible
+     */
+    showFormattingControls: boolean;
+
+    /**
      * the current inputValue
      * This is needed to apply the markdown to the correct place
      */
@@ -170,15 +176,20 @@ interface FormattingBarProps {
      * disable formatting controls when the texteditor is in preview state
      */
     disableControls: boolean;
+    extraControls: JSX.Element;
+    toggleAdvanceTextEditor: () => void;
 }
 
 const FormattingBar = (props: FormattingBarProps): JSX.Element => {
     const {
         isOpen,
+        showFormattingControls,
         applyMarkdown,
         getCurrentSelection,
         getCurrentMessage,
         disableControls,
+        extraControls,
+        toggleAdvanceTextEditor,
     } = props;
     const [showHiddenControls, setShowHiddenControls] = useState(false);
     const popperRef = React.useRef<HTMLDivElement | null>(null);
@@ -283,8 +294,14 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
             open={isOpen}
             ref={formattingBarRef}
         >
-            {controls.map((mode) => {
-                const insertSeparator = mode === 'heading' || mode === 'code' || mode === 'ol';
+            <ToggleFormattingBar
+                onClick={toggleAdvanceTextEditor}
+                active={showFormattingControls}
+                disabled={false}
+            />
+            <Separator show={true}/>
+            {showFormattingControls && controls.map((mode) => {
+                const insertSeparator = mode === 'heading' || mode === 'ol';
                 return (
                     <React.Fragment key={mode}>
                         <FormattingIcon
@@ -334,20 +351,10 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
                                 />
                             );
                         })}
-                        {hasHiddenControls && (
-                            <>
-                                <Question/>
-                            </>
-                        )}
                     </div>
                 </CSSTransition>
             </HiddenControlsContainer>
-
-            {!hasHiddenControls && (
-                <>
-                    <Question/>
-                </>
-            )}
+            {extraControls}
         </FormattingBarContainer>
     );
 };
