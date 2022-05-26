@@ -349,7 +349,7 @@ export function makeSortChannelsByRecency(): (state: GlobalState, channels: Chan
 export function makeSortChannels() {
     const sortChannelsByName = makeSortChannelsByName();
     const sortChannelsByNameWithDMs = makeSortChannelsByNameWithDMs();
-    const sortChannelsByRecency = makeSortChannelsByRecency();    
+    const sortChannelsByRecency = makeSortChannelsByRecency();
 
     return (state: GlobalState, originalChannels: Channel[], category: ChannelCategory) => {
         let channels = originalChannels;
