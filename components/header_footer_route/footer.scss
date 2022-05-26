@@ -6,10 +6,12 @@
 .footer {
     display: flex;
     width: 100%;
+    max-width: 1520px;
     height: auto;
     min-height: 80px;
     flex-flow: wrap;
     align-items: center;
+    align-self: center;
     padding: 0 40px;
     margin-top: auto;
 
