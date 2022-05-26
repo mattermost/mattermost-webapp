@@ -81,7 +81,7 @@ export function TeamProfile({team, isArchived, isDisabled, onToggleArchive, save
                             <div className={'tooltip-body'}>
                                 <FormattedMessage
                                     id={'workspace_limits.teams_limit_reached.tool_tip'}
-                                    defaultMessage={'You\'ve reached the team limit for your current plan. Consider upgrading or deactivating other teams'}
+                                    defaultMessage={'You\'ve reached the team limit for your current plan. Consider upgrading to unarchive this team or archive your other teams'}
                                 />
                             </div>
                         </Tooltip>

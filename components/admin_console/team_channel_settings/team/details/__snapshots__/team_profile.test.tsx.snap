@@ -785,7 +785,7 @@ exports[`admin_console/team_channel_settings/team/TeamProfile__Cloud should matc
                       className="tooltip-body"
                     >
                       <Memo(MemoizedFormattedMessage)
-                        defaultMessage="You've reached the team limit for your current plan. Consider upgrading or deactivating other teams"
+                        defaultMessage="You've reached the team limit for your current plan. Consider upgrading to unarchive this team or archive your other teams"
                         id="workspace_limits.teams_limit_reached.tool_tip"
                       />
                     </div>
@@ -854,7 +854,7 @@ exports[`admin_console/team_channel_settings/team/TeamProfile__Cloud should matc
                         className="tooltip-body"
                       >
                         <Memo(MemoizedFormattedMessage)
-                          defaultMessage="You've reached the team limit for your current plan. Consider upgrading or deactivating other teams"
+                          defaultMessage="You've reached the team limit for your current plan. Consider upgrading to unarchive this team or archive your other teams"
                           id="workspace_limits.teams_limit_reached.tool_tip"
                         />
                       </div>
