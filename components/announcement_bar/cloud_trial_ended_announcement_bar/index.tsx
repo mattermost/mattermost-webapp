@@ -9,14 +9,13 @@ import {useSelector, useDispatch} from 'react-redux';
 import {t} from 'utils/i18n';
 
 import AnnouncementBar from '../default_announcement_bar';
-import {AnnouncementBarTypes, Preferences, CloudBanners, ModalIdentifiers} from 'utils/constants';
-import {openModal} from 'actions/views/modals';
-import PricingModal from 'components/pricing_modal';
+import {AnnouncementBarTypes, Preferences, CloudBanners} from 'utils/constants';
 import {anyUsageDeltaValueIsNegative} from 'utils/limits';
 import {GlobalState} from 'types/store';
 import useGetUsageDeltas from 'components/common/hooks/useGetUsageDeltas';
 import useGetLimits from 'components/common/hooks/useGetLimits';
 import useGetSubscription from 'components/common/hooks/useGetSubscription';
+import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import {isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
@@ -36,6 +35,8 @@ const CloudTrialEndAnnouncementBar: React.FC = () => {
     const currentUser = useSelector((state: GlobalState) =>
         getCurrentUser(state),
     );
+
+    const openPricingModal = useOpenPricingModal();
 
     const shouldShowBanner = () => {
         if (!subscription) {
@@ -103,12 +104,7 @@ const CloudTrialEndAnnouncementBar: React.FC = () => {
         <AnnouncementBar
             type={AnnouncementBarTypes.CRITICAL}
             showCloseButton={true}
-            onButtonClick={() => {
-                dispatch(openModal({
-                    modalId: ModalIdentifiers.PRICING_MODAL,
-                    dialogType: PricingModal,
-                }));
-            }}
+            onButtonClick={openPricingModal}
             modalButtonText={t('more.details')}
             modalButtonDefaultText={'More details'}
             message={<FormattedMessage {...message}/>}

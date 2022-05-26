@@ -30,7 +30,7 @@ export default function useGetUsage(): CloudUsage {
 
     const [requestedStorage, setRequestedStorage] = useState(false);
     useEffect(() => {
-        if (isCloudFreeEnabled && !requestedStorage && !usage.files.totalStorage) {
+        if (isCloudFreeEnabled && !requestedStorage && !usage.files.totalStorageLoaded) {
             dispatch(getFilesUsage());
             setRequestedStorage(true);
         }
