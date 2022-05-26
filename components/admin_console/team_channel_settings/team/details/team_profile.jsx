@@ -57,7 +57,6 @@ export function TeamProfile({team, isArchived, isDisabled, onToggleArchive, save
         setOverrideRestoreDisabled(true);
         onToggleArchive();
     };
-
     const button = () => {
         if (restoreDisabled) {
             return (
