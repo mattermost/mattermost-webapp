@@ -15,6 +15,9 @@ import {getUser} from 'mattermost-redux/selectors/entities/users';
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
 
+const MAX_USER_SUGGESTIONS = 25;
+const MAX_LOCAL_USER_SUGGESTIONS = 10;
+
 class SearchUserSuggestion extends Suggestion {
     render() {
         const {item, isSelection} = this.props;
@@ -93,6 +96,22 @@ export default class SearchUserProvider extends Provider {
         return Boolean(captured);
     }
 
+    directMessageUsers(usernamePrefix) {
+        const state = store.getState();
+
+        const directChannels = getAllDirectChannels(state);
+        const sortByLastPost = (a, b) => {
+            return a.last_post_at > b.last_post_at ? -1 : 1;
+        };
+        const directMessageChannels = directChannels.filter((channel) => channel.teammate_id != null).sort(sortByLastPost);
+        
+        const re = new RegExp(usernamePrefix);
+        const directMessageUsers = directMessageChannels.map((dm) => getUser(state, dm.teammate_id))
+            .filter((user) => re.test(user.first_name) || re.test(user.last_name) || re.test(user.nickname) || re.test(user.username)).slice(0, MAX_LOCAL_USER_SUGGESTIONS); 
+
+        return directMessageUsers;
+    }
+
     async doAutocomplete(captured, resultsCallback) {
         if (!captured) {
             return;
@@ -100,16 +119,6 @@ export default class SearchUserProvider extends Provider {
 
         const usernamePrefix = captured[1];
 
-        const state = store.getState();
-        const directChannels = getAllDirectChannels(state);
-        const sortByLastPost = (a, b) => {
-            return a.last_post_at > b.last_post_at ? -1 : 1;
-        };
-        const directMessageChannels = directChannels.filter((channel) => channel.teammate_id != null).sort(sortByLastPost);
-        const re = new RegExp(usernamePrefix)
-        const directMessageUsers = directMessageChannels.map((dm) => getUser(state, dm.teammate_id))
-            .filter((user) => re.test(user.first_name) || re.test(user.last_name) || re.test(user.nickname) || re.test(user.username)).slice(0, 10);
-        console.log("Users retrieved: ", directMessageUsers);
 
         this.startNewRequest(usernamePrefix);
         
@@ -119,12 +128,10 @@ export default class SearchUserProvider extends Provider {
             return;
         }
 
-        // const autocompleteUsers = Object.assign([], data.users).slice(0, 25 - dmUsers.length);
+        const directMessageUsers = this.directMessageUsers(usernamePrefix);
         const autocompleteUsers = Object.assign([], data.users);
-        const users = directMessageUsers.concat(autocompleteUsers)
+        const users = directMessageUsers.concat(autocompleteUsers).slice(0, MAX_USER_SUGGESTIONS);
         const mentions = users.map((user) => user.username);
-
-        console.log("Current api users: ", users);
 
         resultsCallback({
             matchedPretext: usernamePrefix,
