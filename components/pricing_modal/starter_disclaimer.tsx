@@ -57,8 +57,14 @@ function StarterDisclaimer() {
                     },
                 },
                 description: {
-                    id: t('workspace_limits.modals.informational.description.fre'),
-                    defaultMessage: 'Cloud starter is restricted to 10,000 message history, 10GB file storage, 5 apps, and 500 board cards.',
+                    id: t('workspace_limits.modals.informational.description.starterLimits'),
+                    defaultMessage: 'Cloud starter is restricted to {messages} message history, {storage}GB file storage, {integrations} apps, and {boards} board cards.',
+                    values: {
+                        messages: STARTER_MESSAGES_LIMIT,
+                        storage: STARTER_FILE_STORAGE_LIMIT,
+                        integrations: STARTER_INTEGRATIONS_LIMIT,
+                        boards: STARTER_BOARD_CARDS_LIMIT,
+                    },
                 },
                 primaryAction: {
                     message: {
