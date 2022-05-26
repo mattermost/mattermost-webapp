@@ -11,7 +11,7 @@ import {GlobalState} from 'types/store';
 import {trackEvent} from 'actions/telemetry_actions';
 import {CloudLinks, CloudProducts, ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
 import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
-import {openModal} from 'actions/views/modals';
+import {closeModal, openModal} from 'actions/views/modals';
 import {
     getCloudSubscription as selectCloudSubscription,
     getCloudProduct as selectCloudProduct,
@@ -165,6 +165,7 @@ function Content(props: ContentProps) {
             'open_learn_more_trial_modal',
         );
         props.onHide();
+        dispatch(closeModal(ModalIdentifiers.CLOUD_PURCHASE)); // close the purchase modal if it's open
         dispatch(openModal({
             modalId: ModalIdentifiers.LEARN_MORE_TRIAL_MODAL,
             dialogType: LearnMoreTrialModal,
