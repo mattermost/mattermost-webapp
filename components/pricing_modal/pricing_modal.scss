@@ -16,8 +16,8 @@ $geyser: #dadfe5;
     }
 
     .modal-header {
-        min-height: 77px;
         height: 77px;
+        min-height: 77px;
     }
 
     .PricingModal__header {
@@ -90,22 +90,22 @@ $geyser: #dadfe5;
 
     .modal-body {
         display: flex;
+        height: 623px;
+        min-height: 623px;
         flex-direction: column;
+        padding: 0 71px;
         overflow-x: visible;
         overflow-y: scroll;
-        min-height: 623px;
-        height: 623px;
-        padding: 0 71px;
 
         .self-hosted-alert {
-            height: 40px;
-            width: 100%;
-            text-align: right;
             display: flex;
+            width: 100%;
+            height: 40px;
             flex-direction: column;
             margin-top: 19px;
             margin-bottom: 40px;
-    
+            text-align: right;
+
             span {
                 color: var(--center-channel-text);
                 font-family: 'Open Sans';
@@ -115,7 +115,7 @@ $geyser: #dadfe5;
                 line-height: 20px;
                 text-align: right;
             }
-    
+
             a {
                 color: var(--denim-button-bg);
                 font-family: 'Open Sans';
