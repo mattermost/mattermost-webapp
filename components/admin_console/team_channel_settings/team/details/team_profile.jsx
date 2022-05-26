@@ -51,10 +51,7 @@ export function TeamProfile({team, isArchived, isDisabled, onToggleArchive, save
 
     let archiveBtnID;
     let archiveBtnDefault;
-    if (restoreDisabled) {
-        archiveBtnID = t('admin.billing.subscription.upgrade');
-        archiveBtnDefault = 'Upgrade';
-    } else if (isArchived) {
+    if (isArchived) {
         archiveBtnID = t('admin.team_settings.team_details.unarchiveTeam');
         archiveBtnDefault = 'Unarchive Team';
     } else {
