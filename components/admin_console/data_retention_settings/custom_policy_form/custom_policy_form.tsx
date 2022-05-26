@@ -8,9 +8,9 @@ import {
     DataRetentionCustomPolicy,
     CreateDataRetentionCustomPolicy,
     PatchDataRetentionCustomPolicy,
-} from 'mattermost-redux/types/data_retention';
-import {Team} from 'mattermost-redux/types/teams';
-import {IDMappedObjects} from 'mattermost-redux/types/utilities';
+} from '@mattermost/types/data_retention';
+import {Team} from '@mattermost/types/teams';
+import {IDMappedObjects} from '@mattermost/types/utilities';
 
 import * as Utils from 'utils/utils';
 
@@ -25,7 +25,7 @@ import SaveButton from 'components/save_button';
 import TeamList from 'components/admin_console/data_retention_settings/team_list';
 import ChannelList from 'components/admin_console/data_retention_settings/channel_list';
 import {keepForeverOption, yearsOption, daysOption, FOREVER, YEARS} from 'components/admin_console/data_retention_settings/dropdown_options/dropdown_options';
-import {ChannelWithTeamData} from 'mattermost-redux/types/channels';
+import {ChannelWithTeamData} from '@mattermost/types/channels';
 import {browserHistory} from 'utils/browser_history';
 
 import './custom_policy_form.scss';

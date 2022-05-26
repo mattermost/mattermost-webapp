@@ -39,10 +39,18 @@ const UpgradeCloudButton = (): JSX.Element | null => {
     const dispatch = useDispatch();
     const {formatMessage} = useIntl();
 
+    const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
+    const isAdmin = useSelector((state: GlobalState) => isCurrentUserSystemAdmin(state));
+    const subscription = useSelector(selectCloudSubscription);
+    const product = useSelector(selectCloudProduct);
+    const isCloud = useSelector(isCurrentLicenseCloud);
+
     useEffect(() => {
-        dispatch(getCloudSubscription());
-        dispatch(getCloudProducts());
-    }, []);
+        if (isCloud) {
+            dispatch(getCloudSubscription());
+            dispatch(getCloudProducts());
+        }
+    }, [isCloud]);
 
     openPricingModal = () => {
         trackEvent('cloud_admin', 'click_open_pricing_modal');
@@ -51,12 +59,6 @@ const UpgradeCloudButton = (): JSX.Element | null => {
             dialogType: PricingModal,
         }));
     };
-
-    const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
-    const isAdmin = useSelector((state: GlobalState) => isCurrentUserSystemAdmin(state));
-    const subscription = useSelector(selectCloudSubscription);
-    const product = useSelector(selectCloudProduct);
-    const isCloud = useSelector(isCurrentLicenseCloud);
 
     const isEnterpriseTrial = subscription?.is_free_trial === 'true';
     const isStarter = product?.sku === CloudProducts.STARTER;

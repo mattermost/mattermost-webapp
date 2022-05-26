@@ -18,7 +18,7 @@ import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import {Groups} from 'mattermost-redux/constants';
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {ChannelWithTeamData} from 'mattermost-redux/types/channels';
+import {ChannelWithTeamData} from '@mattermost/types/channels';
 import {
     Group,
     GroupChannel,
@@ -26,9 +26,9 @@ import {
     GroupTeam,
     SyncablePatch,
     SyncableType,
-} from 'mattermost-redux/types/groups';
-import {Team} from 'mattermost-redux/types/teams';
-import {UserProfile} from 'mattermost-redux/types/users';
+} from '@mattermost/types/groups';
+import {Team} from '@mattermost/types/teams';
+import {UserProfile} from '@mattermost/types/users';
 
 import {t} from 'utils/i18n';
 import {localizeMessage} from 'utils/utils';

@@ -5,12 +5,12 @@ import React from 'react';
 import {Route, Switch, Redirect} from 'react-router-dom';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
-import {AdminConfig, EnvironmentConfig, ClientLicense} from 'mattermost-redux/types/config';
-import {Role} from 'mattermost-redux/types/roles';
+import {AdminConfig, EnvironmentConfig, ClientLicense} from '@mattermost/types/config';
+import {Role} from '@mattermost/types/roles';
 import {ConsoleAccess} from 'mattermost-redux/types/admin';
-import {CloudState} from 'mattermost-redux/types/cloud';
-import {Team} from 'mattermost-redux/types/teams';
-import {DeepPartial} from 'mattermost-redux/types/utilities';
+import {CloudState} from '@mattermost/types/cloud';
+import {Team} from '@mattermost/types/teams';
+import {DeepPartial} from '@mattermost/types/utilities';
 
 import AnnouncementBar from 'components/announcement_bar';
 import SystemNotice from 'components/system_notice';

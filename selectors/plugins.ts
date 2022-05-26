@@ -3,7 +3,7 @@
 
 import {createSelector} from 'reselect';
 
-import {AppBinding} from 'mattermost-redux/types/apps';
+import {AppBinding} from '@mattermost/types/apps';
 import {appBarEnabled, getAppBarAppBindings} from 'mattermost-redux/selectors/entities/apps';
 
 import {GlobalState} from 'types/store';
@@ -62,7 +62,8 @@ export const shouldShowAppBar = createSelector(
     appBarEnabled,
     getAppBarAppBindings,
     getAppBarPluginComponents,
-    (enabled: boolean, bindings: AppBinding[], pluginComponents: PluginComponent[]) => {
-        return enabled && Boolean(bindings.length || pluginComponents.length);
+    getChannelHeaderPluginComponents,
+    (enabled: boolean, bindings: AppBinding[], appBarComponents: PluginComponent[], channelHeaderComponents) => {
+        return enabled && Boolean(bindings.length || appBarComponents.length || channelHeaderComponents.length);
     },
 );

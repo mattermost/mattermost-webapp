@@ -7,20 +7,10 @@ exports[`components/login/Login should match snapshot 1`] = `
   <div
     className="login-body-content"
   >
-    <div
-      className="login-body-no-login"
-    >
-      <h1
-        className="login-body-no-login-title"
-      >
-        This server doesn’t have any sign-in methods enabled
-      </h1>
-      <p
-        className="login-body-no-login-subtitle"
-      >
-        Please contact your System Administrator to resolve this.
-      </p>
-    </div>
+    <Column
+      message="Please contact your System Administrator to resolve this."
+      title="This server doesn’t have any sign-in methods enabled"
+    />
   </div>
 </div>
 `;
