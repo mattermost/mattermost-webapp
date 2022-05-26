@@ -207,8 +207,6 @@ export function loadMe(): ActionFunc {
         const serverVersion = getState().entities.general.serverVersion || Client4.getServerVersion();
         dispatch(setServerVersion(serverVersion));
 
-        const isCollapsedThreads = isCollapsedThreadsEnabled(getState());
-
         let responseData: MyDataQueryResponseType['data'] | null = null;
         try {
             const {data} = await Client4.fetchWithGraphQL<MyDataQueryResponseType>(myDataQuery);
@@ -250,12 +248,10 @@ export function loadMe(): ActionFunc {
                 },
                 {
                     type: TeamTypes.RECEIVED_MY_TEAM_MEMBERS,
-                    data: transformToRecievedMyTeamMembersReducerPayload(responseData.teamMembers),
+                    data: transformToRecievedMyTeamMembersReducerPayload(responseData.teamMembers, responseData.user.id),
                 },
             ]),
         );
-
-        await dispatch(getMyTeamUnreads(isCollapsedThreads));
 
         if (responseData.user.id) {
             Client4.setUserId(responseData.user.id);

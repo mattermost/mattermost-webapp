@@ -56,9 +56,6 @@ query MyData {
         group_constrained: groupConstrained
         allow_open_invite: allowOpenInvite
       }
-      user {
-        id
-      }
       roles {
         id
         name
@@ -131,10 +128,13 @@ export function transformToRecievedMeReducerPayload(user: Partial<MyDataQueryRes
     };
 }
 
-export function transformToRecievedMyTeamMembersReducerPayload(teamsMembers: Partial<MyDataQueryResponseType['data']['teamMembers']>) {
+export function transformToRecievedMyTeamMembersReducerPayload(
+    teamsMembers: Partial<MyDataQueryResponseType['data']['teamMembers']>,
+    userId: MyDataQueryResponseType['data']['user']['id'],
+) {
     return teamsMembers.map((teamMember) => ({
         team_id: teamMember?.team?.id ?? '',
-        user_id: teamMember?.user?.id ?? '',
+        user_id: userId || '',
         delete_at: teamMember?.delete_at ?? 0,
         roles: convertRolesNamesArrayToString(teamMember?.roles ?? []),
         scheme_admin: teamMember?.scheme_admin ?? false,
