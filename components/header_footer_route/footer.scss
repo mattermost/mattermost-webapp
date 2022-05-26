@@ -3,7 +3,7 @@
 
 @import 'utils/mixins';
 
-.footer {
+.hfroute-footer {
     display: flex;
     width: 100%;
     max-width: 1520px;
@@ -37,7 +37,7 @@
 }
 
 @media screen and (max-width: 699px) {
-    .footer {
+    .hfroute-footer {
         padding: 0 24px;
     }
 }
