@@ -98,17 +98,18 @@ export default class SearchUserProvider extends Provider {
             return;
         }
 
+        const usernamePrefix = captured[1];
+
         const state = store.getState();
         const directChannels = getAllDirectChannels(state);
         const sortByLastPost = (a, b) => {
             return a.last_post_at > b.last_post_at ? -1 : 1;
         };
         const directMessageChannels = directChannels.filter((channel) => channel.teammate_id != null).sort(sortByLastPost);
-        
-        const directMessageUsers = directMessageChannels.map((dm) => getUser(state, dm.teammate_id)).slice(0, 10);
+        const re = new RegExp(usernamePrefix)
+        const directMessageUsers = directMessageChannels.map((dm) => getUser(state, dm.teammate_id))
+            .filter((user) => re.test(user.first_name) || re.test(user.last_name) || re.test(user.nickname) || re.test(user.username)).slice(0, 10);
         console.log("Users retrieved: ", directMessageUsers);
-
-        const usernamePrefix = captured[1];
 
         this.startNewRequest(usernamePrefix);
         
