@@ -38,7 +38,9 @@
         }
 
         &:focus-visible,
-        &:focus-within {
+        &:focus-within,
+        &:focus-visible:hover,
+        &:focus-within:hover, {
             border: 2px solid rgba(var(--center-channel-color-rgb), 0.32);
             outline: none;
             outline-offset: 0;

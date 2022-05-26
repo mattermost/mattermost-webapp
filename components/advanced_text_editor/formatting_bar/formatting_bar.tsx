@@ -269,7 +269,7 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
                 );
             })}
 
-            {hasHiddenControls && (
+            {hasHiddenControls && showFormattingControls && (
                 <>
                     <IconContainer
                         ref={triggerRef}
