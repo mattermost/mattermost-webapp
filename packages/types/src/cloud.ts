@@ -157,6 +157,10 @@ export interface CloudUsage {
         cards: number;
         cardsLoaded: boolean;
     };
+    teams: {
+        active: number;
+        teamsLoaded: boolean;
+    };
     integrations: IntegrationsUsage;
 }
 
