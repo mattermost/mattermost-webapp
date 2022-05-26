@@ -49,7 +49,7 @@ export type DispatchProps = {
         setRhsExpanded: (expanded: boolean) => Action;
         closeRightHandSide: () => void;
         autocompleteChannelsForSearch: (term: string, success?: () => void, error?: () => void) => void;
-        autocompleteUsersInTeam: (username: string) => DispatchFunc;
+        autocompleteUsersPrioritizeDM: (username: string) => DispatchFunc;
         updateRhsState: (rhsState: string) => void;
         getMorePostsForSearch: () => ActionFunc;
         openRHSSearch: () => void;

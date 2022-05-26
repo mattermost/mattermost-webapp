@@ -7,16 +7,9 @@ import * as Utils from 'utils/utils';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import Avatar from 'components/widgets/users/avatar';
 import SharedUserIndicator from 'components/shared_user_indicator';
-import store from 'stores/redux_store.jsx';
-
-import {getAllDirectChannels} from 'mattermost-redux/selectors/entities/channels';
-import {getUser} from 'mattermost-redux/selectors/entities/users';
 
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
-
-const MAX_USER_SUGGESTIONS = 25;
-const MAX_LOCAL_USER_SUGGESTIONS = 10;
 
 class SearchUserSuggestion extends Suggestion {
     render() {
@@ -84,9 +77,8 @@ class SearchUserSuggestion extends Suggestion {
 export default class SearchUserProvider extends Provider {
     constructor(userSearchFunc) {
         super();
-        this.autocompleteUsersInTeam = userSearchFunc;
+        this.autocompleteUsers = userSearchFunc;
     }
-
 
     handlePretextChanged(pretext, resultsCallback) {
         const captured = (/\bfrom:\s*(\S*)$/i).exec(pretext.toLowerCase());
@@ -96,22 +88,6 @@ export default class SearchUserProvider extends Provider {
         return Boolean(captured);
     }
 
-    directMessageUsers(usernamePrefix) {
-        const state = store.getState();
-
-        const directChannels = getAllDirectChannels(state);
-        const sortByLastPost = (a, b) => {
-            return a.last_post_at > b.last_post_at ? -1 : 1;
-        };
-        const directMessageChannels = directChannels.filter((channel) => channel.teammate_id != null).sort(sortByLastPost);
-        
-        const re = new RegExp(usernamePrefix);
-        const directMessageUsers = directMessageChannels.map((dm) => getUser(state, dm.teammate_id))
-            .filter((user) => re.test(user.first_name) || re.test(user.last_name) || re.test(user.nickname) || re.test(user.username)).slice(0, MAX_LOCAL_USER_SUGGESTIONS); 
-
-        return directMessageUsers;
-    }
-
     async doAutocomplete(captured, resultsCallback) {
         if (!captured) {
             return;
@@ -119,18 +95,14 @@ export default class SearchUserProvider extends Provider {
 
         const usernamePrefix = captured[1];
 
-
         this.startNewRequest(usernamePrefix);
-        
-        const data = await this.autocompleteUsersInTeam(usernamePrefix);
+        const data = await this.autocompleteUsers(usernamePrefix);
 
         if (this.shouldCancelDispatch(usernamePrefix)) {
             return;
         }
 
-        const directMessageUsers = this.directMessageUsers(usernamePrefix);
-        const autocompleteUsers = Object.assign([], data.users);
-        const users = directMessageUsers.concat(autocompleteUsers).slice(0, MAX_USER_SUGGESTIONS);
+        const users = Object.assign([], data.users);
         const mentions = users.map((user) => user.username);
 
         resultsCallback({

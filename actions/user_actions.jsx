@@ -9,6 +9,7 @@ import {getTeamMembersByIds} from 'mattermost-redux/actions/teams';
 import * as UserActions from 'mattermost-redux/actions/users';
 import {Preferences as PreferencesRedux, General} from 'mattermost-redux/constants';
 import {
+    getAllDirectChannels,
     getChannel,
     getChannelMembersInChannels,
     getChannelMessageCount,
@@ -26,6 +27,7 @@ import {loadCustomEmojisForCustomStatusesByUserIds} from 'actions/emoji_actions'
 import {loadStatusesForProfilesList, loadStatusesForProfilesMap} from 'actions/status_actions.jsx';
 
 import {getDisplayedChannels} from 'selectors/views/channel_sidebar';
+import {getUser} from 'mattermost-redux/selectors/entities/users';
 
 import store from 'stores/redux_store.jsx';
 
@@ -418,6 +420,25 @@ export function autocompleteUsersInTeam(username) {
 export function autocompleteUsers(username) {
     return async (doDispatch) => {
         const {data} = await doDispatch(UserActions.autocompleteUsers(username));
+        return data;
+    };
+}
+
+export function autocompleteUsersPrioritizeDM(username) {
+    return async (doDispatch, doGetState) => {
+        const state = doGetState();
+        const directChannels = getAllDirectChannels(state);
+        const sortByLastPost = (a, b) => {
+            return a.last_post_at > b.last_post_at ? -1 : 1;
+        };
+        const directMessageChannels = directChannels.filter((channel) => channel.type === Constants.DM_CHANNEL).sort(sortByLastPost);
+
+        const re = new RegExp(username);
+        const directMessageUsers = directMessageChannels.map((dm) => getUser(state, dm.teammate_id)).filter((user) => re.test(user.first_name) || re.test(user.last_name) || re.test(user.nickname) || re.test(user.username));
+
+        const currentTeamId = getCurrentTeamId(doGetState());
+        const {data} = await doDispatch(UserActions.autocompleteUsers(username, currentTeamId));
+        data.users = directMessageUsers.concat(data.users).slice(0, 25);
         return data;
     };
 }

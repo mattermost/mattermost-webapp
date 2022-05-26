@@ -22,7 +22,7 @@ import {
     updateSearchType,
 } from 'actions/views/rhs';
 import {autocompleteChannelsForSearch} from 'actions/channel_actions';
-import {autocompleteUsersInTeam} from 'actions/user_actions';
+import {autocompleteUsersPrioritizeDM} from 'actions/user_actions';
 
 import {getRhsState, getSearchTerms, getSearchType, getIsSearchingTerm, getIsRhsOpen, getIsRhsExpanded} from 'selectors/rhs';
 import {getIsMobileView} from 'selectors/views/browser';
@@ -74,7 +74,7 @@ function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
             setRhsExpanded,
             closeRightHandSide,
             autocompleteChannelsForSearch,
-            autocompleteUsersInTeam,
+            autocompleteUsersPrioritizeDM,
             updateRhsState,
             getMorePostsForSearch,
             openRHSSearch,

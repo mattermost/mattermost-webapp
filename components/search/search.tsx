@@ -98,7 +98,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
     const suggestionProviders = useRef<Provider[]>([
         new SearchDateProvider(),
         new SearchChannelProvider(actions.autocompleteChannelsForSearch),
-        new SearchUserProvider(actions.autocompleteUsersInTeam),
+        new SearchUserProvider(actions.autocompleteUsersPrioritizeDM),
     ]);
 
     const isDesktop = isDesktopApp() && isServerVersionGreaterThanOrEqualTo(getDesktopVersion(), '4.7.0');
