@@ -46,7 +46,7 @@ export function TeamProfile({team, isArchived, isDisabled, onToggleArchive, save
 
     // If in a cloud context and the teams usage hasn't loaded, don't render anything to prevent weird flashes on the screen
     if (license.Cloud === 'true' && !usage.teams.teamsLoaded) {
-        return null;
+        return null;//
     }
 
     let archiveBtnID;
