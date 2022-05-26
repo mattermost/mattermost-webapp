@@ -12,157 +12,23 @@ import {
 } from 'mattermost-redux/selectors/entities/cloud';
 import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
-import {openModal, closeModal} from 'actions/views/modals';
+import {openModal} from 'actions/views/modals';
 import {trackEvent} from 'actions/telemetry_actions';
 
 import {ModalIdentifiers, CloudProducts} from 'utils/constants';
 import {FileSizes} from 'utils/file_utils';
-import {t} from 'utils/i18n';
 import {asGBString, fallbackStarterLimits} from 'utils/limits';
 
 import useGetLimits from 'components/common/hooks/useGetLimits';
 import useGetUsage from 'components/common/hooks/useGetUsage';
 import useOpenSalesLink from 'components/common/hooks/useOpenSalesLink';
 
-import CloudUsageModal from 'components/cloud_usage_modal';
-import MiniModal from 'components/cloud_usage_modal/mini_modal';
 import PricingModal from 'components/pricing_modal';
 
 import LimitCard from './limit_card';
 import SingleInlineLimit from './single_inline_limit';
 
 import './limits.scss';
-
-// TODO: To be removed once components can be used from where they can belong,
-// an effort for a separate ticket.
-// This allows for quicker prototyping, development, and review
-function TempLaunchModalsComponent() {
-    const dispatch = useDispatch();
-    const intl = useIntl();
-    const subscription = useSelector(getCloudSubscription);
-    const products = useSelector(getCloudProducts);
-    const [limits] = useGetLimits();
-    const usage = useGetUsage();
-
-    return (
-        <div style={{marginTop: '30px'}}>
-            <button
-                onClick={() => {
-                    dispatch(openModal({
-                        modalId: ModalIdentifiers.CLOUD_LIMITS,
-                        dialogType: CloudUsageModal,
-                        dialogProps: {
-                            title: {
-                                id: t('workspace_limits.modals.informational.title'),
-                                defaultMessage: '{planName} limits',
-                                values: {
-                                    planName: products?.[subscription?.product_id || '']?.name || 'Unknown product',
-                                },
-                            },
-                            description: {
-                                id: t('workspace_limits.modals.informational.description.free'),
-                                defaultMessage: 'These are the limits on your free plan. You can delete items to free up space or contact your admin to upgrade to a paid plan.',
-                            },
-                            primaryAction: {
-                                message: {
-                                    id: t('workspace_limits.modals.view_plans'),
-                                    defaultMessage: 'View plans',
-                                },
-                                onClick: () => {},
-                            },
-                            secondaryAction: {
-                                message: {
-                                    id: t('workspace_limits.modals.close'),
-                                    defaultMessage: 'Close',
-                                },
-                                onClick: () => {
-                                    dispatch(closeModal(ModalIdentifiers.CLOUD_LIMITS));
-                                },
-                            },
-                            onClose: () => {
-                                dispatch(closeModal(ModalIdentifiers.CLOUD_LIMITS));
-                            },
-                            needsTheme: true,
-                        },
-                    }));
-                }}
-            >
-                {'open informational cloud limits modal'}
-            </button>
-            <button
-                onClick={() => {
-                    dispatch(openModal({
-                        modalId: ModalIdentifiers.CLOUD_LIMITS,
-                        dialogType: CloudUsageModal,
-                        dialogProps: {
-                            title: {
-                                id: t('workspace_limits.modals.limits_reached.title'),
-                                defaultMessage: '{limitName} limit reached',
-                                values: {
-                                    limitName: intl.formatMessage({
-                                        id: 'workspace_limits.boards_cards.short',
-                                        defaultMessage: 'Board Cards',
-                                    }),
-                                },
-                            },
-                            description: {
-                                id: t('workspace_limits.modals.informational.description.free'),
-                                defaultMessage: 'These are the limits on your free plan. You can delete items to free up space or contact your admin to upgrade to a paid plan.',
-                            },
-                            primaryAction: {
-                                message: {
-                                    id: t('workspace_limits.modals.view_plans'),
-                                    defaultMessage: 'View plans',
-                                },
-                                onClick: () => {},
-                            },
-                            secondaryAction: {
-                                message: {
-                                    id: t('workspace_limits.modals.close'),
-                                    defaultMessage: 'Close',
-                                },
-                                onClick: () => {
-                                    dispatch(closeModal(ModalIdentifiers.CLOUD_LIMITS));
-                                },
-                            },
-                            onClose: () => {
-                                dispatch(closeModal(ModalIdentifiers.CLOUD_LIMITS));
-                            },
-                            needsTheme: true,
-                        },
-                    }));
-                }}
-            >
-                {'open cloud limits reached modal'}
-            </button>
-            <button
-                onClick={() => {
-                    dispatch(openModal({
-                        modalId: ModalIdentifiers.CLOUD_LIMITS,
-                        dialogType: MiniModal,
-                        dialogProps: {
-                            limits,
-                            usage,
-                            showIcons: false,
-                            title: {
-                                id: 'workspace_limits.modals.informational.title',
-                                defaultMessage: '{planName} limits',
-                                values: {
-                                    planName: products?.[subscription?.product_id || '']?.name || 'Unknown product',
-                                },
-                            },
-                            onClose: () => {
-                                dispatch(closeModal(ModalIdentifiers.CLOUD_LIMITS));
-                            },
-                        },
-                    }));
-                }}
-            >
-                {'open cloud limits mini modal'}
-            </button>
-        </div>
-    );
-}
 
 interface Props {
     showAnnualCard?: boolean;
@@ -413,7 +279,6 @@ const Limits = (props: Props): JSX.Element | null => {
                     </a>
                 )}
             </div>
-            {!singleLimitPanel && <TempLaunchModalsComponent/>}
         </div>
     );
 };
