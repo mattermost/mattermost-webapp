@@ -284,7 +284,7 @@ const AdvanceTextEditor = ({
     }
 
     const disableSendButton = Boolean(readOnlyChannel || (!message.trim().length && !draft.fileInfos.length));
-    const sendButton = (
+    const sendButton = readOnlyChannel ? null : (
         <SendButton
             disabled={disableSendButton}
             handleSubmit={handleSubmit}
@@ -361,7 +361,10 @@ const AdvanceTextEditor = ({
                 } as CSSProperties) : undefined
             }
         >
-            <div className={'AdvancedTextEditor__body'}>
+            <div
+                className={'AdvancedTextEditor__body'}
+                disabled={readOnlyChannel}
+            >
                 <div
                     role='application'
                     id='centerChannelFooter'

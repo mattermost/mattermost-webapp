@@ -43,6 +43,12 @@
         &:hover {
             border: 2px solid rgba(var(--center-channel-color-rgb), 0.24);
         }
+
+        &[disabled]{
+            &:hover{
+                border: none;
+            }
+        }
     }
 
     &__attachment-preview {
@@ -162,7 +168,10 @@
             border-radius: 0;
 
             &:focus-visible,
-            &:focus-within {
+            &:focus-within,
+            &:focus-visible:hover,
+            &:focus-within:hover,
+            &:hover {
                 border-right: none;
                 border-left: none;
             }
