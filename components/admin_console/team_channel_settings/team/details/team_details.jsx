@@ -48,7 +48,6 @@ export default class TeamDetails extends React.PureComponent {
             updateTeamMemberSchemeRoles: PropTypes.func.isRequired,
             deleteTeam: PropTypes.func.isRequired,
             unarchiveTeam: PropTypes.func.isRequired,
-            getTeamsUsage: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -374,8 +373,6 @@ export default class TeamDetails extends React.PureComponent {
         } else {
             this.handleSubmit();
         }
-        console.log('ON SAVE');
-        this.props.actions.getTeamsUsage();
     }
 
     teamToBeArchived = () => {
@@ -415,7 +412,6 @@ export default class TeamDetails extends React.PureComponent {
         }
         this.props.actions.setNavigationBlocked(true);
         this.setState(newState);
-        this.props.actions.getTeamsUsage();
     };
 
     render = () => {
@@ -493,6 +489,7 @@ export default class TeamDetails extends React.PureComponent {
                             onToggleArchive={this.onToggleArchive}
                             isArchived={isLocalArchived}
                             isDisabled={this.props.isDisabled}
+                            saveNeeded={this.state.saveNeeded}
                         />
                         <ConfirmModal
                             show={showArchiveConfirmModal}

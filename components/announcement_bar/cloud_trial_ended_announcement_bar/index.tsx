@@ -95,7 +95,9 @@ const CloudTrialEndAnnouncementBar: React.FC = () => {
         defaultMessage:
             'Your trial has ended. Upgrade to regain access to paid features',
     };
-    if (anyUsageDeltaValueIsNegative(usageDeltas)) {
+
+    // Any positive value means they've exceeded some limit
+    if (!anyUsageDeltaValueIsNegative(usageDeltas) || usageDeltas.teams.cloudArchived) {
         message = {id: t('freemium.banner.trial_ended.archived_data'), defaultMessage: 'Your trial has ended. Upgrade to regain access to archived data'};
     }
 

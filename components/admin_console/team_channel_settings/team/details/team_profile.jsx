@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
@@ -28,11 +28,17 @@ import TeamIcon from 'components/widgets/team_icon/team_icon';
 
 import './team_profile.scss';
 
-export function TeamProfile({team, isArchived, isDisabled, onToggleArchive}) {
+export function TeamProfile({team, isArchived, isDisabled, onToggleArchive, saveNeeded}) {
     const teamIconUrl = Utils.imageURLForTeam(team);
     const usageDeltas = useGetUsageDeltas();
     const dispatch = useDispatch();
+
+    const [overrideRestoreDisabled, setOverrideRestoreDisabled] = useState(false);
     const [restoreDisabled, setRestoreDisabled] = useState(usageDeltas.teams.teamsLoaded && usageDeltas.teams.active >= 0 && isArchived);
+
+    useEffect(() => {
+        setRestoreDisabled(usageDeltas.teams.teamsLoaded && usageDeltas.teams.active >= 0 && isArchived && !overrideRestoreDisabled && !saveNeeded);
+    }, [usageDeltas, isArchived, overrideRestoreDisabled, saveNeeded]);
 
     let archiveBtnID;
     let archiveBtnDefault;
@@ -48,48 +54,61 @@ export function TeamProfile({team, isArchived, isDisabled, onToggleArchive}) {
     }
 
     const toggleArchive = () => {
-        if (restoreDisabled) {
-            setRestoreDisabled(false);
-        }
+        setOverrideRestoreDisabled(true);
         onToggleArchive();
     };
 
     const button = () => {
         if (restoreDisabled) {
             return (
-                <div
-                    style={{display: 'inline-block', cursor: 'not-allowed'}}
-                >
-                    <button
-                        type='button'
-                        disabled={restoreDisabled}
-                        style={{pointerEvents: 'none'}}
-                        className={
-                            classNames(
-                                'btn',
-                                'btn-secondary',
-                                'ArchiveButton',
-                                {ArchiveButton___archived: isArchived},
-                                {ArchiveButton___unarchived: !isArchived},
-                                {disabled: isDisabled},
-                                'cloud-limits-disabled',
-                            )
-                        }
-                        onClick={noop}
-                    >
-                        {isArchived ? (
-                            <UnarchiveIcon
-                                className='channel-icon channel-icon__unarchive'
+                <OverlayTrigger
+                    delay={400}
+                    placement='bottom'
+                    disabled={!restoreDisabled}
+                    overlay={
+                        <Tooltip id='sharedTooltip'>
+                            <FormattedMessage
+                                id={'workspace_limits.teams_limit_reached.tool_tip'}
+                                defaultMessage={'You\'ve reached the team limit for your current plan. Consider upgrading or deactivating other teams'}
                             />
-                        ) : (
-                            <ArchiveIcon className='channel-icon channel-icon__archive'/>
-                        )}
-                        <FormattedMessage
-                            id={archiveBtnID}
-                            defaultMessage={archiveBtnDefault}
-                        />
-                    </button>
-                </div>
+                        </Tooltip>
+                    }
+                >
+                    <div
+                        className={'disabled-overlay-wrapper'}
+                    >
+                        <button
+                            type='button'
+                            disabled={restoreDisabled}
+                            style={{pointerEvents: 'none'}}
+                            className={
+                                classNames(
+                                    'btn',
+                                    'btn-secondary',
+                                    'ArchiveButton',
+                                    {ArchiveButton___archived: isArchived},
+                                    {ArchiveButton___unarchived: !isArchived},
+                                    {disabled: isDisabled},
+                                    'cloud-limits-disabled',
+                                )
+                            }
+                            onClick={noop}
+                        >
+                            {isArchived ? (
+                                <UnarchiveIcon
+                                    className='channel-icon channel-icon__unarchive'
+                                />
+                            ) : (
+                                <ArchiveIcon className='channel-icon channel-icon__archive'/>
+                            )}
+                            <FormattedMessage
+                                id={archiveBtnID}
+                                defaultMessage={archiveBtnDefault}
+                            />
+                        </button>
+                    </div>
+                </OverlayTrigger>
+
             );
         }
         return (
@@ -164,21 +183,7 @@ export function TeamProfile({team, isArchived, isDisabled, onToggleArchive}) {
                         </div>
                     </div>
                     <div className='AdminChannelDetails_archiveContainer'>
-                        <OverlayTrigger
-                            delay={400}
-                            placement='bottom'
-                            disabled={!restoreDisabled}
-                            overlay={
-                                <Tooltip id='sharedTooltip'>
-                                    <FormattedMessage
-                                        id={'workspace_limits.teams_limit_reached.tool_tip'}
-                                        defaultMessage={'You\'ve reached the team limit for your current plan. Consider upgrading or deactivating other teams'}
-                                    />
-                                </Tooltip>
-                            }
-                        >
-                            {button()}
-                        </OverlayTrigger>
+                        {button()}
                         {restoreDisabled &&
                             <button
                                 onClick={() => {
@@ -211,4 +216,5 @@ TeamProfile.propTypes = {
     onToggleArchive: PropTypes.func,
     isArchived: PropTypes.bool.isRequired,
     isDisabled: PropTypes.bool,
+    saveNeeded: PropTypes.bool,
 };

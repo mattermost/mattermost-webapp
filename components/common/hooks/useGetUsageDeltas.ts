@@ -8,6 +8,11 @@ import {CloudUsage} from '@mattermost/types/cloud';
 import useGetUsage from './useGetUsage';
 import useGetLimits from './useGetLimits';
 
+// Returns an object of type CloudUsage with the values being the delta between the limit, and the actual usage of this installation.
+// A value < 0 means that they are NOT over the limit. A value > 0 means they've exceeded that limit
+// 2 teams used, minus 1 team limit = value > 0, limit exceeded
+// 10MB files used, minus 1000MB limit = value < 0, limit not exceeded.
+// etc.
 export default function useGetUsageDeltas(): CloudUsage {
     const usage = useGetUsage();
     const cloudLimits = useGetLimits();
@@ -29,6 +34,9 @@ export default function useGetUsageDeltas(): CloudUsage {
             },
             teams: {
                 active: usage.teams.active - (limits.teams?.active || 0),
+
+                // cloudArchived doesn't count against usage, but we pass the value along for convenience
+                cloudArchived: usage.teams.cloudArchived,
                 teamsLoaded: usage.teams.teamsLoaded,
             },
             integrations: {

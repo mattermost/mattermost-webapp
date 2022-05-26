@@ -9,7 +9,6 @@ import {getTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import {getTeam as fetchTeam, membersMinusGroupMembers, patchTeam, removeUserFromTeam, updateTeamMemberSchemeRoles, addUserToTeam, deleteTeam, unarchiveTeam} from 'mattermost-redux/actions/teams';
 import {getAllGroups, getGroupsAssociatedToTeam} from 'mattermost-redux/selectors/entities/groups';
-import {getTeamsUsage} from 'actions/cloud';
 import {
     getGroupsAssociatedToTeam as fetchAssociatedGroups,
     linkGroupSyncable,
@@ -54,7 +53,6 @@ function mapDispatchToProps(dispatch) {
             updateTeamMemberSchemeRoles,
             deleteTeam,
             unarchiveTeam,
-            getTeamsUsage,
         }, dispatch),
     };
 }

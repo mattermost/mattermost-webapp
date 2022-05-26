@@ -241,14 +241,10 @@ describe('components/global/CloudTrialEndAnnouncementBar', () => {
         const state = JSON.parse(JSON.stringify(initialState));
         state.entities.preferences = {
             myPreferences: {
-<<<<<<< HEAD
-                [getPreferenceKey(Preferences.FREEMIUM_TRIAL_END_BANNER, CloudBanners.HIDE)]: {name: CloudBanners.HIDE, value: 'true'},
-=======
                 [getPreferenceKey(
                     Preferences.CLOUD_TRIAL_END_BANNER,
                     CloudBanners.HIDE,
                 )]: {name: CloudBanners.HIDE, value: 'true'},
->>>>>>> master
             },
         };
 
