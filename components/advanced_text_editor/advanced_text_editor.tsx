@@ -283,7 +283,7 @@ const AdvanceTextEditor = ({
         );
     }
 
-    const disableSendButton = !message.trim().length && !draft.fileInfos.length;
+    const disableSendButton = Boolean(readOnlyChannel || (!message.trim().length && !draft.fileInfos.length));
     const sendButton = (
         <SendButton
             disabled={disableSendButton}
@@ -336,6 +336,19 @@ const AdvanceTextEditor = ({
 
     const textboxId = location === Locations.CENTER ? 'post_textbox' : 'reply_textbox';
 
+    const formattingBar = readOnlyChannel ? null : (
+        <FormattingBar
+            applyMarkdown={applyMarkdown}
+            getCurrentMessage={getCurrentValue}
+            getCurrentSelection={getCurrentSelection}
+            isOpen={true}
+            disableControls={shouldShowPreview}
+            extraControls={extraControls}
+            toggleAdvanceTextEditor={toggleAdvanceTextEditor}
+            showFormattingControls={!isFormattingBarHidden}
+        />
+    );
+
     return (
         <div
             className={classNames('AdvancedTextEditor', {
@@ -385,23 +398,12 @@ const AdvanceTextEditor = ({
                         useChannelMentions={useChannelMentions}
                     />
                     {attachmentPreview}
-                    {
-                        <TexteditorActions
-                            placement='top'
-                        >
-                            {showFormatJSX}
-                        </TexteditorActions>
-                    }
-                    <FormattingBar
-                        applyMarkdown={applyMarkdown}
-                        getCurrentMessage={getCurrentValue}
-                        getCurrentSelection={getCurrentSelection}
-                        isOpen={true}
-                        disableControls={shouldShowPreview}
-                        extraControls={extraControls}
-                        toggleAdvanceTextEditor={toggleAdvanceTextEditor}
-                        showFormattingControls={!isFormattingBarHidden}
-                    />
+                    <TexteditorActions
+                        placement='top'
+                    >
+                        {showFormatJSX}
+                    </TexteditorActions>
+                    {formattingBar}
                     <TexteditorActions
                         placement='bottom'
                     >

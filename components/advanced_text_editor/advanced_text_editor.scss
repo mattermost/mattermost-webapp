@@ -43,6 +43,10 @@
             outline: none;
             outline-offset: 0;
         }
+
+        &:hover {
+            border: 2px solid rgba(var(--center-channel-color-rgb), 0.24);
+        }
     }
 
     &__attachment-preview {

@@ -3,18 +3,12 @@
 
 import classNames from 'classnames';
 import React, {memo, useCallback, useEffect, useRef, useState} from 'react';
-import {FormattedMessage} from 'react-intl';
-import {useSelector} from 'react-redux';
 import styled from 'styled-components';
 import {usePopper} from 'react-popper';
 import {CSSTransition} from 'react-transition-group';
-import {DotsHorizontalIcon, HelpCircleOutlineIcon} from '@mattermost/compass-icons/components';
+import {DotsHorizontalIcon} from '@mattermost/compass-icons/components';
 
 import {ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
-import Constants from 'utils/constants';
-import OverlayTrigger from 'components/overlay_trigger';
-import Tooltip from 'components/tooltip';
-import {getCurrentLocale} from 'selectors/i18n';
 import ToggleFormattingBar from '../toggle_formatting_bar/toggle_formatting_bar';
 
 import FormattingIcon, {IconContainer} from './formatting_icon';
@@ -100,46 +94,6 @@ const HiddenControlsContainer = styled.div`
         }
     }
 `;
-
-/**
- * The component that renders the questionmark button that directs the user to the message formatting help page
- */
-const Question = () => {
-    const currentLocale = useSelector(getCurrentLocale);
-
-    // open the message formatting explanation page
-    const onClick = () => {
-        window.open(`/help/messaging?locale=${currentLocale}`, '_blank', 'noopener,noreferrer');
-    };
-
-    const tooltip = (
-        <Tooltip id='upload-tooltip'>
-            <FormattedMessage
-                id='textbox.help'
-                defaultMessage='Help'
-            />
-        </Tooltip>
-    );
-
-    return (
-        <OverlayTrigger
-            delayShow={Constants.OVERLAY_TIME_DELAY}
-            placement='top'
-            trigger={['hover', 'focus']}
-            overlay={tooltip}
-        >
-            <IconContainer
-                onClick={onClick}
-                className={'style--none'}
-            >
-                <HelpCircleOutlineIcon
-                    color={'currentColor'}
-                    size={18}
-                />
-            </IconContainer>
-        </OverlayTrigger>
-    );
-};
 
 interface FormattingBarProps {
 
@@ -316,18 +270,20 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
             })}
 
             {hasHiddenControls && (
-                <IconContainer
-                    ref={triggerRef}
-                    className={classNames({active: showHiddenControls})}
-                    onClick={closeHiddenControls}
-                >
-                    <DotsHorizontalIcon
-                        color={'currentColor'}
-                        size={18}
-                    />
-                </IconContainer>
+                <>
+                    <IconContainer
+                        ref={triggerRef}
+                        className={classNames({active: showHiddenControls})}
+                        onClick={closeHiddenControls}
+                    >
+                        <DotsHorizontalIcon
+                            color={'currentColor'}
+                            size={18}
+                        />
+                    </IconContainer>
+                    <Separator show={true}/>
+                </>
             )}
-
             <HiddenControlsContainer
                 ref={popperRef}
                 style={{...popper, zIndex: 2}}
