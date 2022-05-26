@@ -15,38 +15,9 @@ $geyser: #dadfe5;
         }
     }
 
-    .modal-body {
-        overflow: visible;
-        max-height: none;
-        padding: 0;
-    }
-
-    .self-hosted-alert {
-        position: absolute;
-        top: 96px;
-        right: 160px;
-        display: flex;
-        height: 40px;
-        flex-direction: column;
-
-        span {
-            color: var(--center-channel-text);
-            font-family: 'Open Sans';
-            font-size: 14px;
-            font-style: normal;
-            font-weight: 600;
-            line-height: 20px;
-            text-align: right;
-        }
-
-        a {
-            color: var(--denim-button-bg);
-            font-family: 'Open Sans';
-            font-size: 14px;
-            font-style: normal;
-            font-weight: 600;
-            line-height: 20px;
-        }
+    .modal-header {
+        min-height: 77px;
+        height: 77px;
     }
 
     .PricingModal__header {
@@ -56,7 +27,6 @@ $geyser: #dadfe5;
         padding: 28px 32px;
         border: none;
         border-bottom: 1px solid rgba(var(--center-channel-text-rgb), 0.08);
-        margin-bottom: 118px;
         font-size: 22px;
         font-weight: 600;
 
@@ -118,6 +88,45 @@ $geyser: #dadfe5;
         }
     }
 
+    .modal-body {
+        display: flex;
+        flex-direction: column;
+        overflow-x: visible;
+        overflow-y: scroll;
+        min-height: 623px;
+        height: 623px;
+        padding: 0 71px;
+
+        .self-hosted-alert {
+            height: 40px;
+            width: 100%;
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            margin-top: 19px;
+            margin-bottom: 40px;
+    
+            span {
+                color: var(--center-channel-text);
+                font-family: 'Open Sans';
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 600;
+                line-height: 20px;
+                text-align: right;
+            }
+    
+            a {
+                color: var(--denim-button-bg);
+                font-family: 'Open Sans';
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 600;
+                line-height: 20px;
+            }
+        }
+    }
+
     .PricingModal__body {
         position: relative;
         display: flex;
@@ -139,7 +148,6 @@ $geyser: #dadfe5;
         .PlanCard {
             position: relative;
             width: 280px;
-            // height: 686px;
 
             .planLabel {
                 position: absolute;
@@ -187,7 +195,6 @@ $geyser: #dadfe5;
 
                     .item {
                         display: flex;
-                        // height: 24px;
                         max-height: 72px;
 
                         .bullet {
