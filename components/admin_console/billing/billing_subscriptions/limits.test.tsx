@@ -45,7 +45,7 @@ const freeLimits = {
 
 interface SetupOptions {
     hasLimits?: boolean;
-    isFreeTrial?: boolean;
+    isEnterprise?: boolean;
 }
 function setupStore(setupOptions: SetupOptions) {
     const mockStore = configureStore([thunk]);
@@ -57,13 +57,18 @@ function setupStore(setupOptions: SetupOptions) {
                     limits: setupOptions.hasLimits ? freeLimits : {},
                 },
                 subscription: {
-                    product_id: 'prod_starter',
+                    product_id: setupOptions.isEnterprise ? 'prod_enterprise' : 'prod_starter',
                 } as Subscription,
                 products: {
                     prod_starter: {
                         id: 'prod_starter',
                         name: 'Cloud Starter',
                         sku: 'cloud-starter',
+                    } as Product,
+                    prod_enterprise: {
+                        id: 'prod_enterprise',
+                        name: 'Cloud Enterprise',
+                        sku: 'cloud-enterprise',
                     } as Product,
                 } as Record<string, Product>,
             },
@@ -103,7 +108,7 @@ function setupStore(setupOptions: SetupOptions) {
             } as unknown as UsersState,
         },
     } as GlobalState;
-    if (setupOptions.isFreeTrial) {
+    if (setupOptions.isEnterprise) {
         state.entities.cloud.subscription!.is_free_trial = 'true';
     }
     const store = mockStore(state);
@@ -147,17 +152,17 @@ describe('Limits', () => {
         expect(mockGetLimits).not.toHaveBeenCalled();
     });
 
-    test('renders nothing if on free trial', () => {
+    test('renders nothing if on enterprise', () => {
         const mockGetLimits = jest.fn();
         jest.spyOn(cloudActions, 'getCloudLimits').mockImplementation(mockGetLimits);
         jest.spyOn(redux, 'useDispatch').mockImplementation(jest.fn(() => jest.fn()));
-        const store = setupStore({isFreeTrial: true});
+        const store = setupStore({isEnterprise: true});
 
         renderWithIntl(<Provider store={store}><Limits/></Provider>);
         expect(screen.queryByTestId('limits-panel-title')).not.toBeInTheDocument();
     });
 
-    test('renders elements if not on free trial', () => {
+    test('renders elements if not on enterprise', () => {
         const mockGetLimits = jest.fn();
         jest.spyOn(cloudActions, 'getCloudLimits').mockImplementation(mockGetLimits);
         jest.spyOn(redux, 'useDispatch').mockImplementation(jest.fn(() => jest.fn()));
