@@ -45,7 +45,7 @@ const Limits = (props: Props): JSX.Element | null => {
     const usage = useGetUsage();
     const openSalesLink = useOpenSalesLink();
 
-    if (!isCloudFreeEnabled || !limitsLoaded || !subscriptionProduct || subscriptionProduct.sku === CloudProducts.STARTER_LEGACY) {
+    if (!isCloudFreeEnabled || !limitsLoaded || !subscriptionProduct || subscriptionProduct.sku === CloudProducts.STARTER_LEGACY || subscription?.is_free_trial) {
         return null;
     }
 
@@ -231,7 +231,7 @@ const Limits = (props: Props): JSX.Element | null => {
     }
     return (
         <div className={panelClassname}>
-            {title && <div className='ProductLimitsPanel__title'>
+            {title && <div data-testid="limits-panel-title" className='ProductLimitsPanel__title'>
                 {title}
             </div>}
             {description && <div className='ProductLimitsPanel__description'>
