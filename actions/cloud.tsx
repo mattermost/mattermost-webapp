@@ -188,9 +188,6 @@ export function getTeamsUsage(): ActionFunc {
             if (result) {
                 dispatch({
                     type: CloudTypes.RECEIVED_TEAMS_USAGE,
-
-                    // the views and cards properties are the limits, not usage.
-                    // So they are not passed in to the usage.
                     data: {active: result.active, cloudArchived: result.cloud_archived},
                 });
             }
