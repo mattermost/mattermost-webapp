@@ -69,9 +69,7 @@ $channel-view-padding: 63px;
             overflow: hidden;
             width: $app-bar-icon-size;
             height: $app-bar-icon-size;
-            padding: 2px;
             margin: 0 auto;
-            background-color: white;
             border-radius: 50%;
             line-height: 1;
 
@@ -85,7 +83,8 @@ $channel-view-padding: 63px;
         }
 
         span {
-            // color: #3f4350;
+            padding: 2px;
+            background-color: white;
             fill: var(--button-bg);
             font-size: 14px;
             line-height: 20px;
