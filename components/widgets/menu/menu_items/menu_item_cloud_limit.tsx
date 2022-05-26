@@ -36,6 +36,9 @@ const MenuItemCloudLimit = ({id}: Props) => {
     const words = useWords(highestLimit, isAdminUser);
 
     const show = isCloud && !isFreeTrial;
+
+    // words and highestLimit checks placed here instead of as part of show
+    // because typescript doesn't correctly infer values later on otherwise
     if (!show || !words || !highestLimit) {
         return null;
     }

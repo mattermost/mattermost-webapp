@@ -8,7 +8,7 @@ import {PrimitiveType, FormatXMLElementFn} from 'intl-messageformat';
 import {limitThresholds, asGBString, inK} from 'utils/limits';
 import {t} from 'utils/i18n';
 
-import useOpenPricingPage from 'components/common/hooks/useOpenPricingPage';
+import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import {LimitTypes, LimitSummary} from 'components/common/hooks/useGetHighestThresholdCloudLimit';
 
 interface Words {
@@ -19,7 +19,7 @@ interface Words {
 
 export default function useWords(highestLimit: LimitSummary | false, isAdminUser: boolean): Words | false {
     const intl = useIntl();
-    const openPricingPage = useOpenPricingPage();
+    const openPricingModal = useOpenPricingModal();
     if (!highestLimit) {
         return false;
     }
@@ -39,7 +39,7 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
         callToAction,
         a: (chunks: React.ReactNode | React.ReactNodeArray) => (
             <a
-                onClick={openPricingPage}
+                onClick={openPricingModal}
             >
                 {chunks}
             </a>

@@ -8,7 +8,7 @@ import {openModal} from 'actions/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
 import PricingModal from 'components/pricing_modal';
 
-export default function useOpenPricingPage() {
+export default function useOpenPricingModal() {
     const dispatch = useDispatch();
     return () => {
         trackEvent('cloud_admin', 'click_open_pricing_modal');
