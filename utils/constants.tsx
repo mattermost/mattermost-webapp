@@ -403,6 +403,7 @@ export const EventTypes = Object.assign(
 );
 
 export const CloudProducts = {
+    STARTER_LEGACY: 'cloud-starter-legacy',
     STARTER: 'cloud-starter',
     PROFESSIONAL: 'cloud-professional',
     ENTERPRISE: 'cloud-enterprise',

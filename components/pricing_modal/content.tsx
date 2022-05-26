@@ -14,7 +14,7 @@ import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
 import {closeModal, openModal} from 'actions/views/modals';
 import {
     getCloudSubscription as selectCloudSubscription,
-    getCloudProduct as selectCloudProduct,
+    getSubscriptionProduct as selectSubscriptionProduct,
     getCloudProducts as selectCloudProducts} from 'mattermost-redux/selectors/entities/cloud';
 
 import PurchaseModal from 'components/purchase_modal';
@@ -134,7 +134,7 @@ function Content(props: ContentProps) {
     const contactSalesLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales));
 
     const subscription = useSelector(selectCloudSubscription);
-    const product = useSelector(selectCloudProduct);
+    const product = useSelector(selectSubscriptionProduct);
     const products = useSelector(selectCloudProducts);
 
     const isEnterprise = product?.sku === CloudProducts.ENTERPRISE;
