@@ -10,7 +10,7 @@ import {setInsightsInitialisationState} from 'mattermost-redux/actions/preferenc
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 
-import {GlobalState as EntitiesGlobalState} from 'mattermost-redux/types/store';
+import {GlobalState as EntitiesGlobalState} from '@mattermost/types/store';
 
 import {Preferences} from 'mattermost-redux/constants';
 
