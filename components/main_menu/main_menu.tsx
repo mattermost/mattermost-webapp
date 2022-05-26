@@ -30,7 +30,7 @@ import TeamGroupsManageModal from 'components/team_groups_manage_modal';
 
 import {ModalData} from 'types/actions';
 import {PluginComponent} from 'types/store/plugins';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 export type Props = {
     mobile: boolean;

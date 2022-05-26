@@ -4,7 +4,7 @@ import {GifTypes} from 'mattermost-redux/action_types';
 import {Client4} from 'mattermost-redux/client';
 import gfycatSdk from 'mattermost-redux/utils/gfycat_sdk';
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 
 // APP PROPS
 

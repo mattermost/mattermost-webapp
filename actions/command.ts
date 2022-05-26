@@ -10,7 +10,7 @@ import {getCurrentRelativeTeamUrl, getCurrentTeamId} from 'mattermost-redux/sele
 import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
 import {IntegrationTypes} from 'mattermost-redux/action_types';
 import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-import type {CommandArgs} from 'mattermost-redux/types/integrations';
+import type {CommandArgs} from '@mattermost/types/integrations';
 
 import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 

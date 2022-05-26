@@ -4,7 +4,7 @@
 import isEmpty from 'lodash/isEmpty';
 
 import {isSystemEmoji} from 'mattermost-redux/utils/emoji_utils';
-import {Emoji, EmojiCategory, SystemEmoji} from 'mattermost-redux/types/emojis';
+import {Emoji, EmojiCategory, SystemEmoji} from '@mattermost/types/emojis';
 
 import {
     Categories,
