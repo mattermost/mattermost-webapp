@@ -10,6 +10,7 @@ import SharedUserIndicator from 'components/shared_user_indicator';
 import store from 'stores/redux_store.jsx';
 
 import {getAllDirectChannels} from 'mattermost-redux/selectors/entities/channels';
+import {getUser} from 'mattermost-redux/selectors/entities/users';
 
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
@@ -81,8 +82,6 @@ export default class SearchUserProvider extends Provider {
     constructor(userSearchFunc) {
         super();
         this.autocompleteUsersInTeam = userSearchFunc;
-        // console.log("In constructor: ", dms());
-        // this.dms = dms;
     }
 
 
@@ -100,21 +99,31 @@ export default class SearchUserProvider extends Provider {
         }
 
         const state = store.getState();
-        const dms = getAllDirectChannels(state);
+        const directChannels = getAllDirectChannels(state);
+        const sortByLastPost = (a, b) => {
+            return a.last_post_at > b.last_post_at ? -1 : 1;
+        };
+        const directMessageChannels = directChannels.filter((channel) => channel.teammate_id != null).sort(sortByLastPost);
+        
+        const directMessageUsers = directMessageChannels.map((dm) => getUser(state, dm.teammate_id)).slice(0, 10);
+        console.log("Users retrieved: ", directMessageUsers);
 
         const usernamePrefix = captured[1];
 
         this.startNewRequest(usernamePrefix);
         
-        console.log("Current direct messages: ", dms);
         const data = await this.autocompleteUsersInTeam(usernamePrefix);
 
         if (this.shouldCancelDispatch(usernamePrefix)) {
             return;
         }
 
-        const users = Object.assign([], data.users);
+        // const autocompleteUsers = Object.assign([], data.users).slice(0, 25 - dmUsers.length);
+        const autocompleteUsers = Object.assign([], data.users);
+        const users = directMessageUsers.concat(autocompleteUsers)
         const mentions = users.map((user) => user.username);
+
+        console.log("Current api users: ", users);
 
         resultsCallback({
             matchedPretext: usernamePrefix,
