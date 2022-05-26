@@ -85,7 +85,7 @@ export type Store = {
     getState: () => GlobalState;
 }
 
-import ReduxStore from 'stores/redux_store';
+import ReduxStore from 'stores/redux_store.jsx';
 export const getStore = () => ReduxStore;
 
 export {getChannelSuggestions, getUserSuggestions, inTextMentionSuggestions} from '../mentions';

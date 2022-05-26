@@ -5,7 +5,7 @@ import React from 'react';
 
 import {Store} from 'redux';
 
-import globalStore from 'stores/redux_store';
+import globalStore from 'stores/redux_store.jsx';
 
 import Provider from '../provider';
 import {GlobalState} from 'types/store';

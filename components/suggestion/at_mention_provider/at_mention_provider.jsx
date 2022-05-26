@@ -5,7 +5,7 @@ import {getSuggestionsSplitBy, getSuggestionsSplitByMultiple} from 'mattermost-r
 import {makeGetProfilesInChannel} from 'mattermost-redux/selectors/entities/users';
 import {makeAddLastViewAtToProfiles} from 'mattermost-redux/selectors/entities/utils';
 
-import store from 'stores/redux_store';
+import store from 'stores/redux_store.jsx';
 import {Constants} from 'utils/constants';
 
 import Provider from '../provider.jsx';

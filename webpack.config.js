@@ -490,7 +490,8 @@ if (isDesktopApp) {
                 './root': 'components/root',
                 './crtWatcher': 'components/threading/channel_threads/posts_channel_reset_watcher',
                 './styles': 'sass/styles.scss',
-                './store': './stores/redux_store.jsx',
+                './reducerRegistry': './packages/mattermost-redux/src/store/reducer_registry',
+                './store': './store',
                 './websocket': 'client/web_websocket_client.jsx',
             },
             shared: {
@@ -498,6 +499,11 @@ if (isDesktopApp) {
                     singleton: true,
                     eager: true,
                     requiredVersion: deps.history,
+                },
+                'mattermost-redux/store/reducer_registry': {
+                    singleton: true,
+                    eager: true,
+                    import: false,
                 },
                 react: {
                     singleton: true,
