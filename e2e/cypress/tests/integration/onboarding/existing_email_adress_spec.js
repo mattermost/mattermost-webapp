@@ -23,16 +23,16 @@ function signupWithEmail(name, pw) {
     cy.findByText('Create an account', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').click();
 
     // # Type email address (by adding the uniqueUserId in the email address)
-    cy.get('#email').type('unique.' + uniqueUserId + '@sample.mattermost.com');
+    cy.get('#input_email').type('unique.' + uniqueUserId + '@sample.mattermost.com');
 
     // # Type 'unique-1' for username
-    cy.get('#name').type(name);
+    cy.get('#input_name').type(name);
 
     // # Type 'unique1pw' for password
-    cy.get('#password').type(pw);
+    cy.get('#input_password-input').type(pw);
 
     // # Click on Create Account button
-    cy.get('#createAccountButton').click();
+    cy.findByText('Create Account').click();
 }
 
 describe('Cloud Onboarding', () => {
@@ -65,6 +65,6 @@ describe('Cloud Onboarding', () => {
         signupWithEmail('unique-2', 'unique2pw');
 
         // * Error message displays below the Create Account button that says "An account with that email already exists"
-        cy.get('#existingEmailErrorContainer').should('contain', 'An account with that email already exists');
+        cy.findByText('An account with that email already exists.').should('be.visible');
     });
 });

@@ -82,11 +82,6 @@ export default class PostList extends React.PureComponent {
          */
         latestPostTimeStamp: PropTypes.number,
 
-        /*
-         * Used for handling the read logic when unmounting the component
-         */
-        channelManuallyUnread: PropTypes.bool.isRequired,
-
         /**
          * Lastest post id of the current post list, this doesnt include timestamps etc, just actual posts
          */
@@ -191,10 +186,6 @@ export default class PostList extends React.PureComponent {
     }
 
     componentWillUnmount() {
-        if (!this.props.channelManuallyUnread) {
-            this.markChannelAsReadAndViewed(this.props.channelId);
-        }
-
         this.mounted = false;
     }
 

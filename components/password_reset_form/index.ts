@@ -8,7 +8,7 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {resetUserPassword} from 'mattermost-redux/actions/users';
 
 import {GlobalState} from 'types/store';
-import {ServerError} from 'mattermost-redux/types/errors';
+import {ServerError} from '@mattermost/types/errors';
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 
 import PasswordResetForm from './password_reset_form';

@@ -65,6 +65,10 @@ const Preferences = {
     UNREAD_SCROLL_POSITION_START_FROM_LEFT: 'start_from_left_off',
     UNREAD_SCROLL_POSITION_START_FROM_NEWEST: 'start_from_newest',
 
+    CATEGORY_INSIGHTS: 'insights',
+    NAME_INSIGHTS_TUTORIAL_STATE: 'insights_tutorial_state',
+    INSIGHTS_VIEWED: 'insights_modal_viewed',
+
     CATEGORY_THEME: 'theme',
     THEMES: {
         denim: {

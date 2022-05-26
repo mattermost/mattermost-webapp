@@ -6,7 +6,6 @@ import {bindActionCreators} from 'redux';
 import {withRouter} from 'react-router-dom';
 
 import {getRecentPostsChunkInChannel, makeGetPostsChunkAroundPost, getUnreadPostsChunk, getPost} from 'mattermost-redux/selectors/entities/posts';
-import {isManuallyUnread} from 'mattermost-redux/selectors/entities/channels';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 import {markChannelAsRead, markChannelAsViewed} from 'mattermost-redux/actions/channels';
 import {makePreparePostIdsForPostList} from 'mattermost-redux/utils/post_list';
@@ -48,7 +47,6 @@ function makeMapStateToProps() {
         const channelViewState = state.views.channel;
         const lastViewedAt = channelViewState.lastChannelViewTime[channelId];
         const isPrefetchingInProcess = channelViewState.channelPrefetchStatus[channelId] === RequestStatus.STARTED;
-        const channelManuallyUnread = isManuallyUnread(state, channelId);
 
         //When unread scroll position is start_from_newest, unread posts and recent posts are loaded.
         //Until scroll reaches to unread section, there are more than two orders.
@@ -88,7 +86,6 @@ function makeMapStateToProps() {
             latestPostTimeStamp,
             postListIds: postIds,
             isPrefetchingInProcess,
-            channelManuallyUnread,
             shouldStartFromBottomWhenUnread,
             shouldHideNewMessageIndicator,
             isMobileView: getIsMobileView(state),
