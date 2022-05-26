@@ -94,6 +94,8 @@ export default class PostList extends React.PureComponent {
 
         shouldStartFromBottomWhenUnread: PropTypes.bool,
 
+        shouldHideNewMessageIndicator: PropTypes.bool,
+
         actions: PropTypes.shape({
 
             /**
@@ -565,6 +567,7 @@ export default class PostList extends React.PureComponent {
                 updateNewMessagesAtInChannel={this.updateNewMessagesAtInChannel}
                 updateLastViewedBottomAt={this.updateLastViewedBottomAt}
                 shouldStartFromBottomWhenUnread={this.props.shouldStartFromBottomWhenUnread}
+                shouldHideNewMessageIndicator={this.props.shouldHideNewMessageIndicator}
                 channelId={this.props.channelId}
                 focusedPostId={this.props.focusedPostId}
                 initScrollOffsetFromBottom={this.state.initScrollOffsetFromBottom}
