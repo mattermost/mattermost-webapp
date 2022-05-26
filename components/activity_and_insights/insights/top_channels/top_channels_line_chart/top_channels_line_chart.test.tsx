@@ -17,7 +17,6 @@ import TopChannelsLineChart from './top_channels_line_chart';
 
 const mockStore = configureStore([thunk]);
 
-
 jest.mock('mattermost-redux/actions/insights', () => ({
     ...jest.requireActual('mattermost-redux/actions/insights'),
     getMyTopChannels: () => ({type: 'adsf', data: {}}),
@@ -95,7 +94,7 @@ describe('components/activity_and_insights/insights/top_channels', () => {
                 '4r98uzxe4b8t5g9ntt9zcdzktw': 10,
                 '4r98uzxe4b8t5gfdsdfggsdfgs': 40,
             },
-        }
+        },
     };
 
     const store = mockStore({
@@ -120,7 +119,6 @@ describe('components/activity_and_insights/insights/top_channels', () => {
             },
         },
     });
-    
 
     test('should match snapshot', () => {
         const wrapper = mountWithIntl(
