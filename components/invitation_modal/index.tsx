@@ -25,8 +25,8 @@ import {
 } from 'actions/invite_actions';
 import {makeAsyncComponent} from 'components/async_load';
 
-import {Channel} from 'mattermost-redux/types/channels';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {Channel} from '@mattermost/types/channels';
+import {UserProfile} from '@mattermost/types/users';
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 
 import {GlobalState} from 'types/store';

@@ -5,7 +5,7 @@ import React from 'react';
 
 import {mountWithIntl} from '../../../tests/helpers/intl-test-helper';
 
-import {Invoice, InvoiceLineItemType} from 'mattermost-redux/types/cloud';
+import {Invoice, InvoiceLineItemType} from '@mattermost/types/cloud';
 
 import InvoiceUserCount from './invoice_user_count';
 

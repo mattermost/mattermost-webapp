@@ -10,7 +10,7 @@ import {Permissions} from 'mattermost-redux/constants';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {canManageMembers} from 'utils/channel_utils';
 import {GlobalState} from 'types/store';
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 
 import ChannelMembersDropdown from './channel_members_dropdown.jsx';
 

@@ -4,7 +4,7 @@
 import {InsightTypes} from 'mattermost-redux/action_types';
 import {GetStateFunc, DispatchFunc, ActionFunc} from 'mattermost-redux/types/actions';
 import {Client4} from 'mattermost-redux/client';
-import {TimeFrame, TopChannelActionResult, TopChannelResponse} from 'mattermost-redux/types/insights';
+import {TimeFrame, TopChannelActionResult, TopChannelResponse} from '@mattermost/types/insights';
 
 import {forceLogoutIfNecessary} from './helpers';
 import {logError} from './errors';
