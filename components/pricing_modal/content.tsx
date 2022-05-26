@@ -23,6 +23,8 @@ import StarMarkSvg from 'components/widgets/icons/star_mark_icon';
 import CheckMarkSvg from 'components/widgets/icons/check_mark_icon';
 import PlanLabel from 'components/common/plan_label';
 
+import StarterDisclaimer from './starter_disclaimer';
+
 const LearnMoreTrialModal = makeAsyncComponent('LearnMoreTrialModal', React.lazy(() => import('components/learn_more_trial_modal/learn_more_trial_modal')));
 
 import LadySvg from './lady.svg';
@@ -55,7 +57,7 @@ type CardProps = {
     price: string;
     rate?: string;
     briefing: PlanBriefing;
-    planDisclaimer?: string;
+    planExtraInformation?: JSX.Element;
     buttonDetails: ButtonDetails;
     extraAction?: ButtonDetails;
     planLabel?: JSX.Element;
@@ -103,9 +105,7 @@ function Card(props: CardProps) {
                             </div>
                         );
                     })}
-                    {props.planDisclaimer && (
-                        <p className='disclaimer'><i className='icon-alert-outline'/>{props.planDisclaimer}</p>
-                    )}
+                    {props.planExtraInformation && props.planExtraInformation}
                 </div>
                 <div>
                     <button
@@ -229,7 +229,7 @@ function Content(props: ContentProps) {
                         disabled: true, // disabled until we have functionality to downgrade
                         customClass: ButtonCustomiserClasses.grayed,
                     }}
-                    planDisclaimer={formatMessage({id: 'pricing_modal.planDisclaimer.starter', defaultMessage: 'This plan has data restrictions.'})}
+                    planExtraInformation={<StarterDisclaimer/>}
                     planLabel={
                         isStarter ? (
                             <PlanLabel

@@ -12,6 +12,8 @@ import GenericModal from 'components/generic_modal';
 import useGetLimits from 'components/common/hooks/useGetLimits';
 import useGetUsage from 'components/common/hooks/useGetUsage';
 
+import {Limits} from '@mattermost/types/cloud';
+
 import WorkspaceLimitsPanel, {Message, messageToElement} from './workspace_limits_panel';
 
 import './index.scss';
@@ -26,6 +28,7 @@ export interface Props {
     primaryAction?: ModalAction;
     secondaryAction?: ModalAction;
     onClose: () => void;
+    ownLimits?: Limits;
 
     // e.g. in contexts where the CompassThemeProvider isn't already applied, like the system console
     needsTheme?: boolean;
@@ -53,7 +56,7 @@ export default function CloudUsageModal(props: Props) {
                 </p>
                 <WorkspaceLimitsPanel
                     showIcons={true}
-                    limits={limits}
+                    limits={props.ownLimits || limits}
                     usage={usage}
                 />
             </>
