@@ -1,11 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {UserProfile} from 'mattermost-redux/types/users';
-import {ClientConfig, ClientLicense} from 'mattermost-redux/types/config';
-import {PreferenceType} from 'mattermost-redux/types/preferences';
-import {Role} from 'mattermost-redux/types/roles';
-import {Team} from 'mattermost-redux/types/teams';
+import {UserProfile} from '@mattermost/types/users';
+import {ClientConfig, ClientLicense} from '@mattermost/types/config';
+import {PreferenceType} from '@mattermost/types/preferences';
+import {Role} from '@mattermost/types/roles';
+import {Team} from '@mattermost/types/teams';
 
 const myDataQueryString = `
 query MyData {
