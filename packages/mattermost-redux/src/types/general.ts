@@ -3,8 +3,6 @@
 
 import {ClientLicense} from '@mattermost/types/config';
 
-export * from '@mattermost/types/general';
-
 export enum LicenseSkus {
     E10 = 'E10',
     E20 = 'E20',

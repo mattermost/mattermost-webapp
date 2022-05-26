@@ -496,6 +496,10 @@ export function handleEvent(msg) {
         handlePluginStatusesChangedEvent(msg);
         break;
 
+    case SocketEvents.INTEGRATIONS_USAGE_CHANGED:
+        handleIntegrationsUsageChangedEvent(msg);
+        break;
+
     case SocketEvents.OPEN_DIALOG:
         handleOpenDialogEvent(msg);
         break;
@@ -1334,6 +1338,10 @@ function handleLicenseChanged(msg) {
 
 function handlePluginStatusesChangedEvent(msg) {
     store.dispatch({type: AdminTypes.RECEIVED_PLUGIN_STATUSES, data: msg.data.plugin_statuses});
+}
+
+function handleIntegrationsUsageChangedEvent(msg) {
+    store.dispatch({type: CloudTypes.RECEIVED_INTEGRATIONS_USAGE, data: msg.data.usage.enabled});
 }
 
 function handleOpenDialogEvent(msg) {

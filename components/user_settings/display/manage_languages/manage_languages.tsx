@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 import ReactSelect, {ValueType} from 'react-select';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import * as I18n from 'i18n/i18n.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';

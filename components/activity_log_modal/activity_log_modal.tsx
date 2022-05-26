@@ -5,7 +5,7 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {Session} from 'mattermost-redux/types/sessions';
+import {Session} from '@mattermost/types/sessions';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import ActivityLog from 'components/activity_log_modal/components/activity_log';
