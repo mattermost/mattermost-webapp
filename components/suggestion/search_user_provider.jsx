@@ -7,6 +7,9 @@ import * as Utils from 'utils/utils';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import Avatar from 'components/widgets/users/avatar';
 import SharedUserIndicator from 'components/shared_user_indicator';
+import store from 'stores/redux_store.jsx';
+
+import {getAllDirectChannels} from 'mattermost-redux/selectors/entities/channels';
 
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
@@ -78,7 +81,10 @@ export default class SearchUserProvider extends Provider {
     constructor(userSearchFunc) {
         super();
         this.autocompleteUsersInTeam = userSearchFunc;
+        // console.log("In constructor: ", dms());
+        // this.dms = dms;
     }
+
 
     handlePretextChanged(pretext, resultsCallback) {
         const captured = (/\bfrom:\s*(\S*)$/i).exec(pretext.toLowerCase());
@@ -93,10 +99,14 @@ export default class SearchUserProvider extends Provider {
             return;
         }
 
+        const state = store.getState();
+        const dms = getAllDirectChannels(state);
+
         const usernamePrefix = captured[1];
 
         this.startNewRequest(usernamePrefix);
-
+        
+        console.log("Current direct messages: ", dms);
         const data = await this.autocompleteUsersInTeam(usernamePrefix);
 
         if (this.shouldCancelDispatch(usernamePrefix)) {
