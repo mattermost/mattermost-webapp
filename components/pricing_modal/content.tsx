@@ -297,13 +297,13 @@ function Content(props: ContentProps) {
                             formatMessage({id: 'pricing_modal.briefing.professional.messageBoardsIntegrationsCalls', defaultMessage: 'Unlimited access to messages and boards history, teams, integrations and calls'}),
                             formatMessage({id: 'pricing_modal.briefing.storage', defaultMessage: '{storage}GB file storage limit'}, {storage: '250'}),
                             formatMessage({id: 'pricing_modal.briefing.professional.advancedPlaybook', defaultMessage: 'Advanced Playbook workflows with retrospectives'}),
+                            formatMessage({id: 'pricing_modal.extra_briefing.professional.ssoSaml', defaultMessage: 'SSO with SAML 2.0, including Okta, OneLogin and ADFS'}),
                         ],
                     }}
                     extraBriefing={{
                         title: formatMessage({id: 'pricing_modal.extra_briefing.title', defaultMessage: 'More features'}),
                         items: [
                             formatMessage({id: 'pricing_modal.extra_briefing.professional.ssoadLdap', defaultMessage: 'SSO support with AD/LDAP, Google, O365, OpenID'}),
-                            formatMessage({id: 'pricing_modal.extra_briefing.professional.ssoSaml', defaultMessage: 'SSO with SAML 2.0, including Okta, OneLogin and ADFS'}),
                             formatMessage({id: 'pricing_modal.extra_briefing.professional.guestAccess', defaultMessage: 'Guest access with MFA enforcement'}),
                         ],
                     }}
