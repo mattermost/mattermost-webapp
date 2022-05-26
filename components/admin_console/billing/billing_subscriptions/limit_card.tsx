@@ -22,12 +22,18 @@ const LimitCard = (props: Props) => {
     if (props.fullWidth) {
         className += ' ProductLimitCard--full-width';
     }
+    let statusClassName = 'ProductLimitCard__status';
+    if (props.percent > 100) {
+        statusClassName += ' ProductLimitCard__status--exceeded';
+    }
+
     return (<div className={className}>
         <div className='ProductLimitCard__name'>
             <i className={props.icon}/>
             {props.name}
         </div>
-        <div className='ProductLimitCard__status'>
+        <div className={statusClassName}>
+            {(props.percent > 100) && <i className='icon icon-alert-outline'/>}
             {props.status}
         </div>
         <UsagePercentBar
