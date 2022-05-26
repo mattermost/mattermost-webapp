@@ -3,7 +3,7 @@
 
 import {Files, General} from '../constants';
 import {Client4} from 'mattermost-redux/client';
-import {FileInfo} from 'mattermost-redux/types/files';
+import {FileInfo} from '@mattermost/types/files';
 
 const mimeDB = require('mime-db');
 

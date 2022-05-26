@@ -11,7 +11,7 @@ import type {AppBinding, AppCallRequest, AppCallResponse} from '@mattermost/type
 import {Audit} from '@mattermost/types/audits';
 import {UserAutocomplete, AutocompleteSuggestion} from '@mattermost/types/autocomplete';
 import {Bot, BotPatch} from '@mattermost/types/bots';
-import {Product, Subscription, CloudCustomer, Address, CloudCustomerPatch, Invoice, Limits} from '@mattermost/types/cloud';
+import {Product, Subscription, CloudCustomer, Address, CloudCustomerPatch, Invoice, Limits, IntegrationsUsage} from '@mattermost/types/cloud';
 import {ChannelCategory, OrderedChannelCategories} from '@mattermost/types/channel_categories';
 import {
     Channel,
@@ -3746,6 +3746,12 @@ export default class Client4 {
         }
         return this.doFetch<Product[]>(
             `${this.getCloudRoute()}/products${query}`, {method: 'get'},
+        );
+    };
+
+    getIntegrationsUsage = () => {
+        return this.doFetch<IntegrationsUsage>(
+            `${this.getUsageRoute()}/integrations`, {method: 'get'},
         );
     };
 

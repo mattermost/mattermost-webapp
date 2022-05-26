@@ -23,6 +23,7 @@ export type CloudStartTrialBtnProps = {
     telemetryId: string;
     onClick?: () => void;
     extraClass?: string;
+    afterTrialRequest?: () => void;
 };
 
 enum TrialLoadStatus {
@@ -38,6 +39,7 @@ const CloudStartTrialButton = ({
     telemetryId,
     extraClass,
     onClick,
+    afterTrialRequest,
 }: CloudStartTrialBtnProps) => {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch<DispatchFunc>();
@@ -52,6 +54,9 @@ const CloudStartTrialButton = ({
             return TrialLoadStatus.Failed;
         }
         await dispatch(getLicenseConfig());
+        if (afterTrialRequest) {
+            afterTrialRequest();
+        }
         setLoadStatus(TrialLoadStatus.Success);
         return TrialLoadStatus.Success;
     };

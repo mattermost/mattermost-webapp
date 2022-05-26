@@ -4,7 +4,7 @@
 import React from 'react';
 import {fireEvent, screen} from '@testing-library/react';
 
-import {Channel, ChannelStats} from 'mattermost-redux/types/channels';
+import {Channel, ChannelStats} from '@mattermost/types/channels';
 import {renderWithIntl} from 'tests/react_testing_utils';
 import Constants from 'utils/constants';
 

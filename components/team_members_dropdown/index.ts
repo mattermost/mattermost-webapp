@@ -17,7 +17,7 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentRelativeTeamUrl, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
 

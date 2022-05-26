@@ -30,7 +30,6 @@ describe('Collapsed Reply Threads', () => {
             testUser = user;
             testChannel = channel;
 
-            cy.apiSaveShowStartTrialModal(testUser.id, 'true');
             cy.apiSaveCRTPreference(testUser.id, 'on');
             cy.apiCreateUser({prefix: 'other'}).then(({user: user1}) => {
                 otherUser = user1;

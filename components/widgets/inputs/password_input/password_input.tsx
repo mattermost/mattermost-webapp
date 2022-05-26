@@ -16,6 +16,7 @@ type PasswordInputProps = {
     onBlur?: FocusEventHandler<HTMLInputElement>;
     onFocus?: FocusEventHandler<HTMLInputElement>;
     hasError?: boolean;
+    info?: string;
     error?: string;
     createMode?: boolean;
     disabled?: boolean;
@@ -30,6 +31,7 @@ const PasswordInput = React.forwardRef((
         onBlur,
         onFocus,
         hasError,
+        info,
         error,
         createMode,
         disabled,
@@ -45,10 +47,10 @@ const PasswordInput = React.forwardRef((
 
     return (
         <Input
-            containerClassName={classNames('password-input', className)}
+            className={classNames('password-input', className)}
             wrapperClassName={'password-input-with-toggle'}
             name='password-input'
-            type={showPassword ? 'text' : 'password'}
+            type={showPassword && !disabled ? 'text' : 'password'}
             inputSize={inputSize}
             addon={
                 <button
@@ -56,8 +58,9 @@ const PasswordInput = React.forwardRef((
                     type='button'
                     className='password-input-toggle'
                     onClick={toggleShowPassword}
+                    disabled={disabled}
                 >
-                    <i className={showPassword ? 'icon-eye-off-outline' : 'icon-eye-outline'}/>
+                    <i className={showPassword && !disabled ? 'icon-eye-off-outline' : 'icon-eye-outline'}/>
                 </button>
             }
             value={value}
@@ -65,11 +68,12 @@ const PasswordInput = React.forwardRef((
             onBlur={onBlur}
             onFocus={onFocus}
             placeholder={createMode ? (
-                formatMessage({id: 'widget.passwordInput.createPassword', defaultMessage: 'Create your password'})
+                formatMessage({id: 'widget.passwordInput.createPassword', defaultMessage: 'Choose a Password'})
             ) : (
                 formatMessage({id: 'widget.passwordInput.password', defaultMessage: 'Password'})
             )}
             hasError={hasError}
+            info={info}
             error={error}
             disabled={disabled}
             ref={ref}

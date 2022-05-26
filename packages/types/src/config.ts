@@ -183,6 +183,7 @@ export type ClientConfig = {
     WebsocketSecurePort: string;
     WebsocketURL: string;
     ExperimentalSharedChannels: string;
+    EnableAppBar: string;
 };
 
 export type License = {

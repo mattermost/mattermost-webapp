@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {patchChannel} from 'mattermost-redux/actions/channels';
 import {ActionFunc, GenericAction, ActionResult} from 'mattermost-redux/types/actions';
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 
 import {GlobalState} from 'types/store';
 
