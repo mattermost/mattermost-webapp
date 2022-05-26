@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {CloudUsage} from 'mattermost-redux/types/cloud';
+import {CloudUsage} from '@mattermost/types/cloud';
 import {CloudTypes} from 'mattermost-redux/action_types';
 
 const emptyUsage = {
@@ -17,6 +17,10 @@ const emptyUsage = {
     boards: {
         cards: 0,
         cardsLoaded: false,
+    },
+    teams: {
+        active: 0,
+        teamsLoaded: false,
     },
     integrations: {
         enabled: 0,

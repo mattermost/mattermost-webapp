@@ -32,7 +32,7 @@ const SettingsButton = (props: Props): JSX.Element | null => {
 
     return (
         <OverlayTrigger
-            trigger={['hover']}
+            trigger={['hover', 'focus']}
             delayShow={Constants.OVERLAY_TIME_DELAY}
             placement='bottom'
             overlay={tooltip}

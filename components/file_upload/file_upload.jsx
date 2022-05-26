@@ -596,7 +596,7 @@ export class FileUpload extends PureComponent {
 
         if (this.props.pluginFileUploadMethods.length === 0) {
             bodyAction = (
-                <>
+                <div>
                     <button
                         type='button'
                         id='fileUploadButton'
@@ -613,7 +613,6 @@ export class FileUpload extends PureComponent {
                     </button>
                     <input
                         id='fileUploadInput'
-                        className='hidden'
                         tabIndex='-1'
                         aria-label={formatMessage(holders.uploadFile)}
                         ref={this.fileInput}
@@ -623,7 +622,7 @@ export class FileUpload extends PureComponent {
                         multiple={multiple}
                         accept={accept}
                     />
-                </>
+                </div>
             );
         } else {
             const pluginFileUploadMethods = this.props.pluginFileUploadMethods.map((item) => {
@@ -647,7 +646,7 @@ export class FileUpload extends PureComponent {
                 );
             });
             bodyAction = (
-                <>
+                <div>
                     <input
                         tabIndex='-1'
                         aria-label={formatMessage(holders.uploadFile)}
@@ -697,7 +696,7 @@ export class FileUpload extends PureComponent {
                             {pluginFileUploadMethods}
                         </Menu>
                     </MenuWrapper>
-                </>
+                </div>
             );
         }
 

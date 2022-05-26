@@ -5,7 +5,7 @@ import {combineReducers} from 'redux';
 import {PostTypes} from 'mattermost-redux/action_types';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {PostsRequestsStatuses, RequestStatusType} from 'mattermost-redux/types/requests';
+import {PostsRequestsStatuses, RequestStatusType} from '@mattermost/types/requests';
 
 import {handleRequest, initialRequestState} from './helpers';
 

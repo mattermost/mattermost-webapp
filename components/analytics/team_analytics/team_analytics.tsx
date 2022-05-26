@@ -4,11 +4,11 @@
 import React from 'react';
 import {FormattedDate, FormattedMessage} from 'react-intl';
 
-import {AnalyticsRow} from 'mattermost-redux/types/admin';
-import {RelationOneToOne} from 'mattermost-redux/types/utilities';
+import {AnalyticsRow} from '@mattermost/types/admin';
+import {RelationOneToOne} from '@mattermost/types/utilities';
 import {General} from 'mattermost-redux/constants';
-import {Team} from 'mattermost-redux/types/teams';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {Team} from '@mattermost/types/teams';
+import {UserProfile} from '@mattermost/types/users';
 
 import LoadingScreen from 'components/loading_screen';
 

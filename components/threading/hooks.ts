@@ -5,8 +5,8 @@ import {useMemo, useCallback} from 'react';
 import {useParams, useHistory} from 'react-router-dom';
 import {useSelector, shallowEqual} from 'react-redux';
 
-import {UserThread} from 'mattermost-redux/types/threads';
-import {Team} from 'mattermost-redux/types/teams';
+import {UserThread} from '@mattermost/types/threads';
+import {Team} from '@mattermost/types/teams';
 
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
