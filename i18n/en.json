@@ -5091,7 +5091,7 @@
   "workspace_limits.menu_limit.messages": "Total messages",
   "workspace_limits.menu_limit.over.boards_cards": "You’re over the {limit} board card limit. You can only access the most recent {limit} board cards. <a>{callToAction}</a>",
   "workspace_limits.menu_limit.over.files_storage": "You’re over the {limit} file storage limit. You can only access the most recent {limit} worth of files. <a>{callToAction}</a>",
-  "workspace_limits.menu_limit.over.integrations_enabled": "You’ve reached the {limit} enabled integrations limit. You can’t enable additional integrations. Upgrade to remove this limit.<a>{callToAction}</a>",
+  "workspace_limits.menu_limit.over.integrations_enabled": "You’ve reached the {limit} enabled integrations limit. You can’t enable additional integrations. Upgrade to remove this limit. <a>{callToAction}</a>",
   "workspace_limits.menu_limit.over.messages_history": "You’re over the free message history limit. You can only view up to the last {limit} messages in your history. <a>{callToAction}</a>",
   "workspace_limits.menu_limit.view_plans": "View plans",
   "workspace_limits.menu_limit.view_upgrade_options": "View upgrade options.",
