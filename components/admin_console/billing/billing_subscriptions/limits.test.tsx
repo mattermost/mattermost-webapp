@@ -70,6 +70,11 @@ function setupStore(hasLimits: boolean) {
                     enabled: 3,
                     enabledLoaded: true,
                 },
+                teams: {
+                    active: 0,
+                    cloudArchived: 0,
+                    teamsLoaded: true,
+                },
             },
             general: {
                 config: {
