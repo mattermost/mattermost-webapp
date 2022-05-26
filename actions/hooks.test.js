@@ -4,7 +4,13 @@
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
-import {runMessageWillBePostedHooks, runMessageWillBeUpdatedHooks, runSlashCommandWillBePostedHooks} from './hooks';
+import {
+    runMessageWillBePostedHooks,
+    runMessageWillBeUpdatedHooks,
+    runSlashCommandWillBePostedHooks,
+    runSearchInProductHook,
+    runRecentlyViewedProductItems,
+} from './hooks';
 
 const mockStore = configureStore([thunk]);
 
@@ -494,5 +500,79 @@ describe('runMessageWillBeUpdatedHooks', () => {
         expect(hook1).toHaveBeenCalledWith(newPost, oldPost);
         expect(hook2).toHaveBeenCalled();
         expect(hook2).toHaveBeenCalledWith(newPost, oldPost);
+    });
+});
+
+describe('runSearchInProductHook', () => {
+    test('should do nothing when no hooks are registered', async () => {
+        const store = mockStore({
+            plugins: {
+                components: {},
+            },
+        });
+
+        const result = await store.dispatch(runSearchInProductHook('sampleChannel'));
+
+        expect(result).toEqual({data: []});
+    });
+
+    test('should pass the channel through every hook', async () => {
+        const hook1 = jest.fn(() => ({data: [{name: 'hook1Product1'}, {name: 'hook1Product2'}]}));
+        const hook2 = jest.fn(() => ({data: [{name: 'hook2Product1'}, {name: 'hook2Product2'}]}));
+
+        const store = mockStore({
+            plugins: {
+                components: {
+                    SearchInProduct: [
+                        {hook: hook1},
+                        {hook: hook2},
+                    ],
+                },
+            },
+        });
+
+        const result = await store.dispatch(runSearchInProductHook('sampleChannel'));
+        expect(result).toEqual({data: [
+            {name: 'hook1Product1'},
+            {name: 'hook1Product2'},
+            {name: 'hook2Product1'},
+            {name: 'hook2Product2'},
+        ]});
+    });
+});
+
+describe('runRecentlyViewedProductItems', () => {
+    test('should do nothing when no hooks are registered', async () => {
+        const store = mockStore({
+            plugins: {
+                components: {},
+            },
+        });
+
+        const result = await store.dispatch(runRecentlyViewedProductItems());
+
+        expect(result).toEqual({data: []});
+    });
+
+    test('should pass the channel through every hook', async () => {
+        const hook1 = jest.fn(() => ({data: [{name: 'hook1Product1'}]}));
+        const hook2 = jest.fn(() => ({data: [{name: 'hook2Product1'}]}));
+
+        const store = mockStore({
+            plugins: {
+                components: {
+                    RecentlyViewedProductItems: [
+                        {hook: hook1},
+                        {hook: hook2},
+                    ],
+                },
+            },
+        });
+
+        const result = await store.dispatch(runRecentlyViewedProductItems());
+        expect(result).toEqual({data: [
+            {name: 'hook1Product1'},
+            {name: 'hook2Product1'},
+        ]});
     });
 });

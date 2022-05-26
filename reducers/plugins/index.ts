@@ -408,6 +408,58 @@ function insightsHandlers(state: PluginsState['insightsHandlers'] = {}, action: 
     }
 }
 
+function searchHandlers(state: PluginsState['searchHandlers'] = {}, action: GenericAction) {
+    switch (action.type) {
+    case ActionTypes.RECIEVED_PRODUCT_SEARCH_HANDLER:
+        if (action.data) {
+            const nextState = {...state};
+            nextState[action.data.pluginId] = action.data.handler;
+            return nextState;
+        }
+        return state;
+
+    case ActionTypes.RECEIVED_WEBAPP_PLUGIN:
+    case ActionTypes.REMOVED_WEBAPP_PLUGIN:
+        if (action.data) {
+            const nextState = {...state};
+            delete nextState[action.data.id];
+            return nextState;
+        }
+        return state;
+
+    case UserTypes.LOGOUT_SUCCESS:
+        return {};
+    default:
+        return state;
+    }
+}
+
+function recentlyViewedHandlers(state: PluginsState['recentlyViewedHandlers'] = {}, action: GenericAction) {
+    switch (action.type) {
+    case ActionTypes.RECIEVED_IN_PRODUCT_RECENTLY_VIEWED_HANDLER:
+        if (action.data) {
+            const nextState = {...state};
+            nextState[action.data.entityId] = action.data;
+            return nextState;
+        }
+        return state;
+
+    case ActionTypes.RECEIVED_WEBAPP_PLUGIN:
+    case ActionTypes.REMOVED_WEBAPP_PLUGIN:
+        if (action.data) {
+            const nextState = {...state};
+            delete nextState[action.data.id];
+            return nextState;
+        }
+        return state;
+
+    case UserTypes.LOGOUT_SUCCESS:
+        return {};
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
 
     // object where every key is a plugin id and values are webapp plugin manifests
@@ -440,4 +492,10 @@ export default combineReducers({
     // object where every key is a plugin id and the value is a promise to fetch insights from
     // a plugin to render on the insights page
     insightsHandlers,
+
+    // object where every key is a plugin id and the value is the in plugin search handler
+    searchHandlers,
+
+    // object where every key is a plugin id and the value is recently viewed plugin entities handler
+    recentlyViewedHandlers,
 });
