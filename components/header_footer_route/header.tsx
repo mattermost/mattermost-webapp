@@ -24,7 +24,7 @@ const Header = ({alternateMessage, alternateLinkPath, alternateLinkLabel, backBu
     const {EnableCustomBrand, SiteName} = useSelector(getConfig);
 
     return (
-        <div className='header'>
+        <div className='hfroute-header'>
             <div className='header-main'>
                 <Link
                     className='header-logo-link'

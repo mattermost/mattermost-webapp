@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {EmojiCategory} from 'mattermost-redux/types/emojis';
+import {EmojiCategory} from '@mattermost/types/emojis';
 
 import * as Emoji from 'utils/emoji.jsx';
 

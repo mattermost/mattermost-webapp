@@ -6,13 +6,13 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {GlobalState} from 'types/store/index.js';
 
-import {Post} from 'mattermost-redux/types/posts.js';
+import {Post} from '@mattermost/types/posts.js';
 
-import {FileInfo} from 'mattermost-redux/types/files.js';
+import {FileInfo} from '@mattermost/types/files.js';
 
 import {ActionResult} from 'mattermost-redux/types/actions.js';
 
-import {CommandArgs} from 'mattermost-redux/types/integrations.js';
+import {CommandArgs} from '@mattermost/types/integrations.js';
 
 import {PostDraft} from 'types/store/rhs.js';
 
@@ -26,7 +26,7 @@ import {getCurrentUserId, getStatusForUserId, getUser} from 'mattermost-redux/se
 import {haveICurrentChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getChannelTimezones, getChannelMemberCountsByGroup} from 'mattermost-redux/actions/channels';
 import {get, getInt, getBool, isCustomGroupsEnabled} from 'mattermost-redux/selectors/entities/preferences';
-import {PreferenceType} from 'mattermost-redux/types/preferences';
+import {PreferenceType} from '@mattermost/types/preferences';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {
     getCurrentUsersLatestPost,

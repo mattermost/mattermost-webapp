@@ -5,9 +5,9 @@ import React, {ChangeEvent, FormEvent, SyntheticEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import {UserProfile} from 'mattermost-redux/types/users';
-import {CustomEmoji} from 'mattermost-redux/types/emojis';
-import {Team} from 'mattermost-redux/types/teams';
+import {UserProfile} from '@mattermost/types/users';
+import {CustomEmoji} from '@mattermost/types/emojis';
+import {Team} from '@mattermost/types/teams';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
 

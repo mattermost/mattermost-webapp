@@ -17,12 +17,12 @@ import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles'
 import {getCurrentTeamId, getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {makeGetDisplayName, getCurrentUserId, getUser, UserMentionKey} from 'mattermost-redux/selectors/entities/users';
 
-import {Channel} from 'mattermost-redux/types/channels';
-import {ClientConfig, ClientLicense} from 'mattermost-redux/types/config';
-import {ServerError} from 'mattermost-redux/types/errors';
-import {Group} from 'mattermost-redux/types/groups';
-import {Post} from 'mattermost-redux/types/posts';
-import {Reaction} from 'mattermost-redux/types/reactions';
+import {Channel} from '@mattermost/types/channels';
+import {ClientConfig, ClientLicense} from '@mattermost/types/config';
+import {ServerError} from '@mattermost/types/errors';
+import {Group} from '@mattermost/types/groups';
+import {Post} from '@mattermost/types/posts';
+import {Reaction} from '@mattermost/types/reactions';
 
 import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
 import * as PostListUtils from 'mattermost-redux/utils/post_list';

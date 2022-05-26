@@ -10,6 +10,7 @@ import {
     getCloudProducts,
     getCloudSubscription,
 } from 'mattermost-redux/selectors/entities/cloud';
+
 import {openModal, closeModal} from 'actions/views/modals';
 import {asGBString} from 'utils/limits';
 import {ModalIdentifiers} from 'utils/constants';

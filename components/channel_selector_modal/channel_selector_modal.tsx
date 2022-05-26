@@ -5,7 +5,7 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {ChannelSearchOpts, ChannelWithTeamData} from 'mattermost-redux/types/channels';
+import {ChannelSearchOpts, ChannelWithTeamData} from '@mattermost/types/channels';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
 

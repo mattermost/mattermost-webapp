@@ -176,21 +176,4 @@ __Tips:__
         its('status').should('be.equal', 201);
 });
 
-Cypress.Commands.add('requireStorybookServer', () => {
-    const storybookUrl = Cypress.env().storybookUrl;
-    const helperMessage = `
-__Tips:__
-    1. In local development, you may run "__npm run storybook__" at root folder.
-    2. If reachable from remote host, you may export it as env variable, like "__CYPRESS_storybookUrl=[url] npm run cypress:open__".
-`;
-
-    cy.urlHealthCheck({
-        name: 'Storybook Server',
-        url: storybookUrl,
-        helperMessage,
-        method: 'get',
-        httpStatus: 200,
-    });
-});
-
 Cypress.Commands.overwrite('log', (subject, message) => cy.task('log', message));

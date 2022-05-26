@@ -61,7 +61,7 @@ describe('Authentication', () => {
         cy.visit('/login');
 
         // # Remove autofocus from login input
-        cy.focused().tab();
+        cy.get('.login-body-card-content').should('be.visible').focus();
 
         // # Clear email/username field and type username
         cy.apiGetClientLicense().then(({isLicensed}) => {
@@ -78,8 +78,8 @@ describe('Authentication', () => {
 
         // * Assert that email verification has been sent and then resend to make sure it gets resent
         cy.findByText('Resend Email').should('be.visible').and('exist').click();
-        cy.findByText('Verification email sent.').should('be.visible').and('exist');
-        cy.findByText('Mattermost: You are almost done').should('be.visible').and('exist');
+        cy.findByText('Verification email sent').should('be.visible').and('exist');
+        cy.findByText('You’re almost done!').should('be.visible').and('exist');
         cy.findByText('Please verify your email address. Check your inbox for an email.').should('be.visible').and('exist');
 
         cy.getRecentEmail(testUser).then(({body}) => {
@@ -150,14 +150,14 @@ describe('Authentication', () => {
         });
 
         // # Go to sign up with email page
-        cy.visit('/signup_email');
+        cy.visit('/signup_user_complete');
 
-        cy.get('#email', {timeout: TIMEOUTS.ONE_MIN}).type('Hossein_Is_The_Best_PROGRAMMER@BestInTheWorld.com');
+        cy.get('#input_email', {timeout: TIMEOUTS.ONE_MIN}).type('Hossein_Is_The_Best_PROGRAMMER@BestInTheWorld.com');
 
-        cy.get('#password').type('Test123456!');
+        cy.get('#input_password-input').type('Test123456!');
 
         ['1user', 'te', 'user#1', 'user!1'].forEach((option) => {
-            cy.get('#name').clear().type(option);
+            cy.get('#input_name').clear().type(option);
             cy.findByText('Create Account').click();
 
             // * Assert the error is what is expected;
@@ -182,13 +182,13 @@ describe('Authentication', () => {
         cy.findByText('Create an account', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Go to sign up with email page
-        cy.visit('/signup_email');
+        cy.visit('/signup_user_complete');
 
-        cy.get('#email', {timeout: TIMEOUTS.ONE_MIN}).type(`Hossein_Is_The_Best_PROGRAMMER${getRandomId()}@BestInTheWorld.com`);
+        cy.get('#input_email', {timeout: TIMEOUTS.ONE_MIN}).type(`Hossein_Is_The_Best_PROGRAMMER${getRandomId()}@BestInTheWorld.com`);
 
-        cy.get('#password').type('Test123456!');
+        cy.get('#input_password-input').type('Test123456!');
 
-        cy.get('#name').clear().type(`HosseinIs2Cool${getRandomId()}`);
+        cy.get('#input_name').clear().type(`HosseinIs2Cool${getRandomId()}`);
 
         cy.findByText('Create Account').click();
 
@@ -214,13 +214,13 @@ describe('Authentication', () => {
         cy.findByText('Create an account', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Go to sign up with email page
-        cy.visit('/signup_email');
+        cy.visit('/signup_user_complete');
 
-        cy.get('#email', {timeout: TIMEOUTS.ONE_MIN}).type(`Hossein_Is_The_Best_PROGRAMMER${getRandomId()}@BestInTheWorld.com`);
+        cy.get('#input_email', {timeout: TIMEOUTS.ONE_MIN}).type(`Hossein_Is_The_Best_PROGRAMMER${getRandomId()}@BestInTheWorld.com`);
 
-        cy.get('#password').type('Test123456!');
+        cy.get('#input_password-input').type('Test123456!');
 
-        cy.get('#name').clear().type(`HosseinIs2Cool${getRandomId()}`);
+        cy.get('#input_name').clear().type(`HosseinIs2Cool${getRandomId()}`);
 
         cy.findByText('Create Account').click();
 
@@ -247,13 +247,13 @@ describe('Authentication', () => {
         cy.findByText('Create an account', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Go to sign up with email page
-        cy.visit('/signup_email');
+        cy.visit('/signup_user_complete');
 
-        cy.get('#email', {timeout: TIMEOUTS.ONE_MIN}).type(`Hossein_Is_The_Best_PROGRAMMER${getRandomId()}@BestInTheWorld.com`);
+        cy.get('#input_email', {timeout: TIMEOUTS.ONE_MIN}).type(`Hossein_Is_The_Best_PROGRAMMER${getRandomId()}@BestInTheWorld.com`);
 
-        cy.get('#password').type('Test123456!');
+        cy.get('#input_password-input').type('Test123456!');
 
-        cy.get('#name').clear().type(`HosseinIs2Cool${getRandomId()}`);
+        cy.get('#input_name').clear().type(`HosseinIs2Cool${getRandomId()}`);
 
         cy.findByText('Create Account').click();
 
