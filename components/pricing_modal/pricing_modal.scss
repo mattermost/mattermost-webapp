@@ -169,7 +169,8 @@ $geyser: #dadfe5;
                 background-color: var(--center-channel-bg);
                 border-radius: 0 0 4px 4px;
 
-                .plan_briefing, .plan_extra_briefing {
+                .plan_briefing,
+                .plan_extra_briefing {
                     height: 250px;
                     margin-top: 16px;
 
@@ -197,6 +198,7 @@ $geyser: #dadfe5;
                         }
 
                         p {
+                            margin: 0;
                             color: rgba(33, 63, 107, 0.8);
                             font-family: 'Metropolis';
                             font-size: 14px;
@@ -204,7 +206,6 @@ $geyser: #dadfe5;
                             font-weight: 400;
                             letter-spacing: -0.02em;
                             line-height: 24px;
-                            margin: 0;
                         }
                     }
 
