@@ -50,8 +50,11 @@ function makeMapStateToProps() {
         const isPrefetchingInProcess = channelViewState.channelPrefetchStatus[channelId] === RequestStatus.STARTED;
         const channelManuallyUnread = isManuallyUnread(state, channelId);
 
+        //When unread scroll position is start_from_newest, unread posts and recent posts are loaded.
+        //Until scroll reaches to unread section, there are more than two orders.
+        //If scroll reaches to unread section, orders are merged and length becomes 1.
         const orders = state.entities.posts.postsInChannel[channelId] ?? [];
-        const needMoreToReachUnread = shouldStartFromBottomWhenUnread && orders.length > 1;
+        const shouldHideNewMessageIndicator = shouldStartFromBottomWhenUnread && orders.length > 1;
 
         if (focusedPostId && unreadChunkTimeStamp !== '') {
             chunk = getPostsChunkAroundPost(state, focusedPostId, channelId);
@@ -68,7 +71,7 @@ function makeMapStateToProps() {
         }
 
         if (postIds) {
-            formattedPostIds = preparePostIdsForPostList(state, {postIds, lastViewedAt, indicateNewMessages: !needMoreToReachUnread, channelId});
+            formattedPostIds = preparePostIdsForPostList(state, {postIds, lastViewedAt, indicateNewMessages: !shouldHideNewMessageIndicator, channelId});
             if (postIds.length) {
                 const latestPostId = memoizedGetLatestPostId(postIds);
                 const latestPost = getPost(state, latestPostId);
@@ -86,7 +89,8 @@ function makeMapStateToProps() {
             postListIds: postIds,
             isPrefetchingInProcess,
             channelManuallyUnread,
-            needMoreToReachUnread,
+            shouldStartFromBottomWhenUnread,
+            shouldHideNewMessageIndicator,
             isMobileView: getIsMobileView(state),
         };
     };

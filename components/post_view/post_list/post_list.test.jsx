@@ -42,7 +42,6 @@ const baseProps = {
     postListIds: [],
     changeUnreadChunkTimeStamp: jest.fn(),
     toggleShouldStartFromBottomWhenUnread: jest.fn(),
-    needMoreToReachUnread: false,
     isFirstLoad: true,
     atLatestPost: false,
     formattedPostIds: [],

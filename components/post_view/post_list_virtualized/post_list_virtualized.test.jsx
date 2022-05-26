@@ -38,7 +38,6 @@ describe('PostList', () => {
         atOldestPost: false,
         atLatestPost: false,
         isMobileView: false,
-        needMoreToReachUnread: false,
         actions: baseActions,
     };
 

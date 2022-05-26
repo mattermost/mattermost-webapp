@@ -92,7 +92,7 @@ export default class PostList extends React.PureComponent {
 
         isMobileView: PropTypes.bool.isRequired,
 
-        needMoreToReachUnread: PropTypes.bool.isRequired,
+        shouldStartFromBottomWhenUnread: PropTypes.bool,
 
         actions: PropTypes.shape({
 
@@ -494,6 +494,13 @@ export default class PostList extends React.PureComponent {
             };
         }
 
+        if (this.props.atLatestPost && this.props.shouldStartFromBottomWhenUnread) {
+            return {
+                index: 0,
+                position: 'end',
+            };
+        }
+
         const newMessagesSeparatorIndex = getNewMessageIndex(this.state.postListIds);
 
         if (newMessagesSeparatorIndex > 0) {
@@ -528,9 +535,7 @@ export default class PostList extends React.PureComponent {
     }
 
     scrollToUnreadMessages = () => {
-        if (this.props.needMoreToReachUnread) {
-            this.props.actions.toggleShouldStartFromBottomWhenUnread();
-        }
+        this.props.actions.toggleShouldStartFromBottomWhenUnread();
     }
 
     scrollToBottom = () => {
@@ -557,9 +562,9 @@ export default class PostList extends React.PureComponent {
                 scrollToUnreadMessages={this.scrollToUnreadMessages}
                 scrollToNewMessage={this.scrollToNewMessage}
                 scrollToLatestMessages={this.scrollToLatestMessages}
-                needMoreToReachUnread={this.props.needMoreToReachUnread}
                 updateNewMessagesAtInChannel={this.updateNewMessagesAtInChannel}
                 updateLastViewedBottomAt={this.updateLastViewedBottomAt}
+                shouldStartFromBottomWhenUnread={this.props.shouldStartFromBottomWhenUnread}
                 channelId={this.props.channelId}
                 focusedPostId={this.props.focusedPostId}
                 initScrollOffsetFromBottom={this.state.initScrollOffsetFromBottom}
