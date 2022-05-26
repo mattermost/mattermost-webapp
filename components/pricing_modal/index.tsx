@@ -3,10 +3,12 @@
 
 import React, {useState} from 'react';
 import {Modal} from 'react-bootstrap';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {closeModal} from 'actions/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
+import {isModalOpen} from 'selectors/views/modals';
+import {GlobalState} from 'types/store';
 
 import Content from './content';
 
@@ -15,6 +17,17 @@ import './pricing_modal.scss';
 function PricingModal() {
     const [showModal, setShowModal] = useState(true);
     const dispatch = useDispatch();
+    const isCloudPurchaseModalOpen = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.CLOUD_PURCHASE));
+
+    const onHide = () => {
+        // this fixes problem when both pricing modal and purchase modal are open and subsequently, when a user closes the pricing modal,
+        // the purchase modal becomes unresponsive for sometime because the pricing modal is still in the DOM.
+        if (isCloudPurchaseModalOpen) {
+            dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
+        } else {
+            setShowModal(false);
+        }
+    };
 
     return (
         <Modal
@@ -26,17 +39,13 @@ function PricingModal() {
             }}
             data-testid='pricingModal'
             dialogClassName='a11y__modal'
-            onHide={() => {
-                setShowModal(false);
-            }}
+            onHide={onHide}
             role='dialog'
             aria-modal='true'
             aria-labelledby='pricing_modal_title'
         >
             <Content
-                onHide={() => {
-                    setShowModal(false);
-                }}
+                onHide={onHide}
             />
 
         </Modal>

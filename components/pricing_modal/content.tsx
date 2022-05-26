@@ -11,7 +11,7 @@ import {GlobalState} from 'types/store';
 import {trackEvent} from 'actions/telemetry_actions';
 import {CloudLinks, CloudProducts, ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
 import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
-import {openModal} from 'actions/views/modals';
+import {closeModal, openModal} from 'actions/views/modals';
 import {
     getCloudSubscription as selectCloudSubscription,
     getSubscriptionProduct as selectSubscriptionProduct,
@@ -21,6 +21,7 @@ import PurchaseModal from 'components/purchase_modal';
 import {makeAsyncComponent} from 'components/async_load';
 import StarMarkSvg from 'components/widgets/icons/star_mark_icon';
 import CheckMarkSvg from 'components/widgets/icons/check_mark_icon';
+import PlanLabel from 'components/common/plan_label';
 
 const LearnMoreTrialModal = makeAsyncComponent('LearnMoreTrialModal', React.lazy(() => import('components/learn_more_trial_modal/learn_more_trial_modal')));
 
@@ -64,36 +65,9 @@ type ContentProps = {
     onHide: () => void;
 }
 
-type PlanLabelProps = {
-    text: string;
-    bgColor: string;
-    color: string;
-    firstSvg: JSX.Element;
-    secondSvg?: JSX.Element;
-}
-
 type StyledProps = {
     bgColor?: string;
     color?: string;
-}
-
-const StyledPlanLabel = styled.div<StyledProps>`
-background-color: ${(props) => props.bgColor};
-color: ${(props) => props.color};
-`;
-
-function PlanLabel(props: PlanLabelProps) {
-    return (
-        <StyledPlanLabel
-            className='planLabel'
-            bgColor={props.bgColor}
-            color={props.color}
-        >
-            {props.firstSvg}
-            {props.text}
-            {props.secondSvg}
-        </StyledPlanLabel>
-    );
 }
 
 const StyledDiv = styled.div<StyledProps>`
@@ -191,6 +165,7 @@ function Content(props: ContentProps) {
             'open_learn_more_trial_modal',
         );
         props.onHide();
+        dispatch(closeModal(ModalIdentifiers.CLOUD_PURCHASE)); // close the purchase modal if it's open
         dispatch(openModal({
             modalId: ModalIdentifiers.LEARN_MORE_TRIAL_MODAL,
             dialogType: LearnMoreTrialModal,
