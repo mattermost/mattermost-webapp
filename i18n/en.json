@@ -353,7 +353,6 @@
   "admin.billing.subscription.stateprovince": "State/Province",
   "admin.billing.subscription.title": "Subscription",
   "admin.billing.subscription.updatePaymentInfo": "Update Payment Information",
-  "admin.billing.subscription.upgrade": "Upgrade",
   "admin.billing.subscription.upgradedSuccess": "Great! You're now upgraded",
   "admin.billing.subscription.upgradeMattermostCloud.description": "The free tier is limited to 10 users. Get access to more users, teams and other great features.",
   "admin.billing.subscription.upgradeMattermostCloud.title": "Subscribe to Mattermost",
