@@ -5,9 +5,11 @@ import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {noop} from 'lodash';
 
+import useGetUsage from 'components/common/hooks/useGetUsage';
+import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import Tooltip from 'components/tooltip';
 
 import {ModalIdentifiers} from 'utils/constants';
@@ -32,6 +34,8 @@ export function TeamProfile({team, isArchived, isDisabled, onToggleArchive, save
     const teamIconUrl = Utils.imageURLForTeam(team);
     const usageDeltas = useGetUsageDeltas();
     const dispatch = useDispatch();
+    const usage = useGetUsage();
+    const license = useSelector(getLicense);
 
     const [overrideRestoreDisabled, setOverrideRestoreDisabled] = useState(false);
     const [restoreDisabled, setRestoreDisabled] = useState(usageDeltas.teams.teamsLoaded && usageDeltas.teams.active >= 0 && isArchived);
@@ -39,6 +43,11 @@ export function TeamProfile({team, isArchived, isDisabled, onToggleArchive, save
     useEffect(() => {
         setRestoreDisabled(usageDeltas.teams.teamsLoaded && usageDeltas.teams.active >= 0 && isArchived && !overrideRestoreDisabled && !saveNeeded);
     }, [usageDeltas, isArchived, overrideRestoreDisabled, saveNeeded]);
+
+    // If in a cloud context and the teams usage hasn't loaded, don't render anything to prevent weird flashes on the screen
+    if (license.Cloud === 'true' && !usage.teams.teamsLoaded) {
+        return null;
+    }
 
     let archiveBtnID;
     let archiveBtnDefault;
@@ -66,13 +75,22 @@ export function TeamProfile({team, isArchived, isDisabled, onToggleArchive, save
                     disabled={!restoreDisabled}
                     overlay={
                         <Tooltip id='sharedTooltip'>
-                            <FormattedMessage
-                                id={'workspace_limits.teams_limit_reached.tool_tip'}
-                                defaultMessage={'You\'ve reached the team limit for your current plan. Consider upgrading or deactivating other teams'}
-                            />
+                            <div className={'tooltip-title'}>
+                                <FormattedMessage
+                                    id={'workspace_limits.teams_limit_reached.upgrade_to_unarchive'}
+                                    defaultMessage={'Upgrade to Unarchive'}
+                                />
+                            </div>
+                            <div className={'tooltip-body'}>
+                                <FormattedMessage
+                                    id={'workspace_limits.teams_limit_reached.tool_tip'}
+                                    defaultMessage={'You\'ve reached the team limit for your current plan. Consider upgrading or deactivating other teams'}
+                                />
+                            </div>
                         </Tooltip>
                     }
                 >
+                    {/* OverlayTrigger doesn't play nicely with `disabled` buttons, because the :hover events don't fire. This is a workaround to ensure the popover appears see: https://github.com/react-bootstrap/react-bootstrap/issues/1588*/}
                     <div
                         className={'disabled-overlay-wrapper'}
                     >
@@ -200,7 +218,10 @@ export function TeamProfile({team, isArchived, isDisabled, onToggleArchive, save
                                     )
                                 }
                             >
-                                {'View Upgrade Options'}
+                                <FormattedMessage
+                                    id={'workspace_limits.teams_limit_reached.view_upgrade_options'}
+                                    defaultMessage={'View upgrade options'}
+                                />
                             </button>}
                     </div>
                 </div>

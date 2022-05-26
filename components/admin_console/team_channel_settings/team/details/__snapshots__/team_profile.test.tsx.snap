@@ -773,10 +773,22 @@ exports[`admin_console/team_channel_settings/team/TeamProfile__Cloud should matc
                   <Tooltip
                     id="sharedTooltip"
                   >
-                    <Memo(MemoizedFormattedMessage)
-                      defaultMessage="You've reached the team limit for your current plan. Consider upgrading or deactivating other teams"
-                      id="workspace_limits.teams_limit_reached.tool_tip"
-                    />
+                    <div
+                      className="tooltip-title"
+                    >
+                      <Memo(MemoizedFormattedMessage)
+                        defaultMessage="Upgrade to Unarchive"
+                        id="workspace_limits.teams_limit_reached.upgrade_to_unarchive"
+                      />
+                    </div>
+                    <div
+                      className="tooltip-body"
+                    >
+                      <Memo(MemoizedFormattedMessage)
+                        defaultMessage="You've reached the team limit for your current plan. Consider upgrading or deactivating other teams"
+                        id="workspace_limits.teams_limit_reached.tool_tip"
+                      />
+                    </div>
                   </Tooltip>
                 }
                 placement="bottom"
@@ -830,10 +842,22 @@ exports[`admin_console/team_channel_settings/team/TeamProfile__Cloud should matc
                         }
                       }
                     >
-                      <Memo(MemoizedFormattedMessage)
-                        defaultMessage="You've reached the team limit for your current plan. Consider upgrading or deactivating other teams"
-                        id="workspace_limits.teams_limit_reached.tool_tip"
-                      />
+                      <div
+                        className="tooltip-title"
+                      >
+                        <Memo(MemoizedFormattedMessage)
+                          defaultMessage="Upgrade to Unarchive"
+                          id="workspace_limits.teams_limit_reached.upgrade_to_unarchive"
+                        />
+                      </div>
+                      <div
+                        className="tooltip-body"
+                      >
+                        <Memo(MemoizedFormattedMessage)
+                          defaultMessage="You've reached the team limit for your current plan. Consider upgrading or deactivating other teams"
+                          id="workspace_limits.teams_limit_reached.tool_tip"
+                        />
+                      </div>
                     </OverlayWrapper>
                   }
                   placement="bottom"
@@ -899,7 +923,14 @@ exports[`admin_console/team_channel_settings/team/TeamProfile__Cloud should matc
                 onClick={[Function]}
                 type="button"
               >
-                View Upgrade Options
+                <FormattedMessage
+                  defaultMessage="View upgrade options"
+                  id="workspace_limits.teams_limit_reached.view_upgrade_options"
+                >
+                  <span>
+                    View upgrade options
+                  </span>
+                </FormattedMessage>
               </button>
             </div>
           </div>

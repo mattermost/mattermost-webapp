@@ -5091,6 +5091,8 @@
   "workspace_limits.modals.limits_reached.title": "{limitName} limit reached",
   "workspace_limits.modals.view_plans": "View plans",
   "workspace_limits.teams_limit_reached.tool_tip": "You've reached the team limit for your current plan. Consider upgrading or deactivating other teams",
+  "workspace_limits.teams_limit_reached.view_upgrade_options": "View upgrade options",
+  "workspace_limits.teams_limit_reached.upgrade_to_unarchive": "Upgrade to Unarchive",
   "workspace_limits.upgrade": "Upgrade to avoid {planName} data limits",
   "yourcomputer": "Your computer"
 }
