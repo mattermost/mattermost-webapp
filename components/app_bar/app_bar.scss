@@ -100,6 +100,20 @@ $channel-view-padding: 63px;
                 }
             }
         }
+
+        .app-bar__old-icon {
+            color: rgba(var(--center-channel-color-rgb), 0.56);
+
+            &:hover,
+            &--active {
+                color: rgba(var(--center-channel-color-rgb), 0.72);
+            }
+        }
+
+        .app-bar__icon-inner--centered {
+            display: grid;
+            place-items: center;
+        }
     }
 
     .app-bar__icon.channel-header__icon--active {
