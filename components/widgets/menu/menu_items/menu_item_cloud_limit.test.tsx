@@ -31,6 +31,17 @@ const zeroUsage = {
     },
 };
 
+const general = {
+    license: {
+        IsLicensed: 'true',
+        Cloud: 'true',
+    },
+};
+
+const subscription = {
+    is_free_trial: 'false',
+}
+
 const messageLimit = 10000;
 const warnMessageUsage = Math.ceil((limitThresholds.warn / 100) * messageLimit) + 1;
 const critialMessageUsage = Math.ceil((limitThresholds.danger / 100) * messageLimit) + 1;
@@ -113,12 +124,7 @@ describe('components/widgets/menu/menu_items/menu_item_cloud_limit', () => {
     test('Does not render if free trial', () => {
         const state = {
             entities: {
-                general: {
-                    license: {
-                        IsLicensed: 'true',
-                        Cloud: 'true',
-                    },
-                },
+                general,
                 cloud: {
                     subscription: {
                         is_free_trial: 'true',
@@ -137,16 +143,9 @@ describe('components/widgets/menu/menu_items/menu_item_cloud_limit', () => {
     test('Does not render if no highest limit', () => {
         const state = {
             entities: {
-                general: {
-                    license: {
-                        IsLicensed: 'true',
-                        Cloud: 'true',
-                    },
-                },
+                general,
                 cloud: {
-                    subscription: {
-                        is_free_trial: 'false',
-                    },
+                    subscription,
                     limits,
                 },
                 users,
@@ -162,16 +161,9 @@ describe('components/widgets/menu/menu_items/menu_item_cloud_limit', () => {
     test('renders when a limit needs attention', () => {
         const state = {
             entities: {
-                general: {
-                    license: {
-                        IsLicensed: 'true',
-                        Cloud: 'true',
-                    },
-                },
+                general,
                 cloud: {
-                    subscription: {
-                        is_free_trial: 'false',
-                    },
+                    subscription,
                     limits,
                 },
                 users,
@@ -186,16 +178,9 @@ describe('components/widgets/menu/menu_items/menu_item_cloud_limit', () => {
     test('shows more attention grabbing UI if a limit is very close', () => {
         const state = {
             entities: {
-                general: {
-                    license: {
-                        IsLicensed: 'true',
-                        Cloud: 'true',
-                    },
-                },
+                general,
                 cloud: {
-                    subscription: {
-                        is_free_trial: 'false',
-                    },
+                    subscription,
                     limits,
                 },
                 users,
