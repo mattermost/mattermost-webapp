@@ -334,10 +334,9 @@ export function makeSortChannelsByNameWithDMs(): (state: GlobalState, channels: 
 export function makeSortChannelsByRecency(): (state: GlobalState, channels: Channel[]) => Channel[] {
     return createSelector(
         'makeSortChannelsByRecency',
-        (state: GlobalState, channels: Channel[]) => channels,
-        getLastPostPerChannel,
+        (_state: GlobalState, channels: Channel[]) => channels,
         isCollapsedThreadsEnabled,
-        (channels, lastPosts, crtEnabled) => {
+        (channels, crtEnabled) => {
             return [...channels].sort((a, b) => {
                 const aLastPostAt = Math.max(crtEnabled ? (a.last_root_post_at || a.last_post_at) : a.last_post_at, a.create_at);
                 const bLastPostAt = Math.max(crtEnabled ? (b.last_root_post_at || b.last_post_at) : b.last_post_at, b.create_at);
@@ -347,34 +346,10 @@ export function makeSortChannelsByRecency(): (state: GlobalState, channels: Chan
     );
 }
 
-export function makeUnshiftCurrentUserWithDMs(): (state: GlobalState, channels: Channel[]) => Channel[] {
-    return createSelector(
-        'makeUnshiftCurrentUserWithDMs',
-        (_state: GlobalState, channels: Channel[]) => channels,
-        getCurrentUserId,
-        (channels: Channel[], currentUserId: string) => {
-            const sortedChannels = [...channels];
-            for (let i = 0; i < channels.length; i++) {
-                const channel = channels[i];
-                const teammateId = getUserIdFromChannelName(currentUserId, channel.name);
-                if (teammateId && teammateId === currentUserId) {
-                    // DM (you) need to be on top of the list of reads DMs
-                    sortedChannels.splice(i, 1);
-                    sortedChannels.unshift(channel);
-                    break;
-                }
-            }
-
-            return sortedChannels;
-        },
-    );
-}
-
 export function makeSortChannels() {
     const sortChannelsByName = makeSortChannelsByName();
     const sortChannelsByNameWithDMs = makeSortChannelsByNameWithDMs();
-    const sortChannelsByRecency = makeSortChannelsByRecency();
-    const unshiftCurrentUserWithDMs = makeUnshiftCurrentUserWithDMs();
+    const sortChannelsByRecency = makeSortChannelsByRecency();    
 
     return (state: GlobalState, originalChannels: Channel[], category: ChannelCategory) => {
         let channels = originalChannels;
@@ -384,9 +359,6 @@ export function makeSortChannels() {
 
         if (category.sorting === CategorySorting.Recency) {
             channels = sortChannelsByRecency(state, channels);
-            if (channels.some((channel) => channel.type === General.DM_CHANNEL)) {
-                channels = unshiftCurrentUserWithDMs(state, channels);
-            }
         } else if (category.sorting === CategorySorting.Alphabetical || category.sorting === CategorySorting.Default) {
             if (channels.some((channel) => channel.type === General.DM_CHANNEL || channel.type === General.GM_CHANNEL)) {
                 channels = sortChannelsByNameWithDMs(state, channels);
