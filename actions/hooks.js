@@ -89,3 +89,58 @@ export function runMessageWillBeUpdatedHooks(newPost, oldPost) {
         return {data: post};
     };
 }
+
+export function runSearchInProductHandler(searchTerm) {
+    return async (_dispath, getState) => {
+        const state = getState();
+
+        const handlers = Object.values(state.plugins.searchHandlers);
+        if (!handlers || handlers.length === 0) {
+            return {data: []};
+        }
+
+        const searchResultsPromises = handlers.map((handler) => {
+            return handler(searchTerm);
+        });
+
+        const searchResults = await Promise.all(searchResultsPromises);
+
+        let data = [];
+        searchResults.forEach((result) => {
+            if (!result.error) {
+                data = [...data, ...result.data];
+            }
+        });
+
+        return {data};
+    };
+}
+
+export function runRecentlyViewedInProductHandler() {
+    return async (_dispatch, getState) => {
+        const state = getState();
+
+        const hooks = state.plugins.components.RecentlyViewedProductItems;
+        if (!hooks || hooks.length === 0) {
+            return {data: []};
+        }
+
+        let recentSearches = [];
+
+        for (const hook of hooks) {
+            const result = await hook.hook(); // eslint-disable-line no-await-in-loop
+
+            if (result) {
+                if (result.error) {
+                    return {
+                        error: result.error,
+                    };
+                }
+
+                recentSearches = [...recentSearches, ...result.data];
+            }
+        }
+
+        return {data: recentSearches};
+    };
+}
