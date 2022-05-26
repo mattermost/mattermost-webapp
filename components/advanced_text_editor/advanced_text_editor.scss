@@ -17,12 +17,12 @@
             box-shadow: none;
         }
 
-        .custom-textarea--emoji-picker {
-            box-shadow: none;
+        &.custom-textarea--emoji-picker {
+            padding-right: 50px;
         }
 
-        .textbox-preview-area {
-            padding-right: 46px;
+        &.textbox-preview-area {
+            padding-right: 50px;
         }
     }
 
@@ -30,13 +30,6 @@
         position: relative;
         border: 2px solid rgba(var(--center-channel-color-rgb), 0.16);
         border-radius: 4px;
-
-        &--collapsed {
-            .custom-textarea.textbox-preview-area {
-                padding-right: 90px;
-            }
-        }
-
         &:focus-visible,
         &:focus-within,
         &:focus-visible:hover,

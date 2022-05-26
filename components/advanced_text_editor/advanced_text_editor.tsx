@@ -361,11 +361,7 @@ const AdvanceTextEditor = ({
                 } as CSSProperties) : undefined
             }
         >
-            <div
-                className={classNames('AdvancedTextEditor__body', {
-                    'AdvancedTextEditor__body--collapsed': isFormattingBarHidden,
-                })}
-            >
+            <div className={'AdvancedTextEditor__body'}>
                 <div
                     role='application'
                     id='centerChannelFooter'
