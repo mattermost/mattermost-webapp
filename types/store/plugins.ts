@@ -18,6 +18,10 @@ import {GlobalState} from 'types/store';
 
 export type PluginSiteStatsHandler = () => Promise<Record<string, PluginAnalyticsRow>>;
 
+export type SearchHandlers = (term: string) => Promise<any[]>; // TODO: make this more specific
+
+export type RecentlyViewedHandler = () => Promise<any[]>; // TODO: make this more specific
+
 export type PluginsState = {
     plugins: IDMappedObjects<ClientPluginManifest>;
 
@@ -57,6 +61,12 @@ export type PluginsState = {
     };
     insightsHandlers: {
         [pluginId: string]: (timeRange: string, page: number, perPage: number, teamId: string, insightType: string) => Promise<TopBoardResponse>;
+    };
+    searchHandlers: {
+        [pluginId: string]: SearchHandlers;
+    };
+    recentlyViewedHandlers: {
+        [pluginId: string]: RecentlyViewedHandler;
     };
 };
 
