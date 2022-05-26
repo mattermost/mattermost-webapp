@@ -353,6 +353,7 @@
   "admin.billing.subscription.stateprovince": "State/Province",
   "admin.billing.subscription.title": "Subscription",
   "admin.billing.subscription.updatePaymentInfo": "Update Payment Information",
+  "admin.billing.subscription.upgrade": "",
   "admin.billing.subscription.upgradedSuccess": "Great! You're now upgraded",
   "admin.billing.subscription.upgradeMattermostCloud.description": "The free tier is limited to 10 users. Get access to more users, teams and other great features.",
   "admin.billing.subscription.upgradeMattermostCloud.title": "Subscribe to Mattermost",
@@ -5091,8 +5092,8 @@
   "workspace_limits.modals.limits_reached.title": "{limitName} limit reached",
   "workspace_limits.modals.view_plans": "View plans",
   "workspace_limits.teams_limit_reached.tool_tip": "You've reached the team limit for your current plan. Consider upgrading or deactivating other teams",
-  "workspace_limits.teams_limit_reached.view_upgrade_options": "View upgrade options",
   "workspace_limits.teams_limit_reached.upgrade_to_unarchive": "Upgrade to Unarchive",
+  "workspace_limits.teams_limit_reached.view_upgrade_options": "View upgrade options",
   "workspace_limits.upgrade": "Upgrade to avoid {planName} data limits",
   "yourcomputer": "Your computer"
 }
