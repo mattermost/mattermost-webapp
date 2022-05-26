@@ -9,7 +9,9 @@ import {useSelector, useDispatch} from 'react-redux';
 import {t} from 'utils/i18n';
 
 import AnnouncementBar from '../default_announcement_bar';
-import {AnnouncementBarTypes, Preferences, CloudBanners} from 'utils/constants';
+import {AnnouncementBarTypes, Preferences, CloudBanners, ModalIdentifiers} from 'utils/constants';
+import {openModal} from 'actions/views/modals';
+import PricingModal from 'components/pricing_modal';
 import {anyUsageDeltaValueIsNegative} from 'utils/limits';
 import {GlobalState} from 'types/store';
 import useGetUsageDeltas from 'components/common/hooks/useGetUsageDeltas';
@@ -29,7 +31,7 @@ const CloudTrialEndAnnouncementBar: React.FC = () => {
     const getCategory = makeGetCategory();
     const dispatch = useDispatch();
     const preferences = useSelector((state: GlobalState) =>
-        getCategory(state, Preferences.FREEMIUM_TRIAL_END_BANNER),
+        getCategory(state, Preferences.CLOUD_TRIAL_END_BANNER),
     );
     const currentUser = useSelector((state: GlobalState) =>
         getCurrentUser(state),
@@ -79,7 +81,7 @@ const CloudTrialEndAnnouncementBar: React.FC = () => {
         dispatch(
             savePreferences(currentUser.id, [
                 {
-                    category: Preferences.FREEMIUM_TRIAL_END_BANNER,
+                    category: Preferences.CLOUD_TRIAL_END_BANNER,
                     user_id: currentUser.id,
                     name: CloudBanners.HIDE,
                     value: 'true',
@@ -102,7 +104,10 @@ const CloudTrialEndAnnouncementBar: React.FC = () => {
             type={AnnouncementBarTypes.CRITICAL}
             showCloseButton={true}
             onButtonClick={() => {
-                // TODO: Open the new Pricing modal.
+                dispatch(openModal({
+                    modalId: ModalIdentifiers.PRICING_MODAL,
+                    dialogType: PricingModal,
+                }));
             }}
             modalButtonText={t('more.details')}
             modalButtonDefaultText={'More details'}

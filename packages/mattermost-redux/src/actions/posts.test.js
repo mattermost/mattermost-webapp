@@ -4,6 +4,7 @@
 import fs from 'fs';
 
 import assert from 'assert';
+
 import nock from 'nock';
 
 import * as Actions from 'mattermost-redux/actions/posts';

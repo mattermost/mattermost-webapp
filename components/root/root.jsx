@@ -269,6 +269,10 @@ export default class Root extends React.PureComponent {
         }
 
         Utils.applyTheme(this.props.theme);
+
+        if (this.props.firstTimeOnboarding) {
+            this.initOnboardingPrefs();
+        }
     }
 
     componentDidUpdate(prevProps) {

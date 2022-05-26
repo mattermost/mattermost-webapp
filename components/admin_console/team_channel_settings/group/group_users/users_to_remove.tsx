@@ -5,10 +5,10 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {UserProfile} from 'mattermost-redux/types/users';
-import {TeamMembership} from 'mattermost-redux/types/teams';
-import {ChannelMembership} from 'mattermost-redux/types/channels';
-import {RelationOneToOne} from 'mattermost-redux/types/utilities';
+import {UserProfile} from '@mattermost/types/users';
+import {TeamMembership} from '@mattermost/types/teams';
+import {ChannelMembership} from '@mattermost/types/channels';
+import {RelationOneToOne} from '@mattermost/types/utilities';
 import GeneralConstants from 'mattermost-redux/constants/general';
 
 import UserGridName from 'components/admin_console/user_grid/user_grid_name';

@@ -4,7 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
+import {ChannelCategory} from '@mattermost/types/channel_categories';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
