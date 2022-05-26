@@ -150,4 +150,5 @@ export declare type PostsUsageResponse = {
 
 export declare type TeamsUsageResponse = {
     active: number;
+    cloud_archived: number;
 };

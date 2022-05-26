@@ -191,7 +191,7 @@ export function getTeamsUsage(): ActionFunc {
 
                     // the views and cards properties are the limits, not usage.
                     // So they are not passed in to the usage.
-                    data: result.active,
+                    data: {active: result.active, cloudArchived: result.cloud_archived},
                 });
             }
         } catch (error) {

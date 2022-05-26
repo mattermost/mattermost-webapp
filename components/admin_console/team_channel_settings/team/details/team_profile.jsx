@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 import {useDispatch} from 'react-redux';
+import {noop} from 'lodash';
 
 import Tooltip from 'components/tooltip';
 
@@ -21,7 +22,6 @@ import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import ArchiveIcon from 'components/widgets/icons/archive_icon';
 import UnarchiveIcon from 'components/widgets/icons/unarchive_icon';
-
 import * as Utils from 'utils/utils';
 
 import TeamIcon from 'components/widgets/team_icon/team_icon';
@@ -32,11 +32,7 @@ export function TeamProfile({team, isArchived, isDisabled, onToggleArchive}) {
     const teamIconUrl = Utils.imageURLForTeam(team);
     const usageDeltas = useGetUsageDeltas();
     const dispatch = useDispatch();
-    const [restoreDisabled, setRestoreDisabled] = useState(false);
-
-    useEffect(() => {
-        setRestoreDisabled(usageDeltas.teams.teamsLoaded && usageDeltas.teams.active >= 0 && isArchived);
-    }, [usageDeltas, isArchived]);
+    const [restoreDisabled, setRestoreDisabled] = useState(usageDeltas.teams.teamsLoaded && usageDeltas.teams.active >= 0 && isArchived);
 
     let archiveBtnID;
     let archiveBtnDefault;
@@ -51,17 +47,18 @@ export function TeamProfile({team, isArchived, isDisabled, onToggleArchive}) {
         archiveBtnDefault = 'Archive Team';
     }
 
+    const toggleArchive = () => {
+        if (restoreDisabled) {
+            setRestoreDisabled(false);
+        }
+        onToggleArchive();
+    };
+
     const button = () => {
         if (restoreDisabled) {
             return (
                 <div
-                    onClick={() => {
-                        dispatch(openModal({
-                            modalId: ModalIdentifiers.PRICING_MODAL,
-                            dialogType: PricingModal,
-                        }));
-                    }}
-                    style={{display: 'inline-block', cursor: 'pointer'}}
+                    style={{display: 'inline-block', cursor: 'not-allowed'}}
                 >
                     <button
                         type='button'
@@ -78,7 +75,7 @@ export function TeamProfile({team, isArchived, isDisabled, onToggleArchive}) {
                                 'cloud-limits-disabled',
                             )
                         }
-                        onClick={onToggleArchive}
+                        onClick={noop}
                     >
                         {isArchived ? (
                             <UnarchiveIcon
@@ -110,7 +107,7 @@ export function TeamProfile({team, isArchived, isDisabled, onToggleArchive}) {
                         'cloud-limits-disabled',
                     )
                 }
-                onClick={onToggleArchive}
+                onClick={toggleArchive}
             >
                 {isArchived ? (
                     <UnarchiveIcon
@@ -164,13 +161,12 @@ export function TeamProfile({team, isArchived, isDisabled, onToggleArchive}) {
                                 <br/>
                                 {team.description || <span className='greyed-out'>{Utils.localizeMessage('admin.team_settings.team_detail.profileNoDescription', 'No team description added.')}</span>}
                             </div>
-
                         </div>
                     </div>
                     <div className='AdminChannelDetails_archiveContainer'>
                         <OverlayTrigger
                             delay={400}
-                            placement='right'
+                            placement='bottom'
                             disabled={!restoreDisabled}
                             overlay={
                                 <Tooltip id='sharedTooltip'>
@@ -183,6 +179,25 @@ export function TeamProfile({team, isArchived, isDisabled, onToggleArchive}) {
                         >
                             {button()}
                         </OverlayTrigger>
+                        {restoreDisabled &&
+                            <button
+                                onClick={() => {
+                                    dispatch(openModal({
+                                        modalId: ModalIdentifiers.PRICING_MODAL,
+                                        dialogType: PricingModal,
+                                    }));
+                                }}
+                                type='button'
+                                className={
+                                    classNames(
+                                        'btn',
+                                        'btn-secondary',
+                                        'upgrade-options-button',
+                                    )
+                                }
+                            >
+                                {'View Upgrade Options'}
+                            </button>}
                     </div>
                 </div>
             </div>
