@@ -419,9 +419,7 @@ if (targetIsDevServer) {
     config = {
         ...config,
         devtool: 'eval-cheap-module-source-map',
-        entry: ['./root.jsx'],
         devServer: {
-            hot: true,
             liveReload: true,
             proxy: [{
                 context: () => true,
