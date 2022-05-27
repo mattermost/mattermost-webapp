@@ -376,6 +376,7 @@ export const ModalIdentifiers = {
     UPLOAD_LICENSE: 'upload_license',
     INSIGHTS: 'insights',
     CLOUD_LIMITS: 'cloud_limits',
+    CREATE_TEAM_RESTRICTED_MODAL: 'create_team_restricted_modal',
 };
 
 export const UserStatuses = {

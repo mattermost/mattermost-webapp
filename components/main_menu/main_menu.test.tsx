@@ -75,6 +75,9 @@ describe('components/Menu', () => {
         isCloud: false,
         subscription: {},
         userIsAdmin: true,
+        isCloudFreeEnabled: false,
+        isFreeTrial: false,
+        teamsLimitReached: false,
     };
 
     const defaultState = {
@@ -281,6 +284,28 @@ describe('components/Menu', () => {
             ...defaultProps,
             guestAccessEnabled: false,
             canInviteTeamMember: false,
+        };
+        const wrapper = getMainMenuWrapper(props);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with cloud free trial', () => {
+        const props = {
+            ...defaultProps,
+            isCloudFreeEnabled: true,
+            isFreeTrial: true,
+            teamsLimitReached: false,
+        };
+        const wrapper = getMainMenuWrapper(props);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with cloud free trial and team limit reached', () => {
+        const props = {
+            ...defaultProps,
+            isCloudFreeEnabled: true,
+            isFreeTrial: true,
+            teamsLimitReached: true,
         };
         const wrapper = getMainMenuWrapper(props);
         expect(wrapper).toMatchSnapshot();

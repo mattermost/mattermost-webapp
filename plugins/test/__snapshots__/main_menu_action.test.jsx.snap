@@ -612,8 +612,11 @@ exports[`plugins/MainMenuActions should match snapshot in web view 1`] = `
         }
       >
         <MenuItemLink
+          className=""
+          disabled={false}
           id="createTeam"
           show={true}
+          sibling={false}
           text="Create a Team"
           to="/create_team"
         />
