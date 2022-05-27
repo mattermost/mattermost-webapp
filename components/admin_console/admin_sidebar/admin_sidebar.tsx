@@ -24,8 +24,8 @@ import Highlight from 'components/admin_console/highlight';
 import SearchIcon from 'components/widgets/icons/search_icon';
 import QuickInput from 'components/quick_input';
 
-import {AdminConfig, ClientLicense} from 'mattermost-redux/types/config';
 import {ConsoleAccess} from 'mattermost-redux/types/admin';
+import {AdminConfig, ClientLicense} from '@mattermost/types/config';
 import {CloudState} from '@mattermost/types/cloud';
 import {DeepPartial} from '@mattermost/types/utilities';
 import {PluginRedux, PluginsResponse} from '@mattermost/types/plugins';
