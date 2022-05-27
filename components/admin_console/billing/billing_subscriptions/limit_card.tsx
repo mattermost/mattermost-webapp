@@ -5,6 +5,8 @@ import React from 'react';
 
 import UsagePercentBar from 'components/common/usage_percent_bar';
 
+import './limit_card.scss';
+
 type Props = {
     name: JSX.Element;
     status: JSX.Element;
@@ -12,20 +14,33 @@ type Props = {
     // 0-100
     percent: number;
     icon: string;
+    barWidth?: string;
+    fullWidth?: boolean;
 };
 
 const LimitCard = (props: Props) => {
-    return (<div className='ProductLimitCard'>
+    const barWidth = props.barWidth ?? 155;
+    let className = 'ProductLimitCard';
+    if (props.fullWidth) {
+        className += ' ProductLimitCard--full-width';
+    }
+    let statusClassName = 'ProductLimitCard__status';
+    if (props.percent > 100) {
+        statusClassName += ' ProductLimitCard__status--exceeded';
+    }
+
+    return (<div className={className}>
         <div className='ProductLimitCard__name'>
             <i className={props.icon}/>
             {props.name}
         </div>
-        <div className=''>
+        <div className={statusClassName}>
+            {(props.percent > 100) && <i className='icon icon-alert-outline'/>}
             {props.status}
         </div>
         <UsagePercentBar
             percent={props.percent}
-            barWidth={155}
+            barWidth={barWidth}
         />
     </div>);
 };

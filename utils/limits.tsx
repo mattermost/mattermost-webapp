@@ -26,6 +26,24 @@ export const limitThresholds = Object.freeze({
     exceeded: 100.000001,
 });
 
+// These are to be used when we need values
+// even if network requests are failing for some reason.
+// Use as a fallback.
+export const fallbackStarterLimits = {
+    messages: {
+        history: 10000,
+    },
+    files: {
+        totalStorage: FileSizes.Gigabyte * 10,
+    },
+    integrations: {
+        enabled: 10,
+    },
+    boards: {
+        cards: 500,
+    },
+};
+
 // A negative usage value means they are over the limit. This function simply tells you whether ANY LIMIT has been reached/surpassed.
 export function anyUsageDeltaValueIsNegative(deltas: CloudUsage) {
     let foundANegative = false;
