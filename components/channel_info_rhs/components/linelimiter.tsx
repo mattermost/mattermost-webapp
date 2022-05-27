@@ -53,7 +53,7 @@ const LineLimiterBase = ({children, maxLines, lineHeight, moreText, lessText, er
             <>
                 <div
                     className={className}
-                    css={{maxHeight}}
+                    style={{maxHeight}}
                 >
                     <div>
                         <div ref={ref}>{children}</div>

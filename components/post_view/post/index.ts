@@ -14,7 +14,7 @@ import {
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 
 import {markPostAsUnread} from 'actions/post_actions';
 import {selectPost, selectPostCard} from 'actions/views/rhs';

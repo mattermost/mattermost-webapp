@@ -13,9 +13,9 @@ import debounce from 'lodash/debounce';
 import * as ChannelUtils from 'utils/channel_utils';
 
 import {General} from 'mattermost-redux/constants';
-import {Channel} from 'mattermost-redux/types/channels';
-import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
-import {Team} from 'mattermost-redux/types/teams';
+import {Channel} from '@mattermost/types/channels';
+import {ChannelCategory} from '@mattermost/types/channel_categories';
+import {Team} from '@mattermost/types/teams';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {DraggingState} from 'types/store';

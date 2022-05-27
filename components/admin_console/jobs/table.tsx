@@ -6,7 +6,7 @@ import classNames from 'classnames';
 
 import {FormattedMessage} from 'react-intl';
 
-import {Job, JobType} from 'mattermost-redux/types/jobs';
+import {Job, JobType} from '@mattermost/types/jobs';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {JobTypes} from 'utils/constants';

@@ -6,7 +6,7 @@ import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {getTopReactionsForTeam, getMyTopReactions} from 'mattermost-redux/actions/insights';
 import {getTopReactionsForCurrentTeam, getMyTopReactionsForCurrentTeam} from 'mattermost-redux/selectors/entities/insights';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 import {TopReaction} from '@mattermost/types/insights';
 
 import {InsightsScopes} from 'utils/constants';

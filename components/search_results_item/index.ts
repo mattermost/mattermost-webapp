@@ -16,7 +16,7 @@ import {getCurrentTeam, getTeam, getTeamMemberships} from 'mattermost-redux/sele
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 
 import {isPostFlagged} from 'mattermost-redux/utils/post_utils';
 

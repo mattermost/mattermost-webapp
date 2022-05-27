@@ -11,7 +11,7 @@ import {getMyPreferences as getMyPreferencesSelector, makeGetCategory} from 'mat
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {GetStateFunc, DispatchFunc, ActionFunc} from 'mattermost-redux/types/actions';
-import {PreferenceType} from 'mattermost-redux/types/preferences';
+import {PreferenceType} from '@mattermost/types/preferences';
 import {Theme} from 'mattermost-redux/types/themes';
 
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
@@ -115,6 +115,20 @@ export function setActionsMenuInitialisationState(initializationState: Record<st
             user_id: currentUserId,
             category: Preferences.CATEGORY_ACTIONS_MENU,
             name: Preferences.NAME_ACTIONS_MENU_TUTORIAL_STATE,
+            value: JSON.stringify(initializationState),
+        };
+        await dispatch(savePreferences(currentUserId, [preference]));
+    };
+}
+
+export function setInsightsInitialisationState(initializationState: Record<string, boolean>) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState();
+        const currentUserId = getCurrentUserId(state);
+        const preference: PreferenceType = {
+            user_id: currentUserId,
+            category: Preferences.CATEGORY_INSIGHTS,
+            name: Preferences.NAME_INSIGHTS_TUTORIAL_STATE,
             value: JSON.stringify(initializationState),
         };
         await dispatch(savePreferences(currentUserId, [preference]));

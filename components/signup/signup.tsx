@@ -38,8 +38,8 @@ import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general
 import {getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
-import {ServerError} from 'mattermost-redux/types/errors';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {ServerError} from '@mattermost/types/errors';
+import {UserProfile} from '@mattermost/types/users';
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
 import {getGlobalItem} from 'selectors/storage';

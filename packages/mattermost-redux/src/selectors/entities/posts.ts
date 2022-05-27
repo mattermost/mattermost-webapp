@@ -11,22 +11,23 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
 import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {getUsers, getCurrentUserId, getUserStatuses} from 'mattermost-redux/selectors/entities/users';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {PostWithFormatData} from 'mattermost-redux/types/posts';
+
+import {Channel} from '@mattermost/types/channels';
 import {
     MessageHistory,
     OpenGraphMetadata,
     Post,
     PostOrderBlock,
-    PostWithFormatData,
-} from 'mattermost-redux/types/posts';
-import {Reaction} from 'mattermost-redux/types/reactions';
-import {GlobalState} from 'mattermost-redux/types/store';
-import {UserProfile} from 'mattermost-redux/types/users';
+} from '@mattermost/types/posts';
+import {Reaction} from '@mattermost/types/reactions';
+import {GlobalState} from '@mattermost/types/store';
+import {UserProfile} from '@mattermost/types/users';
 import {
     IDMappedObjects,
     RelationOneToOne,
     RelationOneToMany,
-} from 'mattermost-redux/types/utilities';
+} from '@mattermost/types/utilities';
 
 import {createIdsSelector} from 'mattermost-redux/utils/helpers';
 import {

@@ -8,7 +8,7 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils';
-import {CustomGroupPatch, Group} from 'mattermost-redux/types/groups';
+import {CustomGroupPatch, Group} from '@mattermost/types/groups';
 
 import 'components/user_groups_modal/user_groups_modal.scss';
 import './update_user_group_modal.scss';

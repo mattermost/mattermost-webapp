@@ -3,7 +3,7 @@
 import {Constants} from '../../../utils/constants';
 import {t} from '../../../utils/i18n';
 import SchemaAdminSettings from '../schema_admin_settings';
-import {PluginRedux} from 'mattermost-redux/types/plugins';
+import {PluginRedux} from '@mattermost/types/plugins';
 
 export type EnabledPluginSetting = {
     type: string;

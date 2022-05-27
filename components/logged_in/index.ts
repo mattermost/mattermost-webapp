@@ -6,7 +6,7 @@ import {bindActionCreators, Dispatch} from 'redux';
 
 import {GlobalState} from 'types/store';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 
 import {DispatchFunc, GenericAction} from 'mattermost-redux/types/actions';
 
