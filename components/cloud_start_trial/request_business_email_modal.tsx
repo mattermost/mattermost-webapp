@@ -8,9 +8,10 @@ import {FormattedMessage, useIntl} from 'react-intl';
 import {trackEvent} from 'actions/telemetry_actions';
 import {validateBusinessEmail} from 'actions/cloud';
 
-import {TELEMETRY_CATEGORIES} from 'utils/constants';
+import {ItemStatus, TELEMETRY_CATEGORIES} from 'utils/constants';
 
 import GenericModal from 'components/generic_modal';
+import {CustomMessageInputType} from 'components/widgets/inputs/input/input';
 
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
@@ -31,7 +32,7 @@ const RequestBusinessEmailModal = (
     }: Props): JSX.Element | null => {
     const {formatMessage} = useIntl();
     const [email, setEmail] = useState<string>('');
-    const [customInputLabel, setCustomInputLabel] = useState<{type: 'info' | 'error' | 'warning' | 'ok'; value: string} | null>(null);
+    const [customInputLabel, setCustomInputLabel] = useState<CustomMessageInputType>(null);
     const [trialBtnDisabled, setTrialBtnDisabled] = useState<boolean>(true);
 
     useEffect(() => {
@@ -64,18 +65,18 @@ const RequestBusinessEmailModal = (
         // function isEmail aready handle empty / null value
         if (!isEmail(email)) {
             const errMsg = formatMessage({id: 'request_business_email_modal.invalidEmail', defaultMessage: 'This doesnt look like a valid email'});
-            setCustomInputLabel({type: 'ok', value: errMsg});
+            setCustomInputLabel({type: ItemStatus.WARNING, value: errMsg});
             return;
         }
 
         const isValidBusinessEmail = await validateBusinessEmail()();
         if (!isValidBusinessEmail) {
             const errMsg = formatMessage({id: 'request_business_email_modal.not_business_email', defaultMessage: 'This doesnt look like a bussiness email'});
-            setCustomInputLabel({type: 'error', value: errMsg});
+            setCustomInputLabel({type: ItemStatus.ERROR, value: errMsg});
             return;
         }
         const okMsg = formatMessage({id: 'request_business_email_modal.valid_business_email', defaultMessage: 'This is a valid email'});
-        setCustomInputLabel({type: 'ok', value: okMsg});
+        setCustomInputLabel({type: ItemStatus.OK, value: okMsg});
         setTrialBtnDisabled(false);
         setTimeout(() => {
             setCustomInputLabel(null);

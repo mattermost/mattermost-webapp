@@ -15,9 +15,10 @@ export enum SIZE {
     LARGE = 'large',
 }
 
+export type CustomMessageInputType = {type: 'info' | 'error' | 'warning' | 'ok'; value: string} | null;
+
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     info?: string;
-    error?: string;
     required?: boolean;
     hasError?: boolean;
     addon?: React.ReactElement;
@@ -31,7 +32,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     limit?: number;
     useLegend?: boolean;
 
-    customMessage?: {type: 'info' | 'error' | 'warning' | 'ok'; value: string} | null;
+    customMessage?: CustomMessageInputType;
     inputSize?: SIZE;
 }
 
@@ -43,8 +44,6 @@ const Input = React.forwardRef((
         placeholder,
         useLegend = true,
         className,
-        info,
-        error: propError,
         hasError,
         required,
         addon,
@@ -69,22 +68,13 @@ const Input = React.forwardRef((
     const {formatMessage} = useIntl();
 
     const [focused, setFocused] = useState(false);
-    const [customInputLabel, setCustomInputLabel] = useState<{type: 'info' | 'error' | 'warning' | 'ok'; value: string} | null>(null);
+    const [customInputLabel, setCustomInputLabel] = useState<CustomMessageInputType>(null);
 
     useEffect(() => {
         if (customMessage !== undefined && customMessage !== null && customMessage.value !== '') {
             setCustomInputLabel(customMessage);
         }
     }, [customMessage]);
-
-    // temporal, ideally replace all these values from the places that use the Input component
-    useEffect(() => {
-        if (propError !== undefined && propError !== null && propError !== '') {
-            setCustomInputLabel({type: 'error', value: propError});
-        } else if (info !== undefined && info !== null && info !== '') {
-            setCustomInputLabel({type: 'info', value: info});
-        }
-    }, [propError, info]);
 
     const handleOnFocus = (event: React.FocusEvent<HTMLInputElement>) => {
         setFocused(true);
@@ -116,7 +106,7 @@ const Input = React.forwardRef((
             return;
         }
         const validationErrorMsg = formatMessage({id: 'widget.input.required', defaultMessage: 'This field is required'});
-        setCustomInputLabel({type: 'error', value: validationErrorMsg});
+        setCustomInputLabel({type: ItemStatus.ERROR, value: validationErrorMsg});
     };
 
     const showLegend = Boolean(focused || value);

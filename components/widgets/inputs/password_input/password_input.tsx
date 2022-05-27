@@ -5,6 +5,8 @@ import React, {ChangeEventHandler, FocusEventHandler, useState} from 'react';
 import {useIntl} from 'react-intl';
 import classNames from 'classnames';
 
+import {ItemStatus} from 'utils/constants';
+
 import Input, {SIZE} from '../input/input';
 
 import './password_input.scss';
@@ -73,8 +75,8 @@ const PasswordInput = React.forwardRef((
                 formatMessage({id: 'widget.passwordInput.password', defaultMessage: 'Password'})
             )}
             hasError={hasError}
+            customMessage={error ? {type: ItemStatus.ERROR, value: error} : null}
             info={info}
-            error={error}
             disabled={disabled}
             ref={ref}
         />
