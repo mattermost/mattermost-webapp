@@ -44,7 +44,7 @@ import {isEmail} from 'mattermost-redux/utils/helpers';
 
 import {getGlobalItem} from 'selectors/storage';
 import {GlobalState} from 'types/store';
-import {Constants, ValidationErrors} from 'utils/constants';
+import {Constants, ItemStatus, ValidationErrors} from 'utils/constants';
 import {isValidUsername, isValidPassword, getPasswordConfig} from 'utils/utils';
 
 import './signup.scss';
@@ -603,7 +603,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
                                         },
                                         {siteName: SiteName},
                                     )}
-                                    error={emailError}
+                                    customMessage={{type: ItemStatus.ERROR, value: emailError}}
                                 />
                                 <Input
                                     ref={nameInput}
@@ -623,7 +623,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
                                         id: 'signup_user_completed.userHelp',
                                         defaultMessage: 'You can use lowercase letters, numbers, periods, dashes, and underscores.',
                                     })}
-                                    error={nameError}
+                                    customMessage={{type: ItemStatus.ERROR, value: nameError}}
                                 />
                                 <PasswordInput
                                     ref={passwordInput}
