@@ -88,7 +88,7 @@ export default class MarketplaceItem extends React.PureComponent <MarketplaceIte
             icon = <PluginIcon className='icon__plugin icon__plugin--background'/>;
         }
 
-        let labels;
+        let labels: React.ReactNode[] = [];
         if (this.props.labels && this.props.labels.length !== 0) {
             labels = this.props.labels.map((label) => (
                 <Label
@@ -98,8 +98,19 @@ export default class MarketplaceItem extends React.PureComponent <MarketplaceIte
                     url={label.url}
                     color={label.color}
                 />
-            ),
-            );
+            ));
+        }
+
+        if (Constants.Integrations.FREEMIUM_USAGE_IGNORED_PLUGINS.includes(this.props.id)) {
+            labels.push(
+                <Label
+                    key={'CORE PLUGIN'}
+                    name={'CORE PLUGIN'}
+                    description={'This plugin does not count towards your limit of 5 enabled integrations'}
+                    url={''}
+                    color={''}
+                />
+            )
         }
 
         const pluginDetailsInner = (

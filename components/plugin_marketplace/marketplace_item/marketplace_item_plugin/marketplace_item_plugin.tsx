@@ -9,8 +9,10 @@ import {FormattedMessage} from 'react-intl';
 
 import {Link} from 'react-router-dom';
 
-import type {MarketplaceLabel} from 'mattermost-redux/types/marketplace';
+import type {MarketplaceLabel} from '@mattermost/types/marketplace';
 import {PluginStatus} from '@mattermost/types/plugins';
+import {IntegrationsUsage, Limits} from '@mattermost/types/cloud';
+
 import PluginState from 'mattermost-redux/constants/plugins';
 
 import MarketplaceItem from '../marketplace_item';
@@ -21,6 +23,7 @@ import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import Toggle from 'components/toggle';
 
 import {localizeMessage} from 'utils/utils';
+import Constants from 'utils/constants';
 
 type UpdateVersionProps = {
     version: string;
@@ -229,7 +232,9 @@ export type MarketplaceItemPluginProps = {
     error?: string;
     isDefaultMarketplace: boolean;
     trackEvent: (category: string, event: string, props?: unknown) => void;
-    pluginStatus: PluginStatus
+    pluginStatus: PluginStatus;
+    limits?: Limits;
+    integrationsUsage?: IntegrationsUsage;
 
     actions: {
         installPlugin: (category: string, event: string) => void;
@@ -290,9 +295,20 @@ export default class MarketplaceItemPlugin extends React.PureComponent <Marketpl
         this.props.actions.installPlugin(this.props.id, this.props.version);
     }
 
-    getPluginStatusButton(): JSX.Element {
-        const pluginEnabled = this.props.pluginStatus?.state === PluginState.PLUGIN_STATE_RUNNING;
-        const switchDisabled = this.props.pluginStatus?.state !== PluginState.PLUGIN_STATE_RUNNING && this.props.pluginStatus?.state !== PluginState.PLUGIN_STATE_NOT_RUNNING;
+    getPluginStatusButton(): React.ReactNode {
+        if (!this.props.installedVersion) {
+            return null;
+        }
+
+        const pluginEnabled = this.props.pluginStatus?.state === PluginState.PLUGIN_STATE_RUNNING || this.props.pluginStatus?.state === PluginState.PLUGIN_STATE_STARTING || this.props.pluginStatus?.state === PluginState.PLUGIN_STATE_FAILED_TO_START;
+        let switchDisabled = this.props.pluginStatus?.state !== PluginState.PLUGIN_STATE_RUNNING && this.props.pluginStatus?.state !== PluginState.PLUGIN_STATE_NOT_RUNNING && this.props.pluginStatus?.state !== PluginState.PLUGIN_STATE_FAILED_TO_START;
+
+        const limit = this.props.limits?.integrations?.enabled;
+        const usage = this.props.integrationsUsage?.enabled;
+        const ignored = Constants.Integrations.FREEMIUM_USAGE_IGNORED_PLUGINS.includes(this.props.id);
+        if (!ignored && !pluginEnabled && limit && usage && usage >= limit) {
+            switchDisabled = true;
+        }
 
         const label = pluginEnabled ? (
             <FormattedMessage
@@ -321,7 +337,7 @@ export default class MarketplaceItemPlugin extends React.PureComponent <Marketpl
                     toggled={pluginEnabled}
                     className='btn-sm'
                 />
-                <span>
+                <span className='plugin-status-label'>
                     {label}
                 </span>
             </>
@@ -365,11 +381,19 @@ export default class MarketplaceItemPlugin extends React.PureComponent <Marketpl
                 );
             }
 
+
+            let disableInstallButton = this.props.installing;
+            const limit = this.props.limits?.integrations?.enabled;
+            const usage = this.props.integrationsUsage?.enabled;
+            if (limit && usage && usage >= limit) {
+                disableInstallButton = true;
+            }
+
             actionButton =  (
                 <button
                     onClick={this.onInstall}
                     className='btn btn-primary'
-                    disabled={this.props.installing}
+                    disabled={disableInstallButton}
                 >
                     <LoadingWrapper
                         loading={this.props.installing}

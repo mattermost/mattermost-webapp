@@ -2,47 +2,61 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {FormattedMessage, useIntl} from 'react-intl';
 
+import {PreferenceType} from '@mattermost/types/preferences';
+
 import {getCloudLimits} from 'mattermost-redux/selectors/entities/cloud';
 import {getIntegrationsUsage} from 'mattermost-redux/selectors/entities/usage';
 import {cloudFreeEnabled, getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
+import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getCloudLimits as fetchCloudLimits} from 'actions/cloud';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import CloseIcon from 'components/widgets/icons/close_icon';
+import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
 
-const usePreferenceCheck = (): [boolean, () => void] => {
-    const [visible, setVisible] = useState(true);
+const usePreferenceCheck = (): [boolean, (value: boolean) => void] => {
+    const userId = useSelector(getCurrentUserId);
     const preferences = useSelector(getMyPreferences);
 
-    const hide = () => {
-        setVisible(false);
+    const category = 'usage_limits';
+    const name = 'hide_marketplace_usage_message';
+    const key = `${category}--${name}`;
+    const preference = preferences[key];
+    const hiddenDueToPreference = preference?.value === 'true';
+
+    const dispatch = useDispatch();
+    const setHidePreference = (value: boolean) => {
+        const preference: PreferenceType = {
+            category,
+            name,
+            user_id: userId,
+            value: value.toString(),
+        };
+        dispatch(savePreferences(userId, [preference]));
     };
 
-    return [visible, hide];
+    return [hiddenDueToPreference, setHidePreference];
 }
 
 export default function MarketplaceUsageMessage() {
     const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
-    const usage = useSelector(getIntegrationsUsage);
+    const integrationsUsage = useSelector(getIntegrationsUsage);
     const limits = useSelector(getCloudLimits);
+    const [hiddenDueToPreferences, setHidePreference] = usePreferenceCheck();
     const intl = useIntl();
-    const dispatch = useDispatch();
 
-    const [visibleDueToPreferences, closeUsage] = usePreferenceCheck();
-
-    useEffect(() => {
-        if (isCloudFreeEnabled) {
-            dispatch(fetchCloudLimits());
-        }
-    }, [isCloudFreeEnabled]);
-
-    if (!isCloudFreeEnabled || !visibleDueToPreferences || !usage?.enabled || !limits.integrations?.enabled) {
-        return null;
+    if (hiddenDueToPreferences || !isCloudFreeEnabled || !integrationsUsage?.enabledLoaded || !limits.integrations?.enabled) {
+        return (
+            <button className='btn btn-primary' onClick={() => setHidePreference(false)}>
+                {'DEBUG reset preference'}
+            </button>
+        );
     }
 
     let limitMessage: React.ReactNode;
-    if (usage.enabled < limits.integrations.enabled) {
+    if (integrationsUsage.enabled < limits.integrations.enabled) {
         limitMessage = (
             <FormattedMessage
                 id={'marketplace_modal.usage_message.below_limit'}
@@ -75,18 +89,23 @@ export default function MarketplaceUsageMessage() {
 
     const upgradeButtons = (
         <div className='upgrade-buttons'>
-            <button className='btn btn-primary'>
-                {'Try free for 30 days'}
-            </button>
-            <button className='btn btn-default'>
-                {'Upgrade now'}
-            </button>
+            <CloudStartTrialButton
+                message={'Try free for 30 days'}
+                telemetryId={'start_cloud_trial_from_marketplace'}
+                onClick={() => setHidePreference(true)}
+                extraClass={'btn btn-primary start-cloud-trial-btn'}
+            />
+            <a href='https://mattermost.com/pricing' target='_blank'>
+                <button className='btn btn-default'>
+                    {'Upgrade now'}
+                </button>
+            </a>
         </div>
     );
 
     const closeIcon = (
         <button
-            onClick={closeUsage}
+            onClick={() => setHidePreference(true)}
             className='close-x'
             aria-label={intl.formatMessage({id: 'full_screen_modal.close', defaultMessage: 'Close'})}
         >

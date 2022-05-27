@@ -1670,6 +1670,14 @@ export const Constants = {
         COMMAND_SUGGESTION_ERROR: 'error',
         COMMAND_SUGGESTION_CHANNEL: 'channel',
         COMMAND_SUGGESTION_USER: 'user',
+        FREEMIUM_USAGE_IGNORED_PLUGINS: [
+            'com.mattermost.apps',
+            'com.mattermost.calls',
+            'com.mattermost.nps',
+            'com.mattermost.plugin-channel-export',
+            'focalboard',
+            'playbooks',
+        ],
     },
     FeatureTogglePrefix: 'feature_enabled_',
     PRE_RELEASE_FEATURES: {

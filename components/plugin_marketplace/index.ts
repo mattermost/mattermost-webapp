@@ -21,7 +21,7 @@ import {getSiteURL} from 'utils/url';
 
 import {closeModal} from 'actions/views/modals';
 import {fetchListing, filterListing} from 'actions/marketplace';
-import {getIntegrationsUsage} from 'actions/cloud';
+import {getIntegrationsUsage, getCloudLimits} from 'actions/cloud';
 
 const MarketplaceModal = makeAsyncComponent('MarketplaceModal', React.lazy(() => import('./marketplace_modal')));
 
@@ -52,6 +52,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             setFirstAdminVisitMarketplaceStatus,
             getPluginStatuses,
             getIntegrationsUsage,
+            getCloudLimits,
         }, dispatch),
     };
 }

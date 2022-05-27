@@ -105,6 +105,7 @@ export type MarketplaceModalProps = {
         setFirstAdminVisitMarketplaceStatus: () => void;
         getPluginStatuses: () => void;
         getIntegrationsUsage: () => void;
+        getCloudLimits: () => void;
     };
 };
 
@@ -138,6 +139,7 @@ export default class MarketplaceModal extends React.PureComponent<MarketplaceMod
         this.fetchListing();
         this.props.actions.getPluginStatuses();
         this.props.actions.getIntegrationsUsage();
+        this.props.actions.getCloudLimits();
         if (!this.props.firstAdminVisitMarketplaceStatus) {
             trackEvent('plugins', 'ui_first_admin_visit_marketplace_status');
 

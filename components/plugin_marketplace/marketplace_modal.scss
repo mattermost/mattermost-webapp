@@ -34,9 +34,11 @@
     }
 
     .marketplace-usage-message {
-        border: 1px solid;
+        border: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
+        border-radius: 4px;
         position: relative;
         padding: 25px;
+        background-color: rgba(var(--center-channel-color-rgb), 0.04);
 
         .upgrade-buttons button {
             margin-right: 5px;
@@ -133,7 +135,7 @@
     }
 
     .search_input {
-        width: 720px;
+        width: 900px;
         height: 40px;
         flex: 1;
         margin-top: 28px;
@@ -143,7 +145,7 @@
         box-shadow: none;
     }
 
-    .btn-primary, .btn-outline, .btn-link {
+    .btn-primary, .btn-default, .btn-outline, .btn-link {
         min-width: 8rem;
         padding: 8px 16px;
         border-radius: 4px;
@@ -160,9 +162,29 @@
         top: 1rem;
     }
 
+    .plugin-status-label  {
+        position: absolute;
+        right: 10px;
+        top: 5px
+    }
+
+    .more-modal__actions {
+        position: relative;
+
+        .btn-primary, .btn-outline {
+            position: absolute;
+            right: 120px;
+        }
+
+        .btn-toggle {
+            position: absolute;
+            right: 80px;
+        }
+    }
+
     .tabs {
         display: flex;
-        width: 720px;
+        width: 940px; // the marketplace may be getting too wide
         flex-direction: column;
     }
 
