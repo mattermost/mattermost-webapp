@@ -132,7 +132,7 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
     case LimitTypes.boardsCards: {
         let id = t('workspace_limits.menu_limit.warn.boards_cards');
         let defaultMessage = 'You’re getting closer to the {limit} board card limit. <a>{callToAction}</a>';
-        values.limit = asGBString(highestLimit.limit, intl.formatNumber);
+        values.limit = highestLimit.limit;
         if (usageRatio >= limitThresholds.danger) {
             id = t('workspace_limits.menu_limit.critical.boards_cards');
             defaultMessage = 'You’re getting closer to the {limit} board card limit. <a>{callToAction}</a>';

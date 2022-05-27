@@ -18,16 +18,16 @@ import {fallbackStarterLimits, asGBString} from 'utils/limits';
 import useGetHighestThresholdCloudLimit, {LimitTypes} from 'components/common/hooks/useGetHighestThresholdCloudLimit';
 import useGetUsage from 'components/common/hooks/useGetUsage';
 import useGetLimits from 'components/common/hooks/useGetLimits';
+import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 
 import CloudUsageModal from './index';
-
-function openPricingModal() {}
 
 export default function LHSNearingLimitsModal() {
     const dispatch = useDispatch();
     const product = useSelector(getSubscriptionProduct);
     const usage = useGetUsage();
     const intl = useIntl();
+    const openPricingModal = useOpenPricingModal();
 
     const [limits] = useGetLimits();
 
