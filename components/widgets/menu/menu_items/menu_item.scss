@@ -232,6 +232,14 @@ $menu_item_critical: #d24b4e29;
         &__description {
             padding-bottom: 12px;
             font-size: 12px;
+
+            // TODO: hide link hack to be removed once
+            // https://mattermost.atlassian.net/browse/MM-43648 is completed
+            &--hide-link {
+                a {
+                    display: none;
+                }
+            }
         }
 
         &__usage {
