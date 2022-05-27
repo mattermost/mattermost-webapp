@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {oauthToEmail} from 'actions/admin_actions.jsx';
@@ -10,54 +10,50 @@ import Constants from 'utils/constants';
 import * as Utils from 'utils/utils';
 import {t} from 'utils/i18n.jsx';
 import LocalizedInput from 'components/localized_input/localized_input';
+import { PasswordSettings } from '@mattermost/types/config';
+import classNames from 'classnames';
+import { getPasswordConfig } from 'utils/utils';
 
-export default class OAuthToEmail extends React.PureComponent {
-    static propTypes = {
-        currentType: PropTypes.string,
-        email: PropTypes.string,
-        siteName: PropTypes.string,
-        passwordConfig: PropTypes.object,
-    };
+type Props = {
+    currentType: string,
+    email: string,
+    siteName: string,
+    passwordConfig: ReturnType<typeof getPasswordConfig>
+}
 
-    constructor(props) {
-        super(props);
+const OAuthToEmail = (props: Props) => {
 
-        this.state = {};
+    const passwordInput = useRef<HTMLInputElement>(null)
+    const passwordConfirmInput = useRef<HTMLInputElement>(null)
 
-        this.passwordInput = React.createRef();
-        this.passwordConfirmInput = React.createRef();
-    }
+    const [error, setError] = useState<string | JSX.Element | null>(null)
 
-    submit = (e) => {
+    const submit = (e: React.FormEvent) => {
         e.preventDefault();
-        const state = {};
 
-        const password = this.passwordInput.current.value;
+        const password = passwordInput.current?.value;
         if (!password) {
-            state.error = Utils.localizeMessage('claim.oauth_to_email.enterPwd', 'Please enter a password.');
-            this.setState(state);
+            setError(Utils.localizeMessage('claim.oauth_to_email.enterPwd', 'Please enter a password.'))
             return;
         }
 
-        const {valid, error} = Utils.isValidPassword(password, this.props.passwordConfig);
+        const {valid, error} = Utils.isValidPassword(password, props.passwordConfig);
         if (!valid && error) {
-            this.setState({error});
+            setError(error)
             return;
         }
 
-        const confirmPassword = this.passwordConfirmInput.current.value;
+        const confirmPassword = passwordConfirmInput.current?.value;
         if (!confirmPassword || password !== confirmPassword) {
-            state.error = Utils.localizeMessage('claim.oauth_to_email.pwdNotMatch', 'Passwords do not match.');
-            this.setState(state);
+            setError(Utils.localizeMessage('claim.oauth_to_email.pwdNotMatch', 'Passwords do not match.'))
             return;
         }
 
-        state.error = null;
-        this.setState(state);
+        setError(null)
 
         oauthToEmail(
-            this.props.currentType,
-            this.props.email,
+            props.currentType,
+            props.email,
             password,
             (data) => {
                 if (data.follow_link) {
@@ -65,22 +61,18 @@ export default class OAuthToEmail extends React.PureComponent {
                 }
             },
             (err) => {
-                this.setState({error: err.message});
+                setError(err.message)
             },
         );
     }
-    render() {
-        var error = null;
-        if (this.state.error) {
-            error = <div className='form-group has-error'><label className='control-label'>{this.state.error}</label></div>;
-        }
-
-        var formClass = 'form-group';
+        var errorElement = null;
         if (error) {
-            formClass += ' has-error';
+            errorElement = <div className='form-group has-error'><label className='control-label'>{error}</label></div>;
         }
 
-        const uiType = `${(this.props.currentType === Constants.SAML_SERVICE ? Constants.SAML_SERVICE.toUpperCase() : Utils.toTitleCase(this.props.currentType))} SSO`;
+        var formClass = classNames('form-group', {' has-error': errorElement});
+
+        const uiType = `${(props.currentType === Constants.SAML_SERVICE ? Constants.SAML_SERVICE.toUpperCase() : Utils.toTitleCase(props.currentType))} SSO`;
 
         return (
             <div>
@@ -93,7 +85,7 @@ export default class OAuthToEmail extends React.PureComponent {
                         }}
                     />
                 </h3>
-                <form onSubmit={this.submit}>
+                <form onSubmit={submit}>
                     <p>
                         <FormattedMessage
                             id='claim.oauth_to_email.description'
@@ -105,7 +97,7 @@ export default class OAuthToEmail extends React.PureComponent {
                             id='claim.oauth_to_email.enterNewPwd'
                             defaultMessage='Enter a new password for your {site} email account'
                             values={{
-                                site: this.props.siteName,
+                                site: props.siteName,
                             }}
                         />
                     </p>
@@ -114,7 +106,7 @@ export default class OAuthToEmail extends React.PureComponent {
                             type='password'
                             className='form-control'
                             name='password'
-                            ref={this.passwordInput}
+                            ref={passwordInput}
                             placeholder={{id: t('claim.oauth_to_email.newPwd'), defaultMessage: 'New Password'}}
                             spellCheck='false'
                         />
@@ -124,12 +116,12 @@ export default class OAuthToEmail extends React.PureComponent {
                             type='password'
                             className='form-control'
                             name='passwordconfirm'
-                            ref={this.passwordConfirmInput}
+                            ref={passwordConfirmInput}
                             placeholder={{id: t('claim.oauth_to_email.confirm'), defaultMessage: 'Confirm Password'}}
                             spellCheck='false'
                         />
                     </div>
-                    {error}
+                    {errorElement}
                     <button
                         type='submit'
                         className='btn btn-primary'
@@ -145,5 +137,6 @@ export default class OAuthToEmail extends React.PureComponent {
                 </form>
             </div>
         );
-    }
 }
+
+export default OAuthToEmail
