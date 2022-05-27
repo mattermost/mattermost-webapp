@@ -19,13 +19,6 @@ export function toUsagePercent(usage: number, limit: number): number {
     return Math.floor((usage / limit) * 100);
 }
 
-export const limitThresholds = Object.freeze({
-    ok: 0,
-    warn: 50,
-    danger: 66,
-    exceeded: 100.000001,
-});
-
 // These are to be used when we need values
 // even if network requests are failing for some reason.
 // Use as a fallback.
