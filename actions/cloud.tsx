@@ -91,11 +91,11 @@ export function subscribeCloudSubscription(productId: string) {
     };
 }
 
-export function requestCloudTrial(page: string) {
+export function requestCloudTrial(page: string, email = '') {
     trackEvent('api', 'api_request_cloud_trial_license', {from_page: page});
     return async () => {
         try {
-            await Client4.requestCloudTrial();
+            await Client4.requestCloudTrial(email);
         } catch (error) {
             return false;
         }

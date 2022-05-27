@@ -90,16 +90,19 @@
 
     .Input___error {
         @extend .error;
+
         display: flex;
     }
 
     .Input___warning {
         @extend .warning;
+
         display: flex;
     }
 
     .Input___ok {
         @extend .ok;
+
         display: flex;
     }
 

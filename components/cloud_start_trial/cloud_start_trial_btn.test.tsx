@@ -97,6 +97,7 @@ describe('components/cloud_start_trial_btn/cloud_start_trial_btn', () => {
                     <CloudStartTrialButton
                         {...props}
                         onClick={mockOnClick}
+                        email='fakeemail@topreventbusinessemailvalidation'
                     />
                 </Provider>,
             );

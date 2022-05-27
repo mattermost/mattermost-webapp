@@ -57,6 +57,7 @@ const RequestBusinessEmailModal = (
     }, []);
 
     const validateEmail = useCallback(async (email: string) => {
+        // no value set, no validation and clean the custom input label
         if (!email) {
             setCustomInputLabel(null);
             return;
@@ -69,12 +70,15 @@ const RequestBusinessEmailModal = (
             return;
         }
 
+        // go and validate the email against the validateBusinessEmail endpoint
         const isValidBusinessEmail = await validateBusinessEmail()();
         if (!isValidBusinessEmail) {
             const errMsg = formatMessage({id: 'request_business_email_modal.not_business_email', defaultMessage: 'This doesnt look like a bussiness email'});
             setCustomInputLabel({type: ItemStatus.ERROR, value: errMsg});
             return;
         }
+
+        // if it is a valid business email, proceed, enable the start trial button and notify the user about the email is valid
         const okMsg = formatMessage({id: 'request_business_email_modal.valid_business_email', defaultMessage: 'This is a valid email'});
         setCustomInputLabel({type: ItemStatus.OK, value: okMsg});
         setTrialBtnDisabled(false);
@@ -143,8 +147,8 @@ const RequestBusinessEmailModal = (
                 <StartCloudTrialBtn
                     message={formatMessage({id: 'cloud.startTrial.modal.btn', defaultMessage: 'Start trial'})}
                     telemetryId='start_cloud_trial'
-                    emailAlreadyValidated={true}
                     disabled={trialBtnDisabled}
+                    email={email}
                 />
             </div>
         </GenericModal>

@@ -25,7 +25,7 @@ export type CloudStartTrialBtnProps = {
     onClick?: () => void;
     extraClass?: string;
     afterTrialRequest?: () => void;
-    emailAlreadyValidated?: boolean;
+    email?: string;
     disabled?: boolean;
 };
 
@@ -43,7 +43,7 @@ const CloudStartTrialButton = ({
     extraClass,
     onClick,
     afterTrialRequest,
-    emailAlreadyValidated,
+    email,
     disabled = false,
 }: CloudStartTrialBtnProps) => {
     const {formatMessage} = useIntl();
@@ -54,12 +54,12 @@ const CloudStartTrialButton = ({
     const requestStartTrial = async (): Promise<TrialLoadStatus> => {
         setLoadStatus(TrialLoadStatus.Started);
 
-        // emailAlreadyValidated is a prop that is set ONLY from the instance of this component
-        // created in the requestBusinessEmail modal. So the flow is the following: This button is clicked from
+        // email is set ONLY from the instance of this component created in the requestBusinessEmail modal.
+        // So the flow is the following: This button is clicked from
         // the learn more about trial modal, If the email of the admin and the
         // email of the CWS customer are not valid, the requestBusinessModal is shown and that component will
-        // create this StartCloudTrialBtn passing the emailAlreadyValidated as TRUE, so the requetTrial flow continues normally
-        if (!emailAlreadyValidated) {
+        // create this StartCloudTrialBtn passing the email as TRUE, so the requetTrial flow continues normally
+        if (!email) {
             const isValidBusinessEmail = await validateBusinessEmail()();
             if (!isValidBusinessEmail) {
                 await dispatch(closeModal(ModalIdentifiers.LEARN_MORE_TRIAL_MODAL));
@@ -69,7 +69,7 @@ const CloudStartTrialButton = ({
             }
         }
 
-        const productUpdated = true; //await requestCloudTrial('start_trial_btn')();
+        const productUpdated = await requestCloudTrial('start_trial_btn', (email || ''))();
         if (!productUpdated) {
             setLoadStatus(TrialLoadStatus.Failed);
             return TrialLoadStatus.Failed;

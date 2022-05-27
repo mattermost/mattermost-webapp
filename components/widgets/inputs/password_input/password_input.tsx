@@ -7,7 +7,7 @@ import classNames from 'classnames';
 
 import {ItemStatus} from 'utils/constants';
 
-import Input, {SIZE} from '../input/input';
+import Input, {CustomMessageInputType, SIZE} from '../input/input';
 
 import './password_input.scss';
 
@@ -47,6 +47,10 @@ const PasswordInput = React.forwardRef((
 
     const toggleShowPassword = () => setShowPassword(!showPassword);
 
+    const customMessageError: CustomMessageInputType | null = error ? {type: ItemStatus.ERROR, value: error} : null;
+    const customMessageInfo: CustomMessageInputType | null = info ? {type: ItemStatus.INFO, value: info} : null;
+    const customMessage = error ? customMessageError : customMessageInfo;
+
     return (
         <Input
             className={classNames('password-input', className)}
@@ -75,8 +79,7 @@ const PasswordInput = React.forwardRef((
                 formatMessage({id: 'widget.passwordInput.password', defaultMessage: 'Password'})
             )}
             hasError={hasError}
-            customMessage={error ? {type: ItemStatus.ERROR, value: error} : null}
-            info={info}
+            customMessage={error || info ? customMessage : undefined}
             disabled={disabled}
             ref={ref}
         />

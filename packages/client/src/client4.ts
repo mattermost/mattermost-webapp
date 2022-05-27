@@ -3796,10 +3796,10 @@ export default class Client4 {
         );
     }
 
-    requestCloudTrial = () => {
+    requestCloudTrial = (email = '') => {
         return this.doFetchWithResponse<CloudCustomer>(
             `${this.getCloudRoute()}/request-trial`,
-            {method: 'put'},
+            {method: 'put', body: JSON.stringify({email})},
         );
     }
 
