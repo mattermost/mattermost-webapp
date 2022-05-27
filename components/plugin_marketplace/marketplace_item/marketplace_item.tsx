@@ -109,8 +109,8 @@ export default class MarketplaceItem extends React.PureComponent <MarketplaceIte
                     description={'This plugin does not count towards your limit of 5 enabled integrations'}
                     url={''}
                     color={''}
-                />
-            )
+                />,
+            );
         }
 
         const pluginDetailsInner = (

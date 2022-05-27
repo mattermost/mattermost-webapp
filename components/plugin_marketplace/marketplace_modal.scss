@@ -34,11 +34,11 @@
     }
 
     .marketplace-usage-message {
-        border: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
-        border-radius: 4px;
         position: relative;
         padding: 25px;
+        border: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
         background-color: rgba(var(--center-channel-color-rgb), 0.04);
+        border-radius: 4px;
 
         .upgrade-buttons button {
             margin-right: 5px;
@@ -46,12 +46,12 @@
 
         .close-x {
             position: absolute;
-            right: 0;
             top: 0;
+            right: 0;
 
             svg {
-                height: 32px;
                 width: 32px;
+                height: 32px;
             }
         }
     }
@@ -145,7 +145,10 @@
         box-shadow: none;
     }
 
-    .btn-primary, .btn-default, .btn-outline, .btn-link {
+    .btn-primary,
+    .btn-default,
+    .btn-outline,
+    .btn-link {
         min-width: 8rem;
         padding: 8px 16px;
         border-radius: 4px;
@@ -162,16 +165,17 @@
         top: 1rem;
     }
 
-    .plugin-status-label  {
+    .plugin-status-label {
         position: absolute;
+        top: 5px;
         right: 10px;
-        top: 5px
     }
 
     .more-modal__actions {
         position: relative;
 
-        .btn-primary, .btn-outline {
+        .btn-primary,
+        .btn-outline {
             position: absolute;
             right: 120px;
         }

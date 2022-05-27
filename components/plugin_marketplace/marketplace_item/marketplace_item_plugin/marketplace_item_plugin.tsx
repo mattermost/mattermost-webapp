@@ -10,7 +10,7 @@ import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import type {MarketplaceLabel} from '@mattermost/types/marketplace';
-import {PluginStatus} from '@mattermost/types/plugins';
+import {PluginStatusRedux} from '@mattermost/types/plugins';
 import {IntegrationsUsage, Limits} from '@mattermost/types/cloud';
 
 import PluginState from 'mattermost-redux/constants/plugins';
@@ -232,7 +232,7 @@ export type MarketplaceItemPluginProps = {
     error?: string;
     isDefaultMarketplace: boolean;
     trackEvent: (category: string, event: string, props?: unknown) => void;
-    pluginStatus: PluginStatus;
+    pluginStatus?: PluginStatusRedux;
     limits?: Limits;
     integrationsUsage?: IntegrationsUsage;
 
@@ -315,7 +315,7 @@ export default class MarketplaceItemPlugin extends React.PureComponent <Marketpl
                 id='marketplace_modal.plugin_status.enabled'
                 defaultMessage='Enabled'
             />
-        ): (
+        ) : (
             <FormattedMessage
                 id='marketplace_modal.plugin_status.disabled'
                 defaultMessage='Disabled'
@@ -350,6 +350,8 @@ export default class MarketplaceItemPlugin extends React.PureComponent <Marketpl
         if (this.props.installedVersion !== '' && !this.props.installing && !this.props.error) {
             actionButton = (
                 <Link
+
+                    // site url not supported here
                     to={'/admin_console/plugins/plugin_' + this.props.id}
                 >
                     <button
@@ -371,7 +373,7 @@ export default class MarketplaceItemPlugin extends React.PureComponent <Marketpl
                         id='marketplace_modal.list.try_again'
                         defaultMessage='Try Again'
                     />
-                    );
+                );
             } else {
                 actionLabel = (
                     <FormattedMessage
@@ -381,7 +383,6 @@ export default class MarketplaceItemPlugin extends React.PureComponent <Marketpl
                 );
             }
 
-
             let disableInstallButton = this.props.installing;
             const limit = this.props.limits?.integrations?.enabled;
             const usage = this.props.integrationsUsage?.enabled;
@@ -389,7 +390,7 @@ export default class MarketplaceItemPlugin extends React.PureComponent <Marketpl
                 disableInstallButton = true;
             }
 
-            actionButton =  (
+            actionButton = (
                 <button
                     onClick={this.onInstall}
                     className='btn btn-primary'

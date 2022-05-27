@@ -204,10 +204,12 @@ describe('components/MarketplaceItemPlugin', () => {
             iconData: 'icon',
             installing: false,
             isDefaultMarketplace: true,
-            trackEvent: jest.fn(() => {}),
+            trackEvent: jest.fn(),
             actions: {
-                installPlugin: jest.fn(() => {}),
-                closeMarketplaceModal: jest.fn(() => {}),
+                installPlugin: jest.fn(),
+                closeMarketplaceModal: jest.fn(),
+                disablePlugin: jest.fn(),
+                enablePlugin: jest.fn(),
             },
         };
 

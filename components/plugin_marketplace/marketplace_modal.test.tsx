@@ -128,6 +128,9 @@ describe('components/marketplace/', () => {
                     return Promise.resolve({});
                 }),
                 setFirstAdminVisitMarketplaceStatus: jest.fn(),
+                getCloudLimits: jest.fn(),
+                getIntegrationsUsage: jest.fn(),
+                getPluginStatuses: jest.fn(),
             },
         };
 
