@@ -33,6 +33,9 @@ export const LimitTypes = {
     boardsCards: 'boardsCards',
 } as const;
 
+// Hook used to tell if some limit status should be surfaced to the user
+// for further attention, for example for prompting the user to upgrade
+// from a free cloud instance to a paid cloud instance.
 export default function useGetHighestThresholdCloudLimit(usage: CloudUsage, limits: Limits): LimitSummary | false {
     return useMemo(() => {
         if (Object.keys(limits).length === 0) {
@@ -90,7 +93,11 @@ export default function useGetHighestThresholdCloudLimit(usage: CloudUsage, limi
                 }
                 return acc;
             }, false);
-        if (!highestLimit || (highestLimit.usage / highestLimit.limit) < (limitThresholds.warn / 100)) {
+
+        // Either no limit category was defined (!highestLimit)
+        // or no limit meets the minimum threshold for needing attention
+        const noLimitNeedsAttention = !highestLimit || (highestLimit.usage / highestLimit.limit) < (limitThresholds.warn / 100);
+        if (noLimitNeedsAttention) {
             return false;
         }
         return highestLimit;

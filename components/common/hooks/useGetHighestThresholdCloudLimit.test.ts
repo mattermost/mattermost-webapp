@@ -28,7 +28,7 @@ const zeroUsage = {
         enabledLoaded: true,
     },
     teams: {
-        active: 1,
+        active: 0,
         teamsLoaded: true,
     },
 };
