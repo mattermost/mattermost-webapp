@@ -41,6 +41,9 @@ export default function AppBar() {
     });
 
     const pluginComponents = orderedAppBarPluginComponents.concat(channelHeaderComponents);
+    
+    console.log("Rendering plugin components");
+    console.log(pluginComponents);
 
     return (
         <div className={'app-bar'}>

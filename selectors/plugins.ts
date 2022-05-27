@@ -41,6 +41,15 @@ export const getChannelHeaderPluginComponents = createSelector(
     },
 );
 
+export const getChannelHeaderMenuPluginComponents = createSelector(
+    'getChannelHeaderMenuPluginComponents',
+    (state: GlobalState) => state,
+    (state: GlobalState) => state.plugins.components.ChannelHeader,
+    (state, channelHeaderMenuComponents = []) => {
+        return channelHeaderMenuComponents.filter((component) => component.shouldRender(state))
+    },
+);
+
 export const getChannelIntroPluginComponents = createSelector(
     'getChannelIntroPluginComponents',
     (state: GlobalState) => state.plugins.components.ChannelIntroButton,

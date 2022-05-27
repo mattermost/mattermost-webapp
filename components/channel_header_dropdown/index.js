@@ -30,6 +30,8 @@ import Desktop from './channel_header_dropdown';
 import Items from './channel_header_dropdown_items';
 import Mobile from './mobile_channel_header_dropdown';
 
+import {getChannelHeaderMenuPluginComponents} from 'selectors/plugins'
+
 const getTeammateId = createSelector(
     'getTeammateId',
     getCurrentChannel,
@@ -65,7 +67,7 @@ const mapStateToProps = (state) => ({
     isReadonly: false,
     isArchived: isCurrentChannelArchived(state),
     penultimateViewedChannelName: getPenultimateViewedChannelName(state) || getRedirectChannelNameForTeam(state, getCurrentTeamId(state)),
-    pluginMenuItems: state.plugins.components.ChannelHeader || [],
+    pluginMenuItems: getChannelHeaderMenuPluginComponents(state),
     isLicensedForLDAPGroups: state.entities.general.license.LDAPGroups === 'true',
 });
 

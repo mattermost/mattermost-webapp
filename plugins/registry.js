@@ -309,7 +309,7 @@ export default class PluginRegistry {
     // - text - A string or React element to display in the menu
     // - action - A function that receives the channelId and is called when the menu items is clicked.
     // Returns a unique identifier.
-    registerChannelHeaderMenuAction(text, action) {
+    registerChannelHeaderMenuAction(text, action, shouldRender = (state) => true) {
         const id = generateId();
 
         store.dispatch({
@@ -320,6 +320,7 @@ export default class PluginRegistry {
                 pluginId: this.id,
                 text: resolveReactElement(text),
                 action,
+                shouldRender,
             },
         });
 
