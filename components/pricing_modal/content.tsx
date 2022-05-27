@@ -55,9 +55,9 @@ type CardProps = {
     price: string;
     rate?: string;
     briefing: PlanBriefing;
+    extraBriefing: PlanBriefing;
     planDisclaimer?: string;
     buttonDetails: ButtonDetails;
-    extraAction?: ButtonDetails;
     planLabel?: JSX.Element;
 }
 
@@ -115,13 +115,19 @@ function Card(props: CardProps) {
                         onClick={props.buttonDetails.action}
                     >{props.buttonDetails.text}</button>
                 </div>
-
-                {props.extraAction && (
-                    <button
-                        className='plan_action_btn'
-                        onClick={props.extraAction?.action}
-                    >{props.extraAction?.text}</button>
-                )}
+                <div className='plan_extra_briefing'>
+                    <span>{props.extraBriefing.title}</span>
+                    {props.extraBriefing.items.map((i) => {
+                        return (
+                            <div
+                                className='item'
+                                key={i}
+                            >
+                                <i className='fa fa-circle bullet'/><p>{i}</p>
+                            </div>
+                        );
+                    })}
+                </div>
             </div>
         </div>
     );
@@ -174,20 +180,6 @@ function Content(props: ContentProps) {
 
     return (
         <div className='Content'>
-            <div className='self-hosted-alert'>
-                <span>{formatMessage({id: 'pricing_modal.lookingToSelfHost', defaultMessage: 'Looking to self-host?'})}</span>
-                <a
-                    onClick={() =>
-                        trackEvent(
-                            TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
-                            'click_looking_to_self_host',
-                        )
-                    }
-                    href={CloudLinks.DEPLOYMENT_OPTIONS}
-                    rel='noopener noreferrer'
-                    target='_blank'
-                >{formatMessage({id: 'pricing_modal.reviewDeploymentOptions', defaultMessage: 'Review deployment options'})}</a>
-            </div>
             <Modal.Header className='PricingModal__header'>
                 <div className='header_lhs'>
                     <h1 className='title'>
@@ -203,103 +195,135 @@ function Content(props: ContentProps) {
                     onClick={props.onHide}
                 />
             </Modal.Header>
-            <Modal.Body className='PricingModal__body'>
-                <div className='self-hosted-svg-left'>
-                    <LadySvg/>
+            <Modal.Body>
+                <div className='self-hosted-alert'>
+                    <span>{formatMessage({id: 'pricing_modal.lookingToSelfHost', defaultMessage: 'Looking to self-host?'})}</span>
+                    <a
+                        onClick={() =>
+                            trackEvent(
+                                TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
+                                'click_looking_to_self_host',
+                            )
+                        }
+                        href={CloudLinks.DEPLOYMENT_OPTIONS}
+                        rel='noopener noreferrer'
+                        target='_blank'
+                    >{formatMessage({id: 'pricing_modal.reviewDeploymentOptions', defaultMessage: 'Review deployment options'})}</a>
                 </div>
-                <div className='self-hosted-svg-right'>
-                    <ManSvg/>
-                </div>
-                <Card
-                    id='starter'
-                    topColor='#9DA7B8'
-                    plan='Starter'
-                    price={formatMessage({id: 'pricing_modal.price.free', defaultMessage: 'Free'})}
-                    briefing={{
-                        title: formatMessage({id: 'pricing_modal.briefing.starter', defaultMessage: 'Starter comes with...'}),
-                        items: [
-                            formatMessage({id: 'pricing_modal.briefing.storage', defaultMessage: '{storage}GB file storage'}, {storage: '10'}),
-                            formatMessage({id: 'pricing_modal.briefing.starter.messageHistory', defaultMessage: 'Limited message history'}),
-                            formatMessage({id: 'pricing_modal.briefing.starter.boardCards', defaultMessage: '{boards} Boards cards per server'}, {boards: '500'}),
-                            formatMessage({id: 'pricing_modal.briefing.starter.teamCount', defaultMessage: 'Limited to one team'})],
-                    }}
-                    buttonDetails={{
-                        action: () => {}, // noop until we support downgrade
-                        text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
-                        disabled: true, // disabled until we have functionality to downgrade
-                        customClass: ButtonCustomiserClasses.grayed,
-                    }}
-                    planDisclaimer={formatMessage({id: 'pricing_modal.planDisclaimer.starter', defaultMessage: 'This plan has data restrictions.'})}
-                    planLabel={
-                        isStarter ? (
+                <div className='PricingModal__body'>
+                    <div className='self-hosted-svg-left'>
+                        <LadySvg/>
+                    </div>
+                    <div className='self-hosted-svg-right'>
+                        <ManSvg/>
+                    </div>
+                    <Card
+                        id='starter'
+                        topColor='#9DA7B8'
+                        plan='Starter'
+                        price={formatMessage({id: 'pricing_modal.price.free', defaultMessage: 'Free'})}
+                        briefing={{
+                            title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),
+                            items: [
+                                formatMessage({id: 'pricing_modal.briefing.starter.recentMessageBoards', defaultMessage: 'Access to {messages} most recent messages, {boards} most recent board'}, {messages: '10,000', boards: '500'}),
+                                formatMessage({id: 'pricing_modal.briefing.storage', defaultMessage: '{storage}GB file storage limit'}, {storage: '10'}),
+                                formatMessage({id: 'pricing_modal.briefing.starter.oneTeamPerWorkspace', defaultMessage: 'One team per workspace'}),
+                                formatMessage({id: 'pricing_modal.briefing.starter.integrations', defaultMessage: '{integrations} integrations with other apps like GitHub, Jira and Jenkins'}, {integrations: '5'}),
+                            ],
+                        }}
+                        extraBriefing={{
+                            title: formatMessage({id: 'pricing_modal.extra_briefing.title', defaultMessage: 'More features'}),
+                            items: [
+                                formatMessage({id: 'pricing_modal.extra_briefing.starter.calls', defaultMessage: '1:1 audio calls and screen share'}),
+                            ],
+                        }}
+                        buttonDetails={{
+                            action: () => {}, // noop until we support downgrade
+                            text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
+                            disabled: true, // disabled until we have functionality to downgrade
+                            customClass: ButtonCustomiserClasses.grayed,
+                        }}
+                        planDisclaimer={formatMessage({id: 'pricing_modal.planDisclaimer.starter', defaultMessage: 'This plan has data restrictions.'})}
+                        planLabel={
+                            isStarter ? (
+                                <PlanLabel
+                                    text={formatMessage({id: 'pricing_modal.planLabel.currentPlan', defaultMessage: 'CURRENT PLAN'})}
+                                    color='#3DB887'
+                                    bgColor='var(--center-channel-bg)'
+                                    firstSvg={<CheckMarkSvg/>}
+                                />) : undefined}
+                    />
+                    <Card
+                        id='professional'
+                        topColor='#4A69AC'
+                        plan='Professional'
+                        price={`$${professionalProduct ? professionalProduct.price_per_seat : '10'}`}
+                        rate={formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: '/user/month'})}
+                        briefing={{
+                            title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),
+                            items: [
+                                formatMessage({id: 'pricing_modal.briefing.professional.messageBoardsIntegrationsCalls', defaultMessage: 'Unlimited access to messages and boards history, teams, integrations and calls'}),
+                                formatMessage({id: 'pricing_modal.briefing.storage', defaultMessage: '{storage}GB file storage limit'}, {storage: '250'}),
+                                formatMessage({id: 'pricing_modal.briefing.professional.advancedPlaybook', defaultMessage: 'Advanced Playbook workflows with retrospectives'}),
+                                formatMessage({id: 'pricing_modal.extra_briefing.professional.ssoSaml', defaultMessage: 'SSO with SAML 2.0, including Okta, OneLogin and ADFS'}),
+                            ],
+                        }}
+                        extraBriefing={{
+                            title: formatMessage({id: 'pricing_modal.extra_briefing.title', defaultMessage: 'More features'}),
+                            items: [
+                                formatMessage({id: 'pricing_modal.extra_briefing.professional.ssoadLdap', defaultMessage: 'SSO support with AD/LDAP, Google, O365, OpenID'}),
+                                formatMessage({id: 'pricing_modal.extra_briefing.professional.guestAccess', defaultMessage: 'Guest access with MFA enforcement'}),
+                            ],
+                        }}
+                        buttonDetails={{
+                            action: openPurchaseModal,
+                            text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
+                            customClass: isPostTrial ? ButtonCustomiserClasses.special : ButtonCustomiserClasses.active,
+                        }}
+                        planLabel={
                             <PlanLabel
-                                text={formatMessage({id: 'pricing_modal.planLabel.currentPlan', defaultMessage: 'CURRENT PLAN'})}
-                                color='#3DB887'
-                                bgColor='var(--center-channel-bg)'
-                                firstSvg={<CheckMarkSvg/>}
-                            />) : undefined}
-                />
-                <Card
-                    id='professional'
-                    topColor='#4A69AC'
-                    plan='Professional'
-                    price={`$${professionalProduct ? professionalProduct.price_per_seat : '10'}`}
-                    rate={formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: '/user/month'})}
-                    briefing={{
-                        title: formatMessage({id: 'pricing_modal.briefing.professional', defaultMessage: 'All the features of Starter, plus'}),
-                        items: [
-                            formatMessage({id: 'pricing_modal.briefing.storage', defaultMessage: '{storage}GB file storage'}, {storage: '250'}),
-                            'OneLogin/ADFS SAML 2.0',
-                            'OpenID connect',
-                            'Office365 suite integration',
-                            formatMessage({id: 'pricing_modal.briefing.professional.readOnlyAnnoucementChannels', defaultMessage: 'Read-only announcement channels'})],
-                    }}
-                    buttonDetails={{
-                        action: openPurchaseModal,
-                        text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
-                        customClass: isPostTrial ? ButtonCustomiserClasses.special : ButtonCustomiserClasses.active,
-                    }}
-                    planLabel={
-                        <PlanLabel
-                            text={formatMessage({id: 'pricing_modal.planLabel.mostPopular', defaultMessage: 'MOST POPULAR'})}
-                            bgColor='var(--title-color-indigo-500)'
-                            color='var(--center-channel-bg)'
-                            firstSvg={<StarMarkSvg/>}
-                            secondSvg={<StarMarkSvg/>}
-                        />}
-                />
-                <Card
-                    id='enterprise'
-                    topColor='var(--denim-button-bg)'
-                    plan='Enterprise'
-                    price={formatMessage({id: 'pricing_modal.price.contactSales', defaultMessage: 'Contact sales'})}
-                    briefing={{
-                        title: formatMessage({id: 'pricing_modal.briefing.enterprise', defaultMessage: 'All the features of Professional, plus'}),
-                        items: [
-                            'LDAP group sync',
-                            formatMessage({id: 'pricing_modal.briefing.professional.highAvailability', defaultMessage: 'High Availability'}),
-                            formatMessage({id: 'pricing_modal.briefing.enterprise.advancedCompliance', defaultMessage: 'Advanced compliance'}),
-                            formatMessage({id: 'pricing_modal.briefing.professional.advancedRolesAndPermissions', defaultMessage: 'Advanced roles and permissions'})],
-                    }}
-                    buttonDetails={isPostTrial ? {
-                        action: () => {
-                            window.open(contactSalesLink, '_blank');
-                        },
-                        text: formatMessage({id: 'pricing_modal.btn.contactSales', defaultMessage: 'Contact Sales'}),
-                        customClass: ButtonCustomiserClasses.active,
-                    } : {
-                        action: openLearnMoreTrialModal,
-                        text: formatMessage({id: 'pricing_modal.btn.tryDays', defaultMessage: 'Try free for {days} days'}, {days: '30'}),
-                        customClass: isEnterpriseTrial ? ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.special,
-                        disabled: isEnterpriseTrial,
-                    }}
-                    extraAction={isPostTrial ? undefined : {
-                        action: () => {
-                            window.open(contactSalesLink, '_blank');
-                        },
-                        text: formatMessage({id: 'pricing_modal.btn.contactSales', defaultMessage: 'Contact Sales'}),
-                    }}
-                />
+                                text={formatMessage({id: 'pricing_modal.planLabel.mostPopular', defaultMessage: 'MOST POPULAR'})}
+                                bgColor='var(--title-color-indigo-500)'
+                                color='var(--center-channel-bg)'
+                                firstSvg={<StarMarkSvg/>}
+                                secondSvg={<StarMarkSvg/>}
+                            />}
+                    />
+                    <Card
+                        id='enterprise'
+                        topColor='var(--denim-button-bg)'
+                        plan='Enterprise'
+                        price={formatMessage({id: 'pricing_modal.price.contactSales', defaultMessage: 'Contact sales'})}
+                        briefing={{
+                            title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),
+                            items: [
+                                formatMessage({id: 'pricing_modal.briefing.enterprise.unlimitedFileStorage', defaultMessage: 'Unlimited file storage'}),
+                                formatMessage({id: 'pricing_modal.briefing.enterprise.groupSync', defaultMessage: 'AD/LDAP group sync'}),
+                                formatMessage({id: 'pricing_modal.briefing.enterprise.mobileSecurity', defaultMessage: 'Advanced mobile security via ID-only push notifications'}),
+                                formatMessage({id: 'pricing_modal.briefing.enterprise.rolesAndPermissions', defaultMessage: 'Advanced roles and permissions'}),
+                                formatMessage({id: 'pricing_modal.briefing.enterprise.compliance', defaultMessage: 'Advanced compliance management'}),
+                            ],
+                        }}
+                        extraBriefing={{
+                            title: formatMessage({id: 'pricing_modal.extra_briefing.title', defaultMessage: 'More features'}),
+                            items: [
+                                formatMessage({id: 'pricing_modal.extra_briefing.enterprise.playBookAnalytics', defaultMessage: 'Playbook analytics dashboard'}),
+                            ],
+                        }}
+                        buttonDetails={isPostTrial ? {
+                            action: () => {
+                                window.open(contactSalesLink, '_blank');
+                            },
+                            text: formatMessage({id: 'pricing_modal.btn.contactSales', defaultMessage: 'Contact Sales'}),
+                            customClass: ButtonCustomiserClasses.active,
+                        } : {
+                            action: openLearnMoreTrialModal,
+                            text: formatMessage({id: 'pricing_modal.btn.tryDays', defaultMessage: 'Try free for {days} days'}, {days: '30'}),
+                            customClass: isEnterpriseTrial ? ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.special,
+                            disabled: isEnterpriseTrial,
+                        }}
+                    />
+                </div>
             </Modal.Body>
         </div>
     );
