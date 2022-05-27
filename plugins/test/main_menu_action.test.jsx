@@ -43,6 +43,7 @@ describe('plugins/MainMenuActions', () => {
             showFlaggedPosts: jest.fn(),
             closeRightHandSide: jest.fn(),
             closeRhsMenu: jest.fn(),
+            getCloudLimits: jest.fn(),
         },
         isCloud: false,
         subscription: {},

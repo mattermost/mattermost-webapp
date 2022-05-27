@@ -70,6 +70,7 @@ describe('components/Menu', () => {
             showFlaggedPosts: jest.fn(),
             closeRightHandSide: jest.fn(),
             closeRhsMenu: jest.fn(),
+            getCloudLimits: jest.fn(),
         },
         teamIsGroupConstrained: false,
         isCloud: false,

@@ -76,6 +76,7 @@ export type Props = {
         showFlaggedPosts: () => void;
         closeRightHandSide: () => void;
         closeRhsMenu: () => void;
+        getCloudLimits: () => void;
     };
 
 };
@@ -88,6 +89,10 @@ export class MainMenu extends React.PureComponent<Props> {
 
     async componentDidMount(): Promise<void> {
         document.addEventListener('keydown', this.handleKeyDown);
+
+        if (this.props.isCloudFreeEnabled) {
+            this.props.actions.getCloudLimits();
+        }
     }
 
     componentWillUnmount(): void {
@@ -155,6 +160,7 @@ export class MainMenu extends React.PureComponent<Props> {
 
         const someIntegrationEnabled = this.props.enableIncomingWebhooks || this.props.enableOutgoingWebhooks || this.props.enableCommands || this.props.enableOAuthServiceProvider || this.props.canManageSystemBots;
         const showIntegrations = !this.props.mobile && someIntegrationEnabled && this.props.canManageIntegrations;
+        const createTeamRestricted = this.props.isCloudFreeEnabled && this.props.teamsLimitReached;
 
         const {formatMessage} = this.props.intl;
 
@@ -467,10 +473,10 @@ export class MainMenu extends React.PureComponent<Props> {
                         <Menu.ItemLink
                             id='createTeam'
                             to='/create_team'
-                            className={this.props.isCloudFreeEnabled && this.props.teamsLimitReached ? 'MenuItem__with-icon-tooltip' : ''}
-                            disabled={this.props.isCloudFreeEnabled && this.props.teamsLimitReached && !this.props.isFreeTrial}
+                            className={createTeamRestricted ? 'MenuItem__with-icon-tooltip' : ''}
+                            disabled={createTeamRestricted && !this.props.isFreeTrial}
                             text={formatMessage({id: 'navbar_dropdown.create', defaultMessage: 'Create a Team'})}
-                            sibling={this.props.isCloudFreeEnabled && this.props.teamsLimitReached && (
+                            sibling={createTeamRestricted && (
                                 <span className='MenuItem__icon-tooltip-container'>
                                     <OverlayTrigger
                                         delayShow={Constants.OVERLAY_TIME_DELAY}
