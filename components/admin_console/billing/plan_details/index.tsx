@@ -13,7 +13,7 @@ import {
     getPlanPricing,
     planDetailsTopElements,
     currentPlanText,
-    featureList,
+    FeatureList,
 } from './plan_details';
 
 import './plan_details.scss';
@@ -53,7 +53,10 @@ const PlanDetails = ({isFreeTrial, subscriptionPlan}: PlanDetailsProps) => {
                     defaultMessage='Unlimited teams, channels, and search history'
                 />
             </div>
-            {featureList(subscriptionPlan, isPaidTier)}
+            <FeatureList
+                subscriptionPlan={subscriptionPlan}
+                isPaidTier={isPaidTier}
+            />
             {currentPlanText(isFreeTrial)}
         </div>
     );

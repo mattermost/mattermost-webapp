@@ -7,7 +7,7 @@ import {shallow, ShallowWrapper} from 'enzyme';
 
 import {CloudProducts} from 'utils/constants';
 
-import {featureList} from './plan_details';
+import {FeatureList} from './plan_details';
 
 describe('components/admin_console/billing/plan_details', () => {
     type Props = {
@@ -23,7 +23,10 @@ describe('components/admin_console/billing/plan_details', () => {
     test('should match snapshot when running FREE tier', () => {
         const wrapper = shallow(
             <WrapperComponent>
-                {featureList(CloudProducts.STARTER, false)}
+                <FeatureList
+                    subscriptionPlan={CloudProducts.STARTER}
+                    isPaidTier={false}
+                />
             </WrapperComponent>,
         );
         expect(wrapper).toMatchSnapshot();
@@ -31,7 +34,10 @@ describe('components/admin_console/billing/plan_details', () => {
     test('should match snapshot when running paid tier and professional', () => {
         const wrapper = shallow(
             <WrapperComponent>
-                {featureList(CloudProducts.PROFESSIONAL, true)}
+                <FeatureList
+                    subscriptionPlan={CloudProducts.PROFESSIONAL}
+                    isPaidTier={true}
+                />
             </WrapperComponent>,
         );
         expect(wrapper).toMatchSnapshot();
@@ -40,7 +46,10 @@ describe('components/admin_console/billing/plan_details', () => {
     test('should match snapshot when running paid tier and enterprise', () => {
         const wrapper = shallow(
             <WrapperComponent>
-                {featureList(CloudProducts.ENTERPRISE, true)}
+                <FeatureList
+                    subscriptionPlan={CloudProducts.ENTERPRISE}
+                    isPaidTier={true}
+                />
             </WrapperComponent>,
         );
         expect(wrapper).toMatchSnapshot();
@@ -49,7 +58,10 @@ describe('components/admin_console/billing/plan_details', () => {
     test('should match snapshot when running paid tier and starter', () => {
         const wrapper = shallow(
             <WrapperComponent>
-                {featureList(CloudProducts.STARTER, true)}
+                <FeatureList
+                    subscriptionPlan={CloudProducts.STARTER}
+                    isPaidTier={true}
+                />
             </WrapperComponent>,
         );
         expect(wrapper).toMatchSnapshot();
@@ -58,25 +70,37 @@ describe('components/admin_console/billing/plan_details', () => {
     test('all feature items must have different values', () => {
         const wrapperEnterprise = shallow(
             <WrapperComponent>
-                {featureList(CloudProducts.ENTERPRISE, true)}
+                <FeatureList
+                    subscriptionPlan={CloudProducts.ENTERPRISE}
+                    isPaidTier={true}
+                />
             </WrapperComponent>,
         );
 
         const wrapperStarter = shallow(
             <WrapperComponent>
-                {featureList(CloudProducts.STARTER, true)}
+                <FeatureList
+                    subscriptionPlan={CloudProducts.STARTER}
+                    isPaidTier={true}
+                />
             </WrapperComponent>,
         );
 
         const wrapperProfessional = shallow(
             <WrapperComponent>
-                {featureList(CloudProducts.PROFESSIONAL, true)}
+                <FeatureList
+                    subscriptionPlan={CloudProducts.PROFESSIONAL}
+                    isPaidTier={true}
+                />
             </WrapperComponent>,
         );
 
         const wrapperFreeTier = shallow(
             <WrapperComponent>
-                {featureList(CloudProducts.PROFESSIONAL, false)}
+                <FeatureList
+                    subscriptionPlan={CloudProducts.PROFESSIONAL}
+                    isPaidTier={false}
+                />
             </WrapperComponent>,
         );
 

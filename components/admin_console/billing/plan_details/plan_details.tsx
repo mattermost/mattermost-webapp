@@ -2,16 +2,16 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedDate, FormattedMessage} from 'react-intl';
+import {FormattedDate, FormattedMessage, useIntl} from 'react-intl';
 import classNames from 'classnames';
 
 import {trackEvent} from 'actions/telemetry_actions';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import {getMonthLong} from 'utils/i18n';
 import {BillingSchemes, CloudLinks, CloudProducts} from 'utils/constants';
-import {localizeMessage} from 'utils/utils';
+import {fallbackStarterLimits, asGBString} from 'utils/limits';
+import useGetLimits from 'components/common/hooks/useGetLimits';
 
 import Badge from 'components/widgets/badges/badge';
 
@@ -37,7 +37,7 @@ export const seatsAndSubscriptionDates = (locale: string, userCount: number, num
         <div className='PlanDetails__seatsAndSubscriptionDates'>
             <div className='PlanDetails__seats'>
                 <div className='PlanDetails__seats-total'>
-                    <FormattedMarkdownMessage
+                    <FormattedMessage
                         id='admin.billing.subscription.planDetails.numberOfSeats'
                         defaultMessage='{numberOfSeats} seats'
                         values={{numberOfSeats}}
@@ -48,7 +48,7 @@ export const seatsAndSubscriptionDates = (locale: string, userCount: number, num
                         overLimit: userCount > numberOfSeats,
                     })}
                 >
-                    <FormattedMarkdownMessage
+                    <FormattedMessage
                         id='admin.billing.subscription.planDetails.numberOfSeatsRegistered'
                         defaultMessage='({userCount} currently registered)'
                         values={{userCount}}
@@ -70,7 +70,7 @@ export const seatsAndSubscriptionDates = (locale: string, userCount: number, num
                                         />
                                     </div>
                                     <div className='BillingSubscriptions__tooltipMessage'>
-                                        <FormattedMarkdownMessage
+                                        <FormattedMessage
                                             id='admin.billing.subscription.planDetails.prolongedOverages'
                                             defaultMessage='Prolonged overages may result in additional charges.'
                                         />
@@ -124,7 +124,7 @@ export const planDetailsTopElements = (
     if (isPaidTier) {
         userCountDisplay = (
             <div className='PlanDetails__userCount'>
-                <FormattedMarkdownMessage
+                <FormattedMessage
                     id='admin.billing.subscription.planDetails.userCount'
                     defaultMessage='{userCount} users'
                     values={{userCount}}
@@ -261,52 +261,188 @@ export const getPlanPricing = (
     return planPricing;
 };
 
-export const featureList = (subscriptionPlan: string | undefined, isPaidTier: boolean) => {
+interface FeatureListProps {
+    subscriptionPlan?: string;
+    isPaidTier: boolean;
+}
+
+export const FeatureList = (props: FeatureListProps) => {
+    const intl = useIntl();
+    const [limits] = useGetLimits();
     const featuresFreeTier = [
-        localizeMessage('admin.billing.subscription.planDetails.features.10GBstoragePerUser', '10 GB storage per user'),
-        localizeMessage('admin.billing.subscription.planDetails.features.99uptime', '99.0% uptime'),
-        localizeMessage('admin.billing.subscription.planDetails.features.selfServiceDocumentation', 'Self-Service documentation and forum support'),
-        localizeMessage('admin.billing.subscription.planDetails.features.mfaAuthentication', 'Google, GitLab, O365 & MFA Authentication'),
-        localizeMessage('admin.billing.subscription.planDetails.features.guestAccounts', 'Guest Accounts'),
-        localizeMessage('admin.billing.subscription.planDetails.features.unlimitedIntegrations', 'Unlimited Integrations'),
+        intl.formatMessage({
+            id: 'admin.billing.subscription.planDetails.features.10GBstoragePerUser',
+            defaultMessage: '10 GB storage per user',
+        }),
+        intl.formatMessage({
+            id: 'admin.billing.subscription.planDetails.features.99uptime',
+            defaultMessage: '99.0% uptime',
+        }),
+        intl.formatMessage({
+            id: 'admin.billing.subscription.planDetails.features.selfServiceDocumentation',
+            defaultMessage: 'Self-Service documentation and forum support',
+        }),
+        intl.formatMessage({
+            id: 'admin.billing.subscription.planDetails.features.mfaAuthentication',
+            defaultMessage: 'Google, GitLab, O365 & MFA Authentication',
+        }),
+        intl.formatMessage({
+            id: 'admin.billing.subscription.planDetails.features.guestAccounts',
+            defaultMessage: 'Guest Accounts',
+        }),
+        intl.formatMessage({
+            id: 'admin.billing.subscription.planDetails.features.unlimitedIntegrations',
+            defaultMessage: 'Unlimited Integrations',
+        }),
     ];
 
     const featuresCloudStarter = [
-        localizeMessage('admin.billing.subscription.planDetails.features.groupAndOneToOneMessaging', 'Group and one-to-one messaging, file sharing, and search'),
-        localizeMessage('admin.billing.subscription.planDetails.features.incidentCollaboration', 'Incident collaboration'),
-        localizeMessage('admin.billing.subscription.planDetails.features.unlimittedUsersAndMessagingHistory', 'Unlimited users & message history'),
-        localizeMessage('admin.billing.subscription.planDetails.features.mfa', 'Multi-Factor Authentication (MFA)'),
-        localizeMessage('admin.billing.subscription.planDetails.features.multilanguage', 'Multi-language translations'),
+        intl.formatMessage(
+            {
+                id: 'admin.billing.subscription.planDetails.features.limitedMessageHistory',
+                defaultMessage: 'Limited to a message history of {limit} messages',
+            },
+            {
+                limit: intl.formatNumber(limits.messages?.history ?? fallbackStarterLimits.messages.history),
+            },
+        ),
+        intl.formatMessage(
+            {
+                id: 'admin.billing.subscription.planDetails.features.limitedIntegrationsEnabled',
+                defaultMessage: 'Limited to {limit} Apps and Plugins',
+            },
+            {
+                limit: intl.formatNumber(limits.integrations?.enabled ?? fallbackStarterLimits.integrations.enabled),
+            },
+        ),
+        intl.formatMessage(
+            {
+                id: 'admin.billing.subscription.planDetails.features.limitedFileStorage',
+                defaultMessage: 'Limited to {limit} File Storage',
+            },
+            {
+
+                limit: asGBString(limits.files?.total_storage ?? fallbackStarterLimits.files.totalStorage, intl.formatNumber),
+            },
+        ),
+        intl.formatMessage(
+            {
+                id: 'admin.billing.subscription.planDetails.features.limitedBoardCards',
+                defaultMessage: 'Limited to {limit} board cards per workspace',
+            },
+            {
+
+                limit: intl.formatNumber(limits.boards?.cards ?? fallbackStarterLimits.boards.cards),
+            },
+        ),
+        intl.formatMessage({
+            id: 'admin.billing.subscription.planDetails.features.groupAndOneToOneMessaging',
+            defaultMessage: 'Group and one-to-one messaging, file sharing, and search',
+        }),
+        intl.formatMessage({
+            id: 'admin.billing.subscription.planDetails.features.incidentCollaboration',
+            defaultMessage: 'Incident collaboration',
+        }),
+        intl.formatMessage({
+            id: 'admin.billing.subscription.planDetails.features.unlimitedUsers',
+            defaultMessage: 'Unlimited users',
+        }),
+        intl.formatMessage({
+            id: 'admin.billing.subscription.planDetails.features.mfa',
+            defaultMessage: 'Multi-Factor Authentication (MFA)',
+        }),
+    ];
+
+    const featuresCloudStarterLegacy = [
+        intl.formatMessage({
+            id: 'admin.billing.subscription.planDetails.features.groupAndOneToOneMessaging',
+            defaultMessage: 'Group and one-to-one messaging, file sharing, and search',
+        }),
+        intl.formatMessage({
+            id: 'admin.billing.subscription.planDetails.features.incidentCollaboration',
+            defaultMessage: 'Incident collaboration',
+        }),
+        intl.formatMessage({
+            id: 'admin.billing.subscription.planDetails.features.unlimittedUsersAndMessagingHistory',
+            defaultMessage: 'Unlimited users & message history',
+        }),
+        intl.formatMessage({
+            id: 'admin.billing.subscription.planDetails.features.mfa',
+            defaultMessage: 'Multi-Factor Authentication (MFA)',
+        }),
+        intl.formatMessage({
+            id: 'admin.billing.subscription.planDetails.features.multilanguage',
+            defaultMessage: 'Multi-language translations',
+        }),
     ];
 
     const featuresCloudProfessional = [
-        localizeMessage('admin.billing.subscription.planDetails.features.advanceTeamPermission', 'Advanced team permissions'),
-        localizeMessage('admin.billing.subscription.planDetails.features.mfaEnforcement', 'MFA enforcement'),
-        localizeMessage('admin.billing.subscription.planDetails.features.multiplatformSso', 'GitLab, Google, and O365 single sign-on'),
-        localizeMessage('admin.billing.subscription.planDetails.features.guestAccounts', 'Guest Accounts'),
-        localizeMessage('admin.billing.subscription.planDetails.features.channelModeration', 'Channel moderation'),
-        localizeMessage('admin.billing.subscription.planDetails.features.readOnlyChannels', 'Read-only announcement channels'),
+        intl.formatMessage({
+            id: 'admin.billing.subscription.planDetails.features.advanceTeamPermission',
+            defaultMessage: 'Advanced team permissions',
+        }),
+        intl.formatMessage({
+            id: 'admin.billing.subscription.planDetails.features.mfaEnforcement',
+            defaultMessage: 'MFA enforcement',
+        }),
+        intl.formatMessage({
+            id: 'admin.billing.subscription.planDetails.features.multiplatformSso',
+            defaultMessage: 'GitLab, Google, and O365 single sign-on',
+        }),
+        intl.formatMessage({
+            id: 'admin.billing.subscription.planDetails.features.guestAccounts',
+            defaultMessage: 'Guest Accounts',
+        }),
+        intl.formatMessage({
+            id: 'admin.billing.subscription.planDetails.features.channelModeration',
+            defaultMessage: 'Channel moderation',
+        }),
+        intl.formatMessage({
+            id: 'admin.billing.subscription.planDetails.features.readOnlyChannels',
+            defaultMessage: 'Read-only announcement channels',
+        }),
     ];
 
     const featuresCloudEnterprise = [
-        localizeMessage('admin.billing.subscription.planDetails.features.enterpriseAdminAndSso', 'Enterprise administration & SSO'),
-        localizeMessage('admin.billing.subscription.planDetails.features.autoComplianceExports', 'Automated compliance exports'),
-        localizeMessage('admin.billing.subscription.planDetails.features.customRetentionPolicies', 'Custom data retention policies'),
-        localizeMessage('admin.billing.subscription.planDetails.features.sharedChannels', 'Shared channels (coming soon)'),
-        localizeMessage('admin.billing.subscription.planDetails.features.ldapSync', 'AD/LDAP group sync to teams & channels'),
-        localizeMessage('admin.billing.subscription.planDetails.features.premiumSupport', 'Premium Support (optional upgrade)'),
+        intl.formatMessage({
+            id: 'admin.billing.subscription.planDetails.features.enterpriseAdminAndSso',
+            defaultMessage: 'Enterprise administration & SSO',
+        }),
+        intl.formatMessage({
+            id: 'admin.billing.subscription.planDetails.features.autoComplianceExports',
+            defaultMessage: 'Automated compliance exports',
+        }),
+        intl.formatMessage({
+            id: 'admin.billing.subscription.planDetails.features.customRetentionPolicies',
+            defaultMessage: 'Custom data retention policies',
+        }),
+        intl.formatMessage({
+            id: 'admin.billing.subscription.planDetails.features.sharedChannels',
+            defaultMessage: 'Shared channels (coming soon)',
+        }),
+        intl.formatMessage({
+            id: 'admin.billing.subscription.planDetails.features.ldapSync',
+            defaultMessage: 'AD/LDAP group sync to teams & channels',
+        }),
+        intl.formatMessage({
+            id: 'admin.billing.subscription.planDetails.features.premiumSupport',
+            defaultMessage: 'Premium Support (optional upgrade)',
+        }),
     ];
 
     let features;
 
-    if (isPaidTier) {
-        switch (subscriptionPlan) {
+    if (props.isPaidTier) {
+        switch (props.subscriptionPlan) {
         case CloudProducts.PROFESSIONAL:
             features = featuresCloudProfessional;
             break;
 
         case CloudProducts.STARTER:
             features = featuresCloudStarter;
+            break;
+        case CloudProducts.STARTER_LEGACY:
+            features = featuresCloudStarterLegacy;
             break;
         case CloudProducts.ENTERPRISE:
             features = featuresCloudEnterprise;
@@ -320,7 +456,7 @@ export const featureList = (subscriptionPlan: string | undefined, isPaidTier: bo
         features = featuresFreeTier;
     }
 
-    return features?.map((feature, i) => (
+    const featureElements = features?.map((feature, i) => (
         <div
             key={`PlanDetails__feature${i.toString()}`}
             className='PlanDetails__feature'
@@ -329,4 +465,6 @@ export const featureList = (subscriptionPlan: string | undefined, isPaidTier: bo
             <span>{feature}</span>
         </div>
     ));
+
+    return <>{featureElements}</>;
 };
