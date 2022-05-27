@@ -60,11 +60,10 @@ function mapStateToProps(state: GlobalState) {
     const rhsState = getRhsState(state);
 
     const subscription = selectCloudSubscription(state);
-    const isCloud = getLicense(state).Cloud === 'true';
     const adminAnalytics = getAdminAnalytics(state);
     const cloudLimits = selectCloudLimits(state);
 
-    const isCloudFreeEnabled = isCloud && cloudFreeEnabled(state);
+    const isCloudFreeEnabled = cloudFreeEnabled(state);
     const isFreeTrial = subscription?.is_free_trial === 'true';
 
     const teamsLimitReached = (adminAnalytics?.TOTAL_TEAMS ?? NaN) >= (cloudLimits.teams?.active ?? NaN);
