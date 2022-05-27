@@ -525,10 +525,27 @@ export function fetchAllMyTeamsChannelsAndChannelMembers(): ActionFunc {
         const state = getState();
         const {currentUserId} = state.entities.users;
         let channels;
-        let channelsMembers;
+        let channelsMembers: ChannelMembership[] = [];
+        let allMembers = true;
+        let page = 0;
+        do {
+            try {
+                // eslint-disable-next-line no-await-in-loop
+                await Client4.getAllChannelsMembers(currentUserId, page, 200).then((data) => {
+                    channelsMembers = [...channelsMembers, ...data];
+                    page++;
+                    if (data.length < 200) {
+                        allMembers = false;
+                    }
+                });
+            } catch (error) {
+                forceLogoutIfNecessary(error, dispatch, getState);
+                dispatch(logError(error));
+                return {error};
+            }
+        } while (allMembers && page <= 2);
         try {
             channels = await Client4.getAllTeamsChannels();
-            channelsMembers = await Client4.getAllChannelsMembers(currentUserId, 0, 600);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
             dispatch(logError(error));
