@@ -7,10 +7,7 @@ import {withRouter} from 'react-router-dom';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
 
-import {
-    getConfig,
-    getLicense,
-} from 'mattermost-redux/selectors/entities/general';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {
     getJoinableTeamIds,
     getCurrentTeam,
