@@ -10,11 +10,9 @@
 // Stage: @prod
 // Group: @accessibility @smoke
 
-import {getAdminAccount} from '../../support/env';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
-    const sysadmin = getAdminAccount();
     let testUser;
     let testTeam;
     let testChannel;
@@ -24,12 +22,11 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
         let otherUser;
         let otherChannel;
 
-        cy.apiInitSetup().then(({team, channel, user, offTopicUrl: url}) => {
+        cy.apiInitSetup({promoteNewUserAsAdmin: true}).then(({team, channel, user, offTopicUrl: url}) => {
             testUser = user;
             testTeam = team;
             testChannel = channel;
             offTopicUrl = url;
-            cy.externalRequest({user: sysadmin, method: 'put', path: `users/${user.id}/roles`, data: {roles: 'system_user system_admin'}});
             return cy.apiCreateChannel(testTeam.id, 'test', 'Test');
         }).then(({channel}) => {
             otherChannel = channel;

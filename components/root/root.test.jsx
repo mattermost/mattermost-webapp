@@ -57,6 +57,7 @@ describe('components/Root', () => {
             })),
             getProfiles: jest.fn(),
             migrateRecentEmojis: jest.fn(),
+            savePreferences: jest.fn(),
         },
         location: {
             pathname: '/',

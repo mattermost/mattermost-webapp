@@ -19,6 +19,7 @@ button.InviteView__copyLink.tertiary-button:focus {
 
     &__copyLink {
         @include tertiary-button;
+        @include button-medium;
 
         display: flex;
         align-items: center;

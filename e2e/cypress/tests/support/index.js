@@ -31,7 +31,6 @@ import './ldap_server_commands';
 import './okta_commands';
 import './saml_commands';
 import './shell';
-import './storybook_commands';
 import './task_commands';
 import './ui';
 import './ui_commands'; // soon to deprecate
@@ -225,7 +224,10 @@ function resetUserPreference(userId) {
     cy.apiSaveCollapsePreviewsPreference('false');
     cy.apiSaveClockDisplayModeTo24HourPreference(false);
     cy.apiSaveTutorialStep(userId, '999');
-    cy.apiSaveOnboardingPreference(userId, 'hide', 'true');
+    cy.apiSaveOnboardingTaskListPreference(userId, 'onboarding_task_list_open', 'false');
+    cy.apiSaveOnboardingTaskListPreference(userId, 'onboarding_task_list_show', 'false');
     cy.apiSaveCloudTrialBannerPreference(userId, 'trial', '14_days_banner');
     cy.apiSaveActionsMenuPreference(userId);
+    cy.apiSaveSkipStepsPreference(userId, 'true');
+    cy.apiSaveStartTrialModal(userId, 'true');
 }

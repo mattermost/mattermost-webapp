@@ -32,6 +32,10 @@ import ContactSalesCard from './contact_sales_card';
 import CancelSubscription from './cancel_subscription';
 import Limits from './limits';
 
+// keep verbiage until used in follow up work to avoid translations churn.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import _ from './translations';
+
 import {
     creditCardExpiredBanner,
     paymentFailedBanner,

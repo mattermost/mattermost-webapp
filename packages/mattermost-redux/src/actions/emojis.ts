@@ -9,7 +9,7 @@ import {parseNeededCustomEmojisFromText} from 'mattermost-redux/utils/emoji_util
 
 import {GetStateFunc, DispatchFunc, ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 
-import {SystemEmoji, CustomEmoji} from 'mattermost-redux/types/emojis';
+import {SystemEmoji, CustomEmoji} from '@mattermost/types/emojis';
 
 import {getRecentEmojis} from 'selectors/emojis';
 

@@ -16,11 +16,11 @@ import {getCurrentUserId, getUsersByUsername} from 'mattermost-redux/selectors/e
 import {isCombinedUserActivityPost} from 'mattermost-redux/utils/post_list';
 
 import {ActionResult, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-import {ChannelUnread} from 'mattermost-redux/types/channels';
-import {GlobalState} from 'mattermost-redux/types/store';
-import {Post, PostList} from 'mattermost-redux/types/posts';
-import {Reaction} from 'mattermost-redux/types/reactions';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {ChannelUnread} from '@mattermost/types/channels';
+import {GlobalState} from '@mattermost/types/store';
+import {Post, PostList} from '@mattermost/types/posts';
+import {Reaction} from '@mattermost/types/reactions';
+import {UserProfile} from '@mattermost/types/users';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {getProfilesByIds, getProfilesByUsernames, getStatusesByIds} from './users';
@@ -712,13 +712,13 @@ export function flagPost(postId: string) {
     };
 }
 
-export function getPostThread(rootId: string, fetchThreads = true) {
+export function getPostThread(rootId: string, fetchThreads = true, direction?: 'up'|'down', perPage?: number, fromCreateAt?: number, fromPost?: string) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         dispatch({type: PostTypes.GET_POST_THREAD_REQUEST});
         const collapsedThreadsEnabled = isCollapsedThreadsEnabled(getState());
         let posts;
         try {
-            posts = await Client4.getPostThread(rootId, fetchThreads, collapsedThreadsEnabled);
+            posts = await Client4.getPostThread(rootId, fetchThreads, collapsedThreadsEnabled, false, direction, perPage, fromCreateAt, fromPost);
             getProfilesAndStatusesForPosts(posts.posts, dispatch, getState);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
@@ -736,6 +736,19 @@ export function getPostThread(rootId: string, fetchThreads = true) {
         ]));
 
         return {data: posts};
+    };
+}
+
+export function getNewestPostThread(rootId: string) {
+    const getPostsForThread = Selectors.makeGetPostsForThread();
+
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const posts = getPostsForThread(getState(), rootId);
+
+        const latestReply = posts?.[0];
+        const direction = latestReply ? 'down' : undefined;
+
+        return dispatch(getPostThread(rootId, true, direction, undefined, latestReply?.create_at, latestReply?.id));
     };
 }
 

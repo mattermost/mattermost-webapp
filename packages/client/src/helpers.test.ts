@@ -4,9 +4,15 @@
 import {buildQueryString} from './helpers';
 
 describe('Helpers', () => {
-    test('buildQueryString', () => {
-        expect(buildQueryString({})).toEqual('');
-        expect(buildQueryString({a: 1})).toEqual('?a=1');
-        expect(buildQueryString({a: 1, b: 'str'})).toEqual('?a=1&b=str');
+    test.each([
+        [{}, ''],
+        [{a: 1}, '?a=1'],
+        [{a: 1, b: 'str'}, '?a=1&b=str'],
+        [{a: 1, b: 'str', c: undefined}, '?a=1&b=str'],
+        [{a: 1, b: 'str', c: 0}, '?a=1&b=str&c=0'],
+        [{a: 1, b: 'str', c: ''}, '?a=1&b=str&c='],
+        [{a: 1, b: undefined, c: 'str'}, '?a=1&c=str'],
+    ])('buildQueryString with %o should return %s', (params, expected) => {
+        expect(buildQueryString(params)).toEqual(expected);
     });
 });

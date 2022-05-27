@@ -4,7 +4,6 @@
 import {Audit} from './audits';
 import {Channel} from './channels';
 import {Group} from './groups';
-import {PostType} from './posts';
 import {Session} from './sessions';
 import {Team} from './teams';
 import {IDMappedObjects, RelationOneToMany, RelationOneToManyUnique, RelationOneToOne} from './utilities';
@@ -85,15 +84,6 @@ export type UserTimezone = {
     useAutomaticTimezone: boolean | string;
     automaticTimezone: string;
     manualTimezone: string;
-};
-
-export type UserActivity = {
-    [postType in PostType]: {
-        [userId in UserProfile['id']]: | {
-            ids: Array<UserProfile['id']>;
-            usernames: Array<UserProfile['username']>;
-        } | Array<UserProfile['id']>;
-    };
 };
 
 export type UserStatus = {

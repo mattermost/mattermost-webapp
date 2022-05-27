@@ -10,11 +10,11 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {ActionResult, DispatchFunc, GetStateFunc, ActionFunc} from 'mattermost-redux/types/actions';
 
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 
-import {FileSearchResults, FileSearchResultItem} from 'mattermost-redux/types/files';
+import {FileSearchResults, FileSearchResultItem} from '@mattermost/types/files';
 
-import {SearchParameter} from 'mattermost-redux/types/search';
+import {SearchParameter} from '@mattermost/types/search';
 
 import {getChannelAndMyMember, getChannelMembers} from './channels';
 import {forceLogoutIfNecessary} from './helpers';

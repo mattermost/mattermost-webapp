@@ -3,8 +3,8 @@
 
 import {ChannelTypes, TeamTypes, ThreadTypes, UserTypes} from 'mattermost-redux/action_types';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {ThreadsState, UserThread} from 'mattermost-redux/types/threads';
-import {Team, TeamUnread} from 'mattermost-redux/types/teams';
+import {ThreadsState, UserThread} from '@mattermost/types/threads';
+import {Team, TeamUnread} from '@mattermost/types/teams';
 
 import Constants from 'utils/constants';
 
