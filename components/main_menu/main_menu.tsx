@@ -160,7 +160,7 @@ export class MainMenu extends React.PureComponent<Props> {
 
         const someIntegrationEnabled = this.props.enableIncomingWebhooks || this.props.enableOutgoingWebhooks || this.props.enableCommands || this.props.enableOAuthServiceProvider || this.props.canManageSystemBots;
         const showIntegrations = !this.props.mobile && someIntegrationEnabled && this.props.canManageIntegrations;
-        const createTeamRestricted = this.props.isCloudFreeEnabled && this.props.teamsLimitReached;
+        const createTeamRestricted = this.props.isCloudFreeEnabled && (this.props.isFreeTrial || this.props.teamsLimitReached);
 
         const {formatMessage} = this.props.intl;
 
@@ -474,7 +474,7 @@ export class MainMenu extends React.PureComponent<Props> {
                             id='createTeam'
                             to='/create_team'
                             className={createTeamRestricted ? 'MenuItem__with-icon-tooltip' : ''}
-                            disabled={createTeamRestricted && !this.props.isFreeTrial}
+                            disabled={this.props.isCloudFreeEnabled && this.props.teamsLimitReached}
                             text={formatMessage({id: 'navbar_dropdown.create', defaultMessage: 'Create a Team'})}
                             sibling={createTeamRestricted && (
                                 <span className='MenuItem__icon-tooltip-container'>
