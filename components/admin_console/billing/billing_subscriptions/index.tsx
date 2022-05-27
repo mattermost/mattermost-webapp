@@ -83,8 +83,9 @@ const BillingSubscriptions: React.FC = () => {
     if (subscription?.is_free_trial === 'true') {
         isFreeTrial = true;
         daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription.trial_end_at);
-        if (daysLeftOnTrial > TrialPeriodDays.TRIAL_MAX_DAYS) {
-            daysLeftOnTrial = TrialPeriodDays.TRIAL_MAX_DAYS;
+        const maxDays = isCloudFreeEnabled ? TrialPeriodDays.TRIAL_30_DAYS : TrialPeriodDays.TRIAL_14_DAYS;
+        if (daysLeftOnTrial > maxDays) {
+            daysLeftOnTrial = maxDays;
         }
     }
 
