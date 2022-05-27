@@ -17,7 +17,8 @@ describe('components/ToastWrapper', () => {
         unreadCountInChannel: 0,
         newRecentMessagesCount: 0,
         channelMarkedAsUnread: false,
-        needMoreToReachUnread: false,
+        shouldHideNewMessageIndicator: false,
+        shouldStartFromBottomWhenUnread: false,
         atLatestPost: false,
         postListIds: [
             'post1',
@@ -56,7 +57,7 @@ describe('components/ToastWrapper', () => {
             expect(wrapper.state('unreadCount')).toBe(15);
         });
 
-        test('If atLatestPost and not needMoreToReachUnread then unread count is based on the number of posts below the new message indicator', () => {
+        test('If atLatestPost and not shouldHideNewMessageIndicator then unread count is based on the number of posts below the new message indicator', () => {
             const props = {
                 ...baseProps,
                 atLatestPost: true,
@@ -75,10 +76,10 @@ describe('components/ToastWrapper', () => {
             expect(wrapper.state('unreadCount')).toBe(3);
         });
 
-        test('If atLatestPost and needMoreToReachUnread then unread count is based on the unreadCountInChannel', () => {
+        test('If atLatestPost and shouldHideNewMessageIndicator then unread count is based on the unreadCountInChannel', () => {
             const props = {
                 ...baseProps,
-                needMoreToReachUnread: true,
+                shouldHideNewMessageIndicator: true,
                 atLatestPost: true,
                 unreadCountInChannel: 10,
                 postListIds: [ //order of the postIds is in reverse order so unreadCount should be 3
@@ -487,21 +488,25 @@ describe('components/ToastWrapper', () => {
             expect(baseProps.updateNewMessagesAtInChannel).toHaveBeenCalledTimes(1);
         });
 
-        test('Should have unreadWithBottomStart toast if unreadCount > 0 and needMoreToReachUnread', () => {
+        test('Should have unreadWithBottomStart toast if shouldStartFromBottomWhenUnread and unreadCount > 0 and lastViewedBottom >= latestPostTimeStamp) and prevState.atBottom === null and atBottom ', () => {
             const props = {
                 ...baseProps,
                 unreadCountInChannel: 10,
-                needMoreToReachUnread: true,
+                shouldStartFromBottomWhenUnread: true,
+                lastViewedBottom: 123456,
+                atBottom: null,
             };
 
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            wrapper.setProps({atBottom: true});
+
             expect(wrapper.state('showUnreadWithBottomStartToast')).toBe(true);
         });
 
-        test('Should hide unreadWithBottomStart toast if not needMoreToReachUnread', () => {
+        test('Should hide unreadWithBottomStart toast if not atBottom ', () => {
             const props = {
                 ...baseProps,
-                needMoreToReachUnread: false,
+                atBottom: false,
             };
 
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);

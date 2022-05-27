@@ -30,7 +30,6 @@ exports[`components/post_view/post_list snapshot for loading when there are no p
         isMobileView={false}
         loadingNewerPosts={false}
         loadingOlderPosts={false}
-        needMoreToReachUnread={false}
         postListIds={Array []}
       />
     </div>
@@ -68,7 +67,6 @@ exports[`components/post_view/post_list snapshot with couple of posts 1`] = `
         isMobileView={false}
         loadingNewerPosts={false}
         loadingOlderPosts={false}
-        needMoreToReachUnread={false}
         postListIds={Array []}
       />
     </div>

@@ -38,7 +38,6 @@ class ToastWrapper extends React.PureComponent {
         lastViewedAt: PropTypes.number,
         focusedPostId: PropTypes.string,
         initScrollOffsetFromBottom: PropTypes.number,
-        needMoreToReachUnread: PropTypes.bool,
         updateNewMessagesAtInChannel: PropTypes.func,
         scrollToNewMessage: PropTypes.func,
         scrollToLatestMessages: PropTypes.func,
@@ -95,14 +94,12 @@ class ToastWrapper extends React.PureComponent {
         let {showUnreadToast, showNewMessagesToast, showMessageHistoryToast, showUnreadWithBottomStartToast} = prevState;
         let unreadCount;
 
-        if (props.shouldStartFromBottomWhenUnread && !props.channelMarkedAsUnread) {
+        if (props.atLatestPost) {
             if (props.shouldHideNewMessageIndicator) {
                 unreadCount = prevState.unreadCountInChannel;
             } else {
                 unreadCount = ToastWrapper.countNewMessages(props.postListIds, props.rootPosts, props.isCollapsedThreadsEnabled);
             }
-        } else if (props.atLatestPost) {
-            unreadCount = ToastWrapper.countNewMessages(props.postListIds, props.rootPosts, props.isCollapsedThreadsEnabled);
         } else if (props.channelMarkedAsUnread) {
             unreadCount = prevState.unreadCountInChannel;
         } else {
@@ -135,6 +132,11 @@ class ToastWrapper extends React.PureComponent {
 
         if (props.unreadScrollPosition === Preferences.UNREAD_SCROLL_POSITION_START_FROM_NEWEST && !props.channelMarkedAsUnread) {
             showUnreadToast = false;
+        }
+
+        if (!unreadCount) {
+            showUnreadToast = false;
+            showNewMessagesToast = false;
         }
 
         if (props.shouldStartFromBottomWhenUnread &&
