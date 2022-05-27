@@ -125,7 +125,7 @@ const EmailToLDAP = ({email, siteName, ldapLoginFieldName}: Props) => {
         ldapPasswordClass += ' has-error';
     }
 
-    const loginPlaceholder = ldapLoginFieldName ? ldapLoginFieldName : Utils.localizeMessage('claim.email_to_ldap.ldapId', 'AD/LDAP ID');
+    const loginPlaceholder = ldapLoginFieldName || Utils.localizeMessage('claim.email_to_ldap.ldapId', 'AD/LDAP ID');
 
     let content;
     if (showMfa) {
