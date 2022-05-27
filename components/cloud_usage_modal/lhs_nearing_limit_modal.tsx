@@ -3,18 +3,21 @@
 
 import React from 'react';
 
+import {useIntl} from 'react-intl';
+
 import {useDispatch, useSelector} from 'react-redux';
 
-import {getCloudProduct} from 'mattermost-redux/selectors/entities/cloud';
+import {getSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
+
+import {closeModal} from 'actions/views/modals';
+
+import {ModalIdentifiers, CloudProducts} from 'utils/constants';
+import {t, Message} from 'utils/i18n';
+import {fallbackStarterLimits, asGBString} from 'utils/limits';
 
 import useGetHighestThresholdCloudLimit, {LimitTypes} from 'components/common/hooks/useGetHighestThresholdCloudLimit';
 import useGetUsage from 'components/common/hooks/useGetUsage';
 import useGetLimits from 'components/common/hooks/useGetLimits';
-
-import {closeModal} from 'actions/views/modals';
-
-import {ModalIdentifiers} from 'utils/constants';
-import {t, Message} from 'utils/i18n';
 
 import CloudUsageModal from './index';
 
@@ -22,8 +25,10 @@ function openPricingModal() {}
 
 export default function LHSNearingLimitsModal() {
     const dispatch = useDispatch();
-    const product = useSelector(getCloudProduct);
+    const product = useSelector(getSubscriptionProduct);
     const usage = useGetUsage();
+    const intl = useIntl();
+
     const [limits] = useGetLimits();
 
     const primaryAction = {
@@ -53,8 +58,25 @@ export default function LHSNearingLimitsModal() {
 
     let description: Message = {
         id: t('workspace_limits.modals.informational.description.starterLimits'),
-        defaultMessage: 'Cloud starter is restricted to {messages} message history, {storage}GB file storage, {integrations} apps, and {boards} board cards.',
+        defaultMessage: '{planName} is restricted to {messages} message history, {storage} file storage, {integrations} apps, and {boards} board cards.',
+        values: {
+            planName: product?.name,
+            messages: intl.formatNumber(limits?.messages?.history ?? fallbackStarterLimits.messages.history),
+            storage: asGBString(limits?.files?.total_storage ?? fallbackStarterLimits.files.totalStorage, intl.formatNumber),
+            integrations: limits?.integrations?.enabled ?? fallbackStarterLimits.integrations.enabled,
+            boards: limits?.boards?.cards ?? fallbackStarterLimits.boards.cards,
+        },
     };
+    if (product?.sku === CloudProducts.PROFESSIONAL) {
+        description = {
+            id: t('workspace_limits.modals.informational.description.professionalLimits'),
+            defaultMessage: '{planName} is restricted to {storage} file storage.',
+            values: {
+                planName: product.name,
+                storage: asGBString(limits?.files?.total_storage ?? fallbackStarterLimits.files.totalStorage, intl.formatNumber),
+            },
+        };
+    }
 
     if (highestLimit && highestLimit.id === LimitTypes.messageHistory) {
         title = {
