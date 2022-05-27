@@ -1,9 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import useGetHighestThresholdCloudLimit, {LimitSummary, LimitTypes} from './useGetHighestThresholdCloudLimit';
 import {limitThresholds} from 'utils/limits';
 import {FileSizes} from 'utils/file_utils';
+
+import useGetHighestThresholdCloudLimit, {LimitSummary, LimitTypes} from './useGetHighestThresholdCloudLimit';
 
 jest.mock('react', () => ({
     useMemo: (fn: () => LimitSummary) => fn(),
@@ -26,13 +27,17 @@ const zeroUsage = {
         enabled: 0,
         enabledLoaded: true,
     },
+    teams: {
+        active: 1,
+        teamsLoaded: true,
+    },
 };
 
 describe('useGetHighestThresholdCloudLimit', () => {
     const messageHistoryLimit = 10000;
     const filesLimit = FileSizes.Gigabyte * 10;
-    const okMessageUsage = Math.floor((limitThresholds.warn / 100) * messageHistoryLimit) - 1
-    const warnMessageUsage = Math.ceil((limitThresholds.warn / 100) * messageHistoryLimit) + 1
+    const okMessageUsage = Math.floor((limitThresholds.warn / 100) * messageHistoryLimit) - 1;
+    const warnMessageUsage = Math.ceil((limitThresholds.warn / 100) * messageHistoryLimit) + 1;
     const tests = [
         {
             label: 'reports no highest limit if there are no limits',
@@ -45,14 +50,14 @@ describe('useGetHighestThresholdCloudLimit', () => {
             limits: {
                 messages: {
                     history: messageHistoryLimit,
-                }
+                },
             },
             usage: {
                 ...zeroUsage,
                 messages: {
                     ...zeroUsage.messages,
                     history: okMessageUsage,
-                }
+                },
             },
             expected: false,
         },
@@ -61,14 +66,14 @@ describe('useGetHighestThresholdCloudLimit', () => {
             limits: {
                 messages: {
                     history: messageHistoryLimit,
-                }
+                },
             },
             usage: {
                 ...zeroUsage,
                 messages: {
                     ...zeroUsage.messages,
                     history: warnMessageUsage,
-                }
+                },
             },
             expected: {
                 id: LimitTypes.messageHistory,
@@ -83,8 +88,8 @@ describe('useGetHighestThresholdCloudLimit', () => {
                     history: messageHistoryLimit,
                 },
                 files: {
-                    total_storage: filesLimit
-                }
+                    total_storage: filesLimit,
+                },
             },
             usage: {
                 ...zeroUsage,
@@ -110,8 +115,8 @@ describe('useGetHighestThresholdCloudLimit', () => {
                     history: messageHistoryLimit,
                 },
                 files: {
-                    total_storage: filesLimit
-                }
+                    total_storage: filesLimit,
+                },
             },
             usage: {
                 ...zeroUsage,
@@ -134,7 +139,7 @@ describe('useGetHighestThresholdCloudLimit', () => {
     tests.forEach((t: typeof tests[0]) => {
         test(t.label, () => {
             const actual = useGetHighestThresholdCloudLimit(t.usage, t.limits);
-            expect(t.expected).toEqual(actual)
-        }) 
+            expect(t.expected).toEqual(actual);
+        });
     });
 });

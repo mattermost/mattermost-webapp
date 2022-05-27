@@ -18,7 +18,7 @@ import PrivateChannelIcon from 'components/widgets/icons/lock_icon';
 import CloseCircleSolidIcon from 'components/widgets/icons/close_circle_solid_icon';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 
-import {t} from 'utils/i18n.jsx';
+import {t} from 'utils/i18n';
 
 import './channels_input.scss';
 

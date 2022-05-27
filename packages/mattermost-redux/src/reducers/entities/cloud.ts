@@ -104,6 +104,10 @@ const emptyUsage = {
         enabled: 0,
         enabledLoaded: false,
     },
+    teams: {
+        active: 0,
+        teamsLoaded: false,
+    },
 };
 export function usage(state: CloudUsage = emptyUsage, action: GenericAction) {
     switch (action.type) {

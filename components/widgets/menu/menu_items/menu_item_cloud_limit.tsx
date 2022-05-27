@@ -9,20 +9,21 @@ import {getCloudSubscription} from 'mattermost-redux/selectors/entities/cloud';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {isAdmin} from 'mattermost-redux/utils/user_utils';
 
+import {openModal} from 'actions/views/modals';
+
+import {ModalIdentifiers} from 'utils/constants';
 import {limitThresholds} from 'utils/limits';
 
+import useGetHighestThresholdCloudLimit from 'components/common/hooks/useGetHighestThresholdCloudLimit';
 import useGetLimits from 'components/common/hooks/useGetLimits';
 import useGetUsage from 'components/common/hooks/useGetUsage';
-import useGetHighestThresholdCloudLimit from 'components/common/hooks/useGetHighestThresholdCloudLimit';
-
 import UsagePercentBar from 'components/common/usage_percent_bar';
-import {openModal} from 'actions/views/modals';
+
 import LHSNearingLimitsModal from 'components/cloud_usage_modal/lhs_nearing_limit_modal';
 
 import useWords from './useWords';
 
 import './menu_item.scss';
-import {ModalIdentifiers} from 'utils/constants';
 
 type Props = {
     id: string;

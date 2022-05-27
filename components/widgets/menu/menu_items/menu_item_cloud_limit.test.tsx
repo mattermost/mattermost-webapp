@@ -40,7 +40,7 @@ const general = {
 
 const subscription = {
     is_free_trial: 'false',
-}
+};
 
 const messageLimit = 10000;
 const warnMessageUsage = Math.ceil((limitThresholds.warn / 100) * messageLimit) + 1;
@@ -73,26 +73,25 @@ const usageWarnMessages = {
     messages: {
         ...zeroUsage.messages,
         history: warnMessageUsage,
-    }
-}
+    },
+};
 
 const usageCriticalMessages = {
     ...zeroUsage,
     messages: {
         ...zeroUsage.messages,
         history: critialMessageUsage,
-    }
-}
+    },
+};
 
 const users = {
     currentUserId: 'user_id',
     profiles: {
-        'user_id': {},
+        user_id: {},
     },
 };
 
 const id = 'menuItemCloudLimit';
-const selId = '#' + id;
 
 describe('components/widgets/menu/menu_items/menu_item_cloud_limit', () => {
     const mockStore = configureStore();

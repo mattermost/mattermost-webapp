@@ -79,17 +79,17 @@ export default function useGetHighestThresholdCloudLimit(usage: CloudUsage, limi
             },
         ).
             reduce((acc: LimitSummary | false, curr: LimitSummary) => {
-            if (!acc) {
-                if (curr.limit && curr.limit > 0) {
+                if (!acc) {
+                    if (curr.limit && curr.limit > 0) {
+                        return curr;
+                    }
+                    return acc;
+                }
+                if ((curr.usage / curr.limit) > (acc.usage / acc.limit)) {
                     return curr;
                 }
                 return acc;
-            }
-            if ((curr.usage / curr.limit) > (acc.usage / acc.limit)) {
-                return curr;
-            }
-            return acc;
-        }, false);
+            }, false);
         if (!highestLimit || (highestLimit.usage / highestLimit.limit) < (limitThresholds.warn / 100)) {
             return false;
         }
