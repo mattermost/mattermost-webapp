@@ -45,8 +45,13 @@ exports[`components/signup/Signup should match snapshot for all signup options e
           <ForwardRef
             autoFocus={true}
             className="signup-body-card-form-email-input"
+            customMessage={
+              Object {
+                "type": "error",
+                "value": "",
+              }
+            }
             disabled={false}
-            error=""
             inputSize="large"
             name="email"
             onChange={[Function]}
@@ -57,8 +62,13 @@ exports[`components/signup/Signup should match snapshot for all signup options e
           <ForwardRef
             autoFocus={false}
             className="signup-body-card-form-name-input"
+            customMessage={
+              Object {
+                "type": "error",
+                "value": "",
+              }
+            }
             disabled={false}
-            error=""
             info="You can use lowercase letters, numbers, periods, dashes, and underscores."
             inputSize="large"
             name="name"
@@ -179,8 +189,13 @@ exports[`components/signup/Signup should match snapshot for all signup options e
           <ForwardRef
             autoFocus={true}
             className="signup-body-card-form-email-input"
+            customMessage={
+              Object {
+                "type": "error",
+                "value": "",
+              }
+            }
             disabled={false}
-            error=""
             inputSize="large"
             name="email"
             onChange={[Function]}
@@ -191,8 +206,13 @@ exports[`components/signup/Signup should match snapshot for all signup options e
           <ForwardRef
             autoFocus={false}
             className="signup-body-card-form-name-input"
+            customMessage={
+              Object {
+                "type": "error",
+                "value": "",
+              }
+            }
             disabled={false}
-            error=""
             info="You can use lowercase letters, numbers, periods, dashes, and underscores."
             inputSize="large"
             name="name"
