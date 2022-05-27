@@ -531,13 +531,15 @@ export function fetchAllMyTeamsChannelsAndChannelMembers(): ActionFunc {
         do {
             try {
                 // eslint-disable-next-line no-await-in-loop
-                await Client4.getAllChannelsMembers(currentUserId, page, 200).then((data) => {
-                    channelsMembers = [...channelsMembers, ...data];
-                    page++;
-                    if (data.length < 200) {
-                        allMembers = false;
-                    }
-                });
+                await Client4.getAllChannelsMembers(currentUserId, page, 200).then(
+                    // eslint-disable-next-line no-loop-func
+                    (data) => {
+                        channelsMembers = [...channelsMembers, ...data];
+                        page++;
+                        if (data.length < 200) {
+                            allMembers = false;
+                        }
+                    });
             } catch (error) {
                 forceLogoutIfNecessary(error, dispatch, getState);
                 dispatch(logError(error));
