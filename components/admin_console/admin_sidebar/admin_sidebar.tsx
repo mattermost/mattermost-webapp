@@ -27,7 +27,7 @@ import QuickInput from 'components/quick_input';
 import {AdminConfig, ClientLicense} from 'mattermost-redux/types/config';
 import {ConsoleAccess} from 'mattermost-redux/types/admin';
 import {CloudState} from '@mattermost/types/cloud';
-import {DeepPartial} from 'mattermost-redux/types/utilities';
+import {DeepPartial} from '@mattermost/types/utilities';
 import {PluginRedux, PluginsResponse} from '@mattermost/types/plugins';
 
 export type Props = {
