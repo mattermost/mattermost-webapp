@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+//todo use classnames and check name conflicts
+
 import React, {useState, useRef} from 'react';
 import {FormattedMessage} from 'react-intl';
 
@@ -69,7 +71,7 @@ const EmailToOAuth = (props: Props) => {
 
     const error = serverError ? <div className='form-group has-error'><label className='control-label'>{serverError}</label></div> : null;
 
-    const formClass = classNames('form-group', {'has-error': error});
+    const formClass = classNames('form-group', {' has-error': error});
 
     const type = (props.newType === Constants.SAML_SERVICE ? Constants.SAML_SERVICE.toUpperCase() : Utils.toTitleCase(props.newType || ''));
     const uiType = `${type} SSO`;

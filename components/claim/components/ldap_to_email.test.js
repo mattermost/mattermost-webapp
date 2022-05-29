@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import LDAPToEmail from './ldap_to_email.jsx';
+import LDAPToEmail from './ldap_to_email';
 
 describe('components/claim/components/ldap_to_email.jsx', () => {
     const requiredProps = {
