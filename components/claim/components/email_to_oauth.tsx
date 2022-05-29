@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-//todo use classnames and check name conflicts
+//todo check name conflicts
 
 import React, {useState, useRef} from 'react';
 import {FormattedMessage} from 'react-intl';

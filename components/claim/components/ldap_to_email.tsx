@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-//todo use classnames and check name conflicts
+//todo check name conflicts
 
 import React, {useRef, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
@@ -92,29 +92,11 @@ const LDAPToEmail = (props: Props) => {
         });
     };
 
-    const serverErrorDiv = serverError ? <div className='form-group has-error'><label className='control-label'>{serverError}</label></div> : null;
-    const formClass = classNames('form-group', {' has-error': serverError});
-
-    let passwordErrorDiv = null;
-    let passwordClass = 'form-group';
-    if (passwordError) {
-        passwordErrorDiv = <div className='form-group has-error'><label className='control-label'>{passwordError}</label></div>;
-        passwordClass += ' has-error';
-    }
-
-    let ldapPasswordErrorDiv = null;
-    let ldapPasswordClass = 'form-group';
-    if (ldapPasswordError) {
-        ldapPasswordErrorDiv = <div className='form-group has-error'><label className='control-label'>{ldapPasswordError}</label></div>;
-        ldapPasswordClass += ' has-error';
-    }
-
-    let confirmErrorDiv = null;
-    let confimClass = 'form-group';
-    if (confirmError) {
-        confirmErrorDiv = <div className='form-group has-error'><label className='control-label'>{confirmError}</label></div>;
-        confimClass += ' has-error';
-    }
+    const serverErrorElement = serverError ? <div className='form-group has-error'><label className='control-label'>{serverError}</label></div> : null;
+    const passwordErrorElement = passwordError ? <div className='form-group has-error'><label className='control-label'>{passwordError}</label></div> : null;
+    const ldapPasswordErrorElement = ldapPasswordError ? <div className='form-group has-error'><label className='control-label'>{ldapPasswordError}</label></div> : null;
+    const confirmErrorElement = confirmError ? <div className='form-group has-error'><label className='control-label'>{confirmError}</label></div> : null;
+    const formClass = classNames('form-group', {' has-error': serverError || passwordError || ldapPasswordError || confirmError});
 
     const passwordPlaceholder = Utils.localizeMessage('claim.ldap_to_email.ldapPwd', 'AD/LDAP Password');
 
@@ -159,7 +141,7 @@ const LDAPToEmail = (props: Props) => {
                             }}
                         />
                     </p>
-                    <div className={ldapPasswordClass}>
+                    <div className={formClass}>
                         <input
                             type='password'
                             className='form-control'
@@ -169,14 +151,14 @@ const LDAPToEmail = (props: Props) => {
                             spellCheck='false'
                         />
                     </div>
-                    {ldapPasswordErrorDiv}
+                    {ldapPasswordErrorElement}
                     <p>
                         <FormattedMessage
                             id='claim.ldap_to_email.enterPwd'
                             defaultMessage='New email login password:'
                         />
                     </p>
-                    <div className={passwordClass}>
+                    <div className={formClass}>
                         <LocalizedInput
                             type='password'
                             className='form-control'
@@ -186,8 +168,8 @@ const LDAPToEmail = (props: Props) => {
                             spellCheck='false'
                         />
                     </div>
-                    {passwordErrorDiv}
-                    <div className={confimClass}>
+                    {passwordErrorElement}
+                    <div className={formClass}>
                         <LocalizedInput
                             type='password'
                             className='form-control'
@@ -197,7 +179,7 @@ const LDAPToEmail = (props: Props) => {
                             spellCheck='false'
                         />
                     </div>
-                    {confirmErrorDiv}
+                    {confirmErrorElement}
                     <button
                         type='submit'
                         className='btn btn-primary'
@@ -207,7 +189,7 @@ const LDAPToEmail = (props: Props) => {
                             defaultMessage='Switch account to email/password'
                         />
                     </button>
-                    {serverErrorDiv}
+                    {serverErrorElement}
                 </form>
             </>
         );

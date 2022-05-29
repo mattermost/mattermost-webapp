@@ -71,11 +71,8 @@ const OAuthToEmail = (props: Props) => {
             },
         );
     };
-    let errorElement = null;
-    if (error) {
-        errorElement = <div className='form-group has-error'><label className='control-label'>{error}</label></div>;
-    }
 
+    const errorElement = error ? <div className='form-group has-error'><label className='control-label'>{error}</label></div> : null;
     const formClass = classNames('form-group', {' has-error': errorElement});
 
     const uiType = `${(props.currentType === Constants.SAML_SERVICE ? Constants.SAML_SERVICE.toUpperCase() : Utils.toTitleCase(props.currentType || ''))} SSO`;
