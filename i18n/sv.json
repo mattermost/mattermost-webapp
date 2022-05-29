@@ -1264,7 +1264,7 @@
   "admin.license.title": "Version och licens",
   "admin.license.trial-request.accept-terms": "Genom att klicka på **Starta testperiod** godkänner jag <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy> och att få mejl med produktinformation.",
   "admin.license.trial-request.embargoed": "Vi kunde inte behandla begäran på grund av begränsningar för länder med embargo. <link>Läs mer i vår dokumentation</link>, eller kontakta legal@mattermost.com om du har frågor om exportbegränsningar.",
-  "admin.license.trial-request.error": "Testlicens kunde inte hämtas. Besök [https://mattermost.com/trial/](https://mattermost.com/trial/) för att efterfråga en licens.",
+  "admin.license.trial-request.error": "Testlicens kunde inte hämtas. Besök <link>https://mattermost.com/trial/</link>(https://mattermost.com/trial/) för att efterfråga en licens.",
   "admin.license.trial-request.loading": "Hämtar testlicens",
   "admin.license.trial-request.submit": "Starta testperiod",
   "admin.license.trial-request.title": "Utforska Mattermost Enterprise Edition gratis i 30 dagar från nu. Inga köpkrav eller kreditkort behövs. ",

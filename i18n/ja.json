@@ -1264,7 +1264,7 @@
   "admin.license.title": "Editionとライセンス",
   "admin.license.trial-request.accept-terms": "**トライアル開始**をクリックすると、<linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation> と <linkPrivacy>プライバシーポリシー</linkPrivacy> に同意し、製品に関する電子メールを受信するようになります。",
   "admin.license.trial-request.embargoed": "禁輸国に対する制限のため、リクエストを処理することができませんでした。<link> 詳細についてはドキュメントを参照してください</link>。また、輸出制限に関する質問は legal@mattermost.com までご連絡ください。",
-  "admin.license.trial-request.error": "トライアルライセンスを取得できませんでした。[https://mattermost.com/trial/](https://mattermost.com/trial/)からライセンスをリクエストしてください。",
+  "admin.license.trial-request.error": "トライアルライセンスを取得できませんでした。<link>https://mattermost.com/trial/</link>(https://mattermost.com/trial/)からライセンスをリクエストしてください。",
   "admin.license.trial-request.loading": "トライアルを開始する",
   "admin.license.trial-request.submit": "トライアル開始",
   "admin.license.trial-request.title": "Mattermost Enterprise Editionを30日間無料で体験できます。購入やクレジットカードの登録は必要ありません。 ",

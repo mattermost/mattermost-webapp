@@ -198,9 +198,20 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
         } else if (this.state.gettingTrialError) {
             gettingTrialError = (
                 <p className='trial-error'>
-                    <FormattedMarkdownMessage
+                    <FormattedMessage
                         id='admin.license.trial-request.error'
-                        defaultMessage='Trial license could not be retrieved. Visit [https://mattermost.com/trial/](https://mattermost.com/trial/) to request a license.'
+                        defaultMessage='Trial license could not be retrieved. Visit <link>https://mattermost.com/trial</link> to request a license.'
+                        values={{
+                            link: (msg: React.ReactNode) => (
+                                <a
+                                    href='https://mattermost.com/trial/'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        }}
                     />
                 </p>
             );

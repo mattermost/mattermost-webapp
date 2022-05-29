@@ -1264,7 +1264,7 @@
   "admin.license.title": "Sürüm ve lisans",
   "admin.license.trial-request.accept-terms": "**Denemeyi başlat** üzerine tıklayarak, <linkEvaluation>Mattermost yazılım değerlendirme sözleşmesi</linkEvaluation> ve <linkPrivacy>kişisel verilerin gizliliği ilkesini</linkPrivacy> metinlerini ve ürün ile ilgili e-postaları almayı kabul ediyorum.",
   "admin.license.trial-request.embargoed": "Ambargo altındaki ülkelere uygulanan kısıtlamalar nedeniyle istek işlenemedi.<link>Belgeler bölümünden ayrıntılı bilgi alabilir</link> ya da ihracat sınırlamaları ile ilgili sorularınız için legal@mattermost.com adresine yazabilirsiniz.",
-  "admin.license.trial-request.error": "Deneme lisansı alınamadı.Lisans isteğinde bulunmak için [https://mattermost.com/trial/](https://mattermost.com/trial/) adresine gidin.",
+  "admin.license.trial-request.error": "Deneme lisansı alınamadı.Lisans isteğinde bulunmak için <link>https://mattermost.com/trial/</link>(https://mattermost.com/trial/) adresine gidin.",
   "admin.license.trial-request.loading": "Deneme sürümünü edinmek",
   "admin.license.trial-request.submit": "Denemeyi başlat",
   "admin.license.trial-request.title": "Mattermost Enterprise sürümü özelliklerini gelecek 30 gün süreyle ücretsiz olarak deneyebilirsiniz. Herhangi bir taahhüt ya da kredi kartı bilgileri vermeniz gerekmez. ",

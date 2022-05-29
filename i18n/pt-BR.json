@@ -1078,7 +1078,7 @@
   "admin.license.renewalCard.usersNumbers": "**Usuários ativos:** {activeUsersNum}",
   "admin.license.title": "Edição e Licença",
   "admin.license.trial-request.accept-terms": "Ao clicar em **Iniciar avaliação**, concordo com o <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Política de privacidade</linkPrivacy> e recebimento de emails do produto.",
-  "admin.license.trial-request.error": "Não foi possível recuperar a licença de avaliação. Visite [https://mattermost.com/trial/](https://mattermost.com/trial/) para solicitar uma licença.",
+  "admin.license.trial-request.error": "Não foi possível recuperar a licença de avaliação. Visite <link>https://mattermost.com/trial/</link>(https://mattermost.com/trial/) para solicitar uma licença.",
   "admin.license.trial-request.loading": "Obter avaliação",
   "admin.license.trial-request.submit": "Iniciar avaliação",
   "admin.license.upgraded-restart": "Você atualizou seu binário para mattermost enterprise, reinicie o servidor para começar a usar o novo binário. Você pode fazer isso aqui:",

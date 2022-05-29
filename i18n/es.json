@@ -1241,7 +1241,7 @@
   "admin.license.renewalCard.usersNumbers": "**Usuarios Activos:** {activeUsersNum}",
   "admin.license.title": "Edición y Licencia",
   "admin.license.trial-request.accept-terms": "Al hacer clic en **Iniciar prueba**, aceptas el <linkEvaluation>Acuerdo de Evaluación del Software Mattermost</linkEvaluation> , <linkPrivacy>Política de privacidad</linkPrivacy>  y recibir correos electrónicos del producto.",
-  "admin.license.trial-request.error": "La licencia de prueba no pudo ser obtenida. Visita [https://mattermost.com/trial/](https://mattermost.com/trial/) para solicitar una licencia.",
+  "admin.license.trial-request.error": "La licencia de prueba no pudo ser obtenida. Visita <link>https://mattermost.com/trial/</link>(https://mattermost.com/trial/) para solicitar una licencia.",
   "admin.license.trial-request.loading": "Obtener prueba",
   "admin.license.trial-request.submit": "Iniciar prueba",
   "admin.license.trialCard.contactSales": "Comuníquese con Ventas",

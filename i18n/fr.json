@@ -1257,7 +1257,7 @@
   "admin.license.starterEdition.title": "Starter",
   "admin.license.title": "Édition et licence",
   "admin.license.trial-request.accept-terms": "En cliquant sur **Démarrer l'essai**, vous acceptez le <linkEvaluation>Contrat d'évaluation du logiciel Mattermost</linkEvaluation>, <linkPrivacy>Politique de confidentialité</linkPrivacy>, et la réception d'e-mails sur le produit.",
-  "admin.license.trial-request.error": "La licence d'essai n'a pas pu être récupérée. Visitez le site [https://mattermost.com/trial/](https://mattermost.com/trial/) pour demander une licence.",
+  "admin.license.trial-request.error": "La licence d'essai n'a pas pu être récupérée. Visitez le site <link>https://mattermost.com/trial/</link>(https://mattermost.com/trial/) pour demander une licence.",
   "admin.license.trial-request.loading": "Obtention d'une licence d'essai en cours",
   "admin.license.trial-request.submit": "Request trial",
   "admin.license.trial-request.title": "Essayez Mattermost Enterprise Edition gratuitement pendant 30 jours. Pas d'obligation d'achat ni de carte de paiement demandée. ",

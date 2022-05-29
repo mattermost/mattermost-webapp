@@ -979,7 +979,7 @@
   "admin.license.removing": "Rimozione Licenza...",
   "admin.license.title": "Edizione e Licenza",
   "admin.license.trial-request.accept-terms": "Facendo click su **Inizia il periodo di prova**, accetto gli <linkEvaluation>Accordi di utilizzo di Mattermost Software Evaluation</linkEvaluation>(https://mattermost.com/software-evaluation-agreement/), le <linkPrivacy>Condizioni sulla Privacy</linkPrivacy>, e la ricezione di email sui prodotti.",
-  "admin.license.trial-request.error": "Errore nella ricezione della licenza del periodo di prova. Visitare [https://mattermost.com/trial/](https://mattermost.com/trial/) per ottenere una licenza.",
+  "admin.license.trial-request.error": "Errore nella ricezione della licenza del periodo di prova. Visitare <link>https://mattermost.com/trial/</link>(https://mattermost.com/trial/) per ottenere una licenza.",
   "admin.license.trial-request.loading": "Ottieni prova",
   "admin.license.trial-request.submit": "Avvia una prova",
   "admin.lockTeammateNameDisplay": "Blocca il nome del collega per tutti gli utenti: ",
