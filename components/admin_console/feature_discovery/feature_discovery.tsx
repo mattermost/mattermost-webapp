@@ -14,7 +14,6 @@ import * as Utils from 'utils/utils';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import PurchaseModal from 'components/purchase_modal';
 import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';

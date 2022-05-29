@@ -3,7 +3,7 @@
 /* eslint-disable react/no-string-refs */
 
 import deepEqual from 'fast-deep-equal';
-import React, { ReactNode } from 'react';
+import React, {ReactNode} from 'react';
 
 import {FormattedMessage} from 'react-intl';
 import {PrimitiveType, FormatXMLElementFn} from 'intl-messageformat';
@@ -71,7 +71,7 @@ type SectionProps ={
     description: {
         id: string;
         message: string;
-        values?:Record<string, React.ReactNode | PrimitiveType | FormatXMLElementFn<React.ReactNode, React.ReactNode>>
+        values?: Record<string, React.ReactNode | PrimitiveType | FormatXMLElementFn<React.ReactNode, React.ReactNode>>;
     };
     disabled?: boolean;
 }

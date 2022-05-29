@@ -172,7 +172,7 @@ export default class PermissionSchemesSettings extends React.PureComponent<Props
                                 {msg}
                             </a>
                         ),
-                      }}
+                    }}
                     url='/admin_console/user_management/permissions/team_override_scheme'
                     disabled={(teamOverrideView !== null) || this.props.isDisabled}
                     linkTextId={t('admin.permissions.teamOverrideSchemesNewButton')}

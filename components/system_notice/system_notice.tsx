@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+
 import {FormattedMessage} from 'react-intl';
 
 import {ClientConfig, ClientLicense} from 'mattermost-redux/types/config';
