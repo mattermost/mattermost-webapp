@@ -72,7 +72,7 @@ const LDAPToEmail = (props: Props) => {
     };
 
     const submit = (loginIdParam: string, passwordParam: string, tokenParam: string, ldapPasswordParam: string) => {
-        props.switchLdapToEmail(ldapPasswordParam || ldapPassword, props.email, passwordParam, tokenParam).then(({data, error: err}) => {
+        props.switchLdapToEmail(ldapPasswordParam || ldapPassword, loginIdParam, passwordParam, tokenParam).then(({data, error: err}) => {
             if (data && data.follow_link) {
                 window.location.href = data.follow_link;
             } else if (err) {
