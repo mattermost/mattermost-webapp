@@ -4,9 +4,13 @@
 import React, {useRef} from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {AuthChangeResponse} from '@mattermost/types/users';
+
 import {emailToLdap} from 'actions/admin_actions.jsx';
+
 import * as Utils from 'utils/utils';
 import {t} from 'utils/i18n.jsx';
+
 import LoginMfa from 'components/login/login_mfa';
 import LocalizedInput from 'components/localized_input/localized_input';
 
@@ -21,7 +25,7 @@ const EmailToLDAP = ({email, siteName, ldapLoginFieldName}: Props) => {
     const ldapIdInput = useRef<HTMLInputElement>(null);
     const ldapPasswordInput = useRef<HTMLInputElement>(null);
 
-    const [password, setPassword] = React.useState<string | null >(null);
+    const [password, setPassword] = React.useState('');
     const [ldapId, setLdapId] = React.useState<string | null>(null);
     const [ldapPassword, setLdapPassword] = React.useState<string | null>(null);
     const [passwordError, setPasswordError] = React.useState('');
@@ -58,19 +62,19 @@ const EmailToLDAP = ({email, siteName, ldapLoginFieldName}: Props) => {
         submit(email, password, '', ldapId, ldapPassword);
     };
 
-    const submit = (loginIdParam: string, passwordParam: string, token: string, ldapIdParam: string, ldapPasswordParam: string) => {
+    const submit = (loginIdParam: string, passwordParam: string, token: string, ldapIdParam?: string, ldapPasswordParam?: string) => {
         emailToLdap(
             loginIdParam,
             passwordParam,
             token,
             ldapIdParam || ldapId,
             ldapPasswordParam || ldapPassword,
-            (data) => {
+            (data: AuthChangeResponse) => {
                 if (data.follow_link) {
                     window.location.href = data.follow_link;
                 }
             },
-            (err) => {
+            (err: {server_error_id: string; id: string; message: string}) => {
                 if (!showMfa && err.server_error_id === 'mfa.validate_token.authenticate.app_error') {
                     setShowMfa(true);
                 } else {

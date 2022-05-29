@@ -6,12 +6,16 @@ import {FormattedMessage} from 'react-intl';
 
 import classNames from 'classnames';
 
+import {AuthChangeResponse} from '@mattermost/types/users';
+
 import {oauthToEmail} from 'actions/admin_actions.jsx';
+
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils';
 import {t} from 'utils/i18n.jsx';
-import LocalizedInput from 'components/localized_input/localized_input';
 import {getPasswordConfig} from 'utils/utils';
+
+import LocalizedInput from 'components/localized_input/localized_input';
 
 type Props = {
     currentType: string;
@@ -53,12 +57,12 @@ const OAuthToEmail = (props: Props) => {
             props.currentType,
             props.email,
             password,
-            (data) => {
+            (data: AuthChangeResponse) => {
                 if (data.follow_link) {
                     window.location.href = data.follow_link;
                 }
             },
-            (err) => {
+            (err: {message: string}) => {
                 setError(err.message);
             },
         );
