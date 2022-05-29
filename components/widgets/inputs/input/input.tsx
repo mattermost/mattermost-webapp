@@ -15,7 +15,7 @@ export enum SIZE {
     LARGE = 'large',
 }
 
-export type CustomMessageInputType = {type: 'info' | 'error' | 'warning' | 'ok'; value: string} | null;
+export type CustomMessageInputType = {type: 'info' | 'error' | 'warning' | 'success'; value: string} | null;
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     required?: boolean;
@@ -158,7 +158,7 @@ const Input = React.forwardRef((
                             'icon-alert-outline': customInputLabel.type === ItemStatus.WARNING,
                             'icon-alert-circle-outline': customInputLabel.type === ItemStatus.ERROR,
                             'icon-information-outline': customInputLabel.type === ItemStatus.INFO,
-                            'icon-check': customInputLabel.type === ItemStatus.OK,
+                            'icon-check': customInputLabel.type === ItemStatus.SUCCESS,
                         })}
                     />
                     <span>{customInputLabel.value}</span>

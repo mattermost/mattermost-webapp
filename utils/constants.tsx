@@ -554,7 +554,7 @@ export const TopLevelProducts = {
 
 export enum ItemStatus {
     NONE = 'none',
-    OK = 'ok',
+    SUCCESS = 'success',
     INFO = 'info',
     WARNING = 'warning',
     ERROR = 'error',

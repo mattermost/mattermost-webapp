@@ -80,7 +80,7 @@ const RequestBusinessEmailModal = (
 
         // if it is a valid business email, proceed, enable the start trial button and notify the user about the email is valid
         const okMsg = formatMessage({id: 'request_business_email_modal.valid_business_email', defaultMessage: 'This is a valid email'});
-        setCustomInputLabel({type: ItemStatus.OK, value: okMsg});
+        setCustomInputLabel({type: ItemStatus.SUCCESS, value: okMsg});
         setTrialBtnDisabled(false);
         setTimeout(() => {
             setCustomInputLabel(null);
@@ -146,7 +146,7 @@ const RequestBusinessEmailModal = (
             <div className='start-trial-button'>
                 <StartCloudTrialBtn
                     message={formatMessage({id: 'cloud.startTrial.modal.btn', defaultMessage: 'Start trial'})}
-                    telemetryId='start_cloud_trial'
+                    telemetryId='request_business_email_modal'
                     disabled={trialBtnDisabled}
                     email={email}
                 />

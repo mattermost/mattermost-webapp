@@ -62,6 +62,10 @@ const CloudStartTrialButton = ({
         if (!email) {
             const isValidBusinessEmail = await validateBusinessEmail()();
             if (!isValidBusinessEmail) {
+                trackEvent(
+                    TELEMETRY_CATEGORIES.CLOUD_START_TRIAL_BUTTON,
+                    'trial_request_attempt_with_no_valid_business_email',
+                );
                 await dispatch(closeModal(ModalIdentifiers.LEARN_MORE_TRIAL_MODAL));
                 openRequestBusinessEmailModal();
                 setLoadStatus(TrialLoadStatus.Failed);
