@@ -3,6 +3,7 @@
 
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
+import {useSelector} from 'react-redux';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
@@ -13,6 +14,9 @@ import GenericModal from 'components/generic_modal';
 import GuestAccessSvg from 'components/common/svg_images_components/guest_access_svg';
 import PersonMacSvg from 'components/common/svg_images_components/person_mac_svg';
 import PushNotificationsSvg from 'components/common/svg_images_components/push_notifications_svg';
+
+import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import LearnMoreTrialModalStep, {LearnMoreTrialModalStepProps} from './learn_more_trial_modal_step';
 
@@ -30,6 +34,11 @@ const LearnMoreTrialModal = (
     }: Props): JSX.Element | null => {
     const {formatMessage} = useIntl();
     const [embargoed, setEmbargoed] = useState(false);
+
+    // Cloud conditions
+    const license = useSelector(getLicense);
+    const isCloud = license?.Cloud === 'true';
+    const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
 
     useEffect(() => {
         trackEvent(
@@ -111,6 +120,7 @@ const LearnMoreTrialModal = (
                     id={id}
                     key={id}
                     handleEmbargoError={handleEmbargoError}
+                    isCloudFree={isCloud && isCloudFreeEnabled}
                 />
             )),
         [],

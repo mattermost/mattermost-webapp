@@ -31,9 +31,8 @@ describe('plugins/MainMenuActions', () => {
         canCreateOrDeleteCustomEmoji: true,
         canManageIntegrations: true,
         moreTeamsToJoin: true,
+        guestAccessEnabled: true,
         teamIsGroupConstrained: true,
-        showGettingStarted: true,
-        showDueToStepsNotFinished: false,
         teamUrl: '/team',
         location: {
             pathname: '/team',
@@ -44,13 +43,12 @@ describe('plugins/MainMenuActions', () => {
             showFlaggedPosts: jest.fn(),
             closeRightHandSide: jest.fn(),
             closeRhsMenu: jest.fn(),
-            unhideNextSteps: jest.fn(),
         },
         isCloud: false,
         subscription: {},
         userIsAdmin: true,
         isFirstAdmin: false,
-        useCaseOnboarding: false,
+        canInviteTeamMember: false,
     };
 
     test('should match snapshot in web view', () => {
