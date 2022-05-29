@@ -4203,7 +4203,7 @@
   "user.settings.display.collapseDisplay": "Apariencia predeterminada de las vistas previas de imágenes",
   "user.settings.display.collapseOff": "Colapsado",
   "user.settings.display.collapseOn": "Expandido",
-  "user.settings.display.collapsedReplyThreadsDescription": "Cuando se activa, los mensajes de respuesta no se muestran en el canal y se te notificará sobre los hilos que estás siguiendo en la vista \"Hilos\".\nPor favor, revisa nuestra [documentación sobre problemas conocidos](!https://docs.mattermost.com/messaging/organizing-conversations.html) y ayuda a dar tu opinión en nuestro [canal de la comunidad](!https://community-daily.mattermost.com/core/channels/folded-reply-threads).",
+  "user.settings.display.collapsedReplyThreadsDescription": "Cuando se activa, los mensajes de respuesta no se muestran en el canal y se te notificará sobre los hilos que estás siguiendo en la vista \"Hilos\".\nPor favor, revisa nuestra <link>documentación sobre problemas conocidos</link> y ayuda a dar tu opinión en nuestro [canal de la comunidad](!https://community-daily.mattermost.com/core/channels/folded-reply-threads).",
   "user.settings.display.collapsedReplyThreadsOff": "Apagado",
   "user.settings.display.collapsedReplyThreadsOn": "Encendido",
   "user.settings.display.collapsedReplyThreadsTitle": "Hilos de Respuesta Colapsados (Beta)",

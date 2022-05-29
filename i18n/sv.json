@@ -4439,7 +4439,7 @@
   "user.settings.display.collapseDisplay": "Standardutseende vid förhandsgranskning av bilder",
   "user.settings.display.collapseOff": "Ihopfällt",
   "user.settings.display.collapseOn": "Utfällt",
-  "user.settings.display.collapsedReplyThreadsDescription": "När aktiverad visas inte svarsmeddelanden i kanalvyn och du blir notifierad om trådar du följer i vyn \"Trådar\".\nLäs vår [dokumentation om kända problem](!https://docs.mattermost.com/messaging/organizing-conversations.html) och bidra med feedback i vår [community-kanal](!https://community-daily.mattermost.com/core/channels/folded-reply-threads).",
+  "user.settings.display.collapsedReplyThreadsDescription": "När aktiverad visas inte svarsmeddelanden i kanalvyn och du blir notifierad om trådar du följer i vyn \"Trådar\".\nLäs vår <link>dokumentation om kända problem</link> och bidra med feedback i vår [community-kanal](!https://community-daily.mattermost.com/core/channels/folded-reply-threads).",
   "user.settings.display.collapsedReplyThreadsOff": "Av",
   "user.settings.display.collapsedReplyThreadsOn": "På",
   "user.settings.display.collapsedReplyThreadsTitle": "Sammanfällda svarstrådar (Beta)",

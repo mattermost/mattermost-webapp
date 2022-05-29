@@ -4701,7 +4701,7 @@
   "user.settings.display.collapseDisplay": "Domyślny wygląd podglądu obrazków",
   "user.settings.display.collapseOff": "Zwinięty",
   "user.settings.display.collapseOn": "Rozwinięty",
-  "user.settings.display.collapsedReplyThreadsDescription": "Gdy ta opcja jest włączona, odpowiedzi nie są wyświetlane w kanale, a w widoku „Wątki” będziesz otrzymywać powiadomienia o obserwowanych wątkach.\nZapoznaj się z naszą [dokumentacją dotyczącą znanych problemów](!https://docs.mattermost.com/messaging/organizing-conversations.html) i pomóż przekazać opinię w naszym [kanale społeczności](!https://community-daily.mattermost.com/core/channels/folded-reply-threads).",
+  "user.settings.display.collapsedReplyThreadsDescription": "Gdy ta opcja jest włączona, odpowiedzi nie są wyświetlane w kanale, a w widoku „Wątki” będziesz otrzymywać powiadomienia o obserwowanych wątkach.\nZapoznaj się z naszą <link>dokumentacją dotyczącą znanych problemów</link> i pomóż przekazać opinię w naszym [kanale społeczności](!https://community-daily.mattermost.com/core/channels/folded-reply-threads).",
   "user.settings.display.collapsedReplyThreadsOff": "Wyłączone",
   "user.settings.display.collapsedReplyThreadsOn": "Włączone",
   "user.settings.display.collapsedReplyThreadsTitle": "Zwinięte Wątki Odpowiedzi (Beta)",

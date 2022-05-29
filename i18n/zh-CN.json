@@ -4274,7 +4274,7 @@
   "user.settings.display.collapseDisplay": "图片预览的默认显示",
   "user.settings.display.collapseOff": "折叠",
   "user.settings.display.collapseOn": "展开",
-  "user.settings.display.collapsedReplyThreadsDescription": "启用后，回复消息不会显示在频道中，并且您会在“主题”视图中收到有关您正在关注的主题的通知。\n请查看我们的[已知问题文档](!https://docs.mattermost.com/messaging/organizing-conversations.html) 并在我们的[社区频道](!https://community-daily .mattermost.com/core/channels/folded-reply-threads）提供回馈。",
+  "user.settings.display.collapsedReplyThreadsDescription": "启用后，回复消息不会显示在频道中，并且您会在“主题”视图中收到有关您正在关注的主题的通知。\n请查看我们的<link>已知问题文档</link> 并在我们的[社区频道](!https://community-daily .mattermost.com/core/channels/folded-reply-threads）提供回馈。",
   "user.settings.display.collapsedReplyThreadsOff": "关闭",
   "user.settings.display.collapsedReplyThreadsOn": "开启",
   "user.settings.display.collapsedReplyThreadsTitle": "折叠回复主题 (Beta)",

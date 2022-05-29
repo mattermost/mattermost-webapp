@@ -4685,7 +4685,7 @@
   "user.settings.display.collapseDisplay": "Varsayılan görsel ön izleme görünümü",
   "user.settings.display.collapseOff": "Daraltılmış",
   "user.settings.display.collapseOn": "Genişletilmiş",
-  "user.settings.display.collapsedReplyThreadsDescription": "Bu seçenek etkinleştirildiğinde, yanıt iletileri kanalda görüntülenmez. Takip ettiğiniz konular ile ilgili bildirimler \"Konular\" bölümünde görüntülenir.\n[Bilinen sorunları görmek için belgelere bakabilir](!https://docs.mattermost.com/messaging/organizing-conversations.html) ve [topluluk kanalında](!https://community-daily.mattermost.com/core/channels/folded-reply-threads) geri bildirim verebilirsiniz.",
+  "user.settings.display.collapsedReplyThreadsDescription": "Bu seçenek etkinleştirildiğinde, yanıt iletileri kanalda görüntülenmez. Takip ettiğiniz konular ile ilgili bildirimler \"Konular\" bölümünde görüntülenir.\n<link>Bilinen sorunları görmek için belgelere bakabilir</link> ve [topluluk kanalında](!https://community-daily.mattermost.com/core/channels/folded-reply-threads) geri bildirim verebilirsiniz.",
   "user.settings.display.collapsedReplyThreadsOff": "Kapalı",
   "user.settings.display.collapsedReplyThreadsOn": "Açık",
   "user.settings.display.collapsedReplyThreadsTitle": "Yanıt konularını daraltma (Beta)",

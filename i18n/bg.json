@@ -4243,7 +4243,7 @@
   "user.settings.display.collapseDisplay": "Изглед по подразбиране за визуализация на изображения",
   "user.settings.display.collapseOff": "Свито",
   "user.settings.display.collapseOn": "Разширен",
-  "user.settings.display.collapsedReplyThreadsDescription": "Когато е разрешено, съобщенията за отговор не се показват в канала и ще получавате известия за разговорите, които следвате, в изгледа \"Разговори\".\nМоля, прегледайте нашата [документация за известни проблеми](!https://docs.mattermost.com/messaging/organizing-conversations.html) и помогнете за предоставянето на обратна връзка в нашия [канал на общността](!https://community-daily.mattermost.com/core/channels/folded-reply-threads).",
+  "user.settings.display.collapsedReplyThreadsDescription": "Когато е разрешено, съобщенията за отговор не се показват в канала и ще получавате известия за разговорите, които следвате, в изгледа \"Разговори\".\nМоля, прегледайте нашата <link>документация за известни проблеми</link> и помогнете за предоставянето на обратна връзка в нашия [канал на общността](!https://community-daily.mattermost.com/core/channels/folded-reply-threads).",
   "user.settings.display.collapsedReplyThreadsOff": "Изкл.",
   "user.settings.display.collapsedReplyThreadsOn": "Вкл.",
   "user.settings.display.collapsedReplyThreadsTitle": "Свити отговори в разговорите",

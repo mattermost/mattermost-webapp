@@ -4637,7 +4637,7 @@
   "user.settings.display.collapseDisplay": "Apparence par défaut des aperçus d'images",
   "user.settings.display.collapseOff": "Réduit",
   "user.settings.display.collapseOn": "Etendu",
-  "user.settings.display.collapsedReplyThreadsDescription": "Si activé, les réponses à un message ne sont pas montrées dans le canal, et vous serez notifié des fils que vous suiviez dans la vue « Fils ».\nVeuillez consulter notre [documentation pour les problèmes connus](!https://docs.mattermost.com/messaging/organizing-conversations.html) et apporter vos impressions dans le [canal de la communauté](!https://community-daily.mattermost.com/core/channels/folded-reply-threads).",
+  "user.settings.display.collapsedReplyThreadsDescription": "Si activé, les réponses à un message ne sont pas montrées dans le canal, et vous serez notifié des fils que vous suiviez dans la vue « Fils ».\nVeuillez consulter notre <link>documentation pour les problèmes connus</link> et apporter vos impressions dans le [canal de la communauté](!https://community-daily.mattermost.com/core/channels/folded-reply-threads).",
   "user.settings.display.collapsedReplyThreadsOff": "Désactivé",
   "user.settings.display.collapsedReplyThreadsOn": "Activé",
   "user.settings.display.collapsedReplyThreadsTitle": "Fils de discussion repliables (Beta)",

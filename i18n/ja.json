@@ -4701,7 +4701,7 @@
   "user.settings.display.collapseDisplay": "画像プレビューのデフォルト表示",
   "user.settings.display.collapseOff": "折りたたまれる",
   "user.settings.display.collapseOn": "展開される",
-  "user.settings.display.collapsedReplyThreadsDescription": "有効な場合、チャンネルビューに返信メッセージが表示されなくなり、フォローしているスレッドは \"スレッド\" ビューで通知されます。\n[説明文書と既知の問題](!https://docs.mattermost.com/messaging/organizing-conversations.html)を確認し、[コミュニティチャンネル](!https://community-daily.mattermost.com/core/channels/folded-reply-threads)からフィードバックへのご協力をお願いします。",
+  "user.settings.display.collapsedReplyThreadsDescription": "有効な場合、チャンネルビューに返信メッセージが表示されなくなり、フォローしているスレッドは \"スレッド\" ビューで通知されます。\n<link>説明文書と既知の問題</link>を確認し、[コミュニティチャンネル](!https://community-daily.mattermost.com/core/channels/folded-reply-threads)からフィードバックへのご協力をお願いします。",
   "user.settings.display.collapsedReplyThreadsOff": "オフ",
   "user.settings.display.collapsedReplyThreadsOn": "オン",
   "user.settings.display.collapsedReplyThreadsTitle": "返信スレッドの折りたたみ (ベータ版)",

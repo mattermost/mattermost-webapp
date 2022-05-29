@@ -4687,7 +4687,7 @@
   "user.settings.display.collapseDisplay": "Вид предпросмотра изображений по умолчанию",
   "user.settings.display.collapseOff": "Свёрнуто",
   "user.settings.display.collapseOn": "Раскрыто",
-  "user.settings.display.collapsedReplyThreadsDescription": "Если этот параметр включен, ответные сообщения не отображаются в канале, и вы будете получать уведомления об обсуждениях, за которыми вы следите, в представлении «Обсуждения».\nОзнакомьтесь с нашей [документацией по известным проблемам](!https://docs.mattermost.com/messaging/organizing-conversations.html) и помогите оставить отзыв на нашем [канале сообщества](!https://community-daily.mattermost .com/core/channels/folded-reply-threads).",
+  "user.settings.display.collapsedReplyThreadsDescription": "Если этот параметр включен, ответные сообщения не отображаются в канале, и вы будете получать уведомления об обсуждениях, за которыми вы следите, в представлении «Обсуждения».\nОзнакомьтесь с нашей <link>документацией по известным проблемам</link> и помогите оставить отзыв на нашем [канале сообщества](!https://community-daily.mattermost .com/core/channels/folded-reply-threads).",
   "user.settings.display.collapsedReplyThreadsOff": "Выкл",
   "user.settings.display.collapsedReplyThreadsOn": "Вкл",
   "user.settings.display.collapsedReplyThreadsTitle": "Свернутые цепочки ответов (Бета)",

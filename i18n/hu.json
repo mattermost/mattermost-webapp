@@ -4701,7 +4701,7 @@
   "user.settings.display.collapseDisplay": "A kép előnézetek alapértelmezett megjelenése",
   "user.settings.display.collapseOff": "Összecsukott",
   "user.settings.display.collapseOn": "Kinyitott",
-  "user.settings.display.collapsedReplyThreadsDescription": "Ha engedélyezve van, a válaszüzenetek nem jelennek meg a csatornában, és a követett szálakról értesítés az \"Üzenetszálak\" nézetben lesz látható.\nTovábbi információért kérjük látogasson el [az ismert hibák dokumentációjára](!https://docs.mattermost.com/messaging/organizing-conversations.html) és segíthet visszajelzésével [a közösségi csatornánkon](!https://community-daily.mattermost.com/core/channels/folded-reply-threads).",
+  "user.settings.display.collapsedReplyThreadsDescription": "Ha engedélyezve van, a válaszüzenetek nem jelennek meg a csatornában, és a követett szálakról értesítés az \"Üzenetszálak\" nézetben lesz látható.\nTovábbi információért kérjük látogasson el <link>az ismert hibák dokumentációjára</link> és segíthet visszajelzésével [a közösségi csatornánkon](!https://community-daily.mattermost.com/core/channels/folded-reply-threads).",
   "user.settings.display.collapsedReplyThreadsOff": "Ki",
   "user.settings.display.collapsedReplyThreadsOn": "Be",
   "user.settings.display.collapsedReplyThreadsTitle": "Összecsukott válasz szálak (Béta)",

@@ -4072,7 +4072,7 @@
   "user.settings.display.collapseDisplay": "ظاهر پیش‌فرض پیش‌نمایش‌های تصویر",
   "user.settings.display.collapseOff": "فرو ریخت",
   "user.settings.display.collapseOn": "منبسط",
-  "user.settings.display.collapsedReplyThreadsDescription": "وقتی فعال باشد، پیام‌های پاسخ در کانال نشان داده نمی‌شوند و در مورد رشته‌هایی که دنبال می‌کنید در نمای «رشته‌ها» به شما اطلاع داده می‌شود.\nلطفاً [اسناد مربوط به مشکلات شناخته شده] (!https://docs.mattermost.com/messaging/organizing-conversations.html) ما را مرور کنید و در ارائه بازخورد در [کانال انجمن] ما (!https://community-daily) کمک کنید .mattermost.com/core/channels/folded-reply-threads).",
+  "user.settings.display.collapsedReplyThreadsDescription": "وقتی فعال باشد، پیام‌های پاسخ در کانال نشان داده نمی‌شوند و در مورد رشته‌هایی که دنبال می‌کنید در نمای «رشته‌ها» به شما اطلاع داده می‌شود.\nلطفاً <link>اسناد مربوط به مشکلات شناخته شده</link>  ما را مرور کنید و در ارائه بازخورد در [کانال انجمن] ما (!https://community-daily) کمک کنید .mattermost.com/core/channels/folded-reply-threads).",
   "user.settings.display.collapsedReplyThreadsOff": "خاموش",
   "user.settings.display.collapsedReplyThreadsOn": "بر",
   "user.settings.display.collapsedReplyThreadsTitle": "موضوعات پاسخ جمع شده (بتا)",
