@@ -9,7 +9,13 @@ import LDAPToEmail from './ldap_to_email';
 describe('components/claim/components/ldap_to_email.jsx', () => {
     const requiredProps = {
         email: '',
-        passwordConfig: {},
+        passwordConfig: {
+            minimumLength: 5,
+            requireLowercase: true,
+            requireUppercase: true,
+            requireNumber: true,
+            requireSymbol: true,
+        },
         switchLdapToEmail: jest.fn(() => Promise.resolve({data: true})),
     };
 
@@ -21,7 +27,10 @@ describe('components/claim/components/ldap_to_email.jsx', () => {
 
         const wrapper = shallow(<LDAPToEmail {...requiredProps}/>);
 
-        await wrapper.instance().submit(loginId, password, token, ldapPassword);
+        wrapper.find('form').simulate('submit', {preventDefault: jest.fn()});
+        wrapper.find('form').prop('onSubmit'); // todo delete one of the options
+
+        // await wrapper.instance().submit(loginId, password, token, ldapPassword);
 
         expect(requiredProps.switchLdapToEmail).toHaveBeenCalledTimes(1);
         expect(requiredProps.switchLdapToEmail).
