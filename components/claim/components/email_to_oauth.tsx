@@ -18,9 +18,9 @@ import LoginMfa from 'components/login/login_mfa';
 import LocalizedInput from 'components/localized_input/localized_input';
 
 type Props = {
-    newType: string;
-    email: string;
-    siteName: string;
+    newType: string | null;
+    email: string | null;
+    siteName?: string;
 }
 
 const EmailToOAuth = (props: Props) => {
@@ -45,7 +45,7 @@ const EmailToOAuth = (props: Props) => {
         submit(props.email, password, '');
     };
 
-    const submit = (loginId: string, password: string, token: string) => {
+    const submit = (loginId: string | null, password: string, token: string) => {
         emailToOAuth(
             loginId,
             password,
@@ -71,7 +71,7 @@ const EmailToOAuth = (props: Props) => {
 
     const formClass = classNames('form-group', {'has-error': error});
 
-    const type = (props.newType === Constants.SAML_SERVICE ? Constants.SAML_SERVICE.toUpperCase() : Utils.toTitleCase(props.newType));
+    const type = (props.newType === Constants.SAML_SERVICE ? Constants.SAML_SERVICE.toUpperCase() : Utils.toTitleCase(props.newType || ''));
     const uiType = `${type} SSO`;
 
     let content;

@@ -12,7 +12,7 @@ import ShieldWithCheckmarkSVG from 'components/common/svg_images_components/shie
 import './login_mfa.scss';
 
 type LoginMfaProps = {
-    loginId: string;
+    loginId: string | null;
     password: string;
     title?: MessageDescriptor;
     subtitle?: MessageDescriptor;
@@ -32,7 +32,7 @@ const LoginMfa = ({loginId, password, title, subtitle, onSubmit}: LoginMfaProps)
     const handleSaveButtonOnClick = (e: React.MouseEvent | React.KeyboardEvent) => {
         e.preventDefault();
 
-        if (!saving) {
+        if (!saving && loginId) {
             setSaving(true);
 
             onSubmit(loginId, password, token);

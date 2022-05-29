@@ -15,9 +15,9 @@ import LoginMfa from 'components/login/login_mfa';
 import LocalizedInput from 'components/localized_input/localized_input';
 
 type Props = {
-    email: string;
-    siteName: string;
-    ldapLoginFieldName: string;
+    email: string | null;
+    siteName?: string;
+    ldapLoginFieldName?: string;
 }
 
 const EmailToLDAP = ({email, siteName, ldapLoginFieldName}: Props) => {
@@ -59,7 +59,9 @@ const EmailToLDAP = ({email, siteName, ldapLoginFieldName}: Props) => {
         setLdapId(ldapId);
         setLdapPassword(ldapPassword);
 
-        submit(email, password, '', ldapId, ldapPassword);
+        if (email) {
+            submit(email, password, '', ldapId, ldapPassword);
+        }
     };
 
     const submit = (loginIdParam: string, passwordParam: string, token: string, ldapIdParam?: string, ldapPasswordParam?: string) => {

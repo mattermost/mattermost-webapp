@@ -18,10 +18,10 @@ import {getPasswordConfig} from 'utils/utils';
 import LocalizedInput from 'components/localized_input/localized_input';
 
 type Props = {
-    currentType: string;
-    email: string;
-    siteName: string;
-    passwordConfig: ReturnType<typeof getPasswordConfig>;
+    currentType: string | null;
+    email: string | null;
+    siteName?: string;
+    passwordConfig?: ReturnType<typeof getPasswordConfig>;
 }
 
 const OAuthToEmail = (props: Props) => {
@@ -39,10 +39,12 @@ const OAuthToEmail = (props: Props) => {
             return;
         }
 
-        const {valid, error} = Utils.isValidPassword(password, props.passwordConfig);
-        if (!valid && error) {
-            setError(error);
-            return;
+        if (props.passwordConfig) {
+            const {valid, error} = Utils.isValidPassword(password, props.passwordConfig);
+            if (!valid && error) {
+                setError(error);
+                return;
+            }
         }
 
         const confirmPassword = passwordConfirmInput.current?.value;
@@ -74,7 +76,7 @@ const OAuthToEmail = (props: Props) => {
 
     const formClass = classNames('form-group', {' has-error': errorElement});
 
-    const uiType = `${(props.currentType === Constants.SAML_SERVICE ? Constants.SAML_SERVICE.toUpperCase() : Utils.toTitleCase(props.currentType))} SSO`;
+    const uiType = `${(props.currentType === Constants.SAML_SERVICE ? Constants.SAML_SERVICE.toUpperCase() : Utils.toTitleCase(props.currentType || ''))} SSO`;
 
     return (
         <div>
