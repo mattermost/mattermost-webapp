@@ -18,7 +18,6 @@ export enum SIZE {
 export type CustomMessageInputType = {type: 'info' | 'error' | 'warning' | 'ok'; value: string} | null;
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-    info?: string;
     required?: boolean;
     hasError?: boolean;
     addon?: React.ReactElement;

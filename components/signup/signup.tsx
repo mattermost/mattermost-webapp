@@ -27,7 +27,7 @@ import LockIcon from 'components/widgets/icons/lock_icon';
 import LoginGoogleIcon from 'components/widgets/icons/login_google_icon';
 import LoginGitlabIcon from 'components/widgets/icons/login_gitlab_icon';
 import LoginOffice365Icon from 'components/widgets/icons/login_office_365_icon';
-import Input, {SIZE} from 'components/widgets/inputs/input/input';
+import Input, {CustomMessageInputType, SIZE} from 'components/widgets/inputs/input/input';
 import PasswordInput from 'components/widgets/inputs/password_input/password_input';
 import SaveButton from 'components/save_button';
 
@@ -540,6 +540,22 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
             );
         }
 
+        let emailCustomLabelForInput: CustomMessageInputType = parsedEmail ? {
+            type: ItemStatus.INFO,
+            value: formatMessage(
+                {
+                    id: 'signup_user_completed.emailIs',
+                    defaultMessage: "You'll use this address to sign in to {siteName}.",
+                },
+                {siteName: SiteName},
+            ),
+        } : null;
+
+        // error will have preference over info message
+        if (emailError) {
+            emailCustomLabelForInput = {type: ItemStatus.ERROR, value: emailError};
+        }
+
         return (
             <>
                 <div className={classNames('signup-body-message', {'custom-branding': enableCustomBrand, 'with-brand-image': enableCustomBrand && !brandImageError})}>
@@ -596,14 +612,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
                                     })}
                                     disabled={isWaiting || Boolean(parsedEmail)}
                                     autoFocus={true}
-                                    info={parsedEmail && formatMessage(
-                                        {
-                                            id: 'signup_user_completed.emailIs',
-                                            defaultMessage: "You'll use this address to sign in to {siteName}.",
-                                        },
-                                        {siteName: SiteName},
-                                    )}
-                                    customMessage={{type: ItemStatus.ERROR, value: emailError}}
+                                    customMessage={emailCustomLabelForInput}
                                 />
                                 <Input
                                     ref={nameInput}
@@ -619,11 +628,12 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
                                     })}
                                     disabled={isWaiting}
                                     autoFocus={Boolean(parsedEmail)}
-                                    info={formatMessage({
-                                        id: 'signup_user_completed.userHelp',
-                                        defaultMessage: 'You can use lowercase letters, numbers, periods, dashes, and underscores.',
-                                    })}
-                                    customMessage={{type: ItemStatus.ERROR, value: nameError}}
+                                    customMessage={
+                                        nameError ? {type: ItemStatus.ERROR, value: nameError} : {
+                                            type: ItemStatus.INFO,
+                                            value: formatMessage({id: 'signup_user_completed.userHelp', defaultMessage: 'You can use lowercase letters, numbers, periods, dashes, and underscores.'}),
+                                        }
+                                    }
                                 />
                                 <PasswordInput
                                     ref={passwordInput}
