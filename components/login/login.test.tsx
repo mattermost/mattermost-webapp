@@ -16,7 +16,7 @@ import SaveButton from 'components/save_button';
 import users from 'mattermost-redux/actions/users';
 import {RequestStatus} from 'mattermost-redux/constants';
 import {ActionFunc} from 'mattermost-redux/types/actions';
-import {ClientConfig} from 'mattermost-redux/types/config';
+import {ClientConfig} from '@mattermost/types/config';
 import LocalStorageStore from 'stores/local_storage_store';
 import {GlobalState} from 'types/store';
 import Constants from 'utils/constants';

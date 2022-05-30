@@ -13,14 +13,14 @@ import {
     PostsState,
     PostOrderBlock,
     MessageHistory,
-} from 'mattermost-redux/types/posts';
-import {UserProfile} from 'mattermost-redux/types/users';
-import {Reaction} from 'mattermost-redux/types/reactions';
+} from '@mattermost/types/posts';
+import {UserProfile} from '@mattermost/types/users';
+import {Reaction} from '@mattermost/types/reactions';
 import {
     RelationOneToOne,
     IDMappedObjects,
     RelationOneToMany,
-} from 'mattermost-redux/types/utilities';
+} from '@mattermost/types/utilities';
 
 import {comparePosts, isPermalink, shouldUpdatePost} from 'mattermost-redux/utils/post_utils';
 

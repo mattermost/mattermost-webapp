@@ -4,7 +4,7 @@ import React, {useCallback} from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
-import {Group, GroupPermissions} from 'mattermost-redux/types/groups';
+import {Group, GroupPermissions} from '@mattermost/types/groups';
 
 import NoResultsIndicator from 'components/no_results_indicator';
 import {NoResultsVariant} from 'components/no_results_indicator/types';

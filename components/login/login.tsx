@@ -19,7 +19,7 @@ import {getTeamByName, getMyTeamMember} from 'mattermost-redux/selectors/entitie
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {RequestStatus} from 'mattermost-redux/constants';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 
 import AlertBanner, {ModeType, AlertBannerProps} from 'components/alert_banner';
 import ExternalLoginButton, {ExternalLoginButtonType} from 'components/external_login_button/external_login_button';
