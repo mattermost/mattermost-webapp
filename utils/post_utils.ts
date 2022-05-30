@@ -461,7 +461,7 @@ export function createAriaLabelForPost(post: Post, author: string, isFlagged: bo
     const mentionsArray = message.match(Constants.MENTIONS_WITHOUT_SPECIAL_MENTIONS) || [];
     for (let i = 0; i < mentionsArray.length; i++) {
         const mention = mentionsArray[i];
-        const user  = getUserFromMentionName(users, mention.substring(1));
+        const user = getUserFromMentionName(users, mention.substring(1));
 
         if (user) {
             message = message.replace(mention, `@${displayUsername(user, teammateNameDisplaySetting)}`);
@@ -656,7 +656,6 @@ export function makeGetUniqueReactionsToPost(): (state: GlobalState, postId: Pos
         },
     );
 }
-
 
 export function getUserFromMentionName(usersByUsername: Record<string, UserProfile>, mentionName: string) {
     let mentionNameToLowerCase = mentionName.toLowerCase();
