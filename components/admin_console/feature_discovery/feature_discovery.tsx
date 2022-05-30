@@ -4,8 +4,8 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {AnalyticsRow} from 'mattermost-redux/types/admin';
-import {ClientLicense} from 'mattermost-redux/types/config';
+import {AnalyticsRow} from '@mattermost/types/admin';
+import {ClientLicense} from '@mattermost/types/config';
 import {EmbargoedEntityTrialError} from 'components/admin_console/license_settings/trial_banner/trial_banner';
 
 import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';

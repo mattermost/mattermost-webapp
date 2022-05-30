@@ -7,7 +7,7 @@ import {useSelector} from 'react-redux';
 
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 
 import {GlobalState} from 'types/store';
 

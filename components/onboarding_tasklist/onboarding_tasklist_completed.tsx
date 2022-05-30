@@ -10,7 +10,7 @@ import {useSelector, useDispatch} from 'react-redux';
 
 import completedImg from 'images/completed.svg';
 
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
@@ -184,6 +184,7 @@ const Completed = (props: Props): JSX.Element => {
                                     message={formatMessage({id: 'menu.cloudFree.tryFreeFor30Days', defaultMessage: 'Try free for 30 days'})}
                                     telemetryId={'start_cloud_trial_after_completing_steps'}
                                     extraClass={'btn btn-primary'}
+                                    afterTrialRequest={dismissAction}
                                 />
                             ) : (
                                 <StartTrialBtn
@@ -221,7 +222,7 @@ const Completed = (props: Props): JSX.Element => {
                             />
                         </span>
                     </div>
-                    <div className='disclaimer'>
+                    {showStartTrialBtn && <div className='disclaimer'>
                         <span>
                             <FormattedMessage
                                 id='onboardingTask.checklist.disclaimer'
@@ -248,7 +249,7 @@ const Completed = (props: Props): JSX.Element => {
                                 }}
                             />
                         </span>
-                    </div>
+                    </div>}
                 </CompletedWrapper>
             </CSSTransition>
         </>

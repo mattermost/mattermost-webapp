@@ -4,6 +4,7 @@
 Cypress.Commands.add('apiInitSetup', ({
     loginAfter = false,
     promoteNewUserAsAdmin = false,
+    hideAdminTrialModal = true,
     userPrefix,
     teamPrefix = {name: 'team', displayName: 'Team'},
     channelPrefix = {name: 'channel', displayName: 'Channel'},
@@ -14,6 +15,9 @@ Cypress.Commands.add('apiInitSetup', ({
             return cy.apiCreateUser({prefix: userPrefix || (promoteNewUserAsAdmin ? 'admin' : 'user')}).then(({user}) => {
                 if (promoteNewUserAsAdmin) {
                     cy.apiPatchUserRoles(user.id, ['system_admin', 'system_user']);
+
+                    // Only hide start trial modal for admin since it's not applicable to other users
+                    cy.apiSaveStartTrialModal(user.id, hideAdminTrialModal.toString());
                 }
 
                 return cy.apiAddUserToTeam(team.id, user.id).then(() => {

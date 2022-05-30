@@ -5,7 +5,7 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {ClientConfig, ClientLicense} from 'mattermost-redux/types/config';
+import {ClientConfig, ClientLicense} from '@mattermost/types/config';
 
 import MattermostLogo from 'components/widgets/icons/mattermost_logo';
 import Nbsp from 'components/html_entities/nbsp';

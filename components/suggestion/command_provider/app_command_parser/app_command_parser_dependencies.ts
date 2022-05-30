@@ -16,7 +16,7 @@ export type {
     AutocompleteChannelSelect,
     AppLookupResponse,
     AppSelectOption,
-} from 'mattermost-redux/types/apps';
+} from '@mattermost/types/apps';
 
 export type {
     DoAppCallResult,
@@ -24,12 +24,12 @@ export type {
 
 import type {
     AutocompleteSuggestion,
-} from 'mattermost-redux/types/integrations';
+} from '@mattermost/types/integrations';
 export type {AutocompleteSuggestion};
 
 import type {
     Channel,
-} from 'mattermost-redux/types/channels';
+} from '@mattermost/types/channels';
 export type {Channel};
 
 import {
@@ -42,11 +42,11 @@ import type {
 
 export type {
     UserAutocomplete,
-} from 'mattermost-redux/types/autocomplete';
+} from '@mattermost/types/autocomplete';
 
 import type {
     UserProfile,
-} from 'mattermost-redux/types/users';
+} from '@mattermost/types/users';
 export type {UserProfile};
 
 export {

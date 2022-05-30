@@ -5,7 +5,7 @@ import React from 'react';
 import styled from 'styled-components';
 import {useIntl} from 'react-intl';
 
-import {Channel, ChannelStats} from 'mattermost-redux/types/channels';
+import {Channel, ChannelStats} from '@mattermost/types/channels';
 import {Constants} from 'utils/constants';
 
 const MenuItemContainer = styled.div`

@@ -5,7 +5,7 @@ import {combineReducers} from 'redux';
 import {TeamTypes} from 'mattermost-redux/action_types';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {TeamsRequestsStatuses, RequestStatusType} from 'mattermost-redux/types/requests';
+import {TeamsRequestsStatuses, RequestStatusType} from '@mattermost/types/requests';
 
 import {handleRequest, initialRequestState} from './helpers';
 

@@ -167,11 +167,6 @@ interface FormattingBarProps {
     applyMarkdown: (options: ApplyMarkdownOptions) => void;
 
     /**
-     * controls that need outside
-     */
-    appendControls: Array<JSX.Element|null>;
-
-    /**
      * disable formatting controls when the texteditor is in preview state
      */
     disableControls: boolean;
@@ -183,7 +178,6 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
         applyMarkdown,
         getCurrentSelection,
         getCurrentMessage,
-        appendControls,
         disableControls,
     } = props;
     const [showHiddenControls, setShowHiddenControls] = useState(false);
@@ -342,7 +336,6 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
                         })}
                         {hasHiddenControls && (
                             <>
-                                {appendControls}
                                 <Question/>
                             </>
                         )}
@@ -352,7 +345,6 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
 
             {!hasHiddenControls && (
                 <>
-                    {appendControls}
                     <Question/>
                 </>
             )}
