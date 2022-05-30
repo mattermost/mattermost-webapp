@@ -70,8 +70,10 @@ const GlobalThreads = () => {
 
         const penultimateType = LocalStorageStore.getPreviousViewedType(currentUserId, currentTeamId);
 
-        LocalStorageStore.setPenultimateViewedType(currentUserId, currentTeamId, penultimateType);
-        LocalStorageStore.setPreviousViewedType(currentUserId, currentTeamId, PreviousViewedTypes.THREADS);
+        if (penultimateType !== PreviousViewedTypes.THREADS) {
+            LocalStorageStore.setPenultimateViewedType(currentUserId, currentTeamId, penultimateType);
+            LocalStorageStore.setPreviousViewedType(currentUserId, currentTeamId, PreviousViewedTypes.THREADS);
+        }
 
         // unsuppresses RHS on navigating away (unmount)
         return () => {
