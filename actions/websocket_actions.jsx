@@ -448,10 +448,6 @@ export function handleEvent(msg) {
         dispatch(handleUserTypingEvent(msg));
         break;
 
-    case SocketEvents.STATUS_CHANGED:
-        handleStatusChangedEvent(msg);
-        break;
-
     case SocketEvents.HELLO:
         handleHelloEvent(msg);
         break;
@@ -1246,12 +1242,6 @@ export function handleUserTypingEvent(msg) {
     };
 }
 
-function handleStatusChangedEvent(msg) {
-    dispatch({
-        type: UserTypes.RECEIVED_STATUSES,
-        data: [{user_id: msg.data.user_id, status: msg.data.status}],
-    });
-}
 
 function handleHelloEvent(msg) {
     setServerVersion(msg.data.server_version)(dispatch, getState);
