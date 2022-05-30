@@ -183,7 +183,7 @@ const TrialBanner: React.FC<TrialBannerProps> = ({
                     id='admin.license.trial-request.title'
                     defaultMessage='Experience Mattermost Enterprise Edition for free for the next 30 days. No obligation to buy or credit card required. '
                 />
-                <FormattedMessage
+                <FormattedMarkdownMessage
                     id='admin.license.trial-request.accept-terms'
                     defaultMessage='By clicking **Start trial**, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails.'
                     values={{

@@ -281,7 +281,7 @@ export default class ConfirmIntegration extends React.PureComponent {
             );
             helpText = (
                 <p>
-                    <FormattedMessage
+                    <FormattedMarkdownMessage
                         id='bots.manage.created.text'
                         defaultMessage='Your bot account **{botname}** has been created successfully. Please use the following access token to connect to the bot (see <link>documentation</link> for further details).'
                         values={{

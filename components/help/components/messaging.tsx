@@ -58,7 +58,7 @@ export default function Messaging(): JSX.Element {
                 />
             </p>
             <p>
-                <FormattedMessage
+                <FormattedMarkdownMessage
                     id='help.messaging.emoji'
                     defaultMessage={'**Add Emoji:** Type ":" to open an emoji autocomplete. If the existing emojis don\'t say what you want to express, you can also create your own <link>Custom Emoji</link>.'}
                     values={{

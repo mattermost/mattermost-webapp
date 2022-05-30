@@ -3463,7 +3463,7 @@ const AdminDefinition = {
                                 placeholder: t('admin.ldap.idAttrEx'),
                                 placeholder_default: 'E.g.: "objectGUID" or "uid"',
                                 help_text: t('admin.ldap.idAttrDesc'),
-                                help_text_markdown: true,
+                                help_text_markdown: false,
                                 help_text_default: 'The attribute in the AD/LDAP server used as a unique identifier in Mattermost. It should be an AD/LDAP attribute with a value that does not change such as `uid` for LDAP or `objectGUID` for Active Directory. If a user\'s ID Attribute changes, it will create a new Mattermost account unassociated with their old one.\n \nIf you need to change this field after users have already logged in, use the <link>mattermost ldap idmigrate</link> CLI tool.',
                                 help_text_values: {
                                     link: (msg) => (
@@ -3940,7 +3940,7 @@ const AdminDefinition = {
                         label_default: 'Enable Login With SAML 2.0:',
                         help_text: t('admin.saml.enableDescription'),
                         help_text_default: 'When true, Mattermost allows login using SAML 2.0. Please see <link>documentation</link> to learn more about configuring SAML for Mattermost.',
-                        help_text_markdown: true,
+                        help_text_markdown: false,
                         help_text_values: {
                             link: (msg) => (
                                 <a

@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 import {AnalyticsRow} from 'mattermost-redux/types/admin';
 import {ClientLicense} from 'mattermost-redux/types/config';
@@ -171,7 +172,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                 </a>
                 {gettingTrialError}
                 {(!this.props.isCloud || canRequestCloudFreeTrial) && <p className='trial-legal-terms'>
-                    <FormattedMessage
+                    <FormattedMarkdownMessage
                         id='admin.license.trial-request.accept-terms'
                         defaultMessage='By clicking **Start trial**, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails.'
                         values={{
