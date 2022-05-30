@@ -10,7 +10,7 @@ import {t} from 'utils/i18n';
 
 import AnnouncementBar from '../default_announcement_bar';
 import {AnnouncementBarTypes, Preferences, CloudBanners} from 'utils/constants';
-import {anyUsageDeltaValueIsNegative} from 'utils/limits';
+import {anyUsageDeltaExceededLimit} from 'utils/limits';
 import {GlobalState} from 'types/store';
 import useGetUsageDeltas from 'components/common/hooks/useGetUsageDeltas';
 import useGetLimits from 'components/common/hooks/useGetLimits';
@@ -97,8 +97,7 @@ const CloudTrialEndAnnouncementBar: React.FC = () => {
             'Your trial has ended. Upgrade to regain access to paid features',
     };
 
-    // Any positive value means they've exceeded some limit
-    if (!anyUsageDeltaValueIsNegative(usageDeltas) || usageDeltas.teams.cloudArchived) {
+    if (anyUsageDeltaExceededLimit(usageDeltas) || usageDeltas.teams.cloudArchived) {
         message = {id: t('freemium.banner.trial_ended.archived_data'), defaultMessage: 'Your trial has ended. Upgrade to regain access to archived data'};
     }
 
