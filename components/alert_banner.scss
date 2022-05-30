@@ -39,31 +39,34 @@
 .AlertBanner__actionButtons {
     margin-top: 12px;
     font-family: 'Open Sans';
+
     .AlertBanner__buttonLeft {
         &:hover {
             background: #1156b2;
         }
+
         padding: 10px 16px;
-        font-weight: 600;
-        font-size: 12px;
-        background: var(--denim-button-bg);
-        color: white;
-        border-radius: 4px;
         border: none;
+        background: var(--denim-button-bg);
+        border-radius: 4px;
+        color: white;
+        font-size: 12px;
+        font-weight: 600;
     }
+
     .AlertBanner__buttonRight {
         &:hover {
-            background: #1C58D91F;
+            background: #1c58d91f;
         }
-        margin-left: 4px;
+
         padding: 10px 16px;
-        color: #1C58D9;
+        border: none;
+        margin-left: 4px;
         background: rgba(28, 88, 217, 0.08);
         border-radius: 4px;
-        border: none;
+        color: #1c58d9;
     }
 }
-
 
 .AlertBanner__message {
     margin-top: 8px;

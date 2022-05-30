@@ -122,7 +122,7 @@ const BillingSubscriptions: React.FC = () => {
         // Give preference to the payment failed banner
         return (
             !shouldShowPaymentFailedBanner &&
-            setShowGrandfatheredPlanBanner &&
+            showGrandfatheredPlanBanner &&
 
             // This banner is only for 1 specific grandfathered subscription type. The below ID's are for test and production
             subscription?.product_id in
