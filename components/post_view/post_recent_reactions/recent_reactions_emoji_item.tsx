@@ -16,7 +16,8 @@ type Props = {
 const EmojiItem = ({emoji, onItemClick, order}: Props) => {
     const {formatMessage} = useIntl();
 
-    const handleClick = () => {
+    const handleClick = (e: React.MouseEvent) => {
+        e.stopPropagation();
         onItemClick(emoji);
     };
 
