@@ -41,8 +41,8 @@ export function TeamProfile({team, isArchived, isDisabled, onToggleArchive, save
     const [restoreDisabled, setRestoreDisabled] = useState(usageDeltas.teams.teamsLoaded && usageDeltas.teams.active >= 0 && isArchived);
 
     useEffect(() => {
-        setRestoreDisabled(usageDeltas.teams.teamsLoaded && usageDeltas.teams.active >= 0 && isArchived && !overrideRestoreDisabled && !saveNeeded);
-    }, [usageDeltas, isArchived, overrideRestoreDisabled, saveNeeded]);
+        setRestoreDisabled(license.Cloud === 'true' && usageDeltas.teams.teamsLoaded && usageDeltas.teams.active >= 0 && isArchived && !overrideRestoreDisabled && !saveNeeded);
+    }, [usageDeltas, isArchived, overrideRestoreDisabled, saveNeeded, license]);
 
     // If in a cloud context and the teams usage hasn't loaded, don't render anything to prevent weird flashes on the screen
     if (license.Cloud === 'true' && !usage.teams.teamsLoaded) {
