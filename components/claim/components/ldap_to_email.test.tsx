@@ -27,10 +27,7 @@ describe('components/claim/components/ldap_to_email.jsx', () => {
 
         const wrapper = shallow(<LDAPToEmail {...requiredProps}/>);
 
-        wrapper.find('form').simulate('submit', {preventDefault: jest.fn()});
-        wrapper.find('form').prop('onSubmit'); // todo delete one of the options
-
-        // await wrapper.instance().submit(loginId, password, token, ldapPassword);
+        wrapper.find('LoginMfa').simulate('submit', loginId, password, token, ldapPassword);
 
         expect(requiredProps.switchLdapToEmail).toHaveBeenCalledTimes(1);
         expect(requiredProps.switchLdapToEmail).
