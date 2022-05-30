@@ -3390,7 +3390,7 @@
   "help.formatting.code.description": "Utwórz blok kodu poprzez rozpoczęcie każdej linii 4 spacjami, lub poprzez wstawienie ``` w linii przed początkiem bloku kodu i po zakończeniu kodu źródłowego (w jednej wiadomości).",
   "help.formatting.code.title": "Blok kodu",
   "help.formatting.codeBlock": "Blok kodu",
-  "help.formatting.emojis.description": "Otwórz auto uzupełnianie Emoji, wpisując \":\". Pełną listę emoji można znaleźć <linkEmoji>online</linkEmoji> (http://www.emoji-cheat-sheet.com/). Możliwe jest również utworzenie własnego <linkCustomEmoji>Niestandardowe Emoji</linkCustomEmoji> , jeśli Emoji, której chcesz używać nie istnieje.",
+  "help.formatting.emojis.description": "Otwórz auto uzupełnianie Emoji, wpisując \":\". Pełną listę emoji można znaleźć <linkEmoji>online</linkEmoji>. Możliwe jest również utworzenie własnego <linkCustomEmoji>Niestandardowe Emoji</linkCustomEmoji> , jeśli Emoji, której chcesz używać nie istnieje.",
   "help.formatting.emojis.title": "Emoji",
   "help.formatting.example": "Przykład:",
   "help.formatting.githubTheme": "**GitHub Theme**",

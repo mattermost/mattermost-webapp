@@ -2392,7 +2392,7 @@
   "bots.manage.add.creating": "پدید آوردن...",
   "bots.manage.add.invalid_username": "نام کاربری باید با یک حرف کوچک شروع شود و 3 تا 22 کاراکتر باشد. می توانید از حروف کوچک، اعداد، نقطه، خط تیره و زیرخط استفاده کنید.",
   "bots.manage.bot_accounts": "حساب های ربات",
-  "bots.manage.created.text": "حساب ربات شما **{botname}** با موفقیت ایجاد شد. لطفاً از نشانه دسترسی زیر برای اتصال به ربات استفاده کنید (برای جزئیات بیشتر به <link>اسناد</link> (https://mattermost.com/pl/default-bot-accounts) مراجعه کنید).",
+  "bots.manage.created.text": "حساب ربات شما **{botname}** با موفقیت ایجاد شد. لطفاً از نشانه دسترسی زیر برای اتصال به ربات استفاده کنید (برای جزئیات بیشتر به <link>اسناد</link> مراجعه کنید).",
   "bots.manage.description": "از حساب‌های ربات برای ادغام با Mattermost از طریق افزونه‌ها یا API استفاده کنید",
   "bots.manage.edit": "ویرایش کنید",
   "bots.manage.edit.editing": "در حال بروز رسانی...",
