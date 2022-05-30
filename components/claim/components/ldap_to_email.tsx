@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-//todo check name conflicts
-
 import React, {useRef, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 
@@ -12,15 +10,15 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 
 import * as Utils from 'utils/utils';
 import {t} from 'utils/i18n.jsx';
-import {getPasswordConfig} from 'utils/utils';
 
 import LoginMfa from 'components/login/login_mfa';
 import LocalizedInput from 'components/localized_input/localized_input';
+import {PasswordConfig} from '../claim_controller';
 
 type Props = {
     email: string | null;
-    passwordConfig: ReturnType<typeof getPasswordConfig>;
     switchLdapToEmail: (ldapPassword: string, email: string, password: string, token: string) => Promise<ActionResult>;
+    passwordConfig?: PasswordConfig;
 }
 
 const LDAPToEmail = (props: Props) => {
@@ -51,10 +49,12 @@ const LDAPToEmail = (props: Props) => {
             return;
         }
 
-        const {valid, error} = Utils.isValidPassword(password, props.passwordConfig);
-        if (!valid && error) {
-            setPasswordError(error);
-            return;
+        if (props.passwordConfig) {
+            const {valid, error} = Utils.isValidPassword(password, props.passwordConfig);
+            if (!valid && error) {
+                setPasswordError(error);
+                return;
+            }
         }
 
         const confirmPassword = passwordConfirmInput.current?.value;
@@ -71,7 +71,7 @@ const LDAPToEmail = (props: Props) => {
         }
     };
 
-    const submit = (loginIdParam: string, passwordParam: string, tokenParam: string, ldapPasswordParam: string) => {
+    const submit = (loginIdParam: string, passwordParam: string, tokenParam: string, ldapPasswordParam?: string) => {
         props.switchLdapToEmail(ldapPasswordParam || ldapPassword, loginIdParam, passwordParam, tokenParam).then(({data, error: err}) => {
             if (data && data.follow_link) {
                 window.location.href = data.follow_link;

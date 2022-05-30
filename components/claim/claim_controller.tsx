@@ -13,7 +13,7 @@ import EmailToOAuth from 'components/claim/components/email_to_oauth';
 import LDAPToEmail from 'components/claim/components/ldap_to_email';
 import EmailToLDAP from 'components/claim/components/email_to_ldap';
 
-interface PasswordConfig {
+export interface PasswordConfig {
     minimumLength: number;
     requireLowercase: boolean;
     requireUppercase: boolean;
