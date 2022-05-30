@@ -269,26 +269,6 @@ function syncThreads(teamId, userId) {
     dispatch(getCountsAndThreadsSince(userId, teamId, newestThread.last_reply_at));
 }
 
-let intervalId = '';
-const SYNC_INTERVAL_MILLISECONDS = 1000 * 60 * 15; // 15 minutes
-
-export function startPeriodicSync() {
-    clearInterval(intervalId);
-
-    intervalId = setInterval(
-        () => {
-            if (getCurrentUser(getState()) != null) {
-                reconnect(false);
-            }
-        },
-        SYNC_INTERVAL_MILLISECONDS,
-    );
-}
-
-export function stopPeriodicSync() {
-    clearInterval(intervalId);
-}
-
 export function registerPluginWebSocketEvent(pluginId, event, action) {
     if (!pluginEventHandlers[pluginId]) {
         pluginEventHandlers[pluginId] = {};

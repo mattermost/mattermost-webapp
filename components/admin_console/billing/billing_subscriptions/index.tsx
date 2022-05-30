@@ -32,6 +32,10 @@ import ContactSalesCard from './contact_sales_card';
 import CancelSubscription from './cancel_subscription';
 import Limits from './limits';
 
+// keep verbiage until used in follow up work to avoid translations churn.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import _ from './translations';
+
 import {
     creditCardExpiredBanner,
     paymentFailedBanner,
@@ -79,8 +83,9 @@ const BillingSubscriptions: React.FC = () => {
     if (subscription?.is_free_trial === 'true') {
         isFreeTrial = true;
         daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription.trial_end_at);
-        if (daysLeftOnTrial > TrialPeriodDays.TRIAL_MAX_DAYS) {
-            daysLeftOnTrial = TrialPeriodDays.TRIAL_MAX_DAYS;
+        const maxDays = isCloudFreeEnabled ? TrialPeriodDays.TRIAL_30_DAYS : TrialPeriodDays.TRIAL_14_DAYS;
+        if (daysLeftOnTrial > maxDays) {
+            daysLeftOnTrial = maxDays;
         }
     }
 

@@ -7,6 +7,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {CloudUsage} from '@mattermost/types/cloud';
 import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getUsage} from 'mattermost-redux/selectors/entities/usage';
+import {isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
 import {
     getMessagesUsage,
     getFilesUsage,
@@ -17,13 +18,14 @@ import {
 
 export default function useGetUsage(): CloudUsage {
     const usage = useSelector(getUsage);
+    const isCloud = useSelector(isCurrentLicenseCloud);
 
     const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
     const dispatch = useDispatch();
 
     const [requestedMessages, setRequestedMessages] = useState(false);
     useEffect(() => {
-        if (isCloudFreeEnabled && !requestedMessages && !usage.messages.historyLoaded) {
+        if (isCloud && isCloudFreeEnabled && !requestedMessages && !usage.messages.historyLoaded) {
             dispatch(getMessagesUsage());
             setRequestedMessages(true);
         }
@@ -31,7 +33,7 @@ export default function useGetUsage(): CloudUsage {
 
     const [requestedStorage, setRequestedStorage] = useState(false);
     useEffect(() => {
-        if (isCloudFreeEnabled && !requestedStorage && !usage.files.totalStorage) {
+        if (isCloud && isCloudFreeEnabled && !requestedStorage && !usage.files.totalStorageLoaded) {
             dispatch(getFilesUsage());
             setRequestedStorage(true);
         }
@@ -39,7 +41,7 @@ export default function useGetUsage(): CloudUsage {
 
     const [requestedIntegrations, setRequestedIntegrations] = useState(false);
     useEffect(() => {
-        if (isCloudFreeEnabled && !requestedIntegrations && !usage.integrations.enabledLoaded) {
+        if (isCloud && isCloudFreeEnabled && !requestedIntegrations && !usage.integrations.enabledLoaded) {
             dispatch(getIntegrationsUsage());
             setRequestedIntegrations(true);
         }
@@ -47,11 +49,11 @@ export default function useGetUsage(): CloudUsage {
 
     const [requestedBoardsUsage, setRequestedBoardsUsage] = useState(false);
     useEffect(() => {
-        if (isCloudFreeEnabled && !requestedBoardsUsage && !usage.boards.cardsLoaded) {
+        if (isCloud && isCloudFreeEnabled && !requestedBoardsUsage && !usage.boards.cardsLoaded) {
             dispatch(getBoardsUsage());
             setRequestedBoardsUsage(true);
         }
-    }, [isCloudFreeEnabled, requestedBoardsUsage, usage.boards.cardsLoaded]);
+    }, [isCloudFreeEnabled, requestedBoardsUsage, usage.boards.cardsLoaded, isCloud]);
 
     const [requestedTeamsUsage, setRequestedTeamsUsage] = useState(false);
     useEffect(() => {

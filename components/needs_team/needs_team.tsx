@@ -11,7 +11,7 @@ import {Group} from '@mattermost/types/groups';
 import {UserProfile, UserStatus} from '@mattermost/types/users';
 
 import {startPeriodicStatusUpdates, stopPeriodicStatusUpdates} from 'actions/status_actions.jsx';
-import {startPeriodicSync, stopPeriodicSync, reconnect} from 'actions/websocket_actions.jsx';
+import {reconnect} from 'actions/websocket_actions.jsx';
 import * as GlobalActions from 'actions/global_actions';
 
 import Constants from 'utils/constants';
@@ -139,7 +139,6 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
 
     public componentDidMount() {
         startPeriodicStatusUpdates();
-        startPeriodicSync();
         this.fetchAllTeams();
 
         // Set up tracking for whether the window is active
@@ -169,7 +168,6 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
     componentWillUnmount() {
         window.isActive = false;
         stopPeriodicStatusUpdates();
-        stopPeriodicSync();
         if (UserAgent.isIosSafari()) {
             iNoBounce.disable();
         }
