@@ -74,7 +74,7 @@ exports[`component/create_user_groups_modal should match snapshot with back butt
       <div
         className="group-name-input-wrapper"
       >
-        <Input
+        <ForwardRef
           autoFocus={true}
           data-testid="nameInput"
           error=""
@@ -88,7 +88,7 @@ exports[`component/create_user_groups_modal should match snapshot with back butt
       <div
         className="group-mention-input-wrapper"
       >
-        <Input
+        <ForwardRef
           data-testid="mentionInput"
           error=""
           maxLength={64}
@@ -183,7 +183,7 @@ exports[`component/create_user_groups_modal should match snapshot without back b
       <div
         className="group-name-input-wrapper"
       >
-        <Input
+        <ForwardRef
           autoFocus={true}
           data-testid="nameInput"
           error=""
@@ -197,7 +197,7 @@ exports[`component/create_user_groups_modal should match snapshot without back b
       <div
         className="group-mention-input-wrapper"
       >
-        <Input
+        <ForwardRef
           data-testid="mentionInput"
           error=""
           maxLength={64}

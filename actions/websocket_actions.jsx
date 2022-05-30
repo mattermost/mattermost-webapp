@@ -217,7 +217,7 @@ export function reconnect(includeWebSocket = true) {
 
         if (mostRecentPost) {
             dispatch(syncPostsInChannel(currentChannelId, mostRecentPost.create_at));
-        } else {
+        } else if (currentChannelId) {
             // if network timed-out the first time when loading a channel
             // we can request for getPosts again when socket is connected
             dispatch(getPosts(currentChannelId));
@@ -264,26 +264,6 @@ function syncThreads(teamId, userId) {
         return;
     }
     dispatch(getCountsAndThreadsSince(userId, teamId, newestThread.last_reply_at));
-}
-
-let intervalId = '';
-const SYNC_INTERVAL_MILLISECONDS = 1000 * 60 * 15; // 15 minutes
-
-export function startPeriodicSync() {
-    clearInterval(intervalId);
-
-    intervalId = setInterval(
-        () => {
-            if (getCurrentUser(getState()) != null) {
-                reconnect(false);
-            }
-        },
-        SYNC_INTERVAL_MILLISECONDS,
-    );
-}
-
-export function stopPeriodicSync() {
-    clearInterval(intervalId);
 }
 
 export function registerPluginWebSocketEvent(pluginId, event, action) {
@@ -494,6 +474,10 @@ export function handleEvent(msg) {
 
     case SocketEvents.PLUGIN_STATUSES_CHANGED:
         handlePluginStatusesChangedEvent(msg);
+        break;
+
+    case SocketEvents.INTEGRATIONS_USAGE_CHANGED:
+        handleIntegrationsUsageChangedEvent(msg);
         break;
 
     case SocketEvents.OPEN_DIALOG:
@@ -1334,6 +1318,10 @@ function handleLicenseChanged(msg) {
 
 function handlePluginStatusesChangedEvent(msg) {
     store.dispatch({type: AdminTypes.RECEIVED_PLUGIN_STATUSES, data: msg.data.plugin_statuses});
+}
+
+function handleIntegrationsUsageChangedEvent(msg) {
+    store.dispatch({type: CloudTypes.RECEIVED_INTEGRATIONS_USAGE, data: msg.data.usage.enabled});
 }
 
 function handleOpenDialogEvent(msg) {

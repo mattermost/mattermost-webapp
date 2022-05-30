@@ -5,9 +5,9 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {Modal} from 'react-bootstrap';
 
-import {UserProfile} from 'mattermost-redux/types/users';
-import {Channel} from 'mattermost-redux/types/channels';
-import {RelationOneToOne} from 'mattermost-redux/types/utilities';
+import {UserProfile} from '@mattermost/types/users';
+import {Channel} from '@mattermost/types/channels';
+import {RelationOneToOne} from '@mattermost/types/utilities';
 
 import {Value} from 'components/multiselect/multiselect';
 
@@ -51,6 +51,7 @@ describe('components/channel_invite_modal', () => {
     const baseProps = {
         channel,
         profilesNotInCurrentChannel: [],
+        profilesInCurrentChannel: [],
         profilesNotInCurrentTeam: [],
         userStatuses: {},
         actions: {
@@ -62,6 +63,7 @@ describe('components/channel_invite_modal', () => {
                 return Promise.resolve({error});
             }),
             getProfilesNotInChannel: jest.fn().mockImplementation(() => Promise.resolve()),
+            getProfilesInChannel: jest.fn().mockImplementation(() => Promise.resolve()),
             getTeamStats: jest.fn(),
             getUserStatuses: jest.fn().mockImplementation(() => Promise.resolve()),
             loadStatusesForProfilesList: jest.fn(),
@@ -76,6 +78,7 @@ describe('components/channel_invite_modal', () => {
             <ChannelInviteModal
                 {...baseProps}
                 profilesNotInCurrentChannel={users}
+                profilesInCurrentChannel={[]}
                 profilesNotInCurrentTeam={[]}
             />,
         );
@@ -87,6 +90,7 @@ describe('components/channel_invite_modal', () => {
             <ChannelInviteModal
                 {...baseProps}
                 profilesNotInCurrentChannel={users}
+                profilesInCurrentChannel={[]}
                 profilesNotInCurrentTeam={[]}
                 includeUsers={
                     {
@@ -118,6 +122,7 @@ describe('components/channel_invite_modal', () => {
             <ChannelInviteModal
                 {...baseProps}
                 profilesNotInCurrentChannel={users}
+                profilesInCurrentChannel={[]}
                 userStatuses={userStatuses}
             />,
         );

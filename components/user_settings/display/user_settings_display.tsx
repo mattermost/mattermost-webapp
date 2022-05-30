@@ -9,8 +9,8 @@ import {FormattedMessage} from 'react-intl';
 
 import {Timezone} from 'timezones.json';
 
-import {PreferenceType} from 'mattermost-redux/types/preferences';
-import {UserProfile, UserTimezone} from 'mattermost-redux/types/users';
+import {PreferenceType} from '@mattermost/types/preferences';
+import {UserProfile, UserTimezone} from '@mattermost/types/users';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
@@ -92,7 +92,7 @@ type Props = {
     configTeammateNameDisplay: string;
     currentUserTimezone: string;
     enableTimezone: boolean;
-    shouldAutoUpdateTimezone: boolean;
+    shouldAutoUpdateTimezone: boolean | string;
     lockTeammateNameDisplay: boolean;
     militaryTime: string;
     teammateNameDisplay: string;
