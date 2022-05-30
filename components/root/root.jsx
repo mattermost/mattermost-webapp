@@ -52,11 +52,10 @@ const LazyAdminConsole = React.lazy(() => import('components/admin_console'));
 const LazyLoggedIn = React.lazy(() => import('components/logged_in'));
 const LazyPasswordResetSendLink = React.lazy(() => import('components/password_reset_send_link'));
 const LazyPasswordResetForm = React.lazy(() => import('components/password_reset_form'));
-const LazySignupController = React.lazy(() => import('components/signup/signup_controller'));
-const LazySignupEmail = React.lazy(() => import('components/signup/signup_email'));
+const LazySignup = React.lazy(() => import('components/signup/signup'));
 const LazyTermsOfService = React.lazy(() => import('components/terms_of_service'));
-const LazyShouldVerifyEmail = React.lazy(() => import('components/should_verify_email'));
-const LazyDoVerifyEmail = React.lazy(() => import('components/do_verify_email'));
+const LazyShouldVerifyEmail = React.lazy(() => import('components/should_verify_email/should_verify_email'));
+const LazyDoVerifyEmail = React.lazy(() => import('components/do_verify_email/do_verify_email'));
 const LazyClaimController = React.lazy(() => import('components/claim'));
 const LazyHelpController = React.lazy(() => import('components/help/help_controller'));
 const LazyLinkingLandingPage = React.lazy(() => import('components/linking_landing_page'));
@@ -83,8 +82,7 @@ const AdminConsole = makeAsyncComponent('AdminConsole', LazyAdminConsole);
 const LoggedIn = makeAsyncComponent('LoggedIn', LazyLoggedIn);
 const PasswordResetSendLink = makeAsyncComponent('PasswordResedSendLink', LazyPasswordResetSendLink);
 const PasswordResetForm = makeAsyncComponent('PasswordResetForm', LazyPasswordResetForm);
-const SignupController = makeAsyncComponent('SignupController', LazySignupController);
-const SignupEmail = makeAsyncComponent('SignupEmail', LazySignupEmail);
+const Signup = makeAsyncComponent('SignupController', LazySignup);
 const ShouldVerifyEmail = makeAsyncComponent('ShouldVerifyEmail', LazyShouldVerifyEmail);
 const DoVerifyEmail = makeAsyncComponent('DoVerifyEmail', LazyDoVerifyEmail);
 const ClaimController = makeAsyncComponent('ClaimController', LazyClaimController);
@@ -271,6 +269,10 @@ export default class Root extends React.PureComponent {
         }
 
         Utils.applyTheme(this.props.theme);
+
+        if (this.props.firstTimeOnboarding) {
+            this.initOnboardingPrefs();
+        }
     }
 
     componentDidUpdate(prevProps) {
@@ -486,19 +488,15 @@ export default class Root extends React.PureComponent {
                         path={'/reset_password_complete'}
                         component={PasswordResetForm}
                     />
-                    <HFTRoute
+                    <HFRoute
                         path={'/signup_user_complete'}
-                        component={SignupController}
+                        component={Signup}
                     />
-                    <HFTRoute
-                        path={'/signup_email'}
-                        component={SignupEmail}
-                    />
-                    <HFTRoute
+                    <HFRoute
                         path={'/should_verify_email'}
                         component={ShouldVerifyEmail}
                     />
-                    <HFTRoute
+                    <HFRoute
                         path={'/do_verify_email'}
                         component={DoVerifyEmail}
                     />

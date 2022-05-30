@@ -2,6 +2,8 @@
 // See LICENSE.txt for license information.
 import {FormatNumberOptions} from 'react-intl';
 
+import {CloudUsage} from '@mattermost/types/cloud';
+
 import {FileSizes} from './file_utils';
 
 export function asGBString(bits: number, formatNumber: (b: number, options: FormatNumberOptions) => string): string {
@@ -16,3 +18,42 @@ export function inK(num: number): string {
 export function toUsagePercent(usage: number, limit: number): number {
     return Math.floor((usage / limit) * 100);
 }
+
+// These are to be used when we need values
+// even if network requests are failing for some reason.
+// Use as a fallback.
+export const fallbackStarterLimits = {
+    messages: {
+        history: 10000,
+    },
+    files: {
+        totalStorage: FileSizes.Gigabyte * 10,
+    },
+    integrations: {
+        enabled: 10,
+    },
+    boards: {
+        cards: 500,
+    },
+};
+
+// A negative usage value means they are over the limit. This function simply tells you whether ANY LIMIT has been reached/surpassed.
+export function anyUsageDeltaValueIsNegative(deltas: CloudUsage) {
+    let foundANegative = false;
+
+    // JSON.parse recursively moves through the object tree, passing the key and value post transformation
+    // We can use the `reviver` argument to see if any of those arguments are numbers, and negative.
+    JSON.parse(JSON.stringify(deltas), (key, value) => {
+        if (typeof value === 'number' && value < 0) {
+            foundANegative = true;
+        }
+    });
+    return foundANegative;
+}
+
+export const limitThresholds = Object.freeze({
+    ok: 0,
+    warn: 50,
+    danger: 66,
+    exceeded: 100.000001,
+});

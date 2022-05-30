@@ -8,7 +8,7 @@ import {Props as AsyncSelectProps} from 'react-select/async';
 import classNames from 'classnames';
 
 import {isEmail} from 'mattermost-redux/utils/helpers';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import MailIcon from 'components/widgets/icons/mail_icon';

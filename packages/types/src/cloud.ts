@@ -147,15 +147,25 @@ export type Limits = {
 export interface CloudUsage {
     files: {
         totalStorage: number;
+        totalStorageLoaded: boolean;
+
     };
     messages: {
         history: number;
+        historyLoaded: boolean;
     };
     boards: {
         cards: number;
-        views: number;
+        cardsLoaded: boolean;
     };
-    integrations: {
-        enabled: number;
+    teams: {
+        active: number;
+        teamsLoaded: boolean;
     };
+    integrations: IntegrationsUsage;
+}
+
+export interface IntegrationsUsage {
+    enabled: number;
+    enabledLoaded: boolean;
 }

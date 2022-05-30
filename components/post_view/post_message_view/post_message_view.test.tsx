@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 
 import {Posts} from 'mattermost-redux/constants';
 
-import {Post, PostType} from 'mattermost-redux/types/posts';
+import {Post, PostType} from '@mattermost/types/posts';
 
 import {Theme} from 'mattermost-redux/types/themes';
 

@@ -7,6 +7,7 @@ import {screen} from '@testing-library/react';
 
 import * as redux from 'react-redux';
 import configureStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
 import {Provider} from 'react-redux';
 
 import {renderWithIntl} from 'tests/react_testing_utils';
@@ -15,7 +16,7 @@ import {FileSizes} from 'utils/file_utils';
 import {GlobalState} from '@mattermost/types/store';
 import {Constants} from 'utils/constants';
 
-import {Subscription} from 'mattermost-redux/types/cloud';
+import {Subscription} from '@mattermost/types/cloud';
 
 import CloudUsageModal, {Props} from './index';
 
@@ -39,7 +40,7 @@ const freeLimits = {
 };
 
 function setupStore(hasLimits: boolean) {
-    const mockStore = configureStore();
+    const mockStore = configureStore([thunk]);
     const state = {
         entities: {
             cloud: {
@@ -48,6 +49,24 @@ function setupStore(hasLimits: boolean) {
                     limits: hasLimits ? freeLimits : {},
                 },
                 subscription: {} as Subscription,
+            },
+            usage: {
+                files: {
+                    totalStorage: 0,
+                    totalStorageLoaded: true,
+                },
+                messages: {
+                    history: 0,
+                    historyLoaded: true,
+                },
+                boards: {
+                    cards: 0,
+                    cardsLoaded: true,
+                },
+                integrations: {
+                    enabled: 0,
+                    enabledLoaded: true,
+                },
             },
             general: {
                 config: {

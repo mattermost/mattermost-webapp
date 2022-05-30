@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getFile} from 'mattermost-redux/selectors/entities/files';
 
-import {FileInfo} from 'mattermost-redux/types/files';
+import {FileInfo} from '@mattermost/types/files';
 
 import {GlobalState} from 'types/store';
 

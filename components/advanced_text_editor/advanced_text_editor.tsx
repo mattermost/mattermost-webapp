@@ -10,8 +10,8 @@ import {useSelector} from 'react-redux';
 
 import {Emoji} from '@mattermost/types/emojis';
 import {FileInfo} from '@mattermost/types/files';
-import {ServerError} from 'mattermost-redux/types/errors';
-import {Channel} from 'mattermost-redux/types/channels';
+import {ServerError} from '@mattermost/types/errors';
+import {Channel} from '@mattermost/types/channels';
 import {PostDraft} from 'types/store/rhs';
 
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
@@ -240,6 +240,7 @@ const AdvanceTextEditor = ({
         <ToggleFormattingBar
             onClick={toggleAdvanceTextEditor}
             active={!isFormattingBarHidden}
+            disabled={shouldShowPreview}
         />
     );
 
@@ -389,20 +390,27 @@ const AdvanceTextEditor = ({
                         useChannelMentions={useChannelMentions}
                     />
                     {attachmentPreview}
+                    {!isFormattingBarHidden &&
+                        <TexteditorActions
+                            ref={createPostControlsRef}
+                            placement='top'
+                        >
+                            {showFormatJSX}
+                        </TexteditorActions>
+                    }
                     <FormattingBar
                         applyMarkdown={applyMarkdown}
                         getCurrentMessage={getCurrentValue}
                         getCurrentSelection={getCurrentSelection}
                         isOpen={!isFormattingBarHidden}
-                        appendControls={[fileUploadJSX]}
                         disableControls={shouldShowPreview}
                     />
                     <TexteditorActions
                         ref={createPostControlsRef}
                         placement='bottom'
                     >
-                        {showFormatJSX}
                         {toggleFormattingBarJSX}
+                        {fileUploadJSX}
                         {emojiPicker}
                         {sendButton}
                     </TexteditorActions>

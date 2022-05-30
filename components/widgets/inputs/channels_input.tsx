@@ -10,7 +10,7 @@ import classNames from 'classnames';
 
 import {Constants} from 'utils/constants';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import PublicChannelIcon from 'components/widgets/icons/globe_icon';
