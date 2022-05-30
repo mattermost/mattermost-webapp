@@ -45,12 +45,7 @@ exports[`components/signup/Signup should match snapshot for all signup options e
           <ForwardRef
             autoFocus={true}
             className="signup-body-card-form-email-input"
-            customMessage={
-              Object {
-                "type": "error",
-                "value": "",
-              }
-            }
+            customMessage={null}
             disabled={false}
             inputSize="large"
             name="email"
@@ -64,12 +59,11 @@ exports[`components/signup/Signup should match snapshot for all signup options e
             className="signup-body-card-form-name-input"
             customMessage={
               Object {
-                "type": "error",
-                "value": "",
+                "type": "info",
+                "value": "You can use lowercase letters, numbers, periods, dashes, and underscores.",
               }
             }
             disabled={false}
-            info="You can use lowercase letters, numbers, periods, dashes, and underscores."
             inputSize="large"
             name="name"
             onChange={[Function]}
@@ -189,12 +183,7 @@ exports[`components/signup/Signup should match snapshot for all signup options e
           <ForwardRef
             autoFocus={true}
             className="signup-body-card-form-email-input"
-            customMessage={
-              Object {
-                "type": "error",
-                "value": "",
-              }
-            }
+            customMessage={null}
             disabled={false}
             inputSize="large"
             name="email"
@@ -208,12 +197,11 @@ exports[`components/signup/Signup should match snapshot for all signup options e
             className="signup-body-card-form-name-input"
             customMessage={
               Object {
-                "type": "error",
-                "value": "",
+                "type": "info",
+                "value": "You can use lowercase letters, numbers, periods, dashes, and underscores.",
               }
             }
             disabled={false}
-            info="You can use lowercase letters, numbers, periods, dashes, and underscores."
             inputSize="large"
             name="name"
             onChange={[Function]}
