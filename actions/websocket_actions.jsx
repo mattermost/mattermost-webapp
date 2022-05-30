@@ -871,6 +871,10 @@ function handleDeleteTeamEvent(msg) {
     const state = store.getState();
     const {teams} = state.entities.teams;
     const license = getLicense(state);
+    const isCloudFreeEnabled = cloudFreeEnabled(state);
+    if (license.Cloud === 'true' && isCloudFreeEnabled) {
+        dispatch(getTeamsUsage());
+    }
     if (
         deletedTeam &&
         teams &&
@@ -916,6 +920,11 @@ function handleDeleteTeamEvent(msg) {
             return;
         }
 
+        // If a deletion just happened and it's attempting to redirect back to the teams list, let it.
+        if (browserHistory.location?.pathname === '/admin_console/user_management/teams') {
+            return;
+        }
+
         if (newTeamId) {
             dispatch({type: TeamTypes.SELECT_TEAM, data: newTeamId});
             const globalState = getState();
@@ -924,10 +933,6 @@ function handleDeleteTeamEvent(msg) {
         } else {
             browserHistory.push('/');
         }
-    }
-    const isCloudFreeEnabled = cloudFreeEnabled(state);
-    if (license.Cloud === 'true' && isCloudFreeEnabled) {
-        dispatch(getTeamsUsage());
     }
 }
 
