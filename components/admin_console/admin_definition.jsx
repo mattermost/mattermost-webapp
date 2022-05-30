@@ -1068,7 +1068,7 @@ const AdminDefinition = {
                         label_default: 'Enable document search by content:',
                         help_text: t('admin.image.extractContentDescription'),
                         help_text_markdown: false,
-                        help_text_default: 'When enabled, supported document types are searchable by their content. Search results for existing documents may be incomplete <link>>until a data migration is executed</link>.',
+                        help_text_default: 'When enabled, supported document types are searchable by their content. Search results for existing documents may be incomplete <link>until a data migration is executed</link>.',
                         help_text_values: {
                             link: (msg) => (
                                 <a
