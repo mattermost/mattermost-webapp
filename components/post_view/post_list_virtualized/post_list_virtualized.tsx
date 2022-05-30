@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable max-lines */
 import React from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import {DynamicSizeList} from 'dynamic-virtualized-list';
@@ -84,7 +85,7 @@ type Props = {
         loadNewerPosts: () => void;
 
         // Function used for autoLoad of posts incase screen is not filled with posts
-        canLoadMorePosts: (channelId: string, postId: string) => boolean;
+        canLoadMorePosts: (postRequestTypes: string) => boolean;
 
         // Function to check and set if app is in mobile view
         checkAndSetMobileView: () => void;
@@ -108,8 +109,6 @@ type State = {
     postMenuOpened: boolean;
     dynamicListStyle: {
         willChange: string;
-        // height: number;
-        // overflow: string;
     };
     initScrollCompleted: boolean;
     initScrollOffsetFromBottom: number;
@@ -132,7 +131,7 @@ export default class PostList extends React.PureComponent<Props, State> {
         this.state = {
             isScrolling: false,
 
-            /* Intentionally setting null so that toast can determine when the first time this state is defined */
+            // Intentionally setting null so that toast can determine when the first time this state is defined
             atBottom: null,
             lastViewedBottom: Date.now(),
             postListIds: [channelIntroMessage],
@@ -172,7 +171,6 @@ export default class PostList extends React.PureComponent<Props, State> {
     }
 
     componentDidMount() {
-        console.log('componentDidMount');
         this.mounted = true;
         this.props.actions.checkAndSetMobileView();
 
@@ -186,6 +184,7 @@ export default class PostList extends React.PureComponent<Props, State> {
             const channelHeaderAdded = this.props.atOldestPost !== prevProps.atOldestPost;
             if ((postsAddedAtTop || channelHeaderAdded) && this.state.atBottom === false) {
                 const postListNode = this.postListRef.current;
+                console.log('postListNode.scrollTop', postListNode);
                 const previousScrollTop = postListNode.parentElement.scrollTop;
                 const previousScrollHeight = postListNode.scrollHeight;
 
@@ -351,7 +350,19 @@ export default class PostList extends React.PureComponent<Props, State> {
         }
     }
 
-    onScroll = ({scrollDirection, scrollOffset, scrollUpdateWasRequested, clientHeight, scrollHeight}) => {
+    onScroll = ({
+        scrollDirection,
+        scrollOffset,
+        scrollUpdateWasRequested,
+        clientHeight,
+        scrollHeight}:
+    {
+        scrollDirection: string;
+        scrollOffset: number;
+        scrollUpdateWasRequested: boolean;
+        clientHeight: number;
+        scrollHeight: number;
+    }) => {
         if (scrollHeight <= 0) {
             return;
         }
@@ -384,7 +395,7 @@ export default class PostList extends React.PureComponent<Props, State> {
 
         if (scrollUpdateWasRequested) { //if scroll change is programatically requested i.e by calling scrollTo
             //This is a private method on virtlist
-            const postsRenderedRange = this.listRef.current._getRangeToRender(); //eslint-disable-line no-underscore-dangle
+            const postsRenderedRange = this.listRef.current?._getRangeToRender(); //eslint-disable-line no-underscore-dangle
 
             // postsRenderedRange[3] is the visibleStopIndex which is post at the bottom of the screen
             if (postsRenderedRange[3] <= 1 && !this.props.atLatestPost) {
@@ -415,11 +426,11 @@ export default class PostList extends React.PureComponent<Props, State> {
         return window.screen.height * 3;
     }
 
-    checkBottom = (scrollOffset, scrollHeight, clientHeight) => {
+    checkBottom = (scrollOffset: number, scrollHeight: number, clientHeight: number) => {
         this.updateAtBottom(this.isAtBottom(scrollOffset, scrollHeight, clientHeight));
     }
 
-    isAtBottom = (scrollOffset, scrollHeight, clientHeight) => {
+    isAtBottom = (scrollOffset: number, scrollHeight: number, clientHeight: number) => {
         // Calculate how far the post list is from being scrolled to the bottom
         const offsetFromBottom = scrollHeight - clientHeight - scrollOffset;
 
@@ -463,7 +474,7 @@ export default class PostList extends React.PureComponent<Props, State> {
         });
     }
 
-    updateFloatingTimestamp = (visibleTopItem) => {
+    updateFloatingTimestamp = (visibleTopItem: number) => {
         if (!this.props.isMobileView) {
             return;
         }
@@ -477,9 +488,7 @@ export default class PostList extends React.PureComponent<Props, State> {
         });
     }
 
-    onItemsRendered = ({visibleStartIndex}) => {
-        this.updateFloatingTimestamp(visibleStartIndex);
-    }
+    onItemsRendered = ({visibleStartIndex}: {visibleStartIndex: number}) => this.updateFloatingTimestamp(visibleStartIndex);
 
     initScrollToIndex = () => {
         if (this.props.focusedPostId) {
@@ -526,11 +535,11 @@ export default class PostList extends React.PureComponent<Props, State> {
     }
 
     scrollToBottom = () => {
-        this.listRef.current.scrollToItem(0, 'end');
+        this.listRef.current?.scrollToItem(0, 'end');
     }
 
     scrollToNewMessage = () => {
-        this.listRef.current.scrollToItem(getNewMessageIndex(this.state.postListIds), 'start', OFFSET_TO_SHOW_TOAST);
+        this.listRef.current?.scrollToItem(getNewMessageIndex(this.state.postListIds), 'start', OFFSET_TO_SHOW_TOAST);
     }
 
     updateNewMessagesAtInChannel = (lastViewedAt = Date.now()) => {
