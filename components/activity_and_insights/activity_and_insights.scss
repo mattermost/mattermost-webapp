@@ -26,6 +26,16 @@
             }
         }
 
+        .top-boards-card {
+            .Card__header {
+                padding-bottom: 16px;
+            }
+
+            .Card__body {
+                padding: 0 12px 18px;
+            }
+        }
+
         .top-channel-container {
             display: flex;
 
@@ -349,12 +359,80 @@
             }
         }
 
+        .top-board-container {
+            .top-board-loading-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+
+                &:nth-of-type(4) {
+                    margin-bottom: 6px;
+                }
+
+                .loading-lines {
+                    display: flex;
+                    flex: 1;
+                    flex-direction: column;
+                    margin-left: 10px;
+
+                    .title {
+                        flex: none;
+
+                        &:nth-of-type(2) {
+                            margin-top: 6px;
+                            height: 8px;
+                        }
+                    }
+                }
+            }
+            .board-list {
+                .board-item {
+                    display: flex;
+                    align-items: center;
+                    padding: 10px 12px;
+
+                    &:hover {
+                        background: rgba(var(--center-channel-color-rgb), 0.08);
+                        cursor: pointer;
+                        border-radius: 4px;
+                    }
+
+                    .display-info {
+                        flex-direction: column;
+                        display: flex;
+
+                        .display-name {
+                            font-family: 'Open Sans';
+                            font-style: normal;
+                            font-weight: 600;
+                            font-size: 12px;
+                            line-height: 16px;
+                            color: var(--center-channel-color);
+                        }
+                        
+                        .update-counts {
+                            font-family: 'Open Sans';
+                            font-style: normal;
+                            font-weight: 400;
+                            font-size: 12px;
+                            line-height: 16px;
+                            color: rgba(var(--center-channel-color-rgb), 0.56);
+                        }
+                    }
+
+                    .Avatars.Avatars___xs {
+                        margin-left: auto;
+                    }
+                }
+            }
+        }
+
         .empty-state {
             display: flex;
             flex: 1;
             flex-direction: column;
             align-items: center;
-            margin: 70px 0;
+            margin: 65px 0;
 
             .empty-state-emoticon {
                 display: flex;

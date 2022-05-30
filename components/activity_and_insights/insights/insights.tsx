@@ -13,6 +13,7 @@ import InsightsHeader from './insights_header/insights_header';
 import TopChannels from './top_channels/top_channels';
 import TopReactions from './top_reactions/top_reactions';
 import TopThreads from './top_threads/top_threads';
+import TopBoards from './top_boards/top_boards';
 
 import './../activity_and_insights.scss';
 
@@ -63,6 +64,14 @@ const Insights = () => {
                     filterType={filterType}
                     widgetType={InsightsWidgetTypes.TOP_THREADS}
                     class={'top-threads-card'}
+                    timeFrame={timeFrame.value}
+                    timeFrameLabel={timeFrame.label}
+                />
+                <TopBoards
+                    size={CardSizes.small}
+                    filterType={filterType}
+                    widgetType={InsightsWidgetTypes.TOP_BOARDS}
+                    class={'top-boards-card'}
                     timeFrame={timeFrame.value}
                     timeFrameLabel={timeFrame.label}
                 />
