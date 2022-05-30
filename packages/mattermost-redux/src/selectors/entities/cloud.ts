@@ -22,13 +22,17 @@ export function getCloudLimitsLoaded(state: GlobalState): boolean {
     return state.entities.cloud.limits.limitsLoaded;
 }
 
-export function getCloudProduct(state: GlobalState): Product | undefined {
-    const currentSubscription = getCloudSubscription(state);
-    if (state.entities.cloud.products && currentSubscription) {
-        return state.entities.cloud.products[currentSubscription?.product_id];
+export function getSubscriptionProduct(state: GlobalState): Product | undefined {
+    const subscription = getCloudSubscription(state);
+    if (!subscription) {
+        return undefined;
+    }
+    const products = getCloudProducts(state);
+    if (!products) {
+        return undefined;
     }
 
-    return undefined;
+    return products[subscription.product_id];
 }
 
 export function isCurrentLicenseCloud(state: GlobalState): boolean {

@@ -6,16 +6,13 @@ import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 
-import {CloudProducts, ModalIdentifiers} from 'utils/constants';
+import {CloudProducts} from 'utils/constants';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
-import {GlobalState} from 'types/store';
-import {trackEvent} from 'actions/telemetry_actions';
 import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCloudProducts, getCloudSubscription} from 'mattermost-redux/actions/cloud';
-import {getCloudSubscription as selectCloudSubscription, getCloudProduct as selectCloudProduct, isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
+import {getCloudSubscription as selectCloudSubscription, getSubscriptionProduct as selectSubscriptionProduct, isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
 
-import {openModal} from 'actions/views/modals';
-import PricingModal from 'components/pricing_modal';
+import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 
 const UpgradeButton = styled.button`
 background: var(--denim-button-bg);
@@ -39,24 +36,20 @@ const UpgradeCloudButton = (): JSX.Element | null => {
     const dispatch = useDispatch();
     const {formatMessage} = useIntl();
 
-    useEffect(() => {
-        dispatch(getCloudSubscription());
-        dispatch(getCloudProducts());
-    }, []);
-
-    openPricingModal = () => {
-        trackEvent('cloud_admin', 'click_open_pricing_modal');
-        dispatch(openModal({
-            modalId: ModalIdentifiers.PRICING_MODAL,
-            dialogType: PricingModal,
-        }));
-    };
-
     const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
-    const isAdmin = useSelector((state: GlobalState) => isCurrentUserSystemAdmin(state));
+    const isAdmin = useSelector(isCurrentUserSystemAdmin);
     const subscription = useSelector(selectCloudSubscription);
-    const product = useSelector(selectCloudProduct);
+    const product = useSelector(selectSubscriptionProduct);
     const isCloud = useSelector(isCurrentLicenseCloud);
+
+    useEffect(() => {
+        if (isCloud) {
+            dispatch(getCloudSubscription());
+            dispatch(getCloudProducts());
+        }
+    }, [isCloud]);
+
+    openPricingModal = useOpenPricingModal();
 
     const isEnterpriseTrial = subscription?.is_free_trial === 'true';
     const isStarter = product?.sku === CloudProducts.STARTER;

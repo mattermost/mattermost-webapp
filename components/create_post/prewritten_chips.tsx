@@ -7,7 +7,7 @@ import styled from 'styled-components';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 
 import {t} from 'utils/i18n.jsx';
 

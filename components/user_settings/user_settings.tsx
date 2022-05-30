@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import AdvancedTab from './advanced';
 import DisplayTab from './display';

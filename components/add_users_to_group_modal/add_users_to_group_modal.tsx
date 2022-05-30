@@ -7,10 +7,10 @@ import {Modal} from 'react-bootstrap';
 
 import {FormattedMessage} from 'react-intl';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import {localizeMessage} from 'utils/utils';
-import {Group} from 'mattermost-redux/types/groups';
+import {Group} from '@mattermost/types/groups';
 
 import 'components/user_groups_modal/user_groups_modal.scss';
 import {ModalData} from 'types/actions';

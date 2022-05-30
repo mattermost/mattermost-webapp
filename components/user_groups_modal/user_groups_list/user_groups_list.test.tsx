@@ -4,7 +4,7 @@ import React from 'react';
 
 import {shallow} from 'enzyme';
 
-import {Group, GroupPermissions} from 'mattermost-redux/types/groups';
+import {Group, GroupPermissions} from '@mattermost/types/groups';
 
 import UserGroupsList from './user_groups_list';
 
