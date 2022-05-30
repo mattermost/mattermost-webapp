@@ -4,28 +4,11 @@ exports[`/components/cloud_start_trial/input_business_email should match snapsho
 <ForwardRef
   autoComplete="off"
   autoFocus={true}
-  containerClassName="new-channel-modal-name-container"
+  containerClassName="request-business-email-container"
   customMessage={null}
-  inputClassName="new-channel-modal-name-input"
+  inputClassName="request-business-email-input"
   label="Enter business email"
-  name="new-channel-modal-name"
-  onChange={[MockFunction]}
-  placeholder="name@companyname.com"
-  required={true}
-  type="email"
-  value="foo@example.com"
-/>
-`;
-
-exports[`/components/common/Accordion should match snapshot 1`] = `
-<ForwardRef
-  autoComplete="off"
-  autoFocus={true}
-  containerClassName="new-channel-modal-name-container"
-  customMessage={null}
-  inputClassName="new-channel-modal-name-input"
-  label="Enter business email"
-  name="new-channel-modal-name"
+  name="request-business-email"
   onChange={[MockFunction]}
   placeholder="name@companyname.com"
   required={true}

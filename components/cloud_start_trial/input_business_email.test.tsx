@@ -4,6 +4,8 @@
 import React from 'react';
 import {mount, shallow} from 'enzyme';
 
+import {ItemStatus} from 'utils/constants';
+
 import InputBusinessEmail from './input_business_email';
 
 describe('/components/cloud_start_trial/input_business_email', () => {
@@ -24,13 +26,12 @@ describe('/components/cloud_start_trial/input_business_email', () => {
             <InputBusinessEmail {...baseProps}/>,
         );
         const inputElement = wrapper.find('.Input');
-        console.log(wrapper.debug());
         expect(inputElement.length).toBe(1);
     });
 
     test('test input business email displays the SUCCESS custom message correctly', () => {
         const wrapper = mount(
-            <InputBusinessEmail {...{...baseProps, customInputLabel: {type: 'success', value: 'success value'}}}/>,
+            <InputBusinessEmail {...{...baseProps, customInputLabel: {type: ItemStatus.SUCCESS, value: 'success value'}}}/>,
         );
         const customMessageElement = wrapper.find('.Input___customMessage.Input___success');
         expect(customMessageElement.length).toBe(1);
@@ -38,7 +39,7 @@ describe('/components/cloud_start_trial/input_business_email', () => {
 
     test('test input business email displays the WARNING custom message correctly', () => {
         const wrapper = mount(
-            <InputBusinessEmail {...{...baseProps, customInputLabel: {type: 'warning', value: 'warning value'}}}/>,
+            <InputBusinessEmail {...{...baseProps, customInputLabel: {type: ItemStatus.WARNING, value: 'warning value'}}}/>,
         );
         const customMessageElement = wrapper.find('.Input___customMessage.Input___warning');
         expect(customMessageElement.length).toBe(1);
@@ -46,7 +47,7 @@ describe('/components/cloud_start_trial/input_business_email', () => {
 
     test('test input business email displays the ERROR custom message correctly', () => {
         const wrapper = mount(
-            <InputBusinessEmail {...{...baseProps, customInputLabel: {type: 'error', value: 'error value'}}}/>,
+            <InputBusinessEmail {...{...baseProps, customInputLabel: {type: ItemStatus.ERROR, value: 'error value'}}}/>,
         );
         const customMessageElement = wrapper.find('.Input___customMessage.Input___error');
         expect(customMessageElement.length).toBe(1);
@@ -54,7 +55,7 @@ describe('/components/cloud_start_trial/input_business_email', () => {
 
     test('test input business email displays the INFO custom message correctly', () => {
         const wrapper = mount(
-            <InputBusinessEmail {...{...baseProps, customInputLabel: {type: 'info', value: 'info value'}}}/>,
+            <InputBusinessEmail {...{...baseProps, customInputLabel: {type: ItemStatus.INFO, value: 'info value'}}}/>,
         );
         const customMessageElement = wrapper.find('.Input___customMessage.Input___info');
         expect(customMessageElement.length).toBe(1);

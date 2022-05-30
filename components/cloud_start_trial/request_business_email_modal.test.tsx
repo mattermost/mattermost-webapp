@@ -11,26 +11,25 @@ import thunk from 'redux-thunk';
 
 import {shallow} from 'enzyme';
 
+import * as cloudActions from 'actions/cloud';
+
 import GenericModal from 'components/generic_modal';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import RequestBusinessEmailModal from './request_business_email_modal';
 
-jest.mock('actions/cloud.tsx', () => {
-    // const checkValidEmail = jest.fn().
-    //     mockResolvedValueOnce(false).
-    //     mockResolvedValue(true);
-    const original = jest.requireActual('actions/cloud.tsx');
-    return {
-        ...original,
-        validateBusinessEmail: () => () => {
-            return new Promise<boolean>((resolve) => {
-                process.nextTick(() => resolve(false));
-            });
-        },
-    };
-});
+// jest.mock('actions/cloud.tsx', () => {
+//     const original = jest.requireActual('actions/cloud.tsx');
+//     return {
+//         ...original,
+//         validateBusinessEmail: () => () => {
+//             return new Promise<boolean>((resolve) => {
+//                 process.nextTick(() => resolve(false));
+//             });
+//         },
+//     };
+// });
 
 describe('components/request_business_email_modal/request_business_email_modal', () => {
     // required state to mount using the provider
@@ -110,14 +109,14 @@ describe('components/request_business_email_modal/request_business_email_modal',
         expect(mockOnExited).toHaveBeenCalled();
     });
 
-    test('should show the Start Cloud Trial Button', () => {
+    test('should show the Input to enter the valid Business Email', () => {
         const wrapper = mountWithIntl(
             <Provider store={store}>
                 <RequestBusinessEmailModal {...props}/>
             </Provider>,
         );
 
-        expect(wrapper.find('CloudStartTrialButton')).toHaveLength(1);
+        expect(wrapper.find('InputBusinessEmail')).toHaveLength(1);
     });
 
     test('should start with Start Cloud Trial Button disabled', () => {
@@ -132,9 +131,15 @@ describe('components/request_business_email_modal/request_business_email_modal',
         expect(startTrialBtn.props().disabled).toEqual(true);
     });
 
-    test.only('should validate the email entered', async () => {
+    test('should ENABLE the trial button if email is VALID', async () => {
+        type ValidateEmailFnType = () => () => Promise<boolean>;
+
+        // mock validation response to TRUE meaning the email is a valid email
+        const validateBusinessEmail = (() => () => true) as unknown as ValidateEmailFnType;
+        jest.spyOn(cloudActions, 'validateBusinessEmail').mockImplementation(validateBusinessEmail);
+
         const event = {
-            target: {value: 'email@domain.com'},
+            target: {value: 'valid-email@domain.com'},
         };
 
         const wrapper = mountWithIntl(
@@ -144,12 +149,103 @@ describe('components/request_business_email_modal/request_business_email_modal',
         );
 
         await act(async () => {
-            const input = wrapper.find('input');
-            input.find('input').simulate('change', event);
+            const inputBusinessEmail = wrapper.find('InputBusinessEmail');
+            const input = inputBusinessEmail.find('input');
+            input.find('input').at(0).simulate('change', event);
         });
 
+        act(() => {
+            wrapper.update();
+            const startTrialBtn = wrapper.find('CloudStartTrialButton');
+            expect(startTrialBtn.props().disabled).toEqual(false);
+        });
+    });
+
+    test('should show the success custom message if the email is valid', async () => {
+        type ValidateEmailFnType = () => () => Promise<boolean>;
+
+        // mock validation response to FALSE meaning the email is an invalid email
+        const validateBusinessEmail = (() => () => true) as unknown as ValidateEmailFnType;
+        jest.spyOn(cloudActions, 'validateBusinessEmail').mockImplementation(validateBusinessEmail);
+
+        const event = {
+            target: {value: 'valid-email@domain.com'},
+        };
+
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <RequestBusinessEmailModal {...props}/>
+            </Provider>,
+        );
+
         await act(async () => {
-            console.log(wrapper.debug());
+            const inputBusinessEmail = wrapper.find('InputBusinessEmail');
+            const input = inputBusinessEmail.find('input');
+            input.find('input').at(0).simulate('change', event);
+        });
+
+        act(() => {
+            wrapper.update();
+            const customMessageElement = wrapper.find('.Input___customMessage.Input___success');
+            expect(customMessageElement.length).toBe(1);
+        });
+    });
+
+    test('should DISABLE the trial button if email is INVALID', async () => {
+        type ValidateEmailFnType = () => () => Promise<boolean>;
+
+        // mock validation response to FALSE meaning the email is an invalid email
+        const validateBusinessEmail = (() => () => false) as unknown as ValidateEmailFnType;
+        jest.spyOn(cloudActions, 'validateBusinessEmail').mockImplementation(validateBusinessEmail);
+
+        const event = {
+            target: {value: 'INvalid-email@domain.com'},
+        };
+
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <RequestBusinessEmailModal {...props}/>
+            </Provider>,
+        );
+
+        await act(async () => {
+            const inputBusinessEmail = wrapper.find('InputBusinessEmail');
+            const input = inputBusinessEmail.find('input');
+            input.find('input').at(0).simulate('change', event);
+        });
+
+        act(() => {
+            wrapper.update();
+            const startTrialBtn = wrapper.find('CloudStartTrialButton');
+            expect(startTrialBtn.props().disabled).toEqual(true);
+        });
+    });
+
+    test('should show the error custom message if the email is invalid', async () => {
+        type ValidateEmailFnType = () => () => Promise<boolean>;
+
+        // mock validation response to FALSE meaning the email is an invalid email
+        const validateBusinessEmail = (() => () => false) as unknown as ValidateEmailFnType;
+        jest.spyOn(cloudActions, 'validateBusinessEmail').mockImplementation(validateBusinessEmail);
+
+        const event = {
+            target: {value: 'INvalid-email@domain.com'},
+        };
+
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <RequestBusinessEmailModal {...props}/>
+            </Provider>,
+        );
+
+        await act(async () => {
+            const inputBusinessEmail = wrapper.find('InputBusinessEmail');
+            const input = inputBusinessEmail.find('input');
+            input.find('input').at(0).simulate('change', event);
+        });
+
+        act(() => {
+            wrapper.update();
             const customMessageElement = wrapper.find('.Input___customMessage.Input___error');
             expect(customMessageElement.length).toBe(1);
         });
