@@ -222,10 +222,7 @@ class AdminSidebar extends React.PureComponent<Props, State> {
                         }
                     }
                     const subDefinitionKey = `${key}.${subKey}`;
-                    let tag: string | JSX.Element = '';
-                    if (item.tag?.shouldDisplay(license)) {
-                        tag = item.tag.value;
-                    }
+                    const tag = item.tag?.shouldDisplay(license) ? item.tag.value : '';
                     sidebarItems.push((
                         <AdminSidebarSection
                             key={subDefinitionKey}
@@ -277,7 +274,7 @@ class AdminSidebar extends React.PureComponent<Props, State> {
     }
 
     isPluginPresentInSections = (plugin: PluginRedux) => {
-        return this.state.sections?.indexOf(`plugin_${plugin.id}`) !== -1;
+        return this.state.sections && this.state.sections.indexOf(`plugin_${plugin.id}`) >= 0;
     }
 
     renderPluginsMenu = () => {
