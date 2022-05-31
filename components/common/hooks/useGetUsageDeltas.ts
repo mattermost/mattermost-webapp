@@ -13,6 +13,7 @@ import useGetLimits from './useGetLimits';
 // 2 teams used, minus 1 team limit = value > 0, limit exceeded
 // 10MB files used, minus 1000MB limit = value < 0, limit not exceeded.
 // etc.
+// withBackupValue will set the limit arbitrarily high in the event that the limit isn't set
 const withBackupValue = (maybeLimit: number | undefined, limitsLoaded: boolean) => (limitsLoaded ? maybeLimit ?? Number.MAX_VALUE : 0);
 
 export default function useGetUsageDeltas(): CloudUsage {
