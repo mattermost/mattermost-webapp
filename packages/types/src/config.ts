@@ -182,6 +182,7 @@ export type ClientConfig = {
     WebsocketSecurePort: string;
     WebsocketURL: string;
     ExperimentalSharedChannels: string;
+    EnableAppBar: string;
 };
 
 export type License = {
@@ -231,6 +232,12 @@ export type LicenseFeatures = {
 };
 
 export type ClientLicense = Record<string, string>;
+
+export type RequestLicenseBody = {
+    users: number;
+    terms_accepted: boolean;
+    receive_emails_accepted: boolean;
+}
 
 export type DataRetentionPolicy = {
     message_deletion_enabled: boolean;

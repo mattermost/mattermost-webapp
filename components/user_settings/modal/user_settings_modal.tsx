@@ -12,8 +12,8 @@ import {
     IntlShape,
 } from 'react-intl';
 
-import {UserProfile} from 'mattermost-redux/types/users';
-import {StatusOK} from 'mattermost-redux/types/client4';
+import {UserProfile} from '@mattermost/types/users';
+import {StatusOK} from '@mattermost/types/client4';
 import store from 'stores/redux_store.jsx';
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils';

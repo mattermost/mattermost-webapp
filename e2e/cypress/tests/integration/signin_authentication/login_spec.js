@@ -67,7 +67,7 @@ describe('Login page', () => {
         cy.findByText('Create an account').should('exist').and('be.visible').should('have.attr', 'href', '/signup_user_complete');
 
         // # Move inside of footer section
-        cy.get('.footer').should('exist').and('be.visible').within(() => {
+        cy.get('.hfroute-footer').should('exist').and('be.visible').within(() => {
             const {
                 ABOUT_LINK,
                 HELP_LINK,

@@ -6,17 +6,18 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage, useIntl} from 'react-intl';
 
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
-import {Channel} from 'mattermost-redux/types/channels';
-import {UserProfile} from 'mattermost-redux/types/users';
-import {Team} from 'mattermost-redux/types/teams';
+import {Channel} from '@mattermost/types/channels';
+import {UserProfile} from '@mattermost/types/users';
+import {Team} from '@mattermost/types/teams';
 
 import {getSiteURL} from 'utils/url';
 import {Constants} from 'utils/constants';
 
 import {trackEvent} from 'actions/telemetry_actions';
-import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
 import useCopyText from 'components/common/hooks/useCopyText';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input';
+import {getAnalyticsCategory} from 'components/onboarding_tasks';
+
 import {t} from 'utils/i18n.jsx';
 
 import AddToChannels, {CustomMessageProps, InviteChannels, defaultCustomMessage, defaultInviteChannels} from './add_to_channels';

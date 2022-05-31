@@ -5,8 +5,8 @@ import React from 'react';
 import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
 
 import {Client4} from 'mattermost-redux/client';
-import {Compliance} from 'mattermost-redux/types/compliance';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {Compliance} from '@mattermost/types/compliance';
+import {UserProfile} from '@mattermost/types/users';
 
 import LoadingScreen from 'components/loading_screen';
 import ReloadIcon from 'components/widgets/icons/fa_reload_icon';

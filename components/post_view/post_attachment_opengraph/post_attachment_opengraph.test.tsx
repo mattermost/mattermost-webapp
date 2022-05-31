@@ -4,7 +4,7 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
-import {OpenGraphMetadata, Post} from 'mattermost-redux/types/posts';
+import {OpenGraphMetadata, Post} from '@mattermost/types/posts';
 
 import ExternalImage from 'components/external_image';
 

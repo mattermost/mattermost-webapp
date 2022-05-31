@@ -16,7 +16,7 @@ import {isFavoriteChannel} from 'mattermost-redux/selectors/entities/channels';
 
 import TestHelper, {DEFAULT_SERVER} from 'mattermost-redux/test/test_helper';
 
-import {CategorySorting} from 'mattermost-redux/types/channel_categories';
+import {CategorySorting} from '@mattermost/types/channel_categories';
 
 import * as Actions from './channel_categories';
 

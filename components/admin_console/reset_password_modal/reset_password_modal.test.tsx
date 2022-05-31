@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {shallow} from 'enzyme';
 
-import {UserNotifyProps, UserProfile} from 'mattermost-redux/types/users';
+import {UserNotifyProps, UserProfile} from '@mattermost/types/users';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
