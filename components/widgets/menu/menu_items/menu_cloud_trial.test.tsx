@@ -29,6 +29,11 @@ const usage = {
         enabled: 0,
         enabledLoaded: true,
     },
+    teams: {
+        active: 0,
+        cloudArchived: 0,
+        teamsLoaded: true,
+    },
 };
 
 const limits = {
@@ -45,6 +50,7 @@ const limits = {
         },
         teams: {
             active: 1,
+            teamsLoaded: true,
         },
         boards: {
             cards: 500,
