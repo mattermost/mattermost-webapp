@@ -177,6 +177,6 @@ export function getBoardsUsage(): ActionFunc {
         } catch (error) {
             return error;
         }
-        return {data: false};
+        return {data: true};
     };
 }
