@@ -3,91 +3,114 @@
 
 import React from 'react';
 
-import {shallow, ShallowWrapper} from 'enzyme';
+import configureStore from 'redux-mock-store';
+
+import {Provider} from 'react-redux';
+
+import {shallow} from 'enzyme';
+
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {CloudProducts} from 'utils/constants';
+import {makeEmptyLimits, makeEmptyUsage} from 'utils/limits_test';
 
-import FeatureList from './feature_list';
+import FeatureList, {FeatureListProps} from './feature_list';
+
+function renderFeatureList(props: FeatureListProps, deep?: boolean) {
+    const state = {
+        entities: {
+            cloud: {
+                limits: makeEmptyLimits(),
+            },
+            usage: makeEmptyUsage(),
+            general: {
+                config: {
+                    FeatureFlagCloudFree: 'false',
+                },
+            },
+        },
+    };
+
+    const mockStore = configureStore([]);
+    const store = mockStore(state);
+    const wrapper = deep ?
+        mountWithIntl(
+            <Provider store={store}>
+                <FeatureList {...props}/>
+            </Provider>,
+        ) :
+        shallow(
+            <Provider store={store}>
+                <FeatureList {...props}/>
+            </Provider>,
+        );
+
+    return wrapper;
+}
 
 describe('components/admin_console/billing/plan_details/feature_list', () => {
     test('should match snapshot when running FREE tier', () => {
-        const wrapper = shallow(
-            <FeatureList
-                subscriptionPlan={CloudProducts.STARTER}
-                isPaidTier={false}
-            />,
-        );
+        const wrapper = renderFeatureList({
+            subscriptionPlan: CloudProducts.STARTER,
+            isPaidTier: false,
+        });
         expect(wrapper).toMatchSnapshot();
     });
     test('should match snapshot when running paid tier and professional', () => {
-        const wrapper = shallow(
-            <FeatureList
-                subscriptionPlan={CloudProducts.PROFESSIONAL}
-                isPaidTier={true}
-            />,
-        );
+        const wrapper = renderFeatureList({
+            subscriptionPlan: CloudProducts.PROFESSIONAL,
+            isPaidTier: true,
+        });
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot when running paid tier and enterprise', () => {
-        const wrapper = shallow(
-            <FeatureList
-                subscriptionPlan={CloudProducts.ENTERPRISE}
-                isPaidTier={true}
-            />,
-        );
+        const wrapper = renderFeatureList({
+            subscriptionPlan: CloudProducts.ENTERPRISE,
+            isPaidTier: true,
+        });
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot when running paid tier and starter', () => {
-        const wrapper = shallow(
-            <FeatureList
-                subscriptionPlan={CloudProducts.STARTER}
-                isPaidTier={true}
-            />,
-        );
+        const wrapper = renderFeatureList({
+            subscriptionPlan: CloudProducts.STARTER,
+            isPaidTier: true,
+        });
         expect(wrapper).toMatchSnapshot();
     });
 
     test('all feature items must have different values', () => {
-        const wrapperEnterprise = shallow(
-            <FeatureList
-                subscriptionPlan={CloudProducts.ENTERPRISE}
-                isPaidTier={true}
-            />,
-        );
+        const wrapperEnterprise = renderFeatureList({
+            subscriptionPlan: CloudProducts.ENTERPRISE,
+            isPaidTier: true,
+        }, true);
 
-        const wrapperStarter = shallow(
-            <FeatureList
-                subscriptionPlan={CloudProducts.STARTER}
-                isPaidTier={true}
-            />,
-        );
+        const wrapperStarter = renderFeatureList({
+            subscriptionPlan: CloudProducts.STARTER,
+            isPaidTier: true,
+        }, true);
 
-        const wrapperProfessional = shallow(
-            <FeatureList
-                subscriptionPlan={CloudProducts.PROFESSIONAL}
-                isPaidTier={true}
-            />,
-        );
+        const wrapperProfessional = renderFeatureList({
+            subscriptionPlan: CloudProducts.PROFESSIONAL,
+            isPaidTier: true,
+        }, true);
 
-        const wrapperFreeTier = shallow(
-            <FeatureList
-                subscriptionPlan={CloudProducts.PROFESSIONAL}
-                isPaidTier={false}
-            />,
-        );
+        const wrapperFreeTier = renderFeatureList({
+            subscriptionPlan: CloudProducts.PROFESSIONAL,
+            isPaidTier: false,
+        }, true);
 
         const wrappers = [wrapperProfessional, wrapperEnterprise, wrapperStarter, wrapperFreeTier];
 
-        wrappers.forEach((wrapper: ShallowWrapper<typeof FeatureList>) => {
-            const featuresSpanElements = wrapper.find('div.PlanDetails__feature > span');
+        wrappers.forEach((wrapper: ReturnType<typeof renderFeatureList>) => {
+            const featuresSpanElements = wrapper.find('div.PlanDetailsFeature > span');
             if (featuresSpanElements.length === 0) {
                 console.error('No features found');
                 expect(featuresSpanElements.length).toBeTruthy();
                 return;
             }
-            const featuresTexts = featuresSpanElements.map((element) => element.text());
+            const featuresTexts = featuresSpanElements.map((element: any) => element.text());
 
             const hasDuplicates = (arr: any[]) => arr.length !== new Set(arr).size;
 

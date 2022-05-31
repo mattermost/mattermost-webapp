@@ -13,7 +13,7 @@ import {CloudProducts} from 'utils/constants';
 
 import './feature_list.scss';
 
-interface FeatureListProps {
+export interface FeatureListProps {
     subscriptionPlan?: string;
     isPaidTier: boolean;
 }
