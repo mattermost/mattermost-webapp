@@ -10,7 +10,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {ActionResult, DispatchFunc, GetStateFunc, ActionFunc} from 'mattermost-redux/types/actions';
 
-import {Post} from '@mattermost/types/posts';
+import {PostList} from '@mattermost/types/posts';
 
 import {FileSearchResults, FileSearchResultItem} from '@mattermost/types/files';
 
@@ -21,8 +21,10 @@ import {forceLogoutIfNecessary} from './helpers';
 import {logError} from './errors';
 import {getProfilesAndStatusesForPosts, receivedPosts} from './posts';
 import {receivedFiles} from './files';
+
 const WEBAPP_SEARCH_PER_PAGE = 20;
-export function getMissingChannelsFromPosts(posts: Map<string, Post>): ActionFunc {
+
+export function getMissingChannelsFromPosts(posts: PostList['posts']): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const {
             channels,

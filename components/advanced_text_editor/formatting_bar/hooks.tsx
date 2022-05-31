@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {Instance} from '@popperjs/core';
 
 import {debounce} from 'lodash';
@@ -33,14 +33,24 @@ const useResponsiveFormattingBar = (ref: React.RefObject<HTMLDivElement>): WideM
         if (ref.current.clientWidth < 424) {
             setWideMode('narrow');
         }
-    }, 100);
-    useEffect(() => {
-        handleResize();
-        window.addEventListener('resize', handleResize);
+    }, 10);
+
+    useLayoutEffect(() => {
+        if (!ref.current) {
+            return () => {};
+        }
+
+        let sizeObserver: ResizeObserver | null = new ResizeObserver(() =>
+            handleResize(),
+        );
+
+        sizeObserver.observe(ref.current);
+
         return () => {
-            window.removeEventListener('resize', handleResize);
+            sizeObserver!.disconnect();
+            sizeObserver = null;
         };
-    }, []);
+    }, [handleResize, ref]);
 
     return wideMode;
 };
