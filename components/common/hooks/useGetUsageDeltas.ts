@@ -13,38 +13,43 @@ import useGetLimits from './useGetLimits';
 // 2 teams used, minus 1 team limit = value > 0, limit exceeded
 // 10MB files used, minus 1000MB limit = value < 0, limit not exceeded.
 // etc.
+const withBackupValue = (maybeLimit: number | undefined, limitsLoaded: boolean) => (limitsLoaded ? maybeLimit ?? Number.MAX_VALUE : 0);
+
 export default function useGetUsageDeltas(): CloudUsage {
     const usage = useGetUsage();
     const cloudLimits = useGetLimits();
     const limits = cloudLimits[0];
+    const limitsLoaded = cloudLimits[1];
 
-    const usageDelta = useMemo(() => (
-        {
-            files: {
-                totalStorage: usage.files.totalStorage - (limits.files?.total_storage || 0),
-                totalStorageLoaded: usage.files.totalStorageLoaded,
-            },
-            messages: {
-                history: usage.messages.history - (limits.messages?.history || 0),
-                historyLoaded: usage.messages.historyLoaded,
-            },
-            boards: {
-                cards: usage.boards.cards - (limits.boards?.cards || 0),
-                cardsLoaded: usage.boards.cardsLoaded,
-            },
-            teams: {
-                active: usage.teams.active - (limits.teams?.active || 0),
+    const usageDelta = useMemo(() => {
+        return (
+            {
+                files: {
+                    totalStorage: usage.files.totalStorage - withBackupValue(limits.files?.total_storage, limitsLoaded),
+                    totalStorageLoaded: usage.files.totalStorageLoaded,
+                },
+                messages: {
+                    history: usage.messages.history - withBackupValue(limits.messages?.history, limitsLoaded),
+                    historyLoaded: usage.messages.historyLoaded,
+                },
+                boards: {
+                    cards: usage.boards.cards - withBackupValue(limits.boards?.cards, limitsLoaded),
+                    cardsLoaded: usage.boards.cardsLoaded,
+                },
+                teams: {
+                    active: usage.teams.active - withBackupValue(limits.teams?.active, limitsLoaded),
 
-                // cloudArchived doesn't count against usage, but we pass the value along for convenience
-                cloudArchived: usage.teams.cloudArchived,
-                teamsLoaded: usage.teams.teamsLoaded,
-            },
-            integrations: {
-                enabled: usage.integrations.enabled - (limits.integrations?.enabled || 0),
-                enabledLoaded: usage.integrations.enabledLoaded,
-            },
-        }
-    ), [usage, limits]);
+                    // cloudArchived doesn't count against usage, but we pass the value along for convenience
+                    cloudArchived: usage.teams.cloudArchived,
+                    teamsLoaded: usage.teams.teamsLoaded,
+                },
+                integrations: {
+                    enabled: usage.integrations.enabled - withBackupValue(limits.integrations?.enabled, limitsLoaded),
+                    enabledLoaded: usage.integrations.enabledLoaded,
+                },
+            }
+        );
+    }, [usage, limits]);
 
     return usageDelta;
 }
