@@ -4744,7 +4744,7 @@
   "user.settings.display.collapsedReplyThreadsDescription": "When enabled, reply messages are not shown in the channel and you'll be notified about threads you're following in the \"Threads\" view.\nPlease review our [documentation for known issues](!https://docs.mattermost.com/messaging/organizing-conversations.html) and help provide feedback in our [community channel](!https://community-daily.mattermost.com/core/channels/folded-reply-threads).",
   "user.settings.display.collapsedReplyThreadsOff": "Off",
   "user.settings.display.collapsedReplyThreadsOn": "On",
-  "user.settings.display.collapsedReplyThreadsTitle": "Collapsed Reply Threads (Beta)",
+  "user.settings.display.collapsedReplyThreadsTitle": "Collapsed Reply Threads",
   "user.settings.display.collapseOff": "Collapsed",
   "user.settings.display.collapseOn": "Expanded",
   "user.settings.display.fixedWidthCentered": "Fixed width, centered",
