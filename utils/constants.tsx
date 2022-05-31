@@ -352,6 +352,7 @@ export const ModalIdentifiers = {
     MORE_CHANNELS: 'more_channels',
     NEW_CHANNEL_MODAL: 'new_channel_modal',
     CLOUD_PURCHASE: 'cloud_purchase',
+    CLOUD_DOWNGRADE_CHOOSE_TEAM: 'cloud_downgrade_choose_team',
     DND_CUSTOM_TIME_PICKER: 'dnd_custom_time_picker',
     CUSTOM_STATUS: 'custom_status',
     COMMERCIAL_SUPPORT: 'commercial_support',

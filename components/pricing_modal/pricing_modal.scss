@@ -250,6 +250,11 @@ $geyser: #dadfe5;
                         color: rgba(var(--center-channel-text-rgb), 0.32);
                     }
 
+                    &.secondary {
+                        background: rgba(var(--denim-button-bg-rgb), 0.08);
+                        color: var(--denim-button-bg);
+                    }
+
                     &.active {
                         border: 1px solid var(--denim-button-bg);
                     }

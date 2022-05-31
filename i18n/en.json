@@ -4121,6 +4121,7 @@
   "pricing_modal.btn.contactSales": "Contact Sales",
   "pricing_modal.btn.tryDays": "Try free for {days} days",
   "pricing_modal.btn.upgrade": "Upgrade",
+  "pricing_modal.btn.downgrade": "Downgrade",
   "pricing_modal.extra_briefing.enterprise.playBookAnalytics": "Playbook analytics dashboard",
   "pricing_modal.extra_briefing.professional.guestAccess": "Guest access with MFA enforcement",
   "pricing_modal.extra_briefing.professional.ssoadLdap": "SSO support with AD/LDAP, Google, O365, OpenID",

@@ -1,0 +1,101 @@
+.DowngradeTeamRemovalModal {
+    .modal-dialog {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 600px;
+        height: 404px;
+        margin: auto;
+        transform: translate(-50%, -50%) !important;
+        border: none;
+
+        .modal-content {
+            background-color: var(--center-channel-bg);
+            border-radius: 12px;
+        }
+    }
+    .modal-header {
+        height: 77px;
+        min-height: 77px;
+        border: none;
+    }
+
+    .DowngradeTeamRemovalModal__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 22px 32px;
+        border: none;
+        font-size: 22px;
+        font-weight: 600;
+
+        &::before,
+        &::after {
+            display: none;
+        }
+
+        // beat regular modal-header in specificity
+        &.modal-header {
+            background-color: var(--center-channel-bg);
+            color: var(--center-channel-color);
+        }
+
+        .icon-close {
+            padding: 0;
+            border: none;
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            appearance: none;
+            background: none;
+            color: rgb(var(--center-channel-color-rgb), 0.56);
+            cursor: pointer;
+            font: inherit;
+            outline: inherit;
+
+            &:hover,
+            &:active,
+            &:focus {
+                color: rgb(var(--center-channel-color-rgb), 0.56);
+            }
+        }
+    }
+
+    .modal-body {
+        border: none;
+        padding: 26px 32px;
+        padding-top: 0;
+    }
+
+    .DowngradeTeamRemovalModal__body {
+        .cta {
+            font-weight: bold;
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+        .warning {
+            margin-top: 19px;
+            color: #D24B4E;
+            font-size: 11px;
+            margin-bottom: 35px;
+            font-weight: 600;
+        }
+    }
+
+    .DowngradeTeamRemovalModal__buttons {
+        float: right;
+        border: none;
+        border-radius: 4px;
+        .cancel {
+            background: rgba(var(--denim-button-bg-rgb), 0.08);
+            padding: 12px 20px;
+            color: #1C58D9;
+        }
+        .confirm {
+            margin-left: 8px;
+            padding: 12px 20px;
+            background: #1C58D9;
+            color: #FFF;
+        }
+    }
+
+}

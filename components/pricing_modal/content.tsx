@@ -12,16 +12,21 @@ import {trackEvent} from 'actions/telemetry_actions';
 import {CloudLinks, CloudProducts, ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
 import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
 import {closeModal, openModal} from 'actions/views/modals';
+import {subscribeCloudSubscription} from 'actions/cloud';
 import {
     getCloudSubscription as selectCloudSubscription,
     getSubscriptionProduct as selectSubscriptionProduct,
-    getCloudProducts as selectCloudProducts} from 'mattermost-redux/selectors/entities/cloud';
+    getCloudProducts as selectCloudProducts,
+} from 'mattermost-redux/selectors/entities/cloud';
+import useGetUsage from 'components/common/hooks/useGetUsage';
 
 import PurchaseModal from 'components/purchase_modal';
 import {makeAsyncComponent} from 'components/async_load';
 import StarMarkSvg from 'components/widgets/icons/star_mark_icon';
 import CheckMarkSvg from 'components/widgets/icons/check_mark_icon';
 import PlanLabel from 'components/common/plan_label';
+
+import DownGradeTeamRemovalModal from './downgrade_team_removal_modal';
 
 const LearnMoreTrialModal = makeAsyncComponent('LearnMoreTrialModal', React.lazy(() => import('components/learn_more_trial_modal/learn_more_trial_modal')));
 
@@ -39,6 +44,7 @@ enum ButtonCustomiserClasses {
     grayed = 'grayed',
     active = 'active',
     special = 'special',
+    secondary = 'secondary',
 }
 
 type ButtonDetails = {
@@ -136,6 +142,7 @@ function Card(props: CardProps) {
 function Content(props: ContentProps) {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
+    const usage = useGetUsage();
 
     const contactSalesLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales));
 
@@ -147,6 +154,9 @@ function Content(props: ContentProps) {
     const isEnterpriseTrial = subscription?.is_free_trial === 'true';
     const professionalProduct = Object.values(products || {}).find(((product) => {
         return product.sku === CloudProducts.PROFESSIONAL;
+    }));
+    const starterProduct = Object.values(products || {}).find(((product) => {
+        return product.sku === CloudProducts.STARTER;
     }));
 
     const isStarter = product?.sku === CloudProducts.STARTER;
@@ -238,10 +248,28 @@ function Content(props: ContentProps) {
                             ],
                         }}
                         buttonDetails={{
-                            action: () => {}, // noop until we support downgrade
-                            text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
-                            disabled: true, // disabled until we have functionality to downgrade
-                            customClass: ButtonCustomiserClasses.grayed,
+                            action: () => {
+                                // if (usage.teams.active > 1) {
+                                dispatch(
+                                    openModal({
+                                        modalId: ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM,
+                                        dialogType: DownGradeTeamRemovalModal,
+                                    }),
+                                );
+
+                                // } else {
+                                //     if (!starterProduct) {
+                                //         return;
+                                //     }
+
+                                //     dispatch(
+                                //         subscribeCloudSubscription(starterProduct?.id),
+                                //     );
+                                // }
+                            }, // noop until we support downgrade
+                            text: formatMessage({id: 'pricing_modal.btn.downgrade', defaultMessage: 'Downgrade'}),
+                            disabled: false, // disabled until we have functionality to downgrade
+                            customClass: ButtonCustomiserClasses.secondary,
                         }}
                         planDisclaimer={formatMessage({id: 'pricing_modal.planDisclaimer.starter', defaultMessage: 'This plan has data restrictions.'})}
                         planLabel={
