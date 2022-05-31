@@ -16,12 +16,16 @@ import {
     getCloudSubscription as selectCloudSubscription,
     getSubscriptionProduct as selectSubscriptionProduct,
     getCloudProducts as selectCloudProducts} from 'mattermost-redux/selectors/entities/cloud';
+import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 
 import PurchaseModal from 'components/purchase_modal';
 import {makeAsyncComponent} from 'components/async_load';
 import StarMarkSvg from 'components/widgets/icons/star_mark_icon';
 import CheckMarkSvg from 'components/widgets/icons/check_mark_icon';
 import PlanLabel from 'components/common/plan_label';
+
+import ContactSalesCTA from './contact_sales_cta';
+import NotifyAdminCTA from './notify_admin_cta';
 
 const LearnMoreTrialModal = makeAsyncComponent('LearnMoreTrialModal', React.lazy(() => import('components/learn_more_trial_modal/learn_more_trial_modal')));
 
@@ -56,7 +60,7 @@ type CardProps = {
     rate?: string;
     briefing: PlanBriefing;
     extraBriefing: PlanBriefing;
-    planDisclaimer?: string;
+    planExtraInformation?: JSX.Element;
     buttonDetails: ButtonDetails;
     planLabel?: JSX.Element;
 }
@@ -92,41 +96,43 @@ function Card(props: CardProps) {
                     <p>{props.rate}</p>
                 </div>
                 <div className='plan_briefing'>
-                    <span>{props.briefing.title}</span>
-                    {props.briefing.items.map((i) => {
-                        return (
-                            <div
-                                className='item'
-                                key={i}
-                            >
-                                <i className='fa fa-circle bullet'/><p>{i}</p>
-                            </div>
-                        );
-                    })}
-                    {props.planDisclaimer && (
-                        <p className='disclaimer'><i className='icon-alert-outline'/>{props.planDisclaimer}</p>
-                    )}
+                    <div>
+                        <span className='title'>{props.briefing.title}</span>
+                        {props.briefing.items.map((i) => {
+                            return (
+                                <div
+                                    className='item'
+                                    key={i}
+                                >
+                                    <i className='fa fa-circle bullet'/><p>{i}</p>
+                                </div>
+                            );
+                        })}
+                    </div>
+                    {props.planExtraInformation && props.planExtraInformation}
                 </div>
                 <div>
                     <button
                         id={props.id + '_action'}
-                        className={'plan_action_btn ' + props.buttonDetails.customClass}
+                        className={`plan_action_btn ${props.buttonDetails.disabled ? ButtonCustomiserClasses.grayed : props.buttonDetails.customClass}`}
                         disabled={props.buttonDetails.disabled}
                         onClick={props.buttonDetails.action}
                     >{props.buttonDetails.text}</button>
                 </div>
                 <div className='plan_extra_briefing'>
-                    <span>{props.extraBriefing.title}</span>
-                    {props.extraBriefing.items.map((i) => {
-                        return (
-                            <div
-                                className='item'
-                                key={i}
-                            >
-                                <i className='fa fa-circle bullet'/><p>{i}</p>
-                            </div>
-                        );
-                    })}
+                    <div>
+                        <span className='title'>{props.extraBriefing.title}</span>
+                        {props.extraBriefing.items.map((i) => {
+                            return (
+                                <div
+                                    className='item'
+                                    key={i}
+                                >
+                                    <i className='fa fa-circle bullet'/><p>{i}</p>
+                                </div>
+                            );
+                        })}
+                    </div>
                 </div>
             </div>
         </div>
@@ -137,6 +143,7 @@ function Content(props: ContentProps) {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
 
+    const isAdmin = useSelector(isCurrentUserSystemAdmin);
     const contactSalesLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales));
 
     const subscription = useSelector(selectCloudSubscription);
@@ -241,9 +248,7 @@ function Content(props: ContentProps) {
                             action: () => {}, // noop until we support downgrade
                             text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
                             disabled: true, // disabled until we have functionality to downgrade
-                            customClass: ButtonCustomiserClasses.grayed,
                         }}
-                        planDisclaimer={formatMessage({id: 'pricing_modal.planDisclaimer.starter', defaultMessage: 'This plan has data restrictions.'})}
                         planLabel={
                             isStarter ? (
                                 <PlanLabel
@@ -275,9 +280,11 @@ function Content(props: ContentProps) {
                                 formatMessage({id: 'pricing_modal.extra_briefing.professional.guestAccess', defaultMessage: 'Guest access with MFA enforcement'}),
                             ],
                         }}
+                        planExtraInformation={isAdmin ? undefined : <NotifyAdminCTA/>}
                         buttonDetails={{
                             action: openPurchaseModal,
                             text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
+                            disabled: !isAdmin,
                             customClass: isPostTrial ? ButtonCustomiserClasses.special : ButtonCustomiserClasses.active,
                         }}
                         planLabel={
@@ -310,7 +317,8 @@ function Content(props: ContentProps) {
                                 formatMessage({id: 'pricing_modal.extra_briefing.enterprise.playBookAnalytics', defaultMessage: 'Playbook analytics dashboard'}),
                             ],
                         }}
-                        buttonDetails={isPostTrial ? {
+                        planExtraInformation={(isPostTrial || !isAdmin) ? undefined : <ContactSalesCTA/>}
+                        buttonDetails={(isPostTrial || !isAdmin) ? {
                             action: () => {
                                 window.open(contactSalesLink, '_blank');
                             },
