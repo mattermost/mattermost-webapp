@@ -12,7 +12,6 @@ import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 
 import CloudTrialEndAnnouncementBar from './index';
 
-//
 describe('components/global/CloudTrialEndAnnouncementBar', () => {
     const useDispatchMock = jest.spyOn(reactRedux, 'useDispatch');
 
