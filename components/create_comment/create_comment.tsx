@@ -1041,7 +1041,7 @@ class CreateComment extends React.PureComponent<Props, State> {
     }
 
     focusTextbox = (keepFocus = false) => {
-        if (this.textboxRef.current && (keepFocus || !UserAgent.isMobile())) {
+        if (this.textboxRef.current && keepFocus) {
             this.textboxRef.current.focus();
         }
     }
