@@ -15,7 +15,7 @@ type Props = {
     sibling?: React.ReactNode;
 }
 
-export const MenuItemLinkImpl: React.FC<Props> = ({to, text, className, disabled, sibling}: Props) => (
+export const MenuItemLinkImpl = ({to, text, className, disabled, sibling}: Props) => (
     <>
         <Link
             to={to}

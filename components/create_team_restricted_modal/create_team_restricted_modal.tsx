@@ -3,22 +3,22 @@
 
 import React from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {useIntl} from 'react-intl';
+import {useIntl, FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
+
+import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {getCloudSubscription as selectCloudSubscription} from 'mattermost-redux/selectors/entities/cloud';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 
 import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import GenericModal from 'components/generic_modal';
-import PricingModal from 'components/pricing_modal';
 
-import {closeModal, openModal} from 'actions/views/modals';
+import {closeModal} from 'actions/views/modals';
 import {isModalOpen} from 'selectors/views/modals';
 import {GlobalState} from 'types/store';
-import {ModalIdentifiers} from 'utils/constants';
+import {ModalIdentifiers, AboutLinks, LicenseLinks} from 'utils/constants';
 
 import './create_team_restricted_modal.scss';
 
@@ -29,6 +29,7 @@ const CreateTeamRestrictedModal = () => {
     const subscription = useSelector(selectCloudSubscription);
     const isSystemAdmin = useSelector(isCurrentUserSystemAdmin);
     const show = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.CREATE_TEAM_RESTRICTED_MODAL));
+    const openPricingModal = useOpenPricingModal();
 
     if (!show) {
         return null;
@@ -39,15 +40,6 @@ const CreateTeamRestrictedModal = () => {
 
     const dismissAction = async () => {
         await dispatch(closeModal(ModalIdentifiers.CREATE_TEAM_RESTRICTED_MODAL));
-    };
-
-    const openPricingModal = async () => {
-        await dismissAction();
-
-        await dispatch(openModal({
-            modalId: ModalIdentifiers.PRICING_MODAL,
-            dialogType: PricingModal,
-        }));
     };
 
     return (
@@ -78,9 +70,34 @@ const CreateTeamRestrictedModal = () => {
                 </p>
                 {!hadPrevCloudTrial && (
                     <p className='CreateTeamRestrictedModal__terms'>
-                        <FormattedMarkdownMessage
+                        <FormattedMessage
                             id='create_team_restricted_modal.agreement'
-                            defaultMessage='By selecting **Try free for 30 days**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails.'
+                            defaultMessage='By selecting <highlight>Try free for 30 days</highlight>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails.'
+                            values={{
+                                highlight: (msg: React.ReactNode) => (
+                                    <strong>
+                                        {msg}
+                                    </strong>
+                                ),
+                                linkEvaluation: (msg: React.ReactNode) => (
+                                    <a
+                                        href={LicenseLinks.SOFTWARE_EVALUATION_AGREEMENT}
+                                        target='_blank'
+                                        rel='noreferrer'
+                                    >
+                                        {msg}
+                                    </a>
+                                ),
+                                linkPrivacy: (msg: React.ReactNode) => (
+                                    <a
+                                        href={AboutLinks.PRIVACY_POLICY}
+                                        target='_blank'
+                                        rel='noreferrer'
+                                    >
+                                        {msg}
+                                    </a>
+                                ),
+                            }}
                         />
                     </p>
                 )}
