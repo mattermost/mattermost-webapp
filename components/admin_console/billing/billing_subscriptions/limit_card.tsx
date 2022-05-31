@@ -10,6 +10,8 @@ import './limit_card.scss';
 type Props = {
     name: JSX.Element;
     status: JSX.Element;
+
+    // 0-100
     percent: number;
     icon: string;
     barWidth?: string;
