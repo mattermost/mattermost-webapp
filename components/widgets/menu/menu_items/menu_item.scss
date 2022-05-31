@@ -1,8 +1,5 @@
 @import '../../../../sass/utils/module';
 
-$menu_item_warn: #ffd47029;
-$menu_item_critical: #d24b4e29;
-
 .Menu {
     .MenuItem {
         display: flex;
@@ -197,10 +194,10 @@ $menu_item_critical: #d24b4e29;
     .MenuItemCloudLimit {
         padding: 16px 20px;
         margin-top: 0;
-        background-color: $menu_item_warn;
+        background-color: rgba(var(--mention-highlight-bg-rgb), 0.16);
 
         &--critical {
-            background-color: $menu_item_critical;
+            background-color: rgba(var(--error-text-color-rgb), 0.16);
         }
 
         .icon-information-outline {

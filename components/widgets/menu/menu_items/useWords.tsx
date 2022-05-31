@@ -48,7 +48,6 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
     switch (highestLimit.id) {
     case LimitTypes.messageHistory: {
         let id = t('workspace_limits.menu_limit.warn.messages_history');
-
         let defaultMessage = 'You’re getting closer to the free {limit} message limit. <a>{callToAction}</a>';
         values.limit = intl.formatNumber(highestLimit.limit);
         if (usageRatio >= limitThresholds.danger) {
