@@ -42,8 +42,8 @@ const TopChannels = (props: WidgetHocProps) => {
             if (data.data && data.data.items) {
                 setTopChannels(data.data.items);
             }
-            if (data.data && data.data.daily_channel_post_counts) {
-                setChannelLineChartData(data.data.daily_channel_post_counts);
+            if (data.data && data.data.channel_post_counts_by_duration) {
+                setChannelLineChartData(data.data.channel_post_counts_by_duration);
             }
             setLoading(false);
         }
@@ -60,8 +60,8 @@ const TopChannels = (props: WidgetHocProps) => {
             if (data.data && data.data.items) {
                 setTopChannels(data.data.items);
             }
-            if (data.data && data.data.daily_channel_post_counts) {
-                setChannelLineChartData(data.data.daily_channel_post_counts);
+            if (data.data && data.data.channel_post_counts_by_duration) {
+                setChannelLineChartData(data.data.channel_post_counts_by_duration);
             }
             setLoading(false);
         }

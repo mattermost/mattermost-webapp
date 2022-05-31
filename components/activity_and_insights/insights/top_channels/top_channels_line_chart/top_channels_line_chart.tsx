@@ -22,14 +22,26 @@ const TopChannelsLineChart = ({topChannels, timeFrame, channelLineChartData}: Pr
     const theme = useSelector(getTheme);
 
     const getLabels = useMemo(() => {
-        return Object.keys(channelLineChartData);
+        const labels = Object.keys(channelLineChartData);
+        if (timeFrame === TimeFrames.INSIGHTS_1_DAY) {
+            for (let i = 0; i < labels.length; i++) {
+                let label = labels[i];
+                label = `${label.substring(label.indexOf('T') + 1)}:00`;
+
+                labels[i] = label;
+            }
+        }
+        return labels;
     }, [channelLineChartData]);
 
     const sortGraphData = useMemo(() => {
         const labels = getLabels;
+
         const values = {} as any;
-        for (let i = 0; i < labels.length; i++) {
-            const item = channelLineChartData[labels[i]];
+        const keys = Object.keys(channelLineChartData)
+
+        for (let i = 0; i < keys.length; i++) {
+            const item = channelLineChartData[keys[i]];
 
             const channelIds = Object.keys(item);
 
