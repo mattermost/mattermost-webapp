@@ -29,6 +29,10 @@ const zeroUsage = {
         enabled: 0,
         enabledLoaded: true,
     },
+    teams: {
+        active: 0,
+        teamsLoaded: true,
+    },
 };
 
 const general = {
@@ -60,6 +64,7 @@ const limits = {
         },
         teams: {
             active: 1,
+            teamsLoaded: true,
         },
         boards: {
             cards: 500,
