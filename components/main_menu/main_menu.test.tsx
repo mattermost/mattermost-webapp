@@ -293,9 +293,10 @@ describe('components/Menu', () => {
     test('should match snapshot with cloud free trial', () => {
         const props = {
             ...defaultProps,
+            isCloud: true,
             isCloudFreeEnabled: true,
             isFreeTrial: true,
-            usageDeltaTeams: 1,
+            usageDeltaTeams: -1,
         };
         const wrapper = getMainMenuWrapper(props);
         expect(wrapper).toMatchSnapshot();
@@ -304,6 +305,7 @@ describe('components/Menu', () => {
     test('should match snapshot with cloud free trial and team limit reached', () => {
         const props = {
             ...defaultProps,
+            isCloud: true,
             isCloudFreeEnabled: true,
             isFreeTrial: true,
             usageDeltaTeams: 0,

@@ -157,7 +157,7 @@ export class MainMenu extends React.PureComponent<Props> {
 
         const someIntegrationEnabled = this.props.enableIncomingWebhooks || this.props.enableOutgoingWebhooks || this.props.enableCommands || this.props.enableOAuthServiceProvider || this.props.canManageSystemBots;
         const showIntegrations = !this.props.mobile && someIntegrationEnabled && this.props.canManageIntegrations;
-        const teamsLimitReached = this.props.usageDeltaTeams <= 0;
+        const teamsLimitReached = this.props.usageDeltaTeams >= 0;
         const createTeamRestricted = this.props.isCloud && this.props.isCloudFreeEnabled && (this.props.isFreeTrial || teamsLimitReached);
 
         const {formatMessage} = this.props.intl;
