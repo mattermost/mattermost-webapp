@@ -60,7 +60,7 @@ const CloudTrialEndAnnouncementBar: React.FC = () => {
             return false;
         }
 
-        const trialEnd = new Date(subscription.trial_end_at * 1000);
+        const trialEnd = new Date(subscription.trial_end_at);
         const now = new Date();
 
         // trial_end_at values will be 0 for all freemium subscriptions after June 15
