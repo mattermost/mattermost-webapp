@@ -1,0 +1,13 @@
+.forward-post {
+    &__suggestion-box {
+        position: relative;
+
+        .suggestion-list {
+            top: 100%;
+        }
+    }
+
+    &__comment-box {
+        min-height: 800px;
+    }
+}
