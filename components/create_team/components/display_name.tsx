@@ -5,7 +5,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import Constants from 'utils/constants';

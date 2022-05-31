@@ -3,9 +3,9 @@
 
 import {createSelector} from 'reselect';
 
-import {GlobalState} from 'mattermost-redux/types/store';
-import {AppBinding} from 'mattermost-redux/types/apps';
-import {ClientConfig} from 'mattermost-redux/types/config';
+import {GlobalState} from '@mattermost/types/store';
+import {AppBinding} from '@mattermost/types/apps';
+import {ClientConfig} from '@mattermost/types/config';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {AppBindingLocations} from 'mattermost-redux/constants/apps';
@@ -39,8 +39,7 @@ export const appBarEnabled = createSelector(
     'appBarEnabled',
     (state: GlobalState) => getConfig(state),
     (config?: Partial<ClientConfig>) => {
-        const enabled = config?.['FeatureFlagAppBarEnabled' as keyof Partial<ClientConfig>];
-        return enabled === 'true';
+        return config?.EnableAppBar === 'true';
     },
 );
 

@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 
 import TeamList from 'components/admin_console/data_retention_settings/team_list/team_list';
 import {TestHelper} from 'utils/test_helper';
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 
 describe('components/admin_console/data_retention_settings/team_list', () => {
     const team: Team = Object.assign(TestHelper.getTeamMock({id: 'team-1'}));

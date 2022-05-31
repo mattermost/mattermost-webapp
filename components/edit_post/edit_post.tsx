@@ -6,8 +6,8 @@ import classNames from 'classnames';
 import {useIntl} from 'react-intl';
 import {EmoticonPlusOutlineIcon} from '@mattermost/compass-icons/components';
 
-import {Post} from 'mattermost-redux/types/posts';
-import {Emoji, SystemEmoji} from 'mattermost-redux/types/emojis';
+import {Post} from '@mattermost/types/posts';
+import {Emoji, SystemEmoji} from '@mattermost/types/emojis';
 
 import {AppEvents, Constants, ModalIdentifiers} from 'utils/constants';
 import {

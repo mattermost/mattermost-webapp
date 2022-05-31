@@ -4,9 +4,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {Team} from 'mattermost-redux/types/teams';
-import {CustomEmoji} from 'mattermost-redux/types/emojis';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {Team} from '@mattermost/types/teams';
+import {CustomEmoji} from '@mattermost/types/emojis';
+import {UserProfile} from '@mattermost/types/users';
 
 import EmojiMap from 'utils/emoji_map.js';
 

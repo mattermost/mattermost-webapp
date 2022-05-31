@@ -6,7 +6,7 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 import Permissions from 'mattermost-redux/constants/permissions';
 
 import NewChannelModal from 'components/new_channel_modal/new_channel_modal';

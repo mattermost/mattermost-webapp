@@ -5,7 +5,7 @@ import {Client4} from 'mattermost-redux/client';
 import {General} from '../constants';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
-import {JobType, Job} from 'mattermost-redux/types/jobs';
+import {JobType, Job} from '@mattermost/types/jobs';
 
 import {bindClientFunc} from './helpers';
 export function createJob(job: Job): ActionFunc {

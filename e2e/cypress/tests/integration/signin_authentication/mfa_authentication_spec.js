@@ -126,7 +126,7 @@ function fillMFACode(code) {
     cy.wait(timeouts.TWO_SEC);
 
     // # Remove autofocus from mfa token input
-    cy.get('.login-mfa').should('be.visible').click();
+    cy.get('.content-layout-column').should('be.visible').click();
 
     cy.findByPlaceholderText('MFA Token').clear().type(code).wait(timeouts.ONE_SEC);
     cy.findByRole('button', {name: 'Submit'}).click();

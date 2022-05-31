@@ -5,10 +5,10 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import Permissions from 'mattermost-redux/constants/permissions';
-import {ClientLicense} from 'mattermost-redux/types/config';
+import {ClientLicense} from '@mattermost/types/config';
 import {isEnterpriseLicense, isNonEnterpriseLicense} from 'mattermost-redux/types/general';
 
-import {Role} from 'mattermost-redux/types/roles';
+import {Role} from '@mattermost/types/roles';
 
 import PermissionGroup from './permission_group';
 
