@@ -24,10 +24,11 @@ jobs:
   install:
     executor:
       name: default
-    working_directory: echo Test; ~/mattermost/mattermost-webapp
+    working_directory: ~/mattermost/mattermost-webapp
     steps:
       - checkout
       - run: |
+          echo Test
           npm ci
       - *save_cache
 
