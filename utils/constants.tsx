@@ -377,6 +377,7 @@ export const ModalIdentifiers = {
     UPLOAD_LICENSE: 'upload_license',
     INSIGHTS: 'insights',
     CLOUD_LIMITS: 'cloud_limits',
+    CREATE_TEAM_RESTRICTED_MODAL: 'create_team_restricted_modal',
 };
 
 export const UserStatuses = {
@@ -907,6 +908,7 @@ export const DocLinks = {
 
 export const LicenseLinks = {
     CONTACT_SALES: 'https://mattermost.com/contact-sales/',
+    SOFTWARE_EVALUATION_AGREEMENT: 'https://mattermost.com/software-evaluation-agreement/',
 };
 
 export const BillingSchemes = {
