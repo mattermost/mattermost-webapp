@@ -24,7 +24,7 @@ jobs:
   install:
     executor:
       name: default
-    working_directory: ~/mattermost/mattermost-webapp
+    working_directory: echo Test; ~/mattermost/mattermost-webapp
     steps:
       - checkout
       - run: |
