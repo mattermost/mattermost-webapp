@@ -78,13 +78,6 @@ export const GrandfatheredPlanBanner = (props: Props) => {
                 <FormattedMessage
                     id='admin.billing.subscription.grandfatheredBannerBody'
                     defaultMessage='Your workspace will update to the current Cloud Starter plan on November 1, 2022. You may lose access to some Enterprise features. Contact Sales to learn more or to subscribe to the Enterprise plan today.'
-                    values={{
-                        link: (text: string) => (
-                            <BlockableLink to='/admin_console/billing/payment_info'>
-                                {text}
-                            </BlockableLink>
-                        ),
-                    }}
                 />
             }
             actionButtonLeft={
