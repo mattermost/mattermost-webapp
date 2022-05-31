@@ -203,7 +203,7 @@
 
                         p {
                             margin: 0;
-                            color: rgba(33, 63, 107, 0.8);
+                            color: var(--center-channel-color);
                             font-family: 'Metropolis';
                             font-size: 14px;
                             font-style: normal;
@@ -264,7 +264,7 @@
                     text-align: center;
 
                     h4 {
-                        color: var(--center-channel-color);
+                        color: rgba(var(--center-channel-color-rgb), 0.72);
                         font-family: 'Metropolis';
                         font-size: 20px;
                         font-style: normal;
@@ -298,7 +298,7 @@
                     }
 
                     p {
-                        color: var(--center-channel-color);
+                        color: rgba(var(--center-channel-color-rgb), 0.72);
                         font-family: 'Metropolis';
                         font-size: 18px;
                         font-style: normal;
