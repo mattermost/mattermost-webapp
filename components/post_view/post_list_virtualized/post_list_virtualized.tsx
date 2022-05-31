@@ -54,9 +54,6 @@ type Props = {
      */
     postListIds: string[];
 
-    // Set to focus this post
-    focusedPostId: string;
-
     // The current channel id
     channelId: string;
 
@@ -74,8 +71,11 @@ type Props = {
     loadingOlderPosts: boolean;
 
     latestPostTimeStamp: number;
-    lastViewedAt: string;
     isMobileView: boolean;
+    lastViewedAt: string;
+
+    // Set to focus this post
+    focusedPostId?: string;
     actions: {
 
         // Function to get older posts in the channel
@@ -85,7 +85,7 @@ type Props = {
         loadNewerPosts: () => void;
 
         // Function used for autoLoad of posts incase screen is not filled with posts
-        canLoadMorePosts: (postRequestTypes: string) => boolean;
+        canLoadMorePosts: (postRequestTypes?: string) => boolean;
 
         // Function to check and set if app is in mobile view
         checkAndSetMobileView: () => void;
@@ -114,20 +114,22 @@ type State = {
     initScrollOffsetFromBottom: number;
     showSearchHint: boolean;
     isSearchHintDismissed: boolean;
-    isMobileView: boolean;
+    isMobileView?: boolean;
 }
 
 export default class PostList extends React.PureComponent<Props, State> {
     listRef: React.RefObject<DynamicSizeList>;
-    postListRef: React.RefObject<DynamicSizeList>;
-    scrollStopAction: DelayedAction; // todo
+    postListRef: React.RefObject<HTMLDivElement>;
+    scrollStopAction: DelayedAction | null = null;
     initRangeToRender: number[];
     showSearchHintThreshold: number;
+    mounted: boolean;
 
     constructor(props: Props) {
         super(props);
 
         const channelIntroMessage = PostListRowListIds.CHANNEL_INTRO_MESSAGE;
+        this.mounted = true;
         this.state = {
             isScrolling: false,
 
@@ -184,8 +186,7 @@ export default class PostList extends React.PureComponent<Props, State> {
             const channelHeaderAdded = this.props.atOldestPost !== prevProps.atOldestPost;
             if ((postsAddedAtTop || channelHeaderAdded) && this.state.atBottom === false) {
                 const postListNode = this.postListRef.current;
-                console.log('postListNode.scrollTop', postListNode);
-                const previousScrollTop = postListNode.parentElement.scrollTop;
+                const previousScrollTop = postListNode.parentElement?.scrollTop;
                 const previousScrollHeight = postListNode.scrollHeight;
 
                 return {
@@ -197,7 +198,7 @@ export default class PostList extends React.PureComponent<Props, State> {
         return null;
     }
 
-    componentDidUpdate(prevProps: Props, prevState: State, snapshot: any) {
+    componentDidUpdate(prevProps: Props, prevState: State, snapshot: {previousScrollTop: number; previousScrollHeight: number}) {
         if (this.props.isMobileView && !prevProps.isMobileView) {
             this.scrollStopAction = new DelayedAction(this.handleScrollStop);
         }
@@ -398,7 +399,7 @@ export default class PostList extends React.PureComponent<Props, State> {
             const postsRenderedRange = this.listRef.current?._getRangeToRender(); //eslint-disable-line no-underscore-dangle
 
             // postsRenderedRange[3] is the visibleStopIndex which is post at the bottom of the screen
-            if (postsRenderedRange[3] <= 1 && !this.props.atLatestPost) {
+            if (postsRenderedRange && postsRenderedRange[3] <= 1 && !this.props.atLatestPost) {
                 this.props.actions.canLoadMorePosts(PostRequestTypes.AFTER_ID);
             }
 
