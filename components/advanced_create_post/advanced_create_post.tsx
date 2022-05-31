@@ -320,6 +320,11 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         if (prevState.showEmojiPicker && !this.state.showEmojiPicker) {
             this.focusTextbox();
         }
+
+        // Focus on textbox when returned from preview mode
+        if (prevProps.shouldShowPreview && !this.props.shouldShowPreview) {
+            this.focusTextbox();
+        }
     }
 
     componentWillUnmount() {
