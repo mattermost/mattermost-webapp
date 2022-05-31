@@ -9,7 +9,7 @@ import {General, Groups} from '../constants';
 import {Client4} from 'mattermost-redux/client';
 
 import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-import {GroupPatch, SyncableType, SyncablePatch, GroupCreateWithUserIds, CustomGroupPatch, GroupSearachParams} from 'mattermost-redux/types/groups';
+import {GroupPatch, SyncableType, SyncablePatch, GroupCreateWithUserIds, CustomGroupPatch, GroupSearachParams} from '@mattermost/types/groups';
 
 import Constants from 'utils/constants';
 

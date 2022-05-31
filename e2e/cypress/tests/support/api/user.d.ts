@@ -176,6 +176,7 @@ declare namespace Cypress {
          * Create an admin account based from the env variables defined in Cypress env.
          * @param {string} options.namePrefix - 'user' (default) or any prefix to easily identify a user
          * @param {boolean} options.bypassTutorial - true (default) or false for user to go thru tutorial steps
+         * @param {boolean} options.showOnboarding - false (default) to hide or true to show Onboarding steps
          * @returns {UserProfile} `out.sysadmin` as `UserProfile` object
          *
          * @example
@@ -187,17 +188,18 @@ declare namespace Cypress {
          * Create a randomly named admin account
          *
          * @param {boolean} options.loginAfter - false (default) or true if wants to login as the new admin.
+         * @param {boolean} options.hideAdminTrialModal - true (default) or false if wants to hide Start Enterprise Trial modal.
          *
          * @returns {UserProfile} `out.sysadmin` as `UserProfile` object
          */
-        apiCreateCustomAdmin(options: {loginAfter: boolean}): Chainable<{sysadmin: UserProfile}>;
+        apiCreateCustomAdmin(options: {loginAfter: boolean; hideAdminTrialModal: boolean}): Chainable<{sysadmin: UserProfile}>;
 
         /**
          * Create a new user with an options to set name prefix and be able to bypass tutorial steps.
          * @param {string} options.user - predefined `user` object instead on random user
          * @param {string} options.prefix - 'user' (default) or any prefix to easily identify a user
          * @param {boolean} options.bypassTutorial - true (default) or false for user to go thru tutorial steps
-         * @param {boolean} options.hideOnboarding - true (default) to hide or false to show Onboarding steps
+         * @param {boolean} options.showOnboarding - false (default) to hide or true to show Onboarding steps
          * @returns {UserProfile} `out.user` as `UserProfile` object
          *
          * @example
@@ -209,7 +211,7 @@ declare namespace Cypress {
          * Create a new guest user with an options to set name prefix and be able to bypass tutorial steps.
          * @param {string} options.prefix - 'guest' (default) or any prefix to easily identify a guest
          * @param {boolean} options.bypassTutorial - true (default) or false for guest to go thru tutorial steps
-         * @param {boolean} options.hideOnboarding - true (default) to hide or false to show Onboarding steps
+         * @param {boolean} options.showOnboarding - false (default) to hide or true to show Onboarding steps
          * @returns {UserProfile} `out.guest` as `UserProfile` object
          *
          * @example

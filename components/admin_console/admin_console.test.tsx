@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 
 import AdminDefinition from 'components/admin_console/admin_definition';
 import {TestHelper} from 'utils/test_helper';
@@ -22,7 +22,10 @@ describe('components/AdminConsole', () => {
         adminDefinition: AdminDefinition,
         license: {},
         cloud: {
-            limits: {},
+            limits: {
+                limits: {},
+                limitsLoaded: false,
+            },
         },
         buildEnterpriseReady: true,
         match: {

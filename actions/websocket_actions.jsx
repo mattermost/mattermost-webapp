@@ -17,6 +17,7 @@ import {
     IntegrationTypes,
     PreferenceTypes,
     AppsTypes,
+    CloudTypes,
 } from 'mattermost-redux/action_types';
 import {WebsocketEvents, General, Permissions, Preferences} from 'mattermost-redux/constants';
 import {addChannelToInitialCategory, fetchMyCategories, receivedCategoryOrder} from 'mattermost-redux/actions/channel_categories';
@@ -216,7 +217,7 @@ export function reconnect(includeWebSocket = true) {
 
         if (mostRecentPost) {
             dispatch(syncPostsInChannel(currentChannelId, mostRecentPost.create_at));
-        } else {
+        } else if (currentChannelId) {
             // if network timed-out the first time when loading a channel
             // we can request for getPosts again when socket is connected
             dispatch(getPosts(currentChannelId));
@@ -263,26 +264,6 @@ function syncThreads(teamId, userId) {
         return;
     }
     dispatch(getCountsAndThreadsSince(userId, teamId, newestThread.last_reply_at));
-}
-
-let intervalId = '';
-const SYNC_INTERVAL_MILLISECONDS = 1000 * 60 * 15; // 15 minutes
-
-export function startPeriodicSync() {
-    clearInterval(intervalId);
-
-    intervalId = setInterval(
-        () => {
-            if (getCurrentUser(getState()) != null) {
-                reconnect(false);
-            }
-        },
-        SYNC_INTERVAL_MILLISECONDS,
-    );
-}
-
-export function stopPeriodicSync() {
-    clearInterval(intervalId);
 }
 
 export function registerPluginWebSocketEvent(pluginId, event, action) {
@@ -495,6 +476,10 @@ export function handleEvent(msg) {
         handlePluginStatusesChangedEvent(msg);
         break;
 
+    case SocketEvents.INTEGRATIONS_USAGE_CHANGED:
+        handleIntegrationsUsageChangedEvent(msg);
+        break;
+
     case SocketEvents.OPEN_DIALOG:
         handleOpenDialogEvent(msg);
         break;
@@ -554,6 +539,9 @@ export function handleEvent(msg) {
         break;
     case SocketEvents.CLOUD_PAYMENT_STATUS_UPDATED:
         dispatch(handleCloudPaymentStatusUpdated(msg));
+        break;
+    case SocketEvents.CLOUD_SUBSCRIPTION_CHANGED:
+        dispatch(handleCloudSubscriptionChanged(msg));
         break;
     case SocketEvents.FIRST_ADMIN_VISIT_MARKETPLACE_STATUS_RECEIVED:
         handleFirstAdminVisitMarketplaceStatusReceivedEvent(msg);
@@ -1332,6 +1320,10 @@ function handlePluginStatusesChangedEvent(msg) {
     store.dispatch({type: AdminTypes.RECEIVED_PLUGIN_STATUSES, data: msg.data.plugin_statuses});
 }
 
+function handleIntegrationsUsageChangedEvent(msg) {
+    store.dispatch({type: CloudTypes.RECEIVED_INTEGRATIONS_USAGE, data: msg.data.usage.enabled});
+}
+
 function handleOpenDialogEvent(msg) {
     const data = (msg.data && msg.data.dialog) || {};
     const dialog = JSON.parse(data);
@@ -1508,6 +1500,25 @@ export function handleUserActivationStatusChange() {
 
 function handleCloudPaymentStatusUpdated() {
     return (doDispatch) => doDispatch(getCloudSubscription());
+}
+
+export function handleCloudSubscriptionChanged(msg) {
+    return (doDispatch) => {
+        if (msg.data.limits) {
+            doDispatch({
+                type: CloudTypes.RECEIVED_CLOUD_LIMITS,
+                data: msg.data.limits,
+            });
+        }
+
+        if (msg.data.subscription) {
+            doDispatch({
+                type: CloudTypes.RECEIVED_CLOUD_SUBSCRIPTION,
+                data: msg.data.subscription,
+            });
+        }
+        return {data: true};
+    };
 }
 
 function handleRefreshAppsBindings() {

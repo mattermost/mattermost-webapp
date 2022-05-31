@@ -6,7 +6,10 @@ export type CloudState = {
     products?: Record<string, Product>;
     customer?: CloudCustomer;
     invoices?: Record<string, Invoice>;
-    limits: Limits;
+    limits: {
+        limitsLoaded: boolean;
+        limits: Limits;
+    };
 }
 
 export type Subscription = {
@@ -139,4 +142,30 @@ export type Limits = {
         cards?: number;
         views?: number;
     };
+}
+
+export interface CloudUsage {
+    files: {
+        totalStorage: number;
+        totalStorageLoaded: boolean;
+
+    };
+    messages: {
+        history: number;
+        historyLoaded: boolean;
+    };
+    boards: {
+        cards: number;
+        cardsLoaded: boolean;
+    };
+    teams: {
+        active: number;
+        teamsLoaded: boolean;
+    };
+    integrations: IntegrationsUsage;
+}
+
+export interface IntegrationsUsage {
+    enabled: number;
+    enabledLoaded: boolean;
 }

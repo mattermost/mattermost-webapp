@@ -7,7 +7,7 @@ import {batchActions} from 'redux-batched-actions';
 import {Client4} from 'mattermost-redux/client';
 
 import {ActionFunc, ActionResult, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-import {UserProfile, UserStatus, GetFilteredUsersStatsOpts, UsersStats, UserCustomStatus} from 'mattermost-redux/types/users';
+import {UserProfile, UserStatus, GetFilteredUsersStatsOpts, UsersStats, UserCustomStatus} from '@mattermost/types/users';
 import {UserTypes, AdminTypes} from 'mattermost-redux/action_types';
 
 import {setServerVersion, getClientConfig, getLicenseConfig} from 'mattermost-redux/actions/general';
@@ -138,8 +138,6 @@ export function loadMe(): ActionFunc {
         const serverVersion = Client4.getServerVersion() || getState().entities.general.serverVersion;
         dispatch(setServerVersion(serverVersion));
 
-        const isCollapsedThreads = isCollapsedThreadsEnabled(getState());
-
         try {
             await Promise.all([
                 dispatch(getClientConfig()),
@@ -150,6 +148,7 @@ export function loadMe(): ActionFunc {
                 dispatch(getMyTeamMembers()),
             ]);
 
+            const isCollapsedThreads = isCollapsedThreadsEnabled(getState());
             await dispatch(getMyTeamUnreads(isCollapsedThreads));
         } catch (error) {
             dispatch(logError(error));
