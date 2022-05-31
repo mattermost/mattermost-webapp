@@ -180,3 +180,20 @@ export function getBoardsUsage(): ActionFunc {
         return {data: true};
     };
 }
+
+export function getTeamsUsage(): ActionFunc {
+    return async (dispatch: DispatchFunc) => {
+        try {
+            const result = await Client4.getTeamsUsage();
+            if (result) {
+                dispatch({
+                    type: CloudTypes.RECEIVED_TEAMS_USAGE,
+                    data: {active: result.active, cloudArchived: result.cloud_archived},
+                });
+            }
+        } catch (error) {
+            return error;
+        }
+        return {data: false};
+    };
+}
