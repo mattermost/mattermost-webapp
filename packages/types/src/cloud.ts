@@ -148,7 +148,6 @@ export interface CloudUsage {
     files: {
         totalStorage: number;
         totalStorageLoaded: boolean;
-
     };
     messages: {
         history: number;
