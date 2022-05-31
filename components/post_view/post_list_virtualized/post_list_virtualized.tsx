@@ -7,7 +7,6 @@ import AutoSizer from 'react-virtualized-auto-sizer';
 import {DynamicSizeList} from 'dynamic-virtualized-list';
 
 import {isDateLine, isStartOfNewMessages} from 'mattermost-redux/utils/post_list';
-
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
 import Constants, {PostListRowListIds, EventTypes, PostRequestTypes} from 'utils/constants';
@@ -63,16 +62,17 @@ type Props = {
     // Used for populating header, scroll correction and disabling triggering loadOlderPosts
     atOldestPost: boolean;
 
-    // Used for disabling triggering loadNewerPosts
-    atLatestPost: boolean;
-
     // Used in passing to post row for enabling animation when loading posts
     loadingNewerPosts: boolean;
     loadingOlderPosts: boolean;
 
-    latestPostTimeStamp: number;
     isMobileView: boolean;
-    lastViewedAt: string;
+
+    // Used for disabling triggering loadNewerPosts
+    atLatestPost?: boolean;
+
+    latestPostTimeStamp?: number;
+    lastViewedAt?: string;
 
     // Set to focus this post
     focusedPostId?: string;
@@ -91,7 +91,7 @@ type Props = {
         checkAndSetMobileView: () => void;
 
         // Function to change the post selected for postList
-        changeUnreadChunkTimeStamp: (lastViewedAt: string) => void;
+        changeUnreadChunkTimeStamp: (lastViewedAt?: string) => void;
 
         updateNewMessagesAtInChannel: (channelId: string, timeStamp: number) => void;
 
@@ -442,7 +442,7 @@ export default class PostList extends React.PureComponent<Props, State> {
         if (atBottom !== this.state.atBottom) {
             // Update lastViewedBottom when the list reaches or leaves the bottom
             let lastViewedBottom = Date.now();
-            if (this.props.latestPostTimeStamp > lastViewedBottom) {
+            if (this.props.latestPostTimeStamp && this.props.latestPostTimeStamp > lastViewedBottom) {
                 lastViewedBottom = this.props.latestPostTimeStamp;
             }
 
