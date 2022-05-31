@@ -364,9 +364,10 @@
                 display: flex;
                 align-items: center;
                 margin-bottom: 20px;
+                padding: 0 12px;
 
                 &:nth-of-type(4) {
-                    margin-bottom: 6px;
+                    margin-bottom: 4px;
                 }
 
                 .loading-lines {
@@ -397,9 +398,19 @@
                         border-radius: 4px;
                     }
 
+                    span.board-icon {
+                        font-size: 32px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        width: 32px;
+                        height: 32px;
+                    }
+
                     .display-info {
                         flex-direction: column;
                         display: flex;
+                        margin-left: 12px;
 
                         .display-name {
                             font-family: 'Open Sans';

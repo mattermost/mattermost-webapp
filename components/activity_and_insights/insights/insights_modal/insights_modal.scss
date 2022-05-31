@@ -41,6 +41,7 @@
                 padding: 0;
                 background: var(--center-channel-bg);
 
+                &.TopBoardsTable,
                 &.TopThreadsTable {
                     .DataGrid_row {
                         &:hover {
@@ -214,11 +215,32 @@
                                 }
                             }
 
-                            .Avatars___xs {
-                                margin-left: auto;
+                            .board-item {
+                                display: flex;
+                                align-items: center;
+
+                                span.board-icon {
+                                    font-size: 24px;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    width: 24px;
+                                    height: 24px;
+                                }
+
+                                span.board-title {
+                                    font-family: 'Open Sans';
+                                    font-style: normal;
+                                    font-weight: 600;
+                                    font-size: 14px;
+                                    line-height: 20px;
+                                    margin-left: 12px;
+                                }
                             }
 
-                            .replies {
+                            .replies,
+                            span.board-updates,
+                            .Avatars___xs {
                                 margin-left: auto;
                             }
                         }

@@ -1957,7 +1957,7 @@ export const InsightsCardTitles = {
         },
         mySubTitle: {
             id: t('insights.topBoards.mySubTitle'),
-            defaultMessage: 'Most active boards I\’ve participated in',
+            defaultMessage: 'Most active boards I\'ve participated in',
         },
     },
 };

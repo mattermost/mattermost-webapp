@@ -3,27 +3,54 @@
 import React, {memo, useState, useCallback} from 'react';
 import {useDispatch} from 'react-redux';
 
-import Badge from 'components/widgets/badges/badge';
-import Avatar from 'components/widgets/users/avatar';
-import Markdown from 'components/markdown';
-import Attachment from 'components/threading/global_threads/thread_item/attachments';
+import {FormattedMessage} from 'react-intl';
 
-import {imageURLForUser} from 'utils/utils';
+import Avatars from 'components/widgets/users/avatars';
 
 import TitleLoader from '../skeleton_loader/title_loader/title_loader';
 import CircleLoader from '../skeleton_loader/circle_loader/circle_loader';
 import widgetHoc, {WidgetHocProps} from '../widget_hoc/widget_hoc';
 
-import WidgetEmptyState from '../widget_empty_state/widget_empty_state';
-
 import './../../activity_and_insights.scss';
-import Avatars from 'components/widgets/users/avatars';
 
 const TopBoards = (props: WidgetHocProps) => {
     const dispatch = useDispatch();
 
     const [loading, setLoading] = useState(false);
-    const [topBoards, setTopBoards] = useState([]);
+    const [topBoards, setTopBoards] = useState([
+        {
+            boardID: 'bywgrht51s3y4unm6478becycxa',
+            icon: '⛄',
+            title: 'Project Tasks',
+            activityCount: 51,
+            activeUsers: 'jddqfjxezifxbnwdw75xsdsqcy',
+            createdBy: 'excsimz1j387ibfz7bofc4zaie',
+        },
+        {
+            boardID: 'biiow3dns57dr5k5qmse58b3j1r',
+            icon: '📅',
+            title: 'Content Calendar',
+            activityCount: 21,
+            activeUsers: 'jddqfjxezifxbnwdw75xsdsqcy',
+            createdBy: 'excsimz1j387ibfz7bofc4zaie',
+        },
+        {
+            boardID: 'bywgrht51s3y4unm6478becycxa',
+            icon: '⛄',
+            title: 'Project Tasks',
+            activityCount: 51,
+            activeUsers: 'jddqfjxezifxbnwdw75xsdsqcy',
+            createdBy: 'excsimz1j387ibfz7bofc4zaie',
+        },
+        {
+            boardID: 'biiow3dns57dr5k5qmse58b3j1r',
+            icon: '📅',
+            title: 'Content Calendar',
+            activityCount: 21,
+            activeUsers: 'jddqfjxezifxbnwdw75xsdsqcy',
+            createdBy: 'excsimz1j387ibfz7bofc4zaie',
+        },
+    ]);
 
     // const currentTeamId = useSelector(getCurrentTeamId);
 
@@ -92,74 +119,41 @@ const TopBoards = (props: WidgetHocProps) => {
             {
                 (topBoards && !loading) &&
                 <div className='board-list'>
-                    <div
-                        className='board-item'
-                        onClick={() => {
-                            console.log('test');
-                        }}
-                    >
-                        <div className='display-info'>
-                            <span className='display-name'>{`Beta launch tasks`}</span>
-                            <span className='update-counts'>{`22 updates`}</span>
-                        </div>
-                        <Avatars
-                            userIds={['mcaixe1wd78gmfps8xak89w3wh', 'o9rm6hmny3gajexk7sanqhy9pa']}
-                            size='xs'
-                            disableProfileOverlay={true}
-                        />
-                    </div>
-                    <div
-                        className='board-item'
-                        onClick={() => {
-                            console.log('test');
-                        }}
-                    >
-                        <div className='display-info'>
-                            <span className='display-name'>{`Beta launch tasks`}</span>
-                            <span className='update-counts'>{`22 updates`}</span>
-                        </div>
-                        <Avatars
-                            userIds={['mcaixe1wd78gmfps8xak89w3wh', 'o9rm6hmny3gajexk7sanqhy9pa']}
-                            size='xs'
-                            disableProfileOverlay={true}
-                        />
-                    </div>
-                    <div
-                        className='board-item'
-                        onClick={() => {
-                            console.log('test');
-                        }}
-                    >
-                        <div className='display-info'>
-                            <span className='display-name'>{`Beta launch tasks`}</span>
-                            <span className='update-counts'>{`22 updates`}</span>
-                        </div>
-                        <Avatars
-                            userIds={['mcaixe1wd78gmfps8xak89w3wh', 'o9rm6hmny3gajexk7sanqhy9pa']}
-                            size='xs'
-                            disableProfileOverlay={true}
-                        />
-                    </div>
-                    <div
-                        className='board-item'
-                        onClick={() => {
-                            console.log('test');
-                        }}
-                    >
-                        <div className='display-info'>
-                            <span className='display-name'>{`Beta launch tasks`}</span>
-                            <span className='update-counts'>{`22 updates`}</span>
-                        </div>
-                        <Avatars
-                            userIds={['mcaixe1wd78gmfps8xak89w3wh', 'o9rm6hmny3gajexk7sanqhy9pa']}
-                            size='xs'
-                            disableProfileOverlay={true}
-                        />
-                    </div>
+                    {
+                        topBoards.map((board, i) => {
+                            return (
+                                <div
+                                    className='board-item'
+                                    onClick={() => {
+                                        console.log('test');
+                                    }}
+                                >
+                                    <span className='board-icon'>{board.icon}</span>
+                                    <div className='display-info'>
+                                        <span className='display-name'>{board.title}</span>
+                                        <span className='update-counts'>
+                                            <FormattedMessage
+                                                id='insights.topBoards.updates'
+                                                defaultMessage='{updateCount} updates'
+                                                values={{
+                                                    updateCount: board.activityCount,
+                                                }}
+                                            />
+                                        </span>
+                                    </div>
+                                    <Avatars
+                                        userIds={[board.activeUsers]}
+                                        size='xs'
+                                        disableProfileOverlay={true}
+                                    />
+                                </div>
+                            );
+                        })
+                    }
                 </div>
-
             }
             {
+
                 // (topBoards.length === 0 && !loading) &&
                 // <WidgetEmptyState
                 //     icon={'product-boards'}
