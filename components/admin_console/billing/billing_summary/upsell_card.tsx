@@ -6,7 +6,7 @@ import React from 'react';
 import {useIntl} from 'react-intl';
 
 import WomanUpArrowsAndCloudsSvg from 'components/common/svg_images_components/woman_up_arrows_and_clouds_svg';
-import {t} from 'utils/i18n';
+import {Message, t} from 'utils/i18n';
 
 import './upsell_card.scss';
 import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
@@ -22,15 +22,15 @@ const enterpriseAdvantages = [
     },
     {
         id: t('upsell_advantages.office365'),
-        defaultMessage: 'OpenID Connect',
+        defaultMessage: 'Office365 suite integration',
     },
 ];
 
 interface Props {
-    advantages: any[];
-    title: any;
+    advantages: Message[];
+    title: Message;
     andMore: boolean;
-    cta: any;
+    cta: Message;
 }
 
 const andMore = {
