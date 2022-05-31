@@ -208,7 +208,6 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
 
     private readonly textboxRef: React.RefObject<TextboxClass>;
     private readonly fileUploadRef: React.RefObject<FileUploadClass>;
-    private readonly createCommentControlsRef: React.RefObject<HTMLSpanElement>;
 
     static defaultProps = {
         focusOnMount: true,
@@ -247,7 +246,6 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
 
         this.textboxRef = React.createRef();
         this.fileUploadRef = React.createRef();
-        this.createCommentControlsRef = React.createRef();
     }
 
     componentDidMount() {
@@ -344,6 +342,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
 
         if (shouldFocusMainTextbox(e, document.activeElement)) {
             this.focusTextbox();
+            this.toggleAdvanceTextEditor();
         }
     }
 
@@ -1030,10 +1029,6 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         return this.textboxRef.current;
     }
 
-    getCreateCommentControls = () => {
-        return this.createCommentControlsRef.current;
-    }
-
     toggleAdvanceTextEditor = () => {
         this.setState({
             isFormattingBarHidden:
@@ -1100,7 +1095,6 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
                     shouldShowPreview={this.props.shouldShowPreview}
                     maxPostSize={this.props.maxPostSize}
                     canPost={this.props.canPost}
-                    createPostControlsRef={this.createCommentControlsRef}
                     applyMarkdown={this.applyMarkdown}
                     useChannelMentions={this.props.useChannelMentions}
                     badConnection={this.props.badConnection}
@@ -1120,7 +1114,6 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
                     handleEmojiClick={this.handleEmojiClick}
                     handleEmojiClose={this.hideEmojiPicker}
                     hideEmojiPicker={this.hideEmojiPicker}
-                    getCreatePostControls={this.getCreateCommentControls}
                     toggleAdvanceTextEditor={this.toggleAdvanceTextEditor}
                     handleUploadProgress={this.handleUploadProgress}
                     handleUploadError={this.handleUploadError}
