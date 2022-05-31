@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable max-lines */
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
@@ -6321,12 +6322,16 @@ const AdminDefinition = {
                                 display_name: t('admin.experimental.collapsedThreads.default_off'),
                                 display_name_default: 'Enabled (Default Off)',
                             },
-
-                            /* {
+                            {
+                                value: 'default_on',
+                                display_name: t('admin.experimental.collapsedThreads.default_on'),
+                                display_name_default: 'Enabled (Default On)',
+                            },
+                            {
                                 value: 'always_on',
-                                display_name: t('admin.experimental.collapsedThreads.alwaysOn'),
+                                display_name: t('admin.experimental.collapsedThreads.always_on'),
                                 display_name_default: 'Always On',
-                            }, */
+                            },
                         ],
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                         isHidden: it.configIsFalse('FeatureFlags', 'CollapsedThreads'),
@@ -6372,6 +6377,17 @@ const AdminDefinition = {
                         help_text_default: 'Toggles Shared Channels',
                         help_text_markdown: false,
                         isHidden: it.not(it.licensedForFeature('SharedChannels')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ExperimentalSettings.EnableAppBar',
+                        label: t('admin.experimental.enableAppBar.title'),
+                        label_default: 'Enable App Bar:',
+                        help_text: t('admin.experimental.enableAppBar.desc'),
+                        help_text_default: 'When true, all integrations move from the channel header to the App Bar. Channel header plugin icons that haven\'t explicitly registered an App Bar icon will be moved to the App Bar which may result in rendering issues. [See the documentation to learn more](https://docs.mattermost.com/welcome/what-changed-in-v70.html).',
+                        help_text_markdown: true,
+                        isHidden: it.licensedForFeature('Cloud'),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                 ],

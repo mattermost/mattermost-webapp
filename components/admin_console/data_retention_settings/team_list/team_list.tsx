@@ -7,7 +7,7 @@ import {debounce} from 'lodash';
 
 import Constants from 'utils/constants';
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {Team, TeamSearchOpts} from 'mattermost-redux/types/teams';
+import {Team, TeamSearchOpts} from '@mattermost/types/teams';
 
 import * as Utils from 'utils/utils';
 

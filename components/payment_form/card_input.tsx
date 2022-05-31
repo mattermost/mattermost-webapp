@@ -18,6 +18,7 @@ const CARD_ELEMENT_OPTIONS = {
             fontSize: '14px',
             opacity: '0.5',
             fontSmoothing: 'antialiased',
+            color: '#3f4350', // For now show a color that's visible in darker modes. To fix in https://mattermost.atlassian.net/browse/MM-44648
         },
     },
 };

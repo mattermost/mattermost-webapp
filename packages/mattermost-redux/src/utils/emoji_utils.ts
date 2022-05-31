@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {Client4} from 'mattermost-redux/client';
-import {Emoji, SystemEmoji, CustomEmoji} from 'mattermost-redux/types/emojis';
+import {Emoji, SystemEmoji, CustomEmoji} from '@mattermost/types/emojis';
 
 export function isSystemEmoji(emoji: Emoji): emoji is SystemEmoji {
     if ('category' in emoji) {

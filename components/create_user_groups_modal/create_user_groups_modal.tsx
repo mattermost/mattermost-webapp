@@ -7,10 +7,10 @@ import {Modal} from 'react-bootstrap';
 
 import {FormattedMessage} from 'react-intl';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import * as Utils from 'utils/utils';
-import {GroupCreateWithUserIds} from 'mattermost-redux/types/groups';
+import {GroupCreateWithUserIds} from '@mattermost/types/groups';
 
 import 'components/user_groups_modal/user_groups_modal.scss';
 import './create_user_groups_modal.scss';

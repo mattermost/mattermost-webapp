@@ -4,7 +4,7 @@
 import React, {useMemo, memo} from 'react';
 import cn from 'classnames';
 
-import {FileInfo} from 'mattermost-redux/types/files';
+import {FileInfo} from '@mattermost/types/files';
 import {fileSizeToString, getCompassIconClassName, getFileType} from 'utils/utils';
 
 import {getFileThumbnailUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';

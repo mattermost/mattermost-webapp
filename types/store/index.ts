@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {GlobalState as BaseGlobalState} from 'mattermost-redux/types/store';
+import {GlobalState as BaseGlobalState} from '@mattermost/types/store';
 
 import {PluginsState} from './plugins';
 import {ViewsState} from './views';

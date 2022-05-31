@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {CloudCustomer} from 'mattermost-redux/types/cloud';
+import {CloudCustomer} from '@mattermost/types/cloud';
 
 export function isCustomerCardExpired(customer?: CloudCustomer): boolean {
     if (!customer) {

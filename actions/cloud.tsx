@@ -4,10 +4,14 @@
 import {Stripe} from '@stripe/stripe-js';
 import {getCode} from 'country-list';
 
+import {FileSizes} from 'utils/file_utils';
+
 import {Client4} from 'mattermost-redux/client';
 import {ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
 
 import {getConfirmCardSetup} from 'components/payment_form/stripe';
+
+import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import {StripeSetupIntent, BillingDetails} from 'types/cloud/sku';
 import {CloudTypes} from 'mattermost-redux/action_types';
@@ -87,6 +91,18 @@ export function subscribeCloudSubscription(productId: string) {
     };
 }
 
+export function requestCloudTrial(page: string) {
+    trackEvent('api', 'api_request_cloud_trial_license', {from_page: page});
+    return async () => {
+        try {
+            await Client4.requestCloudTrial();
+        } catch (error) {
+            return false;
+        }
+        return true;
+    };
+}
+
 export function getCloudLimits(): ActionFunc {
     return async (dispatch: DispatchFunc) => {
         try {
@@ -101,5 +117,66 @@ export function getCloudLimits(): ActionFunc {
             return error;
         }
         return true;
+    };
+}
+
+export function getMessagesUsage(): ActionFunc {
+    return async (dispatch: DispatchFunc) => {
+        try {
+            const result = await Client4.getPostsUsage();
+            if (result) {
+                dispatch({
+                    type: CloudTypes.RECEIVED_MESSAGES_USAGE,
+                    data: result.count,
+                });
+            }
+        } catch (error) {
+            return error;
+        }
+        return true;
+    };
+}
+
+export function getFilesUsage(): ActionFunc {
+    return async (dispatch: DispatchFunc) => {
+        dispatch({
+            type: CloudTypes.RECEIVED_FILES_USAGE,
+
+            // TODO: Fill this in with the backing client API method once it is available in the server
+            data: 3 * FileSizes.Gigabyte,
+        });
+        return {data: true};
+    };
+}
+
+export function getIntegrationsUsage(): ActionFunc {
+    return async (dispatch: DispatchFunc) => {
+        const data = await Client4.getIntegrationsUsage();
+        dispatch({
+            type: CloudTypes.RECEIVED_INTEGRATIONS_USAGE,
+            data: data.enabled,
+        });
+
+        return {data: true};
+    };
+}
+
+export function getBoardsUsage(): ActionFunc {
+    return async (dispatch: DispatchFunc) => {
+        try {
+            const result = await Client4.getBoardsUsage();
+            if (result) {
+                dispatch({
+                    type: CloudTypes.RECEIVED_BOARDS_USAGE,
+
+                    // the views and cards properties are the limits, not usage.
+                    // So they are not passed in to the usage.
+                    data: result.used_cards,
+                });
+            }
+        } catch (error) {
+            return error;
+        }
+        return {data: true};
     };
 }

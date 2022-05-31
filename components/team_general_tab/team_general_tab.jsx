@@ -15,7 +15,7 @@ import BackIcon from 'components/widgets/icons/fa_back_icon';
 import LocalizedInput from 'components/localized_input/localized_input';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
-import {t} from 'utils/i18n.jsx';
+import {t} from 'utils/i18n';
 
 import OpenInvite from './open_invite';
 

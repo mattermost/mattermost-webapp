@@ -146,7 +146,7 @@
     }
 
     .MenuCloudTrial {
-        padding: 8px;
+        padding: 8px 12px;
         margin: 8px;
         margin-top: 0;
         background-color: rgba(var(--button-bg-rgb), 0.04);
@@ -163,6 +163,92 @@
                 font-weight: 600;
                 text-decoration: none;
             }
+        }
+
+        .style-link {
+            display: inline-block;
+            min-width: fit-content;
+            border: none;
+            background: none;
+            color: var(--button-bg);
+            font-weight: 600;
+
+            &:hover:not(.disabled) {
+                border: none;
+                background: none;
+                color: var(--button-bg);
+                text-decoration: underline;
+            }
+        }
+
+        .open-trial-benefits-modal {
+            display: inline !important;
+            margin-left: 2px;
+        }
+
+        .open-see-plans-modal {
+            display: block;
+        }
+    }
+
+    .MenuItemCloudLimit {
+        padding: 16px 20px;
+        margin-top: 0;
+        background-color: rgba(var(--mention-highlight-bg-rgb), 0.16);
+
+        &--critical {
+            background-color: rgba(var(--error-text-color-rgb), 0.16);
+        }
+
+        .icon-information-outline {
+            color: var(--denim-button-bg);
+            cursor: pointer;
+        }
+
+        a {
+            // overriding 4 deep selector
+            color: var(--denim-button-bg) !important;
+            font-weight: bold;
+            text-decoration: none;
+
+            &:hover {
+                // overriding 4 deep selector
+                background: inherit !important;
+            }
+        }
+
+        &__title {
+            display: flex;
+            align-items: center;
+            padding-bottom: 5px;
+            color: var(--center-channel-text);
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        &__description {
+            padding-bottom: 12px;
+            font-size: 12px;
+
+            // TODO: hide link hack to be removed once
+            // https://mattermost.atlassian.net/browse/MM-43648 is completed
+            &--hide-link {
+                a {
+                    display: none;
+                }
+            }
+        }
+
+        &__usage {
+            display: flex;
+            align-items: center;
+        }
+
+        &__usage-label {
+            padding-left: 18px;
+            color: rgba(var(--center-channel-text-rgb), 0.56);
+            font-size: 11px;
+            font-weight: bold;
         }
     }
 

@@ -6,10 +6,10 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {Channel} from 'mattermost-redux/types/channels';
-import {ServerError} from 'mattermost-redux/types/errors';
+import {Channel} from '@mattermost/types/channels';
+import {ServerError} from '@mattermost/types/errors';
 
-import Textbox from 'components/textbox';
+import Textbox, {TextboxElement} from 'components/textbox';
 import TextboxClass from 'components/textbox/textbox';
 import TextboxLinks from 'components/textbox/textbox_links';
 import Constants from 'utils/constants';
@@ -93,7 +93,7 @@ export default class EditChannelHeaderModal extends React.PureComponent<Props, S
         this.props.actions.setShowPreview(newState);
     }
 
-    private handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    private handleChange = (e: React.ChangeEvent<TextboxElement>): void => {
         this.setState({
             header: e.target.value,
         });
