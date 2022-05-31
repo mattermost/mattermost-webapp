@@ -9,19 +9,19 @@ import {General} from '../constants';
 import {Client4} from 'mattermost-redux/client';
 
 import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-import {Compliance} from 'mattermost-redux/types/compliance';
-import {GroupSearchOpts} from 'mattermost-redux/types/groups';
+import {Compliance} from '@mattermost/types/compliance';
+import {GroupSearchOpts} from '@mattermost/types/groups';
 import {
     CreateDataRetentionCustomPolicy,
-} from 'mattermost-redux/types/data_retention';
+} from '@mattermost/types/data_retention';
 import {
     TeamSearchOpts,
-} from 'mattermost-redux/types/teams';
+} from '@mattermost/types/teams';
 import {
     ChannelSearchOpts,
-} from 'mattermost-redux/types/channels';
+} from '@mattermost/types/channels';
 
-import {CompleteOnboardingRequest} from 'mattermost-redux/types/setup';
+import {CompleteOnboardingRequest} from '@mattermost/types/setup';
 
 import {bindClientFunc, forceLogoutIfNecessary} from './helpers';
 import {logError} from './errors';

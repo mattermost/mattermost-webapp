@@ -4,7 +4,7 @@
 import React, {memo} from 'react';
 
 import * as PostListUtils from 'mattermost-redux/utils/post_list';
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 
 import CombinedUserActivityPost from 'components/post_view/combined_user_activity_post';
 import DateSeparator from 'components/post_view/date_separator';

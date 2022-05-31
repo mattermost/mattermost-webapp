@@ -10,7 +10,7 @@ import TrialBenefitsModal from 'components/trial_benefits_modal/trial_benefits_m
 import LearnMoreTrialModal from 'components/learn_more_trial_modal/learn_more_trial_modal';
 
 import {DispatchFunc} from 'mattermost-redux/types/actions';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {LicenseSkus} from 'mattermost-redux/types/general';
@@ -19,6 +19,9 @@ import {openModal} from 'actions/views/modals';
 
 import {getRemainingDaysFromFutureTimestamp} from 'utils/utils';
 import {TrialPeriodDays, ModalIdentifiers} from 'utils/constants';
+import useGetHighestThresholdCloudLimit from 'components/common/hooks/useGetHighestThresholdCloudLimit';
+import useGetLimits from 'components/common/hooks/useGetLimits';
+import useGetUsage from 'components/common/hooks/useGetUsage';
 
 import './menu_item.scss';
 
@@ -39,8 +42,9 @@ const MenuCloudTrial = ({id}: Props) => {
     const isCloudPaidSubscription = isCloud && Boolean(subscription?.is_paid_tier === 'true');
 
     let daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription?.trial_end_at);
-    if (daysLeftOnTrial > TrialPeriodDays.TRIAL_MAX_DAYS) {
-        daysLeftOnTrial = TrialPeriodDays.TRIAL_MAX_DAYS;
+    const maxDays = isCloudFreeEnabled ? TrialPeriodDays.TRIAL_30_DAYS : TrialPeriodDays.TRIAL_14_DAYS;
+    if (daysLeftOnTrial > maxDays) {
+        daysLeftOnTrial = maxDays;
     }
 
     const openTrialBenefitsModal = async () => {
@@ -57,7 +61,8 @@ const MenuCloudTrial = ({id}: Props) => {
         }));
     };
 
-    const show = isCloud && !isCloudFreePaidSubscription && !isCloudPaidSubscription;
+    const someLimitNeedsAttention = Boolean(useGetHighestThresholdCloudLimit(useGetUsage(), useGetLimits()[0]));
+    const show = isCloud && !isCloudFreePaidSubscription && !isCloudPaidSubscription && !someLimitNeedsAttention;
     if (!show) {
         return null;
     }

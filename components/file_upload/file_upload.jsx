@@ -159,6 +159,8 @@ export class FileUpload extends PureComponent {
              */
             handleFileUploadEnd: PropTypes.func.isRequired,
         }).isRequired,
+
+        isAdvancedTextEditorEnabled: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -601,7 +603,10 @@ export class FileUpload extends PureComponent {
                         type='button'
                         id='fileUploadButton'
                         aria-label={buttonAriaLabel}
-                        className={classNames('style--none AdvancedTextEditor__action-button', {disabled: uploadsRemaining <= 0})}
+                        className={classNames('style--none', {
+                            'AdvancedTextEditor__action-button': this.props.isAdvancedTextEditorEnabled,
+                            'post-action': !this.props.isAdvancedTextEditorEnabled,
+                            disabled: uploadsRemaining <= 0})}
                         onClick={this.simulateInputClick}
                         onTouchEnd={this.simulateInputClick}
                     >
@@ -663,7 +668,9 @@ export class FileUpload extends PureComponent {
                             type='button'
                             id='fileUploadButton'
                             aria-label={buttonAriaLabel}
-                            className={'style--none AdvancedTextEditor__action-button'}
+                            className={classNames('style--none', {
+                                'AdvancedTextEditor__action-button': this.props.isAdvancedTextEditorEnabled,
+                                'post-action': !this.props.isAdvancedTextEditorEnabled})}
                         >
                             <PaperclipIcon
                                 size={18}

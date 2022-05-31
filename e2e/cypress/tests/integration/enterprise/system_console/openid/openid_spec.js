@@ -141,7 +141,7 @@ const verifyOAuthLogin = (text, color, href) => {
         const withExtra = url.includes('?extra=expired') ? '?extra=expired' : '';
 
         // * Verify oauth login link
-        cy.get('.login-body-card-form-login-option').then((btn) => {
+        cy.get('.external-login-button').then((btn) => {
             expect(btn.prop('href')).equal(`${href}${withExtra}`);
 
             if (color) {
@@ -150,7 +150,7 @@ const verifyOAuthLogin = (text, color, href) => {
                 expect(btn[0].style.borderColor).equal(rgbArrayToString(rbgArr));
             }
 
-            cy.get('.login-body-card-form-login-option-label').should('contain', text);
+            cy.get('.external-login-button-label').should('contain', text);
         });
     });
 };

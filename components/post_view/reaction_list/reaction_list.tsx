@@ -6,9 +6,9 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import Permissions from 'mattermost-redux/constants/permissions';
-import {Post} from 'mattermost-redux/types/posts';
-import {Reaction as ReactionType} from 'mattermost-redux/types/reactions';
-import {Emoji} from 'mattermost-redux/types/emojis';
+import {Post} from '@mattermost/types/posts';
+import {Reaction as ReactionType} from '@mattermost/types/reactions';
+import {Emoji} from '@mattermost/types/emojis';
 import {isSystemEmoji} from 'mattermost-redux/utils/emoji_utils';
 
 import Constants from 'utils/constants';

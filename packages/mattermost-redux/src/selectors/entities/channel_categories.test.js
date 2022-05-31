@@ -7,7 +7,7 @@ import {MarkUnread} from 'mattermost-redux/constants/channels';
 
 import mergeObjects from 'mattermost-redux/test/merge_objects';
 
-import {CategorySorting} from 'mattermost-redux/types/channel_categories';
+import {CategorySorting} from '@mattermost/types/channel_categories';
 
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 

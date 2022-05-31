@@ -3,7 +3,7 @@
 /* eslint-disable max-lines */
 
 import React, {LinkHTMLAttributes} from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, IntlShape} from 'react-intl';
 
 import cssVars from 'css-vars-ponyfill';
 
@@ -67,7 +67,7 @@ import {Post} from '@mattermost/types/posts';
 import {UserProfile} from '@mattermost/types/users';
 import {Channel} from '@mattermost/types/channels';
 import {Theme} from 'mattermost-redux/types/themes';
-import {ClientConfig} from 'mattermost-redux/types/config';
+import {ClientConfig} from '@mattermost/types/config';
 
 import {GlobalState} from '@mattermost/types/store';
 import {TextboxElement} from '../components/textbox';
@@ -1375,7 +1375,7 @@ export function getPasswordConfig(config: Partial<ClientConfig>) {
     };
 }
 
-export function isValidPassword(password: string, passwordConfig: ReturnType<typeof getPasswordConfig>) {
+export function isValidPassword(password: string, passwordConfig: ReturnType<typeof getPasswordConfig>, intl?: IntlShape) {
     let errorId = t('user.settings.security.passwordError');
     let valid = true;
     const minimumLength = passwordConfig.minimumLength || Constants.MIN_PASSWORD_LENGTH;
@@ -1418,10 +1418,21 @@ export function isValidPassword(password: string, passwordConfig: ReturnType<typ
 
     let error;
     if (!valid) {
-        error = (
+        error = intl ? (
+            intl.formatMessage(
+                {
+                    id: errorId,
+                    defaultMessage: 'Must be {min}-{max} characters long.',
+                },
+                {
+                    min: minimumLength,
+                    max: Constants.MAX_PASSWORD_LENGTH,
+                },
+            )
+        ) : (
             <FormattedMessage
                 id={errorId}
-                defaultMessage='Your password must contain between {min} and {max} characters.'
+                defaultMessage='Must be {min}-{max} characters long.'
                 values={{
                     min: minimumLength,
                     max: Constants.MAX_PASSWORD_LENGTH,

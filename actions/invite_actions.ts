@@ -3,14 +3,14 @@
 
 import * as TeamActions from 'mattermost-redux/actions/teams';
 import {getTeamMember} from 'mattermost-redux/selectors/entities/teams';
-import {TeamMemberWithError, TeamInviteWithError} from 'mattermost-redux/types/teams';
+import {TeamMemberWithError, TeamInviteWithError} from '@mattermost/types/teams';
 
-import {RelationOneToOne} from 'mattermost-redux/types/utilities';
+import {RelationOneToOne} from '@mattermost/types/utilities';
 import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 import {getChannelMembersInChannels} from 'mattermost-redux/selectors/entities/channels';
 import {joinChannel} from 'mattermost-redux/actions/channels';
-import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
+import {Channel, ChannelMembership} from '@mattermost/types/channels';
 
 import {addUsersToTeam} from 'actions/team_actions';
 import {t} from 'utils/i18n';

@@ -23,6 +23,7 @@ declare namespace Cypress {
          * Requires sysadmin session to initiate this command.
          * @param {boolean} options.loginAfter - false (default) or true if wants to login as the new user after setting up. Note that when true, succeeding API request will be limited to access/permission of a regular system user.
          * @param {boolean} options.promoteNewUserAsAdmin - false (default) or true if wants to promote the newly created user as sysadmin.
+         * @param {boolean} options.hideAdminTrialModal - true (default) or false if wants to hide Start Enterprise Trial modal.
          * @param {string} options.userPrefix - 'user' (default) or any prefix to easily identify a user
          * @param {string} options.teamPrefix - {name: 'team', displayName: 'Team'} (default) or any prefix to easily identify a team
          * @param {string} options.channelPrefix - {name: 'team', displayName: 'Team'} (default) or any prefix to easily identify a channel
@@ -47,6 +48,8 @@ declare namespace Cypress {
         apiInitSetup(
             options: {
                 loginAfter: boolean;
+                promoteNewUserAsAdmin: boolean;
+                hideAdminTrialModal: boolean;
                 userPrefix: string;
                 teamPrefix: string;
                 channelPrefix: string;

@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 import MemberListTeam from 'components/member_list_team';

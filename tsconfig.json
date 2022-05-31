@@ -35,7 +35,6 @@
     "dist",
     "e2e",
     "!node_modules/@types",
-    "storybook-static",
     "coverage"
   ],
   "references": [

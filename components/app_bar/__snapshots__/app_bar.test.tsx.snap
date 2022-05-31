@@ -72,12 +72,9 @@ exports[`components/app_bar/app_bar should match snapshot on mount 1`] = `
             onMouseOver={[Function]}
           >
             <div
-              className="app-bar__icon-inner"
+              className="app-bar__old-icon app-bar__icon-inner app-bar__icon-inner--centered"
             >
-              <img
-                onError={[Function]}
-                onLoad={[Function]}
-              />
+              fallback_component
             </div>
           </div>
         </OverlayTrigger>
@@ -159,3 +156,5 @@ exports[`components/app_bar/app_bar should match snapshot on mount 1`] = `
   </div>
 </AppBar>
 `;
+
+exports[`components/app_bar/app_bar should match snapshot on mount when App Bar is disabled 1`] = `<AppBar />`;
