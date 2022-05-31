@@ -59,14 +59,14 @@ type Props = {
     // Used for disabling auto retry of posts and enabling manual link for loading posts
     autoRetryEnable: boolean;
 
-    // Used for populating header, scroll correction and disabling triggering loadOlderPosts
-    atOldestPost: boolean;
-
     // Used in passing to post row for enabling animation when loading posts
     loadingNewerPosts: boolean;
     loadingOlderPosts: boolean;
 
     isMobileView: boolean;
+
+    // Used for populating header, scroll correction and disabling triggering loadOlderPosts
+    atOldestPost?: boolean;
 
     // Used for disabling triggering loadNewerPosts
     atLatestPost?: boolean;
