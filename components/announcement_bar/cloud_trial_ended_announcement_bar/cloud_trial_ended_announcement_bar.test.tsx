@@ -114,7 +114,7 @@ describe('components/global/CloudTrialEndAnnouncementBar', () => {
         const state = JSON.parse(JSON.stringify(initialState));
         state.entities.cloud.subscription = {
             ...state.entities.cloud.subscription,
-            trial_end_at: 1655577344,
+            trial_end_at: 1655577344000,
         };
 
         // Set the system time to be June 20th, since this banner won't show for trial's ending prior to June 15
@@ -141,7 +141,7 @@ describe('components/global/CloudTrialEndAnnouncementBar', () => {
         const state = JSON.parse(JSON.stringify(initialState));
         state.entities.cloud.subscription = {
             ...state.entities.cloud.subscription,
-            trial_end_at: 1655577344,
+            trial_end_at: 1655577344000,
         };
         state.entities.usage.teams = {
             cloudArchived: 2,
