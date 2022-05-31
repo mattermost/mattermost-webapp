@@ -6,7 +6,6 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 
 import {trackEvent} from 'actions/telemetry_actions';
-import {validateBusinessEmail} from 'actions/cloud';
 
 import {ItemStatus, TELEMETRY_CATEGORIES} from 'utils/constants';
 
@@ -65,18 +64,19 @@ const RequestBusinessEmailModal = (
 
         // function isEmail aready handle empty / null value
         if (!isEmail(email)) {
-            const errMsg = formatMessage({id: 'request_business_email_modal.invalidEmail', defaultMessage: 'This doesnt look like a valid email'});
+            const errMsg = formatMessage({id: 'request_business_email_modal.invalidEmail', defaultMessage: 'This doesn\'t look like a valid email'});
             setCustomInputLabel({type: ItemStatus.WARNING, value: errMsg});
             return;
         }
 
         // go and validate the email against the validateBusinessEmail endpoint
-        const isValidBusinessEmail = await validateBusinessEmail()();
-        if (!isValidBusinessEmail) {
-            const errMsg = formatMessage({id: 'request_business_email_modal.not_business_email', defaultMessage: 'This doesnt look like a bussiness email'});
-            setCustomInputLabel({type: ItemStatus.ERROR, value: errMsg});
-            return;
-        }
+        // TODO: add util load with an email to the endpoint to send the email for validation
+        // const isValidBusinessEmail = await validateBusinessEmail()();
+        // if (!isValidBusinessEmail) {
+        //     const errMsg = formatMessage({id: 'request_business_email_modal.not_business_email', defaultMessage: 'This doesn\'t look like a business email'});
+        //     setCustomInputLabel({type: ItemStatus.ERROR, value: errMsg});
+        //     return;
+        // }
 
         // if it is a valid business email, proceed, enable the start trial button and notify the user about the email is valid
         const okMsg = formatMessage({id: 'request_business_email_modal.valid_business_email', defaultMessage: 'This is a valid email'});
@@ -115,9 +115,9 @@ const RequestBusinessEmailModal = (
             <div className='start-trial-email-disclaimer'>
                 <FormattedMessage
                     id='request_business_email.start_trial.modal.disclaimer'
-                    defaultMessage='By selecting <hightlight>“Start trial”</hightlight>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>privacy policy</linkPrivacy> and receiving product emails.'
+                    defaultMessage='By selecting <highlight>“Start trial”</highlight>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>privacy policy</linkPrivacy> and receiving product emails.'
                     values={{
-                        hightlight: (msg: React.ReactNode) => (
+                        highlight: (msg: React.ReactNode) => (
                             <strong>
                                 {msg}
                             </strong>

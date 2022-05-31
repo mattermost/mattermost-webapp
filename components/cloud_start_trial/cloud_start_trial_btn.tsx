@@ -98,8 +98,8 @@ const CloudStartTrialButton = ({
         }));
     };
 
-    const openRequestBusinessEmailModal = async () => {
-        await dispatch(openModal({
+    const openRequestBusinessEmailModal = () => {
+        dispatch(openModal({
             modalId: ModalIdentifiers.REQUEST_BUSINESS_EMAIL_MODAL,
             dialogType: RequestBusinessEmailModal,
         }));
