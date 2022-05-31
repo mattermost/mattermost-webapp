@@ -37,15 +37,15 @@ const TopChannelsLineChart = ({topChannels, timeFrame, channelLineChartData}: Pr
     const sortGraphData = useMemo(() => {
         const labels = getLabels;
 
-        const values = {} as any;
-        const keys = Object.keys(channelLineChartData)
+        const values = {} as Record<string, number[]>;
+        const keys = Object.keys(channelLineChartData);
 
-        for (let i = 0; i < keys.length; i++) {
+        for (let i = 0, len = keys.length; i < len; i++) {
             const item = channelLineChartData[keys[i]];
 
             const channelIds = Object.keys(item);
 
-            for (let j = 0; j < channelIds.length; j++) {
+            for (let j = 0, channelIdsLength = channelIds.length; j < channelIdsLength; j++) {
                 const count = item[channelIds[j]];
                 if (values[channelIds[j]]) {
                     values[channelIds[j]].push(count);
@@ -63,80 +63,24 @@ const TopChannelsLineChart = ({topChannels, timeFrame, channelLineChartData}: Pr
     const getGraphData = useMemo(() => {
         const data = sortGraphData;
         const dataset = [];
+        const colours = [theme.buttonBg, theme.onlineIndicator, theme.awayIndicator, theme.dndIndicator, theme.newMessageSeparator];
 
-        if (topChannels[0]) {
-            dataset.push({
-                fillColor: theme.buttonBg,
-                borderColor: theme.buttonBg,
-                pointBackgroundColor: theme.buttonBg,
-                pointBorderColor: theme.buttonBg,
-                backgroundColor: 'transparent',
-                pointRadius: 0,
-                hoverBackgroundColor: theme.buttonBg,
-                label: topChannels[0].display_name,
-                data: data.values[topChannels[0].id],
-                hitRadius: 10,
-            });
-        }
-
-        if (topChannels[1]) {
-            dataset.push({
-                fillColor: theme.onlineIndicator,
-                borderColor: theme.onlineIndicator,
-                pointBackgroundColor: theme.onlineIndicator,
-                pointBorderColor: theme.onlineIndicator,
-                backgroundColor: 'transparent',
-                pointRadius: 0,
-                hoverBackgroundColor: theme.onlineIndicator,
-                label: topChannels[1].display_name,
-                data: data.values[topChannels[1].id],
-                hitRadius: 10,
-            });
-        }
-
-        if (topChannels[2]) {
-            dataset.push({
-                fillColor: theme.awayIndicator,
-                borderColor: theme.awayIndicator,
-                pointBackgroundColor: theme.awayIndicator,
-                pointBorderColor: theme.awayIndicator,
-                backgroundColor: 'transparent',
-                pointRadius: 0,
-                hoverBackgroundColor: theme.awayIndicator,
-                label: topChannels[2].display_name,
-                data: data.values[topChannels[2].id],
-                hitRadius: 10,
-            });
-        }
-
-        if (topChannels[3]) {
-            dataset.push({
-                fillColor: theme.dndIndicator,
-                borderColor: theme.dndIndicator,
-                pointBackgroundColor: theme.dndIndicator,
-                pointBorderColor: theme.dndIndicator,
-                backgroundColor: 'transparent',
-                pointRadius: 0,
-                hoverBackgroundColor: theme.dndIndicator,
-                label: topChannels[3].display_name,
-                data: data.values[topChannels[3].id],
-                hitRadius: 10,
-            });
-        }
-
-        if (topChannels[4]) {
-            dataset.push({
-                fillColor: theme.newMessageSeparator,
-                borderColor: theme.newMessageSeparator,
-                pointBackgroundColor: theme.newMessageSeparator,
-                pointBorderColor: theme.newMessageSeparator,
-                backgroundColor: 'transparent',
-                pointRadius: 0,
-                hoverBackgroundColor: theme.newMessageSeparator,
-                label: topChannels[4].display_name,
-                data: data.values[topChannels[4].id],
-                hitRadius: 10,
-            });
+        for (let i = 0; i < 5; i++) {
+            if (topChannels[i]) {
+                const colour = colours[i];
+                dataset.push({
+                    fillColor: colour,
+                    borderColor: colour,
+                    pointBackgroundColor: colour,
+                    pointBorderColor: colour,
+                    backgroundColor: 'transparent',
+                    pointRadius: 0,
+                    hoverBackgroundColor: colour,
+                    label: topChannels[i].display_name,
+                    data: data.values[topChannels[i].id],
+                    hitRadius: 10,
+                });
+            }
         }
 
         return {
@@ -189,7 +133,7 @@ const TopChannelsLineChart = ({topChannels, timeFrame, channelLineChartData}: Pr
                     callbacks: {
                         label(tooltipItem, data) {
                             const index = tooltipItem.datasetIndex;
-                            if (typeof index !== 'undefined' && data.datasets && data.datasets[index] && data.datasets[index].label) {
+                            if (typeof index !== 'undefined' && data.datasets && data.datasets[index]?.label) {
                                 return data.datasets[index].label || '';
                             }
                             return '';
