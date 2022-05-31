@@ -52,7 +52,7 @@ export default function UpsellCard(props: Props) {
                 {intl.formatMessage(props.title)}
             </div>
             <div className='UpsellCard__advantages'>
-                {props.advantages.map((message: any) => {
+                {props.advantages.map((message: Message) => {
                     return (
                         <div
                             className='advantage'
@@ -72,10 +72,10 @@ export default function UpsellCard(props: Props) {
                     message={
                         intl.formatMessage(
                             {
-                                id: props.cta.message.id,
-                                defaultMessage: props.cta.message.defaultMessage,
+                                id: props.cta.id,
+                                defaultMessage: props.cta.defaultMessage,
                             },
-                            props.cta.message.values,
+                            props.cta.values,
                         )
                     }
                     telemetryId={'start_cloud_trial_billing_subscription'}
