@@ -12,7 +12,7 @@ import {GlobalState} from 'types/store';
 import {trackEvent} from 'actions/telemetry_actions';
 import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCloudProducts, getCloudSubscription} from 'mattermost-redux/actions/cloud';
-import {getCloudSubscription as selectCloudSubscription, getCloudProduct as selectCloudProduct, isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
+import {getCloudSubscription as selectCloudSubscription, getSubscriptionProduct as selectCloudProduct, isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
 
 import {openModal} from 'actions/views/modals';
 import PricingModal from 'components/pricing_modal';

@@ -342,6 +342,7 @@ export const ModalIdentifiers = {
     UPGRADE_CLOUD_ACCOUNT: 'upgrade_cloud_account',
     START_TRIAL_MODAL: 'start_trial_modal',
     TRIAL_BENEFITS_MODAL: 'trial_benefits_modal',
+    PRICING_MODAL: 'pricing_modal',
     LEARN_MORE_TRIAL_MODAL: 'learn_more_trial_modal',
     ENTERPRISE_EDITION_LICENSE: 'enterprise_edition_license',
     CONFIRM_NOTIFY_ADMIN: 'confirm_notify_admin',
