@@ -78,7 +78,7 @@ describe('components/Menu', () => {
         userIsAdmin: true,
         isCloudFreeEnabled: false,
         isFreeTrial: false,
-        teamsLimitReached: false,
+        usageDeltaTeams: 1,
     };
 
     const defaultState = {
@@ -295,7 +295,7 @@ describe('components/Menu', () => {
             ...defaultProps,
             isCloudFreeEnabled: true,
             isFreeTrial: true,
-            teamsLimitReached: false,
+            usageDeltaTeams: 1,
         };
         const wrapper = getMainMenuWrapper(props);
         expect(wrapper).toMatchSnapshot();
@@ -306,7 +306,7 @@ describe('components/Menu', () => {
             ...defaultProps,
             isCloudFreeEnabled: true,
             isFreeTrial: true,
-            teamsLimitReached: true,
+            usageDeltaTeams: 0,
         };
         const wrapper = getMainMenuWrapper(props);
         expect(wrapper).toMatchSnapshot();

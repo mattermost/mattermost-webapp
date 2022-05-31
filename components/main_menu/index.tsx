@@ -7,16 +7,18 @@ import {withRouter} from 'react-router-dom';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
 
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {
+    getConfig,
+    getLicense,
+} from 'mattermost-redux/selectors/entities/general';
 import {
     getJoinableTeamIds,
     getCurrentTeam,
     getCurrentRelativeTeamUrl,
 } from 'mattermost-redux/selectors/entities/teams';
-import {getAdminAnalytics} from 'mattermost-redux/selectors/entities/admin';
 import {getCurrentUser, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 import {haveICurrentTeamPermission, haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
-import {getCloudSubscription as selectCloudSubscription, getCloudLimits as selectCloudLimits} from 'mattermost-redux/selectors/entities/cloud';
+import {getCloudSubscription as selectCloudSubscription} from 'mattermost-redux/selectors/entities/cloud';
 import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {Permissions} from 'mattermost-redux/constants';
@@ -27,6 +29,7 @@ import {getCloudLimits} from 'actions/cloud';
 import {showMentions, showFlaggedPosts, closeRightHandSide, closeMenu as closeRhsMenu} from 'actions/views/rhs';
 import {openModal} from 'actions/views/modals';
 import {getRhsState} from 'selectors/rhs';
+import {isCloudLicense} from 'utils/license_utils';
 
 import {GlobalState} from 'types/store';
 
@@ -57,13 +60,11 @@ function mapStateToProps(state: GlobalState) {
     const rhsState = getRhsState(state);
 
     const subscription = selectCloudSubscription(state);
-    const adminAnalytics = getAdminAnalytics(state);
-    const cloudLimits = selectCloudLimits(state);
+    const license = getLicense(state);
 
-    const isCloudFreeEnabled = cloudFreeEnabled(state);
+    const isCloud = isCloudLicense(license);
+    const isCloudFreeEnabled = isCloud && cloudFreeEnabled(state);
     const isFreeTrial = subscription?.is_free_trial === 'true';
-
-    const teamsLimitReached = (adminAnalytics?.TOTAL_TEAMS ?? NaN) >= (cloudLimits.teams?.active ?? NaN);
 
     return {
         appDownloadLink,
@@ -89,9 +90,9 @@ function mapStateToProps(state: GlobalState) {
         guestAccessEnabled: config.EnableGuestAccounts === 'true',
         canInviteTeamMember,
         isFirstAdmin: isFirstAdmin(state),
+        isCloud,
         isCloudFreeEnabled,
         isFreeTrial,
-        teamsLimitReached,
     };
 }
 

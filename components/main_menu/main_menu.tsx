@@ -62,9 +62,10 @@ export type Props = {
     intl: IntlShape;
     teamUrl: string;
     isFirstAdmin: boolean;
+    isCloud: boolean;
     isCloudFreeEnabled: boolean;
     isFreeTrial: boolean;
-    teamsLimitReached: boolean;
+    usageDeltaTeams: number;
     location: {
         pathname: string;
     };
@@ -89,10 +90,6 @@ export class MainMenu extends React.PureComponent<Props> {
 
     async componentDidMount(): Promise<void> {
         document.addEventListener('keydown', this.handleKeyDown);
-
-        if (this.props.isCloudFreeEnabled) {
-            this.props.actions.getCloudLimits();
-        }
     }
 
     componentWillUnmount(): void {
@@ -160,7 +157,8 @@ export class MainMenu extends React.PureComponent<Props> {
 
         const someIntegrationEnabled = this.props.enableIncomingWebhooks || this.props.enableOutgoingWebhooks || this.props.enableCommands || this.props.enableOAuthServiceProvider || this.props.canManageSystemBots;
         const showIntegrations = !this.props.mobile && someIntegrationEnabled && this.props.canManageIntegrations;
-        const createTeamRestricted = this.props.isCloudFreeEnabled && (this.props.isFreeTrial || this.props.teamsLimitReached);
+        const teamsLimitReached = this.props.usageDeltaTeams <= 0;
+        const createTeamRestricted = this.props.isCloud && this.props.isCloudFreeEnabled && (this.props.isFreeTrial || teamsLimitReached);
 
         const {formatMessage} = this.props.intl;
 
@@ -474,7 +472,7 @@ export class MainMenu extends React.PureComponent<Props> {
                             id='createTeam'
                             to='/create_team'
                             className={createTeamRestricted ? 'MenuItem__with-icon-tooltip' : ''}
-                            disabled={this.props.isCloudFreeEnabled && this.props.teamsLimitReached}
+                            disabled={this.props.isCloud && this.props.isCloudFreeEnabled && teamsLimitReached}
                             text={formatMessage({id: 'navbar_dropdown.create', defaultMessage: 'Create a Team'})}
                             sibling={createTeamRestricted && (
                                 <span className='MenuItem__icon-tooltip-container'>
