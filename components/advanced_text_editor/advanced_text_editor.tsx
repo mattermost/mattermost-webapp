@@ -184,7 +184,7 @@ const AdvanceTextEditor = ({
     let attachmentPreview = null;
     if (!readOnlyChannel && (draft.fileInfos.length > 0 || draft.uploadsInProgress.length > 0)) {
         attachmentPreview = (
-            <div className={classNames({'AdvancedTextEditor__attachment-preview': isFormattingBarHidden})}>
+            <div>
                 <FilePreview
                     fileInfos={draft.fileInfos}
                     onRemove={removePreview}
