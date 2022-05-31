@@ -33,8 +33,8 @@ function mapStateToProps(state) {
     let showTaskList = false;
     let firstTimeOnboarding = false;
 
-    // validation to avoid execute logic on first load which has no preferences values on global store
-    if (Object.keys(state.entities.preferences.myPreferences).length > 0) {
+    // validation to avoid execute logic on first load which has no preferences values on global store, also check the enable onboarding config value
+    if (Object.keys(state.entities.preferences.myPreferences).length > 0 && config.EnableOnboardingFlow === 'true') {
         [showTaskList, firstTimeOnboarding] = getShowTaskListBool(state);
     }
 

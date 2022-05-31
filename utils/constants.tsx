@@ -119,6 +119,7 @@ export const Preferences = {
     EMOJI_SKINTONE: 'emoji_skintone',
     ONE_CLICK_REACTIONS_ENABLED: 'one_click_reactions_enabled',
     ONE_CLICK_REACTIONS_ENABLED_DEFAULT: 'true',
+    CLOUD_TRIAL_END_BANNER: 'cloud_trial_end_banner',
 
     // For one off things that have a special, attention-grabbing UI until you interact with them
     TOUCHED: 'touched',
@@ -146,7 +147,8 @@ export const Unique = {
 };
 
 export const TrialPeriodDays = {
-    TRIAL_MAX_DAYS: 14,
+    TRIAL_30_DAYS: 30,
+    TRIAL_14_DAYS: 14,
     TRIAL_WARNING_THRESHOLD: 3,
     TRIAL_2_DAYS: 2,
     TRIAL_1_DAY: 1,
@@ -402,6 +404,7 @@ export const EventTypes = Object.assign(
 );
 
 export const CloudProducts = {
+    STARTER_LEGACY: 'cloud-starter-legacy',
     STARTER: 'cloud-starter',
     PROFESSIONAL: 'cloud-professional',
     ENTERPRISE: 'cloud-enterprise',

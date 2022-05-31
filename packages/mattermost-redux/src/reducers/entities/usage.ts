@@ -18,6 +18,10 @@ const emptyUsage = {
         cards: 0,
         cardsLoaded: false,
     },
+    teams: {
+        active: 0,
+        teamsLoaded: false,
+    },
     integrations: {
         enabled: 0,
         enabledLoaded: false,
