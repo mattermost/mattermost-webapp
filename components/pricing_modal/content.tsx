@@ -248,7 +248,7 @@ function Content(props: ContentProps) {
                             isStarter ? (
                                 <PlanLabel
                                     text={formatMessage({id: 'pricing_modal.planLabel.currentPlan', defaultMessage: 'CURRENT PLAN'})}
-                                    color='#3DB887'
+                                    color='var(--denim-status-online)'
                                     bgColor='var(--center-channel-bg)'
                                     firstSvg={<CheckMarkSvg/>}
                                 />) : undefined}
@@ -284,7 +284,7 @@ function Content(props: ContentProps) {
                             <PlanLabel
                                 text={formatMessage({id: 'pricing_modal.planLabel.mostPopular', defaultMessage: 'MOST POPULAR'})}
                                 bgColor='var(--title-color-indigo-500)'
-                                color='var(--center-channel-bg)'
+                                color='var(--button-color)'
                                 firstSvg={<StarMarkSvg/>}
                                 secondSvg={<StarMarkSvg/>}
                             />}

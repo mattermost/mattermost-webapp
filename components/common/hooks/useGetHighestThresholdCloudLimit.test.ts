@@ -29,6 +29,7 @@ const zeroUsage = {
     },
     teams: {
         active: 0,
+        cloudArchived: 0,
         teamsLoaded: true,
     },
 };

@@ -39,6 +39,7 @@ import _ from './translations';
 import {
     creditCardExpiredBanner,
     paymentFailedBanner,
+    GrandfatheredPlanBanner,
 } from './billing_subscriptions';
 
 import './billing_subscriptions.scss';
@@ -58,6 +59,7 @@ const BillingSubscriptions: React.FC = () => {
     const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
 
     const [showCreditCardBanner, setShowCreditCardBanner] = useState(true);
+    const [showGrandfatheredPlanBanner, setShowGrandfatheredPlanBanner] = useState(true);
 
     const query = useQuery();
     const actionQueryParam = query.get('action');
@@ -83,8 +85,9 @@ const BillingSubscriptions: React.FC = () => {
     if (subscription?.is_free_trial === 'true') {
         isFreeTrial = true;
         daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription.trial_end_at);
-        if (daysLeftOnTrial > TrialPeriodDays.TRIAL_MAX_DAYS) {
-            daysLeftOnTrial = TrialPeriodDays.TRIAL_MAX_DAYS;
+        const maxDays = isCloudFreeEnabled ? TrialPeriodDays.TRIAL_30_DAYS : TrialPeriodDays.TRIAL_14_DAYS;
+        if (daysLeftOnTrial > maxDays) {
+            daysLeftOnTrial = maxDays;
         }
     }
 
@@ -115,6 +118,19 @@ const BillingSubscriptions: React.FC = () => {
         return null;
     }
 
+    const shouldShowGrandfatheredPlanBanner = () => {
+        // Give preference to the payment failed banner
+        return (
+            !shouldShowPaymentFailedBanner() &&
+            showGrandfatheredPlanBanner &&
+
+            // This banner is only for 1 specific grandfathered subscription type. The below ID's are for test and production
+            ['prod_HyiHEAVKW5bYG3', 'prod_Hm2oYaBiRSISL2'].includes(
+                subscription?.product_id,
+            )
+        );
+    };
+
     const isPaidTier = Boolean(subscription?.is_paid_tier === 'true');
     const productsLength = Object.keys(products).length;
 
@@ -127,7 +143,16 @@ const BillingSubscriptions: React.FC = () => {
             <div className='admin-console__wrapper'>
                 <div className='admin-console__content'>
                     {shouldShowPaymentFailedBanner() && paymentFailedBanner()}
-                    {showCreditCardBanner && isCardExpired && creditCardExpiredBanner(setShowCreditCardBanner)}
+                    {shouldShowGrandfatheredPlanBanner() && (
+                        <GrandfatheredPlanBanner
+                            setShowGrandfatheredPlanBanner={(value: boolean) =>
+                                setShowGrandfatheredPlanBanner(value)
+                            }
+                        />
+                    )}
+                    {showCreditCardBanner &&
+                        isCardExpired &&
+                        creditCardExpiredBanner(setShowCreditCardBanner)}
                     <div className='BillingSubscriptions__topWrapper'>
                         <PlanDetails
                             isFreeTrial={isFreeTrial}
@@ -140,8 +165,9 @@ const BillingSubscriptions: React.FC = () => {
                             onUpgradeMattermostCloud={onUpgradeMattermostCloud}
                         />
                     </div>
-                    {isCloudFreeEnabled ?
-                        <Limits/> :
+                    {isCloudFreeEnabled ? (
+                        <Limits/>
+                    ) : (
                         <ContactSalesCard
                             contactSalesLink={contactSalesLink}
                             isFreeTrial={isFreeTrial}
@@ -150,7 +176,7 @@ const BillingSubscriptions: React.FC = () => {
                             onUpgradeMattermostCloud={onUpgradeMattermostCloud}
                             productsLength={productsLength}
                         />
-                    }
+                    )}
                     <CancelSubscription
                         cancelAccountLink={cancelAccountLink}
                         isFreeTrial={isFreeTrial}
