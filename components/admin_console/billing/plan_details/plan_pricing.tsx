@@ -8,9 +8,8 @@ import {FormattedMessage} from 'react-intl';
 import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {trackEvent} from 'actions/telemetry_actions';
-import {BillingSchemes, CloudProducts} from 'utils/constants';
+import {BillingSchemes, CloudProducts, CloudLinks} from 'utils/constants';
 import {Product} from '@mattermost/types/cloud';
-import {CloudLinks} from 'utils/constants';
 
 import './plan_pricing.scss';
 

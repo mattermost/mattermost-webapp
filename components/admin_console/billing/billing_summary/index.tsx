@@ -6,12 +6,18 @@ import {useSelector} from 'react-redux';
 
 import {GlobalState} from 'types/store';
 
+import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
+
+import {CloudProducts} from 'utils/constants';
+
 import {
     noBillingHistory,
     upgradeFreeTierMattermostCloud,
     lastInvoiceInfo,
     freeTrial,
 } from './billing_summary';
+
+import {tryEnterpriseCard} from './upsell_card';
 
 import './billing_summary.scss';
 
@@ -33,7 +39,13 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({isPaidTier, isFreeTrial,
 
     let body = noBillingHistory;
 
-    if (isFreeTrial) {
+    const isPreTrial = subscription?.is_free_trial === 'false' && subscription?.trial_end_at === 0;
+    const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
+    const showTryEnterprise = isCloudFreeEnabled && product?.sku === CloudProducts.STARTER && isPreTrial;
+
+    if (showTryEnterprise) {
+        body = tryEnterpriseCard;
+    } else if (isFreeTrial) {
         body = freeTrial(onUpgradeMattermostCloud, daysLeftOnTrial);
     } else if (!isPaidTier) {
         body = upgradeFreeTierMattermostCloud(onUpgradeMattermostCloud);
