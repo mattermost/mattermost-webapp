@@ -79,6 +79,7 @@ export type PluginComponent = {
     mobileIcon?: React.ReactElement;
     filter?: (id: string) => boolean;
     action?: (...args: any) => void; // TODO Add more concrete types?
+    shouldRender?: (state: GlobalState) => boolean;
 };
 
 export type FilePreviewComponent = {

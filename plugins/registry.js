@@ -30,6 +30,8 @@ import store from 'stores/redux_store.jsx';
 import {ActionTypes} from 'utils/constants';
 import {generateId} from 'utils/utils';
 
+const defaultShouldRender = (state) => true;
+
 function dispatchPluginComponentAction(name, pluginId, component, id = generateId()) {
     store.dispatch({
         type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
@@ -308,8 +310,10 @@ export default class PluginRegistry {
     // Accepts the following:
     // - text - A string or React element to display in the menu
     // - action - A function that receives the channelId and is called when the menu items is clicked.
+    // - shouldRender - A function that receives the state before the
+    // component is about to render, allowing for conditional rendering.
     // Returns a unique identifier.
-    registerChannelHeaderMenuAction(text, action, shouldRender = (state) => true) {
+    registerChannelHeaderMenuAction(text, action, shouldRender = defaultShouldRender) {
         const id = generateId();
 
         store.dispatch({
