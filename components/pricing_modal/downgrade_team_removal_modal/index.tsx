@@ -3,8 +3,14 @@
 
 import React, {useEffect, useState} from 'react';
 import {noop} from 'lodash';
-import {Modal, ButtonGroup, ToggleButton} from 'react-bootstrap';
+import {Modal} from 'react-bootstrap';
+
 import {useDispatch, useSelector} from 'react-redux';
+
+import {isEmpty} from 'lodash';
+
+import RadioButtonGroup from 'components/common/radio_group';
+import DropdownInput, {ValueType} from 'components/dropdown_input';
 
 import useGetUsage from 'components/common/hooks/useGetUsage';
 import {getTeams} from 'mattermost-redux/actions/teams';
@@ -20,6 +26,7 @@ import './downgrade_team_removal_modal.scss';
 function DownGradeTeamRemovalModal() {
     const dispatch = useDispatch();
     const [radioValue, setRadioValue] = useState('');
+    const [dropdownValue, setDropdownValue] = useState({});
     const isCloudDowngradeChooseTeamModalOpen = useSelector(
         (state: GlobalState) =>
             isModalOpen(state, ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM),
@@ -36,30 +43,45 @@ function DownGradeTeamRemovalModal() {
         dispatch(closeModal(ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM));
     };
 
-    const selectionSection = () => {
-        // if (usage.teams.active > 1 && usage.teams.active < 4) {
-        return (
-            <ButtonGroup>
-                {teams.map((team) => (
-                    <ToggleButton
-                        key={team.id}
-                        id={`radio-${team.id}`}
-                        type='radio'
-                        onChange={() => {
-                            setRadioValue(team.id);
-                        }}
-                        name={team.name}
-                        value={team.id}
-                        checked={radioValue === team.id}
-                    >
-                        {team.name}
-                    </ToggleButton>
-                ))}
-            </ButtonGroup>
-        );
+    const onConfirmDowngrade = () => {
+        console.log(radioValue);
+        console.log(dropdownValue);
+    };
 
-        // }
-        // else return
+    const selectionSection = () => {
+        console.log(usage);
+        if (usage.teams.active > 1 && usage.teams.active < 4) {
+            return (
+                <RadioButtonGroup
+                    id='deleteTeamRadioGroup'
+                    values={teams.map((team) => {
+                        return {
+                            value: team.id,
+                            key: team.display_name,
+                            testId: team.id,
+                        };
+                    })}
+                    value={radioValue}
+                    onChange={(e) => setRadioValue(e.target.value)}
+
+                />
+            );
+        }
+
+        return (
+            <DropdownInput
+                onChange={(e) => setDropdownValue(e)}
+                legend={'Team'}
+                placeholder={'Select team'}
+                value={isEmpty(dropdownValue) ? undefined : dropdownValue as ValueType}
+                options={teams.map((team) => {
+                    return {
+                        label: team.display_name,
+                        value: team.id,
+                    };
+                })}
+            />
+        );
     };
 
     return (
@@ -104,14 +126,26 @@ function DownGradeTeamRemovalModal() {
                     </div>
                     <div className='warning'>
                         <i className='icon icon-alert-outline'/>
-                        {
-                            'The unselected teams will be automatically archived in the system console, but not deleted'
-                        }
+                        {'The unselected teams will be automatically archived in the system console, but not deleted'}
                     </div>
                 </div>
                 <div className='DowngradeTeamRemovalModal__buttons'>
-                    <button className='cancel'>{'Cancel'}</button>
-                    <button className='confirm'>{'Confirm Downgrade'}</button>
+                    <button
+                        onClick={() =>
+                            dispatch(
+                                closeModal(
+                                    ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM,
+                                ),
+                            )
+                        }
+                        className='btn btn-light'
+                    >
+                        {'Cancel'}
+                    </button>
+                    <button
+                        onClick={onConfirmDowngrade}
+                        className='btn btn-primary'
+                    >{'Confirm Downgrade'}</button>
                 </div>
             </Modal.Body>
         </Modal>

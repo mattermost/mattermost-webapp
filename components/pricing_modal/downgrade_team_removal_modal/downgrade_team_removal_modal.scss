@@ -12,6 +12,8 @@
         .modal-content {
             background-color: var(--center-channel-bg);
             border-radius: 12px;
+            border: none;
+            box-shadow: 0px 20px 32px rgba(0, 0, 0, 0.12);
         }
     }
     .modal-header {
@@ -67,6 +69,13 @@
     }
 
     .DowngradeTeamRemovalModal__body {
+        .DowngradeTeamRemovalModal__selectionSection {
+            .radio {
+                font-weight: 400;
+                font-size: 12px;
+                margin-bottom: 16px;
+            }
+        }
         .cta {
             font-weight: bold;
             margin-top: 24px;
@@ -78,23 +87,35 @@
             font-size: 11px;
             margin-bottom: 35px;
             font-weight: 600;
+            line-height: 16px;
+        }
+        .icon.icon-alert-outline::before {
+            margin-left: 0;
         }
     }
 
     .DowngradeTeamRemovalModal__buttons {
         float: right;
         border: none;
-        border-radius: 4px;
-        .cancel {
+
+        .btn.btn-light {
             background: rgba(var(--denim-button-bg-rgb), 0.08);
             padding: 12px 20px;
             color: #1C58D9;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 14px;
         }
-        .confirm {
+        .btn.btn-primary {
             margin-left: 8px;
             padding: 12px 20px;
             background: #1C58D9;
             color: #FFF;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 14px;
         }
     }
 

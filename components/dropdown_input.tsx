@@ -9,7 +9,7 @@ import './dropdown_input.scss';
 
 // TODO: This component needs work, should not be used outside of AddressInfo until this comment is removed.
 
-type ValueType = {
+export type ValueType = {
     label: string;
     value: string;
 }
