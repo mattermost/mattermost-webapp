@@ -15,7 +15,6 @@ import MobileChannelHeaderPlug from 'plugins/mobile_channel_header_plug';
 import CategoryMenuItems from 'components/category_menu_items';
 import ChannelNotificationsModal from 'components/channel_notifications_modal';
 import ChannelInviteModal from 'components/channel_invite_modal';
-import ChannelMembersModal from 'components/channel_members_modal';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
 import RenameChannelModal from 'components/rename_channel_modal';
