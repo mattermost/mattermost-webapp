@@ -14,7 +14,7 @@ import {openModal} from 'actions/views/modals';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 import PurchaseModal from 'components/purchase_modal';
 
-import {getCloudContactUsLink, InquiryType, InquiryIssue} from 'selectors/cloud';
+import {getCloudContactUsLink, InquiryType, SalesInquiryIssue} from 'selectors/cloud';
 import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {
     getSubscriptionProduct,
@@ -58,8 +58,8 @@ const BillingSubscriptions: React.FC = () => {
     const isCardExpired = useSelector((state: GlobalState) => isCustomerCardExpired(state.entities.cloud.customer));
 
     const contactSalesLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales));
-    const cancelAccountLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales, InquiryIssue.CancelAccount));
-    const trialQuestionsLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales, InquiryIssue.TrialQuestions));
+    const cancelAccountLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales, SalesInquiryIssue.CancelAccount));
+    const trialQuestionsLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales, SalesInquiryIssue.TrialQuestions));
     const isLegacyFree = useSelector(checkSubscriptionIsLegacyFree);
     const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
 
