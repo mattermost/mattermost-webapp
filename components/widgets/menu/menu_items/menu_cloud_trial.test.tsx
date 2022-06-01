@@ -7,7 +7,57 @@ import {Provider} from 'react-redux';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
+import {FileSizes} from 'utils/file_utils';
+import {limitThresholds} from 'utils/limits';
+
 import MenuCloudTrial from './menu_cloud_trial';
+
+const usage = {
+    files: {
+        totalStorage: 0,
+        totalStorageLoaded: true,
+    },
+    messages: {
+        history: 0,
+        historyLoaded: true,
+    },
+    boards: {
+        cards: 0,
+        cardsLoaded: true,
+    },
+    integrations: {
+        enabled: 0,
+        enabledLoaded: true,
+    },
+    teams: {
+        active: 0,
+        cloudArchived: 0,
+        teamsLoaded: true,
+    },
+};
+
+const limits = {
+    limitsLoaded: true,
+    limits: {
+        integrations: {
+            enabled: 5,
+        },
+        messages: {
+            history: 10000,
+        },
+        files: {
+            total_storage: 10 * FileSizes.Gigabyte,
+        },
+        teams: {
+            active: 1,
+            teamsLoaded: true,
+        },
+        boards: {
+            cards: 500,
+            views: 5,
+        },
+    },
+};
 
 describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
     const mockStore = configureStore();
@@ -29,7 +79,9 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
                         is_free_trial: 'true',
                         trial_end_at: subscriptionEndAt,
                     },
+                    limits,
                 },
+                usage,
             },
         };
         const store = mockStore(state);
@@ -50,7 +102,9 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
                     subscription: null,
                     products: null,
                     invoices: null,
+                    limits,
                 },
+                usage,
             },
         };
         const store = mockStore(state);
@@ -67,7 +121,9 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
                     subscription: null,
                     products: null,
                     invoices: null,
+                    limits,
                 },
+                usage,
             },
         };
         const store = mockStore(state);
@@ -94,7 +150,9 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
                         is_paid_tier: 'false',
                         trial_end_at: 0,
                     },
+                    limits,
                 },
+                usage,
             },
         };
         const store = mockStore(state);
@@ -122,7 +180,9 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
                         is_paid_tier: 'false',
                         trial_end_at: 0,
                     },
+                    limits,
                 },
+                usage,
             },
         };
         const store = mockStore(state);
@@ -147,7 +207,9 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
                         is_free_trial: 'true',
                         trial_end_at: 12345,
                     },
+                    limits,
                 },
+                usage,
             },
         };
         const store = mockStore(state);
@@ -176,7 +238,9 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
                         is_paid_tier: 'false',
                         trial_end_at: 232434,
                     },
+                    limits,
                 },
+                usage,
             },
         };
         const store = mockStore(state);
@@ -184,5 +248,43 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
         const openModalLink = wrapper.find('.open-see-plans-modal');
         expect(openModalLink.exists()).toEqual(true);
         expect(openModalLink.find('span').text()).toBe('See plans');
+    });
+
+    test('should return null if some limit needs attention', () => {
+        const state = {
+            entities: {
+                general: {
+                    license: {
+                        IsLicensed: 'true',
+                        Cloud: 'true',
+                        SkuShortName: 'starter',
+                    },
+                    config: {
+                        FeatureFlagCloudFree: 'true',
+                    },
+                },
+                cloud: {
+                    subscription: {
+                        is_free_trial: 'false',
+                        is_paid_tier: 'false',
+                        trial_end_at: 232434,
+                    },
+                    limits,
+                },
+                usage: {
+                    ...usage,
+                    messages: {
+                        ...usage.messages,
+                        history: Math.ceil((limitThresholds.warn / 100) * limits.limits.messages.history) + 1,
+                    },
+                },
+            },
+        };
+        const store = mockStore(state);
+        const wrapper = mountWithIntl(<Provider store={store}><MenuCloudTrial id='menuCloudTrial'/></Provider>);
+        expect(wrapper.find('UpgradeLink').exists()).toEqual(false);
+        expect(wrapper.find('.open-see-plans-modal').exists()).toEqual(false);
+        expect(wrapper.find('.open-learn-more-trial-modal').exists()).toEqual(false);
+        expect(wrapper.find('.open-trial-benefits-modal').exists()).toEqual(false);
     });
 });

@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable max-lines */
 import React from 'react';
 import {injectIntl, IntlShape} from 'react-intl';
 
@@ -17,9 +18,13 @@ import TeamPermissionGate from 'components/permissions_gates/team_permission_gat
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 
 import LeaveTeamIcon from 'components/widgets/icons/leave_team_icon';
+import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
+import ToggleModalButton from 'components/toggle_modal_button';
 
 import LeaveTeamModal from 'components/leave_team_modal';
 import UserSettingsModal from 'components/user_settings/modal';
+import CreateTeamRestrictedModal from 'components/create_team_restricted_modal/create_team_restricted_modal';
 import TeamMembersModal from 'components/team_members_modal';
 import TeamSettingsModal from 'components/team_settings_modal';
 import AboutBuildModal from 'components/about_build_modal';
@@ -57,6 +62,10 @@ export type Props = {
     intl: IntlShape;
     teamUrl: string;
     isFirstAdmin: boolean;
+    isCloud: boolean;
+    isCloudFreeEnabled: boolean;
+    isFreeTrial: boolean;
+    usageDeltaTeams: number;
     location: {
         pathname: string;
     };
@@ -68,6 +77,7 @@ export type Props = {
         showFlaggedPosts: () => void;
         closeRightHandSide: () => void;
         closeRhsMenu: () => void;
+        getCloudLimits: () => void;
     };
 
 };
@@ -147,6 +157,8 @@ export class MainMenu extends React.PureComponent<Props> {
 
         const someIntegrationEnabled = this.props.enableIncomingWebhooks || this.props.enableOutgoingWebhooks || this.props.enableCommands || this.props.enableOAuthServiceProvider || this.props.canManageSystemBots;
         const showIntegrations = !this.props.mobile && someIntegrationEnabled && this.props.canManageIntegrations;
+        const teamsLimitReached = this.props.usageDeltaTeams >= 0;
+        const createTeamRestricted = this.props.isCloud && this.props.isCloudFreeEnabled && (this.props.isFreeTrial || teamsLimitReached);
 
         const {formatMessage} = this.props.intl;
 
@@ -459,7 +471,42 @@ export class MainMenu extends React.PureComponent<Props> {
                         <Menu.ItemLink
                             id='createTeam'
                             to='/create_team'
+                            className={createTeamRestricted ? 'MenuItem__with-icon-tooltip' : ''}
+                            disabled={this.props.isCloud && this.props.isCloudFreeEnabled && teamsLimitReached}
                             text={formatMessage({id: 'navbar_dropdown.create', defaultMessage: 'Create a Team'})}
+                            sibling={createTeamRestricted && (
+                                <span className='MenuItem__icon-tooltip-container'>
+                                    <OverlayTrigger
+                                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                                        placement='right'
+                                        overlay={(
+                                            <Tooltip id={'MenuItem__icon-tooltip'}>
+                                                <span className='title'>
+                                                    {formatMessage({id: 'navbar_dropdown.create.tooltip.title', defaultMessage: 'Paid feature'})}
+                                                </span>
+                                                <span className='message'>
+                                                    {this.props.isFreeTrial ? (
+                                                        formatMessage({id: 'navbar_dropdown.create.tooltip.cloudFreeTrial', defaultMessage: 'During your trial you are able to create multiple teams'})
+                                                    ) : (
+                                                        formatMessage({id: 'navbar_dropdown.create.tooltip.cloudFree', defaultMessage: 'This is a paid feature, available with a free 30-day trial'})
+                                                    )}
+                                                </span>
+                                            </Tooltip>
+                                        )}
+                                    >
+                                        {this.props.isFreeTrial ? (
+                                            <i className='MenuItem__icon-tooltip icon trial'/>
+                                        ) : (
+                                            <ToggleModalButton
+                                                modalId={ModalIdentifiers.CREATE_TEAM_RESTRICTED_MODAL}
+                                                dialogType={CreateTeamRestrictedModal}
+                                            >
+                                                <i className='MenuItem__icon-tooltip icon icon-key-variant'/>
+                                            </ToggleModalButton>
+                                        )}
+                                    </OverlayTrigger>
+                                </span>
+                            )}
                         />
                     </SystemPermissionGate>
                 </Menu.Group>

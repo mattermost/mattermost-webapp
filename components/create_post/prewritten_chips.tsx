@@ -9,7 +9,7 @@ import {trackEvent} from 'actions/telemetry_actions';
 
 import {Channel} from '@mattermost/types/channels';
 
-import {t} from 'utils/i18n.jsx';
+import {t} from 'utils/i18n';
 
 import Chip from '../common/chip/chip';
 

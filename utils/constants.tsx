@@ -358,7 +358,6 @@ export const ModalIdentifiers = {
     NO_INTERNET_CONNECTION: 'no_internet_connection',
     JOIN_CHANNEL_PROMPT: 'join_channel_prompt',
     COLLAPSED_REPLY_THREADS_MODAL: 'collapsed_reply_threads_modal',
-    COLLAPSED_REPLY_THREADS_BETA_MODAL: 'collapsed_reply_threads_beta_modal',
     NOTIFY_CONFIRM_MODAL: 'notify_confirm_modal',
     CONFIRM_LICENSE_REMOVAL: 'confirm_license_removal',
     CONFIRM: 'confirm',
@@ -377,6 +376,7 @@ export const ModalIdentifiers = {
     UPLOAD_LICENSE: 'upload_license',
     INSIGHTS: 'insights',
     CLOUD_LIMITS: 'cloud_limits',
+    CREATE_TEAM_RESTRICTED_MODAL: 'create_team_restricted_modal',
 };
 
 export const UserStatuses = {
@@ -907,6 +907,7 @@ export const DocLinks = {
 
 export const LicenseLinks = {
     CONTACT_SALES: 'https://mattermost.com/contact-sales/',
+    SOFTWARE_EVALUATION_AGREEMENT: 'https://mattermost.com/software-evaluation-agreement/',
 };
 
 export const BillingSchemes = {

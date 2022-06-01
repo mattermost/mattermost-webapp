@@ -37,18 +37,18 @@ export const fallbackStarterLimits = {
     },
 };
 
-// A negative usage value means they are over the limit. This function simply tells you whether ANY LIMIT has been reached/surpassed.
-export function anyUsageDeltaValueIsNegative(deltas: CloudUsage) {
-    let foundANegative = false;
+// A positive usage value means they are over the limit. This function simply tells you whether ANY LIMIT has been reached/surpassed.
+export function anyUsageDeltaExceededLimit(deltas: CloudUsage) {
+    let foundAPositive = false;
 
     // JSON.parse recursively moves through the object tree, passing the key and value post transformation
     // We can use the `reviver` argument to see if any of those arguments are numbers, and negative.
     JSON.parse(JSON.stringify(deltas), (key, value) => {
-        if (typeof value === 'number' && value < 0) {
-            foundANegative = true;
+        if (typeof value === 'number' && value > 0) {
+            foundAPositive = true;
         }
     });
-    return foundANegative;
+    return foundAPositive;
 }
 
 export const limitThresholds = Object.freeze({
