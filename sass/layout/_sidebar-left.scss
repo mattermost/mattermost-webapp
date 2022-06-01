@@ -27,7 +27,7 @@ $sidebarOpacityAnimationDuration: 0.15s;
 
 #SidebarContainer {
     position: fixed;
-    z-index: 16;
+    z-index: 1;
     left: 0;
     display: flex;
     width: 240px;
@@ -504,13 +504,7 @@ $sidebarOpacityAnimationDuration: 0.15s;
         position: relative;
         flex: 1 1 auto;
 
-        .scrollbar--view {
-            z-index: unset !important;
-        }
-
         .scrollbar--view ~ div {
-            z-index: 2;
-
             div {
                 z-index: 2;
             }

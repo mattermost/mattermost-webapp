@@ -4,6 +4,7 @@
 import {Instance} from '@popperjs/core';
 import React, {useEffect} from 'react';
 import {usePopper} from 'react-popper';
+import RootPortal from 'components/root_portal';
 
 import {MenuPopoverProps} from './Menu.types';
 
@@ -63,19 +64,21 @@ const MenuPopover = ({
     };
 
     const style = {
-        zIndex: isVisible ? 0 : -1,
+        zIndex: isVisible ? 20 : -1,
     };
 
     Object.assign(style, mobileStyle || popper);
 
     return (
-        <div
-            ref={setPopperElement}
-            style={style}
-            {...attributes.popper}
-        >
-            {children}
-        </div>
+        <RootPortal>
+            <div
+                ref={setPopperElement}
+                style={style}
+                {...attributes.popper}
+            >
+                {children}
+            </div>
+        </RootPortal>
     );
 };
 

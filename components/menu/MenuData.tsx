@@ -1,11 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ForwardedRef} from 'react';
+import React, {ForwardedRef, useEffect, useRef, memo} from 'react';
 import styled, {css} from 'styled-components';
 import classNames from 'classnames';
 
 import {MenuDataProps} from './Menu.types';
+import MenuPopover from './MenuPopover';
 
 const Divider = () => (
     <div style={{height: '1px', width: 'auto', backgroundColor: '#e0e0e0'}} />
@@ -67,9 +68,9 @@ const MenuItems = styled.div<{isMobile: boolean; isSubmenu: boolean}>(
                   transition: opacity 300ms ease-in-out 0ms,
                       transform 300ms ease-in-out 0ms;
                   max-height: ${document.documentElement.clientHeight}px;
+                  min-width: 200px;
                   overflow-y: auto;
                   position: absolute;
-                  z-index: 100;
                   &.open {
                       transform: scale(1);
                       opacity: 1;
@@ -115,42 +116,49 @@ const MenuData = React.forwardRef(
 
         return (
             <>
-                <MenuItems
-                    ref={ref}
+                <MenuPopover
+                    isVisible={open}
+                    triggerRef={trigger}
+                    placement={placement}
                     isMobile={isMobile}
-                    isSubmenu={Boolean(isSubmenu)}
-                    className={classNames({
-                        open,
-                        active,
-                        closeSubmenuDown,
-                    })}
                 >
-                    <MenuHeader
+                    <MenuItems
+                        ref={ref}
+                        isMobile={isMobile}
+                        isSubmenu={Boolean(isSubmenu)}
                         className={classNames({
-                            hasArrow: isSubmenu && isMobile,
-                            isMobile,
+                            open,
+                            active,
+                            closeSubmenuDown,
                         })}
                     >
-                        {isSubmenu && isMobile && (
-                            <i
-                                className='icon icon-arrow-back-ios'
-                                style={{
-                                    margin: '0 auto 0 23px',
-                                    color: '#3D3C40',
-                                }}
-                                onClick={closeSubmenu}
-                            />
-                        )}
-                        {title && <MenuTitle>{title}</MenuTitle>}
-                    </MenuHeader>
-                    {groups.map((group) => (
-                        <>
-                            {group.title && <label>{group.title}</label>}
-                            {group.menuItems}
-                            {groups.length > 1 && <Divider />}
-                        </>
-                    ))}
-                </MenuItems>
+                        <MenuHeader
+                            className={classNames({
+                                hasArrow: isSubmenu && isMobile,
+                                isMobile,
+                            })}
+                        >
+                            {isSubmenu && isMobile && (
+                                <i
+                                    className='icon icon-arrow-back-ios'
+                                    style={{
+                                        margin: '0 auto 0 23px',
+                                        color: '#3D3C40',
+                                    }}
+                                    onClick={closeSubmenu}
+                                />
+                            )}
+                            {title && <MenuTitle>{title}</MenuTitle>}
+                        </MenuHeader>
+                        {groups.map((group) => (
+                            <>
+                                {group.title && <label>{group.title}</label>}
+                                {group.menuItems}
+                                {groups.length > 1 && <Divider />}
+                            </>
+                        ))}
+                    </MenuItems>
+                </MenuPopover>
             </>
         );
     }
