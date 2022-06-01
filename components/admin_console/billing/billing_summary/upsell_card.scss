@@ -47,5 +47,11 @@
         font-size: 14px;
         font-weight: 600;
         line-height: 14px;
+
+        &.btn-primary {
+            @include primary-button;
+
+            width: 100%;
+        }
     }
 }

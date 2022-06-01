@@ -5,11 +5,14 @@ import React from 'react';
 
 import {useIntl} from 'react-intl';
 
+import classNames from 'classnames';
+
 import WomanUpArrowsAndCloudsSvg from 'components/common/svg_images_components/woman_up_arrows_and_clouds_svg';
 import {Message, t} from 'utils/i18n';
 
 import './upsell_card.scss';
 import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
+import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurchaseModal';
 
 const enterpriseAdvantages = [
     {
@@ -35,6 +38,7 @@ interface Props {
     andMore: boolean;
     cta: Message;
     ctaAction?: () => void;
+    ctaPrimary?: boolean;
     upsellIsTrial?: boolean;
 }
 
@@ -46,9 +50,17 @@ const andMore = {
 export default function UpsellCard(props: Props) {
     const intl = useIntl();
 
+    const ctaClassname = classNames(
+        'UpsellCard__cta',
+        {
+            btn: props.ctaPrimary,
+            'btn-primary': props.ctaPrimary,
+        },
+    );
+
     let callToAction = (
         <button
-            className='UpsellCard__cta'
+            className={ctaClassname}
             onClick={props.ctaAction}
         >
             {intl.formatMessage(
@@ -73,7 +85,7 @@ export default function UpsellCard(props: Props) {
                     )
                 }
                 telemetryId={'start_cloud_trial_billing_subscription'}
-                extraClass='UpsellCard__cta'
+                extraClass={ctaClassname}
             />
         );
     }
@@ -131,6 +143,7 @@ export const tryEnterpriseCard = (
 );
 
 export const UpgradeToProfessionalCard = () => {
+    const openPurchaseModal = useOpenCloudPurchaseModal({});
     return (
         <UpsellCard
             title={{
@@ -141,7 +154,8 @@ export const UpgradeToProfessionalCard = () => {
                 id: t('admin.billing.subscriptions.billing_summary.upgrade_professional.cta'),
                 defaultMessage: 'Upgrade',
             }}
-            ctaAction={() => {}}
+            ctaAction={openPurchaseModal}
+            ctaPrimary={true}
             andMore={true}
             advantages={professionalAdvantages}
         />
