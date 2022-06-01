@@ -2,18 +2,19 @@
 // See LICENSE.txt for license information.
 
 import React, {useEffect, useState} from 'react';
-import {noop} from 'lodash';
+import {FormattedMessage} from 'react-intl';
+import {noop, isEmpty} from 'lodash';
 import {Modal} from 'react-bootstrap';
 
 import {useDispatch, useSelector} from 'react-redux';
 
-import {isEmpty} from 'lodash';
+import {t} from 'utils/i18n';
 
 import RadioButtonGroup from 'components/common/radio_group';
 import DropdownInput, {ValueType} from 'components/dropdown_input';
 
 import useGetUsage from 'components/common/hooks/useGetUsage';
-import {getTeams} from 'mattermost-redux/actions/teams';
+import {getTeams, selectTeam} from 'mattermost-redux/actions/teams';
 
 import {getTeamsList} from 'mattermost-redux/selectors/entities/teams';
 import {closeModal} from 'actions/views/modals';
@@ -27,6 +28,7 @@ function DownGradeTeamRemovalModal() {
     const dispatch = useDispatch();
     const [radioValue, setRadioValue] = useState('');
     const [dropdownValue, setDropdownValue] = useState({});
+    const {formatMessage} = useIntl();
     const isCloudDowngradeChooseTeamModalOpen = useSelector(
         (state: GlobalState) =>
             isModalOpen(state, ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM),
@@ -44,13 +46,18 @@ function DownGradeTeamRemovalModal() {
     };
 
     const onConfirmDowngrade = () => {
-        console.log(radioValue);
-        console.log(dropdownValue);
+        let teamIdToKeep = '';
+        if (!isEmpty(radioValue) && isEmpty(dropdownValue)) {
+            teamIdToKeep = radioValue;
+        } else {
+            teamIdToKeep = (dropdownValue as ValueType).value;
+        }
+        console.log(teamIdToKeep);
+        dispatch(selectTeam(teamIdToKeep));
     };
 
     const selectionSection = () => {
-        console.log(usage);
-        if (usage.teams.active > 1 && usage.teams.active < 4) {
+        if (usage.teams.active < 4) {
             return (
                 <RadioButtonGroup
                     id='deleteTeamRadioGroup'
@@ -71,9 +78,17 @@ function DownGradeTeamRemovalModal() {
         return (
             <DropdownInput
                 onChange={(e) => setDropdownValue(e)}
-                legend={'Team'}
-                placeholder={'Select team'}
-                value={isEmpty(dropdownValue) ? undefined : dropdownValue as ValueType}
+                legend={formatMessage({
+                    id: t('admin.channel_settings.channel_list.teamHeader'),
+                    defaultMessage: 'Team',
+                })}
+                placeholder={formatMessage({
+                    id: t('downgrade_plan_modal.selectTeam'),
+                    defaultMessage: 'Select team',
+                })}
+                value={
+                    isEmpty(dropdownValue) ? undefined : (dropdownValue as ValueType)
+                }
                 options={teams.map((team) => {
                     return {
                         label: team.display_name,
@@ -102,7 +117,10 @@ function DownGradeTeamRemovalModal() {
             aria-labelledby='downgradeTeamRemovalModalTitle'
         >
             <Modal.Header className='DowngradeTeamRemovalModal__header'>
-                {'Confirm Plan Downgrade'}
+                <FormattedMessage
+                    id='downgrade_plan_modal.title'
+                    defaultMessage='Confirm Plan Downgrade'
+                />
                 <button
                     id='closeIcon'
                     className='icon icon-close'
@@ -114,19 +132,26 @@ function DownGradeTeamRemovalModal() {
             <Modal.Body>
                 <div className='DowngradeTeamRemovalModal__body'>
                     <div>
-                        {
-                            "Cloud starter is restricted to 1 team, 10GB file storage, 10 apps, and 5 board card views. If you downgrade, some data will be archived. It won't be deleted and you'll be able to access it again when you upgrade."
-                        }
+                        <FormattedMessage
+                            id='downgrade_plan_modal.subtitle'
+                            defaultMessage="Cloud starter is restricted to 1 team, 10GB file storage, 10 apps, and 5 board card views. If you downgrade, some data will be archived. It won't be deleted and you'll be able to access it again when you upgrade."
+                        />
                     </div>
                     <div className='cta'>
-                        {'Which team would you like to continue using?'}
+                        <FormattedMessage
+                            id='downgrade_plan_modal.whichTeamToUse'
+                            defaultMessage='Which team would you like to continue using?'
+                        />
                     </div>
                     <div className='DowngradeTeamRemovalModal__selectionSection'>
                         {selectionSection()}
                     </div>
                     <div className='warning'>
                         <i className='icon icon-alert-outline'/>
-                        {'The unselected teams will be automatically archived in the system console, but not deleted'}
+                        <FormattedMessage
+                            id='downgrade_plan_modal.alert'
+                            defaultMessage='The unselected teams will be automatically archived in the system console, but not deleted'
+                        />
                     </div>
                 </div>
                 <div className='DowngradeTeamRemovalModal__buttons'>
@@ -140,12 +165,21 @@ function DownGradeTeamRemovalModal() {
                         }
                         className='btn btn-light'
                     >
-                        {'Cancel'}
+                        <FormattedMessage
+                            id='admin.team_channel_settings.cancel'
+                            defaultMessage='Cancel'
+                        />
                     </button>
                     <button
+                        disabled={isEmpty(radioValue) && isEmpty(dropdownValue)}
                         onClick={onConfirmDowngrade}
                         className='btn btn-primary'
-                    >{'Confirm Downgrade'}</button>
+                    >
+                        <FormattedMessage
+                            id='downgrade_plan_modal.confirmDowngrade'
+                            defaultMessage='Confirm Downgrade'
+                        />
+                    </button>
                 </div>
             </Modal.Body>
         </Modal>
