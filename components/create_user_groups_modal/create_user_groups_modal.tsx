@@ -21,7 +21,7 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 import LocalizedIcon from 'components/localized_icon';
 import {t} from 'utils/i18n';
 import {localizeMessage} from 'utils/utils';
-import Constants from 'utils/constants';
+import Constants, {ItemStatus} from 'utils/constants';
 
 export type Props = {
     onExited: () => void;
@@ -226,7 +226,7 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
                                 data-testid='nameInput'
                                 maxLength={64}
                                 autoFocus={true}
-                                error={this.state.nameInputErrorText}
+                                customMessage={{type: ItemStatus.ERROR, value: this.state.nameInputErrorText}}
                             />
                         </div>
                         <div className='group-mention-input-wrapper'>
@@ -237,7 +237,7 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
                                 value={this.state.mention}
                                 maxLength={64}
                                 data-testid='mentionInput'
-                                error={this.state.mentionInputErrorText}
+                                customMessage={{type: ItemStatus.ERROR, value: this.state.mentionInputErrorText}}
                             />
                         </div>
                         <h2>
