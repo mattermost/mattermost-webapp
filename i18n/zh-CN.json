@@ -106,7 +106,7 @@
   "add_emoji.header": "添加",
   "add_emoji.image": "图像",
   "add_emoji.image.button": "选择",
-  "add_emoji.image.help": "指定个表情符使用的 .gif、.png 或 .jpg 文件。文件可最大 1MB。尺寸将在保留比例下调整到 128x128 像素。",
+  "add_emoji.image.help": "指定个表情符使用的 .gif、.png、.webp 或 .jpg 文件。文件可最大 1MB。尺寸将在保留比例下调整到 128x128 像素。",
   "add_emoji.imageRequired": "表情符号需要个图片",
   "add_emoji.imageTooLarge": "无法创建表情符。图片大小必须小于 1 MB。",
   "add_emoji.name": "名称",

@@ -104,7 +104,7 @@
   "add_emoji.header": "Adaugă",
   "add_emoji.image": "Imagine",
   "add_emoji.image.button": "Selectează",
-  "add_emoji.image.help": "Alegeți imaginea pentru avatar. Imaginea poate fi un fișier gif, png sau jpeg cu o dimensiune maximă de 1 MB. Dimensiunile vor fi redimensionate automat pentru a se potrivi cu 128 de 128 pixeli, dar vor păstra raportul de aspect.",
+  "add_emoji.image.help": "Alegeți imaginea pentru avatar. Imaginea poate fi un fișier gif, png, webp sau jpeg cu o dimensiune maximă de 1 MB. Dimensiunile vor fi redimensionate automat pentru a se potrivi cu 128 de 128 pixeli, dar vor păstra raportul de aspect.",
   "add_emoji.imageRequired": "O imagine este necesara pentru avatar",
   "add_emoji.imageTooLarge": "Imposibil de creat emoji. Imaginea trebuie să aibă o dimensiune mai mică de 1 MB.",
   "add_emoji.name": "Nume",

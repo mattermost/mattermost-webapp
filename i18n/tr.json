@@ -110,7 +110,7 @@
   "add_emoji.header": "Ekle",
   "add_emoji.image": "Görsel",
   "add_emoji.image.button": "Seçin",
-  "add_emoji.image.help": "Emoji için kullanılacak bir .gif, png ya da .jpg dosyası seçin. Dosya en çok 1 MB büyüklüğünde olabilir. Boyutları, en boy oranı korunacak şekilde otomatik olarak 128 x 128 piksel olarak değiştirilir.",
+  "add_emoji.image.help": "Emoji için kullanılacak bir .gif, .png, .webp ya da .jpg dosyası seçin. Dosya en çok 1 MB büyüklüğünde olabilir. Boyutları, en boy oranı korunacak şekilde otomatik olarak 128 x 128 piksel olarak değiştirilir.",
   "add_emoji.imageRequired": "Emoji için bir görsel zorunludur",
   "add_emoji.imageTooLarge": "Emoji oluşturulamadı. Görsel 1MB boyutundan küçük olmalıdır.",
   "add_emoji.name": "Ad",
