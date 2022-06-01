@@ -151,3 +151,8 @@ export declare type PostPreviewMetadata = {
 export declare type PostsUsageResponse = {
     count: number;
 };
+
+export declare type TeamsUsageResponse = {
+    active: number;
+    cloud_archived: number;
+};

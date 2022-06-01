@@ -16,15 +16,18 @@ describe('components/MenuItemLink', () => {
         );
 
         expect(wrapper).toMatchInlineSnapshot(`
-<Link
-  to="/wherever"
->
-  <span
-    className="MenuItem__primary-text"
-  >
-    Whatever
-  </span>
-</Link>
-`);
+            <Fragment>
+              <Link
+                className=""
+                to="/wherever"
+              >
+                <span
+                  className="MenuItem__primary-text"
+                >
+                  Whatever
+                </span>
+              </Link>
+            </Fragment>
+        `);
     });
 });
