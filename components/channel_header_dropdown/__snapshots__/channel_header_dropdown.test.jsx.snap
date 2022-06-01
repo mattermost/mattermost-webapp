@@ -132,27 +132,16 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
         text="Add Members"
       />
     </Connect(ChannelPermissionGate)>
-    <MenuItemToggleModalRedux
-      dialogProps={
+    <Connect(ToggleChannelMembersRHS)
+      channel={
         Object {
-          "channel": Object {
-            "id": "test-channel-id",
-          },
-        }
-      }
-      dialogType={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-          "displayName": "Connect(ChannelMembersModal)",
-          "type": [Function],
+          "id": "test-channel-id",
         }
       }
       id="channelViewMembers"
-      modalId="channel_members"
       show={false}
-      text="View Members"
+      textClose="Close Members RHS"
+      textOpen="View Members"
     />
     <Connect(ChannelPermissionGate)
       channelId="test-channel-id"
@@ -197,27 +186,17 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
         show={false}
         text="Manage Groups"
       />
-      <MenuItemToggleModalRedux
-        dialogProps={
+      <Connect(ToggleChannelMembersRHS)
+        channel={
           Object {
-            "channel": Object {
-              "id": "test-channel-id",
-            },
+            "id": "test-channel-id",
           }
         }
-        dialogType={
-          Object {
-            "$$typeof": Symbol(react.memo),
-            "WrappedComponent": [Function],
-            "compare": null,
-            "displayName": "Connect(ChannelMembersModal)",
-            "type": [Function],
-          }
-        }
+        editMembers={true}
         id="channelManageMembers"
-        modalId="channel_members"
         show={true}
-        text="Manage Members"
+        textClose="Close Members RHS"
+        textOpen="Manage Members"
       />
     </Connect(ChannelPermissionGate)>
     <Connect(ChannelPermissionGate)
@@ -229,27 +208,16 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
         ]
       }
     >
-      <MenuItemToggleModalRedux
-        dialogProps={
+      <Connect(ToggleChannelMembersRHS)
+        channel={
           Object {
-            "channel": Object {
-              "id": "test-channel-id",
-            },
-          }
-        }
-        dialogType={
-          Object {
-            "$$typeof": Symbol(react.memo),
-            "WrappedComponent": [Function],
-            "compare": null,
-            "displayName": "Connect(ChannelMembersModal)",
-            "type": [Function],
+            "id": "test-channel-id",
           }
         }
         id="channelViewMembers"
-        modalId="channel_members"
         show={true}
-        text="View Members"
+        textClose="Close Members RHS"
+        textOpen="View Members"
       />
     </Connect(ChannelPermissionGate)>
   </MenuGroup>
@@ -612,27 +580,16 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
         text="Add Members"
       />
     </Connect(ChannelPermissionGate)>
-    <MenuItemToggleModalRedux
-      dialogProps={
+    <Connect(ToggleChannelMembersRHS)
+      channel={
         Object {
-          "channel": Object {
-            "id": "test-channel-id",
-          },
-        }
-      }
-      dialogType={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-          "displayName": "Connect(ChannelMembersModal)",
-          "type": [Function],
+          "id": "test-channel-id",
         }
       }
       id="channelViewMembers"
-      modalId="channel_members"
       show={false}
-      text="View Members"
+      textClose="Close Members RHS"
+      textOpen="View Members"
     />
     <Connect(ChannelPermissionGate)
       channelId="test-channel-id"
@@ -677,27 +634,17 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
         show={false}
         text="Manage Groups"
       />
-      <MenuItemToggleModalRedux
-        dialogProps={
+      <Connect(ToggleChannelMembersRHS)
+        channel={
           Object {
-            "channel": Object {
-              "id": "test-channel-id",
-            },
+            "id": "test-channel-id",
           }
         }
-        dialogType={
-          Object {
-            "$$typeof": Symbol(react.memo),
-            "WrappedComponent": [Function],
-            "compare": null,
-            "displayName": "Connect(ChannelMembersModal)",
-            "type": [Function],
-          }
-        }
+        editMembers={true}
         id="channelManageMembers"
-        modalId="channel_members"
         show={true}
-        text="Manage Members"
+        textClose="Close Members RHS"
+        textOpen="Manage Members"
       />
     </Connect(ChannelPermissionGate)>
     <Connect(ChannelPermissionGate)
@@ -709,27 +656,16 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
         ]
       }
     >
-      <MenuItemToggleModalRedux
-        dialogProps={
+      <Connect(ToggleChannelMembersRHS)
+        channel={
           Object {
-            "channel": Object {
-              "id": "test-channel-id",
-            },
-          }
-        }
-        dialogType={
-          Object {
-            "$$typeof": Symbol(react.memo),
-            "WrappedComponent": [Function],
-            "compare": null,
-            "displayName": "Connect(ChannelMembersModal)",
-            "type": [Function],
+            "id": "test-channel-id",
           }
         }
         id="channelViewMembers"
-        modalId="channel_members"
         show={true}
-        text="View Members"
+        textClose="Close Members RHS"
+        textOpen="View Members"
       />
     </Connect(ChannelPermissionGate)>
   </MenuGroup>

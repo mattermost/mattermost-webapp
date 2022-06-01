@@ -114,7 +114,7 @@ function mapStateToProps(state: GlobalState) {
         state,
         currentTeam.id,
         channel.id,
-        isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS
+        isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS,
     ) && !isArchived;
 
     const searchTerms = state.views.search.channelMembersRhsSearch || '';
