@@ -18,6 +18,8 @@ import Tooltip from 'components/tooltip';
 import Constants from 'utils/constants';
 
 import {ChannelMember} from './channel_members_rhs';
+import { isGuest } from 'mattermost-redux/utils/user_utils';
+import GuestBadge from 'components/widgets/badges/guest_badge';
 
 const Avatar = styled.div`
     flex-basis: fit-content;
@@ -115,7 +117,10 @@ const Member = ({className, channel, member, index, totalUsers, editing, actions
                 />
             </Avatar>
             <UserInfo>
-                <DisplayName>{member.displayName}</DisplayName>
+                <DisplayName>
+                    {member.displayName}
+                    <GuestBadge show={isGuest(member.user.roles)} />
+                </DisplayName>
                 <Username>{'@'}{member.user.username}</Username>
             </UserInfo>
             <RoleChooser

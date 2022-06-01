@@ -207,13 +207,12 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                         permissions={[channelMembersPermission]}
                         invert={true}
                     >
-                        <Menu.ItemToggleModalRedux
+                        <MenuItemToggleMembersRHS
                             id='channelViewMembers'
+                            channel={channel}
                             show={channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL && !isArchived && !isDefault}
-                            modalId={ModalIdentifiers.CHANNEL_MEMBERS}
-                            dialogType={ChannelMembersModal}
-                            dialogProps={{channel}}
-                            text={localizeMessage('channel_header.viewMembers', 'View Members')}
+                            textOpen={localizeMessage('channel_header.viewMembers', 'View Members')}
+                            textClose={localizeMessage('channelHeader.closeMembersRHS', 'Close Members RHS')}
                         />
                     </ChannelPermissionGate>
                 </Menu.Group>
