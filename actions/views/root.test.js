@@ -4,7 +4,9 @@
 import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
 
+import {ActionTypes} from 'utils/constants';
 import * as Actions from 'actions/views/root';
+import * as i18nSelectors from 'selectors/i18n';
 
 const mockStore = configureStore([thunk]);
 
@@ -39,20 +41,50 @@ describe('root view actions', () => {
         localStorage.setItem('was_logged_in', origWasLoggedIn);
     });
 
-    test('loadMeAndConfig, without user logged in', async () => {
-        const testStore = await mockStore({});
+    describe('loadConfigAndMe', () => {
+        test('loadConfigAndMe, without user logged in', async () => {
+            const testStore = await mockStore({});
 
-        await testStore.dispatch(Actions.loadMeAndConfig());
-        expect(testStore.getActions()).toEqual([{type: 'MOCK_GET_CLIENT_CONFIG'}, {type: 'MOCK_GET_LICENSE_CONFIG'}]);
+            await testStore.dispatch(Actions.loadConfigAndMe());
+            expect(testStore.getActions()).toEqual([{type: 'MOCK_GET_CLIENT_CONFIG'}, {type: 'MOCK_GET_LICENSE_CONFIG'}]);
+        });
+
+        test('loadConfigAndMe, with user logged in', async () => {
+            const testStore = await mockStore({});
+
+            document.cookie = 'MMUSERID=userid';
+            localStorage.setItem('was_logged_in', 'true');
+
+            await testStore.dispatch(Actions.loadConfigAndMe());
+            expect(testStore.getActions()).toEqual([{type: 'MOCK_GET_CLIENT_CONFIG'}, {type: 'MOCK_GET_LICENSE_CONFIG'}, {type: 'MOCK_LOAD_ME'}]);
+        });
     });
 
-    test('loadMeAndConfig, with user logged in', async () => {
-        const testStore = await mockStore({});
+    describe('registerPluginTranslationsSource', () => {
+        test('Should not dispatch action when getTranslation is empty', () => {
+            const testStore = mockStore({});
 
-        document.cookie = 'MMUSERID=userid';
-        localStorage.setItem('was_logged_in', 'true');
+            jest.spyOn(i18nSelectors, 'getTranslations').mockReturnValue(undefined);
+            jest.spyOn(i18nSelectors, 'getCurrentLocale').mockReturnValue('en');
 
-        await testStore.dispatch(Actions.loadMeAndConfig());
-        expect(testStore.getActions()).toEqual([{type: 'MOCK_GET_CLIENT_CONFIG'}, {type: 'MOCK_GET_LICENSE_CONFIG'}, {type: 'MOCK_LOAD_ME'}]);
+            testStore.dispatch(Actions.registerPluginTranslationsSource('plugin_id', jest.fn()));
+            expect(testStore.getActions()).toEqual([]);
+        });
+
+        test('Should dispatch action when getTranslation is not empty', () => {
+            const testStore = mockStore({});
+
+            jest.spyOn(i18nSelectors, 'getTranslations').mockReturnValue({});
+            jest.spyOn(i18nSelectors, 'getCurrentLocale').mockReturnValue('en');
+
+            testStore.dispatch(Actions.registerPluginTranslationsSource('plugin_id', jest.fn()));
+            expect(testStore.getActions()).toEqual([{
+                data: {
+                    locale: 'en',
+                    translations: {},
+                },
+                type: ActionTypes.RECEIVED_TRANSLATIONS,
+            }]);
+        });
     });
 });

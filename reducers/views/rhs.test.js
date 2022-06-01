@@ -14,7 +14,7 @@ describe('Reducers.RHS', () => {
         selectedPostCardId: '',
         selectedChannelId: '',
         highlightedPostId: '',
-        previousRhsState: null,
+        previousRhsStates: [],
         rhsState: null,
         searchTerms: '',
         searchType: '',
@@ -270,13 +270,13 @@ describe('Reducers.RHS', () => {
             selectedPostId: '123',
             selectedPostFocussedAt: 4567,
             selectedChannelId: '321',
-            previousRhsState: RHSStates.SEARCH,
+            previousRhsStates: [RHSStates.SEARCH],
             isSidebarOpen: true,
         });
 
         const nextState3 = rhsReducer(
             {
-                previousRhsState: RHSStates.SEARCH,
+                previousRhsStates: [RHSStates.SEARCH],
             },
             {
                 type: ActionTypes.SELECT_POST,
@@ -292,7 +292,7 @@ describe('Reducers.RHS', () => {
             selectedPostId: '123',
             selectedPostFocussedAt: 0,
             selectedChannelId: '321',
-            previousRhsState: RHSStates.FLAG,
+            previousRhsStates: [RHSStates.SEARCH, RHSStates.FLAG],
             isSidebarOpen: true,
         });
     });
@@ -329,13 +329,13 @@ describe('Reducers.RHS', () => {
             ...initialState,
             selectedPostCardId: '123',
             selectedChannelId: '321',
-            previousRhsState: RHSStates.SEARCH,
+            previousRhsStates: [RHSStates.SEARCH],
             isSidebarOpen: true,
         });
 
         const nextState3 = rhsReducer(
             {
-                previousRhsState: RHSStates.SEARCH,
+                previousRhsStates: [RHSStates.SEARCH],
             },
             {
                 type: ActionTypes.SELECT_POST_CARD,
@@ -349,7 +349,7 @@ describe('Reducers.RHS', () => {
             ...initialState,
             selectedPostCardId: '123',
             selectedChannelId: '321',
-            previousRhsState: RHSStates.FLAG,
+            previousRhsStates: [RHSStates.SEARCH, RHSStates.FLAG],
             isSidebarOpen: true,
         });
     });
@@ -372,7 +372,7 @@ describe('Reducers.RHS', () => {
             rhsState: null,
             selectedPostId: '123',
             selectedChannelId: '321',
-            previousRhsState: RHSStates.PIN,
+            previousRhsStates: [RHSStates.PIN],
             isSidebarOpen: true,
         });
     });
@@ -395,7 +395,7 @@ describe('Reducers.RHS', () => {
             rhsState: null,
             selectedPostCardId: '123',
             selectedChannelId: '321',
-            previousRhsState: RHSStates.PIN,
+            previousRhsStates: [RHSStates.PIN],
             isSidebarOpen: true,
         });
     });
@@ -561,7 +561,7 @@ describe('Reducers.RHS', () => {
             selectedPostCardId: 'post_card_id',
             selectedChannelId: 'channel_id',
             highlightedPostId: 'highlighted_post_id',
-            previousRhsState: 'search',
+            previousRhsStates: ['search'],
             rhsState: 'flag',
             searchTerms: 'user_id',
             searchType: '',

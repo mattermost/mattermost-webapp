@@ -35,6 +35,6 @@ export default create({
     inputBorderRadius: 4,
 
     brandTitle: 'Mattermost',
-    brandUrl: 'https://mattermost.org',
-    brandImage: 'https://www.mattermost.org/wp-content/uploads/2016/03/logoHorizontal.png',
+    brandUrl: 'https://mattermost.com',
+    brandImage: 'https://mattermost.com/wp-content/uploads/2022/02/logoHorizontal.png',
 });

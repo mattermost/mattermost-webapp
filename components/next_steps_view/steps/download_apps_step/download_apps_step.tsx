@@ -36,6 +36,7 @@ export default function DownloadAppsStep(props: StepComponentProps) {
     return (<>
         <DownloadSection
             isFirstAdmin={props.isAdmin}
+            isMobileView={props.isMobileView}
             withinNextStep={true}
         />
         <div className='NextStepsView__wizardButtons'>

@@ -5,14 +5,14 @@ import {combineReducers} from 'redux';
 
 import {findKey} from 'lodash';
 
+import {PostTypes, UserTypes} from 'mattermost-redux/action_types';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {ViewsState} from 'types/store/views';
 
 import {Threads, ActionTypes} from 'utils/constants';
-import {PostTypes} from 'mattermost-redux/action_types';
 
-export const selectedThreadIdInTeam = (state: ViewsState['threads']['selectedThreadIdInTeam'] | null = null, action: GenericAction) => {
+export const selectedThreadIdInTeam = (state: ViewsState['threads']['selectedThreadIdInTeam'] = {}, action: GenericAction) => {
     switch (action.type) {
     case PostTypes.POST_REMOVED: {
         const key = findKey(state, (id) => id === action.data.id);
@@ -29,22 +29,30 @@ export const selectedThreadIdInTeam = (state: ViewsState['threads']['selectedThr
             ...state,
             [action.data.team_id]: action.data.thread_id,
         };
+
+    case UserTypes.LOGOUT_SUCCESS:
+        return {};
+    default:
+        return state;
     }
-    return state;
 };
 
-export const lastViewedAt = (state: ViewsState['threads']['lastViewedAt'] | Record<string, unknown> = {}, action: GenericAction) => {
+export const lastViewedAt = (state: ViewsState['threads']['lastViewedAt'] = {}, action: GenericAction) => {
     switch (action.type) {
     case Threads.CHANGED_LAST_VIEWED_AT:
         return {
             ...state,
             [action.data.threadId]: action.data.lastViewedAt,
         };
+
+    case UserTypes.LOGOUT_SUCCESS:
+        return {};
+    default:
+        return state;
     }
-    return state;
 };
 
-export function manuallyUnread(state: ViewsState['threads']['manuallyUnread'] | Record<string, unknown> = {}, action: GenericAction) {
+export function manuallyUnread(state: ViewsState['threads']['manuallyUnread'] = {}, action: GenericAction) {
     switch (action.type) {
     case Threads.CHANGED_LAST_VIEWED_AT:
         return {
@@ -56,8 +64,12 @@ export function manuallyUnread(state: ViewsState['threads']['manuallyUnread'] | 
             ...state,
             [action.data.threadId]: true,
         };
+
+    case UserTypes.LOGOUT_SUCCESS:
+        return {};
+    default:
+        return state;
     }
-    return state;
 }
 
 export function toastStatus(state: ViewsState['threads']['toastStatus'] = false, action: GenericAction) {
@@ -66,8 +78,12 @@ export function toastStatus(state: ViewsState['threads']['toastStatus'] = false,
         return false;
     case ActionTypes.UPDATE_THREAD_TOAST_STATUS:
         return action.data;
+
+    case UserTypes.LOGOUT_SUCCESS:
+        return false;
+    default:
+        return state;
     }
-    return state;
 }
 
 export default combineReducers({

@@ -7,7 +7,11 @@ import {bindActionCreators, Dispatch} from 'redux';
 import {getChannel, getDirectTeammate} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
-import {getMyPreferences, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+
+import {
+    getMyPreferences,
+    isCollapsedThreadsEnabled,
+} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeam, getTeam, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 
@@ -28,11 +32,12 @@ import {getIsMobileView} from 'selectors/views/browser';
 
 import {GlobalState} from 'types/store';
 
-import {getDisplayNameByUser} from 'utils/utils.jsx';
+import {getDisplayNameByUser} from 'utils/utils';
 
 import {General} from 'mattermost-redux/constants';
 
-import {RHSStates} from 'utils/constants.jsx';
+import {RHSStates} from 'utils/constants';
+import {getIsPostBeingEditedInRHS} from '../../selectors/posts';
 
 import SearchResultsItem from './search_results_item.jsx';
 
@@ -83,6 +88,8 @@ export function mapStateToProps() {
             isFlagged: isPostFlagged(post.id, preferences),
             isBot: user ? user.is_bot : false,
             isCollapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
+
+            isPostBeingEditedInRHS: getIsPostBeingEditedInRHS(state, post.id),
             displayName: getDisplayNameByUser(state, directTeammate),
             replyCount: getReplyCount(state, post),
             canReply,

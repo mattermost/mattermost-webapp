@@ -6,8 +6,8 @@
     --button-color: #fff;
     --center-channel-bg: #fff;
     --center-channel-color: #3d3c40;
-    --dnd-indicator: #f74343;
-    --error-text: #fd5960;
+    --dnd-indicator: #d24b4e;
+    --error-text: #d24b4e;
     --link-color: #2389d7;
     --mention-bg: #fff;
     --mention-color: #145dbf;
@@ -26,6 +26,7 @@
     --sidebar-team-background: #0b428c;
     --secondary-blue: #22406d;
     --denim-status-online: #3db887;
+    --center-channel-text: #3f4350;
 
     // Default RGB values to be replaced by applyTheme() (do not add opacity mutations here)
     // these are define to prevent flashes of unstyled content
@@ -55,6 +56,7 @@
     --sidebar-team-background-rgb: 11, 66, 140;
     --secondary-blue-rgb: 34, 64, 109;
     --denim-status-online-rgb: 61, 184, 135;
+    --center-channel-text-rgb: 63, 67, 80;
 
     // offline indicator color stays the same in all themes, that's why it is separated from the other variables
     // the color specified here is the new hard-coded color from the compass design system

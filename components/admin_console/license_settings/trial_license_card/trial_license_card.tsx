@@ -6,6 +6,8 @@ import {FormattedMessage} from 'react-intl';
 
 import moment from 'moment';
 
+import {ClientLicense} from 'mattermost-redux/types/config';
+
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import {daysToLicenseExpire} from 'utils/license_utils.jsx';
@@ -18,7 +20,7 @@ import './trial_license_card.scss';
 import AlertBanner from 'components/alert_banner';
 
 export interface Props {
-    license: any;
+    license: ClientLicense;
 }
 
 const TrialLicenseCard: React.FC<Props> = ({license}: Props) => {

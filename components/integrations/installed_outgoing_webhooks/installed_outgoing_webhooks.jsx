@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import Constants from 'utils/constants';
 import BackstageList from 'components/backstage/components/backstage_list.jsx';
 import InstalledOutgoingWebhook, {matchesFilter} from 'components/integrations/installed_outgoing_webhook.jsx';
@@ -182,7 +182,7 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent {
                                 <a
                                     target='_blank'
                                     rel='noopener noreferrer'
-                                    href='http://docs.mattermost.com/developer/webhooks-outgoing.html'
+                                    href='https://developers.mattermost.com/integrate/admin-guide/admin-webhooks-outgoing/'
                                 >
                                     <FormattedMessage
                                         id='installed_outgoing_webhooks.help.buildYourOwn'
@@ -194,7 +194,7 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent {
                                 <a
                                     target='_blank'
                                     rel='noopener noreferrer'
-                                    href='https://about.mattermost.com/default-app-directory/'
+                                    href='https://mattermost.com/marketplace'
                                 >
                                     <FormattedMessage
                                         id='installed_outgoing_webhooks.help.appDirectory'

@@ -2,13 +2,10 @@
 // See LICENSE.txt for license information.
 import {createSelector} from 'reselect';
 
-import {
-    makeGetCategory,
-    getCreateGuidedChannel,
-} from 'mattermost-redux/selectors/entities/preferences';
+import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {UserProfile} from 'mattermost-redux/types/users';
 
-import {getCurrentUser, getUsers} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 
 import {GlobalState} from 'types/store';
 import {RecommendedNextSteps, Preferences} from 'utils/constants';
@@ -20,7 +17,6 @@ import InviteMembersStep from './steps/invite_members_step';
 import TeamProfileStep from './steps/team_profile_step';
 import EnableNotificationsStep from './steps/enable_notifications_step/enable_notifications_step';
 import DownloadAppsStep from './steps/download_apps_step/download_apps_step';
-import CreateFirstChannelStep from './steps/create_first_channel_step/create_first_channel_step';
 
 import {isStepForUser} from './step_helpers';
 
@@ -33,6 +29,7 @@ export type StepComponentProps = {
     id: string;
     expanded: boolean;
     isAdmin: boolean;
+    isMobileView: boolean;
     currentUser: UserProfile;
     onSkip: (id: string) => void;
     onFinish: (id: string) => void;
@@ -144,61 +141,15 @@ export const Steps: StepType[] = [
             defaultMessage: 'Next step',
         },
     },
-    {
-        id: RecommendedNextSteps.CREATE_FIRST_CHANNEL,
-        title: {
-            titleId: t('next_steps_view.titles.createChannel'),
-            titleMessage: 'Create your first channel',
-        },
-        roles: ['system_admin'],
-        component: CreateFirstChannelStep,
-        visible: true,
-        completeStepButtonText: {
-            id: t('first_channel.createNew'),
-            defaultMessage: 'Create Channel',
-        },
-    },
 ];
-
-export const isFirstAdmin = createSelector(
-    'isFirstAdmin',
-    (state: GlobalState) => getCurrentUser(state),
-    (state: GlobalState) => getUsers(state),
-    (currentUser, users) => {
-        if (!currentUser.roles.includes('system_admin')) {
-            return false;
-        }
-        const userIds = Object.keys(users);
-        for (const userId of userIds) {
-            const user = users[userId];
-            if (user.roles.includes('system_admin') && user.create_at < currentUser.create_at) {
-            // If the user in the list is an admin with create_at less than our user, than that user is older than the current one, so it can't be the first admin.
-                return false;
-            }
-        }
-        return true;
-    },
-);
-
-// filter the steps depending on the feature flag value
-function filterStepBasedOnFFVal(step: StepType, enableStep: boolean, stepId: string): boolean {
-    if (step.id !== stepId) {
-        return true;
-    }
-    return enableStep;
-}
 
 export const getSteps = createSelector(
     'getSteps',
     (state: GlobalState) => getCurrentUser(state),
     (state: GlobalState) => isFirstAdmin(state),
-    (state: GlobalState) => getCreateGuidedChannel(state),
-    (currentUser, firstAdmin, guidedFirstChannel) => {
+    (currentUser, firstAdmin) => {
         const roles = firstAdmin ? `first_admin ${currentUser.roles}` : currentUser.roles;
-        return Steps.filter((step) =>
-            isStepForUser(step, roles) &&
-                step.visible && filterStepBasedOnFFVal(step, guidedFirstChannel, RecommendedNextSteps.CREATE_FIRST_CHANNEL),
-        );
+        return Steps.filter((step) => isStepForUser(step, roles) && step.visible);
     },
 );
 

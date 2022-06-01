@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 
 import {verifyUserEmail, getMe} from 'mattermost-redux/actions/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {clearErrors, logError} from 'mattermost-redux/actions/errors';
 
@@ -18,9 +19,11 @@ import DoVerifyEmail from './do_verify_email';
 function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
     const siteName = config.SiteName;
+    const useCaseOnboarding = getUseCaseOnboarding(state);
     return {
         isLoggedIn: Boolean(getCurrentUserId(state)),
         siteName,
+        useCaseOnboarding,
     };
 }
 

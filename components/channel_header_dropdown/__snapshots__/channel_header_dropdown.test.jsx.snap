@@ -2,27 +2,13 @@
 
 exports[`components/ChannelHeaderDropdown should match snapshot with no plugin items 1`] = `
 <Fragment>
-  <MenuItemToggleModalRedux
-    dialogProps={
+  <Connect(ToggleInfo)
+    channel={
       Object {
-        "channel": Object {
-          "id": "test-channel-id",
-        },
+        "id": "test-channel-id",
       }
     }
-    dialogType={
-      Object {
-        "$$typeof": Symbol(react.memo),
-        "WrappedComponent": [Function],
-        "compare": null,
-        "displayName": "Connect(ChannelInfoModal)",
-        "type": [Function],
-      }
-    }
-    id="channelViewInfo"
-    modalId="channel_info"
     show={true}
-    text="View Info"
   />
   <CategoryMenuItems
     channel={
@@ -496,27 +482,13 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
 
 exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`] = `
 <Fragment>
-  <MenuItemToggleModalRedux
-    dialogProps={
+  <Connect(ToggleInfo)
+    channel={
       Object {
-        "channel": Object {
-          "id": "test-channel-id",
-        },
+        "id": "test-channel-id",
       }
     }
-    dialogType={
-      Object {
-        "$$typeof": Symbol(react.memo),
-        "WrappedComponent": [Function],
-        "compare": null,
-        "displayName": "Connect(ChannelInfoModal)",
-        "type": [Function],
-      }
-    }
-    id="channelViewInfo"
-    modalId="channel_info"
     show={true}
-    text="View Info"
   />
   <CategoryMenuItems
     channel={

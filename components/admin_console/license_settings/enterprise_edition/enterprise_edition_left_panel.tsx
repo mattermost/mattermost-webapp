@@ -1,44 +1,35 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React from 'react';
+import React, {RefObject, useEffect, useState} from 'react';
 
-import {FormattedMessage} from 'react-intl';
+import {FormattedDate, FormattedMessage, FormattedNumber, FormattedTime} from 'react-intl';
 
 import {ClientLicense} from 'mattermost-redux/types/config';
 import {LicenseSkus} from 'mattermost-redux/types/general';
+import {Client4} from 'mattermost-redux/client';
 
 import {getRemainingDaysFromFutureTimestamp, toTitleCase} from 'utils/utils';
+import {FileTypes} from 'utils/constants';
 
 import Badge from 'components/widgets/badges/badge';
 
 import './enterprise_edition.scss';
+
 export interface EnterpriseEditionProps {
     openEELicenseModal: () => void;
     upgradedFromTE: boolean;
     license: ClientLicense;
     isTrialLicense: boolean;
-    issued: JSX.Element;
-    startsAt: JSX.Element;
-    expiresAt: JSX.Element;
-    handleRemove: (e: any) => Promise<void>;
+    handleRemove: (e: React.MouseEvent<HTMLButtonElement>) => Promise<void>;
     isDisabled: boolean;
     removing: boolean;
+    fileInputRef: RefObject<HTMLInputElement>;
+    handleChange: () => void;
 }
 
-const EnterpriseEditionLeftPanel: React.FC<EnterpriseEditionProps> = ({
-    openEELicenseModal,
-    upgradedFromTE,
-    license,
-    isTrialLicense,
-    issued,
-    startsAt,
-    expiresAt,
-    handleRemove,
-    isDisabled,
-    removing,
-}: EnterpriseEditionProps) => {
+export const getSkuDisplayName = (skuShortName: string, isGovSku: boolean): string => {
     let skuName = '';
-    switch (license.SkuShortName) {
+    switch (skuShortName) {
     case LicenseSkus.E20:
         skuName = 'Enterprise E20';
         break;
@@ -56,10 +47,37 @@ const EnterpriseEditionLeftPanel: React.FC<EnterpriseEditionProps> = ({
         break;
     }
 
-    const expirationDays = getRemainingDaysFromFutureTimestamp(parseInt(license.ExpiresAt, 10));
+    skuName += isGovSku ? ' Gov' : '';
 
-    skuName += license.IsGovSku === 'true' ? ' Gov' : '';
+    return skuName;
+};
 
+const EnterpriseEditionLeftPanel: React.FC<EnterpriseEditionProps> = ({
+    openEELicenseModal,
+    upgradedFromTE,
+    license,
+    isTrialLicense,
+    handleRemove,
+    isDisabled,
+    removing,
+    fileInputRef,
+    handleChange,
+}: EnterpriseEditionProps) => {
+    const [unsanitizedLicense, setUnsanitizedLicense] = useState(license);
+    useEffect(() => {
+        async function fetchUnSanitizedLicense() {
+            // This solves this the issue reported here: https://mattermost.atlassian.net/browse/MM-42906
+            try {
+                const unsanitizedL = await Client4.getClientLicenseOld();
+                setUnsanitizedLicense(unsanitizedL);
+            // eslint-disable-next-line no-empty
+            } catch {}
+        }
+        fetchUnSanitizedLicense();
+    }, [license]);
+
+    const skuName = getSkuDisplayName(unsanitizedLicense.SkuShortName, unsanitizedLicense.IsGovSku === 'true');
+    const expirationDays = getRemainingDaysFromFutureTimestamp(parseInt(unsanitizedLicense.ExpiresAt, 10));
     return (
         <div className='EnterpriseEditionLeftPanel'>
             <div className='pre-title'>
@@ -89,15 +107,14 @@ const EnterpriseEditionLeftPanel: React.FC<EnterpriseEditionProps> = ({
                 </div>
                 {
                     renderLicenseContent(
-                        license,
+                        unsanitizedLicense,
                         isTrialLicense,
-                        issued,
-                        startsAt,
-                        expiresAt,
                         handleRemove,
                         isDisabled,
                         removing,
                         skuName,
+                        fileInputRef,
+                        handleChange,
                     )
                 }
             </div>
@@ -127,22 +144,40 @@ const EnterpriseEditionLeftPanel: React.FC<EnterpriseEditionProps> = ({
 const renderLicenseContent = (
     license: ClientLicense,
     isTrialLicense: boolean,
-    issued: JSX.Element,
-    startsAt: JSX.Element,
-    expiresAt: JSX.Element,
-    handleRemove: (e: any) => Promise<void>,
+    handleRemove: (e: React.MouseEvent<HTMLButtonElement>) => Promise<void>,
     isDisabled: boolean,
     removing: boolean,
     skuName: string,
+    fileInputRef: RefObject<HTMLInputElement>,
+    handleChange: () => void,
 ) => {
     // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
 
     const sku = license.SkuShortName ? <>{`Mattermost ${toTitleCase(skuName)}${isTrialLicense ? ' License Trial' : ''}`}</> : null;
 
-    const licenseValues = [
+    const users = <FormattedNumber value={parseInt(license.Users, 10)}/>;
+
+    const startsAt = <FormattedDate value={new Date(parseInt(license.StartsAt, 10))}/>;
+    const expiresAt = <FormattedDate value={new Date(parseInt(license.ExpiresAt, 10))}/>;
+
+    const issued = (
+        <>
+            <FormattedDate value={new Date(parseInt(license.IssuedAt, 10))}/>
+            {' '}
+            <FormattedTime value={new Date(parseInt(license.IssuedAt, 10))}/>
+        </>
+    );
+
+    const licenseValues: Array<{
+        legend: string;
+        value: string;
+    } | {
+        legend: string;
+        value: JSX.Element | null;
+    }> = [
         {legend: 'START DATE:', value: startsAt},
         {legend: 'EXPIRES:', value: expiresAt},
-        {legend: 'USERS:', value: license.Users},
+        {legend: 'USERS:', value: users},
         {legend: 'EDITION:', value: sku},
         {legend: 'LICENSE ISSUED:', value: issued},
         {legend: 'NAME:', value: license.Name},
@@ -151,7 +186,7 @@ const renderLicenseContent = (
 
     return (
         <div className='licenseElements'>
-            {licenseValues.map((item: {legend: string; value: any}, i: number) => {
+            {licenseValues.map((item: {legend: string; value: JSX.Element | null | string}, i: number) => {
                 return (
                     <div
                         className='item-element'
@@ -163,13 +198,40 @@ const renderLicenseContent = (
                 );
             })}
             <hr/>
+            {renderAddNewLicenseButton(fileInputRef, handleChange)}
             {renderRemoveButton(handleRemove, isDisabled, removing)}
         </div>
     );
 };
 
+const renderAddNewLicenseButton = (
+    fileInputRef: RefObject<HTMLInputElement>,
+    handleChange: () => void,
+) => {
+    return (
+        <>
+            <button
+                className='add-new-licence-btn'
+                onClick={() => fileInputRef.current?.click()}
+            >
+                <FormattedMessage
+                    id='admin.license.keyAddNew'
+                    defaultMessage='Add a new license'
+                />
+            </button>
+            <input
+                ref={fileInputRef}
+                type='file'
+                accept={FileTypes.LICENSE_EXTENSION}
+                onChange={handleChange}
+                style={{display: 'none'}}
+            />
+        </>
+    );
+};
+
 const renderRemoveButton = (
-    handleRemove: (e: any) => Promise<void>,
+    handleRemove: (e: React.MouseEvent<HTMLButtonElement>) => Promise<void>,
     isDisabled: boolean,
     removing: boolean,
 ) => {

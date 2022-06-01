@@ -530,16 +530,6 @@
     }
 }
 
-.job-table__cancel-button {
-    cursor: pointer;
-    font-family: 'Open Sans', sans-serif;
-    font-size: 20px;
-    font-weight: 600;
-    line-height: 0;
-    text-decoration: none;
-    vertical-align: middle;
-}
-
 .job-table__table {
     overflow: auto;
     width: 100%;
@@ -651,6 +641,10 @@
         ul {
             padding-bottom: 20px;
             margin-top: 1px;
+
+            &.nav-stacked.task-list-shown {
+                padding-bottom: 72px;
+            }
         }
     }
 

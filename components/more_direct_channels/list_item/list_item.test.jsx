@@ -10,6 +10,7 @@ import ListItem from './list_item';
 
 describe('ListItem', () => {
     const baseProps = {
+        isMobileView: false,
         isSelected: false,
         add: jest.fn(),
         select: jest.fn(),

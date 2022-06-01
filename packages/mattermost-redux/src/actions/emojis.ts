@@ -147,44 +147,6 @@ export function loadProfilesForCustomEmojis(emojis: CustomEmoji[]): ActionFunc {
     };
 }
 
-export function getAllCustomEmojis(perPage: number = General.PAGE_SIZE_MAXIMUM): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        dispatch({
-            type: EmojiTypes.CLEAR_CUSTOM_EMOJIS,
-            data: null,
-        });
-
-        let hasMore = true;
-        let page = 0;
-        const allEmojis = [];
-
-        do {
-            try {
-                let emojis = [];
-                emojis = await Client4.getCustomEmojis(page, perPage, Emoji.SORT_BY_NAME); // eslint-disable-line no-await-in-loop
-                if (emojis.length < perPage) {
-                    hasMore = false;
-                } else {
-                    page += 1;
-                }
-                allEmojis.push(...emojis);
-            } catch (error) {
-                forceLogoutIfNecessary(error, dispatch, getState);
-
-                dispatch(logError(error));
-                return {error: true};
-            }
-        } while (hasMore);
-
-        dispatch({
-            type: EmojiTypes.RECEIVED_CUSTOM_EMOJIS,
-            data: allEmojis,
-        });
-
-        return {data: true};
-    };
-}
-
 export function deleteCustomEmoji(emojiId: string): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         try {

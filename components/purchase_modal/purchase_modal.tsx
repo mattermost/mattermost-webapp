@@ -30,9 +30,9 @@ import Badge from 'components/widgets/badges/badge';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
-import UpgradeSvg from 'components/common/svg_images_components/upgrade.svg';
-import BackgroundSvg from 'components/common/svg_images_components/background.svg';
-import MattermostCloudSvg from 'components/common/svg_images_components/mattermost_cloud.svg';
+import UpgradeSvg from 'components/common/svg_images_components/upgrade_svg';
+import BackgroundSvg from 'components/common/svg_images_components/background_svg';
+import MattermostCloudSvg from 'components/common/svg_images_components/mattermost_cloud_svg';
 
 import {getNextBillingDate} from 'utils/utils';
 
@@ -320,7 +320,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                     );
                 }}
                 href={this.props.contactSalesLink}
-                target='_new'
+                target='_blank'
                 rel='noopener noreferrer'
             >
                 {text}
@@ -339,7 +339,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                     );
                 }}
                 href={CloudLinks.PRORATED_PAYMENT}
-                target='_new'
+                target='_blank'
                 rel='noopener noreferrer'
             >
                 <FormattedMessage
@@ -556,7 +556,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                         }
                         href={CloudLinks.DEPLOYMENT_OPTIONS}
                         rel='noopener noreferrer'
-                        target='_new'
+                        target='_blank'
                     >
                         <FormattedMessage
                             defaultMessage={'Review your deployment options'}
@@ -623,7 +623,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                             {'\u00A0'}
                             <a
                                 href={CloudLinks.BILLING_DOCS}
-                                target='_new'
+                                target='_blank'
                                 rel='noopener noreferrer'
                             >
                                 <FormattedMessage

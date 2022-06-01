@@ -5,20 +5,27 @@ import {Client4} from 'mattermost-redux/client';
 import {Emoji, SystemEmoji, CustomEmoji} from 'mattermost-redux/types/emojis';
 
 export function isSystemEmoji(emoji: Emoji): emoji is SystemEmoji {
-    return 'batch' in emoji;
-}
+    if ('category' in emoji) {
+        return emoji.category !== 'custom';
+    }
 
-export function isCustomEmoji(emoji: Emoji): emoji is CustomEmoji {
-    return 'id' in emoji;
+    return !('id' in emoji);
 }
 
 export function getEmojiImageUrl(emoji: Emoji): string {
-    if (isCustomEmoji(emoji)) {
-        return Client4.getEmojiRoute(emoji.id) + '/image';
+    // If its the mattermost custom emoji
+    if (!isSystemEmoji(emoji) && emoji.id === 'mattermost') {
+        return Client4.getSystemEmojiImageUrl('mattermost');
     }
 
-    const filename = emoji.image || emoji.short_names[0];
-    return Client4.getSystemEmojiImageUrl(filename);
+    if (isSystemEmoji(emoji)) {
+        const emojiUnified = emoji?.unified?.toLowerCase() ?? '';
+        const filename = emojiUnified || emoji.short_names[0];
+
+        return Client4.getSystemEmojiImageUrl(filename);
+    }
+
+    return Client4.getEmojiRoute(emoji.id) + '/image';
 }
 
 export function parseNeededCustomEmojisFromText(text: string, systemEmojis: Map<string, SystemEmoji>, customEmojisByName: Map<string, CustomEmoji>, nonExistentEmoji: Set<string>): Set<string> {

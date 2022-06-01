@@ -13,7 +13,7 @@ import SearchChannelWithPermissionsProvider from 'components/suggestion/search_c
 import SuggestionBox from 'components/suggestion/suggestion_box';
 import ModalSuggestionList from 'components/suggestion/modal_suggestion_list';
 
-import {placeCaretAtEnd} from 'utils/utils.jsx';
+import {placeCaretAtEnd} from 'utils/utils';
 
 export default class AddUserToChannelModal extends React.PureComponent {
     static propTypes = {
@@ -247,7 +247,6 @@ export default class AddUserToChannelModal extends React.PureComponent {
                 providers={this.suggestionProviders}
                 listPosition='bottom'
                 completeOnTab={false}
-                renderDividers={false}
                 delayInputUpdate={true}
                 openWhenEmpty={false}
             />

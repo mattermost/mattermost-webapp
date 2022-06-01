@@ -4,7 +4,6 @@
 import marked, {MarkedOptions} from 'marked';
 
 import * as PostUtils from 'utils/post_utils';
-import * as SyntaxHighlighting from 'utils/syntax_highlighting';
 import * as TextFormatting from 'utils/text_formatting';
 import {getScheme, isUrlSafe, shouldOpenInNewTab} from 'utils/url';
 import EmojiMap from 'utils/emoji_map';
@@ -36,42 +35,7 @@ export default class Renderer extends marked.Renderer {
         if (usedLanguage === 'tex' || usedLanguage === 'latex') {
             return `<div data-latex="${TextFormatting.escapeHtml(code)}"></div>`;
         }
-        if (usedLanguage === 'texcode' || usedLanguage === 'latexcode') {
-            usedLanguage = 'latex';
-        }
 
-        // treat html as xml to prevent injection attacks
-        if (usedLanguage === 'html') {
-            usedLanguage = 'xml';
-        }
-
-        let className = 'post-code';
-        if (!usedLanguage) {
-            className += ' post-code--wrap';
-        }
-
-        let header = '';
-        if (SyntaxHighlighting.canHighlight(usedLanguage)) {
-            header = (
-                '<span class="post-code__language">' +
-                    SyntaxHighlighting.getLanguageName(usedLanguage) +
-                '</span>'
-            );
-        }
-
-        let lineNumbers = '';
-        if (SyntaxHighlighting.canHighlight(usedLanguage)) {
-            lineNumbers = (
-                '<div class="post-code__line-numbers">' +
-                    SyntaxHighlighting.renderLineNumbers(code) +
-                '</div>'
-            );
-        }
-
-        // If we have to apply syntax highlighting AND highlighting of search terms, create two copies
-        // of the code block, one with syntax highlighting applied and another with invisible text, but
-        // search term highlighting and overlap them
-        const content = SyntaxHighlighting.highlight(usedLanguage, code);
         let searchedContent = '';
 
         if (this.formattingOptions.searchPatterns) {
@@ -95,18 +59,9 @@ export default class Renderer extends marked.Renderer {
             }
         }
 
-        return (
-            '<div class="' + className + '">' +
-                header +
-                '<div class="hljs">' +
-                    lineNumbers +
-                    '<code>' +
-                        searchedContent +
-                        content +
-                    '</code>' +
-                '</div>' +
-            '</div>'
-        );
+        return '<div data-codeblock-code="' + TextFormatting.escapeHtml(code) + '" ' +
+                    'data-codeblock-language="' + TextFormatting.escapeHtml(usedLanguage) + '" ' +
+                    'data-codeblock-searchedcontent="' + TextFormatting.escapeHtml(searchedContent) + '"></div>';
     }
 
     public codespan(text: string) {

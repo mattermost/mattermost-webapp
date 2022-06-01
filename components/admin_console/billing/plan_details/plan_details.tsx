@@ -20,7 +20,7 @@ import {Product} from 'mattermost-redux/types/cloud';
 
 const howBillingWorksLink = (
     <a
-        target='_new'
+        target='_blank'
         rel='noopener noreferrer'
         href={CloudLinks.BILLING_DOCS}
         onClick={() => trackEvent('cloud_admin', 'click_how_billing_works', {screen: 'payment'})}
@@ -116,7 +116,6 @@ export const planDetailsTopElements = (
     userCount: number,
     isPaidTier: boolean,
     isFreeTrial: boolean,
-    userLimit: number,
     subscriptionPlan: string | undefined,
 ) => {
     let userCountDisplay;
@@ -168,21 +167,6 @@ export const planDetailsTopElements = (
             break;
         }
     } else {
-        userCountDisplay = (
-            <div
-                className={classNames('PlanDetails__userCount', {
-                    withinLimit: (userLimit - userCount) <= 5,
-                    overLimit: userCount > userLimit,
-                })}
-            >
-                <FormattedMarkdownMessage
-                    id='admin.billing.subscription.planDetails.userCountWithLimit'
-                    defaultMessage='{userCount} / {userLimit} users'
-                    values={{userCount, userLimit}}
-                />
-            </div>
-        );
-
         productName = (
             <FormattedMessage
                 id='admin.billing.subscription.planDetails.productName.mmCloud'
@@ -228,13 +212,11 @@ export const currentPlanText = (isFreeTrial: boolean) => {
     );
 };
 
-export const getPlanDetailElements = (
-    userLimit: number,
+export const getPlanPricing = (
     isPaidTier: boolean,
     product: Product,
 ) => {
     let planPricing;
-    let planDetailsDescription;
 
     if (isPaidTier) {
         planPricing = (
@@ -255,7 +237,6 @@ export const getPlanDetailElements = (
                 </div>
             </div>
         );
-        planDetailsDescription = null;
     } else {
         planPricing = (
             <div className='PlanDetails__plan'>
@@ -265,41 +246,11 @@ export const getPlanDetailElements = (
                         defaultMessage='Free'
                     />
                 </div>
-                <div className='PlanDetails__planCaveat'>
-                    <FormattedMarkdownMessage
-                        id='admin.billing.subscription.planDetails.upToXUsers'
-                        defaultMessage='up to {userLimit} users, until January 31st, 2022'
-                        values={{userLimit}}
-                    />
-                </div>
-            </div>
-        );
-        planDetailsDescription = (
-            <div className='PlanDetails__description'>
-                <div className='PlanDetails__planDetailsName'>
-                    <FormattedMessage
-                        id='admin.billing.subscription.planDetails.planDetailsName.freeForXOrMoreUsers'
-                        defaultMessage='Add your payment information to continue after January 31st.'
-                    />
-                </div>
-                <a
-                    target='_new'
-                    rel='noopener noreferrer'
-                    href={CloudLinks.PRICING}
-                >
-                    <FormattedMessage
-                        id='admin.billing.subscription.planDetails.seeOurPlans'
-                        defaultMessage='See our plans'
-                    />
-                </a>
             </div>
         );
     }
 
-    return {
-        planPricing,
-        planDetailsDescription,
-    };
+    return planPricing;
 };
 
 export const featureList = (subscriptionPlan: string | undefined, isPaidTier: boolean) => {
@@ -307,7 +258,7 @@ export const featureList = (subscriptionPlan: string | undefined, isPaidTier: bo
         localizeMessage('admin.billing.subscription.planDetails.features.10GBstoragePerUser', '10 GB storage per user'),
         localizeMessage('admin.billing.subscription.planDetails.features.99uptime', '99.0% uptime'),
         localizeMessage('admin.billing.subscription.planDetails.features.selfServiceDocumentation', 'Self-Service documentation and forum support'),
-        localizeMessage('admin.billing.subscription.planDetails.features.mfaAuthentication', 'Google, Gitlab, O365 & MFA Authentication'),
+        localizeMessage('admin.billing.subscription.planDetails.features.mfaAuthentication', 'Google, GitLab, O365 & MFA Authentication'),
         localizeMessage('admin.billing.subscription.planDetails.features.guestAccounts', 'Guest Accounts'),
         localizeMessage('admin.billing.subscription.planDetails.features.unlimitedIntegrations', 'Unlimited Integrations'),
     ];
@@ -323,18 +274,18 @@ export const featureList = (subscriptionPlan: string | undefined, isPaidTier: bo
     const featuresCloudProfessional = [
         localizeMessage('admin.billing.subscription.planDetails.features.advanceTeamPermission', 'Advanced team permissions'),
         localizeMessage('admin.billing.subscription.planDetails.features.mfaEnforcement', 'MFA enforcement'),
-        localizeMessage('admin.billing.subscription.planDetails.features.multiplatformSso', 'Gitlab, Google, and O365 single sign-on'),
+        localizeMessage('admin.billing.subscription.planDetails.features.multiplatformSso', 'GitLab, Google, and O365 single sign-on'),
         localizeMessage('admin.billing.subscription.planDetails.features.guestAccounts', 'Guest Accounts'),
         localizeMessage('admin.billing.subscription.planDetails.features.channelModeration', 'Channel moderation'),
         localizeMessage('admin.billing.subscription.planDetails.features.readOnlyChannels', 'Read-only announcement channels'),
     ];
 
     const featuresCloudEnterprise = [
-        localizeMessage('admin.billing.subscription.planDetails.features.enterpriseAdministration', 'Enterprise administration & SSO'),
+        localizeMessage('admin.billing.subscription.planDetails.features.enterpriseAdminAndSso', 'Enterprise administration & SSO'),
         localizeMessage('admin.billing.subscription.planDetails.features.autoComplianceExports', 'Automated compliance exports'),
         localizeMessage('admin.billing.subscription.planDetails.features.customRetentionPolicies', 'Custom data retention policies'),
         localizeMessage('admin.billing.subscription.planDetails.features.sharedChannels', 'Shared channels (coming soon)'),
-        localizeMessage('admin.billing.subscription.planDetails.features.enterpriseAdminSso', 'Enterprise administration & SSO'),
+        localizeMessage('admin.billing.subscription.planDetails.features.ldapSync', 'AD/LDAP group sync to teams & channels'),
         localizeMessage('admin.billing.subscription.planDetails.features.premiumSupport', 'Premium Support (optional upgrade)'),
     ];
 
@@ -363,7 +314,7 @@ export const featureList = (subscriptionPlan: string | undefined, isPaidTier: bo
 
     return features?.map((feature, i) => (
         <div
-            key={`PlanDetails__feature${i}`}
+            key={`PlanDetails__feature${i.toString()}`}
             className='PlanDetails__feature'
         >
             <i className='icon-check'/>

@@ -6,6 +6,7 @@ import {bindActionCreators} from 'redux';
 
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getTeamByName, getMyTeamMember} from 'mattermost-redux/selectors/entities/teams';
+import {getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {RequestStatus} from 'mattermost-redux/constants';
 
@@ -44,6 +45,8 @@ function mapStateToProps(state) {
     const siteName = config.SiteName;
     const initializing = state.requests.users.logout.status === RequestStatus.SUCCESS || !state.storage.initialized;
 
+    const useCaseOnboarding = getUseCaseOnboarding(state);
+
     // Only set experimental team if user is on that team
     let experimentalPrimaryTeam = config.ExperimentalPrimaryTeam;
     if (experimentalPrimaryTeam) {
@@ -81,6 +84,7 @@ function mapStateToProps(state) {
         gitlabButtonColor,
         openidButtonText,
         openidButtonColor,
+        useCaseOnboarding,
         siteName,
         initializing,
     };

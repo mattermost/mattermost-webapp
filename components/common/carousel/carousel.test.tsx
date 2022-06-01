@@ -104,7 +104,7 @@ describe('/components/common/Carousel', () => {
         buttonNext.simulate('click');
         buttonPrev.simulate('click');
 
-        expect(onNextSlideClick).toHaveBeenCalled();
-        expect(onPrevSlideClick).toHaveBeenCalled();
+        expect(onNextSlideClick).toHaveBeenCalledWith(2);
+        expect(onPrevSlideClick).toHaveBeenCalledWith(1);
     });
 });

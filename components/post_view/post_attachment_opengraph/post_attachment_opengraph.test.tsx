@@ -165,6 +165,18 @@ describe('PostAttachmentOpenGraph', () => {
             expect(wrapper.find('.btn-close').exists()).toBe(true);
         });
     });
+
+    describe('permalink preview', () => {
+        const props = {
+            ...baseProps,
+            isInPermalink: true,
+        };
+
+        const wrapper = shallow(<PostAttachmentOpenGraph {...props}/>);
+
+        expect(wrapper.find('.permalink__body--opengraph').exists()).toBe(true);
+        expect(wrapper).toMatchSnapshot();
+    });
 });
 
 describe('getBestImageUrl', () => {

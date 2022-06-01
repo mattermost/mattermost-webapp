@@ -3,15 +3,15 @@
 
 /* eslint-disable max-lines */
 
-import React from 'react';
+import React, {CSSProperties} from 'react';
 import classNames from 'classnames';
 import {injectIntl, IntlShape} from 'react-intl';
+import {SendIcon, EmoticonOutlineIcon} from '@mattermost/compass-icons/components';
 
 import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
 import * as GlobalActions from 'actions/global_actions';
-import {trackEvent} from 'actions/telemetry_actions.jsx';
 import Constants, {StoragePrefixes, ModalIdentifiers, Locations, A11yClassNames} from 'utils/constants';
 import {t} from 'utils/i18n';
 import {
@@ -25,7 +25,7 @@ import {
 } from 'utils/post_utils';
 import {getTable, formatMarkdownTableMessage, formatGithubCodePaste, isGitHubCodeBlock} from 'utils/paste';
 import * as UserAgent from 'utils/user_agent';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 import NotifyConfirmModal from 'components/notify_confirm_modal';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
@@ -34,11 +34,8 @@ import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx
 import FilePreview from 'components/file_preview';
 import FileUpload from 'components/file_upload';
 import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload';
-import CallButton from 'components/call_button';
-import LocalizedIcon from 'components/localized_icon';
 import MsgTyping from 'components/msg_typing';
 import ResetStatusModal from 'components/reset_status_modal';
-import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import Textbox from 'components/textbox';
 import TextboxClass from 'components/textbox/textbox';
 import TextboxLinks from 'components/textbox/textbox_links';
@@ -57,9 +54,7 @@ import {ModalData} from 'types/actions';
 import {FileInfo} from 'mattermost-redux/types/files';
 import {Emoji} from 'mattermost-redux/types/emojis';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
-
-import CreatePostTip from './create_post_tip';
-
+import {SendMessageTour} from 'components/onboarding_tour';
 const KeyCodes = Constants.KeyCodes;
 
 const CreatePostDraftTimeoutMilliseconds = 500;
@@ -123,12 +118,7 @@ type Props = {
     /**
   *  Data used for deciding if tutorial tip is to be shown
   */
-    showTutorialTip: boolean;
-
-    /**
-  *  Data used for advancing from create post tip
-  */
-    tutorialStep: number;
+    showSendTutorialTip: boolean;
 
     /**
   *  Data used populating message state when triggered by shortcuts
@@ -302,7 +292,9 @@ type Props = {
 
     groupsWithAllowReference: Map<string, Group> | null;
     channelMemberCountsByGroup: ChannelMemberCountsByGroup;
-    useGroupMentions: boolean;
+    useLDAPGroupMentions: boolean;
+    useCustomGroupMentions: boolean;
+    markdownPreviewFeatureIsEnabled: boolean;
 }
 
 type State = {
@@ -370,7 +362,7 @@ class CreatePost extends React.PureComponent<Props, State> {
     }
 
     componentDidMount() {
-        const {useGroupMentions, currentChannel, isTimezoneEnabled, actions} = this.props;
+        const {useLDAPGroupMentions, currentChannel, isTimezoneEnabled, actions} = this.props;
         this.onOrientationChange();
         actions.setShowPreview(false);
         actions.clearDraftUploads();
@@ -380,18 +372,18 @@ class CreatePost extends React.PureComponent<Props, State> {
         window.addEventListener('beforeunload', this.unloadHandler);
         this.setOrientationListeners();
 
-        if (useGroupMentions) {
+        if (useLDAPGroupMentions) {
             actions.getChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled);
         }
     }
 
     componentDidUpdate(prevProps: Props, prevState: State) {
-        const {useGroupMentions, currentChannel, isTimezoneEnabled, actions} = this.props;
+        const {useLDAPGroupMentions, currentChannel, isTimezoneEnabled, actions} = this.props;
         if (prevProps.currentChannel.id !== currentChannel.id) {
             this.lastChannelSwitchAt = Date.now();
             this.focusTextbox();
             this.saveDraft(prevProps);
-            if (useGroupMentions) {
+            if (useLDAPGroupMentions) {
                 actions.getChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled);
             }
         }
@@ -409,7 +401,7 @@ class CreatePost extends React.PureComponent<Props, State> {
     componentWillUnmount() {
         document.removeEventListener('paste', this.pasteHandler);
         document.removeEventListener('keydown', this.documentKeyHandler);
-        window.addEventListener('beforeunload', this.unloadHandler);
+        window.removeEventListener('beforeunload', this.unloadHandler);
         this.removeOrientationListeners();
         this.saveDraft();
     }
@@ -587,11 +579,6 @@ class CreatePost extends React.PureComponent<Props, State> {
 
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null);
         this.draftsForChannel[channelId] = null;
-
-        const shouldCompleteTip = this.props.tutorialStep === Constants.TutorialSteps.POST_POPOVER;
-        if (shouldCompleteTip) {
-            this.completePostTip('send_message');
-        }
     }
 
     handleNotifyAllConfirmation = () => {
@@ -633,7 +620,8 @@ class CreatePost extends React.PureComponent<Props, State> {
             groupsWithAllowReference,
             channelMemberCountsByGroup,
             currentChannelMembersCount,
-            useGroupMentions,
+            useLDAPGroupMentions,
+            useCustomGroupMentions,
         } = this.props;
 
         const notificationsToChannel = this.props.enableConfirmNotificationsToChannel && this.props.useChannelMentions;
@@ -644,18 +632,24 @@ class CreatePost extends React.PureComponent<Props, State> {
         const specialMentions = specialMentionsInText(this.state.message);
         const hasSpecialMentions = Object.values(specialMentions).includes(true);
 
-        if (this.props.enableConfirmNotificationsToChannel && !hasSpecialMentions && useGroupMentions) {
+        if (this.props.enableConfirmNotificationsToChannel && !hasSpecialMentions && (useLDAPGroupMentions || useCustomGroupMentions)) {
             // Groups mentioned in users text
             const mentionGroups = groupsMentionedInText(this.state.message, groupsWithAllowReference);
             if (mentionGroups.length > 0) {
-                mentions = mentionGroups.
-                    map((group) => {
+                mentionGroups.
+                    forEach((group) => {
+                        if (group.source === 'ldap' && !useLDAPGroupMentions) {
+                            return;
+                        }
+                        if (group.source === 'custom' && !useCustomGroupMentions) {
+                            return;
+                        }
                         const mappedValue = channelMemberCountsByGroup[group.id];
                         if (mappedValue && mappedValue.channel_member_count > Constants.NOTIFY_ALL_MEMBERS && mappedValue.channel_member_count > memberNotifyCount) {
                             memberNotifyCount = mappedValue.channel_member_count;
                             channelTimezoneCount = mappedValue.channel_member_timezones_count;
                         }
-                        return `@${group.name}`;
+                        mentions.push(`@${group.name}`);
                     });
                 mentions = [...new Set(mentions)];
             }
@@ -733,9 +727,10 @@ class CreatePost extends React.PureComponent<Props, State> {
             currentChannel,
             currentUserId,
             draft,
-            useGroupMentions,
+            useLDAPGroupMentions,
             useChannelMentions,
             groupsWithAllowReference,
+            useCustomGroupMentions,
         } = this.props;
 
         let post = originalPost;
@@ -752,7 +747,7 @@ class CreatePost extends React.PureComponent<Props, State> {
         if (!useChannelMentions && containsAtChannel(post.message, {checkAllMentions: true})) {
             post.props.mentionHighlightDisabled = true;
         }
-        if (!useGroupMentions && groupsMentionedInText(post.message, groupsWithAllowReference)) {
+        if (!useLDAPGroupMentions && !useCustomGroupMentions && groupsMentionedInText(post.message, groupsWithAllowReference)) {
             post.props.disable_group_highlight = true;
         }
 
@@ -1087,14 +1082,13 @@ class CreatePost extends React.PureComponent<Props, State> {
     }
 
     handleMouseUpKeyUp = (e: React.MouseEvent | React.KeyboardEvent) => {
-        const caretPosition = Utils.getCaretPosition(e.target as HTMLElement);
         this.setState({
-            caretPosition,
+            caretPosition: (e.target as HTMLTextAreaElement).selectionStart || 0,
         });
     }
 
     handleSelect = (e: React.SyntheticEvent) => {
-        Utils.adjustSelection(this.textboxRef.current?.getInputBox(), e);
+        Utils.adjustSelection(this.textboxRef.current?.getInputBox(), e as React.KeyboardEvent);
     }
 
     handleKeyDown = (e: React.KeyboardEvent) => {
@@ -1111,7 +1105,7 @@ class CreatePost extends React.PureComponent<Props, State> {
 
         // listen for line break key combo and insert new line character
         if (Utils.isUnhandledLineBreakKeyCombo(e)) {
-            this.setState({message: Utils.insertLineBreakFromKeyEvent(e)});
+            this.setState({message: Utils.insertLineBreakFromKeyEvent(e as React.KeyboardEvent<HTMLTextAreaElement>)});
         } else if (ctrlEnterKeyCombo) {
             this.postMsgKeyPress(e);
         } else if (upKeyOnly && messageIsEmpty) {
@@ -1287,25 +1281,12 @@ class CreatePost extends React.PureComponent<Props, State> {
         });
     }
 
-    completePostTip = (source: string) => {
-        this.props.actions.savePreferences(
-            this.props.currentUserId,
-            [{
-                user_id: this.props.currentUserId,
-                category: Constants.Preferences.TUTORIAL_STEP,
-                name: this.props.currentUserId,
-                value: (Constants.TutorialSteps.POST_POPOVER + 1).toString(),
-            }],
-        );
-        trackEvent('ui', 'tutorial_tip_1_complete_' + source);
-    }
-
     render() {
         const {
             currentChannel,
             draft,
             fullWidthTextBox,
-            showTutorialTip,
+            showSendTutorialTip,
             canPost,
         } = this.props;
         const readOnlyChannel = !canPost;
@@ -1347,10 +1328,10 @@ class CreatePost extends React.PureComponent<Props, State> {
             postFooterClassName += ' has-error';
         }
 
-        let tutorialTip = null;
-        if (showTutorialTip) {
-            tutorialTip = (
-                <CreatePostTip
+        let SendTutorialTip = null;
+        if (showSendTutorialTip) {
+            SendTutorialTip = (
+                <SendMessageTour
                     prefillMessage={this.prefillMessage}
                     currentChannel={this.props.currentChannel}
                     currentUserId={this.props.currentUserId}
@@ -1364,47 +1345,27 @@ class CreatePost extends React.PureComponent<Props, State> {
             centerClass = 'center';
         }
 
-        let sendButtonClass = 'send-button theme';
-        if (!this.shouldEnableSendButton()) {
-            sendButtonClass += ' disabled';
-        }
-
-        let attachmentsDisabled = '';
-        if (!this.props.canUploadFiles) {
-            attachmentsDisabled = ' post-create--attachment-disabled';
-        }
-
-        let callButton;
-        if (!readOnlyChannel && !this.props.shouldShowPreview) {
-            callButton = (
-                <CallButton/>
-            );
-        }
-
-        let fileUpload;
-        if (!readOnlyChannel && !this.props.shouldShowPreview) {
-            fileUpload = (
-                <FileUpload
-                    ref={this.fileUploadRef}
-                    fileCount={this.getFileCount()}
-                    getTarget={this.getFileUploadTarget}
-                    onFileUploadChange={this.handleFileUploadChange}
-                    onUploadStart={this.handleUploadStart}
-                    onFileUpload={this.handleFileUploadComplete}
-                    onUploadError={this.handleUploadError}
-                    onUploadProgress={this.handleUploadProgress}
-                    postType='post'
-                    channelId={currentChannel.id}
-                />
-            );
-        }
+        const fileUpload = !readOnlyChannel && !this.props.shouldShowPreview ? (
+            <FileUpload
+                ref={this.fileUploadRef}
+                fileCount={this.getFileCount()}
+                getTarget={this.getFileUploadTarget}
+                onFileUploadChange={this.handleFileUploadChange}
+                onUploadStart={this.handleUploadStart}
+                onFileUpload={this.handleFileUploadComplete}
+                onUploadError={this.handleUploadError}
+                onUploadProgress={this.handleUploadProgress}
+                postType='post'
+                channelId={currentChannel.id}
+            />
+        ) : null;
 
         let emojiPicker = null;
-        const emojiButtonAriaLabel = formatMessage({id: 'emoji_picker.emojiPicker', defaultMessage: 'Emoji Picker'}).toLowerCase();
-
         if (this.props.enableEmojiPicker && !readOnlyChannel && !this.props.shouldShowPreview) {
+            const emojiButtonAriaLabel = formatMessage({id: 'emoji_picker.emojiPicker', defaultMessage: 'Emoji Picker'}).toLowerCase();
+
             emojiPicker = (
-                <div>
+                <>
                     <EmojiPickerOverlay
                         show={this.state.showEmojiPicker}
                         target={this.getCreatePostControls}
@@ -1422,13 +1383,14 @@ class CreatePost extends React.PureComponent<Props, State> {
                         className={classNames('emoji-picker__container', 'post-action', {
                             'post-action--active': this.state.showEmojiPicker,
                         })}
+                        id='emojiPickerButton'
                     >
-                        <EmojiIcon
-                            id='emojiPickerButton'
-                            className={'icon icon--emoji '}
+                        <EmoticonOutlineIcon
+                            size={18}
+                            color={'currentColor'}
                         />
                     </button>
-                </div>
+                </>
             );
         }
 
@@ -1442,10 +1404,7 @@ class CreatePost extends React.PureComponent<Props, State> {
             );
         }
 
-        let scrollbarClass = '';
-        if (renderScrollbar) {
-            scrollbarClass = ' scroll';
-        }
+        const sendButtonEnabled = this.shouldEnableSendButton();
 
         return (
             <form
@@ -1455,8 +1414,8 @@ class CreatePost extends React.PureComponent<Props, State> {
                 onSubmit={this.handleSubmit}
             >
                 <div
-                    className={'post-create' + attachmentsDisabled + scrollbarClass}
-                    style={this.state.renderScrollbar && this.state.scrollbarWidth ? {'--detected-scrollbar-width': `${this.state.scrollbarWidth}px`} as any : undefined}
+                    className={classNames('post-create', {'post-create--attachment-disabled': !this.props.canUploadFiles, scroll: renderScrollbar})}
+                    style={this.state.renderScrollbar && this.state.scrollbarWidth ? {'--detected-scrollbar-width': `${this.state.scrollbarWidth}px`} as CSSProperties : undefined}
                 >
                     <div className='post-create-body'>
                         <div
@@ -1495,30 +1454,33 @@ class CreatePost extends React.PureComponent<Props, State> {
                                 ref={this.createPostControlsRef}
                                 className='post-body__actions'
                             >
-                                {callButton}
                                 {fileUpload}
                                 {emojiPicker}
-                                <a
-                                    role='button'
+                                <button
                                     tabIndex={0}
                                     aria-label={formatMessage({
                                         id: 'create_post.send_message',
                                         defaultMessage: 'Send a message',
                                     })}
-                                    className={sendButtonClass}
+                                    disabled={!sendButtonEnabled}
+                                    className={classNames('btn btn-primary send-button theme', {
+                                        disabled: !sendButtonEnabled,
+                                        hidden: !Utils.isMobile(),
+                                    })}
                                     onClick={this.handleSubmit}
                                 >
-                                    <LocalizedIcon
-                                        className='fa fa-paper-plane'
-                                        title={{
+                                    <SendIcon
+                                        size={18}
+                                        color='currentColor'
+                                        aria-label={formatMessage({
                                             id: t('create_post.icon'),
                                             defaultMessage: 'Create a post',
-                                        }}
+                                        })}
                                     />
-                                </a>
+                                </button>
                             </span>
                         </div>
-                        {tutorialTip}
+                        {SendTutorialTip}
                     </div>
                     <div
                         id='postCreateFooter'
@@ -1531,10 +1493,11 @@ class CreatePost extends React.PureComponent<Props, State> {
                                 postId=''
                             />
                             <TextboxLinks
-                                characterLimit={this.props.maxPostSize}
+                                isMarkdownPreviewEnabled={this.props.canPost && this.props.markdownPreviewFeatureIsEnabled}
+                                hasExceededCharacterLimit={readOnlyChannel ? false : this.state.message.length > this.props.maxPostSize}
                                 showPreview={this.props.shouldShowPreview}
                                 updatePreview={this.setShowPreview}
-                                message={readOnlyChannel ? '' : this.state.message}
+                                hasText={readOnlyChannel ? false : this.state.message.length > 0}
                             />
                         </div>
                         <div>

@@ -802,7 +802,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                 },
                 description: {
                     id: t('user.settings.display.collapsedReplyThreadsDescription'),
-                    message: 'When enabled, reply messages are not shown in the channel and you\'ll be notified about threads you\'re following in the "Threads" view.\nPlease review our [documentation for known issues](!https://docs.mattermost.com/help/messaging/organizing-conversations.html) and help provide feedback in our [community channel](!https://community-daily.mattermost.com/core/channels/folded-reply-threads).',
+                    message: 'When enabled, reply messages are not shown in the channel and you\'ll be notified about threads you\'re following in the "Threads" view.\nPlease review our [documentation for known issues](!https://docs.mattermost.com/messaging/organizing-conversations.html) and help provide feedback in our [community channel](!https://community-daily.mattermost.com/core/channels/folded-reply-threads).',
                 },
             });
         }

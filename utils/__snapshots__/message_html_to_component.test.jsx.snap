@@ -122,6 +122,15 @@ exports[`messageHtmlToComponent Inline markdown image where image is link 1`] = 
 </div>
 `;
 
+exports[`messageHtmlToComponent html 1`] = `
+<CodeBlock
+  code="<div>This is a html div</div>"
+  id="randompostid"
+  language="html"
+  searchedContent=""
+/>
+`;
+
 exports[`messageHtmlToComponent latex 1`] = `
 Array [
   <p>
@@ -186,5 +195,35 @@ exports[`messageHtmlToComponent link without enabled tooltip plugins 1`] = `
 exports[`messageHtmlToComponent plain text 1`] = `
 <p>
   Hello, world!
+</p>
+`;
+
+exports[`messageHtmlToComponent typescript 1`] = `
+<CodeBlock
+  code="const myFunction = () => {
+    console.log('This is a meaningful function');
+};"
+  id="randompostid"
+  language="typescript"
+  searchedContent=""
+/>
+`;
+
+exports[`messageHtmlToComponent typescript 2`] = `
+<p>
+  Text before typescript codeblock
+            
+  <span
+    className="codespan__pre-wrap"
+  >
+    <code>
+      typescript
+            const myFunction = () =&gt; {
+                console.log('This is a test function');
+            };
+    </code>
+  </span>
+  
+            text after typescript block
 </p>
 `;

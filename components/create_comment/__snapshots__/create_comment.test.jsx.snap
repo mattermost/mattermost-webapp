@@ -67,23 +67,11 @@ exports[`components/CreateComment should match snapshot when cannot post 1`] = `
           className="col col-auto"
         >
           <Connect(TextboxLinks)
-            characterLimit={4000}
+            isMarkdownPreviewEnabled={false}
             showPreview={false}
             updatePreview={[Function]}
           />
         </div>
-      </div>
-      <div
-        className="text-right mt-2"
-      >
-        <input
-          className="btn btn-primary comment-btn"
-          disabled={false}
-          id="addCommentButton"
-          onClick={[Function]}
-          type="button"
-          value="Reply"
-        />
       </div>
     </div>
   </div>
@@ -149,30 +137,30 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
             postType="comment"
             rootId=""
           />
-          <div>
-            <EmojiPickerOverlay
-              enableGifPicker={true}
-              onEmojiClick={[Function]}
-              onEmojiClose={[Function]}
-              onGifClick={[Function]}
-              onHide={[Function]}
-              show={false}
-              spaceRequiredAbove={476}
-              spaceRequiredBelow={497}
-              target={[Function]}
-              topOffset={55}
+          <EmojiPickerOverlay
+            enableGifPicker={true}
+            onEmojiClick={[Function]}
+            onEmojiClose={[Function]}
+            onGifClick={[Function]}
+            onHide={[Function]}
+            show={false}
+            spaceRequiredAbove={476}
+            spaceRequiredBelow={497}
+            target={[Function]}
+            topOffset={55}
+          />
+          <button
+            aria-label="emoji picker"
+            className="emoji-picker__container post-action"
+            id="emojiPickerButton"
+            onClick={[Function]}
+            type="button"
+          >
+            <EmoticonOutlineIcon
+              color="currentColor"
+              size={18}
             />
-            <button
-              aria-label="emoji picker"
-              className="emoji-picker__container post-action"
-              onClick={[Function]}
-              type="button"
-            >
-              <EmojiIcon
-                className="icon icon--emoji emoji-rhs "
-              />
-            </button>
-          </div>
+          </button>
         </span>
       </div>
     </div>
@@ -194,23 +182,10 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
           className="col col-auto"
         >
           <Connect(TextboxLinks)
-            characterLimit={4000}
             showPreview={false}
             updatePreview={[Function]}
           />
         </div>
-      </div>
-      <div
-        className="text-right mt-2"
-      >
-        <input
-          className="btn btn-primary comment-btn"
-          disabled={false}
-          id="addCommentButton"
-          onClick={[Function]}
-          type="button"
-          value="Reply"
-        />
       </div>
     </div>
   </div>
@@ -297,23 +272,14 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
           className="col col-auto"
         >
           <Connect(TextboxLinks)
-            characterLimit={4000}
             showPreview={false}
             updatePreview={[Function]}
           />
         </div>
       </div>
       <div
-        className="text-right mt-2"
+        className="text-right pt-2"
       >
-        <input
-          className="btn btn-primary comment-btn"
-          disabled={false}
-          id="addCommentButton"
-          onClick={[Function]}
-          type="button"
-          value="Reply"
-        />
         <Connect(FilePreview)
           fileInfos={
             Array [
@@ -391,30 +357,30 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
             postType="comment"
             rootId=""
           />
-          <div>
-            <EmojiPickerOverlay
-              enableGifPicker={true}
-              onEmojiClick={[Function]}
-              onEmojiClose={[Function]}
-              onGifClick={[Function]}
-              onHide={[Function]}
-              show={false}
-              spaceRequiredAbove={476}
-              spaceRequiredBelow={497}
-              target={[Function]}
-              topOffset={55}
+          <EmojiPickerOverlay
+            enableGifPicker={true}
+            onEmojiClick={[Function]}
+            onEmojiClose={[Function]}
+            onGifClick={[Function]}
+            onHide={[Function]}
+            show={false}
+            spaceRequiredAbove={476}
+            spaceRequiredBelow={497}
+            target={[Function]}
+            topOffset={55}
+          />
+          <button
+            aria-label="emoji picker"
+            className="emoji-picker__container post-action"
+            id="emojiPickerButton"
+            onClick={[Function]}
+            type="button"
+          >
+            <EmoticonOutlineIcon
+              color="currentColor"
+              size={18}
             />
-            <button
-              aria-label="emoji picker"
-              className="emoji-picker__container post-action"
-              onClick={[Function]}
-              type="button"
-            >
-              <EmojiIcon
-                className="icon icon--emoji emoji-rhs "
-              />
-            </button>
-          </div>
+          </button>
         </span>
       </div>
     </div>
@@ -436,23 +402,10 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
           className="col col-auto"
         >
           <Connect(TextboxLinks)
-            characterLimit={4000}
             showPreview={false}
             updatePreview={[Function]}
           />
         </div>
-      </div>
-      <div
-        className="text-right mt-2"
-      >
-        <input
-          className="btn btn-primary comment-btn disabled"
-          disabled={true}
-          id="addCommentButton"
-          onClick={[Function]}
-          type="button"
-          value="Reply"
-        />
       </div>
     </div>
   </div>
@@ -518,30 +471,30 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
             postType="comment"
             rootId=""
           />
-          <div>
-            <EmojiPickerOverlay
-              enableGifPicker={true}
-              onEmojiClick={[Function]}
-              onEmojiClose={[Function]}
-              onGifClick={[Function]}
-              onHide={[Function]}
-              show={false}
-              spaceRequiredAbove={476}
-              spaceRequiredBelow={497}
-              target={[Function]}
-              topOffset={55}
+          <EmojiPickerOverlay
+            enableGifPicker={true}
+            onEmojiClick={[Function]}
+            onEmojiClose={[Function]}
+            onGifClick={[Function]}
+            onHide={[Function]}
+            show={false}
+            spaceRequiredAbove={476}
+            spaceRequiredBelow={497}
+            target={[Function]}
+            topOffset={55}
+          />
+          <button
+            aria-label="emoji picker"
+            className="emoji-picker__container post-action"
+            id="emojiPickerButton"
+            onClick={[Function]}
+            type="button"
+          >
+            <EmoticonOutlineIcon
+              color="currentColor"
+              size={18}
             />
-            <button
-              aria-label="emoji picker"
-              className="emoji-picker__container post-action"
-              onClick={[Function]}
-              type="button"
-            >
-              <EmojiIcon
-                className="icon icon--emoji emoji-rhs "
-              />
-            </button>
-          </div>
+          </button>
         </span>
       </div>
     </div>
@@ -563,14 +516,13 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
           className="col col-auto"
         >
           <Connect(TextboxLinks)
-            characterLimit={4000}
             showPreview={false}
             updatePreview={[Function]}
           />
         </div>
       </div>
       <div
-        className="text-right mt-2"
+        className="text-right pt-2"
       >
         <span
           className="post-right-comments-upload-in-progress"
@@ -580,14 +532,6 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
             id="create_comment.file"
           />
         </span>
-        <input
-          className="btn btn-primary comment-btn"
-          disabled={false}
-          id="addCommentButton"
-          onClick={[Function]}
-          type="button"
-          value="Reply"
-        />
         <Connect(FilePreview)
           fileInfos={
             Array [

@@ -7,7 +7,7 @@ import {useSelector} from 'react-redux';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import BlockableLink from 'components/admin_console/blockable_link';
-import CreditCardSvg from 'components/common/svg_images_components/credit_card.svg';
+import CreditCardSvg from 'components/common/svg_images_components/credit_card_svg';
 
 import {GlobalState} from 'types/store';
 

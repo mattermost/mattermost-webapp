@@ -192,6 +192,18 @@ export function getEmbedFromMetadata(metadata: PostMetadata): PostEmbed | null {
     return metadata.embeds[0];
 }
 
+export function isPermalink(post: Post) {
+    if (post.metadata && post.metadata.embeds) {
+        for (const embed of post.metadata.embeds) {
+            if (embed.type === 'permalink') {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
 export function shouldUpdatePost(receivedPost: Post, storedPost?: Post): boolean {
     if (!storedPost) {
         return true;
@@ -214,6 +226,11 @@ export function shouldUpdatePost(receivedPost: Post, storedPost?: Post): boolean
         ) {
             // CRT properties are not the same between posts
             // e.g: in the case of toggling CRT on/off
+            return true;
+        }
+
+        if (!storedPost.metadata && receivedPost.metadata) {
+            // Metadata is not the same between posts
             return true;
         }
 

@@ -13,6 +13,7 @@ import AtIcon from './at_icon';
 import AttachmentIcon from './attachment_icon';
 import BackIcon from './back_icon';
 import CheckboxCheckedIcon from './checkbox_checked_icon';
+import CheckCircleIcon from './check_circle_icon';
 import CheckboxPartialIcon from './checkbox_partial_icon';
 import CloseCircleIcon from './close_circle_icon';
 import CloseCircleSolidIcon from './close_circle_solid_icon';
@@ -39,10 +40,12 @@ import GifSearchClearIcon from './gif_search_clear_icon';
 import GifSearchIcon from './gif_search_icon';
 import GifTrendingIcon from './gif_trending_icon';
 import GlobeIcon from './globe_icon';
+import GlobeCircleSolidIcon from './globe_circle_solid_icon';
 import InfoIcon from './info_icon';
 import InfoSmallIcon from './info_small_icon';
 import LeaveTeamIcon from './leave_team_icon';
 import LockIcon from './lock_icon';
+import LockCircleSolidIcon from './lock_circle_solid_icon';
 import MailIcon from './mail_icon';
 import MailPlusIcon from './mail_plus_icon';
 import MattermostLogo from './mattermost_logo';
@@ -64,22 +67,23 @@ import StatusOnlineAvatarIcon from './status_online_avatar_icon';
 import StatusOnlineIcon from './status_online_icon';
 import TeamInfoIcon from './team_info_icon';
 import UnreadBelowIcon from './unread_below_icon';
+import UpgradeBadgeIcon from './upgrade_badge_icon';
 
 const icons = [
     AccordionToggleIcon, AlertIcon, ArchiveIcon, AtIcon,
-    AttachmentIcon, BackIcon, CheckboxCheckedIcon,
-    CheckboxPartialIcon, CloseCircleIcon, CloseCircleSolidIcon, CloseIcon,
+    AttachmentIcon, BackIcon, CheckboxCheckedIcon, CheckboxPartialIcon,
+    CheckCircleIcon, CloseCircleIcon, CloseCircleSolidIcon, CloseIcon,
     DotsHorizontal, EmailIcon, EmojiIcon, FaAddIcon, FaBackIcon, FaDropdownIcon,
     FaEditIcon, FaLogoutIcon, FaNextIcon, FaPreviousIcon, FaReloadIcon,
     FaSearchIcon, FaSuccessIcon, FaWarningIcon,
     FlagIconFilled, FlagIcon, GfycatIcon, GifReactionsIcon,
-    GifSearchClearIcon, GifSearchIcon, GifTrendingIcon, GlobeIcon, InfoIcon,
-    InfoSmallIcon, LeaveTeamIcon, LockIcon, MailIcon,
+    GifSearchClearIcon, GifSearchIcon, GifTrendingIcon, GlobeIcon, GlobeCircleSolidIcon,
+    InfoIcon, InfoSmallIcon, LeaveTeamIcon, LockIcon, LockCircleSolidIcon, MailIcon,
     MailPlusIcon, MattermostLogo, MentionsIcon, MenuIcon,
     MessageIcon, PinIcon, ReplyIcon, ScrollToBottomIcon, SearchIcon, ShieldOutlineIcon,
     StatusAwayAvatarIcon, StatusAwayIcon, StatusDndAvatarIcon, StatusDndIcon,
     StatusOfflineAvatarIcon, StatusOfflineIcon, StatusOnlineAvatarIcon,
-    StatusOnlineIcon, TeamInfoIcon, UnreadBelowIcon,
+    StatusOnlineIcon, TeamInfoIcon, UnreadBelowIcon, UpgradeBadgeIcon,
 ];
 
 const stories = storiesOf('Widgets/Icons', module).addDecorator(withKnobs);

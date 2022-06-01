@@ -53,6 +53,7 @@ exports[`components/ChannelSelectorModal exclude already selected 1`] = `
     <MultiSelect
       ariaLabelRenderer={[Function]}
       buttonSubmitText="Add"
+      focusOnLoad={true}
       handleAdd={[Function]}
       handleDelete={[Function]}
       handleInput={[Function]}
@@ -97,6 +98,7 @@ exports[`components/ChannelSelectorModal exclude already selected 1`] = `
       placeholderText="Search and add channels"
       saveButtonPosition="top"
       saving={false}
+      savingEnabled={true}
       selectedItemRef={
         Object {
           "current": null,
@@ -163,6 +165,7 @@ exports[`components/ChannelSelectorModal should match snapshot 1`] = `
     <MultiSelect
       ariaLabelRenderer={[Function]}
       buttonSubmitText="Add"
+      focusOnLoad={true}
       handleAdd={[Function]}
       handleDelete={[Function]}
       handleInput={[Function]}
@@ -229,6 +232,7 @@ exports[`components/ChannelSelectorModal should match snapshot 1`] = `
       placeholderText="Search and add channels"
       saveButtonPosition="top"
       saving={false}
+      savingEnabled={true}
       selectedItemRef={
         Object {
           "current": null,

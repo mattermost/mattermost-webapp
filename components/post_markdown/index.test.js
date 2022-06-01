@@ -34,11 +34,11 @@ describe('makeGetMentionKeysForPost', () => {
                 syncables: {},
                 members: {},
                 groups: {
-                    [group.name]: group,
+                    [group.id]: group,
                 },
-                myGroups: {
-                    [group.name]: group,
-                },
+                myGroups: [
+                    group.id,
+                ],
             },
             teams: {
                 teams: {

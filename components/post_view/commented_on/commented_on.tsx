@@ -8,7 +8,7 @@ import {UserProfile as UserProfileType} from 'mattermost-redux/types/users';
 
 import {Post} from 'mattermost-redux/types/posts';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import {stripMarkdown} from 'utils/markdown';
 
 import CommentedOnFilesMessage from 'components/post_view/commented_on_files_message';

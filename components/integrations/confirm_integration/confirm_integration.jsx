@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import {browserHistory} from 'utils/browser_history';
-import {Constants, ErrorPageTypes} from 'utils/constants.jsx';
+import {Constants, ErrorPageTypes} from 'utils/constants';
 import CopyText from 'components/copy_text';
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
 import {getSiteURL} from 'utils/url';
@@ -70,9 +70,21 @@ export default class ConfirmIntegration extends React.PureComponent {
             );
             helpText = (
                 <p>
-                    <FormattedMarkdownMessage
+                    <FormattedMessage
                         id='add_command.doneHelp'
-                        defaultMessage='Your slash command is set up. The following token will be sent in the outgoing payload. Please use it to verify the request came from your Mattermost team (details at [Slash Commands](!https://docs.mattermost.com/developer/slash-commands.html)).'
+                        defaultMessage='Your slash command is set up. The following token will be sent in the outgoing payload. Please use it to verify the request came from your Mattermost team (details at <link>Slash Commands</link>).'
+                        values={{
+                            link: (msg) => (
+                                <a
+                                    href='https://developers.mattermost.com/integrate/admin-guide/admin-slash-commands/'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        }}
                     />
                 </p>
             );
@@ -101,9 +113,21 @@ export default class ConfirmIntegration extends React.PureComponent {
             );
             helpText = (
                 <p>
-                    <FormattedMarkdownMessage
+                    <FormattedMessage
                         id='add_incoming_webhook.doneHelp'
-                        defaultMessage='Your incoming webhook is set up. Please send data to the following URL (details at [Incoming Webhooks](!https://docs.mattermost.com/developer/webhooks-incoming.html)).'
+                        defaultMessage='Your incoming webhook is set up. Please send data to the following URL (details at <link>Incoming Webhooks</link>).'
+                        values={{
+                            link: (msg) => (
+                                <a
+                                    href='https://developers.mattermost.com/integrate/admin-guide/admin-webhooks-incoming/'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        }}
                     />
                 </p>
             );
@@ -132,9 +156,21 @@ export default class ConfirmIntegration extends React.PureComponent {
             );
             helpText = (
                 <p>
-                    <FormattedMarkdownMessage
+                    <FormattedMessage
                         id='add_outgoing_webhook.doneHelp'
-                        defaultMessage='Your outgoing webhook is set up. The following token will be sent in the outgoing payload. Please use it to verify that the request came from your Mattermost team (details at [Outgoing Webhooks](!https://docs.mattermost.com/developer/webhooks-outgoing.html)).'
+                        defaultMessage='Your outgoing webhook is set up. The following token will be sent in the outgoing payload. Please use it to verify that the request came from your Mattermost team (details at <link>Outgoing Webhooks</link>).'
+                        values={{
+                            link: (msg) => (
+                                <a
+                                    href='https://developers.mattermost.com/integrate/admin-guide/admin-webhooks-outgoing/'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        }}
                     />
                 </p>
             );
@@ -168,7 +204,7 @@ export default class ConfirmIntegration extends React.PureComponent {
                 <p key='add_oauth_app.doneHelp'>
                     <FormattedMarkdownMessage
                         id='add_oauth_app.doneHelp'
-                        defaultMessage='Your OAuth 2.0 application is set up. Please use the following Client ID and Client Secret when requesting authorization for your application (details at [oAuth 2 Applications](!https://docs.mattermost.com/developer/oauth-2-0-applications.html)).'
+                        defaultMessage='Your OAuth 2.0 application is set up. Please use the following Client ID and Client Secret when requesting authorization for your application (details at [oAuth 2 Applications](!https://developers.mattermost.com/integrate/admin-guide/admin-oauth2/)).'
                     />
                 </p>,
             );

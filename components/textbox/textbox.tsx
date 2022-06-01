@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ChangeEvent, ElementType, FocusEvent, KeyboardEvent, MouseEvent} from 'react';
+import React, {ChangeEvent, ClipboardEventHandler, ElementType, FocusEvent, KeyboardEvent, MouseEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Channel} from 'mattermost-redux/types/channels';
@@ -20,7 +20,7 @@ import SuggestionBox from 'components/suggestion/suggestion_box';
 import SuggestionBoxComponent from 'components/suggestion/suggestion_box/suggestion_box';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 type Props = {
     id: string;
@@ -40,6 +40,7 @@ type Props = {
     onBlur?: (e: FocusEvent) => void;
     supportsCommands: boolean;
     handlePostError?: (message: JSX.Element | null) => void;
+    onPaste?: ClipboardEventHandler;
     suggestionList?: React.ComponentProps<typeof SuggestionBox>['listComponent'];
     suggestionListPosition?: React.ComponentProps<typeof SuggestionList>['position'];
     emojiEnabled?: boolean;
@@ -51,7 +52,6 @@ type Props = {
     currentUserId: string;
     currentTeamId: string;
     preview?: boolean;
-    profilesInChannel: Array<{ id: string }>;
     autocompleteGroups: Array<{ id: string }> | null;
     actions: {
         autocompleteUsersInChannel: (prefix: string, channelId: string | undefined) => (dispatch: any, getState: any) => Promise<string[]>;
@@ -94,7 +94,7 @@ export default class Textbox extends React.PureComponent<Props> {
         this.suggestionProviders.push(
             new AtMentionProvider({
                 currentUserId: this.props.currentUserId,
-                profilesInChannel: this.props.profilesInChannel,
+                channelId: this.props.channelId,
                 autocompleteUsersInChannel: (prefix: string) => this.props.actions.autocompleteUsersInChannel(prefix, this.props.channelId),
                 useChannelMentions: this.props.useChannelMentions,
                 autocompleteGroups: this.props.autocompleteGroups,
@@ -126,7 +126,6 @@ export default class Textbox extends React.PureComponent<Props> {
     updateSuggestions(prevProps: Props) {
         if (this.props.channelId !== prevProps.channelId ||
             this.props.currentUserId !== prevProps.currentUserId ||
-            this.props.profilesInChannel !== prevProps.profilesInChannel ||
             this.props.autocompleteGroups !== prevProps.autocompleteGroups ||
             this.props.useChannelMentions !== prevProps.useChannelMentions ||
             this.props.currentTeamId !== prevProps.currentTeamId ||
@@ -136,7 +135,7 @@ export default class Textbox extends React.PureComponent<Props> {
                 if (provider instanceof AtMentionProvider) {
                     provider.setProps({
                         currentUserId: this.props.currentUserId,
-                        profilesInChannel: this.props.profilesInChannel,
+                        channelId: this.props.channelId,
                         autocompleteUsersInChannel: (prefix: string) => this.props.actions.autocompleteUsersInChannel(prefix, this.props.channelId),
                         useChannelMentions: this.props.useChannelMentions,
                         autocompleteGroups: this.props.autocompleteGroups,
@@ -299,6 +298,7 @@ export default class Textbox extends React.PureComponent<Props> {
                     onComposition={this.props.onComposition}
                     onBlur={this.handleBlur}
                     onHeightChange={this.handleHeightChange}
+                    onPaste={this.props.onPaste}
                     style={{visibility: this.props.preview ? 'hidden' : 'visible'}}
                     inputComponent={this.props.inputComponent}
                     listComponent={this.props.suggestionList}
@@ -306,7 +306,7 @@ export default class Textbox extends React.PureComponent<Props> {
                     providers={this.suggestionProviders}
                     channelId={this.props.channelId}
                     value={this.props.value}
-                    renderDividers={true}
+                    renderDividers={['all']}
                     isRHS={this.props.isRHS}
                     disabled={this.props.disabled}
                     contextId={this.props.channelId}

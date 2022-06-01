@@ -12,15 +12,15 @@ import WomanUpArrowsAndCloudsSvg from 'components/common/svg_images_components/w
 
 interface TeamEditionRightPanelProps {
     upgradingPercentage: number;
-    handleUpgrade: (e: any) => Promise<void>;
+    handleUpgrade: (e: React.MouseEvent<HTMLButtonElement>) => Promise<void>;
     upgradeError: string | null;
     restartError: string | null;
 
-    handleRestart: (e: any) => Promise<void>;
+    handleRestart: (e: React.MouseEvent<HTMLButtonElement>) => Promise<void>;
 
     setClickNormalUpgradeBtn: () => void;
 
-    openEEModal: any;
+    openEEModal: () => void;
 
     restarting: boolean;
 }
@@ -36,7 +36,7 @@ const TeamEditionRightPanel: React.FC<TeamEditionRightPanelProps> = ({
     setClickNormalUpgradeBtn,
 }: TeamEditionRightPanelProps) => {
     let upgradeButton = null;
-    const onHandleUpgrade = (e: any) => {
+    const onHandleUpgrade = (e: React.MouseEvent<HTMLButtonElement>) => {
         if (!handleUpgrade) {
             return;
         }
@@ -70,7 +70,7 @@ const TeamEditionRightPanel: React.FC<TeamEditionRightPanelProps> = ({
                         >
                             <FormattedMessage
                                 id='admin.license.enterprise.upgrade'
-                                defaultMessage='Upgrade'
+                                defaultMessage='Upgrade to Enterprise Edition'
                             />
                         </LoadingWrapper>
                     </button>
@@ -160,10 +160,16 @@ const TeamEditionRightPanel: React.FC<TeamEditionRightPanelProps> = ({
                 />
             </div>
             <div className='upgrade-title'>
-                {'Upgrade to the Enterprise Edition'}
+                <FormattedMessage
+                    id='admin.license.enterprise.upgrade'
+                    defaultMessage='Upgrade to Enterprise Edition'
+                />
             </div>
             <div className='upgrade-subtitle'>
-                {'A license is required to unlock enterprise fatures'}
+                <FormattedMessage
+                    id='admin.license.enterprise.license_required_upgrade'
+                    defaultMessage='A license is required to unlock enterprise features'
+                />
             </div>
             <div className='advantages-list'>
                 {upgradeAdvantages.map((item: string, i: number) => {

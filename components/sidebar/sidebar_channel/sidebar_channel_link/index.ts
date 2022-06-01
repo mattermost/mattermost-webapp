@@ -4,21 +4,26 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
+import {isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentUserId, getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
-import {getInt, makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
-
+import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 import {Channel} from 'mattermost-redux/types/channels';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
-import {getChannelsNameMapInCurrentTeam, makeGetChannelUnreadCount} from 'mattermost-redux/selectors/entities/channels';
+import {makeGetChannelUnreadCount} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-
-import {open as openLhs} from 'actions/views/lhs.js';
 import {clearChannelSelection, multiSelectChannelAdd, multiSelectChannelTo} from 'actions/views/channel_sidebar';
+import {getFirstChannelName} from 'selectors/onboarding';
+import {unsetEditingPost} from 'actions/post_actions';
 import {isChannelSelected} from 'selectors/views/channel_sidebar';
 import {GlobalState} from 'types/store';
-import Constants, {Preferences, RecommendedNextSteps} from 'utils/constants';
+import {
+    GenericTaskSteps,
+    OnboardingTaskCategory,
+    OnboardingTasksName,
+} from 'components/onboarding_tasks';
+import {FINISHED, OnboardingTourSteps, TutorialTourName} from 'components/onboarding_tour';
+import {isOnboardingHidden, showNextSteps} from 'components/next_steps_view/steps';
 
 import SidebarChannelLink from './sidebar_channel_link';
 
@@ -31,20 +36,20 @@ function makeMapStateToProps() {
 
     return (state: GlobalState, ownProps: OwnProps) => {
         const member = getMyChannelMemberships(state)[ownProps.channel.id];
-
         const unreadCount = getUnreadCount(state, ownProps.channel.id);
-
-        const getCategory = makeGetCategory();
-        const preferences = getCategory(state, Preferences.AB_TEST_PREFERENCE_VALUE);
-        const firstChannelNameFromPref = preferences.find((pref: PreferenceType) => pref.name === RecommendedNextSteps.CREATE_FIRST_CHANNEL);
-        const firstChannelNameFromRedux = state.views.channelSidebar.firstChannelName;
-        const firstChannelName = firstChannelNameFromRedux || firstChannelNameFromPref?.value;
-
-        const channelsByName = getChannelsNameMapInCurrentTeam(state);
+        const firstChannelName = getFirstChannelName(state);
         const config = getConfig(state);
         const enableTutorial = config.EnableTutorial === 'true';
         const currentUserId = getCurrentUserId(state);
-        const tutorialStep = getInt(state, Constants.Preferences.TUTORIAL_STEP, currentUserId, Constants.TutorialSteps.FINISHED);
+        const tutorialStep = getInt(state, TutorialTourName.ONBOARDING_TUTORIAL_STEP, currentUserId, 0);
+        const triggerStep = getInt(state, OnboardingTaskCategory, OnboardingTasksName.CHANNELS_TOUR, FINISHED);
+        const channelTourTriggered = triggerStep === GenericTaskSteps.STARTED;
+        const nextStep = showNextSteps(state);
+        const onboardingHidden = isOnboardingHidden(state);
+        const isOnboardingFlowEnabled = config.EnableOnboardingFlow;
+        const isUserFirstAdmin = isFirstAdmin(state);
+        const showChannelsTour = enableTutorial && tutorialStep === OnboardingTourSteps.CHANNELS_AND_DIRECT_MESSAGES;
+        const showChannelsTutorialStep = showChannelsTour && ((channelTourTriggered && isUserFirstAdmin) || (isOnboardingFlowEnabled === 'true' && !(nextStep || onboardingHidden) && !isUserFirstAdmin) || (isOnboardingFlowEnabled !== 'true' && !isUserFirstAdmin));
 
         return {
             unreadMentions: unreadCount.mentions,
@@ -52,10 +57,8 @@ function makeMapStateToProps() {
             isUnread: unreadCount.showUnread,
             isMuted: isChannelMuted(member),
             isChannelSelected: isChannelSelected(state, ownProps.channel.id),
-            showTutorialTip: enableTutorial && tutorialStep === Constants.TutorialSteps.CHANNEL_POPOVER,
-            firstChannelName: enableTutorial && tutorialStep === Constants.TutorialSteps.ADD_FIRST_CHANNEL ? firstChannelName : '',
-            townSquareDisplayName: channelsByName[Constants.DEFAULT_CHANNEL]?.display_name || '',
-            offTopicDisplayName: channelsByName[Constants.OFFTOPIC_CHANNEL]?.display_name || '',
+            firstChannelName: showChannelsTutorialStep ? firstChannelName : '',
+            showChannelsTutorialStep,
         };
     };
 }
@@ -63,10 +66,10 @@ function makeMapStateToProps() {
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
+            unsetEditingPost,
             clearChannelSelection,
             multiSelectChannelTo,
             multiSelectChannelAdd,
-            openLhs,
         }, dispatch),
     };
 }

@@ -19,6 +19,7 @@ describe('components/DoVerifyEmail', () => {
             clearErrors: jest.fn(),
         },
         isLoggedIn: false,
+        useCaseOnboarding: false,
     };
 
     test('should match snapshot', () => {

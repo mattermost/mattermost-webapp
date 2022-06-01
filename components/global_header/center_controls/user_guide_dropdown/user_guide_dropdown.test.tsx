@@ -22,6 +22,7 @@ jest.mock('actions/telemetry_actions.jsx', () => {
 describe('components/channel_header/components/UserGuideDropdown', () => {
     const baseProps = {
         helpLink: 'helpLink',
+        isMobileView: false,
         reportAProblemLink: 'reportAProblemLink',
         enableAskCommunityLink: 'true',
         showGettingStarted: false,
@@ -34,6 +35,9 @@ describe('components/channel_header/components/UserGuideDropdown', () => {
             unhideNextSteps: jest.fn(),
             openModal: jest.fn(),
         },
+        pluginMenuItems: [],
+        isFirstAdmin: false,
+        useCaseOnboarding: false,
     };
 
     test('should match snapshot', () => {
@@ -48,6 +52,20 @@ describe('components/channel_header/components/UserGuideDropdown', () => {
         const props = {
             ...baseProps,
             enableAskCommunityLink: 'false',
+        };
+
+        const wrapper = shallowWithIntl(
+            <UserGuideDropdown {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot when have plugin menu items', () => {
+        const props = {
+            ...baseProps,
+            pluginMenuItems: [{id: 'testId', pluginId: 'testPluginId', text: 'Test Item', action: () => {}},
+            ],
         };
 
         const wrapper = shallowWithIntl(
@@ -83,5 +101,21 @@ describe('components/channel_header/components/UserGuideDropdown', () => {
 
         wrapper.find(Menu.ItemExternalLink).find('#askTheCommunityLink').prop('onClick')!({} as unknown as React.MouseEvent);
         expect(trackEvent).toBeCalledWith('ui', 'help_ask_the_community');
+    });
+
+    test('should have plugin menu items appended to the menu', () => {
+        const props = {
+            ...baseProps,
+            pluginMenuItems: [{id: 'testId', pluginId: 'testPluginId', text: 'Test Plugin Item', action: () => {}},
+            ],
+        };
+
+        const wrapper = shallowWithIntl(
+            <UserGuideDropdown {...props}/>,
+        );
+
+        // pluginMenuItems are appended, so our entry must be the last one.
+        const pluginMenuItem = wrapper.find(Menu.ItemAction).last();
+        expect(pluginMenuItem.prop('text')).toEqual('Test Plugin Item');
     });
 });

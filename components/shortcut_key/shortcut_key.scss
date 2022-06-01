@@ -23,6 +23,16 @@
             line-height: 16px;
         }
 
+        &.shortcut-key--tutorial-tip {
+            padding: 2px 5px;
+            background-color: rgba(var(--center-channel-color-rgb), 0.08);
+            color: rgba(var(--center-channel-color-rgb), 0.72);
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 600;
+            line-height: 16px;
+        }
+
         &.shortcut-key--shortcut-modal {
             font-family: inherit;
             font-size: 12px;

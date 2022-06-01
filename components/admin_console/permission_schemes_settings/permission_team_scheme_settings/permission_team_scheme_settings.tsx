@@ -18,8 +18,6 @@ import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import AdminPanelTogglable from 'components/widgets/admin_console/admin_panel_togglable';
 import AdminPanelWithButton from 'components/widgets/admin_console/admin_panel_with_button';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-
 import PermissionsTree, {EXCLUDED_PERMISSIONS} from '../permissions_tree';
 import GuestPermissionsTree, {GUEST_INCLUDED_PERMISSIONS} from '../guest_permissions_tree';
 
@@ -33,6 +31,8 @@ import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 import {ServerError} from 'mattermost-redux/types/errors';
 
 import PermissionsTreePlaybooks from '../permissions_tree_playbooks';
+
+import GeneralConstants from 'mattermost-redux/constants/general';
 
 import TeamInList from './team_in_list';
 
@@ -111,7 +111,18 @@ export default class PermissionTeamSchemeSettings extends React.PureComponent<Pr
     }
 
     componentDidMount() {
-        this.props.actions.loadRolesIfNeeded(['team_admin', 'team_user', 'channel_admin', 'channel_user', 'team_guest', 'channel_guest', 'playbook_admin', 'playbook_member', 'run_member']);
+        const rolesNeeded = [
+            GeneralConstants.TEAM_GUEST_ROLE,
+            GeneralConstants.TEAM_USER_ROLE,
+            GeneralConstants.TEAM_ADMIN_ROLE,
+            GeneralConstants.CHANNEL_GUEST_ROLE,
+            GeneralConstants.CHANNEL_USER_ROLE,
+            GeneralConstants.CHANNEL_ADMIN_ROLE,
+            GeneralConstants.PLAYBOOK_ADMIN_ROLE,
+            GeneralConstants.PLAYBOOK_MEMBER_ROLE,
+            GeneralConstants.RUN_MEMBER_ROLE,
+        ];
+        this.props.actions.loadRolesIfNeeded(rolesNeeded);
         if (this.props.schemeId) {
             this.props.actions.loadScheme(this.props.schemeId).then((result) => {
                 this.props.actions.loadRolesIfNeeded([
@@ -161,7 +172,7 @@ export default class PermissionTeamSchemeSettings extends React.PureComponent<Pr
             props.roles.channel_admin &&
             props.roles.playbook_admin &&
             props.roles.playbook_member &&
-            props.roles.run_admin) {
+            props.roles.run_member) {
             return true;
         }
         return false;
@@ -596,9 +607,29 @@ export default class PermissionTeamSchemeSettings extends React.PureComponent<Pr
                         <div className={'banner info'}>
                             <div className='banner__content'>
                                 <span>
-                                    <FormattedMarkdownMessage
+                                    <FormattedMessage
                                         id='admin.permissions.teamScheme.introBanner'
-                                        defaultMessage='[Team Override Schemes](!https://about.mattermost.com/default-team-override-scheme) set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme).'
+                                        defaultMessage='<linkTeamOverride>Team Override Schemes</linkTeamOverride> set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the <linkSystemScheme>System Scheme</linkSystemScheme>.'
+                                        values={{
+                                            linkTeamOverride: (msg: React.ReactNode) => (
+                                                <a
+                                                    href='https://docs.mattermost.com/onboard/advanced-permissions.html'
+                                                    target='_blank'
+                                                    rel='noreferrer'
+                                                >
+                                                    {msg}
+                                                </a>
+                                            ),
+                                            linkSystemScheme: (msg: React.ReactNode) => (
+                                                <a
+                                                    href='https://docs.mattermost.com/onboard/advanced-permissions.htm'
+                                                    target='_blank'
+                                                    rel='noreferrer'
+                                                >
+                                                    {msg}
+                                                </a>
+                                            ),
+                                        }}
                                     />
                                 </span>
                             </div>
@@ -765,6 +796,7 @@ export default class PermissionTeamSchemeSettings extends React.PureComponent<Pr
                                 onToggle={this.togglePermission}
                                 selectRow={this.selectRow}
                                 readOnly={this.props.isDisabled}
+                                license={this.props.license}
                             />
                         </AdminPanelTogglable>
 

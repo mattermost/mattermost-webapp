@@ -122,11 +122,8 @@
             }
 
             button {
+                height: 48px;
                 border-radius: 4px;
-
-                &.btn-upload {
-                    margin-left: 10px;
-                }
             }
 
             .help-text {

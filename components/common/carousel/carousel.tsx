@@ -9,15 +9,17 @@ type Props = {
     dataSlides: React.ReactNode[];
     id: string;
     infiniteSlide: boolean;
-    onNextSlideClick?: () => void;
-    onPrevSlideClick?: () => void;
+    onNextSlideClick?: (slideIndex: number) => void;
+    onPrevSlideClick?: (slideIndex: number) => void;
+    disableNextButton?: boolean;
 }
-const Carousel: React.FC<Props> = ({
+const Carousel = ({
     dataSlides,
     id,
     infiniteSlide,
     onNextSlideClick,
     onPrevSlideClick,
+    disableNextButton,
 }: Props): JSX.Element | null => {
     const [slideIndex, setSlideIndex] = useState(1);
     const [prevButtonDisabled, setPrevButtonDisabled] = useState(!infiniteSlide);
@@ -25,29 +27,31 @@ const Carousel: React.FC<Props> = ({
 
     const nextSlide = () => {
         setPrevButtonDisabled(false);
-        if (slideIndex !== dataSlides.length) {
-            setSlideIndex(slideIndex + 1);
-        } else if (slideIndex === dataSlides.length) {
-            if (infiniteSlide) {
-                setSlideIndex(1);
+
+        const isLastIndex = slideIndex === dataSlides.length;
+        const newSlideIndex = isLastIndex && infiniteSlide ? 1 : (!isLastIndex && slideIndex + 1) || undefined;
+
+        if (newSlideIndex) {
+            setSlideIndex(newSlideIndex);
+
+            if (onNextSlideClick) {
+                onNextSlideClick(newSlideIndex);
             }
-        }
-        if (onNextSlideClick) {
-            onNextSlideClick();
         }
     };
 
     const prevSlide = () => {
         setNextButtonDisabled(false);
-        if (slideIndex !== 1) {
-            setSlideIndex(slideIndex - 1);
-        } else if (slideIndex === 1) {
-            if (infiniteSlide) {
-                setSlideIndex(dataSlides.length);
+
+        const isFirstSlide = slideIndex === 1;
+        const newSlideIndex = isFirstSlide && infiniteSlide ? dataSlides.length : (!isFirstSlide && slideIndex - 1) || undefined;
+
+        if (newSlideIndex) {
+            setSlideIndex(newSlideIndex);
+
+            if (onPrevSlideClick) {
+                onPrevSlideClick(newSlideIndex);
             }
-        }
-        if (onPrevSlideClick) {
-            onPrevSlideClick();
         }
     };
 
@@ -75,7 +79,7 @@ const Carousel: React.FC<Props> = ({
             {dataSlides.map((obj: any, index: number) => {
                 return (
                     <div
-                        key={`${index}`}
+                        key={`${index.toString()}`}
                         className={slideIndex === index + 1 ? 'slide active-anim' : 'slide'}
                     >
                         {obj}
@@ -87,7 +91,7 @@ const Carousel: React.FC<Props> = ({
                 <div className='container-dots'>
                     {dataSlides.map((item, index) => (
                         <div
-                            key={index}
+                            key={index.toString()}
                             onClick={() => moveDot(index + 1)}
                             className={slideIndex === index + 1 ? 'dot active' : 'dot'}
                         />
@@ -102,7 +106,7 @@ const Carousel: React.FC<Props> = ({
                     <CarouselButton
                         moveSlide={nextSlide}
                         direction={'next'}
-                        disabled={nextButtonDisabled}
+                        disabled={nextButtonDisabled || disableNextButton}
                     />
                 </div>
             </div>

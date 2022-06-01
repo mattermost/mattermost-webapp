@@ -146,6 +146,10 @@
     position: relative;
     margin: 5px 0;
 
+    &:not(.image-permalink) {
+        margin: 5px 0 0;
+    }
+
     .file__image {
         @include pie-clearfix;
 
@@ -208,6 +212,11 @@
                 display: block;
             }
 
+            .image-permalink {
+                max-width: 320px;
+                max-height: 180px;
+            }
+
             img {
                 position: relative;
                 z-index: 2;
@@ -217,6 +226,11 @@
                 border-radius: 4px;
                 cursor: pointer;
                 transition: all 0.1s linear;
+
+                &.image-permalink {
+                    max-width: 100%;
+                    height: auto;
+                }
 
                 &.compact-display {
                     max-height: 175px;
@@ -691,6 +705,10 @@
         z-index: 2;
         box-shadow: 0 2px 5px 0 rgba($black, 0.1), 0 2px 5px 0 rgba($black, 0.1);
         transition: all 0.1s linear;
+    }
+
+    &:hover .image-preview-utility-buttons-container {
+        display: inline-block;
     }
 }
 

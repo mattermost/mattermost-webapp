@@ -147,7 +147,7 @@ export class TestHelper {
         return Object.assign({}, defaultCategory, override);
     }
 
-    public static getChannelMembershipMock(override: Partial<ChannelMembership>, overrideNotifyProps: Partial<ChannelNotifyProps>): ChannelMembership {
+    public static getChannelMembershipMock(override: Partial<ChannelMembership>, overrideNotifyProps?: Partial<ChannelNotifyProps>): ChannelMembership {
         const defaultNotifyProps = {
             desktop: 'default',
             email: 'default',
@@ -234,7 +234,7 @@ export class TestHelper {
             name: 'group_name',
             display_name: 'group_display_name',
             description: '',
-            type: '',
+            source: '',
             remote_id: '',
             create_at: 1,
             update_at: 1,

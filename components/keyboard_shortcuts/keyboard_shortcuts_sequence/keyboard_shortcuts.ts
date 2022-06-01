@@ -162,6 +162,26 @@ export const KEYBOARD_SHORTCUTS = {
             defaultMessage: 'Open or close the right sidebar\t⌘|.',
         },
     },
+    navExpandSidebar: {
+        default: {
+            id: t('shortcuts.nav.expand_sidebar'),
+            defaultMessage: 'Expand the right sidebar:\tCtrl|Shift|.',
+        },
+        mac: {
+            id: t('shortcuts.nav.expand_sidebar.mac'),
+            defaultMessage: 'Expand the right sidebar:\t⌘|Shift|.',
+        },
+    },
+    navOpenChannelInfo: {
+        default: {
+            id: t('shortcuts.nav.open_channel_info'),
+            defaultMessage: 'View channel info:\tCtrl|Alt|I',
+        },
+        mac: {
+            id: t('shortcuts.nav.open_channel_info.mac'),
+            defaultMessage: 'View channel info:\t⌘|Shift|I',
+        },
+    },
     msgEdit: {
         id: t('shortcuts.msgs.edit'),
         defaultMessage: 'Edit last message in channel:\tUp',

@@ -10,6 +10,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getPost, makeGetPostIdsForThread} from 'mattermost-redux/selectors/entities/posts';
 import {getThread} from 'mattermost-redux/selectors/entities/threads';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
 
 import {removePost, getPostThread} from 'mattermost-redux/actions/posts';
 import {getThread as fetchThread, updateThreadRead} from 'mattermost-redux/actions/threads';
@@ -56,6 +57,7 @@ function makeMapStateToProps() {
 
         return {
             isCollapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
+            appsEnabled: appsEnabled(state),
             currentUserId,
             currentTeamId,
             userThread,

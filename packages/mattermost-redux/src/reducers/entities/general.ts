@@ -137,6 +137,16 @@ function firstAdminVisitMarketplaceStatus(state = false, action: GenericAction) 
     }
 }
 
+function firstAdminCompleteSetup(state = false, action: GenericAction) {
+    switch (action.type) {
+    case GeneralTypes.FIRST_ADMIN_COMPLETE_SETUP_RECEIVED:
+        return action.data;
+
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
     appState,
     credentials,
@@ -148,4 +158,5 @@ export default combineReducers({
     timezones,
     warnMetricsStatus,
     firstAdminVisitMarketplaceStatus,
+    firstAdminCompleteSetup,
 });

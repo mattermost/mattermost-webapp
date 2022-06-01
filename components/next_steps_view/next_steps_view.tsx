@@ -15,6 +15,7 @@ import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
 import {Preferences, RecommendedNextSteps} from 'utils/constants';
 
 import loadingIcon from 'images/spinner-48x48-blue.apng';
+import {GenericTaskSteps, OnboardingTaskCategory, OnboardingTasksName} from 'components/onboarding_tasks';
 
 import {StepType} from './steps';
 import './next_steps_view.scss';
@@ -31,6 +32,7 @@ type Props = {
     preferences: PreferenceType[];
     isFirstAdmin: boolean;
     isAdmin: boolean;
+    isMobileView: boolean;
     steps: StepType[];
     isCloud: boolean;
     actions: {
@@ -105,12 +107,20 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
     onSkipAll = async () => {
         this.transitionOutOfOnboarding();
         setTimeout(() => {
-            this.props.actions.savePreferences(this.props.currentUser.id, [{
-                user_id: this.props.currentUser.id,
-                category: Preferences.RECOMMENDED_NEXT_STEPS,
-                name: RecommendedNextSteps.SKIP,
-                value: 'true',
-            }]);
+            this.props.actions.savePreferences(this.props.currentUser.id, [
+                {
+                    user_id: this.props.currentUser.id,
+                    category: Preferences.RECOMMENDED_NEXT_STEPS,
+                    name: RecommendedNextSteps.SKIP,
+                    value: 'true',
+                },
+                {
+                    category: OnboardingTaskCategory,
+                    user_id: this.props.currentUser.id,
+                    name: OnboardingTasksName.CHANNELS_TOUR,
+                    value: GenericTaskSteps.STARTED.toString(),
+                },
+            ]);
         }, TRANSITION_SCREEN_TIMEOUT);
     }
 
@@ -122,12 +132,20 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
             if (isLastStep) {
                 this.transitionOutOfOnboarding();
                 setTimeout(() => {
-                    this.props.actions.savePreferences(this.props.currentUser.id, [{
-                        category: Preferences.RECOMMENDED_NEXT_STEPS,
-                        user_id: this.props.currentUser.id,
-                        name: id,
-                        value: 'true',
-                    }]);
+                    this.props.actions.savePreferences(this.props.currentUser.id, [
+                        {
+                            category: Preferences.RECOMMENDED_NEXT_STEPS,
+                            user_id: this.props.currentUser.id,
+                            name: id,
+                            value: 'true',
+                        },
+                        {
+                            category: OnboardingTaskCategory,
+                            user_id: this.props.currentUser.id,
+                            name: OnboardingTasksName.CHANNELS_TOUR,
+                            value: GenericTaskSteps.STARTED.toString(),
+                        },
+                    ]);
                 }, TRANSITION_SCREEN_TIMEOUT);
                 return;
             }
@@ -207,6 +225,7 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                         id={id}
                         expanded={expandedKey === id}
                         isAdmin={this.props.isFirstAdmin}
+                        isMobileView={this.props.isMobileView}
                         currentUser={this.props.currentUser}
                         onFinish={this.onFinish(setExpanded, lastNonCompletedStep?.id === id)}
                         onSkip={this.onSkip(setExpanded)}

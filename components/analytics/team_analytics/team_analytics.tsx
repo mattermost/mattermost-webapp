@@ -24,7 +24,7 @@ import TableChart from 'components/analytics/table_chart';
 
 import {getMonthLong} from 'utils/i18n';
 
-import {formatPostsPerDayData, formatUsersWithPostsPerDayData} from '../format';
+import {formatPostsPerDayData, formatUsersWithPostsPerDayData, synchronizeChartLabels} from '../format';
 
 const LAST_ANALYTICS_TEAM = 'last_analytics_team';
 
@@ -155,9 +155,9 @@ export default class TeamAnalytics extends React.PureComponent<Props, State> {
 
         const stats = this.props.stats[this.state.team.id];
 
-        // passing the labels as empty arrays
-        const postCountsDay = formatPostsPerDayData([], stats[StatTypes.POST_PER_DAY]);
-        const userCountsWithPostsDay = formatUsersWithPostsPerDayData([], stats[StatTypes.USERS_WITH_POSTS_PER_DAY]);
+        const labels = synchronizeChartLabels(stats[StatTypes.POST_PER_DAY], stats[StatTypes.USERS_WITH_POSTS_PER_DAY]);
+        const postCountsDay = formatPostsPerDayData(labels, stats[StatTypes.POST_PER_DAY]);
+        const userCountsWithPostsDay = formatUsersWithPostsPerDayData(labels, stats[StatTypes.USERS_WITH_POSTS_PER_DAY]);
 
         let banner = (
             <div className='banner'>

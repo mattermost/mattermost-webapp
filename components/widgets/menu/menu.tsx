@@ -27,6 +27,7 @@ type Props = {
     ariaLabel: string;
     customStyles?: CSSProperties;
     className?: string;
+    listId?: string;
 }
 
 export default class Menu extends React.PureComponent<Props> {
@@ -113,7 +114,7 @@ export default class Menu extends React.PureComponent<Props> {
     }
 
     public render() {
-        const {children, openUp, openLeft, id, ariaLabel, customStyles} = this.props;
+        const {children, openUp, openLeft, id, listId, ariaLabel, customStyles} = this.props;
         let styles: CSSProperties = {};
         if (customStyles) {
             styles = customStyles;
@@ -136,6 +137,7 @@ export default class Menu extends React.PureComponent<Props> {
                 role='menu'
             >
                 <ul
+                    id={listId}
                     ref={this.node}
                     style={styles}
                     className={classNames('Menu__content dropdown-menu', this.props.className)}

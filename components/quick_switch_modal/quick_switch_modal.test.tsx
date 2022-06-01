@@ -12,6 +12,7 @@ describe('components/QuickSwitchModal', () => {
     const baseProps = {
         onExited: jest.fn(),
         showTeamSwitcher: false,
+        isMobileView: false,
         actions: {
             joinChannelById: jest.fn().mockResolvedValue({data: true}),
             switchToChannel: jest.fn().mockImplementation(() => {

@@ -18,9 +18,10 @@
         position: absolute;
         top: 8px;
         right: 10px;
-        background: #cececf;
-        color: rgb(61, 60, 64);
+        background: rgba(var(--center-channel-color-rgb), 0.48);
+        color: var(--center-channel-bg);
         font-size: 10px;
+        font-weight: 700;
     }
 
     .LoadingSpinner {
@@ -36,7 +37,7 @@
         width: 16px;
         height: 16px;
         margin-left: 8px;
-        color: rgba(61, 60, 64, 0.56);
+        color: rgba(var(--center-channel-color-rgb), 0.56);
         font-size: 16px;
         line-height: 16px;
 
@@ -201,8 +202,59 @@
         white-space: nowrap;
 
         .suggestion-list__main {
+            overflow: hidden;
+            max-width: 89%;
             color: rgba(var(--center-channel-color-rgb), 1);
+            text-overflow: ellipsis;
+            white-space: nowrap;
+
+            .suggestion-list__desc {
+                color: rgba(var(--center-channel-color-rgb), 0.56);
+            }
         }
+    }
+
+    .suggestion-list__flex {
+        display: flex;
+        width: 100%;
+        max-width: 100%;
+        align-items: center;
+
+        .suggestion-list__main {
+            max-width: 70%;
+        }
+
+        .badge {
+            position: unset;
+            display: flex;
+            width: 20px;
+            height: 16px;
+            margin-left: 8px;
+        }
+
+        .badge-autocomplete,
+        .shared-channel-icon {
+            margin: 0 0 0 8px;
+        }
+
+        .Badge {
+            margin: 0;
+        }
+    }
+
+    .suggestion-list_unread-mentions {
+        display: flex;
+        flex: 1 1 auto;
+        align-items: center;
+        justify-content: flex-start;
+
+        &.position-end {
+            justify-content: flex-end;
+        }
+    }
+
+    .suggestion-list__unread {
+        font-weight: bold;
     }
 
     .suggestion-list__icon {
@@ -244,7 +296,7 @@
         width: 16px;
         height: 16px;
         margin-left: 8px;
-        color: rgba(61, 60, 64, 0.56);
+        color: rgba(var(--center-channel-color-rgb), 0.56);
         font-size: 16px;
         line-height: 16px;
 
@@ -278,5 +330,14 @@
                 max-width: 11px;
             }
         }
+    }
+
+    .suggestion-list__team-name {
+        position: absolute;
+        right: 20px;
+        overflow: hidden;
+        max-width: 20%;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 }

@@ -12,9 +12,9 @@ import * as GlobalActions from 'actions/global_actions';
 import LocalStorageStore from 'stores/local_storage_store';
 
 import {browserHistory} from 'utils/browser_history';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import {intlShape} from 'utils/react_intl';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import {showNotification} from 'utils/notifications';
 import {t} from 'utils/i18n.jsx';
 
@@ -63,6 +63,7 @@ class LoginController extends React.PureComponent {
         openidButtonColor: PropTypes.string,
         siteName: PropTypes.string,
         initializing: PropTypes.bool,
+        useCaseOnboarding: PropTypes.bool,
         actions: PropTypes.shape({
             login: PropTypes.func.isRequired,
             addUserToTeamFromInvite: PropTypes.func.isRequired,
@@ -340,6 +341,12 @@ class LoginController extends React.PureComponent {
             browserHistory.push(`/${team.name}`);
         } else if (experimentalPrimaryTeam) {
             browserHistory.push(`/${experimentalPrimaryTeam}`);
+        } else if (this.props.useCaseOnboarding) {
+            // need info about whether admin or not,
+            // and whether admin has already completed
+            // first tiem onboarding. Instead of fetching and orchestrating that here,
+            // let the default root component handle it.
+            browserHistory.push('/');
         } else {
             GlobalActions.redirectUserToDefaultTeam();
         }

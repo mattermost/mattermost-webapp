@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 export type {
+    AppCall,
     AppCallRequest,
     AppCallValues,
     AppBinding,
@@ -26,15 +27,16 @@ import type {
 } from 'mattermost-redux/types/integrations';
 export type {AutocompleteSuggestion};
 
-export type {
+import type {
     Channel,
 } from 'mattermost-redux/types/channels';
+export type {Channel};
 
-export {
+import {
     GlobalState,
 } from 'types/store';
 
-export type {
+import type {
     DispatchFunc,
 } from 'mattermost-redux/types/actions';
 
@@ -42,13 +44,13 @@ export type {
     UserAutocomplete,
 } from 'mattermost-redux/types/autocomplete';
 
-export type {
+import type {
     UserProfile,
 } from 'mattermost-redux/types/users';
+export type {UserProfile};
 
 export {
     AppBindingLocations,
-    AppCallTypes,
     AppFieldTypes,
     AppCallResponseTypes,
 } from 'mattermost-redux/constants/apps';
@@ -65,7 +67,7 @@ export {getUserByUsername as selectUserByUsername, getUser as selectUser} from '
 export {getUserByUsername, getUser} from 'mattermost-redux/actions/users';
 export {getChannelByNameAndTeamName, getChannel, autocompleteChannels} from 'mattermost-redux/actions/channels';
 
-export {doAppCall} from 'actions/apps';
+export {doAppFetchForm, doAppLookup} from 'actions/apps';
 import {sendEphemeralPost} from 'actions/global_actions';
 
 export {
@@ -78,8 +80,15 @@ import {
     localizeAndFormatMessage,
 } from 'utils/utils';
 
-import Store from 'stores/redux_store';
-export const getStore = () => Store;
+export type Store = {
+    dispatch: DispatchFunc;
+    getState: () => GlobalState;
+}
+
+import ReduxStore from 'stores/redux_store';
+export const getStore = () => ReduxStore;
+
+export {getChannelSuggestions, getUserSuggestions, inTextMentionSuggestions} from '../mentions';
 
 import {Constants} from 'utils/constants';
 export const EXECUTE_CURRENT_COMMAND_ITEM_ID = Constants.Integrations.EXECUTE_CURRENT_COMMAND_ITEM_ID;
@@ -116,8 +125,13 @@ export const getOpenInModalSuggestion = (parsed: ParsedCommand): AutocompleteSug
     };
 };
 
+export type ExtendedAutocompleteSuggestion = AutocompleteSuggestion & {
+    type?: string;
+    item?: UserProfile | Channel;
+}
+
 export const displayError = (err: string, channelID: string, rootID?: string) => {
-    Store.dispatch(sendEphemeralPost(err, channelID, rootID));
+    ReduxStore.dispatch(sendEphemeralPost(err, channelID, rootID));
 };
 
 // Shim of mobile-version intl

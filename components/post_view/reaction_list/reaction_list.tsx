@@ -9,7 +9,7 @@ import Permissions from 'mattermost-redux/constants/permissions';
 import {Post} from 'mattermost-redux/types/posts';
 import {Reaction as ReactionType} from 'mattermost-redux/types/reactions';
 import {Emoji} from 'mattermost-redux/types/emojis';
-import {isCustomEmoji} from 'mattermost-redux/utils/emoji_utils';
+import {isSystemEmoji} from 'mattermost-redux/utils/emoji_utils';
 
 import Constants from 'utils/constants';
 import Reaction from 'components/post_view/reaction';
@@ -18,7 +18,7 @@ import AddReactionIcon from 'components/widgets/icons/add_reaction_icon';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils';
 
 const DEFAULT_EMOJI_PICKER_RIGHT_OFFSET = 15;
 const EMOJI_PICKER_WIDTH_OFFSET = 260;
@@ -75,7 +75,7 @@ export default class ReactionList extends React.PureComponent<Props, State> {
 
     handleEmojiClick = (emoji: Emoji): void => {
         this.setState({showEmojiPicker: false});
-        const emojiName = isCustomEmoji(emoji) ? emoji.name : emoji.short_names[0];
+        const emojiName = isSystemEmoji(emoji) ? emoji.short_names[0] : emoji.name;
         this.props.actions.addReaction(this.props.post.id, emojiName);
     }
 

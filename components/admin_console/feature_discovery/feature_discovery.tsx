@@ -6,9 +6,11 @@ import {FormattedMessage} from 'react-intl';
 
 import {AnalyticsRow} from 'mattermost-redux/types/admin';
 import {ClientLicense} from 'mattermost-redux/types/config';
+import {EmbargoedEntityTrialError} from 'components/admin_console/license_settings/trial_banner/trial_banner';
 
 import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import {ActionResult} from 'mattermost-redux/types/actions';
+import * as Utils from 'utils/utils';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
@@ -37,7 +39,7 @@ type Props = {
 
     stats?: Record<string, number | AnalyticsRow[]>;
     actions: {
-        requestTrialLicense: (users: number, termsAccepted: boolean, receiveEmailsAccepted: boolean, featureName: string) => Promise<{error?: string; data?: null}>;
+        requestTrialLicense: (users: number, termsAccepted: boolean, receiveEmailsAccepted: boolean, featureName: string) => Promise<ActionResult>;
         getLicenseConfig: () => void;
         getPrevTrialLicense: () => void;
         openModal: <P>(modalData: ModalData<P>) => void;
@@ -48,6 +50,7 @@ type Props = {
 type State = {
     gettingTrial: boolean;
     gettingTrialError: string | null;
+    gettingTrialResponseCode: number | null;
 }
 
 export default class FeatureDiscovery extends React.PureComponent<Props, State> {
@@ -57,6 +60,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
         this.state = {
             gettingTrial: false,
             gettingTrialError: null,
+            gettingTrialResponseCode: null,
         };
     }
 
@@ -75,9 +79,13 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
             users = this.props.stats.TOTAL_USERS;
         }
         const requestedUsers = Math.max(users, 30);
-        const {error} = await this.props.actions.requestTrialLicense(requestedUsers, true, true, this.props.featureName);
+        const {error, data} = await this.props.actions.requestTrialLicense(requestedUsers, true, true, this.props.featureName);
         if (error) {
-            this.setState({gettingTrialError: error});
+            if (typeof data?.status === 'undefined') {
+                this.setState({gettingTrialError: error});
+            } else {
+                this.setState({gettingTrialError: error, gettingTrialResponseCode: data.status});
+            }
         }
         this.setState({gettingTrial: false});
         this.props.actions.getLicenseConfig();
@@ -161,7 +169,13 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
         } = this.props;
 
         let gettingTrialError: React.ReactNode = '';
-        if (this.state.gettingTrialError) {
+        if (this.state.gettingTrialError && this.state.gettingTrialResponseCode === 451) {
+            gettingTrialError = (
+                <p className='trial-error'>
+                    <EmbargoedEntityTrialError/>
+                </p>
+            );
+        } else if (this.state.gettingTrialError) {
             gettingTrialError = (
                 <p className='trial-error'>
                     <FormattedMarkdownMessage

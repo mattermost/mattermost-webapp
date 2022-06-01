@@ -1,11 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
+import {batchActions} from 'redux-batched-actions';
+
 import {Client4} from 'mattermost-redux/client';
 import {SearchTypes} from 'mattermost-redux/action_types';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
-import {ActionResult, batchActions, DispatchFunc, GetStateFunc, ActionFunc} from 'mattermost-redux/types/actions';
+import {ActionResult, DispatchFunc, GetStateFunc, ActionFunc} from 'mattermost-redux/types/actions';
 
 import {Post} from 'mattermost-redux/types/posts';
 
@@ -211,10 +214,8 @@ export function getFlaggedPosts(): ActionFunc {
             await Promise.all([getProfilesAndStatusesForPosts(posts.posts, dispatch, getState) as any, dispatch(getMissingChannelsFromPosts(posts.posts)) as any]);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(batchActions([
-                {type: SearchTypes.SEARCH_FLAGGED_POSTS_FAILURE, error},
-                logError(error),
-            ]));
+            dispatch({type: SearchTypes.SEARCH_FLAGGED_POSTS_FAILURE, error});
+            dispatch(logError(error));
             return {error};
         }
 
@@ -247,10 +248,7 @@ export function getPinnedPosts(channelId: string): ActionFunc {
             await Promise.all(arr);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(batchActions([
-                {type: SearchTypes.SEARCH_PINNED_POSTS_FAILURE, error},
-                logError(error),
-            ]));
+            dispatch({type: SearchTypes.SEARCH_PINNED_POSTS_FAILURE, error});
             return {error};
         }
 

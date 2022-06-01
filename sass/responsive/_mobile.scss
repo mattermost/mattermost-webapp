@@ -375,7 +375,6 @@
 
                 .modal-title {
                     max-width: 90%;
-                    float: none;
                 }
 
                 .btn {
@@ -383,9 +382,15 @@
                         display: block;
                         width: 100%;
                         margin: 10px 0 6px;
-                        float: none;
                     }
                 }
+            }
+        }
+
+        .more-modal {
+            .modal-header {
+                flex-direction: column;
+                padding-right: 15px;
             }
         }
 
@@ -745,10 +750,16 @@
             padding: 0;
 
             .send-button {
-                display: block;
+                display: flex;
             }
 
             .custom-textarea {
+                min-height: 0;
+                border-right: none;
+                border-bottom: none;
+                border-left: none;
+                border-radius: 0;
+
                 &.custom-textarea--emoji-picker {
                     max-height: 162px;
                     padding-right: 135px;
@@ -874,17 +885,6 @@
                 left: 0;
                 width: 100%;
                 height: 100%;
-            }
-        }
-    }
-
-    .tutorial-steps__container {
-        .tutorial__content {
-            .tutorial__steps {
-                max-height: 70%;
-                padding-bottom: 0;
-                margin-top: 15%;
-                margin-bottom: 15%;
             }
         }
     }
@@ -1142,7 +1142,7 @@
         }
 
         .post-list__content & {
-            &:hover {
+            &:not(.post--editing):hover {
                 background: transparent;
             }
 
@@ -1275,21 +1275,6 @@
 
     .img-div {
         max-width: 100%;
-    }
-
-    .tip-div {
-        right: auto;
-        left: 15px;
-    }
-
-    .tip-overlay {
-        &.tip-overlay--chat {
-            margin-left: 10px;
-
-            .arrow {
-                left: 32px;
-            }
-        }
     }
 
     .file-details__container {
@@ -1707,10 +1692,6 @@
 
         .browser--ie & {
             display: none;
-            -webkit-transform: none !important;
-            -moz-transform: none !important;
-            -ms-transform: none !important;
-            -o-transform: none !important;
             transform: none !important;
         }
 
@@ -1723,10 +1704,6 @@
         }
 
         .post-create__container {
-            form {
-                padding: 0.5em 1em;
-            }
-
             .post-create {
                 padding: 0;
             }
@@ -1744,7 +1721,7 @@
             }
 
             .post-create-footer {
-                padding: 6px 0 0;
+                padding: 0;
 
                 .post-error {
                     margin-bottom: 8px;
@@ -2009,10 +1986,6 @@
                     flex-direction: column;
                 }
 
-                .modal-header {
-                    flex: 0 0 56px;
-                }
-
                 .modal-body {
                     display: flex;
                     max-height: 100%;
@@ -2200,10 +2173,6 @@
         }
     }
 
-    .tip-overlay.tip-overlay--sidebar {
-        min-height: 350px;
-    }
-
     .member-div {
         padding: 8px 0;
 
@@ -2338,54 +2307,6 @@
         .sidebar--left,
         #SidebarContainer {
             width: 220px;
-        }
-    }
-
-    .tutorial-steps__container {
-        position: fixed;
-        z-index: 9999;
-        top: 0;
-        left: 0;
-        background: v(center-channel-bg);
-
-        .tutorial__content {
-            .tutorial__steps {
-                width: 100%;
-                min-height: auto;
-                padding: 0 20px;
-                margin-top: 20px;
-
-                h1 {
-                    margin: -5px 0 20px;
-                    font-size: 2em;
-                }
-
-                h3 {
-                    margin-bottom: 10px;
-                    font-size: 1.5em;
-                }
-
-                .tutorial__app-icons {
-                    margin: 10px 0;
-                }
-
-                .tutorial__circles {
-                    position: relative;
-                    bottom: auto;
-                    margin: 15px 0 20px;
-                }
-
-                .tutorial__footer {
-                    position: relative;
-                    bottom: auto;
-                }
-            }
-        }
-    }
-
-    .tip-overlay {
-        &.tip-overlay--sidebar {
-            min-height: 440px;
         }
     }
 

@@ -230,12 +230,21 @@ export function setEditingPost(postId = '', refocusId = '', title = '', isRHS = 
 
         if (canEditNow) {
             dispatch({
-                type: ActionTypes.SHOW_EDIT_POST_MODAL,
-                data: {postId, refocusId, title, isRHS},
+                type: ActionTypes.TOGGLE_EDITING_POST,
+                data: {postId, refocusId, title, isRHS, show: true},
             });
         }
 
         return {data: canEditNow};
+    };
+}
+
+export function unsetEditingPost() {
+    return {
+        type: ActionTypes.TOGGLE_EDITING_POST,
+        data: {
+            show: false,
+        },
     };
 }
 
@@ -249,20 +258,14 @@ export function markPostAsUnread(post, location) {
         if (isCollapsedThreadsEnabled(state) && (location === 'RHS_ROOT' || location === 'RHS_COMMENT')) {
             const threadId = post.root_id || post.id;
             ThreadActions.handleFollowChanged(dispatch, threadId, currentTeamId, true);
-            dispatch(manuallyMarkThreadAsUnread(threadId, post.create_at));
-            await dispatch(ThreadActions.updateThreadRead(userId, currentTeamId, threadId, post.create_at));
+            dispatch(manuallyMarkThreadAsUnread(threadId, post.create_at - 1));
+            await dispatch(ThreadActions.markThreadAsUnread(userId, currentTeamId, threadId, post.id));
         } else {
             // use normal channel unread system
             await dispatch(PostActions.setUnreadPost(userId, post.id));
         }
 
         return {data: true};
-    };
-}
-
-export function hideEditPostModal() {
-    return {
-        type: ActionTypes.HIDE_EDIT_POST_MODAL,
     };
 }
 

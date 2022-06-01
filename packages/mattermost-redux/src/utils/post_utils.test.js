@@ -16,6 +16,7 @@ import {
     isPostCommentMention,
     getEmbedFromMetadata,
     shouldUpdatePost,
+    isPermalink,
 } from 'mattermost-redux/utils/post_utils';
 
 describe('PostUtils', () => {
@@ -541,6 +542,29 @@ describe('PostUtils', () => {
         });
     });
 
+    describe('isPermalink', () => {
+        it('should return true if post contains permalink', () => {
+            const post = {
+                metadata: {embeds: [{type: 'permalink'}]},
+            };
+            expect(isPermalink(post)).toBe(true);
+        });
+
+        it('should return false if post contains an embed that is not a permalink', () => {
+            const post = {
+                metadata: {embeds: [{type: 'opengraph'}]},
+            };
+            expect(isPermalink(post)).toBe(false);
+        });
+
+        it('should return false if post has no embeds', () => {
+            const post = {
+                metadata: {embeds: []},
+            };
+            expect(isPermalink(post)).toBe(false);
+        });
+    });
+
     describe('shouldUpdatePost', () => {
         const storedPost = {
             id: 'post1',
@@ -606,6 +630,14 @@ describe('PostUtils', () => {
             const post = {
                 ...storedPost,
                 is_following: true,
+            };
+            expect(shouldUpdatePost(post, storedPost)).toBe(true);
+        });
+
+        it('should return true for same posts with metadata in received post and not in stored post', () => {
+            const post = {
+                ...storedPost,
+                metadata: {embeds: [{type: 'permalink'}]},
             };
             expect(shouldUpdatePost(post, storedPost)).toBe(true);
         });

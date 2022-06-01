@@ -2,7 +2,7 @@
 
 exports[`components/login/LoginController should match gitlab text and color props 1`] = `
 <div>
-  <Connect(AnnouncementBarController) />
+  <Connect(_class) />
   <div
     className="col-sm-12"
     id="login_section"
@@ -55,7 +55,7 @@ exports[`components/login/LoginController should match gitlab text and color pro
 
 exports[`components/login/LoginController should match openid text and color props 1`] = `
 <div>
-  <Connect(AnnouncementBarController) />
+  <Connect(_class) />
   <div
     className="col-sm-12"
     id="login_section"
@@ -105,7 +105,7 @@ exports[`components/login/LoginController should match openid text and color pro
 
 exports[`components/login/LoginController should match snapshot 1`] = `
 <div>
-  <Connect(AnnouncementBarController) />
+  <Connect(_class) />
   <div
     className="col-sm-12"
     id="login_section"
@@ -149,7 +149,7 @@ exports[`components/login/LoginController should match snapshot 1`] = `
 
 exports[`components/login/LoginController should match snapshot when expired 1`] = `
 <div>
-  <Connect(AnnouncementBarController) />
+  <Connect(_class) />
   <div
     className="col-sm-12"
     id="login_section"
@@ -222,7 +222,7 @@ exports[`components/login/LoginController should match snapshot when initializin
 
 exports[`components/login/LoginController should show session expiry notification 1`] = `
 <div>
-  <Connect(AnnouncementBarController) />
+  <Connect(_class) />
   <div
     className="col-sm-12"
     id="login_section"
@@ -288,7 +288,7 @@ exports[`components/login/LoginController should show session expiry notificatio
 
 exports[`components/login/LoginController should suppress session expiry notification on sign in change 1`] = `
 <div>
-  <Connect(AnnouncementBarController) />
+  <Connect(_class) />
   <div
     className="col-sm-12"
     id="login_section"

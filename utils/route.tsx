@@ -24,7 +24,7 @@ export type ConfigOption = {
 };
 
 export function checkIfMFARequired(
-    user: UserProfile,
+    user: UserProfile | undefined,
     license: ClientLicense,
     config: ConfigOption,
     path: string,
@@ -36,6 +36,7 @@ export function checkIfMFARequired(
         mfaPaths.indexOf(path) === -1
     ) {
         if (
+            user &&
             isGuest(user.roles) &&
             config.GuestAccountsEnforceMultifactorAuthentication !== 'true'
         ) {

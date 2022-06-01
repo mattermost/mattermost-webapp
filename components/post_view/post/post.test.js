@@ -29,6 +29,7 @@ describe('Post', () => {
             selectPostCard: jest.fn(),
             markPostAsUnread: jest.fn(),
         },
+        isBeingEdited: false,
         isFlagged: false,
     };
 
@@ -139,7 +140,7 @@ describe('Post', () => {
         expect(postPreHeader.prop('channelId')).toEqual(baseProps.post.channel_id);
     });
 
-    test('should not highlight the post of it is neither flagged nor pinned', () => {
+    test('should not highlight the post if it is neither flagged nor pinned', () => {
         const wrapper = shallow(
             <Post {...baseProps}/>,
         );
