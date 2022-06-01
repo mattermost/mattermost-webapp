@@ -147,7 +147,8 @@ export const Unique = {
 };
 
 export const TrialPeriodDays = {
-    TRIAL_MAX_DAYS: 14,
+    TRIAL_30_DAYS: 30,
+    TRIAL_14_DAYS: 14,
     TRIAL_WARNING_THRESHOLD: 3,
     TRIAL_2_DAYS: 2,
     TRIAL_1_DAY: 1,
@@ -377,6 +378,7 @@ export const ModalIdentifiers = {
     INSIGHTS: 'insights',
     CLOUD_LIMITS: 'cloud_limits',
     REQUEST_BUSINESS_EMAIL_MODAL: 'request_business_email_modal',
+    CREATE_TEAM_RESTRICTED_MODAL: 'create_team_restricted_modal',
 };
 
 export const UserStatuses = {
@@ -916,6 +918,7 @@ export const DocLinks = {
 
 export const LicenseLinks = {
     CONTACT_SALES: 'https://mattermost.com/contact-sales/',
+    SOFTWARE_EVALUATION_AGREEMENT: 'https://mattermost.com/software-evaluation-agreement/',
 };
 
 export const BillingSchemes = {

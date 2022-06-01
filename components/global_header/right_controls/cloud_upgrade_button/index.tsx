@@ -27,7 +27,7 @@ font-weight: 600;
 font-size: 11px !important;
 line-height: 10px;
 letter-spacing: 0.02em;
-color: var(--center-channel-bg);
+color: var(--button-color);
 `;
 
 let openPricingModal: () => void;

@@ -89,6 +89,11 @@ function setupStore(setupOptions: SetupOptions) {
                     enabled: 3,
                     enabledLoaded: true,
                 },
+                teams: {
+                    active: 0,
+                    cloudArchived: 0,
+                    teamsLoaded: true,
+                },
             },
             general: {
                 config: {
