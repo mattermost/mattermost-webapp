@@ -458,6 +458,10 @@ export default class Client4 {
         return `${this.getBaseRoute()}/system`;
     }
 
+    getSystemBusRoute() {
+        return `${this.getBaseRoute()}/systembus`;
+    }
+
     getCSRFFromCookie() {
         if (typeof document !== 'undefined' && typeof document.cookie !== 'undefined') {
             const cookies = document.cookie.split(';');
@@ -3946,6 +3950,46 @@ export default class Client4 {
             {method: 'get'},
         );
     }
+
+    getSystemBusEvents = () => {
+        // TODO: Add the correct type here
+        return this.doFetch<any[]>(
+            `${this.getSystemBusRoute()}/events`,
+            {method: 'get'},
+        );
+    };
+
+    getSystemBusActions = () => {
+        // TODO: Add the correct type here
+        return this.doFetch<any[]>(
+            `${this.getSystemBusRoute()}/actions`,
+            {method: 'get'},
+        );
+    };
+
+    getSystemBusLinks = () => {
+        // TODO: Add the correct type here
+        return this.doFetch<any[]>(
+            `${this.getSystemBusRoute()}/links`,
+            {method: 'get'},
+        );
+    };
+
+    createSystemBusLink = (link: any) => {
+        // TODO: Add the correct type here
+        return this.doFetch<any[]>(
+            `${this.getSystemBusRoute()}/links`,
+            {method: 'post', body: JSON.stringify(link)},
+        );
+    };
+
+    deleteSystemBusLink = (linkId: any) => {
+        // TODO: Add the correct type here
+        return this.doFetch<any[]>(
+            `${this.getSystemBusRoute()}/links/${linkId}`,
+            {method: 'delete'},
+        );
+    };
 
     /**
      * @param query string query of graphQL, pass the json stringified version of the query

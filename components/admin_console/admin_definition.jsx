@@ -68,6 +68,7 @@ import PaymentInfo from './billing/payment_info';
 import CompanyInfoEdit from './billing/company_info_edit';
 import PaymentInfoEdit from './billing/payment_info_edit';
 import WorkspaceOptimizationDashboard from './workspace-optimization/dashboard';
+import SystemBusSettings from './systembus/systembus';
 import {
     LDAPFeatureDiscovery,
     SAMLFeatureDiscovery,
@@ -2543,6 +2544,17 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.EMOJI)),
                     },
                 ],
+            },
+        },
+        systembus: {
+            url: 'site_config/systembus',
+            title: t('admin.sidebar.systembus'),
+            title_default: 'System Bus',
+            searchableStrings: [
+            ],
+            schema: {
+                id: 'SystemBusSettings',
+                component: SystemBusSettings,
             },
         },
         posts: {
