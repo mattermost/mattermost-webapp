@@ -2,11 +2,9 @@
 // See LICENSE.txt for license information.
 import React from 'react';
 import {useIntl} from 'react-intl';
-import {useSelector} from 'react-redux';
 import styled from 'styled-components';
 
-import {GlobalState} from 'types/store';
-import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
+import useOpenSalesLink from 'components/common/hooks/useOpenSalesLink';
 
 const StyledDiv = styled.div`
 color: var(--denim-button-bg);
@@ -21,12 +19,10 @@ text-align: center;
 
 function ContactSalesCTA() {
     const {formatMessage} = useIntl();
-    const contactSalesLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales));
+    const openSalesLink = useOpenSalesLink();
     return (
         <StyledDiv
-            onClick={() => {
-                window.open(contactSalesLink, '_blank');
-            }}
+            onClick={openSalesLink}
         >
             {formatMessage({id: 'pricing_modal.btn.contactSalesForQuote', defaultMessage: 'Contact Sales for a quote'})}
         </StyledDiv>);
