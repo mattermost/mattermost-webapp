@@ -4,9 +4,8 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
 
-import {GlobalState} from 'types/store';
-
 import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getSubscriptionProduct, checkHadPriorTrial, getCloudSubscription} from 'mattermost-redux/selectors/entities/cloud';
 
 import {CloudProducts} from 'utils/constants';
 
@@ -17,7 +16,7 @@ import {
     freeTrial,
 } from './billing_summary';
 
-import {tryEnterpriseCard} from './upsell_card';
+import {tryEnterpriseCard, UpgradeToProfessionalCard, ExploreEnterpriseCard} from './upsell_card';
 
 import './billing_summary.scss';
 
@@ -29,22 +28,24 @@ type BillingSummaryProps = {
 }
 
 const BillingSummary: React.FC<BillingSummaryProps> = ({isLegacyFree, isFreeTrial, daysLeftOnTrial, onUpgradeMattermostCloud}: BillingSummaryProps) => {
-    const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
-    const product = useSelector((state: GlobalState) => {
-        if (state.entities.cloud.products && subscription) {
-            return state.entities.cloud.products[subscription?.product_id];
-        }
-        return undefined;
-    });
+    const subscription = useSelector(getCloudSubscription);
+    const product = useSelector(getSubscriptionProduct);
 
     let body = noBillingHistory;
 
     const isPreTrial = subscription?.is_free_trial === 'false' && subscription?.trial_end_at === 0;
+    const hasPriorTrial = useSelector(checkHadPriorTrial);
     const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
     const showTryEnterprise = isCloudFreeEnabled && product?.sku === CloudProducts.STARTER && isPreTrial;
+    const showUpgradeProfessional = isCloudFreeEnabled && product?.sku === CloudProducts.STARTER && hasPriorTrial;
+    const showExploreEnterprise = isCloudFreeEnabled && product?.sku === CloudProducts.PROFESSIONAL;
 
     if (showTryEnterprise) {
         body = tryEnterpriseCard;
+    } else if (showUpgradeProfessional) {
+        body = <UpgradeToProfessionalCard/>;
+    } else if (showExploreEnterprise) {
+        body = <ExploreEnterpriseCard/>;
     } else if (isFreeTrial) {
         body = freeTrial(onUpgradeMattermostCloud, daysLeftOnTrial);
     } else if (isLegacyFree) {

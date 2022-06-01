@@ -26,11 +26,16 @@ const enterpriseAdvantages = [
     },
 ];
 
+// Currently, these are the same. In the future, they may diverge.
+const professionalAdvantages = enterpriseAdvantages;
+
 interface Props {
     advantages: Message[];
     title: Message;
     andMore: boolean;
     cta: Message;
+    ctaAction?: () => void;
+    upsellIsTrial?: boolean;
 }
 
 const andMore = {
@@ -40,6 +45,38 @@ const andMore = {
 
 export default function UpsellCard(props: Props) {
     const intl = useIntl();
+
+    let callToAction = (
+        <button
+            className='UpsellCard__cta'
+            onClick={props.ctaAction}
+        >
+            {intl.formatMessage(
+                {
+                    id: props.cta.id,
+                    defaultMessage: props.cta.defaultMessage,
+                },
+                props.cta.values,
+            )}
+        </button>
+    );
+    if (props.upsellIsTrial) {
+        callToAction = (
+            <CloudStartTrialButton
+                message={
+                    intl.formatMessage(
+                        {
+                            id: props.cta.id,
+                            defaultMessage: props.cta.defaultMessage,
+                        },
+                        props.cta.values,
+                    )
+                }
+                telemetryId={'start_cloud_trial_billing_subscription'}
+                extraClass='UpsellCard__cta'
+            />
+        );
+    }
     return (
         <div className='UpsellCard'>
             <div className='UpsellCard__illustration'>
@@ -68,19 +105,7 @@ export default function UpsellCard(props: Props) {
                 }
             </div>
             <div>
-                <CloudStartTrialButton
-                    message={
-                        intl.formatMessage(
-                            {
-                                id: props.cta.id,
-                                defaultMessage: props.cta.defaultMessage,
-                            },
-                            props.cta.values,
-                        )
-                    }
-                    telemetryId={'start_cloud_trial_billing_subscription'}
-                    extraClass='UpsellCard__cta'
-                />
+                {callToAction}
             </div>
         </div>
     );
@@ -101,5 +126,43 @@ export const tryEnterpriseCard = (
         }}
         andMore={true}
         advantages={enterpriseAdvantages}
+        upsellIsTrial={true}
     />
 );
+
+export const UpgradeToProfessionalCard = () => {
+    return (
+        <UpsellCard
+            title={{
+                id: t('admin.billing.subscriptions.billing_summary.upgrade_professional'),
+                defaultMessage: 'Upgrade to the Professional Plan',
+            }}
+            cta={{
+                id: t('admin.billing.subscriptions.billing_summary.upgrade_professional.cta'),
+                defaultMessage: 'Upgrade',
+            }}
+            ctaAction={() => {}}
+            andMore={true}
+            advantages={professionalAdvantages}
+        />
+    );
+};
+
+export const ExploreEnterpriseCard = () => {
+    return (
+        <UpsellCard
+            title={{
+
+                id: t('admin.billing.subscriptions.billing_summary.explore_enterprise'),
+                defaultMessage: 'Explore Enterprise benefits',
+            }}
+            cta={{
+                id: t('admin.billing.subscriptions.billing_summary.explore_enterprise.cta'),
+                defaultMessage: 'View all benefits',
+            }}
+            ctaAction={() => {}}
+            andMore={true}
+            advantages={enterpriseAdvantages}
+        />
+    );
+};

@@ -7,7 +7,7 @@ import {useIntl} from 'react-intl';
 
 import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
-import {fallbackStarterLimits, asGBString} from 'utils/limits';
+import {fallbackStarterLimits, fallbackProfessionalLimits, asGBString} from 'utils/limits';
 import useGetLimits from 'components/common/hooks/useGetLimits';
 import {CloudProducts} from 'utils/constants';
 
@@ -130,25 +130,43 @@ const FeatureList = (props: FeatureListProps) => {
     ];
 
     const featuresCloudProfessional = [
+        intl.formatMessage(
+            {
+                id: 'admin.billing.subscription.planDetails.features.fileStorage',
+                defaultMessage: '{limit} file storage',
+            },
+            {
+                limit: asGBString(fallbackProfessionalLimits.files.totalStorage, intl.formatNumber),
+            },
+        ),
         intl.formatMessage({
-            id: 'admin.billing.subscription.planDetails.features.advanceTeamPermission',
-            defaultMessage: 'Advanced team permissions',
+            id: 'admin.billing.subscription.planDetails.features.guestAccounts',
+            defaultMessage: 'Guest Accounts',
+        }),
+        intl.formatMessage({
+            id: 'admin.billing.subscription.planDetails.features.ldapUserSync',
+            defaultMessage: 'AD/LDAP user sync',
+        }),
+
+        intl.formatMessage({
+            id: 'admin.billing.subscription.planDetails.features.ssoSaml',
+            defaultMessage: 'SSO w/ SAML (includes Okta and OneLogIn)',
+        }),
+        intl.formatMessage({
+            id: 'admin.billing.subscription.planDetails.features.multiplatformSso',
+            defaultMessage: 'SSO with Google, O365',
+        }),
+        intl.formatMessage({
+            id: 'admin.billing.subscription.planDetails.features.openid',
+            defaultMessage: 'OpenID',
         }),
         intl.formatMessage({
             id: 'admin.billing.subscription.planDetails.features.mfaEnforcement',
             defaultMessage: 'MFA enforcement',
         }),
         intl.formatMessage({
-            id: 'admin.billing.subscription.planDetails.features.multiplatformSso',
-            defaultMessage: 'GitLab, Google, and O365 single sign-on',
-        }),
-        intl.formatMessage({
-            id: 'admin.billing.subscription.planDetails.features.guestAccounts',
-            defaultMessage: 'Guest Accounts',
-        }),
-        intl.formatMessage({
-            id: 'admin.billing.subscription.planDetails.features.channelModeration',
-            defaultMessage: 'Channel moderation',
+            id: 'admin.billing.subscription.planDetails.features.advanceTeamPermission',
+            defaultMessage: 'Advanced team permissions',
         }),
         intl.formatMessage({
             id: 'admin.billing.subscription.planDetails.features.readOnlyChannels',

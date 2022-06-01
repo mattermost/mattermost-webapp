@@ -44,6 +44,11 @@ export function checkSubscriptionIsLegacyFree(state: GlobalState): boolean {
     return Boolean(LegacyFreeProductIds[getCloudSubscription(state)?.product_id || '']);
 }
 
+export function checkHadPriorTrial(state: GlobalState): boolean {
+    const subscription = getCloudSubscription(state);
+    return Boolean(subscription?.is_free_trial === 'false' && subscription?.trial_end_at > 0);
+}
+
 export function isCurrentLicenseCloud(state: GlobalState): boolean {
     const license = getLicense(state);
     return license?.Cloud === 'true';
