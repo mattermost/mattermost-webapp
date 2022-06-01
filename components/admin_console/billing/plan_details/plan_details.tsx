@@ -12,14 +12,21 @@ import './plan_details.scss';
 
 export const planDetailsTopElements = (
     userCount: number,
-    isPaidTier: boolean,
+    isLegacyFree: boolean,
     isFreeTrial: boolean,
     subscriptionPlan: string | undefined,
 ) => {
     let userCountDisplay;
     let productName;
 
-    if (isPaidTier) {
+    if (isLegacyFree) {
+        productName = (
+            <FormattedMessage
+                id='admin.billing.subscription.planDetails.productName.mmCloud'
+                defaultMessage='Mattermost Cloud'
+            />
+        );
+    } else {
         userCountDisplay = (
             <div className='PlanDetails__userCount'>
                 <FormattedMessage
@@ -72,13 +79,6 @@ export const planDetailsTopElements = (
             );
             break;
         }
-    } else {
-        productName = (
-            <FormattedMessage
-                id='admin.billing.subscription.planDetails.productName.mmCloud'
-                defaultMessage='Mattermost Cloud'
-            />
-        );
     }
 
     const trialBadge = (

@@ -15,7 +15,7 @@ import './feature_list.scss';
 
 export interface FeatureListProps {
     subscriptionPlan?: string;
-    isPaidTier: boolean;
+    isLegacyFree: boolean;
 }
 
 const FeatureList = (props: FeatureListProps) => {
@@ -185,7 +185,9 @@ const FeatureList = (props: FeatureListProps) => {
 
     let features;
 
-    if (props.isPaidTier) {
+    if (props.isLegacyFree) {
+        features = featuresFreeTier;
+    } else {
         switch (props.subscriptionPlan) {
         case CloudProducts.PROFESSIONAL:
             features = featuresCloudProfessional;
@@ -209,8 +211,6 @@ const FeatureList = (props: FeatureListProps) => {
             features = featuresFreeTier;
             break;
         }
-    } else {
-        features = featuresFreeTier;
     }
 
     const featureElements = features?.map((feature, i) => (

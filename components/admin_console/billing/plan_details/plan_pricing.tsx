@@ -14,18 +14,29 @@ import {Product} from '@mattermost/types/cloud';
 import './plan_pricing.scss';
 
 interface Props {
-    isPaidTier: boolean;
+    isLegacyFree: boolean;
     product: Product;
 }
 const PlanPricing = ({
-    isPaidTier,
+    isLegacyFree,
     product,
 }: Props) => {
     const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
 
     let planPricing;
 
-    if (isPaidTier) {
+    if (isLegacyFree) {
+        planPricing = (
+            <div className='PlanDetails__plan'>
+                <div className='PlanDetails__planName'>
+                    <FormattedMessage
+                        id='admin.billing.subscription.planDetails.tiers.free'
+                        defaultMessage='Free'
+                    />
+                </div>
+            </div>
+        );
+    } else {
         planPricing = (
             <div className='PlanPricing'>
                 <div className='PlanDetails__paid-tier'>
@@ -51,17 +62,6 @@ const PlanPricing = ({
                             defaultMessage='See how billing works'
                         />
                     </a>
-                </div>
-            </div>
-        );
-    } else {
-        planPricing = (
-            <div className='PlanDetails__plan'>
-                <div className='PlanDetails__planName'>
-                    <FormattedMessage
-                        id='admin.billing.subscription.planDetails.tiers.free'
-                        defaultMessage='Free'
-                    />
                 </div>
             </div>
         );

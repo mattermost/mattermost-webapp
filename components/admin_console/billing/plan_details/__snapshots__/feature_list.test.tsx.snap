@@ -33,7 +33,7 @@ exports[`components/admin_console/billing/plan_details/feature_list should match
   }
 >
   <FeatureList
-    isPaidTier={false}
+    isLegacyFree={false}
     subscriptionPlan="cloud-starter"
   />
 </ContextProvider>
@@ -72,7 +72,7 @@ exports[`components/admin_console/billing/plan_details/feature_list should match
   }
 >
   <FeatureList
-    isPaidTier={true}
+    isLegacyFree={false}
     subscriptionPlan="cloud-enterprise"
   />
 </ContextProvider>
@@ -111,7 +111,7 @@ exports[`components/admin_console/billing/plan_details/feature_list should match
   }
 >
   <FeatureList
-    isPaidTier={true}
+    isLegacyFree={false}
     subscriptionPlan="cloud-professional"
   />
 </ContextProvider>
@@ -150,7 +150,7 @@ exports[`components/admin_console/billing/plan_details/feature_list should match
   }
 >
   <FeatureList
-    isPaidTier={true}
+    isLegacyFree={false}
     subscriptionPlan="cloud-starter"
   />
 </ContextProvider>

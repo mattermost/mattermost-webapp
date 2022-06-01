@@ -22,13 +22,13 @@ import {tryEnterpriseCard} from './upsell_card';
 import './billing_summary.scss';
 
 type BillingSummaryProps = {
-    isPaidTier: boolean;
+    isLegacyFree: boolean;
     isFreeTrial: boolean;
     daysLeftOnTrial: number;
     onUpgradeMattermostCloud: () => void;
 }
 
-const BillingSummary: React.FC<BillingSummaryProps> = ({isPaidTier, isFreeTrial, daysLeftOnTrial, onUpgradeMattermostCloud}: BillingSummaryProps) => {
+const BillingSummary: React.FC<BillingSummaryProps> = ({isLegacyFree, isFreeTrial, daysLeftOnTrial, onUpgradeMattermostCloud}: BillingSummaryProps) => {
     const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
     const product = useSelector((state: GlobalState) => {
         if (state.entities.cloud.products && subscription) {
@@ -47,7 +47,7 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({isPaidTier, isFreeTrial,
         body = tryEnterpriseCard;
     } else if (isFreeTrial) {
         body = freeTrial(onUpgradeMattermostCloud, daysLeftOnTrial);
-    } else if (!isPaidTier) {
+    } else if (isLegacyFree) {
         body = upgradeFreeTierMattermostCloud(onUpgradeMattermostCloud);
     } else if (subscription?.last_invoice) {
         const invoice = subscription!.last_invoice;
