@@ -23,7 +23,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import EditIcon from 'components/widgets/icons/fa_edit_icon';
 import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
 
-import {getMonthLong, t} from 'utils/i18n.jsx';
+import {getMonthLong, t} from 'utils/i18n';
 import * as Utils from 'utils/utils';
 import {PluginComponent} from 'types/store/plugins';
 

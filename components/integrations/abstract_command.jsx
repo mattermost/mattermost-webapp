@@ -13,7 +13,7 @@ import FormError from 'components/form_error';
 import SpinnerButton from 'components/spinner_button';
 import LocalizedInput from 'components/localized_input/localized_input';
 
-import {t} from 'utils/i18n.jsx';
+import {t} from 'utils/i18n';
 
 const REQUEST_POST = 'P';
 const REQUEST_GET = 'G';
