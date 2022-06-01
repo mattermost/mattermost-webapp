@@ -37,6 +37,7 @@ import MenuItemToggleMuteChannel from './menu_items/toggle_mute_channel';
 import MenuItemToggleFavoriteChannel from './menu_items/toggle_favorite_channel';
 import MenuItemViewPinnedPosts from './menu_items/view_pinned_posts';
 import MenuItemToggleInfo from './menu_items/toggle_info';
+import MenuItemToggleMembersRHS from './menu_items/toggle_members_rhs';
 
 export default class ChannelHeaderDropdown extends React.PureComponent {
     static propTypes = {
@@ -164,13 +165,12 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                             text={localizeMessage('navbar.addMembers', 'Add Members')}
                         />
                     </ChannelPermissionGate>
-                    <Menu.ItemToggleModalRedux
+                    <MenuItemToggleMembersRHS
                         id='channelViewMembers'
+                        channel={channel}
                         show={channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL && (isArchived || isDefault)}
-                        modalId={ModalIdentifiers.CHANNEL_MEMBERS}
-                        dialogType={ChannelMembersModal}
-                        dialogProps={{channel}}
-                        text={localizeMessage('channel_header.viewMembers', 'View Members')}
+                        textOpen={localizeMessage('channel_header.viewMembers', 'View Members')}
+                        textClose={localizeMessage('channelHeader.closeMembersRHS', 'Close Members RHS')}
                     />
                     <ChannelPermissionGate
                         channelId={channel.id}
@@ -192,13 +192,13 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                             dialogProps={{channelID: channel.id}}
                             text={localizeMessage('navbar_dropdown.manageGroups', 'Manage Groups')}
                         />
-                        <Menu.ItemToggleModalRedux
+                        <MenuItemToggleMembersRHS
                             id='channelManageMembers'
+                            channel={channel}
                             show={channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL && !isArchived && !isDefault}
-                            modalId={ModalIdentifiers.CHANNEL_MEMBERS}
-                            dialogType={ChannelMembersModal}
-                            dialogProps={{channel}}
-                            text={localizeMessage('channel_header.manageMembers', 'Manage Members')}
+                            textOpen={localizeMessage('channel_header.manageMembers', 'Manage Members')}
+                            textClose={localizeMessage('channelHeader.closeMembersRHS', 'Close Members RHS')}
+                            editMembers={!isArchived}
                         />
                     </ChannelPermissionGate>
                     <ChannelPermissionGate

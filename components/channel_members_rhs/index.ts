@@ -24,8 +24,8 @@ import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 import {openDirectChannelToUserId} from 'actions/channel_actions';
 import {openModal} from 'actions/views/modals';
-import {closeRightHandSide, goBack} from 'actions/views/rhs';
-import {getPreviousRhsState} from 'selectors/rhs';
+import {closeRightHandSide, goBack, setEditChannelMembers} from 'actions/views/rhs';
+import {getIsEditingMembers, getPreviousRhsState} from 'selectors/rhs';
 import {setChannelMembersRhsSearchTerm} from 'actions/views/search';
 import {loadProfilesAndReloadChannelMembers} from 'actions/user_actions';
 import {Channel, ChannelMembership} from '@mattermost/types/channels';
@@ -122,6 +122,7 @@ function mapStateToProps(state: GlobalState) {
 
     const teamUrl = getCurrentRelativeTeamUrl(state);
     const canGoBack = Boolean(getPreviousRhsState(state));
+    const editing = getIsEditingMembers(state);
 
     return {
         channel,
@@ -132,6 +133,7 @@ function mapStateToProps(state: GlobalState) {
         canManageMembers,
         channelMembers,
         channelAdmins,
+        editing,
     } as Props;
 }
 
@@ -145,6 +147,7 @@ function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
             setChannelMembersRhsSearchTerm,
             loadProfilesAndReloadChannelMembers,
             loadMyChannelMemberAndRole,
+            setEditChannelMembers,
         }, dispatch),
     };
 }
