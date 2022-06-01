@@ -25,5 +25,5 @@ export function isCustomerCardExpired(customer?: CloudCustomer): boolean {
 
 export function openExternalPricingLink() {
     trackEvent('cloud_admin', 'click_pricing_link');
-    window.open(CloudLinks.PRICING, '_blank')
+    window.open(CloudLinks.PRICING, '_blank');
 }
