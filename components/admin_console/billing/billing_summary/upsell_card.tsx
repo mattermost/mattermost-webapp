@@ -13,6 +13,7 @@ import {Message, t} from 'utils/i18n';
 import './upsell_card.scss';
 import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
 import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurchaseModal';
+import useOpenTrialBenefitsModal from 'components/common/hooks/useOpenTrialBenefitsModal';
 
 const enterpriseAdvantages = [
     {
@@ -163,6 +164,7 @@ export const UpgradeToProfessionalCard = () => {
 };
 
 export const ExploreEnterpriseCard = () => {
+    const openTrialBenefitsModal = useOpenTrialBenefitsModal({});
     return (
         <UpsellCard
             title={{
@@ -174,7 +176,7 @@ export const ExploreEnterpriseCard = () => {
                 id: t('admin.billing.subscriptions.billing_summary.explore_enterprise.cta'),
                 defaultMessage: 'View all benefits',
             }}
-            ctaAction={() => {}}
+            ctaAction={openTrialBenefitsModal}
             andMore={true}
             advantages={enterpriseAdvantages}
         />
