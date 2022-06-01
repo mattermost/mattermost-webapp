@@ -10,6 +10,7 @@ import {PluginAnalyticsRow} from '@mattermost/types/admin';
 import {FileInfo} from '@mattermost/types/files';
 import {Post, PostEmbed} from '@mattermost/types/posts';
 import {IDMappedObjects} from '@mattermost/types/utilities';
+import {GlobalState} from 'types/store';
 
 export type PluginSiteStatsHandler = () => Promise<Record<string, PluginAnalyticsRow>>;
 

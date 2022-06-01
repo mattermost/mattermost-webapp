@@ -30,7 +30,7 @@ import store from 'stores/redux_store.jsx';
 import {ActionTypes} from 'utils/constants';
 import {generateId} from 'utils/utils';
 
-const defaultShouldRender = (state) => true;
+const defaultShouldRender = () => true;
 
 function dispatchPluginComponentAction(name, pluginId, component, id = generateId()) {
     store.dispatch({

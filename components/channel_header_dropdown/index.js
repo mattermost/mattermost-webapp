@@ -26,11 +26,11 @@ import {getPenultimateViewedChannelName} from 'selectors/local_storage';
 import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils';
 
+import {getChannelHeaderMenuPluginComponents} from 'selectors/plugins';
+
 import Desktop from './channel_header_dropdown';
 import Items from './channel_header_dropdown_items';
 import Mobile from './mobile_channel_header_dropdown';
-
-import {getChannelHeaderMenuPluginComponents} from 'selectors/plugins'
 
 const getTeammateId = createSelector(
     'getTeammateId',

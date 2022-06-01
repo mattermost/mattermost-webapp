@@ -46,7 +46,7 @@ export const getChannelHeaderMenuPluginComponents = createSelector(
     (state: GlobalState) => state,
     (state: GlobalState) => state.plugins.components.ChannelHeader,
     (state, channelHeaderMenuComponents = []) => {
-        return channelHeaderMenuComponents.filter((component) => component.shouldRender(state))
+        return channelHeaderMenuComponents.filter((component) => !component.shouldRender || component.shouldRender(state));
     },
 );
 
