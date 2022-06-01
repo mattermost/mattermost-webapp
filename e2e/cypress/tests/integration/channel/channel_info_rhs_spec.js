@@ -89,6 +89,32 @@ describe('Channel Info RHS', () => {
         });
     });
 
+    it('MM-44435 - should be able to open RHS, visit the system console and come back without issues', () => {
+        // # Go to test channel
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+        // # Click on the channel info button
+        cy.get('#channel-info-btn').click();
+
+        // * RHS Container shoud exist
+        cy.get('#rhsContainer').then((rhsContainer) => {
+            cy.wrap(rhsContainer).findByText('Info').should('be.visible');
+            cy.wrap(rhsContainer).findByText(testChannel.display_name).should('be.visible');
+        });
+
+        // # visit the system console...
+        cy.uiOpenProductMenu('System Console');
+
+        // # ...and leave it
+        cy.get('.backstage-navbar__back').click();
+
+        // * RHS Container shoud exist again
+        cy.get('#rhsContainer').then((rhsContainer) => {
+            cy.wrap(rhsContainer).findByText('Info').should('be.visible');
+            cy.wrap(rhsContainer).findByText(testChannel.display_name).should('be.visible');
+        });
+    });
+
     describe('regular channel', () => {
         describe('top buttons', () => {
             it('should be able to toggle favorite on a channel', () => {
