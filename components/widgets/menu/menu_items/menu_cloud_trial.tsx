@@ -22,6 +22,7 @@ import {TrialPeriodDays, ModalIdentifiers} from 'utils/constants';
 import useGetHighestThresholdCloudLimit from 'components/common/hooks/useGetHighestThresholdCloudLimit';
 import useGetLimits from 'components/common/hooks/useGetLimits';
 import useGetUsage from 'components/common/hooks/useGetUsage';
+import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 
 import './menu_item.scss';
 
@@ -33,6 +34,7 @@ const MenuCloudTrial = ({id}: Props) => {
     const license = useSelector(getLicense);
     const dispatch = useDispatch<DispatchFunc>();
     const {formatMessage} = useIntl();
+    const openPricingModal = useOpenPricingModal();
 
     const isCloud = license?.Cloud === 'true';
     const isFreeTrial = subscription?.is_free_trial === 'true';
@@ -122,11 +124,9 @@ const MenuCloudTrial = ({id}: Props) => {
                 id='menu.cloudFree.tryEnterprise'
                 defaultMessage='Interested in a limitless plan with high-security features?'
             />
-
-            {/* Todo: modify this to open the see plans modal */}
             <a
                 className='open-see-plans-modal style-link'
-                onClick={() => null}
+                onClick={openPricingModal}
             >
                 <FormattedMessage
                     id='menu.cloudFree.seePlans'
