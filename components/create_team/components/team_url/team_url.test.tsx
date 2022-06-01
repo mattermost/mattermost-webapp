@@ -11,6 +11,7 @@ import TeamUrl from 'components/create_team/components/team_url/team_url';
 import Constants from 'utils/constants';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import MemoizedFormattedMessage from 'react-intl/src/components/message';
 
 jest.mock('images/logo.png', () => 'logo.png');
 
@@ -125,11 +126,6 @@ describe('/components/create_team/components/display_name', () => {
         (wrapper.find('.form-control').instance() as unknown as HTMLInputElement).value = 'channel';
         wrapper.find('.form-control').simulate('change');
         wrapper.find('button').simulate('click', {preventDefault: () => jest.fn()});
-        expect(wrapper.state('nameError')).toEqual(
-            <FormattedMarkdownMessage
-                defaultMessage='This URL [starts with a reserved word](!https://docs.mattermost.com/help/getting-started/creating-teams.html#team-url) or is unavailable. Please try another.'
-                id='create_team.team_url.taken'
-            />,
-        );
+        expect((wrapper as any).state('nameError').props.id).toEqual('create_team.team_url.taken');
     });
 });
