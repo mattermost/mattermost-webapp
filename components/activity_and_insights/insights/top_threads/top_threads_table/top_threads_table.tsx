@@ -8,21 +8,26 @@ import classNames from 'classnames';
 
 import {selectPost} from 'actions/views/rhs';
 
+import {getMyTopThreads as fetchMyTopThreads, getTopThreadsForTeam} from 'mattermost-redux/actions/insights';
+
 import {TimeFrame, TopThread} from '@mattermost/types/insights';
 import {Post} from '@mattermost/types/posts';
+import {UserProfile} from '@mattermost/types/users';
 
-import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_grid';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
+
+import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
 import {InsightsScopes} from 'utils/constants';
 import {imageURLForUser} from 'utils/utils';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {getMyTopThreads as fetchMyTopThreads, getTopThreadsForTeam} from 'mattermost-redux/actions/insights';
 
 import Badge from 'components/widgets/badges/badge';
 import Avatar from 'components/widgets/users/avatar';
 import Avatars from 'components/widgets/users/avatars';
 import Markdown from 'components/markdown';
 import Attachment from 'components/threading/global_threads/thread_item/attachments';
+import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_grid';
 
 import './../../../activity_and_insights.scss';
 import '../top_threads.scss';
@@ -40,6 +45,7 @@ const TopThreadsTable = (props: Props) => {
     const [topThreads, setTopThreads] = useState([] as TopThread[]);
 
     const currentTeamId = useSelector(getCurrentTeamId);
+    const teammateNameDisplaySetting = useSelector(getTeammateNameDisplaySetting);
 
     const getTopTeamThreads = useCallback(async () => {
         if (props.filterType === InsightsScopes.TEAM) {
@@ -149,7 +155,7 @@ const TopThreadsTable = (props: Props) => {
                                         url={imageURLForUser(thread.user_id)}
                                         size={'xs'}
                                     />
-                                    <span className='display-name'>{`${thread.user_information.first_name} ${thread.user_information.last_name}`}</span>
+                                    <span className='display-name'>{displayUsername(thread.user_information as UserProfile, teammateNameDisplaySetting)}</span>
                                     <Badge>
                                         {thread.channel_display_name}
                                     </Badge>
