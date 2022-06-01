@@ -10,6 +10,7 @@ import {
     getCurrentChannel,
     getCurrentChannelStats,
     getMembersInCurrentChannel,
+    isCurrentChannelArchived,
 } from 'mattermost-redux/selectors/entities/channels';
 import {GlobalState} from 'types/store';
 import {Constants} from 'utils/constants';
@@ -107,8 +108,14 @@ function mapStateToProps(state: GlobalState) {
         } as unknown as Props;
     }
 
+    const isArchived = isCurrentChannelArchived(state);
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
-    const canManageMembers = haveIChannelPermission(state, currentTeam.id, channel.id, isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS);
+    const canManageMembers = haveIChannelPermission(
+        state,
+        currentTeam.id,
+        channel.id,
+        isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS
+    ) && !isArchived;
 
     const searchTerms = state.views.search.channelMembersRhsSearch || '';
 
