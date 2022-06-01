@@ -4,6 +4,7 @@
 import {Instance} from '@popperjs/core';
 import React, {useEffect} from 'react';
 import {usePopper} from 'react-popper';
+
 import RootPortal from 'components/root_portal';
 
 import {MenuPopoverProps} from './Menu.types';

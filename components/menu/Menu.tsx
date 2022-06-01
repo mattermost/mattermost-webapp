@@ -5,10 +5,11 @@ import React, {useRef, useState, useEffect, useCallback} from 'react';
 
 import {CSSTransition} from 'react-transition-group';
 
+import styled, {css} from 'styled-components';
+
 import {useClickOutsideRef} from 'components/global_header/hooks';
 
 import MenuData from './MenuData';
-import styled, {css} from 'styled-components';
 import {MenuProps} from './Menu.types';
 
 const Overlay = styled.div(() => {
@@ -130,8 +131,11 @@ const Menu = (props: MenuProps): JSX.Element => {
 
     return (
         <>
-            <div onClick={() => setOpen(!open)} ref={trigger}>
-                click
+            <div
+                onClick={() => setOpen(!open)}
+                ref={trigger}
+            >
+                {'click'}
             </div>
             <CSSTransition
                 timeout={300}
@@ -139,7 +143,7 @@ const Menu = (props: MenuProps): JSX.Element => {
                 in={isOverlayVisible}
                 unmountOnExit={true}
             >
-                <Overlay onClick={closeMenu} />
+                <Overlay onClick={closeMenu}/>
             </CSSTransition>
             <MenuData
                 menuTitle={title}

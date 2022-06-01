@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ForwardedRef, useEffect, useRef, memo} from 'react';
+import React, {ForwardedRef} from 'react';
 import styled, {css} from 'styled-components';
 import classNames from 'classnames';
 
@@ -9,22 +9,22 @@ import {MenuDataProps} from './Menu.types';
 import MenuPopover from './MenuPopover';
 
 const Divider = () => (
-    <div style={{height: '1px', width: 'auto', backgroundColor: '#e0e0e0'}} />
+    <div style={{height: '1px', width: 'auto', backgroundColor: '#e0e0e0'}}/>
 );
 
 const MenuItems = styled.div<{isMobile: boolean; isSubmenu: boolean}>(
     ({isMobile, isSubmenu}) => {
-        return isMobile
-            ? css`
+        return isMobile ?
+            css`
                   background-color: rgba(var(--sidebar-text-rgb));
                   min-height: 340px;
                   height: auto;
                   border-radius: 8px 8px 0 0;
                   max-height: ${document.documentElement.clientHeight}px;
                   overflow-y: auto;
-                  transform: ${isSubmenu
-                      ? 'translateX(100%)'
-                      : 'translateY(100%)'};
+                  transform: ${isSubmenu ?
+        'translateX(100%)' :
+        'translateY(100%)'};
                   transition: transform 300ms ease-in-out 0ms, &.open {
                       transform: translateY(0);
                   }
@@ -57,8 +57,8 @@ const MenuItems = styled.div<{isMobile: boolean; isSubmenu: boolean}>(
                       transition: transform 300ms 0ms ease-in-out,
                           visibility 300ms 0ms step-end;
                   }
-              `
-            : css`
+              ` :
+            css`
                   border-radius: 4px;
                   background-color: rgba(var(--sidebar-text-rgb));
                   padding: 1rem 0;
@@ -76,7 +76,7 @@ const MenuItems = styled.div<{isMobile: boolean; isSubmenu: boolean}>(
                       opacity: 1;
                   }
               `;
-    }
+    },
 );
 
 const MenuHeader = styled.div`
@@ -154,14 +154,14 @@ const MenuData = React.forwardRef(
                             <>
                                 {group.title && <label>{group.title}</label>}
                                 {group.menuItems}
-                                {groups.length > 1 && <Divider />}
+                                {groups.length > 1 && <Divider/>}
                             </>
                         ))}
                     </MenuItems>
                 </MenuPopover>
             </>
         );
-    }
+    },
 );
 
 export default MenuData;
