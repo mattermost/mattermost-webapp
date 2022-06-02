@@ -36,6 +36,9 @@ $channel-view-padding: 63px;
 
     .app-bar__icon {
         position: relative;
+        // Render App Bar icons on top of the RHS background div
+        //(see `@media screen and (min-width: 769px) > #sidebar-right` in sass/layout/_sidebar-right.scss)
+        z-index: 21;
         width: 100%;
         border-left: none;
         margin-bottom: 16px;
