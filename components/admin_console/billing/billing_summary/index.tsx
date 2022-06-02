@@ -27,7 +27,7 @@ type BillingSummaryProps = {
     onUpgradeMattermostCloud: () => void;
 }
 
-const BillingSummary: React.FC<BillingSummaryProps> = ({isLegacyFree, isFreeTrial, daysLeftOnTrial, onUpgradeMattermostCloud}: BillingSummaryProps) => {
+const BillingSummary = ({isLegacyFree, isFreeTrial, daysLeftOnTrial, onUpgradeMattermostCloud}: BillingSummaryProps) => {
     const subscription = useSelector(getCloudSubscription);
     const product = useSelector(getSubscriptionProduct);
 
