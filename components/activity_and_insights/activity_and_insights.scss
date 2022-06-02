@@ -363,8 +363,8 @@
             .top-board-loading-container {
                 display: flex;
                 align-items: center;
-                margin-bottom: 20px;
                 padding: 0 12px;
+                margin-bottom: 20px;
 
                 &:nth-of-type(4) {
                     margin-bottom: 4px;
@@ -380,12 +380,13 @@
                         flex: none;
 
                         &:nth-of-type(2) {
-                            margin-top: 6px;
                             height: 8px;
+                            margin-top: 6px;
                         }
                     }
                 }
             }
+
             .board-list {
                 .board-item {
                     display: flex;
@@ -394,40 +395,40 @@
 
                     &:hover {
                         background: rgba(var(--center-channel-color-rgb), 0.08);
-                        cursor: pointer;
                         border-radius: 4px;
+                        cursor: pointer;
                     }
 
                     span.board-icon {
-                        font-size: 32px;
                         display: flex;
-                        align-items: center;
-                        justify-content: center;
                         width: 32px;
                         height: 32px;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 32px;
                     }
 
                     .display-info {
-                        flex-direction: column;
                         display: flex;
+                        flex-direction: column;
                         margin-left: 12px;
 
                         .display-name {
+                            color: var(--center-channel-color);
                             font-family: 'Open Sans';
+                            font-size: 12px;
                             font-style: normal;
                             font-weight: 600;
-                            font-size: 12px;
                             line-height: 16px;
-                            color: var(--center-channel-color);
                         }
-                        
+
                         .update-counts {
+                            color: rgba(var(--center-channel-color-rgb), 0.56);
                             font-family: 'Open Sans';
+                            font-size: 12px;
                             font-style: normal;
                             font-weight: 400;
-                            font-size: 12px;
                             line-height: 16px;
-                            color: rgba(var(--center-channel-color-rgb), 0.56);
                         }
                     }
 

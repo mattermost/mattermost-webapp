@@ -52,7 +52,7 @@ export type PluginsState = {
     };
     insightsHandlers: {
         boards: (timeRange: string, page: number, perPage: number, teamId: string, insightType: string) => Promise<TopBoardResponse>;
-    }
+    };
 };
 
 export type Menu = {

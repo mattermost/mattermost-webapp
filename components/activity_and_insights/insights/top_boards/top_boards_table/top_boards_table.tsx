@@ -1,12 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {memo, useState, useMemo} from 'react';
-import {useDispatch} from 'react-redux';
+import React, {memo, useState, useMemo, useEffect, useCallback} from 'react';
+import {useSelector} from 'react-redux';
 import {FormattedMessage} from 'react-intl';
 
 import classNames from 'classnames';
 
-import {TimeFrame} from '@mattermost/types/insights';
+import {TimeFrame, TopBoard} from '@mattermost/types/insights';
+
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_grid';
 import Avatars from 'components/widgets/users/avatars';
@@ -19,27 +21,24 @@ type Props = {
 }
 
 const TopBoardsTable = (props: Props) => {
-    const dispatch = useDispatch();
+    const [loading, setLoading] = useState(true);
+    const [topBoards, setTopBoards] = useState([] as TopBoard[]);
 
-    const [loading, setLoading] = useState(false);
-    const [topBoards, setTopBoards] = useState([
-        {
-            boardID: 'bywgrht51s3y4unm6478becycxa',
-            icon: '⛄',
-            title: 'Project Tasks',
-            activityCount: 51,
-            activeUsers: 'jddqfjxezifxbnwdw75xsdsqcy',
-            createdBy: 'excsimz1j387ibfz7bofc4zaie',
-        },
-        {
-            boardID: 'biiow3dns57dr5k5qmse58b3j1r',
-            icon: '📅',
-            title: 'Content Calendar',
-            activityCount: 21,
-            activeUsers: 'jddqfjxezifxbnwdw75xsdsqcy',
-            createdBy: 'excsimz1j387ibfz7bofc4zaie',
-        },
-    ]);
+    const currentTeamId = useSelector(getCurrentTeamId);
+    const boardsHandler = useSelector((state: any) => state.plugins.insightsHandlers.boards);
+
+    const getTopBoards = useCallback(async () => {
+        setLoading(true);
+        const data: any = await boardsHandler(props.timeFrame, 0, 10, currentTeamId, props.filterType);
+        if (data.items) {
+            setTopBoards(data.items);
+        }
+        setLoading(false);
+    }, [props.timeFrame, currentTeamId, props.filterType]);
+
+    useEffect(() => {
+        getTopBoards();
+    }, [getTopBoards]);
 
     const getColumns = useMemo((): Column[] => {
         const columns: Column[] = [

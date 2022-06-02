@@ -13,8 +13,8 @@ import widgetHoc, {WidgetHocProps} from '../widget_hoc/widget_hoc';
 import WidgetEmptyState from '../widget_empty_state/widget_empty_state';
 
 import './../../activity_and_insights.scss';
-import { getCurrentTeamId } from 'mattermost-redux/selectors/entities/teams';
-import { TopBoard } from '@mattermost/types/insights';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {TopBoard} from '@mattermost/types/insights';
 
 const TopBoards = (props: WidgetHocProps) => {
     const [loading, setLoading] = useState(true);
@@ -34,7 +34,7 @@ const TopBoards = (props: WidgetHocProps) => {
 
     useEffect(() => {
         getTopBoards();
-    }, [getTopBoards])
+    }, [getTopBoards]);
 
     const skeletonLoader = useCallback(() => {
         const entries = [];
@@ -71,9 +71,8 @@ const TopBoards = (props: WidgetHocProps) => {
                             return (
                                 <div
                                     className='board-item'
-                                    onClick={() => {
-                                        console.log('test');
-                                    }}
+                                    onClick={() => {}}
+                                    key={i}
                                 >
                                     <span className='board-icon'>{board.icon}</span>
                                     <div className='display-info'>
