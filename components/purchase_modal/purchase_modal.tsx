@@ -254,8 +254,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
     }
 
     openPricingModal = () => {
-        const utcTimeStamp = new Date().toISOString();
-        trackEvent('cloud_admin', 'click_open_pricing_modal', {utcTimeStamp, epochTimeStamp: Date.parse(utcTimeStamp)});
+        trackEvent('cloud_admin', 'click_open_pricing_modal');
         this.props.actions.openModal({
             modalId: ModalIdentifiers.PRICING_MODAL,
             dialogType: PricingModal,
