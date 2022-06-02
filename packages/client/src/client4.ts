@@ -3812,10 +3812,17 @@ export default class Client4 {
         );
     }
 
-    requestCloudTrial = () => {
+    requestCloudTrial = (email = '') => {
         return this.doFetchWithResponse<CloudCustomer>(
             `${this.getCloudRoute()}/request-trial`,
-            {method: 'put'},
+            {method: 'put', body: JSON.stringify({email})},
+        );
+    }
+
+    validateBusinessEmail = () => {
+        return this.doFetchWithResponse<CloudCustomer>(
+            `${this.getCloudRoute()}/validate-business-email`,
+            {method: 'post'},
         );
     }
 

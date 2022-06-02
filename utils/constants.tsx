@@ -64,6 +64,11 @@ export const InviteTypes = {
     INVITE_GUEST: 'guest',
 };
 
+export const PreviousViewedTypes = {
+    CHANNELS: 'channels',
+    THREADS: 'threads',
+};
+
 export const Preferences = {
     CATEGORY_CHANNEL_OPEN_TIME: 'channel_open_time',
     CATEGORY_DIRECT_CHANNEL_SHOW: 'direct_channel_show',
@@ -358,7 +363,6 @@ export const ModalIdentifiers = {
     NO_INTERNET_CONNECTION: 'no_internet_connection',
     JOIN_CHANNEL_PROMPT: 'join_channel_prompt',
     COLLAPSED_REPLY_THREADS_MODAL: 'collapsed_reply_threads_modal',
-    COLLAPSED_REPLY_THREADS_BETA_MODAL: 'collapsed_reply_threads_beta_modal',
     NOTIFY_CONFIRM_MODAL: 'notify_confirm_modal',
     CONFIRM_LICENSE_REMOVAL: 'confirm_license_removal',
     CONFIRM: 'confirm',
@@ -377,6 +381,8 @@ export const ModalIdentifiers = {
     UPLOAD_LICENSE: 'upload_license',
     INSIGHTS: 'insights',
     CLOUD_LIMITS: 'cloud_limits',
+    REQUEST_BUSINESS_EMAIL_MODAL: 'request_business_email_modal',
+    CREATE_TEAM_RESTRICTED_MODAL: 'create_team_restricted_modal',
 };
 
 export const UserStatuses = {
@@ -555,6 +561,14 @@ export const TopLevelProducts = {
     PLAYBOOKS: 'Playbooks',
 };
 
+export enum ItemStatus {
+    NONE = 'none',
+    SUCCESS = 'success',
+    INFO = 'info',
+    WARNING = 'warning',
+    ERROR = 'error',
+}
+
 export const RecommendedNextStepsLegacy = {
     COMPLETE_PROFILE: 'complete_profile',
     TEAM_SETUP: 'team_setup',
@@ -594,6 +608,7 @@ export const TELEMETRY_CATEGORIES = {
     CLOUD_START_TRIAL_BUTTON: 'cloud_start_trial_button',
     SELF_HOSTED_START_TRIAL_TASK_LIST: 'self_hosted_start_trial_task_list',
     WORKSPACE_OPTIMIZATION_DASHBOARD: 'workspace_optimization_dashboard',
+    REQUEST_BUSINESS_EMAIL: 'request_business_email',
 };
 
 export const TELEMETRY_LABELS = {
@@ -910,6 +925,7 @@ export const DocLinks = {
 
 export const LicenseLinks = {
     CONTACT_SALES: 'https://mattermost.com/contact-sales/',
+    SOFTWARE_EVALUATION_AGREEMENT: 'https://mattermost.com/software-evaluation-agreement/',
 };
 
 export const BillingSchemes = {

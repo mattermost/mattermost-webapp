@@ -56,7 +56,7 @@ const MenuCloudTrial = ({id}: Props) => {
 
     const openLearnMoreTrialModal = async () => {
         await dispatch(openModal({
-            modalId: ModalIdentifiers.TRIAL_BENEFITS_MODAL,
+            modalId: ModalIdentifiers.LEARN_MORE_TRIAL_MODAL,
             dialogType: LearnMoreTrialModal,
         }));
     };

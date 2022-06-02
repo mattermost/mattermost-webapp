@@ -33,6 +33,8 @@ import {useQuery} from 'utils/http_utils';
 import BillingSummary from '../billing_summary';
 import PlanDetails from '../plan_details';
 
+import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
+
 import ContactSalesCard from './contact_sales_card';
 import CancelSubscription from './cancel_subscription';
 import Limits from './limits';
@@ -80,6 +82,8 @@ const BillingSubscriptions: React.FC = () => {
         }));
     };
 
+    const openPricingModal = useOpenPricingModal();
+
     let isFreeTrial = false;
     let daysLeftOnTrial = 0;
     if (subscription?.is_free_trial === 'true') {
@@ -107,6 +111,10 @@ const BillingSubscriptions: React.FC = () => {
 
         if (actionQueryParam === 'show_purchase_modal') {
             onUpgradeMattermostCloud();
+        }
+
+        if (actionQueryParam === 'show_pricing_modal') {
+            openPricingModal();
         }
     }, []);
 
