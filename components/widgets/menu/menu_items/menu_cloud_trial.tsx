@@ -95,7 +95,7 @@ const MenuCloudTrial = ({id}: Props) => {
                 values={{daysLeftOnTrial}}
             />
             <UpgradeLink
-                buttonText={formatMessage({id: 'menu.nonCloudFree.subscribeNow', defaultMessage: 'Subscribe Now'})}
+                buttonText={formatMessage({id: 'menu.nonCloudFree.subscribeNow', defaultMessage: 'Upgrade Now'})}
                 styleLink={true}
             />
         </>

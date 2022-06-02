@@ -121,7 +121,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
             primaryMessage = (
                 <FormattedMessage
                     id='admin.ldap_feature_discovery_cloud.call_to_action.primary'
-                    defaultMessage='Subscribe now'
+                    defaultMessage='Upgrade now'
                 />
             );
         }
