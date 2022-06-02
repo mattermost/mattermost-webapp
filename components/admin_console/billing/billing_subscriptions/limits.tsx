@@ -12,6 +12,8 @@ import {
 } from 'mattermost-redux/selectors/entities/cloud';
 import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
+import {SalesInquiryIssue} from 'selectors/cloud';
+
 import {CloudProducts} from 'utils/constants';
 import {FileSizes} from 'utils/file_utils';
 import {asGBString, fallbackStarterLimits} from 'utils/limits';
@@ -38,7 +40,7 @@ const Limits = (props: Props): JSX.Element | null => {
     const subscriptionProduct = useSelector(getSubscriptionProduct);
     const [cloudLimits, limitsLoaded] = useGetLimits();
     const usage = useGetUsage();
-    const openSalesLink = useOpenSalesLink();
+    const openSalesLink = useOpenSalesLink(SalesInquiryIssue.UpgradeEnterprise);
     const openPricingModal = useOpenPricingModal();
 
     if (!isCloudFreeEnabled || !limitsLoaded || !subscriptionProduct || subscriptionProduct.sku === CloudProducts.STARTER_LEGACY || subscriptionProduct.sku === CloudProducts.ENTERPRISE) {
