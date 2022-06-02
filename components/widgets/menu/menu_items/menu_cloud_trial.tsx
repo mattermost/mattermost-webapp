@@ -19,6 +19,10 @@ import {openModal} from 'actions/views/modals';
 
 import {getRemainingDaysFromFutureTimestamp} from 'utils/utils';
 import {TrialPeriodDays, ModalIdentifiers} from 'utils/constants';
+import useGetHighestThresholdCloudLimit from 'components/common/hooks/useGetHighestThresholdCloudLimit';
+import useGetLimits from 'components/common/hooks/useGetLimits';
+import useGetUsage from 'components/common/hooks/useGetUsage';
+import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 
 import './menu_item.scss';
 
@@ -30,6 +34,7 @@ const MenuCloudTrial = ({id}: Props) => {
     const license = useSelector(getLicense);
     const dispatch = useDispatch<DispatchFunc>();
     const {formatMessage} = useIntl();
+    const openPricingModal = useOpenPricingModal();
 
     const isCloud = license?.Cloud === 'true';
     const isFreeTrial = subscription?.is_free_trial === 'true';
@@ -53,12 +58,13 @@ const MenuCloudTrial = ({id}: Props) => {
 
     const openLearnMoreTrialModal = async () => {
         await dispatch(openModal({
-            modalId: ModalIdentifiers.TRIAL_BENEFITS_MODAL,
+            modalId: ModalIdentifiers.LEARN_MORE_TRIAL_MODAL,
             dialogType: LearnMoreTrialModal,
         }));
     };
 
-    const show = isCloud && !isCloudFreePaidSubscription && !isCloudPaidSubscription;
+    const someLimitNeedsAttention = Boolean(useGetHighestThresholdCloudLimit(useGetUsage(), useGetLimits()[0]));
+    const show = isCloud && !isCloudFreePaidSubscription && !isCloudPaidSubscription && !someLimitNeedsAttention;
     if (!show) {
         return null;
     }
@@ -118,11 +124,9 @@ const MenuCloudTrial = ({id}: Props) => {
                 id='menu.cloudFree.tryEnterprise'
                 defaultMessage='Interested in a limitless plan with high-security features?'
             />
-
-            {/* Todo: modify this to open the see plans modal */}
             <a
                 className='open-see-plans-modal style-link'
-                onClick={() => null}
+                onClick={openPricingModal}
             >
                 <FormattedMessage
                     id='menu.cloudFree.seePlans'

@@ -786,7 +786,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                 defaultDisplay: Preferences.COLLAPSED_REPLY_THREADS_FALLBACK_DEFAULT,
                 title: {
                     id: t('user.settings.display.collapsedReplyThreadsTitle'),
-                    message: 'Collapsed Reply Threads (Beta)',
+                    message: 'Collapsed Reply Threads',
                 },
                 firstOption: {
                     value: Preferences.COLLAPSED_REPLY_THREADS_ON,
@@ -804,18 +804,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                 },
                 description: {
                     id: t('user.settings.display.collapsedReplyThreadsDescription'),
-                    message: 'When enabled, reply messages are not shown in the channel and you\'ll be notified about threads you\'re following in the "Threads" view.\nPlease review our <link>documentation for known issues</link>) and help provide feedback in our [community channel](!https://community-daily.mattermost.com/core/channels/folded-reply-threads).',
-                    values: {
-                        link: (msg: React.ReactNode) => (
-                            <a
-                                href='https://docs.mattermost.com/messaging/organizing-conversations.html'
-                                target='_blank'
-                                rel='noreferrer'
-                            >
-                                {msg}
-                            </a>
-                        ),
-                    },
+                    message: 'When enabled, reply messages are not shown in the channel and you\'ll be notified about threads you\'re following in the "Threads" view.',
                 },
             });
         }
@@ -1012,6 +1001,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                     </h3>
                     <div className='divider-dark first'/>
                     {themeSection}
+                    {collapsedReplyThreads}
                     {clockSection}
                     {teammateNameDisplaySection}
                     {availabilityStatusOnPostsSection}
@@ -1019,7 +1009,6 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                     {linkPreviewSection}
                     {collapseSection}
                     {messageDisplaySection}
-                    {collapsedReplyThreads}
                     {clickToReply}
                     {channelDisplayModeSection}
                     {oneClickReactionsOnPostsSection}

@@ -91,11 +91,23 @@ export function subscribeCloudSubscription(productId: string) {
     };
 }
 
-export function requestCloudTrial(page: string) {
+export function requestCloudTrial(page: string, email = '') {
     trackEvent('api', 'api_request_cloud_trial_license', {from_page: page});
     return async () => {
         try {
-            await Client4.requestCloudTrial();
+            await Client4.requestCloudTrial(email);
+        } catch (error) {
+            return false;
+        }
+        return true;
+    };
+}
+
+export function validateBusinessEmail() {
+    trackEvent('api', 'api_validate_business_email');
+    return async () => {
+        try {
+            await Client4.validateBusinessEmail();
         } catch (error) {
             return false;
         }
@@ -172,6 +184,23 @@ export function getBoardsUsage(): ActionFunc {
                     // the views and cards properties are the limits, not usage.
                     // So they are not passed in to the usage.
                     data: result.used_cards,
+                });
+            }
+        } catch (error) {
+            return error;
+        }
+        return {data: true};
+    };
+}
+
+export function getTeamsUsage(): ActionFunc {
+    return async (dispatch: DispatchFunc) => {
+        try {
+            const result = await Client4.getTeamsUsage();
+            if (result) {
+                dispatch({
+                    type: CloudTypes.RECEIVED_TEAMS_USAGE,
+                    data: {active: result.active, cloudArchived: result.cloud_archived},
                 });
             }
         } catch (error) {
