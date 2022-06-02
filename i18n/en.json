@@ -1326,7 +1326,7 @@
   "admin.manage_roles.saveError": "Unable to save roles.",
   "admin.manage_roles.systemAdmin": "System Admin",
   "admin.manage_roles.systemMember": "Member",
-  "admin.manage_teams.makeAdminError": "Unable to remove user an admin.",
+  "admin.manage_teams.makeAdminError": "Unable to make user a team admin.",
   "admin.manage_teams.makeMemberError": "Unable to make user a member.",
   "admin.manage_teams.removeError": "Unable to remove user from team.",
   "admin.manage_tokens.manageTokensTitle": "Manage Personal Access Tokens",
