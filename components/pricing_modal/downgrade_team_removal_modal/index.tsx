@@ -15,17 +15,19 @@ import DropdownInput, {ValueType} from 'components/dropdown_input';
 
 import useGetUsage from 'components/common/hooks/useGetUsage';
 import {getTeams, selectTeam, archiveAllTeamsExcept} from 'mattermost-redux/actions/teams';
-
+import SuccessModal from 'components/success_modal';
 import {getActiveTeamsList} from 'mattermost-redux/selectors/entities/teams';
-import {closeModal} from 'actions/views/modals';
+import {closeModal, openModal} from 'actions/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
 import {isModalOpen} from 'selectors/views/modals';
 import {GlobalState} from 'types/store';
+import {subscribeCloudSubscription} from 'actions/cloud';
 
 import './downgrade_team_removal_modal.scss';
 
 type Props = {
-    onHide?: () => void;
+    onHide?: (teamToKeep: string) => void;
+    sku: string;
 };
 
 function DownGradeTeamRemovalModal(props: Props) {
@@ -46,7 +48,7 @@ function DownGradeTeamRemovalModal(props: Props) {
     const usage = useGetUsage();
 
     const onHide = () => {
-        dispatch(closeModal(ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM));
+        // dispatch(closeModal(ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM));
     };
 
     const onConfirmDowngrade = async () => {
@@ -57,12 +59,16 @@ function DownGradeTeamRemovalModal(props: Props) {
             teamIdToKeep = (dropdownValue as ValueType).value;
         }
         dispatch(selectTeam(teamIdToKeep));
-        const test = await dispatch(archiveAllTeamsExcept(teamIdToKeep));
-        console.log(test);
-
-        if (typeof props.onHide === 'function') {
-            props.onHide();
-        }
+        await dispatch(archiveAllTeamsExcept(teamIdToKeep));
+        dispatch(subscribeCloudSubscription(props.sku));
+        dispatch(
+            openModal({
+                modalId: ModalIdentifiers.SUCCESS_MODAL,
+                dialogType: SuccessModal,
+            }),
+        );
+        dispatch(closeModal(ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM));
+        dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
     };
 
     const selectionSection = () => {

@@ -9,6 +9,10 @@ import styled from 'styled-components';
 import {GlobalState} from 'types/store';
 
 import {trackEvent} from 'actions/telemetry_actions';
+import {
+    archiveAllTeamsExcept,
+    selectTeam,
+} from 'mattermost-redux/actions/teams';
 import {CloudLinks, CloudProducts, ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
 import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
 import {closeModal, openModal} from 'actions/views/modals';
@@ -19,7 +23,7 @@ import {
     getCloudProducts as selectCloudProducts,
 } from 'mattermost-redux/selectors/entities/cloud';
 import useGetUsage from 'components/common/hooks/useGetUsage';
-
+import SuccessModal from 'components/success_modal';
 import PurchaseModal from 'components/purchase_modal';
 import {makeAsyncComponent} from 'components/async_load';
 import StarMarkSvg from 'components/widgets/icons/star_mark_icon';
@@ -188,6 +192,22 @@ function Content(props: ContentProps) {
         }));
     };
 
+    const downgrade = () => {
+        if (!starterProduct) {
+            return;
+        }
+
+        dispatch(subscribeCloudSubscription(starterProduct?.id));
+        dispatch(closeModal(ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM));
+        dispatch(
+            openModal({
+                modalId: ModalIdentifiers.SUCCESS_MODAL,
+                dialogType: SuccessModal,
+            }),
+        );
+        props.onHide();
+    };
+
     return (
         <div className='Content'>
             <Modal.Header className='PricingModal__header'>
@@ -250,27 +270,15 @@ function Content(props: ContentProps) {
                         buttonDetails={{
                             action: () => {
                                 if (usage.teams.active > 1) {
+                                    if (!starterProduct) {
+                                        return;
+                                    }
                                     dispatch(
                                         openModal({
                                             modalId: ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM,
                                             dialogType: DownGradeTeamRemovalModal,
                                             dialogProps: {
-                                                onHide: () => {
-                                                    if (!starterProduct) {
-                                                        return;
-                                                    }
-                                                    dispatch(
-                                                        subscribeCloudSubscription(
-                                                            starterProduct?.id,
-                                                        ),
-                                                    );
-                                                    dispatch(
-                                                        closeModal(
-                                                            ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM,
-                                                        ),
-                                                    );
-                                                    props.onHide();
-                                                },
+                                                sku: starterProduct?.id,
                                             },
                                         }),
                                     );
@@ -279,9 +287,7 @@ function Content(props: ContentProps) {
                                         return;
                                     }
 
-                                    dispatch(
-                                        subscribeCloudSubscription(starterProduct?.id),
-                                    );
+                                    downgrade();
                                 }
                             }, // noop until we support downgrade
                             text: formatMessage({id: 'pricing_modal.btn.downgrade', defaultMessage: 'Downgrade'}),
