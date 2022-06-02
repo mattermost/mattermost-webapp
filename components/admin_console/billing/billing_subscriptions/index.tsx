@@ -14,8 +14,13 @@ import {openModal} from 'actions/views/modals';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 import PurchaseModal from 'components/purchase_modal';
 
-import {getCloudContactUsLink, InquiryType, InquiryIssue} from 'selectors/cloud';
+import {getCloudContactUsLink, InquiryType, SalesInquiryIssue} from 'selectors/cloud';
 import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {
+    getSubscriptionProduct,
+    getCloudSubscription as selectCloudSubscription,
+    checkSubscriptionIsLegacyFree,
+} from 'mattermost-redux/selectors/entities/cloud';
 import {GlobalState} from 'types/store';
 import {
     ModalIdentifiers,
@@ -27,6 +32,8 @@ import {useQuery} from 'utils/http_utils';
 
 import BillingSummary from '../billing_summary';
 import PlanDetails from '../plan_details';
+
+import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 
 import ContactSalesCard from './contact_sales_card';
 import CancelSubscription from './cancel_subscription';
@@ -48,14 +55,14 @@ const BillingSubscriptions: React.FC = () => {
     const dispatch = useDispatch<DispatchFunc>();
     const store = useStore();
     const analytics = useSelector((state: GlobalState) => state.entities.admin.analytics);
-    const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
+    const subscription = useSelector(selectCloudSubscription);
 
-    const products = useSelector((state: GlobalState) => state.entities.cloud.products);
     const isCardExpired = useSelector((state: GlobalState) => isCustomerCardExpired(state.entities.cloud.customer));
 
     const contactSalesLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales));
-    const cancelAccountLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales, InquiryIssue.CancelAccount));
-    const trialQuestionsLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales, InquiryIssue.TrialQuestions));
+    const cancelAccountLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales, SalesInquiryIssue.CancelAccount));
+    const trialQuestionsLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales, SalesInquiryIssue.TrialQuestions));
+    const isLegacyFree = useSelector(checkSubscriptionIsLegacyFree);
     const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
 
     const [showCreditCardBanner, setShowCreditCardBanner] = useState(true);
@@ -64,12 +71,7 @@ const BillingSubscriptions: React.FC = () => {
     const query = useQuery();
     const actionQueryParam = query.get('action');
 
-    const product = useSelector((state: GlobalState) => {
-        if (state.entities.cloud.products && subscription) {
-            return state.entities.cloud.products[subscription?.product_id];
-        }
-        return undefined;
-    });
+    const product = useSelector(getSubscriptionProduct);
 
     // show the upgrade section when is a free tier customer
     const onUpgradeMattermostCloud = () => {
@@ -79,6 +81,8 @@ const BillingSubscriptions: React.FC = () => {
             dialogType: PurchaseModal,
         }));
     };
+
+    const openPricingModal = useOpenPricingModal();
 
     let isFreeTrial = false;
     let daysLeftOnTrial = 0;
@@ -108,13 +112,17 @@ const BillingSubscriptions: React.FC = () => {
         if (actionQueryParam === 'show_purchase_modal') {
             onUpgradeMattermostCloud();
         }
+
+        if (actionQueryParam === 'show_pricing_modal') {
+            openPricingModal();
+        }
     }, []);
 
     const shouldShowPaymentFailedBanner = () => {
         return subscription?.last_invoice?.status === 'failed';
     };
 
-    if (!subscription || !products) {
+    if (!subscription || !product) {
         return null;
     }
 
@@ -124,15 +132,10 @@ const BillingSubscriptions: React.FC = () => {
             !shouldShowPaymentFailedBanner() &&
             showGrandfatheredPlanBanner &&
 
-            // This banner is only for 1 specific grandfathered subscription type. The below ID's are for test and production
-            ['prod_HyiHEAVKW5bYG3', 'prod_Hm2oYaBiRSISL2'].includes(
-                subscription?.product_id,
-            )
+            // This banner is only for this specific grandfathered subscription type.
+            isLegacyFree
         );
     };
-
-    const isPaidTier = Boolean(subscription?.is_paid_tier === 'true');
-    const productsLength = Object.keys(products).length;
 
     return (
         <div className='wrapper--fixed BillingSubscriptions'>
@@ -159,7 +162,7 @@ const BillingSubscriptions: React.FC = () => {
                             subscriptionPlan={product?.sku}
                         />
                         <BillingSummary
-                            isPaidTier={isPaidTier}
+                            isLegacyFree={isLegacyFree}
                             isFreeTrial={isFreeTrial}
                             daysLeftOnTrial={daysLeftOnTrial}
                             onUpgradeMattermostCloud={onUpgradeMattermostCloud}
@@ -174,13 +177,12 @@ const BillingSubscriptions: React.FC = () => {
                             trialQuestionsLink={trialQuestionsLink}
                             subscriptionPlan={product?.sku}
                             onUpgradeMattermostCloud={onUpgradeMattermostCloud}
-                            productsLength={productsLength}
                         />
                     )}
                     <CancelSubscription
                         cancelAccountLink={cancelAccountLink}
                         isFreeTrial={isFreeTrial}
-                        isPaidTier={isPaidTier}
+                        isLegacyFree={isLegacyFree}
                     />
                 </div>
             </div>
