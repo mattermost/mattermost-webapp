@@ -14,11 +14,11 @@ import {t} from 'utils/i18n';
 
 const STARTER_MESSAGES_LIMIT = 10000;
 const STARTER_FILE_STORAGE_LIMIT = 10;
-const STARTER_BOARDS_VIEW_LIMIT = 500;
+const STARTER_BOARDS_VIEW_LIMIT = 5;
 const STARTER_BOARD_CARDS_LIMIT = 500;
 const STARTER_INTEGRATIONS_LIMIT = 5;
 
-const DisClaimer = styled.div`
+const Disclaimer = styled.div`
 margin-top: 36px;
 color: var(--error-text);
 font-family: 'Open Sans';
@@ -50,7 +50,7 @@ function StarterDisclaimerCTA() {
                     id: t('workspace_limits.modals.informational.description.starterLimits'),
                     defaultMessage: 'Cloud starter is restricted to {messages} message history, {storage}GB file storage, {integrations} apps, and {boards} board cards.',
                     values: {
-                        messages: STARTER_MESSAGES_LIMIT,
+                        messages: intl.formatNumber(STARTER_MESSAGES_LIMIT),
                         storage: STARTER_FILE_STORAGE_LIMIT,
                         integrations: STARTER_INTEGRATIONS_LIMIT,
                         boards: STARTER_BOARD_CARDS_LIMIT,
@@ -88,13 +88,13 @@ function StarterDisclaimerCTA() {
         }));
     };
     return (
-        <DisClaimer
+        <Disclaimer
             id='starter_plan_data_restrictions_cta'
             onClick={openLimitsMiniModal}
         >
             <i className='icon-alert-outline'/>
             {intl.formatMessage({id: 'pricing_modal.planDisclaimer.starter', defaultMessage: 'This plan has data restrictions.'})}
-        </DisClaimer>);
+        </Disclaimer>);
 }
 
 export default StarterDisclaimerCTA;
