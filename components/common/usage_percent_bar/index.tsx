@@ -5,6 +5,8 @@ import React from 'react';
 
 import styled from 'styled-components';
 
+import {limitThresholds} from 'utils/limits';
+
 type Thresholds = {
     ok: number;
     warn: number;
@@ -14,18 +16,13 @@ type Thresholds = {
 
 type Props = {
 
-    // 0-100, i.e. not a fraction
+    // 0-100, i.e. not a 0-1 decimal
     percent: number;
     thresholds?: Thresholds;
     barWidth?: number | string;
 }
 
-const defaultThresholds = {
-    ok: 0,
-    warn: 50,
-    danger: 66,
-    exceeded: 100.0000001,
-};
+const defaultThresholds = limitThresholds;
 
 type BarBackgroundProps = {
     width: number | string;

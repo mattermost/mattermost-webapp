@@ -11,7 +11,7 @@ import {deleteScheme} from 'mattermost-redux/actions/schemes';
 import {makeGetSchemeTeams} from 'mattermost-redux/selectors/entities/schemes';
 
 import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 
 import PermissionsSchemeSummary, {Props} from './permissions_scheme_summary';
 

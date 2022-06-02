@@ -8,10 +8,16 @@ import {useDispatch, useSelector} from 'react-redux';
 import {openModal} from 'actions/views/modals';
 import {trackEvent} from 'actions/telemetry_actions';
 
+import {getSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
+import {SalesInquiryIssue} from 'selectors/cloud';
+
 import {ModalIdentifiers, CloudProducts} from 'utils/constants';
+import {anyUsageDeltaExceededLimit} from 'utils/limits';
+
+import useOpenSalesLink from 'components/common/hooks/useOpenSalesLink';
+import useGetUsageDeltas from 'components/common/hooks/useGetUsageDeltas';
 
 import PricingModal from 'components/pricing_modal';
-
 import AlertBanner from 'components/alert_banner';
 
 interface Props {
@@ -19,20 +25,15 @@ interface Props {
     onDismiss: () => void;
 }
 
-// TODO: stubbed because they are already implemented in other PRs. 
-// Remove once those PRs are merged.
-const useSomeLimitExceeded = () => true;
-const getSubscriptionProduct = () => ({sku: CloudProducts.STARTER});
-const useOpenSalesLink = () => () => {};
-
 const StarterUpgradeBanner = (props: Props) => {
     const dispatch = useDispatch();
     const intl = useIntl();
-    const someExceeded = useSomeLimitExceeded;
+    const someLimitExceeded = anyUsageDeltaExceededLimit(useGetUsageDeltas());
+
     const subscriptionProduct = useSelector(getSubscriptionProduct);
-    const openSalesLink = useOpenSalesLink();
-    if (!someExceeded || subscriptionProduct?.sku !== CloudProducts.STARTER) {
-        return null
+    const openSalesLink = useOpenSalesLink(SalesInquiryIssue.UpgradeEnterprise);
+    if (!someLimitExceeded || subscriptionProduct?.sku !== CloudProducts.STARTER) {
+        return null;
     }
     return (
         <AlertBanner

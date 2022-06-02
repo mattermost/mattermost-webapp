@@ -10,15 +10,18 @@ import TrialBenefitsModal from 'components/trial_benefits_modal/trial_benefits_m
 import LearnMoreTrialModal from 'components/learn_more_trial_modal/learn_more_trial_modal';
 
 import {DispatchFunc} from 'mattermost-redux/types/actions';
-import {GlobalState} from 'mattermost-redux/types/store';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
-import {LicenseSkus} from 'mattermost-redux/types/general';
 
 import {openModal} from 'actions/views/modals';
 
 import {getRemainingDaysFromFutureTimestamp} from 'utils/utils';
-import {TrialPeriodDays, ModalIdentifiers} from 'utils/constants';
+import {TrialPeriodDays, ModalIdentifiers, CloudProducts} from 'utils/constants';
+import useGetHighestThresholdCloudLimit from 'components/common/hooks/useGetHighestThresholdCloudLimit';
+import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
+import useGetLimits from 'components/common/hooks/useGetLimits';
+import useGetUsage from 'components/common/hooks/useGetUsage';
+import {getCloudSubscription, getSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
 
 import './menu_item.scss';
 
@@ -26,21 +29,22 @@ type Props = {
     id: string;
 }
 const MenuCloudTrial = ({id}: Props) => {
-    const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
+    const subscription = useSelector(getCloudSubscription);
+    const subscriptionProduct = useSelector(getSubscriptionProduct);
     const license = useSelector(getLicense);
     const dispatch = useDispatch<DispatchFunc>();
     const {formatMessage} = useIntl();
 
     const isCloud = license?.Cloud === 'true';
     const isFreeTrial = subscription?.is_free_trial === 'true';
-    const hadPrevCloudTrial = subscription?.is_free_trial === 'false' && subscription?.trial_end_at > 0;
+    const noPriorTrial = !(subscription?.is_free_trial === 'false' && subscription?.trial_end_at > 0);
     const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
-    const isCloudFreePaidSubscription = isCloud && isCloudFreeEnabled && license?.SkuShortName !== LicenseSkus.Starter && !isFreeTrial;
-    const isCloudPaidSubscription = isCloud && Boolean(subscription?.is_paid_tier === 'true');
+    const openPricingModal = useOpenPricingModal();
 
     let daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription?.trial_end_at);
-    if (daysLeftOnTrial > TrialPeriodDays.TRIAL_MAX_DAYS) {
-        daysLeftOnTrial = TrialPeriodDays.TRIAL_MAX_DAYS;
+    const maxDays = isCloudFreeEnabled ? TrialPeriodDays.TRIAL_30_DAYS : TrialPeriodDays.TRIAL_14_DAYS;
+    if (daysLeftOnTrial > maxDays) {
+        daysLeftOnTrial = maxDays;
     }
 
     const openTrialBenefitsModal = async () => {
@@ -52,19 +56,45 @@ const MenuCloudTrial = ({id}: Props) => {
 
     const openLearnMoreTrialModal = async () => {
         await dispatch(openModal({
-            modalId: ModalIdentifiers.TRIAL_BENEFITS_MODAL,
+            modalId: ModalIdentifiers.LEARN_MORE_TRIAL_MODAL,
             dialogType: LearnMoreTrialModal,
         }));
     };
 
-    const show = isCloud && !isCloudFreePaidSubscription && !isCloudPaidSubscription;
-    if (!show) {
+    const someLimitNeedsAttention = Boolean(useGetHighestThresholdCloudLimit(useGetUsage(), useGetLimits()[0]));
+
+    const isStarter = subscriptionProduct?.sku === CloudProducts.STARTER;
+
+    if (!isCloud) {
         return null;
     }
 
-    // this is the menu content displayed when the workspace is running a trial. It would display a different option depending if
-    // cloudFree is enabled or not.
-    const freeTrialContent = isCloudFreeEnabled ? (
+    // TODO: Remove once cloud free launches
+    if (!isCloudFreeEnabled && isFreeTrial) {
+        return (
+            <li
+                className={'MenuCloudTrial'}
+                role='menuitem'
+                id={id}
+            >
+                <FormattedMessage
+                    id='menu.nonCloudFree.daysLeftOnTrial'
+                    defaultMessage='There are {daysLeftOnTrial} days left on your Cloud trial.'
+                    values={{daysLeftOnTrial}}
+                />
+                <UpgradeLink
+                    buttonText={formatMessage({id: 'menu.nonCloudFree.subscribeNow', defaultMessage: 'Subscribe Now'})}
+                    styleLink={true}
+                />
+            </li>
+        );
+    }
+
+    if (!isCloudFreeEnabled || someLimitNeedsAttention || (!isStarter && !isFreeTrial)) {
+        return null;
+    }
+
+    const freeTrialContent = (
         <>
             <FormattedMessage
                 id='menu.cloudFree.reviewEnterpriseFeaturesTitle'
@@ -80,22 +110,10 @@ const MenuCloudTrial = ({id}: Props) => {
                 />
             </a>
         </>
-    ) : (
-        <>
-            <FormattedMessage
-                id='menu.nonCloudFree.daysLeftOnTrial'
-                defaultMessage='There are {daysLeftOnTrial} days left on your Cloud trial.'
-                values={{daysLeftOnTrial}}
-            />
-            <UpgradeLink
-                buttonText={formatMessage({id: 'menu.nonCloudFree.subscribeNow', defaultMessage: 'Subscribe Now'})}
-                styleLink={true}
-            />
-        </>
     );
 
     // menu option displayed when the workspace is not running any trial
-    const noFreeTrialContent = (isCloudFreeEnabled && !hadPrevCloudTrial) ? (
+    const noFreeTrialContent = noPriorTrial ? (
         <>
             <FormattedMessage
                 id='menu.cloudFree.tryEnterprise'
@@ -117,11 +135,9 @@ const MenuCloudTrial = ({id}: Props) => {
                 id='menu.cloudFree.tryEnterprise'
                 defaultMessage='Interested in a limitless plan with high-security features?'
             />
-
-            {/* Todo: modify this to open the see plans modal */}
             <a
                 className='open-see-plans-modal style-link'
-                onClick={() => null}
+                onClick={openPricingModal}
             >
                 <FormattedMessage
                     id='menu.cloudFree.seePlans'

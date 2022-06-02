@@ -11,12 +11,12 @@ import {filterChannelsMatchingTerm, channelListToMap} from 'mattermost-redux/uti
 
 import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
 
-import {Channel, ChannelSearchOpts, ChannelWithTeamData} from 'mattermost-redux/types/channels';
+import {Channel, ChannelSearchOpts, ChannelWithTeamData} from '@mattermost/types/channels';
 
 import {GlobalState} from 'types/store';
 
 import {setChannelListSearch, setChannelListFilters} from 'actions/views/search';
-import {DataRetentionCustomPolicy} from 'mattermost-redux/types/data_retention';
+import {DataRetentionCustomPolicy} from '@mattermost/types/data_retention';
 
 import ChannelList from './channel_list';
 

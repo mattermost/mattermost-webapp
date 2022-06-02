@@ -6,7 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils';
-import {t} from 'utils/i18n.jsx';
+import {t} from 'utils/i18n';
 import LoginMfa from 'components/login/login_mfa.tsx';
 import LocalizedInput from 'components/localized_input/localized_input';
 

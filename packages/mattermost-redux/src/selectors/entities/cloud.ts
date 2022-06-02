@@ -1,8 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Limits, Subscription, Product} from '@mattermost/types/cloud';
+import {Limits, Subscription, Product, CloudCustomer} from '@mattermost/types/cloud';
 import {GlobalState} from '@mattermost/types/store';
+import {LegacyFreeProductIds} from 'utils/constants';
 
 import {getLicense} from './general';
 
@@ -14,6 +15,10 @@ export function getCloudSubscription(state: GlobalState): Subscription | undefin
     return state.entities.cloud.subscription;
 }
 
+export function getCloudCustomer(state: GlobalState): CloudCustomer | undefined {
+    return state.entities.cloud.customer;
+}
+
 export function getCloudProducts(state: GlobalState): Record<string, Product> | undefined {
     return state.entities.cloud.products;
 }
@@ -22,13 +27,26 @@ export function getCloudLimitsLoaded(state: GlobalState): boolean {
     return state.entities.cloud.limits.limitsLoaded;
 }
 
-export function getCloudProduct(state: GlobalState): Product | undefined {
-    const currentSubscription = getCloudSubscription(state);
-    if (state.entities.cloud.products && currentSubscription) {
-        return state.entities.cloud.products[currentSubscription?.product_id];
+export function getSubscriptionProduct(state: GlobalState): Product | undefined {
+    const subscription = getCloudSubscription(state);
+    if (!subscription) {
+        return undefined;
+    }
+    const products = getCloudProducts(state);
+    if (!products) {
+        return undefined;
     }
 
-    return undefined;
+    return products[subscription.product_id];
+}
+
+export function checkSubscriptionIsLegacyFree(state: GlobalState): boolean {
+    return Boolean(LegacyFreeProductIds[getCloudSubscription(state)?.product_id || '']);
+}
+
+export function checkHadPriorTrial(state: GlobalState): boolean {
+    const subscription = getCloudSubscription(state);
+    return Boolean(subscription?.is_free_trial === 'false' && subscription?.trial_end_at > 0);
 }
 
 export function isCurrentLicenseCloud(state: GlobalState): boolean {

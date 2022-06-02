@@ -16,7 +16,7 @@ import {FileSizes} from 'utils/file_utils';
 import {GlobalState} from '@mattermost/types/store';
 import {Constants} from 'utils/constants';
 
-import {Subscription} from 'mattermost-redux/types/cloud';
+import {Subscription} from '@mattermost/types/cloud';
 
 import CloudUsageModal, {Props} from './index';
 
@@ -32,6 +32,7 @@ const freeLimits = {
     },
     teams: {
         active: 1,
+        teamsLimits: true,
     },
     boards: {
         cards: 500,
@@ -66,6 +67,11 @@ function setupStore(hasLimits: boolean) {
                 integrations: {
                     enabled: 0,
                     enabledLoaded: true,
+                },
+                teams: {
+                    active: 0,
+                    cloudArchived: 0,
+                    teamsLoaded: true,
                 },
             },
             general: {
