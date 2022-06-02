@@ -1,8 +1,9 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
 import assert from 'assert';
 
 import {getChannelHeaderMenuPluginComponents} from 'selectors/plugins';
-
-import {GlobalState} from 'types/store';
 
 describe('selectors/plugins', () => {
     describe('getChannelHeaderMenuPluginComponents', () => {
@@ -21,18 +22,18 @@ describe('selectors/plugins', () => {
                 plugins: {
                     components: {
                         ChannelHeader: expectedComponents,
-                    }
+                    },
                 },
-            } as unknown as GlobalState;
+            };
             const components = getChannelHeaderMenuPluginComponents(state);
-            assert.deepEqual(expectedComponents, components)
+            assert.deepEqual(expectedComponents, components);
         });
-        
+
         test('one channel header component found as shouldRender returns true', () => {
             const expectedComponents = [
                 {
-                    shouldRender: (state) => true,
-                }
+                    shouldRender: () => true,
+                },
             ];
 
             const state = {
@@ -47,19 +48,19 @@ describe('selectors/plugins', () => {
                 plugins: {
                     components: {
                         ChannelHeader: expectedComponents,
-                    }
+                    },
                 },
-            } as unknown as GlobalState;
+            };
 
             const components = getChannelHeaderMenuPluginComponents(state);
-            assert.deepEqual(expectedComponents, components)
+            assert.deepEqual(expectedComponents, components);
         });
 
         test('one channel header component found as shouldRender is not defined', () => {
             const expectedComponents = [
                 {
                     id: 'testId',
-                }
+                },
             ];
 
             const state = {
@@ -74,14 +75,14 @@ describe('selectors/plugins', () => {
                 plugins: {
                     components: {
                         ChannelHeader: expectedComponents,
-                    }
+                    },
                 },
-            } as unknown as GlobalState;
+            };
 
             const components = getChannelHeaderMenuPluginComponents(state);
-            assert.deepEqual(expectedComponents, components)
+            assert.deepEqual(expectedComponents, components);
         });
-        
+
         test('no channel header components found as shouldRender returns false', () => {
             const expectedComponents = [];
 
@@ -97,14 +98,14 @@ describe('selectors/plugins', () => {
                 plugins: {
                     components: {
                         ChannelHeader: [{
-                            shouldRender: (state) => false,
+                            shouldRender: () => false,
                         }],
-                    }
+                    },
                 },
-            } as unknown as GlobalState;
+            };
 
             const components = getChannelHeaderMenuPluginComponents(state);
-            assert.deepEqual(expectedComponents, components)
+            assert.deepEqual(expectedComponents, components);
         });
     });
 });
