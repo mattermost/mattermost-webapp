@@ -5,6 +5,12 @@ import {useSelector} from 'react-redux';
 
 import {FormattedMessage} from 'react-intl';
 
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+
+import {TopBoard} from '@mattermost/types/insights';
+
+import {GlobalState} from 'types/store';
+
 import Avatars from 'components/widgets/users/avatars';
 
 import TitleLoader from '../skeleton_loader/title_loader/title_loader';
@@ -13,15 +19,13 @@ import widgetHoc, {WidgetHocProps} from '../widget_hoc/widget_hoc';
 import WidgetEmptyState from '../widget_empty_state/widget_empty_state';
 
 import './../../activity_and_insights.scss';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {TopBoard} from '@mattermost/types/insights';
 
 const TopBoards = (props: WidgetHocProps) => {
     const [loading, setLoading] = useState(true);
     const [topBoards, setTopBoards] = useState([] as TopBoard[]);
 
     const currentTeamId = useSelector(getCurrentTeamId);
-    const boardsHandler = useSelector((state: any) => state.plugins.insightsHandlers.boards);
+    const boardsHandler = useSelector((state: GlobalState) => state.plugins.insightsHandlers.boards);
 
     const getTopBoards = useCallback(async () => {
         setLoading(true);
