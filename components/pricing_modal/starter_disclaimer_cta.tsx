@@ -87,10 +87,14 @@ function StarterDisclaimerCTA() {
             },
         }));
     };
-    return (<DisClaimer onClick={openLimitsMiniModal}>
-        <i className='icon-alert-outline'/>
-        {intl.formatMessage({id: 'pricing_modal.planDisclaimer.starter', defaultMessage: 'This plan has data restrictions.'})}
-    </DisClaimer>);
+    return (
+        <DisClaimer
+            id='starter_plan_data_restrictions_cta'
+            onClick={openLimitsMiniModal}
+        >
+            <i className='icon-alert-outline'/>
+            {intl.formatMessage({id: 'pricing_modal.planDisclaimer.starter', defaultMessage: 'This plan has data restrictions.'})}
+        </DisClaimer>);
 }
 
 export default StarterDisclaimerCTA;
