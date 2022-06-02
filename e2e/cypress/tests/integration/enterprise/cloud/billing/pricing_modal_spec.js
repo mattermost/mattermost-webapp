@@ -137,7 +137,6 @@ describe('Pricing modal', () => {
 
         // *Check that enterprise card action button opens LearnMoreTrialModal
         cy.get('#pricingModal').get('#enterprise').get('#enterprise_action').contains('Try free for 30 days');
-
         cy.get('#pricingModal').get('#enterprise').get('#enterprise_action').click();
         cy.get('.LearnMoreTrialModal').should('exist');
     });
@@ -172,6 +171,7 @@ describe('Pricing modal', () => {
 
         // *Check that enterprise card action button is disabled
         cy.get('#UpgradeButton').should('exist').click();
+        cy.get('#pricingModal').get('#enterprise').get('#enterprise_action').contains('Try free for 30 days');
         cy.get('#pricingModal').get('#enterprise').get('#enterprise_action').should('be.disabled');
     });
 
