@@ -14,7 +14,7 @@ import {savePreferences} from 'mattermost-redux/actions/preferences';
 
 import {getShowLaunchingWorkspace, getShowTaskListBool} from 'selectors/onboarding';
 import {emitBrowserWindowResized} from 'actions/views/browser';
-import {loadConfigAndMe} from 'actions/views/root';
+import {loadConfigAndMe, registerCustomPostRenderer} from 'actions/views/root';
 
 import LocalStorageStore from 'stores/local_storage_store';
 
@@ -62,6 +62,7 @@ function mapDispatchToProps(dispatch) {
             getFirstAdminSetupComplete,
             getProfiles,
             savePreferences,
+            registerCustomPostRenderer,
         }, dispatch),
     };
 }

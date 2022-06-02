@@ -6,51 +6,13 @@ import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 
-import {ActionTypes, CloudProducts} from 'utils/constants';
+import {CloudProducts} from 'utils/constants';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCloudProducts, getCloudSubscription} from 'mattermost-redux/actions/cloud';
 import {getCloudSubscription as selectCloudSubscription, getSubscriptionProduct as selectSubscriptionProduct, isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
 
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
-import {Post} from '@mattermost/types/posts';
-
-function CustomOpenPricingModalComponent(props: {post: Post}) {
-    openPricingModal = useOpenPricingModal();
-    const style = {
-        padding: '12px',
-        borderRadius: '0 4px 4px 0',
-        border: '1px solid rgba(var(--center-channel-text-rgb), 0.16)',
-        borderLeft: '5px solid var(--denim-sidebar-active-border)',
-        width: 'max-content',
-        margin: '10px 0',
-    };
-
-    const btnStyle = {
-        background: 'var(--button-bg)',
-        color: 'var(--button-color)',
-        border: 'none',
-        borderRadius: '4px',
-        padding: '8px 20px',
-        fontWeight: 600,
-    };
-
-    return (
-        <div>
-            <span>{props.post.message}</span>
-            <div
-                style={style}
-            >
-                <button
-                    onClick={openPricingModal}
-                    style={btnStyle}
-                >
-                    {'View upgrade options'}
-                </button>
-            </div>
-        </div>
-    );
-}
 
 const UpgradeButton = styled.button`
 background: var(--denim-button-bg);
@@ -85,18 +47,6 @@ const UpgradeCloudButton = (): JSX.Element | null => {
             dispatch(getCloudSubscription());
             dispatch(getCloudProducts());
         }
-
-        // piggyback on plugins state to register a custom post renderer
-        const postTypeId = 'upgrade_post_message';
-        dispatch({
-            type: ActionTypes.RECEIVED_PLUGIN_POST_COMPONENT,
-            data: {
-                postTypeId,
-                pluginId: postTypeId,
-                type: 'custom_up_notification',
-                component: CustomOpenPricingModalComponent,
-            },
-        });
     }, [isCloud]);
 
     openPricingModal = useOpenPricingModal();
