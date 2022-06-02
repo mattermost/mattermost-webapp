@@ -140,8 +140,7 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
       }
       id="channelViewMembers"
       show={false}
-      textClose="Close Members RHS"
-      textOpen="View Members"
+      text="View Members"
     />
     <Connect(ChannelPermissionGate)
       channelId="test-channel-id"
@@ -195,8 +194,7 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
         editMembers={true}
         id="channelManageMembers"
         show={true}
-        textClose="Close Members RHS"
-        textOpen="Manage Members"
+        text="Manage Members"
       />
     </Connect(ChannelPermissionGate)>
     <Connect(ChannelPermissionGate)
@@ -216,8 +214,7 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
         }
         id="channelViewMembers"
         show={true}
-        textClose="Close Members RHS"
-        textOpen="View Members"
+        text="View Members"
       />
     </Connect(ChannelPermissionGate)>
   </MenuGroup>
@@ -588,8 +585,7 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
       }
       id="channelViewMembers"
       show={false}
-      textClose="Close Members RHS"
-      textOpen="View Members"
+      text="View Members"
     />
     <Connect(ChannelPermissionGate)
       channelId="test-channel-id"
@@ -643,8 +639,7 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
         editMembers={true}
         id="channelManageMembers"
         show={true}
-        textClose="Close Members RHS"
-        textOpen="Manage Members"
+        text="Manage Members"
       />
     </Connect(ChannelPermissionGate)>
     <Connect(ChannelPermissionGate)
@@ -664,8 +659,7 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
         }
         id="channelViewMembers"
         show={true}
-        textClose="Close Members RHS"
-        textOpen="View Members"
+        text="View Members"
       />
     </Connect(ChannelPermissionGate)>
   </MenuGroup>
