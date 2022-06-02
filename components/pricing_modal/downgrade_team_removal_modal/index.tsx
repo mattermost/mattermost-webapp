@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {useEffect, useState} from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 import {noop, isEmpty} from 'lodash';
 import {Modal} from 'react-bootstrap';
 
@@ -14,9 +14,9 @@ import RadioButtonGroup from 'components/common/radio_group';
 import DropdownInput, {ValueType} from 'components/dropdown_input';
 
 import useGetUsage from 'components/common/hooks/useGetUsage';
-import {getTeams, selectTeam} from 'mattermost-redux/actions/teams';
+import {getTeams, selectTeam, archiveAllTeamsExcept} from 'mattermost-redux/actions/teams';
 
-import {getTeamsList} from 'mattermost-redux/selectors/entities/teams';
+import {getActiveTeamsList} from 'mattermost-redux/selectors/entities/teams';
 import {closeModal} from 'actions/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
 import {isModalOpen} from 'selectors/views/modals';
@@ -24,7 +24,11 @@ import {GlobalState} from 'types/store';
 
 import './downgrade_team_removal_modal.scss';
 
-function DownGradeTeamRemovalModal() {
+type Props = {
+    onHide?: () => void;
+};
+
+function DownGradeTeamRemovalModal(props: Props) {
     const dispatch = useDispatch();
     const [radioValue, setRadioValue] = useState('');
     const [dropdownValue, setDropdownValue] = useState({});
@@ -33,7 +37,7 @@ function DownGradeTeamRemovalModal() {
         (state: GlobalState) =>
             isModalOpen(state, ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM),
     );
-    const teams = useSelector(getTeamsList);
+    const teams = useSelector(getActiveTeamsList);
     useEffect(() => {
         if (!teams) {
             dispatch(getTeams(0, 10000));
@@ -45,15 +49,20 @@ function DownGradeTeamRemovalModal() {
         dispatch(closeModal(ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM));
     };
 
-    const onConfirmDowngrade = () => {
+    const onConfirmDowngrade = async () => {
         let teamIdToKeep = '';
         if (!isEmpty(radioValue) && isEmpty(dropdownValue)) {
             teamIdToKeep = radioValue;
         } else {
             teamIdToKeep = (dropdownValue as ValueType).value;
         }
-        console.log(teamIdToKeep);
         dispatch(selectTeam(teamIdToKeep));
+        const test = await dispatch(archiveAllTeamsExcept(teamIdToKeep));
+        console.log(test);
+
+        if (typeof props.onHide === 'function') {
+            props.onHide();
+        }
     };
 
     const selectionSection = () => {
@@ -134,7 +143,12 @@ function DownGradeTeamRemovalModal() {
                     <div>
                         <FormattedMessage
                             id='downgrade_plan_modal.subtitle'
-                            defaultMessage="Cloud starter is restricted to 1 team, 10GB file storage, 10 apps, and 5 board card views. If you downgrade, some data will be archived. It won't be deleted and you'll be able to access it again when you upgrade."
+                            defaultMessage="Cloud starter is restricted to 1 team, 10GB file storage, 10 apps, and 5 board card views. <strong>If you downgrade, some data will be archived</strong>. It won't be deleted and you'll be able to access it again when you upgrade."
+                            values={{
+                                strong: (msg: React.ReactNode) => (
+                                    <strong>{msg}</strong>
+                                ),
+                            }}
                         />
                     </div>
                     <div className='cta'>

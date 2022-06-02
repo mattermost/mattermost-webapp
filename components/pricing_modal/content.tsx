@@ -249,23 +249,44 @@ function Content(props: ContentProps) {
                         }}
                         buttonDetails={{
                             action: () => {
-                                // if (usage.teams.active > 1) {
-                                dispatch(
-                                    openModal({
-                                        modalId: ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM,
-                                        dialogType: DownGradeTeamRemovalModal,
-                                    }),
-                                );
+                                if (usage.teams.active > 1) {
+                                    dispatch(
+                                        openModal({
+                                            modalId: ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM,
+                                            dialogType: DownGradeTeamRemovalModal,
+                                            dialogProps: {
+                                                onHide: () => {
+                                                    if (!starterProduct) {
+                                                        return;
+                                                    }
+                                                    dispatch(
+                                                        subscribeCloudSubscription(
+                                                            starterProduct?.id,
+                                                        ),
+                                                    );
+                                                    dispatch(
+                                                        closeModal(
+                                                            ModalIdentifiers.CLOUD_PURCHASE,
+                                                        ),
+                                                    );
+                                                    dispatch(
+                                                        closeModal(
+                                                            ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM,
+                                                        ),
+                                                    );
+                                                },
+                                            },
+                                        }),
+                                    );
+                                } else {
+                                    if (!starterProduct) {
+                                        return;
+                                    }
 
-                                // } else {
-                                //     if (!starterProduct) {
-                                //         return;
-                                //     }
-
-                                //     dispatch(
-                                //         subscribeCloudSubscription(starterProduct?.id),
-                                //     );
-                                // }
+                                    dispatch(
+                                        subscribeCloudSubscription(starterProduct?.id),
+                                    );
+                                }
                             }, // noop until we support downgrade
                             text: formatMessage({id: 'pricing_modal.btn.downgrade', defaultMessage: 'Downgrade'}),
                             disabled: false, // disabled until we have functionality to downgrade

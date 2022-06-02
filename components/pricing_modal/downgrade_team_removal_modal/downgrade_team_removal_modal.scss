@@ -1,4 +1,7 @@
 .DowngradeTeamRemovalModal {
+    .modal {
+        overflow: visible;
+    }
     .modal-dialog {
         position: absolute;
         top: 50%;
@@ -66,6 +69,7 @@
         border: none;
         padding: 26px 32px;
         padding-top: 0;
+        overflow-y: visible;
     }
 
     .DowngradeTeamRemovalModal__body {
@@ -74,6 +78,10 @@
                 font-weight: 400;
                 font-size: 12px;
                 margin-bottom: 16px;
+            }
+            .DropDown__menu {
+                overflow-y: scroll !important;
+                z-index: 99999;
             }
         }
         .cta {
