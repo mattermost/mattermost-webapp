@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable max-lines */
+
 import debounce from 'lodash/debounce';
 import {batchActions} from 'redux-batched-actions';
 
@@ -206,12 +208,16 @@ export function showRHSPlugin(pluggableId: string) {
     };
 }
 
-export function showChannelMembers(channelId: string) {
+export function showChannelMembers(channelId: string, inEditingMode = false) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState() as GlobalState;
 
         dispatch(loadMyChannelMemberAndRole(channelId));
         dispatch(loadProfilesAndReloadChannelMembers(channelId));
+
+        if (inEditingMode) {
+            await dispatch(setEditChannelMembers(true));
+        }
 
         let previousRhsState = getRhsState(state);
         if (previousRhsState === RHSStates.CHANNEL_MEMBERS) {
@@ -569,3 +575,13 @@ export const suppressRHS = {
 export const unsuppressRHS = {
     type: ActionTypes.UNSUPPRESS_RHS,
 };
+
+export function setEditChannelMembers(active: boolean) {
+    return (dispatch: DispatchFunc) => {
+        dispatch({
+            type: ActionTypes.SET_EDIT_CHANNEL_MEMBERS,
+            active,
+        });
+        return {data: true};
+    };
+}
