@@ -22,6 +22,7 @@ function ContactSalesCTA() {
     const openSalesLink = useOpenSalesLink();
     return (
         <StyledDiv
+            id='contact_sales_quote'
             onClick={openSalesLink}
         >
             {formatMessage({id: 'pricing_modal.btn.contactSalesForQuote', defaultMessage: 'Contact Sales for a quote'})}
