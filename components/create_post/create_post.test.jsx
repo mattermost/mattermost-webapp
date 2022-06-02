@@ -885,7 +885,22 @@ describe('components/create_post', () => {
         const instance = wrapper.instance();
         instance.textboxRef.current = {blur: jest.fn()};
 
-        instance.handleKeyDown({ctrlKey: true, key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], preventDefault: jest.fn(), persist: jest.fn()});
+        const target = {
+            selectionStart: 0,
+            selectionEnd: 0,
+            value: 'brown\nfox jumps over lazy dog',
+        };
+
+        const event = {
+            ctrlKey: true,
+            key: Constants.KeyCodes.ENTER[0],
+            keyCode: Constants.KeyCodes.ENTER[1],
+            preventDefault: jest.fn(),
+            persist: jest.fn(),
+            target,
+        };
+
+        instance.handleKeyDown(event);
         setTimeout(() => {
             expect(GlobalActions.emitLocalUserTypingEvent).toHaveBeenCalledWith(currentChannelProp.id, '');
         }, 0);
@@ -901,7 +916,22 @@ describe('components/create_post', () => {
         }));
         const instance = wrapper.instance();
         const type = Utils.localizeMessage('create_post.comment', Posts.MESSAGE_TYPES.COMMENT);
-        instance.handleKeyDown({key: Constants.KeyCodes.UP[0], preventDefault: jest.fn()});
+
+        const target = {
+            selectionStart: 0,
+            selectionEnd: 0,
+            value: 'brown\nfox jumps over lazy dog',
+        };
+
+        const event = {
+            key: Constants.KeyCodes.UP[0],
+            keyCode: Constants.KeyCodes.UP[1],
+            preventDefault: jest.fn(),
+            persist: jest.fn(),
+            target,
+        };
+
+        instance.handleKeyDown(event);
         expect(setEditingPost).toHaveBeenCalledWith(currentUsersLatestPostProp.id, 'post_textbox', type);
     });
 
@@ -920,7 +950,22 @@ describe('components/create_post', () => {
         });
 
         const type = Utils.localizeMessage('create_post.post', Posts.MESSAGE_TYPES.POST);
-        instance.handleKeyDown({key: Constants.KeyCodes.UP[0], preventDefault: jest.fn()});
+
+        const target = {
+            selectionStart: 0,
+            selectionEnd: 0,
+            value: 'brown\nfox jumps over lazy dog',
+        };
+
+        const event = {
+            key: Constants.KeyCodes.UP[0],
+            keyCode: Constants.KeyCodes.UP[1],
+            preventDefault: jest.fn(),
+            persist: jest.fn(),
+            target,
+        };
+
+        instance.handleKeyDown(event);
         expect(setEditingPost).toHaveBeenCalledWith(currentUsersLatestPostProp.id, 'post_textbox', type);
     });
 
@@ -940,7 +985,22 @@ describe('components/create_post', () => {
         }));
         const instance = wrapper.instance();
 
-        instance.handleKeyDown({key: Constants.KeyCodes.DOWN[0], ctrlKey: true, preventDefault: jest.fn()});
+        const target = {
+            selectionStart: 0,
+            selectionEnd: 0,
+            value: 'brown\nfox jumps over lazy dog',
+        };
+
+        const event = {
+            ctrlKey: true,
+            key: Constants.KeyCodes.DOWN[0],
+            keyCode: Constants.KeyCodes.DOWN[1],
+            preventDefault: jest.fn(),
+            persist: jest.fn(),
+            target,
+        };
+
+        instance.handleKeyDown(event);
         expect(moveHistoryIndexForward).toHaveBeenCalled();
     });
 
@@ -960,7 +1020,22 @@ describe('components/create_post', () => {
         }));
         const instance = wrapper.instance();
 
-        instance.handleKeyDown({key: Constants.KeyCodes.UP[0], ctrlKey: true, preventDefault: jest.fn()});
+        const target = {
+            selectionStart: 0,
+            selectionEnd: 0,
+            value: 'brown\nfox jumps over lazy dog',
+        };
+
+        const event = {
+            ctrlKey: true,
+            key: Constants.KeyCodes.UP[0],
+            keyCode: Constants.KeyCodes.UP[1],
+            preventDefault: jest.fn(),
+            persist: jest.fn(),
+            target,
+        };
+
+        instance.handleKeyDown(event);
         expect(moveHistoryIndexBack).toHaveBeenCalled();
     });
 
@@ -1240,21 +1315,21 @@ describe('components/create_post', () => {
 
     it('should not enable the save button when message empty', () => {
         const wrapper = shallowWithIntl(createPost());
-        const saveButton = wrapper.find('.post-body__actions .send-button');
+        const saveButton = wrapper.find('.post-body__actions a');
 
         expect(saveButton.hasClass('disabled')).toBe(true);
     });
 
     it('should enable the save button when message not empty', () => {
         const wrapper = shallowWithIntl(createPost({draft: {...draftProp, message: 'a message'}}));
-        const saveButton = wrapper.find('.post-body__actions .send-button');
+        const saveButton = wrapper.find('.post-body__actions a');
 
         expect(saveButton.hasClass('disabled')).toBe(false);
     });
 
     it('should enable the save button when a file is available for upload', () => {
         const wrapper = shallowWithIntl(createPost({draft: {...draftProp, fileInfos: [{id: '1'}]}}));
-        const saveButton = wrapper.find('.post-body__actions .send-button');
+        const saveButton = wrapper.find('.post-body__actions a');
 
         expect(saveButton.hasClass('disabled')).toBe(false);
     });

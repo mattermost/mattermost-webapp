@@ -7,7 +7,7 @@ import {useIntl} from 'react-intl';
 import Icon from '@mattermost/compass-components/foundations/icon';
 
 import {Permissions} from 'mattermost-redux/constants';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 import AboutBuildModal from 'components/about_build_modal';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
@@ -91,6 +91,7 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                 <SystemPermissionGate permissions={[Permissions.SYSCONSOLE_WRITE_BILLING]}>
                     <Menu.CloudTrial id='menuCloudTrial'/>
                 </SystemPermissionGate>
+                <Menu.ItemCloudLimit id='menuItemCloudLimit'/>
                 <SystemPermissionGate
                     permissions={[Permissions.SYSCONSOLE_WRITE_ABOUT_EDITION_AND_LICENSE]}
                 >

@@ -35,6 +35,7 @@ export class PulsatingDot extends React.PureComponent<Props> {
                 onClick={this.props.onClick}
                 ref={this.props.targetRef}
                 style={{...customStyles}}
+                data-testid={'pulsating_dot'}
             />
         );
     }

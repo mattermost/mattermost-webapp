@@ -8,8 +8,8 @@ import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels'
 import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
 
 import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-import type {MarketplaceApp, MarketplacePlugin} from 'mattermost-redux/types/marketplace';
-import type {CommandArgs} from 'mattermost-redux/types/integrations';
+import type {MarketplaceApp, MarketplacePlugin} from '@mattermost/types/marketplace';
+import type {CommandArgs} from '@mattermost/types/integrations';
 
 import {GlobalState} from 'types/store';
 

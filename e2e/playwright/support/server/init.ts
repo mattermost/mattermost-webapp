@@ -27,7 +27,6 @@ export async function initSetup(userPrefix = 'user', teamPrefix = {name: 'team',
         const {client: userClient} = await makeClient(user);
 
         const preferences: PreferenceType[] = [
-            {user_id: user.id, category: 'recommended_next_steps', name: 'hide', value: 'true'},
             {user_id: user.id, category: 'tutorial_step', name: user.id, value: '999'},
         ];
         await userClient.savePreferences(user.id, preferences);

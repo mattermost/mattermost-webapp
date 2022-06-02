@@ -4,7 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {GroupSearchOpts, MixedUnlinkedGroupRedux} from 'mattermost-redux/types/groups';
+import {GroupSearchOpts, MixedUnlinkedGroupRedux} from '@mattermost/types/groups';
 
 import * as Utils from 'utils/utils';
 

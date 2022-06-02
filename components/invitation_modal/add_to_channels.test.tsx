@@ -7,7 +7,7 @@ import {screen} from '@testing-library/react';
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import {renderWithIntl} from 'tests/react_testing_utils';
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 import CloseCircleIcon from 'components/widgets/icons/close_circle_icon';
 
 import AddToChannels, {Props} from './add_to_channels';

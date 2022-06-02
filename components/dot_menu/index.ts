@@ -17,7 +17,7 @@ import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
 
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 
 import {setThreadFollow} from 'mattermost-redux/actions/threads';
 
