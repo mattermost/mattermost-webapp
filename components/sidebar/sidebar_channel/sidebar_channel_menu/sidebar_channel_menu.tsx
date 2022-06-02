@@ -8,7 +8,7 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import classNames from 'classnames';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 
 import {trackEvent} from 'actions/telemetry_actions';
 

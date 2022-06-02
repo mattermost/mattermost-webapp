@@ -5,6 +5,8 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import BlockableLink from 'components/admin_console/blockable_link';
+import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
+import useOpenSalesLink from 'components/common/hooks/useOpenSalesLink';
 import AlertBanner from 'components/alert_banner';
 
 export const creditCardExpiredBanner = (setShowCreditCardBanner: (value: boolean) => void) => {
@@ -49,6 +51,58 @@ export const paymentFailedBanner = () => {
                         link: (text: string) => <BlockableLink to='/admin_console/billing/payment_info'>{text}</BlockableLink>,
                     }}
                 />
+            }
+        />
+    );
+};
+
+interface Props {
+    setShowGrandfatheredPlanBanner: (value: boolean) => void;
+}
+
+export const GrandfatheredPlanBanner = (props: Props) => {
+    const openPricingModal = useOpenPricingModal();
+    const openSalesLink = useOpenSalesLink();
+    return (
+        <AlertBanner
+            mode='info'
+            hideIcon={true}
+            title={
+                <FormattedMessage
+                    id='admin.billing.subscription.grandfatheredBannerTitle'
+                    defaultMessage='Workspace Update'
+                />
+            }
+            onDismiss={() => props.setShowGrandfatheredPlanBanner(false)}
+            message={
+                <FormattedMessage
+                    id='admin.billing.subscription.grandfatheredBannerBody'
+                    defaultMessage='Your workspace will update to the current Cloud Starter plan on November 1, 2022. You may lose access to some Enterprise features. Contact Sales to learn more or to subscribe to the Enterprise plan today.'
+                />
+            }
+            actionButtonLeft={
+                <button
+                    onClick={openPricingModal}
+                    className='AlertBanner__buttonLeft'
+                >
+                    <FormattedMessage
+                        id='workspace_limits.modals.view_plans'
+                        defaultMessage={'View plans'}
+                    />
+                </button>
+            }
+            actionButtonRight={
+                <button
+                    onClick={openSalesLink}
+                    className='AlertBanner__buttonRight'
+                >
+                    <FormattedMessage
+                        id='admin.billing.subscription.privateCloudCard.contactSalesy'
+                        defaultMessage={
+                            'Contact sales'
+                        }
+                    />
+                </button>
             }
         />
     );

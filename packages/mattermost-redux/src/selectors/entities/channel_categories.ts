@@ -14,11 +14,11 @@ import {getLastPostPerChannel} from 'mattermost-redux/selectors/entities/posts';
 import {getMyPreferences, getTeammateNameDisplaySetting, getInt, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
-import {Channel, ChannelMembership, ChannelMessageCount} from 'mattermost-redux/types/channels';
-import {ChannelCategory, ChannelCategoryType, CategorySorting} from 'mattermost-redux/types/channel_categories';
-import {GlobalState} from 'mattermost-redux/types/store';
-import {UserProfile} from 'mattermost-redux/types/users';
-import {IDMappedObjects, RelationOneToOne} from 'mattermost-redux/types/utilities';
+import {Channel, ChannelMembership, ChannelMessageCount} from '@mattermost/types/channels';
+import {ChannelCategory, ChannelCategoryType, CategorySorting} from '@mattermost/types/channel_categories';
+import {GlobalState} from '@mattermost/types/store';
+import {UserProfile} from '@mattermost/types/users';
+import {IDMappedObjects, RelationOneToOne} from '@mattermost/types/utilities';
 
 import {
     calculateUnreadCount,

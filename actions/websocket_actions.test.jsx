@@ -814,7 +814,6 @@ describe('handleCloudSubscriptionChanged', () => {
             end_at: 0,
             create_at: 0,
             seats: 0,
-            is_paid_tier: '',
             trial_end_at: 0,
             is_free_trial: '',
         };

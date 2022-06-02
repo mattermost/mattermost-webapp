@@ -4,7 +4,7 @@
 import React, {EventHandler, MouseEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 
 import Constants from 'utils/constants';
 import * as PostUtils from 'utils/post_utils';

@@ -6,7 +6,7 @@ import {connect, ConnectedProps} from 'react-redux';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
-import {FileInfo} from 'mattermost-redux/types/files';
+import {FileInfo} from '@mattermost/types/files';
 
 import {GlobalState} from 'types/store';
 import {FileDropdownPluginComponent} from 'types/store/plugins';

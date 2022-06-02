@@ -8,7 +8,7 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils';
-import {CustomGroupPatch, Group} from 'mattermost-redux/types/groups';
+import {CustomGroupPatch, Group} from '@mattermost/types/groups';
 
 import 'components/user_groups_modal/user_groups_modal.scss';
 import './update_user_group_modal.scss';
@@ -19,7 +19,7 @@ import LocalizedIcon from 'components/localized_icon';
 import {t} from 'utils/i18n';
 
 import SaveButton from 'components/save_button';
-import Constants from 'utils/constants';
+import Constants, {ItemStatus} from 'utils/constants';
 
 export type Props = {
     onExited: () => void;
@@ -187,7 +187,7 @@ const UpdateUserGroupModal = (props: Props) => {
                             value={name}
                             data-testid='nameInput'
                             autoFocus={true}
-                            error={nameInputErrorText}
+                            customMessage={{type: ItemStatus.ERROR, value: nameInputErrorText}}
                         />
                     </div>
                     <div className='group-mention-input-wrapper'>
@@ -197,7 +197,7 @@ const UpdateUserGroupModal = (props: Props) => {
                             onChange={updateMentionState}
                             value={mention}
                             data-testid='nameInput'
-                            error={mentionInputErrorText}
+                            customMessage={{type: ItemStatus.ERROR, value: mentionInputErrorText}}
                         />
                     </div>
                     <div className='update-buttons-wrapper'>

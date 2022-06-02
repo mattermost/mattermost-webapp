@@ -3,8 +3,8 @@
 
 import React from 'react';
 
-import {Team} from 'mattermost-redux/types/teams';
-import {PostImage, PostType} from 'mattermost-redux/types/posts';
+import {Team} from '@mattermost/types/teams';
+import {PostImage, PostType} from '@mattermost/types/posts';
 
 import messageHtmlToComponent from 'utils/message_html_to_component';
 import EmojiMap from 'utils/emoji_map';

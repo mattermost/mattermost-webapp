@@ -16,7 +16,7 @@ import {
 
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 
 import {CloudLinks, ConsolePages, DocLinks, LicenseLinks} from 'utils/constants';
 import {daysToLicenseExpire, isEnterpriseOrE20License, getIsStarterLicense} from '../../../utils/license_utils';

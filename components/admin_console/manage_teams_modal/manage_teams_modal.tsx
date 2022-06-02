@@ -13,9 +13,9 @@ import Avatar from 'components/widgets/users/avatar';
 
 import {Client4} from 'mattermost-redux/client';
 import {isAdmin} from 'mattermost-redux/utils/user_utils';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {Team, TeamMembership} from 'mattermost-redux/types/teams';
+import {Team, TeamMembership} from '@mattermost/types/teams';
 
 import RemoveFromTeamButton from './remove_from_team_button';
 import ManageTeamsDropdown from './manage_teams_dropdown';
