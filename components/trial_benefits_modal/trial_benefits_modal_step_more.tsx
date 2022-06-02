@@ -15,6 +15,7 @@ export type TrialBenefitsModalStepMoreProps = {
     route: string;
     message: string;
     onClick?: () => void;
+    styleLink?: boolean; // show as a anchor link
 }
 
 const TrialBenefitsModalStepMore = (
@@ -23,6 +24,7 @@ const TrialBenefitsModalStepMore = (
         route,
         message,
         onClick,
+        styleLink = false,
     }: TrialBenefitsModalStepMoreProps) => {
     const history = useHistory();
 
@@ -38,7 +40,7 @@ const TrialBenefitsModalStepMore = (
 
     return (
         <a
-            className='TrialBenefitsModalStepMore learn-more-button'
+            className={`TrialBenefitsModalStepMore ${styleLink ? '' : 'learn-more-button'}`}
             onClick={redirect}
         >
             {message}

@@ -6,9 +6,15 @@ import {useIntl} from 'react-intl';
 
 import './carousel.scss';
 
+export enum BtnStyle {
+    BUTTON = 'button',
+    CHEVRON = 'chevron',
+}
+
 type Props = {
     direction: string;
     moveSlide: () => void;
+    style?: BtnStyle;
     disabled?: boolean;
 }
 
@@ -16,7 +22,8 @@ enum Destination {
     NEXT = 'next',
     PREV = 'prev',
 }
-const CarouselButton: React.FC<Props> = ({direction, moveSlide, disabled}: Props): JSX.Element | null => {
+
+const CarouselButton = ({direction, moveSlide, disabled, style = BtnStyle.BUTTON}: Props): JSX.Element => {
     const {formatMessage} = useIntl();
 
     const handleMoveSlide = () => {
@@ -31,6 +38,17 @@ const CarouselButton: React.FC<Props> = ({direction, moveSlide, disabled}: Props
         formatMessage({id: 'carousel.PreviousButton', defaultMessage: 'Previous'});
 
     const disabledClass = disabled ? ' disabled' : '';
+
+    if (style === BtnStyle.CHEVRON) {
+        return (
+            <div
+                className={`chevron-button chevron-${direction === Destination.NEXT ? 'right' : 'left'}` + disabledClass}
+                onClick={handleMoveSlide}
+            >
+                <i className={`icon-chevron-${direction === Destination.NEXT ? 'right' : 'left'}`}/>
+            </div>
+        );
+    }
     return (
         <a
             onClick={handleMoveSlide}

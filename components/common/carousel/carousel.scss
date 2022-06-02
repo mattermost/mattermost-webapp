@@ -32,6 +32,27 @@
         opacity: 1;
     }
 
+    .chevron-button {
+        font-size: 24px;
+        margin-top: 120px;
+        color: var(--center-channel-text);
+        z-index: 2;
+        cursor: pointer;
+
+         &.disabled {
+             opacity: 0.5;
+         }
+
+         &.chevron-right {
+            position: absolute;
+            right: 0;
+         }
+         &.chevron-left {
+            position: absolute;
+            left: 0;   
+        }
+    }
+
     .container-footer {
         position: absolute;
         z-index: 2;
