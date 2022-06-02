@@ -410,10 +410,11 @@ export const EventTypes = Object.assign(
 );
 
 export const CloudProducts = {
-    STARTER_LEGACY: 'cloud-starter-legacy',
 
-    // STARTER sku is used by paid cloud subscription until the time the cloud free flag is enabled,
-    // at which time it becomes STARTER_LEGACY and the free starter plan uses STARTER sku.
+    // STARTER sku is used by both free cloud starter
+    // and paid cloud starter (legacy cloud starter).
+    // Where differentiation is needed, check whether any limits are applied.
+    // If none are applied, it must be legacy cloud starter.
     STARTER: 'cloud-starter',
     PROFESSIONAL: 'cloud-professional',
     ENTERPRISE: 'cloud-enterprise',

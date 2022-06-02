@@ -61,14 +61,6 @@ export const planDetailsTopElements = (
                 />
             );
             break;
-        case CloudProducts.STARTER_LEGACY:
-            productName = (
-                <FormattedMessage
-                    id='admin.billing.subscription.planDetails.productName.cloudStarter'
-                    defaultMessage='Cloud Starter'
-                />
-            );
-            break;
         default:
             // must be CloudProducts.LEGACY
             productName = (
