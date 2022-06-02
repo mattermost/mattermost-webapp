@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useRef, useState, useEffect, useCallback} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 
 import {CSSTransition} from 'react-transition-group';
 
@@ -96,14 +96,6 @@ function usePrevious<T extends unknown>(value: T): T | undefined {
 }
 
 const Menu = (props: MenuProps): JSX.Element => {
-    const [open, setOpen] = useState(false);
-    const [submenuOpen, setSubmenuOpen] = useState(false);
-    const menuRef = useRef(null);
-    const submenuRef = useRef(null);
-    const prevOpen = usePrevious(open);
-    const prevSubmenuOpen = usePrevious(submenuOpen);
-    const isMobile = useIsMobile();
-    const isOverlayVisible = isMobile && open;
     const {
         trigger,
         title,
@@ -112,18 +104,25 @@ const Menu = (props: MenuProps): JSX.Element => {
         groups,
         submenuGroups,
         placement,
+        open,
+        submenuOpen,
+        overlayCloseHandler,
     } = props;
 
-    const closeMenu = useCallback(() => {
-        setOpen(false);
-        setSubmenuOpen(false);
-    }, []);
+    const menuRef = useRef(null);
+    const submenuRef = useRef(null);
+    const prevOpen = usePrevious(open);
+    const prevSubmenuOpen = usePrevious(submenuOpen);
+    const isMobile = useIsMobile();
+    const isOverlayVisible = isMobile && open;
 
-    useClickOutsideRef([trigger, menuRef, submenuRef], () => {
+    useClickOutsideRef([trigger.ref, menuRef, submenuRef], () => {
         if (!open || isMobile) {
             return;
         }
-        closeMenu();
+        if (overlayCloseHandler !== undefined) {
+            overlayCloseHandler();
+        }
     });
 
     const closeSubmenuDown =
@@ -131,38 +130,33 @@ const Menu = (props: MenuProps): JSX.Element => {
 
     return (
         <>
-            <div
-                onClick={() => setOpen(!open)}
-                ref={trigger}
-            >
-                {'click'}
-            </div>
+            {trigger.element}
             <CSSTransition
                 timeout={300}
                 classNames='fade'
                 in={isOverlayVisible}
                 unmountOnExit={true}
             >
-                <Overlay onClick={closeMenu}/>
+                <Overlay onClick={overlayCloseHandler}/>
             </CSSTransition>
             <MenuData
                 menuTitle={title}
                 ref={menuRef}
                 groups={groups}
-                trigger={trigger}
+                trigger={trigger.ref}
                 open={open}
                 active={open && !submenuOpen}
                 placement={placement || 'right-start'}
                 isMobile={isMobile}
             />
-            {submenuTrigger && submenuGroups && (
+            {submenuTrigger && submenuTrigger.ref && submenuGroups && (
                 <MenuData
                     menuTitle={submenuTitle}
                     ref={submenuRef}
-                    trigger={submenuTrigger}
+                    trigger={submenuTrigger.ref}
                     open={submenuOpen}
                     isSubmenu={true}
-                    closeSubmenu={() => setSubmenuOpen(false)}
+                    closeSubmenu={overlayCloseHandler}
                     closeSubmenuDown={closeSubmenuDown}
                     active={submenuOpen}
                     groups={submenuGroups}

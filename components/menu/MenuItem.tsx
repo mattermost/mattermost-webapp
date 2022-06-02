@@ -90,11 +90,13 @@ const MenuItem = React.forwardRef(
             trailingElementLabel,
             trailingElement,
             onClick,
-            onHover,
+            onMouseEnter,
+            onMouseLeave,
         } = props;
 
         const rootProperties = {
-            onMouseEnter: onHover,
+            onMouseEnter,
+            onMouseLeave,
             onClick,
             destructive,
             disabled,

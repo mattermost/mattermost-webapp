@@ -12,7 +12,7 @@ const Divider = () => (
     <div style={{height: '1px', width: 'auto', backgroundColor: '#e0e0e0'}}/>
 );
 
-const MenuItems = styled.div<{isMobile: boolean; isSubmenu: boolean}>(
+const MenuItems = styled.div<{isMobile?: boolean; isSubmenu: boolean}>(
     ({isMobile, isSubmenu}) => {
         return isMobile ?
             css`

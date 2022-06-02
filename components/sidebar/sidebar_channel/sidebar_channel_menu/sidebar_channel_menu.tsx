@@ -1,10 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useRef} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import {useIntl} from 'react-intl';
 
 import {useDispatch, useSelector} from 'react-redux';
+
+import classNames from 'classnames';
 
 import {Channel} from 'mattermost-redux/types/channels';
 
@@ -27,7 +29,7 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 
 import Constants, {ModalIdentifiers} from 'utils/constants';
-import {copyToClipboard} from 'utils/utils';
+import {copyToClipboard, isMobile} from 'utils/utils';
 import MenuItem from 'components/menu/MenuItem';
 import Menu from 'components/menu/Menu';
 
@@ -50,7 +52,7 @@ import LeavePrivateChannelModal from 'components/leave_private_channel_modal/lea
 type Props = {
     channel: Channel;
     channelLink: string;
-    location: string;
+    location?: string;
 };
 
 const SidebarChannelMenu = (props: Props): JSX.Element => {
@@ -58,8 +60,12 @@ const SidebarChannelMenu = (props: Props): JSX.Element => {
 
     const buttonReference = useRef<HTMLButtonElement>(null);
     const menuItemReference = useRef(null);
+    const [isMenuVisible, setMenuVisible] = useState(false);
+    const [isSubMenuVisible, setSubMenuVisible] = useState(false);
     const intl = useIntl();
     const dispatch = useDispatch<DispatchFunc>();
+
+    //****************** Props ******************//
     const member = useSelector(
         (state: GlobalState) => getMyChannelMemberships(state)[channel.id],
     );
@@ -74,7 +80,7 @@ const SidebarChannelMenu = (props: Props): JSX.Element => {
     const isFavorite = useSelector((state: GlobalState) =>
         isFavoriteChannel(state, channel.id),
     );
-    const isMuted = useSelector((state: GlobalState) => isChannelMuted(member));
+    const isMuted = useSelector(() => isChannelMuted(member));
     const displayedChannels = useSelector((state: GlobalState) =>
         getDisplayedChannels(state),
     );
@@ -85,6 +91,9 @@ const SidebarChannelMenu = (props: Props): JSX.Element => {
     const currentTeam = useSelector((state: GlobalState) =>
         getCurrentTeam(state),
     );
+
+    //****************** Menu Item Actions ******************//
+
     const handleLeavePublicChannel = () => {
         dispatch(leaveChannel(channel.id));
         trackEvent('ui', 'ui_public_channel_x_button_clicked');
@@ -152,17 +161,14 @@ const SidebarChannelMenu = (props: Props): JSX.Element => {
         trackEvent('ui', 'ui_sidebar_channel_menu_addMembers');
     };
 
-    let categories: ChannelCategory[] | undefined;
-    let currentCategory: ChannelCategory | undefined;
+    //****************** Category Submenu Actions ******************//
 
-    if (currentTeam) {
-        categories = useSelector((state: GlobalState) =>
-            getCategoriesForCurrentTeam(state),
-        );
-        currentCategory = useSelector((state: GlobalState) =>
-            getCategoryInTeamWithChannel(state, currentTeam.id, channel.id),
-        );
-    }
+    const categories = useSelector((state: GlobalState) =>
+        getCategoriesForCurrentTeam(state),
+    );
+    const currentCategory = useSelector((state: GlobalState) =>
+        getCategoryInTeamWithChannel(state, currentTeam.id, channel.id),
+    );
 
     const moveToCategory = (categoryId: string) => {
         if (currentCategory?.id !== categoryId) {
@@ -187,6 +193,74 @@ const SidebarChannelMenu = (props: Props): JSX.Element => {
         trackEvent('ui', 'ui_sidebar_channel_menu_createCategory');
     };
 
+    //****************** Menu State Changes ******************//
+
+    const toggleMenu = () => {
+        setMenuVisible(!isMenuVisible);
+    };
+
+    const toggleSubmenu = () => {
+        setSubMenuVisible(!isSubMenuVisible);
+    };
+
+    const toggleSubmenuDesktop = () => {
+        if (isMobile()) {
+            return;
+        }
+        toggleSubmenu();
+    };
+
+    const toggleSubmenuMobile = () => {
+        if (!isMobile()) {
+            return;
+        }
+        toggleSubmenu();
+    };
+    const closeAllMenus = useCallback(() => {
+        setMenuVisible(false);
+        setSubMenuVisible(false);
+    }, []);
+
+    //****************** Open menu button ******************//
+    const menuTrigger = {
+        element:
+    <button
+        ref={buttonReference}
+        className={classNames(['SidebarMenu_menuButton'])}
+        onClick={toggleMenu}
+    >
+        <i className='icon-dots-vertical'/>
+    </button>,
+        ref: buttonReference,
+    };
+
+    //****************** Open submenu menu item ******************//
+
+    const subMenuTrigger = {
+        element:
+    <MenuItem
+        id={`moveTo-${channel.id}`}
+        ref={menuItemReference}
+        label={intl.formatMessage({
+            id: 'sidebar_left.sidebar_channel_menu.moveTo',
+            defaultMessage: 'Move to...',
+        })}
+        leadingElement={
+            location === 'sidebar' ? (
+                <i className='icon-folder-move-outline'/>
+            ) : null
+        }
+        onMouseEnter={toggleSubmenuDesktop}
+        onMouseLeave={toggleSubmenuDesktop}
+        onClick={toggleSubmenuMobile}
+        trailingElementLabel='selected'
+        trailingElement={<i className='icon-chevron-right'/>}
+    />,
+        ref: menuItemReference,
+    };
+
+    //****************** Main menu items ******************//
+
     const isDM =
         channel.type === Constants.DM_CHANNEL ||
         channel.type === Constants.GM_CHANNEL;
@@ -196,6 +270,7 @@ const SidebarChannelMenu = (props: Props): JSX.Element => {
                 [
                     <MenuItem
                         id={`markAsRead-${channel.id}`}
+                        key={`markAsRead-${channel.id}`}
                         onClick={markAsRead}
                         label={intl.formatMessage({
                             id: 'sidebar_left.sidebar_channel_menu.markAsRead',
@@ -209,6 +284,7 @@ const SidebarChannelMenu = (props: Props): JSX.Element => {
                 [
                     <MenuItem
                         id={`unfavorite-${channel.id}`}
+                        key={`unfavorite-${channel.id}`}
                         label={intl.formatMessage({
                             id: 'sidebar_left.sidebar_channel_menu.unfavoriteChannel',
                             defaultMessage: 'Unfavorite',
@@ -220,6 +296,7 @@ const SidebarChannelMenu = (props: Props): JSX.Element => {
                 [
                     <MenuItem
                         id={`favorite-${channel.id}`}
+                        key={`favorite-${channel.id}`}
                         label={intl.formatMessage({
                             id: 'sidebar_left.sidebar_channel_menu.favoriteChannel',
                             defaultMessage: 'Favorite',
@@ -232,6 +309,7 @@ const SidebarChannelMenu = (props: Props): JSX.Element => {
                 [
                     <MenuItem
                         id={`unmute-${channel.id}`}
+                        key={`unmute-${channel.id}`}
                         label={
                             isDM ?
                                 intl.formatMessage({
@@ -252,6 +330,7 @@ const SidebarChannelMenu = (props: Props): JSX.Element => {
                 [
                     <MenuItem
                         id={`mute-${channel.id}`}
+                        key={`mute-${channel.id}`}
                         label={
                             isDM ?
                                 intl.formatMessage({
@@ -272,10 +351,11 @@ const SidebarChannelMenu = (props: Props): JSX.Element => {
 
     const secondMenuGroup = {
         menuItems: [
-            ...(!isDM ?
+            ...(isDM ? [] :
                 [
                     <MenuItem
                         id={`copyLink-${channel.id}`}
+                        key={`copyLink-${channel.id}`}
                         onClick={copyLink}
                         label={intl.formatMessage({
                             id: 'sidebar_left.sidebar_channel_menu.copyLink',
@@ -283,10 +363,10 @@ const SidebarChannelMenu = (props: Props): JSX.Element => {
                         })}
                         leadingElement={<i className='icon-link-variant'/>}
                     />,
-                ] :
-                []),
+                ]),
             <MenuItem
                 id={`addMembers-${channel.id}`}
+                key={`addMembers-${channel.id}`}
                 onClick={addMembers}
                 label={intl.formatMessage({
                     id: 'sidebar_left.sidebar_channel_menu.addMembers',
@@ -294,10 +374,12 @@ const SidebarChannelMenu = (props: Props): JSX.Element => {
                 })}
                 leadingElement={<i className='icon-account-outline'/>}
             />,
-            ...(channel.name !== Constants.DEFAULT_CHANNEL ?
+            ...(channel.name === Constants.DEFAULT_CHANNEL ?
+                [] :
                 [
                     <MenuItem
                         id={`leave-${channel.id}`}
+                        key={`leave-${channel.id}`}
                         onClick={getCloseHandler}
                         label={
                             isDM ?
@@ -312,10 +394,11 @@ const SidebarChannelMenu = (props: Props): JSX.Element => {
                         }
                         leadingElement={<i className='icon-close'/>}
                     />,
-                ] :
-                []),
+                ]),
         ],
     };
+
+    //****************** Submenu items ******************//
 
     let filteredCategories = categories?.filter(
         (category) => category.type !== CategoryTypes.DIRECT_MESSAGES,
@@ -354,6 +437,7 @@ const SidebarChannelMenu = (props: Props): JSX.Element => {
             return (
                 <MenuItem
                     id={`moveToCategory-${channel.id}-${category.id}`}
+                    key={category.id}
                     onClick={() => moveToCategory(category.id)}
                     label={category.display_name}
                     leadingElement={
@@ -368,23 +452,9 @@ const SidebarChannelMenu = (props: Props): JSX.Element => {
         },
     );
 
-    const submenuTrigger = {
+    const submenuItem = {
         menuItems: [
-            <MenuItem
-                id={`moveTo-${channel.id}`}
-                ref={menuItemReference}
-                label={intl.formatMessage({
-                    id: 'sidebar_left.sidebar_channel_menu.moveTo',
-                    defaultMessage: 'Move to...',
-                })}
-                leadingElement={
-                    location === 'sidebar' ? (
-                        <i className='icon-folder-move-outline'/>
-                    ) : null
-                }
-                trailingElementLabel='selected'
-                trailingElement={<i className='icon-chevron-right'/>}
-            />,
+            subMenuTrigger.element,
         ],
     };
 
@@ -393,6 +463,7 @@ const SidebarChannelMenu = (props: Props): JSX.Element => {
             categoryMenuItems,
             <MenuItem
                 id={`moveToNewCategory-${channel.id}`}
+                key={`moveToNewCategory-${channel.id}`}
                 label={intl.formatMessage({
                     id: 'sidebar_left.sidebar_channel_menu.moveToNewCategory',
                     defaultMessage: 'New Category',
@@ -410,10 +481,13 @@ const SidebarChannelMenu = (props: Props): JSX.Element => {
                     id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel',
                     defaultMessage: 'Channel Menu',
                 })}
-                trigger={buttonReference}
-                submenuTrigger={menuItemReference}
-                groups={[firstMenuGroup, submenuTrigger, secondMenuGroup]}
+                trigger={menuTrigger}
+                submenuTrigger={subMenuTrigger}
+                groups={[firstMenuGroup, submenuItem, secondMenuGroup]}
                 submenuGroups={[submenuGroup]}
+                open={isMenuVisible}
+                submenuOpen={isSubMenuVisible}
+                overlayCloseHandler={closeAllMenus}
             />
         </>
     );

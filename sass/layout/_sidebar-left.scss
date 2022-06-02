@@ -70,9 +70,7 @@ $sidebarOpacityAnimationDuration: 0.15s;
             }
         }
 
-        .SidebarNavContainer:not(.disabled)
-            .SidebarChannelGroup
-            .SidebarChannelGroupHeader_groupButton:hover {
+        .SidebarNavContainer:not(.disabled) .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton:hover {
             color: inherit;
             cursor: inherit;
         }
@@ -83,7 +81,8 @@ $sidebarOpacityAnimationDuration: 0.15s;
     }
 
     .a11y--focused {
-        box-shadow: inset 0 0 1px 3px rgba(var(--sidebar-text-rgb), 0.5),
+        box-shadow:
+            inset 0 0 1px 3px rgba(var(--sidebar-text-rgb), 0.5),
             inset 0 0 0 1px var(--sidebar-text) !important;
 
         .SidebarChannelGroupHeader_groupButton {
@@ -812,9 +811,7 @@ $sidebarOpacityAnimationDuration: 0.15s;
         cursor: pointer;
     }
 
-    .SidebarChannelGroup.menuIsOpen
-        ~ .SidebarChannelGroup
-        .SidebarChannelGroupHeader_groupButton {
+    .SidebarChannelGroup.menuIsOpen ~ .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton {
         background-color: inherit !important;
 
         .SidebarCategory_newLabel {
@@ -826,9 +823,7 @@ $sidebarOpacityAnimationDuration: 0.15s;
         display: none;
     }
 
-    .SidebarNavContainer.disabled
-        .SidebarChannelGroup
-        .SidebarChannelGroupHeader_groupButton {
+    .SidebarNavContainer.disabled .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton {
         cursor: default;
 
         i.icon-chevron-down {
@@ -836,9 +831,7 @@ $sidebarOpacityAnimationDuration: 0.15s;
         }
     }
 
-    .SidebarNavContainer:not(.disabled)
-        .SidebarChannelGroup
-        .SidebarChannelGroupHeader:hover {
+    .SidebarNavContainer:not(.disabled) .SidebarChannelGroup .SidebarChannelGroupHeader:hover {
         .SidebarMenu {
             display: block;
         }
@@ -852,10 +845,7 @@ $sidebarOpacityAnimationDuration: 0.15s;
         }
     }
 
-    .SidebarNavContainer:not(.disabled)
-        .SidebarChannelGroup:not(.dropDisabled)
-        .SidebarChannelGroupHeader:not(.SidebarChannelGroupHeader--static)
-        .SidebarChannelGroupHeader_groupButton:hover {
+    .SidebarNavContainer:not(.disabled) .SidebarChannelGroup:not(.dropDisabled) .SidebarChannelGroupHeader:not(.SidebarChannelGroupHeader--static) .SidebarChannelGroupHeader_groupButton:hover {
         //cursor: pointer;
 
         > div:not(.SidebarCategory_newLabel),
@@ -879,7 +869,8 @@ $sidebarOpacityAnimationDuration: 0.15s;
 
     .SidebarChannelGroup .draggingOver {
         border-radius: 4px;
-        box-shadow: inset -1px 0 0 rgba(var(--sidebar-text-rgb), 0.6),
+        box-shadow:
+            inset -1px 0 0 rgba(var(--sidebar-text-rgb), 0.6),
             inset 0 -1px 0 rgba(var(--sidebar-text-rgb), 0.6),
             inset 1px 0 0 rgba(var(--sidebar-text-rgb), 0.6),
             inset 0 1px 0 rgba(var(--sidebar-text-rgb), 0.6);
@@ -887,7 +878,8 @@ $sidebarOpacityAnimationDuration: 0.15s;
         .SidebarChannelGroupHeader {
             background-color: var(--sidebar-bg);
             border-radius: 4px 4px 0 0;
-            box-shadow: inset -1px 0 0 rgba(var(--sidebar-text-rgb), 0.6),
+            box-shadow:
+                inset -1px 0 0 rgba(var(--sidebar-text-rgb), 0.6),
                 inset 1px 0 0 rgba(var(--sidebar-text-rgb), 0.6),
                 inset 0 1px 0 rgba(var(--sidebar-text-rgb), 0.6);
         }

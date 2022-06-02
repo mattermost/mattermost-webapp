@@ -4,6 +4,7 @@
 import {Placement} from 'popper.js';
 
 export interface MenuItemProps {
+    id?: string;
     label: string;
     description?: string;
     destructive?: boolean;
@@ -12,18 +13,19 @@ export interface MenuItemProps {
     trailingElementLabel?: string;
     trailingElement?: React.ReactNode;
     onClick?: () => void;
-    onHover?: () => void;
+    onMouseEnter?: () => void;
+    onMouseLeave?: () => void;
 }
 
 export type MenuGroup = {
-    menuItems: MenuItemProps[];
+    menuItems: MenuItemProps[] | JSX.Element[];
     title?: string;
 };
 
 export interface MenuPopoverProps {
     triggerRef: React.RefObject<HTMLElement>;
     isVisible: boolean;
-    isMobile: boolean;
+    isMobile?: boolean;
     placement?: Placement;
     offset?: [number | null | undefined, number | null | undefined];
     children?: React.ReactNode;
@@ -34,8 +36,8 @@ export interface MenuDataProps {
     groups: MenuGroup[];
     trigger: React.RefObject<HTMLElement>;
     placement: Placement;
-    active: boolean;
-    isMobile: boolean;
+    active?: boolean;
+    isMobile?: boolean;
     menuTitle?: string;
     title?: string;
     isSubmenu?: boolean;
@@ -46,9 +48,18 @@ export interface MenuDataProps {
 export interface MenuProps {
     title?: string;
     submenuTitle?: string;
-    trigger: React.RefObject<HTMLElement>;
-    submenuTrigger?: React.RefObject<HTMLElement>;
+    trigger: {
+        element: JSX.Element;
+        ref: React.RefObject<HTMLButtonElement>;
+    };
+    submenuTrigger?: {
+        element: JSX.Element;
+        ref: React.RefObject<HTMLButtonElement>;
+    };
     groups: MenuGroup[];
     submenuGroups?: MenuGroup[];
     placement?: Placement;
+    open: boolean;
+    submenuOpen?: boolean;
+    overlayCloseHandler?: () => void;
 }
