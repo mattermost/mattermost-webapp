@@ -215,6 +215,8 @@ describe('Keyboard Shortcuts', () => {
             // # Press UP arrow
             cy.get('#post_textbox').type('{uparrow}');
 
+            cy.wait(TIMEOUTS.HALF_SEC);
+
             // # Clear message and type ENTER
             cy.get('#edit_textbox').clear().type('{enter}');
 
@@ -300,7 +302,8 @@ describe('Keyboard Shortcuts', () => {
         cy.get('#post_textbox').type('{uparrow}');
 
         // # Add some text to the previous message and save
-        cy.get('#edit_textbox').type('Test{enter}');
+        cy.get('#edit_textbox').type('Test').type('{enter}');
+        cy.wait(TIMEOUTS.ONE_SEC);
 
         cy.getLastPost().within(() => {
             // * Posted message should be correct

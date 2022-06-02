@@ -3,9 +3,17 @@
 
 import React from 'react';
 
+import {useDispatch} from 'react-redux';
+
 import {FormattedMessage, useIntl} from 'react-intl';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+import {DispatchFunc} from 'mattermost-redux/types/actions';
+
+import {closeModal} from 'actions/views/modals';
+
+import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
+
+import {ModalIdentifiers} from 'utils/constants';
 
 import StartTrialBtn from './start_trial_btn';
 
@@ -19,6 +27,7 @@ export type LearnMoreTrialModalStepProps = {
     svgElement: React.ReactNode;
     bottomLeftMessage?: string;
     handleEmbargoError?: () => void;
+    isCloudFree?: boolean;
 }
 
 const LearnMoreTrialModalStep = (
@@ -30,10 +39,39 @@ const LearnMoreTrialModalStep = (
         svgElement,
         bottomLeftMessage,
         handleEmbargoError,
+        isCloudFree,
     }: LearnMoreTrialModalStepProps) => {
     const {formatMessage} = useIntl();
+    const dispatch = useDispatch<DispatchFunc>();
 
-    const startTrialBtnMsg = formatMessage({id: 'start_trial.modal_btn.start_free_trial', defaultMessage: 'Start free 30-day trial'});
+    let startTrialBtnMsg = formatMessage({id: 'start_trial.modal_btn.start_free_trial', defaultMessage: 'Start free 30-day trial'});
+
+    // close this modal once start trial btn is clicked and trial has started successfully
+    const dismissAction = () => {
+        dispatch(closeModal(ModalIdentifiers.LEARN_MORE_TRIAL_MODAL));
+    };
+
+    let startTrialBtn = (
+        <StartTrialBtn
+            message={startTrialBtnMsg}
+            handleEmbargoError={handleEmbargoError}
+            telemetryId='start_trial_from_learn_more_about_trial_modal'
+            onClick={dismissAction}
+        />
+    );
+
+    // no need to check if is cloud trial or if it have had prev cloud trial cause the button that show this modal takes care of that
+    if (isCloudFree) {
+        startTrialBtnMsg = formatMessage({id: 'menu.cloudFree.tryFreeFor30Days', defaultMessage: 'Try free for 30 days'});
+        startTrialBtn = (
+            <CloudStartTrialButton
+                message={startTrialBtnMsg}
+                telemetryId={'start_cloud_trial_from_learn_more_about_trial_modal'}
+                onClick={dismissAction}
+                extraClass={'btn btn-primary start-cloud-trial-btn'}
+            />
+        );
+    }
 
     return (
         <div
@@ -55,16 +93,32 @@ const LearnMoreTrialModalStep = (
             <div className='description'>
                 {description}
             </div>
-            <StartTrialBtn
-                message={startTrialBtnMsg}
-                handleEmbargoError={handleEmbargoError}
-                telemetryId='start_trial_from_learn_more_about_trial_modal'
-            />
+            {startTrialBtn}
             <div className='disclaimer'>
                 <span>
-                    <FormattedMarkdownMessage
+                    <FormattedMessage
                         id='start_trial.modal.disclaimer'
-                        defaultMessage='By clicking “Start trial”, I agree to the [Mattermost Software Evaluation Agreement,](!https://mattermost.com/software-evaluation-agreement) [privacy policy,](!https://mattermost.com/privacy-policy/) and receiving product emails.'
+                        defaultMessage='By clicking “Start trial”, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>privacy policy</linkPrivacy> and receiving product emails.'
+                        values={{
+                            linkEvaluation: (msg: React.ReactNode) => (
+                                <a
+                                    href='https://mattermost.com/software-evaluation-agreement'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                            linkPrivacy: (msg: React.ReactNode) => (
+                                <a
+                                    href='https://mattermost.com/privacy-policy/'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        }}
                     />
                 </span>
             </div>
