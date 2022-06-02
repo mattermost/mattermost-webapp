@@ -166,7 +166,7 @@ describe('components/global/CloudUpgradeButton', () => {
         expect(wrapper.find('UpgradeButton').exists()).toEqual(false);
     });
 
-    it('should not show Upgrade button in global header for non admin users', () => {
+    it('should show Upgrade button in global header for non admin users', () => {
         const state = JSON.parse(JSON.stringify(initialState));
         state.entities.users = {
             currentUserId: 'current_user_id',
@@ -187,7 +187,7 @@ describe('components/global/CloudUpgradeButton', () => {
             </reactRedux.Provider>,
         );
 
-        expect(wrapper.find('UpgradeButton').exists()).toEqual(false);
+        expect(wrapper.find('UpgradeButton').exists()).toEqual(true);
     });
 
     it('should not show Upgrade button in global header for non cloud', () => {

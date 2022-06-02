@@ -54,7 +54,7 @@ describe('Pricing modal', () => {
         cy.apiRequireLicenseForFeature('Cloud');
     });
 
-    it('should not show Upgrade button in global header for non admin users', () => {
+    it('should show Upgrade button in global header for non admin users', () => {
         const subscription = {
             id: 'sub_test1',
             product_id: 'prod_1',
@@ -67,8 +67,8 @@ describe('Pricing modal', () => {
             cy.visit(url);
         });
 
-        // * Check that Upgrade button does not show
-        cy.get('#UpgradeButton').should('not.exist');
+        // * Check that Upgrade button does show
+        cy.get('#UpgradeButton').should('exist');
     });
 
     it('should show Upgrade button in global header for admin users and starter sku', () => {
