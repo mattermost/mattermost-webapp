@@ -172,7 +172,7 @@ function Content(props: ContentProps) {
     };
 
     const openLearnMoreTrialModal = () => {
-        trackEvent('cloud_pricing', 'open_learn_more_trial_modal');
+        trackEvent('cloud_pricing', 'click_try_free_for_30_days');
         props.onHide();
         dispatch(closeModal(ModalIdentifiers.CLOUD_PURCHASE)); // close the purchase modal if it's open
         dispatch(openModal({
