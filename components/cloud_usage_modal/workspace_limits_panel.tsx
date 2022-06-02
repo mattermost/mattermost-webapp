@@ -7,13 +7,9 @@ import {FormattedMessage, useIntl} from 'react-intl';
 import {CloudUsage, Limits} from '@mattermost/types/cloud';
 import {asGBString, inK} from 'utils/limits';
 
-import LimitLine from './limit_line';
+import {Message} from 'utils/i18n';
 
-export interface Message {
-    id: string;
-    defaultMessage: string;
-    values?: Record<string, any>;
-}
+import LimitLine from './limit_line';
 
 export function messageToElement(x: Message | React.ReactNode): React.ReactNode {
     if (Object.prototype.hasOwnProperty.call(x, 'defaultMessage')) {

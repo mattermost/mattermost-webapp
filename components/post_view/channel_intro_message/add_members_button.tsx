@@ -8,7 +8,7 @@ import {FormattedMessage, useIntl} from 'react-intl';
 
 import EmptyStateThemeableSvg from 'components/common/svg_images_components/empty_state_themeable_svg';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {Permissions} from 'mattermost-redux/constants';
 

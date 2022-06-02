@@ -4,7 +4,7 @@
 import React from 'react';
 import PQueue from 'p-queue';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 
 import {Constants} from 'utils/constants';
 import {loadProfilesForSidebar} from 'actions/user_actions.jsx';

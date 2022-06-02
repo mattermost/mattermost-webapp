@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {Role} from 'mattermost-redux/types/roles';
+import {Role} from '@mattermost/types/roles';
 
 import PermissionSystemSchemeSettings from 'components/admin_console/permission_schemes_settings/permission_system_scheme_settings/permission_system_scheme_settings';
 

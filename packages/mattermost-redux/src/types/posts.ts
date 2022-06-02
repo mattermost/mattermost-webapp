@@ -3,8 +3,6 @@
 
 import {Post} from '@mattermost/types/posts';
 
-export * from '@mattermost/types/posts';
-
 export type UserActivityPost = Post & {
     system_post_ids: string[];
     user_activity_posts: Post[];

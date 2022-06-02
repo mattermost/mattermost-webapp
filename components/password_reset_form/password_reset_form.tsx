@@ -5,12 +5,12 @@ import React, {useState, useRef, memo} from 'react';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
-import {ServerError} from 'mattermost-redux/types/errors';
+import {ServerError} from '@mattermost/types/errors';
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants';
 import LocalizedInput from 'components/localized_input/localized_input';
 
-import {t} from 'utils/i18n.jsx';
+import {t} from 'utils/i18n';
 
 interface Props {
     location: {search: string};

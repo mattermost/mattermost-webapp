@@ -16,8 +16,8 @@ import {removePost, getNewestPostThread, getPostThread} from 'mattermost-redux/a
 import {getThread as fetchThread, updateThreadRead} from 'mattermost-redux/actions/threads';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {UserThread} from 'mattermost-redux/types/threads';
-import {Channel} from 'mattermost-redux/types/channels';
+import {UserThread} from '@mattermost/types/threads';
+import {Channel} from '@mattermost/types/channels';
 
 import {getSocketStatus} from 'selectors/views/websocket';
 import {selectPostCard} from 'actions/views/rhs';

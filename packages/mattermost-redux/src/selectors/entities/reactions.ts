@@ -3,7 +3,7 @@
 
 import {Permissions} from 'mattermost-redux/constants';
 
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 
 import {getChannel} from './channels';
 import {haveIChannelPermission} from './roles';

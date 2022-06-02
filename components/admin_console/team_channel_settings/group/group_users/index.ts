@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 import {ActionResult, GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 
 import {filterProfilesStartingWithTerm, profileListToMap} from 'mattermost-redux/utils/user_utils';

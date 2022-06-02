@@ -7,7 +7,7 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
 import {getMyGroupMentionKeys} from 'mattermost-redux/selectors/entities/groups';
 
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 
 import {UserMentionKey} from './users';
 
