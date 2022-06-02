@@ -31,6 +31,7 @@ export interface Props {
     secondaryAction?: ModalAction;
     onClose: () => void;
     ownLimits?: Limits;
+    backdrop?: boolean;
 
     // e.g. in contexts where the CompassThemeProvider isn't already applied, like the system console
     needsTheme?: boolean;
@@ -51,6 +52,7 @@ export default function CloudUsageModal(props: Props) {
             handleConfirm={props.primaryAction?.onClick}
             confirmButtonText={props.primaryAction && messageToElement(props.primaryAction.message)}
             className='CloudUsageModal'
+            backdrop={props.backdrop}
         >
             <>
                 <p className='CloudUsageModal__description'>

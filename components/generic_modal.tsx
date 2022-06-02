@@ -31,6 +31,7 @@ type Props = {
     ariaLabel?: string;
     errorText?: string;
     useCompassDesign?: boolean;
+    backdrop?: boolean;
 };
 
 type State = {
@@ -160,6 +161,7 @@ export default class GenericModal extends React.PureComponent<Props, State> {
                 aria-labelledby={this.props.ariaLabel ? undefined : 'genericModalLabel'}
                 id={this.props.id}
                 container={this.props.container}
+                backdrop={this.props.backdrop}
             >
                 <div
                     onKeyDown={this.onEnterKeyDown}

@@ -12,8 +12,6 @@ import {ModalIdentifiers} from 'utils/constants';
 import {FileSizes} from 'utils/file_utils';
 import {t} from 'utils/i18n';
 
-import PricingModal from '.';
-
 const STARTER_MESSAGES_LIMIT = 10000;
 const STARTER_FILE_STORAGE_LIMIT = 10;
 const STARTER_BOARDS_VIEW_LIMIT = 500;
@@ -31,24 +29,16 @@ line-height: 16px;
 cursor: pointer;
 `;
 
-function StarterDisclaimer() {
+function StarterDisclaimerCTA() {
     const intl = useIntl();
     const dispatch = useDispatch();
 
-    const openPricingModal = () => {
-        dispatch(closeModal(ModalIdentifiers.CLOUD_LIMITS));
-        dispatch(openModal({
-            modalId: ModalIdentifiers.PRICING_MODAL,
-            dialogType: PricingModal,
-        }));
-    };
-
     const openLimitsMiniModal = () => {
-        dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
         dispatch(openModal({
             modalId: ModalIdentifiers.CLOUD_LIMITS,
             dialogType: CloudUsageModal,
             dialogProps: {
+                backdrop: false,
                 title: {
                     id: t('workspace_limits.modals.informational.title'),
                     defaultMessage: '{planName} limits',
@@ -65,13 +55,6 @@ function StarterDisclaimer() {
                         integrations: STARTER_INTEGRATIONS_LIMIT,
                         boards: STARTER_BOARD_CARDS_LIMIT,
                     },
-                },
-                primaryAction: {
-                    message: {
-                        id: t('workspace_limits.modals.view_plans'),
-                        defaultMessage: 'View plans',
-                    },
-                    onClick: openPricingModal,
                 },
                 secondaryAction: {
                     message: {
@@ -110,4 +93,4 @@ function StarterDisclaimer() {
     </DisClaimer>);
 }
 
-export default StarterDisclaimer;
+export default StarterDisclaimerCTA;
