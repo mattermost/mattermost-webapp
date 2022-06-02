@@ -6,7 +6,8 @@ import {useIntl} from 'react-intl';
 import {useDispatch} from 'react-redux';
 
 import {DispatchFunc} from 'mattermost-redux/types/actions';
-import {getLicenseConfig} from 'mattermost-redux/actions/general';
+import {getLicenseConfig, getClientConfig} from 'mattermost-redux/actions/general';
+import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
 
 import {requestCloudTrial, validateBusinessEmail} from 'actions/cloud';
 import {trackEvent} from 'actions/telemetry_actions';
@@ -58,7 +59,7 @@ const CloudStartTrialButton = ({
         // So the flow is the following: This button is clicked from
         // the learn more about trial modal, If the email of the admin and the
         // email of the CWS customer are not valid, the requestBusinessModal is shown and that component will
-        // create this StartCloudTrialBtn passing the email as TRUE, so the requetTrial flow continues normally
+        // create this StartCloudTrialBtn passing the email as Truthy, so the requetTrial flow continues normally
         if (!email) {
             const isValidBusinessEmail = await validateBusinessEmail()();
             if (!isValidBusinessEmail) {
@@ -78,7 +79,10 @@ const CloudStartTrialButton = ({
             setLoadStatus(TrialLoadStatus.Failed);
             return TrialLoadStatus.Failed;
         }
+        await dispatch(getClientConfig());
         await dispatch(getLicenseConfig());
+        await dispatch(getCloudSubscription());
+
         if (afterTrialRequest) {
             afterTrialRequest();
         }
