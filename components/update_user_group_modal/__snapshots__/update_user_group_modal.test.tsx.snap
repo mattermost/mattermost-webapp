@@ -76,8 +76,13 @@ exports[`component/update_user_group_modal should match snapshot 1`] = `
       >
         <ForwardRef
           autoFocus={true}
+          customMessage={
+            Object {
+              "type": "error",
+              "value": "",
+            }
+          }
           data-testid="nameInput"
-          error=""
           onChange={[Function]}
           placeholder="Name"
           type="text"
@@ -88,8 +93,13 @@ exports[`component/update_user_group_modal should match snapshot 1`] = `
         className="group-mention-input-wrapper"
       >
         <ForwardRef
+          customMessage={
+            Object {
+              "type": "error",
+              "value": "",
+            }
+          }
           data-testid="nameInput"
-          error=""
           onChange={[Function]}
           placeholder="Mention"
           type="text"
