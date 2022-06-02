@@ -57,6 +57,7 @@ describe('components/Root', () => {
             })),
             getProfiles: jest.fn(),
             savePreferences: jest.fn(),
+            registerCustomPostRenderer: jest.fn(),
         },
         location: {
             pathname: '/',
