@@ -281,6 +281,8 @@ export const ActionTypes = keyMirror({
     UNSUPPRESS_RHS: null,
 
     FIRST_CHANNEL_NAME: null,
+
+    RECEIVED_BOARDS_INSIGHTS: null,
 });
 
 export const PostRequestTypes = keyMirror({

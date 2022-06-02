@@ -109,7 +109,7 @@ const TopBoardsTable = (props: Props) => {
                         ),
                         participants: (
                             <Avatars
-                                userIds={[board.activeUsers]}
+                                userIds={board.activeUsers.split(',')}
                                 size='xs'
                                 disableProfileOverlay={true}
                             />

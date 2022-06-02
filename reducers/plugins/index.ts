@@ -384,6 +384,20 @@ function siteStatsHandlers(state: PluginsState['siteStatsHandlers'] = {}, action
     }
 }
 
+function insightsHandlers(state: PluginsState['insightsHandlers'] = {boards: () => new Promise(() => {})}, action: GenericAction) {
+    switch (action.type) {
+    case ActionTypes.RECEIVED_BOARDS_INSIGHTS:
+        if (action.data?.handler) {
+            return {boards: action.data.handler};
+        }
+        return state;
+    case UserTypes.LOGOUT_SUCCESS:
+        return {};
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
 
     // object where every key is a plugin id and values are webapp plugin manifests
@@ -412,4 +426,6 @@ export default combineReducers({
     // objects where every key is a plugin id and the value is a promise to fetch stats from
     // a plugin to render on system console
     siteStatsHandlers,
+
+    insightsHandlers,
 });

@@ -891,4 +891,14 @@ export default class PluginRegistry {
             data,
         });
     }
+
+
+    registerBoardsInsightsHandler(handler) {
+        store.dispatch({
+            type: ActionTypes.RECEIVED_BOARDS_INSIGHTS,
+            data: {
+                handler,
+            },
+        });
+    }
 }

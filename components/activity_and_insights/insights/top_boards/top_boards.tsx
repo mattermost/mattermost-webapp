@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {memo, useState, useCallback} from 'react';
-import {useDispatch} from 'react-redux';
+import React, {memo, useState, useCallback, useEffect} from 'react';
+import {useSelector} from 'react-redux';
 
 import {FormattedMessage} from 'react-intl';
 
@@ -10,84 +10,31 @@ import Avatars from 'components/widgets/users/avatars';
 import TitleLoader from '../skeleton_loader/title_loader/title_loader';
 import CircleLoader from '../skeleton_loader/circle_loader/circle_loader';
 import widgetHoc, {WidgetHocProps} from '../widget_hoc/widget_hoc';
+import WidgetEmptyState from '../widget_empty_state/widget_empty_state';
 
 import './../../activity_and_insights.scss';
+import { getCurrentTeamId } from 'mattermost-redux/selectors/entities/teams';
+import { TopBoard } from '@mattermost/types/insights';
 
 const TopBoards = (props: WidgetHocProps) => {
-    const dispatch = useDispatch();
+    const [loading, setLoading] = useState(true);
+    const [topBoards, setTopBoards] = useState([] as TopBoard[]);
 
-    const [loading, setLoading] = useState(false);
-    const [topBoards, setTopBoards] = useState([
-        {
-            boardID: 'bywgrht51s3y4unm6478becycxa',
-            icon: '⛄',
-            title: 'Project Tasks',
-            activityCount: 51,
-            activeUsers: 'jddqfjxezifxbnwdw75xsdsqcy',
-            createdBy: 'excsimz1j387ibfz7bofc4zaie',
-        },
-        {
-            boardID: 'biiow3dns57dr5k5qmse58b3j1r',
-            icon: '📅',
-            title: 'Content Calendar',
-            activityCount: 21,
-            activeUsers: 'jddqfjxezifxbnwdw75xsdsqcy',
-            createdBy: 'excsimz1j387ibfz7bofc4zaie',
-        },
-        {
-            boardID: 'bywgrht51s3y4unm6478becycxa',
-            icon: '⛄',
-            title: 'Project Tasks',
-            activityCount: 51,
-            activeUsers: 'jddqfjxezifxbnwdw75xsdsqcy',
-            createdBy: 'excsimz1j387ibfz7bofc4zaie',
-        },
-        {
-            boardID: 'biiow3dns57dr5k5qmse58b3j1r',
-            icon: '📅',
-            title: 'Content Calendar',
-            activityCount: 21,
-            activeUsers: 'jddqfjxezifxbnwdw75xsdsqcy',
-            createdBy: 'excsimz1j387ibfz7bofc4zaie',
-        },
-    ]);
+    const currentTeamId = useSelector(getCurrentTeamId);
+    const boardsHandler = useSelector((state: any) => state.plugins.insightsHandlers.boards);
 
-    // const currentTeamId = useSelector(getCurrentTeamId);
+    const getTopBoards = useCallback(async () => {
+        setLoading(true);
+        const data: any = await boardsHandler(props.timeFrame, 0, 4, currentTeamId, props.filterType);
+        if (data.items) {
+            setTopBoards(data.items);
+        }
+        setLoading(false);
+    }, [props.timeFrame, currentTeamId, props.filterType]);
 
-    // const getTopTeamThreads = useCallback(async () => {
-    //     if (props.filterType === InsightsScopes.TEAM) {
-    //         setLoading(true);
-    //         const data: any = await dispatch(getTopThreadsForTeam(currentTeamId, 0, 3, props.timeFrame));
-    //         if (data.data && data.data.items) {
-    //             setTopThreads(data.data.items);
-    //         }
-    //         setLoading(false);
-    //     }
-    // }, [props.timeFrame, currentTeamId, props.filterType]);
-
-    // useEffect(() => {
-    //     getTopTeamThreads();
-    // }, [getTopTeamThreads]);
-
-    // const getMyTeamThreads = useCallback(async () => {
-    //     if (props.filterType === InsightsScopes.MY) {
-    //         setLoading(true);
-    //         const data: any = await dispatch(getMyTopThreads(currentTeamId, 0, 3, props.timeFrame));
-    //         if (data.data && data.data.items) {
-    //             setTopThreads(data.data.items);
-    //         }
-    //         setLoading(false);
-    //     }
-    // }, [props.timeFrame, props.filterType]);
-
-    // useEffect(() => {
-    //     getMyTeamThreads();
-    // }, [getMyTeamThreads]);
-
-    // const imageProps = useMemo(() => ({
-    //     onImageHeightChanged: () => {},
-    //     onImageLoaded: () => {},
-    // }), []);
+    useEffect(() => {
+        getTopBoards();
+    }, [getTopBoards])
 
     const skeletonLoader = useCallback(() => {
         const entries = [];
@@ -142,7 +89,7 @@ const TopBoards = (props: WidgetHocProps) => {
                                         </span>
                                     </div>
                                     <Avatars
-                                        userIds={[board.activeUsers]}
+                                        userIds={board.activeUsers.split(',')}
                                         size='xs'
                                         disableProfileOverlay={true}
                                     />
@@ -154,10 +101,10 @@ const TopBoards = (props: WidgetHocProps) => {
             }
             {
 
-                // (topBoards.length === 0 && !loading) &&
-                // <WidgetEmptyState
-                //     icon={'product-boards'}
-                // />
+                (topBoards.length === 0 && !loading) &&
+                <WidgetEmptyState
+                    icon={'product-boards'}
+                />
             }
         </div>
     );
