@@ -163,8 +163,7 @@ function Content(props: ContentProps) {
     }
 
     const openPurchaseModal = () => {
-        const utcTimeStamp = new Date().toISOString();
-        trackEvent('cloud_admin', 'click_open_purchase_modal', {utcTimeStamp, epochTimeStamp: Date.parse(utcTimeStamp)});
+        trackEvent('cloud_pricing', 'click_upgrade_button');
         props.onHide();
         dispatch(openModal({
             modalId: ModalIdentifiers.CLOUD_PURCHASE,
@@ -173,8 +172,7 @@ function Content(props: ContentProps) {
     };
 
     const openLearnMoreTrialModal = () => {
-        const utcTimeStamp = new Date().toISOString();
-        trackEvent('cloud_admin', 'open_learn_more_trial_modal', {utcTimeStamp, epochTimeStamp: Date.parse(utcTimeStamp)});
+        trackEvent('cloud_pricing', 'open_learn_more_trial_modal');
         props.onHide();
         dispatch(closeModal(ModalIdentifiers.CLOUD_PURCHASE)); // close the purchase modal if it's open
         dispatch(openModal({
@@ -317,6 +315,7 @@ function Content(props: ContentProps) {
                         planExtraInformation={(isPostTrial || !isAdmin) ? undefined : <ContactSalesCTA/>}
                         buttonDetails={(isPostTrial || !isAdmin) ? {
                             action: () => {
+                                trackEvent('cloud_pricing', 'click_enterprise_contact_sales');
                                 window.open(contactSalesLink, '_blank');
                             },
                             text: formatMessage({id: 'pricing_modal.btn.contactSales', defaultMessage: 'Contact Sales'}),

@@ -11,7 +11,7 @@ import PricingModal from 'components/pricing_modal';
 export default function useOpenPricingModal() {
     const dispatch = useDispatch();
     return () => {
-        trackEvent('cloud_admin', 'click_open_pricing_modal');
+        trackEvent('cloud_pricing', 'click_open_pricing_modal');
         dispatch(openModal({
             modalId: ModalIdentifiers.PRICING_MODAL,
             dialogType: PricingModal,
