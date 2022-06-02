@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable max-lines */
 
 import React, {CSSProperties, SyntheticEvent} from 'react';
 import classNames from 'classnames';
@@ -899,7 +900,8 @@ class CreatePost extends React.PureComponent<Props, State> {
 
         let message = this.state.message;
         if (isGitHubCodeBlock(table.className)) {
-            const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(this.state.caretPosition, message, clipboardData);
+            const messageSelected: boolean | null = e.target && (e.target as any).selectionStart !== (e.target as any).selectionEnd
+            const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(this.state.caretPosition, message, clipboardData, messageSelected);
             const newCaretPosition = this.state.caretPosition + formattedCodeBlock.length;
             this.setMessageAndCaretPostion(formattedMessage, newCaretPosition);
             return;

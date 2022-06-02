@@ -74,14 +74,14 @@ export function formatMarkdownTableMessage(table: HTMLTableElement, message?: st
     return newMessage.join('\n');
 }
 
-export function formatGithubCodePaste(caretPosition: number, message: string, clipboardData: DataTransfer): {formattedMessage: string; formattedCodeBlock: string} {
+export function formatGithubCodePaste(caretPosition: number, message: string, clipboardData: DataTransfer, messageSelected: boolean | null): {formattedMessage: string; formattedCodeBlock: string} {
     const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition(caretPosition, message);
 
     // Add new lines if content exists before or after the cursor.
-    const requireStartLF = firstPiece === '' ? '' : '\n';
-    const requireEndLF = lastPiece === '' ? '' : '\n';
+    const requireStartLF = (firstPiece === '' || messageSelected) ? '' : '\n';
+    const requireEndLF = (lastPiece === '' || messageSelected) ? '' : '\n';
     const formattedCodeBlock = requireStartLF + '```\n' + getPlainText(clipboardData) + '\n```' + requireEndLF;
-    const formattedMessage = `${firstPiece}${formattedCodeBlock}${lastPiece}`;
+    const formattedMessage =  messageSelected ? formattedCodeBlock : `${firstPiece}${formattedCodeBlock}${lastPiece}`;
 
     return {formattedMessage, formattedCodeBlock};
 }
