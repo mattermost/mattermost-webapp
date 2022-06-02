@@ -10,7 +10,6 @@ import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import TeamUrl from 'components/create_team/components/team_url/team_url';
 import Constants from 'utils/constants';
 
-
 jest.mock('images/logo.png', () => 'logo.png');
 
 describe('/components/create_team/components/display_name', () => {
