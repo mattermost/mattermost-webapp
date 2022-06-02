@@ -2,11 +2,14 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {useIntl} from 'react-intl';
 
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import {Post} from '@mattermost/types/posts';
 
 export default function CustomOpenPricingModalPostRenderer(props: {post: Post}) {
+    const {formatMessage} = useIntl();
+
     const openPricingModal = useOpenPricingModal();
     const style = {
         padding: '12px',
@@ -36,7 +39,7 @@ export default function CustomOpenPricingModalPostRenderer(props: {post: Post}) 
                     onClick={openPricingModal}
                     style={btnStyle}
                 >
-                    {'View upgrade options'}
+                    {formatMessage({id: 'postypes.custom_open_pricing_modal_post_renderer.view_options', defaultMessage: 'View upgrade options'})}
                 </button>
             </div>
         </div>

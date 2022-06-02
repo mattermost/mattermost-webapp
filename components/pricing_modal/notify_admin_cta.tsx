@@ -43,6 +43,7 @@ export enum DafaultBtnText {
 function NotifyAdminCTA() {
     const [notifyStatus, setStatus] = useState(NotifyStatus.NotStarted);
     const {formatMessage} = useIntl();
+
     const currentTeam = useSelector((state: GlobalState) => getCurrentTeamId(state));
     const currentUser = useSelector((state: GlobalState) => getCurrentUserId(state));
 

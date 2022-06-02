@@ -4128,6 +4128,7 @@
   "postlist.toast.searchHint": "Tip: Try {searchShortcut} to search this channel",
   "posts_view.loadMore": "Load More messages",
   "posts_view.newMsg": "New Messages",
+  "postypes.custom_open_pricing_modal_post_renderer.view_options": "View upgrade options",
   "pricing_modal.briefing.enterprise.compliance": "Advanced compliance management",
   "pricing_modal.briefing.enterprise.groupSync": "AD/LDAP group sync",
   "pricing_modal.briefing.enterprise.mobileSecurity": "Advanced mobile security via ID-only push notifications",
