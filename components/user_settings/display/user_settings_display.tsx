@@ -3,7 +3,6 @@
 /* eslint-disable react/no-string-refs */
 
 import deepEqual from 'fast-deep-equal';
-import React, {ReactNode} from 'react';
 
 import {FormattedMessage} from 'react-intl';
 import {PrimitiveType, FormatXMLElementFn} from 'intl-messageformat';

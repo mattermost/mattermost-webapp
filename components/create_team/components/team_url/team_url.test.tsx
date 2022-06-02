@@ -10,8 +10,6 @@ import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import TeamUrl from 'components/create_team/components/team_url/team_url';
 import Constants from 'utils/constants';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
-import MemoizedFormattedMessage from 'react-intl/src/components/message';
 
 jest.mock('images/logo.png', () => 'logo.png');
 

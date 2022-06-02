@@ -3,8 +3,6 @@
 
 import React from 'react';
 
-import {FormattedMessage, useIntl} from 'react-intl';
-
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import * as ServerVersion from 'utils/server_version';

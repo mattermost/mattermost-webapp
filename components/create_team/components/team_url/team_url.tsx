@@ -13,9 +13,9 @@ import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import Constants from 'utils/constants';
 import * as URL from 'utils/url';
+
 import logoImage from 'images/logo.png';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 
