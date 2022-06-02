@@ -7,6 +7,8 @@ import {useSelector} from 'react-redux';
 
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 
+import {Message} from 'utils/i18n';
+
 import CompassThemeProvider from 'components/compass_theme_provider/compass_theme_provider';
 import GenericModal from 'components/generic_modal';
 import useGetLimits from 'components/common/hooks/useGetLimits';
@@ -14,7 +16,7 @@ import useGetUsage from 'components/common/hooks/useGetUsage';
 
 import {Limits} from '@mattermost/types/cloud';
 
-import WorkspaceLimitsPanel, {Message, messageToElement} from './workspace_limits_panel';
+import WorkspaceLimitsPanel, {messageToElement} from './workspace_limits_panel';
 
 import './index.scss';
 

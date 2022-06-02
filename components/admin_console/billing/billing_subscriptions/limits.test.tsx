@@ -10,16 +10,17 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import {Provider} from 'react-redux';
 
+import {GlobalState} from '@mattermost/types/store';
+import {UserProfile, UsersState} from '@mattermost/types/users';
+
 import {renderWithIntl} from 'tests/react_testing_utils';
 
 import * as cloudActions from 'actions/cloud';
 
 import {FileSizes} from 'utils/file_utils';
+import {Constants, CloudProducts} from 'utils/constants';
 
-import {GlobalState} from '@mattermost/types/store';
-import {Constants} from 'utils/constants';
-
-import {Subscription} from '@mattermost/types/cloud';
+import {Subscription, Product} from '@mattermost/types/cloud';
 
 import Limits from './limits';
 
@@ -42,16 +43,34 @@ const freeLimits = {
     },
 };
 
-function setupStore(hasLimits: boolean) {
+interface SetupOptions {
+    hasLimits?: boolean;
+    isEnterprise?: boolean;
+}
+function setupStore(setupOptions: SetupOptions) {
     const mockStore = configureStore([thunk]);
     const state = {
         entities: {
             cloud: {
                 limits: {
-                    limitsLoaded: hasLimits,
-                    limits: hasLimits ? freeLimits : {},
+                    limitsLoaded: setupOptions.hasLimits,
+                    limits: setupOptions.hasLimits ? freeLimits : {},
                 },
-                subscription: {} as Subscription,
+                subscription: {
+                    product_id: setupOptions.isEnterprise ? 'prod_enterprise' : 'prod_starter',
+                } as Subscription,
+                products: {
+                    prod_starter: {
+                        id: 'prod_starter',
+                        name: 'Cloud Starter',
+                        sku: CloudProducts.STARTER,
+                    } as Product,
+                    prod_enterprise: {
+                        id: 'prod_enterprise',
+                        name: 'Cloud Enterprise',
+                        sku: CloudProducts.ENTERPRISE,
+                    } as Product,
+                } as Record<string, Product>,
             },
             usage: {
                 files: {
@@ -70,10 +89,15 @@ function setupStore(hasLimits: boolean) {
                     enabled: 3,
                     enabledLoaded: true,
                 },
+                teams: {
+                    active: 0,
+                    cloudArchived: 0,
+                    teamsLoaded: true,
+                },
             },
             general: {
                 config: {
-                    FeatureFlagCloudFree: hasLimits ? 'true' : 'false',
+                    FeatureFlagCloudFree: setupOptions.hasLimits ? 'true' : 'false',
                 } as GlobalState['entities']['general']['config'],
             },
             admin: {
@@ -81,16 +105,26 @@ function setupStore(hasLimits: boolean) {
                     [Constants.StatTypes.TOTAL_POSTS]: 1234,
                 } as GlobalState['entities']['admin']['analytics'],
             },
+            users: {
+                currentUserId: 'userid',
+                profiles: {
+                    userid: {} as UserProfile,
+                },
+            } as unknown as UsersState,
         },
     } as GlobalState;
+    if (setupOptions.isEnterprise) {
+        state.entities.cloud.subscription!.is_free_trial = 'true';
+    }
     const store = mockStore(state);
 
     return store;
 }
 
 describe('Limits', () => {
+    const hasLimits = {hasLimits: true};
     test('message limit rendered in K', () => {
-        const store = setupStore(true);
+        const store = setupStore(hasLimits);
 
         renderWithIntl(<Provider store={store}><Limits/></Provider>);
         screen.getByText('Message History');
@@ -98,7 +132,7 @@ describe('Limits', () => {
     });
 
     test('storage limit rendered in GB', () => {
-        const store = setupStore(true);
+        const store = setupStore(hasLimits);
 
         renderWithIntl(<Provider store={store}><Limits/></Provider>);
         screen.getByText('File Storage');
@@ -106,7 +140,7 @@ describe('Limits', () => {
     });
 
     test('enabled integration count is shown', () => {
-        const store = setupStore(true);
+        const store = setupStore(hasLimits);
 
         renderWithIntl(<Provider store={store}><Limits/></Provider>);
         screen.getByText('Enabled Integrations');
@@ -117,9 +151,29 @@ describe('Limits', () => {
         const mockGetLimits = jest.fn();
         jest.spyOn(cloudActions, 'getCloudLimits').mockImplementation(mockGetLimits);
         jest.spyOn(redux, 'useDispatch').mockImplementation(jest.fn(() => jest.fn()));
-        const store = setupStore(false);
+        const store = setupStore({});
 
         renderWithIntl(<Provider store={store}><Limits/></Provider>);
         expect(mockGetLimits).not.toHaveBeenCalled();
+    });
+
+    test('renders nothing if on enterprise', () => {
+        const mockGetLimits = jest.fn();
+        jest.spyOn(cloudActions, 'getCloudLimits').mockImplementation(mockGetLimits);
+        jest.spyOn(redux, 'useDispatch').mockImplementation(jest.fn(() => jest.fn()));
+        const store = setupStore({isEnterprise: true});
+
+        renderWithIntl(<Provider store={store}><Limits/></Provider>);
+        expect(screen.queryByTestId('limits-panel-title')).not.toBeInTheDocument();
+    });
+
+    test('renders elements if not on enterprise', () => {
+        const mockGetLimits = jest.fn();
+        jest.spyOn(cloudActions, 'getCloudLimits').mockImplementation(mockGetLimits);
+        jest.spyOn(redux, 'useDispatch').mockImplementation(jest.fn(() => jest.fn()));
+        const store = setupStore(hasLimits);
+
+        renderWithIntl(<Provider store={store}><Limits/></Provider>);
+        screen.getByTestId('limits-panel-title');
     });
 });

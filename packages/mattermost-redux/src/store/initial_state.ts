@@ -199,6 +199,11 @@ const state: GlobalState = {
                 history: 0,
                 historyLoaded: false,
             },
+            teams: {
+                active: 0,
+                cloudArchived: 0,
+                teamsLoaded: false,
+            },
             boards: {
                 cards: 0,
                 cardsLoaded: false,

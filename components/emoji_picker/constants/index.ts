@@ -30,7 +30,7 @@ const categoryClass: Map<EmojiCategory, string> = new Map([
 function createCategory(name: EmojiCategory): Category {
     return {
         name,
-        id: Emoji.CategoryTranslations.get(name),
+        id: Emoji.CategoryTranslations.get(name) || '',
         className: categoryClass.get(name) || '',
         message: Emoji.CategoryMessage.get(name),
     };
