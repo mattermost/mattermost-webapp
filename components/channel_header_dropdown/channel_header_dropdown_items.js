@@ -36,7 +36,7 @@ import MenuItemToggleMuteChannel from './menu_items/toggle_mute_channel';
 import MenuItemToggleFavoriteChannel from './menu_items/toggle_favorite_channel';
 import MenuItemViewPinnedPosts from './menu_items/view_pinned_posts';
 import MenuItemToggleInfo from './menu_items/toggle_info';
-import MenuItemToggleMembersRHS from './menu_items/toggle_members_rhs';
+import MenuItemOpenMembersRHS from './menu_items/open_members_rhs';
 
 export default class ChannelHeaderDropdown extends React.PureComponent {
     static propTypes = {
@@ -164,12 +164,11 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                             text={localizeMessage('navbar.addMembers', 'Add Members')}
                         />
                     </ChannelPermissionGate>
-                    <MenuItemToggleMembersRHS
+                    <MenuItemOpenMembersRHS
                         id='channelViewMembers'
                         channel={channel}
                         show={channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL && (isArchived || isDefault)}
-                        textOpen={localizeMessage('channel_header.viewMembers', 'View Members')}
-                        textClose={localizeMessage('channelHeader.closeMembersRHS', 'Close Members RHS')}
+                        text={localizeMessage('channel_header.viewMembers', 'View Members')}
                     />
                     <ChannelPermissionGate
                         channelId={channel.id}
@@ -191,12 +190,11 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                             dialogProps={{channelID: channel.id}}
                             text={localizeMessage('navbar_dropdown.manageGroups', 'Manage Groups')}
                         />
-                        <MenuItemToggleMembersRHS
+                        <MenuItemOpenMembersRHS
                             id='channelManageMembers'
                             channel={channel}
                             show={channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL && !isArchived && !isDefault}
-                            textOpen={localizeMessage('channel_header.manageMembers', 'Manage Members')}
-                            textClose={localizeMessage('channelHeader.closeMembersRHS', 'Close Members RHS')}
+                            text={localizeMessage('channel_header.manageMembers', 'Manage Members')}
                             editMembers={!isArchived}
                         />
                     </ChannelPermissionGate>
@@ -206,12 +204,11 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                         permissions={[channelMembersPermission]}
                         invert={true}
                     >
-                        <MenuItemToggleMembersRHS
+                        <MenuItemOpenMembersRHS
                             id='channelViewMembers'
                             channel={channel}
                             show={channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL && !isArchived && !isDefault}
-                            textOpen={localizeMessage('channel_header.viewMembers', 'View Members')}
-                            textClose={localizeMessage('channelHeader.closeMembersRHS', 'Close Members RHS')}
+                            text={localizeMessage('channel_header.viewMembers', 'View Members')}
                         />
                     </ChannelPermissionGate>
                 </Menu.Group>

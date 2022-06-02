@@ -4,13 +4,13 @@
 import {bindActionCreators, Dispatch} from 'redux';
 import {connect} from 'react-redux';
 
-import {closeRightHandSide, showChannelMembers} from 'actions/views/rhs';
+import {showChannelMembers} from 'actions/views/rhs';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 import {GlobalState} from 'types/store';
 import {RHSStates} from 'utils/constants';
 
-import ToggleChannelMembersRHS from './toggle_members_rhs';
+import OpenChannelMembersRHS from './open_members_rhs';
 
 const mapStateToProps = (state: GlobalState) => ({
     rhsOpen: getIsRhsOpen(state) && getRhsState(state) === RHSStates.CHANNEL_MEMBERS,
@@ -18,9 +18,8 @@ const mapStateToProps = (state: GlobalState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch<GenericAction>) => ({
     actions: bindActionCreators({
-        closeRightHandSide,
         showChannelMembers,
     }, dispatch),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ToggleChannelMembersRHS);
+export default connect(mapStateToProps, mapDispatchToProps)(OpenChannelMembersRHS);

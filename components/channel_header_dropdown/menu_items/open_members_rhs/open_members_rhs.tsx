@@ -7,7 +7,6 @@ import {Channel} from '@mattermost/types/channels';
 import Menu from 'components/widgets/menu/menu';
 
 type Action = {
-    closeRightHandSide: () => void;
     showChannelMembers: (channelId: string, editMembers: boolean) => void;
 };
 
@@ -16,8 +15,7 @@ type OwnProps = {
     show: boolean;
     id: string;
     editMembers?: boolean;
-    textOpen: string;
-    textClose: string;
+    text: string;
 }
 
 type Props = {
@@ -30,29 +28,22 @@ const ToggleChannelMembersRHS = ({
     id,
     channel,
     rhsOpen,
-    textOpen,
-    textClose,
+    text,
     editMembers = false,
     actions,
 }: Props) => {
-    const toggleRHS = () => {
+    const openRHSIfNotOpen = () => {
         if (rhsOpen) {
-            actions.closeRightHandSide();
             return;
         }
         actions.showChannelMembers(channel.id, editMembers);
     };
 
-    let text = textOpen;
-    if (rhsOpen) {
-        text = textClose;
-    }
-
     return (
         <Menu.ItemAction
             show={show}
             id={id}
-            onClick={toggleRHS}
+            onClick={openRHSIfNotOpen}
             text={text}
         />
     );
