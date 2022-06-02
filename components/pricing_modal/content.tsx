@@ -6,8 +6,6 @@ import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 
-import {GlobalState} from 'types/store';
-
 import {trackEvent} from 'actions/telemetry_actions';
 import {CloudLinks, CloudProducts, ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
 import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
@@ -143,7 +141,7 @@ function Content(props: ContentProps) {
     const dispatch = useDispatch();
 
     const isAdmin = useSelector(isCurrentUserSystemAdmin);
-    const contactSalesLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales));
+    const contactSalesLink = useSelector(getCloudContactUsLink)(InquiryType.Sales);
 
     const subscription = useSelector(selectCloudSubscription);
     const product = useSelector(selectSubscriptionProduct);

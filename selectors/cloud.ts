@@ -4,6 +4,8 @@
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
+import {createSelector} from 'reselect';
+
 import {GlobalState} from 'types/store';
 
 export enum InquiryType {
@@ -30,14 +32,18 @@ export enum SalesInquiryIssue {
 
 type Issue = SalesInquiryIssue | TechnicalInquiryIssue
 
-export function getCloudContactUsLink(state: GlobalState): (inquiry: InquiryType, inquiryIssue?: Issue) => string {
-    // cloud/contact-us with query params for name, email and inquiry
-    const cwsUrl = getConfig(state).CWSURL;
-    const user = getCurrentUser(state);
-    const fullName = `${user.first_name} ${user.last_name}`;
-    return (inquiry: InquiryType, inquiryIssue?: Issue) => {
-        const inquiryIssueQuery = inquiryIssue ? `&inquiry-issue=${inquiryIssue}` : '';
+export const getCloudContactUsLink: (state: GlobalState) => (inquiry: InquiryType, inquiryIssue?: Issue) => string = createSelector(
+    'getCloudContactUsLink',
+    getConfig,
+    getCurrentUser,
+    (config, user) => {
+        // cloud/contact-us with query params for name, email and inquiry
+        const cwsUrl = config.CWSURL;
+        const fullName = `${user.first_name} ${user.last_name}`;
+        return (inquiry: InquiryType, inquiryIssue?: Issue) => {
+            const inquiryIssueQuery = inquiryIssue ? `&inquiry-issue=${inquiryIssue}` : '';
 
-        return `${cwsUrl}/cloud/contact-us?email=${encodeURIComponent(user.email)}&name=${encodeURIComponent(fullName)}&inquiry=${inquiry}${inquiryIssueQuery}`;
-    }
-}
+            return `${cwsUrl}/cloud/contact-us?email=${encodeURIComponent(user.email)}&name=${encodeURIComponent(fullName)}&inquiry=${inquiry}${inquiryIssueQuery}`;
+        };
+    },
+);

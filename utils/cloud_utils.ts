@@ -1,9 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {CloudCustomer} from '@mattermost/types/cloud';
+import {Product, CloudCustomer, Limits} from '@mattermost/types/cloud';
 import {trackEvent} from 'actions/telemetry_actions';
-import {CloudLinks} from 'utils/constants';
+import {CloudProducts, CloudLinks} from 'utils/constants';
+import {hasSomeLimits} from 'utils/limits';
 
 export function isCustomerCardExpired(customer?: CloudCustomer): boolean {
     if (!customer) {
@@ -26,6 +27,10 @@ export function isCustomerCardExpired(customer?: CloudCustomer): boolean {
 export function openExternalPricingLink() {
     trackEvent('cloud_admin', 'click_pricing_link');
     window.open(CloudLinks.PRICING, '_blank');
+}
+
+export function isCloudFreePlan(product: Product | undefined, limits: Limits): boolean {
+    return product?.sku === CloudProducts.STARTER && hasSomeLimits(limits);
 }
 
 export const FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS = 30;
