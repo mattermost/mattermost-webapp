@@ -108,7 +108,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
     const enableSAML = EnableSaml === 'true';
     const enableCustomBrand = EnableCustomBrand === 'true';
 
-    const noOpenServer = !inviteId && loggedIn && !enableOpenServer && !noAccounts;
+    const noOpenServer = !inviteId && !token && !enableOpenServer && !noAccounts;
 
     const [email, setEmail] = useState(parsedEmail ?? '');
     const [name, setName] = useState('');
