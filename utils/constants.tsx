@@ -411,6 +411,9 @@ export const EventTypes = Object.assign(
 
 export const CloudProducts = {
     STARTER_LEGACY: 'cloud-starter-legacy',
+
+    // STARTER sku is used by paid cloud subscription until the time the cloud free flag is enabled,
+    // at which time it becomes STARTER_LEGACY and the free starter plan uses STARTER sku.
     STARTER: 'cloud-starter',
     PROFESSIONAL: 'cloud-professional',
     ENTERPRISE: 'cloud-enterprise',
@@ -1942,6 +1945,20 @@ export const InsightsCardTitles = {
             defaultMessage: 'Reactions I\'ve used the most',
         },
     },
+};
+
+// TODO: Remove after last legacy free products are migrated
+// (months after freemium is launched)
+// Hard coding product ids is a bad practice in general.
+// We do it here because these are legacy (we aren't making more),
+// there aren't that many,
+// and we would rather simplify some logic subscription logic now
+// so that we don't have to add confusing data to subscriptions
+// such as the new free plan having is_paid_tier=true
+// even though it is free and not paid.
+export const LegacyFreeProductIds: Record<string, true> = {
+    prod_HyiHEAVKW5bYG3: true,
+    prod_Hm2oYaBiRSISL2: true,
 };
 
 export default Constants;

@@ -81,7 +81,6 @@ type Props = {
     contactSupportLink: string;
     contactSalesLink: string;
     isFreeTrial: boolean;
-    isFreeTier: boolean;
     productId: string | undefined;
     intl: IntlShape;
     actions: {

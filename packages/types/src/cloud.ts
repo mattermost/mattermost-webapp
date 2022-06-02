@@ -21,7 +21,6 @@ export type Subscription = {
     end_at: number;
     create_at: number;
     seats: number;
-    is_paid_tier: string;
     last_invoice?: Invoice;
     trial_end_at: number;
     is_free_trial: string;

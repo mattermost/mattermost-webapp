@@ -9,15 +9,28 @@ import {GlobalState} from 'types/store';
 export enum InquiryType {
     Technical = 'technical',
     Sales = 'sales',
-    Billing = 'billing'
+    Billing = 'billing',
 }
 
-export enum InquiryIssue{
+export enum TechnicalInquiryIssue {
+    AdminConsole = 'admin_console',
+    MattermostMessaging = 'mm_messaging',
+    DataExport = 'data_export',
+    Other = 'other',
+}
+
+export enum SalesInquiryIssue {
+    AboutPurchasing = 'about_purchasing',
     CancelAccount = 'cancel_account',
-    TrialQuestions = 'trial_questions'
+    PurchaseNonprofit = 'purchase_nonprofit',
+    TrialQuestions = 'trial_questions',
+    UpgradeEnterprise = 'upgrade_enterprise',
+    SomethingElse = 'something_else',
 }
 
-export function getCloudContactUsLink(state: GlobalState, inquiry: InquiryType, inquiryIssue?: InquiryIssue): string {
+type Issue = SalesInquiryIssue | TechnicalInquiryIssue
+
+export function getCloudContactUsLink(state: GlobalState, inquiry: InquiryType, inquiryIssue?: Issue): string {
     // cloud/contact-us with query params for name, email and inquiry
     const cwsUrl = getConfig(state).CWSURL;
     const user = getCurrentUser(state);
