@@ -64,6 +64,11 @@ export const InviteTypes = {
     INVITE_GUEST: 'guest',
 };
 
+export const PreviousViewedTypes = {
+    CHANNELS: 'channels',
+    THREADS: 'threads',
+};
+
 export const Preferences = {
     CATEGORY_CHANNEL_OPEN_TIME: 'channel_open_time',
     CATEGORY_DIRECT_CHANNEL_SHOW: 'direct_channel_show',
