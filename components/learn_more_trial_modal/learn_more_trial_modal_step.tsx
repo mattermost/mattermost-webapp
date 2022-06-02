@@ -66,7 +66,7 @@ const LearnMoreTrialModalStep = (
         startTrialBtn = (
             <CloudStartTrialButton
                 message={startTrialBtnMsg}
-                telemetryId={'start_cloud_trial_after_completing_steps'}
+                telemetryId={'start_cloud_trial_from_learn_more_about_trial_modal'}
                 onClick={dismissAction}
                 extraClass={'btn btn-primary start-cloud-trial-btn'}
             />

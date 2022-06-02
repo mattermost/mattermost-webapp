@@ -201,6 +201,7 @@ const state: GlobalState = {
             },
             teams: {
                 active: 0,
+                cloudArchived: 0,
                 teamsLoaded: false,
             },
             boards: {

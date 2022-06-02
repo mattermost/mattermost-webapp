@@ -77,7 +77,7 @@ import type {
     MarketplaceApp,
     MarketplacePlugin,
 } from '@mattermost/types/marketplace';
-import {Post, PostList, PostSearchResults, OpenGraphMetadata, PaginatedPostList, PostsUsageResponse} from '@mattermost/types/posts';
+import {Post, PostList, PostSearchResults, OpenGraphMetadata, PostsUsageResponse, TeamsUsageResponse, PaginatedPostList} from '@mattermost/types/posts';
 import {BoardsUsageResponse} from '@mattermost/types/boards';
 import {Reaction} from '@mattermost/types/reactions';
 import {Role} from '@mattermost/types/roles';
@@ -3812,10 +3812,17 @@ export default class Client4 {
         );
     }
 
-    requestCloudTrial = () => {
+    requestCloudTrial = (email = '') => {
         return this.doFetchWithResponse<CloudCustomer>(
             `${this.getCloudRoute()}/request-trial`,
-            {method: 'put'},
+            {method: 'put', body: JSON.stringify({email})},
+        );
+    }
+
+    validateBusinessEmail = () => {
+        return this.doFetchWithResponse<CloudCustomer>(
+            `${this.getCloudRoute()}/validate-business-email`,
+            {method: 'post'},
         );
     }
 
@@ -3854,6 +3861,13 @@ export default class Client4 {
     getPostsUsage = () => {
         return this.doFetch<PostsUsageResponse>(
             `${this.getUsageRoute()}/posts`,
+            {method: 'get'},
+        );
+    }
+
+    getTeamsUsage = () => {
+        return this.doFetch<TeamsUsageResponse>(
+            `${this.getUsageRoute()}/teams`,
             {method: 'get'},
         );
     }

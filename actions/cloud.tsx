@@ -4,8 +4,6 @@
 import {Stripe} from '@stripe/stripe-js';
 import {getCode} from 'country-list';
 
-import {FileSizes} from 'utils/file_utils';
-
 import {Client4} from 'mattermost-redux/client';
 import {ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
 
@@ -91,11 +89,23 @@ export function subscribeCloudSubscription(productId: string) {
     };
 }
 
-export function requestCloudTrial(page: string) {
+export function requestCloudTrial(page: string, email = '') {
     trackEvent('api', 'api_request_cloud_trial_license', {from_page: page});
     return async () => {
         try {
-            await Client4.requestCloudTrial();
+            await Client4.requestCloudTrial(email);
+        } catch (error) {
+            return false;
+        }
+        return true;
+    };
+}
+
+export function validateBusinessEmail() {
+    trackEvent('api', 'api_validate_business_email');
+    return async () => {
+        try {
+            await Client4.validateBusinessEmail();
         } catch (error) {
             return false;
         }
@@ -143,7 +153,7 @@ export function getFilesUsage(): ActionFunc {
             type: CloudTypes.RECEIVED_FILES_USAGE,
 
             // TODO: Fill this in with the backing client API method once it is available in the server
-            data: 3 * FileSizes.Gigabyte,
+            data: 0,
         });
         return {data: true};
     };
@@ -178,5 +188,22 @@ export function getBoardsUsage(): ActionFunc {
             return error;
         }
         return {data: true};
+    };
+}
+
+export function getTeamsUsage(): ActionFunc {
+    return async (dispatch: DispatchFunc) => {
+        try {
+            const result = await Client4.getTeamsUsage();
+            if (result) {
+                dispatch({
+                    type: CloudTypes.RECEIVED_TEAMS_USAGE,
+                    data: {active: result.active, cloudArchived: result.cloud_archived},
+                });
+            }
+        } catch (error) {
+            return error;
+        }
+        return {data: false};
     };
 }
