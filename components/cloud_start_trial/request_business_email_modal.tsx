@@ -2,12 +2,16 @@
 // See LICENSE.txt for license information.
 
 import React, {useCallback, useEffect, useState} from 'react';
+import {useDispatch} from 'react-redux';
 
 import {FormattedMessage, useIntl} from 'react-intl';
 
-import {trackEvent} from 'actions/telemetry_actions';
+import {DispatchFunc} from 'mattermost-redux/types/actions';
 
-import {ItemStatus, TELEMETRY_CATEGORIES} from 'utils/constants';
+import {trackEvent} from 'actions/telemetry_actions';
+import {closeModal} from 'actions/views/modals';
+
+import {ItemStatus, TELEMETRY_CATEGORIES, ModalIdentifiers} from 'utils/constants';
 
 import GenericModal from 'components/generic_modal';
 import {CustomMessageInputType} from 'components/widgets/inputs/input/input';
@@ -30,6 +34,7 @@ const RequestBusinessEmailModal = (
         onExited,
     }: Props): JSX.Element | null => {
     const {formatMessage} = useIntl();
+    const dispatch = useDispatch<DispatchFunc>();
     const [email, setEmail] = useState<string>('');
     const [customInputLabel, setCustomInputLabel] = useState<CustomMessageInputType>(null);
     const [trialBtnDisabled, setTrialBtnDisabled] = useState<boolean>(true);
@@ -86,6 +91,11 @@ const RequestBusinessEmailModal = (
             setCustomInputLabel(null);
         }, 2000);
     }, []);
+
+    // this function will be executed after successfull trial request, closing this request business email modal
+    const closeMeAfterSuccessTrialReq = async () => {
+        await dispatch(closeModal(ModalIdentifiers.LEARN_MORE_TRIAL_MODAL));
+    };
 
     return (
         <GenericModal
@@ -149,6 +159,7 @@ const RequestBusinessEmailModal = (
                     telemetryId='request_business_email_modal'
                     disabled={trialBtnDisabled}
                     email={email}
+                    afterTrialRequest={closeMeAfterSuccessTrialReq}
                 />
             </div>
         </GenericModal>
