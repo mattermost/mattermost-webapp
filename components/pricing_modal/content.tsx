@@ -266,14 +266,10 @@ function Content(props: ContentProps) {
                                                     );
                                                     dispatch(
                                                         closeModal(
-                                                            ModalIdentifiers.CLOUD_PURCHASE,
-                                                        ),
-                                                    );
-                                                    dispatch(
-                                                        closeModal(
                                                             ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM,
                                                         ),
                                                     );
+                                                    props.onHide();
                                                 },
                                             },
                                         }),
