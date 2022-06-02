@@ -38,7 +38,7 @@ function StarterDisclaimerCTA() {
             modalId: ModalIdentifiers.CLOUD_LIMITS,
             dialogType: CloudUsageModal,
             dialogProps: {
-                backdrop: false,
+                backdropClassName: 'cloud-usage-backdrop',
                 title: {
                     id: t('workspace_limits.modals.informational.title'),
                     defaultMessage: '{planName} limits',

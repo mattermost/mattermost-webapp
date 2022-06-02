@@ -32,6 +32,7 @@ type Props = {
     errorText?: string;
     useCompassDesign?: boolean;
     backdrop?: boolean;
+    backdropClassName?: string;
 };
 
 type State = {
@@ -162,6 +163,7 @@ export default class GenericModal extends React.PureComponent<Props, State> {
                 id={this.props.id}
                 container={this.props.container}
                 backdrop={this.props.backdrop}
+                backdropClassName={this.props.backdropClassName}
             >
                 <div
                     onKeyDown={this.onEnterKeyDown}
