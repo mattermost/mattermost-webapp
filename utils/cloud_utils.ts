@@ -28,4 +28,4 @@ export function openExternalPricingLink() {
     window.open(CloudLinks.PRICING, '_blank');
 }
 
-export const FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS = 30
+export const FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS = 30;
