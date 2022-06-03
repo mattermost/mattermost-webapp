@@ -54,6 +54,7 @@ const LearnMoreTrialModalStep = (
                     message={buttonLabel}
                     onClick={handleOnClose}
                     styleLink={true}
+                    telemetryId={'learn_more_trial_modal'}
                 />
             )}
             <div className='disclaimer'>

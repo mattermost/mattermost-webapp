@@ -12,7 +12,7 @@ import {ConsolePages, ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/consta
 import Carousel from 'components/common/carousel/carousel';
 import GenericModal from 'components/generic_modal';
 import GuestAccessSvg from 'components/common/svg_images_components/guest_access_svg';
-import LaptopSvg from 'components/common/svg_images_components/laptop_svg';
+import MonitorImacLikeSVG from 'components/common/svg_images_components/monitor_imaclike_svg';
 import SystemRolesSVG from 'components/admin_console/feature_discovery/features/images/system_roles_svg';
 import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
 import {BtnStyle} from 'components/common/carousel/carousel_button';
@@ -110,9 +110,8 @@ const LearnMoreTrialModal = (
                     height={180}
                 />
             ),
-            pageURL: ConsolePages.GUEST_ACCOUNTS,
+            pageURL: 'https://docs.mattermost.com/onboard/sso-saml.html',
             buttonLabel,
-            handleOnClose,
         },
         {
             id: 'ldap',
@@ -120,8 +119,13 @@ const LearnMoreTrialModal = (
             description: formatMessage({id: 'learn_more_about_trial.modal.ldapDescription', defaultMessage: 'Run daily compliance reports and export them to a variety of formats consumable by third-party integration tools such as Smarsh (Actiance).'}),
             svgWrapperClassName: 'personMacSvg',
             svgElement: (
-                <LaptopSvg/>
+                <MonitorImacLikeSVG
+                    width={400}
+                    height={180}
+                />
             ),
+            pageURL: 'https://docs.mattermost.com/onboard/ad-ldap.html',
+            buttonLabel,
         },
         {
             id: 'systemConsole',
@@ -131,12 +135,11 @@ const LearnMoreTrialModal = (
             svgElement: (
                 <SystemRolesSVG
                     width={400}
-                    height={200}
+                    height={180}
                 />
             ),
             pageURL: ConsolePages.LICENSE,
             buttonLabel,
-            handleOnClose,
         },
     ], []);
 
