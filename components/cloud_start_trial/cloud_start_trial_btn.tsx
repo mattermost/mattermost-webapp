@@ -9,7 +9,7 @@ import {DispatchFunc} from 'mattermost-redux/types/actions';
 
 import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
 
-import {getBoardsUsage, requestCloudTrial, validateBusinessEmail} from 'actions/cloud';
+import {requestCloudTrial, validateBusinessEmail} from 'actions/cloud';
 import {trackEvent} from 'actions/telemetry_actions';
 import {openModal, closeModal} from 'actions/views/modals';
 
@@ -82,7 +82,6 @@ const CloudStartTrialButton = ({
             return TrialLoadStatus.Failed;
         }
 
-        await dispatch(getBoardsUsage());
         await dispatch(getCloudSubscription());
 
         if (afterTrialRequest) {
