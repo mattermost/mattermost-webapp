@@ -85,7 +85,7 @@ describe('components/activity_and_insights/insights/top_boards_table', () => {
         },
         plugins: {
             insightsHandlers: {
-                boards: async () => {
+                focalboard: async () => {
                     return {
                         items: [
                             {
@@ -131,7 +131,7 @@ describe('components/activity_and_insights/insights/top_boards_table', () => {
             ...initialState,
             plugins: {
                 insightsHandlers: {
-                    boards: async () => {
+                    focalboard: async () => {
                         return {
                             items: [],
                         };
