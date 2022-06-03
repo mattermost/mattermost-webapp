@@ -1,11 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Channel} from 'mattermost-redux/types/channels';
-import {MarketplaceApp, MarketplacePlugin} from 'mattermost-redux/types/marketplace';
-import {RelationOneToOne} from 'mattermost-redux/types/utilities';
-import {Team} from 'mattermost-redux/types/teams';
-import {UserThread} from 'mattermost-redux/types/threads';
+import {Channel} from '@mattermost/types/channels';
+import {MarketplaceApp, MarketplacePlugin} from '@mattermost/types/marketplace';
+import {RelationOneToOne} from '@mattermost/types/utilities';
+import {Team} from '@mattermost/types/teams';
+import {UserThread} from '@mattermost/types/threads';
 
 import {I18nState} from './i18n';
 import {RhsViewState} from './rhs';
@@ -169,10 +169,6 @@ export type ViewsState = {
         multiSelectedChannelIds: string[];
         lastSelectedChannel: string;
         firstChannelName: string;
-    };
-
-    nextSteps: {
-        show: boolean;
     };
 
     statusDropdown: {

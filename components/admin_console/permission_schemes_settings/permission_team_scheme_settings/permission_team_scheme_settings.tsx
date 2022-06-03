@@ -23,12 +23,12 @@ import GuestPermissionsTree, {GUEST_INCLUDED_PERMISSIONS} from '../guest_permiss
 
 import LocalizedInput from 'components/localized_input/localized_input';
 
-import {Scheme, SchemePatch} from 'mattermost-redux/types/schemes';
-import {Role} from 'mattermost-redux/types/roles';
-import {ClientConfig, ClientLicense} from 'mattermost-redux/types/config';
-import {Team} from 'mattermost-redux/types/teams';
+import {Scheme, SchemePatch} from '@mattermost/types/schemes';
+import {Role} from '@mattermost/types/roles';
+import {ClientConfig, ClientLicense} from '@mattermost/types/config';
+import {Team} from '@mattermost/types/teams';
 import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
-import {ServerError} from 'mattermost-redux/types/errors';
+import {ServerError} from '@mattermost/types/errors';
 
 import PermissionsTreePlaybooks from '../permissions_tree_playbooks';
 

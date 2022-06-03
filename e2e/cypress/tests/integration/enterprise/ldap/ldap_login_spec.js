@@ -39,6 +39,12 @@ context('ldap', () => {
         removeUserFromAllTeams(user1);
         removeUserFromAllTeams(guest1);
         removeUserFromAllTeams(admin1);
+
+        disableOnboardingTaskList(user1);
+        disableOnboardingTaskList(guest1);
+        disableOnboardingTaskList(admin1);
+
+        cy.apiAdminLogin();
     });
 
     describe('LDAP Login flow - Admin Login', () => {
@@ -211,6 +217,14 @@ function setLDAPTestSettings(config) {
         teamName: '',
         user: null,
     };
+}
+
+function disableOnboardingTaskList(ldapLogin) {
+    cy.apiLogin(ldapLogin).then(({user}) => {
+        cy.apiSaveOnboardingTaskListPreference(user.id, 'onboarding_task_list_open', 'false');
+        cy.apiSaveOnboardingTaskListPreference(user.id, 'onboarding_task_list_show', 'false');
+        cy.apiSaveSkipStepsPreference(user.id, 'true');
+    });
 }
 
 function removeUserFromAllTeams(testUser) {

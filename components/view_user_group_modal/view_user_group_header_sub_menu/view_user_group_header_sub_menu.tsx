@@ -5,7 +5,7 @@ import React, {useCallback} from 'react';
 import {ModalData} from 'types/actions';
 import LocalizedIcon from 'components/localized_icon';
 import {t} from 'utils/i18n';
-import {Group} from 'mattermost-redux/types/groups';
+import {Group} from '@mattermost/types/groups';
 import {ModalIdentifiers} from 'utils/constants';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';

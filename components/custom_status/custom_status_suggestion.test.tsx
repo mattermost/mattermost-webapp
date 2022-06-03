@@ -4,7 +4,7 @@ import {shallow} from 'enzyme';
 
 import React from 'react';
 
-import {CustomStatusDuration} from 'mattermost-redux/types/users';
+import {CustomStatusDuration} from '@mattermost/types/users';
 
 import CustomStatusSuggestion from './custom_status_suggestion';
 

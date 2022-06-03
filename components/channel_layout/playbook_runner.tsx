@@ -9,7 +9,7 @@ import {useRouteMatch} from 'react-router-dom';
 import {getChannelByTeamIdAndChannelName} from 'mattermost-redux/selectors/entities/channels';
 import {Client4} from 'mattermost-redux/client';
 import {IntegrationTypes} from 'mattermost-redux/action_types';
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 import {getTeamByName} from 'mattermost-redux/selectors/entities/teams';
 import {generateId} from 'mattermost-redux/utils/helpers';
 

@@ -71,6 +71,12 @@
                 background-color: rgba(var(--center-channel-color-rgb), 0.08);
                 color: rgba(var(--center-channel-color-rgb), 0.56);
             }
+
+            i.icon-chevron-right {
+                width: 16px;
+                height: 16px;
+                font-size: 16px;
+            }
         }
 
         .Card__hr {

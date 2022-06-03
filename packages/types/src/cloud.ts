@@ -21,7 +21,6 @@ export type Subscription = {
     end_at: number;
     create_at: number;
     seats: number;
-    is_paid_tier: string;
     last_invoice?: Invoice;
     trial_end_at: number;
     is_free_trial: string;
@@ -142,4 +141,32 @@ export type Limits = {
         cards?: number;
         views?: number;
     };
+}
+
+export interface CloudUsage {
+    files: {
+        totalStorage: number;
+        totalStorageLoaded: boolean;
+    };
+    messages: {
+        history: number;
+        historyLoaded: boolean;
+    };
+    boards: {
+        cards: number;
+        cardsLoaded: boolean;
+    };
+    teams: TeamsUsage;
+    integrations: IntegrationsUsage;
+}
+
+export interface IntegrationsUsage {
+    enabled: number;
+    enabledLoaded: boolean;
+}
+
+export type TeamsUsage = {
+    active: number;
+    cloudArchived: number;
+    teamsLoaded: boolean;
 }

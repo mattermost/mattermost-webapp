@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {CustomStatusDuration, UserProfile} from 'mattermost-redux/types/users';
+import {CustomStatusDuration, UserProfile} from '@mattermost/types/users';
 
 import {fakeDate} from 'tests/helpers/date';
 

@@ -10,7 +10,7 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {Preferences} from 'mattermost-redux/constants';
-import {CustomStatusDuration, UserCustomStatus} from 'mattermost-redux/types/users';
+import {CustomStatusDuration, UserCustomStatus} from '@mattermost/types/users';
 
 import {GlobalState} from 'types/store';
 import {getCurrentUserTimezone} from 'selectors/general';
