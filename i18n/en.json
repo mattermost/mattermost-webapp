@@ -3672,7 +3672,7 @@
   "last_users_message.others": "{numOthers} others ",
   "last_users_message.removed_from_channel.type": "were **removed from the channel**.",
   "last_users_message.removed_from_team.type": "were **removed from the team**.",
-  "learn_more_about_trial.modal.ldapDescription": "Run daily compliance reports and export them to a variety of formats consumable by third-party integration tools such as Smarsh (Actiance).",
+  "learn_more_about_trial.modal.ldapDescription": "Use AD/LDAP groups to organize and apply actions to multiple users at once. Manage team and channel memberships, persmissions and more.",
   "learn_more_about_trial.modal.ldapTitle": "Synchronize your Active Directory/LDAP groups",
   "learn_more_about_trial.modal.systemConsoleDescription": "Use System Roles to give designated users read and/or write access to select sections of System Console.",
   "learn_more_about_trial.modal.systemConsoleTitle": "Provide controlled access to the System Console",
