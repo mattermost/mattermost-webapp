@@ -60,15 +60,25 @@ describe('Channel members RHS', () => {
         });
     });
 
-    it('should be able to open the RHS', () => {
+    it('should be able to open the RHS from channel info', () => {
         // # Open the Channel Members RHS
         openChannelMembersRhs(testTeam, testChannel);
 
         // * RHS Container should exist
-        cy.get('#rhsContainer').then((rhsContainer) => {
-            cy.wrap(rhsContainer).findByText('Members').should('be.visible');
-            cy.wrap(rhsContainer).findByText(testChannel.display_name).should('be.visible');
+        ensureChannelMembersRHSExists(testChannel);
+    });
+
+    it('should be able to open the RHS from the members icon', () => {
+        // # Go to test channel
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+        // # Open the RHS by clicking on the members icon
+        cy.get('#channelHeaderInfo').within(() => {
+            cy.get('#member_rhs').should('be.visible').click({force: true});
         });
+
+        // * RHS Container should exist
+        ensureChannelMembersRHSExists(testChannel);
     });
 
     it('should display the number of members', () => {
@@ -180,6 +190,22 @@ describe('Channel members RHS', () => {
     });
 
     describe('as an admin', () => {
+        it('should be able to open the RHS from the channel menu', () => {
+            // # Go to test channel
+            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+            cy.uiOpenChannelMenu('Manage Members');
+
+            // * RHS Container should be open in edit mode
+            cy.get('#rhsContainer').then((rhsContainer) => {
+                cy.wrap(rhsContainer).findByText('Members').should('be.visible');
+                cy.wrap(rhsContainer).findByText(testChannel.display_name).should('be.visible');
+
+                // Done button should be visible
+                cy.wrap(rhsContainer).findByText('Done').should('be.visible');
+            });
+        });
+
         it('should be able to invite new members', () => {
             // # Open the Channel Members RHS
             openChannelMembersRhs(testTeam, testChannel);
@@ -224,6 +250,16 @@ describe('Channel members RHS', () => {
             cy.apiLogin(user);
         });
 
+        it('should be able to open the RHS from the channel menu', () => {
+            // # Go to test channel
+            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+            cy.uiOpenChannelMenu('View Members');
+
+            // * RHS Container should be open in edit mode
+            ensureChannelMembersRHSExists(testChannel);
+        });
+
         it('should not be able to invite new members', () => {
             // # Open the Channel Members RHS
             openChannelMembersRhs(testTeam, testChannel);
@@ -241,3 +277,11 @@ describe('Channel members RHS', () => {
         });
     });
 });
+
+function ensureChannelMembersRHSExists(testChannel) {
+    cy.get('#rhsContainer').then((rhsContainer) => {
+        cy.wrap(rhsContainer).findByText('Members').should('be.visible');
+        cy.wrap(rhsContainer).findByText(testChannel.display_name).should('be.visible');
+    });
+}
+

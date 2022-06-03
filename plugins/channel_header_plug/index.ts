@@ -13,7 +13,7 @@ import {HandleBindingClick, OpenAppsModal, PostEphemeralCallResponseForChannel} 
 import {handleBindingClick, openAppsModal, postEphemeralCallResponseForChannel} from 'actions/apps';
 import {GlobalState} from 'types/store';
 
-import {getChannelHeaderPluginComponents} from 'selectors/plugins';
+import {getChannelHeaderPluginComponents, shouldShowAppBar} from 'selectors/plugins';
 
 import ChannelHeaderPlug from './channel_header_plug';
 
@@ -26,6 +26,7 @@ function mapStateToProps(state: GlobalState) {
         appBarEnabled: appBarEnabled(state),
         theme: getTheme(state),
         sidebarOpen: state.views.rhs.isSidebarOpen,
+        shouldShowAppBar: shouldShowAppBar(state),
     };
 }
 
