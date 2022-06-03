@@ -4,7 +4,7 @@
 import React from 'react';
 
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
-import {Role} from 'mattermost-redux/types/roles';
+import {Role} from '@mattermost/types/roles';
 
 import {t} from 'utils/i18n';
 

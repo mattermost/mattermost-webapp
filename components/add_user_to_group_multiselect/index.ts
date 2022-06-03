@@ -7,7 +7,7 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {getProfilesNotInGroup, searchProfiles, getProfiles} from 'mattermost-redux/actions/users';
 import {getProfilesNotInCurrentGroup, getUserStatuses, getProfiles as getUsers} from 'mattermost-redux/selectors/entities/users';
 import {Action, ActionResult} from 'mattermost-redux/types/actions';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import {Value} from 'components/multiselect/multiselect';
 

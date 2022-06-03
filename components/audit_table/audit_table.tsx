@@ -4,10 +4,10 @@
 import React from 'react';
 import {defineMessages, FormattedDate, FormattedMessage, FormattedTime, injectIntl, IntlShape} from 'react-intl';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 import {ActionFunc} from 'mattermost-redux/types/actions';
-import {Audit} from 'mattermost-redux/types/audits';
-import {Channel} from 'mattermost-redux/types/channels';
+import {Audit} from '@mattermost/types/audits';
+import {Channel} from '@mattermost/types/channels';
 
 import {t} from 'utils/i18n';
 import {toTitleCase} from 'utils/utils';

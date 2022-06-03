@@ -1,131 +1,113 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ReactNode} from 'react';
-import {FormattedMessage} from 'react-intl';
+import React, {useState, useCallback} from 'react';
+import {useIntl} from 'react-intl';
+import {useDispatch} from 'react-redux';
+import {useLocation, useHistory} from 'react-router-dom';
+import classNames from 'classnames';
 
-import BackButton from 'components/common/back_button';
-import LocalizedIcon from 'components/localized_icon';
-import SuccessIcon from 'components/widgets/icons/fa_success_icon';
+import ManWithMailboxSVG from 'components/common/svg_images_components/man_with_mailbox_svg';
+import ColumnLayout from 'components/header_footer_route/content_layouts/column';
+import SaveButton from 'components/save_button';
 
-import {t} from 'utils/i18n';
+import {sendVerificationEmail} from 'mattermost-redux/actions/users';
+import {DispatchFunc} from 'mattermost-redux/types/actions';
 
-type Props = {
-    location: {
-        search: string;
-    };
-    siteName?: string;
-    actions: {
-        sendVerificationEmail: (email: string) => Promise<{
-            data: boolean;
-            error?: {
-                err: string;
-            };
-        }>;
-    };
+import './should_verify_email.scss';
+
+const enum ResendStatus {
+    PENDING = 'pending',
+    SUCCESS = 'success',
+    FAILURE = 'failure',
 }
 
-type State = {
-    resendStatus: string;
-}
+const ShouldVerifyEmail = () => {
+    const {formatMessage} = useIntl();
+    const dispatch = useDispatch<DispatchFunc>();
+    const history = useHistory();
+    const {search} = useLocation();
 
-export default class ShouldVerifyEmail extends React.PureComponent<Props, State> {
-    constructor(props: Props) {
-        super(props);
+    const params = new URLSearchParams(search);
+    const email = params.get('email') ?? '';
 
-        this.state = {
-            resendStatus: 'none',
-        };
-    }
+    const [resendStatus, setResendStatus] = useState(ResendStatus.PENDING);
+    const [isWaiting, setIsWaiting] = useState(false);
 
-    public handleResend = async (): Promise<void> => {
-        const email = (new URLSearchParams(this.props.location.search)).get('email');
+    const handleReturnButtonOnClick = useCallback(() => {
+        history.push('/');
+    }, [history]);
 
+    const handleResendButtonOnClick = async () => {
         if (email) {
-            this.setState({resendStatus: 'sending'});
+            setIsWaiting(true);
+            setResendStatus(ResendStatus.PENDING);
 
-            const {data, error} = await this.props.actions.sendVerificationEmail(email);
+            const {error} = await dispatch(sendVerificationEmail(email));
 
-            if (data) {
-                this.setState({resendStatus: 'success'});
-            } else if (error) {
-                this.setState({resendStatus: 'failure'});
+            if (error) {
+                setResendStatus(ResendStatus.FAILURE);
+                setIsWaiting(false);
+                return;
             }
+
+            setResendStatus(ResendStatus.SUCCESS);
+            setIsWaiting(false);
         }
-    }
+    };
 
-    public render(): JSX.Element {
-        let resendConfirm: ReactNode = '';
-
-        if (this.state.resendStatus === 'success') {
-            resendConfirm = (
-                <div>
-                    <br/>
-                    <p
-                        data-testid='emailVerifySentMessage'
-                        className='alert alert-success'
-                    >
-                        <SuccessIcon/>
-                        <FormattedMessage
-                            id='email_verify.sent'
-                            defaultMessage=' Verification email sent.'
-                        />
-                    </p>
-                </div>
-            );
-        }
-
-        if (this.state.resendStatus === 'failure') {
-            resendConfirm = (
-                <div>
-                    <br/>
-                    <p className='alert alert-danger'>
-                        <LocalizedIcon
-                            className='fa fa-times'
-                            title={{id: t('generic_icons.fail'), defaultMessage: 'Failure Icon'}}
-                        />
-                        <FormattedMessage id='email_verify.failed'/>
-                    </p>
-                </div>
-            );
-        }
-
-        return (
-            <div>
-                <BackButton/>
-                <div className='col-sm-12'>
-                    <div className='signup-team__container'>
-                        <h3 data-testid='emailVerifyAlmost'>
-                            <FormattedMessage
-                                id='email_verify.almost'
-                                defaultMessage='{siteName}: You are almost done'
-                                values={{
-                                    siteName: this.props.siteName,
-                                }}
-                            />
-                        </h3>
-                        <div>
-                            <p data-testid='emailVerifyNotVerifiedBody'>
-                                <FormattedMessage
-                                    id='email_verify.notVerifiedBody'
-                                    defaultMessage='Please verify your email address. Check your inbox for an email.'
+    return (
+        <div className='should-verify-body'>
+            <div className='should-verify-body-content'>
+                <ColumnLayout
+                    title={formatMessage({id: 'email_verify.almost', defaultMessage: 'You’re almost done!'})}
+                    message={formatMessage({id: 'email_verify.notVerifiedBody', defaultMessage: 'Please verify your email address. Check your inbox for an email.'})}
+                    SVGElement={<ManWithMailboxSVG width={284}/>}
+                    extraContent={(
+                        <div className='should-verify-body-content-extra'>
+                            <div className='should-verify-body-content-buttons'>
+                                <SaveButton
+                                    extraClasses='should-verify-body-content-button-resend large'
+                                    saving={isWaiting}
+                                    disabled={!email}
+                                    onClick={handleResendButtonOnClick}
+                                    defaultMessage={formatMessage({id: 'email_verify.resend', defaultMessage: 'Resend Email'})}
+                                    savingMessage={formatMessage({id: 'email_verify.sending', defaultMessage: 'Sending email…'})}
                                 />
-                            </p>
-                            <button
-                                data-testid='emailVerifyResend'
-                                onClick={this.handleResend}
-                                className='btn btn-primary'
-                            >
-                                <FormattedMessage
-                                    id='email_verify.resend'
-                                    defaultMessage='Resend Email'
+                                <button
+                                    className='should-verify-body-content-button-return'
+                                    onClick={handleReturnButtonOnClick}
+                                >
+                                    {formatMessage({id: 'email_verify.return', defaultMessage: 'Return to log in'})}
+                                </button>
+                            </div>
+                            <div className={classNames('should-verify-body-content-message', resendStatus)}>
+                                <i
+                                    className={classNames(
+                                        'should-verify-body-content-message-icon',
+                                        'icon',
+                                        'icon-12',
+                                        {
+                                            'icon-check': resendStatus === ResendStatus.SUCCESS,
+                                            'icon-alert-outline': resendStatus === ResendStatus.FAILURE,
+                                        },
+                                    )}
                                 />
-                            </button>
-                            {resendConfirm}
+                                <span className='should-verify-body-content-message-label'>
+                                    {resendStatus === ResendStatus.SUCCESS ? (
+                                        formatMessage({id: 'email_verify.sent', defaultMessage: 'Verification email sent'})
+                                    ) : (
+                                        (resendStatus === ResendStatus.FAILURE && formatMessage({id: 'email_verify.failed', defaultMessage: 'Failed to send verification email'})) ||
+                                        ''
+                                    )}
+                                </span>
+                            </div>
                         </div>
-                    </div>
-                </div>
+                    )}
+                />
             </div>
-        );
-    }
-}
+        </div>
+    );
+};
+
+export default ShouldVerifyEmail;

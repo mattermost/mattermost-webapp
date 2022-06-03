@@ -11,10 +11,10 @@ import {getAppsBotIDs as fetchAppsBotIDs} from 'mattermost-redux/actions/integra
 import {getAppsBotIDs} from 'mattermost-redux/selectors/entities/integrations';
 import {createUserAccessToken, revokeUserAccessToken, enableUserAccessToken, disableUserAccessToken, getUserAccessTokensForUser, getUser} from 'mattermost-redux/actions/users';
 import * as UserSelectors from 'mattermost-redux/selectors/entities/users';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 import {GenericAction, ActionResult, ActionFunc} from 'mattermost-redux/types/actions';
-import {Bot as BotType} from 'mattermost-redux/types/bots';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {Bot as BotType} from '@mattermost/types/bots';
+import {UserProfile} from '@mattermost/types/users';
 
 import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
 

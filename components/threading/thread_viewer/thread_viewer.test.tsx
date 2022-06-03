@@ -4,9 +4,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {Channel} from 'mattermost-redux/types/channels';
-import {Post} from 'mattermost-redux/types/posts';
-import {UserThread} from 'mattermost-redux/types/threads';
+import {Channel} from '@mattermost/types/channels';
+import {Post} from '@mattermost/types/posts';
+import {UserThread} from '@mattermost/types/threads';
 
 import {TestHelper} from 'utils/test_helper';
 import {fakeDate} from 'tests/helpers/date';
@@ -48,6 +48,7 @@ describe('components/threading/ThreadViewer', () => {
         removePost: jest.fn(),
         selectPostCard: jest.fn(),
         getNewestPostThread: jest.fn(),
+        getPostThread: jest.fn(),
         getThread: jest.fn(),
         updateThreadRead: jest.fn(),
         updateThreadLastOpened: jest.fn(),
@@ -86,7 +87,7 @@ describe('components/threading/ThreadViewer', () => {
         wrapper.setProps({socketConnectionStatus: false});
         wrapper.setProps({socketConnectionStatus: true});
 
-        return expect(actions.getNewestPostThread).toHaveBeenCalledWith(post.id);
+        return expect(actions.getPostThread).toHaveBeenCalledWith(post.id, true);
     });
 
     test('should not break if root post is a fake post', () => {

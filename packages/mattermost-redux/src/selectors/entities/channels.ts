@@ -42,17 +42,17 @@ import {
     ChannelModeration,
     ChannelSearchOpts,
     ChannelStats,
-} from 'mattermost-redux/types/channels';
-import {Post} from 'mattermost-redux/types/posts';
-import {GlobalState} from 'mattermost-redux/types/store';
-import {Team} from 'mattermost-redux/types/teams';
-import {UserProfile, UsersState} from 'mattermost-redux/types/users';
+} from '@mattermost/types/channels';
+import {Post} from '@mattermost/types/posts';
+import {GlobalState} from '@mattermost/types/store';
+import {Team} from '@mattermost/types/teams';
+import {UserProfile, UsersState} from '@mattermost/types/users';
 import {
     IDMappedObjects,
     RelationOneToMany,
     RelationOneToManyUnique,
     RelationOneToOne,
-} from 'mattermost-redux/types/utilities';
+} from '@mattermost/types/utilities';
 
 import {
     calculateUnreadCount,

@@ -4,7 +4,6 @@
 import React from 'react';
 import {FormattedMessage, injectIntl, WrappedComponentProps} from 'react-intl';
 import IconButton from '@mattermost/compass-components/components/icon-button';
-import {matchPath} from 'react-router-dom';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
@@ -15,8 +14,6 @@ import Menu from 'components/widgets/menu/menu';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import KeyboardShortcutsModal from 'components/keyboard_shortcuts/keyboard_shortcuts_modal/keyboard_shortcuts_modal';
-
-import {browserHistory} from 'utils/browser_history';
 
 import type {PropsFromRedux} from './index';
 
@@ -58,19 +55,11 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
         trackEvent('ui', 'help_ask_the_community');
     }
 
-    unhideNextStepsAndNavigateToTipsView = () => {
-        this.props.actions.unhideNextSteps();
-        browserHistory.push(`${this.props.teamUrl}/tips`);
-    }
-
     renderDropdownItems = (): React.ReactNode => {
         const {
             intl,
-            isMobileView,
-            showDueToStepsNotFinished,
             pluginMenuItems,
         } = this.props;
-        const inTipsView = matchPath(this.props.location.pathname, {path: '/:team/tips'}) != null;
 
         const pluginItems = pluginMenuItems?.map((item) => {
             return (
@@ -97,13 +86,6 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
                     id='helpResourcesLink'
                     url={this.props.helpLink}
                     text={intl.formatMessage({id: 'userGuideHelp.helpResources', defaultMessage: 'Help resources'})}
-                />
-                <Menu.ItemAction
-                    id='gettingStarted'
-                    show={showDueToStepsNotFinished && !inTipsView && !(this.props.useCaseOnboarding && this.props.isFirstAdmin)}
-                    onClick={() => this.unhideNextStepsAndNavigateToTipsView()}
-                    text={intl.formatMessage({id: 'navbar_dropdown.gettingStarted', defaultMessage: 'Getting Started'})}
-                    icon={isMobileView && <i className='icon icon-play'/>}
                 />
                 {this.props.reportAProblemLink && (
                     <Menu.ItemExternalLink

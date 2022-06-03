@@ -5,7 +5,7 @@ import React, {useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Modal} from 'react-bootstrap';
 
-import {AdminConfig} from 'mattermost-redux/types/config';
+import {AdminConfig} from '@mattermost/types/config';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';

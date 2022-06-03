@@ -68,3 +68,61 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot 1`]
   </div>
 </div>
 `;
+
+exports[`components/feature_discovery FeatureDiscovery should match snapshot when is cloud environment 1`] = `
+<div
+  className="FeatureDiscovery"
+>
+  <div
+    className="FeatureDiscovery_copyWrapper"
+  >
+    <div
+      className="FeatureDiscovery_title"
+      data-testid="featureDiscovery_title"
+    >
+      <MemoizedFormattedMessage
+        defaultMessage="Foo"
+        id="translation.test.title"
+      />
+    </div>
+    <div
+      className="FeatureDiscovery_copy"
+    >
+      <MemoizedFormattedMessage
+        defaultMessage="Bar"
+        id="translation.test.copy"
+      />
+    </div>
+    <CloudStartTrialButton
+      extraClass="btn btn-primary"
+      message="Start trial"
+      telemetryId="start_cloud_trial_feature_discovery"
+    />
+    <a
+      className="btn btn-secondary"
+      data-testid="featureDiscovery_secondaryCallToAction"
+      href="https://test.mattermost.com/secondary/"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <MemoizedFormattedMessage
+        defaultMessage="Learn more"
+        id="admin.ldap_feature_discovery.call_to_action.secondary"
+      />
+    </a>
+    <p
+      className="trial-legal-terms"
+    >
+      <injectIntl(FormattedMarkdownMessage)
+        defaultMessage="By clicking **Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails."
+        id="admin.license.trial-request.accept-terms"
+      />
+    </p>
+  </div>
+  <div
+    className="FeatureDiscovery_imageWrapper"
+  >
+    <SamlSVG />
+  </div>
+</div>
+`;

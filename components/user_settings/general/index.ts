@@ -13,7 +13,7 @@ import {
 import {clearErrors, logError} from 'mattermost-redux/actions/errors';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import UserSettingsGeneralTab, {Props} from './user_settings_general';
