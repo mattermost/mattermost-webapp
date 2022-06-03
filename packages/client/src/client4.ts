@@ -3812,10 +3812,10 @@ export default class Client4 {
         );
     }
 
-    requestCloudTrial = (email = '') => {
+    requestCloudTrial = (subscriptionId: string, email = '') => {
         return this.doFetchWithResponse<CloudCustomer>(
             `${this.getCloudRoute()}/request-trial`,
-            {method: 'put', body: JSON.stringify({email})},
+            {method: 'put', body: JSON.stringify({email, subscription_id: subscriptionId})},
         );
     }
 

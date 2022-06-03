@@ -1536,10 +1536,10 @@ export function handleCloudSubscriptionChanged(msg) {
         }
 
         if (msg.data.subscription) {
-            // doDispatch({
-            //     type: CloudTypes.RECEIVED_CLOUD_SUBSCRIPTION,
-            //     data: msg.data.subscription,
-            // });
+            doDispatch({
+                type: CloudTypes.RECEIVED_CLOUD_SUBSCRIPTION,
+                data: msg.data.subscription,
+            });
         }
         return {data: true};
     };

@@ -89,11 +89,11 @@ export function subscribeCloudSubscription(productId: string) {
     };
 }
 
-export function requestCloudTrial(page: string, email = '') {
+export function requestCloudTrial(page: string, subscriptionId: string, email = '') {
     trackEvent('api', 'api_request_cloud_trial_license', {from_page: page});
     return async (dispatch: DispatchFunc) => {
         try {
-            const updatedSubscription = await Client4.requestCloudTrial(email);
+            const updatedSubscription = await Client4.requestCloudTrial(subscriptionId, email);
             if (updatedSubscription) {
                 dispatch({
                     type: CloudTypes.RECEIVED_CLOUD_SUBSCRIPTION,
