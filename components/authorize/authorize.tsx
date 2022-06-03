@@ -4,7 +4,7 @@
 import React, {ReactNode} from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {OAuthApp} from 'mattermost-redux/types/integrations';
+import {OAuthApp} from '@mattermost/types/integrations';
 
 import icon50 from 'images/icon50x50.png';
 import FormError from 'components/form_error';

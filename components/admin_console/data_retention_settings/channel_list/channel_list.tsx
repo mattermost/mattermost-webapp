@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 import {debounce, isEqual} from 'lodash';
 
 import {Constants} from 'utils/constants';
-import {ChannelSearchOpts, ChannelWithTeamData} from 'mattermost-redux/types/channels';
+import {ChannelSearchOpts, ChannelWithTeamData} from '@mattermost/types/channels';
 
 import DataGrid, {Column, Row} from 'components/admin_console/data_grid/data_grid';
 import TeamFilterDropdown from 'components/admin_console/filter/team_filter_dropdown';

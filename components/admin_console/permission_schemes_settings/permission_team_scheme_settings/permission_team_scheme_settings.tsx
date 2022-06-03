@@ -18,19 +18,17 @@ import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import AdminPanelTogglable from 'components/widgets/admin_console/admin_panel_togglable';
 import AdminPanelWithButton from 'components/widgets/admin_console/admin_panel_with_button';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-
 import PermissionsTree, {EXCLUDED_PERMISSIONS} from '../permissions_tree';
 import GuestPermissionsTree, {GUEST_INCLUDED_PERMISSIONS} from '../guest_permissions_tree';
 
 import LocalizedInput from 'components/localized_input/localized_input';
 
-import {Scheme, SchemePatch} from 'mattermost-redux/types/schemes';
-import {Role} from 'mattermost-redux/types/roles';
-import {ClientConfig, ClientLicense} from 'mattermost-redux/types/config';
-import {Team} from 'mattermost-redux/types/teams';
+import {Scheme, SchemePatch} from '@mattermost/types/schemes';
+import {Role} from '@mattermost/types/roles';
+import {ClientConfig, ClientLicense} from '@mattermost/types/config';
+import {Team} from '@mattermost/types/teams';
 import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
-import {ServerError} from 'mattermost-redux/types/errors';
+import {ServerError} from '@mattermost/types/errors';
 
 import PermissionsTreePlaybooks from '../permissions_tree_playbooks';
 
@@ -609,9 +607,29 @@ export default class PermissionTeamSchemeSettings extends React.PureComponent<Pr
                         <div className={'banner info'}>
                             <div className='banner__content'>
                                 <span>
-                                    <FormattedMarkdownMessage
+                                    <FormattedMessage
                                         id='admin.permissions.teamScheme.introBanner'
-                                        defaultMessage='[Team Override Schemes](!https://docs.mattermost.com/onboard/advanced-permissions.html) set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the [System Scheme](!https://docs.mattermost.com/onboard/advanced-permissions.html).'
+                                        defaultMessage='<linkTeamOverride>Team Override Schemes</linkTeamOverride> set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the <linkSystemScheme>System Scheme</linkSystemScheme>.'
+                                        values={{
+                                            linkTeamOverride: (msg: React.ReactNode) => (
+                                                <a
+                                                    href='https://docs.mattermost.com/onboard/advanced-permissions.html'
+                                                    target='_blank'
+                                                    rel='noreferrer'
+                                                >
+                                                    {msg}
+                                                </a>
+                                            ),
+                                            linkSystemScheme: (msg: React.ReactNode) => (
+                                                <a
+                                                    href='https://docs.mattermost.com/onboard/advanced-permissions.htm'
+                                                    target='_blank'
+                                                    rel='noreferrer'
+                                                >
+                                                    {msg}
+                                                </a>
+                                            ),
+                                        }}
                                     />
                                 </span>
                             </div>

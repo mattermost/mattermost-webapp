@@ -51,13 +51,13 @@ describe('Authentication', () => {
 
             cy.apiLogout();
 
-            cy.visit(`/signup_email/?id=${testTeam.invite_id}`);
+            cy.visit(`/signup_user_complete/?id=${testTeam.invite_id}`);
 
-            cy.get('#email', {timeout: TIMEOUTS.ONE_MIN}).type(`Hossein_Is_The_Best_PROGRAMMER${getRandomId()}@BestInTheWorld.com`);
+            cy.get('#input_email', {timeout: TIMEOUTS.ONE_MIN}).type(`Hossein_Is_The_Best_PROGRAMMER${getRandomId()}@BestInTheWorld.com`);
 
-            cy.get('#password').type('Test123456!');
+            cy.get('#input_password-input').type('Test123456!');
 
-            cy.get('#name').clear().type(`HosseinIs2Cool${getRandomId()}`);
+            cy.get('#input_name').clear().type(`HosseinIs2Cool${getRandomId()}`);
 
             cy.findByText('Create Account').click();
 
@@ -83,7 +83,7 @@ describe('Authentication', () => {
             cy.visit('/');
 
             // * Assert that create account button is visible
-            cy.findByText('Create one now.', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+            cy.findByText('Create an account', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
         });
     });
 
@@ -104,7 +104,8 @@ describe('Authentication', () => {
             cy.visit(`/signup_user_complete/?id=${testTeam.invite_id}`);
 
             // * Email and Password option exist
-            cy.findByText('Email and Password', {timeout: TIMEOUTS.ONE_MIN}).should('exist').and('be.visible');
+            cy.findByText('Email address').should('exist').and('be.visible');
+            cy.findByPlaceholderText('Choose a Password').should('exist').and('be.visible');
         });
     });
 });

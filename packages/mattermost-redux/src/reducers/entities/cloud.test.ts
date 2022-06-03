@@ -6,14 +6,20 @@ import {CloudTypes} from 'mattermost-redux/action_types';
 import {limits} from './cloud';
 
 const minimalLimits = {
-    messages: {
-        history: 10000,
+    limitsLoaded: true,
+    limits: {
+        messages: {
+            history: 10000,
+        },
     },
 };
 
 describe('limits reducer', () => {
     test('returns empty limits by default', () => {
-        expect(limits(undefined, {type: 'some action', data: minimalLimits})).toEqual({});
+        expect(limits(undefined, {type: 'some action', data: minimalLimits})).toEqual({
+            limits: {},
+            limitsLoaded: false,
+        });
     });
 
     test('returns prior limits on unmatched action', () => {
@@ -22,7 +28,7 @@ describe('limits reducer', () => {
             {
                 type: 'some action',
                 data: {
-                    minimalLimits,
+                    ...minimalLimits,
                     integrations: {
                         enabled: 10,
                     },
@@ -46,6 +52,6 @@ describe('limits reducer', () => {
                 data: updatedLimits,
             },
         );
-        expect(unchangedLimits).toEqual(updatedLimits);
+        expect(unchangedLimits).toEqual({limits: {...updatedLimits}, limitsLoaded: true});
     });
 });

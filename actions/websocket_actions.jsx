@@ -17,6 +17,7 @@ import {
     IntegrationTypes,
     PreferenceTypes,
     AppsTypes,
+    CloudTypes,
 } from 'mattermost-redux/action_types';
 import {WebsocketEvents, General, Permissions, Preferences} from 'mattermost-redux/constants';
 import {addChannelToInitialCategory, fetchMyCategories, receivedCategoryOrder} from 'mattermost-redux/actions/channel_categories';
@@ -31,7 +32,7 @@ import {
 import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
 import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
 
-import {getBool, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getBool, isCollapsedThreadsEnabled, cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getNewestThreadInTeam, getThread, getThreads} from 'mattermost-redux/selectors/entities/threads';
 import {
     getThread as fetchThread,
@@ -109,6 +110,9 @@ import {getSiteURL} from 'utils/url';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 import RemovedFromChannelModal from 'components/removed_from_channel_modal';
 import InteractiveDialog from 'components/interactive_dialog';
+import {
+    getTeamsUsage,
+} from 'actions/cloud';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -216,7 +220,7 @@ export function reconnect(includeWebSocket = true) {
 
         if (mostRecentPost) {
             dispatch(syncPostsInChannel(currentChannelId, mostRecentPost.create_at));
-        } else {
+        } else if (currentChannelId) {
             // if network timed-out the first time when loading a channel
             // we can request for getPosts again when socket is connected
             dispatch(getPosts(currentChannelId));
@@ -263,26 +267,6 @@ function syncThreads(teamId, userId) {
         return;
     }
     dispatch(getCountsAndThreadsSince(userId, teamId, newestThread.last_reply_at));
-}
-
-let intervalId = '';
-const SYNC_INTERVAL_MILLISECONDS = 1000 * 60 * 15; // 15 minutes
-
-export function startPeriodicSync() {
-    clearInterval(intervalId);
-
-    intervalId = setInterval(
-        () => {
-            if (getCurrentUser(getState()) != null) {
-                reconnect(false);
-            }
-        },
-        SYNC_INTERVAL_MILLISECONDS,
-    );
-}
-
-export function stopPeriodicSync() {
-    clearInterval(intervalId);
 }
 
 export function registerPluginWebSocketEvent(pluginId, event, action) {
@@ -495,6 +479,10 @@ export function handleEvent(msg) {
         handlePluginStatusesChangedEvent(msg);
         break;
 
+    case SocketEvents.INTEGRATIONS_USAGE_CHANGED:
+        handleIntegrationsUsageChangedEvent(msg);
+        break;
+
     case SocketEvents.OPEN_DIALOG:
         handleOpenDialogEvent(msg);
         break;
@@ -554,6 +542,9 @@ export function handleEvent(msg) {
         break;
     case SocketEvents.CLOUD_PAYMENT_STATUS_UPDATED:
         dispatch(handleCloudPaymentStatusUpdated(msg));
+        break;
+    case SocketEvents.CLOUD_SUBSCRIPTION_CHANGED:
+        dispatch(handleCloudSubscriptionChanged(msg));
         break;
     case SocketEvents.FIRST_ADMIN_VISIT_MARKETPLACE_STATUS_RECEIVED:
         handleFirstAdminVisitMarketplaceStatusReceivedEvent(msg);
@@ -776,6 +767,11 @@ async function handleTeamAddedEvent(msg) {
     await dispatch(TeamActions.getMyTeamMembers());
     const state = getState();
     await dispatch(TeamActions.getMyTeamUnreads(isCollapsedThreadsEnabled(state)));
+    const license = getLicense(state);
+    const isCloudFreeEnabled = cloudFreeEnabled(state);
+    if (license.Cloud === 'true' && isCloudFreeEnabled) {
+        dispatch(getTeamsUsage());
+    }
 }
 
 export function handleLeaveTeamEvent(msg) {
@@ -837,7 +833,13 @@ export function handleLeaveTeamEvent(msg) {
 }
 
 function handleUpdateTeamEvent(msg) {
+    const state = store.getState();
+    const license = getLicense(state);
     dispatch({type: TeamTypes.UPDATED_TEAM, data: JSON.parse(msg.data.team)});
+    const isCloudFreeEnabled = cloudFreeEnabled(state);
+    if (license.Cloud === 'true' && isCloudFreeEnabled) {
+        dispatch(getTeamsUsage());
+    }
 }
 
 function handleUpdateTeamSchemeEvent() {
@@ -848,6 +850,11 @@ function handleDeleteTeamEvent(msg) {
     const deletedTeam = JSON.parse(msg.data.team);
     const state = store.getState();
     const {teams} = state.entities.teams;
+    const license = getLicense(state);
+    const isCloudFreeEnabled = cloudFreeEnabled(state);
+    if (license.Cloud === 'true' && isCloudFreeEnabled) {
+        dispatch(getTeamsUsage());
+    }
     if (
         deletedTeam &&
         teams &&
@@ -890,6 +897,11 @@ function handleDeleteTeamEvent(msg) {
         ]));
 
         if (browserHistory.location?.pathname === `/admin_console/user_management/teams/${deletedTeam.id}`) {
+            return;
+        }
+
+        // If a deletion just happened and it's attempting to redirect back to the teams list, let it.
+        if (browserHistory.location?.pathname === '/admin_console/user_management/teams') {
             return;
         }
 
@@ -1332,6 +1344,10 @@ function handlePluginStatusesChangedEvent(msg) {
     store.dispatch({type: AdminTypes.RECEIVED_PLUGIN_STATUSES, data: msg.data.plugin_statuses});
 }
 
+function handleIntegrationsUsageChangedEvent(msg) {
+    store.dispatch({type: CloudTypes.RECEIVED_INTEGRATIONS_USAGE, data: msg.data.usage.enabled});
+}
+
 function handleOpenDialogEvent(msg) {
     const data = (msg.data && msg.data.dialog) || {};
     const dialog = JSON.parse(data);
@@ -1508,6 +1524,25 @@ export function handleUserActivationStatusChange() {
 
 function handleCloudPaymentStatusUpdated() {
     return (doDispatch) => doDispatch(getCloudSubscription());
+}
+
+export function handleCloudSubscriptionChanged(msg) {
+    return (doDispatch) => {
+        if (msg.data.limits) {
+            doDispatch({
+                type: CloudTypes.RECEIVED_CLOUD_LIMITS,
+                data: msg.data.limits,
+            });
+        }
+
+        if (msg.data.subscription) {
+            doDispatch({
+                type: CloudTypes.RECEIVED_CLOUD_SUBSCRIPTION,
+                data: msg.data.subscription,
+            });
+        }
+        return {data: true};
+    };
 }
 
 function handleRefreshAppsBindings() {
