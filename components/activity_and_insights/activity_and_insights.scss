@@ -1,22 +1,60 @@
 .ActivityAndInsights {
     background-color: rgba(var(--center-channel-color-rgb), 0.04);
 
+    @media screen and (min-width: 1680px) {
+        display: block;
+    }
+
     .insights-body {
+        overflow-y: auto;
+        overflow-x: hidden;
         padding: 24px;
 
+        @media screen and (min-width: 1680px) {
+            max-width: 1264px;
+            margin: 0 auto;
+            padding: 0;
+        }
+
         .top-channels-card {
+            .Card__header {
+                @media screen and (max-width: 1019px) {
+                    padding-bottom: 12px;
+                }
+            }
+
             .Card__body {
                 padding-right: 12px;
+
+                @media screen and (max-width: 1019px) {
+                    padding-left: 12px;
+                }
             }
         }
 
         .top-reactions-card {
+            &.small {
+                @media screen and (max-width: 1279px) {
+                    width: 100%;
+                }
+            }
+
             .Card__header {
                 padding-bottom: 16px;
             }
         }
 
         .top-threads-card {
+            &.small {
+                @media screen and (max-width: 1279px) {
+                    width: calc((100%/2) - 16px)
+                }
+
+                @media screen and (max-width: 1019px) {
+                    width: 100%;
+                }
+            }
+
             .Card__header {
                 padding-bottom: 16px;
             }
@@ -27,6 +65,16 @@
         }
 
         .top-boards-card {
+            &.small {
+                @media screen and (max-width: 1279px) {
+                    width: calc((100%/2) - 16px)
+                }
+
+                @media screen and (max-width: 1019px) {
+                    width: 100%;
+                }
+            }
+
             .Card__header {
                 padding-bottom: 16px;
             }
@@ -39,9 +87,19 @@
         .top-channel-container {
             display: flex;
 
+            @media screen and (max-width: 1019px) {
+                flex-direction: column;
+            }
+
             .top-channel-line-chart {
                 flex: 0.67;
                 margin-right: 16px;
+
+                @media screen and (max-width: 1019px) {
+                    flex: 1;
+                    margin-right: 0;
+                    padding: 12px;
+                }
 
                 .col-sm-12 {
                     padding: 0;
@@ -73,6 +131,11 @@
             .top-channel-list {
                 flex: 0.33;
                 margin-left: 16px;
+
+                @media screen and (max-width: 1019px) {
+                    flex: 1;
+                    margin-left: 0;
+                }
 
                 .top-channel-loading-row {
                     display: flex;
