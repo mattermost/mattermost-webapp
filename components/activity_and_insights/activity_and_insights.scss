@@ -6,14 +6,14 @@
     }
 
     .insights-body {
-        overflow-y: auto;
-        overflow-x: hidden;
         padding: 24px;
+        overflow-x: hidden;
+        overflow-y: auto;
 
         @media screen and (min-width: 1680px) {
             max-width: 1264px;
-            margin: 0 auto;
             padding: 0;
+            margin: 0 auto;
         }
 
         .top-channels-card {
@@ -47,7 +47,7 @@
         .top-threads-card {
             &.small {
                 @media screen and (max-width: 1279px) {
-                    width: calc((100%/2) - 16px)
+                    width: calc((100%/2) - 16px);
                 }
 
                 @media screen and (max-width: 1019px) {
@@ -67,7 +67,7 @@
         .top-boards-card {
             &.small {
                 @media screen and (max-width: 1279px) {
-                    width: calc((100%/2) - 16px)
+                    width: calc((100%/2) - 16px);
                 }
 
                 @media screen and (max-width: 1019px) {
@@ -97,8 +97,8 @@
 
                 @media screen and (max-width: 1019px) {
                     flex: 1;
-                    margin-right: 0;
                     padding: 12px;
+                    margin-right: 0;
                 }
 
                 .col-sm-12 {
