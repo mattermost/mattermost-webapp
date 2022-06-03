@@ -892,10 +892,11 @@ export default class PluginRegistry {
         });
     }
 
-    registerBoardsInsightsHandler(handler) {
+    registerInsightsHandler(handler) {
         store.dispatch({
             type: ActionTypes.RECEIVED_BOARDS_INSIGHTS,
             data: {
+                pluginId: this.id,
                 handler,
             },
         });

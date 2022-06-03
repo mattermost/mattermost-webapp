@@ -6,6 +6,8 @@ import {FormattedMessage} from 'react-intl';
 
 import classNames from 'classnames';
 
+import {GlobalState} from 'types/store';
+
 import {TimeFrame, TopBoard} from '@mattermost/types/insights';
 
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
@@ -25,7 +27,7 @@ const TopBoardsTable = (props: Props) => {
     const [topBoards, setTopBoards] = useState([] as TopBoard[]);
 
     const currentTeamId = useSelector(getCurrentTeamId);
-    const boardsHandler = useSelector((state: any) => state.plugins.insightsHandlers.boards);
+    const boardsHandler = useSelector((state: GlobalState) => state.plugins.insightsHandlers.focalboard);
 
     const getTopBoards = useCallback(async () => {
         setLoading(true);

@@ -51,7 +51,7 @@ export type PluginsState = {
         [pluginId: string]: PluginSiteStatsHandler;
     };
     insightsHandlers: {
-        boards: (timeRange: string, page: number, perPage: number, teamId: string, insightType: string) => Promise<TopBoardResponse>;
+        [pluginId: string]: (timeRange: string, page: number, perPage: number, teamId: string, insightType: string) => Promise<TopBoardResponse>;
     };
 };
 
