@@ -74,7 +74,9 @@ const CloudStartTrialButton = ({
             }
         }
 
-        const subscriptionUpdated = await requestCloudTrial('start_trial_btn', (email || ''))();
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        const subscriptionUpdated = await dispatch(requestCloudTrial('start_trial_btn', (email || '')));
         if (!subscriptionUpdated) {
             setLoadStatus(TrialLoadStatus.Failed);
             return TrialLoadStatus.Failed;
