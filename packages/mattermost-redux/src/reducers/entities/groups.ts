@@ -4,7 +4,7 @@
 import {combineReducers} from 'redux';
 
 import {GroupTypes} from 'mattermost-redux/action_types';
-import {GroupChannel, GroupSyncablesState, GroupTeam, Group} from 'mattermost-redux/types/groups';
+import {GroupChannel, GroupSyncablesState, GroupTeam, Group} from '@mattermost/types/groups';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 function syncables(state: Record<string, GroupSyncablesState> = {}, action: GenericAction) {

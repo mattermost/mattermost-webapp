@@ -7,9 +7,9 @@ import {General, Preferences} from 'mattermost-redux/constants';
 
 import {getConfig, getFeatureFlagValue, getLicense} from 'mattermost-redux/selectors/entities/general';
 
-import {PreferenceType} from 'mattermost-redux/types/preferences';
-import {GlobalState} from 'mattermost-redux/types/store';
-import {Theme} from 'mattermost-redux/types/themes';
+import {PreferenceType} from '@mattermost/types/preferences';
+import {GlobalState} from '@mattermost/types/store';
+import {Theme, ThemeKey} from 'mattermost-redux/types/themes';
 
 import {createShallowSelector} from 'mattermost-redux/utils/helpers';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
@@ -112,7 +112,7 @@ const getThemePreference = createSelector(
 
 const getDefaultTheme = createSelector('getDefaultTheme', getConfig, (config): Theme => {
     if (config.DefaultTheme && config.DefaultTheme in Preferences.THEMES) {
-        const theme: Theme = Preferences.THEMES[config.DefaultTheme];
+        const theme: Theme = Preferences.THEMES[config.DefaultTheme as ThemeKey];
         if (theme) {
             return theme;
         }
@@ -208,7 +208,7 @@ export function isCustomGroupsEnabled(state: GlobalState): boolean {
 }
 
 export function getUseCaseOnboarding(state: GlobalState): boolean {
-    return getFeatureFlagValue(state, 'UseCaseOnboarding') === 'true';
+    return getFeatureFlagValue(state, 'UseCaseOnboarding') === 'true' && getLicense(state)?.Cloud === 'true';
 }
 
 export function insightsAreEnabled(state: GlobalState): boolean {
@@ -217,4 +217,8 @@ export function insightsAreEnabled(state: GlobalState): boolean {
 
 export function cloudFreeEnabled(state: GlobalState): boolean {
     return getFeatureFlagValue(state, 'CloudFree') === 'true';
+}
+
+export function getIsAdvancedTextEditorEnabled(state: GlobalState): boolean {
+    return getFeatureFlagValue(state, 'AdvancedTextEditor') === 'true';
 }

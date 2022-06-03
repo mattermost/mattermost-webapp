@@ -1,12 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {FormattedMessage} from 'react-intl';
 import styled from 'styled-components';
 
-import {UserProfile} from 'mattermost-redux/types/users';
-import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
+import {UserProfile} from '@mattermost/types/users';
+import {Channel, ChannelMembership} from '@mattermost/types/channels';
 import Constants, {ModalIdentifiers} from 'utils/constants';
 import MoreDirectChannels from 'components/more_direct_channels';
 import ChannelInviteModal from 'components/channel_invite_modal';
@@ -40,6 +40,7 @@ export interface Props {
     channelMembers: ChannelMember[];
     channelAdmins: ChannelMember[];
     canManageMembers: boolean;
+    editing: boolean;
 
     actions: {
         openModal: <P>(modalData: ModalData<P>) => void;
@@ -49,12 +50,22 @@ export interface Props {
         setChannelMembersRhsSearchTerm: (terms: string) => void;
         loadProfilesAndReloadChannelMembers: (channelId: string) => void;
         loadMyChannelMemberAndRole: (channelId: string) => void;
+        setEditChannelMembers: (active: boolean) => void;
     };
 }
 
-export default function ChannelMembersRHS({channel, searchTerms, membersCount, canGoBack, teamUrl, channelAdmins, channelMembers, canManageMembers, actions}: Props) {
-    const [editing, setEditing] = useState(false);
-
+export default function ChannelMembersRHS({
+    channel,
+    searchTerms,
+    membersCount,
+    canGoBack,
+    teamUrl,
+    channelAdmins,
+    channelMembers,
+    canManageMembers,
+    editing = false,
+    actions,
+}: Props) {
     const searching = searchTerms !== '';
 
     // show search if there's more than 20 or if the user have an active search.
@@ -87,7 +98,6 @@ export default function ChannelMembersRHS({channel, searchTerms, membersCount, c
         }
 
         actions.setChannelMembersRhsSearchTerm('');
-        setEditing(false);
         actions.loadProfilesAndReloadChannelMembers(channel.id);
         actions.loadMyChannelMemberAndRole(channel.id);
     }, [channel.id, channel.type]);
@@ -141,8 +151,8 @@ export default function ChannelMembersRHS({channel, searchTerms, membersCount, c
                 canManageMembers={canManageMembers}
                 editing={editing}
                 actions={{
-                    startEditing: () => setEditing(true),
-                    stopEditing: () => setEditing(false),
+                    startEditing: () => actions.setEditChannelMembers(true),
+                    stopEditing: () => actions.setEditChannelMembers(false),
                     inviteMembers,
                 }}
             />

@@ -5,8 +5,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
-import {isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 import {savePreferences, savePreferences as storeSavePreferences} from 'mattermost-redux/actions/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 import {setAddChannelDropdown} from 'actions/views/add_channel_dropdown';
@@ -47,7 +46,6 @@ export interface OnBoardingTourTipManager {
 
 const useHandleNavigationAndExtraActions = () => {
     const dispatch = useDispatch();
-    const isUserFirstAdmin = useSelector(isFirstAdmin);
     const currentUserId = useSelector(getCurrentUserId);
 
     const nextStepActions = useCallback((step: number) => {
@@ -80,17 +78,15 @@ const useHandleNavigationAndExtraActions = () => {
                     value: FINISHED.toString(),
                 },
             ];
-            if (isUserFirstAdmin) {
-                preferences = [...preferences,
-                    {
-                        user_id: currentUserId,
-                        category: OnboardingTaskCategory,
-                        name: OnboardingTaskList.ONBOARDING_TASK_LIST_OPEN,
-                        value: 'true',
-                    },
-                ];
-                dispatch(savePreferences(currentUserId, preferences));
-            }
+            preferences = [...preferences,
+                {
+                    user_id: currentUserId,
+                    category: OnboardingTaskCategory,
+                    name: OnboardingTaskList.ONBOARDING_TASK_LIST_OPEN,
+                    value: 'true',
+                },
+            ];
+            dispatch(savePreferences(currentUserId, preferences));
             break;
         }
         default:
