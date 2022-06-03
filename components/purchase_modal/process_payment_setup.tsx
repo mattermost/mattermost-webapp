@@ -235,6 +235,7 @@ class ProcessPaymentSetup extends React.PureComponent<Props, State> {
                 className={'success'}
                 linkText={t('admin.billing.subscription.viewBilling')}
                 linkHandler={() => {
+                    this.props.onClose();
                     this.props.history.push('/admin_console/billing/subscription');
                 }}
             />
