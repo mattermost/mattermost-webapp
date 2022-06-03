@@ -13,6 +13,10 @@
         padding-top: 12px;
     }
 
+    .ThreadViewer & {
+        padding-top: 12px;
+    }
+
     .custom-textarea {
         box-shadow: none;
 
@@ -175,7 +179,14 @@
                 border-left: none;
             }
         }
+
+        .ThreadViewer & {
+            .msg-typing:empty {
+                display: none;
+            }
+        }
     }
+
     .sidebar--right .post-create__container {
         form {
             padding: 0;
