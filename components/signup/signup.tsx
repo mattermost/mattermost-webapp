@@ -91,7 +91,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
     const {IsLicensed} = useSelector(getLicense);
     const loggedIn = Boolean(useSelector(getCurrentUserId));
     const useCaseOnboarding = useSelector(getUseCaseOnboarding);
-    const usedBefore = useSelector((state: GlobalState) => (!loggedIn && token ? getGlobalItem(state, token, null) : undefined));
+    const usedBefore = useSelector((state: GlobalState) => (!inviteId && !loggedIn && token ? getGlobalItem(state, token, null) : undefined));
 
     const emailInput = useRef<HTMLInputElement>(null);
     const nameInput = useRef<HTMLInputElement>(null);
@@ -108,7 +108,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
     const enableSAML = EnableSaml === 'true';
     const enableCustomBrand = EnableCustomBrand === 'true';
 
-    const noOpenServer = !inviteId && !enableOpenServer && !noAccounts;
+    const noOpenServer = !inviteId && !token && !enableOpenServer && !noAccounts;
 
     const [email, setEmail] = useState(parsedEmail ?? '');
     const [name, setName] = useState('');
