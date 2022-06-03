@@ -48,9 +48,9 @@ export default function AppBar() {
                     component={product}
                 />
             ))}
-            {isDividerVisible &&
-            <hr className={'app-bar__divider'}/>
-            }
+            {isDividerVisible && (
+                <hr className={'app-bar__divider'}/>
+            )}
             {pluginComponents.map((component) => (
                 <AppBarPluginComponent
                     key={component.id}
