@@ -55,10 +55,10 @@ $channel-view-padding: 63px;
 
             .app-bar__icon-inner,
             span {
-                outline: solid 2px var(--sidebar-text-active-border);
+                box-shadow: 0 0 0 2px var(--sidebar-text-active-border);
 
                 &:hover {
-                    outline: solid 2px rgba(var(--sidebar-text-active-border-rgb), 0.92) !important;
+                    box-shadow: 0 0 0 2px rgba(var(--sidebar-text-active-border-rgb), 0.92) !important;
                 }
             }
         }
@@ -74,7 +74,7 @@ $channel-view-padding: 63px;
             line-height: 1;
 
             &:hover {
-                outline: solid 2px rgba(var(--center-channel-color-rgb), 0.16);
+                box-shadow: 0 0 0 2px rgba(var(--center-channel-color-rgb), 0.16);
             }
 
             img {
