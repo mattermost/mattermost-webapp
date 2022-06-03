@@ -74,8 +74,8 @@ const CloudStartTrialButton = ({
             }
         }
 
-        const productUpdated = await requestCloudTrial('start_trial_btn', (email || ''))();
-        if (!productUpdated) {
+        const subscriptionUpdated = await requestCloudTrial('start_trial_btn', (email || ''))();
+        if (!subscriptionUpdated) {
             setLoadStatus(TrialLoadStatus.Failed);
             return TrialLoadStatus.Failed;
         }
