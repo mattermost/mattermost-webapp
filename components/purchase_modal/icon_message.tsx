@@ -20,6 +20,7 @@ type Props = {
     buttonHandler?: () => void;
     linkText?: string;
     linkURL?: string;
+    linkHandler?: () => void;
     footer?: JSX.Element;
     className?: string;
 }
@@ -38,6 +39,7 @@ export default function IconMessage(props: Props) {
         buttonHandler,
         linkText,
         linkURL,
+        linkHandler,
         footer,
         className,
     } = props;
@@ -65,6 +67,23 @@ export default function IconMessage(props: Props) {
                     href={linkURL}
                     target='_blank'
                     rel='noopener noreferrer'
+                >
+                    <FormattedMessage
+                        id={linkText}
+                    />
+                </a>
+            </div>
+        );
+    }
+
+    if (linkText && linkHandler) {
+        link = (
+            <div className='IconMessage-link'>
+                <a
+                    onClick={(e) => {
+                        e.preventDefault();
+                        linkHandler();
+                    }}
                 >
                     <FormattedMessage
                         id={linkText}
