@@ -14,7 +14,7 @@ export enum BtnStyle {
 type Props = {
     direction: string;
     moveSlide: () => void;
-    style?: BtnStyle;
+    btnsStyle?: BtnStyle;
     disabled?: boolean;
 }
 
@@ -23,7 +23,7 @@ enum Destination {
     PREV = 'prev',
 }
 
-const CarouselButton = ({direction, moveSlide, disabled, style = BtnStyle.BUTTON}: Props): JSX.Element => {
+const CarouselButton = ({direction, moveSlide, disabled, btnsStyle = BtnStyle.BUTTON}: Props): JSX.Element => {
     const {formatMessage} = useIntl();
 
     const handleMoveSlide = () => {
@@ -38,14 +38,15 @@ const CarouselButton = ({direction, moveSlide, disabled, style = BtnStyle.BUTTON
         formatMessage({id: 'carousel.PreviousButton', defaultMessage: 'Previous'});
 
     const disabledClass = disabled ? ' disabled' : '';
+    const orientation = direction === Destination.NEXT ? 'right' : 'left';
 
-    if (style === BtnStyle.CHEVRON) {
+    if (btnsStyle === BtnStyle.CHEVRON) {
         return (
             <div
-                className={`chevron-button chevron-${direction === Destination.NEXT ? 'right' : 'left'}` + disabledClass}
+                className={`chevron-button chevron-${orientation} ${direction}-btn` + disabledClass}
                 onClick={handleMoveSlide}
             >
-                <i className={`icon-chevron-${direction === Destination.NEXT ? 'right' : 'left'}`}/>
+                <i className={`icon-chevron-${orientation}`}/>
             </div>
         );
     }

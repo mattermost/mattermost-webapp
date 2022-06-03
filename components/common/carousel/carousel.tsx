@@ -12,7 +12,7 @@ type Props = {
     onNextSlideClick?: (slideIndex: number) => void;
     onPrevSlideClick?: (slideIndex: number) => void;
     disableNextButton?: boolean;
-    style?: BtnStyle;
+    btnsStyle?: BtnStyle; // chevron or bottom buttons
     actionButton?: JSX.Element;
 }
 const Carousel = ({
@@ -22,7 +22,7 @@ const Carousel = ({
     onNextSlideClick,
     onPrevSlideClick,
     disableNextButton,
-    style = BtnStyle.BUTTON,
+    btnsStyle = BtnStyle.BUTTON,
     actionButton,
 }: Props): JSX.Element | null => {
     const [slideIndex, setSlideIndex] = useState(1);
@@ -80,18 +80,18 @@ const Carousel = ({
             className='container-slider'
             id={id}
         >
-            {style === BtnStyle.CHEVRON && <>
+            {btnsStyle === BtnStyle.CHEVRON && <>
                 <CarouselButton
                     moveSlide={prevSlide}
                     direction={'prev'}
                     disabled={prevButtonDisabled}
-                    style={BtnStyle.CHEVRON}
+                    btnsStyle={BtnStyle.CHEVRON}
                 />
                 <CarouselButton
                     moveSlide={nextSlide}
                     direction={'next'}
                     disabled={nextButtonDisabled || disableNextButton}
-                    style={BtnStyle.CHEVRON}
+                    btnsStyle={BtnStyle.CHEVRON}
                 />
             </>}
             {dataSlides.map((obj: any, index: number) => {
@@ -115,7 +115,7 @@ const Carousel = ({
                         />
                     ))}
                 </div>
-                {style === BtnStyle.BUTTON && <div className=' buttons container-buttons'>
+                {btnsStyle === BtnStyle.BUTTON && <div className=' buttons container-buttons'>
                     <CarouselButton
                         moveSlide={prevSlide}
                         direction={'prev'}

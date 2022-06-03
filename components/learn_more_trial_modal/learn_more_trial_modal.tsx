@@ -182,7 +182,7 @@ const LearnMoreTrialModal = (
                 onNextSlideClick={handleOnPrevNextSlideClick}
                 onPrevSlideClick={handleOnPrevNextSlideClick}
                 disableNextButton={embargoed}
-                style={BtnStyle.CHEVRON}
+                btnsStyle={BtnStyle.CHEVRON}
                 actionButton={startTrialBtn}
             />
         </GenericModal>
