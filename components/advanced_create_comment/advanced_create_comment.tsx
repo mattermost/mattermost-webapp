@@ -14,7 +14,6 @@ import * as GlobalActions from 'actions/global_actions';
 import Constants, {AdvancedTextEditor, Locations, ModalIdentifiers, Preferences} from 'utils/constants';
 import {PreferenceType} from '@mattermost/types/preferences';
 import * as UserAgent from 'utils/user_agent';
-import {isMac} from 'utils/utils';
 import * as Utils from 'utils/utils';
 import {
     specialMentionsInText,
