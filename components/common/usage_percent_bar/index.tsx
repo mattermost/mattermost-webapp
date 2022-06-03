@@ -36,7 +36,7 @@ const BarBackground = styled.div<BarBackgroundProps>`
     background: ${(props) => (
         isExceeded(props.percent, props.thresholds) ?
             'var(--dnd-indicator)' :
-            'rgba(var(--center-channel-text-rgb), 0.11)'
+            'rgba(var(--center-channel-color-rgb), 0.11)'
     )};
     border-radius: 8px;
     position: relative;
