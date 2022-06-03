@@ -115,6 +115,13 @@ $channel-view-padding: 63px;
         }
     }
 
+    .app-bar__divider {
+        width: 28px;
+        border-top: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+        margin-top: 14px;
+        margin-bottom: 14px;
+    }
+
     .app-bar__icon.channel-header__icon--active {
         background: rgba(var(--button-bg-rgb), 0.08);
         color: var(--button-bg);
