@@ -4,9 +4,14 @@ import React, {memo, useEffect, useState, useCallback, useMemo} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {getMyTopThreads, getTopThreadsForTeam} from 'mattermost-redux/actions/insights';
+
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
+import {displayUsername} from 'mattermost-redux/utils/user_utils';
+
 import {Post} from '@mattermost/types/posts';
 import {TopThread} from '@mattermost/types/insights';
+import {UserProfile} from '@mattermost/types/users';
 
 import {selectPost} from 'actions/views/rhs';
 
@@ -21,7 +26,6 @@ import {imageURLForUser} from 'utils/utils';
 import TitleLoader from '../skeleton_loader/title_loader/title_loader';
 import CircleLoader from '../skeleton_loader/circle_loader/circle_loader';
 import widgetHoc, {WidgetHocProps} from '../widget_hoc/widget_hoc';
-
 import WidgetEmptyState from '../widget_empty_state/widget_empty_state';
 
 import './../../activity_and_insights.scss';
@@ -34,12 +38,13 @@ const TopThreads = (props: WidgetHocProps) => {
     const [topThreads, setTopThreads] = useState([] as TopThread[]);
 
     const currentTeamId = useSelector(getCurrentTeamId);
+    const teammateNameDisplaySetting = useSelector(getTeammateNameDisplaySetting);
 
     const getTopTeamThreads = useCallback(async () => {
         if (props.filterType === InsightsScopes.TEAM) {
             setLoading(true);
             const data: any = await dispatch(getTopThreadsForTeam(currentTeamId, 0, 3, props.timeFrame));
-            if (data.data && data.data.items) {
+            if (data.data?.items) {
                 setTopThreads(data.data.items);
             }
             setLoading(false);
@@ -54,7 +59,7 @@ const TopThreads = (props: WidgetHocProps) => {
         if (props.filterType === InsightsScopes.MY) {
             setLoading(true);
             const data: any = await dispatch(getMyTopThreads(currentTeamId, 0, 3, props.timeFrame));
-            if (data.data && data.data.items) {
+            if (data.data?.items) {
                 setTopThreads(data.data.items);
             }
             setLoading(false);
@@ -65,12 +70,7 @@ const TopThreads = (props: WidgetHocProps) => {
         getMyTeamThreads();
     }, [getMyTeamThreads]);
 
-    const imageProps = useMemo(() => ({
-        onImageHeightChanged: () => {},
-        onImageLoaded: () => {},
-    }), []);
-
-    const skeletonLoader = useCallback(() => {
+    const skeletonLoader = useMemo(() => {
         const entries = [];
         for (let i = 0; i < 3; i++) {
             entries.push(
@@ -102,7 +102,7 @@ const TopThreads = (props: WidgetHocProps) => {
         <div className='top-thread-container'>
             {
                 loading &&
-                skeletonLoader()
+                skeletonLoader
             }
             {
                 (topThreads && !loading) &&
@@ -122,7 +122,7 @@ const TopThreads = (props: WidgetHocProps) => {
                                             url={imageURLForUser(thread.user_id)}
                                             size={'xs'}
                                         />
-                                        <span className='display-name'>{`${thread.user_information.first_name} ${thread.user_information.last_name}`}</span>
+                                        <span className='display-name'>{displayUsername(thread.user_information as UserProfile, teammateNameDisplaySetting)}</span>
                                         <Badge>
                                             {thread.channel_display_name}
                                         </Badge>
@@ -144,7 +144,6 @@ const TopThreads = (props: WidgetHocProps) => {
                                                     atMentions: false,
                                                 }}
                                                 imagesMetadata={thread.post?.metadata && thread.post?.metadata?.images}
-                                                imageProps={imageProps}
                                             />
                                         ) : (
                                             <Attachment post={thread.post}/>
