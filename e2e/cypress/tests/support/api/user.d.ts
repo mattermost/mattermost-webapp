@@ -188,10 +188,11 @@ declare namespace Cypress {
          * Create a randomly named admin account
          *
          * @param {boolean} options.loginAfter - false (default) or true if wants to login as the new admin.
+         * @param {boolean} options.hideAdminTrialModal - true (default) or false if wants to hide Start Enterprise Trial modal.
          *
          * @returns {UserProfile} `out.sysadmin` as `UserProfile` object
          */
-        apiCreateCustomAdmin(options: {loginAfter: boolean}): Chainable<{sysadmin: UserProfile}>;
+        apiCreateCustomAdmin(options: {loginAfter: boolean; hideAdminTrialModal: boolean}): Chainable<{sysadmin: UserProfile}>;
 
         /**
          * Create a new user with an options to set name prefix and be able to bypass tutorial steps.

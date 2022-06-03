@@ -80,7 +80,8 @@ describe('/poll', () => {
 
         cy.uiGetRHS().within(() => {
             // # In RHS, post `/poll reply`
-            cy.get('#reply_textbox').type('/poll reply').type('{enter}');
+            cy.get('#reply_textbox').type('/poll reply');
+            cy.uiReply();
 
             // * Poll displays as expected in RHS.
             cy.findByLabelText('matterpoll').should('be.visible');

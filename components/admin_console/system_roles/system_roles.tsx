@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import {Role} from 'mattermost-redux/types/roles';
+import {Role} from '@mattermost/types/roles';
 
 import {t} from 'utils/i18n';
 import {browserHistory} from 'utils/browser_history';

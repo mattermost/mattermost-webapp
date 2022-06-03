@@ -6,7 +6,7 @@ import classNames from 'classnames';
 
 import {FormattedMessage} from 'react-intl';
 
-import {SchemaMigration} from 'mattermost-redux/types/admin';
+import {SchemaMigration} from '@mattermost/types/admin';
 
 import './migrations_table.scss';
 

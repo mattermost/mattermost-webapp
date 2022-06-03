@@ -9,7 +9,7 @@ import ActionsMenu from 'components/actions_menu';
 import {Posts, Preferences} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 import {ExtendedPost} from 'mattermost-redux/actions/posts';
 
 import {trackEvent} from 'actions/telemetry_actions';
@@ -25,7 +25,7 @@ import PostReaction from 'components/post_view/post_reaction';
 import PostRecentReactions from 'components/post_view/post_recent_reactions';
 import PostTime from 'components/post_view/post_time';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
-import {Emoji} from 'mattermost-redux/types/emojis';
+import {Emoji} from '@mattermost/types/emojis';
 
 type Props = {
 

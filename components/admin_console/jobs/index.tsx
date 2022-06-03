@@ -8,7 +8,7 @@ import {getJobsByType, createJob, cancelJob} from 'mattermost-redux/actions/jobs
 import {getConfig} from 'mattermost-redux/selectors/entities/admin';
 import {makeGetJobsByType} from 'mattermost-redux/selectors/entities/jobs';
 import {GenericAction, ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
-import {JobType} from 'mattermost-redux/types/jobs';
+import {JobType} from '@mattermost/types/jobs';
 
 import {GlobalState} from 'types/store';
 

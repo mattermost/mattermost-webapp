@@ -246,6 +246,7 @@ var config = {
         fallback: {
             crypto: require.resolve('crypto-browserify'),
             stream: require.resolve('stream-browserify'),
+            buffer: require.resolve('buffer/'),
         },
     },
     performance: {
@@ -419,8 +420,7 @@ if (targetIsDevServer) {
         ...config,
         devtool: 'eval-cheap-module-source-map',
         devServer: {
-            hot: true,
-            liveReload: false,
+            liveReload: true,
             proxy: [{
                 context: () => true,
                 bypass(req) {

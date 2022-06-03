@@ -5,7 +5,7 @@ import {combineReducers} from 'redux';
 
 import {PreferenceTypes, UserTypes} from 'mattermost-redux/action_types';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {PreferenceType} from 'mattermost-redux/types/preferences';
+import {PreferenceType} from '@mattermost/types/preferences';
 
 function getKey(preference: PreferenceType) {
     return `${preference.category}--${preference.name}`;

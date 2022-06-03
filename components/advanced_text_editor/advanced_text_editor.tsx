@@ -1,17 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {CSSProperties, useCallback, useState} from 'react';
+import React, {CSSProperties, useCallback, useRef, useState} from 'react';
 import classNames from 'classnames';
 import {useIntl} from 'react-intl';
 import {EmoticonHappyOutlineIcon} from '@mattermost/compass-icons/components';
 
-import {useSelector} from 'react-redux';
-
 import {Emoji} from '@mattermost/types/emojis';
 import {FileInfo} from '@mattermost/types/files';
-import {ServerError} from 'mattermost-redux/types/errors';
-import {Channel} from 'mattermost-redux/types/channels';
+import {ServerError} from '@mattermost/types/errors';
+import {Channel} from '@mattermost/types/channels';
 import {PostDraft} from 'types/store/rhs';
 
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
@@ -30,12 +28,9 @@ import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_
 import * as Utils from 'utils/utils';
 import {ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
 import Constants, {Locations} from 'utils/constants';
-import {getIsMobileView} from '../../selectors/views/browser';
-
 import Tooltip from '../tooltip';
 
 import TexteditorActions from './texteditor_actions';
-import ToggleFormattingBar from './toggle_formatting_bar';
 import FormattingBar from './formatting_bar';
 import ShowFormat from './show_formatting';
 import SendButton from './send_button';
@@ -62,7 +57,6 @@ type Props = {
     shouldShowPreview: boolean;
     maxPostSize: number;
     canPost: boolean;
-    createPostControlsRef: React.RefObject<HTMLSpanElement>;
     applyMarkdown: (params: ApplyMarkdownOptions) => void;
     useChannelMentions: boolean;
     badConnection: boolean;
@@ -83,7 +77,6 @@ type Props = {
     handleEmojiClick: (emoji: Emoji) => void;
     handleEmojiClose: () => void;
     hideEmojiPicker: () => void;
-    getCreatePostControls: () => void;
     toggleAdvanceTextEditor: () => void;
     handleUploadProgress: (filePreviewInfo: FilePreviewInfo) => void;
     handleUploadError: (err: string | ServerError, clientId: string, channelId: string) => void;
@@ -120,7 +113,6 @@ const AdvanceTextEditor = ({
     shouldShowPreview,
     maxPostSize,
     canPost,
-    createPostControlsRef,
     applyMarkdown,
     useChannelMentions,
     currentChannelTeammateUsername,
@@ -141,7 +133,6 @@ const AdvanceTextEditor = ({
     handleEmojiClick,
     handleEmojiClose,
     hideEmojiPicker,
-    getCreatePostControls,
     toggleAdvanceTextEditor,
     handleUploadProgress,
     handleUploadError,
@@ -160,7 +151,7 @@ const AdvanceTextEditor = ({
         'accessibility.sections.centerFooter',
         'message input complimentary region',
     );
-    const isMobileView = useSelector(getIsMobileView);
+    const emojiPickerRef = useRef<HTMLButtonElement>(null);
 
     const [scrollbarWidth, setScrollbarWidth] = useState(0);
     const [renderScrollbar, setRenderScrollbar] = useState(false);
@@ -193,7 +184,7 @@ const AdvanceTextEditor = ({
     let attachmentPreview = null;
     if (!readOnlyChannel && (draft.fileInfos.length > 0 || draft.uploadsInProgress.length > 0)) {
         attachmentPreview = (
-            <div className={classNames({'AdvancedTextEditor__attachment-preview': isFormattingBarHidden})}>
+            <div>
                 <FilePreview
                     fileInfos={draft.fileInfos}
                     onRemove={removePreview}
@@ -236,13 +227,9 @@ const AdvanceTextEditor = ({
         />
     );
 
-    const toggleFormattingBarJSX = readOnlyChannel ? null : (
-        <ToggleFormattingBar
-            onClick={toggleAdvanceTextEditor}
-            active={!isFormattingBarHidden}
-            disabled={shouldShowPreview}
-        />
-    );
+    const getEmojiPickerRef = () => {
+        return emojiPickerRef.current;
+    };
 
     let emojiPicker = null;
     const emojiButtonAriaLabel = formatMessage({
@@ -264,7 +251,7 @@ const AdvanceTextEditor = ({
             <>
                 <EmojiPickerOverlay
                     show={showEmojiPicker}
-                    target={getCreatePostControls}
+                    target={getEmojiPickerRef}
                     onHide={hideEmojiPicker}
                     onEmojiClose={handleEmojiClose}
                     onEmojiClick={handleEmojiClick}
@@ -273,12 +260,13 @@ const AdvanceTextEditor = ({
                     topOffset={-7}
                 />
                 <OverlayTrigger
-                    placement='left'
+                    placement='top'
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     trigger={Constants.OVERLAY_DEFAULT_TRIGGER}
                     overlay={emojiPickerTooltip}
                 >
                     <IconContainer
+                        ref={emojiPickerRef}
                         onClick={toggleEmojiPicker}
                         type='button'
                         aria-label={emojiButtonAriaLabel}
@@ -295,12 +283,19 @@ const AdvanceTextEditor = ({
         );
     }
 
-    const disableSendButton = !message.trim().length && !draft.fileInfos.length;
-    const sendButton = isMobileView && (
+    const disableSendButton = Boolean(readOnlyChannel || (!message.trim().length && !draft.fileInfos.length));
+    const sendButton = readOnlyChannel ? null : (
         <SendButton
             disabled={disableSendButton}
             handleSubmit={handleSubmit}
         />
+    );
+
+    const extraControls = (
+        <>
+            {fileUploadJSX}
+            {emojiPicker}
+        </>
     );
 
     let createMessage;
@@ -341,6 +336,19 @@ const AdvanceTextEditor = ({
 
     const textboxId = location === Locations.CENTER ? 'post_textbox' : 'reply_textbox';
 
+    const formattingBar = readOnlyChannel ? null : (
+        <FormattingBar
+            applyMarkdown={applyMarkdown}
+            getCurrentMessage={getCurrentValue}
+            getCurrentSelection={getCurrentSelection}
+            isOpen={true}
+            disableControls={shouldShowPreview}
+            extraControls={extraControls}
+            toggleAdvanceTextEditor={toggleAdvanceTextEditor}
+            showFormattingControls={!isFormattingBarHidden}
+        />
+    );
+
     return (
         <div
             className={classNames('AdvancedTextEditor', {
@@ -354,9 +362,8 @@ const AdvanceTextEditor = ({
             }
         >
             <div
-                className={classNames('AdvancedTextEditor__body', {
-                    'AdvancedTextEditor__body--collapsed': isFormattingBarHidden,
-                })}
+                className={'AdvancedTextEditor__body'}
+                disabled={readOnlyChannel}
             >
                 <div
                     role='application'
@@ -390,28 +397,15 @@ const AdvanceTextEditor = ({
                         useChannelMentions={useChannelMentions}
                     />
                     {attachmentPreview}
-                    {!isFormattingBarHidden &&
-                        <TexteditorActions
-                            ref={createPostControlsRef}
-                            placement='top'
-                        >
-                            {showFormatJSX}
-                        </TexteditorActions>
-                    }
-                    <FormattingBar
-                        applyMarkdown={applyMarkdown}
-                        getCurrentMessage={getCurrentValue}
-                        getCurrentSelection={getCurrentSelection}
-                        isOpen={!isFormattingBarHidden}
-                        disableControls={shouldShowPreview}
-                    />
                     <TexteditorActions
-                        ref={createPostControlsRef}
+                        placement='top'
+                    >
+                        {showFormatJSX}
+                    </TexteditorActions>
+                    {formattingBar}
+                    <TexteditorActions
                         placement='bottom'
                     >
-                        {toggleFormattingBarJSX}
-                        {fileUploadJSX}
-                        {emojiPicker}
                         {sendButton}
                     </TexteditorActions>
                 </div>
