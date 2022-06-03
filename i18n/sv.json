@@ -106,7 +106,7 @@
   "add_emoji.header": "Lägg till",
   "add_emoji.image": "Bild",
   "add_emoji.image.button": "Välj",
-  "add_emoji.image.help": "Ange en .gif, .png, .webp eller .jpgför din emoij. Filen kan vara upp till 1MB. Storleken kommer anpassas automatiskt till 128 x 128 pixels och bildförhållandet bibehålls.",
+  "add_emoji.image.help": "Ange en .gif, .png eller .jpgför din emoij. Filen kan vara upp till 1MB. Storleken kommer anpassas automatiskt till 128 x 128 pixels och bildförhållandet bibehålls.",
   "add_emoji.imageRequired": "En bild är obligatorisk för emojin",
   "add_emoji.imageTooLarge": "Det gick inte att skapa emoji. Bildfilen måste vara mindre än 1 MB i storlek.",
   "add_emoji.name": "Namn",

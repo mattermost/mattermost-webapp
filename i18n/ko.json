@@ -106,7 +106,7 @@
   "add_emoji.header": "추가",
   "add_emoji.image": "이미지",
   "add_emoji.image.button": "선택",
-  "add_emoji.image.help": "이모지로 사용될 .gif, .png, .webp 혹은 .jpg 파일을 지정합니다. 1MB의 크기까지 가능합니다. 크기는 비율을 유지하면서 128x128 픽셀 크기로 자동으로 조정됩니다.",
+  "add_emoji.image.help": "이모지로 사용될 .gif, .png 혹은 .jpg 파일을 지정합니다. 1MB의 크기까지 가능합니다. 크기는 비율을 유지하면서 128x128 픽셀 크기로 자동으로 조정됩니다.",
   "add_emoji.imageRequired": "이모티콘 이미지가 필요합니다",
   "add_emoji.imageTooLarge": "커스텀 이모티콘을 생성할 수 없습니다. 이미지의 크기가 1MB 이하여야 합니다.",
   "add_emoji.name": "이름",

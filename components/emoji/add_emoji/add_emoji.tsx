@@ -362,7 +362,7 @@ export default class AddEmoji extends React.PureComponent<AddEmojiProps, AddEmoj
                                     <div className='form__help'>
                                         <FormattedMessage
                                             id='add_emoji.image.help'
-                                            defaultMessage='Specify a .gif, .png, .webp, or .jpg file of up to 64 KB for your emoji. The dimensions can be up to 128 pixels by 128 pixels.'
+                                            defaultMessage='Specify a .gif, .png, or .jpg file of up to 64 KB for your emoji. The dimensions can be up to 128 pixels by 128 pixels.'
                                         />
                                     </div>
                                 </div>

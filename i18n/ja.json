@@ -106,7 +106,7 @@
   "add_emoji.header": "追加",
   "add_emoji.image": "画像",
   "add_emoji.image.button": "選択",
-  "add_emoji.image.help": "あなたの絵文字の .gif、.png、.webp、.jpgファイルを指定してください。ファイルは1MB以下である必要があります。サイズはアスペクト比を維持したまま128ピクセル x 128ピクセルに自動でリサイズされます。",
+  "add_emoji.image.help": "あなたの絵文字の .gif、.png、.jpgファイルを指定してください。ファイルは1MB以下である必要があります。サイズはアスペクト比を維持したまま128ピクセル x 128ピクセルに自動でリサイズされます。",
   "add_emoji.imageRequired": "絵文字の画像は必須です",
   "add_emoji.imageTooLarge": "絵文字を作成できません。画像サイズは1MB未満でなければなりません。",
   "add_emoji.name": "名前",

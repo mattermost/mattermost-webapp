@@ -106,7 +106,7 @@
   "add_emoji.header": "Hozzáadás",
   "add_emoji.image": "Kép",
   "add_emoji.image.button": "Kiválasztás",
-  "add_emoji.image.help": "Adjon meg egy .gif, .png, .webp vagy .jpg fájlt az emoji számára. A fájl legfeljebb 1 MB lehet. A méretarányok automatikusan átméretezésre kerülnek 128 x 128 képpontra a képarány megtartása mellett.",
+  "add_emoji.image.help": "Adjon meg egy .gif, .png vagy .jpg fájlt az emoji számára. A fájl legfeljebb 1 MB lehet. A méretarányok automatikusan átméretezésre kerülnek 128 x 128 képpontra a képarány megtartása mellett.",
   "add_emoji.imageRequired": "Kell egy kép az emoji-hoz",
   "add_emoji.imageTooLarge": "Nem lehet emoji-t létrehozni. A képnek 1MB-nál kisebbnek kell lennie.",
   "add_emoji.name": "Név",

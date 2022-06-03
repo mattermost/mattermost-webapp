@@ -102,7 +102,7 @@
   "add_emoji.header": "新增",
   "add_emoji.image": "圖片",
   "add_emoji.image.button": "選擇",
-  "add_emoji.image.help": "為繪文字指定 GIF、PNG、WEBP 或 JPG 檔案。最大可到 1MB。尺寸會在保持比例尺的情況下縮小到 128x128 像素。",
+  "add_emoji.image.help": "為繪文字指定 GIF、PNG 或 JPG 檔案。最大可到 1MB。尺寸會在保持比例尺的情況下縮小到 128x128 像素。",
   "add_emoji.imageRequired": "繪文字需要圖片",
   "add_emoji.name": "名字",
   "add_emoji.name.help": "設定繪文字的名稱。最多 64 個字元，請使用小寫字母、數字、\"-\"、\"_\" 等符號。",

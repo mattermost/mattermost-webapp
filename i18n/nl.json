@@ -110,7 +110,7 @@
   "add_emoji.header": "Toevoegen",
   "add_emoji.image": "Afbeelding",
   "add_emoji.image.button": "Selecteer",
-  "add_emoji.image.help": "Geef een .gif, .png, .webp of .jpg-bestand op voor jouw emoticon. Het bestand kan maximaal 1 MB groot zijn. De afmetingen worden automatisch aangepast naar 128 pixels met 128 pixels, terwijl de beeldverhouding behouden blijft.",
+  "add_emoji.image.help": "Geef een .gif, .png of .jpg-bestand op voor jouw emoticon. Het bestand kan maximaal 1 MB groot zijn. De afmetingen worden automatisch aangepast naar 128 pixels met 128 pixels, terwijl de beeldverhouding behouden blijft.",
   "add_emoji.imageRequired": "Een afbeelding is verplicht voor de emoticon",
   "add_emoji.imageTooLarge": "Fout bij het aanmaken van het emoticon. Afbeelding moet kleiner zijn dan 1MB.",
   "add_emoji.name": "Naam",

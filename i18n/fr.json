@@ -104,7 +104,7 @@
   "add_emoji.header": "Ajouter",
   "add_emoji.image": "Image",
   "add_emoji.image.button": "Sélectionner",
-  "add_emoji.image.help": "Spécifie un fichier .gif, .png, .webp, .jpg pour votre émoticône. Le fichier peut peser jusqu'à 1 Mio. Les dimensions sont redimensionnées automatiquement à 128 sur 128 pixels, tout en maintenant le ratio de l'aspect.",
+  "add_emoji.image.help": "Spécifie un fichier .gif, .png, .jpg pour votre émoticône. Le fichier peut peser jusqu'à 1 Mio. Les dimensions sont redimensionnées automatiquement à 128 sur 128 pixels, tout en maintenant le ratio de l'aspect.",
   "add_emoji.imageRequired": "Une image est requise pour l'émoticône",
   "add_emoji.imageTooLarge": "Impossible de créer l'émoticône. L'image doit faire moins de 1 Mio.",
   "add_emoji.name": "Nom",
