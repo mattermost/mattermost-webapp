@@ -3,7 +3,7 @@
 /* eslint-disable max-lines */
 
 import React, {LinkHTMLAttributes} from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, IntlShape} from 'react-intl';
 
 import cssVars from 'css-vars-ponyfill';
 
@@ -67,7 +67,7 @@ import {Post} from '@mattermost/types/posts';
 import {UserProfile} from '@mattermost/types/users';
 import {Channel} from '@mattermost/types/channels';
 import {Theme} from 'mattermost-redux/types/themes';
-import {ClientConfig} from 'mattermost-redux/types/config';
+import {ClientConfig} from '@mattermost/types/config';
 
 import {GlobalState} from '@mattermost/types/store';
 import {TextboxElement} from '../components/textbox';
@@ -441,7 +441,7 @@ export function applyTheme(theme: Theme) {
         changeCss('body.app__body, .app__body .custom-textarea', 'color:' + theme.centerChannelColor);
         changeCss('.app__body .input-group-addon', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.1));
         changeCss('@media(min-width: 768px){.app__body .post-list__table .post-list__content .dropdown-menu a:hover, .dropdown-menu > li > button:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.1));
-        changeCss('.app__body .MenuWrapper .MenuItem > button:hover, .app__body .Menu .MenuItem > button:hover, .app__body .MenuWrapper .MenuItem > button:focus, .app__body .MenuWrapper .MenuItem > a:hover, .MenuItem > div:hover, .SubMenuItemContainer:not(.hasDivider):hover, .app__body .dropdown-menu div > a:focus, .app__body .dropdown-menu div > a:hover, .dropdown-menu li > a:focus, .app__body .dropdown-menu li > a:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.1));
+        changeCss('.app__body .MenuWrapper .MenuItem > button:hover, .app__body .Menu .MenuItem > button:hover, .app__body .MenuWrapper .MenuItem > button:focus, .app__body .MenuWrapper .SubMenuItem > div:focus, .app__body .MenuWrapper .MenuItem > a:hover, .MenuItem > div:hover, .SubMenuItemContainer:not(.hasDivider):hover, .app__body .dropdown-menu div > a:focus, .app__body .dropdown-menu div > a:hover, .dropdown-menu li > a:focus, .app__body .dropdown-menu li > a:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.1));
         changeCss('.app__body .attachment .attachment__content, .app__body .attachment-actions button', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.16));
         changeCss('.app__body .attachment-actions button:focus, .app__body .attachment-actions button:hover', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.5));
         changeCss('.app__body .attachment-actions button:focus, .app__body .attachment-actions button:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.03));
@@ -591,8 +591,6 @@ export function applyTheme(theme: Theme) {
             // (do not apply opacity mutations here)
             'away-indicator-rgb': toRgbValues(theme.awayIndicator),
             'button-bg-rgb': toRgbValues(theme.buttonBg),
-            'button-bg-hover-rgb': toRgbValues(changeColor(theme.buttonBg, -0.15)),
-            'button-bg-active-rgb': toRgbValues(changeColor(theme.buttonBg, -0.25)),
             'button-color-rgb': toRgbValues(theme.buttonColor),
             'center-channel-bg-rgb': toRgbValues(theme.centerChannelBg),
             'center-channel-color-rgb': toRgbValues(theme.centerChannelColor),
@@ -1377,7 +1375,7 @@ export function getPasswordConfig(config: Partial<ClientConfig>) {
     };
 }
 
-export function isValidPassword(password: string, passwordConfig: ReturnType<typeof getPasswordConfig>) {
+export function isValidPassword(password: string, passwordConfig: ReturnType<typeof getPasswordConfig>, intl?: IntlShape) {
     let errorId = t('user.settings.security.passwordError');
     let valid = true;
     const minimumLength = passwordConfig.minimumLength || Constants.MIN_PASSWORD_LENGTH;
@@ -1420,10 +1418,21 @@ export function isValidPassword(password: string, passwordConfig: ReturnType<typ
 
     let error;
     if (!valid) {
-        error = (
+        error = intl ? (
+            intl.formatMessage(
+                {
+                    id: errorId,
+                    defaultMessage: 'Must be {min}-{max} characters long.',
+                },
+                {
+                    min: minimumLength,
+                    max: Constants.MAX_PASSWORD_LENGTH,
+                },
+            )
+        ) : (
             <FormattedMessage
                 id={errorId}
-                defaultMessage='Your password must contain between {min} and {max} characters.'
+                defaultMessage='Must be {min}-{max} characters long.'
                 values={{
                     min: minimumLength,
                     max: Constants.MAX_PASSWORD_LENGTH,

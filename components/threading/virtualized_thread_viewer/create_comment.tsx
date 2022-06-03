@@ -8,8 +8,8 @@ import {getIsAdvancedTextEditorEnabled} from 'mattermost-redux/selectors/entitie
 
 import {makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
-import {UserProfile} from 'mattermost-redux/types/users';
-import {Post} from 'mattermost-redux/types/posts';
+import {UserProfile} from '@mattermost/types/users';
+import {Post} from '@mattermost/types/posts';
 
 import GenericCreateComment from 'components/create_comment';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';

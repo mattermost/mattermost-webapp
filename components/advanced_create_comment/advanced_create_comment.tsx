@@ -30,13 +30,13 @@ import NotifyConfirmModal from 'components/notify_confirm_modal';
 import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload';
 import PostDeletedModal from 'components/post_deleted_modal';
 import {PostDraft} from 'types/store/rhs';
-import {Group} from 'mattermost-redux/types/groups';
-import {ChannelMemberCountsByGroup} from 'mattermost-redux/types/channels';
+import {Group} from '@mattermost/types/groups';
+import {ChannelMemberCountsByGroup} from '@mattermost/types/channels';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
-import {Emoji} from 'mattermost-redux/types/emojis';
+import {Emoji} from '@mattermost/types/emojis';
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {ServerError} from 'mattermost-redux/types/errors';
-import {FileInfo} from 'mattermost-redux/types/files';
+import {ServerError} from '@mattermost/types/errors';
+import {FileInfo} from '@mattermost/types/files';
 import EmojiMap from 'utils/emoji_map';
 import {
     applyMarkdown,
@@ -208,7 +208,6 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
 
     private readonly textboxRef: React.RefObject<TextboxClass>;
     private readonly fileUploadRef: React.RefObject<FileUploadClass>;
-    private readonly createCommentControlsRef: React.RefObject<HTMLSpanElement>;
 
     static defaultProps = {
         focusOnMount: true,
@@ -247,7 +246,6 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
 
         this.textboxRef = React.createRef();
         this.fileUploadRef = React.createRef();
-        this.createCommentControlsRef = React.createRef();
     }
 
     componentDidMount() {
@@ -344,6 +342,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
 
         if (shouldFocusMainTextbox(e, document.activeElement)) {
             this.focusTextbox();
+            this.toggleAdvanceTextEditor();
         }
     }
 
@@ -1030,10 +1029,6 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         return this.textboxRef.current;
     }
 
-    getCreateCommentControls = () => {
-        return this.createCommentControlsRef.current;
-    }
-
     toggleAdvanceTextEditor = () => {
         this.setState({
             isFormattingBarHidden:
@@ -1100,7 +1095,6 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
                     shouldShowPreview={this.props.shouldShowPreview}
                     maxPostSize={this.props.maxPostSize}
                     canPost={this.props.canPost}
-                    createPostControlsRef={this.createCommentControlsRef}
                     applyMarkdown={this.applyMarkdown}
                     useChannelMentions={this.props.useChannelMentions}
                     badConnection={this.props.badConnection}
@@ -1120,7 +1114,6 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
                     handleEmojiClick={this.handleEmojiClick}
                     handleEmojiClose={this.hideEmojiPicker}
                     hideEmojiPicker={this.hideEmojiPicker}
-                    getCreatePostControls={this.getCreateCommentControls}
                     toggleAdvanceTextEditor={this.toggleAdvanceTextEditor}
                     handleUploadProgress={this.handleUploadProgress}
                     handleUploadError={this.handleUploadError}
