@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {FileInfo} from 'mattermost-redux/types/files';
+import {FileInfo} from '@mattermost/types/files';
 
 import FileInfoPreview from 'components/file_info_preview';
 

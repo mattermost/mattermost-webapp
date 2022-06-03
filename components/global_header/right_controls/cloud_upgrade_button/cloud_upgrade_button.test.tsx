@@ -7,6 +7,7 @@ import * as reactRedux from 'react-redux';
 import configureStore from 'redux-mock-store';
 
 import {CloudProducts} from 'utils/constants';
+import * as cloudActions from 'mattermost-redux/actions/cloud';
 
 import CloudUpgradeButton from './index';
 
@@ -52,6 +53,9 @@ describe('components/global/CloudUpgradeButton', () => {
             ...initialState,
         };
 
+        const cloudSubscriptionSpy = jest.spyOn(cloudActions, 'getCloudSubscription');
+        const cloudProductsSpy = jest.spyOn(cloudActions, 'getCloudProducts');
+
         const mockStore = configureStore();
         const store = mockStore(state);
 
@@ -64,6 +68,8 @@ describe('components/global/CloudUpgradeButton', () => {
             </reactRedux.Provider>,
         );
 
+        expect(cloudSubscriptionSpy).toHaveBeenCalledTimes(1);
+        expect(cloudProductsSpy).toHaveBeenCalledTimes(1);
         expect(wrapper.find('UpgradeButton').exists()).toEqual(true);
     });
 
@@ -191,6 +197,9 @@ describe('components/global/CloudUpgradeButton', () => {
             Cloud: 'false',
         };
 
+        const cloudSubscriptionSpy = jest.spyOn(cloudActions, 'getCloudSubscription');
+        const cloudProductsSpy = jest.spyOn(cloudActions, 'getCloudProducts');
+
         const mockStore = configureStore();
         const store = mockStore(state);
 
@@ -203,6 +212,8 @@ describe('components/global/CloudUpgradeButton', () => {
             </reactRedux.Provider>,
         );
 
+        expect(cloudSubscriptionSpy).toHaveBeenCalledTimes(0); // no calls to cloud endpoints for non cloud
+        expect(cloudProductsSpy).toHaveBeenCalledTimes(0);
         expect(wrapper.find('UpgradeButton').exists()).toEqual(false);
     });
 });

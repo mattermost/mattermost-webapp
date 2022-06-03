@@ -263,7 +263,7 @@ Cypress.Commands.add('apiSaveActionsMenuPreference', (userId, value = true) => {
     return cy.apiSaveUserPreference([preference], userId);
 });
 
-Cypress.Commands.add('apiSaveShowStartTrialModal', (userId, value = 'true') => {
+Cypress.Commands.add('apiSaveStartTrialModal', (userId, value = 'true') => {
     const preference = {
         user_id: userId,
         category: 'start_trial_modal',

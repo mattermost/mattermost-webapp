@@ -81,6 +81,9 @@ describe('Messaging', () => {
             cy.get('@replyTextBox').type(`post ${i}`).type('{enter}');
         }
 
+        // * Check if "Reply" button is visible
+        cy.uiGetReply().should('be.visible');
+
         // # Reset the viewport
         cy.viewport(1280, 900);
     });

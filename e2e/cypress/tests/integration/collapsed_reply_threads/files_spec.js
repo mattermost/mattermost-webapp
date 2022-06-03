@@ -82,7 +82,6 @@ describe('Collapsed Reply Threads', () => {
             testChannel = channel;
 
             cy.apiSaveCRTPreference(user1.id, 'on');
-            cy.apiSaveShowStartTrialModal(user1.id, 'true');
         });
     });
 

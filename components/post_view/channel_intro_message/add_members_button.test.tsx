@@ -11,7 +11,7 @@ import {mount} from 'enzyme';
 
 import * as teams from 'mattermost-redux/selectors/entities/teams';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 
 import AddMembersButton from './add_members_button';
 

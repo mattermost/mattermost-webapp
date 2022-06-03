@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {Permissions} from 'mattermost-redux/constants';
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 
 import {GlobalState} from 'types/store';
 
