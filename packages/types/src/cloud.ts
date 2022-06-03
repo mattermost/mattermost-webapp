@@ -12,7 +12,20 @@ export type CloudState = {
     };
 }
 
-export type Subscription = {
+export type Subscription = SubscriptionBase & {
+    is_legacy_cloud_paid_tier?: boolean;
+}
+
+export type SubscriptionResponse = SubscriptionBase & {
+
+    // is_paid_tier is a holdover from the original free cloud plan,
+    // which has long since been deprecated and will soon be retired.
+    // It meant if a original cloud plan was paying, e.g. had more than 10 users.
+    // When more cloud plans were added, they were all marked as is_paid_tier.
+    is_paid_tier: boolean;
+}
+
+type SubscriptionBase = {
     id: string;
     customer_id: string;
     product_id: string;

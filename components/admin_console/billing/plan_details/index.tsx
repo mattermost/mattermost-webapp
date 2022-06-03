@@ -7,7 +7,7 @@ import {useSelector} from 'react-redux';
 
 import {GlobalState} from 'types/store';
 
-import {checkSubscriptionIsLegacyFree, getSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
+import {checkSubscriptionIsLegacyFree, getSubscriptionProduct, getCloudSubscription} from 'mattermost-redux/selectors/entities/cloud';
 
 import {
     planDetailsTopElements,
@@ -24,8 +24,11 @@ type Props = {
 }
 const PlanDetails = ({isFreeTrial, subscriptionPlan}: Props) => {
     const userCount = useSelector((state: GlobalState) => state.entities.admin.analytics!.TOTAL_USERS) as number;
+    const subscription = useSelector(getCloudSubscription);
     const product = useSelector(getSubscriptionProduct);
     const isLegacyFree = useSelector(checkSubscriptionIsLegacyFree);
+    const isLegacyFreePaidTier = Boolean(subscription?.is_legacy_cloud_paid_tier);
+    subscription;
 
     if (!product) {
         return null;
@@ -36,6 +39,7 @@ const PlanDetails = ({isFreeTrial, subscriptionPlan}: Props) => {
             {planDetailsTopElements(userCount, isLegacyFree, isFreeTrial, subscriptionPlan)}
             <PlanPricing
                 isLegacyFree={isLegacyFree}
+                isLegacyFreePaidTier={isLegacyFreePaidTier}
                 product={product}
             />
             <div className='PlanDetails__teamAndChannelCount'>
