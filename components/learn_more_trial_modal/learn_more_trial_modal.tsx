@@ -116,7 +116,7 @@ const LearnMoreTrialModal = (
         {
             id: 'ldap',
             title: formatMessage({id: 'learn_more_about_trial.modal.ldapTitle', defaultMessage: 'Synchronize your Active Directory/LDAP groups'}),
-            description: formatMessage({id: 'learn_more_about_trial.modal.ldapDescription', defaultMessage: 'Use AD/LDAP groups to organize and apply actions to multiple users at once. Manage team and channel memberships, persmissions and more.'}),
+            description: formatMessage({id: 'learn_more_about_trial.modal.ldapDescription', defaultMessage: 'Use AD/LDAP groups to organize and apply actions to multiple users at once. Manage team and channel memberships, permissions and more.'}),
             svgWrapperClassName: 'personMacSvg',
             svgElement: (
                 <MonitorImacLikeSVG
