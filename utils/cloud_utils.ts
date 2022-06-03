@@ -2,6 +2,8 @@
 // See LICENSE.txt for license information.
 
 import {CloudCustomer} from '@mattermost/types/cloud';
+import {trackEvent} from 'actions/telemetry_actions';
+import {CloudLinks} from 'utils/constants';
 
 export function isCustomerCardExpired(customer?: CloudCustomer): boolean {
     if (!customer) {
@@ -20,3 +22,10 @@ export function isCustomerCardExpired(customer?: CloudCustomer): boolean {
     const lastExpiryDate = new Date(expiryYear, customer.payment_method.exp_month, 1);
     return lastExpiryDate <= new Date();
 }
+
+export function openExternalPricingLink() {
+    trackEvent('cloud_admin', 'click_pricing_link');
+    window.open(CloudLinks.PRICING, '_blank');
+}
+
+export const FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS = 30;
