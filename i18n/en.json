@@ -4208,6 +4208,7 @@
   "rename_channel.title": "Rename Channel",
   "rename_channel.url": "URL",
   "request_business_email_modal.invalidEmail": "This doesn't look like a valid email",
+  "request_business_email_modal.not_business_email": "This doesn't look like a business email",
   "request_business_email_modal.valid_business_email": "This is a valid email",
   "request_business_email.start_trial.modal.disclaimer": "By selecting <highlight>“Start trial”</highlight>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>privacy policy</linkPrivacy> and receiving product emails.",
   "revoke_user_sessions_modal.desc": "This action revokes all sessions for {username}. They will be logged out from all devices. Are you sure you want to revoke all sessions for {username}?",
