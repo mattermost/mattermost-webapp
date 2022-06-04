@@ -19,8 +19,8 @@
         "adminUsername": "sysadmin",
         "adminPassword": "Sys@dmin-sample1",
         "allowedUntrustedInternalConnections": "localhost",
-        "cwsURL": "http://localhost:8076",
-        "cwsAPIURL": "http://localhost:8076",
+        "cwsURL": "http://cws-test.dev.spinmint.com:8076",
+        "cwsAPIURL": "http://cws-test.dev.spinmint.com:8076",
         "dbClient": "postgres",
         "dbConnection": "postgres://mmuser:mostest@localhost/mattermost_test?sslmode=disable\u0026connect_timeout=10",
         "elasticsearchConnectionURL": "http://localhost:9200",
@@ -40,7 +40,7 @@
         "resetBeforeTest": false,
         "runLDAPSync": true,
         "secondServerURL": "http://localhost/s/p",
-        "serverEdition": "Team",
+        "serverEdition": "Cloud",
         "smtpUrl": "http://localhost:9001",
         "webhookBaseUrl": "http://localhost:3000"
     }
