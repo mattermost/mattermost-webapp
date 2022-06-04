@@ -63,10 +63,12 @@ const AlertBanner: React.FC<AlertBannerProps> = ({
                     {message}
                 </div>
             )}
-            <div className='AlertBanner__actionButtons'>
-                {actionButtonLeft}
-                {actionButtonRight}
-            </div>
+            {(actionButtonLeft || actionButtonRight) && (
+                <div className='AlertBanner__actionButtons'>
+                    {actionButtonLeft}
+                    {actionButtonRight}
+                </div>
+            )}
         </div>
         {onDismiss && (
             <button

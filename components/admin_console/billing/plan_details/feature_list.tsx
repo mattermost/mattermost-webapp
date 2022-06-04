@@ -2,12 +2,9 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {useSelector} from 'react-redux';
 import {useIntl} from 'react-intl';
 
-import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
-
-import {fallbackStarterLimits, fallbackProfessionalLimits, asGBString} from 'utils/limits';
+import {fallbackStarterLimits, fallbackProfessionalLimits, asGBString, hasSomeLimits} from 'utils/limits';
 import useGetLimits from 'components/common/hooks/useGetLimits';
 import {CloudProducts} from 'utils/constants';
 
@@ -21,7 +18,6 @@ export interface FeatureListProps {
 const FeatureList = (props: FeatureListProps) => {
     const intl = useIntl();
     const [limits] = useGetLimits();
-    const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
     const featuresFreeTier = [
         intl.formatMessage({
             id: 'admin.billing.subscription.planDetails.features.10GBstoragePerUser',
@@ -212,14 +208,7 @@ const FeatureList = (props: FeatureListProps) => {
             break;
 
         case CloudProducts.STARTER:
-
-            // Pre Cloud Free launch, the Starter plan whose sku is cloud-starter-legacy was `cloud-starter.
-            // So assume that if we are still pre cloud free launch and the feature flag is off,
-            // we are referring to that old sku and should show its features.
-            features = isCloudFreeEnabled ? featuresCloudStarter : featuresCloudStarterLegacy;
-            break;
-        case CloudProducts.STARTER_LEGACY:
-            features = featuresCloudStarterLegacy;
+            features = hasSomeLimits(limits) ? featuresCloudStarter : featuresCloudStarterLegacy;
             break;
         case CloudProducts.ENTERPRISE:
             features = featuresCloudEnterprise;

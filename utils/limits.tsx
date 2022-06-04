@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 import {FormatNumberOptions} from 'react-intl';
 
-import {CloudUsage} from '@mattermost/types/cloud';
+import {CloudUsage, Limits} from '@mattermost/types/cloud';
 
 import {FileSizes} from './file_utils';
 
@@ -58,6 +58,10 @@ export function anyUsageDeltaExceededLimit(deltas: CloudUsage) {
         }
     });
     return foundAPositive;
+}
+
+export function hasSomeLimits(limits: Limits): boolean {
+    return Object.keys(limits).length > 0;
 }
 
 export const limitThresholds = Object.freeze({
