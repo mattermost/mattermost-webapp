@@ -60,6 +60,7 @@ const RequestBusinessEmailModal = (
     const handleEmailValues = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         const email = e.target.value;
         setEmail(email.trim().toLowerCase());
+
         validateEmail(email);
     }, []);
 

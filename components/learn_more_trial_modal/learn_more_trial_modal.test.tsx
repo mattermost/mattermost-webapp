@@ -25,6 +25,11 @@ jest.mock('actions/telemetry_actions.jsx', () => {
     };
 });
 
+const CloudStartTrialButton = () => {
+    return (<button>{'Start Cloud Trial'}</button>);
+};
+
+jest.mock('components/cloud_start_trial/cloud_start_trial_btn', () => CloudStartTrialButton);
 describe('components/learn_more_trial_modal/learn_more_trial_modal', () => {
     // required state to mount using the provider
     const state = {
@@ -45,6 +50,9 @@ describe('components/learn_more_trial_modal/learn_more_trial_modal', () => {
                 config: {
                     FeatureFlagCloudFree: 'true',
                 } as GlobalState['entities']['general']['config'],
+            },
+            cloud: {
+                subscription: {id: 'subscription'},
             },
         },
         views: {
