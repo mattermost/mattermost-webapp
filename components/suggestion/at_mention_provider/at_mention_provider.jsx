@@ -14,6 +14,22 @@ import AtMentionSuggestion from './at_mention_suggestion.jsx';
 
 const profilesInChannelOptions = {active: true};
 const regexForAtMention = /(?:^|\W)@([\p{L}\d\-_. ]*)$/iu;
+const ASCII_TO_UTF8 = {
+    "a": ["à", "á", "â", "ã", "ä", "å"],
+    "e": ["è", "é", "ê", "ë"],
+    "i": ["ì", "í", "î", "ï"],
+    "o": ["ð", "ò", "ó", "ô", "õ", "ö", "ø"],
+    "u": ["ü", "û", "ú", "ù"],
+    "A": ["À", "Á", "Â", "Ã", "Ä", "Å"],
+    "E": ["È", "É", "Ê", "Ë"],
+    "I": ["Ì", "Í", "Î", "Ï"],
+    "O": ["Ò", "Ó", "Ô", "Õ", "Ö"],
+    "U": ["Ù", "Ú", "Û", "Ü"],
+    "D": ["Ð"],
+    "N": ["Ñ"],
+    "y": ["ý", "ÿ"],
+    "Y": ["Ý"]
+}
 
 // The AtMentionProvider provides matches for at mentions, including @here, @channel, @all,
 // users in the channel and users not in the channel. It mixes together results from the local
@@ -107,7 +123,25 @@ export default class AtMentionProvider extends Provider {
 
         const prefixLower = this.latestPrefix.toLowerCase();
         const profileSuggestions = this.getProfileSuggestions(profile);
-        return profileSuggestions.some((suggestion) => suggestion.startsWith(prefixLower));
+        return profileSuggestions.some((suggestion) =>{
+            return this.asciiToUtf8Variants(prefixLower).findIndex((utfComb) => suggestion.startsWith(utfComb)) != -1
+        });
+    }
+
+    asciiToUtf8Variants(term) {
+        var variants = [term]
+    
+        if(term.length < 5) {
+            term.split('').forEach((t) => {
+                if (ASCII_TO_UTF8[t]) {
+                    ASCII_TO_UTF8[t].forEach((utf8char) => {
+                        const substr = this.asciiToUtf8Variants(term.replace(t, utf8char))
+                        variants = variants.concat(substr)
+                    })
+                }
+        })}
+ 
+        return variants
     }
 
     // filterGroup constrains group mentions to those matching the latest prefix.
