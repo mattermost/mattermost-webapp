@@ -107,11 +107,11 @@ export function requestCloudTrial(page: string, subscriptionId: string, email = 
     };
 }
 
-export function validateBusinessEmail() {
+export function validateBusinessEmail(email = '') {
     trackEvent('api', 'api_validate_business_email');
     return async () => {
         try {
-            await Client4.validateBusinessEmail();
+            await Client4.validateBusinessEmail(email);
         } catch (error) {
             return false;
         }

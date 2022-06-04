@@ -3819,10 +3819,10 @@ export default class Client4 {
         );
     }
 
-    validateBusinessEmail = () => {
+    validateBusinessEmail = (email = '') => {
         return this.doFetchWithResponse<CloudCustomer>(
             `${this.getCloudRoute()}/validate-business-email`,
-            {method: 'post'},
+            {method: 'post', body: JSON.stringify({email})},
         );
     }
 

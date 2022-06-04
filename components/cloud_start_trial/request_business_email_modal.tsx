@@ -6,10 +6,13 @@ import {useDispatch} from 'react-redux';
 
 import {FormattedMessage, useIntl} from 'react-intl';
 
+import {debounce} from 'lodash';
+
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {closeModal} from 'actions/views/modals';
+import {validateBusinessEmail} from 'actions/cloud';
 
 import {ItemStatus, TELEMETRY_CATEGORIES, ModalIdentifiers} from 'utils/constants';
 
@@ -60,9 +63,11 @@ const RequestBusinessEmailModal = (
         validateEmail(email);
     }, []);
 
-    const validateEmail = useCallback(async (email: string) => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const validateEmail = useCallback(debounce(async (email: string) => {
         // no value set, no validation and clean the custom input label
         if (!email) {
+            setTrialBtnDisabled(true);
             setCustomInputLabel(null);
             return;
         }
@@ -71,30 +76,28 @@ const RequestBusinessEmailModal = (
         if (!isEmail(email)) {
             const errMsg = formatMessage({id: 'request_business_email_modal.invalidEmail', defaultMessage: 'This doesn\'t look like a valid email'});
             setCustomInputLabel({type: ItemStatus.WARNING, value: errMsg});
+            setTrialBtnDisabled(true);
             return;
         }
 
         // go and validate the email against the validateBusinessEmail endpoint
-        // TODO: add util load with an email to the endpoint to send the email for validation
-        // const isValidBusinessEmail = await validateBusinessEmail()();
-        // if (!isValidBusinessEmail) {
-        //     const errMsg = formatMessage({id: 'request_business_email_modal.not_business_email', defaultMessage: 'This doesn\'t look like a business email'});
-        //     setCustomInputLabel({type: ItemStatus.ERROR, value: errMsg});
-        //     return;
-        // }
+        const isValidBusinessEmail = await validateBusinessEmail(email)();
+        if (!isValidBusinessEmail) {
+            const errMsg = formatMessage({id: 'request_business_email_modal.not_business_email', defaultMessage: 'This doesn\'t look like a business email'});
+            setCustomInputLabel({type: ItemStatus.ERROR, value: errMsg});
+            setTrialBtnDisabled(true);
+            return;
+        }
 
         // if it is a valid business email, proceed, enable the start trial button and notify the user about the email is valid
         const okMsg = formatMessage({id: 'request_business_email_modal.valid_business_email', defaultMessage: 'This is a valid email'});
         setCustomInputLabel({type: ItemStatus.SUCCESS, value: okMsg});
         setTrialBtnDisabled(false);
-        setTimeout(() => {
-            setCustomInputLabel(null);
-        }, 2000);
-    }, []);
+    }, 250), []);
 
     // this function will be executed after successfull trial request, closing this request business email modal
     const closeMeAfterSuccessTrialReq = async () => {
-        await dispatch(closeModal(ModalIdentifiers.LEARN_MORE_TRIAL_MODAL));
+        await dispatch(closeModal(ModalIdentifiers.REQUEST_BUSINESS_EMAIL_MODAL));
     };
 
     return (

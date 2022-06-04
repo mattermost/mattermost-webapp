@@ -55,9 +55,9 @@ const LearnMoreTrialModal = (
     let startTrialBtnMsg = formatMessage({id: 'start_trial.modal_btn.start_free_trial', defaultMessage: 'Start free 30-day trial'});
 
     // close this modal once start trial btn is clicked and trial has started successfully
-    const dismissAction = () => {
+    const dismissAction = useCallback(() => {
         dispatch(closeModal(ModalIdentifiers.LEARN_MORE_TRIAL_MODAL));
-    };
+    }, []);
 
     let startTrialBtn = (
         <StartTrialBtn
