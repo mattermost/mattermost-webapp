@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -54,34 +54,42 @@ const CloudStartTrialButton = ({
     const {formatMessage} = useIntl();
     const dispatch = useDispatch<DispatchFunc>();
     const subscription = useSelector(selectCloudSubscription);
-
+    const [openBusinessEmailModal, setOpenBusinessEmailModal] = useState(false);
     const [status, setLoadStatus] = useState(TrialLoadStatus.NotStarted);
+
+    const validateBusinessEmailOnLoad = async () => {
+        const isValidBusinessEmail = await validateBusinessEmail()();
+        if (!isValidBusinessEmail) {
+            setOpenBusinessEmailModal(true);
+        }
+    };
+
+    useEffect(() => {
+        validateBusinessEmailOnLoad();
+        if (subscription === undefined) {
+            dispatch(getCloudSubscription());
+        }
+    }, []);
 
     const requestStartTrial = async (): Promise<TrialLoadStatus> => {
         setLoadStatus(TrialLoadStatus.Started);
 
         // email is set ONLY from the instance of this component created in the requestBusinessEmail modal.
-        // So the flow is the following: This button is clicked from
-        // the learn more about trial modal, If the email of the admin and the
+        // So the flow is the following: If the email of the admin and the
         // email of the CWS customer are not valid, the requestBusinessModal is shown and that component will
         // create this StartCloudTrialBtn passing the email as Truthy, so the requetTrial flow continues normally
-        if (!email) {
-            const isValidBusinessEmail = await validateBusinessEmail()();
-            if (!isValidBusinessEmail) {
-                trackEvent(
-                    TELEMETRY_CATEGORIES.CLOUD_START_TRIAL_BUTTON,
-                    'trial_request_attempt_with_no_valid_business_email',
-                );
-                await dispatch(closeModal(ModalIdentifiers.LEARN_MORE_TRIAL_MODAL));
-                openRequestBusinessEmailModal();
-                setLoadStatus(TrialLoadStatus.Failed);
-                return TrialLoadStatus.Failed;
-            }
+        if (openBusinessEmailModal && !email) {
+            trackEvent(
+                TELEMETRY_CATEGORIES.CLOUD_START_TRIAL_BUTTON,
+                'trial_request_attempt_with_no_valid_business_email',
+            );
+            await dispatch(closeModal(ModalIdentifiers.LEARN_MORE_TRIAL_MODAL));
+            openRequestBusinessEmailModal();
+            setLoadStatus(TrialLoadStatus.Failed);
+            return TrialLoadStatus.Failed;
         }
 
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        const subscriptionUpdated = await dispatch(requestCloudTrial('start_cloud_trial_btn', subscription?.id, (email || '')));
+        const subscriptionUpdated = await dispatch(requestCloudTrial('start_cloud_trial_btn', subscription?.id as string, (email || '')));
         if (!subscriptionUpdated) {
             setLoadStatus(TrialLoadStatus.Failed);
             return TrialLoadStatus.Failed;
