@@ -9,12 +9,12 @@ import store from 'stores/redux_store';
 import {Constants} from 'utils/constants';
 
 import Provider from '../provider.jsx';
-import { asciiToUtf8Variants } from 'utils/suggestions.ts';
+import {asciiToUtf8Variants} from 'utils/suggestions.ts';
+
 import AtMentionSuggestion from './at_mention_suggestion.jsx';
 
 const profilesInChannelOptions = {active: true};
 const regexForAtMention = /(?:^|\W)@([\p{L}\d\-_. ]*)$/iu;
-
 
 // The AtMentionProvider provides matches for at mentions, including @here, @channel, @all,
 // users in the channel and users not in the channel. It mixes together results from the local
@@ -109,7 +109,7 @@ export default class AtMentionProvider extends Provider {
         const prefixLower = this.latestPrefix.toLowerCase();
         const profileSuggestions = this.getProfileSuggestions(profile);
         return profileSuggestions.some((suggestion) =>
-            asciiToUtf8Variants(prefixLower).findIndex((utfComb) => suggestion.startsWith(utfComb)) != -1
+            asciiToUtf8Variants(prefixLower).findIndex((utfComb) => suggestion.startsWith(utfComb)) !== -1,
         );
     }
 
