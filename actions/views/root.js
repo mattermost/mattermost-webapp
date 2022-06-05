@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {Client4} from 'mattermost-redux/client';
-import {getClientConfig, getLicenseConfig, getMyPreferences} from 'mattermost-redux/actions/general';
+import {getClientConfig, getLicenseConfig} from 'mattermost-redux/actions/general';
 import {loadMe} from 'mattermost-redux/actions/users';
 
 import {getCurrentLocale, getTranslations} from 'selectors/i18n';
@@ -18,7 +18,6 @@ export function loadConfigAndMe() {
         const [{data: clientConfig}] = await Promise.all([
             dispatch(getClientConfig()),
             dispatch(getLicenseConfig()),
-            dispatch(getMyPreferences()),
         ]);
 
         let isMeLoaded = false;
