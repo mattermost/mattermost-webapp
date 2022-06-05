@@ -5,7 +5,7 @@ import {combineReducers} from 'redux';
 import {AdminTypes} from 'mattermost-redux/action_types';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {AdminRequestsStatuses, RequestStatusType} from 'mattermost-redux/types/requests';
+import {AdminRequestsStatuses, RequestStatusType} from '@mattermost/types/requests';
 
 import {handleRequest, initialRequestState} from './helpers';
 

@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {PostType} from 'mattermost-redux/types/posts';
+import {PostType} from '@mattermost/types/posts';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 

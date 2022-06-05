@@ -5,7 +5,7 @@ import React, {useRef} from 'react';
 import {useSelector} from 'react-redux';
 import {useIntl} from 'react-intl';
 
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 
 import {GlobalState} from 'types/store';
 

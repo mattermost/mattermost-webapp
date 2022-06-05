@@ -6,7 +6,7 @@ import {Button, ButtonGroup} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
-import {TermsOfService as ReduxTermsOfService} from 'mattermost-redux/types/terms_of_service';
+import {TermsOfService as ReduxTermsOfService} from '@mattermost/types/terms_of_service';
 
 import * as GlobalActions from 'actions/global_actions';
 import AnnouncementBar from 'components/announcement_bar';
@@ -114,7 +114,7 @@ export default class TermsOfService extends React.PureComponent<TermsOfServicePr
                 } else if (this.props.useCaseOnboarding) {
                     // need info about whether admin or not,
                     // and whether admin has already completed
-                    // first tiem onboarding. Instead of fetching and orchestrating that here,
+                    // first time onboarding. Instead of fetching and orchestrating that here,
                     // let the default root component handle it.
                     browserHistory.push('/');
                 } else {

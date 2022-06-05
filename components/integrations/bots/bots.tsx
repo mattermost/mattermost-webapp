@@ -4,11 +4,11 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Bot as BotType} from 'mattermost-redux/types/bots';
-import {RelationOneToOne} from 'mattermost-redux/types/utilities';
-import {UserProfile, UserAccessToken} from 'mattermost-redux/types/users';
+import {Bot as BotType} from '@mattermost/types/bots';
+import {RelationOneToOne} from '@mattermost/types/utilities';
+import {UserProfile, UserAccessToken} from '@mattermost/types/users';
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 
 import {getSiteURL} from 'utils/url';
 import * as Utils from 'utils/utils';

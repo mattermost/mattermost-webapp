@@ -18,8 +18,8 @@ import {isCombinedUserActivityPost} from 'mattermost-redux/utils/post_list';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {ModalData} from 'types/actions';
 import {getIsMobileView} from 'selectors/views/browser';
-import {AppBinding} from 'mattermost-redux/types/apps';
-import {Post} from 'mattermost-redux/types/posts';
+import {AppBinding} from '@mattermost/types/apps';
+import {Post} from '@mattermost/types/posts';
 import {HandleBindingClick, OpenAppsModal, PostEphemeralCallResponseForPost} from 'types/apps';
 import {GlobalState} from 'types/store';
 

@@ -36,7 +36,6 @@ e2e/playwright/test-results
 e2e/playwright/tests/**/*-darwin.png
 e2e/playwright/tests/**/*-window.png
 
-storybook-static
 mattermost-license.txt
 
 # Vim temporary files
@@ -47,3 +46,4 @@ Session.vim
 .netrwhist
 *~
 .eslintcache
+.stylelintcache
