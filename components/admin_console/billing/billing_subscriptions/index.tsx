@@ -9,10 +9,8 @@ import {getCloudSubscription, getCloudProducts, getCloudCustomer} from 'mattermo
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
-import {openModal} from 'actions/views/modals';
 
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
-import PurchaseModal from 'components/purchase_modal';
 
 import {getCloudContactUsLink, InquiryType, SalesInquiryIssue} from 'selectors/cloud';
 import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
@@ -23,7 +21,6 @@ import {
 } from 'mattermost-redux/selectors/entities/cloud';
 import {GlobalState} from 'types/store';
 import {
-    ModalIdentifiers,
     TrialPeriodDays,
 } from 'utils/constants';
 import {isCustomerCardExpired} from 'utils/cloud_utils';
@@ -73,16 +70,13 @@ const BillingSubscriptions: React.FC = () => {
 
     const product = useSelector(getSubscriptionProduct);
 
+    const openPricingModal = useOpenPricingModal();
+
     // show the upgrade section when is a free tier customer
     const onUpgradeMattermostCloud = () => {
         trackEvent('cloud_admin', 'click_upgrade_mattermost_cloud');
-        dispatch(openModal({
-            modalId: ModalIdentifiers.CLOUD_PURCHASE,
-            dialogType: PurchaseModal,
-        }));
+        openPricingModal();
     };
-
-    const openPricingModal = useOpenPricingModal();
 
     let isFreeTrial = false;
     let daysLeftOnTrial = 0;
