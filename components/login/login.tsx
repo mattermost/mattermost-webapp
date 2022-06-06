@@ -337,6 +337,9 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
             redirectUserToDefaultTeam();
             return;
         }
+        document.addEventListener('focusin', () => {
+            console.log('focused: ', document.activeElement);
+        }, true);
 
         onWindowFocus();
 
