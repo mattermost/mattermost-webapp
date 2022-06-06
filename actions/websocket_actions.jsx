@@ -431,6 +431,10 @@ export function handleEvent(msg) {
         dispatch(handleUserTypingEvent(msg));
         break;
 
+    case SocketEvents.STATUS_CHANGED:
+        handleStatusChangedEvent(msg);
+        break;
+
     case SocketEvents.HELLO:
         handleHelloEvent(msg);
         break;
@@ -1250,6 +1254,18 @@ export function handleUserTypingEvent(msg) {
     };
 }
 
+function handleStatusChangedEvent(msg) {
+    const state = getState();
+    const currentUserId = getCurrentUserId(state);
+    const userId = msg.data.user_id;
+
+    if (userId !== currentUserId) {
+        dispatch({
+            type: UserTypes.RECEIVED_STATUSES,
+            data: [{user_id: userId, status: msg.data.status}],
+        });
+    }
+}
 
 function handleHelloEvent(msg) {
     setServerVersion(msg.data.server_version)(dispatch, getState);
