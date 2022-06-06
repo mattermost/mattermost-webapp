@@ -4,8 +4,6 @@
 import {Stripe} from '@stripe/stripe-js';
 import {getCode} from 'country-list';
 
-import {FileSizes} from 'utils/file_utils';
-
 import {Client4} from 'mattermost-redux/client';
 import {ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
 
@@ -155,7 +153,7 @@ export function getFilesUsage(): ActionFunc {
             type: CloudTypes.RECEIVED_FILES_USAGE,
 
             // TODO: Fill this in with the backing client API method once it is available in the server
-            data: 3 * FileSizes.Gigabyte,
+            data: 0,
         });
         return {data: true};
     };

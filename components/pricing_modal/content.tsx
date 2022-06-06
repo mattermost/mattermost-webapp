@@ -26,6 +26,7 @@ import PlanLabel from 'components/common/plan_label';
 
 import ContactSalesCTA from './contact_sales_cta';
 import NotifyAdminCTA from './notify_admin_cta';
+import StarterDisclaimerCTA from './starter_disclaimer_cta';
 
 const LearnMoreTrialModal = makeAsyncComponent('LearnMoreTrialModal', React.lazy(() => import('components/learn_more_trial_modal/learn_more_trial_modal')));
 
@@ -164,7 +165,7 @@ function Content(props: ContentProps) {
     }
 
     const openPurchaseModal = () => {
-        trackEvent('cloud_admin', 'click_open_purchase_modal');
+        trackEvent('cloud_pricing', 'click_upgrade_button');
         props.onHide();
         dispatch(openModal({
             modalId: ModalIdentifiers.CLOUD_PURCHASE,
@@ -173,10 +174,7 @@ function Content(props: ContentProps) {
     };
 
     const openLearnMoreTrialModal = () => {
-        trackEvent(
-            TELEMETRY_CATEGORIES.SELF_HOSTED_START_TRIAL_MODAL,
-            'open_learn_more_trial_modal',
-        );
+        trackEvent('cloud_pricing', 'click_try_free_for_30_days');
         props.onHide();
         dispatch(closeModal(ModalIdentifiers.CLOUD_PURCHASE)); // close the purchase modal if it's open
         dispatch(openModal({
@@ -244,6 +242,7 @@ function Content(props: ContentProps) {
                                 formatMessage({id: 'pricing_modal.extra_briefing.starter.calls', defaultMessage: '1:1 audio calls and screen share'}),
                             ],
                         }}
+                        planExtraInformation={<StarterDisclaimerCTA/>}
                         buttonDetails={{
                             action: () => {}, // noop until we support downgrade
                             text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
@@ -320,6 +319,7 @@ function Content(props: ContentProps) {
                         planExtraInformation={(isPostTrial || !isAdmin) ? undefined : <ContactSalesCTA/>}
                         buttonDetails={(isPostTrial || !isAdmin) ? {
                             action: () => {
+                                trackEvent('cloud_pricing', 'click_enterprise_contact_sales');
                                 window.open(contactSalesLink, '_blank');
                             },
                             text: formatMessage({id: 'pricing_modal.btn.contactSales', defaultMessage: 'Contact Sales'}),
