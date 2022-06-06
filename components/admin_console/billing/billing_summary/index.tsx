@@ -16,7 +16,7 @@ import {
     freeTrial,
 } from './billing_summary';
 
-import {tryEnterpriseCard, UpgradeToProfessionalCard, ExploreEnterpriseCard} from './upsell_card';
+import {tryEnterpriseCard, UpgradeToProfessionalCard} from './upsell_card';
 
 import './billing_summary.scss';
 
@@ -38,17 +38,16 @@ const BillingSummary = ({isLegacyFree, isFreeTrial, daysLeftOnTrial, onUpgradeMa
     const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
     const showTryEnterprise = isCloudFreeEnabled && product?.sku === CloudProducts.STARTER && isPreTrial;
     const showUpgradeProfessional = isCloudFreeEnabled && product?.sku === CloudProducts.STARTER && hasPriorTrial;
-    const showExploreEnterprise = isCloudFreeEnabled && product?.sku === CloudProducts.PROFESSIONAL;
+
+    const isLegacyFreeUnpaid = isLegacyFree && !subscription?.is_legacy_cloud_paid_tier;
 
     if (showTryEnterprise) {
         body = tryEnterpriseCard;
     } else if (showUpgradeProfessional) {
         body = <UpgradeToProfessionalCard/>;
-    } else if (showExploreEnterprise) {
-        body = <ExploreEnterpriseCard/>;
     } else if (isFreeTrial) {
         body = freeTrial(onUpgradeMattermostCloud, daysLeftOnTrial);
-    } else if (isLegacyFree) {
+    } else if (isLegacyFreeUnpaid) {
         body = upgradeFreeTierMattermostCloud(onUpgradeMattermostCloud);
     } else if (subscription?.last_invoice) {
         const invoice = subscription!.last_invoice;
