@@ -48,7 +48,7 @@ import {
     paymentFailedBanner,
     GrandfatheredPlanBanner,
 } from './billing_subscriptions';
-import StarterUpgradeBanner from './starter_upgrade_banner';
+import LimitReachedBanner from './limit_reached_banner';
 
 import './billing_subscriptions.scss';
 
@@ -146,9 +146,8 @@ const BillingSubscriptions: React.FC = () => {
             />
             <div className='admin-console__wrapper'>
                 <div className='admin-console__content'>
-                    <StarterUpgradeBanner
-                        onDismiss={() => {}}
-                        planName='CLOUD STARTER YELLY CASE!'
+                    <LimitReachedBanner
+                        product={product}
                     />
                     {paymentFailedBanner()}
                     {creditCardExpiredBanner(() => {})}
