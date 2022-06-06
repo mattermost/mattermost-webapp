@@ -81,7 +81,6 @@ type Props = {
     contactSupportLink: string;
     contactSalesLink: string;
     isFreeTrial: boolean;
-    isFreeTier: boolean;
     productId: string | undefined;
     intl: IntlShape;
     actions: {
@@ -152,8 +151,7 @@ function getSelectedProduct(products: Record<string, Product> | undefined, produ
 function Card(props: CardProps) {
     const seeHowBillingWorks = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         e.preventDefault();
-        const utcTimeStamp = new Date().toISOString();
-        trackEvent(TELEMETRY_CATEGORIES.CLOUD_ADMIN, 'click_see_how_billing_works', {utcTimeStamp, epochTimeStamp: Date.parse(utcTimeStamp)});
+        trackEvent(TELEMETRY_CATEGORIES.CLOUD_ADMIN, 'click_see_how_billing_works');
         window.open(CloudLinks.BILLING_DOCS, '_blank');
     };
     return (
@@ -254,8 +252,6 @@ class PurchaseModal extends React.PureComponent<Props, State> {
     }
 
     openPricingModal = () => {
-        const utcTimeStamp = new Date().toISOString();
-        trackEvent('cloud_admin', 'click_open_pricing_modal', {utcTimeStamp, epochTimeStamp: Date.parse(utcTimeStamp)});
         this.props.actions.openModal({
             modalId: ModalIdentifiers.PRICING_MODAL,
             dialogType: PricingModal,
@@ -265,7 +261,10 @@ class PurchaseModal extends React.PureComponent<Props, State> {
     comparePlan = (
         <button
             className='ml-1'
-            onClick={this.openPricingModal}
+            onClick={() => {
+                trackEvent('cloud_pricing', 'click_compare_plans');
+                this.openPricingModal();
+            }}
         >
             <FormattedMessage
                 id='cloud_subscribe.contact_support'
@@ -279,11 +278,9 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             <a
                 className='footer-text'
                 onClick={() => {
-                    const utcTimeStamp = new Date().toISOString();
                     trackEvent(
                         TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
                         'click_contact_sales',
-                        {utcTimeStamp, epochTimeStamp: Date.parse(utcTimeStamp)},
                     );
                 }}
                 href={this.props.contactSalesLink}

@@ -1,3 +1,19 @@
+.error {
+    color: var(--error-text);
+}
+
+.info {
+    color: var(--sidebar-text-active-border);
+}
+
+.warning {
+    color: var(--away-indicator-dark);
+}
+
+.ok {
+    color: var(--online-indicator);
+}
+
 .Input_container {
     width: 100%;
 
@@ -53,16 +69,12 @@
     }
 
     .Input___error,
+    .Input___customMessage,
     .Input___info {
         margin-top: 5px;
         font-size: 12px;
         line-height: 16px;
         text-align: left;
-    }
-
-    .Input___error {
-        display: flex;
-        color: var(--error-text);
 
         i {
             height: 14px;
@@ -74,6 +86,24 @@
                 margin: 0;
             }
         }
+    }
+
+    .Input___error {
+        @extend .error;
+
+        display: flex;
+    }
+
+    .Input___warning {
+        @extend .warning;
+
+        display: flex;
+    }
+
+    .Input___ok {
+        @extend .ok;
+
+        display: flex;
     }
 
     .Input___info {

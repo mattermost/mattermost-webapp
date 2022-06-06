@@ -76,8 +76,13 @@ exports[`component/create_user_groups_modal should match snapshot with back butt
       >
         <ForwardRef
           autoFocus={true}
+          customMessage={
+            Object {
+              "type": "error",
+              "value": "",
+            }
+          }
           data-testid="nameInput"
-          error=""
           maxLength={64}
           onChange={[Function]}
           placeholder="Name"
@@ -89,8 +94,13 @@ exports[`component/create_user_groups_modal should match snapshot with back butt
         className="group-mention-input-wrapper"
       >
         <ForwardRef
+          customMessage={
+            Object {
+              "type": "error",
+              "value": "",
+            }
+          }
           data-testid="mentionInput"
-          error=""
           maxLength={64}
           onChange={[Function]}
           placeholder="Mention"
@@ -185,8 +195,13 @@ exports[`component/create_user_groups_modal should match snapshot without back b
       >
         <ForwardRef
           autoFocus={true}
+          customMessage={
+            Object {
+              "type": "error",
+              "value": "",
+            }
+          }
           data-testid="nameInput"
-          error=""
           maxLength={64}
           onChange={[Function]}
           placeholder="Name"
@@ -198,8 +213,13 @@ exports[`component/create_user_groups_modal should match snapshot without back b
         className="group-mention-input-wrapper"
       >
         <ForwardRef
+          customMessage={
+            Object {
+              "type": "error",
+              "value": "",
+            }
+          }
           data-testid="mentionInput"
-          error=""
           maxLength={64}
           onChange={[Function]}
           placeholder="Mention"
