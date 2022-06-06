@@ -418,4 +418,14 @@ export const KEYBOARD_SHORTCUTS = {
         id: t('shortcuts.browser.newline'),
         defaultMessage: 'Create a new line:\tShift|Enter',
     },
+    msgSearchChannel: {
+        default: {
+            id: t('shortcuts.msgs.search_channel'),
+            defaultMessage: 'In channel:\tCtrl|F',
+        },
+        mac: {
+            id: t('shortcuts.msgs.search_channel.mac'),
+            defaultMessage: 'In channel:\t⌘|F',
+        },
+    },
 };
