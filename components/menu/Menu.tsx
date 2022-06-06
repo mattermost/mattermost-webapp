@@ -107,6 +107,7 @@ const Menu = (props: MenuProps): JSX.Element => {
         open,
         submenuOpen,
         overlayCloseHandler,
+        closeSubmenu,
     } = props;
 
     const menuRef = useRef(null);
@@ -140,7 +141,7 @@ const Menu = (props: MenuProps): JSX.Element => {
                 <Overlay onClick={overlayCloseHandler}/>
             </CSSTransition>
             <MenuData
-                menuTitle={title}
+                title={title}
                 ref={menuRef}
                 groups={groups}
                 trigger={trigger.ref}
@@ -151,12 +152,12 @@ const Menu = (props: MenuProps): JSX.Element => {
             />
             {submenuTrigger && submenuTrigger.ref && submenuGroups && (
                 <MenuData
-                    menuTitle={submenuTitle}
+                    title={submenuTitle}
                     ref={submenuRef}
                     trigger={submenuTrigger.ref}
                     open={submenuOpen}
                     isSubmenu={true}
-                    closeSubmenu={overlayCloseHandler}
+                    closeSubmenu={closeSubmenu}
                     closeSubmenuDown={closeSubmenuDown}
                     active={submenuOpen}
                     groups={submenuGroups}

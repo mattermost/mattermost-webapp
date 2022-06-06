@@ -8,6 +8,8 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import classNames from 'classnames';
 
+import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
+
 import {Channel} from '@mattermost/types/channels';
 
 import {trackEvent} from 'actions/telemetry_actions';
@@ -41,7 +43,6 @@ import {
     getCategoriesForCurrentTeam,
     getDisplayedChannels,
 } from 'selectors/views/channel_sidebar';
-import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 import {getCategoryInTeamWithChannel} from 'mattermost-redux/selectors/entities/channel_categories';
 import {addChannelsInSidebar} from 'actions/views/channel_sidebar';
 import {openModal} from 'actions/views/modals';
@@ -251,7 +252,6 @@ const SidebarChannelMenu = (props: Props): JSX.Element => {
             ) : null
         }
         onMouseEnter={toggleSubmenuDesktop}
-        onMouseLeave={toggleSubmenuDesktop}
         onClick={toggleSubmenuMobile}
         trailingElementLabel='selected'
         trailingElement={<i className='icon-chevron-right'/>}
@@ -464,6 +464,7 @@ const SidebarChannelMenu = (props: Props): JSX.Element => {
             <MenuItem
                 id={`moveToNewCategory-${channel.id}`}
                 key={`moveToNewCategory-${channel.id}`}
+                leadingElement={<i className='icon-plus'/>}
                 label={intl.formatMessage({
                     id: 'sidebar_left.sidebar_channel_menu.moveToNewCategory',
                     defaultMessage: 'New Category',
@@ -488,6 +489,11 @@ const SidebarChannelMenu = (props: Props): JSX.Element => {
                 open={isMenuVisible}
                 submenuOpen={isSubMenuVisible}
                 overlayCloseHandler={closeAllMenus}
+                closeSubmenu={toggleSubmenu}
+                submenuTitle={intl.formatMessage({
+                    id: 'sidebar_left.sidebar_channel_menu.moveTo',
+                    defaultMessage: 'Move to...',
+                })}
             />
         </>
     );

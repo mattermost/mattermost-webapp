@@ -80,10 +80,12 @@ const MenuItems = styled.div<{isMobile?: boolean; isSubmenu: boolean}>(
 );
 
 const MenuHeader = styled.div`
-    display: flex;
-    justify-content: center;
+    display: none;
 
     &.isMobile {
+        display: flex;
+        justify-content: center;
+        border-bottom: 1px solid #e0e0e0;
         height: 52px;
     }
 
@@ -150,11 +152,11 @@ const MenuData = React.forwardRef(
                             )}
                             {title && <MenuTitle>{title}</MenuTitle>}
                         </MenuHeader>
-                        {groups.map((group) => (
+                        {groups.map((group, i) => (
                             <>
                                 {group.title && <label>{group.title}</label>}
                                 {group.menuItems}
-                                {groups.length > 1 && <Divider/>}
+                                {groups.length > 1 && i < (groups.length - 1) && <Divider/>}
                             </>
                         ))}
                     </MenuItems>

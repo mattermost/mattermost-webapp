@@ -256,6 +256,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                     channelLink={link}
                     isMenuOpen={this.state.isMenuOpen}
                     onToggleMenu={this.handleMenuToggle}
+                    location={'sidebar'}
                 />
             </>
         );

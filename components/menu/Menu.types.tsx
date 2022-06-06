@@ -38,7 +38,6 @@ export interface MenuDataProps {
     placement: Placement;
     active?: boolean;
     isMobile?: boolean;
-    menuTitle?: string;
     title?: string;
     isSubmenu?: boolean;
     closeSubmenuDown?: boolean;
@@ -62,4 +61,5 @@ export interface MenuProps {
     open: boolean;
     submenuOpen?: boolean;
     overlayCloseHandler?: () => void;
+    closeSubmenu?: () => void;
 }
