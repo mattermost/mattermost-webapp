@@ -16,7 +16,7 @@ import {trackEvent} from 'actions/telemetry_actions';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
-import PurchaseModal from 'components/purchase_modal';
+import PricingModal from 'components/pricing_modal';
 import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
 
 import {ModalData} from 'types/actions';
@@ -105,8 +105,8 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
         );
 
         this.props.actions.openModal({
-            modalId: ModalIdentifiers.CLOUD_PURCHASE,
-            dialogType: PurchaseModal,
+            modalId: ModalIdentifiers.PRICING_MODAL,
+            dialogType: PricingModal,
         });
     }
 

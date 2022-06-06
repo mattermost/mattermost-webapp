@@ -73,16 +73,13 @@ const BillingSubscriptions: React.FC = () => {
 
     const product = useSelector(getSubscriptionProduct);
 
+    const openPricingModal = useOpenPricingModal();
+
     // show the upgrade section when is a free tier customer
     const onUpgradeMattermostCloud = () => {
         trackEvent('cloud_admin', 'click_upgrade_mattermost_cloud');
-        dispatch(openModal({
-            modalId: ModalIdentifiers.CLOUD_PURCHASE,
-            dialogType: PurchaseModal,
-        }));
+        openPricingModal();
     };
-
-    const openPricingModal = useOpenPricingModal();
 
     let isFreeTrial = false;
     let daysLeftOnTrial = 0;
