@@ -338,12 +338,6 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
             return;
         }
 
-        // temporal for debugging
-        document.addEventListener('focusin', () => {
-            // eslint-disable-next-line no-console
-            console.log('focused: ', document.activeElement);
-        }, true);
-
         onWindowFocus();
 
         window.addEventListener('focus', onWindowFocus);
@@ -382,6 +376,17 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
             window.removeEventListener('focus', onWindowFocus);
         };
     }, []);
+
+    // temporal for debugging
+    document.addEventListener('focusin', () => {
+        // eslint-disable-next-line no-console
+        console.log('focused document: ', document.activeElement);
+    }, true);
+
+    window.addEventListener('focusin', () => {
+        // eslint-disable-next-line no-console
+        console.log('focused window: ', document.activeElement);
+    }, true);
 
     if (initializing) {
         return (<LoadingScreen/>);
