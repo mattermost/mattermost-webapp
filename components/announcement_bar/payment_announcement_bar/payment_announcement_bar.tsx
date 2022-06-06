@@ -5,7 +5,7 @@ import React from 'react';
 
 import {isEmpty} from 'lodash';
 
-import {CloudCustomer, Subscription} from 'mattermost-redux/types/cloud';
+import {CloudCustomer, Subscription} from '@mattermost/types/cloud';
 
 import {browserHistory} from 'utils/browser_history';
 import {isCustomerCardExpired} from 'utils/cloud_utils';
@@ -19,6 +19,8 @@ type Props = {
     isCloud: boolean;
     subscription?: Subscription;
     customer?: CloudCustomer;
+    isLegacyFree: boolean;
+    isStarterFree: boolean;
     actions: {
         getCloudSubscription: () => void;
         getCloudCustomer: () => void;
@@ -44,7 +46,7 @@ class PaymentAnnouncementBar extends React.PureComponent<Props> {
             return false;
         }
 
-        if (subscription?.is_paid_tier !== 'true') {
+        if (this.props.isStarterFree || this.props.isLegacyFree) {
             return false;
         }
 

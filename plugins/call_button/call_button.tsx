@@ -12,7 +12,7 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import {Constants} from 'utils/constants';
 
-import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
+import {Channel, ChannelMembership} from '@mattermost/types/channels';
 import {PluginComponent} from 'types/store/plugins';
 
 import './call_button.scss';

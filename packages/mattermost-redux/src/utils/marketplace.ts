@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {MarketplaceApp, MarketplacePlugin} from 'mattermost-redux/types/marketplace';
+import {MarketplaceApp, MarketplacePlugin} from '@mattermost/types/marketplace';
 
 // This file's contents belong to the Apps Framework feature.
 // Apps Framework feature is experimental, and the contents of this file are

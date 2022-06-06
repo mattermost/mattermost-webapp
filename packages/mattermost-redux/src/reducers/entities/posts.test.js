@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import assert from 'assert';
+
 import expect from 'expect';
 
 import {

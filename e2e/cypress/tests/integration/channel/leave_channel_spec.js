@@ -76,6 +76,7 @@ describe('Leave channel', () => {
     it('MM-T4429_2 Leave a channel while RHS is open and CRT on', () => {
         // * Post text box should be visible
         cy.get('#post_textbox').should('be.visible');
+        cy.pause();
 
         // # Set CRT to on
         cy.uiChangeCRTDisplaySetting('ON');

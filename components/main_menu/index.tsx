@@ -9,6 +9,7 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {
     getConfig,
+    getLicense,
 } from 'mattermost-redux/selectors/entities/general';
 import {
     getJoinableTeamIds,
@@ -16,22 +17,19 @@ import {
     getCurrentRelativeTeamUrl,
 } from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
-import {getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
 import {haveICurrentTeamPermission, haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
+import {getCloudSubscription as selectCloudSubscription} from 'mattermost-redux/selectors/entities/cloud';
+import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {Permissions} from 'mattermost-redux/constants';
 
 import {RHSStates} from 'utils/constants';
 
-import {unhideNextSteps} from 'actions/views/next_steps';
+import {getCloudLimits} from 'actions/cloud';
 import {showMentions, showFlaggedPosts, closeRightHandSide, closeMenu as closeRhsMenu} from 'actions/views/rhs';
 import {openModal} from 'actions/views/modals';
 import {getRhsState} from 'selectors/rhs';
-
-import {
-    showOnboarding,
-    showNextSteps,
-} from 'components/next_steps_view/steps';
+import {isCloudLicense} from 'utils/license_utils';
 
 import {GlobalState} from 'types/store';
 
@@ -61,6 +59,13 @@ function mapStateToProps(state: GlobalState) {
     const moreTeamsToJoin = joinableTeams && joinableTeams.length > 0;
     const rhsState = getRhsState(state);
 
+    const subscription = selectCloudSubscription(state);
+    const license = getLicense(state);
+
+    const isCloud = isCloudLicense(license);
+    const isCloudFreeEnabled = isCloud && cloudFreeEnabled(state);
+    const isFreeTrial = subscription?.is_free_trial === 'true';
+
     return {
         appDownloadLink,
         enableCommands,
@@ -81,13 +86,13 @@ function mapStateToProps(state: GlobalState) {
         isMentionSearch: rhsState === RHSStates.MENTION,
         teamIsGroupConstrained: Boolean(currentTeam.group_constrained),
         isLicensedForLDAPGroups: state.entities.general.license.LDAPGroups === 'true',
-        showGettingStarted: showOnboarding(state),
-        showDueToStepsNotFinished: showNextSteps(state),
         teamUrl: getCurrentRelativeTeamUrl(state),
         guestAccessEnabled: config.EnableGuestAccounts === 'true',
         canInviteTeamMember,
         isFirstAdmin: isFirstAdmin(state),
-        useCaseOnboarding: getUseCaseOnboarding(state),
+        isCloud,
+        isCloudFreeEnabled,
+        isFreeTrial,
     };
 }
 
@@ -99,7 +104,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             showFlaggedPosts,
             closeRightHandSide,
             closeRhsMenu,
-            unhideNextSteps,
+            getCloudLimits,
         }, dispatch),
     };
 }

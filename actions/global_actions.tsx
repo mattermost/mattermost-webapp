@@ -19,10 +19,10 @@ import {getCurrentChannelStats, getCurrentChannelId, getMyChannelMember, getRedi
 import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
 import {ChannelTypes} from 'mattermost-redux/action_types';
 import {fetchAppBindings} from 'mattermost-redux/actions/apps';
-import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {Channel, ChannelMembership} from '@mattermost/types/channels';
+import {UserProfile} from '@mattermost/types/users';
 import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 import {calculateUnreadCount} from 'mattermost-redux/utils/channel_utils';
 
 import {browserHistory} from 'utils/browser_history';
@@ -42,7 +42,7 @@ import WebSocketClient from 'client/web_websocket_client.jsx';
 
 import {GlobalState} from 'types/store';
 
-import {ActionTypes, PostTypes, RHSStates, ModalIdentifiers} from 'utils/constants';
+import {ActionTypes, PostTypes, RHSStates, ModalIdentifiers, PreviousViewedTypes} from 'utils/constants';
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils';
 import * as Utils from 'utils/utils';
 import SubMenuModal from '../components/widgets/menu/menu_modals/submenu_modal/submenu_modal';
@@ -66,9 +66,15 @@ export function emitChannelClickEvent(channel: Channel) {
         dispatch(getChannelStats(chan.id));
 
         const penultimate = LocalStorageStore.getPreviousChannelName(userId, teamId);
+        const penultimateType = LocalStorageStore.getPreviousViewedType(userId, teamId);
         if (penultimate !== chan.name) {
             LocalStorageStore.setPenultimateChannelName(userId, teamId, penultimate);
             LocalStorageStore.setPreviousChannelName(userId, teamId, chan.name);
+        }
+
+        if (penultimateType === PreviousViewedTypes.THREADS || penultimate !== chan.name) {
+            LocalStorageStore.setPreviousViewedType(userId, teamId, PreviousViewedTypes.CHANNELS);
+            LocalStorageStore.setPenultimateViewedType(userId, teamId, penultimateType);
         }
 
         // When switching to a different channel if the pinned posts is showing

@@ -17,13 +17,13 @@ import Permissions from 'mattermost-redux/constants/permissions';
 import {switchToChannel} from 'actions/views/channel';
 import {closeModal} from 'actions/views/modals';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
-import {ChannelType, Channel} from 'mattermost-redux/types/channels';
-import {ServerError} from 'mattermost-redux/types/errors';
+import {ChannelType, Channel} from '@mattermost/types/channels';
+import {ServerError} from '@mattermost/types/errors';
 import {haveICurrentChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import {GlobalState} from 'types/store';
-import Constants, {ModalIdentifiers} from 'utils/constants';
+import Constants, {ItemStatus, ModalIdentifiers} from 'utils/constants';
 import {cleanUpUrlable, validateChannelUrl, getSiteURL} from 'utils/url';
 import {localizeMessage} from 'utils/utils';
 
@@ -248,7 +248,7 @@ const NewChannelModal = () => {
                     placeholder={formatMessage({id: 'channel_modal.name.placeholder', defaultMessage: 'Enter a name for your new channel'})}
                     limit={Constants.MAX_CHANNELNAME_LENGTH}
                     value={displayName}
-                    error={displayNameModified ? displayNameError : ''}
+                    customMessage={displayNameModified ? {type: ItemStatus.ERROR, value: displayNameError} : null}
                     onChange={handleOnDisplayNameChange}
                     onBlur={handleOnDisplayNameBlur}
                 />
