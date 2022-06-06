@@ -37,7 +37,7 @@ const state: GlobalState = {
         } as unknown as UsersState,
         preferences: {
             myPreferences: {
-                [upgradeCloudKey]: {value: false},
+                [upgradeCloudKey]: {value: 'false'},
             },
         },
         general: {
@@ -52,7 +52,7 @@ const state: GlobalState = {
             },
         },
     },
-} as unknown as GlobalState;
+} as GlobalState;
 
 const base = {
     id: '',
@@ -139,7 +139,7 @@ describe('limits_reached_banner', () => {
                     ...state.entities.preferences,
                     myPreferences: {
                         ...state.entities.preferences.myPreferences,
-                        [upgradeCloudKey]: {value: true},
+                        [upgradeCloudKey]: {value: 'true'},
                     },
                 },
             },
