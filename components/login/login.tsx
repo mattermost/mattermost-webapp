@@ -124,8 +124,6 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
     const showSignup = enableOpenServer && (enableExternalSignup || enableSignUpWithEmail || enableLdap);
     const canSubmit = Boolean(loginId && password) && !hasError && !isWaiting;
 
-    // window.onfocus = () => loginIdInput.current?.focus();
-
     const getExternalLoginOptions = () => {
         const externalLoginOptions: ExternalLoginButtonType[] = [];
 
