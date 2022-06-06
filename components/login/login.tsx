@@ -375,7 +375,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
 
             window.removeEventListener('focus', onWindowFocus);
         };
-    });
+    }, []);
 
     if (initializing) {
         return (<LoadingScreen/>);
