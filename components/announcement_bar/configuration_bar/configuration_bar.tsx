@@ -5,7 +5,7 @@ import React from 'react';
 
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
-import {ClientConfig, WarnMetricStatus} from 'mattermost-redux/types/config';
+import {ClientConfig, WarnMetricStatus} from '@mattermost/types/config';
 
 import {daysToLicenseExpire, isLicenseExpired, isLicenseExpiring, isLicensePastGracePeriod, isTrialLicense} from 'utils/license_utils.jsx';
 import {AnnouncementBarTypes, AnnouncementBarMessages, WarnMetricTypes} from 'utils/constants';

@@ -9,7 +9,7 @@ import PostInfo from 'components/post_view/post_info/post_info';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
 
 import {Posts} from 'mattermost-redux/constants';
-import {Post, PostType} from 'mattermost-redux/types/posts';
+import {Post, PostType} from '@mattermost/types/posts';
 
 import Constants from 'utils/constants';
 import {TestHelper} from 'utils/test_helper';

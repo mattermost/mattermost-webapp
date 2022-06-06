@@ -12,6 +12,8 @@ import {insightsAreEnabled} from 'mattermost-redux/selectors/entities/preference
 import {t} from 'utils/i18n';
 import {trackEvent} from 'actions/telemetry_actions';
 
+import InsightsTourTip from './insights_tour_tip/insights_tour_tip';
+
 import './activity_and_insights_link.scss';
 
 const ActivityAndInsightsLink = () => {
@@ -61,6 +63,7 @@ const ActivityAndInsightsLink = () => {
                         </span>
                     </div>
                 </Link>
+                <InsightsTourTip/>
             </li>
         </ul>
     );

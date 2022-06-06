@@ -4,6 +4,8 @@
 import {Limits, Subscription, Product} from '@mattermost/types/cloud';
 import {GlobalState} from '@mattermost/types/store';
 
+import {getLicense} from './general';
+
 export function getCloudLimits(state: GlobalState): Limits {
     return state.entities.cloud.limits.limits;
 }
@@ -18,4 +20,22 @@ export function getCloudProducts(state: GlobalState): Record<string, Product> | 
 
 export function getCloudLimitsLoaded(state: GlobalState): boolean {
     return state.entities.cloud.limits.limitsLoaded;
+}
+
+export function getSubscriptionProduct(state: GlobalState): Product | undefined {
+    const subscription = getCloudSubscription(state);
+    if (!subscription) {
+        return undefined;
+    }
+    const products = getCloudProducts(state);
+    if (!products) {
+        return undefined;
+    }
+
+    return products[subscription.product_id];
+}
+
+export function isCurrentLicenseCloud(state: GlobalState): boolean {
+    const license = getLicense(state);
+    return license?.Cloud === 'true';
 }

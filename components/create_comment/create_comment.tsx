@@ -6,7 +6,6 @@
 import React from 'react';
 import classNames from 'classnames';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
-import {EmoticonOutlineIcon, SendIcon} from '@mattermost/compass-icons/components';
 
 import {ModalData} from 'types/actions.js';
 
@@ -34,25 +33,25 @@ import FileUpload from 'components/file_upload';
 import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload';
 import MsgTyping from 'components/msg_typing';
 import PostDeletedModal from 'components/post_deleted_modal';
+import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import Textbox, {TextboxElement} from 'components/textbox';
 import TextboxClass from 'components/textbox/textbox';
 import TextboxLinks from 'components/textbox/textbox_links';
 import MessageSubmitError from 'components/message_submit_error';
 import {PostDraft} from 'types/store/rhs';
-import {Group} from 'mattermost-redux/types/groups';
-import {ChannelMemberCountsByGroup} from 'mattermost-redux/types/channels';
+import {Group} from '@mattermost/types/groups';
+import {ChannelMemberCountsByGroup} from '@mattermost/types/channels';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
-import {Emoji} from 'mattermost-redux/types/emojis';
+import {Emoji} from '@mattermost/types/emojis';
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {ServerError} from 'mattermost-redux/types/errors';
-import {FileInfo} from 'mattermost-redux/types/files';
+import {ServerError} from '@mattermost/types/errors';
+import {FileInfo} from '@mattermost/types/files';
 import {
     applyMarkdown,
     ApplyMarkdownOptions,
 } from 'utils/markdown/apply_markdown';
 
 import RhsSuggestionList from 'components/suggestion/rhs_suggestion_list';
-import {t} from '../../utils/i18n';
 
 const KeyCodes = Constants.KeyCodes;
 
@@ -1170,6 +1169,11 @@ class CreateComment extends React.PureComponent<Props, State> {
             );
         }
 
+        let addButtonClass = 'btn btn-primary comment-btn';
+        if (!enableAddButton) {
+            addButtonClass += ' disabled';
+        }
+
         let fileUpload;
         if (!readOnlyChannel && !this.props.shouldShowPreview) {
             fileUpload = (
@@ -1194,7 +1198,7 @@ class CreateComment extends React.PureComponent<Props, State> {
 
         if (this.props.enableEmojiPicker && !readOnlyChannel && !this.props.shouldShowPreview) {
             emojiPicker = (
-                <>
+                <div>
                     <EmojiPickerOverlay
                         show={this.state.showEmojiPicker}
                         target={this.getCreateCommentControls}
@@ -1212,14 +1216,10 @@ class CreateComment extends React.PureComponent<Props, State> {
                         className={classNames('emoji-picker__container', 'post-action', {
                             'post-action--active': this.state.showEmojiPicker,
                         })}
-                        id='emojiPickerButton'
                     >
-                        <EmoticonOutlineIcon
-                            size={18}
-                            color={'currentColor'}
-                        />
+                        <EmojiIcon className={'icon icon--emoji emoji-rhs '}/>
                     </button>
-                </>
+                </div>
             );
         }
 
@@ -1234,8 +1234,6 @@ class CreateComment extends React.PureComponent<Props, State> {
         if (renderScrollbar) {
             scrollbarClass = ' scroll';
         }
-
-        const isMobile = Utils.isMobile();
 
         return (
             <form onSubmit={this.handleSubmit}>
@@ -1285,31 +1283,12 @@ class CreateComment extends React.PureComponent<Props, State> {
                             >
                                 {fileUpload}
                                 {emojiPicker}
-                                {isMobile && (
-                                    <button
-                                        tabIndex={0}
-                                        disabled={!enableAddButton}
-                                        aria-label={formatMessage({
-                                            id: 'create_post.send_message',
-                                            defaultMessage: 'Send a message',
-                                        })}
-                                        className={'btn btn-primary send-button theme'}
-                                        onClick={this.handleSubmit}
-                                    >
-                                        <SendIcon
-                                            size={18}
-                                            color='currentColor'
-                                            aria-label={formatMessage({
-                                                id: t('create_post.icon'),
-                                                defaultMessage: 'Create a post',
-                                            })}
-                                        />
-                                    </button>
-                                )}
                             </span>
                         </div>
                     </div>
-                    <div className='post-create-footer'>
+                    <div
+                        className='post-create-footer'
+                    >
                         <div className='d-flex justify-content-between'>
                             <div className='col'>
                                 <MsgTyping
@@ -1326,13 +1305,19 @@ class CreateComment extends React.PureComponent<Props, State> {
                                 />
                             </div>
                         </div>
-                        {uploadsInProgressText || preview || serverError ? (
-                            <div className='text-right pt-2'>
-                                {uploadsInProgressText}
-                                {preview}
-                                {serverError}
-                            </div>
-                        ) : null}
+                        <div className='text-right mt-2'>
+                            {uploadsInProgressText}
+                            <input
+                                type='button'
+                                disabled={!enableAddButton}
+                                id='addCommentButton'
+                                className={addButtonClass}
+                                value={formatMessage({id: 'create_comment.comment', defaultMessage: 'Reply'})}
+                                onClick={this.handleSubmit}
+                            />
+                            {preview}
+                            {serverError}
+                        </div>
                     </div>
                 </div>
             </form>

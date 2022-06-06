@@ -5,9 +5,9 @@ import React, {createRef, RefObject} from 'react';
 import {FormattedMessage} from 'react-intl';
 import ReactSelect from 'react-select';
 
-import {AdminConfig} from 'mattermost-redux/types/config';
-import {DataRetentionCustomPolicies, DataRetentionCustomPolicy} from 'mattermost-redux/types/data_retention';
-import {DeepPartial} from 'mattermost-redux/types/utilities';
+import {AdminConfig} from '@mattermost/types/config';
+import {DataRetentionCustomPolicies, DataRetentionCustomPolicy} from '@mattermost/types/data_retention';
+import {DeepPartial} from '@mattermost/types/utilities';
 
 import {JobTypes} from 'utils/constants';
 import * as Utils from 'utils/utils';
@@ -19,7 +19,7 @@ import JobsTable from 'components/admin_console/jobs';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import {browserHistory} from 'utils/browser_history';
-import {JobTypeBase, JobType} from 'mattermost-redux/types/jobs';
+import {JobTypeBase, JobType} from '@mattermost/types/jobs';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
 import './data_retention_settings.scss';
