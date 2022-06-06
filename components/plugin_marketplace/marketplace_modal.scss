@@ -161,34 +161,22 @@
         background: transparent;
     }
 
-    .btn-toggle {
-        top: 1rem;
-    }
-
     .plugin-status-label {
-        position: absolute;
-        top: 5px;
-        right: 10px;
+        font-size: 12px;
     }
 
     .more-modal__actions {
-        position: relative;
-
-        .btn-primary,
-        .btn-outline {
-            position: absolute;
-            right: 120px;
-        }
+        display: flex;
+        align-items: center;
 
         .btn-toggle {
-            position: absolute;
-            right: 80px;
+            margin: 0 8px 0 24px;
         }
     }
 
     .tabs {
         display: flex;
-        width: 940px; // the marketplace may be getting too wide
+        width: 940px;
         flex-direction: column;
     }
 
