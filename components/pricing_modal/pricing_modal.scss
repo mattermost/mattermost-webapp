@@ -176,10 +176,14 @@
 
                 .plan_briefing,
                 .plan_extra_briefing {
-                    height: 250px;
+                    display: flex;
+                    height: 253px;
+                    flex-direction: column;
+                    justify-content: space-between;
                     margin-top: 16px;
+                    margin-bottom: 8px;
 
-                    span {
+                    .title {
                         color: var(--center-channel-color);
                         font-family: 'Metropolis';
                         font-size: 14px;
@@ -212,16 +216,6 @@
                             line-height: 24px;
                         }
                     }
-
-                    .disclaimer {
-                        margin-top: 36px;
-                        color: var(--error-text);
-                        font-family: 'Open Sans';
-                        font-size: 12px;
-                        font-style: normal;
-                        font-weight: 600;
-                        line-height: 16px;
-                    }
                 }
 
                 .plan_extra_briefing {
@@ -245,6 +239,7 @@
                     &.grayed {
                         background: rgba(var(--center-channel-color-rgb), 0.08);
                         color: rgba(var(--center-channel-color-rgb), 0.32);
+                        cursor: not-allowed;
                     }
 
                     &.active {

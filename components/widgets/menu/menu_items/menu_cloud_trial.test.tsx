@@ -7,6 +7,7 @@ import {Provider} from 'react-redux';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
+import {CloudProducts} from 'utils/constants';
 import {FileSizes} from 'utils/file_utils';
 import {limitThresholds} from 'utils/limits';
 
@@ -138,7 +139,6 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
                     license: {
                         IsLicensed: 'true',
                         Cloud: 'true',
-                        SkuShortName: 'enterprise',
                     },
                     config: {
                         FeatureFlagCloudFree: 'true',
@@ -147,7 +147,6 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
                 cloud: {
                     subscription: {
                         is_free_trial: 'false',
-                        is_paid_tier: 'false',
                         trial_end_at: 0,
                     },
                     limits,
@@ -168,7 +167,6 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
                     license: {
                         IsLicensed: 'true',
                         Cloud: 'true',
-                        SkuShortName: 'starter',
                     },
                     config: {
                         FeatureFlagCloudFree: 'true',
@@ -177,8 +175,14 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
                 cloud: {
                     subscription: {
                         is_free_trial: 'false',
-                        is_paid_tier: 'false',
                         trial_end_at: 0,
+                        product_id: 'prod_starter',
+                    },
+                    products: {
+                        prod_starter: {
+                            id: 'prod_starter',
+                            sku: CloudProducts.STARTER,
+                        },
                     },
                     limits,
                 },
@@ -204,8 +208,15 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
                 },
                 cloud: {
                     subscription: {
+                        product_id: 'prod_starter',
                         is_free_trial: 'true',
                         trial_end_at: 12345,
+                    },
+                    products: {
+                        prod_starter: {
+                            id: 'prod_starter',
+                            sku: CloudProducts.STARTER,
+                        },
                     },
                     limits,
                 },
@@ -226,7 +237,6 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
                     license: {
                         IsLicensed: 'true',
                         Cloud: 'true',
-                        SkuShortName: 'starter',
                     },
                     config: {
                         FeatureFlagCloudFree: 'true',
@@ -235,8 +245,14 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
                 cloud: {
                     subscription: {
                         is_free_trial: 'false',
-                        is_paid_tier: 'false',
                         trial_end_at: 232434,
+                        product_id: 'prod_starter',
+                    },
+                    products: {
+                        prod_starter: {
+                            id: 'prod_starter',
+                            sku: CloudProducts.STARTER,
+                        },
                     },
                     limits,
                 },
@@ -257,7 +273,6 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
                     license: {
                         IsLicensed: 'true',
                         Cloud: 'true',
-                        SkuShortName: 'starter',
                     },
                     config: {
                         FeatureFlagCloudFree: 'true',
@@ -265,9 +280,15 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
                 },
                 cloud: {
                     subscription: {
+                        product_id: 'prod_starter',
                         is_free_trial: 'false',
-                        is_paid_tier: 'false',
                         trial_end_at: 232434,
+                    },
+                    products: {
+                        prod_starter: {
+                            id: 'prod_starter',
+                            sku: CloudProducts.STARTER,
+                        },
                     },
                     limits,
                 },
