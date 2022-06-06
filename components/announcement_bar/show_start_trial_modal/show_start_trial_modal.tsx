@@ -56,10 +56,10 @@ const ShowStartTrialModal = () => {
     // Show this modal if the instance is currently not licensed and has never had a trial license loaded before
     const isLicensedOrPreviousLicensed = (isCurrentLicensed || isPrevLicensed);
     useEffect(() => {
-        if (!stats?.TOTAL_USERS) {
+        if (currentUser && !stats?.TOTAL_USERS) {
             dispatch(getStandardAnalytics());
         }
-    }, [!stats?.TOTAL_USERS]);
+    }, [!stats?.TOTAL_USERS, currentUser]);
 
     const handleOnClose = () => {
         trackEvent(
