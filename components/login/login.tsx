@@ -337,7 +337,10 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
             redirectUserToDefaultTeam();
             return;
         }
+
+        // temporal for debugging
         document.addEventListener('focusin', () => {
+            // eslint-disable-next-line no-console
             console.log('focused: ', document.activeElement);
         }, true);
 
