@@ -9,6 +9,7 @@ import {RouteComponentProps, withRouter} from 'react-router-dom';
 import {BillingDetails} from 'types/cloud/sku';
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import {TELEMETRY_CATEGORIES} from 'utils/constants';
+import {Team} from '@mattermost/types/teams';
 
 import {t} from 'utils/i18n';
 import {getNextBillingDate} from 'utils/utils';
@@ -28,6 +29,7 @@ type Props = RouteComponentProps & {
     stripe: Promise<Stripe | null>;
     isDevMode: boolean;
     contactSupportLink: string;
+    currentTeam: Team;
     addPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) => Promise<boolean | null>;
     subscribeCloudSubscription: ((productId: string) => Promise<boolean | null>) | null;
     onBack: () => void;
@@ -149,13 +151,15 @@ class ProcessPaymentSetup extends React.PureComponent<Props, State> {
 
     private sucessPage = () => {
         const {error} = this.state;
+        const formattedBtnText = (
+            <FormattedMessage
+                defaultMessage='Return to {team}'
+                id='admin.billing.subscription.returnToTeam'
+                values={{team: this.props.currentTeam.display_name}}
+            />
+
+        );
         if (this.props.isProratedPayment) {
-            const formattedButonText = (
-                <FormattedMessage
-                    defaultMessage='Return to Workspace'
-                    id='admin.billing.subscription.returnToWorkspace'
-                />
-            );
             const formattedTitle = (
                 <FormattedMessage
                     defaultMessage={'You are now subscribed to {selectedProductName}'}
@@ -183,7 +187,7 @@ class ProcessPaymentSetup extends React.PureComponent<Props, State> {
                                 height={313}
                             />
                         }
-                        formattedButonText={formattedButonText}
+                        formattedButonText={formattedBtnText}
                         buttonHandler={this.props.onClose}
                         className={'success'}
                     />
@@ -230,11 +234,11 @@ class ProcessPaymentSetup extends React.PureComponent<Props, State> {
                         height={313}
                     />
                 }
-                buttonText={t('admin.billing.subscription.returnToWorkspace')}
+                formattedButonText={formattedBtnText}
                 buttonHandler={handleClose}
                 className={'success'}
-                linkText={t('admin.billing.subscription.viewBilling')}
-                linkHandler={() => {
+                tertiaryBtnText={t('admin.billing.subscription.viewBilling')}
+                tertiaryButtonHandler={() => {
                     this.props.onClose();
                     this.props.history.push('/admin_console/billing/subscription');
                 }}

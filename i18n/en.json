@@ -357,7 +357,7 @@
   "admin.billing.subscription.proratedPayment.tooltipTitle": "Prorated Payments",
   "admin.billing.subscription.proratedPaymentBegins": "Prorated payment begins: {beginDate}. ",
   "admin.billing.subscription.providePaymentDetails": "Provide your payment details",
-  "admin.billing.subscription.returnToWorkspace": "Return to Workspace",
+  "admin.billing.subscription.returnToTeam": "Return to {team}",
   "admin.billing.subscription.stateprovince": "State/Province",
   "admin.billing.subscription.title": "Subscription",
   "admin.billing.subscription.updatePaymentInfo": "Update Payment Information",

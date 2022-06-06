@@ -21,6 +21,10 @@
         justify-content: center;
         text-align: center;
 
+        .IconMessage-h3, .IconMessage-sub {
+            max-width: 568px;
+        }
+
         .IconMessage-h3 {
             margin-top: 43px;
             color: var(--center-channel-color);
@@ -48,6 +52,18 @@
             line-height: 20px;
         }
 
+        .IconMessage-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin-top: 16px;
+            height: 40px;
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 14px;
+            text-align: center;
+        }
+
         .IconMessage-progress {
             width: 387px;
             height: 4px;
@@ -64,16 +80,29 @@
         }
 
         .IconMessage-button {
-            min-width: 95px;
-            height: 40px;
-            align-self: center;
-            margin-top: 16px;
-            margin-right: auto;
-            margin-left: auto;
-            font-size: 14px;
-            font-weight: 600;
-            line-height: 14px;
-            text-align: center;
+            // min-width: 95px;
+            // height: 40px;
+            // align-self: center;
+            // margin-top: 16px;
+            // margin-right: auto;
+            // margin-left: auto;
+            // font-size: 14px;
+            // font-weight: 600;
+            // line-height: 14px;
+            // text-align: center;
+            button {
+                background: var(--button-bg);
+                color: var(--button-color);
+                border-radius: 4px;
+            }
+        }
+
+        .IconMessage-tertiary-button {
+            button {
+                background: rgba(var(--denim-button-bg-rgb), 0.08);
+                border-radius: 4px;
+                color: var(--button-bg);
+            }
         }
 
         .IconMessage-link {
