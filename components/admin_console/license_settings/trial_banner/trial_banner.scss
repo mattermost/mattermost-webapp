@@ -1,0 +1,12 @@
+@import 'utils/variables';
+
+.upgradeLink {
+    padding: 10px 16px;
+    border: none;
+    background: var(--denim-button-bg);
+    border-radius: 4px;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 18px;
+}

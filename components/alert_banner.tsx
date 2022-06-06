@@ -20,8 +20,7 @@ export type AlertBannerProps = {
     variant?: 'sys' | 'app';
 }
 
-//
-const AlertBanner: React.FC<AlertBannerProps> = ({
+const AlertBanner = ({
     mode,
     title,
     message,

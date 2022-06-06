@@ -4,11 +4,13 @@
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
+import withGetCloudSubscription from 'components/common/hocs/cloud/with_get_cloud_subscription';
+
 import {getLicenseConfig} from 'mattermost-redux/actions/general';
 import {StatusOK} from '@mattermost/types/client4';
 import {Action, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
 import {uploadLicense, removeLicense, getPrevTrialLicense} from 'mattermost-redux/actions/admin';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import {GlobalState} from 'types/store';
 import {ModalData} from 'types/actions';
@@ -21,10 +23,18 @@ import LicenseSettings from './license_settings';
 
 function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
+    const license = getLicense(state);
+    const subscription = state.entities.cloud.subscription;
+    const isCloud = license.Cloud === 'true';
+    const isFreeTrial = subscription?.is_free_trial === 'true';
+
     return {
         stats: state.entities.admin.analytics,
         upgradedFromTE: config.UpgradedFromTE === 'true',
         prevTrialLicense: state.entities.admin.prevTrialLicense,
+        isCloud,
+        isFreeTrial,
+        trialEndDate: subscription?.trial_end_at || 0,
     };
 }
 
@@ -63,4 +73,4 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LicenseSettings);
+export default withGetCloudSubscription(connect(mapStateToProps, mapDispatchToProps)(LicenseSettings));
