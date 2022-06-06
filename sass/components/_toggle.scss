@@ -13,7 +13,6 @@ $btn-default-bg: $gray-lighter;
 $toggle-default-size: 1.5rem;
 $toggle-default-margin: 4rem;
 $toggle-default-font-size: 0.75rem;
-$toggle-default-handle-size: 2rem;
 
 // Mixin for Switch Colors
 // Variables: $color, $bg, $active-bg
@@ -28,9 +27,9 @@ $toggle-default-handle-size: 2rem;
 
 // Mixin for Default Switch Styles
 // Variables: $size, $margin, $color, $bg, $active-bg, $font-size
-@mixin toggle-mixin($size: $toggle-default-size, $margin: $toggle-default-margin, $font-size: $toggle-default-font-size, $handleSize: $toggle-default-handle-size) {
+@mixin toggle-mixin($size: $toggle-default-size, $margin: $toggle-default-margin, $font-size: $toggle-default-font-size) {
     position: relative;
-    min-width: 2.5rem;
+    min-width: $size * 2;
     height: $size;
     // color: $color;
     // background: $bg;
@@ -49,10 +48,10 @@ $toggle-default-handle-size: 2rem;
 
     > .handle {
         position: absolute;
-        top: 0.2rem;
-        left: 0.25rem;
-        width: 1.15rem;
-        height: 1.15rem;
+        top: 0.4rem;
+        left: 0.4rem;
+        width: 2rem;
+        height: 2rem;
         background: #fff;
         border-radius: 1rem;
         transition: left 0.25s;
@@ -62,7 +61,7 @@ $toggle-default-handle-size: 2rem;
         transition: background-color 0.25s;
 
         > .handle {
-            right: 0.25rem;
+            right: 0.4rem;
             left: inherit;
             transition: left 0.25s;
         }
@@ -83,7 +82,7 @@ $toggle-default-handle-size: 2rem;
     }
 
     &.btn-sm {
-        @include toggle-mixin($font-size: 0.55rem, $margin: 0.5rem, $size: 1.5rem);
+        @include toggle-mixin($font-size: 0.55rem, $margin: 0.5rem);
     }
 
     &.btn-xs {
