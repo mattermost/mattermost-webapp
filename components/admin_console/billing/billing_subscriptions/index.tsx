@@ -13,17 +13,19 @@ import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 
 import {getCloudContactUsLink, InquiryType, SalesInquiryIssue} from 'selectors/cloud';
+import {getAdminAnalytics} from 'mattermost-redux/selectors/entities/admin';
 import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {
     getSubscriptionProduct,
     getCloudSubscription as selectCloudSubscription,
+    getCloudCustomer as selectCloudCustomer,
     checkSubscriptionIsLegacyFree,
 } from 'mattermost-redux/selectors/entities/cloud';
-import {GlobalState} from 'types/store';
 import {
     TrialPeriodDays,
 } from 'utils/constants';
 import {isCustomerCardExpired} from 'utils/cloud_utils';
+import {hasSomeLimits} from 'utils/limits';
 import {getRemainingDaysFromFutureTimestamp} from 'utils/utils';
 import {useQuery} from 'utils/http_utils';
 
@@ -31,6 +33,7 @@ import BillingSummary from '../billing_summary';
 import PlanDetails from '../plan_details';
 
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
+import useGetLimits from 'components/common/hooks/useGetLimits';
 
 import ContactSalesCard from './contact_sales_card';
 import CancelSubscription from './cancel_subscription';
@@ -48,17 +51,18 @@ import {
 
 import './billing_subscriptions.scss';
 
-const BillingSubscriptions: React.FC = () => {
+const BillingSubscriptions = () => {
     const dispatch = useDispatch<DispatchFunc>();
     const store = useStore();
-    const analytics = useSelector((state: GlobalState) => state.entities.admin.analytics);
+    const analytics = useSelector(getAdminAnalytics);
     const subscription = useSelector(selectCloudSubscription);
+    const [cloudLimits] = useGetLimits();
 
-    const isCardExpired = useSelector((state: GlobalState) => isCustomerCardExpired(state.entities.cloud.customer));
+    const isCardExpired = isCustomerCardExpired(useSelector(selectCloudCustomer));
 
-    const contactSalesLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales));
-    const cancelAccountLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales, SalesInquiryIssue.CancelAccount));
-    const trialQuestionsLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales, SalesInquiryIssue.TrialQuestions));
+    const contactSalesLink = useSelector(getCloudContactUsLink)(InquiryType.Sales);
+    const cancelAccountLink = useSelector(getCloudContactUsLink)(InquiryType.Sales, SalesInquiryIssue.CancelAccount);
+    const trialQuestionsLink = useSelector(getCloudContactUsLink)(InquiryType.Sales, SalesInquiryIssue.TrialQuestions);
     const isLegacyFree = useSelector(checkSubscriptionIsLegacyFree);
     const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
 
@@ -162,7 +166,7 @@ const BillingSubscriptions: React.FC = () => {
                             onUpgradeMattermostCloud={onUpgradeMattermostCloud}
                         />
                     </div>
-                    {isCloudFreeEnabled ? (
+                    {isCloudFreeEnabled && hasSomeLimits(cloudLimits) ? (
                         <Limits/>
                     ) : (
                         <ContactSalesCard
