@@ -21,7 +21,8 @@
         justify-content: center;
         text-align: center;
 
-        .IconMessage-h3, .IconMessage-sub {
+        .IconMessage-h3,
+        .IconMessage-sub {
             max-width: 568px;
         }
 
@@ -54,12 +55,12 @@
 
         .IconMessage-buttons {
             display: flex;
-            justify-content: center;
-            gap: 5px;
-            margin-top: 16px;
             height: 40px;
+            justify-content: center;
+            margin-top: 16px;
             font-size: 14px;
             font-weight: 600;
+            gap: 16px;
             line-height: 14px;
             text-align: center;
         }
@@ -80,20 +81,10 @@
         }
 
         .IconMessage-button {
-            // min-width: 95px;
-            // height: 40px;
-            // align-self: center;
-            // margin-top: 16px;
-            // margin-right: auto;
-            // margin-left: auto;
-            // font-size: 14px;
-            // font-weight: 600;
-            // line-height: 14px;
-            // text-align: center;
             button {
                 background: var(--button-bg);
-                color: var(--button-color);
                 border-radius: 4px;
+                color: var(--button-color);
             }
         }
 
