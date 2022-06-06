@@ -41,9 +41,6 @@ describe('components/admin_console/license_settings/LicenseSettings', () => {
         prevTrialLicense: {
             IsLicensed: 'false',
         },
-        isCloud: false,
-        isFreeTrial: false,
-        trialEndDate: 1620335443650,
         upgradedFromTE: false,
         enterpriseReady: true,
         actions: {
@@ -104,18 +101,6 @@ describe('components/admin_console/license_settings/LicenseSettings', () => {
 
     test('should match snapshot team edition build with license', () => {
         const props = {...defaultProps, enterpriseReady: false};
-        const wrapper = shallow<LicenseSettings>(<LicenseSettings {...props}/>);
-        expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should match snapshot when is cloud', () => {
-        const props = {...defaultProps, isCloud: true};
-        const wrapper = shallow<LicenseSettings>(<LicenseSettings {...props}/>);
-        expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should match snapshot when is cloud and is free trial', () => {
-        const props = {...defaultProps, isCloud: true, isFreeTrial: true};
         const wrapper = shallow<LicenseSettings>(<LicenseSettings {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });

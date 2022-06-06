@@ -13,6 +13,7 @@ import {openModal} from 'actions/views/modals';
 
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 import PurchaseModal from 'components/purchase_modal';
+import CloudTrialBanner from 'components/admin_console/billing/billing_subscriptions/cloud_trial_banner';
 
 import {getCloudContactUsLink, InquiryType, SalesInquiryIssue} from 'selectors/cloud';
 import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
@@ -64,6 +65,7 @@ const BillingSubscriptions: React.FC = () => {
     const trialQuestionsLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales, SalesInquiryIssue.TrialQuestions));
     const isLegacyFree = useSelector(checkSubscriptionIsLegacyFree);
     const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
+    const trialEndDate = subscription?.trial_end_at || 0;
 
     const [showCreditCardBanner, setShowCreditCardBanner] = useState(true);
     const [showGrandfatheredPlanBanner, setShowGrandfatheredPlanBanner] = useState(true);
@@ -156,6 +158,7 @@ const BillingSubscriptions: React.FC = () => {
                     {showCreditCardBanner &&
                         isCardExpired &&
                         creditCardExpiredBanner(setShowCreditCardBanner)}
+                    {(isCloudFreeEnabled && isFreeTrial) && (<CloudTrialBanner trialEndDate={trialEndDate}/>)}
                     <div className='BillingSubscriptions__topWrapper'>
                         <PlanDetails
                             isFreeTrial={isFreeTrial}

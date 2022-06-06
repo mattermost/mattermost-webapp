@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/admin_console/billing_subscription/CloudTrialBanner should match snapshot when is cloud and is free trial 1`] = `
+<AlertBanner
+  actionButtonLeft={
+    <UpgradeLink
+      buttonText="Upgrade"
+      styleButton={true}
+    />
+  }
+  actionButtonRight={
+    <button
+      className="AlertBanner__buttonRight"
+      onClick={[Function]}
+    >
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Contact sales"
+        id="admin.billing.subscription.privateCloudCard.contactSalesy"
+      />
+    </button>
+  }
+  hideIcon={true}
+  message={
+    <Memo(MemoizedFormattedMessage)
+      defaultMessage="Your trial ends on {date} {time}. Upgrade to one of our paid plans with no limits."
+      id="admin.subscription.cloudTrialCard.description"
+      values={
+        Object {
+          "date": "Jan 1, 1970 ",
+          "time": "11:59 pm GMT",
+        }
+      }
+    />
+  }
+  mode="info"
+  title={
+    <Memo(MemoizedFormattedMessage)
+      defaultMessage="Upgrade to one of our paid plans to avoid Starter plan data limits"
+      id="admin.subscription.cloudTrialCard.upgradeTitle"
+    />
+  }
+/>
+`;
+
+exports[`components/admin_console/billing_subscription/CloudTrialBanner should match snapshot when trial end date is 0 1`] = `""`;

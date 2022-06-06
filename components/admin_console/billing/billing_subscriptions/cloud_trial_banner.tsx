@@ -6,37 +6,39 @@ import {FormattedMessage, useIntl} from 'react-intl';
 
 import moment from 'moment';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-
 import {getBrowserTimezone} from 'utils/timezone';
 
 import useOpenSalesLink from 'components/common/hooks/useOpenSalesLink';
 import AlertBanner from 'components/alert_banner';
 import UpgradeLink from 'components/widgets/links/upgrade_link';
 
-import './trial_banner.scss';
+import './cloud_trial_banner.scss';
 
 export interface Props {
     trialEndDate: number;
 }
 
-const CloudTrialBanner = ({trialEndDate}: Props) => {
+const CloudTrialBanner = ({trialEndDate}: Props): JSX.Element | null => {
     const endDate = new Date(trialEndDate);
     const {formatMessage} = useIntl();
     const openSalesLink = useOpenSalesLink();
+
+    if (trialEndDate === 0) {
+        return null;
+    }
 
     return (
         <AlertBanner
             mode={'info'}
             title={(
                 <FormattedMessage
-                    id='admin.license.cloudTrialCard.upgradeTitle'
+                    id='admin.subscription.cloudTrialCard.upgradeTitle'
                     defaultMessage='Upgrade to one of our paid plans to avoid Starter plan data limits'
                 />
             )}
             message={(
-                <FormattedMarkdownMessage
-                    id='admin.license.cloudTrialCard.description'
+                <FormattedMessage
+                    id='admin.subscription.cloudTrialCard.description'
                     defaultMessage='Your trial ends on {date} {time}. Upgrade to one of our paid plans with no limits.'
                     values={{
                         date: moment(endDate).format('MMM D, YYYY '),
@@ -47,7 +49,7 @@ const CloudTrialBanner = ({trialEndDate}: Props) => {
             hideIcon={true}
             actionButtonLeft={(
                 <UpgradeLink
-                    buttonText={formatMessage({id: 'admin.license.cloudTrialCard.upgrade', defaultMessage: 'Upgrade'})}
+                    buttonText={formatMessage({id: 'admin.subscription.cloudTrialCard.upgrade', defaultMessage: 'Upgrade'})}
                     styleButton={true}
                 />
             )}

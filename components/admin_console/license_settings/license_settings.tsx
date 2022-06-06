@@ -36,7 +36,6 @@ import UploadLicenseModal from './modals/upload_license_modal';
 import ConfirmLicenseRemovalModal from './modals/confirm_license_removal_modal';
 
 import './license_settings.scss';
-import CloudTrialBanner from './trial_banner/cloud_trial_banner';
 
 type Props = {
     license: ClientLicense;
@@ -46,9 +45,6 @@ type Props = {
     config: Partial<ClientConfig>;
     isDisabled: boolean;
     prevTrialLicense: ClientLicense;
-    isCloud: boolean;
-    isFreeTrial: boolean;
-    trialEndDate: number;
     actions: {
         getLicenseConfig: () => void;
         uploadLicense: (file: File) => Promise<ActionResult>;
@@ -400,10 +396,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
     }
 
     renewLicenseCard = () => {
-        const {isDisabled, isCloud, isFreeTrial, trialEndDate} = this.props;
-        if (isCloud && isFreeTrial) {
-            return (<CloudTrialBanner trialEndDate={trialEndDate}/>);
-        }
+        const {isDisabled} = this.props;
 
         if (isTrialLicense(this.props.license)) {
             return (
