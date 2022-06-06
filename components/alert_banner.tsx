@@ -65,10 +65,12 @@ const AlertBanner = ({
                 </div>
             )}
             {children}
-            {(actionButtonLeft || actionButtonRight) && <div className='AlertBanner__actionButtons'>
-                {actionButtonLeft}
-                {actionButtonRight}
-            </div>}
+            {(actionButtonLeft || actionButtonRight) && (
+                <div className='AlertBanner__actionButtons'>
+                    {actionButtonLeft}
+                    {actionButtonRight}
+                </div>
+            )}
         </div>
         {onDismiss && (
             <button

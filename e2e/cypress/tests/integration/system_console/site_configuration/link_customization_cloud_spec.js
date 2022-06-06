@@ -29,7 +29,6 @@ describe('SupportSettings', () => {
             [
                 {text: 'Ask the community', link: SupportSettings.ASK_COMMUNITY_LINK},
                 {text: 'Help resources', link: SupportSettings.HELP_LINK},
-                {text: 'Getting Started'},
                 {text: 'Report a problem', link: SupportSettings.REPORT_A_PROBLEM_LINK},
                 {text: 'Keyboard shortcuts'},
             ].forEach(({text, link}) => {
@@ -59,7 +58,6 @@ describe('SupportSettings', () => {
         // * Verify that links are correct at login page
         guides.forEach((guide) => {
             cy.findByText(guide.text).
-                parent().
                 should('have.attr', 'href', guide.link);
         });
 
@@ -70,7 +68,6 @@ describe('SupportSettings', () => {
         // * Verify that links are correct at signup page
         guides.forEach((guide) => {
             cy.findByText(guide.text).
-                parent().
                 should('have.attr', 'href', guide.link);
         });
     });
