@@ -17,7 +17,6 @@ export type Subscription = SubscriptionBase & {
 }
 
 export type SubscriptionResponse = SubscriptionBase & {
-
     // is_paid_tier is a holdover from the original free cloud plan,
     // which has long since been deprecated and will soon be retired.
     // It meant if a original cloud plan was paying, e.g. had more than 10 users.
