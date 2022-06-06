@@ -22,7 +22,9 @@ export type SubscriptionResponse = SubscriptionBase & {
     // which has long since been deprecated and will soon be retired.
     // It meant if a original cloud plan was paying, e.g. had more than 10 users.
     // When more cloud plans were added, they were all marked as is_paid_tier.
-    is_paid_tier: boolean;
+    // We remap is_paid_tier to is_legacy_cloud_paid_tier to clarify the meaning
+    // and prevent confusion with the new free cloud starter plan.
+    is_paid_tier: string;
 }
 
 type SubscriptionBase = {

@@ -28,7 +28,6 @@ const PlanDetails = ({isFreeTrial, subscriptionPlan}: Props) => {
     const product = useSelector(getSubscriptionProduct);
     const isLegacyFree = useSelector(checkSubscriptionIsLegacyFree);
     const isLegacyFreePaidTier = Boolean(subscription?.is_legacy_cloud_paid_tier);
-    subscription;
 
     if (!product) {
         return null;

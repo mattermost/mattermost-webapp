@@ -16,7 +16,7 @@ export function subscription(state: Subscription | null = null, action: GenericA
         const responseSubscription: SubscriptionResponse = action.data;
         const {is_paid_tier: isPaidTier, ...baseSubscription} = responseSubscription;
         const subscription: Subscription = {...baseSubscription};
-        if (LegacyFreeProductIds[subscription.product_id] && isPaidTier) {
+        if (LegacyFreeProductIds[subscription.product_id] && isPaidTier === 'true') {
             subscription.is_legacy_cloud_paid_tier = true;
         }
         return subscription;

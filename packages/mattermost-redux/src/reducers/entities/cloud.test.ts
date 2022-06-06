@@ -28,7 +28,7 @@ describe('subscription reducer', () => {
         seats: 0,
         trial_end_at: 0,
         is_free_trial: 'false',
-        is_paid_tier: false,
+        is_paid_tier: 'false',
     };
     const tests = [
         {
@@ -43,12 +43,12 @@ describe('subscription reducer', () => {
         },
         {
             label: 'when paid tier, has no is_legacy_cloud_paid_tier if not a legacy cloud plan',
-            sub: {baseSub, is_paid_tier: true},
+            sub: {baseSub, is_paid_tier: 'true'},
             value: undefined,
         },
         {
             label: 'when paid tier, has is_legacy_cloud_paid_tier if a legacy cloud plan',
-            sub: {...baseSub, is_paid_tier: true, product_id: 'prod_HyiHEAVKW5bYG3'},
+            sub: {...baseSub, is_paid_tier: 'true', product_id: 'prod_HyiHEAVKW5bYG3'},
             value: true,
         },
     ];

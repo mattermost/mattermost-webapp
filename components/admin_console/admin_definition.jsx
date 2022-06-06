@@ -205,7 +205,7 @@ export const it = {
         const limits = cloud?.limits;
         const subscriptionProduct = cloud?.products?.[productId];
         const isCloudFreeProduct = isCloudFreePlan(subscriptionProduct, limits);
-        const isLegacyFreeUnpaid = Boolean(LegacyFreeProductIds[productId]) && !cloud.subscription?.subscription.is_legacy_cloud_paid_tier;
+        const isLegacyFreeUnpaid = Boolean(LegacyFreeProductIds[productId]) && !cloud.subscription?.is_legacy_cloud_paid_tier;
         return isLegacyFreeUnpaid || cloud?.subscription?.is_free_trial === 'true' || isCloudFreeProduct;
     },
     userHasReadPermissionOnResource: (key) => (config, state, license, enterpriseReady, consoleAccess) => consoleAccess?.read?.[key],
