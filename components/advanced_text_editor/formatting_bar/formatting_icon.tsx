@@ -26,9 +26,7 @@ import Tooltip from 'components/tooltip';
 import {MarkdownMode} from 'utils/markdown/apply_markdown';
 import Constants from 'utils/constants';
 
-export const IconContainer = styled.button.attrs((props) => ({
-    className: 'style--none ' + props.className,
-}))`
+export const IconContainer = styled.button`
     display: flex;
     width: 32px;
     height: 32px;
@@ -36,6 +34,7 @@ export const IconContainer = styled.button.attrs((props) => ({
     place-content: center;
     border: none;
     background: transparent;
+    padding: 0;
     border-radius: 4px;
     color: rgba(var(--center-channel-color-rgb), 0.56);
     fill: currentColor;
