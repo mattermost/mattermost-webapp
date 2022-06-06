@@ -638,9 +638,10 @@ export default class SuggestionBox extends React.PureComponent {
         const terms = suggestions.terms;
         const items = suggestions.items;
         let selection = this.state.selection;
-        if (terms.length > 0) {
+        const selectionIndex = terms.indexOf(selection);
+        if (terms.length > 0 && selectionIndex === -1) {
             selection = terms[0];
-        } else if (this.state.selection) {
+        } else if (this.state.selection && selectionIndex === -1) {
             selection = '';
         }
 
