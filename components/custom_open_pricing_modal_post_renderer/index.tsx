@@ -15,7 +15,6 @@ export default function CustomOpenPricingModalPostRenderer(props: {post: Post}) 
         padding: '12px',
         borderRadius: '0 4px 4px 0',
         border: '1px solid rgba(var(--center-channel-text-rgb), 0.16)',
-        borderLeft: '5px solid var(--denim-sidebar-active-border)',
         width: 'max-content',
         margin: '10px 0',
     };
@@ -32,15 +31,25 @@ export default function CustomOpenPricingModalPostRenderer(props: {post: Post}) 
     return (
         <div>
             <span>{props.post.message}</span>
-            <div
-                style={style}
-            >
-                <button
-                    onClick={openPricingModal}
-                    style={btnStyle}
+            <div style={{display: 'flex'}}>
+                <div
+                    style={{
+                        height: 'inherit',
+                        width: '5px',
+                        backgroundColor: 'var(--denim-sidebar-active-border)',
+                        margin: '10px 0',
+                    }}
+                />
+                <div
+                    style={style}
                 >
-                    {formatMessage({id: 'postypes.custom_open_pricing_modal_post_renderer.view_options', defaultMessage: 'View upgrade options'})}
-                </button>
+                    <button
+                        onClick={openPricingModal}
+                        style={btnStyle}
+                    >
+                        {formatMessage({id: 'postypes.custom_open_pricing_modal_post_renderer.view_options', defaultMessage: 'View upgrade options'})}
+                    </button>
+                </div>
             </div>
         </div>
     );
