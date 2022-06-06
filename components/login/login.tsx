@@ -314,6 +314,11 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
     };
 
     useEffect(() => {
+        if (currentUser) {
+            redirectUserToDefaultTeam();
+            return;
+        }
+
         if (onCustomizeHeader) {
             onCustomizeHeader({
                 onBackButtonClick: showMfa ? handleHeaderBackButtonOnClick : undefined,
@@ -329,13 +334,6 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
                     }),
                 } : {},
             });
-        }
-    }, [onCustomizeHeader, search, showMfa, showSignup]);
-
-    useEffect(() => {
-        if (currentUser) {
-            redirectUserToDefaultTeam();
-            return;
         }
 
         onWindowFocus();
