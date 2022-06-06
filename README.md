@@ -11,7 +11,7 @@ This repo hosts the webapp client code. If you'd like to report an issue with Ma
 - [Developer documentation](https://developers.mattermost.com/)
 - [Download compiled version](https://mattermost.com/download)
 
-## Try out Mattermost please
+## Try out Mattermost
 
 - [Join the Mattermost Contributor's server](https://community.mattermost.com/signup_user_complete/?id=codoy5s743rq5mk18i7u5ksz7e) to join community discussions about contributions, development and more
 - [Get started with Mattermost Cloud](https://customers.mattermost.com/cloud/signup) to try out Mattermost
