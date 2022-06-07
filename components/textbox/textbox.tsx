@@ -200,7 +200,7 @@ export default class Textbox extends React.PureComponent<Props> {
         }
     }
 
-    handleKeyDown = (e: KeyboardEvent) => {
+    handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
         this.props.onKeyDown?.(e);
     }
 
