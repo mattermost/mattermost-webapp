@@ -9,7 +9,6 @@ import store from 'stores/redux_store';
 import {Constants} from 'utils/constants';
 
 import Provider from '../provider.jsx';
-import {asciiToUtf8Variants} from 'utils/suggestions.ts';
 
 import AtMentionSuggestion from './at_mention_suggestion.jsx';
 
@@ -109,7 +108,7 @@ export default class AtMentionProvider extends Provider {
         const prefixLower = this.latestPrefix.toLowerCase();
         const profileSuggestions = this.getProfileSuggestions(profile);
         return profileSuggestions.some((suggestion) =>
-            asciiToUtf8Variants(prefixLower).findIndex((utfComb) => suggestion.startsWith(utfComb)) !== -1,
+            suggestion.normalize('NFD').replace(/[\u0300-\u036f]/g, '').startsWith(prefixLower),
         );
     }
 
