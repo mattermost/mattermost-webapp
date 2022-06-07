@@ -9,25 +9,24 @@ import {getCloudSubscription, getCloudProducts, getCloudCustomer} from 'mattermo
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
-import {openModal} from 'actions/views/modals';
 
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
-import PurchaseModal from 'components/purchase_modal';
 import CloudTrialBanner from 'components/admin_console/billing/billing_subscriptions/cloud_trial_banner';
 
 import {getCloudContactUsLink, InquiryType, SalesInquiryIssue} from 'selectors/cloud';
+import {getAdminAnalytics} from 'mattermost-redux/selectors/entities/admin';
 import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {
     getSubscriptionProduct,
     getCloudSubscription as selectCloudSubscription,
+    getCloudCustomer as selectCloudCustomer,
     checkSubscriptionIsLegacyFree,
 } from 'mattermost-redux/selectors/entities/cloud';
-import {GlobalState} from 'types/store';
 import {
-    ModalIdentifiers,
     TrialPeriodDays,
 } from 'utils/constants';
 import {isCustomerCardExpired} from 'utils/cloud_utils';
+import {hasSomeLimits} from 'utils/limits';
 import {getRemainingDaysFromFutureTimestamp} from 'utils/utils';
 import {useQuery} from 'utils/http_utils';
 
@@ -35,6 +34,7 @@ import BillingSummary from '../billing_summary';
 import PlanDetails from '../plan_details';
 
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
+import useGetLimits from 'components/common/hooks/useGetLimits';
 
 import ContactSalesCard from './contact_sales_card';
 import CancelSubscription from './cancel_subscription';
@@ -52,17 +52,18 @@ import {
 
 import './billing_subscriptions.scss';
 
-const BillingSubscriptions: React.FC = () => {
+const BillingSubscriptions = () => {
     const dispatch = useDispatch<DispatchFunc>();
     const store = useStore();
-    const analytics = useSelector((state: GlobalState) => state.entities.admin.analytics);
+    const analytics = useSelector(getAdminAnalytics);
     const subscription = useSelector(selectCloudSubscription);
+    const [cloudLimits] = useGetLimits();
 
-    const isCardExpired = useSelector((state: GlobalState) => isCustomerCardExpired(state.entities.cloud.customer));
+    const isCardExpired = isCustomerCardExpired(useSelector(selectCloudCustomer));
 
-    const contactSalesLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales));
-    const cancelAccountLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales, SalesInquiryIssue.CancelAccount));
-    const trialQuestionsLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales, SalesInquiryIssue.TrialQuestions));
+    const contactSalesLink = useSelector(getCloudContactUsLink)(InquiryType.Sales);
+    const cancelAccountLink = useSelector(getCloudContactUsLink)(InquiryType.Sales, SalesInquiryIssue.CancelAccount);
+    const trialQuestionsLink = useSelector(getCloudContactUsLink)(InquiryType.Sales, SalesInquiryIssue.TrialQuestions);
     const isLegacyFree = useSelector(checkSubscriptionIsLegacyFree);
     const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
     const trialEndDate = subscription?.trial_end_at || 0;
@@ -75,16 +76,13 @@ const BillingSubscriptions: React.FC = () => {
 
     const product = useSelector(getSubscriptionProduct);
 
+    const openPricingModal = useOpenPricingModal();
+
     // show the upgrade section when is a free tier customer
     const onUpgradeMattermostCloud = () => {
         trackEvent('cloud_admin', 'click_upgrade_mattermost_cloud');
-        dispatch(openModal({
-            modalId: ModalIdentifiers.CLOUD_PURCHASE,
-            dialogType: PurchaseModal,
-        }));
+        openPricingModal();
     };
-
-    const openPricingModal = useOpenPricingModal();
 
     let isFreeTrial = false;
     let daysLeftOnTrial = 0;
@@ -158,7 +156,7 @@ const BillingSubscriptions: React.FC = () => {
                     {showCreditCardBanner &&
                         isCardExpired &&
                         creditCardExpiredBanner(setShowCreditCardBanner)}
-                    {(isCloudFreeEnabled && isFreeTrial) && (<CloudTrialBanner trialEndDate={trialEndDate}/>)}
+                    <CloudTrialBanner trialEndDate={12345678}/>
                     <div className='BillingSubscriptions__topWrapper'>
                         <PlanDetails
                             isFreeTrial={isFreeTrial}
@@ -171,7 +169,7 @@ const BillingSubscriptions: React.FC = () => {
                             onUpgradeMattermostCloud={onUpgradeMattermostCloud}
                         />
                     </div>
-                    {isCloudFreeEnabled ? (
+                    {isCloudFreeEnabled && hasSomeLimits(cloudLimits) ? (
                         <Limits/>
                     ) : (
                         <ContactSalesCard
