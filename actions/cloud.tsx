@@ -120,13 +120,7 @@ export function getCloudLimits(): ActionFunc {
             if (result) {
                 dispatch({
                     type: CloudTypes.RECEIVED_CLOUD_LIMITS,
-                    data: {
-                        ...result,
-                        boards: {
-                            ...result.boards,
-                            cards: 300,
-                        },
-                    },
+                    data: result,
                 });
             }
         } catch (error) {
