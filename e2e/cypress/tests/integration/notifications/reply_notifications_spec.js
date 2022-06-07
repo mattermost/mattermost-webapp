@@ -50,7 +50,7 @@ describe('reply-notifications', () => {
         // # Set users notification settings
         setReplyNotificationsSetting('#notificationCommentsNever');
 
-        // # Post a message
+        //# Post a message
         cy.postMessage('Hi there, this is a root message');
 
         // # Get post id of message
@@ -58,8 +58,10 @@ describe('reply-notifications', () => {
             // # Switch to town-square so that unread notifications in test channel may be triggered
             cy.uiClickSidebarItem('town-square');
 
+            cy.uiGetSidebarItem(testChannelName).click({force: true});
+
             // # Post a message in original thread as another user
-            cy.postMessageAs({sender, message: 'This is a reply to the root post', channelId: testChannelId, rootId: postId});
+            cy.postMessage('This is a reply to the root post');
 
             // * Verify stub was not called
             cy.get('@notifySpy').should('be.not.called');
