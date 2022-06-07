@@ -8,7 +8,7 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import classNames from 'classnames';
 
-import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
+import {ChannelCategory} from '@mattermost/types/channel_categories';
 
 import {Channel} from '@mattermost/types/channels';
 

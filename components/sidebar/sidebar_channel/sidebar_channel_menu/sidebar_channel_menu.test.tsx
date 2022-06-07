@@ -18,7 +18,6 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
     beforeEach(() => {
         useDispatchMock.mockClear();
         useSelectorMock.mockClear();
-        
     });
 
     const testChannel = TestHelper.getChannelMock();

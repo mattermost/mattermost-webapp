@@ -24,7 +24,7 @@ export type MenuGroup = {
 
 export interface MenuPopoverProps {
     triggerRef: React.RefObject<HTMLElement>;
-    isVisible: boolean;
+    isVisible?: boolean;
     isMobile?: boolean;
     placement?: Placement;
     offset?: [number | null | undefined, number | null | undefined];
@@ -32,7 +32,7 @@ export interface MenuPopoverProps {
 }
 
 export interface MenuDataProps {
-    open: boolean;
+    open?: boolean;
     groups: MenuGroup[];
     trigger: React.RefObject<HTMLElement>;
     placement: Placement;

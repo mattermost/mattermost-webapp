@@ -11,7 +11,7 @@ import {MenuPopoverProps} from './Menu.types';
 
 export const useUpdateOnVisibilityChange = (
     update: Instance['update'] | null,
-    isVisible: boolean,
+    isVisible?: boolean,
 ) => {
     const updateComponent = async () => {
         if (!update) {
