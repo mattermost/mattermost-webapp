@@ -15,17 +15,19 @@ import './plan_pricing.scss';
 
 interface Props {
     isLegacyFree: boolean;
+    isLegacyFreePaidTier: boolean;
     product: Product;
 }
 const PlanPricing = ({
     isLegacyFree,
+    isLegacyFreePaidTier,
     product,
 }: Props) => {
     const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
 
     let planPricing;
 
-    if (isLegacyFree) {
+    if (isLegacyFree && !isLegacyFreePaidTier) {
         planPricing = (
             <div className='PlanDetails__plan'>
                 <div className='PlanDetails__planName'>
