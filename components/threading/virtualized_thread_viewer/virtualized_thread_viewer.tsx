@@ -5,11 +5,11 @@ import React, {PureComponent, RefObject} from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import {DynamicSizeList, OnScrollArgs, OnItemsRenderedArgs} from 'dynamic-virtualized-list';
 
-import {Channel} from 'mattermost-redux/types/channels';
-import {Post} from 'mattermost-redux/types/posts';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {Channel} from '@mattermost/types/channels';
+import {Post} from '@mattermost/types/posts';
+import {UserProfile} from '@mattermost/types/users';
 
-import {isDateLine, isStartOfNewMessages} from 'mattermost-redux/utils/post_list';
+import {isDateLine, isStartOfNewMessages, isCreateComment} from 'mattermost-redux/utils/post_list';
 
 import DelayedAction from 'utils/delayed_action';
 import * as Utils from 'utils/utils';
@@ -55,9 +55,10 @@ type State = {
 }
 
 const virtListStyles = {
-    position: 'relative',
+    position: 'absolute',
+    top: '0',
+    height: '100%',
     willChange: 'auto',
-    flex: '0 1 auto',
 };
 
 const innerStyles = {
@@ -151,15 +152,10 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
 
     handleWindowResize = () => {
         const isMobile = Utils.isMobile();
-
         if (isMobile !== this.state.isMobile) {
             this.setState({
                 isMobile,
             });
-        }
-
-        if (this.state.userScrolledToBottom) {
-            this.scrollToBottom();
         }
     }
 
@@ -185,7 +181,7 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
 
         return {
             index: 0,
-            position: 'start',
+            position: 'end',
         };
     }
 
@@ -242,7 +238,6 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
         if (this.state.isMobile) {
             this.updateFloatingTimestamp(visibleStartIndex);
         }
-        this.innerRef.current?.classList?.add('rhs__post--list');
         this.setState({
             visibleStartIndex,
             visibleStopIndex,
@@ -295,11 +290,19 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
         });
     }
 
-    scrollToItem = (index: number, position: string, offset?: number) => this.listRef.current?.scrollToItem(index, position, offset);
+    scrollToItem = (index: number, position: string, offset?: number) => {
+        if (this.listRef.current) {
+            this.listRef.current.scrollToItem(index, position, offset);
+        }
+    }
 
-    scrollToBottom = () => this.scrollToItem(0, 'auto', 0);
+    scrollToBottom = () => {
+        this.scrollToItem(0, 'end');
+    }
 
-    handleToastDismiss = () => this.setState({lastViewedBottom: Date.now()});
+    handleToastDismiss = () => {
+        this.setState({lastViewedBottom: Date.now()});
+    }
 
     handleToastClick = () => {
         const index = getNewMessageIndex(this.props.replyListIds);
@@ -361,8 +364,22 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
         const isLastPost = itemId === this.props.lastPost.id;
         const isRootPost = itemId === this.props.selected.id;
 
-        if (!isDateLine(itemId) && !isStartOfNewMessages(itemId) && !isRootPost) {
+        if (!isDateLine(itemId) && !isStartOfNewMessages(itemId) && !isCreateComment(itemId) && !isRootPost) {
             a11yIndex++;
+        }
+
+        if (isCreateComment(itemId)) {
+            return (
+                <CreateComment
+                    focusOnMount={!this.props.isThreadView && (this.state.userScrolledToBottom || (!this.state.userScrolled && this.getInitialPostIndex() === 0))}
+                    isThreadView={this.props.isThreadView}
+                    latestPostId={this.props.lastPost.id}
+                    onHeightChange={this.handleCreateCommentHeightChange}
+                    ref={this.postCreateContainerRef}
+                    teammate={this.props.directTeammate}
+                    threadId={this.props.selected.id}
+                />
+            );
         }
 
         return (
@@ -445,7 +462,7 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
                 >
                     <AutoSizer>
                         {({width, height}) => (
-                            <div className={'post-right__content--inner-wrapper'}>
+                            <>
                                 <DynamicSizeList
                                     canLoadMorePosts={this.canLoadMorePosts}
                                     height={height}
@@ -466,17 +483,8 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
                                 >
                                     {this.renderRow}
                                 </DynamicSizeList>
-                                <CreateComment
-                                    focusOnMount={!this.props.isThreadView && (this.state.userScrolledToBottom || (!this.state.userScrolled && this.getInitialPostIndex() === 0))}
-                                    isThreadView={this.props.isThreadView}
-                                    latestPostId={this.props.lastPost.id}
-                                    onHeightChange={this.handleCreateCommentHeightChange}
-                                    ref={this.postCreateContainerRef}
-                                    teammate={this.props.directTeammate}
-                                    threadId={this.props.selected.id}
-                                />
                                 {this.renderToast(width)}
-                            </div>
+                            </>
                         )}
                     </AutoSizer>
                 </div>

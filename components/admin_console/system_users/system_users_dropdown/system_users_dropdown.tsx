@@ -6,11 +6,11 @@ import {FormattedMessage} from 'react-intl';
 
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
 import {Permissions} from 'mattermost-redux/constants';
-import {AdminConfig} from 'mattermost-redux/types/config';
-import {UserProfile} from 'mattermost-redux/types/users';
-import {ServerError} from 'mattermost-redux/types/errors';
-import {Bot} from 'mattermost-redux/types/bots';
-import {DeepPartial} from 'mattermost-redux/types/utilities';
+import {AdminConfig} from '@mattermost/types/config';
+import {UserProfile} from '@mattermost/types/users';
+import {ServerError} from '@mattermost/types/errors';
+import {Bot} from '@mattermost/types/bots';
+import {DeepPartial} from '@mattermost/types/utilities';
 
 import {adminResetMfa} from 'actions/admin_actions.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';

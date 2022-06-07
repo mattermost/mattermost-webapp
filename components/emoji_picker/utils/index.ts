@@ -4,7 +4,7 @@
 import isEmpty from 'lodash/isEmpty';
 
 import {isSystemEmoji} from 'mattermost-redux/utils/emoji_utils';
-import {Emoji, EmojiCategory, SystemEmoji} from 'mattermost-redux/types/emojis';
+import {Emoji, EmojiCategory, SystemEmoji} from '@mattermost/types/emojis';
 
 import {
     Categories,
@@ -17,7 +17,7 @@ import {
 } from 'components/emoji_picker/types';
 
 import {EmojiIndicesByCategory, Emojis as EmojisJson, EmojiIndicesByUnicode} from 'utils/emoji.jsx';
-import {getSkin} from 'utils/emoticons';
+import {getSkin, emojiMatchesSkin} from 'utils/emoticons';
 import {compareEmojis} from 'utils/emoji_utils';
 import EmojiMap from 'utils/emoji_map';
 
@@ -35,7 +35,31 @@ export function isCategoryHeaderRow(row: CategoryOrEmojiRow): row is CategoryHea
     return row.type === CATEGORY_HEADER_ROW;
 }
 
-export function getFilteredEmojis(allEmojis: Record<string, Emoji>, filter: string, recentEmojisString: string[]): Emoji[] {
+function updateSkinTone(initialEmoji: SystemEmoji, skinTone: string): Emoji {
+    const initialEmojiSkin = getSkin(initialEmoji);
+    if (initialEmojiSkin && initialEmojiSkin !== skinTone) {
+        const emojiWithUpdatedSkinTone = convertEmojiSkinTone(initialEmoji, initialEmojiSkin, skinTone);
+        if (emojiWithUpdatedSkinTone && emojiWithUpdatedSkinTone.unified) {
+            return emojiWithUpdatedSkinTone;
+        }
+    }
+    return initialEmoji;
+}
+
+function convertEmojisToUserSkinTone(emojiIds: string[], allEmojis: Record<string, Emoji>, userSkinTone: string): Emoji[] {
+    return emojiIds.map((emojiId) => {
+        const emoji = allEmojis[emojiId];
+        return isSystemEmoji(emoji) ? updateSkinTone(emoji, userSkinTone) : emoji;
+    });
+}
+
+function isEmojiIdEqual(firstEmoji: Emoji, secondEmoji: Emoji): boolean {
+    const firstEmojiId = isSystemEmoji(firstEmoji) ? firstEmoji.unified : firstEmoji.id;
+    const secondEmojId = isSystemEmoji(secondEmoji) ? secondEmoji.unified : secondEmoji.id;
+    return firstEmojiId === secondEmojId;
+}
+
+export function getFilteredEmojis(allEmojis: Record<string, Emoji>, filter: string, recentEmojisString: string[], userSkinTone: string): Emoji[] {
     const filteredEmojisWithRecent = Object.values(allEmojis).filter((emoji) => {
         const aliases = isSystemEmoji(emoji) ? emoji.short_names : [emoji.name];
 
@@ -49,19 +73,19 @@ export function getFilteredEmojis(allEmojis: Record<string, Emoji>, filter: stri
     });
 
     // Form a separate array of recent emojis
-    const recentEmojis = filteredEmojisWithRecent.filter((emoji) => {
-        const emojiId = isSystemEmoji(emoji) ? emoji.unified : emoji.id;
-        return recentEmojisString.includes(emojiId.toLowerCase());
+    const recentEmojis = convertEmojisToUserSkinTone(recentEmojisString, allEmojis, userSkinTone);
+
+    const filteredRecentEmojis = filteredEmojisWithRecent.filter((emoji) => {
+        return recentEmojis.some((recentEmojis) => isEmojiIdEqual(recentEmojis, emoji));
     });
 
-    const sortedRecentEmojis = recentEmojis.sort((firstEmoji, secondEmoji) =>
+    const sortedRecentEmojis = filteredRecentEmojis.sort((firstEmoji, secondEmoji) =>
         compareEmojis(firstEmoji, secondEmoji, filter),
     );
 
     // Seprate out recent emojis from the rest of the emoji result
     const filtertedEmojisMinusRecent = filteredEmojisWithRecent.filter((emoji) => {
-        const emojiId = isSystemEmoji(emoji) ? emoji.unified : emoji.id;
-        return !recentEmojisString.includes(emojiId.toLowerCase());
+        return !recentEmojis.some((recentEmojis) => isEmojiIdEqual(recentEmojis, emoji));
     });
 
     const sortedFiltertedEmojisMinusRecent = filtertedEmojisMinusRecent.sort((firstEmoji, secondEmoji) =>
@@ -70,27 +94,31 @@ export function getFilteredEmojis(allEmojis: Record<string, Emoji>, filter: stri
 
     const filteredEmojis = [...sortedRecentEmojis, ...sortedFiltertedEmojisMinusRecent];
 
-    return filteredEmojis;
+    const filteredEmojisUserSkinTone = filteredEmojis.filter((emoji) => {
+        return emojiMatchesSkin(emoji, userSkinTone);
+    });
+
+    return filteredEmojisUserSkinTone;
 }
 
 // Note : This function is not an idea implementation, a more better and efficeint way to do this come when we make changes to emoji json.
-function convertEmojiToUserSkinTone(emoji: SystemEmoji, emojiSkin: string, userSkinTone: string) {
+function convertEmojiSkinTone(emoji: SystemEmoji, emojiSkin: string, skinTone: string) {
     let newEmojiId = '';
 
     // If its a default (yellow) emoji, get the skin variation from its property
     if (emojiSkin === 'default') {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        const variation = Object.keys(emoji?.skin_variations).find((skinVariation) => skinVariation.includes(userSkinTone));
+        const variation = Object.keys(emoji?.skin_variations).find((skinVariation) => skinVariation.includes(skinTone));
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         newEmojiId = variation ? emoji.skin_variations[variation].unified : emoji.unified;
-    } else if (userSkinTone === 'default') {
+    } else if (skinTone === 'default') {
         // If default (yellow) skin is selected, remove the skin code from emoji id
         newEmojiId = emoji.unified.replaceAll(/-(1F3FB|1F3FC|1F3FD|1F3FE|1F3FF)/g, '');
     } else {
         // If non default skin is selected, add the new skin selected code to emoji id
-        newEmojiId = emoji.unified.replaceAll(/(1F3FB|1F3FC|1F3FD|1F3FE|1F3FF)/g, userSkinTone);
+        newEmojiId = emoji.unified.replaceAll(/(1F3FB|1F3FC|1F3FD|1F3FE|1F3FF)/g, skinTone);
     }
 
     const emojiIndex = EmojiIndicesByUnicode.get(newEmojiId.toLowerCase()) as number;
@@ -111,32 +139,7 @@ export function getEmojisByCategory(
 
     // For recent category, perform checks for skin tone uniformity
     if (categoryName === 'recent') {
-        const emojiIds = category?.emojiIds ?? [];
-
-        const recentEmojis = new Map();
-
-        emojiIds.forEach((emojiId) => {
-            const emoji = allEmojis[emojiId];
-
-            // Its a custom emoji
-            if (emoji.category === 'custom') {
-                recentEmojis.set(emojiId, emoji);
-            } else {
-                // Its a system emoji
-                const emojiSkin = getSkin(emoji);
-                if (emojiSkin && emojiSkin !== userSkinTone) {
-                    const emojiWithUserSkin = convertEmojiToUserSkinTone(emoji, emojiSkin, userSkinTone);
-                    if (emojiWithUserSkin && emojiWithUserSkin.unified) {
-                        recentEmojis.set(emojiWithUserSkin.unified, emojiWithUserSkin);
-                    }
-                } else {
-                    // Emojis skin is same as userskin tone
-                    recentEmojis.set(emojiId, emoji);
-                }
-            }
-        });
-
-        return Array.from(recentEmojis.values());
+        return convertEmojisToUserSkinTone(emojiIds, allEmojis, userSkinTone);
     }
 
     // For all other categories, return emojis of the categoryies from allEmojis
@@ -299,7 +302,7 @@ export function createCategoryAndEmojiRows(
         };
 
         const recentEmojiIds = categories?.[RECENT]?.emojiIds ?? [];
-        const filteredEmojis = getFilteredEmojis(allEmojis, filter, recentEmojiIds);
+        const filteredEmojis = getFilteredEmojis(allEmojis, filter, recentEmojiIds, userSkinTone);
         const [searchEmojisRows] = splitEmojisToRows(filteredEmojis, 0, SEARCH_RESULTS, 1);
 
         const searchEmojiRowsWithCategoryHeader: CategoryOrEmojiRow[] = [searchCategoryRow, ...searchEmojisRows];

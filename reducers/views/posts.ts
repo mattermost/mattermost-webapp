@@ -8,7 +8,6 @@ import type {GenericAction} from 'mattermost-redux/types/actions';
 
 import {ActionTypes} from 'utils/constants';
 
-// TODO@Michel: can be reverted to `{}` once the inline post editing feature is enabled by default
 const defaultState = {
     post: {},
     show: false,

@@ -5,7 +5,7 @@ import {combineReducers} from 'redux';
 import {JobTypes} from 'mattermost-redux/action_types';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {JobsRequestsStatuses, RequestStatusType} from 'mattermost-redux/types/requests';
+import {JobsRequestsStatuses, RequestStatusType} from '@mattermost/types/requests';
 
 import {handleRequest, initialRequestState} from './helpers';
 

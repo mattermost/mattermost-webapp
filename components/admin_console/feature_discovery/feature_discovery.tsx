@@ -4,8 +4,8 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {AnalyticsRow} from 'mattermost-redux/types/admin';
-import {ClientLicense} from 'mattermost-redux/types/config';
+import {AnalyticsRow} from '@mattermost/types/admin';
+import {ClientLicense} from '@mattermost/types/config';
 import {EmbargoedEntityTrialError} from 'components/admin_console/license_settings/trial_banner/trial_banner';
 
 import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
@@ -16,7 +16,7 @@ import {trackEvent} from 'actions/telemetry_actions';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
-import PurchaseModal from 'components/purchase_modal';
+import PricingModal from 'components/pricing_modal';
 import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
 
 import {ModalData} from 'types/actions';
@@ -105,8 +105,8 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
         );
 
         this.props.actions.openModal({
-            modalId: ModalIdentifiers.CLOUD_PURCHASE,
-            dialogType: PurchaseModal,
+            modalId: ModalIdentifiers.PRICING_MODAL,
+            dialogType: PricingModal,
         });
     }
 
@@ -121,7 +121,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
             primaryMessage = (
                 <FormattedMessage
                     id='admin.ldap_feature_discovery_cloud.call_to_action.primary'
-                    defaultMessage='Subscribe now'
+                    defaultMessage='Upgrade now'
                 />
             );
         }

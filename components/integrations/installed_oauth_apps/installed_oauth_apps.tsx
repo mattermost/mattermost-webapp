@@ -4,7 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {OAuthApp} from 'mattermost-redux/types/integrations';
+import {OAuthApp} from '@mattermost/types/integrations';
 
 import {localizeMessage} from 'utils/utils';
 import BackstageList from 'components/backstage/components/backstage_list.jsx';

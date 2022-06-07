@@ -23,13 +23,14 @@ import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {GlobalState} from 'types/store/index';
 
 import {useGlobalState} from 'stores/hooks';
+import LocalStorageStore from 'stores/local_storage_store';
 import {clearLastUnreadChannel} from 'actions/global_actions';
 import {setSelectedThreadId} from 'actions/views/threads';
 import {suppressRHS, unsuppressRHS} from 'actions/views/rhs';
 import {loadProfilesForSidebar} from 'actions/user_actions';
 import {getSelectedThreadIdInCurrentTeam} from 'selectors/views/threads';
 
-import {Constants} from 'utils/constants';
+import {Constants, PreviousViewedTypes} from 'utils/constants';
 
 import Header from 'components/widgets/header';
 import LoadingScreen from 'components/loading_screen';
@@ -66,6 +67,13 @@ const GlobalThreads = () => {
         dispatch(selectChannel(''));
         dispatch(clearLastUnreadChannel);
         loadProfilesForSidebar();
+
+        const penultimateType = LocalStorageStore.getPreviousViewedType(currentUserId, currentTeamId);
+
+        if (penultimateType !== PreviousViewedTypes.THREADS) {
+            LocalStorageStore.setPenultimateViewedType(currentUserId, currentTeamId, penultimateType);
+            LocalStorageStore.setPreviousViewedType(currentUserId, currentTeamId, PreviousViewedTypes.THREADS);
+        }
 
         // unsuppresses RHS on navigating away (unmount)
         return () => {

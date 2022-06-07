@@ -67,13 +67,21 @@ const AppBarPluginComponent = (props: PluginComponentProps) => {
         </div>
     );
 
+    const isButtonActive = component.pluginId === activePluginId;
+
+    if (!iconUrl) {
+        content = (
+            <div className={classNames('app-bar__old-icon app-bar__icon-inner app-bar__icon-inner--centered', {'app-bar__old-icon--active': isButtonActive})}>
+                {component.icon}
+            </div>
+        );
+    }
+
     if (imageLoadState === ImageLoadState.ERROR) {
         content = (
             <PluginIcon className='icon__plugin'/>
         );
     }
-
-    const isButtonActive = component.pluginId === activePluginId;
 
     return (
         <OverlayTrigger

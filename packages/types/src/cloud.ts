@@ -12,7 +12,22 @@ export type CloudState = {
     };
 }
 
-export type Subscription = {
+export type Subscription = SubscriptionBase & {
+    is_legacy_cloud_paid_tier?: boolean;
+}
+
+export type SubscriptionResponse = SubscriptionBase & {
+
+    // is_paid_tier is a holdover from the original free cloud plan,
+    // which has long since been deprecated and will soon be retired.
+    // It meant if a original cloud plan was paying, e.g. had more than 10 users.
+    // When more cloud plans were added, they were all marked as is_paid_tier.
+    // We remap is_paid_tier to is_legacy_cloud_paid_tier to clarify the meaning
+    // and prevent confusion with the new free cloud starter plan.
+    is_paid_tier: string;
+}
+
+type SubscriptionBase = {
     id: string;
     customer_id: string;
     product_id: string;
@@ -21,7 +36,6 @@ export type Subscription = {
     end_at: number;
     create_at: number;
     seats: number;
-    is_paid_tier: string;
     last_invoice?: Invoice;
     trial_end_at: number;
     is_free_trial: string;
@@ -148,7 +162,6 @@ export interface CloudUsage {
     files: {
         totalStorage: number;
         totalStorageLoaded: boolean;
-
     };
     messages: {
         history: number;
@@ -158,8 +171,17 @@ export interface CloudUsage {
         cards: number;
         cardsLoaded: boolean;
     };
-    integrations: {
-        enabled: number;
-        enabledLoaded: boolean;
-    };
+    teams: TeamsUsage;
+    integrations: IntegrationsUsage;
+}
+
+export interface IntegrationsUsage {
+    enabled: number;
+    enabledLoaded: boolean;
+}
+
+export type TeamsUsage = {
+    active: number;
+    cloudArchived: number;
+    teamsLoaded: boolean;
 }

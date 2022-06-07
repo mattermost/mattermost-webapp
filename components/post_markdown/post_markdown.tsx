@@ -4,8 +4,8 @@
 import React from 'react';
 import memoize from 'memoize-one';
 
-import {Post} from 'mattermost-redux/types/posts';
-import {Channel} from 'mattermost-redux/types/channels';
+import {Post} from '@mattermost/types/posts';
+import {Channel} from '@mattermost/types/channels';
 
 import Markdown from 'components/markdown';
 
