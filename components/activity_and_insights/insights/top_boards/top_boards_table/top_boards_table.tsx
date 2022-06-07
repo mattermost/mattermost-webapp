@@ -6,6 +6,8 @@ import {FormattedMessage} from 'react-intl';
 
 import classNames from 'classnames';
 
+import {trackEvent} from 'actions/telemetry_actions';
+
 import {GlobalState} from 'types/store';
 
 import {TimeFrame, TopBoard} from '@mattermost/types/insights';
@@ -41,6 +43,10 @@ const TopBoardsTable = (props: Props) => {
     useEffect(() => {
         getTopBoards();
     }, [getTopBoards]);
+
+    const trackClickEvent = useCallback(() => {
+        trackEvent('insights', 'open_board_from_top_boards_modal');
+    }, []);
 
     const getColumns = useMemo((): Column[] => {
         const columns: Column[] = [
@@ -116,10 +122,7 @@ const TopBoardsTable = (props: Props) => {
                             />
                         ),
                     },
-
-                    // onClick: () => {
-                    //     openThread(thread.post);
-                    // },
+                    onClick: trackClickEvent,
                 }
             );
         });

@@ -5,6 +5,8 @@ import {useSelector} from 'react-redux';
 
 import {FormattedMessage} from 'react-intl';
 
+import {trackEvent} from 'actions/telemetry_actions';
+
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import {TopBoard} from '@mattermost/types/insights';
@@ -61,6 +63,10 @@ const TopBoards = (props: WidgetHocProps) => {
         return entries;
     }, []);
 
+    const trackClickEvent = useCallback(() => {
+        trackEvent('insights', 'open_board_from_top_boards_widget');
+    }, []);
+
     return (
         <div className='top-board-container'>
             {
@@ -75,7 +81,7 @@ const TopBoards = (props: WidgetHocProps) => {
                             return (
                                 <div
                                     className='board-item'
-                                    onClick={() => {}}
+                                    onClick={trackClickEvent}
                                     key={i}
                                 >
                                     <span className='board-icon'>{board.icon}</span>

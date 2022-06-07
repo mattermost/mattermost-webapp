@@ -8,6 +8,8 @@ import {FormattedMessage} from 'react-intl';
 
 import Constants, {InsightsScopes} from 'utils/constants';
 
+import {trackEvent} from 'actions/telemetry_actions';
+
 import CircleLoader from '../skeleton_loader/circle_loader/circle_loader';
 import TitleLoader from '../skeleton_loader/title_loader/title_loader';
 import LineChartLoader from '../skeleton_loader/line_chart_loader/line_chart_loader';
@@ -17,8 +19,8 @@ import {getCurrentRelativeTeamUrl, getCurrentTeamId} from 'mattermost-redux/sele
 import {getMyTopChannels, getTopChannelsForTeam} from 'mattermost-redux/actions/insights';
 import {TopChannel, TopChannelGraphData} from '@mattermost/types/insights';
 import WidgetEmptyState from '../widget_empty_state/widget_empty_state';
-import OverlayTrigger from 'components/overlay_trigger';
 
+import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 
 import TopChannelsLineChart from './top_channels_line_chart/top_channels_line_chart';
@@ -105,6 +107,10 @@ const TopChannels = (props: WidgetHocProps) => {
         );
     }, []);
 
+    const trackClickEvent = useCallback(() => {
+        trackEvent('insights', 'open_channel_from_top_channels_widget');
+    }, []);
+
     return (
         <>
             <div className='top-channel-container'>
@@ -146,6 +152,7 @@ const TopChannels = (props: WidgetHocProps) => {
                                             className='channel-row'
                                             to={`${currentTeamUrl}/channels/${channel.name}`}
                                             key={channel.id}
+                                            onClick={trackClickEvent}
                                         >
                                             <div
                                                 className='channel-display-name'
