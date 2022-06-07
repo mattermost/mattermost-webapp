@@ -152,7 +152,7 @@ const TopThreadsTable = (props: Props) => {
                             <div className='thread-item'>
                                 <div className='thread-details'>
                                     <Avatar
-                                        url={imageURLForUser(thread.user_id)}
+                                        url={imageURLForUser(thread.user_information.id)}
                                         size={'xs'}
                                     />
                                     <span className='display-name'>{displayUsername(thread.user_information as UserProfile, teammateNameDisplaySetting)}</span>
@@ -194,7 +194,7 @@ const TopThreadsTable = (props: Props) => {
 
                         ),
                         replies: (
-                            <span className='replies'>{thread.reply_count}</span>
+                            <span className='replies'>{thread.post.reply_count}</span>
                         ),
                     },
                     onClick: () => {
