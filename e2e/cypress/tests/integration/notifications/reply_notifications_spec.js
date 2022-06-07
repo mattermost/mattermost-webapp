@@ -50,7 +50,7 @@ describe('reply-notifications', () => {
         // # Set users notification settings
         setReplyNotificationsSetting('#notificationCommentsNever');
 
-        //# Post a message
+        // # Post a message
         cy.postMessage('Hi there, this is a root message');
 
         // # Get post id of message
