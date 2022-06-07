@@ -486,7 +486,7 @@ export class MainMenu extends React.PureComponent<Props> {
                                                 </span>
                                                 <span className='message'>
                                                     {this.props.isFreeTrial ? (
-                                                        formatMessage({id: 'navbar_dropdown.create.tooltip.cloudFreeTrial', defaultMessage: 'During your trial you are able to create multiple teams'})
+                                                        formatMessage({id: 'navbar_dropdown.create.tooltip.cloudFreeTrial', defaultMessage: 'During your trial you are able to create multiple teams. These teams will be archived after your trial.'})
                                                     ) : (
                                                         formatMessage({id: 'navbar_dropdown.create.tooltip.cloudFree', defaultMessage: 'This is a paid feature, available with a free 30-day trial'})
                                                     )}
