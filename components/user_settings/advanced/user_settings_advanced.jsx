@@ -57,7 +57,12 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
             join_leave: this.props.joinLeave,
         };
 
-        const preReleaseFeaturesKeys = Object.keys(PreReleaseFeatures);
+        const PreReleaseFeaturesLocal = PreReleaseFeatures;
+        if (this.props.isAdvancedTextEditorEnabled) {
+            delete PreReleaseFeaturesLocal.MARKDOWN_PREVIEW;
+        }
+        const preReleaseFeaturesKeys = Object.keys(PreReleaseFeaturesLocal);
+
         let enabledFeatures = 0;
         for (const as of advancedSettings) {
             for (const key of preReleaseFeaturesKeys) {
@@ -79,7 +84,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
         const showDeactivateAccountModal = false;
 
         return {
-            preReleaseFeatures: PreReleaseFeatures,
+            preReleaseFeatures: PreReleaseFeaturesLocal,
             settings,
             preReleaseFeaturesKeys,
             enabledFeatures,
