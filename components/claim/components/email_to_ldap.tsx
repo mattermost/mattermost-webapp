@@ -22,6 +22,14 @@ type Props = {
     ldapLoginFieldName?: string;
 }
 
+export type SubmitOptions = {
+    loginId: string | null;
+    password: string;
+    token?: string;
+    ldapIdParam?: string;
+    ldapPasswordParam?: string;
+}
+
 const EmailToLDAP = ({email, siteName, ldapLoginFieldName}: Props) => {
     const emailPasswordInput = useRef<HTMLInputElement>(null);
     const ldapIdInput = useRef<HTMLInputElement>(null);
@@ -62,21 +70,13 @@ const EmailToLDAP = ({email, siteName, ldapLoginFieldName}: Props) => {
         setLdapPassword(ldapPassword);
 
         if (email) {
-            submit({email, password, ldapIdParam: ldapId, ldapPasswordParam: ldapPassword});
+            submit({loginId: email, password, ldapIdParam: ldapId, ldapPasswordParam: ldapPassword});
         }
     };
 
-    type SubmitOptions = {
-        email: string;
-        password: string;
-        token?: string;
-        ldapIdParam?: string;
-        ldapPasswordParam?: string;
-    }
-
-    const submit = ({email, password, token = '', ldapIdParam = '', ldapPasswordParam = ''}: SubmitOptions) => {
+    const submit = ({loginId, password, token = '', ldapIdParam = '', ldapPasswordParam = ''}: SubmitOptions) => {
         emailToLdap(
-            email,
+            loginId,
             password,
             token,
             ldapIdParam || ldapId,

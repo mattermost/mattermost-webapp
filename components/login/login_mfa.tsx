@@ -8,6 +8,7 @@ import ColumnLayout from 'components/header_footer_route/content_layouts/column'
 import SaveButton from 'components/save_button';
 import Input, {SIZE} from 'components/widgets/inputs/input/input';
 import ShieldWithCheckmarkSVG from 'components/common/svg_images_components/shield_with_checkmark';
+import {SubmitOptions} from 'components/claim/components/email_to_ldap';
 
 import './login_mfa.scss';
 
@@ -16,7 +17,7 @@ type LoginMfaProps = {
     password: string;
     title?: MessageDescriptor;
     subtitle?: MessageDescriptor;
-    onSubmit: (loginId: string, password: string, token: string) => void;
+    onSubmit: ({loginId, password, token}: SubmitOptions) => void;
 }
 
 const LoginMfa = ({loginId, password, title, subtitle, onSubmit}: LoginMfaProps) => {
@@ -35,7 +36,7 @@ const LoginMfa = ({loginId, password, title, subtitle, onSubmit}: LoginMfaProps)
         if (!saving && loginId) {
             setSaving(true);
 
-            onSubmit(loginId, password, token);
+            onSubmit({loginId, password, token});
         }
     };
 
