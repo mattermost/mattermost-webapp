@@ -4150,7 +4150,7 @@
   "pricing_modal.extra_briefing.professional.guestAccess": "Guest access with MFA enforcement",
   "pricing_modal.extra_briefing.professional.ssoadLdap": "SSO support with AD/LDAP, Google, O365, OpenID",
   "pricing_modal.extra_briefing.professional.ssoSaml": "SSO with SAML 2.0, including Okta, OneLogin and ADFS",
-  "pricing_modal.extra_briefing.starter.calls": "1:1 audio calls and screen share",
+  "pricing_modal.extra_briefing.starter.calls": "1:1 voice calls and screen share",
   "pricing_modal.extra_briefing.title": "More features",
   "pricing_modal.lookingToSelfHost": "Looking to self-host?",
   "pricing_modal.planDisclaimer.starter": "This plan has data restrictions.",
