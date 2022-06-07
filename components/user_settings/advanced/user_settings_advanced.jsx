@@ -57,7 +57,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
             join_leave: this.props.joinLeave,
         };
 
-        const PreReleaseFeaturesLocal = PreReleaseFeatures;
+        const PreReleaseFeaturesLocal = JSON.parse(JSON.stringify(PreReleaseFeatures));
         if (this.props.isAdvancedTextEditorEnabled) {
             delete PreReleaseFeaturesLocal.MARKDOWN_PREVIEW;
         }
