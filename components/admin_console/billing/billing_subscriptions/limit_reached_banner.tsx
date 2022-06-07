@@ -36,7 +36,7 @@ const LimitReachedBanner = (props: Props) => {
 
     const hasDismissedBanner = useSelector(getHasDismissedSystemConsoleLimitReached);
 
-    const openSalesLink = useOpenSalesLink(SalesInquiryIssue.UpgradeEnterprise);
+    const openSalesLink = useOpenSalesLink(props.product?.sku === CloudProducts.PROFESSIONAL ? SalesInquiryIssue.UpgradeEnterprise : undefined);
     const openPurchaseModal = useOpenCloudPurchaseModal({});
     const openPricingModal = useOpenPricingModal();
     const saveBool = useSaveBool();
