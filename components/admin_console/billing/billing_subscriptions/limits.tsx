@@ -3,7 +3,7 @@
 
 import React from 'react';
 import {useIntl, FormattedMessage} from 'react-intl';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 
 import {
     getCloudProducts,
@@ -12,18 +12,16 @@ import {
 } from 'mattermost-redux/selectors/entities/cloud';
 import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
-import {openModal} from 'actions/views/modals';
-import {trackEvent} from 'actions/telemetry_actions';
+import {SalesInquiryIssue} from 'selectors/cloud';
 
-import {ModalIdentifiers, CloudProducts} from 'utils/constants';
+import {CloudProducts} from 'utils/constants';
 import {FileSizes} from 'utils/file_utils';
-import {asGBString, fallbackStarterLimits} from 'utils/limits';
+import {asGBString, fallbackStarterLimits, hasSomeLimits} from 'utils/limits';
 
 import useGetLimits from 'components/common/hooks/useGetLimits';
 import useGetUsage from 'components/common/hooks/useGetUsage';
 import useOpenSalesLink from 'components/common/hooks/useOpenSalesLink';
-
-import PricingModal from 'components/pricing_modal';
+import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 
 import LimitCard from './limit_card';
 import SingleInlineLimit from './single_inline_limit';
@@ -38,14 +36,14 @@ const Limits = (props: Props): JSX.Element | null => {
     const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
     const intl = useIntl();
     const subscription = useSelector(getCloudSubscription);
-    const dispatch = useDispatch();
     const products = useSelector(getCloudProducts);
     const subscriptionProduct = useSelector(getSubscriptionProduct);
     const [cloudLimits, limitsLoaded] = useGetLimits();
     const usage = useGetUsage();
-    const openSalesLink = useOpenSalesLink();
+    const openSalesLink = useOpenSalesLink(SalesInquiryIssue.UpgradeEnterprise);
+    const openPricingModal = useOpenPricingModal();
 
-    if (!isCloudFreeEnabled || !limitsLoaded || !subscriptionProduct || subscriptionProduct.sku === CloudProducts.STARTER_LEGACY || subscriptionProduct.sku === CloudProducts.ENTERPRISE) {
+    if (!isCloudFreeEnabled || !subscriptionProduct || !limitsLoaded || !hasSomeLimits(cloudLimits)) {
         return null;
     }
 
@@ -247,13 +245,7 @@ const Limits = (props: Props): JSX.Element | null => {
                 {subscriptionProduct.sku === CloudProducts.STARTER && (
                     <>
                         <button
-                            onClick={() => {
-                                trackEvent('cloud_admin', 'click_open_pricing_modal');
-                                dispatch(openModal({
-                                    modalId: ModalIdentifiers.PRICING_MODAL,
-                                    dialogType: PricingModal,
-                                }));
-                            }}
+                            onClick={openPricingModal}
                             className='btn btn-primary'
                         >
                             {intl.formatMessage({
