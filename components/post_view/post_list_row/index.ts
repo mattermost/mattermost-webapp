@@ -6,9 +6,6 @@ import {bindActionCreators, Dispatch} from 'redux';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
 
-import {Channel} from '@mattermost/types/channels';
-import {Post} from '@mattermost/types/posts';
-
 import {getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis';
 import {emitShortcutReactToLastPostFrom} from 'actions/post_actions.jsx';
 
@@ -16,19 +13,9 @@ import {GlobalState} from 'types/store';
 
 import PostListRow from './post_list_row';
 
-type Props = {
-    post?: Post;
-    channel?: Channel;
-}
-
-function mapStateToProps(state: GlobalState, ownProps: Props) {
+function mapStateToProps(state: GlobalState) {
     const shortcutReactToLastPostEmittedFrom = getShortcutReactToLastPostEmittedFrom(state);
-
-    return {
-        post: ownProps.post,
-        channel: ownProps.channel,
-        shortcutReactToLastPostEmittedFrom,
-    };
+    return {shortcutReactToLastPostEmittedFrom};
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
