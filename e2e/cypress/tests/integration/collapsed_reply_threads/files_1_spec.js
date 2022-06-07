@@ -47,7 +47,7 @@ describe('Collapsed Reply Threads', () => {
     });
 
     it('MM-T4776 should display poll text without Markdown in the threads list', () => {
-        cy.shouldNotRunOnCloudEdition(); 
+        cy.shouldNotRunOnCloudEdition();
         cy.shouldHavePluginUploadEnabled();
 
         // # Upload and enable "matterpoll" plugin
@@ -95,5 +95,4 @@ describe('Collapsed Reply Threads', () => {
             cy.apiDeletePost(pollId);
         });
     });
-
 });
