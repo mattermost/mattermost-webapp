@@ -6,11 +6,16 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import type {MarketplaceLabel} from '@mattermost/types/marketplace';
+import {Limits} from '@mattermost/types/cloud';
 
 import MarketplaceItem from '../marketplace_item';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
+import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
+import Toggle from 'components/toggle';
 
 import {localizeMessage} from 'utils/utils';
+import Constants from 'utils/constants';
 
 export type MarketplaceItemAppProps = {
     id: string;
@@ -20,7 +25,11 @@ export type MarketplaceItemAppProps = {
     iconURL?: string;
 
     installed: boolean;
+    enabled: boolean;
+    changingStatus: boolean | undefined;
     labels?: MarketplaceLabel[];
+    integrationsUsageAtLimit: boolean;
+    cloudLimits: Limits;
 
     installing: boolean;
     error?: string;
@@ -29,6 +38,8 @@ export type MarketplaceItemAppProps = {
 
     actions: {
         installApp: (id: string) => Promise<boolean>;
+        enableApp: (id: string) => Promise<boolean>;
+        disableApp: (id: string) => Promise<boolean>;
         closeMarketplaceModal: () => void;
     };
 };
@@ -46,9 +57,11 @@ export default class MarketplaceItemApp extends React.PureComponent <Marketplace
         });
     }
 
-    getItemButton(): JSX.Element {
+    getItemControls(): JSX.Element {
+        let actionButton: React.ReactNode;
+
         if (this.props.installed && !this.props.installing && !this.props.error) {
-            return (
+            actionButton = (
                 <button
                     className='btn btn-outline'
                     disabled={true}
@@ -59,39 +72,102 @@ export default class MarketplaceItemApp extends React.PureComponent <Marketplace
                     />
                 </button>
             );
+        } else {
+            let actionLabel: React.ReactNode;
+
+            if (this.props.error) {
+                actionLabel = (
+                    <FormattedMessage
+                        id='marketplace_modal.list.try_again'
+                        defaultMessage='Try Again'
+                    />
+                );
+            } else {
+                actionLabel = (
+                    <FormattedMessage
+                        id='marketplace_modal.list.install'
+                        defaultMessage='Install'
+                    />
+                );
+            }
+
+            actionButton = (
+                <button
+                    onClick={this.onInstall}
+                    className='btn btn-primary'
+                    disabled={this.props.installing}
+                >
+                    <LoadingWrapper
+                        loading={this.props.installing}
+                        text={localizeMessage('marketplace_modal.installing', 'Installing...')}
+                    >
+                        {actionLabel}
+                    </LoadingWrapper>
+                </button>
+            );
         }
 
-        let actionButton: JSX.Element;
-        if (this.props.error) {
-            actionButton = (
-                <FormattedMessage
-                    id='marketplace_modal.list.try_again'
-                    defaultMessage='Try Again'
-                />
-            );
-        } else {
-            actionButton = (
-                <FormattedMessage
-                    id='marketplace_modal.list.install'
-                    defaultMessage='Install'
-                />
-            );
+        const statusToggle = this.getAppStatusToggle();
+        return (
+            <>
+                {actionButton}
+                {statusToggle}
+            </>
+        );
+    }
+
+    getAppStatusToggle(): React.ReactNode {
+        const {id, installed, enabled, error, changingStatus, integrationsUsageAtLimit, cloudLimits} = this.props;
+
+        const toggleDisabledDueToLimit = !enabled && integrationsUsageAtLimit;
+        let switchDisabled = false;
+        if (!installed || changingStatus !== undefined || error || toggleDisabledDueToLimit) {
+            switchDisabled = true;
+        }
+
+        let toggled = enabled;
+        if (changingStatus !== undefined) {
+            toggled = changingStatus;
+        }
+
+        const toggle = (
+            <Toggle
+                id={`app-enable-toggle-${id}`}
+                disabled={switchDisabled}
+                onToggle={() => {
+                    if (enabled) {
+                        this.props.actions.disableApp(id);
+                    } else {
+                        this.props.actions.enableApp(id);
+                    }
+                }}
+                toggled={toggled}
+                className='btn-lg'
+            />
+        );
+
+        if (!toggleDisabledDueToLimit) {
+            return toggle;
         }
 
         return (
-            <button
-                onClick={this.onInstall}
-                className='btn btn-primary'
-                disabled={this.props.installing}
+            <OverlayTrigger
+                delayShow={Constants.OVERLAY_TIME_DELAY}
+                placement='top'
+                overlay={
+                    <Tooltip id={'plugin-marketplace_label_' + id + '-tooltip'}>
+                        <FormattedMessage
+                            id={'marketplace_modal.toggle.reached_limit.tooltip'}
+                            defaultMessage={"You've reached the maximum of {limit} enabled integtations. Upgrade your account for more."}
+                            values={{
+                                limit: cloudLimits?.integrations?.enabled,
+                            }}
+                        />
+                    </Tooltip>
+                }
             >
-                <LoadingWrapper
-                    loading={this.props.installing}
-                    text={localizeMessage('marketplace_modal.installing', 'Installing...')}
-                >
-                    {actionButton}
-                </LoadingWrapper>
-
-            </button>
+                {toggle}
+            </OverlayTrigger>
         );
     }
 
@@ -99,7 +175,7 @@ export default class MarketplaceItemApp extends React.PureComponent <Marketplace
         return (
             <>
                 <MarketplaceItem
-                    button={this.getItemButton()}
+                    controls={this.getItemControls()}
                     updateDetails={null}
                     versionLabel={null}
                     iconSource={this.props.iconURL}

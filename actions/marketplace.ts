@@ -165,3 +165,60 @@ export function installApp(id: string) {
         return true;
     };
 }
+
+export function changeAppStatus(id: string, enable: boolean) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc): Promise<boolean> => {
+        dispatch({
+            type: ActionTypes.CHANGING_MARKETPLACE_ITEM_STATUS,
+            id,
+            enable,
+        });
+
+        const state = getState() as GlobalState;
+
+        const channelID = getCurrentChannelId(state);
+        const teamID = getCurrentTeamId(state);
+
+        const app = getApp(state, id);
+        if (!app) {
+            dispatch({
+                type: ActionTypes.CHANGING_MARKETPLACE_ITEM_STATUS_FAILED,
+                id,
+                error: 'Unknown app: ' + id,
+            });
+            return false;
+        }
+
+        const args: CommandArgs = {
+            channel_id: channelID,
+            team_id: teamID,
+        };
+
+        const verb = enable ? 'enable' : 'disable';
+
+        const result = await dispatch(executeCommand(`/apps ${verb} ${id}`, args));
+        if (isError(result)) {
+            dispatch({
+                type: ActionTypes.CHANGING_MARKETPLACE_ITEM_STATUS_FAILED,
+                id,
+                error: result.error.message,
+            });
+            return false;
+        }
+
+        dispatch({
+            type: ActionTypes.CHANGING_MARKETPLACE_ITEM_STATUS_SUCCEEDED,
+            id,
+            enable,
+        });
+        return true;
+    };
+}
+
+export function enableApp(id: string) {
+    return changeAppStatus(id, true);
+}
+
+export function disableApp(id: string) {
+    return changeAppStatus(id, false);
+}

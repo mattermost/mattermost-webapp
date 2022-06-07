@@ -47,4 +47,6 @@ export const getFilter = (state: GlobalState): string => state.views.marketplace
 
 export const getInstalling = (state: GlobalState, id: string): boolean => Boolean(state.views.marketplace.installing[id]);
 
+export const getChangingStatus = (state: GlobalState, id: string): boolean | undefined => state.views.marketplace.changingStatus[id];
+
 export const getError = (state: GlobalState, id: string): string => state.views.marketplace.errors[id];

@@ -11,7 +11,7 @@ import {Link} from 'react-router-dom';
 
 import type {MarketplaceLabel} from '@mattermost/types/marketplace';
 import {PluginStatusRedux} from '@mattermost/types/plugins';
-import {IntegrationsUsage, Limits} from '@mattermost/types/cloud';
+import {Limits} from '@mattermost/types/cloud';
 
 import PluginState from 'mattermost-redux/constants/plugins';
 
@@ -21,6 +21,8 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import ConfirmModal from 'components/confirm_modal';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import Toggle from 'components/toggle';
+import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 
 import {localizeMessage} from 'utils/utils';
 import Constants from 'utils/constants';
@@ -233,8 +235,8 @@ export type MarketplaceItemPluginProps = {
     isDefaultMarketplace: boolean;
     trackEvent: (category: string, event: string, props?: unknown) => void;
     pluginStatus?: PluginStatusRedux;
-    limits?: Limits;
-    integrationsUsage?: IntegrationsUsage;
+    integrationsUsageAtLimit: boolean;
+    cloudLimits: Limits;
 
     actions: {
         installPlugin: (category: string, event: string) => void;
@@ -295,31 +297,57 @@ export default class MarketplaceItemPlugin extends React.PureComponent <Marketpl
         this.props.actions.installPlugin(this.props.id, this.props.version);
     }
 
-    getPluginStatusButton(): React.ReactNode {
-        if (!this.props.installedVersion) {
-            return null;
-        }
+    getPluginStatusToggle(): React.ReactNode {
+        const {id, pluginStatus, integrationsUsageAtLimit, cloudLimits} = this.props;
 
-        const pluginEnabled = this.props.pluginStatus?.state === PluginState.PLUGIN_STATE_RUNNING || this.props.pluginStatus?.state === PluginState.PLUGIN_STATE_STARTING || this.props.pluginStatus?.state === PluginState.PLUGIN_STATE_FAILED_TO_START;
-        let switchDisabled = this.props.pluginStatus?.state !== PluginState.PLUGIN_STATE_RUNNING && this.props.pluginStatus?.state !== PluginState.PLUGIN_STATE_NOT_RUNNING && this.props.pluginStatus?.state !== PluginState.PLUGIN_STATE_FAILED_TO_START;
+        const pluginEnabled = [PluginState.PLUGIN_STATE_RUNNING, PluginState.PLUGIN_STATE_STARTING, PluginState.PLUGIN_STATE_FAILED_TO_START, PluginState.PLUGIN_STATE_FAILED_TO_STAY_RUNNING].includes(pluginStatus?.state as number);
+        let switchDisabled = [PluginState.PLUGIN_STATE_STARTING, PluginState.PLUGIN_STATE_STOPPING].includes(pluginStatus?.state as number);
 
-        const limit = this.props.limits?.integrations?.enabled;
-        const usage = this.props.integrationsUsage?.enabled;
+        const toggleDisabledDueToLimit = !pluginEnabled && integrationsUsageAtLimit;
+        const installed = Boolean(this.props.installedVersion);
         const ignored = Constants.Integrations.FREEMIUM_USAGE_IGNORED_PLUGINS.includes(this.props.id);
-        if (!ignored && !pluginEnabled && limit && usage && usage >= limit) {
+        if (!installed || (!ignored && toggleDisabledDueToLimit)) {
             switchDisabled = true;
         }
 
-        const label = pluginEnabled ? (
-            <FormattedMessage
-                id='marketplace_modal.plugin_status.enabled'
-                defaultMessage='Enabled'
+        const toggle = (
+            <Toggle
+                id={`plugin-enable-toggle-${this.props.id}`}
+                disabled={switchDisabled}
+                onToggle={() => {
+                    if (pluginEnabled) {
+                        this.props.actions.disablePlugin(this.props.id);
+                    } else {
+                        this.props.actions.enablePlugin(this.props.id);
+                    }
+                }}
+                toggled={pluginEnabled}
+                className='btn-lg'
             />
-        ) : (
-            <FormattedMessage
-                id='marketplace_modal.plugin_status.disabled'
-                defaultMessage='Disabled'
-            />
+        );
+
+        if (!toggleDisabledDueToLimit) {
+            return toggle;
+        }
+
+        return (
+            <OverlayTrigger
+                delayShow={Constants.OVERLAY_TIME_DELAY}
+                placement='top'
+                overlay={
+                    <Tooltip id={'plugin-marketplace_label_' + id + '-tooltip'}>
+                        <FormattedMessage
+                            id={'marketplace_modal.toggle.reached_limit.tooltip'}
+                            defaultMessage={"You've reached the maximum of {limit} enabled integtations. Upgrade your account for more."}
+                            values={{
+                                limit: cloudLimits?.integrations?.enabled,
+                            }}
+                        />
+                    </Tooltip>
+                }
+            >
+                {toggle}
+            </OverlayTrigger>
         );
 
         return (
@@ -335,23 +363,18 @@ export default class MarketplaceItemPlugin extends React.PureComponent <Marketpl
                         }
                     }}
                     toggled={pluginEnabled}
-                    className='btn-sm'
+                    className='btn-lg'
                 />
-                <span className='plugin-status-label'>
-                    {label}
-                </span>
             </>
         );
     }
 
-    getItemButton(): JSX.Element {
+    getItemControls(): JSX.Element {
         let actionButton: React.ReactNode;
 
         if (this.props.installedVersion !== '' && !this.props.installing && !this.props.error) {
             actionButton = (
                 <Link
-
-                    // site url not supported here
                     to={'/admin_console/plugins/plugin_' + this.props.id}
                 >
                     <button
@@ -383,18 +406,10 @@ export default class MarketplaceItemPlugin extends React.PureComponent <Marketpl
                 );
             }
 
-            let disableInstallButton = this.props.installing;
-            const limit = this.props.limits?.integrations?.enabled;
-            const usage = this.props.integrationsUsage?.enabled;
-            if (limit && usage && usage >= limit) {
-                disableInstallButton = true;
-            }
-
             actionButton = (
                 <button
                     onClick={this.onInstall}
                     className='btn btn-primary'
-                    disabled={disableInstallButton}
                 >
                     <LoadingWrapper
                         loading={this.props.installing}

@@ -35,6 +35,24 @@ function apps(state: MarketplaceApp[] = [], action: GenericAction): MarketplaceA
     case ActionTypes.RECEIVED_MARKETPLACE_APPS:
         return action.apps ? action.apps : [];
 
+    case ActionTypes.CHANGING_MARKETPLACE_ITEM_STATUS_SUCCEEDED: {
+        const index = state.findIndex((item) => item.manifest.app_id === action.id);
+        if (index === -1) {
+            return state;
+        }
+
+        const app = state[index];
+        const newApp = {
+            ...app,
+            enabled: action.enable,
+        };
+
+        const newState = [...state];
+        newState.splice(index, 1, newApp);
+
+        return newState;
+    }
+
     case ActionTypes.MODAL_CLOSE:
         if (action.modalId !== ModalIdentifiers.PLUGIN_MARKETPLACE) {
             return state;
@@ -88,15 +106,56 @@ function installing(state: {[id: string]: boolean} = {}, action: GenericAction):
     }
 }
 
+function changingStatus(state: {[id: string]: boolean} = {}, action: GenericAction): {[id: string]: boolean} {
+    switch (action.type) {
+    case ActionTypes.CHANGING_MARKETPLACE_ITEM_STATUS:
+        if (state[action.id]) {
+            return state;
+        }
+
+        return {
+            ...state,
+            [action.id]: action.enable,
+        };
+
+    case ActionTypes.CHANGING_MARKETPLACE_ITEM_STATUS_SUCCEEDED:
+    case ActionTypes.CHANGING_MARKETPLACE_ITEM_STATUS_FAILED: {
+        if (!Object.prototype.hasOwnProperty.call(state, action.id)) {
+            return state;
+        }
+
+        const newState = {...state};
+        delete newState[action.id];
+
+        return newState;
+    }
+
+    case ActionTypes.MODAL_CLOSE:
+        if (action.modalId !== ModalIdentifiers.PLUGIN_MARKETPLACE) {
+            return state;
+        }
+
+        return {};
+
+    case UserTypes.LOGOUT_SUCCESS:
+        return {};
+    default:
+        return state;
+    }
+}
+
 // errors tracks the error messages for items that failed installation
 function errors(state: {[id: string]: string} = {}, action: GenericAction): {[id: string]: string} {
     switch (action.type) {
+    case ActionTypes.CHANGING_MARKETPLACE_ITEM_STATUS_FAILED:
     case ActionTypes.INSTALLING_MARKETPLACE_ITEM_FAILED:
         return {
             ...state,
             [action.id]: action.error,
         };
 
+    case ActionTypes.CHANGING_MARKETPLACE_ITEM_STATUS_SUCCEEDED:
+    case ActionTypes.CHANGING_MARKETPLACE_ITEM_STATUS:
     case ActionTypes.INSTALLING_MARKETPLACE_ITEM_SUCCEEDED:
     case ActionTypes.INSTALLING_MARKETPLACE_ITEM: {
         if (!Object.prototype.hasOwnProperty.call(state, action.id)) {
@@ -147,6 +206,7 @@ export default combineReducers({
     plugins,
     apps,
     installing,
+    changingStatus,
     errors,
     filter,
 });

@@ -18,6 +18,7 @@ import {savePreferences} from 'mattermost-redux/actions/preferences';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import CloseIcon from 'components/widgets/icons/close_icon';
 import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
+import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 
 const HIDE_USAGE_MESSAGE_PREFERENCE_CATEGORY = 'usage_limits';
 const HIDE_USAGE_MESSAGE_PREFERENCE_NAME = 'hide_marketplace_usage_message';
@@ -45,6 +46,7 @@ const usePreferenceCheck = (): [boolean, (value: boolean) => void] => {
 };
 
 export default function MarketplaceUsageMessage() {
+    const openPricingModal = useOpenPricingModal();
     const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
     const integrationsUsage = useSelector(getIntegrationsUsage);
     const limits = useSelector(getCloudLimits);
