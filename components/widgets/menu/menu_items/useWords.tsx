@@ -109,7 +109,7 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
             id = t('workspace_limits.menu_limit.critical.integrations_enabled');
             defaultMessage = 'You’re getting closer to the {limit} enabled integrations limit. <a>{callToAction}</a>';
         }
-        if (usageRatio >= limitThresholds.exceeded) {
+        if (usageRatio >= limitThresholds.reached) {
             id = t('workspace_limits.menu_limit.over.integrations_enabled');
             defaultMessage = 'You’ve reached the {limit} enabled integrations limit. You can’t enable additional integrations. Upgrade to remove this limit. <a>{callToAction}</a>';
         }
