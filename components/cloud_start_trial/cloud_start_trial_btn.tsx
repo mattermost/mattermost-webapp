@@ -8,6 +8,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 
 import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
+import {getClientConfig} from 'mattermost-redux/actions/general';
 
 import {
     getCloudSubscription as selectCloudSubscription,
@@ -96,6 +97,7 @@ const CloudStartTrialButton = ({
         }
 
         await dispatch(getCloudSubscription());
+        await dispatch(getClientConfig());
 
         if (afterTrialRequest) {
             afterTrialRequest();
