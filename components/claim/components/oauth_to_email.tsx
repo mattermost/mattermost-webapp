@@ -12,7 +12,7 @@ import {oauthToEmail} from 'actions/admin_actions.jsx';
 
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils';
-import {t} from 'utils/i18n.jsx';
+import {t} from 'utils/i18n';
 import {getPasswordConfig} from 'utils/utils';
 
 import LocalizedInput from 'components/localized_input/localized_input';
@@ -28,7 +28,7 @@ const OAuthToEmail = (props: Props) => {
     const passwordInput = useRef<HTMLInputElement>(null);
     const passwordConfirmInput = useRef<HTMLInputElement>(null);
 
-    const [error, setError] = useState<string | JSX.Element | null>(null);
+    const [error, setError] = useState<string | JSX.Element>('');
 
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -53,7 +53,7 @@ const OAuthToEmail = (props: Props) => {
             return;
         }
 
-        setError(null);
+        setError('');
 
         oauthToEmail(
             props.currentType,
@@ -71,12 +71,12 @@ const OAuthToEmail = (props: Props) => {
     };
 
     const errorElement = error ? <div className='form-group has-error'><label className='control-label'>{error}</label></div> : null;
-    const formClass = classNames('form-group', {' has-error': errorElement});
+    const formClass = classNames('form-group', {'has-error': errorElement});
 
     const uiType = `${(props.currentType === Constants.SAML_SERVICE ? Constants.SAML_SERVICE.toUpperCase() : Utils.toTitleCase(props.currentType || ''))} SSO`;
 
     return (
-        <div>
+        <>
             <h3>
                 <FormattedMessage
                     id='claim.oauth_to_email.title'
@@ -136,7 +136,7 @@ const OAuthToEmail = (props: Props) => {
                     />
                 </button>
             </form>
-        </div>
+        </>
     );
 };
 
