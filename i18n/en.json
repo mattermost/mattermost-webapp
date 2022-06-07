@@ -717,7 +717,7 @@
   "admin.elasticsearch.sniffDescription": "When true, sniffing finds and connects to all data nodes in your cluster automatically.",
   "admin.elasticsearch.sniffTitle": "Enable Cluster Sniffing:",
   "admin.elasticsearch.testConfigSuccess": "Test successful. Configuration saved.",
-  "admin.elasticsearch.testHelpText": "Tests if the Mattermost server can connect to the Elasticsearch server specified. Testing the connection only saves the configuration if the test is successful. See log file for more detailed error messages.",
+  "admin.elasticsearch.testHelpText": "Tests if the Mattermost server can connect to the Elasticsearch server specified. Testing the connection only saves the configuration if the test is successful. A successful test will also re-initialize the client if you have started Elasticsearch after starting Mattermost. But this will not restart the workers. To do that, please toggle \"Enable Elasticsearch Indexing\".",
   "admin.elasticsearch.title": "Elasticsearch",
   "admin.elasticsearch.usernameDescription": "(Optional) The username to authenticate to the Elasticsearch server.",
   "admin.elasticsearch.usernameExample": "E.g.: \"elastic\"",
