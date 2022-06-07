@@ -4,6 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {CloudUsage} from '@mattermost/types/cloud';
 import {Team} from '@mattermost/types/teams';
 
 import SelectTeam, {TEAMS_PER_PAGE} from 'components/select_team/select_team';
@@ -39,6 +40,13 @@ describe('components/select_team/SelectTeam', () => {
             addUserToTeam: jest.fn().mockResolvedValue({data: true}),
         },
         totalTeamsCount: 15,
+        isCloud: false,
+        isCloudFreeEnabled: false,
+        usageDeltas: {
+            teams: {
+                active: Number.MAX_VALUE,
+            },
+        } as CloudUsage,
     };
 
     test('should match snapshot', () => {
