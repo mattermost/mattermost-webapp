@@ -53,44 +53,66 @@ type Props = {
      */
     postListIds: string[];
 
-    // The current channel id
+    /*
+     * The current channel id
+     */
     channelId: string;
 
-    // Used for disabling auto retry of posts and enabling manual link for loading posts
+    /*
+     * Used for disabling auto retry of posts and enabling manual link for loading posts
+     */
     autoRetryEnable: boolean;
 
-    // Used in passing to post row for enabling animation when loading posts
+    /*
+     * Used in passing to post row for enabling animation when loading posts
+     */
     loadingNewerPosts: boolean;
     loadingOlderPosts: boolean;
 
     isMobileView: boolean;
 
-    // Used for populating header, scroll correction and disabling triggering loadOlderPosts
+    /*
+     * Used for populating header, scroll correction and disabling triggering loadOlderPosts
+     */
     atOldestPost?: boolean;
 
-    // Used for disabling triggering loadNewerPosts
+    /*
+     * Used for disabling triggering loadNewerPosts
+     */
     atLatestPost?: boolean;
 
     latestPostTimeStamp?: number;
     lastViewedAt?: string;
 
-    // Set to focus this post
+    /*
+     * Set to focus this post
+     */
     focusedPostId?: string;
     actions: {
 
-        // Function to get older posts in the channel
+        /*
+         * Function to get older posts in the channel
+         */
         loadOlderPosts: () => void;
 
-        // Function to get newer posts in the channel
+        /*
+         * Function to get newer posts in the channel
+         */
         loadNewerPosts: () => void;
 
-        // Function used for autoLoad of posts incase screen is not filled with posts
+        /*
+         * Function used for autoLoad of posts incase screen is not filled with posts
+         */
         canLoadMorePosts: (postRequestTypes?: string) => boolean;
 
-        // Function to check and set if app is in mobile view
+        /*
+         * Function to check and set if app is in mobile view
+         */
         checkAndSetMobileView: () => void;
 
-        // Function to change the post selected for postList
+        /*
+         * Function to change the post selected for postList
+         */
         changeUnreadChunkTimeStamp: (lastViewedAt?: string) => void;
 
         updateNewMessagesAtInChannel: (channelId: string, timeStamp: number) => void;
