@@ -1253,10 +1253,11 @@ $sidebarOpacityAnimationDuration: 0.15s;
         overflow: hidden;
         flex-grow: 1;
     }
+
     .SidebarChannelLinkLabel_wrapper > div.truncated {
         display: block;
-        width: 100%;
         overflow: hidden;
+        width: 100%;
         text-overflow: ellipsis;
     }
 
