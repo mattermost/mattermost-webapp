@@ -37,6 +37,7 @@ import StarMarkSvg from 'components/widgets/icons/star_mark_icon';
 import PricingModal from 'components/pricing_modal';
 import PlanLabel from 'components/common/plan_label';
 import {ModalData} from 'types/actions';
+import {Theme} from 'mattermost-redux/types/themes';
 
 import {getNextBillingDate} from 'utils/utils';
 
@@ -83,6 +84,7 @@ type Props = {
     isFreeTrial: boolean;
     productId: string | undefined;
     intl: IntlShape;
+    theme: Theme;
     actions: {
         openModal: <P>(modalData: ModalData<P>) => void;
         closeModal: () => void;
@@ -450,6 +452,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                         onInputChange={this.onPaymentInput}
                         onCardInputChange={this.handleCardInputChange}
                         initialBillingDetails={initialBillingDetails}
+                        theme={this.props.theme}
                     // eslint-disable-next-line react/jsx-closing-bracket-location
                     />
                     ) : (<div className='PaymentDetails'>
