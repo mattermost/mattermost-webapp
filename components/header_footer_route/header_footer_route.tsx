@@ -31,18 +31,19 @@ export const HFRoute = ({path, component: Component}: HFRouteProps) => {
         <Route
             path={path}
             render={() => (
-                <React.Suspense fallback={null}>
-                    <AnnouncementBar/>
-                    <div className='header-footer-route'>
-                        <div className='header-footer-route-container'>
+                <div className='header-footer-route'>
+                    <div className='header-footer-route-container'>
+                        <React.Suspense fallback={null}>
                             <Header {...headerProps}/>
-                            <React.Suspense fallback={null}>
-                                <Component onCustomizeHeader={customizeHeader}/>
-                            </React.Suspense>
+                        </React.Suspense>
+                        <React.Suspense fallback={null}>
+                            <Component onCustomizeHeader={customizeHeader}/>
+                        </React.Suspense>
+                        <React.Suspense fallback={null}>
                             <Footer/>
-                        </div>
+                        </React.Suspense>
                     </div>
-                </React.Suspense>
+                </div>
             )}
         />
     );
