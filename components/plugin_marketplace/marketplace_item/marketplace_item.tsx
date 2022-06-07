@@ -3,8 +3,13 @@
 
 import React from 'react';
 import classNames from 'classnames';
+import {useIntl} from 'react-intl';
+import {useSelector} from 'react-redux';
 
 import type {MarketplaceLabel} from '@mattermost/types/marketplace';
+
+import {getCloudLimits, isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
+import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
@@ -70,125 +75,134 @@ export type MarketplaceItemProps = {
 
     error?: string;
 
-    button: JSX.Element;
+    controls: JSX.Element;
     updateDetails: JSX.Element | null;
     versionLabel: JSX.Element| null;
 };
 
-export default class MarketplaceItem extends React.PureComponent <MarketplaceItemProps> {
-    render(): JSX.Element {
-        let icon;
-        if (this.props.iconSource) {
-            icon = (
-                <div className='icon__plugin icon__plugin--background'>
-                    <img src={this.props.iconSource}/>
-                </div>
-            );
-        } else {
-            icon = <PluginIcon className='icon__plugin icon__plugin--background'/>;
-        }
+export default function MarketplaceItem(props: MarketplaceItemProps) {
+    const intl = useIntl();
 
-        let labels: React.ReactNode[] = [];
-        if (this.props.labels && this.props.labels.length !== 0) {
-            labels = this.props.labels.map((label) => (
-                <Label
-                    key={label.name}
-                    name={label.name}
-                    description={label.description}
-                    url={label.url}
-                    color={label.color}
-                />
-            ));
-        }
+    const isCloudLicense = useSelector(isCurrentLicenseCloud);
+    const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
+    const limits = useSelector(getCloudLimits);
 
-        if (Constants.Integrations.FREEMIUM_USAGE_IGNORED_PLUGINS.includes(this.props.id)) {
-            labels.push(
-                <Label
-                    key={'CORE PLUGIN'}
-                    name={'CORE PLUGIN'}
-                    description={'This plugin does not count towards your limit of 5 enabled integrations'}
-                    url={''}
-                    color={''}
-                />,
-            );
-        }
+    let icon;
+    if (props.iconSource) {
+        icon = (
+            <div className='icon__plugin icon__plugin--background'>
+                <img src={props.iconSource}/>
+            </div>
+        );
+    } else {
+        icon = <PluginIcon className='icon__plugin icon__plugin--background'/>;
+    }
 
-        const pluginDetailsInner = (
+    let labels: React.ReactNodeArray = [];
+    if (props.labels && props.labels.length !== 0) {
+        labels = props.labels.map((label) => (
+            <Label
+                key={label.name}
+                name={label.name}
+                description={label.description}
+                url={label.url}
+                color={label.color}
+            />
+        ));
+    }
+
+    if (isCloudFreeEnabled && isCloudLicense && limits?.integrations?.enabled && Constants.Integrations.FREEMIUM_USAGE_IGNORED_PLUGINS.includes(props.id)) {
+        labels.push(
+            <Label
+                name={intl.formatMessage({
+                    id: 'marketplace_modal.core_plugin.name',
+                    defaultMessage: 'CORE PLUGIN',
+                })}
+                description={intl.formatMessage({
+                    id: 'marketplace_modal.core_plugin.description',
+                    defaultMessage: 'This plugin does not count towards your limit of {limit} enabled integrations',
+                }, {
+                    limit: limits.integrations.enabled.toString(),
+                })}
+            />,
+        );
+    }
+
+    const pluginDetailsInner = (
+        <>
+            {props.name}
+            {props.versionLabel}
+        </>
+    );
+
+    const description = (
+        <p className={classNames('more-modal__description', {error_text: props.error})}>
+            {props.error ? props.error : props.description}
+        </p>
+    );
+
+    let pluginDetails;
+    if (props.homepageUrl) {
+        pluginDetails = (
             <>
-                {this.props.name}
-                {this.props.versionLabel}
+                <a
+                    aria-label={props.name.toLowerCase()}
+                    className='style--none more-modal__row--link'
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    href={props.homepageUrl}
+                >
+                    {pluginDetailsInner}
+                </a>
+                {labels}
+                <a
+                    aria-label="Plugin's website"
+                    className='style--none more-modal__row--link'
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    href={props.homepageUrl}
+                >
+                    {description}
+                </a>
             </>
         );
-
-        const description = (
-            <p className={classNames('more-modal__description', {error_text: this.props.error})}>
-                {this.props.error ? this.props.error : this.props.description}
-            </p>
-        );
-
-        let pluginDetails;
-        if (this.props.homepageUrl) {
-            pluginDetails = (
-                <>
-                    <a
-                        aria-label={this.props.name.toLowerCase()}
-                        className='style--none more-modal__row--link'
-                        target='_blank'
-                        rel='noopener noreferrer'
-                        href={this.props.homepageUrl}
-                    >
-                        {pluginDetailsInner}
-                    </a>
-                    {labels}
-                    <a
-                        aria-label="Plugin's website"
-                        className='style--none more-modal__row--link'
-                        target='_blank'
-                        rel='noopener noreferrer'
-                        href={this.props.homepageUrl}
-                    >
-                        {description}
-                    </a>
-                </>
-            );
-        } else {
-            pluginDetails = (
-                <>
-                    <span
-                        aria-label={this.props.name.toLowerCase()}
-                        className='style--none'
-                    >
-                        {pluginDetailsInner}
-                    </span>
-                    {labels}
-                    <span
-                        aria-label="Plugin\'s website"
-                        className='style--none'
-                    >
-                        {description}
-                    </span>
-                </>
-            );
-        }
-
-        return (
+    } else {
+        pluginDetails = (
             <>
-                <div
-                    className={classNames('more-modal__row', 'more-modal__row--link', {item_error: this.props.error})}
-                    key={this.props.id}
-                    id={'marketplace-plugin-' + this.props.id}
+                <span
+                    aria-label={props.name.toLowerCase()}
+                    className='style--none'
                 >
-                    {icon}
-                    <div className='more-modal__details'>
-                        {pluginDetails}
-                        {this.props.updateDetails}
-
-                    </div>
-                    <div className='more-modal__actions'>
-                        {this.props.button}
-                    </div>
-                </div>
+                    {pluginDetailsInner}
+                </span>
+                {labels}
+                <span
+                    aria-label="Plugin\'s website"
+                    className='style--none'
+                >
+                    {description}
+                </span>
             </>
         );
     }
+
+    return (
+        <>
+            <div
+                className={classNames('more-modal__row', 'more-modal__row--link', {item_error: props.error})}
+                key={props.id}
+                id={'marketplace-plugin-' + props.id}
+            >
+                {icon}
+                <div className='more-modal__details'>
+                    {pluginDetails}
+                    {props.updateDetails}
+
+                </div>
+                <div className='more-modal__actions'>
+                    {props.controls}
+                </div>
+            </div>
+        </>
+    );
 }

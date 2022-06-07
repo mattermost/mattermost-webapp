@@ -6,7 +6,7 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCloudLimits} from 'mattermost-redux/selectors/entities/cloud';
-import {getIntegrationsUsage} from 'mattermost-redux/selectors/entities/usage';
+import {isIntegrationsUsageAtLimit} from 'mattermost-redux/selectors/entities/usage';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {disablePlugin, enablePlugin} from 'mattermost-redux/actions/admin';
 
@@ -32,8 +32,8 @@ function mapStateToProps(state: GlobalState, props: Props) {
     const pluginStatuses = state.entities.admin.pluginStatuses;
     const pluginStatus = pluginStatuses?.[props.id];
 
-    const limits = getCloudLimits(state);
-    const integrationsUsage = getIntegrationsUsage(state);
+    const integrationsUsageAtLimit = isIntegrationsUsageAtLimit(state);
+    const cloudLimits = getCloudLimits(state);
 
     return {
         installing,
@@ -41,8 +41,8 @@ function mapStateToProps(state: GlobalState, props: Props) {
         isDefaultMarketplace,
         trackEvent,
         pluginStatus,
-        limits,
-        integrationsUsage,
+        integrationsUsageAtLimit,
+        cloudLimits,
     };
 }
 

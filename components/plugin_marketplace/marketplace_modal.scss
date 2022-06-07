@@ -40,8 +40,10 @@
         background-color: rgba(var(--center-channel-color-rgb), 0.04);
         border-radius: 4px;
 
-        .upgrade-buttons button {
+        .upgrade-buttons .btn {
             margin-right: 5px;
+            line-height: 14px;
+            border: none;
         }
 
         .close-x {

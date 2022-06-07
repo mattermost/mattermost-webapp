@@ -407,7 +407,7 @@ export default class MarketplaceItemPlugin extends React.PureComponent <Marketpl
             );
         }
 
-        const statusToggle = this.getPluginStatusButton();
+        const statusToggle = this.getPluginStatusToggle();
         return (
             <>
                 {actionButton}
@@ -437,7 +437,7 @@ export default class MarketplaceItemPlugin extends React.PureComponent <Marketpl
         return (
             <>
                 <MarketplaceItem
-                    button={this.getItemButton()}
+                    controls={this.getItemControls()}
                     versionLabel={versionLabel}
                     updateDetails={updateDetails}
                     iconSource={this.props.iconData}

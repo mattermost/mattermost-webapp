@@ -97,20 +97,21 @@ export default function MarketplaceUsageMessage() {
     const upgradeButtons = (
         <div className='upgrade-buttons'>
             <CloudStartTrialButton
-                message={'Try free for 30 days'}
+                message={intl.formatMessage({id: 'marketplace_modal.usage_message.trial_button', defaultMessage: 'Try free for 30 days'})}
                 telemetryId={'start_cloud_trial_from_marketplace'}
                 onClick={() => setHidePreference(true)}
                 extraClass={'btn btn-primary start-cloud-trial-btn'}
             />
-            <a
-                href='https://mattermost.com/pricing'
-                target='_blank'
-                rel='noreferrer'
+
+            <button
+                onClick={openPricingModal}
+                className='btn btn-default'
             >
-                <button className='btn btn-default'>
-                    {'Upgrade now'}
-                </button>
-            </a>
+                <FormattedMessage
+                    id={'marketplace_modal.usage_message.upgrade_button'}
+                    defaultMessage={'Upgrade Now'}
+                />
+            </button>
         </div>
     );
 

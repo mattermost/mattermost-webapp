@@ -68,5 +68,6 @@ export const limitThresholds = Object.freeze({
     ok: 0,
     warn: 50,
     danger: 66,
+    reached: 100,
     exceeded: 100.000001,
 });
