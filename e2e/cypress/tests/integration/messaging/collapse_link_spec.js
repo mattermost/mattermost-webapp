@@ -43,35 +43,35 @@ describe('Messaging', () => {
 
         cy.getLastPostId().then((postId) => {
             // * Check the preview is shown
-            cy.get(`#${postId}_message`).find('.attachment--opengraph').should('exist');
-            cy.get(`#${postId}_message`).find('.attachment__image').should('exist');
+            cy.get(`#${postId}_message`).find('.PostAttachmenOpenGraph').should('exist');
+            cy.get(`#${postId}_message`).find('.PostAttachmenOpenGraph__image figure').should('exist');
 
             // # Log-in to the other user
             cy.apiAdminLogin();
             cy.visit(offTopicUrl);
 
             // * Check the preview is shown
-            cy.get(`#${postId}_message`).find('.attachment--opengraph').should('exist');
-            cy.get(`#${postId}_message`).find('.attachment__image').should('exist');
+            cy.get(`#${postId}_message`).find('.PostAttachmenOpenGraph').should('exist');
+            cy.get(`#${postId}_message`).find('.PostAttachmenOpenGraph__image figure').should('exist');
 
             // # Log-in back to the first user
             cy.apiLogin(testUser);
             cy.visit(offTopicUrl);
 
             // # Collapse the preview
-            cy.get(`#${postId}_message`).find('.post__embed-visibility').click({force: true});
+            cy.get(`#${postId}_message`).find('.preview-toggle').click({force: true});
 
             // * Check the preview is not shown
-            cy.get(`#${postId}_message`).find('.attachment--opengraph').should('exist');
-            cy.get(`#${postId}_message`).find('.attachment__image').should('not.exist');
+            cy.get(`#${postId}_message`).find('.PostAttachmenOpenGraph').should('exist');
+            cy.get(`#${postId}_message`).find('.PostAttachmenOpenGraph__image figure').should('not.exist');
 
             // # Log-in to the other user
             cy.apiAdminLogin();
             cy.visit(offTopicUrl);
 
             // * Check the preview is shown
-            cy.get(`#${postId}_message`).find('.attachment--opengraph').should('exist');
-            cy.get(`#${postId}_message`).find('.attachment__image').should('exist');
+            cy.get(`#${postId}_message`).find('.PostAttachmenOpenGraph').should('exist');
+            cy.get(`#${postId}_message`).find('.PostAttachmenOpenGraph__image figure').should('exist');
 
             // # Log-in back to the first user
             cy.apiLogin(testUser);
@@ -83,16 +83,16 @@ describe('Messaging', () => {
             });
 
             // * Preview should not exist
-            cy.get(`#${postId}_message`).find('.attachment--opengraph').should('not.exist');
-            cy.get(`#${postId}_message`).find('.attachment__image').should('not.exist');
+            cy.get(`#${postId}_message`).find('.PostAttachmenOpenGraph').should('not.exist');
+            cy.get(`#${postId}_message`).find('.PostAttachmenOpenGraph__image figure').should('not.exist');
 
             // # Log-in to the other user
             cy.apiAdminLogin();
             cy.visit(offTopicUrl);
 
             // * Preview should not exist
-            cy.get(`#${postId}_message`).find('.attachment--opengraph').should('not.exist');
-            cy.get(`#${postId}_message`).find('.attachment__image').should('not.exist');
+            cy.get(`#${postId}_message`).find('.PostAttachmenOpenGraph').should('not.exist');
+            cy.get(`#${postId}_message`).find('.PostAttachmenOpenGraph__image figure').should('not.exist');
         });
     });
 });
