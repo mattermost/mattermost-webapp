@@ -1666,9 +1666,9 @@ export default class Client4 {
         );
     };
 
-    getAllChannelsMembers = (userId: string) => {
+    getAllChannelsMembers = (userId: string, page = 0, perPage = PER_PAGE_DEFAULT) => {
         return this.doFetch<ChannelMembership[]>(
-            `${this.getUserRoute(userId)}/channel_members`,
+            `${this.getUserRoute(userId)}/channel_members${buildQueryString({page, per_page: perPage})}`,
             {method: 'get'},
         );
     };
