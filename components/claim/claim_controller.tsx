@@ -72,7 +72,7 @@ export default class ClaimController extends React.PureComponent<Props> {
                                     render={() => (
                                         <EmailToOAuth
                                             newType={newType}
-                                            email={email}
+                                            email={email || ''}
                                             siteName={this.props.siteName}
                                         />
                                     )}

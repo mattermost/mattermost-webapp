@@ -36,11 +36,15 @@ import LoginOpenIDIcon from 'components/widgets/icons/login_openid_icon';
 import Input, {SIZE} from 'components/widgets/inputs/input/input';
 import PasswordInput from 'components/widgets/inputs/password_input/password_input';
 import WomanWithChatsSVG from 'components/common/svg_images_components/woman_with_chats_svg';
+
 import {GlobalState} from 'types/store';
 import Constants from 'utils/constants';
+
 import {showNotification} from 'utils/notifications';
 import {t} from 'utils/i18n';
 import {setCSRFFromCookie} from 'utils/utils';
+
+import {SubmitOptions} from 'components/claim/components/email_to_ldap';
 
 import LoginMfa from './login_mfa';
 
@@ -482,10 +486,10 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
             return;
         }
 
-        submit(loginId, password);
+        submit({loginId, password});
     };
 
-    const submit = async (loginId: string, password: string, token?: string) => {
+    const submit = async ({loginId, password, token}: SubmitOptions) => {
         setIsWaiting(true);
 
         const {error} = await dispatch(login(loginId, password, token));

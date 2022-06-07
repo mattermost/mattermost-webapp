@@ -21,7 +21,7 @@ import {SubmitOptions} from './email_to_ldap';
 
 type Props = {
     newType: string | null;
-    email: string | null;
+    email: string;
     siteName?: string;
 }
 

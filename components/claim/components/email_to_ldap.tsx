@@ -23,7 +23,7 @@ type Props = {
 }
 
 export type SubmitOptions = {
-    loginId: string | null;
+    loginId: string;
     password: string;
     token?: string;
     ldapIdParam?: string;
