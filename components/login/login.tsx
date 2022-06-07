@@ -375,17 +375,6 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
         };
     }, []);
 
-    // temporal for debugging
-    document.addEventListener('focusin', () => {
-        // eslint-disable-next-line no-console
-        console.log('focused document: ', document.activeElement);
-    }, true);
-
-    window.addEventListener('focusin', () => {
-        // eslint-disable-next-line no-console
-        console.log('focused window: ', document.activeElement);
-    }, true);
-
     if (initializing) {
         return (<LoadingScreen/>);
     }
