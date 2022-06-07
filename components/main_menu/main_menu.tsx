@@ -482,7 +482,7 @@ export class MainMenu extends React.PureComponent<Props> {
                                         overlay={(
                                             <Tooltip id={'MenuItem__icon-tooltip'}>
                                                 <span className='title'>
-                                                    {formatMessage({id: 'navbar_dropdown.create.tooltip.title', defaultMessage: 'Paid feature'})}
+                                                    {formatMessage({id: 'navbar_dropdown.create.tooltip.title', defaultMessage: 'Professional feature'})}
                                                 </span>
                                                 <span className='message'>
                                                     {this.props.isFreeTrial ? (

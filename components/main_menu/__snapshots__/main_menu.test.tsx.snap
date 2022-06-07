@@ -210,7 +210,7 @@ exports[`components/Menu should match snapshot with cloud free trial 1`] = `
                   <span
                     className="title"
                   >
-                    Paid feature
+                    Professional feature
                   </span>
                   <span
                     className="message"
@@ -452,7 +452,7 @@ exports[`components/Menu should match snapshot with cloud free trial and team li
                   <span
                     className="title"
                   >
-                    Paid feature
+                    Professional feature
                   </span>
                   <span
                     className="message"
