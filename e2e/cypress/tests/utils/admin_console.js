@@ -215,7 +215,7 @@ export const adminConsoleNavigation = [
         url: 'admin_console/site_config/posts',
     },
     {
-        type: ['team', 'e20', 'cloud_enterprise'],
+        type: ['team', 'e20'],
         header: 'File Sharing and Downloads',
         sidebar: 'File Sharing and Downloads',
         url: 'admin_console/site_config/file_sharing_downloads',

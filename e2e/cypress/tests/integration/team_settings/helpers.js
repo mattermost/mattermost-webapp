@@ -60,7 +60,7 @@ export const verifyEmailInviteAndVisitLink = (sender, username, email, team, sit
         cy.visit(permalink);
 
         // * Verify it redirects into the signup page
-        cy.get('#signup_email_section', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
+        cy.get('.signup-body', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
     });
 };
 
@@ -71,11 +71,14 @@ export const signupAndVerifyTutorial = (username, password, teamDisplayName) => 
     // # Attempt to create an account by clicking on the 'Create Account' button
     cy.get('#createAccountButton').click();
 
+    // # Close the onboarding tutorial
+    cy.uiCloseOnboardingTaskList();
+
     // * Check that the display name of the team the user was invited to is being correctly displayed
     cy.uiGetLHSHeader().findByText(teamDisplayName);
 
-    // * Check that the 'Welcome to Mattermost' message is visible
-    cy.findByText('Welcome to Mattermost').should('be.visible');
+    // * Check that the 'Beginning of Town Square' message is visible
+    cy.findByText('Beginning of Town Square').should('be.visible');
 
     // * Check that 'Town Square' is currently being selected
     cy.get('.active').within(() => {

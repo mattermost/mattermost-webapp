@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 
 import {getUser, makeGetDisplayName} from 'mattermost-redux/selectors/entities/users';
 
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 
 import UserProfile from './user_profile';
 

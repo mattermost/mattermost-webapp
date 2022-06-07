@@ -9,7 +9,7 @@ import {cloneDeep, set} from 'lodash';
 import {mount} from 'enzyme';
 
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
-import {OpenGraphMetadata, Post} from 'mattermost-redux/types/posts';
+import {OpenGraphMetadata, Post} from '@mattermost/types/posts';
 import {Preferences} from 'utils/constants';
 
 import {getBestImage, getIsLargeImage, PostAttachmentOpenGraphImage, PostAttachmentOpenGraphBody} from './post_attachment_opengraph';

@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
-import {AdminConfig} from 'mattermost-redux/types/config';
+import {AdminConfig} from '@mattermost/types/config';
 
 import {BaseProps} from 'components/admin_console/admin_settings';
 

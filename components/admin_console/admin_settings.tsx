@@ -4,8 +4,8 @@
 import React from 'react';
 import {Overlay} from 'react-bootstrap';
 
-import {AdminConfig, EnvironmentConfig} from 'mattermost-redux/types/config';
-import {DeepPartial} from 'mattermost-redux/types/utilities';
+import {AdminConfig, EnvironmentConfig} from '@mattermost/types/config';
+import {DeepPartial} from '@mattermost/types/utilities';
 
 import {localizeMessage} from 'utils/utils';
 import SaveButton from 'components/save_button';

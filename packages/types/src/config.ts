@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {ThemeKey} from './themes';
-
 export type ClientConfig = {
     AboutLink: string;
     AllowBannerDismissal: string;
@@ -34,7 +32,7 @@ export type ClientConfig = {
     DataRetentionFileRetentionDays: string;
     DataRetentionMessageRetentionDays: string;
     DefaultClientLocale: string;
-    DefaultTheme: ThemeKey;
+    DefaultTheme: string;
     DiagnosticId: string;
     DiagnosticsEnabled: string;
     EmailLoginButtonBorderColor: string;
@@ -184,6 +182,7 @@ export type ClientConfig = {
     WebsocketSecurePort: string;
     WebsocketURL: string;
     ExperimentalSharedChannels: string;
+    EnableAppBar: string;
 };
 
 export type License = {
@@ -233,6 +232,12 @@ export type LicenseFeatures = {
 };
 
 export type ClientLicense = Record<string, string>;
+
+export type RequestLicenseBody = {
+    users: number;
+    terms_accepted: boolean;
+    receive_emails_accepted: boolean;
+}
 
 export type DataRetentionPolicy = {
     message_deletion_enabled: boolean;

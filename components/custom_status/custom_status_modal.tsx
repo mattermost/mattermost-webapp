@@ -9,8 +9,8 @@ import moment, {Moment} from 'moment-timezone';
 import {setCustomStatus, unsetCustomStatus, removeRecentCustomStatus} from 'mattermost-redux/actions/users';
 import {setCustomStatusInitialisationState} from 'mattermost-redux/actions/preferences';
 import {Preferences} from 'mattermost-redux/constants';
-import {UserCustomStatus, CustomStatusDuration} from 'mattermost-redux/types/users';
-import {Emoji} from 'mattermost-redux/types/emojis';
+import {UserCustomStatus, CustomStatusDuration} from '@mattermost/types/users';
+import {Emoji} from '@mattermost/types/emojis';
 
 import {loadCustomEmojisIfNeeded} from 'actions/emoji_actions';
 import GenericModal from 'components/generic_modal';

@@ -12,7 +12,7 @@ import {
     OpenGraphMetadataImage,
     Post,
     PostImage,
-} from 'mattermost-redux/types/posts';
+} from '@mattermost/types/posts';
 
 import AutoHeightSwitcher from 'components/common/auto_height_switcher';
 import ExternalImage from 'components/external_image';
