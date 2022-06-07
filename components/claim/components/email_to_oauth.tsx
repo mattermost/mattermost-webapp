@@ -12,10 +12,12 @@ import {emailToOAuth} from 'actions/admin_actions.jsx';
 
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils';
-import {t} from 'utils/i18n.jsx';
+import {t} from 'utils/i18n';
 
 import LoginMfa from 'components/login/login_mfa';
 import LocalizedInput from 'components/localized_input/localized_input';
+
+import {SubmitOptions} from './email_to_ldap';
 
 type Props = {
     newType: string | null;
@@ -26,7 +28,7 @@ type Props = {
 const EmailToOAuth = (props: Props) => {
     const [showMfa, setShowMfa] = useState(false);
     const [password, setPassword] = useState('');
-    const [serverError, setServerError] = useState<string | null>(null);
+    const [serverError, setServerError] = useState<string>('');
     const passwordInput = useRef<HTMLInputElement>(null);
 
     const preSubmit = (e: React.FormEvent) => {
@@ -40,12 +42,12 @@ const EmailToOAuth = (props: Props) => {
 
         setPassword(password);
 
-        setServerError(null);
+        setServerError('');
 
-        submit(props.email, password, '');
+        submit({loginId: props.email, password});
     };
 
-    const submit = (loginId: string | null, password: string, token: string) => {
+    const submit = ({loginId, password, token = ''}: SubmitOptions) => {
         emailToOAuth(
             loginId,
             password,
@@ -69,7 +71,7 @@ const EmailToOAuth = (props: Props) => {
 
     const error = serverError ? <div className='form-group has-error'><label className='control-label'>{serverError}</label></div> : null;
 
-    const formClass = classNames('form-group', {' has-error': error});
+    const formClass = classNames('form-group', {'has-error': error});
 
     const type = (props.newType === Constants.SAML_SERVICE ? Constants.SAML_SERVICE.toUpperCase() : Utils.toTitleCase(props.newType || ''));
     const uiType = `${type} SSO`;
