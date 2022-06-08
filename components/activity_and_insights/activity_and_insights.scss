@@ -5,6 +5,10 @@
         padding: 24px;
 
         .top-channels-card {
+            .Card__header {
+                padding-bottom: 16px;
+            }
+
             .Card__body {
                 padding-right: 12px;
             }
@@ -33,8 +37,8 @@
 
                         .chartjs-render-monitor {
                             width: 100% !important;
-                            min-height: 192px !important;
-                            max-height: 192px;
+                            min-height: 200px !important;
+                            max-height: 200px;
 
                             &:hover {
                                 cursor: pointer;
