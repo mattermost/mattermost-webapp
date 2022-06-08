@@ -524,7 +524,8 @@ export class FileUpload extends PureComponent {
             }
             const postTextbox = this.props.postType === 'post' && document.activeElement.id === 'post_textbox';
             const commentTextbox = this.props.postType === 'comment' && document.activeElement.id === 'reply_textbox';
-            if (postTextbox || commentTextbox) {
+            const threadTextbox = this.props.postType === 'thread' && document.activeElement.id === 'reply_textbox';
+            if (postTextbox || commentTextbox || threadTextbox) {
                 this.fileInput.current.focus();
                 this.fileInput.current.click();
             }
