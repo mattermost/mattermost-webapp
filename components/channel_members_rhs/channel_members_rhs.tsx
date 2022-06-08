@@ -1,9 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {FormattedMessage} from 'react-intl';
 import styled from 'styled-components';
+import {debounce} from 'lodash';
 
 import {UserProfile} from '@mattermost/types/users';
 import {Channel, ChannelMembership} from '@mattermost/types/channels';
@@ -12,7 +13,6 @@ import MoreDirectChannels from 'components/more_direct_channels';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import {ModalData} from 'types/actions';
 import {browserHistory} from 'utils/browser_history';
-import {useDebounce} from 'components/common/hooks/useDebounce';
 
 import ActionBar from './action_bar';
 import Header from './header';
@@ -69,8 +69,6 @@ export default function ChannelMembersRHS({
     editing = false,
     actions,
 }: Props) {
-    const debouncedSearchTerms = useDebounce(searchTerms, 500);
-
     const searching = searchTerms !== '';
 
     // show search if there's more than 20 or if the user have an active search.
@@ -111,15 +109,15 @@ export default function ChannelMembersRHS({
         actions.setChannelMembersRhsSearchTerm(terms);
     };
 
-    useEffect(() => {
-        async function doSearch() {
-            if (debouncedSearchTerms) {
-                await actions.searchProfilesAndChannelMembers(debouncedSearchTerms, {in_team_id: channel.team_id, in_channel_id: channel.id});
-            }
-        }
+    const doSearch = useCallback(debounce(async (terms: string) => {
+        await actions.searchProfilesAndChannelMembers(terms, {in_team_id: channel.team_id, in_channel_id: channel.id});
+    }, 500), [actions.searchProfilesAndChannelMembers]);
 
-        doSearch();
-    }, [debouncedSearchTerms]);
+    useEffect(() => {
+        if (searchTerms) {
+            doSearch(searchTerms);
+        }
+    }, [searchTerms]);
 
     const inviteMembers = () => {
         if (channel.type === Constants.GM_CHANNEL) {
