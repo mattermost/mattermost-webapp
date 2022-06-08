@@ -343,6 +343,44 @@ describe('threads', () => {
         expect(nextState.unreadThreadsInTeam.a).toEqual(['t1', 't3']);
     });
 
+    test('POST_REMOVED should remove the thread when root post from all teams', () => {
+        const state = deepFreeze({
+            threadsInTeam: {
+                a: ['t1', 't2', 't3'],
+                b: ['t2'],
+            },
+            unreadThreadsInTeam: {
+                a: ['t1', 't2', 't3'],
+                b: ['t2'],
+            },
+            threads: {
+                t1: {
+                    id: 't1',
+                },
+                t2: {
+                    id: 't2',
+                },
+                t3: {
+                    id: 't3',
+                },
+            },
+            counts: {},
+            countsIncludingDirect: {},
+        });
+
+        const nextState = threadsReducer(state, {
+            type: PostTypes.POST_REMOVED,
+            data: {id: 't2', root_id: ''},
+        });
+
+        expect(nextState).not.toBe(state);
+        expect(nextState.threads.t2).toBe(undefined);
+        expect(nextState.threadsInTeam.a).toEqual(['t1', 't3']);
+        expect(nextState.unreadThreadsInTeam.a).toEqual(['t1', 't3']);
+        expect(nextState.threadsInTeam.b).toEqual([]);
+        expect(nextState.unreadThreadsInTeam.b).toEqual([]);
+    });
+
     test('POST_REMOVED should do nothing when not a root post', () => {
         const state = deepFreeze({
             threadsInTeam: {

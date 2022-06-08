@@ -2,12 +2,12 @@
 // See LICENSE.txt for license information.
 
 import {ChannelTypes, PostTypes, TeamTypes, ThreadTypes, UserTypes} from 'mattermost-redux/action_types';
-import {GenericAction} from 'mattermost-redux/types/actions';
-import {Team} from '@mattermost/types/teams';
-import {ThreadsState, UserThread} from '@mattermost/types/threads';
+import type {GenericAction} from 'mattermost-redux/types/actions';
+import type {Team} from '@mattermost/types/teams';
+import type {ThreadsState, UserThread} from '@mattermost/types/threads';
 import type {IDMappedObjects} from '@mattermost/types/utilities';
 
-import {ExtraData} from './types';
+import type {ExtraData} from './types';
 
 type State = ThreadsState['threadsInTeam'] | ThreadsState['unreadThreadsInTeam'];
 
@@ -27,21 +27,28 @@ function handlePostRemoved(state: State, action: GenericAction) {
         return state;
     }
 
-    const teamId = Object.keys(state).
-        find((id) => state[id].indexOf(post.id) !== -1);
+    const teams = Object.keys(state).
+        filter((id) => state[id].indexOf(post.id) !== -1);
 
-    if (!teamId) {
+    if (!teams?.length) {
         return state;
     }
 
-    const index = state[teamId].indexOf(post.id);
+    const teamState: Partial<State> = {};
+
+    for (let i = 0; i < teams.length; i++) {
+        const teamId = teams[i];
+        const index = state[teamId].indexOf(post.id);
+
+        teamState[teamId] = [
+            ...state[teamId].slice(0, index),
+            ...state[teamId].slice(index + 1),
+        ];
+    }
 
     return {
         ...state,
-        [teamId]: [
-            ...state[teamId].slice(0, index),
-            ...state[teamId].slice(index + 1),
-        ],
+        ...teamState,
     };
 }
 
