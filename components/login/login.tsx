@@ -122,7 +122,6 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
     const enableBaseLogin = enableSignInWithEmail || enableSignInWithUsername || ldapEnabled;
     const enableExternalSignup = enableSignUpWithGitLab || enableSignUpWithOffice365 || enableSignUpWithGoogle || enableSignUpWithOpenId || enableSignUpWithSaml;
     const showSignup = enableOpenServer && (enableExternalSignup || enableSignUpWithEmail || enableLdap);
-    const canSubmit = Boolean(loginId && password) && !hasError && !isWaiting;
 
     const getExternalLoginOptions = () => {
         const externalLoginOptions: ExternalLoginButtonType[] = [];
@@ -373,7 +372,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
                 closeSessionExpiredNotification.current = undefined;
             }
         };
-    });
+    }, []);
 
     if (initializing) {
         return (<LoadingScreen/>);
@@ -617,7 +616,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
     };
 
     const onEnterKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === Constants.KeyCodes.ENTER[0] && canSubmit) {
+        if (e.key === Constants.KeyCodes.ENTER[0]) {
             preSubmit(e);
         }
     };
@@ -747,7 +746,6 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
                                 <SaveButton
                                     extraClasses='login-body-card-form-button-submit large'
                                     saving={isWaiting}
-                                    disabled={!canSubmit}
                                     onClick={preSubmit}
                                     defaultMessage={formatMessage({id: 'login.logIn', defaultMessage: 'Log in'})}
                                     savingMessage={formatMessage({id: 'login.logingIn', defaultMessage: 'Logging in…'})}
