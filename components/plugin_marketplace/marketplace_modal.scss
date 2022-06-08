@@ -36,14 +36,23 @@
     .marketplace-usage-message {
         position: relative;
         padding: 25px;
-        border: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
-        background-color: rgba(var(--center-channel-color-rgb), 0.04);
         border-radius: 4px;
+        color: var(--center-channel-color);
+
+        &.danger {
+            border: 1px solid rgba(var(--error-text-color-rgb), 0.16);
+            background-color: rgba(var(--error-text-color-rgb), 0.08);
+        }
+
+        &.info {
+            border: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
+            background-color: rgba(var(--center-channel-color-rgb), 0.04);
+        }
 
         .upgrade-buttons .btn {
+            border: none;
             margin-right: 5px;
             line-height: 14px;
-            border: none;
         }
 
         .close-x {
@@ -71,6 +80,12 @@
 
     .nav-tabs {
         font-size: 14px;
+        position: relative;
+
+        > span {
+            position: absolute;
+            right: 15px;
+        }
 
         > li {
             > a {

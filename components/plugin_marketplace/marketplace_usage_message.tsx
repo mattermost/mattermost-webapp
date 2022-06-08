@@ -2,70 +2,62 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {FormattedMessage, useIntl} from 'react-intl';
-
-import {PreferenceType} from '@mattermost/types/preferences';
+import classNames from 'classnames';
 
 import {getCloudLimits} from 'mattermost-redux/selectors/entities/cloud';
-import {getIntegrationsUsage} from 'mattermost-redux/selectors/entities/usage';
-import {cloudFreeEnabled, getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
-
-import {savePreferences} from 'mattermost-redux/actions/preferences';
+import {isIntegrationsUsageAtLimit} from 'mattermost-redux/selectors/entities/usage';
+import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import CloseIcon from 'components/widgets/icons/close_icon';
-import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
+
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
+import usePreference from 'components/common/hooks/usePreference';
 
 const HIDE_USAGE_MESSAGE_PREFERENCE_CATEGORY = 'usage_limits';
 const HIDE_USAGE_MESSAGE_PREFERENCE_NAME = 'hide_marketplace_usage_message';
-
-const usePreferenceCheck = (): [boolean, (value: boolean) => void] => {
-    const userId = useSelector(getCurrentUserId);
-    const preferences = useSelector(getMyPreferences);
-
-    const key = getPreferenceKey(HIDE_USAGE_MESSAGE_PREFERENCE_CATEGORY, HIDE_USAGE_MESSAGE_PREFERENCE_NAME);
-    const preference = preferences[key];
-    const hiddenDueToPreference = preference?.value === 'true';
-
-    const dispatch = useDispatch();
-    const setHidePreference = (value: boolean) => {
-        const preference: PreferenceType = {
-            category: HIDE_USAGE_MESSAGE_PREFERENCE_CATEGORY,
-            name: HIDE_USAGE_MESSAGE_PREFERENCE_NAME,
-            user_id: userId,
-            value: value.toString(),
-        };
-        dispatch(savePreferences(userId, [preference]));
-    };
-
-    return [hiddenDueToPreference, setHidePreference];
-};
+const TEN_DAYS = 1000 * 60 * 60 * 24 * 10;
 
 export default function MarketplaceUsageMessage() {
+    const {formatMessage} = useIntl();
+
     const openPricingModal = useOpenPricingModal();
     const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
-    const integrationsUsage = useSelector(getIntegrationsUsage);
+    const reachedLimit = useSelector(isIntegrationsUsageAtLimit);
     const limits = useSelector(getCloudLimits);
-    const [hiddenDueToPreferences, setHidePreference] = usePreferenceCheck();
-    const intl = useIntl();
+    const [preferenceValue, setPreference] = usePreference(HIDE_USAGE_MESSAGE_PREFERENCE_CATEGORY, HIDE_USAGE_MESSAGE_PREFERENCE_NAME);
 
-    if (hiddenDueToPreferences || !isCloudFreeEnabled || !integrationsUsage?.enabledLoaded || !limits.integrations?.enabled) {
-        return (
-            <button
-                className='btn btn-primary'
-                onClick={() => setHidePreference(false)}
-            >
-                {'DEBUG reset preference'}
-            </button>
-        );
+    if (!isCloudFreeEnabled || !limits.integrations?.enabled) {
+        return null;
+    }
+
+    if (!reachedLimit && preferenceValue) {
+        const before = parseInt(preferenceValue, 10);
+        const now = new Date().getTime();
+        if ((now - before) < TEN_DAYS) {
+            return null;
+        }
     }
 
     let limitMessage: React.ReactNode;
-    if (integrationsUsage.enabled < limits.integrations.enabled) {
+    let upgradeButtonLabel: React.ReactNode;
+    if (reachedLimit) {
+        limitMessage = (
+            <FormattedMessage
+                id={'marketplace_modal.usage_message.reached_limit'}
+                defaultMessage={'Integrations limits reached. Upgrade to install unlimited integrations.'}
+            />
+        );
+
+        upgradeButtonLabel = (
+            <FormattedMessage
+                id={'marketplace_modal.usage_message.upgrade_now'}
+                defaultMessage={'Upgrade now'}
+            />
+        );
+    } else {
         limitMessage = (
             <FormattedMessage
                 id={'marketplace_modal.usage_message.below_limit'}
@@ -75,14 +67,25 @@ export default function MarketplaceUsageMessage() {
                 }}
             />
         );
-    } else {
-        limitMessage = (
+
+        upgradeButtonLabel = (
             <FormattedMessage
-                id={'marketplace_modal.usage_message.reached_limit'}
-                defaultMessage={'Integrations limits reached. Upgrade to install unlimited integrations.'}
+                id={'marketplace_modal.usage_message.view_plans'}
+                defaultMessage={'View plans'}
             />
         );
     }
+
+    const upgradeButtons = (
+        <div className='upgrade-buttons'>
+            <button
+                onClick={openPricingModal}
+                className='btn btn-primary'
+            >
+                {upgradeButtonLabel}
+            </button>
+        </div>
+    );
 
     const upgradeInstructions = (
         <p>
@@ -96,45 +99,24 @@ export default function MarketplaceUsageMessage() {
         </p>
     );
 
-    const upgradeButtons = (
-        <div className='upgrade-buttons'>
-            <CloudStartTrialButton
-                message={intl.formatMessage({id: 'marketplace_modal.usage_message.trial_button', defaultMessage: 'Try free for 30 days'})}
-                telemetryId={'start_cloud_trial_from_marketplace'}
-                onClick={() => setHidePreference(true)}
-                extraClass={'btn btn-primary start-cloud-trial-btn'}
-            />
-
-            <button
-                onClick={openPricingModal}
-                className='btn btn-default'
-            >
-                <FormattedMessage
-                    id={'marketplace_modal.usage_message.upgrade_button'}
-                    defaultMessage={'Upgrade Now'}
-                />
-            </button>
-        </div>
-    );
-
     const closeIcon = (
         <button
-            onClick={() => setHidePreference(true)}
+            onClick={() => setPreference(new Date().getTime().toString())}
             className='close-x'
-            aria-label={intl.formatMessage({id: 'full_screen_modal.close', defaultMessage: 'Close'})}
+            aria-label={formatMessage({id: 'full_screen_modal.close', defaultMessage: 'Close'})}
         >
             <CloseIcon id='closeIcon'/>
         </button>
     );
 
     return (
-        <div className='marketplace-usage-message'>
+        <div className={classNames('marketplace-usage-message', {danger: reachedLimit, info: !reachedLimit})}>
             <strong>
                 {limitMessage}
             </strong>
             {upgradeInstructions}
             {upgradeButtons}
-            {closeIcon}
+            {!reachedLimit && closeIcon}
         </div>
     );
 }

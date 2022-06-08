@@ -15,6 +15,7 @@ describe('marketplace', () => {
             plugins: [],
             apps: [],
             installing: {},
+            changingStatus: {},
             errors: {},
             filter: '',
         };
@@ -27,6 +28,7 @@ describe('marketplace', () => {
             plugins: [],
             apps: [],
             installing: {},
+            changingStatus: {},
             errors: {},
             filter: '',
         };
@@ -38,6 +40,7 @@ describe('marketplace', () => {
             plugins: [{id: 'plugin1'}, {id: 'plugin2'}],
             apps: [],
             installing: {},
+            changingStatus: {},
             errors: {},
             filter: '',
         };
@@ -50,6 +53,7 @@ describe('marketplace', () => {
             plugins: [{manifest: {id: 'plugin1'}}, {manifest: {id: 'plugin2'}}] as MarketplacePlugin[],
             apps: [],
             installing: {plugin1: true},
+            changingStatus: {},
             errors: {plugin3: 'An error occurred'},
             filter: 'existing',
         };
@@ -63,6 +67,7 @@ describe('marketplace', () => {
                 plugins: [{manifest: {id: 'plugin1'}}, {manifest: {id: 'plugin2'}}] as MarketplacePlugin[],
                 apps: [],
                 installing: {plugin1: true, plugin2: true},
+                changingStatus: {},
                 errors: {plugin3: 'An error occurred'},
                 filter: 'existing',
             };
@@ -89,6 +94,7 @@ describe('marketplace', () => {
                 plugins: [{manifest: {id: 'plugin1'}}, {manifest: {id: 'plugin2'}}] as MarketplacePlugin[],
                 apps: [],
                 installing: {plugin1: true, plugin3: true},
+                changingStatus: {},
                 errors: {},
                 filter: 'existing',
             };
@@ -102,6 +108,7 @@ describe('marketplace', () => {
             plugins: [{manifest: {id: 'plugin1'}}, {manifest: {id: 'plugin2'}}] as MarketplacePlugin[],
             apps: [],
             installing: {plugin1: true, plugin2: true},
+            changingStatus: {},
             errors: {plugin3: 'An error occurred'},
             filter: 'existing',
         };
@@ -115,6 +122,7 @@ describe('marketplace', () => {
                 plugins: [{manifest: {id: 'plugin1'}}, {manifest: {id: 'plugin2'}}] as MarketplacePlugin[],
                 apps: [],
                 installing: {plugin2: true},
+                changingStatus: {},
                 errors: {plugin3: 'An error occurred'},
                 filter: 'existing',
             };
@@ -131,6 +139,7 @@ describe('marketplace', () => {
                 plugins: [{manifest: {id: 'plugin1'}}, {manifest: {id: 'plugin2'}}] as MarketplacePlugin[],
                 apps: [],
                 installing: {plugin1: true, plugin2: true},
+                changingStatus: {},
                 errors: {},
                 filter: 'existing',
             };
@@ -144,6 +153,7 @@ describe('marketplace', () => {
             plugins: [{manifest: {id: 'plugin1'}}, {manifest: {id: 'plugin2'}}] as MarketplacePlugin[],
             apps: [],
             installing: {plugin1: true, plugin2: true},
+            changingStatus: {},
             errors: {plugin3: 'An error occurred'},
             filter: 'existing',
         };
@@ -158,7 +168,147 @@ describe('marketplace', () => {
                 plugins: [{manifest: {id: 'plugin1'}}, {manifest: {id: 'plugin2'}}] as MarketplacePlugin[],
                 apps: [],
                 installing: {plugin2: true},
+                changingStatus: {},
                 errors: {plugin1: 'Failed to intall', plugin3: 'An error occurred'},
+                filter: 'existing',
+            };
+
+            expect(marketplaceReducer(currentState, action)).toEqual(expectedState);
+        });
+    });
+
+    describe(ActionTypes.CHANGING_MARKETPLACE_ITEM_STATUS, () => {
+        const currentState = {
+            plugins: [{manifest: {id: 'plugin1'}}, {manifest: {id: 'plugin2'}}] as MarketplacePlugin[],
+            apps: [],
+            installing: {},
+            changingStatus: {plugin1: true},
+            errors: {plugin3: 'An error occurred'},
+            filter: 'existing',
+        };
+
+        it('should set changingStatus true', () => {
+            const action: GenericAction = {
+                type: ActionTypes.CHANGING_MARKETPLACE_ITEM_STATUS,
+                id: 'plugin2',
+                enable: true,
+            };
+            const expectedState = {
+                plugins: [{manifest: {id: 'plugin1'}}, {manifest: {id: 'plugin2'}}] as MarketplacePlugin[],
+                apps: [],
+                installing: {},
+                changingStatus: {plugin1: true, plugin2: true},
+                errors: {plugin3: 'An error occurred'},
+                filter: 'existing',
+            };
+
+            expect(marketplaceReducer(currentState, action)).toEqual(expectedState);
+        });
+
+        it('should set changingStatus false', () => {
+            const action: GenericAction = {
+                type: ActionTypes.CHANGING_MARKETPLACE_ITEM_STATUS,
+                id: 'plugin2',
+                enable: false,
+            };
+            const expectedState = {
+                plugins: [{manifest: {id: 'plugin1'}}, {manifest: {id: 'plugin2'}}] as MarketplacePlugin[],
+                apps: [],
+                installing: {},
+                changingStatus: {plugin1: true, plugin2: false},
+                errors: {plugin3: 'An error occurred'},
+                filter: 'existing',
+            };
+
+            expect(marketplaceReducer(currentState, action)).toEqual(expectedState);
+        });
+
+        it('should clear error for previously failed plugin', () => {
+            const action: GenericAction = {
+                type: ActionTypes.CHANGING_MARKETPLACE_ITEM_STATUS,
+                id: 'plugin3',
+                enable: true,
+            };
+            const expectedState = {
+                plugins: [{manifest: {id: 'plugin1'}}, {manifest: {id: 'plugin2'}}] as MarketplacePlugin[],
+                apps: [],
+                installing: {},
+                changingStatus: {plugin1: true, plugin3: true},
+                errors: {},
+                filter: 'existing',
+            };
+
+            expect(marketplaceReducer(currentState, action)).toEqual(expectedState);
+        });
+    });
+
+    describe(ActionTypes.CHANGING_MARKETPLACE_ITEM_STATUS_SUCCEEDED, () => {
+        const currentState = {
+            plugins: [{manifest: {id: 'plugin1'}}, {manifest: {id: 'plugin2'}}] as MarketplacePlugin[],
+            apps: [],
+            installing: {},
+            changingStatus: {plugin1: true, plugin2: true},
+            errors: {plugin3: 'An error occurred'},
+            filter: 'existing',
+        };
+
+        it('should clear changingStatus', () => {
+            const action: GenericAction = {
+                type: ActionTypes.CHANGING_MARKETPLACE_ITEM_STATUS_SUCCEEDED,
+                id: 'plugin1',
+            };
+            const expectedState = {
+                plugins: [{manifest: {id: 'plugin1'}}, {manifest: {id: 'plugin2'}}] as MarketplacePlugin[],
+                apps: [],
+                installing: {},
+                changingStatus: {plugin2: true},
+                errors: {plugin3: 'An error occurred'},
+                filter: 'existing',
+            };
+
+            expect(marketplaceReducer(currentState, action)).toEqual(expectedState);
+        });
+
+        it('should clear error', () => {
+            const action: GenericAction = {
+                type: ActionTypes.CHANGING_MARKETPLACE_ITEM_STATUS_SUCCEEDED,
+                id: 'plugin3',
+            };
+            const expectedState = {
+                plugins: [{manifest: {id: 'plugin1'}}, {manifest: {id: 'plugin2'}}] as MarketplacePlugin[],
+                apps: [],
+                installing: {},
+                changingStatus: {plugin1: true, plugin2: true},
+                errors: {},
+                filter: 'existing',
+            };
+
+            expect(marketplaceReducer(currentState, action)).toEqual(expectedState);
+        });
+    });
+
+    describe(ActionTypes.CHANGING_MARKETPLACE_ITEM_STATUS_FAILED, () => {
+        const currentState = {
+            plugins: [{manifest: {id: 'plugin1'}}, {manifest: {id: 'plugin2'}}] as MarketplacePlugin[],
+            apps: [],
+            installing: {},
+            changingStatus: {plugin1: true, plugin2: true},
+            errors: {plugin3: 'An error occurred'},
+            filter: 'existing',
+        };
+
+        it('should clear changingStatus and set error', () => {
+            const action: GenericAction = {
+                type: ActionTypes.CHANGING_MARKETPLACE_ITEM_STATUS_FAILED,
+                id: 'plugin1',
+                error: 'Failed to enable',
+            };
+            const expectedState = {
+                plugins: [{manifest: {id: 'plugin1'}}, {manifest: {id: 'plugin2'}}] as MarketplacePlugin[],
+                apps: [],
+                installing: {},
+                changingStatus: {plugin2: true},
+                errors: {plugin1: 'Failed to enable', plugin3: 'An error occurred'},
                 filter: 'existing',
             };
 
@@ -171,12 +321,14 @@ describe('marketplace', () => {
             plugins: [{manifest: {id: 'plugin1'}}, {manifest: {id: 'plugin2'}}] as MarketplacePlugin[],
             apps: [],
             installing: {plugin1: true, plugin2: true},
+            changingStatus: {},
             errors: {plugin3: 'An error occurred'},
             filter: 'existing',
         };
 
         it('should set filter', () => {
             const action: GenericAction = {
+                changingStatus: {},
                 type: ActionTypes.FILTER_MARKETPLACE_LISTING,
                 filter: 'new',
             };
@@ -184,6 +336,7 @@ describe('marketplace', () => {
                 plugins: [{manifest: {id: 'plugin1'}}, {manifest: {id: 'plugin2'}}] as MarketplacePlugin[],
                 apps: [],
                 installing: {plugin1: true, plugin2: true},
+                changingStatus: {},
                 errors: {plugin3: 'An error occurred'},
                 filter: 'new',
             };
@@ -197,6 +350,7 @@ describe('marketplace', () => {
             plugins: [{manifest: {id: 'plugin1'}}, {manifest: {id: 'plugin2'}}] as MarketplacePlugin[],
             apps: [],
             installing: {plugin1: true, plugin2: true},
+            changingStatus: {},
             errors: {plugin3: 'An error occurred'},
             filter: 'existing',
         };
@@ -220,6 +374,7 @@ describe('marketplace', () => {
                 plugins: [],
                 apps: [],
                 installing: {},
+                changingStatus: {},
                 errors: {},
                 filter: '',
             };

@@ -6,25 +6,36 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render 1`] = `
     actions={
       Object {
         "closeMarketplaceModal": [MockFunction],
+        "disablePlugin": [MockFunction],
+        "enablePlugin": [MockFunction],
         "installPlugin": [MockFunction],
       }
     }
-    button={
-      <button
-        className="btn btn-primary"
-        disabled={false}
-        onClick={[Function]}
-      >
-        <LoadingWrapper
-          loading={false}
-          text="Installing..."
+    cloudLimits={Object {}}
+    controls={
+      <React.Fragment>
+        <button
+          className="btn btn-primary"
+          onClick={[Function]}
         >
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Install"
-            id="marketplace_modal.list.install"
-          />
-        </LoadingWrapper>
-      </button>
+          <LoadingWrapper
+            loading={false}
+            text="Installing..."
+          >
+            <Memo(MemoizedFormattedMessage)
+              defaultMessage="Install"
+              id="marketplace_modal.list.install"
+            />
+          </LoadingWrapper>
+        </button>
+        <Toggle
+          className="btn-lg"
+          disabled={true}
+          id="plugin-enable-toggle-id"
+          onToggle={[Function]}
+          toggled={false}
+        />
+      </React.Fragment>
     }
     description="test plugin"
     homepageUrl="http://example.com"
@@ -33,6 +44,7 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render 1`] = `
     id="id"
     installedVersion=""
     installing={false}
+    integrationsUsageAtLimit={false}
     isDefaultMarketplace={true}
     name="name"
     trackEvent={[MockFunction]}
@@ -70,23 +82,35 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render installe
     actions={
       Object {
         "closeMarketplaceModal": [MockFunction],
+        "disablePlugin": [MockFunction],
+        "enablePlugin": [MockFunction],
         "installPlugin": [MockFunction],
       }
     }
-    button={
-      <Link
-        to="/admin_console/plugins/plugin_id"
-      >
-        <button
-          className="btn btn-outline"
-          onClick={[Function]}
+    cloudLimits={Object {}}
+    controls={
+      <React.Fragment>
+        <Link
+          to="/admin_console/plugins/plugin_id"
         >
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Configure"
-            id="marketplace_modal.list.configure"
-          />
-        </button>
-      </Link>
+          <button
+            className="btn btn-outline"
+            onClick={[Function]}
+          >
+            <Memo(MemoizedFormattedMessage)
+              defaultMessage="Configure"
+              id="marketplace_modal.list.configure"
+            />
+          </button>
+        </Link>
+        <Toggle
+          className="btn-lg"
+          disabled={false}
+          id="plugin-enable-toggle-id"
+          onToggle={[Function]}
+          toggled={false}
+        />
+      </React.Fragment>
     }
     description="test plugin"
     homepageUrl="http://example.com"
@@ -95,6 +119,7 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render installe
     id="id"
     installedVersion="1.0.0"
     installing={false}
+    integrationsUsageAtLimit={false}
     isDefaultMarketplace={true}
     name="name"
     trackEvent={[MockFunction]}
@@ -132,25 +157,36 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with emp
     actions={
       Object {
         "closeMarketplaceModal": [MockFunction],
+        "disablePlugin": [MockFunction],
+        "enablePlugin": [MockFunction],
         "installPlugin": [MockFunction],
       }
     }
-    button={
-      <button
-        className="btn btn-primary"
-        disabled={false}
-        onClick={[Function]}
-      >
-        <LoadingWrapper
-          loading={false}
-          text="Installing..."
+    cloudLimits={Object {}}
+    controls={
+      <React.Fragment>
+        <button
+          className="btn btn-primary"
+          onClick={[Function]}
         >
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Install"
-            id="marketplace_modal.list.install"
-          />
-        </LoadingWrapper>
-      </button>
+          <LoadingWrapper
+            loading={false}
+            text="Installing..."
+          >
+            <Memo(MemoizedFormattedMessage)
+              defaultMessage="Install"
+              id="marketplace_modal.list.install"
+            />
+          </LoadingWrapper>
+        </button>
+        <Toggle
+          className="btn-lg"
+          disabled={true}
+          id="plugin-enable-toggle-id"
+          onToggle={[Function]}
+          toggled={false}
+        />
+      </React.Fragment>
     }
     description="test plugin"
     homepageUrl="http://example.com"
@@ -159,6 +195,7 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with emp
     id="id"
     installedVersion=""
     installing={false}
+    integrationsUsageAtLimit={false}
     isDefaultMarketplace={true}
     labels={Array []}
     name="name"
@@ -197,25 +234,36 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with no 
     actions={
       Object {
         "closeMarketplaceModal": [MockFunction],
+        "disablePlugin": [MockFunction],
+        "enablePlugin": [MockFunction],
         "installPlugin": [MockFunction],
       }
     }
-    button={
-      <button
-        className="btn btn-primary"
-        disabled={false}
-        onClick={[Function]}
-      >
-        <LoadingWrapper
-          loading={false}
-          text="Installing..."
+    cloudLimits={Object {}}
+    controls={
+      <React.Fragment>
+        <button
+          className="btn btn-primary"
+          onClick={[Function]}
         >
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Install"
-            id="marketplace_modal.list.install"
-          />
-        </LoadingWrapper>
-      </button>
+          <LoadingWrapper
+            loading={false}
+            text="Installing..."
+          >
+            <Memo(MemoizedFormattedMessage)
+              defaultMessage="Install"
+              id="marketplace_modal.list.install"
+            />
+          </LoadingWrapper>
+        </button>
+        <Toggle
+          className="btn-lg"
+          disabled={true}
+          id="plugin-enable-toggle-id"
+          onToggle={[Function]}
+          toggled={false}
+        />
+      </React.Fragment>
     }
     description="test plugin"
     iconData="icon"
@@ -223,6 +271,7 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with no 
     id="id"
     installedVersion=""
     installing={false}
+    integrationsUsageAtLimit={false}
     isDefaultMarketplace={true}
     name="name"
     trackEvent={[MockFunction]}
@@ -260,25 +309,36 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with no 
     actions={
       Object {
         "closeMarketplaceModal": [MockFunction],
+        "disablePlugin": [MockFunction],
+        "enablePlugin": [MockFunction],
         "installPlugin": [MockFunction],
       }
     }
-    button={
-      <button
-        className="btn btn-primary"
-        disabled={false}
-        onClick={[Function]}
-      >
-        <LoadingWrapper
-          loading={false}
-          text="Installing..."
+    cloudLimits={Object {}}
+    controls={
+      <React.Fragment>
+        <button
+          className="btn btn-primary"
+          onClick={[Function]}
         >
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Install"
-            id="marketplace_modal.list.install"
-          />
-        </LoadingWrapper>
-      </button>
+          <LoadingWrapper
+            loading={false}
+            text="Installing..."
+          >
+            <Memo(MemoizedFormattedMessage)
+              defaultMessage="Install"
+              id="marketplace_modal.list.install"
+            />
+          </LoadingWrapper>
+        </button>
+        <Toggle
+          className="btn-lg"
+          disabled={true}
+          id="plugin-enable-toggle-id"
+          onToggle={[Function]}
+          toggled={false}
+        />
+      </React.Fragment>
     }
     homepageUrl="http://example.com"
     iconData="icon"
@@ -286,6 +346,7 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with no 
     id="id"
     installedVersion=""
     installing={false}
+    integrationsUsageAtLimit={false}
     isDefaultMarketplace={true}
     name="name"
     trackEvent={[MockFunction]}
@@ -323,31 +384,43 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with no 
     actions={
       Object {
         "closeMarketplaceModal": [MockFunction],
+        "disablePlugin": [MockFunction],
+        "enablePlugin": [MockFunction],
         "installPlugin": [MockFunction],
       }
     }
-    button={
-      <button
-        className="btn btn-primary"
-        disabled={false}
-        onClick={[Function]}
-      >
-        <LoadingWrapper
-          loading={false}
-          text="Installing..."
+    cloudLimits={Object {}}
+    controls={
+      <React.Fragment>
+        <button
+          className="btn btn-primary"
+          onClick={[Function]}
         >
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Install"
-            id="marketplace_modal.list.install"
-          />
-        </LoadingWrapper>
-      </button>
+          <LoadingWrapper
+            loading={false}
+            text="Installing..."
+          >
+            <Memo(MemoizedFormattedMessage)
+              defaultMessage="Install"
+              id="marketplace_modal.list.install"
+            />
+          </LoadingWrapper>
+        </button>
+        <Toggle
+          className="btn-lg"
+          disabled={true}
+          id="plugin-enable-toggle-id"
+          onToggle={[Function]}
+          toggled={false}
+        />
+      </React.Fragment>
     }
     description="test plugin"
     homepageUrl="http://example.com"
     id="id"
     installedVersion=""
     installing={false}
+    integrationsUsageAtLimit={false}
     isDefaultMarketplace={true}
     name="name"
     trackEvent={[MockFunction]}
@@ -385,25 +458,36 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with one
     actions={
       Object {
         "closeMarketplaceModal": [MockFunction],
+        "disablePlugin": [MockFunction],
+        "enablePlugin": [MockFunction],
         "installPlugin": [MockFunction],
       }
     }
-    button={
-      <button
-        className="btn btn-primary"
-        disabled={false}
-        onClick={[Function]}
-      >
-        <LoadingWrapper
-          loading={false}
-          text="Installing..."
+    cloudLimits={Object {}}
+    controls={
+      <React.Fragment>
+        <button
+          className="btn btn-primary"
+          onClick={[Function]}
         >
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Install"
-            id="marketplace_modal.list.install"
-          />
-        </LoadingWrapper>
-      </button>
+          <LoadingWrapper
+            loading={false}
+            text="Installing..."
+          >
+            <Memo(MemoizedFormattedMessage)
+              defaultMessage="Install"
+              id="marketplace_modal.list.install"
+            />
+          </LoadingWrapper>
+        </button>
+        <Toggle
+          className="btn-lg"
+          disabled={true}
+          id="plugin-enable-toggle-id"
+          onToggle={[Function]}
+          toggled={false}
+        />
+      </React.Fragment>
     }
     description="test plugin"
     homepageUrl="http://example.com"
@@ -412,6 +496,7 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with one
     id="id"
     installedVersion=""
     installing={false}
+    integrationsUsageAtLimit={false}
     isDefaultMarketplace={true}
     labels={
       Array [
@@ -458,25 +543,36 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with ser
     actions={
       Object {
         "closeMarketplaceModal": [MockFunction],
+        "disablePlugin": [MockFunction],
+        "enablePlugin": [MockFunction],
         "installPlugin": [MockFunction],
       }
     }
-    button={
-      <button
-        className="btn btn-primary"
-        disabled={false}
-        onClick={[Function]}
-      >
-        <LoadingWrapper
-          loading={false}
-          text="Installing..."
+    cloudLimits={Object {}}
+    controls={
+      <React.Fragment>
+        <button
+          className="btn btn-primary"
+          onClick={[Function]}
         >
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Try Again"
-            id="marketplace_modal.list.try_again"
-          />
-        </LoadingWrapper>
-      </button>
+          <LoadingWrapper
+            loading={false}
+            text="Installing..."
+          >
+            <Memo(MemoizedFormattedMessage)
+              defaultMessage="Try Again"
+              id="marketplace_modal.list.try_again"
+            />
+          </LoadingWrapper>
+        </button>
+        <Toggle
+          className="btn-lg"
+          disabled={true}
+          id="plugin-enable-toggle-id"
+          onToggle={[Function]}
+          toggled={false}
+        />
+      </React.Fragment>
     }
     description="test plugin"
     error="An error occurred."
@@ -486,6 +582,7 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with ser
     id="id"
     installedVersion=""
     installing={false}
+    integrationsUsageAtLimit={false}
     isDefaultMarketplace={true}
     name="name"
     trackEvent={[MockFunction]}
@@ -523,25 +620,36 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with two
     actions={
       Object {
         "closeMarketplaceModal": [MockFunction],
+        "disablePlugin": [MockFunction],
+        "enablePlugin": [MockFunction],
         "installPlugin": [MockFunction],
       }
     }
-    button={
-      <button
-        className="btn btn-primary"
-        disabled={false}
-        onClick={[Function]}
-      >
-        <LoadingWrapper
-          loading={false}
-          text="Installing..."
+    cloudLimits={Object {}}
+    controls={
+      <React.Fragment>
+        <button
+          className="btn btn-primary"
+          onClick={[Function]}
         >
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Install"
-            id="marketplace_modal.list.install"
-          />
-        </LoadingWrapper>
-      </button>
+          <LoadingWrapper
+            loading={false}
+            text="Installing..."
+          >
+            <Memo(MemoizedFormattedMessage)
+              defaultMessage="Install"
+              id="marketplace_modal.list.install"
+            />
+          </LoadingWrapper>
+        </button>
+        <Toggle
+          className="btn-lg"
+          disabled={true}
+          id="plugin-enable-toggle-id"
+          onToggle={[Function]}
+          toggled={false}
+        />
+      </React.Fragment>
     }
     description="test plugin"
     homepageUrl="http://example.com"
@@ -550,6 +658,7 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with two
     id="id"
     installedVersion=""
     installing={false}
+    integrationsUsageAtLimit={false}
     isDefaultMarketplace={true}
     labels={
       Array [
@@ -601,23 +710,35 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with upd
     actions={
       Object {
         "closeMarketplaceModal": [MockFunction],
+        "disablePlugin": [MockFunction],
+        "enablePlugin": [MockFunction],
         "installPlugin": [MockFunction],
       }
     }
-    button={
-      <Link
-        to="/admin_console/plugins/plugin_id"
-      >
-        <button
-          className="btn btn-outline"
-          onClick={[Function]}
+    cloudLimits={Object {}}
+    controls={
+      <React.Fragment>
+        <Link
+          to="/admin_console/plugins/plugin_id"
         >
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Configure"
-            id="marketplace_modal.list.configure"
-          />
-        </button>
-      </Link>
+          <button
+            className="btn btn-outline"
+            onClick={[Function]}
+          >
+            <Memo(MemoizedFormattedMessage)
+              defaultMessage="Configure"
+              id="marketplace_modal.list.configure"
+            />
+          </button>
+        </Link>
+        <Toggle
+          className="btn-lg"
+          disabled={false}
+          id="plugin-enable-toggle-id"
+          onToggle={[Function]}
+          toggled={false}
+        />
+      </React.Fragment>
     }
     description="test plugin"
     homepageUrl="http://example.com"
@@ -626,6 +747,7 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with upd
     id="id"
     installedVersion="0.9.9"
     installing={false}
+    integrationsUsageAtLimit={false}
     isDefaultMarketplace={true}
     name="name"
     releaseNotesUrl="http://example.com/release"
@@ -666,23 +788,35 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with upd
     actions={
       Object {
         "closeMarketplaceModal": [MockFunction],
+        "disablePlugin": [MockFunction],
+        "enablePlugin": [MockFunction],
         "installPlugin": [MockFunction],
       }
     }
-    button={
-      <Link
-        to="/admin_console/plugins/plugin_id"
-      >
-        <button
-          className="btn btn-outline"
-          onClick={[Function]}
+    cloudLimits={Object {}}
+    controls={
+      <React.Fragment>
+        <Link
+          to="/admin_console/plugins/plugin_id"
         >
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Configure"
-            id="marketplace_modal.list.configure"
-          />
-        </button>
-      </Link>
+          <button
+            className="btn btn-outline"
+            onClick={[Function]}
+          >
+            <Memo(MemoizedFormattedMessage)
+              defaultMessage="Configure"
+              id="marketplace_modal.list.configure"
+            />
+          </button>
+        </Link>
+        <Toggle
+          className="btn-lg"
+          disabled={false}
+          id="plugin-enable-toggle-id"
+          onToggle={[Function]}
+          toggled={false}
+        />
+      </React.Fragment>
     }
     description="test plugin"
     homepageUrl="http://example.com"
@@ -691,6 +825,7 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with upd
     id="id"
     installedVersion="0.9.9"
     installing={false}
+    integrationsUsageAtLimit={false}
     isDefaultMarketplace={true}
     name="name"
     trackEvent={[MockFunction]}

@@ -154,6 +154,7 @@ export type ViewsState = {
         plugins: MarketplacePlugin[];
         apps: MarketplaceApp[];
         installing: {[id: string]: boolean};
+        changingStatus: {[id: string]: boolean | undefined};
         errors: {[id: string]: string};
         filter: string;
     };

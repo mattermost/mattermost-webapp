@@ -211,6 +211,7 @@ exports[`components/marketplace/ MarketplaceModal should render with error banne
           />
         </strong>
       </h1>
+      <MarketplaceUsageMessage />
       <div
         className="filter-row filter-row--full"
       >
@@ -266,6 +267,7 @@ exports[`components/marketplace/ MarketplaceModal should render with error banne
             installedItems={Array []}
           />
         </Tab>
+        <EnabledHeader />
       </Uncontrolled(Tabs)>
     </div>
   </injectIntl(FullScreenModal)>
@@ -291,6 +293,7 @@ exports[`components/marketplace/ MarketplaceModal should render with no plugins 
           />
         </strong>
       </h1>
+      <MarketplaceUsageMessage />
       <div
         className="filter-row filter-row--full"
       >
@@ -346,6 +349,7 @@ exports[`components/marketplace/ MarketplaceModal should render with no plugins 
             installedItems={Array []}
           />
         </Tab>
+        <EnabledHeader />
       </Uncontrolled(Tabs)>
     </div>
   </injectIntl(FullScreenModal)>
@@ -371,6 +375,7 @@ exports[`components/marketplace/ MarketplaceModal should render with plugins ins
           />
         </strong>
       </h1>
+      <MarketplaceUsageMessage />
       <div
         className="filter-row filter-row--full"
       >
@@ -444,6 +449,7 @@ exports[`components/marketplace/ MarketplaceModal should render with plugins ins
             }
           />
         </Tab>
+        <EnabledHeader />
       </Uncontrolled(Tabs)>
     </div>
   </injectIntl(FullScreenModal)>

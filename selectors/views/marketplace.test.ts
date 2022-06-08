@@ -51,6 +51,7 @@ describe('marketplace', () => {
 
     const sampleApp: MarketplaceApp = {
         installed: false,
+        enabled: false,
         author_type: AuthorType.Mattermost,
         release_stage: ReleaseStage.Production,
         enterprise: false,
@@ -62,6 +63,7 @@ describe('marketplace', () => {
 
     const sampleInstalledApp: MarketplaceApp = {
         installed: true,
+        enabled: true,
         author_type: AuthorType.Mattermost,
         release_stage: ReleaseStage.Production,
         enterprise: false,

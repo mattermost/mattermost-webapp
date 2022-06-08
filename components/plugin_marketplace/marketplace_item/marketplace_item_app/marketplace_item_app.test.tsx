@@ -15,10 +15,16 @@ describe('components/MarketplaceItemApp', () => {
             homepageUrl: 'http://example.com',
             installed: false,
             installing: false,
+            enabled: false,
+            changingStatus: false,
+            cloudLimits: {},
+            integrationsUsageAtLimit: false,
             trackEvent: jest.fn(() => {}),
             actions: {
-                installApp: jest.fn(async () => Promise.resolve(true)),
-                closeMarketplaceModal: jest.fn(() => {}),
+                installApp: jest.fn().mockResolvedValue(true),
+                closeMarketplaceModal: jest.fn(),
+                enableApp: jest.fn(),
+                disableApp: jest.fn(),
             },
         };
 
