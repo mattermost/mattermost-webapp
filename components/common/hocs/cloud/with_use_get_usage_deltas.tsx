@@ -1,12 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {ComponentType} from 'react';
 
 import useGetUsageDeltas from 'components/common/hooks/useGetUsageDeltas';
 
-const withUseGetUsageDelta = (WrappedComponent: any) => (
-    (props: any) => {
+function withUseGetUsageDelta<T>(WrappedComponent: ComponentType<T>) {
+    return (props: T) => {
         const usageDeltas = useGetUsageDeltas();
 
         return (
@@ -15,7 +15,7 @@ const withUseGetUsageDelta = (WrappedComponent: any) => (
                 {...props}
             />
         );
-    }
-);
+    };
+}
 
 export default withUseGetUsageDelta;
