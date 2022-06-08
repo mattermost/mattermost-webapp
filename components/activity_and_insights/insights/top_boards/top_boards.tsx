@@ -5,6 +5,8 @@ import {useSelector} from 'react-redux';
 
 import {FormattedMessage} from 'react-intl';
 
+import {Link} from 'react-router-dom';
+
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import {TopBoard} from '@mattermost/types/insights';
@@ -73,10 +75,10 @@ const TopBoards = (props: WidgetHocProps) => {
                     {
                         topBoards.map((board, i) => {
                             return (
-                                <div
+                                <Link
                                     className='board-item'
-                                    onClick={() => {}}
                                     key={i}
+                                    to={`/boards/workspace/${board.workspaceID}/${board.boardID}`}
                                 >
                                     <span className='board-icon'>{board.icon}</span>
                                     <div className='display-info'>
@@ -96,7 +98,7 @@ const TopBoards = (props: WidgetHocProps) => {
                                         size='xs'
                                         disableProfileOverlay={true}
                                     />
-                                </div>
+                                </Link>
                             );
                         })
                     }
