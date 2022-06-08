@@ -10,15 +10,15 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import {Provider} from 'react-redux';
 
+import {GlobalState} from '@mattermost/types/store';
+import {UserProfile, UsersState} from '@mattermost/types/users';
+
 import {renderWithIntl} from 'tests/react_testing_utils';
 
 import * as cloudActions from 'actions/cloud';
 
 import {FileSizes} from 'utils/file_utils';
-
-import {GlobalState} from '@mattermost/types/store';
-import {UserProfile, UsersState} from '@mattermost/types/users';
-import {Constants} from 'utils/constants';
+import {Constants, CloudProducts} from 'utils/constants';
 
 import {Subscription, Product} from '@mattermost/types/cloud';
 
@@ -63,12 +63,12 @@ function setupStore(setupOptions: SetupOptions) {
                     prod_starter: {
                         id: 'prod_starter',
                         name: 'Cloud Starter',
-                        sku: 'cloud-starter',
+                        sku: CloudProducts.STARTER,
                     } as Product,
                     prod_enterprise: {
                         id: 'prod_enterprise',
                         name: 'Cloud Enterprise',
-                        sku: 'cloud-enterprise',
+                        sku: CloudProducts.ENTERPRISE,
                     } as Product,
                 } as Record<string, Product>,
             },
@@ -88,6 +88,11 @@ function setupStore(setupOptions: SetupOptions) {
                 integrations: {
                     enabled: 3,
                     enabledLoaded: true,
+                },
+                teams: {
+                    active: 0,
+                    cloudArchived: 0,
+                    teamsLoaded: true,
                 },
             },
             general: {

@@ -212,7 +212,6 @@ type Props = {
     channelMemberCountsByGroup: ChannelMemberCountsByGroup;
     useLDAPGroupMentions: boolean;
     useCustomGroupMentions: boolean;
-    markdownPreviewFeatureIsEnabled: boolean;
 }
 
 type State = {
@@ -245,7 +244,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     private topDiv: React.RefObject<HTMLFormElement>;
     private textboxRef: React.RefObject<TextboxClass>;
     private fileUploadRef: React.RefObject<FileUploadClass>;
-    private createPostControlsRef: React.RefObject<HTMLSpanElement>;
 
     static getDerivedStateFromProps(props: Props, state: State): Partial<State> {
         let updatedState: Partial<State> = {
@@ -282,7 +280,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         this.topDiv = React.createRef<HTMLFormElement>();
         this.textboxRef = React.createRef<TextboxClass>();
         this.fileUploadRef = React.createRef<FileUploadClass>();
-        this.createPostControlsRef = React.createRef<HTMLSpanElement>();
     }
 
     componentDidMount() {
@@ -318,6 +315,11 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
 
         // Focus on textbox when emoji picker is closed
         if (prevState.showEmojiPicker && !this.state.showEmojiPicker) {
+            this.focusTextbox();
+        }
+
+        // Focus on textbox when returned from preview mode
+        if (prevProps.shouldShowPreview && !this.props.shouldShowPreview) {
             this.focusTextbox();
         }
     }
@@ -995,10 +997,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         return null;
     }
 
-    getCreatePostControls = () => {
-        return this.createPostControlsRef.current;
-    }
-
     fillMessageFromHistory() {
         const lastMessage = this.props.messageInHistoryItem;
         if (lastMessage) {
@@ -1318,7 +1316,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     shouldShowPreview={this.props.shouldShowPreview}
                     maxPostSize={this.props.maxPostSize}
                     canPost={this.props.canPost}
-                    createPostControlsRef={this.createPostControlsRef}
                     applyMarkdown={this.applyMarkdown}
                     useChannelMentions={this.props.useChannelMentions}
                     badConnection={this.props.badConnection}
@@ -1338,7 +1335,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     handleEmojiClick={this.handleEmojiClick}
                     handleEmojiClose={this.handleEmojiClose}
                     hideEmojiPicker={this.hideEmojiPicker}
-                    getCreatePostControls={this.getCreatePostControls}
                     toggleAdvanceTextEditor={this.toggleAdvanceTextEditor}
                     handleUploadProgress={this.handleUploadProgress}
                     handleUploadError={this.handleUploadError}

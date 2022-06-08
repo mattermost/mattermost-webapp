@@ -6,15 +6,13 @@ import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 
-import {CloudProducts, ModalIdentifiers} from 'utils/constants';
+import {CloudProducts} from 'utils/constants';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
-import {trackEvent} from 'actions/telemetry_actions';
 import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCloudProducts, getCloudSubscription} from 'mattermost-redux/actions/cloud';
 import {getCloudSubscription as selectCloudSubscription, getSubscriptionProduct as selectSubscriptionProduct, isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
 
-import {openModal} from 'actions/views/modals';
-import PricingModal from 'components/pricing_modal';
+import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 
 const UpgradeButton = styled.button`
 background: var(--denim-button-bg);
@@ -29,7 +27,7 @@ font-weight: 600;
 font-size: 11px !important;
 line-height: 10px;
 letter-spacing: 0.02em;
-color: var(--center-channel-bg);
+color: var(--button-color);
 `;
 
 let openPricingModal: () => void;
@@ -51,13 +49,7 @@ const UpgradeCloudButton = (): JSX.Element | null => {
         }
     }, [isCloud]);
 
-    openPricingModal = () => {
-        trackEvent('cloud_admin', 'click_open_pricing_modal');
-        dispatch(openModal({
-            modalId: ModalIdentifiers.PRICING_MODAL,
-            dialogType: PricingModal,
-        }));
-    };
+    openPricingModal = useOpenPricingModal();
 
     const isEnterpriseTrial = subscription?.is_free_trial === 'true';
     const isStarter = product?.sku === CloudProducts.STARTER;

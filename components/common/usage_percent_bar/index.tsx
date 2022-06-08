@@ -5,6 +5,8 @@ import React from 'react';
 
 import styled from 'styled-components';
 
+import {limitThresholds} from 'utils/limits';
+
 type Thresholds = {
     ok: number;
     warn: number;
@@ -20,12 +22,7 @@ type Props = {
     barWidth?: number | string;
 }
 
-const defaultThresholds = {
-    ok: 0,
-    warn: 50,
-    danger: 66,
-    exceeded: 100.0000001,
-};
+const defaultThresholds = limitThresholds;
 
 type BarBackgroundProps = {
     width: number | string;
@@ -39,7 +36,7 @@ const BarBackground = styled.div<BarBackgroundProps>`
     background: ${(props) => (
         isExceeded(props.percent, props.thresholds) ?
             'var(--dnd-indicator)' :
-            'rgba(var(--center-channel-text-rgb), 0.11)'
+            'rgba(var(--center-channel-color-rgb), 0.11)'
     )};
     border-radius: 8px;
     position: relative;
