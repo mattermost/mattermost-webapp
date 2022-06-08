@@ -24,6 +24,7 @@ import Tooltip from 'components/tooltip';
 import TopChannelsLineChart from './top_channels_line_chart/top_channels_line_chart';
 
 import './../../activity_and_insights.scss';
+import {getCurrentUserTimezone} from 'selectors/general';
 
 const TopChannels = (props: WidgetHocProps) => {
     const dispatch = useDispatch();
@@ -34,6 +35,7 @@ const TopChannels = (props: WidgetHocProps) => {
 
     const currentTeamId = useSelector(getCurrentTeamId);
     const currentTeamUrl = useSelector(getCurrentRelativeTeamUrl);
+    const timeZone = useSelector(getCurrentUserTimezone);
 
     const getTopTeamChannels = useCallback(async () => {
         if (props.filterType === InsightsScopes.TEAM) {
@@ -120,6 +122,7 @@ const TopChannels = (props: WidgetHocProps) => {
                                 topChannels={topChannels}
                                 timeFrame={props.timeFrame}
                                 channelLineChartData={channelLineChartData}
+                                timeZone={timeZone || 'utc'}
                             />
                         </>
                     }

@@ -22,9 +22,10 @@ type Props = {
     topChannels: TopChannel[];
     timeFrame: TimeFrame;
     channelLineChartData: TopChannelGraphData;
+    timeZone: string;
 }
 
-const TopChannelsLineChart = ({topChannels, timeFrame, channelLineChartData}: Props) => {
+const TopChannelsLineChart = ({topChannels, timeFrame, channelLineChartData, timeZone}: Props) => {
     const theme = useSelector(getTheme);
     const intl = useIntl();
     const isMilitaryTime = useSelector((state: GlobalState) => getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.USE_MILITARY_TIME, false));
@@ -33,14 +34,14 @@ const TopChannelsLineChart = ({topChannels, timeFrame, channelLineChartData}: Pr
         const labels: any[] = Object.keys(channelLineChartData);
 
         for (let i = 0; i < labels.length; i++) {
-            if (timeFrame === TimeFrames.INSIGHTS_1_DAY) {
-                const label = `${labels[i]}:00:00`;
-
-                labels[i] = intl.formatTime(label, {
+            if (timeFrame === TimeFrames.INSIGHTS_1_DAY) {``
+                const label = labels[i];
+                labels[i] = intl.formatTime(Date.parse(label), {
                     hour12: isMilitaryTime ? undefined : true,
                     hour: '2-digit',
                     minute: '2-digit',
                     hourCycle: 'h23',
+                    timeZone: timeZone
                 });
             } else {
                 labels[i] = intl.formatDate(labels[i], {
@@ -50,7 +51,7 @@ const TopChannelsLineChart = ({topChannels, timeFrame, channelLineChartData}: Pr
             }
         }
         return labels;
-    }, [channelLineChartData]);
+    }, [channelLineChartData, timeZone]);
 
     const sortGraphData = useMemo(() => {
         const labels = getLabels;
