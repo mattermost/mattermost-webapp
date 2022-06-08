@@ -4,7 +4,7 @@
 import classNames from 'classnames';
 import React, {memo, useCallback, useEffect, useRef, useState} from 'react';
 import styled from 'styled-components';
-import {useFloating, offset, autoUpdate} from '@floating-ui/react-dom';
+import {useFloating, offset} from '@floating-ui/react-dom';
 import {CSSTransition} from 'react-transition-group';
 import {DotsHorizontalIcon} from '@mattermost/compass-icons/components';
 
@@ -150,10 +150,9 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
     const formattingBarRef = useRef<HTMLDivElement>(null);
     const {controls, hiddenControls, wideMode} = useFormattingBarControls(formattingBarRef);
 
-    const {x, y, reference, floating, strategy, refs: {reference: buttonRef, floating: floatingRef}} = useFloating<HTMLButtonElement>({
+    const {x, y, reference, floating, strategy, update, refs: {reference: buttonRef, floating: floatingRef}} = useFloating<HTMLButtonElement>({
         placement: 'top',
         middleware: [offset({mainAxis: 4})],
-        whileElementsMounted: autoUpdate,
     });
 
     // this little helper hook always returns the latest refs and does not mess with the popper placement calculation
@@ -189,6 +188,10 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
             setShowHiddenControls(false);
         }
     }, [isOpen]);
+
+    useEffect(() => {
+        update?.();
+    }, [wideMode, update]);
 
     const hasHiddenControls = wideMode !== 'wide';
 
