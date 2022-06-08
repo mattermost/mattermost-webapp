@@ -1612,7 +1612,7 @@ export const Constants = {
     } as Record<string, [string, number]>),
     CODE_PREVIEW_MAX_FILE_SIZE: 500000, // 500 KB
     HighlightedLanguages: {
-        1c: {name: '1C:Enterprise', extensions: ['bsl', 'os'], aliases: ['bsl']},
+        '1c': {name: '1C:Enterprise', extensions: ['bsl', 'os'], aliases: ['bsl']},
         actionscript: {name: 'ActionScript', extensions: ['as'], aliases: ['as', 'as3']},
         applescript: {name: 'AppleScript', extensions: ['applescript', 'osascript', 'scpt']},
         bash: {name: 'Bash', extensions: ['sh'], aliases: ['sh']},
