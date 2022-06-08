@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 import React, {memo, useMemo} from 'react';
 import {useSelector} from 'react-redux';
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 import {FormattedMessage, useIntl} from 'react-intl';
 
