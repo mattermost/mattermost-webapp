@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {EmojiCategory} from 'mattermost-redux/types/emojis';
+import {EmojiCategory} from '@mattermost/types/emojis';
 
 import * as Emoji from 'utils/emoji.jsx';
 
@@ -30,7 +30,7 @@ const categoryClass: Map<EmojiCategory, string> = new Map([
 function createCategory(name: EmojiCategory): Category {
     return {
         name,
-        id: Emoji.CategoryTranslations.get(name),
+        id: Emoji.CategoryTranslations.get(name) || '',
         className: categoryClass.get(name) || '',
         message: Emoji.CategoryMessage.get(name),
     };
@@ -59,3 +59,4 @@ export const EMOJI_SCROLL_THROTTLE_DELAY = 150;
 export const EMOJI_ROWS_OVERSCAN_COUNT = 1;
 
 export const CUSTOM_EMOJIS_PER_PAGE = 200;
+export const CUSTOM_EMOJI_SEARCH_THROTTLE_TIME_MS = 1000;

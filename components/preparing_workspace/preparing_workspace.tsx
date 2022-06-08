@@ -12,8 +12,8 @@ import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {createChannel} from 'mattermost-redux/actions/channels';
 import {getFirstAdminSetupComplete as getFirstAdminSetupCompleteAction} from 'mattermost-redux/actions/general';
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {Team} from 'mattermost-redux/types/teams';
-import {Channel} from 'mattermost-redux/types/channels';
+import {Team} from '@mattermost/types/teams';
+import {Channel} from '@mattermost/types/channels';
 import {sendEmailInvitesToTeamGracefully} from 'mattermost-redux/actions/teams';
 import {getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
@@ -22,9 +22,7 @@ import {isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getFirstAdminSetupComplete, getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {Client4} from 'mattermost-redux/client';
 
-import {OnboardingTaskCategory, OnboardingTaskList} from 'components/onboarding_tasks/constants';
-
-import Constants, {Preferences, RecommendedNextSteps} from 'utils/constants';
+import Constants, {RecommendedNextStepsLegacy, Preferences} from 'utils/constants';
 import {makeNewEmptyChannel} from 'utils/channel_utils';
 import {teamNameToUrl, getSiteURL} from 'utils/url';
 import {makeNewTeam} from 'utils/team_utils';
@@ -143,6 +141,7 @@ export default function PreparingWorkspace(props: Props) {
     const inferredTeam = currentTeam || myTeams?.[0];
     const config = useSelector(getConfig);
     const configSiteUrl = config.SiteURL;
+    const pluginsEnabled = config.PluginsEnabled === 'true';
     const isConfigSiteUrlDefault = config.SiteURL === '' || Boolean(config.SiteURL && config.SiteURL === Constants.DEFAULT_SITE_URL);
     const lastIsConfigSiteUrlDefaultRef = useRef(isConfigSiteUrlDefault);
     const showOnMountTimeout = useRef<NodeJS.Timeout>();
@@ -151,7 +150,7 @@ export default function PreparingWorkspace(props: Props) {
         isSelfHosted && WizardSteps.Organization,
         isSelfHosted && isConfigSiteUrlDefault && WizardSteps.Url,
         WizardSteps.UseCase,
-        WizardSteps.Plugins,
+        pluginsEnabled && WizardSteps.Plugins,
         WizardSteps.Channel,
         WizardSteps.InviteMembers,
         WizardSteps.LaunchingWorkspace,
@@ -166,6 +165,24 @@ export default function PreparingWorkspace(props: Props) {
         ...emptyForm,
         url: configSiteUrl || browserSiteUrl,
     });
+
+    useEffect(() => {
+        if (!pluginsEnabled) {
+            if (!form.plugins.skipped) {
+                setForm({
+                    ...form,
+                    plugins: {
+                        skipped: false,
+                    },
+                });
+            }
+            if (currentStep === WizardSteps.Plugins) {
+                const mostRecentStepIndex = stepOrder.indexOf(mostRecentStep);
+                setStepHistory([mostRecentStep, stepOrder[Math.max(mostRecentStepIndex - 1, 0)]]);
+            }
+        }
+    }, [pluginsEnabled, currentStep, mostRecentStep]);
+
     const [showFirstPage, setShowFirstPage] = useState(false);
     const [submitError, setSubmitError] = useState<string | null>(null);
     useEffect(() => {
@@ -273,7 +290,7 @@ export default function PreparingWorkspace(props: Props) {
             }
             if (redirectChannel) {
                 const category = Preferences.AB_TEST_PREFERENCE_VALUE;
-                const name = RecommendedNextSteps.CREATE_FIRST_CHANNEL;
+                const name = RecommendedNextStepsLegacy.CREATE_FIRST_CHANNEL;
                 const firstChannelNamePref = {category, name, user_id: user.id, value: redirectChannel.name};
                 const defaultStepPref = {user_id: user.id, category: Preferences.TUTORIAL_STEP, name: user.id, value: '-1'};
 
@@ -344,22 +361,6 @@ export default function PreparingWorkspace(props: Props) {
                 props.history.push(`/${team.name}/channels${Constants.DEFAULT_CHANNEL}`);
             }
         };
-
-        // prepare task list to open in the next view
-        dispatch(savePreferences(user.id, [
-            {
-                user_id: user.id,
-                category: OnboardingTaskCategory,
-                name: OnboardingTaskList.ONBOARDING_TASK_LIST_SHOW,
-                value: 'true',
-            },
-            {
-                user_id: user.id,
-                category: OnboardingTaskCategory,
-                name: OnboardingTaskList.ONBOARDING_TASK_LIST_OPEN,
-                value: 'true',
-            },
-        ]));
 
         const sendFormEnd = Date.now();
         const timeToWait = WAIT_FOR_REDIRECT_TIME - (sendFormEnd - sendFormStart);

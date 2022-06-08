@@ -7,14 +7,14 @@ import {useIntl} from 'react-intl';
 import Icon from '@mattermost/compass-components/foundations/icon';
 
 import {Permissions} from 'mattermost-redux/constants';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 import AboutBuildModal from 'components/about_build_modal';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 import MarketplaceModal from 'components/plugin_marketplace';
 import Menu from 'components/widgets/menu/menu';
 import {ModalIdentifiers} from 'utils/constants';
-import {useSafeUrl} from 'utils/url';
+import {makeUrlSafe} from 'utils/url';
 import * as UserAgent from 'utils/user_agent';
 import {VisitSystemConsoleTour} from 'components/onboarding_tasks';
 import UserGroupsModal from 'components/user_groups_modal';
@@ -91,6 +91,7 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                 <SystemPermissionGate permissions={[Permissions.SYSCONSOLE_WRITE_BILLING]}>
                     <Menu.CloudTrial id='menuCloudTrial'/>
                 </SystemPermissionGate>
+                <Menu.ItemCloudLimit id='menuItemCloudLimit'/>
                 <SystemPermissionGate
                     permissions={[Permissions.SYSCONSOLE_WRITE_ABOUT_EDITION_AND_LICENSE]}
                 >
@@ -173,7 +174,7 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                 <Menu.ItemExternalLink
                     id='nativeAppLink'
                     show={appDownloadLink && !UserAgent.isMobileApp()}
-                    url={useSafeUrl(appDownloadLink)}
+                    url={makeUrlSafe(appDownloadLink)}
                     text={formatMessage({id: 'navbar_dropdown.nativeApps', defaultMessage: 'Download Apps'})}
                     icon={
                         <Icon

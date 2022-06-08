@@ -455,6 +455,20 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             }
           >
             <AdminSidebarSection
+              definitionKey="reporting.workspace_optimization"
+              key="reporting.workspace_optimization"
+              name="reporting/workspace_optimization"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Workspace Optimization"
+                  id="admin.sidebar.workspaceOptimization"
+                />
+              }
+            />
+            <AdminSidebarSection
               definitionKey="reporting.system_analytics"
               key="reporting.system_analytics"
               name="reporting/system_analytics"
@@ -2159,6 +2173,20 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               />
             }
           >
+            <AdminSidebarSection
+              definitionKey="reporting.workspace_optimization"
+              key="reporting.workspace_optimization"
+              name="reporting/workspace_optimization"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Workspace Optimization"
+                  id="admin.sidebar.workspaceOptimization"
+                />
+              }
+            />
             <AdminSidebarSection
               definitionKey="reporting.system_analytics"
               key="reporting.system_analytics"

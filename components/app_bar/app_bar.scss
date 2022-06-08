@@ -36,6 +36,9 @@ $channel-view-padding: 63px;
 
     .app-bar__icon {
         position: relative;
+        // Render App Bar icons on top of the RHS background div
+        //(see `@media screen and (min-width: 769px) > #sidebar-right` in sass/layout/_sidebar-right.scss)
+        z-index: 21;
         width: 100%;
         border-left: none;
         margin-bottom: 16px;
@@ -55,10 +58,10 @@ $channel-view-padding: 63px;
 
             .app-bar__icon-inner,
             span {
-                outline: solid 2px var(--sidebar-text-active-border);
+                box-shadow: 0 0 0 2px var(--sidebar-text-active-border);
 
                 &:hover {
-                    outline: solid 2px rgba(var(--sidebar-text-active-border-rgb), 0.92) !important;
+                    box-shadow: 0 0 0 2px rgba(var(--sidebar-text-active-border-rgb), 0.92) !important;
                 }
             }
         }
@@ -69,14 +72,12 @@ $channel-view-padding: 63px;
             overflow: hidden;
             width: $app-bar-icon-size;
             height: $app-bar-icon-size;
-            padding: 2px;
             margin: 0 auto;
-            background-color: white;
             border-radius: 50%;
             line-height: 1;
 
             &:hover {
-                outline: solid 2px rgba(var(--center-channel-color-rgb), 0.16);
+                box-shadow: 0 0 0 2px rgba(var(--center-channel-color-rgb), 0.16);
             }
 
             img {
@@ -85,7 +86,8 @@ $channel-view-padding: 63px;
         }
 
         span {
-            // color: #3f4350;
+            padding: 2px;
+            background-color: white;
             fill: var(--button-bg);
             font-size: 14px;
             line-height: 20px;
@@ -100,6 +102,27 @@ $channel-view-padding: 63px;
                 }
             }
         }
+
+        .app-bar__old-icon {
+            color: rgba(var(--center-channel-color-rgb), 0.56);
+
+            &:hover,
+            &--active {
+                color: rgba(var(--center-channel-color-rgb), 0.72);
+            }
+        }
+
+        .app-bar__icon-inner--centered {
+            display: grid;
+            place-items: center;
+        }
+    }
+
+    .app-bar__divider {
+        width: 28px;
+        border-top: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+        margin-top: 14px;
+        margin-bottom: 14px;
     }
 
     .app-bar__icon.channel-header__icon--active {

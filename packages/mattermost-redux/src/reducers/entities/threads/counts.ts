@@ -3,8 +3,8 @@
 
 import {ChannelTypes, TeamTypes, ThreadTypes, UserTypes} from 'mattermost-redux/action_types';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {ThreadsState, UserThread} from 'mattermost-redux/types/threads';
-import {Team, TeamUnread} from 'mattermost-redux/types/teams';
+import {ThreadsState, UserThread} from '@mattermost/types/threads';
+import {Team, TeamUnread} from '@mattermost/types/teams';
 
 import Constants from 'utils/constants';
 
@@ -20,6 +20,32 @@ function handleAllTeamThreadsRead(state: ThreadsState['counts'], action: Generic
             total_unread_threads: 0,
         },
     };
+}
+
+function isEqual(state: ThreadsState['counts'], action: GenericAction, unreads: boolean) {
+    const counts = state[action.data.team_id] ?? {};
+
+    const {
+        total,
+        total_unread_threads: totalUnreadThreads,
+        total_unread_mentions: totalUnreadMentions,
+    } = action.data;
+
+    if (
+        totalUnreadMentions !== counts.total_unread_mentions ||
+        totalUnreadThreads !== counts.total_unread_threads
+    ) {
+        return false;
+    }
+
+    // in unread threads we exclude saving the total number,
+    // since it doesn't reflect the actual total of threads
+    // but only the total of unread threads
+    if (!unreads && total !== counts.total) {
+        return false;
+    }
+
+    return true;
 }
 
 function handleReadChangedThread(state: ThreadsState['counts'], action: GenericAction): ThreadsState['counts'] {
@@ -139,7 +165,11 @@ export function countsIncludingDirectReducer(state: ThreadsState['counts'] = {},
     case ChannelTypes.RECEIVED_CHANNEL_DELETED:
     case ChannelTypes.LEAVE_CHANNEL:
         return handleLeaveChannel(state, action, extra);
-    case ThreadTypes.RECEIVED_THREADS:
+    case ThreadTypes.RECEIVED_THREAD_COUNTS:
+        if (isEqual(state, action, false)) {
+            return state;
+        }
+
         return {
             ...state,
             [action.data.team_id]: {

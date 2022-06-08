@@ -142,7 +142,7 @@ exports[`components/integrations/InstalledOutgoingWebhooks should match snapshot
       values={
         Object {
           "appDirectory": <a
-            href="https://about.mattermost.com/default-app-directory/"
+            href="https://mattermost.com/marketplace"
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -152,7 +152,7 @@ exports[`components/integrations/InstalledOutgoingWebhooks should match snapshot
             />
           </a>,
           "buildYourOwn": <a
-            href="http://docs.mattermost.com/developer/webhooks-outgoing.html"
+            href="https://developers.mattermost.com/integrate/admin-guide/admin-webhooks-outgoing/"
             rel="noopener noreferrer"
             target="_blank"
           >

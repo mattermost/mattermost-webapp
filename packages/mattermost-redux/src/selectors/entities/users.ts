@@ -28,18 +28,18 @@ import {
     applyRolesFilters,
 } from 'mattermost-redux/utils/user_utils';
 
-import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
-import {Reaction} from 'mattermost-redux/types/reactions';
-import {GlobalState} from 'mattermost-redux/types/store';
-import {Team, TeamMembership} from 'mattermost-redux/types/teams';
-import {Group} from 'mattermost-redux/types/groups';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {Channel, ChannelMembership} from '@mattermost/types/channels';
+import {GlobalState} from '@mattermost/types/store';
+import {Team, TeamMembership} from '@mattermost/types/teams';
+import {Group} from '@mattermost/types/groups';
+import {UserProfile} from '@mattermost/types/users';
 import {
     IDMappedObjects,
     RelationOneToMany,
     RelationOneToManyUnique,
     RelationOneToOne,
-} from 'mattermost-redux/types/utilities';
+} from '@mattermost/types/utilities';
+import {Reaction} from '@mattermost/types/reactions';
 
 export {getCurrentUser, getCurrentUserId, getUsers};
 
@@ -176,7 +176,7 @@ export const getCurrentUserRoles: (a: GlobalState) => UserProfile['roles'] = cre
     },
 );
 
-export type UserMentionKey= {
+export type UserMentionKey = {
     key: string;
     caseSensitive?: boolean;
 }
@@ -319,6 +319,15 @@ export const getProfilesInCurrentChannel: (state: GlobalState) => UserProfile[] 
     },
 );
 
+export const getActiveProfilesInCurrentChannel: (state: GlobalState) => UserProfile[] = createSelector(
+    'getProfilesInCurrentChannel',
+    getUsers,
+    getProfileSetInCurrentChannel,
+    (profiles, currentChannelProfileSet) => {
+        return sortAndInjectProfiles(profiles, currentChannelProfileSet).filter((user) => user.delete_at === 0);
+    },
+);
+
 export const getProfilesNotInCurrentChannel: (state: GlobalState) => UserProfile[] = createSelector(
     'getProfilesNotInCurrentChannel',
     getUsers,
@@ -455,6 +464,10 @@ export function searchProfilesInCurrentChannel(state: GlobalState, term: string,
     return profiles;
 }
 
+export function searchActiveProfilesInCurrentChannel(state: GlobalState, term: string, skipCurrent = false): UserProfile[] {
+    return searchProfilesInCurrentChannel(state, term, skipCurrent).filter((user) => user.delete_at === 0);
+}
+
 export function searchProfilesNotInCurrentChannel(state: GlobalState, term: string, skipCurrent = false): UserProfile[] {
     const profiles = filterProfilesStartingWithTerm(getProfilesNotInCurrentChannel(state), term);
     if (skipCurrent) {
@@ -556,6 +569,11 @@ export function makeGetProfilesForReactions(): (state: GlobalState, reactions: R
     );
 }
 
+/**
+ * Returns a selector that returns all profiles in a given channel with the given filters applied.
+ *
+ * Note that filters, if provided, must be either a constant or memoized to prevent constant recomputation of the selector.
+ */
 export function makeGetProfilesInChannel(): (state: GlobalState, channelId: Channel['id'], filters?: Filters) => UserProfile[] {
     return createSelector(
         'makeGetProfilesInChannel',
@@ -576,20 +594,20 @@ export function makeGetProfilesInChannel(): (state: GlobalState, channelId: Chan
     );
 }
 
+/**
+ * Returns a selector that returns all profiles not in a given channel.
+ */
 export function makeGetProfilesNotInChannel(): (state: GlobalState, channelId: Channel['id'], filters?: Filters) => UserProfile[] {
     return createSelector(
         'makeGetProfilesNotInChannel',
         getUsers,
         getUserIdsNotInChannels,
         (state: GlobalState, channelId: string) => channelId,
-        (state, channelId, filters) => filters,
-        (users, userIds, channelId, filters = {}) => {
+        (users, userIds, channelId) => {
             const userIdsInChannel = userIds[channelId];
 
             if (!userIdsInChannel) {
                 return [];
-            } else if (filters) {
-                return sortAndInjectProfiles(filterProfiles(users, filters), userIdsInChannel);
             }
 
             return sortAndInjectProfiles(users, userIdsInChannel);

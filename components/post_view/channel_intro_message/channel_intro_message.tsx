@@ -7,9 +7,9 @@ import React from 'react';
 
 import {Permissions} from 'mattermost-redux/constants';
 
-import {UserProfile as UserProfileRedux} from 'mattermost-redux/types/users';
+import {UserProfile as UserProfileRedux} from '@mattermost/types/users';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
@@ -23,8 +23,8 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import EditIcon from 'components/widgets/icons/fa_edit_icon';
 import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
 
-import {getMonthLong, t} from 'utils/i18n.jsx';
-import * as Utils from 'utils/utils.jsx';
+import {getMonthLong, t} from 'utils/i18n';
+import * as Utils from 'utils/utils';
 import {PluginComponent} from 'types/store/plugins';
 
 import AddMembersButton from './add_members_button';

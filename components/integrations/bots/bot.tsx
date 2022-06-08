@@ -7,15 +7,15 @@ import {Link} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {Bot as BotType} from 'mattermost-redux/types/bots';
-import {UserProfile, UserAccessToken} from 'mattermost-redux/types/users';
-import {Team} from 'mattermost-redux/types/teams';
+import {Bot as BotType} from '@mattermost/types/bots';
+import {UserProfile, UserAccessToken} from '@mattermost/types/users';
+import {Team} from '@mattermost/types/teams';
 
 import ConfirmModal from 'components/confirm_modal';
 import Markdown from 'components/markdown';
 import SaveButton from 'components/save_button';
 import WarningIcon from 'components/widgets/icons/fa_warning_icon';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 export function matchesFilter(bot: BotType, filter?: string, owner?: UserProfile): boolean {
     if (!filter) {

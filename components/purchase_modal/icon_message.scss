@@ -4,8 +4,14 @@
             padding-bottom: 2px;
             padding-left: 7px;
 
-            > svg {
+            > .IconMessage__svg-wrapper {
                 margin-left: 68px;
+            }
+        }
+
+        &.failed {
+            > .IconMessage__svg-wrapper {
+                margin-left: 60px;
             }
         }
 
@@ -79,11 +85,12 @@
             line-height: 14px;
             text-align: center;
         }
+    }
+
+    &__svg-wrapper {
+        align-self: center;
 
         svg {
-            align-self: center;
-            margin-left: 60px;
-
             @media screen and (max-width: 600px) {
                 width: 150%;
             }

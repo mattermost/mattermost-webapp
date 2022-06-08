@@ -27,7 +27,12 @@ exports[`components/FileUpload should match snapshot 1`] = `
     </Tooltip>
   }
   placement="top"
-  trigger="hover"
+  trigger={
+    Array [
+      "hover",
+      "focus",
+    ]
+  }
 >
   <div
     className="style--none"
@@ -35,14 +40,16 @@ exports[`components/FileUpload should match snapshot 1`] = `
     <div>
       <button
         aria-label="attachment"
-        className="style--none post-action icon icon--attachment"
+        className="style--none post-action"
         id="fileUploadButton"
         onClick={[Function]}
         onTouchEnd={[Function]}
         type="button"
       >
-        <AttachmentIcon
-          className="d-flex"
+        <PaperclipIcon
+          aria-label="Attachment Icon"
+          color="currentColor"
+          size={18}
         />
       </button>
       <input

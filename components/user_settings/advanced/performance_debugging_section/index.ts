@@ -19,6 +19,8 @@ function mapStateToProps(state: GlobalState) {
     return {
         currentUserId: getCurrentUserId(state),
         disableClientPlugins: getBool(state, Preferences.CATEGORY_PERFORMANCE_DEBUGGING, Preferences.NAME_DISABLE_CLIENT_PLUGINS),
+        disableTelemetry: getBool(state, Preferences.CATEGORY_PERFORMANCE_DEBUGGING, Preferences.NAME_DISABLE_TELEMETRY),
+        disableTypingMessages: getBool(state, Preferences.CATEGORY_PERFORMANCE_DEBUGGING, Preferences.NAME_DISABLE_TYPING_MESSAGES),
         performanceDebuggingEnabled: isPerformanceDebuggingEnabled(state),
     };
 }

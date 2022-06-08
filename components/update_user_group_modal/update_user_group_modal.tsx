@@ -1,25 +1,25 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 
 import {Modal} from 'react-bootstrap';
 
 import {FormattedMessage} from 'react-intl';
 
-import * as Utils from 'utils/utils.jsx';
-import {CustomGroupPatch, Group} from 'mattermost-redux/types/groups';
+import * as Utils from 'utils/utils';
+import {CustomGroupPatch, Group} from '@mattermost/types/groups';
 
 import 'components/user_groups_modal/user_groups_modal.scss';
 import './update_user_group_modal.scss';
 import {ModalData} from 'types/actions';
-import Input from 'components/input';
+import Input from 'components/widgets/inputs/input/input';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import LocalizedIcon from 'components/localized_icon';
 import {t} from 'utils/i18n';
 
 import SaveButton from 'components/save_button';
-import Constants from 'utils/constants';
+import Constants, {ItemStatus} from 'utils/constants';
 
 export type Props = {
     onExited: () => void;
@@ -43,15 +43,26 @@ const UpdateUserGroupModal = (props: Props) => {
     const [showUnknownError, setShowUnknownError] = useState(false);
     const [mentionUpdatedManually, setMentionUpdatedManually] = useState(false);
 
-    const doHide = () => {
+    const doHide = useCallback(() => {
         setShow(false);
-    };
+    }, []);
 
-    const isSaveEnabled = () => {
+    const isSaveEnabled = useCallback(() => {
         return name.length > 0 && mention.length > 0 && hasUpdated && !saving;
-    };
+    }, [name, mention, hasUpdated, saving]);
 
-    const updateNameState = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleKeyDown = useCallback((e: KeyboardEvent) => {
+        if (Utils.isKeyPressed(e, Constants.KeyCodes.ENTER) && isSaveEnabled()) {
+            patchGroup();
+        }
+    }, [name, mention, hasUpdated, saving]);
+
+    useEffect(() => {
+        document.addEventListener('keydown', handleKeyDown);
+        return () => document.removeEventListener('keydown', handleKeyDown);
+    }, [handleKeyDown]);
+
+    const updateNameState = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         let newMention = mention;
         if (!mentionUpdatedManually) {
@@ -63,16 +74,21 @@ const UpdateUserGroupModal = (props: Props) => {
         setName(value);
         setHasUpdated(true);
         setMention(newMention);
-    };
+    }, [mention]);
 
-    const updateMentionState = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const updateMentionState = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         setHasUpdated(true);
         setMention(value);
         setMentionUpdatedManually(true);
-    };
+    }, []);
 
-    const patchGroup = async () => {
+    const goBack = useCallback(() => {
+        props.backButtonCallback();
+        props.onExited();
+    }, [props.backButtonCallback, props.onExited]);
+
+    const patchGroup = useCallback(async () => {
         setSaving(true);
         let newMention = mention;
         const displayName = name;
@@ -125,11 +141,7 @@ const UpdateUserGroupModal = (props: Props) => {
         } else {
             goBack();
         }
-    };
-    const goBack = () => {
-        props.backButtonCallback();
-        props.onExited();
-    };
+    }, [name, mention, goBack, props.groupId, props.actions.patchGroup]);
 
     return (
         <Modal
@@ -146,9 +158,7 @@ const UpdateUserGroupModal = (props: Props) => {
                     type='button'
                     className='modal-header-back-button btn-icon'
                     aria-label='Close'
-                    onClick={() => {
-                        goBack();
-                    }}
+                    onClick={goBack}
                 >
                     <LocalizedIcon
                         className='icon icon-arrow-left'
@@ -169,66 +179,63 @@ const UpdateUserGroupModal = (props: Props) => {
                 className='overflow--visible'
             >
                 <div className='user-groups-modal__content'>
-                    <form role='form'>
-                        <div className='group-name-input-wrapper'>
-                            <Input
-                                type='text'
-                                placeholder={Utils.localizeMessage('user_groups_modal.name', 'Name')}
-                                onChange={updateNameState}
-                                value={name}
-                                data-testid='nameInput'
-                                autoFocus={true}
-                                error={nameInputErrorText}
-                            />
-                        </div>
-                        <div className='group-mention-input-wrapper'>
-                            <Input
-                                type='text'
-                                placeholder={Utils.localizeMessage('user_groups_modal.mention', 'Mention')}
-                                onChange={updateMentionState}
-                                value={mention}
-                                data-testid='nameInput'
-                                error={mentionInputErrorText}
-                            />
-                        </div>
-                        <div className='update-buttons-wrapper'>
-                            {
-                                showUnknownError &&
-                                <div className='Input___error group-error'>
-                                    <i className='icon icon-alert-outline'/>
-                                    <FormattedMessage
-                                        id='user_groups_modal.unknownError'
-                                        defaultMessage='An unknown error has occurred.'
-                                    />
-                                </div>
-                            }
-                            <button
-                                onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-                                    e.preventDefault();
-                                    goBack();
-                                }}
-                                className='btn update-group-back'
-                            >
-                                {Utils.localizeMessage('multiselect.backButton', 'Back')}
-                            </button>
-                            <SaveButton
-                                id='saveItems'
-                                saving={saving}
-                                disabled={!isSaveEnabled()}
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    patchGroup();
-                                }}
-                                defaultMessage={Utils.localizeMessage('multiselect.saveDetailsButton', 'Save Details')}
-                                savingMessage={Utils.localizeMessage('multiselect.savingDetailsButton', 'Saving...')}
-                            />
-                        </div>
-
-                    </form>
+                    <div className='group-name-input-wrapper'>
+                        <Input
+                            type='text'
+                            placeholder={Utils.localizeMessage('user_groups_modal.name', 'Name')}
+                            onChange={updateNameState}
+                            value={name}
+                            data-testid='nameInput'
+                            autoFocus={true}
+                            customMessage={{type: ItemStatus.ERROR, value: nameInputErrorText}}
+                        />
+                    </div>
+                    <div className='group-mention-input-wrapper'>
+                        <Input
+                            type='text'
+                            placeholder={Utils.localizeMessage('user_groups_modal.mention', 'Mention')}
+                            onChange={updateMentionState}
+                            value={mention}
+                            data-testid='nameInput'
+                            customMessage={{type: ItemStatus.ERROR, value: mentionInputErrorText}}
+                        />
+                    </div>
+                    <div className='update-buttons-wrapper'>
+                        {
+                            showUnknownError &&
+                            <div className='Input___error group-error'>
+                                <i className='icon icon-alert-outline'/>
+                                <FormattedMessage
+                                    id='user_groups_modal.unknownError'
+                                    defaultMessage='An unknown error has occurred.'
+                                />
+                            </div>
+                        }
+                        <button
+                            onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                                e.preventDefault();
+                                goBack();
+                            }}
+                            className='btn update-group-back'
+                        >
+                            {Utils.localizeMessage('multiselect.backButton', 'Back')}
+                        </button>
+                        <SaveButton
+                            id='saveItems'
+                            saving={saving}
+                            disabled={!isSaveEnabled()}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                patchGroup();
+                            }}
+                            defaultMessage={Utils.localizeMessage('multiselect.saveDetailsButton', 'Save Details')}
+                            savingMessage={Utils.localizeMessage('multiselect.savingDetailsButton', 'Saving...')}
+                        />
+                    </div>
                 </div>
             </Modal.Body>
         </Modal>
     );
 };
 
-export default UpdateUserGroupModal;
+export default React.memo(UpdateUserGroupModal);

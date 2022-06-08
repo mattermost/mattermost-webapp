@@ -1,6 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {AnyAction} from 'redux';
+import {batchActions} from 'redux-batched-actions';
+
+import {FetchPaginatedThreadOptions} from '@mattermost/types/client4';
+
 import {Client4, DEFAULT_LIMIT_AFTER, DEFAULT_LIMIT_BEFORE} from 'mattermost-redux/client';
 import {General, Preferences, Posts} from '../constants';
 import {PostTypes, ChannelTypes, FileTypes, IntegrationTypes} from 'mattermost-redux/action_types';
@@ -12,12 +17,12 @@ import {getCurrentUserId, getUsersByUsername} from 'mattermost-redux/selectors/e
 
 import {isCombinedUserActivityPost} from 'mattermost-redux/utils/post_list';
 
-import {Action, ActionResult, batchActions, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-import {ChannelUnread} from 'mattermost-redux/types/channels';
-import {GlobalState} from 'mattermost-redux/types/store';
-import {Post, PostList} from 'mattermost-redux/types/posts';
-import {Reaction} from 'mattermost-redux/types/reactions';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {ActionResult, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {ChannelUnread} from '@mattermost/types/channels';
+import {GlobalState} from '@mattermost/types/store';
+import {Post, PostList} from '@mattermost/types/posts';
+import {Reaction} from '@mattermost/types/reactions';
+import {UserProfile} from '@mattermost/types/users';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {getProfilesByIds, getProfilesByUsernames, getStatusesByIds} from './users';
@@ -142,10 +147,8 @@ export function getPost(postId: string) {
             getProfilesAndStatusesForPosts([post], dispatch, getState);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(batchActions([
-                {type: PostTypes.GET_POSTS_FAILURE, error},
-                logError(error),
-            ]));
+            dispatch({type: PostTypes.GET_POSTS_FAILURE, error});
+            dispatch(logError(error));
             return {error};
         }
 
@@ -167,7 +170,7 @@ export function createPost(post: Post, files: any[] = []) {
 
         const timestamp = Date.now();
         const pendingPostId = post.pending_post_id || `${currentUserId}:${timestamp}`;
-        let actions: Action[] = [];
+        let actions: AnyAction[] = [];
 
         if (Selectors.isPostIdSending(state, pendingPostId)) {
             return {data: true};
@@ -202,6 +205,10 @@ export function createPost(post: Post, files: any[] = []) {
                 type: FileTypes.RECEIVED_FILES_FOR_POST,
                 postId: pendingPostId,
                 data: files,
+            }, {
+                type: ChannelTypes.INCREMENT_FILE_COUNT,
+                amount: files.length,
+                id: newPost.channel_id,
             });
         }
 
@@ -313,6 +320,11 @@ export function createPostImmediately(post: Post, files: any[] = []) {
                 postId: pendingPostId,
                 data: files,
             });
+            dispatch({
+                type: ChannelTypes.INCREMENT_FILE_COUNT,
+                amount: files.length,
+                id: newPost.channel_id,
+            });
         }
 
         const crtEnabled = isCollapsedThreadsEnabled(state);
@@ -327,18 +339,16 @@ export function createPostImmediately(post: Post, files: any[] = []) {
             newPost.reply_count = created.reply_count;
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(batchActions([
-                {type: PostTypes.CREATE_POST_FAILURE, data: newPost, error},
-                removePost({
-                    ...newPost,
-                    id: pendingPostId,
-                }) as any,
-                logError(error),
-            ]));
+            dispatch({type: PostTypes.CREATE_POST_FAILURE, data: newPost, error});
+            dispatch(removePost({
+                ...newPost,
+                id: pendingPostId,
+            }));
+            dispatch(logError(error));
             return {error};
         }
 
-        const actions: Action[] = [
+        const actions: AnyAction[] = [
             receivedPost(newPost, crtEnabled),
             {
                 type: PostTypes.CREATE_POST_SUCCESS,
@@ -497,14 +507,12 @@ export function pinPost(postId: string) {
             posts = await Client4.pinPost(postId);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(batchActions([
-                {type: PostTypes.EDIT_POST_FAILURE, error},
-                logError(error),
-            ]));
+            dispatch({type: PostTypes.EDIT_POST_FAILURE, error});
+            dispatch(logError(error));
             return {error};
         }
 
-        const actions: Action[] = [
+        const actions: AnyAction[] = [
             {
                 type: PostTypes.EDIT_POST_SUCCESS,
             },
@@ -541,14 +549,12 @@ export function unpinPost(postId: string) {
             posts = await Client4.unpinPost(postId);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(batchActions([
-                {type: PostTypes.EDIT_POST_FAILURE, error},
-                logError(error),
-            ]));
+            dispatch({type: PostTypes.EDIT_POST_FAILURE, error});
+            dispatch(logError(error));
             return {error};
         }
 
-        const actions: Action[] = [
+        const actions: AnyAction[] = [
             {
                 type: PostTypes.EDIT_POST_SUCCESS,
             },
@@ -708,20 +714,90 @@ export function flagPost(postId: string) {
     };
 }
 
+async function getPaginatedPostThread(rootId: string, options: FetchPaginatedThreadOptions, prevList?: PostList): Promise<PostList> {
+    // since there are no complicated things inside (functions, Maps, Sets, etc.) we
+    // can use the JSON approach to deep-copy the object
+    const list = prevList ? JSON.parse(JSON.stringify(prevList)) : {
+        order: [rootId],
+        posts: {},
+        prev_post_id: '',
+        next_post_id: '',
+    };
+
+    const result = await Client4.getPaginatedPostThread(rootId, options);
+
+    list.order.push(...result.order.slice(1));
+    list.posts = Object.assign(list.posts, result.posts);
+
+    if (result.has_next) {
+        const [nextPostId] = list.order!.slice(-1);
+        const nextPostPointer = list.posts[nextPostId];
+        const newOptions = {
+            ...options,
+            fromCreateAt: nextPostPointer.create_at,
+            fromPost: nextPostId,
+        };
+
+        return getPaginatedPostThread(rootId, newOptions, list);
+    }
+
+    return list;
+}
+
 export function getPostThread(rootId: string, fetchThreads = true) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         dispatch({type: PostTypes.GET_POST_THREAD_REQUEST});
         const collapsedThreadsEnabled = isCollapsedThreadsEnabled(getState());
+
         let posts;
         try {
-            posts = await Client4.getPostThread(rootId, fetchThreads, collapsedThreadsEnabled);
+            posts = await getPaginatedPostThread(rootId, {fetchThreads, collapsedThreads: collapsedThreadsEnabled});
             getProfilesAndStatusesForPosts(posts.posts, dispatch, getState);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(batchActions([
-                {type: PostTypes.GET_POST_THREAD_FAILURE, error},
-                logError(error),
-            ]));
+            dispatch({type: PostTypes.GET_POST_THREAD_FAILURE, error});
+            dispatch(logError(error));
+            return {error};
+        }
+
+        dispatch(batchActions([
+            receivedPosts(posts),
+            receivedPostsInThread(posts, rootId),
+            {
+                type: PostTypes.GET_POST_THREAD_SUCCESS,
+            },
+        ]));
+
+        return {data: posts};
+    };
+}
+
+export function getNewestPostThread(rootId: string) {
+    const getPostsForThread = Selectors.makeGetPostsForThread();
+
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        dispatch({type: PostTypes.GET_POST_THREAD_REQUEST});
+        const collapsedThreadsEnabled = isCollapsedThreadsEnabled(getState());
+        const savedPosts = getPostsForThread(getState(), rootId);
+
+        const latestReply = savedPosts?.[0];
+
+        const options: FetchPaginatedThreadOptions = {
+            fetchThreads: true,
+            collapsedThreads: collapsedThreadsEnabled,
+            direction: 'down',
+            fromCreateAt: latestReply?.create_at,
+            fromPost: latestReply?.id,
+        };
+
+        let posts;
+        try {
+            posts = await getPaginatedPostThread(rootId, options);
+            getProfilesAndStatusesForPosts(posts.posts, dispatch, getState);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch({type: PostTypes.GET_POST_THREAD_FAILURE, error});
+            dispatch(logError(error));
             return {error};
         }
 
@@ -934,13 +1010,13 @@ export function getThreadsForPosts(posts: Post[], fetchThreads = true) {
 }
 
 // Note that getProfilesAndStatusesForPosts can take either an array of posts or a map of ids to posts
-export function getProfilesAndStatusesForPosts(postsArrayOrMap: Post[]|Map<string, Post>, dispatch: DispatchFunc, getState: GetStateFunc) {
+export function getProfilesAndStatusesForPosts(postsArrayOrMap: Post[]|PostList['posts'], dispatch: DispatchFunc, getState: GetStateFunc) {
     if (!postsArrayOrMap) {
         // Some API methods return {error} for no results
         return Promise.resolve();
     }
 
-    const postsArray: Post[] = Object.values(postsArrayOrMap);
+    const postsArray: Post[] = Array.isArray(postsArrayOrMap) ? postsArrayOrMap : Object.values(postsArrayOrMap);
 
     if (postsArray.length === 0) {
         return Promise.resolve();

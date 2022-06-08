@@ -6,7 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Constants} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
 
 import DropdownIcon from 'components/widgets/icons/fa_dropdown_icon';
@@ -27,6 +27,9 @@ export default class ChannelMembersDropdown extends React.PureComponent {
         canRemoveMember: PropTypes.bool.isRequired,
         index: PropTypes.number.isRequired,
         totalUsers: PropTypes.number.isRequired,
+        channelAdminLabel: PropTypes.element,
+        channelMemberLabel: PropTypes.element,
+        guestLabel: PropTypes.element,
         actions: PropTypes.shape({
             getChannelStats: PropTypes.func.isRequired,
             updateChannelMemberSchemeRoles: PropTypes.func.isRequired,
@@ -88,6 +91,9 @@ export default class ChannelMembersDropdown extends React.PureComponent {
 
     renderRole(isChannelAdmin, isGuest) {
         if (isChannelAdmin) {
+            if (this.props.channelAdminLabel) {
+                return this.props.channelAdminLabel;
+            }
             return (
                 <FormattedMessage
                     id='channel_members_dropdown.channel_admin'
@@ -95,12 +101,19 @@ export default class ChannelMembersDropdown extends React.PureComponent {
                 />
             );
         } else if (isGuest) {
+            if (this.props.guestLabel) {
+                return this.props.guestLabel;
+            }
             return (
                 <FormattedMessage
                     id='channel_members_dropdown.channel_guest'
                     defaultMessage='Channel Guest'
                 />
             );
+        }
+
+        if (this.props.channelMemberLabel) {
+            return this.props.channelMemberLabel;
         }
         return (
             <FormattedMessage

@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 import React, {useEffect, useState} from 'react';
 
-import CarouselButton from './carousel_button';
+import CarouselButton, {BtnStyle} from './carousel_button';
 import './carousel.scss';
 
 type Props = {
@@ -11,13 +11,19 @@ type Props = {
     infiniteSlide: boolean;
     onNextSlideClick?: (slideIndex: number) => void;
     onPrevSlideClick?: (slideIndex: number) => void;
+    disableNextButton?: boolean;
+    btnsStyle?: BtnStyle; // chevron or bottom buttons
+    actionButton?: JSX.Element;
 }
-const Carousel: React.FC<Props> = ({
+const Carousel = ({
     dataSlides,
     id,
     infiniteSlide,
     onNextSlideClick,
     onPrevSlideClick,
+    disableNextButton,
+    btnsStyle = BtnStyle.BUTTON,
+    actionButton,
 }: Props): JSX.Element | null => {
     const [slideIndex, setSlideIndex] = useState(1);
     const [prevButtonDisabled, setPrevButtonDisabled] = useState(!infiniteSlide);
@@ -74,10 +80,24 @@ const Carousel: React.FC<Props> = ({
             className='container-slider'
             id={id}
         >
+            {btnsStyle === BtnStyle.CHEVRON && <>
+                <CarouselButton
+                    moveSlide={prevSlide}
+                    direction={'prev'}
+                    disabled={prevButtonDisabled}
+                    btnsStyle={BtnStyle.CHEVRON}
+                />
+                <CarouselButton
+                    moveSlide={nextSlide}
+                    direction={'next'}
+                    disabled={nextButtonDisabled || disableNextButton}
+                    btnsStyle={BtnStyle.CHEVRON}
+                />
+            </>}
             {dataSlides.map((obj: any, index: number) => {
                 return (
                     <div
-                        key={`${index}`}
+                        key={`${index.toString()}`}
                         className={slideIndex === index + 1 ? 'slide active-anim' : 'slide'}
                     >
                         {obj}
@@ -89,13 +109,13 @@ const Carousel: React.FC<Props> = ({
                 <div className='container-dots'>
                     {dataSlides.map((item, index) => (
                         <div
-                            key={index}
+                            key={index.toString()}
                             onClick={() => moveDot(index + 1)}
                             className={slideIndex === index + 1 ? 'dot active' : 'dot'}
                         />
                     ))}
                 </div>
-                <div className=' buttons container-buttons'>
+                {btnsStyle === BtnStyle.BUTTON && <div className=' buttons container-buttons'>
                     <CarouselButton
                         moveSlide={prevSlide}
                         direction={'prev'}
@@ -104,9 +124,12 @@ const Carousel: React.FC<Props> = ({
                     <CarouselButton
                         moveSlide={nextSlide}
                         direction={'next'}
-                        disabled={nextButtonDisabled}
+                        disabled={nextButtonDisabled || disableNextButton}
                     />
-                </div>
+                </div>}
+                {actionButton && <div className=' buttons container-buttons'>
+                    {actionButton}
+                </div>}
             </div>
         </div>
     );

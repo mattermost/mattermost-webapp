@@ -3,9 +3,9 @@
 
 import {ErrorPageTypes} from 'utils/constants';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
-import {ClientLicense} from 'mattermost-redux/types/config';
+import {ClientLicense} from '@mattermost/types/config';
 
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 
@@ -24,7 +24,7 @@ export type ConfigOption = {
 };
 
 export function checkIfMFARequired(
-    user: UserProfile,
+    user: UserProfile | undefined,
     license: ClientLicense,
     config: ConfigOption,
     path: string,
@@ -36,6 +36,7 @@ export function checkIfMFARequired(
         mfaPaths.indexOf(path) === -1
     ) {
         if (
+            user &&
             isGuest(user.roles) &&
             config.GuestAccountsEnforceMultifactorAuthentication !== 'true'
         ) {

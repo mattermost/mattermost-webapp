@@ -10,8 +10,8 @@ import {
     getUser as selectUser,
     makeGetDisplayName,
 } from 'mattermost-redux/selectors/entities/users';
-import {Post} from 'mattermost-redux/types/posts';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {Post} from '@mattermost/types/posts';
+import {UserProfile} from '@mattermost/types/users';
 
 import Avatar from 'components/widgets/users/avatar/avatar';
 

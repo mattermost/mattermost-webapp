@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 
 const state: GlobalState = {
     entities: {
@@ -182,8 +182,41 @@ const state: GlobalState = {
                 bindings: [],
                 forms: {},
             },
+            pluginEnabled: true,
         },
-        cloud: {},
+        cloud: {
+            limits: {
+                limits: {},
+                limitsLoaded: false,
+            },
+        },
+        usage: {
+            files: {
+                totalStorage: 0,
+                totalStorageLoaded: false,
+            },
+            messages: {
+                history: 0,
+                historyLoaded: false,
+            },
+            teams: {
+                active: 0,
+                cloudArchived: 0,
+                teamsLoaded: false,
+            },
+            boards: {
+                cards: 0,
+                cardsLoaded: false,
+            },
+            integrations: {
+                enabled: 0,
+                enabledLoaded: false,
+            },
+        },
+        insights: {
+            topReactions: {},
+            myTopReactions: {},
+        },
     },
     errors: [],
     requests: {

@@ -12,7 +12,7 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import {Constants} from 'utils/constants';
 
-import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
+import {Channel, ChannelMembership} from '@mattermost/types/channels';
 import {PluginComponent} from 'types/store/plugins';
 
 import './call_button.scss';
@@ -25,10 +25,6 @@ type Props = {
 }
 
 export default function CallButton({pluginCallComponents, currentChannel, channelMember, sidebarOpen}: Props) {
-    if (pluginCallComponents.length === 0) {
-        return null;
-    }
-
     const [active, setActive] = useState(false);
     const [clickEnabled, setClickEnabled] = useState(true);
     const prevSidebarOpen = useRef(sidebarOpen);
@@ -43,6 +39,10 @@ export default function CallButton({pluginCallComponents, currentChannel, channe
         }
         prevSidebarOpen.current = sidebarOpen;
     }, [sidebarOpen]);
+
+    if (pluginCallComponents.length === 0) {
+        return null;
+    }
 
     const style = {
         container: {

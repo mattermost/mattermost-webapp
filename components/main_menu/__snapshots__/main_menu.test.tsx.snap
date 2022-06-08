@@ -1,5 +1,489 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`components/Menu should match snapshot with cloud free trial 1`] = `
+<Menu
+  ariaLabel="team menu"
+>
+  <MenuGroup>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_team",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(AddGroupsToTeamModal)",
+            "type": [Function],
+          }
+        }
+        id="addGroupsToTeam"
+        modalId="add_groups_to_team"
+        show={false}
+        text="Add Groups to Team"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "add_user_to_team",
+          "invite_guest",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(InvitationModal)",
+            "type": [Function],
+          }
+        }
+        extraText="Add people to the team"
+        icon={false}
+        id="invitePeople"
+        modalId="invitation"
+        show={true}
+        text="Invite People"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_team",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(TeamSettingsModal)",
+            "type": [Function],
+          }
+        }
+        id="teamSettings"
+        modalId="team_settings"
+        show={true}
+        text="Team Settings"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_team",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "teamID": "team-id",
+          }
+        }
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(injectIntl(TeamGroupsManageModal))",
+            "type": [Function],
+          }
+        }
+        id="manageGroups"
+        modalId="manage_team_groups"
+        show={false}
+        text="Manage Groups"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "remove_user_from_team",
+          "manage_team_roles",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(TeamMembersModal)",
+            "type": [Function],
+          }
+        }
+        id="manageMembers"
+        modalId="team_members"
+        show={true}
+        text="Manage Members"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      invert={true}
+      permissions={
+        Array [
+          "remove_user_from_team",
+          "manage_team_roles",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(TeamMembersModal)",
+            "type": [Function],
+          }
+        }
+        id="viewMembers"
+        modalId="team_members"
+        show={true}
+        text="View Members"
+      />
+    </Connect(TeamPermissionGate)>
+    <MenuItemLink
+      id="joinTeam"
+      show={false}
+      text="Join Another Team"
+      to="/select_team"
+    />
+    <MenuItemToggleModalRedux
+      className="destructive"
+      dialogType={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(LeaveTeamModal)",
+          "type": [Function],
+        }
+      }
+      id="leaveTeam"
+      modalId="leave_team"
+      show={true}
+      text="Leave Team"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <Connect(SystemPermissionGate)
+      permissions={
+        Array [
+          "create_team",
+        ]
+      }
+    >
+      <MenuItemLink
+        className="MenuItem__with-icon-tooltip"
+        disabled={false}
+        id="createTeam"
+        show={true}
+        sibling={
+          <span
+            className="MenuItem__icon-tooltip-container"
+          >
+            <OverlayTrigger
+              defaultOverlayShown={false}
+              delayShow={400}
+              overlay={
+                <Tooltip
+                  id="MenuItem__icon-tooltip"
+                >
+                  <span
+                    className="title"
+                  >
+                    Paid feature
+                  </span>
+                  <span
+                    className="message"
+                  >
+                    During your trial you are able to create multiple teams
+                  </span>
+                </Tooltip>
+              }
+              placement="right"
+              trigger={
+                Array [
+                  "hover",
+                  "focus",
+                ]
+              }
+            >
+              <i
+                className="MenuItem__icon-tooltip icon trial"
+              />
+            </OverlayTrigger>
+          </span>
+        }
+        text="Create a Team"
+        to="/create_team"
+      />
+    </Connect(SystemPermissionGate)>
+  </MenuGroup>
+  <MenuGroup />
+</Menu>
+`;
+
+exports[`components/Menu should match snapshot with cloud free trial and team limit reached 1`] = `
+<Menu
+  ariaLabel="team menu"
+>
+  <MenuGroup>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_team",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(AddGroupsToTeamModal)",
+            "type": [Function],
+          }
+        }
+        id="addGroupsToTeam"
+        modalId="add_groups_to_team"
+        show={false}
+        text="Add Groups to Team"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "add_user_to_team",
+          "invite_guest",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(InvitationModal)",
+            "type": [Function],
+          }
+        }
+        extraText="Add people to the team"
+        icon={false}
+        id="invitePeople"
+        modalId="invitation"
+        show={true}
+        text="Invite People"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_team",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(TeamSettingsModal)",
+            "type": [Function],
+          }
+        }
+        id="teamSettings"
+        modalId="team_settings"
+        show={true}
+        text="Team Settings"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_team",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "teamID": "team-id",
+          }
+        }
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(injectIntl(TeamGroupsManageModal))",
+            "type": [Function],
+          }
+        }
+        id="manageGroups"
+        modalId="manage_team_groups"
+        show={false}
+        text="Manage Groups"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "remove_user_from_team",
+          "manage_team_roles",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(TeamMembersModal)",
+            "type": [Function],
+          }
+        }
+        id="manageMembers"
+        modalId="team_members"
+        show={true}
+        text="Manage Members"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      invert={true}
+      permissions={
+        Array [
+          "remove_user_from_team",
+          "manage_team_roles",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(TeamMembersModal)",
+            "type": [Function],
+          }
+        }
+        id="viewMembers"
+        modalId="team_members"
+        show={true}
+        text="View Members"
+      />
+    </Connect(TeamPermissionGate)>
+    <MenuItemLink
+      id="joinTeam"
+      show={false}
+      text="Join Another Team"
+      to="/select_team"
+    />
+    <MenuItemToggleModalRedux
+      className="destructive"
+      dialogType={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(LeaveTeamModal)",
+          "type": [Function],
+        }
+      }
+      id="leaveTeam"
+      modalId="leave_team"
+      show={true}
+      text="Leave Team"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <Connect(SystemPermissionGate)
+      permissions={
+        Array [
+          "create_team",
+        ]
+      }
+    >
+      <MenuItemLink
+        className="MenuItem__with-icon-tooltip"
+        disabled={true}
+        id="createTeam"
+        show={true}
+        sibling={
+          <span
+            className="MenuItem__icon-tooltip-container"
+          >
+            <OverlayTrigger
+              defaultOverlayShown={false}
+              delayShow={400}
+              overlay={
+                <Tooltip
+                  id="MenuItem__icon-tooltip"
+                >
+                  <span
+                    className="title"
+                  >
+                    Paid feature
+                  </span>
+                  <span
+                    className="message"
+                  >
+                    During your trial you are able to create multiple teams
+                  </span>
+                </Tooltip>
+              }
+              placement="right"
+              trigger={
+                Array [
+                  "hover",
+                  "focus",
+                ]
+              }
+            >
+              <i
+                className="MenuItem__icon-tooltip icon trial"
+              />
+            </OverlayTrigger>
+          </span>
+        }
+        text="Create a Team"
+        to="/create_team"
+      />
+    </Connect(SystemPermissionGate)>
+  </MenuGroup>
+  <MenuGroup />
+</Menu>
+`;
+
 exports[`components/Menu should match snapshot with guest access disabled and no team invite permission 1`] = `
 <Menu
   ariaLabel="team menu"
@@ -174,13 +658,17 @@ exports[`components/Menu should match snapshot with guest access disabled and no
       }
     >
       <MenuItemLink
+        className=""
+        disabled={false}
         id="createTeam"
         show={true}
+        sibling={false}
         text="Create a Team"
         to="/create_team"
       />
     </Connect(SystemPermissionGate)>
   </MenuGroup>
+  <MenuGroup />
 </Menu>
 `;
 
@@ -377,13 +865,17 @@ exports[`components/Menu should match snapshot with id 1`] = `
       }
     >
       <MenuItemLink
+        className=""
+        disabled={false}
         id="createTeam"
         show={true}
+        sibling={false}
         text="Create a Team"
         to="/create_team"
       />
     </Connect(SystemPermissionGate)>
   </MenuGroup>
+  <MenuGroup />
 </Menu>
 `;
 
@@ -579,13 +1071,17 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
       }
     >
       <MenuItemLink
+        className=""
+        disabled={false}
         id="createTeam"
         show={true}
+        sibling={false}
         text="Create a Team"
         to="/create_team"
       />
     </Connect(SystemPermissionGate)>
   </MenuGroup>
+  <MenuGroup />
 </Menu>
 `;
 
@@ -928,17 +1424,6 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
       show={false}
       text="Help"
     />
-    <MenuItemAction
-      icon={
-        <i
-          className="icon icon-play"
-        />
-      }
-      id="gettingStarted"
-      onClick={[Function]}
-      show={false}
-      text="Getting Started"
-    />
     <MenuItemExternalLink
       icon={
         <i
@@ -1189,13 +1674,17 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
       }
     >
       <MenuItemLink
+        className=""
+        disabled={false}
         id="createTeam"
         show={true}
+        sibling={false}
         text="Create a Team"
         to="/create_team"
       />
     </Connect(SystemPermissionGate)>
   </MenuGroup>
+  <MenuGroup />
 </Menu>
 `;
 
@@ -1539,17 +2028,6 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
       text="Help"
       url="test-link-help"
     />
-    <MenuItemAction
-      icon={
-        <i
-          className="icon icon-play"
-        />
-      }
-      id="gettingStarted"
-      onClick={[Function]}
-      show={false}
-      text="Getting Started"
-    />
     <MenuItemExternalLink
       icon={
         <i
@@ -1801,12 +2279,31 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
       }
     >
       <MenuItemLink
+        className=""
+        disabled={false}
         id="createTeam"
         show={true}
+        sibling={false}
         text="Create a Team"
         to="/create_team"
       />
     </Connect(SystemPermissionGate)>
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemAction
+      icon={false}
+      id="plugin-id-1_pluginmenuitem"
+      key="plugin-id-1_pluginmenuitem"
+      onClick={[Function]}
+      show={true}
+    />
+    <MenuItemAction
+      icon={false}
+      id="plugind-id-2_pluginmenuitem"
+      key="plugind-id-2_pluginmenuitem"
+      onClick={[Function]}
+      show={true}
+    />
   </MenuGroup>
 </Menu>
 `;
@@ -2162,17 +2659,6 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
       id="helpLink"
       show={false}
       text="Help"
-    />
-    <MenuItemAction
-      icon={
-        <i
-          className="icon icon-play"
-        />
-      }
-      id="gettingStarted"
-      onClick={[Function]}
-      show={false}
-      text="Getting Started"
     />
     <MenuItemExternalLink
       icon={

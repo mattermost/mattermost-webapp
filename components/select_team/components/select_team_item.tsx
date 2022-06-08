@@ -3,7 +3,7 @@
 
 import React, {ReactNode, MouseEvent} from 'react';
 
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 
 import LocalizedIcon from 'components/localized_icon';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -11,7 +11,7 @@ import Tooltip from 'components/tooltip';
 import TeamInfoIcon from 'components/widgets/icons/team_info_icon';
 
 import {t} from 'utils/i18n';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 type Props = {
     team: Team;

@@ -4,17 +4,20 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {AnalyticsRow} from 'mattermost-redux/types/admin';
-import {ClientLicense} from 'mattermost-redux/types/config';
+import {AnalyticsRow} from '@mattermost/types/admin';
+import {ClientLicense} from '@mattermost/types/config';
+import {EmbargoedEntityTrialError} from 'components/admin_console/license_settings/trial_banner/trial_banner';
 
 import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import {ActionResult} from 'mattermost-redux/types/actions';
+import * as Utils from 'utils/utils';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
-import PurchaseModal from 'components/purchase_modal';
+import PricingModal from 'components/pricing_modal';
+import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
 
 import {ModalData} from 'types/actions';
 
@@ -37,17 +40,22 @@ type Props = {
 
     stats?: Record<string, number | AnalyticsRow[]>;
     actions: {
-        requestTrialLicense: (users: number, termsAccepted: boolean, receiveEmailsAccepted: boolean, featureName: string) => Promise<{error?: string; data?: null}>;
+        requestTrialLicense: (users: number, termsAccepted: boolean, receiveEmailsAccepted: boolean, featureName: string) => Promise<ActionResult>;
         getLicenseConfig: () => void;
         getPrevTrialLicense: () => void;
         openModal: <P>(modalData: ModalData<P>) => void;
     };
     isCloud: boolean;
+    isCloudTrial: boolean;
+    isCloudFreeEnabled: boolean;
+    hadPrevCloudTrial: boolean;
+    isCloudFreePaidSubscription: boolean;
 }
 
 type State = {
     gettingTrial: boolean;
     gettingTrialError: string | null;
+    gettingTrialResponseCode: number | null;
 }
 
 export default class FeatureDiscovery extends React.PureComponent<Props, State> {
@@ -57,6 +65,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
         this.state = {
             gettingTrial: false,
             gettingTrialError: null,
+            gettingTrialResponseCode: null,
         };
     }
 
@@ -75,9 +84,13 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
             users = this.props.stats.TOTAL_USERS;
         }
         const requestedUsers = Math.max(users, 30);
-        const {error} = await this.props.actions.requestTrialLicense(requestedUsers, true, true, this.props.featureName);
+        const {error, data} = await this.props.actions.requestTrialLicense(requestedUsers, true, true, this.props.featureName);
         if (error) {
-            this.setState({gettingTrialError: error});
+            if (typeof data?.status === 'undefined') {
+                this.setState({gettingTrialError: error});
+            } else {
+                this.setState({gettingTrialError: error, gettingTrialResponseCode: data.status});
+            }
         }
         this.setState({gettingTrial: false});
         this.props.actions.getLicenseConfig();
@@ -92,8 +105,8 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
         );
 
         this.props.actions.openModal({
-            modalId: ModalIdentifiers.CLOUD_PURCHASE,
-            dialogType: PurchaseModal,
+            modalId: ModalIdentifiers.PRICING_MODAL,
+            dialogType: PricingModal,
         });
     }
 
@@ -104,29 +117,47 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                 defaultMessage='Start trial'
             />
         );
-        if (this.props.isCloud) {
+        if (this.props.isCloud && !this.props.isCloudFreeEnabled) {
             primaryMessage = (
                 <FormattedMessage
                     id='admin.ldap_feature_discovery_cloud.call_to_action.primary'
-                    defaultMessage='Subscribe now'
+                    defaultMessage='Upgrade now'
                 />
             );
         }
+        const {
+            isCloud,
+            isCloudTrial,
+            isCloudFreeEnabled,
+            hadPrevCloudTrial,
+            isCloudFreePaidSubscription,
+        } = this.props;
+        const canRequestCloudFreeTrial = isCloud && isCloudFreeEnabled && !isCloudTrial && !hadPrevCloudTrial && !isCloudFreePaidSubscription;
+
+        const ctaTrialButton = canRequestCloudFreeTrial ? (
+            <CloudStartTrialButton
+                message={Utils.localizeMessage('admin.ldap_feature_discovery.call_to_action.primary', 'Start trial')}
+                telemetryId={'start_cloud_trial_feature_discovery'}
+                extraClass='btn btn-primary'
+            />
+        ) : (
+            <button
+                type='button'
+                className='btn btn-primary'
+                data-testid='featureDiscovery_primaryCallToAction'
+                onClick={this.props.isCloud ? this.openUpgradeModal : this.requestLicense}
+            >
+                <LoadingWrapper
+                    loading={this.state.gettingTrial}
+                    text={Utils.localizeMessage('admin.license.trial-request.loading', 'Getting trial')}
+                >
+                    {primaryMessage}
+                </LoadingWrapper>
+            </button>
+        );
         return (
             <React.Fragment>
-                <button
-                    type='button'
-                    className='btn btn-primary'
-                    data-testid='featureDiscovery_primaryCallToAction'
-                    onClick={this.props.isCloud ? this.openUpgradeModal : this.requestLicense}
-                >
-                    <LoadingWrapper
-                        loading={this.state.gettingTrial}
-                        text={Utils.localizeMessage('admin.license.trial-request.loading', 'Getting trial')}
-                    >
-                        {primaryMessage}
-                    </LoadingWrapper>
-                </button>
+                {ctaTrialButton}
                 <a
                     className='btn btn-secondary'
                     href={learnMoreURL}
@@ -140,7 +171,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                     />
                 </a>
                 {gettingTrialError}
-                {!this.props.isCloud && <p className='trial-legal-terms'>
+                {(!this.props.isCloud || canRequestCloudFreeTrial) && <p className='trial-legal-terms'>
                     <FormattedMarkdownMessage
                         id='admin.license.trial-request.accept-terms'
                         defaultMessage='By clicking **Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails.'
@@ -161,7 +192,13 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
         } = this.props;
 
         let gettingTrialError: React.ReactNode = '';
-        if (this.state.gettingTrialError) {
+        if (this.state.gettingTrialError && this.state.gettingTrialResponseCode === 451) {
+            gettingTrialError = (
+                <p className='trial-error'>
+                    <EmbargoedEntityTrialError/>
+                </p>
+            );
+        } else if (this.state.gettingTrialError) {
             gettingTrialError = (
                 <p className='trial-error'>
                     <FormattedMarkdownMessage

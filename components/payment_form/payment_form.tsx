@@ -9,12 +9,12 @@ import {
     StripeCardElementChangeEvent,
 } from '@stripe/stripe-js';
 
-import {PaymentMethod} from 'mattermost-redux/types/cloud';
+import {PaymentMethod} from '@mattermost/types/cloud';
 
 import {BillingDetails} from 'types/cloud/sku';
 
 import DropdownInput from 'components/dropdown_input';
-import Input from 'components/input';
+import Input from 'components/widgets/inputs/input/input';
 import * as Utils from 'utils/utils';
 import {COUNTRIES} from 'utils/countries';
 
@@ -23,7 +23,6 @@ import CardInput, {CardInputType} from './card_input';
 import CardImage from './card_image';
 
 import './payment_form.scss';
-import 'components/input.css';
 
 type Props = {
     className: string;

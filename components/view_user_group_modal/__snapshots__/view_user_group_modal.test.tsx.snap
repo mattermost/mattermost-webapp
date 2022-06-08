@@ -30,7 +30,7 @@ exports[`component/view_user_group_modal should match snapshot 1`] = `
   role="dialog"
   show={true}
 >
-  <Connect(ViewUserGroupModalHeader)
+  <Connect(Component)
     backButtonAction={[MockFunction]}
     backButtonCallback={[MockFunction]}
     decrementMemberCount={[Function]}
@@ -55,7 +55,7 @@ exports[`component/view_user_group_modal should match snapshot 1`] = `
       className="user-groups-search"
     >
       <SearchIcon />
-      <Input
+      <ForwardRef
         className="user-group-search-input"
         data-testid="searchInput"
         onChange={[Function]}
@@ -81,7 +81,7 @@ exports[`component/view_user_group_modal should match snapshot 1`] = `
           }
         />
       </h2>
-      <Connect(ViewUserGroupListItem)
+      <Connect(Component)
         decrementMemberCount={[Function]}
         groupId="groupid123"
         key="user-1"
@@ -95,7 +95,7 @@ exports[`component/view_user_group_modal should match snapshot 1`] = `
           }
         }
       />
-      <Connect(ViewUserGroupListItem)
+      <Connect(Component)
         decrementMemberCount={[Function]}
         groupId="groupid123"
         key="user-2"

@@ -34,7 +34,7 @@ exports[`components/BleveSettings should match snapshot, disabled 1`] = `
             values={
               Object {
                 "documentationLink": <a
-                  href="https://about.mattermost.com/default-bleve-documentation/"
+                  href="https://docs.mattermost.com/deploy/bleve-search.html"
                   rel="noopener noreferrer"
                   target="_blank"
                 >
@@ -297,7 +297,7 @@ exports[`components/BleveSettings should match snapshot, enabled 1`] = `
             values={
               Object {
                 "documentationLink": <a
-                  href="https://about.mattermost.com/default-bleve-documentation/"
+                  href="https://docs.mattermost.com/deploy/bleve-search.html"
                   rel="noopener noreferrer"
                   target="_blank"
                 >

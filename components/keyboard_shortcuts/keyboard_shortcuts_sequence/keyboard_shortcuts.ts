@@ -5,9 +5,13 @@ import {MessageDescriptor} from 'react-intl';
 
 import {t} from 'utils/i18n';
 
-export type KeyboardShortcutDescriptor = MessageDescriptor | {default: MessageDescriptor; mac?: MessageDescriptor};
+export type KeyboardShortcutDescriptor =
+	| MessageDescriptor
+	| {default: MessageDescriptor; mac?: MessageDescriptor};
 
-export function isMessageDescriptor(descriptor: KeyboardShortcutDescriptor): descriptor is MessageDescriptor {
+export function isMessageDescriptor(
+    descriptor: KeyboardShortcutDescriptor,
+): descriptor is MessageDescriptor {
     return Boolean((descriptor as MessageDescriptor).id);
 }
 
@@ -172,6 +176,16 @@ export const KEYBOARD_SHORTCUTS = {
             defaultMessage: 'Expand the right sidebar:\t⌘|Shift|.',
         },
     },
+    navOpenChannelInfo: {
+        default: {
+            id: t('shortcuts.nav.open_channel_info'),
+            defaultMessage: 'View channel info:\tCtrl|Alt|I',
+        },
+        mac: {
+            id: t('shortcuts.nav.open_channel_info.mac'),
+            defaultMessage: 'View channel info:\t⌘|Shift|I',
+        },
+    },
     msgEdit: {
         id: t('shortcuts.msgs.edit'),
         defaultMessage: 'Edit last message in channel:\tUp',
@@ -230,6 +244,96 @@ export const KEYBOARD_SHORTCUTS = {
         mac: {
             id: t('shortcuts.msgs.markdown.bold.mac'),
             defaultMessage: 'Bold:\t⌘|B',
+        },
+    },
+    msgMarkdownCode: {
+        default: {
+            id: t('shortcuts.msgs.markdown.code'),
+            defaultMessage: 'Code:\tCtrl|Shift|C',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.code.mac'),
+            defaultMessage: 'Code:\t⌘|Shift|C',
+        },
+    },
+    msgMarkdownStrike: {
+        default: {
+            id: t('shortcuts.msgs.markdown.strike'),
+            defaultMessage: 'Strikethrough:\tCtrl|Shift|X',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.strike.mac'),
+            defaultMessage: 'Strikethrough:\t⌘|Shift|X',
+        },
+    },
+    msgMarkdownH3: {
+        default: {
+            id: t('shortcuts.msgs.markdown.h3'),
+            defaultMessage: 'Heading:\tAlt|Shift|3',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.h3.mac'),
+            defaultMessage: 'Heading:\tCtrl[^]|Alt|3',
+        },
+    },
+    msgMarkdownQuote: {
+        default: {
+            id: t('shortcuts.msgs.markdown.quote'),
+            defaultMessage: 'Quote:\tCtrl|Shift|9',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.quote.mac'),
+            defaultMessage: 'Quote:\t⌘|Shift|9',
+        },
+    },
+    msgMarkdownOl: {
+        default: {
+            id: t('shortcuts.msgs.markdown.ordered'),
+            defaultMessage: 'Numbered List:\tCtrl|Shift|7',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.ordered.mac'),
+            defaultMessage: 'Numbered List:\t⌘|Shift|7',
+        },
+    },
+    msgMarkdownUl: {
+        default: {
+            id: t('shortcuts.msgs.markdown.unordered'),
+            defaultMessage: 'Bulleted List:\tCtrl|Shift|8',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.unordered.mac'),
+            defaultMessage: 'Bulleted List:\t⌘|Shift|8',
+        },
+    },
+    msgShowFormatting: {
+        default: {
+            id: t('shortcuts.msgs.markdown.formatting'),
+            defaultMessage: 'Show/Hide Formatting:\tCtrl|Alt|T',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.formatting.mac'),
+            defaultMessage: 'Show/Hide Formatting:\t⌘|Alt|T',
+        },
+    },
+    msgShowEmojiPicker: {
+        default: {
+            id: t('shortcuts.msgs.markdown.emoji'),
+            defaultMessage: 'Emoji / Gif picker:\tCtrl|Shift|E',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.emoji.mac'),
+            defaultMessage: 'Emoji / Gif picker:\t⌘|Shift|E',
+        },
+    },
+    msgMarkdownPreview: {
+        default: {
+            id: t('shortcuts.msgs.markdown.preview'),
+            defaultMessage: 'Show/Hide Preview:\tCtrl|Shift|P',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.preview.mac'),
+            defaultMessage: 'Show/Hide Preview:\t⌘|Shift|P',
         },
     },
     msgMarkdownItalic: {

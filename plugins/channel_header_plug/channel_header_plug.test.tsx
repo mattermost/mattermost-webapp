@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
+import {Channel, ChannelMembership} from '@mattermost/types/channels';
 import {Theme} from 'mattermost-redux/types/themes';
 
 import ChannelHeaderPlug from 'plugins/channel_header_plug/channel_header_plug';
@@ -29,12 +29,13 @@ describe('plugins/ChannelHeaderPlug', () => {
                 theme={{} as Theme}
                 sidebarOpen={false}
                 actions={{
-                    doAppCall: jest.fn(),
+                    handleBindingClick: jest.fn(),
                     postEphemeralCallResponseForChannel: jest.fn(),
                     openAppsModal: jest.fn(),
                 }}
                 appBindings={[]}
                 appsEnabled={false}
+                shouldShowAppBar={false}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -49,12 +50,13 @@ describe('plugins/ChannelHeaderPlug', () => {
                 theme={{} as Theme}
                 sidebarOpen={false}
                 actions={{
-                    doAppCall: jest.fn(),
+                    handleBindingClick: jest.fn(),
                     postEphemeralCallResponseForChannel: jest.fn(),
                     openAppsModal: jest.fn(),
                 }}
                 appBindings={[]}
                 appsEnabled={false}
+                shouldShowAppBar={false}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -85,12 +87,39 @@ describe('plugins/ChannelHeaderPlug', () => {
                 theme={{} as Theme}
                 sidebarOpen={false}
                 actions={{
-                    doAppCall: jest.fn(),
+                    handleBindingClick: jest.fn(),
                     postEphemeralCallResponseForChannel: jest.fn(),
                     openAppsModal: jest.fn(),
                 }}
                 appBindings={[]}
                 appsEnabled={false}
+                shouldShowAppBar={false}
+            />,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot when the App Bar is visible', () => {
+        const wrapper = mountWithIntl(
+            <ChannelHeaderPlug
+                components={[
+                    testPlug,
+                    {...testPlug, id: 'someid2'},
+                    {...testPlug, id: 'someid3'},
+                    {...testPlug, id: 'someid4'},
+                ]}
+                channel={{} as Channel}
+                channelMember={{} as ChannelMembership}
+                theme={{} as Theme}
+                sidebarOpen={false}
+                actions={{
+                    handleBindingClick: jest.fn(),
+                    postEphemeralCallResponseForChannel: jest.fn(),
+                    openAppsModal: jest.fn(),
+                }}
+                appBindings={[]}
+                appsEnabled={false}
+                shouldShowAppBar={true}
             />,
         );
         expect(wrapper).toMatchSnapshot();

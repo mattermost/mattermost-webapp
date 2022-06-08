@@ -4,9 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Constants from 'utils/constants.jsx';
-
-import {ModalIdentifiers} from 'utils/constants';
+import Constants, {ModalIdentifiers} from 'utils/constants';
 
 import MarkdownImageExpand from 'components/markdown_image_expand';
 import ExternalImage from 'components/external_image';

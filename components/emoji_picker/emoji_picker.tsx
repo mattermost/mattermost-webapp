@@ -5,13 +5,22 @@ import React, {useRef, useState, useEffect, useCallback, memo, useMemo} from 're
 import {FormattedMessage} from 'react-intl';
 import type {FixedSizeList} from 'react-window';
 import type InfiniteLoader from 'react-window-infinite-loader';
+import {throttle} from 'lodash';
 
-import {Emoji, EmojiCategory} from 'mattermost-redux/types/emojis';
+import {Emoji, EmojiCategory} from '@mattermost/types/emojis';
 import {isSystemEmoji} from 'mattermost-redux/utils/emoji_utils';
 
 import {NoResultsVariant} from 'components/no_results_indicator/types';
 import {CategoryOrEmojiRow, Categories, EmojiCursor, NavigationDirection, EmojiPosition, EmojiRow} from 'components/emoji_picker/types';
-import {CATEGORIES, RECENT_EMOJI_CATEGORY, RECENT, SMILEY_EMOTION, SEARCH_RESULTS, EMOJI_PER_ROW} from 'components/emoji_picker/constants';
+import {
+    CATEGORIES,
+    RECENT_EMOJI_CATEGORY,
+    RECENT,
+    SMILEY_EMOTION,
+    SEARCH_RESULTS,
+    EMOJI_PER_ROW,
+    CUSTOM_EMOJI_SEARCH_THROTTLE_TIME_MS,
+} from 'components/emoji_picker/constants';
 import {createCategoryAndEmojiRows, getCursorProperties, getUpdatedCategoriesAndAllEmojis} from 'components/emoji_picker/utils';
 import NoResultsIndicator from 'components/no_results_indicator';
 import EmojiPickerPreview from 'components/emoji_picker/components/emoji_picker_preview';
@@ -74,6 +83,12 @@ const EmojiPicker = ({
 
     const shouldRunCreateCategoryAndEmojiRows = useRef<boolean>();
 
+    const throttledSearchCustomEmoji = useRef(throttle((newFilter, customEmojisEnabled) => {
+        if (customEmojisEnabled && newFilter && newFilter.trim().length) {
+            searchCustomEmojis(newFilter);
+        }
+    }, CUSTOM_EMOJI_SEARCH_THROTTLE_TIME_MS));
+
     useEffect(() => {
         // Delay taking focus because this briefly renders offscreen when using an Overlay
         // so focusing it immediately on mount can cause weird scrolling
@@ -105,7 +120,8 @@ const EmojiPicker = ({
 
         setCategoryOrEmojisRows(updatedCategoryOrEmojisRows);
         setEmojiPositionsArray(updatedEmojiPositions);
-    }, [filter, userSkinTone, shouldRunCreateCategoryAndEmojiRows.current]);
+        throttledSearchCustomEmoji.current(filter, customEmojisEnabled);
+    }, [filter, userSkinTone, shouldRunCreateCategoryAndEmojiRows.current, customEmojisEnabled]);
 
     // Hack for getting focus on search input when tab changes to emoji from gifs
     useEffect(() => {
@@ -351,7 +367,6 @@ const EmojiPicker = ({
                 <EmojiPickerSearch
                     ref={searchInputRef}
                     value={filter}
-                    customEmojisEnabled={customEmojisEnabled}
                     cursorCategoryIndex={cursorCategoryIndex}
                     cursorEmojiIndex={cursorEmojiIndex}
                     focus={focusOnSearchInput}
@@ -359,7 +374,6 @@ const EmojiPicker = ({
                     onChange={handleFilterChange}
                     onKeyDown={handleKeyboardEmojiNavigation}
                     resetCursorPosition={resetCursor}
-                    searchCustomEmojis={searchCustomEmojis}
                 />
                 <EmojiPickerSkin
                     userSkinTone={userSkinTone}

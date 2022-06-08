@@ -1,16 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState} from 'react';
+import React, {useState, useCallback, useMemo} from 'react';
 
 import {Modal} from 'react-bootstrap';
 
 import {FormattedMessage} from 'react-intl';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
-import {localizeMessage} from 'utils/utils.jsx';
-import {Group} from 'mattermost-redux/types/groups';
+import {localizeMessage} from 'utils/utils';
+import {Group} from '@mattermost/types/groups';
 
 import 'components/user_groups_modal/user_groups_modal.scss';
 import {ModalData} from 'types/actions';
@@ -37,23 +37,28 @@ const AddUsersToGroupModal = (props: Props) => {
     const [usersToAdd, setUsersToAdd] = useState<UserProfile[]>([]);
     const [showUnknownError, setShowUnknownError] = useState(false);
 
-    const doHide = () => {
+    const doHide = useCallback(() => {
         setShow(false);
-    };
+    }, []);
 
-    const isSaveEnabled = () => {
+    const isSaveEnabled = useCallback(() => {
         return usersToAdd.length > 0;
-    };
+    }, [usersToAdd]);
 
-    const addUserCallback = (users: UserProfile[]): void => {
+    const addUserCallback = useCallback((users: UserProfile[]): void => {
         setUsersToAdd(users);
-    };
+    }, []);
 
-    const deleteUserCallback = (users: UserProfile[]): void => {
+    const deleteUserCallback = useCallback((users: UserProfile[]): void => {
         setUsersToAdd(users);
-    };
+    }, []);
 
-    const addUsersToGroup = async (users?: UserProfile[]) => {
+    const goBack = useCallback(() => {
+        props.backButtonCallback();
+        props.onExited();
+    }, [props.backButtonCallback, props.onExited]);
+
+    const addUsersToGroup = useCallback(async (users?: UserProfile[]) => {
         setSaving(true);
         if (!users || users.length === 0) {
             setSaving(false);
@@ -71,12 +76,19 @@ const AddUsersToGroupModal = (props: Props) => {
         } else {
             goBack();
         }
-    };
+    }, [goBack, props.actions.addUsersToGroup, props.groupId]);
 
-    const goBack = () => {
-        props.backButtonCallback();
-        props.onExited();
-    };
+    const searchOptions = useMemo(() => {
+        return {
+            not_in_group_id: props.groupId,
+        };
+    }, [props.groupId]);
+
+    const titleValue = useMemo(() => {
+        return {
+            group: props.group.display_name,
+        };
+    }, [props.group.display_name]);
 
     return (
         <Modal
@@ -93,9 +105,7 @@ const AddUsersToGroupModal = (props: Props) => {
                     type='button'
                     className='modal-header-back-button btn-icon'
                     aria-label='Close'
-                    onClick={() => {
-                        goBack();
-                    }}
+                    onClick={goBack}
                 >
                     <LocalizedIcon
                         className='icon icon-arrow-left'
@@ -109,9 +119,7 @@ const AddUsersToGroupModal = (props: Props) => {
                     <FormattedMessage
                         id='user_groups_modal.addPeopleTitle'
                         defaultMessage='Add people to {group}'
-                        values={{
-                            group: props.group.display_name,
-                        }}
+                        values={titleValue}
                     />
                 </Modal.Title>
             </Modal.Header>
@@ -129,9 +137,7 @@ const AddUsersToGroupModal = (props: Props) => {
                                 addUserCallback={addUserCallback}
                                 deleteUserCallback={deleteUserCallback}
                                 groupId={props.groupId}
-                                searchOptions={{
-                                    not_in_group_id: props.groupId,
-                                }}
+                                searchOptions={searchOptions}
                                 buttonSubmitText={localizeMessage('multiselect.addPeopleToGroup', 'Add People')}
                                 buttonSubmitLoadingText={localizeMessage('multiselect.adding', 'Adding...')}
                                 backButtonClick={goBack}
@@ -156,4 +162,4 @@ const AddUsersToGroupModal = (props: Props) => {
     );
 };
 
-export default AddUsersToGroupModal;
+export default React.memo(AddUsersToGroupModal);

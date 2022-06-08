@@ -3,32 +3,38 @@
 
 import React from 'react';
 
-import {ClientLicense, ClientConfig, WarnMetricStatus} from 'mattermost-redux/types/config';
+import {ClientLicense, ClientConfig, WarnMetricStatus} from '@mattermost/types/config';
+import withGetCloudSubscription from '../common/hocs/cloud/with_get_cloud_subscription';
 
 import ConfigurationAnnouncementBar from './configuration_bar';
 import VersionBar from './version_bar';
 import TextDismissableBar from './text_dismissable_bar';
 import AnnouncementBar from './default_announcement_bar';
 
-import CloudAnnouncementBar from './cloud_announcement_bar';
 import PaymentAnnouncementBar from './payment_announcement_bar';
 import CloudTrialAnnouncementBar from './cloud_trial_announcement_bar';
+import CloudTrialEndAnnouncementBar from './cloud_trial_ended_announcement_bar';
 import AutoStartTrialModal from './show_start_trial_modal/show_start_trial_modal';
 
 type Props = {
     license?: ClientLicense;
     config?: Partial<ClientConfig>;
     canViewSystemErrors: boolean;
+    isCloud: boolean;
+    userIsAdmin: boolean;
+    subscription?: Subscription;
     latestError?: {
         error: any;
     };
     warnMetricsStatus?: Record<string, WarnMetricStatus>;
     actions: {
         dismissError: (index: number) => void;
+        getCloudSubscription: () => void;
+        getCloudCustomer: () => void;
     };
-}
+};
 
-export default class AnnouncementBarController extends React.PureComponent<Props> {
+class AnnouncementBarController extends React.PureComponent<Props> {
     render() {
         let adminConfiguredAnnouncementBar = null;
         if (this.props.config?.EnableBanner === 'true' && this.props.config.BannerText?.trim()) {
@@ -53,18 +59,19 @@ export default class AnnouncementBarController extends React.PureComponent<Props
                 />
             );
         }
-        let cloudAnnouncementBar = null;
+
         let paymentAnnouncementBar = null;
         let cloudTrialAnnouncementBar = null;
+        let cloudTrialEndAnnouncementBar = null;
         if (this.props.license?.Cloud === 'true') {
-            cloudAnnouncementBar = (
-                <CloudAnnouncementBar/>
-            );
             paymentAnnouncementBar = (
                 <PaymentAnnouncementBar/>
             );
             cloudTrialAnnouncementBar = (
                 <CloudTrialAnnouncementBar/>
+            );
+            cloudTrialEndAnnouncementBar = (
+                <CloudTrialEndAnnouncementBar/>
             );
         }
 
@@ -72,9 +79,9 @@ export default class AnnouncementBarController extends React.PureComponent<Props
             <>
                 {adminConfiguredAnnouncementBar}
                 {errorBar}
-                {cloudAnnouncementBar}
                 {paymentAnnouncementBar}
                 {cloudTrialAnnouncementBar}
+                {cloudTrialEndAnnouncementBar}
                 <AutoStartTrialModal/>
                 <VersionBar/>
                 <ConfigurationAnnouncementBar
@@ -87,3 +94,5 @@ export default class AnnouncementBarController extends React.PureComponent<Props
         );
     }
 }
+
+export default withGetCloudSubscription(AnnouncementBarController);

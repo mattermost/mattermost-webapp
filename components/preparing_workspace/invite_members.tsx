@@ -5,7 +5,7 @@ import React, {useState, useMemo, useEffect} from 'react';
 import {CSSTransition} from 'react-transition-group';
 import {FormattedMessage, useIntl} from 'react-intl';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import {t} from 'utils/i18n';
 import {Constants} from 'utils/constants';
@@ -43,7 +43,11 @@ const InviteMembers = (props: Props) => {
         className += ' ' + props.className;
     }
 
-    useEffect(props.onPageView, []);
+    useEffect(() => {
+        if (props.show) {
+            props.onPageView();
+        }
+    }, [props.show]);
 
     const placeholder = formatMessage({
         id: 'onboarding_wizard.invite_members.placeholder',

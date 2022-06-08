@@ -9,7 +9,7 @@ import EditCategoryModal from 'components/edit_category_modal';
 import MoreDirectChannels from 'components/more_direct_channels';
 import DataPrefetch from 'components/data_prefetch';
 import MoreChannels from 'components/more_channels';
-import NewChannelFlow from 'components/new_channel_flow';
+import NewChannelModal from 'components/new_channel_modal/new_channel_modal';
 import InvitationModal from 'components/invitation_modal';
 import UserSettingsModal from 'components/user_settings/modal';
 
@@ -27,7 +27,6 @@ import ChannelNavigator from './channel_navigator';
 import SidebarChannelList from './sidebar_channel_list';
 import SidebarHeader from './sidebar_header';
 import MobileSidebarHeader from './mobile_sidebar_header';
-import SidebarNextSteps from './sidebar_next_steps';
 
 type Props = {
     teamId: string;
@@ -166,8 +165,8 @@ export default class Sidebar extends React.PureComponent<Props, State> {
 
     showNewChannelModal = () => {
         this.props.actions.openModal({
-            modalId: ModalIdentifiers.NEW_CHANNEL_FLOW,
-            dialogType: NewChannelFlow,
+            modalId: ModalIdentifiers.NEW_CHANNEL_MODAL,
+            dialogType: NewChannelModal,
         });
         trackEvent('ui', 'ui_channels_create_channel_v2');
     }
@@ -274,7 +273,6 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                     onDragEnd={this.onDragEnd}
                 />
                 <DataPrefetch/>
-                <SidebarNextSteps/>
                 {this.renderModals()}
             </div>
         );

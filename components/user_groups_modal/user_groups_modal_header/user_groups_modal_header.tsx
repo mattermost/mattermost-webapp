@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React from 'react';
+import React, {useCallback} from 'react';
 
 import {Modal} from 'react-bootstrap';
 
@@ -20,7 +20,7 @@ export type Props = {
 }
 
 const UserGroupsModalHeader = (props: Props) => {
-    const goToCreateModal = () => {
+    const goToCreateModal = useCallback(() => {
         props.actions.openModal({
             modalId: ModalIdentifiers.USER_GROUPS_CREATE,
             dialogType: CreateUserGroupsModal,
@@ -29,7 +29,7 @@ const UserGroupsModalHeader = (props: Props) => {
             },
         });
         props.onExited();
-    };
+    }, [props.actions.openModal, props.backButtonAction, props.onExited]);
 
     return (
         <Modal.Header closeButton={true}>
@@ -58,4 +58,4 @@ const UserGroupsModalHeader = (props: Props) => {
     );
 };
 
-export default UserGroupsModalHeader;
+export default React.memo(UserGroupsModalHeader);

@@ -44,8 +44,13 @@ const Organization = (props: Props) => {
 
     useEffect(() => {
         teamValidator.validate(props.organization || '');
-        props.onPageView();
     }, []);
+
+    useEffect(() => {
+        if (props.show) {
+            props.onPageView();
+        }
+    }, [props.show]);
 
     const onNext = (e?: React.KeyboardEvent | React.MouseEvent) => {
         if (e && (e as React.KeyboardEvent).key) {

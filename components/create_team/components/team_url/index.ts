@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {checkIfTeamExists, createTeam} from 'mattermost-redux/actions/teams';
 
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 import {Client4Error} from 'mattermost-redux/types/client4';
 
 import TeamUrl from './team_url';

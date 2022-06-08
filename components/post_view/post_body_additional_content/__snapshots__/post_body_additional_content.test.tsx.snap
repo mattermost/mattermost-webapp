@@ -133,6 +133,8 @@ exports[`PostBodyAdditionalContent with a permalinklink Render permalink preview
     metadata={
       Object {
         "channel_display_name": "channel1",
+        "channel_id": "channel_id",
+        "channel_type": "O",
         "post_id": "post_id123",
         "team_name": "core",
       }
