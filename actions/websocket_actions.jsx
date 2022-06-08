@@ -43,6 +43,7 @@ import {
     handleThreadArrived,
     handleAllThreadsInChannelMarkedRead,
     updateThreadRead,
+    decrementThreadCounts,
 } from 'mattermost-redux/actions/threads';
 
 import {setServerVersion, getClientConfig} from 'mattermost-redux/actions/general';
@@ -719,6 +720,10 @@ async function handlePostDeleteEvent(msg) {
     const state = getState();
     const collapsedThreads = isCollapsedThreadsEnabled(state);
 
+    if (!post.root_id && collapsedThreads) {
+        dispatch(decrementThreadCounts(post));
+    }
+
     dispatch(postDeleted(post));
 
     // update thread when a comment is deleted and CRT is on
@@ -734,12 +739,6 @@ async function handlePostDeleteEvent(msg) {
             const rootPost = posts[order[0]];
             dispatch(receivedPost(rootPost));
         }
-    }
-
-    if (collapsedThreads && (post.root_id || post.reply_count)) {
-        const currentTeamId = getCurrentTeamId(state);
-        const currentUserId = getCurrentUserId(state);
-        dispatch(fetchThreads(currentUserId, currentTeamId, {totalsOnly: true}));
     }
 
     if (post.is_pinned) {
