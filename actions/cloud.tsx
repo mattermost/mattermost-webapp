@@ -151,6 +151,7 @@ export function getFilesUsage(): ActionFunc {
     return async (dispatch: DispatchFunc) => {
         try {
             const result = await Client4.getFilesUsage();
+
             // match limit notation in bits
             const inBits = result.bytes * 8;
             if (result) {
@@ -160,7 +161,7 @@ export function getFilesUsage(): ActionFunc {
                 });
             }
         } catch (error) {
-            return error
+            return error;
         }
         return {data: true};
     };
