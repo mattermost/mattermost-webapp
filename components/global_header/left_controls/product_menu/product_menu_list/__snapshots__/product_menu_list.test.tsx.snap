@@ -16,6 +16,9 @@ exports[`components/global/product_switcher_menu should match snapshot with id 1
         id="menuCloudTrial"
       />
     </Connect(SystemPermissionGate)>
+    <MenuItemCloudLimit
+      id="menuItemCloudLimit"
+    />
     <Connect(SystemPermissionGate)
       permissions={
         Array [
@@ -95,7 +98,11 @@ exports[`components/global/product_switcher_menu should match snapshot with id 1
         }
         id="systemConsole"
         show={true}
-        text="System Console"
+        text={
+          <React.Fragment>
+            System Console
+          </React.Fragment>
+        }
         to="/admin_console"
       />
     </Connect(SystemPermissionGate)>
@@ -110,6 +117,32 @@ exports[`components/global/product_switcher_menu should match snapshot with id 1
       show={false}
       text="Integrations"
       to="//integrations"
+    />
+    <MenuItemToggleModalRedux
+      dialogProps={
+        Object {
+          "backButtonAction": [Function],
+        }
+      }
+      dialogType={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(UserGroupsModal)",
+          "type": [Function],
+        }
+      }
+      icon={
+        <Icon
+          glyph="account-multiple-outline"
+          size={16}
+        />
+      }
+      id="userGroups"
+      modalId="user_groups"
+      show={false}
+      text="User Groups"
     />
     <Connect(TeamPermissionGate)
       permissions={
@@ -194,6 +227,9 @@ exports[`components/global/product_switcher_menu should match snapshot with most
         id="menuCloudTrial"
       />
     </Connect(SystemPermissionGate)>
+    <MenuItemCloudLimit
+      id="menuItemCloudLimit"
+    />
     <Connect(SystemPermissionGate)
       permissions={
         Array [
@@ -273,7 +309,11 @@ exports[`components/global/product_switcher_menu should match snapshot with most
         }
         id="systemConsole"
         show={true}
-        text="System Console"
+        text={
+          <React.Fragment>
+            System Console
+          </React.Fragment>
+        }
         to="/admin_console"
       />
     </Connect(SystemPermissionGate)>
@@ -288,6 +328,32 @@ exports[`components/global/product_switcher_menu should match snapshot with most
       show={true}
       text="Integrations"
       to="//integrations"
+    />
+    <MenuItemToggleModalRedux
+      dialogProps={
+        Object {
+          "backButtonAction": [Function],
+        }
+      }
+      dialogType={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(UserGroupsModal)",
+          "type": [Function],
+        }
+      }
+      icon={
+        <Icon
+          glyph="account-multiple-outline"
+          size={16}
+        />
+      }
+      id="userGroups"
+      modalId="user_groups"
+      show={false}
+      text="User Groups"
     />
     <Connect(TeamPermissionGate)
       permissions={
@@ -376,6 +442,9 @@ exports[`components/global/product_switcher_menu should show integrations should
         id="menuCloudTrial"
       />
     </Connect(SystemPermissionGate)>
+    <MenuItemCloudLimit
+      id="menuItemCloudLimit"
+    />
     <Connect(SystemPermissionGate)
       permissions={
         Array [
@@ -455,7 +524,11 @@ exports[`components/global/product_switcher_menu should show integrations should
         }
         id="systemConsole"
         show={true}
-        text="System Console"
+        text={
+          <React.Fragment>
+            System Console
+          </React.Fragment>
+        }
         to="/admin_console"
       />
     </Connect(SystemPermissionGate)>
@@ -470,6 +543,32 @@ exports[`components/global/product_switcher_menu should show integrations should
       show={true}
       text="Integrations"
       to="//integrations"
+    />
+    <MenuItemToggleModalRedux
+      dialogProps={
+        Object {
+          "backButtonAction": [Function],
+        }
+      }
+      dialogType={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(UserGroupsModal)",
+          "type": [Function],
+        }
+      }
+      icon={
+        <Icon
+          glyph="account-multiple-outline"
+          size={16}
+        />
+      }
+      id="userGroups"
+      modalId="user_groups"
+      show={false}
+      text="User Groups"
     />
     <Connect(TeamPermissionGate)
       permissions={

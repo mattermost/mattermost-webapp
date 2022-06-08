@@ -6,34 +6,33 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage, useIntl} from 'react-intl';
 
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
-import {InviteToTeamTreatments} from 'mattermost-redux/constants/config';
-import {Channel} from 'mattermost-redux/types/channels';
-import {UserProfile} from 'mattermost-redux/types/users';
-import {Team} from 'mattermost-redux/types/teams';
+import {Channel} from '@mattermost/types/channels';
+import {UserProfile} from '@mattermost/types/users';
+import {Team} from '@mattermost/types/teams';
 
 import {getSiteURL} from 'utils/url';
 import {Constants} from 'utils/constants';
 
 import {trackEvent} from 'actions/telemetry_actions';
-import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
 import useCopyText from 'components/common/hooks/useCopyText';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input';
-import UpgradeLink from 'components/widgets/links/upgrade_link';
-import NotifyLink from 'components/widgets/links/notify_link';
-import {t} from 'utils/i18n.jsx';
-import {SubscriptionStats} from 'mattermost-redux/types/cloud';
+import {getAnalyticsCategory} from 'components/onboarding_tasks';
+
+import {t} from 'utils/i18n';
 
 import AddToChannels, {CustomMessageProps, InviteChannels, defaultCustomMessage, defaultInviteChannels} from './add_to_channels';
 import InviteAs, {InviteType} from './invite_as';
 import './invite_view.scss';
 
-export const defaultInviteState: InviteState = deepFreeze({
-    inviteType: InviteType.MEMBER,
-    customMessage: defaultCustomMessage,
-    inviteChannels: defaultInviteChannels,
-    usersEmails: [],
-    usersEmailsSearch: '',
-});
+export const initializeInviteState = (initialSearchValue = '', inviteAsGuest = false): InviteState => {
+    return deepFreeze({
+        inviteType: inviteAsGuest ? InviteType.GUEST : InviteType.MEMBER,
+        customMessage: defaultCustomMessage,
+        inviteChannels: defaultInviteChannels,
+        usersEmails: [],
+        usersEmailsSearch: initialSearchValue,
+    });
+};
 
 export type InviteState = {
     customMessage: CustomMessageProps;
@@ -51,7 +50,6 @@ export type Props = InviteState & {
     onClose: () => void;
     currentTeam: Team;
     currentChannel: Channel;
-    inviteToTeamTreatment: InviteToTeamTreatments;
     setCustomMessage: (message: string) => void;
     toggleCustomMessage: () => void;
     channelsLoader: (value: string, callback?: (channels: Channel[]) => void) => Promise<Channel[]>;
@@ -60,8 +58,6 @@ export type Props = InviteState & {
     usersLoader: (value: string, callback: (users: UserProfile[]) => void) => Promise<UserProfile[]> | undefined;
     onChangeUsersEmails: (usersEmails: Array<UserProfile | string>) => void;
     isCloud: boolean;
-    subscriptionStats?: SubscriptionStats | null;
-    cloudUserLimit: string;
     emailInvitationsEnabled: boolean;
     onUsersInputChange: (usersEmailsSearch: string) => void;
     headerClass: string;
@@ -69,6 +65,7 @@ export type Props = InviteState & {
     canInviteGuests: boolean;
     canAddUsers: boolean;
     townSquareDisplayName: string;
+    channelToInvite?: Channel;
 }
 
 export default function InviteView(props: Props) {
@@ -117,39 +114,14 @@ export default function InviteView(props: Props) {
         </button>
     );
 
-    // remainingUsers is calculated against the limit, the current users, and how many are being invited in the current flow
-    const remainingUsers = (
-        (props.subscriptionStats?.remaining_seats || 0) - props.usersEmails.length
-    );
-
-    const shouldShowPickerError = (() => {
-        if (props.subscriptionStats?.is_paid_tier === 'true') {
-            return false;
-        }
-
-        if (props.cloudUserLimit === '0' || !props.isCloud) {
-            return false;
-        }
-
-        if (remainingUsers === 0 && props.usersEmailsSearch !== '') {
-            return true;
-        } else if (remainingUsers < 0) {
-            return true;
-        }
-        return false;
-    })();
-
-    const errorMessageValues: Record<string, string> = {
-        num: remainingUsers < 0 ? '0' : remainingUsers.toString(),
-    };
     const errorProperties = {
-        showError: shouldShowPickerError,
-        errorMessageId: t(
-            'invitation_modal.invite_members.hit_cloud_user_limit',
-        ),
-        errorMessageDefault: 'You can only invite **{num} more {num, plural, one {member} other {members}}** to the team on the free tier.',
-        errorMessageValues,
-        extraErrorText: (props.isAdmin ? <UpgradeLink telemetryInfo='click_upgrade_users_emails_input'/> : <NotifyLink/>),
+        showError: false,
+        errorMessageId: '',
+        errorMessageDefault: '',
+        errorMessageValues: {
+            text: '',
+        },
+        extraErrorText: '',
     };
 
     if (props.usersEmails.length > Constants.MAX_ADD_MEMBERS_BATCH) {
@@ -254,11 +226,10 @@ export default function InviteView(props: Props) {
                 <InviteAs
                     inviteType={props.inviteType}
                     setInviteAs={props.setInviteAs}
-                    inviteToTeamTreatment={props.inviteToTeamTreatment}
                     titleClass='InviteView__sectionTitle'
                 />
                 }
-                {props.inviteType === InviteType.GUEST && (
+                {(props.inviteType === InviteType.GUEST || (props.inviteType === InviteType.MEMBER && props.channelToInvite)) && (
                     <AddToChannels
                         setCustomMessage={props.setCustomMessage}
                         toggleCustomMessage={props.toggleCustomMessage}
@@ -270,6 +241,8 @@ export default function InviteView(props: Props) {
                         currentChannel={props.currentChannel}
                         townSquareDisplayName={props.townSquareDisplayName}
                         titleClass='InviteView__sectionTitle'
+                        channelToInvite={props.channelToInvite}
+                        inviteType={props.inviteType}
                     />
                 )}
             </Modal.Body>

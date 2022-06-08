@@ -4,11 +4,14 @@
 import React, {memo} from 'react';
 
 import * as PostListUtils from 'mattermost-redux/utils/post_list';
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 
+import CombinedUserActivityPost from 'components/post_view/combined_user_activity_post';
 import DateSeparator from 'components/post_view/date_separator';
 import NewMessageSeparator from 'components/post_view/new_message_separator/new_message_separator';
 import {Props as TimestampProps} from 'components/timestamp/timestamp';
+
+import {getPreviousPostId} from 'utils/post_utils';
 
 import RootPost from './root_post';
 import Reply from './reply';
@@ -61,6 +64,14 @@ function ThreadViewerRow({
                 onCardClick={onCardClick}
                 teamId={teamId}
                 timestampProps={timestampProps}
+            />
+        );
+    case PostListUtils.isCombinedUserActivityPost(listId):
+        return (
+            <CombinedUserActivityPost
+                combinedId={listId}
+                previousPostId={getPreviousPostId}
+                isLastPost={isLastPost}
             />
         );
     default:

@@ -4,14 +4,14 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {openModal} from 'actions/views/modals';
+import {showChannelInfo} from 'actions/views/rhs';
 
 import ChannelInfoButton from './channel_info_button';
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            openModal,
+            showChannelInfo,
         }, dispatch),
     };
 }

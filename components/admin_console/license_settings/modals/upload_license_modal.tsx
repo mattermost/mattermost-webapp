@@ -12,7 +12,7 @@ import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {uploadLicense} from 'mattermost-redux/actions/admin';
 import {getLicenseConfig} from 'mattermost-redux/actions/general';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
-import {ClientLicense} from 'mattermost-redux/types/config';
+import {ClientLicense} from '@mattermost/types/config';
 import {getCurrentLocale} from 'selectors/i18n';
 
 import {GlobalState} from 'types/store';
@@ -25,7 +25,7 @@ import HandsSvg from 'components/common/svg_images_components/hands_svg';
 import FileSvg from 'components/common/svg_images_components/file_svg';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 
-import {ModalIdentifiers} from 'utils/constants';
+import {FileTypes, ModalIdentifiers} from 'utils/constants';
 
 import {closeModal} from 'actions/views/modals';
 
@@ -38,20 +38,20 @@ import './upload_license_modal.scss';
 
 type Props = {
     onExited?: () => void;
+    fileObjFromProps: File | null;
 }
 
-const UploadLicenseModal: React.FC<Props> = (props: Props): JSX.Element | null => {
+const UploadLicenseModal = (props: Props): JSX.Element | null => {
     const dispatch = useDispatch<DispatchFunc>();
 
-    const [fileObj, setFileObj] = React.useState<File | null>(null);
+    const [fileObj, setFileObj] = React.useState<File | null>(props.fileObjFromProps);
     const [isUploading, setIsUploading] = React.useState(false);
     const [serverError, setServerError] = React.useState<string | null>(null);
+    const [uploadSuccessful, setUploadSuccessful] = React.useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const currentLicense: ClientLicense = useSelector(getLicense);
     const locale = useSelector(getCurrentLocale);
-
-    const LICENSE_EXTENSION = '.mattermost-license';
 
     const handleChange = () => {
         const element = fileInputRef.current;
@@ -82,6 +82,7 @@ const UploadLicenseModal: React.FC<Props> = (props: Props): JSX.Element | null =
         setFileObj(null);
         setServerError(null);
         setIsUploading(false);
+        setUploadSuccessful(true);
     };
 
     const show = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.UPLOAD_LICENSE));
@@ -104,10 +105,10 @@ const UploadLicenseModal: React.FC<Props> = (props: Props): JSX.Element | null =
     };
 
     const displayFileName = (fileName: string) => {
-        const extLen = LICENSE_EXTENSION.length;
-        let fileNameWithoutExt = fileName.split(LICENSE_EXTENSION)[0];
+        const extLen = FileTypes.LICENSE_EXTENSION.length;
+        let fileNameWithoutExt = fileName.split(FileTypes.LICENSE_EXTENSION)[0];
         fileNameWithoutExt = fileNameWithoutExt.length < (40 - extLen) ? fileNameWithoutExt : `${fileNameWithoutExt.substr(0, (37 - extLen))}...`;
-        return `${fileNameWithoutExt}${LICENSE_EXTENSION}`;
+        return `${fileNameWithoutExt}${FileTypes.LICENSE_EXTENSION}`;
     };
 
     let uploadLicenseContent = (
@@ -175,7 +176,7 @@ const UploadLicenseModal: React.FC<Props> = (props: Props): JSX.Element | null =
                                     <input
                                         ref={fileInputRef}
                                         type='file'
-                                        accept={LICENSE_EXTENSION}
+                                        accept={FileTypes.LICENSE_EXTENSION}
                                         onChange={handleChange}
                                     />
                                     <a
@@ -221,7 +222,8 @@ const UploadLicenseModal: React.FC<Props> = (props: Props): JSX.Element | null =
             </div>
         </>
     );
-    if (currentLicense.IsLicensed === 'true') {
+
+    if (uploadSuccessful) {
         const startsAt = (
             <FormattedDate
                 value={new Date(parseInt(currentLicense.StartsAt, 10))}
@@ -259,7 +261,7 @@ const UploadLicenseModal: React.FC<Props> = (props: Props): JSX.Element | null =
                     <div className='subtitle'>
                         <FormattedMessage
                             id='admin.license.upload-modal.successfulUpgradeText'
-                            defaultMessage='You have upgraded to the {skuName} plan for {licensedUsersNum} users. This is effective from {startsAt} until {expiresAt}. '
+                            defaultMessage='You have upgraded to the {skuName} plan for {licensedUsersNum, number} users. This is effective from {startsAt} until {expiresAt}. '
                             values={{
                                 expiresAt,
                                 startsAt,

@@ -8,19 +8,19 @@ import {Dropdown, Tooltip} from 'react-bootstrap';
 import {RootCloseWrapper} from 'react-overlays';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
-import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
+import {Channel, ChannelMembership} from '@mattermost/types/channels';
 import {Theme} from 'mattermost-redux/types/themes';
-import {AppBinding, AppCallRequest, AppForm} from 'mattermost-redux/types/apps';
-import {AppCallResponseTypes, AppCallTypes} from 'mattermost-redux/constants/apps';
+import {AppBinding} from '@mattermost/types/apps';
+import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
-import {DoAppCall, PostEphemeralCallResponseForChannel} from 'types/apps';
+import {HandleBindingClick, OpenAppsModal, PostEphemeralCallResponseForChannel} from 'types/apps';
 
 import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
 import PluginChannelHeaderIcon from 'components/widgets/icons/plugin_channel_header_icon';
 import {Constants} from 'utils/constants';
 import OverlayTrigger from 'components/overlay_trigger';
 import {PluginComponent} from 'types/store/plugins';
-import {createCallContext, createCallRequest} from 'utils/apps';
+import {createCallContext} from 'utils/apps';
 
 type CustomMenuProps = {
     open?: boolean;
@@ -103,18 +103,17 @@ type ChannelHeaderPlugProps = {
     channelMember: ChannelMembership;
     theme: Theme;
     sidebarOpen: boolean;
+    shouldShowAppBar: boolean;
     actions: {
-        doAppCall: DoAppCall;
+        handleBindingClick: HandleBindingClick;
         postEphemeralCallResponseForChannel: PostEphemeralCallResponseForChannel;
-        openAppsModal: (form: AppForm, call: AppCallRequest) => void;
+        openAppsModal: OpenAppsModal;
     };
 }
 
 type ChannelHeaderPlugState = {
     dropdownOpen: boolean;
 }
-
-const CHANNEL_HEADER_PLUG_DISABLE_TIMEOUT = 500;
 
 class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, ChannelHeaderPlugState> {
     public static defaultProps: Partial<ChannelHeaderPlugProps> = {
@@ -137,7 +136,7 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
 
             setTimeout(() => {
                 this.disableButtonsClosingRHS = false;
-            }, CHANNEL_HEADER_PLUG_DISABLE_TIMEOUT);
+            }, Constants.CHANNEL_HEADER_BUTTON_DISABLE_TIMEOUT);
         }
     }
 
@@ -183,29 +182,18 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
 
         const {channel, intl} = this.props;
 
-        const call = binding.form?.call || binding.call;
-        if (!call) {
-            return;
-        }
-
         const context = createCallContext(
             binding.app_id,
             binding.location,
             this.props.channel.id,
             this.props.channel.team_id,
         );
-        const callRequest = createCallRequest(call, context);
 
-        if (binding.form) {
-            this.props.actions.openAppsModal(binding.form, callRequest);
-            return;
-        }
-
-        const res = await this.props.actions.doAppCall(callRequest, AppCallTypes.SUBMIT, intl);
+        const res = await this.props.actions.handleBindingClick(binding, context, intl);
 
         if (res.error) {
             const errorResponse = res.error;
-            const errorMessage = errorResponse.error || intl.formatMessage({
+            const errorMessage = errorResponse.text || intl.formatMessage({
                 id: 'apps.error.unknown',
                 defaultMessage: 'Unknown error occurred.',
             });
@@ -216,15 +204,15 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
         const callResp = res.data!;
         switch (callResp.type) {
         case AppCallResponseTypes.OK:
-            if (callResp.markdown) {
-                this.props.actions.postEphemeralCallResponseForChannel(callResp, callResp.markdown, channel.id);
+            if (callResp.text) {
+                this.props.actions.postEphemeralCallResponseForChannel(callResp, callResp.text, channel.id);
             }
             break;
         case AppCallResponseTypes.NAVIGATE:
             break;
         case AppCallResponseTypes.FORM:
             if (callResp.form) {
-                this.props.actions.openAppsModal(callResp.form, callRequest);
+                this.props.actions.openAppsModal(callResp.form, context);
             }
             break;
         default: {
@@ -279,7 +267,7 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
 
         let items = componentItems;
         if (this.props.appsEnabled) {
-            items = componentItems.concat(appBindings.filter((binding) => binding.call).map((binding) => {
+            items = componentItems.concat(appBindings.map((binding) => {
                 return (
                     <li
                         key={'channelHeaderPlug' + binding.app_id + binding.location}
@@ -352,7 +340,7 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
     render() {
         const components = this.props.components || [];
         const appBindings = this.props.appsEnabled ? this.props.appBindings || [] : [];
-        if (components.length === 0 && appBindings.length === 0) {
+        if (this.props.shouldShowAppBar || (components.length === 0 && appBindings.length === 0)) {
             return null;
         } else if ((components.length + appBindings.length) <= 15) {
             let componentButtons = components.filter((plug) => plug.icon && plug.action).map(this.createComponentButton);

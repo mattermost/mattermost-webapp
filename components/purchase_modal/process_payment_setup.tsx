@@ -7,17 +7,17 @@ import {Stripe} from '@stripe/stripe-js';
 import {FormattedMessage} from 'react-intl';
 
 import {BillingDetails} from 'types/cloud/sku';
-import {pageVisited} from 'actions/telemetry_actions';
+import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import {TELEMETRY_CATEGORIES} from 'utils/constants';
 
 import {t} from 'utils/i18n';
 import {getNextBillingDate} from 'utils/utils';
 
-import CreditCardSvg from 'components/common/svg_images_components/credit_card.svg';
-import PaymentSuccessStandardSvg from 'components/common/svg_images_components/payment_sucess_standard.svg';
-import PaymentFailedSvg from 'components/common/svg_images_components/payment_failed.svg';
+import CreditCardSvg from 'components/common/svg_images_components/credit_card_svg';
+import PaymentSuccessStandardSvg from 'components/common/svg_images_components/payment_success_standard_svg';
+import PaymentFailedSvg from 'components/common/svg_images_components/payment_failed_svg';
 
-import {Product} from 'mattermost-redux/types/cloud';
+import {Product} from '@mattermost/types/cloud';
 
 import IconMessage from './icon_message';
 
@@ -132,6 +132,7 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
 
     private completePayment = () => {
         clearInterval(this.intervalId);
+        trackEvent('cloud_admin', 'complete_payment_success');
         this.setState({state: ProcessState.SUCCESS, progress: 100});
     }
 
@@ -259,6 +260,7 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
                         />
                     }
                     footer={progressBar}
+                    className={'processing'}
                 />
             );
         case ProcessState.SUCCESS:
@@ -287,6 +289,7 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
                     buttonHandler={this.handleGoBack}
                     linkText={t('admin.billing.subscription.privateCloudCard.contactSupport')}
                     linkURL={this.props.contactSupportLink}
+                    className={'failed'}
                 />
             );
         default:

@@ -6,7 +6,7 @@ import {combineReducers} from 'redux';
 import {ChannelCategoryTypes, UserTypes} from 'mattermost-redux/action_types';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
+import {ChannelCategory} from '@mattermost/types/channel_categories';
 
 import {removeItem} from 'mattermost-redux/utils/array_utils';
 
@@ -134,6 +134,9 @@ function firstChannelName(state = '', action: GenericAction) {
     switch (action.type) {
     case ActionTypes.FIRST_CHANNEL_NAME:
         return action.data;
+
+    case UserTypes.LOGOUT_SUCCESS:
+        return '';
     default:
         return state;
     }

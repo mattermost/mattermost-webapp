@@ -7,7 +7,8 @@ import {ErrorTypes} from 'mattermost-redux/action_types';
 import {Client4} from 'mattermost-redux/client';
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 import {DispatchFunc, ActionFunc} from 'mattermost-redux/types/actions';
-import {ServerError} from 'mattermost-redux/types/errors';
+import {LogLevel} from '@mattermost/types/client4';
+import {ServerError} from '@mattermost/types/errors';
 
 export function dismissErrorObject(index: number) {
     return {
@@ -34,7 +35,7 @@ export function getLogErrorAction(error: ErrorObject, displayable = false) {
     };
 }
 
-export function logError(error: ServerError, displayable = false): ActionFunc {
+export function logError(error: ServerError, displayable = false, consoleError = false): ActionFunc {
     return async (dispatch: DispatchFunc) => {
         if (error.server_error_id === 'api.context.session_expired.app_error') {
             return {data: true};
@@ -43,7 +44,11 @@ export function logError(error: ServerError, displayable = false): ActionFunc {
         const serializedError = serializeError(error);
 
         let sendToServer = true;
-        if (error.stack && error.stack.includes('TypeError: Failed to fetch')) {
+
+        const err = error as any;
+        const message = err.stack?.stack || err.stack || '';
+
+        if (message.includes('TypeError: Failed to fetch')) {
             sendToServer = false;
         }
         if (error.server_error_id) {
@@ -53,11 +58,15 @@ export function logError(error: ServerError, displayable = false): ActionFunc {
         if (sendToServer) {
             try {
                 const stringifiedSerializedError = JSON.stringify(serializedError).toString();
-                await Client4.logClientError(stringifiedSerializedError);
+                await Client4.logClientError(stringifiedSerializedError, LogLevel.Debug);
             } catch (err) {
                 // avoid crashing the app if an error sending
                 // the error occurs.
             }
+        }
+
+        if (consoleError) {
+            serializedError.message = 'A JavaScript error has occurred. Please use the JavaScript console to capture and report the error';
         }
 
         EventEmitter.emit(ErrorTypes.LOG_ERROR, error);

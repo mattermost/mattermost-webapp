@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable max-nested-callbacks */
-
 import {createSelector} from 'reselect';
 
 import {
@@ -10,6 +8,7 @@ import {
     getCurrentChannelId,
     getMyChannelMemberships,
     getUnreadChannelIds,
+    sortUnreadChannels,
 } from 'mattermost-redux/selectors/entities/channels';
 import {
     makeGetCategoriesForTeam,
@@ -19,10 +18,9 @@ import {
 import {getLastPostPerChannel} from 'mattermost-redux/selectors/entities/posts';
 import {shouldShowUnreadsCategory, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {Channel} from 'mattermost-redux/types/channels';
-import {CategorySorting, ChannelCategory} from 'mattermost-redux/types/channel_categories';
-import {RelationOneToOne} from 'mattermost-redux/types/utilities';
-import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
+import {Channel} from '@mattermost/types/channels';
+import {CategorySorting, ChannelCategory} from '@mattermost/types/channel_categories';
+import {RelationOneToOne} from '@mattermost/types/utilities';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
 import {DraggingState, GlobalState} from 'types/store';
@@ -115,16 +113,19 @@ export const getUnreadChannels = (() => {
         getCurrentChannelId,
         isUnreadFilterEnabled,
         (allChannels, unreadChannelIds, currentChannelId, unreadFilterEnabled) => {
-            const unreadChannels = [];
+            const unreadChannels: Channel[] = [];
+
             for (const channelId of unreadChannelIds) {
                 const channel = allChannels[channelId];
 
-                // Only include an archived channel if it's the current channel
-                if (channel.delete_at > 0 && channel.id !== currentChannelId) {
-                    continue;
-                }
+                if (channel) {
+                    // Only include an archived channel if it's the current channel
+                    if (channel.delete_at > 0 && channel.id !== currentChannelId) {
+                        continue;
+                    }
 
-                unreadChannels.push(channel);
+                    unreadChannels.push(channel);
+                }
             }
 
             // This selector is used for both the unread filter and the unreads category which treat the current
@@ -133,7 +134,9 @@ export const getUnreadChannels = (() => {
                 // The current channel is already in unreadChannels if it was previously unread but we need to add it
                 // if it wasn't previously unread
                 if (currentChannelId && unreadChannels.findIndex((channel) => channel.id === currentChannelId) === -1) {
-                    unreadChannels.push(allChannels[currentChannelId]);
+                    if (allChannels[currentChannelId]) {
+                        unreadChannels.push(allChannels[currentChannelId]);
+                    }
                 }
             }
 
@@ -149,55 +152,7 @@ export const getUnreadChannels = (() => {
         (state: GlobalState) => state.views.channel.lastUnreadChannel,
         isCollapsedThreadsEnabled,
         (channels, myMembers, lastPosts, lastUnreadChannel, crtEnabled) => {
-            function isMuted(channel: Channel) {
-                return isChannelMuted(myMembers[channel.id]);
-            }
-
-            function hasMentions(channel: Channel) {
-                if (lastUnreadChannel && channel.id === lastUnreadChannel.id && lastUnreadChannel.hadMentions) {
-                    return true;
-                }
-
-                const member = myMembers[channel.id];
-                return member?.mention_count !== 0;
-            }
-
-            // Sort channels with mentions first and then sort by recency
-            return [...channels].sort((a, b) => {
-                // Sort muted channels last
-                if (isMuted(a) && !isMuted(b)) {
-                    return 1;
-                } else if (!isMuted(a) && isMuted(b)) {
-                    return -1;
-                }
-
-                // Sort non-muted mentions first
-                if (hasMentions(a) && !hasMentions(b)) {
-                    return -1;
-                } else if (!hasMentions(a) && hasMentions(b)) {
-                    return 1;
-                }
-
-                let lastPostAt = {
-                    a: a.last_post_at,
-                    b: b.last_post_at,
-                };
-
-                if (crtEnabled) {
-                    lastPostAt = {
-                        a: a.last_root_post_at,
-                        b: b.last_root_post_at,
-                    };
-                }
-
-                // If available, get the last post time from the loaded posts for the channel, but fall back to the
-                // channel's last_post_at if that's not available. The last post time from the loaded posts is more
-                // accurate because channel.last_post_at is not updated on the client as new messages come in.
-                const aLastPostAt = maxDefined(lastPostAt.a, lastPosts[a.id]?.create_at);
-                const bLastPostAt = maxDefined(lastPostAt.b, lastPosts[b.id]?.create_at);
-
-                return bLastPostAt - aLastPostAt;
-            });
+            return sortUnreadChannels(channels, myMembers, lastPosts, lastUnreadChannel, crtEnabled);
         },
     );
 
@@ -207,32 +162,32 @@ export const getUnreadChannels = (() => {
     };
 })();
 
-function maxDefined(a: number, b?: number) {
-    return typeof b === 'undefined' ? a : Math.max(a, b);
+// WARNING: below functions are used in getDisplayedChannels only. Do not use it elsewhere.
+function concatChannels(channelsA: Channel[], channelsB: Channel[]) {
+    return [...channelsA, ...channelsB];
 }
+const memoizedConcatChannels = memoizeResult(concatChannels);
 
 // Returns an array of channels in the order that they currently appear in the sidebar. Channels are filtered out if they
 // are hidden such as by a collapsed category or the unread filter.
-export const getDisplayedChannels = (() => {
-    const memoizedConcat = memoizeResult((unreadChannels: Channel[], channelsInCategoryOrder: Channel[]) => {
-        return [...unreadChannels, ...channelsInCategoryOrder];
-    }) as (a: Channel[], b: Channel[]) => Channel[];
-
-    return (state: GlobalState) => {
-        // If the unread filter is enabled, only unread channels are shown
-        if (isUnreadFilterEnabled(state)) {
-            return getUnreadChannels(state);
+export const getDisplayedChannels = createSelector(
+    'getDisplayedChannels',
+    isUnreadFilterEnabled,
+    getUnreadChannels,
+    shouldShowUnreadsCategory,
+    getChannelsInCategoryOrder,
+    (unreadFilterEnabled, unreadChannels, showUnreadsCategory, channelsInCategoryOrder) => {
+        if (unreadFilterEnabled) {
+            return unreadChannels;
         }
 
-        // Otherwise, if the Unreads category is enabled, unread channels are shown first followed by non-unread channels in category order
-        if (shouldShowUnreadsCategory(state)) {
-            return memoizedConcat(getUnreadChannels(state), getChannelsInCategoryOrder(state));
+        if (showUnreadsCategory) {
+            return memoizedConcatChannels(unreadChannels, channelsInCategoryOrder);
         }
 
-        // Otherwise, channels are shown in category order
-        return getChannelsInCategoryOrder(state);
-    };
-})();
+        return channelsInCategoryOrder;
+    },
+);
 
 // Returns a selector that, given a category, returns the ids of channels visible in that category. The returned channels do not
 // include unread channels when the Unreads category is enabled.

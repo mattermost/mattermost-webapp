@@ -68,6 +68,10 @@
 
         .image-container {
             margin: 5px 0;
+
+            &.image-permalink {
+                margin: 5px 0 0;
+            }
         }
     }
 }

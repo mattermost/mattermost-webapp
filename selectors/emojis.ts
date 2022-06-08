@@ -6,13 +6,12 @@ import {createSelector} from 'reselect';
 import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {get} from 'mattermost-redux/selectors/entities/preferences';
 
 import LocalStorageStore from 'stores/local_storage_store';
 
-import {Constants, Preferences} from 'utils/constants';
-import {getItemFromStorage} from 'selectors/storage';
+import {Preferences} from 'utils/constants';
 import EmojiMap from 'utils/emoji_map';
-import {get} from 'mattermost-redux/selectors/entities/preferences';
 
 import type {GlobalState} from 'types/store';
 
@@ -28,21 +27,18 @@ export const getShortcutReactToLastPostEmittedFrom = (state: GlobalState) => sta
 
 export const getRecentEmojis = createSelector(
     'getRecentEmojis',
-    (state: GlobalState) => state.storage,
-    getCurrentUserId,
-    (storage, currentUserId) => {
-        const recentEmojis: string[] = LocalStorageStore.getRecentEmojis(currentUserId) ||
-            JSON.parse(getItemFromStorage(storage.storage, Constants.RECENT_EMOJI_KEY, null)); // Prior to release v5.9, recent emojis were saved as object in localforage.
-
+    (state: GlobalState) => LocalStorageStore.getRecentEmojis(getCurrentUserId(state)),
+    (recentEmojis) => {
         if (!recentEmojis) {
             return [];
         }
 
-        return recentEmojis;
+        const recentEmojisArray: string[] = JSON.parse(recentEmojis);
+        return recentEmojisArray;
     },
 );
 
-export function getUserSkinTone(state: GlobalState) {
+export function getUserSkinTone(state: GlobalState): string {
     return get(state, Preferences.CATEGORY_EMOJI, Preferences.EMOJI_SKINTONE, 'default');
 }
 
@@ -51,10 +47,15 @@ export function isCustomEmojiEnabled(state: GlobalState) {
     return config && config.EnableCustomEmoji === 'true';
 }
 
-export const getOneClickReactionEmojis = (state: GlobalState) => {
-    const recentEmojis = getRecentEmojis(state).slice(-3);
-    const emojiMap = getEmojiMap(state);
+export const getOneClickReactionEmojis = createSelector(
+    'getOneClickReactionEmojis',
+    getEmojiMap,
+    getRecentEmojis,
+    (emojiMap, recentEmojis) => {
+        if (recentEmojis.length === 0) {
+            return [];
+        }
 
-    const emojis = recentEmojis.map((recentEmoji) => emojiMap.get(recentEmoji)).filter(Boolean).reverse();
-    return emojis;
-};
+        return recentEmojis.map((recentEmoji) => emojiMap.get(recentEmoji)).filter(Boolean).slice(-3).reverse();
+    },
+);

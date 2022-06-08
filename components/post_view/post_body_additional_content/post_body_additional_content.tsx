@@ -3,10 +3,10 @@
 
 import React from 'react';
 
-import {Post, PostEmbed} from 'mattermost-redux/types/posts';
+import {Post, PostEmbed} from '@mattermost/types/posts';
 
 import {getEmbedFromMetadata} from 'mattermost-redux/utils/post_utils';
-import {AppBinding} from 'mattermost-redux/types/apps';
+import {AppBinding} from '@mattermost/types/apps';
 
 import MessageAttachmentList from 'components/post_view/message_attachments/message_attachment_list';
 import PostAttachmentOpenGraph from 'components/post_view/post_attachment_opengraph';
@@ -25,6 +25,7 @@ export type Props = {
     isEmbedVisible?: boolean;
     options?: Partial<TextFormattingOptions>;
     appsEnabled: boolean;
+    handleFileDropdownOpened: (open: boolean) => void;
     actions: {
         toggleEmbedVisibility: (id: string) => void;
     };
@@ -118,6 +119,8 @@ export default class PostBodyAdditionalContent extends React.PureComponent<Props
                 return (
                     <PostMessagePreview
                         metadata={embed.data}
+                        previewPost={embed.data.post}
+                        handleFileDropdownOpened={this.props.handleFileDropdownOpened}
                     />
                 );
             }

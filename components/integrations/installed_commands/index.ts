@@ -8,7 +8,7 @@ import {deleteCommand, regenCommandToken} from 'mattermost-redux/actions/integra
 import {haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
 import {GenericAction, ActionResult, ActionFunc} from 'mattermost-redux/types/actions';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 
 import InstalledCommands from './installed_commands';
 

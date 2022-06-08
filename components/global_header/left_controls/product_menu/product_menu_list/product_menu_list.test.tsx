@@ -3,7 +3,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import {TestHelper} from 'utils/test_helper';
 
@@ -37,7 +37,13 @@ describe('components/global/product_switcher_menu', () => {
         canManageSystemBots: false,
         canManageIntegrations: true,
         enablePluginMarketplace: false,
+        showVisitSystemConsoleTour: false,
         onClick: () => jest.fn,
+        handleVisitConsoleClick: () => jest.fn,
+        enableCustomUserGroups: false,
+        actions: {
+            openModal: jest.fn(),
+        },
     };
 
     test('should match snapshot with id', () => {

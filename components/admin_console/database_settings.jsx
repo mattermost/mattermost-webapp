@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import {recycleDatabaseConnection} from 'actions/admin_actions.jsx';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import {t} from 'utils/i18n';
 
 import AdminSettings from './admin_settings';
@@ -14,6 +14,8 @@ import BooleanSetting from './boolean_setting';
 import RequestButton from './request_button/request_button';
 import SettingsGroup from './settings_group.jsx';
 import TextSetting from './text_setting';
+
+import MigrationsTable from './database';
 
 export default class DatabaseSettings extends AdminSettings {
     getConfigFromState = (config) => {
@@ -323,6 +325,28 @@ export default class DatabaseSettings extends AdminSettings {
                     setByEnv={this.isSetByEnv('SqlSettings.DisableDatabaseSearch')}
                     disabled={this.props.isDisabled}
                 />
+                <div className='form-group'>
+                    <label
+                        className='control-label col-sm-4'
+                    >
+                        <FormattedMessage
+                            id='admin.database.migrations_table.title'
+                            defaultMessage='Schema Migrations:'
+                        />
+                    </label>
+                    <div className='col-sm-8'>
+                        <div className='migrations-table-setting'>
+                            <MigrationsTable
+                                createHelpText={
+                                    <FormattedMessage
+                                        id='admin.database.migrations_table.help_text'
+                                        defaultMessage='All applied migrations.'
+                                    />
+                                }
+                            />
+                        </div>
+                    </div>
+                </div>
             </SettingsGroup>
         );
     }

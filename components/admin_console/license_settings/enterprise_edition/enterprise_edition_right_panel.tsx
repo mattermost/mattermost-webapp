@@ -3,9 +3,9 @@
 import * as React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {ClientLicense} from 'mattermost-redux/types/config';
-import {LicenseSkus} from 'mattermost-redux/types/general';
+import {ClientLicense} from '@mattermost/types/config';
 
+import {isEnterpriseOrE20License} from 'utils/license_utils';
 import WomanUpArrowsAndCloudsSvg from 'components/common/svg_images_components/woman_up_arrows_and_clouds_svg';
 import ContactUsButton from 'components/announcement_bar/contact_sales/contact_us';
 import WomanWithCardSvg from 'components/common/svg_images_components/woman_with_card_svg';
@@ -16,7 +16,7 @@ export interface EnterpriseEditionProps {
     license: ClientLicense;
 }
 
-const EnterpriseEditionRightPanel: React.FC<EnterpriseEditionProps> = ({
+const EnterpriseEditionRightPanel = ({
     isTrialLicense,
     license,
 
@@ -29,7 +29,7 @@ const EnterpriseEditionRightPanel: React.FC<EnterpriseEditionProps> = ({
         'And more...',
     ];
 
-    const skuShortName = license.SkuShortName;
+    const isEnterpriseOrE20 = isEnterpriseOrE20License(license);
 
     const contactSalesBtn = (
         <div className='purchase-card'>
@@ -59,11 +59,11 @@ const EnterpriseEditionRightPanel: React.FC<EnterpriseEditionProps> = ({
                 />
             );
         }
-        if (skuShortName === LicenseSkus.Enterprise) {
+        if (isEnterpriseOrE20) {
             return (
                 <FormattedMessage
                     id='admin.license.enterprisePlanTitle'
-                    defaultMessage='Need to increase user count?'
+                    defaultMessage='Need to increase your headcount?'
                 />
             );
         }
@@ -92,7 +92,7 @@ const EnterpriseEditionRightPanel: React.FC<EnterpriseEditionProps> = ({
                 />
             );
         }
-        if (skuShortName === LicenseSkus.Enterprise) {
+        if (isEnterpriseOrE20) {
             return (
                 <TwoPeopleChattingSvg
                     width={200}
@@ -117,7 +117,7 @@ const EnterpriseEditionRightPanel: React.FC<EnterpriseEditionProps> = ({
                 />
             );
         }
-        if (skuShortName === LicenseSkus.Enterprise) {
+        if (isEnterpriseOrE20) {
             return (
                 <FormattedMessage
                     id='admin.license.enterprisePlanSubtitle'

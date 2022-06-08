@@ -5,14 +5,13 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
 import {Action} from 'mattermost-redux/types/actions';
-import {getChannelsNameMapInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getInt, shouldShowUnreadsCategory, getAddChannelButtonTreatment} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {shouldShowUnreadsCategory, isCustomGroupsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
+import Permissions from 'mattermost-redux/constants/permissions';
 
 import {openModal, closeModal} from 'actions/views/modals';
 import {browserHistory} from 'utils/browser_history';
-import {Constants, ModalIdentifiers, Preferences, TutorialSteps} from 'utils/constants';
+import {ModalIdentifiers} from 'utils/constants';
 import {isModalOpen} from 'selectors/views/modals';
 
 import {ModalData} from 'types/actions';
@@ -36,20 +35,13 @@ function goForward() {
 }
 
 function mapStateToProps(state: GlobalState) {
-    const config = getConfig(state);
-    const channelsByName = getChannelsNameMapInCurrentTeam(state);
-    const enableTutorial = config.EnableTutorial === 'true';
-    const tutorialStep = getInt(state, Preferences.TUTORIAL_STEP, getCurrentUserId(state), TutorialSteps.FINISHED);
-
+    const canCreateCustomGroups = haveISystemPermission(state, {permission: Permissions.CREATE_CUSTOM_GROUP}) && isCustomGroupsEnabled(state);
     return {
-        townSquareDisplayName: channelsByName[Constants.DEFAULT_CHANNEL]?.display_name || '',
-        offTopicDisplayName: channelsByName[Constants.OFFTOPIC_CHANNEL]?.display_name || '',
-        showTutorialTip: enableTutorial && tutorialStep === TutorialSteps.ADD_CHANNEL_POPOVER,
         canGoBack: true, // TODO: Phase 1 only
         canGoForward: true,
         showUnreadsCategory: shouldShowUnreadsCategory(state),
-        addChannelButton: getAddChannelButtonTreatment(state),
         isQuickSwitcherOpen: isModalOpen(state, ModalIdentifiers.QUICK_SWITCH),
+        canCreateCustomGroups,
     };
 }
 

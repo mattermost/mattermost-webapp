@@ -9,23 +9,20 @@ import type {GenericAction} from 'mattermost-redux/types/actions';
 import {ActionTypes} from 'utils/constants';
 
 const defaultState = {
+    post: {},
     show: false,
 };
 
 function editingPost(state = defaultState, action: GenericAction) {
     switch (action.type) {
-    case ActionTypes.SHOW_EDIT_POST_MODAL:
+    case ActionTypes.TOGGLE_EDITING_POST:
         return {
+            ...state,
             ...action.data,
-            show: true,
-        };
-    case ActionTypes.HIDE_EDIT_POST_MODAL:
-        return {
-            show: false,
         };
 
     case UserTypes.LOGOUT_SUCCESS:
-        return '';
+        return defaultState;
     default:
         return state;
     }

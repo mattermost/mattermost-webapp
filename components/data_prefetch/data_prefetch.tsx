@@ -4,7 +4,7 @@
 import React from 'react';
 import PQueue from 'p-queue';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 
 import {Constants} from 'utils/constants';
 import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
@@ -22,6 +22,7 @@ type Props = {
     unreadChannels: Channel[];
     actions: {
         prefetchChannelPosts: (channelId: string, delay?: number) => Promise<any>;
+        trackPreloadedChannels: (prefetchQueueObj: Record<string, string[]>) => void;
     };
 }
 
@@ -59,6 +60,10 @@ export default class DataPrefetch extends React.PureComponent<Props> {
             clearTimeout(this.prefetchTimeout);
             await queue.clear();
             this.prefetchData();
+        }
+
+        if (currentChannelId && sidebarLoaded && (!prevProps.currentChannelId || !prevProps.sidebarLoaded)) {
+            this.props.actions.trackPreloadedChannels(prefetchQueueObj);
         }
     }
 

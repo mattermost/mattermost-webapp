@@ -7,17 +7,19 @@ import {useIntl} from 'react-intl';
 import Icon from '@mattermost/compass-components/foundations/icon';
 
 import {Permissions} from 'mattermost-redux/constants';
-import {UserProfile} from 'mattermost-redux/types/users';
-
+import {UserProfile} from '@mattermost/types/users';
 import AboutBuildModal from 'components/about_build_modal';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 import MarketplaceModal from 'components/plugin_marketplace';
 import Menu from 'components/widgets/menu/menu';
-
 import {ModalIdentifiers} from 'utils/constants';
-import {useSafeUrl} from 'utils/url';
+import {makeUrlSafe} from 'utils/url';
 import * as UserAgent from 'utils/user_agent';
+import {VisitSystemConsoleTour} from 'components/onboarding_tasks';
+import UserGroupsModal from 'components/user_groups_modal';
+import {ModalData} from 'types/actions';
+import './product_menu_list.scss';
 
 export type Props = {
     isMobile: boolean;
@@ -34,7 +36,13 @@ export type Props = {
     canManageSystemBots: boolean;
     canManageIntegrations: boolean;
     enablePluginMarketplace: boolean;
+    showVisitSystemConsoleTour: boolean;
     onClick?: React.MouseEventHandler<HTMLElement>;
+    handleVisitConsoleClick: React.MouseEventHandler<HTMLElement>;
+    enableCustomUserGroups?: boolean;
+    actions: {
+        openModal: <P>(modalData: ModalData<P>) => void;
+    };
 };
 
 const ProductMenuList = (props: Props): JSX.Element | null => {
@@ -52,14 +60,27 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
         canManageSystemBots,
         canManageIntegrations,
         enablePluginMarketplace,
+        showVisitSystemConsoleTour,
         onClick,
+        handleVisitConsoleClick,
         isMobile = false,
+        enableCustomUserGroups,
     } = props;
     const {formatMessage} = useIntl();
 
     if (!currentUser) {
         return null;
     }
+
+    const openGroupsModal = () => {
+        props.actions.openModal({
+            modalId: ModalIdentifiers.USER_GROUPS,
+            dialogType: UserGroupsModal,
+            dialogProps: {
+                backButtonAction: openGroupsModal,
+            },
+        });
+    };
 
     const someIntegrationEnabled = enableIncomingWebhooks || enableOutgoingWebhooks || enableCommands || enableOAuthServiceProvider || canManageSystemBots;
     const showIntegrations = !isMobile && someIntegrationEnabled && canManageIntegrations;
@@ -70,6 +91,7 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                 <SystemPermissionGate permissions={[Permissions.SYSCONSOLE_WRITE_BILLING]}>
                     <Menu.CloudTrial id='menuCloudTrial'/>
                 </SystemPermissionGate>
+                <Menu.ItemCloudLimit id='menuItemCloudLimit'/>
                 <SystemPermissionGate
                     permissions={[Permissions.SYSCONSOLE_WRITE_ABOUT_EDITION_AND_LICENSE]}
                 >
@@ -82,7 +104,19 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                         id='systemConsole'
                         show={!isMobile}
                         to='/admin_console'
-                        text={formatMessage({id: 'navbar_dropdown.console', defaultMessage: 'System Console'})}
+                        text={(
+                            <>
+                                {formatMessage({id: 'navbar_dropdown.console', defaultMessage: 'System Console'})}
+                                {showVisitSystemConsoleTour && (
+                                    <div
+                                        onClick={handleVisitConsoleClick}
+                                        className={'system-console-visit'}
+                                    >
+                                        <VisitSystemConsoleTour/>
+                                    </div>
+                                )}
+                            </>
+                        )}
                         icon={
                             <Icon
                                 size={16}
@@ -100,6 +134,22 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                         <Icon
                             size={16}
                             glyph={'webhook-incoming'}
+                        />
+                    }
+                />
+                <Menu.ItemToggleModalRedux
+                    id='userGroups'
+                    modalId={ModalIdentifiers.USER_GROUPS}
+                    show={enableCustomUserGroups}
+                    dialogType={UserGroupsModal}
+                    dialogProps={{
+                        backButtonAction: openGroupsModal,
+                    }}
+                    text={formatMessage({id: 'navbar_dropdown.userGroups', defaultMessage: 'User Groups'})}
+                    icon={
+                        <Icon
+                            size={16}
+                            glyph={'account-multiple-outline'}
                         />
                     }
                 />
@@ -124,7 +174,7 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                 <Menu.ItemExternalLink
                     id='nativeAppLink'
                     show={appDownloadLink && !UserAgent.isMobileApp()}
-                    url={useSafeUrl(appDownloadLink)}
+                    url={makeUrlSafe(appDownloadLink)}
                     text={formatMessage({id: 'navbar_dropdown.nativeApps', defaultMessage: 'Download Apps'})}
                     icon={
                         <Icon

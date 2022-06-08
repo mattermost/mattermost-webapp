@@ -4,7 +4,7 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
-import {OpenGraphMetadata, Post} from 'mattermost-redux/types/posts';
+import {OpenGraphMetadata, Post} from '@mattermost/types/posts';
 
 import ExternalImage from 'components/external_image';
 
@@ -164,6 +164,18 @@ describe('PostAttachmentOpenGraph', () => {
 
             expect(wrapper.find('.btn-close').exists()).toBe(true);
         });
+    });
+
+    describe('permalink preview', () => {
+        const props = {
+            ...baseProps,
+            isInPermalink: true,
+        };
+
+        const wrapper = shallow(<PostAttachmentOpenGraph {...props}/>);
+
+        expect(wrapper.find('.permalink__body--opengraph').exists()).toBe(true);
+        expect(wrapper).toMatchSnapshot();
     });
 });
 

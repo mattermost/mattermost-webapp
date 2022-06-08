@@ -4,7 +4,7 @@
 import {ComponentProps} from 'react';
 import {connect} from 'react-redux';
 
-import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getInt, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {getCurrentTeamId, getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId, getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
@@ -24,8 +24,10 @@ import {
     showChannelFiles,
     closeRightHandSide,
     toggleRhsExpanded,
+    goBack,
 } from 'actions/views/rhs';
 import {getIsRhsExpanded} from 'selectors/rhs';
+import {CrtThreadPaneSteps, Preferences} from 'utils/constants';
 import {getIsMobileView} from 'selectors/views/browser';
 
 import {allAtMentions} from 'utils/text_formatting';
@@ -40,6 +42,8 @@ function mapStateToProps(state: GlobalState, {rootPostId}: OwnProps) {
 
     const collapsedThreads = isCollapsedThreadsEnabled(state);
     const root = getPost(state, rootPostId);
+    const currentUserId = getCurrentUserId(state);
+    const tipStep = getInt(state, Preferences.CRT_THREAD_PANE_STEP, currentUserId);
 
     if (root && collapsedThreads) {
         const thread = getThreadOrSynthetic(state, root);
@@ -53,14 +57,17 @@ function mapStateToProps(state: GlobalState, {rootPostId}: OwnProps) {
         }
     }
 
+    const showThreadsTutorialTip = tipStep === CrtThreadPaneSteps.THREADS_PANE_POPOVER && isCollapsedThreadsEnabled(state);
+
     return {
         isExpanded: getIsRhsExpanded(state),
         isMobileView: getIsMobileView(state),
         relativeTeamUrl: getCurrentRelativeTeamUrl(state),
         currentTeamId: getCurrentTeamId(state),
-        currentUserId: getCurrentUserId(state),
+        currentUserId,
         isCollapsedThreadsEnabled: collapsedThreads,
         isFollowingThread,
+        showThreadsTutorialTip,
     };
 }
 
@@ -74,6 +81,7 @@ const actions = {
     closeRightHandSide,
     toggleRhsExpanded,
     setThreadFollow,
+    goBack,
 };
 
 export default connect(mapStateToProps, actions)(RhsHeaderPost);

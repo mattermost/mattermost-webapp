@@ -34,7 +34,6 @@ describe('components/channel_members_dropdown', () => {
             scheme_admin: 'system_admin',
         },
         currentUserId: 'current-user-id',
-        isLicensed: true,
         canChangeMemberRoles: false,
         canRemoveMember: true,
         index: 0,
@@ -180,6 +179,16 @@ describe('components/channel_members_dropdown', () => {
         baseProps.channel.group_constrained = true;
         const wrapper = shallow(
             <ChannelMembersDropdown {...baseProps}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with role change possible', () => {
+        const wrapper = shallow(
+            <ChannelMembersDropdown
+                {...baseProps}
+                canChangeMemberRoles={true}
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });

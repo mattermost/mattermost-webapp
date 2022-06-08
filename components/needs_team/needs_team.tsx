@@ -5,18 +5,18 @@ import React from 'react';
 import {Route, Switch} from 'react-router-dom';
 import iNoBounce from 'inobounce';
 
-import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
-import {Team, TeamMembership} from 'mattermost-redux/types/teams';
-import {Group} from 'mattermost-redux/types/groups';
-import {UserProfile, UserStatus} from 'mattermost-redux/types/users';
+import {Channel, ChannelMembership} from '@mattermost/types/channels';
+import {Team, TeamMembership} from '@mattermost/types/teams';
+import {Group} from '@mattermost/types/groups';
+import {UserProfile, UserStatus} from '@mattermost/types/users';
 
 import {startPeriodicStatusUpdates, stopPeriodicStatusUpdates} from 'actions/status_actions.jsx';
-import {startPeriodicSync, stopPeriodicSync, reconnect} from 'actions/websocket_actions.jsx';
+import {reconnect} from 'actions/websocket_actions.jsx';
 import * as GlobalActions from 'actions/global_actions';
 
 import Constants from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 import {makeAsyncComponent} from 'components/async_load';
@@ -48,6 +48,7 @@ type Props = {
     currentTeamId?: string;
     actions: {
         fetchMyChannelsAndMembers: (teamId: string) => Promise<{ data: { channels: Channel[]; members: ChannelMembership[] } }>;
+        fetchAllMyTeamsChannelsAndChannelMembers: () => Promise<{ data: { channels: Channel[]; members: ChannelMembership[]} }>;
         getMyTeamUnreads: (collapsedThreads: boolean) => Promise<{data: any; error?: any}>;
         viewChannel: (channelId: string, prevChannelId?: string | undefined) => Promise<{data: boolean}>;
         markChannelAsReadOnFocus: (channelId: string) => Promise<{data: any; error?: any}>;
@@ -58,7 +59,7 @@ type Props = {
         loadStatusesForChannelAndSidebar: () => Promise<{data: UserStatus[]}>;
         getAllGroupsAssociatedToChannelsInTeam: (teamId: string, filterAllowReference: boolean) => Promise<{data: Group[]}>;
         getAllGroupsAssociatedToTeam: (teamId: string, filterAllowReference: boolean) => Promise<{data: Group[]}>;
-        getGroupsByUserId: (userID: string) => Promise<{data: Group[]}>;
+        getGroupsByUserIdPaginated: (userId: string, filterAllowReference: boolean, page: number, perPage: number, includeMemberCount: boolean) => Promise<{data: Group[]}>;
         getGroups: (filterAllowReference: boolean, page: number, perPage: number) => Promise<{data: Group[]}>;
     };
     mfaRequired: boolean;
@@ -76,6 +77,7 @@ type Props = {
     plugins?: any;
     selectedThreadId: string | null;
     shouldShowAppBar: boolean;
+    isCustomGroupsEnabled: boolean;
 }
 
 type State = {
@@ -137,7 +139,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
 
     public componentDidMount() {
         startPeriodicStatusUpdates();
-        startPeriodicSync();
+        this.fetchAllTeams();
 
         // Set up tracking for whether the window is active
         window.isActive = true;
@@ -166,7 +168,6 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
     componentWillUnmount() {
         window.isActive = false;
         stopPeriodicStatusUpdates();
-        stopPeriodicSync();
         if (UserAgent.isIosSafari()) {
             iNoBounce.disable();
         }
@@ -246,20 +247,27 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
 
         if (this.props.license &&
             this.props.license.IsLicensed === 'true' &&
-            this.props.license.LDAPGroups === 'true') {
+            (this.props.license.LDAPGroups === 'true' || this.props.isCustomGroupsEnabled)) {
             if (this.props.currentUser) {
-                this.props.actions.getGroupsByUserId(this.props.currentUser.id);
+                this.props.actions.getGroupsByUserIdPaginated(this.props.currentUser.id, false, 0, 60, true);
             }
 
-            this.props.actions.getAllGroupsAssociatedToChannelsInTeam(team.id, true);
-            if (team.group_constrained) {
+            if (this.props.license.LDAPGroups === 'true') {
+                this.props.actions.getAllGroupsAssociatedToChannelsInTeam(team.id, true);
+            }
+
+            if (team.group_constrained && this.props.license.LDAPGroups === 'true') {
                 this.props.actions.getAllGroupsAssociatedToTeam(team.id, true);
             } else {
-                this.props.actions.getGroups(true, 0, 0);
+                this.props.actions.getGroups(false, 0, 60);
             }
         }
 
         return team;
+    }
+
+    fetchAllTeams = () => {
+        this.props.actions.fetchAllMyTeamsChannelsAndChannelMembers();
     }
 
     updateCurrentTeam = (props: Props) => {

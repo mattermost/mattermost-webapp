@@ -3,18 +3,20 @@
 
 import React from 'react';
 
+import classNames from 'classnames';
+
 import {
     OpenGraphMetadata,
     OpenGraphMetadataImage,
     Post,
     PostImage,
-} from 'mattermost-redux/types/posts';
+} from '@mattermost/types/posts';
 
 import SizeAwareImage from 'components/size_aware_image';
 import ExternalImage from 'components/external_image';
 import {PostTypes} from 'utils/constants';
 import {isSystemMessage} from 'utils/post_utils';
-import {useSafeUrl} from 'utils/url';
+import {makeUrlSafe} from 'utils/url';
 
 import {getNearestPoint} from './get_nearest_point';
 
@@ -36,6 +38,7 @@ export type Props = {
     actions: {
         editPost: (post: { id: string; props: Record<string, any> }) => void;
     };
+    isInPermalink?: boolean;
 };
 
 export default class PostAttachmentOpenGraph extends React.PureComponent<Props> {
@@ -68,6 +71,10 @@ export default class PostAttachmentOpenGraph extends React.PureComponent<Props> 
     };
 
     renderImageToggle() {
+        if (this.props.isInPermalink) {
+            return undefined;
+        }
+
         return (
             <button
                 className={'style--none post__embed-visibility color--link'}
@@ -172,12 +179,14 @@ export default class PostAttachmentOpenGraph extends React.PureComponent<Props> 
             return null;
         }
 
+        const permalinkClass = this.props.isInPermalink ? 'permalink--opengraph' : '';
+
         const imageUrl = getBestImageUrl(data, this.props.post.metadata.images);
         const imageMetadata = this.getImageMetadata(imageUrl);
         const hasLargeImage = this.isLargeImage(imageMetadata);
 
         let removePreviewButton;
-        if (this.props.currentUserId === this.props.post.user_id) {
+        if (this.props.currentUserId === this.props.post.user_id && !this.props.isInPermalink) {
             removePreviewButton = (
                 <button
                     type='button'
@@ -195,29 +204,29 @@ export default class PostAttachmentOpenGraph extends React.PureComponent<Props> 
         if (data.description || imageUrl) {
             body = (
                 <div className={'attachment__body attachment__body--opengraph'}>
-                    <div>
+                    <div className={classNames({'permalink__body--opengraph': this.props.isInPermalink})}>
                         {this.truncateText(data.description)}
                         {' '}
                         {imageUrl && hasLargeImage && this.renderImageToggle()}
                     </div>
-                    {imageUrl && hasLargeImage && this.renderLargeImage(imageUrl, imageMetadata)}
+                    {!this.props.isInPermalink && imageUrl && hasLargeImage && this.renderLargeImage(imageUrl, imageMetadata)}
                 </div>
             );
         }
 
         return (
             <div className='attachment attachment--opengraph'>
-                <div className='attachment__content'>
-                    <div className={'clearfix attachment__container attachment__container--opengraph'}>
+                <div className={classNames('attachment__content', permalinkClass)}>
+                    <div className={classNames('clearfix', 'attachment__container', 'attachment__container--opengraph', permalinkClass)}>
                         <div className={'attachment__body__wrap attachment__body__wrap--opengraph'}>
-                            <span className='sitename'>
+                            {!this.props.isInPermalink && <span className='sitename'>
                                 {this.truncateText(data.site_name)}
-                            </span>
+                            </span>}
                             {removePreviewButton}
                             <h1 className={'attachment__title attachment__title--opengraph' + (data.title ? '' : ' is-url')}>
                                 <a
                                     className='attachment__title-link attachment__title-link--opengraph'
-                                    href={useSafeUrl(data.url || this.props.link)}
+                                    href={makeUrlSafe(data.url || this.props.link)}
                                     target='_blank'
                                     rel='noopener noreferrer'
                                     title={data.title || data.url || this.props.link}
@@ -227,7 +236,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent<Props> 
                             </h1>
                             {body}
                         </div>
-                        {imageUrl && !hasLargeImage && this.renderSmallImage(imageUrl, imageMetadata)}
+                        {!this.props.isInPermalink && imageUrl && !hasLargeImage && this.renderSmallImage(imageUrl, imageMetadata)}
                     </div>
                 </div>
             </div>

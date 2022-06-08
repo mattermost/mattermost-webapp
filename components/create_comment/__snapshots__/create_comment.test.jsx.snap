@@ -67,7 +67,7 @@ exports[`components/CreateComment should match snapshot when cannot post 1`] = `
           className="col col-auto"
         >
           <Connect(TextboxLinks)
-            characterLimit={4000}
+            isMarkdownPreviewEnabled={false}
             showPreview={false}
             updatePreview={[Function]}
           />
@@ -194,7 +194,6 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
           className="col col-auto"
         >
           <Connect(TextboxLinks)
-            characterLimit={4000}
             showPreview={false}
             updatePreview={[Function]}
           />
@@ -297,7 +296,6 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
           className="col col-auto"
         >
           <Connect(TextboxLinks)
-            characterLimit={4000}
             showPreview={false}
             updatePreview={[Function]}
           />
@@ -436,7 +434,6 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
           className="col col-auto"
         >
           <Connect(TextboxLinks)
-            characterLimit={4000}
             showPreview={false}
             updatePreview={[Function]}
           />
@@ -563,7 +560,6 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
           className="col col-auto"
         >
           <Connect(TextboxLinks)
-            characterLimit={4000}
             showPreview={false}
             updatePreview={[Function]}
           />

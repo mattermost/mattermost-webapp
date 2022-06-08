@@ -12,7 +12,13 @@ describe('threads', () => {
             threadsInTeam: {},
             threads: {},
             counts: {},
-            countsIncludingDirect: {},
+            countsIncludingDirect: {
+                a: {
+                    total: 3,
+                    total_unread_threads: 0,
+                    total_unread_mentions: 1,
+                },
+            },
         });
 
         const nextState = threadsReducer(state, {
@@ -22,9 +28,9 @@ describe('threads', () => {
                 threads: [
                     {id: 't1'},
                 ],
-                total: 3,
+                total: 0,
                 total_unread_threads: 0,
-                total_unread_mentions: 1,
+                total_unread_mentions: 0,
             },
         });
 
@@ -39,6 +45,44 @@ describe('threads', () => {
             total_unread_mentions: 1,
         });
         expect(nextState.threadsInTeam.a).toContain('t1');
+    });
+
+    test('RECEIVED_THREADS should update the state', () => {
+        const state = deepFreeze({
+            threadsInTeam: {
+                a: [],
+            },
+            threads: {},
+            counts: {},
+            countsIncludingDirect: {
+                a: {
+                    total: 3,
+                    total_unread_threads: 0,
+                    total_unread_mentions: 1,
+                },
+            },
+        });
+
+        const nextState = threadsReducer(state, {
+            type: ThreadTypes.RECEIVED_THREAD_COUNTS,
+            data: {
+                team_id: 'a',
+                threads: null,
+                total: 0,
+                total_unread_threads: 0,
+                total_unread_mentions: 0,
+            },
+        });
+
+        expect(nextState).not.toBe(state);
+        expect(nextState.threads).toBe(state.threads);
+        expect(nextState.threadsInTeam).toBe(state.threadsInTeam);
+        expect(nextState.counts.a).toBe(state.counts.a);
+        expect(nextState.countsIncludingDirect.a).toEqual({
+            total: 0,
+            total_unread_threads: 0,
+            total_unread_mentions: 0,
+        });
     });
 
     test('RECEIVED_UNREAD_THREADS should update the state', () => {

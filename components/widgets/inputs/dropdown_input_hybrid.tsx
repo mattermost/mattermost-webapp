@@ -5,7 +5,7 @@ import React, {useState, CSSProperties, useEffect, useRef} from 'react';
 import ReactSelect, {Props as SelectProps, components, IndicatorContainerProps, ControlProps, OptionProps} from 'react-select';
 import classNames from 'classnames';
 
-import 'components/input.css';
+import 'components/widgets/inputs/input/input.scss';
 import './dropdown_input_hybrid.scss';
 
 type OptionType = {

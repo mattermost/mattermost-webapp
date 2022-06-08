@@ -3,9 +3,9 @@
 
 import React, {PureComponent} from 'react';
 
-import {UserProfile as UserProfileType} from 'mattermost-redux/types/users';
+import {UserProfile as UserProfileType} from '@mattermost/types/users';
 
-import {imageURLForUser, isMobile} from 'utils/utils.jsx';
+import {imageURLForUser, isMobile} from 'utils/utils';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 import OverlayTrigger, {BaseOverlayTrigger} from 'components/overlay_trigger';

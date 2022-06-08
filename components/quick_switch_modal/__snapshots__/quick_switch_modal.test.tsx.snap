@@ -89,7 +89,13 @@ exports[`components/QuickSwitchModal should match snapshot 1`] = `
             },
           ]
         }
-        renderDividers={true}
+        renderDividers={
+          Array [
+            "mention.unread",
+            "mention.recent.channels",
+          ]
+        }
+        shouldSearchCompleteText={true}
         spellCheck="false"
         value=""
       />

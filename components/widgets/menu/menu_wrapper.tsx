@@ -49,8 +49,9 @@ export default class MenuWrapper extends React.PureComponent<Props, State> {
     }
 
     public componentDidMount() {
-        document.addEventListener('click', this.closeOnBlur, true);
-        document.addEventListener('keyup', this.keyboardClose, true);
+        if (this.state.open) {
+            this.addEventListeners();
+        }
     }
 
     static getDerivedStateFromProps(props: Props, state: State) {
@@ -62,7 +63,26 @@ export default class MenuWrapper extends React.PureComponent<Props, State> {
         return null;
     }
 
+    public componentDidUpdate(prevProps: Props, prevState: State) {
+        if (this.state.open && !prevState.open) {
+            this.addEventListeners();
+        } else if (!this.state.open && prevState.open) {
+            this.removeEventListeners();
+        }
+    }
+
     public componentWillUnmount() {
+        if (this.state.open) {
+            this.removeEventListeners();
+        }
+    }
+
+    private addEventListeners() {
+        document.addEventListener('click', this.closeOnBlur, true);
+        document.addEventListener('keyup', this.keyboardClose, true);
+    }
+
+    private removeEventListeners() {
         document.removeEventListener('click', this.closeOnBlur, true);
         document.removeEventListener('keyup', this.keyboardClose, true);
     }

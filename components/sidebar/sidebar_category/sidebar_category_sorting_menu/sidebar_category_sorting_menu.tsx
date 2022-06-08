@@ -5,8 +5,8 @@ import React from 'react';
 import {injectIntl, IntlShape} from 'react-intl';
 
 import {Preferences} from 'mattermost-redux/constants';
-import {ChannelCategory, CategorySorting} from 'mattermost-redux/types/channel_categories';
-import {PreferenceType} from 'mattermost-redux/types/preferences';
+import {ChannelCategory, CategorySorting} from '@mattermost/types/channel_categories';
+import {PreferenceType} from '@mattermost/types/preferences';
 
 import Constants from 'utils/constants';
 
@@ -153,7 +153,7 @@ export class SidebarCategorySortingMenu extends React.PureComponent<Props, State
         this.props.onToggleMenu(open);
 
         if (open) {
-            trackEvent('ui', 'ui_sidebar_channel_menu_opened');
+            trackEvent('ui', 'ui_sidebar_category_menu_opened');
         }
     }
 
@@ -167,12 +167,12 @@ export class SidebarCategorySortingMenu extends React.PureComponent<Props, State
         return (
             <SidebarMenu
                 id={'SidebarCategorySortingMenu'}
-                ariaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Channel Menu'})}
-                buttonAriaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Channel Menu'})}
+                ariaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
+                buttonAriaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
                 isMenuOpen={isMenuOpen}
                 onToggleMenu={this.onToggleMenu}
                 onOpenDirectionChange={this.handleOpenDirectionChange}
-                tooltipText={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.editChannel', defaultMessage: 'Channel options'})}
+                tooltipText={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.editCategory', defaultMessage: 'Category options'})}
                 tabIndex={isCollapsed ? -1 : 0}
                 additionalClass='additionalClass'
             >

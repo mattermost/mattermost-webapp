@@ -5,7 +5,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import {getFileThumbnailUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
-import {FileInfo} from 'mattermost-redux/types/files';
+import {FileInfo} from '@mattermost/types/files';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
@@ -20,7 +20,7 @@ import {
     getFileType,
     loadImage,
     localizeMessage,
-} from 'utils/utils.jsx';
+} from 'utils/utils';
 
 import FilenameOverlay from './filename_overlay';
 import FileThumbnail from './file_thumbnail';

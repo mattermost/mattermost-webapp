@@ -9,7 +9,7 @@ import EventEmitter from 'mattermost-redux/utils/event_emitter';
 import QuickInput from 'components/quick_input';
 import Constants from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 const EXECUTE_CURRENT_COMMAND_ITEM_ID = Constants.Integrations.EXECUTE_CURRENT_COMMAND_ITEM_ID;
 const OPEN_COMMAND_IN_MODAL_ITEM_ID = Constants.Integrations.OPEN_COMMAND_IN_MODAL_ITEM_ID;
@@ -54,14 +54,20 @@ export default class SuggestionBox extends React.PureComponent {
         containerClass: PropTypes.string,
 
         /**
-         * Set to true to draw dividers between types of list items, defaults to false
+         * Set to ['all'] to draw all available dividers, or use an array of the types of dividers to only render those
+         * (e.g. [Constants.MENTION_RECENT_CHANNELS, Constants.MENTION_PUBLIC_CHANNELS]) between types of list items
          */
-        renderDividers: PropTypes.bool,
+        renderDividers: PropTypes.arrayOf(PropTypes.string),
 
         /**
          * Set to true to render a message when there were no results found, defaults to false
          */
         renderNoResults: PropTypes.bool,
+
+        /**
+         * Set to true if we want the suggestions to take in the complete word as the pretext, defaults to false
+         */
+        shouldSearchCompleteText: PropTypes.bool,
 
         /**
          * Set to allow TAB to select an item in the list, defaults to true
@@ -157,8 +163,9 @@ export default class SuggestionBox extends React.PureComponent {
     static defaultProps = {
         listPosition: 'top',
         containerClass: '',
-        renderDividers: false,
+        renderDividers: [],
         renderNoResults: false,
+        shouldSearchCompleteText: false,
         completeOnTab: true,
         isRHS: false,
         requiredCharacters: 1,
@@ -328,7 +335,7 @@ export default class SuggestionBox extends React.PureComponent {
 
     handleChange = (e) => {
         const textbox = this.getTextbox();
-        const pretext = textbox.value.substring(0, textbox.selectionEnd);
+        const pretext = this.props.shouldSearchCompleteText ? textbox.value.trim() : textbox.value.substring(0, textbox.selectionEnd);
 
         if (!this.composing && this.pretext !== pretext) {
             this.handlePretextChanged(pretext);
@@ -734,6 +741,14 @@ export default class SuggestionBox extends React.PureComponent {
         this.container = container;
     };
 
+    getListPosition = (listPosition) => {
+        if (!this.state.suggestionBoxAlgn) {
+            return listPosition;
+        }
+
+        return listPosition === 'bottom' && this.state.suggestionBoxAlgn.placementShift ? 'top' : listPosition;
+    }
+
     render() {
         const {
             dateComponent,
@@ -743,7 +758,12 @@ export default class SuggestionBox extends React.PureComponent {
             ...props
         } = this.props;
 
-        const renderDividers = this.props.renderDividers && this.state.allowDividers;
+        // set the renderDivider const to either the value stored in the renderDividers prop or an empty string
+        // (the renderDividers prop can also probably be a empty string, but is not guaranteed to be)
+        let renderDividers;
+        if (this.state.allowDividers) {
+            renderDividers = this.props.renderDividers;
+        }
 
         // Don't pass props used by SuggestionBox
         Reflect.deleteProperty(props, 'providers');
@@ -765,6 +785,7 @@ export default class SuggestionBox extends React.PureComponent {
         Reflect.deleteProperty(props, 'forceSuggestionsWhenBlur');
         Reflect.deleteProperty(props, 'onSuggestionsReceived');
         Reflect.deleteProperty(props, 'actions');
+        Reflect.deleteProperty(props, 'shouldSearchCompleteText');
 
         // This needs to be upper case so React doesn't think it's an html tag
         const SuggestionListComponent = listComponent;
@@ -798,7 +819,7 @@ export default class SuggestionBox extends React.PureComponent {
                             ariaLiveRef={this.suggestionReadOut}
                             open={this.state.focused || this.props.forceSuggestionsWhenBlur}
                             pretext={this.pretext}
-                            position={listPosition}
+                            position={this.getListPosition(listPosition)}
                             renderDividers={renderDividers}
                             renderNoResults={renderNoResults}
                             onCompleteWord={this.handleCompleteWord}

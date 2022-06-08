@@ -1,21 +1,27 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
+import {AnyAction} from 'redux';
+import {batchActions} from 'redux-batched-actions';
+
 import {AdminTypes} from 'mattermost-redux/action_types';
 import {General} from '../constants';
 import {Client4} from 'mattermost-redux/client';
 
-import {Action, ActionFunc, batchActions, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-import {Compliance} from 'mattermost-redux/types/compliance';
-import {GroupSearchOpts} from 'mattermost-redux/types/groups';
+import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {Compliance} from '@mattermost/types/compliance';
+import {GroupSearchOpts} from '@mattermost/types/groups';
 import {
     CreateDataRetentionCustomPolicy,
-} from 'mattermost-redux/types/data_retention';
+} from '@mattermost/types/data_retention';
 import {
     TeamSearchOpts,
-} from 'mattermost-redux/types/teams';
+} from '@mattermost/types/teams';
 import {
     ChannelSearchOpts,
-} from 'mattermost-redux/types/channels';
+} from '@mattermost/types/channels';
+
+import {CompleteOnboardingRequest} from '@mattermost/types/setup';
 
 import {bindClientFunc, forceLogoutIfNecessary} from './helpers';
 import {logError} from './errors';
@@ -247,10 +253,8 @@ export function linkLdapGroup(key: string): ActionFunc {
             data = await Client4.linkLdapGroup(key);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(batchActions([
-                {type: AdminTypes.LINK_LDAP_GROUP_FAILURE, error, data: key},
-                logError(error),
-            ]));
+            dispatch({type: AdminTypes.LINK_LDAP_GROUP_FAILURE, error, data: key});
+            dispatch(logError(error));
             return {error};
         }
 
@@ -279,10 +283,8 @@ export function unlinkLdapGroup(key: string): ActionFunc {
             await Client4.unlinkLdapGroup(key);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(batchActions([
-                {type: AdminTypes.UNLINK_LDAP_GROUP_FAILURE, error, data: key},
-                logError(error),
-            ]));
+            dispatch({type: AdminTypes.UNLINK_LDAP_GROUP_FAILURE, error, data: key});
+            dispatch(logError(error));
             return {error};
         }
 
@@ -467,14 +469,12 @@ export function getAnalytics(name: string, teamId = ''): ActionFunc {
             data = await Client4.getAnalytics(name, teamId);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(batchActions([
-                {type: AdminTypes.GET_ANALYTICS_FAILURE, error},
-                logError(error),
-            ]));
+            dispatch({type: AdminTypes.GET_ANALYTICS_FAILURE, error});
+            dispatch(logError(error));
             return {error};
         }
 
-        const actions: Action[] = [{type: AdminTypes.GET_ANALYTICS_SUCCESS, data: null}];
+        const actions: AnyAction[] = [{type: AdminTypes.GET_ANALYTICS_SUCCESS, data: null}];
         if (teamId === '') {
             actions.push({type: AdminTypes.RECEIVED_SYSTEM_ANALYTICS, data, name});
         } else {
@@ -516,10 +516,8 @@ export function uploadPlugin(fileData: File, force = false): ActionFunc {
             data = await Client4.uploadPlugin(fileData, force);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(batchActions([
-                {type: AdminTypes.UPLOAD_PLUGIN_FAILURE, error},
-                logError(error),
-            ]));
+            dispatch({type: AdminTypes.UPLOAD_PLUGIN_FAILURE, error});
+            dispatch(logError(error));
             return {error};
         }
 
@@ -540,10 +538,8 @@ export function installPluginFromUrl(url: string, force = false): ActionFunc {
             data = await Client4.installPluginFromUrl(url, force);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(batchActions([
-                {type: AdminTypes.INSTALL_PLUGIN_FROM_URL_FAILURE, error},
-                logError(error),
-            ]));
+            dispatch({type: AdminTypes.INSTALL_PLUGIN_FROM_URL_FAILURE, error});
+            dispatch(logError(error));
             return {error};
         }
 
@@ -579,10 +575,8 @@ export function removePlugin(pluginId: string): ActionFunc {
             await Client4.removePlugin(pluginId);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(batchActions([
-                {type: AdminTypes.REMOVE_PLUGIN_FAILURE, error, data: pluginId},
-                logError(error),
-            ]));
+            dispatch({type: AdminTypes.REMOVE_PLUGIN_FAILURE, error, data: pluginId});
+            dispatch(logError(error));
             return {error};
         }
 
@@ -605,10 +599,9 @@ export function enablePlugin(pluginId: string): ActionFunc {
             await Client4.enablePlugin(pluginId);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(batchActions([
-                {type: AdminTypes.ENABLE_PLUGIN_FAILURE, error, data: pluginId},
-                logError(error),
-            ]));
+            dispatch(
+                {type: AdminTypes.ENABLE_PLUGIN_FAILURE, error, data: pluginId});
+            dispatch(logError(error));
             return {error};
         }
 
@@ -629,10 +622,9 @@ export function disablePlugin(pluginId: string): ActionFunc {
             await Client4.disablePlugin(pluginId);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(batchActions([
-                {type: AdminTypes.DISABLE_PLUGIN_FAILURE, error, data: pluginId},
-                logError(error),
-            ]));
+            dispatch(
+                {type: AdminTypes.DISABLE_PLUGIN_FAILURE, error, data: pluginId});
+            dispatch(logError(error));
             return {error};
         }
 
@@ -953,4 +945,17 @@ export function removeDataRetentionCustomPolicyChannels(id: string, channels: st
 
         return {data};
     };
+}
+
+export function completeSetup(completeSetup: CompleteOnboardingRequest): ActionFunc {
+    return bindClientFunc({
+        clientFunc: Client4.completeSetup,
+        params: [completeSetup],
+    });
+}
+
+export function getAppliedSchemaMigrations(): ActionFunc {
+    return bindClientFunc({
+        clientFunc: Client4.getAppliedSchemaMigrations,
+    });
 }

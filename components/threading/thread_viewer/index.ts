@@ -10,13 +10,14 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getPost, makeGetPostIdsForThread} from 'mattermost-redux/selectors/entities/posts';
 import {getThread} from 'mattermost-redux/selectors/entities/threads';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
 
-import {removePost, getPostThread} from 'mattermost-redux/actions/posts';
+import {removePost, getNewestPostThread, getPostThread} from 'mattermost-redux/actions/posts';
 import {getThread as fetchThread, updateThreadRead} from 'mattermost-redux/actions/threads';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {UserThread} from 'mattermost-redux/types/threads';
-import {Channel} from 'mattermost-redux/types/channels';
+import {UserThread} from '@mattermost/types/threads';
+import {Channel} from '@mattermost/types/channels';
 
 import {getSocketStatus} from 'selectors/views/websocket';
 import {selectPostCard} from 'actions/views/rhs';
@@ -56,6 +57,7 @@ function makeMapStateToProps() {
 
         return {
             isCollapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
+            appsEnabled: appsEnabled(state),
             currentUserId,
             currentTeamId,
             userThread,
@@ -72,13 +74,14 @@ function makeMapStateToProps() {
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
-            removePost,
-            getPostThread,
-            selectPostCard,
-            getThread: fetchThread,
-            updateThreadRead,
-            updateThreadLastOpened,
             fetchRHSAppsBindings,
+            getNewestPostThread,
+            getPostThread,
+            getThread: fetchThread,
+            removePost,
+            selectPostCard,
+            updateThreadLastOpened,
+            updateThreadRead,
         }, dispatch),
     };
 }

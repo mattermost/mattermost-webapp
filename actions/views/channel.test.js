@@ -22,8 +22,8 @@ jest.mock('utils/browser_history', () => ({
     },
 }));
 
-jest.mock('utils/channel_utils.jsx', () => {
-    const original = jest.requireActual('utils/channel_utils.jsx');
+jest.mock('utils/channel_utils.tsx', () => {
+    const original = jest.requireActual('utils/channel_utils.tsx');
 
     return {
         ...original,
