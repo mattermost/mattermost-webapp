@@ -112,7 +112,7 @@ exports[`components/activity_and_insights/insights/top_channels should match sna
                   "hoverBackgroundColor": "#1c58d9",
                   "label": "nesciunt",
                   "pointBackgroundColor": "#1c58d9",
-                  "pointBorderColor": "#1c58d9",
+                  "pointBorderColor": "transparent",
                   "pointRadius": 0,
                 },
                 Object {
@@ -132,18 +132,18 @@ exports[`components/activity_and_insights/insights/top_channels should match sna
                   "hoverBackgroundColor": "#3db887",
                   "label": "test",
                   "pointBackgroundColor": "#3db887",
-                  "pointBorderColor": "#3db887",
+                  "pointBorderColor": "transparent",
                   "pointRadius": 0,
                 },
               ],
               "labels": Array [
-                "2022-05-01",
-                "2022-05-02",
-                "2022-05-03",
-                "2022-05-04",
-                "2022-05-05",
-                "2022-05-06",
-                "2022-05-07",
+                "May 01",
+                "May 02",
+                "May 03",
+                "May 04",
+                "May 05",
+                "May 06",
+                "May 07",
               ],
             }
           }
@@ -163,6 +163,9 @@ exports[`components/activity_and_insights/insights/top_channels should match sna
                     },
                     "ticks": Object {
                       "callback": [Function],
+                      "fontColor": "rgba(63,67,80,0.72)",
+                      "fontFamily": "Open Sans",
+                      "fontSize": 10,
                     },
                   },
                 ],
@@ -173,13 +176,17 @@ exports[`components/activity_and_insights/insights/top_channels should match sna
                     },
                     "ticks": Object {
                       "beginAtZero": true,
+                      "fontColor": "rgba(63,67,80,0.72)",
+                      "fontFamily": "Open Sans",
+                      "fontSize": 10,
                       "maxTicksLimit": 5,
                     },
                   },
                 ],
               },
               "tooltips": Object {
-                "bodyAlign": "center",
+                "bodyAlign": "left",
+                "bodyFontFamily": "Open Sans",
                 "bodyFontStyle": "bold",
                 "bodySpacing": 10,
                 "callbacks": Object {
@@ -188,8 +195,12 @@ exports[`components/activity_and_insights/insights/top_channels should match sna
                   "title": [Function],
                 },
                 "footerAlign": "center",
+                "footerFontColor": "rgba(255, 255, 255, .64)",
+                "footerFontFamily": "Open Sans",
                 "footerFontSize": 11,
+                "footerFontStyle": "normal",
                 "footerSpacing": 10,
+                "multiKeyBackground": "transparent",
               },
             }
           }
@@ -224,13 +235,13 @@ exports[`components/activity_and_insights/insights/top_channels should match sna
                 <canvas
                   data-labels={
                     Array [
-                      "2022-05-01",
-                      "2022-05-02",
-                      "2022-05-03",
-                      "2022-05-04",
-                      "2022-05-05",
-                      "2022-05-06",
-                      "2022-05-07",
+                      "May 01",
+                      "May 02",
+                      "May 03",
+                      "May 04",
+                      "May 05",
+                      "May 06",
+                      "May 07",
                     ]
                   }
                   data-testid="totalPostsPerChannel"
