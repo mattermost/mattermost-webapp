@@ -99,6 +99,11 @@ export default class AtMentionProvider extends Provider {
         return groupSuggestions;
     }
 
+    // normalizeSuggestions removes accents from strings to match ascii encoding
+    normalizeSuggestions(name) {
+        return name.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    }
+
     // filterProfile constrains profiles to those matching the latest prefix.
     filterProfile(profile) {
         if (!profile) {
@@ -108,7 +113,7 @@ export default class AtMentionProvider extends Provider {
         const prefixLower = this.latestPrefix.toLowerCase();
         const profileSuggestions = this.getProfileSuggestions(profile);
         return profileSuggestions.some((suggestion) =>
-            suggestion.normalize('NFD').replace(/[\u0300-\u036f]/g, '').startsWith(prefixLower),
+            this.normalizeSuggestions(suggestion).startsWith(this.normalizeSuggestions(prefixLower)),
         );
     }
 
