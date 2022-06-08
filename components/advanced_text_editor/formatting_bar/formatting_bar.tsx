@@ -4,7 +4,7 @@
 import classNames from 'classnames';
 import React, {memo, useCallback, useEffect, useRef, useState} from 'react';
 import styled from 'styled-components';
-import {usePopper} from 'react-popper';
+import {useFloating, offset, autoUpdate} from '@floating-ui/react-dom';
 import {CSSTransition} from 'react-transition-group';
 import {DotsHorizontalIcon} from '@mattermost/compass-icons/components';
 
@@ -13,7 +13,7 @@ import ToggleFormattingBar from '../toggle_formatting_bar/toggle_formatting_bar'
 
 import FormattingIcon, {IconContainer} from './formatting_icon';
 
-import {useFormattingBarControls, useGetLatest, useUpdateOnVisibilityChange} from './hooks';
+import {useFormattingBarControls, useGetLatest} from './hooks';
 
 /** eslint-disable no-confusing-arrow */
 
@@ -59,8 +59,9 @@ const HiddenControlsContainer = styled.div`
         background: var(--center-channel-bg);
         z-index: 2;
 
-        transition: transform 0.25s ease, opacity 0.25s ease;
+        transition: transform 250ms ease, opacity 250ms ease;
         transform: scale(0);
+        opacity: 0;
         display: flex;
 
         &.scale-enter {
@@ -146,28 +147,32 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
         toggleAdvanceTextEditor,
     } = props;
     const [showHiddenControls, setShowHiddenControls] = useState(false);
-    const popperRef = React.useRef<HTMLDivElement | null>(null);
-    const triggerRef = useRef<HTMLButtonElement>(null);
     const formattingBarRef = useRef<HTMLDivElement>(null);
     const {controls, hiddenControls, wideMode} = useFormattingBarControls(formattingBarRef);
+
+    const {x, y, reference, floating, strategy, refs: {reference: buttonRef, floating: floatingRef}} = useFloating<HTMLButtonElement>({
+        placement: 'top',
+        middleware: [offset({mainAxis: 10})],
+        whileElementsMounted: autoUpdate,
+    });
 
     // this little helper hook always returns the latest refs and does not mess with the popper placement calculation
     const getLatest = useGetLatest({
         showHiddenControls,
-        triggerRef,
-        popperRef,
+        buttonRef,
+        floatingRef,
     });
 
     useEffect(() => {
         const handleClickOutside: EventListener = (event) => {
-            const {popperRef, triggerRef} = getLatest();
+            const {floatingRef, buttonRef} = getLatest();
             const target = event.composedPath?.()?.[0] || event.target;
             if (target instanceof Node) {
                 if (
-                    popperRef != null &&
-                    triggerRef != null &&
-                    !popperRef.current?.contains(target) &&
-                    !triggerRef.current?.contains(target)
+                    floatingRef !== null &&
+                    buttonRef !== null &&
+                    !floatingRef.current?.contains(target) &&
+                    !buttonRef.current?.contains(target)
                 ) {
                     setShowHiddenControls(false);
                 }
@@ -184,22 +189,6 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
             setShowHiddenControls(false);
         }
     }, [isOpen]);
-
-    const {
-        styles: {popper},
-        attributes,
-        update,
-    } = usePopper(triggerRef.current, popperRef.current, {
-        placement: 'top',
-        modifiers: [
-            {
-                name: 'offset',
-                options: {offset: [0, 4]},
-            },
-        ],
-    });
-
-    useUpdateOnVisibilityChange(update, showHiddenControls);
 
     const hasHiddenControls = wideMode !== 'wide';
 
@@ -272,7 +261,7 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
             {hasHiddenControls && showFormattingControls && (
                 <>
                     <IconContainer
-                        ref={triggerRef}
+                        ref={reference}
                         className={classNames({active: showHiddenControls})}
                         onClick={closeHiddenControls}
                     >
@@ -285,14 +274,17 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
                 </>
             )}
             <HiddenControlsContainer
-                ref={popperRef}
-                style={{...popper, zIndex: 2}}
-                {...attributes.popper}
+                ref={floating}
+                style={{
+                    position: strategy,
+                    top: y ?? 0,
+                    left: x ?? 0,
+                    zIndex: 20,
+                }}
             >
                 <CSSTransition
                     timeout={250}
                     classNames='scale'
-                    unmountOnExit={true}
                     in={showHiddenControls}
                 >
                     <div>
