@@ -152,9 +152,9 @@ export function getFilesUsage(): ActionFunc {
         try {
             const result = await Client4.getFilesUsage();
 
-            // match limit notation in bits
-            const inBits = result.bytes * 8;
             if (result) {
+                // match limit notation in bits
+                const inBits = result.bytes * 8;
                 dispatch({
                     type: CloudTypes.RECEIVED_FILES_USAGE,
                     data: inBits,
