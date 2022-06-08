@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React, {PureComponent} from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import {defineMessages, FormattedMessage, injectIntl} from 'react-intl';
 import classNames from 'classnames';
@@ -449,8 +448,7 @@ export class FileUpload extends PureComponent {
             return;
         }
 
-        const target = this.props.getTarget();
-        const textarea = ReactDOM.findDOMNode(target);
+        const textarea = this.props.getTarget();
         if (!this.containsEventTarget(textarea, e.target)) {
             return;
         }
