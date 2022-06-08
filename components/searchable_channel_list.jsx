@@ -13,7 +13,6 @@ import * as UserAgent from 'utils/user_agent';
 import {localizeMessage} from 'utils/utils';
 import LocalizedInput from 'components/localized_input/localized_input';
 
-import ArchiveIcon from 'components/widgets/icons/archive_icon';
 import SharedChannelIndicator from 'components/shared_channel_indicator';
 
 import {t} from 'utils/i18n';
@@ -69,7 +68,7 @@ export default class SearchableChannelList extends React.PureComponent {
         if (shouldShowArchivedChannels) {
             archiveIcon = (
                 <div className='more-modal__icon-container'>
-                    <ArchiveIcon className='icon icon__archive'/>
+                    <i className='icon icon-archive-outline'/>
                 </div>
             );
         }
