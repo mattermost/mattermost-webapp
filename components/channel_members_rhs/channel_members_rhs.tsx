@@ -111,7 +111,7 @@ export default function ChannelMembersRHS({
 
     const doSearch = useCallback(debounce(async (terms: string) => {
         await actions.searchProfilesAndChannelMembers(terms, {in_team_id: channel.team_id, in_channel_id: channel.id});
-    }, 500), [actions.searchProfilesAndChannelMembers]);
+    }, Constants.SEARCH_TIMEOUT_MILLISECONDS), [actions.searchProfilesAndChannelMembers]);
 
     useEffect(() => {
         if (searchTerms) {
