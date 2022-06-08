@@ -117,6 +117,7 @@ export default class Root extends React.PureComponent {
             emitBrowserWindowResized: PropTypes.func.isRequired,
             getFirstAdminSetupComplete: PropTypes.func.isRequired,
             getProfiles: PropTypes.func.isRequired,
+            migrateRecentEmojis: PropTypes.func.isRequired,
             loadConfigAndMe: PropTypes.func.isRequired,
             savePreferences: PropTypes.func.isRequired,
         }).isRequired,
@@ -244,6 +245,7 @@ export default class Root extends React.PureComponent {
             }
         });
 
+        this.props.actions.migrateRecentEmojis();
         loadRecentlyUsedCustomEmojis()(store.dispatch, store.getState);
 
         const iosDownloadLink = getConfig(store.getState()).IosAppDownloadLink;
