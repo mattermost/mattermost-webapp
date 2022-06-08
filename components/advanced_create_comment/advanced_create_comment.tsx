@@ -178,7 +178,6 @@ type Props = {
     savePreferences: (userId: string, preferences: PreferenceType[]) => ActionResult;
     useCustomGroupMentions: boolean;
     emojiMap: EmojiMap;
-    markdownPreviewFeatureIsEnabled: boolean;
     isFormattingBarHidden: boolean;
 }
 
