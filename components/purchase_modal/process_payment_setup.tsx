@@ -198,7 +198,7 @@ class ProcessPaymentSetup extends React.PureComponent<Props, State> {
         const title = (
             <FormattedMessage
                 id={'admin.billing.subscription.upgradedSuccess'}
-                defaultMessage={'You\'ve are now upgraded to {productName}'}
+                defaultMessage={'You\'re are now upgraded to {productName}'}
                 values={{productName}}
             />
         );
