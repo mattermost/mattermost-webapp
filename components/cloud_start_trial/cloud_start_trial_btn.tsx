@@ -140,6 +140,9 @@ const CloudStartTrialButton = ({
         }
     };
     const startCloudTrial = async () => {
+        if (status !== TrialLoadStatus.NotStarted) {
+            return;
+        }
         const updatedStatus = await requestStartTrial();
 
         await openTrialBenefitsModal(updatedStatus);
@@ -156,7 +159,7 @@ const CloudStartTrialButton = ({
         <button
             className={`CloudStartTrialButton ${extraClass}`}
             onClick={startCloudTrial}
-            disabled={disabled}
+            disabled={disabled || status === TrialLoadStatus.Failed}
         >
             {btnText(status)}
         </button>
