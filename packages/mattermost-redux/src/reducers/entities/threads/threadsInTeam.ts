@@ -3,9 +3,9 @@
 
 import {ChannelTypes, PostTypes, TeamTypes, ThreadTypes, UserTypes} from 'mattermost-redux/action_types';
 import type {GenericAction} from 'mattermost-redux/types/actions';
-import type {Team} from '@mattermost-redux/types/teams';
-import type {ThreadsState, UserThread} from '@mattermost-redux/types/threads';
-import type {IDMappedObjects, RelationOneToMany} from '@mattermost-redux/types/utilities';
+import type {Team} from 'mattermost-redux/types/teams';
+import type {ThreadsState, UserThread} from 'mattermost-redux/types/threads';
+import type {IDMappedObjects, RelationOneToMany} from 'mattermost-redux/types/utilities';
 
 import type {ExtraData} from './types';
 
