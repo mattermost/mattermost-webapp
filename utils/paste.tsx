@@ -2,6 +2,13 @@
 // See LICENSE.txt for license information.
 import {splitMessageBasedOnCaretPosition} from 'utils/post_utils';
 
+type FormatCodeOptions = {
+    message: string;
+    clipboardData: DataTransfer;
+    selectionStart: number | null;
+    selectionEnd: number | null;
+};
+
 export function parseTable(html: string): HTMLTableElement | null {
     return new DOMParser().parseFromString(html, 'text/html').querySelector('table');
 }
@@ -42,8 +49,7 @@ export function isGitHubCodeBlock(tableClassName: string): boolean {
 
 function columnText(column: Element): string {
     const noBreakSpace = '\u00A0';
-    const text = column.textContent == null ?
-        noBreakSpace : column.textContent.trim().replace(/\|/g, '\\|').replace(/\n/g, ' ');
+    const text = column.textContent == null ? noBreakSpace : column.textContent.trim().replace(/\|/g, '\\|').replace(/\n/g, ' ');
     return text;
 }
 
@@ -74,14 +80,16 @@ export function formatMarkdownTableMessage(table: HTMLTableElement, message?: st
     return newMessage.join('\n');
 }
 
-export function formatGithubCodePaste(caretPosition: number, message: string, clipboardData: DataTransfer, messageSelected: boolean | null): {formattedMessage: string; formattedCodeBlock: string} {
-    const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition(caretPosition, message);
+export function formatGithubCodePaste({message, clipboardData, selectionStart, selectionEnd}: FormatCodeOptions): {formattedMessage: string; formattedCodeBlock: string} {
+    // todo make null checks for selection start and end
+    const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition(selectionStart, selectionEnd, message);
+    const messageSelected = selectionStart !== selectionEnd;
 
     // Add new lines if content exists before or after the cursor.
     const requireStartLF = (firstPiece === '' || messageSelected) ? '' : '\n';
     const requireEndLF = (lastPiece === '' || messageSelected) ? '' : '\n';
     const formattedCodeBlock = requireStartLF + '```\n' + getPlainText(clipboardData) + '\n```' + requireEndLF;
-    const formattedMessage =  messageSelected ? formattedCodeBlock : `${firstPiece}${formattedCodeBlock}${lastPiece}`;
+    const formattedMessage = `${firstPiece}${formattedCodeBlock}${lastPiece}`;
 
     return {formattedMessage, formattedCodeBlock};
 }

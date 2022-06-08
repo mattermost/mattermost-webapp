@@ -552,9 +552,9 @@ export function createAriaLabelForPost(post: Post, author: string, isFlagged: bo
 }
 
 // Splits text message based on the current caret position
-export function splitMessageBasedOnCaretPosition(caretPosition: number, message: string): {firstPiece: string; lastPiece: string} {
-    const firstPiece = message.substring(0, caretPosition);
-    const lastPiece = message.substring(caretPosition, message.length);
+export function splitMessageBasedOnCaretPosition(selectionStart: number, selectionEnd: number, message: string): {firstPiece: string; lastPiece: string} {
+    const firstPiece = message.substring(0, selectionStart);
+    const lastPiece = message.substring(selectionEnd, message.length);
     return {firstPiece, lastPiece};
 }
 
