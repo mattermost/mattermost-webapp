@@ -499,7 +499,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                             <PlanLabel
                                 text={formatMessage({id: 'pricing_modal.planLabel.mostPopular', defaultMessage: 'MOST POPULAR'})}
                                 bgColor='var(--title-color-indigo-500)'
-                                color='var(--center-channel-bg)'
+                                color='var(--button-color)'
                                 firstSvg={<StarMarkSvg/>}
                                 secondSvg={<StarMarkSvg/>}
                             />) : undefined}
