@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 import React, {memo, useMemo} from 'react';
 import {useSelector} from 'react-redux';
+import moment from 'moment';
 
 import {FormattedMessage, useIntl} from 'react-intl';
 
@@ -34,8 +35,8 @@ const TopChannelsLineChart = ({topChannels, timeFrame, channelLineChartData, tim
         const labels: any[] = Object.keys(channelLineChartData);
 
         for (let i = 0; i < labels.length; i++) {
+            const label = labels[i];
             if (timeFrame === TimeFrames.INSIGHTS_1_DAY) {``
-                const label = labels[i];
                 labels[i] = intl.formatTime(Date.parse(label), {
                     hour12: isMilitaryTime ? undefined : true,
                     hour: '2-digit',
@@ -44,7 +45,7 @@ const TopChannelsLineChart = ({topChannels, timeFrame, channelLineChartData, tim
                     timeZone: timeZone
                 });
             } else {
-                labels[i] = intl.formatDate(labels[i], {
+                labels[i] = intl.formatDate(moment.tz(label, timeZone).toDate(), {
                     month: 'short',
                     day: '2-digit',
                 });
