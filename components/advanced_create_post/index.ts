@@ -130,7 +130,6 @@ function makeMapStateToProps() {
             channelMemberCountsByGroup,
             isLDAPEnabled,
             useCustomGroupMentions,
-            markdownPreviewFeatureIsEnabled: isFeatureEnabled(Constants.PRE_RELEASE_FEATURES.MARKDOWN_PREVIEW, state),
         };
     };
 }

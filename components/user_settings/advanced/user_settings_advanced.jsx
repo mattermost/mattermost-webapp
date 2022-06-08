@@ -66,7 +66,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
         let enabledFeatures = 0;
         for (const as of advancedSettings) {
             for (const key of preReleaseFeaturesKeys) {
-                const feature = PreReleaseFeatures[key];
+                const feature = PreReleaseFeaturesLocal[key];
 
                 if (as.name === Constants.FeatureTogglePrefix + feature.label) {
                     settings[as.name] = as.value;

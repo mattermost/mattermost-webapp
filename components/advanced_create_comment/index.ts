@@ -113,7 +113,6 @@ function makeMapStateToProps() {
             useCustomGroupMentions,
             emojiMap: getEmojiMap(state),
             canUploadFiles: canUploadFiles(config),
-            markdownPreviewFeatureIsEnabled: isFeatureEnabled(Constants.PRE_RELEASE_FEATURES.MARKDOWN_PREVIEW, state),
         };
     };
 }
