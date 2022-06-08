@@ -5,7 +5,7 @@ import {ChannelTypes, PostTypes, TeamTypes, ThreadTypes, UserTypes} from 'matter
 import type {GenericAction} from 'mattermost-redux/types/actions';
 import type {Team} from '@mattermost/types/teams';
 import type {ThreadsState, UserThread} from '@mattermost/types/threads';
-import type {IDMappedObjects} from '@mattermost/types/utilities';
+import type {IDMappedObjects, RelationOneToMany} from '@mattermost/types/utilities';
 
 import type {ExtraData} from './types';
 
@@ -21,7 +21,7 @@ function shouldAddThreadId(ids: Array<UserThread['id']>, thread: UserThread, thr
     });
 }
 
-function handlePostRemoved(state: State, action: GenericAction) {
+function handlePostRemoved(state: State, action: GenericAction): State {
     const post = action.data;
     if (post.root_id) {
         return state;
@@ -34,7 +34,7 @@ function handlePostRemoved(state: State, action: GenericAction) {
         return state;
     }
 
-    const teamState: Partial<State> = {};
+    const teamState: RelationOneToMany<Team, UserThread> = {};
 
     for (let i = 0; i < teams.length; i++) {
         const teamId = teams[i];
