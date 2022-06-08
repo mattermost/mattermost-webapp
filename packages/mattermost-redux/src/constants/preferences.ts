@@ -208,6 +208,7 @@ const Preferences = {
             codeTheme: 'monokai',
         },
     } as Record<ThemeKey, Theme>,
+    RECENT_EMOJIS: 'recent_emojis',
 };
 
 export default Preferences;
