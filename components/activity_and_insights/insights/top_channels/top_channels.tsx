@@ -20,11 +20,11 @@ import WidgetEmptyState from '../widget_empty_state/widget_empty_state';
 import OverlayTrigger from 'components/overlay_trigger';
 
 import Tooltip from 'components/tooltip';
+import {getCurrentUserTimezone} from 'selectors/general';
 
 import TopChannelsLineChart from './top_channels_line_chart/top_channels_line_chart';
 
 import './../../activity_and_insights.scss';
-import {getCurrentUserTimezone} from 'selectors/general';
 
 const TopChannels = (props: WidgetHocProps) => {
     const dispatch = useDispatch();

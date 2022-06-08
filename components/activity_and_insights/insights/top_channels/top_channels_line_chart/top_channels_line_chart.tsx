@@ -36,13 +36,13 @@ const TopChannelsLineChart = ({topChannels, timeFrame, channelLineChartData, tim
 
         for (let i = 0; i < labels.length; i++) {
             const label = labels[i];
-            if (timeFrame === TimeFrames.INSIGHTS_1_DAY) {``
+            if (timeFrame === TimeFrames.INSIGHTS_1_DAY) {
                 labels[i] = intl.formatTime(Date.parse(label), {
                     hour12: isMilitaryTime ? undefined : true,
                     hour: '2-digit',
                     minute: '2-digit',
                     hourCycle: 'h23',
-                    timeZone: timeZone
+                    timeZone,
                 });
             } else {
                 labels[i] = intl.formatDate(moment.tz(label, timeZone).toDate(), {
