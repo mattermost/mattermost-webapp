@@ -112,7 +112,7 @@ export default function ChannelMembersRHS({
         async function doSearch() {
             if (searchTerms) {
                 actions.setEditChannelMembers(false);
-                await actions.searchProfilesAndChannelMembers(searchTerms, { in_team_id: channel.team_id, in_channel_id: channel.id });
+                await actions.searchProfilesAndChannelMembers(searchTerms, {in_team_id: channel.team_id, in_channel_id: channel.id});
                 actions.loadMyChannelMemberAndRole(channel.id);
             }
         }
