@@ -95,7 +95,7 @@ describe('components/activity_and_insights/insights/top_channels', () => {
                 '4r98uzxe4b8t5gfdsdfggsdfgs': 40,
             },
         },
-        timeZone: 'America/Toronto'
+        timeZone: 'America/Toronto',
     };
 
     const store = mockStore({
