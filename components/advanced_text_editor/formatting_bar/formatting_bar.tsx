@@ -152,7 +152,7 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
 
     const {x, y, reference, floating, strategy, refs: {reference: buttonRef, floating: floatingRef}} = useFloating<HTMLButtonElement>({
         placement: 'top',
-        middleware: [offset({mainAxis: 10})],
+        middleware: [offset({mainAxis: 4})],
         whileElementsMounted: autoUpdate,
     });
 
