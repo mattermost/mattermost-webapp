@@ -12,7 +12,7 @@ import type {AppBinding, AppCallRequest, AppCallResponse} from '@mattermost/type
 import {Audit} from '@mattermost/types/audits';
 import {UserAutocomplete, AutocompleteSuggestion} from '@mattermost/types/autocomplete';
 import {Bot, BotPatch} from '@mattermost/types/bots';
-import {Product, Subscription, CloudCustomer, Address, CloudCustomerPatch, Invoice, Limits, IntegrationsUsage} from '@mattermost/types/cloud';
+import {Product, SubscriptionResponse, CloudCustomer, Address, CloudCustomerPatch, Invoice, Limits, IntegrationsUsage} from '@mattermost/types/cloud';
 import {ChannelCategory, OrderedChannelCategories} from '@mattermost/types/channel_categories';
 import {
     Channel,
@@ -1666,9 +1666,9 @@ export default class Client4 {
         );
     };
 
-    getAllChannelsMembers = (userId: string) => {
+    getAllChannelsMembers = (userId: string, page = 0, perPage = PER_PAGE_DEFAULT) => {
         return this.doFetch<ChannelMembership[]>(
-            `${this.getUserRoute(userId)}/channel_members`,
+            `${this.getUserRoute(userId)}/channel_members${buildQueryString({page, per_page: perPage})}`,
             {method: 'get'},
         );
     };
@@ -3827,7 +3827,7 @@ export default class Client4 {
     }
 
     getSubscription = () => {
-        return this.doFetch<Subscription>(
+        return this.doFetch<SubscriptionResponse>(
             `${this.getCloudRoute()}/subscription`,
             {method: 'get'},
         );

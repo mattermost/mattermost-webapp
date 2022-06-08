@@ -64,6 +64,11 @@ export const InviteTypes = {
     INVITE_GUEST: 'guest',
 };
 
+export const PreviousViewedTypes = {
+    CHANNELS: 'channels',
+    THREADS: 'threads',
+};
+
 export const Preferences = {
     CATEGORY_CHANNEL_OPEN_TIME: 'channel_open_time',
     CATEGORY_DIRECT_CHANNEL_SHOW: 'direct_channel_show',
@@ -130,6 +135,7 @@ export const Preferences = {
     // A/B test preference value
     AB_TEST_PREFERENCE_VALUE: 'ab_test_preference_value',
 
+    RECENT_EMOJIS: 'recent_emojis',
     ONBOARDING: 'onboarding',
     ADVANCED_TEXT_EDITOR: 'advanced_text_editor',
 };
@@ -282,6 +288,8 @@ export const ActionTypes = keyMirror({
     UNSUPPRESS_RHS: null,
 
     FIRST_CHANNEL_NAME: null,
+
+    SET_EDIT_CHANNEL_MEMBERS: null,
 });
 
 export const PostRequestTypes = keyMirror({
@@ -405,7 +413,11 @@ export const EventTypes = Object.assign(
 );
 
 export const CloudProducts = {
-    STARTER_LEGACY: 'cloud-starter-legacy',
+
+    // STARTER sku is used by both free cloud starter
+    // and paid cloud starter (legacy cloud starter).
+    // Where differentiation is needed, check whether any limits are applied.
+    // If none are applied, it must be legacy cloud starter.
     STARTER: 'cloud-starter',
     PROFESSIONAL: 'cloud-professional',
     ENTERPRISE: 'cloud-enterprise',
@@ -1937,6 +1949,20 @@ export const InsightsCardTitles = {
             defaultMessage: 'Reactions I\'ve used the most',
         },
     },
+};
+
+// TODO: Remove after last legacy free products are migrated
+// (months after freemium is launched)
+// Hard coding product ids is a bad practice in general.
+// We do it here because these are legacy (we aren't making more),
+// there aren't that many,
+// and we would rather simplify some logic subscription logic now
+// so that we don't have to add confusing data to subscriptions
+// such as the new free plan having is_paid_tier=true
+// even though it is free and not paid.
+export const LegacyFreeProductIds: Record<string, true> = {
+    prod_HyiHEAVKW5bYG3: true,
+    prod_Hm2oYaBiRSISL2: true,
 };
 
 export default Constants;

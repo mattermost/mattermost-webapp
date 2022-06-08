@@ -10,8 +10,9 @@ import {FormattedMessage} from 'react-intl';
 import {useFirstAdminUser, useIsCurrentUserSystemAdmin} from 'components/global_header/hooks';
 
 import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
-import {getBool} from 'mattermost-redux/selectors/entities/preferences';
-import {savePreferences} from 'mattermost-redux/actions/preferences';
+import {getShowTaskListBool} from 'selectors/onboarding';
+import {getBool, getMyPreferences as getMyPreferencesSelector} from 'mattermost-redux/selectors/entities/preferences';
+import {getMyPreferences, savePreferences} from 'mattermost-redux/actions/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {trackEvent} from 'actions/telemetry_actions';
 import checklistImg from 'images/onboarding-checklist.svg';
@@ -24,6 +25,8 @@ import {useHandleOnBoardingTaskTrigger} from 'components/onboarding_tasks/onboar
 import {openModal} from 'actions/views/modals';
 import {GlobalState} from 'types/store';
 import OnBoardingVideoModal from 'components/onboarding_tasks/onboarding_video_modal/onboarding_video_modal';
+
+import {Preferences, RecommendedNextStepsLegacy} from 'utils/constants';
 
 import {TaskListPopover} from './onboarding_tasklist_popover';
 import {Task} from './onboarding_tasklist_task';
@@ -154,9 +157,14 @@ const Skeleton = styled.div`
     position: relative;
 `;
 
-const OnBoardingTaskList = (): JSX.Element => {
+const OnBoardingTaskList = (): JSX.Element | null => {
+    const myPreferences = useSelector((state: GlobalState) => getMyPreferencesSelector(state));
+
     useEffect(() => {
         dispatch(getPrevTrialLicense());
+        if (Object.keys(myPreferences).length === 0) {
+            dispatch(getMyPreferences());
+        }
     }, []);
 
     const open = useSelector(((state: GlobalState) => getBool(state, OnboardingTaskCategory, OnboardingTaskList.ONBOARDING_TASK_LIST_OPEN)));
@@ -170,11 +178,44 @@ const OnBoardingTaskList = (): JSX.Element => {
     const itemsLeft = tasksList.length - completedCount;
     const isCurrentUserSystemAdmin = useIsCurrentUserSystemAdmin();
     const isFirstAdmin = useFirstAdminUser();
+    const [showTaskList, firstTimeOnboarding] = useSelector(getShowTaskListBool);
 
     const startTask = (taskName: string) => {
         toggleTaskList();
         handleTaskTrigger(taskName);
     };
+
+    const initOnboardingPrefs = async () => {
+        // save to preferences the show/open-task-list to true
+        // also save the recomendedNextSteps-hide to true to avoid asserting to true
+        // the logic to firstTimeOnboarding
+        await dispatch(savePreferences(currentUserId, [
+            {
+                category: OnboardingTaskCategory,
+                user_id: currentUserId,
+                name: OnboardingTaskList.ONBOARDING_TASK_LIST_SHOW,
+                value: 'true',
+            },
+            {
+                user_id: currentUserId,
+                category: OnboardingTaskCategory,
+                name: OnboardingTaskList.ONBOARDING_TASK_LIST_OPEN,
+                value: 'true',
+            },
+            {
+                user_id: currentUserId,
+                category: Preferences.RECOMMENDED_NEXT_STEPS,
+                name: RecommendedNextStepsLegacy.HIDE,
+                value: 'true',
+            },
+        ]));
+    };
+
+    useEffect(() => {
+        if (firstTimeOnboarding) {
+            initOnboardingPrefs();
+        }
+    }, [firstTimeOnboarding]);
 
     // Done to show task done animation in closed state as well
     useEffect(() => {
@@ -230,6 +271,10 @@ const OnBoardingTaskList = (): JSX.Element => {
             dialogProps: {},
         }));
     }, []);
+
+    if (Object.keys(myPreferences).length === 0 || !showTaskList) {
+        return null;
+    }
 
     return (
         <>

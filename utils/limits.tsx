@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 import {FormatNumberOptions} from 'react-intl';
 
-import {CloudUsage} from '@mattermost/types/cloud';
+import {CloudUsage, Limits} from '@mattermost/types/cloud';
 
 import {FileSizes} from './file_utils';
 
@@ -37,6 +37,15 @@ export const fallbackStarterLimits = {
     },
 };
 
+// These are to be used when we need values
+// even if network requests are failing for some reason.
+// Use as a fallback.
+export const fallbackProfessionalLimits = {
+    files: {
+        totalStorage: FileSizes.Gigabyte * 250,
+    },
+};
+
 // A positive usage value means they are over the limit. This function simply tells you whether ANY LIMIT has been reached/surpassed.
 export function anyUsageDeltaExceededLimit(deltas: CloudUsage) {
     let foundAPositive = false;
@@ -49,6 +58,10 @@ export function anyUsageDeltaExceededLimit(deltas: CloudUsage) {
         }
     });
     return foundAPositive;
+}
+
+export function hasSomeLimits(limits: Limits): boolean {
+    return Object.keys(limits).length > 0;
 }
 
 export const limitThresholds = Object.freeze({

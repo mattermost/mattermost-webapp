@@ -37,6 +37,7 @@ import StarMarkSvg from 'components/widgets/icons/star_mark_icon';
 import PricingModal from 'components/pricing_modal';
 import PlanLabel from 'components/common/plan_label';
 import {ModalData} from 'types/actions';
+import {Theme} from 'mattermost-redux/types/themes';
 
 import {getNextBillingDate} from 'utils/utils';
 
@@ -81,9 +82,9 @@ type Props = {
     contactSupportLink: string;
     contactSalesLink: string;
     isFreeTrial: boolean;
-    isFreeTier: boolean;
     productId: string | undefined;
     intl: IntlShape;
+    theme: Theme;
     actions: {
         openModal: <P>(modalData: ModalData<P>) => void;
         closeModal: () => void;
@@ -152,8 +153,7 @@ function getSelectedProduct(products: Record<string, Product> | undefined, produ
 function Card(props: CardProps) {
     const seeHowBillingWorks = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         e.preventDefault();
-        const utcTimeStamp = new Date().toISOString();
-        trackEvent(TELEMETRY_CATEGORIES.CLOUD_ADMIN, 'click_see_how_billing_works', {utcTimeStamp, epochTimeStamp: Date.parse(utcTimeStamp)});
+        trackEvent(TELEMETRY_CATEGORIES.CLOUD_ADMIN, 'click_see_how_billing_works');
         window.open(CloudLinks.BILLING_DOCS, '_blank');
     };
     return (
@@ -254,8 +254,6 @@ class PurchaseModal extends React.PureComponent<Props, State> {
     }
 
     openPricingModal = () => {
-        const utcTimeStamp = new Date().toISOString();
-        trackEvent('cloud_admin', 'click_open_pricing_modal', {utcTimeStamp, epochTimeStamp: Date.parse(utcTimeStamp)});
         this.props.actions.openModal({
             modalId: ModalIdentifiers.PRICING_MODAL,
             dialogType: PricingModal,
@@ -265,7 +263,10 @@ class PurchaseModal extends React.PureComponent<Props, State> {
     comparePlan = (
         <button
             className='ml-1'
-            onClick={this.openPricingModal}
+            onClick={() => {
+                trackEvent('cloud_pricing', 'click_compare_plans');
+                this.openPricingModal();
+            }}
         >
             <FormattedMessage
                 id='cloud_subscribe.contact_support'
@@ -279,11 +280,9 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             <a
                 className='footer-text'
                 onClick={() => {
-                    const utcTimeStamp = new Date().toISOString();
                     trackEvent(
                         TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
                         'click_contact_sales',
-                        {utcTimeStamp, epochTimeStamp: Date.parse(utcTimeStamp)},
                     );
                 }}
                 href={this.props.contactSalesLink}
@@ -453,6 +452,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                         onInputChange={this.onPaymentInput}
                         onCardInputChange={this.handleCardInputChange}
                         initialBillingDetails={initialBillingDetails}
+                        theme={this.props.theme}
                     // eslint-disable-next-line react/jsx-closing-bracket-location
                     />
                     ) : (<div className='PaymentDetails'>
@@ -499,7 +499,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                             <PlanLabel
                                 text={formatMessage({id: 'pricing_modal.planLabel.mostPopular', defaultMessage: 'MOST POPULAR'})}
                                 bgColor='var(--title-color-indigo-500)'
-                                color='var(--center-channel-bg)'
+                                color='var(--button-color)'
                                 firstSvg={<StarMarkSvg/>}
                                 secondSvg={<StarMarkSvg/>}
                             />) : undefined}
