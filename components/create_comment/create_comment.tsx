@@ -14,7 +14,6 @@ import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 import * as GlobalActions from 'actions/global_actions';
 
 import Constants, {Locations, ModalIdentifiers} from 'utils/constants';
-import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils';
 import {
     specialMentionsInText,
@@ -682,8 +681,7 @@ class CreateComment extends React.PureComponent<Props, State> {
         }
 
         const fasterThanHumanWillClick = 150;
-        const forceFocus = (Date.now() - this.lastBlurAt < fasterThanHumanWillClick);
-        this.focusTextbox(forceFocus);
+        this.focusTextbox();
 
         const serverError = this.state.serverError;
         let ignoreSlash = false;
@@ -860,7 +858,7 @@ class CreateComment extends React.PureComponent<Props, State> {
 
             const {data: canEditNow} = this.props.onEditLatestPost();
             if (!canEditNow) {
-                this.focusTextbox(true);
+                this.focusTextbox();
             }
         }
 
@@ -1072,11 +1070,7 @@ class CreateComment extends React.PureComponent<Props, State> {
         return this.createCommentControlsRef.current;
     }
 
-    focusTextbox = (keepFocus = false) => {
-        if (this.textboxRef.current && (keepFocus || !UserAgent.isMobile())) {
-            this.textboxRef.current.focus();
-        }
-    }
+    focusTextbox = () => this.textboxRef.current?.focus();
 
     shouldEnableAddButton = () => {
         const {draft} = this.state;

@@ -13,7 +13,6 @@ import * as GlobalActions from 'actions/global_actions';
 
 import Constants, {AdvancedTextEditor, Locations, ModalIdentifiers, Preferences} from 'utils/constants';
 import {PreferenceType} from '@mattermost/types/preferences';
-import * as UserAgent from 'utils/user_agent';
 import {isMac} from 'utils/utils';
 import * as Utils from 'utils/utils';
 import {
@@ -617,8 +616,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         }
 
         const fasterThanHumanWillClick = 150;
-        const forceFocus = (Date.now() - this.lastBlurAt < fasterThanHumanWillClick);
-        this.focusTextbox(forceFocus);
+        this.focusTextbox();
 
         const serverError = this.state.serverError;
         let ignoreSlash = false;
@@ -779,7 +777,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
 
             const {data: canEditNow} = this.props.onEditLatestPost();
             if (!canEditNow) {
-                this.focusTextbox(true);
+                this.focusTextbox();
             }
         }
 
@@ -1008,11 +1006,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         }]);
     }
 
-    focusTextbox = (keepFocus = false) => {
-        if (this.textboxRef.current && (keepFocus || !UserAgent.isMobile())) {
-            this.textboxRef.current.focus();
-        }
-    }
+    focusTextbox = () => this.textboxRef.current?.focus();
 
     shouldEnableAddButton = () => {
         const {draft} = this.state;
