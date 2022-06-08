@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 
 import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
 import {Channel} from 'mattermost-redux/types/channels';
-import {getBool} from 'mattermost-redux/selectors/entities/preferences';
+import {getBool, getIsAdvancedTextEditorEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {patchChannel} from 'mattermost-redux/actions/channels';
 import {Preferences} from 'mattermost-redux/constants';
 import {Constants} from 'utils/constants';
@@ -19,8 +19,11 @@ import {showPreviewOnEditChannelHeaderModal} from 'selectors/views/textbox';
 import EditChannelHeaderModal from './edit_channel_header_modal';
 
 function mapStateToProps(state: GlobalState) {
+    const markdownPreview = isFeatureEnabled(Constants.PRE_RELEASE_FEATURES.MARKDOWN_PREVIEW, state);
+    const isAdvancedTextEditorEnabled = getIsAdvancedTextEditorEnabled(state);
+    const markdownPreviewFeatureIsEnabled = isAdvancedTextEditorEnabled ? true : markdownPreview;
     return {
-        markdownPreviewFeatureIsEnabled: isFeatureEnabled(Constants.PRE_RELEASE_FEATURES.MARKDOWN_PREVIEW, state),
+        markdownPreviewFeatureIsEnabled,
         shouldShowPreview: showPreviewOnEditChannelHeaderModal(state),
         ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
     };

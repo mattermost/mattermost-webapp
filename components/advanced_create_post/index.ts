@@ -58,7 +58,6 @@ import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import {openModal} from 'actions/views/modals';
 import {AdvancedTextEditor, Constants, Preferences, StoragePrefixes, UserStatuses} from 'utils/constants';
 import {canUploadFiles} from 'utils/file_utils';
-import {isFeatureEnabled} from 'utils/utils';
 import {OnboardingTourSteps, TutorialTourName} from 'components/onboarding_tour';
 
 import AdvancedCreatePost from './advanced_create_post';
@@ -130,7 +129,6 @@ function makeMapStateToProps() {
             channelMemberCountsByGroup,
             isLDAPEnabled,
             useCustomGroupMentions,
-            markdownPreviewFeatureIsEnabled: isFeatureEnabled(Constants.PRE_RELEASE_FEATURES.MARKDOWN_PREVIEW, state),
         };
     };
 }

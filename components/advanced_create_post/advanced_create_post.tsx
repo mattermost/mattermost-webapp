@@ -212,7 +212,6 @@ type Props = {
     channelMemberCountsByGroup: ChannelMemberCountsByGroup;
     useLDAPGroupMentions: boolean;
     useCustomGroupMentions: boolean;
-    markdownPreviewFeatureIsEnabled: boolean;
 }
 
 type State = {
