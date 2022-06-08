@@ -91,7 +91,7 @@ export function handleEmoticons(
 }
 
 export function renderEmoji(name: string, matchText: string): string {
-    return `<span data-emoticon="${name}">${matchText}</span>`;
+    return `<span data-emoticon="${name.toLowerCase()}">${matchText.toLowerCase()}</span>`;
 }
 
 // if an emoji
