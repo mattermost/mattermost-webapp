@@ -236,7 +236,7 @@ function Content(props: ContentProps) {
                         extraBriefing={{
                             title: formatMessage({id: 'pricing_modal.extra_briefing.title', defaultMessage: 'More features'}),
                             items: [
-                                formatMessage({id: 'pricing_modal.extra_briefing.starter.calls', defaultMessage: '1:1 audio calls and screen share'}),
+                                formatMessage({id: 'pricing_modal.extra_briefing.starter.calls', defaultMessage: '1:1 voice calls and screen share'}),
                             ],
                         }}
                         planExtraInformation={<StarterDisclaimerCTA/>}
