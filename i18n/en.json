@@ -5117,7 +5117,7 @@
   "widgets.users_emails_input.no_user_found_matching": "No one found matching **{text}**. Enter their email to invite them.",
   "widgets.users_emails_input.valid_email": "Add **{email}**",
   "workspace_limits.banner_upgrade_reason.professional": "Your workspace has exceeded the file storage limit for Professional. Upgrade to Enterprise for unlimited data usage.",
-  "workspace_limits.banner_upgrade_reason.starter": "Your workspace has exceeded {planName} plan data limits. Upgrade to one of our paid plans with no limits.",
+  "workspace_limits.banner_upgrade_reason.starter": "Your workspace has exceeded {planName} plan data limits. Upgrade to a paid plan for additional capacity.",
   "workspace_limits.banner_upgrade.professional": "Upgrade to Enterprise to avoid Professional plan file storage limit",
   "workspace_limits.banner_upgrade.starter": "Upgrade to one of our paid plans to avoid {planName} plan data limits",
   "workspace_limits.boards_cards": "Board cards per server",

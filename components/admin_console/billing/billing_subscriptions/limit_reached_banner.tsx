@@ -57,7 +57,7 @@ const LimitReachedBanner = (props: Props) => {
     let description = (
         <FormattedMessage
             id='workspace_limits.banner_upgrade_reason.starter'
-            defaultMessage='Your workspace has exceeded {planName} plan data limits. Upgrade to one of our paid plans with no limits.'
+            defaultMessage='Your workspace has exceeded {planName} plan data limits. Upgrade to a paid plan for additional capacity.'
             values={{
                 planName: props.product.name,
             }}
