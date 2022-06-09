@@ -7,7 +7,7 @@ import {Stripe} from '@stripe/stripe-js';
 import {FormattedMessage} from 'react-intl';
 
 import {BillingDetails} from 'types/cloud/sku';
-import {pageVisited} from 'actions/telemetry_actions';
+import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import {TELEMETRY_CATEGORIES} from 'utils/constants';
 
 import {t} from 'utils/i18n';
@@ -132,6 +132,7 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
 
     private completePayment = () => {
         clearInterval(this.intervalId);
+        trackEvent('cloud_admin', 'complete_payment_success');
         this.setState({state: ProcessState.SUCCESS, progress: 100});
     }
 

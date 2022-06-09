@@ -70,11 +70,15 @@ describe('components/Menu', () => {
             showFlaggedPosts: jest.fn(),
             closeRightHandSide: jest.fn(),
             closeRhsMenu: jest.fn(),
+            getCloudLimits: jest.fn(),
         },
         teamIsGroupConstrained: false,
         isCloud: false,
         subscription: {},
         userIsAdmin: true,
+        isCloudFreeEnabled: false,
+        isFreeTrial: false,
+        usageDeltaTeams: 1,
     };
 
     const defaultState = {
@@ -281,6 +285,30 @@ describe('components/Menu', () => {
             ...defaultProps,
             guestAccessEnabled: false,
             canInviteTeamMember: false,
+        };
+        const wrapper = getMainMenuWrapper(props);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with cloud free trial', () => {
+        const props = {
+            ...defaultProps,
+            isCloud: true,
+            isCloudFreeEnabled: true,
+            isFreeTrial: true,
+            usageDeltaTeams: -1,
+        };
+        const wrapper = getMainMenuWrapper(props);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with cloud free trial and team limit reached', () => {
+        const props = {
+            ...defaultProps,
+            isCloud: true,
+            isCloudFreeEnabled: true,
+            isFreeTrial: true,
+            usageDeltaTeams: 0,
         };
         const wrapper = getMainMenuWrapper(props);
         expect(wrapper).toMatchSnapshot();

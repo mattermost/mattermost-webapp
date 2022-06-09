@@ -158,6 +158,15 @@ export const getMyTeams: (state: GlobalState) => Team[] = createSelector(
     },
 );
 
+export const getMyDeletedTeams: (state: GlobalState) => Team[] = createSelector(
+    'getMyDeletedTeams',
+    getTeams,
+    getTeamMemberships,
+    (teams, members) => {
+        return Object.values(teams).filter((t) => members[t.id] && t.delete_at !== 0);
+    },
+);
+
 export const getMyTeamMember: (state: GlobalState, teamId: string) => TeamMembership = createSelector(
     'getMyTeamMember',
     getTeamMemberships,
