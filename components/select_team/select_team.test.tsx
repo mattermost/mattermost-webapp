@@ -126,4 +126,23 @@ describe('components/select_team/SelectTeam', () => {
         wrapper.instance().clearError({preventDefault: jest.fn()} as any);
         expect(wrapper.state('error')).toBeNull();
     });
+
+    test('should match snapshot, on create team restricted', () => {
+        const props = {
+            ...baseProps,
+            isCloud: true,
+            isCloudFreeEnabled: true,
+            usageDeltas: {
+                teams: {
+                    active: 0,
+                },
+            } as CloudUsage,
+        };
+
+        const wrapper = shallow<SelectTeam>(
+            <SelectTeam {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
 });
