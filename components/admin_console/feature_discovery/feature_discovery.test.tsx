@@ -4,6 +4,8 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {Subscription} from '@mattermost/types/cloud';
+
 import FeatureDiscovery from 'components/admin_console/feature_discovery/feature_discovery';
 
 import SamlSVG from './features/images/saml_svg';
@@ -28,6 +30,7 @@ describe('components/feature_discovery', () => {
                     hadPrevCloudTrial={false}
                     isCloudFreeEnabled={false}
                     isCloudFreePaidSubscription={false}
+                    subscription={{} as Subscription}
                     actions={{
                         requestTrialLicense: jest.fn(),
                         getLicenseConfig: jest.fn(),
@@ -54,6 +57,37 @@ describe('components/feature_discovery', () => {
                     isCloud={true}
                     isCloudTrial={false}
                     hadPrevCloudTrial={false}
+                    subscription={{} as Subscription}
+                    isCloudFreeEnabled={true}
+                    isCloudFreePaidSubscription={false}
+                    actions={{
+                        requestTrialLicense: jest.fn(),
+                        getLicenseConfig: jest.fn(),
+                        getPrevTrialLicense: jest.fn(),
+                        openModal: jest.fn(),
+                    }}
+                />,
+            );
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        test('should match snapshot when is cloud environment and subscription is not loaded yet in redux store', () => {
+            const wrapper = shallow(
+                <FeatureDiscovery
+                    featureName='test'
+                    titleID='translation.test.title'
+                    titleDefault='Foo'
+                    copyID='translation.test.copy'
+                    copyDefault={'Bar'}
+                    learnMoreURL='https://test.mattermost.com/secondary/'
+                    featureDiscoveryImage={<SamlSVG/>}
+                    // eslint-disable-next-line @typescript-eslint/naming-convention
+                    stats={{TOTAL_USERS: 20}}
+                    prevTrialLicense={{IsLicensed: 'false'}}
+                    isCloud={true}
+                    isCloudTrial={false}
+                    hadPrevCloudTrial={false}
+                    subscription={undefined}
                     isCloudFreeEnabled={true}
                     isCloudFreePaidSubscription={false}
                     actions={{

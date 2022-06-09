@@ -901,6 +901,8 @@
   "admin.feature_flags.flag_value": "Value",
   "admin.feature_flags.introBanner": "The following feature flag values show the status of features enabled on this instance. The values are used for debugging purposes by the Mattermost support team.",
   "admin.feature_flags.title": "Feature Flags",
+  "admin.featureDiscovery.WarningDescription": "Your License is being updated to give you full access to all the Enterprise Features. This page will automatically refresh once the license update is complete. Please wait ",
+  "admin.featureDiscovery.WarningTitle": "Your trial has started and updates are being made to your license.",
   "admin.field_names.allowBannerDismissal": "Allow banner dismissal",
   "admin.field_names.bannerColor": "Banner color",
   "admin.field_names.bannerText": "Banner text",
