@@ -2,23 +2,25 @@
     .modal {
         overflow: visible;
     }
+
     .modal-dialog {
         position: absolute;
         top: 50%;
         left: 50%;
         width: 600px;
         height: 404px;
+        border: none;
         margin: auto;
         transform: translate(-50%, -50%) !important;
-        border: none;
 
         .modal-content {
+            border: none;
             background-color: var(--center-channel-bg);
             border-radius: 12px;
-            border: none;
-            box-shadow: 0px 20px 32px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 20px 32px rgba(0, 0, 0, 0.12);
         }
     }
+
     .modal-header {
         height: 77px;
         min-height: 77px;
@@ -66,65 +68,69 @@
     }
 
     .modal-body {
-        border: none;
         padding: 26px 32px;
         padding-top: 0;
+        border: none;
         overflow-y: visible;
     }
 
     .DowngradeTeamRemovalModal__body {
         .DowngradeTeamRemovalModal__selectionSection {
             .radio {
-                font-weight: 400;
-                font-size: 12px;
                 margin-bottom: 16px;
+                font-size: 12px;
+                font-weight: 400;
             }
+
             .DropDown__menu {
-                overflow-y: scroll !important;
                 max-height: 130px;
+                overflow-y: scroll !important;
             }
         }
+
         .cta {
-            font-weight: bold;
             margin-top: 24px;
             margin-bottom: 16px;
+            font-weight: bold;
         }
+
         .warning {
             margin-top: 19px;
-            color: #D24B4E;
-            font-size: 11px;
             margin-bottom: 35px;
+            color: #d24b4e;
+            font-size: 11px;
             font-weight: 600;
             line-height: 16px;
         }
+
         .icon.icon-alert-outline::before {
             margin-left: 0;
         }
     }
 
     .DowngradeTeamRemovalModal__buttons {
-        float: right;
         border: none;
+        float: right;
 
         .btn.btn-light {
-            background: rgba(var(--denim-button-bg-rgb), 0.08);
             padding: 12px 20px;
-            color: #1C58D9;
+            background: rgba(var(--denim-button-bg-rgb), 0.08);
             border-radius: 4px;
-            font-weight: 600;
+            color: #1c58d9;
             font-size: 14px;
+            font-weight: 600;
             line-height: 14px;
         }
+
         .btn.btn-primary {
-            margin-left: 8px;
             padding: 12px 20px;
-            background: #1C58D9;
-            color: #FFF;
+            margin-left: 8px;
+            background: #1c58d9;
             border-radius: 4px;
-            font-weight: 600;
+            color: #fff;
             font-size: 14px;
+            font-weight: 600;
             line-height: 14px;
         }
     }
-
 }
