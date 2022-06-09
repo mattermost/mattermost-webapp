@@ -275,7 +275,7 @@ function Content(props: ContentProps) {
                                             modalId: ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM,
                                             dialogType: DownGradeTeamRemovalModal,
                                             dialogProps: {
-                                                sku: starterProduct?.id,
+                                                product_id: starterProduct?.id,
                                             },
                                         }),
                                     );

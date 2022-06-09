@@ -81,7 +81,7 @@
             }
             .DropDown__menu {
                 overflow-y: scroll !important;
-                z-index: 99999;
+                max-height: 130px;
             }
         }
         .cta {

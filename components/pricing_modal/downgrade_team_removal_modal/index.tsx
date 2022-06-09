@@ -3,7 +3,7 @@
 
 import React, {useEffect, useState} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
-import {noop, isEmpty} from 'lodash';
+import {isEmpty} from 'lodash';
 import {Modal} from 'react-bootstrap';
 
 import {useDispatch, useSelector} from 'react-redux';
@@ -26,8 +26,8 @@ import {subscribeCloudSubscription} from 'actions/cloud';
 import './downgrade_team_removal_modal.scss';
 
 type Props = {
-    onHide?: (teamToKeep: string) => void;
-    sku: string;
+    onHide?: () => void;
+    product_id: string;
 };
 
 function DownGradeTeamRemovalModal(props: Props) {
@@ -48,7 +48,10 @@ function DownGradeTeamRemovalModal(props: Props) {
     const usage = useGetUsage();
 
     const onHide = () => {
-        // dispatch(closeModal(ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM));
+        dispatch(closeModal(ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM));
+        if (typeof props.onHide === 'function') {
+            props.onHide();
+        }
     };
 
     const onConfirmDowngrade = async () => {
@@ -60,7 +63,7 @@ function DownGradeTeamRemovalModal(props: Props) {
         }
         dispatch(selectTeam(teamIdToKeep));
         await dispatch(archiveAllTeamsExcept(teamIdToKeep));
-        dispatch(subscribeCloudSubscription(props.sku));
+        dispatch(subscribeCloudSubscription(props.product_id));
         dispatch(
             openModal({
                 modalId: ModalIdentifiers.SUCCESS_MODAL,
@@ -119,14 +122,10 @@ function DownGradeTeamRemovalModal(props: Props) {
             className='DowngradeTeamRemovalModal'
             show={isCloudDowngradeChooseTeamModalOpen}
             id='downgradeTeamRemovalModal'
-            onExited={() => {
-                dispatch(
-                    closeModal(ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM),
-                );
-            }}
+            onExited={onHide}
             data-testid='downgradeTeamRemovalModal'
             dialogClassName='a11y__modal'
-            onHide={noop}
+            onHide={onHide}
             role='dialog'
             aria-modal='true'
             aria-labelledby='downgradeTeamRemovalModalTitle'
