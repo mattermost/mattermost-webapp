@@ -44,7 +44,7 @@
 *   by potential nesting of this element within Markdown link
 */
 .markdown-image-expand__expand-button {
-    display: inline-block;
+    display: inline-flex;
     padding: 0;
     border: none;
     background: transparent;
@@ -52,6 +52,7 @@
     color: rgba(var(--center-channel-color-rgb), 0.56);
     font-size: 18px;
     line-height: 18px;
+    width: 100%;
 
     &:hover {
         color: rgba(var(--center-channel-color-rgb), 0.72);
@@ -77,4 +78,8 @@
     display: inline-block;
     font-size: 12px;
     line-height: 16px;
+    text-overflow: ellipsis;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
 }
