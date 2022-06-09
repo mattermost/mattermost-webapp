@@ -235,6 +235,13 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
         }
     }, [getCurrentSelection, getCurrentMessage, applyMarkdown, showHiddenControls, closeHiddenControls, disableControls]);
 
+    const hiddenControlsContainerStyles: React.CSSProperties = {
+        position: strategy,
+        top: y ?? 0,
+        left: x ?? 0,
+        zIndex: 20,
+    };
+
     return (
         <FormattingBarContainer
             open={isOpen}
@@ -278,12 +285,7 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
             )}
             <HiddenControlsContainer
                 ref={floating}
-                style={{
-                    position: strategy,
-                    top: y ?? 0,
-                    left: x ?? 0,
-                    zIndex: 20,
-                }}
+                style={hiddenControlsContainerStyles}
             >
                 <CSSTransition
                     timeout={250}
