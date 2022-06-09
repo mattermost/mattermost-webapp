@@ -170,7 +170,7 @@ describe('PostAttachmentOpenGraph', () => {
     });
 });
 
-describe('PostAttachmenOpenGraphBody', () => {
+describe('PostAttachmentOpenGraphBody', () => {
     const baseProps = {
         title: 'test-title',
         sitename: 'test-sitename',
@@ -238,7 +238,7 @@ describe('PostAttachmenOpenGraphBody', () => {
     });
 });
 
-describe('PostAttachmenOpenGraphImage', () => {
+describe('PostAttachmentOpenGraphImage', () => {
     const baseProps = {
         imageMetadata: getBestImage(openGraphData),
         isInPermalink: false,
@@ -283,9 +283,9 @@ describe('PostAttachmenOpenGraphImage', () => {
             </Provider>,
         );
 
-        expect(wrapper.find('.PostAttachmenOpenGraph__image').exists()).toBe(true);
-        expect(wrapper.find('.PostAttachmenOpenGraph__image.large').exists()).toBe(true);
-        expect(wrapper.find('.PostAttachmenOpenGraph__image .preview-toggle').exists()).toBe(true);
+        expect(wrapper.find('.PostAttachmentOpenGraph__image').exists()).toBe(true);
+        expect(wrapper.find('.PostAttachmentOpenGraph__image.large').exists()).toBe(true);
+        expect(wrapper.find('.PostAttachmentOpenGraph__image .preview-toggle').exists()).toBe(true);
     });
 
     test('should render a small image without toggle', () => {
@@ -301,13 +301,13 @@ describe('PostAttachmenOpenGraphImage', () => {
             </Provider>,
         );
 
-        expect(wrapper.find('.PostAttachmenOpenGraph__image').exists()).toBe(true);
-        expect(wrapper.find('.PostAttachmenOpenGraph__image.large').exists()).toBe(false);
-        expect(wrapper.find('.PostAttachmenOpenGraph__image .preview-toggle').exists()).toBe(false);
+        expect(wrapper.find('.PostAttachmentOpenGraph__image').exists()).toBe(true);
+        expect(wrapper.find('.PostAttachmentOpenGraph__image.large').exists()).toBe(false);
+        expect(wrapper.find('.PostAttachmentOpenGraph__image .preview-toggle').exists()).toBe(false);
     });
 });
 
-describe('PostAttachmenOpenGraphBody', () => {
+describe('PostAttachmentOpenGraphBody', () => {
     const baseProps = {
         title: 'test_title',
         isInPermalink: false,

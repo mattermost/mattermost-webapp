@@ -1,6 +1,99 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PostAttachmenOpenGraphBody should match snapshot 1`] = `
+exports[`PostAttachmentOpenGraph should match snapshot 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(PostAttachmentOpenGraph)
+    actions={
+      Object {
+        "editPost": [MockFunction],
+      }
+    }
+    currentUserId="1234"
+    link="http://mattermost.com"
+    openGraphData={
+      Object {
+        "description": "description",
+        "images": Array [
+          Object {
+            "secure_url": "",
+            "url": "http://mattermost.com/OpenGraphImage.jpg",
+          },
+        ],
+        "site_name": "Mattermost",
+        "title": "Mattermost Private Cloud Messaging",
+      }
+    }
+    post={
+      Object {
+        "channel_id": "channel_id",
+        "create_at": 1,
+        "id": "post_id_1",
+        "message": "https://mattermost.com",
+        "metadata": Object {
+          "images": Object {
+            "http://mattermost.com/OpenGraphImage.jpg": Object {
+              "format": "png",
+              "frameCount": 0,
+              "height": 100,
+              "width": 100,
+            },
+          },
+        },
+        "root_id": "root_id",
+      }
+    }
+    postId=""
+    toggleEmbedVisibility={[MockFunction]}
+  >
+    <PostAttachmentOpenGraph
+      actions={
+        Object {
+          "editPost": [Function],
+        }
+      }
+      currentUserId="user-1"
+      enableLinkPreviews={true}
+      imageCollapsed={false}
+      link="http://mattermost.com"
+      post={
+        Object {
+          "channel_id": "channel_id",
+          "create_at": 1,
+          "id": "post_id_1",
+          "message": "https://mattermost.com",
+          "metadata": Object {
+            "images": Object {
+              "http://mattermost.com/OpenGraphImage.jpg": Object {
+                "format": "png",
+                "frameCount": 0,
+                "height": 100,
+                "width": 100,
+              },
+            },
+          },
+          "root_id": "root_id",
+        }
+      }
+      postId=""
+      previewEnabled={true}
+      toggleEmbedVisibility={[MockFunction]}
+    />
+  </Connect(PostAttachmentOpenGraph)>
+</Provider>
+`;
+
+exports[`PostAttachmentOpenGraphBody should match snapshot 1`] = `
 <Memo()
   description="test-description"
   isInPermalink={false}
@@ -8,7 +101,7 @@ exports[`PostAttachmenOpenGraphBody should match snapshot 1`] = `
   title="test-title"
 >
   <div
-    className="PostAttachmenOpenGraph__body"
+    className="PostAttachmentOpenGraph__body"
   >
     <span
       className="sitename"
@@ -29,7 +122,7 @@ exports[`PostAttachmenOpenGraphBody should match snapshot 1`] = `
 </Memo()>
 `;
 
-exports[`PostAttachmenOpenGraphBody should match snapshot 2`] = `
+exports[`PostAttachmentOpenGraphBody should match snapshot 2`] = `
 <Memo()
   description="test_description"
   isInPermalink={false}
@@ -37,7 +130,7 @@ exports[`PostAttachmenOpenGraphBody should match snapshot 2`] = `
   title="test_title"
 >
   <div
-    className="PostAttachmenOpenGraph__body"
+    className="PostAttachmentOpenGraph__body"
   >
     <span
       className="title"
@@ -53,7 +146,7 @@ exports[`PostAttachmenOpenGraphBody should match snapshot 2`] = `
 </Memo()>
 `;
 
-exports[`PostAttachmenOpenGraphImage should match snapshot 1`] = `
+exports[`PostAttachmentOpenGraphImage should match snapshot 1`] = `
 <Provider
   store={
     Object {
@@ -84,7 +177,7 @@ exports[`PostAttachmenOpenGraphImage should match snapshot 1`] = `
     toggleEmbedVisibility={[MockFunction]}
   >
     <div
-      className="PostAttachmenOpenGraph__image large"
+      className="PostAttachmentOpenGraph__image large"
     >
       <AutoHeightSwitcher
         showSlot={1}
@@ -216,97 +309,4 @@ exports[`PostAttachmenOpenGraphImage should match snapshot 1`] = `
 </Provider>
 `;
 
-exports[`PostAttachmenOpenGraphImage should not render when used in Permalink 1`] = `Object {}`;
-
-exports[`PostAttachmentOpenGraph should match snapshot 1`] = `
-<Provider
-  store={
-    Object {
-      "clearActions": [Function],
-      "dispatch": [Function],
-      "getActions": [Function],
-      "getState": [Function],
-      "replaceReducer": [Function],
-      "subscribe": [Function],
-    }
-  }
->
-  <Connect(PostAttachmentOpenGraph)
-    actions={
-      Object {
-        "editPost": [MockFunction],
-      }
-    }
-    currentUserId="1234"
-    link="http://mattermost.com"
-    openGraphData={
-      Object {
-        "description": "description",
-        "images": Array [
-          Object {
-            "secure_url": "",
-            "url": "http://mattermost.com/OpenGraphImage.jpg",
-          },
-        ],
-        "site_name": "Mattermost",
-        "title": "Mattermost Private Cloud Messaging",
-      }
-    }
-    post={
-      Object {
-        "channel_id": "channel_id",
-        "create_at": 1,
-        "id": "post_id_1",
-        "message": "https://mattermost.com",
-        "metadata": Object {
-          "images": Object {
-            "http://mattermost.com/OpenGraphImage.jpg": Object {
-              "format": "png",
-              "frameCount": 0,
-              "height": 100,
-              "width": 100,
-            },
-          },
-        },
-        "root_id": "root_id",
-      }
-    }
-    postId=""
-    toggleEmbedVisibility={[MockFunction]}
-  >
-    <PostAttachmentOpenGraph
-      actions={
-        Object {
-          "editPost": [Function],
-        }
-      }
-      currentUserId="user-1"
-      enableLinkPreviews={true}
-      imageCollapsed={false}
-      link="http://mattermost.com"
-      post={
-        Object {
-          "channel_id": "channel_id",
-          "create_at": 1,
-          "id": "post_id_1",
-          "message": "https://mattermost.com",
-          "metadata": Object {
-            "images": Object {
-              "http://mattermost.com/OpenGraphImage.jpg": Object {
-                "format": "png",
-                "frameCount": 0,
-                "height": 100,
-                "width": 100,
-              },
-            },
-          },
-          "root_id": "root_id",
-        }
-      }
-      postId=""
-      previewEnabled={true}
-      toggleEmbedVisibility={[MockFunction]}
-    />
-  </Connect(PostAttachmentOpenGraph)>
-</Provider>
-`;
+exports[`PostAttachmentOpenGraphImage should not render when used in Permalink 1`] = `Object {}`;

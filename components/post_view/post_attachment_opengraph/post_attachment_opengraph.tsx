@@ -128,7 +128,7 @@ const PostAttachmentOpenGraph = ({openGraphData, post, actions, link, isInPermal
 
     return (
         <a
-            className='PostAttachmenOpenGraph'
+            className='PostAttachmentOpenGraph'
             role='link'
             href={safeLink}
             target='_blank'
@@ -181,7 +181,7 @@ type BodyProps = {
 
 export const PostAttachmentOpenGraphBody = memo(({title, isInPermalink, sitename = '', description = ''}: BodyProps) => {
     return title ? (
-        <div className={classNames('PostAttachmenOpenGraph__body', {isInPermalink})}>
+        <div className={classNames('PostAttachmentOpenGraph__body', {isInPermalink})}>
             {(!isInPermalink && sitename) && <span className='sitename'>{sitename}</span>}
             <span className='title'>{title}</span>
             {description && <span className='description'>{description}</span>}
@@ -259,7 +259,7 @@ export const PostAttachmentOpenGraphImage = memo(({imageMetadata, isInPermalink,
     );
 
     return (
-        <div className={classNames('PostAttachmenOpenGraph__image', {large, collapsed: !isEmbedVisible})}>
+        <div className={classNames('PostAttachmentOpenGraph__image', {large, collapsed: !isEmbedVisible})}>
             {large ? (
                 <AutoHeightSwitcher
                     showSlot={isEmbedVisible ? 1 : 2}

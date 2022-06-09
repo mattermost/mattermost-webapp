@@ -639,7 +639,7 @@
     &:not(.post--editing):not(.post--editing):hover {
         background-color: rgba(v(center-channel-color-rgb), 0.04);
 
-        .PostAttachmenOpenGraph .remove-button {
+        .PostAttachmentOpenGraph .remove-button {
             display: flex;
         }
     }
