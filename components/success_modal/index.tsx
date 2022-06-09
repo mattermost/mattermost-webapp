@@ -14,8 +14,6 @@ import PaymentSuccessStandardSvg from 'components/common/svg_images_components/p
 
 import IconMessage from 'components/purchase_modal/icon_message';
 
-import {t} from 'utils/i18n';
-
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 
 import {closeModal} from 'actions/views/modals';

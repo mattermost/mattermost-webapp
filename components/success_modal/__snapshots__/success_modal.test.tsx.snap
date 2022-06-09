@@ -130,6 +130,12 @@ exports[`components/pricing_modal/downgrade_team_removal_modal matches snapshot 
                       id="success_modal.return_to_workspace"
                     />
                   }
+                  formattedSubtitle={
+                    <Memo(MemoizedFormattedMessage)
+                      defaultMessage="default message"
+                      id="success_modal.subtitle"
+                    />
+                  }
                   formattedTitle={
                     <Memo(MemoizedFormattedMessage)
                       defaultMessage="You are now subscribed to {selectedProductName}"
@@ -147,7 +153,7 @@ exports[`components/pricing_modal/downgrade_team_removal_modal matches snapshot 
                       width={444}
                     />
                   }
-                  subtitle="success_modal.subtitle"
+                  subtitle=""
                 >
                   <div
                     className="IconMessage"
@@ -258,7 +264,7 @@ exports[`components/pricing_modal/downgrade_team_removal_modal matches snapshot 
                           }
                         >
                           <span>
-                            You are now subscribed to
+                            You are now subscribed to 
                           </span>
                         </FormattedMessage>
                       </h3>
@@ -266,35 +272,34 @@ exports[`components/pricing_modal/downgrade_team_removal_modal matches snapshot 
                         className="IconMessage-sub"
                       >
                         <FormattedMessage
+                          defaultMessage="default message"
                           id="success_modal.subtitle"
-                          values={
-                            Object {
-                              "date": "",
-                            }
-                          }
                         >
                           <span>
-                            success_modal.subtitle
+                            default message
                           </span>
                         </FormattedMessage>
                       </div>
                       <div
-                        className="IconMessage-button"
+                        className="IconMessage-buttons"
                       >
-                        <button
-                          className="btn btn-primary Form-btn"
-                          id="login_button"
-                          onClick={[Function]}
+                        <div
+                          className="IconMessage-button"
                         >
-                          <FormattedMessage
-                            defaultMessage="Return to workspace"
-                            id="success_modal.return_to_workspace"
+                          <button
+                            className="btn btn-primary Form-btn"
+                            onClick={[Function]}
                           >
-                            <span>
-                              Return to workspace
-                            </span>
-                          </FormattedMessage>
-                        </button>
+                            <FormattedMessage
+                              defaultMessage="Return to workspace"
+                              id="success_modal.return_to_workspace"
+                            >
+                              <span>
+                                Return to workspace
+                              </span>
+                            </FormattedMessage>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>

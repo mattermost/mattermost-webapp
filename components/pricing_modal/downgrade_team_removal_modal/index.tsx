@@ -44,7 +44,7 @@ function DownGradeTeamRemovalModal(props: Props) {
     const teams = useSelector(getActiveTeamsList);
     useEffect(() => {
         if (!teams) {
-            // dispatch(getTeams(0, 10000));
+            dispatch(getTeams(0, 10000));
         }
     }, [teams]);
     const usage = useGetUsage();
