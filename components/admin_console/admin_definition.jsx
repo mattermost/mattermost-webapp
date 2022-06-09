@@ -9,6 +9,7 @@ import {RESOURCE_KEYS} from 'mattermost-redux/constants/permissions_sysconsole';
 import {LicenseSkus} from 'mattermost-redux/types/general';
 
 import {Constants, LegacyFreeProductIds} from 'utils/constants';
+import {isCloudFreePlan} from 'utils/cloud_utils';
 import {getSiteURL} from 'utils/url';
 import {t} from 'utils/i18n';
 import {
@@ -201,8 +202,11 @@ export const it = {
     licensedForSku: (skuName) => (config, state, license) => license.IsLicensed && license.SkuShortName === skuName,
     hidePaymentInfo: (config, state, license, enterpriseReady, consoleAccess, cloud) => {
         const productId = cloud?.subscription?.product_id;
-        const isLegacyFree = Boolean(LegacyFreeProductIds[productId]);
-        return isLegacyFree || cloud?.subscription?.is_free_trial === 'true';
+        const limits = cloud?.limits;
+        const subscriptionProduct = cloud?.products?.[productId];
+        const isCloudFreeProduct = isCloudFreePlan(subscriptionProduct, limits);
+        const isLegacyFreeUnpaid = Boolean(LegacyFreeProductIds[productId]) && !cloud.subscription?.is_legacy_cloud_paid_tier;
+        return isLegacyFreeUnpaid || cloud?.subscription?.is_free_trial === 'true' || isCloudFreeProduct;
     },
     userHasReadPermissionOnResource: (key) => (config, state, license, enterpriseReady, consoleAccess) => consoleAccess?.read?.[key],
     userHasReadPermissionOnSomeResources: (key) => Object.values(key).some((resource) => it.userHasReadPermissionOnResource(resource)),

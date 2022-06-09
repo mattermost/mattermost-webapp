@@ -305,6 +305,14 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
         return setAlertBanner(mode ? {mode: mode as ModeType, title, onDismiss} : null);
     }, [extraParam, sessionExpired, siteName, onDismissSessionExpired]);
 
+    const onWindowFocus = () => {
+        if (extraParam === Constants.SIGNIN_VERIFIED && emailParam) {
+            passwordInput.current?.focus();
+        } else {
+            loginIdInput.current?.focus();
+        }
+    };
+
     useEffect(() => {
         if (onCustomizeHeader) {
             onCustomizeHeader({
@@ -330,9 +338,9 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
             return;
         }
 
-        if (extraParam === Constants.SIGNIN_VERIFIED && emailParam) {
-            passwordInput.current?.focus();
-        }
+        onWindowFocus();
+
+        window.addEventListener('focus', onWindowFocus);
 
         // Determine if the user was unexpectedly logged out.
         if (LocalStorageStore.getWasLoggedIn()) {

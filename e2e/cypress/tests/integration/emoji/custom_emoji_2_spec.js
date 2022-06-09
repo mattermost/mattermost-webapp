@@ -12,7 +12,7 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-import {getCustomEmoji, verifyLastPostedEmoji} from './helpers';
+import {getCustomEmoji} from './helpers';
 
 describe('Custom emojis', () => {
     let testTeam;
@@ -21,7 +21,6 @@ describe('Custom emojis', () => {
     let townsquareLink;
 
     const largeEmojiFile = 'gif-image-file.gif';
-    const largeEmojiFileResized = 'gif-image-file-resized.gif';
     before(() => {
         cy.apiUpdateConfig({
             ServiceSettings: {
@@ -87,49 +86,6 @@ describe('Custom emojis', () => {
         // * Get list of emojis based on search text
         cy.findAllByTestId('emojiItem').children().should('have.length', 1);
         cy.findAllByTestId('emojiItem').children('img').first().should('have.class', 'emoji-category--custom');
-    });
-
-    it('MM-T2185 Custom emoji - renders immediately for other user Custom emoji - renders after logging out and back in', () => {
-        const {customEmojiWithColons} = getCustomEmoji();
-
-        // # Open custom emoji
-        cy.uiOpenCustomEmoji();
-
-        // # Click on add new emoji
-        cy.findByText('Add Custom Emoji').should('be.visible').click();
-
-        // # Type emoji name
-        cy.get('#name').type(customEmojiWithColons);
-
-        // # Select emoji image
-        cy.get('input#select-emoji').attachFile(largeEmojiFile).wait(TIMEOUTS.THREE_SEC);
-
-        // # Click on Save
-        cy.uiSave().wait(TIMEOUTS.THREE_SEC);
-
-        // # Go back to home channel
-        cy.visit(townsquareLink);
-
-        // # Post a message with the emoji
-        cy.postMessage(customEmojiWithColons);
-
-        // # User2 logs in
-        cy.apiLogin(otherUser);
-
-        // # Navigate to a channel
-        cy.visit(townsquareLink);
-
-        // * The emoji should be displayed in the post
-        verifyLastPostedEmoji(customEmojiWithColons, largeEmojiFileResized);
-
-        // # User1 logs in
-        cy.apiLogin(testUser);
-
-        // # Navigate to a channel
-        cy.visit(townsquareLink);
-
-        // * The emoji should be displayed in the post
-        verifyLastPostedEmoji(customEmojiWithColons, largeEmojiFileResized);
     });
 
     it('MM-T4436 Emoji picker should show all custom emojis without overlaps', () => {
