@@ -101,8 +101,8 @@ const LearnMoreTrialModal = (
     const steps: LearnMoreTrialModalStepProps[] = useMemo(() => [
         {
             id: 'useSso',
-            title: formatMessage({id: 'learn_more_about_trial.modal.useSsoTitle', defaultMessage: 'Use SSO (with OpenID, SAML, Google, 0365)'}),
-            description: formatMessage({id: 'learn_more_about_trial.modal.useSsoDescription', defaultMessage: 'Sign on quickly and easily with our SSO feature that works with OpenID, SAML, Google, and 0365.'}),
+            title: formatMessage({id: 'learn_more_about_trial.modal.useSsoTitle', defaultMessage: 'Use SSO (with OpenID, SAML, Google, O365)'}),
+            description: formatMessage({id: 'learn_more_about_trial.modal.useSsoDescription', defaultMessage: 'Sign on quickly and easily with our SSO feature that works with OpenID, SAML, Google, and O365.'}),
             svgWrapperClassName: 'guestAccessSvg',
             svgElement: (
                 <GuestAccessSvg
