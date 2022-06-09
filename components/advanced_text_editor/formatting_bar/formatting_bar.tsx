@@ -3,18 +3,13 @@
 
 import classNames from 'classnames';
 import React, {memo, useCallback, useEffect, useRef, useState} from 'react';
-import {FormattedMessage} from 'react-intl';
-import {useSelector} from 'react-redux';
 import styled from 'styled-components';
 import {usePopper} from 'react-popper';
 import {CSSTransition} from 'react-transition-group';
-import {DotsHorizontalIcon, HelpCircleOutlineIcon} from '@mattermost/compass-icons/components';
+import {DotsHorizontalIcon} from '@mattermost/compass-icons/components';
 
 import {ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
-import Constants from 'utils/constants';
-import OverlayTrigger from 'components/overlay_trigger';
-import Tooltip from 'components/tooltip';
-import {getCurrentLocale} from 'selectors/i18n';
+import ToggleFormattingBar from '../toggle_formatting_bar/toggle_formatting_bar';
 
 import FormattingIcon, {IconContainer} from './formatting_icon';
 
@@ -44,7 +39,7 @@ const FormattingBarContainer = styled.div<FormattingBarContainerProps>`
     max-height: ${(props) => (props.open ? '100px' : 0)};
     padding-left: 7px;
     overflow: hidden;
-    background: rgba(var(--center-channel-color-rgb), 0.08);
+    background: rgba(var(--center-channel-color-rgb), 0.04);
     align-items: center;
     gap: 4px;
     transform-origin: top;
@@ -100,52 +95,17 @@ const HiddenControlsContainer = styled.div`
     }
 `;
 
-/**
- * The component that renders the questionmark button that directs the user to the message formatting help page
- */
-const Question = () => {
-    const currentLocale = useSelector(getCurrentLocale);
-
-    // open the message formatting explanation page
-    const onClick = () => {
-        window.open(`/help/messaging?locale=${currentLocale}`, '_blank', 'noopener,noreferrer');
-    };
-
-    const tooltip = (
-        <Tooltip id='upload-tooltip'>
-            <FormattedMessage
-                id='textbox.help'
-                defaultMessage='Help'
-            />
-        </Tooltip>
-    );
-
-    return (
-        <OverlayTrigger
-            delayShow={Constants.OVERLAY_TIME_DELAY}
-            placement='top'
-            trigger={['hover', 'focus']}
-            overlay={tooltip}
-        >
-            <IconContainer
-                onClick={onClick}
-                className={'style--none'}
-            >
-                <HelpCircleOutlineIcon
-                    color={'currentColor'}
-                    size={18}
-                />
-            </IconContainer>
-        </OverlayTrigger>
-    );
-};
-
 interface FormattingBarProps {
 
     /**
      * prop that determines if the FormattingBar is visible
      */
     isOpen: boolean;
+
+    /**
+     * prop that determines if the Formatting Controls are visible
+     */
+    showFormattingControls: boolean;
 
     /**
      * the current inputValue
@@ -170,15 +130,20 @@ interface FormattingBarProps {
      * disable formatting controls when the texteditor is in preview state
      */
     disableControls: boolean;
+    extraControls: JSX.Element;
+    toggleAdvanceTextEditor: () => void;
 }
 
 const FormattingBar = (props: FormattingBarProps): JSX.Element => {
     const {
         isOpen,
+        showFormattingControls,
         applyMarkdown,
         getCurrentSelection,
         getCurrentMessage,
         disableControls,
+        extraControls,
+        toggleAdvanceTextEditor,
     } = props;
     const [showHiddenControls, setShowHiddenControls] = useState(false);
     const popperRef = React.useRef<HTMLDivElement | null>(null);
@@ -283,8 +248,14 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
             open={isOpen}
             ref={formattingBarRef}
         >
-            {controls.map((mode) => {
-                const insertSeparator = mode === 'heading' || mode === 'code' || mode === 'ol';
+            <ToggleFormattingBar
+                onClick={toggleAdvanceTextEditor}
+                active={showFormattingControls}
+                disabled={false}
+            />
+            <Separator show={true}/>
+            {showFormattingControls && controls.map((mode) => {
+                const insertSeparator = mode === 'heading' || mode === 'ol';
                 return (
                     <React.Fragment key={mode}>
                         <FormattingIcon
@@ -298,19 +269,21 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
                 );
             })}
 
-            {hasHiddenControls && (
-                <IconContainer
-                    ref={triggerRef}
-                    className={classNames({active: showHiddenControls})}
-                    onClick={closeHiddenControls}
-                >
-                    <DotsHorizontalIcon
-                        color={'currentColor'}
-                        size={18}
-                    />
-                </IconContainer>
+            {hasHiddenControls && showFormattingControls && (
+                <>
+                    <IconContainer
+                        ref={triggerRef}
+                        className={classNames({active: showHiddenControls})}
+                        onClick={closeHiddenControls}
+                    >
+                        <DotsHorizontalIcon
+                            color={'currentColor'}
+                            size={18}
+                        />
+                    </IconContainer>
+                    <Separator show={true}/>
+                </>
             )}
-
             <HiddenControlsContainer
                 ref={popperRef}
                 style={{...popper, zIndex: 2}}
@@ -334,20 +307,10 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
                                 />
                             );
                         })}
-                        {hasHiddenControls && (
-                            <>
-                                <Question/>
-                            </>
-                        )}
                     </div>
                 </CSSTransition>
             </HiddenControlsContainer>
-
-            {!hasHiddenControls && (
-                <>
-                    <Question/>
-                </>
-            )}
+            {extraControls}
         </FormattingBarContainer>
     );
 };

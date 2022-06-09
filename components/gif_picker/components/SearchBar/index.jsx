@@ -12,7 +12,7 @@ import {changeOpacity, makeStyleFromTheme} from 'mattermost-redux/utils/theme_ut
 import GifSearchIcon from 'components/widgets/icons/gif_search_icon';
 import GifSearchClearIcon from 'components/widgets/icons/gif_search_clear_icon';
 import LocalizedInput from 'components/localized_input/localized_input';
-import {t} from 'utils/i18n.jsx';
+import {t} from 'utils/i18n';
 
 import './SearchBar.scss';
 

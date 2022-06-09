@@ -482,7 +482,7 @@ describe('Actions.Posts', () => {
         };
 
         nock(Client4.getBaseRoute()).
-            get(`/posts/${post.id}/thread?skipFetchThreads=false&collapsedThreads=true&collapsedThreadsExtended=false`).
+            get(`/posts/${post.id}/thread?skipFetchThreads=false&collapsedThreads=true&collapsedThreadsExtended=false&direction=down&perPage=60`).
             reply(200, postList);
         await Actions.getPostThread(post.id)(store.dispatch, store.getState);
 
@@ -1072,7 +1072,7 @@ describe('Actions.Posts', () => {
         postList.posts[post1.id] = post1;
 
         nock(Client4.getBaseRoute()).
-            get(`/posts/${post1.id}/thread?skipFetchThreads=false&collapsedThreads=true&collapsedThreadsExtended=false`).
+            get(`/posts/${post1.id}/thread?skipFetchThreads=false&collapsedThreads=true&collapsedThreadsExtended=false&direction=down&perPage=60`).
             reply(200, postList);
         await Actions.getPostThread(post1.id)(dispatch, getState);
 
@@ -1111,7 +1111,7 @@ describe('Actions.Posts', () => {
         postList.posts[post1.id] = post1;
 
         nock(Client4.getBaseRoute()).
-            get(`/posts/${post1.id}/thread?skipFetchThreads=false&collapsedThreads=true&collapsedThreadsExtended=false`).
+            get(`/posts/${post1.id}/thread?skipFetchThreads=false&collapsedThreads=true&collapsedThreadsExtended=false&direction=down&perPage=60`).
             reply(200, postList);
         await Actions.getPostThread(post1.id)(dispatch, getState);
 
@@ -1550,7 +1550,7 @@ describe('Actions.Posts', () => {
             };
 
             nock(Client4.getBaseRoute()).
-                get(`/posts/${post1.id}/thread?skipFetchThreads=false&collapsedThreads=false&collapsedThreadsExtended=false`).
+                get(`/posts/${post1.id}/thread?skipFetchThreads=false&collapsedThreads=false&collapsedThreadsExtended=false&direction=down&perPage=60`).
                 reply(200, threadList);
         });
 

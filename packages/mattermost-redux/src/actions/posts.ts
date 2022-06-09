@@ -4,6 +4,8 @@
 import {AnyAction} from 'redux';
 import {batchActions} from 'redux-batched-actions';
 
+import {FetchPaginatedThreadOptions} from '@mattermost/types/client4';
+
 import {Client4, DEFAULT_LIMIT_AFTER, DEFAULT_LIMIT_BEFORE} from 'mattermost-redux/client';
 import {General, Preferences, Posts} from '../constants';
 import {PostTypes, ChannelTypes, FileTypes, IntegrationTypes} from 'mattermost-redux/action_types';
@@ -713,13 +715,44 @@ export function flagPost(postId: string) {
     };
 }
 
-export function getPostThread(rootId: string, fetchThreads = true, direction?: 'up'|'down', perPage?: number, fromCreateAt?: number, fromPost?: string) {
+async function getPaginatedPostThread(rootId: string, options: FetchPaginatedThreadOptions, prevList?: PostList): Promise<PostList> {
+    // since there are no complicated things inside (functions, Maps, Sets, etc.) we
+    // can use the JSON approach to deep-copy the object
+    const list = prevList ? JSON.parse(JSON.stringify(prevList)) : {
+        order: [rootId],
+        posts: {},
+        prev_post_id: '',
+        next_post_id: '',
+    };
+
+    const result = await Client4.getPaginatedPostThread(rootId, options);
+
+    list.order.push(...result.order.slice(1));
+    list.posts = Object.assign(list.posts, result.posts);
+
+    if (result.has_next) {
+        const [nextPostId] = list.order!.slice(-1);
+        const nextPostPointer = list.posts[nextPostId];
+        const newOptions = {
+            ...options,
+            fromCreateAt: nextPostPointer.create_at,
+            fromPost: nextPostId,
+        };
+
+        return getPaginatedPostThread(rootId, newOptions, list);
+    }
+
+    return list;
+}
+
+export function getPostThread(rootId: string, fetchThreads = true) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         dispatch({type: PostTypes.GET_POST_THREAD_REQUEST});
         const collapsedThreadsEnabled = isCollapsedThreadsEnabled(getState());
+
         let posts;
         try {
-            posts = await Client4.getPostThread(rootId, fetchThreads, collapsedThreadsEnabled, false, direction, perPage, fromCreateAt, fromPost);
+            posts = await getPaginatedPostThread(rootId, {fetchThreads, collapsedThreads: collapsedThreadsEnabled});
             getProfilesAndStatusesForPosts(posts.posts, dispatch, getState);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
@@ -744,12 +777,40 @@ export function getNewestPostThread(rootId: string) {
     const getPostsForThread = Selectors.makeGetPostsForThread();
 
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const posts = getPostsForThread(getState(), rootId);
+        dispatch({type: PostTypes.GET_POST_THREAD_REQUEST});
+        const collapsedThreadsEnabled = isCollapsedThreadsEnabled(getState());
+        const savedPosts = getPostsForThread(getState(), rootId);
 
-        const latestReply = posts?.[0];
-        const direction = latestReply ? 'down' : undefined;
+        const latestReply = savedPosts?.[0];
 
-        return dispatch(getPostThread(rootId, true, direction, undefined, latestReply?.create_at, latestReply?.id));
+        const options: FetchPaginatedThreadOptions = {
+            fetchThreads: true,
+            collapsedThreads: collapsedThreadsEnabled,
+            direction: 'down',
+            fromCreateAt: latestReply?.create_at,
+            fromPost: latestReply?.id,
+        };
+
+        let posts;
+        try {
+            posts = await getPaginatedPostThread(rootId, options);
+            getProfilesAndStatusesForPosts(posts.posts, dispatch, getState);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch({type: PostTypes.GET_POST_THREAD_FAILURE, error});
+            dispatch(logError(error));
+            return {error};
+        }
+
+        dispatch(batchActions([
+            receivedPosts(posts),
+            receivedPostsInThread(posts, rootId),
+            {
+                type: PostTypes.GET_POST_THREAD_SUCCESS,
+            },
+        ]));
+
+        return {data: posts};
     };
 }
 
@@ -963,13 +1024,13 @@ export function getThreadsForPosts(posts: Post[], fetchThreads = true) {
 }
 
 // Note that getProfilesAndStatusesForPosts can take either an array of posts or a map of ids to posts
-export function getProfilesAndStatusesForPosts(postsArrayOrMap: Post[]|Map<string, Post>, dispatch: DispatchFunc, getState: GetStateFunc) {
+export function getProfilesAndStatusesForPosts(postsArrayOrMap: Post[]|PostList['posts'], dispatch: DispatchFunc, getState: GetStateFunc) {
     if (!postsArrayOrMap) {
         // Some API methods return {error} for no results
         return Promise.resolve();
     }
 
-    const postsArray: Post[] = Object.values(postsArrayOrMap);
+    const postsArray: Post[] = Array.isArray(postsArrayOrMap) ? postsArrayOrMap : Object.values(postsArrayOrMap);
 
     if (postsArray.length === 0) {
         return Promise.resolve();
