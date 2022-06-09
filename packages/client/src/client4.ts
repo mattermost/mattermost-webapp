@@ -77,7 +77,7 @@ import type {
     MarketplaceApp,
     MarketplacePlugin,
 } from '@mattermost/types/marketplace';
-import {Post, PostList, PostSearchResults, OpenGraphMetadata, PostsUsageResponse, TeamsUsageResponse, PaginatedPostList} from '@mattermost/types/posts';
+import {Post, PostList, PostSearchResults, OpenGraphMetadata, PostsUsageResponse, TeamsUsageResponse, PaginatedPostList, FilesUsageResponse} from '@mattermost/types/posts';
 import {BoardsUsageResponse} from '@mattermost/types/boards';
 import {Reaction} from '@mattermost/types/reactions';
 import {Role} from '@mattermost/types/roles';
@@ -1666,9 +1666,9 @@ export default class Client4 {
         );
     };
 
-    getAllChannelsMembers = (userId: string) => {
+    getAllChannelsMembers = (userId: string, page = 0, perPage = PER_PAGE_DEFAULT) => {
         return this.doFetch<ChannelMembership[]>(
-            `${this.getUserRoute(userId)}/channel_members`,
+            `${this.getUserRoute(userId)}/channel_members${buildQueryString({page, per_page: perPage})}`,
             {method: 'get'},
         );
     };
@@ -3861,6 +3861,13 @@ export default class Client4 {
     getPostsUsage = () => {
         return this.doFetch<PostsUsageResponse>(
             `${this.getUsageRoute()}/posts`,
+            {method: 'get'},
+        );
+    }
+
+    getFilesUsage = () => {
+        return this.doFetch<FilesUsageResponse>(
+            `${this.getUsageRoute()}/storage`,
             {method: 'get'},
         );
     }
