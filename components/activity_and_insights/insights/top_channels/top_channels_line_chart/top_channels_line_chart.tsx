@@ -172,7 +172,11 @@ const TopChannelsLineChart = ({topChannels, timeFrame, channelLineChartData, tim
                         label(tooltipItem, data) {
                             const index = tooltipItem.datasetIndex;
                             if (typeof index !== 'undefined' && data.datasets && data.datasets[index]?.label) {
-                                return ` ${data.datasets[index].label}` || '';
+                                const label = data.datasets[index].label || '';
+                                if (label.length > 16) {
+                                    return ` ${label.slice(0, 16)}...`;
+                                }
+                                return ` ${label}`;
                             }
                             return '';
                         },
