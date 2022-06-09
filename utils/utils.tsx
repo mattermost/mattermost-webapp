@@ -9,8 +9,9 @@ import cssVars from 'css-vars-ponyfill';
 
 import moment from 'moment';
 
-import Constants, {FileTypes, ValidationErrors} from 'utils/constants';
+import {Subscription} from '@mattermost/types/cloud';
 
+import Constants, {FileTypes, ValidationErrors} from 'utils/constants';
 import {
     getChannel as getChannelAction,
     getChannelByNameAndTeamName,
@@ -1714,6 +1715,16 @@ export function adjustSelection(inputBox: HTMLInputElement, e: React.SyntheticEv
 export function getNextBillingDate() {
     const nextBillingDate = moment().add(1, 'months').startOf('month');
     return nextBillingDate.format('MMM D, YYYY');
+}
+
+export function getNextBillingDateFromSubscription(subscription: Subscription) {
+    const date = moment.unix(new Date().getTime() / 1000);
+
+    // If the subscription is on a trial, billing starts after the trial ends
+    if (subscription.is_free_trial) {
+        date = moment.unix(subscription.trial_end_at);
+    }
+    return date.format('MMM D, YYYY');
 }
 
 export function stringToNumber(s: string | undefined) {

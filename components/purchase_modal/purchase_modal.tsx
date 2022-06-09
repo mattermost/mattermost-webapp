@@ -40,7 +40,7 @@ import {ModalData} from 'types/actions';
 import {Team} from '@mattermost/types/teams';
 import {Theme} from 'mattermost-redux/types/themes';
 
-import {getNextBillingDate} from 'utils/utils';
+import {getNextBillingDateFromSubscription} from 'utils/utils';
 
 import PaymentForm from '../payment_form/payment_form';
 
@@ -87,6 +87,7 @@ type Props = {
     currentTeam: Team;
     intl: IntlShape;
     theme: Theme;
+    subscription: Subscription;
     actions: {
         openModal: <P>(modalData: ModalData<P>) => void;
         closeModal: () => void;
@@ -334,7 +335,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                     defaultMessage={'Payment begins: {beginDate}'}
                     id={'admin.billing.subscription.paymentBegins'}
                     values={{
-                        beginDate: getNextBillingDate(),
+                        beginDate: getNextBillingDateFromSubscription(this.props.subscription),
                     }}
                 />
             </div>
@@ -359,7 +360,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                             defaultMessage={'If you upgrade to {selectedProductName} from {currentProductName} mid-month, you will be charged a prorated amount for both plans.'}
                             id={'admin.billing.subscription.proratedPayment.tooltipText'}
                             values={{
-                                beginDate: getNextBillingDate(),
+                                beginDate: getNextBillingDateFromSubscription(this.props.subscription),
                                 selectedProductName: this.state.selectedProduct?.name,
                                 currentProductName: this.state.currentProduct?.name,
                             }}
@@ -385,7 +386,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                         defaultMessage={'Prorated payment begins: {beginDate}. '}
                         id={'admin.billing.subscription.proratedPaymentBegins'}
                         values={{
-                            beginDate: getNextBillingDate(),
+                            beginDate: getNextBillingDateFromSubscription(this.props.subscription),
                         }}
                     />
                     {this.learnMoreLink()}
@@ -554,6 +555,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                                         onBack={() => {
                                             this.setState({processing: false});
                                         }}
+                                        subscription={this.props.subscription}
                                         contactSupportLink={this.props.contactSalesLink}
                                         currentTeam={this.props.currentTeam}
                                         selectedProduct={this.state.selectedProduct}

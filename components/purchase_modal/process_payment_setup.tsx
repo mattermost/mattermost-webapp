@@ -12,13 +12,13 @@ import {TELEMETRY_CATEGORIES} from 'utils/constants';
 import {Team} from '@mattermost/types/teams';
 
 import {t} from 'utils/i18n';
-import {getNextBillingDate} from 'utils/utils';
+import {getNextBillingDateFromSubscription} from 'utils/utils';
 
 import CreditCardSvg from 'components/common/svg_images_components/credit_card_svg';
 import PaymentSuccessStandardSvg from 'components/common/svg_images_components/payment_success_standard_svg';
 import PaymentFailedSvg from 'components/common/svg_images_components/payment_failed_svg';
 
-import {Product} from '@mattermost/types/cloud';
+import {Product, Subscription} from '@mattermost/types/cloud';
 
 import IconMessage from './icon_message';
 
@@ -34,6 +34,7 @@ type Props = RouteComponentProps & {
     subscribeCloudSubscription: ((productId: string) => Promise<boolean | null>) | null;
     onBack: () => void;
     onClose: () => void;
+    subscription: Subscription;
     selectedProduct?: Product | null | undefined;
     currentProduct?: Product | null | undefined;
     isProratedPayment?: boolean;
@@ -179,7 +180,7 @@ class ProcessPaymentSetup extends React.PureComponent<Props, State> {
                     <IconMessage
                         formattedTitle={formattedTitle}
                         formattedSubtitle={formattedSubtitle}
-                        date={getNextBillingDate()}
+                        date={getNextBillingDateFromSubscription(this.props.subscription)}
                         error={error}
                         icon={
                             <PaymentSuccessStandardSvg
@@ -220,7 +221,7 @@ class ProcessPaymentSetup extends React.PureComponent<Props, State> {
             <FormattedMessage
                 id='admin.billing.subscription.nextBillingDate'
                 defaultMessage='Starting from {date}, you will be billed for the {productName} plan. You can change your plan whenever you like and we will pro-rate the charges.'
-                values={{date: getNextBillingDate(), productName}}
+                values={{date: getNextBillingDateFromSubscription(this.props.subscription), productName}}
             />
         );
         return (

@@ -43,6 +43,7 @@ function mapStateToProps(state: GlobalState) {
         customer: state.entities.cloud.customer,
         currentTeam: getCurrentTeam(state),
         theme: getTheme(state),
+        subscription,
     };
 }
 type Actions = {
