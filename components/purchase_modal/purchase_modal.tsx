@@ -37,6 +37,7 @@ import StarMarkSvg from 'components/widgets/icons/star_mark_icon';
 import PricingModal from 'components/pricing_modal';
 import PlanLabel from 'components/common/plan_label';
 import {ModalData} from 'types/actions';
+import {Team} from '@mattermost/types/teams';
 import {Theme} from 'mattermost-redux/types/themes';
 
 import {getNextBillingDate} from 'utils/utils';
@@ -83,6 +84,7 @@ type Props = {
     contactSalesLink: string;
     isFreeTrial: boolean;
     productId: string | undefined;
+    currentTeam: Team;
     intl: IntlShape;
     theme: Theme;
     actions: {
@@ -553,6 +555,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                                             this.setState({processing: false});
                                         }}
                                         contactSupportLink={this.props.contactSalesLink}
+                                        currentTeam={this.props.currentTeam}
                                         selectedProduct={this.state.selectedProduct}
                                         currentProduct={this.state.currentProduct}
                                         isProratedPayment={(!this.props.isFreeTrial && this.state.currentProduct?.billing_scheme === BillingSchemes.FLAT_FEE) &&
