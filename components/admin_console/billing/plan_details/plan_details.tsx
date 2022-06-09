@@ -81,7 +81,7 @@ export const planDetailsTopElements = (
         >
             <FormattedMessage
                 id='admin.billing.subscription.cloudTrialBadge.daysLeftOnTrial'
-                defaultMessage='{daysLeftOnTrial} days left'
+                defaultMessage='{daysLeftOnTrial} trial days left'
                 values={{daysLeftOnTrial}}
             />
         </Badge>
