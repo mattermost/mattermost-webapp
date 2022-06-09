@@ -20,6 +20,7 @@ import WidgetEmptyState from '../widget_empty_state/widget_empty_state';
 import OverlayTrigger from 'components/overlay_trigger';
 
 import Tooltip from 'components/tooltip';
+import {getCurrentUserTimezone} from 'selectors/general';
 
 import TopChannelsLineChart from './top_channels_line_chart/top_channels_line_chart';
 
@@ -34,6 +35,7 @@ const TopChannels = (props: WidgetHocProps) => {
 
     const currentTeamId = useSelector(getCurrentTeamId);
     const currentTeamUrl = useSelector(getCurrentRelativeTeamUrl);
+    const timeZone = useSelector(getCurrentUserTimezone);
 
     const getTopTeamChannels = useCallback(async () => {
         if (props.filterType === InsightsScopes.TEAM) {
@@ -120,6 +122,7 @@ const TopChannels = (props: WidgetHocProps) => {
                                 topChannels={topChannels}
                                 timeFrame={props.timeFrame}
                                 channelLineChartData={channelLineChartData}
+                                timeZone={timeZone || 'utc'}
                             />
                         </>
                     }

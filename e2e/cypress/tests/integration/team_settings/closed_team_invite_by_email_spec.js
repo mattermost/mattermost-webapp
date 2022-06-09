@@ -39,6 +39,9 @@ describe('Team Settings', () => {
         cy.apiUpdateConfig({
             LdapSettings: {Enable: false},
             ServiceSettings: {EnableOnboardingFlow: true},
+            TeamSettings: {
+                EnableOpenServer: false,
+            },
         }).then(({config}) => {
             siteName = config.TeamSettings.SiteName;
         });

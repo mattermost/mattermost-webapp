@@ -35,10 +35,14 @@ export function isPostEphemeral(post: Post): boolean {
     return post.type === Posts.POST_TYPES.EPHEMERAL || post.type === Posts.POST_TYPES.EPHEMERAL_ADD_TO_CHANNEL || post.state === Posts.POST_DELETED;
 }
 
-export function shouldIgnorePost(post: Post, userId?: UserProfile['id']): boolean {
+export function isUserAddedInChannel(post: Post, userId?: UserProfile['id']): boolean {
     const postTypeCheck = post.type && (post.type === Posts.POST_TYPES.ADD_TO_CHANNEL);
     const userIdCheck = post.props && post.props.addedUserId && (post.props.addedUserId === userId);
-    if (postTypeCheck && userIdCheck) {
+    return postTypeCheck && userIdCheck;
+}
+
+export function shouldIgnorePost(post: Post, userId?: UserProfile['id']): boolean {
+    if (isUserAddedInChannel(post, userId)) {
         return false;
     }
     return Posts.IGNORE_POST_TYPES.includes(post.type);

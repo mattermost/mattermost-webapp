@@ -18,7 +18,7 @@ import useCopyText from 'components/common/hooks/useCopyText';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input';
 import {getAnalyticsCategory} from 'components/onboarding_tasks';
 
-import {t} from 'utils/i18n.jsx';
+import {t} from 'utils/i18n';
 
 import AddToChannels, {CustomMessageProps, InviteChannels, defaultCustomMessage, defaultInviteChannels} from './add_to_channels';
 import InviteAs, {InviteType} from './invite_as';
