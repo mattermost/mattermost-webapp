@@ -65,14 +65,10 @@ export type TopChannelActionResult = {
 };
 
 export type TopThread = {
-    post_id: string;
-    reply_count: number;
     channel_id: string;
     channel_display_name: string;
-    name: string;
-    message: string;
+    channel_name: string;
     participants: string[];
-    user_id: string;
     user_information: {
         id: string;
         first_name: string;
@@ -99,6 +95,7 @@ export type TopBoard = {
     activityCount: number;
     activeUsers: string;
     createdBy: string;
+    workspaceID: string;
 };
 
 export type TopBoardResponse = {

@@ -91,6 +91,7 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                 <SystemPermissionGate permissions={[Permissions.SYSCONSOLE_WRITE_BILLING]}>
                     <Menu.CloudTrial id='menuCloudTrial'/>
                 </SystemPermissionGate>
+                <Menu.ItemCloudLimit id='menuItemCloudLimit'/>
                 <SystemPermissionGate
                     permissions={[Permissions.SYSCONSOLE_WRITE_ABOUT_EDITION_AND_LICENSE]}
                 >

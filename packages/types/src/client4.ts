@@ -25,3 +25,14 @@ export type Options = {
 export type StatusOK = {
     status: 'OK';
 };
+
+export type FetchPaginatedThreadOptions = {
+    fetchThreads?: boolean;
+    collapsedThreads?: boolean;
+    collapsedThreadsExtended?: boolean;
+    direction?: 'up'|'down';
+    fetchAll?: boolean;
+    perPage?: number;
+    fromCreateAt?: number;
+    fromPost?: string;
+}

@@ -276,8 +276,8 @@
     "outputName": "test-results.xml"
   },
   "scripts": {
-    "check": "eslint --ext .js,.jsx,.tsx,.ts . --quiet --cache && stylelint \"**/*.{css,scss}\"",
-    "fix": "eslint --ext .js,.jsx,.tsx,.ts . --quiet --fix --cache && stylelint \"**/*.{css,scss}\" --fix",
+    "check": "eslint --ext .js,.jsx,.tsx,.ts . --quiet --cache && stylelint \"**/*.{css,scss}\" --cache",
+    "fix": "eslint --ext .js,.jsx,.tsx,.ts . --quiet --fix --cache && stylelint \"**/*.{css,scss}\" --fix --cache",
     "build": "cross-env NODE_ENV=production webpack",
     "run": "webpack --progress --watch",
     "dev-server": "webpack serve --mode development",

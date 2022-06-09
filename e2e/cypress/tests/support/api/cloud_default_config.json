@@ -172,7 +172,6 @@
     },
     "ComplianceSettings": {
         "Enable": false,
-        "Directory": "./data/",
         "EnableDaily": false
     },
     "LocalizationSettings": {
@@ -265,11 +264,5 @@
         "AllowEmailAccounts": true,
         "EnforceMultifactorAuthentication": false,
         "RestrictCreationToDomains": ""
-    },
-    "ImageProxySettings": {
-        "Enable": true,
-        "ImageProxyType": "local",
-        "RemoteImageProxyURL": "",
-        "RemoteImageProxyOptions": ""
     }
 }

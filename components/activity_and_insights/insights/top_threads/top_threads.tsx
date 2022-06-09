@@ -121,7 +121,7 @@ const TopThreads = (props: WidgetHocProps) => {
                                 >
                                     <div className='thread-details'>
                                         <Avatar
-                                            url={imageURLForUser(thread.user_id)}
+                                            url={imageURLForUser(thread.user_information.id)}
                                             size={'xs'}
                                         />
                                         <span className='display-name'>{displayUsername(thread.user_information as UserProfile, teammateNameDisplaySetting)}</span>
@@ -130,7 +130,7 @@ const TopThreads = (props: WidgetHocProps) => {
                                         </Badge>
                                         <div className='reply-count'>
                                             <i className='icon icon-reply-outline'/>
-                                            <span>{thread.reply_count}</span>
+                                            <span>{thread.post.reply_count}</span>
                                         </div>
                                     </div>
                                     <div

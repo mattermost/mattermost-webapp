@@ -82,7 +82,7 @@ exports[`components/login/Login should match snapshot with base login 1`] = `
           <SaveButton
             btnClass="btn-primary"
             defaultMessage="Log in"
-            disabled={true}
+            disabled={false}
             extraClasses="login-body-card-form-button-submit large"
             onClick={[Function]}
             saving={false}

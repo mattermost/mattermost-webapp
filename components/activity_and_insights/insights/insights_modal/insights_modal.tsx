@@ -70,6 +70,7 @@ const InsightsModal = (props: Props) => {
                 <TopBoardsTable
                     filterType={props.filterType}
                     timeFrame={timeFrame.value}
+                    closeModal={doHide}
                 />
             );
         default:
