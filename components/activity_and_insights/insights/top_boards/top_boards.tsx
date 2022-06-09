@@ -1,9 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {memo, useState, useCallback, useEffect} from 'react';
+import React, {memo, useState, useCallback, useEffect, useMemo} from 'react';
 import {useSelector} from 'react-redux';
 
 import {FormattedMessage} from 'react-intl';
+
+import {Link} from 'react-router-dom';
 
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
@@ -40,7 +42,7 @@ const TopBoards = (props: WidgetHocProps) => {
         getTopBoards();
     }, [getTopBoards]);
 
-    const skeletonLoader = useCallback(() => {
+    const skeletonLoader = useMemo(() => {
         const entries = [];
         for (let i = 0; i < 4; i++) {
             entries.push(
@@ -65,7 +67,7 @@ const TopBoards = (props: WidgetHocProps) => {
         <div className='top-board-container'>
             {
                 loading &&
-                skeletonLoader()
+                skeletonLoader
             }
             {
                 (topBoards && !loading) &&
@@ -73,10 +75,10 @@ const TopBoards = (props: WidgetHocProps) => {
                     {
                         topBoards.map((board, i) => {
                             return (
-                                <div
+                                <Link
                                     className='board-item'
-                                    onClick={() => {}}
                                     key={i}
+                                    to={`/boards/workspace/${board.workspaceID}/${board.boardID}`}
                                 >
                                     <span className='board-icon'>{board.icon}</span>
                                     <div className='display-info'>
@@ -96,7 +98,7 @@ const TopBoards = (props: WidgetHocProps) => {
                                         size='xs'
                                         disableProfileOverlay={true}
                                     />
-                                </div>
+                                </Link>
                             );
                         })
                     }

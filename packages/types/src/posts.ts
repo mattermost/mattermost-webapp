@@ -82,10 +82,14 @@ export type Post = {
 
 export type PostList = {
     order: Array<Post['id']>;
-    posts: Map<string, Post>;
+    posts: Record<string, Post>;
     next_post_id: string;
     prev_post_id: string;
 };
+
+export type PaginatedPostList = PostList & {
+    has_next: boolean;
+}
 
 export type PostSearchResults = PostList & {
     matches: RelationOneToOne<Post, string[]>;
@@ -146,4 +150,13 @@ export declare type PostPreviewMetadata = {
 
 export declare type PostsUsageResponse = {
     count: number;
+};
+
+export declare type FilesUsageResponse = {
+    bytes: number;
+};
+
+export declare type TeamsUsageResponse = {
+    active: number;
+    cloud_archived: number;
 };

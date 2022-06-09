@@ -15,11 +15,14 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_grid';
 import Avatars from 'components/widgets/users/avatars';
 
+import {browserHistory} from 'utils/browser_history';
+
 import './../../../activity_and_insights.scss';
 
 type Props = {
     filterType: string;
     timeFrame: TimeFrame;
+    closeModal: () => void;
 }
 
 const TopBoardsTable = (props: Props) => {
@@ -41,6 +44,11 @@ const TopBoardsTable = (props: Props) => {
     useEffect(() => {
         getTopBoards();
     }, [getTopBoards]);
+
+    const goToBoard = useCallback((board: TopBoard) => {
+        props.closeModal();
+        browserHistory.push(`/boards/workspace/${board.workspaceID}/${board.boardID}`);
+    }, [props.closeModal]);
 
     const getColumns = useMemo((): Column[] => {
         const columns: Column[] = [
@@ -68,7 +76,7 @@ const TopBoardsTable = (props: Props) => {
             {
                 name: (
                     <FormattedMessage
-                        id='insights.topBoards.updates'
+                        id='insights.topBoardsTable.updates'
                         defaultMessage='Updates'
                     />
                 ),
@@ -116,10 +124,9 @@ const TopBoardsTable = (props: Props) => {
                             />
                         ),
                     },
-
-                    // onClick: () => {
-                    //     openThread(thread.post);
-                    // },
+                    onClick: () => {
+                        goToBoard(board);
+                    },
                 }
             );
         });

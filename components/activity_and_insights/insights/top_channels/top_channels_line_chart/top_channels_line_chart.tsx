@@ -2,13 +2,20 @@
 // See LICENSE.txt for license information.
 import React, {memo, useMemo} from 'react';
 import {useSelector} from 'react-redux';
+import moment from 'moment-timezone';
 
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 
 import {TimeFrame, TimeFrames, TopChannel, TopChannelGraphData} from '@mattermost/types/insights';
+import {GlobalState} from '@mattermost/types/store';
+
+import {getBool, getTheme} from 'mattermost-redux/selectors/entities/preferences';
+
+import {changeOpacity} from 'mattermost-redux/utils/theme_utils';
+
+import {Preferences} from 'mattermost-redux/constants';
 
 import LineChart from 'components/analytics/line_chart';
-import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 
 import './../../../activity_and_insights.scss';
 
@@ -16,23 +23,36 @@ type Props = {
     topChannels: TopChannel[];
     timeFrame: TimeFrame;
     channelLineChartData: TopChannelGraphData;
+    timeZone: string;
 }
 
-const TopChannelsLineChart = ({topChannels, timeFrame, channelLineChartData}: Props) => {
+const TopChannelsLineChart = ({topChannels, timeFrame, channelLineChartData, timeZone}: Props) => {
     const theme = useSelector(getTheme);
+    const intl = useIntl();
+    const isMilitaryTime = useSelector((state: GlobalState) => getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.USE_MILITARY_TIME, false));
 
     const getLabels = useMemo(() => {
-        const labels = Object.keys(channelLineChartData);
-        if (timeFrame === TimeFrames.INSIGHTS_1_DAY) {
-            for (let i = 0; i < labels.length; i++) {
-                let label = labels[i];
-                label = `${label.substring(label.indexOf('T') + 1)}:00`;
+        const labels: any[] = Object.keys(channelLineChartData);
 
-                labels[i] = label;
+        for (let i = 0; i < labels.length; i++) {
+            const label = labels[i];
+            if (timeFrame === TimeFrames.INSIGHTS_1_DAY) {
+                labels[i] = intl.formatTime(Date.parse(label), {
+                    hour12: isMilitaryTime ? undefined : true,
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hourCycle: 'h23',
+                    timeZone,
+                });
+            } else {
+                labels[i] = intl.formatDate(moment.tz(label, timeZone).toDate(), {
+                    month: 'short',
+                    day: '2-digit',
+                });
             }
         }
         return labels;
-    }, [channelLineChartData]);
+    }, [channelLineChartData, timeZone]);
 
     const sortGraphData = useMemo(() => {
         const labels = getLabels;
@@ -72,7 +92,7 @@ const TopChannelsLineChart = ({topChannels, timeFrame, channelLineChartData}: Pr
                     fillColor: colour,
                     borderColor: colour,
                     pointBackgroundColor: colour,
-                    pointBorderColor: colour,
+                    pointBorderColor: 'transparent',
                     backgroundColor: 'transparent',
                     pointRadius: 0,
                     hoverBackgroundColor: colour,
@@ -115,8 +135,23 @@ const TopChannelsLineChart = ({topChannels, timeFrame, channelLineChartData}: Pr
                                 if (timeFrame === TimeFrames.INSIGHTS_28_DAYS) {
                                     return index % 4 === 0 ? val : '';
                                 }
+
+                                if (timeFrame === TimeFrames.INSIGHTS_1_DAY) {
+                                    const labels = getLabels;
+
+                                    if (labels.length > 8 && labels.length <= 12) {
+                                        return index % 2 === 0 ? val : '';
+                                    }
+
+                                    if (labels.length > 12) {
+                                        return index % 4 === 0 ? val : '';
+                                    }
+                                }
                                 return val;
                             },
+                            fontFamily: 'Open Sans',
+                            fontSize: 10,
+                            fontColor: changeOpacity(theme.centerChannelColor, 0.72),
                         },
                     }],
                     yAxes: [{
@@ -126,6 +161,9 @@ const TopChannelsLineChart = ({topChannels, timeFrame, channelLineChartData}: Pr
                         ticks: {
                             maxTicksLimit: 5,
                             beginAtZero: true,
+                            fontFamily: 'Open Sans',
+                            fontSize: 10,
+                            fontColor: changeOpacity(theme.centerChannelColor, 0.72),
                         },
                     }],
                 },
@@ -134,7 +172,7 @@ const TopChannelsLineChart = ({topChannels, timeFrame, channelLineChartData}: Pr
                         label(tooltipItem, data) {
                             const index = tooltipItem.datasetIndex;
                             if (typeof index !== 'undefined' && data.datasets && data.datasets[index]?.label) {
-                                return data.datasets[index].label || '';
+                                return ` ${data.datasets[index].label}` || '';
                             }
                             return '';
                         },
@@ -146,11 +184,16 @@ const TopChannelsLineChart = ({topChannels, timeFrame, channelLineChartData}: Pr
                         },
                     },
                     bodyFontStyle: 'bold',
-                    bodyAlign: 'center',
+                    bodyAlign: 'left',
+                    bodySpacing: 10,
+                    bodyFontFamily: 'Open Sans',
                     footerFontSize: 11,
                     footerAlign: 'center',
-                    bodySpacing: 10,
                     footerSpacing: 10,
+                    footerFontStyle: 'normal',
+                    footerFontFamily: 'Open Sans',
+                    footerFontColor: 'rgba(255, 255, 255, .64)',
+                    multiKeyBackground: 'transparent',
                 },
             }}
             data={getGraphData}

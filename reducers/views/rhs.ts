@@ -350,6 +350,23 @@ function isMenuOpen(state = false, action: GenericAction) {
     }
 }
 
+function editChannelMembers(state = false, action: GenericAction) {
+    switch (action.type) {
+    case ActionTypes.SET_EDIT_CHANNEL_MEMBERS:
+        return action.active;
+    case ActionTypes.UPDATE_RHS_STATE:
+        if (!action.state) {
+            return false;
+        }
+        return state;
+
+    case UserTypes.LOGOUT_SUCCESS:
+        return false;
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
     selectedPostId,
     selectedPostFocussedAt,
@@ -368,4 +385,5 @@ export default combineReducers({
     isSidebarOpen,
     isSidebarExpanded,
     isMenuOpen,
+    editChannelMembers,
 });

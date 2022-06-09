@@ -17,7 +17,15 @@
         }
 
         .top-channels-card {
+            &.large {
+                @media screen and (max-width: 1019px) {
+                    width: 100%;
+                }
+            }
+
             .Card__header {
+                padding-bottom: 16px;
+
                 @media screen and (max-width: 1019px) {
                     padding-bottom: 12px;
                 }
@@ -117,8 +125,8 @@
 
                         .chartjs-render-monitor {
                             width: 100% !important;
-                            min-height: 192px !important;
-                            max-height: 192px;
+                            min-height: 200px !important;
+                            max-height: 200px;
 
                             &:hover {
                                 cursor: pointer;
@@ -462,6 +470,11 @@
                         background: rgba(var(--center-channel-color-rgb), 0.08);
                         border-radius: 4px;
                         cursor: pointer;
+                        text-decoration: none;
+                    }
+
+                    &:focus {
+                        text-decoration: none;
                     }
 
                     span.board-icon {

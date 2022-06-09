@@ -142,7 +142,7 @@ describe('Channel Settings', () => {
         // # Type into the input box to search for already added user
         cy.get('#selectItems input').type(firstUser.username);
 
-        // * Verify users list exist
+        // * Verify user list exist
         cy.get('#multiSelectList').should('exist').within(() => {
             cy.findByText('Already in channel').should('be.visible');
         });

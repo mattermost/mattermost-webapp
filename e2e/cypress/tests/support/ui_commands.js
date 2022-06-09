@@ -562,12 +562,12 @@ Cypress.Commands.add('checkRunLDAPSync', () => {
 Cypress.Commands.add('clickEmojiInEmojiPicker', (emojiName) => {
     cy.get('#emojiPicker').should('exist').and('be.visible').within(() => {
         // # Mouse over the emoji to get it selected
-        cy.findByTestId(emojiName).trigger('mouseover', {force: true});
+        cy.findAllByTestId(emojiName).eq(0).trigger('mouseover', {force: true});
 
         // * Verify that preview shows the emoji selected
-        cy.findByTestId('emoji_picker_preview').should('exist').and('be.visible').contains(emojiName, {matchCase: false});
+        cy.findAllByTestId('emoji_picker_preview').eq(0).should('exist').and('be.visible').contains(emojiName, {matchCase: false});
 
         // # Click on the emoji
-        cy.findByTestId(emojiName).click({force: true});
+        cy.findAllByTestId(emojiName).eq(0).click({force: true});
     });
 });

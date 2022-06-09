@@ -97,6 +97,7 @@ describe('components/cloud_start_trial_btn/cloud_start_trial_btn', () => {
                     <CloudStartTrialButton
                         {...props}
                         onClick={mockOnClick}
+                        email='fakeemail@topreventbusinessemailvalidation'
                     />
                 </Provider>,
             );
@@ -148,7 +149,6 @@ describe('components/cloud_start_trial_btn/cloud_start_trial_btn', () => {
         });
 
         await act(async () => {
-            console.log(wrapper.find('.CloudStartTrialButton').text());
             expect(wrapper.find('.CloudStartTrialButton').text().includes('Failed')).toBe(true);
         });
     });

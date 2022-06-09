@@ -5,7 +5,7 @@ import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
 
 import * as Actions from 'actions/emoji_actions';
-import {getEmojiMap, getRecentEmojis} from 'selectors/emojis';
+import {getEmojiMap, getRecentEmojisNames} from 'selectors/emojis';
 
 const mockStore = configureStore([thunk]);
 
@@ -19,7 +19,7 @@ const initialState = {
 
 jest.mock('selectors/emojis', () => ({
     getEmojiMap: jest.fn(),
-    getRecentEmojis: jest.fn(),
+    getRecentEmojisNames: jest.fn(),
 }));
 
 jest.mock('mattermost-redux/actions/emojis', () => ({
@@ -36,7 +36,7 @@ describe('loadRecentlyUsedCustomEmojis', () => {
         getEmojiMap.mockImplementation(() => {
             return new Map([['emoji1', {}], ['emoji3', {}], ['emoji4', {}]]);
         });
-        getRecentEmojis.mockImplementation(() => {
+        getRecentEmojisNames.mockImplementation(() => {
             return ['emoji1', 'emoji2', 'emoji3', 'emoji5'];
         });
 
@@ -53,7 +53,7 @@ describe('loadRecentlyUsedCustomEmojis', () => {
         getEmojiMap.mockImplementation(() => {
             return new Map([['emoji1', {}], ['emoji3', {}], ['emoji4', {}]]);
         });
-        getRecentEmojis.mockImplementation(() => {
+        getRecentEmojisNames.mockImplementation(() => {
             return ['emoji1', 'emoji3'];
         });
         const expectedActions = [];
@@ -67,7 +67,7 @@ describe('loadRecentlyUsedCustomEmojis', () => {
         getEmojiMap.mockImplementation(() => {
             return new Map([['emoji1', {}], ['emoji3', {}], ['emoji4', {}]]);
         });
-        getRecentEmojis.mockImplementation(() => {
+        getRecentEmojisNames.mockImplementation(() => {
             return ['emoji1', 'emoji2', 'emoji3', 'emoji5'];
         });
         const expectedActions = [];

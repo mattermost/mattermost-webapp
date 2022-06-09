@@ -84,6 +84,9 @@ describe('components/activity_and_insights/insights/top_channels', () => {
             },
             users: {
                 currentUserId: 'current_user_id',
+                profiles: {
+                    current_user_id: {},
+                },
             },
             preferences: {
                 myPreferences: {},
