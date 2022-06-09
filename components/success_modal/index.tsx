@@ -62,7 +62,12 @@ function SuccessModal(props: Props) {
                         }}
                     />
                 }
-                subtitle={t('success_modal.subtitle')}
+                formattedSubtitle={
+                    <FormattedMessage
+                        id={'success_modal.subtitle'}
+                        defaultMessage={'default message'}
+                    />
+                }
                 error={false}
                 icon={
                     <PaymentSuccessStandardSvg
