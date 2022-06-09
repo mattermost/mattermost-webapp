@@ -191,7 +191,7 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
 
     useEffect(() => {
         update?.();
-    }, [wideMode, update]);
+    }, [wideMode, update, showHiddenControls]);
 
     const hasHiddenControls = wideMode !== 'wide';
 
