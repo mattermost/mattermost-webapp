@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 import React, {memo, useMemo} from 'react';
 import {useSelector} from 'react-redux';
+import moment from 'moment-timezone';
 
 import {FormattedMessage, useIntl} from 'react-intl';
 
@@ -22,9 +23,10 @@ type Props = {
     topChannels: TopChannel[];
     timeFrame: TimeFrame;
     channelLineChartData: TopChannelGraphData;
+    timeZone: string;
 }
 
-const TopChannelsLineChart = ({topChannels, timeFrame, channelLineChartData}: Props) => {
+const TopChannelsLineChart = ({topChannels, timeFrame, channelLineChartData, timeZone}: Props) => {
     const theme = useSelector(getTheme);
     const intl = useIntl();
     const isMilitaryTime = useSelector((state: GlobalState) => getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.USE_MILITARY_TIME, false));
@@ -33,24 +35,24 @@ const TopChannelsLineChart = ({topChannels, timeFrame, channelLineChartData}: Pr
         const labels: any[] = Object.keys(channelLineChartData);
 
         for (let i = 0; i < labels.length; i++) {
+            const label = labels[i];
             if (timeFrame === TimeFrames.INSIGHTS_1_DAY) {
-                const label = `${labels[i]}:00:00`;
-
-                labels[i] = intl.formatTime(label, {
+                labels[i] = intl.formatTime(Date.parse(label), {
                     hour12: isMilitaryTime ? undefined : true,
                     hour: '2-digit',
                     minute: '2-digit',
                     hourCycle: 'h23',
+                    timeZone,
                 });
             } else {
-                labels[i] = intl.formatDate(labels[i], {
+                labels[i] = intl.formatDate(moment.tz(label, timeZone).toDate(), {
                     month: 'short',
                     day: '2-digit',
                 });
             }
         }
         return labels;
-    }, [channelLineChartData]);
+    }, [channelLineChartData, timeZone]);
 
     const sortGraphData = useMemo(() => {
         const labels = getLabels;
