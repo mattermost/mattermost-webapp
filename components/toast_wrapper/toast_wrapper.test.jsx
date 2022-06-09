@@ -488,29 +488,18 @@ describe('components/ToastWrapper', () => {
             expect(baseProps.updateNewMessagesAtInChannel).toHaveBeenCalledTimes(1);
         });
 
-        test('Should have unreadWithBottomStart toast if shouldStartFromBottomWhenUnread and unreadCount > 0 and lastViewedBottom >= latestPostTimeStamp) and prevState.atBottom === null and atBottom ', () => {
+        test('Should have unreadWithBottomStart toast if shouldStartFromBottomWhenUnread and unreadCount > 0 and shouldHideNewMessageIndicator ', () => {
             const props = {
                 ...baseProps,
                 unreadCountInChannel: 10,
                 shouldStartFromBottomWhenUnread: true,
-                lastViewedBottom: 123456,
-                atBottom: null,
+                shouldHideNewMessageIndicator: true,
             };
 
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
             wrapper.setProps({atBottom: true});
 
             expect(wrapper.state('showUnreadWithBottomStartToast')).toBe(true);
-        });
-
-        test('Should hide unreadWithBottomStart toast if not atBottom ', () => {
-            const props = {
-                ...baseProps,
-                atBottom: false,
-            };
-
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
-            expect(wrapper.state('showUnreadWithBottomStartToast')).toBeFalsy();
         });
     });
 
