@@ -496,7 +496,7 @@ export default class PostList extends React.PureComponent {
             };
         }
 
-        if (this.props.atLatestPost && this.props.shouldStartFromBottomWhenUnread) {
+        if (this.props.shouldStartFromBottomWhenUnread) {
             return {
                 index: 0,
                 position: 'end',

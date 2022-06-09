@@ -61,7 +61,6 @@ export default class PostView extends React.PureComponent {
 
     toggleShouldStartFromBottomWhenUnread = () => {
         this.setState((state) => ({
-            ...state,
             loaderForChangeOfPostsChunk: true,
             shouldStartFromBottomWhenUnread: !state.shouldStartFromBottomWhenUnread,
         }), () => {
