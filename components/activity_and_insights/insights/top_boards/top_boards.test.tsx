@@ -126,6 +126,7 @@ describe('components/activity_and_insights/insights/top_boards', () => {
             </Provider>,
         );
         await actImmediate(wrapper);
+
         // Link causes the class to render 3 times for each item
         expect(wrapper.find('.board-item').length).toEqual(6);
     });
