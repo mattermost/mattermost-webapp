@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {withRouter} from 'react-router-dom';
 
-import {getRecentPostsChunkInChannel, makeGetPostsChunkAroundPost, getUnreadPostsChunk, getPost} from 'mattermost-redux/selectors/entities/posts';
+import {getRecentPostsChunkInChannel, makeGetPostsChunkAroundPost, getUnreadPostsChunk, getPost, isPostsChunkIncludingUnreadsPosts} from 'mattermost-redux/selectors/entities/posts';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 import {markChannelAsRead, markChannelAsViewed} from 'mattermost-redux/actions/channels';
 import {makePreparePostIdsForPostList} from 'mattermost-redux/utils/post_list';
@@ -48,12 +48,6 @@ function makeMapStateToProps() {
         const lastViewedAt = channelViewState.lastChannelViewTime[channelId];
         const isPrefetchingInProcess = channelViewState.channelPrefetchStatus[channelId] === RequestStatus.STARTED;
 
-        //When unread scroll position is start_from_newest, unread posts and recent posts are loaded.
-        //Until scroll reaches to unread section, there are more than two orders.
-        //If scroll reaches to unread section, orders are merged and length becomes 1.
-        const orders = state.entities.posts.postsInChannel[channelId] ?? [];
-        const shouldHideNewMessageIndicator = shouldStartFromBottomWhenUnread && orders.length > 1;
-
         if (focusedPostId && unreadChunkTimeStamp !== '') {
             chunk = getPostsChunkAroundPost(state, focusedPostId, channelId);
         } else if (unreadChunkTimeStamp && !shouldStartFromBottomWhenUnread) {
@@ -67,6 +61,8 @@ function makeMapStateToProps() {
             atLatestPost = chunk.recent;
             atOldestPost = chunk.oldest;
         }
+
+        const shouldHideNewMessageIndicator = shouldStartFromBottomWhenUnread && !isPostsChunkIncludingUnreadsPosts(state, chunk, unreadChunkTimeStamp);
 
         if (postIds) {
             formattedPostIds = preparePostIdsForPostList(state, {postIds, lastViewedAt, indicateNewMessages: !shouldHideNewMessageIndicator, channelId});
