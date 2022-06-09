@@ -135,6 +135,7 @@ export const Preferences = {
     // A/B test preference value
     AB_TEST_PREFERENCE_VALUE: 'ab_test_preference_value',
 
+    RECENT_EMOJIS: 'recent_emojis',
     ONBOARDING: 'onboarding',
     ADVANCED_TEXT_EDITOR: 'advanced_text_editor',
 };
