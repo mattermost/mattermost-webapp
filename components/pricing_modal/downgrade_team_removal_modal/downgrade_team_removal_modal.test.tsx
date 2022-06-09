@@ -1,11 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-
+//
 import React from 'react';
 
 import configureStore from 'redux-mock-store';
-
-import {Provider} from 'react-redux';
+import * as redux from 'react-redux';
+import {screen} from '@testing-library/react';
 
 import thunk from 'redux-thunk';
 
@@ -18,6 +18,12 @@ import DowngradeTeamRemovalModal from './';
 
 //
 describe('components/pricing_modal/downgrade_team_removal_modal', () => {
+    beforeEach(() => {
+        jest.spyOn(redux, 'useDispatch').mockImplementation(
+            jest.fn(() => jest.fn()),
+        );
+    });
+
     const state = {
         entities: {
             usage: {
@@ -38,7 +44,7 @@ describe('components/pricing_modal/downgrade_team_removal_modal', () => {
                     enabledLoaded: true,
                 },
                 teams: {
-                    active: 0,
+                    active: 4,
                     cloudArchived: 0,
                     teamsLoaded: true,
                 },
@@ -302,15 +308,42 @@ describe('components/pricing_modal/downgrade_team_removal_modal', () => {
         },
     };
 
-    const mockStore = configureStore([thunk]);
-    const store = mockStore(state);
-
-    test('should match snapshot', () => {
-        const wrapper = mountWithIntl(
-            <Provider store={store}>
+    test('renders modal', () => {
+        const mockStore = configureStore([thunk]);
+        const store = mockStore(state);
+        mountWithIntl(
+            <redux.Provider store={store}>
                 <DowngradeTeamRemovalModal product_id={'prod_starter'}/>
-            </Provider>,
-        );//
-        expect(wrapper).toMatchSnapshot();
+            </redux.Provider>,
+        );
+        screen.getByText('Confirm Plan Downgrade');
+        screen.getByText('Which team would you like to continue using?');
+    });
+
+    test('renders dropdown with 4+ teams', () => {
+        const mockStore = configureStore([thunk]);
+        const store = mockStore(state);
+        const wrapper = mountWithIntl(
+            <redux.Provider store={store}>
+                <DowngradeTeamRemovalModal product_id={'prod_starter'}/>
+            </redux.Provider>,
+        );
+        console.log(wrapper);
+        expect(wrapper.find('.DropdownInput').exists()).toEqual(true);
+    });
+
+    test('renders radio buttons with fewer than 4 teams', () => {
+        const newState = {...state};
+        newState.entities.usage.teams.active = 2;
+        const mockStore = configureStore([thunk]);
+        const store = mockStore(state);
+        const wrapper = mountWithIntl(
+            <redux.Provider store={store}>
+                <DowngradeTeamRemovalModal
+                    product_id={'prod_starter'}
+                />
+            </redux.Provider>,
+        );
+        expect(wrapper.find('#deleteTeamRadioGroup').exists()).toEqual(true);
     });
 });
