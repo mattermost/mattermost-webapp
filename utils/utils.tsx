@@ -1718,10 +1718,10 @@ export function getNextBillingDate() {
 }
 
 export function getNextBillingDateFromSubscription(subscription: Subscription) {
-    const date = moment.unix(new Date().getTime() / 1000);
+    let date = moment.unix(new Date().getTime() / 1000);
 
     // If the subscription is on a trial, billing starts after the trial ends
-    if (subscription.is_free_trial) {
+    if (subscription.is_free_trial && (new Date() < new Date(subscription.trial_end_at / 1000))) {
         date = moment.unix(subscription.trial_end_at);
     }
     return date.format('MMM D, YYYY');
