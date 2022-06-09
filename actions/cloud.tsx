@@ -4,8 +4,6 @@
 import {Stripe} from '@stripe/stripe-js';
 import {getCode} from 'country-list';
 
-import {FileSizes} from 'utils/file_utils';
-
 import {Client4} from 'mattermost-redux/client';
 import {ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
 
@@ -91,11 +89,23 @@ export function subscribeCloudSubscription(productId: string) {
     };
 }
 
-export function requestCloudTrial(page: string) {
+export function requestCloudTrial(page: string, email = '') {
     trackEvent('api', 'api_request_cloud_trial_license', {from_page: page});
     return async () => {
         try {
-            await Client4.requestCloudTrial();
+            await Client4.requestCloudTrial(email);
+        } catch (error) {
+            return false;
+        }
+        return true;
+    };
+}
+
+export function validateBusinessEmail() {
+    trackEvent('api', 'api_validate_business_email');
+    return async () => {
+        try {
+            await Client4.validateBusinessEmail();
         } catch (error) {
             return false;
         }
@@ -139,12 +149,20 @@ export function getMessagesUsage(): ActionFunc {
 
 export function getFilesUsage(): ActionFunc {
     return async (dispatch: DispatchFunc) => {
-        dispatch({
-            type: CloudTypes.RECEIVED_FILES_USAGE,
+        try {
+            const result = await Client4.getFilesUsage();
 
-            // TODO: Fill this in with the backing client API method once it is available in the server
-            data: 3 * FileSizes.Gigabyte,
-        });
+            if (result) {
+                // match limit notation in bits
+                const inBits = result.bytes * 8;
+                dispatch({
+                    type: CloudTypes.RECEIVED_FILES_USAGE,
+                    data: inBits,
+                });
+            }
+        } catch (error) {
+            return error;
+        }
         return {data: true};
     };
 }
