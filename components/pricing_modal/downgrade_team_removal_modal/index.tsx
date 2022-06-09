@@ -30,6 +30,8 @@ type Props = {
     product_id: string;
 };
 
+// test THIS
+
 function DownGradeTeamRemovalModal(props: Props) {
     const dispatch = useDispatch();
     const [radioValue, setRadioValue] = useState('');
@@ -42,7 +44,7 @@ function DownGradeTeamRemovalModal(props: Props) {
     const teams = useSelector(getActiveTeamsList);
     useEffect(() => {
         if (!teams) {
-            dispatch(getTeams(0, 10000));
+            // dispatch(getTeams(0, 10000));
         }
     }, [teams]);
     const usage = useGetUsage();
@@ -88,7 +90,6 @@ function DownGradeTeamRemovalModal(props: Props) {
                     })}
                     value={radioValue}
                     onChange={(e) => setRadioValue(e.target.value)}
-
                 />
             );
         }
