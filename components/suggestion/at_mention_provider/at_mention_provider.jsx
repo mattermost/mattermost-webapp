@@ -99,8 +99,8 @@ export default class AtMentionProvider extends Provider {
         return groupSuggestions;
     }
 
-    // normalizeSuggestions removes accents from strings to match ascii encoding
-    normalizeSuggestions(name) {
+    // normalizeString performs a unicode normalization to a string
+    normalizeString(name) {
         return name.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
     }
 
@@ -113,7 +113,7 @@ export default class AtMentionProvider extends Provider {
         const prefixLower = this.latestPrefix.toLowerCase();
         const profileSuggestions = this.getProfileSuggestions(profile);
         return profileSuggestions.some((suggestion) =>
-            this.normalizeSuggestions(suggestion).startsWith(this.normalizeSuggestions(prefixLower)),
+            this.normalizeString(suggestion).startsWith(this.normalizeString(prefixLower)),
         );
     }
 
