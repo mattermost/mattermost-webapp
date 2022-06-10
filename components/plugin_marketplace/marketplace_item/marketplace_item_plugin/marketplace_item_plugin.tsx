@@ -338,7 +338,7 @@ export default class MarketplaceItemPlugin extends React.PureComponent <Marketpl
                     <Tooltip id={'plugin-marketplace_label_' + id + '-tooltip'}>
                         <FormattedMessage
                             id={'marketplace_modal.toggle.reached_limit.tooltip'}
-                            defaultMessage={"You've reached the maximum of {limit} enabled integtations. Upgrade your account for more."}
+                            defaultMessage={"You've reached the maximum of {limit} enabled integrations. Upgrade your account for more."}
                             values={{
                                 limit: cloudLimits?.integrations?.enabled,
                             }}

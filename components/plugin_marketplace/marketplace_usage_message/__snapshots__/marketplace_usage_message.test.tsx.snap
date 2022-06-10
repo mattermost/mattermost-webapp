@@ -1,0 +1,89 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/MarketplaceUsageMessage below limit, should match snapshot 1`] = `
+<div
+  className="marketplace-usage-message info"
+>
+  <strong>
+    <MemoizedFormattedMessage
+      defaultMessage="Your workspace is limited to {limit} enabled integrations."
+      id="marketplace_modal.usage_message.below_limit"
+      values={
+        Object {
+          "limit": 5,
+        }
+      }
+    />
+  </strong>
+  <p>
+    <injectIntl(FormattedMarkdownMessage)
+      defaultMessage="To install unlimited integrations, upgrade to one of our paid plans. [Review our plan options and pricing]({url})."
+      id="marketplace_modal.usage_message.upgrade_instructions"
+      values={
+        Object {
+          "url": "https://mattermost.com/pricing",
+        }
+      }
+    />
+  </p>
+  <div
+    className="upgrade-buttons"
+  >
+    <button
+      className="btn btn-primary"
+      onClick={[Function]}
+    >
+      <MemoizedFormattedMessage
+        defaultMessage="View plans"
+        id="marketplace_modal.usage_message.view_plans"
+      />
+    </button>
+  </div>
+  <button
+    aria-label="Close"
+    className="close-x"
+    onClick={[Function]}
+  >
+    <CloseIcon
+      id="closeIcon"
+    />
+  </button>
+</div>
+`;
+
+exports[`components/MarketplaceUsageMessage reached limit, should match snapshot 1`] = `
+<div
+  className="marketplace-usage-message danger"
+>
+  <strong>
+    <MemoizedFormattedMessage
+      defaultMessage="Integrations limits reached. Upgrade to install unlimited integrations."
+      id="marketplace_modal.usage_message.reached_limit"
+    />
+  </strong>
+  <p>
+    <injectIntl(FormattedMarkdownMessage)
+      defaultMessage="To install unlimited integrations, upgrade to one of our paid plans. [Review our plan options and pricing]({url})."
+      id="marketplace_modal.usage_message.upgrade_instructions"
+      values={
+        Object {
+          "url": "https://mattermost.com/pricing",
+        }
+      }
+    />
+  </p>
+  <div
+    className="upgrade-buttons"
+  >
+    <button
+      className="btn btn-primary"
+      onClick={[Function]}
+    >
+      <MemoizedFormattedMessage
+        defaultMessage="Upgrade now"
+        id="marketplace_modal.usage_message.upgrade_now"
+      />
+    </button>
+  </div>
+</div>
+`;

@@ -91,10 +91,7 @@ export default function MarketplaceUsageMessage() {
         <p>
             <FormattedMarkdownMessage
                 id={'marketplace_modal.usage_message.upgrade_instructions'}
-                defaultMessage={'To install unlimited integrations, upgrade to one of our paid plans. [Review our plan options and pricing]({url}).'}
-                values={{
-                    url: 'https://mattermost.com/pricing',
-                }}
+                defaultMessage={'To enable unlimited integrations, upgrade to one of our paid plans.'}
             />
         </p>
     );
