@@ -2,21 +2,19 @@
 // See LICENSE.txt for license information.
 import React from 'react';
 import {useIntl} from 'react-intl';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
+
+import {Product} from '@mattermost/types/cloud';
+
+import {getCloudProducts} from 'mattermost-redux/selectors/entities/cloud';
 
 import {openModal, closeModal} from 'actions/views/modals';
 import CloudUsageModal from 'components/cloud_usage_modal';
 
-import {ModalIdentifiers} from 'utils/constants';
-import {FileSizes} from 'utils/file_utils';
+import {CloudProducts, ModalIdentifiers} from 'utils/constants';
+import {fallbackStarterLimits, asGBString} from 'utils/limits';
 import {t} from 'utils/i18n';
-
-const STARTER_MESSAGES_LIMIT = 10000;
-const STARTER_FILE_STORAGE_LIMIT = 10;
-const STARTER_BOARDS_VIEW_LIMIT = 5;
-const STARTER_BOARD_CARDS_LIMIT = 500;
-const STARTER_INTEGRATIONS_LIMIT = 5;
 
 const Disclaimer = styled.div`
 margin-top: 36px;
@@ -32,6 +30,8 @@ cursor: pointer;
 function StarterDisclaimerCTA() {
     const intl = useIntl();
     const dispatch = useDispatch();
+    const products = useSelector(getCloudProducts);
+    const starterProductName = Object.values(products || {})?.find((product: Product) => product?.sku === CloudProducts.STARTER)?.name || 'Cloud Starter';
 
     const openLimitsMiniModal = () => {
         dispatch(openModal({
@@ -48,12 +48,13 @@ function StarterDisclaimerCTA() {
                 },
                 description: {
                     id: t('workspace_limits.modals.informational.description.starterLimits'),
-                    defaultMessage: 'Cloud starter is restricted to {messages} message history, {storage}GB file storage, {integrations} apps, and {boards} board cards.',
+                    defaultMessage: '{planName} is restricted to {messages} message history, {storage} file storage, {boards} board cards, and {integrations} integrations.',
                     values: {
-                        messages: intl.formatNumber(STARTER_MESSAGES_LIMIT),
-                        storage: STARTER_FILE_STORAGE_LIMIT,
-                        integrations: STARTER_INTEGRATIONS_LIMIT,
-                        boards: STARTER_BOARD_CARDS_LIMIT,
+                        planName: starterProductName,
+                        messages: intl.formatNumber(fallbackStarterLimits.messages.history),
+                        storage: asGBString(fallbackStarterLimits.files.totalStorage, intl.formatNumber),
+                        integrations: fallbackStarterLimits.integrations.enabled,
+                        boards: fallbackStarterLimits.boards.cards,
                     },
                 },
                 secondaryAction: {
@@ -70,17 +71,17 @@ function StarterDisclaimerCTA() {
                 },
                 ownLimits: {
                     messages: {
-                        history: STARTER_MESSAGES_LIMIT,
+                        history: fallbackStarterLimits.messages.history,
                     },
                     files: {
-                        total_storage: STARTER_FILE_STORAGE_LIMIT * FileSizes.Gigabyte,
+                        total_storage: fallbackStarterLimits.files.totalStorage,
                     },
                     boards: {
-                        cards: STARTER_BOARD_CARDS_LIMIT,
-                        views: STARTER_BOARDS_VIEW_LIMIT,
+                        cards: fallbackStarterLimits.boards.cards,
+                        views: fallbackStarterLimits.boards.views,
                     },
                     integrations: {
-                        enabled: STARTER_INTEGRATIONS_LIMIT,
+                        enabled: fallbackStarterLimits.integrations.enabled,
                     },
                 },
                 needsTheme: true,
