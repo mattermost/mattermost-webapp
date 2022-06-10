@@ -250,18 +250,21 @@ export default class Root extends React.PureComponent {
 
         const iosDownloadLink = getConfig(store.getState()).IosAppDownloadLink;
         const androidDownloadLink = getConfig(store.getState()).AndroidAppDownloadLink;
+        const desktopAppDownloadLink = getConfig(store.getState()).AppDownloadLink;
 
         const toResetPasswordScreen = this.props.location.pathname === '/reset_password_complete';
 
         // redirect to the mobile landing page if the user hasn't seen it before
-        let mobileLanding;
+        let landing;
         if (UserAgent.isAndroidWeb()) {
-            mobileLanding = androidDownloadLink;
+            landing = androidDownloadLink;
         } else if (UserAgent.isIosWeb()) {
-            mobileLanding = iosDownloadLink;
+            landing = iosDownloadLink;
+        } else {
+            landing = desktopAppDownloadLink;
         }
 
-        if (mobileLanding && !BrowserStore.hasSeenLandingPage() && !toResetPasswordScreen && !this.props.location.pathname.includes('/landing')) {
+        if (landing && !BrowserStore.hasSeenLandingPage() && !toResetPasswordScreen && !this.props.location.pathname.includes('/landing')) {
             this.props.history.push('/landing#' + this.props.location.pathname + this.props.location.search);
             BrowserStore.setLandingPageSeen(true);
         }
