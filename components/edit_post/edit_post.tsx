@@ -113,7 +113,6 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
     // just a helper so it's not always needed to update with setting both properties to the same value
     const setCaretPosition = (position: number) => setSelectionRange({start: position, end: position});
 
-    // const handlePaste: ClipboardEventHandler<HTMLTextAreaElement> = useCallback(({clipboardData, target, preventDefault}) => {
     const handlePaste = useCallback((e: ClipboardEvent) => {
         const {clipboardData, target} = e;
         if (

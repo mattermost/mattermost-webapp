@@ -88,8 +88,8 @@ export function formatGithubCodePaste({message, clipboardData, selectionStart, s
         splitMessageBasedOnCaretPosition(selectionStart ?? message.length, message);
 
     // Add new lines if content exists before or after the cursor.
-    const requireStartLF = (firstPiece === '') ? '' : '\n';
-    const requireEndLF = (lastPiece === '') ? '' : '\n';
+    const requireStartLF = firstPiece === '' ? '' : '\n';
+    const requireEndLF = lastPiece === '' ? '' : '\n';
     const formattedCodeBlock = requireStartLF + '```\n' + getPlainText(clipboardData) + '\n```' + requireEndLF;
     const formattedMessage = `${firstPiece}${formattedCodeBlock}${lastPiece}`;
 
