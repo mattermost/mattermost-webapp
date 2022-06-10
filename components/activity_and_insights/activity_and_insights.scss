@@ -12,17 +12,14 @@
 
         @media screen and (min-width: 1680px) {
             max-width: 1264px;
-            padding: 0;
             margin: 0 auto;
         }
 
-        .top-channels-card {
-            &.large {
-                @media screen and (max-width: 1019px) {
-                    width: 100%;
-                }
-            }
+        @media screen and (max-width: 768px) {
+            padding: 16px;
+        }
 
+        .top-channels-card {
             .Card__header {
                 padding-bottom: 16px;
 
@@ -42,8 +39,8 @@
 
         .top-reactions-card {
             &.small {
-                @media screen and (max-width: 1279px) {
-                    width: 100%;
+                @media screen and (max-width: 1279px) and (min-width: 769px) {
+                    width: calc(100% - 16px);
                 }
             }
 
@@ -52,14 +49,15 @@
             }
         }
 
+        .top-boards-card,
         .top-threads-card {
             &.small {
-                @media screen and (max-width: 1279px) {
+                @media screen and (max-width: 1279px) and (min-width: 1020px) {
                     width: calc((100%/2) - 16px);
                 }
 
-                @media screen and (max-width: 1019px) {
-                    width: 100%;
+                @media screen and (max-width: 1019px) and (min-width: 769px) {
+                    width: calc(100% - 16px);
                 }
             }
 
@@ -73,20 +71,6 @@
         }
 
         .top-boards-card {
-            &.small {
-                @media screen and (max-width: 1279px) {
-                    width: calc((100%/2) - 16px);
-                }
-
-                @media screen and (max-width: 1019px) {
-                    width: 100%;
-                }
-            }
-
-            .Card__header {
-                padding-bottom: 16px;
-            }
-
             .Card__body {
                 padding: 0 12px 18px;
             }
