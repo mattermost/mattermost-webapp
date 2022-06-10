@@ -114,7 +114,7 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
     const setCaretPosition = (position: number) => setSelectionRange({start: position, end: position});
 
     // const handlePaste: ClipboardEventHandler<HTMLTextAreaElement> = useCallback(({clipboardData, target, preventDefault}) => {
-    const handlePaste: ClipboardEventHandler<HTMLTextAreaElement> = useCallback((e: ClipboardEvent) => {
+    const handlePaste = useCallback((e: ClipboardEvent) => {
         const {clipboardData, target} = e;
         if (
             !clipboardData ||

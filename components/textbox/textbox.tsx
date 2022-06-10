@@ -42,7 +42,7 @@ type Props = {
     onBlur?: (e: FocusEvent<TextboxElement>) => void;
     supportsCommands: boolean;
     handlePostError?: (message: JSX.Element | null) => void;
-    onPaste?: ClipboardEventHandler;
+    onPaste?: (e: ClipboardEvent) => void;
     suggestionList?: React.ComponentProps<typeof SuggestionBox>['listComponent'];
     suggestionListPosition?: React.ComponentProps<typeof SuggestionList>['position'];
     emojiEnabled?: boolean;
