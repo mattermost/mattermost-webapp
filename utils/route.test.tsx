@@ -4,9 +4,9 @@ import assert from 'assert';
 
 import {checkIfMFARequired} from 'utils/route';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
-import {ClientLicense} from 'mattermost-redux/types/config';
+import {ClientLicense} from '@mattermost/types/config';
 
 import {ConfigOption} from './route';
 

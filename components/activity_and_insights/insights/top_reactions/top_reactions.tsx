@@ -2,12 +2,11 @@
 // See LICENSE.txt for license information.
 import React, {memo, useEffect, useState, useCallback} from 'react';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
-import {FormattedMessage} from 'react-intl';
 
 import {getTopReactionsForTeam, getMyTopReactions} from 'mattermost-redux/actions/insights';
 import {getTopReactionsForCurrentTeam, getMyTopReactionsForCurrentTeam} from 'mattermost-redux/selectors/entities/insights';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 import {TopReaction} from '@mattermost/types/insights';
 
 import {InsightsScopes} from 'utils/constants';
@@ -15,6 +14,8 @@ import {InsightsScopes} from 'utils/constants';
 import BarChartLoader from '../skeleton_loader/bar_chart_loader/bar_chart_loader';
 import CircleLoader from '../skeleton_loader/circle_loader/circle_loader';
 import widgetHoc, {WidgetHocProps} from '../widget_hoc/widget_hoc';
+
+import WidgetEmptyState from '../widget_empty_state/widget_empty_state';
 
 import TopReactionsBarChart from './top_reactions_bar_chart/top_reactions_bar_chart';
 
@@ -95,17 +96,9 @@ const TopReactions = (props: WidgetHocProps) => {
             }
             {
                 (topReactions.length === 0 && !loading) &&
-                <div className='empty-state'>
-                    <div className='empty-state-emoticon'>
-                        <i className='icon icon-emoticon-outline'/>
-                    </div>
-                    <div className='empty-state-text'>
-                        <FormattedMessage
-                            id='insights.topReactions.empty'
-                            defaultMessage='Not enough data yet for this insight'
-                        />
-                    </div>
-                </div>
+                <WidgetEmptyState
+                    icon={'emoticon-outline'}
+                />
             }
         </div>
     );

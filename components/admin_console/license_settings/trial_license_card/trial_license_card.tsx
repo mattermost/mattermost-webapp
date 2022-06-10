@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import moment from 'moment';
 
-import {ClientLicense} from 'mattermost-redux/types/config';
+import {ClientLicense} from '@mattermost/types/config';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 

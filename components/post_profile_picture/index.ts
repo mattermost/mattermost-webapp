@@ -7,7 +7,7 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getUser, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {Client4} from 'mattermost-redux/client';
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 
 import {GlobalState} from '../../types/store';
 

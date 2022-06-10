@@ -5,7 +5,7 @@ import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
-import {Group} from 'mattermost-redux/types/groups';
+import {Group} from '@mattermost/types/groups';
 
 import ToggleModalButton from 'components/toggle_modal_button';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';

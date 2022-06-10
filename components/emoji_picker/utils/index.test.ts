@@ -10,15 +10,65 @@ import {
     createCategoryAndEmojiRows,
 } from 'components/emoji_picker/utils';
 
+enum SkinTones {
+    Light = '1F3FB',
+    MediumLight ='1F3FC',
+    Medium = '1F3FD',
+    MediumDark = '1F3FE',
+    Dark = '1F3FF'
+}
+
 const smileEmoji = {
     unified: 'smile',
     short_names: 'smile',
     name: 'smile',
 };
 const thumbsupEmoji = {
-    unified: 'thumbsup',
-    short_names: ['thumbs_up', 'up'],
-    name: 'thumbsup',
+    name: 'THUMBS UP SIGN',
+    unified: '1F44D',
+    short_names: [
+        '+1',
+        'thumbsup',
+    ],
+};
+const thumbsupEmojiLightSkin = {
+    unified: '1F44D-1F3FB',
+    short_name: '+1_light_skin_tone',
+    short_names: [
+        '+1_light_skin_tone',
+        'thumbsup_light_skin_tone',
+    ],
+    name: 'THUMBS UP SIGN: LIGHT SKIN TONE',
+    category: 'people-body',
+    skins: [
+        '1F3FB',
+    ],
+};
+const thumbsupEmojiMediumSkin = {
+    unified: '1F44D-1F3FD',
+    short_name: '+1_medium_skin_tone',
+    short_names: [
+        '+1_medium_skin_tone',
+        'thumbsup_medium_skin_tone',
+    ],
+    name: 'THUMBS UP SIGN: MEDIUM SKIN TONE',
+    category: 'people-body',
+    skins: [
+        '1F3FD',
+    ],
+};
+const thumbsupEmojiDarkSkin = {
+    unified: '1F44D-1F3FF',
+    short_name: '+1_dark_skin_tone',
+    short_names: [
+        '+1_dark_skin_tone',
+        'thumbsup_dark_skin_tone',
+    ],
+    name: 'THUMBS UP SIGN: DARK SKIN TONE',
+    category: 'people-body',
+    skins: [
+        '1F3FF',
+    ],
 };
 const thumbsdownEmoji = {
     unified: 'thumbsdown',
@@ -69,8 +119,9 @@ describe('getFilteredEmojis', () => {
         const allEmojis = {};
         const filter = 'example';
         const recentEmojisString: string[] = [];
+        const userSkinTone = '';
 
-        expect(getFilteredEmojis(allEmojis, filter, recentEmojisString)).toEqual([]);
+        expect(getFilteredEmojis(allEmojis, filter, recentEmojisString, userSkinTone)).toEqual([]);
     });
 
     test('Should return same result when no filter is applied', () => {
@@ -81,6 +132,7 @@ describe('getFilteredEmojis', () => {
         };
         const filter = '';
         const recentEmojisString: string[] = [];
+        const userSkinTone = '';
 
         const filteredEmojis = [
             smileEmoji,
@@ -88,7 +140,7 @@ describe('getFilteredEmojis', () => {
             thumbsdownEmoji,
         ];
 
-        expect(getFilteredEmojis(allEmojis as any, filter, recentEmojisString)).toStrictEqual(filteredEmojis);
+        expect(getFilteredEmojis(allEmojis as any, filter, recentEmojisString, userSkinTone)).toStrictEqual(filteredEmojis);
     });
 
     test('Should return correct result of single match when appropriate filter is applied', () => {
@@ -99,8 +151,9 @@ describe('getFilteredEmojis', () => {
         };
         const filter = 'up';
         const recentEmojisString: string[] = [];
+        const userSkinTone = '';
 
-        expect(getFilteredEmojis(allEmojis as any, filter, recentEmojisString)).toStrictEqual([thumbsupEmoji]);
+        expect(getFilteredEmojis(allEmojis as any, filter, recentEmojisString, userSkinTone)).toStrictEqual([thumbsupEmoji]);
     });
 
     test('Should return correct result of multiple match when appropriate filter is applied', () => {
@@ -110,14 +163,15 @@ describe('getFilteredEmojis', () => {
             thumbsdown: thumbsdownEmoji,
         };
         const filter = 'thumbs';
-        const recentEmojisString: string[] = [''];
+        const recentEmojisString: string[] = [];
+        const userSkinTone = '';
 
         const filteredResults = [
             thumbsdownEmoji,
             thumbsupEmoji,
         ];
 
-        expect(getFilteredEmojis(allEmojis as any, filter, recentEmojisString)).toEqual(filteredResults);
+        expect(getFilteredEmojis(allEmojis as any, filter, recentEmojisString, userSkinTone)).toEqual(filteredResults);
     });
 
     test('Should return correct order of result when filter is applied and contains recently used emojis', () => {
@@ -128,13 +182,56 @@ describe('getFilteredEmojis', () => {
         };
         const filter = 'thumbs';
         const recentEmojisString = ['thumbsup'];
+        const userSkinTone = '';
 
         const filteredResults = [
             thumbsupEmoji,
             thumbsdownEmoji,
         ];
 
-        expect(getFilteredEmojis(allEmojis as any, filter, recentEmojisString)).toEqual(filteredResults);
+        expect(getFilteredEmojis(allEmojis as any, filter, recentEmojisString, userSkinTone)).toEqual(filteredResults);
+    });
+
+    test('Should filter emojis containing skin tone with user skin tone', () => {
+        const allEmojis = {
+            thumbsup: thumbsupEmoji,
+            thumbsupDark: thumbsupEmojiDarkSkin,
+            thumbsupLight: thumbsupEmojiLightSkin,
+            thumbsupMedium: thumbsupEmojiMediumSkin,
+        };
+        const filter = 'thumbs';
+        const recentEmojisString: string[] = [];
+        const userSkinTone = SkinTones.Dark;
+
+        // Note that filteredResults doesn't match what will be returned in a real use case because the variants of
+        // thumbsup will be deduped when using non-test data
+        const filteredResults = [
+            thumbsupEmoji,
+            thumbsupEmojiDarkSkin,
+        ];
+
+        expect(getFilteredEmojis(allEmojis as any, filter, recentEmojisString, userSkinTone)).toEqual(filteredResults);
+    });
+
+    test('Should filter recent emojis', () => {
+        const allEmojis = {
+            thumbsup: thumbsupEmoji,
+            thumbsupDark: thumbsupEmojiDarkSkin,
+            thumbsupLight: thumbsupEmojiLightSkin,
+            thumbsupMedium: thumbsupEmojiMediumSkin,
+        };
+        const filter = 'thumbs';
+        const recentEmojisString = ['thumbsupDark'];
+        const userSkinTone = SkinTones.Dark;
+
+        // Note that filteredResults doesn't match what will be returned in a real use case because the variants of
+        // thumbsup will be deduped when using non-test data
+        const filteredResults = [
+            thumbsupEmojiDarkSkin,
+            thumbsupEmoji,
+        ];
+
+        expect(getFilteredEmojis(allEmojis as any, filter, recentEmojisString, userSkinTone)).toEqual(filteredResults);
     });
 });
 
@@ -285,13 +382,13 @@ describe('createCategoryAndEmojiRows', () => {
             recent: recentCategory,
         };
 
-        expect(createCategoryAndEmojiRows([] as any, categories as any, '')).toEqual([[], []]);
+        expect(createCategoryAndEmojiRows([] as any, categories as any, 'default', '')).toEqual([[], []]);
 
         const allEmojis = {
             smile: smileEmoji,
             thumbsup: thumbsupEmoji,
         };
-        expect(createCategoryAndEmojiRows(allEmojis as any, [] as any, '')).toEqual([[], []]);
+        expect(createCategoryAndEmojiRows(allEmojis as any, [] as any, 'default', '')).toEqual([[], []]);
     });
 
     test('Should return search results on filter is on', () => {
@@ -357,7 +454,7 @@ describe('createCategoryAndEmojiRows', () => {
             },
         ];
 
-        expect(createCategoryAndEmojiRows(allEmojis as any, categories as any, 'thumbs')).toEqual([categoryAndEmojiRows, emojiPositions]);
+        expect(createCategoryAndEmojiRows(allEmojis as any, categories as any, 'default', 'thumbs')).toEqual([categoryAndEmojiRows, emojiPositions]);
     });
 
     test('Should construct correct category and emoji rows along with emoji positions', () => {
@@ -374,7 +471,7 @@ describe('createCategoryAndEmojiRows', () => {
             },
         };
 
-        expect(createCategoryAndEmojiRows(allEmojis as any, categories as any, '')[0]).toEqual([
+        expect(createCategoryAndEmojiRows(allEmojis as any, categories as any, 'default', '')[0]).toEqual([
             {
                 index: 0,
                 type: 'categoryHeaderRow',
@@ -408,7 +505,7 @@ describe('createCategoryAndEmojiRows', () => {
             },
         ]);
 
-        expect(createCategoryAndEmojiRows(allEmojis as any, categories as any, '')[1]).toEqual([
+        expect(createCategoryAndEmojiRows(allEmojis as any, categories as any, 'default', '')[1]).toEqual([
             {
                 rowIndex: 1,
                 emojiId: hundredEmoji.unified,

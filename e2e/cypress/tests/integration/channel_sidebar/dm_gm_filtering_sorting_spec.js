@@ -11,19 +11,15 @@
 // Group: @dm_category
 
 import * as MESSAGES from '../../fixtures/messages';
-import {getAdminAccount} from '../../support/env';
 
 describe('DM/GM filtering and sorting', () => {
-    const sysadmin = getAdminAccount();
     let testUser;
+
     before(() => {
         // # Login as test user and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({user, townSquareUrl}) => {
+        cy.apiInitSetup({loginAfter: true, promoteNewUserAsAdmin: true}).then(({user, townSquareUrl}) => {
             testUser = user;
             cy.visit(townSquareUrl);
-
-            // # upgrade user to sys admin role
-            cy.externalRequest({user: sysadmin, method: 'put', path: `users/${user.id}/roles`, data: {roles: 'system_user system_admin'}});
         });
     });
 

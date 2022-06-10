@@ -6,8 +6,8 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {isAdmin, isSystemAdmin, isGuest} from 'mattermost-redux/utils/user_utils';
-import {UserProfile} from 'mattermost-redux/types/users';
-import {Team, TeamMembership} from 'mattermost-redux/types/teams';
+import {UserProfile} from '@mattermost/types/users';
+import {Team, TeamMembership} from '@mattermost/types/teams';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {localizeMessage} from 'utils/utils';
@@ -32,7 +32,7 @@ const ManageTeamsDropdown = (props: Props) => {
             props.onError(
                 <FormattedMessage
                     id='admin.manage_teams.makeAdminError'
-                    defaultMessage='Unable to remove user an admin.'
+                    defaultMessage='Unable to make user a team admin.'
                 />);
         } else {
             props.onMemberChange(props.teamMember.team_id);
