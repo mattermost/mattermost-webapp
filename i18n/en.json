@@ -3770,7 +3770,6 @@
   "marketplace_modal.tabs.all_listing": "All",
   "marketplace_modal.tabs.installed_listing": "Installed",
   "marketplace_modal.title": "Marketplace",
-  "marketplace_modal.toggle.reached_limit.tooltip": "You've reached the maximum of {limit} enabled integtations. Upgrade your account for more.",
   "marketplace_modal.usage_message.below_limit": "Your workspace is limited to {limit} enabled integrations.",
   "marketplace_modal.usage_message.reached_limit": "Integrations limits reached. Upgrade to install unlimited integrations.",
   "marketplace_modal.usage_message.upgrade_instructions": "To enable unlimited integrations, upgrade to one of our paid plans.",

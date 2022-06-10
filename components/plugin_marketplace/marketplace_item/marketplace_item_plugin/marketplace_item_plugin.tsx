@@ -411,7 +411,6 @@ export default class MarketplaceItemPlugin extends React.PureComponent <Marketpl
                     updateDetails={updateDetails}
                     iconSource={this.props.iconData}
                     {...this.props}
-                    error={this.props.error || this.props.pluginStatus?.error}
                 />
                 <UpdateConfirmationModal
                     show={this.state.showUpdateConfirmationModal}
