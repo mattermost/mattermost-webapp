@@ -3,7 +3,9 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import {CSSTransition} from 'react-transition-group';
+import AutoSizer from 'react-virtualized-auto-sizer';
+import {FixedSizeList} from 'react-window';
+import InfiniteLoader from 'react-window-infinite-loader';
 
 import {UserProfile} from '@mattermost/types/users';
 import {Channel} from '@mattermost/types/channels';
@@ -11,98 +13,84 @@ import {Channel} from '@mattermost/types/channels';
 import Member from './member';
 import {ChannelMember} from './channel_members_rhs';
 
-const Title = styled.div`
-    font-weight: 600;
-    font-size: 12px;
-    line-height: 28px;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-    padding: 0px 12px;
-    color: rgba(var(--center-channel-color-rgb), 0.56);
-`;
-
-const Members = styled.div`
-    &.editing-transition-enter {
-        .member-role-chooser {
-            opacity: 0;
-            display: block;
-        }
-    }
-
-    &.editing-transition-enter-active {
-        .member-role-chooser {
-            opacity: 1;
-            transition: opacity 250ms;
-        }
-    }
-
-    &.editing-transition-enter-done {
-        .member-role-chooser {
-            opacity: 1;
-        }
-    }
-
-    &.editing-transition-exit {
-        .member-role-chooser {
-            opacity: 1;
-            display: block;
-        }
-    }
-
-    &.editing-transition-exit-active {
-        .member-role-chooser {
-            opacity: 0;
-            transition: opacity 250ms;
-            display: block;
-        }
-    }
-`;
-
 export interface Props {
-    className?: string;
     channel: Channel;
     members: ChannelMember[];
     editing: boolean;
-    title?: JSX.Element;
+    hasNextPage: boolean;
+    isNextPageLoading: boolean;
 
     actions: {
         openDirectMessage: (user: UserProfile) => void;
+        loadMore: () => void;
     };
 }
 
-const MemberList = ({className, channel, members, editing, title, actions}: Props) => {
-    return (
-        <div className={className} >
-            {members.length > 0 && (
-                <>
-                    {Boolean(title) && (<Title>{title}</Title>)}
+const MemberList = ({
+    hasNextPage,
+    isNextPageLoading,
+    channel,
+    members,
+    editing,
+    actions,
+}: Props) => {
+    // If there are more items to be loaded then add an extra row to hold a loading indicator.
+    const itemCount = hasNextPage ? members.length + 1 : members.length;
 
-                    <CSSTransition
-                        in={editing}
-                        appear={true}
-                        timeout={250}
-                        classNames='editing-transition'
-                    >
-                        <Members>
-                            {members.map((member, index, {length: totalUsers}) => (
-                                <Member
-                                    key={member.user.id}
-                                    channel={channel}
-                                    index={index}
-                                    totalUsers={totalUsers}
-                                    member={member}
-                                    editing={editing}
-                                    actions={{openDirectMessage: actions.openDirectMessage}}
-                                />
-                            ))}
-                        </Members>
-                    </CSSTransition>
-                </>
+    // Only load 1 page of items at a time.
+    // Pass an empty callback to InfiniteLoader in case it asks us to load more than once.
+    const loadMoreItems = isNextPageLoading ? () => {} : actions.loadMore;
+
+    // Every row is loaded except for our loading indicator row.
+    const isItemLoaded = (index: number) => !hasNextPage || index < members.length;
+
+    // Render an item or a loading indicator.
+    const Item = ({index, style}: any) => {
+        const member = members[index];
+
+        if (isItemLoaded(index)) {
+            return (
+                <div style={style}>
+                    <Member
+                        key={member.user.id}
+                        channel={channel}
+                        index={index}
+                        totalUsers={members.length}
+                        member={member}
+                        editing={editing}
+                        actions={{openDirectMessage: actions.openDirectMessage}}
+                    />
+                </div>
+            );
+        }
+
+        return null;
+    };
+
+    return (
+        <AutoSizer>
+            {({height, width}) => (
+                <InfiniteLoader
+                    isItemLoaded={isItemLoaded}
+                    itemCount={itemCount}
+                    loadMoreItems={loadMoreItems}
+                >
+                    {({onItemsRendered, ref}) => (
+                        <FixedSizeList
+                            itemCount={itemCount}
+                            onItemsRendered={onItemsRendered}
+                            ref={ref}
+                            itemSize={48}
+                            height={height}
+                            width={width}
+                        >
+                            {Item}
+                        </FixedSizeList>
+                    )}
+                </InfiniteLoader>
             )}
-        </div>
+        </AutoSizer>
     );
 };
 
-export default styled(MemberList)`
-    padding: 0 4px 16px;
-`;
+export default MemberList;

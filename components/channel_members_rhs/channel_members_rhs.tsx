@@ -1,8 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useCallback, useEffect} from 'react';
-import {FormattedMessage} from 'react-intl';
+import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {debounce} from 'lodash';
 
@@ -22,15 +21,14 @@ import SearchBar from './search';
 const USERS_PER_PAGE = 100;
 export interface ChannelMember {
     user: UserProfile;
-    membership: ChannelMembership;
-    status: string;
+    membership?: ChannelMembership;
+    status?: string;
     displayName: string;
 }
 
 const MembersContainer = styled.div`
-    flex: 1;
+    flex: 1 1 auto;
     padding: 0 4px 16px;
-    overflow-y: auto;
 `;
 
 export interface Props {
@@ -40,7 +38,6 @@ export interface Props {
     canGoBack: boolean;
     teamUrl: string;
     channelMembers: ChannelMember[];
-    channelAdmins: ChannelMember[];
     canManageMembers: boolean;
     editing: boolean;
 
@@ -63,26 +60,18 @@ export default function ChannelMembersRHS({
     membersCount,
     canGoBack,
     teamUrl,
-    channelAdmins,
     channelMembers,
     canManageMembers,
     editing = false,
     actions,
 }: Props) {
+    const [page, setPage] = useState(0);
+    const [isNextPageLoading, setIsNextPageLoading] = useState(false);
+
     const searching = searchTerms !== '';
 
     // show search if there's more than 20 or if the user have an active search.
     const showSearch = searching || membersCount >= 20;
-
-    let normalMemberTitle;
-    if (channelMembers.length > 0 && !searching) {
-        normalMemberTitle = (
-            <FormattedMessage
-                id='channel_members_rhs.list.channel_members_title'
-                defaultMessage='MEMBERS'
-            />
-        );
-    }
 
     useEffect(() => {
         return () => {
@@ -100,6 +89,8 @@ export default function ChannelMembersRHS({
             return;
         }
 
+        setPage(0);
+        setIsNextPageLoading(false);
         actions.setChannelMembersRhsSearchTerm('');
         actions.loadProfilesAndReloadChannelMembers(0, USERS_PER_PAGE, channel.id);
         actions.loadMyChannelMemberAndRole(channel.id);
@@ -145,6 +136,15 @@ export default function ChannelMembersRHS({
         await actions.closeRightHandSide();
     };
 
+    const loadMore = async () => {
+        setIsNextPageLoading(true);
+
+        await actions.loadProfilesAndReloadChannelMembers(page + 1, USERS_PER_PAGE, channel.id);
+        setPage(page + 1);
+
+        setIsNextPageLoading(false);
+    };
+
     return (
         <div
             id='rhsContainer'
@@ -178,28 +178,14 @@ export default function ChannelMembersRHS({
             )}
 
             <MembersContainer>
-                {channelAdmins.length > 0 && (
-                    <MemberList
-                        members={channelAdmins}
-                        title={
-                            <FormattedMessage
-                                id='channel_members_rhs.list.channel_admin_title'
-                                defaultMessage='CHANNEL ADMINS'
-                            />
-                        }
-                        editing={editing}
-                        channel={channel}
-                        actions={{openDirectMessage}}
-                    />
-                )}
-
                 {channelMembers.length > 0 && (
                     <MemberList
                         members={channelMembers}
-                        title={normalMemberTitle}
                         editing={editing}
                         channel={channel}
-                        actions={{openDirectMessage}}
+                        actions={{openDirectMessage, loadMore}}
+                        hasNextPage={channelMembers.length < membersCount}
+                        isNextPageLoading={isNextPageLoading}
                     />
                 )}
             </MembersContainer>

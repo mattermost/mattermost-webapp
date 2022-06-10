@@ -293,7 +293,7 @@ describe('Channel members RHS', () => {
 
             // # create a user that will not be listed by default
             const lastUser = generateRandomUser();
-            lastUser.username = 'zzzzzzz';
+            lastUser.username = 'zzzzzzz' + Date.now();
             cy.apiCreateUser({user: lastUser}).then(({user: newUser}) => {
                 cy.apiAddUserToTeam(testTeam.id, newUser.id).then(() => {
                     cy.apiAddUserToChannel(channel.id, newUser.id);
