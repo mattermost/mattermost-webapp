@@ -176,6 +176,7 @@ const TrialBenefitsModal = ({
             />
         ),
         bottomLeftMessage: formatMessage({id: 'trial_benefits.modal.onlyVisibleToAdmins', defaultMessage: 'Only visible to admins'}),
+        isCloud: license?.Cloud === 'true',
     };
 
     const handleOnClose = useCallback(() => {
@@ -213,6 +214,7 @@ const TrialBenefitsModal = ({
         svgWrapperClassName,
         svgElement,
         bottomLeftMessage,
+        isCloud, // when we are in cloud, ommit the cta to go to the system console, this because the license changes take some time to get applied (see MM-44463)
     }: TrialBenefitsModalStepProps) => {
         return (
             <div
@@ -238,16 +240,18 @@ const TrialBenefitsModal = ({
                             defaultMessage='Close'
                         />
                     </a>
-                    <BlockableLink
-                        className='primary-button'
-                        to={ConsolePages.GUEST_ACCESS}
-                        onClick={handleOnClose}
-                    >
-                        <FormattedMessage
-                            id='trial_benefits_modal.trial_just_started.buttons.setUp'
-                            defaultMessage='Set up system console'
-                        />
-                    </BlockableLink>
+                    {!isCloud &&
+                        <BlockableLink
+                            className='primary-button'
+                            to={ConsolePages.GUEST_ACCESS}
+                            onClick={handleOnClose}
+                        >
+                            <FormattedMessage
+                                id='trial_benefits_modal.trial_just_started.buttons.setUp'
+                                defaultMessage='Set up system console'
+                            />
+                        </BlockableLink>
+                    }
                 </div>
                 {bottomLeftMessage && (
                     <div className='bottom-text-left-message'>
