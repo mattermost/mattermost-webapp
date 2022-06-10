@@ -451,7 +451,6 @@ function pluginStatuses(state: Record<string, PluginStatusRedux> = {}, action: G
                     cluster_id: plugin.cluster_id,
                     version: plugin.version,
                     state: plugin.state,
-                    error: plugin.error,
                 },
             ];
 
