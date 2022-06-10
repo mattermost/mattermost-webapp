@@ -49,7 +49,8 @@ export function isGitHubCodeBlock(tableClassName: string): boolean {
 
 function columnText(column: Element): string {
     const noBreakSpace = '\u00A0';
-    const text = column.textContent == null ? noBreakSpace : column.textContent.trim().replace(/\|/g, '\\|').replace(/\n/g, ' ');
+    const text = column.textContent == null ?
+        noBreakSpace : column.textContent.trim().replace(/\|/g, '\\|').replace(/\n/g, ' ');
     return text;
 }
 
@@ -82,7 +83,9 @@ export function formatMarkdownTableMessage(table: HTMLTableElement, message?: st
 
 export function formatGithubCodePaste({message, clipboardData, selectionStart, selectionEnd}: FormatCodeOptions): {formattedMessage: string; formattedCodeBlock: string} {
     const textSelected = selectionStart !== selectionEnd;
-    const {firstPiece, lastPiece} = textSelected ? splitMessageBasedOnTextSelection(selectionStart ?? message.length, selectionEnd ?? message.length, message) : splitMessageBasedOnCaretPosition(selectionStart ?? message.length, message);
+    const {firstPiece, lastPiece} = textSelected ?
+        splitMessageBasedOnTextSelection(selectionStart ?? message.length, selectionEnd ?? message.length, message) :
+        splitMessageBasedOnCaretPosition(selectionStart ?? message.length, message);
 
     // Add new lines if content exists before or after the cursor.
     const requireStartLF = (firstPiece === '') ? '' : '\n';
