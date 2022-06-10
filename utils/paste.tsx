@@ -81,13 +81,11 @@ export function formatMarkdownTableMessage(table: HTMLTableElement, message?: st
 }
 
 export function formatGithubCodePaste({message, clipboardData, selectionStart, selectionEnd}: FormatCodeOptions): {formattedMessage: string; formattedCodeBlock: string} {
-    // todo make null checks for selection start and end
-    const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition(selectionStart, selectionEnd, message);
-    const messageSelected = selectionStart !== selectionEnd;
+    const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition(selectionStart ?? message.length, selectionEnd ?? message.length, message);
 
     // Add new lines if content exists before or after the cursor.
-    const requireStartLF = (firstPiece === '' || messageSelected) ? '' : '\n';
-    const requireEndLF = (lastPiece === '' || messageSelected) ? '' : '\n';
+    const requireStartLF = (firstPiece === '') ? '' : '\n';
+    const requireEndLF = (lastPiece === '') ? '' : '\n';
     const formattedCodeBlock = requireStartLF + '```\n' + getPlainText(clipboardData) + '\n```' + requireEndLF;
     const formattedMessage = `${firstPiece}${formattedCodeBlock}${lastPiece}`;
 
