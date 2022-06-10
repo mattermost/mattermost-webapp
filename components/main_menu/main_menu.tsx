@@ -18,19 +18,16 @@ import TeamPermissionGate from 'components/permissions_gates/team_permission_gat
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 
 import LeaveTeamIcon from 'components/widgets/icons/leave_team_icon';
-import OverlayTrigger from 'components/overlay_trigger';
-import Tooltip from 'components/tooltip';
-import ToggleModalButton from 'components/toggle_modal_button';
 
 import LeaveTeamModal from 'components/leave_team_modal';
 import UserSettingsModal from 'components/user_settings/modal';
-import CreateTeamRestrictedModal from 'components/create_team_restricted_modal/create_team_restricted_modal';
 import TeamMembersModal from 'components/team_members_modal';
 import TeamSettingsModal from 'components/team_settings_modal';
 import AboutBuildModal from 'components/about_build_modal';
 import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
 
 import Menu from 'components/widgets/menu/menu';
+import RestrictedIndicator from 'components/widgets/menu/menu_items/restricted_indicator';
 import TeamGroupsManageModal from 'components/team_groups_manage_modal';
 
 import {ModalData} from 'types/actions';
@@ -475,37 +472,29 @@ export class MainMenu extends React.PureComponent<Props> {
                             disabled={this.props.isCloud && this.props.isCloudFreeEnabled && teamsLimitReached}
                             text={formatMessage({id: 'navbar_dropdown.create', defaultMessage: 'Create a Team'})}
                             sibling={createTeamRestricted && (
-                                <span className='MenuItem__icon-tooltip-container'>
-                                    <OverlayTrigger
-                                        delayShow={Constants.OVERLAY_TIME_DELAY}
-                                        placement='right'
-                                        overlay={(
-                                            <Tooltip id={'MenuItem__icon-tooltip'}>
-                                                <span className='title'>
-                                                    {formatMessage({id: 'navbar_dropdown.create.tooltip.title', defaultMessage: 'Professional feature'})}
-                                                </span>
-                                                <span className='message'>
-                                                    {this.props.isFreeTrial ? (
-                                                        formatMessage({id: 'navbar_dropdown.create.tooltip.cloudFreeTrial', defaultMessage: 'During your trial you are able to create multiple teams. These teams will be archived after your trial.'})
-                                                    ) : (
-                                                        formatMessage({id: 'navbar_dropdown.create.tooltip.cloudFree', defaultMessage: 'This is a paid feature, available with a free 30-day trial'})
-                                                    )}
-                                                </span>
-                                            </Tooltip>
-                                        )}
-                                    >
-                                        {this.props.isFreeTrial ? (
-                                            <i className='MenuItem__icon-tooltip icon trial'/>
-                                        ) : (
-                                            <ToggleModalButton
-                                                modalId={ModalIdentifiers.CREATE_TEAM_RESTRICTED_MODAL}
-                                                dialogType={CreateTeamRestrictedModal}
-                                            >
-                                                <i className='MenuItem__icon-tooltip icon icon-key-variant'/>
-                                            </ToggleModalButton>
-                                        )}
-                                    </OverlayTrigger>
-                                </span>
+                                <RestrictedIndicator
+                                    blocked={!this.props.isFreeTrial}
+                                    tooltipMessage={formatMessage({
+                                        id: 'navbar_dropdown.create.tooltip.cloudFreeTrial',
+                                        defaultMessage: 'During your trial you are able to create multiple teams. These teams will be archived after your trial.',
+                                    })}
+                                    modalTitle={formatMessage({
+                                        id: 'navbar_dropdown.create.modal.title',
+                                        defaultMessage: 'Try unlimited teams with a free trial',
+                                    })}
+                                    modalMessage={formatMessage({
+                                        id: 'navbar_dropdown.create.modal.description',
+                                        defaultMessage: 'Create unlimited teams with one of our paid plans. Get the full experience of Enterprise when you start a free, 30 day trial.',
+                                    })}
+                                    modalTitleAfterTrial={formatMessage({
+                                        id: 'navbar_dropdown.create.modal.title.afterTrial',
+                                        defaultMessage: 'Upgrade to create unlimited teams',
+                                    })}
+                                    modalMessageAfterTrial={formatMessage({
+                                        id: 'navbar_dropdown.create.modal.description.afterTrial',
+                                        defaultMessage: 'Multiple teams allow for context-specific spaces that are more attuned to your and your teams’ needs. Upgrade to the Professional plan to create unlimited teams.',
+                                    })}
+                                />
                             )}
                         />
                     </SystemPermissionGate>

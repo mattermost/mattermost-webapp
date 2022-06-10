@@ -20,64 +20,65 @@ import {isModalOpen} from 'selectors/views/modals';
 import {GlobalState} from 'types/store';
 import {ModalIdentifiers, AboutLinks, LicenseLinks} from 'utils/constants';
 
-import './create_team_restricted_modal.scss';
+import './feature_restricted_modal.scss';
 
-const CreateTeamRestrictedModal = () => {
+type FeatureRestrictedModalProps = {
+    modalTitle: string;
+    modalMessage: string;
+    modalTitleAfterTrial: string;
+    modalMessageAfterTrial: string;
+}
+
+const FeatureRestrictedModal = ({
+    modalTitle,
+    modalMessage,
+    modalTitleAfterTrial,
+    modalMessageAfterTrial,
+}: FeatureRestrictedModalProps) => {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch<DispatchFunc>();
 
     const subscription = useSelector(selectCloudSubscription);
     const isSystemAdmin = useSelector(isCurrentUserSystemAdmin);
-    const show = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.CREATE_TEAM_RESTRICTED_MODAL));
+    const show = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.FEATURE_RESTRICTED_MODAL));
     const openPricingModal = useOpenPricingModal();
 
     if (!show) {
         return null;
     }
 
+    const dismissAction = () => {
+        dispatch(closeModal(ModalIdentifiers.FEATURE_RESTRICTED_MODAL));
+    };
+
+    const handleViewPlansClick = () => {
+        openPricingModal();
+        dismissAction();
+    };
+
     const hadPrevCloudTrial = subscription?.is_free_trial === 'false' && subscription?.trial_end_at > 0;
     const showStartTrial = isSystemAdmin && !hadPrevCloudTrial;
 
-    const dismissAction = async () => {
-        await dispatch(closeModal(ModalIdentifiers.CREATE_TEAM_RESTRICTED_MODAL));
-    };
-
     return (
         <GenericModal
-            id='CreateTeamRestrictedModal'
-            className='CreateTeamRestrictedModal'
+            id='FeatureRestrictedModal'
+            className='FeatureRestrictedModal'
             useCompassDesign={true}
-            modalHeaderText={hadPrevCloudTrial ? (
-                formatMessage({id: 'create_team_restricted_modal.title.prevTrial', defaultMessage: 'Upgrade to create unlimited teams'})
-            ) : (
-                formatMessage({id: 'create_team_restricted_modal.title', defaultMessage: 'Try unlimited teams with a free trial'})
-            )}
+            modalHeaderText={hadPrevCloudTrial ? modalTitleAfterTrial : modalTitle}
             onExited={dismissAction}
         >
-            <div className='CreateTeamRestrictedModal__body'>
-                <p className='CreateTeamRestrictedModal__description'>
-                    {hadPrevCloudTrial ? (
-                        formatMessage({
-                            id: 'create_team_restricted_modal.description.prevTrial',
-                            defaultMessage: 'Multiple teams allow for context-specific spaces that are more attuned to your and your teams’ needs. Upgrade to the Professional plan to create unlimited teams.',
-                        })
-                    ) : (
-                        formatMessage({
-                            id: 'create_team_restricted_modal.description',
-                            defaultMessage: 'Create unlimited teams with one of our paid plans. Get the full experience of Enterprise when you start a free, 30 day trial.',
-                        })
-                    )}
+            <div className='FeatureRestrictedModal__body'>
+                <p className='FeatureRestrictedModal__description'>
+                    {hadPrevCloudTrial ? modalMessageAfterTrial : modalMessage}
                 </p>
-                {!hadPrevCloudTrial && (
-                    <p className='CreateTeamRestrictedModal__terms'>
+                {showStartTrial && (
+                    <p className='FeatureRestrictedModal__terms'>
                         <FormattedMessage
                             id='create_team_restricted_modal.agreement'
                             defaultMessage='By selecting <highlight>Try free for 30 days</highlight>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails.'
                             values={{
                                 highlight: (msg: React.ReactNode) => (
-                                    <strong>
-                                        {msg}
-                                    </strong>
+                                    <strong>{msg}</strong>
                                 ),
                                 linkEvaluation: (msg: React.ReactNode) => (
                                     <a
@@ -101,10 +102,10 @@ const CreateTeamRestrictedModal = () => {
                         />
                     </p>
                 )}
-                <div className={classNames('CreateTeamRestrictedModal__buttons', {single: !showStartTrial})}>
+                <div className={classNames('FeatureRestrictedModal__buttons', {single: !showStartTrial})}>
                     <button
                         className='button-plans'
-                        onClick={openPricingModal}
+                        onClick={handleViewPlansClick}
                     >
                         {formatMessage({id: 'create_team_restricted_modal.button.plans', defaultMessage: 'View plans'})}
                     </button>
@@ -122,4 +123,4 @@ const CreateTeamRestrictedModal = () => {
     );
 };
 
-export default CreateTeamRestrictedModal;
+export default FeatureRestrictedModal;
