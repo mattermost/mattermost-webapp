@@ -981,7 +981,7 @@ describe('PostUtils.splitMessageBasedOnTextSelection', () => {
     it('should return an object with two strings when given context and message', () => {
         const stringPieces = PostUtils.splitMessageBasedOnTextSelection(state.selectionStart, state.selectionEnd, message);
         expect('Test ').toBe(stringPieces.firstPiece);
-        expect(' Message').toBe(stringPieces.lastPiece)
+        expect(' Message').toBe(stringPieces.lastPiece);
     });
 });
 
