@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {splitMessageBasedOnCaretPosition} from 'utils/post_utils';
+import {splitMessageBasedOnCaretPosition, splitMessageBasedOnTextSelection} from 'utils/post_utils';
 
 type FormatCodeOptions = {
     message: string;
@@ -81,7 +81,8 @@ export function formatMarkdownTableMessage(table: HTMLTableElement, message?: st
 }
 
 export function formatGithubCodePaste({message, clipboardData, selectionStart, selectionEnd}: FormatCodeOptions): {formattedMessage: string; formattedCodeBlock: string} {
-    const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition(selectionStart ?? message.length, selectionEnd ?? message.length, message);
+    const textSelected = selectionStart !== selectionEnd;
+    const {firstPiece, lastPiece} = textSelected ? splitMessageBasedOnTextSelection(selectionStart ?? message.length, selectionEnd ?? message.length, message) : splitMessageBasedOnCaretPosition(selectionStart ?? message.length, message);
 
     // Add new lines if content exists before or after the cursor.
     const requireStartLF = (firstPiece === '') ? '' : '\n';
