@@ -10,8 +10,8 @@ import {AuthChangeResponse} from '@mattermost/types/users';
 
 import {emailToOAuth} from 'actions/admin_actions.jsx';
 
-import Constants from 'utils/constants';
-import * as Utils from 'utils/utils';
+import Constants, {ClaimErrors} from 'utils/constants';
+import {localizeMessage, toTitleCase} from 'utils/utils';
 import {t} from 'utils/i18n';
 
 import LoginMfa from 'components/login/login_mfa';
@@ -36,7 +36,7 @@ const EmailToOAuth = (props: Props) => {
 
         const password = passwordInput.current?.value;
         if (!password) {
-            setServerError(Utils.localizeMessage('claim.email_to_oauth.pwdError', 'Please enter your password.'));
+            setServerError(localizeMessage('claim.email_to_oauth.pwdError', 'Please enter your password.'));
             return;
         }
 
@@ -59,7 +59,7 @@ const EmailToOAuth = (props: Props) => {
                 }
             },
             (err: {server_error_id: string; message: string}) => {
-                if (!showMfa && err.server_error_id === 'mfa.validate_token.authenticate.app_error') {
+                if (!showMfa && err.server_error_id === ClaimErrors.MFA_VALIDATE_TOKEN_AUTHENTICATE) {
                     setShowMfa(true);
                 } else {
                     setServerError(err.message);
@@ -73,7 +73,7 @@ const EmailToOAuth = (props: Props) => {
 
     const formClass = classNames('form-group', {'has-error': error});
 
-    const type = (props.newType === Constants.SAML_SERVICE ? Constants.SAML_SERVICE.toUpperCase() : Utils.toTitleCase(props.newType || ''));
+    const type = (props.newType === Constants.SAML_SERVICE ? Constants.SAML_SERVICE.toUpperCase() : toTitleCase(props.newType || ''));
     const uiType = `${type} SSO`;
 
     let content;

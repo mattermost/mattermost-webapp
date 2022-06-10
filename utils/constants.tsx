@@ -1950,6 +1950,15 @@ export const InsightsCardTitles = {
     },
 };
 
+export enum ClaimErrors {
+    MFA_VALIDATE_TOKEN_AUTHENTICATE = 'mfa.validate_token.authenticate.app_error',
+    ENT_LDAP_LOGIN_USER_NOT_REGISTERED = 'ent.ldap.do_login.user_not_registered.app_error',
+    ENT_LDAP_LOGIN_USER_FILTERED = 'ent.ldap.do_login.user_filtered.app_error',
+    ENT_LDAP_LOGIN_MATCHED_TOO_MANY_USERS = 'ent.ldap.do_login.matched_to_many_users.app_error',
+    ENT_LDAP_LOGIN_INVALID_PASSWORD = 'ent.ldap.do_login.invalid_password.app_error',
+    API_USER_INVALID_PASSWORD = 'api.user.check_user_password.invalid.app_error',
+}
+
 // TODO: Remove after last legacy free products are migrated
 // (months after freemium is launched)
 // Hard coding product ids is a bad practice in general.

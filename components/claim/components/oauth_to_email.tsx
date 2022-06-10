@@ -11,9 +11,8 @@ import {AuthChangeResponse} from '@mattermost/types/users';
 import {oauthToEmail} from 'actions/admin_actions.jsx';
 
 import Constants from 'utils/constants';
-import * as Utils from 'utils/utils';
 import {t} from 'utils/i18n';
-import {getPasswordConfig} from 'utils/utils';
+import {getPasswordConfig, isValidPassword, localizeMessage, toTitleCase} from 'utils/utils';
 
 import LocalizedInput from 'components/localized_input/localized_input';
 
@@ -35,12 +34,12 @@ const OAuthToEmail = (props: Props) => {
 
         const password = passwordInput.current?.value;
         if (!password) {
-            setError(Utils.localizeMessage('claim.oauth_to_email.enterPwd', 'Please enter a password.'));
+            setError(localizeMessage('claim.oauth_to_email.enterPwd', 'Please enter a password.'));
             return;
         }
 
         if (props.passwordConfig) {
-            const {valid, error} = Utils.isValidPassword(password, props.passwordConfig);
+            const {valid, error} = isValidPassword(password, props.passwordConfig);
             if (!valid && error) {
                 setError(error);
                 return;
@@ -49,7 +48,7 @@ const OAuthToEmail = (props: Props) => {
 
         const confirmPassword = passwordConfirmInput.current?.value;
         if (!confirmPassword || password !== confirmPassword) {
-            setError(Utils.localizeMessage('claim.oauth_to_email.pwdNotMatch', 'Passwords do not match.'));
+            setError(localizeMessage('claim.oauth_to_email.pwdNotMatch', 'Passwords do not match.'));
             return;
         }
 
@@ -73,7 +72,7 @@ const OAuthToEmail = (props: Props) => {
     const errorElement = error ? <div className='form-group has-error'><label className='control-label'>{error}</label></div> : null;
     const formClass = classNames('form-group', {'has-error': errorElement});
 
-    const uiType = `${(props.currentType === Constants.SAML_SERVICE ? Constants.SAML_SERVICE.toUpperCase() : Utils.toTitleCase(props.currentType || ''))} SSO`;
+    const uiType = `${(props.currentType === Constants.SAML_SERVICE ? Constants.SAML_SERVICE.toUpperCase() : toTitleCase(props.currentType || ''))} SSO`;
 
     return (
         <>

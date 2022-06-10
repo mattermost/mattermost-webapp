@@ -6,8 +6,9 @@ import {FormattedMessage} from 'react-intl';
 
 import classNames from 'classnames';
 
-import * as Utils from 'utils/utils';
 import {t} from 'utils/i18n';
+import {isValidPassword, localizeMessage} from 'utils/utils';
+import {ClaimErrors} from 'utils/constants';
 
 import LoginMfa from 'components/login/login_mfa';
 import LocalizedInput from 'components/localized_input/localized_input';
@@ -42,18 +43,18 @@ const LDAPToEmail = (props: Props) => {
 
         const ldapPassword = ldapPasswordInput.current?.value;
         if (!ldapPassword) {
-            setLdapPasswordError(Utils.localizeMessage('claim.ldap_to_email.ldapPasswordError', 'Please enter your AD/LDAP password.'));
+            setLdapPasswordError(localizeMessage('claim.ldap_to_email.ldapPasswordError', 'Please enter your AD/LDAP password.'));
             return;
         }
 
         const password = passwordInput.current?.value;
         if (!password) {
-            setPasswordError(Utils.localizeMessage('claim.ldap_to_email.pwdError', 'Please enter your password.'));
+            setPasswordError(localizeMessage('claim.ldap_to_email.pwdError', 'Please enter your password.'));
             return;
         }
 
         if (props.passwordConfig) {
-            const {valid, error} = Utils.isValidPassword(password, props.passwordConfig);
+            const {valid, error} = isValidPassword(password, props.passwordConfig);
             if (!valid && error) {
                 setPasswordError(error);
                 return;
@@ -62,7 +63,7 @@ const LDAPToEmail = (props: Props) => {
 
         const confirmPassword = passwordConfirmInput.current?.value;
         if (!confirmPassword || password !== confirmPassword) {
-            setConfirmError(Utils.localizeMessage('claim.ldap_to_email.pwdNotMatch', 'Passwords do not match.'));
+            setConfirmError(localizeMessage('claim.ldap_to_email.pwdNotMatch', 'Passwords do not match.'));
             return;
         }
 
@@ -82,10 +83,10 @@ const LDAPToEmail = (props: Props) => {
                 if (err.server_error_id.startsWith('model.user.is_valid.pwd')) {
                     setPasswordError(err.message);
                     setShowMfa(false);
-                } else if (err.server_error_id === 'ent.ldap.do_login.invalid_password.app_error') {
+                } else if (err.server_error_id === ClaimErrors.ENT_LDAP_LOGIN_INVALID_PASSWORD) {
                     setLdapPasswordError(err.message);
                     setShowMfa(false);
-                } else if (!showMfa && err.server_error_id === 'mfa.validate_token.authenticate.app_error') {
+                } else if (!showMfa && err.server_error_id === ClaimErrors.MFA_VALIDATE_TOKEN_AUTHENTICATE) {
                     setShowMfa(true);
                 } else {
                     setServerError(err.message);
@@ -101,7 +102,7 @@ const LDAPToEmail = (props: Props) => {
     const confirmErrorElement = confirmError ? <div className='form-group has-error'><label className='control-label'>{confirmError}</label></div> : null;
     const formClass = classNames('form-group', {'has-error': serverError || passwordError || ldapPasswordError || confirmError});
 
-    const passwordPlaceholder = Utils.localizeMessage('claim.ldap_to_email.ldapPwd', 'AD/LDAP Password');
+    const passwordPlaceholder = localizeMessage('claim.ldap_to_email.ldapPwd', 'AD/LDAP Password');
 
     if (showMfa) {
         return (

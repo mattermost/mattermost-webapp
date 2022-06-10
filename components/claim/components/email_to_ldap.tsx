@@ -10,8 +10,9 @@ import {AuthChangeResponse} from '@mattermost/types/users';
 
 import {emailToLdap} from 'actions/admin_actions.jsx';
 
-import * as Utils from 'utils/utils';
+import {localizeMessage} from 'utils/utils';
 import {t} from 'utils/i18n';
+import {ClaimErrors} from 'utils/constants';
 
 import LoginMfa from 'components/login/login_mfa';
 import LocalizedInput from 'components/localized_input/localized_input';
@@ -49,19 +50,19 @@ const EmailToLDAP = ({email, siteName, ldapLoginFieldName}: Props) => {
 
         const password = emailPasswordInput.current?.value;
         if (!password) {
-            setPasswordError(Utils.localizeMessage('claim.email_to_ldap.pwdError', 'Please enter your password.'));
+            setPasswordError(localizeMessage('claim.email_to_ldap.pwdError', 'Please enter your password.'));
             return;
         }
 
         const ldapId = ldapIdInput.current?.value.trim();
         if (!ldapId) {
-            setLdapError(Utils.localizeMessage('claim.email_to_ldap.ldapIdError', 'Please enter your AD/LDAP ID.'));
+            setLdapError(localizeMessage('claim.email_to_ldap.ldapIdError', 'Please enter your AD/LDAP ID.'));
             return;
         }
 
         const ldapPassword = ldapPasswordInput.current?.value;
         if (!ldapPassword) {
-            setLdapPasswordError(Utils.localizeMessage('claim.email_to_ldap.ldapPasswordError', 'Please enter your AD/LDAP password.'));
+            setLdapPasswordError(localizeMessage('claim.email_to_ldap.ldapPasswordError', 'Please enter your AD/LDAP password.'));
             return;
         }
 
@@ -87,21 +88,21 @@ const EmailToLDAP = ({email, siteName, ldapLoginFieldName}: Props) => {
                 }
             },
             (err: {server_error_id: string; id: string; message: string}) => {
-                if (!showMfa && err.server_error_id === 'mfa.validate_token.authenticate.app_error') {
+                if (!showMfa && err.server_error_id === ClaimErrors.MFA_VALIDATE_TOKEN_AUTHENTICATE) {
                     setShowMfa(true);
                 } else {
                     switch (err.id) {
-                    case 'ent.ldap.do_login.user_not_registered.app_error':
-                    case 'ent.ldap.do_login.user_filtered.app_error':
-                    case 'ent.ldap.do_login.matched_to_many_users.app_error':
+                    case ClaimErrors.ENT_LDAP_LOGIN_USER_NOT_REGISTERED:
+                    case ClaimErrors.ENT_LDAP_LOGIN_USER_FILTERED:
+                    case ClaimErrors.ENT_LDAP_LOGIN_MATCHED_TOO_MANY_USERS:
                         setLdapError(err.message);
                         setShowMfa(false);
                         break;
-                    case 'ent.ldap.do_login.invalid_password.app_error':
+                    case ClaimErrors.ENT_LDAP_LOGIN_INVALID_PASSWORD:
                         setLdapPasswordError(err.message);
                         setShowMfa(false);
                         break;
-                    case 'api.user.check_user_password.invalid.app_error':
+                    case ClaimErrors.API_USER_INVALID_PASSWORD:
                         setPasswordError(err.message);
                         setShowMfa(false);
                         break;
@@ -119,7 +120,7 @@ const EmailToLDAP = ({email, siteName, ldapLoginFieldName}: Props) => {
     const ldapPasswordErrorElement = ldapPasswordError ? <div className='form-group has-error'><label className='control-label'>{ldapPasswordError}</label></div> : null;
     const formClass = classNames('form-group', {'has-error': serverError || passwordError || ldapError || ldapPasswordError});
 
-    const loginPlaceholder = ldapLoginFieldName || Utils.localizeMessage('claim.email_to_ldap.ldapId', 'AD/LDAP ID');
+    const loginPlaceholder = ldapLoginFieldName || localizeMessage('claim.email_to_ldap.ldapId', 'AD/LDAP ID');
 
     if (showMfa) {
         return (
