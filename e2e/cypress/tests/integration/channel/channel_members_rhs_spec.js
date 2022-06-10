@@ -192,6 +192,11 @@ describe('Channel members RHS', () => {
     });
 
     describe('as an admin', () => {
+        before(() => {
+            cy.apiLogout();
+            cy.apiLogin(admin);
+        });
+
         it('should be able to open the RHS from the channel menu', () => {
             // # Go to test channel
             cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
