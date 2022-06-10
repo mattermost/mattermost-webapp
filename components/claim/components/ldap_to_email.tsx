@@ -6,8 +6,6 @@ import {FormattedMessage} from 'react-intl';
 
 import classNames from 'classnames';
 
-import {ActionResult} from 'mattermost-redux/types/actions';
-
 import * as Utils from 'utils/utils';
 import {t} from 'utils/i18n';
 
@@ -16,11 +14,13 @@ import LocalizedInput from 'components/localized_input/localized_input';
 
 import {PasswordConfig} from '../claim_controller';
 
+import {AuthChangeResponse} from '@mattermost/types/users';
+
 import {SubmitOptions} from './email_to_ldap';
 
 type Props = {
     email: string | null;
-    switchLdapToEmail: (ldapPassword: string, email: string, password: string, token: string) => Promise<ActionResult>;
+    switchLdapToEmail: (ldapPassword: string, email: string, password: string, token: string) => Promise<{data?: AuthChangeResponse; error?: {server_error_id: string; message: string}}>;
     passwordConfig?: PasswordConfig;
 }
 
@@ -76,7 +76,7 @@ const LDAPToEmail = (props: Props) => {
 
     const submit = ({loginId, password, token = '', ldapPasswordParam}: SubmitOptions) => {
         props.switchLdapToEmail(ldapPasswordParam || ldapPassword, loginId, password, token).then(({data, error: err}) => {
-            if (data.follow_link) {
+            if (data?.follow_link) {
                 window.location.href = data.follow_link;
             } else if (err) {
                 if (err.server_error_id.startsWith('model.user.is_valid.pwd')) {

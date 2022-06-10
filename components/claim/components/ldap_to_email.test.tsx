@@ -16,21 +16,21 @@ describe('components/claim/components/ldap_to_email.jsx', () => {
             requireNumber: true,
             requireSymbol: true,
         },
-        switchLdapToEmail: jest.fn(() => Promise.resolve({data: true})),
+        switchLdapToEmail: jest.fn(() => Promise.resolve({data: {follow_link: '/login'}})),
     };
 
     test('submit() should have called switchLdapToEmail', async () => {
         const loginId = '';
         const password = 'psw';
         const token = 'abcd1234';
-        const ldapPassword = 'ldapPsw';
+        const ldapPasswordParam = 'ldapPsw';
 
         const wrapper = shallow(<LDAPToEmail {...requiredProps}/>);
 
-        wrapper.find('LoginMfa').simulate('submit', loginId, password, token, ldapPassword);
+        wrapper.find('LoginMfa').simulate('submit', {loginId, password, token, ldapPasswordParam});
 
         expect(requiredProps.switchLdapToEmail).toHaveBeenCalledTimes(1);
         expect(requiredProps.switchLdapToEmail).
-            toHaveBeenCalledWith(ldapPassword, requiredProps.email, password, token);
+            toHaveBeenCalledWith(ldapPasswordParam, requiredProps.email, password, token);
     });
 });
