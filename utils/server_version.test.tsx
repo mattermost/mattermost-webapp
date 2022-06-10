@@ -46,10 +46,10 @@ describe('utils/server_version/equalServerVersions', () => {
         expect(equalServerVersions(a, b)).toEqual(false);
     });
 
-    test('should ignore different config hashes', () => {
+    test('should not ignore different config hashes', () => {
         const a = '4.7.1.12.c51676437bc02ada78f3a0a0a2203c60.true';
         const b = '4.7.1.12.c51676437bc02ada78f3a0a0a2203c61.true';
-        expect(equalServerVersions(a, b)).toEqual(true);
+        expect(equalServerVersions(a, b)).toEqual(false);
     });
 
     test('should ignore different licensed statuses', () => {

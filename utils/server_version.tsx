@@ -17,7 +17,7 @@ export function equalServerVersions(a: string, b: string): boolean {
         return true;
     }
 
-    const ignoredComponents = 2;
+    const ignoredComponents = 1;
     const aIgnoringComponents = (a || '').split('.').slice(0, -ignoredComponents).join('.');
     const bIgnoringComponents = (b || '').split('.').slice(0, -ignoredComponents).join('.');
     if (aIgnoringComponents === bIgnoringComponents) {
