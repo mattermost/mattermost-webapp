@@ -40,7 +40,7 @@ type Actions = {
     fetchListing(localOnly?: boolean): Promise<{error?: Error}>;
     filterListing(filter: string): Promise<{error?: Error}>;
     setFirstAdminVisitMarketplaceStatus(): Promise<void>;
-    getPluginStatuses: Promise<void>;
+    getPluginStatuses(): Promise<void>;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
