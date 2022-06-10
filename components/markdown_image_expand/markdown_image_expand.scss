@@ -45,6 +45,7 @@
 */
 .markdown-image-expand__expand-button {
     display: inline-flex;
+    width: 100%;
     padding: 0;
     border: none;
     background: transparent;
@@ -52,7 +53,6 @@
     color: rgba(var(--center-channel-color-rgb), 0.56);
     font-size: 18px;
     line-height: 18px;
-    width: 100%;
 
     &:hover {
         color: rgba(var(--center-channel-color-rgb), 0.72);
@@ -76,10 +76,10 @@
 
 .markdown-image-expand__alt-text {
     display: inline-block;
+    overflow: hidden;
     font-size: 12px;
     line-height: 16px;
-    text-overflow: ellipsis;
     text-align: left;
+    text-overflow: ellipsis;
     white-space: nowrap;
-    overflow: hidden;
 }
