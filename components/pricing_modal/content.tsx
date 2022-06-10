@@ -6,8 +6,6 @@ import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 
-import {GlobalState} from 'types/store';
-
 import {trackEvent} from 'actions/telemetry_actions';
 import {CloudLinks, CloudProducts, ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
 import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
@@ -144,7 +142,7 @@ function Content(props: ContentProps) {
     const dispatch = useDispatch();
 
     const isAdmin = useSelector(isCurrentUserSystemAdmin);
-    const contactSalesLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales));
+    const contactSalesLink = useSelector(getCloudContactUsLink)(InquiryType.Sales);
 
     const subscription = useSelector(selectCloudSubscription);
     const product = useSelector(selectSubscriptionProduct);
@@ -229,7 +227,7 @@ function Content(props: ContentProps) {
                         briefing={{
                             title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),
                             items: [
-                                formatMessage({id: 'pricing_modal.briefing.starter.recentMessageBoards', defaultMessage: 'Access to {messages} most recent messages, {boards} most recent board'}, {messages: '10,000', boards: '500'}),
+                                formatMessage({id: 'pricing_modal.briefing.starter.recentMessageBoards', defaultMessage: 'Access to {messages} most recent messages, {boards} most recent board cards'}, {messages: '10,000', boards: '500'}),
                                 formatMessage({id: 'pricing_modal.briefing.storage', defaultMessage: '{storage}GB file storage limit'}, {storage: '10'}),
                                 formatMessage({id: 'pricing_modal.briefing.starter.oneTeamPerWorkspace', defaultMessage: 'One team per workspace'}),
                                 formatMessage({id: 'pricing_modal.briefing.starter.integrations', defaultMessage: '{integrations} integrations with other apps like GitHub, Jira and Jenkins'}, {integrations: '5'}),
@@ -238,7 +236,7 @@ function Content(props: ContentProps) {
                         extraBriefing={{
                             title: formatMessage({id: 'pricing_modal.extra_briefing.title', defaultMessage: 'More features'}),
                             items: [
-                                formatMessage({id: 'pricing_modal.extra_briefing.starter.calls', defaultMessage: '1:1 audio calls and screen share'}),
+                                formatMessage({id: 'pricing_modal.extra_briefing.starter.calls', defaultMessage: '1:1 voice calls and screen share'}),
                             ],
                         }}
                         planExtraInformation={<StarterDisclaimerCTA/>}
