@@ -12,7 +12,6 @@ exports[`components/MarketplaceItemApp MarketplaceItem should render 1`] = `
       }
     }
     changingStatus={false}
-    cloudLimits={Object {}}
     controls={
       <React.Fragment>
         <button
@@ -66,7 +65,6 @@ exports[`components/MarketplaceItemApp MarketplaceItem should render installed a
       }
     }
     changingStatus={false}
-    cloudLimits={Object {}}
     controls={
       <React.Fragment>
         <button
@@ -114,7 +112,6 @@ exports[`components/MarketplaceItemApp MarketplaceItem should render with empty 
       }
     }
     changingStatus={false}
-    cloudLimits={Object {}}
     controls={
       <React.Fragment>
         <button
@@ -169,7 +166,6 @@ exports[`components/MarketplaceItemApp MarketplaceItem should render with icon 1
       }
     }
     changingStatus={false}
-    cloudLimits={Object {}}
     controls={
       <React.Fragment>
         <button
@@ -225,7 +221,6 @@ exports[`components/MarketplaceItemApp MarketplaceItem should render with no hom
       }
     }
     changingStatus={false}
-    cloudLimits={Object {}}
     controls={
       <React.Fragment>
         <button
@@ -278,7 +273,6 @@ exports[`components/MarketplaceItemApp MarketplaceItem should render with no plu
       }
     }
     changingStatus={false}
-    cloudLimits={Object {}}
     controls={
       <React.Fragment>
         <button
@@ -331,7 +325,6 @@ exports[`components/MarketplaceItemApp MarketplaceItem should render with one la
       }
     }
     changingStatus={false}
-    cloudLimits={Object {}}
     controls={
       <React.Fragment>
         <button
@@ -394,7 +387,6 @@ exports[`components/MarketplaceItemApp MarketplaceItem should render with server
       }
     }
     changingStatus={false}
-    cloudLimits={Object {}}
     controls={
       <React.Fragment>
         <button
@@ -449,7 +441,6 @@ exports[`components/MarketplaceItemApp MarketplaceItem should render with two la
       }
     }
     changingStatus={false}
-    cloudLimits={Object {}}
     controls={
       <React.Fragment>
         <button
@@ -517,7 +508,6 @@ exports[`components/MarketplaceItemApp MarketplaceItem when installing 1`] = `
       }
     }
     changingStatus={false}
-    cloudLimits={Object {}}
     controls={
       <React.Fragment>
         <button

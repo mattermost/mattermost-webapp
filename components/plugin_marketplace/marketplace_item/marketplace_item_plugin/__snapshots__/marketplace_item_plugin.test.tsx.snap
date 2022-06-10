@@ -11,7 +11,6 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render 1`] = `
         "installPlugin": [MockFunction],
       }
     }
-    cloudLimits={Object {}}
     controls={
       <React.Fragment>
         <button
@@ -87,7 +86,6 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render installe
         "installPlugin": [MockFunction],
       }
     }
-    cloudLimits={Object {}}
     controls={
       <React.Fragment>
         <Link
@@ -162,7 +160,6 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with emp
         "installPlugin": [MockFunction],
       }
     }
-    cloudLimits={Object {}}
     controls={
       <React.Fragment>
         <button
@@ -239,7 +236,6 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with no 
         "installPlugin": [MockFunction],
       }
     }
-    cloudLimits={Object {}}
     controls={
       <React.Fragment>
         <button
@@ -314,7 +310,6 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with no 
         "installPlugin": [MockFunction],
       }
     }
-    cloudLimits={Object {}}
     controls={
       <React.Fragment>
         <button
@@ -389,7 +384,6 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with no 
         "installPlugin": [MockFunction],
       }
     }
-    cloudLimits={Object {}}
     controls={
       <React.Fragment>
         <button
@@ -463,7 +457,6 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with one
         "installPlugin": [MockFunction],
       }
     }
-    cloudLimits={Object {}}
     controls={
       <React.Fragment>
         <button
@@ -548,7 +541,6 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with ser
         "installPlugin": [MockFunction],
       }
     }
-    cloudLimits={Object {}}
     controls={
       <React.Fragment>
         <button
@@ -625,7 +617,6 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with two
         "installPlugin": [MockFunction],
       }
     }
-    cloudLimits={Object {}}
     controls={
       <React.Fragment>
         <button
@@ -715,7 +706,6 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with upd
         "installPlugin": [MockFunction],
       }
     }
-    cloudLimits={Object {}}
     controls={
       <React.Fragment>
         <Link
@@ -793,7 +783,6 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with upd
         "installPlugin": [MockFunction],
       }
     }
-    cloudLimits={Object {}}
     controls={
       <React.Fragment>
         <Link
