@@ -113,7 +113,9 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
     // just a helper so it's not always needed to update with setting both properties to the same value
     const setCaretPosition = (position: number) => setSelectionRange({start: position, end: position});
 
-    const handlePaste: ClipboardEventHandler<HTMLTextAreaElement> = useCallback(({clipboardData, target, preventDefault}) => {
+    // const handlePaste: ClipboardEventHandler<HTMLTextAreaElement> = useCallback(({clipboardData, target, preventDefault}) => {
+    const handlePaste: ClipboardEventHandler<HTMLTextAreaElement> = useCallback((e: ClipboardEvent) => {
+        const {clipboardData, target} = e;
         if (
             !clipboardData ||
             !clipboardData.items ||
@@ -129,17 +131,13 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
             return;
         }
 
-        preventDefault();
+        e.preventDefault();
 
         let message = editText;
         let newCaretPosition = selectionRange.start;
 
-        if (table && isGitHubCodeBlock(table.className)) {
-            const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(
-                selectionRange.start,
-                message,
-                clipboardData,
-            );
+        if (isGitHubCodeBlock(table.className)) {
+            const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste({selectionStart: (target as any).selectionStart, selectionEnd: (target as any).selectionEnd, message, clipboardData});
             message = formattedMessage;
             newCaretPosition = selectionRange.start + formattedCodeBlock.length;
         } else if (table) {
