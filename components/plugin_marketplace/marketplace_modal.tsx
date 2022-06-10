@@ -102,6 +102,7 @@ export type MarketplaceModalProps = {
         fetchListing(localOnly?: boolean): Promise<{error?: Error}>;
         filterListing(filter: string): Promise<{error?: Error}>;
         setFirstAdminVisitMarketplaceStatus: () => void;
+        getPluginStatuses(): () => void;
     };
 };
 
@@ -133,6 +134,7 @@ export default class MarketplaceModal extends React.PureComponent<MarketplaceMod
         trackEvent('plugins', 'ui_marketplace_opened');
 
         this.fetchListing();
+        this.props.actions.getPluginStatuses();
         if (!this.props.firstAdminVisitMarketplaceStatus) {
             trackEvent('plugins', 'ui_first_admin_visit_marketplace_status');
 

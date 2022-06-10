@@ -451,6 +451,7 @@ function pluginStatuses(state: Record<string, PluginStatusRedux> = {}, action: G
                     cluster_id: plugin.cluster_id,
                     version: plugin.version,
                     state: plugin.state,
+                    error: plugin.error,
                 },
             ];
 
@@ -461,6 +462,7 @@ function pluginStatuses(state: Record<string, PluginStatusRedux> = {}, action: G
                 version: (nextState[id] && nextState[id].version) || plugin.version,
                 active: pluginState > 0,
                 state: pluginState,
+                error: plugin.error,
                 instances,
             };
         }
