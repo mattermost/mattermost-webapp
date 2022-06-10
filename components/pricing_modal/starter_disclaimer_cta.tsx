@@ -43,7 +43,7 @@ function StarterDisclaimerCTA() {
                     id: t('workspace_limits.modals.informational.title'),
                     defaultMessage: '{planName} limits',
                     values: {
-                        planName: 'Cloud starter',
+                        planName: starterProductName,
                     },
                 },
                 description: {
