@@ -829,11 +829,9 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
 
         let message = this.state.message;
         if (isGitHubCodeBlock(table.className)) {
-            const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(
-                this.state.caretPosition,
-                message,
-                clipboardData,
-            );
+            const selectionStart = (e.target as any).selectionStart;
+            const selectionEnd = (e.target as any).selectionEnd;
+            const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste({selectionStart, selectionEnd, message, clipboardData});
             const newCaretPosition = this.state.caretPosition + formattedCodeBlock.length;
             this.setMessageAndCaretPostion(formattedMessage, newCaretPosition);
             return;
