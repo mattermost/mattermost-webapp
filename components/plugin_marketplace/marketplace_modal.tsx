@@ -2,9 +2,10 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 import debounce from 'lodash/debounce';
 import {Tabs, Tab, SelectCallback} from 'react-bootstrap';
+import {createGlobalStyle} from 'styled-components';
 
 import {PluginStatusRedux} from '@mattermost/types/plugins';
 import type {MarketplaceApp, MarketplacePlugin} from '@mattermost/types/marketplace';
@@ -23,7 +24,7 @@ import {localizeMessage} from 'utils/utils';
 
 import './marketplace_modal.scss';
 import MarketplaceList from './marketplace_list/marketplace_list';
-import MarketplaceUsageMessage from './marketplace_usage_message';
+import MarketplaceUsageMessage from './marketplace_usage_message/marketplace_usage_message';
 
 const MarketplaceTabs = {
     ALL_LISTING: 'allListing',
@@ -89,6 +90,30 @@ export const InstalledListing = ({installedItems, changeTab}: InstalledListingPr
     }
 
     return <MarketplaceList listing={installedItems}/>;
+};
+
+interface EnabledHeaderStyleProps {
+    message: string;
+}
+
+const EnabledHeaderStyle = createGlobalStyle`
+.modal-marketplace .tabs:after {
+    content: '${(props: EnabledHeaderStyleProps) => props.message}';
+    position: absolute;
+    right: 25px;
+    top: 10px;
+    font-size: 14px;
+    color: var(--center-channel-text);
+`;
+
+const EnabledHeader = () => {
+    const intl = useIntl();
+    const message = intl.formatMessage({
+        id: 'marketplace_modal.header.enabled',
+        defaultMessage: 'Enabled',
+    });
+
+    return (<EnabledHeaderStyle message={message}/>);
 };
 
 export type MarketplaceModalProps = {
@@ -277,6 +302,7 @@ export default class MarketplaceModal extends React.PureComponent<MarketplaceMod
                                     changeTab={this.changeTab}
                                 />
                             </Tab>
+                            <EnabledHeader/>
                         </Tabs>
                     </div>
                 </FullScreenModal>
