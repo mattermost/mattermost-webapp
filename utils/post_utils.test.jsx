@@ -971,6 +971,20 @@ describe('PostUtils.splitMessageBasedOnCaretPosition', () => {
     });
 });
 
+describe('PostUtils.splitMessageBasedOnTextSelection', () => {
+    const state = {
+        selectionStart: 5,
+        selectionEnd: 12,
+    };
+
+    const message = 'Test Replace Message';
+    it('should return an object with two strings when given context and message', () => {
+        const stringPieces = PostUtils.splitMessageBasedOnTextSelection(state.selectionStart, state.selectionEnd, message);
+        expect('Test ').toBe(stringPieces.firstPiece);
+        expect(' Message').toBe(stringPieces.lastPiece)
+    });
+});
+
 describe('PostUtils.getPostURL', () => {
     const currentTeam = TestHelper.getTeamMock({id: 'current_team_id', name: 'current_team_name'});
     const team = TestHelper.getTeamMock({id: 'team_id_1', name: 'team_1'});
