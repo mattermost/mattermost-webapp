@@ -116,7 +116,7 @@ const EmojiPicker = ({
     useEffect(() => {
         shouldRunCreateCategoryAndEmojiRows.current = false;
 
-        const [updatedCategoryOrEmojisRows, updatedEmojiPositions] = createCategoryAndEmojiRows(allEmojis, categories, userSkinTone, filter);
+        const [updatedCategoryOrEmojisRows, updatedEmojiPositions] = createCategoryAndEmojiRows(allEmojis, categories, filter, userSkinTone);
 
         setCategoryOrEmojisRows(updatedCategoryOrEmojisRows);
         setEmojiPositionsArray(updatedEmojiPositions);

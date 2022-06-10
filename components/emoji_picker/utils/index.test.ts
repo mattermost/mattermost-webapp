@@ -382,13 +382,13 @@ describe('createCategoryAndEmojiRows', () => {
             recent: recentCategory,
         };
 
-        expect(createCategoryAndEmojiRows([] as any, categories as any, 'default', '')).toEqual([[], []]);
+        expect(createCategoryAndEmojiRows([] as any, categories as any, '', '')).toEqual([[], []]);
 
         const allEmojis = {
             smile: smileEmoji,
             thumbsup: thumbsupEmoji,
         };
-        expect(createCategoryAndEmojiRows(allEmojis as any, [] as any, 'default', '')).toEqual([[], []]);
+        expect(createCategoryAndEmojiRows(allEmojis as any, [] as any, '', '')).toEqual([[], []]);
     });
 
     test('Should return search results on filter is on', () => {
@@ -454,7 +454,7 @@ describe('createCategoryAndEmojiRows', () => {
             },
         ];
 
-        expect(createCategoryAndEmojiRows(allEmojis as any, categories as any, 'default', 'thumbs')).toEqual([categoryAndEmojiRows, emojiPositions]);
+        expect(createCategoryAndEmojiRows(allEmojis as any, categories as any, 'thumbs', '')).toEqual([categoryAndEmojiRows, emojiPositions]);
     });
 
     test('Should construct correct category and emoji rows along with emoji positions', () => {
@@ -471,7 +471,7 @@ describe('createCategoryAndEmojiRows', () => {
             },
         };
 
-        expect(createCategoryAndEmojiRows(allEmojis as any, categories as any, 'default', '')[0]).toEqual([
+        expect(createCategoryAndEmojiRows(allEmojis as any, categories as any, '', '')[0]).toEqual([
             {
                 index: 0,
                 type: 'categoryHeaderRow',
@@ -505,7 +505,7 @@ describe('createCategoryAndEmojiRows', () => {
             },
         ]);
 
-        expect(createCategoryAndEmojiRows(allEmojis as any, categories as any, 'default', '')[1]).toEqual([
+        expect(createCategoryAndEmojiRows(allEmojis as any, categories as any, '', '')[1]).toEqual([
             {
                 rowIndex: 1,
                 emojiId: hundredEmoji.unified,

@@ -248,8 +248,8 @@ export function createEmojisPositions(categoryOrEmojiRows: CategoryOrEmojiRow[])
 export function createCategoryAndEmojiRows(
     allEmojis: Record<string, Emoji>,
     categories: Categories,
-    userSkinTone: string,
     filter: string,
+    userSkinTone: string,
 ): [CategoryOrEmojiRow[], EmojiPosition[]] {
     if (isEmpty(allEmojis) || isEmpty(categories)) {
         return [[], []];
