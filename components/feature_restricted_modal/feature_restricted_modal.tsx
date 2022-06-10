@@ -74,7 +74,7 @@ const FeatureRestrictedModal = ({
                 {showStartTrial && (
                     <p className='FeatureRestrictedModal__terms'>
                         <FormattedMessage
-                            id='create_team_restricted_modal.agreement'
+                            id='feature_restricted_modal.agreement'
                             defaultMessage='By selecting <highlight>Try free for 30 days</highlight>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails.'
                             values={{
                                 highlight: (msg: React.ReactNode) => (
@@ -107,7 +107,7 @@ const FeatureRestrictedModal = ({
                         className='button-plans'
                         onClick={handleViewPlansClick}
                     >
-                        {formatMessage({id: 'create_team_restricted_modal.button.plans', defaultMessage: 'View plans'})}
+                        {formatMessage({id: 'feature_restricted_modal.button.plans', defaultMessage: 'View plans'})}
                     </button>
                     {showStartTrial && (
                         <CloudStartTrialButton
