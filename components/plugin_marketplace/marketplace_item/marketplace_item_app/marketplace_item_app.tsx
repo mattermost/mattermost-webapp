@@ -6,16 +6,12 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import type {MarketplaceLabel} from '@mattermost/types/marketplace';
-import {Limits} from '@mattermost/types/cloud';
 
 import MarketplaceItem from '../marketplace_item';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
-import OverlayTrigger from 'components/overlay_trigger';
-import Tooltip from 'components/tooltip';
 import Toggle from 'components/toggle';
 
 import {localizeMessage} from 'utils/utils';
-import Constants from 'utils/constants';
 
 export type MarketplaceItemAppProps = {
     id: string;
@@ -29,7 +25,6 @@ export type MarketplaceItemAppProps = {
     changingStatus: boolean | undefined;
     labels?: MarketplaceLabel[];
     integrationsUsageAtLimit: boolean;
-    cloudLimits: Limits;
 
     installing: boolean;
     error?: string;
@@ -117,7 +112,7 @@ export default class MarketplaceItemApp extends React.PureComponent <Marketplace
     }
 
     getAppStatusToggle(): React.ReactNode {
-        const {id, installed, enabled, error, changingStatus, integrationsUsageAtLimit, cloudLimits} = this.props;
+        const {id, installed, enabled, error, changingStatus, integrationsUsageAtLimit} = this.props;
 
         const toggleDisabledDueToLimit = !enabled && integrationsUsageAtLimit;
         let switchDisabled = false;
@@ -130,7 +125,7 @@ export default class MarketplaceItemApp extends React.PureComponent <Marketplace
             toggled = changingStatus;
         }
 
-        const toggle = (
+        return (
             <Toggle
                 id={`app-enable-toggle-${id}`}
                 disabled={switchDisabled}
@@ -144,30 +139,6 @@ export default class MarketplaceItemApp extends React.PureComponent <Marketplace
                 toggled={toggled}
                 className='btn-lg'
             />
-        );
-
-        if (!toggleDisabledDueToLimit) {
-            return toggle;
-        }
-
-        return (
-            <OverlayTrigger
-                delayShow={Constants.OVERLAY_TIME_DELAY}
-                placement='top'
-                overlay={
-                    <Tooltip id={'plugin-marketplace_label_' + id + '-tooltip'}>
-                        <FormattedMessage
-                            id={'marketplace_modal.toggle.reached_limit.tooltip'}
-                            defaultMessage={"You've reached the maximum of {limit} enabled integtations. Upgrade your account for more."}
-                            values={{
-                                limit: cloudLimits?.integrations?.enabled,
-                            }}
-                        />
-                    </Tooltip>
-                }
-            >
-                {toggle}
-            </OverlayTrigger>
         );
     }
 

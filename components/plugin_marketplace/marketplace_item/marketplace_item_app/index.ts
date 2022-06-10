@@ -5,7 +5,6 @@ import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {getCloudLimits} from 'mattermost-redux/selectors/entities/cloud';
 import {isIntegrationsUsageAtLimit} from 'mattermost-redux/selectors/entities/usage';
 
 import {GlobalState} from 'types/store';
@@ -26,7 +25,6 @@ function mapStateToProps(state: GlobalState, props: Props) {
     const installing = getInstalling(state, props.id);
     const changingStatus = getChangingStatus(state, props.id);
     const error = getError(state, props.id);
-    const cloudLimits = getCloudLimits(state);
     const integrationsUsageAtLimit = isIntegrationsUsageAtLimit(state);
 
     return {
@@ -35,7 +33,6 @@ function mapStateToProps(state: GlobalState, props: Props) {
         error,
         trackEvent,
         integrationsUsageAtLimit,
-        cloudLimits,
     };
 }
 

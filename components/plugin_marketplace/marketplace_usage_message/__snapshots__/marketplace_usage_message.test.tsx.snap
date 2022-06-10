@@ -17,13 +17,8 @@ exports[`components/MarketplaceUsageMessage below limit, should match snapshot 1
   </strong>
   <p>
     <injectIntl(FormattedMarkdownMessage)
-      defaultMessage="To install unlimited integrations, upgrade to one of our paid plans. [Review our plan options and pricing]({url})."
+      defaultMessage="To enable unlimited integrations, upgrade to one of our paid plans."
       id="marketplace_modal.usage_message.upgrade_instructions"
-      values={
-        Object {
-          "url": "https://mattermost.com/pricing",
-        }
-      }
     />
   </p>
   <div
@@ -63,13 +58,8 @@ exports[`components/MarketplaceUsageMessage reached limit, should match snapshot
   </strong>
   <p>
     <injectIntl(FormattedMarkdownMessage)
-      defaultMessage="To install unlimited integrations, upgrade to one of our paid plans. [Review our plan options and pricing]({url})."
+      defaultMessage="To enable unlimited integrations, upgrade to one of our paid plans."
       id="marketplace_modal.usage_message.upgrade_instructions"
-      values={
-        Object {
-          "url": "https://mattermost.com/pricing",
-        }
-      }
     />
   </p>
   <div

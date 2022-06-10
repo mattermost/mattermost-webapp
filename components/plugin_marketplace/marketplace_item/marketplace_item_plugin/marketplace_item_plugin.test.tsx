@@ -205,7 +205,6 @@ describe('components/MarketplaceItemPlugin', () => {
             installing: false,
             isDefaultMarketplace: true,
             trackEvent: jest.fn(),
-            cloudLimits: {},
             integrationsUsageAtLimit: false,
             actions: {
                 installPlugin: jest.fn(),

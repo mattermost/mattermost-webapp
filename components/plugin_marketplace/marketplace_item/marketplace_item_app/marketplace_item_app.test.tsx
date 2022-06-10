@@ -17,7 +17,6 @@ describe('components/MarketplaceItemApp', () => {
             installing: false,
             enabled: false,
             changingStatus: false,
-            cloudLimits: {},
             integrationsUsageAtLimit: false,
             trackEvent: jest.fn(() => {}),
             actions: {

@@ -1769,7 +1769,6 @@
   "admin.plugin.settingsButton": "Settings",
   "admin.plugin.state": "State",
   "admin.plugin.state.failed_to_start": "Failed to start",
-  "admin.plugin.state.failed_to_start.check_logs": "Check your system logs for errors.",
   "admin.plugin.state.failed_to_start.description": "This plugin failed to start. {error}",
   "admin.plugin.state.failed_to_stay_running": "Crashing",
   "admin.plugin.state.failed_to_stay_running.description": "This plugin crashed multiple times and is no longer running. Check your system logs for errors.",

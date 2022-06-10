@@ -4,8 +4,6 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {GlobalState} from 'types/store';
-
 import MarketplaceUsageMessage from './marketplace_usage_message';
 
 const originalMockState = {
@@ -57,7 +55,7 @@ jest.mock('react-redux', () => ({
 describe('components/MarketplaceUsageMessage', () => {
     beforeEach(() => {
         mockState = originalMockState;
-    })
+    });
 
     test('below limit, should match snapshot', () => {
         mockState = {
@@ -108,7 +106,7 @@ describe('components/MarketplaceUsageMessage', () => {
                     config: {
                         FeatureFlagCloudFree: 'false',
                     },
-                }
+                },
             },
         };
 
