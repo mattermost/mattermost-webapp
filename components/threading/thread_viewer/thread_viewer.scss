@@ -47,8 +47,9 @@
         line-height: 20px;
         text-align: center;
 
-        .icon {
+        .archive-icon {
             margin-right: 3.4px;
+            fill: rgba(var(--center-channel-color-rgb), 0.56);
             vertical-align: text-top;
         }
     }

@@ -6,6 +6,7 @@ import {useSelector} from 'react-redux';
 
 import {getIsAdvancedTextEditorEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
+import { ArchiveOutlineIcon } from '@mattermost/compass-icons/components';
 import {makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {UserProfile} from '@mattermost/types/users';
@@ -68,7 +69,10 @@ const CreateComment = forwardRef<HTMLDivElement, Props>(({
             <div className='channel-archived-warning__container'>
                 <BasicSeparator/>
                 <div className='channel-archived-warning__content'>
-                    <i className='icon icon-archive-outline'/>
+                    <ArchiveOutlineIcon 
+                        size={20}
+                        className='archive-icon'
+                    />
                     <FormattedMarkdownMessage
                         id='threadFromArchivedChannelMessage'
                         defaultMessage='You are viewing a thread from an **archived channel**. New messages cannot be posted.'
