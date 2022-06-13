@@ -103,7 +103,7 @@ describe('Verify Accessibility keyboard usability across different regions in th
 
         // # Change the focus to the last post
         cy.get('#rhsContainer').within(() => {
-            cy.get('#fileUploadButton').focus().tab({shift: true}).tab({shift: true});
+            cy.get('#toggleFormattingBarButton').focus().tab({shift: true}).tab({shift: true}).tab({shift: true});
         });
         cy.get('body').type('{uparrow}{downarrow}');
 
