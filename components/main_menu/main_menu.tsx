@@ -8,6 +8,7 @@ import {injectIntl, IntlShape} from 'react-intl';
 import {Permissions} from 'mattermost-redux/constants';
 
 import * as GlobalActions from 'actions/global_actions';
+import {FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS} from 'utils/cloud_utils';
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import {cmdOrCtrlPressed, isKeyPressed} from 'utils/utils';
 import {makeUrlSafe} from 'utils/url';
@@ -484,8 +485,12 @@ export class MainMenu extends React.PureComponent<Props> {
                                     })}
                                     modalMessage={formatMessage({
                                         id: 'navbar_dropdown.create.modal.description',
-                                        defaultMessage: 'Create unlimited teams with one of our paid plans. Get the full experience of Enterprise when you start a free, 30 day trial.',
-                                    })}
+                                        defaultMessage: 'Create unlimited teams with one of our paid plans. Get the full experience of Enterprise when you start a free, {trialLength} day trial.',
+                                    },
+                                    {
+                                        trialLength: FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS,
+                                    },
+                                    )}
                                     modalTitleAfterTrial={formatMessage({
                                         id: 'navbar_dropdown.create.modal.title.afterTrial',
                                         defaultMessage: 'Upgrade to create unlimited teams',

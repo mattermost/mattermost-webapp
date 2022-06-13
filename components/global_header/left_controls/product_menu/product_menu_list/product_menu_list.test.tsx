@@ -76,7 +76,7 @@ describe('components/global/product_switcher_menu', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot with with cloud free', () => {
+    test('should match snapshot with cloud free', () => {
         const props = {
             ...defaultProps,
             enableCustomUserGroups: true,
@@ -84,10 +84,10 @@ describe('components/global/product_switcher_menu', () => {
             isCloudFreeEnabled: true,
         };
         const wrapper = shallow(<ProductMenuList {...props}/>);
-        expect(wrapper).toMatchSnapshot();
+        expect(wrapper.find('#userGroups')).toMatchSnapshot();
     });
 
-    test('should match snapshot with with cloud free trial', () => {
+    test('should match snapshot with cloud free trial', () => {
         const props = {
             ...defaultProps,
             enableCustomUserGroups: true,
@@ -96,7 +96,7 @@ describe('components/global/product_switcher_menu', () => {
             isFreeTrial: true,
         };
         const wrapper = shallow(<ProductMenuList {...props}/>);
-        expect(wrapper).toMatchSnapshot();
+        expect(wrapper.find('#userGroups')).toMatchSnapshot();
     });
 
     describe('should show integrations', () => {

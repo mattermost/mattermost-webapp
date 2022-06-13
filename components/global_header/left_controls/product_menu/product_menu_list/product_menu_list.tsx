@@ -14,6 +14,7 @@ import TeamPermissionGate from 'components/permissions_gates/team_permission_gat
 import MarketplaceModal from 'components/plugin_marketplace';
 import Menu from 'components/widgets/menu/menu';
 import RestrictedIndicator from 'components/widgets/menu/menu_items/restricted_indicator';
+import {FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS} from 'utils/cloud_utils';
 import {ModalIdentifiers} from 'utils/constants';
 import {makeUrlSafe} from 'utils/url';
 import * as UserAgent from 'utils/user_agent';
@@ -174,8 +175,12 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                             })}
                             modalMessage={formatMessage({
                                 id: 'navbar_dropdown.userGroups.modal.description',
-                                defaultMessage: 'Create unlimited user groups with one of our paid plans. Get the full experience of Enterprise when you start a free, 30 day trial.',
-                            })}
+                                defaultMessage: 'Create unlimited user groups with one of our paid plans. Get the full experience of Enterprise when you start a free, {trialLength} day trial.',
+                            },
+                            {
+                                trialLength: FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS,
+                            },
+                            )}
                             modalTitleAfterTrial={formatMessage({
                                 id: 'navbar_dropdown.userGroups.modal.title.afterTrial',
                                 defaultMessage: 'Upgrade to create unlimited user groups',

@@ -40,7 +40,6 @@ const RestrictedIndicator = ({
         <span className='RestrictedIndicator__icon-tooltip-container'>
             <OverlayTrigger
                 delayShow={Constants.OVERLAY_TIME_DELAY}
-                delayHide={120000}
                 placement='right'
                 overlay={(
                     <Tooltip className='RestrictedIndicator__icon-tooltip'>
