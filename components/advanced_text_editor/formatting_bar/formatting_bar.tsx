@@ -51,48 +51,52 @@ const FormattingBarContainer = styled.div<FormattingBarContainerProps>`
 `;
 
 const HiddenControlsContainer = styled.div`
-    & > div {
-        padding: 5px;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-        border-radius: 4px;
-        border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
-        background: var(--center-channel-bg);
-        z-index: 2;
+    padding: 5px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    border-radius: 4px;
+    border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+    background: var(--center-channel-bg);
+    z-index: -1;
 
-        transition: transform 250ms ease, opacity 250ms ease;
+    transition: transform 250ms ease, opacity 250ms ease;
+    transform: scale(0);
+    opacity: 0;
+    display: flex;
+
+    &.scale-enter {
         transform: scale(0);
         opacity: 0;
-        display: flex;
+        z-index: 20;
+    }
 
-        &.scale-enter {
-            transform: scale(0);
-            opacity: 0;
-        }
+    &.scale-enter-active {
+        transform: scale(1);
+        opacity: 1;
+        z-index: 20;
+    }
 
-        &.scale-enter-active {
-            transform: scale(1);
-            opacity: 1;
-        }
+    &.scale-enter-done {
+        transform: scale(1);
+        opacity: 1;
+        z-index: 20;
+    }
 
-        &.scale-enter-done {
-            transform: scale(1);
-            opacity: 1;
-        }
+    &.scale-exit {
+        transform: scale(1);
+        opacity: 1;
+        z-index: 20;
+    }
 
-        &.scale-exit {
-            transform: scale(1);
-            opacity: 1;
-        }
+    &.scale-exit-active {
+        transform: scale(0);
+        opacity: 0;
+        z-index: 20;
+    }
 
-        &.scale-exit-active {
-            transform: scale(0);
-            opacity: 0;
-        }
-
-        &.scale-exit-done {
-            transform: scale(0);
-            opacity: 0;
-        }
+    &.scale-exit-done {
+        transform: scale(0);
+        opacity: 0;
+        z-index: -1;
     }
 `;
 
@@ -195,7 +199,7 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
 
     const hasHiddenControls = wideMode !== 'wide';
 
-    const closeHiddenControls = useCallback((event?) => {
+    const toggleHiddenControls = useCallback((event?) => {
         if (event) {
             event.preventDefault();
         }
@@ -231,15 +235,14 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
 
         // if hidden controls are currently open close them
         if (showHiddenControls) {
-            closeHiddenControls();
+            toggleHiddenControls();
         }
-    }, [getCurrentSelection, getCurrentMessage, applyMarkdown, showHiddenControls, closeHiddenControls, disableControls]);
+    }, [getCurrentSelection, getCurrentMessage, applyMarkdown, showHiddenControls, toggleHiddenControls, disableControls]);
 
     const hiddenControlsContainerStyles: React.CSSProperties = {
         position: strategy,
         top: y ?? 0,
         left: x ?? 0,
-        zIndex: 20,
     };
 
     return (
@@ -273,7 +276,7 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
                     <IconContainer
                         ref={reference}
                         className={classNames({active: showHiddenControls})}
-                        onClick={closeHiddenControls}
+                        onClick={toggleHiddenControls}
                     >
                         <DotsHorizontalIcon
                             color={'currentColor'}
@@ -283,30 +286,28 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
                     <Separator show={true}/>
                 </>
             )}
-            <HiddenControlsContainer
-                ref={floating}
-                style={hiddenControlsContainerStyles}
+            <CSSTransition
+                timeout={250}
+                classNames='scale'
+                in={showHiddenControls}
             >
-                <CSSTransition
-                    timeout={250}
-                    classNames='scale'
-                    in={showHiddenControls}
+                <HiddenControlsContainer
+                    ref={floating}
+                    style={hiddenControlsContainerStyles}
                 >
-                    <div>
-                        {hiddenControls.map((mode) => {
-                            return (
-                                <FormattingIcon
-                                    key={mode}
-                                    mode={mode}
-                                    className='control'
-                                    onClick={makeFormattingHandler(mode)}
-                                    disabled={disableControls}
-                                />
-                            );
-                        })}
-                    </div>
-                </CSSTransition>
-            </HiddenControlsContainer>
+                    {hiddenControls.map((mode) => {
+                        return (
+                            <FormattingIcon
+                                key={mode}
+                                mode={mode}
+                                className='control'
+                                onClick={makeFormattingHandler(mode)}
+                                disabled={disableControls}
+                            />
+                        );
+                    })}
+                </HiddenControlsContainer>
+            </CSSTransition>
             {extraControls}
         </FormattingBarContainer>
     );
