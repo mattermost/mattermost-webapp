@@ -33,10 +33,10 @@ const LoginMfa = ({loginId, password, title, subtitle, onSubmit}: LoginMfaProps)
     const handleSaveButtonOnClick = (e: React.MouseEvent | React.KeyboardEvent) => {
         e.preventDefault();
 
-        if (!saving && loginId) {
+        if (!saving) {
             setSaving(true);
 
-            onSubmit({loginId, password, token});
+            onSubmit({loginId: loginId || '', password, token});
         }
     };
 
