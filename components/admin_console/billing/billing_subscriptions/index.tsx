@@ -48,6 +48,7 @@ import {
     paymentFailedBanner,
     GrandfatheredPlanBanner,
 } from './billing_subscriptions';
+import LimitReachedBanner from './limit_reached_banner';
 
 import './billing_subscriptions.scss';
 
@@ -143,6 +144,9 @@ const BillingSubscriptions = () => {
             />
             <div className='admin-console__wrapper'>
                 <div className='admin-console__content'>
+                    <LimitReachedBanner
+                        product={product}
+                    />
                     {shouldShowPaymentFailedBanner() && paymentFailedBanner()}
                     {shouldShowGrandfatheredPlanBanner() && (
                         <GrandfatheredPlanBanner

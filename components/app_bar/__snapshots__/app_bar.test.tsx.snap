@@ -80,6 +80,9 @@ exports[`components/app_bar/app_bar should match snapshot on mount 1`] = `
         </OverlayTrigger>
       </OverlayTrigger>
     </AppBarPluginComponent>
+    <hr
+      className="app-bar__divider"
+    />
     <AppBarBinding
       binding={
         Object {
