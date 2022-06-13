@@ -72,7 +72,7 @@ export default class SearchableChannelList extends React.PureComponent {
                 <div className='more-modal__icon-container'>
                     <ArchiveOutlineIcon
                         size={20}
-                        className='archive-icon'
+                        color={'var(--center-channel-color-rgb)'}
                     />
                 </div>
             );
