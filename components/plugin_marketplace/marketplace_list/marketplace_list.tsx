@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import type {MarketplaceApp, MarketplacePlugin} from 'mattermost-redux/types/marketplace';
+import type {MarketplaceApp, MarketplacePlugin} from '@mattermost/types/marketplace';
 import {isPlugin, getName} from 'mattermost-redux/utils/marketplace';
 
 import MarketplaceItemPlugin from '../marketplace_item/marketplace_item_plugin';

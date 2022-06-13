@@ -7,7 +7,7 @@ import {IntlShape} from 'react-intl';
 import {mountWithThemedIntl} from 'tests/helpers/themed-intl-test-helper';
 
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 
 import ResultView from './result_view';
 import InviteView from './invite_view';

@@ -4,7 +4,7 @@
 import * as React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Reaction as ReactionType} from 'mattermost-redux/types/reactions';
+import {Reaction as ReactionType} from '@mattermost/types/reactions';
 
 type Props = {
     canAddReactions: boolean;

@@ -5,7 +5,7 @@ import {Client4} from 'mattermost-redux/client';
 import {SchemeTypes} from 'mattermost-redux/action_types';
 import {General} from '../constants';
 
-import {Scheme, SchemeScope, SchemePatch} from 'mattermost-redux/types/schemes';
+import {Scheme, SchemeScope, SchemePatch} from '@mattermost/types/schemes';
 
 import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
