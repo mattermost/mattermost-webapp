@@ -15,6 +15,7 @@ import {createShallowSelector} from 'mattermost-redux/utils/helpers';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 import {setThemeDefaults} from 'mattermost-redux/utils/theme_utils';
 import {CollapsedThreads} from '@mattermost/types/config';
+import {LicenseSkus} from 'mattermost-redux/types/general';
 
 export function getMyPreferences(state: GlobalState): { [x: string]: PreferenceType } {
     return state.entities.preferences.myPreferences;
@@ -212,7 +213,8 @@ export function getUseCaseOnboarding(state: GlobalState): boolean {
 }
 
 export function insightsAreEnabled(state: GlobalState): boolean {
-    return getFeatureFlagValue(state, 'InsightsEnabled') === 'true';
+    const license = getLicense(state);
+    return getFeatureFlagValue(state, 'InsightsEnabled') === 'true' && license?.IsLicensed === 'true' && (license.SkuShortName === LicenseSkus.Professional || license.SkuShortName === LicenseSkus.Enterprise);
 }
 
 export function cloudFreeEnabled(state: GlobalState): boolean {
