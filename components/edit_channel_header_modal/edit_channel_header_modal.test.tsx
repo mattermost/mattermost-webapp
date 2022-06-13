@@ -4,7 +4,7 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
-import {Channel, ChannelType} from 'mattermost-redux/types/channels';
+import {Channel, ChannelType} from '@mattermost/types/channels';
 
 import {testComponentForLineBreak} from 'tests/helpers/line_break_helpers';
 

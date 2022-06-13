@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable max-lines */
+
 import debounce from 'lodash/debounce';
 import {batchActions} from 'redux-batched-actions';
 
@@ -18,10 +20,10 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentChannelId, getCurrentChannelNameForSearchShortcut} from 'mattermost-redux/selectors/entities/channels';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
-import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
+import {makeGetUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
 import {Action, ActionResult, DispatchFunc, GenericAction, GetStateFunc} from 'mattermost-redux/types/actions';
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import {getSearchTerms, getRhsState, getPluggableId, getFilesSearchExtFilter, getPreviousRhsState} from 'selectors/rhs';
@@ -163,7 +165,7 @@ export function performSearch(terms: string, isMentionSearch?: boolean) {
 
         // timezone offset in seconds
         const userId = getCurrentUserId(getState());
-        const userTimezone = getUserTimezone(getState(), userId);
+        const userTimezone = makeGetUserTimezone()(getState(), userId);
         const userCurrentTimezone = getUserCurrentTimezone(userTimezone);
         const timezoneOffset = ((userCurrentTimezone && (userCurrentTimezone.length > 0)) ? getUtcOffsetForTimeZone(userCurrentTimezone) : getBrowserUtcOffset()) * 60;
         const messagesPromise = dispatch(searchPostsWithParams(isMentionSearch ? '' : teamId, {terms, is_or_search: Boolean(isMentionSearch), include_deleted_channels: viewArchivedChannels, time_zone_offset: timezoneOffset, page: 0, per_page: 20}));
@@ -206,12 +208,16 @@ export function showRHSPlugin(pluggableId: string) {
     };
 }
 
-export function showChannelMembers(channelId: string) {
+export function showChannelMembers(channelId: string, inEditingMode = false) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState() as GlobalState;
 
         dispatch(loadMyChannelMemberAndRole(channelId));
         dispatch(loadProfilesAndReloadChannelMembers(channelId));
+
+        if (inEditingMode) {
+            await dispatch(setEditChannelMembers(true));
+        }
 
         let previousRhsState = getRhsState(state);
         if (previousRhsState === RHSStates.CHANNEL_MEMBERS) {
@@ -569,3 +575,13 @@ export const suppressRHS = {
 export const unsuppressRHS = {
     type: ActionTypes.UNSUPPRESS_RHS,
 };
+
+export function setEditChannelMembers(active: boolean) {
+    return (dispatch: DispatchFunc) => {
+        dispatch({
+            type: ActionTypes.SET_EDIT_CHANNEL_MEMBERS,
+            active,
+        });
+        return {data: true};
+    };
+}

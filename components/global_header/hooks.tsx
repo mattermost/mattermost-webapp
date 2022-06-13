@@ -5,8 +5,8 @@ import {MutableRefObject, useEffect, useRef} from 'react';
 import {useSelector} from 'react-redux';
 import {useLocation} from 'react-router';
 
-import {getCurrentUser, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {getCurrentUser, isFirstAdmin, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
+import {UserProfile} from '@mattermost/types/users';
 import {isModalOpen} from 'selectors/views/modals';
 import {GlobalState} from 'types/store';
 import {ProductComponent} from 'types/store/plugins';
@@ -51,6 +51,10 @@ export const useCurrentProductId = (products?: ProductComponent[]): string | nul
 
 export const useFirstAdminUser = (): boolean => {
     return useSelector(isFirstAdmin);
+};
+
+export const useIsCurrentUserSystemAdmin = (): boolean => {
+    return useSelector(isCurrentUserSystemAdmin);
 };
 
 export const useIsLoggedIn = (): boolean => {

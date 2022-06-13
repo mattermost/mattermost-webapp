@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable max-lines */
 import deepEqual from 'fast-deep-equal';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -27,6 +28,7 @@ import CompassThemeProvider from 'components/compass_theme_provider/compass_them
 import GlobalHeader from 'components/global_header/global_header';
 import ModalController from 'components/modal_controller';
 import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_route';
+import {HFRoute} from 'components/header_footer_route/header_footer_route';
 import IntlProvider from 'components/intl_provider';
 import NeedsTeam from 'components/needs_team';
 import OnBoardingTaskList from 'components/onboarding_tasklist';
@@ -44,16 +46,15 @@ import * as Utils from 'utils/utils';
 import webSocketClient from 'client/web_websocket_client.jsx';
 
 const LazyErrorPage = React.lazy(() => import('components/error_page'));
-const LazyLoginController = React.lazy(() => import('components/login/login_controller'));
+const LazyLogin = React.lazy(() => import('components/login/login'));
 const LazyAdminConsole = React.lazy(() => import('components/admin_console'));
 const LazyLoggedIn = React.lazy(() => import('components/logged_in'));
 const LazyPasswordResetSendLink = React.lazy(() => import('components/password_reset_send_link'));
 const LazyPasswordResetForm = React.lazy(() => import('components/password_reset_form'));
-const LazySignupController = React.lazy(() => import('components/signup/signup_controller'));
-const LazySignupEmail = React.lazy(() => import('components/signup/signup_email'));
+const LazySignup = React.lazy(() => import('components/signup/signup'));
 const LazyTermsOfService = React.lazy(() => import('components/terms_of_service'));
-const LazyShouldVerifyEmail = React.lazy(() => import('components/should_verify_email'));
-const LazyDoVerifyEmail = React.lazy(() => import('components/do_verify_email'));
+const LazyShouldVerifyEmail = React.lazy(() => import('components/should_verify_email/should_verify_email'));
+const LazyDoVerifyEmail = React.lazy(() => import('components/do_verify_email/do_verify_email'));
 const LazyClaimController = React.lazy(() => import('components/claim'));
 const LazyHelpController = React.lazy(() => import('components/help/help_controller'));
 const LazyLinkingLandingPage = React.lazy(() => import('components/linking_landing_page'));
@@ -75,13 +76,12 @@ import RootRedirect from './root_redirect';
 const CreateTeam = makeAsyncComponent('CreateTeam', LazyCreateTeam);
 const ErrorPage = makeAsyncComponent('ErrorPage', LazyErrorPage);
 const TermsOfService = makeAsyncComponent('TermsOfService', LazyTermsOfService);
-const LoginController = makeAsyncComponent('LoginController', LazyLoginController);
+const Login = makeAsyncComponent('LoginController', LazyLogin);
 const AdminConsole = makeAsyncComponent('AdminConsole', LazyAdminConsole);
 const LoggedIn = makeAsyncComponent('LoggedIn', LazyLoggedIn);
 const PasswordResetSendLink = makeAsyncComponent('PasswordResedSendLink', LazyPasswordResetSendLink);
 const PasswordResetForm = makeAsyncComponent('PasswordResetForm', LazyPasswordResetForm);
-const SignupController = makeAsyncComponent('SignupController', LazySignupController);
-const SignupEmail = makeAsyncComponent('SignupEmail', LazySignupEmail);
+const Signup = makeAsyncComponent('SignupController', LazySignup);
 const ShouldVerifyEmail = makeAsyncComponent('ShouldVerifyEmail', LazyShouldVerifyEmail);
 const DoVerifyEmail = makeAsyncComponent('DoVerifyEmail', LazyDoVerifyEmail);
 const ClaimController = makeAsyncComponent('ClaimController', LazyClaimController);
@@ -117,11 +117,12 @@ export default class Root extends React.PureComponent {
             emitBrowserWindowResized: PropTypes.func.isRequired,
             getFirstAdminSetupComplete: PropTypes.func.isRequired,
             getProfiles: PropTypes.func.isRequired,
+            migrateRecentEmojis: PropTypes.func.isRequired,
             loadConfigAndMe: PropTypes.func.isRequired,
+            savePreferences: PropTypes.func.isRequired,
         }).isRequired,
         plugins: PropTypes.array,
         products: PropTypes.array,
-        showTaskList: PropTypes.bool,
         showLaunchingWorkspace: PropTypes.bool,
     }
 
@@ -244,6 +245,7 @@ export default class Root extends React.PureComponent {
             }
         });
 
+        this.props.actions.migrateRecentEmojis();
         loadRecentlyUsedCustomEmojis()(store.dispatch, store.getState);
 
         const iosDownloadLink = getConfig(store.getState()).IosAppDownloadLink;
@@ -437,9 +439,9 @@ export default class Root extends React.PureComponent {
                         path={'/error'}
                         component={ErrorPage}
                     />
-                    <HFTRoute
+                    <HFRoute
                         path={'/login'}
-                        component={LoginController}
+                        component={Login}
                     />
                     <HFTRoute
                         path={'/reset_password'}
@@ -449,19 +451,15 @@ export default class Root extends React.PureComponent {
                         path={'/reset_password_complete'}
                         component={PasswordResetForm}
                     />
-                    <HFTRoute
+                    <HFRoute
                         path={'/signup_user_complete'}
-                        component={SignupController}
+                        component={Signup}
                     />
-                    <HFTRoute
-                        path={'/signup_email'}
-                        component={SignupEmail}
-                    />
-                    <HFTRoute
+                    <HFRoute
                         path={'/should_verify_email'}
                         component={ShouldVerifyEmail}
                     />
-                    <HFTRoute
+                    <HFRoute
                         path={'/do_verify_email'}
                         component={DoVerifyEmail}
                     />
@@ -493,7 +491,7 @@ export default class Root extends React.PureComponent {
                                 <RootRedirect/>
                             </Switch>
                             <CompassThemeProvider theme={this.props.theme}>
-                                {this.props.showTaskList && <OnBoardingTaskList/>}
+                                <OnBoardingTaskList/>
                             </CompassThemeProvider>
                         </>
                     </Route>
@@ -537,7 +535,7 @@ export default class Root extends React.PureComponent {
                         )}
                         <ModalController/>
                         <GlobalHeader/>
-                        {this.props.showTaskList && <OnBoardingTaskList/>}
+                        <OnBoardingTaskList/>
                         <TeamSidebar/>
                         <Switch>
                             {this.props.products?.map((product) => (

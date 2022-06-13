@@ -6,10 +6,10 @@ import {createSelector} from 'reselect';
 import {getCurrentChannelId, getUsers} from 'mattermost-redux/selectors/entities/common';
 import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 
-import {GlobalState} from 'mattermost-redux/types/store';
-import {Typing} from 'mattermost-redux/types/typing';
-import {UserProfile} from 'mattermost-redux/types/users';
-import {IDMappedObjects} from 'mattermost-redux/types/utilities';
+import {GlobalState} from '@mattermost/types/store';
+import {Typing} from '@mattermost/types/typing';
+import {UserProfile} from '@mattermost/types/users';
+import {IDMappedObjects} from '@mattermost/types/utilities';
 
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 

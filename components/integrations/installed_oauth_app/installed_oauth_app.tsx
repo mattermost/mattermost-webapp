@@ -5,8 +5,8 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import {OAuthApp} from 'mattermost-redux/types/integrations';
-import {Team} from 'mattermost-redux/types/teams';
+import {OAuthApp} from '@mattermost/types/integrations';
+import {Team} from '@mattermost/types/teams';
 
 import * as Utils from 'utils/utils';
 import FormError from 'components/form_error';

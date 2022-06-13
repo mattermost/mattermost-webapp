@@ -10,6 +10,7 @@
 // Stage: @prod
 // Group: @system_console @enterprise @cloud_only
 
+import * as TIMEOUTS from '../../../fixtures/timeouts';
 import {SupportSettings} from '../../../utils/constants';
 
 describe('SupportSettings', () => {
@@ -28,7 +29,6 @@ describe('SupportSettings', () => {
             [
                 {text: 'Ask the community', link: SupportSettings.ASK_COMMUNITY_LINK},
                 {text: 'Help resources', link: SupportSettings.HELP_LINK},
-                {text: 'Getting Started'},
                 {text: 'Report a problem', link: SupportSettings.REPORT_A_PROBLEM_LINK},
                 {text: 'Keyboard shortcuts'},
             ].forEach(({text, link}) => {
@@ -50,7 +50,7 @@ describe('SupportSettings', () => {
 
         const guides = [
             {text: 'About', link: SupportSettings.ABOUT_LINK},
-            {text: 'Privacy', link: SupportSettings.PRIVACY_POLICY_LINK},
+            {text: 'Privacy Policy', link: SupportSettings.PRIVACY_POLICY_LINK},
             {text: 'Terms', link: SupportSettings.TERMS_OF_SERVICE_LINK},
             {text: 'Help', link: SupportSettings.HELP_LINK},
         ];
@@ -58,18 +58,16 @@ describe('SupportSettings', () => {
         // * Verify that links are correct at login page
         guides.forEach((guide) => {
             cy.findByText(guide.text).
-                parent().
                 should('have.attr', 'href', guide.link);
         });
 
         // # Visit signup page
-        cy.get('#signup').click();
+        cy.findByText('Create an account', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').click();
         cy.url().should('include', '/signup_user_complete');
 
         // * Verify that links are correct at signup page
         guides.forEach((guide) => {
             cy.findByText(guide.text).
-                parent().
                 should('have.attr', 'href', guide.link);
         });
     });

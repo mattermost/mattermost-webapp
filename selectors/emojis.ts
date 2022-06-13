@@ -8,12 +8,11 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 
-import LocalStorageStore from 'stores/local_storage_store';
-
 import {Preferences} from 'utils/constants';
 import EmojiMap from 'utils/emoji_map';
 
-import type {GlobalState} from 'types/store';
+import {GlobalState} from 'types/store';
+import {RecentEmojiData} from '@mattermost/types/emojis';
 
 export const getEmojiMap = createSelector(
     'getEmojiMap',
@@ -23,18 +22,44 @@ export const getEmojiMap = createSelector(
     },
 );
 
-export const getShortcutReactToLastPostEmittedFrom = (state: GlobalState) => state.views.emoji.shortcutReactToLastPostEmittedFrom;
+export const getShortcutReactToLastPostEmittedFrom = (state: GlobalState) =>
+    state.views.emoji.shortcutReactToLastPostEmittedFrom;
 
 export const getRecentEmojis = createSelector(
     'getRecentEmojis',
-    (state: GlobalState) => LocalStorageStore.getRecentEmojis(getCurrentUserId(state)),
-    (recentEmojis) => {
+    (state: GlobalState) => {
+        return get(
+            state,
+            Preferences.RECENT_EMOJIS,
+            getCurrentUserId(state),
+            '[]',
+        );
+    },
+    (recentEmojis: string) => {
         if (!recentEmojis) {
             return [];
         }
+        const parsedEmojiData: RecentEmojiData[] = JSON.parse(recentEmojis);
+        return parsedEmojiData;
+    },
+);
 
-        const recentEmojisArray: string[] = JSON.parse(recentEmojis);
-        return recentEmojisArray;
+export const getRecentEmojisNames = createSelector(
+    'getRecentEmojisNames',
+    (state: GlobalState) => {
+        return get(
+            state,
+            Preferences.RECENT_EMOJIS,
+            getCurrentUserId(state),
+            '[]',
+        );
+    },
+    (recentEmojis: string) => {
+        if (!recentEmojis) {
+            return [];
+        }
+        const parsedEmojiData: RecentEmojiData[] = JSON.parse(recentEmojis);
+        return parsedEmojiData.map((emoji) => emoji.name);
     },
 );
 
@@ -50,12 +75,16 @@ export function isCustomEmojiEnabled(state: GlobalState) {
 export const getOneClickReactionEmojis = createSelector(
     'getOneClickReactionEmojis',
     getEmojiMap,
-    getRecentEmojis,
-    (emojiMap, recentEmojis) => {
+    getRecentEmojisNames,
+    (emojiMap, recentEmojis: string[]) => {
         if (recentEmojis.length === 0) {
             return [];
         }
 
-        return recentEmojis.map((recentEmoji) => emojiMap.get(recentEmoji)).filter(Boolean).slice(-3).reverse();
+        return (recentEmojis).
+            map((recentEmoji) => emojiMap.get(recentEmoji)).
+            filter(Boolean).
+            slice(-3).
+            reverse();
     },
 );

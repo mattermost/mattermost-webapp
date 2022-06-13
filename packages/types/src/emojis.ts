@@ -45,3 +45,8 @@ export type EmojisState = {
     };
     nonExistentEmoji: Set<string>;
 };
+
+export type RecentEmojiData = {
+    name: string;
+    usageCount: number;
+};

@@ -5,9 +5,13 @@ import {MessageDescriptor} from 'react-intl';
 
 import {t} from 'utils/i18n';
 
-export type KeyboardShortcutDescriptor = MessageDescriptor | {default: MessageDescriptor; mac?: MessageDescriptor};
+export type KeyboardShortcutDescriptor =
+	| MessageDescriptor
+	| {default: MessageDescriptor; mac?: MessageDescriptor};
 
-export function isMessageDescriptor(descriptor: KeyboardShortcutDescriptor): descriptor is MessageDescriptor {
+export function isMessageDescriptor(
+    descriptor: KeyboardShortcutDescriptor,
+): descriptor is MessageDescriptor {
     return Boolean((descriptor as MessageDescriptor).id);
 }
 
@@ -242,6 +246,96 @@ export const KEYBOARD_SHORTCUTS = {
             defaultMessage: 'Bold:\t⌘|B',
         },
     },
+    msgMarkdownCode: {
+        default: {
+            id: t('shortcuts.msgs.markdown.code'),
+            defaultMessage: 'Code',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.code.mac'),
+            defaultMessage: 'Code',
+        },
+    },
+    msgMarkdownStrike: {
+        default: {
+            id: t('shortcuts.msgs.markdown.strike'),
+            defaultMessage: 'Strikethrough:\tCtrl|Shift|X',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.strike.mac'),
+            defaultMessage: 'Strikethrough:\t⌘|Shift|X',
+        },
+    },
+    msgMarkdownH3: {
+        default: {
+            id: t('shortcuts.msgs.markdown.h3'),
+            defaultMessage: 'Heading',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.h3.mac'),
+            defaultMessage: 'Heading',
+        },
+    },
+    msgMarkdownQuote: {
+        default: {
+            id: t('shortcuts.msgs.markdown.quote'),
+            defaultMessage: 'Quote',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.quote.mac'),
+            defaultMessage: 'Quote',
+        },
+    },
+    msgMarkdownOl: {
+        default: {
+            id: t('shortcuts.msgs.markdown.ordered'),
+            defaultMessage: 'Numbered List',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.ordered.mac'),
+            defaultMessage: 'Numbered List',
+        },
+    },
+    msgMarkdownUl: {
+        default: {
+            id: t('shortcuts.msgs.markdown.unordered'),
+            defaultMessage: 'Bulleted List',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.unordered.mac'),
+            defaultMessage: 'Bulleted List',
+        },
+    },
+    msgShowFormatting: {
+        default: {
+            id: t('shortcuts.msgs.markdown.formatting'),
+            defaultMessage: 'Show/Hide Formatting:\tCtrl|Alt|T',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.formatting.mac'),
+            defaultMessage: 'Show/Hide Formatting:\t⌘|Alt|T',
+        },
+    },
+    msgShowEmojiPicker: {
+        default: {
+            id: t('shortcuts.msgs.markdown.emoji'),
+            defaultMessage: 'Emoji / Gif picker:\tCtrl|Shift|E',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.emoji.mac'),
+            defaultMessage: 'Emoji / Gif picker:\t⌘|Shift|E',
+        },
+    },
+    msgMarkdownPreview: {
+        default: {
+            id: t('shortcuts.msgs.markdown.preview'),
+            defaultMessage: 'Show/Hide Preview:\tCtrl|Shift|P',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.preview.mac'),
+            defaultMessage: 'Show/Hide Preview:\t⌘|Shift|P',
+        },
+    },
     msgMarkdownItalic: {
         default: {
             id: t('shortcuts.msgs.markdown.italic'),
@@ -323,5 +417,15 @@ export const KEYBOARD_SHORTCUTS = {
     browserNewline: {
         id: t('shortcuts.browser.newline'),
         defaultMessage: 'Create a new line:\tShift|Enter',
+    },
+    msgSearchChannel: {
+        default: {
+            id: t('shortcuts.msgs.search_channel'),
+            defaultMessage: 'In channel:\tCtrl|F',
+        },
+        mac: {
+            id: t('shortcuts.msgs.search_channel.mac'),
+            defaultMessage: 'In channel:\t⌘|F',
+        },
     },
 };
