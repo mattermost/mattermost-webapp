@@ -30,9 +30,7 @@ type Props = {
     product_id: string;
 };
 
-// test THIS
-
-function DownGradeTeamRemovalModal(props: Props) {
+function DowngradeTeamRemovalModal(props: Props) {
     const dispatch = useDispatch();
     const [radioValue, setRadioValue] = useState('');
     const [dropdownValue, setDropdownValue] = useState({});
@@ -81,6 +79,7 @@ function DownGradeTeamRemovalModal(props: Props) {
             return (
                 <RadioButtonGroup
                     id='deleteTeamRadioGroup'
+                    testId='deleteTeamRadioGroup'
                     values={teams.map((team) => {
                         return {
                             value: team.id,
@@ -96,7 +95,8 @@ function DownGradeTeamRemovalModal(props: Props) {
 
         return (
             <DropdownInput
-                onChange={(e) => setDropdownValue(e)}
+                testId='deleteTeamDropdownInput'
+                onChange={setDropdownValue}
                 legend={formatMessage({
                     id: t('admin.channel_settings.channel_list.teamHeader'),
                     defaultMessage: 'Team',
@@ -206,4 +206,4 @@ function DownGradeTeamRemovalModal(props: Props) {
     );
 }
 
-export default DownGradeTeamRemovalModal;
+export default DowngradeTeamRemovalModal;

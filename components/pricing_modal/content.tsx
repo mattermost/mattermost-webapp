@@ -24,7 +24,7 @@ import StarMarkSvg from 'components/widgets/icons/star_mark_icon';
 import CheckMarkSvg from 'components/widgets/icons/check_mark_icon';
 import PlanLabel from 'components/common/plan_label';
 
-import DownGradeTeamRemovalModal from './downgrade_team_removal_modal';
+import DowngradeTeamRemovalModal from './downgrade_team_removal_modal';
 import ContactSalesCTA from './contact_sales_cta';
 import StarterDisclaimerCTA from './starter_disclaimer_cta';
 
@@ -266,29 +266,25 @@ function Content(props: ContentProps) {
                         planExtraInformation={<StarterDisclaimerCTA/>}
                         buttonDetails={{
                             action: () => {
+                                if (!starterProduct) {
+                                    return;
+                                }
                                 if (usage.teams.active > 1) {
-                                    if (!starterProduct) {
-                                        return;
-                                    }
                                     dispatch(
                                         openModal({
                                             modalId: ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM,
-                                            dialogType: DownGradeTeamRemovalModal,
+                                            dialogType: DowngradeTeamRemovalModal,
                                             dialogProps: {
                                                 product_id: starterProduct?.id,
                                             },
                                         }),
                                     );
                                 } else {
-                                    if (!starterProduct) {
-                                        return;
-                                    }
-
                                     downgrade();
                                 }
-                            }, // noop until we support downgrade
+                            },
                             text: formatMessage({id: 'pricing_modal.btn.downgrade', defaultMessage: 'Downgrade'}),
-                            disabled: false, // disabled until we have functionality to downgrade
+                            disabled: isStarter || false,
                             customClass: ButtonCustomiserClasses.secondary,
                         }}
                         planLabel={

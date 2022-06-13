@@ -1,3 +1,6 @@
+
+@import 'utils/variables';
+
 .DowngradeTeamRemovalModal {
     .modal {
         overflow: visible;
@@ -17,7 +20,7 @@
             border: none;
             background-color: var(--center-channel-bg);
             border-radius: 12px;
-            box-shadow: 0 20px 32px rgba(0, 0, 0, 0.12);
+            box-shadow: $elevation-6;
         }
     }
 

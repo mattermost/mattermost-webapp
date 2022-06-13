@@ -63,7 +63,10 @@ function SuccessModal(props: Props) {
                 formattedSubtitle={
                     <FormattedMessage
                         id={'success_modal.subtitle'}
-                        defaultMessage={'default message'}
+                        defaultMessage={
+                            'Your final bill will be prorated. Your workspace now has {planName} limits.'
+                        }
+                        values={{plan: subscriptionProduct?.name}}
                     />
                 }
                 error={false}
