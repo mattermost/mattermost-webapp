@@ -22,19 +22,21 @@ import {ModalIdentifiers} from 'utils/constants';
 import {isModalOpen} from 'selectors/views/modals';
 import {GlobalState} from 'types/store';
 import {subscribeCloudSubscription} from 'actions/cloud';
+import {fallbackStarterLimits, asGBString} from 'utils/limits';
 
 import './downgrade_team_removal_modal.scss';
 
 type Props = {
     onHide?: () => void;
     product_id: string;
+    starterProductName: string;
 };
 
 function DowngradeTeamRemovalModal(props: Props) {
     const dispatch = useDispatch();
     const [radioValue, setRadioValue] = useState('');
-    const [dropdownValue, setDropdownValue] = useState({});
-    const {formatMessage} = useIntl();
+    const [dropdownValue, setDropdownValue] = useState<ValueType | undefined>();
+    const intl = useIntl();
     const isCloudDowngradeChooseTeamModalOpen = useSelector(
         (state: GlobalState) =>
             isModalOpen(state, ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM),
@@ -56,10 +58,10 @@ function DowngradeTeamRemovalModal(props: Props) {
 
     const onConfirmDowngrade = async () => {
         let teamIdToKeep = '';
-        if (!isEmpty(radioValue) && isEmpty(dropdownValue)) {
+        if (radioValue && !dropdownValue) {
             teamIdToKeep = radioValue;
         } else {
-            teamIdToKeep = (dropdownValue as ValueType).value;
+            teamIdToKeep = dropdownValue?.value || '';
         }
         dispatch(selectTeam(teamIdToKeep));
         await dispatch(archiveAllTeamsExcept(teamIdToKeep));
@@ -97,17 +99,15 @@ function DowngradeTeamRemovalModal(props: Props) {
             <DropdownInput
                 testId='deleteTeamDropdownInput'
                 onChange={setDropdownValue}
-                legend={formatMessage({
+                legend={intl.formatMessage({
                     id: t('admin.channel_settings.channel_list.teamHeader'),
                     defaultMessage: 'Team',
                 })}
-                placeholder={formatMessage({
+                placeholder={intl.formatMessage({
                     id: t('downgrade_plan_modal.selectTeam'),
                     defaultMessage: 'Select team',
                 })}
-                value={
-                    isEmpty(dropdownValue) ? undefined : (dropdownValue as ValueType)
-                }
+                value={dropdownValue}
                 options={teams.map((team) => {
                     return {
                         label: team.display_name,
@@ -149,11 +149,22 @@ function DowngradeTeamRemovalModal(props: Props) {
                     <div>
                         <FormattedMessage
                             id='downgrade_plan_modal.subtitle'
-                            defaultMessage="Cloud starter is restricted to 1 team, 10GB file storage, 10 apps, and 5 board card views. <strong>If you downgrade, some data will be archived</strong>. It won't be deleted and you'll be able to access it again when you upgrade."
+                            defaultMessage='{planName} is restricted to {teams} team, {messages} messages, {storage} file storage, {integrations} apps, and {boards} board cards. <strong>If you downgrade, some data will be archived</strong>. Archived data can be accessible when you upgrade back'
                             values={{
                                 strong: (msg: React.ReactNode) => (
                                     <strong>{msg}</strong>
                                 ),
+                                planName: props.starterProductName,
+                                messages: intl.formatNumber(
+                                    fallbackStarterLimits.messages.history,
+                                ),
+                                storage: asGBString(
+                                    fallbackStarterLimits.files.totalStorage,
+                                    intl.formatNumber,
+                                ),
+                                integrations:
+                                    fallbackStarterLimits.integrations.enabled,
+                                boards: fallbackStarterLimits.boards.cards,
                             }}
                         />
                     </div>

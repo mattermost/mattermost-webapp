@@ -9,7 +9,6 @@ import {screen} from '@testing-library/react';
 
 import thunk from 'redux-thunk';
 
-import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import {renderWithIntl} from 'tests/react_testing_utils';
 import {CloudProducts} from 'utils/constants';
 
@@ -17,7 +16,6 @@ import {FileSizes} from 'utils/file_utils';
 
 import DowngradeTeamRemovalModal from './';
 
-//
 describe('components/pricing_modal/downgrade_team_removal_modal', () => {
     beforeEach(() => {
         jest.spyOn(redux, 'useDispatch').mockImplementation(
@@ -314,7 +312,10 @@ describe('components/pricing_modal/downgrade_team_removal_modal', () => {
         const store = mockStore(state);
         renderWithIntl(
             <redux.Provider store={store}>
-                <DowngradeTeamRemovalModal product_id={'prod_starter'}/>
+                <DowngradeTeamRemovalModal
+                    product_id={'prod_starter'}
+                    starterProductName={'Cloud Starter'}
+                />
             </redux.Provider>,
         );
         screen.getByText('Confirm Plan Downgrade');
@@ -324,9 +325,12 @@ describe('components/pricing_modal/downgrade_team_removal_modal', () => {
     test('renders dropdown with 4+ teams', () => {
         const mockStore = configureStore([thunk]);
         const store = mockStore(state);
-        const {container} = renderWithIntl(
+        renderWithIntl(
             <redux.Provider store={store}>
-                <DowngradeTeamRemovalModal product_id={'prod_starter'}/>
+                <DowngradeTeamRemovalModal
+                    product_id={'prod_starter'}
+                    starterProductName={'Cloud Starter'}
+                />
             </redux.Provider>,
         );
         expect(screen.getByTestId('deleteTeamDropdownInput')).toBeInTheDocument();
@@ -337,10 +341,11 @@ describe('components/pricing_modal/downgrade_team_removal_modal', () => {
         newState.entities.usage.teams.active = 2;
         const mockStore = configureStore([thunk]);
         const store = mockStore(state);
-        const {container} = renderWithIntl(
+        renderWithIntl(
             <redux.Provider store={store}>
                 <DowngradeTeamRemovalModal
                     product_id={'prod_starter'}
+                    starterProductName={'Cloud Starter'}
                 />
             </redux.Provider>,
         );
