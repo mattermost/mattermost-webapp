@@ -12,7 +12,6 @@ import {Permissions} from 'mattermost-redux/constants';
 import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getSortedListableTeams, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
-import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import withUseGetUsageDelta from 'components/common/hocs/cloud/with_use_get_usage_deltas';
 
@@ -32,7 +31,6 @@ function mapStateToProps(state: GlobalState) {
     const license = getLicense(state);
 
     const isCloud = isCloudLicense(license);
-    const isCloudFreeEnabled = isCloud && cloudFreeEnabled(state);
 
     return {
         currentUserId: currentUser.id,
@@ -49,7 +47,6 @@ function mapStateToProps(state: GlobalState) {
         siteURL: config.SiteURL,
         totalTeamsCount: state.entities.teams.totalCount || 0,
         isCloud,
-        isCloudFreeEnabled,
     };
 }
 

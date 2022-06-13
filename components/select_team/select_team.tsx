@@ -59,7 +59,6 @@ type Props = {
     actions: Actions;
     totalTeamsCount: number;
     isCloud: boolean;
-    isCloudFreeEnabled: boolean;
     usageDeltas: CloudUsage;
 };
 
@@ -181,7 +180,6 @@ export default class SelectTeam extends React.PureComponent<Props, State> {
             canJoinPrivateTeams,
             totalTeamsCount,
             isCloud,
-            isCloudFreeEnabled,
             usageDeltas: {
                 teams: {
                     active: usageDeltaTeams,
@@ -190,7 +188,7 @@ export default class SelectTeam extends React.PureComponent<Props, State> {
         } = this.props;
 
         const teamsLimitReached = usageDeltaTeams >= 0;
-        const createTeamRestricted = isCloud && isCloudFreeEnabled && teamsLimitReached;
+        const createTeamRestricted = isCloud && teamsLimitReached;
 
         let openContent;
         if (this.state.loadingTeamId) {
