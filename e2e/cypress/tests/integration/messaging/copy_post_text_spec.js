@@ -70,7 +70,6 @@ describe('Permalink message edit', () => {
             cy.get(`#postMessageText_${postId}`).click();
             cy.get('i.icon.icon-content-copy').invoke('show').click();
             cy.get('@clipboard').its('contents').then((contents) => {
-
                 // * Verify clipboard content does not have extra quotes
                 expect(contents.trim()).to.equal(copiedCodeBlockText.trim());
             });
