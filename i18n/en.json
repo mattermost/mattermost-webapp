@@ -3701,6 +3701,8 @@
   "leave_team_modal.title": "Leave the team?",
   "leave_team_modal.yes": "Yes",
   "licensingPage.infoBanner.startTrialTitle": "Free 30 day trial!",
+  "link_preview.image_preview": "Show Image preview",
+  "link_preview.remove_link_preview": "Remove link preview",
   "list_modal.paginatorCount": "{startCount, number} - {endCount, number} of {total, number} total",
   "loading_screen.loading": "Loading",
   "local": "local",
