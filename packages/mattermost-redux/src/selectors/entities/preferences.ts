@@ -6,6 +6,8 @@ import {createSelector} from 'reselect';
 import {General, Preferences} from 'mattermost-redux/constants';
 
 import {getConfig, getFeatureFlagValue, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 import {PreferenceType} from '@mattermost/types/preferences';
 import {GlobalState} from '@mattermost/types/store';
@@ -214,7 +216,10 @@ export function getUseCaseOnboarding(state: GlobalState): boolean {
 
 export function insightsAreEnabled(state: GlobalState): boolean {
     const license = getLicense(state);
-    return getFeatureFlagValue(state, 'InsightsEnabled') === 'true' && license?.IsLicensed === 'true' && (license.SkuShortName === LicenseSkus.Professional || license.SkuShortName === LicenseSkus.Enterprise);
+    const isLicensedForFeature = license?.IsLicensed === 'true' && (license.SkuShortName === LicenseSkus.Professional || license.SkuShortName === LicenseSkus.Enterprise);
+    const featureIsEnabled = getFeatureFlagValue(state, 'InsightsEnabled') === 'true';
+    const currentUserIsGuest = isGuest(getCurrentUser(state).roles);
+    return featureIsEnabled && isLicensedForFeature && !currentUserIsGuest;
 }
 
 export function cloudFreeEnabled(state: GlobalState): boolean {
