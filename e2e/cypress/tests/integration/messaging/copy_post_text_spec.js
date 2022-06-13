@@ -60,6 +60,8 @@ describe('Permalink message edit', () => {
         stubClipboard().as('clipboard');
         const postCodeBlock = '```javascript\nvar foo = "bar"\nfunction doSomething()\nreturn 7;\n}\n```';
         const copiedCodeBlockText = 'var foo = "bar"\nfunction doSomething()\nreturn 7;\n}\n';
+
+        // # Post the code block
         cy.postMessage(postCodeBlock);
         cy.getLastPostId().as('postId1');
 
@@ -68,6 +70,8 @@ describe('Permalink message edit', () => {
             cy.get(`#postMessageText_${postId}`).click();
             cy.get('i.icon.icon-content-copy').invoke('show').click();
             cy.get('@clipboard').its('contents').then((contents) => {
+
+                // * Verify clipboard content does not have extra quotes
                 expect(contents.trim()).to.equal(copiedCodeBlockText.trim());
             });
         });

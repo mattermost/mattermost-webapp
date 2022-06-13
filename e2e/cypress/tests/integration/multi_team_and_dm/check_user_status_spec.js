@@ -33,6 +33,7 @@ describe('Multi-Team + DMs', () => {
     });
 
     it('MM-T423 Online Status - Statuses update in center, in member icon drop-down, and in DM LHS sidebar', () => {
+        // # Login with UserB and post a message to UserA
         cy.apiLogin(userB);
         cy.visit(testChannelUrl);
         cy.postMessage(MESSAGES.SMALL);

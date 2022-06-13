@@ -83,7 +83,7 @@ describe('Slash commands', () => {
             cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`/${gmTrigger}{enter}{enter}`);
             cy.wait(TIMEOUTS.TWO_SEC);
 
-            // # Verify that the message was sent to the GM
+            // * Verify that the message was sent to the GM
             cy.getLastPostId().then((postId) => {
                 cy.get(`#post_${postId}`).get('.Badge').contains('BOT');
             });
