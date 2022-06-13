@@ -5044,7 +5044,7 @@
   "user_profile.add_user_to_channel.icon": "Kanala kullanıcı ekle simgesi",
   "user_profile.custom_status": "Durum",
   "user_profile.custom_status.set_status": "Bir durum ayarlayın",
-  "user_profile.send.dm": "İletiyi gönder",
+  "user_profile.send.dm": "İleti gönder",
   "user_profile.send.dm.icon": "İleti gönderme simgesi",
   "version_bar.new": "Yeni bir Mattermost sürümü yayınlanmış.",
   "version_bar.refresh": "Uygulamayı yenile",
