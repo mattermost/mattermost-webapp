@@ -1,15 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useCallback} from 'react';
+import React from 'react';
 
 import {useDispatch, useSelector} from 'react-redux';
 
 import styled from 'styled-components';
 
 import {Channel} from '@mattermost/types/channels';
-import {getIsRhsOpen} from 'selectors/rhs';
-
+import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
+import {RHSStates} from 'utils/constants';
+import {RhsState} from 'types/store/rhs';
 import {closeRightHandSide, showChannelInfo} from 'actions/views/rhs';
 
 import HeaderIconWrapper from './components/header_icon_wrapper';
@@ -30,15 +31,16 @@ const ChannelInfoButton = ({channel}: Props) => {
     const dispatch = useDispatch();
 
     const isRhsOpen: boolean = useSelector(getIsRhsOpen);
-    const rhsOpenOnChannelInfo = isRhsOpen;
+    const rhsState: RhsState = useSelector(getRhsState);
+    const rhsOpenOnChannelInfo = isRhsOpen && rhsState === RHSStates.CHANNEL_INFO;
 
-    const toggleRHS = useCallback(() => {
-        if (isRhsOpen) {
+    const toggleRHS = () => {
+        if (rhsState === RHSStates.CHANNEL_INFO) {
             dispatch(closeRightHandSide());
         } else {
             dispatch(showChannelInfo(channel.id));
         }
-    }, [isRhsOpen, channel.id, dispatch]);
+    };
 
     const tooltipKey = rhsOpenOnChannelInfo ? 'closeChannelInfo' : 'openChannelInfo';
 
