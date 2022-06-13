@@ -9,7 +9,7 @@ import classNames from 'classnames';
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 
 import {DispatchFunc} from 'mattermost-redux/types/actions';
-import {getCloudSubscription as selectCloudSubscription} from 'mattermost-redux/selectors/entities/cloud';
+import {checkHadPriorTrial} from 'mattermost-redux/selectors/entities/cloud';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 
 import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
@@ -38,7 +38,7 @@ const FeatureRestrictedModal = ({
     const {formatMessage} = useIntl();
     const dispatch = useDispatch<DispatchFunc>();
 
-    const subscription = useSelector(selectCloudSubscription);
+    const hasPriorTrial = useSelector(checkHadPriorTrial);
     const isSystemAdmin = useSelector(isCurrentUserSystemAdmin);
     const show = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.FEATURE_RESTRICTED_MODAL));
     const openPricingModal = useOpenPricingModal();
@@ -56,20 +56,19 @@ const FeatureRestrictedModal = ({
         dismissAction();
     };
 
-    const hadPrevCloudTrial = subscription?.is_free_trial === 'false' && subscription?.trial_end_at > 0;
-    const showStartTrial = isSystemAdmin && !hadPrevCloudTrial;
+    const showStartTrial = isSystemAdmin && !hasPriorTrial;
 
     return (
         <GenericModal
             id='FeatureRestrictedModal'
             className='FeatureRestrictedModal'
             useCompassDesign={true}
-            modalHeaderText={hadPrevCloudTrial ? modalTitleAfterTrial : modalTitle}
+            modalHeaderText={hasPriorTrial ? modalTitleAfterTrial : modalTitle}
             onExited={dismissAction}
         >
             <div className='FeatureRestrictedModal__body'>
                 <p className='FeatureRestrictedModal__description'>
-                    {hadPrevCloudTrial ? modalMessageAfterTrial : modalMessage}
+                    {hasPriorTrial ? modalMessageAfterTrial : modalMessage}
                 </p>
                 {showStartTrial && (
                     <p className='FeatureRestrictedModal__terms'>
