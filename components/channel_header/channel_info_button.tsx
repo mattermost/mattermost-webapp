@@ -30,7 +30,6 @@ const ChannelInfoButton = ({channel}: Props) => {
     const dispatch = useDispatch();
 
     const isRhsOpen: boolean = useSelector(getIsRhsOpen);
-    const rhsOpenOnChannelInfo = isRhsOpen;
 
     const toggleRHS = useCallback(() => {
         if (isRhsOpen) {
@@ -40,10 +39,10 @@ const ChannelInfoButton = ({channel}: Props) => {
         }
     }, [isRhsOpen, channel.id, dispatch]);
 
-    const tooltipKey = rhsOpenOnChannelInfo ? 'closeChannelInfo' : 'openChannelInfo';
+    const tooltipKey = isRhsOpen ? 'closeChannelInfo' : 'openChannelInfo';
 
     let buttonClass = 'channel-header__icon';
-    if (rhsOpenOnChannelInfo) {
+    if (isRhsOpen) {
         buttonClass += ' channel-header__icon--active-inverted';
     }
 
