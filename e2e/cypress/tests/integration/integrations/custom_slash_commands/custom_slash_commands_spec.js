@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @integrations
 
 /**
@@ -30,6 +29,9 @@ describe('Slash commands', () => {
     let user2;
     let team1;
     let commandURL;
+    const userIds = [];
+    const userList = [];
+    let groupChannel;
 
     before(() => {
         cy.requireWebhookServer();
@@ -41,10 +43,77 @@ describe('Slash commands', () => {
                 commandURL = `${Cypress.env().webhookBaseUrl}/send_message_to_channel?channel_id=${channel.id}`;
             });
 
+            // # Create a GM with at least 3 users
+            ['charlie', 'diana', 'eddie'].forEach((name) => {
+                cy.apiCreateUser({prefix: name, bypassTutorial: true}).then(({user: groupUser}) => {
+                    cy.apiAddUserToTeam(team1.id, groupUser.id);
+                    userIds.push(groupUser.id);
+                    userList.push(groupUser);
+                });
+            });
+
+            // # Add test user to the list of group members
+            userIds.push(user1.id);
+
+            cy.apiCreateGroupChannel(userIds).then(({channel}) => {
+                groupChannel = channel;
+            });
+
             cy.apiCreateUser().then(({user: otherUser}) => {
                 user2 = otherUser;
                 cy.apiAddUserToTeam(team.id, user2.id);
             });
+        });
+    });
+
+    it('MM-T669 Custom slash command in DM and GM', () => {
+        const gmTrigger = 'gm_trigger';
+        const dmTrigger = 'dm_trigger';
+
+        cy.apiAdminLogin(user1);
+        cy.apiGetChannelByName(team1.name, groupChannel.name).then(({channel}) => {
+            const customGMUrl = `${Cypress.env().webhookBaseUrl}/send_message_to_channel?channel_id=${channel.id}`;
+
+            // # Add a new command to send a GM
+            cy.visit(`/${team1.name}/integrations/commands/installed`);
+            addNewCommand(team1, gmTrigger, customGMUrl);
+
+            // # Run the command in a GM
+            cy.visit(`/${team1.name}/channels/${groupChannel.name}`);
+            cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`/${gmTrigger}{enter}{enter}`);
+            cy.wait(TIMEOUTS.TWO_SEC);
+
+            // # Verify that the message was sent to the GM
+            cy.getLastPostId().then((postId) => {
+                cy.get(`#post_${postId}`).get('.Badge').contains('BOT');
+            });
+            deleteCommand(team1, gmTrigger);
+        });
+
+        // # Create a new DM channel
+        cy.apiCreateDirectChannel([user1.id, user2.id]).then(() => {
+            cy.visit(`/${team1.name}/messages/@${user2.username}`);
+        });
+
+        // # Get channel id to create a custom slash command in DM
+        cy.getCurrentChannelId().then((channelId) => {
+            const message = `hello from ${user2.username}: ${Date.now()}`;
+            cy.postMessageAs({sender: user2, message, channelId});
+
+            const customDMUrl = `${Cypress.env().webhookBaseUrl}/send_message_to_channel?channel_id=${channelId}`;
+            cy.visit(`/${team1.name}/integrations/commands/installed`);
+            addNewCommand(team1, dmTrigger, customDMUrl);
+
+            // # Run the command in a GM
+            cy.visit(`/${team1.name}/messages/@${user2.username}`);
+            cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`/${dmTrigger}{enter}{enter}`);
+            cy.wait(TIMEOUTS.TWO_SEC);
+
+            // * Verify that the message was sent to the GM
+            cy.getLastPostId().then((postId) => {
+                cy.get(`#post_${postId}`).get('.Badge').contains('BOT');
+            });
+            deleteCommand(team1, dmTrigger);
         });
     });
 

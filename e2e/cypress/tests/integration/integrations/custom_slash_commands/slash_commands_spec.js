@@ -7,15 +7,13 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @integrations
 
 /**
 * Note: This test requires webhook server running. Initiate `npm run start:webhook` to start.
 */
-import * as TIMEOUTS from '../../../fixtures/timeouts';
 
-import {addNewCommand} from './helpers';
+import {addNewCommand, runSlashCommand} from './helpers';
 
 describe('Slash commands page', () => {
     const trigger = 'test-message';
@@ -187,17 +185,3 @@ describe('Slash commands page', () => {
         runSlashCommand(testTeam, trigger);
     });
 });
-
-function runSlashCommand(team, trigger) {
-    // # Go back to home channel
-    cy.visit(`/${team.name}/channels/town-square`);
-
-    // # Run slash command
-    cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`/${trigger}{enter}{enter}`);
-    cy.wait(TIMEOUTS.TWO_SEC);
-
-    // # Get last post message text
-    cy.getLastPostId().then((postId) => {
-        cy.get(`#post_${postId}`).get('.Badge').contains('BOT');
-    });
-}

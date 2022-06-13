@@ -7,7 +7,6 @@
 // Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @messaging
 
 import {stubClipboard} from '../../utils';
@@ -53,6 +52,24 @@ describe('Permalink message edit', () => {
 
             // * Ensure that the clipboard contents are correct
             verifyClipboard(message2);
+        });
+    });
+
+    // Instead of external Apps we are testing the clipboard directly, to ensure the copied text is correct
+    it('MM-T1615 Pasting code block text into external apps does not include line numbers', () => {
+        stubClipboard().as('clipboard');
+        const postCodeBlock = '```javascript\nvar foo = "bar"\nfunction doSomething()\nreturn 7;\n}\n```';
+        const copiedCodeBlockText = 'var foo = "bar"\nfunction doSomething()\nreturn 7;\n}\n';
+        cy.postMessage(postCodeBlock);
+        cy.getLastPostId().as('postId1');
+
+        // # Copy message by clicking 'Copy code Block' icon
+        cy.get('@postId1').then((postId) => {
+            cy.get(`#postMessageText_${postId}`).click();
+            cy.get('i.icon.icon-content-copy').invoke('show').click();
+            cy.get('@clipboard').its('contents').then((contents) => {
+                expect(contents.trim()).to.equal(copiedCodeBlockText.trim());
+            });
         });
     });
 });
