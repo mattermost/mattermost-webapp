@@ -3828,9 +3828,7 @@ const AdminDefinition = {
                                     {msg}
                                 </a>
                             ),
-                            strong: (msg) => 
-                                <strong>{msg}</strong>
-                            ,
+                            strong: (msg) => <strong>{msg}</strong>,
                         },
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
@@ -5415,9 +5413,7 @@ const AdminDefinition = {
                                     {msg}
                                 </a>
                             ),
-                            strong: (msg) => 
-                                <strong>{msg}</strong>
-                            ,
+                            strong: (msg) => <strong>{msg}</strong>,
                         },
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
