@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import { ArchiveOutlineIcon } from '@mattermost/compass-icons/components';
+
 import LoadingScreen from 'components/loading_screen';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import QuickInput from 'components/quick_input';
@@ -68,7 +70,10 @@ export default class SearchableChannelList extends React.PureComponent {
         if (shouldShowArchivedChannels) {
             archiveIcon = (
                 <div className='more-modal__icon-container'>
-                    <i className='icon icon-archive-outline'/>
+                    <ArchiveOutlineIcon 
+                        size={20} 
+                        className='archive-icon'
+                    />
                 </div>
             );
         }

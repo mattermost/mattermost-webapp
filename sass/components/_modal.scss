@@ -897,6 +897,9 @@
                 opacity: 0.6;
             }
         }
+        .archive-icon {
+            fill: rgba(var(--center-channel-color-rgb), 0.56);
+        }
     }
 
     .more-modal__actions {
