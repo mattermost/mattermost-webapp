@@ -30,10 +30,11 @@ export const fallbackStarterLimits = {
         totalStorage: FileSizes.Gigabyte * 10,
     },
     integrations: {
-        enabled: 10,
+        enabled: 5,
     },
     boards: {
         cards: 500,
+        views: 5,
     },
 };
 
