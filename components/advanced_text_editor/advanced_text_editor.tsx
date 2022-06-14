@@ -259,7 +259,7 @@ const AdvanceTextEditor = ({
                     overlay={emojiPickerTooltip}
                 >
                     <IconContainer
-                        id={'EmojiPickerButton'}
+                        id={'emojiPickerButton'}
                         ref={emojiPickerRef}
                         onClick={toggleEmojiPicker}
                         type='button'
