@@ -1,3 +1,5 @@
+@import 'utils/variables';
+
 .PlanDetails {
     width: 568px;
     padding: 28px 32px;
@@ -21,10 +23,37 @@
 
 .PlanDetails__userCount {
     margin-left: auto;
+    display: block;
     color: rgba(var(--sys-center-channel-color-rgb), 0.56);
     font-size: 14px;
     font-weight: 600;
     line-height: 20px;
+}
+
+.PlanDetails__viewPlansButton {
+    margin-left: auto;
+    display: block;
+    &.btn {
+        padding: 11px 16px;
+        background: $primary-color;
+        border-radius: 4px;
+        color: $white;
+        font-size: 12px;
+        font-weight: bold;
+        line-height: 9.5px;
+
+        &:focus,
+        &:active,
+        &:focus:active {
+            border-color: transparent;
+            outline: none;
+        }
+
+        &.btn-secondary {
+            background: rgba(var(--denim-button-bg-rgb), 0.08);
+            color: var(--denim-button-bg);
+        }
+    }
 }
 
 .PlanDetails__planName {

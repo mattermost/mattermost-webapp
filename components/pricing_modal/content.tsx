@@ -188,12 +188,12 @@ function Content(props: ContentProps) {
         }));
     };
 
-    const downgrade = () => {
+    const downgrade = async () => {
         if (!starterProduct) {
             return;
         }
 
-        dispatch(subscribeCloudSubscription(starterProduct?.id));
+        await dispatch(subscribeCloudSubscription(starterProduct?.id));
         dispatch(closeModal(ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM));
         dispatch(
             openModal({

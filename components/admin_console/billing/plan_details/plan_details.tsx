@@ -2,22 +2,32 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 
 import {CloudProducts} from 'utils/constants';
 
 import Badge from 'components/widgets/badges/badge';
+import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 
 import './plan_details.scss';
 
-export const planDetailsTopElements = (
-    userCount: number,
-    isLegacyFree: boolean,
-    isFreeTrial: boolean,
-    subscriptionPlan: string | undefined,
-) => {
+type Props = {
+    userCount: number;
+    isLegacyFree: boolean;
+    isFreeTrial: boolean;
+    subscriptionPlan: string | undefined;
+};
+
+export const PlanDetailsTopElements = ({
+    userCount,
+    isLegacyFree,
+    isFreeTrial,
+    subscriptionPlan,
+}: Props) => {
     let userCountDisplay;
     let productName;
+    const openPricingModal = useOpenPricingModal();
+    const intl = useIntl();
 
     if (isLegacyFree) {
         productName = (
@@ -85,13 +95,29 @@ export const planDetailsTopElements = (
         </Badge>
     );
 
+    const viewPlansButton = (
+        <button
+            onClick={openPricingModal}
+            className='btn btn-secondary PlanDetails__viewPlansButton'
+        >
+            {intl.formatMessage({
+                id: 'workspace_limits.menu_limit.view_plans',
+                defaultMessage: 'View plans',
+            })}
+        </button>
+    );
+
     return (
-        <div className='PlanDetails__top'>
-            <div className='PlanDetails__productName'>
-                {productName} {trialBadge}
+        <>
+            <div className='PlanDetails__top'>
+                <div className='PlanDetails__productName'>
+                    {productName} {trialBadge}
+                </div>
+
+                {viewPlansButton}
             </div>
             {userCountDisplay}
-        </div>
+        </>
     );
 };
 

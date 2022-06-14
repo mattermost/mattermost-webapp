@@ -10,7 +10,7 @@ import {GlobalState} from 'types/store';
 import {checkSubscriptionIsLegacyFree, getSubscriptionProduct, getCloudSubscription} from 'mattermost-redux/selectors/entities/cloud';
 
 import {
-    planDetailsTopElements,
+    PlanDetailsTopElements,
     currentPlanText,
 } from './plan_details';
 import FeatureList from './feature_list';
@@ -35,7 +35,12 @@ const PlanDetails = ({isFreeTrial, subscriptionPlan}: Props) => {
 
     return (
         <div className='PlanDetails'>
-            {planDetailsTopElements(userCount, isLegacyFree, isFreeTrial, subscriptionPlan)}
+            <PlanDetailsTopElements
+                userCount={userCount}
+                isLegacyFree={isLegacyFree}
+                isFreeTrial={isFreeTrial}
+                subscriptionPlan={subscriptionPlan}
+            />
             <PlanPricing
                 isLegacyFree={isLegacyFree}
                 isLegacyFreePaidTier={isLegacyFreePaidTier}

@@ -132,8 +132,13 @@ exports[`components/pricing_modal/downgrade_team_removal_modal matches snapshot 
                   }
                   formattedSubtitle={
                     <Memo(MemoizedFormattedMessage)
-                      defaultMessage="default message"
+                      defaultMessage="Your final bill will be prorated. Your workspace now has {plan} limits."
                       id="success_modal.subtitle"
+                      values={
+                        Object {
+                          "plan": undefined,
+                        }
+                      }
                     />
                   }
                   formattedTitle={
@@ -272,11 +277,16 @@ exports[`components/pricing_modal/downgrade_team_removal_modal matches snapshot 
                         className="IconMessage-sub"
                       >
                         <FormattedMessage
-                          defaultMessage="default message"
+                          defaultMessage="Your final bill will be prorated. Your workspace now has {plan} limits."
                           id="success_modal.subtitle"
+                          values={
+                            Object {
+                              "plan": undefined,
+                            }
+                          }
                         >
                           <span>
-                            default message
+                            Your final bill will be prorated. Your workspace now has  limits.
                           </span>
                         </FormattedMessage>
                       </div>
