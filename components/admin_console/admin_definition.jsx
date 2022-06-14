@@ -1136,6 +1136,7 @@ const AdminDefinition = {
                                 </a>
                             ),
                         },
+                        help_text_markdown: false,
                         placeholder: t('admin.image.amazonS3IdExample'),
                         placeholder_default: 'E.g.: "AKIADTOVBGERKLCBV"',
                         isDisabled: it.any(
@@ -1202,6 +1203,7 @@ const AdminDefinition = {
                                 </a>
                             ),
                         },
+                        help_text_markdown: false,
                         isHidden: it.not(it.licensedForFeature('Compliance')),
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.FILE_STORAGE)),
@@ -2796,6 +2798,7 @@ const AdminDefinition = {
                                 </a>
                             ),
                         },
+                        help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.NOTICES)),
                     },
                     {
@@ -2817,6 +2820,7 @@ const AdminDefinition = {
                                 </a>
                             ),
                         },
+                        help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.NOTICES)),
                     },
                 ],
@@ -3614,6 +3618,7 @@ const AdminDefinition = {
                                         </a>
                                     ),
                                 },
+                                help_text_markdown: false,
                                 error_message: t('admin.ldap.testFailure'),
                                 error_message_default: 'AD/LDAP Test Failure: {error}',
                                 success_message: t('admin.ldap.testSuccess'),
@@ -3833,6 +3838,7 @@ const AdminDefinition = {
                             ),
                             strong: (msg) => <strong>{msg}</strong>,
                         },
+                        help_text_markdown: false,
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
                             it.stateIsFalse('SamlSettings.Enable'),
@@ -5315,6 +5321,7 @@ const AdminDefinition = {
                                 </a>
                             ),
                         },
+                        help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
                     {
@@ -5336,6 +5343,7 @@ const AdminDefinition = {
                                 </a>
                             ),
                         },
+                        help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
                     {
@@ -5357,6 +5365,7 @@ const AdminDefinition = {
                                 </a>
                             ),
                         },
+                        help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
                     {
@@ -5378,6 +5387,7 @@ const AdminDefinition = {
                                 </a>
                             ),
                         },
+                        help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
                     {
@@ -5404,7 +5414,7 @@ const AdminDefinition = {
                         label: t('admin.service.userAccessTokensTitle'),
                         label_default: 'Enable User Access Tokens: ',
                         help_text: t('admin.service.userAccessTokensDescription'),
-                        help_text_default: 'When true, users can create <link>user access tokens</link> for integrations in <strong>Account Menu > Account Settings > Security</strong>. They can be used to authenticate against the API and give full access to the account.\n\n To manage who can create personal access tokens or to search users by token ID, go to the **User Management > Users** page.',
+                        help_text_default: 'When true, users can create <link>user access tokens</link> for integrations in <strong>Account Menu > Account Settings > Security</strong>. They can be used to authenticate against the API and give full access to the account.\n\n To manage who can create personal access tokens or to search users by token ID, go to the <strong>User Management > Users</strong> page.',
                         help_text_values: {
                             link: (msg) => (
                                 <a
@@ -5418,6 +5428,7 @@ const AdminDefinition = {
                             ),
                             strong: (msg) => <strong>{msg}</strong>,
                         },
+                        help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
                 ],
@@ -6227,6 +6238,7 @@ const AdminDefinition = {
                         label_default: 'Use Improved SAML Library (Beta):',
                         help_text: t('admin.experimental.experimentalUseNewSAMLLibrary.desc'),
                         help_text_default: 'Enable an updated SAML Library, which does not require the XML Security Library (xmlsec1) to be installed. Warning: Not all providers have been tested. If you experience issues, please contact <linkSupport>support</linkSupport>. Changing this setting requires a server restart before taking effect.',
+                        help_text_markdown: false,
                         help_text_values: {
                             linkSupport: (msg) => (
                                 <a
@@ -6239,6 +6251,7 @@ const AdminDefinition = {
                                 </a>
                             ),
                         },
+                        
                         isHidden: true || it.not(it.licensedForFeature('SAML')),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
@@ -6315,6 +6328,7 @@ const AdminDefinition = {
                                 </a>
                             ),
                         },
+                        help_text_markdown: false,
                         options: [
                             {
                                 value: 'disabled',
