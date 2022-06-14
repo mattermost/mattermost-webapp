@@ -165,6 +165,7 @@ function DowngradeTeamRemovalModal(props: Props) {
                                 integrations:
                                     fallbackStarterLimits.integrations.enabled,
                                 boards: fallbackStarterLimits.boards.cards,
+                                teams: fallbackStarterLimits.teams.active,
                             }}
                         />
                     </div>

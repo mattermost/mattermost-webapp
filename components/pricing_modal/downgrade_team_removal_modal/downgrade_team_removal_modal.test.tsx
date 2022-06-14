@@ -318,8 +318,8 @@ describe('components/pricing_modal/downgrade_team_removal_modal', () => {
                 />
             </redux.Provider>,
         );
-        screen.getByText('Confirm Plan Downgrade');
-        screen.getByText('Which team would you like to continue using?');
+        expect(screen.getByText('Confirm Plan Downgrade')).toBeInTheDocument();
+        expect(screen.getByText('Which team would you like to continue using?')).toBeInTheDocument();
     });
 
     test('renders dropdown with 4+ teams', () => {
