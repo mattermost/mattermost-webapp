@@ -272,7 +272,7 @@
   "admin.billing.payment_info.title": "Payment Information",
   "admin.billing.purchaseModal.editPaymentInfoButton": "Edit",
   "admin.billing.purchaseModal.savedPaymentDetailsTitle": "Your saved payment details",
-  "admin.billing.subscription.billedFrom": "Payment begins: {beginDate}",
+  "admin.billing.subscription.billedFrom": "You'll be billed from: {beginDate}",
   "admin.billing.subscription.cancelSubscriptionSection.contactUs": "Contact Us",
   "admin.billing.subscription.cancelSubscriptionSection.description": "At this time, deleting a workspace can only be done with the help of a customer support representative.",
   "admin.billing.subscription.cancelSubscriptionSection.title": "Cancel your subscription",
