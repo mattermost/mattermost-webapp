@@ -417,30 +417,30 @@
                         height: 32px;
                         align-items: center;
                         justify-content: center;
-                        font-size: 32px;
-                        float: left;
-                        margin-right: 10px;
                         margin-top: 17px;
+                        margin-right: 10px;
+                        float: left;
+                        font-size: 32px;
                     }
 
                     .display-info {
                         display: flex;
+                        overflow: hidden;
                         flex-direction: column;
                         margin-left: 12px;
-                        overflow: hidden;
 
                         .display-name {
+                            overflow: hidden;
+                            margin-right: 55px;
                             color: var(--center-channel-color);
+                            float: left;
                             font-family: 'Open Sans';
                             font-size: 12px;
                             font-style: normal;
                             font-weight: 600;
                             line-height: 16px;
-                            white-space: nowrap;
-                            overflow: hidden;
                             text-overflow: ellipsis;
-                            margin-right: 55px;
-                            float: left;
+                            white-space: nowrap;
                         }
 
                         .update-counts {
@@ -454,9 +454,9 @@
                     }
 
                     .Avatars.Avatars___xs {
+                        margin-top: -33px;
                         margin-left: auto;
                         float: right;
-                        margin-top: -33px;
                     }
                 }
             }
