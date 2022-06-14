@@ -51,7 +51,7 @@ function KeyboardShortcutSequence({shortcut, values, hideDescription, hoistDescr
             {hoistDescription && !hideDescription && description?.replace(/:{1,2}$/, '')}
             <div className='shortcut-line'>
                 {!hoistDescription && !hideDescription && description && <span>{description}</span>}
-                {keys?.split(KEY_SEPARATOR).map((key) => (
+                {keys && keys.split(KEY_SEPARATOR).map((key) => (
                     <ShortcutKey
                         key={key}
                         variant={isInsideTooltip ? ShortcutKeyVariant.Tooltip : ShortcutKeyVariant.ShortcutModal}
