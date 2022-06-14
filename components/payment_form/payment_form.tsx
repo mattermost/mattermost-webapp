@@ -12,6 +12,7 @@ import {
 import {PaymentMethod} from '@mattermost/types/cloud';
 
 import {BillingDetails} from 'types/cloud/sku';
+import {Theme} from 'mattermost-redux/types/themes';
 
 import DropdownInput from 'components/dropdown_input';
 import Input from 'components/widgets/inputs/input/input';
@@ -28,6 +29,7 @@ type Props = {
     className: string;
     initialBillingDetails?: BillingDetails;
     paymentMethod?: PaymentMethod;
+    theme: Theme;
     onCardInputChange?: (change: StripeCardElementChangeEvent) => void;
     onInputChange?: (billing: BillingDetails) => void;
     onInputBlur?: (billing: BillingDetails) => void;
@@ -151,7 +153,7 @@ export default class PaymentForm extends React.PureComponent<Props, State> {
     }
 
     public render() {
-        const {className, paymentMethod, buttonFooter} = this.props;
+        const {className, paymentMethod, buttonFooter, theme} = this.props;
         const {changePaymentMethod} = this.state;
 
         let paymentDetails: JSX.Element;
@@ -164,6 +166,7 @@ export default class PaymentForm extends React.PureComponent<Props, State> {
                             required={true}
                             onBlur={this.onBlur}
                             onCardInputChange={this.handleCardInputChange}
+                            theme={theme}
                         />
                     </div>
                     <div className='form-row'>
