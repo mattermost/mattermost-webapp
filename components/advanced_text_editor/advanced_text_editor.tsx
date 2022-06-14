@@ -259,6 +259,7 @@ const AdvanceTextEditor = ({
                     overlay={emojiPickerTooltip}
                 >
                     <IconContainer
+                        id={'EmojiPickerButton'}
                         ref={emojiPickerRef}
                         onClick={toggleEmojiPicker}
                         type='button'
@@ -368,6 +369,7 @@ const AdvanceTextEditor = ({
                 <div
                     role='application'
                     id='centerChannelFooter'
+                    data-a11y-sort-order='2'
                     aria-label={ariaLabelMessageInput}
                     tabIndex={-1}
                     className='AdvancedTextEditor__cell a11y__region'

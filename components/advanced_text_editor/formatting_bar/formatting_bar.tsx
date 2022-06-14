@@ -3,6 +3,7 @@
 
 import classNames from 'classnames';
 import React, {memo, useCallback, useEffect, useRef, useState} from 'react';
+import {useIntl} from 'react-intl';
 import styled from 'styled-components';
 import {usePopper} from 'react-popper';
 import {CSSTransition} from 'react-transition-group';
@@ -151,6 +152,9 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
     const formattingBarRef = useRef<HTMLDivElement>(null);
     const {controls, hiddenControls, wideMode} = useFormattingBarControls(formattingBarRef);
 
+    const {formatMessage} = useIntl();
+    const moreButtonAriaLabel = formatMessage({id: 'accessibility.button.more_formatting_options', defaultMessage: 'show more formatting options'});
+
     // this little helper hook always returns the latest refs and does not mess with the popper placement calculation
     const getLatest = useGetLatest({
         showHiddenControls,
@@ -272,9 +276,11 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
             {hasHiddenControls && showFormattingControls && (
                 <>
                     <IconContainer
+                        id={'MoreFormattingOptions'}
                         ref={triggerRef}
                         className={classNames({active: showHiddenControls})}
                         onClick={closeHiddenControls}
+                        aria-label={moreButtonAriaLabel}
                     >
                         <DotsHorizontalIcon
                             color={'currentColor'}
