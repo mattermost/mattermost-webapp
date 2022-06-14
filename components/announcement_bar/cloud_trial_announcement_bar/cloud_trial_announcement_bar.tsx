@@ -15,7 +15,7 @@ import {Subscription} from '@mattermost/types/cloud';
 import {trackEvent} from 'actions/telemetry_actions';
 
 import {t} from 'utils/i18n';
-import PurchaseModal from 'components/purchase_modal';
+import PricingModal from 'components/pricing_modal';
 
 import {ModalData} from 'types/actions';
 
@@ -121,8 +121,8 @@ class CloudTrialAnnouncementBar extends React.PureComponent<Props> {
             );
         }
         this.props.actions.openModal({
-            modalId: ModalIdentifiers.CLOUD_PURCHASE,
-            dialogType: PurchaseModal,
+            modalId: ModalIdentifiers.PRICING_MODAL,
+            dialogType: PricingModal,
         });
     }
 
@@ -197,7 +197,7 @@ class CloudTrialAnnouncementBar extends React.PureComponent<Props> {
                 handleClose={this.handleClose}
                 onButtonClick={this.showModal}
                 modalButtonText={t('admin.billing.subscription.cloudTrial.subscribeButton')}
-                modalButtonDefaultText={'Subscribe Now'}
+                modalButtonDefaultText={'Upgrade Now'}
                 message={bannerMessage}
                 showLinkAsButton={true}
                 icon={icon}

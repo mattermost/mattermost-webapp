@@ -91,7 +91,7 @@ const languages = {
     },
     ro: {
         value: 'ro',
-        name: 'Română',
+        name: 'Română (Beta)',
         order: 10,
         url: ro,
     },

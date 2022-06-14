@@ -210,12 +210,12 @@ exports[`components/Menu should match snapshot with cloud free trial 1`] = `
                   <span
                     className="title"
                   >
-                    Paid feature
+                    Professional feature
                   </span>
                   <span
                     className="message"
                   >
-                    During your trial you are able to create multiple teams
+                    During your trial you are able to create multiple teams. These teams will be archived after your trial.
                   </span>
                 </Tooltip>
               }
@@ -452,12 +452,12 @@ exports[`components/Menu should match snapshot with cloud free trial and team li
                   <span
                     className="title"
                   >
-                    Paid feature
+                    Professional feature
                   </span>
                   <span
                     className="message"
                   >
-                    During your trial you are able to create multiple teams
+                    During your trial you are able to create multiple teams. These teams will be archived after your trial.
                   </span>
                 </Tooltip>
               }

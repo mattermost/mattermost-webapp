@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {samplePlugin1, samplePlugin2, samplePlugin3} from '../tests/helpers/admin_console_plugin_index_sample_pluings';
+import {samplePlugin1, samplePlugin2, samplePlugin3, samplePlugin4} from '../tests/helpers/admin_console_plugin_index_sample_pluings';
 
 import {getPluginEntries} from './admin_console_plugin_index';
 
@@ -11,8 +11,8 @@ describe('AdminConsolePluginsIndex.getPluginEntries', () => {
         expect(entries).toEqual({});
     });
 
-    it('should return an empty map in case of plugins is null', () => {
-        const entries = getPluginEntries(null);
+    it('should return an empty map in case of plugins is undefined', () => {
+        const entries = getPluginEntries(undefined);
         expect(entries).toEqual({});
     });
 
@@ -56,9 +56,9 @@ describe('AdminConsolePluginsIndex.getPluginEntries', () => {
     });
 
     it('should index the enable plugin setting even if other settings are not present', () => {
-        const entries = getPluginEntries({'plugin-without-settings': {id: 'plugin-without-setting'}});
+        const entries = getPluginEntries({[samplePlugin4.id]: samplePlugin4});
         expect(entries).toHaveProperty('plugin_plugin-without-settings');
         expect(entries['plugin_plugin-without-settings']).toContain('admin.plugin.enable_plugin');
-        expect(entries['plugin_plugin-without-settings']).toContain('PluginSettings.PluginStates.plugin-without-setting.Enable');
+        expect(entries['plugin_plugin-without-settings']).toContain('PluginSettings.PluginStates.plugin-without-settings.Enable');
     });
 });
