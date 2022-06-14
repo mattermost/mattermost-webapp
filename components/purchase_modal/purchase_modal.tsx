@@ -12,7 +12,7 @@ import {Elements} from '@stripe/react-stripe-js';
 
 import {isEmpty} from 'lodash';
 
-import {CloudCustomer, Product, Subscription} from '@mattermost/types/cloud';
+import {CloudCustomer, Product} from '@mattermost/types/cloud';
 
 import {trackEvent, pageVisited} from 'actions/telemetry_actions';
 import {
@@ -87,7 +87,6 @@ type Props = {
     currentTeam: Team;
     intl: IntlShape;
     theme: Theme;
-    subscription: Subscription;
     actions: {
         openModal: <P>(modalData: ModalData<P>) => void;
         closeModal: () => void;
@@ -555,7 +554,6 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                                         onBack={() => {
                                             this.setState({processing: false});
                                         }}
-                                        subscription={this.props.subscription}
                                         contactSupportLink={this.props.contactSalesLink}
                                         currentTeam={this.props.currentTeam}
                                         selectedProduct={this.state.selectedProduct}

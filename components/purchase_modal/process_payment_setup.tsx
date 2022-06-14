@@ -18,7 +18,7 @@ import CreditCardSvg from 'components/common/svg_images_components/credit_card_s
 import PaymentSuccessStandardSvg from 'components/common/svg_images_components/payment_success_standard_svg';
 import PaymentFailedSvg from 'components/common/svg_images_components/payment_failed_svg';
 
-import {Product, Subscription} from '@mattermost/types/cloud';
+import {Product} from '@mattermost/types/cloud';
 
 import IconMessage from './icon_message';
 
@@ -34,7 +34,6 @@ type Props = RouteComponentProps & {
     subscribeCloudSubscription: ((productId: string) => Promise<boolean | null>) | null;
     onBack: () => void;
     onClose: () => void;
-    subscription: Subscription;
     selectedProduct?: Product | null | undefined;
     currentProduct?: Product | null | undefined;
     isProratedPayment?: boolean;
