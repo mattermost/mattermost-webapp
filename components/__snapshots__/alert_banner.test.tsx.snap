@@ -24,9 +24,6 @@ exports[`Components/AlertBanner should match snapshot 1`] = `
     >
       message
     </div>
-    <div
-      className="AlertBanner__actionButtons"
-    />
   </div>
 </div>
 `;
@@ -55,9 +52,6 @@ exports[`Components/AlertBanner should match snapshot for app variant 1`] = `
     >
       message
     </div>
-    <div
-      className="AlertBanner__actionButtons"
-    />
   </div>
 </div>
 `;
@@ -110,9 +104,6 @@ exports[`Components/AlertBanner should match snapshot when icon disabled 1`] = `
     >
       message
     </div>
-    <div
-      className="AlertBanner__actionButtons"
-    />
   </div>
 </div>
 `;
