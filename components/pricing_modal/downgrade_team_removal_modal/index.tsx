@@ -27,7 +27,6 @@ import {fallbackStarterLimits, asGBString} from 'utils/limits';
 import './downgrade_team_removal_modal.scss';
 
 type Props = {
-    onHide?: () => void;
     product_id: string;
     starterProductName: string;
 };
@@ -51,9 +50,6 @@ function DowngradeTeamRemovalModal(props: Props) {
 
     const onHide = () => {
         dispatch(closeModal(ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM));
-        if (typeof props.onHide === 'function') {
-            props.onHide();
-        }
     };
 
     const onConfirmDowngrade = async () => {
