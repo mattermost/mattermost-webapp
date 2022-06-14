@@ -25,7 +25,6 @@ import {Permissions} from 'mattermost-redux/constants';
 
 import {RHSStates} from 'utils/constants';
 
-import {getCloudLimits} from 'actions/cloud';
 import {showMentions, showFlaggedPosts, closeRightHandSide, closeMenu as closeRhsMenu} from 'actions/views/rhs';
 import {openModal} from 'actions/views/modals';
 import {getRhsState} from 'selectors/rhs';
@@ -104,7 +103,6 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             showFlaggedPosts,
             closeRightHandSide,
             closeRhsMenu,
-            getCloudLimits,
         }, dispatch),
     };
 }

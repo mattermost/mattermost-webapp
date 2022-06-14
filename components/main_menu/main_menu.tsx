@@ -75,7 +75,6 @@ export type Props = {
         showFlaggedPosts: () => void;
         closeRightHandSide: () => void;
         closeRhsMenu: () => void;
-        getCloudLimits: () => void;
     };
 
 };

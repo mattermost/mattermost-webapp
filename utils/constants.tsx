@@ -594,6 +594,7 @@ export const Threads = {
 export const CloudBanners = {
     HIDE: 'hide',
     TRIAL: 'trial',
+    UPGRADE_FROM_TRIAL: 'upgrade_from_trial',
 };
 
 export const AdvancedTextEditor = {
