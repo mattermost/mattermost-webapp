@@ -366,6 +366,8 @@
         }
 
         .top-board-container {
+            margin-bottom: -3px;
+
             .top-board-loading-container {
                 display: flex;
                 align-items: center;
@@ -395,7 +397,6 @@
 
             .board-list {
                 .board-item {
-                    display: flex;
                     align-items: center;
                     padding: 10px 12px;
 
@@ -417,12 +418,16 @@
                         align-items: center;
                         justify-content: center;
                         font-size: 32px;
+                        float: left;
+                        margin-right: 10px;
+                        margin-top: 17px;
                     }
 
                     .display-info {
                         display: flex;
                         flex-direction: column;
                         margin-left: 12px;
+                        overflow: hidden;
 
                         .display-name {
                             color: var(--center-channel-color);
@@ -434,7 +439,8 @@
                             white-space: nowrap;
                             overflow: hidden;
                             text-overflow: ellipsis;
-                            max-width: 590px;
+                            margin-right: 55px;
+                            float: left;
                         }
 
                         .update-counts {
@@ -449,6 +455,8 @@
 
                     .Avatars.Avatars___xs {
                         margin-left: auto;
+                        float: right;
+                        margin-top: -33px;
                     }
                 }
             }
