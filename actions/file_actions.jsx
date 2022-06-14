@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import {batchActions} from 'redux-batched-actions';
-import request from 'superagent';
 
 import {FileTypes} from 'mattermost-redux/action_types';
 import {getLogErrorAction} from 'mattermost-redux/actions/errors';
@@ -11,68 +10,101 @@ import {Client4} from 'mattermost-redux/client';
 
 import * as Utils from 'utils/utils';
 
-export function uploadFile(file, name, channelId, clientId) {
-    return (dispatch) => {
+export function uploadFile({file, name, type, rootId, channelId, clientId, onProgress, onSuccess, onError}) {
+    return (dispatch, getState) => {
         dispatch({type: FileTypes.UPLOAD_FILES_REQUEST});
 
-        return request.
-            post(Client4.getFilesRoute()).
-            set(Client4.getOptions({method: 'post'}).headers).
+        var xhr = new XMLHttpRequest();
 
-            // The order here is important:
-            // keeping the channel_id/client_ids fields before the files contents
-            // allows the server to stream the uploads instead of loading them in memory.
-            field('channel_id', channelId).
-            field('client_ids', clientId).
-            attach('files', file, name).
-            accept('application/json');
-    };
-}
+        xhr.open('POST', Client4.getFilesRoute(), true);
 
-export function handleFileUploadEnd(file, name, channelId, rootId, clientId, {err, res}) {
-    return (dispatch, getState) => {
-        if (err) {
-            let e;
-            if (res && res.body && res.body.id) {
-                e = res.body;
-            } else if (err.status === 0 || !err.status) {
-                e = {message: Utils.localizeMessage('file_upload.generic_error', 'There was a problem uploading your files.')};
-            } else {
-                e = {message: Utils.localizeMessage('channel_loader.unknown_error', 'We received an unexpected status code from the server.') + ' (' + err.status + ')'};
+        for (const header in Client4.getOptions({method: 'POST'}).headers) {
+            if (Client4.getOptions({method: 'POST'}).headers.hasOwnProperty(header)) {
+                xhr.setRequestHeader(header, Client4.getOptions({method: 'POST'}).headers[header]);
             }
-
-            forceLogoutIfNecessary(err, dispatch, getState);
-
-            const failure = {
-                type: FileTypes.UPLOAD_FILES_FAILURE,
-                clientIds: [clientId],
-                channelId,
-                rootId,
-                error: err,
-            };
-
-            dispatch(batchActions([failure, getLogErrorAction(err)]));
-            return {error: e};
         }
-        const data = res.body.file_infos.map((fileInfo, index) => {
-            return {
-                ...fileInfo,
-                clientId: res.body.client_ids[index],
+
+        xhr.setRequestHeader('Accept', 'application/json');
+
+        const formData = new FormData();
+        formData.append('channel_id', channelId);
+        formData.append('client_ids', clientId);
+        formData.append('files', file, name); // appending file in the end for steaming support
+
+        if (onProgress && xhr.upload) {
+            xhr.upload.onprogress = (event) => {
+                const percent = parseInt((event.loaded / event.total) * 100, 10);
+                onProgress({
+                    clientId,
+                    name,
+                    percent,
+                    type,
+                });
             };
-        });
+        }
 
-        dispatch(batchActions([
-            {
-                type: FileTypes.RECEIVED_UPLOAD_FILES,
-                data,
-                channelId,
-                rootId,
-            },
-            {
-                type: FileTypes.UPLOAD_FILES_SUCCESS,
-            },
-        ]));
+        if (onSuccess) {
+            xhr.onload = () => {
+                if (xhr.status === 201 && xhr.readyState === 4) {
+                    const response = JSON.parse(xhr.response);
+                    const data = response.file_infos.map((fileInfo, index) => {
+                        return {
+                            ...fileInfo,
+                            clientId: response.client_ids[index],
+                        };
+                    });
 
-        return {data: res.body};
+                    dispatch(batchActions([
+                        {
+                            type: FileTypes.RECEIVED_UPLOAD_FILES,
+                            data,
+                            channelId,
+                            rootId,
+                        },
+                        {
+                            type: FileTypes.UPLOAD_FILES_SUCCESS,
+                        },
+                    ]));
+
+                    onSuccess(response, channelId, rootId);
+                }
+            };
+        }
+
+        if (onError) {
+            xhr.onerror = () => {
+                if (xhr.readyState === 4 && xhr.responseText.length !== 0) {
+                    const errorResponse = JSON.parse(xhr.response);
+
+                    forceLogoutIfNecessary(errorResponse, dispatch, getState);
+
+                    const uploadFailureAction = {
+                        type: FileTypes.UPLOAD_FILES_FAILURE,
+                        clientIds: [clientId],
+                        channelId,
+                        rootId,
+                        error: errorResponse,
+                    };
+
+                    dispatch(batchActions([uploadFailureAction, getLogErrorAction(errorResponse)]));
+                    onError(errorResponse, clientId, channelId, rootId);
+                } else {
+                    const errorMessage = xhr.status === 0 || !xhr.status ? {message: Utils.localizeMessage('file_upload.generic_error', 'There was a problem uploading your files.')} : {message: Utils.localizeMessage('channel_loader.unknown_error', 'We received an unexpected status code from the server.') + ' (' + xhr.status + ')'};
+
+                    dispatch({
+                        type: FileTypes.UPLOAD_FILES_FAILURE,
+                        clientIds: [clientId],
+                        channelId,
+                        rootId,
+                    });
+
+                    onError(errorMessage, clientId, channelId, rootId);
+                }
+            };
+        }
+
+        xhr.send(formData);
+
+        return xhr;
     };
 }
