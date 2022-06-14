@@ -61,7 +61,7 @@ function DowngradeTeamRemovalModal(props: Props) {
         }
         dispatch(selectTeam(teamIdToKeep));
         await dispatch(archiveAllTeamsExcept(teamIdToKeep));
-        dispatch(subscribeCloudSubscription(props.product_id));
+        await dispatch(subscribeCloudSubscription(props.product_id));
         dispatch(
             openModal({
                 modalId: ModalIdentifiers.SUCCESS_MODAL,
