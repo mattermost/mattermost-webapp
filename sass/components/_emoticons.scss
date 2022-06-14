@@ -291,10 +291,6 @@
                 justify-content: center;
                 margin: 0 3px;
                 opacity: 1;
-
-                .skin-tones__icon {
-                    width: 32px;
-                }
             }
         }
 
@@ -302,10 +298,12 @@
             position: relative;
             display: inline-flex;
             overflow: hidden;
-            width: 32px;
-            height: 32px;
+            width: 30px;
+            height: 30px;
             justify-content: center;
             padding: 3px;
+            margin: 1px;
+            background: var(--button-bg-rgb);
             opacity: 1;
 
             &:hover {
@@ -332,7 +330,7 @@
         justify-content: space-between;
 
         &.skin-tones__content__single {
-            padding-right: 4px;
+            padding-right: 10px;
             padding-left: 10px;
         }
     }
@@ -374,9 +372,10 @@
     }
 
     .skin-tones__close-icon {
-        width: 32px;
-        height: 32px;
+        width: 30px;
+        height: 30px;
         border: none;
+        margin: 1px;
         margin-right: 12px;
         background: none;
         border-radius: 4px;

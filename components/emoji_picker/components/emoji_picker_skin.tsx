@@ -67,19 +67,19 @@ export class EmojiPickerSkin extends React.PureComponent<Props, State> {
             const spriteClassName = classNames('emojisprite', `emoji-category-${emoji.category}`, `emoji-${emoji.unified.toLowerCase()}`);
 
             return (
-                <div
-                    className='skin-tones__icon'
+                <button
+                    className='style--none skin-tones__icon'
+                    type='button'
+                    data-testid={`skin-pick-${skin}`}
+                    aria-label={this.ariaLabel(skin)}
                     key={skin}
                     onClick={() => this.hideSkinTonePicker(skin)}
                 >
                     <img
-                        data-testid={`skin-pick-${skin}`}
                         src={imgTrans}
                         className={spriteClassName}
-                        aria-label={this.ariaLabel(skin)}
-                        role='button'
                     />
-                </div>
+                </button>
             );
         });
         return (
@@ -125,17 +125,18 @@ export class EmojiPickerSkin extends React.PureComponent<Props, State> {
                 placement='top'
                 overlay={tooltip}
             >
-                <div className='skin-tones__icon'>
+                <button
+                    data-testid={`skin-picked-${this.props.userSkinTone}`}
+                    className='style--none skin-tones__icon'
+                    onClick={this.showSkinTonePicker}
+                    aria-label={this.ariaLabel(this.props.userSkinTone)}
+                >
                     <img
                         alt={'emoji skin tone picker'}
-                        data-testid={`skin-picked-${this.props.userSkinTone}`}
                         src={imgTrans}
                         className={spriteClassName}
-                        onClick={this.showSkinTonePicker}
-                        aria-label={this.ariaLabel(this.props.userSkinTone)}
-                        role='button'
                     />
-                </div>
+                </button>
             </OverlayTrigger>);
     }
 
