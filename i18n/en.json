@@ -295,7 +295,7 @@
   "admin.billing.subscription.LearnMore": "Learn more",
   "admin.billing.subscription.mostRecentPaymentFailed": "Your most recent payment failed",
   "admin.billing.subscription.nextBillingDate": "Starting from {date}, you will be billed for the {productName} plan. You can change your plan whenever you like and we will pro-rate the charges.",
-  "admin.billing.subscription.paymentBegins": "Payment begins: {beginDate}",
+  "admin.billing.subscription.paymentBegins": "You'll be billed from: {beginDate}",
   "admin.billing.subscription.paymentFailed": "Payment failed. Please try again or contact support.",
   "admin.billing.subscription.paymentVerificationFailed": "Sorry, the payment verification failed",
   "admin.billing.subscription.planDetails.currentPlan": "(Current Plan)",

@@ -40,7 +40,7 @@ import {ModalData} from 'types/actions';
 import {Team} from '@mattermost/types/teams';
 import {Theme} from 'mattermost-redux/types/themes';
 
-import {getNextBillingDateFromSubscription} from 'utils/utils';
+import {getNextBillingDate} from 'utils/utils';
 
 import PaymentForm from '../payment_form/payment_form';
 
@@ -333,9 +333,9 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             <div className='plan_payment_commencement'>
                 <FormattedMessage
                     defaultMessage={'Payment begins: {beginDate}'}
-                    id={'admin.billing.subscription.paymentBegins'}
+                    id={'admin.billing.subscription.billedFrom'}
                     values={{
-                        beginDate: getNextBillingDateFromSubscription(this.props.subscription),
+                        beginDate: getNextBillingDate(),
                     }}
                 />
             </div>
@@ -360,7 +360,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                             defaultMessage={'If you upgrade to {selectedProductName} from {currentProductName} mid-month, you will be charged a prorated amount for both plans.'}
                             id={'admin.billing.subscription.proratedPayment.tooltipText'}
                             values={{
-                                beginDate: getNextBillingDateFromSubscription(this.props.subscription),
+                                beginDate: getNextBillingDate(),
                                 selectedProductName: this.state.selectedProduct?.name,
                                 currentProductName: this.state.currentProduct?.name,
                             }}
@@ -386,7 +386,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                         defaultMessage={'Prorated payment begins: {beginDate}. '}
                         id={'admin.billing.subscription.proratedPaymentBegins'}
                         values={{
-                            beginDate: getNextBillingDateFromSubscription(this.props.subscription),
+                            beginDate: getNextBillingDate(),
                         }}
                     />
                     {this.learnMoreLink()}

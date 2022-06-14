@@ -12,7 +12,7 @@ import {TELEMETRY_CATEGORIES} from 'utils/constants';
 import {Team} from '@mattermost/types/teams';
 
 import {t} from 'utils/i18n';
-import {getNextBillingDateFromSubscription} from 'utils/utils';
+import {getNextBillingDate} from 'utils/utils';
 
 import CreditCardSvg from 'components/common/svg_images_components/credit_card_svg';
 import PaymentSuccessStandardSvg from 'components/common/svg_images_components/payment_success_standard_svg';
@@ -180,7 +180,7 @@ class ProcessPaymentSetup extends React.PureComponent<Props, State> {
                     <IconMessage
                         formattedTitle={formattedTitle}
                         formattedSubtitle={formattedSubtitle}
-                        date={getNextBillingDateFromSubscription(this.props.subscription)}
+                        date={getNextBillingDate()}
                         error={error}
                         icon={
                             <PaymentSuccessStandardSvg
@@ -221,7 +221,7 @@ class ProcessPaymentSetup extends React.PureComponent<Props, State> {
             <FormattedMessage
                 id='admin.billing.subscription.nextBillingDate'
                 defaultMessage='Starting from {date}, you will be billed for the {productName} plan. You can change your plan whenever you like and we will pro-rate the charges.'
-                values={{date: getNextBillingDateFromSubscription(this.props.subscription), productName}}
+                values={{date: getNextBillingDate(), productName}}
             />
         );
         return (
