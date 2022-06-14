@@ -1455,7 +1455,7 @@ class CreatePost extends React.PureComponent<Props, State> {
                     <div className='post-create-body'>
                         <div
                             role='application'
-                            id='centerChannelFooter'
+                            id='advancedTextEditorCell'
                             aria-label={ariaLabelMessageInput}
                             tabIndex={-1}
                             className='post-body__cell a11y__region'

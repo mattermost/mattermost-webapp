@@ -159,41 +159,41 @@ describe('Verify Accessibility Support in different input fields', () => {
     });
 
     it('MM-T1458 Verify Accessibility Support in Main Post Input', () => {
-        cy.get('#centerChannelFooter').within(() => {
+        cy.get('#advancedTextEditorCell').within(() => {
             // * Verify Accessibility Support in Main Post input
             cy.get('#post_textbox').should('have.attr', 'aria-label', `write to ${testChannel.display_name}`).and('have.attr', 'role', 'textbox').clear().focus().type('test').tab({shift: true}).tab().tab();
 
             // * Verify if the focus is on the preview button
             cy.get('#PreviewInputTextButton').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'preview').tab();
 
-            // * Verify if the focus is on the preview button
+            // * Verify if the focus is on the formatting options button
             cy.get('#toggleFormattingBarButton').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'formatting').tab();
 
-            // * Verify if the focus is on the preview button
+            // * Verify if the focus is on the bold button
             cy.get('#FormattingControl_bold').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'bold').tab();
 
-            // * Verify if the focus is on the preview button
+            // * Verify if the focus is on the italic button
             cy.get('#FormattingControl_italic').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'italic').tab();
 
-            // * Verify if the focus is on the preview button
+            // * Verify if the focus is on the strike through button
             cy.get('#FormattingControl_strike').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'strike through').tab();
 
-            // * Verify if the focus is on the preview button
+            // * Verify if the focus is on the heading button
             cy.get('#FormattingControl_heading').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'heading').tab();
 
-            // * Verify if the focus is on the preview button
+            // * Verify if the focus is on the link button
             cy.get('#FormattingControl_link').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'link').tab();
 
-            // * Verify if the focus is on the preview button
+            // * Verify if the focus is on the code block button
             cy.get('#FormattingControl_code').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'code').tab();
 
             // * Verify if the focus is on the preview button
             cy.get('#FormattingControl_quote').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'quote').tab();
 
-            // * Verify if the focus is on the preview button
+            // * Verify if the focus is on the bulleted list button
             cy.get('#FormattingControl_ul').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'bulleted list').tab();
 
-            // * Verify if the focus is on the preview button
+            // * Verify if the focus is on the numbered list button
             cy.get('#FormattingControl_ol').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'numbered list').tab();
 
             // * Verify if the focus is on the attachment icon
@@ -226,20 +226,20 @@ describe('Verify Accessibility Support in different input fields', () => {
             // * Verify if the focus is on the preview button
             cy.get('#PreviewInputTextButton').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'preview').tab();
 
-            // * Verify if the focus is on the preview button
+            // * Verify if the focus is on the formatting options button
             cy.get('#toggleFormattingBarButton').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'formatting').tab();
 
-            // * Verify if the focus is on the preview button
+            // * Verify if the focus is on the bold button
             cy.get('#FormattingControl_bold').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'bold').tab();
 
-            // * Verify if the focus is on the preview button
+            // * Verify if the focus is on the italic button
             cy.get('#FormattingControl_italic').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'italic').tab();
 
-            // * Verify if the focus is on the preview button
+            // * Verify if the focus is on the strike through button
             cy.get('#FormattingControl_strike').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'strike through').tab();
 
-            // * Verify if the focus is on the preview button
-            cy.get('#MoreFormattingOptions').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'show more formatting options').tab();
+            // * Verify if the focus is on the hidden controls button
+            cy.get('#HiddenControlsButton').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'show hidden formatting options').tab();
 
             // * Verify if the focus is on the attachment icon
             cy.get('#fileUploadButton').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'attachment').tab();

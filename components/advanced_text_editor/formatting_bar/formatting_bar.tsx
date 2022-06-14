@@ -153,7 +153,7 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
     const {controls, hiddenControls, wideMode} = useFormattingBarControls(formattingBarRef);
 
     const {formatMessage} = useIntl();
-    const moreButtonAriaLabel = formatMessage({id: 'accessibility.button.more_formatting_options', defaultMessage: 'show more formatting options'});
+    const HiddenControlsButtonAriaLabel = formatMessage({id: 'accessibility.button.hidden_controls_button', defaultMessage: 'show hidden formatting options'});
 
     // this little helper hook always returns the latest refs and does not mess with the popper placement calculation
     const getLatest = useGetLatest({
@@ -276,11 +276,11 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
             {hasHiddenControls && showFormattingControls && (
                 <>
                     <IconContainer
-                        id={'MoreFormattingOptions'}
+                        id={'HiddenControlsButton'}
                         ref={triggerRef}
                         className={classNames({active: showHiddenControls})}
                         onClick={closeHiddenControls}
-                        aria-label={moreButtonAriaLabel}
+                        aria-label={HiddenControlsButtonAriaLabel}
                     >
                         <DotsHorizontalIcon
                             color={'currentColor'}

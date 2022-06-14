@@ -45,7 +45,7 @@ describe('Upload Files', () => {
         const aspectRatio = originalWidth / originalHeight;
 
         // # Post an image in center channel
-        cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(filename);
+        cy.get('#advancedTextEditorCell').find('#fileUploadInput').attachFile(filename);
         waitUntilUploadComplete();
         cy.get('#post_textbox').should('be.visible').clear().type('{enter}');
 
@@ -163,7 +163,7 @@ describe('Upload Files', () => {
         ];
 
         imageFilenames.forEach((filename) => {
-            cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(filename);
+            cy.get('#advancedTextEditorCell').find('#fileUploadInput').attachFile(filename);
             waitUntilUploadComplete();
             cy.postMessage('hello');
             cy.uiWaitUntilMessagePostedIncludes('hello');
@@ -191,7 +191,7 @@ describe('Upload Files', () => {
         const filename = 'huge-image.jpg';
 
         // # Post an image in center channel
-        cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(filename);
+        cy.get('#advancedTextEditorCell').find('#fileUploadInput').attachFile(filename);
         waitUntilUploadComplete();
         cy.get('#post_textbox').should('be.visible').clear().type('{enter}');
 

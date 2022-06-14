@@ -64,10 +64,9 @@ describe('Verify Quick Navigation support across different regions in the app', 
 
         // # Shift focus to the post input
         cy.get('#toggleFormattingBarButton').focus().tab({shift: true});
-        cy.pause();
 
         // * Verify post input region reads out correctly
-        verifyNavSupport('#centerChannelFooter', 'message input complimentary region', '2');
+        verifyNavSupport('#advancedTextEditorCell', 'message input complimentary region', '2');
     });
 
     it('MM-T1460_3 Verify Navigation Support in RHS Post List & RHS Post Input', () => {
@@ -79,7 +78,7 @@ describe('Verify Quick Navigation support across different regions in the app', 
         });
 
         // * Verify post message in RHS
-        cy.get('#rhsContainer').within(() => {
+        cy.uiGetRHS().within(() => {
             // # Shift the focus to the last post
             cy.get('#toggleFormattingBarButton').focus().tab({shift: true}).tab({shift: true}).type('{uparrow}');
 
@@ -90,9 +89,9 @@ describe('Verify Quick Navigation support across different regions in the app', 
             cy.get('#toggleFormattingBarButton').focus().tab({shift: true});
 
             // * Verify post input on RHS reads out correctly
-            cy.get('.post-create').
-                should('have.attr', 'aria-label', 'reply input region').
-                and('have.attr', 'data-a11y-sort-order', '4').
+            cy.get('#advancedTextEditorCell').
+                should('have.attr', 'aria-label', 'message input complimentary region').
+                and('have.attr', 'data-a11y-sort-order', '2').
                 and('have.class', 'a11y__region');
             cy.get('#reply_textbox').
                 should('have.class', 'a11y--active a11y--focused');

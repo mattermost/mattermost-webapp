@@ -368,7 +368,7 @@ const AdvanceTextEditor = ({
             >
                 <div
                     role='application'
-                    id='centerChannelFooter'
+                    id='advancedTextEditorCell'
                     data-a11y-sort-order='2'
                     aria-label={ariaLabelMessageInput}
                     tabIndex={-1}

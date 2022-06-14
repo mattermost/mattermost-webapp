@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {memo} from 'react';
-import {useIntl} from 'react-intl';
+import {MessageDescriptor, useIntl} from 'react-intl';
 import styled from 'styled-components';
 import {
     FormatBoldIcon,
@@ -26,7 +26,7 @@ import Tooltip from 'components/tooltip';
 
 import {MarkdownMode} from 'utils/markdown/apply_markdown';
 import Constants from 'utils/constants';
-import {t} from '../../../utils/i18n';
+import {t} from 'utils/i18n';
 
 export const IconContainer = styled.button`
     display: flex;
@@ -90,7 +90,7 @@ const MAP_MARKDOWN_MODE_TO_ICON: Record<FormattingIconProps['mode'], React.FC<Ic
     ol: FormatListNumberedIcon,
 };
 
-const MAP_MARKDOWN_MODE_TO_ARIA_LABEL: Record<FormattingIconProps['mode'], {id: string; defaultMessage: string}> = {
+const MAP_MARKDOWN_MODE_TO_ARIA_LABEL: Record<FormattingIconProps['mode'], MessageDescriptor> = {
     bold: {id: t('accessibility.button.bold'), defaultMessage: 'bold'},
     italic: {id: t('accessibility.button.italic'), defaultMessage: 'italic'},
     link: {id: t('accessibility.button.link'), defaultMessage: 'link'},
@@ -124,8 +124,8 @@ const FormattingIcon = (props: FormattingIconProps): JSX.Element => {
     /* get the correct Icon from the IconMap */
     const Icon = MAP_MARKDOWN_MODE_TO_ICON[mode];
     const {formatMessage} = useIntl();
-    const aria = MAP_MARKDOWN_MODE_TO_ARIA_LABEL[mode];
-    const buttonAriaLabel = formatMessage({id: aria.id, defaultMessage: aria.defaultMessage});
+    const ariaLabelDefinition = MAP_MARKDOWN_MODE_TO_ARIA_LABEL[mode];
+    const buttonAriaLabel = formatMessage(ariaLabelDefinition);
 
     const bodyAction = (
         <IconContainer
