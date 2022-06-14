@@ -61,7 +61,6 @@ export type Props = {
     teamUrl: string;
     isFirstAdmin: boolean;
     isCloud: boolean;
-    isCloudFreeEnabled: boolean;
     isFreeTrial: boolean;
     usageDeltaTeams: number;
     location: {
@@ -154,8 +153,8 @@ export class MainMenu extends React.PureComponent<Props> {
 
         const someIntegrationEnabled = this.props.enableIncomingWebhooks || this.props.enableOutgoingWebhooks || this.props.enableCommands || this.props.enableOAuthServiceProvider || this.props.canManageSystemBots;
         const showIntegrations = !this.props.mobile && someIntegrationEnabled && this.props.canManageIntegrations;
-        const teamsLimitReached = this.props.usageDeltaTeams >= 0;
-        const createTeamRestricted = this.props.isCloud && this.props.isCloudFreeEnabled && (this.props.isFreeTrial || teamsLimitReached);
+        const teamsLimitReached = this.props.isCloud && !this.props.isFreeTrial && this.props.usageDeltaTeams >= 0;
+        const createTeamRestricted = this.props.isCloud && (this.props.isFreeTrial || teamsLimitReached);
 
         const {formatMessage} = this.props.intl;
 
@@ -469,7 +468,7 @@ export class MainMenu extends React.PureComponent<Props> {
                             id='createTeam'
                             to='/create_team'
                             className={createTeamRestricted ? 'MenuItem__with-icon-tooltip' : ''}
-                            disabled={this.props.isCloud && this.props.isCloudFreeEnabled && teamsLimitReached}
+                            disabled={teamsLimitReached}
                             text={formatMessage({id: 'navbar_dropdown.create', defaultMessage: 'Create a Team'})}
                             sibling={createTeamRestricted && (
                                 <RestrictedIndicator

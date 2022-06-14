@@ -40,7 +40,6 @@ export type Props = {
     enablePluginMarketplace: boolean;
     showVisitSystemConsoleTour: boolean;
     isCloud: boolean;
-    isCloudFreeEnabled: boolean;
     isFreeTrial: boolean;
     onClick?: React.MouseEventHandler<HTMLElement>;
     handleVisitConsoleClick: React.MouseEventHandler<HTMLElement>;
@@ -67,7 +66,6 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
         enablePluginMarketplace,
         showVisitSystemConsoleTour,
         isCloud,
-        isCloudFreeEnabled,
         isFreeTrial,
         onClick,
         handleVisitConsoleClick,
@@ -92,7 +90,6 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
 
     const someIntegrationEnabled = enableIncomingWebhooks || enableOutgoingWebhooks || enableCommands || enableOAuthServiceProvider || canManageSystemBots;
     const showIntegrations = !isMobile && someIntegrationEnabled && canManageIntegrations;
-    const isCloudFree = isCloud && isCloudFreeEnabled;
 
     return (
         <Menu.Group>
@@ -149,7 +146,7 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                 <Menu.ItemToggleModalRedux
                     id='userGroups'
                     modalId={ModalIdentifiers.USER_GROUPS}
-                    show={enableCustomUserGroups || isCloudFree}
+                    show={enableCustomUserGroups || isCloud}
                     dialogType={UserGroupsModal}
                     dialogProps={{
                         backButtonAction: openGroupsModal,
@@ -161,8 +158,8 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                             glyph={'account-multiple-outline'}
                         />
                     }
-                    disabled={isCloudFree && !isFreeTrial}
-                    sibling={isCloudFree && (
+                    disabled={isCloud && !isFreeTrial}
+                    sibling={isCloud && (
                         <RestrictedIndicator
                             blocked={!isFreeTrial}
                             tooltipMessage={formatMessage({

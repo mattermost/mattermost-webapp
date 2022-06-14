@@ -39,7 +39,6 @@ describe('components/global/product_switcher_menu', () => {
         enablePluginMarketplace: false,
         showVisitSystemConsoleTour: false,
         isCloud: false,
-        isCloudFreeEnabled: false,
         isFreeTrial: false,
         onClick: () => jest.fn,
         handleVisitConsoleClick: () => jest.fn,

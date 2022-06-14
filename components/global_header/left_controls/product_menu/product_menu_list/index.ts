@@ -10,7 +10,6 @@ import {getCloudSubscription} from 'mattermost-redux/selectors/entities/cloud';
 import {
     getInt,
     isCustomGroupsEnabled,
-    cloudFreeEnabled,
 } from 'mattermost-redux/selectors/entities/preferences';
 import {
     getConfig,
@@ -56,7 +55,6 @@ function mapStateToProps(state: GlobalState) {
     const license = getLicense(state);
 
     const isCloud = isCloudLicense(license);
-    const isCloudFreeEnabled = cloudFreeEnabled(state);
     const isFreeTrial = subscription?.is_free_trial === 'true';
 
     return {
@@ -78,7 +76,6 @@ function mapStateToProps(state: GlobalState) {
         showVisitSystemConsoleTour,
         enableCustomUserGroups,
         isCloud,
-        isCloudFreeEnabled,
         isFreeTrial,
     };
 }
