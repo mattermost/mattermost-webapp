@@ -32,131 +32,131 @@ describe('Verify Accessibility Support in different input fields', () => {
         });
     });
 
-    // it('MM-T1456 Verify Accessibility Support in Input fields in Invite People Flow', () => {
-    //     // # Open team menu and click 'Invite People'
-    //     cy.uiOpenTeamMenu('Invite People');
-    //
-    //     // # Click invite members if needed
-    //     cy.get('.InviteAs').findByTestId('inviteMembersLink').click();
-    //
-    //     // * Verify Accessibility support in Share this link input field
-    //     cy.findByTestId('InviteView__copyInviteLink').should('have.attr', 'aria-label', 'team invite link');
-    //
-    //     // * Verify Accessibility Support in Add or Invite People input field
-    //     cy.get('.users-emails-input__control').should('be.visible').within(() => {
-    //         cy.get('input').should('have.attr', 'aria-label', 'Add or Invite People').and('have.attr', 'aria-autocomplete', 'list');
-    //         cy.get('.users-emails-input__placeholder').should('have.text', 'Enter a name or email address');
-    //     });
-    //
-    //     // # Click on Invite Guests link
-    //     cy.findByTestId('inviteGuestLink').should('be.visible').click();
-    //
-    //     // * Verify Accessibility Support in Invite People input field
-    //     cy.get('.users-emails-input__control').should('be.visible').within(() => {
-    //         cy.get('input').should('have.attr', 'aria-label', 'Add or Invite People').and('have.attr', 'aria-autocomplete', 'list');
-    //         cy.get('.users-emails-input__placeholder').should('have.text', 'Enter a name or email address');
-    //     });
-    //
-    //     // * Verify Accessibility Support in Search and Add Channels input field
-    //     cy.get('.channels-input__control').should('be.visible').within(() => {
-    //         cy.get('input').should('have.attr', 'aria-label', 'Search and Add Channels').and('have.attr', 'aria-autocomplete', 'list');
-    //         cy.get('.channels-input__placeholder').should('have.text', `e.g. ${testChannel.display_name}`);
-    //     });
-    // });
-    //
-    // it('MM-T1457 Verify Accessibility Support in Search Autocomplete', () => {
-    //     // # Adding at least five other users in the channel
-    //     for (let i = 0; i < 5; i++) {
-    //         cy.apiCreateUser().then(({user}) => { // eslint-disable-line
-    //             cy.apiAddUserToTeam(testTeam.id, user.id).then(() => {
-    //                 cy.apiAddUserToChannel(testChannel.id, user.id);
-    //             });
-    //         });
-    //     }
-    //
-    //     // * Verify Accessibility support in search input
-    //     cy.get('#searchBox').should('have.attr', 'aria-describedby', 'searchbar-help-popup').and('have.attr', 'aria-label', 'Search').focus();
-    //     cy.get('#searchbar-help-popup').should('be.visible').and('have.attr', 'role', 'tooltip');
-    //
-    //     // # Ensure User list is cached once in UI
-    //     cy.get('#searchBox').type('from:').wait(TIMEOUTS.FIVE_SEC);
-    //
-    //     // # Trigger the user autocomplete again
-    //     cy.get('#searchBox').clear().type('from:').wait(TIMEOUTS.FIVE_SEC).type('{downarrow}{downarrow}');
-    //
-    //     // * Verify Accessibility Support in search autocomplete
-    //     verifySearchAutocomplete(2);
-    //
-    //     // # Press Down arrow twice and verify if focus changes
-    //     cy.focused().type('{downarrow}{downarrow}');
-    //     verifySearchAutocomplete(4);
-    //
-    //     // # Press Up arrow and verify if focus changes
-    //     cy.focused().type('{uparrow}');
-    //     verifySearchAutocomplete(3);
-    //
-    //     // # Type the in: filter and ensure channel list is cached once
-    //     cy.get('#searchBox').clear().type('in:').wait(TIMEOUTS.FIVE_SEC);
-    //
-    //     // # Trigger the channel autocomplete again
-    //     cy.get('#searchBox').clear().type('in:').wait(TIMEOUTS.FIVE_SEC).type('{downarrow}{downarrow}');
-    //
-    //     // * Verify Accessibility Support in search autocomplete
-    //     verifySearchAutocomplete(2, 'channel');
-    //
-    //     // # Press Up arrow and verify if focus changes
-    //     cy.focused().type('{uparrow}{uparrow}');
-    //     verifySearchAutocomplete(0, 'channel');
-    // });
-    //
-    // it('MM-T1455 Verify Accessibility Support in Message Autocomplete', () => {
-    //     // # Adding at least one other user in the channel
-    //     cy.apiCreateUser().then(({user}) => {
-    //         cy.apiAddUserToTeam(testTeam.id, user.id).then(() => {
-    //             cy.apiAddUserToChannel(testChannel.id, user.id).then(() => {
-    //                 // * Verify Accessibility support in post input field
-    //                 cy.get('#post_textbox').should('have.attr', 'aria-label', `write to ${testChannel.display_name}`).clear().focus();
-    //
-    //                 // # Ensure User list is cached once in UI
-    //                 cy.get('#post_textbox').type('@').wait(TIMEOUTS.FIVE_SEC);
-    //
-    //                 // # Select the first user in the list
-    //                 cy.get('#suggestionList').find('.suggestion-list__item').eq(0).within((el) => {
-    //                     cy.get('.suggestion-list__main').invoke('text').then((text) => {
-    //                         cy.wrap(el).parents('body').find('#post_textbox').clear().type(text);
-    //                     });
-    //                 });
-    //
-    //                 // # Trigger the user autocomplete again
-    //                 cy.get('#post_textbox').clear().type('@').wait(TIMEOUTS.FIVE_SEC).type('{uparrow}{uparrow}{downarrow}');
-    //
-    //                 // * Verify Accessibility Support in message autocomplete
-    //                 verifyMessageAutocomplete(1);
-    //
-    //                 // # Press Up arrow and verify if focus changes
-    //                 cy.focused().type('{downarrow}{uparrow}{uparrow}');
-    //
-    //                 // * Verify Accessibility Support in message autocomplete
-    //                 verifyMessageAutocomplete(0);
-    //
-    //                 // # Trigger the channel autocomplete filter and ensure channel list is cached once
-    //                 cy.get('#post_textbox').clear().type('~').wait(TIMEOUTS.FIVE_SEC);
-    //
-    //                 // # Trigger the channel autocomplete again
-    //                 cy.get('#post_textbox').clear().type('~').wait(TIMEOUTS.FIVE_SEC).type('{downarrow}{downarrow}');
-    //
-    //                 // * Verify Accessibility Support in message autocomplete
-    //                 verifyMessageAutocomplete(2, 'channel');
-    //
-    //                 // # Press Up arrow and verify if focus changes
-    //                 cy.focused().type('{downarrow}{uparrow}{uparrow}');
-    //
-    //                 // * Verify Accessibility Support in message autocomplete
-    //                 verifyMessageAutocomplete(1, 'channel');
-    //             });
-    //         });
-    //     });
-    // });
+    it('MM-T1456 Verify Accessibility Support in Input fields in Invite People Flow', () => {
+        // # Open team menu and click 'Invite People'
+        cy.uiOpenTeamMenu('Invite People');
+
+        // # Click invite members if needed
+        cy.get('.InviteAs').findByTestId('inviteMembersLink').click();
+
+        // * Verify Accessibility support in Share this link input field
+        cy.findByTestId('InviteView__copyInviteLink').should('have.attr', 'aria-label', 'team invite link');
+
+        // * Verify Accessibility Support in Add or Invite People input field
+        cy.get('.users-emails-input__control').should('be.visible').within(() => {
+            cy.get('input').should('have.attr', 'aria-label', 'Add or Invite People').and('have.attr', 'aria-autocomplete', 'list');
+            cy.get('.users-emails-input__placeholder').should('have.text', 'Enter a name or email address');
+        });
+
+        // # Click on Invite Guests link
+        cy.findByTestId('inviteGuestLink').should('be.visible').click();
+
+        // * Verify Accessibility Support in Invite People input field
+        cy.get('.users-emails-input__control').should('be.visible').within(() => {
+            cy.get('input').should('have.attr', 'aria-label', 'Add or Invite People').and('have.attr', 'aria-autocomplete', 'list');
+            cy.get('.users-emails-input__placeholder').should('have.text', 'Enter a name or email address');
+        });
+
+        // * Verify Accessibility Support in Search and Add Channels input field
+        cy.get('.channels-input__control').should('be.visible').within(() => {
+            cy.get('input').should('have.attr', 'aria-label', 'Search and Add Channels').and('have.attr', 'aria-autocomplete', 'list');
+            cy.get('.channels-input__placeholder').should('have.text', `e.g. ${testChannel.display_name}`);
+        });
+    });
+
+    it('MM-T1457 Verify Accessibility Support in Search Autocomplete', () => {
+        // # Adding at least five other users in the channel
+        for (let i = 0; i < 5; i++) {
+            cy.apiCreateUser().then(({user}) => { // eslint-disable-line
+                cy.apiAddUserToTeam(testTeam.id, user.id).then(() => {
+                    cy.apiAddUserToChannel(testChannel.id, user.id);
+                });
+            });
+        }
+
+        // * Verify Accessibility support in search input
+        cy.get('#searchBox').should('have.attr', 'aria-describedby', 'searchbar-help-popup').and('have.attr', 'aria-label', 'Search').focus();
+        cy.get('#searchbar-help-popup').should('be.visible').and('have.attr', 'role', 'tooltip');
+
+        // # Ensure User list is cached once in UI
+        cy.get('#searchBox').type('from:').wait(TIMEOUTS.FIVE_SEC);
+
+        // # Trigger the user autocomplete again
+        cy.get('#searchBox').clear().type('from:').wait(TIMEOUTS.FIVE_SEC).type('{downarrow}{downarrow}');
+
+        // * Verify Accessibility Support in search autocomplete
+        verifySearchAutocomplete(2);
+
+        // # Press Down arrow twice and verify if focus changes
+        cy.focused().type('{downarrow}{downarrow}');
+        verifySearchAutocomplete(4);
+
+        // # Press Up arrow and verify if focus changes
+        cy.focused().type('{uparrow}');
+        verifySearchAutocomplete(3);
+
+        // # Type the in: filter and ensure channel list is cached once
+        cy.get('#searchBox').clear().type('in:').wait(TIMEOUTS.FIVE_SEC);
+
+        // # Trigger the channel autocomplete again
+        cy.get('#searchBox').clear().type('in:').wait(TIMEOUTS.FIVE_SEC).type('{downarrow}{downarrow}');
+
+        // * Verify Accessibility Support in search autocomplete
+        verifySearchAutocomplete(2, 'channel');
+
+        // # Press Up arrow and verify if focus changes
+        cy.focused().type('{uparrow}{uparrow}');
+        verifySearchAutocomplete(0, 'channel');
+    });
+
+    it('MM-T1455 Verify Accessibility Support in Message Autocomplete', () => {
+        // # Adding at least one other user in the channel
+        cy.apiCreateUser().then(({user}) => {
+            cy.apiAddUserToTeam(testTeam.id, user.id).then(() => {
+                cy.apiAddUserToChannel(testChannel.id, user.id).then(() => {
+                    // * Verify Accessibility support in post input field
+                    cy.get('#post_textbox').should('have.attr', 'aria-label', `write to ${testChannel.display_name}`).clear().focus();
+
+                    // # Ensure User list is cached once in UI
+                    cy.get('#post_textbox').type('@').wait(TIMEOUTS.FIVE_SEC);
+
+                    // # Select the first user in the list
+                    cy.get('#suggestionList').find('.suggestion-list__item').eq(0).within((el) => {
+                        cy.get('.suggestion-list__main').invoke('text').then((text) => {
+                            cy.wrap(el).parents('body').find('#post_textbox').clear().type(text);
+                        });
+                    });
+
+                    // # Trigger the user autocomplete again
+                    cy.get('#post_textbox').clear().type('@').wait(TIMEOUTS.FIVE_SEC).type('{uparrow}{uparrow}{downarrow}');
+
+                    // * Verify Accessibility Support in message autocomplete
+                    verifyMessageAutocomplete(1);
+
+                    // # Press Up arrow and verify if focus changes
+                    cy.focused().type('{downarrow}{uparrow}{uparrow}');
+
+                    // * Verify Accessibility Support in message autocomplete
+                    verifyMessageAutocomplete(0);
+
+                    // # Trigger the channel autocomplete filter and ensure channel list is cached once
+                    cy.get('#post_textbox').clear().type('~').wait(TIMEOUTS.FIVE_SEC);
+
+                    // # Trigger the channel autocomplete again
+                    cy.get('#post_textbox').clear().type('~').wait(TIMEOUTS.FIVE_SEC).type('{downarrow}{downarrow}');
+
+                    // * Verify Accessibility Support in message autocomplete
+                    verifyMessageAutocomplete(2, 'channel');
+
+                    // # Press Up arrow and verify if focus changes
+                    cy.focused().type('{downarrow}{uparrow}{uparrow}');
+
+                    // * Verify Accessibility Support in message autocomplete
+                    verifyMessageAutocomplete(1, 'channel');
+                });
+            });
+        });
+    });
 
     it('MM-T1458 Verify Accessibility Support in Main Post Input', () => {
         cy.get('#centerChannelFooter').within(() => {
