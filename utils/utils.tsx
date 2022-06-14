@@ -10,6 +10,7 @@ import cssVars from 'css-vars-ponyfill';
 import moment from 'moment';
 
 import Constants, {FileTypes, ValidationErrors} from 'utils/constants';
+
 import {
     getChannel as getChannelAction,
     getChannelByNameAndTeamName,
