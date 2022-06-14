@@ -16,6 +16,7 @@ type Props = {
     isLegacyFree: boolean;
     isFreeTrial: boolean;
     subscriptionPlan: string | undefined;
+    daysLeftOnTrial: number;
 };
 
 export const PlanDetailsTopElements = ({
@@ -23,6 +24,7 @@ export const PlanDetailsTopElements = ({
     isLegacyFree,
     isFreeTrial,
     subscriptionPlan,
+    daysLeftOnTrial,
 }: Props) => {
     let userCountDisplay;
     let productName;
@@ -89,8 +91,9 @@ export const PlanDetailsTopElements = ({
             show={isFreeTrial}
         >
             <FormattedMessage
-                id='admin.cloud.import.header.TrialBadge'
-                defaultMessage='Trial'
+                id='admin.billing.subscription.cloudTrialBadge.daysLeftOnTrial'
+                defaultMessage='{daysLeftOnTrial} trial days left'
+                values={{daysLeftOnTrial}}
             />
         </Badge>
     );

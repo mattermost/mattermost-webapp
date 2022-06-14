@@ -22,8 +22,8 @@
 }
 
 .PlanDetails__userCount {
-    margin-left: auto;
     display: block;
+    margin-left: auto;
     color: rgba(var(--sys-center-channel-color-rgb), 0.56);
     font-size: 14px;
     font-weight: 600;
@@ -31,8 +31,9 @@
 }
 
 .PlanDetails__viewPlansButton {
-    margin-left: auto;
     display: block;
+    margin-left: auto;
+
     &.btn {
         padding: 11px 16px;
         background: $primary-color;

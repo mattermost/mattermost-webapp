@@ -8,6 +8,10 @@ import {useSelector} from 'react-redux';
 import {GlobalState} from 'types/store';
 
 import {checkSubscriptionIsLegacyFree, getSubscriptionProduct, getCloudSubscription} from 'mattermost-redux/selectors/entities/cloud';
+import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
+
+import {getRemainingDaysFromFutureTimestamp} from 'utils/utils';
+import {TrialPeriodDays} from 'utils/constants';
 
 import {
     PlanDetailsTopElements,
@@ -28,6 +32,12 @@ const PlanDetails = ({isFreeTrial, subscriptionPlan}: Props) => {
     const product = useSelector(getSubscriptionProduct);
     const isLegacyFree = useSelector(checkSubscriptionIsLegacyFree);
     const isLegacyFreePaidTier = Boolean(subscription?.is_legacy_cloud_paid_tier);
+    const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
+    let daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription?.trial_end_at);
+    const maxDays = isCloudFreeEnabled ? TrialPeriodDays.TRIAL_30_DAYS : TrialPeriodDays.TRIAL_14_DAYS;
+    if (daysLeftOnTrial > maxDays) {
+        daysLeftOnTrial = maxDays;
+    }
 
     if (!product) {
         return null;
@@ -40,6 +50,7 @@ const PlanDetails = ({isFreeTrial, subscriptionPlan}: Props) => {
                 isLegacyFree={isLegacyFree}
                 isFreeTrial={isFreeTrial}
                 subscriptionPlan={subscriptionPlan}
+                daysLeftOnTrial={daysLeftOnTrial}
             />
             <PlanPricing
                 isLegacyFree={isLegacyFree}
