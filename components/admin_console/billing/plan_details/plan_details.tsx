@@ -15,6 +15,7 @@ export const planDetailsTopElements = (
     isLegacyFree: boolean,
     isFreeTrial: boolean,
     subscriptionPlan: string | undefined,
+    daysLeftOnTrial: number,
 ) => {
     let userCountDisplay;
     let productName;
@@ -79,8 +80,9 @@ export const planDetailsTopElements = (
             show={isFreeTrial}
         >
             <FormattedMessage
-                id='admin.cloud.import.header.TrialBadge'
-                defaultMessage='Trial'
+                id='admin.billing.subscription.cloudTrialBadge.daysLeftOnTrial'
+                defaultMessage='{daysLeftOnTrial} trial days left'
+                values={{daysLeftOnTrial}}
             />
         </Badge>
     );

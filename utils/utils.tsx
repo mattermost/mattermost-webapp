@@ -394,7 +394,7 @@ function dropAlpha(value: string): string {
 }
 
 // given '#fffff', returns '255, 255, 255' (no trailing comma)
-function toRgbValues(hexStr: string): string {
+export function toRgbValues(hexStr: string): string {
     const rgbaStr = `${parseInt(hexStr.substr(1, 2), 16)}, ${parseInt(hexStr.substr(3, 2), 16)}, ${parseInt(hexStr.substr(5, 2), 16)}`;
     return rgbaStr;
 }
