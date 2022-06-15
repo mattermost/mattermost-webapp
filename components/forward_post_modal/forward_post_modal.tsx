@@ -6,12 +6,12 @@ import {Modal} from 'react-bootstrap';
 import * as CSS from 'csstype';
 import {FormattedMessage, useIntl} from 'react-intl';
 import {useSelector} from 'react-redux';
-import {ValueType, ControlProps} from 'react-select';
+import {ValueType, ControlProps, components, IndicatorProps} from 'react-select';
 import {Props as AsyncSelectProps} from 'react-select/src/Async';
 import {
-    ArchiveOutlineIcon,
+    ArchiveOutlineIcon, ChevronDownIcon,
     GlobeIcon,
-    LockOutlineIcon, MagnifyIcon,
+    LockOutlineIcon,
     MessageTextOutlineIcon,
 } from '@mattermost/compass-icons/components';
 
@@ -82,6 +82,17 @@ type GroupedOption = {
     label: string | React.ReactElement;
     options: ChannelOption[];
 }
+
+const DropdownIndicator = (props: IndicatorProps<ChannelOption>) => {
+    return (
+        <components.DropdownIndicator {...props}>
+            <ChevronDownIcon
+                size={16}
+                color={'rgba(var(--center-channel-color-rgb), 0.64)'}
+            />
+        </components.DropdownIndicator>
+    );
+};
 
 const FormattedOption = (channel: ChannelOption) => {
     const {details} = channel;
@@ -279,17 +290,6 @@ const ForwardPostModal = (props: Props) => {
         setSelectedChannel(channel);
     };
 
-    const header = (
-        <h1>
-            <FormattedMessage
-                id='quick_switch_modal.switchChannels'
-                defaultMessage='Find Channels'
-            />
-        </h1>
-    );
-
-    const help = 'this is where the help-text goes';
-
     const formatOptionLabel = (channel: ChannelOption) => {
         return (
             <FormattedOption {...channel}/>
@@ -303,22 +303,6 @@ const ForwardPostModal = (props: Props) => {
             margin: 0,
             color: 'var(--center-channel-color)',
         }),
-        indicatorsContainer: (provided: CSSProperties): CSSPropertiesWithPseudos => ({
-            ...provided,
-            padding: '2px',
-        }),
-        singleValue: (provided: CSSProperties): CSSPropertiesWithPseudos => ({
-            ...provided,
-            maxWidth: 'calc(100% - 10px)',
-            width: '100%',
-            overflow: 'visible',
-        }),
-        option: (provided: CSSProperties, state: ControlProps<ChannelOption>): CSSPropertiesWithPseudos => ({
-            ...provided,
-            cursor: 'pointer',
-            padding: '8px 20px',
-            backgroundColor: state.isFocused ? 'rgba(var(--center-channel-color-rgb), 0.08)' : 'transparent',
-        }),
 
         // disabling this rule here since otherwise tsc will complain about it in the props
         // eslint-disable-next-line @typescript-eslint/ban-types
@@ -328,6 +312,7 @@ const ForwardPostModal = (props: Props) => {
             return ({
                 ...provided,
                 color: 'var(--center-channel-color)',
+                backgroundColor: 'var(--center-channel-bg)',
                 cursor: 'pointer',
                 border: 'none',
                 boxShadow: state.isFocused ? focusShadow : 'inset 0 0 0 1px rgba(var(--center-channel-color-rgb), 0.16)',
@@ -341,6 +326,15 @@ const ForwardPostModal = (props: Props) => {
         },
         indicatorSeparator: (): CSSPropertiesWithPseudos => ({
             display: 'none',
+        }),
+        indicatorsContainer: (provided: CSSProperties): CSSPropertiesWithPseudos => ({
+            ...provided,
+            padding: '2px',
+        }),
+        dropdownIndicator: (provided: CSSProperties, state: ControlProps<ChannelOption>): CSSPropertiesWithPseudos => ({
+            ...provided,
+            transform: state.isFocused ? 'rotate(180deg)' : 'rotate(0)',
+            transition: 'transform 250ms ease-in-out',
         }),
         valueContainer: (provided: CSSProperties): CSSPropertiesWithPseudos => ({
             ...provided,
@@ -376,6 +370,18 @@ const ForwardPostModal = (props: Props) => {
             fontWeight: 600,
             textTransform: 'uppercase',
         }),
+        singleValue: (provided: CSSProperties): CSSPropertiesWithPseudos => ({
+            ...provided,
+            maxWidth: 'calc(100% - 10px)',
+            width: '100%',
+            overflow: 'visible',
+        }),
+        option: (provided: CSSProperties, state: ControlProps<ChannelOption>): CSSPropertiesWithPseudos => ({
+            ...provided,
+            cursor: 'pointer',
+            padding: '8px 20px',
+            backgroundColor: state.isFocused ? 'rgba(var(--center-channel-color-rgb), 0.08)' : 'transparent',
+        }),
     };
 
     return (
@@ -393,33 +399,30 @@ const ForwardPostModal = (props: Props) => {
             <Modal.Header
                 id='forwardPostModalLabel'
                 closeButton={true}
-            />
+            >
+                <Modal.Title
+                    componentClass='h1'
+                    id='forwardPostModalTitle'
+                >
+                    <FormattedMessage
+                        id='forward_post_modal.title'
+                        defaultMessage='Forward Message'
+                    />
+                </Modal.Title>
+            </Modal.Header>
             <Modal.Body>
-                <div className='forward-post__header'>
-                    {header}
-                    <div
-                        className='forward-post__hint'
-                        id='forwardPostModalHint'
-                    >
-                        {help}
-                    </div>
-                </div>
-                <div className='forward-post__select'>
-                    <MagnifyIcon
-                        size={16}
-                        color='currentColor'
-                    />
-                    <AsyncSelect
-                        value={selectedChannel}
-                        onChange={handleChannelSelect}
-                        loadOptions={handleInputChange}
-                        defaultOptions={defaultOptions.current}
-                        formatOptionLabel={formatOptionLabel}
-                        styles={baseStyles}
-                        legend='Forrward to'
-                        placeholder='Select channel or people'
-                    />
-                </div>
+                <AsyncSelect
+                    value={selectedChannel}
+                    onChange={handleChannelSelect}
+                    loadOptions={handleInputChange}
+                    defaultOptions={defaultOptions.current}
+                    formatOptionLabel={formatOptionLabel}
+                    components={{DropdownIndicator}}
+                    styles={baseStyles}
+                    legend='Forrward to'
+                    placeholder='Select channel or people'
+                    className='forward-post__select'
+                />
                 <div className='forward-post__comment-box'>
                     {comment}
                 </div>
