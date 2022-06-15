@@ -11,7 +11,6 @@ import LearnMoreTrialModal from 'components/learn_more_trial_modal/learn_more_tr
 
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
-import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {openModal} from 'actions/views/modals';
 
@@ -38,14 +37,12 @@ const MenuCloudTrial = ({id}: Props) => {
     const isCloud = license?.Cloud === 'true';
     const isFreeTrial = subscription?.is_free_trial === 'true';
     const noPriorTrial = !(subscription?.is_free_trial === 'false' && subscription?.trial_end_at > 0);
-    const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
     const openPricingModal = useOpenPricingModal();
 
-    let daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription?.trial_end_at);
-    const maxDays = isCloudFreeEnabled ? TrialPeriodDays.TRIAL_30_DAYS : TrialPeriodDays.TRIAL_14_DAYS;
-    if (daysLeftOnTrial > maxDays) {
-        daysLeftOnTrial = maxDays;
-    }
+    const daysLeftOnTrial = Math.min(
+        getRemainingDaysFromFutureTimestamp(subscription?.trial_end_at),
+        TrialPeriodDays.TRIAL_30_DAYS,
+    );
 
     const openTrialBenefitsModal = async () => {
         await dispatch(openModal({
@@ -63,14 +60,12 @@ const MenuCloudTrial = ({id}: Props) => {
 
     const someLimitNeedsAttention = Boolean(useGetHighestThresholdCloudLimit(useGetUsage(), useGetLimits()[0]));
 
-    const isStarter = subscriptionProduct?.sku === CloudProducts.STARTER;
-
     if (!isCloud) {
         return null;
     }
 
     // TODO: Remove once cloud free launches
-    if (!isCloudFreeEnabled && isFreeTrial) {
+    if (isFreeTrial) {
         return (
             <li
                 className={'MenuCloudTrial'}
@@ -90,7 +85,9 @@ const MenuCloudTrial = ({id}: Props) => {
         );
     }
 
-    if (!isCloudFreeEnabled || someLimitNeedsAttention || (!isStarter && !isFreeTrial)) {
+    const isStarter = subscriptionProduct?.sku === CloudProducts.STARTER;
+
+    if (someLimitNeedsAttention || (!isStarter && !isFreeTrial)) {
         return null;
     }
 

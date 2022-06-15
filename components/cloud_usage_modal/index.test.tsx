@@ -74,11 +74,6 @@ function setupStore(hasLimits: boolean) {
                     teamsLoaded: true,
                 },
             },
-            general: {
-                config: {
-                    FeatureFlagCloudFree: hasLimits ? 'true' : 'false',
-                } as GlobalState['entities']['general']['config'],
-            },
             admin: {
                 analytics: {
                     [Constants.StatTypes.TOTAL_POSTS]: 1234,

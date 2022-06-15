@@ -32,7 +32,7 @@ import {
 import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
 import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
 
-import {getBool, isCollapsedThreadsEnabled, cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getBool, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getNewestThreadInTeam, getThread, getThreads} from 'mattermost-redux/selectors/entities/threads';
 import {
     getThread as fetchThread,
@@ -768,8 +768,7 @@ async function handleTeamAddedEvent(msg) {
     const state = getState();
     await dispatch(TeamActions.getMyTeamUnreads(isCollapsedThreadsEnabled(state)));
     const license = getLicense(state);
-    const isCloudFreeEnabled = cloudFreeEnabled(state);
-    if (license.Cloud === 'true' && isCloudFreeEnabled) {
+    if (license.Cloud === 'true') {
         dispatch(getTeamsUsage());
     }
 }
@@ -836,8 +835,7 @@ function handleUpdateTeamEvent(msg) {
     const state = store.getState();
     const license = getLicense(state);
     dispatch({type: TeamTypes.UPDATED_TEAM, data: JSON.parse(msg.data.team)});
-    const isCloudFreeEnabled = cloudFreeEnabled(state);
-    if (license.Cloud === 'true' && isCloudFreeEnabled) {
+    if (license.Cloud === 'true') {
         dispatch(getTeamsUsage());
     }
 }
@@ -851,8 +849,7 @@ function handleDeleteTeamEvent(msg) {
     const state = store.getState();
     const {teams} = state.entities.teams;
     const license = getLicense(state);
-    const isCloudFreeEnabled = cloudFreeEnabled(state);
-    if (license.Cloud === 'true' && isCloudFreeEnabled) {
+    if (license.Cloud === 'true') {
         dispatch(getTeamsUsage());
     }
     if (
@@ -1345,7 +1342,15 @@ function handlePluginStatusesChangedEvent(msg) {
 }
 
 function handleIntegrationsUsageChangedEvent(msg) {
-    store.dispatch({type: CloudTypes.RECEIVED_INTEGRATIONS_USAGE, data: msg.data.usage.enabled});
+    const state = store.getState();
+    const license = getLicense(state);
+
+    if (license.Cloud === 'true') {
+        store.dispatch({
+            type: CloudTypes.RECEIVED_INTEGRATIONS_USAGE,
+            data: msg.data.usage.enabled,
+        });
+    }
 }
 
 function handleOpenDialogEvent(msg) {
@@ -1527,19 +1532,24 @@ function handleCloudPaymentStatusUpdated() {
 }
 
 export function handleCloudSubscriptionChanged(msg) {
-    return (doDispatch) => {
-        if (msg.data.limits) {
-            doDispatch({
-                type: CloudTypes.RECEIVED_CLOUD_LIMITS,
-                data: msg.data.limits,
-            });
-        }
+    return (doDispatch, doGetState) => {
+        const state = doGetState();
+        const license = getLicense(state);
 
-        if (msg.data.subscription) {
-            doDispatch({
-                type: CloudTypes.RECEIVED_CLOUD_SUBSCRIPTION,
-                data: msg.data.subscription,
-            });
+        if (license.Cloud === 'true') {
+            if (msg.data.limits) {
+                doDispatch({
+                    type: CloudTypes.RECEIVED_CLOUD_LIMITS,
+                    data: msg.data.limits,
+                });
+            }
+
+            if (msg.data.subscription) {
+                doDispatch({
+                    type: CloudTypes.RECEIVED_CLOUD_SUBSCRIPTION,
+                    data: msg.data.subscription,
+                });
+            }
         }
         return {data: true};
     };

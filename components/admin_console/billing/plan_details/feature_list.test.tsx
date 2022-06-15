@@ -23,11 +23,6 @@ function renderFeatureList(props: FeatureListProps, deep?: boolean) {
                 limits: makeEmptyLimits(),
             },
             usage: makeEmptyUsage(),
-            general: {
-                config: {
-                    FeatureFlagCloudFree: 'false',
-                },
-            },
         },
     };
 

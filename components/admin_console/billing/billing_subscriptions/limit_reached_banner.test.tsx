@@ -40,11 +40,6 @@ const state: GlobalState = {
                 [upgradeCloudKey]: {value: 'false'},
             },
         },
-        general: {
-            config: {
-                FeatureFlagCloudFree: 'true',
-            } as GlobalState['entities']['general']['config'],
-        },
         cloud: {
             limits: {
             },
