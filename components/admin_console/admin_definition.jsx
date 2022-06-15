@@ -5415,7 +5415,6 @@ const AdminDefinition = {
                         },
                         help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
-                        help_text_markdown: false,
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -5438,7 +5437,6 @@ const AdminDefinition = {
                         },
                         help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
-                        help_text_markdown: false,
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -5461,7 +5459,6 @@ const AdminDefinition = {
                         },
                         help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
-                        help_text_markdown: false,
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -5503,7 +5500,6 @@ const AdminDefinition = {
                         },
                         help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
-                        help_text_markdown: false,
                     },
                 ],
             },
@@ -6325,7 +6321,6 @@ const AdminDefinition = {
                                 </a>
                             ),
                         },
-                        help_text_markdown: false,
                         isHidden: true || it.not(it.licensedForFeature('SAML')),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
