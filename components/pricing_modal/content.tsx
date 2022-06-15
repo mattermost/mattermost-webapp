@@ -18,7 +18,8 @@ import {
     getCloudProducts as selectCloudProducts} from 'mattermost-redux/selectors/entities/cloud';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import useGetUsage from 'components/common/hooks/useGetUsage';
-import SuccessModal from 'components/success_modal';
+import SuccessModal from 'components/cloud_subscribe_result_modal/success';
+import ErrorModal from 'components/cloud_subscribe_result_modal/error';
 import PurchaseModal from 'components/purchase_modal';
 import {makeAsyncComponent} from 'components/async_load';
 import StarMarkSvg from 'components/widgets/icons/star_mark_icon';
@@ -194,14 +195,26 @@ function Content(props: ContentProps) {
             return;
         }
 
-        await dispatch(subscribeCloudSubscription(starterProduct?.id));
-        dispatch(closeModal(ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM));
-        dispatch(
-            openModal({
-                modalId: ModalIdentifiers.SUCCESS_MODAL,
-                dialogType: SuccessModal,
-            }),
-        );
+        const result = await dispatch(subscribeCloudSubscription(starterProduct?.id));
+
+        if (typeof result === 'boolean') {
+            dispatch(closeModal(ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM));
+            dispatch(
+                openModal({
+                    modalId: ModalIdentifiers.SUCCESS_MODAL,
+                    dialogType: SuccessModal,
+                }),
+            );
+        } else {
+            dispatch(
+                openModal({
+                    modalId: ModalIdentifiers.ERROR_MODAL,
+                    dialogType: ErrorModal,
+                }),
+            );
+            return;
+        }
+
         props.onHide();
     };
 
@@ -286,7 +299,7 @@ function Content(props: ContentProps) {
                                 }
                             },
                             text: formatMessage({id: 'pricing_modal.btn.downgrade', defaultMessage: 'Downgrade'}),
-                            disabled: isStarter || false,
+                            disabled: isStarter,
                             customClass: ButtonCustomiserClasses.secondary,
                         }}
                         planLabel={

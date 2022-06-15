@@ -362,6 +362,7 @@ export const ModalIdentifiers = {
     CLOUD_PURCHASE: 'cloud_purchase',
     CLOUD_DOWNGRADE_CHOOSE_TEAM: 'cloud_downgrade_choose_team',
     SUCCESS_MODAL: 'success_modal',
+    ERROR_MODAL: 'error_modal',
     DND_CUSTOM_TIME_PICKER: 'dnd_custom_time_picker',
     CUSTOM_STATUS: 'custom_status',
     COMMERCIAL_SUPPORT: 'commercial_support',

@@ -10,7 +10,7 @@ import thunk from 'redux-thunk';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
-import SuccessModal from './index';
+import SuccessModal from './error';
 
 describe('components/pricing_modal/downgrade_team_removal_modal', () => {
     beforeEach(() => {

@@ -15,7 +15,8 @@ import DropdownInput, {ValueType} from 'components/dropdown_input';
 
 import useGetUsage from 'components/common/hooks/useGetUsage';
 import {getTeams, selectTeam, archiveAllTeamsExcept} from 'mattermost-redux/actions/teams';
-import SuccessModal from 'components/success_modal';
+import SuccessModal from 'components/cloud_subscribe_result_modal/success';
+import ErrorModal from 'components/cloud_subscribe_result_modal/error';
 import {getActiveTeamsList} from 'mattermost-redux/selectors/entities/teams';
 import {closeModal, openModal} from 'actions/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
@@ -61,13 +62,18 @@ function DowngradeTeamRemovalModal(props: Props) {
         }
         dispatch(selectTeam(teamIdToKeep));
         await dispatch(archiveAllTeamsExcept(teamIdToKeep));
-        await dispatch(subscribeCloudSubscription(props.product_id));
-        dispatch(
-            openModal({
-                modalId: ModalIdentifiers.SUCCESS_MODAL,
-                dialogType: SuccessModal,
-            }),
-        );
+        const result = await dispatch(subscribeCloudSubscription(props.product_id));
+        if (typeof result === 'boolean') {
+            dispatch(
+                openModal({
+                    modalId: ModalIdentifiers.SUCCESS_MODAL,
+                    dialogType: SuccessModal,
+                }),
+            );
+        } else {
+            dispatch(openModal({modalId: ModalIdentifiers.ERROR_MODAL, dialogType: ErrorModal}));
+            return;
+        }
         dispatch(closeModal(ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM));
         dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
     };

@@ -6,9 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {useDispatch, useSelector} from 'react-redux';
 
-import {
-    getSubscriptionProduct,
-} from 'mattermost-redux/selectors/entities/cloud';
+import {getSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
 
 import PaymentSuccessStandardSvg from 'components/common/svg_images_components/payment_success_standard_svg';
 
@@ -21,7 +19,7 @@ import {ModalIdentifiers} from 'utils/constants';
 import {isModalOpen} from 'selectors/views/modals';
 import {GlobalState} from 'types/store';
 
-import './success_modal.scss';
+import './style.scss';
 
 type Props = {
     onHide?: () => void;
@@ -31,9 +29,8 @@ function SuccessModal(props: Props) {
     const dispatch = useDispatch();
     const subscriptionProduct = useSelector(getSubscriptionProduct);
 
-    const isSuccessModalOpen = useSelector(
-        (state: GlobalState) =>
-            isModalOpen(state, ModalIdentifiers.SUCCESS_MODAL),
+    const isSuccessModalOpen = useSelector((state: GlobalState) =>
+        isModalOpen(state, ModalIdentifiers.SUCCESS_MODAL),
     );
 
     const onHide = () => {
