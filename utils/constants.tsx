@@ -1140,6 +1140,7 @@ export const Locations = {
     RHS_COMMENT: 'RHS_COMMENT',
     SEARCH: 'SEARCH',
     NO_WHERE: 'NO_WHERE',
+    MODAL: 'MODAL',
 };
 
 export const PostListRowListIds = {

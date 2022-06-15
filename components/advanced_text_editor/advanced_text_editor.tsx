@@ -334,7 +334,19 @@ const AdvanceTextEditor = ({
         };
     }, [textboxRef]);
 
-    const textboxId = location === Locations.CENTER ? 'post_textbox' : 'reply_textbox';
+    let textboxId = 'textbox';
+
+    switch (location) {
+    case Locations.CENTER:
+        textboxId = 'post_textbox';
+        break;
+    case Locations.RHS_COMMENT:
+        textboxId = 'reply_textbox';
+        break;
+    case Locations.MODAL:
+        textboxId = 'modal_textbox';
+        break;
+    }
 
     const formattingBar = readOnlyChannel ? null : (
         <FormattingBar
