@@ -1,9 +1,51 @@
 .forward-post {
-    &__suggestion-box {
+    &__select {
         position: relative;
 
-        .suggestion-list {
+        .option {
             top: 100%;
+            display: grid;
+            align-content: center;
+            align-items: center;
+            color: var(--center-channel-color);
+            gap: 12px;
+            grid-auto-columns: minmax(20%, max-content);
+            grid-template-columns: 24px 1fr;
+            grid-template-rows: 24px;
+
+            svg,
+            .status-wrapper,
+            .status--group {
+                place-self: center;
+            }
+
+            .status-wrapper {
+                height: 2.4rem;
+            }
+
+            &__content {
+                display: flex;
+                flex-direction: row;
+                gap: 8px;
+
+                &--description {
+                    color: rgba(var(--center-channel-color-rgb), 0.56);
+                }
+
+                .emoticon {
+                    margin-left: 0;
+                }
+            }
+
+            &__team-name {
+                overflow: hidden;
+                width: 100%;
+                color: rgba(var(--center-channel-color-rgb), 0.56);
+                grid-column: 3 / 4;
+                text-align: right;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
         }
     }
 

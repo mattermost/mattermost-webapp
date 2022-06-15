@@ -1,18 +1,17 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import classNames from 'classnames';
-
-import React, {useRef, useState} from 'react';
+import React, {CSSProperties, useRef, useState} from 'react';
 import {Modal} from 'react-bootstrap';
-import {FormattedMessage} from 'react-intl';
+import * as CSS from 'csstype';
+import {FormattedMessage, useIntl} from 'react-intl';
 import {useSelector} from 'react-redux';
-import {ValueType} from 'react-select';
+import {ValueType, ControlProps} from 'react-select';
 import {Props as AsyncSelectProps} from 'react-select/src/Async';
 import {
     ArchiveOutlineIcon,
     GlobeIcon,
-    LockOutlineIcon,
+    LockOutlineIcon, MagnifyIcon,
     MessageTextOutlineIcon,
 } from '@mattermost/compass-icons/components';
 
@@ -20,33 +19,34 @@ import {getMyTeams, getTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 
-import {getCurrentUserId, getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 import {getDirectTeammate} from 'mattermost-redux/selectors/entities/channels';
 
 import {GlobalState} from '@mattermost/types/store';
 
-import {getUser, getUserByUsername} from 'mattermost-redux/selectors/entities/users';
+import {getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 
 const AsyncSelect = require('react-select/lib/Async').default as React.ElementType<AsyncSelectProps<ChannelOption>>; // eslint-disable-line global-require
 
 import {Post} from '@mattermost/types/posts';
 
 import {Channel} from 'mattermost-redux/types/channels';
-import {ActionResult} from 'mattermost-redux/types/actions';
 
 import SwitchChannelProvider from 'components/suggestion/switch_channel_provider.jsx';
+import SharedChannelIndicator from 'components/shared_channel_indicator';
+import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
+import ProfilePicture from 'components/profile_picture';
+import BotBadge from 'components/widgets/badges/bot_badge';
+import GuestBadge from 'components/widgets/badges/guest_badge';
+
+import Constants from 'utils/constants';
+import * as Utils from 'utils/utils';
 
 import './forward_post_modal.scss';
-import Constants from '../../utils/constants';
-import * as Utils from '../../utils/utils';
-import CustomStatusEmoji from '../custom_status/custom_status_emoji';
-import ProfilePicture from '../profile_picture';
-import SharedChannelIndicator from '../shared_channel_indicator';
-import Suggestion from '../suggestion/suggestion';
-import BotBadge from '../widgets/badges/bot_badge';
-import GuestBadge from '../widgets/badges/guest_badge';
 
 // import Textbox from 'components/textbox';
+
+type CSSPropertiesWithPseudos = CSSProperties & { [P in CSS.SimplePseudos]?: CSS.Properties };
 
 type ProviderResults = {
     matchedPretext: string;
@@ -65,18 +65,16 @@ type ChannelOption = {
 
 export type Props = {
 
-    /**
-     * The function called immediately after the modal is hidden
-     */
+    // The function called immediately after the modal is hidden
     onExited?: () => void;
 
+    // the post that should being forwarded
     post: Post;
 
+    // determines if the viewport currently falls into the mobile view-range
     isMobileView: boolean;
 
     actions: {
-        joinChannelById: (channelId: string) => Promise<ActionResult>;
-        switchToChannel: (channel: Channel) => Promise<ActionResult>;
     };
 }
 
@@ -88,20 +86,22 @@ type GroupedOption = {
 const FormattedOption = (channel: ChannelOption) => {
     const {details} = channel;
 
+    const {formatMessage} = useIntl();
+
     const currentUserId = useSelector((state: GlobalState) => getCurrentUserId(state));
-    const user = useSelector((state: GlobalState) => getUser(state, details.id));
-    console.log('##### details', details);
+    const user = useSelector((state: GlobalState) => getUser(state, details.userId));
+    const status = useSelector((state: GlobalState) => getStatusForUserId(state, details.userId));
     const teammate = useSelector((state: GlobalState) => getDirectTeammate(state, details.id));
     const team = useSelector((state: GlobalState) => getTeam(state, details.team_id));
     const userImageUrl = user?.id && Utils.imageURLForUser(user.id, user.last_picture_update);
     const isPartOfOnlyOneTeam = useSelector((state: GlobalState) => getMyTeams(state).length === 1);
 
-    const channelIsArchived = details.delete_at && details.delete_at !== 0;
+    const channelIsArchived = details.delete_at > 0;
 
     let icon;
     const iconProps = {
         size: 16,
-        color: 'currentColor',
+        color: 'rgba(var(--center-channel-color-rgb), 0.56)',
     };
 
     if (channelIsArchived) {
@@ -113,11 +113,7 @@ const FormattedOption = (channel: ChannelOption) => {
     } else if (details.type === Constants.THREADS) {
         icon = <MessageTextOutlineIcon {...iconProps}/>;
     } else if (details.type === Constants.GM_CHANNEL) {
-        icon = (
-            <span className='suggestion-list__icon suggestion-list__icon--large'>
-                <div className='status status--group'>{'G'}</div>
-            </span>
-        );
+        icon = <div className='status status--group'>{'G'}</div>;
     } else {
         icon = (
             <ProfilePicture
@@ -128,48 +124,47 @@ const FormattedOption = (channel: ChannelOption) => {
         );
     }
 
-    let tag = null;
     let customStatus = null;
 
     let name = details.display_name;
     let description = `~${details.name}`;
-    let deactivated = '';
 
+    let tag = null;
     if (details.type === Constants.DM_CHANNEL) {
         tag = (
-            <React.Fragment>
+            <>
                 <BotBadge
-                    show={Boolean(teammate && teammate.is_bot)}
+                    show={Boolean(teammate?.is_bot)}
                     className='badge-autocomplete'
                 />
                 <GuestBadge
                     show={Boolean(teammate && isGuest(teammate.roles))}
                     className='badge-autocomplete'
                 />
-            </React.Fragment>
+            </>
         );
+
+        const emojiStyle = {
+            marginBottom: 2,
+            marginLeft: 8,
+        };
 
         customStatus = (
             <CustomStatusEmoji
                 showTooltip={true}
                 userID={user.id}
-                emojiStyle={{
-                    marginBottom: 2,
-                    marginLeft: 8,
-                }}
+                emojiStyle={emojiStyle}
             />
         );
 
-        if (user.delete_at) {
-            deactivated = (' - ' + Utils.localizeMessage('channel_switch_modal.deactivated', 'Deactivated'));
-        }
+        const deactivated = user.delete_at ? ` - ${formatMessage({id: 'channel_switch_modal.deactivated', defaultMessage: 'Deactivated'})}` : '';
 
-        if (details.display_name && !(teammate && teammate.is_bot)) {
+        if (details.display_name && !teammate?.is_bot) {
             description = `@${user.username}${deactivated}`;
         } else {
             name = user.username;
             if (user.id === currentUserId) {
-                name += ` ${Utils.localizeMessage('suggestion.user.isCurrent', '(you)')}`;
+                name += ` ${formatMessage({id: 'suggestion.user.isCurrent', defaultMessage: '(you)'})}`;
             }
             description = deactivated;
         }
@@ -179,46 +174,41 @@ const FormattedOption = (channel: ChannelOption) => {
         description = '';
     }
 
-    let sharedIcon = null;
-    if (details.shared) {
-        sharedIcon = (
-            <SharedChannelIndicator
-                className='shared-channel-icon'
-                channelType={details.type}
-            />
-        );
-    }
+    const sharedIcon = details.shared ? (
+        <SharedChannelIndicator
+            className='shared-channel-icon'
+            channelType={details.type}
+        />
+    ) : null;
 
-    let teamName = null;
-    if (details.team_id && team) {
-        teamName = (<span className='ml-2 suggestion-list__team-name'>{team.display_name}</span>);
-    }
+    const teamName = details.team_id && team ? (
+        <span className='option__team-name'>{team.display_name}</span>
+    ) : null;
 
     return (
         <div
             id={`post-forward_channel-select_${details.name}`}
+            className='option'
             data-testid={details.name}
             aria-label={name}
         >
             {icon}
-            <div className='suggestion-list__ellipsis suggestion-list__flex'>
-                <span className='suggestion-list__main'>
-                    <span>{name}</span>
-                    {(isPartOfOnlyOneTeam || details.type === Constants.DM_CHANNEL) && (
-                        <span className='ml-2 suggestion-list__desc'>{description}</span>
-                    )}
-                </span>
+            <span className='option__content'>
+                {name}
+                {(isPartOfOnlyOneTeam || details.type === Constants.DM_CHANNEL) && description && (
+                    <span className='option__content--description'>{description}</span>
+                )}
                 {customStatus}
                 {sharedIcon}
                 {tag}
-                {!isPartOfOnlyOneTeam && teamName}
-            </div>
+            </span>
+            {!isPartOfOnlyOneTeam && teamName}
         </div>
     );
 };
 
 const ForwardPostModal = (props: Props) => {
-    const [comment, setComment] = useState('Comment goes HERE!');
+    const [comment] = useState('Comment goes HERE!');
     const {current: provider} = useRef<SwitchChannelProvider>(new SwitchChannelProvider());
     const [selectedChannel, setSelectedChannel] = useState<ValueType<ChannelOption>>();
 
@@ -300,9 +290,93 @@ const ForwardPostModal = (props: Props) => {
 
     const help = 'this is where the help-text goes';
 
-    const formatOptionLabel = (channel: ChannelOption) => (
-        <FormattedOption {...channel}/>
-    );
+    const formatOptionLabel = (channel: ChannelOption) => {
+        return (
+            <FormattedOption {...channel}/>
+        );
+    };
+
+    const baseStyles = {
+        input: (provided: CSSProperties): CSSPropertiesWithPseudos => ({
+            ...provided,
+            padding: 0,
+            margin: 0,
+            color: 'var(--center-channel-color)',
+        }),
+        indicatorsContainer: (provided: CSSProperties): CSSPropertiesWithPseudos => ({
+            ...provided,
+            padding: '2px',
+        }),
+        singleValue: (provided: CSSProperties): CSSPropertiesWithPseudos => ({
+            ...provided,
+            maxWidth: 'calc(100% - 10px)',
+            width: '100%',
+            overflow: 'visible',
+        }),
+        option: (provided: CSSProperties, state: ControlProps<ChannelOption>): CSSPropertiesWithPseudos => ({
+            ...provided,
+            cursor: 'pointer',
+            padding: '8px 20px',
+            backgroundColor: state.isFocused ? 'rgba(var(--center-channel-color-rgb), 0.08)' : 'transparent',
+        }),
+
+        // disabling this rule here since otherwise tsc will complain about it in the props
+        // eslint-disable-next-line @typescript-eslint/ban-types
+        control: (provided: CSSProperties, state: ControlProps<{}>): CSSPropertiesWithPseudos => {
+            const focusShadow = 'inset 0 0 0 2px var(--button-bg)';
+
+            return ({
+                ...provided,
+                color: 'var(--center-channel-color)',
+                cursor: 'pointer',
+                border: 'none',
+                boxShadow: state.isFocused ? focusShadow : 'inset 0 0 0 1px rgba(var(--center-channel-color-rgb), 0.16)',
+                borderRadius: '4px',
+                padding: 0,
+
+                ':hover': {
+                    color: state.isFocused ? focusShadow : 'inset 0 0 0 1px rgba(var(--center-channel-color-rgb), 0.24)',
+                },
+            });
+        },
+        indicatorSeparator: (): CSSPropertiesWithPseudos => ({
+            display: 'none',
+        }),
+        valueContainer: (provided: CSSProperties): CSSPropertiesWithPseudos => ({
+            ...provided,
+            overflow: 'visible',
+        }),
+        menu: (provided: CSSProperties): CSSPropertiesWithPseudos => ({
+            ...provided,
+            padding: 0,
+        }),
+        menuList: (provided: CSSProperties): CSSPropertiesWithPseudos => ({
+            ...provided,
+            padding: 0,
+            backgroundColor: 'var(--center-channel-bg)',
+            borderRadius: '4px',
+            border: '1px solid rgba(var(--center-channel-color-rgb), 0.16)',
+
+            /* Elevation 4 */
+            boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12)',
+        }),
+        groupHeading: (provided: CSSProperties): CSSPropertiesWithPseudos => ({
+            ...provided,
+            cursor: 'default',
+            position: 'relative',
+            display: 'flex',
+            height: '2.8rem',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+            padding: '0 0 0 2rem',
+            margin: 0,
+            color: 'rgba(var(--center-channel-color-rgb), 0.56)',
+            backgroundColor: 'none',
+            fontSize: '1.2rem',
+            fontWeight: 600,
+            textTransform: 'uppercase',
+        }),
+    };
 
     return (
         <Modal
@@ -330,17 +404,20 @@ const ForwardPostModal = (props: Props) => {
                         {help}
                     </div>
                 </div>
-                <div className='forward-post__suggestion-box'>
-                    <i className='icon icon-magnify icon-16'/>
+                <div className='forward-post__select'>
+                    <MagnifyIcon
+                        size={16}
+                        color='currentColor'
+                    />
                     <AsyncSelect
                         value={selectedChannel}
                         onChange={handleChannelSelect}
                         loadOptions={handleInputChange}
                         defaultOptions={defaultOptions.current}
                         formatOptionLabel={formatOptionLabel}
-                        isMenuOpen={true}
-                        legend={'Forrward to'}
-                        placeholder={'Select a channel or people'}
+                        styles={baseStyles}
+                        legend='Forrward to'
+                        placeholder='Select channel or people'
                     />
                 </div>
                 <div className='forward-post__comment-box'>
