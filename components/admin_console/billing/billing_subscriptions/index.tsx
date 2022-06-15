@@ -11,6 +11,7 @@ import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
+import CloudTrialBanner from 'components/admin_console/billing/billing_subscriptions/cloud_trial_banner';
 
 import {getCloudContactUsLink, InquiryType, SalesInquiryIssue} from 'selectors/cloud';
 import {getAdminAnalytics} from 'mattermost-redux/selectors/entities/admin';
@@ -48,6 +49,7 @@ import {
     paymentFailedBanner,
     GrandfatheredPlanBanner,
 } from './billing_subscriptions';
+import LimitReachedBanner from './limit_reached_banner';
 
 import './billing_subscriptions.scss';
 
@@ -65,6 +67,7 @@ const BillingSubscriptions = () => {
     const trialQuestionsLink = useSelector(getCloudContactUsLink)(InquiryType.Sales, SalesInquiryIssue.TrialQuestions);
     const isLegacyFree = useSelector(checkSubscriptionIsLegacyFree);
     const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
+    const trialEndDate = subscription?.trial_end_at || 0;
 
     const [showCreditCardBanner, setShowCreditCardBanner] = useState(true);
     const [showGrandfatheredPlanBanner, setShowGrandfatheredPlanBanner] = useState(true);
@@ -143,6 +146,9 @@ const BillingSubscriptions = () => {
             />
             <div className='admin-console__wrapper'>
                 <div className='admin-console__content'>
+                    <LimitReachedBanner
+                        product={product}
+                    />
                     {shouldShowPaymentFailedBanner() && paymentFailedBanner()}
                     {shouldShowGrandfatheredPlanBanner() && (
                         <GrandfatheredPlanBanner
@@ -154,6 +160,7 @@ const BillingSubscriptions = () => {
                     {showCreditCardBanner &&
                         isCardExpired &&
                         creditCardExpiredBanner(setShowCreditCardBanner)}
+                    {(isCloudFreeEnabled && isFreeTrial) && (<CloudTrialBanner trialEndDate={trialEndDate}/>)}
                     <div className='BillingSubscriptions__topWrapper'>
                         <PlanDetails
                             isFreeTrial={isFreeTrial}

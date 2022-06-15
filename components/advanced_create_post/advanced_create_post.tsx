@@ -212,7 +212,6 @@ type Props = {
     channelMemberCountsByGroup: ChannelMemberCountsByGroup;
     useLDAPGroupMentions: boolean;
     useCustomGroupMentions: boolean;
-    markdownPreviewFeatureIsEnabled: boolean;
 }
 
 type State = {
@@ -991,11 +990,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     }
 
     getFileUploadTarget = () => {
-        if (this.textboxRef.current) {
-            return this.textboxRef.current;
-        }
-
-        return null;
+        return this.textboxRef.current?.getInputBox();
     }
 
     fillMessageFromHistory() {
@@ -1079,46 +1074,11 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                 selectionEnd,
                 message: value,
             });
-        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.C)) {
+        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.E)) {
             e.stopPropagation();
             e.preventDefault();
-            this.applyMarkdown({
-                markdownMode: 'code',
-                selectionStart,
-                selectionEnd,
-                message: value,
-            });
-        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.NUMPAD_9)) {
-            this.applyMarkdown({
-                markdownMode: 'quote',
-                selectionStart,
-                selectionEnd,
-                message: value,
-            });
-        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.NUMPAD_8)) {
-            this.applyMarkdown({
-                markdownMode: 'ul',
-                selectionStart,
-                selectionEnd,
-                message: value,
-            });
-        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.NUMPAD_7)) {
-            this.applyMarkdown({
-                markdownMode: 'ol',
-                selectionStart,
-                selectionEnd,
-                message: value,
-            });
-        } else if (((isMac() && e.ctrlKey && e.shiftKey) || (e.altKey && e.shiftKey)) && Utils.isKeyPressed(e, KeyCodes.NUMPAD_3)) {
-            this.applyMarkdown({
-                markdownMode: 'heading',
-                selectionStart,
-                selectionEnd,
-                message: value,
-            });
-        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.E)) {
             this.toggleEmojiPicker();
-        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.P)) {
+        } else if (((isMac() && ctrlShiftCombo) || (!isMac() && ctrlAltCombo)) && Utils.isKeyPressed(e, KeyCodes.P)) {
             this.setShowPreview(!this.props.shouldShowPreview);
         } else if (ctrlAltCombo && Utils.isKeyPressed(e, KeyCodes.T)) {
             this.toggleAdvanceTextEditor();
