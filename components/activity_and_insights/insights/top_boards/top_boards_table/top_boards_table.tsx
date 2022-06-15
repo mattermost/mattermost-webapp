@@ -6,6 +6,8 @@ import {FormattedMessage} from 'react-intl';
 
 import classNames from 'classnames';
 
+import {trackEvent} from 'actions/telemetry_actions';
+
 import {GlobalState} from 'types/store';
 
 import {TimeFrame, TopBoard} from '@mattermost/types/insights';
@@ -47,6 +49,7 @@ const TopBoardsTable = (props: Props) => {
 
     const goToBoard = useCallback((board: TopBoard) => {
         props.closeModal();
+        trackEvent('insights', 'open_board_from_top_boards_modal');
         browserHistory.push(`/boards/workspace/${board.workspaceID}/${board.boardID}`);
     }, [props.closeModal]);
 
