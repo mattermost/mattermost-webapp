@@ -7,6 +7,7 @@ import {Link} from 'react-router-dom';
 
 import {Permissions} from 'mattermost-redux/constants';
 
+import {CloudUsage} from '@mattermost/types/cloud';
 import {Team} from '@mattermost/types/teams';
 
 import {emitUserLoggedOutEvent} from 'actions/global_actions';
@@ -57,6 +58,8 @@ type Props = {
     siteURL?: string;
     actions: Actions;
     totalTeamsCount: number;
+    isCloud: boolean;
+    usageDeltas: CloudUsage;
 };
 
 type State = {
@@ -176,7 +179,16 @@ export default class SelectTeam extends React.PureComponent<Props, State> {
             canJoinPublicTeams,
             canJoinPrivateTeams,
             totalTeamsCount,
+            isCloud,
+            usageDeltas: {
+                teams: {
+                    active: usageDeltaTeams,
+                },
+            },
         } = this.props;
+
+        const teamsLimitReached = usageDeltaTeams >= 0;
+        const createTeamRestricted = isCloud && teamsLimitReached;
 
         let openContent;
         if (this.state.loadingTeamId) {
@@ -223,10 +235,17 @@ export default class SelectTeam extends React.PureComponent<Props, State> {
                 joinableTeamContents = (
                     <div className='signup-team-dir-err'>
                         <div>
-                            <FormattedMessage
-                                id='signup_team.no_open_teams_canCreate'
-                                defaultMessage='No teams are available to join. Please create a new team or ask your administrator for an invite.'
-                            />
+                            {createTeamRestricted ? (
+                                <FormattedMessage
+                                    id='signup_team.no_open_teams'
+                                    defaultMessage='No teams are available to join. Please ask your administrator for an invite.'
+                                />
+                            ) : (
+                                <FormattedMessage
+                                    id='signup_team.no_open_teams_canCreate'
+                                    defaultMessage='No teams are available to join. Please create a new team or ask your administrator for an invite.'
+                                />
+                            )}
                         </div>
                     </div>
                 );
@@ -280,7 +299,7 @@ export default class SelectTeam extends React.PureComponent<Props, State> {
             );
         }
 
-        const teamSignUp = (
+        const teamSignUp = !createTeamRestricted && (
             <SystemPermissionGate permissions={[Permissions.CREATE_TEAM]}>
                 <div
                     className='margin--extra'
