@@ -3,26 +3,45 @@
 
 import {batchActions} from 'redux-batched-actions';
 
+import {FileInfo} from '@mattermost/types/files';
+import {ServerError} from '@mattermost/types/errors';
+
 import {FileTypes} from 'mattermost-redux/action_types';
 import {getLogErrorAction} from 'mattermost-redux/actions/errors';
 import {forceLogoutIfNecessary} from 'mattermost-redux/actions/helpers';
+import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {Client4} from 'mattermost-redux/client';
+import {FilePreviewInfo} from 'components/file_preview/file_preview';
 
-import * as Utils from 'utils/utils';
+import {localizeMessage} from 'utils/utils';
 
-export function uploadFile({file, name, type, rootId, channelId, clientId, onProgress, onSuccess, onError}) {
-    return (dispatch, getState) => {
+interface UploadFile {
+    file: File;
+    name: string;
+    type: string;
+    rootId: string;
+    channelId: string;
+    clientId: string;
+    onProgress: (filePreviewInfo: FilePreviewInfo) => void;
+    onSuccess: (data: any, channelId: string, rootId: string) => void;
+    onError: (err: string | ServerError, clientId: string, channelId: string, rootId: string) => void;
+}
+
+export function uploadFile({file, name, type, rootId, channelId, clientId, onProgress, onSuccess, onError}: UploadFile) {
+    return (dispatch: DispatchFunc, getState: GetStateFunc): XMLHttpRequest => {
         dispatch({type: FileTypes.UPLOAD_FILES_REQUEST});
 
-        var xhr = new XMLHttpRequest();
+        const xhr = new XMLHttpRequest();
 
         xhr.open('POST', Client4.getFilesRoute(), true);
 
-        for (const header in Client4.getOptions({method: 'POST'}).headers) {
-            if (Client4.getOptions({method: 'POST'}).headers.hasOwnProperty(header)) {
-                xhr.setRequestHeader(header, Client4.getOptions({method: 'POST'}).headers[header]);
+        const client4Headers = Client4.getOptions({method: 'POST'}).headers;
+        Object.keys(client4Headers).forEach((client4Header) => {
+            const client4HeaderValue = client4Headers[client4Header];
+            if (client4HeaderValue) {
+                xhr.setRequestHeader(client4Header, client4HeaderValue);
             }
-        }
+        });
 
         xhr.setRequestHeader('Accept', 'application/json');
 
@@ -33,13 +52,14 @@ export function uploadFile({file, name, type, rootId, channelId, clientId, onPro
 
         if (onProgress && xhr.upload) {
             xhr.upload.onprogress = (event) => {
-                const percent = parseInt((event.loaded / event.total) * 100, 10);
-                onProgress({
+                const percent = Math.floor((event.loaded / event.total) * 100);
+                const filePreviewInfo = {
                     clientId,
                     name,
                     percent,
                     type,
-                });
+                } as FilePreviewInfo;
+                onProgress(filePreviewInfo);
             };
         }
 
@@ -47,7 +67,7 @@ export function uploadFile({file, name, type, rootId, channelId, clientId, onPro
             xhr.onload = () => {
                 if (xhr.status === 201 && xhr.readyState === 4) {
                     const response = JSON.parse(xhr.response);
-                    const data = response.file_infos.map((fileInfo, index) => {
+                    const data = response.file_infos.map((fileInfo: FileInfo, index: number) => {
                         return {
                             ...fileInfo,
                             clientId: response.client_ids[index],
@@ -89,7 +109,9 @@ export function uploadFile({file, name, type, rootId, channelId, clientId, onPro
                     dispatch(batchActions([uploadFailureAction, getLogErrorAction(errorResponse)]));
                     onError(errorResponse, clientId, channelId, rootId);
                 } else {
-                    const errorMessage = xhr.status === 0 || !xhr.status ? {message: Utils.localizeMessage('file_upload.generic_error', 'There was a problem uploading your files.')} : {message: Utils.localizeMessage('channel_loader.unknown_error', 'We received an unexpected status code from the server.') + ' (' + xhr.status + ')'};
+                    const errorMessage = xhr.status === 0 || !xhr.status ?
+                        localizeMessage('file_upload.generic_error', 'There was a problem uploading your files.') :
+                        localizeMessage('channel_loader.unknown_error', 'We received an unexpected status code from the server.') + ' (' + xhr.status + ')';
 
                     dispatch({
                         type: FileTypes.UPLOAD_FILES_FAILURE,
@@ -98,7 +120,7 @@ export function uploadFile({file, name, type, rootId, channelId, clientId, onPro
                         rootId,
                     });
 
-                    onError(errorMessage, clientId, channelId, rootId);
+                    onError({message: errorMessage}, clientId, channelId, rootId);
                 }
             };
         }
