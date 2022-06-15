@@ -397,9 +397,9 @@
 
             .board-list {
                 .board-item {
+                    display: flex;
                     align-items: center;
                     padding: 10px 12px;
-                    display: flex;
 
                     &:hover {
                         background: rgba(var(--center-channel-color-rgb), 0.08);

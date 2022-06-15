@@ -229,12 +229,16 @@
                                 }
 
                                 span.board-title {
+                                    overflow: hidden;
+                                    max-width: 409px;
                                     margin-left: 12px;
                                     font-family: 'Open Sans';
                                     font-size: 14px;
                                     font-style: normal;
                                     font-weight: 600;
                                     line-height: 20px;
+                                    text-overflow: ellipsis;
+                                    white-space: nowrap;
                                 }
                             }
 
