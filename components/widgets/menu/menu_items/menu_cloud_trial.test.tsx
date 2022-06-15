@@ -60,6 +60,13 @@ const limits = {
     },
 };
 
+const users = {
+    currentUserId: 'uid',
+    profiles: {
+        uid: {},
+    },
+};
+
 describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
     const mockStore = configureStore();
 
@@ -93,6 +100,7 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
     test('should NOT render when NOT on cloud license and NOT during free trial period', () => {
         const state = {
             entities: {
+                users,
                 general: {
                     license: {
                         IsLicensed: 'false',
@@ -116,6 +124,7 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
     test('should NOT render when NO license is available', () => {
         const state = {
             entities: {
+                users,
                 general: {},
                 cloud: {
                     customer: null,
@@ -135,6 +144,7 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
     test('should NOT render when is cloud and not on a trial', () => {
         const state = {
             entities: {
+                users,
                 general: {
                     license: {
                         IsLicensed: 'true',
@@ -157,9 +167,10 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
         expect(wrapper.find('UpgradeLink').exists()).toEqual(false);
     });
 
-    test('should invite to start trial when there subscription is not paid and have not had trial before', () => {
+    test('should invite to start trial when the subscription is not paid and have not had trial before', () => {
         const state = {
             entities: {
+                users,
                 general: {
                     license: {
                         IsLicensed: 'true',
@@ -191,6 +202,7 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
     test('should show the open trial benefits modal when is is free trial', () => {
         const state = {
             entities: {
+                users,
                 general: {
                     license: {
                         IsLicensed: 'true',
@@ -224,6 +236,7 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
     test('should show the invitation to see plans when is not in Trial and has had previous Trial', () => {
         const state = {
             entities: {
+                users,
                 general: {
                     license: {
                         IsLicensed: 'true',
@@ -257,6 +270,7 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
     test('should return null if some limit needs attention', () => {
         const state = {
             entities: {
+                users,
                 general: {
                     license: {
                         IsLicensed: 'true',

@@ -19,6 +19,9 @@ import FeatureList, {FeatureListProps} from './feature_list';
 function renderFeatureList(props: FeatureListProps, deep?: boolean) {
     const state = {
         entities: {
+            general: {
+                license: {},
+            },
             cloud: {
                 limits: makeEmptyLimits(),
             },

@@ -86,6 +86,9 @@ function setupStore(hasLimits: boolean) {
                 myPreferences: {
                 },
             },
+            general: {
+                license: {},
+            },
         },
     } as GlobalState;
     const store = mockStore(state);

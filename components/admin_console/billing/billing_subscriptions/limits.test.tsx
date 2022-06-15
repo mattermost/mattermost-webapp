@@ -105,6 +105,9 @@ function setupStore(setupOptions: SetupOptions) {
                     userid: {} as UserProfile,
                 },
             } as unknown as UsersState,
+            general: {
+                license: {},
+            },
         },
     } as GlobalState;
     if (setupOptions.isEnterprise) {

@@ -46,6 +46,12 @@ const state: GlobalState = {
             products: {
             },
         },
+        general: {
+            license: {
+            },
+            config: {
+            },
+        },
     },
 } as GlobalState;
 
