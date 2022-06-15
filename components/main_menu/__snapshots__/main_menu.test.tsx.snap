@@ -1,5 +1,47 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`components/Menu should match snapshot with cloud free and team limit reached 1`] = `
+<MenuItemLink
+  className="MenuItem__with-icon-tooltip"
+  disabled={true}
+  id="createTeam"
+  show={true}
+  sibling={
+    <RestrictedIndicator
+      blocked={true}
+      modalMessage="Create unlimited teams with one of our paid plans. Get the full experience of Enterprise when you start a free, 30 day trial."
+      modalMessageAfterTrial="Multiple teams allow for context-specific spaces that are more attuned to your and your teams’ needs. Upgrade to the Professional plan to create unlimited teams."
+      modalTitle="Try unlimited teams with a free trial"
+      modalTitleAfterTrial="Upgrade to create unlimited teams"
+      tooltipMessage="During your trial you are able to create multiple teams. These teams will be archived after your trial."
+    />
+  }
+  text="Create a Team"
+  to="/create_team"
+/>
+`;
+
+exports[`components/Menu should match snapshot with cloud free trial 1`] = `
+<MenuItemLink
+  className="MenuItem__with-icon-tooltip"
+  disabled={false}
+  id="createTeam"
+  show={true}
+  sibling={
+    <RestrictedIndicator
+      blocked={false}
+      modalMessage="Create unlimited teams with one of our paid plans. Get the full experience of Enterprise when you start a free, 30 day trial."
+      modalMessageAfterTrial="Multiple teams allow for context-specific spaces that are more attuned to your and your teams’ needs. Upgrade to the Professional plan to create unlimited teams."
+      modalTitle="Try unlimited teams with a free trial"
+      modalTitleAfterTrial="Upgrade to create unlimited teams"
+      tooltipMessage="During your trial you are able to create multiple teams. These teams will be archived after your trial."
+    />
+  }
+  text="Create a Team"
+  to="/create_team"
+/>
+`;
+
 exports[`components/Menu should match snapshot with guest access disabled and no team invite permission 1`] = `
 <Menu
   ariaLabel="team menu"
@@ -174,8 +216,11 @@ exports[`components/Menu should match snapshot with guest access disabled and no
       }
     >
       <MenuItemLink
+        className=""
+        disabled={false}
         id="createTeam"
         show={true}
+        sibling={false}
         text="Create a Team"
         to="/create_team"
       />
@@ -378,8 +423,11 @@ exports[`components/Menu should match snapshot with id 1`] = `
       }
     >
       <MenuItemLink
+        className=""
+        disabled={false}
         id="createTeam"
         show={true}
+        sibling={false}
         text="Create a Team"
         to="/create_team"
       />
@@ -581,8 +629,11 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
       }
     >
       <MenuItemLink
+        className=""
+        disabled={false}
         id="createTeam"
         show={true}
+        sibling={false}
         text="Create a Team"
         to="/create_team"
       />
@@ -1181,8 +1232,11 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
       }
     >
       <MenuItemLink
+        className=""
+        disabled={false}
         id="createTeam"
         show={true}
+        sibling={false}
         text="Create a Team"
         to="/create_team"
       />
@@ -1783,8 +1837,11 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
       }
     >
       <MenuItemLink
+        className=""
+        disabled={false}
         id="createTeam"
         show={true}
+        sibling={false}
         text="Create a Team"
         to="/create_team"
       />

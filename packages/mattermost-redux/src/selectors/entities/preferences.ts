@@ -208,7 +208,7 @@ export function isCustomGroupsEnabled(state: GlobalState): boolean {
 }
 
 export function getUseCaseOnboarding(state: GlobalState): boolean {
-    return getFeatureFlagValue(state, 'UseCaseOnboarding') === 'true';
+    return getFeatureFlagValue(state, 'UseCaseOnboarding') === 'true' && getLicense(state)?.Cloud === 'true';
 }
 
 export function insightsAreEnabled(state: GlobalState): boolean {
@@ -221,4 +221,8 @@ export function cloudFreeEnabled(state: GlobalState): boolean {
 
 export function getIsAdvancedTextEditorEnabled(state: GlobalState): boolean {
     return getFeatureFlagValue(state, 'AdvancedTextEditor') === 'true';
+}
+
+export function getHasDismissedSystemConsoleLimitReached(state: GlobalState): boolean {
+    return getBool(state, Preferences.CATEGORY_UPGRADE_CLOUD, Preferences.SYSTEM_CONSOLE_LIMIT_REACHED, false);
 }

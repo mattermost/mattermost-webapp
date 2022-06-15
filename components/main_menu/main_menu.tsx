@@ -1,12 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable max-lines */
 import React from 'react';
 import {injectIntl, IntlShape} from 'react-intl';
 
 import {Permissions} from 'mattermost-redux/constants';
 
 import * as GlobalActions from 'actions/global_actions';
+import {FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS} from 'utils/cloud_utils';
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import {cmdOrCtrlPressed, isKeyPressed} from 'utils/utils';
 import {makeUrlSafe} from 'utils/url';
@@ -26,6 +28,7 @@ import AboutBuildModal from 'components/about_build_modal';
 import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
 
 import Menu from 'components/widgets/menu/menu';
+import RestrictedIndicator from 'components/widgets/menu/menu_items/restricted_indicator';
 import TeamGroupsManageModal from 'components/team_groups_manage_modal';
 
 import {ModalData} from 'types/actions';
@@ -57,6 +60,9 @@ export type Props = {
     intl: IntlShape;
     teamUrl: string;
     isFirstAdmin: boolean;
+    isCloud: boolean;
+    isFreeTrial: boolean;
+    usageDeltaTeams: number;
     location: {
         pathname: string;
     };
@@ -147,6 +153,8 @@ export class MainMenu extends React.PureComponent<Props> {
 
         const someIntegrationEnabled = this.props.enableIncomingWebhooks || this.props.enableOutgoingWebhooks || this.props.enableCommands || this.props.enableOAuthServiceProvider || this.props.canManageSystemBots;
         const showIntegrations = !this.props.mobile && someIntegrationEnabled && this.props.canManageIntegrations;
+        const teamsLimitReached = this.props.isCloud && !this.props.isFreeTrial && this.props.usageDeltaTeams >= 0;
+        const createTeamRestricted = this.props.isCloud && (this.props.isFreeTrial || teamsLimitReached);
 
         const {formatMessage} = this.props.intl;
 
@@ -459,7 +467,38 @@ export class MainMenu extends React.PureComponent<Props> {
                         <Menu.ItemLink
                             id='createTeam'
                             to='/create_team'
+                            className={createTeamRestricted ? 'MenuItem__with-icon-tooltip' : ''}
+                            disabled={teamsLimitReached}
                             text={formatMessage({id: 'navbar_dropdown.create', defaultMessage: 'Create a Team'})}
+                            sibling={createTeamRestricted && (
+                                <RestrictedIndicator
+                                    blocked={!this.props.isFreeTrial}
+                                    tooltipMessage={formatMessage({
+                                        id: 'navbar_dropdown.create.tooltip.cloudFreeTrial',
+                                        defaultMessage: 'During your trial you are able to create multiple teams. These teams will be archived after your trial.',
+                                    })}
+                                    modalTitle={formatMessage({
+                                        id: 'navbar_dropdown.create.modal.title',
+                                        defaultMessage: 'Try unlimited teams with a free trial',
+                                    })}
+                                    modalMessage={formatMessage({
+                                        id: 'navbar_dropdown.create.modal.description',
+                                        defaultMessage: 'Create unlimited teams with one of our paid plans. Get the full experience of Enterprise when you start a free, {trialLength} day trial.',
+                                    },
+                                    {
+                                        trialLength: FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS,
+                                    },
+                                    )}
+                                    modalTitleAfterTrial={formatMessage({
+                                        id: 'navbar_dropdown.create.modal.title.afterTrial',
+                                        defaultMessage: 'Upgrade to create unlimited teams',
+                                    })}
+                                    modalMessageAfterTrial={formatMessage({
+                                        id: 'navbar_dropdown.create.modal.description.afterTrial',
+                                        defaultMessage: 'Multiple teams allow for context-specific spaces that are more attuned to your and your teams’ needs. Upgrade to the Professional plan to create unlimited teams.',
+                                    })}
+                                />
+                            )}
                         />
                     </SystemPermissionGate>
                 </Menu.Group>

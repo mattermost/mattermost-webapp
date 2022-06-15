@@ -59,6 +59,8 @@ function mapStateToProps(state: GlobalState) {
             canManageMembers: false,
             canManageProperties: false,
             channelStats,
+            isMobile: false,
+            channelMembers: [],
         };
     }
 

@@ -43,9 +43,12 @@ export type TopChannel = {
     message_count: number;
 }
 
+export type TopChannelGraphData = Record<string, Record<string, number>>;
+
 export type TopChannelResponse = {
     has_next: boolean;
     items: TopChannel[];
+    daily_channel_post_counts: TopChannelGraphData;
 };
 
 export type InsightsState = {

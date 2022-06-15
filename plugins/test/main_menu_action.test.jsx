@@ -43,12 +43,17 @@ describe('plugins/MainMenuActions', () => {
             showFlaggedPosts: jest.fn(),
             closeRightHandSide: jest.fn(),
             closeRhsMenu: jest.fn(),
+            getCloudLimits: jest.fn(),
         },
         isCloud: false,
         subscription: {},
         userIsAdmin: true,
         isFirstAdmin: false,
         canInviteTeamMember: false,
+        isCloudFreeEnabled: false,
+        isFreeTrial: false,
+        teamsLimitReached: false,
+        usageDeltaTeams: -1,
     };
 
     test('should match snapshot in web view', () => {
