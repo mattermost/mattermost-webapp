@@ -11,6 +11,10 @@ import thunk from 'redux-thunk';
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import SuccessModal from './error';
+jest.mock('components/common/hooks/useOpenSalesLink', () => ({
+    __esModule: true,
+    default: () => () => true,
+}));
 
 describe('components/pricing_modal/downgrade_team_removal_modal', () => {
     beforeEach(() => {

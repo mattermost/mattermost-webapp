@@ -253,6 +253,9 @@ describe('components/pricing_modal/downgrade_team_removal_modal', () => {
                     IsLicensed: 'true',
                     Cloud: 'true',
                 },
+                credentials: {
+                    url: 'http://example.com',
+                },
             },
             cloud: {
                 subscription: {
