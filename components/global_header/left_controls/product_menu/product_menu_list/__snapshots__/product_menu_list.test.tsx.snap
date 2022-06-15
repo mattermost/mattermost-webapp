@@ -1,5 +1,85 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`components/global/product_switcher_menu should match snapshot with cloud free 1`] = `
+<MenuItemToggleModalRedux
+  dialogProps={
+    Object {
+      "backButtonAction": [Function],
+    }
+  }
+  dialogType={
+    Object {
+      "$$typeof": Symbol(react.memo),
+      "WrappedComponent": [Function],
+      "compare": null,
+      "displayName": "Connect(UserGroupsModal)",
+      "type": [Function],
+    }
+  }
+  disabled={true}
+  icon={
+    <Icon
+      glyph="account-multiple-outline"
+      size={16}
+    />
+  }
+  id="userGroups"
+  modalId="user_groups"
+  show={true}
+  sibling={
+    <RestrictedIndicator
+      blocked={true}
+      modalMessage="Create unlimited user groups with one of our paid plans. Get the full experience of Enterprise when you start a free, 30 day trial."
+      modalMessageAfterTrial="User groups are a way to organize users and apply actions to all users within that group. Upgrade to the Professional plan to create unlimited user groups."
+      modalTitle="Try unlimited user groups with a free trial"
+      modalTitleAfterTrial="Upgrade to create unlimited user groups"
+      tooltipMessage="During your trial you are able to create user groups. These user groups will be archived after your trial."
+    />
+  }
+  text="User Groups"
+/>
+`;
+
+exports[`components/global/product_switcher_menu should match snapshot with cloud free trial 1`] = `
+<MenuItemToggleModalRedux
+  dialogProps={
+    Object {
+      "backButtonAction": [Function],
+    }
+  }
+  dialogType={
+    Object {
+      "$$typeof": Symbol(react.memo),
+      "WrappedComponent": [Function],
+      "compare": null,
+      "displayName": "Connect(UserGroupsModal)",
+      "type": [Function],
+    }
+  }
+  disabled={false}
+  icon={
+    <Icon
+      glyph="account-multiple-outline"
+      size={16}
+    />
+  }
+  id="userGroups"
+  modalId="user_groups"
+  show={true}
+  sibling={
+    <RestrictedIndicator
+      blocked={false}
+      modalMessage="Create unlimited user groups with one of our paid plans. Get the full experience of Enterprise when you start a free, 30 day trial."
+      modalMessageAfterTrial="User groups are a way to organize users and apply actions to all users within that group. Upgrade to the Professional plan to create unlimited user groups."
+      modalTitle="Try unlimited user groups with a free trial"
+      modalTitleAfterTrial="Upgrade to create unlimited user groups"
+      tooltipMessage="During your trial you are able to create user groups. These user groups will be archived after your trial."
+    />
+  }
+  text="User Groups"
+/>
+`;
+
 exports[`components/global/product_switcher_menu should match snapshot with id 1`] = `
 <MenuGroup>
   <div
@@ -133,6 +213,7 @@ exports[`components/global/product_switcher_menu should match snapshot with id 1
           "type": [Function],
         }
       }
+      disabled={false}
       icon={
         <Icon
           glyph="account-multiple-outline"
@@ -142,6 +223,7 @@ exports[`components/global/product_switcher_menu should match snapshot with id 1
       id="userGroups"
       modalId="user_groups"
       show={false}
+      sibling={false}
       text="User Groups"
     />
     <Connect(TeamPermissionGate)
@@ -344,6 +426,7 @@ exports[`components/global/product_switcher_menu should match snapshot with most
           "type": [Function],
         }
       }
+      disabled={false}
       icon={
         <Icon
           glyph="account-multiple-outline"
@@ -353,6 +436,7 @@ exports[`components/global/product_switcher_menu should match snapshot with most
       id="userGroups"
       modalId="user_groups"
       show={false}
+      sibling={false}
       text="User Groups"
     />
     <Connect(TeamPermissionGate)
@@ -559,6 +643,7 @@ exports[`components/global/product_switcher_menu should show integrations should
           "type": [Function],
         }
       }
+      disabled={false}
       icon={
         <Icon
           glyph="account-multiple-outline"
@@ -568,6 +653,7 @@ exports[`components/global/product_switcher_menu should show integrations should
       id="userGroups"
       modalId="user_groups"
       show={false}
+      sibling={false}
       text="User Groups"
     />
     <Connect(TeamPermissionGate)
