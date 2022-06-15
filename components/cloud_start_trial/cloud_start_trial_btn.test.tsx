@@ -41,6 +41,7 @@ jest.mock('mattermost-redux/actions/cloud', () => ({
     ...jest.requireActual('mattermost-redux/actions/cloud'),
     getCloudSubscription: () => ({type: 'adsf'}),
     getCloudProducts: () => ({type: 'adsf'}),
+    getCloudLimits: () => ({}),
 }));
 
 describe('components/cloud_start_trial_btn/cloud_start_trial_btn', () => {

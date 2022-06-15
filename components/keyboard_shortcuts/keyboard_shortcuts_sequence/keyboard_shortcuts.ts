@@ -249,11 +249,11 @@ export const KEYBOARD_SHORTCUTS = {
     msgMarkdownCode: {
         default: {
             id: t('shortcuts.msgs.markdown.code'),
-            defaultMessage: 'Code:\tCtrl|Shift|C',
+            defaultMessage: 'Code',
         },
         mac: {
             id: t('shortcuts.msgs.markdown.code.mac'),
-            defaultMessage: 'Code:\t⌘|Shift|C',
+            defaultMessage: 'Code',
         },
     },
     msgMarkdownStrike: {
@@ -269,41 +269,41 @@ export const KEYBOARD_SHORTCUTS = {
     msgMarkdownH3: {
         default: {
             id: t('shortcuts.msgs.markdown.h3'),
-            defaultMessage: 'Heading:\tAlt|Shift|3',
+            defaultMessage: 'Heading',
         },
         mac: {
             id: t('shortcuts.msgs.markdown.h3.mac'),
-            defaultMessage: 'Heading:\tCtrl[^]|Alt|3',
+            defaultMessage: 'Heading',
         },
     },
     msgMarkdownQuote: {
         default: {
             id: t('shortcuts.msgs.markdown.quote'),
-            defaultMessage: 'Quote:\tCtrl|Shift|9',
+            defaultMessage: 'Quote',
         },
         mac: {
             id: t('shortcuts.msgs.markdown.quote.mac'),
-            defaultMessage: 'Quote:\t⌘|Shift|9',
+            defaultMessage: 'Quote',
         },
     },
     msgMarkdownOl: {
         default: {
             id: t('shortcuts.msgs.markdown.ordered'),
-            defaultMessage: 'Numbered List:\tCtrl|Shift|7',
+            defaultMessage: 'Numbered List',
         },
         mac: {
             id: t('shortcuts.msgs.markdown.ordered.mac'),
-            defaultMessage: 'Numbered List:\t⌘|Shift|7',
+            defaultMessage: 'Numbered List',
         },
     },
     msgMarkdownUl: {
         default: {
             id: t('shortcuts.msgs.markdown.unordered'),
-            defaultMessage: 'Bulleted List:\tCtrl|Shift|8',
+            defaultMessage: 'Bulleted List',
         },
         mac: {
             id: t('shortcuts.msgs.markdown.unordered.mac'),
-            defaultMessage: 'Bulleted List:\t⌘|Shift|8',
+            defaultMessage: 'Bulleted List',
         },
     },
     msgShowFormatting: {
@@ -417,5 +417,15 @@ export const KEYBOARD_SHORTCUTS = {
     browserNewline: {
         id: t('shortcuts.browser.newline'),
         defaultMessage: 'Create a new line:\tShift|Enter',
+    },
+    msgSearchChannel: {
+        default: {
+            id: t('shortcuts.msgs.search_channel'),
+            defaultMessage: 'In channel:\tCtrl|F',
+        },
+        mac: {
+            id: t('shortcuts.msgs.search_channel.mac'),
+            defaultMessage: 'In channel:\t⌘|F',
+        },
     },
 };
