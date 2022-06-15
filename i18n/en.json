@@ -290,8 +290,6 @@
   "admin.billing.subscription.freeTrial.title": "You're currently on a free trial",
   "admin.billing.subscription.freeTrialDisclaimer": "Your bill is calculated at the end of the billing cycle based on the number of enabled users. ",
   "admin.billing.subscription.goBackTryAgain": "Go back and try again",
-  "admin.billing.subscription.grandfatheredBannerBody": "Your workspace will update to the current Cloud Starter plan on November 1, 2022. You may lose access to some Enterprise features. Contact Sales to learn more or to subscribe to the Enterprise plan today.",
-  "admin.billing.subscription.grandfatheredPayingBannerBody": "Your workspace will update to the current Cloud Enterprise plan ($30 / user) on November 1, 2022. Your grandfathered $10 legacy plan is set to expire November 1, 2022. You can downgrade to Professional by viewing the current plans.",
   "admin.billing.subscription.grandfatheredBannerTitle": "Workspace Update",
   "admin.billing.subscription.howItWorks": "See how billing works",
   "admin.billing.subscription.LearnMore": "Learn more",
