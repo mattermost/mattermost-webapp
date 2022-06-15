@@ -9,7 +9,7 @@ import {DispatchFunc} from 'mattermost-redux/types/actions';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
-import Constants, {RecommendedNextSteps} from 'utils/constants';
+import Constants, {RecommendedNextStepsLegacy} from 'utils/constants';
 import PulsatingDot from 'components/widgets/pulsating_dot';
 
 import * as Utils from 'utils/utils';
@@ -241,7 +241,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
             const abPreferences = [{
                 user_id: currentUserId,
                 category: Preferences.AB_TEST_PREFERENCE_VALUE,
-                name: RecommendedNextSteps.CREATE_FIRST_CHANNEL,
+                name: RecommendedNextStepsLegacy.CREATE_FIRST_CHANNEL,
                 value: '',
             }];
 

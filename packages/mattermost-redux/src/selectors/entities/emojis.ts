@@ -5,9 +5,9 @@ import {createSelector} from 'reselect';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
-import {CustomEmoji} from 'mattermost-redux/types/emojis';
-import {GlobalState} from 'mattermost-redux/types/store';
-import {IDMappedObjects} from 'mattermost-redux/types/utilities';
+import {CustomEmoji} from '@mattermost/types/emojis';
+import {GlobalState} from '@mattermost/types/store';
+import {IDMappedObjects} from '@mattermost/types/utilities';
 
 import {createIdsSelector} from 'mattermost-redux/utils/helpers';
 

@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import {General} from '../constants';
-import {Group} from 'mattermost-redux/types/groups';
+import {Group} from '@mattermost/types/groups';
 
 import {getSuggestionsSplitByMultiple} from './user_utils';
 

@@ -7,8 +7,8 @@ import {General, Preferences} from 'mattermost-redux/constants';
 
 import {getConfig, getFeatureFlagValue, getLicense} from 'mattermost-redux/selectors/entities/general';
 
-import {PreferenceType} from 'mattermost-redux/types/preferences';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {PreferenceType} from '@mattermost/types/preferences';
+import {GlobalState} from '@mattermost/types/store';
 import {Theme, ThemeKey} from 'mattermost-redux/types/themes';
 
 import {createShallowSelector} from 'mattermost-redux/utils/helpers';
@@ -208,7 +208,7 @@ export function isCustomGroupsEnabled(state: GlobalState): boolean {
 }
 
 export function getUseCaseOnboarding(state: GlobalState): boolean {
-    return getFeatureFlagValue(state, 'UseCaseOnboarding') === 'true';
+    return getFeatureFlagValue(state, 'UseCaseOnboarding') === 'true' && getLicense(state)?.Cloud === 'true';
 }
 
 export function insightsAreEnabled(state: GlobalState): boolean {
@@ -217,4 +217,12 @@ export function insightsAreEnabled(state: GlobalState): boolean {
 
 export function cloudFreeEnabled(state: GlobalState): boolean {
     return getFeatureFlagValue(state, 'CloudFree') === 'true';
+}
+
+export function getIsAdvancedTextEditorEnabled(state: GlobalState): boolean {
+    return getFeatureFlagValue(state, 'AdvancedTextEditor') === 'true';
+}
+
+export function getHasDismissedSystemConsoleLimitReached(state: GlobalState): boolean {
+    return getBool(state, Preferences.CATEGORY_UPGRADE_CLOUD, Preferences.SYSTEM_CONSOLE_LIMIT_REACHED, false);
 }

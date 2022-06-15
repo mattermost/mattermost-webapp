@@ -3,7 +3,7 @@
 
 import React, {KeyboardEvent, memo} from 'react';
 
-import {EmojiCategory} from 'mattermost-redux/types/emojis';
+import {EmojiCategory} from '@mattermost/types/emojis';
 
 import {
     Categories,

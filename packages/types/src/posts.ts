@@ -82,10 +82,14 @@ export type Post = {
 
 export type PostList = {
     order: Array<Post['id']>;
-    posts: Map<string, Post>;
+    posts: Record<string, Post>;
     next_post_id: string;
     prev_post_id: string;
 };
+
+export type PaginatedPostList = PostList & {
+    has_next: boolean;
+}
 
 export type PostSearchResults = PostList & {
     matches: RelationOneToOne<Post, string[]>;
@@ -122,6 +126,7 @@ export type PostsState = {
 export declare type OpenGraphMetadataImage = {
     secure_url?: string;
     url: string;
+    type?: string;
     height?: number;
     width?: number;
 }
@@ -142,4 +147,17 @@ export declare type PostPreviewMetadata = {
     team_name: string;
     channel_type: ChannelType;
     channel_id: string;
+};
+
+export declare type PostsUsageResponse = {
+    count: number;
+};
+
+export declare type FilesUsageResponse = {
+    bytes: number;
+};
+
+export declare type TeamsUsageResponse = {
+    active: number;
+    cloud_archived: number;
 };

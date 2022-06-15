@@ -33,7 +33,7 @@ import {
 } from 'mattermost-redux/actions/groups';
 
 import {getTeam} from 'mattermost-redux/selectors/entities/teams';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
 

@@ -10,10 +10,10 @@ import deepFreeze from 'mattermost-redux/utils/deep_freeze';
 import {debounce} from 'mattermost-redux/actions/helpers';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 
-import {Channel} from 'mattermost-redux/types/channels';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {Channel} from '@mattermost/types/channels';
+import {UserProfile} from '@mattermost/types/users';
 
 import {trackEvent} from 'actions/telemetry_actions';
 

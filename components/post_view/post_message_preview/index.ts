@@ -8,7 +8,7 @@ import {bindActionCreators, Dispatch} from 'redux';
 import {GlobalState} from 'types/store';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {Post, PostPreviewMetadata} from 'mattermost-redux/types/posts';
+import {Post, PostPreviewMetadata} from '@mattermost/types/posts';
 
 import {makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
 import {get} from 'mattermost-redux/selectors/entities/preferences';

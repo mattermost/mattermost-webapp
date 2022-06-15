@@ -11,9 +11,9 @@ import ThreadConstants from 'mattermost-redux/constants/threads';
 
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
-import type {UserThread, UserThreadList} from 'mattermost-redux/types/threads';
+import type {UserThread, UserThreadList} from '@mattermost/types/threads';
 
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 
 import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
 
@@ -191,7 +191,7 @@ export function handleThreadArrived(dispatch: DispatchFunc, getState: GetStateFu
         type: ThreadTypes.RECEIVED_THREAD,
         data: {
             thread,
-            team_id: teamId || currentTeamId,
+            team_id: teamId,
         },
     });
 
@@ -388,7 +388,7 @@ export function decrementThreadCounts(post: ExtendedPost) {
         const state = getState();
         const thread = getThreadSelector(state, post.id);
 
-        if (!thread || (thread.unread_replies === 0 && thread.unread_mentions === 0)) {
+        if (!thread || (!thread.unread_replies && !thread.unread_mentions)) {
             return {data: false};
         }
 

@@ -2,8 +2,8 @@
 // See LICENSE.txt for license information.
 import {createSelector} from 'reselect';
 
-import {GlobalState} from 'mattermost-redux/types/store';
-import {TimeFrame, TimeFrames, TopReaction} from 'mattermost-redux/types/insights';
+import {GlobalState} from '@mattermost/types/store';
+import {TimeFrame, TimeFrames, TopReaction} from '@mattermost/types/insights';
 
 import {getCurrentTeamId} from './teams';
 
@@ -18,7 +18,7 @@ export function getTeamReactions(state: GlobalState) {
 }
 
 export const getReactionTimeFramesForCurrentTeam: (state: GlobalState) => Record<TimeFrame, Record<string, TopReaction>> = createSelector(
-    'getReactionsForCurrentTeam',
+    'getReactionTimeFramesForCurrentTeam',
     getCurrentTeamId,
     getTeamReactions,
     (currentTeamId, reactions) => {

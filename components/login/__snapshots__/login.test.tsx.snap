@@ -7,20 +7,10 @@ exports[`components/login/Login should match snapshot 1`] = `
   <div
     className="login-body-content"
   >
-    <div
-      className="login-body-no-login"
-    >
-      <h1
-        className="login-body-no-login-title"
-      >
-        This server doesn’t have any sign-in methods enabled
-      </h1>
-      <p
-        className="login-body-no-login-subtitle"
-      >
-        Please contact your System Administrator to resolve this.
-      </p>
-    </div>
+    <Column
+      message="Please contact your System Administrator to resolve this."
+      title="This server doesn’t have any sign-in methods enabled"
+    />
   </div>
 </div>
 `;
@@ -92,7 +82,7 @@ exports[`components/login/Login should match snapshot with base login 1`] = `
           <SaveButton
             btnClass="btn-primary"
             defaultMessage="Log in"
-            disabled={true}
+            disabled={false}
             extraClasses="login-body-card-form-button-submit large"
             onClick={[Function]}
             saving={false}

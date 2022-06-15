@@ -6,9 +6,9 @@
 /* eslint-disable max-lines */
 import React from 'react';
 
-import {ClientConfig, ClientLicense} from 'mattermost-redux/types/config';
+import {ClientConfig, ClientLicense} from '@mattermost/types/config';
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {StatusOK} from 'mattermost-redux/types/client4';
+import {StatusOK} from '@mattermost/types/client4';
 
 import {isLicenseExpired, isLicenseExpiring, isTrialLicense, isEnterpriseOrE20License} from 'utils/license_utils';
 
@@ -397,6 +397,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
 
     renewLicenseCard = () => {
         const {isDisabled} = this.props;
+
         if (isTrialLicense(this.props.license)) {
             return (
                 <TrialLicenseCard

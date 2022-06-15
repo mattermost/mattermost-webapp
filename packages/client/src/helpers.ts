@@ -7,19 +7,11 @@ export function buildQueryString(parameters: Record<string, any>): string {
         return '';
     }
 
-    let query = '?';
-    for (let i = 0; i < keys.length; i++) {
-        const key = keys[i];
-        if (parameters[key] === undefined) {
-            continue;
-        }
+    const queryParams = Object.entries(parameters).
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        filter(([_, value]) => value !== undefined).
+        map(([key, value]) => `${key}=${encodeURIComponent(value)}`).
+        join('&');
 
-        if (i > 0) {
-            query += '&';
-        }
-
-        query += key + '=' + encodeURIComponent(parameters[key]);
-    }
-
-    return query;
+    return queryParams.length > 0 ? `?${queryParams}` : '';
 }

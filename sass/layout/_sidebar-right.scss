@@ -9,6 +9,10 @@
     padding: 0;
     transform: translateX(100%);
 
+    body.announcement-bar--fixed & {
+        height: calc(100% - #{$announcement-bar-height});
+    }
+
     &.move--left {
         transition: width 0.25s 0s ease-in, z-index 0.25s 0s step-end;
     }
@@ -61,10 +65,6 @@
         }
     }
 
-    .channel-archived-warning {
-        padding: 20px;
-    }
-
     .sidebar--right__content {
         display: flex;
         height: 100%;
@@ -97,7 +97,7 @@
 
     .sidebar-right__body {
         display: flex;
-        height: 100%;
+        height: calc(100% - 56px);
         flex: 1 1 auto;
         flex-direction: column;
         border-left: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
@@ -322,6 +322,8 @@
 @media screen and (min-width: 769px) {
     // adjust RHS position and height
     #sidebar-right {
+        // If this is changed, the interaction with the App Bar icons must be tested
+        //(see .app-bar__icon in components/app_bar/app_bar.scss)
         z-index: 20;
         top: 0;
 
