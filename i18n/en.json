@@ -4639,6 +4639,7 @@
   "trial_benefits.modal.trialStartedDescriptionBody": "You now have access to <guestAccountsLink>guest accounts</guestAccountsLink>, <autoComplianceReportsLink>automated compliance reports</autoComplianceReportsLink>, and <mobileSecureNotificationsLink>mobile secure-ID push notifications</mobileSecureNotificationsLink>, among many other features.",
   "trial_benefits.modal.trialStartedDescriptionIntro": "Welcome to your Mattermost Enterprise trial! It expires on {trialExpirationDate}. ",
   "trial_benefits.modal.trialStartTitle": "Your trial has started! Explore the benefits of Enterprise",
+  "trial_benefits.modal.trialStartTitleCloud": "Your trial has started!",
   "tutorial_threads.list.description-p1": "Here you’ll see a preview of all threads you’re following or participating in. Clicking on a thread in this list will open the full thread on the right.",
   "tutorial_threads.list.description-p2": "Use {upKey} / {downKey} to navigate the thread list.",
   "tutorial_threads.list.title": "Threads List",
