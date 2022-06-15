@@ -15,10 +15,14 @@ import widgetHoc, {WidgetHocProps} from '../widget_hoc/widget_hoc';
 
 import {getCurrentRelativeTeamUrl, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getMyTopChannels, getTopChannelsForTeam} from 'mattermost-redux/actions/insights';
-import {TopChannel} from '@mattermost/types/insights';
+import {TopChannel, TopChannelGraphData} from '@mattermost/types/insights';
 import WidgetEmptyState from '../widget_empty_state/widget_empty_state';
 import OverlayTrigger from 'components/overlay_trigger';
+
 import Tooltip from 'components/tooltip';
+import {getCurrentUserTimezone} from 'selectors/general';
+
+import TopChannelsLineChart from './top_channels_line_chart/top_channels_line_chart';
 
 import './../../activity_and_insights.scss';
 
@@ -27,16 +31,21 @@ const TopChannels = (props: WidgetHocProps) => {
 
     const [loading, setLoading] = useState(true);
     const [topChannels, setTopChannels] = useState([] as TopChannel[]);
+    const [channelLineChartData, setChannelLineChartData] = useState({} as TopChannelGraphData);
 
     const currentTeamId = useSelector(getCurrentTeamId);
     const currentTeamUrl = useSelector(getCurrentRelativeTeamUrl);
+    const timeZone = useSelector(getCurrentUserTimezone);
 
     const getTopTeamChannels = useCallback(async () => {
         if (props.filterType === InsightsScopes.TEAM) {
             setLoading(true);
             const data: any = await dispatch(getTopChannelsForTeam(currentTeamId, 0, 5, props.timeFrame));
-            if (data.data && data.data.items) {
+            if (data.data?.items) {
                 setTopChannels(data.data.items);
+            }
+            if (data.data?.channel_post_counts_by_duration) {
+                setChannelLineChartData(data.data.channel_post_counts_by_duration);
             }
             setLoading(false);
         }
@@ -50,8 +59,11 @@ const TopChannels = (props: WidgetHocProps) => {
         if (props.filterType === InsightsScopes.MY) {
             setLoading(true);
             const data: any = await dispatch(getMyTopChannels(currentTeamId, 0, 5, props.timeFrame));
-            if (data.data && data.data.items) {
+            if (data.data?.items) {
                 setTopChannels(data.data.items);
+            }
+            if (data.data?.channel_post_counts_by_duration) {
+                setChannelLineChartData(data.data.channel_post_counts_by_duration);
             }
             setLoading(false);
         }
@@ -103,6 +115,17 @@ const TopChannels = (props: WidgetHocProps) => {
                         loading &&
                         <LineChartLoader/>
                     }
+                    {
+                        (!loading && topChannels.length !== 0) &&
+                        <>
+                            <TopChannelsLineChart
+                                topChannels={topChannels}
+                                timeFrame={props.timeFrame}
+                                channelLineChartData={channelLineChartData}
+                                timeZone={timeZone || 'utc'}
+                            />
+                        </>
+                    }
                 </div>
                 <div className='top-channel-list'>
                     {
@@ -110,7 +133,7 @@ const TopChannels = (props: WidgetHocProps) => {
                         skeletonTitle()
                     }
                     {
-                        (!loading && topChannels) &&
+                        (!loading && topChannels.length !== 0) &&
                         <div className='channel-list'>
                             {
                                 topChannels.map((channel) => {

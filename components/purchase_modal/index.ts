@@ -10,6 +10,8 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getClientConfig} from 'mattermost-redux/actions/general';
 import {getCloudProducts, getCloudSubscription} from 'mattermost-redux/actions/cloud';
 import {Action} from 'mattermost-redux/types/actions';
+import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 
 import {makeAsyncComponent} from 'components/async_load';
 
@@ -39,6 +41,8 @@ function mapStateToProps(state: GlobalState) {
         contactSalesLink: getCloudContactUsLink(state)(InquiryType.Sales),
         productId: subscription?.product_id,
         customer: state.entities.cloud.customer,
+        currentTeam: getCurrentTeam(state),
+        theme: getTheme(state),
     };
 }
 type Actions = {

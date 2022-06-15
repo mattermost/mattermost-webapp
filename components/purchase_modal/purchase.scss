@@ -166,7 +166,7 @@
                     padding: 10px 24px;
                     border: none;
                     background: none;
-                    color: #1c58d9;
+                    color: var(--denim-button-bg);
                     font-size: 14px;
                     font-weight: 600;
                     line-height: 20px;
@@ -205,7 +205,7 @@
                     height: 363px;
                     padding-right: 24px;
                     padding-left: 24px;
-                    border: 1px solid #dadfe5;
+                    border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
                     background-color: var(--center-channel-bg);
                     border-radius: 0 0 4px 4px;
 
@@ -216,36 +216,36 @@
                         border: none;
                         background: none;
                         border-radius: 4px;
-                        color: #1c58d9;
+                        color: var(--denim-button-bg);
                         font-size: 14px;
                         font-weight: 700;
                         line-height: 14px;
 
                         &.grayed {
-                            background: rgba(var(--center-channel-text-rgb), 0.08);
-                            color: rgba(var(--center-channel-text-rgb), 0.32);
+                            background: rgba(var(--center-channel-color-rgb), 0.08);
+                            color: rgba(var(--center-channel-color-rgb), 0.32);
                         }
 
                         &.active {
-                            border: 1px solid #1c58d9;
+                            border: 1px solid var(--denim-button-bg);
                         }
 
                         &.special {
-                            background: #1c58d9;
-                            color: #fff;
+                            background: var(--denim-button-bg);
+                            color: var(--button-color);
                         }
                     }
 
                     .plan_price_rate_section {
                         width: 100%;
                         height: 150px;
-                        border-bottom: 1px solid #dadfe5;
+                        border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
                         font-weight: 400;
                         letter-spacing: -0.02em;
                         text-align: center;
 
                         h4 {
-                            color: rgba(33, 63, 107, 0.8);
+                            color: rgba(var(--center-channel-color-rgb), 0.72);
                             font-family: 'Metropolis';
                             font-size: 20px;
                             font-style: normal;
@@ -253,7 +253,7 @@
                         }
 
                         h1 {
-                            color: #1e325c;
+                            color: var(--center-channel-color);
                             font-family: 'Metropolis';
                             font-size: 52px;
                             font-style: normal;
@@ -266,7 +266,7 @@
                         }
 
                         p {
-                            color: #152234;
+                            color: rgba(var(--center-channel-color-rgb), 0.72);
                             font-family: 'Metropolis';
                             font-size: 18px;
                             font-style: normal;
@@ -277,7 +277,7 @@
                     .plan_payment_commencement {
                         margin-top: 16px;
                         margin-bottom: 24px;
-                        color: #3f4350;
+                        color: var(--center-channel-color-rgb);
                         font-size: 14px;
                         font-style: normal;
                         font-weight: 400;
@@ -286,7 +286,7 @@
 
                     .plan_billing_cycle {
                         margin-top: 24px;
-                        color: rgba(63, 67, 80, 0.72);
+                        color: rgba(var(--center-channel-color-rgb), 0.72);
                         font-size: 12px;
                         font-style: normal;
                         font-weight: 400;

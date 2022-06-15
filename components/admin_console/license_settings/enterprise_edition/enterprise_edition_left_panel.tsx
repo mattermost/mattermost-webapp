@@ -52,7 +52,7 @@ export const getSkuDisplayName = (skuShortName: string, isGovSku: boolean): stri
     return skuName;
 };
 
-const EnterpriseEditionLeftPanel: React.FC<EnterpriseEditionProps> = ({
+const EnterpriseEditionLeftPanel = ({
     openEELicenseModal,
     upgradedFromTE,
     license,

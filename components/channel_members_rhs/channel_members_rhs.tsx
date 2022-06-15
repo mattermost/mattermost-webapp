@@ -1,9 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {FormattedMessage} from 'react-intl';
 import styled from 'styled-components';
+import {debounce} from 'lodash';
 
 import {UserProfile} from '@mattermost/types/users';
 import {Channel, ChannelMembership} from '@mattermost/types/channels';
@@ -18,6 +19,7 @@ import Header from './header';
 import MemberList from './member_list';
 import SearchBar from './search';
 
+const USERS_PER_PAGE = 100;
 export interface ChannelMember {
     user: UserProfile;
     membership: ChannelMembership;
@@ -48,9 +50,10 @@ export interface Props {
         closeRightHandSide: () => void;
         goBack: () => void;
         setChannelMembersRhsSearchTerm: (terms: string) => void;
-        loadProfilesAndReloadChannelMembers: (channelId: string) => void;
+        loadProfilesAndReloadChannelMembers: (page: number, perParge: number, channelId: string) => void;
         loadMyChannelMemberAndRole: (channelId: string) => void;
         setEditChannelMembers: (active: boolean) => void;
+        searchProfilesAndChannelMembers: (term: string, options: any) => Promise<{data: UserProfile[]}>;
     };
 }
 
@@ -98,13 +101,23 @@ export default function ChannelMembersRHS({
         }
 
         actions.setChannelMembersRhsSearchTerm('');
-        actions.loadProfilesAndReloadChannelMembers(channel.id);
+        actions.loadProfilesAndReloadChannelMembers(0, USERS_PER_PAGE, channel.id);
         actions.loadMyChannelMemberAndRole(channel.id);
     }, [channel.id, channel.type]);
 
-    const doSearch = async (terms: string) => {
+    const setSearchTerms = async (terms: string) => {
         actions.setChannelMembersRhsSearchTerm(terms);
     };
+
+    const doSearch = useCallback(debounce(async (terms: string) => {
+        await actions.searchProfilesAndChannelMembers(terms, {in_team_id: channel.team_id, in_channel_id: channel.id});
+    }, Constants.SEARCH_TIMEOUT_MILLISECONDS), [actions.searchProfilesAndChannelMembers]);
+
+    useEffect(() => {
+        if (searchTerms) {
+            doSearch(searchTerms);
+        }
+    }, [searchTerms]);
 
     const inviteMembers = () => {
         if (channel.type === Constants.GM_CHANNEL) {
@@ -160,7 +173,7 @@ export default function ChannelMembersRHS({
             {showSearch && (
                 <SearchBar
                     terms={searchTerms}
-                    onInput={doSearch}
+                    onInput={setSearchTerms}
                 />
             )}
 
