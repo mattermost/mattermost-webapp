@@ -1140,6 +1140,7 @@ const AdminDefinition = {
                                 </a>
                             ),
                         },
+                        help_text_markdown: false,
                         placeholder: t('admin.image.amazonS3IdExample'),
                         placeholder_default: 'E.g.: "AKIADTOVBGERKLCBV"',
                         isDisabled: it.any(
@@ -1206,6 +1207,7 @@ const AdminDefinition = {
                                 </a>
                             ),
                         },
+                        help_text_markdown: false,
                         isHidden: it.not(it.licensedForFeature('Compliance')),
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.FILE_STORAGE)),
@@ -2622,6 +2624,7 @@ const AdminDefinition = {
                                 </a>
                             ),
                         },
+                        help_text_markdown: false,
                         options: [
                             {
                                 value: 'disabled',
@@ -2865,6 +2868,7 @@ const AdminDefinition = {
                                 </a>
                             ),
                         },
+                        help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.NOTICES)),
                     },
                     {
@@ -2886,6 +2890,7 @@ const AdminDefinition = {
                                 </a>
                             ),
                         },
+                        help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.NOTICES)),
                     },
                 ],
@@ -3683,6 +3688,7 @@ const AdminDefinition = {
                                         </a>
                                     ),
                                 },
+                                help_text_markdown: false,
                                 error_message: t('admin.ldap.testFailure'),
                                 error_message_default: 'AD/LDAP Test Failure: {error}',
                                 success_message: t('admin.ldap.testSuccess'),
@@ -3902,6 +3908,7 @@ const AdminDefinition = {
                             ),
                             strong: (msg) => <strong>{msg}</strong>,
                         },
+                        help_text_markdown: false,
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
                             it.stateIsFalse('SamlSettings.Enable'),
@@ -5384,6 +5391,7 @@ const AdminDefinition = {
                                 </a>
                             ),
                         },
+                        help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
                     {
@@ -5406,6 +5414,7 @@ const AdminDefinition = {
                             ),
                         },
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
+                        help_text_markdown: false,
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -5427,6 +5436,7 @@ const AdminDefinition = {
                             ),
                         },
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
+                        help_text_markdown: false,
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -5448,6 +5458,7 @@ const AdminDefinition = {
                             ),
                         },
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
+                        help_text_markdown: false,
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -5488,6 +5499,7 @@ const AdminDefinition = {
                             strong: (msg) => <strong>{msg}</strong>,
                         },
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
+                        help_text_markdown: false,
                     },
                 ],
             },
@@ -6308,6 +6320,7 @@ const AdminDefinition = {
                                 </a>
                             ),
                         },
+                        help_text_markdown: false,
                         isHidden: true || it.not(it.licensedForFeature('SAML')),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
