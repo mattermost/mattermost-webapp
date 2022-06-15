@@ -399,6 +399,7 @@
                 .board-item {
                     align-items: center;
                     padding: 10px 12px;
+                    display: flex;
 
                     &:hover {
                         background: rgba(var(--center-channel-color-rgb), 0.08);
@@ -417,8 +418,6 @@
                         height: 32px;
                         align-items: center;
                         justify-content: center;
-                        margin-top: 17px;
-                        margin-right: 10px;
                         float: left;
                         font-size: 32px;
                     }
@@ -431,7 +430,7 @@
 
                         .display-name {
                             overflow: hidden;
-                            margin-right: 55px;
+                            margin-right: 10px;
                             color: var(--center-channel-color);
                             float: left;
                             font-family: 'Open Sans';
@@ -454,7 +453,6 @@
                     }
 
                     .Avatars.Avatars___xs {
-                        margin-top: -33px;
                         margin-left: auto;
                         float: right;
                     }
