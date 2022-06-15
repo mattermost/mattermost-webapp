@@ -5413,6 +5413,7 @@ const AdminDefinition = {
                                 </a>
                             ),
                         },
+                        help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                         help_text_markdown: false,
                     },
@@ -5435,6 +5436,7 @@ const AdminDefinition = {
                                 </a>
                             ),
                         },
+                        help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                         help_text_markdown: false,
                     },
@@ -5457,6 +5459,7 @@ const AdminDefinition = {
                                 </a>
                             ),
                         },
+                        help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                         help_text_markdown: false,
                     },
@@ -5484,7 +5487,7 @@ const AdminDefinition = {
                         label: t('admin.service.userAccessTokensTitle'),
                         label_default: 'Enable User Access Tokens: ',
                         help_text: t('admin.service.userAccessTokensDescription'),
-                        help_text_default: 'When true, users can create <link>user access tokens</link> for integrations in <strong>Account Menu > Account Settings > Security</strong>. They can be used to authenticate against the API and give full access to the account.\n\n To manage who can create personal access tokens or to search users by token ID, go to the **User Management > Users** page.',
+                        help_text_default: 'When true, users can create <link>user access tokens</link> for integrations in <strong>Account Menu > Account Settings > Security</strong>. They can be used to authenticate against the API and give full access to the account.\n\n To manage who can create personal access tokens or to search users by token ID, go to the <strong>User Management > Users</strong> page.',
                         help_text_values: {
                             link: (msg) => (
                                 <a
@@ -5498,6 +5501,7 @@ const AdminDefinition = {
                             ),
                             strong: (msg) => <strong>{msg}</strong>,
                         },
+                        help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                         help_text_markdown: false,
                     },
@@ -6308,6 +6312,7 @@ const AdminDefinition = {
                         label_default: 'Use Improved SAML Library (Beta):',
                         help_text: t('admin.experimental.experimentalUseNewSAMLLibrary.desc'),
                         help_text_default: 'Enable an updated SAML Library, which does not require the XML Security Library (xmlsec1) to be installed. Warning: Not all providers have been tested. If you experience issues, please contact <linkSupport>support</linkSupport>. Changing this setting requires a server restart before taking effect.',
+                        help_text_markdown: false,
                         help_text_values: {
                             linkSupport: (msg) => (
                                 <a
@@ -6356,6 +6361,72 @@ const AdminDefinition = {
                         help_text_markdown: false,
                         isHidden: it.not(it.licensedForFeature('SAML')),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ServiceSettings.ThreadAutoFollow',
+                        label: t('admin.experimental.threadAutoFollow.title'),
+                        label_default: 'Automatically Follow Threads',
+                        help_text: t('admin.experimental.threadAutoFollow.desc'),
+                        help_text_default: 'This setting must be enabled to support [Collapsed Reply Threads](https://docs.mattermost.com/messaging/organizing-conversations.html) and may impact your database server performance. If you cannot easily scale up and tune your database, or if you are running the Mattermost application server and database server on the same machine, we recommended disabling `ThreadAutoFollow` until Collapsed Reply Threads is promoted to general availability. Learn more about these [performance considerations here](https://support.mattermost.com/hc/en-us/articles/4413183568276).\n \n \nWhen enabled, threads a user starts, participates in, or is mentioned in are automatically followed. Entries are added to the `ThreadMembership` table to track followed threads for each user and the read or unread state of each followed thread. Enabling this configuration setting doesn’t retroactively follow threads for actions taken prior to the setting being enabled',
+                        help_text_markdown: true,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
+                        isHidden: it.licensedForFeature('Cloud'),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_DROPDOWN,
+                        key: 'ServiceSettings.CollapsedThreads',
+                        label: t('admin.experimental.collapsedThreads.title'),
+                        label_default: 'Collapsed Reply Threads',
+                        help_text: t('admin.experimental.collapsedThreads.desc'),
+                        help_text_default: 'When enabled (default off), users must enable collapsed reply threads in Settings. When disabled, users cannot access Collapsed Reply Threads. Please review our <linkKnownIssues>documentation for known issues</linkKnownIssues> and help provide feedback in our <linkCommunityChannel>Community Channel</linkCommunityChannel>.',
+                        help_text_values: {
+                            linkKnownIssues: (msg) => (
+                                <a
+                                    href='https://docs.mattermost.com/messaging/organizing-conversations.html'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                            linkCommunityChannel: (msg) => (
+                                <a
+                                    href='https://community-daily.mattermost.com/core/channels/folded-reply-threads'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        },
+                        help_text_markdown: false,
+                        options: [
+                            {
+                                value: 'disabled',
+                                display_name: t('admin.experimental.collapsedThreads.off'),
+                                display_name_default: 'Disabled',
+                            },
+                            {
+                                value: 'default_off',
+                                display_name: t('admin.experimental.collapsedThreads.default_off'),
+                                display_name_default: 'Enabled (Default Off)',
+                            },
+                            {
+                                value: 'default_on',
+                                display_name: t('admin.experimental.collapsedThreads.default_on'),
+                                display_name_default: 'Enabled (Default On)',
+                            },
+                            {
+                                value: 'always_on',
+                                display_name: t('admin.experimental.collapsedThreads.always_on'),
+                                display_name_default: 'Always On',
+                            },
+                        ],
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
+                        isHidden: it.configIsFalse('FeatureFlags', 'CollapsedThreads'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
