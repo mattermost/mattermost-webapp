@@ -11,5 +11,6 @@ export default keyMirror({
     RECEIVED_MESSAGES_USAGE: null,
     RECEIVED_FILES_USAGE: null,
     RECEIVED_BOARDS_USAGE: null,
+    RECEIVED_TEAMS_USAGE: null,
     RECEIVED_INTEGRATIONS_USAGE: null,
 });

@@ -32,7 +32,7 @@ const ManageTeamsDropdown = (props: Props) => {
             props.onError(
                 <FormattedMessage
                     id='admin.manage_teams.makeAdminError'
-                    defaultMessage='Unable to remove user an admin.'
+                    defaultMessage='Unable to make user a team admin.'
                 />);
         } else {
             props.onMemberChange(props.teamMember.team_id);

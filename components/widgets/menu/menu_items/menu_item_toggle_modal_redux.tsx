@@ -20,9 +20,10 @@ type Props = {
     children?: React.ReactNode;
     sibling?: React.ReactNode;
     showUnread?: boolean;
+    disabled?: boolean;
 }
 
-export const MenuItemToggleModalReduxImpl: React.FC<Props> = ({modalId, dialogType, dialogProps, text, ariaLabel, extraText, children, className, sibling, showUnread}: Props) => (
+export const MenuItemToggleModalReduxImpl: React.FC<Props> = ({modalId, dialogType, dialogProps, text, ariaLabel, extraText, children, className, sibling, showUnread, disabled}: Props) => (
     <>
         <ToggleModalButton
             ariaLabel={ariaLabel}
@@ -32,8 +33,11 @@ export const MenuItemToggleModalReduxImpl: React.FC<Props> = ({modalId, dialogTy
             className={classNames({
                 'MenuItem__with-help': extraText,
                 [`${className}`]: className,
+                'MenuItem__with-sibling': sibling,
+                disabled,
             })}
             showUnread={showUnread}
+            disabled={disabled}
         >
             {text && <span className='MenuItem__primary-text'>{text}</span>}
             {extraText && <span className='MenuItem__help-text'>{extraText}</span>}
