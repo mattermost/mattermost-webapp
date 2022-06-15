@@ -40,10 +40,11 @@ const Limits = (props: Props): JSX.Element | null => {
     const subscriptionProduct = useSelector(getSubscriptionProduct);
     const [cloudLimits, limitsLoaded] = useGetLimits();
     const usage = useGetUsage();
+    const isCloudFreeTrial = subscription?.is_free_trial === 'true';
     const openSalesLink = useOpenSalesLink(SalesInquiryIssue.UpgradeEnterprise);
     const openPricingModal = useOpenPricingModal();
 
-    if (!isCloudFreeEnabled || !subscriptionProduct || !limitsLoaded || !hasSomeLimits(cloudLimits)) {
+    if (!isCloudFreeEnabled || !subscriptionProduct || !limitsLoaded || !hasSomeLimits(cloudLimits) || isCloudFreeTrial) {
         return null;
     }
 
