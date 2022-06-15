@@ -24,6 +24,7 @@ Object {
     "Random",
     "Some-random-plugin",
     "random plugin footer",
+    "random plugin header",
     "Generate with /generateRand command",
     "/generateRand 10",
     "GenerateRandomNumber",

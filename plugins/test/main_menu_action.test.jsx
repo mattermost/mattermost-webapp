@@ -53,6 +53,7 @@ describe('plugins/MainMenuActions', () => {
         isCloudFreeEnabled: false,
         isFreeTrial: false,
         teamsLimitReached: false,
+        usageDeltaTeams: -1,
     };
 
     test('should match snapshot in web view', () => {

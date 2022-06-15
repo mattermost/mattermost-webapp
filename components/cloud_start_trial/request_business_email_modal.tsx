@@ -94,7 +94,7 @@ const RequestBusinessEmailModal = (
 
     // this function will be executed after successfull trial request, closing this request business email modal
     const closeMeAfterSuccessTrialReq = async () => {
-        await dispatch(closeModal(ModalIdentifiers.LEARN_MORE_TRIAL_MODAL));
+        await dispatch(closeModal(ModalIdentifiers.REQUEST_BUSINESS_EMAIL_MODAL));
     };
 
     return (

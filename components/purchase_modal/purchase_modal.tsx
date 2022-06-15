@@ -37,6 +37,8 @@ import StarMarkSvg from 'components/widgets/icons/star_mark_icon';
 import PricingModal from 'components/pricing_modal';
 import PlanLabel from 'components/common/plan_label';
 import {ModalData} from 'types/actions';
+import {Team} from '@mattermost/types/teams';
+import {Theme} from 'mattermost-redux/types/themes';
 
 import {getNextBillingDate} from 'utils/utils';
 
@@ -82,7 +84,9 @@ type Props = {
     contactSalesLink: string;
     isFreeTrial: boolean;
     productId: string | undefined;
+    currentTeam: Team;
     intl: IntlShape;
+    theme: Theme;
     actions: {
         openModal: <P>(modalData: ModalData<P>) => void;
         closeModal: () => void;
@@ -450,6 +454,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                         onInputChange={this.onPaymentInput}
                         onCardInputChange={this.handleCardInputChange}
                         initialBillingDetails={initialBillingDetails}
+                        theme={this.props.theme}
                     // eslint-disable-next-line react/jsx-closing-bracket-location
                     />
                     ) : (<div className='PaymentDetails'>
@@ -496,7 +501,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                             <PlanLabel
                                 text={formatMessage({id: 'pricing_modal.planLabel.mostPopular', defaultMessage: 'MOST POPULAR'})}
                                 bgColor='var(--title-color-indigo-500)'
-                                color='var(--center-channel-bg)'
+                                color='var(--button-color)'
                                 firstSvg={<StarMarkSvg/>}
                                 secondSvg={<StarMarkSvg/>}
                             />) : undefined}
@@ -550,6 +555,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                                             this.setState({processing: false});
                                         }}
                                         contactSupportLink={this.props.contactSalesLink}
+                                        currentTeam={this.props.currentTeam}
                                         selectedProduct={this.state.selectedProduct}
                                         currentProduct={this.state.currentProduct}
                                         isProratedPayment={(!this.props.isFreeTrial && this.state.currentProduct?.billing_scheme === BillingSchemes.FLAT_FEE) &&

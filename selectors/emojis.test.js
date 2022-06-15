@@ -3,9 +3,10 @@
 
 import assert from 'assert';
 
-import LocalStorageStore from 'stores/local_storage_store';
+import {savePreferences} from 'mattermost-redux/actions/preferences';
 
 import * as Selectors from 'selectors/emojis';
+import Constants from 'utils/constants';
 
 describe('Selectors.Emojis', () => {
     it('getRecentEmojis', () => {
@@ -15,22 +16,32 @@ describe('Selectors.Emojis', () => {
                 users: {
                     currentUserId: userId1,
                 },
+                preferences: {
+                    myPreferences: {},
+                },
             },
-            storage: {storage: {}},
         };
 
-        assert.deepEqual(Selectors.getRecentEmojis(testState), []);
+        assert.deepStrictEqual(Selectors.getRecentEmojis(testState), []);
 
-        const recentEmojis = ['rage', 'nauseated_face', 'innocent', '+1', 'sob', 'grinning', 'mm'];
-        LocalStorageStore.setRecentEmojis(userId1, recentEmojis);
+        const recentEmojis = [
+            {name: 'rage', usageCount: 1},
+            {name: 'nauseated_face', usageCount: 1},
+            {name: 'innocent', usageCount: 1},
+            {name: '+1', usageCount: 1},
+            {name: 'sob', usageCount: 1},
+            {name: 'grinning', usageCount: 1},
+            {name: 'mm', usageCount: 1},
+        ];
+        savePreferences('user_id_1', [{category: Constants.Preferences.RECENT_EMOJIS, name: 'user_id_1', user_id: 'user_id_1', value: JSON.stringify(recentEmojis)}]);
         setTimeout(() => {
-            assert.deepEqual(Selectors.getRecentEmojis(testState), recentEmojis);
+            assert.deepStrictEqual(Selectors.getRecentEmojis(testState), recentEmojis);
         }, 0);
 
-        recentEmojis.push('joy');
-        LocalStorageStore.setRecentEmojis(userId1, recentEmojis);
+        recentEmojis.push({name: 'joy', usageCount: 1});
+        savePreferences('user_id_1', [{category: Constants.Preferences.RECENT_EMOJIS, name: 'user_id_1', user_id: 'user_id_1', value: JSON.stringify(recentEmojis)}]);
         setTimeout(() => {
-            assert.deepEqual(Selectors.getRecentEmojis(testState), recentEmojis);
+            assert.deepStrictEqual(Selectors.getRecentEmojis(testState), recentEmojis);
         }, 0);
     });
 });

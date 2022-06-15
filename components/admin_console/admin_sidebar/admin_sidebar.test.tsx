@@ -1,14 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {ComponentProps} from 'react';
 
 import {RESOURCE_KEYS} from 'mattermost-redux/constants/permissions_sysconsole';
 
 import {samplePlugin1} from 'tests/helpers/admin_console_plugin_index_sample_pluings';
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
-import AdminSidebar from 'components/admin_console/admin_sidebar/admin_sidebar.jsx';
+import AdminSidebar from 'components/admin_console/admin_sidebar/admin_sidebar';
 import AdminDefinition from 'components/admin_console/admin_definition';
 import {generateIndex} from 'utils/admin_console_index';
 
@@ -23,7 +23,7 @@ jest.mock('utils/utils', () => {
 jest.mock('utils/admin_console_index');
 
 describe('components/AdminSidebar', () => {
-    const defaultProps = {
+    const defaultProps: ComponentProps<typeof AdminSidebar> = {
         license: {},
         config: {
             ExperimentalSettings: {
@@ -50,7 +50,7 @@ describe('components/AdminSidebar', () => {
                     header: 'This is a header',
                     settings: [],
                 },
-                webapp: {},
+                webapp: {bundle_path: 'webapp/dist/main.js'},
             },
         },
         onFilterChange: jest.fn(),
@@ -79,10 +79,17 @@ describe('components/AdminSidebar', () => {
                 compliance: true,
             },
         },
+        cloud: {
+            limits: {
+                limitsLoaded: false,
+                limits: {},
+            },
+        },
+        showTaskList: false,
     };
 
     Object.keys(RESOURCE_KEYS).forEach((key) => {
-        Object.values(RESOURCE_KEYS[key]).forEach((value) => {
+        Object.values(RESOURCE_KEYS[key as keyof typeof RESOURCE_KEYS]).forEach((value) => {
             defaultProps.consoleAccess = {
                 ...defaultProps.consoleAccess,
                 read: {
@@ -117,7 +124,7 @@ describe('components/AdminSidebar', () => {
     test('should match snapshot, no access', () => {
         const props = {
             ...defaultProps,
-            consoleAccess: {},
+            consoleAccess: {read: {}, write: {}},
         };
         const wrapper = shallowWithIntl(<AdminSidebar {...props}/>);
         expect(wrapper).toMatchSnapshot();
@@ -151,13 +158,16 @@ describe('components/AdminSidebar', () => {
                         header: '',
                         settings: [],
                     },
-                    webapp: {},
+                    webapp: {bundle_path: 'webapp/dist/main.js'},
                 },
             },
             onFilterChange: jest.fn(),
             actions: {
                 getPlugins: jest.fn(),
             },
+            consoleAccess: {...defaultProps.consoleAccess},
+            cloud: {...defaultProps.cloud},
+            showTaskList: false,
         };
 
         const wrapper = shallowWithIntl(<AdminSidebar {...props}/>);
@@ -187,14 +197,21 @@ describe('components/AdminSidebar', () => {
                     id: 'plugin_0',
                     name: 'Plugin 0',
                     version: '0.1.0',
-                    settings_schema: {},
-                    webapp: {},
+                    settings_schema: {
+                        footer: 'This is a footer',
+                        header: 'This is a header',
+                        settings: [],
+                    },
+                    webapp: {bundle_path: 'webapp/dist/main.js'},
                 },
             },
             onFilterChange: jest.fn(),
             actions: {
                 getPlugins: jest.fn(),
             },
+            consoleAccess: {...defaultProps.consoleAccess},
+            cloud: {...defaultProps.cloud},
+            showTaskList: false,
         };
 
         const wrapper = shallowWithIntl(<AdminSidebar {...props}/>);
@@ -231,13 +248,16 @@ describe('components/AdminSidebar', () => {
                         header: '',
                         settings: [],
                     },
-                    webapp: {},
+                    webapp: {bundle_path: 'webapp/dist/main.js'},
                 },
             },
             onFilterChange: jest.fn(),
             actions: {
                 getPlugins: jest.fn(),
             },
+            consoleAccess: {...defaultProps.consoleAccess},
+            cloud: {...defaultProps.cloud},
+            showTaskList: false,
         };
 
         const wrapper = shallowWithIntl(<AdminSidebar {...props}/>);
@@ -302,16 +322,16 @@ describe('components/AdminSidebar', () => {
                         header: '',
                         settings: [],
                     },
-                    webapp: {},
+                    webapp: {bundle_path: 'webapp/dist/main.js'},
                 },
             },
             onFilterChange: jest.fn(),
             actions: {
                 getPlugins: jest.fn(),
             },
-            consoleAccess: {
-                ...defaultProps.consoleAccess,
-            },
+            consoleAccess: {...defaultProps.consoleAccess},
+            cloud: {...defaultProps.cloud},
+            showTaskList: false,
         };
 
         const wrapper = shallowWithIntl(<AdminSidebar {...props}/>);
@@ -344,17 +364,20 @@ describe('components/AdminSidebar', () => {
             actions: {
                 getPlugins: jest.fn(),
             },
+            consoleAccess: {...defaultProps.consoleAccess},
+            cloud: {...defaultProps.cloud},
+            showTaskList: false,
         };
 
         beforeEach(() => {
-            generateIndex.mockReset();
+            (generateIndex as jest.Mock).mockReset();
         });
 
         test('should refresh the index in case idx is already present and there is a change in plugins or adminDefinition prop', () => {
-            generateIndex.mockReturnValue(['mocked-index']);
+            (generateIndex as jest.Mock).mockReturnValue(['mocked-index']);
 
             const wrapper = shallowWithIntl(<AdminSidebar {...props}/>);
-            wrapper.instance().idx = ['some value'];
+            (wrapper.instance() as any).idx = ['some value'];
 
             expect(generateIndex).toHaveBeenCalledTimes(0);
 
@@ -366,7 +389,7 @@ describe('components/AdminSidebar', () => {
         });
 
         test('should not call the generate index in case of idx is not already present', () => {
-            generateIndex.mockReturnValue(['mocked-index']);
+            (generateIndex as jest.Mock).mockReturnValue(['mocked-index']);
 
             const wrapper = shallowWithIntl(<AdminSidebar {...props}/>);
 
@@ -380,10 +403,10 @@ describe('components/AdminSidebar', () => {
         });
 
         test('should not generate index in case of same props', () => {
-            generateIndex.mockReturnValue(['mocked-index']);
+            (generateIndex as jest.Mock).mockReturnValue(['mocked-index']);
 
             const wrapper = shallowWithIntl(<AdminSidebar {...props}/>);
-            wrapper.instance().idx = ['some value'];
+            (wrapper.instance() as any).idx = ['some value'];
 
             expect(generateIndex).toHaveBeenCalledTimes(0);
 
@@ -402,7 +425,7 @@ describe('components/AdminSidebar', () => {
 
         beforeEach(() => {
             idx.search.mockReset();
-            generateIndex.mockReturnValue(idx);
+            (generateIndex as jest.Mock).mockReturnValue(idx);
         });
 
         const props = {
@@ -434,7 +457,10 @@ describe('components/AdminSidebar', () => {
                 read: {
                     plugins: true,
                 },
+                write: {},
             },
+            cloud: {...defaultProps.cloud},
+            showTaskList: false,
         };
 
         test('should match snapshot', () => {
@@ -449,7 +475,7 @@ describe('components/AdminSidebar', () => {
             idx.search.mockReturnValue(['plugin_mattermost-autolink']);
             wrapper.find('#adminSidebarFilter').simulate('change', {target: {value: 'autolink'}});
 
-            expect(wrapper.instance().state.sections).toEqual(['plugin_mattermost-autolink']);
+            expect((wrapper.instance().state as any).sections).toEqual(['plugin_mattermost-autolink']);
             expect(wrapper).toMatchSnapshot();
             expect(wrapper.find('AdminSidebarCategory')).toHaveLength(1);
             expect(wrapper.find('AdminSidebarSection')).toHaveLength(1);
