@@ -85,7 +85,6 @@ function makeMapStateToProps() {
             postListIds: postIds,
             isPrefetchingInProcess,
             shouldStartFromBottomWhenUnread,
-            shouldHideNewMessageIndicator,
             isMobileView: getIsMobileView(state),
         };
     };

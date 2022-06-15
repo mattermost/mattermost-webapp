@@ -46,7 +46,7 @@ class ToastWrapper extends React.PureComponent {
         showSearchHintToast: PropTypes.bool,
         onSearchHintDismiss: PropTypes.func,
         shouldStartFromBottomWhenUnread: PropTypes.bool,
-        shouldHideNewMessageIndicator: PropTypes.bool,
+        isNewMessageLineReached: PropTypes.bool,
         unreadScrollPosition: PropTypes.string,
 
         /*
@@ -95,7 +95,7 @@ class ToastWrapper extends React.PureComponent {
         let unreadCount;
 
         if (props.atLatestPost) {
-            if (props.shouldHideNewMessageIndicator) {
+            if (props.unreadScrollPosition === Preferences.UNREAD_SCROLL_POSITION_START_FROM_NEWEST && !props.isNewMessageLineReached) {
                 unreadCount = prevState.unreadCountInChannel;
             } else {
                 unreadCount = ToastWrapper.countNewMessages(props.postListIds, props.rootPosts, props.isCollapsedThreadsEnabled);
@@ -143,9 +143,13 @@ class ToastWrapper extends React.PureComponent {
             showNewMessagesToast = false;
         }
 
+        if (props.isNewMessageLineReached) {
+            showUnreadWithBottomStartToast = false;
+        }
+
         if (props.shouldStartFromBottomWhenUnread &&
             unreadCount > 0 &&
-            props.shouldHideNewMessageIndicator
+            !props.isNewMessageLineReached
         ) {
             showUnreadWithBottomStartToast = true;
         }

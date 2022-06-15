@@ -94,8 +94,6 @@ export default class PostList extends React.PureComponent {
 
         shouldStartFromBottomWhenUnread: PropTypes.bool,
 
-        shouldHideNewMessageIndicator: PropTypes.bool,
-
         actions: PropTypes.shape({
 
             /**
@@ -150,6 +148,8 @@ export default class PostList extends React.PureComponent {
 
             showSearchHint: false,
             isSearchHintDismissed: false,
+
+            isNewMessageLineReached: false,
         };
 
         this.listRef = React.createRef();
@@ -166,13 +166,13 @@ export default class PostList extends React.PureComponent {
         } else {
             postIndex = this.getNewMessagesSeparatorIndex(props.postListIds);
         }
+        this.newMessageLineIndex = this.getNewMessagesSeparatorIndex(props.postListIds);
 
         const maxPostsForSlicing = props.focusedPostId ? MAXIMUM_POSTS_FOR_SLICING.permalink : MAXIMUM_POSTS_FOR_SLICING.channel;
         this.initRangeToRender = [
             Math.max(postIndex - 30, 0),
             Math.max(postIndex + 30, Math.min(props.postListIds.length - 1, maxPostsForSlicing)),
         ];
-
         this.showSearchHintThreshold = this.getShowSearchHintThreshold();
     }
 
@@ -212,6 +212,8 @@ export default class PostList extends React.PureComponent {
         }
         const prevPostsCount = prevProps.postListIds.length;
         const presentPostsCount = this.props.postListIds.length;
+
+        this.newMessageLineIndex = this.getNewMessagesSeparatorIndex(this.props.postListIds);
 
         if (snapshot) {
             const postlistScrollHeight = this.postListRef.current.scrollHeight;
@@ -304,6 +306,12 @@ export default class PostList extends React.PureComponent {
             dynamicListStyle,
         });
     };
+
+    toggleIsNewMessageLineReached = () => {
+        this.setState({
+            isNewMessageLineReached: true,
+        });
+    }
 
     renderRow = ({data, itemId, style}) => {
         const index = data.indexOf(itemId);
@@ -481,8 +489,17 @@ export default class PostList extends React.PureComponent {
         });
     }
 
-    onItemsRendered = ({visibleStartIndex}) => {
+    onItemsRendered = ({visibleStartIndex, visibleStopIndex}) => {
         this.updateFloatingTimestamp(visibleStartIndex);
+
+        if (
+            this.newMessageLineIndex > 0 &&
+             !this.state.isNewMessageLineReached &&
+             this.newMessageLineIndex <= visibleStartIndex &&
+             this.newMessageLineIndex >= visibleStopIndex
+        ) {
+            this.toggleIsNewMessageLineReached();
+        }
     }
 
     initScrollToIndex = () => {
@@ -567,7 +584,8 @@ export default class PostList extends React.PureComponent {
                 updateNewMessagesAtInChannel={this.updateNewMessagesAtInChannel}
                 updateLastViewedBottomAt={this.updateLastViewedBottomAt}
                 shouldStartFromBottomWhenUnread={this.props.shouldStartFromBottomWhenUnread}
-                shouldHideNewMessageIndicator={this.props.shouldHideNewMessageIndicator}
+
+                isNewMessageLineReached={this.state.isNewMessageLineReached}
                 channelId={this.props.channelId}
                 focusedPostId={this.props.focusedPostId}
                 initScrollOffsetFromBottom={this.state.initScrollOffsetFromBottom}

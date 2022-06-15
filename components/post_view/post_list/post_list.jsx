@@ -103,8 +103,6 @@ export default class PostList extends React.PureComponent {
 
         shouldStartFromBottomWhenUnread: PropTypes.bool,
 
-        shouldHideNewMessageIndicator: PropTypes.bool,
-
         actions: PropTypes.shape({
 
             /*
@@ -340,7 +338,6 @@ export default class PostList extends React.PureComponent {
                             channelId={this.props.channelId}
                             autoRetryEnable={this.state.autoRetryEnable}
                             shouldStartFromBottomWhenUnread={this.props.shouldStartFromBottomWhenUnread}
-                            shouldHideNewMessageIndicator={this.props.shouldHideNewMessageIndicator}
                             actions={this.actionsForPostList}
                             postListIds={this.props.formattedPostIds}
                             latestPostTimeStamp={this.props.latestPostTimeStamp}

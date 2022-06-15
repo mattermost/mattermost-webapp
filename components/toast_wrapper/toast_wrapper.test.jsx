@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import Preferences from 'mattermost-redux/constants/preferences';
+
 import {DATE_LINE} from 'mattermost-redux/utils/post_list';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
@@ -15,9 +17,10 @@ import ToastWrapper from './toast_wrapper.jsx';
 describe('components/ToastWrapper', () => {
     const baseProps = {
         unreadCountInChannel: 0,
+        unreadScrollPosition: Preferences.UNREAD_SCROLL_POSITION_START_FROM_LEFT,
         newRecentMessagesCount: 0,
         channelMarkedAsUnread: false,
-        shouldHideNewMessageIndicator: false,
+        isNewMessageLineReached: false,
         shouldStartFromBottomWhenUnread: false,
         atLatestPost: false,
         postListIds: [
@@ -57,29 +60,10 @@ describe('components/ToastWrapper', () => {
             expect(wrapper.state('unreadCount')).toBe(15);
         });
 
-        test('If atLatestPost and not shouldHideNewMessageIndicator then unread count is based on the number of posts below the new message indicator', () => {
+        test('If atLatestPost and not isNewMessageLineReached and unreadScrollPosition is startFromNewest then unread count then unread count is based on the unreadCountInChannel', () => {
             const props = {
                 ...baseProps,
-                atLatestPost: true,
-                postListIds: [ //order of the postIds is in reverse order so unreadCount should be 3
-                    'post1',
-                    'post2',
-                    'post3',
-                    PostListRowListIds.START_OF_NEW_MESSAGES,
-                    DATE_LINE + 1551711600000,
-                    'post4',
-                    'post5',
-                ],
-            };
-
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
-            expect(wrapper.state('unreadCount')).toBe(3);
-        });
-
-        test('If atLatestPost and shouldHideNewMessageIndicator then unread count is based on the unreadCountInChannel', () => {
-            const props = {
-                ...baseProps,
-                shouldHideNewMessageIndicator: true,
+                unreadScrollPosition: Preferences.UNREAD_SCROLL_POSITION_START_FROM_NEWEST,
                 atLatestPost: true,
                 unreadCountInChannel: 10,
                 postListIds: [ //order of the postIds is in reverse order so unreadCount should be 3
@@ -95,6 +79,26 @@ describe('components/ToastWrapper', () => {
 
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
             expect(wrapper.state('unreadCount')).toBe(10);
+        });
+
+        test('If atLatestPost and isNewMessageLineReached then unread count is based on the number of posts below the new message indicator', () => {
+            const props = {
+                ...baseProps,
+                isNewMessageLineReached: true,
+                atLatestPost: true,
+                postListIds: [ //order of the postIds is in reverse order so unreadCount should be 3
+                    'post1',
+                    'post2',
+                    'post3',
+                    PostListRowListIds.START_OF_NEW_MESSAGES,
+                    DATE_LINE + 1551711600000,
+                    'post4',
+                    'post5',
+                ],
+            };
+
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            expect(wrapper.state('unreadCount')).toBe(3);
         });
 
         test('If channelMarkedAsUnread then unread count should be based on the unreadCountInChannel', () => {
@@ -488,18 +492,31 @@ describe('components/ToastWrapper', () => {
             expect(baseProps.updateNewMessagesAtInChannel).toHaveBeenCalledTimes(1);
         });
 
-        test('Should have unreadWithBottomStart toast if shouldStartFromBottomWhenUnread and unreadCount > 0 and shouldHideNewMessageIndicator ', () => {
+        test('Should have unreadWithBottomStart toast if shouldStartFromBottomWhenUnread and unreadCount > 0 and not isNewMessageLineReached ', () => {
             const props = {
                 ...baseProps,
                 unreadCountInChannel: 10,
                 shouldStartFromBottomWhenUnread: true,
-                shouldHideNewMessageIndicator: true,
+                isNewMessageLineReached: false,
             };
 
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
-            wrapper.setProps({atBottom: true});
-
             expect(wrapper.state('showUnreadWithBottomStartToast')).toBe(true);
+        });
+
+        test('Should hide unreadWithBottomStart toast if isNewMessageLineReached is set true', () => {
+            const props = {
+                ...baseProps,
+                unreadCountInChannel: 10,
+                shouldStartFromBottomWhenUnread: true,
+                isNewMessageLineReached: false,
+            };
+
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            expect(wrapper.state('showUnreadWithBottomStartToast')).toBe(true);
+
+            wrapper.setProps({isNewMessageLineReached: true});
+            expect(wrapper.state('showUnreadWithBottomStartToast')).toBe(false);
         });
     });
 
