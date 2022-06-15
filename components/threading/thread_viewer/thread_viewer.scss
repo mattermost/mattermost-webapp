@@ -40,6 +40,8 @@
     }
 
     .channel-archived-warning__content {
+        display: flex;
+        justify-content: center;
         padding: 24px;
         padding-right: 47.5px;
         padding-left: 46.5px;
@@ -47,9 +49,8 @@
         line-height: 20px;
         text-align: center;
 
-        .icon {
+        svg {
             margin-right: 3.4px;
-            vertical-align: text-top;
         }
     }
 }

@@ -69,12 +69,10 @@ export default class SearchableChannelList extends React.PureComponent {
 
         if (shouldShowArchivedChannels) {
             archiveIcon = (
-                <div className='more-modal__icon-container'>
-                    <ArchiveOutlineIcon
-                        size={20}
-                        color={'rgb(var(--center-channel-color-rgb))'}
-                    />
-                </div>
+                <ArchiveOutlineIcon
+                    size={20}
+                    color={'rgb(var(--center-channel-color-rgb))'}
+                />
             );
         }
 
