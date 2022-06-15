@@ -146,6 +146,6 @@ Cypress.Commands.add('uiLogout', () => {
     cy.uiOpenUserMenu('Log Out');
 
     cy.url().should('include', '/login');
-    cy.get('#site_name').should('be.visible');
-    cy.get('#site_description').should('be.visible');
+    cy.get('.login-body-message').should('be.visible');
+    cy.get('.login-body-card').should('be.visible');
 });

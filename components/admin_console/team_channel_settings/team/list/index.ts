@@ -11,7 +11,7 @@ import {getTeams} from 'mattermost-redux/selectors/entities/teams';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
-import {TeamSearchOpts, TeamsWithCount} from 'mattermost-redux/types/teams';
+import {TeamSearchOpts, TeamsWithCount} from '@mattermost/types/teams';
 
 import {GlobalState} from 'types/store';
 

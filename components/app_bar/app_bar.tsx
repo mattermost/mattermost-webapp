@@ -6,7 +6,8 @@ import {useSelector} from 'react-redux';
 
 import {getAppBarAppBindings} from 'mattermost-redux/selectors/entities/apps';
 
-import {getAppBarPluginComponents, shouldShowAppBar} from 'selectors/plugins';
+import {getAppBarPluginComponents, getChannelHeaderPluginComponents, shouldShowAppBar} from 'selectors/plugins';
+import {PluginComponent} from 'types/store/plugins';
 
 import AppBarPluginComponent from './app_bar_plugin_component';
 import AppBarBinding from './app_bar_binding';
@@ -14,6 +15,7 @@ import AppBarBinding from './app_bar_binding';
 import './app_bar.scss';
 
 export default function AppBar() {
+    const channelHeaderComponents = useSelector(getChannelHeaderPluginComponents);
     const appBarPluginComponents = useSelector(getAppBarPluginComponents);
     const appBarBindings = useSelector(getAppBarAppBindings);
 
@@ -23,9 +25,33 @@ export default function AppBar() {
         return null;
     }
 
+    const coreProductsIds = ['playbooks', 'focalboard'];
+
+    // The type guard in the filter (which removes all undefined elements) is needed for
+    // Typescript to correctly type coreProducts.
+    const coreProducts = coreProductsIds.
+        map((id) => appBarPluginComponents.find((element) => element.pluginId === id)).
+        filter((element): element is PluginComponent => Boolean(element));
+
+    const appBarPluginComponentsWithoutCoreProducts = appBarPluginComponents.filter((element) => !coreProductsIds.includes(element.pluginId));
+    const pluginComponents = appBarPluginComponentsWithoutCoreProducts.concat(channelHeaderComponents);
+
+    const isCoreProductsSectionNonEmpty = coreProducts.length > 0;
+    const isRegularIconsSectionNonEmpty = pluginComponents.length > 0 || appBarBindings.length > 0;
+    const isDividerVisible = isCoreProductsSectionNonEmpty && isRegularIconsSectionNonEmpty;
+
     return (
         <div className={'app-bar'}>
-            {appBarPluginComponents.map((component) => (
+            {coreProducts.map((product) => (
+                <AppBarPluginComponent
+                    key={product.id}
+                    component={product}
+                />
+            ))}
+            {isDividerVisible && (
+                <hr className={'app-bar__divider'}/>
+            )}
+            {pluginComponents.map((component) => (
                 <AppBarPluginComponent
                     key={component.id}
                     component={component}

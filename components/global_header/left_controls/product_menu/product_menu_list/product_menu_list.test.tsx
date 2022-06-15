@@ -3,7 +3,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import {TestHelper} from 'utils/test_helper';
 
@@ -38,6 +38,8 @@ describe('components/global/product_switcher_menu', () => {
         canManageIntegrations: true,
         enablePluginMarketplace: false,
         showVisitSystemConsoleTour: false,
+        isCloud: false,
+        isFreeTrial: false,
         onClick: () => jest.fn,
         handleVisitConsoleClick: () => jest.fn,
         enableCustomUserGroups: false,
@@ -71,6 +73,29 @@ describe('components/global/product_switcher_menu', () => {
         };
         const wrapper = shallow(<ProductMenuList {...props}/>);
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with cloud free', () => {
+        const props = {
+            ...defaultProps,
+            enableCustomUserGroups: true,
+            isCloud: true,
+            isCloudFreeEnabled: true,
+        };
+        const wrapper = shallow(<ProductMenuList {...props}/>);
+        expect(wrapper.find('#userGroups')).toMatchSnapshot();
+    });
+
+    test('should match snapshot with cloud free trial', () => {
+        const props = {
+            ...defaultProps,
+            enableCustomUserGroups: true,
+            isCloud: true,
+            isCloudFreeEnabled: true,
+            isFreeTrial: true,
+        };
+        const wrapper = shallow(<ProductMenuList {...props}/>);
+        expect(wrapper.find('#userGroups')).toMatchSnapshot();
     });
 
     describe('should show integrations', () => {

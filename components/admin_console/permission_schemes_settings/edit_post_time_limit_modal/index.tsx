@@ -7,7 +7,7 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {updateConfig} from 'mattermost-redux/actions/admin';
 import {getConfig} from 'mattermost-redux/selectors/entities/admin';
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
-import {AdminConfig} from 'mattermost-redux/types/config';
+import {AdminConfig} from '@mattermost/types/config';
 
 import {GlobalState} from 'types/store';
 

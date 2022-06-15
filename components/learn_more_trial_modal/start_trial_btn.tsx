@@ -17,7 +17,7 @@ import {GlobalState} from 'types/store';
 import {requestTrialLicense} from 'actions/admin_actions';
 import {trackEvent} from 'actions/telemetry_actions';
 
-import {closeModal, openModal} from 'actions/views/modals';
+import {openModal} from 'actions/views/modals';
 
 import TrialBenefitsModal from 'components/trial_benefits_modal/trial_benefits_modal';
 
@@ -73,7 +73,6 @@ const StartTrialBtn = ({
         }
 
         await dispatch(getLicenseConfig());
-        await dispatch(closeModal(ModalIdentifiers.LEARN_MORE_TRIAL_MODAL));
         setLoadStatus(TrialLoadStatus.Success);
         return TrialLoadStatus.Success;
     };

@@ -1,5 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
+import {ChannelType} from './channels';
+
 export enum InsightsWidgetTypes {
     TOP_CHANNELS = 'TOP_CHANNELS',
     TOP_REACTIONS = 'TOP_REACTIONS',
@@ -31,7 +34,29 @@ export type TopReactionResponse = {
     timeFrame?: TimeFrame;
 }
 
+export type TopChannel = {
+    id: string;
+    type: ChannelType;
+    display_name: string;
+    name: string;
+    team_id: string;
+    message_count: number;
+}
+
+export type TopChannelGraphData = Record<string, Record<string, number>>;
+
+export type TopChannelResponse = {
+    has_next: boolean;
+    items: TopChannel[];
+    daily_channel_post_counts: TopChannelGraphData;
+};
+
 export type InsightsState = {
     topReactions: Record<string, Record<TimeFrame, Record<string, TopReaction>>>;
     myTopReactions: Record<string, Record<TimeFrame, Record<string, TopReaction>>>;
 }
+
+export type TopChannelActionResult = {
+    data?: TopChannelResponse;
+    error?: any;
+};

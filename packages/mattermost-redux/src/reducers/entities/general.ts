@@ -7,7 +7,7 @@ import {Timezone} from 'timezones.json';
 
 import {GeneralTypes, UserTypes} from 'mattermost-redux/action_types';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {ClientLicense, ClientConfig} from 'mattermost-redux/types/config';
+import {ClientLicense, ClientConfig} from '@mattermost/types/config';
 
 function config(state: Partial<ClientConfig> = {}, action: GenericAction) {
     switch (action.type) {

@@ -1,46 +1,81 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
 .AlertBanner {
     display: flex;
     overflow: hidden;
-    padding: 16px;
+    align-items: flex-start;
+    padding: 14px;
     border: 1px solid;
     border-radius: 4px;
 }
 
 .AlertBanner__icon {
-    flex-grow: 0;
-    flex-shrink: 0;
-    font-size: 18px;
-    line-height: 20px;
+    font-size: 24px;
+    line-height: 24px;
 
-    i::before {
-        margin: 0;
+    i {
+        display: contents;
+
+        &::before {
+            margin: 0;
+        }
     }
 }
 
 .AlertBanner__body {
+    flex-flow: column;
     flex-grow: 1;
     flex-shrink: 1;
-    margin-left: 12px;
+    margin-left: 10px;
     font-size: 14px;
-    line-height: 20px;
 }
 
 .AlertBanner__title {
     font-weight: 600;
+    line-height: 24px;
+}
+
+.AlertBanner__actionButtons {
+    margin-top: 12px;
+    font-family: 'Open Sans';
+
+    .AlertBanner__buttonLeft {
+        &:hover {
+            background: #1156b2;
+        }
+
+        padding: 10px 16px;
+        border: none;
+        background: var(--denim-button-bg);
+        border-radius: 4px;
+        color: white;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .AlertBanner__buttonRight {
+        &:hover {
+            background: #1c58d91f;
+        }
+
+        padding: 10px 16px;
+        border: none;
+        margin-left: 4px;
+        background: rgba(28, 88, 217, 0.08);
+        border-radius: 4px;
+        color: #1c58d9;
+    }
 }
 
 .AlertBanner__message {
     margin-top: 8px;
+    line-height: 20px;
 }
 
 .AlertBanner__closeButton {
-    position: relative;
-    top: -12px;
-    right: -12px;
     display: flex;
-    width: 28px;
-    height: 28px;
-    padding: 5px;
+    padding: 3px;
     border: none;
     background: none;
     border-radius: 4px;
@@ -87,6 +122,15 @@
         }
     }
 
+    &.success {
+        border-color: rgba(var(--online-indicator-rgb), 0.16);
+        background: rgba(var(--online-indicator-rgb), 0.08);
+
+        .AlertBanner__icon i {
+            color: var(--denim-status-online);
+        }
+    }
+
     .AlertBanner__body {
         color: var(--center-channel-color);
     }
@@ -123,6 +167,15 @@
 
         .AlertBanner__icon i {
             color: var(--sys-away-indicator);
+        }
+    }
+
+    &.success {
+        border-color: rgba(var(--sys-online-indicator-rgb), 0.16);
+        background: rgba(var(--sys-online-indicator-rgb), 0.08);
+
+        .AlertBanner__icon i {
+            color: var(--sys-online-indicator);
         }
     }
 

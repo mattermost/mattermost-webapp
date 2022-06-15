@@ -5,6 +5,7 @@ import React, {useRef} from 'react';
 import {FormattedMessage} from 'react-intl';
 import Tippy from '@tippyjs/react';
 import {Placement} from 'tippy.js';
+import classNames from 'classnames';
 
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light-border.css';
@@ -12,11 +13,8 @@ import 'tippy.js/animations/scale-subtle.css';
 import 'tippy.js/animations/perspective-subtle.css';
 import PulsatingDot from 'components/widgets/pulsating_dot';
 
-import TourTipBackdrop, {TourTipOverlayPunchOut} from './tour_tip_backdrop';
+import {TourTipBackdrop, TourTipOverlayPunchOut} from './tour_tip_backdrop';
 import './tour_tip.scss';
-
-// This needs to be changed if root-portal node isn't available to maybe body
-const rootPortal = document.getElementById('root-portal');
 
 export type TourTipEventSource = 'next' | 'prev' | 'dismiss' | 'jump' | 'skipped' | 'open' | 'punchOut'
 
@@ -38,6 +36,7 @@ type Props = {
     offset?: [number, number];
     width?: string | number;
     zIndex?: number;
+    className?: string;
 
     // if you don't want punchOut just assign null, keep null as hook may return null first than actual value
     overlayPunchOut: TourTipOverlayPunchOut | null;
@@ -75,6 +74,7 @@ const TourTip = ({
     pulsatingDotPlacement,
     nextBtn,
     prevBtn,
+    className,
     offset = [-18, 4],
     placement = 'right-start',
     showOptOut = true,
@@ -87,6 +87,10 @@ const TourTip = ({
             handleJump(event, jumpToStep);
         }
     };
+
+    // This needs to be changed if root-portal node isn't available to maybe body
+    const rootPortal = document.getElementById('root-portal');
+
     const dots = [];
     if (!singleTip && tourSteps) {
         for (let dot = 0; dot < (Object.values(tourSteps).length - 1); dot++) {
@@ -218,7 +222,7 @@ const TourTip = ({
                     interactive={true}
                     appendTo={rootPortal!}
                     offset={offset}
-                    className={'tour-tip__box'}
+                    className={classNames('tour-tip__box', className)}
                     placement={placement}
                 />
             )}

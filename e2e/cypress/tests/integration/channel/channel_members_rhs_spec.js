@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+const {generateRandomUser} = require('../../support/api/user');
+
 // ***************************************************************
 // - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
@@ -60,15 +62,25 @@ describe('Channel members RHS', () => {
         });
     });
 
-    it('should be able to open the RHS', () => {
+    it('should be able to open the RHS from channel info', () => {
         // # Open the Channel Members RHS
         openChannelMembersRhs(testTeam, testChannel);
 
         // * RHS Container should exist
-        cy.get('#rhsContainer').then((rhsContainer) => {
-            cy.wrap(rhsContainer).findByText('Members').should('be.visible');
-            cy.wrap(rhsContainer).findByText(testChannel.display_name).should('be.visible');
+        ensureChannelMembersRHSExists(testChannel);
+    });
+
+    it('should be able to open the RHS from the members icon', () => {
+        // # Go to test channel
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+        // # Open the RHS by clicking on the members icon
+        cy.get('#channelHeaderInfo').within(() => {
+            cy.get('#member_rhs').should('be.visible').click({force: true});
         });
+
+        // * RHS Container should exist
+        ensureChannelMembersRHSExists(testChannel);
     });
 
     it('should display the number of members', () => {
@@ -154,7 +166,48 @@ describe('Channel members RHS', () => {
         });
     });
 
+    it('should hide deactivated members', () => {
+        cy.apiCreateChannel(testTeam.id, 'hide-test-channel', 'Hide Test Channel', 'O').then(({channel}) => {
+            let testUser = null;
+            cy.apiCreateUser().then(({user: newUser}) => {
+                cy.apiAddUserToTeam(testTeam.id, newUser.id).then(() => {
+                    cy.apiAddUserToChannel(channel.id, newUser.id).then(() => {
+                        testUser = newUser;
+
+                        // # Open the Channel Members RHS
+                        openChannelMembersRhs(testTeam, channel);
+
+                        // * Ensure the member is visible
+                        cy.uiGetRHS().findByText(`@${testUser.username}`).should('be.visible');
+
+                        // # Deactivate the user
+                        cy.apiDeactivateUser(testUser.id);
+
+                        // * Ensure the user is not visible anymore
+                        cy.uiGetRHS().findByText(`@${testUser.username}`).should('not.exist');
+                    });
+                });
+            });
+        });
+    });
+
     describe('as an admin', () => {
+        it('should be able to open the RHS from the channel menu', () => {
+            // # Go to test channel
+            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+            cy.uiOpenChannelMenu('Manage Members');
+
+            // * RHS Container should be open in edit mode
+            cy.get('#rhsContainer').then((rhsContainer) => {
+                cy.wrap(rhsContainer).findByText('Members').should('be.visible');
+                cy.wrap(rhsContainer).findByText(testChannel.display_name).should('be.visible');
+
+                // Done button should be visible
+                cy.wrap(rhsContainer).findByText('Done').should('be.visible');
+            });
+        });
+
         it('should be able to invite new members', () => {
             // # Open the Channel Members RHS
             openChannelMembersRhs(testTeam, testChannel);
@@ -199,6 +252,16 @@ describe('Channel members RHS', () => {
             cy.apiLogin(user);
         });
 
+        it('should be able to open the RHS from the channel menu', () => {
+            // # Go to test channel
+            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+            cy.uiOpenChannelMenu('View Members');
+
+            // * RHS Container should be open in edit mode
+            ensureChannelMembersRHSExists(testChannel);
+        });
+
         it('should not be able to invite new members', () => {
             // # Open the Channel Members RHS
             openChannelMembersRhs(testTeam, testChannel);
@@ -215,4 +278,47 @@ describe('Channel members RHS', () => {
             cy.uiGetRHS().findByText('Manage').should('not.exist');
         });
     });
+
+    it('should be able to find users not in the initial list', () => {
+        cy.apiCreateChannel(testTeam.id, 'big-search-test-channel', 'Big Search Test Channel', 'O').then(({channel}) => {
+            // # create 100 random users
+            for (let i = 0; i < 100; i++) {
+                // eslint-disable-next-line no-loop-func
+                cy.apiCreateUser().then(({user: newUser}) => {
+                    cy.apiAddUserToTeam(testTeam.id, newUser.id).then(() => {
+                        cy.apiAddUserToChannel(channel.id, newUser.id);
+                    });
+                });
+            }
+
+            // # create a user that will not be listed by default
+            const lastUser = generateRandomUser();
+            lastUser.username = 'zzzzzzz';
+            cy.apiCreateUser({user: lastUser}).then(({user: newUser}) => {
+                cy.apiAddUserToTeam(testTeam.id, newUser.id).then(() => {
+                    cy.apiAddUserToChannel(channel.id, newUser.id);
+                });
+            });
+
+            // # Open the Channel Members RHS
+            openChannelMembersRhs(testTeam, channel);
+
+            // # make sure that last user is not present in the list
+            cy.uiGetRHS().findByText(`@${lastUser.username}`).should('not.exist');
+
+            // # Search for the user user
+            cy.uiGetRHS().findByTestId('channel-member-rhs-search').should('be.visible').type(lastUser.username);
+
+            // * the user is now existing
+            cy.uiGetRHS().findByText(`@${lastUser.username}`).should('be.visible');
+        });
+    });
 });
+
+function ensureChannelMembersRHSExists(testChannel) {
+    cy.get('#rhsContainer').then((rhsContainer) => {
+        cy.wrap(rhsContainer).findByText('Members').should('be.visible');
+        cy.wrap(rhsContainer).findByText(testChannel.display_name).should('be.visible');
+    });
+}
+

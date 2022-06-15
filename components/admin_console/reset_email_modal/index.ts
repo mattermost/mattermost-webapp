@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import {patchUser} from 'mattermost-redux/actions/users';
 import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';

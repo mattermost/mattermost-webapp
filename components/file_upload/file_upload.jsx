@@ -1,13 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React, {PureComponent} from 'react';
-import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import {defineMessages, FormattedMessage, injectIntl} from 'react-intl';
-import {PaperclipIcon} from '@mattermost/compass-icons/components';
-
 import classNames from 'classnames';
+import {PaperclipIcon} from '@mattermost/compass-icons/components';
 
 import dragster from 'utils/dragster';
 import Constants from 'utils/constants';
@@ -31,8 +29,6 @@ import {
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
-import AttachmentIcon from 'components/widgets/icons/attachment_icon';
-
 import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
@@ -162,6 +158,8 @@ export class FileUpload extends PureComponent {
              */
             handleFileUploadEnd: PropTypes.func.isRequired,
         }).isRequired,
+
+        isAdvancedTextEditorEnabled: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -450,8 +448,7 @@ export class FileUpload extends PureComponent {
             return;
         }
 
-        const target = this.props.getTarget();
-        const textarea = ReactDOM.findDOMNode(target);
+        const textarea = this.props.getTarget();
         if (!this.containsEventTarget(textarea, e.target)) {
             return;
         }
@@ -525,7 +522,8 @@ export class FileUpload extends PureComponent {
             }
             const postTextbox = this.props.postType === 'post' && document.activeElement.id === 'post_textbox';
             const commentTextbox = this.props.postType === 'comment' && document.activeElement.id === 'reply_textbox';
-            if (postTextbox || commentTextbox) {
+            const threadTextbox = this.props.postType === 'thread' && document.activeElement.id === 'reply_textbox';
+            if (postTextbox || commentTextbox || threadTextbox) {
                 this.fileInput.current.focus();
                 this.fileInput.current.click();
             }
@@ -599,12 +597,15 @@ export class FileUpload extends PureComponent {
 
         if (this.props.pluginFileUploadMethods.length === 0) {
             bodyAction = (
-                <>
+                <div>
                     <button
                         type='button'
                         id='fileUploadButton'
                         aria-label={buttonAriaLabel}
-                        className={classNames('style--none post-action', {disabled: uploadsRemaining <= 0})}
+                        className={classNames('style--none', {
+                            'AdvancedTextEditor__action-button': this.props.isAdvancedTextEditorEnabled,
+                            'post-action': !this.props.isAdvancedTextEditorEnabled,
+                            disabled: uploadsRemaining <= 0})}
                         onClick={this.simulateInputClick}
                         onTouchEnd={this.simulateInputClick}
                     >
@@ -616,7 +617,6 @@ export class FileUpload extends PureComponent {
                     </button>
                     <input
                         id='fileUploadInput'
-                        className='hidden'
                         tabIndex='-1'
                         aria-label={formatMessage(holders.uploadFile)}
                         ref={this.fileInput}
@@ -626,7 +626,7 @@ export class FileUpload extends PureComponent {
                         multiple={multiple}
                         accept={accept}
                     />
-                </>
+                </div>
             );
         } else {
             const pluginFileUploadMethods = this.props.pluginFileUploadMethods.map((item) => {
@@ -650,7 +650,7 @@ export class FileUpload extends PureComponent {
                 );
             });
             bodyAction = (
-                <>
+                <div>
                     <input
                         tabIndex='-1'
                         aria-label={formatMessage(holders.uploadFile)}
@@ -665,15 +665,17 @@ export class FileUpload extends PureComponent {
                     <MenuWrapper>
                         <button
                             type='button'
+                            id='fileUploadButton'
                             aria-label={buttonAriaLabel}
-                            className='style--none post-action'
+                            className={classNames('style--none', {
+                                'AdvancedTextEditor__action-button': this.props.isAdvancedTextEditorEnabled,
+                                'post-action': !this.props.isAdvancedTextEditorEnabled})}
                         >
-                            <div
-                                id='fileUploadButton'
-                                className='icon icon--attachment'
-                            >
-                                <AttachmentIcon className='d-flex'/>
-                            </div>
+                            <PaperclipIcon
+                                size={18}
+                                color={'currentColor'}
+                                aria-label={iconAriaLabel}
+                            />
                         </button>
                         <Menu
                             id='fileUploadOptions'
@@ -700,19 +702,19 @@ export class FileUpload extends PureComponent {
                             {pluginFileUploadMethods}
                         </Menu>
                     </MenuWrapper>
-                </>
+                </div>
             );
         }
 
         if (!this.props.canUploadFiles) {
-            bodyAction = null;
+            return null;
         }
 
         return (
             <OverlayTrigger
                 delayShow={Constants.OVERLAY_TIME_DELAY}
                 placement='top'
-                trigger='hover'
+                trigger={['hover', 'focus']}
                 overlay={
                     <Tooltip id='upload-tooltip'>
                         <KeyboardShortcutSequence
@@ -723,7 +725,9 @@ export class FileUpload extends PureComponent {
                     </Tooltip>
                 }
             >
-                {bodyAction}
+                <div className={uploadsRemaining <= 0 ? ' style--none btn-file__disabled' : 'style--none'}>
+                    {bodyAction}
+                </div>
             </OverlayTrigger>
         );
     }

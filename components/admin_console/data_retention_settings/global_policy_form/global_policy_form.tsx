@@ -4,8 +4,8 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {AdminConfig} from 'mattermost-redux/types/config';
-import {DeepPartial} from 'mattermost-redux/types/utilities';
+import {AdminConfig} from '@mattermost/types/config';
+import {DeepPartial} from '@mattermost/types/utilities';
 
 import * as Utils from 'utils/utils';
 import Card from 'components/card/card';
@@ -16,7 +16,7 @@ import {keepForeverOption, yearsOption, daysOption, FOREVER, YEARS, DAYS} from '
 
 import './global_policy_form.scss';
 import SaveButton from 'components/save_button';
-import {ServerError} from 'mattermost-redux/types/errors';
+import {ServerError} from '@mattermost/types/errors';
 
 type ValueType = {
     label: string | JSX.Element;

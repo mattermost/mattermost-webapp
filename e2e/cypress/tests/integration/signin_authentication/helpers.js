@@ -5,7 +5,7 @@ import timeouts from '../../fixtures/timeouts';
 
 export function fillCredentialsForUser(user) {
     cy.wait(timeouts.TWO_SEC);
-    cy.get('#loginId').should('be.visible').clear().type(user.username).wait(timeouts.ONE_SEC);
-    cy.get('#loginPassword').should('be.visible').clear().type(user.password).wait(timeouts.ONE_SEC);
-    cy.findByText('Sign in').click().wait(timeouts.ONE_SEC);
+    cy.get('#input_loginId').should('be.visible').clear().type(user.username).wait(timeouts.ONE_SEC);
+    cy.get('#input_password-input').should('be.visible').clear().type(user.password).wait(timeouts.ONE_SEC);
+    cy.get('#saveSetting').click().wait(timeouts.ONE_SEC);
 }
