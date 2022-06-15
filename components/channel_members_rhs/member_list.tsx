@@ -1,9 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useCallback} from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
-import {FixedSizeList} from 'react-window';
+import {FixedSizeList, ListChildComponentProps} from 'react-window';
 import InfiniteLoader from 'react-window-infinite-loader';
 
 import {UserProfile} from '@mattermost/types/users';
@@ -41,10 +41,12 @@ const MemberList = ({
     const loadMoreItems = isNextPageLoading ? () => {} : actions.loadMore;
 
     // Every row is loaded except for our loading indicator row.
-    const isItemLoaded = (index: number) => !hasNextPage || index < members.length;
+    const isItemLoaded = useCallback((index: number) => {
+        return !hasNextPage || index < members.length;
+    }, [hasNextPage, members.length]);
 
     // Render an item or a loading indicator.
-    const Item = ({index, style}: any) => {
+    const Item = ({index, style}: ListChildComponentProps) => {
         const member = members[index];
 
         if (isItemLoaded(index)) {
