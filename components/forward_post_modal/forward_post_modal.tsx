@@ -15,6 +15,11 @@ import {
     MessageTextOutlineIcon,
 } from '@mattermost/compass-icons/components';
 
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+
+import {haveIChannelPermission, haveICurrentChannelPermission} from 'mattermost-redux/selectors/entities/roles';
+import {Permissions} from 'mattermost-redux/constants';
+
 import {getMyTeams, getTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import {isGuest} from 'mattermost-redux/utils/user_utils';
@@ -22,7 +27,7 @@ import {isGuest} from 'mattermost-redux/utils/user_utils';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 import {getDirectTeammate} from 'mattermost-redux/selectors/entities/channels';
 
-import {GlobalState} from '@mattermost/types/store';
+import {GlobalState} from 'types/store';
 
 import {getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 
@@ -30,7 +35,7 @@ const AsyncSelect = require('react-select/lib/Async').default as React.ElementTy
 
 import {Post} from '@mattermost/types/posts';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 
 import SwitchChannelProvider from 'components/suggestion/switch_channel_provider.jsx';
 import SharedChannelIndicator from 'components/shared_channel_indicator';
@@ -43,6 +48,11 @@ import Constants from 'utils/constants';
 import * as Utils from 'utils/utils';
 
 import './forward_post_modal.scss';
+import {connectionErrorCount} from '../../selectors/views/system';
+import {applyMarkdown, ApplyMarkdownOptions} from '../../utils/markdown/apply_markdown';
+import Textbox, {TextboxClass, TextboxElement} from '../textbox';
+
+const {KeyCodes} = Constants;
 
 // import Textbox from 'components/textbox';
 
@@ -94,12 +104,15 @@ const DropdownIndicator = (props: IndicatorProps<ChannelOption>) => {
     );
 };
 
-const FormattedOption = (channel: ChannelOption) => {
-    const {details} = channel;
+type FormattedOptionProps = ChannelOption & {
+    currentUserId: string;
+}
+
+const FormattedOption = (props: FormattedOptionProps) => {
+    const {details, currentUserId} = props;
 
     const {formatMessage} = useIntl();
 
-    const currentUserId = useSelector((state: GlobalState) => getCurrentUserId(state));
     const user = useSelector((state: GlobalState) => getUser(state, details.userId));
     const status = useSelector((state: GlobalState) => getStatusForUserId(state, details.userId));
     const teammate = useSelector((state: GlobalState) => getDirectTeammate(state, details.id));
@@ -219,9 +232,29 @@ const FormattedOption = (channel: ChannelOption) => {
 };
 
 const ForwardPostModal = (props: Props) => {
-    const [comment] = useState('Comment goes HERE!');
+    const {formatMessage} = useIntl();
+
+    const [comment, setComment] = useState('');
+    const [caretPosition, setCaretPosition] = useState(0);
+    const [renderScrollbar, setRenderScrollbar] = useState(false);
+    const [postError, setPostError] = useState<React.ReactNode>(null);
+    const [selectedChannel, setSelectedChannel] = useState<ChannelOption>();
+
     const {current: provider} = useRef<SwitchChannelProvider>(new SwitchChannelProvider());
-    const [selectedChannel, setSelectedChannel] = useState<ValueType<ChannelOption>>();
+    const textboxRef = useRef<TextboxClass>(null);
+    const scrollbarWidth = useRef<number>();
+
+    const selectedChannelId = selectedChannel?.details?.id || '';
+
+    const currentUserId = useSelector((state: GlobalState) => getCurrentUserId(state));
+    const config = useSelector((state: GlobalState) => getConfig(state));
+    const badConnection = useSelector((state: GlobalState) => connectionErrorCount(state)) > 1;
+    const canPostInSelectedChannel = useSelector((state: GlobalState) => haveIChannelPermission(state, selectedChannel?.details?.team_id || '', selectedChannelId, Permissions.CREATE_POST));
+    const useChannelMentions = useSelector((state: GlobalState) => haveICurrentChannelPermission(state, Permissions.USE_CHANNEL_MENTIONS));
+
+    const enableEmojiPicker = config.EnableEmojiPicker === 'true';
+    const canPost = selectedChannel && canPostInSelectedChannel;
+    const maxPostSize = parseInt(config.MaxPostSize || '', 10) || Constants.DEFAULT_CHARACTER_LIMIT;
 
     const getDefaultResults = () => {
         let options: GroupedOption[] = [];
@@ -287,14 +320,18 @@ const ForwardPostModal = (props: Props) => {
     };
 
     const handleChannelSelect = (channel: ValueType<ChannelOption>) => {
-        setSelectedChannel(channel);
+        if (Array.isArray(channel)) {
+            setSelectedChannel(channel[0]);
+        }
+        setSelectedChannel(channel as ChannelOption);
     };
 
-    const formatOptionLabel = (channel: ChannelOption) => {
-        return (
-            <FormattedOption {...channel}/>
-        );
-    };
+    const formatOptionLabel = (channel: ChannelOption) => (
+        <FormattedOption
+            {...channel}
+            currentUserId={currentUserId}
+        />
+    );
 
     const baseStyles = {
         input: (provided: CSSProperties): CSSPropertiesWithPseudos => ({
@@ -384,6 +421,103 @@ const ForwardPostModal = (props: Props) => {
         }),
     };
 
+    const handleChange = (e: React.ChangeEvent<TextboxElement>) => {
+        const message = e.target.value;
+
+        setComment(message);
+    };
+
+    const setCommentAsync = async (message: string) => {
+        await setComment(message);
+    };
+
+    const applyMarkdownMode = (params: ApplyMarkdownOptions) => {
+        const res = applyMarkdown(params);
+
+        setCommentAsync(res.message).then(() => {
+            const textbox = textboxRef.current?.getInputBox();
+            Utils.setSelectionRange(textbox, res.selectionStart, res.selectionEnd);
+        });
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent<TextboxElement>) => {
+        const ctrlKeyCombo = Utils.cmdOrCtrlPressed(e) && !e.altKey && !e.shiftKey;
+        const ctrlAltCombo = Utils.cmdOrCtrlPressed(e, true) && e.altKey;
+        const ctrlShiftCombo = Utils.cmdOrCtrlPressed(e, true) && e.shiftKey;
+        const markdownLinkKey = Utils.isKeyPressed(e, KeyCodes.K);
+
+        const {
+            selectionStart,
+            selectionEnd,
+            value,
+        } = e.target as TextboxElement;
+
+        // listen for line break key combo and insert new line character
+        if (Utils.isUnhandledLineBreakKeyCombo(e)) {
+            setComment(Utils.insertLineBreakFromKeyEvent(e));
+        } else if (ctrlAltCombo && markdownLinkKey) {
+            applyMarkdownMode({
+                markdownMode: 'link',
+                selectionStart,
+                selectionEnd,
+                message: value,
+            });
+        } else if (ctrlKeyCombo && Utils.isKeyPressed(e, KeyCodes.B)) {
+            applyMarkdownMode({
+                markdownMode: 'bold',
+                selectionStart,
+                selectionEnd,
+                message: value,
+            });
+        } else if (ctrlKeyCombo && Utils.isKeyPressed(e, KeyCodes.I)) {
+            applyMarkdownMode({
+                markdownMode: 'italic',
+                selectionStart,
+                selectionEnd,
+                message: value,
+            });
+        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.X)) {
+            applyMarkdownMode({
+                markdownMode: 'strike',
+                selectionStart,
+                selectionEnd,
+                message: value,
+            });
+        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.E)) {
+            e.stopPropagation();
+            e.preventDefault();
+        }
+    };
+
+    const handleSelect = (e: React.SyntheticEvent<Element, Event>) => {
+        Utils.adjustSelection(textboxRef.current?.getInputBox(), e as React.KeyboardEvent<HTMLInputElement>);
+    };
+
+    const handleMouseUpKeyUp = (e: React.MouseEvent | React.KeyboardEvent) => setCaretPosition((e.target as HTMLInputElement).selectionStart || 0);
+
+    const handleHeightChange = (height: number, maxHeight: number) => {
+        setRenderScrollbar(height > maxHeight);
+
+        window.requestAnimationFrame(() => {
+            if (textboxRef.current) {
+                scrollbarWidth.current = Utils.scrollbarWidth(textboxRef.current.getInputBox());
+            }
+        });
+    };
+
+    const handlePostError = (postError: React.ReactNode) => setPostError(postError);
+
+    // this does not make any sense in this modal, so we add noop here
+    const emitTypingEvent = () => {};
+
+    // we do not allow sending the forwarding when hitting enter
+    const postMsgKeyPress = () => {};
+
+    // we do not care about the blur event
+    const handleBlur = () => {};
+
+    const createMessage = formatMessage({id: 'forward_post_modal.comment.placeholder', defaultMessage: 'Add a comment (optional)'});
+
     return (
         <Modal
             dialogClassName='a11y__modal forward-post'
@@ -424,7 +558,30 @@ const ForwardPostModal = (props: Props) => {
                     className='forward-post__select'
                 />
                 <div className='forward-post__comment-box'>
-                    {comment}
+                    <Textbox
+                        onChange={handleChange}
+                        onKeyPress={postMsgKeyPress}
+                        onKeyDown={handleKeyDown}
+                        onSelect={handleSelect}
+                        onMouseUp={handleMouseUpKeyUp}
+                        onKeyUp={handleMouseUpKeyUp}
+                        onComposition={emitTypingEvent}
+                        onHeightChange={handleHeightChange}
+                        handlePostError={handlePostError}
+                        value={comment}
+                        onBlur={handleBlur}
+                        emojiEnabled={enableEmojiPicker}
+                        createMessage={createMessage}
+                        channelId={selectedChannelId}
+                        id={'forward_post_textbox'}
+                        ref={textboxRef}
+                        disabled={!canPost}
+                        characterLimit={maxPostSize}
+                        preview={false}
+                        badConnection={badConnection}
+                        listenForMentionKeyClick={true}
+                        useChannelMentions={useChannelMentions}
+                    />
                 </div>
             </Modal.Body>
         </Modal>
