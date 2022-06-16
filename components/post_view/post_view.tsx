@@ -8,15 +8,22 @@ import LoadingScreen from 'components/loading_screen';
 
 import PostList from './post_list';
 
-export default class PostView extends React.PureComponent {
-    static propTypes = {
-        lastViewedAt: PropTypes.number,
-        channelLoading: PropTypes.bool,
-        channelId: PropTypes.string,
-        focusedPostId: PropTypes.string,
-    }
+interface Props {
+    lastViewedAt: number;
+    channelLoading: boolean;
+    channelId: string;
+    focusedPostId?: string;
+}
 
-    constructor(props) {
+interface State {
+    unreadChunkTimeStamp: number;
+    loaderForChangeOfPostsChunk: boolean;
+    channelLoading: boolean;
+}
+
+export default class PostView extends React.PureComponent<Props, State> {
+
+    constructor(props: Props) {
         super(props);
         this.state = {
             unreadChunkTimeStamp: props.lastViewedAt,
@@ -25,7 +32,7 @@ export default class PostView extends React.PureComponent {
         };
     }
 
-    static getDerivedStateFromProps(props, state) {
+    static getDerivedStateFromProps(props: Props, state: State) {
         if (state.unreadChunkTimeStamp === null && props.lastViewedAt) {
             return {
                 unreadChunkTimeStamp: props.lastViewedAt,
@@ -41,7 +48,7 @@ export default class PostView extends React.PureComponent {
         return null;
     }
 
-    changeUnreadChunkTimeStamp = (unreadChunkTimeStamp) => {
+    changeUnreadChunkTimeStamp = (unreadChunkTimeStamp: number) => {
         this.setState({
             unreadChunkTimeStamp,
             loaderForChangeOfPostsChunk: true,

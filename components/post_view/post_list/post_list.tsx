@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import LoadingScreen from 'components/loading_screen';
 import {PostRequestTypes} from 'utils/constants';
@@ -11,6 +10,7 @@ import {getOldestPostId, getLatestPostId} from 'utils/post_utils';
 import {clearMarks, mark, measure, trackEvent} from 'actions/telemetry_actions.jsx';
 
 import VirtPostList from 'components/post_view/post_list_virtualized/post_list_virtualized';
+import {updateNewMessagesAtInChannel} from 'actions/global_actions';
 
 const MAX_NUMBER_OF_AUTO_RETRIES = 3;
 export const MAX_EXTRA_PAGES_LOADED = 10;
@@ -37,110 +37,126 @@ function markAndMeasureChannelSwitchEnd(fresh = false) {
     }
 }
 
-export default class PostList extends React.PureComponent {
-    static propTypes = {
+interface Props {
+    /**
+     *  Array of formatted post ids in the channel
+     *  This will be different from postListIds because of grouping and filtering of posts
+     *  This array should be used for making Before and After API calls
+     */
+    formattedPostIds: string[];
 
-        /**
-         *  Array of formatted post ids in the channel
-         *  This will be different from postListIds because of grouping and filtering of posts
-         *  This array should be used for making Before and After API calls
-         */
-        formattedPostIds: PropTypes.array,
+    /**
+     *  Array of post ids in the channel, ordered from newest to oldest
+     */
+    postListIds: string[];
 
-        /**
-         *  Array of post ids in the channel, ordered from newest to oldest
-         */
-        postListIds: PropTypes.array,
+    /**
+     * The channel the posts are in
+     */
+    channelId: string;
 
-        /**
-         * The channel the posts are in
+    /*
+     * To get posts for perma view
+     */
+    focusedPostId: string;
+
+    /*
+     * Used for determining if we are not at the recent most chunk in channel
+     */
+    atLatestPost: boolean;
+
+    /*
+     * Used for determining if we are at the channels oldest post
+     */
+    atOldestPost: boolean;
+
+    /*
+     * Used for loading posts using unread API
+     */
+    isFirstLoad: boolean;
+
+    /*
+     * Used for syncing posts and is also passed down to virt list for newMessages indicator
+     */
+    latestPostTimeStamp: number;
+
+    /**
+     * Lastest post id of the current post list, this doesnt include timestamps etc, just actual posts
+     */
+    latestPostId: string;
+
+    /*
+     * Used for passing down to virt list so it can change the chunk of posts selected
+     */
+    changeUnreadChunkTimeStamp: () => void;
+
+    /*
+     * Used for skipping the call on load
+     */
+    isPrefetchingInProcess: boolean;
+
+    isMobileView: boolean;
+
+    actions: {
+        /*
+         * Used for getting permalink view posts
          */
-        channelId: PropTypes.string,
+        loadPostsAround: (channelId: string, focusedPostId: string) => Promise<void>;
 
         /*
-         * To get posts for perma view
+         * Used for geting unreads posts
          */
-        focusedPostId: PropTypes.string,
+        loadUnreads: (channelId: string) => Promise<void>;
 
         /*
-         * Used for determining if we are not at the recent most chunk in channel
+         * Used for getting posts using BEFORE_ID and AFTER_ID
          */
-        atLatestPost: PropTypes.bool,
+        loadPosts: () => void;
 
         /*
-         * Used for determining if we are at the channels oldest post
+         * Used to set mobile view on resize
          */
-        atOldestPost: PropTypes.bool,
+        checkAndSetMobileView: () => void;
 
         /*
-         * Used for loading posts using unread API
+         * Used to loading posts since a timestamp to sync the posts
          */
-        isFirstLoad: PropTypes.bool,
+        syncPostsInChannel: (channelId: string, since: number, prefetch: boolean) => Promise<void>;
 
         /*
-         * Used for syncing posts and is also passed down to virt list for newMessages indicator
+         * Used to loading posts if it not first visit, permalink or there exists any postListIds
+         * This happens when previous channel visit has a chunk which is not the latest set of posts
          */
-        latestPostTimeStamp: PropTypes.number,
+        loadLatestPosts: (channelId: string) => Promise<void>;
 
-        /**
-         * Lastest post id of the current post list, this doesnt include timestamps etc, just actual posts
-         */
-        latestPostId: PropTypes.string,
+        markChannelAsViewed: () => void;
 
-        /*
-         * Used for passing down to virt list so it can change the chunk of posts selected
-         */
-        changeUnreadChunkTimeStamp: PropTypes.func.isRequired,
+        markChannelAsRead: () => void;
+        updateNewMessagesAtInChannel: typeof updateNewMessagesAtInChannel;
+    };
+}
 
-        /*
-         * Used for skipping the call on load
-         */
-        isPrefetchingInProcess: PropTypes.bool.isRequired,
+interface State {
+    loadingNewerPosts: boolean;
+    loadingOlderPosts: boolean;
+    autoRetryEnable: boolean;
+}
 
-        isMobileView: PropTypes.bool.isRequired,
+type CanLoadMorePosts = typeof PostRequestTypes[keyof typeof PostRequestTypes] | undefined
 
-        actions: PropTypes.shape({
-
-            /*
-             * Used for getting permalink view posts
-             */
-            loadPostsAround: PropTypes.func.isRequired,
-
-            /*
-             * Used for geting unreads posts
-             */
-            loadUnreads: PropTypes.func.isRequired,
-
-            /*
-             * Used for getting posts using BEFORE_ID and AFTER_ID
-             */
-            loadPosts: PropTypes.func.isRequired,
-
-            /*
-             * Used to set mobile view on resize
-             */
-            checkAndSetMobileView: PropTypes.func.isRequired,
-
-            /*
-             * Used to loading posts since a timestamp to sync the posts
-             */
-            syncPostsInChannel: PropTypes.func.isRequired,
-
-            /*
-             * Used to loading posts if it not first visit, permalink or there exists any postListIds
-             * This happens when previous channel visit has a chunk which is not the latest set of posts
-             */
-            loadLatestPosts: PropTypes.func.isRequired,
-
-            markChannelAsViewed: PropTypes.func.isRequired,
-
-            markChannelAsRead: PropTypes.func.isRequired,
-            updateNewMessagesAtInChannel: PropTypes.func.isRequired,
-
-        }).isRequired,
+export default class PostList extends React.PureComponent<Props, State> {
+    private autoRetriesCount: number;
+    private actionsForPostList: {
+        loadOlderPosts: () => Promise<void>;
+        loadNewerPosts: () => Promise<void>;
+        checkAndSetMobileView: () => void;
+        canLoadMorePosts: (type: CanLoadMorePosts) => Promise<void>;
+        changeUnreadChunkTimeStamp: () => void;
+        updateNewMessagesAtInChannel: typeof updateNewMessagesAtInChannel,
     }
+    private mounted: boolean | undefined;
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
         this.state = {
             loadingNewerPosts: false,
@@ -169,7 +185,7 @@ export default class PostList extends React.PureComponent {
         }
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props) {
         if (this.props.channelId !== prevProps.channelId) {
             this.postsOnLoad(this.props.channelId);
         }
@@ -182,7 +198,7 @@ export default class PostList extends React.PureComponent {
         this.mounted = false;
     }
 
-    postsOnLoad = async (channelId) => {
+    postsOnLoad = async (channelId: string) => {
         const {focusedPostId, isFirstLoad, latestPostTimeStamp, isPrefetchingInProcess, actions} = this.props;
         if (focusedPostId) {
             await actions.loadPostsAround(channelId, this.props.focusedPostId);
@@ -256,7 +272,7 @@ export default class PostList extends React.PureComponent {
         return getLatestPostId(this.props.postListIds);
     }
 
-    canLoadMorePosts = async (type = PostRequestTypes.BEFORE_ID) => {
+    canLoadMorePosts = async (type:  = PostRequestTypes.BEFORE_ID) => {
         if (!this.props.postListIds) {
             return;
         }

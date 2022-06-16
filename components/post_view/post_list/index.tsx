@@ -24,19 +24,27 @@ import {
 import {getIsMobileView} from 'selectors/views/browser';
 
 import PostList from './post_list.jsx';
+import {GlobalState} from 'types/store';
+import {Dispatch, GenericAction} from 'mattermost-redux/types/actions';
 
-const isFirstLoad = (state, channelId) => !state.entities.posts.postsInChannel[channelId];
-const memoizedGetLatestPostId = memoizeResult((postIds) => getLatestPostId(postIds));
+const isFirstLoad = (state: GlobalState, channelId: string) => !state.entities.posts.postsInChannel[channelId];
+const memoizedGetLatestPostId = memoizeResult((postIds: string[]) => getLatestPostId(postIds));
 
 // This function is added as a fail safe for the channel sync issue we have.
 // When the user switches to a team for the first time we show the channel of previous team and then settle for the right channel after that
 // This causes the scroll correction etc an issue because post_list is not mounted for new channel instead it is updated
 
+interface Props {
+    focusedPostId: string;
+    unreadChunkTimeStamp: number;
+    channelId: string;
+}
+
 function makeMapStateToProps() {
     const getPostsChunkAroundPost = makeGetPostsChunkAroundPost();
     const preparePostIdsForPostList = makePreparePostIdsForPostList();
 
-    return function mapStateToProps(state, ownProps) {
+    return function mapStateToProps(state: GlobalState, ownProps: Props) {
         let latestPostTimeStamp = 0;
         let postIds;
         let chunk;
@@ -50,7 +58,7 @@ function makeMapStateToProps() {
 
         const focusedPost = getPost(state, focusedPostId);
 
-        if (focusedPostId && focusedPost !== undefined && unreadChunkTimeStamp !== '') {
+        if (focusedPostId && focusedPost !== undefined) {
             chunk = getPostsChunkAroundPost(state, focusedPostId, channelId);
         } else if (unreadChunkTimeStamp) {
             chunk = getUnreadPostsChunk(state, channelId, unreadChunkTimeStamp);
@@ -60,12 +68,12 @@ function makeMapStateToProps() {
 
         if (chunk) {
             postIds = chunk.order;
-            atLatestPost = chunk.recent;
-            atOldestPost = chunk.oldest;
+            atLatestPost = Boolean(chunk.recent);
+            atOldestPost = Boolean(chunk.oldest);
         }
 
         if (postIds) {
-            formattedPostIds = preparePostIdsForPostList(state, {postIds, lastViewedAt, indicateNewMessages: true, channelId});
+            formattedPostIds = preparePostIdsForPostList(state, {postIds, lastViewedAt, indicateNewMessages: true, channelId} as any);
             if (postIds.length) {
                 const latestPostId = memoizedGetLatestPostId(postIds);
                 const latestPost = getPost(state, latestPostId);
@@ -87,7 +95,7 @@ function makeMapStateToProps() {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             loadUnreads,

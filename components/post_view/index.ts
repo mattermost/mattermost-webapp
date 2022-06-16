@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {withRouter} from 'react-router-dom';
+import {withRouter, RouteChildrenProps} from 'react-router-dom';
 
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
@@ -10,9 +10,13 @@ import {getTeamByName, getTeamMemberships} from 'mattermost-redux/selectors/enti
 
 import {Constants} from 'utils/constants';
 
-import PostView from './post_view.jsx';
+import PostView from './post_view';
+import {GlobalState} from 'types/store';
+import {Channel} from '@mattermost/types/channels';
+import {Team, TeamMembership} from '@mattermost/types/teams';
+import {UserProfile} from '@mattermost/types/users';
 
-export const isChannelLoading = (params, channel, team, teammate, teamMemberships) => {
+export const isChannelLoading = (params: RouteViewParams, channel: Channel | undefined, team: Team | undefined, teammate: UserProfile | undefined, teamMemberships: Record<string, TeamMembership>) => {
     if (params.postid) {
         return false;
     }
@@ -35,9 +39,20 @@ export const isChannelLoading = (params, channel, team, teammate, teamMembership
     return true;
 };
 
+interface Props extends RouteChildrenProps {
+    channelId: string
+}
+
+interface RouteViewParams {
+    team: string;
+    identifier?: string;
+    postid?: string;
+}
+
 function makeMapStateToProps() {
-    return function mapStateToProps(state, ownProps) {
-        const team = getTeamByName(state, ownProps.match.params.team);
+    return function mapStateToProps(state: GlobalState, ownProps: Props) {
+        const params: RouteViewParams | undefined = ownProps.match?.params as RouteViewParams 
+        const team = getTeamByName(state, params?.team || '');
         let teammate;
 
         const channel = getChannel(state, ownProps.channelId);
@@ -50,7 +65,7 @@ function makeMapStateToProps() {
         }
 
         const teamMemberships = getTeamMemberships(state);
-        const channelLoading = isChannelLoading(ownProps.match.params, channel, team, teammate, teamMemberships);
+        const channelLoading = isChannelLoading(ownProps.match?.params! as RouteViewParams, channel, team, teammate, teamMemberships);
         return {
             lastViewedAt,
             channelLoading,
