@@ -8,6 +8,7 @@ export enum InsightsWidgetTypes {
     TOP_CHANNELS = 'TOP_CHANNELS',
     TOP_REACTIONS = 'TOP_REACTIONS',
     TOP_THREADS = 'TOP_THREADS',
+    TOP_BOARDS = 'TOP_BOARDS',
 }
 
 export enum CardSizes {
@@ -85,4 +86,19 @@ export type TopThreadResponse = {
 export type TopThreadActionResult = {
     data?: TopThreadResponse;
     error?: any;
+};
+
+export type TopBoard = {
+    boardID: string;
+    icon: string;
+    title: string;
+    activityCount: number;
+    activeUsers: string;
+    createdBy: string;
+    workspaceID: string;
+};
+
+export type TopBoardResponse = {
+    has_next: boolean;
+    items: TopBoard[];
 };
