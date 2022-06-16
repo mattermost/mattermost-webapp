@@ -23,7 +23,7 @@
     "country-list": "2.2.0",
     "crypto-browserify": "3.12.0",
     "css-vars-ponyfill": "2.4.7",
-    "dynamic-virtualized-list": "github:mattermost/dynamic-virtualized-list#119db968c96643c7106d4d2c965f05b2e251bc83",
+    "dynamic-virtualized-list": "github:mattermost/dynamic-virtualized-list#77a0cb4c565bc239bab1ce5414b95bdd9a570963",
     "emoji-datasource": "6.1.1",
     "emoji-datasource-apple": "6.0.1",
     "emoji-regex": "10.1.0",
