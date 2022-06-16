@@ -385,7 +385,7 @@ export const ModalIdentifiers = {
     INSIGHTS: 'insights',
     CLOUD_LIMITS: 'cloud_limits',
     REQUEST_BUSINESS_EMAIL_MODAL: 'request_business_email_modal',
-    CREATE_TEAM_RESTRICTED_MODAL: 'create_team_restricted_modal',
+    FEATURE_RESTRICTED_MODAL: 'feature_restricted_modal',
 };
 
 export const UserStatuses = {

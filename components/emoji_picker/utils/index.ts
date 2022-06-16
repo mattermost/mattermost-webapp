@@ -16,9 +16,8 @@ import {
     EmojiCursor,
 } from 'components/emoji_picker/types';
 
-import {EmojiIndicesByCategory, Emojis as EmojisJson, EmojiIndicesByUnicode} from 'utils/emoji.jsx';
-import {getSkin, emojiMatchesSkin} from 'utils/emoticons';
-import {compareEmojis} from 'utils/emoji_utils';
+import {EmojiIndicesByCategory, Emojis as EmojisJson} from 'utils/emoji';
+import {compareEmojis, convertEmojiSkinTone, emojiMatchesSkin, getSkin} from 'utils/emoji_utils';
 import EmojiMap from 'utils/emoji_map';
 
 import {
@@ -38,7 +37,7 @@ export function isCategoryHeaderRow(row: CategoryOrEmojiRow): row is CategoryHea
 function updateSkinTone(initialEmoji: SystemEmoji, skinTone: string): Emoji {
     const initialEmojiSkin = getSkin(initialEmoji);
     if (initialEmojiSkin && initialEmojiSkin !== skinTone) {
-        const emojiWithUpdatedSkinTone = convertEmojiSkinTone(initialEmoji, initialEmojiSkin, skinTone);
+        const emojiWithUpdatedSkinTone = convertEmojiSkinTone(initialEmoji, skinTone);
         if (emojiWithUpdatedSkinTone && emojiWithUpdatedSkinTone.unified) {
             return emojiWithUpdatedSkinTone;
         }
@@ -101,45 +100,14 @@ export function getFilteredEmojis(allEmojis: Record<string, Emoji>, filter: stri
     return filteredEmojisUserSkinTone;
 }
 
-// Note : This function is not an idea implementation, a more better and efficeint way to do this come when we make changes to emoji json.
-function convertEmojiSkinTone(emoji: SystemEmoji, emojiSkin: string, skinTone: string) {
-    let newEmojiId = '';
-
-    // If its a default (yellow) emoji, get the skin variation from its property
-    if (emojiSkin === 'default') {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        const variation = Object.keys(emoji?.skin_variations).find((skinVariation) => skinVariation.includes(skinTone));
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        newEmojiId = variation ? emoji.skin_variations[variation].unified : emoji.unified;
-    } else if (skinTone === 'default') {
-        // If default (yellow) skin is selected, remove the skin code from emoji id
-        newEmojiId = emoji.unified.replaceAll(/-(1F3FB|1F3FC|1F3FD|1F3FE|1F3FF)/g, '');
-    } else {
-        // If non default skin is selected, add the new skin selected code to emoji id
-        newEmojiId = emoji.unified.replaceAll(/(1F3FB|1F3FC|1F3FD|1F3FE|1F3FF)/g, skinTone);
-    }
-
-    const emojiIndex = EmojiIndicesByUnicode.get(newEmojiId.toLowerCase()) as number;
-    return EmojisJson[emojiIndex];
-}
-
-export function getEmojisByCategory(
+function getEmojisByCategory(
     allEmojis: Record<string, Emoji>,
     category: Category,
-    categoryName: EmojiCategory,
-    userSkinTone: string,
 ): Emoji[] {
     const emojiIds = category?.emojiIds ?? [];
 
     if (emojiIds.length === 0) {
         return [];
-    }
-
-    // For recent category, perform checks for skin tone uniformity
-    if (categoryName === 'recent') {
-        return convertEmojisToUserSkinTone(emojiIds, allEmojis, userSkinTone);
     }
 
     // For all other categories, return emojis of the categoryies from allEmojis
@@ -165,7 +133,7 @@ export function getUpdatedCategoriesAndAllEmojis(
                     return emojiMap.has(name);
                 }).
                 map((name) => {
-                    return emojiMap.get(name);
+                    return emojiMap.get(name)!;
                 });
         } else {
             const indices = (EmojiIndicesByCategory.get(userSkinTone) as Map<string, number[]>).get(categoryName) || [];
@@ -320,8 +288,6 @@ export function createCategoryAndEmojiRows(
         const emojis = getEmojisByCategory(
             allEmojis,
             categories[categoryName as EmojiCategory],
-            categoryName as EmojiCategory,
-            userSkinTone,
         );
 
         sortedEmojis = [...sortedEmojis, ...emojis];

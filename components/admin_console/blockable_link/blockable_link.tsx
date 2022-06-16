@@ -7,6 +7,8 @@ import {NavLink} from 'react-router-dom';
 import {browserHistory} from 'utils/browser_history';
 
 type Props = {
+    id?: string;
+    activeClassName?: string;
 
     // Bool whether navigation is blocked
     blocked: boolean;

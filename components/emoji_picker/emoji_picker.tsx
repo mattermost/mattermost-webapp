@@ -121,7 +121,7 @@ const EmojiPicker = ({
         setCategoryOrEmojisRows(updatedCategoryOrEmojisRows);
         setEmojiPositionsArray(updatedEmojiPositions);
         throttledSearchCustomEmoji.current(filter, customEmojisEnabled);
-    }, [filter, userSkinTone, shouldRunCreateCategoryAndEmojiRows.current, customEmojisEnabled]);
+    }, [filter, shouldRunCreateCategoryAndEmojiRows.current, customEmojisEnabled]);
 
     // Hack for getting focus on search input when tab changes to emoji from gifs
     useEffect(() => {
