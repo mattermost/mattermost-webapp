@@ -1061,11 +1061,7 @@ class CreatePost extends React.PureComponent<Props, State> {
     }
 
     getFileUploadTarget = () => {
-        if (this.textboxRef.current) {
-            return this.textboxRef.current;
-        }
-
-        return null;
+        return this.textboxRef.current?.getInputBox();
     }
 
     getCreatePostControls = () => {

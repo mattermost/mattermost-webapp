@@ -636,8 +636,12 @@
     transition: height 200ms, background-color 200ms;
     word-wrap: break-word;
 
-    &:not(.post--editing):hover {
-        background-color: rgba(var(--center-channel-color-rgb), 0.04);
+    &:not(.post--editing):not(.post--editing):hover {
+        background-color: rgba(v(center-channel-color-rgb), 0.04);
+
+        .PostAttachmentOpenGraph .remove-button {
+            display: flex;
+        }
     }
 
     .hide-element {
