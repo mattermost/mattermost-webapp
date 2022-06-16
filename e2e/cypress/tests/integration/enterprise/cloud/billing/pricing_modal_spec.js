@@ -209,4 +209,31 @@ describe('Pricing modal', () => {
         cy.get('#contact_sales_quote').should('not.exist');
         cy.get('#pricingModal').get('#enterprise').get('#enterprise_action').contains('Contact Sales');
     });
+
+    it('should open cloud limits modal when starter disclaimer CTA is clicked', () => {
+        const subscription = {
+            id: 'sub_test1',
+            product_id: 'prod_1',
+            is_free_trial: 'false',
+            trial_end_at: 100000000, // signifies that this subscription has trialled before
+        };
+        simulateSubscription(subscription);
+        cy.apiLogout();
+        cy.apiAdminLogin();
+        cy.visit(urlL);
+
+        // # Open the pricing modal
+        cy.get('#UpgradeButton').should('exist').click();
+
+        // * Pricing modal should be open
+        cy.get('#pricingModal').should('exist');
+        cy.get('#pricingModal').get('.PricingModal__header').contains('Select a plan');
+
+        // * Open cloud limits modal
+        cy.get('#pricingModal').get('#starter_plan_data_restrictions_cta').contains('This plan has data restrictions.');
+        cy.get('#pricingModal').get('#starter_plan_data_restrictions_cta').click();
+
+        cy.get('.CloudUsageModal').should('exist');
+        cy.get('.CloudUsageModal').contains('Cloud Starter limits');
+    });
 });

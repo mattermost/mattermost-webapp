@@ -1,4 +1,4 @@
-@charset 'UTF-8';
+@charset "utf-8";
 
 .webhooks__container {
     padding: 0 13px 15px;
@@ -90,10 +90,6 @@
             .attachment__content.attachment__content--permalink {
                 box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12);
             }
-        }
-
-        &.attachment--opengraph {
-            max-width: 800px;
         }
 
         &.attachment--permalink {

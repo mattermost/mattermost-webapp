@@ -11,8 +11,6 @@ import {Provider} from 'react-redux';
 
 import thunk from 'redux-thunk';
 
-import {mountWithIntl} from 'tests/helpers/intl-test-helper';
-
 import LearnMoreTrialModalStep from 'components/learn_more_trial_modal/learn_more_trial_modal_step';
 
 describe('components/learn_more_trial_modal/learn_more_trial_modal_step', () => {
@@ -88,41 +86,5 @@ describe('components/learn_more_trial_modal/learn_more_trial_modal_step', () => 
         );
 
         expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should have the start cloud trial button when is cloud workspace and cloud free is enabled', () => {
-        const cloudProps = {...props, isCloudFree: true};
-        const wrapper = mountWithIntl(
-            <Provider store={store}>
-                <LearnMoreTrialModalStep
-                    {...cloudProps}
-                    bottomLeftMessage='Step bottom message'
-                />
-            </Provider>,
-        );
-
-        const trialButton = wrapper.find('CloudStartTrialButton');
-
-        expect(trialButton).toHaveLength(1);
-    });
-
-    test('should have the self hosted request trial button cloud free is disabled', () => {
-        const cloudProps = {...props, isCloudFree: false};
-        const wrapper = mountWithIntl(
-            <Provider store={store}>
-                <LearnMoreTrialModalStep
-                    {...cloudProps}
-                    bottomLeftMessage='Step bottom message'
-                />
-            </Provider>,
-        );
-
-        // validate the cloud start trial button is not present
-        const trialButton = wrapper.find('CloudStartTrialButton');
-        expect(trialButton).toHaveLength(0);
-
-        // validate the cloud start trial button is not present
-        const selfHostedRequestTrialButton = wrapper.find('StartTrialBtn');
-        expect(selfHostedRequestTrialButton).toHaveLength(1);
     });
 });

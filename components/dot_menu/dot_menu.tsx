@@ -271,12 +271,19 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     handleSetThreadFollow = (e: ChangeEvent) => {
         const {actions, teamId, threadId, userId, isFollowingThread, isMentionedInRootPost} = this.props;
         let followingThread: boolean;
-        if (isFollowingThread) {
-            trackDotMenuEvent(e, TELEMETRY_LABELS.UNFOLLOW);
-            followingThread = !isFollowingThread;
-        } else {
-            trackDotMenuEvent(e, TELEMETRY_LABELS.FOLLOW);
+
+        // This is required as post with mention doesn't have isFollowingThread property set to true but user with mention is following, so we will get null as value kind of hack for this.
+
+        if (isFollowingThread === null) {
             followingThread = !isMentionedInRootPost;
+        } else {
+            followingThread = !isFollowingThread;
+        }
+
+        if (followingThread) {
+            trackDotMenuEvent(e, TELEMETRY_LABELS.FOLLOW);
+        } else {
+            trackDotMenuEvent(e, TELEMETRY_LABELS.UNFOLLOW);
         }
         actions.setThreadFollow(
             userId,
@@ -405,6 +412,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     }
 
     render(): JSX.Element {
+        const isFollowingThread = this.props.isFollowingThread ?? this.props.isMentionedInRootPost;
         const isMobile = this.props.isMobileView;
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
         const deleteShortcutText = (
@@ -479,7 +487,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                                     this.props.location === Locations.RHS_COMMENT
                                 )
                         )}
-                        {...this.props.isFollowingThread ? {
+                        {...isFollowingThread ? {
                             icon: Utils.getMenuItemIcon('icon-message-minus-outline'),
                             text: this.props.threadReplyCount ? Utils.localizeMessage('threading.threadMenu.unfollow', 'Unfollow thread') : Utils.localizeMessage('threading.threadMenu.unfollowMessage', 'Unfollow message'),
                         } : {

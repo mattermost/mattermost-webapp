@@ -56,11 +56,11 @@ export const paymentFailedBanner = () => {
     );
 };
 
-interface Props {
+interface GrandfatheredPlanBannerProps {
     setShowGrandfatheredPlanBanner: (value: boolean) => void;
 }
 
-export const GrandfatheredPlanBanner = (props: Props) => {
+export const GrandfatheredPlanBanner = (props: GrandfatheredPlanBannerProps) => {
     const openPricingModal = useOpenPricingModal();
     const openSalesLink = useOpenSalesLink();
     return (
