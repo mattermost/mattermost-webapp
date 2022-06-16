@@ -90,11 +90,17 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
                     limits,
                 },
                 usage,
+                users: {
+                    currentUserId: 'uid',
+                    profiles: {
+                        uid: {},
+                    },
+                },
             },
         };
         const store = mockStore(state);
         const wrapper = mountWithIntl(<Provider store={store}><MenuCloudTrial id='menuCloudTrial'/></Provider>);
-        expect(wrapper.find('UpgradeLink').exists()).toEqual(true);
+        expect(wrapper.find('.MenuCloudTrial').exists()).toEqual(true);
     });
 
     test('should NOT render when NOT on cloud license and NOT during free trial period', () => {
@@ -118,7 +124,7 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
         };
         const store = mockStore(state);
         const wrapper = mountWithIntl(<Provider store={store}><MenuCloudTrial id='menuCloudTrial'/></Provider>);
-        expect(wrapper.find('UpgradeLink').exists()).toEqual(false);
+        expect(wrapper.find('.MenuCloudTrial').exists()).toEqual(false);
     });
 
     test('should NOT render when NO license is available', () => {
@@ -138,7 +144,7 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
         };
         const store = mockStore(state);
         const wrapper = mountWithIntl(<Provider store={store}><MenuCloudTrial id='menuCloudTrial'/></Provider>);
-        expect(wrapper.find('UpgradeLink').exists()).toEqual(false);
+        expect(wrapper.find('.MenuCloudTrial').exists()).toEqual(false);
     });
 
     test('should NOT render when is cloud and not on a trial', () => {
@@ -164,7 +170,7 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
         const store = mockStore(state);
         const wrapper = mountWithIntl(<Provider store={store}><MenuCloudTrial id='menuCloudTrial'/></Provider>);
         expect(wrapper.find('.open-learn-more-trial-modal').exists()).toEqual(false);
-        expect(wrapper.find('UpgradeLink').exists()).toEqual(false);
+        expect(wrapper.find('.MenuCloudTrial').exists()).toEqual(false);
     });
 
     test('should invite to start trial when the subscription is not paid and have not had trial before', () => {
@@ -199,7 +205,7 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
         expect(wrapper.find('.open-learn-more-trial-modal').exists()).toEqual(true);
     });
 
-    test('should show the open trial benefits modal when is is free trial', () => {
+    test('should show the open trial benefits modal when is free trial', () => {
         const state = {
             entities: {
                 users,
@@ -302,7 +308,7 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
         };
         const store = mockStore(state);
         const wrapper = mountWithIntl(<Provider store={store}><MenuCloudTrial id='menuCloudTrial'/></Provider>);
-        expect(wrapper.find('UpgradeLink').exists()).toEqual(false);
+        expect(wrapper.find('.MenuCloudTrial').exists()).toEqual(false);
         expect(wrapper.find('.open-see-plans-modal').exists()).toEqual(false);
         expect(wrapper.find('.open-learn-more-trial-modal').exists()).toEqual(false);
         expect(wrapper.find('.open-trial-benefits-modal').exists()).toEqual(false);

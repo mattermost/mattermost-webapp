@@ -107,6 +107,7 @@ function setupStore(setupOptions: SetupOptions) {
             } as unknown as UsersState,
             general: {
                 license: {},
+                config: {},
             },
         },
     } as GlobalState;

@@ -26,6 +26,12 @@ function renderFeatureList(props: FeatureListProps, deep?: boolean) {
                 limits: makeEmptyLimits(),
             },
             usage: makeEmptyUsage(),
+            users: {
+                currentUserId: 'uid',
+                profiles: {
+                    uid: {},
+                },
+            },
         },
     };
 
