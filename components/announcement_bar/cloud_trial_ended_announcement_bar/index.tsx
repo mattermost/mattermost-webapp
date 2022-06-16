@@ -65,7 +65,7 @@ const CloudTrialEndAnnouncementBar: React.FC = () => {
 
         // trial_end_at values will be 0 for all freemium subscriptions after June 15
         // Subscriptions created prior to that will almost always have a trial_end_at value, guaranteed.
-        if (subscription.trial_end_at === 0 || trialEnd > now || trialEnd < new Date('2022-05-15')) {
+        if (subscription.trial_end_at === 0 || trialEnd > now || trialEnd < new Date('2022-06-15')) {
             return false;
         }
         if (!isSystemAdmin(currentUser.roles)) {

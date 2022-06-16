@@ -43,6 +43,7 @@ export type RhsViewState = {
     isSidebarOpen: boolean;
     isSidebarExpanded: boolean;
     isMenuOpen: boolean;
+    editChannelMembers: boolean;
 };
 
 export type RhsState = 'mention' | 'search' | 'flag' | 'pin' | 'plugin' | 'channel-info' | 'channel-files' |'channel-members' | null;

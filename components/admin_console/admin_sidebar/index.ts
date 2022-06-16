@@ -2,24 +2,26 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {getPlugins} from 'mattermost-redux/actions/admin';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
+import {getBool} from 'mattermost-redux/selectors/entities/preferences';
+import {ActionFunc} from 'mattermost-redux/types/actions';
+
+import {GlobalState} from 'types/store';
 
 import {isMobile} from 'utils/utils';
 
 import {OnboardingTaskCategory, OnboardingTaskList} from 'components/onboarding_tasks';
 
-import {getBool} from 'mattermost-redux/selectors/entities/preferences';
-
 import {getNavigationBlocked} from 'selectors/views/admin';
 import {getAdminDefinition, getConsoleAccess} from 'selectors/admin_console';
 
-import AdminSidebar from './admin_sidebar.jsx';
+import AdminSidebar, {Props} from './admin_sidebar';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     const license = getLicense(state);
     const config = getConfig(state);
     const buildEnterpriseReady = config.BuildEnterpriseReady === 'true';
@@ -45,9 +47,9 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Props['actions']>({
             getPlugins,
         }, dispatch),
     };
