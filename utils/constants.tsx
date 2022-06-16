@@ -135,6 +135,7 @@ export const Preferences = {
     // A/B test preference value
     AB_TEST_PREFERENCE_VALUE: 'ab_test_preference_value',
 
+    RECENT_EMOJIS: 'recent_emojis',
     ONBOARDING: 'onboarding',
     ADVANCED_TEXT_EDITOR: 'advanced_text_editor',
 };
@@ -384,7 +385,7 @@ export const ModalIdentifiers = {
     INSIGHTS: 'insights',
     CLOUD_LIMITS: 'cloud_limits',
     REQUEST_BUSINESS_EMAIL_MODAL: 'request_business_email_modal',
-    CREATE_TEAM_RESTRICTED_MODAL: 'create_team_restricted_modal',
+    FEATURE_RESTRICTED_MODAL: 'feature_restricted_modal',
 };
 
 export const UserStatuses = {
@@ -593,6 +594,7 @@ export const Threads = {
 export const CloudBanners = {
     HIDE: 'hide',
     TRIAL: 'trial',
+    UPGRADE_FROM_TRIAL: 'upgrade_from_trial',
 };
 
 export const AdvancedTextEditor = {

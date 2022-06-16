@@ -12,7 +12,9 @@ import {getFirstAdminSetupComplete} from 'mattermost-redux/actions/general';
 import {getProfiles} from 'mattermost-redux/actions/users';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 
-import {getShowLaunchingWorkspace, getShowTaskListBool} from 'selectors/onboarding';
+import {migrateRecentEmojis} from 'mattermost-redux/actions/emojis';
+
+import {getShowLaunchingWorkspace} from 'selectors/onboarding';
 import {emitBrowserWindowResized} from 'actions/views/browser';
 import {loadConfigAndMe, registerCustomPostRenderer} from 'actions/views/root';
 
@@ -30,14 +32,6 @@ function mapStateToProps(state) {
     const teamId = LocalStorageStore.getPreviousTeamId(userId);
     const permalinkRedirectTeam = getTeam(state, teamId);
 
-    let showTaskList = false;
-    let firstTimeOnboarding = false;
-
-    // validation to avoid execute logic on first load which has no preferences values on global store, also check the enable onboarding config value
-    if (Object.keys(state.entities.preferences.myPreferences).length > 0 && config.EnableOnboardingFlow === 'true') {
-        [showTaskList, firstTimeOnboarding] = getShowTaskListBool(state);
-    }
-
     return {
         theme: getTheme(state),
         telemetryEnabled: config.DiagnosticsEnabled === 'true',
@@ -47,10 +41,7 @@ function mapStateToProps(state) {
         showTermsOfService,
         plugins,
         products,
-        showTaskList,
         showLaunchingWorkspace: getShowLaunchingWorkspace(state),
-        firstTimeOnboarding,
-        userId,
     };
 }
 
@@ -61,6 +52,7 @@ function mapDispatchToProps(dispatch) {
             emitBrowserWindowResized,
             getFirstAdminSetupComplete,
             getProfiles,
+            migrateRecentEmojis,
             savePreferences,
             registerCustomPostRenderer,
         }, dispatch),

@@ -56,6 +56,7 @@ describe('components/Root', () => {
                 data: true,
             })),
             getProfiles: jest.fn(),
+            migrateRecentEmojis: jest.fn(),
             savePreferences: jest.fn(),
             registerCustomPostRenderer: jest.fn(),
         },

@@ -7,7 +7,7 @@ import AdminDefinition from 'components/admin_console/admin_definition.jsx';
 
 import {samplePlugin1, samplePlugin2} from 'tests/helpers/admin_console_plugin_index_sample_pluings';
 
-import {generateIndex} from './admin_console_index.jsx';
+import {generateIndex} from './admin_console_index';
 
 const enMessages = require('../i18n/en');
 const esMessages = require('../i18n/es');
@@ -16,7 +16,7 @@ describe('AdminConsoleIndex.generateIndex', () => {
     it('should generate an index where I can search', () => {
         const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'});
 
-        const idx = generateIndex(AdminDefinition, {}, intl);
+        const idx = generateIndex(AdminDefinition, intl, {});
         expect(idx.search('ldap')).toEqual([
             'environment/session_lengths',
             'authentication/mfa',
@@ -46,7 +46,7 @@ describe('AdminConsoleIndex.generateIndex', () => {
     xit('should generate a index where I can search in other language', () => {
         const intl = createIntl({locale: 'es', messages: esMessages, defaultLocale: 'es'});
 
-        const idx = generateIndex(AdminDefinition, {}, intl);
+        const idx = generateIndex(AdminDefinition, intl, {});
         expect(idx.search('ldap').sort()).toEqual([
             'authentication/mfa',
             'authentication/ldap',
@@ -76,7 +76,7 @@ describe('AdminConsoleIndex.generateIndex', () => {
     it('should generate a index including the plugin settings', () => {
         const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'});
 
-        const idx = generateIndex(AdminDefinition, {[samplePlugin1.id]: samplePlugin1, [samplePlugin2.id]: samplePlugin2}, intl);
+        const idx = generateIndex(AdminDefinition, intl, {[samplePlugin1.id]: samplePlugin1, [samplePlugin2.id]: samplePlugin2});
 
         expect(idx.search('random')).toEqual(['plugin_Some-random-plugin', 'site_config/public_links']);
         expect(idx.search('autolink')).toEqual(['plugin_mattermost-autolink']);

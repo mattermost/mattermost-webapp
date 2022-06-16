@@ -234,6 +234,6 @@ describe('Pricing modal', () => {
         cy.get('#pricingModal').get('#starter_plan_data_restrictions_cta').click();
 
         cy.get('.CloudUsageModal').should('exist');
-        cy.get('.CloudUsageModal').contains('Cloud starter limits');
+        cy.get('.CloudUsageModal').contains('Cloud Starter limits');
     });
 });

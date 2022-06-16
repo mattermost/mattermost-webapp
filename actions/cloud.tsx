@@ -149,12 +149,20 @@ export function getMessagesUsage(): ActionFunc {
 
 export function getFilesUsage(): ActionFunc {
     return async (dispatch: DispatchFunc) => {
-        dispatch({
-            type: CloudTypes.RECEIVED_FILES_USAGE,
+        try {
+            const result = await Client4.getFilesUsage();
 
-            // TODO: Fill this in with the backing client API method once it is available in the server
-            data: 0,
-        });
+            if (result) {
+                // match limit notation in bits
+                const inBits = result.bytes * 8;
+                dispatch({
+                    type: CloudTypes.RECEIVED_FILES_USAGE,
+                    data: inBits,
+                });
+            }
+        } catch (error) {
+            return error;
+        }
         return {data: true};
     };
 }

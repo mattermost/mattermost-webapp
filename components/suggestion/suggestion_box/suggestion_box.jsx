@@ -205,6 +205,7 @@ export default class SuggestionBox extends React.PureComponent {
             terms: [],
             components: [],
             selection: '',
+            selectionIndex: 0,
             allowDividers: true,
             presentationType: 'text',
             suggestionBoxAlgn: undefined,
@@ -540,12 +541,16 @@ export default class SuggestionBox extends React.PureComponent {
 
         this.setState({
             selection: this.state.terms[selectionIndex],
+            selectionIndex,
         });
     }
 
     setSelection = (term) => {
+        const selectionIndex = this.state.terms.indexOf(this.state.selection);
+
         this.setState({
             selection: term,
+            selectionIndex,
         });
     }
 
@@ -638,10 +643,13 @@ export default class SuggestionBox extends React.PureComponent {
         const terms = suggestions.terms;
         const items = suggestions.items;
         let selection = this.state.selection;
-        if (terms.length > 0) {
-            selection = terms[0];
-        } else if (this.state.selection) {
-            selection = '';
+        const selectionIndex = terms.indexOf(selection);
+        if (selectionIndex !== this.state.selectionIndex) {
+            if (terms.length > 0) {
+                selection = terms[0];
+            } else if (this.state.selection) {
+                selection = '';
+            }
         }
 
         this.setState({
