@@ -215,11 +215,10 @@ export function getUseCaseOnboarding(state: GlobalState): boolean {
 }
 
 export function insightsAreEnabled(state: GlobalState): boolean {
-    const license = getLicense(state);
-    const isLicensedForFeature = license?.IsLicensed === 'true' && (license.SkuShortName === LicenseSkus.Professional || license.SkuShortName === LicenseSkus.Enterprise);
+    const isConfiguredForFeature = getConfig(state).InsightsEnabled === 'true';
     const featureIsEnabled = getFeatureFlagValue(state, 'InsightsEnabled') === 'true';
     const currentUserIsGuest = isGuest(getCurrentUser(state).roles);
-    return featureIsEnabled && isLicensedForFeature && !currentUserIsGuest;
+    return featureIsEnabled && isConfiguredForFeature && !currentUserIsGuest;
 }
 
 export function cloudFreeEnabled(state: GlobalState): boolean {
