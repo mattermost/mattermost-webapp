@@ -21,6 +21,7 @@ import LicenseSettings from './license_settings';
 
 function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
+
     return {
         stats: state.entities.admin.analytics,
         upgradedFromTE: config.UpgradedFromTE === 'true',

@@ -10,9 +10,11 @@ import {get} from 'mattermost-redux/selectors/entities/preferences';
 
 import {Preferences} from 'utils/constants';
 import EmojiMap from 'utils/emoji_map';
+import {EmojiIndicesByAlias, Emojis} from 'utils/emoji';
 
 import {GlobalState} from 'types/store';
 import {RecentEmojiData} from '@mattermost/types/emojis';
+import {convertEmojiSkinTone} from 'utils/emoji_utils';
 
 export const getEmojiMap = createSelector(
     'getEmojiMap',
@@ -25,8 +27,8 @@ export const getEmojiMap = createSelector(
 export const getShortcutReactToLastPostEmittedFrom = (state: GlobalState) =>
     state.views.emoji.shortcutReactToLastPostEmittedFrom;
 
-export const getRecentEmojis = createSelector(
-    'getRecentEmojis',
+export const getRecentEmojisData = createSelector(
+    'getRecentEmojisData',
     (state: GlobalState) => {
         return get(
             state,
@@ -35,31 +37,54 @@ export const getRecentEmojis = createSelector(
             '[]',
         );
     },
-    (recentEmojis: string) => {
+    getUserSkinTone,
+    (recentEmojis: string, userSkinTone: string) => {
         if (!recentEmojis) {
             return [];
         }
+
         const parsedEmojiData: RecentEmojiData[] = JSON.parse(recentEmojis);
-        return parsedEmojiData;
+        return normalizeRecentEmojisData(parsedEmojiData, userSkinTone);
     },
 );
 
+export function normalizeRecentEmojisData(data: RecentEmojiData[], userSkinTone: string) {
+    const usageCounts = new Map<string, number>();
+
+    for (const recentEmoji of data) {
+        const emojiIndex = EmojiIndicesByAlias.get(recentEmoji.name) ?? -1;
+        const systemEmoji = Emojis[emojiIndex];
+
+        let normalizedName;
+        if (systemEmoji) {
+            // This is a system emoji, so we may need to change its skin tone
+            normalizedName = convertEmojiSkinTone(systemEmoji, userSkinTone).short_name;
+        } else {
+            // This is a custom emoji, so its name will never change
+            normalizedName = recentEmoji.name;
+        }
+
+        // Dedupe and sum up the usage counts of any duplicated entries
+        const currentCount = usageCounts.get(normalizedName) ?? 0;
+        usageCounts.set(normalizedName, currentCount + recentEmoji.usageCount);
+    }
+
+    const normalizedData = [];
+    for (const [name, usageCount] of usageCounts.entries()) {
+        normalizedData.push({name, usageCount});
+    }
+
+    // Sort emojis by count in the ascending order, matching addRecentEmoji
+    normalizedData.sort((emojiA: RecentEmojiData, emojiB: RecentEmojiData) => emojiA.usageCount - emojiB.usageCount);
+
+    return normalizedData;
+}
+
 export const getRecentEmojisNames = createSelector(
     'getRecentEmojisNames',
-    (state: GlobalState) => {
-        return get(
-            state,
-            Preferences.RECENT_EMOJIS,
-            getCurrentUserId(state),
-            '[]',
-        );
-    },
-    (recentEmojis: string) => {
-        if (!recentEmojis) {
-            return [];
-        }
-        const parsedEmojiData: RecentEmojiData[] = JSON.parse(recentEmojis);
-        return parsedEmojiData.map((emoji) => emoji.name);
+    getRecentEmojisData,
+    (recentEmojisData: RecentEmojiData[]) => {
+        return recentEmojisData.map((emoji) => emoji.name);
     },
 );
 
@@ -83,8 +108,12 @@ export const getOneClickReactionEmojis = createSelector(
 
         return (recentEmojis).
             map((recentEmoji) => emojiMap.get(recentEmoji)).
-            filter(Boolean).
+            filter(isDefined).
             slice(-3).
             reverse();
     },
 );
+
+function isDefined<T>(t: T | undefined): t is T {
+    return Boolean(t);
+}
