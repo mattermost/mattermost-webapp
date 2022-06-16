@@ -128,6 +128,10 @@ export function transformToRecievedMeReducerPayload(user: Partial<MyDataQueryRes
     };
 }
 
+export function transformToRecievedTeamsListReducerPayload(teamsMembers: Partial<MyDataQueryResponseType['data']['teamMembers']>) {
+    return teamsMembers.map((teamMember) => ({...teamMember?.team, delete_at: 0}));
+}
+
 export function transformToRecievedMyTeamMembersReducerPayload(
     teamsMembers: Partial<MyDataQueryResponseType['data']['teamMembers']>,
     userId: MyDataQueryResponseType['data']['user']['id'],

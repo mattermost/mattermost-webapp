@@ -21,6 +21,7 @@ import {
     myDataQuery,
     MyDataQueryResponseType,
     transformToRecievedMeReducerPayload,
+    transformToRecievedTeamsListReducerPayload,
     transformToRecievedMyTeamMembersReducerPayload,
     transformToRecievedRolesReducerPayload,
 } from 'mattermost-redux/actions/users_queries';
@@ -244,7 +245,7 @@ export function loadMe(): ActionFunc {
                 },
                 {
                     type: TeamTypes.RECEIVED_TEAMS_LIST,
-                    data: responseData.teamMembers.map((teamMember) => teamMember.team),
+                    data: transformToRecievedTeamsListReducerPayload(responseData.teamMembers),
                 },
                 {
                     type: TeamTypes.RECEIVED_MY_TEAM_MEMBERS,
