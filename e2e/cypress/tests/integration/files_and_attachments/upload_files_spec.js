@@ -257,7 +257,7 @@ describe('Upload Files', () => {
         waitUntilUploadComplete();
 
         // # Scan inside of the message footer region
-        cy.get('#postCreateFooter').should('be.visible').within(() => {
+        cy.get('#advancedTextEditorCell').should('be.visible').within(() => {
             // * Verify that image name is present
             cy.findByText(imageFilename).should('be.visible');
 

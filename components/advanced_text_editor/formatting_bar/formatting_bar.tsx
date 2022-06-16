@@ -133,6 +133,11 @@ interface FormattingBarProps {
     disableControls: boolean;
     extraControls: JSX.Element;
     toggleAdvanceTextEditor: () => void;
+
+    /**
+     * location of the advanced text editor in the UI (center channel / RHS)
+     */
+    location: string;
 }
 
 const FormattingBar = (props: FormattingBarProps): JSX.Element => {
@@ -145,6 +150,7 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
         disableControls,
         extraControls,
         toggleAdvanceTextEditor,
+        location,
     } = props;
     const [showHiddenControls, setShowHiddenControls] = useState(false);
     const popperRef = React.useRef<HTMLDivElement | null>(null);
@@ -276,7 +282,7 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
             {hasHiddenControls && showFormattingControls && (
                 <>
                     <IconContainer
-                        id={'HiddenControlsButton'}
+                        id={'HiddenControlsButton' + location}
                         ref={triggerRef}
                         className={classNames({active: showHiddenControls})}
                         onClick={closeHiddenControls}

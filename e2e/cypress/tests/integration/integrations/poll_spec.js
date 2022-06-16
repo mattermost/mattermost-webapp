@@ -157,7 +157,7 @@ describe('/poll', () => {
         });
 
         // * Clicking the link highlight the poll post in the center channel
-        cy.uiGetNthPost(-2).
+        cy.uiGetNthPost(-2).scrollIntoView().
             should('have.class', 'post--highlight').
             within(() => {
                 // * Users who voted are listed below the responses

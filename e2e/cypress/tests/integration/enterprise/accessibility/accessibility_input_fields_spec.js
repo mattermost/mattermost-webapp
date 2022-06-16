@@ -239,7 +239,7 @@ describe('Verify Accessibility Support in different input fields', () => {
             cy.get('#FormattingControl_strike').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'strike through').tab();
 
             // * Verify if the focus is on the hidden controls button
-            cy.get('#HiddenControlsButton').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'show hidden formatting options').tab();
+            cy.get('#HiddenControlsButtonRHS_COMMENT').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'show hidden formatting options').tab();
 
             // * Verify if the focus is on the attachment icon
             cy.get('#fileUploadButton').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'attachment').tab();

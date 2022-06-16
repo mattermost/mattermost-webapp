@@ -39,6 +39,10 @@ import {IconContainer} from './formatting_bar/formatting_icon';
 import './advanced_text_editor.scss';
 
 type Props = {
+
+    /**
+     * location of the advanced text editor in the UI (center channel / RHS)
+     */
     location: string;
     currentUserId: string;
     message: string;
@@ -347,6 +351,7 @@ const AdvanceTextEditor = ({
             extraControls={extraControls}
             toggleAdvanceTextEditor={toggleAdvanceTextEditor}
             showFormattingControls={!isFormattingBarHidden}
+            location={location}
         />
     );
 
