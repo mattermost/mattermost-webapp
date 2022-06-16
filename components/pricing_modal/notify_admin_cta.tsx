@@ -7,8 +7,6 @@ import {useSelector} from 'react-redux';
 
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {GlobalState} from 'types/store';
 
 const Span = styled.span`
 font-family: 'Open Sans';
@@ -44,15 +42,13 @@ function NotifyAdminCTA() {
     const [notifyStatus, setStatus] = useState(NotifyStatus.NotStarted);
     const {formatMessage} = useIntl();
 
-    const currentTeam = useSelector((state: GlobalState) => getCurrentTeamId(state));
-    const currentUser = useSelector((state: GlobalState) => getCurrentUserId(state));
+    const currentTeam = useSelector(getCurrentTeamId);
 
     const notifyFunc = async () => {
         try {
             setStatus(NotifyStatus.Started);
             const req = {
                 current_team_id: currentTeam,
-                current_user_id: currentUser,
             };
             await Client4.notifyAdminToUpgrade(req);
             setStatus(NotifyStatus.Success);
