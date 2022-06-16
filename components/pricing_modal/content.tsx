@@ -279,7 +279,7 @@ function Content(props: ContentProps) {
                                 formatMessage({id: 'pricing_modal.extra_briefing.professional.guestAccess', defaultMessage: 'Guest access with MFA enforcement'}),
                             ],
                         }}
-                        planExtraInformation={isAdmin ? undefined : <NotifyAdminCTA/>}
+                        planExtraInformation={(!isAdmin && isEnterpriseTrial) ? <NotifyAdminCTA/> : undefined}
                         buttonDetails={{
                             action: openPurchaseModal,
                             text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
