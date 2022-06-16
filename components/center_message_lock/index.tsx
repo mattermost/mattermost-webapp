@@ -3,13 +3,13 @@
 
 import React from 'react';
 import {useIntl} from 'react-intl';
-import {useSelector} from 'react-redux'
+import {useSelector} from 'react-redux';
+
 import {isAdmin} from 'mattermost-redux/utils/user_utils';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getOldestPostsChunkInChannel} from 'mattermost-redux/selectors/entities/posts';
-
 
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import useGetLimits from 'components/common/hooks/useGetLimits';
@@ -33,61 +33,62 @@ export default function CenterMessageLock(props: Props) {
     const titleValues = {
         date: lastViewableMessage,
         team: currentTeam?.display_name,
-    }
+    };
 
     const limit = intl.formatNumber(cloudLimits?.messages?.history || 0);
 
     let title = intl.formatMessage(
         {
-            id: "workspace_limits.message_history.locked.title.end_user",
-            defaultMessage: "Notify your admin to unlock messages prior to {date} in {team}",
+            id: 'workspace_limits.message_history.locked.title.end_user',
+            defaultMessage: 'Notify your admin to unlock messages prior to {date} in {team}',
         },
         titleValues,
     );
     let description: React.ReactNode = intl.formatMessage(
         {
-            id: "workspace_limits.message_history.locked.description.end_user",
-            defaultMessage: "Some older messages may not be shown because your workspace has over {limit} messages. Learn more",
+            id: 'workspace_limits.message_history.locked.description.end_user',
+            defaultMessage: 'Some older messages may not be shown because your workspace has over {limit} messages. Learn more',
         },
         {
             limit,
         },
     );
 
-  if (isAdminUser) {
-    title = intl.formatMessage({
-        id: "workspace_limits.message_history.locked.title.admin",
-        defaultMessage: "Unlock messages prior to {date} in {team}",
-    }, titleValues);
+    if (isAdminUser) {
+        title = intl.formatMessage({
+            id: 'workspace_limits.message_history.locked.title.admin',
+            defaultMessage: 'Unlock messages prior to {date} in {team}',
+        }, titleValues);
 
-    description = intl.formatMessage(
-        {
-            id: "workspace_limits.message_history.locked.description.admin",
-            defaultMessage: "To view and search all of the messages in your workspace’s history, rather than just the most recent {limit} messages, upgrade to one of our paid plans. <a>Review our plan options and pricing.</a>",
-        },
-        {
-            limit,
-            a: (chunks: React.ReactNode | React.ReactNodeArray) => (
-                <a href="#"
-                    onClick={(e: React.MouseEvent) => {
-                        e.preventDefault();
-                        openPricingModal();
-                    }}
-                >
-                    {chunks}
-                </a>
-            ),
-        }
-    );
-  }
+        description = intl.formatMessage(
+            {
+                id: 'workspace_limits.message_history.locked.description.admin',
+                defaultMessage: 'To view and search all of the messages in your workspace’s history, rather than just the most recent {limit} messages, upgrade to one of our paid plans. <a>Review our plan options and pricing.</a>',
+            },
+            {
+                limit,
+                a: (chunks: React.ReactNode | React.ReactNodeArray) => (
+                    <a
+                        href='#'
+                        onClick={(e: React.MouseEvent) => {
+                            e.preventDefault();
+                            openPricingModal();
+                        }}
+                    >
+                        {chunks}
+                    </a>
+                ),
+            },
+        );
+    }
 
-    return <div className="CenterMessageLock">
-        <div className="CenterMessageLock__left">
-            <i className="icon icon-eye-outline"/>
+    return (<div className='CenterMessageLock'>
+        <div className='CenterMessageLock__left'>
+            <i className='icon icon-eye-outline'/>
         </div>
-        <div className="CenterMessageLock__right">
+        <div className='CenterMessageLock__right'>
             {title}
             {description}
         </div>
-    </div>
+    </div>);
 }
