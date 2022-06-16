@@ -19,13 +19,11 @@ import {
 import {getCurrentUser, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 import {haveICurrentTeamPermission, haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCloudSubscription as selectCloudSubscription} from 'mattermost-redux/selectors/entities/cloud';
-import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {Permissions} from 'mattermost-redux/constants';
 
 import {RHSStates} from 'utils/constants';
 
-import {getCloudLimits} from 'actions/cloud';
 import {showMentions, showFlaggedPosts, closeRightHandSide, closeMenu as closeRhsMenu} from 'actions/views/rhs';
 import {openModal} from 'actions/views/modals';
 import {getRhsState} from 'selectors/rhs';
@@ -63,7 +61,6 @@ function mapStateToProps(state: GlobalState) {
     const license = getLicense(state);
 
     const isCloud = isCloudLicense(license);
-    const isCloudFreeEnabled = isCloud && cloudFreeEnabled(state);
     const isFreeTrial = subscription?.is_free_trial === 'true';
 
     return {
@@ -91,7 +88,6 @@ function mapStateToProps(state: GlobalState) {
         canInviteTeamMember,
         isFirstAdmin: isFirstAdmin(state),
         isCloud,
-        isCloudFreeEnabled,
         isFreeTrial,
     };
 }
@@ -104,7 +100,6 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             showFlaggedPosts,
             closeRightHandSide,
             closeRhsMenu,
-            getCloudLimits,
         }, dispatch),
     };
 }

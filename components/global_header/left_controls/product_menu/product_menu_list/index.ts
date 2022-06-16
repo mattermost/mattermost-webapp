@@ -6,10 +6,15 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {Action} from 'mattermost-redux/types/actions';
 
-import {getInt, isCustomGroupsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getCloudSubscription} from 'mattermost-redux/selectors/entities/cloud';
+import {
+    getInt,
+    isCustomGroupsEnabled,
+} from 'mattermost-redux/selectors/entities/preferences';
 import {
     getConfig,
     getFirstAdminVisitMarketplaceStatus,
+    getLicense,
 } from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
@@ -19,6 +24,7 @@ import {GlobalState} from 'types/store';
 import {OnboardingTaskCategory, OnboardingTasksName, TaskNameMapToSteps} from 'components/onboarding_tasks';
 import {openModal} from 'actions/views/modals';
 import {ModalData} from 'types/actions';
+import {isCloudLicense} from 'utils/license_utils';
 
 import ProductMenuList from './product_menu_list';
 
@@ -45,6 +51,12 @@ function mapStateToProps(state: GlobalState) {
     const showVisitSystemConsoleTour = step === TaskNameMapToSteps[OnboardingTasksName.VISIT_SYSTEM_CONSOLE].STARTED;
     const enableCustomUserGroups = isCustomGroupsEnabled(state);
 
+    const subscription = getCloudSubscription(state);
+    const license = getLicense(state);
+
+    const isCloud = isCloudLicense(license);
+    const isFreeTrial = subscription?.is_free_trial === 'true';
+
     return {
         isMobile: state.views.channel.mobileView,
         appDownloadLink,
@@ -63,6 +75,8 @@ function mapStateToProps(state: GlobalState) {
         firstAdminVisitMarketplaceStatus: getFirstAdminVisitMarketplaceStatus(state),
         showVisitSystemConsoleTour,
         enableCustomUserGroups,
+        isCloud,
+        isFreeTrial,
     };
 }
 

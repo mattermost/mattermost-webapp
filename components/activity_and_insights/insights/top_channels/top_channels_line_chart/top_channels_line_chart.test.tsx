@@ -1,35 +1,21 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React from 'react';
+
 import {Provider} from 'react-redux';
 import configureStore from 'redux-mock-store';
 
-import {act} from '@testing-library/react';
-
 import thunk from 'redux-thunk';
-
-import {ReactWrapper} from 'enzyme';
 
 import {BrowserRouter} from 'react-router-dom';
 
-import {CardSizes, InsightsWidgetTypes, TimeFrames} from '@mattermost/types/insights';
+import {TimeFrames, TopChannel} from '@mattermost/types/insights';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
-import TopChannels from './top_channels';
+import TopChannelsLineChart from './top_channels_line_chart';
 
 const mockStore = configureStore([thunk]);
-
-const actImmediate = (wrapper: ReactWrapper) =>
-    act(
-        () =>
-            new Promise<void>((resolve) => {
-                setImmediate(() => {
-                    wrapper.update();
-                    resolve();
-                });
-            }),
-    );
 
 jest.mock('mattermost-redux/actions/insights', () => ({
     ...jest.requireActual('mattermost-redux/actions/insights'),
@@ -60,15 +46,59 @@ jest.mock('mattermost-redux/actions/insights', () => ({
 
 describe('components/activity_and_insights/insights/top_channels', () => {
     const props = {
-        filterType: 'TEAM',
         timeFrame: TimeFrames.INSIGHTS_7_DAYS,
-        size: CardSizes.large,
-        widgetType: InsightsWidgetTypes.TOP_CHANNELS,
-        class: 'top-channels-card',
-        timeFrameLabel: 'Last 7 days',
+        topChannels: [
+            {
+                id: '4r98uzxe4b8t5g9ntt9zcdzktw',
+                type: 'P',
+                display_name: 'nesciunt',
+                name: 'sequi-7',
+                team_id: 'team_id1',
+                message_count: 100,
+            } as TopChannel,
+            {
+                id: '4r98uzxe4b8t5gfdsdfggsdfgs',
+                type: 'P',
+                display_name: 'test',
+                name: 'test-7',
+                team_id: 'team_id1',
+                message_count: 200,
+            } as TopChannel,
+        ],
+        channelLineChartData: {
+            '2022-05-01': {
+                '4r98uzxe4b8t5g9ntt9zcdzktw': 10,
+                '4r98uzxe4b8t5gfdsdfggsdfgs': 20,
+            },
+            '2022-05-02': {
+                '4r98uzxe4b8t5g9ntt9zcdzktw': 20,
+                '4r98uzxe4b8t5gfdsdfggsdfgs': 40,
+            },
+            '2022-05-03': {
+                '4r98uzxe4b8t5g9ntt9zcdzktw': 15,
+                '4r98uzxe4b8t5gfdsdfggsdfgs': 25,
+            },
+            '2022-05-04': {
+                '4r98uzxe4b8t5g9ntt9zcdzktw': 15,
+                '4r98uzxe4b8t5gfdsdfggsdfgs': 10,
+            },
+            '2022-05-05': {
+                '4r98uzxe4b8t5g9ntt9zcdzktw': 10,
+                '4r98uzxe4b8t5gfdsdfggsdfgs': 15,
+            },
+            '2022-05-06': {
+                '4r98uzxe4b8t5g9ntt9zcdzktw': 20,
+                '4r98uzxe4b8t5gfdsdfggsdfgs': 50,
+            },
+            '2022-05-07': {
+                '4r98uzxe4b8t5g9ntt9zcdzktw': 10,
+                '4r98uzxe4b8t5gfdsdfggsdfgs': 40,
+            },
+        },
+        timeZone: 'America/Toronto',
     };
 
-    const initialState = {
+    const store = mockStore({
         entities: {
             teams: {
                 currentTeamId: 'team_id1',
@@ -84,44 +114,23 @@ describe('components/activity_and_insights/insights/top_channels', () => {
             },
             users: {
                 currentUserId: 'current_user_id',
-                profiles: {
-                    current_user_id: {},
-                },
             },
             preferences: {
                 myPreferences: {},
             },
         },
-    };
-
-    test('check if 2 team top channels render', async () => {
-        const store = await mockStore(initialState);
-        const wrapper = mountWithIntl(
-            <Provider store={store}>
-                <BrowserRouter>
-                    <TopChannels
-                        {...props}
-                    />
-                </BrowserRouter>
-            </Provider>,
-        );
-        await actImmediate(wrapper);
-        expect(wrapper.find('.channel-message-count').length).toEqual(2);
     });
 
-    test('check if 0 my top channels render', async () => {
-        const store = await mockStore(initialState);
+    test('should match snapshot', () => {
         const wrapper = mountWithIntl(
             <Provider store={store}>
                 <BrowserRouter>
-                    <TopChannels
+                    <TopChannelsLineChart
                         {...props}
-                        filterType={'MY'}
                     />
                 </BrowserRouter>
             </Provider>,
         );
-        await actImmediate(wrapper);
-        expect(wrapper.find('.empty-state').length).toEqual(1);
+        expect(wrapper).toMatchSnapshot();
     });
 });
