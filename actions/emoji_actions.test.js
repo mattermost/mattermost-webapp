@@ -5,7 +5,7 @@ import configureStore from 'redux-mock-store';
 
 import thunk from 'redux-thunk';
 
-import {getRecentEmojis, getEmojiMap} from 'selectors/emojis';
+import {getRecentEmojisData, getEmojiMap} from 'selectors/emojis';
 import * as EmojiActions from 'actions/emoji_actions';
 import * as PreferenceActions from 'mattermost-redux/actions/preferences';
 
@@ -21,7 +21,7 @@ const initialState = {
 const mockStore = configureStore([thunk]);
 
 jest.mock('selectors/emojis', () => ({
-    getRecentEmojis: jest.fn(),
+    getRecentEmojisData: jest.fn(),
     getEmojiMap: jest.fn(),
 }));
 
@@ -36,7 +36,7 @@ describe('Actions.Emojis', () => {
     });
 
     test('Emoji alias is stored in recent emojis', async () => {
-        getRecentEmojis.mockImplementation(() => {
+        getRecentEmojisData.mockImplementation(() => {
             return [];
         });
 
@@ -69,7 +69,7 @@ describe('Actions.Emojis', () => {
     });
 
     test('First alias is stored in recent emojis even if second alias used', async () => {
-        getRecentEmojis.mockImplementation(() => {
+        getRecentEmojisData.mockImplementation(() => {
             return [];
         });
 
@@ -102,7 +102,7 @@ describe('Actions.Emojis', () => {
     });
 
     test('Invalid emoji are not stored in recents', async () => {
-        getRecentEmojis.mockImplementation(() => {
+        getRecentEmojisData.mockImplementation(() => {
             return [];
         });
 
@@ -119,7 +119,7 @@ describe('Actions.Emojis', () => {
     });
 
     test('Emoji already present in recent should be bumped on the top', async () => {
-        getRecentEmojis.mockImplementation(() => {
+        getRecentEmojisData.mockImplementation(() => {
             return [
                 {name: 'smile', usageCount: 1},
                 {name: 'grinning', usageCount: 1},
@@ -186,7 +186,7 @@ describe('Actions.Emojis', () => {
             {name: '22', usageCount: 1},
             {name: '23', usageCount: 1},
         ];
-        getRecentEmojis.mockImplementation(() => {
+        getRecentEmojisData.mockImplementation(() => {
             return recentEmojisList;
         });
 
