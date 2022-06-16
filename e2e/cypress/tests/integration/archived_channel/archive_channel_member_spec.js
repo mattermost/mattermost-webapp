@@ -19,7 +19,7 @@ describe('Archive channel members spec', () => {
         });
 
         // # Login as test user and visit create channel
-        cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
+        cy.apiInitSetup({loginAfter: true, promoteNewUserAsAdmin: true}).then(({team, channel}) => {
             cy.visit(`/${team.name}/channels/${channel.name}`);
         });
     });
@@ -47,11 +47,9 @@ describe('Archive channel members spec', () => {
         cy.get('#channelManageMembers').should('not.exist');
 
         // # click on view members menu option;
-        cy.get('#channelViewMembers  button').should('be.visible').click();
+        cy.get('#channelViewMembers button').should('be.visible').click();
 
         // * Ensure there are no options to change channel roles or membership
-        cy.findAllByTestId('userListItemActions').within(() => {
-            cy.get('.MenuWrapper').should('not.exist');
-        });
+        cy.uiGetRHS().findByText('Manage').should('not.exist');
     });
 });

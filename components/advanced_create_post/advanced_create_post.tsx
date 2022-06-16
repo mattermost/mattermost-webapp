@@ -212,7 +212,6 @@ type Props = {
     channelMemberCountsByGroup: ChannelMemberCountsByGroup;
     useLDAPGroupMentions: boolean;
     useCustomGroupMentions: boolean;
-    markdownPreviewFeatureIsEnabled: boolean;
 }
 
 type State = {
@@ -245,7 +244,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     private topDiv: React.RefObject<HTMLFormElement>;
     private textboxRef: React.RefObject<TextboxClass>;
     private fileUploadRef: React.RefObject<FileUploadClass>;
-    private createPostControlsRef: React.RefObject<HTMLSpanElement>;
 
     static getDerivedStateFromProps(props: Props, state: State): Partial<State> {
         let updatedState: Partial<State> = {
@@ -282,7 +280,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         this.topDiv = React.createRef<HTMLFormElement>();
         this.textboxRef = React.createRef<TextboxClass>();
         this.fileUploadRef = React.createRef<FileUploadClass>();
-        this.createPostControlsRef = React.createRef<HTMLSpanElement>();
     }
 
     componentDidMount() {
@@ -318,6 +315,11 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
 
         // Focus on textbox when emoji picker is closed
         if (prevState.showEmojiPicker && !this.state.showEmojiPicker) {
+            this.focusTextbox();
+        }
+
+        // Focus on textbox when returned from preview mode
+        if (prevProps.shouldShowPreview && !this.props.shouldShowPreview) {
             this.focusTextbox();
         }
     }
@@ -988,15 +990,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     }
 
     getFileUploadTarget = () => {
-        if (this.textboxRef.current) {
-            return this.textboxRef.current;
-        }
-
-        return null;
-    }
-
-    getCreatePostControls = () => {
-        return this.createPostControlsRef.current;
+        return this.textboxRef.current?.getInputBox();
     }
 
     fillMessageFromHistory() {
@@ -1080,46 +1074,11 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                 selectionEnd,
                 message: value,
             });
-        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.C)) {
+        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.E)) {
             e.stopPropagation();
             e.preventDefault();
-            this.applyMarkdown({
-                markdownMode: 'code',
-                selectionStart,
-                selectionEnd,
-                message: value,
-            });
-        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.NUMPAD_9)) {
-            this.applyMarkdown({
-                markdownMode: 'quote',
-                selectionStart,
-                selectionEnd,
-                message: value,
-            });
-        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.NUMPAD_8)) {
-            this.applyMarkdown({
-                markdownMode: 'ul',
-                selectionStart,
-                selectionEnd,
-                message: value,
-            });
-        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.NUMPAD_7)) {
-            this.applyMarkdown({
-                markdownMode: 'ol',
-                selectionStart,
-                selectionEnd,
-                message: value,
-            });
-        } else if (((isMac() && e.ctrlKey && e.shiftKey) || (e.altKey && e.shiftKey)) && Utils.isKeyPressed(e, KeyCodes.NUMPAD_3)) {
-            this.applyMarkdown({
-                markdownMode: 'heading',
-                selectionStart,
-                selectionEnd,
-                message: value,
-            });
-        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.E)) {
             this.toggleEmojiPicker();
-        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.P)) {
+        } else if (((isMac() && ctrlShiftCombo) || (!isMac() && ctrlAltCombo)) && Utils.isKeyPressed(e, KeyCodes.P)) {
             this.setShowPreview(!this.props.shouldShowPreview);
         } else if (ctrlAltCombo && Utils.isKeyPressed(e, KeyCodes.T)) {
             this.toggleAdvanceTextEditor();
@@ -1318,7 +1277,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     shouldShowPreview={this.props.shouldShowPreview}
                     maxPostSize={this.props.maxPostSize}
                     canPost={this.props.canPost}
-                    createPostControlsRef={this.createPostControlsRef}
                     applyMarkdown={this.applyMarkdown}
                     useChannelMentions={this.props.useChannelMentions}
                     badConnection={this.props.badConnection}
@@ -1338,7 +1296,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     handleEmojiClick={this.handleEmojiClick}
                     handleEmojiClose={this.handleEmojiClose}
                     hideEmojiPicker={this.hideEmojiPicker}
-                    getCreatePostControls={this.getCreatePostControls}
                     toggleAdvanceTextEditor={this.toggleAdvanceTextEditor}
                     handleUploadProgress={this.handleUploadProgress}
                     handleUploadError={this.handleUploadError}

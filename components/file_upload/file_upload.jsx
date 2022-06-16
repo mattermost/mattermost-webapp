@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React, {PureComponent} from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import {defineMessages, FormattedMessage, injectIntl} from 'react-intl';
 import classNames from 'classnames';
@@ -159,6 +158,8 @@ export class FileUpload extends PureComponent {
              */
             handleFileUploadEnd: PropTypes.func.isRequired,
         }).isRequired,
+
+        isAdvancedTextEditorEnabled: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -447,8 +448,7 @@ export class FileUpload extends PureComponent {
             return;
         }
 
-        const target = this.props.getTarget();
-        const textarea = ReactDOM.findDOMNode(target);
+        const textarea = this.props.getTarget();
         if (!this.containsEventTarget(textarea, e.target)) {
             return;
         }
@@ -522,7 +522,8 @@ export class FileUpload extends PureComponent {
             }
             const postTextbox = this.props.postType === 'post' && document.activeElement.id === 'post_textbox';
             const commentTextbox = this.props.postType === 'comment' && document.activeElement.id === 'reply_textbox';
-            if (postTextbox || commentTextbox) {
+            const threadTextbox = this.props.postType === 'thread' && document.activeElement.id === 'reply_textbox';
+            if (postTextbox || commentTextbox || threadTextbox) {
                 this.fileInput.current.focus();
                 this.fileInput.current.click();
             }
@@ -601,7 +602,10 @@ export class FileUpload extends PureComponent {
                         type='button'
                         id='fileUploadButton'
                         aria-label={buttonAriaLabel}
-                        className={classNames('style--none AdvancedTextEditor__action-button', {disabled: uploadsRemaining <= 0})}
+                        className={classNames('style--none', {
+                            'AdvancedTextEditor__action-button': this.props.isAdvancedTextEditorEnabled,
+                            'post-action': !this.props.isAdvancedTextEditorEnabled,
+                            disabled: uploadsRemaining <= 0})}
                         onClick={this.simulateInputClick}
                         onTouchEnd={this.simulateInputClick}
                     >
@@ -663,7 +667,9 @@ export class FileUpload extends PureComponent {
                             type='button'
                             id='fileUploadButton'
                             aria-label={buttonAriaLabel}
-                            className={'style--none AdvancedTextEditor__action-button'}
+                            className={classNames('style--none', {
+                                'AdvancedTextEditor__action-button': this.props.isAdvancedTextEditorEnabled,
+                                'post-action': !this.props.isAdvancedTextEditorEnabled})}
                         >
                             <PaperclipIcon
                                 size={18}

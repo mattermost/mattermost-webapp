@@ -79,6 +79,7 @@ const MemberList = ({className, channel, members, editing, title, actions}: Prop
 
                     <CSSTransition
                         in={editing}
+                        appear={true}
                         timeout={250}
                         classNames='editing-transition'
                     >

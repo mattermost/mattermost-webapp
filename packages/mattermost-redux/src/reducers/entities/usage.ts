@@ -20,6 +20,7 @@ const emptyUsage = {
     },
     teams: {
         active: 0,
+        cloudArchived: 0,
         teamsLoaded: false,
     },
     integrations: {
@@ -64,6 +65,15 @@ export default function usage(state: CloudUsage = emptyUsage, action: GenericAct
             boards: {
                 cards: action.data,
                 cardsLoaded: true,
+            },
+        };
+    }
+    case CloudTypes.RECEIVED_TEAMS_USAGE: {
+        return {
+            ...state,
+            teams: {
+                ...action.data,
+                teamsLoaded: true,
             },
         };
     }

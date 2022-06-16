@@ -42,7 +42,7 @@ import WebSocketClient from 'client/web_websocket_client.jsx';
 
 import {GlobalState} from 'types/store';
 
-import {ActionTypes, PostTypes, RHSStates, ModalIdentifiers} from 'utils/constants';
+import {ActionTypes, PostTypes, RHSStates, ModalIdentifiers, PreviousViewedTypes} from 'utils/constants';
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils';
 import * as Utils from 'utils/utils';
 import SubMenuModal from '../components/widgets/menu/menu_modals/submenu_modal/submenu_modal';
@@ -66,9 +66,15 @@ export function emitChannelClickEvent(channel: Channel) {
         dispatch(getChannelStats(chan.id));
 
         const penultimate = LocalStorageStore.getPreviousChannelName(userId, teamId);
+        const penultimateType = LocalStorageStore.getPreviousViewedType(userId, teamId);
         if (penultimate !== chan.name) {
             LocalStorageStore.setPenultimateChannelName(userId, teamId, penultimate);
             LocalStorageStore.setPreviousChannelName(userId, teamId, chan.name);
+        }
+
+        if (penultimateType === PreviousViewedTypes.THREADS || penultimate !== chan.name) {
+            LocalStorageStore.setPreviousViewedType(userId, teamId, PreviousViewedTypes.CHANNELS);
+            LocalStorageStore.setPenultimateViewedType(userId, teamId, penultimateType);
         }
 
         // When switching to a different channel if the pinned posts is showing

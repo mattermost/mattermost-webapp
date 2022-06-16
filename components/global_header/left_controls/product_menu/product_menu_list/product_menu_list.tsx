@@ -13,6 +13,8 @@ import SystemPermissionGate from 'components/permissions_gates/system_permission
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 import MarketplaceModal from 'components/plugin_marketplace';
 import Menu from 'components/widgets/menu/menu';
+import RestrictedIndicator from 'components/widgets/menu/menu_items/restricted_indicator';
+import {FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS} from 'utils/cloud_utils';
 import {ModalIdentifiers} from 'utils/constants';
 import {makeUrlSafe} from 'utils/url';
 import * as UserAgent from 'utils/user_agent';
@@ -37,6 +39,8 @@ export type Props = {
     canManageIntegrations: boolean;
     enablePluginMarketplace: boolean;
     showVisitSystemConsoleTour: boolean;
+    isCloud: boolean;
+    isFreeTrial: boolean;
     onClick?: React.MouseEventHandler<HTMLElement>;
     handleVisitConsoleClick: React.MouseEventHandler<HTMLElement>;
     enableCustomUserGroups?: boolean;
@@ -61,6 +65,8 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
         canManageIntegrations,
         enablePluginMarketplace,
         showVisitSystemConsoleTour,
+        isCloud,
+        isFreeTrial,
         onClick,
         handleVisitConsoleClick,
         isMobile = false,
@@ -91,6 +97,7 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                 <SystemPermissionGate permissions={[Permissions.SYSCONSOLE_WRITE_BILLING]}>
                     <Menu.CloudTrial id='menuCloudTrial'/>
                 </SystemPermissionGate>
+                <Menu.ItemCloudLimit id='menuItemCloudLimit'/>
                 <SystemPermissionGate
                     permissions={[Permissions.SYSCONSOLE_WRITE_ABOUT_EDITION_AND_LICENSE]}
                 >
@@ -139,7 +146,7 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                 <Menu.ItemToggleModalRedux
                     id='userGroups'
                     modalId={ModalIdentifiers.USER_GROUPS}
-                    show={enableCustomUserGroups}
+                    show={enableCustomUserGroups || isCloud}
                     dialogType={UserGroupsModal}
                     dialogProps={{
                         backButtonAction: openGroupsModal,
@@ -151,6 +158,36 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                             glyph={'account-multiple-outline'}
                         />
                     }
+                    disabled={isCloud && !isFreeTrial}
+                    sibling={isCloud && (
+                        <RestrictedIndicator
+                            blocked={!isFreeTrial}
+                            tooltipMessage={formatMessage({
+                                id: 'navbar_dropdown.userGroups.tooltip.cloudFreeTrial',
+                                defaultMessage: 'During your trial you are able to create user groups. These user groups will be archived after your trial.',
+                            })}
+                            modalTitle={formatMessage({
+                                id: 'navbar_dropdown.userGroups.modal.title',
+                                defaultMessage: 'Try unlimited user groups with a free trial',
+                            })}
+                            modalMessage={formatMessage({
+                                id: 'navbar_dropdown.userGroups.modal.description',
+                                defaultMessage: 'Create unlimited user groups with one of our paid plans. Get the full experience of Enterprise when you start a free, {trialLength} day trial.',
+                            },
+                            {
+                                trialLength: FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS,
+                            },
+                            )}
+                            modalTitleAfterTrial={formatMessage({
+                                id: 'navbar_dropdown.userGroups.modal.title.afterTrial',
+                                defaultMessage: 'Upgrade to create unlimited user groups',
+                            })}
+                            modalMessageAfterTrial={formatMessage({
+                                id: 'navbar_dropdown.userGroups.modal.description.afterTrial',
+                                defaultMessage: 'User groups are a way to organize users and apply actions to all users within that group. Upgrade to the Professional plan to create unlimited user groups.',
+                            })}
+                        />
+                    )}
                 />
                 <TeamPermissionGate
                     teamId={teamId}

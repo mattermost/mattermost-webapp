@@ -14,7 +14,9 @@ export type TrialBenefitsModalStepMoreProps = {
     id: string;
     route: string;
     message: string;
+    telemetryId?: string;
     onClick?: () => void;
+    styleLink?: boolean; // show as a anchor link
 }
 
 const TrialBenefitsModalStepMore = (
@@ -23,22 +25,31 @@ const TrialBenefitsModalStepMore = (
         route,
         message,
         onClick,
+        styleLink = false,
+        telemetryId = 'benefits_modal',
     }: TrialBenefitsModalStepMoreProps) => {
     const history = useHistory();
 
     const redirect = useCallback(() => {
-        history.push(route);
-        onClick!();
+        if (route.indexOf('http://') === 0 || route.indexOf('https://') === 0) {
+            window.open(route);
+        } else {
+            history.push(route);
+        }
+
+        if (onClick) {
+            onClick();
+        }
 
         trackEvent(
             TELEMETRY_CATEGORIES.SELF_HOSTED_START_TRIAL_MODAL,
-            'benefits_modal_section_opened_' + id,
+            telemetryId + '_section_opened_' + id,
         );
     }, [route, onClick]);
 
     return (
         <a
-            className='TrialBenefitsModalStepMore learn-more-button'
+            className={`TrialBenefitsModalStepMore ${styleLink ? '' : 'learn-more-button'}`}
             onClick={redirect}
         >
             {message}

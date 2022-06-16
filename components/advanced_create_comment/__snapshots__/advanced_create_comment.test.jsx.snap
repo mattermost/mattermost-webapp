@@ -10,11 +10,6 @@ exports[`components/AdvancedCreateComment should match snapshot when cannot post
     canPost={false}
     canUploadFiles={true}
     channelId="g6139tbospd18cmxroesdk3kkc"
-    createPostControlsRef={
-      Object {
-        "current": null,
-      }
-    }
     currentUserId="zaktnt8bpbgu8mb6ez9k64r7sa"
     draft={
       Object {
@@ -38,7 +33,6 @@ exports[`components/AdvancedCreateComment should match snapshot when cannot post
         "current": null,
       }
     }
-    getCreatePostControls={[Function]}
     getFileUploadTarget={[Function]}
     handleBlur={[Function]}
     handleChange={[Function]}
@@ -90,11 +84,6 @@ exports[`components/AdvancedCreateComment should match snapshot, comment with me
     canPost={true}
     canUploadFiles={true}
     channelId="g6139tbospd18cmxroesdk3kkc"
-    createPostControlsRef={
-      Object {
-        "current": null,
-      }
-    }
     currentUserId="zaktnt8bpbgu8mb6ez9k64r7sa"
     draft={
       Object {
@@ -112,7 +101,6 @@ exports[`components/AdvancedCreateComment should match snapshot, comment with me
         "current": null,
       }
     }
-    getCreatePostControls={[Function]}
     getFileUploadTarget={[Function]}
     handleBlur={[Function]}
     handleChange={[Function]}
@@ -164,11 +152,6 @@ exports[`components/AdvancedCreateComment should match snapshot, emoji picker di
     canPost={true}
     canUploadFiles={true}
     channelId="g6139tbospd18cmxroesdk3kkc"
-    createPostControlsRef={
-      Object {
-        "current": null,
-      }
-    }
     currentUserId="zaktnt8bpbgu8mb6ez9k64r7sa"
     draft={
       Object {
@@ -192,7 +175,6 @@ exports[`components/AdvancedCreateComment should match snapshot, emoji picker di
         "current": null,
       }
     }
-    getCreatePostControls={[Function]}
     getFileUploadTarget={[Function]}
     handleBlur={[Function]}
     handleChange={[Function]}
@@ -244,11 +226,6 @@ exports[`components/AdvancedCreateComment should match snapshot, empty comment 1
     canPost={true}
     canUploadFiles={true}
     channelId="g6139tbospd18cmxroesdk3kkc"
-    createPostControlsRef={
-      Object {
-        "current": null,
-      }
-    }
     currentUserId="zaktnt8bpbgu8mb6ez9k64r7sa"
     draft={
       Object {
@@ -266,7 +243,6 @@ exports[`components/AdvancedCreateComment should match snapshot, empty comment 1
         "current": null,
       }
     }
-    getCreatePostControls={[Function]}
     getFileUploadTarget={[Function]}
     handleBlur={[Function]}
     handleChange={[Function]}
@@ -318,11 +294,6 @@ exports[`components/AdvancedCreateComment should match snapshot, non-empty messa
     canPost={true}
     canUploadFiles={true}
     channelId="g6139tbospd18cmxroesdk3kkc"
-    createPostControlsRef={
-      Object {
-        "current": null,
-      }
-    }
     currentUserId="zaktnt8bpbgu8mb6ez9k64r7sa"
     draft={
       Object {
@@ -346,7 +317,6 @@ exports[`components/AdvancedCreateComment should match snapshot, non-empty messa
         "current": null,
       }
     }
-    getCreatePostControls={[Function]}
     getFileUploadTarget={[Function]}
     handleBlur={[Function]}
     handleChange={[Function]}

@@ -267,6 +267,24 @@ describe('notification_actions', () => {
             });
         });
 
+        test('should notify user on add to channel', () => {
+            const store = testConfigureStore(baseState);
+            post.type = 'system_add_to_channel';
+            post.props.addedUserId = 'current_user_id';
+            return store.dispatch(sendDesktopNotification(post, msgProps)).then(() => {
+                expect(spy).toHaveBeenCalled();
+            });
+        });
+
+        test('should not notify user on other user add to channel', () => {
+            const store = testConfigureStore(baseState);
+            post.type = 'system_add_to_channel';
+            post.props.addedUserId = 'not_current_user_id';
+            return store.dispatch(sendDesktopNotification(post, msgProps)).then(() => {
+                expect(spy).not.toHaveBeenCalled();
+            });
+        });
+
         test('should not notify user on muted channels', () => {
             const store = testConfigureStore(baseState);
             post.channel_id = 'muted_channel_id';

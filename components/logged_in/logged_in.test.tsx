@@ -28,6 +28,7 @@ describe('components/logged_in/LoggedIn', () => {
         showTermsOfService: false,
         location: {
             pathname: '/',
+            search: '',
         },
     };
 
@@ -68,6 +69,7 @@ describe('components/logged_in/LoggedIn', () => {
             mfaRequired: true,
             location: {
                 pathname: '/mfa/setup',
+                search: '',
             },
         };
 
@@ -86,6 +88,7 @@ describe('components/logged_in/LoggedIn', () => {
             mfaRequired: false,
             location: {
                 pathname: '/mfa/confirm',
+                search: '',
             },
         };
 
@@ -121,6 +124,7 @@ describe('components/logged_in/LoggedIn', () => {
             showTermsOfService: true,
             location: {
                 pathname: '/terms_of_service',
+                search: '',
             },
         };
 
