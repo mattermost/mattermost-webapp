@@ -296,7 +296,7 @@ function adminConsoleReducers(state: {[pluginId: string]: any} = {}, action: Gen
         return state;
     }
     case ActionTypes.REMOVED_ADMIN_CONSOLE_REDUCER: {
-        if (action.data) {
+        if (action.data && state[action.data.pluginId]) {
             const nextState = {...state};
             delete nextState[action.data.pluginId];
             return nextState;
@@ -305,7 +305,7 @@ function adminConsoleReducers(state: {[pluginId: string]: any} = {}, action: Gen
     }
     case ActionTypes.RECEIVED_WEBAPP_PLUGIN:
     case ActionTypes.REMOVED_WEBAPP_PLUGIN:
-        if (action.data) {
+        if (action.data && state[action.data.id]) {
             const nextState = {...state};
             delete nextState[action.data.id];
             return nextState;
