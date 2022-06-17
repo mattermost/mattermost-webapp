@@ -7,6 +7,8 @@ import {FormattedMessage} from 'react-intl';
 import {AnalyticsRow} from '@mattermost/types/admin';
 import {ClientLicense} from '@mattermost/types/config';
 import {EmbargoedEntityTrialError} from 'components/admin_console/license_settings/trial_banner/trial_banner';
+import AlertBanner from 'components/alert_banner';
+import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 
 import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
 import {ActionResult} from 'mattermost-redux/types/actions';
@@ -48,6 +50,7 @@ type Props = {
     isCloud: boolean;
     isCloudTrial: boolean;
     hadPrevCloudTrial: boolean;
+    isSubscriptionLoaded: boolean;
     isPaidSubscription: boolean;
 }
 
@@ -195,7 +198,17 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
             copyDefault,
             learnMoreURL,
             featureDiscoveryImage,
+            isCloud,
+            isCloudTrial,
+            isSubscriptionLoaded,
         } = this.props;
+
+        // on first load the license information is available and we can know if it is cloud license, but the subscription is not loaded yet
+        // so on initial load we check if it is cloud license and in the case the subscription is still undefined we show the loading spinner to avoid
+        // component change flashing
+        if (isCloud && !isSubscriptionLoaded) {
+            return (<LoadingSpinner/>);
+        }
 
         let gettingTrialError: React.ReactNode = '';
         if (this.state.gettingTrialError && this.state.gettingTrialResponseCode === 451) {
@@ -214,9 +227,36 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                 </p>
             );
         }
+
+        // if it is cloud and is in trial, in the case this component get's shown that means that the license hasn't been updated yet
+        // so let's notify to the user that the license is being updated
+        if (isCloud && isCloudTrial && isSubscriptionLoaded) {
+            return (
+                <div className='FeatureDiscovery'>
+                    <AlertBanner
+                        mode='info'
+                        title={
+                            <FormattedMessage
+                                id='admin.featureDiscovery.WarningTitle'
+                                defaultMessage='Your trial has started and updates are being made to your license.'
+                            />
+                        }
+                        message={
+                            <>
+                                <FormattedMarkdownMessage
+                                    id='admin.featureDiscovery.WarningDescription'
+                                    defaultMessage='Your License is being updated to give you full access to all the Enterprise Features. This page will automatically refresh once the license update is complete. Please wait '
+                                />
+                                <LoadingSpinner/>
+                            </>
+                        }
+                    />
+                </div>
+            );
+        }
+
         return (
             <div className='FeatureDiscovery'>
-
                 <div className='FeatureDiscovery_copyWrapper'>
                     <div
                         className='FeatureDiscovery_title'
@@ -235,11 +275,9 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                     </div>
                     {this.props.prevTrialLicense?.IsLicensed === 'true' ? Utils.renderPurchaseLicense() : this.renderStartTrial(learnMoreURL, gettingTrialError)}
                 </div>
-
                 <div className='FeatureDiscovery_imageWrapper'>
                     {featureDiscoveryImage}
                 </div>
-
             </div>
         );
     }
