@@ -119,7 +119,7 @@ export default class CreateTeam extends React.PureComponent<Props & RouteCompone
                                     <div>
                                         <FormattedMessage
                                             id='create_team.createTeamRestricted.message'
-                                            defaultMessage='This is a paid feature, available with a free 30-day trial. Please contact your System Administrator to resolve this.'
+                                            defaultMessage='Your workspace plan has reached the limit on the number of teams. Create unlimited teams with a free 30-day trial. Contact your System Administrator.'
                                         />
                                     </div>
                                 </>
