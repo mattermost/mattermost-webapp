@@ -18,10 +18,12 @@ jest.mock('react-redux', () => ({
 
 describe('components/global/product_switcher_menu', () => {
     const defaultProps = {
-        modalTitle: 'Title',
-        modalMessage: 'Message',
-        modalTitleAfterTrial: 'Title after trial',
-        modalMessageAfterTrial: 'Message after trial',
+        titleAdminPreTrial: 'Title admin pre trial',
+        messageAdminPreTrial: 'Message admin pre trial',
+        titleAdminPostTrial: 'Title admin post trial',
+        messageAdminPostTrial: 'Message admin post trial',
+        titleEndUser: 'Title end user',
+        messageEndUser: 'Message end user',
     };
 
     beforeEach(() => {
@@ -74,49 +76,46 @@ describe('components/global/product_switcher_menu', () => {
         };
     });
 
-    test('should show default', () => {
+    test('should show with end user pre trial', () => {
         const wrapper = shallow(<FeatureRestrictedModal {...defaultProps}/>);
 
-        expect(wrapper.find('.FeatureRestrictedModal__description').text()).toEqual(defaultProps.modalMessage);
+        expect(wrapper.find('.FeatureRestrictedModal__description').text()).toEqual(defaultProps.messageEndUser);
         expect(wrapper.find('.FeatureRestrictedModal__terms').length).toEqual(0);
         expect(wrapper.find('.FeatureRestrictedModal__buttons').hasClass('single')).toEqual(true);
         expect(wrapper.find('.button-plans').length).toEqual(1);
         expect(wrapper.find('CloudStartTrialButton').length).toEqual(0);
     });
 
-    test('should show with system admin', () => {
+    test('should show with end user post trial', () => {
+        const wrapper = shallow(<FeatureRestrictedModal {...defaultProps}/>);
+
+        expect(wrapper.find('.FeatureRestrictedModal__description').text()).toEqual(defaultProps.messageEndUser);
+        expect(wrapper.find('.FeatureRestrictedModal__terms').length).toEqual(0);
+        expect(wrapper.find('.FeatureRestrictedModal__buttons').hasClass('single')).toEqual(true);
+        expect(wrapper.find('.button-plans').length).toEqual(1);
+        expect(wrapper.find('CloudStartTrialButton').length).toEqual(0);
+    });
+
+    test('should show with system admin pre trial', () => {
         mockState.entities.users.profiles.user1.roles = 'system_admin';
 
         const wrapper = shallow(<FeatureRestrictedModal {...defaultProps}/>);
 
-        expect(wrapper.find('.FeatureRestrictedModal__description').text()).toEqual(defaultProps.modalMessage);
+        expect(wrapper.find('.FeatureRestrictedModal__description').text()).toEqual(defaultProps.messageAdminPreTrial);
         expect(wrapper.find('.FeatureRestrictedModal__terms').length).toEqual(1);
         expect(wrapper.find('.FeatureRestrictedModal__buttons').hasClass('single')).toEqual(false);
         expect(wrapper.find('.button-plans').length).toEqual(1);
         expect(wrapper.find('CloudStartTrialButton').length).toEqual(1);
     });
 
-    test('should match snapshot with prev trial', () => {
-        mockState.entities.cloud.subscription.is_free_trial = 'false';
-        mockState.entities.cloud.subscription.trial_end_at = 1;
-
-        const wrapper = shallow(<FeatureRestrictedModal {...defaultProps}/>);
-
-        expect(wrapper.find('.FeatureRestrictedModal__description').text()).toEqual(defaultProps.modalMessageAfterTrial);
-        expect(wrapper.find('.FeatureRestrictedModal__terms').length).toEqual(0);
-        expect(wrapper.find('.FeatureRestrictedModal__buttons').hasClass('single')).toEqual(true);
-        expect(wrapper.find('.button-plans').length).toEqual(1);
-        expect(wrapper.find('CloudStartTrialButton').length).toEqual(0);
-    });
-
-    test('should match snapshot with system admin and prev trial', () => {
+    test('should match snapshot with system admin post trial', () => {
         mockState.entities.users.profiles.user1.roles = 'system_admin';
         mockState.entities.cloud.subscription.is_free_trial = 'false';
         mockState.entities.cloud.subscription.trial_end_at = 1;
 
         const wrapper = shallow(<FeatureRestrictedModal {...defaultProps}/>);
 
-        expect(wrapper.find('.FeatureRestrictedModal__description').text()).toEqual(defaultProps.modalMessageAfterTrial);
+        expect(wrapper.find('.FeatureRestrictedModal__description').text()).toEqual(defaultProps.messageAdminPostTrial);
         expect(wrapper.find('.FeatureRestrictedModal__terms').length).toEqual(0);
         expect(wrapper.find('.button-plans').length).toEqual(1);
         expect(wrapper.find('CloudStartTrialButton').length).toEqual(0);

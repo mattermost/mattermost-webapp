@@ -15,7 +15,6 @@ import CloudTrialBanner from 'components/admin_console/billing/billing_subscript
 
 import {getCloudContactUsLink, InquiryType, SalesInquiryIssue} from 'selectors/cloud';
 import {getAdminAnalytics} from 'mattermost-redux/selectors/entities/admin';
-import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {
     getSubscriptionProduct,
     getCloudSubscription as selectCloudSubscription,
@@ -66,7 +65,6 @@ const BillingSubscriptions = () => {
     const cancelAccountLink = useSelector(getCloudContactUsLink)(InquiryType.Sales, SalesInquiryIssue.CancelAccount);
     const trialQuestionsLink = useSelector(getCloudContactUsLink)(InquiryType.Sales, SalesInquiryIssue.TrialQuestions);
     const isLegacyFree = useSelector(checkSubscriptionIsLegacyFree);
-    const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
     const trialEndDate = subscription?.trial_end_at || 0;
 
     const [showCreditCardBanner, setShowCreditCardBanner] = useState(true);
@@ -89,11 +87,10 @@ const BillingSubscriptions = () => {
     let daysLeftOnTrial = 0;
     if (subscription?.is_free_trial === 'true') {
         isFreeTrial = true;
-        daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription.trial_end_at);
-        const maxDays = isCloudFreeEnabled ? TrialPeriodDays.TRIAL_30_DAYS : TrialPeriodDays.TRIAL_14_DAYS;
-        if (daysLeftOnTrial > maxDays) {
-            daysLeftOnTrial = maxDays;
-        }
+        daysLeftOnTrial = Math.min(
+            getRemainingDaysFromFutureTimestamp(subscription.trial_end_at),
+            TrialPeriodDays.TRIAL_30_DAYS,
+        );
     }
 
     useEffect(() => {
@@ -160,7 +157,7 @@ const BillingSubscriptions = () => {
                     {showCreditCardBanner &&
                         isCardExpired &&
                         creditCardExpiredBanner(setShowCreditCardBanner)}
-                    {(isCloudFreeEnabled && isFreeTrial) && (<CloudTrialBanner trialEndDate={trialEndDate}/>)}
+                    {isFreeTrial && <CloudTrialBanner trialEndDate={trialEndDate}/>}
                     <div className='BillingSubscriptions__topWrapper'>
                         <PlanDetails
                             isFreeTrial={isFreeTrial}
@@ -173,7 +170,7 @@ const BillingSubscriptions = () => {
                             onUpgradeMattermostCloud={onUpgradeMattermostCloud}
                         />
                     </div>
-                    {isCloudFreeEnabled && hasSomeLimits(cloudLimits) ? (
+                    {hasSomeLimits(cloudLimits) ? (
                         <Limits/>
                     ) : (
                         <ContactSalesCard
