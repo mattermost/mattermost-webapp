@@ -12,6 +12,7 @@ export type AlertBannerProps = {
     mode: ModeType;
     title?: React.ReactNode;
     message?: React.ReactNode;
+    children?: React.ReactNode;
     className?: string;
     hideIcon?: boolean;
     actionButtonLeft?: React.ReactNode;
@@ -20,8 +21,7 @@ export type AlertBannerProps = {
     variant?: 'sys' | 'app';
 }
 
-//
-const AlertBanner: React.FC<AlertBannerProps> = ({
+const AlertBanner = ({
     mode,
     title,
     message,
@@ -31,6 +31,7 @@ const AlertBanner: React.FC<AlertBannerProps> = ({
     actionButtonLeft,
     actionButtonRight,
     hideIcon,
+    children,
 }: AlertBannerProps) => (
     <div
         className={classNames(
@@ -63,10 +64,13 @@ const AlertBanner: React.FC<AlertBannerProps> = ({
                     {message}
                 </div>
             )}
-            <div className='AlertBanner__actionButtons'>
-                {actionButtonLeft}
-                {actionButtonRight}
-            </div>
+            {children}
+            {(actionButtonLeft || actionButtonRight) && (
+                <div className='AlertBanner__actionButtons'>
+                    {actionButtonLeft}
+                    {actionButtonRight}
+                </div>
+            )}
         </div>
         {onDismiss && (
             <button

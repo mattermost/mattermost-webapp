@@ -126,6 +126,7 @@ export type PostsState = {
 export declare type OpenGraphMetadataImage = {
     secure_url?: string;
     url: string;
+    type?: string;
     height?: number;
     width?: number;
 }
@@ -150,6 +151,10 @@ export declare type PostPreviewMetadata = {
 
 export declare type PostsUsageResponse = {
     count: number;
+};
+
+export declare type FilesUsageResponse = {
+    bytes: number;
 };
 
 export declare type TeamsUsageResponse = {

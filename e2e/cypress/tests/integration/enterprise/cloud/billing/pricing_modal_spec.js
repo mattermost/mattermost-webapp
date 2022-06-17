@@ -20,26 +20,21 @@ function simulateSubscription(subscription) {
                 id: 'prod_1',
                 sku: 'cloud-starter',
                 price_per_seat: 0,
+                name: 'Cloud Starter',
             },
             {
                 id: 'prod_2',
                 sku: 'cloud-professional',
                 price_per_seat: 10,
+                name: 'Cloud Professional',
             },
             {
                 id: 'prod_3',
                 sku: 'cloud-enterprise',
                 price_per_seat: 30,
+                name: 'Cloud Enterprise',
             },
         ],
-    });
-
-    cy.intercept('**/api/v4/config/client?format=old', (req) => {
-        req.reply((res) => {
-            const config = {...res.body};
-            config.FeatureFlagCloudFree = 'true';
-            res.send(config);
-        });
     });
 }
 
@@ -55,7 +50,7 @@ describe('Pricing modal', () => {
         const subscription = {
             id: 'sub_test1',
             product_id: 'prod_1',
-            is_free_trial: false,
+            is_free_trial: 'false',
         };
         cy.apiInitSetup().then(({user, offTopicUrl: url}) => {
             urlL = url;
@@ -72,7 +67,7 @@ describe('Pricing modal', () => {
         const subscription = {
             id: 'sub_test1',
             product_id: 'prod_1',
-            is_free_trial: false,
+            is_free_trial: 'false',
         };
         simulateSubscription(subscription);
         cy.apiLogout();
@@ -87,7 +82,7 @@ describe('Pricing modal', () => {
         const subscription = {
             id: 'sub_test1',
             product_id: 'prod_3',
-            is_free_trial: true,
+            is_free_trial: 'true',
         };
         simulateSubscription(subscription);
         cy.apiLogout();
@@ -102,7 +97,7 @@ describe('Pricing modal', () => {
         const subscription = {
             id: 'sub_test1',
             product_id: 'prod_1',
-            is_free_trial: false,
+            is_free_trial: 'false',
         };
         simulateSubscription(subscription);
         cy.apiLogout();
@@ -126,8 +121,14 @@ describe('Pricing modal', () => {
         // *Close PurchaseModal
         cy.get('.close-x').click();
 
-        // *Check that enterprise card action button opens LearnMoreTrialModal
+        // #Open pricing modal again
         cy.get('#UpgradeButton').should('exist').click();
+
+        // *Check for contact sales CTA
+        cy.get('#contact_sales_quote').contains('Contact Sales for a quote');
+
+        // *Check that enterprise card action button opens LearnMoreTrialModal
+        cy.get('#pricingModal').get('#enterprise').get('#enterprise_action').contains('Try free for 30 days');
         cy.get('#pricingModal').get('#enterprise').get('#enterprise_action').click();
         cy.get('.LearnMoreTrialModal').should('exist');
     });
@@ -136,7 +137,7 @@ describe('Pricing modal', () => {
         const subscription = {
             id: 'sub_test1',
             product_id: 'prod_3',
-            is_free_trial: true,
+            is_free_trial: 'true',
         };
         simulateSubscription(subscription);
         cy.apiLogout();
@@ -162,6 +163,7 @@ describe('Pricing modal', () => {
 
         // *Check that enterprise card action button is disabled
         cy.get('#UpgradeButton').should('exist').click();
+        cy.get('#pricingModal').get('#enterprise').get('#enterprise_action').contains('Try free for 30 days');
         cy.get('#pricingModal').get('#enterprise').get('#enterprise_action').should('be.disabled');
     });
 
@@ -169,7 +171,7 @@ describe('Pricing modal', () => {
         const subscription = {
             id: 'sub_test1',
             product_id: 'prod_1',
-            is_free_trial: false,
+            is_free_trial: 'false',
             trial_end_at: 100000000, // signifies that this subscription has trialled before
         };
         simulateSubscription(subscription);
@@ -194,8 +196,36 @@ describe('Pricing modal', () => {
         // *Close PurchaseModal
         cy.get('.close-x').click();
 
-        // *Check that enterprise card action button is disabled
+        // * Contact Sales button shows and Contact sales for quote CTA should not show
         cy.get('#UpgradeButton').should('exist').click();
+        cy.get('#contact_sales_quote').should('not.exist');
         cy.get('#pricingModal').get('#enterprise').get('#enterprise_action').contains('Contact Sales');
+    });
+
+    it('should open cloud limits modal when starter disclaimer CTA is clicked', () => {
+        const subscription = {
+            id: 'sub_test1',
+            product_id: 'prod_1',
+            is_free_trial: 'false',
+            trial_end_at: 100000000, // signifies that this subscription has trialled before
+        };
+        simulateSubscription(subscription);
+        cy.apiLogout();
+        cy.apiAdminLogin();
+        cy.visit(urlL);
+
+        // # Open the pricing modal
+        cy.get('#UpgradeButton').should('exist').click();
+
+        // * Pricing modal should be open
+        cy.get('#pricingModal').should('exist');
+        cy.get('#pricingModal').get('.PricingModal__header').contains('Select a plan');
+
+        // * Open cloud limits modal
+        cy.get('#pricingModal').get('#starter_plan_data_restrictions_cta').contains('This plan has data restrictions.');
+        cy.get('#pricingModal').get('#starter_plan_data_restrictions_cta').click();
+
+        cy.get('.CloudUsageModal').should('exist');
+        cy.get('.CloudUsageModal').contains('Cloud Starter limits');
     });
 });

@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React, {PureComponent} from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import {defineMessages, FormattedMessage, injectIntl} from 'react-intl';
 import classNames from 'classnames';
@@ -144,7 +143,7 @@ export class FileUpload extends PureComponent {
         pluginFilesWillUploadHooks: PropTypes.arrayOf(PropTypes.object),
 
         /**
-         * Function called when superAgent fires progress event.
+         * Function called when xhr fires progress event.
          */
         onUploadProgress: PropTypes.func.isRequired,
         actions: PropTypes.shape({
@@ -153,11 +152,6 @@ export class FileUpload extends PureComponent {
              * Function to be called to upload file
              */
             uploadFile: PropTypes.func.isRequired,
-
-            /**
-             * Function to be called when file is uploaded or failed
-             */
-            handleFileUploadEnd: PropTypes.func.isRequired,
         }).isRequired,
 
         isAdvancedTextEditorEnabled: PropTypes.bool,
@@ -265,38 +259,16 @@ export class FileUpload extends PureComponent {
             // generate a unique id that can be used by other components to refer back to this upload
             const clientId = generateId();
 
-            const request = this.props.actions.uploadFile(
-                sortedFiles[i],
-                sortedFiles[i].name,
-                channelId,
+            const request = this.props.actions.uploadFile({
+                file: sortedFiles[i],
+                name: sortedFiles[i].name,
+                type: sortedFiles[i].type,
                 rootId,
+                channelId,
                 clientId,
-            );
-
-            request.on('progress', (progressEvent) => {
-                this.props.onUploadProgress({
-                    clientId,
-                    name: sortedFiles[i].name,
-                    percent: progressEvent.percent,
-                    type: sortedFiles[i].type,
-                });
-            });
-
-            request.end((err, res) => {
-                const {error, data} = this.props.actions.handleFileUploadEnd(
-                    sortedFiles[i],
-                    sortedFiles[i].name,
-                    channelId,
-                    rootId,
-                    clientId,
-                    {err, res},
-                );
-
-                if (error) {
-                    this.fileUploadFail(error, clientId, channelId, rootId);
-                } else if (data) {
-                    this.fileUploadSuccess(data, channelId, rootId);
-                }
+                onProgress: this.props.onUploadProgress,
+                onSuccess: this.fileUploadSuccess,
+                onError: this.fileUploadFail,
             });
 
             this.setState({requests: {...this.state.requests, [clientId]: request}});
@@ -449,8 +421,7 @@ export class FileUpload extends PureComponent {
             return;
         }
 
-        const target = this.props.getTarget();
-        const textarea = ReactDOM.findDOMNode(target);
+        const textarea = this.props.getTarget();
         if (!this.containsEventTarget(textarea, e.target)) {
             return;
         }
@@ -524,7 +495,8 @@ export class FileUpload extends PureComponent {
             }
             const postTextbox = this.props.postType === 'post' && document.activeElement.id === 'post_textbox';
             const commentTextbox = this.props.postType === 'comment' && document.activeElement.id === 'reply_textbox';
-            if (postTextbox || commentTextbox) {
+            const threadTextbox = this.props.postType === 'thread' && document.activeElement.id === 'reply_textbox';
+            if (postTextbox || commentTextbox || threadTextbox) {
                 this.fileInput.current.focus();
                 this.fileInput.current.click();
             }

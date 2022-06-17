@@ -2,21 +2,25 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators, Dispatch} from 'redux';
+import {bindActionCreators, Dispatch, compose} from 'redux';
 import {withRouter} from 'react-router-dom';
 
 import {getTeams} from 'mattermost-redux/actions/teams';
 import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {Permissions} from 'mattermost-redux/constants';
 import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getSortedListableTeams, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
+import withUseGetUsageDelta from 'components/common/hocs/cloud/with_use_get_usage_deltas';
+
 import {GlobalState} from 'types/store';
 
 import {addUserToTeam} from 'actions/team_actions';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
+
+import {isCloudLicense} from 'utils/license_utils';
 
 import SelectTeam from './select_team';
 
@@ -24,6 +28,9 @@ function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
     const currentUser = getCurrentUser(state);
     const myTeamMemberships = Object.values(getTeamMemberships(state));
+    const license = getLicense(state);
+
+    const isCloud = isCloudLicense(license);
 
     return {
         currentUserId: currentUser.id,
@@ -39,6 +46,7 @@ function mapStateToProps(state: GlobalState) {
         canJoinPrivateTeams: haveISystemPermission(state, {permission: Permissions.JOIN_PRIVATE_TEAMS}),
         siteURL: config.SiteURL,
         totalTeamsCount: state.entities.teams.totalCount || 0,
+        isCloud,
     };
 }
 
@@ -52,4 +60,8 @@ function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SelectTeam));
+export default compose(
+    withRouter,
+    connect(mapStateToProps, mapDispatchToProps),
+    withUseGetUsageDelta,
+)(SelectTeam);

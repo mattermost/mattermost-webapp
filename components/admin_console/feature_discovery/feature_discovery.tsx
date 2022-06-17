@@ -48,9 +48,8 @@ type Props = {
     };
     isCloud: boolean;
     isCloudTrial: boolean;
-    isCloudFreeEnabled: boolean;
     hadPrevCloudTrial: boolean;
-    isCloudFreePaidSubscription: boolean;
+    isPaidSubscription: boolean;
 }
 
 type State = {
@@ -112,30 +111,37 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
     }
 
     renderStartTrial = (learnMoreURL: string, gettingTrialError: React.ReactNode) => {
+        const {
+            isCloud,
+            isCloudTrial,
+            hadPrevCloudTrial,
+            isPaidSubscription,
+        } = this.props;
+        const canRequestCloudFreeTrial = isCloud && !isCloudTrial && !hadPrevCloudTrial && !isPaidSubscription;
+
+        // by default we assume is not cloud, so the cta button is Start Trial (which will request a trial license)
         let primaryMessage = (
             <FormattedMessage
                 id='admin.ldap_feature_discovery.call_to_action.primary'
                 defaultMessage='Start trial'
             />
         );
-        if (this.props.isCloud && !this.props.isCloudFreeEnabled) {
+        let ctaButtonFunction: (e: React.MouseEvent) => void = this.requestLicense;
+
+        // then if it is cloud, and this account already had a free trial, then the cta button must be Upgrade now
+        if (isCloud && hadPrevCloudTrial) {
+            ctaButtonFunction = this.openUpgradeModal;
             primaryMessage = (
                 <FormattedMessage
                     id='admin.ldap_feature_discovery_cloud.call_to_action.primary'
-                    defaultMessage='Subscribe now'
+                    defaultMessage='Upgrade now'
                 />
             );
         }
-        const {
-            isCloud,
-            isCloudTrial,
-            isCloudFreeEnabled,
-            hadPrevCloudTrial,
-            isCloudFreePaidSubscription,
-        } = this.props;
-        const canRequestCloudFreeTrial = isCloud && isCloudFreeEnabled && !isCloudTrial && !hadPrevCloudTrial && !isCloudFreePaidSubscription;
 
-        const ctaTrialButton = canRequestCloudFreeTrial ? (
+        // if all conditions are set for being able to request a cloud trial, then show the cta start cloud trial button
+        // otherwise use the previously defined conditions to elaborate the button
+        const ctaPrimaryButton = canRequestCloudFreeTrial ? (
             <CloudStartTrialButton
                 message={Utils.localizeMessage('admin.ldap_feature_discovery.call_to_action.primary', 'Start trial')}
                 telemetryId={'start_cloud_trial_feature_discovery'}
@@ -146,7 +152,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                 type='button'
                 className='btn btn-primary'
                 data-testid='featureDiscovery_primaryCallToAction'
-                onClick={this.props.isCloud ? this.openUpgradeModal : this.requestLicense}
+                onClick={ctaButtonFunction}
             >
                 <LoadingWrapper
                     loading={this.state.gettingTrial}
@@ -157,8 +163,8 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
             </button>
         );
         return (
-            <React.Fragment>
-                {ctaTrialButton}
+            <>
+                {ctaPrimaryButton}
                 <a
                     className='btn btn-secondary'
                     href={learnMoreURL}
@@ -198,7 +204,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                         }}
                     />
                 </p>}
-            </React.Fragment>
+            </>
         );
     }
 

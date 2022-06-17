@@ -57,9 +57,11 @@ describe('Verify Accessibility Support in different sections in Settings and Pro
         ],
         advanced: [
             {key: 'advancedCtrlSend', label: `Send Messages on ${isMac() ? '⌘+ENTER' : 'CTRL+ENTER'}`, type: 'radio'},
-            {key: 'formatting', label: 'Enable Post Formatting', type: 'radio'},
             {key: 'joinLeave', label: 'Enable Join/Leave Messages', type: 'radio'},
-            {key: 'advancedPreviewFeatures', label: 'Preview Pre-release Features', type: 'checkbox'},
+
+            // As only setting in advancedPreviewFeatures was related to editor preview this isn't required at the moment,
+            // may later on we can add it if we add more settings inside it
+            // {key: 'advancedPreviewFeatures', label: 'Preview Pre-release Features', type: 'checkbox'},
         ],
     };
 

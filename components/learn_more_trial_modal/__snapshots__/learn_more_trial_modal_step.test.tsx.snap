@@ -36,7 +36,6 @@ exports[`components/learn_more_trial_modal/learn_more_trial_modal_step should ma
     buttonLabel="button"
     description="Step description"
     id="stepId"
-    isCloudFree={false}
     svgElement={<svg />}
     svgWrapperClassName="stepClassname"
     title="Step title"
@@ -82,8 +81,6 @@ exports[`components/learn_more_trial_modal/learn_more_trial_modal_step should ma
     description="Step description"
     id="stepId"
     isCloud={true}
-    isCloudFree={false}
-    isCloudFreeEnabled={true}
     svgElement={<svg />}
     svgWrapperClassName="stepClassname"
     title="Step title"
@@ -128,7 +125,6 @@ exports[`components/learn_more_trial_modal/learn_more_trial_modal_step should ma
     buttonLabel="button"
     description="Step description"
     id="stepId"
-    isCloudFree={false}
     svgElement={<svg />}
     svgWrapperClassName="stepClassname"
     title="Step title"

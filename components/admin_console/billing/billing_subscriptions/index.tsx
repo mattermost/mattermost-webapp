@@ -9,24 +9,31 @@ import {getCloudSubscription, getCloudProducts, getCloudCustomer} from 'mattermo
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
-import {openModal} from 'actions/views/modals';
 
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
-import PurchaseModal from 'components/purchase_modal';
+import CloudTrialBanner from 'components/admin_console/billing/billing_subscriptions/cloud_trial_banner';
 
-import {getCloudContactUsLink, InquiryType, InquiryIssue} from 'selectors/cloud';
-import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
-import {GlobalState} from 'types/store';
+import {getCloudContactUsLink, InquiryType, SalesInquiryIssue} from 'selectors/cloud';
+import {getAdminAnalytics} from 'mattermost-redux/selectors/entities/admin';
 import {
-    ModalIdentifiers,
+    getSubscriptionProduct,
+    getCloudSubscription as selectCloudSubscription,
+    getCloudCustomer as selectCloudCustomer,
+    checkSubscriptionIsLegacyFree,
+} from 'mattermost-redux/selectors/entities/cloud';
+import {
     TrialPeriodDays,
 } from 'utils/constants';
 import {isCustomerCardExpired} from 'utils/cloud_utils';
+import {hasSomeLimits} from 'utils/limits';
 import {getRemainingDaysFromFutureTimestamp} from 'utils/utils';
 import {useQuery} from 'utils/http_utils';
 
 import BillingSummary from '../billing_summary';
 import PlanDetails from '../plan_details';
+
+import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
+import useGetLimits from 'components/common/hooks/useGetLimits';
 
 import ContactSalesCard from './contact_sales_card';
 import CancelSubscription from './cancel_subscription';
@@ -41,22 +48,24 @@ import {
     paymentFailedBanner,
     GrandfatheredPlanBanner,
 } from './billing_subscriptions';
+import LimitReachedBanner from './limit_reached_banner';
 
 import './billing_subscriptions.scss';
 
-const BillingSubscriptions: React.FC = () => {
+const BillingSubscriptions = () => {
     const dispatch = useDispatch<DispatchFunc>();
     const store = useStore();
-    const analytics = useSelector((state: GlobalState) => state.entities.admin.analytics);
-    const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
+    const analytics = useSelector(getAdminAnalytics);
+    const subscription = useSelector(selectCloudSubscription);
+    const [cloudLimits] = useGetLimits();
 
-    const products = useSelector((state: GlobalState) => state.entities.cloud.products);
-    const isCardExpired = useSelector((state: GlobalState) => isCustomerCardExpired(state.entities.cloud.customer));
+    const isCardExpired = isCustomerCardExpired(useSelector(selectCloudCustomer));
 
-    const contactSalesLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales));
-    const cancelAccountLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales, InquiryIssue.CancelAccount));
-    const trialQuestionsLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales, InquiryIssue.TrialQuestions));
-    const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
+    const contactSalesLink = useSelector(getCloudContactUsLink)(InquiryType.Sales);
+    const cancelAccountLink = useSelector(getCloudContactUsLink)(InquiryType.Sales, SalesInquiryIssue.CancelAccount);
+    const trialQuestionsLink = useSelector(getCloudContactUsLink)(InquiryType.Sales, SalesInquiryIssue.TrialQuestions);
+    const isLegacyFree = useSelector(checkSubscriptionIsLegacyFree);
+    const trialEndDate = subscription?.trial_end_at || 0;
 
     const [showCreditCardBanner, setShowCreditCardBanner] = useState(true);
     const [showGrandfatheredPlanBanner, setShowGrandfatheredPlanBanner] = useState(true);
@@ -64,31 +73,24 @@ const BillingSubscriptions: React.FC = () => {
     const query = useQuery();
     const actionQueryParam = query.get('action');
 
-    const product = useSelector((state: GlobalState) => {
-        if (state.entities.cloud.products && subscription) {
-            return state.entities.cloud.products[subscription?.product_id];
-        }
-        return undefined;
-    });
+    const product = useSelector(getSubscriptionProduct);
+
+    const openPricingModal = useOpenPricingModal();
 
     // show the upgrade section when is a free tier customer
     const onUpgradeMattermostCloud = () => {
         trackEvent('cloud_admin', 'click_upgrade_mattermost_cloud');
-        dispatch(openModal({
-            modalId: ModalIdentifiers.CLOUD_PURCHASE,
-            dialogType: PurchaseModal,
-        }));
+        openPricingModal();
     };
 
     let isFreeTrial = false;
     let daysLeftOnTrial = 0;
     if (subscription?.is_free_trial === 'true') {
         isFreeTrial = true;
-        daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription.trial_end_at);
-        const maxDays = isCloudFreeEnabled ? TrialPeriodDays.TRIAL_30_DAYS : TrialPeriodDays.TRIAL_14_DAYS;
-        if (daysLeftOnTrial > maxDays) {
-            daysLeftOnTrial = maxDays;
-        }
+        daysLeftOnTrial = Math.min(
+            getRemainingDaysFromFutureTimestamp(subscription.trial_end_at),
+            TrialPeriodDays.TRIAL_30_DAYS,
+        );
     }
 
     useEffect(() => {
@@ -108,13 +110,17 @@ const BillingSubscriptions: React.FC = () => {
         if (actionQueryParam === 'show_purchase_modal') {
             onUpgradeMattermostCloud();
         }
+
+        if (actionQueryParam === 'show_pricing_modal') {
+            openPricingModal();
+        }
     }, []);
 
     const shouldShowPaymentFailedBanner = () => {
         return subscription?.last_invoice?.status === 'failed';
     };
 
-    if (!subscription || !products) {
+    if (!subscription || !product) {
         return null;
     }
 
@@ -124,15 +130,10 @@ const BillingSubscriptions: React.FC = () => {
             !shouldShowPaymentFailedBanner() &&
             showGrandfatheredPlanBanner &&
 
-            // This banner is only for 1 specific grandfathered subscription type. The below ID's are for test and production
-            ['prod_HyiHEAVKW5bYG3', 'prod_Hm2oYaBiRSISL2'].includes(
-                subscription?.product_id,
-            )
+            // This banner is only for this specific grandfathered subscription type.
+            isLegacyFree
         );
     };
-
-    const isPaidTier = Boolean(subscription?.is_paid_tier === 'true');
-    const productsLength = Object.keys(products).length;
 
     return (
         <div className='wrapper--fixed BillingSubscriptions'>
@@ -142,6 +143,9 @@ const BillingSubscriptions: React.FC = () => {
             />
             <div className='admin-console__wrapper'>
                 <div className='admin-console__content'>
+                    <LimitReachedBanner
+                        product={product}
+                    />
                     {shouldShowPaymentFailedBanner() && paymentFailedBanner()}
                     {shouldShowGrandfatheredPlanBanner() && (
                         <GrandfatheredPlanBanner
@@ -153,19 +157,20 @@ const BillingSubscriptions: React.FC = () => {
                     {showCreditCardBanner &&
                         isCardExpired &&
                         creditCardExpiredBanner(setShowCreditCardBanner)}
+                    {isFreeTrial && <CloudTrialBanner trialEndDate={trialEndDate}/>}
                     <div className='BillingSubscriptions__topWrapper'>
                         <PlanDetails
                             isFreeTrial={isFreeTrial}
                             subscriptionPlan={product?.sku}
                         />
                         <BillingSummary
-                            isPaidTier={isPaidTier}
+                            isLegacyFree={isLegacyFree}
                             isFreeTrial={isFreeTrial}
                             daysLeftOnTrial={daysLeftOnTrial}
                             onUpgradeMattermostCloud={onUpgradeMattermostCloud}
                         />
                     </div>
-                    {isCloudFreeEnabled ? (
+                    {hasSomeLimits(cloudLimits) ? (
                         <Limits/>
                     ) : (
                         <ContactSalesCard
@@ -174,13 +179,12 @@ const BillingSubscriptions: React.FC = () => {
                             trialQuestionsLink={trialQuestionsLink}
                             subscriptionPlan={product?.sku}
                             onUpgradeMattermostCloud={onUpgradeMattermostCloud}
-                            productsLength={productsLength}
                         />
                     )}
                     <CancelSubscription
                         cancelAccountLink={cancelAccountLink}
                         isFreeTrial={isFreeTrial}
-                        isPaidTier={isPaidTier}
+                        isLegacyFree={isLegacyFree}
                     />
                 </div>
             </div>

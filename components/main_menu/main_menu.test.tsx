@@ -76,7 +76,6 @@ describe('components/Menu', () => {
         isCloud: false,
         subscription: {},
         userIsAdmin: true,
-        isCloudFreeEnabled: false,
         isFreeTrial: false,
         usageDeltaTeams: 1,
     };
@@ -294,23 +293,21 @@ describe('components/Menu', () => {
         const props = {
             ...defaultProps,
             isCloud: true,
-            isCloudFreeEnabled: true,
             isFreeTrial: true,
             usageDeltaTeams: -1,
         };
         const wrapper = getMainMenuWrapper(props);
-        expect(wrapper).toMatchSnapshot();
+        expect(wrapper.find('#createTeam')).toMatchSnapshot();
     });
 
-    test('should match snapshot with cloud free trial and team limit reached', () => {
+    test('should match snapshot with cloud free and team limit reached', () => {
         const props = {
             ...defaultProps,
             isCloud: true,
-            isCloudFreeEnabled: true,
-            isFreeTrial: true,
+            isFreeTrial: false,
             usageDeltaTeams: 0,
         };
         const wrapper = getMainMenuWrapper(props);
-        expect(wrapper).toMatchSnapshot();
+        expect(wrapper.find('#createTeam')).toMatchSnapshot();
     });
 });

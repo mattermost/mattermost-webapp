@@ -5,10 +5,13 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {AccountMultipleOutlineIcon, ChartBarIcon, CogOutlineIcon, CreditCardOutlineIcon, FlaskOutlineIcon, FormatListBulletedIcon, InformationOutlineIcon, PowerPlugOutlineIcon, ServerVariantIcon, ShieldOutlineIcon, SitemapIcon} from '@mattermost/compass-icons/components';
+
 import {RESOURCE_KEYS} from 'mattermost-redux/constants/permissions_sysconsole';
 import {LicenseSkus} from 'mattermost-redux/types/general';
 
-import {Constants} from 'utils/constants';
+import {Constants, LegacyFreeProductIds} from 'utils/constants';
+import {isCloudFreePlan} from 'utils/cloud_utils';
 import {getSiteURL} from 'utils/url';
 import {t} from 'utils/i18n';
 import {
@@ -200,7 +203,12 @@ export const it = {
     licensedForFeature: (feature) => (config, state, license) => license.IsLicensed && license[feature] === 'true',
     licensedForSku: (skuName) => (config, state, license) => license.IsLicensed && license.SkuShortName === skuName,
     hidePaymentInfo: (config, state, license, enterpriseReady, consoleAccess, cloud) => {
-        return cloud?.subscription?.is_paid_tier !== 'true' || cloud?.subscription?.is_free_trial === 'true';
+        const productId = cloud?.subscription?.product_id;
+        const limits = cloud?.limits;
+        const subscriptionProduct = cloud?.products?.[productId];
+        const isCloudFreeProduct = isCloudFreePlan(subscriptionProduct, limits);
+        const isLegacyFreeUnpaid = Boolean(LegacyFreeProductIds[productId]) && !cloud.subscription?.is_legacy_cloud_paid_tier;
+        return isLegacyFreeUnpaid || cloud?.subscription?.is_free_trial === 'true' || isCloudFreeProduct;
     },
     userHasReadPermissionOnResource: (key) => (config, state, license, enterpriseReady, consoleAccess) => consoleAccess?.read?.[key],
     userHasReadPermissionOnSomeResources: (key) => Object.values(key).some((resource) => it.userHasReadPermissionOnResource(resource)),
@@ -244,7 +252,13 @@ const usesLegacyOauth = (config, state, license, enterpriseReady, consoleAccess,
 
 const AdminDefinition = {
     about: {
-        icon: 'fa-info-circle',
+        icon: (
+            <InformationOutlineIcon
+                size={16}
+                className={'category-icon fa'}
+                color={'currentColor'}
+            />
+        ),
         sectionTitle: t('admin.sidebar.about'),
         sectionTitleDefault: 'About',
         isHidden: it.any(
@@ -274,7 +288,13 @@ const AdminDefinition = {
         },
     },
     billing: {
-        icon: 'fa-credit-card', // TODO: Need compass icon
+        icon: (
+            <CreditCardOutlineIcon
+                size={16}
+                className={'category-icon fa'}
+                color={'currentColor'}
+            />
+        ),
         sectionTitle: t('admin.sidebar.billing'),
         sectionTitleDefault: 'Billing & Account',
         isHidden: it.any(
@@ -353,7 +373,13 @@ const AdminDefinition = {
         },
     },
     reporting: {
-        icon: 'fa-bar-chart',
+        icon: (
+            <ChartBarIcon
+                size={16}
+                className={'category-icon fa'}
+                color={'currentColor'}
+            />
+        ),
         sectionTitle: t('admin.sidebar.reporting'),
         sectionTitleDefault: 'Reporting',
         isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.REPORTING)),
@@ -440,7 +466,13 @@ const AdminDefinition = {
         },
     },
     user_management: {
-        icon: 'fa-users',
+        icon: (
+            <AccountMultipleOutlineIcon
+                size={16}
+                className={'category-icon fa'}
+                color={'currentColor'}
+            />
+        ),
         sectionTitle: t('admin.sidebar.userManagement'),
         sectionTitleDefault: 'User Management',
         isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.USER_MANAGEMENT)),
@@ -651,7 +683,13 @@ const AdminDefinition = {
         },
     },
     environment: {
-        icon: 'fa-server',
+        icon: (
+            <ServerVariantIcon
+                size={16}
+                className={'category-icon fa'}
+                color={'currentColor'}
+            />
+        ),
         sectionTitle: t('admin.sidebar.environment'),
         sectionTitleDefault: 'Environment',
         isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.ENVIRONMENT)),
@@ -1945,7 +1983,13 @@ const AdminDefinition = {
         },
     },
     site: {
-        icon: 'fa-cogs',
+        icon: (
+            <CogOutlineIcon
+                size={16}
+                className={'category-icon fa'}
+                color={'currentColor'}
+            />
+        ),
         sectionTitle: t('admin.sidebar.site'),
         sectionTitleDefault: 'Site Configuration',
         isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.SITE)),
@@ -2650,6 +2694,71 @@ const AdminDefinition = {
                 settings: [
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ServiceSettings.ThreadAutoFollow',
+                        label: t('admin.experimental.threadAutoFollow.title'),
+                        label_default: 'Automatically Follow Threads',
+                        help_text: t('admin.experimental.threadAutoFollow.desc'),
+                        help_text_default: 'This setting must be enabled in order to enable Collapsed Reply Threads. When enabled, threads a user starts, participates in, or is mentioned in are automatically followed. A new `Threads` table is added in the database that tracks threads and thread participants, and a `ThreadMembership` table tracks followed threads for each user and the read or unread state of each followed thread. When false, all backend operations to support Collapsed Reply Threads are disabled.',
+                        help_text_markdown: true,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
+                        isHidden: it.licensedForFeature('Cloud'),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_DROPDOWN,
+                        key: 'ServiceSettings.CollapsedThreads',
+                        label: t('admin.experimental.collapsedThreads.title'),
+                        label_default: 'Collapsed Reply Threads',
+                        help_text: t('admin.experimental.collapsedThreads.desc'),
+                        help_text_default: 'When enabled (default off), users must enable collapsed reply threads in Settings. When disabled, users cannot access Collapsed Reply Threads. Please review our <linkKnownIssues>documentation for known issues</linkKnownIssues> and help provide feedback in our <linkCommunityChannel>Community Channel</linkCommunityChannel>.',
+                        help_text_values: {
+                            linkKnownIssues: (msg) => (
+                                <a
+                                    href='https://docs.mattermost.com/messaging/organizing-conversations.html'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                            linkCommunityChannel: (msg) => (
+                                <a
+                                    href='https://community-daily.mattermost.com/core/channels/folded-reply-threads'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        },
+                        options: [
+                            {
+                                value: 'disabled',
+                                display_name: t('admin.experimental.collapsedThreads.off'),
+                                display_name_default: 'Disabled',
+                            },
+                            {
+                                value: 'default_off',
+                                display_name: t('admin.experimental.collapsedThreads.default_off'),
+                                display_name_default: 'Enabled (Default Off)',
+                            },
+                            {
+                                value: 'default_on',
+                                display_name: t('admin.experimental.collapsedThreads.default_on'),
+                                display_name_default: 'Enabled (Default On)',
+                            },
+                            {
+                                value: 'always_on',
+                                display_name: t('admin.experimental.collapsedThreads.always_on'),
+                                display_name_default: 'Always On',
+                            },
+                        ],
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
+                        isHidden: it.configIsFalse('FeatureFlags', 'CollapsedThreads'),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'ServiceSettings.EnableLinkPreviews',
                         label: t('admin.customization.enableLinkPreviewsTitle'),
                         label_default: 'Enable website link previews:',
@@ -2906,7 +3015,13 @@ const AdminDefinition = {
         },
     },
     authentication: {
-        icon: 'fa-shield',
+        icon: (
+            <ShieldOutlineIcon
+                size={16}
+                className={'category-icon fa'}
+                color={'currentColor'}
+            />
+        ),
         sectionTitle: t('admin.sidebar.authentication'),
         sectionTitleDefault: 'Authentication',
         isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.AUTHENTICATION)),
@@ -5451,7 +5566,13 @@ const AdminDefinition = {
         },
     },
     plugins: {
-        icon: 'fa-plug',
+        icon: (
+            <PowerPlugOutlineIcon
+                size={16}
+                className={'category-icon fa'}
+                color={'currentColor'}
+            />
+        ),
         sectionTitle: t('admin.sidebar.plugins'),
         sectionTitleDefault: 'Plugins',
         id: 'plugins',
@@ -5494,7 +5615,13 @@ const AdminDefinition = {
         },
     },
     integrations: {
-        icon: 'fa-sitemap',
+        icon: (
+            <SitemapIcon
+                size={16}
+                className={'category-icon fa'}
+                color={'currentColor'}
+            />
+        ),
         sectionTitle: t('admin.sidebar.integrations'),
         sectionTitleDefault: 'Integrations',
         id: 'integrations',
@@ -5799,7 +5926,13 @@ const AdminDefinition = {
         },
     },
     compliance: {
-        icon: 'fa-list',
+        icon: (
+            <FormatListBulletedIcon
+                size={16}
+                className={'category-icon fa'}
+                color={'currentColor'}
+            />
+        ),
         sectionTitle: t('admin.sidebar.compliance'),
         sectionTitleDefault: 'Compliance',
         isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.COMPLIANCE)),
@@ -6077,7 +6210,13 @@ const AdminDefinition = {
         },
     },
     experimental: {
-        icon: 'fa-flask',
+        icon: (
+            <FlaskOutlineIcon
+                size={16}
+                className={'category-icon fa'}
+                color={'currentColor'}
+            />
+        ),
         sectionTitle: t('admin.sidebar.experimental'),
         sectionTitleDefault: 'Experimental',
         isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.EXPERIMENTAL)),
@@ -6512,93 +6651,6 @@ const AdminDefinition = {
                         help_text_markdown: false,
                         isHidden: it.not(it.licensedForFeature('SAML')),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'ServiceSettings.ThreadAutoFollow',
-                        label: t('admin.experimental.threadAutoFollow.title'),
-                        label_default: 'Automatically Follow Threads',
-                        help_text: t('admin.experimental.threadAutoFollow.desc'),
-                        help_text_default: 'This setting must be enabled to support <linkThreads>Collapsed Reply Threads</linkThreads> and may impact your database server performance. If you cannot easily scale up and tune your database, or if you are running the Mattermost application server and database server on the same machine, we recommended disabling `ThreadAutoFollow` until Collapsed Reply Threads is promoted to general availability. Learn more about these <linkPerformance>performance considerations here</linkPerformance>.\n \n \nWhen enabled, threads a user starts, participates in, or is mentioned in are automatically followed. Entries are added to the `ThreadMembership` table to track followed threads for each user and the read or unread state of each followed thread. Enabling this configuration setting doesn’t retroactively follow threads for actions taken prior to the setting being enabled',
-                        help_text_values: {
-                            linkThreads: (msg) => (
-                                <a
-                                    href='https://docs.mattermost.com/messaging/organizing-conversations.html'
-                                    referrer='noreferrer'
-                                    target='_blank'
-                                    rel='noreferrer'
-                                >
-                                    {msg}
-                                </a>
-                            ),
-                            linkPerformance: (msg) => (
-                                <a
-                                    href='https://docs.mattermost.com/messaging/organizing-conversations.html'
-                                    referrer='noreferrer'
-                                    target='_blank'
-                                    rel='noreferrer'
-                                >
-                                    {msg}
-                                </a>
-                            ),
-                        },
-                        help_text_markdown: false,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
-                        isHidden: it.licensedForFeature('Cloud'),
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_DROPDOWN,
-                        key: 'ServiceSettings.CollapsedThreads',
-                        label: t('admin.experimental.collapsedThreads.title'),
-                        label_default: 'Collapsed Reply Threads',
-                        help_text: t('admin.experimental.collapsedThreads.desc'),
-                        help_text_default: 'When enabled (default off), users must enable collapsed reply threads in Settings. When disabled, users cannot access Collapsed Reply Threads. Please review our <linkKnownIssues>documentation for known issues</linkKnownIssues> and help provide feedback in our <linkCommunityChannel>Community Channel</linkCommunityChannel>.',
-                        help_text_values: {
-                            linkKnownIssues: (msg) => (
-                                <a
-                                    href='https://docs.mattermost.com/messaging/organizing-conversations.html'
-                                    referrer='noreferrer'
-                                    target='_blank'
-                                    rel='noreferrer'
-                                >
-                                    {msg}
-                                </a>
-                            ),
-                            linkCommunityChannel: (msg) => (
-                                <a
-                                    href='https://community-daily.mattermost.com/core/channels/folded-reply-threads'
-                                    referrer='noreferrer'
-                                    target='_blank'
-                                    rel='noreferrer'
-                                >
-                                    {msg}
-                                </a>
-                            ),
-                        },
-                        options: [
-                            {
-                                value: 'disabled',
-                                display_name: t('admin.experimental.collapsedThreads.off'),
-                                display_name_default: 'Disabled',
-                            },
-                            {
-                                value: 'default_off',
-                                display_name: t('admin.experimental.collapsedThreads.default_off'),
-                                display_name_default: 'Enabled (Default Off)',
-                            },
-                            {
-                                value: 'default_on',
-                                display_name: t('admin.experimental.collapsedThreads.default_on'),
-                                display_name_default: 'Enabled (Default On)',
-                            },
-                            {
-                                value: 'always_on',
-                                display_name: t('admin.experimental.collapsedThreads.always_on'),
-                                display_name_default: 'Always On',
-                            },
-                        ],
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
-                        isHidden: it.configIsFalse('FeatureFlags', 'CollapsedThreads'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,

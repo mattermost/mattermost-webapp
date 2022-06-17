@@ -10,7 +10,7 @@ import {Action, GenericAction} from 'mattermost-redux/types/actions';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {isCloudLicense} from 'utils/license_utils';
 
-import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {checkHadPriorTrial} from 'mattermost-redux/selectors/entities/cloud';
 import {LicenseSkus} from 'mattermost-redux/types/general';
 
 import {openModal} from 'actions/views/modals';
@@ -25,16 +25,15 @@ function mapStateToProps(state: GlobalState) {
     const subscription = state.entities.cloud.subscription;
     const license = getLicense(state);
     const isCloud = isCloudLicense(license);
-    const isCloudFreeEnabled = cloudFreeEnabled(state);
+    const hasPriorTrial = checkHadPriorTrial(state);
     const isCloudTrial = subscription?.is_free_trial === 'true';
     return {
         stats: state.entities.admin.analytics,
         prevTrialLicense: state.entities.admin.prevTrialLicense,
         isCloud,
-        isCloudFreeEnabled,
         isCloudTrial,
-        hadPrevCloudTrial: subscription?.is_free_trial === 'false' && subscription?.trial_end_at > 0,
-        isCloudFreePaidSubscription: isCloud && isCloudFreeEnabled && license?.SkuShortName !== LicenseSkus.Starter && !isCloudTrial,
+        hadPrevCloudTrial: hasPriorTrial,
+        isPaidSubscription: isCloud && license?.SkuShortName !== LicenseSkus.Starter && !isCloudTrial,
     };
 }
 

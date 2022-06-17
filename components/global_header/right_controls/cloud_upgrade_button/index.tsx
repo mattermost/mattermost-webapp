@@ -8,7 +8,6 @@ import styled from 'styled-components';
 
 import {CloudProducts} from 'utils/constants';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
-import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCloudProducts, getCloudSubscription} from 'mattermost-redux/actions/cloud';
 import {getCloudSubscription as selectCloudSubscription, getSubscriptionProduct as selectSubscriptionProduct, isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
 
@@ -36,7 +35,6 @@ const UpgradeCloudButton = (): JSX.Element | null => {
     const dispatch = useDispatch();
     const {formatMessage} = useIntl();
 
-    const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
     const isAdmin = useSelector(isCurrentUserSystemAdmin);
     const subscription = useSelector(selectCloudSubscription);
     const product = useSelector(selectSubscriptionProduct);
@@ -54,7 +52,7 @@ const UpgradeCloudButton = (): JSX.Element | null => {
     const isEnterpriseTrial = subscription?.is_free_trial === 'true';
     const isStarter = product?.sku === CloudProducts.STARTER;
 
-    if (!isCloud || !isAdmin || !isCloudFreeEnabled) {
+    if (!isCloud || !isAdmin) {
         return null;
     }
 

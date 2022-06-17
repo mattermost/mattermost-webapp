@@ -106,7 +106,6 @@ export type ClientConfig = {
     ExperimentalDataPrefetch: string;
     ExperimentalEnableAuthenticationTransfer: string;
     ExperimentalEnableAutomaticReplies: string;
-    ExperimentalEnableClickToReply: string;
     ExperimentalEnableDefaultChannelLeaveJoinMessages: string;
     ExperimentalEnablePostMetadata: string;
     ExperimentalGroupUnreadChannels: string;
@@ -123,6 +122,7 @@ export type ClientConfig = {
     IosAppDownloadLink: string;
     IosLatestVersion: string;
     IosMinVersion: string;
+    InsightsEnabled: string;
     InstallationDate: string;
     IsDefaultMarketplace: string;
     LdapFirstNameAttributeSet: string;
@@ -663,7 +663,6 @@ export type MetricsSettings = {
 export type ExperimentalSettings = {
     ClientSideCertEnable: boolean;
     ClientSideCertCheck: string;
-    EnableClickToReply: boolean;
     LinkMetadataTimeoutMilliseconds: number;
     RestrictSystemAdmin: boolean;
     UseNewSAMLLibrary: boolean;

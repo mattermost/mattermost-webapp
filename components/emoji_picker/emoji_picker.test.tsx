@@ -26,7 +26,7 @@ describe('components/emoji_picker/EmojiPicker', () => {
         handleFilterChange: jest.fn(),
         customEmojisEnabled: false,
         customEmojiPage: 1,
-        emojiMap: new EmojiMap([]),
+        emojiMap: new EmojiMap(new Map()),
         recentEmojis: [],
         userSkinTone: 'default',
         currentTeamName: 'testTeam',
