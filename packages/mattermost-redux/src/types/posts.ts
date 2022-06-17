@@ -26,7 +26,7 @@ export interface NewPost {
     id: Post['id'];
     user_id: Post['user_id'];
     channel_id: Post['channel_id'];
-    message: Post['message'],
+    message: Post['message'];
     type: typeof PostTypes[keyof typeof PostTypes];
     create_at: number;
     update_at: number;

@@ -88,7 +88,7 @@ interface Props {
     /**
      * To Check if the current post is last in the list
      */
-    isLastPost: boolean;
+    isLastPost?: boolean;
 
     isBeingEdited: boolean;
 
@@ -100,7 +100,7 @@ interface Props {
     actions: {
         selectPost: (post: PostType) => void;
         selectPostCard: (post: PostType) => void;
-        markPostAsUnread: (post: PostType) => void;
+        markPostAsUnread: (post: PostType, location: string) => void;
     };
 
     /*
@@ -108,9 +108,9 @@ interface Props {
      */
     isFlagged: boolean;
 
-    isCollapsedThreadsEnabled: boolean;
+    isCollapsedThreadsEnabled?: boolean;
 
-    clickToReply: boolean;
+    clickToReply?: boolean;
 }
 
 interface State {
@@ -223,7 +223,7 @@ export default class Post extends React.PureComponent<Props, State> {
         }
     }
 
-    handleDropdownOpened = (opened) => {
+    handleDropdownOpened = (opened: boolean) => {
         if (this.props.togglePostMenu) {
             this.props.togglePostMenu(opened);
         }
@@ -233,13 +233,13 @@ export default class Post extends React.PureComponent<Props, State> {
         });
     }
 
-    handleFileDropdownOpened = (opened) => {
+    handleFileDropdownOpened = (opened: boolean) => {
         this.setState({
             fileDropdownOpened: opened,
         });
     }
 
-    hasSameRoot = (props) => {
+    hasSameRoot = (props: Props) => {
         const post = props.post;
 
         if (props.isFirstReply) {
@@ -253,7 +253,7 @@ export default class Post extends React.PureComponent<Props, State> {
         return false;
     }
 
-    getClassName = (post, isSystemMessage, isMeMessage, fromWebhook, fromAutoResponder, fromBot) => {
+    getClassName = (post: UserActivityPost, isSystemMessage?: boolean, isMeMessage?: boolean, fromWebhook?: boolean, fromAutoResponder?: boolean, fromBot?: boolean) => {
         let className = 'post';
 
         if (post.failed || post.state === Posts.POST_DELETED) {
@@ -334,7 +334,7 @@ export default class Post extends React.PureComponent<Props, State> {
         return className + ' ' + sameUserClass + ' ' + rootUser + ' ' + postType + ' ' + currentUserCss;
     }
 
-    setHover = (e) => {
+    setHover = (e: React.MouseEvent) => {
         this.setState({
             hover: true,
             alt: e.altKey,
@@ -362,7 +362,7 @@ export default class Post extends React.PureComponent<Props, State> {
         document.removeEventListener('keyup', this.handleAlt);
     }
 
-    handleAlt = (e) => {
+    handleAlt = (e: {altKey: boolean}) => {
         if (this.state.alt !== e.altKey) {
             this.setState({alt: e.altKey});
         }
@@ -480,7 +480,7 @@ export default class Post extends React.PureComponent<Props, State> {
                     data-testid='postView'
                     role='listitem'
                     className={`a11y__section ${this.getClassName(post, isSystemMessage, isMeMessage, fromWebhook, fromAutoResponder, fromBot)}`}
-                    tabIndex='0'
+                    tabIndex={0}
                     onMouseOver={this.setHover}
                     onMouseLeave={this.unsetHover}
                     onTouchStart={this.setHover}

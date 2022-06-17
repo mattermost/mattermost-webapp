@@ -66,12 +66,12 @@ describe('components/post_view/post_list', () => {
     it('Should call postsOnLoad', async () => {
         const emptyPostList: string[] = [];
 
-        const wrapper = shallow(
+        const wrapper = shallow<PostList>(
             <PostList {...{...baseProps, postListIds: emptyPostList}}/>,
         );
 
         expect(actionsProp.loadUnreads).toHaveBeenCalledWith(baseProps.channelId);
-        await wrapper.instance().postsOnLoad();
+        await wrapper.instance().postsOnLoad('undefined');
         expect(wrapper.state('loadingNewerPosts')).toBe(false);
         expect(wrapper.state('loadingOlderPosts')).toBe(false);
     });
@@ -86,20 +86,20 @@ describe('components/post_view/post_list', () => {
 
     it('Should call for before and afterPosts', async () => {
         const postIds = createFakePosIds(2);
-        const wrapper = shallow(
+        const wrapper = shallow<PostList>(
             <PostList {...{...baseProps, postListIds: postIds}}/>,
         );
 
         wrapper.find(VirtPostList).prop('actions').loadOlderPosts();
         expect(wrapper.state('loadingOlderPosts')).toEqual(true);
         expect(actionsProp.loadPosts).toHaveBeenCalledWith({channelId: baseProps.channelId, postId: postIds[postIds.length - 1], type: PostRequestTypes.BEFORE_ID});
-        await wrapper.instance().callLoadPosts();
+        await wrapper.instance().callLoadPosts('undefined', 'undefined', undefined);
         expect(wrapper.state('loadingOlderPosts')).toBe(false);
 
         wrapper.find(VirtPostList).prop('actions').loadNewerPosts();
         expect(wrapper.state('loadingNewerPosts')).toEqual(true);
         expect(actionsProp.loadPosts).toHaveBeenCalledWith({channelId: baseProps.channelId, postId: postIds[0], type: PostRequestTypes.AFTER_ID});
-        await wrapper.instance().callLoadPosts();
+        await wrapper.instance().callLoadPosts('undefined', 'undefined', undefined);
         expect(wrapper.state('loadingNewerPosts')).toBe(false);
     });
 
@@ -116,7 +116,7 @@ describe('components/post_view/post_list', () => {
     it('getOldestVisiblePostId and getLatestVisiblePostId should return based on postListIds', async () => {
         const postIds = createFakePosIds(10);
         const formattedPostIds = ['1', '2'];
-        const wrapper = shallow(
+        const wrapper = shallow<PostList>(
             <PostList {...{...baseProps, postListIds: postIds, formattedPostIds}}/>,
         );
 
@@ -169,19 +169,19 @@ describe('components/post_view/post_list', () => {
             const postIds = createFakePosIds(2);
             const wrapper = shallow(<PostList {...{...baseProps, isFirstLoad: false, postListIds: postIds}}/>);
             wrapper.setState({loadingOlderPosts: true});
-            wrapper.find(VirtPostList).prop('actions').canLoadMorePosts();
+            wrapper.find(VirtPostList).prop('actions').canLoadMorePosts(undefined);
             expect(actionsProp.loadPosts).not.toHaveBeenCalled();
             wrapper.setState({loadingOlderPosts: false});
             wrapper.setState({loadingNewerPosts: true});
-            wrapper.find(VirtPostList).prop('actions').canLoadMorePosts();
+            wrapper.find(VirtPostList).prop('actions').canLoadMorePosts(undefined);
             expect(actionsProp.loadPosts).not.toHaveBeenCalled();
         });
 
         test('Should not call loadPosts if there were more than MAX_EXTRA_PAGES_LOADED', async () => {
             const postIds = createFakePosIds(2);
-            const wrapper = shallow(<PostList {...{...baseProps, isFirstLoad: false, postListIds: postIds}}/>);
+            const wrapper = shallow<PostList>(<PostList {...{...baseProps, isFirstLoad: false, postListIds: postIds}}/>);
             wrapper.instance().extraPagesLoaded = MAX_EXTRA_PAGES_LOADED + 1;
-            wrapper.find(VirtPostList).prop('actions').canLoadMorePosts();
+            wrapper.find(VirtPostList).prop('actions').canLoadMorePosts(undefined);
             expect(actionsProp.loadPosts).not.toHaveBeenCalled();
         });
 
@@ -189,7 +189,7 @@ describe('components/post_view/post_list', () => {
             const postIds = createFakePosIds(2);
             const wrapper = shallow(<PostList {...{...baseProps, isFirstLoad: false, postListIds: postIds}}/>);
             wrapper.setProps({atOldestPost: false});
-            wrapper.find(VirtPostList).prop('actions').canLoadMorePosts();
+            wrapper.find(VirtPostList).prop('actions').canLoadMorePosts(undefined);
             expect(actionsProp.loadPosts).toHaveBeenCalledWith({channelId: baseProps.channelId, postId: postIds[postIds.length - 1], type: PostRequestTypes.BEFORE_ID});
         });
 
@@ -197,7 +197,7 @@ describe('components/post_view/post_list', () => {
             const postIds = createFakePosIds(2);
             const wrapper = shallow(<PostList {...{...baseProps, isFirstLoad: false, postListIds: postIds}}/>);
             wrapper.setProps({atOldestPost: true});
-            wrapper.find(VirtPostList).prop('actions').canLoadMorePosts();
+            wrapper.find(VirtPostList).prop('actions').canLoadMorePosts(undefined);
             expect(actionsProp.loadPosts).toHaveBeenCalledWith({channelId: baseProps.channelId, postId: postIds[0], type: PostRequestTypes.AFTER_ID});
         });
 
@@ -238,18 +238,18 @@ describe('components/post_view/post_list', () => {
 
     describe('markChannelAsReadAndViewed', () => {
         test('Should call markChannelAsReadAndViewed on postsOnLoad', async () => {
-            const emptyPostList = [];
+            const emptyPostList: string[] = [];
 
-            const wrapper = shallow(
+            const wrapper = shallow<PostList>(
                 <PostList {...{...baseProps, postListIds: emptyPostList}}/>,
             );
 
-            await wrapper.instance().postsOnLoad();
+            await wrapper.instance().postsOnLoad('undefined');
             expect(actionsProp.markChannelAsRead).toHaveBeenCalledWith(baseProps.channelId);
             expect(actionsProp.markChannelAsViewed).toHaveBeenCalledWith(baseProps.channelId);
         });
         test('Should call markChannelAsReadAndViewed on componeneWillUnmount', async () => {
-            const emptyPostList = [];
+            const emptyPostList: string[] = [];
 
             const wrapper = shallow(
                 <PostList {...{...baseProps, postListIds: emptyPostList}}/>,
@@ -260,7 +260,7 @@ describe('components/post_view/post_list', () => {
             expect(actionsProp.markChannelAsViewed).toHaveBeenCalledWith(baseProps.channelId);
         });
         test('Should not call markChannelAsReadAndViewed as it is a permalink', async () => {
-            const emptyPostList = [];
+            const emptyPostList: string[] = [];
             const focusedPostId = 'new';
             shallow(
                 <PostList {...{...baseProps, postListIds: emptyPostList, focusedPostId}}/>,

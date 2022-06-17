@@ -4,6 +4,8 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
+import {UserActivityPost} from 'mattermost-redux/types/posts';
+
 import PostAriaLabelDiv from 'components/post_view/post_aria_label_div';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import ThreadFooter from 'components/threading/channel_threads/thread_footer';
@@ -12,7 +14,7 @@ import Post from './post';
 
 describe('Post', () => {
     const baseProps = {
-        post: {id: 'post1', is_pinned: false},
+        post: {id: 'post1', is_pinned: false} as unknown as UserActivityPost,
         currentUserId: 'user1',
         center: false,
         compactDisplay: false,
@@ -64,13 +66,13 @@ describe('Post', () => {
 
     describe('getClassName', () => {
         test('should not show cursor pointer normally', () => {
-            const wrapper = shallow(<Post {...baseProps}/>);
+            const wrapper = shallow<Post>(<Post {...baseProps}/>);
 
             expect(wrapper.instance().getClassName(baseProps.post, false, false, false, false, false)).not.toContain('cursor--pointer');
         });
 
         test('should show cursor pointer when alt is held', () => {
-            const wrapper = shallow(<Post {...baseProps}/>);
+            const wrapper = shallow<Post>(<Post {...baseProps}/>);
 
             wrapper.setState({alt: true});
 
@@ -83,7 +85,7 @@ describe('Post', () => {
                 channelIsArchived: true,
             };
 
-            const wrapper = shallow(<Post {...props}/>);
+            const wrapper = shallow<Post>(<Post {...props}/>);
 
             wrapper.setState({alt: true});
 

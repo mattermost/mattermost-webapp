@@ -4,6 +4,10 @@
 import {connect} from 'react-redux';
 import {withRouter, RouteChildrenProps} from 'react-router-dom';
 
+import {Channel} from '@mattermost/types/channels';
+import {Team, TeamMembership} from '@mattermost/types/teams';
+import {UserProfile} from '@mattermost/types/users';
+
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 import {getTeamByName, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
@@ -11,13 +15,10 @@ import {getTeamByName, getTeamMemberships} from 'mattermost-redux/selectors/enti
 import {Constants} from 'utils/constants';
 
 import {GlobalState} from 'types/store';
-import {Channel} from '@mattermost/types/channels';
-import {Team, TeamMembership} from '@mattermost/types/teams';
-import {UserProfile} from '@mattermost/types/users';
 
 import PostView from './post_view';
 
-export const isChannelLoading = (params: RouteViewParams, channel: Channel | undefined, team: Team | undefined, teammate: UserProfile | undefined, teamMemberships: Record<string, TeamMembership>) => {
+export const isChannelLoading = (params: RouteViewParams, channel?: Channel, team?: Team, teammate?: UserProfile, teamMemberships?: Record<string, TeamMembership>) => {
     if (params.postid) {
         return false;
     }
@@ -45,7 +46,7 @@ interface Props extends RouteChildrenProps {
 }
 
 interface RouteViewParams {
-    team: string;
+    team?: string;
     identifier?: string;
     postid?: string;
 }
@@ -74,4 +75,4 @@ function makeMapStateToProps() {
     };
 }
 
-export default withRouter(connect(makeMapStateToProps)(PostView));
+export default withRouter(connect(makeMapStateToProps)(PostView) as any);

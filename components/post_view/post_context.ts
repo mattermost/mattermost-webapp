@@ -3,7 +3,10 @@
 
 import React from 'react';
 
-const PostContext = React.createContext({
+interface PostContextValue {
+    handlePopupOpened: ((opened: boolean) => void) | null;
+}
+const PostContext = React.createContext<PostContextValue>({
 
     // Post component event handler that should be
     // called when any child component opens/closes a

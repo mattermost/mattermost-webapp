@@ -33,7 +33,7 @@ type Props = {
     showEmojiPicker: boolean;
     toggleEmojiPicker: (event?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     actions: {
-        addReaction: (postId: string, emojiName: string) => (dispatch: Dispatch) => void;
+        addReaction: (postId: string, emojiName: string) => (dispatch: Dispatch) => {data: boolean} | undefined;
     };
 }
 

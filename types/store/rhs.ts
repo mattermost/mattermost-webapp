@@ -6,6 +6,8 @@ import {Channel} from '@mattermost/types/channels';
 import {UserProfile} from '@mattermost/types/users';
 import {FileInfo} from '@mattermost/types/files';
 
+import {RHSStates} from 'utils/constants';
+
 export type SearchType = '' | 'files' | 'messages';
 
 export type FakePost = {
@@ -46,4 +48,4 @@ export type RhsViewState = {
     editChannelMembers: boolean;
 };
 
-export type RhsState = 'mention' | 'search' | 'flag' | 'pin' | 'plugin' | 'channel-info' | 'channel-files' |'channel-members' | null;
+export type RhsState = typeof RHSStates[keyof typeof RHSStates] | null;

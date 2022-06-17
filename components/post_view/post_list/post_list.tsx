@@ -60,7 +60,7 @@ export interface Props {
     /*
      * To get posts for perma view
      */
-    focusedPostId: string;
+    focusedPostId?: string;
 
     /*
      * Used for determining if we are not at the recent most chunk in channel
@@ -70,7 +70,7 @@ export interface Props {
     /*
      * Used for determining if we are at the channels oldest post
      */
-    atOldestPost: boolean;
+    atOldestPost?: boolean;
 
     /*
      * Used for loading posts using unread API
@@ -80,12 +80,7 @@ export interface Props {
     /*
      * Used for syncing posts and is also passed down to virt list for newMessages indicator
      */
-    latestPostTimeStamp: number;
-
-    /**
-     * Lastest post id of the current post list, this doesnt include timestamps etc, just actual posts
-     */
-    latestPostId: string;
+    latestPostTimeStamp?: number;
 
     /*
      * Used for passing down to virt list so it can change the chunk of posts selected
@@ -156,7 +151,9 @@ export default class PostList extends React.PureComponent<Props, State> {
         updateNewMessagesAtInChannel: typeof updateNewMessagesAtInChannel;
     }
     private mounted: boolean | undefined;
-    private extraPagesLoaded: number | undefined;
+
+    // public for testing purposed only
+    public extraPagesLoaded: number | undefined;
 
     constructor(props: Props) {
         super(props);
@@ -203,13 +200,13 @@ export default class PostList extends React.PureComponent<Props, State> {
     postsOnLoad = async (channelId: string) => {
         const {focusedPostId, isFirstLoad, latestPostTimeStamp, isPrefetchingInProcess, actions} = this.props;
         if (focusedPostId) {
-            await actions.loadPostsAround(channelId, this.props.focusedPostId);
+            await actions.loadPostsAround(channelId, focusedPostId);
         } else if (isFirstLoad) {
             if (!isPrefetchingInProcess) {
                 await actions.loadUnreads(channelId);
             }
         } else if (latestPostTimeStamp) {
-            await actions.syncPostsInChannel(channelId, this.props.latestPostTimeStamp, false);
+            await actions.syncPostsInChannel(channelId, latestPostTimeStamp, false);
         } else {
             await actions.loadLatestPosts(channelId);
         }
