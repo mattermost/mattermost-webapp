@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {useIntl} from 'react-intl';
+import classNames from 'classnames';
 
 import FeatureRestrictedModal from 'components/feature_restricted_modal/feature_restricted_modal';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -14,19 +15,21 @@ import {Constants, ModalIdentifiers} from 'utils/constants';
 import './restricted_indicator.scss';
 
 type RestrictedIndicatorProps = {
+    modal?: boolean;
     blocked?: boolean;
     tooltipTitle?: string;
     tooltipMessage?: string;
     tooltipMessageBlocked?: string;
-    titleAdminPreTrial: string;
-    messageAdminPreTrial: string;
-    titleAdminPostTrial: string;
-    messageAdminPostTrial: string;
-    titleEndUser: string;
-    messageEndUser: string;
+    titleAdminPreTrial?: string;
+    messageAdminPreTrial?: string;
+    titleAdminPostTrial?: string;
+    messageAdminPostTrial?: string;
+    titleEndUser?: string;
+    messageEndUser?: string;
 }
 
 const RestrictedIndicator = ({
+    modal,
     blocked,
     tooltipTitle,
     tooltipMessage,
@@ -39,6 +42,8 @@ const RestrictedIndicator = ({
     messageEndUser,
 }: RestrictedIndicatorProps) => {
     const {formatMessage} = useIntl();
+
+    const icon = <i className={classNames('RestrictedIndicator__icon-tooltip', 'icon', blocked ? 'icon-key-variant' : 'trial')}/>;
 
     return (
         <span className='RestrictedIndicator__icon-tooltip-container'>
@@ -60,7 +65,7 @@ const RestrictedIndicator = ({
                     </Tooltip>
                 )}
             >
-                {blocked ? (
+                {blocked && modal ? (
                     <ToggleModalButton
                         className='RestrictedIndicator__button'
                         modalId={ModalIdentifiers.FEATURE_RESTRICTED_MODAL}
@@ -74,10 +79,10 @@ const RestrictedIndicator = ({
                             messageEndUser,
                         }}
                     >
-                        <i className='RestrictedIndicator__icon-tooltip icon icon-key-variant'/>
+                        {icon}
                     </ToggleModalButton>
                 ) : (
-                    <i className='RestrictedIndicator__icon-tooltip icon trial'/>
+                    icon
                 )}
             </OverlayTrigger>
         </span>

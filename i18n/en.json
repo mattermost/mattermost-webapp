@@ -2168,6 +2168,7 @@
   "admin.sidebar.pushNotificationServer": "Push Notification Server",
   "admin.sidebar.rateLimiting": "Rate Limiting",
   "admin.sidebar.reporting": "Reporting",
+  "admin.sidebar.restricted_indicator.tooltip.message.blocked": "This is a paid feature, available with an upgrade or free 30-day trial",
   "admin.sidebar.saml": "SAML 2.0",
   "admin.sidebar.sessionLengths": "Session Lengths",
   "admin.sidebar.signup": "Signup",
