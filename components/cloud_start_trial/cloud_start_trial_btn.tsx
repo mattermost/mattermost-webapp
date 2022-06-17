@@ -3,16 +3,14 @@
 
 import React, {useEffect, useState} from 'react';
 import {useIntl} from 'react-intl';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 
 import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
 import {getClientConfig, getLicenseConfig} from 'mattermost-redux/actions/general';
 
-import {
-    getCloudSubscription as selectCloudSubscription,
-} from 'mattermost-redux/selectors/entities/cloud';
+import useGetSubscription from 'components/common/hooks/useGetSubscription';
 
 import {requestCloudTrial, validateBusinessEmail, getCloudLimits} from 'actions/cloud';
 import {trackEvent} from 'actions/telemetry_actions';
@@ -54,7 +52,7 @@ const CloudStartTrialButton = ({
 }: CloudStartTrialBtnProps) => {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch<DispatchFunc>();
-    const subscription = useSelector(selectCloudSubscription);
+    const subscription = useGetSubscription();
     const [openBusinessEmailModal, setOpenBusinessEmailModal] = useState(false);
     const [status, setLoadStatus] = useState(TrialLoadStatus.NotStarted);
 
@@ -67,9 +65,6 @@ const CloudStartTrialButton = ({
 
     useEffect(() => {
         validateBusinessEmailOnLoad();
-        if (subscription === undefined) {
-            dispatch(getCloudSubscription());
-        }
     }, []);
 
     const requestStartTrial = async (): Promise<TrialLoadStatus> => {
