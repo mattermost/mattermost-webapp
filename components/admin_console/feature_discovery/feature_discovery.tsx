@@ -6,7 +6,6 @@ import {FormattedMessage} from 'react-intl';
 
 import {AnalyticsRow} from '@mattermost/types/admin';
 import {ClientLicense} from '@mattermost/types/config';
-import {Subscription} from '@mattermost/types/cloud';
 import {EmbargoedEntityTrialError} from 'components/admin_console/license_settings/trial_banner/trial_banner';
 import AlertBanner from 'components/alert_banner';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
@@ -51,7 +50,7 @@ type Props = {
     isCloud: boolean;
     isCloudTrial: boolean;
     hadPrevCloudTrial: boolean;
-    subscription: Subscription | undefined;
+    isSubscriptionLoaded: boolean;
     isPaidSubscription: boolean;
 }
 
@@ -201,13 +200,13 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
             featureDiscoveryImage,
             isCloud,
             isCloudTrial,
-            subscription,
+            isSubscriptionLoaded,
         } = this.props;
 
         // on first load the license information is available and we can know if it is cloud license, but the subscription is not loaded yet
         // so on initial load we check if it is cloud license and in the case the subscription is still undefined we show the loading spinner to avoid
         // component change flashing
-        if (isCloud && !subscription) {
+        if (isCloud && !isSubscriptionLoaded) {
             return (<LoadingSpinner/>);
         }
 
@@ -230,8 +229,8 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
         }
 
         // if it is cloud and is in trial, in the case this component get's shown that means that the license hasn't been updated yet
-        // so let's notify to the user that the license
-        if (isCloud && isCloudTrial && subscription !== undefined) {
+        // so let's notify to the user that the license is being updated
+        if (isCloud && isCloudTrial && isSubscriptionLoaded) {
             return (
                 <div className='FeatureDiscovery'>
                     <AlertBanner

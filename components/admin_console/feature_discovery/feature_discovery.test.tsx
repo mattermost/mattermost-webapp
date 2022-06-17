@@ -4,8 +4,6 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {Subscription} from '@mattermost/types/cloud';
-
 import FeatureDiscovery from 'components/admin_console/feature_discovery/feature_discovery';
 
 import SamlSVG from './features/images/saml_svg';
@@ -28,7 +26,7 @@ describe('components/feature_discovery', () => {
                     isCloud={false}
                     isCloudTrial={false}
                     hadPrevCloudTrial={false}
-                    subscription={{} as Subscription}
+                    isSubscriptionLoaded={true}
                     isPaidSubscription={false}
                     actions={{
                         requestTrialLicense: jest.fn(),
@@ -57,7 +55,7 @@ describe('components/feature_discovery', () => {
                     isCloudTrial={false}
                     hadPrevCloudTrial={false}
                     isPaidSubscription={false}
-                    subscription={{} as Subscription}
+                    isSubscriptionLoaded={true}
                     actions={{
                         requestTrialLicense: jest.fn(),
                         getLicenseConfig: jest.fn(),
@@ -85,7 +83,7 @@ describe('components/feature_discovery', () => {
                     isCloud={true}
                     isCloudTrial={false}
                     hadPrevCloudTrial={false}
-                    subscription={undefined}
+                    isSubscriptionLoaded={false}
                     isPaidSubscription={false}
                     actions={{
                         requestTrialLicense: jest.fn(),

@@ -183,7 +183,7 @@ const TrialBenefitsModal = ({
             />
         ),
         bottomLeftMessage: formatMessage({id: 'trial_benefits.modal.onlyVisibleToAdmins', defaultMessage: 'Only visible to admins'}),
-        isCloud: license?.Cloud === 'true',
+        isCloud,
     };
 
     const handleOnClose = useCallback(() => {
