@@ -31,9 +31,6 @@ describe('admin_console/team_channel_settings/team/TeamProfile__Cloud', () => {
         },
         entities: {
             general: {
-                config: {
-                    FeatureFlagCloudFree: 'true',
-                } as any,
                 license: {
                     IsLicensed: 'true',
                     Cloud: 'true',
@@ -196,7 +193,6 @@ describe('admin_console/team_channel_settings/team/TeamProfile__Cloud', () => {
     });
 });
 
-//
 describe('admin_console/team_channel_settings/team/TeamProfile', () => {
     const baseProps = {
         team: {
@@ -215,9 +211,6 @@ describe('admin_console/team_channel_settings/team/TeamProfile', () => {
         },
         entities: {
             general: {
-                config: {
-                    FeatureFlagCloudFree: 'false',
-                },
                 license: {
                     IsLicensed: 'true',
                     Cloud: 'false',

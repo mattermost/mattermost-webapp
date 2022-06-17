@@ -99,6 +99,11 @@ export default class AtMentionProvider extends Provider {
         return groupSuggestions;
     }
 
+    // normalizeString performs a unicode normalization to a string
+    normalizeString(name) {
+        return name.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    }
+
     // filterProfile constrains profiles to those matching the latest prefix.
     filterProfile(profile) {
         if (!profile) {
@@ -107,7 +112,9 @@ export default class AtMentionProvider extends Provider {
 
         const prefixLower = this.latestPrefix.toLowerCase();
         const profileSuggestions = this.getProfileSuggestions(profile);
-        return profileSuggestions.some((suggestion) => suggestion.startsWith(prefixLower));
+        return profileSuggestions.some((suggestion) =>
+            this.normalizeString(suggestion).startsWith(this.normalizeString(prefixLower)),
+        );
     }
 
     // filterGroup constrains group mentions to those matching the latest prefix.

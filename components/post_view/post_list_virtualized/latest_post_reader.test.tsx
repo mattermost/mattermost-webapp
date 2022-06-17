@@ -61,7 +61,7 @@ describe('LatestPostReader', () => {
     test('should render aria-label as a child in the given locale', () => {
         const {mountOptions} = mockStore(baseState);
 
-        useIntl.mockImplementation(() => createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'}));
+        (useIntl as jest.Mock).mockImplementation(() => createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'}));
 
         let wrapper = mount(<LatestPostReader {...baseProps}/>, mountOptions);
         let span = wrapper.childAt(0);
@@ -69,7 +69,7 @@ describe('LatestPostReader', () => {
         expect(span.prop('children')).toContain(author.username);
         expect(span.prop('children')).toContain('January');
 
-        useIntl.mockImplementation(() => createIntl({locale: 'es', messages: esMessages, defaultLocale: 'es'}));
+        (useIntl as jest.Mock).mockImplementation(() => createIntl({locale: 'es', messages: esMessages, defaultLocale: 'es'}));
 
         wrapper = mount(<LatestPostReader {...baseProps}/>, mountOptions);
         span = wrapper.childAt(0);

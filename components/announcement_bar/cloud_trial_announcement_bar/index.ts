@@ -8,7 +8,7 @@ import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
-import {makeGetCategory, cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
 
 import {getCurrentUser, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
@@ -28,17 +28,15 @@ function mapStateToProps(state: GlobalState) {
 
     const subscription = state.entities.cloud.subscription;
     const isCloud = getLicense(state).Cloud === 'true';
-    const isCloudFreeEnabled = cloudFreeEnabled(state);
     let isFreeTrial = false;
     let daysLeftOnTrial = 0;
 
     if (isCloud && subscription?.is_free_trial === 'true') {
         isFreeTrial = true;
-        daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription.trial_end_at);
-        const maxDays = isCloudFreeEnabled ? TrialPeriodDays.TRIAL_30_DAYS : TrialPeriodDays.TRIAL_14_DAYS;
-        if (daysLeftOnTrial > maxDays) {
-            daysLeftOnTrial = maxDays;
-        }
+        daysLeftOnTrial = Math.min(
+            getRemainingDaysFromFutureTimestamp(subscription.trial_end_at),
+            TrialPeriodDays.TRIAL_30_DAYS,
+        );
     }
 
     return {
