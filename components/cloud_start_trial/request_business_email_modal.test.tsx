@@ -26,7 +26,12 @@ describe('components/request_business_email_modal/request_business_email_modal',
     const state = {
         entities: {
             admin: {},
-            general: {},
+            general: {
+                license: {
+                    IsLicensed: 'true',
+                    Cloud: 'true',
+                },
+            },
             cloud: {
                 subscription: {id: 'subscriptionID'},
             },
