@@ -17,7 +17,6 @@ import {createShallowSelector} from 'mattermost-redux/utils/helpers';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 import {setThemeDefaults} from 'mattermost-redux/utils/theme_utils';
 import {CollapsedThreads} from '@mattermost/types/config';
-import {LicenseSkus} from 'mattermost-redux/types/general';
 
 export function getMyPreferences(state: GlobalState): { [x: string]: PreferenceType } {
     return state.entities.preferences.myPreferences;
