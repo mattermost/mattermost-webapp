@@ -28,6 +28,7 @@ import {Post} from '@mattermost/types/posts';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import {getSearchTerms, getRhsState, getPluggableId, getFilesSearchExtFilter, getPreviousRhsState} from 'selectors/rhs';
 import {ActionTypes, RHSStates, Constants} from 'utils/constants';
+import {General} from 'mattermost-redux/constants'
 import * as Utils from 'utils/utils';
 import {getBrowserUtcOffset, getUtcOffsetForTimeZone} from 'utils/timezone';
 import {RhsState} from 'types/store/rhs';
@@ -213,7 +214,7 @@ export function showChannelMembers(channelId: string, inEditingMode = false) {
         const state = getState() as GlobalState;
 
         dispatch(loadMyChannelMemberAndRole(channelId));
-        dispatch(loadProfilesAndReloadChannelMembers(channelId));
+        dispatch(loadProfilesAndReloadChannelMembers(0, General.PROFILE_CHUNK_SIZE, channelId));
 
         if (inEditingMode) {
             await dispatch(setEditChannelMembers(true));

@@ -16,6 +16,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {canEditPost, comparePosts} from 'mattermost-redux/utils/post_utils';
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {NewPost} from 'mattermost-redux/types/posts';
 
 import {addRecentEmoji} from 'actions/emoji_actions';
 import * as StorageActions from 'actions/storage';
@@ -36,7 +37,7 @@ import * as UserAgent from 'utils/user_agent';
 
 import {completePostReceive, NewPostMessageProps} from './new_post';
 
-export function handleNewPost(post: Post, msg?: {data?: NewPostMessageProps & GroupChannel}) {
+export function handleNewPost(post: NewPost, msg?: {data?: NewPostMessageProps & GroupChannel}) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         let websocketMessageProps = {};
         const state = getState();

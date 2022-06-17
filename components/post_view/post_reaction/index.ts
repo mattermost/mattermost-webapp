@@ -13,7 +13,7 @@ import PostReaction from './post_reaction';
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
-            addReaction,
+            addReaction: addReaction as any,
         }, dispatch),
     };
 }

@@ -255,7 +255,7 @@ describe('components/post_view/post_list', () => {
                 <PostList {...{...baseProps, postListIds: emptyPostList}}/>,
             );
 
-            await wrapper.instance().componentWillUnmount();
+            wrapper.instance()?.componentWillUnmount?.();
             expect(actionsProp.markChannelAsRead).toHaveBeenCalledWith(baseProps.channelId);
             expect(actionsProp.markChannelAsViewed).toHaveBeenCalledWith(baseProps.channelId);
         });

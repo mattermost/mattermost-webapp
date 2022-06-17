@@ -67,7 +67,7 @@ export function loadProfilesAndReloadTeamMembers(page: number, perPage: number, 
     };
 }
 
-export function loadProfilesAndReloadChannelMembers(page: number, perPage: number, channelId: string, sort = '', options = {}) {
+export function loadProfilesAndReloadChannelMembers(page: number, perPage?: number, channelId?: string, sort = '', options = {}) {
     return async (doDispatch: DispatchFunc, doGetState: GetStateFunc) => {
         const newChannelId = channelId || getCurrentChannelId(doGetState());
         const {data} = await doDispatch(UserActions.getProfilesInChannel(newChannelId, page, perPage, sort, options));

@@ -176,7 +176,7 @@ export function sendEphemeralPost(message: string, channelId?: string, parentId?
             type: PostTypes.EPHEMERAL,
             create_at: timestamp,
             update_at: timestamp,
-            root_id: parentId,
+            root_id: parentId || '',
             props: {},
         };
 

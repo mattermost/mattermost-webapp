@@ -5,6 +5,11 @@ import {AnyAction} from 'redux';
 import {batchActions} from 'redux-batched-actions';
 
 import {FetchPaginatedThreadOptions} from '@mattermost/types/client4';
+import {ChannelUnread} from '@mattermost/types/channels';
+import {GlobalState} from '@mattermost/types/store';
+import {Post, PostList} from '@mattermost/types/posts';
+import {Reaction} from '@mattermost/types/reactions';
+import {UserProfile} from '@mattermost/types/users';
 
 import {Client4, DEFAULT_LIMIT_AFTER, DEFAULT_LIMIT_BEFORE} from 'mattermost-redux/client';
 import {General, Preferences, Posts} from '../constants';
@@ -18,11 +23,7 @@ import {getCurrentUserId, getUsersByUsername} from 'mattermost-redux/selectors/e
 import {isCombinedUserActivityPost} from 'mattermost-redux/utils/post_list';
 
 import {ActionResult, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-import {ChannelUnread} from '@mattermost/types/channels';
-import {GlobalState} from '@mattermost/types/store';
-import {Post, PostList} from '@mattermost/types/posts';
-import {Reaction} from '@mattermost/types/reactions';
-import {UserProfile} from '@mattermost/types/users';
+import {NewPost} from 'mattermost-redux/types/posts';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {getProfilesByIds, getProfilesByUsernames, getStatusesByIds} from './users';
@@ -48,7 +49,7 @@ export function receivedPost(post: Post, crtEnabled?: boolean) {
 
 // receivedNewPost should be dispatched when receiving a newly created post or when sending a request to the server
 // to make a new post.
-export function receivedNewPost(post: Post, crtEnabled: boolean) {
+export function receivedNewPost(post: Post | NewPost, crtEnabled: boolean) {
     return {
         type: PostTypes.RECEIVED_NEW_POST,
         data: post,

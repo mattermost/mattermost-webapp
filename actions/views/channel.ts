@@ -140,7 +140,7 @@ export function joinChannelById(channelId: string) {
 
 export function leaveChannel(channelId: string) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        let state = getState();
+        let state = getState<GlobalState>();
         const currentUserId = getCurrentUserId(state);
         const currentTeam = getCurrentTeam(state);
         const channel = getChannel(state, channelId);
@@ -158,7 +158,7 @@ export function leaveChannel(channelId: string) {
         if (error) {
             return {error};
         }
-        state = getState();
+        state = getState<GlobalState>();
 
         const prevChannelName = LocalStorageStore.getPreviousChannelName(currentUserId, currentTeam.id, state);
         const channelsInTeam = getChannelsNameMapInCurrentTeam(state);

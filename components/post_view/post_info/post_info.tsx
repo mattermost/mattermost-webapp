@@ -277,7 +277,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
                     channelId={post.channel_id}
                     postId={post.id}
                     emojis={this.props.recentEmojis}
-                    teamId={this.props.teamId}
+                    teamId={this.props.teamId || 'undefined'}
                     getDotMenuRef={this.getDotMenu}
                 />
             );
