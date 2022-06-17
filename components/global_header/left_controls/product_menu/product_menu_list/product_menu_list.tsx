@@ -166,25 +166,33 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                                 id: 'navbar_dropdown.userGroups.tooltip.cloudFreeTrial',
                                 defaultMessage: 'During your trial you are able to create user groups. These user groups will be archived after your trial.',
                             })}
-                            modalTitle={formatMessage({
-                                id: 'navbar_dropdown.userGroups.modal.title',
+                            titleAdminPreTrial={formatMessage({
+                                id: 'navbar_dropdown.userGroups.modal.titleAdminPreTrial',
                                 defaultMessage: 'Try unlimited user groups with a free trial',
                             })}
-                            modalMessage={formatMessage({
-                                id: 'navbar_dropdown.userGroups.modal.description',
+                            messageAdminPreTrial={formatMessage({
+                                id: 'navbar_dropdown.userGroups.modal.messageAdminPreTrial',
                                 defaultMessage: 'Create unlimited user groups with one of our paid plans. Get the full experience of Enterprise when you start a free, {trialLength} day trial.',
                             },
                             {
                                 trialLength: FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS,
                             },
                             )}
-                            modalTitleAfterTrial={formatMessage({
-                                id: 'navbar_dropdown.userGroups.modal.title.afterTrial',
+                            titleAdminPostTrial={formatMessage({
+                                id: 'navbar_dropdown.userGroups.modal.titleAdminPostTrial',
                                 defaultMessage: 'Upgrade to create unlimited user groups',
                             })}
-                            modalMessageAfterTrial={formatMessage({
-                                id: 'navbar_dropdown.userGroups.modal.description.afterTrial',
+                            messageAdminPostTrial={formatMessage({
+                                id: 'navbar_dropdown.userGroups.modal.messageAdminPostTrial',
                                 defaultMessage: 'User groups are a way to organize users and apply actions to all users within that group. Upgrade to the Professional plan to create unlimited user groups.',
+                            })}
+                            titleEndUser={formatMessage({
+                                id: 'navbar_dropdown.userGroups.modal.titleEndUser',
+                                defaultMessage: 'User groups available in paid plans',
+                            })}
+                            messageEndUser={formatMessage({
+                                id: 'navbar_dropdown.userGroups.modal.messageEndUser',
+                                defaultMessage: 'User groups are a way to organize users and apply actions to all users within that group.',
                             })}
                         />
                     )}

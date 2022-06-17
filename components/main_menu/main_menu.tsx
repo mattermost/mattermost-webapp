@@ -478,25 +478,33 @@ export class MainMenu extends React.PureComponent<Props> {
                                         id: 'navbar_dropdown.create.tooltip.cloudFreeTrial',
                                         defaultMessage: 'During your trial you are able to create multiple teams. These teams will be archived after your trial.',
                                     })}
-                                    modalTitle={formatMessage({
-                                        id: 'navbar_dropdown.create.modal.title',
+                                    titleAdminPreTrial={formatMessage({
+                                        id: 'navbar_dropdown.create.modal.titleAdminPreTrial',
                                         defaultMessage: 'Try unlimited teams with a free trial',
                                     })}
-                                    modalMessage={formatMessage({
-                                        id: 'navbar_dropdown.create.modal.description',
+                                    messageAdminPreTrial={formatMessage({
+                                        id: 'navbar_dropdown.create.modal.messageAdminPreTrial',
                                         defaultMessage: 'Create unlimited teams with one of our paid plans. Get the full experience of Enterprise when you start a free, {trialLength} day trial.',
                                     },
                                     {
                                         trialLength: FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS,
                                     },
                                     )}
-                                    modalTitleAfterTrial={formatMessage({
-                                        id: 'navbar_dropdown.create.modal.title.afterTrial',
+                                    titleAdminPostTrial={formatMessage({
+                                        id: 'navbar_dropdown.create.modal.titleAdminPostTrial',
                                         defaultMessage: 'Upgrade to create unlimited teams',
                                     })}
-                                    modalMessageAfterTrial={formatMessage({
-                                        id: 'navbar_dropdown.create.modal.description.afterTrial',
+                                    messageAdminPostTrial={formatMessage({
+                                        id: 'navbar_dropdown.create.modal.messageAdminPostTrial',
                                         defaultMessage: 'Multiple teams allow for context-specific spaces that are more attuned to your and your teams’ needs. Upgrade to the Professional plan to create unlimited teams.',
+                                    })}
+                                    titleEndUser={formatMessage({
+                                        id: 'navbar_dropdown.create.modal.titleEndUser',
+                                        defaultMessage: 'Multiple teams available in paid plans',
+                                    })}
+                                    messageEndUser={formatMessage({
+                                        id: 'navbar_dropdown.create.modal.messageEndUser',
+                                        defaultMessage: 'Multiple teams allow for context-specific spaces that are more attuned to your teams’ needs.',
                                     })}
                                 />
                             )}

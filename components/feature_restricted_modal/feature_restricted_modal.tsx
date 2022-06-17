@@ -18,22 +18,27 @@ import GenericModal from 'components/generic_modal';
 import {closeModal} from 'actions/views/modals';
 import {isModalOpen} from 'selectors/views/modals';
 import {GlobalState} from 'types/store';
+import {FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS} from 'utils/cloud_utils';
 import {ModalIdentifiers, AboutLinks, LicenseLinks} from 'utils/constants';
 
 import './feature_restricted_modal.scss';
 
 type FeatureRestrictedModalProps = {
-    modalTitle: string;
-    modalMessage: string;
-    modalTitleAfterTrial: string;
-    modalMessageAfterTrial: string;
+    titleAdminPreTrial: string;
+    messageAdminPreTrial: string;
+    titleAdminPostTrial: string;
+    messageAdminPostTrial: string;
+    titleEndUser: string;
+    messageEndUser: string;
 }
 
 const FeatureRestrictedModal = ({
-    modalTitle,
-    modalMessage,
-    modalTitleAfterTrial,
-    modalMessageAfterTrial,
+    titleAdminPreTrial,
+    messageAdminPreTrial,
+    titleAdminPostTrial,
+    messageAdminPostTrial,
+    titleEndUser,
+    messageEndUser,
 }: FeatureRestrictedModalProps) => {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch<DispatchFunc>();
@@ -56,6 +61,22 @@ const FeatureRestrictedModal = ({
         dismissAction();
     };
 
+    const getTitle = () => {
+        if (isSystemAdmin) {
+            return hasPriorTrial ? titleAdminPostTrial : titleAdminPreTrial;
+        }
+
+        return titleEndUser;
+    };
+
+    const getMessage = () => {
+        if (isSystemAdmin) {
+            return hasPriorTrial ? messageAdminPostTrial : messageAdminPreTrial;
+        }
+
+        return messageEndUser;
+    };
+
     const showStartTrial = isSystemAdmin && !hasPriorTrial;
 
     return (
@@ -63,19 +84,20 @@ const FeatureRestrictedModal = ({
             id='FeatureRestrictedModal'
             className='FeatureRestrictedModal'
             useCompassDesign={true}
-            modalHeaderText={hasPriorTrial ? modalTitleAfterTrial : modalTitle}
+            modalHeaderText={getTitle()}
             onExited={dismissAction}
         >
             <div className='FeatureRestrictedModal__body'>
                 <p className='FeatureRestrictedModal__description'>
-                    {hasPriorTrial ? modalMessageAfterTrial : modalMessage}
+                    {getMessage()}
                 </p>
                 {showStartTrial && (
                     <p className='FeatureRestrictedModal__terms'>
                         <FormattedMessage
                             id='feature_restricted_modal.agreement'
-                            defaultMessage='By selecting <highlight>Try free for 30 days</highlight>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails.'
+                            defaultMessage='By selecting <highlight>Try free for {trialLength} days</highlight>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails.'
                             values={{
+                                trialLength: FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS,
                                 highlight: (msg: React.ReactNode) => (
                                     <strong>{msg}</strong>
                                 ),
