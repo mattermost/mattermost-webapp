@@ -9,6 +9,9 @@ import {GlobalState} from 'types/store';
 
 import {checkSubscriptionIsLegacyFree, getSubscriptionProduct, getCloudSubscription} from 'mattermost-redux/selectors/entities/cloud';
 
+import {getRemainingDaysFromFutureTimestamp} from 'utils/utils';
+import {TrialPeriodDays} from 'utils/constants';
+
 import {
     planDetailsTopElements,
     currentPlanText,
@@ -28,14 +31,17 @@ const PlanDetails = ({isFreeTrial, subscriptionPlan}: Props) => {
     const product = useSelector(getSubscriptionProduct);
     const isLegacyFree = useSelector(checkSubscriptionIsLegacyFree);
     const isLegacyFreePaidTier = Boolean(subscription?.is_legacy_cloud_paid_tier);
-
+    const daysLeftOnTrial = Math.min(
+        getRemainingDaysFromFutureTimestamp(subscription?.trial_end_at),
+        TrialPeriodDays.TRIAL_30_DAYS,
+    );
     if (!product) {
         return null;
     }
 
     return (
         <div className='PlanDetails'>
-            {planDetailsTopElements(userCount, isLegacyFree, isFreeTrial, subscriptionPlan)}
+            {planDetailsTopElements(userCount, isLegacyFree, isFreeTrial, subscriptionPlan, daysLeftOnTrial)}
             <PlanPricing
                 isLegacyFree={isLegacyFree}
                 isLegacyFreePaidTier={isLegacyFreePaidTier}

@@ -19,7 +19,7 @@ import {trackEvent} from 'actions/telemetry_actions';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
-import PricingModal from 'components/pricing_modal';
+import PurchaseModal from 'components/purchase_modal';
 import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
 
 import {ModalData} from 'types/actions';
@@ -50,10 +50,9 @@ type Props = {
     };
     isCloud: boolean;
     isCloudTrial: boolean;
-    isCloudFreeEnabled: boolean;
     hadPrevCloudTrial: boolean;
-    isCloudFreePaidSubscription: boolean;
     subscription: Subscription | undefined;
+    isPaidSubscription: boolean;
 }
 
 type State = {
@@ -109,19 +108,32 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
         );
 
         this.props.actions.openModal({
-            modalId: ModalIdentifiers.PRICING_MODAL,
-            dialogType: PricingModal,
+            modalId: ModalIdentifiers.CLOUD_PURCHASE,
+            dialogType: PurchaseModal,
         });
     }
 
     renderStartTrial = (learnMoreURL: string, gettingTrialError: React.ReactNode) => {
+        const {
+            isCloud,
+            isCloudTrial,
+            hadPrevCloudTrial,
+            isPaidSubscription,
+        } = this.props;
+        const canRequestCloudFreeTrial = isCloud && !isCloudTrial && !hadPrevCloudTrial && !isPaidSubscription;
+
+        // by default we assume is not cloud, so the cta button is Start Trial (which will request a trial license)
         let primaryMessage = (
             <FormattedMessage
                 id='admin.ldap_feature_discovery.call_to_action.primary'
                 defaultMessage='Start trial'
             />
         );
-        if (this.props.isCloud && !this.props.isCloudFreeEnabled) {
+        let ctaButtonFunction: (e: React.MouseEvent) => void = this.requestLicense;
+
+        // then if it is cloud, and this account already had a free trial, then the cta button must be Upgrade now
+        if (isCloud && hadPrevCloudTrial) {
+            ctaButtonFunction = this.openUpgradeModal;
             primaryMessage = (
                 <FormattedMessage
                     id='admin.ldap_feature_discovery_cloud.call_to_action.primary'
@@ -129,16 +141,10 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                 />
             );
         }
-        const {
-            isCloud,
-            isCloudTrial,
-            isCloudFreeEnabled,
-            hadPrevCloudTrial,
-            isCloudFreePaidSubscription,
-        } = this.props;
-        const canRequestCloudFreeTrial = isCloud && isCloudFreeEnabled && !isCloudTrial && !hadPrevCloudTrial && !isCloudFreePaidSubscription;
 
-        const ctaTrialButton = canRequestCloudFreeTrial ? (
+        // if all conditions are set for being able to request a cloud trial, then show the cta start cloud trial button
+        // otherwise use the previously defined conditions to elaborate the button
+        const ctaPrimaryButton = canRequestCloudFreeTrial ? (
             <CloudStartTrialButton
                 message={Utils.localizeMessage('admin.ldap_feature_discovery.call_to_action.primary', 'Start trial')}
                 telemetryId={'start_cloud_trial_feature_discovery'}
@@ -149,7 +155,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                 type='button'
                 className='btn btn-primary'
                 data-testid='featureDiscovery_primaryCallToAction'
-                onClick={this.props.isCloud ? this.openUpgradeModal : this.requestLicense}
+                onClick={ctaButtonFunction}
             >
                 <LoadingWrapper
                     loading={this.state.gettingTrial}
@@ -160,8 +166,8 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
             </button>
         );
         return (
-            <React.Fragment>
-                {ctaTrialButton}
+            <>
+                {ctaPrimaryButton}
                 <a
                     className='btn btn-secondary'
                     href={learnMoreURL}
@@ -181,7 +187,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                         defaultMessage='By clicking **Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails.'
                     />
                 </p>}
-            </React.Fragment>
+            </>
         );
     }
 
