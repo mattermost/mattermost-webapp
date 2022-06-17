@@ -2,10 +2,12 @@
 // See LICENSE.txt for license information.
 
 import {ChannelType} from './channels';
+import {Post} from './posts';
 
 export enum InsightsWidgetTypes {
     TOP_CHANNELS = 'TOP_CHANNELS',
     TOP_REACTIONS = 'TOP_REACTIONS',
+    TOP_THREADS = 'TOP_THREADS',
 }
 
 export enum CardSizes {
@@ -58,5 +60,29 @@ export type InsightsState = {
 
 export type TopChannelActionResult = {
     data?: TopChannelResponse;
+    error?: any;
+};
+
+export type TopThread = {
+    channel_id: string;
+    channel_display_name: string;
+    channel_name: string;
+    participants: string[];
+    user_information: {
+        id: string;
+        first_name: string;
+        last_name: string;
+        last_picture_update: number;
+    };
+    post: Post;
+};
+
+export type TopThreadResponse = {
+    has_next: boolean;
+    items: TopThread[];
+};
+
+export type TopThreadActionResult = {
+    data?: TopThreadResponse;
     error?: any;
 };
