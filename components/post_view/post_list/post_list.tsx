@@ -11,6 +11,7 @@ import {clearMarks, mark, measure, trackEvent} from 'actions/telemetry_actions.j
 
 import VirtPostList from 'components/post_view/post_list_virtualized/post_list_virtualized';
 import {updateNewMessagesAtInChannel} from 'actions/global_actions';
+import type {loadPosts, LoadPostsReturnValue, CanLoadMorePosts} from 'actions/views/channel';
 
 const MAX_NUMBER_OF_AUTO_RETRIES = 3;
 export const MAX_EXTRA_PAGES_LOADED = 10;
@@ -37,7 +38,8 @@ function markAndMeasureChannelSwitchEnd(fresh = false) {
     }
 }
 
-interface Props {
+export interface Props {
+
     /**
      *  Array of formatted post ids in the channel
      *  This will be different from postListIds because of grouping and filtering of posts
@@ -88,7 +90,7 @@ interface Props {
     /*
      * Used for passing down to virt list so it can change the chunk of posts selected
      */
-    changeUnreadChunkTimeStamp: () => void;
+    changeUnreadChunkTimeStamp: (lastViewedAt?: string) => void;
 
     /*
      * Used for skipping the call on load
@@ -98,6 +100,7 @@ interface Props {
     isMobileView: boolean;
 
     actions: {
+
         /*
          * Used for getting permalink view posts
          */
@@ -111,7 +114,7 @@ interface Props {
         /*
          * Used for getting posts using BEFORE_ID and AFTER_ID
          */
-        loadPosts: () => void;
+        loadPosts: (parameters: Parameters<typeof loadPosts>[0]) => Promise<LoadPostsReturnValue>;
 
         /*
          * Used to set mobile view on resize
@@ -129,9 +132,9 @@ interface Props {
          */
         loadLatestPosts: (channelId: string) => Promise<void>;
 
-        markChannelAsViewed: () => void;
+        markChannelAsViewed: (channelId: string) => void;
 
-        markChannelAsRead: () => void;
+        markChannelAsRead: (channelId: string) => void;
         updateNewMessagesAtInChannel: typeof updateNewMessagesAtInChannel;
     };
 }
@@ -142,8 +145,6 @@ interface State {
     autoRetryEnable: boolean;
 }
 
-type CanLoadMorePosts = typeof PostRequestTypes[keyof typeof PostRequestTypes] | undefined
-
 export default class PostList extends React.PureComponent<Props, State> {
     private autoRetriesCount: number;
     private actionsForPostList: {
@@ -151,10 +152,11 @@ export default class PostList extends React.PureComponent<Props, State> {
         loadNewerPosts: () => Promise<void>;
         checkAndSetMobileView: () => void;
         canLoadMorePosts: (type: CanLoadMorePosts) => Promise<void>;
-        changeUnreadChunkTimeStamp: () => void;
-        updateNewMessagesAtInChannel: typeof updateNewMessagesAtInChannel,
+        changeUnreadChunkTimeStamp: (lastViewedAt?: string) => void;
+        updateNewMessagesAtInChannel: typeof updateNewMessagesAtInChannel;
     }
     private mounted: boolean | undefined;
+    private extraPagesLoaded: number | undefined;
 
     constructor(props: Props) {
         super(props);
@@ -224,7 +226,7 @@ export default class PostList extends React.PureComponent<Props, State> {
         }
     }
 
-    callLoadPosts = async (channelId, postId, type) => {
+    callLoadPosts = async (channelId: string, postId: string, type: CanLoadMorePosts) => {
         const {error} = await this.props.actions.loadPosts({
             channelId,
             postId,
@@ -257,7 +259,7 @@ export default class PostList extends React.PureComponent<Props, State> {
         return {error};
     }
 
-    markChannelAsReadAndViewed = (channelId) => {
+    markChannelAsReadAndViewed = (channelId: string) => {
         // Posts are marked as read from here to not cause a race when loading posts
         // marking channel as read and viewed after calling for posts in channel
         this.props.actions.markChannelAsViewed(channelId);
@@ -272,7 +274,7 @@ export default class PostList extends React.PureComponent<Props, State> {
         return getLatestPostId(this.props.postListIds);
     }
 
-    canLoadMorePosts = async (type:  = PostRequestTypes.BEFORE_ID) => {
+    canLoadMorePosts = async (type: CanLoadMorePosts = PostRequestTypes.BEFORE_ID) => {
         if (!this.props.postListIds) {
             return;
         }
@@ -281,7 +283,7 @@ export default class PostList extends React.PureComponent<Props, State> {
             return;
         }
 
-        if (this.extraPagesLoaded > MAX_EXTRA_PAGES_LOADED) {
+        if ((this.extraPagesLoaded as any) > MAX_EXTRA_PAGES_LOADED) {
             // Prevent this from loading a lot of pages in a channel with only hidden messages
             // Enable load more messages manual link
             if (this.state.autoRetryEnable) {
@@ -291,15 +293,13 @@ export default class PostList extends React.PureComponent<Props, State> {
         }
 
         if (!this.props.atOldestPost && type === PostRequestTypes.BEFORE_ID) {
-            const oldestPostId = this.getOldestVisiblePostId();
-            await this.getPostsBefore(oldestPostId);
+            await this.getPostsBefore();
         } else if (!this.props.atLatestPost) {
             // if all olderPosts are loaded load new ones
-            const latestPostId = this.getLatestVisiblePostId();
-            await this.getPostsAfter(latestPostId);
+            await this.getPostsAfter();
         }
 
-        this.extraPagesLoaded += 1;
+        (this.extraPagesLoaded as any) += 1;
     }
 
     getPostsBefore = async () => {
@@ -351,7 +351,6 @@ export default class PostList extends React.PureComponent<Props, State> {
                             actions={this.actionsForPostList}
                             postListIds={this.props.formattedPostIds}
                             latestPostTimeStamp={this.props.latestPostTimeStamp}
-                            latestPostId={this.props.latestPostId}
                             isMobileView={this.props.isMobileView}
                         />
                     </div>

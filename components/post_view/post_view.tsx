@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import LoadingScreen from 'components/loading_screen';
@@ -22,7 +21,6 @@ interface State {
 }
 
 export default class PostView extends React.PureComponent<Props, State> {
-
     constructor(props: Props) {
         super(props);
         this.state = {

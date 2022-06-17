@@ -3,7 +3,7 @@
 
 import {Constants} from 'utils/constants';
 
-import {isChannelLoading} from './index.js';
+import {isChannelLoading} from './index';
 
 describe('components/post_view/index', () => {
     test('should return false if loading a permalink view', () => {

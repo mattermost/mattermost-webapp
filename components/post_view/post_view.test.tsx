@@ -17,12 +17,13 @@ describe('components/post_view/post_view', () => {
     };
     jest.useFakeTimers();
 
+    let rafSpy = jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => setTimeout(cb, 16));
     beforeEach(() => {
-        jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => setTimeout(cb, 16));
+        rafSpy = jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => setTimeout(cb, 16));
     });
 
     afterEach(() => {
-        window.requestAnimationFrame.mockRestore();
+        rafSpy.mockRestore();
     });
 
     test('should match snapshot for channel loading', () => {
@@ -44,8 +45,8 @@ describe('components/post_view/post_view', () => {
     test('changeUnreadChunkTimeStamp', () => {
         const wrapper = shallow(<PostView {...{...baseProps, isFirstLoad: true}}/>);
         expect(wrapper.state('unreadChunkTimeStamp')).toEqual(baseProps.lastViewedAt);
-        wrapper.find(PostList).prop('changeUnreadChunkTimeStamp')(1234678);
-        expect(wrapper.state('unreadChunkTimeStamp')).toEqual(1234678);
+        wrapper.find(PostList).prop<(lastViewedAt?: string) => void>('changeUnreadChunkTimeStamp')('1234678');
+        expect(wrapper.state('unreadChunkTimeStamp')).toEqual('1234678');
         expect(wrapper.state('loaderForChangeOfPostsChunk')).toEqual(true);
         jest.runOnlyPendingTimers();
         expect(wrapper.state('loaderForChangeOfPostsChunk')).toEqual(false);

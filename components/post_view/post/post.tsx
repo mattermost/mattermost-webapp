@@ -1,11 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import {Posts} from 'mattermost-redux/constants';
 import {isMeMessage as checkIsMeMessage} from 'mattermost-redux/utils/post_utils';
+import {UserActivityPost} from 'mattermost-redux/types/posts';
 
 import {makeIsEligibleForClick} from 'utils/utils';
 import * as PostUtils from 'utils/post_utils';
@@ -26,97 +26,108 @@ import AutoHeightSwitcher, {AutoHeightSlots} from 'components/common/auto_height
 // please add to/maintain the selector below
 const isEligibleForClick = makeIsEligibleForClick('.post-image__column, .embed-responsive-item, .attachment, .hljs, code');
 
-export default class Post extends React.PureComponent {
-    static propTypes = {
+import {Post as PostType} from '@mattermost/types/posts';
 
-        /**
-         * The post to render
-         */
-        post: PropTypes.object.isRequired,
+interface Props {
 
-        /**
-         * The logged in user ID
-         */
-        currentUserId: PropTypes.string.isRequired,
+    /**
+     * The post to render
+     */
+    post: UserActivityPost;
 
-        /**
-         * Set to center the post
-         */
-        center: PropTypes.bool,
+    /**
+     * The logged in user ID
+     */
+    currentUserId: string;
 
-        /**
-         * Set to render post compactly
-         */
-        compactDisplay: PropTypes.bool,
+    /**
+     * Set to center the post
+     */
+    center: boolean;
 
-        /**
-         * Set to render a preview of the parent post above this reply
-         */
-        isFirstReply: PropTypes.bool,
+    /**
+     * Set to render post compactly
+     */
+    compactDisplay: boolean;
 
-        /**
-         * Set to highlight the background of the post
-         */
-        shouldHighlight: PropTypes.bool,
+    /**
+     * Set to render a preview of the parent post above this reply
+     */
+    isFirstReply: boolean;
 
-        /**
-         * Set to render this post as if it was attached to the previous post
-         */
-        consecutivePostByUser: PropTypes.bool,
+    /**
+     * Set to highlight the background of the post
+     */
+    shouldHighlight: boolean;
 
-        /**
-         * Set if the previous post is a comment
-         */
-        previousPostIsComment: PropTypes.bool,
+    /**
+     * Set to render this post as if it was attached to the previous post
+     */
+    consecutivePostByUser: boolean;
 
-        /*
-         * Function called when the post options dropdown is opened
-         */
-        togglePostMenu: PropTypes.func,
+    /**
+     * Set if the previous post is a comment
+     */
+    previousPostIsComment: boolean;
 
-        /**
-         * Set to render this comment as a mention
-         */
-        isCommentMention: PropTypes.bool,
+    /*
+     * Function called when the post options dropdown is opened
+     */
+    togglePostMenu: (opened: boolean) => void;
 
-        /**
-         * If the post has replies
-         */
-        hasReplies: PropTypes.bool,
+    /**
+     * Set to render this comment as a mention
+     */
+    isCommentMention: boolean;
 
-        /**
-         * To Check if the current post is last in the list
-         */
-        isLastPost: PropTypes.bool,
+    /**
+     * If the post has replies
+     */
+    hasReplies: boolean;
 
-        isBeingEdited: PropTypes.bool,
+    /**
+     * To Check if the current post is last in the list
+     */
+    isLastPost: boolean;
 
-        /**
-         * Whether or not the channel that contains this post is archived
-         */
-        channelIsArchived: PropTypes.bool.isRequired,
+    isBeingEdited: boolean;
 
-        actions: PropTypes.shape({
-            selectPost: PropTypes.func.isRequired,
-            selectPostCard: PropTypes.func.isRequired,
-            markPostAsUnread: PropTypes.func.isRequired,
-        }).isRequired,
+    /**
+     * Whether or not the channel that contains this post is archived
+     */
+    channelIsArchived: boolean;
 
-        /*
-         * Set to mark the post as flagged
-         */
-        isFlagged: PropTypes.bool.isRequired,
-
-        isCollapsedThreadsEnabled: PropTypes.bool,
-
-        clickToReply: PropTypes.bool,
-    }
-
-    static defaultProps = {
-        post: {},
+    actions: {
+        selectPost: (post: PostType) => void;
+        selectPostCard: (post: PostType) => void;
+        markPostAsUnread: (post: PostType) => void;
     };
 
-    constructor(props) {
+    /*
+     * Set to mark the post as flagged
+     */
+    isFlagged: boolean;
+
+    isCollapsedThreadsEnabled: boolean;
+
+    clickToReply: boolean;
+}
+
+interface State {
+    dropdownOpened: boolean;
+    fileDropdownOpened: boolean;
+    hover: boolean;
+    alt: boolean;
+    a11yActive: boolean;
+    ariaHidden: boolean;
+    fadeOutHighlight: boolean;
+}
+
+export default class Post extends React.PureComponent<Props, State> {
+    private postRef: React.RefObject<HTMLDivElement>;
+    private highlightTimeout!: NodeJS.Timeout;
+
+    constructor(props: Props) {
         super(props);
 
         this.postRef = React.createRef();
@@ -161,11 +172,11 @@ export default class Post extends React.PureComponent {
 
     componentDidUpdate() {
         if (this.state.a11yActive) {
-            this.postRef.current.dispatchEvent(new Event(A11yCustomEventTypes.UPDATE));
+            this.postRef.current?.dispatchEvent(new Event(A11yCustomEventTypes.UPDATE));
         }
     }
 
-    handleCommentClick = (e) => {
+    handleCommentClick = (e: React.MouseEvent) => {
         e.preventDefault();
 
         const post = this.props.post;
@@ -175,14 +186,14 @@ export default class Post extends React.PureComponent {
         this.props.actions.selectPost(post);
     }
 
-    handleCardClick = (post) => {
+    handleCardClick = (post?: PostType) => {
         if (!post) {
             return;
         }
         this.props.actions.selectPostCard(post);
     }
 
-    handlePostClick = (e) => {
+    handlePostClick = (e: React.MouseEvent) => {
         const {post, clickToReply, isBeingEdited} = this.props;
 
         if (!post) {

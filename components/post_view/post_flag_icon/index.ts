@@ -4,17 +4,19 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {flagPost, unflagPost} from 'actions/post_actions.jsx';
+import {DispatchFunc} from 'mattermost-redux/types/actions';
+
+import {flagPost, unflagPost} from 'actions/post_actions';
 
 import PostFlagIcon from './post_flag_icon';
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: DispatchFunc) {
     return {
         actions: bindActionCreators({
             flagPost,
             unflagPost,
-        }, dispatch),
+        }, dispatch as any),
     };
 }
 
-export default connect(null, mapDispatchToProps)(PostFlagIcon);
+export default connect(null, mapDispatchToProps as any)(PostFlagIcon);

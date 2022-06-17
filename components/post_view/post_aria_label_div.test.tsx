@@ -3,7 +3,7 @@
 
 import {mount} from 'enzyme';
 import React from 'react';
-import {createIntl, useIntl} from 'react-intl';
+import {createIntl} from 'react-intl';
 
 import enMessages from 'i18n/en.json';
 import esMessages from 'i18n/es.json';
@@ -14,9 +14,11 @@ import {TestHelper} from 'utils/test_helper';
 
 import PostAriaLabelDiv from './post_aria_label_div';
 
+const mockUseIntl = jest.fn();
+
 jest.mock('react-intl', () => ({
     ...jest.requireActual('react-intl'),
-    useIntl: jest.fn(),
+    useIntl: mockUseIntl,
 }));
 
 describe('PostAriaLabelDiv', () => {
@@ -46,7 +48,7 @@ describe('PostAriaLabelDiv', () => {
         },
     };
 
-    const baseProps = {
+    const baseProps: any = {
         post: TestHelper.getPostMock({
             user_id: author.id,
             message: 'This is a test.',
@@ -56,7 +58,7 @@ describe('PostAriaLabelDiv', () => {
     test('should render aria-label in the given locale', () => {
         const {mountOptions} = mockStore(baseState);
 
-        useIntl.mockImplementation(() => createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'}));
+        mockUseIntl.mockImplementation(() => createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'}));
 
         let wrapper = mount(<PostAriaLabelDiv {...baseProps}/>, mountOptions);
         let div = wrapper.childAt(0);
@@ -64,7 +66,7 @@ describe('PostAriaLabelDiv', () => {
         expect(div.prop('aria-label')).toContain(author.username);
         expect(div.prop('aria-label')).toContain('January');
 
-        useIntl.mockImplementation(() => createIntl({locale: 'es', messages: esMessages, defaultLocale: 'es'}));
+        mockUseIntl.mockImplementation(() => createIntl({locale: 'es', messages: esMessages, defaultLocale: 'es'}));
 
         wrapper = mount(<PostAriaLabelDiv {...baseProps}/>, mountOptions);
         div = wrapper.childAt(0);
@@ -76,7 +78,7 @@ describe('PostAriaLabelDiv', () => {
     test('should pass other props through to the rendered div', () => {
         const {mountOptions} = mockStore(baseState);
 
-        useIntl.mockImplementation(() => createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'}));
+        mockUseIntl.mockImplementation(() => createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'}));
 
         let props = baseProps;
 
@@ -89,14 +91,16 @@ describe('PostAriaLabelDiv', () => {
 
         props = {
             ...props,
-            children: (
-                <p>{'This is a paragraph.'}</p>
-            ),
             className: 'some-class',
             'data-something': 'something',
         };
 
-        wrapper = mount(<PostAriaLabelDiv {...props}/>, mountOptions);
+        wrapper = mount(
+            <PostAriaLabelDiv {...props}>
+                <p>{'This is a paragraph.'}</p>
+            </PostAriaLabelDiv >,
+            mountOptions,
+        );
         div = wrapper.childAt(0);
 
         expect(div.prop('className')).toBe('some-class');

@@ -3,7 +3,7 @@
 
 import {batchActions} from 'redux-batched-actions';
 
-import {Channel} from '@mattermost/types/channels'
+import {Channel} from '@mattermost/types/channels';
 
 import {
     leaveChannel as leaveChannelRedux,
@@ -14,7 +14,7 @@ import {
 } from 'mattermost-redux/actions/channels';
 import * as PostActions from 'mattermost-redux/actions/posts';
 import {TeamTypes} from 'mattermost-redux/action_types';
-import {ActionResult, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {autocompleteUsers} from 'mattermost-redux/actions/users';
 import {selectTeam} from 'mattermost-redux/actions/teams';
 import {Posts, RequestStatus} from 'mattermost-redux/constants';
@@ -339,17 +339,26 @@ export function loadLatestPosts(channelId: string) {
     };
 }
 
+export interface LoadPostsReturnValue {
+    error?: string;
+    moreToLoad: boolean;
+}
+
+export type CanLoadMorePosts = typeof PostRequestTypes[keyof typeof PostRequestTypes] | undefined
+
+export interface LoadPostsParameters {
+    channelId: string;
+    postId: string;
+    type: CanLoadMorePosts;
+}
+
 export function loadPosts({
     channelId,
     postId,
-    type
-}: {
-    channelId: string,
-    postId: string,
-    type: string,
-}) {
+    type,
+}: LoadPostsParameters) {
     //type here can be BEFORE_ID or AFTER_ID
-    return async (dispatch: DispatchFunc) => {
+    return async (dispatch: DispatchFunc): Promise<LoadPostsReturnValue> => {
         const POST_INCREASE_AMOUNT = Constants.POST_CHUNK_SIZE / 2;
 
         dispatch({
@@ -368,7 +377,7 @@ export function loadPosts({
 
         const {data} = result;
 
-        const actions: {type: string, data: boolean | string, channelId?: string, amount?: number}[] = [{
+        const actions: Array<{type: string; data: boolean | string; channelId?: string; amount?: number}> = [{
             type: ActionTypes.LOADING_POSTS,
             data: false,
             channelId,

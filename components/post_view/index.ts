@@ -10,11 +10,12 @@ import {getTeamByName, getTeamMemberships} from 'mattermost-redux/selectors/enti
 
 import {Constants} from 'utils/constants';
 
-import PostView from './post_view';
 import {GlobalState} from 'types/store';
 import {Channel} from '@mattermost/types/channels';
 import {Team, TeamMembership} from '@mattermost/types/teams';
 import {UserProfile} from '@mattermost/types/users';
+
+import PostView from './post_view';
 
 export const isChannelLoading = (params: RouteViewParams, channel: Channel | undefined, team: Team | undefined, teammate: UserProfile | undefined, teamMemberships: Record<string, TeamMembership>) => {
     if (params.postid) {
@@ -40,7 +41,7 @@ export const isChannelLoading = (params: RouteViewParams, channel: Channel | und
 };
 
 interface Props extends RouteChildrenProps {
-    channelId: string
+    channelId: string;
 }
 
 interface RouteViewParams {
@@ -51,7 +52,7 @@ interface RouteViewParams {
 
 function makeMapStateToProps() {
     return function mapStateToProps(state: GlobalState, ownProps: Props) {
-        const params: RouteViewParams | undefined = ownProps.match?.params as RouteViewParams 
+        const params: RouteViewParams | undefined = ownProps.match?.params as RouteViewParams;
         const team = getTeamByName(state, params?.team || '');
         let teammate;
 
@@ -65,7 +66,7 @@ function makeMapStateToProps() {
         }
 
         const teamMemberships = getTeamMemberships(state);
-        const channelLoading = isChannelLoading(ownProps.match?.params! as RouteViewParams, channel, team, teammate, teamMemberships);
+        const channelLoading = isChannelLoading(ownProps.match?.params as RouteViewParams, channel, team, teammate, teamMemberships);
         return {
             lastViewedAt,
             channelLoading,

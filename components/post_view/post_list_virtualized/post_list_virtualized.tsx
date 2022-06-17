@@ -9,6 +9,9 @@ import {DynamicSizeList} from 'dynamic-virtualized-list';
 import {isDateLine, isStartOfNewMessages} from 'mattermost-redux/utils/post_list';
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
+import type {updateNewMessagesAtInChannel} from 'actions/global_actions';
+import type {CanLoadMorePosts} from 'actions/views/channel';
+
 import Constants, {PostListRowListIds, EventTypes, PostRequestTypes} from 'utils/constants';
 import DelayedAction from 'utils/delayed_action';
 import {getPreviousPostId, getLatestPostId, getNewMessageIndex} from 'utils/post_utils';
@@ -93,17 +96,17 @@ type Props = {
         /*
          * Function to get older posts in the channel
          */
-        loadOlderPosts: () => void;
+        loadOlderPosts: () => Promise<void>;
 
         /*
          * Function to get newer posts in the channel
          */
-        loadNewerPosts: () => void;
+        loadNewerPosts: () => Promise<void>;
 
         /*
          * Function used for autoLoad of posts incase screen is not filled with posts
          */
-        canLoadMorePosts: (postRequestTypes?: string) => boolean;
+        canLoadMorePosts: (type: CanLoadMorePosts) => Promise<void>;
 
         /*
          * Function to check and set if app is in mobile view
@@ -115,7 +118,7 @@ type Props = {
          */
         changeUnreadChunkTimeStamp: (lastViewedAt?: string) => void;
 
-        updateNewMessagesAtInChannel: (channelId: string, timeStamp: number) => void;
+        updateNewMessagesAtInChannel: typeof updateNewMessagesAtInChannel;
 
     };
 }

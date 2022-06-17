@@ -38,7 +38,7 @@ import {sendDesktopNotification} from 'actions/notification_actions.jsx';
 import {ActionTypes} from 'utils/constants';
 import {isThreadOpen, makeGetThreadLastViewedAt} from 'selectors/views/threads';
 
-type NewPostMessageProps = {
+export type NewPostMessageProps = {
     mentions: string[];
     team_id: string;
 }

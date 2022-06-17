@@ -4,24 +4,29 @@
 import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
 
+import {Post} from '@mattermost/types/posts';
+
 import {ChannelTypes} from 'mattermost-redux/action_types';
 import {receivedNewPost} from 'mattermost-redux/actions/posts';
 import {Posts} from 'mattermost-redux/constants';
 
 import * as NewPostActions from 'actions/new_post';
 import {Constants} from 'utils/constants';
+import {GlobalState} from '@mattermost/types/store';
 
 const mockStore = configureStore([thunk]);
 
 jest.mock('mattermost-redux/actions/channels', () => ({
     ...jest.requireActual('mattermost-redux/actions/channels'),
-    markChannelAsReadOnServer: (...args) => ({type: 'MOCK_MARK_CHANNEL_AS_READ_ON_SERVER', args}),
+    markChannelAsReadOnServer: (...args: any[]) => ({type: 'MOCK_MARK_CHANNEL_AS_READ_ON_SERVER', args}),
 }));
 
 const POST_CREATED_TIME = Date.now();
 
 // This mocks the Date.now() function so it returns a constant value
 global.Date.now = jest.fn(() => POST_CREATED_TIME);
+
+const newPostMessageProps = {} as NewPostActions.NewPostMessageProps;
 
 const INCREASED_POST_VISIBILITY = {amount: 1, data: 'current_channel_id', type: 'INCREASE_POST_VISIBILITY'};
 const STOP_TYPING = {type: 'stop_typing', data: {id: 'current_channel_idundefined', now: POST_CREATED_TIME, userId: 'some_user_id'}};
@@ -92,10 +97,10 @@ describe('actions/new_post', () => {
 
     test('completePostReceive', async () => {
         const testStore = mockStore(initialState);
-        const newPost = {id: 'new_post_id', channel_id: 'current_channel_id', message: 'new message', type: Constants.PostTypes.ADD_TO_CHANNEL, user_id: 'some_user_id', create_at: POST_CREATED_TIME, props: {addedUserId: 'other_user_id'}};
+        const newPost = {id: 'new_post_id', channel_id: 'current_channel_id', message: 'new message', type: Constants.PostTypes.ADD_TO_CHANNEL, user_id: 'some_user_id', create_at: POST_CREATED_TIME, props: {addedUserId: 'other_user_id'}} as unknown as Post;
         const websocketProps = {team_id: 'team_id', mentions: ['current_user_id']};
 
-        await testStore.dispatch(NewPostActions.completePostReceive(newPost, websocketProps));
+        await testStore.dispatch((NewPostActions.completePostReceive as any)(newPost, websocketProps));
         expect(testStore.getActions()).toEqual([
             {
                 meta: {batch: true},
@@ -114,8 +119,8 @@ describe('actions/new_post', () => {
             const channelId = 'channel';
             const currentUserId = 'user';
 
-            const post1 = {id: 'post1', channel_id: channelId, create_at: 1000};
-            const post2 = {id: 'post2', channel_id: channelId, create_at: 2000};
+            const post1 = {id: 'post1', channel_id: channelId, create_at: 1000} as Post;
+            const post2 = {id: 'post2', channel_id: channelId, create_at: 2000} as Post;
 
             const testStore = mockStore({
                 entities: {
@@ -153,7 +158,7 @@ describe('actions/new_post', () => {
 
             window.isActive = true;
 
-            const actions = NewPostActions.setChannelReadAndViewed(testStore.dispatch, testStore.getState, post2, {}, false);
+            const actions = NewPostActions.setChannelReadAndViewed(testStore.dispatch as any, testStore.getState as () => GlobalState, post2, newPostMessageProps, false);
 
             expect(actions).toMatchObject([
                 {
@@ -187,8 +192,8 @@ describe('actions/new_post', () => {
             const channelId = 'channel';
             const currentUserId = 'user';
 
-            const post1 = {id: 'post1', channel_id: channelId, create_at: 1000};
-            const post2 = {id: 'post2', channel_id: channelId, create_at: 2000};
+            const post1 = {id: 'post1', channel_id: channelId, create_at: 1000} as Post;
+            const post2 = {id: 'post2', channel_id: channelId, create_at: 2000} as Post;
 
             const testStore = mockStore({
                 entities: {
@@ -226,7 +231,7 @@ describe('actions/new_post', () => {
 
             window.isActive = false;
 
-            const actions = NewPostActions.setChannelReadAndViewed(testStore.dispatch, testStore.getState, post2, {}, false);
+            const actions = NewPostActions.setChannelReadAndViewed(testStore.dispatch as any, testStore.getState as any, post2, newPostMessageProps, false);
 
             expect(actions).toMatchObject([
                 {
@@ -250,8 +255,8 @@ describe('actions/new_post', () => {
             const otherChannelId = 'channel2';
             const currentUserId = 'user';
 
-            const post1 = {id: 'post1', channel_id: channelId, create_at: 1000};
-            const post2 = {id: 'post2', channel_id: channelId, create_at: 2000};
+            const post1 = {id: 'post1', channel_id: channelId, create_at: 1000} as Post;
+            const post2 = {id: 'post2', channel_id: channelId, create_at: 2000} as Post;
 
             const testStore = mockStore({
                 entities: {
@@ -292,7 +297,7 @@ describe('actions/new_post', () => {
 
             window.isActive = true;
 
-            const actions = NewPostActions.setChannelReadAndViewed(testStore.dispatch, testStore.getState, post2, {}, false);
+            const actions = NewPostActions.setChannelReadAndViewed(testStore.dispatch as any, testStore.getState as any, post2, newPostMessageProps, false);
 
             expect(actions).toMatchObject([
                 {
@@ -316,8 +321,8 @@ describe('actions/new_post', () => {
             const otherChannelId = 'channel2';
             const currentUserId = 'user';
 
-            const post1 = {id: 'post1', channel_id: channelId, create_at: 1000};
-            const post2 = {id: 'post2', channel_id: channelId, create_at: 2000, user_id: currentUserId};
+            const post1 = {id: 'post1', channel_id: channelId, create_at: 1000} as Post;
+            const post2 = {id: 'post2', channel_id: channelId, create_at: 2000, user_id: currentUserId} as Post;
 
             const testStore = mockStore({
                 entities: {
@@ -356,7 +361,7 @@ describe('actions/new_post', () => {
                 },
             });
 
-            const actions = NewPostActions.setChannelReadAndViewed(testStore.dispatch, testStore.getState, post2, {}, false);
+            const actions = NewPostActions.setChannelReadAndViewed(testStore.dispatch as any, testStore.getState as any, post2, {} as NewPostActions.NewPostMessageProps, false);
 
             expect(actions).toMatchObject([
                 {
@@ -388,8 +393,8 @@ describe('actions/new_post', () => {
             const otherChannelId = 'channel2';
             const currentUserId = 'user';
 
-            const post1 = {id: 'post1', channel_id: channelId, create_at: 1000};
-            const post2 = {id: 'post2', channel_id: channelId, create_at: 2000, props: {from_webhook: 'true'}, user_id: currentUserId};
+            const post1 = {id: 'post1', channel_id: channelId, create_at: 1000} as Post;
+            const post2 = {id: 'post2', channel_id: channelId, create_at: 2000, props: {from_webhook: 'true'}, user_id: currentUserId} as unknown as Post;
 
             const testStore = mockStore({
                 entities: {
@@ -428,7 +433,7 @@ describe('actions/new_post', () => {
                 },
             });
 
-            const actions = NewPostActions.setChannelReadAndViewed(testStore.dispatch, testStore.getState, post2, {}, false);
+            const actions = NewPostActions.setChannelReadAndViewed(testStore.dispatch as any, testStore.getState as any, post2, newPostMessageProps, false);
 
             expect(actions).toMatchObject([
                 {
@@ -451,8 +456,8 @@ describe('actions/new_post', () => {
             const channelId = 'channel1';
             const currentUserId = 'user';
 
-            const post1 = {id: 'post1', channel_id: channelId, create_at: 1000};
-            const post2 = {id: 'post2', channel_id: channelId, create_at: 2000};
+            const post1 = {id: 'post1', channel_id: channelId, create_at: 1000} as Post;
+            const post2 = {id: 'post2', channel_id: channelId, create_at: 2000} as Post;
 
             const testStore = mockStore({
                 entities: {
@@ -482,7 +487,7 @@ describe('actions/new_post', () => {
                 },
             });
 
-            const actions = NewPostActions.setChannelReadAndViewed(testStore.dispatch, testStore.getState, post2, {}, false);
+            const actions = NewPostActions.setChannelReadAndViewed(testStore.dispatch as any, testStore.getState as any, post2, newPostMessageProps, false);
 
             expect(actions).toMatchObject([
                 {

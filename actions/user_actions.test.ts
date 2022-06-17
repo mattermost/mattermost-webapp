@@ -4,13 +4,18 @@
 import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
 
+import {Channel, ChannelMembership, ChannelMessageCount} from '@mattermost/types/channels';
+import {Team, TeamMembership} from '@mattermost/types/teams';
+import {Post} from '@mattermost/types/posts';
+
 import {Preferences, General} from 'mattermost-redux/constants';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 
 import * as UserActions from 'actions/user_actions';
-import {getState} from 'stores/redux_store';
+import store from 'stores/redux_store';
 import TestHelper from 'tests/helpers/client-test-helper';
+import {GlobalState} from 'types/store';
 
 const mockStore = configureStore([thunk]);
 
@@ -18,11 +23,11 @@ jest.mock('mattermost-redux/actions/users', () => {
     const original = jest.requireActual('mattermost-redux/actions/users');
     return {
         ...original,
-        searchProfiles: (...args) => ({type: 'MOCK_SEARCH_PROFILES', args}),
-        getProfilesInTeam: (...args) => ({type: 'MOCK_GET_PROFILES_IN_TEAM', args}),
-        getProfilesInChannel: (...args) => ({type: 'MOCK_GET_PROFILES_IN_CHANNEL', args, data: [{id: 'user_1'}]}),
-        getProfilesInGroupChannels: (...args) => ({type: 'MOCK_GET_PROFILES_IN_GROUP_CHANNELS', args}),
-        getStatusesByIds: (...args) => ({type: 'MOCK_GET_STATUSES_BY_ID', args}),
+        searchProfiles: (...args: any[]) => ({type: 'MOCK_SEARCH_PROFILES', args}),
+        getProfilesInTeam: (...args: any[]) => ({type: 'MOCK_GET_PROFILES_IN_TEAM', args}),
+        getProfilesInChannel: (...args: any[]) => ({type: 'MOCK_GET_PROFILES_IN_CHANNEL', args, data: [{id: 'user_1'}]}),
+        getProfilesInGroupChannels: (...args: any[]) => ({type: 'MOCK_GET_PROFILES_IN_GROUP_CHANNELS', args}),
+        getStatusesByIds: (...args: any[]) => ({type: 'MOCK_GET_STATUSES_BY_ID', args}),
     };
 });
 
@@ -30,7 +35,7 @@ jest.mock('mattermost-redux/actions/teams', () => {
     const original = jest.requireActual('mattermost-redux/actions/teams');
     return {
         ...original,
-        getTeamMembersByIds: (...args) => ({type: 'MOCK_GET_TEAM_MEMBERS_BY_IDS', args}),
+        getTeamMembersByIds: (...args: any[]) => ({type: 'MOCK_GET_TEAM_MEMBERS_BY_IDS', args}),
     };
 });
 
@@ -38,7 +43,7 @@ jest.mock('mattermost-redux/actions/channels', () => {
     const original = jest.requireActual('mattermost-redux/actions/channels');
     return {
         ...original,
-        getChannelMembersByIds: (...args) => ({type: 'MOCK_GET_CHANNEL_MEMBERS_BY_IDS', args}),
+        getChannelMembersByIds: (...args: any[]) => ({type: 'MOCK_GET_CHANNEL_MEMBERS_BY_IDS', args}),
     };
 });
 
@@ -46,8 +51,8 @@ jest.mock('mattermost-redux/actions/preferences', () => {
     const original = jest.requireActual('mattermost-redux/actions/preferences');
     return {
         ...original,
-        deletePreferences: (...args) => ({type: 'MOCK_DELETE_PREFERENCES', args}),
-        savePreferences: (...args) => ({type: 'MOCK_SAVE_PREFERENCES', args}),
+        deletePreferences: (...args: any[]) => ({type: 'MOCK_DELETE_PREFERENCES', args}),
+        savePreferences: (...args: any[]) => ({type: 'MOCK_SAVE_PREFERENCES', args}),
     };
 });
 
@@ -67,7 +72,7 @@ jest.mock('actions/telemetry_actions.jsx', () => {
 });
 
 describe('Actions.User', () => {
-    const initialState = {
+    const initialState: GlobalState = {
         entities: {
             channels: {
                 currentChannelId: 'current_channel_id',
@@ -78,35 +83,35 @@ describe('Actions.User', () => {
                         roles: 'channel_role',
                         mention_count: 1,
                         msg_count: 9,
-                    },
+                    } as ChannelMembership,
                 },
                 channels: {
                     current_channel_id: {
                         team_id: 'team_1',
-                    },
+                    } as Channel,
                 },
                 channelsInTeam: {
                     team_1: ['current_channel_id'],
                 },
                 messageCounts: {
-                    current_channel_id: {total: 10},
+                    current_channel_id: {total: 10} as ChannelMessageCount,
                 },
                 membersInChannel: {
                     current_channel_id: {
-                        current_user_id: {id: 'current_user_id'},
+                        current_user_id: {channel_id: 'current_user_id'} as ChannelMembership,
                     },
                 },
-            },
+            } as unknown as GlobalState['entities']['channels'],
             general: {
                 config: {},
-            },
+            } as GlobalState['entities']['general'],
             preferences: {
                 myPreferences: {
                     'theme--team_1': {
                         category: 'theme',
                         name: 'team_1',
                         user_id: 'current_user_id',
-                        value: JSON.stringify(Preferences.THEMES.mattermostDark),
+                        value: JSON.stringify(Preferences.THEMES.indigo),
                     },
                 },
             },
@@ -116,63 +121,63 @@ describe('Actions.User', () => {
                     team_1: {
                         id: 'team_1',
                         name: 'team-1',
-                        displayName: 'Team 1',
-                    },
+                        display_name: 'Team 1',
+                    } as Team,
                     team_2: {
                         id: 'team_2',
                         name: 'team-2',
-                        displayName: 'Team 2',
-                    },
+                        display_name: 'Team 2',
+                    } as Team,
                 },
                 myMembers: {
-                    team_1: {roles: 'team_role'},
-                    team_2: {roles: 'team_role'},
+                    team_1: {roles: 'team_role'} as TeamMembership,
+                    team_2: {roles: 'team_role'} as TeamMembership,
                 },
                 membersInTeam: {
                     team_1: {
-                        current_user_id: {id: 'current_user_id'},
+                        current_user_id: {id: 'current_user_id'} as unknown as TeamMembership,
                     },
                     team_2: {
-                        current_user_id: {id: 'current_user_id'},
+                        current_user_id: {id: 'current_user_id'} as unknown as TeamMembership,
                     },
                 },
-            },
+            } as unknown as GlobalState['entities']['teams'],
             users: {
                 currentUserId: 'current_user_id',
                 profilesInChannel: {
-                    group_channel_2: ['user_1', 'user_2'],
+                    group_channel_2: ['user_1', 'user_2'] as any,
                 },
-            },
+            } as unknown as GlobalState['entities']['users'],
             posts: {
                 posts: {
                     sample_post_id: {
                         id: 'sample_post_id',
-                    },
+                    } as Post,
                 },
                 postsInChannel: {
                     current_channel_id: [
                         {
-                            id: 'sample_post_id',
+                            order: ['sample_post_id'],
                         },
                     ]},
-            },
-        },
+            } as unknown as GlobalState['entities']['posts'],
+        } as unknown as GlobalState['entities'],
         storage: {
             storage: {},
+            initialized: true,
         },
         views: {
             channel: {
-                lastViewedChannel: null,
-            },
+            } as GlobalState['views']['channel'],
             channelSidebar: {
                 unreadFilterEnabled: false,
-            },
-        },
-    };
+            } as GlobalState['views']['channelSidebar'],
+        } as GlobalState['views'],
+    } as GlobalState;
 
     test('loadProfilesAndStatusesInChannel', async () => {
         const testStore = await mockStore(initialState);
-        await testStore.dispatch(UserActions.loadProfilesAndStatusesInChannel('channel_1', 0, 60, 'status', {}));
+        await testStore.dispatch((UserActions.loadProfilesAndStatusesInChannel as any)('channel_1', 0, 60, 'status', {}));
         const actualActions = testStore.getActions();
         expect(actualActions[0].args).toEqual(['channel_1', 0, 60, 'status', {}]);
         expect(actualActions[0].type).toEqual('MOCK_GET_PROFILES_IN_CHANNEL');
@@ -184,13 +189,13 @@ describe('Actions.User', () => {
         const expectedActions = [{type: 'MOCK_GET_PROFILES_IN_TEAM', args: ['team_1', 0, 60, '', {}]}];
 
         let testStore = await mockStore({});
-        await testStore.dispatch(UserActions.loadProfilesAndTeamMembers(0, 60, 'team_1', {}));
+        await testStore.dispatch((UserActions.loadProfilesAndTeamMembers as any)(0, 60, 'team_1', {}));
         let actualActions = testStore.getActions();
         expect(actualActions[0].args).toEqual(expectedActions[0].args);
         expect(actualActions[0].type).toEqual(expectedActions[0].type);
 
         testStore = await mockStore(initialState);
-        await testStore.dispatch(UserActions.loadProfilesAndTeamMembers(0, 60, undefined, {}));
+        await testStore.dispatch((UserActions.loadProfilesAndTeamMembers as any)(0, 60, undefined, {}));
         actualActions = testStore.getActions();
         expect(actualActions[0].args).toEqual(expectedActions[0].args);
         expect(actualActions[0].type).toEqual(expectedActions[0].type);
@@ -200,7 +205,7 @@ describe('Actions.User', () => {
         const expectedActions = [{type: 'MOCK_GET_PROFILES_IN_CHANNEL', args: ['current_channel_id', 0, 60, 'sort', {}]}];
 
         const testStore = await mockStore(initialState);
-        await testStore.dispatch(UserActions.loadProfilesAndReloadChannelMembers(0, 60, 'current_channel_id', 'sort', {}));
+        await testStore.dispatch((UserActions.loadProfilesAndReloadChannelMembers as any)(0, 60, 'current_channel_id', 'sort', {}));
         const actualActions = testStore.getActions();
         expect(actualActions[0].args).toEqual(expectedActions[0].args);
         expect(actualActions[0].type).toEqual(expectedActions[0].type);
@@ -210,13 +215,13 @@ describe('Actions.User', () => {
         const expectedActions = [{type: 'MOCK_GET_PROFILES_IN_CHANNEL', args: ['current_channel_id', 0, 60, '', undefined]}];
 
         let testStore = await mockStore(initialState);
-        await testStore.dispatch(UserActions.loadProfilesAndTeamMembersAndChannelMembers(0, 60, 'team_1', 'current_channel_id'));
+        await testStore.dispatch((UserActions.loadProfilesAndTeamMembersAndChannelMembers as any)(0, 60, 'team_1', 'current_channel_id'));
         let actualActions = testStore.getActions();
         expect(actualActions[0].args).toEqual(expectedActions[0].args);
         expect(actualActions[0].type).toEqual(expectedActions[0].type);
 
         testStore = await mockStore(initialState);
-        await testStore.dispatch(UserActions.loadProfilesAndTeamMembersAndChannelMembers(0, 60));
+        await testStore.dispatch((UserActions.loadProfilesAndTeamMembersAndChannelMembers as any)(0, 60));
         actualActions = testStore.getActions();
         expect(actualActions[0].args).toEqual(expectedActions[0].args);
         expect(actualActions[0].type).toEqual(expectedActions[0].type);
@@ -227,22 +232,22 @@ describe('Actions.User', () => {
 
         // should call getTeamMembersByIds since 'other_user_id' is not loaded yet
         let testStore = await mockStore(initialState);
-        await testStore.dispatch(UserActions.loadTeamMembersForProfilesList([{id: 'other_user_id'}], 'team_1'));
+        await testStore.dispatch((UserActions.loadTeamMembersForProfilesList as any)([{id: 'other_user_id'}], 'team_1'));
         expect(testStore.getActions()).toEqual(expectedActions);
 
         // should not call getTeamMembersByIds since 'current_user_id' is already loaded
         testStore = await mockStore(initialState);
-        await testStore.dispatch(UserActions.loadTeamMembersForProfilesList([{id: 'current_user_id'}], 'team_1'));
+        await testStore.dispatch((UserActions.loadTeamMembersForProfilesList as any)([{id: 'current_user_id'}], 'team_1'));
         expect(testStore.getActions()).toEqual([]);
 
         // should call getTeamMembersByIds when reloadAllMembers = true even though 'current_user_id' is already loaded
         testStore = await mockStore(initialState);
-        await testStore.dispatch(UserActions.loadTeamMembersForProfilesList([{id: 'current_user_id'}], 'team_1', true));
+        await testStore.dispatch((UserActions.loadTeamMembersForProfilesList as any)([{id: 'current_user_id'}], 'team_1', true));
         expect(testStore.getActions()).toEqual([{args: ['team_1', ['current_user_id']], type: 'MOCK_GET_TEAM_MEMBERS_BY_IDS'}]);
 
         // should not call getTeamMembersByIds since no or empty profile is passed
         testStore = await mockStore(initialState);
-        await testStore.dispatch(UserActions.loadTeamMembersForProfilesList([], 'team_1'));
+        await testStore.dispatch((UserActions.loadTeamMembersForProfilesList as any)([], 'team_1'));
         expect(testStore.getActions()).toEqual([]);
     });
 
@@ -254,17 +259,17 @@ describe('Actions.User', () => {
 
         // should call getTeamMembersByIds and getChannelMembersByIds since 'other_user_id' is not loaded yet
         let testStore = await mockStore(initialState);
-        await testStore.dispatch(UserActions.loadTeamMembersAndChannelMembersForProfilesList([{id: 'other_user_id'}], 'team_1', 'current_channel_id'));
+        await testStore.dispatch((UserActions.loadTeamMembersAndChannelMembersForProfilesList as any)([{id: 'other_user_id'}], 'team_1', 'current_channel_id'));
         expect(testStore.getActions()).toEqual(expectedActions);
 
         // should not call getTeamMembersByIds/getChannelMembersByIds since 'current_user_id' is already loaded
         testStore = await mockStore(initialState);
-        await testStore.dispatch(UserActions.loadTeamMembersForProfilesList([{id: 'current_user_id'}], 'team_1', 'current_channel_id'));
+        await testStore.dispatch((UserActions.loadTeamMembersForProfilesList as any)([{id: 'current_user_id'}], 'team_1', 'current_channel_id'));
         expect(testStore.getActions()).toEqual([]);
 
         // should not call getTeamMembersByIds/getChannelMembersByIds since no or empty profile is passed
         testStore = await mockStore(initialState);
-        await testStore.dispatch(UserActions.loadTeamMembersForProfilesList([], 'team_1', 'current_channel_id'));
+        await testStore.dispatch((UserActions.loadTeamMembersForProfilesList as any)([], 'team_1', 'current_channel_id'));
         expect(testStore.getActions()).toEqual([]);
     });
 
@@ -273,17 +278,17 @@ describe('Actions.User', () => {
 
         // should call getChannelMembersByIds since 'other_user_id' is not loaded yet
         let testStore = await mockStore(initialState);
-        await testStore.dispatch(UserActions.loadChannelMembersForProfilesList([{id: 'other_user_id'}], 'current_channel_id'));
+        await testStore.dispatch((UserActions.loadChannelMembersForProfilesList as any)([{id: 'other_user_id'}], 'current_channel_id'));
         expect(testStore.getActions()).toEqual(expectedActions);
 
         // should not call getChannelMembersByIds since 'current_user_id' is already loaded
         testStore = await mockStore(initialState);
-        await testStore.dispatch(UserActions.loadChannelMembersForProfilesList([{id: 'current_user_id'}], 'current_channel_id'));
+        await testStore.dispatch((UserActions.loadChannelMembersForProfilesList as any)([{id: 'current_user_id'}], 'current_channel_id'));
         expect(testStore.getActions()).toEqual([]);
 
         // should not call getChannelMembersByIds since no or empty profile is passed
         testStore = await mockStore(initialState);
-        await testStore.dispatch(UserActions.loadChannelMembersForProfilesList([], 'current_channel_id'));
+        await testStore.dispatch((UserActions.loadChannelMembersForProfilesList as any)([], 'current_channel_id'));
         expect(testStore.getActions()).toEqual([]);
     });
 
@@ -293,7 +298,7 @@ describe('Actions.User', () => {
         // as users in group_channel_2 are already loaded, it should only try to load group_channel_1
         const expectedActions = [{args: [['group_channel_1']], type: 'MOCK_GET_PROFILES_IN_GROUP_CHANNELS'}];
         const testStore = await mockStore(initialState);
-        await testStore.dispatch(UserActions.loadProfilesForGroupChannels(mockedGroupChannels));
+        await testStore.dispatch((UserActions.loadProfilesForGroupChannels as any)(mockedGroupChannels));
         expect(testStore.getActions()).toEqual(expectedActions);
     });
 
@@ -301,7 +306,7 @@ describe('Actions.User', () => {
         const expectedActions = [{type: 'MOCK_SEARCH_PROFILES', args: ['current_channel_id', 'term']}];
 
         const testStore = await mockStore(initialState);
-        await testStore.dispatch(UserActions.searchProfilesAndChannelMembers('current_channel_id', 'term'));
+        await testStore.dispatch((UserActions.searchProfilesAndChannelMembers as any)('current_channel_id', 'term'));
         const actualActions = testStore.getActions();
         expect(actualActions[0].args).toEqual(expectedActions[0].args);
         expect(actualActions[0].type).toEqual(expectedActions[0].type);
@@ -334,7 +339,6 @@ describe('Actions.User', () => {
                         gmChannel2,
                     },
                     myMembers: {
-                        ...initialState.entities.myMembers,
                         [gmChannel1.id]: {last_viewed_at: 1000},
                         [gmChannel2.id]: {last_viewed_at: 2000},
                     },
@@ -354,7 +358,7 @@ describe('Actions.User', () => {
         test('should not return autoclosed GMs', () => {
             let state = baseState;
 
-            expect(UserActions.getGMsForLoading(state)).toEqual([gmChannel1, gmChannel2]);
+            expect(UserActions.getGMsForLoading(state as any)).toEqual([gmChannel1, gmChannel2]);
 
             state = {
                 ...state,
@@ -370,7 +374,7 @@ describe('Actions.User', () => {
                 },
             };
 
-            expect(UserActions.getGMsForLoading(state)).toEqual([gmChannel2]);
+            expect(UserActions.getGMsForLoading(state as any)).toEqual([gmChannel2]);
 
             state = {
                 ...state,
@@ -386,13 +390,13 @@ describe('Actions.User', () => {
                 },
             };
 
-            expect(UserActions.getGMsForLoading(state)).toEqual([gmChannel1]);
+            expect(UserActions.getGMsForLoading(state as any)).toEqual([gmChannel1]);
         });
 
         test('should not return manually closed GMs', () => {
             let state = baseState;
 
-            expect(UserActions.getGMsForLoading(state)).toEqual([gmChannel1, gmChannel2]);
+            expect(UserActions.getGMsForLoading(state as any)).toEqual([gmChannel1, gmChannel2]);
 
             state = {
                 ...state,
@@ -408,7 +412,7 @@ describe('Actions.User', () => {
                 },
             };
 
-            expect(UserActions.getGMsForLoading(state)).toEqual([gmChannel2]);
+            expect(UserActions.getGMsForLoading(state as any)).toEqual([gmChannel2]);
 
             state = {
                 ...state,
@@ -424,7 +428,7 @@ describe('Actions.User', () => {
                 },
             };
 
-            expect(UserActions.getGMsForLoading(state)).toEqual([]);
+            expect(UserActions.getGMsForLoading(state as any)).toEqual([]);
         });
 
         test('should return GMs that are in custom categories, even if they would be automatically hidden in the DMs category', () => {
@@ -467,7 +471,7 @@ describe('Actions.User', () => {
                 },
             };
 
-            expect(UserActions.getGMsForLoading(state)).toEqual([gmChannel3, gmChannel1, gmChannel2]);
+            expect(UserActions.getGMsForLoading(state as any)).toEqual([gmChannel3, gmChannel1, gmChannel2]);
 
             state = {
                 ...state,
@@ -483,7 +487,7 @@ describe('Actions.User', () => {
                 },
             };
 
-            expect(UserActions.getGMsForLoading(state)).toEqual([gmChannel3, gmChannel2]);
+            expect(UserActions.getGMsForLoading(state as any)).toEqual([gmChannel3, gmChannel2]);
 
             state = {
                 ...state,
@@ -499,7 +503,7 @@ describe('Actions.User', () => {
                 },
             };
 
-            expect(UserActions.getGMsForLoading(state)).toEqual([gmChannel3]);
+            expect(UserActions.getGMsForLoading(state as any)).toEqual([gmChannel3]);
         });
     });
 
@@ -584,7 +588,7 @@ describe('Actions.User', () => {
         };
 
         const testStore = mockStore(state);
-        getState.mockImplementation(testStore.getState);
+        store.getState.mockImplementation(testStore.getState);
 
         await UserActions.loadProfilesForGM();
         expect(UserActions.queue.onEmpty).toHaveBeenCalled();

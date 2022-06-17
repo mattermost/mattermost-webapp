@@ -3,6 +3,8 @@
 
 import {createSelector} from 'reselect';
 
+import {Post} from '@mattermost/types/posts';
+
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {
@@ -20,7 +22,7 @@ import {
 import {Posts} from 'mattermost-redux/constants';
 import {isPostPendingOrFailed} from 'mattermost-redux/utils/post_utils';
 
-import * as PostActions from 'actions/post_actions.jsx';
+import * as PostActions from 'actions/post_actions';
 import {executeCommand} from 'actions/command';
 import {runMessageWillBePostedHooks, runSlashCommandWillBePostedHooks} from 'actions/hooks';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
@@ -95,7 +97,7 @@ export function submitPost(channelId: string, rootId: string, draft: PostDraft) 
             create_at: time,
             metadata: {},
             props: {...draft.props},
-        };
+        } as unknown as Post;
 
         const hookResult = await dispatch(runMessageWillBePostedHooks(post));
         if (hookResult.error) {

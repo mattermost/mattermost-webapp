@@ -1,20 +1,24 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {UserProfile} from '@mattermost/types/users';
+
 import {getStatusesByIds} from 'mattermost-redux/actions/users';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {getPostsInCurrentChannel} from 'mattermost-redux/selectors/entities/posts';
 import {getDirectShowPreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {GlobalState} from 'types/store';
 
 import {loadCustomEmojisForCustomStatusesByUserIds} from 'actions/emoji_actions';
 import store from 'stores/redux_store.jsx';
 import {Constants} from 'utils/constants';
 
 export function loadStatusesForChannelAndSidebar() {
-    return (dispatch, getState) => {
-        const state = getState();
-        const statusesToLoad = {};
+    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState() as GlobalState;
+        const statusesToLoad: Record<string, true> = {};
 
         const channelId = getCurrentChannelId(state);
         const postsInChannel = getPostsInCurrentChannel(state);
@@ -43,8 +47,8 @@ export function loadStatusesForChannelAndSidebar() {
     };
 }
 
-export function loadStatusesForProfilesList(users) {
-    return (dispatch) => {
+export function loadStatusesForProfilesList(users: UserProfile[]) {
+    return (dispatch: DispatchFunc) => {
         if (users == null) {
             return {data: false};
         }
@@ -60,8 +64,8 @@ export function loadStatusesForProfilesList(users) {
     };
 }
 
-export function loadStatusesForProfilesMap(users) {
-    return (dispatch) => {
+export function loadStatusesForProfilesMap(users: Record<string, UserProfile> | null) {
+    return (dispatch: DispatchFunc) => {
         if (users == null) {
             return;
         }
@@ -77,8 +81,8 @@ export function loadStatusesForProfilesMap(users) {
     };
 }
 
-export function loadStatusesByIds(userIds) {
-    return (dispatch) => {
+export function loadStatusesByIds(userIds: string[]) {
+    return (dispatch: DispatchFunc) => {
         if (userIds.length === 0) {
             return {data: false};
         }
@@ -89,8 +93,8 @@ export function loadStatusesByIds(userIds) {
     };
 }
 
-export function loadProfilesMissingStatus(users) {
-    return (dispatch, getState) => {
+export function loadProfilesMissingStatus(users: UserProfile[]) {
+    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
         const statuses = state.entities.users.statuses;
 
@@ -108,10 +112,10 @@ export function loadProfilesMissingStatus(users) {
     };
 }
 
-let intervalId = '';
+let intervalId: string | NodeJS.Timeout = '';
 
 export function startPeriodicStatusUpdates() {
-    clearInterval(intervalId);
+    clearInterval(intervalId as NodeJS.Timeout);
 
     intervalId = setInterval(
         () => {
@@ -122,5 +126,5 @@ export function startPeriodicStatusUpdates() {
 }
 
 export function stopPeriodicStatusUpdates() {
-    clearInterval(intervalId);
+    clearInterval(intervalId as NodeJS.Timeout);
 }

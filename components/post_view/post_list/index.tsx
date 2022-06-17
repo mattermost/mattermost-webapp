@@ -2,11 +2,12 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {Dispatch, bindActionCreators, ActionCreatorsMapObject} from 'redux';
 import {withRouter} from 'react-router-dom';
 
 import {getRecentPostsChunkInChannel, makeGetPostsChunkAroundPost, getUnreadPostsChunk, getPost} from 'mattermost-redux/selectors/entities/posts';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
+import {Action} from 'mattermost-redux/types/actions';
 import {markChannelAsRead, markChannelAsViewed} from 'mattermost-redux/actions/channels';
 import {makePreparePostIdsForPostList} from 'mattermost-redux/utils/post_list';
 import {RequestStatus} from 'mattermost-redux/constants';
@@ -23,9 +24,9 @@ import {
 } from 'actions/views/channel';
 import {getIsMobileView} from 'selectors/views/browser';
 
-import PostList from './post_list.jsx';
 import {GlobalState} from 'types/store';
-import {Dispatch, GenericAction} from 'mattermost-redux/types/actions';
+
+import PostList, {Props as PostListProps} from './post_list';
 
 const isFirstLoad = (state: GlobalState, channelId: string) => !state.entities.posts.postsInChannel[channelId];
 const memoizedGetLatestPostId = memoizeResult((postIds: string[]) => getLatestPostId(postIds));
@@ -95,14 +96,14 @@ function makeMapStateToProps() {
     };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<Action>, PostListProps['actions']>({
             loadUnreads,
             loadPosts,
             loadLatestPosts,
             loadPostsAround,
-            checkAndSetMobileView,
+            checkAndSetMobileView: checkAndSetMobileView as any,
             syncPostsInChannel,
             markChannelAsViewed,
             markChannelAsRead,

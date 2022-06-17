@@ -8,7 +8,7 @@ import VirtPostList from 'components/post_view/post_list_virtualized/post_list_v
 
 import {PostRequestTypes} from 'utils/constants';
 
-import PostList, {MAX_EXTRA_PAGES_LOADED} from './post_list.jsx';
+import PostList, {MAX_EXTRA_PAGES_LOADED} from './post_list';
 
 const actionsProp = {
     loadPostsAround: jest.fn().mockImplementation(() => Promise.resolve({atLatestMessage: true, atOldestmessage: true})),
@@ -25,7 +25,7 @@ const actionsProp = {
 const lastViewedAt = 1532345226632;
 const channelId = 'fake-id';
 
-const createFakePosIds = (num) => {
+const createFakePosIds = (num: number) => {
     const postIds = [];
     for (let i = 1; i <= num; i++) {
         postIds.push(`1234${i}`);
@@ -64,7 +64,7 @@ describe('components/post_view/post_list', () => {
     });
 
     it('Should call postsOnLoad', async () => {
-        const emptyPostList = [];
+        const emptyPostList: string[] = [];
 
         const wrapper = shallow(
             <PostList {...{...baseProps, postListIds: emptyPostList}}/>,
@@ -77,7 +77,7 @@ describe('components/post_view/post_list', () => {
     });
 
     it('Should not call loadUnreads if isPrefetchingInProcess is true', async () => {
-        const emptyPostList = [];
+        const emptyPostList: string[] = [];
 
         shallow(<PostList {...{...baseProps, postListIds: emptyPostList, isPrefetchingInProcess: true}}/>);
 

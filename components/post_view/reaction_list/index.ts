@@ -13,7 +13,7 @@ import {Reaction} from '@mattermost/types/reactions';
 
 import {GlobalState} from 'types/store';
 
-import {addReaction} from 'actions/post_actions.jsx';
+import {addReaction} from 'actions/post_actions';
 
 import {makeGetUniqueReactionsToPost} from 'utils/post_utils';
 

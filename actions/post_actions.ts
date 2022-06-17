@@ -1,6 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {Post} from '@mattermost/types/posts';
+import {GroupChannel} from '@mattermost/types/groups';
+import {FileInfo} from '@mattermost/types/files';
+
 import {SearchTypes} from 'mattermost-redux/action_types';
 import {getMyChannelMember} from 'mattermost-redux/actions/channels';
 import {getChannel, getMyChannelMember as getMyChannelMemberSelector} from 'mattermost-redux/selectors/entities/channels';
@@ -11,14 +15,16 @@ import * as PostSelectors from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {canEditPost, comparePosts} from 'mattermost-redux/utils/post_utils';
+import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
 import {addRecentEmoji} from 'actions/emoji_actions';
 import * as StorageActions from 'actions/storage';
-import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions.jsx';
+import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions';
 import * as RhsActions from 'actions/views/rhs';
 import {manuallyMarkThreadAsUnread} from 'actions/views/threads';
 import {isEmbedVisible, isInlineImageVisible} from 'selectors/posts';
 import {getSelectedPostId, getSelectedPostCardId, getRhsState} from 'selectors/rhs';
+import {GlobalState} from 'types/store';
 import {
     ActionTypes,
     Constants,
@@ -28,31 +34,31 @@ import {
 import {matchEmoticons} from 'utils/emoticons';
 import * as UserAgent from 'utils/user_agent';
 
-import {completePostReceive} from './new_post';
+import {completePostReceive, NewPostMessageProps} from './new_post';
 
-export function handleNewPost(post, msg) {
-    return async (dispatch, getState) => {
+export function handleNewPost(post: Post, msg?: {data?: NewPostMessageProps & GroupChannel}) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         let websocketMessageProps = {};
         const state = getState();
         if (msg) {
-            websocketMessageProps = msg.data;
+            websocketMessageProps = msg.data!;
         }
 
         const myChannelMember = getMyChannelMemberSelector(state, post.channel_id);
-        const myChannelMemberDoesntExist = !myChannelMember || (Object.keys(myChannelMember).length === 0 && myChannelMember.constructor === 'Object');
+        const myChannelMemberDoesntExist = !myChannelMember || (Object.keys(myChannelMember).length === 0 && (myChannelMember as any).constructor === 'Object');
 
         if (myChannelMemberDoesntExist) {
             await dispatch(getMyChannelMember(post.channel_id));
         }
 
-        dispatch(completePostReceive(post, websocketMessageProps, myChannelMemberDoesntExist));
+        dispatch(completePostReceive(post, websocketMessageProps as NewPostMessageProps, myChannelMemberDoesntExist));
 
         if (msg && msg.data) {
             const currentUserId = getCurrentUserId(state);
             if (msg.data.channel_type === Constants.DM_CHANNEL) {
-                dispatch(loadNewDMIfNeeded(post.channel_id, currentUserId));
+                dispatch((loadNewDMIfNeeded as any)(post.channel_id, currentUserId));
             } else if (msg.data.channel_type === Constants.GM_CHANNEL) {
-                dispatch(loadNewGMIfNeeded(post.channel_id));
+                dispatch((loadNewGMIfNeeded as any)(post.channel_id));
             }
         }
 
@@ -62,10 +68,10 @@ export function handleNewPost(post, msg) {
 
 const getPostsForIds = PostSelectors.makeGetPostsForIds();
 
-export function flagPost(postId) {
-    return async (dispatch, getState) => {
+export function flagPost(postId: string) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         await dispatch(PostActions.flagPost(postId));
-        const state = getState();
+        const state = getState() as GlobalState;
         const rhsState = getRhsState(state);
 
         if (rhsState === RHSStates.FLAG) {
@@ -76,10 +82,10 @@ export function flagPost(postId) {
     };
 }
 
-export function unflagPost(postId) {
-    return async (dispatch, getState) => {
+export function unflagPost(postId: string) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         await dispatch(PostActions.unflagPost(postId));
-        const state = getState();
+        const state = getState() as GlobalState;
         const rhsState = getRhsState(state);
 
         if (rhsState === RHSStates.FLAG) {
@@ -90,8 +96,8 @@ export function unflagPost(postId) {
     };
 }
 
-export function createPost(post, files) {
-    return async (dispatch) => {
+export function createPost(post: Post, files: FileInfo[]) {
+    return async (dispatch: DispatchFunc) => {
         // parse message and emit emoji event
         const emojis = matchEmoticons(post.message);
         if (emojis) {
@@ -109,44 +115,44 @@ export function createPost(post, files) {
         }
 
         if (post.root_id) {
-            dispatch(storeCommentDraft(post.root_id, null));
+            dispatch((storeCommentDraft as any)(post.root_id, null));
         } else {
-            dispatch(storeDraft(post.channel_id, null));
+            dispatch((storeDraft as any)(post.channel_id, null));
         }
 
         return result;
     };
 }
 
-export function storeDraft(channelId, draft) {
-    return (dispatch) => {
+export function storeDraft(channelId: string, draft: any) {
+    return (dispatch: DispatchFunc) => {
         dispatch(StorageActions.setGlobalItem('draft_' + channelId, draft));
     };
 }
 
-export function storeCommentDraft(rootPostId, draft) {
-    return (dispatch) => {
+export function storeCommentDraft(rootPostId: string, draft: any) {
+    return (dispatch: DispatchFunc) => {
         dispatch(StorageActions.setGlobalItem('comment_draft_' + rootPostId, draft));
     };
 }
 
-export function addReaction(postId, emojiName) {
-    return (dispatch) => {
+export function addReaction(postId: string, emojiName: string) {
+    return (dispatch: DispatchFunc) => {
         dispatch(PostActions.addReaction(postId, emojiName));
         dispatch(addRecentEmoji(emojiName));
         return {data: true};
     };
 }
 
-export function searchForTerm(term) {
-    return (dispatch) => {
+export function searchForTerm(term: string) {
+    return (dispatch: DispatchFunc) => {
         dispatch(RhsActions.updateSearchTerms(term));
         dispatch(RhsActions.showSearchResults());
         return {data: true};
     };
 }
 
-function addPostToSearchResults(postId, state, dispatch) {
+function addPostToSearchResults(postId: string, state: GlobalState, dispatch: DispatchFunc) {
     const results = state.entities.search.results;
     const index = results.indexOf(postId);
     if (index === -1) {
@@ -154,7 +160,7 @@ function addPostToSearchResults(postId, state, dispatch) {
         const posts = getPostsForIds(state, results).reduce((acc, post) => {
             acc[post.id] = post;
             return acc;
-        }, {});
+        }, {} as Record<string, Post>);
         posts[newPost.id] = newPost;
 
         const newResults = [...results, postId];
@@ -167,7 +173,7 @@ function addPostToSearchResults(postId, state, dispatch) {
     }
 }
 
-function removePostFromSearchResults(postId, state, dispatch) {
+function removePostFromSearchResults(postId: string, state: GlobalState, dispatch: DispatchFunc) {
     let results = state.entities.search.results;
     const index = results.indexOf(postId);
     if (index > -1) {
@@ -183,10 +189,10 @@ function removePostFromSearchResults(postId, state, dispatch) {
     }
 }
 
-export function pinPost(postId) {
-    return async (dispatch, getState) => {
+export function pinPost(postId: string) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         await dispatch(PostActions.pinPost(postId));
-        const state = getState();
+        const state = getState() as GlobalState;
         const rhsState = getRhsState(state);
 
         if (rhsState === RHSStates.PIN) {
@@ -196,10 +202,10 @@ export function pinPost(postId) {
     };
 }
 
-export function unpinPost(postId) {
-    return async (dispatch, getState) => {
+export function unpinPost(postId: string) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         await dispatch(PostActions.unpinPost(postId));
-        const state = getState();
+        const state = getState() as GlobalState;
         const rhsState = getRhsState(state);
 
         if (rhsState === RHSStates.PIN) {
@@ -210,7 +216,7 @@ export function unpinPost(postId) {
 }
 
 export function setEditingPost(postId = '', refocusId = '', title = '', isRHS = false) {
-    return async (dispatch, getState) => {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
         const post = PostSelectors.getPost(state, postId);
 
@@ -248,8 +254,8 @@ export function unsetEditingPost() {
     };
 }
 
-export function markPostAsUnread(post, location) {
-    return async (dispatch, getState) => {
+export function markPostAsUnread(post: Post, location: string) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
         const userId = getCurrentUserId(state);
         const currentTeamId = getCurrentTeamId(state);
@@ -269,14 +275,14 @@ export function markPostAsUnread(post, location) {
     };
 }
 
-export function deleteAndRemovePost(post) {
-    return async (dispatch, getState) => {
+export function deleteAndRemovePost(post: Post) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const {error} = await dispatch(PostActions.deletePost(post));
         if (error) {
             return {error};
         }
 
-        if (post.id === getSelectedPostId(getState())) {
+        if (post.id === getSelectedPostId(getState() as GlobalState)) {
             dispatch({
                 type: ActionTypes.SELECT_POST,
                 postId: '',
@@ -285,7 +291,7 @@ export function deleteAndRemovePost(post) {
             });
         }
 
-        if (post.id === getSelectedPostCardId(getState())) {
+        if (post.id === getSelectedPostCardId(getState() as GlobalState)) {
             dispatch({
                 type: ActionTypes.SELECT_POST_CARD,
                 postId: '',
@@ -299,11 +305,11 @@ export function deleteAndRemovePost(post) {
     };
 }
 
-export function toggleEmbedVisibility(postId) {
-    return (dispatch, getState) => {
+export function toggleEmbedVisibility(postId: string) {
+    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
         const currentUserId = getCurrentUserId(state);
-        const visible = isEmbedVisible(state, postId);
+        const visible = isEmbedVisible(state as GlobalState, postId);
 
         dispatch(StorageActions.setGlobalItem(StoragePrefixes.EMBED_VISIBLE + currentUserId + '_' + postId, !visible));
     };
@@ -313,11 +319,11 @@ export function resetEmbedVisibility() {
     return StorageActions.actionOnGlobalItemsWithPrefix(StoragePrefixes.EMBED_VISIBLE, () => null);
 }
 
-export function toggleInlineImageVisibility(postId, imageKey) {
-    return (dispatch, getState) => {
+export function toggleInlineImageVisibility(postId: string, imageKey: string) {
+    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
         const currentUserId = getCurrentUserId(state);
-        const visible = isInlineImageVisible(state, postId, imageKey);
+        const visible = isInlineImageVisible(state as GlobalState, postId, imageKey);
 
         dispatch(StorageActions.setGlobalItem(StoragePrefixes.INLINE_IMAGE_VISIBLE + currentUserId + '_' + postId + '_' + imageKey, !visible));
     };
@@ -333,7 +339,7 @@ export function resetInlineImageVisibility() {
  * @param {string} emittedFrom - It can be either "CENTER", "RHS_ROOT" or "NO_WHERE"
  */
 
-export function emitShortcutReactToLastPostFrom(emittedFrom) {
+export function emitShortcutReactToLastPostFrom(emittedFrom: string) {
     return {
         type: ActionTypes.EMITTED_SHORTCUT_REACT_TO_LAST_POST,
         payload: emittedFrom,

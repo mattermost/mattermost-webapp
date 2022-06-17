@@ -1,18 +1,17 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import ScrollToBottomIcon from 'components/widgets/icons/scroll_to_bottom_icon';
 
-export default class ScrollToBottomArrows extends React.PureComponent {
-    static propTypes = {
-        isScrolling: PropTypes.bool.isRequired,
-        atBottom: PropTypes.bool,
-        onClick: PropTypes.func.isRequired,
-    };
+interface Props {
+    isScrolling: boolean;
+    atBottom?: boolean;
+    onClick: () => void;
+}
 
+export default class ScrollToBottomArrows extends React.PureComponent<Props> {
     render() {
         // only show on mobile
         if (window.innerWidth > 768) {
