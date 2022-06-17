@@ -41,6 +41,7 @@ describe('components/select_team/SelectTeam', () => {
         },
         totalTeamsCount: 15,
         isCloud: false,
+        isFreeTrial: false,
         usageDeltas: {
             teams: {
                 active: Number.MAX_VALUE,
@@ -130,6 +131,7 @@ describe('components/select_team/SelectTeam', () => {
         const props = {
             ...baseProps,
             isCloud: true,
+            isFreeTrial: false,
             usageDeltas: {
                 teams: {
                     active: 0,
