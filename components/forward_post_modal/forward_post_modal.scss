@@ -1,4 +1,10 @@
 .forward-post {
+    .modal-body {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
     &__select {
         position: relative;
 
@@ -49,7 +55,9 @@
         }
     }
 
-    &__comment-box {
-        min-height: 800px;
+    .custom-textarea,
+    #forward_post_textbox {
+        min-height: 40px;
+        padding: 10px 16px;
     }
 }

@@ -238,6 +238,7 @@ const ForwardPostModal = (props: Props) => {
     const [caretPosition, setCaretPosition] = useState(0);
     const [renderScrollbar, setRenderScrollbar] = useState(false);
     const [postError, setPostError] = useState<React.ReactNode>(null);
+    const [postPreview, setPostPreview] = useState<Post>({} as Post);
     const [selectedChannel, setSelectedChannel] = useState<ChannelOption>();
 
     const {current: provider} = useRef<SwitchChannelProvider>(new SwitchChannelProvider());
@@ -424,6 +425,10 @@ const ForwardPostModal = (props: Props) => {
     const handleChange = (e: React.ChangeEvent<TextboxElement>) => {
         const message = e.target.value;
 
+        const post = {} as Post;
+        post.file_ids = [];
+        post.message = message;
+
         setComment(message);
     };
 
@@ -557,32 +562,30 @@ const ForwardPostModal = (props: Props) => {
                     placeholder='Select channel or people'
                     className='forward-post__select'
                 />
-                <div className='forward-post__comment-box'>
-                    <Textbox
-                        onChange={handleChange}
-                        onKeyPress={postMsgKeyPress}
-                        onKeyDown={handleKeyDown}
-                        onSelect={handleSelect}
-                        onMouseUp={handleMouseUpKeyUp}
-                        onKeyUp={handleMouseUpKeyUp}
-                        onComposition={emitTypingEvent}
-                        onHeightChange={handleHeightChange}
-                        handlePostError={handlePostError}
-                        value={comment}
-                        onBlur={handleBlur}
-                        emojiEnabled={enableEmojiPicker}
-                        createMessage={createMessage}
-                        channelId={selectedChannelId}
-                        id={'forward_post_textbox'}
-                        ref={textboxRef}
-                        disabled={!canPost}
-                        characterLimit={maxPostSize}
-                        preview={false}
-                        badConnection={badConnection}
-                        listenForMentionKeyClick={true}
-                        useChannelMentions={useChannelMentions}
-                    />
-                </div>
+                <Textbox
+                    onChange={handleChange}
+                    onKeyPress={postMsgKeyPress}
+                    onKeyDown={handleKeyDown}
+                    onSelect={handleSelect}
+                    onMouseUp={handleMouseUpKeyUp}
+                    onKeyUp={handleMouseUpKeyUp}
+                    onComposition={emitTypingEvent}
+                    onHeightChange={handleHeightChange}
+                    handlePostError={handlePostError}
+                    value={comment}
+                    onBlur={handleBlur}
+                    emojiEnabled={enableEmojiPicker}
+                    createMessage={createMessage}
+                    channelId={selectedChannelId}
+                    id={'forward_post_textbox'}
+                    ref={textboxRef}
+                    disabled={false}
+                    characterLimit={maxPostSize}
+                    preview={false}
+                    badConnection={badConnection}
+                    listenForMentionKeyClick={true}
+                    useChannelMentions={useChannelMentions}
+                />
             </Modal.Body>
         </Modal>
     );
