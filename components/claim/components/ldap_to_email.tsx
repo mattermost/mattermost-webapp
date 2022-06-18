@@ -28,9 +28,9 @@ const LDAPToEmail = (props: Props) => {
     const [confirmError, setConfirmError] = useState('');
     const [ldapPasswordError, setLdapPasswordError] = useState('');
     const [serverError, setServerError] = useState('');
-    const [showMfa, setShowMfa] = useState(true);
     const [password, setPassword] = useState('');
     const [ldapPassword, setLdapPassword] = useState('');
+    const [showMfa, setShowMfa] = useState(true);
 
     const ldapPasswordInput = useRef<HTMLInputElement>(null);
     const passwordInput = useRef<HTMLInputElement>(null);
@@ -135,13 +135,16 @@ const LDAPToEmail = (props: Props) => {
     }
 
     const passwordPlaceholder = localizeMessage('claim.ldap_to_email.ldapPwd', 'AD/LDAP Password');
+    const titleMessage = {id: t('claim.ldap_to_email.title'), defaultMessage: 'Switch AD/LDAP Account to Email/Password'};
+    const placeholderPasswordMessage = {id: t('claim.ldap_to_email.pwd'), defaultMessage: 'Password'};
+    const placeholderConfirmMessage = {id: t('claim.ldap_to_email.confirm'), defaultMessage: 'Confirm Password'};
 
     if (showMfa) {
         return (
             <LoginMfa
                 loginId={props.email}
                 password={password}
-                title={{id: t('claim.ldap_to_email.title'), defaultMessage: 'Switch AD/LDAP Account to Email/Password'}}
+                title={titleMessage}
                 onSubmit={submit}
             />
         );
@@ -162,18 +165,14 @@ const LDAPToEmail = (props: Props) => {
                     <FormattedMessage
                         id='claim.ldap_to_email.email'
                         defaultMessage='After switching your authentication method, you will use {email} to login. Your AD/LDAP credentials will no longer allow access to Mattermost.'
-                        values={{
-                            email: props.email,
-                        }}
+                        values={{email: props.email}}
                     />
                 </p>
                 <p>
                     <FormattedMessage
                         id='claim.ldap_to_email.enterLdapPwd'
                         defaultMessage='{ldapPassword}:'
-                        values={{
-                            ldapPassword: passwordPlaceholder,
-                        }}
+                        values={{ldapPassword: passwordPlaceholder}}
                     />
                 </p>
                 <div className={ldapPasswordClass}>
@@ -199,7 +198,7 @@ const LDAPToEmail = (props: Props) => {
                         className='form-control'
                         name='password'
                         ref={passwordInput}
-                        placeholder={{id: t('claim.ldap_to_email.pwd'), defaultMessage: 'Password'}}
+                        placeholder={placeholderPasswordMessage}
                         spellCheck='false'
                     />
                 </div>
@@ -210,7 +209,7 @@ const LDAPToEmail = (props: Props) => {
                         className='form-control'
                         name='passwordconfirm'
                         ref={passwordConfirmInput}
-                        placeholder={{id: t('claim.ldap_to_email.confirm'), defaultMessage: 'Confirm Password'}}
+                        placeholder={placeholderConfirmMessage}
                         spellCheck='false'
                     />
                 </div>

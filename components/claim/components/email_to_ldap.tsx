@@ -35,8 +35,8 @@ const EmailToLDAP = ({email, siteName, ldapLoginFieldName}: Props) => {
     const ldapPasswordInput = useRef<HTMLInputElement>(null);
 
     const [password, setPassword] = React.useState('');
-    const [ldapId, setLdapId] = React.useState<string | null>(null);
-    const [ldapPassword, setLdapPassword] = React.useState<string | null>(null);
+    const [ldapId, setLdapId] = React.useState<string>('');
+    const [ldapPassword, setLdapPassword] = React.useState<string>('');
     const [passwordError, setPasswordError] = React.useState('');
     const [ldapError, setLdapError] = React.useState('');
     const [ldapPasswordError, setLdapPasswordError] = React.useState('');
@@ -150,13 +150,16 @@ const EmailToLDAP = ({email, siteName, ldapLoginFieldName}: Props) => {
     }
 
     const loginPlaceholder = ldapLoginFieldName || localizeMessage('claim.email_to_ldap.ldapId', 'AD/LDAP ID');
+    const titleMessage = {id: t('claim.email_to_ldap.title'), defaultMessage: 'Switch Email/Password Account to AD/LDAP'};
+    const placeholderPasswordMessage = {id: t('claim.email_to_ldap.pwd'), defaultMessage: 'Password'};
+    const placeholderLdapMessage = {id: t('claim.email_to_ldap.ldapPwd'), defaultMessage: 'AD/LDAP Password'};
 
     if (showMfa) {
         return (
             <LoginMfa
                 loginId={email}
                 password={password}
-                title={{id: t('claim.email_to_ldap.title'), defaultMessage: 'Switch Email/Password Account to AD/LDAP'}}
+                title={titleMessage}
                 onSubmit={submit}
             />
         );
@@ -206,7 +209,7 @@ const EmailToLDAP = ({email, siteName, ldapLoginFieldName}: Props) => {
                         name='emailPassword'
                         ref={emailPasswordInput}
                         autoComplete='off'
-                        placeholder={{id: t('claim.email_to_ldap.pwd'), defaultMessage: 'Password'}}
+                        placeholder={placeholderPasswordMessage}
                         spellCheck='false'
                     />
                 </div>
@@ -236,7 +239,7 @@ const EmailToLDAP = ({email, siteName, ldapLoginFieldName}: Props) => {
                         name='ldapPassword'
                         ref={ldapPasswordInput}
                         autoComplete='off'
-                        placeholder={{id: t('claim.email_to_ldap.ldapPwd'), defaultMessage: 'AD/LDAP Password'}}
+                        placeholder={placeholderLdapMessage}
                         spellCheck='false'
                     />
                 </div>

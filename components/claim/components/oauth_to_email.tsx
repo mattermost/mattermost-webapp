@@ -73,6 +73,8 @@ const OAuthToEmail = (props: Props) => {
     const formClass = classNames('form-group', {'has-error': errorElement});
 
     const uiType = `${(props.currentType === Constants.SAML_SERVICE ? Constants.SAML_SERVICE.toUpperCase() : toTitleCase(props.currentType || ''))} SSO`;
+    const placeholderPasswordMessage = {id: t('claim.oauth_to_email.newPwd'), defaultMessage: 'New Password'};
+    const placeholderConfirmMessage = {id: t('claim.oauth_to_email.confirm'), defaultMessage: 'Confirm Password'};
 
     return (
         <>
@@ -80,9 +82,7 @@ const OAuthToEmail = (props: Props) => {
                 <FormattedMessage
                     id='claim.oauth_to_email.title'
                     defaultMessage='Switch {type} Account to Email'
-                    values={{
-                        type: uiType,
-                    }}
+                    values={{type: uiType}}
                 />
             </h3>
             <form onSubmit={submit}>
@@ -96,9 +96,7 @@ const OAuthToEmail = (props: Props) => {
                     <FormattedMessage
                         id='claim.oauth_to_email.enterNewPwd'
                         defaultMessage='Enter a new password for your {site} email account'
-                        values={{
-                            site: props.siteName,
-                        }}
+                        values={{site: props.siteName}}
                     />
                 </p>
                 <div className={formClass}>
@@ -107,7 +105,7 @@ const OAuthToEmail = (props: Props) => {
                         className='form-control'
                         name='password'
                         ref={passwordInput}
-                        placeholder={{id: t('claim.oauth_to_email.newPwd'), defaultMessage: 'New Password'}}
+                        placeholder={placeholderPasswordMessage}
                         spellCheck='false'
                     />
                 </div>
@@ -117,7 +115,7 @@ const OAuthToEmail = (props: Props) => {
                         className='form-control'
                         name='passwordconfirm'
                         ref={passwordConfirmInput}
-                        placeholder={{id: t('claim.oauth_to_email.confirm'), defaultMessage: 'Confirm Password'}}
+                        placeholder={placeholderConfirmMessage}
                         spellCheck='false'
                     />
                 </div>
@@ -129,9 +127,7 @@ const OAuthToEmail = (props: Props) => {
                     <FormattedMessage
                         id='claim.oauth_to_email.switchTo'
                         defaultMessage='Switch {type} to Email and Password'
-                        values={{
-                            type: uiType,
-                        }}
+                        values={{type: uiType}}
                     />
                 </button>
             </form>
