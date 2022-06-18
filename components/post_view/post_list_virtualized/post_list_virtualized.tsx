@@ -4,7 +4,7 @@
 /* eslint-disable max-lines */
 import React from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
-import {DynamicSizeList} from 'dynamic-virtualized-list';
+import {DynamicSizeList, OnItemsRenderedArgs} from 'dynamic-virtualized-list';
 
 import {isDateLine, isStartOfNewMessages} from 'mattermost-redux/utils/post_list';
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
@@ -527,7 +527,7 @@ export default class PostList extends React.PureComponent<Props, State> {
         });
     }
 
-    onItemsRendered = ({visibleStartIndex, visibleStopIndex}: {visibleStartIndex: number; visibleStopIndex: number}) => {
+    onItemsRendered = ({visibleStartIndex, visibleStopIndex}: Pick<OnItemsRenderedArgs, 'visibleStartIndex' | 'visibleStopIndex'>) => {
         this.updateFloatingTimestamp(visibleStartIndex);
 
         if (
