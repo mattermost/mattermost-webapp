@@ -9,12 +9,14 @@ import configureStore from 'redux-mock-store';
 
 import {IntlProvider} from 'react-intl';
 
+import {errorHandlerMiddleware} from 'mattermost-redux/store/error_handler_middleware';
+
 import {GlobalState} from 'types/store';
 
 import {defaultIntl} from './helpers/intl-test-helper';
 
 export default function testConfigureStore(initialState = {}) {
-    return configureStore<GlobalState, ThunkDispatch<GlobalState, Record<string, never>, AnyAction>>([thunk])(initialState as GlobalState);
+    return configureStore<GlobalState, ThunkDispatch<GlobalState, Record<string, never>, AnyAction>>([errorHandlerMiddleware, thunk])(initialState as GlobalState);
 }
 
 export function mockStore(initialState = {}, intl = defaultIntl) {
