@@ -138,6 +138,13 @@ describe('Actions.Threads', () => {
             total_unread_threads: 0,
         };
 
+        nock(Client4.getUsersRoute()).
+            post('/ids').
+            reply(200, {});
+        nock(Client4.getUsersRoute()).
+            post('/status/ids').
+            reply(200, {});
+
         nock(Client4.getBaseRoute()).
             get((uri) => uri.includes(`/users/${currentUserId}/teams/${currentTeamId}/threads`)).
             reply(200, mockResponse);

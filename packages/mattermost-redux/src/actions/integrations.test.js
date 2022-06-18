@@ -703,13 +703,22 @@ describe('Actions.Integrations', () => {
     });
 
     it('getAuthorizedOAuthApps', async () => {
+        const user = TestHelper.basicUser;
+
+        store = configureStore({
+            entities: {
+                users: {
+                    currentUserId: user.id,
+                },
+            },
+        });
+
         nock(Client4.getBaseRoute()).
             post('/oauth/apps').
             reply(201, TestHelper.fakeOAuthAppWithId());
 
         const {data: created} = await Actions.addOAuthApp(TestHelper.fakeOAuthApp())(store.dispatch, store.getState);
 
-        const user = TestHelper.basicUser;
         nock(Client4.getBaseRoute()).
             get(`/users/${user.id}/oauth/apps/authorized`).
             reply(200, [created]);

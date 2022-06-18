@@ -273,7 +273,8 @@ describe('Actions.Groups', () => {
         };
 
         nock(Client4.getBaseRoute()).
-            get('/groups?filter_allow_reference=true&page=0&per_page=0').
+            get('/groups').
+            query({filter_allow_reference: true, page: 0, per_page: 0, include_member_count: false}).
             reply(200, response1.groups);
 
         await Actions.getGroups(true, 0, 0)(store.dispatch, store.getState);
@@ -341,7 +342,8 @@ describe('Actions.Groups', () => {
         };
 
         nock(Client4.getBaseRoute()).
-            get(`/teams/${teamID}/groups?paginate=false&filter_allow_reference=false&include_member_count=true`).
+            get(`/teams/${teamID}/groups`).
+            query({paginate: false, filter_allow_reference: false, include_member_count: true}).
             reply(200, response);
 
         await Actions.getAllGroupsAssociatedToTeam(teamID, false, true)(store.dispatch, store.getState);
@@ -393,7 +395,8 @@ describe('Actions.Groups', () => {
         };
 
         nock(Client4.getBaseRoute()).
-            get(`/teams/${teamID}/groups?page=100&per_page=60&q=0&include_member_count=true&filter_allow_reference=false`).
+            get(`/teams/${teamID}/groups`).
+            query({page: 100, per_page: 60, q: 0, include_member_count: true, filter_allow_reference: false}).
             reply(200, response);
 
         await Actions.getGroupsAssociatedToTeam(teamID, 0, 100)(store.dispatch, store.getState);
@@ -442,7 +445,8 @@ describe('Actions.Groups', () => {
         ];
 
         nock(Client4.getBaseRoute()).
-            get(`/groups?not_associated_to_team=${teamID}&page=100&per_page=60&q=0&include_member_count=true`).
+            get('/groups').
+            query({not_associated_to_team: teamID, page: 100, per_page: 60, q: 0, include_member_count: true, group_source: 'ldap'}).
             reply(200, response);
 
         await Actions.getGroupsNotAssociatedToTeam(teamID, 0, 100)(store.dispatch, store.getState);
@@ -505,7 +509,8 @@ describe('Actions.Groups', () => {
         };
 
         nock(Client4.getBaseRoute()).
-            get(`/channels/${channelID}/groups?paginate=false&filter_allow_reference=false&include_member_count=true`).
+            get(`/channels/${channelID}/groups`).
+            query({paginate: false, filter_allow_reference: false, include_member_count: true}).
             reply(200, response);
 
         await Actions.getAllGroupsAssociatedToChannel(channelID, false, true)(store.dispatch, store.getState);
@@ -716,7 +721,8 @@ describe('Actions.Groups', () => {
         ];
 
         nock(Client4.getBaseRoute()).
-            get(`/groups?not_associated_to_channel=${channelID}&page=100&per_page=60&q=0&include_member_count=true`).
+            get('/groups').
+            query({not_associated_to_channel: channelID, page: 100, per_page: 60, q: 0, include_member_count: true, filter_parent_team_permitted: false, group_source: 'ldap'}).
             reply(200, response);
 
         await Actions.getGroupsNotAssociatedToChannel(channelID, 0, 100)(store.dispatch, store.getState);

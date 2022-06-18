@@ -9,7 +9,6 @@ import * as Actions from 'mattermost-redux/actions/preferences';
 import {loadMeREST} from 'mattermost-redux/actions/users';
 import {UserTypes} from 'mattermost-redux/action_types';
 import {Client4} from 'mattermost-redux/client';
-import {Preferences} from '../constants';
 
 import TestHelper from 'mattermost-redux/test/test_helper';
 import configureStore from 'mattermost-redux/test/test_store';
@@ -180,62 +179,6 @@ describe('Actions.Preferences', () => {
         assert.ok(!myPreferences['test--test3'], 'third preference doesn\'t exist');
     });
 
-    it('makeDirectChannelVisibleIfNecessary', async () => {
-        const user = TestHelper.basicUser;
-
-        nock(Client4.getBaseRoute()).
-            post('/users').
-            reply(201, TestHelper.fakeUserWithId());
-        const user2 = await TestHelper.createClient4().createUser(TestHelper.fakeUser());
-
-        TestHelper.mockLogin();
-        store.dispatch({
-            type: UserTypes.LOGIN_SUCCESS,
-        });
-        await loadMeREST()(store.dispatch, store.getState);
-
-        // Test that a new preference is created if none exists
-        nock(Client4.getUsersRoute()).
-            put(`/${TestHelper.basicUser.id}/preferences`).
-            reply(200, OK_RESPONSE);
-        await Actions.makeDirectChannelVisibleIfNecessary(user2.id)(store.dispatch, store.getState);
-
-        let state = store.getState();
-        let myPreferences = state.entities.preferences.myPreferences;
-        let preference = myPreferences[`${Preferences.CATEGORY_DIRECT_CHANNEL_SHOW}--${user2.id}`];
-        assert.ok(preference, 'preference for showing direct channel doesn\'t exist');
-        assert.equal(preference.value, 'true', 'preference for showing direct channel is not true');
-
-        // Test that nothing changes if the preference already exists and is true
-        nock(Client4.getUsersRoute()).
-            put(`/${TestHelper.basicUser.id}/preferences`).
-            reply(200, OK_RESPONSE);
-        await Actions.makeDirectChannelVisibleIfNecessary(user2.id)(store.dispatch, store.getState);
-
-        const state2 = store.getState();
-        assert.equal(state, state2, 'store should not change since direct channel is already visible');
-
-        // Test that the preference is updated if it already exists and is false
-        nock(Client4.getUsersRoute()).
-            put(`/${TestHelper.basicUser.id}/preferences`).
-            reply(200, OK_RESPONSE);
-        Actions.savePreferences(user.id, [{
-            ...preference,
-            value: 'false',
-        }])(store.dispatch, store.getState);
-
-        nock(Client4.getUsersRoute()).
-            put(`/${TestHelper.basicUser.id}/preferences`).
-            reply(200, OK_RESPONSE);
-        await Actions.makeDirectChannelVisibleIfNecessary(user2.id)(store.dispatch, store.getState);
-
-        state = store.getState();
-        myPreferences = state.entities.preferences.myPreferences;
-        preference = myPreferences[`${Preferences.CATEGORY_DIRECT_CHANNEL_SHOW}--${user2.id}`];
-        assert.ok(preference, 'preference for showing direct channel doesn\'t exist');
-        assert.equal(preference.value, 'true', 'preference for showing direct channel is not true');
-    });
-
     it('saveTheme', async () => {
         const user = TestHelper.basicUser;
         const team = TestHelper.basicTeam;
@@ -249,11 +192,6 @@ describe('Actions.Preferences', () => {
                 }),
             },
         ];
-
-        nock(Client4.getUsersRoute()).
-            put(`/${TestHelper.basicUser.id}/preferences`).
-            reply(200, OK_RESPONSE);
-        await Client4.savePreferences(user.id, existingPreferences);
 
         nock(Client4.getUsersRoute()).
             get('/me/preferences').

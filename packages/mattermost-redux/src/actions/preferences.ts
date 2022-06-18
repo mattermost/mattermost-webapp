@@ -18,7 +18,7 @@ import {Preferences} from '../constants';
 
 import {getChannelAndMyMember, getMyChannelMember} from './channels';
 import {bindClientFunc} from './helpers';
-import {getProfilesByIds, getProfilesInChannel} from './users';
+import {getProfilesInChannel} from './users';
 
 export function deletePreferences(userId: string, preferences: PreferenceType[]): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
@@ -51,29 +51,6 @@ export function getMyPreferences(): ActionFunc {
         clientFunc: Client4.getMyPreferences,
         onSuccess: PreferenceTypes.RECEIVED_ALL_PREFERENCES,
     });
-}
-
-export function makeDirectChannelVisibleIfNecessary(otherUserId: string): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const state = getState();
-        const myPreferences = getMyPreferencesSelector(state);
-        const currentUserId = getCurrentUserId(state);
-
-        let preference = myPreferences[getPreferenceKey(Preferences.CATEGORY_DIRECT_CHANNEL_SHOW, otherUserId)];
-
-        if (!preference || preference.value === 'false') {
-            preference = {
-                user_id: currentUserId,
-                category: Preferences.CATEGORY_DIRECT_CHANNEL_SHOW,
-                name: otherUserId,
-                value: 'true',
-            };
-            getProfilesByIds([otherUserId])(dispatch, getState);
-            savePreferences(currentUserId, [preference])(dispatch);
-        }
-
-        return {data: true};
-    };
 }
 
 export function makeGroupMessageVisibleIfNecessary(channelId: string): ActionFunc {

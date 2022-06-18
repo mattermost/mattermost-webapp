@@ -1831,6 +1831,13 @@ describe('Actions.Channels', () => {
             query(true).
             reply(200, [TestHelper.basicChannelMember]);
 
+        nock(Client4.getUsersRoute()).
+            post('/ids').
+            reply(200, {});
+        nock(Client4.getUsersRoute()).
+            post('/status/ids').
+            reply(200, {});
+
         await store.dispatch(Actions.getChannelMembers(TestHelper.basicChannel.id));
 
         const {membersInChannel} = store.getState().entities.channels;

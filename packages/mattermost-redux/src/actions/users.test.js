@@ -210,6 +210,9 @@ describe('Actions.Users', () => {
         const user = await TestHelper.basicClient4.createUser(TestHelper.fakeUser());
 
         nock(Client4.getBaseRoute()).
+            post('/users/status/ids').
+            reply(200, []);
+        nock(Client4.getBaseRoute()).
             post('/users/ids').
             reply(200, [user]);
 
@@ -567,12 +570,6 @@ describe('Actions.Users', () => {
         const {data: revokeSessionResponse} = await Actions.revokeSession(TestHelper.basicUser.id, sessions[0].id)(store.dispatch, store.getState);
         assert.deepEqual(revokeSessionResponse, true);
 
-        nock(Client4.getBaseRoute()).
-            get('/users').
-            reply(401, {});
-
-        await Actions.getProfiles(0)(store.dispatch, store.getState);
-
         const basicUser = TestHelper.basicUser;
         nock(Client4.getBaseRoute()).
             post('/users/login').
@@ -615,12 +612,6 @@ describe('Actions.Users', () => {
             reply(200, OK_RESPONSE);
         const {data} = await Actions.revokeAllSessionsForUser(user.id)(store.dispatch, store.getState);
         assert.deepEqual(data, true);
-
-        nock(Client4.getBaseRoute()).
-            get('/users').
-            query(true).
-            reply(401, {});
-        await Actions.getProfiles(0)(store.dispatch, store.getState);
 
         const logoutRequest = store.getState().requests.users.logout;
         if (logoutRequest.status === RequestStatus.FAILURE) {
@@ -671,12 +662,6 @@ describe('Actions.Users', () => {
             reply(200, OK_RESPONSE);
         const {data} = await Actions.revokeSessionsForAllUsers(user.id)(store.dispatch, store.getState);
         assert.deepEqual(data, true);
-
-        nock(Client4.getBaseRoute()).
-            get('/users').
-            query(true).
-            reply(401, {});
-        await Actions.getProfiles(0)(store.dispatch, store.getState);
 
         const logoutRequest = store.getState().requests.users.logout;
         if (logoutRequest.status === RequestStatus.FAILURE) {
@@ -1411,12 +1396,6 @@ describe('Actions.Users', () => {
     });
 
     it('clearUserAccessTokens', async () => {
-        TestHelper.mockLogin();
-        store.dispatch({
-            type: UserTypes.LOGIN_SUCCESS,
-        });
-        await Actions.loadMeREST()(store.dispatch, store.getState);
-
         const currentUserId = store.getState().entities.users.currentUserId;
 
         nock(Client4.getBaseRoute()).

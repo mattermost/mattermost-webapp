@@ -407,7 +407,7 @@ describe('Actions.Teams', () => {
 
         nock(Client4.getUserRoute('me')).
             get('/teams/unread').
-            query({params: {include_collapsed_threads: true}}).
+            query({include_collapsed_threads: false}).
             reply(200, [{team_id: TestHelper.basicTeam.id, msg_count: 0, mention_count: 0}]);
         await Actions.getMyTeamUnreads()(store.dispatch, store.getState);
 
