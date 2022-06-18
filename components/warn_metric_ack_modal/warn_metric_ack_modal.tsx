@@ -83,7 +83,7 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
 
         const {error} = await this.props.actions.sendWarnMetricAck(this.props.warnMetricStatus.id, forceAck);
         if (error) {
-            this.setState({serverError: error, saving: false});
+            this.setState({serverError: error.message, saving: false});
         } else {
             this.onHide();
         }

@@ -46,7 +46,7 @@ describe('components/AddGroupsToChannelModal', () => {
 
         const message = 'error message';
         wrapper.setState({saving: true, addError: ''});
-        instance.handleResponse({message});
+        instance.handleResponse(new Error(message));
         expect(wrapper.state('saving')).toEqual(false);
         expect(wrapper.state('addError')).toEqual(message);
     });

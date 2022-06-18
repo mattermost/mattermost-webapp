@@ -253,7 +253,8 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
                     }
                 }
             } catch (ex) {
-                serverError = ex;
+                // This code has never worked as intended because we're attempting to render an error object in the UI
+                serverError = ex as any;
             }
         }
         this.setState({groups, usersToRemoveCount, saveNeeded: true, serverError});

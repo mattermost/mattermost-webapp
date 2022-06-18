@@ -13,6 +13,7 @@ describe('components/MessageSubmitError', () => {
 
     it('should display the submit link if the error is for an invalid slash command', () => {
         const error = {
+            name: 'ServerError',
             message: 'No command found',
             server_error_id: 'api.command.execute_command.not_found.app_error',
         };
@@ -34,6 +35,7 @@ describe('components/MessageSubmitError', () => {
 
     it('should not display the submit link if the error is not for an invalid slash command', () => {
         const error = {
+            name: 'ServerError',
             message: 'Some server error',
             server_error_id: 'api.other_error',
         };

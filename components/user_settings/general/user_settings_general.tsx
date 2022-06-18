@@ -339,11 +339,9 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
             this.updateSection('');
             this.submitActive = false;
         } catch (err) {
-            let serverError;
-            if (err.message) {
+            let serverError = '';
+            if (err instanceof Error) {
                 serverError = err.message;
-            } else {
-                serverError = err;
             }
             this.setState({serverError, emailError: '', clientError: '', sectionIsSaving: false});
         }

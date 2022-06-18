@@ -122,7 +122,7 @@ describe('components/RenameChannelModal', () => {
 
         const instance = wrapper.instance() as RenameChannelModalClass;
 
-        instance.setError({message: 'This is an error message'});
+        instance.setError(new Error('This is an error message'));
         expect(wrapper.state('serverError')).toBe('This is an error message');
     });
 

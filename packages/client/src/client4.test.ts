@@ -55,6 +55,7 @@ describe('Client4', () => {
 describe('ClientError', () => {
     test('standard fields should be enumerable', () => {
         const error = new ClientError('https://example.com', {
+            name: 'ClientError',
             message: 'This is a message',
             server_error_id: 'test.app_error',
             status_code: 418,

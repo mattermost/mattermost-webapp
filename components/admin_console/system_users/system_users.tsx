@@ -99,7 +99,7 @@ type Props = {
         /**
          * Function to log errors
          */
-        logError: (error: {type: string; message: string}) => void;
+        logError: (error: Error) => void;
     };
 };
 
@@ -182,7 +182,7 @@ export default class SystemUsers extends React.PureComponent<Props, State> {
         if (data) {
             emitUserLoggedOutEvent();
         } else {
-            this.props.actions.logError({type: 'critical', message: 'Can\'t revoke all sessions'});
+            this.props.actions.logError(new Error('Can\'t revoke all sessions'));
         }
     }
     handleRevokeAllSessionsCancel = () => {
