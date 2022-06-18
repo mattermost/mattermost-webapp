@@ -12,6 +12,7 @@ import {GetStateFunc, DispatchFunc, ActionFunc, ActionResult} from 'mattermost-r
 import {getRecentEmojisData} from 'selectors/emojis';
 
 import {CustomEmoji} from '@mattermost/types/emojis';
+import {isServerError} from '@mattermost/types/errors';
 
 import LocalStorageStore from 'stores/local_storage_store';
 
@@ -20,8 +21,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 
 import Constants from 'utils/constants';
 
-import {logError} from './errors';
-import {bindClientFunc, forceLogoutIfNecessary} from './helpers';
+import {bindClientFunc} from './helpers';
 
 import {getProfilesByIds} from './users';
 
@@ -54,21 +54,17 @@ export function getCustomEmoji(emojiId: string): ActionFunc {
 }
 
 export function getCustomEmojiByName(name: string): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+    return async (dispatch: DispatchFunc) => {
         let data;
 
         try {
             data = await Client4.getCustomEmojiByName(name);
         } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-
-            if (error.status_code === 404) {
+            if (isServerError(error) && error.status_code === 404) {
                 dispatch({type: EmojiTypes.CUSTOM_EMOJI_DOES_NOT_EXIST, data: name});
             } else {
-                dispatch(logError(error));
+                throw error;
             }
-
-            return {error};
         }
 
         dispatch({
@@ -116,16 +112,8 @@ export function getCustomEmojis(
     sort: string = Emoji.SORT_BY_NAME,
     loadUsers = false,
 ): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        let data;
-        try {
-            data = await Client4.getCustomEmojis(page, perPage, sort);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-
-            dispatch(logError(error));
-            return {error};
-        }
+    return async (dispatch: DispatchFunc) => {
+        const data = await Client4.getCustomEmojis(page, perPage, sort);
 
         if (loadUsers) {
             dispatch(loadProfilesForCustomEmojis(data));
@@ -160,15 +148,8 @@ export function loadProfilesForCustomEmojis(emojis: CustomEmoji[]): ActionFunc {
 }
 
 export function deleteCustomEmoji(emojiId: string): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        try {
-            await Client4.deleteCustomEmoji(emojiId);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-
-            dispatch(logError(error));
-            return {error};
-        }
+    return async (dispatch: DispatchFunc) => {
+        await Client4.deleteCustomEmoji(emojiId);
 
         dispatch({
             type: EmojiTypes.DELETED_CUSTOM_EMOJI,
@@ -180,16 +161,8 @@ export function deleteCustomEmoji(emojiId: string): ActionFunc {
 }
 
 export function searchCustomEmojis(term: string, options: any = {}, loadUsers = false): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        let data;
-        try {
-            data = await Client4.searchCustomEmoji(term, options);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-
-            dispatch(logError(error));
-            return {error};
-        }
+    return async (dispatch: DispatchFunc) => {
+        const data = await Client4.searchCustomEmoji(term, options);
 
         if (loadUsers) {
             dispatch(loadProfilesForCustomEmojis(data));
@@ -205,16 +178,8 @@ export function searchCustomEmojis(term: string, options: any = {}, loadUsers = 
 }
 
 export function autocompleteCustomEmojis(name: string): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        let data;
-        try {
-            data = await Client4.autocompleteCustomEmoji(name);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-
-            dispatch(logError(error));
-            return {error};
-        }
+    return async (dispatch: DispatchFunc) => {
+        const data = await Client4.autocompleteCustomEmoji(name);
 
         dispatch({
             type: EmojiTypes.RECEIVED_CUSTOM_EMOJIS,

@@ -12,13 +12,11 @@ import {ActionResult, DispatchFunc, GetStateFunc, ActionFunc} from 'mattermost-r
 
 import {PostList} from '@mattermost/types/posts';
 
-import {FileSearchResults, FileSearchResultItem} from '@mattermost/types/files';
+import {FileSearchResultItem} from '@mattermost/types/files';
 
 import {SearchParameter} from '@mattermost/types/search';
 
 import {getChannelAndMyMember, getChannelMembers} from './channels';
-import {forceLogoutIfNecessary} from './helpers';
-import {logError} from './errors';
 import {getProfilesAndStatusesForPosts, receivedPosts} from './posts';
 import {receivedFiles} from './files';
 
@@ -77,20 +75,13 @@ export function searchPostsWithParams(teamId: string, params: SearchParameter): 
             type: SearchTypes.SEARCH_POSTS_REQUEST,
             isGettingMore,
         });
-        let posts;
 
-        try {
-            posts = await Client4.searchPostsWithParams(teamId, params);
+        const posts = await Client4.searchPostsWithParams(teamId, params);
 
-            const profilesAndStatuses = getProfilesAndStatusesForPosts(posts.posts, dispatch, getState);
-            const missingChannels = dispatch(getMissingChannelsFromPosts(posts.posts));
-            const arr: [Promise<any>, Promise<any>] = [profilesAndStatuses, missingChannels];
-            await Promise.all(arr);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
-            return {error};
-        }
+        const profilesAndStatuses = getProfilesAndStatusesForPosts(posts.posts, dispatch, getState);
+        const missingChannels = dispatch(getMissingChannelsFromPosts(posts.posts));
+        const arr: [Promise<any>, Promise<any>] = [profilesAndStatuses, missingChannels];
+        await Promise.all(arr);
 
         dispatch(batchActions([
             {
@@ -143,23 +134,16 @@ export function clearSearch(): ActionFunc {
 }
 
 export function searchFilesWithParams(teamId: string, params: SearchParameter): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+    return async (dispatch: DispatchFunc) => {
         const isGettingMore = params.page > 0;
         dispatch({
             type: SearchTypes.SEARCH_FILES_REQUEST,
             isGettingMore,
         });
 
-        let files: FileSearchResults;
-        try {
-            files = await Client4.searchFilesWithParams(teamId, params);
+        const files = await Client4.searchFilesWithParams(teamId, params);
 
-            await dispatch(getMissingChannelsFromFiles(files.file_infos));
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
-            return {error};
-        }
+        await dispatch(getMissingChannelsFromFiles(files.file_infos));
 
         dispatch(batchActions([
             {
@@ -215,9 +199,7 @@ export function getFlaggedPosts(): ActionFunc {
 
             await Promise.all([getProfilesAndStatusesForPosts(posts.posts, dispatch, getState) as any, dispatch(getMissingChannelsFromPosts(posts.posts)) as any]);
         } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
             dispatch({type: SearchTypes.SEARCH_FLAGGED_POSTS_FAILURE, error});
-            dispatch(logError(error));
             return {error};
         }
 
@@ -249,9 +231,9 @@ export function getPinnedPosts(channelId: string): ActionFunc {
             const arr: [Promise<any>, Promise<any>] = [profilesAndStatuses, missingChannels];
             await Promise.all(arr);
         } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
             dispatch({type: SearchTypes.SEARCH_PINNED_POSTS_FAILURE, error});
-            return {error};
+
+            throw error;
         }
 
         dispatch(batchActions([

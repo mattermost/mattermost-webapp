@@ -131,54 +131,46 @@ export function validateWorkspaceBusinessEmail() {
 
 export function getCloudLimits(): ActionFunc {
     return async (dispatch: DispatchFunc) => {
-        try {
-            const result = await Client4.getCloudLimits();
-            if (result) {
-                dispatch({
-                    type: CloudTypes.RECEIVED_CLOUD_LIMITS,
-                    data: result,
-                });
-            }
-        } catch (error) {
-            return error;
+        const result = await Client4.getCloudLimits();
+
+        if (result) {
+            dispatch({
+                type: CloudTypes.RECEIVED_CLOUD_LIMITS,
+                data: result,
+            });
         }
-        return true;
+
+        return {data: true};
     };
 }
 
 export function getMessagesUsage(): ActionFunc {
     return async (dispatch: DispatchFunc) => {
-        try {
-            const result = await Client4.getPostsUsage();
-            if (result) {
-                dispatch({
-                    type: CloudTypes.RECEIVED_MESSAGES_USAGE,
-                    data: result.count,
-                });
-            }
-        } catch (error) {
-            return error;
+        const result = await Client4.getPostsUsage();
+        if (result) {
+            dispatch({
+                type: CloudTypes.RECEIVED_MESSAGES_USAGE,
+                data: result.count,
+            });
         }
-        return true;
+
+        return {data: true};
     };
 }
 
 export function getFilesUsage(): ActionFunc {
     return async (dispatch: DispatchFunc) => {
-        try {
-            const result = await Client4.getFilesUsage();
+        const result = await Client4.getFilesUsage();
 
-            if (result) {
-                // match limit notation in bits
-                const inBits = result.bytes * 8;
-                dispatch({
-                    type: CloudTypes.RECEIVED_FILES_USAGE,
-                    data: inBits,
-                });
-            }
-        } catch (error) {
-            return error;
+        if (result) {
+            // match limit notation in bits
+            const inBits = result.bytes * 8;
+            dispatch({
+                type: CloudTypes.RECEIVED_FILES_USAGE,
+                data: inBits,
+            });
         }
+
         return {data: true};
     };
 }
@@ -197,37 +189,31 @@ export function getIntegrationsUsage(): ActionFunc {
 
 export function getBoardsUsage(): ActionFunc {
     return async (dispatch: DispatchFunc) => {
-        try {
-            const result = await Client4.getBoardsUsage();
-            if (result) {
-                dispatch({
-                    type: CloudTypes.RECEIVED_BOARDS_USAGE,
+        const result = await Client4.getBoardsUsage();
+        if (result) {
+            dispatch({
+                type: CloudTypes.RECEIVED_BOARDS_USAGE,
 
-                    // the views and cards properties are the limits, not usage.
-                    // So they are not passed in to the usage.
-                    data: result.used_cards,
-                });
-            }
-        } catch (error) {
-            return error;
+                // the views and cards properties are the limits, not usage.
+                // So they are not passed in to the usage.
+                data: result.used_cards,
+            });
         }
+
         return {data: true};
     };
 }
 
 export function getTeamsUsage(): ActionFunc {
     return async (dispatch: DispatchFunc) => {
-        try {
-            const result = await Client4.getTeamsUsage();
-            if (result) {
-                dispatch({
-                    type: CloudTypes.RECEIVED_TEAMS_USAGE,
-                    data: {active: result.active, cloudArchived: result.cloud_archived},
-                });
-            }
-        } catch (error) {
-            return error;
+        const result = await Client4.getTeamsUsage();
+        if (result) {
+            dispatch({
+                type: CloudTypes.RECEIVED_TEAMS_USAGE,
+                data: {active: result.active, cloudArchived: result.cloud_archived},
+            });
         }
+
         return {data: false};
     };
 }

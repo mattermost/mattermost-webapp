@@ -14,10 +14,10 @@ import {GlobalState} from '@mattermost/types/store';
 
 import serviceReducers from '../reducers';
 
-import reducerRegistry from './reducer_registry';
-
+import {errorHandlerMiddleware} from './error_handler_middleware';
 import {createReducer} from './helpers';
 import initialState from './initial_state';
+import reducerRegistry from './reducer_registry';
 
 /**
  * Configures and constructs the redux store. Accepts the following parameters:
@@ -39,7 +39,10 @@ export default function configureStore<S extends GlobalState>({
         ...preloadedState,
     };
 
-    let middleware = applyMiddleware(thunk);
+    let middleware = applyMiddleware(
+        errorHandlerMiddleware,
+        thunk,
+    );
     middleware = composeWithDevTools({
 
         // Set this to false to stop actions from being dispatched again when reducers are replaced.

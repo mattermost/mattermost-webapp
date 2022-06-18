@@ -11,8 +11,7 @@ import {DispatchFunc, GetStateFunc, ActionFunc} from 'mattermost-redux/types/act
 import {FileUploadResponse, FileSearchResultItem} from '@mattermost/types/files';
 import {Post} from '@mattermost/types/posts';
 
-import {logError} from './errors';
-import {bindClientFunc, forceLogoutIfNecessary} from './helpers';
+import {bindClientFunc} from './helpers';
 
 export function receivedFiles(files: Map<string, FileSearchResultItem>) {
     return {
@@ -45,16 +44,8 @@ export function getMissingFilesByPosts(posts: Post[]) {
 }
 
 export function getFilesForPost(postId: string): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        let files;
-
-        try {
-            files = await Client4.getFileInfosForPost(postId);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
-            return {error};
-        }
+    return async (dispatch: DispatchFunc) => {
+        const files = await Client4.getFileInfosForPost(postId);
 
         dispatch({
             type: FileTypes.RECEIVED_FILES_FOR_POST,
@@ -67,15 +58,13 @@ export function getFilesForPost(postId: string): ActionFunc {
 }
 
 export function uploadFile(channelId: string, rootId: string, clientIds: string[], fileFormData: File, formBoundary: string): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+    return async (dispatch: DispatchFunc) => {
         dispatch({type: FileTypes.UPLOAD_FILES_REQUEST, data: {}});
 
         let files: FileUploadResponse;
         try {
             files = await Client4.uploadFile(fileFormData, formBoundary);
         } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-
             dispatch({
                 type: FileTypes.UPLOAD_FILES_FAILURE,
                 clientIds,
@@ -83,8 +72,8 @@ export function uploadFile(channelId: string, rootId: string, clientIds: string[
                 rootId,
                 error,
             });
-            dispatch(logError(error));
-            return {error};
+
+            throw error;
         }
 
         const data = files.file_infos.map((file, index) => {

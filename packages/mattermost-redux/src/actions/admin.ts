@@ -7,7 +7,7 @@ import {AdminTypes} from 'mattermost-redux/action_types';
 import {General} from '../constants';
 import {Client4} from 'mattermost-redux/client';
 
-import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
 import {Compliance} from '@mattermost/types/compliance';
 import {GroupSearchOpts} from '@mattermost/types/groups';
 import {
@@ -22,8 +22,7 @@ import {
 
 import {CompleteOnboardingRequest} from '@mattermost/types/setup';
 
-import {bindClientFunc, forceLogoutIfNecessary} from './helpers';
-import {logError} from './errors';
+import {bindClientFunc} from './helpers';
 
 export function getLogs(page = 0, perPage: number = General.LOGS_PAGE_SIZE_DEFAULT): ActionFunc {
     return bindClientFunc({
@@ -196,15 +195,14 @@ export function getLdapGroups(page = 0, perPage: number = General.PAGE_SIZE_MAXI
 }
 
 export function linkLdapGroup(key: string): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+    return async (dispatch: DispatchFunc) => {
         let data;
         try {
             data = await Client4.linkLdapGroup(key);
         } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
             dispatch({type: AdminTypes.LINK_LDAP_GROUP_FAILURE, error, data: key});
-            dispatch(logError(error));
-            return {error};
+
+            throw error;
         }
 
         dispatch({
@@ -222,14 +220,13 @@ export function linkLdapGroup(key: string): ActionFunc {
 }
 
 export function unlinkLdapGroup(key: string): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+    return async (dispatch: DispatchFunc) => {
         try {
             await Client4.unlinkLdapGroup(key);
         } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
             dispatch({type: AdminTypes.UNLINK_LDAP_GROUP_FAILURE, error, data: key});
-            dispatch(logError(error));
-            return {error};
+
+            throw error;
         }
 
         dispatch({
@@ -354,30 +351,15 @@ export function removeLicense(): ActionFunc {
 }
 
 export function getPrevTrialLicense(): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        let data;
-        try {
-            data = await Client4.getPrevTrialLicense();
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            return {error};
-        }
-
-        dispatch({type: AdminTypes.PREV_TRIAL_LICENSE_SUCCESS, data});
-        return {data};
-    };
+    return bindClientFunc({
+        clientFunc: Client4.getPrevTrialLicense,
+        onSuccess: AdminTypes.PREV_TRIAL_LICENSE_SUCCESS,
+    });
 }
 
 export function getAnalytics(name: string, teamId = ''): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        let data;
-        try {
-            data = await Client4.getAnalytics(name, teamId);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
-            return {error};
-        }
+    return async (dispatch: DispatchFunc) => {
+        const data = await Client4.getAnalytics(name, teamId);
 
         if (teamId === '') {
             dispatch({type: AdminTypes.RECEIVED_SYSTEM_ANALYTICS, data, name});
@@ -410,33 +392,17 @@ export function getUsersPerDayAnalytics(teamId = ''): ActionFunc {
 }
 
 export function uploadPlugin(fileData: File, force = false): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        let data;
-        try {
-            data = await Client4.uploadPlugin(fileData, force);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
-            return {error};
-        }
-
-        return {data};
-    };
+    return bindClientFunc({
+        clientFunc: Client4.uploadPlugin,
+        params: [fileData, force],
+    });
 }
 
 export function installPluginFromUrl(url: string, force = false): ActionFunc {
-    return async (dispatch, getState) => {
-        let data;
-        try {
-            data = await Client4.installPluginFromUrl(url, force);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
-            return {error};
-        }
-
-        return {data};
-    };
+    return bindClientFunc({
+        clientFunc: Client4.installPluginFromUrl,
+        params: [url, force],
+    });
 }
 
 export function getPlugins(): ActionFunc {
@@ -454,14 +420,8 @@ export function getPluginStatuses(): ActionFunc {
 }
 
 export function removePlugin(pluginId: string): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        try {
-            await Client4.removePlugin(pluginId);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
-            return {error};
-        }
+    return async (dispatch: DispatchFunc) => {
+        await Client4.removePlugin(pluginId);
 
         dispatch(batchActions([
             {type: AdminTypes.REMOVED_PLUGIN, data: pluginId},
@@ -473,14 +433,8 @@ export function removePlugin(pluginId: string): ActionFunc {
 }
 
 export function enablePlugin(pluginId: string): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        try {
-            await Client4.enablePlugin(pluginId);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
-            return {error};
-        }
+    return async (dispatch: DispatchFunc) => {
+        await Client4.enablePlugin(pluginId);
 
         dispatch({type: AdminTypes.ENABLED_PLUGIN, data: pluginId});
 
@@ -489,16 +443,10 @@ export function enablePlugin(pluginId: string): ActionFunc {
 }
 
 export function disablePlugin(pluginId: string): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+    return async (dispatch: DispatchFunc) => {
         dispatch({type: AdminTypes.DISABLE_PLUGIN_REQUEST, data: pluginId});
 
-        try {
-            await Client4.disablePlugin(pluginId);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
-            return {error};
-        }
+        await Client4.disablePlugin(pluginId);
 
         dispatch({type: AdminTypes.DISABLED_PLUGIN, data: pluginId});
 
@@ -526,79 +474,44 @@ export function setSamlIdpCertificateFromMetadata(certData: string): ActionFunc 
 }
 
 export function sendWarnMetricAck(warnMetricId: string, forceAck: boolean) {
-    return async (dispatch: DispatchFunc) => {
-        try {
-            Client4.trackEvent('api', 'api_request_send_metric_ack', {warnMetricId});
-            await Client4.sendWarnMetricAck(warnMetricId, forceAck);
-            return {data: true};
-        } catch (e) {
-            dispatch(logError(e));
-            return {error: e.message};
-        }
+    return async () => {
+        Client4.trackEvent('api', 'api_request_send_metric_ack', {warnMetricId});
+        await Client4.sendWarnMetricAck(warnMetricId, forceAck);
+        return {data: true};
     };
 }
 
 export function getDataRetentionCustomPolicies(page = 0, perPage = 10): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        let data;
-        try {
-            data = await Client4.getDataRetentionCustomPolicies(page, perPage);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(
-                {
-                    type: AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICIES,
-                    error,
-                },
-            );
-            return {error};
-        }
-
-        dispatch(
-            {type: AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICIES, data},
-        );
-
-        return {data};
-    };
+    return bindClientFunc({
+        clientFunc: Client4.getDataRetentionCustomPolicies,
+        params: [page, perPage],
+        onSuccess: AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICIES,
+        onFailure: AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICIES,
+    });
 }
 
 export function getDataRetentionCustomPolicy(id: string): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        let data;
-        try {
-            data = await Client4.getDataRetentionCustomPolicy(id);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(
-                {
-                    type: AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY,
-                    error,
-                },
-            );
-            return {error};
-        }
-
-        dispatch(
-            {type: AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY, data},
-        );
-
-        return {data};
-    };
+    return bindClientFunc({
+        clientFunc: Client4.getDataRetentionCustomPolicy,
+        params: [id],
+        onSuccess: AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY,
+        onFailure: AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY,
+    });
 }
 
 export function deleteDataRetentionCustomPolicy(id: string): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+    return async (dispatch: DispatchFunc) => {
         try {
             await Client4.deleteDataRetentionCustomPolicy(id);
         } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
             dispatch(
                 {
                     type: AdminTypes.DELETE_DATA_RETENTION_CUSTOM_POLICY_FAILURE,
                     error,
                 },
             );
-            return {error};
+
+            throw error;
         }
         const data = {
             id,
@@ -612,135 +525,55 @@ export function deleteDataRetentionCustomPolicy(id: string): ActionFunc {
 }
 
 export function getDataRetentionCustomPolicyTeams(id: string, page = 0, perPage: number = General.TEAMS_CHUNK_SIZE): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        let data;
-        try {
-            data = await Client4.getDataRetentionCustomPolicyTeams(id, page, perPage);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(
-                {
-                    type: AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY_TEAMS,
-                    error,
-                },
-            );
-            return {error};
-        }
-
-        dispatch(
-            {type: AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY_TEAMS, data},
-        );
-
-        return {data};
-    };
+    return bindClientFunc({
+        clientFunc: Client4.getDataRetentionCustomPolicyTeams,
+        params: [id, page, perPage],
+        onSuccess: AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY_TEAMS,
+        onFailure: AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY_TEAMS,
+    });
 }
 
 export function getDataRetentionCustomPolicyChannels(id: string, page = 0, perPage: number = General.TEAMS_CHUNK_SIZE): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        let data;
-        try {
-            data = await Client4.getDataRetentionCustomPolicyChannels(id, page, perPage);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(
-                {
-                    type: AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY_CHANNELS,
-                    error,
-                },
-            );
-            return {error};
-        }
-
-        dispatch(
-            {type: AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY_CHANNELS, data},
-        );
-
-        return {data};
-    };
+    return bindClientFunc({
+        clientFunc: Client4.getDataRetentionCustomPolicyChannels,
+        params: [id, page, perPage],
+        onSuccess: AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY_CHANNELS,
+        onFailure: AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY_CHANNELS,
+    });
 }
 
 export function searchDataRetentionCustomPolicyTeams(id: string, term: string, opts: TeamSearchOpts): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        let data;
-        try {
-            data = await Client4.searchDataRetentionCustomPolicyTeams(id, term, opts);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(
-                {
-                    type: AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY_TEAMS_SEARCH,
-                    error,
-                },
-            );
-            return {error};
-        }
-
-        dispatch(
-            {type: AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY_TEAMS_SEARCH, data},
-        );
-
-        return {data};
-    };
+    return bindClientFunc({
+        clientFunc: Client4.searchDataRetentionCustomPolicyTeams,
+        params: [id, term, opts],
+        onSuccess: AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY_TEAMS_SEARCH,
+        onFailure: AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY_TEAMS_SEARCH,
+    });
 }
 
 export function searchDataRetentionCustomPolicyChannels(id: string, term: string, opts: ChannelSearchOpts): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        let data;
-        try {
-            data = await Client4.searchDataRetentionCustomPolicyChannels(id, term, opts);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(
-                {
-                    type: AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY_CHANNELS_SEARCH,
-                    error,
-                },
-            );
-            return {error};
-        }
-
-        dispatch(
-            {type: AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY_CHANNELS_SEARCH, data},
-        );
-
-        return {data};
-    };
+    return bindClientFunc({
+        clientFunc: Client4.searchDataRetentionCustomPolicyChannels,
+        params: [id, term, opts],
+        onSuccess: AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY_CHANNELS_SEARCH,
+        onFailure: AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY_CHANNELS_SEARCH,
+    });
 }
 
 export function createDataRetentionCustomPolicy(policy: CreateDataRetentionCustomPolicy): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        let data;
-        try {
-            data = await Client4.createDataRetentionPolicy(policy);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            return {error};
-        }
-
-        dispatch(
-            {type: AdminTypes.CREATE_DATA_RETENTION_CUSTOM_POLICY_SUCCESS, data},
-        );
-
-        return {data};
-    };
+    return bindClientFunc({
+        clientFunc: Client4.createDataRetentionPolicy,
+        params: [policy],
+        onSuccess: AdminTypes.CREATE_DATA_RETENTION_CUSTOM_POLICY_SUCCESS,
+    });
 }
 
 export function updateDataRetentionCustomPolicy(id: string, policy: CreateDataRetentionCustomPolicy): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        let data;
-        try {
-            data = await Client4.updateDataRetentionPolicy(id, policy);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            return {error};
-        }
-
-        dispatch(
-            {type: AdminTypes.UPDATE_DATA_RETENTION_CUSTOM_POLICY_SUCCESS, data},
-        );
-
-        return {data};
-    };
+    return bindClientFunc({
+        clientFunc: Client4.updateDataRetentionPolicy,
+        params: [id, policy],
+        onSuccess: AdminTypes.UPDATE_DATA_RETENTION_CUSTOM_POLICY_SUCCESS,
+    });
 }
 
 export function addDataRetentionCustomPolicyTeams(id: string, teams: string[]): ActionFunc {
@@ -755,18 +588,18 @@ export function addDataRetentionCustomPolicyTeams(id: string, teams: string[]): 
 }
 
 export function removeDataRetentionCustomPolicyTeams(id: string, teams: string[]): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+    return async (dispatch: DispatchFunc) => {
         try {
             await Client4.removeDataRetentionPolicyTeams(id, teams);
         } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
             dispatch(
                 {
                     type: AdminTypes.REMOVE_DATA_RETENTION_CUSTOM_POLICY_TEAMS_FAILURE,
                     error,
                 },
             );
-            return {error};
+
+            throw error;
         }
         const data = {
             teams,
@@ -791,18 +624,18 @@ export function addDataRetentionCustomPolicyChannels(id: string, channels: strin
 }
 
 export function removeDataRetentionCustomPolicyChannels(id: string, channels: string[]): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+    return async (dispatch: DispatchFunc) => {
         try {
             await Client4.removeDataRetentionPolicyChannels(id, channels);
         } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
             dispatch(
                 {
                     type: AdminTypes.REMOVE_DATA_RETENTION_CUSTOM_POLICY_CHANNELS_FAILURE,
                     error,
                 },
             );
-            return {error};
+
+            throw error;
         }
         const data = {
             channels,

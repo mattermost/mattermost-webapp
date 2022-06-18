@@ -7,7 +7,7 @@ import {ErrorTypes} from 'mattermost-redux/action_types';
 import {Client4} from 'mattermost-redux/client';
 import {DispatchFunc, ActionFunc} from 'mattermost-redux/types/actions';
 import {LogLevel} from '@mattermost/types/client4';
-import {ServerError} from '@mattermost/types/errors';
+import {isServerError} from '@mattermost/types/errors';
 
 export function dismissErrorObject(index: number) {
     return {
@@ -34,9 +34,9 @@ export function getLogErrorAction(error: ErrorObject, displayable = false) {
     };
 }
 
-export function logError(error: ServerError, displayable = false, consoleError = false): ActionFunc {
+export function logError(error: Error, displayable = false, consoleError = false) {
     return async (dispatch: DispatchFunc) => {
-        if (error.server_error_id === 'api.context.session_expired.app_error') {
+        if (isServerError(error) && error.server_error_id === 'api.context.session_expired.app_error') {
             return {data: true};
         }
 
@@ -49,7 +49,7 @@ export function logError(error: ServerError, displayable = false, consoleError =
         if (message.includes('TypeError: Failed to fetch')) {
             sendToServer = false;
         }
-        if (error.server_error_id) {
+        if (isServerError(error)) {
             sendToServer = false;
         }
 

@@ -17,15 +17,14 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {GetStateFunc, DispatchFunc, ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 
-import {Team, TeamMembership, TeamMemberWithError, GetTeamMembersOpts, TeamsWithCount, TeamSearchOpts} from '@mattermost/types/teams';
+import {Team, TeamMembership, GetTeamMembersOpts, TeamsWithCount, TeamSearchOpts} from '@mattermost/types/teams';
 
 import {UserProfile} from '@mattermost/types/users';
 
 import {isCollapsedThreadsEnabled} from '../selectors/entities/preferences';
 
 import {selectChannel} from './channels';
-import {logError} from './errors';
-import {bindClientFunc, forceLogoutIfNecessary} from './helpers';
+import {bindClientFunc} from './helpers';
 import {getProfilesByIds, getStatusesByIds} from './users';
 import {loadRolesIfNeeded} from './roles';
 
@@ -81,14 +80,7 @@ export function getMyTeams(): ActionFunc {
 // that need workarounds like this. In the future we should fix the root cause with better APIs and redux state.
 export function getMyTeamUnreads(collapsedThreads: boolean, skipCurrentTeam = false): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        let unreads;
-        try {
-            unreads = await Client4.getMyTeamUnreads(collapsedThreads);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
-            return {error};
-        }
+        const unreads = await Client4.getMyTeamUnreads(collapsedThreads);
 
         if (skipCurrentTeam) {
             const currentTeamId = getCurrentTeamId(getState());
@@ -132,7 +124,7 @@ export function getTeamByName(teamName: string): ActionFunc {
 }
 
 export function getTeams(page = 0, perPage: number = General.TEAMS_CHUNK_SIZE, includeTotalCount = false, excludePolicyConstrained = false): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+    return async (dispatch: DispatchFunc) => {
         let data;
 
         dispatch({type: TeamTypes.GET_TEAMS_REQUEST, data});
@@ -140,10 +132,9 @@ export function getTeams(page = 0, perPage: number = General.TEAMS_CHUNK_SIZE, i
         try {
             data = await Client4.getTeams(page, perPage, includeTotalCount, excludePolicyConstrained) as TeamsWithCount;
         } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
             dispatch({type: TeamTypes.GET_TEAMS_FAILURE, data});
-            dispatch(logError(error));
-            return {error};
+
+            throw error;
         }
 
         const actions: AnyAction[] = [
@@ -171,17 +162,16 @@ export function getTeams(page = 0, perPage: number = General.TEAMS_CHUNK_SIZE, i
 }
 
 export function searchTeams(term: string, opts: TeamSearchOpts = {}): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+    return async (dispatch: DispatchFunc) => {
         dispatch({type: TeamTypes.GET_TEAMS_REQUEST, data: null});
 
         let response;
         try {
             response = await Client4.searchTeams(term, opts);
         } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
             dispatch({type: TeamTypes.GET_TEAMS_FAILURE, error});
-            dispatch(logError(error));
-            return {error};
+
+            throw error;
         }
 
         // The type of the response is determined by whether or not page/perPage were set
@@ -208,14 +198,7 @@ export function searchTeams(term: string, opts: TeamSearchOpts = {}): ActionFunc
 
 export function createTeam(team: Team): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        let created;
-        try {
-            created = await Client4.createTeam(team);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
-            return {error};
-        }
+        const created = await Client4.createTeam(team);
 
         const member = {
             team_id: created.id,
@@ -248,13 +231,7 @@ export function createTeam(team: Team): ActionFunc {
 
 export function deleteTeam(teamId: string): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        try {
-            await Client4.deleteTeam(teamId);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
-            return {error};
-        }
+        await Client4.deleteTeam(teamId);
 
         const entities = getState().entities;
         const {
@@ -280,23 +257,11 @@ export function deleteTeam(teamId: string): ActionFunc {
 }
 
 export function unarchiveTeam(teamId: string): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        let team: Team;
-        try {
-            team = await Client4.unarchiveTeam(teamId);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
-            return {error};
-        }
-
-        dispatch({
-            type: TeamTypes.RECEIVED_TEAM_UNARCHIVED,
-            data: team,
-        });
-
-        return {data: true};
-    };
+    return bindClientFunc({
+        clientFunc: Client4.unarchiveTeam,
+        params: [teamId],
+        onSuccess: TeamTypes.RECEIVED_TEAM_UNARCHIVED,
+    });
 }
 
 export function archiveAllTeamsExcept(teamId: string) {
@@ -383,18 +348,11 @@ export function getTeamMembers(teamId: string, page = 0, perPage: number = Gener
 
 export function getTeamMember(teamId: string, userId: string): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        let member;
-        try {
-            const memberRequest = Client4.getTeamMember(teamId, userId);
+        const memberRequest = Client4.getTeamMember(teamId, userId);
 
-            getProfilesAndStatusesForMembers([userId], dispatch, getState);
+        getProfilesAndStatusesForMembers([userId], dispatch, getState);
 
-            member = await memberRequest;
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
-            return {error};
-        }
+        const member = await memberRequest;
 
         dispatch({
             type: TeamTypes.RECEIVED_MEMBERS_IN_TEAM,
@@ -407,18 +365,11 @@ export function getTeamMember(teamId: string, userId: string): ActionFunc {
 
 export function getTeamMembersByIds(teamId: string, userIds: string[]): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        let members;
-        try {
-            const membersRequest = Client4.getTeamMembersByIds(teamId, userIds);
+        const membersRequest = Client4.getTeamMembersByIds(teamId, userIds);
 
-            getProfilesAndStatusesForMembers(userIds, dispatch, getState);
+        getProfilesAndStatusesForMembers(userIds, dispatch, getState);
 
-            members = await membersRequest;
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
-            return {error};
-        }
+        const members = await membersRequest;
 
         dispatch({
             type: TeamTypes.RECEIVED_MEMBERS_IN_TEAM,
@@ -475,15 +426,8 @@ export function addUserToTeamFromInvite(token: string, inviteId: string): Action
 }
 
 export function addUserToTeam(teamId: string, userId: string): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        let member;
-        try {
-            member = await Client4.addToTeam(teamId, userId);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
-            return {error};
-        }
+    return async (dispatch: DispatchFunc) => {
+        const member = await Client4.addToTeam(teamId, userId);
 
         dispatch(batchActions([
             {
@@ -501,15 +445,8 @@ export function addUserToTeam(teamId: string, userId: string): ActionFunc {
 }
 
 export function addUsersToTeam(teamId: string, userIds: string[]): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        let members;
-        try {
-            members = await Client4.addUsersToTeam(teamId, userIds);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
-            return {error};
-        }
+    return async (dispatch: DispatchFunc) => {
+        const members = await Client4.addUsersToTeam(teamId, userIds);
 
         const profiles: Array<Partial<UserProfile>> = [];
         members.forEach((m: TeamMembership) => profiles.push({id: m.user_id}));
@@ -531,15 +468,8 @@ export function addUsersToTeam(teamId: string, userIds: string[]): ActionFunc {
 }
 
 export function addUsersToTeamGracefully(teamId: string, userIds: string[]): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        let result: TeamMemberWithError[];
-        try {
-            result = await Client4.addUsersToTeamGracefully(teamId, userIds);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
-            return {error};
-        }
+    return async (dispatch: DispatchFunc) => {
+        const result = await Client4.addUsersToTeamGracefully(teamId, userIds);
 
         const addedMembers = result ? result.filter((m) => !m.error) : [];
         const profiles: Array<Partial<UserProfile>> = addedMembers.map((m) => ({id: m.user_id}));
@@ -562,13 +492,7 @@ export function addUsersToTeamGracefully(teamId: string, userIds: string[]): Act
 
 export function removeUserFromTeam(teamId: string, userId: string): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        try {
-            await Client4.removeFromTeam(teamId, userId);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
-            return {error};
-        }
+        await Client4.removeFromTeam(teamId, userId);
 
         const member = {
             team_id: teamId,
@@ -616,13 +540,7 @@ export function removeUserFromTeam(teamId: string, userId: string): ActionFunc {
 
 export function updateTeamMemberRoles(teamId: string, userId: string, roles: string[]): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        try {
-            await Client4.updateTeamMemberRoles(teamId, userId, roles);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
-            return {error};
-        }
+        await Client4.updateTeamMemberRoles(teamId, userId, roles);
 
         const membersInTeam = getState().entities.teams.membersInTeam[teamId];
         if (membersInTeam && membersInTeam[userId]) {
@@ -709,15 +627,8 @@ export function getTeamInviteInfo(inviteId: string): ActionFunc {
 }
 
 export function checkIfTeamExists(teamName: string): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        let data;
-        try {
-            data = await Client4.checkIfTeamExists(teamName);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
-            return {error};
-        }
+    return async () => {
+        const data = await Client4.checkIfTeamExists(teamName);
 
         return {data: data.exists};
     };
@@ -736,10 +647,9 @@ export function joinTeam(inviteId: string, teamId: string): ActionFunc {
                 await Client4.joinTeam(inviteId);
             }
         } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
             dispatch({type: TeamTypes.JOIN_TEAM_FAILURE, error});
-            dispatch(logError(error));
-            return {error};
+
+            throw error;
         }
 
         dispatch(getMyTeamUnreads(isCollapsedThreadsEnabled(state)));

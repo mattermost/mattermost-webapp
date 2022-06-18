@@ -7,10 +7,10 @@ import {General} from '../constants';
 
 import {Scheme, SchemeScope, SchemePatch} from '@mattermost/types/schemes';
 
-import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
 
-import {bindClientFunc, forceLogoutIfNecessary} from './helpers';
-import {logError} from './errors';
+import {bindClientFunc} from './helpers';
+
 export function getScheme(schemeId: string): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.getScheme,
@@ -44,15 +44,8 @@ export function createScheme(scheme: Scheme): ActionFunc {
 }
 
 export function deleteScheme(schemeId: string): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        let data = null;
-        try {
-            data = await Client4.deleteScheme(schemeId);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
-            return {error};
-        }
+    return async (dispatch: DispatchFunc) => {
+        const data = await Client4.deleteScheme(schemeId);
 
         dispatch({type: SchemeTypes.DELETED_SCHEME, data: {schemeId}});
 

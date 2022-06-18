@@ -14,8 +14,8 @@ import {DispatchFunc, GetStateFunc, ActionFunc} from 'mattermost-redux/types/act
 
 import {Command, CommandArgs, DialogSubmission, IncomingWebhook, OAuthApp, OutgoingWebhook} from '@mattermost/types/integrations';
 
-import {logError} from './errors';
-import {bindClientFunc, forceLogoutIfNecessary} from './helpers';
+import {bindClientFunc} from './helpers';
+
 export function createIncomingHook(hook: IncomingWebhook): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.createIncomingWebhook,
@@ -49,15 +49,8 @@ export function getIncomingHooks(teamId = '', page = 0, perPage: number = Genera
 }
 
 export function removeIncomingHook(hookId: string): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        try {
-            await Client4.removeIncomingWebhook(hookId);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-
-            dispatch(logError(error));
-            return {error};
-        }
+    return async (dispatch: DispatchFunc) => {
+        await Client4.removeIncomingWebhook(hookId);
 
         dispatch(batchActions([
             {
@@ -114,15 +107,8 @@ export function getOutgoingHooks(channelId = '', teamId = '', page = 0, perPage:
 }
 
 export function removeOutgoingHook(hookId: string): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        try {
-            await Client4.removeOutgoingWebhook(hookId);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-
-            dispatch(logError(error));
-            return {error};
-        }
+    return async (dispatch: DispatchFunc) => {
+        await Client4.removeOutgoingWebhook(hookId);
 
         dispatch(batchActions([
             {
@@ -218,16 +204,8 @@ export function executeCommand(command: string, args: CommandArgs): ActionFunc {
 }
 
 export function regenCommandToken(id: string): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        let res;
-        try {
-            res = await Client4.regenCommandToken(id);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-
-            dispatch(logError(error));
-            return {error};
-        }
+    return async (dispatch: DispatchFunc) => {
+        const res = await Client4.regenCommandToken(id);
 
         dispatch(batchActions([
             {
@@ -244,15 +222,8 @@ export function regenCommandToken(id: string): ActionFunc {
 }
 
 export function deleteCommand(id: string): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        try {
-            await Client4.deleteCommand(id);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-
-            dispatch(logError(error));
-            return {error};
-        }
+    return async (dispatch: DispatchFunc) => {
+        await Client4.deleteCommand(id);
 
         dispatch(batchActions([
             {
@@ -325,16 +296,7 @@ export function getAuthorizedOAuthApps(): ActionFunc {
         const state = getState();
         const currentUserId = getCurrentUserId(state);
 
-        let data;
-        try {
-            data = await Client4.getAuthorizedOAuthApps(currentUserId);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-
-            dispatch(logError(error));
-
-            return {error};
-        }
+        const data = await Client4.getAuthorizedOAuthApps(currentUserId);
 
         return {data};
     };
@@ -348,15 +310,8 @@ export function deauthorizeOAuthApp(clientId: string): ActionFunc {
 }
 
 export function deleteOAuthApp(id: string): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        try {
-            await Client4.deleteOAuthApp(id);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-
-            dispatch(logError(error));
-            return {error};
-        }
+    return async (dispatch: DispatchFunc) => {
+        await Client4.deleteOAuthApp(id);
 
         dispatch(batchActions([
             {
@@ -385,15 +340,7 @@ export function submitInteractiveDialog(submission: DialogSubmission): ActionFun
         submission.channel_id = getCurrentChannelId(state);
         submission.team_id = getCurrentTeamId(state);
 
-        let data;
-        try {
-            data = await Client4.submitInteractiveDialog(submission);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-
-            dispatch(logError(error));
-            return {error};
-        }
+        const data = await Client4.submitInteractiveDialog(submission);
 
         return {data};
     };

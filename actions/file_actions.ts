@@ -8,8 +8,7 @@ import {ServerError} from '@mattermost/types/errors';
 
 import {FileTypes} from 'mattermost-redux/action_types';
 import {getLogErrorAction} from 'mattermost-redux/actions/errors';
-import {forceLogoutIfNecessary} from 'mattermost-redux/actions/helpers';
-import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {Client4} from 'mattermost-redux/client';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
 
@@ -28,7 +27,7 @@ export interface UploadFile {
 }
 
 export function uploadFile({file, name, type, rootId, channelId, clientId, onProgress, onSuccess, onError}: UploadFile) {
-    return (dispatch: DispatchFunc, getState: GetStateFunc): XMLHttpRequest => {
+    return (dispatch: DispatchFunc): XMLHttpRequest => {
         dispatch({type: FileTypes.UPLOAD_FILES_REQUEST});
 
         const xhr = new XMLHttpRequest();
@@ -96,8 +95,6 @@ export function uploadFile({file, name, type, rootId, channelId, clientId, onPro
                 if (xhr.readyState === 4 && xhr.responseText.length !== 0) {
                     const errorResponse = JSON.parse(xhr.response);
 
-                    forceLogoutIfNecessary(errorResponse, dispatch, getState);
-
                     const uploadFailureAction = {
                         type: FileTypes.UPLOAD_FILES_FAILURE,
                         clientIds: [clientId],
@@ -120,7 +117,7 @@ export function uploadFile({file, name, type, rootId, channelId, clientId, onPro
                         rootId,
                     });
 
-                    onError({message: errorMessage}, clientId, channelId, rootId);
+                    onError(errorMessage, clientId, channelId, rootId);
                 }
             };
         }

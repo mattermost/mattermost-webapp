@@ -7,9 +7,6 @@ import {ChannelCategoryTypes, ChannelTypes} from 'mattermost-redux/action_types'
 
 import {Client4} from 'mattermost-redux/client';
 
-import {logError} from 'mattermost-redux/actions/errors';
-import {forceLogoutIfNecessary} from 'mattermost-redux/actions/helpers';
-
 import {General} from '../constants';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 
@@ -27,7 +24,7 @@ import {
     DispatchFunc,
     GetStateFunc,
 } from 'mattermost-redux/types/actions';
-import {CategorySorting, OrderedChannelCategories, ChannelCategory} from '@mattermost/types/channel_categories';
+import {CategorySorting, ChannelCategory} from '@mattermost/types/channel_categories';
 import {Channel} from '@mattermost/types/channels';
 
 import {insertMultipleWithoutDuplicates, insertWithoutDuplicates, removeItem} from 'mattermost-redux/utils/array_utils';
@@ -76,9 +73,7 @@ export function patchCategory(categoryId: string, patch: Partial<ChannelCategory
                 data: category,
             });
 
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
-            return {error};
+            throw error;
         }
 
         return {data: patchedCategory};
@@ -122,14 +117,7 @@ function updateCategory(category: ChannelCategory) {
         const state = getState();
         const currentUserId = getCurrentUserId(state);
 
-        let updatedCategory;
-        try {
-            updatedCategory = await Client4.updateChannelCategory(currentUserId, category.team_id, category);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
-            return {error};
-        }
+        const updatedCategory = await Client4.updateChannelCategory(currentUserId, category.team_id, category);
 
         // The updated category will be added to the state after receiving the corresponding websocket event.
 
@@ -141,14 +129,7 @@ export function fetchMyCategories(teamId: string) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const currentUserId = getCurrentUserId(getState());
 
-        let data: OrderedChannelCategories;
-        try {
-            data = await Client4.getChannelCategories(currentUserId, teamId);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
-            return {error};
-        }
+        const data = await Client4.getChannelCategories(currentUserId, teamId);
 
         return dispatch(batchActions([
             {
@@ -275,9 +256,6 @@ export function moveChannelToCategory(categoryId: string, channelId: string, new
         try {
             await Client4.updateChannelCategories(currentUserId, targetCategory.team_id, categories);
         } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
-
             const originalCategories = [targetCategory];
             if (sourceCategory && sourceCategory.id !== targetCategory.id) {
                 originalCategories.push(sourceCategory);
@@ -287,7 +265,8 @@ export function moveChannelToCategory(categoryId: string, channelId: string, new
                 type: ChannelCategoryTypes.RECEIVED_CATEGORIES,
                 data: originalCategories,
             });
-            return {error};
+
+            throw error;
         }
 
         return result;
@@ -354,9 +333,6 @@ export function moveChannelsToCategory(categoryId: string, channelIds: string[],
         try {
             await Client4.updateChannelCategories(currentUserId, targetCategory.team_id, categoriesArray);
         } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
-
             const originalCategories = Object.values(unmodifiedCategories).reduce((allCategories: ChannelCategory[], category) => {
                 allCategories.push(category);
                 return allCategories;
@@ -366,7 +342,8 @@ export function moveChannelsToCategory(categoryId: string, channelIds: string[],
                 type: ChannelCategoryTypes.RECEIVED_CATEGORIES,
                 data: originalCategories,
             });
-            return {error};
+
+            throw error;
         }
 
         return result;
@@ -393,9 +370,6 @@ export function moveCategory(teamId: string, categoryId: string, newIndex: numbe
         try {
             await Client4.updateChannelCategoryOrder(currentUserId, teamId, newOrder);
         } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
-
             // Restore original order
             dispatch({
                 type: ChannelCategoryTypes.RECEIVED_CATEGORY_ORDER,
@@ -405,7 +379,7 @@ export function moveCategory(teamId: string, categoryId: string, newIndex: numbe
                 },
             });
 
-            return {error};
+            throw error;
         }
 
         return result;
@@ -426,19 +400,12 @@ export function createCategory(teamId: string, displayName: string, channelIds: 
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const currentUserId = getCurrentUserId(getState());
 
-        let newCategory;
-        try {
-            newCategory = await Client4.createChannelCategory(currentUserId, teamId, {
-                team_id: teamId,
-                user_id: currentUserId,
-                display_name: displayName,
-                channel_ids: channelIds,
-            });
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
-            return {error};
-        }
+        const newCategory = await Client4.createChannelCategory(currentUserId, teamId, {
+            team_id: teamId,
+            user_id: currentUserId,
+            display_name: displayName,
+            channel_ids: channelIds,
+        });
 
         // The new category will be added to the state after receiving the corresponding websocket event.
 
@@ -458,13 +425,7 @@ export function deleteCategory(categoryId: string): ActionFunc {
         const category = getCategory(state, categoryId);
         const currentUserId = getCurrentUserId(state);
 
-        try {
-            await Client4.deleteChannelCategory(currentUserId, category.team_id, category.id);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
-            return {error};
-        }
+        await Client4.deleteChannelCategory(currentUserId, category.team_id, category.id);
 
         // The category will be deleted from the state after receiving the corresponding websocket event.
 
