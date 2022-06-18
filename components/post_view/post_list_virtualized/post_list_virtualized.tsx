@@ -333,7 +333,7 @@ export default class PostList extends React.PureComponent<Props, State> {
         });
     };
 
-    toggleIsNewMessageLineReached = () => {
+    onNewMessageLineReached = () => {
         this.setState({
             isNewMessageLineReached: true,
         });
@@ -536,7 +536,7 @@ export default class PostList extends React.PureComponent<Props, State> {
              this.newMessageLineIndex <= visibleStartIndex &&
              this.newMessageLineIndex >= visibleStopIndex
         ) {
-            this.toggleIsNewMessageLineReached();
+            this.onNewMessageLineReached();
         }
     }
 
