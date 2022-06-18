@@ -11,7 +11,7 @@ import {getEmojiMap, getRecentEmojisNames} from 'selectors/emojis';
 import store from 'stores/redux_store.jsx';
 
 import * as Emoticons from 'utils/emoticons';
-import {compareEmojis} from 'utils/emoji_utils';
+import {compareEmojis, emojiMatchesSkin} from 'utils/emoji_utils';
 
 import Suggestion from './suggestion.jsx';
 import Provider from './provider.jsx';
@@ -129,7 +129,7 @@ export default class EmoticonProvider extends Provider {
                             matched;
 
                         // if the emoji has skin, only add those that match with the user selected skin.
-                        if (Emoticons.emojiMatchesSkin(emoji, skintone)) {
+                        if (emojiMatchesSkin(emoji, skintone)) {
                             matchedArray.push({name: alias, emoji});
                         }
                         break;

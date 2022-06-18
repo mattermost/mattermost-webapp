@@ -47,6 +47,7 @@ const baseProps = {
     formattedPostIds: [],
     isPrefetchingInProcess: false,
     isMobileView: false,
+    shouldStartFromBottomWhenUnread: false,
 };
 
 describe('components/post_view/post_list', () => {

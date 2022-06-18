@@ -15,7 +15,6 @@ import LearnMoreTrialModal from 'components/learn_more_trial_modal/learn_more_tr
 import GenericModal from 'components/generic_modal';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
-import {GlobalState} from 'types/store';
 
 jest.mock('actions/telemetry_actions.jsx', () => {
     const original = jest.requireActual('actions/telemetry_actions.jsx');
@@ -42,9 +41,6 @@ describe('components/learn_more_trial_modal/learn_more_trial_modal', () => {
                     IsLicensed: 'false',
                     Cloud: 'true',
                 },
-                config: {
-                    FeatureFlagCloudFree: 'true',
-                } as GlobalState['entities']['general']['config'],
             },
         },
         views: {

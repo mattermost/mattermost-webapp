@@ -126,6 +126,7 @@ export type PostsState = {
 export declare type OpenGraphMetadataImage = {
     secure_url?: string;
     url: string;
+    type?: string;
     height?: number;
     width?: number;
 }

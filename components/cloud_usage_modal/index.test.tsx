@@ -74,11 +74,6 @@ function setupStore(hasLimits: boolean) {
                     teamsLoaded: true,
                 },
             },
-            general: {
-                config: {
-                    FeatureFlagCloudFree: hasLimits ? 'true' : 'false',
-                } as GlobalState['entities']['general']['config'],
-            },
             admin: {
                 analytics: {
                     [Constants.StatTypes.TOTAL_POSTS]: 1234,
@@ -91,6 +86,16 @@ function setupStore(hasLimits: boolean) {
                 myPreferences: {
                 },
             },
+            general: {
+                license: {},
+                config: {},
+            },
+            users: {
+                currentUserId: 'uid',
+                profiles: {
+                    uid: {},
+                },
+            } as unknown as GlobalState['entities']['users'],
         },
     } as GlobalState;
     const store = mockStore(state);
@@ -108,7 +113,7 @@ describe('CloudUsageModal', () => {
         props = {
             title: '',
             onClose: jest.fn(),
-            needsTheme: true,
+            needsTheme: false,
         };
     });
 
