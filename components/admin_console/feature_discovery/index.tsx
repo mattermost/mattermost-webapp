@@ -4,6 +4,8 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
+import withGetCloudSubscription from 'components/common/hocs/cloud/with_get_cloud_subscription';
+
 import {getLicenseConfig} from 'mattermost-redux/actions/general';
 import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
 import {Action, GenericAction} from 'mattermost-redux/types/actions';
@@ -32,6 +34,7 @@ function mapStateToProps(state: GlobalState) {
         prevTrialLicense: state.entities.admin.prevTrialLicense,
         isCloud,
         isCloudTrial,
+        isSubscriptionLoaded: subscription !== undefined,
         hadPrevCloudTrial: hasPriorTrial,
         isPaidSubscription: isCloud && license?.SkuShortName !== LicenseSkus.Starter && !isCloudTrial,
     };
@@ -55,4 +58,4 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FeatureDiscovery);
+export default withGetCloudSubscription(connect(mapStateToProps, mapDispatchToProps)(FeatureDiscovery));

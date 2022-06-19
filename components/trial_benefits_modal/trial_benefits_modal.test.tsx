@@ -40,7 +40,8 @@ describe('components/trial_benefits_modal/trial_benefits_modal', () => {
         entities: {
             general: {
                 license: {
-                    IsLicensed: 'false',
+                    IsLicensed: 'true',
+                    Cloud: 'false',
                 },
             },
         },
@@ -194,5 +195,24 @@ describe('components/trial_benefits_modal/trial_benefits_modal', () => {
         const title = wrapper.find('#trialBenefitsModalStarted-trialStart div.title').text();
 
         expect(title).toBe('Your trial has started! Explore the benefits of Enterprise');
+    });
+
+    test('should have a shorter title and not include the cta button when in cloud env', () => {
+        const cloudState = {...state, entities: {...state.entities, general: {...state.entities.general, license: {Cloud: 'true'}}}};
+        const cloudStore = mockStore(cloudState);
+        const wrapper = mountWithIntl(
+            <Provider store={cloudStore}>
+                <TrialBenefitsModal
+                    {...props}
+                    trialJustStarted={true}
+                />
+            </Provider>,
+        );
+
+        const title = wrapper.find('#trialBenefitsModalStarted-trialStart div.title').text();
+        expect(title).toBe('Your trial has started!');
+
+        const ctaBtn = wrapper.find('#trialBenefitsModalStarted-trialStart button.btn-primary');
+        expect(ctaBtn).toHaveLength(0);
     });
 });

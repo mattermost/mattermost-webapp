@@ -170,7 +170,7 @@ const BillingSubscriptions = () => {
                             onUpgradeMattermostCloud={onUpgradeMattermostCloud}
                         />
                     </div>
-                    {hasSomeLimits(cloudLimits) ? (
+                    {hasSomeLimits(cloudLimits) && !isFreeTrial ? (
                         <Limits/>
                     ) : (
                         <ContactSalesCard
