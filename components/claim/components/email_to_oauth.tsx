@@ -18,6 +18,7 @@ import LoginMfa from 'components/login/login_mfa';
 import LocalizedInput from 'components/localized_input/localized_input';
 
 import {SubmitOptions} from './email_to_ldap';
+import ErrorLabel from './error_label';
 
 type Props = {
     newType: string | null;
@@ -69,9 +70,7 @@ const EmailToOAuth = (props: Props) => {
         );
     };
 
-    const error = serverError ? <div className='form-group has-error'><label className='control-label'>{serverError}</label></div> : null;
-
-    const formClass = classNames('form-group', {'has-error': error});
+    const error = <ErrorLabel errorText={serverError}/>;
 
     const type = (props.newType === Constants.SAML_SERVICE ? Constants.SAML_SERVICE.toUpperCase() : toTitleCase(props.newType || ''));
     const uiType = `${type} SSO`;
@@ -122,7 +121,7 @@ const EmailToOAuth = (props: Props) => {
                         values={{site: props.siteName}}
                     />
                 </p>
-                <div className={formClass}>
+                <div className={classNames('form-group', {'has-error': error})}>
                     <LocalizedInput
                         type='password'
                         className='form-control'

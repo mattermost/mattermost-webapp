@@ -4,7 +4,7 @@
 import React from 'react';
 
 type ErrorLabelProps = {
-    errorText?: string;
+    errorText?: string | JSX.Element;
 }
 
 const ErrorLabel = React.memo(({errorText}: ErrorLabelProps) => (errorText ? (

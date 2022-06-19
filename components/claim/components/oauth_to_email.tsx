@@ -16,6 +16,8 @@ import {getPasswordConfig, isValidPassword, localizeMessage, toTitleCase} from '
 
 import LocalizedInput from 'components/localized_input/localized_input';
 
+import ErrorLabel from './error_label';
+
 type Props = {
     currentType: string | null;
     email: string | null;
@@ -69,9 +71,7 @@ const OAuthToEmail = (props: Props) => {
         );
     };
 
-    const errorElement = error ? <div className='form-group has-error'><label className='control-label'>{error}</label></div> : null;
-    const formClass = classNames('form-group', {'has-error': errorElement});
-
+    const errorElement = <ErrorLabel errorText={error}/>;
     const uiType = `${(props.currentType === Constants.SAML_SERVICE ? Constants.SAML_SERVICE.toUpperCase() : toTitleCase(props.currentType || ''))} SSO`;
     const placeholderPasswordMessage = {id: t('claim.oauth_to_email.newPwd'), defaultMessage: 'New Password'};
     const placeholderConfirmMessage = {id: t('claim.oauth_to_email.confirm'), defaultMessage: 'Confirm Password'};
@@ -99,7 +99,7 @@ const OAuthToEmail = (props: Props) => {
                         values={{site: props.siteName}}
                     />
                 </p>
-                <div className={formClass}>
+                <div className={classNames('form-group', {'has-error': errorElement})}>
                     <LocalizedInput
                         type='password'
                         className='form-control'
@@ -109,7 +109,7 @@ const OAuthToEmail = (props: Props) => {
                         spellCheck='false'
                     />
                 </div>
-                <div className={formClass}>
+                <div className={classNames('form-group', {'has-error': errorElement})}>
                     <LocalizedInput
                         type='password'
                         className='form-control'
