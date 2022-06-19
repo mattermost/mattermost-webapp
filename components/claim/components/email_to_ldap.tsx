@@ -4,6 +4,8 @@
 import React, {useRef} from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import classNames from 'classnames';
+
 import {AuthChangeResponse} from '@mattermost/types/users';
 
 import {emailToLdap} from 'actions/admin_actions.jsx';
@@ -14,6 +16,8 @@ import {ClaimErrors} from 'utils/constants';
 
 import LoginMfa from 'components/login/login_mfa';
 import LocalizedInput from 'components/localized_input/localized_input';
+
+import ErrorLabel from './error_label';
 
 type Props = {
     email: string | null;
@@ -121,33 +125,10 @@ const EmailToLDAP = ({email, siteName, ldapLoginFieldName}: Props) => {
             },
         );
     };
-    let serverErrorElement: JSX.Element | null = null;
-    let formClass = 'form-group';
-    if (serverError) {
-        serverErrorElement = <div className='form-group has-error'><label className='control-label'>{serverError}</label></div>;
-        formClass += ' has-error';
-    }
-
-    let passwordErrorElement: JSX.Element | null = null;
-    let passwordClass = 'form-group';
-    if (passwordError) {
-        passwordErrorElement = <div className='form-group has-error'><label className='control-label'>{passwordError}</label></div>;
-        passwordClass += ' has-error';
-    }
-
-    let ldapErrorElement: JSX.Element | null = null;
-    let ldapClass = 'form-group';
-    if (ldapError) {
-        ldapErrorElement = <div className='form-group has-error'><label className='control-label'>{ldapError}</label></div>;
-        ldapClass += ' has-error';
-    }
-
-    let ldapPasswordErrorElement: JSX.Element | null = null;
-    let ldapPasswordClass = 'form-group';
-    if (ldapPasswordError) {
-        ldapPasswordErrorElement = <div className='form-group has-error'><label className='control-label'>{ldapPasswordError}</label></div>;
-        ldapPasswordClass += ' has-error';
-    }
+    const serverErrorElement: JSX.Element | null = <ErrorLabel errorText={serverError}/>;
+    const passwordErrorElement: JSX.Element | null = <ErrorLabel errorText={passwordError}/>;
+    const ldapErrorElement: JSX.Element | null = <ErrorLabel errorText={ldapError}/>;
+    const ldapPasswordErrorElement: JSX.Element | null = <ErrorLabel errorText={ldapPasswordError}/>;
 
     const loginPlaceholder = ldapLoginFieldName || localizeMessage('claim.email_to_ldap.ldapId', 'AD/LDAP ID');
     const titleMessage = {id: t('claim.email_to_ldap.title'), defaultMessage: 'Switch Email/Password Account to AD/LDAP'};
@@ -174,7 +155,7 @@ const EmailToLDAP = ({email, siteName, ldapLoginFieldName}: Props) => {
             </h3>
             <form
                 onSubmit={preSubmit}
-                className={formClass}
+                className={classNames('form-group', {'has-error': serverError})}
             >
                 <p>
                     <FormattedMessage
@@ -192,9 +173,7 @@ const EmailToLDAP = ({email, siteName, ldapLoginFieldName}: Props) => {
                     <FormattedMessage
                         id='claim.email_to_ldap.enterPwd'
                         defaultMessage='Enter the password for your {site} email account'
-                        values={{
-                            site: siteName,
-                        }}
+                        values={{site: siteName}}
                     />
                 </p>
                 <input
@@ -202,7 +181,7 @@ const EmailToLDAP = ({email, siteName, ldapLoginFieldName}: Props) => {
                     className='hidden'
                     name='fakeusernameremembered'
                 />
-                <div className={passwordClass}>
+                <div className={classNames('form-group', {'has-error': passwordError})}>
                     <LocalizedInput
                         type='password'
                         className='form-control'
@@ -220,7 +199,7 @@ const EmailToLDAP = ({email, siteName, ldapLoginFieldName}: Props) => {
                         defaultMessage='Enter the ID and password for your AD/LDAP account'
                     />
                 </p>
-                <div className={ldapClass}>
+                <div className={classNames('form-group', {'has-error': ldapError})}>
                     <input
                         type='text'
                         className='form-control'
@@ -232,7 +211,7 @@ const EmailToLDAP = ({email, siteName, ldapLoginFieldName}: Props) => {
                     />
                 </div>
                 {ldapErrorElement}
-                <div className={ldapPasswordClass}>
+                <div className={classNames('form-group', {'has-error': ldapPasswordError})}>
                     <LocalizedInput
                         type='password'
                         className='form-control'
