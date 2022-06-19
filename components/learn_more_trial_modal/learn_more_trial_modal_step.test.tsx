@@ -21,7 +21,6 @@ describe('components/learn_more_trial_modal/learn_more_trial_modal_step', () => 
         svgWrapperClassName: 'stepClassname',
         svgElement: <svg/>,
         buttonLabel: 'button',
-        isCloudFree: false,
     };
 
     const state = {
@@ -75,7 +74,7 @@ describe('components/learn_more_trial_modal/learn_more_trial_modal_step', () => 
     });
 
     test('should match snapshot when loaded in cloud workspace', () => {
-        const cloudProps = {...props, isCloud: true, isCloudFreeEnabled: true};
+        const cloudProps = {...props, isCloud: true};
         const wrapper = shallow(
             <Provider store={store}>
                 <LearnMoreTrialModalStep

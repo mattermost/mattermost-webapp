@@ -4745,11 +4745,7 @@
   "user.settings.display.collapseDisplay": "Standaardweergave van afbeeldingspreviews",
   "user.settings.display.collapseOff": "Samengevouwen",
   "user.settings.display.collapseOn": "Uitgevouwen",
-<<<<<<< HEAD
-  "user.settings.display.collapsedReplyThreadsDescription": "Wanneer ingeschakeld, worden antwoordberichten niet getoond in het kanaal en krijg je meldingen over discussies die je volgt in de \"Draadjes\" weergave.\nBekijk onze <link>documentatie voor bekende problemen</link> en help feedback te geven in ons [community kanaal](!https://community-daily.mattermost.com/core/channels/folded-reply-threads).",
-=======
   "user.settings.display.collapsedReplyThreadsDescription": "Wanneer ingeschakeld, worden antwoordberichten niet getoond in het kanaal en krijg je meldingen over discussies die je volgt in de \"Draadjes\" weergave.",
->>>>>>> replacing_url_by_variables
   "user.settings.display.collapsedReplyThreadsOff": "Uitgeschakeld",
   "user.settings.display.collapsedReplyThreadsOn": "Ingeschakeld",
   "user.settings.display.collapsedReplyThreadsTitle": "Ingeklapte draadjes",

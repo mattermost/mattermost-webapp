@@ -76,7 +76,6 @@ describe('components/Menu', () => {
         isCloud: false,
         subscription: {},
         userIsAdmin: true,
-        isCloudFreeEnabled: false,
         isFreeTrial: false,
         usageDeltaTeams: 1,
     };

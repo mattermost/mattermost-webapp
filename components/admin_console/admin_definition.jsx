@@ -6674,6 +6674,7 @@ const AdminDefinition = {
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
 <<<<<<< HEAD
+<<<<<<< HEAD
                         key: 'ServiceSettings.ThreadAutoFollow',
                         label: t('admin.experimental.threadAutoFollow.title'),
                         label_default: 'Automatically Follow Threads',
@@ -6763,6 +6764,8 @@ const AdminDefinition = {
                         type: Constants.SettingsTypes.TYPE_BOOL,
 =======
 >>>>>>> replacing_url_by_variables
+=======
+>>>>>>> cfa1c310a7b0e6da29ffaaed1aa418b716e03ce4
                         key: 'DisplaySettings.ExperimentalTimezone',
                         label: t('admin.experimental.experimentalTimezone.title'),
                         label_default: 'Timezone:',

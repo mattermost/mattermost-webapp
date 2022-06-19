@@ -48,9 +48,8 @@ type Props = {
     };
     isCloud: boolean;
     isCloudTrial: boolean;
-    isCloudFreeEnabled: boolean;
     hadPrevCloudTrial: boolean;
-    isCloudFreePaidSubscription: boolean;
+    isPaidSubscription: boolean;
 }
 
 type State = {
@@ -115,11 +114,10 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
         const {
             isCloud,
             isCloudTrial,
-            isCloudFreeEnabled,
             hadPrevCloudTrial,
-            isCloudFreePaidSubscription,
+            isPaidSubscription,
         } = this.props;
-        const canRequestCloudFreeTrial = isCloud && isCloudFreeEnabled && !isCloudTrial && !hadPrevCloudTrial && !isCloudFreePaidSubscription;
+        const canRequestCloudFreeTrial = isCloud && !isCloudTrial && !hadPrevCloudTrial && !isPaidSubscription;
 
         // by default we assume is not cloud, so the cta button is Start Trial (which will request a trial license)
         let primaryMessage = (
@@ -130,8 +128,8 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
         );
         let ctaButtonFunction: (e: React.MouseEvent) => void = this.requestLicense;
 
-        // then if it is cloud, but either is not cloud free enabled or this account already had a free trial, then the cta button must be Upgrade now
-        if (isCloud && (!isCloudFreeEnabled || hadPrevCloudTrial)) {
+        // then if it is cloud, and this account already had a free trial, then the cta button must be Upgrade now
+        if (isCloud && hadPrevCloudTrial) {
             ctaButtonFunction = this.openUpgradeModal;
             primaryMessage = (
                 <FormattedMessage

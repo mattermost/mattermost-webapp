@@ -10,7 +10,6 @@ import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 
 import {getChannelMessageCounts, getCurrentChannelId, getMyChannelMemberships, makeGetChannelsForIds} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserLocale} from 'mattermost-redux/selectors/entities/i18n';
-import {getLastPostPerChannel} from 'mattermost-redux/selectors/entities/posts';
 import {getMyPreferences, getTeammateNameDisplaySetting, getInt, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
@@ -334,25 +333,12 @@ export function makeSortChannelsByNameWithDMs(): (state: GlobalState, channels: 
 export function makeSortChannelsByRecency(): (state: GlobalState, channels: Channel[]) => Channel[] {
     return createSelector(
         'makeSortChannelsByRecency',
-        (state: GlobalState, channels: Channel[]) => channels,
-        getLastPostPerChannel,
+        (_state: GlobalState, channels: Channel[]) => channels,
         isCollapsedThreadsEnabled,
-        (channels, lastPosts, crtEnabled) => {
+        (channels, crtEnabled) => {
             return [...channels].sort((a, b) => {
-                // If available, get the last post time from the loaded posts for the channel, but fall back to the
-                // channel's last_post_at if that's not available. The last post time from the loaded posts is more
-                // accurate because channel.last_post_at is not updated on the client as new messages come in.
-
-                let aLastPostAt = crtEnabled ? a.last_root_post_at : a.last_post_at;
-                if (lastPosts[a.id] && lastPosts[a.id].create_at > a.last_post_at) {
-                    aLastPostAt = lastPosts[a.id].create_at;
-                }
-
-                let bLastPostAt = crtEnabled ? b.last_root_post_at : b.last_post_at;
-                if (lastPosts[b.id] && lastPosts[b.id].create_at > b.last_post_at) {
-                    bLastPostAt = lastPosts[b.id].create_at;
-                }
-
+                const aLastPostAt = Math.max(crtEnabled ? (a.last_root_post_at || a.last_post_at) : a.last_post_at, a.create_at);
+                const bLastPostAt = Math.max(crtEnabled ? (b.last_root_post_at || b.last_post_at) : b.last_post_at, b.create_at);
                 return bLastPostAt - aLastPostAt;
             });
         },

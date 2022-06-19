@@ -10,7 +10,6 @@ import {
     getCloudSubscription,
     getSubscriptionProduct,
 } from 'mattermost-redux/selectors/entities/cloud';
-import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {SalesInquiryIssue} from 'selectors/cloud';
 
@@ -33,7 +32,6 @@ interface Props {
 }
 
 const Limits = (props: Props): JSX.Element | null => {
-    const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
     const intl = useIntl();
     const subscription = useSelector(getCloudSubscription);
     const products = useSelector(getCloudProducts);
@@ -43,7 +41,7 @@ const Limits = (props: Props): JSX.Element | null => {
     const openSalesLink = useOpenSalesLink(SalesInquiryIssue.UpgradeEnterprise);
     const openPricingModal = useOpenPricingModal();
 
-    if (!isCloudFreeEnabled || !subscriptionProduct || !limitsLoaded || !hasSomeLimits(cloudLimits)) {
+    if (!subscriptionProduct || !limitsLoaded || !hasSomeLimits(cloudLimits)) {
         return null;
     }
 
