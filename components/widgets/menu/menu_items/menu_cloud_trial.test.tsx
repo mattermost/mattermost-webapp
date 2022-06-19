@@ -236,7 +236,7 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
         const wrapper = mountWithIntl(<Provider store={store}><MenuCloudTrial id='menuCloudTrial'/></Provider>);
         const openModalLink = wrapper.find('.open-trial-benefits-modal');
         expect(openModalLink.exists()).toEqual(true);
-        expect(openModalLink.find('span').text()).toBe('Review our Enterprise Features');
+        expect(openModalLink.text()).toBe('Learn more');
     });
 
     test('should show the invitation to see plans when is not in Trial and has had previous Trial', () => {
@@ -270,7 +270,7 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
         const wrapper = mountWithIntl(<Provider store={store}><MenuCloudTrial id='menuCloudTrial'/></Provider>);
         const openModalLink = wrapper.find('.open-see-plans-modal');
         expect(openModalLink.exists()).toEqual(true);
-        expect(openModalLink.find('span').text()).toBe('See plans');
+        expect(openModalLink.text()).toEqual('See plans');
     });
 
     test('should return null if some limit needs attention', () => {
