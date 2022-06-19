@@ -4,6 +4,8 @@
 import React, {useRef, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import classNames from 'classnames';
+
 import {t} from 'utils/i18n';
 import {isValidPassword, localizeMessage} from 'utils/utils';
 import {ClaimErrors} from 'utils/constants';
@@ -16,6 +18,7 @@ import {PasswordConfig} from '../claim_controller';
 import {AuthChangeResponse} from '@mattermost/types/users';
 
 import {SubmitOptions} from './email_to_ldap';
+import ErrorLabel from './error_label';
 
 type Props = {
     email: string | null;
@@ -106,33 +109,10 @@ const LDAPToEmail = (props: Props) => {
         });
     };
 
-    let serverErrorElement: JSX.Element | null = null;
-    let formClass = 'form-group';
-    if (serverError) {
-        serverErrorElement = <div className='form-group has-error'><label className='control-label'>{serverError}</label></div>;
-        formClass += ' has-error';
-    }
-
-    let passwordErrorElement: JSX.Element | null = null;
-    let passwordClass = 'form-group';
-    if (passwordError) {
-        passwordErrorElement = <div className='form-group has-error'><label className='control-label'>{passwordError}</label></div>;
-        passwordClass += ' has-error';
-    }
-
-    let ldapPasswordErrorElement: JSX.Element | null = null;
-    let ldapPasswordClass = 'form-group';
-    if (ldapPasswordError) {
-        ldapPasswordErrorElement = <div className='form-group has-error'><label className='control-label'>{ldapPasswordError}</label></div>;
-        ldapPasswordClass += ' has-error';
-    }
-
-    let confirmErrorElement: JSX.Element | null = null;
-    let confimClass = 'form-group';
-    if (confirmError) {
-        confirmErrorElement = <div className='form-group has-error'><label className='control-label'>{confirmError}</label></div>;
-        confimClass += ' has-error';
-    }
+    const serverErrorElement: JSX.Element | null = <ErrorLabel errorText={serverError}/>;
+    const passwordErrorElement: JSX.Element | null = <ErrorLabel errorText={passwordError}/>;
+    const ldapPasswordErrorElement: JSX.Element | null = <ErrorLabel errorText={ldapPasswordError}/>;
+    const confirmErrorElement: JSX.Element | null = <ErrorLabel errorText={confirmError}/>;
 
     const passwordPlaceholder = localizeMessage('claim.ldap_to_email.ldapPwd', 'AD/LDAP Password');
     const titleMessage = {id: t('claim.ldap_to_email.title'), defaultMessage: 'Switch AD/LDAP Account to Email/Password'};
@@ -159,7 +139,7 @@ const LDAPToEmail = (props: Props) => {
             </h3>
             <form
                 onSubmit={preSubmit}
-                className={formClass}
+                className={classNames('form-group', {'has-error': serverError})}
             >
                 <p>
                     <FormattedMessage
@@ -175,7 +155,7 @@ const LDAPToEmail = (props: Props) => {
                         values={{ldapPassword: passwordPlaceholder}}
                     />
                 </p>
-                <div className={ldapPasswordClass}>
+                <div className={classNames('form-group', {'has-error': ldapPasswordError})}>
                     <input
                         type='password'
                         className='form-control'
@@ -192,7 +172,7 @@ const LDAPToEmail = (props: Props) => {
                         defaultMessage='New email login password:'
                     />
                 </p>
-                <div className={passwordClass}>
+                <div className={classNames('form-group', {'has-error': passwordError})}>
                     <LocalizedInput
                         type='password'
                         className='form-control'
@@ -203,7 +183,7 @@ const LDAPToEmail = (props: Props) => {
                     />
                 </div>
                 {passwordErrorElement}
-                <div className={confimClass}>
+                <div className={classNames('form-group', {'has-error': confirmError})}>
                     <LocalizedInput
                         type='password'
                         className='form-control'
