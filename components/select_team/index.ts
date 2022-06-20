@@ -7,6 +7,7 @@ import {withRouter} from 'react-router-dom';
 
 import {getTeams} from 'mattermost-redux/actions/teams';
 import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
+import {getCloudSubscription as selectCloudSubscription} from 'mattermost-redux/selectors/entities/cloud';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {Permissions} from 'mattermost-redux/constants';
 import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
@@ -30,7 +31,9 @@ function mapStateToProps(state: GlobalState) {
     const myTeamMemberships = Object.values(getTeamMemberships(state));
     const license = getLicense(state);
 
+    const subscription = selectCloudSubscription(state);
     const isCloud = isCloudLicense(license);
+    const isFreeTrial = subscription?.is_free_trial === 'true';
 
     return {
         currentUserId: currentUser.id,
@@ -47,6 +50,7 @@ function mapStateToProps(state: GlobalState) {
         siteURL: config.SiteURL,
         totalTeamsCount: state.entities.teams.totalCount || 0,
         isCloud,
+        isFreeTrial,
     };
 }
 

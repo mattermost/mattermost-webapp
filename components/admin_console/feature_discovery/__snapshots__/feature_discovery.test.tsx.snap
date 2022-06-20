@@ -126,3 +126,9 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot whe
   </div>
 </div>
 `;
+
+exports[`components/feature_discovery FeatureDiscovery should match snapshot when is cloud environment and subscription is not loaded yet in redux store 1`] = `
+<LoadingSpinner
+  text={null}
+/>
+`;

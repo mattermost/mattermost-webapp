@@ -64,8 +64,8 @@ export function getBestImage(openGraphData?: OpenGraphMetadata, imagesMetadata?:
 
         return {
             ...image,
-            height: image.height || imagesMetadata?.[imageUrl].height || -1,
-            width: image.width || imagesMetadata?.[imageUrl].width || -1,
+            height: image.height || imagesMetadata?.[imageUrl]?.height || -1,
+            width: image.width || imagesMetadata?.[imageUrl]?.width || -1,
             format: image.type?.split('/')[1] || image.type || '',
             frameCount: 0,
         };

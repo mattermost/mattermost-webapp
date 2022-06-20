@@ -191,9 +191,14 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, oauth
     <p
       key="add_oauth_app.doneHelp"
     >
-      <injectIntl(FormattedMarkdownMessage)
-        defaultMessage="Your OAuth 2.0 application is set up. Please use the following Client ID and Client Secret when requesting authorization for your application (details at [oAuth 2 Applications](!https://developers.mattermost.com/integrate/admin-guide/admin-oauth2/))."
+      <MemoizedFormattedMessage
+        defaultMessage="Your OAuth 2.0 application is set up. Please use the following Client ID and Client Secret when requesting authorization for your application (details at <link>oAuth 2 Applications</link>)."
         id="add_oauth_app.doneHelp"
+        values={
+          Object {
+            "link": [Function],
+          }
+        }
       />
     </p>
     <p
