@@ -10,6 +10,7 @@ import TimeFrameDropdown from '../time_frame_dropdown/time_frame_dropdown';
 import TopReactionsTable from '../top_reactions/top_reactions_table/top_reactions_table';
 import TopChannelsTable from '../top_channels/top_channels_table/top_channels_table';
 import TopThreadsTable from '../top_threads/top_threads_table/top_threads_table';
+import TopBoardsTable from '../top_boards/top_boards_table/top_boards_table';
 
 import './../../activity_and_insights.scss';
 import './insights_modal.scss';
@@ -59,6 +60,14 @@ const InsightsModal = (props: Props) => {
         case InsightsWidgetTypes.TOP_THREADS:
             return (
                 <TopThreadsTable
+                    filterType={props.filterType}
+                    timeFrame={timeFrame.value}
+                    closeModal={doHide}
+                />
+            );
+        case InsightsWidgetTypes.TOP_BOARDS:
+            return (
+                <TopBoardsTable
                     filterType={props.filterType}
                     timeFrame={timeFrame.value}
                     closeModal={doHide}
