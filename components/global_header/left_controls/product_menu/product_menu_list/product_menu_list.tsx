@@ -6,21 +6,25 @@ import {useIntl} from 'react-intl';
 
 import Icon from '@mattermost/compass-components/foundations/icon';
 
-import {Permissions} from 'mattermost-redux/constants';
 import {UserProfile} from '@mattermost/types/users';
+import {Permissions} from 'mattermost-redux/constants';
+
 import AboutBuildModal from 'components/about_build_modal';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 import MarketplaceModal from 'components/plugin_marketplace';
 import Menu from 'components/widgets/menu/menu';
 import RestrictedIndicator from 'components/widgets/menu/menu_items/restricted_indicator';
+import {VisitSystemConsoleTour} from 'components/onboarding_tasks';
+import UserGroupsModal from 'components/user_groups_modal';
+
 import {FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS} from 'utils/cloud_utils';
 import {ModalIdentifiers} from 'utils/constants';
 import {makeUrlSafe} from 'utils/url';
 import * as UserAgent from 'utils/user_agent';
-import {VisitSystemConsoleTour} from 'components/onboarding_tasks';
-import UserGroupsModal from 'components/user_groups_modal';
+
 import {ModalData} from 'types/actions';
+
 import './product_menu_list.scss';
 
 export type Props = {

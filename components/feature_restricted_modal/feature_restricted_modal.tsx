@@ -28,8 +28,8 @@ type FeatureRestrictedModalProps = {
     messageAdminPreTrial: string;
     titleAdminPostTrial: string;
     messageAdminPostTrial: string;
-    titleEndUser: string;
-    messageEndUser: string;
+    titleEndUser?: string;
+    messageEndUser?: string;
 }
 
 const FeatureRestrictedModal = ({

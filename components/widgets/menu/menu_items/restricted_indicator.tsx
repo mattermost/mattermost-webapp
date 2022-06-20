@@ -14,16 +14,18 @@ import {Constants, ModalIdentifiers} from 'utils/constants';
 import './restricted_indicator.scss';
 
 type RestrictedIndicatorProps = {
-    blocked?: boolean;
-    tooltipTitle?: string;
-    tooltipMessage?: string;
-    tooltipMessageBlocked?: string;
     titleAdminPreTrial: string;
     messageAdminPreTrial: string;
     titleAdminPostTrial: string;
     messageAdminPostTrial: string;
-    titleEndUser: string;
-    messageEndUser: string;
+    titleEndUser?: string;
+    messageEndUser?: string;
+    blocked?: boolean;
+    tooltipTitle?: string;
+    tooltipMessage?: string;
+    tooltipMessageBlocked?: string;
+    ctaExtraContent?: React.ReactNode;
+    clickCallback?: () => void;
 }
 
 const RestrictedIndicator = ({
@@ -37,8 +39,16 @@ const RestrictedIndicator = ({
     messageAdminPostTrial,
     titleEndUser,
     messageEndUser,
+    ctaExtraContent,
+    clickCallback,
 }: RestrictedIndicatorProps) => {
     const {formatMessage} = useIntl();
+
+    const handleClickCallback = () => {
+        if (clickCallback) {
+            clickCallback();
+        }
+    };
 
     return (
         <span className='RestrictedIndicator__icon-tooltip-container'>
@@ -65,6 +75,7 @@ const RestrictedIndicator = ({
                         className='RestrictedIndicator__button'
                         modalId={ModalIdentifiers.FEATURE_RESTRICTED_MODAL}
                         dialogType={FeatureRestrictedModal}
+                        onClick={handleClickCallback}
                         dialogProps={{
                             titleAdminPreTrial,
                             messageAdminPreTrial,
@@ -75,6 +86,7 @@ const RestrictedIndicator = ({
                         }}
                     >
                         <i className='RestrictedIndicator__icon-tooltip icon icon-key-variant'/>
+                        {ctaExtraContent}
                     </ToggleModalButton>
                 ) : (
                     <i className='RestrictedIndicator__icon-tooltip icon trial'/>
