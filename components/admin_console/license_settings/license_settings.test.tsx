@@ -45,6 +45,7 @@ describe('components/admin_console/license_settings/LicenseSettings', () => {
         enterpriseReady: true,
         actions: {
             getLicenseConfig: jest.fn(),
+            getStandardAnalytics: jest.fn(),
             uploadLicense: jest.fn(),
             removeLicense: jest.fn(),
             upgradeToE0: jest.fn(),

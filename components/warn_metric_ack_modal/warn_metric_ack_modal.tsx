@@ -15,7 +15,6 @@ import {t} from 'utils/i18n';
 import {Constants, ModalIdentifiers, WarnMetricTypes} from 'utils/constants';
 
 import {trackEvent} from 'actions/telemetry_actions';
-import * as AdminActions from 'actions/admin_actions.jsx';
 
 const StatTypes = Constants.StatTypes;
 
@@ -63,7 +62,7 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
     }
 
     componentDidMount() {
-        AdminActions.getStandardAnalytics();
+        this.props.actions.getStandardAnalytics();
     }
 
     onContactUsClick = async (e: any) => {

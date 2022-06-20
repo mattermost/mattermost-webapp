@@ -7,7 +7,7 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {getLicenseConfig} from 'mattermost-redux/actions/general';
 import {StatusOK} from '@mattermost/types/client4';
 import {Action, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
-import {uploadLicense, removeLicense, getPrevTrialLicense} from 'mattermost-redux/actions/admin';
+import {uploadLicense, removeLicense, getPrevTrialLicense, getStandardAnalytics} from 'mattermost-redux/actions/admin';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {GlobalState} from 'types/store';
@@ -35,6 +35,7 @@ type ActionCreatorTypes = Action | PromiseStatusFunc | StatusOKFunc;
 
 type Actions = {
     getLicenseConfig: () => void;
+    getStandardAnalytics: () => void;
     uploadLicense: (file: File) => Promise<ActionResult>;
     removeLicense: () => Promise<ActionResult>;
     getPrevTrialLicense: () => void;
@@ -44,13 +45,13 @@ type Actions = {
     ping: PromiseStatusFunc;
     requestTrialLicense: (users: number, termsAccepted: boolean, receiveEmailsAccepted: boolean, featureName: string) => Promise<ActionResult>;
     openModal: <P>(modalData: ModalData<P>) => void;
-
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionCreatorTypes>, Actions>({
             getLicenseConfig,
+            getStandardAnalytics,
             uploadLicense,
             removeLicense,
             getPrevTrialLicense,
