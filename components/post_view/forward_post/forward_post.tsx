@@ -44,7 +44,7 @@ const ForwardPost = ({post, actions, isPostForwardingEnabled}: Props) => {
                     className='hidden-xs'
                 >
                     {formatMessage({
-                        id: 'forward_message',
+                        id: 'forward_post.tooltip',
                         defaultMessage: 'Forward message',
                     })}
                 </Tooltip>
@@ -52,7 +52,7 @@ const ForwardPost = ({post, actions, isPostForwardingEnabled}: Props) => {
         >
             <button
                 id={`forwardIcon_${post.id}`}
-                aria-label={formatMessage({id: 'forward_message.tooltip', defaultMessage: 'Forward message'}).toLowerCase()}
+                aria-label={formatMessage({id: 'forward_post.tooltip', defaultMessage: 'Forward message'}).toLowerCase()}
                 className='post-menu__item'
                 onClick={openForwardPostModal}
             >

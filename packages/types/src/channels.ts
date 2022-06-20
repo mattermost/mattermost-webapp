@@ -29,7 +29,7 @@ export type ChannelNotifyProps = {
 
 export type Channel = {
     id: string;
-    userId: string;
+    userId?: string;
     create_at: number;
     update_at: number;
     delete_at: number;
