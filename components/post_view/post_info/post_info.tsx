@@ -341,7 +341,11 @@ export default class PostInfo extends React.PureComponent<Props, State> {
             );
         }
 
-        const forwardPost = <ForwardPost post={post}/>;
+        const fromWebhook = post.props?.from_webhook === 'true';
+        const fromBot = post.props?.from_bot === 'true';
+        const canPostBeForwarded = !(fromAutoResponder || fromWebhook || fromBot || isSystemMessage);
+
+        const forwardPost = canPostBeForwarded ? <ForwardPost post={post}/> : null;
 
         return (
             <div
