@@ -24,7 +24,7 @@ const TOP_OFFSET = -7;
 
 type LocationTypes = 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT';
 
-type Props = {
+export type Props = {
     channelId?: string;
     postId: string;
     teamId: string;

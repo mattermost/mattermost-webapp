@@ -44,7 +44,7 @@ export type NewPostMessageProps = {
     team_id: string;
 }
 
-export function completePostReceive(post: NewPost, websocketMessageProps: NewPostMessageProps, fetchedChannelMember: boolean): ActionFunc {
+export function completePostReceive(post: NewPost, websocketMessageProps: NewPostMessageProps, fetchedChannelMember?: boolean): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
         const rootPost = PostSelectors.getPost(state, post.root_id);
@@ -98,7 +98,7 @@ export function completePostReceive(post: NewPost, websocketMessageProps: NewPos
 
 // setChannelReadAndViewed returns an array of actions to mark the channel read and viewed, and it dispatches an action
 // to asynchronously mark the channel as read on the server if necessary.
-export function setChannelReadAndViewed(dispatch: DispatchFunc, getState: GetStateFunc, post: Post, websocketMessageProps: NewPostMessageProps, fetchedChannelMember: boolean): Redux.AnyAction[] {
+export function setChannelReadAndViewed(dispatch: DispatchFunc, getState: GetStateFunc, post: Post, websocketMessageProps: NewPostMessageProps, fetchedChannelMember?: boolean): Redux.AnyAction[] {
     const state = getState();
     const currentUserId = getCurrentUserId(state);
 

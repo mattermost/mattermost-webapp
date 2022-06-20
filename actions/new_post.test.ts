@@ -13,9 +13,9 @@ import {Posts} from 'mattermost-redux/constants';
 import * as NewPostActions from 'actions/new_post';
 import {Constants} from 'utils/constants';
 import {GlobalState} from '@mattermost/types/store';
-import {GetStateFunc} from 'mattermost-redux/types/actions';
+import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
-const mockStore = configureStore<GlobalState>([thunk]);
+const mockStore = configureStore<GlobalState, DispatchFunc>([thunk]);
 
 jest.mock('mattermost-redux/actions/channels', () => ({
     ...jest.requireActual('mattermost-redux/actions/channels'),
@@ -101,7 +101,7 @@ describe('actions/new_post', () => {
         const newPost = {id: 'new_post_id', channel_id: 'current_channel_id', message: 'new message', type: Constants.PostTypes.ADD_TO_CHANNEL, user_id: 'some_user_id', create_at: POST_CREATED_TIME, props: {addedUserId: 'other_user_id'}} as unknown as Post;
         const websocketProps = {team_id: 'team_id', mentions: ['current_user_id']};
 
-        await testStore.dispatch((NewPostActions.completePostReceive as any)(newPost, websocketProps));
+        await testStore.dispatch(NewPostActions.completePostReceive(newPost, websocketProps));
         expect(testStore.getActions()).toEqual([
             {
                 meta: {batch: true},
@@ -159,7 +159,7 @@ describe('actions/new_post', () => {
 
             window.isActive = true;
 
-            const actions = NewPostActions.setChannelReadAndViewed(testStore.dispatch as any, testStore.getState as GetStateFunc, post2, newPostMessageProps, false);
+            const actions = NewPostActions.setChannelReadAndViewed(testStore.dispatch, testStore.getState as GetStateFunc, post2, newPostMessageProps, false);
 
             expect(actions).toMatchObject([
                 {
@@ -232,7 +232,7 @@ describe('actions/new_post', () => {
 
             window.isActive = false;
 
-            const actions = NewPostActions.setChannelReadAndViewed(testStore.dispatch as any, testStore.getState as any, post2, newPostMessageProps, false);
+            const actions = NewPostActions.setChannelReadAndViewed(testStore.dispatch, testStore.getState, post2, newPostMessageProps, false);
 
             expect(actions).toMatchObject([
                 {
@@ -298,7 +298,7 @@ describe('actions/new_post', () => {
 
             window.isActive = true;
 
-            const actions = NewPostActions.setChannelReadAndViewed(testStore.dispatch as any, testStore.getState as any, post2, newPostMessageProps, false);
+            const actions = NewPostActions.setChannelReadAndViewed(testStore.dispatch, testStore.getState, post2, newPostMessageProps, false);
 
             expect(actions).toMatchObject([
                 {
@@ -362,7 +362,7 @@ describe('actions/new_post', () => {
                 },
             } as unknown as GlobalState);
 
-            const actions = NewPostActions.setChannelReadAndViewed(testStore.dispatch as any, testStore.getState as any, post2, {} as NewPostActions.NewPostMessageProps, false);
+            const actions = NewPostActions.setChannelReadAndViewed(testStore.dispatch, testStore.getState, post2, {} as NewPostActions.NewPostMessageProps, false);
 
             expect(actions).toMatchObject([
                 {
@@ -434,7 +434,7 @@ describe('actions/new_post', () => {
                 },
             } as unknown as GlobalState);
 
-            const actions = NewPostActions.setChannelReadAndViewed(testStore.dispatch as any, testStore.getState as any, post2, newPostMessageProps, false);
+            const actions = NewPostActions.setChannelReadAndViewed(testStore.dispatch, testStore.getState, post2, newPostMessageProps, false);
 
             expect(actions).toMatchObject([
                 {
@@ -488,7 +488,7 @@ describe('actions/new_post', () => {
                 },
             } as unknown as GlobalState);
 
-            const actions = NewPostActions.setChannelReadAndViewed(testStore.dispatch as any, testStore.getState as any, post2, newPostMessageProps, false);
+            const actions = NewPostActions.setChannelReadAndViewed(testStore.dispatch, testStore.getState, post2, newPostMessageProps, false);
 
             expect(actions).toMatchObject([
                 {
