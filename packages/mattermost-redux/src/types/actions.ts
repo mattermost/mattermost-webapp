@@ -6,7 +6,7 @@ import {BatchAction} from 'redux-batched-actions';
 
 import {GlobalState} from '@mattermost/types/store';
 
-export type GetStateFunc = <T extends GlobalState>() => T;
+export type GetStateFunc = () => GlobalState;
 export type GenericAction = AnyAction;
 export type Thunk = (b: DispatchFunc, a: GetStateFunc) => Promise<ActionResult> | ActionResult;
 

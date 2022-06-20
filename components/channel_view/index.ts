@@ -22,7 +22,7 @@ import {GlobalState} from 'types/store';
 import ChannelView from './channel_view';
 
 type Actions = {
-    goToLastViewedChannel: () => Promise<{data: boolean}>;
+    goToLastViewedChannel: () => void;
 }
 
 function isDeactivatedChannel(state: GlobalState, channelId: string) {
@@ -72,7 +72,7 @@ function mapStateToProps(state: GlobalState) {
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc|GenericAction>, Actions>({
-            goToLastViewedChannel,
+            goToLastViewedChannel: goToLastViewedChannel as any,
         }, dispatch),
     };
 }

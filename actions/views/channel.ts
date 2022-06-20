@@ -71,7 +71,7 @@ export function checkAndSetMobileView() {
 
 export function goToLastViewedChannel() {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const state = getState() as GlobalState;
+        const state = getState();
         const currentChannel = getCurrentChannel(state) || {};
         const channelsInTeam = getChannelsNameMapInCurrentTeam(state);
         const directChannel = getAllDirectChannelsNameMapInCurrentTeam(state);
@@ -140,7 +140,7 @@ export function joinChannelById(channelId: string) {
 
 export function leaveChannel(channelId: string) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        let state = getState<GlobalState>();
+        let state = getState();
         const currentUserId = getCurrentUserId(state);
         const currentTeam = getCurrentTeam(state);
         const channel = getChannel(state, channelId);
@@ -158,7 +158,7 @@ export function leaveChannel(channelId: string) {
         if (error) {
             return {error};
         }
-        state = getState<GlobalState>();
+        state = getState();
 
         const prevChannelName = LocalStorageStore.getPreviousChannelName(currentUserId, currentTeam.id, state);
         const channelsInTeam = getChannelsNameMapInCurrentTeam(state);
@@ -166,8 +166,8 @@ export function leaveChannel(channelId: string) {
         if (!prevChannel || !getMyChannelMemberships(state)[prevChannel.id]) {
             LocalStorageStore.removePreviousChannel(currentUserId, currentTeam.id, state);
         }
-        const selectedPost = getSelectedPost(state);
-        const selectedPostId = getSelectedPostId(state);
+        const selectedPost = getSelectedPost(state as GlobalState);
+        const selectedPostId = getSelectedPostId(state as GlobalState);
         if (selectedPostId && selectedPost.exists === false) {
             dispatch(closeRightHandSide());
         }
@@ -408,10 +408,10 @@ export function loadPosts({
 export function syncPostsInChannel(channelId: string, since: number, prefetch = false) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const time = Date.now();
-        const state = getState() as GlobalState;
+        const state = getState();
         const socketStatus = getSocketStatus(state);
         let sinceTimeToGetPosts = since;
-        const lastPostsApiCallForChannel = getLastPostsApiTimeForChannel(state, channelId);
+        const lastPostsApiCallForChannel = getLastPostsApiTimeForChannel(state as unknown as GlobalState, channelId);
         const actions = [];
 
         if (lastPostsApiCallForChannel && lastPostsApiCallForChannel < socketStatus.lastDisconnectAt) {

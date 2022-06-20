@@ -46,7 +46,7 @@ export function handleNewPost(post: NewPost, msg?: {data?: NewPostMessageProps &
         }
 
         const myChannelMember = getMyChannelMemberSelector(state, post.channel_id);
-        const myChannelMemberDoesntExist = !myChannelMember || (Object.keys(myChannelMember).length === 0 && (myChannelMember as any).constructor === 'Object');
+        const myChannelMemberDoesntExist = !myChannelMember || (Object.keys(myChannelMember).length === 0 && myChannelMember.constructor === Object);
 
         if (myChannelMemberDoesntExist) {
             await dispatch(getMyChannelMember(post.channel_id));
@@ -55,11 +55,10 @@ export function handleNewPost(post: NewPost, msg?: {data?: NewPostMessageProps &
         dispatch(completePostReceive(post, websocketMessageProps as NewPostMessageProps, myChannelMemberDoesntExist));
 
         if (msg && msg.data) {
-            const currentUserId = getCurrentUserId(state);
             if (msg.data.channel_type === Constants.DM_CHANNEL) {
-                dispatch((loadNewDMIfNeeded as any)(post.channel_id, currentUserId));
+                dispatch(loadNewDMIfNeeded(post.channel_id));
             } else if (msg.data.channel_type === Constants.GM_CHANNEL) {
-                dispatch((loadNewGMIfNeeded as any)(post.channel_id));
+                dispatch(loadNewGMIfNeeded(post.channel_id));
             }
         }
 
@@ -116,24 +115,26 @@ export function createPost(post: Post, files: FileInfo[]) {
         }
 
         if (post.root_id) {
-            dispatch((storeCommentDraft as any)(post.root_id, null));
+            dispatch(storeCommentDraft(post.root_id, null));
         } else {
-            dispatch((storeDraft as any)(post.channel_id, null));
+            dispatch(storeDraft(post.channel_id, null));
         }
 
         return result;
     };
 }
 
-export function storeDraft(channelId: string, draft: any) {
+function storeDraft(channelId: string, draft: null) {
     return (dispatch: DispatchFunc) => {
         dispatch(StorageActions.setGlobalItem('draft_' + channelId, draft));
+        return {data: true};
     };
 }
 
-export function storeCommentDraft(rootPostId: string, draft: any) {
+function storeCommentDraft(rootPostId: string, draft: null) {
     return (dispatch: DispatchFunc) => {
         dispatch(StorageActions.setGlobalItem('comment_draft_' + rootPostId, draft));
+        return {data: true};
     };
 }
 

@@ -247,6 +247,7 @@ export function loadNewDMIfNeeded(channelId: string) {
                 checkPreference((result as any).data.channel);
             }
         }
+        return {data: true};
     };
 }
 
@@ -268,6 +269,7 @@ export function loadNewGMIfNeeded(channelId: string) {
             await getChannelAndMyMember(channelId)(doDispatch, doGetState);
         }
         checkPreference();
+        return {data: true};
     };
 }
 
