@@ -61,7 +61,7 @@ const OAuthToEmail = (props: Props) => {
             props.email,
             password,
             (data: AuthChangeResponse) => {
-                if (data.follow_link) {
+                if (data?.follow_link) {
                     window.location.href = data.follow_link;
                 }
             },
