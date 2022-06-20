@@ -38,6 +38,7 @@ const memoizedGetLatestPostId = memoizeResult((postIds: string[]) => getLatestPo
 interface Props {
     focusedPostId: string;
     unreadChunkTimeStamp: number;
+    changeUnreadChunkTimeStamp: (lastViewedAt?: string) => void;
     channelId: string;
 }
 
@@ -74,7 +75,7 @@ function makeMapStateToProps() {
         }
 
         if (postIds) {
-            formattedPostIds = preparePostIdsForPostList(state, {postIds, lastViewedAt, indicateNewMessages: true, channelId} as any);
+            formattedPostIds = preparePostIdsForPostList(state, {postIds, lastViewedAt, indicateNewMessages: true});
             if (postIds.length) {
                 const latestPostId = memoizedGetLatestPostId(postIds);
                 const latestPost = getPost(state, latestPostId);
@@ -103,7 +104,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
             loadPosts,
             loadLatestPosts,
             loadPostsAround,
-            checkAndSetMobileView: checkAndSetMobileView as any,
+            checkAndSetMobileView,
             syncPostsInChannel,
             markChannelAsViewed,
             markChannelAsRead,
@@ -112,4 +113,4 @@ function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
-export default withRouter(connect(makeMapStateToProps as any, mapDispatchToProps as any)(PostList as any));
+export default withRouter(connect<any, any, any>(makeMapStateToProps, mapDispatchToProps)(PostList));

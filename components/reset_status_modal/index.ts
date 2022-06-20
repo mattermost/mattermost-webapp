@@ -31,7 +31,7 @@ function mapStateToProps(state: GlobalState) {
 }
 
 type Actions = {
-    autoResetStatus: () => Promise<UserStatus>;
+    autoResetStatus: () => Promise<{data: UserStatus}>;
     setStatus: (status: UserStatus) => void;
     savePreferences: (userId: string, preferences: PreferenceType[]) => void;
 };
@@ -39,7 +39,7 @@ type Actions = {
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
-            autoResetStatus: autoResetStatus as any,
+            autoResetStatus,
             setStatus,
             savePreferences,
         }, dispatch),

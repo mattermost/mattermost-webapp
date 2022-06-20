@@ -332,11 +332,8 @@ export default class PostInfo extends React.PureComponent<Props, State> {
         const showFlagIcon = !isSystemMessage && !isMobile && (hover || this.props.isFlagged);
         let postFlagIcon;
         if (showFlagIcon) {
-            // TODO: Typescript compiler is treating this as though its the dumb component
-            // and erroring on there not being any actions property.
-            const Compoent = PostFlagIcon as any;
             postFlagIcon = (
-                <Compoent
+                <PostFlagIcon
                     postId={post.id}
                     isFlagged={Boolean(this.props.isFlagged)}
                 />

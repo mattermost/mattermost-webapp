@@ -429,21 +429,21 @@ export function autocompleteUsers(username: string) {
 }
 
 export function autoResetStatus() {
-    return async (doDispatch: DispatchFunc, doGetState: GetStateFunc): Promise<UserStatus> => {
+    return async (doDispatch: DispatchFunc, doGetState: GetStateFunc): Promise<{data: UserStatus}> => {
         const {currentUserId} = getState().entities.users;
         const {data: userStatus} = await (UserActions.getStatus(currentUserId)(doDispatch, doGetState) as Promise<{data: UserStatus}>);
 
         if (userStatus.status === UserStatuses.OUT_OF_OFFICE || !userStatus.manual) {
-            return userStatus;
+            return {data: userStatus};
         }
 
         const autoReset = getBool(getState(), PreferencesRedux.CATEGORY_AUTO_RESET_MANUAL_STATUS, currentUserId, false);
 
         if (autoReset) {
             UserActions.setStatus({user_id: currentUserId, status: 'online'})(doDispatch, doGetState);
-            return userStatus;
+            return {data: userStatus};
         }
 
-        return userStatus;
+        return {data: userStatus};
     };
 }

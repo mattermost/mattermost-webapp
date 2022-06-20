@@ -66,6 +66,7 @@ export function checkAndSetMobileView() {
             type: ActionTypes.UPDATE_MOBILE_VIEW,
             data: isMobile(),
         });
+        return {data: true};
     };
 }
 
