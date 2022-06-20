@@ -1159,8 +1159,20 @@ const AdminDefinition = {
                         label: t('admin.image.amazonS3IdTitle'),
                         label_default: 'Amazon S3 Access Key ID:',
                         help_text: t('admin.image.amazonS3IdDescription'),
-                        help_text_markdown: true,
-                        help_text_default: '(Optional) Only required if you do not want to authenticate to S3 using an [IAM role](!https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html). Enter the Access Key ID provided by your Amazon EC2 administrator.',
+                        help_text_default: '(Optional) Only required if you do not want to authenticate to S3 using an <link>IAM role</link>. Enter the Access Key ID provided by your Amazon EC2 administrator.',
+                        help_text_values: {
+                            link: (msg) => (
+                                <a
+                                    href='https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        },
+                        help_text_markdown: false,
                         placeholder: t('admin.image.amazonS3IdExample'),
                         placeholder_default: 'E.g.: "AKIADTOVBGERKLCBV"',
                         isDisabled: it.any(
@@ -1227,6 +1239,7 @@ const AdminDefinition = {
                                 </a>
                             ),
                         },
+                        help_text_markdown: false,
                         isHidden: it.not(it.licensedForFeature('Compliance')),
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.FILE_STORAGE)),
@@ -1290,8 +1303,20 @@ const AdminDefinition = {
                         label: t('admin.image.proxyType'),
                         label_default: 'Image Proxy Type:',
                         help_text: t('admin.image.proxyTypeDescription'),
-                        help_text_default: 'Configure an image proxy to load all Markdown images through a proxy. The image proxy prevents users from making insecure image requests, provides caching for increased performance, and automates image adjustments such as resizing. See [documentation](!https://docs.mattermost.com/deploy/image-proxy.html) to learn more.',
-                        help_text_markdown: true,
+                        help_text_default: 'Configure an image proxy to load all Markdown images through a proxy. The image proxy prevents users from making insecure image requests, provides caching for increased performance, and automates image adjustments such as resizing. See <link>documentation</link> to learn more.',
+                        help_text_values: {
+                            link: (msg) => (
+                                <a
+                                    href='https://docs.mattermost.com/deploy/image-proxy.html'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        },
+                        help_text_markdown: false,
                         options: [
                             {
                                 value: 'atmos/camo',
@@ -2637,6 +2662,7 @@ const AdminDefinition = {
                                 </a>
                             ),
                         },
+                        help_text_markdown: false,
                         options: [
                             {
                                 value: 'disabled',
@@ -2691,8 +2717,20 @@ const AdminDefinition = {
                         label: t('admin.customization.enablePermalinkPreviewsTitle'),
                         label_default: 'Enable message link previews:',
                         help_text: t('admin.customization.enablePermalinkPreviewsDesc'),
-                        help_text_default: 'When enabled, links to Mattermost messages will generate a preview for any users that have access to the original message. Please review our [documentation](!https://docs.mattermost.com/messaging/sharing-messages.html) for details.',
-                        help_text_markdown: true,
+                        help_text_default: 'When enabled, links to Mattermost messages will generate a preview for any users that have access to the original message. Please review our <link>documentation</link> for details.',
+                        help_text_values: {
+                            link: (msg) => (
+                                <a
+                                    href='https://docs.mattermost.com/messaging/sharing-messages.html'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        },
+                        help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.POSTS)),
                     },
                     {
@@ -2719,8 +2757,20 @@ const AdminDefinition = {
                         label: t('admin.customization.enableInlineLatexTitle'),
                         label_default: 'Enable Inline Latex Rendering:',
                         help_text: t('admin.customization.enableInlineLatexDesc'),
-                        help_text_default: 'Enable rendering of inline Latex code. If false, Latex can only be rendered in a code block using syntax highlighting. Please review our [documentation](!https://docs.mattermost.com/messaging/formatting-text.html) for details about text formatting.',
-                        help_text_markdown: true,
+                        help_text_default: 'Enable rendering of inline Latex code. If false, Latex can only be rendered in a code block using syntax highlighting. Please review our <link>documentation</link> for details about text formatting.',
+                        help_text_values: {
+                            link: (msg) => (
+                                <a
+                                    href='https://docs.mattermost.com/messaging/formatting-text.html'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        },
+                        help_text_markdown: false,
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.POSTS)),
                             it.configIsFalse('ServiceSettings', 'EnableLatex'),
@@ -2856,6 +2906,7 @@ const AdminDefinition = {
                                 </a>
                             ),
                         },
+                        help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.NOTICES)),
                     },
                     {
@@ -2877,6 +2928,7 @@ const AdminDefinition = {
                                 </a>
                             ),
                         },
+                        help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.NOTICES)),
                     },
                 ],
@@ -3667,8 +3719,20 @@ const AdminDefinition = {
                                 label: t('admin.ldap.ldap_test_button'),
                                 label_default: 'AD/LDAP Test',
                                 help_text: t('admin.ldap.testHelpText'),
-                                help_text_markdown: true,
-                                help_text_default: 'Tests if the Mattermost server can connect to the AD/LDAP server specified. Please review "System Console > Logs" and [documentation](!https://mattermost.com/default-ldap-docs) to troubleshoot errors.',
+                                help_text_default: 'Tests if the Mattermost server can connect to the AD/LDAP server specified. Please review "System Console > Logs" and <link>documentation</link> to troubleshoot errors.',
+                                help_text_values: {
+                                    link: (msg) => (
+                                        <a
+                                            href='https://mattermost.com/default-ldap-docs'
+                                            referrer='noreferrer'
+                                            target='_blank'
+                                            rel='noreferrer'
+                                        >
+                                            {msg}
+                                        </a>
+                                    ),
+                                },
+                                help_text_markdown: false,
                                 error_message: t('admin.ldap.testFailure'),
                                 error_message_default: 'AD/LDAP Test Failure: {error}',
                                 success_message: t('admin.ldap.testSuccess'),
@@ -3874,7 +3938,7 @@ const AdminDefinition = {
                         label: t('admin.saml.enableSyncWithLdapTitle'),
                         label_default: 'Enable Synchronizing SAML Accounts With AD/LDAP:',
                         help_text: t('admin.saml.enableSyncWithLdapDescription'),
-                        help_text_default: 'When true, Mattermost periodically synchronizes SAML user attributes, including user deactivation and removal, from AD/LDAP. Enable and configure synchronization settings at **Authentication > AD/LDAP**. When false, user attributes are updated from SAML during user login. See <link>documentation</link> to learn more.',
+                        help_text_default: 'When true, Mattermost periodically synchronizes SAML user attributes, including user deactivation and removal, from AD/LDAP. Enable and configure synchronization settings at <strong>Authentication > AD/LDAP</strong>. When false, user attributes are updated from SAML during user login. See <link>documentation</link> to learn more.',
                         help_text_values: {
                             link: (msg) => (
                                 <a
@@ -3886,7 +3950,9 @@ const AdminDefinition = {
                                     {msg}
                                 </a>
                             ),
+                            strong: (msg) => <strong>{msg}</strong>,
                         },
+                        help_text_markdown: false,
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
                             it.stateIsFalse('SamlSettings.Enable'),
@@ -5242,8 +5308,20 @@ const AdminDefinition = {
                         label: t('admin.guest_access.mfaTitle'),
                         label_default: 'Enforce Multi-factor Authentication: ',
                         help_text: t('admin.guest_access.mfaDescription'),
-                        help_text_default: 'When true, [multi-factor authentication](!https://docs.mattermost.com/deployment/auth.html) for guests is required for login. New guest users will be required to configure MFA on signup. Logged in guest users without MFA configured are redirected to the MFA setup page until configuration is complete.\n \nIf your system has guest users with login methods other than AD/LDAP and email, MFA must be enforced with the authentication provider outside of Mattermost.',
-                        help_text_markdown: true,
+                        help_text_default: 'When true, <link>multi-factor authentication</link> for guests is required for login. New guest users will be required to configure MFA on signup. Logged in guest users without MFA configured are redirected to the MFA setup page until configuration is complete.\n \nIf your system has guest users with login methods other than AD/LDAP and email, MFA must be enforced with the authentication provider outside of Mattermost.',
+                        help_text_values: {
+                            link: (msg) => (
+                                <a
+                                    href='https://docs.mattermost.com/deployment/auth.html'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        },
+                        help_text_markdown: false,
                         isHidden: it.any(
                             it.configIsFalse('ServiceSettings', 'EnableMultifactorAuthentication'),
                             it.configIsFalse('ServiceSettings', 'EnforceMultifactorAuthentication'),
@@ -5369,6 +5447,7 @@ const AdminDefinition = {
                                 </a>
                             ),
                         },
+                        help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
                     {
@@ -5390,6 +5469,7 @@ const AdminDefinition = {
                                 </a>
                             ),
                         },
+                        help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
                     {
@@ -5411,6 +5491,7 @@ const AdminDefinition = {
                                 </a>
                             ),
                         },
+                        help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
                     {
@@ -5432,6 +5513,7 @@ const AdminDefinition = {
                                 </a>
                             ),
                         },
+                        help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
                     {
@@ -5458,7 +5540,7 @@ const AdminDefinition = {
                         label: t('admin.service.userAccessTokensTitle'),
                         label_default: 'Enable User Access Tokens: ',
                         help_text: t('admin.service.userAccessTokensDescription'),
-                        help_text_default: 'When true, users can create <link>user access tokens</link> for integrations in **Account Menu > Account Settings > Security**. They can be used to authenticate against the API and give full access to the account.\n\n To manage who can create personal access tokens or to search users by token ID, go to the **User Management > Users** page.',
+                        help_text_default: 'When true, users can create <link>user access tokens</link> for integrations in <strong>Account Menu > Account Settings > Security</strong>. They can be used to authenticate against the API and give full access to the account.\n\n To manage who can create personal access tokens or to search users by token ID, go to the <strong>User Management > Users</strong> page.',
                         help_text_values: {
                             link: (msg) => (
                                 <a
@@ -5470,7 +5552,9 @@ const AdminDefinition = {
                                     {msg}
                                 </a>
                             ),
+                            strong: (msg) => <strong>{msg}</strong>,
                         },
+                        help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
                 ],
@@ -5801,8 +5885,21 @@ const AdminDefinition = {
                         label: t('admin.compliance.enableTitle'),
                         label_default: 'Enable Compliance Reporting:',
                         help_text: t('admin.compliance.enableDesc'),
-                        help_text_default: 'When true, Mattermost allows compliance reporting from the **Compliance and Auditing** tab. See [documentation](!https://docs.mattermost.com/administration/compliance.html) to learn more.',
-                        help_text_markdown: true,
+                        help_text_default: 'When true, Mattermost allows compliance reporting from the <strong>Compliance and Auditing</strong> tab. See <link>documentation</link> to learn more.',
+                        help_text_values: {
+                            link: (msg) => (
+                                <a
+                                    href='https://docs.mattermost.com/administration/compliance.html'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                            strong: (msg) => <strong>{msg}</strong>,
+                        },
+                        help_text_markdown: false,
                         isHidden: it.not(it.licensedForFeature('Compliance')),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.COMPLIANCE.COMPLIANCE_MONITORING)),
                     },
@@ -6054,8 +6151,20 @@ const AdminDefinition = {
                         label: t('admin.experimental.clientSideCertEnable.title'),
                         label_default: 'Enable Client-Side Certification:',
                         help_text: t('admin.experimental.clientSideCertEnable.desc'),
-                        help_text_default: 'Enables client-side certification for your Mattermost server. See [documentation](!https://docs.mattermost.com/deployment/certificate-based-authentication.html) to learn more.',
-                        help_text_markdown: true,
+                        help_text_default: 'Enables client-side certification for your Mattermost server. See <link>documentation</link> to learn more.',
+                        help_text_values: {
+                            link: (msg) => (
+                                <a
+                                    href='https://docs.mattermost.com/deployment/certificate-based-authentication.html'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        },
+                        help_text_markdown: false,
                         isHidden: it.not(it.any(
                             it.licensedForSku(LicenseSkus.Enterprise),
                             it.licensedForSku(LicenseSkus.E20))),
@@ -6105,8 +6214,20 @@ const AdminDefinition = {
                         label: t('admin.experimental.experimentalEnableHardenedMode.title'),
                         label_default: 'Enable Hardened Mode:',
                         help_text: t('admin.experimental.experimentalEnableHardenedMode.desc'),
-                        help_text_default: 'Enables a hardened mode for Mattermost that makes user experience trade-offs in the interest of security. See [documentation](!https://docs.mattermost.com/administration/config-settings.html#enable-hardened-mode-experimental) to learn more.',
-                        help_text_markdown: true,
+                        help_text_default: 'Enables a hardened mode for Mattermost that makes user experience trade-offs in the interest of security. See <link>documentation</link> to learn more.',
+                        help_text_values: {
+                            link: (msg) => (
+                                <a
+                                    href='https://docs.mattermost.com/administration/config-settings.html#enable-hardened-mode-experimental'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        },
+                        help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
@@ -6255,6 +6376,7 @@ const AdminDefinition = {
                         label_default: 'Use Improved SAML Library (Beta):',
                         help_text: t('admin.experimental.experimentalUseNewSAMLLibrary.desc'),
                         help_text_default: 'Enable an updated SAML Library, which does not require the XML Security Library (xmlsec1) to be installed. Warning: Not all providers have been tested. If you experience issues, please contact <linkSupport>support</linkSupport>. Changing this setting requires a server restart before taking effect.',
+                        help_text_markdown: false,
                         help_text_values: {
                             linkSupport: (msg) => (
                                 <a

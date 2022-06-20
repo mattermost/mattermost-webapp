@@ -331,8 +331,8 @@ class PurchaseModal extends React.PureComponent<Props, State> {
         const normalPaymentText = (
             <div className='plan_payment_commencement'>
                 <FormattedMessage
-                    defaultMessage={'Payment begins: {beginDate}'}
-                    id={'admin.billing.subscription.paymentBegins'}
+                    defaultMessage={'You\'ll be billed from: {beginDate}'}
+                    id={'admin.billing.subscription.billedFrom'}
                     values={{
                         beginDate: getNextBillingDate(),
                     }}

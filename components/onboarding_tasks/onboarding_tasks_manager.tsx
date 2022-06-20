@@ -21,7 +21,7 @@ import LearnMoreTrialModal from 'components/learn_more_trial_modal/learn_more_tr
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 
-import {get, makeGetCategory, cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {get, makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {isCurrentUserSystemAdmin, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 
@@ -106,12 +106,11 @@ export const useTasksList = () => {
     const isCloud = license?.Cloud === 'true';
     const isFreeTrial = subscription?.is_free_trial === 'true';
     const hadPrevCloudTrial = subscription?.is_free_trial === 'false' && subscription?.trial_end_at > 0;
-    const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
 
     // Show this CTA if the instance is currently not licensed and has never had a trial license loaded before
-    // if Cloud, show if isCloudFreeEnabled and is not in trial and had never been on trial
+    // if Cloud, show if not in trial and had never been on trial
     const selfHostedTrialCondition = isCurrentLicensed === 'false' && isPrevLicensed === 'false';
-    const cloudTrialCondition = isCloud && isCloudFreeEnabled && !isFreeTrial && !hadPrevCloudTrial;
+    const cloudTrialCondition = isCloud && !isFreeTrial && !hadPrevCloudTrial;
 
     const showStartTrialTask = selfHostedTrialCondition || cloudTrialCondition;
 
