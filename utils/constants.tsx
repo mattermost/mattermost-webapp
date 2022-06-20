@@ -289,6 +289,7 @@ export const ActionTypes = keyMirror({
 
     FIRST_CHANNEL_NAME: null,
 
+    RECEIVED_BOARDS_INSIGHTS: null,
     SET_EDIT_CHANNEL_MEMBERS: null,
 });
 
@@ -1949,6 +1950,42 @@ export const InsightsCardTitles = {
         mySubTitle: {
             id: t('insights.topReactions.mySubTitle'),
             defaultMessage: 'Reactions I\'ve used the most',
+        },
+    },
+    TOP_THREADS: {
+        teamTitle: {
+            id: t('insights.topThreads.title'),
+            defaultMessage: 'Top threads',
+        },
+        myTitle: {
+            id: t('insights.topThreads.myTitle'),
+            defaultMessage: 'My top threads',
+        },
+        teamSubTitle: {
+            id: t('insights.topThreads.subTitle'),
+            defaultMessage: 'Most active threads for the team',
+        },
+        mySubTitle: {
+            id: t('insights.topThreads.mySubTitle'),
+            defaultMessage: 'Most active threads I\'ve followed',
+        },
+    },
+    TOP_BOARDS: {
+        teamTitle: {
+            id: t('insights.topBoards.title'),
+            defaultMessage: 'Top boards',
+        },
+        myTitle: {
+            id: t('insights.topBoards.myTitle'),
+            defaultMessage: 'My top boards',
+        },
+        teamSubTitle: {
+            id: t('insights.topBoards.subTitle'),
+            defaultMessage: 'Most active boards for the team',
+        },
+        mySubTitle: {
+            id: t('insights.topBoards.mySubTitle'),
+            defaultMessage: 'Most active boards I\'ve participated in',
         },
     },
 };
