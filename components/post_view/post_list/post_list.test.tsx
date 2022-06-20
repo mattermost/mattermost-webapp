@@ -248,17 +248,6 @@ describe('components/post_view/post_list', () => {
             expect(actionsProp.markChannelAsRead).toHaveBeenCalledWith(baseProps.channelId);
             expect(actionsProp.markChannelAsViewed).toHaveBeenCalledWith(baseProps.channelId);
         });
-        test('Should call markChannelAsReadAndViewed on componeneWillUnmount', async () => {
-            const emptyPostList: string[] = [];
-
-            const wrapper = shallow(
-                <PostList {...{...baseProps, postListIds: emptyPostList}}/>,
-            );
-
-            wrapper.instance()?.componentWillUnmount?.();
-            expect(actionsProp.markChannelAsRead).toHaveBeenCalledWith(baseProps.channelId);
-            expect(actionsProp.markChannelAsViewed).toHaveBeenCalledWith(baseProps.channelId);
-        });
         test('Should not call markChannelAsReadAndViewed as it is a permalink', async () => {
             const emptyPostList: string[] = [];
             const focusedPostId = 'new';

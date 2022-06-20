@@ -24,7 +24,7 @@ exports[`Post should handle highlighting properly when jumping to pinned or flag
       }
     }
     role="listitem"
-    tabIndex="0"
+    tabIndex={0}
   >
     <Connect(injectIntl(PostPreHeader))
       isFlagged={true}
@@ -121,7 +121,7 @@ exports[`Post should handle highlighting properly when jumping to pinned or flag
       }
     }
     role="listitem"
-    tabIndex="0"
+    tabIndex={0}
   >
     <Connect(injectIntl(PostPreHeader))
       isFlagged={true}
@@ -218,7 +218,7 @@ exports[`Post should not remove post--highlight class after timeout so the class
       }
     }
     role="listitem"
-    tabIndex="0"
+    tabIndex={0}
   >
     <Connect(injectIntl(PostPreHeader))
       isFlagged={false}
@@ -315,7 +315,7 @@ exports[`Post should not remove post--highlight class after timeout so the class
       }
     }
     role="listitem"
-    tabIndex="0"
+    tabIndex={0}
   >
     <Connect(injectIntl(PostPreHeader))
       isFlagged={false}
