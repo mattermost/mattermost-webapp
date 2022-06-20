@@ -55,6 +55,22 @@
         }
     }
 
+    &__post-preview {
+        &--title {
+            font-size: 12px;
+            font-weight: 600;
+            line-height: 16px;
+        }
+
+        &--override {
+            padding: 2px 0;
+
+            &:not(.post--editing):not(.post--editing):hover {
+                background-color: transparent;
+            }
+        }
+    }
+
     .custom-textarea,
     #forward_post_textbox {
         min-height: 40px;

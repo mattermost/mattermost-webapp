@@ -27,21 +27,24 @@ import {General} from 'mattermost-redux/constants';
 
 import PostMessagePreview from './post_message_preview';
 
-type Props = {
+export type OwnProps = {
     metadata: PostPreviewMetadata;
     previewPost?: Post;
+    isPostForwardPreview?: boolean;
 }
 
 function makeMapStateToProps() {
     const getChannel = makeGetChannel();
 
-    return (state: GlobalState, ownProps: Props) => {
+    return (state: GlobalState, ownProps: OwnProps) => {
         const config = getConfig(state);
         const currentTeamUrl = getCurrentRelativeTeamUrl(state);
         let user = null;
         let embedVisible = false;
         let channelDisplayName = ownProps.metadata.channel_display_name;
         const previewPost = getPost(state, ownProps.metadata.post_id) || ownProps.previewPost;
+
+        console.log('##### ownProps metadata', ownProps.metadata);
 
         if (previewPost && previewPost.user_id) {
             user = getUser(state, previewPost.user_id);

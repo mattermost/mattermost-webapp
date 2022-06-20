@@ -4,23 +4,34 @@
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
+import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+
+import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
+
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import {joinChannelById, switchToChannel} from 'actions/views/channel';
-import {getIsMobileView} from 'selectors/views/browser';
 import {GlobalState} from 'types/store';
 
-import ForwardPostModal, {Props} from './forward_post_modal';
+import ForwardPostModal from './forward_post_modal';
 
 function mapStateToProps(state: GlobalState) {
+    const config = getConfig(state);
+    const currentChannel = getCurrentChannel(state);
+    const currentTeam = getCurrentTeam(state);
+
     return {
-        isMobileView: getIsMobileView(state),
+        config,
+        currentChannel,
+        currentTeam,
     };
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Props['actions']>({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, ActionCreatorsMapObject>({
             joinChannelById,
             switchToChannel,
         }, dispatch),

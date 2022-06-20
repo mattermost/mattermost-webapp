@@ -24,12 +24,12 @@ import MattermostLogo from 'components/widgets/icons/mattermost_logo';
 import {Constants} from 'utils/constants';
 import {General} from 'mattermost-redux/constants';
 
-export type Props = {
+import {OwnProps} from './index';
+
+export type Props = OwnProps & {
     currentTeamUrl: string;
-    channelDisplayName: string;
+    channelDisplayName?: string;
     user: UserProfile | null;
-    previewPost?: Post;
-    metadata: PostPreviewMetadata;
     hasImageProxy: boolean;
     enablePostIconOverride: boolean;
     isEmbedVisible: boolean;
@@ -41,7 +41,7 @@ export type Props = {
 };
 
 const PostMessagePreview = (props: Props) => {
-    const {currentTeamUrl, channelDisplayName, user, previewPost, metadata, isEmbedVisible, compactDisplay, handleFileDropdownOpened} = props;
+    const {currentTeamUrl, channelDisplayName, user, previewPost, metadata, isEmbedVisible, compactDisplay, handleFileDropdownOpened, isPostForwardPreview} = props;
 
     const toggleEmbedVisibility = () => {
         if (previewPost) {
@@ -137,6 +137,35 @@ const PostMessagePreview = (props: Props) => {
         teamUrl = currentTeamUrl;
     }
 
+    let previewFooter = null;
+    if (channelDisplayName) {
+        const previewFooterMessage = isPostForwardPreview ? (
+            <FormattedMessage
+                id='forward_post_modal.preview.footer_message'
+                defaultMessage='Originally posted in ~{channelName}'
+                values={{
+                    channel: channelDisplayName,
+                }}
+            />
+        ) : (
+            <FormattedMessage
+                id='post_message_preview.channel'
+                defaultMessage='Only visible to users in ~{channel}'
+                values={{
+                    channel: channelDisplayName,
+                }}
+            />
+        );
+
+        previewFooter = (
+            <div className='post__preview-footer'>
+                <p>
+                    {previewFooterMessage}
+                </p>
+            </div>
+        );
+    }
+
     return (
         <PostAttachmentContainer
             className='permalink'
@@ -181,17 +210,7 @@ const PostMessagePreview = (props: Props) => {
                 />
                 {urlPreview}
                 {fileAttachmentPreview}
-                <div className='post__preview-footer'>
-                    <p>
-                        <FormattedMessage
-                            id='post_message_preview.channel'
-                            defaultMessage='Only visible to users in ~{channel}'
-                            values={{
-                                channel: channelDisplayName,
-                            }}
-                        />
-                    </p>
-                </div>
+                {previewFooter}
             </div>
         </PostAttachmentContainer>
     );

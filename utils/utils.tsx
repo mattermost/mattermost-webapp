@@ -1829,3 +1829,5 @@ export function numberToFixedDynamic(num: number, places: number): string {
     }
     return str.slice(0, indexToExclude);
 }
+
+export const noop = () => {};

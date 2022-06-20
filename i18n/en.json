@@ -3219,6 +3219,8 @@
   "flag_post.unflag": "Remove from Saved",
   "forward_post_modal.comment.placeholder": "Add a comment (optional)",
   "forward_post_modal.title": "Forward Message",
+  "forward_post_modal.preview.footer_message": "Originally posted in ~{channel}",
+  "forward_post_modal.preview.title": "Message Preview",
   "freemium.banner.trial_ended.archived_data": "Your trial has ended. Upgrade to regain access to archived data",
   "freemium.banner.trial_ended.premium_features": "Your trial has ended. Upgrade to regain access to paid features",
   "full_screen_modal.back": "Back",
