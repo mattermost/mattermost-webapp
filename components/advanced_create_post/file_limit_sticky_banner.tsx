@@ -6,7 +6,8 @@ import {useIntl} from 'react-intl';
 import {useSelector} from 'react-redux';
 
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
-import {isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
+import {isCurrentLicenseCloud, getSubscriptionProduct as selectSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
+import {CloudProducts} from 'utils/constants';
 
 const StyledDiv = styled.div`
 width: 100%;
@@ -41,8 +42,10 @@ function FileLimitStickyBanner() {
 
     const isAdmin = useSelector(isCurrentUserSystemAdmin);
     const isCloud = useSelector(isCurrentLicenseCloud);
+    const product = useSelector(selectSubscriptionProduct);
+    const isStarter = product?.sku === CloudProducts.STARTER;
 
-    if (!isCloud) {
+    if (!isCloud && !isStarter) {
         return null;
     }
 
