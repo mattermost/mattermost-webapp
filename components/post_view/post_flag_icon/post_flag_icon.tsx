@@ -12,15 +12,18 @@ import FlagIconFilled from 'components/widgets/icons/flag_icon_filled';
 import Constants, {Locations, A11yCustomEventTypes} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
 import {t} from 'utils/i18n';
+import type {flagPost, unflagPost} from 'actions/post_actions';
+
+export type Actions = {
+    flagPost: typeof flagPost;
+    unflagPost: typeof unflagPost;
+}
 
 interface Props {
     location?: typeof Locations.CENTER | typeof Locations.RHS_ROOT | typeof Locations.RHS_COMMENT | typeof Locations.SEARCH;
     postId: string;
     isFlagged: boolean;
-    actions: {
-        flagPost: (postId: string) => void;
-        unflagPost: (postId: string) => void;
-    };
+    actions: Actions;
 }
 
 interface State {

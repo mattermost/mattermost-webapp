@@ -24,7 +24,7 @@ import {
 import {getBool, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId, getTeamMember} from 'mattermost-redux/selectors/entities/teams';
 import * as Selectors from 'mattermost-redux/selectors/entities/users';
-import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {ActionResult, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
 import {calculateUnreadCount} from 'mattermost-redux/utils/channel_utils';
 
@@ -171,7 +171,7 @@ export function loadProfilesWithoutTeam(page: number, perPage: number, options?:
     return async (doDispatch: DispatchFunc) => {
         const {data} = await doDispatch(UserActions.getProfilesWithoutTeam(page, perPage, options));
 
-        doDispatch((loadStatusesForProfilesMap as any)(data));
+        doDispatch(loadStatusesForProfilesMap(data));
 
         return data;
     };
@@ -242,9 +242,9 @@ export function loadNewDMIfNeeded(channelId: string) {
         if (channel) {
             checkPreference(channel);
         } else {
-            const result = await getChannelAndMyMember(channelId)(doDispatch, doGetState);
-            if ((result as any).data) {
-                checkPreference((result as any).data.channel);
+            const result = await getChannelAndMyMember(channelId)(doDispatch, doGetState) as ActionResult;
+            if (result.data) {
+                checkPreference(result.data.channel);
             }
         }
         return {data: true};
@@ -300,17 +300,15 @@ export async function loadProfilesForSidebar() {
     await Promise.all([loadProfilesForDM(), loadProfilesForGM()]);
 }
 
-export const getGMsForLoading = (() => {
-    return (state: GlobalState) => {
-        // Get all channels visible on the current team which doesn't include hidden GMs/DMs
-        let channels = getDisplayedChannels(state);
+export const getGMsForLoading = (state: GlobalState) => {
+    // Get all channels visible on the current team which doesn't include hidden GMs/DMs
+    let channels = getDisplayedChannels(state);
 
-        // Make sure we only have GMs
-        channels = channels.filter((channel) => channel.type === General.GM_CHANNEL);
+    // Make sure we only have GMs
+    channels = channels.filter((channel) => channel.type === General.GM_CHANNEL);
 
-        return channels;
-    };
-})();
+    return channels;
+};
 
 export async function loadProfilesForGM() {
     const state = getState();

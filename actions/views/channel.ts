@@ -101,8 +101,8 @@ export function switchToChannel(channel: Channel) {
         const selectedTeamId = channel.team_id;
         const teamUrl = selectedTeamId ? `/${getTeam(state, selectedTeamId).name}` : getCurrentRelativeTeamUrl(state);
 
-        if ((channel as any).userId) {
-            const username = (channel as any).userId ? channel.name : channel.display_name;
+        if ((channel as Channel & {userId: string}).userId) {
+            const username = (channel as Channel & {userId: string}).userId ? channel.name : channel.display_name;
             const user = getUserByUsername(state, username);
             if (!user) {
                 return {error: true};
