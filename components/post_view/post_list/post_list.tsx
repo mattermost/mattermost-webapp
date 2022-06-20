@@ -152,7 +152,7 @@ export default class PostList extends React.PureComponent<Props, State> {
     }
     private mounted: boolean | undefined;
 
-    // public for testing purposed only
+    // public for testing purposes only
     public extraPagesLoaded: number | undefined;
 
     constructor(props: Props) {
