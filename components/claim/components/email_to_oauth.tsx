@@ -70,8 +70,6 @@ const EmailToOAuth = (props: Props) => {
         );
     };
 
-    const error = <ErrorLabel errorText={serverError}/>;
-
     const type = (props.newType === Constants.SAML_SERVICE ? Constants.SAML_SERVICE.toUpperCase() : toTitleCase(props.newType || ''));
     const uiType = `${type} SSO`;
     const titleMessage = {
@@ -121,7 +119,7 @@ const EmailToOAuth = (props: Props) => {
                         values={{site: props.siteName}}
                     />
                 </p>
-                <div className={classNames('form-group', {'has-error': error})}>
+                <div className={classNames('form-group', {'has-error': serverError})}>
                     <LocalizedInput
                         type='password'
                         className='form-control'
@@ -131,7 +129,7 @@ const EmailToOAuth = (props: Props) => {
                         spellCheck='false'
                     />
                 </div>
-                {error}
+                {<ErrorLabel errorText={serverError}/>}
                 <button
                     type='submit'
                     className='btn btn-primary'

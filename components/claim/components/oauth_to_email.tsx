@@ -71,7 +71,6 @@ const OAuthToEmail = (props: Props) => {
         );
     };
 
-    const errorElement = <ErrorLabel errorText={error}/>;
     const uiType = `${(props.currentType === Constants.SAML_SERVICE ? Constants.SAML_SERVICE.toUpperCase() : toTitleCase(props.currentType || ''))} SSO`;
     const placeholderPasswordMessage = {id: t('claim.oauth_to_email.newPwd'), defaultMessage: 'New Password'};
     const placeholderConfirmMessage = {id: t('claim.oauth_to_email.confirm'), defaultMessage: 'Confirm Password'};
@@ -99,7 +98,7 @@ const OAuthToEmail = (props: Props) => {
                         values={{site: props.siteName}}
                     />
                 </p>
-                <div className={classNames('form-group', {'has-error': errorElement})}>
+                <div className={classNames('form-group', {'has-error': error})}>
                     <LocalizedInput
                         type='password'
                         className='form-control'
@@ -109,7 +108,7 @@ const OAuthToEmail = (props: Props) => {
                         spellCheck='false'
                     />
                 </div>
-                <div className={classNames('form-group', {'has-error': errorElement})}>
+                <div className={classNames('form-group', {'has-error': error})}>
                     <LocalizedInput
                         type='password'
                         className='form-control'
@@ -119,7 +118,7 @@ const OAuthToEmail = (props: Props) => {
                         spellCheck='false'
                     />
                 </div>
-                {errorElement}
+                {<ErrorLabel errorText={error}/>}
                 <button
                     type='submit'
                     className='btn btn-primary'
