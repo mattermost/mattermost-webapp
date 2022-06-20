@@ -44,8 +44,6 @@ function makeMapStateToProps() {
         let channelDisplayName = ownProps.metadata.channel_display_name;
         const previewPost = getPost(state, ownProps.metadata.post_id) || ownProps.previewPost;
 
-        console.log('##### ownProps metadata', ownProps.metadata);
-
         if (previewPost && previewPost.user_id) {
             user = getUser(state, previewPost.user_id);
         }

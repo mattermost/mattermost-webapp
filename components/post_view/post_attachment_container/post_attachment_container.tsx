@@ -7,12 +7,18 @@ import {useHistory} from 'react-router-dom';
 export type Props = {
     className?: string;
     children?: JSX.Element;
+    preventClickAction?: boolean;
     link: string;
 };
+
 const PostAttachmentContainer = (props: Props) => {
-    const {children, className, link} = props;
+    const {children, className, link, preventClickAction} = props;
     const history = useHistory();
     const handleOnClick = useCallback((e) => {
+        if (preventClickAction) {
+            return;
+        }
+
         const {tagName} = e.target;
         e.stopPropagation();
         const elements = ['A', 'IMG', 'BUTTON', 'I'];
@@ -24,7 +30,8 @@ const PostAttachmentContainer = (props: Props) => {
                 history.push(link);
             }
         }
-    }, [history]);
+    }, [history, preventClickAction]);
+
     return (
         <div
             className={`attachment attachment--${className}`}

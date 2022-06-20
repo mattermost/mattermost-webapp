@@ -7,7 +7,6 @@ import {FormattedMessage} from 'react-intl';
 
 import classNames from 'classnames';
 
-import {Post, PostPreviewMetadata} from '@mattermost/types/posts';
 import UserProfileComponent from 'components/user_profile';
 import {UserProfile} from '@mattermost/types/users';
 import Avatar from 'components/widgets/users/avatar';
@@ -170,6 +169,7 @@ const PostMessagePreview = (props: Props) => {
         <PostAttachmentContainer
             className='permalink'
             link={`${teamUrl}/pl/${metadata.post_id}`}
+            preventClickAction={isPostForwardPreview}
         >
             <div className='post-preview'>
                 <div className='post-preview__header'>

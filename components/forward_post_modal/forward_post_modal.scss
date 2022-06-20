@@ -1,8 +1,38 @@
 .forward-post {
-    .modal-body {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
+    .modal-content {
+        overflow: hidden;
+        border-color: rgba(var(--center-channel-color-rgb), 0.16);
+        background: var(--center-channel-bg);
+        border-radius: 12px;
+        color: var(--center-channel-color);
+
+        .modal-header {
+            padding: 26px 32px 22px;
+            border: none;
+            border-bottom-width: 1px;
+            border-bottom-style: solid;
+            border-bottom-color: rgba(var(--center-channel-color-rgb), 0.16);
+            background: var(--center-channel-bg);
+            color: var(--center-channel-color);
+
+            .modal-title {
+                color: inherit;
+                font-size: 22px;
+                font-weight: 600;
+                line-height: 28px;
+            }
+
+            .close {
+                color: rgba(var(--center-channel-color-rgb), 0.56);
+            }
+        }
+
+        .modal-body {
+            display: flex;
+            flex-direction: column;
+            padding: 28px 32px;
+            gap: 24px;
+        }
     }
 
     &__select {
