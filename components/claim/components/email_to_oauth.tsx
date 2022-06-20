@@ -129,7 +129,7 @@ const EmailToOAuth = (props: Props) => {
                         spellCheck='false'
                     />
                 </div>
-                {<ErrorLabel errorText={serverError}/>}
+                <ErrorLabel errorText={serverError}/>
                 <button
                     type='submit'
                     className='btn btn-primary'

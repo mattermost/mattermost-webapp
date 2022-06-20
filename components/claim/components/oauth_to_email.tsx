@@ -118,7 +118,7 @@ const OAuthToEmail = (props: Props) => {
                         spellCheck='false'
                     />
                 </div>
-                {<ErrorLabel errorText={error}/>}
+                <ErrorLabel errorText={error}/>
                 <button
                     type='submit'
                     className='btn btn-primary'

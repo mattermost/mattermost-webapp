@@ -160,7 +160,7 @@ const LDAPToEmail = (props: Props) => {
                         spellCheck='false'
                     />
                 </div>
-                {<ErrorLabel errorText={ldapPasswordError}/>}
+                <ErrorLabel errorText={ldapPasswordError}/>
                 <p>
                     <FormattedMessage
                         id='claim.ldap_to_email.enterPwd'
@@ -177,7 +177,7 @@ const LDAPToEmail = (props: Props) => {
                         spellCheck='false'
                     />
                 </div>
-                {<ErrorLabel errorText={passwordError}/>}
+                <ErrorLabel errorText={passwordError}/>
                 <div className={classNames('form-group', {'has-error': confirmError})}>
                     <LocalizedInput
                         type='password'
@@ -188,7 +188,7 @@ const LDAPToEmail = (props: Props) => {
                         spellCheck='false'
                     />
                 </div>
-                {<ErrorLabel errorText={confirmError}/>}
+                <ErrorLabel errorText={confirmError}/>
                 <button
                     type='submit'
                     className='btn btn-primary'
@@ -198,7 +198,7 @@ const LDAPToEmail = (props: Props) => {
                         defaultMessage='Switch account to email/password'
                     />
                 </button>
-                {<ErrorLabel errorText={serverError}/>}
+                <ErrorLabel errorText={serverError}/>
             </form>
         </>
     );
