@@ -394,6 +394,15 @@ class TestHelper {
             reply(200, [{user_id: this.basicUser.id, category: 'tutorial_step', name: this.basicUser.id, value: '999'}]);
     }
 
+    mockGetProfilesAndStatusesForPosts = () => {
+        nock(this.basicClient4.getUsersRoute()).
+            post('/ids').
+            reply(200, []);
+        nock(this.basicClient4.getUsersRoute()).
+            post('/status/ids').
+            reply(200, []);
+    }
+
     initMockEntities = () => {
         this.basicUser = this.fakeUserWithId();
         this.basicUser.roles = 'system_user system_admin';

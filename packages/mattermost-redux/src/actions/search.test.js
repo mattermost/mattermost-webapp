@@ -58,13 +58,7 @@ describe('Actions.Search', () => {
             get(`/${TestHelper.basicChannel.id}/members/me`).
             reply(201, {user_id: TestHelper.basicUser.id, channel_id: TestHelper.basicChannel.id});
 
-        // Mock side effects of searching posts
-        nock(Client4.getUsersRoute()).
-            post('/ids').
-            reply(200, {});
-        nock(Client4.getUsersRoute()).
-            post('/status/ids').
-            reply(200, {});
+        TestHelper.mockGetProfilesAndStatusesForPosts();
 
         await Actions.searchPosts(TestHelper.basicTeam.id, search1)(dispatch, getState);
 
