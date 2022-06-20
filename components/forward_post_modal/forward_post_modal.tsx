@@ -399,7 +399,9 @@ const ForwardPostModal = (props: Props) => {
                     preview={false}
                     badConnection={badConnection}
                     listenForMentionKeyClick={true}
-                    useChannelMentions={useChannelMentions}
+                    useChannelMentions={false}
+                    supportsCommands={false}
+                    suggestionListPosition='bottom'
                 />
                 <div>
                     <span className={'forward-post__post-preview--title'}>{messagePreviewTitle}</span>

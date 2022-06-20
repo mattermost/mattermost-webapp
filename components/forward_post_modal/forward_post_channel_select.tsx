@@ -346,6 +346,10 @@ function ForwardPostChannelSelect({onSelect, value}: Props<ChannelOption>) {
             padding: '8px 20px',
             backgroundColor: state.isFocused ? 'rgba(var(--center-channel-color-rgb), 0.08)' : 'transparent',
         }),
+        menuPortalTarget: (provided: CSSProperties): CSSPropertiesWithPseudos => ({
+            ...provided,
+            zIndex: 999999,
+        }),
     };
 
     const formatOptionLabel = (channel: ChannelOption) => (

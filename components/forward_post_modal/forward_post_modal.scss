@@ -1,6 +1,9 @@
+$modal-max-height: 800px;
+
 .forward-post {
     .modal-content {
         overflow: hidden;
+        max-height: min(var(modal-max-height), calc(100vh - 128px));
         border-color: rgba(var(--center-channel-color-rgb), 0.16);
         background: var(--center-channel-bg);
         border-radius: 12px;
@@ -29,6 +32,8 @@
 
         .modal-body {
             display: flex;
+            overflow: visible;
+            max-height: calc(var(modal-max-height) - 140px);
             flex-direction: column;
             padding: 28px 32px;
             gap: 24px;
