@@ -2978,6 +2978,7 @@
   "create_post.file_limit_sticky_banner.admin_message": "Your free plan is limited to {storageGB}GB of files. New uploads will automatically archive older files. To view them again, you can delete older files or ",
   "create_post.file_limit_sticky_banner.non_admin_link_message": "notify your admin to upgrade to a paid plan.",
   "create_post.file_limit_sticky_banner.non_admin_message": "Your free plan is limited to {storageGB}GB of files. New uploads will automatically archive older files. To view them again, ",
+  "create_post.file_limit_sticky_banner.snooze_tooltip": "Snooze for {snoozeDays} days",
   "create_post.fileProcessing": "Processing...",
   "create_post.icon": "Create a post",
   "create_post.post": "Post",

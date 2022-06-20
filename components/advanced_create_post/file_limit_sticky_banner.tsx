@@ -5,9 +5,12 @@ import styled from 'styled-components';
 import {useIntl} from 'react-intl';
 import {useSelector} from 'react-redux';
 
+import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
+
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {isCurrentLicenseCloud, getSubscriptionProduct as selectSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
-import {CloudProducts} from 'utils/constants';
+import Constants, {CloudProducts} from 'utils/constants';
 
 const StyledDiv = styled.div`
 width: 100%;
@@ -45,7 +48,7 @@ function FileLimitStickyBanner() {
     const product = useSelector(selectSubscriptionProduct);
     const isStarter = product?.sku === CloudProducts.STARTER;
 
-    if (!isCloud && !isStarter) {
+    if (!isCloud || !isStarter) {
         return null;
     }
 
@@ -83,6 +86,12 @@ function FileLimitStickyBanner() {
         </span>
     );
 
+    const tooltip = (
+        <Tooltip id='file_limit_banner_snooze'>
+            {formatMessage({id: 'create_post.file_limit_sticky_banner.snooze_tooltip', defaultMessage: 'Snooze for {snoozeDays} days'}, {snoozeDays: '10'})}
+        </Tooltip>
+    );
+
     return (
         <StyledDiv>
             <InnerDiv>
@@ -90,11 +99,20 @@ function FileLimitStickyBanner() {
                     className='icon-alert-outline'
                 />
                 {isAdmin ? AdminMessage : NonAdminMessage}
-                <CloseIcon>
-                    <i className='icon icon-close'/>
-                </CloseIcon>
+
+                <OverlayTrigger
+                    trigger={['hover', 'focus']}
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='bottom'
+                    overlay={tooltip}
+                >
+                    <CloseIcon>
+                        <i className='icon icon-close'/>
+                    </CloseIcon>
+                </OverlayTrigger>
             </InnerDiv>
-        </StyledDiv>);
+        </StyledDiv>
+    );
 }
 
 export default FileLimitStickyBanner;
