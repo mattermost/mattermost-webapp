@@ -4,10 +4,7 @@
 import React from 'react';
 
 import {Provider} from 'react-redux';
-import configureStore from 'redux-mock-store';
 import {act} from 'react-dom/test-utils';
-
-import thunk from 'redux-thunk';
 
 import {shallow} from 'enzyme';
 
@@ -16,6 +13,7 @@ import * as cloudActions from 'actions/cloud';
 import GenericModal from 'components/generic_modal';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import mockStore from 'tests/test_store';
 
 import RequestBusinessEmailModal from './request_business_email_modal';
 
@@ -41,7 +39,6 @@ describe('components/request_business_email_modal/request_business_email_modal',
         onExited: jest.fn(),
     };
 
-    const mockStore = configureStore([thunk]);
     const store = mockStore(state);
 
     test('should match snapshot', () => {

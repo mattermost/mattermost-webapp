@@ -1,9 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import configureStore from 'redux-mock-store';
-
 import {getState} from 'stores/redux_store';
+
+import mockStore from 'tests/test_store';
 
 import SwitchChannelProvider from 'components/suggestion/switch_channel_provider.jsx';
 import {Preferences} from 'mattermost-redux/constants';
@@ -135,7 +135,6 @@ describe('components/SwitchChannelProvider', () => {
 
     it('should change name on wrapper to be unique with same name user channel and public channel', () => {
         const switchProvider = new SwitchChannelProvider();
-        const mockStore = configureStore();
         const store = mockStore(defaultState);
 
         getState.mockImplementation(store.getState);
@@ -176,7 +175,6 @@ describe('components/SwitchChannelProvider', () => {
 
     it('should change name on wrapper to be unique with same name user in channel and public channel', () => {
         const switchProvider = new SwitchChannelProvider();
-        const mockStore = configureStore();
         const store = mockStore(defaultState);
 
         getState.mockImplementation(store.getState);
@@ -208,7 +206,6 @@ describe('components/SwitchChannelProvider', () => {
 
     it('should not fail if nothing matches', () => {
         const switchProvider = new SwitchChannelProvider();
-        const mockStore = configureStore();
         const store = mockStore(defaultState);
 
         getState.mockImplementation(store.getState);
@@ -255,7 +252,6 @@ describe('components/SwitchChannelProvider', () => {
 
         getState.mockClear();
 
-        const mockStore = configureStore();
         const store = mockStore({
             entities: {
                 general: {
@@ -356,7 +352,6 @@ describe('components/SwitchChannelProvider', () => {
         };
 
         const switchProvider = new SwitchChannelProvider();
-        const mockStore = configureStore();
         const store = mockStore(modifiedState);
 
         getState.mockImplementation(store.getState);
@@ -408,7 +403,6 @@ describe('components/SwitchChannelProvider', () => {
         };
 
         const switchProvider = new SwitchChannelProvider();
-        const mockStore = configureStore();
         const store = mockStore(modifiedState);
 
         getState.mockImplementation(store.getState);
@@ -530,7 +524,6 @@ describe('components/SwitchChannelProvider', () => {
         getState.mockClear();
 
         const switchProvider = new SwitchChannelProvider();
-        const mockStore = configureStore();
         const store = mockStore(modifiedState);
 
         getState.mockImplementation(store.getState);
@@ -620,7 +613,6 @@ describe('components/SwitchChannelProvider', () => {
         getState.mockClear();
 
         const switchProvider = new SwitchChannelProvider();
-        const mockStore = configureStore();
         const store = mockStore(modifiedState);
 
         getState.mockImplementation(store.getState);
@@ -712,7 +704,6 @@ describe('components/SwitchChannelProvider', () => {
         getState.mockClear();
 
         const switchProvider = new SwitchChannelProvider();
-        const mockStore = configureStore();
         const store = mockStore(modifiedState);
 
         getState.mockImplementation(store.getState);
@@ -799,7 +790,6 @@ describe('components/SwitchChannelProvider', () => {
         };
 
         const switchProvider = new SwitchChannelProvider();
-        const mockStore = configureStore();
         const store = mockStore(modifiedState);
 
         getState.mockImplementation(store.getState);
@@ -908,7 +898,6 @@ describe('components/SwitchChannelProvider', () => {
         getState.mockClear();
 
         const switchProvider = new SwitchChannelProvider();
-        const mockStore = configureStore();
         const store = mockStore(modifiedState);
 
         getState.mockImplementation(store.getState);
