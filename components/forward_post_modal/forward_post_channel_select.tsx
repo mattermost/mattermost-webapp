@@ -66,8 +66,8 @@ const FormattedOption = (props: ChannelOption) => {
     const {formatMessage} = useIntl();
 
     const currentUserId = useSelector((state: GlobalState) => getCurrentUserId(state));
-    const user = useSelector((state: GlobalState) => getUser(state, details.userId));
-    const status = useSelector((state: GlobalState) => getStatusForUserId(state, details.userId));
+    const user = useSelector((state: GlobalState) => getUser(state, details.userId || ''));
+    const status = useSelector((state: GlobalState) => getStatusForUserId(state, details.userId || ''));
     const teammate = useSelector((state: GlobalState) => getDirectTeammate(state, details.id));
     const team = useSelector((state: GlobalState) => getTeam(state, details.team_id));
     const userImageUrl = user?.id && Utils.imageURLForUser(user.id, user.last_picture_update);
