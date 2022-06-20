@@ -65,7 +65,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
   <ChannelMentionBadge
     unreadMentions={0}
   />
-  <Connect(injectIntl(SidebarChannelMenu))
+  <SidebarChannelMenu
     channel={
       Object {
         "create_at": 0,
@@ -86,10 +86,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
       }
     }
     channelLink="http://a.fake.link"
-    isCollapsed={false}
-    isMenuOpen={false}
-    isUnread={false}
-    onToggleMenu={[Function]}
+    location="sidebar"
   />
 </Link>
 `;
@@ -159,7 +156,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
   <ChannelMentionBadge
     unreadMentions={0}
   />
-  <Connect(injectIntl(SidebarChannelMenu))
+  <SidebarChannelMenu
     channel={
       Object {
         "create_at": 0,
@@ -180,10 +177,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
       }
     }
     channelLink="http://a.fake.link"
-    isCollapsed={false}
-    isMenuOpen={false}
-    isUnread={false}
-    onToggleMenu={[Function]}
+    location="sidebar"
   />
 </Link>
 `;
@@ -275,7 +269,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
   <ChannelMentionBadge
     unreadMentions={0}
   />
-  <Connect(injectIntl(SidebarChannelMenu))
+  <SidebarChannelMenu
     channel={
       Object {
         "create_at": 0,
@@ -296,10 +290,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
       }
     }
     channelLink="http://a.fake.link"
-    isCollapsed={false}
-    isMenuOpen={false}
-    isUnread={false}
-    onToggleMenu={[Function]}
+    location="sidebar"
   />
 </Link>
 `;
@@ -369,7 +360,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
   <ChannelMentionBadge
     unreadMentions={2}
   />
-  <Connect(injectIntl(SidebarChannelMenu))
+  <SidebarChannelMenu
     channel={
       Object {
         "create_at": 0,
@@ -390,10 +381,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
       }
     }
     channelLink="http://a.fake.link"
-    isCollapsed={false}
-    isMenuOpen={false}
-    isUnread={true}
-    onToggleMenu={[Function]}
+    location="sidebar"
   />
 </Link>
 `;
