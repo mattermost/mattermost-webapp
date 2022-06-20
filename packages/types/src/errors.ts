@@ -11,5 +11,8 @@ export type ServerError = Error & {
 };
 
 export function isServerError(err: any): err is ServerError {
-    return 'server_error_id' in err;
+    return 'server_error_id' in err ||
+        'intl' in err ||
+        'status_code' in err ||
+        'url' in err;
 }
