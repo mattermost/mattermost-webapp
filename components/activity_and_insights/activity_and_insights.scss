@@ -14,6 +14,22 @@
             }
         }
 
+        .top-reactions-card {
+            .Card__header {
+                padding-bottom: 16px;
+            }
+        }
+
+        .top-threads-card {
+            .Card__header {
+                padding-bottom: 16px;
+            }
+
+            .Card__body {
+                padding: 0 12px 12px;
+            }
+        }
+
         .top-channel-container {
             display: flex;
 
@@ -281,6 +297,60 @@
                     width: 8px;
                     margin-bottom: 6px;
                     border-radius: 6px;
+                }
+            }
+        }
+
+        .top-thread-container {
+            .top-thread-loading-container {
+                padding: 0 12px;
+
+                &:nth-of-type(2) {
+                    margin-top: 20px;
+                }
+
+                &:nth-of-type(3) {
+                    margin-top: 20px;
+                }
+
+                .top-thread-loading-row {
+                    display: flex;
+                    align-items: center;
+                    padding-bottom: 8px;
+
+                    .skeleton-loader {
+                        &.title {
+                            flex: 0.5;
+                            margin-left: 8px;
+                        }
+                    }
+                }
+
+                .loading-lines {
+                    .skeleton-loader {
+                        &.title {
+                            height: 8px;
+                            margin-bottom: 8px;
+                        }
+                    }
+                }
+            }
+
+            .thread-list {
+                .thread-item {
+                    padding: 8px 12px;
+
+                    &:nth-of-type(3) {
+                        .preview {
+                            margin-bottom: 0;
+                        }
+                    }
+
+                    &:hover {
+                        background: rgba(var(--center-channel-color-rgb), 0.08);
+                        border-radius: 4px;
+                        cursor: pointer;
+                    }
                 }
             }
         }

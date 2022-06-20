@@ -1951,6 +1951,24 @@ export const InsightsCardTitles = {
             defaultMessage: 'Reactions I\'ve used the most',
         },
     },
+    TOP_THREADS: {
+        teamTitle: {
+            id: t('insights.topThreads.title'),
+            defaultMessage: 'Top threads',
+        },
+        myTitle: {
+            id: t('insights.topThreads.myTitle'),
+            defaultMessage: 'My top threads',
+        },
+        teamSubTitle: {
+            id: t('insights.topThreads.subTitle'),
+            defaultMessage: 'Most active threads for the team',
+        },
+        mySubTitle: {
+            id: t('insights.topThreads.mySubTitle'),
+            defaultMessage: 'Most active threads I\'ve followed',
+        },
+    },
 };
 
 // TODO: Remove after last legacy free products are migrated
