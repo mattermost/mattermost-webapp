@@ -125,10 +125,6 @@ const EmailToLDAP = ({email, siteName, ldapLoginFieldName}: Props) => {
             },
         );
     };
-    const serverErrorElement: JSX.Element | null = <ErrorLabel errorText={serverError}/>;
-    const passwordErrorElement: JSX.Element | null = <ErrorLabel errorText={passwordError}/>;
-    const ldapErrorElement: JSX.Element | null = <ErrorLabel errorText={ldapError}/>;
-    const ldapPasswordErrorElement: JSX.Element | null = <ErrorLabel errorText={ldapPasswordError}/>;
 
     const loginPlaceholder = ldapLoginFieldName || localizeMessage('claim.email_to_ldap.ldapId', 'AD/LDAP ID');
     const titleMessage = {id: t('claim.email_to_ldap.title'), defaultMessage: 'Switch Email/Password Account to AD/LDAP'};
@@ -192,7 +188,7 @@ const EmailToLDAP = ({email, siteName, ldapLoginFieldName}: Props) => {
                         spellCheck='false'
                     />
                 </div>
-                {passwordErrorElement}
+                {<ErrorLabel errorText={passwordError}/>}
                 <p>
                     <FormattedMessage
                         id='claim.email_to_ldap.enterLdapPwd'
@@ -210,7 +206,7 @@ const EmailToLDAP = ({email, siteName, ldapLoginFieldName}: Props) => {
                         spellCheck='false'
                     />
                 </div>
-                {ldapErrorElement}
+                {<ErrorLabel errorText={ldapError}/>}
                 <div className={classNames('form-group', {'has-error': ldapPasswordError})}>
                     <LocalizedInput
                         type='password'
@@ -222,7 +218,7 @@ const EmailToLDAP = ({email, siteName, ldapLoginFieldName}: Props) => {
                         spellCheck='false'
                     />
                 </div>
-                {ldapPasswordErrorElement}
+                {<ErrorLabel errorText={ldapPasswordError}/>}
                 <button
                     type='submit'
                     className='btn btn-primary'
@@ -232,7 +228,7 @@ const EmailToLDAP = ({email, siteName, ldapLoginFieldName}: Props) => {
                         defaultMessage='Switch Account to AD/LDAP'
                     />
                 </button>
-                {serverErrorElement}
+                {<ErrorLabel errorText={serverError}/>}
             </form>
         </>
     );

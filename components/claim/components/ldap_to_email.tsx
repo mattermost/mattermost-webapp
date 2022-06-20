@@ -109,11 +109,6 @@ const LDAPToEmail = (props: Props) => {
         });
     };
 
-    const serverErrorElement: JSX.Element | null = <ErrorLabel errorText={serverError}/>;
-    const passwordErrorElement: JSX.Element | null = <ErrorLabel errorText={passwordError}/>;
-    const ldapPasswordErrorElement: JSX.Element | null = <ErrorLabel errorText={ldapPasswordError}/>;
-    const confirmErrorElement: JSX.Element | null = <ErrorLabel errorText={confirmError}/>;
-
     const passwordPlaceholder = localizeMessage('claim.ldap_to_email.ldapPwd', 'AD/LDAP Password');
     const titleMessage = {id: t('claim.ldap_to_email.title'), defaultMessage: 'Switch AD/LDAP Account to Email/Password'};
     const placeholderPasswordMessage = {id: t('claim.ldap_to_email.pwd'), defaultMessage: 'Password'};
@@ -165,7 +160,7 @@ const LDAPToEmail = (props: Props) => {
                         spellCheck='false'
                     />
                 </div>
-                {ldapPasswordErrorElement}
+                {<ErrorLabel errorText={ldapPasswordError}/>}
                 <p>
                     <FormattedMessage
                         id='claim.ldap_to_email.enterPwd'
@@ -182,7 +177,7 @@ const LDAPToEmail = (props: Props) => {
                         spellCheck='false'
                     />
                 </div>
-                {passwordErrorElement}
+                {<ErrorLabel errorText={passwordError}/>}
                 <div className={classNames('form-group', {'has-error': confirmError})}>
                     <LocalizedInput
                         type='password'
@@ -193,7 +188,7 @@ const LDAPToEmail = (props: Props) => {
                         spellCheck='false'
                     />
                 </div>
-                {confirmErrorElement}
+                {<ErrorLabel errorText={confirmError}/>}
                 <button
                     type='submit'
                     className='btn btn-primary'
@@ -203,7 +198,7 @@ const LDAPToEmail = (props: Props) => {
                         defaultMessage='Switch account to email/password'
                     />
                 </button>
-                {serverErrorElement}
+                {<ErrorLabel errorText={serverError}/>}
             </form>
         </>
     );
