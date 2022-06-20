@@ -1,8 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
+
+import {Post} from '@mattermost/types/posts';
+import {UserProfile} from '@mattermost/types/users';
+
+import {PostPluginComponent} from 'types/store/plugins';
 
 import {Posts} from 'mattermost-redux/constants';
 
@@ -21,66 +25,72 @@ import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 
 const SENDING_ANIMATION_DELAY = 3000;
 
-export default class PostBody extends React.PureComponent {
-    static propTypes = {
+interface Props {
+    /**
+     * The post to render the body of
+     */
+    post: Post;
 
-        /**
-         * The post to render the body of
-         */
-        post: PropTypes.object.isRequired,
+    /**
+     * The parent post of the thread this post is in
+     */
+    parentPost: Post,
 
-        /**
-         * The parent post of the thread this post is in
-         */
-        parentPost: PropTypes.object,
+    /**
+     * The poster of the parent post, if exists
+     */
+    parentPostUser: UserProfile,
 
-        /**
-         * The poster of the parent post, if exists
-         */
-        parentPostUser: PropTypes.object,
+    /**
+     * Callback func for file menu open
+     */
+    handleFileDropdownOpened: () => {}
 
-        /**
-         * Callback func for file menu open
-         */
-        handleFileDropdownOpened: PropTypes.func,
+    /**
+     * The function called when the comment icon is clicked
+     */
+    handleCommentClick?: React.EventHandler<React.MouseEvent>;
 
-        /**
-         * The function called when the comment icon is clicked
-         */
-        handleCommentClick: PropTypes.func.isRequired,
+    /**
+     * Set to render post body compactly
+     */
+    compactDisplay: boolean;
 
-        /**
-         * Set to render post body compactly
-         */
-        compactDisplay: PropTypes.bool,
+    /**
+     * Set to highlight comment as a mention
+     */
+    isCommentMention: boolean;
 
-        /**
-         * Set to highlight comment as a mention
-         */
-        isCommentMention: PropTypes.bool,
+    /**
+     * Set to render a preview of the parent post above this reply
+     */
+    isFirstReply: boolean;
 
-        /**
-         * Set to render a preview of the parent post above this reply
-         */
-        isFirstReply: PropTypes.bool,
+    /*
+     * Post type components from plugins
+     */
+    pluginPostTypes: Record<string, PostPluginComponent>,
 
-        /*
-         * Post type components from plugins
-         */
-        pluginPostTypes: PropTypes.object,
+    /**
+     * Flag passed down to PostBodyAdditionalContent for determining if post embed is visible
+     */
+    isEmbedVisible: boolean;
+};
 
-        /**
-         * Flag passed down to PostBodyAdditionalContent for determining if post embed is visible
-         */
-        isEmbedVisible: PropTypes.bool,
-    };
+interface State {
+    sending: boolean;
+}
+
+export default class PostBody extends React.PureComponent<Props, State> {
 
     static defaultProps = {
         isReadOnly: false,
         isPostBeingEdited: false,
     };
 
-    constructor(props) {
+    private sendingAction: DelayedAction;
+
+    constructor(props: Props) {
         super(props);
 
         this.sendingAction = new DelayedAction(() => {
@@ -93,7 +103,7 @@ export default class PostBody extends React.PureComponent {
         this.state = {sending: false};
     }
 
-    static getDerivedStateFromProps(props, state) {
+    static getDerivedStateFromProps(props: Props, state: State) {
         if (state.sending && props.post && props.post.id !== props.post.pending_post_id) {
             return {
                 sending: false,
@@ -174,7 +184,6 @@ export default class PostBody extends React.PureComponent {
                 <PostMessageView
                     post={this.props.post}
                     compactDisplay={this.props.compactDisplay}
-                    hasMention={true}
                 />
             </>
         );

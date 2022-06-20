@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {GlobalState} from '@mattermost/types/store';
+import {Reaction} from '@mattermost/types/reactions';
 import {TestHelper} from 'utils/test_helper';
 
 import {makeGetNamesOfUsers} from './index';
@@ -20,7 +22,7 @@ describe('makeGetNamesOfUsers', () => {
             {user_id: user2.id, create_at: baseDate}, // Will be sorted 2nd, after the logged-in user
             {user_id: user1.id, create_at: baseDate + 5000}, // Logged-in user, will be sorted first although 2nd user reacted first
             {user_id: user3.id, create_at: baseDate + 8000}, // Last to react, will be sorted last
-        ];
+        ] as Reaction[];
 
         const state = {
             entities: {
@@ -47,7 +49,7 @@ describe('makeGetNamesOfUsers', () => {
                     },
                 },
             },
-        };
+        } as unknown as GlobalState;
 
         const names = getNamesOfUsers(state, reactions);
 

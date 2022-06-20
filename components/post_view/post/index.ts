@@ -36,7 +36,7 @@ interface OwnProps {
 }
 
 // isFirstReply returns true when the given post a comment that isn't part of the same thread as the previous post.
-export function isFirstReply(post: Post, previousPost: Post): boolean {
+export function isFirstReply(post: Post, previousPost?: Post | null): boolean {
     if (post.root_id) {
         if (previousPost) {
             // Returns true as long as the previous post is part of a different thread

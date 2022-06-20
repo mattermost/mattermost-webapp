@@ -3,14 +3,21 @@
 
 import {connect} from 'react-redux';
 
+import {Post} from '@mattermost/types/posts';
+
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 
 import {getIsPostBeingEdited, getIsPostBeingEditedInRHS} from '../../../selectors/posts';
 
-import PostBody from './post_body.jsx';
+import PostBody from './post_body';
+import {GlobalState} from 'types/store';
 
-function mapStateToProps(state, ownProps) {
+interface OwnProps {
+    post: Post
+}
+
+function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     let parentPost;
     let parentPostUser;
     if (ownProps.post.root_id) {

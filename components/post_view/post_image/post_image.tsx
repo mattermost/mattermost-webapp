@@ -2,7 +2,10 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
+
+import {Post, PostImage as PostImageMetadata} from '@mattermost/types/posts';
+
+import {ModalData} from 'types/actions';
 
 import {ModalIdentifiers} from 'utils/constants';
 
@@ -10,17 +13,29 @@ import ExternalImage from 'components/external_image';
 import SizeAwareImage from 'components/size_aware_image';
 import FilePreviewModal from 'components/file_preview_modal';
 
-export default class PostImage extends React.PureComponent {
-    static propTypes = {
-        imageMetadata: PropTypes.object.isRequired,
-        link: PropTypes.string.isRequired,
-        post: PropTypes.object.isRequired,
-        actions: PropTypes.shape({
-            openModal: PropTypes.func.isRequired,
-        }).isRequired,
-    }
+type DialogProps = {
+    post: Post;
+    startIndex: number;
+    fileInfos: {
+        has_preview_image: boolean;
+        link: string;
+        extension: string;
+        name: string;
+    }[],
+}
 
-    showModal = (e, link) => {
+interface Props {
+    imageMetadata: PostImageMetadata;
+    link: string;
+    post: Post;
+    actions: {
+        openModal: (modalData: ModalData<DialogProps>) => void;
+    }
+}
+
+export default class PostImage extends React.PureComponent<Props> {
+
+    showModal = (e: React.MouseEvent, link: string) => {
         e.preventDefault();
 
         this.props.actions.openModal({

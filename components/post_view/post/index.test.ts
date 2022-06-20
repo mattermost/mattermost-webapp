@@ -1,56 +1,62 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {Post} from '@mattermost/types/posts';
+
 import {isFirstReply} from './index';
+
+function makePost(id: string): Post {
+    return {id} as Post
+}
 
 describe('isFirstReply', () => {
     for (const testCase of [
         {
             name: 'a post with nothing above it',
-            post: {root_id: ''},
+            post: makePost(''),
             previousPost: null,
             expected: false,
         },
         {
             name: 'a comment with nothing above it',
-            post: {root_id: 'root'},
+            post: makePost('root'),
             previousPost: null,
             expected: true,
         },
         {
             name: 'a post with a regular post above it',
-            post: {root_id: ''},
-            previousPost: {root_id: ''},
+            post: makePost(''),
+            previousPost: makePost(''),
             expected: false,
         },
         {
             name: 'a post with a comment above it',
-            post: {root_id: ''},
-            previousPost: {root_id: 'root'},
+            post: makePost(''),
+            previousPost: makePost('root'),
             expected: false,
         },
         {
             name: 'a comment with a regular post above it',
-            post: {root_id: 'root1'},
-            previousPost: {root_id: ''},
+            post: makePost('root1'),
+            previousPost: makePost(''),
             expected: true,
         },
         {
             name: 'a comment with a comment on another thread above it',
-            post: {root_id: 'root1'},
-            previousPost: {root_id: 'root2'},
+            post: makePost('root1'),
+            previousPost: makePost('root2'),
             expected: true,
         },
         {
             name: 'a comment with a comment on the same thread above it',
-            post: {root_id: 'root1'},
-            previousPost: {root_id: 'root1'},
+            post: makePost('root1'),
+            previousPost: makePost('root1'),
             expected: false,
         },
         {
             name: 'a comment with its parent above it',
-            post: {root_id: 'root1'},
-            previousPost: {id: 'root1'},
+            post: makePost('root1'),
+            previousPost: makePost('root1'),
             expected: false,
         },
     ]) {
