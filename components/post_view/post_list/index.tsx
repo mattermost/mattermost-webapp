@@ -47,11 +47,11 @@ function makeMapStateToProps() {
 
     return function mapStateToProps(state: GlobalState, ownProps: Props) {
         let latestPostTimeStamp = 0;
-        let postIds;
+        let postIds: string[] = [];
         let chunk;
         let atLatestPost = false;
         let atOldestPost = false;
-        let formattedPostIds;
+        let formattedPostIds: string[] = [];
         const {focusedPostId, unreadChunkTimeStamp, channelId} = ownProps;
         const channelViewState = state.views.channel;
         const lastViewedAt = channelViewState.lastChannelViewTime[channelId];
@@ -112,4 +112,4 @@ function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
-export default withRouter(connect(makeMapStateToProps, mapDispatchToProps)(PostList));
+export default withRouter(connect(makeMapStateToProps as any, mapDispatchToProps as any)(PostList as any));

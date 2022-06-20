@@ -334,7 +334,7 @@ export default class Post extends React.PureComponent<Props, State> {
         return className + ' ' + sameUserClass + ' ' + rootUser + ' ' + postType + ' ' + currentUserCss;
     }
 
-    setHover = (e: React.MouseEvent) => {
+    setHover = (e: {altKey: boolean}) => {
         this.setState({
             hover: true,
             alt: e.altKey,

@@ -62,17 +62,17 @@ export type Props = {
     /**
      * Whether or not the post username can be overridden.
      */
-    enablePostUsernameOverride: boolean;
+    enablePostUsernameOverride?: boolean;
 
     /**
      * If the user that made the post is a bot.
      */
-    isBot: boolean;
+    isBot?: boolean;
 
     /**
      * If the user that made the post is a guest.
      */
-    isGuest: boolean;
+    isGuest?: boolean;
 
     /**
      * To Check if the current post is last in the list

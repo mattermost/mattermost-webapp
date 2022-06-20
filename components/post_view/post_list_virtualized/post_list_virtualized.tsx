@@ -616,7 +616,7 @@ export default class PostList extends React.PureComponent<Props, State> {
                         />
                         <ScrollToBottomArrows
                             isScrolling={this.state.isScrolling}
-                            atBottom={this.state.atBottom}
+                            atBottom={Boolean(this.state.atBottom)}
                             onClick={this.scrollToBottom}
                         />
                     </React.Fragment>

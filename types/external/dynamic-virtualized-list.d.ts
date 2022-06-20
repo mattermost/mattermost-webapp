@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import type {CanLoadMorePosts} from 'actions/views/channel';
-
 declare module 'dynamic-virtualized-list' {
     export type OnScrollArgs = {
         scrollDirection: 'backward' | 'forward';
@@ -20,7 +18,7 @@ declare module 'dynamic-virtualized-list' {
     }
 
     interface DynamicSizeListProps {
-        canLoadMorePosts: (id: CanLoadMorePosts) => Promise<void>;
+        canLoadMorePosts: (id: 'BEFORE_ID' | 'AFTER_ID' | undefined) => Promise<void>;
         children: ({data: any, itemId: any, style: any}) => JSX.Element;
         height: number;
         initRangeToRender: number[];

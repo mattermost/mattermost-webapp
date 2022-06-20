@@ -40,7 +40,7 @@ type Props = {
     onMouseUp?: (e: React.MouseEvent<TextboxElement>) => void;
     onKeyUp?: (e: React.KeyboardEvent<TextboxElement>) => void;
     onBlur?: (e: FocusEvent<TextboxElement>) => void;
-    supportsCommands: boolean;
+    supportsCommands?: boolean;
     handlePostError?: (message: JSX.Element | null) => void;
     onPaste?: ClipboardEventHandler;
     suggestionList?: React.ComponentProps<typeof SuggestionBox>['listComponent'];
@@ -56,7 +56,7 @@ type Props = {
     preview?: boolean;
     autocompleteGroups: Array<{ id: string }> | null;
     actions: {
-        autocompleteUsersInChannel: (prefix: string, channelId: string | undefined) => (dispatch: any, getState: any) => Promise<string[]>;
+        autocompleteUsersInChannel: (prefix: string, channelId: string) => (dispatch: any, getState: any) => Promise<ActionResult>;
         autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => (dispatch: any, getState: any) => Promise<ActionResult>;
         searchAssociatedGroupsForReference: (prefix: string, teamId: string, channelId: string | undefined) => (dispatch: any, getState: any) => Promise<{ data: any }>;
     };

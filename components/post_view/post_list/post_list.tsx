@@ -55,7 +55,7 @@ export interface Props {
     /**
      * The channel the posts are in
      */
-    channelId: string;
+    channelId: string | any;
 
     /*
      * To get posts for perma view
@@ -85,7 +85,7 @@ export interface Props {
     /*
      * Used for passing down to virt list so it can change the chunk of posts selected
      */
-    changeUnreadChunkTimeStamp: (lastViewedAt?: string) => void;
+    changeUnreadChunkTimeStamp: any;//(lastViewedAt?: string) => void;
 
     /*
      * Used for skipping the call on load

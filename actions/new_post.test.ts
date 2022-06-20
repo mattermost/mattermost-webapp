@@ -13,8 +13,9 @@ import {Posts} from 'mattermost-redux/constants';
 import * as NewPostActions from 'actions/new_post';
 import {Constants} from 'utils/constants';
 import {GlobalState} from '@mattermost/types/store';
+import {GetStateFunc} from 'mattermost-redux/types/actions';
 
-const mockStore = configureStore([thunk]);
+const mockStore = configureStore<GlobalState>([thunk]);
 
 jest.mock('mattermost-redux/actions/channels', () => ({
     ...jest.requireActual('mattermost-redux/actions/channels'),
@@ -93,7 +94,7 @@ describe('actions/new_post', () => {
                 editingPost: {},
             },
         },
-    };
+    } as unknown as GlobalState;
 
     test('completePostReceive', async () => {
         const testStore = mockStore(initialState);
@@ -154,11 +155,11 @@ describe('actions/new_post', () => {
                         myPreferences: {},
                     },
                 },
-            });
+            } as unknown as GlobalState);
 
             window.isActive = true;
 
-            const actions = NewPostActions.setChannelReadAndViewed(testStore.dispatch as any, testStore.getState as () => GlobalState, post2, newPostMessageProps, false);
+            const actions = NewPostActions.setChannelReadAndViewed(testStore.dispatch as any, testStore.getState as GetStateFunc, post2, newPostMessageProps, false);
 
             expect(actions).toMatchObject([
                 {
@@ -227,7 +228,7 @@ describe('actions/new_post', () => {
                         myPreferences: {},
                     },
                 },
-            });
+            } as unknown as GlobalState);
 
             window.isActive = false;
 
@@ -293,7 +294,7 @@ describe('actions/new_post', () => {
                         myPreferences: {},
                     },
                 },
-            });
+            } as unknown as GlobalState);
 
             window.isActive = true;
 
@@ -359,7 +360,7 @@ describe('actions/new_post', () => {
                         myPreferences: {},
                     },
                 },
-            });
+            } as unknown as GlobalState);
 
             const actions = NewPostActions.setChannelReadAndViewed(testStore.dispatch as any, testStore.getState as any, post2, {} as NewPostActions.NewPostMessageProps, false);
 
@@ -431,7 +432,7 @@ describe('actions/new_post', () => {
                         myPreferences: {},
                     },
                 },
-            });
+            } as unknown as GlobalState);
 
             const actions = NewPostActions.setChannelReadAndViewed(testStore.dispatch as any, testStore.getState as any, post2, newPostMessageProps, false);
 
@@ -485,7 +486,7 @@ describe('actions/new_post', () => {
                         currentUserId,
                     },
                 },
-            });
+            } as unknown as GlobalState);
 
             const actions = NewPostActions.setChannelReadAndViewed(testStore.dispatch as any, testStore.getState as any, post2, newPostMessageProps, false);
 

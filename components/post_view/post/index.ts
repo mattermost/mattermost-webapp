@@ -15,6 +15,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {Post} from '@mattermost/types/posts';
+import {UserActivityPost} from 'mattermost-redux/types/posts';
 
 import {markPostAsUnread} from 'actions/post_actions';
 import {selectPost, selectPostCard} from 'actions/views/rhs';
@@ -29,7 +30,7 @@ import {getIsPostBeingEdited, getIsPostBeingEditedInRHS} from '../../../selector
 import PostComponent from './post';
 
 interface OwnProps {
-    post?: Post;
+    post?: UserActivityPost;
     postId: string;
     previousPostId?: string;
 }
@@ -55,7 +56,7 @@ function makeMapStateToProps() {
     const isPostCommentMention = makeIsPostCommentMention();
 
     return (state: GlobalState, ownProps: OwnProps) => {
-        const post = ownProps.post || getPost(state, ownProps.postId);
+        const post: UserActivityPost = ownProps.post || getPost(state, ownProps.postId) as UserActivityPost;
         const channel = getChannel(state, post.channel_id);
 
         let previousPost = null;

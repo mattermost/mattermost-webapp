@@ -84,4 +84,4 @@ function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
     };
 }
 
-export default connect<StateProps, DispatchProps, OwnProps, GlobalState>(mapStateToProps, mapDispatchToProps)(Search);
+export default connect<StateProps, DispatchProps, OwnProps, GlobalState>(mapStateToProps, mapDispatchToProps as any)(Search);

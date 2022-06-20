@@ -141,7 +141,7 @@ export default class PostListRow extends React.PureComponent<PostListRowProps> {
 
         const postProps = {
             previousPostId: previousListId,
-            shouldHighlight: this.props.shouldHighlight,
+            shouldHighlight: Boolean(this.props.shouldHighlight),
             togglePostMenu: this.props.togglePostMenu,
             isLastPost: this.props.isLastPost,
         };

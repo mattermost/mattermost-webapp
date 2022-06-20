@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
@@ -14,23 +13,29 @@ import Constants, {Locations, A11yCustomEventTypes} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
 import {t} from 'utils/i18n';
 
-export default class PostFlagIcon extends React.PureComponent {
-    static propTypes = {
-        location: PropTypes.oneOf([Locations.CENTER, Locations.RHS_ROOT, Locations.RHS_COMMENT, Locations.SEARCH]).isRequired,
-        postId: PropTypes.string.isRequired,
-        isFlagged: PropTypes.bool.isRequired,
-        actions: PropTypes.shape({
-            flagPost: PropTypes.func.isRequired,
-            unflagPost: PropTypes.func.isRequired,
-        }).isRequired,
+interface Props {
+    location?: typeof Locations.CENTER | typeof Locations.RHS_ROOT | typeof Locations.RHS_COMMENT | typeof Locations.SEARCH;
+    postId: string;
+    isFlagged: boolean;
+    actions: {
+        flagPost: (postId: string) => void;
+        unflagPost: (postId: string) => void;
     };
+}
 
+interface State {
+    a11yActive: boolean;
+}
+
+export default class PostFlagIcon extends React.PureComponent<Props, State> {
     static defaultProps = {
         location: Locations.CENTER,
     };
 
-    constructor() {
-        super();
+    private buttonRef: React.RefObject<HTMLButtonElement>
+
+    constructor(props: Props) {
+        super(props);
 
         this.buttonRef = React.createRef();
 
@@ -58,7 +63,7 @@ export default class PostFlagIcon extends React.PureComponent {
         }
     }
 
-    handlePress = (e) => {
+    handlePress = (e: React.MouseEvent) => {
         e.preventDefault();
 
         const {
