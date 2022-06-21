@@ -6,7 +6,7 @@ import {Post} from '@mattermost/types/posts';
 import {isFirstReply} from './index';
 
 function makePost(id: string): Post {
-    return {id} as Post;
+    return {root_id: id} as Post;
 }
 
 describe('isFirstReply', () => {

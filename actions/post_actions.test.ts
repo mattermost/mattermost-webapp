@@ -193,7 +193,7 @@ describe('Actions.Posts', () => {
     } as unknown as GlobalState;
 
     test('handleNewPost', async () => {
-        const testStore = await mockStore(initialState);
+        const testStore = mockStore(initialState);
         const newPost = {id: 'new_post_id', channel_id: 'current_channel_id', message: 'new message', type: Constants.PostTypes.ADD_TO_CHANNEL, user_id: 'some_user_id', create_at: POST_CREATED_TIME} as NewPost;
         const msg = {data: {team_a: 'team_a', mentions: ['current_user_id']}};
 
@@ -215,7 +215,7 @@ describe('Actions.Posts', () => {
     });
 
     test('handleNewPostOtherChannel', async () => {
-        const testStore = await mockStore(initialState);
+        const testStore = mockStore(initialState);
         const newPost = {id: 'other_channel_post_id', channel_id: 'other_channel_id', message: 'new message in other channel', type: '', user_id: 'other_user_id', create_at: POST_CREATED_TIME} as NewPost;
         const msg = {data: {team_b: 'team_b', mentions: ['current_user_id']}};
 
@@ -340,7 +340,7 @@ describe('Actions.Posts', () => {
     });
 
     test('searchForTerm', async () => {
-        const testStore = await mockStore(initialState);
+        const testStore = mockStore(initialState);
 
         await testStore.dispatch(Actions.searchForTerm('hello'));
         expect(testStore.getActions()).toEqual([
@@ -354,7 +354,7 @@ describe('Actions.Posts', () => {
 
     describe('createPost', () => {
         test('no emojis', async () => {
-            const testStore = await mockStore(initialState);
+            const testStore = mockStore(initialState);
             const newPost = {id: 'new_post_id', channel_id: 'current_channel_id', message: 'new message'} as Post;
             const newReply = {id: 'reply_post_id', channel_id: 'current_channel_id', message: 'new message', root_id: 'new_post_id'} as Post;
             const files: FileInfo[] = [];
@@ -386,7 +386,7 @@ describe('Actions.Posts', () => {
         });
 
         test('with single shorthand emoji', async () => {
-            const testStore = await mockStore(initialState);
+            const testStore = mockStore(initialState);
             const newPost = {id: 'new_post_id', channel_id: 'current_channel_id', message: 'new message :+1:'} as Post;
             const files: FileInfo[] = [];
 
@@ -406,7 +406,7 @@ describe('Actions.Posts', () => {
         });
 
         test('with single named emoji', async () => {
-            const testStore = await mockStore(initialState);
+            const testStore = mockStore(initialState);
             const newPost = {id: 'new_post_id', channel_id: 'current_channel_id', message: 'new message :cake:'} as Post;
             const files: FileInfo[] = [];
 
@@ -426,7 +426,7 @@ describe('Actions.Posts', () => {
         });
 
         test('with multiple emoji', async () => {
-            const testStore = await mockStore(initialState);
+            const testStore = mockStore(initialState);
             const newPost = {id: 'new_post_id', channel_id: 'current_channel_id', message: 'new message :cake: :+1:'} as Post;
             const files: FileInfo[] = [];
 
@@ -450,7 +450,7 @@ describe('Actions.Posts', () => {
     });
 
     test('addReaction', async () => {
-        const testStore = await mockStore(initialState);
+        const testStore = mockStore(initialState);
 
         await testStore.dispatch(Actions.addReaction('post_id_1', 'emoji_name_1'));
         expect(testStore.getActions()).toEqual([
@@ -462,7 +462,7 @@ describe('Actions.Posts', () => {
     test('flagPost', async () => {
         const rhs = {rhsState: RHSStates.FLAG} as unknown as GlobalState['views']['rhs'];
         const views = {rhs} as GlobalState['views'];
-        const testStore = await mockStore({...initialState, views});
+        const testStore = mockStore({...initialState, views});
 
         const post = testStore.getState().entities.posts.posts[latestPost.id];
 
@@ -476,7 +476,7 @@ describe('Actions.Posts', () => {
     test('unflagPost', async () => {
         const rhs = {rhsState: RHSStates.FLAG} as unknown as GlobalState['views']['rhs'];
         const views = {rhs} as GlobalState['views'];
-        const testStore = await mockStore({views, entities: {...initialState.entities, search: {results: [latestPost.id]}}} as GlobalState);
+        const testStore = mockStore({views, entities: {...initialState.entities, search: {results: [latestPost.id]}}} as GlobalState);
 
         const post = testStore.getState().entities.posts.posts[latestPost.id];
 
@@ -490,7 +490,7 @@ describe('Actions.Posts', () => {
     test('pinPost', async () => {
         const rhs = {rhsState: RHSStates.PIN} as unknown as GlobalState['views']['rhs'];
         const views = {rhs} as GlobalState['views'];
-        const testStore = await mockStore({...initialState, views});
+        const testStore = mockStore({...initialState, views});
 
         const post = testStore.getState().entities.posts.posts[latestPost.id];
 
@@ -502,7 +502,7 @@ describe('Actions.Posts', () => {
     });
 
     test('unpinPost', async () => {
-        const testStore = await mockStore({views: {rhs: {rhsState: RHSStates.PIN}}, entities: {...initialState.entities, search: {results: [latestPost.id]}}} as GlobalState);
+        const testStore = mockStore({views: {rhs: {rhsState: RHSStates.PIN}}, entities: {...initialState.entities, search: {results: [latestPost.id]}}} as GlobalState);
 
         const post = testStore.getState().entities.posts.posts[latestPost.id];
 

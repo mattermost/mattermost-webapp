@@ -178,7 +178,7 @@ describe('Actions.User', () => {
     } as GlobalState;
 
     test('loadProfilesAndStatusesInChannel', async () => {
-        const testStore = await mockStore(initialState);
+        const testStore = mockStore(initialState);
         await testStore.dispatch(UserActions.loadProfilesAndStatusesInChannel('channel_1', 0, 60, 'status', {}));
         const actualActions = testStore.getActions();
         expect(actualActions[0].args).toEqual(['channel_1', 0, 60, 'status', {}]);
@@ -190,14 +190,14 @@ describe('Actions.User', () => {
     test('loadProfilesAndTeamMembers', async () => {
         const expectedActions = [{type: 'MOCK_GET_PROFILES_IN_TEAM', args: ['team_1', 0, 60, '', {}]}];
 
-        let testStore = await mockStore({} as GlobalState);
+        let testStore = mockStore({} as GlobalState);
         await testStore.dispatch(UserActions.loadProfilesAndTeamMembers(0, 60, 'team_1', {}));
         let actualActions = testStore.getActions();
         expect(actualActions[0].args).toEqual(expectedActions[0].args);
         expect(actualActions[0].type).toEqual(expectedActions[0].type);
 
-        testStore = await mockStore(initialState);
-        await testStore.dispatch(UserActions.loadProfilesAndTeamMembers(0, 60, 'undefined', {}));
+        testStore = mockStore(initialState);
+        await testStore.dispatch(UserActions.loadProfilesAndTeamMembers(0, 60, '', {}));
         actualActions = testStore.getActions();
         expect(actualActions[0].args).toEqual(expectedActions[0].args);
         expect(actualActions[0].type).toEqual(expectedActions[0].type);
@@ -206,7 +206,7 @@ describe('Actions.User', () => {
     test('loadProfilesAndReloadChannelMembers', async () => {
         const expectedActions = [{type: 'MOCK_GET_PROFILES_IN_CHANNEL', args: ['current_channel_id', 0, 60, 'sort', {}]}];
 
-        const testStore = await mockStore(initialState);
+        const testStore = mockStore(initialState);
         await testStore.dispatch(UserActions.loadProfilesAndReloadChannelMembers(0, 60, 'current_channel_id', 'sort', {}));
         const actualActions = testStore.getActions();
         expect(actualActions[0].args).toEqual(expectedActions[0].args);
@@ -216,13 +216,13 @@ describe('Actions.User', () => {
     test('loadProfilesAndTeamMembersAndChannelMembers', async () => {
         const expectedActions = [{type: 'MOCK_GET_PROFILES_IN_CHANNEL', args: ['current_channel_id', 0, 60, '', undefined]}];
 
-        let testStore = await mockStore(initialState);
+        let testStore = mockStore(initialState);
         await testStore.dispatch(UserActions.loadProfilesAndTeamMembersAndChannelMembers(0, 60, 'team_1', 'current_channel_id'));
         let actualActions = testStore.getActions();
         expect(actualActions[0].args).toEqual(expectedActions[0].args);
         expect(actualActions[0].type).toEqual(expectedActions[0].type);
 
-        testStore = await mockStore(initialState);
+        testStore = mockStore(initialState);
         await testStore.dispatch(UserActions.loadProfilesAndTeamMembersAndChannelMembers(0, 60, '', ''));
         actualActions = testStore.getActions();
         expect(actualActions[0].args).toEqual(expectedActions[0].args);
@@ -233,7 +233,7 @@ describe('Actions.User', () => {
         const expectedActions = [{args: ['team_1', ['other_user_id']], type: 'MOCK_GET_TEAM_MEMBERS_BY_IDS'}];
 
         // should call getTeamMembersByIds since 'other_user_id' is not loaded yet
-        let testStore = await mockStore(initialState);
+        let testStore = mockStore(initialState);
         await testStore.dispatch(UserActions.loadTeamMembersForProfilesList(
             [{id: 'other_user_id'} as UserProfile],
             'team_1',
@@ -241,7 +241,7 @@ describe('Actions.User', () => {
         expect(testStore.getActions()).toEqual(expectedActions);
 
         // should not call getTeamMembersByIds since 'current_user_id' is already loaded
-        testStore = await mockStore(initialState);
+        testStore = mockStore(initialState);
         await testStore.dispatch(UserActions.loadTeamMembersForProfilesList(
             [{id: 'current_user_id'} as UserProfile],
             'team_1',
@@ -249,7 +249,7 @@ describe('Actions.User', () => {
         expect(testStore.getActions()).toEqual([]);
 
         // should call getTeamMembersByIds when reloadAllMembers = true even though 'current_user_id' is already loaded
-        testStore = await mockStore(initialState);
+        testStore = mockStore(initialState);
         await testStore.dispatch(UserActions.loadTeamMembersForProfilesList(
             [{id: 'current_user_id'} as UserProfile],
             'team_1',
@@ -258,7 +258,7 @@ describe('Actions.User', () => {
         expect(testStore.getActions()).toEqual([{args: ['team_1', ['current_user_id']], type: 'MOCK_GET_TEAM_MEMBERS_BY_IDS'}]);
 
         // should not call getTeamMembersByIds since no or empty profile is passed
-        testStore = await mockStore(initialState);
+        testStore = mockStore(initialState);
         await testStore.dispatch(UserActions.loadTeamMembersForProfilesList([], 'team_1'));
         expect(testStore.getActions()).toEqual([]);
     });
@@ -270,7 +270,7 @@ describe('Actions.User', () => {
         ];
 
         // should call getTeamMembersByIds and getChannelMembersByIds since 'other_user_id' is not loaded yet
-        let testStore = await mockStore(initialState);
+        let testStore = mockStore(initialState);
         await testStore.dispatch(UserActions.loadTeamMembersAndChannelMembersForProfilesList(
             [{id: 'other_user_id'} as UserProfile],
             'team_1',
@@ -279,7 +279,7 @@ describe('Actions.User', () => {
         expect(testStore.getActions()).toEqual(expectedActions);
 
         // should not call getTeamMembersByIds/getChannelMembersByIds since 'current_user_id' is already loaded
-        testStore = await mockStore(initialState);
+        testStore = mockStore(initialState);
         await testStore.dispatch(UserActions.loadTeamMembersForProfilesList(
             [{id: 'current_user_id'} as UserProfile],
             'team_1',
@@ -287,7 +287,7 @@ describe('Actions.User', () => {
         expect(testStore.getActions()).toEqual([]);
 
         // should not call getTeamMembersByIds/getChannelMembersByIds since no or empty profile is passed
-        testStore = await mockStore(initialState);
+        testStore = mockStore(initialState);
         await testStore.dispatch(UserActions.loadTeamMembersForProfilesList([], 'team_1'));
         expect(testStore.getActions()).toEqual([]);
     });
@@ -296,7 +296,7 @@ describe('Actions.User', () => {
         const expectedActions = [{args: ['current_channel_id', ['other_user_id']], type: 'MOCK_GET_CHANNEL_MEMBERS_BY_IDS'}];
 
         // should call getChannelMembersByIds since 'other_user_id' is not loaded yet
-        let testStore = await mockStore(initialState);
+        let testStore = mockStore(initialState);
         await testStore.dispatch(UserActions.loadChannelMembersForProfilesList(
             [{id: 'other_user_id'} as UserProfile],
             'current_channel_id',
@@ -304,7 +304,7 @@ describe('Actions.User', () => {
         expect(testStore.getActions()).toEqual(expectedActions);
 
         // should not call getChannelMembersByIds since 'current_user_id' is already loaded
-        testStore = await mockStore(initialState);
+        testStore = mockStore(initialState);
         await testStore.dispatch(UserActions.loadChannelMembersForProfilesList(
             [{id: 'current_user_id'} as UserProfile],
             'current_channel_id',
@@ -312,7 +312,7 @@ describe('Actions.User', () => {
         expect(testStore.getActions()).toEqual([]);
 
         // should not call getChannelMembersByIds since no or empty profile is passed
-        testStore = await mockStore(initialState);
+        testStore = mockStore(initialState);
         await testStore.dispatch(UserActions.loadChannelMembersForProfilesList([], 'current_channel_id'));
         expect(testStore.getActions()).toEqual([]);
     });
@@ -322,15 +322,15 @@ describe('Actions.User', () => {
 
         // as users in group_channel_2 are already loaded, it should only try to load group_channel_1
         const expectedActions = [{args: [['group_channel_1']], type: 'MOCK_GET_PROFILES_IN_GROUP_CHANNELS'}];
-        const testStore = await mockStore(initialState);
+        const testStore = mockStore(initialState);
         await testStore.dispatch(UserActions.loadProfilesForGroupChannels(mockedGroupChannels));
         expect(testStore.getActions()).toEqual(expectedActions);
     });
 
     test('searchProfilesAndChannelMembers', async () => {
-        const expectedActions = [{type: 'MOCK_SEARCH_PROFILES', args: ['current_channel_id', 'term']}];
+        const expectedActions = [{type: 'MOCK_SEARCH_PROFILES', args: ['term', {}]}];
 
-        const testStore = await mockStore(initialState);
+        const testStore = mockStore(initialState);
         await testStore.dispatch(UserActions.searchProfilesAndChannelMembers('term'));
         const actualActions = testStore.getActions();
         expect(actualActions[0].args).toEqual(expectedActions[0].args);
