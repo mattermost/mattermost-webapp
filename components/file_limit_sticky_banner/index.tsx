@@ -17,9 +17,10 @@ import {GlobalState} from 'types/store';
 import useGetLimits from 'components/common/hooks/useGetLimits';
 import {fallbackStarterLimits, hasSomeLimits} from 'utils/limits';
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
+import {FileSizes} from 'utils/file_utils';
 
 const snoozeCoolOffDays = 10;
-const maxStarterPlanFileStorageGB = 10;
+const maxStarterPlanFileStorageGB = FileSizes.Gigabyte * 10;
 
 const StyledDiv = styled.div`
 width: 100%;
