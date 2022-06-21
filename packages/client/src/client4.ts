@@ -714,7 +714,7 @@ export default class Client4 {
         );
     }
 
-    login = async (loginId: string, password: string, token = '', deviceId = '', ldapOnly = false) => {
+    login = async (loginId: string, password: string, token = '', ldapOnly = false) => {
         this.trackEvent('api', 'api_users_login');
 
         if (ldapOnly) {
@@ -722,7 +722,6 @@ export default class Client4 {
         }
 
         const body: any = {
-            device_id: deviceId,
             login_id: loginId,
             password,
             token,
@@ -747,10 +746,9 @@ export default class Client4 {
         return profile;
     };
 
-    loginById = (id: string, password: string, token = '', deviceId = '') => {
+    loginById = (id: string, password: string, token = '') => {
         this.trackEvent('api', 'api_users_login');
         const body: any = {
-            device_id: deviceId,
             id,
             password,
             token,

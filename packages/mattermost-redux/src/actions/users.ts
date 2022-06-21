@@ -73,13 +73,11 @@ export function createUser(user: UserProfile, token: string, inviteId: string, r
 }
 
 export function login(loginId: string, password: string, mfaToken = '', ldapOnly = false): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+    return async (dispatch: DispatchFunc) => {
         dispatch({type: UserTypes.LOGIN_REQUEST, data: null});
 
-        const deviceId = getState().entities.general.deviceToken;
-
         try {
-            await Client4.login(loginId, password, mfaToken, deviceId, ldapOnly);
+            await Client4.login(loginId, password, mfaToken, ldapOnly);
 
             const dataFromLoadMe = await dispatch(loadMe());
 
@@ -100,13 +98,11 @@ export function login(loginId: string, password: string, mfaToken = '', ldapOnly
 }
 
 export function loginById(id: string, password: string, mfaToken = ''): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+    return async (dispatch: DispatchFunc) => {
         dispatch({type: UserTypes.LOGIN_REQUEST, data: null});
 
-        const deviceId = getState().entities.general.deviceToken;
-
         try {
-            await Client4.loginById(id, password, mfaToken, deviceId);
+            await Client4.loginById(id, password, mfaToken);
             const dataFromLoadMe = await dispatch(loadMe());
 
             if (dataFromLoadMe && dataFromLoadMe.data) {
@@ -127,13 +123,6 @@ export function loginById(id: string, password: string, mfaToken = ''): ActionFu
 
 export function loadMe(): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const state = getState();
-
-        const deviceId = state.entities.general.deviceToken;
-        if (deviceId) {
-            Client4.attachDevice(deviceId);
-        }
-
         // Sometimes the server version is set in one or the other
         const serverVersion = Client4.getServerVersion() || getState().entities.general.serverVersion;
         dispatch(setServerVersion(serverVersion));

@@ -113,14 +113,6 @@ export function logClientError(message: string, level = LogLevel.Error) {
     });
 }
 
-export function setDeviceToken(token: GeneralState['deviceToken']): ActionFunc {
-    return async (dispatch: DispatchFunc) => {
-        dispatch({type: GeneralTypes.RECEIVED_APP_DEVICE_TOKEN, data: token});
-
-        return {data: true};
-    };
-}
-
 export function setServerVersion(serverVersion: string): ActionFunc {
     return async (dispatch) => {
         dispatch({type: GeneralTypes.RECEIVED_SERVER_VERSION, data: serverVersion});
@@ -234,7 +226,6 @@ export default {
     getDataRetentionPolicy,
     getLicenseConfig,
     logClientError,
-    setDeviceToken,
     setServerVersion,
     setStoreFromLocalData,
     setUrl,

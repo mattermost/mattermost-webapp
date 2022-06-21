@@ -6,7 +6,6 @@ import keyMirror from 'mattermost-redux/utils/key_mirror';
 export default keyMirror({
     RECEIVED_APP_CREDENTIALS: null,
     REMOVED_APP_CREDENTIALS: null,
-    RECEIVED_APP_DEVICE_TOKEN: null,
 
     PING_RESET: null,
 

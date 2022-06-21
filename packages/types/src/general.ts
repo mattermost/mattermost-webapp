@@ -7,7 +7,6 @@ export type GeneralState = {
     credentials: any;
     config: Partial<ClientConfig>;
     dataRetentionPolicy: any;
-    deviceToken: string;
     firstAdminVisitMarketplaceStatus: boolean;
     firstAdminCompleteSetup: boolean;
     license: ClientLicense;

@@ -51,15 +51,6 @@ function dataRetentionPolicy(state: any = {}, action: GenericAction) {
     }
 }
 
-function deviceToken(state = '', action: GenericAction) {
-    switch (action.type) {
-    case GeneralTypes.RECEIVED_APP_DEVICE_TOKEN:
-        return action.data;
-    default:
-        return state;
-    }
-}
-
 function license(state: ClientLicense = {}, action: GenericAction) {
     switch (action.type) {
     case GeneralTypes.CLIENT_LICENSE_RECEIVED:
@@ -141,7 +132,6 @@ export default combineReducers({
     credentials,
     config,
     dataRetentionPolicy,
-    deviceToken,
     license,
     serverVersion,
     timezones,

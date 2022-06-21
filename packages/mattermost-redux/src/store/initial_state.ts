@@ -9,7 +9,6 @@ const state: GlobalState = {
             credentials: {},
             config: {},
             dataRetentionPolicy: {},
-            deviceToken: '',
             license: {},
             serverVersion: '',
             warnMetricsStatus: {},
