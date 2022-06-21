@@ -16,12 +16,12 @@ import FilePreviewModal from 'components/file_preview_modal';
 type DialogProps = {
     post: Post;
     startIndex: number;
-    fileInfos: {
+    fileInfos: Array<{
         has_preview_image: boolean;
         link: string;
         extension: string;
         name: string;
-    }[],
+    }>;
 }
 
 interface Props {
@@ -30,11 +30,10 @@ interface Props {
     post: Post;
     actions: {
         openModal: (modalData: ModalData<DialogProps>) => void;
-    }
+    };
 }
 
 export default class PostImage extends React.PureComponent<Props> {
-
     showModal = (e: React.MouseEvent, link: string) => {
         e.preventDefault();
 

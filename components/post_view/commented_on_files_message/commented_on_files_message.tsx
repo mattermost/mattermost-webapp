@@ -5,6 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 interface Props {
+
     /*
      * The id of the post that was commented on
      */
@@ -13,11 +14,10 @@ interface Props {
     /*
      * An array of file metadata for the parent post
      */
-    fileInfos?: {name: string}[];
+    fileInfos?: Array<{name: string}>;
 }
 
 export default class CommentedOnFilesMessage extends React.PureComponent<Props> {
-
     render() {
         if (!this.props.fileInfos || this.props.fileInfos.length === 0) {
             return null;

@@ -3,18 +3,21 @@
 
 import {connect} from 'react-redux';
 
-import {Post} from '@mattermost/types/posts';
-
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 
-import {getIsPostBeingEdited, getIsPostBeingEditedInRHS} from '../../../selectors/posts';
-
-import PostBody from './post_body';
 import {GlobalState} from 'types/store';
+import {UserActivityPost} from 'mattermost-redux/types/posts';
+
+import PostBody, {Props as PostBodyProps} from './post_body';
 
 interface OwnProps {
-    post: Post
+    post: UserActivityPost;
+    compactDisplay: PostBodyProps['compactDisplay'];
+    isCommentMention: PostBodyProps['isCommentMention'];
+    isFirstReply: PostBodyProps['isFirstReply'];
+    handleFileDropdownOpened: PostBodyProps['handleFileDropdownOpened'];
+    handleCommentClick: PostBodyProps['handleCommentClick'];
 }
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
@@ -29,8 +32,6 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         parentPost,
         parentPostUser,
         pluginPostTypes: state.plugins.postTypes,
-        isPostBeingEdited: getIsPostBeingEdited(state, ownProps.post.id),
-        isPostBeingEditedInRHS: getIsPostBeingEditedInRHS(state, ownProps.post.id),
     };
 }
 

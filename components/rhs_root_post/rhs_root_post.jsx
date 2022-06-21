@@ -620,7 +620,6 @@ export default class RhsRootPost extends React.PureComponent {
                             {fileAttachment}
                             <ReactionList
                                 post={post}
-                                isReadOnly={isReadOnly || channelIsArchived}
                             />
                         </div>
                     </div>

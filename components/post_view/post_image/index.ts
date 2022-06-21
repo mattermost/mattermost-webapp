@@ -6,7 +6,7 @@ import {bindActionCreators, Dispatch} from 'redux';
 
 import {openModal} from 'actions/views/modals';
 
-import PostImage from './post_image.jsx';
+import PostImage from './post_image';
 
 function mapDispatchToProps(dispatch: Dispatch) {
     return {

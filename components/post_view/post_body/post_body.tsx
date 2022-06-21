@@ -25,7 +25,8 @@ import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 
 const SENDING_ANIMATION_DELAY = 3000;
 
-interface Props {
+export interface Props {
+
     /**
      * The post to render the body of
      */
@@ -34,17 +35,17 @@ interface Props {
     /**
      * The parent post of the thread this post is in
      */
-    parentPost: Post,
+    parentPost?: Post;
 
     /**
      * The poster of the parent post, if exists
      */
-    parentPostUser: UserProfile,
+    parentPostUser?: UserProfile | null;
 
     /**
      * Callback func for file menu open
      */
-    handleFileDropdownOpened: () => {}
+    handleFileDropdownOpened: (opened: boolean) => void;
 
     /**
      * The function called when the comment icon is clicked
@@ -69,25 +70,14 @@ interface Props {
     /*
      * Post type components from plugins
      */
-    pluginPostTypes: Record<string, PostPluginComponent>,
-
-    /**
-     * Flag passed down to PostBodyAdditionalContent for determining if post embed is visible
-     */
-    isEmbedVisible: boolean;
-};
+    pluginPostTypes: Record<string, PostPluginComponent>;
+}
 
 interface State {
     sending: boolean;
 }
 
 export default class PostBody extends React.PureComponent<Props, State> {
-
-    static defaultProps = {
-        isReadOnly: false,
-        isPostBeingEdited: false,
-    };
-
     private sendingAction: DelayedAction;
 
     constructor(props: Props) {
@@ -138,7 +128,7 @@ export default class PostBody extends React.PureComponent<Props, State> {
         const isEphemeral = Utils.isPostEphemeral(post);
 
         //We want to show the commented on component even if the post was deleted
-        if (this.props.isFirstReply && parentPost && post.type !== Constants.PostTypes.EPHEMERAL) {
+        if (this.props.isFirstReply && parentPost && parentPostUser && post.type !== Constants.PostTypes.EPHEMERAL) {
             comment = (
                 <CommentedOn
                     post={parentPost}
@@ -201,7 +191,6 @@ export default class PostBody extends React.PureComponent<Props, State> {
             messageWithAdditionalContent = (
                 <PostBodyAdditionalContent
                     post={this.props.post}
-                    isEmbedVisible={this.props.isEmbedVisible}
                     handleFileDropdownOpened={this.props.handleFileDropdownOpened}
                 >
                     {messageWrapper}

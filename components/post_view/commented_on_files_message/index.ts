@@ -3,10 +3,11 @@
 
 import {connect} from 'react-redux';
 
+import {GlobalState} from '@mattermost/types/store';
+
 import {makeGetFilesForPost} from 'mattermost-redux/selectors/entities/files';
 
-import CommentedOnFilesMessage from './commented_on_files_message.jsx';
-import {GlobalState} from '@mattermost/types/store.js';
+import CommentedOnFilesMessage from './commented_on_files_message';
 
 function makeMapStateToProps() {
     const selectFileInfosForPost = makeGetFilesForPost();
