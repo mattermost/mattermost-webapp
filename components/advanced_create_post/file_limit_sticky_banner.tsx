@@ -14,8 +14,11 @@ import {isCurrentLicenseCloud, getSubscriptionProduct as selectSubscriptionProdu
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import Constants, {CloudProducts, Preferences} from 'utils/constants';
 import {GlobalState} from 'types/store';
+import useGetLimits from 'components/common/hooks/useGetLimits';
+import {fallbackStarterLimits, hasSomeLimits} from 'utils/limits';
 
 const snoozeCoolOffDays = 10;
+const maxStarterPlanFileStorageGB = 10;
 
 const StyledDiv = styled.div`
 width: 100%;
@@ -49,6 +52,7 @@ function FileLimitStickyBanner() {
     const [show, setShow] = useState(true);
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
+    const [cloudLimits, limitsLoaded] = useGetLimits();
 
     const user = useSelector(getCurrentUser);
     const isAdmin = useSelector(isCurrentUserSystemAdmin);
@@ -75,6 +79,19 @@ function FileLimitStickyBanner() {
     }
 
     if (!isCloud || !isStarter) {
+        return null;
+    }
+
+    let isAbovePlanFileStorageLimit = false;
+
+    if ((limitsLoaded || hasSomeLimits(cloudLimits))) {
+        const currentFileLimitGB = cloudLimits.files?.total_storage || fallbackStarterLimits.files.totalStorage;
+        if (currentFileLimitGB > maxStarterPlanFileStorageGB) {
+            isAbovePlanFileStorageLimit = true;
+        }
+    }
+
+    if (isAbovePlanFileStorageLimit) {
         return null;
     }
 
