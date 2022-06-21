@@ -20,6 +20,7 @@
 
     &.small {
         width: calc((100%/3) - 16px);
+        min-height: 310px;
         float: left;
     }
 
@@ -27,7 +28,7 @@
         position: relative;
         display: flex;
         align-items: center;
-        padding: 24px 24px 12px;
+        padding: 24px;
 
         &:hover {
             cursor: pointer;

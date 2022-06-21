@@ -1,41 +1,46 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import * as Emoji from 'utils/emoji.jsx';
+import {CustomEmoji} from '@mattermost/types/emojis';
+
+import * as Emoji from 'utils/emoji';
 
 // Wrap the contents of the store so that we don't need to construct an ES6 map where most of the content
 // (the system emojis) will never change. It provides the get/has functions of a map and an iterator so
 // that it can be used in for..of loops
 export default class EmojiMap {
-    constructor(customEmojis) {
+    public customEmojis: Map<string, CustomEmoji>; // This should probably be private
+    private customEmojisArray: Array<[string, CustomEmoji]>;
+
+    constructor(customEmojis: Map<string, CustomEmoji>) {
         this.customEmojis = customEmojis;
 
         // Store customEmojis to an array so we can iterate it more easily
         this.customEmojisArray = [...customEmojis];
     }
 
-    has(name) {
+    has(name: string) {
         return Emoji.EmojiIndicesByAlias.has(name) || this.customEmojis.has(name);
     }
 
-    hasSystemEmoji(name) {
+    hasSystemEmoji(name: string) {
         return Emoji.EmojiIndicesByAlias.has(name);
     }
 
-    hasUnicode(codepoint) {
+    hasUnicode(codepoint: string) {
         return Emoji.EmojiIndicesByUnicode.has(codepoint);
     }
 
-    get(name) {
+    get(name: string) {
         if (Emoji.EmojiIndicesByAlias.has(name)) {
-            return Emoji.Emojis[Emoji.EmojiIndicesByAlias.get(name)];
+            return Emoji.Emojis[Emoji.EmojiIndicesByAlias.get(name) as number];
         }
 
         return this.customEmojis.get(name);
     }
 
-    getUnicode(codepoint) {
-        return Emoji.Emojis[Emoji.EmojiIndicesByUnicode.get(codepoint)];
+    getUnicode(codepoint: string) {
+        return Emoji.Emojis[Emoji.EmojiIndicesByUnicode.get(codepoint) as number];
     }
 
     [Symbol.iterator]() {
@@ -57,8 +62,8 @@ export default class EmojiMap {
                     const emoji = customEmojisArray[this.customIndex][1];
 
                     this.customIndex += 1;
-                    const name = emoji.short_name || emoji.name;
-                    return {value: [name, emoji]};
+
+                    return {value: [emoji.name, emoji]};
                 }
 
                 return {done: true};

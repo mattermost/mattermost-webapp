@@ -1,12 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {useDispatch} from 'react-redux';
 
 import {DispatchFunc} from 'mattermost-redux/types/actions';
-import {getLicenseConfig} from 'mattermost-redux/actions/general';
+
+import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
+import {getClientConfig, getLicenseConfig} from 'mattermost-redux/actions/general';
+
+import useGetSubscription from 'components/common/hooks/useGetSubscription';
 
 import {requestCloudTrial, validateBusinessEmail, getCloudLimits} from 'actions/cloud';
 import {trackEvent} from 'actions/telemetry_actions';
@@ -48,36 +52,48 @@ const CloudStartTrialButton = ({
 }: CloudStartTrialBtnProps) => {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch<DispatchFunc>();
-
+    const subscription = useGetSubscription();
+    const [openBusinessEmailModal, setOpenBusinessEmailModal] = useState(false);
     const [status, setLoadStatus] = useState(TrialLoadStatus.NotStarted);
+
+    const validateBusinessEmailOnLoad = async () => {
+        const isValidBusinessEmail = await validateBusinessEmail()();
+        if (!isValidBusinessEmail) {
+            setOpenBusinessEmailModal(true);
+        }
+    };
+
+    useEffect(() => {
+        validateBusinessEmailOnLoad();
+    }, []);
 
     const requestStartTrial = async (): Promise<TrialLoadStatus> => {
         setLoadStatus(TrialLoadStatus.Started);
 
         // email is set ONLY from the instance of this component created in the requestBusinessEmail modal.
-        // So the flow is the following: This button is clicked from
-        // the learn more about trial modal, If the email of the admin and the
+        // So the flow is the following: If the email of the admin and the
         // email of the CWS customer are not valid, the requestBusinessModal is shown and that component will
-        // create this StartCloudTrialBtn passing the email as TRUE, so the requetTrial flow continues normally
-        if (!email) {
-            const isValidBusinessEmail = await validateBusinessEmail()();
-            if (!isValidBusinessEmail) {
-                trackEvent(
-                    TELEMETRY_CATEGORIES.CLOUD_START_TRIAL_BUTTON,
-                    'trial_request_attempt_with_no_valid_business_email',
-                );
-                await dispatch(closeModal(ModalIdentifiers.LEARN_MORE_TRIAL_MODAL));
-                openRequestBusinessEmailModal();
-                setLoadStatus(TrialLoadStatus.Failed);
-                return TrialLoadStatus.Failed;
-            }
-        }
-
-        const productUpdated = await requestCloudTrial('start_trial_btn', (email || ''))();
-        if (!productUpdated) {
+        // create this StartCloudTrialBtn passing the email as Truthy, so the requetTrial flow continues normally
+        if (openBusinessEmailModal && !email) {
+            trackEvent(
+                TELEMETRY_CATEGORIES.CLOUD_START_TRIAL_BUTTON,
+                'trial_request_attempt_with_no_valid_business_email',
+            );
+            await dispatch(closeModal(ModalIdentifiers.LEARN_MORE_TRIAL_MODAL));
+            openRequestBusinessEmailModal();
             setLoadStatus(TrialLoadStatus.Failed);
             return TrialLoadStatus.Failed;
         }
+
+        const subscriptionUpdated = await dispatch(requestCloudTrial('start_cloud_trial_btn', subscription?.id as string, (email || '')));
+        if (!subscriptionUpdated) {
+            setLoadStatus(TrialLoadStatus.Failed);
+            return TrialLoadStatus.Failed;
+        }
+
+        await dispatch(getCloudSubscription());
+        await dispatch(getClientConfig());
+
         await dispatch(getLicenseConfig());
         await dispatch(getCloudLimits());
         if (afterTrialRequest) {
@@ -121,6 +137,9 @@ const CloudStartTrialButton = ({
         }
     };
     const startCloudTrial = async () => {
+        if (status !== TrialLoadStatus.NotStarted) {
+            return;
+        }
         const updatedStatus = await requestStartTrial();
 
         await openTrialBenefitsModal(updatedStatus);
@@ -137,7 +156,7 @@ const CloudStartTrialButton = ({
         <button
             className={`CloudStartTrialButton ${extraClass}`}
             onClick={startCloudTrial}
-            disabled={disabled}
+            disabled={disabled || status === TrialLoadStatus.Failed}
         >
             {btnText(status)}
         </button>

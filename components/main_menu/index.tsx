@@ -19,7 +19,6 @@ import {
 import {getCurrentUser, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 import {haveICurrentTeamPermission, haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCloudSubscription as selectCloudSubscription} from 'mattermost-redux/selectors/entities/cloud';
-import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {Permissions} from 'mattermost-redux/constants';
 
@@ -62,7 +61,6 @@ function mapStateToProps(state: GlobalState) {
     const license = getLicense(state);
 
     const isCloud = isCloudLicense(license);
-    const isCloudFreeEnabled = isCloud && cloudFreeEnabled(state);
     const isFreeTrial = subscription?.is_free_trial === 'true';
 
     return {
@@ -90,7 +88,6 @@ function mapStateToProps(state: GlobalState) {
         canInviteTeamMember,
         isFirstAdmin: isFirstAdmin(state),
         isCloud,
-        isCloudFreeEnabled,
         isFreeTrial,
     };
 }
