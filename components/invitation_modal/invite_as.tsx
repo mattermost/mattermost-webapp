@@ -93,7 +93,7 @@ export default function InviteAs(props: Props) {
 
     // show the badge logic (the restricted indicator takes care of the look when it is trial or not)
     if (isSystemAdmin && isCloud && !isPaidSubscription) {
-        guestDisabledClass = 'disabled-legend';
+        guestDisabledClass = isCloudFreeTrial ? '' : 'disabled-legend';
         badges = {
             matchVal: InviteType.GUEST as string,
             badgeContent: restrictedIndicator,
