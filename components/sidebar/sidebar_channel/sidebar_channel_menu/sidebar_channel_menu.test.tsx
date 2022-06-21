@@ -2,40 +2,55 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
-import * as reactRedux from 'react-redux';
-import configureStore from 'redux-mock-store';
+import {shallow, ShallowWrapper} from 'enzyme';
 
+import {ChannelType} from '@mattermost/types/channels';
+
+import Constants from 'utils/constants';
 import {TestHelper} from 'utils/test_helper';
 
 import SidebarChannelMenu from './sidebar_channel_menu';
 
 describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
-    const useDispatchMock = jest.spyOn(reactRedux, 'useDispatch');
-    const useSelectorMock = jest.spyOn(reactRedux, 'useSelector');
-    const mockStore = configureStore();
-
-    beforeEach(() => {
-        useDispatchMock.mockClear();
-        useSelectorMock.mockClear();
-    });
-
     const testChannel = TestHelper.getChannelMock();
+    const testCategory = TestHelper.getCategoryMock();
 
     const baseProps = {
         channel: testChannel,
         channelLink: 'http://a.fake.link',
+        categories: [testCategory],
+        currentUserId: 'user_id',
+        currentCategory: testCategory,
+        currentTeamId: 'team_id',
         location: 'sidebar',
+        isUnread: false,
+        isFavorite: false,
+        isMuted: false,
+        managePublicChannelMembers: true,
+        managePrivateChannelMembers: true,
+        closeHandler: jest.fn(),
+        isCollapsed: false,
+        isMenuOpen: true,
+        onToggleMenu: jest.fn(),
+        multiSelectedChannelIds: [],
+        displayedChannels: [],
+        actions: {
+            markChannelAsRead: jest.fn(),
+            favoriteChannel: jest.fn(),
+            unfavoriteChannel: jest.fn(),
+            muteChannel: jest.fn(),
+            unmuteChannel: jest.fn(),
+            openModal: jest.fn(),
+            createCategory: jest.fn(),
+            addChannelsInSidebar: jest.fn(),
+        },
     };
 
-    test('should match snapshot and contain correct buttons', () => {
-        const state = {};
-        const store = mockStore(state);
-        const dummyDispatch = jest.fn();
-        useDispatchMock.mockReturnValue(dummyDispatch);
+    // there is a separate ticket to adjust tests
 
+    test('should match snapshot and contain correct buttons', () => {
         const wrapper = shallow(
-            <reactRedux.Provider store={store}><SidebarChannelMenu {...baseProps}/></reactRedux.Provider>,
+            <SidebarChannelMenu {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });

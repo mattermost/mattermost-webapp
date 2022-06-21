@@ -1,59 +1,91 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match snapshot and contain correct buttons 1`] = `
-<ContextProvider
-  value={
-    Object {
-      "store": Object {
-        "clearActions": [Function],
-        "dispatch": [Function],
-        "getActions": [Function],
-        "getState": [Function],
-        "replaceReducer": [Function],
-        "subscribe": [Function],
-      },
-      "subscription": Subscription {
-        "handleChangeWrapper": [Function],
-        "listeners": Object {
-          "notify": [Function],
-        },
-        "onStateChange": [Function],
-        "parentSub": undefined,
-        "store": Object {
-          "clearActions": [Function],
-          "dispatch": [Function],
-          "getActions": [Function],
-          "getState": [Function],
-          "replaceReducer": [Function],
-          "subscribe": [Function],
-        },
-        "unsubscribe": null,
-      },
-    }
-  }
->
-  <SidebarChannelMenu
-    channel={
+<Fragment>
+  <button
+    className="SidebarMenu_menuButton"
+    onClick={[Function]}
+  />
+  <Menu
+    data={
       Object {
-        "create_at": 0,
-        "creator_id": "id",
-        "delete_at": 0,
-        "display_name": "name",
-        "group_constrained": false,
-        "header": "header",
-        "id": "channel_id",
-        "last_post_at": 0,
-        "last_root_post_at": 0,
-        "name": "DN",
-        "purpose": "purpose",
-        "scheme_id": "id",
-        "team_id": "team_id",
-        "type": "O",
-        "update_at": 0,
+        "items": Array [
+          false,
+          Object {
+            "label": "Favorite",
+            "leadingElement": <i
+              className="icon-star-outline"
+            />,
+            "onClick": [Function],
+          },
+          Object {
+            "divider": true,
+            "label": "Mute Channel",
+            "leadingElement": <i
+              className="icon-bell-outline"
+            />,
+            "onClick": [Function],
+          },
+          Object {
+            "label": "Copy Link",
+            "leadingElement": <i
+              className="icon-link-variant"
+            />,
+            "onClick": [Function],
+          },
+          Object {
+            "items": Array [
+              Object {
+                "label": "category_name",
+                "leadingElement": <i
+                  className="icon-folder-outline"
+                />,
+                "onClick": [Function],
+              },
+              Object {
+                "label": "New Category",
+                "leadingElement": <i
+                  className="icon-plus"
+                />,
+                "onClick": [Function],
+              },
+            ],
+            "label": "Move to...",
+            "leadingElement": <i
+              className="icon-folder-move-outline"
+            />,
+            "onClick": [Function],
+            "trailingElement": <i
+              className="icon-chevron-right"
+            />,
+            "trailingElementLabel": "selected",
+          },
+          Object {
+            "label": "Add Members",
+            "leadingElement": <i
+              className="icon-account-outline"
+            />,
+            "onClick": [Function],
+          },
+          Object {
+            "label": "Leave Channel",
+            "leadingElement": <i
+              className="icon-close"
+            />,
+            "onClick": [Function],
+          },
+        ],
+        "title": "Channels",
       }
     }
-    channelLink="http://a.fake.link"
-    location="sidebar"
+    open={false}
+    overlayCloseHandler={[Function]}
+    title="Channel Menu"
+    trigger={
+      Object {
+        "current": null,
+      }
+    }
   />
-</ContextProvider>
+</Fragment>
 `;
