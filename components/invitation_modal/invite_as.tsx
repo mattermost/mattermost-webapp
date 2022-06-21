@@ -90,7 +90,7 @@ export default function InviteAs(props: Props) {
     );
 
     // show the badge logic (the restricted indicator takes care of the look when it is trial or not)
-    if (isSystemAdmin && isCloud && !isCloudFreeTrial && !isPaidSubscription) {
+    if (isSystemAdmin && isCloud && !isPaidSubscription) {
         guestDisabledClass = 'disabled-legend';
         badges = {
             matchVal: InviteType.GUEST as string,
@@ -100,7 +100,7 @@ export default function InviteAs(props: Props) {
         extraGuestLegend = false;
     }
 
-    // disable the button logic (is disabled when is freemium and is pre and post trial)
+    // disable the radio button logic (is disabled when is cloud starter - pre and post trial)
     if (isSystemAdmin && isCloud && !isCloudFreeTrial && !isPaidSubscription) {
         guestDisabled = (id: string) => {
             return (id === InviteType.GUEST);
