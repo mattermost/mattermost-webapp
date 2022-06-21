@@ -162,7 +162,7 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
 
     const {formatMessage} = useIntl();
     const HiddenControlsButtonAriaLabel = formatMessage({id: 'accessibility.button.hidden_controls_button', defaultMessage: 'show hidden formatting options'});
-  
+
     const {x, y, reference, floating, strategy, update, refs: {reference: buttonRef, floating: floatingRef}} = useFloating<HTMLButtonElement>({
         placement: 'top',
         middleware: [offset({mainAxis: 4})],
