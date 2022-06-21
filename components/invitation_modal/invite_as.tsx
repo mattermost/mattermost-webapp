@@ -11,6 +11,7 @@ import {GlobalState} from 'types/store';
 
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
+import {checkHadPriorTrial} from 'mattermost-redux/selectors/entities/cloud';
 import {LicenseSkus} from 'mattermost-redux/types/general';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 
@@ -44,6 +45,7 @@ export default function InviteAs(props: Props) {
     const dispatch = useDispatch<DispatchFunc>();
     const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
     const isSystemAdmin = useSelector(isCurrentUserSystemAdmin);
+    const hasPriorTrial = useSelector(checkHadPriorTrial);
 
     let extraGuestLegend = true;
     let guestDisabledClass = '';
@@ -101,7 +103,7 @@ export default function InviteAs(props: Props) {
     }
 
     // disable the radio button logic (is disabled when is cloud starter - pre and post trial)
-    if (isSystemAdmin && isCloud && !isCloudFreeTrial && !isPaidSubscription) {
+    if (isCloud && ((!isCloudFreeTrial && !isPaidSubscription) || (hasPriorTrial && !isPaidSubscription))) {
         guestDisabled = (id: string) => {
             return (id === InviteType.GUEST);
         };
