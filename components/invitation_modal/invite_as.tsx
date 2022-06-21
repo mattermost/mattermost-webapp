@@ -97,7 +97,7 @@ export default function InviteAs(props: Props) {
         badges = {
             matchVal: InviteType.GUEST as string,
             badgeContent: restrictedIndicator,
-            extraClass: 'restricted-indicator-badge',
+            extraClass: 'Badge__restricted-indicator-badge',
         };
         extraGuestLegend = false;
     }

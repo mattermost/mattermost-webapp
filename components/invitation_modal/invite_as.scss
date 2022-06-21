@@ -27,31 +27,34 @@
             display: inline-flex;
             margin-left: 15px;
 
-            &__box {
-                &.restricted-indicator-badge {
-                    display: flex;
-                    height: 24px;
-                    padding: 4px 12px;
-                    border: 1px solid rgba(28, 88, 217, 0.08);
-                    background: rgba(28, 88, 217, 0.04);
-                    border-radius: 20px;
-                    color: #1c58d9;
+            &__restricted-indicator-badge {
+                display: flex;
+                height: 24px;
+                padding: 4px 12px;
+                border: 1px solid rgba(28, 88, 217, 0.08);
+                background: rgba(28, 88, 217, 0.04);
+                border-radius: 20px;
+                color: #1c58d9;
 
-                    .RestrictedIndicator__icon-tooltip-container {
+                .RestrictedIndicator__icon-tooltip-container {
+                    padding: 0;
+
+                    .badge-text {
+                        padding-left: 5px;
+                        font-size: 11px;
+                        font-weight: 700;
+                    }
+
+                    .RestrictedIndicator__icon-tooltip {
                         padding: 0;
-
-                        .RestrictedIndicator__icon-tooltip {
-                            padding: 0;
-                            font-size: 14px;
-                        }
+                        font-size: 14px;
                     }
 
                     .RestrictedIndicator__button {
                         display: flex;
 
                         .badge-text {
-                            font-size: 11px;
-                            font-weight: 700;
+                            padding-left: 0;
                         }
                     }
                 }
