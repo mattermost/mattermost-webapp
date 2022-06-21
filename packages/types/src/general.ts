@@ -4,7 +4,6 @@
 import {ClientConfig, ClientLicense, WarnMetricStatus} from './config';
 
 export type GeneralState = {
-    appState: boolean;
     credentials: any;
     config: Partial<ClientConfig>;
     dataRetentionPolicy: any;

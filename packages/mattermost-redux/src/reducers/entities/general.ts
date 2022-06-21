@@ -24,16 +24,6 @@ function config(state: Partial<ClientConfig> = {}, action: GenericAction) {
     }
 }
 
-function appState(state = false, action: GenericAction) {
-    switch (action.type) {
-    case GeneralTypes.RECEIVED_APP_STATE:
-        return action.data;
-
-    default:
-        return state;
-    }
-}
-
 function credentials(state: any = {}, action: GenericAction) {
     switch (action.type) {
     case GeneralTypes.RECEIVED_APP_CREDENTIALS:
@@ -148,7 +138,6 @@ function firstAdminCompleteSetup(state = false, action: GenericAction) {
 }
 
 export default combineReducers({
-    appState,
     credentials,
     config,
     dataRetentionPolicy,

@@ -113,14 +113,6 @@ export function logClientError(message: string, level = LogLevel.Error) {
     });
 }
 
-export function setAppState(state: GeneralState['appState']): ActionFunc {
-    return async (dispatch: DispatchFunc) => {
-        dispatch({type: GeneralTypes.RECEIVED_APP_STATE, data: state});
-
-        return {data: true};
-    };
-}
-
 export function setDeviceToken(token: GeneralState['deviceToken']): ActionFunc {
     return async (dispatch: DispatchFunc) => {
         dispatch({type: GeneralTypes.RECEIVED_APP_DEVICE_TOKEN, data: token});
@@ -242,7 +234,6 @@ export default {
     getDataRetentionPolicy,
     getLicenseConfig,
     logClientError,
-    setAppState,
     setDeviceToken,
     setServerVersion,
     setStoreFromLocalData,
