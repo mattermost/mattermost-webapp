@@ -44,7 +44,7 @@ import {Permissions, Posts, Preferences as PreferencesRedux} from 'mattermost-re
 
 import {connectionErrorCount} from 'selectors/views/system';
 
-import {addReaction, createPost, setEditingPost, emitShortcutReactToLastPostFrom} from 'actions/post_actions.jsx';
+import {addReaction, createPost, setEditingPost, emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 import {scrollPostListToBottom} from 'actions/views/channel';
 import {selectPostFromRightHandSideSearchByPostId} from 'actions/views/rhs';
 import {setShowPreviewOnCreatePost} from 'actions/views/textbox';

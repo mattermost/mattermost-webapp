@@ -11,8 +11,6 @@ import DateSeparator from 'components/post_view/date_separator';
 import NewMessageSeparator from 'components/post_view/new_message_separator/new_message_separator';
 import {Props as TimestampProps} from 'components/timestamp/timestamp';
 
-import {getPreviousPostId} from 'utils/post_utils';
-
 import RootPost from './root_post';
 import Reply from './reply';
 
@@ -66,14 +64,16 @@ function ThreadViewerRow({
                 timestampProps={timestampProps}
             />
         );
-    case PostListUtils.isCombinedUserActivityPost(listId):
+    case PostListUtils.isCombinedUserActivityPost(listId): {
+        const Component: any = CombinedUserActivityPost;
         return (
-            <CombinedUserActivityPost
+            <Component
                 combinedId={listId}
-                previousPostId={getPreviousPostId}
+                previousPostId={previousPostId}
                 isLastPost={isLastPost}
             />
         );
+    }
     default:
         return (
             <Reply

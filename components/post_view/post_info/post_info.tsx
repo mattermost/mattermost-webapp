@@ -277,7 +277,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
                     channelId={post.channel_id}
                     postId={post.id}
                     emojis={this.props.recentEmojis}
-                    teamId={this.props.teamId}
+                    teamId={this.props.teamId!}
                     getDotMenuRef={this.getDotMenu}
                 />
             );
@@ -335,7 +335,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
             postFlagIcon = (
                 <PostFlagIcon
                     postId={post.id}
-                    isFlagged={this.props.isFlagged}
+                    isFlagged={Boolean(this.props.isFlagged)}
                 />
             );
         }

@@ -24,7 +24,7 @@ const TOP_OFFSET = -7;
 
 type LocationTypes = 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT';
 
-type Props = {
+export type Props = {
     channelId?: string;
     postId: string;
     teamId: string;
@@ -33,7 +33,7 @@ type Props = {
     showEmojiPicker: boolean;
     toggleEmojiPicker: (event?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     actions: {
-        addReaction: (postId: string, emojiName: string) => (dispatch: Dispatch) => void;
+        addReaction: (postId: string, emojiName: string) => (dispatch: Dispatch) => {data: boolean} | undefined;
     };
 }
 
