@@ -197,7 +197,7 @@ function Content(props: ContentProps) {
 
         const result = await dispatch(subscribeCloudSubscription(starterProduct?.id));
 
-        if (typeof result === 'boolean') {
+        if (typeof result === 'boolean' && result) {
             dispatch(closeModal(ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM));
             dispatch(
                 openModal({
