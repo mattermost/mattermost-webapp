@@ -6,7 +6,6 @@ import {GlobalState} from '@mattermost/types/store';
 const state: GlobalState = {
     entities: {
         general: {
-            credentials: {},
             config: {},
             dataRetentionPolicy: {},
             license: {},

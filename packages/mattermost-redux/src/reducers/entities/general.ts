@@ -22,22 +22,6 @@ function config(state: Partial<ClientConfig> = {}, action: GenericAction) {
     }
 }
 
-function credentials(state: any = {}, action: GenericAction) {
-    switch (action.type) {
-    case GeneralTypes.RECEIVED_APP_CREDENTIALS:
-        return Object.assign({}, state, action.data);
-
-    case UserTypes.LOGIN: // Used by the mobile app
-        return {
-            url: action.data.url,
-        };
-    case UserTypes.LOGOUT_SUCCESS:
-        return {};
-    default:
-        return state;
-    }
-}
-
 function dataRetentionPolicy(state: any = {}, action: GenericAction) {
     switch (action.type) {
     case GeneralTypes.RECEIVED_DATA_RETENTION_POLICY:
@@ -116,7 +100,6 @@ function firstAdminCompleteSetup(state = false, action: GenericAction) {
 }
 
 export default combineReducers({
-    credentials,
     config,
     dataRetentionPolicy,
     license,
