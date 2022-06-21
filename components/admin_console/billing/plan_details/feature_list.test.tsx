@@ -19,13 +19,17 @@ import FeatureList, {FeatureListProps} from './feature_list';
 function renderFeatureList(props: FeatureListProps, deep?: boolean) {
     const state = {
         entities: {
+            general: {
+                license: {},
+            },
             cloud: {
                 limits: makeEmptyLimits(),
             },
             usage: makeEmptyUsage(),
-            general: {
-                config: {
-                    FeatureFlagCloudFree: 'false',
+            users: {
+                currentUserId: 'uid',
+                profiles: {
+                    uid: {},
                 },
             },
         },
