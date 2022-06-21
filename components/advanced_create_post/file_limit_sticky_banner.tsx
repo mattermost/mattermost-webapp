@@ -16,6 +16,7 @@ import Constants, {CloudProducts, Preferences} from 'utils/constants';
 import {GlobalState} from 'types/store';
 import useGetLimits from 'components/common/hooks/useGetLimits';
 import {fallbackStarterLimits, hasSomeLimits} from 'utils/limits';
+import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 
 const snoozeCoolOffDays = 10;
 const maxStarterPlanFileStorageGB = 10;
@@ -53,6 +54,7 @@ function FileLimitStickyBanner() {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
     const [cloudLimits, limitsLoaded] = useGetLimits();
+    const openPricingModal = useOpenPricingModal();
 
     const user = useSelector(getCurrentUser);
     const isAdmin = useSelector(isCurrentUserSystemAdmin);
@@ -113,7 +115,14 @@ function FileLimitStickyBanner() {
     };
 
     const AdminMessageLink = (
-        <a>{formatMessage({id: 'create_post.file_limit_sticky_banner.admin_link_message', defaultMessage: 'upgrade to a paid plan.'})}</a>
+        <a
+            onClick={(e) => {
+                e.preventDefault();
+                openPricingModal();
+            }}
+        >
+            {formatMessage({id: 'create_post.file_limit_sticky_banner.admin_link_message', defaultMessage: 'upgrade to a paid plan.'})}
+        </a>
     );
 
     const NonAdminMessageLink = (
