@@ -89,7 +89,10 @@ const RestrictedIndicator = ({
                         {ctaExtraContent}
                     </ToggleModalButton>
                 ) : (
-                    <i className='RestrictedIndicator__icon-tooltip icon trial'/>
+                    <>
+                        <i className='RestrictedIndicator__icon-tooltip icon trial'/>
+                        {ctaExtraContent}
+                    </>
                 )}
             </OverlayTrigger>
         </span>
