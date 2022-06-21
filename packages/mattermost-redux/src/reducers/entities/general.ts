@@ -3,8 +3,6 @@
 
 import {combineReducers} from 'redux';
 
-import {Timezone} from 'timezones.json';
-
 import {GeneralTypes, UserTypes} from 'mattermost-redux/action_types';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {ClientLicense, ClientConfig} from '@mattermost/types/config';
@@ -60,17 +58,6 @@ function license(state: ClientLicense = {}, action: GenericAction) {
     case GeneralTypes.CLIENT_LICENSE_RESET:
     case UserTypes.LOGOUT_SUCCESS:
         return {};
-    default:
-        return state;
-    }
-}
-
-function timezones(state: Timezone[] = [], action: GenericAction) {
-    switch (action.type) {
-    case GeneralTypes.SUPPORTED_TIMEZONES_RECEIVED:
-        return action.data;
-    case UserTypes.LOGOUT_SUCCESS:
-        return [];
     default:
         return state;
     }
@@ -134,7 +121,6 @@ export default combineReducers({
     dataRetentionPolicy,
     license,
     serverVersion,
-    timezones,
     warnMetricsStatus,
     firstAdminVisitMarketplaceStatus,
     firstAdminCompleteSetup,
