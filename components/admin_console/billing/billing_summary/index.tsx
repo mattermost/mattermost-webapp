@@ -4,7 +4,6 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
 
-import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getSubscriptionProduct, checkHadPriorTrial, getCloudSubscription} from 'mattermost-redux/selectors/entities/cloud';
 
 import {CloudProducts} from 'utils/constants';
@@ -35,9 +34,8 @@ const BillingSummary = ({isLegacyFree, isFreeTrial, daysLeftOnTrial, onUpgradeMa
 
     const isPreTrial = subscription?.is_free_trial === 'false' && subscription?.trial_end_at === 0;
     const hasPriorTrial = useSelector(checkHadPriorTrial);
-    const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
-    const showTryEnterprise = isCloudFreeEnabled && product?.sku === CloudProducts.STARTER && isPreTrial;
-    const showUpgradeProfessional = isCloudFreeEnabled && product?.sku === CloudProducts.STARTER && hasPriorTrial;
+    const showTryEnterprise = product?.sku === CloudProducts.STARTER && isPreTrial;
+    const showUpgradeProfessional = product?.sku === CloudProducts.STARTER && hasPriorTrial;
 
     const isLegacyFreeUnpaid = isLegacyFree && !subscription?.is_legacy_cloud_paid_tier;
 

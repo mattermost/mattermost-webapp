@@ -372,6 +372,22 @@ describe('Helpers', () => {
             expect(imageUrl).toEqual(openGraphData.images[0].secure_url);
         });
 
+        test('should handle undefined metadata', () => {
+            const openGraphData = {
+                images: [{
+                    secure_url: 'https://example.com/image.png',
+                    url: 'http://example.com/image.png',
+                }],
+            };
+
+            const imagesMetadata = {};
+
+            const imageData = getBestImage(openGraphData, imagesMetadata);
+            const imageUrl = imageData?.secure_url || imageData?.url;
+
+            expect(imageUrl).toEqual(openGraphData.images[0].secure_url);
+        });
+
         test('should return url if secure_url is not specified', () => {
             const openGraphData = {
                 images: [{

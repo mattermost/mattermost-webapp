@@ -185,9 +185,14 @@ exports[`components/DatabaseSettings should match snapshot 1`] = `
       />
       <AdminTextSetting
         helpText={
-          <injectIntl(FormattedMarkdownMessage)
-            defaultMessage="Minimum number of characters in a hashtag. This must be greater than or equal to 2. MySQL databases must be configured to support searching strings shorter than three characters, [see documentation](!https://dev.mysql.com/doc/refman/8.0/en/fulltext-fine-tuning.html)."
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Minimum number of characters in a hashtag. This must be greater than or equal to 2. MySQL databases must be configured to support searching strings shorter than three characters, <link>see documentation</link>."
             id="admin.service.minimumHashtagLengthDescription"
+            values={
+              Object {
+                "link": [Function],
+              }
+            }
           />
         }
         id="minimumHashtagLength"
@@ -293,9 +298,14 @@ exports[`components/DatabaseSettings should match snapshot 1`] = `
           />
         }
         helpText={
-          <injectIntl(FormattedMarkdownMessage)
-            defaultMessage="Disables the use of the database to perform searches. Should only be used when other [search engines](!https://mattermost.com/pl/default-search-engine) are configured."
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Disables the use of the database to perform searches. Should only be used when other <link>search engines</link> are configured."
             id="admin.sql.disableDatabaseSearchDescription"
+            values={
+              Object {
+                "link": [Function],
+              }
+            }
           />
         }
         id="disableDatabaseSearch"

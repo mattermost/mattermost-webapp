@@ -75,23 +75,11 @@ describe('components/global/product_switcher_menu', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot with cloud free', () => {
-        const props = {
-            ...defaultProps,
-            enableCustomUserGroups: true,
-            isCloud: true,
-            isCloudFreeEnabled: true,
-        };
-        const wrapper = shallow(<ProductMenuList {...props}/>);
-        expect(wrapper.find('#userGroups')).toMatchSnapshot();
-    });
-
     test('should match snapshot with cloud free trial', () => {
         const props = {
             ...defaultProps,
             enableCustomUserGroups: true,
             isCloud: true,
-            isCloudFreeEnabled: true,
             isFreeTrial: true,
         };
         const wrapper = shallow(<ProductMenuList {...props}/>);
