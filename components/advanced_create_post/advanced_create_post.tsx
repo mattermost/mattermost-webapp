@@ -55,7 +55,7 @@ import {ApplyMarkdownOptions, applyMarkdown} from 'utils/markdown/apply_markdown
 
 import AdvanceTextEditor from '../advanced_text_editor/advanced_text_editor';
 
-import FileLimitStickyBanner from './file_limit_sticky_banner';
+import FileLimitStickyBanner from '../file_limit_sticky_banner';
 const KeyCodes = Constants.KeyCodes;
 
 const CreatePostDraftTimeoutMilliseconds = 500;

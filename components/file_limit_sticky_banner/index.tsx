@@ -42,7 +42,7 @@ outline: none;
 background: none;
 position: absolute;
 top: 16px;
-right: 17px;
+right: 0;
 `;
 
 const StyledI = styled.i`
