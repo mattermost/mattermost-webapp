@@ -30,6 +30,7 @@ export interface MenuPopoverProps {
     offset?: [number | null | undefined, number | null | undefined];
     children?: React.ReactNode;
     zIndex: number;
+    overlayCloseHandler?: () => void;
 }
 
 export interface MenuProps {

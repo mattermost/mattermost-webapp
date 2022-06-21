@@ -164,6 +164,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
             icon,
             isChannelSelected,
             isMuted,
+            isUnread,
             label,
             link,
             unreadMentions,
@@ -249,6 +250,8 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                 />
                 <SidebarChannelMenu
                     channel={channel}
+                    isUnread={isUnread}
+                    closeHandler={this.props.closeHandler}
                     channelLink={link}
                     location={'sidebar'}
                 />

@@ -13,10 +13,9 @@ const Overlay = styled.div<{isMobile?: boolean}>(
         top: 0;
         position: fixed;
         -ms-scroll-chaining: none;
-        transition: 300ms;
-        transition-property: background-color;
-        transition-timing-function: ease-in-out;
+        transition: 300ms background-color ease-in-out;
         user-select: none;
+        z-index: 20;
 
         &.fade-enter {
             background-color: rgba(0, 0, 0, 0);

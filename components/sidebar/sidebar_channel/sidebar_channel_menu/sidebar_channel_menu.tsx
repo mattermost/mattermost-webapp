@@ -3,141 +3,87 @@
 
 import React, {useRef, useState} from 'react';
 import {useIntl} from 'react-intl';
-
-import {useDispatch, useSelector} from 'react-redux';
-
 import classNames from 'classnames';
 
 import {ChannelCategory} from '@mattermost/types/channel_categories';
-
 import {Channel} from '@mattermost/types/channels';
+import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 
 import {trackEvent} from 'actions/telemetry_actions';
-
+import EditCategoryModal from 'components/edit_category_modal/edit_category_modal';
 import ChannelInviteModal from 'components/channel_invite_modal';
-
-import {
-    favoriteChannel,
-    unfavoriteChannel,
-    markChannelAsRead,
-    leaveChannel,
-} from 'mattermost-redux/actions/channels';
-import {isFavoriteChannel} from 'mattermost-redux/selectors/entities/channels';
-import {
-    getMyChannelMemberships,
-    getCurrentUserId,
-} from 'mattermost-redux/selectors/entities/common';
-import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
-
+import Menu from 'components/menu/Menu';
+import {ModalData} from 'types/actions';
 import Constants, {ModalIdentifiers} from 'utils/constants';
 import {copyToClipboard} from 'utils/utils';
-
-import Menu from 'components/menu/Menu';
-
-import {unmuteChannel, muteChannel} from 'actions/channel_actions';
-
-import {DispatchFunc} from 'mattermost-redux/types/actions';
-import {GlobalState} from 'types/store';
-import {
-    getCategoriesForCurrentTeam,
-    getDisplayedChannels,
-} from 'selectors/views/channel_sidebar';
-import {getCategoryInTeamWithChannel} from 'mattermost-redux/selectors/entities/channel_categories';
-import {addChannelsInSidebar} from 'actions/views/channel_sidebar';
-import {openModal} from 'actions/views/modals';
-import EditCategoryModal from 'components/edit_category_modal/edit_category_modal';
-import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
-import LeavePrivateChannelModal from 'components/leave_private_channel_modal/leave_private_channel_modal';
 
 type Props = {
     channel: Channel;
     channelLink: string;
-    location?: string;
+    location: string;
+    currentUserId: string;
+    currentTeamId: string;
+    isUnread: boolean;
+    isFavorite: boolean;
+    isMuted: boolean;
+    managePublicChannelMembers: boolean;
+    managePrivateChannelMembers: boolean;
+    displayedChannels: Channel[];
+    multiSelectedChannelIds: string[];
+    categories?: ChannelCategory[];
+    currentCategory?: ChannelCategory;
+    closeHandler?: (callback: () => void) => void;
+    actions: {
+        markChannelAsRead: (channelId: string) => void;
+        favoriteChannel: (channelId: string) => void;
+        unfavoriteChannel: (channelId: string) => void;
+        muteChannel: (userId: string, channelId: string) => void;
+        unmuteChannel: (userId: string, channelId: string) => void;
+        openModal: <P>(modalData: ModalData<P>) => void;
+        addChannelsInSidebar: (categoryId: string, channelId: string) => void;
+    };
 };
 
 const SidebarChannelMenu = (props: Props): JSX.Element => {
-    const {channel, channelLink, location} = props;
-
+    const {channel, channelLink, currentUserId, location, isUnread, isFavorite, isMuted, actions, closeHandler, displayedChannels, multiSelectedChannelIds, currentCategory, categories} = props;
     const buttonReference = useRef<HTMLButtonElement>(null);
+
+    const [isLeaving, setIsleaving] = useState(false);
     const [isMenuVisible, setMenuVisible] = useState(false);
     const intl = useIntl();
-    const dispatch = useDispatch<DispatchFunc>();
 
-    const member = useSelector(
-        (state: GlobalState) => getMyChannelMemberships(state)[channel.id],
-    );
-
-    const isUnread = useSelector((state: GlobalState) =>
-        getDisplayedChannels(state),
-    );
-
-    const currentUserId = useSelector((state: GlobalState) =>
-        getCurrentUserId(state),
-    );
-    const isFavorite = useSelector((state: GlobalState) =>
-        isFavoriteChannel(state, channel.id),
-    );
-    const isMuted = useSelector(() => isChannelMuted(member));
-    const displayedChannels = useSelector((state: GlobalState) =>
-        getDisplayedChannels(state),
-    );
-    const multiSelectedChannelIds = useSelector(
-        (state: GlobalState) =>
-            state.views.channelSidebar.multiSelectedChannelIds,
-    );
-    const currentTeam = useSelector((state: GlobalState) =>
-        getCurrentTeam(state),
-    );
-
-    //****************** Menu Item Actions ******************//
-
-    const handleLeavePublicChannel = () => {
-        dispatch(leaveChannel(channel.id));
-        trackEvent('ui', 'ui_public_channel_x_button_clicked');
-    };
-
-    const handleLeavePrivateChannel = () => {
-        dispatch(
-            openModal({
-                modalId: ModalIdentifiers.LEAVE_PRIVATE_CHANNEL_MODAL,
-                dialogType: LeavePrivateChannelModal,
-                dialogProps: {channel},
-            }),
-        );
-        trackEvent('ui', 'ui_private_channel_x_button_clicked');
-    };
-
-    const getCloseHandler = () => {
-        if (
-            channel.type === Constants.OPEN_CHANNEL &&
-            channel.name !== Constants.DEFAULT_CHANNEL
-        ) {
-            return handleLeavePublicChannel;
-        } else if (channel.type === Constants.PRIVATE_CHANNEL) {
-            return handleLeavePrivateChannel;
+    const handleLeaveChannel = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (isLeaving || !closeHandler) {
+            return;
         }
 
-        return null;
+        setIsleaving(true);
+        trackEvent('ui', 'ui_sidebar_channel_menu_leave');
+
+        closeHandler(() => {
+            setIsleaving(false);
+        });
     };
 
     const markAsRead = () => {
-        dispatch(markChannelAsRead(channel.id));
+        actions.markChannelAsRead(channel.id);
         trackEvent('ui', 'ui_sidebar_channel_menu_markAsRead');
     };
 
     const toggleFavourite = () => {
         if (isFavorite) {
-            dispatch(favoriteChannel(channel.id));
-            trackEvent('ui', 'ui_sidebar_channel_menu_favorite');
-        } else {
-            dispatch(unfavoriteChannel(channel.id));
+            actions.unfavoriteChannel(channel.id);
             trackEvent('ui', 'ui_sidebar_channel_menu_unfavorite');
+        } else {
+            actions.favoriteChannel(channel.id);
+            trackEvent('ui', 'ui_sidebar_channel_menu_favorite');
         }
     };
 
     const toggleMute = () => {
-        return isMuted ? dispatch(unmuteChannel(currentUserId, channel.id)) : dispatch(muteChannel(currentUserId, channel.id));
+        return isMuted ? actions.unmuteChannel(currentUserId, channel.id) : actions.muteChannel(currentUserId, channel.id);
     };
 
     const copyLink = () => {
@@ -145,45 +91,29 @@ const SidebarChannelMenu = (props: Props): JSX.Element => {
     };
 
     const addMembers = () => {
-        dispatch(
-            openModal({
-                modalId: ModalIdentifiers.CHANNEL_INVITE,
-                dialogType: ChannelInviteModal,
-                dialogProps: {channel},
-            }),
-        );
+        actions.openModal({
+            modalId: ModalIdentifiers.CHANNEL_INVITE,
+            dialogType: ChannelInviteModal,
+            dialogProps: {channel},
+        });
         trackEvent('ui', 'ui_sidebar_channel_menu_addMembers');
     };
 
-    //****************** Category Submenu Actions ******************//
-
-    const categories = useSelector((state: GlobalState) =>
-        getCategoriesForCurrentTeam(state),
-    );
-    const currentCategory = useSelector((state: GlobalState) =>
-        getCategoryInTeamWithChannel(state, currentTeam.id, channel.id),
-    );
-
     const moveToCategory = (categoryId: string) => {
         if (currentCategory?.id !== categoryId) {
-            dispatch(addChannelsInSidebar(categoryId, channel.id));
+            actions.addChannelsInSidebar(categoryId, channel.id);
             trackEvent('ui', 'ui_sidebar_channel_menu_moveToExistingCategory');
         }
     };
 
     const moveToNewCategory = () => {
-        dispatch(
-            openModal({
-                modalId: ModalIdentifiers.EDIT_CATEGORY,
-                dialogType: EditCategoryModal,
-                dialogProps: {
-                    channelIdsToAdd:
-                        multiSelectedChannelIds.indexOf(channel.id) === -1 ?
-                            [channel.id] :
-                            multiSelectedChannelIds,
-                },
-            }),
-        );
+        actions.openModal({
+            modalId: ModalIdentifiers.EDIT_CATEGORY,
+            dialogType: EditCategoryModal,
+            dialogProps: {
+                channelIdsToAdd: multiSelectedChannelIds.indexOf(channel.id) === -1 ? [channel.id] : multiSelectedChannelIds,
+            },
+        });
         trackEvent('ui', 'ui_sidebar_channel_menu_createCategory');
     };
 
@@ -195,7 +125,10 @@ const SidebarChannelMenu = (props: Props): JSX.Element => {
         channel.type === Constants.DM_CHANNEL ||
         channel.type === Constants.GM_CHANNEL;
 
+    const canAddMembers = (channel.type === Constants.PRIVATE_CHANNEL && props.managePrivateChannelMembers) || (channel.type === Constants.OPEN_CHANNEL && props.managePublicChannelMembers);
+
     const mutedLabel =
+        /* eslint-disable no-nested-ternary */
         isMuted ?
             isDM ?
                 intl.formatMessage({
@@ -322,7 +255,7 @@ const SidebarChannelMenu = (props: Props): JSX.Element => {
                 trailingElement: <i className='icon-chevron-right'/>,
                 items: submenuItems,
             },
-            {
+            canAddMembers && {
                 label: intl.formatMessage({
                     id: 'sidebar_left.sidebar_channel_menu.addMembers',
                     defaultMessage: 'Add Members',
@@ -340,7 +273,7 @@ const SidebarChannelMenu = (props: Props): JSX.Element => {
                         id: 'sidebar_left.sidebar_channel_menu.leaveChannel',
                         defaultMessage: 'Leave Channel',
                     }),
-                onClick: getCloseHandler,
+                onClick: handleLeaveChannel,
                 leadingElement: <i className='icon-close'/>,
             },
         ],

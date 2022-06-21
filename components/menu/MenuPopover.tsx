@@ -2,12 +2,16 @@
 // See LICENSE.txt for license information.
 
 import {Instance} from '@popperjs/core';
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {usePopper} from 'react-popper';
+import {CSSTransition} from 'react-transition-group';
 
 import RootPortal from 'components/root_portal';
 
+import {useClickOutsideRef} from 'components/global_header/hooks';
+
 import {MenuPopoverProps} from './Menu.types';
+import {Overlay} from './Menu.styles';
 
 export const useUpdateOnVisibilityChange = (
     update: Instance['update'] | null,
@@ -36,15 +40,15 @@ const MenuPopover = ({
     offset = [0, -4],
     children,
     zIndex,
+    overlayCloseHandler,
 }: MenuPopoverProps): JSX.Element | null => {
-    const [popperElement, setPopperElement] =
-        React.useState<HTMLDivElement | null>(null);
+    const popperElement = useRef(null);
 
     const {
         styles: {popper},
         attributes,
         update,
-    } = usePopper(triggerRef.current, popperElement, {
+    } = usePopper(triggerRef.current, popperElement.current, {
         placement,
         modifiers: [
             {
@@ -71,10 +75,27 @@ const MenuPopover = ({
 
     Object.assign(style, mobileStyle || popper);
 
+    useClickOutsideRef(popperElement, () => {
+        if (overlayCloseHandler !== undefined) {
+            overlayCloseHandler();
+        }
+    });
+
     return (
         <RootPortal>
+            <CSSTransition
+                timeout={300}
+                classNames='fade'
+                in={isVisible}
+                unmountOnExit={true}
+            >
+                <Overlay
+                    isMobile={isMobile}
+                    onClick={overlayCloseHandler}
+                />
+            </CSSTransition>
             <div
-                ref={setPopperElement}
+                ref={popperElement}
                 style={style}
                 {...attributes.popper}
             >

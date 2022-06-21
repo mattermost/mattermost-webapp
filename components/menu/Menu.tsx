@@ -3,14 +3,12 @@
 
 import React, {useRef, useState, useEffect} from 'react';
 
-import {CSSTransition} from 'react-transition-group';
-
 import classNames from 'classnames';
 
 import {MenuProps, SubmenuProps} from './Menu.types';
 import MenuItem from './MenuItem';
 import MenuPopover from './MenuPopover';
-import {Divider, MenuHeader, MenuItems, MenuTitle, Overlay} from './Menu.styles';
+import {Divider, MenuHeader, MenuItems, MenuTitle} from './Menu.styles';
 
 const useIsMobile = (): boolean => {
     const [isMobile, setIsMobile] = useState<boolean>(false);
@@ -85,16 +83,6 @@ const SubMenu = (props: SubmenuProps): JSX.Element => {
                     {data.items?.map((item, index) => {
                         const key = `${item.label}_${index}`;
 
-                        if (item.items && item.items.length > 0) {
-                            return (
-                                <SubMenu
-                                    key={key}
-                                    data={item}
-                                    isMobile={isMobile}
-                                />
-                            );
-                        }
-
                         return (
                             <MenuItem
                                 key={key}
@@ -116,62 +104,53 @@ const Menu = (props: MenuProps): JSX.Element => {
     const isMobile = useIsMobile();
 
     return (
-        <>
-            <CSSTransition
-                timeout={300}
-                classNames='fade'
-                in={open}
-                unmountOnExit={true}
-            >
-                <Overlay onClick={overlayCloseHandler}/>
-            </CSSTransition>
-            <MenuPopover
-                triggerRef={trigger}
-                isVisible={open}
-                placement={placement}
+        <MenuPopover
+            triggerRef={trigger}
+            isVisible={open}
+            placement={placement}
+            isMobile={isMobile}
+            zIndex={20}
+            overlayCloseHandler={overlayCloseHandler}
+        >
+            <MenuItems
                 isMobile={isMobile}
-                zIndex={20}
+                className={classNames({open}, 'isParent')}
             >
-                <MenuItems
-                    isMobile={isMobile}
-                    className={classNames({open}, 'isParent')}
-                >
-                    <MenuHeader
-                        className={classNames({
-                            isMobile,
-                        })}
-                    >
-                        {title && <MenuTitle>{title}</MenuTitle>}
-                    </MenuHeader>
-                    {data.items?.map((item, index) => {
-                        const key = `${item.label}_${index}`;
-                        if (item.items && item.items.length > 0) {
-                            return (
-                                <SubMenu
-                                    key={key}
-                                    data={item}
-                                    title={item.label}
-                                    isMobile={isMobile}
-                                />
-                            );
-                        }
-
-                        return (
-                            <>
-                                <MenuItem
-                                    key={key}
-                                    label={item.label}
-                                    leadingElement={item.leadingElement}
-                                    trailingElement={item.trailingElement}
-                                    onClick={item.onClick}
-                                />
-                                {item.divider && <Divider/>}
-                            </>
-                        );
+                <MenuHeader
+                    className={classNames({
+                        isMobile,
                     })}
-                </MenuItems>
-            </MenuPopover>
-        </>
+                >
+                    {title && <MenuTitle>{title}</MenuTitle>}
+                </MenuHeader>
+                {data.items?.map((item, index) => {
+                    const key = `${item.label}_${index}`;
+                    if (item.items && item.items.length > 0) {
+                        return (
+                            <SubMenu
+                                key={key}
+                                data={item}
+                                title={item.label}
+                                isMobile={isMobile}
+                            />
+                        );
+                    }
+
+                    return (
+                        <>
+                            <MenuItem
+                                key={key}
+                                label={item.label}
+                                leadingElement={item.leadingElement}
+                                trailingElement={item.trailingElement}
+                                onClick={item.onClick}
+                            />
+                            {item.divider && <Divider/>}
+                        </>
+                    );
+                })}
+            </MenuItems>
+        </MenuPopover>
     );
 };
 
