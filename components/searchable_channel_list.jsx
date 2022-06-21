@@ -71,7 +71,7 @@ export default class SearchableChannelList extends React.PureComponent {
             archiveIcon = (
                 <ArchiveOutlineIcon
                     size={20}
-                    color={'rgb(var(--center-channel-color-rgb))'}
+                    color={'currentColor'}
                 />
             );
         }
