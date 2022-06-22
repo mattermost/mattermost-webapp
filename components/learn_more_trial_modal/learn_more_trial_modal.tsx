@@ -89,7 +89,7 @@ const LearnMoreTrialModal = (
                     className='btn btn-primary view-plans-btn'
                 >
                     {formatMessage({
-                        id: 'learn_more_trial_modal.view_plan_cta',
+                        id: 'learn_more_trial_modal.view_plans_cta',
                         defaultMessage: 'View plans',
                     })}
                 </button>
