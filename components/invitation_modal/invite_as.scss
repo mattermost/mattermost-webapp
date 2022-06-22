@@ -31,10 +31,10 @@
                 display: flex;
                 height: 24px;
                 padding: 4px 12px;
-                border: 1px solid rgba(28, 88, 217, 0.08);
-                background: rgba(28, 88, 217, 0.04);
+                border: 1px solid rgba(var(--denim-button-bg-rgb), 0.08);
+                background: rgba(var(--denim-button-bg-rgb), 0.04);
                 border-radius: 20px;
-                color: #1c58d9;
+                color: var(--denim-button-bg);
 
                 .RestrictedIndicator__icon-tooltip-container {
                     padding: 0;

@@ -11,8 +11,7 @@ import {GlobalState} from 'types/store';
 
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
-import {checkHadPriorTrial} from 'mattermost-redux/selectors/entities/cloud';
-import {LicenseSkus} from 'mattermost-redux/types/general';
+import {checkHadPriorTrial, getSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 
 import {closeModal} from 'actions/views/modals';
@@ -20,7 +19,7 @@ import {closeModal} from 'actions/views/modals';
 import RadioGroup from 'components/common/radio_group';
 import RestrictedIndicator from 'components/widgets/menu/menu_items/restricted_indicator';
 
-import {ModalIdentifiers} from 'utils/constants';
+import {CloudProducts, ModalIdentifiers} from 'utils/constants';
 
 import {FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS} from 'utils/cloud_utils';
 
@@ -44,8 +43,11 @@ export default function InviteAs(props: Props) {
     const license = useSelector(getLicense);
     const dispatch = useDispatch<DispatchFunc>();
     const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
+    const subscriptionProduct = useSelector(getSubscriptionProduct);
+
     const isSystemAdmin = useSelector(isCurrentUserSystemAdmin);
     const hasPriorTrial = useSelector(checkHadPriorTrial);
+    const isStarter = subscriptionProduct?.sku === CloudProducts.STARTER;
 
     let extraGuestLegend = true;
     let guestDisabledClass = '';
@@ -55,44 +57,43 @@ export default function InviteAs(props: Props) {
     const isCloud = license?.Cloud === 'true';
     const isCloudFreeTrial = subscription?.is_free_trial === 'true';
 
-    const isPaidSubscription = isCloud && license?.SkuShortName !== LicenseSkus.Starter && !isCloudFreeTrial;
-
-    const closeInviteModal = () => {
-        dispatch(closeModal(ModalIdentifiers.INVITATION));
-    };
-
-    const restrictedIndicator = (
-        <RestrictedIndicator
-            blocked={!isCloudFreeTrial}
-            titleAdminPreTrial={formatMessage({
-                id: 'invite_modal.restricted_invite_guest.pre_trial_title',
-                defaultMessage: 'Try inviting guests with a free trial',
-            })}
-            messageAdminPreTrial={formatMessage({
-                id: 'invite_modal.restricted_invite_guest.pre_trial_description',
-                defaultMessage: 'Collaborate with users outside of your organization while tightly controlling their access to channels and team members. Get the full experience of Enterprise when you start a free, {trialLength} day trial.',
-            },
-            {trialLength: FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS},
-            )}
-            titleAdminPostTrial={formatMessage({
-                id: 'invite_modal.restricted_invite_guest.post_trial_title',
-                defaultMessage: 'Upgrade to invite guest',
-            })}
-            messageAdminPostTrial={formatMessage({
-                id: 'invite_modal.restricted_invite_guest.post_trial_description',
-                defaultMessage: 'Collaborate with users outside of your organization while tightly controlling their access to channels and team members. Upgrade to the Professional plan to create unlimited user groups.',
-            })}
-            ctaExtraContent={(
-                <span className='badge-text'>
-                    {isCloudFreeTrial ? formatMessage({id: 'cloud_free.professional_feature.professional', defaultMessage: 'Professional feature'}) : formatMessage({id: 'cloud_free.professional_feature.try_free', defaultMessage: 'Professional feature- try it out free'})}
-                </span>
-            )}
-            clickCallback={closeInviteModal}
-        />
-    );
+    const isPaidSubscription = isCloud && !isStarter && !isCloudFreeTrial;
 
     // show the badge logic (the restricted indicator takes care of the look when it is trial or not)
     if (isSystemAdmin && isCloud && !isPaidSubscription) {
+        const closeInviteModal = () => {
+            dispatch(closeModal(ModalIdentifiers.INVITATION));
+        };
+
+        const restrictedIndicator = (
+            <RestrictedIndicator
+                blocked={!isCloudFreeTrial}
+                titleAdminPreTrial={formatMessage({
+                    id: 'invite_modal.restricted_invite_guest.pre_trial_title',
+                    defaultMessage: 'Try inviting guests with a free trial',
+                })}
+                messageAdminPreTrial={formatMessage({
+                    id: 'invite_modal.restricted_invite_guest.pre_trial_description',
+                    defaultMessage: 'Collaborate with users outside of your organization while tightly controlling their access to channels and team members. Get the full experience of Enterprise when you start a free, {trialLength} day trial.',
+                },
+                {trialLength: FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS},
+                )}
+                titleAdminPostTrial={formatMessage({
+                    id: 'invite_modal.restricted_invite_guest.post_trial_title',
+                    defaultMessage: 'Upgrade to invite guest',
+                })}
+                messageAdminPostTrial={formatMessage({
+                    id: 'invite_modal.restricted_invite_guest.post_trial_description',
+                    defaultMessage: 'Collaborate with users outside of your organization while tightly controlling their access to channels and team members. Upgrade to the Professional plan to create unlimited user groups.',
+                })}
+                ctaExtraContent={(
+                    <span className='badge-text'>
+                        {isCloudFreeTrial ? formatMessage({id: 'cloud_free.professional_feature.professional', defaultMessage: 'Professional feature'}) : formatMessage({id: 'cloud_free.professional_feature.try_free', defaultMessage: 'Professional feature- try it out free'})}
+                    </span>
+                )}
+                clickCallback={closeInviteModal}
+            />
+        );
         guestDisabledClass = isCloudFreeTrial ? '' : 'disabled-legend';
         badges = {
             matchVal: InviteType.GUEST as string,

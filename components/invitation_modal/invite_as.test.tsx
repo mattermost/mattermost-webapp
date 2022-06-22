@@ -9,7 +9,7 @@ import {shallow} from 'enzyme';
 
 import thunk from 'redux-thunk';
 
-import {LicenseSkus} from 'mattermost-redux/types/general';
+import {CloudProducts} from 'utils/constants';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
@@ -84,7 +84,7 @@ describe('components/cloud_start_trial_btn/cloud_start_trial_btn', () => {
                     license: {
                         IsLicensed: 'false',
                         Cloud: 'true',
-                        SkuShortName: LicenseSkus.Starter,
+                        SkuShortName: CloudProducts.STARTER,
                     },
                 },
                 cloud: {
@@ -122,7 +122,7 @@ describe('components/cloud_start_trial_btn/cloud_start_trial_btn', () => {
                     license: {
                         IsLicensed: 'false',
                         Cloud: 'true',
-                        SkuShortName: LicenseSkus.Starter,
+                        SkuShortName: CloudProducts.STARTER,
                     },
                 },
                 cloud: {
