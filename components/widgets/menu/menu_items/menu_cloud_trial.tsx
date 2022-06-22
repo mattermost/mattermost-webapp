@@ -12,6 +12,7 @@ import LearnMoreTrialModal from 'components/learn_more_trial_modal/learn_more_tr
 
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
+import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 
 import {openModal} from 'actions/views/modals';
 
@@ -27,7 +28,7 @@ import './menu_item.scss';
 type Props = {
     id: string;
 }
-const MenuCloudTrial = ({id}: Props) => {
+const MenuCloudTrial = ({id}: Props): JSX.Element | null => {
     const subscription = useSelector(getCloudSubscription);
     const subscriptionProduct = useSelector(getSubscriptionProduct);
     const license = useSelector(getLicense);
@@ -37,6 +38,7 @@ const MenuCloudTrial = ({id}: Props) => {
     const isFreeTrial = subscription?.is_free_trial === 'true';
     const noPriorTrial = !(subscription?.is_free_trial === 'false' && subscription?.trial_end_at > 0);
     const freeTrialEndDay = moment(subscription?.trial_end_at).format('MMMM DD');
+    const isAdmin = useSelector(isCurrentUserSystemAdmin);
     const openPricingModal = useOpenPricingModal();
 
     const openTrialBenefitsModal = async () => {
@@ -62,6 +64,11 @@ const MenuCloudTrial = ({id}: Props) => {
     const isStarter = subscriptionProduct?.sku === CloudProducts.STARTER;
 
     if (someLimitNeedsAttention || (!isStarter && !isFreeTrial)) {
+        return null;
+    }
+
+    // for end users only display the trial information
+    if (!isAdmin && !isFreeTrial) {
         return null;
     }
 
