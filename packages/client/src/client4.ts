@@ -725,6 +725,7 @@ export default class Client4 {
             login_id: loginId,
             password,
             token,
+            deviceId: '',
         };
 
         if (ldapOnly) {
@@ -752,6 +753,7 @@ export default class Client4 {
             id,
             password,
             token,
+            device_id: '',
         };
 
         return this.doFetch<UserProfile>(
@@ -967,13 +969,6 @@ export default class Client4 {
         return this.doFetch<MfaSecret>(
             `${this.getUserRoute(userId)}/mfa/generate`,
             {method: 'post'},
-        );
-    };
-
-    attachDevice = (deviceId: string) => {
-        return this.doFetch<StatusOK>(
-            `${this.getUsersRoute()}/sessions/device`,
-            {method: 'put', body: JSON.stringify({device_id: deviceId})},
         );
     };
 
