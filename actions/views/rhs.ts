@@ -478,8 +478,7 @@ export function toggleRhsExpanded() {
 
 export function selectPostAndParentChannel(post: Post) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const state = getState();
-        const channel = getChannelSelector(state, post.channel_id);
+        const channel = getChannelSelector(getState(), post.channel_id);
         if (!channel) {
             await dispatch(getChannel(post.channel_id));
         }
