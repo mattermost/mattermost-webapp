@@ -2716,7 +2716,7 @@ const AdminDefinition = {
                         help_text_values: {
                             linkKnownIssues: (msg) => (
                                 <a
-                                    href='https://docs.mattermost.com/messaging/organizing-conversations.html'
+                                    href='ttps://support.mattermost.com/hc/en-us/articles/4413183568276'
                                     referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
@@ -4832,8 +4832,39 @@ const AdminDefinition = {
                                 display_name_default: 'Google Apps',
                                 isHidden: it.not(it.licensedForFeature('GoogleOAuth')),
                                 help_text: t('admin.google.EnableMarkdownDesc'),
-                                help_text_default: '1. [Log in](!https://accounts.google.com/login) to your Google account.\n2. Go to [https://console.developers.google.com](!https://console.developers.google.com), click **Credentials** in the left hand sidebar and enter "Mattermost - your-company-name" as the **Project Name**, then click **Create**.\n3. Click the **OAuth consent screen** header and enter "Mattermost" as the **Product name shown to users**, then click **Save**.\n4. Under the **Credentials** header, click **Create credentials**, choose **OAuth client ID** and select **Web Application**.\n5. Under **Restrictions** and **Authorized redirect URIs** enter **your-mattermost-url/signup/google/complete** (example: http://localhost:8065/signup/google/complete). Click **Create**.\n6. Paste the **Client ID** and **Client Secret** to the fields below, then click **Save**.\n7. Go to the [Google People API](!https://console.developers.google.com/apis/library/people.googleapis.com) and click *Enable*.',
-                                help_text_markdown: true,
+                                help_text_default: '1. <linkLogin>Log in</linkLogin> to your Google account.\n2. Go to <linkConsole>https://console.developers.google.com</linkConsole>, click <strong>Credentials</strong> in the left hand sidebar and enter "Mattermost - your-company-name" as the <strong>Project Name</strong>, then click <strong>Create</strong>.\n3. Click the <strong>OAuth consent screen</strong> header and enter "Mattermost" as the <strong>Product name shown to users</strong>, then click <strong>Save</strong>.\n4. Under the <strong>Credentials</strong> header, click <strong>Create credentials</strong>, choose <strong>OAuth client ID</strong> and select <strong>Web Application</strong>.\n5. Under <strong>Restrictions</strong> and <strong>Authorized redirect URIs</strong> enter <strong>your-mattermost-url/signup/google/complete</strong> (example: http://localhost:8065/signup/google/complete). Click <strong>Create</strong>.\n6. Paste the <strong>Client ID</strong> and <strong>Client Secret</strong> to the fields below, then click <strong>Save</strong>.\n7. Go to the <linkAPI>Google People API</linkAPI> and click <strong>Enable</strong>.',
+                                help_text_markdown: false,
+                                linkLogin: (msg) => (
+                                    <a
+                                        href='https://accounts.google.com/login'
+                                        referrer='noreferrer'
+                                        target='_blank'
+                                        rel='noreferrer'
+                                    >
+                                        {msg}
+                                    </a>
+                                ),
+                                linkConsole: (msg) => (
+                                    <a
+                                        href='https://console.developers.google.com'
+                                        referrer='noreferrer'
+                                        target='_blank'
+                                        rel='noreferrer'
+                                    >
+                                        {msg}
+                                    </a>
+                                ),
+                                linkAPI: (msg) => (
+                                    <a
+                                        href='https://console.developers.google.com/apis/library/people.googleapis.com'
+                                        referrer='noreferrer'
+                                        target='_blank'
+                                        rel='noreferrer'
+                                    >
+                                        {msg}
+                                    </a>
+                                ),
+                                strong: (msg) => <strong>{msg}</strong>,                             
                             },
                             {
                                 value: Constants.OFFICE365_SERVICE,
@@ -5178,15 +5209,15 @@ const AdminDefinition = {
                                 display_name_default: 'GitLab',
                                 help_text: t('admin.gitlab.EnableMarkdownDesc'),
                                 help_text_default: '1. Log in to your GitLab account and go to Profile Settings -> Applications.\n2. Enter Redirect URIs "<your-mattermost-url>/login/gitlab/complete" (example: http://localhost:8065/login/gitlab/complete) and "<your-mattermost-url>/signup/gitlab/complete".\n3. Then use "Application Secret Key" and "Application ID" fields from GitLab to complete the options below.\n4. Complete the Endpoint URLs below.',
-                                help_text_markdown: true,
+                                help_text_markdown: false,
                             },
                             {
                                 value: Constants.GOOGLE_SERVICE,
                                 display_name: t('admin.openid.google'),
                                 display_name_default: 'Google Apps',
                                 help_text: t('admin.google.EnableMarkdownDesc'),
-                                help_text_default: '1. <linkLogin>Log in</linkLogin> to your Google account.\n2. Go to <linkConsole>https://console.developers.google.com]</linkConsole>, click **Credentials** in the left hand side.\n 3. Under the **Credentials** header, click **Create credentials**, choose **OAuth client ID** and select **Web Application**.\n 4. Enter "Mattermost - your-company-name" as the **Name**.\n 5. Under **Authorized redirect URIs** enter **your-mattermost-url/signup/google/complete** (example: http://localhost:8065/signup/google/complete). Click **Create**.\n 6. Paste the **Client ID** and **Client Secret** to the fields below, then click **Save**.\n 7. Go to the <linkAPI>Google People API</linkAPI> and click *Enable*.',
-                                help_text_markdown: true,
+                                help_text_default: '1. <linkLogin>Log in</linkLogin> to your Google account.\n2. Go to <linkConsole>https://console.developers.google.com]</linkConsole>, click <strong>Credentials</strong> in the left hand side.\n 3. Under the <strong>Credentials</strong> header, click <strong>Create credentials</strong>, choose <strong>OAuth client ID</strong> and select <strong>Web Application</strong>.\n 4. Enter "Mattermost - your-company-name" as the <strong>Name</strong>.\n 5. Under <strong>Authorized redirect URIs</strong> enter <strong>your-mattermost-url/signup/google/complete</strong> (example: http://localhost:8065/signup/google/complete). Click <strong>Create</strong>.\n 6. Paste the <strong>Client ID</strong> and <strong>Client Secret</strong> to the fields below, then click <strong>Save</strong>.\n 7. Go to the <linkAPI>Google People API</linkAPI> and click <strong>Enable</strong>.',
+                                help_text_markdown: false,
                                 help_text_values: {
                                     linkLogin: (msg) => (
                                         <a
@@ -5218,6 +5249,7 @@ const AdminDefinition = {
                                             {msg}
                                         </a>
                                     ),
+                                    strong: (msg) => <strong>{msg}</strong>,
                                 },
                             },
                             {
@@ -5225,8 +5257,40 @@ const AdminDefinition = {
                                 display_name: t('admin.openid.office365'),
                                 display_name_default: 'Office 365',
                                 help_text: t('admin.office365.EnableMarkdownDesc'),
-                                help_text_default: '1. [Log in](!https://login.microsoftonline.com/) to your Microsoft or Office 365 account. Make sure it`s the account on the same [tenant](!https://msdn.microsoft.com/en-us/library/azure/jj573650.aspx#Anchor_0) that you would like users to log in with.\n2. Go to [https://apps.dev.microsoft.com](!https://apps.dev.microsoft.com), click **Go to Azure Portal** > click **New Registration**.\n3. Use "Mattermost - your-company-name" as the **Application Name**, click **Registration**, paste **Client ID** and **Tenant ID** below.\n4. Click **Authentication**, under **Platforms**, click **Add Platform**, choose **Web** and enter **your-mattermost-url/signup/office365/complete** (example: http://localhost:8065/signup/office365/complete) under **Redirect URIs**. Also uncheck **Allow Implicit Flow**.\n5. Click **Certificates & secrets**, Generate **New client secret** and paste secret value in **Client Secret** field below.',
-                                help_text_markdown: true,
+                                help_text_default: '1. <linkLogin>Log in</linkLogin> to your Microsoft or Office 365 account. Make sure it`s the account on the same <linkTenant>tenant</linkTenant> that you would like users to log in with.\n2. Go to <linkApps>https://apps.dev.microsoft.com</linkApps>, click <strong>Go to Azure Portal</strong> > click <strong>New Registration</strong>.\n3. Use "Mattermost - your-company-name" as the <strong>Application Name</strong>, click <strong>Registration</strong>, paste <strong>Client ID</strong> and <strong>Tenant ID</strong> below.\n4. Click <strong>Authentication</strong>, under <strong>Platforms</strong>, click <strong>Add Platform</strong>, choose <strong>Web</strong> and enter <strong>your-mattermost-url/signup/office365/complete</strong> (example: http://localhost:8065/signup/office365/complete) under <strong>Redirect URIs</strong>. Also uncheck <strong>Allow Implicit Flow</strong>.\n5. Click <strong>Certificates & secrets</strong>, Generate <strong>New client secret</strong> and paste secret value in <strong>Client Secret</strong> field below.',
+                                help_text_markdown: false,
+                                linkLogin: (msg) => (
+                                    <a
+                                        href='https://login.microsoftonline.com/'
+                                        referrer='noreferrer'
+                                        target='_blank'
+                                        rel='noreferrer'
+                                    >
+                                        {msg}
+                                    </a>
+                                ),
+                                linkTenant: (msg) => (
+                                    <a
+                                        href='https://msdn.microsoft.com/en-us/library/azure/jj573650.aspx#Anchor_0'
+                                        referrer='noreferrer'
+                                        target='_blank'
+                                        rel='noreferrer'
+                                    >
+                                        {msg}
+                                    </a>
+                                ),
+                                linkApps: (msg) => (
+                                    <a
+                                        href='https://apps.dev.microsoft.com'
+                                        referrer='noreferrer'
+                                        target='_blank'
+                                        rel='noreferrer'
+                                    >
+                                        {msg}
+                                    </a>
+                                ),
+                                strong: (msg) => <strong>{msg}</strong>,
+
                             },
                             {
                                 value: Constants.OPENID_SERVICE,
@@ -5234,7 +5298,7 @@ const AdminDefinition = {
                                 display_name_default: 'OpenID Connect (Other)',
                                 help_text: t('admin.openid.EnableMarkdownDesc'),
                                 help_text_default: 'Follow provider directions for creating an OpenID Application. Most OpenID Connect providers require authorization of all redirect URIs. In the appropriate field, enter your-mattermost-url/signup/openid/complete (example: http://domain.com/signup/openid/complete)',
-                                help_text_markdown: true,
+                                help_text_markdown: false,
                             },
                         ],
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
@@ -5800,8 +5864,8 @@ const AdminDefinition = {
                         label: t('admin.service.enableBotTitle'),
                         label_default: 'Enable Bot Account Creation: ',
                         help_text: t('admin.service.enableBotAccountCreation'),
-                        help_text_default: 'When true, System Admins can create bot accounts for integrations in [Integrations > Bot Accounts]({siteURL}/_redirect/integrations/bots). Bot accounts are similar to user accounts except they cannot be used to log in. See <link>documentation</link> to learn more.',
-                        help_text_markdown: true,
+                        help_text_default: 'When true, System Admins can create bot accounts for integrations in <link>Integrations > Bot Accounts</link>. Bot accounts are similar to user accounts except they cannot be used to log in. See <link>documentation</link> to learn more.',
+                        help_text_markdown: false,
                         help_text_values: {
                             siteURL: getSiteURL(),
                             link: (msg) => (
@@ -5813,6 +5877,11 @@ const AdminDefinition = {
                                 >
                                     {msg}
                                 </a>
+                            ),
+                            siteurl: (msg) => (
+                                <a 
+                                    href={`${siteURL}/_redirect/integrations/bots`}
+                                />
                             ),
                         },
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.BOT_ACCOUNTS)),
@@ -6673,8 +6742,6 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
-<<<<<<< HEAD
-<<<<<<< HEAD
                         key: 'ServiceSettings.ThreadAutoFollow',
                         label: t('admin.experimental.threadAutoFollow.title'),
                         label_default: 'Automatically Follow Threads',
@@ -6683,7 +6750,7 @@ const AdminDefinition = {
                         help_text_values: {
                             linkThreads: (msg) => (
                                 <a
-                                    href='https://docs.mattermost.com/messaging/organizing-conversations.html'
+                                    href='ttps://support.mattermost.com/hc/en-us/articles/4413183568276'
                                     referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
@@ -6693,7 +6760,7 @@ const AdminDefinition = {
                             ),
                             linkPerformance: (msg) => (
                                 <a
-                                    href='https://docs.mattermost.com/messaging/organizing-conversations.html'
+                                    href='ttps://support.mattermost.com/hc/en-us/articles/4413183568276'
                                     referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
@@ -6716,7 +6783,7 @@ const AdminDefinition = {
                         help_text_values: {
                             linkKnownIssues: (msg) => (
                                 <a
-                                    href='https://docs.mattermost.com/messaging/organizing-conversations.html'
+                                    href='ttps://support.mattermost.com/hc/en-us/articles/4413183568276'
                                     referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
@@ -6762,10 +6829,6 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
-=======
->>>>>>> replacing_url_by_variables
-=======
->>>>>>> cfa1c310a7b0e6da29ffaaed1aa418b716e03ce4
                         key: 'DisplaySettings.ExperimentalTimezone',
                         label: t('admin.experimental.experimentalTimezone.title'),
                         label_default: 'Timezone:',
