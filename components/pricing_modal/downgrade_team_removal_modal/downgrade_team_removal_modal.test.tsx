@@ -25,6 +25,15 @@ describe('components/pricing_modal/downgrade_team_removal_modal', () => {
 
     const state = {
         entities: {
+            users: {
+                currentUserId: 'user1',
+                profiles: {
+                    user1: {
+                        id: 'user1',
+                        roles: '',
+                    },
+                },
+            },
             usage: {
                 files: {
                     totalStorage: 0,
@@ -301,7 +310,6 @@ describe('components/pricing_modal/downgrade_team_removal_modal', () => {
         views: {
             modals: {
                 modalState: {
-
                     cloud_downgrade_choose_team: {
                         open: 'true',
                     },
