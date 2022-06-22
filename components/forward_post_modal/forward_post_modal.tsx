@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import classNames from 'classnames';
-import React, {useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 import {Modal} from 'react-bootstrap';
 import {useSelector} from 'react-redux';
@@ -122,19 +122,19 @@ const ForwardPostModal = (props: Props) => {
 
     const selectedChannelId = selectedChannel?.details?.id || '';
 
-    const canPostInSelectedChannel = useSelector((state: GlobalState) => haveIChannelPermission(state, selectedChannel?.details?.team_id || '', selectedChannelId, Permissions.CREATE_POST));
+    const canPostInSelectedChannel = useSelector((state: GlobalState) => Boolean(selectedChannelId) && haveIChannelPermission(state, selectedChannel?.details?.team_id || '', selectedChannelId, Permissions.CREATE_POST));
     const useChannelMentions = useSelector((state: GlobalState) => haveIChannelPermission(state, selectedChannel?.details?.team_id || '', selectedChannelId, Permissions.USE_CHANNEL_MENTIONS));
 
     const maxPostSize = parseInt(config.MaxPostSize || '', 10) || Constants.DEFAULT_CHARACTER_LIMIT;
     const enableEmojiPicker = config.EnableEmojiPicker === 'true';
     const isPrivateConversation = currentChannel.type !== General.OPEN_CHANNEL;
-    const canForwardPost = !isPrivateConversation && canPostInSelectedChannel;
+    const canForwardPost = isPrivateConversation || canPostInSelectedChannel;
     const {current: permaLink} = useRef<string>(`${getSiteURL()}${relativePermaLink}`);
 
-    const onHide = () => {
+    const onHide = useCallback(() => {
         // focusPostTextbox();
         onExited?.();
-    };
+    }, [onExited]);
 
     const handleChannelSelect = (channel: ValueType<ChannelOption>) => {
         if (Array.isArray(channel)) {
@@ -167,6 +167,8 @@ const ForwardPostModal = (props: Props) => {
         const ctrlAltCombo = Utils.cmdOrCtrlPressed(e, true) && e.altKey;
         const ctrlShiftCombo = Utils.cmdOrCtrlPressed(e, true) && e.shiftKey;
         const markdownLinkKey = Utils.isKeyPressed(e, KeyCodes.K);
+        const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
+        const ctrlEnterKeyCombo = Utils.isKeyPressed(e, KeyCodes.ENTER) && ctrlOrMetaKeyPressed;
 
         const {
             selectionStart,
@@ -208,6 +210,8 @@ const ForwardPostModal = (props: Props) => {
         } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.E)) {
             e.stopPropagation();
             e.preventDefault();
+        } else if (ctrlEnterKeyCombo && canForwardPost) {
+            handleSubmit();
         }
     };
 
@@ -286,7 +290,7 @@ const ForwardPostModal = (props: Props) => {
         );
     }
 
-    const handlePostForwarding = async () => {
+    const handlePostForwarding = useCallback(async () => {
         let newPost = {} as Post;
 
         newPost.channel_id = isPrivateConversation ? currentChannel.id : selectedChannelId;
@@ -322,9 +326,9 @@ const ForwardPostModal = (props: Props) => {
         actions.onSubmitPost(newPost, [] as FileInfo[]);
 
         return {data: true};
-    };
+    }, [actions, comment, currentChannel.id, currentUserId, groupsWithAllowReference, isPrivateConversation, permaLink, selectedChannelId, useChannelMentions, useCustomGroupMentions, useLDAPGroupMentions]);
 
-    const handleSubmit = () => {
+    const handleSubmit = useCallback(() => {
         handlePostForwarding().then((res) => {
             if (res.data === true) {
                 if (selectedChannel?.details.type === Constants.MENTION_MORE_CHANNELS && selectedChannel?.details.type === Constants.OPEN_CHANNEL) {
@@ -333,8 +337,9 @@ const ForwardPostModal = (props: Props) => {
             }
             return {data: false};
         }).then(() => {
-            if (selectedChannel) {
-                return actions.switchToChannel(selectedChannel?.details);
+            const channelToSwitchTo = isPrivateConversation ? currentChannel : selectedChannel?.details;
+            if (channelToSwitchTo) {
+                return actions.switchToChannel(channelToSwitchTo);
             }
             return {data: false};
         }).then((res: ActionResult) => {
@@ -342,7 +347,22 @@ const ForwardPostModal = (props: Props) => {
                 onHide();
             }
         });
-    };
+    }, [actions, selectedChannel, selectedChannelId, handlePostForwarding, onHide]);
+
+    useEffect(() => {
+        const handleEnterKey = (e: KeyboardEvent) => {
+            // prevent other eventlisteners to catch the event
+            e.stopPropagation();
+            const textboxIsFocused = document.activeElement === textboxRef?.current?.getInputBox();
+            if (Utils.isKeyPressed(e, KeyCodes.ENTER) && !textboxIsFocused && canForwardPost) {
+                handleSubmit();
+            }
+        };
+
+        document.addEventListener('keyup', handleEnterKey);
+
+        return () => document.removeEventListener('keyup', handleEnterKey);
+    }, [handleSubmit, canPostInSelectedChannel]);
 
     return (
         <Modal
