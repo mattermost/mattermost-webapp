@@ -9,7 +9,6 @@ import {getSiteURL} from 'utils/url';
 
 import GroupsList from 'components/admin_console/group_settings/groups_list';
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 type Props = {
     isDisabled?: boolean;
@@ -30,9 +29,20 @@ const GroupSettings = ({isDisabled}: Props) => {
                 <div className='admin-console__content'>
                     <div className={'banner info'}>
                         <div className='banner__content'>
-                            <FormattedMarkdownMessage
+                            <FormattedMessage
                                 id='admin.group_settings.introBanner'
-                                defaultMessage={'Groups are a way to organize users and apply actions to all users within that group.\nFor more information on Groups, please see [documentation](!https://www.mattermost.com/default-ad-ldap-groups).'}
+                                defaultMessage={'Groups are a way to organize users and apply actions to all users within that group.\nFor more information on Groups, please see <link>documentation</link>.'}
+                                values={{
+                                    link: (msg: React.ReactNode) => (
+                                        <a
+                                            href='https://www.mattermost.com/default-ad-ldap-groups'
+                                            target='_blank'
+                                            rel='noreferrer'
+                                        >
+                                            {msg}
+                                        </a>
+                                    ),
+                                }}
                             />
                         </div>
                     </div>

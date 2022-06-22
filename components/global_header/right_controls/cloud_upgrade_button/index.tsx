@@ -7,7 +7,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 
 import {CloudProducts} from 'utils/constants';
-import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCloudProducts, getCloudSubscription} from 'mattermost-redux/actions/cloud';
 import {getCloudSubscription as selectCloudSubscription, getSubscriptionProduct as selectSubscriptionProduct, isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
 
@@ -35,7 +34,6 @@ const UpgradeCloudButton = (): JSX.Element | null => {
     const dispatch = useDispatch();
     const {formatMessage} = useIntl();
 
-    const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
     const subscription = useSelector(selectCloudSubscription);
     const product = useSelector(selectSubscriptionProduct);
     const isCloud = useSelector(isCurrentLicenseCloud);
@@ -52,7 +50,7 @@ const UpgradeCloudButton = (): JSX.Element | null => {
     const isEnterpriseTrial = subscription?.is_free_trial === 'true';
     const isStarter = product?.sku === CloudProducts.STARTER;
 
-    if (!isCloud || !isCloudFreeEnabled) {
+    if (!isCloud) {
         return null;
     }
 

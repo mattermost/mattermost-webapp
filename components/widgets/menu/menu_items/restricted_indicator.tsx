@@ -18,10 +18,12 @@ type RestrictedIndicatorProps = {
     tooltipTitle?: string;
     tooltipMessage?: string;
     tooltipMessageBlocked?: string;
-    modalTitle?: string;
-    modalMessage?: string;
-    modalTitleAfterTrial?: string;
-    modalMessageAfterTrial?: string;
+    titleAdminPreTrial: string;
+    messageAdminPreTrial: string;
+    titleAdminPostTrial: string;
+    messageAdminPostTrial: string;
+    titleEndUser: string;
+    messageEndUser: string;
 }
 
 const RestrictedIndicator = ({
@@ -29,10 +31,12 @@ const RestrictedIndicator = ({
     tooltipTitle,
     tooltipMessage,
     tooltipMessageBlocked,
-    modalTitle,
-    modalMessage,
-    modalTitleAfterTrial,
-    modalMessageAfterTrial,
+    titleAdminPreTrial,
+    messageAdminPreTrial,
+    titleAdminPostTrial,
+    messageAdminPostTrial,
+    titleEndUser,
+    messageEndUser,
 }: RestrictedIndicatorProps) => {
     const {formatMessage} = useIntl();
 
@@ -62,10 +66,12 @@ const RestrictedIndicator = ({
                         modalId={ModalIdentifiers.FEATURE_RESTRICTED_MODAL}
                         dialogType={FeatureRestrictedModal}
                         dialogProps={{
-                            modalTitle,
-                            modalMessage,
-                            modalTitleAfterTrial,
-                            modalMessageAfterTrial,
+                            titleAdminPreTrial,
+                            messageAdminPreTrial,
+                            titleAdminPostTrial,
+                            messageAdminPostTrial,
+                            titleEndUser,
+                            messageEndUser,
                         }}
                     >
                         <i className='RestrictedIndicator__icon-tooltip icon icon-key-variant'/>

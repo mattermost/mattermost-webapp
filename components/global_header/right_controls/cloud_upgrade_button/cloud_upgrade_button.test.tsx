@@ -20,9 +20,6 @@ describe('components/global/CloudUpgradeButton', () => {
     const initialState = {
         entities: {
             general: {
-                config: {
-                    FeatureFlagCloudFree: 'true',
-                } as any,
                 license: {
                     IsLicensed: 'true',
                     Cloud: 'true',

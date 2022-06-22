@@ -36,14 +36,6 @@ function simulateSubscription(subscription) {
             },
         ],
     });
-
-    cy.intercept('**/api/v4/config/client?format=old', (req) => {
-        req.reply((res) => {
-            const config = {...res.body};
-            config.FeatureFlagCloudFree = 'true';
-            res.send(config);
-        });
-    });
 }
 
 describe('Pricing modal', () => {
