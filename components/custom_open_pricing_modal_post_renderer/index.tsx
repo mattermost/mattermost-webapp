@@ -7,7 +7,7 @@ import {useIntl} from 'react-intl';
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import {Post} from '@mattermost/types/posts';
 
-export default function CustomOpenPricingModalPostRenderer(props: {post: Post}) {
+export default function OpenPricingModalPost(props: {post: Post}) {
     const {formatMessage} = useIntl();
 
     const openPricingModal = useOpenPricingModal();
