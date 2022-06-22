@@ -50,12 +50,6 @@ describe('components/learn_more_trial_modal/learn_more_trial_modal', () => {
             cloud: {
                 subscription: {id: 'subscription'},
             },
-            users: {
-                currentUserId: 'current_user_id',
-                profiles: {
-                    current_user_id: {roles: 'system_admin'},
-                },
-            },
         },
         views: {
             modals: {
@@ -182,38 +176,6 @@ describe('components/learn_more_trial_modal/learn_more_trial_modal', () => {
         const trialButton = wrapper.find('CloudStartTrialButton');
 
         expect(trialButton).toHaveLength(1);
-    });
-
-    test('should have the view plans cta button when is End User', () => {
-        const nonCloudState = {
-            ...state,
-            entities: {
-                ...state.entities,
-                users: {
-                    currentUserId: 'current_user_id',
-                    profiles: {
-                        current_user_id: {roles: 'system_user'},
-                    },
-                },
-            },
-        };
-        const nonCloudStore = mockStore(nonCloudState);
-
-        const wrapper = mountWithIntl(
-            <Provider store={nonCloudStore}>
-                <LearnMoreTrialModal
-                    {...props}
-                />
-            </Provider>,
-        );
-
-        // validate the cloud start trial button is not present
-        const trialButton = wrapper.find('CloudStartTrialButton');
-        expect(trialButton).toHaveLength(0);
-
-        // validate the cloud start trial button is not present
-        const selfHostedRequestTrialButton = wrapper.find('button.view-plans-btn');
-        expect(selfHostedRequestTrialButton).toHaveLength(1);
     });
 
     test('should have the self hosted request trial button cloud free is disabled', () => {

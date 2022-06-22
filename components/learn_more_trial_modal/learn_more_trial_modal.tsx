@@ -16,12 +16,10 @@ import MonitorImacLikeSVG from 'components/common/svg_images_components/monitor_
 import SystemRolesSVG from 'components/admin_console/feature_discovery/features/images/system_roles_svg';
 import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
 import {BtnStyle} from 'components/common/carousel/carousel_button';
-import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 
 import {closeModal} from 'actions/views/modals';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
-import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 
 import StartTrialBtn from './start_trial_btn';
 
@@ -38,12 +36,10 @@ const LearnMoreTrialModal = (
     {
         onClose,
         onExited,
-    }: Props): JSX.Element => {
+    }: Props): JSX.Element | null => {
     const {formatMessage} = useIntl();
     const [embargoed, setEmbargoed] = useState(false);
     const dispatch = useDispatch<DispatchFunc>();
-    const isAdmin = useSelector(isCurrentUserSystemAdmin);
-    const openPricingModal = useOpenPricingModal();
 
     // Cloud conditions
     const license = useSelector(getLicense);
@@ -71,30 +67,15 @@ const LearnMoreTrialModal = (
 
     // no need to check if is cloud trial or if it have had prev cloud trial because the button that show this modal takes care of that
     if (isCloud) {
-        // if the user is system admin the cta is to start the trial.For end users is to view the plans
-        if (isAdmin) {
-            startTrialBtnMsg = formatMessage({id: 'menu.cloudFree.tryFreeFor30Days', defaultMessage: 'Try free for 30 days'});
-            startTrialBtn = (
-                <CloudStartTrialButton
-                    message={startTrialBtnMsg}
-                    telemetryId={'start_cloud_trial_from_learn_more_about_trial_modal'}
-                    onClick={dismissAction}
-                    extraClass={'btn btn-primary start-cloud-trial-btn'}
-                />
-            );
-        } else {
-            startTrialBtn = (
-                <button
-                    onClick={openPricingModal}
-                    className='btn btn-primary view-plans-btn'
-                >
-                    {formatMessage({
-                        id: 'learn_more_trial_modal.view_plans_cta',
-                        defaultMessage: 'View plans',
-                    })}
-                </button>
-            );
-        }
+        startTrialBtnMsg = formatMessage({id: 'menu.cloudFree.tryFreeFor30Days', defaultMessage: 'Try free for 30 days'});
+        startTrialBtn = (
+            <CloudStartTrialButton
+                message={startTrialBtnMsg}
+                telemetryId={'start_cloud_trial_from_learn_more_about_trial_modal'}
+                onClick={dismissAction}
+                extraClass={'btn btn-primary start-cloud-trial-btn'}
+            />
+        );
     }
 
     const handleOnClose = useCallback(() => {
