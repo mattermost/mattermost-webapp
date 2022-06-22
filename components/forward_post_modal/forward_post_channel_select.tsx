@@ -201,6 +201,7 @@ type Props<O> = {
 }
 
 function ForwardPostChannelSelect({onSelect, value}: Props<ChannelOption>) {
+    const {formatMessage} = useIntl();
     const {current: provider} = useRef<SwitchChannelProvider>(new SwitchChannelProvider());
 
     const getDefaultResults = () => {
@@ -240,17 +241,26 @@ function ForwardPostChannelSelect({onSelect, value}: Props<ChannelOption>) {
                         value: channel.id,
                         details: channel,
                     };
+                    let dividerLabel = formatMessage({id: 'suggestion.mention.recent.channels', defaultMessage: 'Recent'});
                     switch (channel.type) {
                     case Constants.OPEN_CHANNEL:
+                        dividerLabel = formatMessage({id: 'suggestion.search.public', defaultMessage: 'Recent'});
+                        break;
                     case Constants.PRIVATE_CHANNEL:
+                        dividerLabel = formatMessage({id: 'suggestion.mention.private.channels', defaultMessage: 'Private Channels'});
+                        break;
                     case Constants.DM_CHANNEL:
+                        dividerLabel = formatMessage({id: 'suggestion.search.direct', defaultMessage: 'Direct Messages'});
+                        break;
                     case Constants.GM_CHANNEL:
-                        if (!newOptions[channel.type]) {
-                            newOptions[channel.type] = {label: channel.type, options: []};
-                        }
-                        newOptions[channel.type].options.push(option);
+                        dividerLabel = formatMessage({id: 'suggestion.search.group', defaultMessage: 'Group Messages'});
                         break;
                     }
+
+                    if (!newOptions[channel.type]) {
+                        newOptions[channel.type] = {label: dividerLabel, options: []};
+                    }
+                    newOptions[channel.type].options.push(option);
                 });
 
                 options = Object.values(newOptions);
