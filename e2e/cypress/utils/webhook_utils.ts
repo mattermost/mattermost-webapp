@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-function getFullDialog(triggerId, webhookBaseUrl) {
+export function getFullDialog(triggerId: string, webhookBaseUrl: string) {
     return {
         trigger_id: triggerId,
         url: `${webhookBaseUrl}/dialog_submit`,
@@ -173,7 +173,7 @@ function getFullDialog(triggerId, webhookBaseUrl) {
     };
 }
 
-function getSimpleDialog(triggerId, webhookBaseUrl) {
+export function getSimpleDialog(triggerId: string, webhookBaseUrl: string) {
     return {
         trigger_id: triggerId,
         url: `${webhookBaseUrl}/dialog_submit`,
@@ -189,7 +189,7 @@ function getSimpleDialog(triggerId, webhookBaseUrl) {
     };
 }
 
-function getUserAndChannelDialog(triggerId, webhookBaseUrl) {
+export function getUserAndChannelDialog(triggerId: string, webhookBaseUrl: string) {
     return {
         trigger_id: triggerId,
         url: `${webhookBaseUrl}/dialog_submit`,
@@ -235,7 +235,7 @@ function getUserAndChannelDialog(triggerId, webhookBaseUrl) {
     };
 }
 
-function getBooleanDialog(triggerId, webhookBaseUrl) {
+export function getBooleanDialog(triggerId: string, webhookBaseUrl: string) {
     return {
         trigger_id: triggerId,
         url: `${webhookBaseUrl}/dialog_submit`,
@@ -262,9 +262,7 @@ function getBooleanDialog(triggerId, webhookBaseUrl) {
     };
 }
 
-module.exports = {
-    getFullDialog,
-    getSimpleDialog,
-    getUserAndChannelDialog,
-    getBooleanDialog,
-};
+export type Dialog = ReturnType<typeof getFullDialog> |
+    ReturnType<typeof getSimpleDialog> |
+    ReturnType<typeof getUserAndChannelDialog> |
+    ReturnType<typeof getBooleanDialog>

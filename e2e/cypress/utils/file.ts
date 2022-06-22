@@ -3,16 +3,25 @@
 
 /* eslint-disable no-console */
 
-const fs = require('fs');
+import fs from 'fs';
 
-const chalk = require('chalk');
-const intersection = require('lodash.intersection');
-const without = require('lodash.without');
-const shell = require('shelljs');
-const argv = require('yargs').
-    default('includeFile', '').
-    default('excludeFile', '').
-    argv;
+import chalk from 'chalk';
+import intersection from 'lodash.intersection';
+import without from 'lodash.without';
+import shell from 'shelljs';
+import yargs from 'yargs';
+interface Args {
+    includeFile: string;
+    excludeFile: string;
+    invert?: boolean;
+    group?: string;
+    stage?: string;
+    includeGroup?: string;
+    excludeGroup?: string;
+    sortFirst?: string;
+    sortLast?: string;
+}
+const argv: Args = yargs.default('includeFile', '').default('excludeFile', '').argv;
 
 const TEST_DIR = 'tests';
 
@@ -24,14 +33,14 @@ const grepCommand = (word = '') => {
     return `grep -rIlw '${word}' ${TEST_DIR}`;
 };
 
-const grepFiles = (command) => {
+const grepFiles = (command: string) => {
     return shell.exec(command, {silent: true}).stdout.
         split('\n').
-        filter((f) => f.includes('spec.js'));
+        filter((f: string) => f.includes('spec.js'));
 };
 
-const findFiles = (pattern) => {
-    function diveOnFiles(dirPath, filesArr) {
+const findFiles = (pattern: string) => {
+    function diveOnFiles(dirPath: string, filesArr?: string[]) {
         const files = fs.readdirSync(dirPath);
         let arrayOfFiles = filesArr || [];
 
@@ -49,16 +58,16 @@ const findFiles = (pattern) => {
 
     return shell.exec(`find ${TEST_DIR}/integration -name "${pattern}"`, {silent: true}).stdout.
         split('\n').
-        filter((matched) => Boolean(matched)).
-        map((fileOrDir) => {
-            if (fs.statSync(`./${fileOrDir}`).isDirectory(fileOrDir)) {
+        filter((matched: string) => Boolean(matched)).
+        map((fileOrDir: string) => {
+            if (fs.statSync(`./${fileOrDir}`).isDirectory()) {
                 return diveOnFiles(`./${fileOrDir}`);
             }
             return fileOrDir;
         }).
         flat().
-        filter((file) => file.includes('spec.js')).
-        map((file) => file.replace('./', ''));
+        filter((file: string) => file.includes('spec.js')).
+        map((file: string) => file.replace('./', ''));
 };
 
 function getBaseTestFiles() {
@@ -107,11 +116,16 @@ function getBaseTestFiles() {
     return intersection(stageFiles, groupFiles);
 }
 
-function getWeightedFiles(metadata, sortFirst = true) {
+export interface SortedFile {
+    file: string;
+    sortWeight: number;
+}
+
+function getWeightedFiles(metadata: string, sortFirst = true): Record<string, SortedFile> {
     let weightedFiles = [];
     if (metadata) {
         metadata.split(',').forEach((word, i, arr) => {
-            const files = getFilesByMetadata(word).map((file) => {
+            const files = getFilesByMetadata(word).map((file: string) => {
                 return {
                     file,
                     sortWeight: sortFirst ? (i - arr.length) : (i + 1),
@@ -148,7 +162,7 @@ function removeFromFiles(files = {}, filesToRemove = []) {
     const testFilesObject = Object.assign({}, files);
 
     const removedFiles = intersection(Object.keys(testFilesObject), filesToRemove);
-    removedFiles.forEach((file) => {
+    removedFiles.forEach((file: string) => {
         if (testFilesObject.hasOwnProperty(file)) {
             delete testFilesObject[file];
         }
@@ -157,7 +171,13 @@ function removeFromFiles(files = {}, filesToRemove = []) {
     return {testFilesObject, removedFiles};
 }
 
-function getSortedTestFiles(platform, browser, headless) {
+interface SortedTestFiles {
+    sortedFiles: string[];
+    skippedFiles: string[];
+    weightedTestFiles: SortedFile[];
+}
+
+export function getSortedTestFiles(platform: string, browser: string, headless: boolean): SortedTestFiles {
     // Get test files based on stage, group and/or invert
     const baseTestFiles = getBaseTestFiles();
 
@@ -175,16 +195,16 @@ function getSortedTestFiles(platform, browser, headless) {
         printMessage(includeFilesByFilename, `\nIncluded test files due to --include-file="${argv.includeFile}"`);
     }
 
-    let testFilesObject = baseTestFiles.
+    let testFilesObject: Record<string, SortedFile> = baseTestFiles.
         concat(includeFilesByGroup).
         concat(includeFilesByFilename).
-        reduce((acc, file) => {
+        reduce((acc: Record<string, SortedFile>, file: string) => {
             acc[file] = {file, sortWeight: 0};
             return acc;
         }, {});
 
     // Remove skipped files due to test environment
-    let removedFiles;
+    let removedFiles: string[];
     const skippedFiles = getSkippedFiles(platform, browser, headless);
     ({testFilesObject, removedFiles} = removeFromFiles(testFilesObject, skippedFiles));
     printMessage(removedFiles, `\nSkipped test files due to ${platform}/${browser} (${headless ? 'headless' : 'headed'})`);
@@ -229,7 +249,7 @@ function getSortedTestFiles(platform, browser, headless) {
     return {sortedFiles, skippedFiles, weightedTestFiles: Object.values(testFilesObject)};
 }
 
-function getFilesByMetadata(metadata) {
+function getFilesByMetadata(metadata?: string) {
     if (!metadata) {
         return [];
     }
@@ -238,7 +258,7 @@ function getFilesByMetadata(metadata) {
     return grepFiles(egc);
 }
 
-function printMessage(files = [], message) {
+function printMessage(files = [], message: string) {
     console.log(chalk.cyan(`\n${message}:`));
 
     files.forEach((file, index) => {
@@ -246,14 +266,10 @@ function printMessage(files = [], message) {
     });
 }
 
-function getSkippedFiles(platform, browser, headless) {
+function getSkippedFiles(platform: string, browser: string, headless: boolean) {
     const platformFiles = getFilesByMetadata(`@${platform}`);
     const browserFiles = getFilesByMetadata(`@${browser}`);
     const headlessFiles = getFilesByMetadata(`@${headless ? 'headless' : 'headed'}`);
 
     return platformFiles.concat(browserFiles, headlessFiles);
 }
-
-module.exports = {
-    getSortedTestFiles,
-};

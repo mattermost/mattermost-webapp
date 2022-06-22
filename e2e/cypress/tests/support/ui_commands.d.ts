@@ -19,6 +19,23 @@ declare namespace Cypress {
     interface Chainable {
 
         /**
+         * log out user
+         *
+         * @example
+         *   cy.logout();
+         */
+        logout(): void;
+
+        /**
+         * Wait for a message to get posted as the last post.
+         * @returns {string} returns true if found or fail a test if not.
+         *
+         * @example
+         *   cy.getCurrentUserId().then((id) => {
+         */
+        getCurrentUserId(): string;
+
+        /**
          * Wait for a message to get posted as the last post.
          * @param {string} message - message to check if includes in the last post
          * @returns {boolean} returns true if found or fail a test if not.
@@ -36,12 +53,12 @@ declare namespace Cypress {
          * - zero (0)         : oldest post
          * - positive number  : from old to latest post
          * - negative number  : from new to oldest post
-         * @returns {Response} response: Cypress-chainable response
+         * @returns {Element} response: Cypress-chainable Element
          *
          * @example
          *   cy.uiGetNthPost(-1);
          */
-        uiGetNthPost(index: number): Chainable<Response>;
+        uiGetNthPost(index: number): Element;
 
         /**
          * Post message via center textbox by directly injected in the textbox
@@ -64,5 +81,32 @@ declare namespace Cypress {
          *  cy.uiClickSystemEmoji('star-struck,grinning_face_with_star_eyes');
          */
         clickEmojiInEmojiPicker(emojiName: string): void;
+
+        /**
+         * Get nth post from the post list
+         * @returns {JQuery} response: Cypress-chainable JQuery
+         *
+         * @example
+         *   cy.getLastPost().then((el: Element) => {;
+         */
+        getLastPost(): Chainable<JQuery>;
+
+        /**
+         * Get nth post from the post list
+         * @returns {string} response: Cypress-chainable string
+         *
+         * @example
+         *   cy.getLastPostId().then((postId) => {
+         */
+        getLastPostId(): Chainable<string>;
+
+        /**
+         * Go to a DM channel with a given user
+         * @param {User} user - the user that should get the message
+         * @example
+         *   const user = {username: 'bob'};
+         *   cy.uiGotoDirectMessageWithUser(user);
+         */
+        uiGotoDirectMessageWithUser(user: {username: string}): void
     }
 }

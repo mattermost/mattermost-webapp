@@ -3,13 +3,13 @@
 
 /* eslint-disable camelcase, no-console */
 
-const express = require('express');
-const axios = require('axios');
-var ClientOAuth2 = require('client-oauth2');
+import express, {Request, Response} from 'express';
+import axios from 'axios';
+import ClientOAuth2, {Token} from 'client-oauth2';
 
-const webhookUtils = require('./utils/webhook_utils');
+import * as webhookUtils from './utils/webhook_utils';
 
-const postMessageAs = require('./tests/plugins/post_message_as');
+import postMessageAs from './tests/plugins/post_message_as';
 
 const port = 3000;
 
@@ -37,7 +37,7 @@ server.post('/post_oauth_message', postOAuthMessage);
 
 server.listen(port, () => console.log(`Webhook test server listening on port ${port}!`));
 
-function ping(req, res) {
+function ping(_req: Request, res: Response) {
     return res.json({
         message: 'I\'m alive!',
         endpoints: [
@@ -61,11 +61,11 @@ function ping(req, res) {
 }
 
 // Set base URLs and credential to be accessible by any endpoint
-let baseUrl;
-let webhookBaseUrl;
-let adminUsername;
-let adminPassword;
-function doSetup(req, res) {
+let baseUrl: string;
+let webhookBaseUrl: string;
+let adminUsername: string;
+let adminPassword: string;
+function doSetup(req: Request, res: Response) {
     baseUrl = req.body.baseUrl;
     webhookBaseUrl = req.body.webhookBaseUrl;
     adminUsername = req.body.adminUsername;
@@ -74,9 +74,9 @@ function doSetup(req, res) {
     return res.status(201).send('Successfully setup the new base URLs and credential.');
 }
 
-let client;
-let authedUser;
-function postSendOauthCredentials(req, res) {
+let client: ClientOAuth2;
+let authedUser: Token;
+function postSendOauthCredentials(req: Request, res: Response) {
     const {
         appID,
         appSecret,
@@ -91,11 +91,11 @@ function postSendOauthCredentials(req, res) {
     return res.status(200).send('OK');
 }
 
-function getStartOAuth(req, res) {
+function getStartOAuth(_req: Request, res: Response) {
     return res.redirect(client.code.getUri());
 }
 
-function getCompleteOauth(req, res) {
+function getCompleteOauth(req: Request, res: Response) {
     client.code.getToken(req.originalUrl).then((user) => {
         authedUser = user;
         return res.status(200).send('OK');
@@ -104,7 +104,7 @@ function getCompleteOauth(req, res) {
     });
 }
 
-async function postOAuthMessage(req, res) {
+async function postOAuthMessage(req: Request, res: Response) {
     const {channelId, message, rootId, createAt} = req.body;
     const apiUrl = `${baseUrl}/api/v4/posts`;
     authedUser.sign({
@@ -134,7 +134,7 @@ async function postOAuthMessage(req, res) {
     return res.status(200).send('OK');
 }
 
-function postSlackCompatibleMessageResponse(req, res) {
+function postSlackCompatibleMessageResponse(req: Request, res: Response) {
     const {spoiler, skipSlackParsing} = req.body.context;
 
     res.setHeader('Content-Type', 'application/json');
@@ -144,7 +144,7 @@ function postSlackCompatibleMessageResponse(req, res) {
     });
 }
 
-function postMessageMenus(req, res) {
+function postMessageMenus(req: Request, res: Response) {
     let responseData = {};
     const {body} = req;
     if (body && body.context.action === 'do_something') {
@@ -157,7 +157,7 @@ function postMessageMenus(req, res) {
     return res.json(responseData);
 }
 
-async function openDialog(dialog) {
+async function openDialog(dialog: webhookUtils.Dialog) {
     await axios({
         method: 'post',
         url: `${baseUrl}/api/v4/actions/dialogs/open`,
@@ -165,7 +165,7 @@ async function openDialog(dialog) {
     });
 }
 
-function onDialogRequest(req, res) {
+function onDialogRequest(req: Request, res: Response) {
     const {body} = req;
     if (body.trigger_id) {
         const dialog = webhookUtils.getFullDialog(body.trigger_id, webhookBaseUrl);
@@ -176,7 +176,7 @@ function onDialogRequest(req, res) {
     return res.json({text: 'Full dialog triggered via slash command!'});
 }
 
-function onSimpleDialogRequest(req, res) {
+function onSimpleDialogRequest(req: Request, res: Response) {
     const {body} = req;
     if (body.trigger_id) {
         const dialog = webhookUtils.getSimpleDialog(body.trigger_id, webhookBaseUrl);
@@ -187,7 +187,7 @@ function onSimpleDialogRequest(req, res) {
     return res.json({text: 'Simple dialog triggered via slash command!'});
 }
 
-function onUserAndChannelDialogRequest(req, res) {
+function onUserAndChannelDialogRequest(req: Request, res: Response) {
     const {body} = req;
     if (body.trigger_id) {
         const dialog = webhookUtils.getUserAndChannelDialog(body.trigger_id, webhookBaseUrl);
@@ -198,7 +198,7 @@ function onUserAndChannelDialogRequest(req, res) {
     return res.json({text: 'Simple dialog triggered via slash command!'});
 }
 
-function onBooleanDialogRequest(req, res) {
+function onBooleanDialogRequest(req: Request, res: Response) {
     const {body} = req;
     if (body.trigger_id) {
         const dialog = webhookUtils.getBooleanDialog(body.trigger_id, webhookBaseUrl);
@@ -209,12 +209,12 @@ function onBooleanDialogRequest(req, res) {
     return res.json({text: 'Simple dialog triggered via slash command!'});
 }
 
-function onDialogSubmit(req, res) {
+function onDialogSubmit(req: Request, res: Response) {
     const {body} = req;
 
     res.setHeader('Content-Type', 'application/json');
 
-    let message;
+    let message: string;
     if (body.cancelled) {
         message = 'Dialog cancelled';
         sendSysadminResponse(message, body.channel_id);
@@ -226,14 +226,26 @@ function onDialogSubmit(req, res) {
     return res.json({text: message});
 }
 
+interface ChannelMessage {
+    response_type: string;
+    text: string;
+    channel_id: string;
+    extra_responses: {
+        response_type: string;
+        text: string;
+        channel_id: string;
+    }[],
+    type?: string;
+}
+
 /**
  * @route "POST /send_message_to_channel?type={messageType}&channel_id={channelId}"
  * @query type - message type of empty string for regular message if not provided (default), "system_message", etc
  * @query channel_id - channel where to send the message
  */
-function postSendMessageToChannel(req, res) {
-    const channelId = req.query.channel_id;
-    const response = {
+function postSendMessageToChannel(req: Request, res: Response) {
+    const channelId = req.query.channel_id as string;
+    const response: ChannelMessage = {
         response_type: 'in_channel',
         text: 'Extra response 2',
         channel_id: channelId,
@@ -245,14 +257,14 @@ function postSendMessageToChannel(req, res) {
     };
 
     if (req.query.type) {
-        response.type = req.query.type;
+        response.type = req.query.type as string;
     }
 
     res.json(response);
 }
 
 // Convenient way to send response in a channel by using sysadmin account
-function sendSysadminResponse(message, channelId) {
+function sendSysadminResponse(message: string, channelId: string) {
     postMessageAs({
         sender: {
             username: adminUsername,
@@ -266,7 +278,7 @@ function sendSysadminResponse(message, channelId) {
 
 const responseTypes = ['in_channel', 'comment'];
 
-function getWebhookResponse(body, {responseType, username, iconUrl}) {
+function getWebhookResponse(body: Record<string, any>, {responseType, username, iconUrl}) {
     const payload = Object.entries(body).map(([key, value]) => `- ${key}: "${value}"`).join('\n');
 
     return `
@@ -288,7 +300,7 @@ ${payload}
  * @query override_icon_url - the user icon url that overrides the user icon url defined by the outgoing webhook
  * @query response_type - "in_channel" (default) or "comment"
  */
-function postOutgoingWebhook(req, res) {
+function postOutgoingWebhook(req: Request, res: Response) {
     const {body, query} = req;
     if (!body) {
         res.status(404).send({error: 'Invalid data'});

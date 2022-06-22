@@ -6,14 +6,19 @@ import Client4 from 'mattermost-redux/client/client4';
 import clientRequest from '../plugins/client_request';
 
 export class E2EClient extends Client4 {
-    async doFetchWithResponse(url, options) {
+    // TODO: sort out the error:
+    // [tsserver 2425] [E] Class 'Client4' defines instance member property
+    // 'doFetchWithResponse', but extended class 'E2EClient' defines it as instance
+    // member function.
+    // @ts-ignore
+    async doFetchWithResponse(url: string, options: any) {
         const {
             body,
             headers,
             method,
         } = this.getOptions(options);
 
-        let data;
+        let data: any;
         if (body) {
             data = JSON.parse(body);
         }

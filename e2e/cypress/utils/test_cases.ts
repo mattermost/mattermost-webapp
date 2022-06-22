@@ -5,10 +5,10 @@
 
 // See reference: https://support.smartbear.com/tm4j-cloud/api-docs/
 
-const axios = require('axios');
-const chalk = require('chalk');
+import axios from 'axios';
+import chalk from 'chalk';
 
-const {getAllTests} = require('./report');
+import {getAllTests, Report, Test} from './report';
 
 const status = {
     passed: 'Pass',
@@ -40,7 +40,17 @@ function getStepStateSummary(steps = []) {
     return Object.entries(result).map(([key, value]) => `${value} ${key}`).join(',');
 }
 
-function getTM4JTestCases(report) {
+interface TestCase {
+    title: string;
+    duration: number;
+    incrementalDuration: number;
+    state: string;
+    pass: boolean;
+    fail: boolean;
+    pending: boolean;
+}
+
+function getTM4JTestCases(report: Report): Record<string, TestCase[]> {
     return getAllTests(report.results).
         filter((item) => /^(MM-T)\w+/g.test(item.title)). // eslint-disable-line wrap-regex
         map((item) => {
@@ -68,7 +78,7 @@ function getTM4JTestCases(report) {
         }, {});
 }
 
-function saveToEndpoint(url, data) {
+function saveToEndpoint(url: string, data: any): Promise<{data: any}> {
     return axios({
         method: 'POST',
         url,
@@ -83,7 +93,7 @@ function saveToEndpoint(url, data) {
     });
 }
 
-async function createTestCycle(startDate, endDate) {
+export async function createTestCycle(startDate: string, endDate: string) {
     const {
         BRANCH,
         BUILD_ID,
@@ -106,7 +116,25 @@ async function createTestCycle(startDate, endDate) {
     return response.data;
 }
 
-async function createTestExecutions(report, testCycle) {
+interface TestScriptResult {
+    statusName: string;
+    actualEndDate: string;
+    actualResult: string;
+}
+
+interface TestExecution {
+    projectKey: string;
+    testCaseKey: string;
+    testCycleKey: string;
+    statusName: string;
+    testScriptResults: TestScriptResult[],
+    environmentName: string;
+    actualEndDate: string;
+    executionTime: number;
+    comment: string;
+}
+
+export async function createTestExecutions(report: Report, testCycle: {key?: string}) {
     const {
         BROWSER,
         JIRA_PROJECT_KEY,
@@ -156,7 +184,7 @@ async function createTestExecutions(report, testCycle) {
     console.log('Successfully saved test cases into the Test Management System');
 }
 
-const saveTestCases = async (allReport) => {
+export const saveTestCases = async (allReport: Report) => {
     const {start, end} = allReport.stats;
 
     const testCycle = await createTestCycle(start, end);
@@ -166,7 +194,7 @@ const saveTestCases = async (allReport) => {
 
 const RETRY = [];
 
-async function saveTestExecution(testExecution, index) {
+async function saveTestExecution(testExecution: TestExecution, index: number) {
     await axios({
         method: 'POST',
         url: 'https://api.zephyrscale.smartbear.com/v2/testexecutions',
@@ -193,9 +221,3 @@ async function saveTestExecution(testExecution, index) {
         }
     });
 }
-
-module.exports = {
-    createTestCycle,
-    saveTestCases,
-    createTestExecutions,
-};

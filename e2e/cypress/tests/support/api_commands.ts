@@ -66,7 +66,7 @@ Cypress.Commands.add('apiEmailTest', () => {
  * @param {String} token - Optional token to use for auth. If not provided - posts as current user
  */
 Cypress.Commands.add('apiCreatePost', (channelId, message, rootId, props, token = '', failOnStatusCode = true) => {
-    const headers = {'X-Requested-With': 'XMLHttpRequest'};
+    const headers: Record<string, string> = {'X-Requested-With': 'XMLHttpRequest'};
     if (token !== '') {
         headers.Authorization = `Bearer ${token}`;
     }
@@ -336,7 +336,7 @@ Cypress.Commands.add('apiUnlinkGroup', (groupID) => {
     return linkUnlinkGroup(groupID, 'DELETE');
 });
 
-function linkUnlinkGroup(groupID, httpMethod) {
+function linkUnlinkGroup(groupID: string, httpMethod: string) {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `/api/v4/ldap/groups/${groupID}/link`,
@@ -364,7 +364,7 @@ Cypress.Commands.add('apiGetGroupChannel', (groupID, channelID) => {
     return getGroupSyncable(groupID, 'channel', channelID);
 });
 
-function getGroupSyncable(groupID, syncableType, syncableID) {
+function getGroupSyncable(groupID: string, syncableType: string, syncableID: string) {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `/api/v4/groups/${groupID}/${syncableType}s/${syncableID}`,
@@ -376,7 +376,7 @@ function getGroupSyncable(groupID, syncableType, syncableID) {
     });
 }
 
-function getGroupSyncables(groupID, syncableType) {
+function getGroupSyncables(groupID: string, syncableType: string) {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `/api/v4/groups/${groupID}/${syncableType}s?page=0&per_page=100`,
@@ -404,7 +404,7 @@ Cypress.Commands.add('apiLinkGroupChannel', (groupID, channelID) => {
     return linkUnlinkGroupSyncable(groupID, channelID, 'channel', 'POST');
 });
 
-function linkUnlinkGroupSyncable(groupID, syncableID, syncableType, httpMethod) {
+function linkUnlinkGroupSyncable(groupID: string, syncableID: string, syncableType: string, httpMethod: string) {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `/api/v4/groups/${groupID}/${syncableType}s/${syncableID}/link`,

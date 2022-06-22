@@ -27,11 +27,11 @@
  *      - TYPE=[type], e.g. "MASTER", "PR", "RELEASE", "CLOUD"
  */
 
-const chai = require('chai');
-const {merge} = require('mochawesome-merge');
-const generator = require('mochawesome-report-generator');
+import chai from 'chai';
+import {merge} from 'mochawesome-merge';
+import generator from 'mochawesome-report-generator';
 
-const {
+import {
     generateDiagnosticReport,
     generateShortSummary,
     generateTestReport,
@@ -39,12 +39,13 @@ const {
     sendReport,
     readJsonFromFile,
     writeJsonToFile,
-} = require('./utils/report');
-const {saveArtifacts} = require('./utils/artifacts');
-const {MOCHAWESOME_REPORT_DIR, RESULTS_DIR} = require('./utils/constants');
-const {createTestCycle, createTestExecutions} = require('./utils/test_cases');
+} from './utils/report';
+import {saveArtifacts} from './utils/artifacts';
+import {MOCHAWESOME_REPORT_DIR, RESULTS_DIR} from './utils/constants';
+import {createTestCycle, createTestExecutions} from './utils/test_cases';
 
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 
 const saveReport = async () => {
     const {
@@ -87,7 +88,7 @@ const saveReport = async () => {
     }
 
     // Create or use an existing test cycle
-    let testCycle = {};
+    let testCycle: {key?: string} = {};
     if (TM4J_ENABLE === 'true') {
         const {start, end} = jsonReport.stats;
         testCycle = TM4J_CYCLE_KEY ? {key: TM4J_CYCLE_KEY} : await createTestCycle(start, end);

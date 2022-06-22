@@ -1,13 +1,18 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {getAdminAccount} from './env';
+import {getAdminAccount, User} from './env';
 
 import {E2EClient} from './client-impl';
 
 const clients = {};
 
-async function makeClient({user = getAdminAccount(), useCache = true} = {}) {
+interface Arg{
+    user?: User;
+    useCache?: boolean;
+}
+async function makeClient(arg: Arg = {}) {
+    const {user = getAdminAccount(), useCache = true} = arg;
     const cacheKey = user.username + user.password;
     if (useCache && clients[cacheKey] != null) {
         return clients[cacheKey];

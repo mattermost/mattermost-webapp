@@ -3,18 +3,19 @@
 
 /* eslint-disable no-console,consistent-return */
 
-const fs = require('fs');
+import fs from 'fs';
 
-const path = require('path');
+import path from 'path';
 
-const async = require('async');
-const AWS = require('aws-sdk');
-const mime = require('mime-types');
-const readdir = require('recursive-readdir');
+import async from 'async';
+import AWS from 'aws-sdk';
+import mime from 'mime-types';
+import readdir from 'recursive-readdir';
 
-const {MOCHAWESOME_REPORT_DIR} = require('./constants');
+import {MOCHAWESOME_REPORT_DIR} from './constants';
 
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 
 const {
     AWS_S3_BUCKET,
@@ -31,11 +32,11 @@ const s3 = new AWS.S3({
     secretAccessKey: AWS_SECRET_ACCESS_KEY,
 });
 
-function getFiles(dirPath) {
+function getFiles(dirPath: string) {
     return fs.existsSync(dirPath) ? readdir(dirPath) : [];
 }
 
-async function saveArtifacts() {
+export async function saveArtifacts(): Promise<{success: boolean, reportLink?: string}> {
     if (!AWS_S3_BUCKET || !AWS_ACCESS_KEY_ID || !AWS_SECRET_ACCESS_KEY) {
         console.log('No AWS credentials found. Test artifacts not uploaded to S3.');
 
@@ -50,9 +51,9 @@ async function saveArtifacts() {
         async.eachOfLimit(
             filesToUpload,
             10,
-            async.asyncify(async (file) => {
+            async.asyncify(async (file: string) => {
                 const Key = file.replace(uploadPath, s3Folder);
-                const contentType = mime.lookup(file);
+                const contentType = mime.lookup(file) as string;
                 const charset = mime.charset(contentType);
 
                 return new Promise((res, rej) => {
@@ -66,7 +67,7 @@ async function saveArtifacts() {
                         (err) => {
                             if (err) {
                                 console.log('Failed to upload artifact:', file);
-                                return rej(new Error(err));
+                                return rej(new Error(err.message));
                             }
                             res({success: true});
                         },
@@ -76,7 +77,7 @@ async function saveArtifacts() {
             (err) => {
                 if (err) {
                     console.log('Failed to upload artifacts');
-                    return reject(new Error(err));
+                    return reject(new Error(err.message));
                 }
 
                 const reportLink = `https://${AWS_S3_BUCKET}.s3.amazonaws.com/${s3Folder}/mochawesome.html`;
@@ -85,5 +86,3 @@ async function saveArtifacts() {
         );
     });
 }
-
-module.exports = {saveArtifacts};

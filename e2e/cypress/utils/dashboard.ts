@@ -9,14 +9,17 @@
  *   AUTOMATION_DASHBOARD_TOKEN=[token]
  */
 
-const fs = require('fs');
+import fs from 'fs';
 
-const readFile = require('util').promisify(fs.readFile);
+import readFileNonPromise from 'util'
+const readFile = readFileNonPromise.promisify(fs.readFile);
 
-const axios = require('axios');
-const axiosRetry = require('axios-retry');
-const chalk = require('chalk');
-const mime = require('mime-types');
+import axios from 'axios';
+import axiosRetry from 'axios-retry';
+import chalk from 'chalk';
+import mime from 'mime-types';
+
+import {SortedFile} from './file';
 
 require('dotenv').config();
 
@@ -35,7 +38,33 @@ const {
 
 const connectionErrors = ['ECONNABORTED', 'ECONNREFUSED'];
 
-async function createAndStartCycle(data) {
+interface Screenshot {
+    url: string;
+    taken_at: string;
+    height: number;
+    width: number;
+}
+
+export interface TestResult {
+    title: string;
+    full_title: string;
+    state: string;
+    duration: number;
+    code: string;
+    test_started_at?: number;
+    error_display?: string;
+    error_frame?: string;
+    screenshot?: Screenshot;
+}
+
+interface CreateStartCycleArg {
+    repo: string;
+    branch: string;
+    build: string;
+    files: SortedFile[];
+}
+
+export async function createAndStartCycle(data: CreateStartCycleArg): Promise<{cycle: any}> {
     const response = await axios({
         url: `${AUTOMATION_DASHBOARD_URL}/cycles/start`,
         headers: {
@@ -49,7 +78,7 @@ async function createAndStartCycle(data) {
     return response.data;
 }
 
-async function getSpecToTest({repo, branch, build, server}) {
+export async function getSpecToTest({repo, branch, build, server}) {
     try {
         const response = await axios({
             url: `${AUTOMATION_DASHBOARD_URL}/executions/specs/start?repo=${repo}&branch=${branch}&build=${build}`,
@@ -73,7 +102,7 @@ async function getSpecToTest({repo, branch, build, server}) {
     }
 }
 
-async function recordSpecResult(specId, spec, tests) {
+export async function recordSpecResult(specId: string, spec: any, tests: TestResult[]) {
     try {
         const response = await axios({
             url: `${AUTOMATION_DASHBOARD_URL}/executions/specs/end?id=${specId}`,
@@ -98,7 +127,7 @@ async function recordSpecResult(specId, spec, tests) {
     }
 }
 
-async function updateCycle(id, cyclePatch) {
+export async function updateCycle(id: string, cyclePatch: any) {
     try {
         const response = await axios({
             url: `${AUTOMATION_DASHBOARD_URL}/cycles/${id}`,
@@ -123,12 +152,12 @@ async function updateCycle(id, cyclePatch) {
     }
 }
 
-async function uploadScreenshot(filePath, repo, branch, build) {
+export async function uploadScreenshot(filePath: string , repo: any, branch: string, build: any) {
     try {
         const contentType = mime.lookup(filePath);
-        const extension = mime.extension(contentType);
+        const extension = mime.extension(contentType || '');
 
-        const {data} = await axios({
+        const {data}: {data: {upload_url: string, object_url: string}} = await axios({
             url: `${AUTOMATION_DASHBOARD_URL}/upload-request`,
             headers: {
                 Authorization: `Bearer ${AUTOMATION_DASHBOARD_TOKEN}`,
@@ -140,7 +169,7 @@ async function uploadScreenshot(filePath, repo, branch, build) {
 
         const file = await readFile(filePath);
 
-        await axios({
+        await (axios as any)({
             url: data.upload_url,
             method: 'put',
             headers: {'Content-Type': contentType},
@@ -157,11 +186,3 @@ async function uploadScreenshot(filePath, repo, branch, build) {
         return err.response && err.response.data;
     }
 }
-
-module.exports = {
-    createAndStartCycle,
-    getSpecToTest,
-    recordSpecResult,
-    updateCycle,
-    uploadScreenshot,
-};

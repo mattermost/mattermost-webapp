@@ -62,14 +62,15 @@
  *      - will create test cycle for all production tests with specs specifically ordered as first and last
  */
 
-const os = require('os');
+import os from 'os';
 
-const chalk = require('chalk');
+import chalk from 'chalk';
 
-const {createAndStartCycle} = require('./utils/dashboard');
-const {getSortedTestFiles} = require('./utils/file');
+import {createAndStartCycle} from './utils/dashboard';
+import {getSortedTestFiles} from './utils/file';
 
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 
 const {
     BRANCH,

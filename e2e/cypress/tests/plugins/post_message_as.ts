@@ -1,9 +1,21 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-const axios = require('axios');
+import axios from 'axios';
 
-module.exports = async ({sender, message, channelId, rootId, createAt = 0, baseUrl}) => {
+interface Options {
+    sender: {
+        username: string;
+        password: string;
+    };
+    message: string;
+    channelId: string;
+    rootId?: string;
+    createAt?: number;
+    baseUrl: string;
+}
+export default async function postMessageAs(options: Options) {
+    const {sender, message, channelId, rootId, createAt = 0, baseUrl} = options;
     const loginResponse = await axios({
         url: `${baseUrl}/api/v4/users/login`,
         headers: {'X-Requested-With': 'XMLHttpRequest'},
@@ -11,14 +23,14 @@ module.exports = async ({sender, message, channelId, rootId, createAt = 0, baseU
         data: {login_id: sender.username, password: sender.password},
     });
 
-    const setCookie = loginResponse.headers['set-cookie'];
+    const setCookie = loginResponse.headers['set-cookie'] as unknown as string[];
     let cookieString = '';
     setCookie.forEach((cookie) => {
         const nameAndValue = cookie.split(';')[0];
         cookieString += nameAndValue + ';';
     });
 
-    let response;
+    let response: {status: number, data: any};
     try {
         response = await axios({
             url: `${baseUrl}/api/v4/posts`,

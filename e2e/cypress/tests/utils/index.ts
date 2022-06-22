@@ -27,8 +27,14 @@ export function getRandomLetter(length) {
     return Array.from({length}, () => String.fromCharCode(97 + Math.floor(Math.random() * 26))).join('');
 }
 
-export function getMessageMenusPayload({dataSource, options, prefix = Date.now()} = {}) {
-    let data;
+type GetMessageMenusParam = {
+    dataSource?: string;
+    options?: any;
+    prefix?: number;
+}
+export function getMessageMenusPayload(arg: GetMessageMenusParam = {}) {
+    const {dataSource, options, prefix = Date.now()} = arg;
+    let data: typeof messageMenusWithDatasourceData | typeof messageMenusData;
     if (dataSource) {
         data = messageMenusWithDatasourceData;
         data.attachments[0].actions[0].data_source = dataSource;
@@ -50,7 +56,7 @@ export function getMessageMenusPayload({dataSource, options, prefix = Date.now()
     return data;
 }
 
-export function hexToRgbArray(hex) {
+export function hexToRgbArray(hex: string) {
     var rgbArr = hex.replace('#', '').match(/.{1,2}/g);
     return [
         parseInt(rgbArr[0], 16),
@@ -59,7 +65,7 @@ export function hexToRgbArray(hex) {
     ];
 }
 
-export function rgbArrayToString(rgbArr) {
+export function rgbArrayToString(rgbArr: [number, number, number]) {
     return `rgb(${rgbArr[0]}, ${rgbArr[1]}, ${rgbArr[2]})`;
 }
 
@@ -82,7 +88,7 @@ export function stubClipboard() {
 
     cy.window().then((win) => {
         if (!win.navigator.clipboard) {
-            win.navigator.clipboard = {
+            (win.navigator as any).clipboard = {
                 writeText: () => {}, //eslint-disable-line no-empty-function
             };
         }

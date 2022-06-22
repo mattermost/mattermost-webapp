@@ -25,6 +25,7 @@ declare namespace Cypress {
          * @param {String} options.method - an HTTP method (e.g. get, post, etc)
          * @param {String} options.path - API path that is relative to Cypress.config().baseUrl
          * @param {Object} options.data - payload
+         * @param {string} options.baseUrl - base URL
          * @param {Boolean} options.failOnStatusCode - whether to fail on status code, default is true
          *
          * @example
@@ -35,8 +36,9 @@ declare namespace Cypress {
             method: string;
             path: string;
             data?: Record<string, any>;
+            baseUrl?: string;
             failOnStatusCode?: boolean;
-        }): Chainable<Response>;
+        }): Chainable<Response<any>>;
 
         /**
          * Adds a given reaction to a specific post from a user

@@ -24,19 +24,22 @@
  *      - will run all the specs available from the Automation dashboard
  */
 
-const axios = require('axios');
-const axiosRetry = require('axios-retry');
-const chalk = require('chalk');
-const cypress = require('cypress');
+import axios from 'axios';
+import axiosRetry from 'axios-retry';
+import chalk from 'chalk';
+import cypress, {} from 'cypress';
+import "cypress"
 
-const {
+
+import {
     getSpecToTest,
     recordSpecResult,
     updateCycle,
     uploadScreenshot,
-} = require('./utils/dashboard');
-const {writeJsonToFile} = require('./utils/report');
-const {MOCHAWESOME_REPORT_DIR, RESULTS_DIR} = require('./utils/constants');
+    TestResult,
+} from './utils/dashboard';
+import {writeJsonToFile} from './utils/report';
+import {MOCHAWESOME_REPORT_DIR, RESULTS_DIR} from './utils/constants';
 
 require('dotenv').config();
 axiosRetry(axios, {
@@ -53,7 +56,7 @@ const {
     REPO,
 } = process.env;
 
-async function runCypressTest(specExecution) {
+async function runCypressTest(specExecution: SpecExecution) {
     const browser = BROWSER || 'chrome';
     const headless = isHeadless();
 
@@ -92,8 +95,18 @@ async function runCypressTest(specExecution) {
     return result;
 }
 
-async function saveResult(specExecution, result, testIndex) {
+interface Spec {
+    relative: string;
+    tests: [];
+}
+
+async function saveResult(specExecution: SpecExecution, result: CypressCommandLine.CypressRunResult | CypressCommandLine.CypressFailedRunResult, testIndex: number) {
     // Write and update test environment details once
+    if (result.status === 'failed') {
+        // None of the rest of this function really makes sense in the fail case.
+        // We could updateCycle, but that iss about it.
+        throw new Error(`Unexpected failed spec execution result (${result.failures} failures): ${result.message}`)
+    }
     if (testIndex === 0) {
         const environment = {
             cypress_version: result.cypressVersion,
@@ -113,7 +126,7 @@ async function saveResult(specExecution, result, testIndex) {
 
     const specPatch = {
         file: spec.relative,
-        tests: spec.tests,
+        tests: stats.tests,
         pass: stats.passes,
         fail: stats.failures,
         pending: stats.pending,
@@ -133,40 +146,27 @@ async function saveResult(specExecution, result, testIndex) {
     });
     const screenshotUrls = await Promise.all(uploadedScreenshots);
 
-    const testCases = [];
+    const testCases: TestResult[] = [];
     tests.forEach((t, i) => {
         const attempts = t.attempts[0];
 
-        const test = {
-            title: t.title,
+        const test: TestResult = {
+            title: t.title[0],
             full_title: t.title.join(' '),
             state: attempts.state,
             duration: attempts.duration || 0,
             code: trimToMaxLength(t.body),
         };
 
-        if (attempts.startedAt) {
-            test.test_start_at = attempts.startedAt;
-        }
-
-        if (t.displayError) {
-            test.error_display = trimToMaxLength(t.displayError);
-        }
-
-        const errorFrame = attempts.error && attempts.error.codeFrame && attempts.error.codeFrame.frame;
-        if (errorFrame) {
-            test.error_frame = trimToMaxLength(errorFrame);
-        }
-
-        const screenshot = {};
         if (attempts.screenshots && attempts.screenshots.length > 0) {
             const {takenAt, height, width} = attempts.screenshots[0];
-            screenshot.url = screenshotUrls[i];
-            screenshot.taken_at = takenAt;
-            screenshot.height = height;
-            screenshot.width = width;
 
-            test.screenshot = screenshot;
+            test.screenshot = {
+                url: screenshotUrls[i],
+                taken_at: takenAt,
+                height,
+                width,
+            };
         }
 
         testCases.push(test);
@@ -179,12 +179,20 @@ function isHeadless() {
     return typeof HEADLESS === 'undefined' ? true : HEADLESS === 'true';
 }
 
-function trimToMaxLength(text) {
+function trimToMaxLength(text: string) {
     const maxLength = 5000;
     return text && text.length > maxLength ? text.substring(0, maxLength) : text;
 }
 
-function printSummary(summary) {
+interface SummaryItem {
+    server: string;
+    state: string;
+    count: string;
+}
+
+type PrintObject = Record<string, {[key: string]: string, server: string }>;
+
+function printSummary(summary: SummaryItem[]) {
     const obj = summary.reduce((acc, item) => {
         const {server, state, count} = item;
         if (!server) {
@@ -198,7 +206,7 @@ function printSummary(summary) {
         }
 
         return acc;
-    }, {});
+    }, {} as PrintObject);
 
     Object.values(obj).sort((a, b) => {
         return a.server.localeCompare(b.server);
@@ -208,11 +216,34 @@ function printSummary(summary) {
     });
 }
 
+interface SpecSummaryItem {
+    count: string;
+    server: string;
+    state: string;
+}
+
+
+interface SpecExecution {
+    file: string;
+    cycle_id: string;
+    id: string
+}
+
+interface Spec {
+    execution?: SpecExecution;
+    message: string;
+    code: boolean;
+    summary: SpecSummaryItem[]
+    cycle: {
+        specs_registered: number;
+    }
+}
+
 const maxRetryCount = 5;
-async function runSpecFragment(count, retry) {
+async function runSpecFragment(count: number, retry: number) {
     console.log(chalk.magenta(`Preparing for: ${count + 1}`));
 
-    const spec = await getSpecToTest({
+    const spec: Spec | undefined = await getSpecToTest({
         repo: REPO,
         branch: BRANCH,
         build: BUILD_ID,

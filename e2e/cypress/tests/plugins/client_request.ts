@@ -1,10 +1,24 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-const axios = require('axios');
+import axios, {Method} from 'axios';
 
-module.exports = async ({data = {}, headers, method = 'get', url}) => {
-    let response;
+interface Response {
+    data: any;
+    headers?: Record<string,string>;
+    status: number;
+    statusText: string;
+}
+
+interface Request {
+    data: any;
+    headers: Record<string, string>;
+    method: Method;
+    url: string;
+}
+
+export default async function clientRequest({data = {}, headers, method = 'get', url}: Request): Promise<Response> {
+    let response: Response;
 
     try {
         response = await axios({

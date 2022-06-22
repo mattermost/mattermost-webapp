@@ -59,18 +59,21 @@
  *      - will be used for parallel testing where each part could run separately against its own test server
  */
 
-const os = require('os');
+import os from 'os';
 
-const chalk = require('chalk');
-const cypress = require('cypress');
-const argv = require('yargs').argv;
+import chalk from 'chalk';
+import cypress from 'cypress';
+import yargs from 'yargs';
 
-const {getSortedTestFiles} = require('./utils/file');
-const {getTestFilesIdentifier} = require('./utils/even_distribution');
-const {writeJsonToFile} = require('./utils/report');
-const {MOCHAWESOME_REPORT_DIR, RESULTS_DIR} = require('./utils/constants');
+import {getSortedTestFiles} from './utils/file';
+import {getTestFilesIdentifier} from './utils/even_distribution';
+import {writeJsonToFile} from './utils/report';
+import {MOCHAWESOME_REPORT_DIR, RESULTS_DIR} from './utils/constants';
 
-require('dotenv').config();
+const argv = yargs.argv;
+
+import dotenv from 'dotenv';
+dotenv.config();
 
 async function runTests() {
     const {
@@ -142,12 +145,12 @@ async function runTests() {
         // Write test environment details once only
         if (i === 0) {
             const environment = {
-                cypress_version: result.cypressVersion,
-                browser_name: result.browserName,
-                browser_version: result.browserVersion,
+                cypress_version: result.status === 'failed' ? '' : result.cypressVersion,
+                browser_name: result.status === 'failed' ? '' : result.browserName,
+                browser_version: result.status === 'failed' ? '' : result.browserVersion,
                 headless,
-                os_name: result.osName,
-                os_version: result.osVersion,
+                os_name: result.status === 'failed' ? '' : result.osName,
+                os_version: result.status === 'failed' ? '' : result.osVersion,
                 node_version: process.version,
             };
 
@@ -156,7 +159,7 @@ async function runTests() {
     }
 }
 
-function printMessage(testFiles, overallIndex, currentItem, lastItem) {
+function printMessage(testFiles: string[], overallIndex: number, currentItem: number, lastItem: number) {
     const {invert, excludeGroup, group, stage} = argv;
 
     const testFile = testFiles[overallIndex];

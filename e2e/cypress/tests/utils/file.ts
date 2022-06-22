@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 // Converts a file size in bytes into a human-readable string of the form '123MB'.
-export function fileSizeToString(bytes) {
+export function fileSizeToString(bytes: number) {
     // it's unlikely that we'll have files bigger than this
     if (bytes > 1024 ** 4) {
         // check if file is smaller than 10 to display fractions

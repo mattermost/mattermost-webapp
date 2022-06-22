@@ -1,5 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+import './ui_commands.d'
+import './api_commands.d'
 
 import localforage from 'localforage';
 
@@ -10,10 +12,16 @@ import {isMac} from '../utils';
 // Read more: https://on.cypress.io/custom-commands
 // ***********************************************************
 
+/**
+ * @see `cy.logout` at ./ui_commands.d.ts
+ */
 Cypress.Commands.add('logout', () => {
     cy.get('#logout').click({force: true});
 });
 
+/**
+ * @see `cy.getCurrentUserId` at ./ui_commands.d.ts
+ */
 Cypress.Commands.add('getCurrentUserId', () => {
     return cy.wrap(new Promise((resolve) => {
         cy.getCookie('MMUSERID').then((cookie) => {
@@ -35,8 +43,8 @@ Cypress.Commands.add('typeCmdOrCtrlForEdit', () => {
     typeCmdOrCtrlInt('#edit_textbox');
 });
 
-function typeCmdOrCtrlInt(textboxSelector) {
-    let cmdOrCtrl;
+function typeCmdOrCtrlInt(textboxSelector: string) {
+    let cmdOrCtrl: string;
     if (isMac()) {
         cmdOrCtrl = '{cmd}';
     } else {
@@ -75,7 +83,7 @@ Cypress.Commands.add('uiPostMessageQuickly', (message) => {
     });
 });
 
-function postMessageAndWait(textboxSelector, message, isComment = false) {
+function postMessageAndWait(textboxSelector: string, message: string, isComment = false) {
     // Add explicit wait to let the page load freely since `cy.get` seemed to block
     // some operation which caused to prolong complete page loading.
     cy.wait(TIMEOUTS.HALF_SEC);
@@ -91,7 +99,7 @@ function postMessageAndWait(textboxSelector, message, isComment = false) {
 
     cy.get(textboxSelector).should('have.value', message).type('{enter}').wait(TIMEOUTS.HALF_SEC);
 
-    cy.get(textboxSelector).invoke('val').then((value) => {
+    cy.get(textboxSelector).invoke('val').then((value: string) => {
         if (value.length > 0 && value === message) {
             cy.get(textboxSelector).type('{enter}').wait(TIMEOUTS.HALF_SEC);
         }
@@ -103,8 +111,14 @@ function postMessageAndWait(textboxSelector, message, isComment = false) {
     });
 }
 
+interface Draft {
+    value?: {
+        message?: string;
+    }
+}
+
 // Wait until comment message is saved as draft from the localforage
-function waitForCommentDraft(message) {
+function waitForCommentDraft(message: string) {
     const draftPrefix = 'comment_draft_';
 
     cy.waitUntil(async () => {
@@ -115,11 +129,11 @@ function waitForCommentDraft(message) {
         const draftPromises = keys.
             filter((key) => key.includes(draftPrefix)).
             map((key) => localforage.getItem(key));
-        const draftItems = await Promise.all(draftPromises);
+        const draftItems = await Promise.all(draftPromises) as string[];
 
         // Get the exact draft comment
         const commentDraft = draftItems.filter((item) => {
-            const draft = JSON.parse(item);
+            const draft: Draft = JSON.parse(item);
 
             if (draft && draft.value && draft.value.message) {
                 return draft.value.message === message;
@@ -140,6 +154,9 @@ function waitUntilPermanentPost() {
     cy.waitUntil(() => cy.findAllByTestId('postView').last().then((el) => !(el[0].id.includes(':'))));
 }
 
+/**
+ * @see `cy.getLastPost` at ./ui_commands.d.ts
+ */
 Cypress.Commands.add('getLastPost', () => {
     waitUntilPermanentPost();
 
@@ -233,11 +250,15 @@ Cypress.Commands.add('compareLastPostHTMLContentFromFile', (file, timeout = TIME
 // DM
 // ***********************************************************
 
+export interface User {
+    username: string
+}
+
 /**
  * Go to a DM channel with a given user
  * @param {User} user - the user that should get the message
  */
-Cypress.Commands.add('uiGotoDirectMessageWithUser', (user) => {
+Cypress.Commands.add('uiGotoDirectMessageWithUser', (user: User) => {
     // # Open a new direct message with firstDMUser
     cy.uiAddDirectMessage().click().wait(TIMEOUTS.ONE_SEC);
     cy.findByRole('dialog', {name: 'Direct Messages'}).should('be.visible').wait(TIMEOUTS.ONE_SEC);
@@ -284,11 +305,11 @@ Cypress.Commands.add('sendDirectMessageToUser', (user, message) => {
  * @param {User[]} users - the users that should get the message
  * @param {String} message - the message to send
  */
-Cypress.Commands.add('sendDirectMessageToUsers', (users, message) => {
+Cypress.Commands.add('sendDirectMessageToUsers', (users: User[], message: string) => {
     // # Open a new direct message
     cy.uiAddDirectMessage().click();
 
-    users.forEach((user) => {
+    users.forEach((user: User) => {
         // # Type username
         cy.get('#selectItems input').should('be.enabled').type(`@${user.username}`, {force: true});
 
@@ -323,8 +344,8 @@ Cypress.Commands.add('sendDirectMessageToUsers', (users, message) => {
 // Post header
 // ***********************************************************
 
-function clickPostHeaderItem(postId, location, item) {
-    let idPrefix;
+function clickPostHeaderItem(postId: string, location: string, item: string) {
+    let idPrefix: string;
     switch (location) {
     case 'CENTER':
         idPrefix = 'post';
@@ -409,8 +430,8 @@ Cypress.Commands.add('createNewTeam', (teamName, teamURL) => {
     cy.visit(`/${teamURL}`);
 });
 
-Cypress.Commands.add('getCurrentTeamURL', (siteURL) => {
-    let path;
+Cypress.Commands.add('getCurrentTeamURL', (siteURL: string) => {
+    let path: string;
 
     // siteURL can be provided for cases where subpath is being tested
     if (siteURL) {
@@ -420,7 +441,7 @@ Cypress.Commands.add('getCurrentTeamURL', (siteURL) => {
     }
 
     const result = path.split('/', 2);
-    return `/${(result[0] ? result[0] : result[1])}`; // sometimes the first element is emply if path starts with '/'
+    return cy.wrap(`/${(result[0] ? result[0] : result[1])}`); // sometimes the first element is emply if path starts with '/'
 });
 
 Cypress.Commands.add('leaveTeam', () => {
@@ -521,7 +542,7 @@ Cypress.Commands.add('checkRunLDAPSync', () => {
         var currentTime = new Date();
 
         // # Run LDAP Sync if no job exists (or) last status is an error (or) last run time is more than 1 day old
-        if (jobs.length === 0 || jobs[0].status === 'error' || ((currentTime - (new Date(jobs[0].last_activity_at))) > 8640000)) {
+        if (jobs.length === 0 || jobs[0].status === 'error' || ((currentTime.getTime() - (new Date(jobs[0].last_activity_at)).getTime()) > 8640000)) {
             // # Go to system admin LDAP page and run the group sync
             cy.visit('/admin_console/authentication/ldap');
 

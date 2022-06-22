@@ -7,11 +7,11 @@ export function getEmailUrl() {
     return `${smtpUrl}/api/v1/mailbox`;
 }
 
-export function splitEmailBodyText(text) {
-    return text.split('\n').map((d) => d.trim());
+export function splitEmailBodyText(text: string) {
+    return text.split('\n').map((d: string) => d.trim());
 }
 
-export function getEmailResetEmailTemplate(userEmail) {
+export function getEmailResetEmailTemplate(userEmail: string) {
     return [
         '----------------------',
         'You updated your email',
@@ -24,7 +24,7 @@ export function getEmailResetEmailTemplate(userEmail) {
     ];
 }
 
-export function getJoinEmailTemplate(sender, userEmail, team, isGuest = false) {
+export function getJoinEmailTemplate(sender: string, userEmail: string, team: {display_name: string, name: string}, isGuest = false) {
     const baseUrl = Cypress.config('baseUrl');
 
     return [
@@ -41,7 +41,7 @@ export function getJoinEmailTemplate(sender, userEmail, team, isGuest = false) {
     ];
 }
 
-export function getMentionEmailTemplate(sender, message, postId, siteName, teamName, channelDisplayName) {
+export function getMentionEmailTemplate(sender: string, message: string, postId: string, siteName: string, teamName: string, channelDisplayName: string) {
     const baseUrl = Cypress.config('baseUrl');
 
     return [
@@ -78,7 +78,7 @@ export function getPasswordResetEmailTemplate() {
     ];
 }
 
-export function getEmailVerifyEmailTemplate(userEmail) {
+export function getEmailVerifyEmailTemplate(userEmail: string) {
     const baseUrl = Cypress.config('baseUrl');
 
     return [
@@ -95,7 +95,7 @@ export function getEmailVerifyEmailTemplate(userEmail) {
     ];
 }
 
-export function getWelcomeEmailTemplate(userEmail, siteName, teamName) {
+export function getWelcomeEmailTemplate(userEmail: string, siteName: string, teamName: string) {
     const baseUrl = Cypress.config('baseUrl');
 
     return [
@@ -117,7 +117,7 @@ export function getWelcomeEmailTemplate(userEmail, siteName, teamName) {
     ];
 }
 
-export function verifyEmailBody(expectedBody, actualBody) {
+export function verifyEmailBody(expectedBody: any[], actualBody: any[]) {
     expect(expectedBody.length).to.equal(actualBody.length);
 
     for (let i = 0; i < expectedBody.length; i++) {

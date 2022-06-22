@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-function* distributeItems(total, divider) {
+function* distributeItems(total: number, divider: number) {
     if (divider === 0) {
         yield 0;
     } else {
@@ -18,7 +18,7 @@ function* distributeItems(total, divider) {
     }
 }
 
-function getTestFilesIdentifier(numberOfTestFiles, part, of) {
+export function getTestFilesIdentifier(numberOfTestFiles: number, part: string, of: string) {
     const PART = parseInt(part, 10) || 1;
     const OF = parseInt(of, 10) || 1;
     if (PART > OF) {
@@ -42,7 +42,3 @@ function getTestFilesIdentifier(numberOfTestFiles, part, of) {
 
     return {start, end, count};
 }
-
-module.exports = {
-    getTestFilesIdentifier,
-};

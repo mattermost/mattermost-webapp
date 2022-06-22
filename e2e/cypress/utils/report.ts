@@ -3,16 +3,48 @@
 
 /* eslint-disable no-console, camelcase */
 
-const axios = require('axios');
-const fse = require('fs-extra');
+import axios, {Method} from 'axios';
+import fse from 'fs-extra';
 
-const {MOCHAWESOME_REPORT_DIR} = require('./constants');
+import {MOCHAWESOME_REPORT_DIR} from './constants';
 
 const MAX_FAILED_TITLES = 5;
 
 let incrementalDuration = 0;
 
-function getAllTests(results) {
+export interface Test {
+    duration: number; 
+    title: string;
+    incrementalDuration: number;
+    state: string;
+    pass: boolean;
+    fail: boolean;
+    pending: boolean;
+}
+
+export interface Results {
+    tests: Test[]
+    suites: Results[]
+}
+
+interface Stats {
+    passPercent: number;
+    duration: number;
+    suites: number;
+    tests: number;
+    passes: number;
+    failures: number;
+    skipped: number;
+    start: string;
+    end: string;
+}
+
+export interface Report {
+    results: Results[];
+    stats: Stats;
+}
+
+export function getAllTests(results: Results[]) {
     const tests = [];
     results.forEach((result) => {
         result.tests.forEach((test) => {
@@ -28,7 +60,7 @@ function getAllTests(results) {
     return tests;
 }
 
-function generateStatsFieldValue(stats, failedFullTitles) {
+function generateStatsFieldValue(stats: Stats, failedFullTitles: string[]) {
     let statsFieldValue = `
 | Key | Value |
 |:---|:---|
@@ -43,7 +75,7 @@ function generateStatsFieldValue(stats, failedFullTitles) {
 
     // If present, add full title of failing tests.
     // Only show per maximum number of failed titles with the last item as "more..." if failing tests are more than that.
-    let failedTests;
+    let failedTests: string | undefined;
     if (failedFullTitles && failedFullTitles.length > 0) {
         const re = /[:'"\\]/gi;
         const failed = failedFullTitles;
@@ -62,7 +94,7 @@ function generateStatsFieldValue(stats, failedFullTitles) {
     return statsFieldValue;
 }
 
-function generateShortSummary(report) {
+export function generateShortSummary(report: Report) {
     const {results, stats} = report;
     const tests = getAllTests(results);
 
@@ -75,7 +107,7 @@ function generateShortSummary(report) {
     };
 }
 
-function removeOldGeneratedReports() {
+export function removeOldGeneratedReports() {
     [
         'all.json',
         'summary.json',
@@ -83,13 +115,13 @@ function removeOldGeneratedReports() {
     ].forEach((file) => fse.removeSync(`${MOCHAWESOME_REPORT_DIR}/${file}`));
 }
 
-function writeJsonToFile(jsonObject, filename, dir) {
+export function writeJsonToFile(jsonObject: any, filename: string, dir: string) {
     fse.writeJson(`${dir}/${filename}`, jsonObject).
         then(() => console.log('Successfully written:', filename)).
         catch((err) => console.error(err));
 }
 
-function readJsonFromFile(file) {
+export function readJsonFromFile(file: string) {
     try {
         return fse.readJsonSync(file);
     } catch (err) {
@@ -104,7 +136,33 @@ const result = [
     {status: 'Failed', priority: 'high', cutOff: 0, color: '#F44336'},
 ];
 
-function generateTestReport(summary, isUploadedToS3, reportLink, environment, testCycleKey) {
+interface Summary {
+    stats: Stats;
+    statsFieldValue: string;
+}
+
+interface Environment {
+    cypress_version: string;
+    browser_name: string;
+    browser_version: string;
+    headless: boolean;
+    os_name: string;
+    os_version: string;
+    node_version: string;
+}
+
+interface TestResult {
+    color: string;
+    priority: string;
+}
+
+interface AttachmentField {
+    short: boolean;
+    title: string;
+    value: string;
+}
+
+export function generateTestReport(summary: Summary, isUploadedToS3: boolean, reportLink: string, environment: Environment, testCycleKey: string) {
     const {
         FULL_REPORT,
         TEST_CYCLE_LINK_PREFIX,
@@ -120,7 +178,7 @@ function generateTestReport(summary, isUploadedToS3, reportLink, environment, te
         node_version,
     } = environment;
 
-    let testResult;
+    let testResult: TestResult;
     for (let i = 0; i < result.length; i++) {
         if (stats.passPercent >= result[i].cutOff) {
             testResult = result[i];
@@ -132,7 +190,7 @@ function generateTestReport(summary, isUploadedToS3, reportLink, environment, te
     const envValue = `cypress@${cypress_version} | node@${node_version} | ${browser_name}@${browser_version}${headless ? ' (headless)' : ''} | ${os_name}@${os_version}`;
 
     if (FULL_REPORT === 'true') {
-        let reportField;
+        let reportField: AttachmentField;
         if (isUploadedToS3) {
             reportField = {
                 short: false,
@@ -141,7 +199,7 @@ function generateTestReport(summary, isUploadedToS3, reportLink, environment, te
             };
         }
 
-        let testCycleField;
+        let testCycleField: AttachmentField;
         if (testCycleKey) {
             testCycleField = {
                 short: false,
@@ -221,7 +279,7 @@ function generateTitle() {
         releaseDate = ` for ${RELEASE_DATE}`;
     }
 
-    let title;
+    let title: string;
 
     switch (TYPE) {
     case 'PR':
@@ -249,7 +307,19 @@ function generateTitle() {
     return title;
 }
 
-function generateDiagnosticReport(summary, serverInfo) {
+interface ServerInfo {
+    userId: string;
+    teamId: string;
+}
+
+interface DiagnosticSummary {
+    stats: {
+        start: string;
+        end: string;
+    }
+}
+
+export function generateDiagnosticReport(summary: DiagnosticSummary, serverInfo: ServerInfo) {
     const {BRANCH, BUILD_ID} = process.env;
 
     return {
@@ -269,8 +339,8 @@ function generateDiagnosticReport(summary, serverInfo) {
     };
 }
 
-async function sendReport(name, url, data) {
-    const requestOptions = {method: 'POST', url, data};
+export async function sendReport(name: string, url: string, data: any) {
+    const requestOptions = {method: 'POST' as Method, url, data};
 
     try {
         const response = await axios(requestOptions);
@@ -284,14 +354,3 @@ async function sendReport(name, url, data) {
         return false;
     }
 }
-
-module.exports = {
-    generateDiagnosticReport,
-    generateShortSummary,
-    generateTestReport,
-    getAllTests,
-    removeOldGeneratedReports,
-    sendReport,
-    readJsonFromFile,
-    writeJsonToFile,
-};
