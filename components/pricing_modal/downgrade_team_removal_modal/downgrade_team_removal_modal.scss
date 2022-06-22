@@ -107,16 +107,18 @@
         .warning {
             display: flex;
             height: 16px;
+            align-items: center;
             margin-top: 19px;
             margin-bottom: 35px;
             color: #d24b4e;
             font-weight: 600;
             line-height: 16px;
-            align-items: center;
+
             .icon.icon-alert-outline {
-                font-size: 14px;
                 height: 16px;
+                font-size: 14px;
             }
+
             .warning-text {
                 font-size: 11px;
             }
