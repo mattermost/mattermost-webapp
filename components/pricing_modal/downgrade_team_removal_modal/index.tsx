@@ -182,10 +182,13 @@ function DowngradeTeamRemovalModal(props: Props) {
                     </div>
                     <div className='warning'>
                         <i className='icon icon-alert-outline'/>
-                        <FormattedMessage
-                            id='downgrade_plan_modal.alert'
-                            defaultMessage='The unselected teams will be automatically archived in the system console, but not deleted'
-                        />
+                        <span className='warning-text'>
+                            <FormattedMessage
+                                id='downgrade_plan_modal.alert'
+                                defaultMessage='The unselected teams will be automatically archived in the system console, but not deleted'
+                            />
+
+                        </span>
                     </div>
                 </div>
                 <div className='DowngradeTeamRemovalModal__buttons'>

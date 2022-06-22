@@ -34,6 +34,7 @@
         height: 77px;
         min-height: 77px;
         border: none;
+        border-radius: 12px;
     }
 
     .DowngradeTeamRemovalModal__header {
@@ -104,12 +105,21 @@
         }
 
         .warning {
+            display: flex;
+            height: 16px;
             margin-top: 19px;
             margin-bottom: 35px;
             color: #d24b4e;
-            font-size: 11px;
             font-weight: 600;
             line-height: 16px;
+            align-items: center;
+            .icon.icon-alert-outline {
+                font-size: 14px;
+                height: 16px;
+            }
+            .warning-text {
+                font-size: 11px;
+            }
         }
 
         .icon.icon-alert-outline::before {
