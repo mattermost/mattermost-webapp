@@ -11,4 +11,14 @@
             grid-template-columns: auto 1fr auto auto auto;
         }
     }
+
+    #postReminderSubMenu-header {
+        pointer-events: none;
+        font-weight: bold;
+    }
+
+    #postReminder-tomorrow .postReminder-tomorrow_timestamp {
+        float: right;
+        opacity: 0.7;
+    }
 }

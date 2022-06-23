@@ -5,13 +5,14 @@ import {ComponentProps} from 'react';
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
+import {Preferences} from 'mattermost-redux/constants';
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId, getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getCurrentTeam, getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getThreadOrSynthetic} from 'mattermost-redux/selectors/entities/threads';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
-import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getBool, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
 
@@ -19,6 +20,7 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {Post} from '@mattermost/types/posts';
 
+import {addPostReminder} from 'mattermost-redux/actions/posts';
 import {setThreadFollow} from 'mattermost-redux/actions/threads';
 
 import {ModalData} from 'types/actions';
@@ -35,6 +37,7 @@ import {
     markPostAsUnread,
 } from 'actions/post_actions.jsx';
 
+import {getCurrentUserTimezone} from 'selectors/general';
 import {getIsMobileView} from 'selectors/views/browser';
 
 import * as PostUtils from 'utils/post_utils';
@@ -72,6 +75,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
     const currentTeam = getCurrentTeam(state) || {};
     const team = getTeam(state, channel.team_id);
     const teamUrl = `${getSiteURL()}/${team?.name || currentTeam.name}`;
+    const isMilitaryTime = getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.USE_MILITARY_TIME, false);
 
     const systemMessage = isSystemMessage(post);
     const collapsedThreads = isCollapsedThreadsEnabled(state);
@@ -124,6 +128,8 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
         isCollapsedThreadsEnabled: collapsedThreads,
         threadReplyCount,
         isMobileView: getIsMobileView(state),
+        timezone: getCurrentUserTimezone(state),
+        isMilitaryTime,
         ...ownProps,
     };
 }
@@ -137,6 +143,7 @@ type Actions = {
     openModal: <P>(modalData: ModalData<P>) => void;
     markPostAsUnread: (post: Post) => void;
     setThreadFollow: (userId: string, teamId: string, threadId: string, newState: boolean) => void;
+    addPostReminder: (postId: string, userId: string, timestamp: number) => void;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
@@ -150,6 +157,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             openModal,
             markPostAsUnread,
             setThreadFollow,
+            addPostReminder,
         }, dispatch),
     };
 }
