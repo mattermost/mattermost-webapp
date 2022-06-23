@@ -63,6 +63,7 @@ export function emitChannelClickEvent(channel: Channel) {
         const member = getMyChannelMember(state, chan.id);
         const currentChannelId = getCurrentChannelId(state);
         const previousRhsState = getPreviousRhsState(state);
+
         dispatch(getChannelStats(chan.id));
 
         const penultimate = LocalStorageStore.getPreviousChannelName(userId, teamId);
@@ -72,7 +73,7 @@ export function emitChannelClickEvent(channel: Channel) {
             LocalStorageStore.setPreviousChannelName(userId, teamId, chan.name);
         }
 
-        if (penultimateType === PreviousViewedTypes.THREADS || penultimate !== chan.name) {
+        if (penultimateType !== PreviousViewedTypes.CHANNELS || penultimate !== chan.name) {
             LocalStorageStore.setPreviousViewedType(userId, teamId, PreviousViewedTypes.CHANNELS);
             LocalStorageStore.setPenultimateViewedType(userId, teamId, penultimateType);
         }

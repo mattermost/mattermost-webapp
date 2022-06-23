@@ -37,8 +37,16 @@ const mapStateToProps = (state: GlobalState, ownProps: Props) => {
         const team = getTeamByName(state, ownProps.match.params.team);
         channelName = getRedirectChannelNameForTeam(state, team!.id);
     }
-    const shouldRouteToGlobalThreads = isCollapsedThreadsEnabled(state) && lastViewedType === PreviousViewedTypes.THREADS;
-    const lastChannelPath = shouldRouteToGlobalThreads ? `${ownProps.match.url}/threads` : `${ownProps.match.url}/channels/${channelName}`;
+
+    let lastChannelPath;
+    if (isCollapsedThreadsEnabled(state) && lastViewedType === PreviousViewedTypes.THREADS) {
+        lastChannelPath = `${ownProps.match.url}/threads`;
+    } else if (insightsAreEnabled(state) && lastViewedType === PreviousViewedTypes.INSIGHTS) {
+        lastChannelPath = `${ownProps.match.url}/activity-and-insights`;
+    } else {
+        lastChannelPath = `${ownProps.match.url}/channels/${channelName}`;
+    }
+
     return {
         lastChannelPath,
         lhsOpen: getIsLhsOpen(state),
