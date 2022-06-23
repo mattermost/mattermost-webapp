@@ -1,12 +1,13 @@
 
 @import 'utils/variables';
 
-.modal-backdrop {
+.modal-backdrop.downgrade-modal-backdrop {
     z-index: 1050;
 }
 
 .DowngradeTeamRemovalModal {
     z-index: 1051;
+
 
     .modal {
         overflow: visible;
