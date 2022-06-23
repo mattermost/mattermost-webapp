@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import axios from 'axios';
+import {Post} from '@mattermost/types/posts';
 
 interface Options {
     sender: {
@@ -14,7 +15,8 @@ interface Options {
     createAt?: number;
     baseUrl: string;
 }
-export default async function postMessageAs(options: Options) {
+
+export default async function postMessageAs(options: Options): Promise<{status: number; data: Post;}> {
     const {sender, message, channelId, rootId, createAt = 0, baseUrl} = options;
     const loginResponse = await axios({
         url: `${baseUrl}/api/v4/users/login`,
@@ -30,7 +32,7 @@ export default async function postMessageAs(options: Options) {
         cookieString += nameAndValue + ';';
     });
 
-    let response: {status: number, data: any};
+    let response: {status: number, data: Post};
     try {
         response = await axios({
             url: `${baseUrl}/api/v4/posts`,

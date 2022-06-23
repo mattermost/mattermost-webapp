@@ -1,10 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import './ui_commands.d'
-import './api_commands.d'
 
 import localforage from 'localforage';
 
+import {ChainableT} from './api/types';
 import * as TIMEOUTS from '../fixtures/timeouts';
 import {isMac} from '../utils';
 
@@ -12,36 +11,34 @@ import {isMac} from '../utils';
 // Read more: https://on.cypress.io/custom-commands
 // ***********************************************************
 
-/**
- * @see `cy.logout` at ./ui_commands.d.ts
- */
-Cypress.Commands.add('logout', () => {
-    cy.get('#logout').click({force: true});
-});
+function logout(): ChainableT<any> {
+    return cy.get('#logout').click({force: true});
+}
+Cypress.Commands.add('logout', logout);
 
-/**
- * @see `cy.getCurrentUserId` at ./ui_commands.d.ts
- */
-Cypress.Commands.add('getCurrentUserId', () => {
+function getCurrentUserId(): ChainableT<Promise<unknown>> {
     return cy.wrap(new Promise((resolve) => {
         cy.getCookie('MMUSERID').then((cookie) => {
             resolve(cookie.value);
         });
     }));
-});
+}
+Cypress.Commands.add('getCurrentUserId', getCurrentUserId);
 
 // ***********************************************************
 // Key Press
 // ***********************************************************
 
 // Type Cmd or Ctrl depending on OS
-Cypress.Commands.add('typeCmdOrCtrl', () => {
-    typeCmdOrCtrlInt('#post_textbox');
-});
+function typeCmdOrCtrl(): ChainableT<any> {
+    return typeCmdOrCtrlInt('#post_textbox');
+}
+Cypress.Commands.add('typeCmdOrCtrl', typeCmdOrCtrl);
 
-Cypress.Commands.add('typeCmdOrCtrlForEdit', () => {
-    typeCmdOrCtrlInt('#edit_textbox');
-});
+function typeCmdOrCtrlForEdit(): ChainableT<any> {
+    return typeCmdOrCtrlInt('#edit_textbox');
+}
+Cypress.Commands.add('typeCmdOrCtrlForEdit', typeCmdOrCtrlForEdit);
 
 function typeCmdOrCtrlInt(textboxSelector: string) {
     let cmdOrCtrl: string;
@@ -51,27 +48,30 @@ function typeCmdOrCtrlInt(textboxSelector: string) {
         cmdOrCtrl = '{ctrl}';
     }
 
-    cy.get(textboxSelector).type(cmdOrCtrl, {release: false});
+    return cy.get(textboxSelector).type(cmdOrCtrl, {release: false});
 }
 
-Cypress.Commands.add('cmdOrCtrlShortcut', {prevSubject: true}, (subject, text) => {
+function cmdOrCtrlShortcut(subject: string, text: string): ChainableT<any> {
     const cmdOrCtrl = isMac() ? '{cmd}' : '{ctrl}';
     return cy.get(subject).type(`${cmdOrCtrl}${text}`);
-});
+}
+Cypress.Commands.add('cmdOrCtrlShortcut', {prevSubject: true}, cmdOrCtrlShortcut);
 
 // ***********************************************************
 // Post
 // ***********************************************************
 
-Cypress.Commands.add('postMessage', (message) => {
+function postMessage(message: string): ChainableT<any> {
     cy.get('#postListContent').should('be.visible');
-    postMessageAndWait('#post_textbox', message);
-});
+    return postMessageAndWait('#post_textbox', message);
+};
+Cypress.Commands.add('postMessage', postMessage);
 
-Cypress.Commands.add('postMessageReplyInRHS', (message) => {
+function postMessageReplyInRHS(message: string): ChainableT<any> {
     cy.get('#sidebar-right').should('be.visible');
-    postMessageAndWait('#reply_textbox', message, true);
-});
+    return postMessageAndWait('#reply_textbox', message, true);
+}
+Cypress.Commands.add('postMessageReplyInRHS', postMessageReplyInRHS);
 
 Cypress.Commands.add('uiPostMessageQuickly', (message) => {
     cy.get('#post_textbox', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().
@@ -104,7 +104,7 @@ function postMessageAndWait(textboxSelector: string, message: string, isComment 
             cy.get(textboxSelector).type('{enter}').wait(TIMEOUTS.HALF_SEC);
         }
     });
-    cy.waitUntil(() => {
+    return cy.waitUntil(() => {
         return cy.get(textboxSelector).then((el) => {
             return el[0].textContent === '';
         });
@@ -151,29 +151,25 @@ function waitUntilPermanentPost() {
     // some operation which caused to prolong complete page loading.
     cy.wait(TIMEOUTS.HALF_SEC);
     cy.get('#postListContent', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
-    cy.waitUntil(() => cy.findAllByTestId('postView').last().then((el) => !(el[0].id.includes(':'))));
+    return cy.waitUntil(() => cy.findAllByTestId('postView').last().then((el) => !(el[0].id.includes(':'))));
 }
 
-/**
- * @see `cy.getLastPost` at ./ui_commands.d.ts
- */
-Cypress.Commands.add('getLastPost', () => {
+function getLastPost(): ChainableT<JQuery> {
     waitUntilPermanentPost();
 
     return cy.findAllByTestId('postView').last();
-});
+}
+Cypress.Commands.add('getLastPost', getLastPost);
 
-Cypress.Commands.add('getLastPostId', () => {
+function getLastPostId(): ChainableT<string> {
     waitUntilPermanentPost();
 
-    cy.findAllByTestId('postView').last().should('have.attr', 'id').and('not.include', ':').
+    return cy.findAllByTestId('postView').last().should('have.attr', 'id').and('not.include', ':').
         invoke('replace', 'post_', '');
-});
+}
+Cypress.Commands.add('getLastPostId', getLastPostId);
 
-/**
- * @see `cy.uiWaitUntilMessagePostedIncludes` at ./ui_commands.d.ts
- */
-Cypress.Commands.add('uiWaitUntilMessagePostedIncludes', (message) => {
+function uiWaitUntilMessagePostedIncludes(message: string): ChainableT<any> {
     const checkFn = () => {
         return cy.getLastPost().then((el) => {
             const postedMessageEl = el.find('.post-message__text')[0];
@@ -189,62 +185,50 @@ Cypress.Commands.add('uiWaitUntilMessagePostedIncludes', (message) => {
     };
 
     return cy.waitUntil(checkFn, options);
-});
+}
+Cypress.Commands.add('uiWaitUntilMessagePostedIncludes', uiWaitUntilMessagePostedIncludes);
 
-Cypress.Commands.add('getLastPostIdRHS', () => {
+function getLastPostIdRHS(): ChainableT<string> {
     waitUntilPermanentPost();
 
-    cy.get('#rhsContainer .post-right-comments-container > div').last().should('have.attr', 'id').and('not.include', ':').
+    return cy.get('#rhsContainer .post-right-comments-container > div').last().should('have.attr', 'id').and('not.include', ':').
         invoke('replace', 'rhsPost_', '');
-});
+}
+Cypress.Commands.add('getLastPostIdRHS', getLastPostIdRHS);
 
-/**
-* Get post ID based on index of post list
-* @param {Integer} index
-* zero (0)         : oldest post
-* positive number  : from old to latest post
-* negative number  : from new to oldest post
-*/
-Cypress.Commands.add('getNthPostId', (index = 0) => {
+function getNthPostId(index = 0): ChainableT<string> {
     waitUntilPermanentPost();
 
-    cy.findAllByTestId('postView').eq(index).should('have.attr', 'id').and('not.include', ':').
+    return cy.findAllByTestId('postView').eq(index).should('have.attr', 'id').and('not.include', ':').
         invoke('replace', 'post_', '');
-});
+}
+Cypress.Commands.add('getNthPostId', getNthPostId);
 
-Cypress.Commands.add('uiGetNthPost', (index) => {
+function uiGetNthPost(index: number): ChainableT<JQuery> {
     waitUntilPermanentPost();
 
     return cy.findAllByTestId('postView').eq(index);
-});
+}
+Cypress.Commands.add('uiGetNthPost', uiGetNthPost);
 
-/**
- * Post message from a file instantly post a message in a textbox
- * instead of typing into it which takes longer period of time.
- * @param {String} file - includes path and filename relative to tests/fixtures
- * @param {String} target - either #post_textbox or #reply_textbox
- */
-Cypress.Commands.add('postMessageFromFile', (file, target = '#post_textbox') => {
-    cy.fixture(file, 'utf-8').then((text) => {
-        cy.get(target).clear().invoke('val', text).wait(TIMEOUTS.HALF_SEC).type(' {backspace}{enter}').should('have.text', '');
+function postMessageFromFile(file: string, target = '#post_textbox'): ChainableT<any> {
+    return cy.fixture(file, 'utf-8').then((text) => {
+        return cy.get(target).clear().invoke('val', text).wait(TIMEOUTS.HALF_SEC).type(' {backspace}{enter}').should('have.text', '');
     });
-});
+}
+Cypress.Commands.add('postMessageFromFile', postMessageFromFile);
 
-/**
- * Compares HTML content of a last post against the given file
- * instead of typing into it which takes longer period of time.
- * @param {String} file - includes path and filename relative to tests/fixtures
- */
-Cypress.Commands.add('compareLastPostHTMLContentFromFile', (file, timeout = TIMEOUTS.TEN_SEC) => {
+function compareLastPostHTMLContentFromFile(file: string, timeout = TIMEOUTS.TEN_SEC): ChainableT<any> {
     // * Verify that HTML Content is correct
-    cy.getLastPostId().then((postId) => {
+    return cy.getLastPostId().then((postId) => {
         const postMessageTextId = `#postMessageText_${postId}`;
 
-        cy.fixture(file, 'utf-8').then((expectedHtml) => {
+        return cy.fixture(file, 'utf-8').then((expectedHtml) => {
             cy.get(postMessageTextId, {timeout}).should('have.html', expectedHtml.replace(/\n$/, ''));
         });
     });
-});
+}
+Cypress.Commands.add('compareLastPostHTMLContentFromFile', compareLastPostHTMLContentFromFile);
 
 // ***********************************************************
 // DM
@@ -254,11 +238,7 @@ export interface User {
     username: string
 }
 
-/**
- * Go to a DM channel with a given user
- * @param {User} user - the user that should get the message
- */
-Cypress.Commands.add('uiGotoDirectMessageWithUser', (user: User) => {
+function uiGotoDirectMessageWithUser(user: User): ChainableT<any> {
     // # Open a new direct message with firstDMUser
     cy.uiAddDirectMessage().click().wait(TIMEOUTS.ONE_SEC);
     cy.findByRole('dialog', {name: 'Direct Messages'}).should('be.visible').wait(TIMEOUTS.ONE_SEC);
@@ -284,28 +264,21 @@ Cypress.Commands.add('uiGotoDirectMessageWithUser', (user: User) => {
     // * Expect the channel title to be the user's username
     // In the channel header, it seems there is a space after the username, justifying the use of contains.text instead of have.text
     cy.get('#channelHeaderTitle').should('be.visible').and('contain.text', user.username);
-});
+    return;
+}
+Cypress.Commands.add('uiGotoDirectMessageWithUser', uiGotoDirectMessageWithUser);
 
-/**
- * Sends a DM to a given user
- * @param {User} user - the user that should get the message
- * @param {String} message - the message to send
- */
-Cypress.Commands.add('sendDirectMessageToUser', (user, message) => {
+function sendDirectMessageToUser(user: User, message: string): ChainableT<any> {
     cy.uiGotoDirectMessageWithUser(user);
 
     // # Type message and send it to the user
-    cy.get('#post_textbox').
+    return cy.get('#post_textbox').
         type(message).
         type('{enter}');
-});
+}
+Cypress.Commands.add('sendDirectMessageToUser', sendDirectMessageToUser);
 
-/**
- * Sends a GM to a given user list
- * @param {User[]} users - the users that should get the message
- * @param {String} message - the message to send
- */
-Cypress.Commands.add('sendDirectMessageToUsers', (users: User[], message: string) => {
+function sendDirectMessageToUsers(users: User[], message: string): ChainableT<any> {
     // # Open a new direct message
     cy.uiAddDirectMessage().click();
 
@@ -338,7 +311,9 @@ Cypress.Commands.add('sendDirectMessageToUsers', (users: User[], message: string
     cy.get('#post_textbox').
         type(message).
         type('{enter}');
-});
+    return;
+}
+Cypress.Commands.add('sendDirectMessageToUsers', sendDirectMessageToUsers);
 
 // ***********************************************************
 // Post header
@@ -373,64 +348,50 @@ function clickPostHeaderItem(postId: string, location: string, item: string) {
     }
 }
 
-/**
- * Click post time
- * @param {String} postId - Post ID
- * @param {String} location - as 'CENTER', 'RHS_ROOT', 'RHS_COMMENT', 'SEARCH'
- */
-Cypress.Commands.add('clickPostTime', (postId, location = 'CENTER') => {
+function clickPostTime(postId: string, location = 'CENTER'): ChainableT<any> {
     clickPostHeaderItem(postId, location, 'time');
-});
+    return;
+}
+Cypress.Commands.add('clickPostTime', clickPostTime);
 
-/**
- * Click save icon by post ID or to most recent post (if post ID is not provided)
- * @param {String} postId - Post ID
- * @param {String} location - as 'CENTER', 'RHS_ROOT', 'RHS_COMMENT', 'SEARCH'
- */
-Cypress.Commands.add('clickPostSaveIcon', (postId, location = 'CENTER') => {
+function clickPostSaveIcon(postId: string, location = 'CENTER'): ChainableT<any> {
     clickPostHeaderItem(postId, location, 'flagIcon');
-});
+    return;
+}
+Cypress.Commands.add('clickPostSaveIcon', clickPostSaveIcon);
 
-/**
- * Click dot menu by post ID or to most recent post (if post ID is not provided)
- * @param {String} postId - Post ID
- * @param {String} location - as 'CENTER', 'RHS_ROOT', 'RHS_COMMENT', 'SEARCH'
- */
-Cypress.Commands.add('clickPostDotMenu', (postId, location = 'CENTER') => {
+function clickPostDotMenu(postId: string, location = 'CENTER'): ChainableT<any> {
     clickPostHeaderItem(postId, location, 'button');
-});
+    return;
+}
+Cypress.Commands.add('clickPostDotMenu', clickPostDotMenu);
 
-/**
- * Click post reaction icon
- * @param {String} postId - Post ID
- * @param {String} location - as 'CENTER', 'RHS_ROOT', 'RHS_COMMENT'
- */
-Cypress.Commands.add('clickPostReactionIcon', (postId, location = 'CENTER') => {
+function clickPostReactionIcon(postId: string, location = 'CENTER'): ChainableT<any> {
     clickPostHeaderItem(postId, location, 'reaction');
-});
+    return;
+}
+Cypress.Commands.add('clickPostReactionIcon', clickPostReactionIcon);
 
-/**
- * Click comment icon by post ID or to most recent post (if post ID is not provided)
- * This open up the RHS
- * @param {String} postId - Post ID
- * @param {String} location - as 'CENTER', 'SEARCH'
- */
-Cypress.Commands.add('clickPostCommentIcon', (postId, location = 'CENTER') => {
+function clickPostCommentIcon(postId: string, location = 'CENTER'): ChainableT<any> {
     clickPostHeaderItem(postId, location, 'commentIcon');
-});
+    return;
+}
+Cypress.Commands.add('clickPostCommentIcon', clickPostCommentIcon);
 
 // ***********************************************************
 // Teams
 // ***********************************************************
 
-Cypress.Commands.add('createNewTeam', (teamName, teamURL) => {
+function createNewTeam(teamName: string, teamURL: string): ChainableT<any> {
     cy.visit('/create_team');
     cy.get('#teamNameInput').type(teamName).type('{enter}');
     cy.get('#teamURLInput').type(teamURL).type('{enter}');
     cy.visit(`/${teamURL}`);
-});
+    return;
+}
+Cypress.Commands.add('createNewTeam', createNewTeam);
 
-Cypress.Commands.add('getCurrentTeamURL', (siteURL: string) => {
+function getCurrentTeamURL(siteURL: string): ChainableT<string> {
     let path: string;
 
     // siteURL can be provided for cases where subpath is being tested
@@ -441,10 +402,11 @@ Cypress.Commands.add('getCurrentTeamURL', (siteURL: string) => {
     }
 
     const result = path.split('/', 2);
-    return cy.wrap(`/${(result[0] ? result[0] : result[1])}`); // sometimes the first element is emply if path starts with '/'
-});
+    return cy.wrap(`/${(result[0] ? result[0] : result[1])}`); // sometimes the first element is empty if path starts with '/'
+}
+Cypress.Commands.add('getCurrentTeamURL', getCurrentTeamURL);
 
-Cypress.Commands.add('leaveTeam', () => {
+function leaveTeam(): ChainableT<void> {
     // # Open team menu and click "Leave Team"
     cy.uiOpenTeamMenu('Leave Team');
 
@@ -456,23 +418,26 @@ Cypress.Commands.add('leaveTeam', () => {
 
     // * Check that the "leave team modal" closed
     cy.get('#leaveTeamModal').should('not.exist');
-});
+    return;
+}
+Cypress.Commands.add('leaveTeam', leaveTeam);
 
 // ***********************************************************
 // Text Box
 // ***********************************************************
 
-Cypress.Commands.add('clearPostTextbox', (channelName = 'town-square') => {
+function clearPostTextbox(channelName = 'town-square'): ChainableT<void> {
     cy.get(`#sidebarItem_${channelName}`).click({force: true});
     cy.get('#post_textbox').clear();
-});
+    return;
+}
+Cypress.Commands.add('clearPostTextbox', clearPostTextbox);
 
 // ***********************************************************
 // Min Setting View
 // ************************************************************
 
-// Checking min setting view for display
-Cypress.Commands.add('minDisplaySettings', () => {
+function minDisplaySettings(): ChainableT<void> {
     cy.get('#themeTitle').should('be.visible', 'contain', 'Theme');
     cy.get('#themeEdit').should('be.visible', 'contain', 'Edit');
 
@@ -490,35 +455,31 @@ Cypress.Commands.add('minDisplaySettings', () => {
 
     cy.get('#languagesTitle').scrollIntoView().should('be.visible', 'contain', 'Language');
     cy.get('#languagesEdit').should('be.visible', 'contain', 'Edit');
-});
+    return;
+}
+Cypress.Commands.add('minDisplaySettings', minDisplaySettings);
 
 // ***********************************************************
 // Change User Status
 // ************************************************************
 
-// Need to be in main channel view
-// 0 = Online
-// 1 = Away
-// 2 = Do Not Disturb
-// 3 = Offline
-Cypress.Commands.add('userStatus', (statusInt) => {
+function userStatus(statusInt: number): ChainableT<void> {
     cy.get('.status-wrapper.status-selector').click();
     cy.get('.MenuItem').eq(statusInt).click();
-});
+    return;
+}
+Cypress.Commands.add('userStatus', userStatus);
 
 // ***********************************************************
 // Channel
 // ************************************************************
 
-Cypress.Commands.add('getCurrentChannelId', () => {
+function getCurrentChannelId(): ChainableT<string> {
     return cy.get('#channel-header', {timeout: TIMEOUTS.HALF_MIN}).invoke('attr', 'data-channelid');
-});
+}
+Cypress.Commands.add('getCurrentChannelId', getCurrentChannelId);
 
-/**
- * Update channel header
- * @param {String} text - Text to set the header to
- */
-Cypress.Commands.add('updateChannelHeader', (text) => {
+function updateChannelHeader(text: string): ChainableT<void> {
     cy.get('#channelHeaderDropdownIcon').
         should('be.visible').
         click();
@@ -531,13 +492,13 @@ Cypress.Commands.add('updateChannelHeader', (text) => {
         type(text).
         type('{enter}').
         wait(TIMEOUTS.HALF_SEC);
-});
+    return;
+}
 
-/**
- * Navigate to system console-PluginManagement from account settings
- */
-Cypress.Commands.add('checkRunLDAPSync', () => {
-    cy.apiGetLDAPSync().then((response) => {
+Cypress.Commands.add('updateChannelHeader', updateChannelHeader);
+
+function checkRunLDAPSync(): ChainableT<any> {
+    return cy.apiGetLDAPSync().then((response) => {
         var jobs = response.body;
         var currentTime = new Date();
 
@@ -572,15 +533,10 @@ Cypress.Commands.add('checkRunLDAPSync', () => {
             });
         }
     });
-});
+}
+Cypress.Commands.add('checkRunLDAPSync', checkRunLDAPSync);
 
-/**
- * Clicks on a visible emoji in the emoji picker.
- * For emojis further down the page, search for that emoji in search bar and then use this command to click on it.
- * @param {String} emojiName - The name of emoji to click. For emojis with multiple names concat with ','
- * @returns null
- */
-Cypress.Commands.add('clickEmojiInEmojiPicker', (emojiName) => {
+function clickEmojiInEmojiPicker(emojiName: string): ChainableT<void> {
     cy.get('#emojiPicker').should('exist').and('be.visible').within(() => {
         // # Mouse over the emoji to get it selected
         cy.findAllByTestId(emojiName).eq(0).trigger('mouseover', {force: true});
@@ -591,4 +547,228 @@ Cypress.Commands.add('clickEmojiInEmojiPicker', (emojiName) => {
         // # Click on the emoji
         cy.findAllByTestId(emojiName).eq(0).click({force: true});
     });
-});
+    return;
+}
+Cypress.Commands.add('clickEmojiInEmojiPicker', clickEmojiInEmojiPicker);
+
+declare global {
+    namespace Cypress {
+        interface Chainable {
+
+            /**
+             * log out user
+             *
+             * @example
+             *   cy.logout();
+             */
+            logout: typeof logout;
+
+            /**
+             * Wait for a message to get posted as the last post.
+             * @returns {string} returns true if found or fail a test if not.
+             *
+             * @example
+             *   cy.getCurrentUserId().then((id) => {
+             */
+            getCurrentUserId: typeof getCurrentUserId;
+
+            /**
+             * Types `{cmd}` mac / `{ctrl}` windows into post textbox
+             */
+            typeCmdOrCtrl: typeof typeCmdOrCtrl;
+
+            /**
+             * Types `{cmd}` mac / `{ctrl}` windows into edit post textbox
+             */
+            typeCmdOrCtrlForEdit: typeof typeCmdOrCtrlForEdit;
+
+            cmdOrCtrlShortcut: typeof cmdOrCtrlShortcut;
+
+            postMessage: typeof postMessage;
+
+            postMessageReplyInRHS: typeof postMessageReplyInRHS;
+
+            /**
+             * Wait for a message to get posted as the last post.
+             * @param {string} message - message to check if includes in the last post
+             * @returns {boolean} returns true if found or fail a test if not.
+             *
+             * @example
+             *   const message = 'message';
+             *   cy.postMessage(message);
+             *   cy.uiWaitUntilMessagePostedIncludes(message);
+             */
+            uiWaitUntilMessagePostedIncludes: typeof uiWaitUntilMessagePostedIncludes;
+
+            /**
+             * Get nth post from the post list
+             * @param {number} index - an identifier of a post
+             * - zero (0)         : oldest post
+             * - positive number  : from old to latest post
+             * - negative number  : from new to oldest post
+             * @returns {JQuery} response: Cypress-chainable JQuery
+             *
+             * @example
+             *   cy.uiGetNthPost(-1);
+             */
+            uiGetNthPost: typeof uiGetNthPost;
+
+            /**
+             * Post message via center textbox by directly injected in the textbox
+             * @param {string} message - message to be posted
+             * @returns void
+             *
+             * @example
+             *  cy.uiPostMessageQuickly('Hello world')
+             */
+            uiPostMessageQuickly(message: string): void;
+
+            /**
+             * Clicks on a visible emoji in the emoji picker.
+             * For emojis further down the page, search for that emoji in search bar and then use this command to click on it.
+             * @param {string} emojiName - The name of emoji to click. For emojis with multiple names concat with ','. eg. slightly_frowning_face
+             * @returns void
+             *
+             * @example
+             *  cy.uiClickSystemEmoji('slightly_frowning_face');
+             *  cy.uiClickSystemEmoji('star-struck,grinning_face_with_star_eyes');
+             */
+            clickEmojiInEmojiPicker: typeof clickEmojiInEmojiPicker;
+
+            /**
+             * Get nth post from the post list
+             * @returns {JQuery} response: Cypress-chainable JQuery
+             *
+             * @example
+             *   cy.getLastPost().then((el: Element) => {;
+             */
+            getLastPost: typeof getLastPost;
+
+            /**
+             * Get nth post from the post list
+             * @returns {string} response: Cypress-chainable string
+             *
+             * @example
+             *   cy.getLastPostId().then((postId) => {
+             */
+            getLastPostId: typeof getLastPostId;
+
+            getLastPostIdRHS: typeof getLastPostIdRHS;
+
+            /**
+            * Get post ID based on index of post list
+            * zero (0)         : oldest post
+            * positive number  : from old to latest post
+            * negative number  : from new to oldest post
+            */
+            getNthPostId: typeof getNthPostId;
+
+            /**
+             * Post message from a file instantly post a message in a textbox
+             * instead of typing into it which takes longer period of time.
+             */
+            postMessageFromFile: typeof postMessageFromFile;
+
+            /**
+             * Compares HTML content of a last post against the given file
+             * instead of typing into it which takes longer period of time.
+             */
+            compareLastPostHTMLContentFromFile: typeof compareLastPostHTMLContentFromFile;
+
+            /**
+             * Go to a DM channel with a given user
+             * @param {User} user - the user that should get the message
+             * @example
+             *   const user = {username: 'bob'};
+             *   cy.uiGotoDirectMessageWithUser(user);
+             */
+            uiGotoDirectMessageWithUser: typeof uiGotoDirectMessageWithUser;
+
+            /**
+             * Sends a DM to a given user
+             * @param {User} user - the user that should get the message
+             * @param {String} message - the message to send
+             */
+            sendDirectMessageToUser: typeof sendDirectMessageToUser;
+
+            /**
+             * Sends a GM to a given user list
+             * @param {User[]} users - the users that should get the message
+             * @param {String} message - the message to send
+             */
+            sendDirectMessageToUsers: typeof sendDirectMessageToUsers;
+
+            /**
+             * Click post time
+             * @param {String} postId - Post ID
+             * @param {String} location - as 'CENTER', 'RHS_ROOT', 'RHS_COMMENT', 'SEARCH'
+             */
+            clickPostTime: typeof clickPostTime;
+
+            /**
+             * Click save icon by post ID or to most recent post (if post ID is not provided)
+             * @param {String} postId - Post ID
+             * @param {String} location - as 'CENTER', 'RHS_ROOT', 'RHS_COMMENT', 'SEARCH'
+             */
+            clickPostSaveIcon: typeof clickPostSaveIcon;
+
+            /**
+             * Click dot menu by post ID or to most recent post (if post ID is not provided)
+             * @param {String} postId - Post ID
+             * @param {String} location - as 'CENTER', 'RHS_ROOT', 'RHS_COMMENT', 'SEARCH'
+             */
+            clickPostDotMenu: typeof clickPostDotMenu;
+
+            /**
+             * Click post reaction icon
+             * @param {String} postId - Post ID
+             * @param {String} location - as 'CENTER', 'RHS_ROOT', 'RHS_COMMENT'
+             */
+            clickPostReactionIcon: typeof  clickPostReactionIcon;
+
+            /**
+             * Click comment icon by post ID or to most recent post (if post ID is not provided)
+             * This open up the RHS
+             * @param {String} postId - Post ID
+             * @param {String} location - as 'CENTER', 'SEARCH'
+             */
+            clickPostCommentIcon: typeof clickPostCommentIcon;
+
+            createNewTeam: typeof createNewTeam;
+
+            getCurrentTeamURL: typeof getCurrentTeamURL;
+
+            leaveTeam: typeof leaveTeam;
+
+            clearPostTextbox: typeof clearPostTextbox;
+
+            /**
+             * Checking min setting view for display
+             */
+            minDisplaySettings: typeof minDisplaySettings;
+
+            /**
+             * Set the user's status
+             * Need to be in main channel view for this to work
+             * 0 = Online
+             * 1 = Away
+             * 2 = Do Not Disturb
+             * 3 = Offline
+             */
+            userStatus: typeof userStatus;
+
+            getCurrentChannelId: typeof getCurrentChannelId;
+
+            /**
+             * Update channel header
+             * @param {String} text - Text to set the header to
+             */
+            updateChannelHeader: typeof updateChannelHeader;
+
+            /**
+             * Navigate to system console-PluginManagement from account settings
+             */
+            checkRunLDAPSync: typeof checkRunLDAPSync;
+        }
+    }
+}

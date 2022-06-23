@@ -5,6 +5,8 @@
 // Keycloak Admin REST API
 // https://www.keycloak.org/documentation
 // *****************************************************************************
+import {AxiosResponse} from 'axios';
+
 import {ChainableT, ResponseT} from './types';
 
 import realmJson from './keycloak_realm.json';
@@ -23,9 +25,9 @@ function apiKeycloakGetAccessToken(): ChainableT<string> {
         method: 'POST',
         headers: {'Content-type': 'application/x-www-form-urlencoded'},
         data: `grant_type=password&username=${keycloakUsername}&password=${keycloakPassword}&client_id=admin-cli`,
-    }).then((response: Cypress.Response<{data: {access_token: string}}>) => {
+    }).then((response: AxiosResponse<{access_token: string}>) => {
         expect(response.status).to.equal(200);
-        const token = response.body.data.access_token;
+        const token = response.data.access_token;
         return cy.wrap(token);
     });
 }
@@ -53,7 +55,7 @@ function apiKeycloakSaveRealm(accessToken: string, failOnStatusCode = true): Res
             'Content-Type': 'application/json',
             Authorization: `Bearer ${accessToken}`,
         },
-    }).then((response: Cypress.Response<any>) => {
+    }).then((response: AxiosResponse<any>) => {
         if (failOnStatusCode) {
             expect(response.status).to.equal(201);
         }
@@ -74,7 +76,7 @@ function apiKeycloakGetRealm(accessToken: string, failOnStatusCode = true): Resp
             Authorization: `Bearer ${accessToken}`,
         },
         failOnStatusCode,
-    }).then((response: Cypress.Response<any>) => {
+    }).then((response: AxiosResponse<any>) => {
         if (failOnStatusCode) {
             expect(response.status).to.equal(200);
         }

@@ -1,9 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-const axios = require('axios');
+import axios, {AxiosResponse} from "axios";
 
-module.exports = async ({sender, postId, reaction, baseUrl}) => {
+interface ReactToMessageAsArg {
+    sender: {
+        id: string;
+        username: string;
+        password: string;
+    };
+    postId: string;
+    reaction: string;
+    baseUrl: string;
+}
+export default async function reactToMessageAs(arg: ReactToMessageAsArg) {
+    const {sender, postId, reaction, baseUrl} = arg;
     const loginResponse = await axios({
         url: `${baseUrl}/api/v4/users/login`,
         headers: {'X-Requested-With': 'XMLHttpRequest'},
@@ -13,12 +24,12 @@ module.exports = async ({sender, postId, reaction, baseUrl}) => {
 
     const setCookie = loginResponse.headers['set-cookie'];
     let cookieString = '';
-    setCookie.forEach((cookie) => {
+    (setCookie as any).forEach((cookie: string) => {
         const nameAndValue = cookie.split(';')[0];
         cookieString += nameAndValue + ';';
     });
 
-    let response;
+    let response: AxiosResponse<any>;
     try {
         response = await axios({
             url: `${baseUrl}/api/v4/reactions`,
