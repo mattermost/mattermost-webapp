@@ -156,7 +156,7 @@ export default class GenericModal extends React.PureComponent<Props, State> {
                 onHide={this.onHide}
                 onExited={this.props.onExited}
                 enforceFocus={this.props.enforceFocus}
-                restoreFocus={false}
+                restoreFocus={true}
                 role='dialog'
                 aria-label={this.props.ariaLabel}
                 aria-labelledby={this.props.ariaLabel ? undefined : 'genericModalLabel'}
