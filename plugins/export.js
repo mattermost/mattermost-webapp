@@ -15,6 +15,7 @@ import PurchaseModal from 'components/purchase_modal';
 import Timestamp from 'components/timestamp';
 import Avatar from 'components/widgets/users/avatar';
 import BotBadge from 'components/widgets/badges/bot_badge';
+import IconButton from '@mattermost/compass-components/components/icon-button';
 
 import {openPricingModal} from '../components/global_header/right_controls/cloud_upgrade_button';
 
@@ -61,4 +62,5 @@ window.Components = {
     Avatar,
     imageURLForUser,
     BotBadge,
+    IconButton,
 };
