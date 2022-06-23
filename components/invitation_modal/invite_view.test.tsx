@@ -6,7 +6,7 @@ import React from 'react';
 import {mountWithThemedIntl} from 'tests/helpers/themed-intl-test-helper';
 
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 
 import InviteAs, {InviteType} from './invite_as';
 import InviteView, {Props} from './invite_view';
@@ -32,7 +32,6 @@ const defaultProps: Props = deepFreeze({
     usersLoader: jest.fn(),
     onChangeUsersEmails: jest.fn(),
     isCloud: false,
-    cloudUserLimit: '10',
     emailInvitationsEnabled: true,
     onUsersInputChange: jest.fn(),
     headerClass: '',

@@ -14,7 +14,7 @@ import FloatingTimestamp from './floating_timestamp';
 
 type OwnProps = {
     postId: string;
-    isRhsPost: boolean;
+    isRhsPost?: boolean;
 }
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {

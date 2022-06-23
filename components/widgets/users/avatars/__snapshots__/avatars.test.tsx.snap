@@ -19,6 +19,7 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
     onMouseLeave={[Function]}
   >
     <UserAvatar
+      disableProfileOverlay={false}
       key="1"
       overlayProps={
         Object {
@@ -38,6 +39,7 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
     >
       <OverlayTrigger
         defaultOverlayShown={false}
+        disabled={false}
         overlay={
           <Memo(Connect(injectIntl(ProfilePopover)))
             className="user-profile-popover"
@@ -188,7 +190,7 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
                 }
               >
                 <button
-                  className="status-wrapper style--none"
+                  className="style--none"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -226,6 +228,7 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
       </OverlayTrigger>
     </UserAvatar>
     <UserAvatar
+      disableProfileOverlay={false}
       key="6"
       overlayProps={
         Object {
@@ -245,6 +248,7 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
     >
       <OverlayTrigger
         defaultOverlayShown={false}
+        disabled={false}
         overlay={
           <Memo(Connect(injectIntl(ProfilePopover)))
             className="user-profile-popover"
@@ -395,7 +399,7 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
                 }
               >
                 <button
-                  className="status-wrapper style--none"
+                  className="style--none"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -433,6 +437,7 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
       </OverlayTrigger>
     </UserAvatar>
     <UserAvatar
+      disableProfileOverlay={false}
       key="7"
       overlayProps={
         Object {
@@ -452,6 +457,7 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
     >
       <OverlayTrigger
         defaultOverlayShown={false}
+        disabled={false}
         overlay={
           <Memo(Connect(injectIntl(ProfilePopover)))
             className="user-profile-popover"
@@ -602,7 +608,7 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
                 }
               >
                 <button
-                  className="status-wrapper style--none"
+                  className="style--none"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -781,6 +787,7 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
     onMouseLeave={[Function]}
   >
     <UserAvatar
+      disableProfileOverlay={false}
       key="1"
       overlayProps={
         Object {
@@ -800,6 +807,7 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
     >
       <OverlayTrigger
         defaultOverlayShown={false}
+        disabled={false}
         overlay={
           <Memo(Connect(injectIntl(ProfilePopover)))
             className="user-profile-popover"
@@ -950,7 +958,7 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
                 }
               >
                 <button
-                  className="status-wrapper style--none"
+                  className="style--none"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -988,6 +996,7 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
       </OverlayTrigger>
     </UserAvatar>
     <UserAvatar
+      disableProfileOverlay={false}
       key="2"
       overlayProps={
         Object {
@@ -1007,6 +1016,7 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
     >
       <OverlayTrigger
         defaultOverlayShown={false}
+        disabled={false}
         overlay={
           <Memo(Connect(injectIntl(ProfilePopover)))
             className="user-profile-popover"
@@ -1157,7 +1167,7 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
                 }
               >
                 <button
-                  className="status-wrapper style--none"
+                  className="style--none"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -1195,6 +1205,7 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
       </OverlayTrigger>
     </UserAvatar>
     <UserAvatar
+      disableProfileOverlay={false}
       key="3"
       overlayProps={
         Object {
@@ -1214,6 +1225,7 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
     >
       <OverlayTrigger
         defaultOverlayShown={false}
+        disabled={false}
         overlay={
           <Memo(Connect(injectIntl(ProfilePopover)))
             className="user-profile-popover"
@@ -1364,7 +1376,7 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
                 }
               >
                 <button
-                  className="status-wrapper style--none"
+                  className="style--none"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -1541,6 +1553,7 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
     onMouseLeave={[Function]}
   >
     <UserAvatar
+      disableProfileOverlay={false}
       key="1"
       overlayProps={
         Object {
@@ -1560,6 +1573,7 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
     >
       <OverlayTrigger
         defaultOverlayShown={false}
+        disabled={false}
         overlay={
           <Memo(Connect(injectIntl(ProfilePopover)))
             className="user-profile-popover"
@@ -1710,7 +1724,7 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
                 }
               >
                 <button
-                  className="status-wrapper style--none"
+                  className="style--none"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -1748,6 +1762,7 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
       </OverlayTrigger>
     </UserAvatar>
     <UserAvatar
+      disableProfileOverlay={false}
       key="2"
       overlayProps={
         Object {
@@ -1767,6 +1782,7 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
     >
       <OverlayTrigger
         defaultOverlayShown={false}
+        disabled={false}
         overlay={
           <Memo(Connect(injectIntl(ProfilePopover)))
             className="user-profile-popover"
@@ -1917,7 +1933,7 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
                 }
               >
                 <button
-                  className="status-wrapper style--none"
+                  className="style--none"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -1955,6 +1971,7 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
       </OverlayTrigger>
     </UserAvatar>
     <UserAvatar
+      disableProfileOverlay={false}
       key="3"
       overlayProps={
         Object {
@@ -1974,6 +1991,7 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
     >
       <OverlayTrigger
         defaultOverlayShown={false}
+        disabled={false}
         overlay={
           <Memo(Connect(injectIntl(ProfilePopover)))
             className="user-profile-popover"
@@ -2124,7 +2142,7 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
                 }
               >
                 <button
-                  className="status-wrapper style--none"
+                  className="style--none"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}

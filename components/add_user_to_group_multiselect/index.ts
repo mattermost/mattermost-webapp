@@ -7,7 +7,7 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {getProfilesNotInGroup, searchProfiles, getProfiles} from 'mattermost-redux/actions/users';
 import {getProfilesNotInCurrentGroup, getUserStatuses, getProfiles as getUsers} from 'mattermost-redux/selectors/entities/users';
 import {Action, ActionResult} from 'mattermost-redux/types/actions';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import {Value} from 'components/multiselect/multiselect';
 
@@ -23,22 +23,20 @@ type OwnProps = {
     groupId?: string;
 }
 
-function makeMapStateToProps() {
-    return (state: GlobalState, props: OwnProps) => {
-        let profiles: UserProfileValue[];
+function mapStateToProps(state: GlobalState, props: OwnProps) {
+    let profiles: UserProfileValue[];
 
-        if (props.groupId) {
-            profiles = getProfilesNotInCurrentGroup(state, props.groupId) as UserProfileValue[];
-        } else {
-            profiles = getUsers(state) as UserProfileValue[];
-        }
-        const userStatuses = getUserStatuses(state);
+    if (props.groupId) {
+        profiles = getProfilesNotInCurrentGroup(state, props.groupId) as UserProfileValue[];
+    } else {
+        profiles = getUsers(state) as UserProfileValue[];
+    }
+    const userStatuses = getUserStatuses(state);
 
-        return {
-            groupId: props.groupId,
-            profiles,
-            userStatuses,
-        };
+    return {
+        groupId: props.groupId,
+        profiles,
+        userStatuses,
     };
 }
 
@@ -60,4 +58,4 @@ function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(AddUserToGroupMultiSelect);
+export default connect(mapStateToProps, mapDispatchToProps)(AddUserToGroupMultiSelect);

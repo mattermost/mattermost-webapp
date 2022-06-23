@@ -6,9 +6,9 @@ import {FormattedMessage, useIntl} from 'react-intl';
 import classNames from 'classnames';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {Channel} from 'mattermost-redux/types/channels';
-import {Post} from 'mattermost-redux/types/posts';
-import {UserThread} from 'mattermost-redux/types/threads';
+import {Channel} from '@mattermost/types/channels';
+import {Post} from '@mattermost/types/posts';
+import {UserThread} from '@mattermost/types/threads';
 import {getChannel as fetchChannel} from 'mattermost-redux/actions/channels';
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
@@ -30,6 +30,9 @@ import Markdown from 'components/markdown';
 import {THREADING_TIME} from '../../common/options';
 import {useThreadRouting} from '../../hooks';
 import ThreadMenu from '../thread_menu';
+
+import Attachment from './attachments';
+
 import './thread_item.scss';
 
 export type OwnProps = {
@@ -206,12 +209,16 @@ function ThreadItem({
                 tabIndex={0}
                 onClick={handleFormattedTextClick}
             >
-                <Markdown
-                    message={post.state === Posts.POST_DELETED ? msgDeleted : post.message}
-                    options={markdownPreviewOptions}
-                    imagesMetadata={post?.metadata && post?.metadata?.images}
-                    imageProps={imageProps}
-                />
+                {post.message ? (
+                    <Markdown
+                        message={post.state === Posts.POST_DELETED ? msgDeleted : post.message}
+                        options={markdownPreviewOptions}
+                        imagesMetadata={post?.metadata && post?.metadata?.images}
+                        imageProps={imageProps}
+                    />
+                ) : (
+                    <Attachment post={post}/>
+                )}
             </div>
             <div className='activity'>
                 {participantIds?.length ? (

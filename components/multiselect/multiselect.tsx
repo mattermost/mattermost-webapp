@@ -66,6 +66,7 @@ export type Props<T extends Value> = {
     focusOnLoad?: boolean;
     savingEnabled?: boolean;
     handleCancel?: () => void;
+    customNoOptionsMessage?: React.ReactNode;
 }
 
 export type State = {
@@ -271,7 +272,7 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
         const profileImg = imageURLForUser(user.id, user.last_picture_update);
 
         return (
-            <React.Fragment>
+            <>
                 <Avatar
                     size='sm'
                     username={user.username}
@@ -280,7 +281,7 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
                 <div className='react-select__value__name'>
                     {getDisplayName(user)}
                 </div>
-            </React.Fragment>
+            </>
         );
     }
 
@@ -295,7 +296,7 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
         let numRemainingText;
         if (this.props.numRemainingText) {
             numRemainingText = this.props.numRemainingText;
-        } else if (this.props.maxValues != null) {
+        } else if (this.props.maxValues != null && this.props.maxValues !== undefined) {
             numRemainingText = (
                 <FormattedMessage
                     id='multiselect.numRemaining'
@@ -405,6 +406,7 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
                         loading={this.props.loading}
                         query={this.state.input}
                         selectedItemRef={this.props.selectedItemRef}
+                        customNoOptionsMessage={this.props.customNoOptionsMessage || undefined}
                     />
                 );
             }
@@ -423,6 +425,7 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
                     loading={this.props.loading}
                     query={this.state.input}
                     selectedItemRef={this.props.selectedItemRef}
+                    customNoOptionsMessage={this.props.customNoOptionsMessage || undefined}
                 />
             );
         }
@@ -442,7 +445,7 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
         }
 
         return (
-            <React.Fragment>
+            <>
                 <div className='filtered-user-list'>
                     <div className='filter-row filter-row--full'>
                         <div className='multi-select__container react-select'>
@@ -475,14 +478,15 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
                                 classNamePrefix='react-select-auto react-select'
                             />
                             {this.props.saveButtonPosition === 'top' &&
-                            <SaveButton
-                                id='saveItems'
-                                saving={this.props.saving}
-                                disabled={this.props.saving}
-                                onClick={this.handleOnClick}
-                                defaultMessage={buttonSubmitText}
-                                savingMessage={this.props.buttonSubmitLoadingText}
-                            />}
+                                <SaveButton
+                                    id='saveItems'
+                                    saving={this.props.saving}
+                                    disabled={this.props.saving}
+                                    onClick={this.handleOnClick}
+                                    defaultMessage={buttonSubmitText}
+                                    savingMessage={this.props.buttonSubmitLoadingText}
+                                />
+                            }
                         </div>
                         <div
                             id='multiSelectHelpMemberInfo'
@@ -500,37 +504,39 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
                         {noteTextContainer}
                     </div>
                     {this.props.saveButtonPosition === 'top' &&
-                    <div className='filter-controls'>
-                        {previousButton}
-                        {nextButton}
-                    </div>}
+                        <div className='filter-controls'>
+                            {previousButton}
+                            {nextButton}
+                        </div>
+                    }
                 </div>
                 {this.props.saveButtonPosition === 'bottom' &&
-                <div className='multi-select__footer'>
-                    {
-                        this.props.backButtonClick &&
-                        <button
-                            onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-                                e.preventDefault();
-                                if (this.props.backButtonClick) {
-                                    this.props.backButtonClick();
-                                }
-                            }}
-                            className={classNames('btn', this.props.backButtonClass)}
-                        >
-                            {this.props.backButtonText || localizeMessage('multiselect.backButton', 'Back')}
-                        </button>
-                    }
-                    <SaveButton
-                        id='saveItems'
-                        saving={this.props.saving}
-                        disabled={this.props.saving || !this.props.savingEnabled}
-                        onClick={this.handleOnClick}
-                        defaultMessage={buttonSubmitText}
-                        savingMessage={this.props.buttonSubmitLoadingText}
-                    />
-                </div>}
-            </React.Fragment>
+                    <div className='multi-select__footer'>
+                        {
+                            this.props.backButtonClick &&
+                            <button
+                                onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                                    e.preventDefault();
+                                    if (this.props.backButtonClick) {
+                                        this.props.backButtonClick();
+                                    }
+                                }}
+                                className={classNames('btn', this.props.backButtonClass)}
+                            >
+                                {this.props.backButtonText || localizeMessage('multiselect.backButton', 'Back')}
+                            </button>
+                        }
+                        <SaveButton
+                            id='saveItems'
+                            saving={this.props.saving}
+                            disabled={this.props.saving || !this.props.savingEnabled}
+                            onClick={this.handleOnClick}
+                            defaultMessage={buttonSubmitText}
+                            savingMessage={this.props.buttonSubmitLoadingText}
+                        />
+                    </div>
+                }
+            </>
         );
     }
 }
@@ -557,9 +563,9 @@ const paddedComponent = (WrappedComponent: any) => {
 const styles = {
     container: () => {
         return {
-            display: 'table-cell',
-            verticalAlign: 'top',
-            width: '100%',
+            display: 'flex',
+            overflow: 'hidden',
+            flex: 'auto',
         };
     },
 };

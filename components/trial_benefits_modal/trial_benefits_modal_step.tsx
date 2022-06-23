@@ -10,12 +10,13 @@ import './trial_benefits_modal_step.scss';
 export type TrialBenefitsModalStepProps = {
     id: string;
     title: string;
-    description: string;
+    description: string | JSX.Element;
     svgWrapperClassName: string;
     svgElement: React.ReactNode;
     bottomLeftMessage?: string;
-    buttonLabel: string;
+    buttonLabel?: string;
     pageURL?: string;
+    isCloud?: boolean;
     onClose?: () => void;
 }
 
@@ -42,7 +43,7 @@ const TrialBenefitsModalStep = (
             <div className='description'>
                 {description}
             </div>
-            {pageURL && (
+            {(pageURL && buttonLabel) && (
                 <TrialBenefitsModalStepMore
                     id={id}
                     route={pageURL}

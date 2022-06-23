@@ -28,13 +28,20 @@ jest.mock('actions/telemetry_actions.jsx', () => {
     };
 });
 
+jest.mock('components/admin_console/blockable_link', () => {
+    return () => {
+        return <div/>;
+    };
+});
+
 describe('components/trial_benefits_modal/trial_benefits_modal', () => {
     // required state to mount using the provider
     const state = {
         entities: {
             general: {
                 license: {
-                    IsLicensed: 'false',
+                    IsLicensed: 'true',
+                    Cloud: 'false',
                 },
             },
         },
@@ -44,6 +51,11 @@ describe('components/trial_benefits_modal/trial_benefits_modal', () => {
                     trial_benefits_modal: {
                         open: 'true',
                     },
+                },
+            },
+            admin: {
+                navigationBlock: {
+                    blocked: true,
                 },
             },
         },
@@ -144,27 +156,63 @@ describe('components/trial_benefits_modal/trial_benefits_modal', () => {
             <Provider store={store}>
                 <TrialBenefitsModal
                     {...props}
-                    trialJustStarted={true}
                 />
             </Provider>,
         );
 
-        wrapper.find(Carousel).props().onNextSlideClick!(6);
+        wrapper.find(Carousel).props().onNextSlideClick!(5);
 
-        expect(trackEvent).not.toHaveBeenCalled();
+        expect(trackEvent).toHaveBeenCalledWith(
+            TELEMETRY_CATEGORIES.SELF_HOSTED_START_TRIAL_MODAL,
+            'benefits_modal_post_enterprise_view',
+        );
 
         wrapper.find(Carousel).props().onNextSlideClick!(4);
 
         expect(trackEvent).toHaveBeenCalledWith(
             TELEMETRY_CATEGORIES.SELF_HOSTED_START_TRIAL_MODAL,
-            'benefits_modal_slide_shown_pushNotificationService',
+            'benefits_modal_slide_shown_playbooks',
         );
 
         wrapper.find(Carousel).props().onPrevSlideClick!(2);
 
         expect(trackEvent).toHaveBeenCalledWith(
             TELEMETRY_CATEGORIES.SELF_HOSTED_START_TRIAL_MODAL,
-            'benefits_modal_slide_shown_guestAccess',
+            'benefits_modal_slide_shown_complianceExport',
         );
+    });
+
+    test('should present the just started trial modal content', () => {
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <TrialBenefitsModal
+                    {...props}
+                    trialJustStarted={true}
+                />
+            </Provider>,
+        );
+
+        const title = wrapper.find('#trialBenefitsModalStarted-trialStart div.title').text();
+
+        expect(title).toBe('Your trial has started! Explore the benefits of Enterprise');
+    });
+
+    test('should have a shorter title and not include the cta button when in cloud env', () => {
+        const cloudState = {...state, entities: {...state.entities, general: {...state.entities.general, license: {Cloud: 'true'}}}};
+        const cloudStore = mockStore(cloudState);
+        const wrapper = mountWithIntl(
+            <Provider store={cloudStore}>
+                <TrialBenefitsModal
+                    {...props}
+                    trialJustStarted={true}
+                />
+            </Provider>,
+        );
+
+        const title = wrapper.find('#trialBenefitsModalStarted-trialStart div.title').text();
+        expect(title).toBe('Your trial has started!');
+
+        const ctaBtn = wrapper.find('#trialBenefitsModalStarted-trialStart button.btn-primary');
+        expect(ctaBtn).toHaveLength(0);
     });
 });

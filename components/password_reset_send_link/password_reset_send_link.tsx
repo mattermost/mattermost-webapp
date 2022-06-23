@@ -4,13 +4,13 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {ServerError} from 'mattermost-redux/types/errors';
+import {ServerError} from '@mattermost/types/errors';
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
 import BackButton from 'components/common/back_button';
 import LocalizedInput from 'components/localized_input/localized_input';
 
-import {t} from 'utils/i18n.jsx';
+import {t} from 'utils/i18n';
 
 interface Props {
     actions: {

@@ -10,9 +10,6 @@ describe('Reducers.RHS', () => {
         shouldShowPreviewOnCreateComment: false,
         shouldShowPreviewOnCreatePost: false,
         shouldShowPreviewOnEditChannelHeaderModal: false,
-
-        // TODO@Michel: remove this part of state once the inline post editing feature is enabled by default
-        shouldShowPreviewOnEditPostModal: false,
     };
 
     test('Initial state', () => {
@@ -66,22 +63,6 @@ describe('Reducers.RHS', () => {
         expect(nextState).toEqual({
             ...initialState,
             shouldShowPreviewOnEditChannelHeaderModal: true,
-        });
-    });
-
-    // TODO@Michel: remove this test once inline post editing is enabled by default
-    test('update show preview value on edit post modal', () => {
-        const nextState = textboxReducer(
-            {},
-            {
-                type: ActionTypes.SET_SHOW_PREVIEW_ON_EDIT_POST_MODAL,
-                showPreview: true,
-            },
-        );
-
-        expect(nextState).toEqual({
-            ...initialState,
-            shouldShowPreviewOnEditPostModal: true,
         });
     });
 });

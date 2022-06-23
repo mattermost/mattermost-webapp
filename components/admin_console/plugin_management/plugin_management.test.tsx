@@ -90,7 +90,7 @@ describe('components/PluginManagement', () => {
                 webapp: {},
             },
         },
-        appsEnabled: false,
+        appsFeatureFlagEnabled: false,
         actions: {
             uploadPlugin: jest.fn(),
             installPluginFromUrl: jest.fn(),
@@ -233,7 +233,7 @@ describe('components/PluginManagement', () => {
             },
             pluginStatuses: {},
             plugins: {},
-            appsEnabled: false,
+            appsFeatureFlagEnabled: false,
             actions: {
                 uploadPlugin: jest.fn(),
                 installPluginFromUrl: jest.fn(),
@@ -323,7 +323,7 @@ describe('components/PluginManagement', () => {
                     webapp: {},
                 },
             },
-            appsEnabled: false,
+            appsFeatureFlagEnabled: false,
             actions: {
                 uploadPlugin: jest.fn(),
                 installPluginFromUrl: jest.fn(),
@@ -380,7 +380,7 @@ describe('components/PluginManagement', () => {
                     webapp: {},
                 },
             },
-            appsEnabled: false,
+            appsFeatureFlagEnabled: false,
             actions: {
                 uploadPlugin: jest.fn(),
                 installPluginFromUrl: jest.fn(),
@@ -437,7 +437,7 @@ describe('components/PluginManagement', () => {
                     webapp: {},
                 },
             },
-            appsEnabled: false,
+            appsFeatureFlagEnabled: false,
             actions: {
                 uploadPlugin: jest.fn(),
                 installPluginFromUrl: jest.fn(),
@@ -496,7 +496,7 @@ describe('components/PluginManagement', () => {
                     webapp: {},
                 },
             },
-            appsEnabled: false,
+            appsFeatureFlagEnabled: false,
             actions: {
                 uploadPlugin: jest.fn(),
                 installPluginFromUrl: jest.fn(),

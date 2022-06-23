@@ -4,6 +4,7 @@
 import fs from 'fs';
 
 import assert from 'assert';
+
 import nock from 'nock';
 
 import * as Actions from 'mattermost-redux/actions/posts';
@@ -419,7 +420,7 @@ describe('Actions.Posts', () => {
         };
 
         nock(Client4.getBaseRoute()).
-            get(`/posts/${post.id}/thread?skipFetchThreads=false&collapsedThreads=true&collapsedThreadsExtended=false`).
+            get(`/posts/${post.id}/thread?skipFetchThreads=false&collapsedThreads=true&collapsedThreadsExtended=false&direction=down&perPage=60`).
             reply(200, postList);
         await Actions.getPostThread(post.id)(store.dispatch, store.getState);
 
@@ -1009,7 +1010,7 @@ describe('Actions.Posts', () => {
         postList.posts[post1.id] = post1;
 
         nock(Client4.getBaseRoute()).
-            get(`/posts/${post1.id}/thread?skipFetchThreads=false&collapsedThreads=true&collapsedThreadsExtended=false`).
+            get(`/posts/${post1.id}/thread?skipFetchThreads=false&collapsedThreads=true&collapsedThreadsExtended=false&direction=down&perPage=60`).
             reply(200, postList);
         await Actions.getPostThread(post1.id)(dispatch, getState);
 
@@ -1048,7 +1049,7 @@ describe('Actions.Posts', () => {
         postList.posts[post1.id] = post1;
 
         nock(Client4.getBaseRoute()).
-            get(`/posts/${post1.id}/thread?skipFetchThreads=false&collapsedThreads=true&collapsedThreadsExtended=false`).
+            get(`/posts/${post1.id}/thread?skipFetchThreads=false&collapsedThreads=true&collapsedThreadsExtended=false&direction=down&perPage=60`).
             reply(200, postList);
         await Actions.getPostThread(post1.id)(dispatch, getState);
 
@@ -1204,12 +1205,12 @@ describe('Actions.Posts', () => {
     it('getOpenGraphMetadata', async () => {
         const {dispatch, getState} = store;
 
-        const url = 'https://about.mattermost.com';
+        const url = 'https://mattermost.com';
         const docs = 'https://docs.mattermost.com/';
 
         nock(Client4.getBaseRoute()).
             post('/opengraph').
-            reply(200, {type: 'article', url: 'https://about.mattermost.com/', title: 'Mattermost private cloud messaging', description: 'Open source,  private cloud\nSlack-alternative, \nWorkplace messaging for web, PCs and phones.'});
+            reply(200, {type: 'article', url: 'https://mattermost.com/', title: 'Mattermost private cloud messaging', description: 'Open source,  private cloud\nSlack-alternative, \nWorkplace messaging for web, PCs and phones.'});
         await dispatch(Actions.getOpenGraphMetadata(url));
 
         nock(Client4.getBaseRoute()).
@@ -1487,7 +1488,7 @@ describe('Actions.Posts', () => {
             };
 
             nock(Client4.getBaseRoute()).
-                get(`/posts/${post1.id}/thread?skipFetchThreads=false&collapsedThreads=false&collapsedThreadsExtended=false`).
+                get(`/posts/${post1.id}/thread?skipFetchThreads=false&collapsedThreads=false&collapsedThreadsExtended=false&direction=down&perPage=60`).
                 reply(200, threadList);
         });
 

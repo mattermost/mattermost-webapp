@@ -4,7 +4,7 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
-import {ChannelType} from 'mattermost-redux/types/channels';
+import {ChannelType} from '@mattermost/types/channels';
 
 import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
 
@@ -28,6 +28,7 @@ describe('/components/data_prefetch', () => {
         currentChannelId: '',
         actions: {
             prefetchChannelPosts: jest.fn(() => Promise.resolve({})),
+            trackPreloadedChannels: jest.fn(),
         },
         prefetchQueueObj: {
             1: [],

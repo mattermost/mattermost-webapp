@@ -4,7 +4,7 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 
 import SelectTeamItem from './select_team_item';
 

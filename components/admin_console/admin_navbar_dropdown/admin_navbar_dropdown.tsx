@@ -4,7 +4,7 @@
 import React from 'react';
 import {injectIntl, IntlShape} from 'react-intl';
 
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 
 import * as GlobalActions from 'actions/global_actions';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
@@ -79,7 +79,7 @@ class AdminNavbarDropdown extends React.PureComponent<Props> {
         let commercialSupport = (
             <Menu.ItemExternalLink
                 onClick={() => trackEvent('admin', 'click_administrators_support')}
-                url='https://about.mattermost.com/commercial-support/'
+                url='https://mattermost.com/support/'
                 text={formatMessage({id: 'admin.nav.commercialSupport', defaultMessage: 'Commercial Support'})}
             />
         );
@@ -94,7 +94,7 @@ class AdminNavbarDropdown extends React.PureComponent<Props> {
             );
         }
 
-        let adminGuideLink = 'https://about.mattermost.com/administrators-guide/';
+        let adminGuideLink = 'https://docs.mattermost.com/guides/administration.html';
         if (isCloud) {
             adminGuideLink = 'https://docs.mattermost.com/guides/cloud-admin-guide.html';
         }
@@ -113,7 +113,7 @@ class AdminNavbarDropdown extends React.PureComponent<Props> {
                     />
                     <Menu.ItemExternalLink
                         onClick={() => trackEvent('admin', 'click_administrators_forum')}
-                        url={'https://about.mattermost.com/troubleshooting-forum/'}
+                        url={'https://forum.mattermost.com/t/how-to-use-the-troubleshooting-forum/150'}
                         text={formatMessage({id: 'admin.nav.troubleshootingForum', defaultMessage: 'Troubleshooting Forum'})}
                     />
                     {commercialSupport}

@@ -7,9 +7,9 @@ import {FormattedMessage} from 'react-intl';
 
 import classNames from 'classnames';
 
-import {Post, PostPreviewMetadata} from 'mattermost-redux/types/posts';
+import {Post, PostPreviewMetadata} from '@mattermost/types/posts';
 import UserProfileComponent from 'components/user_profile';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 import Avatar from 'components/widgets/users/avatar';
 import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils';
@@ -22,8 +22,11 @@ import PostAttachmentOpenGraph from 'components/post_view/post_attachment_opengr
 
 import MattermostLogo from 'components/widgets/icons/mattermost_logo';
 import {Constants} from 'utils/constants';
+import {General} from 'mattermost-redux/constants';
 
 export type Props = {
+    currentTeamUrl: string;
+    channelDisplayName: string;
     user: UserProfile | null;
     previewPost?: Post;
     metadata: PostPreviewMetadata;
@@ -38,7 +41,7 @@ export type Props = {
 };
 
 const PostMessagePreview = (props: Props) => {
-    const {user, previewPost, metadata, isEmbedVisible, compactDisplay, handleFileDropdownOpened} = props;
+    const {currentTeamUrl, channelDisplayName, user, previewPost, metadata, isEmbedVisible, compactDisplay, handleFileDropdownOpened} = props;
 
     const toggleEmbedVisibility = () => {
         if (previewPost) {
@@ -129,10 +132,15 @@ const PostMessagePreview = (props: Props) => {
         }
     }
 
+    let teamUrl = `/${metadata.team_name}`;
+    if (metadata.channel_type === General.DM_CHANNEL || metadata.channel_type === General.GM_CHANNEL) {
+        teamUrl = currentTeamUrl;
+    }
+
     return (
         <PostAttachmentContainer
             className='permalink'
-            link={`/${metadata.team_name}/pl/${metadata.post_id}`}
+            link={`${teamUrl}/pl/${metadata.post_id}`}
         >
             <div className='post-preview'>
                 <div className='post-preview__header'>
@@ -179,7 +187,7 @@ const PostMessagePreview = (props: Props) => {
                             id='post_message_preview.channel'
                             defaultMessage='Only visible to users in ~{channel}'
                             values={{
-                                channel: metadata.channel_display_name,
+                                channel: channelDisplayName,
                             }}
                         />
                     </p>

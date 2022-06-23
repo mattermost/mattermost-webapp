@@ -6,10 +6,10 @@ import {bindActionCreators, Dispatch} from 'redux';
 
 import {switchLdapToEmail} from 'mattermost-redux/actions/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
-import {getPasswordConfig} from 'utils/utils.jsx';
+import {getPasswordConfig} from 'utils/utils';
 
 import ClaimController from './claim_controller';
 

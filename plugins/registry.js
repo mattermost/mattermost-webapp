@@ -28,7 +28,7 @@ import {
 
 import store from 'stores/redux_store.jsx';
 import {ActionTypes} from 'utils/constants';
-import {generateId} from 'utils/utils.jsx';
+import {generateId} from 'utils/utils';
 
 function dispatchPluginComponentAction(name, pluginId, component, id = generateId()) {
     store.dispatch({
@@ -105,6 +105,9 @@ export default class PluginRegistry {
 
     // Register a component to show as a tooltip when a user hovers on a link in a post.
     // Accepts a React component. Returns a unique identifier.
+    // The component will be passed the following props:
+    // - href - The URL for this link
+    // - show - A boolean used to signal that the user is currently hovering over this link. Use this value to initialize your component when this boolean is true for the first time, using `componentDidUpdate` or `useEffect`.
     registerLinkTooltipComponent(component) {
         return dispatchPluginComponentAction('LinkTooltip', this.id, component);
     }
@@ -174,25 +177,23 @@ export default class PluginRegistry {
         return id;
     }
 
-    // Add a "call button"" next to the attach file button. If there are more than one button registered by any
+    // Add a "call button" to the channel header. If there is more than one button registered by any
     // plugin, a dropdown menu is created to contain all the call plugin buttons.
     // Accepts the following:
-    // - icon - React element to use as the button's icon
-    // - action - a function called when the button is clicked, passed the channel and channel member as arguments
-    // - dropdown_text - string or React element shown for the dropdown button description
-    // - tooltip_text - string shown for tooltip appear on hover
+    // - button - A React element to use as the main button to be displayed in case of a single registration.
+    // - dropdownButton -A React element to use as the dropdown button to be displayed in case of multiple registrations.
+    // - action - A function called when the button is clicked, passed the channel and channel member as arguments.
     // Returns an unique identifier
-    // Minimum required version: 5.28
-    registerCallButtonAction(icon, action, dropdownText, tooltipText) {
+    // Minimum required version: 6.5
+    registerCallButtonAction(button, dropdownButton, action) {
         const id = generateId();
 
         const data = {
             id,
             pluginId: this.id,
-            icon: resolveReactElement(icon),
+            button: resolveReactElement(button),
+            dropdownButton: resolveReactElement(dropdownButton),
             action,
-            dropdownText: resolveReactElement(dropdownText),
-            tooltipText,
         };
 
         store.dispatch({
@@ -898,5 +899,31 @@ export default class PluginRegistry {
         });
 
         return id;
+    }
+
+    // INTERNAL: Subject to change without notice.
+    // Register a handler to retrieve stats that will be displayed on the system console
+    // Accepts the following:
+    // - handler - Func to be called to retrieve the stats from plugin api. It must be type PluginSiteStatsHandler.
+    // Returns undefined
+    registerSiteStatisticsHandler(handler) {
+        const data = {
+            pluginId: this.id,
+            handler,
+        };
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_STATS_HANDLER,
+            data,
+        });
+    }
+
+    registerInsightsHandler(handler) {
+        store.dispatch({
+            type: ActionTypes.RECEIVED_BOARDS_INSIGHTS,
+            data: {
+                pluginId: this.id,
+                handler,
+            },
+        });
     }
 }

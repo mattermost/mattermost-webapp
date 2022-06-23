@@ -19,7 +19,7 @@ describe('components/threading/global_threads/thread_list/virtualized_thread_lis
             selectedThreadId: '1',
             total: 3,
             isLoading: false,
-            hasLoaded: false,
+            addNoMoreResultsItem: false,
         };
     });
 

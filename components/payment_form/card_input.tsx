@@ -4,28 +4,19 @@
 import React from 'react';
 import {StripeElements, StripeCardElement, StripeCardElementChangeEvent} from '@stripe/stripe-js';
 import {ElementsConsumer, CardElement} from '@stripe/react-stripe-js';
-
 import {FormattedMessage} from 'react-intl';
 
-import './card_input.css';
-import 'components/input.css';
+import {Theme} from 'mattermost-redux/types/themes';
+import {toRgbValues} from 'utils/utils';
 
-const CARD_ELEMENT_OPTIONS = {
-    hidePostalCode: true,
-    style: {
-        base: {
-            fontFamily: "'Open Sans', sans-serif",
-            fontSize: '14px',
-            opacity: '0.5',
-            fontSmoothing: 'antialiased',
-        },
-    },
-};
+import './card_input.css';
+import 'components/widgets/inputs/input/input.scss';
 
 type OwnProps = {
     error?: string;
     required?: boolean;
     forwardedRef?: any;
+    theme: Theme;
 
     // Stripe doesn't give type exports
     [propName: string]: any; //eslint-disable-line @typescript-eslint/no-explicit-any
@@ -138,7 +129,26 @@ class CardInput extends React.PureComponent<Props, State> {
     }
 
     public render() {
-        const {className, error: propError, ...otherProps} = this.props;
+        const {className, error: propError, theme, ...otherProps} = this.props;
+        const CARD_ELEMENT_OPTIONS = {
+            hidePostalCode: true,
+            style: {
+                base: {
+                    fontFamily: "'Open Sans', sans-serif",
+                    fontSize: '14px',
+                    fontSmoothing: 'antialiased',
+                    color: theme.centerChannelColor,
+                    '::placeholder': {
+                        color: `rgba(${toRgbValues(theme.centerChannelColor)}, 0.64)`,
+                    },
+                },
+                invalid: {
+                    color: theme.errorTextColor,
+                    iconColor: theme.errorTextColor,
+                },
+            },
+        };
+
         const {empty, focused, error: stateError} = this.state;
         let fieldsetClass = className ? `Input_fieldset ${className}` : 'Input_fieldset';
         let fieldsetErrorClass = className ? `Input_fieldset Input_fieldset___error ${className}` : 'Input_fieldset Input_fieldset___error';

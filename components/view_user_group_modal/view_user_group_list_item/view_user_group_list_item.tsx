@@ -1,12 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React from 'react';
+import React, {useCallback} from 'react';
 
-import {Group} from 'mattermost-redux/types/groups';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {Group} from '@mattermost/types/groups';
+import {UserProfile} from '@mattermost/types/users';
 
 import Avatar from 'components/widgets/users/avatar';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import LocalizedIcon from 'components/localized_icon';
 import {t} from 'utils/i18n';
 import {ActionResult} from 'mattermost-redux/types/actions';
@@ -26,17 +26,18 @@ const ViewUserGroupListItem = (props: Props) => {
     const {
         user,
         group,
+        groupId,
     } = props;
 
-    const removeUserFromGroup = async (userId: string) => {
-        const {groupId, actions, decrementMemberCount} = props;
+    const removeUserFromGroup = useCallback(async () => {
+        const {actions, decrementMemberCount} = props;
 
-        await actions.removeUsersFromGroup(groupId, [userId]).then((data) => {
+        await actions.removeUsersFromGroup(groupId, [user.id]).then((data) => {
             if (!data.error) {
                 decrementMemberCount();
             }
         });
-    };
+    }, [user.id, groupId, props.decrementMemberCount, props.actions.removeUsersFromGroup]);
 
     return (
         <div
@@ -63,9 +64,7 @@ const ViewUserGroupListItem = (props: Props) => {
                     type='button'
                     className='remove-group-member btn-icon'
                     aria-label='Close'
-                    onClick={() => {
-                        removeUserFromGroup(user.id);
-                    }}
+                    onClick={removeUserFromGroup}
                 >
                     <LocalizedIcon
                         className='icon icon-trash-can-outline'
@@ -77,4 +76,4 @@ const ViewUserGroupListItem = (props: Props) => {
     );
 };
 
-export default ViewUserGroupListItem;
+export default React.memo(ViewUserGroupListItem);

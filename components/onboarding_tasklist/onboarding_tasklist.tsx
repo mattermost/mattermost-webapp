@@ -7,9 +7,12 @@ import styled, {css} from 'styled-components';
 import Icon from '@mattermost/compass-components/foundations/icon/Icon';
 import {FormattedMessage} from 'react-intl';
 
+import {useFirstAdminUser, useIsCurrentUserSystemAdmin} from 'components/global_header/hooks';
+
 import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
-import {getBool} from 'mattermost-redux/selectors/entities/preferences';
-import {savePreferences} from 'mattermost-redux/actions/preferences';
+import {getShowTaskListBool} from 'selectors/onboarding';
+import {getBool, getMyPreferences as getMyPreferencesSelector} from 'mattermost-redux/selectors/entities/preferences';
+import {getMyPreferences, savePreferences} from 'mattermost-redux/actions/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {trackEvent} from 'actions/telemetry_actions';
 import checklistImg from 'images/onboarding-checklist.svg';
@@ -22,6 +25,8 @@ import {useHandleOnBoardingTaskTrigger} from 'components/onboarding_tasks/onboar
 import {openModal} from 'actions/views/modals';
 import {GlobalState} from 'types/store';
 import OnBoardingVideoModal from 'components/onboarding_tasks/onboarding_video_modal/onboarding_video_modal';
+
+import {Preferences, RecommendedNextStepsLegacy} from 'utils/constants';
 
 import {TaskListPopover} from './onboarding_tasklist_popover';
 import {Task} from './onboarding_tasklist_task';
@@ -152,9 +157,14 @@ const Skeleton = styled.div`
     position: relative;
 `;
 
-const OnBoardingTaskList = (): JSX.Element => {
+const OnBoardingTaskList = (): JSX.Element | null => {
+    const myPreferences = useSelector((state: GlobalState) => getMyPreferencesSelector(state));
+
     useEffect(() => {
         dispatch(getPrevTrialLicense());
+        if (Object.keys(myPreferences).length === 0) {
+            dispatch(getMyPreferences());
+        }
     }, []);
 
     const open = useSelector(((state: GlobalState) => getBool(state, OnboardingTaskCategory, OnboardingTaskList.ONBOARDING_TASK_LIST_OPEN)));
@@ -166,11 +176,46 @@ const OnBoardingTaskList = (): JSX.Element => {
     const [completedCount, setCompletedCount] = useState(tasksList.filter((task) => task.status).length);
     const [showAnimation, setShowAnimation] = useState(false);
     const itemsLeft = tasksList.length - completedCount;
+    const isCurrentUserSystemAdmin = useIsCurrentUserSystemAdmin();
+    const isFirstAdmin = useFirstAdminUser();
+    const [showTaskList, firstTimeOnboarding] = useSelector(getShowTaskListBool);
 
     const startTask = (taskName: string) => {
         toggleTaskList();
         handleTaskTrigger(taskName);
     };
+
+    const initOnboardingPrefs = async () => {
+        // save to preferences the show/open-task-list to true
+        // also save the recomendedNextSteps-hide to true to avoid asserting to true
+        // the logic to firstTimeOnboarding
+        await dispatch(savePreferences(currentUserId, [
+            {
+                category: OnboardingTaskCategory,
+                user_id: currentUserId,
+                name: OnboardingTaskList.ONBOARDING_TASK_LIST_SHOW,
+                value: 'true',
+            },
+            {
+                user_id: currentUserId,
+                category: OnboardingTaskCategory,
+                name: OnboardingTaskList.ONBOARDING_TASK_LIST_OPEN,
+                value: 'true',
+            },
+            {
+                user_id: currentUserId,
+                category: Preferences.RECOMMENDED_NEXT_STEPS,
+                name: RecommendedNextStepsLegacy.HIDE,
+                value: 'true',
+            },
+        ]));
+    };
+
+    useEffect(() => {
+        if (firstTimeOnboarding) {
+            initOnboardingPrefs();
+        }
+    }, [firstTimeOnboarding]);
 
     // Done to show task done animation in closed state as well
     useEffect(() => {
@@ -197,6 +242,12 @@ const OnBoardingTaskList = (): JSX.Element => {
             category: OnboardingTaskCategory,
             name: OnboardingTaskList.ONBOARDING_TASK_LIST_SHOW,
             value: 'false',
+        },
+        {
+            user_id: currentUserId,
+            category: OnboardingTaskCategory,
+            name: OnboardingTaskList.ONBOARDING_TASK_LIST_OPEN,
+            value: 'false',
         }];
         dispatch(savePreferences(currentUserId, preferences));
         trackEvent(OnboardingTaskCategory, OnboardingTaskList.ONBOARDING_TASK_LIST_SHOW);
@@ -221,6 +272,10 @@ const OnBoardingTaskList = (): JSX.Element => {
         }));
     }, []);
 
+    if (Object.keys(myPreferences).length === 0 || !showTaskList) {
+        return null;
+    }
+
     return (
         <>
             <CompletedAnimation completed={showAnimation}/>
@@ -228,6 +283,7 @@ const OnBoardingTaskList = (): JSX.Element => {
                 onClick={toggleTaskList}
                 ref={trigger}
                 open={open}
+                data-cy='onboarding-task-list-action-button'
             >
                 <Icon glyph={open ? 'close' : 'playlist-check'}/>
                 {itemsLeft !== 0 && (<span>{itemsLeft}</span>)}
@@ -238,60 +294,65 @@ const OnBoardingTaskList = (): JSX.Element => {
                 onClick={toggleTaskList}
             >
                 <TaskItems className={open ? 'open' : ''}>
-                    {completedCount === tasksList.length ? <Completed dismissAction={dismissChecklist}/> : (
-                        <>
-                            <h1>
-                                <FormattedMessage
-                                    id='next_steps_view.welcomeToMattermost'
-                                    defaultMessage='Welcome to Mattermost'
-                                />
-                            </h1>
-                            <p>
-                                <FormattedMessage
-                                    id='onboardingTask.checklist.main_subtitle'
-                                    defaultMessage="Let's get up and running."
-                                />
-                            </p>
-                            <Skeleton>
-                                <img
-                                    src={checklistImg}
-                                    alt={'On Boarding video'}
-                                    style={{display: 'block', margin: '1rem auto', borderRadius: '4px'}}
-                                />
-                                <PlayButton
-                                    onClick={openVideoModal}
-                                >
-                                    <Icon
-                                        glyph={'play'}
-                                        size={16}
-                                    />
+                    {completedCount === tasksList.length ?
+                        <Completed
+                            dismissAction={dismissChecklist}
+                            isFirstAdmin={isFirstAdmin}
+                            isCurrentUserSystemAdmin={isCurrentUserSystemAdmin}
+                        /> : (
+                            <>
+                                <h1>
                                     <FormattedMessage
-                                        id='onboardingTask.checklist.video_title'
-                                        defaultMessage='Watch overview'
+                                        id='next_steps_view.welcomeToMattermost'
+                                        defaultMessage='Welcome to Mattermost'
                                     />
-                                </PlayButton>
-                            </Skeleton>
-                            {tasksList.map((task) => (
-                                <Task
-                                    key={OnboardingTaskCategory + task.name}
-                                    label={task.label}
-                                    onClick={() => {
-                                        startTask(task.name);
-                                    }}
-                                    completedStatus={task.status}
-                                />
-                            ))}
-                            <span
-                                className='link'
-                                onClick={dismissChecklist}
-                            >
-                                <FormattedMessage
-                                    id='onboardingTask.checklist.dismiss_link'
-                                    defaultMessage='No thanks, I’ll figure it out myself'
-                                />
-                            </span>
-                        </>
-                    )}
+                                </h1>
+                                <p>
+                                    <FormattedMessage
+                                        id='onboardingTask.checklist.main_subtitle'
+                                        defaultMessage="Let's get up and running."
+                                    />
+                                </p>
+                                <Skeleton>
+                                    <img
+                                        src={checklistImg}
+                                        alt={'On Boarding video'}
+                                        style={{display: 'block', margin: '1rem auto', borderRadius: '4px'}}
+                                    />
+                                    <PlayButton
+                                        onClick={openVideoModal}
+                                    >
+                                        <Icon
+                                            glyph={'play'}
+                                            size={16}
+                                        />
+                                        <FormattedMessage
+                                            id='onboardingTask.checklist.video_title'
+                                            defaultMessage='Watch overview'
+                                        />
+                                    </PlayButton>
+                                </Skeleton>
+                                {tasksList.map((task) => (
+                                    <Task
+                                        key={OnboardingTaskCategory + task.name}
+                                        label={task.label}
+                                        onClick={() => {
+                                            startTask(task.name);
+                                        }}
+                                        completedStatus={task.status}
+                                    />
+                                ))}
+                                <span
+                                    className='link'
+                                    onClick={dismissChecklist}
+                                >
+                                    <FormattedMessage
+                                        id='onboardingTask.checklist.dismiss_link'
+                                        defaultMessage='No thanks, I’ll figure it out myself'
+                                    />
+                                </span>
+                            </>
+                        )}
                 </TaskItems>
             </TaskListPopover>
         </>

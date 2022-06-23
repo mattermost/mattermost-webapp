@@ -4,31 +4,32 @@ import React, {useEffect} from 'react';
 import {CSSTransition} from 'react-transition-group';
 import styled from 'styled-components';
 
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 
 import {useSelector, useDispatch} from 'react-redux';
 
-import completedImg from 'images/completed.svg';
-import StartTrialModal from 'components/start_trial_modal';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
-import {trackEvent} from 'actions/telemetry_actions';
-import {openModal} from 'actions/views/modals';
-import {GlobalState} from 'mattermost-redux/types/store';
+import completedImg from 'images/completed.svg';
+
+import {GlobalState} from '@mattermost/types/store';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
+import {LicenseSkus} from 'mattermost-redux/types/general';
 
-import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
+import StartTrialBtn from 'components/learn_more_trial_modal/start_trial_btn';
+import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
 
 const CompletedWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 100px 8px;
+    padding: 26px 24px 0 24px;
     margin: auto;
     text-align: center;
     word-break: break-word;
     width: 100%;
-    height: 100%;
+    height: 500px;
 
     &.fade-enter {
         transform: scale(0);
@@ -48,30 +49,64 @@ const CompletedWrapper = styled.div`
     &.fade-exit-done {
         transform: scale(1);
     }
-    button {
-        padding: 10px 20px;
+    .start-trial-btn, button {
+        padding: 13px 20px;
         background: var(--button-bg);
         border-radius: 4px;
         color: var(--sidebar-text);
         border: none;
         font-weight: bold;
+        margin-top: 15px;
+        min-height: 40px;
+        &:hover {
+            background: var(--button-bg) !important;
+            color: var(--sidebar-text) !important;
+        }
     }
 
     h2 {
         font-size: 20px;
-        padding: 0 24px;
         margin: 0 0 10px;
+        font-weight: 600;
     }
 
-    p {
-        font-size: 14px;
+    .start-trial-text, .completed-subtitle {
+        font-size: 14px !important;
         color: rgba(var(--center-channel-color-rgb), 0.72);
-        padding: 4px 24px;
+        line-height: 20px;
+    }
+
+    .completed-subtitle {
+        margin-top: 5px;
+    }
+
+    .disclaimer, .download-apps {
+        width: 90%;
+        margin-top: 15px;
+        color: rgba(var(--center-channel-color-rgb), 0.72);
+        font-family: "Open Sans";
+        font-style: normal;
+        font-weight: normal;
+        line-height: 16px;
+    }
+
+    .disclaimer {
+        text-align: left;
+        margin-top: auto;
+        font-size: 11px;
+    }
+
+    .download-apps {
+        margin-top: 24px;
+        width: 200px;
+        font-size: 12px;
     }
 `;
 
 interface Props {
     dismissAction: () => void;
+    isCurrentUserSystemAdmin: boolean;
+    isFirstAdmin: boolean;
 }
 
 const Completed = (props: Props): JSX.Element => {
@@ -88,21 +123,24 @@ const Completed = (props: Props): JSX.Element => {
     const isPrevLicensed = prevTrialLicense?.IsLicensed;
     const isCurrentLicensed = license?.IsLicensed;
 
+    // Cloud conditions
+    const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
+    const isCloud = license?.Cloud === 'true';
+    const isFreeTrial = subscription?.is_free_trial === 'true';
+    const hadPrevCloudTrial = subscription?.is_free_trial === 'false' && subscription?.trial_end_at > 0;
+    const isPaidSubscription = isCloud && license?.SkuShortName !== LicenseSkus.Starter && !isFreeTrial;
+
     // Show this CTA if the instance is currently not licensed and has never had a trial license loaded before
-    const showStartTrialBtn = (isCurrentLicensed === 'false' && isPrevLicensed === 'false');
+    // also check that the user is a system admin (this after the onboarding task list is shown to all users)
+    const selfHostedTrialCondition = (isCurrentLicensed === 'false' && isPrevLicensed === 'false') &&
+    (props.isCurrentUserSystemAdmin || props.isFirstAdmin);
 
-    const openStartTrialModalAndDismiss = () => {
-        trackEvent(
-            TELEMETRY_CATEGORIES.SELF_HOSTED_START_TRIAL_MODAL,
-            'open_start_trial_modal',
-        );
-        dispatch(openModal({
-            modalId: ModalIdentifiers.START_TRIAL_MODAL,
-            dialogType: StartTrialModal,
-        }));
+    // if Cloud, show if not in trial and had never been on trial
+    const cloudTrialCondition = isCloud && !isFreeTrial && !hadPrevCloudTrial && !isPaidSubscription;
 
-        props.dismissAction();
-    };
+    const showStartTrialBtn = selfHostedTrialCondition || cloudTrialCondition;
+
+    const {formatMessage} = useIntl();
 
     return (
         <>
@@ -122,26 +160,16 @@ const Completed = (props: Props): JSX.Element => {
                             defaultMessage='Well done. You’ve completed all of the tasks!'
                         />
                     </h2>
-                    <p>
+                    <span className='completed-subtitle'>
                         <FormattedMessage
                             id={'onboardingTask.checklist.completed_subtitle'}
-                            defaultMessage='We hope Mattermost is more familiar now. Need more help? '
+                            defaultMessage='We hope Mattermost is more familiar now.'
                         />
-                        <a
-                            target='_blank'
-                            rel='noopener noreferrer'
-                            href={'https://docs.mattermost.com/'}
-                        >
-                            <FormattedMessage
-                                id='onboardingTask.checklist.documentation_link'
-                                defaultMessage='See our documentation.'
-                            />
-                        </a>
-                    </p>
+                    </span>
 
                     {showStartTrialBtn ? (
                         <>
-                            <p>
+                            <span className='start-trial-text'>
                                 <FormattedMessage
                                     id='onboardingTask.checklist.higher_security_features'
                                     defaultMessage='Interested in our higher-security features?'
@@ -150,13 +178,21 @@ const Completed = (props: Props): JSX.Element => {
                                     id='onboardingTask.checklist.start_enterprise_now'
                                     defaultMessage='Start your free Enterprise trial now!'
                                 />
-                            </p>
-                            <button onClick={openStartTrialModalAndDismiss}>
-                                <FormattedMessage
-                                    id='start_trial.modal_btn.start'
-                                    defaultMessage='Start free 30-day trial'
+                            </span>
+                            {isCloud ? (
+                                <CloudStartTrialButton
+                                    message={formatMessage({id: 'menu.cloudFree.tryFreeFor30Days', defaultMessage: 'Try free for 30 days'})}
+                                    telemetryId={'start_cloud_trial_after_completing_steps'}
+                                    extraClass={'btn btn-primary'}
+                                    afterTrialRequest={dismissAction}
                                 />
-                            </button>
+                            ) : (
+                                <StartTrialBtn
+                                    message={formatMessage({id: 'start_trial.modal_btn.start_free_trial', defaultMessage: 'Start free 30-day trial'})}
+                                    telemetryId='start_trial_from_onboarding_completed_task'
+                                    onClick={dismissAction}
+                                />
+                            )}
                         </>
 
                     ) : (
@@ -167,6 +203,22 @@ const Completed = (props: Props): JSX.Element => {
                             />
                         </button>
                     )}
+                    <div className='download-apps'>
+                        <span>
+                            <FormattedMarkdownMessage
+                                id='onboardingTask.checklist.downloads'
+                                defaultMessage='Now that you’re all set up, [download our apps.](!https://mattermost.com/download)'
+                            />
+                        </span>
+                    </div>
+                    {showStartTrialBtn && <div className='disclaimer'>
+                        <span>
+                            <FormattedMarkdownMessage
+                                id='onboardingTask.checklist.disclaimer'
+                                defaultMessage='By clicking “Start trial”, I agree to the [Mattermost Software Evaluation Agreement,](!https://mattermost.com/software-evaluation-agreement) [privacy policy,](!https://mattermost.com/privacy-policy/) and receiving product emails.'
+                            />
+                        </span>
+                    </div>}
                 </CompletedWrapper>
             </CSSTransition>
         </>

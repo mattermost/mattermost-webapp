@@ -1,13 +1,17 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable max-lines */
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {AccountMultipleOutlineIcon, ChartBarIcon, CogOutlineIcon, CreditCardOutlineIcon, FlaskOutlineIcon, FormatListBulletedIcon, InformationOutlineIcon, PowerPlugOutlineIcon, ServerVariantIcon, ShieldOutlineIcon, SitemapIcon} from '@mattermost/compass-icons/components';
+
 import {RESOURCE_KEYS} from 'mattermost-redux/constants/permissions_sysconsole';
 import {LicenseSkus} from 'mattermost-redux/types/general';
 
-import {Constants} from 'utils/constants';
+import {Constants, LegacyFreeProductIds} from 'utils/constants';
+import {isCloudFreePlan} from 'utils/cloud_utils';
 import {getSiteURL} from 'utils/url';
 import {t} from 'utils/i18n';
 import {
@@ -41,7 +45,7 @@ import SystemUsers from './system_users';
 import SystemUserDetail from './system_user_detail';
 import ServerLogs from './server_logs';
 import BrandImageSetting from './brand_image_setting/brand_image_setting';
-import GroupSettings from './group_settings/group_settings.jsx';
+import GroupSettings from './group_settings/group_settings';
 import GroupDetails from './group_settings/group_details';
 import TeamSettings from './team_channel_settings/team';
 import TeamDetails from './team_channel_settings/team/details';
@@ -101,7 +105,7 @@ const SAML_SETTINGS_CANONICAL_ALGORITHM_C14N11 = 'Canonical1.1';
 // configure (settings).
 //
 // All text fields contains a translation key, and the <field>_default string are the
-// default text when the translation is still not avaiable (the english version
+// default text when the translation is still not available (the english version
 // of the text).
 //
 // We can define different types of settings configuration widgets:
@@ -138,7 +142,7 @@ const SAML_SETTINGS_CANONICAL_ALGORITHM_C14N11 = 'Canonical1.1';
 //   - placeholder (and placeholder_default): Placeholder text to show in the input.
 //   - dynamic_value: function that generate the value of the field based on the current value, the config, the state and the license.
 //   - default_value: function that generate the default value of the field based on the config, the state and the license.
-//   - max_length: The maximun length allowed
+//   - max_length: The maximum length allowed
 //
 // Button Widget (extends from Setting Widget)
 //   - action: A redux action to execute on click.
@@ -199,7 +203,12 @@ export const it = {
     licensedForFeature: (feature) => (config, state, license) => license.IsLicensed && license[feature] === 'true',
     licensedForSku: (skuName) => (config, state, license) => license.IsLicensed && license.SkuShortName === skuName,
     hidePaymentInfo: (config, state, license, enterpriseReady, consoleAccess, cloud) => {
-        return cloud?.subscription?.is_paid_tier !== 'true' || cloud?.subscription?.is_free_trial === 'true';
+        const productId = cloud?.subscription?.product_id;
+        const limits = cloud?.limits;
+        const subscriptionProduct = cloud?.products?.[productId];
+        const isCloudFreeProduct = isCloudFreePlan(subscriptionProduct, limits);
+        const isLegacyFreeUnpaid = Boolean(LegacyFreeProductIds[productId]) && !cloud.subscription?.is_legacy_cloud_paid_tier;
+        return isLegacyFreeUnpaid || cloud?.subscription?.is_free_trial === 'true' || isCloudFreeProduct;
     },
     userHasReadPermissionOnResource: (key) => (config, state, license, enterpriseReady, consoleAccess) => consoleAccess?.read?.[key],
     userHasReadPermissionOnSomeResources: (key) => Object.values(key).some((resource) => it.userHasReadPermissionOnResource(resource)),
@@ -243,7 +252,13 @@ const usesLegacyOauth = (config, state, license, enterpriseReady, consoleAccess,
 
 const AdminDefinition = {
     about: {
-        icon: 'fa-info-circle',
+        icon: (
+            <InformationOutlineIcon
+                size={16}
+                className={'category-icon fa'}
+                color={'currentColor'}
+            />
+        ),
         sectionTitle: t('admin.sidebar.about'),
         sectionTitleDefault: 'About',
         isHidden: it.any(
@@ -273,7 +288,13 @@ const AdminDefinition = {
         },
     },
     billing: {
-        icon: 'fa-credit-card', // TODO: Need compass icon
+        icon: (
+            <CreditCardOutlineIcon
+                size={16}
+                className={'category-icon fa'}
+                color={'currentColor'}
+            />
+        ),
         sectionTitle: t('admin.sidebar.billing'),
         sectionTitleDefault: 'Billing & Account',
         isHidden: it.any(
@@ -352,7 +373,13 @@ const AdminDefinition = {
         },
     },
     reporting: {
-        icon: 'fa-bar-chart',
+        icon: (
+            <ChartBarIcon
+                size={16}
+                className={'category-icon fa'}
+                color={'currentColor'}
+            />
+        ),
         sectionTitle: t('admin.sidebar.reporting'),
         sectionTitleDefault: 'Reporting',
         isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.REPORTING)),
@@ -364,7 +391,7 @@ const AdminDefinition = {
                 id: 'WorkspaceOptimizationDashboard',
                 component: WorkspaceOptimizationDashboard,
             },
-            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.REPORTING.SITE_STATISTICS)) && it.configIsFalse('FeatureFlags', 'WorkspaceOptimizationDashboard'),
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.REPORTING.SITE_STATISTICS)),
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.REPORTING.SITE_STATISTICS)),
         },
         system_analytics: {
@@ -439,7 +466,13 @@ const AdminDefinition = {
         },
     },
     user_management: {
-        icon: 'fa-users',
+        icon: (
+            <AccountMultipleOutlineIcon
+                size={16}
+                className={'category-icon fa'}
+                color={'currentColor'}
+            />
+        ),
         sectionTitle: t('admin.sidebar.userManagement'),
         sectionTitleDefault: 'User Management',
         isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.USER_MANAGEMENT)),
@@ -650,7 +683,13 @@ const AdminDefinition = {
         },
     },
     environment: {
-        icon: 'fa-server',
+        icon: (
+            <ServerVariantIcon
+                size={16}
+                className={'category-icon fa'}
+                color={'currentColor'}
+            />
+        ),
         sectionTitle: t('admin.sidebar.environment'),
         sectionTitleDefault: 'Environment',
         isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.ENVIRONMENT)),
@@ -1120,8 +1159,20 @@ const AdminDefinition = {
                         label: t('admin.image.amazonS3IdTitle'),
                         label_default: 'Amazon S3 Access Key ID:',
                         help_text: t('admin.image.amazonS3IdDescription'),
-                        help_text_markdown: true,
-                        help_text_default: '(Optional) Only required if you do not want to authenticate to S3 using an [IAM role](!https://about.mattermost.com/default-iam-role). Enter the Access Key ID provided by your Amazon EC2 administrator.',
+                        help_text_default: '(Optional) Only required if you do not want to authenticate to S3 using an <link>IAM role</link>. Enter the Access Key ID provided by your Amazon EC2 administrator.',
+                        help_text_values: {
+                            link: (msg) => (
+                                <a
+                                    href='https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        },
+                        help_text_markdown: false,
                         placeholder: t('admin.image.amazonS3IdExample'),
                         placeholder_default: 'E.g.: "AKIADTOVBGERKLCBV"',
                         isDisabled: it.any(
@@ -1175,8 +1226,20 @@ const AdminDefinition = {
                         label: t('admin.image.amazonS3SSETitle'),
                         label_default: 'Enable Server-Side Encryption for Amazon S3:',
                         help_text: t('admin.image.amazonS3SSEDescription'),
-                        help_text_markdown: true,
-                        help_text_default: 'When true, encrypt files in Amazon S3 using server-side encryption with Amazon S3-managed keys. See [documentation](!https://about.mattermost.com/default-server-side-encryption) to learn more.',
+                        help_text_default: 'When true, encrypt files in Amazon S3 using server-side encryption with Amazon S3-managed keys. See <link>documentation</link> to learn more.',
+                        help_text_values: {
+                            link: (msg) => (
+                                <a
+                                    href='https://docs.mattermost.com/configure/configuration-settings.html#session-lengths'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        },
+                        help_text_markdown: false,
                         isHidden: it.not(it.licensedForFeature('Compliance')),
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.FILE_STORAGE)),
@@ -1240,8 +1303,20 @@ const AdminDefinition = {
                         label: t('admin.image.proxyType'),
                         label_default: 'Image Proxy Type:',
                         help_text: t('admin.image.proxyTypeDescription'),
-                        help_text_default: 'Configure an image proxy to load all Markdown images through a proxy. The image proxy prevents users from making insecure image requests, provides caching for increased performance, and automates image adjustments such as resizing. See [documentation](!https://about.mattermost.com/default-image-proxy-documentation) to learn more.',
-                        help_text_markdown: true,
+                        help_text_default: 'Configure an image proxy to load all Markdown images through a proxy. The image proxy prevents users from making insecure image requests, provides caching for increased performance, and automates image adjustments such as resizing. See <link>documentation</link> to learn more.',
+                        help_text_values: {
+                            link: (msg) => (
+                                <a
+                                    href='https://docs.mattermost.com/deploy/image-proxy.html'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        },
+                        help_text_markdown: false,
                         options: [
                             {
                                 value: 'atmos/camo',
@@ -1709,7 +1784,7 @@ const AdminDefinition = {
                         label: t('admin.log.enableDiagnostics'),
                         label_default: 'Enable Diagnostics and Error Reporting:',
                         help_text: t('admin.log.enableDiagnosticsDescription'),
-                        help_text_default: 'Enable this feature to improve the quality and performance of Mattermost by sending error reporting and diagnostic information to Mattermost, Inc. Read our [privacy policy](!https://about.mattermost.com/default-privacy-policy/) to learn more.',
+                        help_text_default: 'Enable this feature to improve the quality and performance of Mattermost by sending error reporting and diagnostic information to Mattermost, Inc. Read our [privacy policy](!https://mattermost.com/privacy-policy/) to learn more.',
                         help_text_markdown: true,
                         onConfigSave: (displayVal, previousVal) => {
                             if (previousVal && previousVal !== displayVal) {
@@ -1732,20 +1807,20 @@ const AdminDefinition = {
             ),
             searchableStrings: [
                 'admin.sessionLengths.title',
-                'admin.service.webSessionDaysDesc.extendLength',
-                'admin.service.mobileSessionDaysDesc.extendLength',
-                'admin.service.ssoSessionDaysDesc.extendLength',
-                'admin.service.webSessionDaysDesc',
-                'admin.service.mobileSessionDaysDesc',
-                'admin.service.ssoSessionDaysDesc',
+                'admin.service.webSessionHoursDesc.extendLength',
+                'admin.service.mobileSessionHoursDesc.extendLength',
+                'admin.service.ssoSessionHoursDesc.extendLength',
+                'admin.service.webSessionHoursDesc',
+                'admin.service.mobileSessionHoursDesc',
+                'admin.service.ssoSessionHoursDesc',
                 'admin.service.sessionIdleTimeout',
                 'admin.service.sessionIdleTimeoutDesc',
                 'admin.service.extendSessionLengthActivity.label',
                 'admin.service.extendSessionLengthActivity.helpText',
-                'admin.service.webSessionDays',
-                'admin.service.sessionDaysEx',
-                'admin.service.mobileSessionDays',
-                'admin.service.ssoSessionDays',
+                'admin.service.webSessionHours',
+                'admin.service.sessionHoursEx',
+                'admin.service.mobileSessionHours',
+                'admin.service.ssoSessionHours',
                 'admin.service.sessionCache',
                 'admin.service.sessionCacheDesc',
             ],
@@ -1774,7 +1849,7 @@ const AdminDefinition = {
                         label: t('admin.metrics.enableTitle'),
                         label_default: 'Enable Performance Monitoring:',
                         help_text: t('admin.metrics.enableDescription'),
-                        help_text_default: 'When true, Mattermost will enable performance monitoring collection and profiling. Please see [documentation](!http://docs.mattermost.com/deployment/metrics.html) to learn more about configuring performance monitoring for Mattermost.',
+                        help_text_default: 'When true, Mattermost will enable performance monitoring collection and profiling. Please see [documentation](!https://docs.mattermost.com/deployment/metrics.html) to learn more about configuring performance monitoring for Mattermost.',
                         help_text_markdown: true,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.PERFORMANCE_MONITORING)),
                     },
@@ -1824,6 +1899,16 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.DEVELOPER)),
                     },
                     {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ServiceSettings.EnableClientPerformanceDebugging',
+                        label: t('admin.service.performanceDebuggingTitle'),
+                        label_default: 'Enable Client Performance Debugging: ',
+                        help_text: t('admin.service.performanceDebuggingDescription'),
+                        help_text_default: 'When true, users can access debugging settings for their account in **Settings > Advanced > Performance Debugging** to assist in diagnosing performance issues.',
+                        help_text_markdown: true,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.DEVELOPER)),
+                    },
+                    {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'ServiceSettings.AllowedUntrustedInternalConnections',
                         label: t('admin.service.internalConnectionsTitle'),
@@ -1840,7 +1925,13 @@ const AdminDefinition = {
         },
     },
     site: {
-        icon: 'fa-cogs',
+        icon: (
+            <CogOutlineIcon
+                size={16}
+                className={'category-icon fa'}
+                color={'currentColor'}
+            />
+        ),
         sectionTitle: t('admin.sidebar.site'),
         sectionTitleDefault: 'Site Configuration',
         isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.SITE)),
@@ -2533,6 +2624,72 @@ const AdminDefinition = {
                 settings: [
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ServiceSettings.ThreadAutoFollow',
+                        label: t('admin.experimental.threadAutoFollow.title'),
+                        label_default: 'Automatically Follow Threads',
+                        help_text: t('admin.experimental.threadAutoFollow.desc'),
+                        help_text_default: 'This setting must be enabled in order to enable Collapsed Reply Threads. When enabled, threads a user starts, participates in, or is mentioned in are automatically followed. A new `Threads` table is added in the database that tracks threads and thread participants, and a `ThreadMembership` table tracks followed threads for each user and the read or unread state of each followed thread. When false, all backend operations to support Collapsed Reply Threads are disabled.',
+                        help_text_markdown: true,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
+                        isHidden: it.licensedForFeature('Cloud'),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_DROPDOWN,
+                        key: 'ServiceSettings.CollapsedThreads',
+                        label: t('admin.experimental.collapsedThreads.title'),
+                        label_default: 'Collapsed Reply Threads',
+                        help_text: t('admin.experimental.collapsedThreads.desc'),
+                        help_text_default: 'When enabled (default off), users must enable collapsed reply threads in Settings. When disabled, users cannot access Collapsed Reply Threads. Please review our <linkKnownIssues>documentation for known issues</linkKnownIssues> and help provide feedback in our <linkCommunityChannel>Community Channel</linkCommunityChannel>.',
+                        help_text_values: {
+                            linkKnownIssues: (msg) => (
+                                <a
+                                    href='https://docs.mattermost.com/messaging/organizing-conversations.html'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                            linkCommunityChannel: (msg) => (
+                                <a
+                                    href='https://community-daily.mattermost.com/core/channels/folded-reply-threads'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        },
+                        help_text_markdown: false,
+                        options: [
+                            {
+                                value: 'disabled',
+                                display_name: t('admin.experimental.collapsedThreads.off'),
+                                display_name_default: 'Disabled',
+                            },
+                            {
+                                value: 'default_off',
+                                display_name: t('admin.experimental.collapsedThreads.default_off'),
+                                display_name_default: 'Enabled (Default Off)',
+                            },
+                            {
+                                value: 'default_on',
+                                display_name: t('admin.experimental.collapsedThreads.default_on'),
+                                display_name_default: 'Enabled (Default On)',
+                            },
+                            {
+                                value: 'always_on',
+                                display_name: t('admin.experimental.collapsedThreads.always_on'),
+                                display_name_default: 'Always On',
+                            },
+                        ],
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
+                        isHidden: it.configIsFalse('FeatureFlags', 'CollapsedThreads'),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'ServiceSettings.EnableLinkPreviews',
                         label: t('admin.customization.enableLinkPreviewsTitle'),
                         label_default: 'Enable website link previews:',
@@ -2560,8 +2717,20 @@ const AdminDefinition = {
                         label: t('admin.customization.enablePermalinkPreviewsTitle'),
                         label_default: 'Enable message link previews:',
                         help_text: t('admin.customization.enablePermalinkPreviewsDesc'),
-                        help_text_default: 'When enabled, links to Mattermost messages will generate a preview for any users that have access to the original message. Please review our [documentation](!https://docs.mattermost.com/messaging/sharing-messages.html) for details.',
-                        help_text_markdown: true,
+                        help_text_default: 'When enabled, links to Mattermost messages will generate a preview for any users that have access to the original message. Please review our <link>documentation</link> for details.',
+                        help_text_values: {
+                            link: (msg) => (
+                                <a
+                                    href='https://docs.mattermost.com/messaging/sharing-messages.html'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        },
+                        help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.POSTS)),
                     },
                     {
@@ -2588,8 +2757,20 @@ const AdminDefinition = {
                         label: t('admin.customization.enableInlineLatexTitle'),
                         label_default: 'Enable Inline Latex Rendering:',
                         help_text: t('admin.customization.enableInlineLatexDesc'),
-                        help_text_default: 'Enable rendering of inline Latex code. If false, Latex can only be rendered in a code block using syntax highlighting. Please review our [documentation](!https://docs.mattermost.com/messaging/formatting-text.html) for details about text formatting.',
-                        help_text_markdown: true,
+                        help_text_default: 'Enable rendering of inline Latex code. If false, Latex can only be rendered in a code block using syntax highlighting. Please review our <link>documentation</link> for details about text formatting.',
+                        help_text_values: {
+                            link: (msg) => (
+                                <a
+                                    href='https://docs.mattermost.com/messaging/formatting-text.html'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        },
+                        help_text_markdown: false,
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.POSTS)),
                             it.configIsFalse('ServiceSettings', 'EnableLatex'),
@@ -2621,7 +2802,10 @@ const AdminDefinition = {
             url: 'site_config/file_sharing_downloads',
             title: t('admin.sidebar.fileSharingDownloads'),
             title_default: 'File Sharing and Downloads',
-            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.SITE.FILE_SHARING_AND_DOWNLOADS)),
+            isHidden: it.any(
+                it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.SITE.FILE_SHARING_AND_DOWNLOADS)),
+            ),
             schema: {
                 id: 'FileSharingDownloads',
                 name: t('admin.site.fileSharingDownloads'),
@@ -2709,8 +2893,20 @@ const AdminDefinition = {
                         label: t('admin.notices.enableAdminNoticesTitle'),
                         label_default: 'Enable Admin Notices: ',
                         help_text: t('admin.notices.enableAdminNoticesDescription'),
-                        help_text_default: 'When enabled, System Admins will receive notices about available server upgrades and relevant system administration features. [Learn more about notices](!https://about.mattermost.com/default-notices) in our documentation.',
-                        help_text_markdown: true,
+                        help_text_default: 'When enabled, System Admins will receive notices about available server upgrades and relevant system administration features. <link>Learn more about notices</link> in our documentation.',
+                        help_text_values: {
+                            link: (msg) => (
+                                <a
+                                    href='https://docs.mattermost.com/manage/in-product-notices.html'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        },
+                        help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.NOTICES)),
                     },
                     {
@@ -2719,8 +2915,20 @@ const AdminDefinition = {
                         label: t('admin.notices.enableEndUserNoticesTitle'),
                         label_default: 'Enable End User Notices: ',
                         help_text: t('admin.notices.enableEndUserNoticesDescription'),
-                        help_text_default: 'When enabled, all users will receive notices about available client upgrades and relevant end user features to improve user experience. [Learn more about notices](!https://about.mattermost.com/default-notices) in our documentation.',
-                        help_text_markdown: true,
+                        help_text_default: 'When enabled, all users will receive notices about available client upgrades and relevant end user features to improve user experience. <link>Learn more about notices</link> in our documentation.',
+                        help_text_values: {
+                            link: (msg) => (
+                                <a
+                                    href='https://docs.mattermost.com/manage/in-product-notices.html'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        },
+                        help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.NOTICES)),
                     },
                 ],
@@ -2728,7 +2936,13 @@ const AdminDefinition = {
         },
     },
     authentication: {
-        icon: 'fa-shield',
+        icon: (
+            <ShieldOutlineIcon
+                size={16}
+                className={'category-icon fa'}
+                color={'currentColor'}
+            />
+        ),
         sectionTitle: t('admin.sidebar.authentication'),
         sectionTitleDefault: 'Authentication',
         isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.AUTHENTICATION)),
@@ -2757,9 +2971,9 @@ const AdminDefinition = {
                         label: t('admin.team.restrictTitle'),
                         label_default: 'Restrict new system and team members to specified email domains:',
                         help_text: t('admin.team.restrictDescription'),
-                        help_text_default: 'New user accounts are restricted to the above specified email domain (e.g. "mattermost.org") or list of comma-separated domains (e.g. "corp.mattermost.com, mattermost.org"). New teams can only be created by users from the above domain(s). This setting only affects email login for users.',
+                        help_text_default: 'New user accounts are restricted to the above specified email domain (e.g. "mattermost.com") or list of comma-separated domains (e.g. "corp.mattermost.com, mattermost.com"). New teams can only be created by users from the above domain(s). This setting only affects email login for users.',
                         placeholder: t('admin.team.restrictExample'),
-                        placeholder_default: 'E.g.: "corp.mattermost.com, mattermost.org"',
+                        placeholder_default: 'E.g.: "corp.mattermost.com, mattermost.com"',
                         isHidden: it.licensed,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SIGNUP)),
                     },
@@ -2769,9 +2983,9 @@ const AdminDefinition = {
                         label: t('admin.team.restrictTitle'),
                         label_default: 'Restrict new system and team members to specified email domains:',
                         help_text: t('admin.team.restrictGuestDescription'),
-                        help_text_default: 'New user accounts are restricted to the above specified email domain (e.g. "mattermost.org") or list of comma-separated domains (e.g. "corp.mattermost.com, mattermost.org"). New teams can only be created by users from the above domain(s). This setting affects email login for users. For Guest users, please add domains under Signup > Guest Access.',
+                        help_text_default: 'New user accounts are restricted to the above specified email domain (e.g. "mattermost.com") or list of comma-separated domains (e.g. "corp.mattermost.com, mattermost.com"). New teams can only be created by users from the above domain(s). This setting affects email login for users. For Guest users, please add domains under Signup > Guest Access.',
                         placeholder: t('admin.team.restrictExample'),
-                        placeholder_default: 'E.g.: "corp.mattermost.com, mattermost.org"',
+                        placeholder_default: 'E.g.: "corp.mattermost.com, mattermost.com"',
                         isHidden: it.any(
                             it.not(it.licensed),
                             it.licensedForSku('starter'),
@@ -3262,7 +3476,7 @@ const AdminDefinition = {
                                 placeholder_default: 'E.g.: "objectGUID" or "uid"',
                                 help_text: t('admin.ldap.idAttrDesc'),
                                 help_text_markdown: true,
-                                help_text_default: 'The attribute in the AD/LDAP server used as a unique identifier in Mattermost. It should be an AD/LDAP attribute with a value that does not change such as `uid` for LDAP or `objectGUID` for Active Directory. If a user\'s ID Attribute changes, it will create a new Mattermost account unassociated with their old one.\n \nIf you need to change this field after users have already logged in, use the [mattermost ldap idmigrate](!https://about.mattermost.com/default-mattermost-ldap-idmigrate) CLI tool.',
+                                help_text_default: 'The attribute in the AD/LDAP server used as a unique identifier in Mattermost. It should be an AD/LDAP attribute with a value that does not change such as `uid` for LDAP or `objectGUID` for Active Directory. If a user\'s ID Attribute changes, it will create a new Mattermost account unassociated with their old one.\n \nIf you need to change this field after users have already logged in, use the [mattermost ldap idmigrate](!https://docs.mattermost.com/manage/command-line-tools.html#mattermost-ldap-idmigrate) CLI tool.',
                                 isDisabled: it.any(
                                     it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                                     it.all(
@@ -3505,8 +3719,20 @@ const AdminDefinition = {
                                 label: t('admin.ldap.ldap_test_button'),
                                 label_default: 'AD/LDAP Test',
                                 help_text: t('admin.ldap.testHelpText'),
-                                help_text_markdown: true,
-                                help_text_default: 'Tests if the Mattermost server can connect to the AD/LDAP server specified. Please review "System Console > Logs" and [documentation](!https://mattermost.com/default-ldap-docs) to troubleshoot errors.',
+                                help_text_default: 'Tests if the Mattermost server can connect to the AD/LDAP server specified. Please review "System Console > Logs" and <link>documentation</link> to troubleshoot errors.',
+                                help_text_values: {
+                                    link: (msg) => (
+                                        <a
+                                            href='https://mattermost.com/default-ldap-docs'
+                                            referrer='noreferrer'
+                                            target='_blank'
+                                            rel='noreferrer'
+                                        >
+                                            {msg}
+                                        </a>
+                                    ),
+                                },
+                                help_text_markdown: false,
                                 error_message: t('admin.ldap.testFailure'),
                                 error_message_default: 'AD/LDAP Test Failure: {error}',
                                 success_message: t('admin.ldap.testSuccess'),
@@ -3712,8 +3938,21 @@ const AdminDefinition = {
                         label: t('admin.saml.enableSyncWithLdapTitle'),
                         label_default: 'Enable Synchronizing SAML Accounts With AD/LDAP:',
                         help_text: t('admin.saml.enableSyncWithLdapDescription'),
-                        help_text_default: 'When true, Mattermost periodically synchronizes SAML user attributes, including user deactivation and removal, from AD/LDAP. Enable and configure synchronization settings at **Authentication > AD/LDAP**. When false, user attributes are updated from SAML during user login. See [documentation](!https://about.mattermost.com/default-saml-ldap-sync) to learn more.',
-                        help_text_markdown: true,
+                        help_text_default: 'When true, Mattermost periodically synchronizes SAML user attributes, including user deactivation and removal, from AD/LDAP. Enable and configure synchronization settings at <strong>Authentication > AD/LDAP</strong>. When false, user attributes are updated from SAML during user login. See <link>documentation</link> to learn more.',
+                        help_text_values: {
+                            link: (msg) => (
+                                <a
+                                    href='https://docs.mattermost.com/onboard/ad-ldap.html'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                            strong: (msg) => <strong>{msg}</strong>,
+                        },
+                        help_text_markdown: false,
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
                             it.stateIsFalse('SamlSettings.Enable'),
@@ -5069,8 +5308,20 @@ const AdminDefinition = {
                         label: t('admin.guest_access.mfaTitle'),
                         label_default: 'Enforce Multi-factor Authentication: ',
                         help_text: t('admin.guest_access.mfaDescription'),
-                        help_text_default: 'When true, [multi-factor authentication](!https://docs.mattermost.com/deployment/auth.html) for guests is required for login. New guest users will be required to configure MFA on signup. Logged in guest users without MFA configured are redirected to the MFA setup page until configuration is complete.\n \nIf your system has guest users with login methods other than AD/LDAP and email, MFA must be enforced with the authentication provider outside of Mattermost.',
-                        help_text_markdown: true,
+                        help_text_default: 'When true, <link>multi-factor authentication</link> for guests is required for login. New guest users will be required to configure MFA on signup. Logged in guest users without MFA configured are redirected to the MFA setup page until configuration is complete.\n \nIf your system has guest users with login methods other than AD/LDAP and email, MFA must be enforced with the authentication provider outside of Mattermost.',
+                        help_text_values: {
+                            link: (msg) => (
+                                <a
+                                    href='https://docs.mattermost.com/deployment/auth.html'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        },
+                        help_text_markdown: false,
                         isHidden: it.any(
                             it.configIsFalse('ServiceSettings', 'EnableMultifactorAuthentication'),
                             it.configIsFalse('ServiceSettings', 'EnforceMultifactorAuthentication'),
@@ -5105,7 +5356,13 @@ const AdminDefinition = {
         },
     },
     plugins: {
-        icon: 'fa-plug',
+        icon: (
+            <PowerPlugOutlineIcon
+                size={16}
+                className={'category-icon fa'}
+                color={'currentColor'}
+            />
+        ),
         sectionTitle: t('admin.sidebar.plugins'),
         sectionTitleDefault: 'Plugins',
         id: 'plugins',
@@ -5148,7 +5405,13 @@ const AdminDefinition = {
         },
     },
     integrations: {
-        icon: 'fa-sitemap',
+        icon: (
+            <SitemapIcon
+                size={16}
+                className={'category-icon fa'}
+                color={'currentColor'}
+            />
+        ),
         sectionTitle: t('admin.sidebar.integrations'),
         sectionTitleDefault: 'Integrations',
         id: 'integrations',
@@ -5171,8 +5434,20 @@ const AdminDefinition = {
                         label: t('admin.service.webhooksTitle'),
                         label_default: 'Enable Incoming Webhooks: ',
                         help_text: t('admin.service.webhooksDescription'),
-                        help_text_default: 'When true, incoming webhooks will be allowed. To help combat phishing attacks, all posts from webhooks will be labelled by a BOT tag. See [documentation](!http://docs.mattermost.com/developer/webhooks-incoming.html) to learn more.',
-                        help_text_markdown: true,
+                        help_text_default: 'When true, incoming webhooks will be allowed. To help combat phishing attacks, all posts from webhooks will be labelled by a BOT tag. See <link>documentation</link> to learn more.',
+                        help_text_values: {
+                            link: (msg) => (
+                                <a
+                                    href='https://developers.mattermost.com/integrate/admin-guide/admin-webhooks-incoming/'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        },
+                        help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
                     {
@@ -5181,8 +5456,20 @@ const AdminDefinition = {
                         label: t('admin.service.outWebhooksTitle'),
                         label_default: 'Enable Outgoing Webhooks: ',
                         help_text: t('admin.service.outWebhooksDesc'),
-                        help_text_default: 'When true, outgoing webhooks will be allowed. See [documentation](!http://docs.mattermost.com/developer/webhooks-outgoing.html) to learn more.',
-                        help_text_markdown: true,
+                        help_text_default: 'When true, outgoing webhooks will be allowed. See <link>documentation</link> to learn more.',
+                        help_text_values: {
+                            link: (msg) => (
+                                <a
+                                    href='https://developers.mattermost.com/integrate/admin-guide/admin-webhooks-outgoing/'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        },
+                        help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
                     {
@@ -5191,8 +5478,20 @@ const AdminDefinition = {
                         label: t('admin.service.cmdsTitle'),
                         label_default: 'Enable Custom Slash Commands: ',
                         help_text: t('admin.service.cmdsDesc'),
-                        help_text_default: 'When true, custom slash commands will be allowed. See [documentation](!http://docs.mattermost.com/developer/slash-commands.html) to learn more.',
-                        help_text_markdown: true,
+                        help_text_default: 'When true, custom slash commands will be allowed. See <link>documentation</link> to learn more.',
+                        help_text_values: {
+                            link: (msg) => (
+                                <a
+                                    href='https://developers.mattermost.com/integrate/admin-guide/admin-slash-commands/'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        },
+                        help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
                     {
@@ -5201,8 +5500,20 @@ const AdminDefinition = {
                         label: t('admin.oauth.providerTitle'),
                         label_default: 'Enable OAuth 2.0 Service Provider: ',
                         help_text: t('admin.oauth.providerDescription'),
-                        help_text_default: 'When true, Mattermost can act as an OAuth 2.0 service provider allowing Mattermost to authorize API requests from external applications. See [documentation](!https://docs.mattermost.com/developer/oauth-2-0-applications.html) to learn more.',
-                        help_text_markdown: true,
+                        help_text_default: 'When true, Mattermost can act as an OAuth 2.0 service provider allowing Mattermost to authorize API requests from external applications. See <link>documentation</link> to learn more.',
+                        help_text_values: {
+                            link: (msg) => (
+                                <a
+                                    href='https://developers.mattermost.com/integrate/admin-guide/admin-oauth2/'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        },
+                        help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
                     {
@@ -5211,8 +5522,7 @@ const AdminDefinition = {
                         label: t('admin.service.overrideTitle'),
                         label_default: 'Enable integrations to override usernames:',
                         help_text: t('admin.service.overrideDescription'),
-                        help_text_default: 'When true, webhooks, slash commands and other integrations, such as [Zapier](!https://docs.mattermost.com/integrations/zapier.html), will be allowed to change the username they are posting as. Note: Combined with allowing integrations to override profile picture icons, users may be able to perform phishing attacks by attempting to impersonate other users.',
-                        help_text_markdown: true,
+                        help_text_default: 'When true, webhooks, slash commands and other integrations will be allowed to change the username they are posting as. Note: Combined with allowing integrations to override profile picture icons, users may be able to perform phishing attacks by attempting to impersonate other users.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
                     {
@@ -5221,8 +5531,7 @@ const AdminDefinition = {
                         label: t('admin.service.iconTitle'),
                         label_default: 'Enable integrations to override profile picture icons:',
                         help_text: t('admin.service.iconDescription'),
-                        help_text_default: 'When true, webhooks, slash commands and other integrations, such as [Zapier](!https://docs.mattermost.com/integrations/zapier.html), will be allowed to change the profile picture they post with. Note: Combined with allowing integrations to override usernames, users may be able to perform phishing attacks by attempting to impersonate other users.',
-                        help_text_markdown: true,
+                        help_text_default: 'When true, webhooks, slash commands and other integrations will be allowed to change the profile picture they post with. Note: Combined with allowing integrations to override usernames, users may be able to perform phishing attacks by attempting to impersonate other users.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
                     {
@@ -5231,8 +5540,21 @@ const AdminDefinition = {
                         label: t('admin.service.userAccessTokensTitle'),
                         label_default: 'Enable User Access Tokens: ',
                         help_text: t('admin.service.userAccessTokensDescription'),
-                        help_text_default: 'When true, users can create [user access tokens](!https://about.mattermost.com/default-user-access-tokens) for integrations in **Account Menu > Account Settings > Security**. They can be used to authenticate against the API and give full access to the account.\n\n To manage who can create personal access tokens or to search users by token ID, go to the **User Management > Users** page.',
-                        help_text_markdown: true,
+                        help_text_default: 'When true, users can create <link>user access tokens</link> for integrations in <strong>Account Menu > Account Settings > Security</strong>. They can be used to authenticate against the API and give full access to the account.\n\n To manage who can create personal access tokens or to search users by token ID, go to the <strong>User Management > Users</strong> page.',
+                        help_text_values: {
+                            link: (msg) => (
+                                <a
+                                    href='https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                            strong: (msg) => <strong>{msg}</strong>,
+                        },
+                        help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
                 ],
@@ -5376,7 +5698,13 @@ const AdminDefinition = {
         },
     },
     compliance: {
-        icon: 'fa-list',
+        icon: (
+            <FormatListBulletedIcon
+                size={16}
+                className={'category-icon fa'}
+                color={'currentColor'}
+            />
+        ),
         sectionTitle: t('admin.sidebar.compliance'),
         sectionTitleDefault: 'Compliance',
         isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.COMPLIANCE)),
@@ -5557,8 +5885,21 @@ const AdminDefinition = {
                         label: t('admin.compliance.enableTitle'),
                         label_default: 'Enable Compliance Reporting:',
                         help_text: t('admin.compliance.enableDesc'),
-                        help_text_default: 'When true, Mattermost allows compliance reporting from the **Compliance and Auditing** tab. See [documentation](!https://docs.mattermost.com/administration/compliance.html) to learn more.',
-                        help_text_markdown: true,
+                        help_text_default: 'When true, Mattermost allows compliance reporting from the <strong>Compliance and Auditing</strong> tab. See <link>documentation</link> to learn more.',
+                        help_text_values: {
+                            link: (msg) => (
+                                <a
+                                    href='https://docs.mattermost.com/administration/compliance.html'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                            strong: (msg) => <strong>{msg}</strong>,
+                        },
+                        help_text_markdown: false,
                         isHidden: it.not(it.licensedForFeature('Compliance')),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.COMPLIANCE.COMPLIANCE_MONITORING)),
                     },
@@ -5641,7 +5982,13 @@ const AdminDefinition = {
         },
     },
     experimental: {
-        icon: 'fa-flask',
+        icon: (
+            <FlaskOutlineIcon
+                size={16}
+                className={'category-icon fa'}
+                color={'currentColor'}
+            />
+        ),
         sectionTitle: t('admin.sidebar.experimental'),
         sectionTitleDefault: 'Experimental',
         isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.EXPERIMENTAL)),
@@ -5804,8 +6151,20 @@ const AdminDefinition = {
                         label: t('admin.experimental.clientSideCertEnable.title'),
                         label_default: 'Enable Client-Side Certification:',
                         help_text: t('admin.experimental.clientSideCertEnable.desc'),
-                        help_text_default: 'Enables client-side certification for your Mattermost server. See [documentation](!https://docs.mattermost.com/deployment/certificate-based-authentication.html) to learn more.',
-                        help_text_markdown: true,
+                        help_text_default: 'Enables client-side certification for your Mattermost server. See <link>documentation</link> to learn more.',
+                        help_text_values: {
+                            link: (msg) => (
+                                <a
+                                    href='https://docs.mattermost.com/deployment/certificate-based-authentication.html'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        },
+                        help_text_markdown: false,
                         isHidden: it.not(it.any(
                             it.licensedForSku(LicenseSkus.Enterprise),
                             it.licensedForSku(LicenseSkus.E20))),
@@ -5855,8 +6214,20 @@ const AdminDefinition = {
                         label: t('admin.experimental.experimentalEnableHardenedMode.title'),
                         label_default: 'Enable Hardened Mode:',
                         help_text: t('admin.experimental.experimentalEnableHardenedMode.desc'),
-                        help_text_default: 'Enables a hardened mode for Mattermost that makes user experience trade-offs in the interest of security. See [documentation](!https://docs.mattermost.com/administration/config-settings.html#enable-hardened-mode-experimental) to learn more.',
-                        help_text_markdown: true,
+                        help_text_default: 'Enables a hardened mode for Mattermost that makes user experience trade-offs in the interest of security. See <link>documentation</link> to learn more.',
+                        help_text_values: {
+                            link: (msg) => (
+                                <a
+                                    href='https://docs.mattermost.com/administration/config-settings.html#enable-hardened-mode-experimental'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        },
+                        help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
@@ -6004,8 +6375,20 @@ const AdminDefinition = {
                         label: t('admin.experimental.experimentalUseNewSAMLLibrary.title'),
                         label_default: 'Use Improved SAML Library (Beta):',
                         help_text: t('admin.experimental.experimentalUseNewSAMLLibrary.desc'),
-                        help_text_default: 'Enable an updated SAML Library, which does not require the XML Security Library (xmlsec1) to be installed. Warning: Not all providers have been tested. If you experience issues, please contact support: [https://about.mattermost.com/support/](!https://about.mattermost.com/support/). Changing this setting requires a server restart before taking effect.',
-                        help_text_markdown: true,
+                        help_text_default: 'Enable an updated SAML Library, which does not require the XML Security Library (xmlsec1) to be installed. Warning: Not all providers have been tested. If you experience issues, please contact <linkSupport>support</linkSupport>. Changing this setting requires a server restart before taking effect.',
+                        help_text_markdown: false,
+                        help_text_values: {
+                            linkSupport: (msg) => (
+                                <a
+                                    href='https://mattermost.com/support'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        },
                         isHidden: true || it.not(it.licensedForFeature('SAML')),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
@@ -6041,35 +6424,6 @@ const AdminDefinition = {
                         help_text_markdown: false,
                         isHidden: it.not(it.licensedForFeature('SAML')),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_DROPDOWN,
-                        key: 'ServiceSettings.CollapsedThreads',
-                        label: t('admin.experimental.collapsedThreads.title'),
-                        label_default: 'Collapsed Reply Threads',
-                        help_text: t('admin.experimental.collapsedThreads.desc'),
-                        help_text_default: 'When enabled (default off), users must enable collapsed reply threads in Settings. When disabled, users cannot access Collapsed Reply Threads. Please review our [documentation for known issues](!https://docs.mattermost.com/help/messaging/organizing-conversations.html) and help provide feedback in our [community channel](!https://community-daily.mattermost.com/core/channels/folded-reply-threads).',
-                        help_text_markdown: true,
-                        options: [
-                            {
-                                value: 'disabled',
-                                display_name: t('admin.experimental.collapsedThreads.off'),
-                                display_name_default: 'Disabled',
-                            },
-                            {
-                                value: 'default_off',
-                                display_name: t('admin.experimental.collapsedThreads.default_off'),
-                                display_name_default: 'Enabled (Default Off)',
-                            },
-
-                            /* {
-                                value: 'always_on',
-                                display_name: t('admin.experimental.collapsedThreads.alwaysOn'),
-                                display_name_default: 'Always On',
-                            }, */
-                        ],
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
-                        isHidden: it.configIsFalse('FeatureFlags', 'CollapsedThreads'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -6112,6 +6466,17 @@ const AdminDefinition = {
                         help_text_default: 'Toggles Shared Channels',
                         help_text_markdown: false,
                         isHidden: it.not(it.licensedForFeature('SharedChannels')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ExperimentalSettings.EnableAppBar',
+                        label: t('admin.experimental.enableAppBar.title'),
+                        label_default: 'Enable App Bar:',
+                        help_text: t('admin.experimental.enableAppBar.desc'),
+                        help_text_default: 'When true, all integrations move from the channel header to the App Bar. Channel header plugin icons that haven\'t explicitly registered an App Bar icon will be moved to the App Bar which may result in rendering issues. [See the documentation to learn more](https://docs.mattermost.com/welcome/what-changed-in-v70.html).',
+                        help_text_markdown: true,
+                        isHidden: it.licensedForFeature('Cloud'),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                 ],

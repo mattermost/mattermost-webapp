@@ -1,22 +1,26 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React from 'react';
+import React, {RefObject} from 'react';
 
 import {FormattedMessage} from 'react-intl';
+
+import {FileTypes} from 'utils/constants';
 
 import './starter_edition.scss';
 export interface StarterEditionProps {
     openEELicenseModal: () => void;
     currentPlan: JSX.Element;
     upgradedFromTE: boolean;
-    openUploadModal: () => void;
+    fileInputRef: RefObject<HTMLInputElement>;
+    handleChange: () => void;
 }
 
 const StarterLeftPanel: React.FC<StarterEditionProps> = ({
     openEELicenseModal,
     currentPlan,
     upgradedFromTE,
-    openUploadModal,
+    fileInputRef,
+    handleChange,
 }: StarterEditionProps) => {
     return (
         <div className='StarterLeftPanel'>
@@ -73,7 +77,7 @@ const StarterLeftPanel: React.FC<StarterEditionProps> = ({
                 <div className='uploadButtons'>
                     <button
                         className='btn btn-upload light-blue-btn'
-                        onClick={openUploadModal}
+                        onClick={() => fileInputRef.current?.click()}
                         id='open-modal'
                     >
                         <FormattedMessage
@@ -81,6 +85,13 @@ const StarterLeftPanel: React.FC<StarterEditionProps> = ({
                             defaultMessage='Upload File'
                         />
                     </button>
+                    <input
+                        ref={fileInputRef}
+                        type='file'
+                        accept={FileTypes.LICENSE_EXTENSION}
+                        onChange={handleChange}
+                        style={{display: 'none'}}
+                    />
                 </div>
             </div>
         </div>

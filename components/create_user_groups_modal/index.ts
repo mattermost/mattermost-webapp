@@ -6,7 +6,7 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {Action, ActionResult} from 'mattermost-redux/types/actions';
 
-import {GroupCreateWithUserIds} from 'mattermost-redux/types/groups';
+import {GroupCreateWithUserIds} from '@mattermost/types/groups';
 import {createGroupWithUserIds} from 'mattermost-redux/actions/groups';
 import {ModalData} from 'types/actions';
 import {openModal} from 'actions/views/modals';

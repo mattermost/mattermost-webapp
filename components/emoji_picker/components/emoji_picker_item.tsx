@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import throttle from 'lodash/throttle';
 
 import {getEmojiImageUrl, isSystemEmoji} from 'mattermost-redux/utils/emoji_utils';
-import {Emoji} from 'mattermost-redux/types/emojis';
+import {Emoji} from '@mattermost/types/emojis';
 
 import imgTrans from 'images/img_trans.gif';
 import {EmojiCursor} from 'components/emoji_picker/types';
@@ -50,48 +50,50 @@ function EmojiPickerItem({emoji, rowIndex, isSelected, onClick, onMouseOver}: Pr
         selected: isSelected,
     });
 
-    if (!isSystemEmoji(emoji)) {
-        return (
-            <div className={itemClassName}>
-                <div data-testid='emojiItem'>
-                    <img
-                        alt={'custom emoji image'}
-                        data-testid={emoji.name}
-                        onMouseOver={throttledMouseOver}
-                        src={getEmojiImageUrl(emoji)}
-                        className={'emoji-category--custom'}
-                        onClick={handleClick}
-                    />
-                </div>
-            </div>
+    let content;
+
+    if (isSystemEmoji(emoji)) {
+        const emojiName = emoji.short_name ? emoji.short_name : emoji.name;
+        const emojiUnified = emoji.unified ? emoji.unified.toLowerCase() : emoji.name.toLowerCase();
+
+        content = (
+            <img
+                alt={'emoji image'}
+                data-testid={emoji.short_names}
+                src={imgTrans}
+                className={`emojisprite emoji-category-${emoji.category} emoji-${emojiUnified}`}
+                id={`emoji-${emojiUnified}`}
+                aria-label={formatMessage(
+                    {
+                        id: 'emoji_picker_item.emoji_aria_label',
+                        defaultMessage: '{emojiName} emoji',
+                    },
+                    {
+                        emojiName: (emojiName).replace(/_/g, ' '),
+                    },
+                )}
+                role='button'
+            />
+        );
+    } else {
+        content = (
+            <img
+                alt={'custom emoji image'}
+                data-testid={emoji.name}
+                src={getEmojiImageUrl(emoji)}
+                className={'emoji-category--custom'}
+            />
         );
     }
 
-    const emojiName = emoji.short_name ? emoji.short_name : emoji.name;
-    const emojiUnified = emoji.unified ? emoji.unified.toLowerCase() : emoji.name.toLowerCase();
-
     return (
-        <div className={itemClassName}>
+        <div
+            className={itemClassName}
+            onClick={handleClick}
+            onMouseOver={throttledMouseOver}
+        >
             <div data-testid='emojiItem'>
-                <img
-                    alt={'emoji image'}
-                    data-testid={emoji.short_names}
-                    onMouseOver={throttledMouseOver}
-                    src={imgTrans}
-                    className={`emojisprite emoji-category-${emoji.category} emoji-${emojiUnified}`}
-                    onClick={handleClick}
-                    id={`emoji-${emojiUnified}`}
-                    aria-label={formatMessage(
-                        {
-                            id: 'emoji_picker_item.emoji_aria_label',
-                            defaultMessage: '{emojiName} emoji',
-                        },
-                        {
-                            emojiName: (emojiName).replace(/_/g, ' '),
-                        },
-                    )}
-                    role='button'
-                />
+                {content}
             </div>
         </div>
     );

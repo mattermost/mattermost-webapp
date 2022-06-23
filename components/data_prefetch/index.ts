@@ -9,11 +9,10 @@ import {memoizeResult} from 'mattermost-redux/utils/helpers';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 
-import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
-import {PostList} from 'mattermost-redux/types/posts';
+import {Channel, ChannelMembership} from '@mattermost/types/channels';
+import {PostList} from '@mattermost/types/posts';
 
-import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
-import {RelationOneToOne} from 'mattermost-redux/types/utilities';
+import {RelationOneToOne} from '@mattermost/types/utilities';
 
 import {prefetchChannelPosts} from 'actions/views/channel';
 
@@ -23,10 +22,12 @@ import {GlobalState} from 'types/store';
 
 import {isCollapsedThreadsEnabled} from '../../packages/mattermost-redux/src/selectors/entities/preferences';
 
+import {trackPreloadedChannels} from './actions';
 import DataPrefetch from './data_prefetch';
 
 type Actions = {
     prefetchChannelPosts: (channelId: string, delay?: number) => Promise<{data: PostList}>;
+    trackPreloadedChannels: (prefetchQueueObj: Record<string, string[]>) => void;
 };
 
 enum Priority {
@@ -93,10 +94,11 @@ function mapStateToProps(state: GlobalState) {
     };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
+        actions: bindActionCreators<ActionCreatorsMapObject, Actions>({
             prefetchChannelPosts,
+            trackPreloadedChannels,
         }, dispatch),
     };
 }

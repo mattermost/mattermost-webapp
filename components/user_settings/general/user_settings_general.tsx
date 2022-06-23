@@ -6,10 +6,10 @@ import React from 'react';
 import {defineMessages, FormattedDate, FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import {isEmail} from 'mattermost-redux/utils/helpers';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import {t} from 'utils/i18n';
 
 import LocalizedIcon from 'components/localized_icon';
@@ -23,6 +23,10 @@ const holders = defineMessages({
     usernameReserved: {
         id: t('user.settings.general.usernameReserved'),
         defaultMessage: 'This username is reserved, please choose a new one.',
+    },
+    usernameGroupNameUniqueness: {
+        id: t('user.settings.general.usernameGroupNameUniqueness'),
+        defaultMessage: 'This username conflicts with an existing group name.',
     },
     usernameRestrictions: {
         id: t('user.settings.general.usernameRestrictions'),
@@ -317,6 +321,8 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                     if (err.server_error_id &&
                         err.server_error_id === 'api.user.check_user_password.invalid.app_error') {
                         serverError = formatMessage(holders.incorrectPassword);
+                    } else if (err.server_error_id === 'app.user.group_name_conflict') {
+                        serverError = formatMessage(holders.usernameGroupNameUniqueness);
                     } else if (err.message) {
                         serverError = err.message;
                     } else {

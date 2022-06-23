@@ -6,7 +6,7 @@ import AutoSizer from 'react-virtualized-auto-sizer';
 import InfiniteLoader from 'react-window-infinite-loader';
 import {FixedSizeList} from 'react-window';
 
-import {UserThread} from 'mattermost-redux/types/threads';
+import {UserThread} from '@mattermost/types/threads';
 
 import {Constants} from 'utils/constants';
 
@@ -18,7 +18,7 @@ type Props = {
     selectedThreadId?: UserThread['id'];
     total: number;
     isLoading?: boolean;
-    hasLoaded?: boolean;
+    addNoMoreResultsItem?: boolean;
 };
 
 const style = {
@@ -31,7 +31,7 @@ function VirtualizedThreadList({
     loadMoreItems,
     total,
     isLoading,
-    hasLoaded,
+    addNoMoreResultsItem,
 }: Props) {
     const infiniteLoaderRef = React.useRef<any>();
     const startIndexRef = React.useRef<number>(0);
@@ -58,11 +58,11 @@ function VirtualizedThreadList({
     const data = useMemo(
         () => (
             {
-                ids: hasLoaded && ids.length === total ? [...ids, Constants.THREADS_NO_RESULTS_ITEM_ID] : (isLoading && ids.length !== total && [...ids, Constants.THREADS_LOADING_INDICATOR_ITEM_ID]) || ids,
+                ids: addNoMoreResultsItem && ids.length === total ? [...ids, Constants.THREADS_NO_RESULTS_ITEM_ID] : (isLoading && ids.length !== total && [...ids, Constants.THREADS_LOADING_INDICATOR_ITEM_ID]) || ids,
                 selectedThreadId,
             }
         ),
-        [ids, selectedThreadId, isLoading, hasLoaded, total],
+        [ids, selectedThreadId, isLoading, addNoMoreResultsItem, total],
     );
 
     const isItemLoaded = useCallback((index) => {
@@ -123,7 +123,7 @@ function areEqual(prevProps: Props, nextProps: Props) {
         prevProps.selectedThreadId === nextProps.selectedThreadId &&
         prevProps.ids.join() === nextProps.ids.join() &&
         prevProps.isLoading === nextProps.isLoading &&
-        prevProps.hasLoaded === nextProps.hasLoaded
+        prevProps.addNoMoreResultsItem === nextProps.addNoMoreResultsItem
     );
 }
 

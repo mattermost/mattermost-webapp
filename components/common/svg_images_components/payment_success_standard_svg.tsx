@@ -16,7 +16,7 @@ const PaymentSuccessStandardSvg = (props: SvgProps) => (
         fill='none'
         xmlns='http://www.w3.org/2000/svg'
     >
-        <g clipPath='url(#clip0)'>
+        <g clipPath='url(#clip_payment_success)'>
             <path
                 d='M22.6373 196.797H232.466C234.01 196.775 235.483 196.143 236.562 195.038C237.64 193.934 238.237 192.447 238.222 190.904V50.7664C238.237 49.2229 237.64 47.7363 236.562 46.6319C235.483 45.5274 234.01 44.8952 232.466 44.8735H22.6373C21.094 44.8973 19.6227 45.5303 18.5445 46.6342C17.4663 47.7382 16.8686 49.2236 16.8818 50.7664V190.912C16.8708 192.454 17.4694 193.937 18.5474 195.039C19.6254 196.141 21.0954 196.773 22.6373 196.797Z'
                 fill='#24262E'
@@ -75,7 +75,7 @@ const PaymentSuccessStandardSvg = (props: SvgProps) => (
             fill='#505667'
         />
         <defs>
-            <clipPath id='clip0'>
+            <clipPath id='clip_payment_success'>
                 <rect
                     width='254.96'
                     height='217.226'

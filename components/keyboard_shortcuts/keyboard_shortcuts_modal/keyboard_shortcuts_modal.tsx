@@ -52,6 +52,10 @@ const modalMessages = defineMessages({
         id: t('shortcuts.nav.header'),
         defaultMessage: 'Navigation',
     },
+    msgSearchHeader: {
+        id: t('shortcuts.msgs.search.header'),
+        defaultMessage: 'Searching',
+    },
 });
 
 interface Props {
@@ -105,6 +109,7 @@ const KeyboardShortcutsModal = ({onExited}: Props): JSX.Element => {
                                     <KeyboardShortcutSequence shortcut={KEYBOARD_SHORTCUTS.navFocusCenter}/>
                                     <KeyboardShortcutSequence shortcut={KEYBOARD_SHORTCUTS.navOpenCloseSidebar}/>
                                     <KeyboardShortcutSequence shortcut={KEYBOARD_SHORTCUTS.navExpandSidebar}/>
+                                    <KeyboardShortcutSequence shortcut={KEYBOARD_SHORTCUTS.navOpenChannelInfo}/>
                                 </div>
                             </div>
                         </div>
@@ -131,6 +136,10 @@ const KeyboardShortcutsModal = ({onExited}: Props): JSX.Element => {
                                         <KeyboardShortcutSequence shortcut={KEYBOARD_SHORTCUTS.msgMarkdownBold}/>
                                         <KeyboardShortcutSequence shortcut={KEYBOARD_SHORTCUTS.msgMarkdownItalic}/>
                                         <KeyboardShortcutSequence shortcut={KEYBOARD_SHORTCUTS.msgMarkdownLink}/>
+                                    </div>
+                                    <span><strong>{formatMessage(modalMessages.msgSearchHeader)}</strong></span>
+                                    <div className='subsection'>
+                                        <KeyboardShortcutSequence shortcut={KEYBOARD_SHORTCUTS.msgSearchChannel}/>
                                     </div>
                                 </div>
                             </div>

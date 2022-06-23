@@ -6,9 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import Constants from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
-
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import * as Utils from 'utils/utils';
 
 import AdminSettings from './admin_settings';
 import DropdownSetting from './dropdown_setting.jsx';
@@ -124,30 +122,118 @@ export default class PushSettings extends AdminSettings {
         let pushServerHelpText = null;
         if (this.state.pushNotificationServerType === PUSH_NOTIFICATIONS_OFF) {
             sendHelpText = (
-                <FormattedMarkdownMessage
+                <FormattedMessage
                     id='admin.email.pushOffHelp'
-                    defaultMessage='Please see [documentation on push notifications](!https://about.mattermost.com/default-mobile-push-notifications/) to learn more about setup options.'
+                    defaultMessage='Please see <link>documentation on push notifications</link> to learn more about setup options.'
+                    values={{
+                        link: (msg) => (
+                            <a
+                                href='https://docs.mattermost.com/deploy/mobile-hpns.html'
+                                referrer='noreferrer'
+                                target='_blank'
+                                rel='noreferrer'
+                            >
+                                {msg}
+                            </a>
+                        ),
+                    }}
                 />
             );
         } else if (this.state.pushNotificationServerType === PUSH_NOTIFICATIONS_MHPNS) {
             pushServerHelpText = (
-                <FormattedMarkdownMessage
+                <FormattedMessage
                     id='admin.email.mhpnsHelp'
-                    defaultMessage='Download [Mattermost iOS app](!https://about.mattermost.com/mattermost-ios-app/) from iTunes. Download [Mattermost Android app](!https://about.mattermost.com/mattermost-android-app/) from Google Play. Learn more about the [Mattermost Hosted Push Notification Service](!https://about.mattermost.com/default-hpns/).'
+                    defaultMessage='Download <linkIOS>Mattermost iOS app</linkIOS> from iTunes. Download <linkAndroid>Mattermost Android app</linkAndroid> from Google Play. Learn more about the <linkHPNS>Mattermost Hosted Push Notification Service</linkHPNS>.'
+                    values={{
+                        linkIOS: (msg) => (
+                            <a
+                                href='https://mattermost.com/mattermost-ios-app/'
+                                referrer='noreferrer'
+                                target='_blank'
+                                rel='noreferrer'
+                            >
+                                {msg}
+                            </a>
+                        ),
+                        linkAndroid: (msg) => (
+                            <a
+                                href='https://mattermost.com/mattermost-android-app/'
+                                referrer='noreferrer'
+                                target='_blank'
+                                rel='noreferrer'
+                            >
+                                {msg}
+                            </a>
+                        ),
+                        linkHPNS: (msg) => (
+                            <a
+                                href='https://docs.mattermost.com/deploy/mobile-hpns.html]'
+                                referrer='noreferrer'
+                                target='_blank'
+                                rel='noreferrer'
+                            >
+                                {msg}
+                            </a>
+                        ),
+                    }}
                 />
             );
         } else if (this.state.pushNotificationServerType === PUSH_NOTIFICATIONS_MTPNS) {
             pushServerHelpText = (
-                <FormattedMarkdownMessage
+                <FormattedMessage
                     id='admin.email.mtpnsHelp'
-                    defaultMessage='Download [Mattermost iOS app](!https://about.mattermost.com/mattermost-ios-app/) from iTunes. Download [Mattermost Android app](!https://about.mattermost.com/mattermost-android-app/) from Google Play. Learn more about the [Mattermost Test Push Notification Service](!https://about.mattermost.com/default-tpns/).'
+                    defaultMessage='Download <linkIOS>Mattermost iOS app</linkIOS> from iTunes. Download <linkAndroid>Mattermost Android app</linkAndroid> from Google Play. Learn more about the <linkHPNS>Mattermost Hosted Push Notification Service</linkHPNS>.'
+                    values={{
+                        linkIOS: (msg) => (
+                            <a
+                                href='https://mattermost.com/mattermost-ios-app/'
+                                referrer='noreferrer'
+                                target='_blank'
+                                rel='noreferrer'
+                            >
+                                {msg}
+                            </a>
+                        ),
+                        linkAndroid: (msg) => (
+                            <a
+                                href='https://mattermost.com/mattermost-android-app/'
+                                referrer='noreferrer'
+                                target='_blank'
+                                rel='noreferrer'
+                            >
+                                {msg}
+                            </a>
+                        ),
+                        linkHPNS: (msg) => (
+                            <a
+                                href='https://docs.mattermost.com/deploy/mobile-hpns.html]'
+                                referrer='noreferrer'
+                                target='_blank'
+                                rel='noreferrer'
+                            >
+                                {msg}
+                            </a>
+                        ),
+                    }}
                 />
             );
         } else {
             pushServerHelpText = (
-                <FormattedMarkdownMessage
+                <FormattedMessage
                     id='admin.email.easHelp'
-                    defaultMessage='Learn more about compiling and deploying your own mobile apps from an [Enterprise App Store](!https://about.mattermost.com/default-enterprise-app-store).'
+                    defaultMessage='Learn more about compiling and deploying your own mobile apps from an <link>Enterprise App Store</link>.'
+                    values={{
+                        link: (msg) => (
+                            <a
+                                href='https://docs.mattermost.com/'
+                                referrer='noreferrer'
+                                target='_blank'
+                                rel='noreferrer'
+                            >
+                                {msg}
+                            </a>
+                        ),
+                    }}
                 />
             );
         }
@@ -165,9 +251,31 @@ export default class PushSettings extends AdminSettings {
                             onChange={this.handleAgreeChange}
                             disabled={this.props.isDisabled}
                         />
-                        <FormattedMarkdownMessage
+                        <FormattedMessage
                             id='admin.email.agreeHPNS'
-                            defaultMessage=' I understand and accept the Mattermost Hosted Push Notification Service [Terms of Service](!https://about.mattermost.com/hpns-terms/) and [Privacy Policy](!https://about.mattermost.com/hpns-privacy/).'
+                            defaultMessage=' I understand and accept the Mattermost Hosted Push Notification Service <linkTerms>Terms of Service</linkTerms> and <linkPrivacy>Privacy Policy</linkPrivacy>.'
+                            values={{
+                                linkTerms: (msg) => (
+                                    <a
+                                        href='https://mattermost.com/hpns-terms/'
+                                        referrer='noreferrer'
+                                        target='_blank'
+                                        rel='noreferrer'
+                                    >
+                                        {msg}
+                                    </a>
+                                ),
+                                linkPricacy: (msg) => (
+                                    <a
+                                        href='https://mattermost.com/data-processing-addendum/'
+                                        referrer='noreferrer'
+                                        target='_blank'
+                                        rel='noreferrer'
+                                    >
+                                        {msg}
+                                    </a>
+                                ),
+                            }}
                         />
                     </div>
                 </div>
@@ -218,7 +326,7 @@ export default class PushSettings extends AdminSettings {
                     }
                     placeholder={Utils.localizeMessage('admin.team.maxNotificationsPerChannelExample', 'E.g.: "1000"')}
                     helpText={
-                        <FormattedMarkdownMessage
+                        <FormattedMessage
                             id='admin.team.maxNotificationsPerChannelDescription'
                             defaultMessage='Maximum total number of users in a channel before users typing messages, @all, @here, and @channel no longer send notifications because of performance.'
                         />

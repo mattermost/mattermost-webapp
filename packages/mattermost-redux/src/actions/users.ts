@@ -1,31 +1,29 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Action, ActionFunc, ActionResult, batchActions, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-import {UserProfile, UserStatus, GetFilteredUsersStatsOpts, UsersStats, UserCustomStatus} from 'mattermost-redux/types/users';
-import {TeamMembership} from 'mattermost-redux/types/teams';
+import {AnyAction} from 'redux';
+import {batchActions} from 'redux-batched-actions';
+
 import {Client4} from 'mattermost-redux/client';
-import {General} from '../constants';
-import {UserTypes, TeamTypes, AdminTypes} from 'mattermost-redux/action_types';
+
+import {ActionFunc, ActionResult, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {UserProfile, UserStatus, GetFilteredUsersStatsOpts, UsersStats, UserCustomStatus} from '@mattermost/types/users';
+import {UserTypes, AdminTypes} from 'mattermost-redux/action_types';
+
+import {setServerVersion, getClientConfig, getLicenseConfig} from 'mattermost-redux/actions/general';
+import {getMyTeams, getMyTeamMembers, getMyTeamUnreads} from 'mattermost-redux/actions/teams';
+import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
+import {bindClientFunc, forceLogoutIfNecessary, debounce} from 'mattermost-redux/actions/helpers';
+import {logError} from 'mattermost-redux/actions/errors';
+import {getMyPreferences} from 'mattermost-redux/actions/preferences';
+
+import {getServerVersion} from 'mattermost-redux/selectors/entities/general';
+import {getCurrentUserId, getUsers} from 'mattermost-redux/selectors/entities/users';
+import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {removeUserFromList} from 'mattermost-redux/utils/user_utils';
-
 import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
-
-import {getConfig, getServerVersion} from 'mattermost-redux/selectors/entities/general';
-
-import {getCurrentUserId, getUsers} from 'mattermost-redux/selectors/entities/users';
-
-import {isCollapsedThreadsEnabled} from '../selectors/entities/preferences';
-
-import {getAllCustomEmojis} from './emojis';
-import {getClientConfig, setServerVersion} from './general';
-import {getMyTeams, getMyTeamMembers, getMyTeamUnreads} from './teams';
-import {loadRolesIfNeeded} from './roles';
-
-import {logError} from './errors';
-import {bindClientFunc, forceLogoutIfNecessary, debounce} from './helpers';
-import {getMyPreferences} from './preferences';
+import {General} from 'mattermost-redux/constants';
 
 export function checkMfa(loginId: string): ActionFunc {
     return async (dispatch: DispatchFunc) => {
@@ -35,10 +33,8 @@ export function checkMfa(loginId: string): ActionFunc {
             dispatch({type: UserTypes.CHECK_MFA_SUCCESS, data: null});
             return {data: data.mfa_required};
         } catch (error) {
-            dispatch(batchActions([
-                {type: UserTypes.CHECK_MFA_FAILURE, error},
-                logError(error),
-            ]));
+            dispatch({type: UserTypes.CHECK_MFA_FAILURE, error});
+            dispatch(logError(error));
             return {error};
         }
     };
@@ -81,22 +77,25 @@ export function login(loginId: string, password: string, mfaToken = '', ldapOnly
         dispatch({type: UserTypes.LOGIN_REQUEST, data: null});
 
         const deviceId = getState().entities.general.deviceToken;
-        let data;
 
         try {
-            data = await Client4.login(loginId, password, mfaToken, deviceId, ldapOnly);
+            await Client4.login(loginId, password, mfaToken, deviceId, ldapOnly);
+
+            const dataFromLoadMe = await dispatch(loadMe());
+
+            if (dataFromLoadMe && dataFromLoadMe.data) {
+                dispatch({type: UserTypes.LOGIN_SUCCESS});
+            }
         } catch (error) {
-            dispatch(batchActions([
-                {
-                    type: UserTypes.LOGIN_FAILURE,
-                    error,
-                },
-                logError(error),
-            ]));
+            dispatch({
+                type: UserTypes.LOGIN_FAILURE,
+                error,
+            });
+            dispatch(logError(error));
             return {error};
         }
 
-        return completeLogin(data)(dispatch, getState);
+        return {data: true};
     };
 }
 
@@ -105,109 +104,21 @@ export function loginById(id: string, password: string, mfaToken = ''): ActionFu
         dispatch({type: UserTypes.LOGIN_REQUEST, data: null});
 
         const deviceId = getState().entities.general.deviceToken;
-        let data;
 
         try {
-            data = await Client4.loginById(id, password, mfaToken, deviceId);
-        } catch (error) {
-            dispatch(batchActions([
-                {
-                    type: UserTypes.LOGIN_FAILURE,
-                    error,
-                },
-                logError(error),
-            ]));
-            return {error};
-        }
+            await Client4.loginById(id, password, mfaToken, deviceId);
+            const dataFromLoadMe = await dispatch(loadMe());
 
-        return completeLogin(data)(dispatch, getState);
-    };
-}
-
-function completeLogin(data: UserProfile): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const state = getState();
-        const collapsedThreads = isCollapsedThreadsEnabled(state);
-        dispatch({
-            type: UserTypes.RECEIVED_ME,
-            data,
-        });
-
-        Client4.setUserId(data.id);
-        Client4.setUserRoles(data.roles);
-        let teamMembers;
-
-        try {
-            const membersRequest: Promise<TeamMembership[]> = Client4.getMyTeamMembers();
-            const unreadsRequest = Client4.getMyTeamUnreads(collapsedThreads);
-
-            teamMembers = await membersRequest;
-            const teamUnreads = await unreadsRequest;
-
-            if (teamUnreads) {
-                for (const u of teamUnreads) {
-                    const index = teamMembers.findIndex((m) => m.team_id === u.team_id);
-                    const member = teamMembers[index];
-                    member.mention_count = u.mention_count;
-                    member.msg_count = u.msg_count;
-                    member.mention_count_root = u.mention_count_root;
-                    member.msg_count_root = u.msg_count_root;
-                    if (collapsedThreads) {
-                        member.thread_count = u.thread_count;
-                        member.thread_mention_count = u.thread_mention_count;
-                    }
-                }
+            if (dataFromLoadMe && dataFromLoadMe.data) {
+                dispatch({type: UserTypes.LOGIN_SUCCESS});
             }
         } catch (error) {
-            dispatch(batchActions([
-                {type: UserTypes.LOGIN_FAILURE, error},
-                logError(error),
-            ]));
+            dispatch({
+                type: UserTypes.LOGIN_FAILURE,
+                error,
+            });
+            dispatch(logError(error));
             return {error};
-        }
-
-        const promises = [
-            dispatch(getMyPreferences()),
-            dispatch(getMyTeams()),
-            dispatch(getClientConfig()),
-        ];
-
-        const serverVersion = Client4.getServerVersion();
-        dispatch(setServerVersion(serverVersion));
-        if (!isMinimumServerVersion(serverVersion, 4, 7) && getConfig(getState()).EnableCustomEmoji === 'true') {
-            dispatch(getAllCustomEmojis());
-        }
-
-        try {
-            await Promise.all(promises);
-        } catch (error) {
-            dispatch(batchActions([
-                {type: UserTypes.LOGIN_FAILURE, error},
-                logError(error),
-            ]));
-            return {error};
-        }
-
-        dispatch(batchActions([
-            {
-                type: TeamTypes.RECEIVED_MY_TEAM_MEMBERS,
-                data: teamMembers,
-            },
-            {
-                type: UserTypes.LOGIN_SUCCESS,
-            },
-        ]));
-        const roles = new Set<string>();
-        for (const role of data.roles.split(' ')) {
-            roles.add(role);
-        }
-        for (const teamMember of teamMembers) {
-            for (const role of teamMember.roles.split(' ')) {
-                roles.add(role);
-            }
-        }
-        if (roles.size > 0) {
-            dispatch(loadRolesIfNeeded(roles));
         }
 
         return {data: true};
@@ -217,38 +128,39 @@ function completeLogin(data: UserProfile): ActionFunc {
 export function loadMe(): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
-        const config = getConfig(state);
 
         const deviceId = state.entities.general.deviceToken;
         if (deviceId) {
             Client4.attachDevice(deviceId);
         }
 
-        const promises = [
-            dispatch(getMe()),
-            dispatch(getMyPreferences()),
-            dispatch(getMyTeams()),
-            dispatch(getMyTeamMembers()),
-        ];
-
         // Sometimes the server version is set in one or the other
         const serverVersion = Client4.getServerVersion() || getState().entities.general.serverVersion;
         dispatch(setServerVersion(serverVersion));
-        if (!isMinimumServerVersion(serverVersion, 4, 7) && config.EnableCustomEmoji === 'true') {
-            dispatch(getAllCustomEmojis());
+
+        try {
+            await Promise.all([
+                dispatch(getClientConfig()),
+                dispatch(getLicenseConfig()),
+                dispatch(getMe()),
+                dispatch(getMyPreferences()),
+                dispatch(getMyTeams()),
+                dispatch(getMyTeamMembers()),
+            ]);
+
+            const isCollapsedThreads = isCollapsedThreadsEnabled(getState());
+            await dispatch(getMyTeamUnreads(isCollapsedThreads));
+        } catch (error) {
+            dispatch(logError(error));
+            return {error};
         }
 
-        await Promise.all(promises);
-
-        const collapsedReplies = isCollapsedThreadsEnabled(getState());
-        dispatch(getMyTeamUnreads(collapsedReplies));
-
         const {currentUserId} = getState().entities.users;
-        const user = getState().entities.users.profiles[currentUserId];
         if (currentUserId) {
             Client4.setUserId(currentUserId);
         }
 
+        const user = getState().entities.users.profiles[currentUserId];
         if (user) {
             Client4.setUserRoles(user.roles);
         }
@@ -537,7 +449,7 @@ export function getProfilesInGroupChannels(channelsIds: string[]): ActionFunc {
             return {error};
         }
 
-        const actions: Action[] = [];
+        const actions: AnyAction[] = [];
         for (const channelId in channelProfiles) {
             if (channelProfiles.hasOwnProperty(channelId)) {
                 const profiles = channelProfiles[channelId];
@@ -921,10 +833,8 @@ export function getUserAudits(userId: string, page = 0, perPage: number = Genera
     });
 }
 
-export function autocompleteUsers(term: string, teamId = '', channelId = '', options: {
+export function autocompleteUsers(term: string, teamId = '', channelId = '', options?: {
     limit: number;
-} = {
-    limit: General.AUTOCOMPLETE_LIMIT_DEFAULT,
 }): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         dispatch({type: UserTypes.AUTOCOMPLETE_USERS_REQUEST, data: null});
@@ -936,10 +846,8 @@ export function autocompleteUsers(term: string, teamId = '', channelId = '', opt
             data = await Client4.autocompleteUsers(term, teamId, channelId, options);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(batchActions([
-                {type: UserTypes.AUTOCOMPLETE_USERS_FAILURE, error},
-                logError(error),
-            ]));
+            dispatch({type: UserTypes.AUTOCOMPLETE_USERS_FAILURE, error});
+            dispatch(logError(error));
             return {error};
         }
 
@@ -948,7 +856,7 @@ export function autocompleteUsers(term: string, teamId = '', channelId = '', opt
             users = [...users, ...data.out_of_channel];
         }
         removeUserFromList(currentUserId, users);
-        const actions: Action[] = [{
+        const actions: AnyAction[] = [{
             type: UserTypes.RECEIVED_PROFILES_LIST,
             data: users,
         }, {
@@ -1001,7 +909,7 @@ export function searchProfiles(term: string, options: any = {}): ActionFunc {
             return {error};
         }
 
-        const actions: Action[] = [{type: UserTypes.RECEIVED_PROFILES_LIST, data: removeUserFromList(currentUserId, [...profiles])}];
+        const actions: AnyAction[] = [{type: UserTypes.RECEIVED_PROFILES_LIST, data: removeUserFromList(currentUserId, [...profiles])}];
 
         if (options.in_channel_id) {
             actions.push({
@@ -1104,10 +1012,8 @@ export function updateMe(user: UserProfile): ActionFunc {
         try {
             data = await Client4.patchMe(user);
         } catch (error) {
-            dispatch(batchActions([
-                {type: UserTypes.UPDATE_ME_FAILURE, error},
-                logError(error),
-            ]));
+            dispatch({type: UserTypes.UPDATE_ME_FAILURE, error});
+            dispatch(logError(error));
             return {error};
         }
 
@@ -1341,7 +1247,7 @@ export function createUserAccessToken(userId: string, description: string): Acti
             return {error};
         }
 
-        const actions: Action[] = [{
+        const actions: AnyAction[] = [{
             type: AdminTypes.RECEIVED_USER_ACCESS_TOKEN,
             data: {...data,
                 token: '',
@@ -1375,7 +1281,7 @@ export function getUserAccessToken(tokenId: string): ActionFunc {
             return {error};
         }
 
-        const actions: Action[] = [{
+        const actions: AnyAction[] = [{
             type: AdminTypes.RECEIVED_USER_ACCESS_TOKEN,
             data,
         }];
@@ -1408,14 +1314,10 @@ export function getUserAccessTokens(page = 0, perPage: number = General.PROFILE_
             return {error};
         }
 
-        const actions = [
-            {
-                type: AdminTypes.RECEIVED_USER_ACCESS_TOKENS,
-                data,
-            },
-        ];
-
-        dispatch(batchActions(actions));
+        dispatch({
+            type: AdminTypes.RECEIVED_USER_ACCESS_TOKENS,
+            data,
+        });
 
         return {data};
     };
@@ -1432,7 +1334,7 @@ export function getUserAccessTokensForUser(userId: string, page = 0, perPage: nu
             return {error};
         }
 
-        const actions: Action[] = [{
+        const actions: AnyAction[] = [{
             type: AdminTypes.RECEIVED_USER_ACCESS_TOKENS_FOR_USER,
             data,
             userId,

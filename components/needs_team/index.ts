@@ -8,9 +8,7 @@ import {withRouter} from 'react-router-dom';
 import {fetchAllMyTeamsChannelsAndChannelMembers, fetchMyChannelsAndMembers, viewChannel} from 'mattermost-redux/actions/channels';
 import {getMyTeamUnreads, getTeamByName, selectTeam} from 'mattermost-redux/actions/teams';
 import {getGroups, getAllGroupsAssociatedToChannelsInTeam, getAllGroupsAssociatedToTeam, getGroupsByUserIdPaginated} from 'mattermost-redux/actions/groups';
-
-// TODO@Michel: remove the import for `getIsInlinePostEditingEnabled` once the inline post editing feature is enabled by default
-import {isCollapsedThreadsEnabled, getIsInlinePostEditingEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {isCollapsedThreadsEnabled, isCustomGroupsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getMyTeams} from 'mattermost-redux/selectors/entities/teams';
@@ -41,6 +39,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const config = getConfig(state);
     const currentUser = getCurrentUser(state);
     const plugins = state.plugins.components.NeedsTeamComponent;
+    const isCustomUserGroupsEnabled = isCustomGroupsEnabled(state);
 
     return {
         license,
@@ -54,9 +53,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         plugins,
         selectedThreadId: getSelectedThreadIdInCurrentTeam(state),
         shouldShowAppBar: shouldShowAppBar(state),
-
-        // TODO@Michel: remove the prop once the inline post editing feature is enabled by default
-        isInlinePostEditingEnabled: getIsInlinePostEditingEnabled(state),
+        isCustomGroupsEnabled: isCustomUserGroupsEnabled,
     };
 }
 

@@ -80,7 +80,11 @@ exports[`components/TextBox should match snapshot with additional, optional prop
         },
       ]
     }
-    renderDividers={true}
+    renderDividers={
+      Array [
+        "all",
+      ]
+    }
     spellCheck="true"
     style={
       Object {
@@ -94,7 +98,6 @@ exports[`components/TextBox should match snapshot with additional, optional prop
     onBlur={[Function]}
     onKeyDown={[Function]}
     onKeyPress={[Function]}
-    onSelect={[Function]}
     tabIndex={0}
   >
     <Connect(PostMarkdown)
@@ -183,7 +186,11 @@ exports[`components/TextBox should match snapshot with required props 1`] = `
         },
       ]
     }
-    renderDividers={true}
+    renderDividers={
+      Array [
+        "all",
+      ]
+    }
     spellCheck="true"
     style={
       Object {
@@ -271,7 +278,11 @@ exports[`components/TextBox should throw error when new property is too long 1`]
         },
       ]
     }
-    renderDividers={true}
+    renderDividers={
+      Array [
+        "all",
+      ]
+    }
     spellCheck="true"
     style={
       Object {
@@ -359,7 +370,11 @@ exports[`components/TextBox should throw error when value is too long 1`] = `
         },
       ]
     }
-    renderDividers={true}
+    renderDividers={
+      Array [
+        "all",
+      ]
+    }
     spellCheck="true"
     style={
       Object {

@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import * as Utils from 'utils/utils.jsx';
-import {t} from 'utils/i18n.jsx';
-import LoginMfa from 'components/login/login_mfa.jsx';
+import * as Utils from 'utils/utils';
+import {t} from 'utils/i18n';
+import LoginMfa from 'components/login/login_mfa.tsx';
 import LocalizedInput from 'components/localized_input/localized_input';
 
 export default class LDAPToEmail extends React.PureComponent {
@@ -25,6 +25,8 @@ export default class LDAPToEmail extends React.PureComponent {
             confirmError: '',
             ldapPasswordError: '',
             serverError: '',
+            showMfa: true,
+            password: 'trwo',
         };
 
         this.ldapPasswordInput = React.createRef();
@@ -133,94 +135,97 @@ export default class LDAPToEmail extends React.PureComponent {
                 <LoginMfa
                     loginId={this.props.email}
                     password={this.state.password}
-                    submit={this.submit}
+                    title={{id: t('claim.ldap_to_email.title'), defaultMessage: 'Switch AD/LDAP Account to Email/Password'}}
+                    onSubmit={this.submit}
                 />
             );
         } else {
             content = (
-                <form
-                    onSubmit={this.preSubmit}
-                    className={formClass}
-                >
-                    <p>
+                <>
+                    <h3>
                         <FormattedMessage
-                            id='claim.ldap_to_email.email'
-                            defaultMessage='After switching your authentication method, you will use {email} to login. Your AD/LDAP credentials will no longer allow access to Mattermost.'
-                            values={{
-                                email: this.props.email,
-                            }}
+                            id='claim.ldap_to_email.title'
+                            defaultMessage='Switch AD/LDAP Account to Email/Password'
                         />
-                    </p>
-                    <p>
-                        <FormattedMessage
-                            id='claim.ldap_to_email.enterLdapPwd'
-                            defaultMessage='{ldapPassword}:'
-                            values={{
-                                ldapPassword: passwordPlaceholder,
-                            }}
-                        />
-                    </p>
-                    <div className={ldapPasswordClass}>
-                        <input
-                            type='password'
-                            className='form-control'
-                            name='ldapPassword'
-                            ref={this.ldapPasswordInput}
-                            placeholder={passwordPlaceholder}
-                            spellCheck='false'
-                        />
-                    </div>
-                    {ldapPasswordError}
-                    <p>
-                        <FormattedMessage
-                            id='claim.ldap_to_email.enterPwd'
-                            defaultMessage='New email login password:'
-                        />
-                    </p>
-                    <div className={passwordClass}>
-                        <LocalizedInput
-                            type='password'
-                            className='form-control'
-                            name='password'
-                            ref={this.passwordInput}
-                            placeholder={{id: t('claim.ldap_to_email.pwd'), defaultMessage: 'Password'}}
-                            spellCheck='false'
-                        />
-                    </div>
-                    {passwordError}
-                    <div className={confimClass}>
-                        <LocalizedInput
-                            type='password'
-                            className='form-control'
-                            name='passwordconfirm'
-                            ref={this.passwordConfirmInput}
-                            placeholder={{id: t('claim.ldap_to_email.confirm'), defaultMessage: 'Confirm Password'}}
-                            spellCheck='false'
-                        />
-                    </div>
-                    {confirmError}
-                    <button
-                        type='submit'
-                        className='btn btn-primary'
+                    </h3>
+                    <form
+                        onSubmit={this.preSubmit}
+                        className={formClass}
                     >
-                        <FormattedMessage
-                            id='claim.ldap_to_email.switchTo'
-                            defaultMessage='Switch account to email/password'
-                        />
-                    </button>
-                    {serverError}
-                </form>
+                        <p>
+                            <FormattedMessage
+                                id='claim.ldap_to_email.email'
+                                defaultMessage='After switching your authentication method, you will use {email} to login. Your AD/LDAP credentials will no longer allow access to Mattermost.'
+                                values={{
+                                    email: this.props.email,
+                                }}
+                            />
+                        </p>
+                        <p>
+                            <FormattedMessage
+                                id='claim.ldap_to_email.enterLdapPwd'
+                                defaultMessage='{ldapPassword}:'
+                                values={{
+                                    ldapPassword: passwordPlaceholder,
+                                }}
+                            />
+                        </p>
+                        <div className={ldapPasswordClass}>
+                            <input
+                                type='password'
+                                className='form-control'
+                                name='ldapPassword'
+                                ref={this.ldapPasswordInput}
+                                placeholder={passwordPlaceholder}
+                                spellCheck='false'
+                            />
+                        </div>
+                        {ldapPasswordError}
+                        <p>
+                            <FormattedMessage
+                                id='claim.ldap_to_email.enterPwd'
+                                defaultMessage='New email login password:'
+                            />
+                        </p>
+                        <div className={passwordClass}>
+                            <LocalizedInput
+                                type='password'
+                                className='form-control'
+                                name='password'
+                                ref={this.passwordInput}
+                                placeholder={{id: t('claim.ldap_to_email.pwd'), defaultMessage: 'Password'}}
+                                spellCheck='false'
+                            />
+                        </div>
+                        {passwordError}
+                        <div className={confimClass}>
+                            <LocalizedInput
+                                type='password'
+                                className='form-control'
+                                name='passwordconfirm'
+                                ref={this.passwordConfirmInput}
+                                placeholder={{id: t('claim.ldap_to_email.confirm'), defaultMessage: 'Confirm Password'}}
+                                spellCheck='false'
+                            />
+                        </div>
+                        {confirmError}
+                        <button
+                            type='submit'
+                            className='btn btn-primary'
+                        >
+                            <FormattedMessage
+                                id='claim.ldap_to_email.switchTo'
+                                defaultMessage='Switch account to email/password'
+                            />
+                        </button>
+                        {serverError}
+                    </form>
+                </>
             );
         }
 
         return (
             <div>
-                <h3>
-                    <FormattedMessage
-                        id='claim.ldap_to_email.title'
-                        defaultMessage='Switch AD/LDAP Account to Email/Password'
-                    />
-                </h3>
                 {content}
             </div>
         );

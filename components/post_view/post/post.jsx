@@ -9,7 +9,7 @@ import {isMeMessage as checkIsMeMessage} from 'mattermost-redux/utils/post_utils
 
 import {makeIsEligibleForClick} from 'utils/utils';
 import * as PostUtils from 'utils/post_utils';
-import Constants, {A11yCustomEventTypes} from 'utils/constants';
+import Constants, {A11yCustomEventTypes, AppEvents} from 'utils/constants';
 
 import PostProfilePicture from 'components/post_profile_picture';
 import PostAriaLabelDiv from 'components/post_view/post_aria_label_div';
@@ -19,6 +19,8 @@ import PostContext from 'components/post_view/post_context';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import ThreadFooter from 'components/threading/channel_threads/thread_footer';
 import {trackEvent} from 'actions/telemetry_actions';
+import EditPost from 'components/edit_post';
+import AutoHeightSwitcher, {AutoHeightSlots} from 'components/common/auto_height_switcher';
 
 // When adding clickable targets within a root post to exclude from post's on click to open thread,
 // please add to/maintain the selector below
@@ -375,8 +377,11 @@ export default class Post extends React.PureComponent {
         const {
             post,
             hasReplies,
+            compactDisplay,
             isCollapsedThreadsEnabled,
+            isBeingEdited,
         } = this.props;
+
         if (!post.id) {
             return null;
         }
@@ -412,6 +417,50 @@ export default class Post extends React.PureComponent {
             centerClass = 'center';
         }
 
+        const postHeader = (
+            <PostHeader
+                post={post}
+                handleCommentClick={this.handleCommentClick}
+                handleCardClick={this.handleCardClick}
+                handleDropdownOpened={this.handleDropdownOpened}
+                compactDisplay={this.props.compactDisplay}
+                isFirstReply={this.props.isFirstReply}
+                showTimeWithoutHover={!hideProfilePicture}
+                hover={(this.state.hover || this.state.a11yActive || this.state.fileDropdownOpened) && !this.props.isBeingEdited}
+                isLastPost={this.props.isLastPost}
+            />
+        );
+
+        const postBody = (
+            <PostBody
+                post={post}
+                handleCommentClick={this.handleCommentClick}
+                compactDisplay={this.props.compactDisplay}
+                isCommentMention={this.props.isCommentMention}
+                isFirstReply={this.props.isFirstReply}
+                handleFileDropdownOpened={this.handleFileDropdownOpened}
+            />
+        );
+
+        const threadFooter = isCollapsedThreadsEnabled && !post.root_id && (hasReplies || post.is_following) ? <ThreadFooter threadId={post.id}/> : null;
+
+        const slot1 = (
+            <>
+                {compactDisplay && postHeader}
+                {postBody}
+            </>
+        );
+
+        const slot2 = (
+            <>
+                {compactDisplay && postHeader}
+                {(compactDisplay && isBeingEdited) && <div className={'clearfix'}/>}
+                <EditPost/>
+            </>
+        );
+
+        const showSlot = isBeingEdited ? AutoHeightSlots.SLOT2 : AutoHeightSlots.SLOT1;
+
         return (
             <PostContext.Provider value={{handlePopupOpened: this.handleDropdownOpened}}>
                 <PostAriaLabelDiv
@@ -443,29 +492,14 @@ export default class Post extends React.PureComponent {
                             {profilePic}
                         </div>
                         <div>
-                            <PostHeader
-                                post={post}
-                                handleCommentClick={this.handleCommentClick}
-                                handleCardClick={this.handleCardClick}
-                                handleDropdownOpened={this.handleDropdownOpened}
-                                compactDisplay={this.props.compactDisplay}
-                                isFirstReply={this.props.isFirstReply}
-                                showTimeWithoutHover={!hideProfilePicture}
-                                hover={(this.state.hover || this.state.a11yActive || this.state.fileDropdownOpened) && !this.props.isBeingEdited}
-                                isLastPost={this.props.isLastPost}
+                            {!compactDisplay && postHeader}
+                            <AutoHeightSwitcher
+                                showSlot={showSlot}
+                                slot1={slot1}
+                                slot2={slot2}
+                                onTransitionEnd={() => document.dispatchEvent(new Event(AppEvents.FOCUS_EDIT_TEXTBOX))}
                             />
-                            <PostBody
-                                post={post}
-                                handleCommentClick={this.handleCommentClick}
-                                compactDisplay={this.props.compactDisplay}
-                                isCommentMention={this.props.isCommentMention}
-                                isFirstReply={this.props.isFirstReply}
-                                handleFileDropdownOpened={this.handleFileDropdownOpened}
-                            />
-                            {isCollapsedThreadsEnabled && !post.root_id && (hasReplies || post.is_following) ? (
-                                <ThreadFooter threadId={post.id}/>
-                            ) : null}
-
+                            {threadFooter}
                         </div>
                     </div>
                 </PostAriaLabelDiv>

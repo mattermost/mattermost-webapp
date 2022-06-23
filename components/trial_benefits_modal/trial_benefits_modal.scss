@@ -4,6 +4,7 @@
     }
 
     .modal-content {
+        min-height: 440px;
         padding: 0 !important;
         border-color: rgba(var(--center-channel-color-rgb), 0.16);
         background: var(--center-channel-bg);
@@ -49,7 +50,7 @@
         overflow: hidden;
         width: 100%;
         flex-direction: column;
-        padding: 0;
+        padding-bottom: 24px !important;
 
         .buttons {
             text-align: center;

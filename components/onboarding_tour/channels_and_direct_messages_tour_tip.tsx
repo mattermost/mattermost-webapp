@@ -7,7 +7,6 @@ import {useSelector} from 'react-redux';
 
 import {useMeasurePunchouts} from 'components/widgets/tour_tip';
 import {getChannelsNameMapInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
-import {toTitleCase} from 'utils/utils';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import {GlobalState} from 'types/store';
 import Constants from 'utils/constants';
@@ -20,16 +19,12 @@ type Props = {
 }
 
 const FirstChannel = ({firstChannelName}: {firstChannelName: string}) => {
-    const displayFirstChannelName = firstChannelName.split('-').join(' ').trim();
     return (
-        <>
-            <FormattedMarkdownMessage
-                id='onboardingTour.ChannelsAndDirectMessagesTour.firstChannel'
-                defaultMessage='Hey look, there’s your **{firstChannelName}** channel! '
-                values={{firstChannelName: toTitleCase(displayFirstChannelName)}}
-            />
-            <br/>
-        </>
+        <FormattedMarkdownMessage
+            id='onboardingTour.ChannelsAndDirectMessagesTour.firstChannel'
+            defaultMessage='Hey look, there’s your **{firstChannelName}** channel! '
+            values={{firstChannelName}}
+        />
     );
 };
 
@@ -57,7 +52,7 @@ export const ChannelsAndDirectMessagesTour = ({firstChannelName}: Props) => {
                 <FormattedMarkdownMessage
                     id='onboardingTour.ChannelsAndDirectMessagesTour.townSquare'
                     defaultMessage={'We’ve also added the **{townSquare}** and **{offTopic}** channels for everyone on your team.'}
-                    values={{townSquare: toTitleCase(townSquareDisplayName), offTopic: toTitleCase(offTopicDisplayName)}}
+                    values={{townSquare: townSquareDisplayName, offTopic: offTopicDisplayName}}
                 />
             </p>
             <p>

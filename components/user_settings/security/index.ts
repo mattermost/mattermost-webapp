@@ -9,11 +9,11 @@ import {getAuthorizedOAuthApps, deauthorizeOAuthApp} from 'mattermost-redux/acti
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
-import {GlobalState} from 'mattermost-redux/types/store';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {GlobalState} from '@mattermost/types/store';
+import {UserProfile} from '@mattermost/types/users';
 import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 
-import {getPasswordConfig} from 'utils/utils.jsx';
+import {getPasswordConfig} from 'utils/utils';
 import {Preferences} from 'utils/constants';
 
 import SecurityTab from './user_settings_security';

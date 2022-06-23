@@ -7,7 +7,7 @@ import classNames from 'classnames';
 
 import Pluggable from 'plugins/pluggable';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 
 import {mark, trackEvent} from 'actions/telemetry_actions';
 
@@ -144,7 +144,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
             return;
         }
 
-        if (cmdOrCtrlPressed(event)) {
+        if (cmdOrCtrlPressed(event as unknown as React.KeyboardEvent)) {
             event.preventDefault();
             this.props.actions.multiSelectChannelAdd(this.props.channel.id);
         } else if (event.shiftKey) {
@@ -173,19 +173,15 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
         } = this.props;
 
         let channelsTutorialTip: JSX.Element | null = null;
+
+        // firstChannelName is based on channel.name,
+        // but we want to display `display_name` to the user, so we check against `.name` for channel equality but pass in the .display_name value
         if (firstChannelName === channel.name || (!firstChannelName && showChannelsTutorialStep && channel.name === Constants.DEFAULT_CHANNEL)) {
-            channelsTutorialTip = (<ChannelsAndDirectMessagesTour firstChannelName={firstChannelName}/>);
+            channelsTutorialTip = firstChannelName ? (<ChannelsAndDirectMessagesTour firstChannelName={channel.display_name}/>) : <ChannelsAndDirectMessagesTour/>;
         }
 
         let labelElement: JSX.Element = (
-            <span
-                className={classNames(
-                    'SidebarChannelLinkLabel',
-                    {
-                        truncated: this.state.showTooltip,
-                    },
-                )}
-            >
+            <span className='SidebarChannelLinkLabel'>
                 {wrapEmojis(label)}
             </span>
         );
@@ -202,7 +198,10 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                     overlay={displayNameToolTip}
                     onEntering={this.removeTooltipLink}
                 >
-                    <div ref={this.gmItemRef}>
+                    <div
+                        className='truncated'
+                        ref={this.gmItemRef}
+                    >
                         {labelElement}
                     </div>
                 </OverlayTrigger>

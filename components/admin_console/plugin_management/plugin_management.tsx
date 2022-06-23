@@ -8,9 +8,10 @@ import {Link} from 'react-router-dom';
 import classNames from 'classnames';
 
 import PluginState from 'mattermost-redux/constants/plugins';
-import {AdminConfig} from 'mattermost-redux/types/config';
+import {AdminConfig} from '@mattermost/types/config';
+import {DeepPartial} from '@mattermost/types/utilities';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import LoadingScreen from 'components/loading_screen';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import ConfirmModal from 'components/confirm_modal';
@@ -165,7 +166,7 @@ type PluginItemProps = {
     handleRemove: (e: any) => any;
     showInstances: boolean;
     hasSettings: boolean;
-    appsEnabled: boolean;
+    appsFeatureFlagEnabled: boolean;
     isDisabled?: boolean;
 };
 
@@ -177,7 +178,7 @@ const PluginItem = ({
     handleRemove,
     showInstances,
     hasSettings,
-    appsEnabled,
+    appsFeatureFlagEnabled,
     isDisabled,
 }: PluginItemProps) => {
     let activateButton: React.ReactNode;
@@ -363,7 +364,7 @@ const PluginItem = ({
         );
     }
 
-    if (pluginStatus.id === appsPluginID && !appsEnabled) {
+    if (pluginStatus.id === appsPluginID && !appsFeatureFlagEnabled) {
         activateButton = (<>{'Plugin disabled by feature flag'}</>);
         removeButton = null;
     }
@@ -399,7 +400,7 @@ type Props = BaseProps & {
     config: DeepPartial<AdminConfig>;
     pluginStatuses: Record<string, PluginStatus>;
     plugins: any;
-    appsEnabled: boolean;
+    appsFeatureFlagEnabled: boolean;
     actions: {
         uploadPlugin: (fileData: File, force: boolean) => any;
         removePlugin: (pluginId: string) => any;
@@ -632,11 +633,11 @@ export default class PluginManagement extends AdminSettings<Props, State> {
         });
     }
 
-    getMarketplaceURLHelpText = (url: string) => {
+    getMarketplaceURLHelpText = (url: string, enableUploads: boolean) => {
         return (
             <div>
                 {
-                    url === '' &&
+                    url === '' && enableUploads &&
                     <div className='alert-warning'>
                         <i className='fa fa-warning'/>
                         <FormattedMarkdownMessage
@@ -646,10 +647,28 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                     </div>
                 }
                 {
-                    url !== '' &&
+                    url !== '' && enableUploads &&
                     <FormattedMarkdownMessage
                         id='admin.plugins.settings.marketplaceUrlDesc'
                         defaultMessage='URL of the marketplace server.'
+                    />
+                }
+                {
+                    !enableUploads &&
+                    <FormattedMessage
+                        id='admin.plugin.uploadDisabledDesc'
+                        defaultMessage='Enable plugin uploads in config.json. See <link>documentation</link> to learn more.'
+                        values={{
+                            link: (msg: React.ReactNode) => (
+                                <a
+                                    href='https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        }}
                     />
                 }
             </div>
@@ -838,9 +857,20 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                         />
                     }
                     helpText={
-                        <FormattedMarkdownMessage
+                        <FormattedMessage
                             id='admin.plugins.settings.enableDesc'
-                            defaultMessage='When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more.'
+                            defaultMessage='When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See <link>documentation</link> to learn more.'
+                            values={{
+                                link: (msg: React.ReactNode) => (
+                                    <a
+                                        href='https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/'
+                                        target='_blank'
+                                        rel='noreferrer'
+                                    >
+                                        {msg}
+                                    </a>
+                                ),
+                            }}
                         />
                     }
                     value={this.state.enable}
@@ -932,7 +962,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                         handleRemove={this.showRemovePluginModal}
                         showInstances={showInstances}
                         hasSettings={hasSettings}
-                        appsEnabled={this.props.appsEnabled}
+                        appsFeatureFlagEnabled={this.props.appsFeatureFlagEnabled}
                         isDisabled={this.props.isDisabled}
                     />
                 );
@@ -974,23 +1004,56 @@ export default class PluginManagement extends AdminSettings<Props, State> {
 
         if (enableUploads && enable) {
             uploadHelpText = (
-                <FormattedMarkdownMessage
+                <FormattedMessage
                     id='admin.plugin.uploadDesc'
-                    defaultMessage='Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more.'
+                    defaultMessage='Upload a plugin for your Mattermost server. See <link>documentation</link> to learn more.'
+                    values={{
+                        link: (msg: React.ReactNode) => (
+                            <a
+                                href='https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/'
+                                target='_blank'
+                                rel='noreferrer'
+                            >
+                                {msg}
+                            </a>
+                        ),
+                    }}
                 />
             );
         } else if (enable && !enableUploads) {
             uploadHelpText = (
-                <FormattedMarkdownMessage
+                <FormattedMessage
                     id='admin.plugin.uploadDisabledDesc'
-                    defaultMessage='Enable plugin uploads in config.json. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more.'
+                    defaultMessage='Enable plugin uploads in config.json. See <link>documentation</link> to learn more.'
+                    values={{
+                        link: (msg: React.ReactNode) => (
+                            <a
+                                href='https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/'
+                                target='_blank'
+                                rel='noreferrer'
+                            >
+                                {msg}
+                            </a>
+                        ),
+                    }}
                 />
             );
         } else {
             uploadHelpText = (
-                <FormattedMarkdownMessage
+                <FormattedMessage
                     id='admin.plugin.uploadAndPluginDisabledDesc'
-                    defaultMessage='To enable plugins, set **Enable Plugins** to true. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more.'
+                    defaultMessage='To enable plugins, set **Enable Plugins** to true. See <link>documentation</link> to learn more.'
+                    values={{
+                        link: (msg: React.ReactNode) => (
+                            <a
+                                href='https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/'
+                                target='_blank'
+                                rel='noreferrer'
+                            >
+                                {msg}
+                            </a>
+                        ),
+                    }}
                 />
             );
         }
@@ -1027,9 +1090,20 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                                         />
                                     }
                                     helpText={
-                                        <FormattedMarkdownMessage
+                                        <FormattedMessage
                                             id='admin.plugins.settings.requirePluginSignatureDesc'
-                                            defaultMessage='When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more.'
+                                            defaultMessage='When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See <link>documentation</link> to learn more.'
+                                            values={{
+                                                link: (msg: React.ReactNode) => (
+                                                    <a
+                                                        href='https://mattermost.com/pl/default-plugin-signing'
+                                                        target='_blank'
+                                                        rel='noreferrer'
+                                                    >
+                                                        {msg}
+                                                    </a>
+                                                ),
+                                            }}
                                         />
                                     }
                                     value={this.state.requirePluginSignature}
@@ -1112,9 +1186,20 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                                         />
                                     }
                                     helpText={
-                                        <FormattedMarkdownMessage
+                                        <FormattedMessage
                                             id='admin.plugins.settings.enableMarketplaceDesc'
-                                            defaultMessage='When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html).'
+                                            defaultMessage='When true, enables System Administrators to install plugins from the <link>marketplace</link>.'
+                                            values={{
+                                                link: (msg: React.ReactNode) => (
+                                                    <a
+                                                        href='https://mattermost.com/pl/default-mattermost-marketplace.html'
+                                                        target='_blank'
+                                                        rel='noreferrer'
+                                                    >
+                                                        {msg}
+                                                    </a>
+                                                ),
+                                            }}
                                         />
                                     }
                                     value={this.state.enableMarketplace}
@@ -1137,7 +1222,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                                         />
                                     }
                                     value={this.state.enableRemoteMarketplace}
-                                    disabled={this.props.isDisabled || !this.state.enable || !this.state.enableMarketplace}
+                                    disabled={this.props.isDisabled || !this.state.enable || !this.state.enableUploads || !this.state.enableMarketplace}
                                     onChange={this.handleChange}
                                     setByEnv={this.isSetByEnv('PluginSettings.EnableRemoteMarketplace')}
                                 />
@@ -1150,9 +1235,9 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                                             defaultMessage='Marketplace URL:'
                                         />
                                     }
-                                    helpText={this.getMarketplaceURLHelpText(this.state.marketplaceUrl)}
+                                    helpText={this.getMarketplaceURLHelpText(this.state.marketplaceUrl, this.state.enableUploads)}
                                     value={this.state.marketplaceUrl}
-                                    disabled={this.props.isDisabled || !this.state.enable || !this.state.enableMarketplace || !this.state.enableRemoteMarketplace}
+                                    disabled={this.props.isDisabled || !this.state.enable || !this.state.enableUploads || !this.state.enableMarketplace || !this.state.enableRemoteMarketplace}
                                     onChange={this.handleChange}
                                     setByEnv={this.isSetByEnv('PluginSettings.MarketplaceURL')}
                                 />

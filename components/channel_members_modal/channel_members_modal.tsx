@@ -5,7 +5,7 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 
 import MemberListChannel from 'components/member_list_channel';
 import ChannelInviteModal from 'components/channel_invite_modal';

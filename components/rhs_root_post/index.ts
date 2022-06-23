@@ -4,6 +4,8 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
+import {showActionsDropdownPulsatingDot} from 'selectors/actions_menu';
+import {setActionsMenuInitialisationState} from 'mattermost-redux/actions/preferences';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
@@ -15,7 +17,8 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {Post} from 'mattermost-redux/types/posts';
+import {Emoji} from '@mattermost/types/emojis';
+import {Post} from '@mattermost/types/posts';
 
 import {markPostAsUnread, emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 
@@ -24,15 +27,15 @@ import {getIsPostBeingEditedInRHS, isEmbedVisible} from 'selectors/posts';
 import {getIsMobileView} from 'selectors/views/browser';
 
 import {GlobalState} from 'types/store';
-import {FakePost} from 'types/store/rhs';
 
+import {shouldShowActionsMenu} from 'utils/post_utils';
 import {isArchivedChannel} from 'utils/channel_utils';
 import {Preferences} from 'utils/constants';
 
 import RhsRootPost from './rhs_root_post.jsx';
 
 interface OwnProps {
-    post: Post | FakePost;
+    post: Post ;
     teamId: string;
 }
 
@@ -46,8 +49,9 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
 
     const user = getUser(state, ownProps.post.user_id);
     const isBot = Boolean(user && user.is_bot);
+    const showActionsMenuPulsatingDot = showActionsDropdownPulsatingDot(state);
 
-    let emojis = [];
+    let emojis: Emoji[] = [];
     const oneClickReactionsEnabled = get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.ONE_CLICK_REACTIONS_ENABLED, Preferences.ONE_CLICK_REACTIONS_ENABLED_DEFAULT) === 'true';
     if (oneClickReactionsEnabled) {
         emojis = getOneClickReactionEmojis(state);
@@ -65,6 +69,8 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         isFlagged: get(state, Preferences.CATEGORY_FLAGGED_POST, ownProps.post.id, null) != null,
         compactDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
         shortcutReactToLastPostEmittedFrom,
+        shouldShowActionsMenu: shouldShowActionsMenu(state, ownProps.post),
+        showActionsMenuPulsatingDot,
         collapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
         oneClickReactionsEnabled,
         recentEmojis: emojis,
@@ -80,6 +86,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
         actions: bindActionCreators({
             markPostAsUnread,
             emitShortcutReactToLastPostFrom,
+            setActionsMenuInitialisationState,
         }, dispatch),
     };
 }

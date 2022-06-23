@@ -11,7 +11,7 @@ import * as I18n from 'i18n/i18n.jsx';
 
 import Constants from 'utils/constants';
 import {rolesFromMapping, mappingValueFromRoles} from 'utils/policy_roles_adapter';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import RequestButton from 'components/admin_console/request_button/request_button';
 import BooleanSetting from 'components/admin_console/boolean_setting';
 import TextSetting from 'components/admin_console/text_setting';
@@ -383,6 +383,10 @@ export default class SchemaAdminSettings extends React.PureComponent {
 
     buildButtonSetting = (setting) => {
         const handleRequestAction = (success, error) => {
+            if (this.state.saveNeeded !== false) {
+                error({message: Utils.localizeMessage('admin_settings.save_unsaved_changes', 'Please save unsaved changes first')});
+                return;
+            }
             const successCallback = (data) => {
                 const metadata = new Map(Object.entries(data));
                 const settings = (this.props.schema && this.props.schema.settings) || [];
@@ -1093,6 +1097,12 @@ export default class SchemaAdminSettings extends React.PureComponent {
         }
 
         for (const setting of this.props.schema.settings) {
+            // Some settings are actually not settings (banner)
+            // and don't have a key, skip those ones
+            if (!('key' in setting)) {
+                continue;
+            }
+
             // don't validate elements set by env.
             if (this.isSetByEnv(setting.key)) {
                 continue;
@@ -1101,14 +1111,10 @@ export default class SchemaAdminSettings extends React.PureComponent {
             if (setting.validate) {
                 const result = setting.validate(this.state[setting.key]);
                 if (!result.isValid()) {
-                    this.setState({clientWarning: result.error()});
                     return false;
                 }
             }
         }
-        this.setState({
-            clientWarning: '',
-        });
 
         return true;
     }

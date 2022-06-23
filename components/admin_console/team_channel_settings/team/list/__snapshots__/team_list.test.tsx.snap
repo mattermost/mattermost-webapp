@@ -113,7 +113,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
               <div
                 className="TeamList__lowerOpacity"
               >
-                <TeamIcon
+                <injectIntl(TeamIcon)
                   content="DN"
                   size="sm"
                   url={null}
@@ -261,7 +261,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
               <div
                 className="TeamList__lowerOpacity"
               >
-                <TeamIcon
+                <injectIntl(TeamIcon)
                   content="DN0"
                   size="sm"
                   url={null}
@@ -312,7 +312,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
               <div
                 className="TeamList__lowerOpacity"
               >
-                <TeamIcon
+                <injectIntl(TeamIcon)
                   content="DN1"
                   size="sm"
                   url={null}
@@ -363,7 +363,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
               <div
                 className="TeamList__lowerOpacity"
               >
-                <TeamIcon
+                <injectIntl(TeamIcon)
                   content="DN2"
                   size="sm"
                   url={null}
@@ -414,7 +414,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
               <div
                 className="TeamList__lowerOpacity"
               >
-                <TeamIcon
+                <injectIntl(TeamIcon)
                   content="DN3"
                   size="sm"
                   url={null}
@@ -465,7 +465,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
               <div
                 className="TeamList__lowerOpacity"
               >
-                <TeamIcon
+                <injectIntl(TeamIcon)
                   content="DN4"
                   size="sm"
                   url={null}
@@ -516,7 +516,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
               <div
                 className="TeamList__lowerOpacity"
               >
-                <TeamIcon
+                <injectIntl(TeamIcon)
                   content="DN5"
                   size="sm"
                   url={null}
@@ -567,7 +567,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
               <div
                 className="TeamList__lowerOpacity"
               >
-                <TeamIcon
+                <injectIntl(TeamIcon)
                   content="DN6"
                   size="sm"
                   url={null}
@@ -618,7 +618,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
               <div
                 className="TeamList__lowerOpacity"
               >
-                <TeamIcon
+                <injectIntl(TeamIcon)
                   content="DN7"
                   size="sm"
                   url={null}
@@ -669,7 +669,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
               <div
                 className="TeamList__lowerOpacity"
               >
-                <TeamIcon
+                <injectIntl(TeamIcon)
                   content="DN8"
                   size="sm"
                   url={null}
@@ -720,7 +720,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
               <div
                 className="TeamList__lowerOpacity"
               >
-                <TeamIcon
+                <injectIntl(TeamIcon)
                   content="DN9"
                   size="sm"
                   url={null}

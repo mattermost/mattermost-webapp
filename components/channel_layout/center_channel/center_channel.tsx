@@ -12,7 +12,7 @@ import PermalinkView from 'components/permalink_view';
 import ChannelHeaderMobile from 'components/channel_header_mobile';
 import ChannelIdentifierRouter from 'components/channel_layout/channel_identifier_router';
 import PlaybookRunner from 'components/channel_layout/playbook_runner';
-import NextStepsView from 'components/next_steps_view';
+import ActivityAndInsights from 'components/activity_and_insights/activity_and_insights';
 import {makeAsyncComponent} from 'components/async_load';
 
 const LazyGlobalThreads = makeAsyncComponent(
@@ -38,7 +38,7 @@ type Props = {
     rhsMenuOpen: boolean;
     isCollapsedThreadsEnabled: boolean;
     currentUserId: string;
-    enableTipsViewRoute: boolean;
+    insightsAreEnabled: boolean;
     actions: {
         getProfiles: (page?: number, perPage?: number, options?: Record<string, string | boolean>) => ActionFunc;
     };
@@ -74,7 +74,7 @@ export default class CenterChannel extends React.PureComponent<Props, State> {
     }
 
     render() {
-        const {lastChannelPath, isCollapsedThreadsEnabled, enableTipsViewRoute} = this.props;
+        const {lastChannelPath, isCollapsedThreadsEnabled, insightsAreEnabled} = this.props;
         const url = this.props.match.url;
         return (
             <div
@@ -110,17 +110,16 @@ export default class CenterChannel extends React.PureComponent<Props, State> {
                         >
                             <PlaybookRunner/>
                         </Route>
-                        {enableTipsViewRoute ? (
-                            <Route
-                                path='/:team/tips'
-                                component={NextStepsView}
-                            />
-
-                        ) : null}
                         {isCollapsedThreadsEnabled ? (
                             <Route
                                 path='/:team/threads/:threadIdentifier?'
                                 component={LazyGlobalThreads}
+                            />
+                        ) : null}
+                        {insightsAreEnabled ? (
+                            <Route
+                                path='/:team/activity-and-insights'
+                                component={ActivityAndInsights}
                             />
                         ) : null}
                         <Redirect to={lastChannelPath}/>

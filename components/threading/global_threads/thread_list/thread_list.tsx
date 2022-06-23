@@ -10,7 +10,7 @@ import * as Utils from 'utils/utils';
 
 import {getThreadCountsInCurrentTeam} from 'mattermost-redux/selectors/entities/threads';
 import {getThreads, markAllThreadsInTeamRead} from 'mattermost-redux/actions/threads';
-import {UserThread} from 'mattermost-redux/types/threads';
+import {UserThread} from '@mattermost/types/threads';
 import {trackEvent} from 'actions/telemetry_actions';
 
 import {Constants, CrtTutorialSteps, Preferences} from 'utils/constants';
@@ -82,8 +82,8 @@ const ThreadList = ({
         if (tagName === 'input' || tagName === 'textarea' || tagName === 'select') {
             return;
         }
-
-        if (!Utils.isKeyPressed(e, Constants.KeyCodes.DOWN) && !Utils.isKeyPressed(e, Constants.KeyCodes.UP)) {
+        const comboKeyPressed = e.altKey || e.metaKey || e.shiftKey || e.ctrlKey;
+        if (comboKeyPressed || (!Utils.isKeyPressed(e, Constants.KeyCodes.DOWN) && !Utils.isKeyPressed(e, Constants.KeyCodes.UP))) {
             return;
         }
 
@@ -206,6 +206,7 @@ const ThreadList = ({
                             })}
                         >
                             <Button
+                                id={'threads-list__mark-all-as-read'}
                                 className={'Button___large Button___icon'}
                                 onClick={handleAllMarkedRead}
                             >
@@ -217,7 +218,10 @@ const ThreadList = ({
                     </div>
                 )}
             />
-            <div className='threads'>
+            <div
+                className='threads'
+                data-testid={'threads_list'}
+            >
                 <VirtualizedThreadList
                     key={`threads_list_${currentFilter}`}
                     loadMoreItems={handleLoadMoreItems}
@@ -225,7 +229,7 @@ const ThreadList = ({
                     selectedThreadId={selectedThreadId}
                     total={unread ? totalUnread : total}
                     isLoading={isLoading}
-                    hasLoaded={hasLoaded}
+                    addNoMoreResultsItem={hasLoaded && !unread}
                 />
                 {showListTutorialTip && !isMobileView && <CRTListTutorialTip autoTour={tutorialTipAutoTour}/>}
                 {unread && !someUnread && isEmpty(unreadIds) ? (

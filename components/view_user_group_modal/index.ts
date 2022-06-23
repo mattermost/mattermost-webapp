@@ -11,11 +11,11 @@ import {GlobalState} from 'types/store';
 import {getProfilesInGroup, searchProfilesInGroup} from 'mattermost-redux/selectors/entities/users';
 import {getGroup as getGroupById} from 'mattermost-redux/selectors/entities/groups';
 import {getGroup} from 'mattermost-redux/actions/groups';
-import {Group} from 'mattermost-redux/types/groups';
+import {Group} from '@mattermost/types/groups';
 import {ModalData} from 'types/actions';
 import {openModal} from 'actions/views/modals';
 import {setModalSearchTerm} from 'actions/views/search';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 import {getProfilesInGroup as getUsersInGroup, searchProfiles} from 'mattermost-redux/actions/users';
 
 import ViewUserGroupModal from './view_user_group_modal';

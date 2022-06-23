@@ -9,9 +9,9 @@ import {Permissions} from 'mattermost-redux/constants';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import {getStandardAnalytics} from 'actions/admin_actions';
 import {Constants, UserSearchOptions, SearchUserTeamFilter, UserFilters} from 'utils/constants';
@@ -353,6 +353,7 @@ export default class SystemUsers extends React.PureComponent<Props, State> {
                         <option value=''>{Utils.localizeMessage('admin.system_users.allUsers', 'All Users')}</option>
                         <option value={UserFilters.SYSTEM_ADMIN}>{Utils.localizeMessage('admin.system_users.system_admin', 'System Admin')}</option>
                         <option value={UserFilters.SYSTEM_GUEST}>{Utils.localizeMessage('admin.system_users.guest', 'Guest')}</option>
+                        <option value={UserFilters.ACTIVE}>{Utils.localizeMessage('admin.system_users.active', 'Active')}</option>
                         <option value={UserFilters.INACTIVE}>{Utils.localizeMessage('admin.system_users.inactive', 'Inactive')}</option>
                     </select>
                 </label>

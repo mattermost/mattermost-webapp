@@ -46,7 +46,6 @@ exports[`components/create_post Show tutorial 1`] = `
         <span
           className="post-body__actions"
         >
-          <Connect(injectIntl(CallButton)) />
           <Connect(injectIntl(FileUpload))
             channelId="owsyt8n43jfxjpzh9np93mx1wa"
             fileCount={0}
@@ -174,7 +173,6 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
         <span
           className="post-body__actions"
         >
-          <Connect(injectIntl(CallButton)) />
           <Connect(injectIntl(FileUpload))
             channelId="owsyt8n43jfxjpzh9np93mx1wa"
             fileCount={0}
@@ -394,7 +392,6 @@ exports[`components/create_post should match snapshot when file upload disabled 
         <span
           className="post-body__actions"
         >
-          <Connect(injectIntl(CallButton)) />
           <Connect(injectIntl(FileUpload))
             channelId="owsyt8n43jfxjpzh9np93mx1wa"
             fileCount={0}
@@ -522,7 +519,6 @@ exports[`components/create_post should match snapshot, can post; preview disable
         <span
           className="post-body__actions"
         >
-          <Connect(injectIntl(CallButton)) />
           <Connect(injectIntl(FileUpload))
             channelId="owsyt8n43jfxjpzh9np93mx1wa"
             fileCount={0}
@@ -650,7 +646,6 @@ exports[`components/create_post should match snapshot, can post; preview enabled
         <span
           className="post-body__actions"
         >
-          <Connect(injectIntl(CallButton)) />
           <Connect(injectIntl(FileUpload))
             channelId="owsyt8n43jfxjpzh9np93mx1wa"
             fileCount={0}
@@ -962,7 +957,6 @@ exports[`components/create_post should match snapshot, init 1`] = `
         <span
           className="post-body__actions"
         >
-          <Connect(injectIntl(CallButton)) />
           <Connect(injectIntl(FileUpload))
             channelId="owsyt8n43jfxjpzh9np93mx1wa"
             fileCount={0}

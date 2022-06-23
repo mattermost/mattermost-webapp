@@ -7,7 +7,6 @@ import {FormattedMessage} from 'react-intl';
 
 import {t} from 'utils/i18n';
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 import LineSwitch from '../../line_switch.jsx';
 
@@ -25,9 +24,21 @@ const SyncGroupsToggle = ({syncChecked, allAllowedChecked, allowedDomainsChecked
             />
         )}
         subTitle={(
-            <FormattedMarkdownMessage
+            <FormattedMessage
                 id='admin.team_settings.team_details.syncGroupMembersDescr'
-                defaultMessage='When enabled, adding and removing users from groups will add or remove them from this team. The only way of inviting members to this team is by adding the groups they belong to. [Learn More](!https://www.mattermost.com/pl/default-ldap-group-constrained-team-channel.html)'
+                defaultMessage='When enabled, adding and removing users from groups will add or remove them from this team. The only way of inviting members to this team is by adding the groups they belong to. <link>Learn More</link>'
+                values={{
+                    link: (msg) => (
+                        <a
+                            href='https://www.mattermost.com/pl/default-ldap-group-constrained-team-channel.html'
+                            referrer='noreferrer'
+                            target='_blank'
+                            rel='noreferrer'
+                        >
+                            {msg}
+                        </a>
+                    ),
+                }}
             />
         )}
     />);
@@ -102,7 +113,7 @@ const AllowedDomainsToggle = ({syncChecked, allAllowedChecked, allowedDomainsChe
             <input
                 type='text'
                 value={allowedDomains}
-                placeholder='mattermost.org'
+                placeholder='mattermost.com'
                 className='form-control'
                 onChange={(e) => onToggle(syncChecked, allAllowedChecked, allowedDomainsChecked, e.currentTarget.value)}
                 disabled={isDisabled}

@@ -7,9 +7,9 @@ import React from 'react';
 import {Posts} from 'mattermost-redux/constants';
 
 import * as PostUtils from 'utils/post_utils';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import DelayedAction from 'utils/delayed_action';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 
 import CommentedOn from 'components/post_view/commented_on';
 import FileAttachmentListContainer from 'components/file_attachment_list';
@@ -18,8 +18,6 @@ import PostBodyAdditionalContent from 'components/post_view/post_body_additional
 import PostMessageView from 'components/post_view/post_message_view';
 import ReactionList from 'components/post_view/reaction_list';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
-import EditPost from '../../edit_post';
-import AutoHeightSwitcher from '../../common/auto_height_switcher';
 
 const SENDING_ANIMATION_DELAY = 3000;
 
@@ -75,16 +73,6 @@ export default class PostBody extends React.PureComponent {
          * Flag passed down to PostBodyAdditionalContent for determining if post embed is visible
          */
         isEmbedVisible: PropTypes.bool,
-
-        /**
-         * check if the current post is being edited at the moment
-         */
-        isPostBeingEdited: PropTypes.bool,
-
-        /**
-         * check if the current post is being edited in the RHS
-         */
-        isPostBeingEditedInRHS: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -133,9 +121,7 @@ export default class PostBody extends React.PureComponent {
     }
 
     render() {
-        const {post, parentPost, parentPostUser, isPostBeingEdited, isPostBeingEditedInRHS} = this.props;
-
-        const isBeingEdited = isPostBeingEdited && !isPostBeingEditedInRHS;
+        const {post, parentPost, parentPostUser} = this.props;
 
         let comment;
         let postClass = '';
@@ -182,7 +168,7 @@ export default class PostBody extends React.PureComponent {
         }
 
         const messageWrapper = (
-            <React.Fragment>
+            <>
                 {failedOptions}
                 {this.state.sending && <LoadingSpinner/>}
                 <PostMessageView
@@ -190,11 +176,11 @@ export default class PostBody extends React.PureComponent {
                     compactDisplay={this.props.compactDisplay}
                     hasMention={true}
                 />
-            </React.Fragment>
+            </>
         );
 
         const hasPlugin =
-            (post.type && this.props.pluginPostTypes.hasOwnProperty(post.ytype)) ||
+            (post.type && this.props.pluginPostTypes.hasOwnProperty(post.type)) ||
             (post.props &&
                 post.props.type &&
                 this.props.pluginPostTypes.hasOwnProperty(post.props.type));
@@ -231,12 +217,7 @@ export default class PostBody extends React.PureComponent {
                     id={`${post.id}_message`}
                     className={`post__body ${mentionHighlightClass} ${ephemeralPostClass} ${postClass}`}
                 >
-                    <AutoHeightSwitcher
-                        showSlot={isBeingEdited ? 2 : 1}
-                        shouldScrollIntoView={isBeingEdited}
-                        slot1={messageWithAdditionalContent}
-                        slot2={<EditPost/>}
-                    />
+                    {messageWithAdditionalContent}
                     {fileAttachmentHolder}
                     <ReactionList post={post}/>
                 </div>

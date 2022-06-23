@@ -16,7 +16,7 @@ import * as GlobalActions from 'actions/global_actions';
 
 import {ActionTypes, Constants, ModalIdentifiers} from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 import UserSettingsModal from 'components/user_settings/modal';
 
@@ -85,10 +85,10 @@ const initialState = {
                                         app_id: 'appid',
                                         label: 'custom',
                                         description: 'Run the command.',
-                                        call: {
-                                            path: 'https://someserver.com/command',
-                                        },
                                         form: {
+                                            submit: {
+                                                path: 'https://someserver.com/command',
+                                            },
                                             fields: [
                                                 {
                                                     name: 'key1',
@@ -117,6 +117,7 @@ const initialState = {
                 ],
                 forms: {},
             },
+            pluginEnabled: true,
         },
     },
     views: {
@@ -291,6 +292,7 @@ describe('executeCommand', () => {
                     location: '/command/appid/custom',
                     root_id: '',
                     team_id: '456',
+                    track_as_submit: true,
                 },
                 raw_command: '/appid custom value1 --key2 value2',
                 path: 'https://someserver.com/command',
@@ -301,7 +303,7 @@ describe('executeCommand', () => {
                 expand: {},
                 query: undefined,
                 selected_field: undefined,
-            }, 'submit');
+            }, true);
             expect(result).toEqual({data: true});
         });
     });

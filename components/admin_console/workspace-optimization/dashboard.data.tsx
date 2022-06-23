@@ -16,7 +16,7 @@ import {
 
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 
 import {CloudLinks, ConsolePages, DocLinks, LicenseLinks} from 'utils/constants';
 import {daysToLicenseExpire, isEnterpriseOrE20License, getIsStarterLicense} from '../../../utils/license_utils';
@@ -28,6 +28,7 @@ type DataModel = {
         descriptionOk: string;
         items: ItemModel[];
         icon: React.ReactNode;
+        hide?: boolean;
     };
 }
 
@@ -72,12 +73,14 @@ const impactModifiers: Record<ItemStatus, number> = {
 const useMetricsData = () => {
     const {formatMessage} = useIntl();
     const prevTrialLicense = useSelector((state: GlobalState) => state.entities.admin.prevTrialLicense);
-    const license = useSelector((state: GlobalState) => getLicense(state));
+    const license = useSelector(getLicense);
 
     const canStartTrial = license?.IsLicensed !== 'true' && prevTrialLicense?.IsLicensed !== 'true';
     const daysUntilExpiration = daysToLicenseExpire(license) || -1;
 
     const isLicensed = license?.IsLicensed === 'true' && daysUntilExpiration >= 0;
+
+    const isCloud = license?.Cloud === 'true';
     const isEnterpriseLicense = isEnterpriseOrE20License(license);
     const isStarterLicense = getIsStarterLicense(license);
 
@@ -145,6 +148,7 @@ const useMetricsData = () => {
             id: 'admin.reporting.workspace_optimization.configuration.description',
             defaultMessage: 'You have configuration issues to resolve',
         }),
+        hide: isCloud,
         descriptionOk: formatMessage({
             id: 'admin.reporting.workspace_optimization.configuration.descriptionOk',
             defaultMessage: 'You\'ve successfully configured SSL and Session Lengths!',
@@ -212,6 +216,7 @@ const useMetricsData = () => {
             id: 'admin.reporting.workspace_optimization.access.description',
             defaultMessage: 'Web server configuration may be affecting access to your Mattermost workspace.',
         }),
+        hide: isCloud,
         descriptionOk: formatMessage({
             id: 'admin.reporting.workspace_optimization.access.descriptionOk',
             defaultMessage: 'Your web server configuration is passing a live URL test!',
@@ -262,6 +267,7 @@ const useMetricsData = () => {
             id: 'admin.reporting.workspace_optimization.performance.description',
             defaultMessage: 'Your server would benefit from some performance tweaks.',
         }),
+        hide: isCloud,
         descriptionOk: formatMessage({
             id: 'admin.reporting.workspace_optimization.performance.descriptionOk',
             defaultMessage: 'Your search performance suits your workspace usage!',

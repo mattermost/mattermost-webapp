@@ -13,7 +13,7 @@ describe('Selectors.Rhs', () => {
                     selectedPostFocussedAt: expected,
                 }}};
 
-                assert.deepEqual(expected, Selectors.getSelectedPostFocussedAt(state));
+                assert.strictEqual(expected, Selectors.getSelectedPostFocussedAt(state));
             });
         });
     });
@@ -25,7 +25,7 @@ describe('Selectors.Rhs', () => {
                     isSidebarOpen: expected,
                 }}};
 
-                assert.deepEqual(expected, Selectors.getIsRhsOpen(state));
+                assert.strictEqual(expected, Selectors.getIsRhsOpen(state));
             });
         });
     });
@@ -37,7 +37,7 @@ describe('Selectors.Rhs', () => {
                     isMenuOpen: expected,
                 }}};
 
-                assert.deepEqual(expected, Selectors.getIsRhsMenuOpen(state));
+                assert.strictEqual(expected, Selectors.getIsRhsMenuOpen(state));
             });
         });
     });
@@ -48,7 +48,21 @@ describe('Selectors.Rhs', () => {
                 highlightedPostId: expected,
             }}};
 
-            assert.deepEqual(expected, Selectors.getHighlightedPostId(state));
+            assert.strictEqual(expected, Selectors.getHighlightedPostId(state));
+        });
+    });
+
+    describe('should return the previousRhsState', () => {
+        test.each([
+            [[], null],
+            [['channel-info'], 'channel-info'],
+            [['channel-info', 'pinned'], 'pinned'],
+        ])('%p gives %p', (previousArray, previous) => {
+            const state = {
+                views: {rhs: {
+                    previousRhsStates: previousArray,
+                }}};
+            assert.strictEqual(previous, Selectors.getPreviousRhsState(state));
         });
     });
 });

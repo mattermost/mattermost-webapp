@@ -10,15 +10,6 @@ exports[`components/threading/channel_threads/thread_footer should match snapsho
     <div
       className="indicator"
     />
-    <Memo(Avatars)
-      size="sm"
-      userIds={Array []}
-    >
-      <div
-        className="Avatars Avatars___sm"
-        onMouseLeave={[Function]}
-      />
-    </Memo(Avatars)>
     <Memo(FollowButton)
       className="separated"
       isFollowing={true}
@@ -74,6 +65,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
         onMouseLeave={[Function]}
       >
         <UserAvatar
+          disableProfileOverlay={false}
           key="5"
           overlayProps={
             Object {
@@ -93,6 +85,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
         >
           <OverlayTrigger
             defaultOverlayShown={false}
+            disabled={false}
             overlay={
               <Memo(Connect(injectIntl(ProfilePopover)))
                 className="user-profile-popover"
@@ -243,7 +236,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                     }
                   >
                     <button
-                      className="status-wrapper style--none"
+                      className="style--none"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onFocus={[Function]}
@@ -281,6 +274,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
           </OverlayTrigger>
         </UserAvatar>
         <UserAvatar
+          disableProfileOverlay={false}
           key="4"
           overlayProps={
             Object {
@@ -300,6 +294,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
         >
           <OverlayTrigger
             defaultOverlayShown={false}
+            disabled={false}
             overlay={
               <Memo(Connect(injectIntl(ProfilePopover)))
                 className="user-profile-popover"
@@ -450,7 +445,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                     }
                   >
                     <button
-                      className="status-wrapper style--none"
+                      className="style--none"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onFocus={[Function]}
@@ -488,6 +483,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
           </OverlayTrigger>
         </UserAvatar>
         <UserAvatar
+          disableProfileOverlay={false}
           key="3"
           overlayProps={
             Object {
@@ -507,6 +503,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
         >
           <OverlayTrigger
             defaultOverlayShown={false}
+            disabled={false}
             overlay={
               <Memo(Connect(injectIntl(ProfilePopover)))
                 className="user-profile-popover"
@@ -657,7 +654,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                     }
                   >
                     <button
-                      className="status-wrapper style--none"
+                      className="style--none"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onFocus={[Function]}
@@ -1166,6 +1163,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
         onMouseLeave={[Function]}
       >
         <UserAvatar
+          disableProfileOverlay={false}
           key="5"
           overlayProps={
             Object {
@@ -1185,6 +1183,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
         >
           <OverlayTrigger
             defaultOverlayShown={false}
+            disabled={false}
             overlay={
               <Memo(Connect(injectIntl(ProfilePopover)))
                 className="user-profile-popover"
@@ -1335,7 +1334,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                     }
                   >
                     <button
-                      className="status-wrapper style--none"
+                      className="style--none"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onFocus={[Function]}
@@ -1373,6 +1372,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
           </OverlayTrigger>
         </UserAvatar>
         <UserAvatar
+          disableProfileOverlay={false}
           key="4"
           overlayProps={
             Object {
@@ -1392,6 +1392,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
         >
           <OverlayTrigger
             defaultOverlayShown={false}
+            disabled={false}
             overlay={
               <Memo(Connect(injectIntl(ProfilePopover)))
                 className="user-profile-popover"
@@ -1542,7 +1543,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                     }
                   >
                     <button
-                      className="status-wrapper style--none"
+                      className="style--none"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onFocus={[Function]}
@@ -1580,6 +1581,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
           </OverlayTrigger>
         </UserAvatar>
         <UserAvatar
+          disableProfileOverlay={false}
           key="3"
           overlayProps={
             Object {
@@ -1599,6 +1601,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
         >
           <OverlayTrigger
             defaultOverlayShown={false}
+            disabled={false}
             overlay={
               <Memo(Connect(injectIntl(ProfilePopover)))
                 className="user-profile-popover"
@@ -1749,7 +1752,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                     }
                   >
                     <button
-                      className="status-wrapper style--none"
+                      className="style--none"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onFocus={[Function]}

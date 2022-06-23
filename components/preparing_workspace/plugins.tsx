@@ -33,7 +33,11 @@ const Plugins = (props: Props) => {
     const {formatMessage} = useIntl();
     let className = 'Plugins-body';
 
-    useEffect(props.onPageView, []);
+    useEffect(() => {
+        if (props.show) {
+            props.onPageView();
+        }
+    }, [props.show]);
 
     if (props.className) {
         className += ' ' + props.className;

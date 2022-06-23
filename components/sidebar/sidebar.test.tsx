@@ -18,12 +18,14 @@ describe('components/sidebar', () => {
         isCloud: false,
         unreadFilterEnabled: false,
         isMobileView: false,
+        isKeyBoardShortcutModalOpen: false,
         userGroupsEnabled: false,
         canCreateCustomGroups: true,
         actions: {
             createCategory: jest.fn(),
             fetchMyCategories: jest.fn(),
             openModal: jest.fn(),
+            closeModal: jest.fn(),
             clearChannelSelection: jest.fn(),
         },
     };
