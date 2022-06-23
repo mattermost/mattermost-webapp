@@ -124,6 +124,7 @@ function DowngradeTeamRemovalModal(props: Props) {
         <Modal
             className='DowngradeTeamRemovalModal'
             show={isCloudDowngradeChooseTeamModalOpen}
+            backdropClassName={'downgrade-modal-backdrop'}
             id='downgradeTeamRemovalModal'
             onExited={onHide}
             data-testid='downgradeTeamRemovalModal'
