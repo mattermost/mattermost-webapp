@@ -3217,7 +3217,7 @@
   "filtered_user_list.userStatus": "User Status:",
   "flag_post.flag": "Save",
   "flag_post.unflag": "Remove from Saved",
-  "forward_post_button.tooltip": "Forward Message",
+  "forward_post_button.label": "Forward Message",
   "forward_post_modal.button.cancel": "Cancel",
   "forward_post_modal.button.forward": "Forward",
   "forward_post_modal.comment.placeholder": "Add a comment (optional)",

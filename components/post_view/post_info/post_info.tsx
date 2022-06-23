@@ -26,7 +26,6 @@ import PostRecentReactions from 'components/post_view/post_recent_reactions';
 import PostTime from 'components/post_view/post_time';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 import {Emoji} from '@mattermost/types/emojis';
-import ForwardPost from '../forward_post';
 
 type Props = {
 
@@ -341,12 +340,6 @@ export default class PostInfo extends React.PureComponent<Props, State> {
             );
         }
 
-        const fromWebhook = post.props?.from_webhook === 'true';
-        const fromBot = post.props?.from_bot === 'true';
-        const canPostBeForwarded = !(fromAutoResponder || fromWebhook || fromBot || isSystemMessage);
-
-        const forwardPost = canPostBeForwarded ? <ForwardPost post={post}/> : null;
-
         return (
             <div
                 ref={this.dotMenuRef}
@@ -356,7 +349,6 @@ export default class PostInfo extends React.PureComponent<Props, State> {
                 {!collapsedThreadsEnabled && !showRecentlyUsedReactions && dotMenu}
                 {showRecentReacions}
                 {postReaction}
-                {forwardPost}
                 {postFlagIcon}
                 {actionsMenu}
                 {commentIcon}

@@ -22,6 +22,7 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
 import {ModalData} from 'types/actions';
 import {PluginComponent} from 'types/store/plugins';
+import ForwardPostModal from '../forward_post_modal';
 
 import {ChangeEvent, trackDotMenuEvent} from './utils';
 import './dot_menu.scss';
@@ -257,6 +258,21 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         this.props.actions.openModal(deletePostModalData);
     }
 
+    handleForwardMenuItemActivated = (e: ChangeEvent): void => {
+        e.preventDefault();
+
+        trackDotMenuEvent(e, TELEMETRY_LABELS.DELETE);
+        const forwardPostModalData = {
+            modalId: ModalIdentifiers.FORWARD_POST_MODAL,
+            dialogType: ForwardPostModal,
+            dialogProps: {
+                post: this.props.post,
+            },
+        };
+
+        this.props.actions.openModal(forwardPostModalData);
+    }
+
     handleEditMenuItemActivated = (e: ChangeEvent): void => {
         trackDotMenuEvent(e, TELEMETRY_LABELS.EDIT);
         this.props.handleDropdownOpened?.(false);
@@ -421,6 +437,10 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             </span>
         );
 
+        const fromWebhook = this.props.post.props?.from_webhook === 'true';
+        const fromBot = this.props.post.props?.from_bot === 'true';
+        const canPostBeForwarded = !(fromWebhook || fromBot || isSystemMessage);
+
         return (
             <MenuWrapper
                 open={this.props.isMenuOpen}
@@ -461,6 +481,13 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         icon={Utils.getMenuItemIcon('icon-reply-outline')}
                         rightDecorator={<ShortcutKey shortcutKey='R'/>}
                         onClick={this.handleCommentClick}
+                    />
+                    <Menu.ItemAction
+                        className={'MenuItem'}
+                        show={canPostBeForwarded}
+                        text={Utils.localizeMessage('forward_post_button.label', 'Forward Message')}
+                        icon={Utils.getMenuItemIcon('icon-arrow-right-bold-outline')}
+                        onClick={this.handleForwardMenuItemActivated}
                     />
                     <ChannelPermissionGate
                         channelId={this.props.post.channel_id}
