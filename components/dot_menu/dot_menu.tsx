@@ -11,6 +11,7 @@ import {UserThread} from '@mattermost/types/threads';
 
 import {Locations, ModalIdentifiers, Constants, TELEMETRY_LABELS} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
+import PostReminderCustomTimePicker from 'components/post_reminder_time_picker_modal';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import DelayedAction from 'utils/delayed_action';
@@ -298,6 +299,19 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         this.props.handleCommentClick(e);
     }
 
+    handleRemindPostActivated = (): void => {
+        const postReminderCustomTimePicker = {
+            modalId: ModalIdentifiers.POST_REMINDER_CUSTOM_TIME_PICKER,
+            dialogType: PostReminderCustomTimePicker,
+            dialogProps: {
+                postId: this.props.post.id,
+                currentDate: new Date(),
+            },
+        };
+
+        this.props.actions.openModal(postReminderCustomTimePicker);
+    }
+
     tooltip = (
         <Tooltip
             id='dotmenu-icon-tooltip'
@@ -516,6 +530,16 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         icon={Utils.getMenuItemIcon('icon-bookmark-outline')}
                         rightDecorator={<ShortcutKey shortcutKey='S'/>}
                         onClick={this.handleFlagMenuItemActivated}
+                    />
+                    <Menu.ItemAction
+                        id={`remind_post_${this.props.post.id}`}
+                        show={!isSystemMessage}
+
+                        // TODO translations
+                        text={Utils.localizeMessage('post_info.remind', 'Remind')}
+                        icon={Utils.getMenuItemIcon('icon-clock-outline')}
+                        rightDecorator={<ShortcutKey shortcutKey='A'/>}
+                        onClick={this.handleRemindPostActivated}
                     />
                     <Menu.ItemAction
                         id={`unpin_post_${this.props.post.id}`}
