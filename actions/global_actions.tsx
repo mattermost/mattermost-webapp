@@ -32,7 +32,6 @@ import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
 import {closeRightHandSide, closeMenu as closeRhsMenu, updateRhsState} from 'actions/views/rhs';
 import {clearUserCookie} from 'actions/views/cookie';
 import {close as closeLhs} from 'actions/views/lhs';
-import * as WebsocketActions from 'actions/websocket_actions.jsx';
 import {getCurrentLocale} from 'selectors/i18n';
 import {getIsRhsOpen, getPreviousRhsState, getRhsState} from 'selectors/rhs';
 import BrowserStore from 'stores/browser_store';
@@ -250,7 +249,6 @@ export function emitUserLoggedOutEvent(redirectTo = '/', shouldSignalLogout = tr
         }
 
         stopPeriodicStatusUpdates();
-        WebsocketActions.close();
 
         clearUserCookie();
 

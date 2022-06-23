@@ -9,7 +9,6 @@ import semver from 'semver';
 import {viewChannel} from 'mattermost-redux/actions/channels';
 
 import * as GlobalActions from 'actions/global_actions';
-import * as WebSocketActions from 'actions/websocket_actions.jsx';
 import * as UserAgent from 'utils/user_agent';
 import LoadingScreen from 'components/loading_screen';
 import {getBrowserTimezone} from 'utils/timezone.jsx';
@@ -79,14 +78,12 @@ export default class LoggedIn extends React.PureComponent<Props> {
     }
 
     public componentDidMount(): void {
-        // Initialize websocket
-        WebSocketActions.initialize();
-
         if (this.props.enableTimezone) {
             this.props.actions.autoUpdateTimezone(getBrowserTimezone());
         }
 
         // Make sure the websockets close and reset version
+        // TODO I'm almost certain this is leaking memory
         window.addEventListener('beforeunload', this.handleBeforeUnload);
 
         // Listen for focused tab/window state
@@ -131,8 +128,6 @@ export default class LoggedIn extends React.PureComponent<Props> {
     }
 
     public componentWillUnmount(): void {
-        WebSocketActions.close();
-
         window.removeEventListener('keydown', this.handleBackSpace);
 
         window.removeEventListener('focus', this.onFocusListener);
@@ -220,6 +215,5 @@ export default class LoggedIn extends React.PureComponent<Props> {
         if (document.cookie.indexOf('MMUSERID=') > -1) {
             viewChannel('', this.props.currentChannelId || '')(dispatch, getState);
         }
-        WebSocketActions.close();
     }
 }

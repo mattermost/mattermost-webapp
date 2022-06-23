@@ -9,10 +9,6 @@ import BrowserStore from 'stores/browser_store';
 import * as GlobalActions from 'actions/global_actions';
 import {UserProfile} from '@mattermost/types/users';
 
-jest.mock('actions/websocket_actions.jsx', () => ({
-    initialize: jest.fn(),
-}));
-
 BrowserStore.signalLogin = jest.fn();
 
 describe('components/logged_in/LoggedIn', () => {
