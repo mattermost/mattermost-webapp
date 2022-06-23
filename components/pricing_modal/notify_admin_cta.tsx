@@ -79,7 +79,10 @@ function NotifyAdminCTA() {
     return (
         <div>
             <Span>{formatMessage({id: 'pricing_modal.wantToUpgrade', defaultMessage: 'Want to upgrade?'})}
-                <StyledBtn onClick={notifyFunc}>
+                <StyledBtn
+                    id='notify_admin_cta'
+                    onClick={notifyFunc}
+                >
                     {btnText(notifyStatus)}
                 </StyledBtn>
             </Span>
