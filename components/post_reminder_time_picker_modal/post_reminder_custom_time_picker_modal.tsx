@@ -5,8 +5,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 
-import {ActionFunc} from 'mattermost-redux/types/actions';
-
 import GenericModal from 'components/generic_modal';
 
 import Menu from 'components/widgets/menu/menu';
@@ -83,7 +81,6 @@ export default class PostReminderCustomTimePicker extends React.PureComponent<Pr
         };
     }
 
-    // TODO: Change me to the post reminder
     handleConfirm = () => {
         const hours = parseInt(this.state.selectedTime.split(':')[0], 10);
         const minutes = parseInt(this.state.selectedTime.split(':')[1], 10);
