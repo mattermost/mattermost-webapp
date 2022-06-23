@@ -637,16 +637,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         rightDecorator={<ShortcutKey shortcutKey='S'/>}
                         onClick={this.handleFlagMenuItemActivated}
                     />
-                    {/* <Menu.ItemAction
-                        id={`remind_post_${this.props.post.id}`}
-                        show={!isSystemMessage}
-
-                        // TODO translations
-                        text={Utils.localizeMessage('post_info.remind', 'Remind')}
-                        icon={Utils.getMenuItemIcon('icon-clock-outline')}
-                        rightDecorator={<ShortcutKey shortcutKey='A'/>}
-                        onClick={this.handleRemindPostActivated}
-                    /> */}
                     <Menu.ItemSubMenu
                         subMenu={postReminderSubMenuItems}
                         showMenu={!isSystemMessage}
