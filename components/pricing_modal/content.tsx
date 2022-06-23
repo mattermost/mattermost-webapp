@@ -299,7 +299,7 @@ function Content(props: ContentProps) {
                                 }
                             },
                             text: formatMessage({id: 'pricing_modal.btn.downgrade', defaultMessage: 'Downgrade'}),
-                            disabled: false,
+                            disabled: !isStarter,
                             customClass: ButtonCustomiserClasses.secondary,
                         }}
                         planLabel={
