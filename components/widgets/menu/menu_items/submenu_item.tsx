@@ -47,6 +47,7 @@ export type Props = {
     ariaLabel?: string;
     root?: boolean;
     show?: boolean;
+    showMenu?: boolean;
     direction?: 'left' | 'right';
     openUp?: boolean;
     styleSelectableItem?: boolean;
@@ -67,6 +68,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
         direction: 'left',
         subMenuClass: 'pl-4',
         renderSelected: true,
+        showMenu: true,
     };
 
     public constructor(props: Props) {
@@ -135,8 +137,11 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
     }
 
     public render() {
-        const {id, postId, text, selectedValueText, subMenu, icon, filter, ariaLabel, direction, styleSelectableItem, extraText, renderSelected, rightDecorator} = this.props;
+        const {id, postId, text, selectedValueText, subMenu, icon, filter, ariaLabel, direction, styleSelectableItem, extraText, renderSelected, rightDecorator, showMenu} = this.props;
         const isMobile = Utils.isMobile();
+        if (!showMenu) {
+            return null;
+        }
 
         if (filter && !filter(id)) {
             return ('');
