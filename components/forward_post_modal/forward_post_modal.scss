@@ -118,10 +118,7 @@ $modal-max-height: 800px;
 
         &--override {
             padding: 2px 0;
-
-            &:not(.post--editing):not(.post--editing):hover {
-                background-color: transparent;
-            }
+            pointer-events: none;
         }
     }
 }
