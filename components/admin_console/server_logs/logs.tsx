@@ -13,7 +13,7 @@ import FormattedAdminHeader from 'components/widgets/admin_console/formatted_adm
 import LogList from './log_list';
 
 type Props = {
-    logs: string[];
+    logs: any[string],
     actions: {
         getLogs: (page?: number | undefined, perPage?: number | undefined) => ActionFunc;
     };
@@ -62,7 +62,7 @@ export default class Logs extends React.PureComponent<Props, State> {
     render() {
         let content = null;
 
-        if (this.state.loadingLogs || !this.props.logs || this.props.logs.length === 0) {
+        if (this.state.loadingLogs || !this.props.logs) {
             content = <LoadingScreen/>;
         } else {
             content = (
@@ -89,8 +89,8 @@ export default class Logs extends React.PureComponent<Props, State> {
                             <div className='banner__content'>
                                 <FormattedMessage
                                     id='admin.logs.bannerDesc'
-                                    defaultMessage='To look up users by User ID or Token ID, go to User Management > Users and paste the ID into the search filter.'
-                                />
+                                    defaultMessage='To look up users by User ID or Token ID, go to User Management > Users and paste the ID into the search filter - Test.'
+                                />whooo
                             </div>
                         </div>
                         <button

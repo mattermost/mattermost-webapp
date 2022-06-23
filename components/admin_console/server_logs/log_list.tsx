@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import { Grid } from 'gridjs-react';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
@@ -12,7 +13,7 @@ import {t} from 'utils/i18n';
 const NEXT_BUTTON_TIMEOUT = 500;
 
 type Props = {
-    logs: string[];
+    logs: any[string],
     page: number;
     perPage: number;
     nextPage: () => void;
@@ -72,7 +73,17 @@ export default class Logs extends React.PureComponent<Props, State> {
         let nextButton;
         let previousButton;
 
-        if (this.props.logs.length >= this.props.perPage) {
+        let logData = []
+        for (const serverName in this.props.logs) {
+            console.log(serverName);
+            for (let i = 0; i < this.props.logs[serverName].length; i++) {
+                let logEntry = {...this.props.logs[serverName][i]}
+                logEntry["node"] =serverName
+                logData.push(logEntry);
+            }
+        }
+
+        if (logData.length >= this.props.perPage) {
             nextButton = (
                 <button
                     type='button'
@@ -132,13 +143,54 @@ export default class Logs extends React.PureComponent<Props, State> {
             );
         }
 
+        console.log(logData);
+
         return (
             <div>
+
                 <div
                     tabIndex={-1}
                     ref={this.logPanel}
                     className='log__panel'
                 >
+                    <Grid
+                        data={logData}
+                        columns = {[
+                            {
+                                id: 'node',
+                                name: 'Node'
+                            },
+                            {
+                                id: 'timestamp',
+                                name: 'Timestamp'
+                            }, {
+                                id: 'level',
+                                name: 'Level'
+                            }, {
+                                id: 'msg',
+                                name: 'Message'
+                            }]}
+                        sort={true}
+                        search={true}
+                        pagination={{
+                            enabled: true,
+                            limit: 100,
+                        }}
+                        style={{
+                            table: {
+                            border: '3px solid #ccc'
+                        },
+                            th: {
+                            'background-color': 'rgba(0, 0, 0, 0.1)',
+                            color: '#000',
+                            'border-bottom': '3px solid #ccc',
+                            'text-align': 'center'
+                        },
+                            td: {
+                            'text-align': 'center'
+                        }}
+                        }
+                    />
                     {content}
                 </div>
                 <div className='pt-3 pb-3 filter-controls'>
