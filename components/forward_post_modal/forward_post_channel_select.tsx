@@ -171,7 +171,7 @@ const FormattedOption = (props: ChannelOption) => {
         >
             {icon}
             <span className='option__content'>
-                {name}
+                <span className='option__content--text'>{name}</span>
                 {(isPartOfOnlyOneTeam || details.type === Constants.DM_CHANNEL) && description && (
                     <span className='option__content--description'>{description}</span>
                 )}
@@ -277,6 +277,13 @@ function ForwardPostChannelSelect({onSelect, value}: Props<ChannelOption>) {
             margin: 0,
             color: 'var(--center-channel-color)',
         }),
+        placeholder: (provided: CSSProperties): CSSPropertiesWithPseudos => ({
+            ...provided,
+            margin: 0,
+            color: 'rgba(var(--center-channel-color-rgb), 0.64)',
+            fontSize: '14px',
+            lineHeight: '20px',
+        }),
 
         // disabling this rule here since otherwise tsc will complain about it in the props
         // eslint-disable-next-line @typescript-eslint/ban-types
@@ -288,10 +295,11 @@ function ForwardPostChannelSelect({onSelect, value}: Props<ChannelOption>) {
                 color: 'var(--center-channel-color)',
                 backgroundColor: 'var(--center-channel-bg)',
                 cursor: 'pointer',
-                border: 'none',
+                borderWidth: 0,
                 boxShadow: state.isFocused ? focusShadow : 'inset 0 0 0 1px rgba(var(--center-channel-color-rgb), 0.16)',
                 borderRadius: '4px',
-                padding: 0,
+                minHeight: '40px',
+                padding: '0 0 0 16px',
 
                 ':hover': {
                     color: state.isFocused ? focusShadow : 'inset 0 0 0 1px rgba(var(--center-channel-color-rgb), 0.24)',
@@ -313,6 +321,8 @@ function ForwardPostChannelSelect({onSelect, value}: Props<ChannelOption>) {
         valueContainer: (provided: CSSProperties): CSSPropertiesWithPseudos => ({
             ...provided,
             overflow: 'visible',
+            padding: '0 16px 0 0',
+            margin: 0,
         }),
         menu: (provided: CSSProperties): CSSPropertiesWithPseudos => ({
             ...provided,

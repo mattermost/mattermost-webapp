@@ -3,22 +3,18 @@
 
 import classNames from 'classnames';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {FormattedMessage, useIntl} from 'react-intl';
-import {Modal} from 'react-bootstrap';
+import {useIntl} from 'react-intl';
 import {useSelector} from 'react-redux';
 import {ValueType} from 'react-select';
 
 import {Group} from '@mattermost/types/groups';
-
 import {FileInfo} from '@mattermost/types/files';
-
-import {ActionResult} from 'mattermost-redux/types/actions';
-
 import {Team} from '@mattermost/types/teams';
 import {Channel} from '@mattermost/types/channels';
 import {ClientConfig} from '@mattermost/types/config';
 import {Post, PostMetadata, PostPreviewMetadata} from '@mattermost/types/posts';
 
+import {ActionResult} from 'mattermost-redux/types/actions';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {General, Permissions} from 'mattermost-redux/constants';
 
@@ -34,6 +30,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import Notification from 'components/notification/notification';
 import PostMessagePreview from 'components/post_view/post_message_preview';
 import Textbox, {TextboxClass, TextboxElement} from 'components/textbox';
+import GenericModal from 'components/generic_modal';
 
 import ForwardPostChannelSelect, {ChannelOption} from './forward_post_channel_select';
 
@@ -141,6 +138,7 @@ const ForwardPostModal = (props: Props) => {
             setSelectedChannel(channel[0]);
         }
         setSelectedChannel(channel as ChannelOption);
+        textboxRef.current?.getInputBox().focus();
     };
 
     const handleChange = (e: React.ChangeEvent<TextboxElement>) => {
@@ -365,32 +363,22 @@ const ForwardPostModal = (props: Props) => {
     }, [handleSubmit, canPostInSelectedChannel]);
 
     return (
-        <Modal
-            dialogClassName='a11y__modal forward-post'
+        <GenericModal
+            className='a11y__modal forward-post'
             show={true}
-            onHide={onHide}
             enforceFocus={false}
-            restoreFocus={false}
-            role='dialog'
-            aria-labelledby='forwardPostModalLabel'
-            aria-describedby='forwardPostModalHint'
-            animation={true}
+            autoCloseOnConfirmButton={false}
+            useCompassDesign={true}
+            modalHeaderText={formatMessage({id: 'forward_post_modal.title', defaultMessage: 'Forward Message'})}
+            confirmButtonText={formatMessage({id: 'forward_post_modal.button.forward', defaultMessage: 'Forward'})}
+            cancelButtonText={formatMessage({id: 'forward_post_modal.button.cancel', defaultMessage: 'Cancel'})}
+            isConfirmDisabled={!canForwardPost}
+            handleConfirm={handleSubmit}
+            handleEnterKeyPress={handleSubmit}
+            handleCancel={onHide}
+            onExited={onHide}
         >
-            <Modal.Header
-                id='forwardPostModalLabel'
-                closeButton={true}
-            >
-                <Modal.Title
-                    componentClass='h1'
-                    id='forwardPostModalTitle'
-                >
-                    <FormattedMessage
-                        id='forward_post_modal.title'
-                        defaultMessage='Forward Message'
-                    />
-                </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
+            <div className={'forward-post__body'}>
                 {isPrivateConversation ? notification : (
                     <ForwardPostChannelSelect
                         onSelect={handleChannelSelect}
@@ -438,31 +426,8 @@ const ForwardPostModal = (props: Props) => {
                     </div>
                     {postError && <label className={classNames('post-error', {'animation--highlight': postError})}>{postError}</label>}
                 </div>
-            </Modal.Body>
-            <Modal.Footer>
-                <button
-                    onClick={onHide}
-                    className={'btn btn-secondary'}
-                    id={'forward-post_cancel'}
-                >
-                    <FormattedMessage
-                        id='forward_post_modal.button.cancel'
-                        defaultMessage='Cancel'
-                    />
-                </button>
-                <button
-                    disabled={!canForwardPost}
-                    onClick={handleSubmit}
-                    className={'btn btn-primary'}
-                    id={'forward-post_forward'}
-                >
-                    <FormattedMessage
-                        id='forward_post_modal.button.forward'
-                        defaultMessage='Forward'
-                    />
-                </button>
-            </Modal.Footer>
-        </Modal>
+            </div>
+        </GenericModal>
     );
 };
 
