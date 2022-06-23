@@ -151,6 +151,13 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
           >
             <AdminSidebarSection
               definitionKey="user_management.groups_feature_discovery"
+              indicator={
+                <RestrictedIndicator
+                  blocked={true}
+                  modal={false}
+                  tooltipMessageBlocked="admin.sidebar.restricted_indicator.tooltip.message.blocked"
+                />
+              }
               key="user_management.groups_feature_discovery"
               name="user_management/groups"
               tag=""
@@ -163,6 +170,13 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
             />
             <AdminSidebarSection
               definitionKey="user_management.system_roles_feature_discovery"
+              indicator={
+                <RestrictedIndicator
+                  blocked={true}
+                  modal={false}
+                  tooltipMessageBlocked="admin.sidebar.restricted_indicator.tooltip.message.blocked"
+                />
+              }
               key="user_management.system_roles_feature_discovery"
               name="user_management/system_roles"
               tag=""
@@ -195,6 +209,13 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
           >
             <AdminSidebarSection
               definitionKey="site.announcement_banner_feature_discovery"
+              indicator={
+                <RestrictedIndicator
+                  blocked={true}
+                  modal={false}
+                  tooltipMessageBlocked="admin.sidebar.restricted_indicator.tooltip.message.blocked"
+                />
+              }
               key="site.announcement_banner_feature_discovery"
               name="site_config/announcement_banner"
               tag=""
@@ -227,6 +248,13 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
           >
             <AdminSidebarSection
               definitionKey="authentication.ldap_feature_discovery"
+              indicator={
+                <RestrictedIndicator
+                  blocked={true}
+                  modal={false}
+                  tooltipMessageBlocked="admin.sidebar.restricted_indicator.tooltip.message.blocked"
+                />
+              }
               key="authentication.ldap_feature_discovery"
               name="authentication/ldap"
               tag=""
@@ -239,6 +267,13 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
             />
             <AdminSidebarSection
               definitionKey="authentication.saml_feature_discovery"
+              indicator={
+                <RestrictedIndicator
+                  blocked={true}
+                  modal={false}
+                  tooltipMessageBlocked="admin.sidebar.restricted_indicator.tooltip.message.blocked"
+                />
+              }
               key="authentication.saml_feature_discovery"
               name="authentication/saml"
               tag=""
@@ -251,6 +286,13 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
             />
             <AdminSidebarSection
               definitionKey="authentication.openid_feature_discovery"
+              indicator={
+                <RestrictedIndicator
+                  blocked={true}
+                  modal={false}
+                  tooltipMessageBlocked="admin.sidebar.restricted_indicator.tooltip.message.blocked"
+                />
+              }
               key="authentication.openid_feature_discovery"
               name="authentication/openid"
               tag=""
@@ -263,6 +305,13 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
             />
             <AdminSidebarSection
               definitionKey="authentication.guest_access_feature_discovery"
+              indicator={
+                <RestrictedIndicator
+                  blocked={true}
+                  modal={false}
+                  tooltipMessageBlocked="admin.sidebar.restricted_indicator.tooltip.message.blocked"
+                />
+              }
               key="authentication.guest_access_feature_discovery"
               name="authentication/guest_access"
               tag=""
@@ -332,6 +381,13 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
           >
             <AdminSidebarSection
               definitionKey="compliance.data_retention_feature_discovery"
+              indicator={
+                <RestrictedIndicator
+                  blocked={true}
+                  modal={false}
+                  tooltipMessageBlocked="admin.sidebar.restricted_indicator.tooltip.message.blocked"
+                />
+              }
               key="compliance.data_retention_feature_discovery"
               name="compliance/data_retention"
               tag=""
@@ -344,6 +400,13 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
             />
             <AdminSidebarSection
               definitionKey="compliance.compliance_export_feature_discovery"
+              indicator={
+                <RestrictedIndicator
+                  blocked={true}
+                  modal={false}
+                  tooltipMessageBlocked="admin.sidebar.restricted_indicator.tooltip.message.blocked"
+                />
+              }
               key="compliance.compliance_export_feature_discovery"
               name="compliance/export"
               tag=""
@@ -356,6 +419,13 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
             />
             <AdminSidebarSection
               definitionKey="compliance.custom_terms_of_service_feature_discovery"
+              indicator={
+                <RestrictedIndicator
+                  blocked={true}
+                  modal={false}
+                  tooltipMessageBlocked="admin.sidebar.restricted_indicator.tooltip.message.blocked"
+                />
+              }
               key="compliance.custom_terms_of_service_feature_discovery"
               name="compliance/custom_terms_of_service"
               tag=""
@@ -4517,6 +4587,13 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             />
             <AdminSidebarSection
               definitionKey="user_management.groups_feature_discovery"
+              indicator={
+                <RestrictedIndicator
+                  blocked={true}
+                  modal={false}
+                  tooltipMessageBlocked="admin.sidebar.restricted_indicator.tooltip.message.blocked"
+                />
+              }
               key="user_management.groups_feature_discovery"
               name="user_management/groups"
               tag=""
@@ -4565,6 +4642,13 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             />
             <AdminSidebarSection
               definitionKey="user_management.system_roles_feature_discovery"
+              indicator={
+                <RestrictedIndicator
+                  blocked={true}
+                  modal={false}
+                  tooltipMessageBlocked="admin.sidebar.restricted_indicator.tooltip.message.blocked"
+                />
+              }
               key="user_management.system_roles_feature_discovery"
               name="user_management/system_roles"
               tag=""
@@ -4797,6 +4881,13 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             />
             <AdminSidebarSection
               definitionKey="site.announcement_banner_feature_discovery"
+              indicator={
+                <RestrictedIndicator
+                  blocked={true}
+                  modal={false}
+                  tooltipMessageBlocked="admin.sidebar.restricted_indicator.tooltip.message.blocked"
+                />
+              }
               key="site.announcement_banner_feature_discovery"
               name="site_config/announcement_banner"
               tag=""
@@ -4937,6 +5028,13 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             />
             <AdminSidebarSection
               definitionKey="authentication.ldap_feature_discovery"
+              indicator={
+                <RestrictedIndicator
+                  blocked={true}
+                  modal={false}
+                  tooltipMessageBlocked="admin.sidebar.restricted_indicator.tooltip.message.blocked"
+                />
+              }
               key="authentication.ldap_feature_discovery"
               name="authentication/ldap"
               tag=""
@@ -4949,6 +5047,13 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             />
             <AdminSidebarSection
               definitionKey="authentication.saml_feature_discovery"
+              indicator={
+                <RestrictedIndicator
+                  blocked={true}
+                  modal={false}
+                  tooltipMessageBlocked="admin.sidebar.restricted_indicator.tooltip.message.blocked"
+                />
+              }
               key="authentication.saml_feature_discovery"
               name="authentication/saml"
               tag=""
@@ -4973,6 +5078,13 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             />
             <AdminSidebarSection
               definitionKey="authentication.openid_feature_discovery"
+              indicator={
+                <RestrictedIndicator
+                  blocked={true}
+                  modal={false}
+                  tooltipMessageBlocked="admin.sidebar.restricted_indicator.tooltip.message.blocked"
+                />
+              }
               key="authentication.openid_feature_discovery"
               name="authentication/openid"
               tag=""
@@ -4985,6 +5097,13 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             />
             <AdminSidebarSection
               definitionKey="authentication.guest_access_feature_discovery"
+              indicator={
+                <RestrictedIndicator
+                  blocked={true}
+                  modal={false}
+                  tooltipMessageBlocked="admin.sidebar.restricted_indicator.tooltip.message.blocked"
+                />
+              }
               key="authentication.guest_access_feature_discovery"
               name="authentication/guest_access"
               tag=""
@@ -5122,6 +5241,13 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
           >
             <AdminSidebarSection
               definitionKey="compliance.data_retention_feature_discovery"
+              indicator={
+                <RestrictedIndicator
+                  blocked={true}
+                  modal={false}
+                  tooltipMessageBlocked="admin.sidebar.restricted_indicator.tooltip.message.blocked"
+                />
+              }
               key="compliance.data_retention_feature_discovery"
               name="compliance/data_retention"
               tag=""
@@ -5134,6 +5260,13 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             />
             <AdminSidebarSection
               definitionKey="compliance.compliance_export_feature_discovery"
+              indicator={
+                <RestrictedIndicator
+                  blocked={true}
+                  modal={false}
+                  tooltipMessageBlocked="admin.sidebar.restricted_indicator.tooltip.message.blocked"
+                />
+              }
               key="compliance.compliance_export_feature_discovery"
               name="compliance/export"
               tag=""
@@ -5146,6 +5279,13 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             />
             <AdminSidebarSection
               definitionKey="compliance.custom_terms_of_service_feature_discovery"
+              indicator={
+                <RestrictedIndicator
+                  blocked={true}
+                  modal={false}
+                  tooltipMessageBlocked="admin.sidebar.restricted_indicator.tooltip.message.blocked"
+                />
+              }
               key="compliance.custom_terms_of_service_feature_discovery"
               name="compliance/custom_terms_of_service"
               tag=""

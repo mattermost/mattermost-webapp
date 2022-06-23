@@ -12,6 +12,7 @@ import {LicenseSkus} from 'mattermost-redux/types/general';
 
 import {Constants, LegacyFreeProductIds} from 'utils/constants';
 import {isCloudFreePlan} from 'utils/cloud_utils';
+import {isCloudLicense} from 'utils/license_utils';
 import {getSiteURL} from 'utils/url';
 import {t} from 'utils/i18n';
 import {
@@ -27,6 +28,7 @@ import SystemAnalytics from 'components/analytics/system_analytics';
 import TeamAnalytics from 'components/analytics/team_analytics';
 import PluginManagement from 'components/admin_console/plugin_management';
 import CustomPluginSettings from 'components/admin_console/custom_plugin_settings';
+import RestrictedIndicator from 'components/widgets/menu/menu_items/restricted_indicator';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
@@ -249,6 +251,17 @@ const usesLegacyOauth = (config, state, license, enterpriseReady, consoleAccess,
         ),
     )(config, state, license, enterpriseReady, consoleAccess, cloud);
 };
+
+const getRestrictedIndicator = (displayBlocked = false) => ({
+    value: (cloud) => (
+        <RestrictedIndicator
+            modal={false}
+            blocked={displayBlocked || cloud?.subscription?.is_free_trial !== 'true'}
+            tooltipMessageBlocked={t('admin.sidebar.restricted_indicator.tooltip.message.blocked')}
+        />
+    ),
+    shouldDisplay: (license) => displayBlocked || isCloudLicense(license),
+});
 
 const AdminDefinition = {
     about: {
@@ -521,6 +534,7 @@ const AdminDefinition = {
                 id: 'Groups',
                 component: GroupSettings,
             },
+            indicator: getRestrictedIndicator(),
         },
         groups_feature_discovery: {
             url: 'user_management/groups',
@@ -544,6 +558,7 @@ const AdminDefinition = {
                     },
                 ],
             },
+            indicator: getRestrictedIndicator(true),
         },
         team_detail: {
             url: 'user_management/teams/:team_id',
@@ -657,6 +672,7 @@ const AdminDefinition = {
                 id: 'SystemRoles',
                 component: SystemRoles,
             },
+            indicator: getRestrictedIndicator(),
         },
         system_roles_feature_discovery: {
             url: 'user_management/system_roles',
@@ -680,6 +696,7 @@ const AdminDefinition = {
                     },
                 ],
             },
+            indicator: getRestrictedIndicator(true),
         },
     },
     environment: {
@@ -2557,6 +2574,7 @@ const AdminDefinition = {
                     },
                 ],
             },
+            indicator: getRestrictedIndicator(),
         },
         announcement_banner_feature_discovery: {
             url: 'site_config/announcement_banner',
@@ -2580,6 +2598,7 @@ const AdminDefinition = {
                     },
                 ],
             },
+            indicator: getRestrictedIndicator(true),
         },
         emoji: {
             url: 'site_config/emoji',
@@ -3885,6 +3904,7 @@ const AdminDefinition = {
                     },
                 ],
             },
+            indicator: getRestrictedIndicator(),
         },
         ldap_feature_discovery: {
             url: 'authentication/ldap',
@@ -3908,6 +3928,7 @@ const AdminDefinition = {
                     },
                 ],
             },
+            indicator: getRestrictedIndicator(true),
         },
         saml: {
             url: 'authentication/saml',
@@ -4427,6 +4448,7 @@ const AdminDefinition = {
                     },
                 ],
             },
+            indicator: getRestrictedIndicator(),
         },
         saml_feature_discovery: {
             url: 'authentication/saml',
@@ -4450,6 +4472,7 @@ const AdminDefinition = {
                     },
                 ],
             },
+            indicator: getRestrictedIndicator(true),
         },
         gitlab: {
             url: 'authentication/gitlab',
@@ -5222,6 +5245,7 @@ const AdminDefinition = {
                     },
                 ],
             },
+            indicator: getRestrictedIndicator(),
         },
         openid_feature_discovery: {
             url: 'authentication/openid',
@@ -5245,6 +5269,7 @@ const AdminDefinition = {
                     },
                 ],
             },
+            indicator: getRestrictedIndicator(true),
         },
         guest_access: {
             url: 'authentication/guest_access',
@@ -5330,6 +5355,7 @@ const AdminDefinition = {
                     },
                 ],
             },
+            indicator: getRestrictedIndicator(),
         },
         guest_access_feature_discovery: {
             isDiscovery: true,
@@ -5353,6 +5379,7 @@ const AdminDefinition = {
                     },
                 ],
             },
+            indicator: getRestrictedIndicator(true),
         },
     },
     plugins: {
@@ -5771,6 +5798,7 @@ const AdminDefinition = {
                 id: 'DataRetentionSettings',
                 component: DataRetentionSettings,
             },
+            indicator: getRestrictedIndicator(),
         },
         data_retention_feature_discovery: {
             url: 'compliance/data_retention',
@@ -5794,6 +5822,7 @@ const AdminDefinition = {
                     },
                 ],
             },
+            indicator: getRestrictedIndicator(true),
         },
         message_export: {
             url: 'compliance/export',
@@ -5826,6 +5855,7 @@ const AdminDefinition = {
                 id: 'MessageExportSettings',
                 component: MessageExportSettings,
             },
+            indicator: getRestrictedIndicator(),
         },
         compliance_export_feature_discovery: {
             isDiscovery: true,
@@ -5849,6 +5879,7 @@ const AdminDefinition = {
                     },
                 ],
             },
+            indicator: getRestrictedIndicator(true),
         },
         audits: {
             url: 'compliance/monitoring',
@@ -5956,6 +5987,7 @@ const AdminDefinition = {
                 id: 'TermsOfServiceSettings',
                 component: CustomTermsOfServiceSettings,
             },
+            indicator: getRestrictedIndicator(),
         },
         custom_terms_of_service_feature_discovery: {
             url: 'compliance/custom_terms_of_service',
@@ -5979,6 +6011,7 @@ const AdminDefinition = {
                     },
                 ],
             },
+            indicator: getRestrictedIndicator(true),
         },
     },
     experimental: {

@@ -77,6 +77,10 @@ type Item = {
     isDisabled?: (config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, buildEnterpriseReady?: boolean, consoleAccess?: ConsoleAccess, cloud?: CloudState, isCurrentUserSystemAdmin?: boolean) => boolean;
     schema: Record<string, any>;
     url: string;
+    indicator?: {
+        value: () => React.ReactNode;
+        shouldDisplay: () => boolean;
+    };
 }
 
 export default class AdminConsole extends React.PureComponent<Props, State> {

@@ -1,8 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
-import {useIntl} from 'react-intl';
+import React, {useCallback} from 'react';
+import {useIntl, MessageDescriptor} from 'react-intl';
+import classNames from 'classnames';
 
 import FeatureRestrictedModal from 'components/feature_restricted_modal/feature_restricted_modal';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -14,19 +15,21 @@ import {Constants, ModalIdentifiers} from 'utils/constants';
 import './restricted_indicator.scss';
 
 type RestrictedIndicatorProps = {
+    useModal?: boolean;
     blocked?: boolean;
     tooltipTitle?: string;
     tooltipMessage?: string;
-    tooltipMessageBlocked?: string;
-    titleAdminPreTrial: string;
-    messageAdminPreTrial: string;
-    titleAdminPostTrial: string;
-    messageAdminPostTrial: string;
-    titleEndUser: string;
-    messageEndUser: string;
+    tooltipMessageBlocked?: string | MessageDescriptor;
+    titleAdminPreTrial?: string;
+    messageAdminPreTrial?: string;
+    titleAdminPostTrial?: string;
+    messageAdminPostTrial?: string;
+    titleEndUser?: string;
+    messageEndUser?: string;
 }
 
 const RestrictedIndicator = ({
+    useModal = true,
     blocked,
     tooltipTitle,
     tooltipMessage,
@@ -40,6 +43,19 @@ const RestrictedIndicator = ({
 }: RestrictedIndicatorProps) => {
     const {formatMessage} = useIntl();
 
+    const getTooltipMessageBlocked = useCallback(() => {
+        if (!tooltipMessageBlocked) {
+            return formatMessage({
+                id: 'restricted_indicator.tooltip.message.blocked',
+                defaultMessage: 'This is a paid feature, available with a free 30-day trial',
+            });
+        }
+
+        return typeof tooltipMessageBlocked === 'string' ? tooltipMessageBlocked : formatMessage(tooltipMessageBlocked);
+    }, [tooltipMessageBlocked]);
+
+    const icon = <i className={classNames('RestrictedIndicator__icon-tooltip', 'icon', blocked ? 'icon-key-variant' : 'trial')}/>;
+
     return (
         <span className='RestrictedIndicator__icon-tooltip-container'>
             <OverlayTrigger
@@ -52,7 +68,7 @@ const RestrictedIndicator = ({
                         </span>
                         <span className='message'>
                             {blocked ? (
-                                tooltipMessageBlocked || formatMessage({id: 'restricted_indicator.tooltip.message.blocked', defaultMessage: 'This is a paid feature, available with a free 30-day trial'})
+                                getTooltipMessageBlocked()
                             ) : (
                                 tooltipMessage || formatMessage({id: 'restricted_indicator.tooltip.mesage', defaultMessage: 'During your trial you are able to use this feature.'})
                             )}
@@ -60,7 +76,7 @@ const RestrictedIndicator = ({
                     </Tooltip>
                 )}
             >
-                {blocked ? (
+                {useModal && blocked ? (
                     <ToggleModalButton
                         className='RestrictedIndicator__button'
                         modalId={ModalIdentifiers.FEATURE_RESTRICTED_MODAL}
@@ -74,10 +90,10 @@ const RestrictedIndicator = ({
                             messageEndUser,
                         }}
                     >
-                        <i className='RestrictedIndicator__icon-tooltip icon icon-key-variant'/>
+                        {icon}
                     </ToggleModalButton>
                 ) : (
-                    <i className='RestrictedIndicator__icon-tooltip icon trial'/>
+                    icon
                 )}
             </OverlayTrigger>
         </span>

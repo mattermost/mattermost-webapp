@@ -229,6 +229,7 @@ class AdminSidebar extends React.PureComponent<Props, State> {
                             definitionKey={subDefinitionKey}
                             name={item.url}
                             tag={tag}
+                            indicator={item.indicator?.shouldDisplay(license) ? item.indicator.value(cloud) : undefined}
                             title={
                                 <FormattedMessage
                                     id={item.title}
