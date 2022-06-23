@@ -179,6 +179,7 @@ describe('Mark post with mentions as unread', () => {
 
         // # Navigate to channel A
         switchToChannel(channelA);
+        switchToChannel(channelB);
 
         // * Verify that ChannelB no longer has unread mention in LHS
         cy.get(`#sidebarItem_${channelB.name}`).children('#unreadMentions').should('not.exist');

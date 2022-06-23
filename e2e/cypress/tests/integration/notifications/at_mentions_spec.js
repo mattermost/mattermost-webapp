@@ -216,7 +216,7 @@ describe('Notifications', () => {
             scrollIntoView().
             find('#unreadMentions').
             should('be.visible').
-            and('have.text', '1');
+            and('have.text', '2');
 
         // * Go to that channel
         cy.get(`#sidebarItem_${testChannel.name}`).click({force: true});

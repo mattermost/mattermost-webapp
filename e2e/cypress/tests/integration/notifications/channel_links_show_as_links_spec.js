@@ -115,8 +115,7 @@ describe('Notifications', () => {
                     testChannel.display_name,
                 );
                 verifyEmailBody(expectedEmailBody, body);
-
-                const permalink = body[3].split(' ')[3];
+                const permalink = body[3].split(' ')[4];
                 const permalinkPostId = permalink.split('/')[6];
 
                 // # Visit permalink (e.g. click on email link) then view in browser to proceed

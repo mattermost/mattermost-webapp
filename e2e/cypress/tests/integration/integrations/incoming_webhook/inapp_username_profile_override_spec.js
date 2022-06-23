@@ -154,7 +154,7 @@ function verifyLastPost(owner, username, iconUrl) {
     cy.get('body').click();
 
     // # Click on profile icon and verify profile popover
-    cy.get('@profileIconForPopover').click();
+    cy.get('@profileIconForPopover').click({force: true});
     verifyProfilePopover(owner, username, iconUrl);
 }
 
