@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {getAdminAccount} from './env';
+import {getAdminAccount, User} from './env';
 
 // *****************************************************************************
 // Read more:
@@ -14,12 +14,9 @@ import {getAdminAccount} from './env';
 // https://api.mattermost.com/#tag/commands
 // *****************************************************************************
 
-/**
- * Creates a command directly via API
- * This API assume that the user is logged in and has required permission to create a command
- * @param {Object} command - command to be created
- */
-Cypress.Commands.add('apiCreateCommand', (command = {}) => {
+type AnyResponse = Cypress.Chainable<Cypress.Response<any>>;
+type CypressResponseAny = Cypress.Response<any>
+function apiCreateCommand(command: Record<string, any> = {}): Cypress.Chainable<{data: CypressResponseAny['body'], status: CypressResponseAny['status']}> {
     const options = {
         url: '/api/v4/commands',
         headers: {'X-Requested-With': 'XMLHttpRequest'},
@@ -31,16 +28,14 @@ Cypress.Commands.add('apiCreateCommand', (command = {}) => {
         expect(response.status).to.equal(201);
         return cy.wrap({data: response.body, status: response.status});
     });
-});
+};
+
+Cypress.Commands.add('apiCreateCommand', apiCreateCommand);
 
 // *****************************************************************************
 // Email
 // *****************************************************************************
-
-/**
- * Test SMTP setup
- */
-Cypress.Commands.add('apiEmailTest', () => {
+function apiEmailTest(): AnyResponse {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/email/test',
@@ -49,28 +44,20 @@ Cypress.Commands.add('apiEmailTest', () => {
         expect(response.status, 'SMTP not setup at sysadmin config').to.equal(200);
         return cy.wrap(response);
     });
-});
+}
+Cypress.Commands.add('apiEmailTest', apiEmailTest);
 
 // *****************************************************************************
 // Posts
 // https://api.mattermost.com/#tag/posts
 // *****************************************************************************
 
-/**
- * Creates a post directly via API
- * This API assume that the user is logged in and has cookie to access
- * @param {String} channelId - Where to post
- * @param {String} message - What to post
- * @param {String} rootId - Parent post ID. Set to "" to avoid nesting
- * @param {Object} props - Post props
- * @param {String} token - Optional token to use for auth. If not provided - posts as current user
- */
-Cypress.Commands.add('apiCreatePost', (channelId, message, rootId, props, token = '', failOnStatusCode = true) => {
+function apiCreatePost(channelId: string, message: string, rootId: string, props: Record<string, any>, token = '', failOnStatusCode = true): AnyResponse {
     const headers: Record<string, string> = {'X-Requested-With': 'XMLHttpRequest'};
     if (token !== '') {
         headers.Authorization = `Bearer ${token}`;
     }
-    return cy.request({
+    return cy.request<any>({
         headers,
         failOnStatusCode,
         url: '/api/v4/posts',
@@ -82,14 +69,11 @@ Cypress.Commands.add('apiCreatePost', (channelId, message, rootId, props, token 
             props,
         },
     });
-});
+}
 
-/**
- * Deletes a post directly via API
- * @param {String} postId - Post ID
- * @param {Object} [user] - the user trying to invoke the API
- */
-Cypress.Commands.add('apiDeletePost', (postId, user = getAdminAccount()) => {
+Cypress.Commands.add('apiCreatePost', apiCreatePost);
+
+function apiDeletePost(postId: string, user: User = getAdminAccount()): Cypress.Chainable<{status: number}> {
     return cy.externalRequest({
         user,
         method: 'delete',
@@ -99,14 +83,10 @@ Cypress.Commands.add('apiDeletePost', (postId, user = getAdminAccount()) => {
         expect(response.status).to.equal(200);
         return cy.wrap({status: response.status});
     });
-});
+}
+Cypress.Commands.add('apiDeletePost', apiDeletePost);
 
-/**
- * Creates a post directly via API
- * This API assume that the user is logged in as admin
- * @param {String} userDd - user for whom to create the token
- */
-Cypress.Commands.add('apiCreateToken', (userId) => {
+function apiCreateToken(userId: string): Cypress.Chainable<{token: string}> {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `/api/v4/users/${userId}/tokens`,
@@ -115,31 +95,32 @@ Cypress.Commands.add('apiCreateToken', (userId) => {
             description: 'some text',
         },
     }).then((response) => {
-        // * Validate that request was denied
+        // * Validate that request was successful
         expect(response.status).to.equal(200);
         return cy.wrap({token: response.body.token});
     });
-});
+}
+Cypress.Commands.add('apiCreateToken', apiCreateToken);
 
 /**
  * Unpins pinned posts of given postID directly via API
  * This API assume that the user is logged in and has cookie to access
- * @param {Post} postId - Post ID of the pinned post to unpin
  */
-Cypress.Commands.add('apiUnpinPosts', (postId) => {
+function apiUnpinPosts(postId: string): AnyResponse {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/posts/' + postId + '/unpin',
         method: 'POST',
     });
-});
+}
+Cypress.Commands.add('apiUnpinPosts', apiUnpinPosts);
 
 // *****************************************************************************
 // Webhooks
 // https://api.mattermost.com/#tag/webhooks
 // *****************************************************************************
 
-Cypress.Commands.add('apiCreateWebhook', (hook = {}, isIncoming = true) => {
+function apiCreateWebhook(hook: Record<string, any> = {}, isIncoming = true): Cypress.Chainable<{data: CypressResponseAny['body'], url: string}> {
     const hookUrl = isIncoming ? '/api/v4/hooks/incoming' : '/api/v4/hooks/outgoing';
     const options = {
         url: hookUrl,
@@ -148,19 +129,17 @@ Cypress.Commands.add('apiCreateWebhook', (hook = {}, isIncoming = true) => {
         body: hook,
     };
 
+    // @ts-ignore
+    // compiler things it is Chainable<JQuery>
     return cy.request(options).then((response) => {
         const data = response.body;
         return cy.wrap({...data, url: isIncoming ? `${Cypress.config().baseUrl}/hooks/${data.id}` : ''});
     });
-});
+}
 
-/**
- * Gets a team on the system
- * * @param {String} teamId - The team ID to get
- * All parameter required
- */
+Cypress.Commands.add('apiCreateWebhook', apiCreateWebhook);
 
-Cypress.Commands.add('apiGetTeam', (teamId) => {
+function apiGetTeam(teamId: string): Cypress.Chainable<Cypress.Response<any>> {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `api/v4/teams/${teamId}`,
@@ -169,41 +148,32 @@ Cypress.Commands.add('apiGetTeam', (teamId) => {
         expect(response.status).to.equal(200);
         return cy.wrap(response);
     });
-});
+};
+Cypress.Commands.add('apiGetTeam', apiGetTeam);
 
-/**
- * Remove a User from a Channel directly via API
- * @param {String} channelId - The channel ID
- * @param {String} userId - The user ID
- * All parameter required
- */
-Cypress.Commands.add('removeUserFromChannel', (channelId, userId) => {
-    //Remove a User from a Channel
+function removeUserFromChannel(channelId: string, userId: string): AnyResponse {
     const baseUrl = Cypress.config('baseUrl');
     const admin = getAdminAccount();
 
-    cy.externalRequest({user: admin, method: 'delete', baseUrl, path: `channels/${channelId}/members/${userId}`});
-});
+    return cy.externalRequest({user: admin, method: 'delete', baseUrl, path: `channels/${channelId}/members/${userId}`});
+}
+Cypress.Commands.add('removeUserFromChannel', removeUserFromChannel);
 
-/**
- * Remove a User from a Team directly via API
- * @param {String} teamID - The team ID
- * @param {String} userId - The user ID
- * All parameter required
- */
-Cypress.Commands.add('removeUserFromTeam', (teamId, userId) => {
-    //Remove a User from a Channel
+function removeUserFromTeam(teamId: string, userId: string): AnyResponse {
     const baseUrl = Cypress.config('baseUrl');
     const admin = getAdminAccount();
 
-    cy.externalRequest({user: admin, method: 'delete', baseUrl, path: `teams/${teamId}/members/${userId}`});
-});
+    return cy.externalRequest({user: admin, method: 'delete', baseUrl, path: `teams/${teamId}/members/${userId}`});
+}
+Cypress.Commands.add('removeUserFromTeam', removeUserFromTeam);
 
-/**
- * Get LDAP Group Sync Job Status
- *
- */
-Cypress.Commands.add('apiGetLDAPSync', () => {
+
+interface LDAPSyncResponse {
+    status: number;
+    body: {status: string, last_activity_at: number}[]
+}
+
+function apiGetLDAPSync(): Cypress.Chainable<LDAPSyncResponse > {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/jobs/type/ldap_sync?page=0&per_page=50',
@@ -213,21 +183,14 @@ Cypress.Commands.add('apiGetLDAPSync', () => {
         expect(response.status).to.equal(200);
         return cy.wrap(response);
     });
-});
+}
+Cypress.Commands.add('apiGetLDAPSync', apiGetLDAPSync);
 
 // *****************************************************************************
 // Groups
 // https://api.mattermost.com/#tag/groups
 // *****************************************************************************
-
-/**
- * Get all groups via the API
- *
- * @param {Integer} page - The desired page of the paginated list
- * @param {Integer} perPage - The number of groups per page
- *
- */
-Cypress.Commands.add('apiGetGroups', (page = 0, perPage = 100) => {
+function apiGetGroups(page = 0, perPage = 100): AnyResponse {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `/api/v4/groups?page=${page}&per_page=${perPage}`,
@@ -237,20 +200,10 @@ Cypress.Commands.add('apiGetGroups', (page = 0, perPage = 100) => {
         expect(response.status).to.equal(200);
         return cy.wrap(response);
     });
-});
+}
+Cypress.Commands.add('apiGetGroups', apiGetGroups);
 
-/**
- * Patch a group directly via API
- *
- * @param {String} name - The new name for the group
- * @param {Object} patch
- *   {Boolean} allow_reference - Whether to allow reference (group mention) or not  - true/false
- *   {String} name - Name for the group, used for group mentions
- *   {String} display_name - Display name for the group
- *   {String} description - Description for the group
- *
- */
-Cypress.Commands.add('apiPatchGroup', (groupID, patch) => {
+function apiPatchGroup(groupID: string, patch: Record<string, any>): AnyResponse {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `/api/v4/groups/${groupID}/patch`,
@@ -261,14 +214,10 @@ Cypress.Commands.add('apiPatchGroup', (groupID, patch) => {
         expect(response.status).to.equal(200);
         return cy.wrap(response);
     });
-});
+}
+Cypress.Commands.add('apiPatchGroup', apiPatchGroup);
 
-/**
- * Get all LDAP groups via API
- * @param {Integer} page - The page to select
- * @param {Integer} perPage - The number of groups per page
- */
-Cypress.Commands.add('apiGetLDAPGroups', (page = 0, perPage = 100) => {
+function apiGetLDAPGroups(page = 0, perPage = 100): AnyResponse {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `/api/v4/ldap/groups?page=${page}&per_page=${perPage}`,
@@ -278,13 +227,11 @@ Cypress.Commands.add('apiGetLDAPGroups', (page = 0, perPage = 100) => {
         expect(response.status).to.equal(200);
         return cy.wrap(response);
     });
-});
+}
 
-/**
- * Add a link for LDAP group via API
- * @param {String} remoteId - remote ID of the group
- */
-Cypress.Commands.add('apiAddLDAPGroupLink', (remoteId) => {
+Cypress.Commands.add('apiGetLDAPGroups', apiGetLDAPGroups);
+
+function apiAddLDAPGroupLink(remoteId: string) {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `/api/v4/ldap/groups/${remoteId}/link`,
@@ -293,13 +240,10 @@ Cypress.Commands.add('apiAddLDAPGroupLink', (remoteId) => {
     }).then((response) => {
         return cy.wrap(response);
     });
-});
+}
+Cypress.Commands.add('apiAddLDAPGroupLink', apiAddLDAPGroupLink);
 
-/**
- * Retrieve the list of groups associated with a given team via API
- * @param {String} teamId - Team GUID
- */
-Cypress.Commands.add('apiGetTeamGroups', (teamId) => {
+function apiGetTeamGroups(teamId: string) {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `/api/v4/teams/${teamId}/groups`,
@@ -309,14 +253,10 @@ Cypress.Commands.add('apiGetTeamGroups', (teamId) => {
         expect(response.status).to.equal(200);
         return cy.wrap(response);
     });
-});
+}
+Cypress.Commands.add('apiGetTeamGroups', apiGetTeamGroups);
 
-/**
- * Delete a link from a team to a group via API
- * @param {String} groupId - Group GUID
- * @param {String} teamId - Team GUID
- */
-Cypress.Commands.add('apiDeleteLinkFromTeamToGroup', (groupId, teamId) => {
+function apiDeleteLinkFromTeamToGroup(groupId: string, teamId: string): AnyResponse {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `/api/v4/groups/${groupId}/teams/${teamId}/link`,
@@ -326,17 +266,20 @@ Cypress.Commands.add('apiDeleteLinkFromTeamToGroup', (groupId, teamId) => {
         expect(response.status).to.equal(200);
         return cy.wrap(response);
     });
-});
+}
+Cypress.Commands.add('apiDeleteLinkFromTeamToGroup', apiDeleteLinkFromTeamToGroup);
 
-Cypress.Commands.add('apiLinkGroup', (groupID) => {
+function apiLinkGroup(groupID: string): AnyResponse {
     return linkUnlinkGroup(groupID, 'POST');
-});
+}
+Cypress.Commands.add('apiLinkGroup', apiLinkGroup);
 
-Cypress.Commands.add('apiUnlinkGroup', (groupID) => {
+function apiUnlinkGroup(groupID: string): AnyResponse {
     return linkUnlinkGroup(groupID, 'DELETE');
-});
+}
+Cypress.Commands.add('apiUnlinkGroup', apiUnlinkGroup);
 
-function linkUnlinkGroup(groupID: string, httpMethod: string) {
+function linkUnlinkGroup(groupID: string, httpMethod: string): AnyResponse {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `/api/v4/ldap/groups/${groupID}/link`,
@@ -348,23 +291,27 @@ function linkUnlinkGroup(groupID: string, httpMethod: string) {
     });
 }
 
-Cypress.Commands.add('apiGetGroupTeams', (groupID) => {
+function apiGetGroupTeams(groupID: string): AnyResponse {
     return getGroupSyncables(groupID, 'team');
-});
+}
+Cypress.Commands.add('apiGetGroupTeams', apiGetGroupTeams);
 
-Cypress.Commands.add('apiGetGroupTeam', (groupID, teamID) => {
+function apiGetGroupTeam(groupID: string, teamID: string): AnyResponse {
     return getGroupSyncable(groupID, 'team', teamID);
-});
+}
+Cypress.Commands.add('apiGetGroupTeam', apiGetGroupTeam);
 
-Cypress.Commands.add('apiGetGroupChannels', (groupID) => {
+function apiGetGroupChannels(groupID: string): AnyResponse {
     return getGroupSyncables(groupID, 'channel');
-});
+}
+Cypress.Commands.add('apiGetGroupChannels', apiGetGroupChannels);
 
-Cypress.Commands.add('apiGetGroupChannel', (groupID, channelID) => {
+function apiGetGroupChannel(groupID: string, channelID: string): AnyResponse {
     return getGroupSyncable(groupID, 'channel', channelID);
-});
+}
+Cypress.Commands.add('apiGetGroupChannel', apiGetGroupChannel);
 
-function getGroupSyncable(groupID: string, syncableType: string, syncableID: string) {
+function getGroupSyncable(groupID: string, syncableType: string, syncableID: string): AnyResponse {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `/api/v4/groups/${groupID}/${syncableType}s/${syncableID}`,
@@ -376,7 +323,7 @@ function getGroupSyncable(groupID: string, syncableType: string, syncableID: str
     });
 }
 
-function getGroupSyncables(groupID: string, syncableType: string) {
+function getGroupSyncables(groupID: string, syncableType: string): AnyResponse {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `/api/v4/groups/${groupID}/${syncableType}s?page=0&per_page=100`,
@@ -388,21 +335,25 @@ function getGroupSyncables(groupID: string, syncableType: string) {
     });
 }
 
-Cypress.Commands.add('apiUnlinkGroupTeam', (groupID, teamID) => {
+function apiUnlinkGroupTeam(groupID: string, teamID: string): AnyResponse {
     return linkUnlinkGroupSyncable(groupID, teamID, 'team', 'DELETE');
-});
+}
+Cypress.Commands.add('apiUnlinkGroupTeam', apiUnlinkGroupTeam);
 
-Cypress.Commands.add('apiLinkGroupTeam', (groupID, teamID) => {
+function apiLinkGroupTeam(groupID: string, teamID: string): AnyResponse {
     return linkUnlinkGroupSyncable(groupID, teamID, 'team', 'POST');
-});
+}
+Cypress.Commands.add('apiLinkGroupTeam', apiLinkGroupTeam);
 
-Cypress.Commands.add('apiUnlinkGroupChannel', (groupID, channelID) => {
+function apiUnlinkGroupChannel(groupID: string, channelID: string): AnyResponse  {
     return linkUnlinkGroupSyncable(groupID, channelID, 'channel', 'DELETE');
-});
+}
+Cypress.Commands.add('apiUnlinkGroupChannel', apiUnlinkGroupChannel);
 
-Cypress.Commands.add('apiLinkGroupChannel', (groupID, channelID) => {
+function apiLinkGroupChannel(groupID: string, channelID: string): AnyResponse {
     return linkUnlinkGroupSyncable(groupID, channelID, 'channel', 'POST');
-});
+}
+Cypress.Commands.add('apiLinkGroupChannel', apiLinkGroupChannel);
 
 function linkUnlinkGroupSyncable(groupID: string, syncableID: string, syncableType: string, httpMethod: string) {
     return cy.request({
@@ -414,4 +365,156 @@ function linkUnlinkGroupSyncable(groupID: string, syncableID: string, syncableTy
         expect(response.status).to.be.oneOf([200, 201, 204]);
         return cy.wrap(response);
     });
+}
+
+declare global {
+    namespace Cypress {
+        interface Chainable {
+
+            /**
+             * Get LDAP Group Sync Job Status
+             *
+             * @example
+             *   cy.apiGetLDAPSync().then((response) => {
+             */
+            apiGetLDAPSync: typeof apiGetLDAPSync;
+
+            /**
+             * Test SMTP setup
+             */
+            apiEmailTest: typeof apiEmailTest;
+
+            /**
+             * Creates a post directly via API
+             * This API assume that the user is logged in and has cookie to access
+             * @param {String} channelId - Where to post
+             * @param {String} message - What to post
+             * @param {String} rootId - Parent post ID. Set to "" to avoid nesting
+             * @param {Object} props - Post props
+             * @param {String} token - Optional token to use for auth. If not provided - posts as current user
+             */
+            apiCreatePost: typeof apiCreatePost;
+
+            /**
+             * Deletes a post directly via API
+             * @param {String} postId - Post ID
+             * @param {Object} [user] - the user trying to invoke the API
+             */
+            apiDeletePost: typeof apiDeletePost;
+
+            /**
+             * Creates a post directly via API
+             * This API assume that the user is logged in as admin
+             * @param {String} userId - user for whom to create the token
+             */
+            apiCreateToken: typeof apiCreateToken;
+
+            /**
+             * Unpins pinned posts of given postID directly via API
+             * This API assume that the user is logged in and has cookie to access
+             */
+            apiUnpinPosts: typeof apiUnpinPosts;
+
+           /**
+            * Creates a command directly via API
+            * This API assume that the user is logged in and has required permission to create a command
+            * @param {Object} command - command to be created
+            */
+            apiCreateCommand: typeof apiCreateCommand;
+
+            apiCreateWebhook: typeof apiCreateWebhook;
+
+            /**
+             * Gets a team on the system
+             * * @param {String} teamId - The team ID to get
+             * All parameter required
+             */
+            apiGetTeam: typeof apiGetTeam;
+
+            /**
+             * Remove a User from a Channel directly via API
+             * @param {String} channelId - The channel ID
+             * @param {String} userId - The user ID
+             * All parameter required
+             */
+            removeUserFromChannel: typeof removeUserFromChannel
+
+            /**
+             * Remove a User from a Team directly via API
+             * @param {String} teamID - The team ID
+             * @param {String} userId - The user ID
+             * All parameter required
+             */
+            removeUserFromTeam: typeof removeUserFromTeam;
+
+            /**
+             * Get all groups via the API
+             *
+             * @param {Integer} page - The desired page of the paginated list
+             * @param {Integer} perPage - The number of groups per page
+             *
+             */
+            apiGetGroups: typeof apiGetGroups;
+
+            /**
+             * Patch a group directly via API
+             *
+             * @param {String} name - The new name for the group
+             * @param {Object} patch
+             *   {Boolean} allow_reference - Whether to allow reference (group mention) or not  - true/false
+             *   {String} name - Name for the group, used for group mentions
+             *   {String} display_name - Display name for the group
+             *   {String} description - Description for the group
+             *
+             */
+            apiPatchGroup: typeof apiPatchGroup;
+
+
+            /**
+             * Get all LDAP groups via API
+             * @param {Integer} page - The page to select
+             * @param {Integer} perPage - The number of groups per page
+             */
+            apiGetLDAPGroups: typeof apiGetLDAPGroups;
+
+            /**
+             * Add a link for LDAP group via API
+             * @param {String} remoteId - remote ID of the group
+             */
+            apiAddLDAPGroupLink: typeof apiAddLDAPGroupLink;
+
+            /**
+             * Retrieve the list of groups associated with a given team via API
+             * @param {String} teamId - Team GUID
+             */
+            apiGetTeamGroups: typeof apiGetTeamGroups;
+
+            /**
+             * Delete a link from a team to a group via API
+             * @param {String} groupId - Group GUID
+             * @param {String} teamId - Team GUID
+             */
+            apiDeleteLinkFromTeamToGroup: typeof apiDeleteLinkFromTeamToGroup;
+
+            apiLinkGroup: typeof apiLinkGroup;
+
+            apiUnlinkGroup: typeof apiUnlinkGroup;
+
+            apiLinkGroupTeam: typeof apiLinkGroupTeam;
+
+            apiUnlinkGroupTeam: typeof apiUnlinkGroupTeam;
+
+            apiUnlinkGroupChannel: typeof apiUnlinkGroupChannel;
+
+            apiLinkGroupChannel: typeof apiLinkGroupChannel
+
+            apiGetGroupTeams: typeof apiGetGroupTeams;
+
+            apiGetGroupTeam: typeof apiGetGroupTeam;
+
+            apiGetGroupChannels: typeof apiGetGroupChannels;
+
+            apiGetGroupChannel: typeof apiGetGroupChannel;
+        }
+    }
 }

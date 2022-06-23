@@ -7,6 +7,10 @@
     "module": "commonjs",
     "resolveJsonModule": true,
     "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "@mattermost/types/*": ["node_modules/@mattermost/types/lib/*"]
+    }
   },
   "include": ["**/*.ts"]
 }

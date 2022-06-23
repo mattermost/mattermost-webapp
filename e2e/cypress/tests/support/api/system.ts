@@ -3,6 +3,8 @@
 
 import merge from 'deepmerge';
 
+import {AdminConfig, ClientLicense} from '@mattermost/types/config';
+import {DeepPartial} from '@mattermost/types/utilities';
 import {Constants} from '../../utils';
 
 import onPremDefaultConfig from './on_prem_default_config.json';
@@ -13,20 +15,23 @@ import cloudDefaultConfig from './cloud_default_config.json';
 // https://api.mattermost.com/#tag/system
 // *****************************************************************************
 
-function hasLicenseForFeature(license, key) {
-    let hasLicense = false;
-
+function hasLicenseForFeature(license: ClientLicense, key: string): boolean {
     for (const [k, v] of Object.entries(license)) {
         if (k === key && v === 'true') {
-            hasLicense = true;
-            break;
+            return true;
         }
     }
 
-    return hasLicense;
+    return false;
 }
 
-Cypress.Commands.add('apiGetClientLicense', () => {
+interface FetchedLicense {
+    license: ClientLicense;
+    isLicensed: boolean;
+    isCloudLicensed: boolean;
+}
+
+function apiGetClientLicense(): Cypress.Chainable<FetchedLicense> {
     return cy.request('/api/v4/license/client?format=old').then((response) => {
         expect(response.status).to.equal(200);
 
@@ -40,9 +45,10 @@ Cypress.Commands.add('apiGetClientLicense', () => {
             isCloudLicensed,
         });
     });
-});
+}
+Cypress.Commands.add('apiGetClientLicense', apiGetClientLicense);
 
-Cypress.Commands.add('apiRequireLicenseForFeature', (...keys) => {
+function apiRequireLicenseForFeature(...keys: string[]): Cypress.Chainable<FetchedLicense> {
     Cypress.log({name: 'EE License', message: `Checking if server has license for feature: __${Object.values(keys).join(', ')}__.`});
 
     return uploadLicenseIfNotExist().then((data) => {
@@ -58,9 +64,10 @@ Cypress.Commands.add('apiRequireLicenseForFeature', (...keys) => {
 
         return cy.wrap(data);
     });
-});
+}
+Cypress.Commands.add('apiRequireLicenseForFeature', apiRequireLicenseForFeature);
 
-Cypress.Commands.add('apiRequireLicense', () => {
+function apiRequireLicense(): Cypress.Chainable<FetchedLicense> {
     Cypress.log({name: 'EE License', message: 'Checking if server has license.'});
 
     return uploadLicenseIfNotExist().then((data) => {
@@ -69,14 +76,18 @@ Cypress.Commands.add('apiRequireLicense', () => {
 
         return cy.wrap(data);
     });
-});
+}
+Cypress.Commands.add('apiRequireLicense', apiRequireLicense);
 
-Cypress.Commands.add('apiUploadLicense', (filePath) => {
-    cy.apiUploadFile('license', filePath, {url: '/api/v4/license', method: 'POST', successStatus: 200});
-});
+function apiUploadLicense(filePath: string): Cypress.Chainable<Response> {
+    return cy.apiUploadFile('license', filePath, {url: '/api/v4/license', method: 'POST', successStatus: 200});
+}
+Cypress.Commands.add('apiUploadLicense', apiUploadLicense);
 
-Cypress.Commands.add('apiInstallTrialLicense', () => {
-    return cy.request({
+function apiInstallTrialLicense(): Cypress.Chainable<ClientLicense> {
+    // typescript claims returning Chainable<JQuery<any>>
+    // @ts-ignore
+    return cy.request<any>({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/trial-license',
         method: 'POST',
@@ -89,9 +100,10 @@ Cypress.Commands.add('apiInstallTrialLicense', () => {
         expect(response.status).to.equal(200);
         return cy.wrap(response.body);
     });
-});
+}
+Cypress.Commands.add('apiInstallTrialLicense', apiInstallTrialLicense);
 
-Cypress.Commands.add('apiDeleteLicense', () => {
+function apiDeleteLicense(): Cypress.Chainable<{response: Cypress.Response<any>}> {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/license',
@@ -100,12 +112,14 @@ Cypress.Commands.add('apiDeleteLicense', () => {
         expect(response.status).to.equal(200);
         return cy.wrap({response});
     });
-});
+}
+
+Cypress.Commands.add('apiDeleteLicense', apiDeleteLicense);
 
 export const getDefaultConfig = () => {
     const cypressEnv = Cypress.env();
 
-    const fromCypressEnv = {
+    const fromCypressEnv: DeepPartial<AdminConfig> = {
         ElasticsearchSettings: {
             ConnectionURL: cypressEnv.elasticsearchConnectionURL,
         },
@@ -122,19 +136,19 @@ export const getDefaultConfig = () => {
     const isCloud = cypressEnv.serverEdition === Constants.ServerEdition.CLOUD;
 
     if (isCloud) {
-        fromCypressEnv.CloudSettings = {
+        (fromCypressEnv as DeepPartial<AdminConfig> & {CloudSettings: Record<string,string>}).CloudSettings = {
             CWSURL: cypressEnv.cwsURL,
             CWSAPIURL: cypressEnv.cwsAPIURL,
         };
     }
 
-    const defaultConfig = isCloud ? cloudDefaultConfig : onPremDefaultConfig;
+    const defaultConfig: AdminConfig = isCloud ? cloudDefaultConfig as unknown as AdminConfig : onPremDefaultConfig as unknown as AdminConfig;
 
-    return merge(defaultConfig, fromCypressEnv);
+    return merge<AdminConfig>(defaultConfig, fromCypressEnv as Partial<AdminConfig>);
 };
 
-const expectConfigToBeUpdatable = (currentConfig, newConfig) => {
-    function errorMessage(name) {
+const expectConfigToBeUpdatable = (currentConfig: AdminConfig, newConfig: Partial<AdminConfig>) => {
+    function errorMessage(name: string) {
         return `${name} is restricted or not available to update. You may check user/sysadmin access, license requirement, server version or edition (on-prem/cloud) compatibility.`;
     }
 
@@ -154,9 +168,9 @@ const expectConfigToBeUpdatable = (currentConfig, newConfig) => {
     });
 };
 
-Cypress.Commands.add('apiUpdateConfig', (newConfig = {}) => {
+function apiUpdateConfig(newConfig: Partial<AdminConfig> = {}): ReturnType<typeof apiGetConfig> {
     // # Get current config
-    return cy.apiGetConfig().then(({config: currentConfig}) => {
+    return cy.apiGetConfig().then(({config: currentConfig}: {config: AdminConfig}) => {
         // * Check if config can be updated
         expectConfigToBeUpdatable(currentConfig, newConfig);
 
@@ -173,7 +187,9 @@ Cypress.Commands.add('apiUpdateConfig', (newConfig = {}) => {
             return cy.apiGetConfig();
         });
     });
-});
+}
+
+Cypress.Commands.add('apiUpdateConfig', apiUpdateConfig);
 
 Cypress.Commands.add('apiReloadConfig', () => {
     // # Reload the config
@@ -187,13 +203,15 @@ Cypress.Commands.add('apiReloadConfig', () => {
     });
 });
 
-Cypress.Commands.add('apiGetConfig', (old = false) => {
+function apiGetConfig(old?: boolean): Cypress.Chainable<{config: AdminConfig}> {
     // # Get current settings
     return cy.request(`/api/v4/config${old ? '/client?format=old' : ''}`).then((response) => {
         expect(response.status).to.equal(200);
         return cy.wrap({config: response.body});
     });
-});
+}
+
+Cypress.Commands.add('apiGetConfig', apiGetConfig);
 
 Cypress.Commands.add('apiGetAnalytics', () => {
     cy.apiAdminLogin();
@@ -283,19 +301,23 @@ Cypress.Commands.add('shouldHaveFeatureFlag', (key, expectedValue) => {
     });
 });
 
-Cypress.Commands.add('shouldHaveEmailEnabled', () => {
+function shouldHaveEmailEnabled(): Cypress.Chainable<any> {
     return cy.apiGetConfig().then(({config}) => {
         if (!config.ExperimentalSettings.RestrictSystemAdmin) {
             cy.apiEmailTest();
         }
     });
-});
+}
+
+Cypress.Commands.add('shouldHaveEmailEnabled', shouldHaveEmailEnabled);
 
 /**
  * Upload a license if it does not exist.
  */
-function uploadLicenseIfNotExist() {
-    return cy.apiGetClientLicense().then((data) => {
+function uploadLicenseIfNotExist(): Cypress.Chainable<FetchedLicense> {
+    // TODO: was claiming this was a Chainable<JQuery<any>>
+    // @ts-ignore
+    return cy.apiGetClientLicense().then((data: FetchedLicense) => {
         if (data.isLicensed) {
             return cy.wrap(data);
         }
@@ -304,4 +326,109 @@ function uploadLicenseIfNotExist() {
             return cy.apiGetClientLicense();
         });
     });
+}
+
+declare global {
+    namespace Cypress {
+        interface Chainable {
+            /**
+             * Get configuration.
+             * See https://api.mattermost.com/#tag/system/paths/~1config/get
+             * @returns {AdminConfig} `out.config` as `AdminConfig`
+             *
+             * @example
+             *   cy.apiGetConfig().then(({config}) => {
+             *       // do something with config
+             *   });
+             */
+            apiGetConfig: typeof apiGetConfig;
+
+            /**
+             * Update configuration, returning the new value of the config.
+             * See https://api.mattermost.com/#tag/system/paths/~1config/put
+             * @param {Partial<AdminConfig>} newConfig - new config
+             * @returns {AdminConfig} `out.config` as `AdminConfig`
+             *
+             * @example
+             *   cy.apiUpdateConfig().then(({config}) => {
+             *       // do something with config
+             *   });
+             */
+            apiUpdateConfig: typeof apiUpdateConfig;
+
+            /**
+             * Get a subset of the server license needed by the client.
+             * See https://api.mattermost.com/#tag/system/paths/~1license~1client/get
+             *
+             * @example
+             *   cy.apiGetClientLicense().then(({license}) => {
+             *       // do something with license
+             *   });
+             */
+            apiGetClientLicense: typeof apiGetClientLicense;
+
+            /**
+             * Verify if server has license for a certain feature and fail test if not found.
+             * Upload a license if it does not exist.
+             * @param {string[]} ...keys - accepts multiple arguments of features to check, e.g. 'LDAP'
+             * @returns {FetchedLicense}
+             *
+             * @example
+             *   cy.apiRequireLicenseForFeature('LDAP');
+            *    cy.apiRequireLicenseForFeature('LDAP', 'SAML');
+             */
+            apiRequireLicenseForFeature: typeof apiRequireLicenseForFeature;
+
+            /**
+             * Verify if server has license and fail test if not found.
+             * Upload a license if it does not exist.
+             * @returns {FetchedLicense}
+             *
+             * @example
+             *   cy.apiRequireLicense();
+             */
+            apiRequireLicense(): typeof apiRequireLicense;
+
+            /**
+             * Upload a license to enable enterprise features.
+             * See https://api.mattermost.com/#tag/system/paths/~1license/post
+             * @param {String} filePath - path of the license file relative to fixtures folder
+             * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
+             *
+             * @example
+             *   const filePath = 'mattermost-license.txt';
+             *   cy.apiUploadLicense(filePath);
+             */
+            apiUploadLicense: typeof apiUploadLicense;
+
+            /**
+             * Request and install a trial license for your server.
+             * See https://api.mattermost.com/#tag/system/paths/~1trial-license/post
+             *
+             * @example
+             *   cy.apiInstallTrialLicense();
+             */
+            apiInstallTrialLicense: typeof apiInstallTrialLicense;
+
+            /**
+             * Remove the license file from the server. This will disable all enterprise features.
+             * See https://api.mattermost.com/#tag/system/paths/~1license/delete
+             * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
+             *
+             * @example
+             *   cy.apiDeleteLicense();
+             */
+            apiDeleteLicense(): typeof apiDeleteLicense;
+
+            /**
+             * Require email service to be reachable by the server
+             * thru "/api/v4/email/test" if sysadmin account has
+             * permission to do so. Otherwise, skip email test.
+             *
+             * @example
+             *   cy.shouldHaveEmailEnabled();
+             */
+            shouldHaveEmailEnabled: typeof shouldHaveEmailEnabled;
+        }
+    }
 }
