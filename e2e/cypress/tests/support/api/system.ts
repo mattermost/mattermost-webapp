@@ -3,9 +3,12 @@
 
 import merge from 'deepmerge';
 
+import {AnalyticsRow} from 'mattermost-redux/types/admin';
 import {AdminConfig, ClientLicense} from '@mattermost/types/config';
 import {DeepPartial} from '@mattermost/types/utilities';
 import {Constants} from '../../utils';
+
+import {ChainableT} from './types';
 
 import onPremDefaultConfig from './on_prem_default_config.json';
 import cloudDefaultConfig from './cloud_default_config.json';
@@ -191,7 +194,7 @@ function apiUpdateConfig(newConfig: Partial<AdminConfig> = {}): ReturnType<typeo
 
 Cypress.Commands.add('apiUpdateConfig', apiUpdateConfig);
 
-Cypress.Commands.add('apiReloadConfig', () => {
+function apiReloadConfig(): ReturnType<typeof apiGetConfig> {
     // # Reload the config
     return cy.request({
         url: '/api/v4/config/reload',
@@ -201,7 +204,8 @@ Cypress.Commands.add('apiReloadConfig', () => {
         expect(reloadResponse.status).to.equal(200);
         return cy.apiGetConfig();
     });
-});
+}
+Cypress.Commands.add('apiReloadConfig', apiReloadConfig);
 
 function apiGetConfig(old?: boolean): Cypress.Chainable<{config: AdminConfig}> {
     // # Get current settings
@@ -213,16 +217,17 @@ function apiGetConfig(old?: boolean): Cypress.Chainable<{config: AdminConfig}> {
 
 Cypress.Commands.add('apiGetConfig', apiGetConfig);
 
-Cypress.Commands.add('apiGetAnalytics', () => {
+function apiGetAnalytics(): ChainableT<{analytics: AnalyticsRow[]}> {
     cy.apiAdminLogin();
 
     return cy.request('/api/v4/analytics/old').then((response) => {
         expect(response.status).to.equal(200);
         return cy.wrap({analytics: response.body});
     });
-});
+}
+Cypress.Commands.add('apiGetAnalytics', apiGetAnalytics);
 
-Cypress.Commands.add('apiInvalidateCache', () => {
+function apiInvalidateCache(): ChainableT<any> {
     return cy.request({
         url: '/api/v4/caches/invalidate',
         headers: {'X-Requested-With': 'XMLHttpRequest'},
@@ -231,7 +236,8 @@ Cypress.Commands.add('apiInvalidateCache', () => {
         expect(response.status).to.equal(200);
         return cy.wrap(response);
     });
-});
+}
+Cypress.Commands.add('apiInvalidateCache', apiInvalidateCache);
 
 function isCloudEdition() {
     return cy.apiGetClientLicense().then(({isCloudLicensed}) => {
@@ -239,11 +245,12 @@ function isCloudEdition() {
     });
 }
 
-Cypress.Commands.add('shouldNotRunOnCloudEdition', () => {
+function shouldNotRunOnCloudEdition() {
     isCloudEdition().then((isCloud) => {
         expect(isCloud, isCloud ? 'Should not run on Cloud server' : '').to.equal(false);
     });
-});
+}
+Cypress.Commands.add('shouldNotRunOnCloudEdition', shouldNotRunOnCloudEdition);
 
 function isTeamEdition() {
     return cy.apiGetClientLicense().then(({isLicensed}) => {
@@ -251,11 +258,12 @@ function isTeamEdition() {
     });
 }
 
-Cypress.Commands.add('shouldRunOnTeamEdition', () => {
+function shouldRunOnTeamEdition() {
     isTeamEdition().then((isTeam) => {
         expect(isTeam, isTeam ? '' : 'Should run on Team edition only').to.equal(true);
     });
-});
+}
+Cypress.Commands.add('shouldRunOnTeamEdition', shouldRunOnTeamEdition);
 
 function isElasticsearchEnabled() {
     return cy.apiGetConfig().then(({config}) => {
@@ -277,21 +285,23 @@ Cypress.Commands.add('shouldHaveElasticsearchDisabled', () => {
     });
 });
 
-Cypress.Commands.add('shouldHavePluginUploadEnabled', () => {
+function shouldHavePluginUploadEnabled() {
     return cy.apiGetConfig().then(({config}) => {
         const isUploadEnabled = config.PluginSettings.EnableUploads;
         expect(isUploadEnabled, isUploadEnabled ? '' : 'Should have Plugin upload enabled').to.equal(true);
     });
-});
+}
+Cypress.Commands.add('shouldHavePluginUploadEnabled', shouldHavePluginUploadEnabled);
 
-Cypress.Commands.add('shouldRunWithSubpath', () => {
+function shouldRunWithSubpath() {
     return cy.apiGetConfig().then(({config}) => {
         const isSubpath = Boolean(config.ServiceSettings.SiteURL.replace(/^https?:\/\//, '').split('/')[1]);
         expect(isSubpath, isSubpath ? '' : 'Should run on server running with subpath only').to.equal(true);
     });
-});
+}
+Cypress.Commands.add('shouldRunWithSubpath', shouldRunWithSubpath);
 
-Cypress.Commands.add('shouldHaveFeatureFlag', (key, expectedValue) => {
+function shouldHaveFeatureFlag(key: string, expectedValue: string) {
     return cy.apiGetConfig().then(({config}) => {
         const actualValue = config.FeatureFlags[key];
         const message = actualValue === expectedValue ?
@@ -299,7 +309,8 @@ Cypress.Commands.add('shouldHaveFeatureFlag', (key, expectedValue) => {
             `Expected feature flag "${key}" to be "${expectedValue}", but was "${actualValue}"`;
         expect(actualValue, message).to.equal(expectedValue);
     });
-});
+}
+Cypress.Commands.add('shouldHaveFeatureFlag', shouldHaveFeatureFlag);
 
 function shouldHaveEmailEnabled(): Cypress.Chainable<any> {
     return cy.apiGetConfig().then(({config}) => {
@@ -429,6 +440,85 @@ declare global {
              *   cy.shouldHaveEmailEnabled();
              */
             shouldHaveEmailEnabled: typeof shouldHaveEmailEnabled;
+
+            /**
+             * Reload the configuration file to pick up on any changes made to it.
+             * See https://api.mattermost.com/#tag/system/paths/~1config~1reload/post
+             * @returns {AdminConfig} `out.config` as `AdminConfig`
+             *
+             * @example
+             *   cy.apiReloadConfig().then(({config}) => {
+             *       // do something with config
+             *   });
+             */
+            apiReloadConfig: typeof apiReloadConfig;
+
+
+            /**
+             * Get analytics.
+             * See https://api.mattermost.com/#tag/system/paths/~1analytics~1old/get
+             * @returns {AnalyticsRow[]} `out.analytics` as `AnalyticsRow[]`
+             *
+             * @example
+             *   cy.apiGetAnalytics().then(({analytics}) => {
+             *       // do something with analytics
+             *   });
+             */
+            apiGetAnalytics: typeof apiGetAnalytics;
+
+            /**
+             * Invalidate all the caches.
+             * See https://api.mattermost.com/#tag/system/paths/~1caches~1invalidate/post
+             * @returns {Object} `out.data` as response status
+             *
+             * @example
+             *   cy.apiInvalidateCache();
+             */
+            apiInvalidateCache: typeof apiInvalidateCache;
+
+            /**
+             * Allow test for server other than Cloud edition or with Cloud license.
+             * Otherwise, fail fast.
+             * @example
+             *   cy.shouldNotRunOnCloudEdition();
+             */
+            shouldNotRunOnCloudEdition: typeof shouldNotRunOnCloudEdition;
+
+            /**
+             * Allow test for server on Team edition or without license.
+             * Otherwise, fail fast.
+             * @example
+             *   cy.shouldRunOnTeamEdition();
+             */
+            shouldRunOnTeamEdition: typeof shouldRunOnTeamEdition;
+
+            /**
+             * Allow test for server with Plugin upload enabled.
+             * Otherwise, fail fast.
+             * @example
+             *   cy.shouldHavePluginUploadEnabled();
+             */
+            shouldHavePluginUploadEnabled: typeof shouldHavePluginUploadEnabled;
+
+            /**
+             * Allow test for server running with subpath.
+             * Otherwise, fail fast.
+             * @example
+             *   cy.shouldRunWithSubpath();
+             */
+            shouldRunWithSubpath: typeof shouldRunWithSubpath;
+
+            /**
+             * Allow test if matches feature flag setting
+             * Otherwise, fail fast.
+             *
+             * @param {string} feature - feature name
+             * @param {string} expectedValue - expected value
+             *
+             * @example
+             *   cy.shouldHaveFeatureFlag('feature', 'expected-value');
+             */
+            shouldHaveFeatureFlag: typeof shouldHaveFeatureFlag;
         }
     }
 }
