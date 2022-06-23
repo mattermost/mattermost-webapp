@@ -396,6 +396,28 @@ export default class PluginRegistry {
         return id;
     }
 
+    // Register a menu list item in Calls by providing some text and an action function.
+    // Accepts the following:
+    // - text - A string or React element to display in the menu
+    // - action - A function to trigger when component is clicked on
+    // Returns a unique identifier.
+    registerCallsDropdownMenuAction(text, action) {
+        const id = generateId();
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'CallsDropdownMenu',
+            data: {
+                id,
+                pluginId: this.id,
+                text: resolveReactElement(text),
+                action,
+            },
+        });
+
+        return id;
+    }
+
     // Register a post sub menu list item by providing some text and an action function.
     // Accepts the following:
     // - text - A string or React element to display in the menu
