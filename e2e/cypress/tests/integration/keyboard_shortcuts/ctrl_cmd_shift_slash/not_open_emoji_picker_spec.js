@@ -119,11 +119,11 @@ describe('Keyboard shortcut CTRL/CMD+Shift+\\ for adding reaction to last messag
             cy.uiOpenChannelMenu(modal);
             doReactToLastMessageShortcut();
 
-            // # Close the modal
-            pressEscapeKey();
-
             // * Verify emoji picker is not open
             cy.get('#emojiPicker').should('not.exist');
+
+            // # Close the modal
+            pressEscapeKey();
         });
     });
 

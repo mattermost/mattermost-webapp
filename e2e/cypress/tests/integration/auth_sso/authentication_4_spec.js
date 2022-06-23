@@ -119,7 +119,7 @@ describe('Authentication', () => {
 
             cy.apiUpdateConfig(newConfig);
 
-            // * Ensure password has a minimum length of 10 and all password requirements are checked
+            // * Ensure password has a minimum length of 8 and all password requirements are checked
             cy.apiGetConfig().then(({config: {PasswordSettings}}) => {
                 expect(PasswordSettings.MinimumLength).equal(8);
                 expect(PasswordSettings.Lowercase).equal(false);
