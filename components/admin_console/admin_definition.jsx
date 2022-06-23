@@ -255,9 +255,12 @@ const usesLegacyOauth = (config, state, license, enterpriseReady, consoleAccess,
 const getRestrictedIndicator = (displayBlocked = false) => ({
     value: (cloud) => (
         <RestrictedIndicator
-            modal={false}
+            useModal={false}
             blocked={displayBlocked || cloud?.subscription?.is_free_trial !== 'true'}
-            tooltipMessageBlocked={t('admin.sidebar.restricted_indicator.tooltip.message.blocked')}
+            tooltipMessageBlocked={{
+                id: 'admin.sidebar.restricted_indicator.tooltip.message.blocked',
+                defaultMessage: 'This is a paid feature, available with an upgrade or free {trialLength}-day trial',
+            }}
         />
     ),
     shouldDisplay: (license) => displayBlocked || isCloudLicense(license),

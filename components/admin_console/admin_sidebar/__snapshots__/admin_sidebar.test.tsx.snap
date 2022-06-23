@@ -154,8 +154,13 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               indicator={
                 <RestrictedIndicator
                   blocked={true}
-                  modal={false}
-                  tooltipMessageBlocked="admin.sidebar.restricted_indicator.tooltip.message.blocked"
+                  tooltipMessageBlocked={
+                    Object {
+                      "defaultMessage": "This is a paid feature, available with an upgrade or free {trialLength}-day trial",
+                      "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
+                    }
+                  }
+                  useModal={false}
                 />
               }
               key="user_management.groups_feature_discovery"
@@ -173,8 +178,13 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               indicator={
                 <RestrictedIndicator
                   blocked={true}
-                  modal={false}
-                  tooltipMessageBlocked="admin.sidebar.restricted_indicator.tooltip.message.blocked"
+                  tooltipMessageBlocked={
+                    Object {
+                      "defaultMessage": "This is a paid feature, available with an upgrade or free {trialLength}-day trial",
+                      "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
+                    }
+                  }
+                  useModal={false}
                 />
               }
               key="user_management.system_roles_feature_discovery"
@@ -212,8 +222,13 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               indicator={
                 <RestrictedIndicator
                   blocked={true}
-                  modal={false}
-                  tooltipMessageBlocked="admin.sidebar.restricted_indicator.tooltip.message.blocked"
+                  tooltipMessageBlocked={
+                    Object {
+                      "defaultMessage": "This is a paid feature, available with an upgrade or free {trialLength}-day trial",
+                      "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
+                    }
+                  }
+                  useModal={false}
                 />
               }
               key="site.announcement_banner_feature_discovery"
@@ -251,8 +266,13 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               indicator={
                 <RestrictedIndicator
                   blocked={true}
-                  modal={false}
-                  tooltipMessageBlocked="admin.sidebar.restricted_indicator.tooltip.message.blocked"
+                  tooltipMessageBlocked={
+                    Object {
+                      "defaultMessage": "This is a paid feature, available with an upgrade or free {trialLength}-day trial",
+                      "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
+                    }
+                  }
+                  useModal={false}
                 />
               }
               key="authentication.ldap_feature_discovery"
@@ -270,8 +290,13 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               indicator={
                 <RestrictedIndicator
                   blocked={true}
-                  modal={false}
-                  tooltipMessageBlocked="admin.sidebar.restricted_indicator.tooltip.message.blocked"
+                  tooltipMessageBlocked={
+                    Object {
+                      "defaultMessage": "This is a paid feature, available with an upgrade or free {trialLength}-day trial",
+                      "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
+                    }
+                  }
+                  useModal={false}
                 />
               }
               key="authentication.saml_feature_discovery"
@@ -289,8 +314,13 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               indicator={
                 <RestrictedIndicator
                   blocked={true}
-                  modal={false}
-                  tooltipMessageBlocked="admin.sidebar.restricted_indicator.tooltip.message.blocked"
+                  tooltipMessageBlocked={
+                    Object {
+                      "defaultMessage": "This is a paid feature, available with an upgrade or free {trialLength}-day trial",
+                      "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
+                    }
+                  }
+                  useModal={false}
                 />
               }
               key="authentication.openid_feature_discovery"
@@ -308,8 +338,13 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               indicator={
                 <RestrictedIndicator
                   blocked={true}
-                  modal={false}
-                  tooltipMessageBlocked="admin.sidebar.restricted_indicator.tooltip.message.blocked"
+                  tooltipMessageBlocked={
+                    Object {
+                      "defaultMessage": "This is a paid feature, available with an upgrade or free {trialLength}-day trial",
+                      "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
+                    }
+                  }
+                  useModal={false}
                 />
               }
               key="authentication.guest_access_feature_discovery"
@@ -384,8 +419,13 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               indicator={
                 <RestrictedIndicator
                   blocked={true}
-                  modal={false}
-                  tooltipMessageBlocked="admin.sidebar.restricted_indicator.tooltip.message.blocked"
+                  tooltipMessageBlocked={
+                    Object {
+                      "defaultMessage": "This is a paid feature, available with an upgrade or free {trialLength}-day trial",
+                      "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
+                    }
+                  }
+                  useModal={false}
                 />
               }
               key="compliance.data_retention_feature_discovery"
@@ -403,8 +443,13 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               indicator={
                 <RestrictedIndicator
                   blocked={true}
-                  modal={false}
-                  tooltipMessageBlocked="admin.sidebar.restricted_indicator.tooltip.message.blocked"
+                  tooltipMessageBlocked={
+                    Object {
+                      "defaultMessage": "This is a paid feature, available with an upgrade or free {trialLength}-day trial",
+                      "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
+                    }
+                  }
+                  useModal={false}
                 />
               }
               key="compliance.compliance_export_feature_discovery"
@@ -422,8 +467,13 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               indicator={
                 <RestrictedIndicator
                   blocked={true}
-                  modal={false}
-                  tooltipMessageBlocked="admin.sidebar.restricted_indicator.tooltip.message.blocked"
+                  tooltipMessageBlocked={
+                    Object {
+                      "defaultMessage": "This is a paid feature, available with an upgrade or free {trialLength}-day trial",
+                      "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
+                    }
+                  }
+                  useModal={false}
                 />
               }
               key="compliance.custom_terms_of_service_feature_discovery"
@@ -4590,8 +4640,13 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               indicator={
                 <RestrictedIndicator
                   blocked={true}
-                  modal={false}
-                  tooltipMessageBlocked="admin.sidebar.restricted_indicator.tooltip.message.blocked"
+                  tooltipMessageBlocked={
+                    Object {
+                      "defaultMessage": "This is a paid feature, available with an upgrade or free {trialLength}-day trial",
+                      "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
+                    }
+                  }
+                  useModal={false}
                 />
               }
               key="user_management.groups_feature_discovery"
@@ -4645,8 +4700,13 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               indicator={
                 <RestrictedIndicator
                   blocked={true}
-                  modal={false}
-                  tooltipMessageBlocked="admin.sidebar.restricted_indicator.tooltip.message.blocked"
+                  tooltipMessageBlocked={
+                    Object {
+                      "defaultMessage": "This is a paid feature, available with an upgrade or free {trialLength}-day trial",
+                      "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
+                    }
+                  }
+                  useModal={false}
                 />
               }
               key="user_management.system_roles_feature_discovery"
@@ -4884,8 +4944,13 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               indicator={
                 <RestrictedIndicator
                   blocked={true}
-                  modal={false}
-                  tooltipMessageBlocked="admin.sidebar.restricted_indicator.tooltip.message.blocked"
+                  tooltipMessageBlocked={
+                    Object {
+                      "defaultMessage": "This is a paid feature, available with an upgrade or free {trialLength}-day trial",
+                      "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
+                    }
+                  }
+                  useModal={false}
                 />
               }
               key="site.announcement_banner_feature_discovery"
@@ -5031,8 +5096,13 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               indicator={
                 <RestrictedIndicator
                   blocked={true}
-                  modal={false}
-                  tooltipMessageBlocked="admin.sidebar.restricted_indicator.tooltip.message.blocked"
+                  tooltipMessageBlocked={
+                    Object {
+                      "defaultMessage": "This is a paid feature, available with an upgrade or free {trialLength}-day trial",
+                      "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
+                    }
+                  }
+                  useModal={false}
                 />
               }
               key="authentication.ldap_feature_discovery"
@@ -5050,8 +5120,13 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               indicator={
                 <RestrictedIndicator
                   blocked={true}
-                  modal={false}
-                  tooltipMessageBlocked="admin.sidebar.restricted_indicator.tooltip.message.blocked"
+                  tooltipMessageBlocked={
+                    Object {
+                      "defaultMessage": "This is a paid feature, available with an upgrade or free {trialLength}-day trial",
+                      "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
+                    }
+                  }
+                  useModal={false}
                 />
               }
               key="authentication.saml_feature_discovery"
@@ -5081,8 +5156,13 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               indicator={
                 <RestrictedIndicator
                   blocked={true}
-                  modal={false}
-                  tooltipMessageBlocked="admin.sidebar.restricted_indicator.tooltip.message.blocked"
+                  tooltipMessageBlocked={
+                    Object {
+                      "defaultMessage": "This is a paid feature, available with an upgrade or free {trialLength}-day trial",
+                      "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
+                    }
+                  }
+                  useModal={false}
                 />
               }
               key="authentication.openid_feature_discovery"
@@ -5100,8 +5180,13 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               indicator={
                 <RestrictedIndicator
                   blocked={true}
-                  modal={false}
-                  tooltipMessageBlocked="admin.sidebar.restricted_indicator.tooltip.message.blocked"
+                  tooltipMessageBlocked={
+                    Object {
+                      "defaultMessage": "This is a paid feature, available with an upgrade or free {trialLength}-day trial",
+                      "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
+                    }
+                  }
+                  useModal={false}
                 />
               }
               key="authentication.guest_access_feature_discovery"
@@ -5244,8 +5329,13 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               indicator={
                 <RestrictedIndicator
                   blocked={true}
-                  modal={false}
-                  tooltipMessageBlocked="admin.sidebar.restricted_indicator.tooltip.message.blocked"
+                  tooltipMessageBlocked={
+                    Object {
+                      "defaultMessage": "This is a paid feature, available with an upgrade or free {trialLength}-day trial",
+                      "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
+                    }
+                  }
+                  useModal={false}
                 />
               }
               key="compliance.data_retention_feature_discovery"
@@ -5263,8 +5353,13 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               indicator={
                 <RestrictedIndicator
                   blocked={true}
-                  modal={false}
-                  tooltipMessageBlocked="admin.sidebar.restricted_indicator.tooltip.message.blocked"
+                  tooltipMessageBlocked={
+                    Object {
+                      "defaultMessage": "This is a paid feature, available with an upgrade or free {trialLength}-day trial",
+                      "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
+                    }
+                  }
+                  useModal={false}
                 />
               }
               key="compliance.compliance_export_feature_discovery"
@@ -5282,8 +5377,13 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               indicator={
                 <RestrictedIndicator
                   blocked={true}
-                  modal={false}
-                  tooltipMessageBlocked="admin.sidebar.restricted_indicator.tooltip.message.blocked"
+                  tooltipMessageBlocked={
+                    Object {
+                      "defaultMessage": "This is a paid feature, available with an upgrade or free {trialLength}-day trial",
+                      "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
+                    }
+                  }
+                  useModal={false}
                 />
               }
               key="compliance.custom_terms_of_service_feature_discovery"

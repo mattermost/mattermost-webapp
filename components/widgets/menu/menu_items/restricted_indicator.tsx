@@ -10,6 +10,7 @@ import OverlayTrigger from 'components/overlay_trigger';
 import ToggleModalButton from 'components/toggle_modal_button';
 import Tooltip from 'components/tooltip';
 
+import {FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS} from 'utils/cloud_utils';
 import {Constants, ModalIdentifiers} from 'utils/constants';
 
 import './restricted_indicator.scss';
@@ -45,13 +46,17 @@ const RestrictedIndicator = ({
 
     const getTooltipMessageBlocked = useCallback(() => {
         if (!tooltipMessageBlocked) {
-            return formatMessage({
-                id: 'restricted_indicator.tooltip.message.blocked',
-                defaultMessage: 'This is a paid feature, available with a free 30-day trial',
-            });
+            return formatMessage(
+                {
+                    id: 'restricted_indicator.tooltip.message.blocked',
+                    defaultMessage: 'This is a paid feature, available with a free {trialLength}-day trial',
+                }, {
+                    trialLength: FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS,
+                },
+            );
         }
 
-        return typeof tooltipMessageBlocked === 'string' ? tooltipMessageBlocked : formatMessage(tooltipMessageBlocked);
+        return typeof tooltipMessageBlocked === 'string' ? tooltipMessageBlocked : formatMessage(tooltipMessageBlocked, {trialLength: FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS});
     }, [tooltipMessageBlocked]);
 
     const icon = <i className={classNames('RestrictedIndicator__icon-tooltip', 'icon', blocked ? 'icon-key-variant' : 'trial')}/>;
