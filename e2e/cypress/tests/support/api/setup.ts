@@ -106,23 +106,7 @@ declare global {
              *       testChannel = channel;
              *   });
              */
-            apiInitSetup(
-                options: {
-                    loginAfter: boolean;
-                    promoteNewUserAsAdmin: boolean;
-                    hideAdminTrialModal: boolean;
-                    userPrefix: string;
-                    teamPrefix: string;
-                    channelPrefix: string;
-                }
-            ): Chainable<{
-                user: UserProfile;
-                team: Team;
-                channel: Channel;
-                channelUrl: string;
-                offTopicUrl: string;
-                townSquareUrl: string;
-            }>;
+            apiInitSetup: typeof apiInitSetup;
         }
     }
 }
