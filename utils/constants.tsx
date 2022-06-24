@@ -289,6 +289,7 @@ export const ActionTypes = keyMirror({
 
     FIRST_CHANNEL_NAME: null,
 
+    RECEIVED_BOARDS_INSIGHTS: null,
     SET_EDIT_CHANNEL_MEMBERS: null,
 });
 
@@ -360,6 +361,9 @@ export const ModalIdentifiers = {
     MORE_CHANNELS: 'more_channels',
     NEW_CHANNEL_MODAL: 'new_channel_modal',
     CLOUD_PURCHASE: 'cloud_purchase',
+    CLOUD_DOWNGRADE_CHOOSE_TEAM: 'cloud_downgrade_choose_team',
+    SUCCESS_MODAL: 'success_modal',
+    ERROR_MODAL: 'error_modal',
     DND_CUSTOM_TIME_PICKER: 'dnd_custom_time_picker',
     CUSTOM_STATUS: 'custom_status',
     COMMERCIAL_SUPPORT: 'commercial_support',
@@ -385,7 +389,7 @@ export const ModalIdentifiers = {
     INSIGHTS: 'insights',
     CLOUD_LIMITS: 'cloud_limits',
     REQUEST_BUSINESS_EMAIL_MODAL: 'request_business_email_modal',
-    CREATE_TEAM_RESTRICTED_MODAL: 'create_team_restricted_modal',
+    FEATURE_RESTRICTED_MODAL: 'feature_restricted_modal',
 };
 
 export const UserStatuses = {
@@ -594,6 +598,7 @@ export const Threads = {
 export const CloudBanners = {
     HIDE: 'hide',
     TRIAL: 'trial',
+    UPGRADE_FROM_TRIAL: 'upgrade_from_trial',
 };
 
 export const AdvancedTextEditor = {
@@ -1613,6 +1618,7 @@ export const Constants = {
     } as Record<string, [string, number]>),
     CODE_PREVIEW_MAX_FILE_SIZE: 500000, // 500 KB
     HighlightedLanguages: {
+        '1c': {name: '1C:Enterprise', extensions: ['bsl', 'os'], aliases: ['bsl']},
         actionscript: {name: 'ActionScript', extensions: ['as'], aliases: ['as', 'as3']},
         applescript: {name: 'AppleScript', extensions: ['applescript', 'osascript', 'scpt']},
         bash: {name: 'Bash', extensions: ['sh'], aliases: ['sh']},
@@ -1947,6 +1953,42 @@ export const InsightsCardTitles = {
         mySubTitle: {
             id: t('insights.topReactions.mySubTitle'),
             defaultMessage: 'Reactions I\'ve used the most',
+        },
+    },
+    TOP_THREADS: {
+        teamTitle: {
+            id: t('insights.topThreads.title'),
+            defaultMessage: 'Top threads',
+        },
+        myTitle: {
+            id: t('insights.topThreads.myTitle'),
+            defaultMessage: 'My top threads',
+        },
+        teamSubTitle: {
+            id: t('insights.topThreads.subTitle'),
+            defaultMessage: 'Most active threads for the team',
+        },
+        mySubTitle: {
+            id: t('insights.topThreads.mySubTitle'),
+            defaultMessage: 'Most active threads I\'ve followed',
+        },
+    },
+    TOP_BOARDS: {
+        teamTitle: {
+            id: t('insights.topBoards.title'),
+            defaultMessage: 'Top boards',
+        },
+        myTitle: {
+            id: t('insights.topBoards.myTitle'),
+            defaultMessage: 'My top boards',
+        },
+        teamSubTitle: {
+            id: t('insights.topBoards.subTitle'),
+            defaultMessage: 'Most active boards for the team',
+        },
+        mySubTitle: {
+            id: t('insights.topBoards.mySubTitle'),
+            defaultMessage: 'Most active boards I\'ve participated in',
         },
     },
 };
