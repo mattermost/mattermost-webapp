@@ -9,6 +9,8 @@ import {WebSocketMessage} from 'mattermost-redux/types/websocket';
 
 import * as WebsocketActions from 'actions/websocket_actions';
 
+import WebsocketClient from 'client/web_websocket_client';
+
 export const Context = React.createContext<WebsocketManager>(null!);
 
 export class WebsocketManager {
@@ -42,5 +44,14 @@ export class WebsocketManager {
 
     public unregisterEventHandler<T>(handler: (msg: WebSocketMessage<T>) => void) {
         WebsocketActions.unregisterEventHandler(handler);
+    }
+
+    public subscribeToScopes(scopes: string[]) {
+        // TODO we need to hold onto these to reconnect after the websocket reconnects
+        WebsocketClient.sendMessage('subscribe', {scopes});
+    }
+
+    public unsubscribeFromScopes(scopes: string[]) {
+        WebsocketClient.sendMessage('unsubscribe', {scopes});
     }
 }

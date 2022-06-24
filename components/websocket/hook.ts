@@ -9,6 +9,7 @@ import {Context} from './context';
 
 type WebsocketOptions = {
     handler: (msg: WebSocketMessage) => void;
+    scopes?: string[];
 }
 
 export function useWebsocket(options: WebsocketOptions) {
@@ -21,4 +22,18 @@ export function useWebsocket(options: WebsocketOptions) {
             manager.unregisterEventHandler(options.handler);
         };
     }, [manager, options.handler]);
+
+    useEffect(() => {
+        const scopes = options.scopes;
+
+        if (scopes && scopes.length > 0) {
+            manager.subscribeToScopes(scopes);
+        }
+
+        return () => {
+            if (scopes && scopes.length > 0) {
+                manager.unsubscribeFromScopes(scopes);
+            }
+        };
+    }, [manager, options.scopes]);
 }
