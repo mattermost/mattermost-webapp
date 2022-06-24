@@ -5,7 +5,7 @@ import {ChainableT} from '../api/types';
 
 import {stubClipboard} from '../../utils';
 
-function uiClickCopyLink(permalink: string): ChainableT<void> {
+function uiClickCopyLink(permalink: string) {
     stubClipboard().as('clipboard');
 
     // * Verify initial state
@@ -19,27 +19,25 @@ function uiClickCopyLink(permalink: string): ChainableT<void> {
         cy.get('@clipboard').its('wasCalled').should('eq', true);
         cy.get('@clipboard').its('contents').should('eq', permalink);
     });
-    return;
 }
 Cypress.Commands.add('uiClickCopyLink', uiClickCopyLink);
 
-function uiClickPostDropdownMenu(postId: string, menuItem: string, location = 'CENTER'): ChainableT<void> {
+function uiClickPostDropdownMenu(postId: string, menuItem: string, location = 'CENTER') {
     cy.clickPostDotMenu(postId, location);
     cy.findAllByTestId(`post-menu-${postId}`).eq(0).should('be.visible');
     cy.findByText(menuItem).scrollIntoView().should('be.visible').click({force: true});
-    return;
 }
 Cypress.Commands.add('uiClickPostDropdownMenu', uiClickPostDropdownMenu);
 
-function uiPostDropdownMenuShortcut(postId: string, menuText: string, shortcutKey: string, location = 'CENTER'): ChainableT<void> {
+function uiPostDropdownMenuShortcut(postId: string, menuText: string, shortcutKey: string, location = 'CENTER') {
     cy.clickPostDotMenu(postId, location);
     cy.findByText(menuText).scrollIntoView().should('be.visible');
     cy.get('body').type(shortcutKey);
-    return;
 }
 Cypress.Commands.add('uiPostDropdownMenuShortcut', uiPostDropdownMenuShortcut);
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 
@@ -52,7 +50,7 @@ declare global {
              *   const permalink = 'http://localhost:8065/team-name/pl/post-id';
              *   cy.uiClickCopyLink(permalink);
              */
-            uiClickCopyLink: typeof uiClickCopyLink;
+            uiClickCopyLink(permalink: string): ChainableT<void>;
 
             /**
              * Click dropdown menu of a post by post ID.
@@ -60,7 +58,9 @@ declare global {
              * @param {String} menuItem - e.g. "Pin to channel"
              * @param {String} location - 'CENTER' (default), 'SEARCH', RHS_ROOT, RHS_COMMENT
              */
-            uiClickPostDropdownMenu: typeof uiClickPostDropdownMenu;
+            uiClickPostDropdownMenu(postId: string, menuItem: string, location: string): ChainableT<void>;
+
+            uiPostDropdownMenuShortcut(postId: string, menuText: string, shortcutKey: string, location: string): ChainableT<void>;
         }
     }
 }

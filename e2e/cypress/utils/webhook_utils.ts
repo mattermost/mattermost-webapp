@@ -263,6 +263,6 @@ export function getBooleanDialog(triggerId: string, webhookBaseUrl: string) {
 }
 
 export type Dialog = ReturnType<typeof getFullDialog> |
-    ReturnType<typeof getSimpleDialog> |
-    ReturnType<typeof getUserAndChannelDialog> |
-    ReturnType<typeof getBooleanDialog>
+ReturnType<typeof getSimpleDialog> |
+ReturnType<typeof getUserAndChannelDialog> |
+ReturnType<typeof getBooleanDialog>

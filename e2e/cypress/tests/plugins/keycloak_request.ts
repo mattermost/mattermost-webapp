@@ -12,7 +12,7 @@ interface KeycloakRequestArg {
 }
 export default async function keycloakRequest(arg: KeycloakRequestArg) {
     const {baseUrl, headers = {}, method = 'get', path = '', data = {}} = arg;
-    let response: AxiosResponse<any> | {status: number; statusText: string; data: any;};
+    let response: AxiosResponse<any> | {status: number; statusText: string; data: any};
     try {
         response = await axios({
             method,
@@ -41,4 +41,4 @@ export default async function keycloakRequest(arg: KeycloakRequestArg) {
     }
 
     return response;
-};
+}

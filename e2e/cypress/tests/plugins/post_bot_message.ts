@@ -5,7 +5,7 @@ import axios, {AxiosResponse} from 'axios';
 interface PostBotMessageArg {
     token: string;
     message: string;
-    props: Record<string, any>
+    props: Record<string, any>;
     channelId: string;
     rootId: string;
     createAt: number;
@@ -39,4 +39,4 @@ export default async function postBotMessage(arg: PostBotMessageArg) {
     }
 
     return {status: response.status, data: response.data};
-};
+}

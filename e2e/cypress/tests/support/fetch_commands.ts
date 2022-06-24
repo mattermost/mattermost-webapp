@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-export {}
+export {};
 
 Cypress.Commands.add('delayRequestToRoutes', (routes = [], delay = 0) => {
     cy.on('window:before:load', (win) => addDelay(win, routes, delay));
@@ -71,6 +71,7 @@ declare global {
 }
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 

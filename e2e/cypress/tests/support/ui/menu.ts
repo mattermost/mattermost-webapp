@@ -52,6 +52,7 @@ function uiOpenDndStatusSubMenu(): ChainableT<JQuery> {
 Cypress.Commands.add('uiOpenDndStatusSubMenu', uiOpenDndStatusSubMenu);
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 

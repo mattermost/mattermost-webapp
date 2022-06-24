@@ -13,11 +13,11 @@ interface UrlHealthCheckFailure {
     success: false;
 }
 
-export default async function urlHealthCheck({url, method}: {url: string, method: Method}): Promise<UrlHealthCheckSuccess | UrlHealthCheckFailure> {
+export default async function urlHealthCheck({url, method}: {url: string; method: Method}): Promise<UrlHealthCheckSuccess | UrlHealthCheckFailure> {
     try {
         const response = await axios({url, method});
         return {data: response.data, status: response.status, success: true};
     } catch (err) {
         return {success: false, errorCode: err.code};
     }
-};
+}

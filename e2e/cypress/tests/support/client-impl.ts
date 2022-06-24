@@ -1,17 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {Method} from 'axios';
+
 import Client4 from 'mattermost-redux/client/client4';
 
 import clientRequest from '../plugins/client_request';
 
 export class E2EClient extends Client4 {
-    // TODO: sort out the error:
-    // [tsserver 2425] [E] Class 'Client4' defines instance member property
-    // 'doFetchWithResponse', but extended class 'E2EClient' defines it as instance
-    // member function.
-    // @ts-ignore
-    async doFetchWithResponse(url: string, options: any) {
+    doFetchWithResponse = async (url: string, options: any) => {
         const {
             body,
             headers,
@@ -26,7 +23,7 @@ export class E2EClient extends Client4 {
         const response = await clientRequest({
             headers,
             url,
-            method,
+            method: method as Method,
             data,
         });
 
@@ -35,6 +32,15 @@ export class E2EClient extends Client4 {
             this.setUserId(response.data.id);
             this.setUserRoles(response.data.roles);
         }
-        return response;
+        const responseHeaders = new Map();
+
+        Object.entries(response.headers).forEach(([k, v]) => {
+            responseHeaders.set(k, v);
+        });
+        return {
+            ...response,
+            response: response.data,
+            headers: responseHeaders,
+        };
     }
 }

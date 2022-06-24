@@ -4,6 +4,7 @@
 import {PreferenceType} from '@mattermost/types/preferences';
 
 import theme from '../../fixtures/theme.json';
+
 import {ResponseT} from './types';
 
 // *****************************************************************************
@@ -79,7 +80,7 @@ function apiSaveShowMarkdownPreviewPreference(value = 'true'): ReturnType<typeof
         return cy.apiSaveUserPreference([preference]);
     });
 }
-Cypress.Commands.add('apiSaveShowMarkdownPreviewPreference',apiSaveShowMarkdownPreviewPreference);
+Cypress.Commands.add('apiSaveShowMarkdownPreviewPreference', apiSaveShowMarkdownPreviewPreference);
 
 function apiSaveTeammateNameDisplayPreference(value = 'username'): ReturnType<typeof apiSaveUserPreference> {
     return cy.getCookie('MMUSERID').then((cookie) => {
@@ -149,7 +150,6 @@ function apiSaveLinkPreviewsPreference(show = 'true'): ReturnType<typeof apiSave
 }
 Cypress.Commands.add('apiSaveLinkPreviewsPreference', apiSaveLinkPreviewsPreference);
 
-
 function apiSaveCollapsePreviewsPreference(collapse = 'true'): ReturnType<typeof apiSaveUserPreference> {
     return cy.getCookie('MMUSERID').then((cookie) => {
         const preference = {
@@ -189,11 +189,9 @@ function apiSaveDirectChannelShowPreference(userId: string, otherUserId: string,
 Cypress.Commands.add('apiSaveDirectChannelShowPreference', apiSaveDirectChannelShowPreference);
 
 function apiGetUserPreference(userId: string): ResponseT<any> {
-    // compiler treating this as a Chainable<JQuery<any>>
-    // @ts-ignore
     return cy.request(`/api/v4/users/${userId}/preferences`).then((response) => {
         expect(response.status).to.equal(200);
-        return cy.wrap(response.body);
+        return cy.wrap(Promise.resolve(response.body));
     });
 }
 Cypress.Commands.add('apiGetUserPreference', apiGetUserPreference);
@@ -231,7 +229,7 @@ function apiSaveActionsMenuPreference(userId: string, value = true): ReturnType<
     };
 
     return cy.apiSaveUserPreference([preference], userId);
-};
+}
 Cypress.Commands.add('apiSaveActionsMenuPreference', apiSaveActionsMenuPreference);
 
 function apiSaveStartTrialModal(userId: string, value = 'true'): ReturnType<typeof apiSaveUserPreference> {
@@ -271,6 +269,7 @@ function apiSaveSkipStepsPreference(userId: string, value: 'true' | 'false'): Re
 Cypress.Commands.add('apiSaveSkipStepsPreference', apiSaveSkipStepsPreference);
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 
@@ -340,7 +339,7 @@ declare global {
              * @example
              *   cy.apiSaveOnboardingTaskListPreference('user-id', 'hide', 'true');
              */
-            apiSaveOnboardingTaskListPreference: typeof apiSaveOnboardingTaskListPreference
+            apiSaveOnboardingTaskListPreference: typeof apiSaveOnboardingTaskListPreference;
 
             /**
              * Save DM channel show preference.
@@ -378,7 +377,7 @@ declare global {
              * @example
              *   cy.apiSaveCloudTrialBannerPreference('user-id', 'hide', 'true');
              */
-            apiSaveCloudTrialBannerPreference: typeof apiSaveCloudTrialBannerPreference
+            apiSaveCloudTrialBannerPreference: typeof apiSaveCloudTrialBannerPreference;
 
             /**
              * Save actions menu preference.
@@ -438,7 +437,7 @@ declare global {
              * This API assume that the user is logged in and has cookie to access
              * @param {Object} value - sidebar settings object.  Will pass default value if none is provided.
              */
-            apiSaveSidebarSettingPreference: typeof apiSaveSidebarSettingPreference
+            apiSaveSidebarSettingPreference: typeof apiSaveSidebarSettingPreference;
 
             /**
              * Saves the preference on whether to show link and image previews

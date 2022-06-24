@@ -5,7 +5,7 @@
 // Status
 // https://api.mattermost.com/#tag/status
 // *****************************************************************************
-import {UserStatus, UserCustomSatus} from '@mattermost/types/users'
+import {UserStatus, UserCustomStatus} from '@mattermost/types/users';
 
 function apiUpdateUserStatus(status = 'online'): Cypress.Chainable<{status: UserStatus}> {
     return cy.getCookie('MMUSERID').then((cookie) => {
@@ -36,7 +36,7 @@ function apiGetUserStatus(userId: string): Cypress.Chainable<{status: UserStatus
 }
 Cypress.Commands.add('apiGetUserStatus', apiGetUserStatus);
 
-function apiUpdateUserCustomStatus(customStatus: UserCustomSatus): Cypress.Chainable<Cypress.Response<void>> {
+function apiUpdateUserCustomStatus(customStatus: UserCustomStatus): Cypress.Chainable<Cypress.Response<void>> {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/users/me/status/custom',
@@ -60,6 +60,7 @@ function apiClearUserCustomStatus(): Cypress.Chainable<Cypress.Response<void>> {
 Cypress.Commands.add('apiClearUserCustomStatus', apiClearUserCustomStatus);
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 

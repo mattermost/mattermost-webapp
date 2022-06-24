@@ -7,7 +7,7 @@
 // *****************************************************************************
 import {ChainableT} from './types';
 
-function apiGetIncomingWebhook(hookId: string): ChainableT<{webhook: any, status: number}>{
+function apiGetIncomingWebhook(hookId: string): ChainableT<{webhook: any; status: number}> {
     const options = {
         url: `api/v4/hooks/incoming/${hookId}`,
         headers: {'X-Requested-With': 'XMLHttpRequest'},
@@ -22,7 +22,7 @@ function apiGetIncomingWebhook(hookId: string): ChainableT<{webhook: any, status
 }
 Cypress.Commands.add('apiGetIncomingWebhook', apiGetIncomingWebhook);
 
-function apiGetOutgoingWebhook(hookId: string): ChainableT<{webhook: any, status: number}> {
+function apiGetOutgoingWebhook(hookId: string): ChainableT<{webhook: any; status: number}> {
     const options = {
         url: `api/v4/hooks/outgoing/${hookId}`,
         headers: {'X-Requested-With': 'XMLHttpRequest'},
@@ -38,6 +38,7 @@ function apiGetOutgoingWebhook(hookId: string): ChainableT<{webhook: any, status
 Cypress.Commands.add('apiGetOutgoingWebhook', apiGetOutgoingWebhook);
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 

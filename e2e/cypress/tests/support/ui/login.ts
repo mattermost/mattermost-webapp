@@ -3,18 +3,18 @@
 
 import {ChainableT} from '../api/types';
 
-function uiLogin(user = {} as {email: string; password: string;}): ChainableT<void> {
+function uiLogin(user = {} as {email: string; password: string}) {
     cy.url().should('include', '/login');
 
     // # Type email and password, then Sign in
     cy.get('#input_loginId').should('be.visible').type(user.email);
     cy.get('#input_password-input').should('be.visible').type(user.password);
     cy.get('#saveSetting').should('not.be.disabled').click();
-    return;
 }
 Cypress.Commands.add('uiLogin', uiLogin);
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 
@@ -26,7 +26,7 @@ declare global {
              * @example
              *   cy.uiLogin(user);
              */
-            uiLogin(user: UserProfile): Chainable;
+            uiLogin(user: UserProfile): ChainableT<void>;
         }
     }
 }

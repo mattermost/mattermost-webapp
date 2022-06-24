@@ -34,6 +34,7 @@ function apiDeleteScheme(schemeId: string): ResponseT<any> {
 Cypress.Commands.add('apiDeleteScheme', apiDeleteScheme);
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 

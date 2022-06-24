@@ -5,7 +5,7 @@ import axios, {Method} from 'axios';
 
 interface Response {
     data: any;
-    headers?: Record<string,string>;
+    headers?: Record<string, string>;
     status: number;
     statusText: string;
 }
@@ -47,4 +47,4 @@ export default async function clientRequest({data = {}, headers, method = 'get',
         status: response.status,
         statusText: response.statusText,
     };
-};
+}

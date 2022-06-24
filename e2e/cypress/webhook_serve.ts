@@ -230,11 +230,11 @@ interface ChannelMessage {
     response_type: string;
     text: string;
     channel_id: string;
-    extra_responses: {
+    extra_responses: Array<{
         response_type: string;
         text: string;
         channel_id: string;
-    }[],
+    }>;
     type?: string;
 }
 

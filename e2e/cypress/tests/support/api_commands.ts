@@ -16,7 +16,7 @@ import {getAdminAccount, User} from './env';
 
 type AnyResponse = Cypress.Chainable<Cypress.Response<any>>;
 type CypressResponseAny = Cypress.Response<any>
-function apiCreateCommand(command: Record<string, any> = {}): Cypress.Chainable<{data: CypressResponseAny['body'], status: CypressResponseAny['status']}> {
+function apiCreateCommand(command: Record<string, any> = {}): Cypress.Chainable<{data: CypressResponseAny['body']; status: CypressResponseAny['status']}> {
     const options = {
         url: '/api/v4/commands',
         headers: {'X-Requested-With': 'XMLHttpRequest'},
@@ -28,7 +28,7 @@ function apiCreateCommand(command: Record<string, any> = {}): Cypress.Chainable<
         expect(response.status).to.equal(201);
         return cy.wrap({data: response.body, status: response.status});
     });
-};
+}
 
 Cypress.Commands.add('apiCreateCommand', apiCreateCommand);
 
@@ -120,7 +120,7 @@ Cypress.Commands.add('apiUnpinPosts', apiUnpinPosts);
 // https://api.mattermost.com/#tag/webhooks
 // *****************************************************************************
 
-function apiCreateWebhook(hook: Record<string, any> = {}, isIncoming = true): Cypress.Chainable<{data: CypressResponseAny['body'], url: string}> {
+function apiCreateWebhook(hook: Record<string, any> = {}, isIncoming = true): Cypress.Chainable<{data: CypressResponseAny['body']; url: string}> {
     const hookUrl = isIncoming ? '/api/v4/hooks/incoming' : '/api/v4/hooks/outgoing';
     const options = {
         url: hookUrl,
@@ -129,11 +129,9 @@ function apiCreateWebhook(hook: Record<string, any> = {}, isIncoming = true): Cy
         body: hook,
     };
 
-    // @ts-ignore
-    // compiler things it is Chainable<JQuery>
     return cy.request(options).then((response) => {
         const data = response.body;
-        return cy.wrap({...data, url: isIncoming ? `${Cypress.config().baseUrl}/hooks/${data.id}` : ''});
+        return cy.wrap(Promise.resolve({...data, url: isIncoming ? `${Cypress.config().baseUrl}/hooks/${data.id}` : ''}));
     });
 }
 
@@ -148,29 +146,26 @@ function apiGetTeam(teamId: string): Cypress.Chainable<Cypress.Response<any>> {
         expect(response.status).to.equal(200);
         return cy.wrap(response);
     });
-};
+}
 Cypress.Commands.add('apiGetTeam', apiGetTeam);
 
-function removeUserFromChannel(channelId: string, userId: string): AnyResponse {
-    const baseUrl = Cypress.config('baseUrl');
+function removeUserFromChannel(channelId: string, userId: string): ReturnType<typeof cy.externalRequest> {
     const admin = getAdminAccount();
 
-    return cy.externalRequest({user: admin, method: 'delete', baseUrl, path: `channels/${channelId}/members/${userId}`});
+    return cy.externalRequest({user: admin, method: 'delete', path: `channels/${channelId}/members/${userId}`});
 }
 Cypress.Commands.add('removeUserFromChannel', removeUserFromChannel);
 
-function removeUserFromTeam(teamId: string, userId: string): AnyResponse {
-    const baseUrl = Cypress.config('baseUrl');
+function removeUserFromTeam(teamId: string, userId: string): ReturnType<typeof cy.externalRequest> {
     const admin = getAdminAccount();
 
-    return cy.externalRequest({user: admin, method: 'delete', baseUrl, path: `teams/${teamId}/members/${userId}`});
+    return cy.externalRequest({user: admin, method: 'delete', path: `teams/${teamId}/members/${userId}`});
 }
 Cypress.Commands.add('removeUserFromTeam', removeUserFromTeam);
 
-
 interface LDAPSyncResponse {
     status: number;
-    body: {status: string, last_activity_at: number}[]
+    body: Array<{status: string; last_activity_at: number}>;
 }
 
 function apiGetLDAPSync(): Cypress.Chainable<LDAPSyncResponse > {
@@ -345,7 +340,7 @@ function apiLinkGroupTeam(groupID: string, teamID: string): AnyResponse {
 }
 Cypress.Commands.add('apiLinkGroupTeam', apiLinkGroupTeam);
 
-function apiUnlinkGroupChannel(groupID: string, channelID: string): AnyResponse  {
+function apiUnlinkGroupChannel(groupID: string, channelID: string): AnyResponse {
     return linkUnlinkGroupSyncable(groupID, channelID, 'channel', 'DELETE');
 }
 Cypress.Commands.add('apiUnlinkGroupChannel', apiUnlinkGroupChannel);
@@ -368,6 +363,7 @@ function linkUnlinkGroupSyncable(groupID: string, syncableID: string, syncableTy
 }
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 
@@ -415,7 +411,7 @@ declare global {
              */
             apiUnpinPosts: typeof apiUnpinPosts;
 
-           /**
+            /**
             * Creates a command directly via API
             * This API assume that the user is logged in and has required permission to create a command
             * @param {Object} command - command to be created
@@ -437,7 +433,7 @@ declare global {
              * @param {String} userId - The user ID
              * All parameter required
              */
-            removeUserFromChannel: typeof removeUserFromChannel
+            removeUserFromChannel: typeof removeUserFromChannel;
 
             /**
              * Remove a User from a Team directly via API
@@ -468,7 +464,6 @@ declare global {
              *
              */
             apiPatchGroup: typeof apiPatchGroup;
-
 
             /**
              * Get all LDAP groups via API
@@ -506,7 +501,7 @@ declare global {
 
             apiUnlinkGroupChannel: typeof apiUnlinkGroupChannel;
 
-            apiLinkGroupChannel: typeof apiLinkGroupChannel
+            apiLinkGroupChannel: typeof apiLinkGroupChannel;
 
             apiGetGroupTeams: typeof apiGetGroupTeams;
 

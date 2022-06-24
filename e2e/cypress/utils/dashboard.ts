@@ -11,7 +11,7 @@
 
 import fs from 'fs';
 
-import readFileNonPromise from 'util'
+import readFileNonPromise from 'util';
 const readFile = readFileNonPromise.promisify(fs.readFile);
 
 import axios from 'axios';
@@ -152,12 +152,12 @@ export async function updateCycle(id: string, cyclePatch: any) {
     }
 }
 
-export async function uploadScreenshot(filePath: string , repo: any, branch: string, build: any) {
+export async function uploadScreenshot(filePath: string, repo: any, branch: string, build: any) {
     try {
         const contentType = mime.lookup(filePath);
         const extension = mime.extension(contentType || '');
 
-        const {data}: {data: {upload_url: string, object_url: string}} = await axios({
+        const {data}: {data: {upload_url: string; object_url: string}} = await axios({
             url: `${AUTOMATION_DASHBOARD_URL}/upload-request`,
             headers: {
                 Authorization: `Bearer ${AUTOMATION_DASHBOARD_TOKEN}`,

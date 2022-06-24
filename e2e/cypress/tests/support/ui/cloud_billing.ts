@@ -11,15 +11,18 @@ function uiGetPaymentCardInput(): ChainableT<unknown> {
 }
 Cypress.Commands.add('uiGetPaymentCardInput', uiGetPaymentCardInput);
 
-declare namespace Cypress {
-    interface Chainable {
+declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
+    namespace Cypress {
+        interface Chainable {
 
-        /**
-         * Iframe element in Stripe
-         *
-         * @example
-         *   cy.uiGetPaymentCardInput();
-         */
-        uiGetPaymentCardInput: typeof uiGetPaymentCardInput;
+            /**
+             * Iframe element in Stripe
+             *
+             * @example
+             *   cy.uiGetPaymentCardInput();
+             */
+            uiGetPaymentCardInput: typeof uiGetPaymentCardInput;
+        }
     }
 }

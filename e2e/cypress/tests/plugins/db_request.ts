@@ -12,7 +12,7 @@ import {UserProfile} from '@mattermost/types/users';
 import {Session} from '@mattermost/types/sessions';
 import mapKeys from 'lodash.mapkeys';
 
-function convertKeysToLowercase<T extends object=Record<string, any>>(obj: T) {
+function convertKeysToLowercase<T extends Record<string, unknown>=Record<string, any>>(obj: T) {
     return mapKeys(obj, (_, k) => {
         return k.toLowerCase();
     });

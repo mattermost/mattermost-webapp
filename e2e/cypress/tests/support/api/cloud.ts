@@ -1,7 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Subscription, Product} from '@mattermost/types/cloud'
+import {Subscription, Product} from '@mattermost/types/cloud';
+
 import {ChainableT} from './types';
 
 function apiGetCloudProducts(): ChainableT<{products: Product[]}> {
@@ -28,8 +29,8 @@ function apiGetCloudSubscription(): ChainableT<{subscription: Subscription}> {
 }
 Cypress.Commands.add('apiGetCloudSubscription', apiGetCloudSubscription);
 
-
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 
@@ -41,7 +42,7 @@ declare global {
              * @example
              *   cy.apiGetCloudProducts();
              */
-            apiGetCloudProducts: typeof apiGetCloudProducts
+            apiGetCloudProducts: typeof apiGetCloudProducts;
 
             /**
              * Get subscriptions.

@@ -6,6 +6,7 @@ import merge from 'deepmerge';
 import {AnalyticsRow} from 'mattermost-redux/types/admin';
 import {AdminConfig, ClientLicense} from '@mattermost/types/config';
 import {DeepPartial} from '@mattermost/types/utilities';
+
 import {Constants} from '../../utils';
 
 import {ChainableT} from './types';
@@ -88,9 +89,7 @@ function apiUploadLicense(filePath: string): Cypress.Chainable<Response> {
 Cypress.Commands.add('apiUploadLicense', apiUploadLicense);
 
 function apiInstallTrialLicense(): Cypress.Chainable<ClientLicense> {
-    // typescript claims returning Chainable<JQuery<any>>
-    // @ts-ignore
-    return cy.request<any>({
+    return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/trial-license',
         method: 'POST',
@@ -101,7 +100,7 @@ function apiInstallTrialLicense(): Cypress.Chainable<ClientLicense> {
         },
     }).then((response) => {
         expect(response.status).to.equal(200);
-        return cy.wrap(response.body);
+        return cy.wrap(Promise.resolve(response.body));
     });
 }
 Cypress.Commands.add('apiInstallTrialLicense', apiInstallTrialLicense);
@@ -139,7 +138,7 @@ export const getDefaultConfig = () => {
     const isCloud = cypressEnv.serverEdition === Constants.ServerEdition.CLOUD;
 
     if (isCloud) {
-        (fromCypressEnv as DeepPartial<AdminConfig> & {CloudSettings: Record<string,string>}).CloudSettings = {
+        (fromCypressEnv as DeepPartial<AdminConfig> & {CloudSettings: Record<string, string>}).CloudSettings = {
             CWSURL: cypressEnv.cwsURL,
             CWSAPIURL: cypressEnv.cwsAPIURL,
         };
@@ -326,8 +325,6 @@ Cypress.Commands.add('shouldHaveEmailEnabled', shouldHaveEmailEnabled);
  * Upload a license if it does not exist.
  */
 function uploadLicenseIfNotExist(): Cypress.Chainable<FetchedLicense> {
-    // TODO: was claiming this was a Chainable<JQuery<any>>
-    // @ts-ignore
     return cy.apiGetClientLicense().then((data: FetchedLicense) => {
         if (data.isLicensed) {
             return cy.wrap(data);
@@ -340,8 +337,10 @@ function uploadLicenseIfNotExist(): Cypress.Chainable<FetchedLicense> {
 }
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
+
             /**
              * Get configuration.
              * See https://api.mattermost.com/#tag/system/paths/~1config/get
@@ -452,7 +451,6 @@ declare global {
              *   });
              */
             apiReloadConfig: typeof apiReloadConfig;
-
 
             /**
              * Get analytics.

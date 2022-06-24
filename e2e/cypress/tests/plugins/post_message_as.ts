@@ -16,7 +16,7 @@ interface Options {
     baseUrl: string;
 }
 
-export default async function postMessageAs(options: Options): Promise<{status: number; data: Post;}> {
+export default async function postMessageAs(options: Options): Promise<{status: number; data: Post}> {
     const {sender, message, channelId, rootId, createAt = 0, baseUrl} = options;
     const loginResponse = await axios({
         url: `${baseUrl}/api/v4/users/login`,
@@ -32,7 +32,7 @@ export default async function postMessageAs(options: Options): Promise<{status: 
         cookieString += nameAndValue + ';';
     });
 
-    let response: {status: number, data: Post};
+    let response: {status: number; data: Post};
     try {
         response = await axios({
             url: `${baseUrl}/api/v4/posts`,
@@ -57,4 +57,4 @@ export default async function postMessageAs(options: Options): Promise<{status: 
     }
 
     return {status: response.status, data: response.data};
-};
+}

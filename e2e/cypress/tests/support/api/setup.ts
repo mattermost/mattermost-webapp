@@ -74,6 +74,7 @@ function apiInitSetup(arg: SetupParam = {}): ChainableT<SetupResult> {
 Cypress.Commands.add('apiInitSetup', apiInitSetup);
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 

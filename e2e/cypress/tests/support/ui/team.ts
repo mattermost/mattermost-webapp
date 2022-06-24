@@ -3,7 +3,7 @@
 
 import {ChainableT} from '../api/types';
 
-function uiInviteMemberToCurrentTeam(username: string): ChainableT<void> {
+function uiInviteMemberToCurrentTeam(username: string) {
     // # Open member invite screen
     cy.uiOpenTeamMenu('Invite People');
 
@@ -25,14 +25,14 @@ function uiInviteMemberToCurrentTeam(username: string): ChainableT<void> {
 
     // # Close, return
     cy.findByTestId('confirm-done').click();
-    return;
 }
 Cypress.Commands.add('uiInviteMemberToCurrentTeam', uiInviteMemberToCurrentTeam);
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
-            uiInviteMemberToCurrentTeam: typeof uiInviteMemberToCurrentTeam;
+            uiInviteMemberToCurrentTeam(username: string): ChainableT<void>;
         }
     }
 }

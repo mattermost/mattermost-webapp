@@ -3,9 +3,10 @@
 
 import localforage from 'localforage';
 
-import {ChainableT} from './api/types';
 import * as TIMEOUTS from '../fixtures/timeouts';
 import {isMac} from '../utils';
+
+import {ChainableT} from './api/types';
 
 // ***********************************************************
 // Read more: https://on.cypress.io/custom-commands
@@ -64,7 +65,7 @@ Cypress.Commands.add('cmdOrCtrlShortcut', {prevSubject: true}, cmdOrCtrlShortcut
 function postMessage(message: string): ChainableT<any> {
     cy.get('#postListContent').should('be.visible');
     return postMessageAndWait('#post_textbox', message);
-};
+}
 Cypress.Commands.add('postMessage', postMessage);
 
 function postMessageReplyInRHS(message: string): ChainableT<any> {
@@ -114,7 +115,7 @@ function postMessageAndWait(textboxSelector: string, message: string, isComment 
 interface Draft {
     value?: {
         message?: string;
-    }
+    };
 }
 
 // Wait until comment message is saved as draft from the localforage
@@ -235,10 +236,10 @@ Cypress.Commands.add('compareLastPostHTMLContentFromFile', compareLastPostHTMLCo
 // ***********************************************************
 
 export interface User {
-    username: string
+    username: string;
 }
 
-function uiGotoDirectMessageWithUser(user: User): ChainableT<any> {
+function uiGotoDirectMessageWithUser(user: User) {
     // # Open a new direct message with firstDMUser
     cy.uiAddDirectMessage().click().wait(TIMEOUTS.ONE_SEC);
     cy.findByRole('dialog', {name: 'Direct Messages'}).should('be.visible').wait(TIMEOUTS.ONE_SEC);
@@ -264,7 +265,6 @@ function uiGotoDirectMessageWithUser(user: User): ChainableT<any> {
     // * Expect the channel title to be the user's username
     // In the channel header, it seems there is a space after the username, justifying the use of contains.text instead of have.text
     cy.get('#channelHeaderTitle').should('be.visible').and('contain.text', user.username);
-    return;
 }
 Cypress.Commands.add('uiGotoDirectMessageWithUser', uiGotoDirectMessageWithUser);
 
@@ -278,7 +278,7 @@ function sendDirectMessageToUser(user: User, message: string): ChainableT<any> {
 }
 Cypress.Commands.add('sendDirectMessageToUser', sendDirectMessageToUser);
 
-function sendDirectMessageToUsers(users: User[], message: string): ChainableT<any> {
+function sendDirectMessageToUsers(users: User[], message: string) {
     // # Open a new direct message
     cy.uiAddDirectMessage().click();
 
@@ -311,7 +311,6 @@ function sendDirectMessageToUsers(users: User[], message: string): ChainableT<an
     cy.get('#post_textbox').
         type(message).
         type('{enter}');
-    return;
 }
 Cypress.Commands.add('sendDirectMessageToUsers', sendDirectMessageToUsers);
 
@@ -348,33 +347,28 @@ function clickPostHeaderItem(postId: string, location: string, item: string) {
     }
 }
 
-function clickPostTime(postId: string, location = 'CENTER'): ChainableT<any> {
+function clickPostTime(postId: string, location = 'CENTER') {
     clickPostHeaderItem(postId, location, 'time');
-    return;
 }
 Cypress.Commands.add('clickPostTime', clickPostTime);
 
-function clickPostSaveIcon(postId: string, location = 'CENTER'): ChainableT<any> {
+function clickPostSaveIcon(postId: string, location = 'CENTER') {
     clickPostHeaderItem(postId, location, 'flagIcon');
-    return;
 }
 Cypress.Commands.add('clickPostSaveIcon', clickPostSaveIcon);
 
-function clickPostDotMenu(postId: string, location = 'CENTER'): ChainableT<any> {
+function clickPostDotMenu(postId: string, location = 'CENTER') {
     clickPostHeaderItem(postId, location, 'button');
-    return;
 }
 Cypress.Commands.add('clickPostDotMenu', clickPostDotMenu);
 
-function clickPostReactionIcon(postId: string, location = 'CENTER'): ChainableT<any> {
+function clickPostReactionIcon(postId: string, location = 'CENTER') {
     clickPostHeaderItem(postId, location, 'reaction');
-    return;
 }
 Cypress.Commands.add('clickPostReactionIcon', clickPostReactionIcon);
 
-function clickPostCommentIcon(postId: string, location = 'CENTER'): ChainableT<any> {
+function clickPostCommentIcon(postId: string, location = 'CENTER') {
     clickPostHeaderItem(postId, location, 'commentIcon');
-    return;
 }
 Cypress.Commands.add('clickPostCommentIcon', clickPostCommentIcon);
 
@@ -382,12 +376,11 @@ Cypress.Commands.add('clickPostCommentIcon', clickPostCommentIcon);
 // Teams
 // ***********************************************************
 
-function createNewTeam(teamName: string, teamURL: string): ChainableT<any> {
+function createNewTeam(teamName: string, teamURL: string) {
     cy.visit('/create_team');
     cy.get('#teamNameInput').type(teamName).type('{enter}');
     cy.get('#teamURLInput').type(teamURL).type('{enter}');
     cy.visit(`/${teamURL}`);
-    return;
 }
 Cypress.Commands.add('createNewTeam', createNewTeam);
 
@@ -406,7 +399,7 @@ function getCurrentTeamURL(siteURL: string): ChainableT<string> {
 }
 Cypress.Commands.add('getCurrentTeamURL', getCurrentTeamURL);
 
-function leaveTeam(): ChainableT<void> {
+function leaveTeam() {
     // # Open team menu and click "Leave Team"
     cy.uiOpenTeamMenu('Leave Team');
 
@@ -418,7 +411,6 @@ function leaveTeam(): ChainableT<void> {
 
     // * Check that the "leave team modal" closed
     cy.get('#leaveTeamModal').should('not.exist');
-    return;
 }
 Cypress.Commands.add('leaveTeam', leaveTeam);
 
@@ -426,10 +418,9 @@ Cypress.Commands.add('leaveTeam', leaveTeam);
 // Text Box
 // ***********************************************************
 
-function clearPostTextbox(channelName = 'town-square'): ChainableT<void> {
+function clearPostTextbox(channelName = 'town-square') {
     cy.get(`#sidebarItem_${channelName}`).click({force: true});
     cy.get('#post_textbox').clear();
-    return;
 }
 Cypress.Commands.add('clearPostTextbox', clearPostTextbox);
 
@@ -437,7 +428,7 @@ Cypress.Commands.add('clearPostTextbox', clearPostTextbox);
 // Min Setting View
 // ************************************************************
 
-function minDisplaySettings(): ChainableT<void> {
+function minDisplaySettings() {
     cy.get('#themeTitle').should('be.visible', 'contain', 'Theme');
     cy.get('#themeEdit').should('be.visible', 'contain', 'Edit');
 
@@ -455,7 +446,6 @@ function minDisplaySettings(): ChainableT<void> {
 
     cy.get('#languagesTitle').scrollIntoView().should('be.visible', 'contain', 'Language');
     cy.get('#languagesEdit').should('be.visible', 'contain', 'Edit');
-    return;
 }
 Cypress.Commands.add('minDisplaySettings', minDisplaySettings);
 
@@ -463,10 +453,9 @@ Cypress.Commands.add('minDisplaySettings', minDisplaySettings);
 // Change User Status
 // ************************************************************
 
-function userStatus(statusInt: number): ChainableT<void> {
+function userStatus(statusInt: number) {
     cy.get('.status-wrapper.status-selector').click();
     cy.get('.MenuItem').eq(statusInt).click();
-    return;
 }
 Cypress.Commands.add('userStatus', userStatus);
 
@@ -479,7 +468,7 @@ function getCurrentChannelId(): ChainableT<string> {
 }
 Cypress.Commands.add('getCurrentChannelId', getCurrentChannelId);
 
-function updateChannelHeader(text: string): ChainableT<void> {
+function updateChannelHeader(text: string) {
     cy.get('#channelHeaderDropdownIcon').
         should('be.visible').
         click();
@@ -492,15 +481,14 @@ function updateChannelHeader(text: string): ChainableT<void> {
         type(text).
         type('{enter}').
         wait(TIMEOUTS.HALF_SEC);
-    return;
 }
 
 Cypress.Commands.add('updateChannelHeader', updateChannelHeader);
 
 function checkRunLDAPSync(): ChainableT<any> {
     return cy.apiGetLDAPSync().then((response) => {
-        var jobs = response.body;
-        var currentTime = new Date();
+        const jobs = response.body;
+        const currentTime = new Date();
 
         // # Run LDAP Sync if no job exists (or) last status is an error (or) last run time is more than 1 day old
         if (jobs.length === 0 || jobs[0].status === 'error' || ((currentTime.getTime() - (new Date(jobs[0].last_activity_at)).getTime()) > 8640000)) {
@@ -536,7 +524,7 @@ function checkRunLDAPSync(): ChainableT<any> {
 }
 Cypress.Commands.add('checkRunLDAPSync', checkRunLDAPSync);
 
-function clickEmojiInEmojiPicker(emojiName: string): ChainableT<void> {
+function clickEmojiInEmojiPicker(emojiName: string) {
     cy.get('#emojiPicker').should('exist').and('be.visible').within(() => {
         // # Mouse over the emoji to get it selected
         cy.findAllByTestId(emojiName).eq(0).trigger('mouseover', {force: true});
@@ -547,11 +535,11 @@ function clickEmojiInEmojiPicker(emojiName: string): ChainableT<void> {
         // # Click on the emoji
         cy.findAllByTestId(emojiName).eq(0).click({force: true});
     });
-    return;
 }
 Cypress.Commands.add('clickEmojiInEmojiPicker', clickEmojiInEmojiPicker);
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 
@@ -633,7 +621,7 @@ declare global {
              *  cy.uiClickSystemEmoji('slightly_frowning_face');
              *  cy.uiClickSystemEmoji('star-struck,grinning_face_with_star_eyes');
              */
-            clickEmojiInEmojiPicker: typeof clickEmojiInEmojiPicker;
+            clickEmojiInEmojiPicker(emojiName: string): ChainableT<void>;
 
             /**
              * Get nth post from the post list
@@ -682,7 +670,7 @@ declare global {
              *   const user = {username: 'bob'};
              *   cy.uiGotoDirectMessageWithUser(user);
              */
-            uiGotoDirectMessageWithUser: typeof uiGotoDirectMessageWithUser;
+            uiGotoDirectMessageWithUser(user: User): ChainableT<void>;
 
             /**
              * Sends a DM to a given user
@@ -696,35 +684,35 @@ declare global {
              * @param {User[]} users - the users that should get the message
              * @param {String} message - the message to send
              */
-            sendDirectMessageToUsers: typeof sendDirectMessageToUsers;
+            sendDirectMessageToUsers(users: User[], message: string): ChainableT<any>;
 
             /**
              * Click post time
              * @param {String} postId - Post ID
              * @param {String} location - as 'CENTER', 'RHS_ROOT', 'RHS_COMMENT', 'SEARCH'
              */
-            clickPostTime: typeof clickPostTime;
+            clickPostTime(postId: string, location: string): ChainableT<void>;
 
             /**
              * Click save icon by post ID or to most recent post (if post ID is not provided)
              * @param {String} postId - Post ID
              * @param {String} location - as 'CENTER', 'RHS_ROOT', 'RHS_COMMENT', 'SEARCH'
              */
-            clickPostSaveIcon: typeof clickPostSaveIcon;
+            clickPostSaveIcon(postId: string, location: string): ChainableT<void>;
 
             /**
              * Click dot menu by post ID or to most recent post (if post ID is not provided)
              * @param {String} postId - Post ID
              * @param {String} location - as 'CENTER', 'RHS_ROOT', 'RHS_COMMENT', 'SEARCH'
              */
-            clickPostDotMenu: typeof clickPostDotMenu;
+            clickPostDotMenu(postId: string, location: string): ChainableT<void>;
 
             /**
              * Click post reaction icon
              * @param {String} postId - Post ID
              * @param {String} location - as 'CENTER', 'RHS_ROOT', 'RHS_COMMENT'
              */
-            clickPostReactionIcon: typeof  clickPostReactionIcon;
+            clickPostReactionIcon(postId: string, location: string): ChainableT<void>;
 
             /**
              * Click comment icon by post ID or to most recent post (if post ID is not provided)
@@ -732,20 +720,20 @@ declare global {
              * @param {String} postId - Post ID
              * @param {String} location - as 'CENTER', 'SEARCH'
              */
-            clickPostCommentIcon: typeof clickPostCommentIcon;
+            clickPostCommentIcon(postId: string, location: string): ChainableT<void>;
 
-            createNewTeam: typeof createNewTeam;
+            createNewTeam(teamName: string, teamURL: string): ChainableT<void>;
 
             getCurrentTeamURL: typeof getCurrentTeamURL;
 
-            leaveTeam: typeof leaveTeam;
+            leaveTeam(): ChainableT<void>;
 
-            clearPostTextbox: typeof clearPostTextbox;
+            clearPostTextbox(channelName: string): ChainableT<void>;
 
             /**
              * Checking min setting view for display
              */
-            minDisplaySettings: typeof minDisplaySettings;
+            minDisplaySettings(): ChainableT<void>;
 
             /**
              * Set the user's status
@@ -755,7 +743,7 @@ declare global {
              * 2 = Do Not Disturb
              * 3 = Offline
              */
-            userStatus: typeof userStatus;
+            userStatus(statusInt: number): ChainableT<void>;
 
             getCurrentChannelId: typeof getCurrentChannelId;
 
@@ -763,7 +751,7 @@ declare global {
              * Update channel header
              * @param {String} text - Text to set the header to
              */
-            updateChannelHeader: typeof updateChannelHeader;
+            updateChannelHeader(text: string): ChainableT<void>;
 
             /**
              * Navigate to system console-PluginManagement from account settings

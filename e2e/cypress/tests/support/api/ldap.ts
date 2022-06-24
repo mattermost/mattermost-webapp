@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {UserProfile} from '@mattermost/types/users';
+
 import {User} from '../env';
 
 import {ChainableT, ResponseT} from './types';
@@ -38,7 +39,7 @@ Cypress.Commands.add('apiLDAPTest', apiLDAPTest);
 function apiSyncLDAPUser({
     ldapUser = {},
     bypassTutorial = true,
-}): ChainableT<UserProfile>  {
+}): ChainableT<UserProfile> {
     // # Test LDAP connection and synchronize user
     cy.apiLDAPTest();
     cy.apiLDAPSync();
@@ -58,6 +59,7 @@ function apiSyncLDAPUser({
 Cypress.Commands.add('apiSyncLDAPUser', apiSyncLDAPUser);
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 

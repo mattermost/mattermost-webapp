@@ -15,4 +15,4 @@ export default async function postIncomingWebhook({url, data}) {
     }
 
     return {status: response.status, data: response.data};
-};
+}

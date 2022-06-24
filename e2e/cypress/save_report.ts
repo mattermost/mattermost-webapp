@@ -31,6 +31,8 @@ import chai from 'chai';
 import {merge} from 'mochawesome-merge';
 import generator from 'mochawesome-report-generator';
 
+import dotenv from 'dotenv';
+
 import {
     generateDiagnosticReport,
     generateShortSummary,
@@ -44,7 +46,6 @@ import {saveArtifacts} from './utils/artifacts';
 import {MOCHAWESOME_REPORT_DIR, RESULTS_DIR} from './utils/constants';
 import {createTestCycle, createTestExecutions} from './utils/test_cases';
 
-import dotenv from 'dotenv';
 dotenv.config();
 
 const saveReport = async () => {

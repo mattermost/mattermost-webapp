@@ -8,7 +8,7 @@
 import axios from 'axios';
 import chalk from 'chalk';
 
-import {getAllTests, Report, Test} from './report';
+import {getAllTests, Report} from './report';
 
 const status = {
     passed: 'Pass',
@@ -127,7 +127,7 @@ interface TestExecution {
     testCaseKey: string;
     testCycleKey: string;
     statusName: string;
-    testScriptResults: TestScriptResult[],
+    testScriptResults: TestScriptResult[];
     environmentName: string;
     actualEndDate: string;
     executionTime: number;

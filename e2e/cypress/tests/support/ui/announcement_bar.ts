@@ -3,18 +3,18 @@
 
 import {ChainableT} from '../api/types';
 
-function uiCloseAnnouncementBar(): ChainableT<void> {
+function uiCloseAnnouncementBar() {
     cy.document().then((doc) => {
         const announcementBar = doc.getElementsByClassName('announcement-bar')[0];
         if (announcementBar) {
             cy.get('.announcement-bar__close').click();
         }
     });
-    return;
 }
 Cypress.Commands.add('uiCloseAnnouncementBar', uiCloseAnnouncementBar);
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 
@@ -24,7 +24,7 @@ declare global {
              * @example
              *   cy.uiCloseAnnouncementBar();
              */
-            uiCloseAnnouncementBar(): Chainable;
+            uiCloseAnnouncementBar(): ChainableT<void>;
         }
     }
 }

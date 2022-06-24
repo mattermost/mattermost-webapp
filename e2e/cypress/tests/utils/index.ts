@@ -57,7 +57,7 @@ export function getMessageMenusPayload(arg: GetMessageMenusParam = {}) {
 }
 
 export function hexToRgbArray(hex: string) {
-    var rgbArr = hex.replace('#', '').match(/.{1,2}/g);
+    const rgbArr = hex.replace('#', '').match(/.{1,2}/g);
     return [
         parseInt(rgbArr[0], 16),
         parseInt(rgbArr[1], 16),

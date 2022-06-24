@@ -29,4 +29,4 @@ export default async function getRecentEmail({username, mailUrl}: {username: str
     }
 
     return {status: response.status, data: recentEmailMessage};
-};
+}

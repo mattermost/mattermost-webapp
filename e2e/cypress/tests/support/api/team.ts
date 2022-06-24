@@ -1,8 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {getRandomId} from '../../utils';
 import {Team, TeamMembership} from '@mattermost/types/teams';
+
+import {getRandomId} from '../../utils';
+
 import {ChainableT} from './types';
 
 // *****************************************************************************
@@ -161,6 +163,7 @@ function apiUpdateTeamMemberSchemeRole(teamId: string, userId: string, schemeRol
 Cypress.Commands.add('apiUpdateTeamMemberSchemeRole', apiUpdateTeamMemberSchemeRole);
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 
@@ -193,7 +196,7 @@ declare global {
              * @example
              *   cy.apiDeleteTeam('test-id');
              */
-            apiDeleteTeam: typeof apiDeleteTeam
+            apiDeleteTeam: typeof apiDeleteTeam;
 
             /**
              * Delete the team member object for a user, effectively removing them from a team.
@@ -284,7 +287,7 @@ declare global {
              *       // do something with member
              *   });
              */
-            apiAddUserToTeam: typeof apiAddUserToTeam
+            apiAddUserToTeam: typeof apiAddUserToTeam;
 
             /**
              * Get team members.
@@ -297,7 +300,7 @@ declare global {
              *       // do something with members
              *   });
              */
-            apiGetTeamMembers: typeof apiGetTeamMembers
+            apiGetTeamMembers: typeof apiGetTeamMembers;
 
             /**
              * Add a number of users to the team.

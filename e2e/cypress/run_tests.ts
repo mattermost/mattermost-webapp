@@ -64,6 +64,7 @@ import os from 'os';
 import chalk from 'chalk';
 import cypress from 'cypress';
 import yargs from 'yargs';
+import dotenv from 'dotenv';
 
 import {getSortedTestFiles} from './utils/file';
 import {getTestFilesIdentifier} from './utils/even_distribution';
@@ -72,7 +73,6 @@ import {MOCHAWESOME_REPORT_DIR, RESULTS_DIR} from './utils/constants';
 
 const argv = yargs.argv;
 
-import dotenv from 'dotenv';
 dotenv.config();
 
 async function runTests() {
@@ -99,7 +99,7 @@ async function runTests() {
         start,
         end,
         count,
-    } = getTestFilesIdentifier(numberOfTestFiles, argv.part, argv.of);
+    } = getTestFilesIdentifier(numberOfTestFiles, (argv as any).part, argv.of);
 
     for (let i = start, j = 0; i < end && j < count; i++, j++) {
         printMessage(sortedFiles, i, j + 1, count);

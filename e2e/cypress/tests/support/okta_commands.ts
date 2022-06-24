@@ -9,7 +9,6 @@ import {ChainableT} from './api/types';
 
 const token = 'SSWS ' + Cypress.env('oktaMMAppToken');
 
-
 interface InputUser {
     firstname: string;
     lastname: string;
@@ -75,7 +74,7 @@ function oktaGetUser(userId = ''): ChainableT<string | null> {
         urlSuffix: '/users?q=' + userId,
         method: 'get',
         token,
-    }).then((response: AxiosResponse<{id: string}[]>) => {
+    }).then((response: AxiosResponse<Array<{id: string}>>) => {
         expect(response.status).to.be.equal(200);
         if (response.data.length > 0) {
             return cy.wrap(Promise.resolve(response.data[0].id));
@@ -98,13 +97,13 @@ function oktaUpdateUser(userId = '', user = {} as InputUser): ChainableT<OktaUse
         },
     }).then((response: AxiosResponse<OktaUser>) => {
         expect(response.status).to.equal(201);
-           return cy.wrap(Promise.resolve(response.data));
+        return cy.wrap(Promise.resolve(response.data));
     });
 }
 Cypress.Commands.add('oktaUpdateUser', oktaUpdateUser);
 
 //first we deactivate the user, then we actually delete it
-function oktaDeleteUser(userId = ''): ChainableT<void> {
+function oktaDeleteUser(userId = '') {
     cy.task('oktaRequest', {
         baseUrl: Cypress.env('oktaApiUrl'),
         urlSuffix: '/users/' + userId,
@@ -123,11 +122,10 @@ function oktaDeleteUser(userId = ''): ChainableT<void> {
             expect(_response.data).is.empty;
         });
     });
-    return;
 }
 Cypress.Commands.add('oktaDeleteUser', oktaDeleteUser);
 
-function oktaDeleteSession(userId = ''): ChainableT<void> {
+function oktaDeleteSession(userId = '') {
     cy.task('oktaRequest', {
         baseUrl: Cypress.env('oktaApiUrl'),
         urlSuffix: '/users/' + userId + '/sessions',
@@ -142,7 +140,6 @@ function oktaDeleteSession(userId = ''): ChainableT<void> {
             cy.clearCookie(cookie);
         });
     });
-    return;
 }
 Cypress.Commands.add('oktaDeleteSession', oktaDeleteSession);
 
@@ -185,7 +182,7 @@ function oktaGetOrCreateUser(user: OktaUser): ChainableT<string | undefined> {
 }
 Cypress.Commands.add('oktaGetOrCreateUser', oktaGetOrCreateUser);
 
-function oktaAddUsers(users: {regulars: InputUser[], guests: InputUser[], admins: InputUser[]}): ChainableT<void> {
+function oktaAddUsers(users: {regulars: InputUser[]; guests: InputUser[]; admins: InputUser[]}) {
     let userId: string;
     Object.values(users.regulars).forEach((_user) => {
         cy.oktaGetUser(_user.email).then((uId) => {
@@ -225,11 +222,10 @@ function oktaAddUsers(users: {regulars: InputUser[], guests: InputUser[], admins
             }
         });
     });
-    return;
 }
 Cypress.Commands.add('oktaAddUsers', oktaAddUsers);
 
-function oktaRemoveUsers(users: {regulars: OktaUser[], guests: OktaUser[], admins: OktaUser[]}): ChainableT<void> {
+function oktaRemoveUsers(users: {regulars: OktaUser[]; guests: OktaUser[]; admins: OktaUser[]}) {
     let userId: string;
     Object.values(users.regulars).forEach((_user) => {
         cy.oktaGetUser(_user.email).then((_uId) => {
@@ -257,43 +253,41 @@ function oktaRemoveUsers(users: {regulars: OktaUser[], guests: OktaUser[], admin
             }
         });
     });
-    return;
 }
 Cypress.Commands.add('oktaRemoveUsers', oktaRemoveUsers);
 
-function checkOktaLoginPage(): ChainableT<void> {
+function checkOktaLoginPage() {
     cy.findByText('Powered by').should('be.visible');
     cy.findAllByText('Sign In').should('be.visible');
     cy.get('#okta-signin-password').should('be.visible');
     cy.get('#okta-signin-submit').should('be.visible');
-    return;
 }
 Cypress.Commands.add('checkOktaLoginPage', checkOktaLoginPage);
 
-function doOktaLogin(user: OktaUser): ChainableT<void> {
+function doOktaLogin(user: OktaUser) {
     cy.checkOktaLoginPage();
 
     cy.get('#okta-signin-username').type(user.email);
     cy.get('#okta-signin-password').type(user.password);
     cy.findAllByText('Sign In').last().click().wait(TIMEOUTS.FIVE_SEC);
-    return;
 }
 Cypress.Commands.add('doOktaLogin', doOktaLogin);
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
             oktaCreateUser: typeof oktaCreateUser;
             oktaGetUser: typeof oktaGetUser;
             oktaUpdateUser: typeof oktaUpdateUser;
-            oktaDeleteUser: typeof oktaDeleteUser;
-            oktaDeleteSession: typeof oktaDeleteSession;
+            oktaDeleteUser(userId: string): ChainableT<void>;
+            oktaDeleteSession(userId: string): ChainableT<void>;
             oktaAssignUserToApplication: typeof oktaAssignUserToApplication;
             oktaGetOrCreateUser: typeof oktaGetOrCreateUser;
-            oktaAddUsers: typeof oktaAddUsers;
-            oktaRemoveUsers: typeof oktaRemoveUsers;
-            checkOktaLoginPage: typeof checkOktaLoginPage;
-            doOktaLogin: typeof doOktaLogin;
+            oktaAddUsers(users: {regulars: InputUser[]; guests: InputUser[]; admins: InputUser[]}): ChainableT<void>;
+            oktaRemoveUsers(users: {regulars: OktaUser[]; guests: OktaUser[]; admins: OktaUser[]}): ChainableT<void>;
+            checkOktaLoginPage(): ChainableT<void>;
+            doOktaLogin(user: OktaUser): ChainableT<void>;
         }
     }
 }

@@ -1,9 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import * as TIMEOUTS from '../fixtures/timeouts';
-import {ChainableT} from './api/types';
 import {AxiosResponse} from 'axios';
+
+import * as TIMEOUTS from '../fixtures/timeouts';
+
+import {ChainableT} from './api/types';
 
 const {
     keycloakBaseUrl,
@@ -13,7 +15,7 @@ const {
 const baseUrl = `${keycloakBaseUrl}/auth/admin/realms/${keycloakAppName}`;
 const loginUrl = `${keycloakBaseUrl}/auth/realms/master/protocol/openid-connect/token`;
 
-function buildProfile(user: {firstname: string; lastname: string; email: string; username: string;}) {
+function buildProfile(user: {firstname: string; lastname: string; email: string; username: string}) {
     return {
         firstName: user.firstname,
         lastName: user.lastname,
@@ -24,8 +26,6 @@ function buildProfile(user: {firstname: string; lastname: string; email: string;
 }
 
 function keycloakGetAccessTokenAPI(): ChainableT<string> {
-    // compiler claims its a JQuery<any>
-    // @ts-ignore
     return cy.task('keycloakRequest', {
         baseUrl: loginUrl,
         path: '',
@@ -67,7 +67,7 @@ function keycloakResetPasswordAPI(accessToken: string, userId: string, password:
             Authorization: `Bearer ${accessToken}`,
         },
         data: {type: 'password', temporary: false, value: password},
-    }).then((response: AxiosResponse<{id: string}[]>) => {
+    }).then((response: AxiosResponse<Array<{id: string}>>) => {
         if (response.status === 200 && response.data.length > 0) {
             return cy.wrap(response.data[0].id);
         }
@@ -85,7 +85,7 @@ function keycloakGetUserAPI(accessToken: string, email: string): ChainableT<any>
             'Content-Type': 'application/json',
             Authorization: `Bearer ${accessToken}`,
         },
-    }).then((response: AxiosResponse<{id: string}[]>) => {
+    }).then((response: AxiosResponse<Array<{id: string}>>) => {
         if (response.status === 200 && response.data.length > 0) {
             return cy.wrap(response.data[0].id);
         }
@@ -160,7 +160,7 @@ function keycloakGetUserSessionsAPI(accessToken: string, userId: string): Chaina
 Cypress.Commands.add('keycloakGetUserSessionsAPI', keycloakGetUserSessionsAPI);
 
 function keycloakDeleteUserSessions(accessToken: string, userId: string): ChainableT<any> {
-    return cy.keycloakGetUserSessionsAPI(accessToken, userId).then((responseData: {id: string}[]) => {
+    return cy.keycloakGetUserSessionsAPI(accessToken, userId).then((responseData: Array<{id: string}>) => {
         if (responseData.length > 0) {
             Object.values(responseData).forEach((data) => {
                 const sessionId = data.id;
@@ -242,31 +242,30 @@ function keycloakUnsuspendUser(userEmail: string): ChainableT<any> {
 }
 Cypress.Commands.add('keycloakUnsuspendUser', keycloakUnsuspendUser);
 
-function checkKeycloakLoginPage(): ChainableT<any> {
+function checkKeycloakLoginPage() {
     cy.findByText('Username or email', {timeout: TIMEOUTS.ONE_SEC}).should('be.visible');
     cy.findByText('Password').should('be.visible');
     cy.findAllByText('Log In').should('be.visible');
-    return;
 }
 Cypress.Commands.add('checkKeycloakLoginPage', checkKeycloakLoginPage);
 
-function doKeycloakLogin(user: KeycloakUser): ChainableT<any> {
+function doKeycloakLogin(user: KeycloakUser) {
     cy.apiLogout();
     cy.visit('/login');
     cy.findByText('SAML').click();
     cy.findByText('Username or email').type(user.email);
     cy.findByText('Password').type(user.password);
     cy.findAllByText('Log In').last().click();
-    return
 }
 Cypress.Commands.add('doKeycloakLogin', doKeycloakLogin);
 
 function verifyKeycloakLoginFailed(): ChainableT<any> {
-    return cy.findAllByText('Account is disabled, contact your administrator.').should('be.visible')
+    return cy.findAllByText('Account is disabled, contact your administrator.').should('be.visible');
 }
 Cypress.Commands.add('verifyKeycloakLoginFailed', verifyKeycloakLoginFailed);
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 
@@ -418,7 +417,7 @@ declare global {
              * @example
              *   cy.checkKeycloakLoginPage();
              */
-            checkKeycloakLoginPage: typeof checkKeycloakLoginPage;
+            checkKeycloakLoginPage: ChainableT<void>;
 
             /**
              * doKeycloakLogin is a command that attempts to log a user into keycloak.
@@ -426,7 +425,7 @@ declare global {
              * @example
              *   cy.doKeycloakLogin();
              */
-            doKeycloakLogin: typeof doKeycloakLogin;
+            doKeycloakLogin(user: KeycloakUser): ChainableT<any>;
 
             /**
              * verifyKeycloakLoginFailed is a command that verifies a keycloak login failed.

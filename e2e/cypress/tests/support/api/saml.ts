@@ -48,6 +48,7 @@ function apiUploadSAMLPrivateKey(filePath: string): ResponseT<any> {
 Cypress.Commands.add('apiUploadSAMLPrivateKey', apiUploadSAMLPrivateKey);
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 

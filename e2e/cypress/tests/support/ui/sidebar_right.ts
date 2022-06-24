@@ -12,15 +12,13 @@ function uiGetRHS(options = {visible: true}): ChainableT<JQuery> {
 }
 Cypress.Commands.add('uiGetRHS', uiGetRHS);
 
-function uiCloseRHS(): ChainableT<void> {
+function uiCloseRHS() {
     cy.findByLabelText('Close Sidebar Icon').click();
-    return;
 }
 Cypress.Commands.add('uiCloseRHS', uiCloseRHS);
 
-function uiExpandRHS(): ChainableT<void> {
+function uiExpandRHS() {
     cy.findByLabelText('Expand').click();
-    return;
 }
 Cypress.Commands.add('uiExpandRHS', uiExpandRHS);
 
@@ -34,9 +32,8 @@ function uiGetReply(): ChainableT<JQuery> {
 }
 Cypress.Commands.add('uiGetReply', uiGetReply);
 
-function uiReply(): ChainableT<void> {
+function uiReply() {
     cy.uiGetReply().click();
-    return;
 }
 Cypress.Commands.add('uiReply', uiReply);
 
@@ -89,6 +86,7 @@ function uiOpenFileFilterMenu(item = ''): ChainableT<JQuery> {
 Cypress.Commands.add('uiOpenFileFilterMenu', uiOpenFileFilterMenu);
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 
@@ -108,7 +106,7 @@ declare global {
              * @example
              *   cy.uiCloseRHS();
              */
-            uiCloseRHS: typeof uiCloseRHS;
+            uiCloseRHS(): ChainableT<void>;
 
             /**
              * Expand RHS
@@ -116,7 +114,7 @@ declare global {
              * @example
              *   cy.uiExpandRHS();
              */
-            uiExpandRHS: typeof uiExpandRHS;
+            uiExpandRHS(): ChainableT<void>;
 
             /**
              * Verify if RHS is expanded
@@ -140,7 +138,7 @@ declare global {
              * @example
              *   cy.uiReply();
              */
-            uiReply: typeof uiReply;
+            uiReply(): ChainableT<void>;
 
             /**
              * Get RHS container

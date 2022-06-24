@@ -35,13 +35,12 @@ function uiGetHeaderFilePreviewModal(): ChainableT<JQuery> {
 }
 Cypress.Commands.add('uiGetHeaderFilePreviewModal', uiGetHeaderFilePreviewModal);
 
-function uiOpenFilePreviewModal(filename: string): ChainableT<void> {
+function uiOpenFilePreviewModal(filename: string) {
     if (filename) {
         cy.uiGetFileThumbnail(filename.toLowerCase()).click();
     } else {
         cy.findByTestId('fileAttachmentList').children().first().click();
     }
-    return;
 }
 Cypress.Commands.add('uiOpenFilePreviewModal', uiOpenFilePreviewModal);
 
@@ -76,6 +75,7 @@ function uiGetArrowRightFilePreviewModal(): ChainableT<JQuery> {
 Cypress.Commands.add('uiGetArrowRightFilePreviewModal', uiGetArrowRightFilePreviewModal);
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 
@@ -125,7 +125,7 @@ declare global {
              * @example
              *   cy.uiOpenFilePreviewModal('image.png');
              */
-            uiOpenFilePreviewModal: typeof uiOpenFilePreviewModal;
+            uiOpenFilePreviewModal(filename: string): ChainableT<void>;
 
             /**
              * Close file preview modal

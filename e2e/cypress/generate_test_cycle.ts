@@ -66,10 +66,11 @@ import os from 'os';
 
 import chalk from 'chalk';
 
+import dotenv from 'dotenv';
+
 import {createAndStartCycle} from './utils/dashboard';
 import {getSortedTestFiles} from './utils/file';
 
-import dotenv from 'dotenv';
 dotenv.config();
 
 const {

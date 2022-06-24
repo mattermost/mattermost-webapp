@@ -1,11 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import path from 'path';
+
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 import {ChainableT} from './types';
-
-import path from 'path';
 
 // *****************************************************************************
 // Common / Helper commands
@@ -72,6 +72,7 @@ function formRequest(method: string, url: string, formData: FormData, successSta
 }
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 
@@ -94,7 +95,7 @@ declare global {
              * @param {String} fileURL - Export file URL
              * @param {String} contentType - File content-Type
              */
-            apiDownloadFileAndVerifyContentType: typeof apiDownloadFileAndVerifyContentType
+            apiDownloadFileAndVerifyContentType: typeof apiDownloadFileAndVerifyContentType;
         }
     }
 }

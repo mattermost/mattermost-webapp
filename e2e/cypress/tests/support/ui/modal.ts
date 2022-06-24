@@ -5,14 +5,14 @@ import {ChainableT} from '../api/types';
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-function uiCloseModal(headerLabel: string): ChainableT<void>{
+function uiCloseModal(headerLabel: string) {
     // # Close modal with modal label
     cy.get('#genericModalLabel', {timeout: TIMEOUTS.HALF_MIN}).should('have.text', headerLabel).parents().find('.modal-dialog').findByLabelText('Close').click();
-    return;
 }
 Cypress.Commands.add('uiCloseModal', uiCloseModal);
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 
@@ -24,7 +24,7 @@ declare global {
              *   const headerLabel = 'What\'s New';
              *   cy.uiCloseModal(headerLabel);
              */
-            uiCloseModal: typeof uiCloseModal;
+            uiCloseModal(headerLabel: string): ChainableT<void>;
         }
     }
 }

@@ -36,9 +36,9 @@ function apiRequireServerDBToMatch() {
 Cypress.Commands.add('apiRequireServerDBToMatch', apiRequireServerDBToMatch);
 
 interface GetActiveUserSessionsArg {
- username: string;
- userId: string;
- limit: string; // maximum number of active sessions to return, e.g. 50 (default)
+    username: string;
+    userId: string;
+    limit: string; // maximum number of active sessions to return, e.g. 50 (default)
 }
 
 function dbGetActiveUserSessions(arg: GetActiveUserSessionsArg): ChainableT<{user: UserProfile}> {
@@ -48,7 +48,7 @@ function dbGetActiveUserSessions(arg: GetActiveUserSessionsArg): ChainableT<{use
 
         return cy.wrap({user, sessions});
     });
-}{
+}
 Cypress.Commands.add('dbGetActiveUserSessions', dbGetActiveUserSessions);
 
 function dbGetUser({username}: {username: string}): ChainableT<{user: UserProfile}> {
@@ -72,7 +72,7 @@ Cypress.Commands.add('dbGetUserSession', dbGetUserSession);
 interface DbUpdateUserSessionArg {
     sessionId: string;
     userId: string;
-    fieldsToUpdate: Record<string, any>
+    fieldsToUpdate: Record<string, any>;
 }
 function dbUpdateUserSession({sessionId, userId, fieldsToUpdate}: DbUpdateUserSessionArg): ChainableT<{session: Session}> {
     return cy.task('dbUpdateUserSession', {dbConfig, params: {sessionId, userId, fieldsToUpdate}}).then(({session, errorMessage}) => {
@@ -90,6 +90,7 @@ function verifyError(error: any, errorMessage: string) {
 }
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 
@@ -111,7 +112,6 @@ declare global {
              */
             dbGetActiveUserSessions: typeof dbGetActiveUserSessions;
 
-
             /**
              * Gets user on a given username directly from the database
              * @param {Object} options
@@ -126,7 +126,7 @@ declare global {
              * @param {String} options.sessionId
              * @returns {Session} session
              */
-            dbGetUserSession: typeof dbGetUserSession
+            dbGetUserSession: typeof dbGetUserSession;
 
             /**
              * Updates session of a user on a given user ID and session ID with fields to update directly from the database

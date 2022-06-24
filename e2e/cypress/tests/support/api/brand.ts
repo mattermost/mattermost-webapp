@@ -22,8 +22,8 @@ function apiDeleteBrandImage(): ResponseT<any> {
 }
 Cypress.Commands.add('apiDeleteBrandImage', apiDeleteBrandImage);
 
-
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 

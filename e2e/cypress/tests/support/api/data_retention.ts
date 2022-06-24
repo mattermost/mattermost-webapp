@@ -5,7 +5,7 @@
 // https://api.mattermost.com/#tag/data-retention
 // *****************************************************************************
 
-import {ResponseT} from "./types";
+import {ResponseT} from './types';
 
 function apiGetCustomRetentionPolicies(page = 0, perPage = 100): ResponseT<any> {
     return cy.request({
@@ -126,6 +126,7 @@ function apiPostWithCreateDate(channelId: string, message: string, token: string
 Cypress.Commands.add('apiPostWithCreateDate', apiPostWithCreateDate);
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 

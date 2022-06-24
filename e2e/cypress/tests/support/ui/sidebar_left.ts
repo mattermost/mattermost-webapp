@@ -99,7 +99,7 @@ function uiBrowseOrCreateChannel(item: string): ChainableT<JQuery | undefined> {
     if (item) {
         return cy.findByRole('menuitem', {name: item});
     }
-    return;
+    return undefined;
 }
 Cypress.Commands.add('uiBrowseOrCreateChannel', uiBrowseOrCreateChannel);
 
@@ -113,9 +113,8 @@ function uiGetFindChannels(): ChainableT<JQuery> {
 }
 Cypress.Commands.add('uiGetFindChannels', uiGetFindChannels);
 
-function uiOpenFindChannels(): ChainableT<void> {
+function uiOpenFindChannels() {
     cy.uiGetFindChannels().click();
-    return;
 }
 Cypress.Commands.add('uiOpenFindChannels', uiOpenFindChannels);
 
@@ -133,7 +132,7 @@ function uiGetChannelSidebarMenu(channelName: string): ChainableT<JQuery> {
 }
 Cypress.Commands.add('uiGetChannelSidebarMenu', uiGetChannelSidebarMenu);
 
-function uiClickSidebarItem(name: string): ChainableT<void> {
+function uiClickSidebarItem(name: string) {
     cy.uiGetSidebarItem(name).click();
 
     if (name === 'threads') {
@@ -146,7 +145,6 @@ function uiClickSidebarItem(name: string): ChainableT<void> {
     } else {
         cy.findAllByTestId('postView').should('be.visible');
     }
-    return;
 }
 Cypress.Commands.add('uiClickSidebarItem', uiClickSidebarItem);
 
@@ -156,6 +154,7 @@ function uiGetSidebarItem(channelName: string): ChainableT<JQuery> {
 Cypress.Commands.add('uiGetSidebarItem', uiGetSidebarItem);
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 
@@ -238,7 +237,7 @@ declare global {
              * @example
              *   cy.uiOpenFindChannels();
              */
-            uiOpenFindChannels: typeof uiOpenFindChannels;
+            uiOpenFindChannels(): ChainableT<void>;
 
             /**
              * Open menu of a channel in the sidebar
@@ -256,7 +255,7 @@ declare global {
              * @example
              *   cy.uiClickSidebarItem('town-square');
              */
-            uiClickSidebarItem: typeof uiClickSidebarItem;
+            uiClickSidebarItem(name: string): ChainableT<void>;
 
             /**
              * Get sidebar item by channel or thread name

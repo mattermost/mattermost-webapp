@@ -47,6 +47,7 @@ function uiVerifyAtMentionSuggestion(user: User, isSelected = false): ChainableT
 Cypress.Commands.add('uiVerifyAtMentionSuggestion', uiVerifyAtMentionSuggestion);
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 

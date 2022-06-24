@@ -1,11 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-
 import {Bot} from '@mattermost/types/bots';
 
-import {ChainableT} from './types';
 import {getRandomId} from '../../utils';
+
+import {ChainableT} from './types';
 
 // *****************************************************************************
 // Bots
@@ -60,6 +60,7 @@ export function createBotPatch(prefix = 'bot'): Partial<Bot> {
 }
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 

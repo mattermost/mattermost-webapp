@@ -10,7 +10,7 @@ declare global {
 
 interface TestTree {
     title: string;
-    parent?: TestTree
+    parent?: TestTree;
 }
 
 export function reportBenchmarkResults(cy: Cypress.Chainable, win: typeof window) {

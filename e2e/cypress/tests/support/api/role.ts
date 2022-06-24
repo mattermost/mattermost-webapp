@@ -4,6 +4,7 @@
 import xor from 'lodash.xor';
 
 import {Role} from '@mattermost/types/roles';
+
 import {ChainableT} from './types';
 
 // *****************************************************************************
@@ -639,6 +640,7 @@ function apiResetRoles() {
 Cypress.Commands.add('apiResetRoles', apiResetRoles);
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 

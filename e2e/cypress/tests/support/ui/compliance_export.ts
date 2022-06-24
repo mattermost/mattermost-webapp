@@ -5,7 +5,7 @@ import {ChainableT} from '../api/types';
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-function uiEnableComplianceExport(exportFormat = 'csv'): ChainableT<void> {
+function uiEnableComplianceExport(exportFormat = 'csv') {
     // # Enable compliance export
     cy.findByRole('radio', {name: /true/i}).click();
 
@@ -19,14 +19,12 @@ function uiEnableComplianceExport(exportFormat = 'csv'): ChainableT<void> {
     cy.waitUntil(() => cy.get('@saveButton').then((el) => {
         return el[0].innerText === 'Save';
     }));
-    return;
 }
 Cypress.Commands.add('uiEnableComplianceExport', uiEnableComplianceExport);
 
 function uiGoToCompliancePage(): ChainableT<void> {
     cy.visit('/admin_console/compliance/export');
     cy.get('.admin-console__header', {timeout: TIMEOUTS.TWO_MIN}).should('be.visible').invoke('text').should('include', 'Compliance Export');
-    return;
 }
 Cypress.Commands.add('uiGoToCompliancePage', uiGoToCompliancePage);
 
@@ -54,11 +52,11 @@ function uiExportCompliance(): ChainableT<void> {
         interval: TIMEOUTS.ONE_SEC,
         errorMsg: 'Compliance export did not finish in time',
     });
-    return;
 }
 Cypress.Commands.add('uiExportCompliance', uiExportCompliance);
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 
@@ -70,7 +68,7 @@ declare global {
              *   const EXPORTFORMAT = "Actiance XML";
              *   cy.uiEnableComplianceExport(Compliance Export Format);
              */
-            uiEnableComplianceExport: typeof uiEnableComplianceExport;
+            uiEnableComplianceExport(exportFormat: string): ChainableT<void>;
 
             /**
              * Go to Compliance Page

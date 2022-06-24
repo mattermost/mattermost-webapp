@@ -24,7 +24,7 @@ export function getEmailResetEmailTemplate(userEmail: string) {
     ];
 }
 
-export function getJoinEmailTemplate(sender: string, userEmail: string, team: {display_name: string, name: string}, isGuest = false) {
+export function getJoinEmailTemplate(sender: string, userEmail: string, team: {display_name: string; name: string}, isGuest = false) {
     const baseUrl = Cypress.config('baseUrl');
 
     return [

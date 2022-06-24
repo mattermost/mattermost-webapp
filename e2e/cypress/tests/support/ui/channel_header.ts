@@ -67,6 +67,7 @@ function uiOpenChannelMenu(item = ''): ChainableT<JQuery> {
 Cypress.Commands.add('uiOpenChannelMenu', uiOpenChannelMenu);
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 
@@ -134,7 +135,7 @@ declare global {
              * @example
              *   cy.uiOpenChannelMenu();
              */
-            uiOpenChannelMenu(): Chainable;
+            uiOpenChannelMenu: typeof uiOpenChannelMenu;
         }
     }
 }

@@ -19,6 +19,7 @@ function shellUnzip(source: string, target: string): ChainableT<any> {
 Cypress.Commands.add('shellUnzip', shellUnzip);
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 

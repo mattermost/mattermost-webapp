@@ -1,9 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {UserProfile} from '@mattermost/types/users'
+import {UserProfile} from '@mattermost/types/users';
 
 import {getEmailUrl, splitEmailBodyText} from '../utils';
+
 import {ChainableT} from './api/types';
 
 function getRecentEmail({username, email}: Pick<UserProfile, 'username' | 'email'>): ChainableT<any> {
@@ -28,6 +29,7 @@ function getRecentEmail({username, email}: Pick<UserProfile, 'username' | 'email
 Cypress.Commands.add('getRecentEmail', getRecentEmail);
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 

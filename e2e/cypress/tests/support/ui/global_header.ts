@@ -160,18 +160,18 @@ function uiOpenSettingsModal(section = ''): ChainableT<JQuery> {
 }
 Cypress.Commands.add('uiOpenSettingsModal', uiOpenSettingsModal);
 
-function uiLogout(): ChainableT<any> {
+function uiLogout() {
     // # Click logout via user menu
     cy.uiOpenUserMenu('Log Out');
 
     cy.url().should('include', '/login');
     cy.get('.login-body-message').should('be.visible');
     cy.get('.login-body-card').should('be.visible');
-    return;
 }
 Cypress.Commands.add('uiLogout', uiLogout);
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 
@@ -326,7 +326,7 @@ declare global {
              * @example
              *   cy.uiLogout();
              */
-            uiLogout(): Chainable;
+            uiLogout(): ChainableT<void>;
 
             /**
              * Get profile header

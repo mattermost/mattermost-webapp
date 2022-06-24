@@ -12,9 +12,10 @@ import AWS from 'aws-sdk';
 import mime from 'mime-types';
 import readdir from 'recursive-readdir';
 
+import dotenv from 'dotenv';
+
 import {MOCHAWESOME_REPORT_DIR} from './constants';
 
-import dotenv from 'dotenv';
 dotenv.config();
 
 const {
@@ -36,7 +37,7 @@ function getFiles(dirPath: string) {
     return fs.existsSync(dirPath) ? readdir(dirPath) : [];
 }
 
-export async function saveArtifacts(): Promise<{success: boolean, reportLink?: string}> {
+export async function saveArtifacts(): Promise<{success: boolean; reportLink?: string}> {
     if (!AWS_S3_BUCKET || !AWS_ACCESS_KEY_ID || !AWS_SECRET_ACCESS_KEY) {
         console.log('No AWS credentials found. Test artifacts not uploaded to S3.');
 

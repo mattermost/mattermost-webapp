@@ -3,18 +3,17 @@
 
 import {ChainableT} from '../api/types';
 
-function uiSearchPosts(searchTerm: string): ChainableT<void> {
+function uiSearchPosts(searchTerm: string) {
     // # Enter the search terms and hit enter to start the search
     cy.get('#searchBox').clear().type(searchTerm).type('{enter}');
 
     // * Wait for the RHS to open and the search results to appear
     cy.contains('.sidebar--right__header', 'Search Results').should('be.visible');
     cy.get('#searchContainer .LoadingSpinner').should('not.exist');
-    return;
 }
 Cypress.Commands.add('uiSearchPosts', uiSearchPosts);
 
-function uiJumpToSearchResult(postId: string): ChainableT<void> {
+function uiJumpToSearchResult(postId: string) {
     // # Find the post in the search results and click Jump
     cy.get(`#searchResult_${postId}`).contains('a', 'Jump').click();
 
@@ -23,15 +22,15 @@ function uiJumpToSearchResult(postId: string): ChainableT<void> {
 
     // * Verify that the permalinked post is highlighted in the center channel
     cy.get(`#post_${postId}.post--highlight`).should('be.visible');
-    return;
 }
 Cypress.Commands.add('uiJumpToSearchResult', uiJumpToSearchResult);
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
-            uiSearchPosts: typeof uiSearchPosts;
-            uiJumpToSearchResult: typeof uiJumpToSearchResult;
+            uiSearchPosts(searchTerm: string): ChainableT<void>;
+            uiJumpToSearchResult(postId: string): ChainableT<void>;
         }
     }
 }

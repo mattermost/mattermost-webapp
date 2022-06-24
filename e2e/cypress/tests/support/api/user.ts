@@ -9,7 +9,7 @@ import {getRandomId} from '../../utils';
 import {getAdminAccount, User} from '../env';
 
 import {buildQueryString} from './helpers';
-import {ResponseT} from './types';
+import {ChainableT, ResponseT} from './types';
 
 // *****************************************************************************
 // Users
@@ -18,16 +18,14 @@ import {ResponseT} from './types';
 
 type UserProfilePassword = UserProfile & {password: string};
 
-import {ChainableT} from './types';
-
-function apiLogin(user: User, requestOptions: Record<string, any> = {}): ChainableT<{user?: UserProfilePassword, error?: any}> {
+function apiLogin(user: User, requestOptions: Record<string, any> = {}): ChainableT<{user?: UserProfilePassword; error?: any}> {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/users/login',
         method: 'POST',
         body: {login_id: user.username || user.email, password: user.password},
         ...requestOptions,
-    }).then((response: Cypress.Response<UserProfile | any>) => {
+    }).then((response: Cypress.Response<UserProfile>) => {
         if (requestOptions.failOnStatusCode) {
             expect(response.status).to.equal(200);
         }
@@ -68,9 +66,7 @@ function apiAdminLogin(requestOptions: Parameters<typeof apiLogin>[1] = {}): Ret
     const admin = getAdminAccount();
 
     // First, login with username
-    // (compiler thinkgs it is a JQuery<any>)
-    // @ts-ignore
-    return cy.apiLogin(admin, requestOptions).then((resp) => {
+    return cy.apiLogin(admin, requestOptions).then<{user?: UserProfilePassword; error?: any}>((resp) => {
         if (resp.error) {
             if (resp.error.id === 'mfa.validate_token.authenticate.app_error') {
                 // On fail, try to login via MFA
@@ -94,7 +90,6 @@ function apiAdminLoginWithMFA(token: string): ReturnType<typeof apiLoginWithMFA>
     const admin = getAdminAccount();
 
     return cy.apiLoginWithMFA(admin, token);
-
 }
 Cypress.Commands.add('apiAdminLoginWithMFA', apiAdminLoginWithMFA);
 
@@ -163,7 +158,7 @@ function apiGetUsersByUsernames(usernames: string[] = []): ChainableT<{users: Us
         return cy.wrap({users: response.body});
     });
 }
-Cypress.Commands.add('apiGetUsersByUsernames', apiGetUsersByUsernames)
+Cypress.Commands.add('apiGetUsersByUsernames', apiGetUsersByUsernames);
 
 function apiPatchUser(userId: string, userData: Partial<UserProfile>): ChainableT<{user: UserProfile}> {
     return cy.request({
@@ -176,7 +171,7 @@ function apiPatchUser(userId: string, userData: Partial<UserProfile>): Chainable
         return cy.wrap({user: response.body});
     });
 }
-Cypress.Commands.add('apiPatchUser', apiPatchUser)
+Cypress.Commands.add('apiPatchUser', apiPatchUser);
 
 function apiPatchMe(data: Partial<UserProfile>): ChainableT<{user: UserProfile}> {
     return cy.request({
@@ -194,9 +189,7 @@ Cypress.Commands.add('apiPatchMe', apiPatchMe);
 function apiCreateCustomAdmin({loginAfter = false, hideAdminTrialModal = true}): ChainableT<{sysadmin: UserProfile}> {
     const sysadminUser = generateRandomUser('other-admin');
 
-    // compiler says it is a JQueryAny
-    // @ts-ignore
-    return cy.apiCreateUser({user: sysadminUser}).then(({user}) => {
+    return cy.apiCreateUser({user: sysadminUser}).then<any>(({user}) => {
         return cy.apiPatchUserRoles(user.id, ['system_admin', 'system_user']).then(() => {
             const data = {sysadmin: user};
 
@@ -211,7 +204,7 @@ function apiCreateCustomAdmin({loginAfter = false, hideAdminTrialModal = true}):
             return data;
         });
     });
-};
+}
 Cypress.Commands.add('apiCreateCustomAdmin', apiCreateCustomAdmin);
 
 function apiCreateAdmin(): ChainableT<{sysadmin: UserProfilePassword}> {
@@ -296,7 +289,7 @@ function apiCreateUser({
 
         return cy.wrap({user: {...createdUser, password: newUser.password}});
     });
-};
+}
 Cypress.Commands.add('apiCreateUser', apiCreateUser);
 
 function apiCreateGuestUser({
@@ -359,7 +352,7 @@ function apiPatchUserRoles(userId: string, roleNames: string[] = ['system_user']
         expect(response.status).to.equal(200);
         return cy.wrap({user: response.body});
     });
-};
+}
 Cypress.Commands.add('apiPatchUserRoles', apiPatchUserRoles);
 
 function apiDeactivateUser(userId: string): ResponseT<any> {
@@ -467,7 +460,7 @@ function apiResetPassword(userId: string, currentPass: string, newPass: string):
 }
 Cypress.Commands.add('apiResetPassword', apiResetPassword);
 
-function apiGenerateMfaSecret(userId: string): ChainableT<{code: {secret: string}}>{
+function apiGenerateMfaSecret(userId: string): ChainableT<{code: {secret: string}}> {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         method: 'POST',
@@ -480,8 +473,6 @@ function apiGenerateMfaSecret(userId: string): ChainableT<{code: {secret: string
 Cypress.Commands.add('apiGenerateMfaSecret', apiGenerateMfaSecret);
 
 function apiAccessToken(userId: string, description: string): ResponseT<UserAccessToken> {
-    // compiler thinks it is JQuery<any>
-    // @ts-ignore
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/users/' + userId + '/tokens',
@@ -491,7 +482,7 @@ function apiAccessToken(userId: string, description: string): ResponseT<UserAcce
         },
     }).then((response) => {
         expect(response.status).to.equal(200);
-        return cy.wrap(response.body);
+        return cy.wrap(Promise.resolve(response.body));
     });
 }
 Cypress.Commands.add('apiAccessToken', apiAccessToken);
@@ -529,15 +520,13 @@ function apiUpdateUserAuth(userId: string, authData: string, password: string, a
 Cypress.Commands.add('apiUpdateUserAuth', apiUpdateUserAuth);
 
 function apiGetTotalUsers(): ChainableT<number> {
-    // compiler thinks it is a JQuery<any>
-    // @ts-ignore
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         method: 'GET',
         url: '/api/v4/users/stats',
     }).then((response) => {
         expect(response.status).to.equal(200);
-        return cy.wrap(response.body.total_users_count);
+        return cy.wrap(Promise.resolve(response.body.total_users_count));
     });
 }
 Cypress.Commands.add('apiGetTotalUsers', apiGetTotalUsers);
@@ -545,6 +534,7 @@ Cypress.Commands.add('apiGetTotalUsers', apiGetTotalUsers);
 export {generateRandomUser};
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 
@@ -735,7 +725,7 @@ declare global {
              * @example
              *   cy.apiCreateUser(options);
              */
-            apiCreateUser: typeof apiCreateUser
+            apiCreateUser: typeof apiCreateUser;
 
             /**
              * Create a new guest user with an options to set name prefix and be able to bypass tutorial steps.
@@ -914,7 +904,7 @@ declare global {
              *  cy.apiResetPassword('userId', 'password1', 'password2');
              */
             apiResetPassword: typeof apiResetPassword;
-            
+
             /**
              * Generate a MFA secret
              *

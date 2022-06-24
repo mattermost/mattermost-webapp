@@ -33,3 +33,12 @@ async function makeClient(arg: Arg = {}) {
 }
 
 Cypress.Commands.add('makeClient', makeClient);
+
+declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
+    namespace Cypress {
+        interface Chainable {
+            makeClient(options?: {user: Pick<UserProfile, 'username' | 'password'>}): Chainable<Client>;
+        }
+    }
+}

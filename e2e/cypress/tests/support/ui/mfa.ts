@@ -1,9 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {ChainableT} from '../api/types';
-
 import authenticator from 'authenticator';
+
+import {ChainableT} from '../api/types';
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
@@ -35,6 +35,7 @@ function uiGetMFASecret(userId: string): ChainableT<string> {
 Cypress.Commands.add('uiGetMFASecret', uiGetMFASecret);
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 

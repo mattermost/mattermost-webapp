@@ -6,7 +6,7 @@ import * as TIMEOUTS from '../fixtures/timeouts';
 import {CreateTeamSettings} from './saml_commands';
 
 export interface CheckLoginSettings {
-     siteName?: string;
+    siteName?: string;
 }
 
 function checkLoginPage(settings: CheckLoginSettings = {}) {
@@ -53,7 +53,6 @@ function checkMemberNoChannels() {
 }
 Cypress.Commands.add('checkMemberNoChannels', checkMemberNoChannels);
 
-
 interface User {
     isAdmin: boolean;
     userType: string;
@@ -94,7 +93,7 @@ function checkLeftSideBar(settings: CheckLeftSidebarOptions) {
 Cypress.Commands.add('checkLeftSideBar', checkLeftSideBar);
 
 interface CheckInvitePeoplePageOptions {
-    teamName?: string | null; 
+    teamName?: string | null;
 }
 
 function checkInvitePeoplePage(options: CheckInvitePeoplePageOptions = {}): void {
@@ -166,6 +165,7 @@ function checkForLDAPError(): Cypress.Chainable<boolean> {
 Cypress.Commands.add('checkForLDAPError', checkForLDAPError);
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 
@@ -196,13 +196,13 @@ declare global {
             checkLoginFailed: typeof checkLoginFailed;
 
             /**
-             * checkGuestNoChannels checks that the guest receives the guest version of 
+             * checkGuestNoChannels checks that the guest receives the guest version of
              * the "no channels" ui.
              */
             checkGuestNoChannels: typeof checkGuestNoChannels;
 
             /**
-             * checkMemberNoChannels checks that the guest receives the member version of 
+             * checkMemberNoChannels checks that the guest receives the member version of
              * the "no channels" ui.
              */
             checkMemberNoChannels: typeof checkMemberNoChannels;
@@ -217,7 +217,7 @@ declare global {
 
             // doMemberLogoutFromSignUp checks that the members no channels ui is present,
             // and then logs out
-            doMemberLogoutFromSignUp: typeof doMemberLogoutFromSignUp; 
+            doMemberLogoutFromSignUp: typeof doMemberLogoutFromSignUp;
 
             // skipOrCreateTeam creates a team if the user does not belong to one.
             skipOrCreateTeam: typeof skipOrCreateTeam;

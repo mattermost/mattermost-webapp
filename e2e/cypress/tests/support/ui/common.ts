@@ -18,10 +18,9 @@ function uiClose(): ChainableT<JQuery> {
 }
 Cypress.Commands.add('uiClose', uiClose);
 
-function uiSaveAndClose(): ChainableT<void> {
+function uiSaveAndClose() {
     cy.uiSave();
     cy.uiClose();
-    return;
 }
 Cypress.Commands.add('uiSaveAndClose', uiSaveAndClose);
 
@@ -60,7 +59,7 @@ function uiGetTextbox(name: string): ChainableT<JQuery> {
 }
 Cypress.Commands.add('uiGetTextbox', uiGetTextbox);
 
-function uiCloseOnboardingTaskList(): ChainableT<void> {
+function uiCloseOnboardingTaskList() {
     cy.get('[data-cy=onboarding-task-list-action-button]').then(($btn) => {
         if ($btn.find('i.icon-close').length) {
             $btn.trigger('click');
@@ -71,6 +70,7 @@ function uiCloseOnboardingTaskList(): ChainableT<void> {
 Cypress.Commands.add('uiCloseOnboardingTaskList', uiCloseOnboardingTaskList);
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 
@@ -104,7 +104,7 @@ declare global {
              * @example
              *   cy.uiSaveAndClose();
              */
-            uiSaveAndClose: typeof uiSaveAndClose;
+            uiSaveAndClose(): ChainableT<void>;
 
             /**
              * Get a button by its text using "cy.findByRole"
@@ -162,7 +162,7 @@ declare global {
              */
             uiGetTextbox: typeof uiGetTextbox;
 
-            uiCloseOnboardingTaskList: typeof uiCloseOnboardingTaskList;
+            uiCloseOnboardingTaskList(): ChainableT<void>;
         }
     }
 }

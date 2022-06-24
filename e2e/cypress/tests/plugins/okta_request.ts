@@ -45,4 +45,4 @@ export default async function oktaRquest(arg: OktaRequestArg) {
     }
 
     return response;
-};
+}

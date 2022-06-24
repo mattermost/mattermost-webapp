@@ -1,9 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {ChainableT, ResponseT} from './types';
 import {Channel, ChannelMembership} from '@mattermost/types/channels';
+
 import {getRandomId} from '../../utils';
+
+import {ChainableT, ResponseT} from './types';
 
 // *****************************************************************************
 // Channels
@@ -204,6 +206,7 @@ function apiCreateArchivedChannel(name: string, displayName: string, type = 'O',
 Cypress.Commands.add('apiCreateArchivedChannel', apiCreateArchivedChannel);
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 

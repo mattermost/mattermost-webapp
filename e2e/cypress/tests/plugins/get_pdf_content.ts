@@ -12,4 +12,4 @@ export default async function getPdfContent(filePath: string): Promise<Result> {
     const dataBuffer = fs.readFileSync(filePath);
     const data = await pdf(dataBuffer);
     return data;
-};
+}

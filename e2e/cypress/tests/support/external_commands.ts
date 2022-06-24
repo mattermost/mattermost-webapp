@@ -5,20 +5,19 @@ import {ChainableT} from './api/types';
 import {getAdminAccount} from './env';
 
 function externalActivateUser(userId: string, active = true): ChainableT<any> {
-    const baseUrl = Cypress.config('baseUrl');
     const admin = getAdminAccount();
 
     return cy.externalRequest({
         user: admin,
         method: 'put',
-        baseUrl,
         path: `users/${userId}/active`,
-        data: {active}
+        data: {active},
     });
 }
 Cypress.Commands.add('externalActivateUser', externalActivateUser);
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 

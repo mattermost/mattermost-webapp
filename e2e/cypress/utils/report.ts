@@ -13,7 +13,7 @@ const MAX_FAILED_TITLES = 5;
 let incrementalDuration = 0;
 
 export interface Test {
-    duration: number; 
+    duration: number;
     title: string;
     incrementalDuration: number;
     state: string;
@@ -23,8 +23,8 @@ export interface Test {
 }
 
 export interface Results {
-    tests: Test[]
-    suites: Results[]
+    tests: Test[];
+    suites: Results[];
 }
 
 interface Stats {
@@ -168,6 +168,7 @@ export function generateTestReport(summary: Summary, isUploadedToS3: boolean, re
         TEST_CYCLE_LINK_PREFIX,
     } = process.env;
     const {statsFieldValue, stats} = summary;
+    /* eslint-disable @typescript-eslint/naming-convention */
     const {
         cypress_version,
         browser_name,
@@ -177,6 +178,7 @@ export function generateTestReport(summary: Summary, isUploadedToS3: boolean, re
         os_version,
         node_version,
     } = environment;
+    /* eslint-enable @typescript-eslint/naming-convention */
 
     let testResult: TestResult;
     for (let i = 0; i < result.length; i++) {
@@ -316,7 +318,7 @@ interface DiagnosticSummary {
     stats: {
         start: string;
         end: string;
-    }
+    };
 }
 
 export function generateDiagnosticReport(summary: DiagnosticSummary, serverInfo: ServerInfo) {

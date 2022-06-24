@@ -2,28 +2,28 @@
 // See LICENSE.txt for license information.
 
 import * as TIMEOUTS from '../fixtures/timeouts';
+
+import type {ExternalRequestUser} from '../plugins/external_request';
+
 import {ChainableT} from './api/types';
 import type {CheckLeftSidebarOptions} from './common_login_commands';
-import type {ExternalRequestUser} from '../plugins/external_request';
 
 import {getAdminAccount} from './env';
 
-function visitLDAPSettings(): ChainableT<void> {
+function visitLDAPSettings() {
     // # Go to LDAP settings Page
     cy.visit('/admin_console/authentication/ldap');
     cy.get('.admin-console__header').should('be.visible').and('have.text', 'AD/LDAP');
-    return;
 }
 Cypress.Commands.add('visitLDAPSettings', visitLDAPSettings);
 
-function doLDAPLogin(settings = ({} as PerformLDAPLoginSettings & {siteName?: string}), useEmail = false): ChainableT<void> {
+function doLDAPLogin(settings = ({} as PerformLDAPLoginSettings & {siteName?: string}), useEmail = false) {
     // # Go to login page
     cy.apiLogout();
     cy.visit('/login');
     cy.wait(TIMEOUTS.FIVE_SEC);
     cy.checkLoginPage(settings);
     cy.performLDAPLogin(settings, useEmail);
-    return;
 }
 Cypress.Commands.add('doLDAPLogin', doLDAPLogin);
 
@@ -32,43 +32,40 @@ interface PerformLDAPLoginSettings {
         email: string;
         username: string;
         password: string;
-    }
+    };
 }
-function performLDAPLogin(settings = ({} as PerformLDAPLoginSettings), useEmail = false): ChainableT<void> {
+function performLDAPLogin(settings = ({} as PerformLDAPLoginSettings), useEmail = false) {
     const loginId = useEmail ? settings.user.email : settings.user.username;
     cy.get('#input_loginId').type(loginId);
     cy.get('#input_password-input').type(settings.user.password);
 
     //click the login button
     cy.get('#saveSetting').should('not.be.disabled').click();
-    return;
 }
 Cypress.Commands.add('performLDAPLogin', performLDAPLogin);
 
-function doLDAPLogout(settings = ({} as {siteName?: string} & CheckLeftSidebarOptions)): ChainableT<void> {
+function doLDAPLogout(settings = ({} as {siteName?: string} & CheckLeftSidebarOptions)) {
     cy.checkLeftSideBar(settings);
 
     // # Logout then check login page
     cy.uiLogout();
     cy.checkLoginPage(settings);
-    return;
 }
 Cypress.Commands.add('doLDAPLogout', doLDAPLogout);
 
-function doSkipTutorial(): ChainableT<void> {
+function doSkipTutorial() {
     cy.wait(TIMEOUTS.FIVE_SEC);
     cy.get('body').then((body) => {
         if (body.find('#tutorialSkipLink').length > 0) {
             cy.get('#tutorialSkipLink').click().wait(TIMEOUTS.HALF_SEC);
         }
     });
-    return;
 }
 Cypress.Commands.add('doSkipTutorial', doSkipTutorial);
 
 function runLdapSync(admin: ExternalRequestUser): ChainableT<boolean> {
     return cy.externalRequest({user: admin, method: 'post', path: 'ldap/sync'}).then(() => {
-        cy.waitForLdapSyncCompletion(Date.now(), TIMEOUTS.THREE_MIN).then(() => {
+        return cy.waitForLdapSyncCompletion(Date.now(), TIMEOUTS.THREE_MIN).then(() => {
             return cy.wrap(true);
         });
     });
@@ -114,11 +111,11 @@ function waitForLdapSyncCompletion(start: number, timeout: number): ChainableT<v
         cy.wait(TIMEOUTS.FIVE_SEC);
         cy.waitForLdapSyncCompletion(start, timeout);
     });
-    return;
 }
 Cypress.Commands.add('waitForLdapSyncCompletion', waitForLdapSyncCompletion);
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 
@@ -129,7 +126,6 @@ declare global {
              */
             getLdapSyncJobStatus: typeof getLdapSyncJobStatus;
 
-
             /**
              * waitForLdapSyncCompletion is a task that runs recursively
              * until getLdapSyncJobStatus completes or timeouts.
@@ -138,13 +134,13 @@ declare global {
              */
             waitForLdapSyncCompletion: typeof waitForLdapSyncCompletion;
 
-            visitLDAPSettings: typeof visitLDAPSettings;
+            visitLDAPSettings(): ChainableT<void>;
 
-            doLDAPLogin: typeof doLDAPLogin;
+            doLDAPLogin(settings?: PerformLDAPLoginSettings & {siteName?: string}, useEmail?: boolean): ChainableT<void>;
 
-            performLDAPLogin: typeof performLDAPLogin;
+            performLDAPLogin(settings?: PerformLDAPLoginSettings, useEmail?: boolean): ChainableT<void>;
 
-            doLDAPLogout: typeof doLDAPLogout;
+            doLDAPLogout(settings?: {siteName?: string} & CheckLeftSidebarOptions): ChainableT<void>;
 
             /**
              * runLdapSync is a task that runs an external request to run an ldap sync job.
@@ -154,6 +150,7 @@ declare global {
              */
             runLdapSync: typeof runLdapSync;
 
+            doSkipTutorial(): ChainableT<void>;
         }
     }
 }

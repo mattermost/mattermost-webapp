@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {PluginManifest, PluginsResponse} from '@mattermost/types/plugins';
+
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 // *****************************************************************************
@@ -8,7 +10,6 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 // https://api.mattermost.com/#tag/plugins
 // *****************************************************************************
 
-import {PluginManifest, PluginsResponse} from '@mattermost/types/plugins';
 import {ChainableT, ResponseT} from './types';
 
 function apiGetAllPlugins(): ChainableT<{plugins: PluginsResponse}> {
@@ -72,7 +73,7 @@ function apiUploadPlugin(filename: string): ChainableT<any> {
 }
 Cypress.Commands.add('apiUploadPlugin', apiUploadPlugin);
 
-function apiUploadAndEnablePlugin({filename, url, id, version}): ChainableT<PluginStatus> {
+function apiUploadAndEnablePlugin({filename, url, id, version}: PluginTestInfo): ChainableT<PluginStatus> {
     return cy.apiGetPluginStatus(id, version).then((data) => {
         // # If already active, then only return the data
         if (data.isActive) {
@@ -205,8 +206,8 @@ function apiUninstallAllPlugins() {
 }
 Cypress.Commands.add('apiUninstallAllPlugins', apiUninstallAllPlugins);
 
-
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 
@@ -245,7 +246,7 @@ declare global {
              * @example
              *   cy.apiUploadPlugin('filename');
              */
-            apiUploadPlugin: typeof apiUploadPlugin
+            apiUploadPlugin: typeof apiUploadPlugin;
 
             /**
              * Upload a plugin and enable.

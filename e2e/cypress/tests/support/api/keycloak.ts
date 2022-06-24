@@ -7,7 +7,7 @@
 // *****************************************************************************
 import {AxiosResponse} from 'axios';
 
-import {ChainableT, ResponseT} from './types';
+import {ChainableT} from './types';
 
 import realmJson from './keycloak_realm.json';
 
@@ -19,7 +19,6 @@ const {
 } = Cypress.env();
 
 function apiKeycloakGetAccessToken(): ChainableT<string> {
-    // @ts-ignore
     return cy.task('keycloakRequest', {
         baseUrl: `${keycloakBaseUrl}/auth/realms/master/protocol/openid-connect/token`,
         method: 'POST',
@@ -43,10 +42,9 @@ function getRealmJson() {
     return JSON.parse(realm);
 }
 
-function apiKeycloakSaveRealm(accessToken: string, failOnStatusCode = true): ResponseT<any> {
+function apiKeycloakSaveRealm(accessToken: string, failOnStatusCode = true): ChainableT<AxiosResponse<any>> {
     const realm = getRealmJson();
 
-    // @ts-ignore
     return cy.task('keycloakRequest', {
         baseUrl: `${keycloakBaseUrl}/auth/admin/realms`,
         method: 'POST',
@@ -66,8 +64,7 @@ function apiKeycloakSaveRealm(accessToken: string, failOnStatusCode = true): Res
 
 Cypress.Commands.add('apiKeycloakSaveRealm', apiKeycloakSaveRealm);
 
-function apiKeycloakGetRealm(accessToken: string, failOnStatusCode = true): ResponseT<any> {
-    // @ts-ignore
+function apiKeycloakGetRealm(accessToken: string, failOnStatusCode = true): ChainableT<AxiosResponse<any>> {
     return cy.task('keycloakRequest', {
         baseUrl: `${keycloakBaseUrl}/auth/admin/realms/${keycloakAppName}`,
         method: 'GET',
@@ -101,6 +98,7 @@ function apiRequireKeycloak(): any {
 Cypress.Commands.add('apiRequireKeycloak', apiRequireKeycloak);
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 

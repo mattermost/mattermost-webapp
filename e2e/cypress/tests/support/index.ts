@@ -37,10 +37,10 @@ import './shell';
 import './task_commands';
 import './ui';
 import './ui_commands'; // soon to deprecate
+
 import {DEFAULT_TEAM} from './constants';
 
 import {getDefaultConfig} from './api/system';
-import {UserProfile} from 'aws-sdk/clients/opsworks';
 
 Cypress.dayjs = dayjs;
 type IdSuite = Suite & {id: string}
@@ -164,7 +164,7 @@ function printServerDetails() {
     });
 }
 
-function sysadminSetup(user: {username: string, password: string, email_verified: boolean, id: string}) {
+function sysadminSetup(user: {username: string; password: string; email_verified: boolean; id: string}) {
     if (Cypress.env('firstTest')) {
         // Sends dummy call to update the config to server
         // Without this, first call to `cy.apiUpdateConfig()` consistently getting time out error in CI against remote server.
@@ -212,7 +212,7 @@ function sysadminSetup(user: {username: string, password: string, email_verified
             cy.apiGetChannelsForUser('me', defaultTeam.id).then(({channels}) => {
                 channels.forEach((channel) => {
                     if (
-                        (channel.team_id === defaultTeam.id || channel.team_name === defaultTeam.name) &&
+                        (channel.team_id === defaultTeam.id || (channel as any).team_name === defaultTeam.name) &&
                         (channel.name !== 'town-square' && channel.name !== 'off-topic')
                     ) {
                         cy.apiDeleteChannel(channel.id);
@@ -223,7 +223,7 @@ function sysadminSetup(user: {username: string, password: string, email_verified
     });
 }
 
-function resetUserPreference(userId) {
+function resetUserPreference(userId: string) {
     cy.apiSaveTeammateNameDisplayPreference('username');
     cy.apiSaveLinkPreviewsPreference('true');
     cy.apiSaveCollapsePreviewsPreference('false');
@@ -238,6 +238,7 @@ function resetUserPreference(userId) {
 }
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         type AdminConfig = import('@mattermost/types/config').AdminConfig;
         type AnalyticsRow = import('mattermost-redux/types/admin').AnalyticsRow;

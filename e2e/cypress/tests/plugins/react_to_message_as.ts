@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import axios, {AxiosResponse} from "axios";
+import axios, {AxiosResponse} from 'axios';
 
 interface ReactToMessageAsArg {
     sender: {
@@ -52,4 +52,4 @@ export default async function reactToMessageAs(arg: ReactToMessageAsArg) {
     }
 
     return {status: response.status, data: response.data};
-};
+}

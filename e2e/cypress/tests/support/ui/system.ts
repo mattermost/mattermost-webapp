@@ -5,7 +5,7 @@ import {ChainableT} from '../api/types';
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-function uiCheckLicenseExists(): ChainableT<void> {
+function uiCheckLicenseExists() {
     // # Go to system admin then verify admin console URL, header, and content
     cy.visit('/admin_console/about/license');
     cy.url().should('include', '/admin_console/about/license');
@@ -14,11 +14,10 @@ function uiCheckLicenseExists(): ChainableT<void> {
         cy.get('.admin-console__content').should('be.visible').and('not.contain', 'undefined').and('not.contain', 'Invalid');
         cy.get('#remove-button').should('be.visible');
     });
-    return;
 }
 Cypress.Commands.add('uiCheckLicenseExists', uiCheckLicenseExists);
 
-function uiResetPermissionsToDefault(): ChainableT<void> {
+function uiResetPermissionsToDefault() {
     // # Navigate to system scheme page
     cy.visit('/admin_console/user_management/permissions/system_scheme');
 
@@ -26,11 +25,10 @@ function uiResetPermissionsToDefault(): ChainableT<void> {
     cy.findByTestId('resetPermissionsToDefault', {timeout: TIMEOUTS.HALF_MIN}).click();
     cy.get('#confirmModalButton').click();
     cy.uiSaveConfig();
-    return;
 }
 Cypress.Commands.add('uiResetPermissionsToDefault', uiResetPermissionsToDefault);
 
-function uiSaveConfig(): ChainableT<void> {
+function uiSaveConfig() {
     // # Save settings
     cy.get('#saveSetting').should('be.enabled').click();
     cy.wait(TIMEOUTS.ONE_SEC);
@@ -39,11 +37,11 @@ function uiSaveConfig(): ChainableT<void> {
     cy.waitUntil(() => cy.get('#saveSetting').then((el) => {
         return el[0].innerText === 'Save';
     }));
-    return;
 }
 Cypress.Commands.add('uiSaveConfig', uiSaveConfig);
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 
@@ -53,7 +51,7 @@ declare global {
              * @example
              *   cy.uiCheckLicenseExists();
              */
-            uiCheckLicenseExists: typeof uiCheckLicenseExists;
+            uiCheckLicenseExists(): ChainableT<void>;
 
             /**
              * Reset system scheme permissions via System Console
@@ -61,7 +59,7 @@ declare global {
              * @example
              *   cy.uiResetPermissionsToDefault();
              */
-            uiResetPermissionsToDefault: typeof uiResetPermissionsToDefault;
+            uiResetPermissionsToDefault(): ChainableT<void>;
 
             /**
              * Save settings located in System Console
@@ -69,7 +67,7 @@ declare global {
              * @example
              *   cy.uiSaveConfig();
              */
-            uiSaveConfig: typeof uiSaveConfig;
+            uiSaveConfig(): ChainableT<void>;
         }
     }
 }

@@ -11,11 +11,22 @@ interface PostMessageResponse{
     status: number;
     data: any;
 }
-function postMessageAs({sender, message, channelId, rootId, createAt}): ChainableT<PostMessageResponse> {
+interface PostMessageArg {
+    sender: {
+        username: string;
+        password: string;
+    };
+    message: string;
+    channelId: string;
+    rootId?: string;
+    createAt?: number;
+}
+function postMessageAs(arg: PostMessageArg): ChainableT<PostMessageResponse> {
+    const {sender, message, channelId, rootId, createAt} = arg;
     const baseUrl = Cypress.config('baseUrl');
 
     return cy.task('postMessageAs', {sender, message, channelId, rootId, createAt, baseUrl}).then((response: AxiosResponse<{id: string}>) => {
-        const {status, data} = response
+        const {status, data} = response;
         expect(status).to.equal(201);
 
         // # Return the data so it can be interacted in a test
@@ -66,7 +77,7 @@ function reactToMessageAs(arg: ReactToMessageAsArg): ChainableT<Pick<AxiosRespon
 }
 Cypress.Commands.add('reactToMessageAs', reactToMessageAs);
 
-function postIncomingWebhook({url, data, waitFor}: {url: string, data: any; waitFor: string}): ChainableT<void> {
+function postIncomingWebhook({url, data, waitFor}: {url: string; data: any; waitFor: string}): ChainableT<void> {
     cy.task('postIncomingWebhook', {url, data}).its('status').should('be.equal', 200);
 
     if (!waitFor) {
@@ -87,7 +98,6 @@ function postIncomingWebhook({url, data, waitFor}: {url: string, data: any; wait
             return false;
         }
     }));
-    return;
 }
 Cypress.Commands.add('postIncomingWebhook', postIncomingWebhook);
 
@@ -122,7 +132,7 @@ Cypress.Commands.add('externalRequest', externalRequest);
 interface PostBotMessageArg {
     token: string;
     message: string;
-    props: Record<string, any>
+    props: Record<string, any>;
     channelId: string;
     rootId: string;
     createAt: number;
@@ -151,7 +161,7 @@ interface UrlHealthCheckArg {
     method: string;
     httpStatus: number;
 }
-function urlHealthCheck(arg: UrlHealthCheckArg): ChainableT<{data: any; status: number;}> {
+function urlHealthCheck(arg: UrlHealthCheckArg): ChainableT<{data: any; status: number}> {
     const {name, url, helperMessage, method, httpStatus} = arg;
     Cypress.log({name, message: `Checking URL health at ${url}`});
 
@@ -173,7 +183,7 @@ function urlHealthCheck(arg: UrlHealthCheckArg): ChainableT<{data: any; status: 
 }
 Cypress.Commands.add('urlHealthCheck', urlHealthCheck);
 
-function requireWebhookServer(): ChainableT<any> {
+function requireWebhookServer() {
     const baseUrl = Cypress.config('baseUrl');
     const webhookBaseUrl = Cypress.env('webhookBaseUrl');
     const adminUsername = Cypress.env('adminUsername');
@@ -201,14 +211,13 @@ __Tips:__
             adminPassword,
         }}).
         its('status').should('be.equal', 201);
-
-    return;
 }
 Cypress.Commands.add('requireWebhookServer', requireWebhookServer);
 
 Cypress.Commands.overwrite('log', (_subject, message) => cy.task('log', message));
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 
@@ -241,7 +250,7 @@ declare global {
              * @example
              *    cy.reactToMessageAs({sender:user2, postId:"ABC123", reaction: 'smile'});
              */
-            reactToMessageAs: typeof reactToMessageAs
+            reactToMessageAs: typeof reactToMessageAs;
 
             /**
              * Verify that the webhook server is accessible, and then sets up base URLs and credential.
@@ -249,7 +258,7 @@ declare global {
              * @example
              *    cy.requireWebhookServer();
              */
-            requireWebhookServer: typeof requireWebhookServer;
+            requireWebhookServer(): ChainableT<void>;
 
             /**
             * postMessageAs is a task which is wrapped as command with post-verification

@@ -1,17 +1,18 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import './common_login_commands.d'
+import './common_login_commands.d';
 
 import * as TIMEOUTS from '../fixtures/timeouts';
 import {stubClipboard} from '../utils';
+
 import {CheckLeftSidebarOptions, CheckLoginSettings} from './common_login_commands';
 
 export interface CreateTeamSettings {
     user: {
         isGuest: boolean;
         userType: string;
-    }
+    };
 }
 
 function checkCreateTeamPage(settings: CreateTeamSettings) {
@@ -25,7 +26,7 @@ Cypress.Commands.add('checkCreateTeamPage', checkCreateTeamPage);
 
 interface DoSamlLoginSettings {
     loginButtonText?: string;
-     siteName?: string;
+    siteName?: string;
 }
 
 function doSamlLogin(settings: DoSamlLoginSettings = {}) {
@@ -79,10 +80,10 @@ interface TestSettings {
 interface Config {
     TeamSettings: {
         SiteName: string;
-    }
+    };
     ServiceSettings: {
         SiteURL: string;
-    }
+    };
 }
 
 function setTestSettings(loginButtonText: string, config: Config): Cypress.Chainable<TestSettings> {
@@ -97,8 +98,10 @@ function setTestSettings(loginButtonText: string, config: Config): Cypress.Chain
 Cypress.Commands.add('setTestSettings', setTestSettings);
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
+
             // checkCreateTeamPage checks that members can not create teams,
             // but members can
             checkCreateTeamPage: typeof checkCreateTeamPage;

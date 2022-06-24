@@ -14,17 +14,17 @@ function uiOpenEmojiPicker(): ChainableT<JQuery> {
 }
 Cypress.Commands.add('uiOpenEmojiPicker', uiOpenEmojiPicker);
 
-function uiOpenCustomEmoji(): ChainableT<void> {
+function uiOpenCustomEmoji() {
     cy.uiOpenEmojiPicker();
     cy.findByText('Custom Emoji').should('be.visible').click();
 
     cy.url().should('include', '/emoji');
     cy.get('.backstage-header').should('be.visible').and('contain', 'Custom Emoji');
-    return
 }
 Cypress.Commands.add('uiOpenCustomEmoji', uiOpenCustomEmoji);
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 
@@ -34,7 +34,7 @@ declare global {
              * @example
              *   cy.uiOpenCustomEmoji();
              */
-            uiOpenCustomEmoji: typeof uiOpenCustomEmoji;
+            uiOpenCustomEmoji(): ChainableT<void>;
 
             uiGetEmojiPicker: typeof uiGetEmojiPicker;
             uiOpenEmojiPicker: typeof uiOpenEmojiPicker;

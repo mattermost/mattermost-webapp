@@ -3,13 +3,13 @@
 
 import {ChainableT} from '../api/types';
 
-function uiGetToolTip(text: string): ChainableT<void> {
+function uiGetToolTip(text: string) {
     cy.findByRole('tooltip').should('contain', text);
-    return;
 }
 Cypress.Commands.add('uiGetToolTip', uiGetToolTip);
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 
@@ -21,7 +21,7 @@ declare global {
              * @example
              *   cy.uiGetToolTip('text');
              */
-            uiGetToolTip(text: string): Chainable;
+            uiGetToolTip(text: string): ChainableT<void>;
         }
     }
 }

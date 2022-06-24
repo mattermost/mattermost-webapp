@@ -1,7 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-window.Notification
+window.Notification;
+
 // Stub the browser notification API with the given name and permission
 export function spyNotificationAs(name: string, permission: any) {
     cy.window().then((win) => {

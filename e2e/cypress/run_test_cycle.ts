@@ -27,9 +27,7 @@
 import axios from 'axios';
 import axiosRetry from 'axios-retry';
 import chalk from 'chalk';
-import cypress, {} from 'cypress';
-import "cypress"
-
+import cypress from 'cypress';
 
 import {
     getSpecToTest,
@@ -105,7 +103,7 @@ async function saveResult(specExecution: SpecExecution, result: CypressCommandLi
     if (result.status === 'failed') {
         // None of the rest of this function really makes sense in the fail case.
         // We could updateCycle, but that iss about it.
-        throw new Error(`Unexpected failed spec execution result (${result.failures} failures): ${result.message}`)
+        throw new Error(`Unexpected failed spec execution result (${result.failures} failures): ${result.message}`);
     }
     if (testIndex === 0) {
         const environment = {
@@ -190,7 +188,7 @@ interface SummaryItem {
     count: string;
 }
 
-type PrintObject = Record<string, {[key: string]: string, server: string }>;
+type PrintObject = Record<string, {[key: string]: string; server: string }>;
 
 function printSummary(summary: SummaryItem[]) {
     const obj = summary.reduce((acc, item) => {
@@ -222,21 +220,20 @@ interface SpecSummaryItem {
     state: string;
 }
 
-
 interface SpecExecution {
     file: string;
     cycle_id: string;
-    id: string
+    id: string;
 }
 
 interface Spec {
     execution?: SpecExecution;
     message: string;
     code: boolean;
-    summary: SpecSummaryItem[]
+    summary: SpecSummaryItem[];
     cycle: {
         specs_registered: number;
-    }
+    };
 }
 
 const maxRetryCount = 5;

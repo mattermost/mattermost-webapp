@@ -16,7 +16,7 @@ interface ExternalRequestArg {
     path: string;
     data: any;
 }
-type ExternalRequestResult = { status: number; statusText: string; data: any; isError?: boolean; } | { data: { id: string; isTimeout: boolean; }; status?: undefined; statusText?: undefined; isError?: undefined; };
+type ExternalRequestResult = { status: number; statusText: string; data: any; isError?: boolean } | { data: { id: string; isTimeout: boolean }; status?: undefined; statusText?: undefined; isError?: undefined };
 export default async function externalRequest(arg: ExternalRequestArg): Promise<ExternalRequestResult> {
     const {baseUrl, user, method = 'get', path, data = {}} = arg;
     const loginUrl = `${baseUrl}/api/v4/users/login`;
@@ -38,7 +38,7 @@ export default async function externalRequest(arg: ExternalRequestArg): Promise<
             cookieString += nameAndValue + ';';
         });
     } catch (error) {
-return getErrorResponse(error);
+        return getErrorResponse(error);
     }
 
     try {
@@ -63,7 +63,7 @@ return getErrorResponse(error);
         // If we have a response for the error, pull out the relevant parts
         return getErrorResponse(error);
     }
-};
+}
 
 function getErrorResponse(error: AxiosError) {
     if (error.response) {

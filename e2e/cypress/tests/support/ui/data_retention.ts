@@ -5,21 +5,19 @@ import {ChainableT} from '../api/types';
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-function uiGoToDataRetentionPage(): ChainableT<void> {
+function uiGoToDataRetentionPage() {
     cy.visit('/admin_console/compliance/data_retention_settings');
     cy.get('.DataRetentionSettings .admin-console__header', {timeout: TIMEOUTS.TWO_MIN}).should('be.visible').invoke('text').should('include', 'Data Retention Policies');
-    return;
 }
 Cypress.Commands.add('uiGoToDataRetentionPage', uiGoToDataRetentionPage);
 
-function uiClickCreatePolicy(): ChainableT<void> {
+function uiClickCreatePolicy() {
     cy.uiGetButton('Add policy').click();
     cy.get('.DataRetentionSettings .admin-console__header', {timeout: TIMEOUTS.TWO_MIN}).should('be.visible').invoke('text').should('include', 'Custom Retention Policy');
-    return;
 }
 Cypress.Commands.add('uiClickCreatePolicy', uiClickCreatePolicy);
 
-function uiFillOutCustomPolicyFields(name: string, durationDropdown: string, durationText = ''): ChainableT<void> {
+function uiFillOutCustomPolicyFields(name: string, durationDropdown: string, durationText = '') {
     // # Type policy name
     cy.uiGetTextbox('Policy name').clear().type(name);
 
@@ -29,11 +27,10 @@ function uiFillOutCustomPolicyFields(name: string, durationDropdown: string, dur
     if (durationText) {
         cy.get('.CustomPolicy__fields input#message_retention_input').clear().type(durationText);
     }
-    return;
 }
 Cypress.Commands.add('uiFillOutCustomPolicyFields', uiFillOutCustomPolicyFields);
 
-function uiAddTeamsToCustomPolicy(teamNames: string[]): ChainableT<void> {
+function uiAddTeamsToCustomPolicy(teamNames: string[]) {
     cy.uiGetButton('Add teams').click();
     teamNames.forEach((teamName) => {
         cy.findByRole('textbox', {name: 'Search and add teams'}).clear().type(teamName);
@@ -42,11 +39,10 @@ function uiAddTeamsToCustomPolicy(teamNames: string[]): ChainableT<void> {
         });
     });
     cy.uiGetButton('Add').click();
-    return;
 }
 Cypress.Commands.add('uiAddTeamsToCustomPolicy', uiAddTeamsToCustomPolicy);
 
-function uiAddChannelsToCustomPolicy(channelNames: string[]): ChainableT<void> {
+function uiAddChannelsToCustomPolicy(channelNames: string[]) {
     cy.uiGetButton('Add channels').click();
     channelNames.forEach((channelName) => {
         cy.findByRole('textbox', {name: 'Search and add channels'}).clear().type(channelName);
@@ -56,11 +52,10 @@ function uiAddChannelsToCustomPolicy(channelNames: string[]): ChainableT<void> {
         });
     });
     cy.uiGetButton('Add').click();
-    return;
 }
 Cypress.Commands.add('uiAddChannelsToCustomPolicy', uiAddChannelsToCustomPolicy);
 
-function uiAddRandomTeamToCustomPolicy(numberOfTeams = 1): ChainableT<void> {
+function uiAddRandomTeamToCustomPolicy(numberOfTeams = 1) {
     cy.uiGetButton('Add teams').click();
     for (let i = 0; i < numberOfTeams; i++) {
         cy.get('.team-info-block').first().then((el) => {
@@ -68,11 +63,10 @@ function uiAddRandomTeamToCustomPolicy(numberOfTeams = 1): ChainableT<void> {
         });
     }
     cy.uiGetButton('Add').click();
-    return;
 }
 Cypress.Commands.add('uiAddRandomTeamToCustomPolicy', uiAddRandomTeamToCustomPolicy);
 
-function uiAddRandomChannelToCustomPolicy(numberOfChannels = 1): ChainableT<void> {
+function uiAddRandomChannelToCustomPolicy(numberOfChannels = 1) {
     cy.uiGetButton('Add channels').click();
     for (let i = 0; i < numberOfChannels; i++) {
         cy.get('.channel-info-block').first().then((el) => {
@@ -80,11 +74,10 @@ function uiAddRandomChannelToCustomPolicy(numberOfChannels = 1): ChainableT<void
         });
     }
     cy.uiGetButton('Add').click();
-    return;
 }
 Cypress.Commands.add('uiAddRandomChannelToCustomPolicy', uiAddRandomChannelToCustomPolicy);
 
-function uiVerifyCustomPolicyRow(policyId: string, description: string, duration: string, appliedTo: string): ChainableT<void> {
+function uiVerifyCustomPolicyRow(policyId: string, description: string, duration: string, appliedTo: string) {
     // * Assert row has correct description
     cy.get(`#customDescription-${policyId}`).should('include.text', description);
 
@@ -93,18 +86,23 @@ function uiVerifyCustomPolicyRow(policyId: string, description: string, duration
 
     // * Assert row has correct team/channel counts
     cy.get(`#customAppliedTo-${policyId}`).should('include.text', appliedTo);
-    return;
 }
 Cypress.Commands.add('uiVerifyCustomPolicyRow', uiVerifyCustomPolicyRow);
 
-function uiClickEditCustomPolicyRow(policyId: string): ChainableT<void> {
+function uiClickEditCustomPolicyRow(policyId: string) {
     cy.get(`#customWrapper-${policyId}`).trigger('mouseover').click();
     cy.findByRole('button', {name: /edit/i}).should('be.visible').click();
-    return;
 }
 Cypress.Commands.add('uiClickEditCustomPolicyRow', uiClickEditCustomPolicyRow);
 
-function uiVerifyPolicyResponse(body: {id: string; team_count: number; channel_count: number; post_duration: number; display_name: string;}, teamCount: number, channelCount: number, duration: number, displayName: string): ChainableT<void> {
+interface PolicyResponseBody {
+    id: string;
+    team_count: number;
+    channel_count: number;
+    post_duration: number;
+    display_name: string;
+}
+function uiVerifyPolicyResponse(body: PolicyResponseBody, teamCount: number, channelCount: number, duration: number, displayName: string) {
     // * Assert response body exists
     assert.isNotNull(body);
 
@@ -122,23 +120,23 @@ function uiVerifyPolicyResponse(body: {id: string; team_count: number; channel_c
 
     // * Assert response body display_name matches supplied value
     expect(body.display_name).to.equal(displayName);
-    return;
 }
 Cypress.Commands.add('uiVerifyPolicyResponse', uiVerifyPolicyResponse);
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 
             /**
              * Go to Data Retention page
              */
-            uiGoToDataRetentionPage: typeof uiGoToDataRetentionPage;
+            uiGoToDataRetentionPage(): ChainableT<void>;
 
             /**
              * Click create policy button
              */
-            uiClickCreatePolicy: typeof uiClickCreatePolicy;
+            uiClickCreatePolicy(): ChainableT<void>;
 
             /**
              * Fill out custom policy form fields
@@ -146,31 +144,31 @@ declare global {
              * @param {string} durationDropdown - duration dropdown value (days, years, forever)
              * @param {string?} durationText - duration text
              */
-            uiFillOutCustomPolicyFields: typeof uiFillOutCustomPolicyFields;
+            uiFillOutCustomPolicyFields(name: string, durationDropdown: string, durationText: string): ChainableT<void>;
 
             /**
              * Search and add teams to custom policy
              * @param {string[]} teamNames - array of team names
              */
-            uiAddTeamsToCustomPolicy: typeof uiAddTeamsToCustomPolicy;
+            uiAddTeamsToCustomPolicy(teamNames: string[]): ChainableT<void>;
 
             /**
              * Search and add channels to custom policy
              * @param {string[]} channelNames - array of channel names
              */
-            uiAddChannelsToCustomPolicy: typeof uiAddChannelsToCustomPolicy;
+            uiAddChannelsToCustomPolicy(channelNames: string[]): ChainableT<void>;
 
             /**
              * Add teams to a custom policy
              * @param {number} numberOfTeams - number of teams to add to the policy
              */
-            uiAddRandomTeamToCustomPolicy: typeof uiAddRandomTeamToCustomPolicy;
+            uiAddRandomTeamToCustomPolicy(numberOfTeams: number): ChainableT<void>;
 
             /**
              * Add channels to a custom policy
-             * @param {number} numberOfTeams - number of teams to add to the policy
+             * @param {number} numberOfChannels - number of teams to add to the policy
              */
-            uiAddRandomChannelToCustomPolicy: typeof uiAddRandomChannelToCustomPolicy;
+            uiAddRandomChannelToCustomPolicy(numberOfChannels: number): ChainableT<void>;
 
             /**
              * Verify custom policy UI information
@@ -179,13 +177,13 @@ declare global {
              * @param {string} duration - How long messages last in the policy
              * @param {string} appliedTo - Teams and channels the policy apples to
              */
-            uiVerifyCustomPolicyRow: typeof uiVerifyCustomPolicyRow;
+            uiVerifyCustomPolicyRow(policyId: string, description: string, duration: string, appliedTo: string): ChainableT<void>;
 
             /**
              * Click edit custom policy
              * @param {string} policyId - Custom Policy ID
              */
-            uiClickEditCustomPolicyRow(policyId: string): Chainable;
+            uiClickEditCustomPolicyRow(policyId: string): ChainableT<void>;
 
             /**
              * Verify custom create policy response
@@ -195,7 +193,7 @@ declare global {
              * @param {number} duration - How long messages last in the policy
              * @param {string} displayName - The name of the policy
              */
-            uiVerifyPolicyResponse: typeof uiVerifyPolicyResponse;
+            uiVerifyPolicyResponse(body: PolicyResponseBody, teamCount: number, channelCount: number, duration: number, displayName: string): ChainableT<void>;
         }
     }
 }

@@ -19,18 +19,17 @@ function uiOpenProfileModal(section = ''): ChainableT<JQuery> {
 }
 Cypress.Commands.add('uiOpenProfileModal', uiOpenProfileModal);
 
-function verifyAccountNameSettings(firstname: string, lastname: string): ChainableT<void> {
+function verifyAccountNameSettings(firstname: string, lastname: string) {
     // # Go to Profile
     cy.uiOpenProfileModal();
 
     // * Check name value
     cy.get('#nameDesc').should('have.text', `${firstname} ${lastname}`);
     cy.uiClose();
-    return;
 }
 Cypress.Commands.add('verifyAccountNameSettings', verifyAccountNameSettings);
 
-function uiChangeGenericDisplaySetting(setting: string, option: string): ChainableT<void> {
+function uiChangeGenericDisplaySetting(setting: string, option: string) {
     cy.uiOpenSettingsModal('Display');
     cy.get(setting).scrollIntoView();
     cy.get(setting).click();
@@ -39,14 +38,12 @@ function uiChangeGenericDisplaySetting(setting: string, option: string): Chainab
     cy.get(option).check().should('be.checked');
 
     cy.uiSaveAndClose();
-    return;
 }
 Cypress.Commands.add('uiChangeGenericDisplaySetting', uiChangeGenericDisplaySetting);
 
-function uiChangeMessageDisplaySetting(setting = 'STANDARD'): ChainableT<void> {
+function uiChangeMessageDisplaySetting(setting = 'STANDARD') {
     const SETTINGS = {STANDARD: '#message_displayFormatA', COMPACT: '#message_displayFormatB'};
     cy.uiChangeGenericDisplaySetting('#message_displayTitle', SETTINGS[setting]);
-    return;
 }
 Cypress.Commands.add('uiChangeMessageDisplaySetting', uiChangeMessageDisplaySetting);
 
@@ -54,18 +51,18 @@ Cypress.Commands.add('uiChangeMessageDisplaySetting', uiChangeMessageDisplaySett
  * Change the collapsed reply threads display setting
  * @param {String} setting - as 'OFF' or 'ON'
  */
-function uiChangeCRTDisplaySetting(setting = 'OFF'): ChainableT<void> {
+function uiChangeCRTDisplaySetting(setting = 'OFF') {
     const SETTINGS = {
         ON: '#collapsed_reply_threadsFormatA',
         OFF: '#collapsed_reply_threadsFormatB',
     };
 
     cy.uiChangeGenericDisplaySetting('#collapsed_reply_threadsTitle', SETTINGS[setting]);
-    return;
 }
 Cypress.Commands.add('uiChangeCRTDisplaySetting', uiChangeCRTDisplaySetting);
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 
@@ -94,21 +91,21 @@ declare global {
              * @param {String} firstname - expected user firstname
              * @param {String} lastname - expected user lastname
              */
-            verifyAccountNameSettings: typeof verifyAccountNameSettings;
+            verifyAccountNameSettings(firstname: string, lastname: string): ChainableT<void>;
 
             /**
              * Navigate to account display settings and change collapsed reply threads setting
              * @param {String} setting -  ON or OFF
              */
-            uiChangeCRTDisplaySetting: typeof uiChangeCRTDisplaySetting;
+            uiChangeCRTDisplaySetting(setting: string): ChainableT<void>;
 
             /**
              * Navigate to account display settings and change message display setting
              * @param {String} setting -  COMPACT or STANDARD
              */
-            uiChangeMessageDisplaySetting: typeof uiChangeMessageDisplaySetting;
+            uiChangeMessageDisplaySetting(setting: string): ChainableT<void>;
 
-            uiChangeGenericDisplaySetting: typeof uiChangeGenericDisplaySetting;
+            uiChangeGenericDisplaySetting(setting: string, option: string): ChainableT<void>;
         }
     }
 }

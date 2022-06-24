@@ -32,7 +32,7 @@ function uiCreateChannel({
 }
 Cypress.Commands.add('uiCreateChannel', uiCreateChannel);
 
-function uiAddUsersToCurrentChannel(usernameList: string[]): ChainableT<void> {
+function uiAddUsersToCurrentChannel(usernameList: string[]) {
     if (usernameList.length) {
         cy.get('#channelHeaderDropdownIcon').click();
         cy.get('#channelAddMembers').click();
@@ -43,7 +43,6 @@ function uiAddUsersToCurrentChannel(usernameList: string[]): ChainableT<void> {
         cy.get('#saveItems').click();
         cy.get('#addUsersToChannelModal').should('not.exist');
     }
-    return;
 }
 Cypress.Commands.add('uiAddUsersToCurrentChannel', uiAddUsersToCurrentChannel);
 
@@ -90,6 +89,7 @@ function goToDm(username: string): ChainableT<any> {
 Cypress.Commands.add('goToDm', goToDm);
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 
@@ -113,7 +113,7 @@ declare global {
              * @example
              *   cy.uiAddUsersToCurrentChannel(['user1', 'user2']);
              */
-            uiAddUsersToCurrentChannel: typeof uiAddUsersToCurrentChannel;
+            uiAddUsersToCurrentChannel(usernameList: string[]): ChainableT<void>;
 
             /**
              * Archive the current channel.

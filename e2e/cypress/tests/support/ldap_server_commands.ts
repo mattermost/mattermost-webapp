@@ -1,21 +1,19 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {ChainableT} from './api/types';
-
 import {getRandomId} from '../utils';
+
+import {ChainableT} from './api/types';
 
 const ldapTmpFolder = 'ldap_tmp';
 
-function modifyLDAPUsers(filename: string): ChainableT<void> {
+function modifyLDAPUsers(filename: string) {
     cy.exec(`ldapmodify -x -D "cn=admin,dc=mm,dc=test,dc=com" -w mostest -H ldap://${Cypress.env('ldapServer')}:${Cypress.env('ldapPort')} -f tests/fixtures/${filename} -c`, {failOnNonZeroExit: false});
-    return;
 }
 Cypress.Commands.add('modifyLDAPUsers', modifyLDAPUsers);
 
-function resetLDAPUsers(): ChainableT<void> {
+function resetLDAPUsers() {
     cy.modifyLDAPUsers('ldap-reset-data.ldif');
-    return;
 }
 Cypress.Commands.add('resetLDAPUsers', resetLDAPUsers);
 
@@ -131,8 +129,8 @@ userPassword: Password1
 `;
 }
 
-
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
 
@@ -143,7 +141,7 @@ declare global {
              */
             addLDAPUsers(): Chainable;
 
-            modifyLDAPUsers: typeof modifyLDAPUsers;
+            modifyLDAPUsers(filename: string): ChainableT<void>;
 
             createLDAPUser: typeof createLDAPUser;
 
@@ -152,6 +150,8 @@ declare global {
             ldapAdd: typeof ldapAdd;
 
             ldapModify: typeof ldapModify;
+
+            resetLDAPUsers(): ChainableT<void>;
         }
     }
 }
