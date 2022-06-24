@@ -146,7 +146,7 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                 <Menu.ItemToggleModalRedux
                     id='userGroups'
                     modalId={ModalIdentifiers.USER_GROUPS}
-                    show={enableCustomUserGroups && (isStarterFree || isStarterFreeTrial)}
+                    show={enableCustomUserGroups || isStarterFree || isStarterFreeTrial}
                     dialogType={UserGroupsModal}
                     dialogProps={{
                         backButtonAction: openGroupsModal,
