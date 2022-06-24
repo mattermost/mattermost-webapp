@@ -972,16 +972,17 @@ describe('PostUtils.splitMessageBasedOnCaretPosition', () => {
 });
 
 describe('PostUtils.splitMessageBasedOnTextSelection', () => {
-    const state = {
-        selectionStart: 5,
-        selectionEnd: 12,
-    };
+    const cases = [
+        [0, 0, 'Test Replace Message', {firstPiece: '', lastPiece: 'Test Replace Message'}],
+        [20, 20, 'Test Replace Message', {firstPiece: 'Test Replace Message', lastPiece: ''}],
+        [0, 20, 'Test Replace Message', {firstPiece: '', lastPiece: ''}],
+        [0, 10, 'Test Replace Message', {firstPiece: '', lastPiece: 'ce Message'}],
+        [5, 12, 'Test Replace Message', {firstPiece: 'Test ', lastPiece: ' Message'}],
+        [7, 20, 'Test Replace Message', {firstPiece: 'Test Re', lastPiece: ''}],
+    ];
 
-    const message = 'Test Replace Message';
-    it('should return an object with two strings when given context and message', () => {
-        const stringPieces = PostUtils.splitMessageBasedOnTextSelection(state.selectionStart, state.selectionEnd, message);
-        expect('Test ').toBe(stringPieces.firstPiece);
-        expect(' Message').toBe(stringPieces.lastPiece);
+    test.each(cases)('should return an object with two strings when given context and message', (start, end, message, expected) => {
+        expect(PostUtils.splitMessageBasedOnTextSelection(start, end, message)).toEqual(expected);
     });
 });
 
