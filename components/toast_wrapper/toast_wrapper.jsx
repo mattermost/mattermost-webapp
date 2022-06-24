@@ -147,7 +147,9 @@ class ToastWrapper extends React.PureComponent {
             showUnreadWithBottomStartToast = false;
         }
 
-        if (props.shouldStartFromBottomWhenUnread &&
+        if (
+            typeof showUnreadWithBottomStartToast === 'undefined' &&
+            props.shouldStartFromBottomWhenUnread &&
             unreadCount > 0 &&
             !props.isNewMessageLineReached
         ) {
