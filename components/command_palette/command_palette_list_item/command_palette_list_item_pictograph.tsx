@@ -30,7 +30,11 @@ export const CommandPaletteListItemPictograph = ({type, pictographItem, userStat
     if (type === CmdPalettePictographType.ICON) {
         return <i className={classNames('cmd-pl-list-item__icon', pictographItem)}/>;
     } else if (type === CmdPalettePictographType.TEXT) {
-        return <div className='status status--group'>{pictographItem}</div>;
+        return (
+            <div className='cmd-pl-list-item__text'>
+                {pictographItem}
+            </div>
+        );
     } else if (type === CmdPalettePictographType.IMAGE) {
         return (
             <ProfilePicture
