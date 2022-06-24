@@ -7,14 +7,15 @@ import {useIntl} from 'react-intl';
 import {useSelector} from 'react-redux';
 
 import {getCurrentTeamId, getTeams} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {CommandPaletteEntities} from 'components/command_palette/types';
 import Constants from 'utils/constants';
 import {isKeyPressed} from 'utils/utils';
 import {getChannelsInAllTeams} from 'mattermost-redux/selectors/entities/channels';
 import {GlobalState} from '../../../types/store';
+import LoadingSpinner from '../../widgets/loading/loading_spinner';
 import {CommandPaletteList} from '../command_palette_list/command_palette_list';
-import {channelToCommandPaletteItemTransformer} from '../utils';
+import {CommandPaletteItem} from '../command_palette_list_item/command_palette_list_item';
+import {boardToCommandPaletteItemTransformer, channelToCommandPaletteItemTransformer} from '../utils';
 
 import Filters from './filters';
 import Footer from './footer';
@@ -28,6 +29,8 @@ interface Props {
 
 const CommandPaletteModal = ({onExited, selectedEntities}: Props) => {
     const [modalVisibility, setModalVisibility] = useState(true);
+    const [isLoading, setLoading] = useState(true);
+    const [transformedItems, setTransformedItems] = useState<CommandPaletteItem[]>([]);
     const {formatMessage} = useIntl();
     const CommandPaletteModalLabel = formatMessage({id: 'CommandPalette.modal', defaultMessage: 'Command Palette Modal'}).toLowerCase();
 
@@ -36,20 +39,21 @@ const CommandPaletteModal = ({onExited, selectedEntities}: Props) => {
     const [isCommandVisible, setIsCommandVisible] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const currentTeamId = useSelector(getCurrentTeamId);
+    const teams = useSelector(getTeams);
 
-    const searchHandler = useSelector((state: GlobalState) => state.plugins.searchHandlers.focalboard);
+    // const searchHandler = useSelector((state: GlobalState) => state.plugins.searchHandlers.focalboard);
     const recentHandler = useSelector((state: GlobalState) => {
-        console.log('recent', state.plugins.recentlyViewedHandlers);
         return state.plugins.recentlyViewedHandlers.focalboard;
     });
-    console.log('hello');
-
+    const recentChannels = useSelector(getChannelsInAllTeams);
+    const channelsTransformedItems = channelToCommandPaletteItemTransformer(recentChannels, teams);
+    let boardsTransformedItems: CommandPaletteItem[] = [];
     const searchTermFunc = useCallback(async () => {
-        const data: any = await searchHandler(currentTeamId, 'meeting');
         const recentData: any = await recentHandler();
-        if (data.items) {
-            console.log('search', data);
-            console.log('recents', recentData);
+        if (recentData) {
+            boardsTransformedItems = boardToCommandPaletteItemTransformer(recentData, teams);
+            setTransformedItems([...boardsTransformedItems, ...channelsTransformedItems]);
+            setLoading(false);
         }
     }, [currentTeamId]);
 
@@ -95,9 +99,6 @@ const CommandPaletteModal = ({onExited, selectedEntities}: Props) => {
         setSearchTerm(e.target.value);
     }, []);
 
-    const recentChannels = useSelector(getChannelsInAllTeams);
-    const teams = useSelector(getTeams);
-    const transformedItems = channelToCommandPaletteItemTransformer(recentChannels, teams);
     const onHide = (): void => {
         setModalVisibility(false);
     };
@@ -132,7 +133,8 @@ const CommandPaletteModal = ({onExited, selectedEntities}: Props) => {
                     isCommandVisible={isCommandVisible}
                     toggleFilter={toggleFilter}
                 />
-                <CommandPaletteList itemList={transformedItems}/>
+                {isLoading && <LoadingSpinner/>}
+                {!isLoading && <CommandPaletteList itemList={transformedItems}/>}
             </Modal.Body>
             <Modal.Footer>
                 <Footer/>

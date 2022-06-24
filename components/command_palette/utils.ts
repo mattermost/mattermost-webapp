@@ -9,7 +9,25 @@ import {
     CmdPalettePictographIcon,
     CmdPalettePictographType,
 } from './command_palette_list_item/command_palette_list_item_pictograph';
-import {ChannelType, CommandPaletteEntities} from './types';
+import {BoardsType, ChannelType, CommandPaletteEntities} from './types';
+export type Board = {
+    channelId: string;
+    createAt: number;
+    createdBy: string;
+    deleteAt: number;
+    description: string;
+    icon: string;
+    id: string;
+    isTemplate: boolean;
+    minimumRole: string;
+    modifiedBy: string;
+    showDescription: boolean;
+    teamId: string;
+    templateVersion: number;
+    title: string;
+    type: BoardsType;
+    updateAt: number;
+}
 
 const channelTypeOrder = {
     [ChannelType.OPEN_CHANNEL]: 0,
@@ -20,6 +38,31 @@ const channelTypeOrder = {
 
 function filterName(name: string): string {
     return name.replace(/[.,'"\/#!$%\^&\*;:{}=\-_`~()]/g, ''); // eslint-disable-line no-useless-escape
+}
+
+export function boardToCommandPaletteItemTransformer(boards: Board[], teams: Record<string, Team>): CommandPaletteItem[] {
+    return boards.filter(((b) => !b.isTemplate)).map((board) => {
+        const isArchived = board.deleteAt ? board.deleteAt !== 0 : false;
+
+        let channelIcon = CmdPalettePictographIcon.GLOBE;
+        if (isArchived) {
+            channelIcon = CmdPalettePictographIcon.ARCHIVE;
+        }
+        return {
+            description: '',
+            id: board.id,
+            isDeactivated: isArchived,
+            teamName: teams[board.teamId]?.name,
+            pictograph: {
+                type: CmdPalettePictographType.TEXT,
+                pictographItem: board.icon.toString(),
+            },
+            subType: board.type as BoardsType,
+            title: board.title,
+            type: CommandPaletteEntities.Boards,
+            isArchived,
+        };
+    });
 }
 
 export function channelToCommandPaletteItemTransformer(channels: Channel[], teams: Record<string, Team>): CommandPaletteItem[] {

@@ -66,4 +66,17 @@
         font-size: 1.8rem;
         font-weight: 400;
     }
+
+
+    &__text {
+        color: rgba(var(--center-channel-color-rgb), 0.56);
+        font-size: 1.8rem;
+        font-weight: 400;
+        display: flex;
+        place-content: center;
+        align-items: center;
+        width: 18px;
+        height: 18px;
+        margin: 0 0.2em;
+    }
 }
