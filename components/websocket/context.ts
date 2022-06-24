@@ -5,6 +5,8 @@ import React from 'react';
 
 import {Client4} from '@mattermost/client';
 
+import {WebSocketMessage} from 'mattermost-redux/types/websocket';
+
 import * as WebsocketActions from 'actions/websocket_actions';
 
 export const Context = React.createContext<WebsocketManager>(null!);
@@ -32,5 +34,13 @@ export class WebsocketManager {
         }
 
         this.currentUserId = currentUserId;
+    }
+
+    public registerEventHandler<T>(handler: (msg: WebSocketMessage<T>) => void) {
+        WebsocketActions.registerEventHandler(handler);
+    }
+
+    public unregisterEventHandler<T>(handler: (msg: WebSocketMessage<T>) => void) {
+        WebsocketActions.unregisterEventHandler(handler);
     }
 }
