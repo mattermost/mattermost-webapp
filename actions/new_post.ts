@@ -14,8 +14,6 @@ import {
 } from 'mattermost-redux/actions/channels';
 import * as PostActions from 'mattermost-redux/actions/posts';
 
-import {WebsocketEvents} from 'mattermost-redux/constants';
-
 import {getCurrentChannelId, isManuallyUnread} from 'mattermost-redux/selectors/entities/channels';
 import * as PostSelectors from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
@@ -69,14 +67,6 @@ export function completePostReceive(post: Post, websocketMessageProps: NewPostMe
 
         actions.push(
             PostActions.receivedNewPost(post, collapsedThreadsEnabled),
-            {
-                type: WebsocketEvents.STOP_TYPING,
-                data: {
-                    id: post.channel_id + post.root_id,
-                    userId: post.user_id,
-                    now: Date.now(),
-                },
-            },
         );
 
         const isCRTReplyByCurrentUser = isCRTReply && post.user_id === getCurrentUserId(state);
