@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ChangeEvent, ClipboardEventHandler, ElementType, FocusEvent, KeyboardEvent, MouseEvent} from 'react';
+import React, {ChangeEvent, ClipboardEventHandler, createRef, ElementType, FocusEvent, KeyboardEvent, MouseEvent, useCallback, useEffect} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Channel} from '@mattermost/types/channels';
@@ -9,6 +9,7 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 import {UserProfile} from '@mattermost/types/users';
 
 import AutosizeTextarea from 'components/autosize_textarea';
+
 import PostMarkdown from 'components/post_markdown';
 import Provider from 'components/suggestion/provider';
 import AtMentionProvider from 'components/suggestion/at_mention_provider';
@@ -20,7 +21,7 @@ import SuggestionBox from 'components/suggestion/suggestion_box';
 import SuggestionBoxComponent from 'components/suggestion/suggestion_box/suggestion_box';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 
-import * as Utils from 'utils/utils';
+// import * as Utils from 'utils/utils';
 
 import {TextboxElement} from './index';
 
@@ -30,7 +31,7 @@ type Props = {
     rootId?: string;
     tabIndex?: number;
     value: string;
-    onChange: (e: ChangeEvent<TextboxElement>) => void;
+    onChange: (e: ChangeEvent<TextboxElement> | string) => void;
     onKeyPress: (e: KeyboardEvent<any>) => void;
     onComposition?: () => void;
     onHeightChange?: (height: number, maxHeight: number) => void;
@@ -64,172 +65,175 @@ type Props = {
     inputComponent?: ElementType;
     openWhenEmpty?: boolean;
     priorityProfiles?: UserProfile[];
+    isAdvancedEditor?: boolean;
 };
 
-export default class Textbox extends React.PureComponent<Props> {
-    private readonly suggestionProviders: Provider[];
-    private readonly wrapper: React.RefObject<HTMLDivElement>;
-    private readonly message: React.RefObject<SuggestionBoxComponent>;
-    private readonly preview: React.RefObject<HTMLDivElement>;
+const TextBox = ({
+    supportsCommands = true,
+    isRHS = false,
+    listenForMentionKeyClick = false,
+    inputComponent = AutosizeTextarea,
+    suggestionList = SuggestionList,
+    isAdvancedEditor = false,
+    characterLimit,
+    handlePostError,
+    channelId,
+    currentTeamId,
+    rootId,
+    currentUserId,
+    useChannelMentions,
+    autocompleteGroups,
+    priorityProfiles,
+    actions,
+    value,
+    onChange,
+    onKeyDown,
+    onSelect,
+    onMouseUp,
+    onKeyUp,
+    onBlur,
+    onHeightChange,
+    preview,
+    emojiEnabled,
+    badConnection,
+    tabIndex,
+    onKeyPress,
+    id,
+    createMessage,
+    onComposition,
+    onPaste,
+    suggestionListPosition,
+    disabled,
+    openWhenEmpty,
+}: Props) => {
+    const suggestionProviders: Provider[] = [];
+    const wrapper = createRef<HTMLDivElement>();
+    const message = createRef<SuggestionBoxComponent>();
+    const previewDiv = createRef<HTMLDivElement>();
 
-    static defaultProps = {
-        supportsCommands: true,
-        isRHS: false,
-        listenForMentionKeyClick: false,
-        inputComponent: AutosizeTextarea,
-        suggestionList: SuggestionList,
-    };
-
-    constructor(props: Props) {
-        super(props);
-
-        this.suggestionProviders = [];
-
-        if (props.supportsCommands) {
-            this.suggestionProviders.push(new AppCommandProvider({
-                teamId: this.props.currentTeamId,
-                channelId: this.props.channelId,
-                rootId: this.props.rootId,
+    useEffect(() => {
+        if (supportsCommands) {
+            suggestionProviders.push(new AppCommandProvider({
+                channelId,
+                teamId: currentTeamId,
+                rootId,
+            }),
+            new CommandProvider({
+                teamId: currentTeamId,
+                channelId,
+                rootId,
             }));
         }
 
-        this.suggestionProviders.push(
+        suggestionProviders.push(
             new AtMentionProvider({
-                currentUserId: this.props.currentUserId,
-                channelId: this.props.channelId,
-                autocompleteUsersInChannel: (prefix: string) => this.props.actions.autocompleteUsersInChannel(prefix, this.props.channelId),
-                useChannelMentions: this.props.useChannelMentions,
-                autocompleteGroups: this.props.autocompleteGroups,
-                searchAssociatedGroupsForReference: (prefix: string) => this.props.actions.searchAssociatedGroupsForReference(prefix, this.props.currentTeamId, this.props.channelId),
-                priorityProfiles: this.props.priorityProfiles,
+                currentUserId,
+                channelId,
+                autocompleteUsersInChannel: (prefix: string) => actions.autocompleteUsersInChannel(prefix, channelId),
+                useChannelMentions,
+                autocompleteGroups,
+                searchAssociatedGroupsForReference: (prefix: string) => actions.searchAssociatedGroupsForReference(prefix, currentTeamId, channelId),
+                priorityProfiles,
             }),
-            new ChannelMentionProvider(props.actions.autocompleteChannels),
+            new ChannelMentionProvider(actions.autocompleteChannels),
             new EmoticonProvider(),
         );
+    }, [autocompleteGroups, channelId, currentTeamId, currentUserId, actions, priorityProfiles, useChannelMentions, rootId, suggestionProviders, supportsCommands]);
 
-        if (props.supportsCommands) {
-            this.suggestionProviders.push(new CommandProvider({
-                teamId: this.props.currentTeamId,
-                channelId: this.props.channelId,
-                rootId: this.props.rootId,
-            }));
-        }
-
-        this.checkMessageLength(props.value);
-        this.wrapper = React.createRef();
-        this.message = React.createRef();
-        this.preview = React.createRef();
-    }
-
-    handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        this.props.onChange(e);
-    }
-
-    updateSuggestions(prevProps: Props) {
-        if (this.props.channelId !== prevProps.channelId ||
-            this.props.currentUserId !== prevProps.currentUserId ||
-            this.props.autocompleteGroups !== prevProps.autocompleteGroups ||
-            this.props.useChannelMentions !== prevProps.useChannelMentions ||
-            this.props.currentTeamId !== prevProps.currentTeamId ||
-            this.props.priorityProfiles !== prevProps.priorityProfiles) {
-            // Update channel id for AtMentionProvider.
-            for (const provider of this.suggestionProviders) {
-                if (provider instanceof AtMentionProvider) {
-                    provider.setProps({
-                        currentUserId: this.props.currentUserId,
-                        channelId: this.props.channelId,
-                        autocompleteUsersInChannel: (prefix: string) => this.props.actions.autocompleteUsersInChannel(prefix, this.props.channelId),
-                        useChannelMentions: this.props.useChannelMentions,
-                        autocompleteGroups: this.props.autocompleteGroups,
-                        searchAssociatedGroupsForReference: (prefix: string) => this.props.actions.searchAssociatedGroupsForReference(prefix, this.props.currentTeamId, this.props.channelId),
-                        priorityProfiles: this.props.priorityProfiles,
-                    });
-                }
-            }
-        }
-
-        if (this.props.channelId !== prevProps.channelId ||
-            this.props.currentTeamId !== prevProps.currentTeamId ||
-            this.props.rootId !== prevProps.rootId) {
-            // Update channel id for CommandProvider and AppCommandProvider.
-            for (const provider of this.suggestionProviders) {
-                if (provider instanceof CommandProvider) {
-                    provider.setProps({
-                        teamId: this.props.currentTeamId,
-                        channelId: this.props.channelId,
-                        rootId: this.props.rootId,
-                    });
-                }
-                if (provider instanceof AppCommandProvider) {
-                    provider.setProps({
-                        teamId: this.props.currentTeamId,
-                        channelId: this.props.channelId,
-                        rootId: this.props.rootId,
-                    });
-                }
-            }
-        }
-
-        if (prevProps.value !== this.props.value) {
-            this.checkMessageLength(this.props.value);
-        }
-    }
-
-    componentDidUpdate(prevProps: Props) {
-        if (!prevProps.preview && this.props.preview) {
-            this.preview.current?.focus();
-        }
-
-        this.updateSuggestions(prevProps);
-    }
-
-    checkMessageLength = (message: string) => {
-        if (this.props.handlePostError) {
-            if (message.length > this.props.characterLimit) {
+    const checkMessageLength = useCallback((message: string) => {
+        if (handlePostError) {
+            if (message.length > characterLimit) {
                 const errorMessage = (
                     <FormattedMessage
                         id='create_post.error_message'
                         defaultMessage='Your message is too long. Character count: {length}/{limit}'
                         values={{
                             length: message.length,
-                            limit: this.props.characterLimit,
+                            limit: characterLimit,
                         }}
                     />);
-                this.props.handlePostError(errorMessage);
+                handlePostError(errorMessage);
             } else {
-                this.props.handlePostError(null);
+                handlePostError(null);
             }
         }
-    }
+    }, [characterLimit, handlePostError]);
+
+    const updateSuggestions = useCallback((prevProps: Pick<Props, 'channelId' | 'currentUserId' | 'autocompleteGroups' | 'useChannelMentions' | 'currentTeamId' | 'priorityProfiles' | 'rootId' | 'value'>) => {
+        if (channelId !== prevProps.channelId ||
+            currentUserId !== prevProps.currentUserId ||
+            autocompleteGroups !== prevProps.autocompleteGroups ||
+            useChannelMentions !== prevProps.useChannelMentions ||
+            currentTeamId !== prevProps.currentTeamId ||
+            priorityProfiles !== prevProps.priorityProfiles) {
+            // Update channel id for AtMentionProvider.
+            for (const provider of suggestionProviders) {
+                if (provider instanceof AtMentionProvider) {
+                    provider.setProps({
+                        currentUserId,
+                        channelId,
+                        autocompleteUsersInChannel: (prefix: string) => actions.autocompleteUsersInChannel(prefix, channelId),
+                        useChannelMentions,
+                        autocompleteGroups,
+                        searchAssociatedGroupsForReference: (prefix: string) => actions.searchAssociatedGroupsForReference(prefix, currentTeamId, channelId),
+                        priorityProfiles,
+                    });
+                }
+            }
+        }
+
+        if (channelId !== prevProps.channelId ||
+            currentTeamId !== prevProps.currentTeamId ||
+            rootId !== prevProps.rootId) {
+            // Update channel id for CommandProvider and AppCommandProvider.
+            for (const provider of suggestionProviders) {
+                if (provider instanceof CommandProvider) {
+                    provider.setProps({
+                        teamId: currentTeamId,
+                        channelId,
+                        rootId,
+                    });
+                }
+                if (provider instanceof AppCommandProvider) {
+                    provider.setProps({
+                        teamId: currentTeamId,
+                        channelId,
+                        rootId,
+                    });
+                }
+            }
+        }
+
+        if (prevProps.value !== value) {
+            checkMessageLength(value);
+        }
+    }, [actions, autocompleteGroups, channelId, currentTeamId, currentUserId, priorityProfiles, rootId, suggestionProviders, useChannelMentions, value, checkMessageLength]);
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement> | string) => onChange(e);
 
     // adding in the HTMLDivElement to support event handling in preview state
-    handleKeyDown = (e: KeyboardEvent<TextboxElement | HTMLDivElement>) => {
-        // since we do only handle the sending when in preview mode this is fine to be casted
-        this.props.onKeyDown?.(e as KeyboardEvent<TextboxElement>);
-    }
+    // since we do only handle the sending when in preview mode this is fine to be casted
+    const handleKeyDown = (e: KeyboardEvent<TextboxElement | HTMLDivElement>) => onKeyDown?.(e as KeyboardEvent<TextboxElement>);
 
-    handleSelect = (e: React.SyntheticEvent<TextboxElement>) => this.props.onSelect?.(e);
+    const handleSelect = (e: React.SyntheticEvent<TextboxElement>) => onSelect?.(e);
 
-    handleMouseUp = (e: MouseEvent<TextboxElement>) => this.props.onMouseUp?.(e);
+    const handleMouseUp = (e: MouseEvent<TextboxElement>) => onMouseUp?.(e);
 
-    handleKeyUp = (e: KeyboardEvent<TextboxElement>) => this.props.onKeyUp?.(e);
+    const handleKeyUp = (e: KeyboardEvent<TextboxElement>) => onKeyUp?.(e);
 
     // adding in the HTMLDivElement to support event handling in preview state
-    handleBlur = (e: FocusEvent<TextboxElement | HTMLDivElement>) => {
-        // since we do only handle the sending when in preview mode this is fine to be casted
-        this.props.onBlur?.(e as FocusEvent<TextboxElement>);
-    }
+    // since we do only handle the sending when in preview mode this is fine to be casted
+    const handleBlur = (e: FocusEvent<TextboxElement | HTMLDivElement>) => onBlur?.(e as FocusEvent<TextboxElement>);
 
-    handleHeightChange = (height: number, maxHeight: number) => {
-        this.props.onHeightChange?.(height, maxHeight);
-    }
+    const handleHeightChange = (height: number, maxHeight: number) => onHeightChange?.(height, maxHeight);
 
-    getInputBox = () => {
-        return this.message.current?.getTextbox();
-    }
+    /**
+     Below methods were not used previously, refacted them but removed for now.
 
-    focus = () => {
-        const textbox = this.getInputBox();
+    const getInputBox = () => message.current?.getTextbox();
+
+    const focus = () => {
+        const textbox = getInputBox();
         if (textbox) {
             textbox.focus();
             Utils.placeCaretAtEnd(textbox);
@@ -238,85 +242,100 @@ export default class Textbox extends React.PureComponent<Props> {
             });
 
             // reset character count warning
-            this.checkMessageLength(textbox.value);
+            checkMessageLength(textbox.value);
         }
-    }
-
-    blur = () => {
-        this.getInputBox()?.blur();
     };
 
-    render() {
-        let preview = null;
+    const blur = () => getInputBox()?.blur();
 
-        let textboxClassName = 'form-control custom-textarea';
-        let textWrapperClass = 'textarea-wrapper';
-        if (this.props.emojiEnabled) {
-            textboxClassName += ' custom-textarea--emoji-picker';
-        }
-        if (this.props.badConnection) {
-            textboxClassName += ' bad-connection';
-        }
-        if (this.props.preview) {
-            textboxClassName += ' custom-textarea--preview';
-            textWrapperClass += ' textarea-wrapper--preview';
+     */
 
-            preview = (
-                <div
-                    tabIndex={this.props.tabIndex || 0}
-                    ref={this.preview}
-                    className='form-control custom-textarea textbox-preview-area'
-                    onKeyPress={this.props.onKeyPress}
-                    onKeyDown={this.handleKeyDown}
-                    onBlur={this.handleBlur}
-                >
-                    <PostMarkdown
-                        isRHS={this.props.isRHS}
-                        message={this.props.value}
-                        mentionKeys={[]}
-                        channelId={this.props.channelId}
-                    />
-                </div>
-            );
+    useEffect(() => {
+        if (preview) {
+            previewDiv.current?.focus();
         }
+        updateSuggestions({autocompleteGroups, channelId, currentTeamId, currentUserId, priorityProfiles, useChannelMentions, rootId, value});
+    }, [preview, previewDiv, updateSuggestions, autocompleteGroups, channelId, currentTeamId, currentUserId, priorityProfiles, useChannelMentions, rootId, value]);
 
-        return (
+    checkMessageLength(value);
+    let previewText = null;
+
+    let textboxClassName = 'form-control custom-textarea';
+    let textWrapperClass = 'textarea-wrapper';
+    if (emojiEnabled) {
+        textboxClassName += ' custom-textarea--emoji-picker';
+    }
+    if (badConnection) {
+        textboxClassName += ' bad-connection';
+    }
+    if (preview) {
+        textboxClassName += ' custom-textarea--preview';
+        textWrapperClass += ' textarea-wrapper--preview';
+        previewText = (
             <div
-                ref={this.wrapper}
-                className={textWrapperClass}
+                tabIndex={tabIndex || 0}
+                ref={previewDiv}
+                className='form-control custom-textarea textbox-preview-area'
+                onKeyPress={onKeyPress}
+                onKeyDown={handleKeyDown}
+                onBlur={handleBlur}
+
             >
-                <SuggestionBox
-                    id={this.props.id}
-                    ref={this.message}
-                    className={textboxClassName}
-                    spellCheck='true'
-                    placeholder={this.props.createMessage}
-                    onChange={this.handleChange}
-                    onKeyPress={this.props.onKeyPress}
-                    onSelect={this.handleSelect}
-                    onKeyDown={this.handleKeyDown}
-                    onMouseUp={this.handleMouseUp}
-                    onKeyUp={this.handleKeyUp}
-                    onComposition={this.props.onComposition}
-                    onBlur={this.handleBlur}
-                    onHeightChange={this.handleHeightChange}
-                    onPaste={this.props.onPaste}
-                    style={{visibility: this.props.preview ? 'hidden' : 'visible'}}
-                    inputComponent={this.props.inputComponent}
-                    listComponent={this.props.suggestionList}
-                    listPosition={this.props.suggestionListPosition}
-                    providers={this.suggestionProviders}
-                    channelId={this.props.channelId}
-                    value={this.props.value}
-                    renderDividers={['all']}
-                    isRHS={this.props.isRHS}
-                    disabled={this.props.disabled}
-                    contextId={this.props.channelId}
-                    listenForMentionKeyClick={this.props.listenForMentionKeyClick}
-                    openWhenEmpty={this.props.openWhenEmpty}
+                <PostMarkdown
+                    isRHS={isRHS}
+                    message={value}
+                    mentionKeys={[]}
+                    channelId={channelId}
                 />
-                {preview}
             </div>
         );
     }
-}
+
+    return (
+        <div
+            ref={wrapper}
+            className={textWrapperClass}
+        >
+            <SuggestionBox
+                id={id}
+                ref={message}
+                className={textboxClassName}
+                spellCheck='true'
+                placeholder={createMessage}
+
+                // bool is this is the editor bar enabled
+                isAdvancedEditor={isAdvancedEditor}
+
+                // still the onChange element from the Textbox
+                onChange={handleChange}
+                onKeyPress={onKeyPress}
+                onSelect={handleSelect}
+
+                // passed handling of key down from the text editor component
+                onKeyDown={handleKeyDown}
+                onMouseUp={handleMouseUp}
+                onKeyUp={handleKeyUp}
+                onComposition={onComposition}
+                onBlur={handleBlur}
+                onHeightChange={handleHeightChange}
+                onPaste={onPaste}
+                style={{visibility: preview ? 'hidden' : 'visible'}}
+                inputComponent={inputComponent}
+                listComponent={suggestionList}
+                listPosition={suggestionListPosition}
+                providers={suggestionProviders}
+                channelId={channelId}
+                value={value}
+                renderDividers={['all']}
+                isRHS={isRHS}
+                disabled={disabled}
+                contextId={channelId}
+                listenForMentionKeyClick={listenForMentionKeyClick}
+                openWhenEmpty={openWhenEmpty}
+            />
+            {previewText}
+        </div>
+    );
+};
+
+export default TextBox;
