@@ -20,7 +20,7 @@ exports[`components/create_post Show tutorial 1`] = `
         role="application"
         tabIndex={-1}
       >
-        <Connect(Textbox)
+        <Connect(Component)
           badConnection={false}
           channelId="owsyt8n43jfxjpzh9np93mx1wa"
           characterLimit={4000}
@@ -147,7 +147,7 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
         role="application"
         tabIndex={-1}
       >
-        <Connect(Textbox)
+        <Connect(Component)
           badConnection={false}
           channelId="owsyt8n43jfxjpzh9np93mx1wa"
           characterLimit={4000}
@@ -274,7 +274,7 @@ exports[`components/create_post should match snapshot when cannot post 1`] = `
         role="application"
         tabIndex={-1}
       >
-        <Connect(Textbox)
+        <Connect(Component)
           badConnection={false}
           channelId="owsyt8n43jfxjpzh9np93mx1wa"
           characterLimit={4000}
@@ -366,7 +366,7 @@ exports[`components/create_post should match snapshot when file upload disabled 
         role="application"
         tabIndex={-1}
       >
-        <Connect(Textbox)
+        <Connect(Component)
           badConnection={false}
           channelId="owsyt8n43jfxjpzh9np93mx1wa"
           characterLimit={4000}
@@ -493,7 +493,7 @@ exports[`components/create_post should match snapshot, can post; preview disable
         role="application"
         tabIndex={-1}
       >
-        <Connect(Textbox)
+        <Connect(Component)
           badConnection={false}
           channelId="owsyt8n43jfxjpzh9np93mx1wa"
           characterLimit={4000}
@@ -620,7 +620,7 @@ exports[`components/create_post should match snapshot, can post; preview enabled
         role="application"
         tabIndex={-1}
       >
-        <Connect(Textbox)
+        <Connect(Component)
           badConnection={false}
           channelId="owsyt8n43jfxjpzh9np93mx1wa"
           characterLimit={4000}
@@ -747,7 +747,7 @@ exports[`components/create_post should match snapshot, cannot post; preview disa
         role="application"
         tabIndex={-1}
       >
-        <Connect(Textbox)
+        <Connect(Component)
           badConnection={false}
           channelId="owsyt8n43jfxjpzh9np93mx1wa"
           characterLimit={4000}
@@ -839,7 +839,7 @@ exports[`components/create_post should match snapshot, cannot post; preview enab
         role="application"
         tabIndex={-1}
       >
-        <Connect(Textbox)
+        <Connect(Component)
           badConnection={false}
           channelId="owsyt8n43jfxjpzh9np93mx1wa"
           characterLimit={4000}
@@ -931,7 +931,7 @@ exports[`components/create_post should match snapshot, init 1`] = `
         role="application"
         tabIndex={-1}
       >
-        <Connect(Textbox)
+        <Connect(Component)
           badConnection={false}
           channelId="owsyt8n43jfxjpzh9np93mx1wa"
           characterLimit={4000}

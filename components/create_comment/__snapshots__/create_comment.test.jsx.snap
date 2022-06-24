@@ -18,7 +18,7 @@ exports[`components/CreateComment should match snapshot when cannot post 1`] = `
       <div
         className="post-body__cell"
       >
-        <Connect(Textbox)
+        <Connect(Component)
           badConnection={false}
           channelId="g6139tbospd18cmxroesdk3kkc"
           characterLimit={4000}
@@ -108,7 +108,7 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
       <div
         className="post-body__cell"
       >
-        <Connect(Textbox)
+        <Connect(Component)
           badConnection={false}
           channelId="g6139tbospd18cmxroesdk3kkc"
           characterLimit={4000}
@@ -234,7 +234,7 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
       <div
         className="post-body__cell"
       >
-        <Connect(Textbox)
+        <Connect(Component)
           badConnection={false}
           channelId="g6139tbospd18cmxroesdk3kkc"
           characterLimit={4000}
@@ -348,7 +348,7 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
       <div
         className="post-body__cell"
       >
-        <Connect(Textbox)
+        <Connect(Component)
           badConnection={false}
           channelId="g6139tbospd18cmxroesdk3kkc"
           characterLimit={4000}
@@ -474,7 +474,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
       <div
         className="post-body__cell"
       >
-        <Connect(Textbox)
+        <Connect(Component)
           badConnection={false}
           channelId="g6139tbospd18cmxroesdk3kkc"
           characterLimit={4000}

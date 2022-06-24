@@ -62,7 +62,7 @@ exports[`components/EditChannelHeaderModal edit direct message channel 1`] = `
       <div
         className="textarea-wrapper"
       >
-        <Connect(Textbox)
+        <Connect(Component)
           channelId="fake-id"
           characterLimit={1024}
           createMessage="Edit the Channel Header..."
@@ -189,7 +189,7 @@ exports[`components/EditChannelHeaderModal error with intl message 1`] = `
       <div
         className="textarea-wrapper"
       >
-        <Connect(Textbox)
+        <Connect(Component)
           channelId="fake-id"
           characterLimit={1024}
           createMessage="Edit the Channel Header..."
@@ -334,7 +334,7 @@ exports[`components/EditChannelHeaderModal error without intl message 1`] = `
       <div
         className="textarea-wrapper"
       >
-        <Connect(Textbox)
+        <Connect(Component)
           channelId="fake-id"
           characterLimit={1024}
           createMessage="Edit the Channel Header..."
@@ -471,7 +471,7 @@ exports[`components/EditChannelHeaderModal should match snapshot, init 1`] = `
       <div
         className="textarea-wrapper"
       >
-        <Connect(Textbox)
+        <Connect(Component)
           channelId="fake-id"
           characterLimit={1024}
           createMessage="Edit the Channel Header..."
@@ -598,7 +598,7 @@ exports[`components/EditChannelHeaderModal submitted 1`] = `
       <div
         className="textarea-wrapper"
       >
-        <Connect(Textbox)
+        <Connect(Component)
           channelId="fake-id"
           characterLimit={1024}
           createMessage="Edit the Channel Header..."
