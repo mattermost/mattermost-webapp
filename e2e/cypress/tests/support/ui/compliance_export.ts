@@ -22,13 +22,13 @@ function uiEnableComplianceExport(exportFormat = 'csv') {
 }
 Cypress.Commands.add('uiEnableComplianceExport', uiEnableComplianceExport);
 
-function uiGoToCompliancePage(): ChainableT<void> {
+function uiGoToCompliancePage() {
     cy.visit('/admin_console/compliance/export');
     cy.get('.admin-console__header', {timeout: TIMEOUTS.TWO_MIN}).should('be.visible').invoke('text').should('include', 'Compliance Export');
 }
 Cypress.Commands.add('uiGoToCompliancePage', uiGoToCompliancePage);
 
-function uiExportCompliance(): ChainableT<void> {
+function uiExportCompliance() {
     // # Click the export job button
     cy.findByRole('button', {name: /run compliance export job now/i}).click();
 
@@ -73,12 +73,12 @@ declare global {
             /**
              * Go to Compliance Page
              */
-            uiGoToCompliancePage: typeof uiGoToCompliancePage;
+            uiGoToCompliancePage(): ChainableT<void>;
 
             /**
              * Click Run Export Compliance and wait for Success status
              */
-            uiExportCompliance: typeof uiExportCompliance;
+            uiExportCompliance(): ChainableT<void>;
         }
     }
 }

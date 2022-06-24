@@ -94,7 +94,7 @@ function getLdapSyncJobStatus(start: number): ChainableT<string> {
 }
 Cypress.Commands.add('getLdapSyncJobStatus', getLdapSyncJobStatus);
 
-function waitForLdapSyncCompletion(start: number, timeout: number): ChainableT<void> {
+function waitForLdapSyncCompletion(start: number, timeout: number) {
     if (Date.now() - start > timeout) {
         throw new Error('Timeout Waiting for LdapSync');
     }
@@ -132,7 +132,7 @@ declare global {
              * @param {number} start - start time of the job.
              * @param {number} timeout - the maxmimum time to wait for the job to complete
              */
-            waitForLdapSyncCompletion: typeof waitForLdapSyncCompletion;
+            waitForLdapSyncCompletion(start: number, timeout: number): ChainableT<void>;
 
             visitLDAPSettings(): ChainableT<void>;
 

@@ -8,6 +8,7 @@
     "resolveJsonModule": true,
     "moduleResolution": "node",
     "baseUrl": ".",
+    "skipLibCheck": true,
     "paths": {
       "@mattermost/types/*": ["node_modules/@mattermost/types/lib/*"]
     }

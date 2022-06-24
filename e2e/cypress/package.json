@@ -64,6 +64,7 @@
     "yargs": "17.2.1"
   },
   "scripts": {
+    "check-types": "tsc -b",
     "cypress:open": "cross-env TZ=Etc/UTC cypress open",
     "cypress:run": "cross-env TZ=Etc/UTC cypress run --browser chrome --config ignoreTestFiles='**/enterprise/**/*.js'",
     "cypress:run:enterprise": "cross-env TZ=Etc/UTC cypress run --browser chrome --spec='tests/integration/enterprise/**/*_spec.js'",

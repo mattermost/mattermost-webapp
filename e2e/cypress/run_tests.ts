@@ -99,7 +99,7 @@ async function runTests() {
         start,
         end,
         count,
-    } = getTestFilesIdentifier(numberOfTestFiles, (argv as any).part, argv.of);
+    } = getTestFilesIdentifier(numberOfTestFiles, (argv as any).part, (argv as any).of);
 
     for (let i = start, j = 0; i < end && j < count; i++, j++) {
         printMessage(sortedFiles, i, j + 1, count);
