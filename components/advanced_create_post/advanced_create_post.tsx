@@ -36,7 +36,7 @@ import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
 import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload';
 import ResetStatusModal from 'components/reset_status_modal';
-import TextboxClass from 'components/textbox/textbox';
+import {TextboxForwarded} from 'components/textbox/textbox';
 
 import {Channel, ChannelMemberCountsByGroup} from '@mattermost/types/channels';
 import {PostDraft} from 'types/store/rhs';
@@ -278,7 +278,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         };
 
         this.topDiv = React.createRef<HTMLFormElement>();
-        this.textboxRef = React.createRef<TextboxClass>();
+        this.textboxRef = React.createRef<TextboxForwarded>();
         this.fileUploadRef = React.createRef<FileUploadClass>();
     }
 

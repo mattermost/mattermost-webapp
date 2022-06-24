@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ChangeEvent, ClipboardEventHandler, createRef, ElementType, FocusEvent, KeyboardEvent, MouseEvent, useCallback, useEffect} from 'react';
+import React, {ChangeEvent, ClipboardEventHandler, createRef, ElementType, FocusEvent, KeyboardEvent, MouseEvent, useCallback, useEffect, useImperativeHandle} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Channel} from '@mattermost/types/channels';
@@ -21,7 +21,7 @@ import SuggestionBox from 'components/suggestion/suggestion_box';
 import SuggestionBoxComponent from 'components/suggestion/suggestion_box/suggestion_box';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 
-// import * as Utils from 'utils/utils';
+import * as Utils from 'utils/utils';
 
 import {TextboxElement} from './index';
 
@@ -31,7 +31,7 @@ type Props = {
     rootId?: string;
     tabIndex?: number;
     value: string;
-    onChange: (e: ChangeEvent<TextboxElement> | string) => void;
+    onChange: (e: ChangeEvent<TextboxElement>) => void;
     onKeyPress: (e: KeyboardEvent<any>) => void;
     onComposition?: () => void;
     onHeightChange?: (height: number, maxHeight: number) => void;
@@ -41,7 +41,7 @@ type Props = {
     onMouseUp?: (e: React.MouseEvent<TextboxElement>) => void;
     onKeyUp?: (e: React.KeyboardEvent<TextboxElement>) => void;
     onBlur?: (e: FocusEvent<TextboxElement>) => void;
-    supportsCommands: boolean;
+    supportsCommands?: boolean;
     handlePostError?: (message: JSX.Element | null) => void;
     onPaste?: ClipboardEventHandler;
     suggestionList?: React.ComponentProps<typeof SuggestionBox>['listComponent'];
@@ -68,7 +68,12 @@ type Props = {
     isAdvancedEditor?: boolean;
 };
 
-const TextBox = ({
+export type TextboxForwarded = {
+    getInputBox: () => any;
+    focus: () => void;
+    blur: () => void;
+}
+const TextboxComponent: React.ForwardRefRenderFunction<TextboxForwarded, Props> = ({
     supportsCommands = true,
     isRHS = false,
     listenForMentionKeyClick = false,
@@ -105,15 +110,17 @@ const TextBox = ({
     suggestionListPosition,
     disabled,
     openWhenEmpty,
-}: Props) => {
-    const suggestionProviders: Provider[] = [];
+}: Props, ref) => {
+    const [suggestionProviders, updateSuggestionProviders] = React.useState<Provider[]>([]);
     const wrapper = createRef<HTMLDivElement>();
     const message = createRef<SuggestionBoxComponent>();
     const previewDiv = createRef<HTMLDivElement>();
 
     useEffect(() => {
+        const newProviders: Provider[] = [];
+
         if (supportsCommands) {
-            suggestionProviders.push(new AppCommandProvider({
+            newProviders.push(new AppCommandProvider({
                 channelId,
                 teamId: currentTeamId,
                 rootId,
@@ -125,7 +132,7 @@ const TextBox = ({
             }));
         }
 
-        suggestionProviders.push(
+        newProviders.push(
             new AtMentionProvider({
                 currentUserId,
                 channelId,
@@ -138,7 +145,9 @@ const TextBox = ({
             new ChannelMentionProvider(actions.autocompleteChannels),
             new EmoticonProvider(),
         );
-    }, [autocompleteGroups, channelId, currentTeamId, currentUserId, actions, priorityProfiles, useChannelMentions, rootId, suggestionProviders, supportsCommands]);
+
+        updateSuggestionProviders(newProviders);
+    }, [autocompleteGroups, channelId, currentTeamId, currentUserId, actions, priorityProfiles, useChannelMentions, rootId, supportsCommands]);
 
     const checkMessageLength = useCallback((message: string) => {
         if (handlePostError) {
@@ -209,7 +218,7 @@ const TextBox = ({
         }
     }, [actions, autocompleteGroups, channelId, currentTeamId, currentUserId, priorityProfiles, rootId, suggestionProviders, useChannelMentions, value, checkMessageLength]);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement> | string) => onChange(e);
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => onChange(e);
 
     // adding in the HTMLDivElement to support event handling in preview state
     // since we do only handle the sending when in preview mode this is fine to be casted
@@ -227,28 +236,26 @@ const TextBox = ({
 
     const handleHeightChange = (height: number, maxHeight: number) => onHeightChange?.(height, maxHeight);
 
-    /**
-     Below methods were not used previously, refacted them but removed for now.
-
     const getInputBox = () => message.current?.getTextbox();
 
-    const focus = () => {
-        const textbox = getInputBox();
-        if (textbox) {
-            textbox.focus();
-            Utils.placeCaretAtEnd(textbox);
-            setTimeout(() => {
-                Utils.scrollToCaret(textbox);
-            });
+    useImperativeHandle(ref, () => ({
+        getInputBox: () => message.current?.getTextbox(),
 
-            // reset character count warning
-            checkMessageLength(textbox.value);
-        }
-    };
+        focus: () => {
+            const textbox = getInputBox();
+            if (textbox) {
+                textbox.focus();
+                Utils.placeCaretAtEnd(textbox);
+                setTimeout(() => {
+                    Utils.scrollToCaret(textbox);
+                });
 
-    const blur = () => getInputBox()?.blur();
-
-     */
+                // reset character count warning
+                checkMessageLength(textbox.value);
+            }
+        },
+        blur: () => getInputBox()?.blur(),
+    }));
 
     useEffect(() => {
         if (preview) {
@@ -338,4 +345,8 @@ const TextBox = ({
     );
 };
 
-export default TextBox;
+const Textbox = React.forwardRef(TextboxComponent);
+export {
+    Textbox,
+};
+

@@ -35,7 +35,7 @@ import MsgTyping from 'components/msg_typing';
 import PostDeletedModal from 'components/post_deleted_modal';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import Textbox, {TextboxElement} from 'components/textbox';
-import TextboxClass from 'components/textbox/textbox';
+import {TextboxForwarded} from 'components/textbox/textbox';
 import TextboxLinks from 'components/textbox/textbox_links';
 import MessageSubmitError from 'components/message_submit_error';
 import {PostDraft} from 'types/store/rhs';
@@ -271,7 +271,7 @@ class CreateComment extends React.PureComponent<Props, State> {
 
     private saveDraftFrame?: number | null;
 
-    private textboxRef: React.RefObject<TextboxClass>;
+    private textboxRef: React.RefObject<TextboxForwarded>;
     private fileUploadRef: React.RefObject<FileUploadClass>;
     private createCommentControlsRef: React.RefObject<HTMLSpanElement>;
 

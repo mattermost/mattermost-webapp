@@ -10,7 +10,7 @@ import {Channel} from '@mattermost/types/channels';
 import {ServerError} from '@mattermost/types/errors';
 
 import Textbox, {TextboxElement} from 'components/textbox';
-import TextboxClass from 'components/textbox/textbox';
+import {TextboxForwarded} from 'components/textbox/textbox';
 import TextboxLinks from 'components/textbox/textbox_links';
 import Constants from 'utils/constants';
 import {isMobile} from 'utils/user_agent';
@@ -70,7 +70,7 @@ type State = {
 }
 
 export default class EditChannelHeaderModal extends React.PureComponent<Props, State> {
-    private editChannelHeaderTextboxRef: React.RefObject<TextboxClass>;
+    private editChannelHeaderTextboxRef: React.RefObject<TextboxForwarded>;
 
     constructor(props: Props) {
         super(props);
@@ -80,7 +80,7 @@ export default class EditChannelHeaderModal extends React.PureComponent<Props, S
             saving: false,
             show: true,
         };
-        this.editChannelHeaderTextboxRef = React.createRef<TextboxClass>();
+        this.editChannelHeaderTextboxRef = React.createRef<TextboxForwarded>();
     }
 
     private handleModalKeyDown = (e: React.KeyboardEvent<Modal>): void => {

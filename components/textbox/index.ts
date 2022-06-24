@@ -21,7 +21,7 @@ import {autocompleteUsersInChannel} from 'actions/views/channel';
 import {searchAssociatedGroupsForReference} from 'actions/views/group';
 import {autocompleteChannels} from 'actions/channel_actions';
 
-import Textbox from './textbox';
+import {Textbox, TextboxForwarded} from './textbox';
 
 type Props = {
     channelId: string;
@@ -59,6 +59,6 @@ const mapDispatchToProps = (dispatch: Dispatch<GenericAction>) => ({
     }, dispatch),
 });
 
-export {Textbox as TextboxClass};
+export {TextboxForwarded};
 
 export default connect(makeMapStateToProps, mapDispatchToProps, null, {forwardRef: true})(Textbox);

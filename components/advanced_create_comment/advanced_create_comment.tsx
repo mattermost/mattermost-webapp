@@ -42,7 +42,7 @@ import {
     ApplyMarkdownOptions,
 } from 'utils/markdown/apply_markdown';
 import AdvanceTextEditor from '../advanced_text_editor/advanced_text_editor';
-import {TextboxClass, TextboxElement} from '../textbox';
+import {TextboxForwarded, TextboxElement} from '../textbox';
 
 const KeyCodes = Constants.KeyCodes;
 
@@ -204,7 +204,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
 
     private saveDraftFrame?: number | null;
 
-    private readonly textboxRef: React.RefObject<TextboxClass>;
+    private readonly textboxRef: React.RefObject<TextboxForwarded>;
     private readonly fileUploadRef: React.RefObject<FileUploadClass>;
 
     static defaultProps = {

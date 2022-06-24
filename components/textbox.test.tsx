@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import Textbox from 'components/textbox/textbox';
+import {Textbox} from 'components/textbox/textbox';
 
 describe('components/TextBox', () => {
     const baseProps = {

@@ -36,7 +36,7 @@ import MsgTyping from 'components/msg_typing';
 import ResetStatusModal from 'components/reset_status_modal';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import Textbox, {TextboxElement} from 'components/textbox';
-import TextboxClass from 'components/textbox/textbox';
+import {TextboxForwarded} from 'components/textbox/textbox';
 import TextboxLinks from 'components/textbox/textbox_links';
 
 import MessageSubmitError from 'components/message_submit_error';
@@ -323,7 +323,7 @@ class CreatePost extends React.PureComponent<Props, State> {
     private saveDraftFrame?: number | null;
 
     private topDiv: React.RefObject<HTMLFormElement>;
-    private textboxRef: React.RefObject<TextboxClass>;
+    private textboxRef: React.RefObject<TextboxForwarded>;
     private fileUploadRef: React.RefObject<FileUploadClass>;
     private createPostControlsRef: React.RefObject<HTMLSpanElement>;
 
@@ -356,7 +356,7 @@ class CreatePost extends React.PureComponent<Props, State> {
         };
 
         this.topDiv = React.createRef<HTMLFormElement>();
-        this.textboxRef = React.createRef<TextboxClass>();
+        this.textboxRef = React.createRef<TextboxForwarded>();
         this.fileUploadRef = React.createRef<FileUploadClass>();
         this.createPostControlsRef = React.createRef<HTMLSpanElement>();
     }

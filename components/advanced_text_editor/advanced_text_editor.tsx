@@ -17,7 +17,7 @@ import FilePreview from 'components/file_preview';
 import FileUpload from 'components/file_upload';
 import MsgTyping from 'components/msg_typing';
 import Textbox, {TextboxElement} from 'components/textbox';
-import TextboxClass from 'components/textbox/textbox';
+import type {TextboxForwarded} from 'components/textbox/textbox';
 import MessageSubmitError from 'components/message_submit_error';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
 import {SendMessageTour} from 'components/onboarding_tour';
@@ -83,12 +83,12 @@ type Props = {
     handleFileUploadComplete: (fileInfos: FileInfo[], clientIds: string[], channelId: string, rootId?: string) => void;
     handleUploadStart: (clientIds: string[], channelId: string) => void;
     handleFileUploadChange: () => void;
-    getFileUploadTarget: () => TextboxClass | null;
+    getFileUploadTarget: () => TextboxForwarded | null;
     fileUploadRef: React.RefObject<FileUploadClass>;
     prefillMessage?: (message: string, shouldFocus?: boolean) => void;
     channelId: string;
     postId: string;
-    textboxRef: React.RefObject<TextboxClass>;
+    textboxRef: React.RefObject<TextboxForwarded>;
     isThreadView?: boolean;
 }
 

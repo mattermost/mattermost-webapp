@@ -24,7 +24,7 @@ import * as Utils from 'utils/utils';
 import DeletePostModal from 'components/delete_post_modal';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import Textbox, {TextboxClass, TextboxElement} from 'components/textbox';
+import Textbox, {TextboxElement, TextboxForwarded} from 'components/textbox';
 import {ModalData} from 'types/actions';
 
 type DialogProps = {
@@ -89,7 +89,7 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
     const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
     const [renderScrollbar, setRenderScrollbar] = useState<boolean>(false);
 
-    const textboxRef = useRef<TextboxClass>(null);
+    const textboxRef = useRef<TextboxForwarded>(null);
     const emojiButtonRef = useRef<HTMLButtonElement>(null);
     const wrapperRef = useRef<HTMLDivElement>(null);
 
