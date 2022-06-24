@@ -18,7 +18,7 @@ import {GlobalState} from 'types/store';
 
 export type PluginSiteStatsHandler = () => Promise<Record<string, PluginAnalyticsRow>>;
 
-export type SearchHandlers = (term: string) => Promise<any[]>; // TODO: make this more specific
+export type SearchHandlers = (teamID: string, query: string) => Promise<any[]>; // TODO: make this more specific
 
 export type RecentlyViewedHandler = () => Promise<any[]>; // TODO: make this more specific
 

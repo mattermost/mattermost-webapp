@@ -1,16 +1,18 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ChangeEvent, KeyboardEvent, useCallback, useState} from 'react';
+import React, {ChangeEvent, KeyboardEvent, useCallback, useEffect, useState} from 'react';
 import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
 import {useSelector} from 'react-redux';
 
-import {getTeams} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentTeamId, getTeams} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {CommandPaletteEntities} from 'components/command_palette/types';
 import Constants from 'utils/constants';
 import {isKeyPressed} from 'utils/utils';
 import {getChannelsInAllTeams} from 'mattermost-redux/selectors/entities/channels';
+import {GlobalState} from '../../../types/store';
 import {CommandPaletteList} from '../command_palette_list/command_palette_list';
 import {channelToCommandPaletteItemTransformer} from '../utils';
 
@@ -33,6 +35,27 @@ const CommandPaletteModal = ({onExited, selectedEntities}: Props) => {
     const [entities, setEntities] = useState<CommandPaletteEntities[]>(selectedEntities || []);
     const [isCommandVisible, setIsCommandVisible] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
+    const currentTeamId = useSelector(getCurrentTeamId);
+
+    const searchHandler = useSelector((state: GlobalState) => state.plugins.searchHandlers.focalboard);
+    const recentHandler = useSelector((state: GlobalState) => {
+        console.log('recent', state.plugins.recentlyViewedHandlers);
+        return state.plugins.recentlyViewedHandlers.focalboard;
+    });
+    console.log('hello');
+
+    const searchTermFunc = useCallback(async () => {
+        const data: any = await searchHandler(currentTeamId, 'meeting');
+        const recentData: any = await recentHandler();
+        if (data.items) {
+            console.log('search', data);
+            console.log('recents', recentData);
+        }
+    }, [currentTeamId]);
+
+    useEffect(() => {
+        searchTermFunc();
+    }, [searchTermFunc]);
 
     const addChip = useCallback((chip: string) => {
         setChips((chips) => {
