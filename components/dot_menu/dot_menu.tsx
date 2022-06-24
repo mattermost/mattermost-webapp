@@ -309,19 +309,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         this.props.handleCommentClick(e);
     }
 
-    handleRemindPostActivated = (): void => {
-        const postReminderCustomTimePicker = {
-            modalId: ModalIdentifiers.POST_REMINDER_CUSTOM_TIME_PICKER,
-            dialogType: PostReminderCustomTimePicker,
-            dialogProps: {
-                postId: this.props.post.id,
-                currentDate: new Date(),
-            },
-        };
-
-        this.props.actions.openModal(postReminderCustomTimePicker);
-    }
-
     setPostReminder = (index: number): void => {
         const currentDate = getCurrentMomentForTimezone(this.props.timezone);
         let endTime = currentDate;
@@ -535,8 +522,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                     id: `postReminder-${id}`,
                     direction: 'right',
                     text,
-                    action:
-                        index === 4 ? () => this.setCustomPostReminder() : () => this.setPostReminder(index),
+                    action: index === 4 ? () => this.setCustomPostReminder() : () => this.setPostReminder(index),
                 } as any;
             }),
         );
@@ -637,20 +623,24 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         rightDecorator={<ShortcutKey shortcutKey='S'/>}
                         onClick={this.handleFlagMenuItemActivated}
                     />
-                    <Menu.ItemSubMenu
-                        subMenu={postReminderSubMenuItems}
-                        showMenu={!isSystemMessage}
+                    <span className='postReminderMenu'>
+                        <Menu.ItemSubMenu
+                            subMenu={postReminderSubMenuItems}
+                            showMenu={!isSystemMessage}
+                            subMenuClass='bankges'
 
-                        // text={Utils.localizeMessage('status_dropdown.set_dnd', 'Do not disturb')}
-                        text={'Remind'}
-                        icon={Utils.getMenuItemIcon('icon-clock-outline')}
+                            // TODO: translations
+                            // text={Utils.localizeMessage('status_dropdown.set_dnd', 'Do not disturb')}
+                            text={'Remind'}
+                            icon={Utils.getMenuItemIcon('icon-clock-outline')}
 
-                        // rightDecorator={<ShortcutKey shortcutKey='A'/>}
-                        direction={'left'}
+                            // rightDecorator={<ShortcutKey shortcutKey='A'/>}
+                            direction={'left'}
 
-                        openUp={this.state.openUp}
-                        id={`remind_post_${this.props.post.id}`}
-                    />
+                            openUp={this.state.openUp}
+                            id={`remind_post_${this.props.post.id}`}
+                        />
+                    </span>
                     <Menu.ItemAction
                         id={`unpin_post_${this.props.post.id}`}
                         show={!isSystemMessage && !this.props.isReadOnly && this.props.post.is_pinned}
