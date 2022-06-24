@@ -1,16 +1,22 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+import classNames from 'classnames';
+
+// See LICENSE.txt for license information.
 import React, {useCallback, useEffect, useState} from 'react';
 
-import './command_palette_list.scss';
 import Constants from 'utils/constants';
 import {isKeyPressed} from 'utils/utils';
 
 import {CommandPaletteItem, CommandPaletteListItem} from '../command_palette_list_item/command_palette_list_item';
+
+import './command_palette_list.scss';
+
 type Props = {
     itemList: CommandPaletteItem[];
+    onItemSelected: (item: CommandPaletteItem) => void;
 }
-export const CommandPaletteList = ({itemList}: Props) => {
+export const CommandPaletteList = ({itemList, onItemSelected}: Props) => {
     const [selectedItemIndex, setSelectedItemIndex] = useState(0);
     const KeyCodes = Constants.KeyCodes;
 
@@ -35,11 +41,18 @@ export const CommandPaletteList = ({itemList}: Props) => {
 
     const list = itemList.map((item, index) => {
         return (
-            <CommandPaletteListItem
+            <li
                 key={item.id}
-                {...item}
-                isSelected={selectedItemIndex === index}
-            />
+                className={classNames('cmd-pl-list-item', {
+                    'cmd-pl-list-item--selected': selectedItemIndex === index,
+                })}
+                onClick={() => onItemSelected(item)}
+            >
+                <CommandPaletteListItem
+                    key={item.id}
+                    {...item}
+                />
+            </li>
         );
     });
     return (
