@@ -44,6 +44,6 @@ export class E2EClient extends Client4 {
                 response: response.data,
                 headers: responseHeaders,
             };
-        }
+        };
     }
 }
