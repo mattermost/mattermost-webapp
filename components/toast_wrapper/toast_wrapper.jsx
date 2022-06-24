@@ -225,6 +225,8 @@ class ToastWrapper extends React.PureComponent {
                 this.hideUnreadToast();
             } else if (this.state.showNewMessagesToast) {
                 this.hideNewMessagesToast();
+            } else if (this.state.showUnreadWithBottomStartToast) {
+                this.hideUnreadWithBottomStartToast();
             } else {
                 this.hideArchiveToast();
             }
