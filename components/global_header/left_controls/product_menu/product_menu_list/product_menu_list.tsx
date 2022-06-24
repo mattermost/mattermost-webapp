@@ -39,8 +39,8 @@ export type Props = {
     canManageIntegrations: boolean;
     enablePluginMarketplace: boolean;
     showVisitSystemConsoleTour: boolean;
-    isCloud: boolean;
-    isFreeTrial: boolean;
+    isStarterFree: boolean;
+    isStarterFreeTrial: boolean;
     onClick?: React.MouseEventHandler<HTMLElement>;
     handleVisitConsoleClick: React.MouseEventHandler<HTMLElement>;
     enableCustomUserGroups?: boolean;
@@ -65,8 +65,8 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
         canManageIntegrations,
         enablePluginMarketplace,
         showVisitSystemConsoleTour,
-        isCloud,
-        isFreeTrial,
+        isStarterFree,
+        isStarterFreeTrial,
         onClick,
         handleVisitConsoleClick,
         isMobile = false,
@@ -146,7 +146,7 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                 <Menu.ItemToggleModalRedux
                     id='userGroups'
                     modalId={ModalIdentifiers.USER_GROUPS}
-                    show={enableCustomUserGroups || isCloud}
+                    show={enableCustomUserGroups && (isStarterFree || isStarterFreeTrial)}
                     dialogType={UserGroupsModal}
                     dialogProps={{
                         backButtonAction: openGroupsModal,
@@ -158,10 +158,10 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                             glyph={'account-multiple-outline'}
                         />
                     }
-                    disabled={isCloud && !isFreeTrial}
-                    sibling={isCloud && (
+                    disabled={isStarterFree}
+                    sibling={(isStarterFree || isStarterFreeTrial) && (
                         <RestrictedIndicator
-                            blocked={!isFreeTrial}
+                            blocked={isStarterFree}
                             tooltipMessage={formatMessage({
                                 id: 'navbar_dropdown.userGroups.tooltip.cloudFreeTrial',
                                 defaultMessage: 'During your trial you are able to create user groups. These user groups will be archived after your trial.',
