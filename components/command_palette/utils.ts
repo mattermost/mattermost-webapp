@@ -61,6 +61,7 @@ export function boardToCommandPaletteItemTransformer(boards: Board[], teams: Rec
             title: board.title,
             type: CommandPaletteEntities.Boards,
             isArchived,
+            teamId: board.teamId,
         };
     });
 }
@@ -86,6 +87,8 @@ export function channelToCommandPaletteItemTransformer(channels: Channel[], team
             title: channel.display_name,
             type: CommandPaletteEntities.Channel,
             isArchived,
+            teamId: channel.team_id,
+            channel,
         };
     });
 }

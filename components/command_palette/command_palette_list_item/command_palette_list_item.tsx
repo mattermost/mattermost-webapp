@@ -1,7 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
+// See LICENSE.txt for license information.
 import React from 'react';
-import classNames from 'classnames';
+
+import {Channel} from '@mattermost/types/channels';
 
 import RenderEmoji from 'components/emoji/render_emoji';
 import BotBadge from 'components/widgets/badges/bot_badge';
@@ -19,6 +22,7 @@ export interface CommandPaletteItem {
     id: string;
     pictograph: CmdPalettePictograph;
     teamName?: string;
+    teamId?: string;
     mentionBadge?: number;
     isBot?: boolean;
     isGuest?: boolean;
@@ -26,6 +30,7 @@ export interface CommandPaletteItem {
     isArchived?: boolean;
     lastViewedAt?: number;
     isDeactivated?: boolean;
+    channel?: Channel;
     type: CommandPaletteEntities;
     subType: ChannelType | BoardsType | PlaybooksType;
     isSelected?: boolean;
@@ -40,14 +45,9 @@ export const CommandPaletteListItem = ({
     mentionBadge,
     teamName,
     customStatus,
-    isSelected,
 }: CommandPaletteItem) => {
     return (
-        <li
-            className={classNames('cmd-pl-list-item', {
-                'cmd-pl-list-item--selected': isSelected,
-            })}
-        >
+        <>
             <CommandPaletteListItemPictograph
                 pictographItem={pictograph.pictographItem}
                 type={pictograph.type}
@@ -83,6 +83,6 @@ export const CommandPaletteListItem = ({
                 <div className={'cmd-pl-list-item__team-name'}>
                     <span>{teamName}</span>
                 </div>}
-        </li>
+        </>
     );
 };

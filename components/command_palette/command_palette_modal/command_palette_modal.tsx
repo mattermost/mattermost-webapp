@@ -4,14 +4,16 @@
 import React, {ChangeEvent, KeyboardEvent, useCallback, useEffect, useState} from 'react';
 import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {getCurrentTeamId, getTeams} from 'mattermost-redux/selectors/entities/teams';
 import {CommandPaletteEntities} from 'components/command_palette/types';
 import Constants from 'utils/constants';
 import {isKeyPressed} from 'utils/utils';
 import {getChannelsInAllTeams} from 'mattermost-redux/selectors/entities/channels';
+import {switchToChannel} from '../../../actions/views/channel';
 import {GlobalState} from '../../../types/store';
+import {browserHistory} from '../../../utils/browser_history';
 import LoadingSpinner from '../../widgets/loading/loading_spinner';
 import {CommandPaletteList} from '../command_palette_list/command_palette_list';
 import {CommandPaletteItem} from '../command_palette_list_item/command_palette_list_item';
@@ -32,23 +34,24 @@ const CommandPaletteModal = ({onExited, selectedEntities}: Props) => {
     const [isLoading, setLoading] = useState(true);
     const [transformedItems, setTransformedItems] = useState<CommandPaletteItem[]>([]);
     const {formatMessage} = useIntl();
+    const dispatch = useDispatch();
     const CommandPaletteModalLabel = formatMessage({id: 'CommandPalette.modal', defaultMessage: 'Command Palette Modal'}).toLowerCase();
 
-    const [chips, setChips] = useState(['Chip 1', 'Chip 2']);
+    const [chips, setChips] = useState<string[]>([]);
     const [entities, setEntities] = useState<CommandPaletteEntities[]>(selectedEntities || []);
     const [isCommandVisible, setIsCommandVisible] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const currentTeamId = useSelector(getCurrentTeamId);
     const teams = useSelector(getTeams);
 
-    // const searchHandler = useSelector((state: GlobalState) => state.plugins.searchHandlers.focalboard);
+    const searchHandler = useSelector((state: GlobalState) => state.plugins.searchHandlers.focalboard);
     const recentHandler = useSelector((state: GlobalState) => {
         return state.plugins.recentlyViewedHandlers.focalboard;
     });
     const recentChannels = useSelector(getChannelsInAllTeams);
     const channelsTransformedItems = channelToCommandPaletteItemTransformer(recentChannels, teams);
     let boardsTransformedItems: CommandPaletteItem[] = [];
-    const searchTermFunc = useCallback(async () => {
+    const recentBoards = useCallback(async () => {
         const recentData: any = await recentHandler();
         if (recentData) {
             boardsTransformedItems = boardToCommandPaletteItemTransformer(recentData, teams);
@@ -57,9 +60,18 @@ const CommandPaletteModal = ({onExited, selectedEntities}: Props) => {
         }
     }, [currentTeamId]);
 
+    const searchBoards = useCallback(async (query: string) => {
+        const searchData: any = await searchHandler(currentTeamId, query);
+        if (searchData) {
+            boardsTransformedItems = boardToCommandPaletteItemTransformer(searchData, teams);
+            setTransformedItems([...boardsTransformedItems, ...channelsTransformedItems]);
+            setLoading(false);
+        }
+    }, [currentTeamId]);
+
     useEffect(() => {
-        searchTermFunc();
-    }, [searchTermFunc]);
+        recentBoards();
+    }, [recentBoards]);
 
     const addChip = useCallback((chip: string) => {
         setChips((chips) => {
@@ -96,11 +108,30 @@ const CommandPaletteModal = ({onExited, selectedEntities}: Props) => {
     }, []);
 
     const updateSearchTerm = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+        const query = e.target.value;
         setSearchTerm(e.target.value);
+        searchBoards(query);
     }, []);
 
     const onHide = (): void => {
         setModalVisibility(false);
+    };
+
+    const onItemSelected = (item: CommandPaletteItem) => {
+        switch (item.type) {
+        case CommandPaletteEntities.Boards : {
+            browserHistory.push(`/boards/team/${item.teamId}/${item.id}`);
+            break;
+        }
+        case CommandPaletteEntities.Channel : {
+            dispatch(switchToChannel(item.channel));
+            break;
+        }
+        default: {
+            break;
+        }
+        }
+        onHide();
     };
 
     return (
@@ -134,7 +165,12 @@ const CommandPaletteModal = ({onExited, selectedEntities}: Props) => {
                     toggleFilter={toggleFilter}
                 />
                 {isLoading && <LoadingSpinner/>}
-                {!isLoading && <CommandPaletteList itemList={transformedItems}/>}
+                {!isLoading &&
+                    <CommandPaletteList
+                        itemList={transformedItems}
+                        onItemSelected={onItemSelected}
+                    />
+                }
             </Modal.Body>
             <Modal.Footer>
                 <Footer/>
