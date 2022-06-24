@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import './common_login_commands.d';
-
 import * as TIMEOUTS from '../fixtures/timeouts';
 import {stubClipboard} from '../utils';
 
