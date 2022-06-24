@@ -35,7 +35,7 @@ describe('Scroll', () => {
         });
     });
 
-    xit('MM-T2378 Channel with only a few posts opens at the bottom', () => {
+    it('MM-T2378 Channel with only a few posts opens at the bottom', () => {
         // # Post a starting message with user 1
         cy.postMessage('This is the first post');
 
@@ -57,7 +57,7 @@ describe('Scroll', () => {
         cy.findByText('This is the last post').should('exist').and('be.visible');
     });
 
-    xit('MM-T2382 Center channel scroll', () => {
+    it('MM-T2382 Center channel scroll', () => {
         // # Post a starting message with user 1
         cy.postMessage('This is the first post');
 
@@ -108,7 +108,7 @@ describe('Scroll', () => {
     });
 
     // https://automation-test-cases.vercel.app/test/MM-T2374
-    xit('MM-T2374 System Messages', () => {
+    it('MM-T2374 System Messages', () => {
         const firstPost = '<< This is the first post><';
         const lastPost = '<< This is the last post><';
 

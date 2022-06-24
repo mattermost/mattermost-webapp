@@ -104,10 +104,10 @@ describe('Mark as Unread', () => {
         cy.get(`#sidebarItem_${channelA.name}`).should(beUnread);
         cy.get(`#sidebarItem_${channelB.name}`).should(beUnread);
 
-        // # Nagigate to integration screeen (away from chat/main screen)
+        // # Navigate to integration screen (away from chat/main screen)
         cy.visit(`/${team1.name}/integrations/`);
 
-        // # Nagigate back to chat/main screen
+        // # Navigate back to chat/main screen
         cy.visit(`/${team1.name}/channels/town-square`);
 
         // * Verify channels are unread

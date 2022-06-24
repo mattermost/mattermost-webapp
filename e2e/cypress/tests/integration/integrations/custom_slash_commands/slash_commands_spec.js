@@ -17,6 +17,7 @@ import {addNewCommand, runSlashCommand} from './helpers';
 
 describe('Slash commands page', () => {
     const trigger = 'test-message';
+    let channelUrl;
     let testTeam;
 
     before(() => {
@@ -35,6 +36,7 @@ describe('Slash commands page', () => {
 
             // # Open slash command page
             cy.get('#slashCommands').click();
+            channelUrl = `${testTeam.name}/channels/town-square`;
         });
     });
 
@@ -133,7 +135,7 @@ describe('Slash commands page', () => {
 
     it('MM-T695 Run custom slash command', () => {
         addNewCommand(testTeam, trigger, '');
-        runSlashCommand(testTeam, trigger);
+        runSlashCommand(channelUrl, trigger);
     });
 
     it('MM-T698 Cancel out of edit', () => {
@@ -182,6 +184,6 @@ describe('Slash commands page', () => {
         // * Verify successful update
         cy.findByText('Test Message - Edit').should('exist').and('be.visible');
 
-        runSlashCommand(testTeam, trigger);
+        runSlashCommand(channelUrl, trigger);
     });
 });

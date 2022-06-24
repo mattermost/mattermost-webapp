@@ -21,7 +21,7 @@ import {
     saveConfigForScheme,
 } from '../../enterprise/system_console/channel_moderation/helpers';
 
-import {addNewCommand} from './helpers';
+import {addNewCommand, runSlashCommand} from './helpers';
 
 describe('Slash commands', () => {
     const trigger = 'my_trigger';
@@ -30,8 +30,8 @@ describe('Slash commands', () => {
     let team1;
     let commandURL;
     const userIds = [];
-    const userList = [];
     let groupChannel;
+    let visitLink;
 
     before(() => {
         cy.requireWebhookServer();
@@ -48,7 +48,6 @@ describe('Slash commands', () => {
                 cy.apiCreateUser({prefix: name, bypassTutorial: true}).then(({user: groupUser}) => {
                     cy.apiAddUserToTeam(team1.id, groupUser.id);
                     userIds.push(groupUser.id);
-                    userList.push(groupUser);
                 });
             });
 
@@ -75,24 +74,21 @@ describe('Slash commands', () => {
             const customGMUrl = `${Cypress.env().webhookBaseUrl}/send_message_to_channel?channel_id=${channel.id}`;
 
             // # Add a new command to send a GM
-            cy.visit(`/${team1.name}/integrations/commands/installed`);
             addNewCommand(team1, gmTrigger, customGMUrl);
 
-            // # Run the command in a GM
-            cy.visit(`/${team1.name}/channels/${groupChannel.name}`);
-            cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`/${gmTrigger}{enter}{enter}`);
-            cy.wait(TIMEOUTS.TWO_SEC);
+            visitLink = `/${team1.name}/channels/${groupChannel.name}`;
 
-            // * Verify that the message was sent to the GM
-            cy.getLastPostId().then((postId) => {
-                cy.get(`#post_${postId}`).get('.Badge').contains('BOT');
-            });
+            // * Verify running custom command in GM
+            runSlashCommand(visitLink, gmTrigger);
+
+            // # Cleanup command
             deleteCommand(team1, gmTrigger);
         });
 
         // # Create a new DM channel
         cy.apiCreateDirectChannel([user1.id, user2.id]).then(() => {
-            cy.visit(`/${team1.name}/messages/@${user2.username}`);
+            visitLink = `/${team1.name}/messages/@${user2.username}`;
+            cy.visit(visitLink);
         });
 
         // # Get channel id to create a custom slash command in DM
@@ -101,27 +97,19 @@ describe('Slash commands', () => {
             cy.postMessageAs({sender: user2, message, channelId});
 
             const customDMUrl = `${Cypress.env().webhookBaseUrl}/send_message_to_channel?channel_id=${channelId}`;
-            cy.visit(`/${team1.name}/integrations/commands/installed`);
+
             addNewCommand(team1, dmTrigger, customDMUrl);
 
-            // # Run the command in a GM
-            cy.visit(`/${team1.name}/messages/@${user2.username}`);
-            cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`/${dmTrigger}{enter}{enter}`);
-            cy.wait(TIMEOUTS.TWO_SEC);
+            // * Verify running custom command in DM
+            runSlashCommand(visitLink, dmTrigger);
 
-            // * Verify that the message was sent to the GM
-            cy.getLastPostId().then((postId) => {
-                cy.get(`#post_${postId}`).get('.Badge').contains('BOT');
-            });
+            // # Cleanup command
             deleteCommand(team1, dmTrigger);
         });
     });
 
     it('MM-T696 Can\'t delete other user\'s slash command', () => {
         cy.apiAdminLogin(user1);
-
-        // # Open slash command page
-        cy.visit(`/${team1.name}/integrations/commands/installed`);
 
         // # Create new Slash command
         addNewCommand(team1, trigger, 'http://dot.com');
@@ -149,9 +137,6 @@ describe('Slash commands', () => {
     });
 
     it('MM-T697 Delete slash command', () => {
-        // # Open slash command page
-        cy.visit(`/${team1.name}/integrations/commands/installed`);
-
         // # Create new Slash command
         addNewCommand(team1, trigger, 'http://dot.com');
 
@@ -174,9 +159,6 @@ describe('Slash commands', () => {
                 EnablePostUsernameOverride: true,
             },
         });
-
-        // # Open slash command page
-        cy.visit(`/${team1.name}/integrations/commands/installed`);
 
         // # Create new Slash command
         addNewCommand(team1, trigger, commandURL);
@@ -213,9 +195,6 @@ describe('Slash commands', () => {
             },
         });
 
-        // # Open slash command page
-        cy.visit(`/${team1.name}/integrations/commands/installed`);
-
         // # Create new Slash command
         addNewCommand(team1, trigger, commandURL);
 
@@ -248,9 +227,6 @@ describe('Slash commands', () => {
     });
 
     it('MM-T703 Show custom slash command in autocomplete', () => {
-        // # Open slash command page
-        cy.visit(`/${team1.name}/integrations/commands/installed`);
-
         // # Create new Slash command
         addNewCommand(team1, trigger, commandURL);
 

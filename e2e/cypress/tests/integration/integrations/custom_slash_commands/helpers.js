@@ -4,6 +4,9 @@
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 export function addNewCommand(team, trigger, url) {
+    // # Open slash command page
+    cy.visit(`/${team.name}/integrations/commands/installed`);
+
     // # Add new command
     cy.get('#addSlashCommand').click();
 
@@ -31,9 +34,13 @@ export function addNewCommand(team, trigger, url) {
     });
 }
 
-export function runSlashCommand(team, trigger) {
+/**
+ * @param {*} linkToVisit : Channel / Group message / DM link to visit
+ * @param {*} trigger : Slash command trigger
+ */
+export function runSlashCommand(linkToVisit, trigger) {
     // # Go back to home channel
-    cy.visit(`/${team.name}/channels/town-square`);
+    cy.visit(linkToVisit);
 
     // # Run slash command
     cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`/${trigger}{enter}{enter}`);

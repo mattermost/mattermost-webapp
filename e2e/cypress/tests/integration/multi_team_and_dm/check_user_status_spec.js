@@ -101,6 +101,6 @@ function verifyUserStatus(testCase) {
     // # Post a message
     cy.postMessage(testCase.name);
 
-    // Verify that the profile in the posted message shows correct status
+    // * Verify that the profile in the posted message shows correct status
     cy.get('.post__img').last().findByLabelText(testCase.ariaLabel);
 }
