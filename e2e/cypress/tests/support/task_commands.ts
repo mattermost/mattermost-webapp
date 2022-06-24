@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {AxiosResponse} from 'axios';
+import {AxiosResponse, Method} from 'axios';
+
+import {Post} from '@mattermost/types/posts';
 
 import {ChainableT} from './api/types';
 
@@ -89,10 +91,19 @@ function postIncomingWebhook({url, data, waitFor}: {url: string, data: any; wait
 }
 Cypress.Commands.add('postIncomingWebhook', postIncomingWebhook);
 
-Cypress.Commands.add('externalRequest', ({user, method, path, data, failOnStatusCode = true}) => {
+interface ExternalRequestArg<T> {
+    user: {
+    };
+    method: Method;
+    path: string;
+    data: T;
+    failOnStatusCode: boolean;
+}
+function externalRequest<T=any, U=any>(arg: ExternalRequestArg<U>): ChainableT<Pick<AxiosResponse<T>, 'data' | 'status'>> {
+    const {user, method, path, data, failOnStatusCode = true} = arg;
     const baseUrl = Cypress.config('baseUrl');
 
-    return cy.task('externalRequest', {baseUrl, user, method, path, data}).then((response) => {
+    return cy.task('externalRequest', {baseUrl, user, method, path, data}).then((response: Pick<AxiosResponse<T & {id: string}>, 'data' | 'status'>) => {
         // Temporarily ignore error related to Cloud
         const cloudErrorId = [
             'ent.cloud.request_error',
@@ -105,18 +116,24 @@ Cypress.Commands.add('externalRequest', ({user, method, path, data, failOnStatus
 
         return cy.wrap(response);
     });
-});
+}
+Cypress.Commands.add('externalRequest', externalRequest);
 
-/**
-* postBotMessage is a task which is wrapped as command with post-verification
-* that a message is successfully posted by the bot
-* @param {String} message - message in a post
-* @param {Object} channelId - where a post will be posted
-*/
-Cypress.Commands.add('postBotMessage', ({token, message, props, channelId, rootId, createAt, failOnStatus = true}) => {
+interface PostBotMessageArg {
+    token: string;
+    message: string;
+    props: Record<string, any>
+    channelId: string;
+    rootId: string;
+    createAt: number;
+    failOnStatus: boolean;
+}
+function postBotMessage(arg: PostBotMessageArg): ChainableT<{status: number; data: Post; id: string}> {
+    const {token, message, props, channelId, rootId, createAt, failOnStatus = true} = arg;
     const baseUrl = Cypress.config('baseUrl');
 
-    return cy.task('postBotMessage', {token, message, props, channelId, rootId, createAt, baseUrl}).then(({status, data}) => {
+    return cy.task('postBotMessage', {token, message, props, channelId, rootId, createAt, baseUrl}).then((response: AxiosResponse<Post>) => {
+        const {status, data} = response;
         if (failOnStatus) {
             expect(status).to.equal(201);
         }
@@ -124,18 +141,18 @@ Cypress.Commands.add('postBotMessage', ({token, message, props, channelId, rootI
         // # Return the data so it can be interacted in a test
         return cy.wrap({id: data.id, status, data});
     });
-});
+}
+Cypress.Commands.add('postBotMessage', postBotMessage);
 
-/**
-* urlHealthCheck is a task wrapped as command that checks whether
-* a URL is healthy and reachable.
-* @param {String} name - name of service to check
-* @param {String} url - URL to check
-* @param {String} helperMessage - a message to display on error to help resolve the issue
-* @param {String} method - a request using a specific method
-* @param {String} httpStatus - expected HTTP status
-*/
-Cypress.Commands.add('urlHealthCheck', ({name, url, helperMessage, method, httpStatus}) => {
+interface UrlHealthCheckArg {
+    name: string;
+    url: string;
+    helperMessage: string;
+    method: string;
+    httpStatus: number;
+}
+function urlHealthCheck(arg: UrlHealthCheckArg): ChainableT<{data: any; status: number;}> {
+    const {name, url, helperMessage, method, httpStatus} = arg;
     Cypress.log({name, message: `Checking URL health at ${url}`});
 
     return cy.task('urlHealthCheck', {url, method}).then(({data, errorCode, status, success}) => {
@@ -153,9 +170,10 @@ Cypress.Commands.add('urlHealthCheck', ({name, url, helperMessage, method, httpS
 
         return cy.wrap({data, status});
     });
-});
+}
+Cypress.Commands.add('urlHealthCheck', urlHealthCheck);
 
-Cypress.Commands.add('requireWebhookServer', () => {
+function requireWebhookServer(): ChainableT<any> {
     const baseUrl = Cypress.config('baseUrl');
     const webhookBaseUrl = Cypress.env('webhookBaseUrl');
     const adminUsername = Cypress.env('adminUsername');
@@ -183,9 +201,12 @@ __Tips:__
             adminPassword,
         }}).
         its('status').should('be.equal', 201);
-});
 
-Cypress.Commands.overwrite('log', (subject, message) => cy.task('log', message));
+    return;
+}
+Cypress.Commands.add('requireWebhookServer', requireWebhookServer);
+
+Cypress.Commands.overwrite('log', (_subject, message) => cy.task('log', message));
 
 declare global {
     namespace Cypress {
@@ -205,14 +226,7 @@ declare global {
              * @example
              *    cy.externalRequest({user: sysadmin, method: 'POST', path: 'config', data});
              */
-            externalRequest(options?: {
-                user: Pick<UserProfile, 'username' | 'password'>;
-                method: string;
-                path: string;
-                data?: Record<string, any>;
-                baseUrl?: string;
-                failOnStatusCode?: boolean;
-            }): Chainable<Response<any>>;
+            externalRequest: typeof externalRequest;
 
             /**
              * Adds a given reaction to a specific post from a user
@@ -235,7 +249,7 @@ declare global {
              * @example
              *    cy.requireWebhookServer();
              */
-            requireWebhookServer(): Chainable;
+            requireWebhookServer: typeof requireWebhookServer;
 
             /**
             * postMessageAs is a task which is wrapped as command with post-verification
@@ -260,7 +274,26 @@ declare global {
             * @param {String} url - incoming webhook URL
             * @param {Object} data - payload on incoming webhook
             */
-            Cypress.Commands.add('postIncomingWebhook', postIncomingWebhook);
+            postIncomingWebhook: typeof postIncomingWebhook;
+
+            /**
+            * postBotMessage is a task which is wrapped as command with post-verification
+            * that a message is successfully posted by the bot
+            * @param {String} message - message in a post
+            * @param {Object} channelId - where a post will be posted
+            */
+            postBotMessage: typeof postBotMessage;
+
+            /**
+            * urlHealthCheck is a task wrapped as command that checks whether
+            * a URL is healthy and reachable.
+            * @param {String} name - name of service to check
+            * @param {String} url - URL to check
+            * @param {String} helperMessage - a message to display on error to help resolve the issue
+            * @param {String} method - a request using a specific method
+            * @param {Number} httpStatus - expected HTTP status
+            */
+            urlHealthCheck: typeof urlHealthCheck;
         }
     }
 }

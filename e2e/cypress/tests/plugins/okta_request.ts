@@ -1,10 +1,18 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-const axios = require('axios');
+import axios, {Method, AxiosResponse} from 'axios';
 
-module.exports = async ({baseUrl, urlSuffix, method = 'get', token, data = {}}) => {
-    let response;
+interface OktaRequestArg {
+    baseUrl: string;
+    urlSuffix: string;
+    method: Method;
+    token: string;
+    data: any;
+}
+export default async function oktaRquest(arg: OktaRequestArg) {
+    const {baseUrl, urlSuffix, method = 'get', token, data = {}} = arg;
+    let response: AxiosResponse<any> | {status: number; statusText: string; data: any};
 
     try {
         response = await axios({

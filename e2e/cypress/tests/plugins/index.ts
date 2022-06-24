@@ -3,37 +3,37 @@
 
 /* eslint-disable no-console */
 
-const clientRequest = require('./client_request');
-const {
+import clientRequest from './client_request';
+import {
     dbGetActiveUserSessions,
     dbGetUser,
     dbGetUserSession,
     dbUpdateUserSession,
-} = require('./db_request');
-const externalRequest = require('./external_request');
-const {fileExist, writeToFile} = require('./file_util');
-const getPdfContent = require('./get_pdf_content');
-const getRecentEmail = require('./get_recent_email');
-const keycloakRequest = require('./keycloak_request');
-const oktaRequest = require('./okta_request');
-const postBotMessage = require('./post_bot_message');
-const postIncomingWebhook = require('./post_incoming_webhook');
-const postMessageAs = require('./post_message_as');
-const postListOfMessages = require('./post_list_of_messages');
-const reactToMessageAs = require('./react_to_message_as');
-const {
+} from './db_request';
+import externalRequest from './external_request';
+import {fileExist, writeToFile} from './file_util';
+import getPdfContent from './get_pdf_content';
+import getRecentEmail from './get_recent_email';
+import keycloakRequest from './keycloak_request';
+import oktaRequest from './okta_request';
+import postBotMessage from './post_bot_message';
+import postIncomingWebhook from './post_incoming_webhook';
+import postMessageAs from './post_message_as';
+import postListOfMessages from './post_list_of_messages';
+import reactToMessageAs from './react_to_message_as';
+import {
     shellFind,
     shellRm,
     shellUnzip,
-} = require('./shell');
-const urlHealthCheck = require('./url_health_check');
+} from './shell';
+import urlHealthCheck from './url_health_check';
 
-const log = (message) => {
+const log = (message: string) => {
     console.log(message);
     return null;
 };
 
-module.exports = (on, config) => {
+export default (on: Cypress.PluginEvents, config: Cypress.PluginConfigOptions) => {
     on('task', {
         clientRequest,
         dbGetActiveUserSessions,
@@ -59,7 +59,7 @@ module.exports = (on, config) => {
         shellUnzip,
     });
 
-    on('before:browser:launch', (browser = {}, launchOptions) => {
+    on('before:browser:launch', (browser: Cypress.Browser = ({} as Cypress.Browser), launchOptions: Cypress.BrowserLaunchOptions) => {
         if (browser.name === 'chrome' && !config.chromeWebSecurity) {
             launchOptions.args.push('--disable-features=CrossSiteDocumentBlockingIfIsolating,CrossSiteDocumentBlockingAlways,IsolateOrigins,site-per-process');
             launchOptions.args.push('--load-extension=tests/extensions/Ignore-X-Frame-headers');

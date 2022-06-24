@@ -8,22 +8,24 @@
  * in MySQL, first letter is capitalized.
  */
 
-const mapKeys = require('lodash.mapkeys');
+import {UserProfile} from '@mattermost/types/users';
+import {Session} from '@mattermost/types/sessions';
+import mapKeys from 'lodash.mapkeys';
 
-function convertKeysToLowercase(obj) {
+function convertKeysToLowercase<T extends object=Record<string, any>>(obj: T) {
     return mapKeys(obj, (_, k) => {
         return k.toLowerCase();
     });
 }
 
-function getKnexClient({client, connection}) {
+function getKnexClient({client, connection}): string {
     return require('knex')({client, connection}); // eslint-disable-line global-require
 }
 
 // Reuse DB client connection
-let knexClient;
+let knexClient: any;
 
-const dbGetActiveUserSessions = async ({dbConfig, params: {username, userId, limit}}) => {
+export const dbGetActiveUserSessions = async ({dbConfig, params: {username, userId, limit}}) => {
     if (!knexClient) {
         knexClient = getKnexClient(dbConfig);
     }
@@ -31,14 +33,14 @@ const dbGetActiveUserSessions = async ({dbConfig, params: {username, userId, lim
     const maxLimit = 50;
 
     try {
-        let user;
+        let user: UserProfile;
         if (username) {
             user = await knexClient(toLowerCase(dbConfig, 'Users')).where('username', username).first();
-            user = convertKeysToLowercase(user);
+            user = convertKeysToLowercase<Record<string, any>>(user as Record<string, any>) as UserProfile;
         }
 
         const now = Date.now();
-        const sessions = await knexClient(toLowerCase(dbConfig, 'Sessions')).
+        const sessions: Session[] = await knexClient(toLowerCase(dbConfig, 'Sessions')).
             where('userid', user ? user.id : userId).
             where('expiresat', '>', now).
             orderBy('lastactivityat', 'desc').
@@ -54,7 +56,7 @@ const dbGetActiveUserSessions = async ({dbConfig, params: {username, userId, lim
     }
 };
 
-const dbGetUser = async ({dbConfig, params: {username}}) => {
+export const dbGetUser = async ({dbConfig, params: {username}}) => {
     if (!knexClient) {
         knexClient = getKnexClient(dbConfig);
     }
@@ -69,7 +71,7 @@ const dbGetUser = async ({dbConfig, params: {username}}) => {
     }
 };
 
-const dbGetUserSession = async ({dbConfig, params: {sessionId}}) => {
+export const dbGetUserSession = async ({dbConfig, params: {sessionId}}) => {
     if (!knexClient) {
         knexClient = getKnexClient(dbConfig);
     }
@@ -86,7 +88,7 @@ const dbGetUserSession = async ({dbConfig, params: {sessionId}}) => {
     }
 };
 
-const dbUpdateUserSession = async ({dbConfig, params: {sessionId, userId, fieldsToUpdate = {}}}) => {
+export const dbUpdateUserSession = async ({dbConfig, params: {sessionId, userId, fieldsToUpdate = {}}}) => {
     if (!knexClient) {
         knexClient = getKnexClient(dbConfig);
     }
@@ -97,8 +99,8 @@ const dbUpdateUserSession = async ({dbConfig, params: {sessionId, userId, fields
             return {errorMessage: `No user found with id: ${userId}.`};
         }
 
-        delete fieldsToUpdate.id;
-        delete fieldsToUpdate.userid;
+        delete (fieldsToUpdate as {id: string}).id;
+        delete (fieldsToUpdate as {userid: string}).userid;
 
         user = convertKeysToLowercase(user);
 
@@ -119,17 +121,10 @@ const dbUpdateUserSession = async ({dbConfig, params: {sessionId, userId, fields
     }
 };
 
-function toLowerCase(config, name) {
+function toLowerCase(config: {client: string}, name: string) {
     if (config.client === 'mysql') {
         return name;
     }
 
     return name.toLowerCase();
 }
-
-module.exports = {
-    dbGetActiveUserSessions,
-    dbGetUser,
-    dbGetUserSession,
-    dbUpdateUserSession,
-};

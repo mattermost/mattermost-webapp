@@ -1,10 +1,18 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-const axios = require('axios');
+import axios, {AxiosResponse, Method} from 'axios';
 
-module.exports = async ({baseUrl, headers = [], method = 'get', path = '', data = {}}) => {
-    let response;
+interface KeycloakRequestArg {
+    baseUrl: string;
+    headers: Record<string, string>;
+    method: Method;
+    path: string;
+    data: any;
+}
+export default async function keycloakRequest(arg: KeycloakRequestArg) {
+    const {baseUrl, headers = {}, method = 'get', path = '', data = {}} = arg;
+    let response: AxiosResponse<any> | {status: number; statusText: string; data: any;};
     try {
         response = await axios({
             method,

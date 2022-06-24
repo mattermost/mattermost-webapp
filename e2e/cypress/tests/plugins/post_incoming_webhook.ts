@@ -1,10 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-const axios = require('axios');
+import axios, {AxiosResponse} from 'axios';
 
-module.exports = async ({url, data}) => {
-    let response;
+export default async function postIncomingWebhook({url, data}) {
+    let response: AxiosResponse<any>;
 
     try {
         response = await axios({method: 'post', url, data});

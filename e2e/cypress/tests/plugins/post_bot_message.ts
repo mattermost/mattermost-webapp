@@ -1,9 +1,19 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-const axios = require('axios');
-module.exports = async ({token, message, props = {}, channelId, rootId, createAt = 0, baseUrl}) => {
-    let response;
+import axios, {AxiosResponse} from 'axios';
+interface PostBotMessageArg {
+    token: string;
+    message: string;
+    props: Record<string, any>
+    channelId: string;
+    rootId: string;
+    createAt: number;
+    baseUrl: string;
+}
+export default async function postBotMessage(arg: PostBotMessageArg) {
+    const {token, message, props = {}, channelId, rootId, createAt = 0, baseUrl} = arg;
+    let response: AxiosResponse<any>;
     try {
         response = await axios({
             url: `${baseUrl}/api/v4/posts`,
