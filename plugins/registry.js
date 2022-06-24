@@ -401,7 +401,7 @@ export default class PluginRegistry {
     // - text - A string or React element to display in the menu
     // - action - A function to trigger when component is clicked on
     // Returns a unique identifier.
-    registerCallsDropdownMenuAction(text, action) {
+    registerCallsDropdownMenuAction(text, icon, action) {
         const id = generateId();
 
         store.dispatch({
@@ -412,6 +412,7 @@ export default class PluginRegistry {
                 pluginId: this.id,
                 text: resolveReactElement(text),
                 action,
+                icon,
             },
         });
 
