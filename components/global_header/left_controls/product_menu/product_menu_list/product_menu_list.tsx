@@ -40,7 +40,7 @@ export type Props = {
     enablePluginMarketplace: boolean;
     showVisitSystemConsoleTour: boolean;
     isStarterFree: boolean;
-    isStarterFreeTrial: boolean;
+    isFreeTrial: boolean;
     onClick?: React.MouseEventHandler<HTMLElement>;
     handleVisitConsoleClick: React.MouseEventHandler<HTMLElement>;
     enableCustomUserGroups?: boolean;
@@ -66,7 +66,7 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
         enablePluginMarketplace,
         showVisitSystemConsoleTour,
         isStarterFree,
-        isStarterFreeTrial,
+        isFreeTrial,
         onClick,
         handleVisitConsoleClick,
         isMobile = false,
@@ -146,7 +146,7 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                 <Menu.ItemToggleModalRedux
                     id='userGroups'
                     modalId={ModalIdentifiers.USER_GROUPS}
-                    show={enableCustomUserGroups || isStarterFree || isStarterFreeTrial}
+                    show={enableCustomUserGroups || isStarterFree || isFreeTrial}
                     dialogType={UserGroupsModal}
                     dialogProps={{
                         backButtonAction: openGroupsModal,
@@ -159,7 +159,7 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                         />
                     }
                     disabled={isStarterFree}
-                    sibling={(isStarterFree || isStarterFreeTrial) && (
+                    sibling={(isStarterFree || isFreeTrial) && (
                         <RestrictedIndicator
                             blocked={isStarterFree}
                             tooltipMessage={formatMessage({

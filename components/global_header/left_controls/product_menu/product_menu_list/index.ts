@@ -58,7 +58,7 @@ function mapStateToProps(state: GlobalState) {
 
     const isCloud = isCloudLicense(license);
     const isStarterFree = isCloud && subscriptionProduct?.sku === CloudProducts.STARTER;
-    const isStarterFreeTrial = isCloud && subscription?.is_free_trial === 'true';
+    const isFreeTrial = isCloud && subscription?.is_free_trial === 'true';
 
     return {
         isMobile: state.views.channel.mobileView,
@@ -79,7 +79,7 @@ function mapStateToProps(state: GlobalState) {
         showVisitSystemConsoleTour,
         enableCustomUserGroups,
         isStarterFree,
-        isStarterFreeTrial,
+        isFreeTrial,
     };
 }
 
