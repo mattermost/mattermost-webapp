@@ -439,7 +439,7 @@ function recentlyViewedHandlers(state: PluginsState['recentlyViewedHandlers'] = 
     case ActionTypes.RECIEVED_IN_PRODUCT_RECENTLY_VIEWED_HANDLER:
         if (action.data) {
             const nextState = {...state};
-            nextState[action.data.entityId] = action.data;
+            nextState[action.data.pluginId] = action.data.handler;
             return nextState;
         }
         return state;
@@ -493,9 +493,9 @@ export default combineReducers({
     // a plugin to render on the insights page
     insightsHandlers,
 
-    // object where every key is a plugin id and the value is the in plugin search handler
-    searchHandlers,
-
     // object where every key is a plugin id and the value is recently viewed plugin entities handler
     recentlyViewedHandlers,
+
+    // object where every key is a plugin id and the value is the in plugin search handler
+    searchHandlers,
 });
