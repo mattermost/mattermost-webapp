@@ -130,6 +130,7 @@ const HEADER_USER_AGENT = 'User-Agent';
 export const HEADER_X_CLUSTER_ID = 'X-Cluster-Id';
 const HEADER_X_CSRF_TOKEN = 'X-CSRF-Token';
 export const HEADER_X_VERSION_ID = 'X-Version-Id';
+const HEADER_X_CONNECTION_ID = 'X-Connection-Id';
 
 const AUTOCOMPLETE_LIMIT_DEFAULT = 25;
 const PER_PAGE_DEFAULT = 60;
@@ -157,6 +158,7 @@ export default class Client4 {
     token = '';
     csrf = '';
     url = '';
+    private connectionId = '';
     urlVersion = '/api/v4';
     userAgent: string|null = null;
     enableLogging = false;
@@ -205,6 +207,10 @@ export default class Client4 {
 
     setCSRF(csrfToken: string) {
         this.csrf = csrfToken;
+    }
+
+    setConnectionId(connectionId: string) {
+        this.connectionId = connectionId;
     }
 
     setAcceptLanguage(locale: string) {
@@ -486,6 +492,10 @@ export default class Client4 {
         const csrfToken = this.csrf || this.getCSRFFromCookie();
         if (options.method && options.method.toLowerCase() !== 'get' && csrfToken) {
             headers[HEADER_X_CSRF_TOKEN] = csrfToken;
+        }
+
+        if (this.connectionId) {
+            headers[HEADER_X_CONNECTION_ID] = this.connectionId;
         }
 
         if (this.includeCookies) {

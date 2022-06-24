@@ -1237,6 +1237,8 @@ function handleStatusChangedEvent(msg) {
 
 function handleHelloEvent(msg) {
     setServerVersion(msg.data.server_version)(dispatch, getState);
+
+    Client4.setConnectionId(msg.data.connection_id);
 }
 
 function handleReactionAddedEvent(msg) {
