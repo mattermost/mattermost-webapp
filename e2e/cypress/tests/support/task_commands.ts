@@ -96,8 +96,8 @@ interface ExternalRequestArg<T> {
     };
     method: Method;
     path: string;
-    data: T;
-    failOnStatusCode: boolean;
+    data?: T;
+    failOnStatusCode?: boolean;
 }
 function externalRequest<T=any, U=any>(arg: ExternalRequestArg<U>): ChainableT<Pick<AxiosResponse<T>, 'data' | 'status'>> {
     const {user, method, path, data, failOnStatusCode = true} = arg;

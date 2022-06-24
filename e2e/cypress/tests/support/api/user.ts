@@ -467,7 +467,7 @@ function apiResetPassword(userId: string, currentPass: string, newPass: string):
 }
 Cypress.Commands.add('apiResetPassword', apiResetPassword);
 
-function apiGenerateMfaSecret(userId: string): ChainableT<{code: string}>{
+function apiGenerateMfaSecret(userId: string): ChainableT<{code: {secret: string}}>{
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         method: 'POST',

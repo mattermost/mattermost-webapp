@@ -1,0 +1,56 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
+import {ChainableT} from '../api/types';
+
+import authenticator from 'authenticator';
+
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
+function uiGetMFASecret(userId: string): ChainableT<string> {
+    return cy.url().then((url) => {
+        if (url.includes('mfa/setup')) {
+            // # Complete MFA setup if we are on token setup page /mfa/setup
+            return cy.get('#mfa').wait(TIMEOUTS.HALF_SEC).find('.col-sm-12').then((p) => {
+                const secretp = p.text();
+                const secret = secretp.split(' ')[1];
+
+                const token = authenticator.generateToken(secret);
+                cy.findByPlaceholderText('MFA Code').type(token);
+                cy.findByText('Save').click();
+
+                cy.wait(TIMEOUTS.HALF_SEC);
+                cy.findByText('Okay').click();
+
+                return cy.wrap(Promise.resolve(secret));
+            });
+        }
+
+        // # If the user already has MFA enabled, reset the secret.
+        return cy.apiGenerateMfaSecret(userId).then((res) => {
+            return cy.wrap(Promise.resolve(res.code.secret));
+        });
+    });
+}
+Cypress.Commands.add('uiGetMFASecret', uiGetMFASecret);
+
+declare global {
+    namespace Cypress {
+        interface Chainable {
+
+            /**
+             * Get MFA secret of a given user
+             * @param {string} userId - ID of user
+             *
+             * @returns {string} `secret` - MFA secret
+             *
+             * @example
+             *   const headerLabel = 'What\'s New';
+             *   cy.uiGetMFASecret('user-id').then((secret) => {
+             *       // do something with the secret
+             *   });
+             */
+            uiGetMFASecret: typeof uiGetMFASecret;
+        }
+    }
+}

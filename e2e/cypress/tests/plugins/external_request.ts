@@ -5,12 +5,13 @@ import axios, {AxiosError, Method} from 'axios';
 
 import * as timeouts from '../fixtures/timeouts';
 
+export interface ExternalRequestUser{
+    username: string;
+    password: string;
+}
 interface ExternalRequestArg {
     baseUrl: string;
-    user: {
-        username: string;
-        password: string;
-    };
+    user: ExternalRequestUser;
     method: Method;
     path: string;
     data: any;
