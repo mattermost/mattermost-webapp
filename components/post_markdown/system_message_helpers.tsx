@@ -14,6 +14,7 @@ import {TextFormattingOptions} from 'utils/text_formatting';
 import {getSiteURL} from 'utils/url';
 
 import Markdown from 'components/markdown';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import CombinedSystemMessage from 'components/post_view/combined_system_message';
 import PostAddChannelMember from 'components/post_view/post_add_channel_member';
 
@@ -423,9 +424,24 @@ export function renderSystemMessage(post: Post, channel: Channel, isUserCanManag
     return null;
 }
 
+function renderReminderPermalink(siteURL: string, teamName: string, postId: string): ReactNode {
+    return (
+        <FormattedMarkdownMessage
+            id='post.reminder.permalink'
+            defaultMessage={'{siteURL}/{teamName}/pl/{postId}'}
+            values={{
+                siteURL,
+                teamName,
+                postId,
+            }}
+        />
+    );
+}
+
 function renderReminderACKMessage(post: Post): ReactNode {
     const username = renderUsername(post.props.username);
-    const permaLink = renderFormattedText(`[this post](${getSiteURL()}/${post.props.team_name}/pl/${post.props.post_id})`);
+
+    const permaLink = renderReminderPermalink(getSiteURL(), post.props.team_name, post.props.post_id);
     const localTime = new Date(post.props.target_time * 1000);
 
     const reminderTime = (<FormattedTime value={localTime}/>);
