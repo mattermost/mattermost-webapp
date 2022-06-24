@@ -242,7 +242,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     private saveDraftFrame?: number | null;
 
     private topDiv: React.RefObject<HTMLFormElement>;
-    private textboxRef: React.RefObject<TextboxClass>;
+    private textboxRef: React.RefObject<TextboxForwarded>;
     private fileUploadRef: React.RefObject<FileUploadClass>;
 
     static getDerivedStateFromProps(props: Props, state: State): Partial<State> {

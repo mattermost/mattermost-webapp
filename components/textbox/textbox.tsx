@@ -65,7 +65,6 @@ type Props = {
     inputComponent?: ElementType;
     openWhenEmpty?: boolean;
     priorityProfiles?: UserProfile[];
-    isAdvancedEditor?: boolean;
 };
 
 export type TextboxForwarded = {
@@ -79,7 +78,6 @@ const TextboxComponent: React.ForwardRefRenderFunction<TextboxForwarded, Props> 
     listenForMentionKeyClick = false,
     inputComponent = AutosizeTextarea,
     suggestionList = SuggestionList,
-    isAdvancedEditor = false,
     characterLimit,
     handlePostError,
     channelId,
@@ -309,16 +307,9 @@ const TextboxComponent: React.ForwardRefRenderFunction<TextboxForwarded, Props> 
                 className={textboxClassName}
                 spellCheck='true'
                 placeholder={createMessage}
-
-                // bool is this is the editor bar enabled
-                isAdvancedEditor={isAdvancedEditor}
-
-                // still the onChange element from the Textbox
                 onChange={handleChange}
                 onKeyPress={onKeyPress}
                 onSelect={handleSelect}
-
-                // passed handling of key down from the text editor component
                 onKeyDown={handleKeyDown}
                 onMouseUp={handleMouseUp}
                 onKeyUp={handleKeyUp}
