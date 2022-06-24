@@ -285,7 +285,15 @@ fullEmoji.forEach((emoji, index) => {
     emoji.image = file;
 
     if (emoji.category !== 'custom') {
-        emojiFilePositions.set(file, `-${emoji.sheet_x * EMOJI_SIZE_PADDED}px -${emoji.sheet_y * EMOJI_SIZE_PADDED}px;`);
+        let x = emoji.sheet_x * EMOJI_SIZE_PADDED;
+        if (x !== 0) {
+            x += 'px';
+        }
+        let y = emoji.sheet_y * EMOJI_SIZE_PADDED;
+        if (y !== 0) {
+            y += 'px';
+        }
+        emojiFilePositions.set(file, `-${x} -${y};`);
     }
 
     emojiImagesByAlias.push(...emoji.short_names.map((alias) => `"${alias}": "${file}"`));
@@ -342,13 +350,12 @@ export const SkinTranslations = new Map([${skinTranslations.join(', ')}]);
 
 export const ComponentCategory = 'Component';
 
-export const AllEmojiIndicesByCategory = new Map(${JSON.stringify(Array.from(emojiIndicesByCategory))});
+const AllEmojiIndicesByCategory = new Map(${JSON.stringify(Array.from(emojiIndicesByCategory))});
 
-export const EmojiIndicesByCategoryAndSkin = new Map([${writeableSkinCategories.join(', ')}]);
-export const EmojiIndicesByCategoryNoSkin = new Map(${JSON.stringify(Array.from(emojiIndicesByCategoryNoSkin))});
+const EmojiIndicesByCategoryAndSkin = new Map([${writeableSkinCategories.join(', ')}]);
+const EmojiIndicesByCategoryNoSkin = new Map(${JSON.stringify(Array.from(emojiIndicesByCategoryNoSkin))});
 
-export const skinCodes = ${JSON.stringify(skinCodes)};
-export const EMOJI_DEFAULT_SKIN = '${EMOJI_DEFAULT_SKIN}';
+const skinCodes = ${JSON.stringify(skinCodes)};
 
 // Generate the list of indices that belong to each category by an specified skin
 function genSkinnedCategories(skin) {
@@ -364,7 +371,7 @@ function genSkinnedCategories(skin) {
     return result;
 }
 
-export const getSkinnedCategories = memoize(genSkinnedCategories);
+const getSkinnedCategories = memoize(genSkinnedCategories);
 export const EmojiIndicesByCategory = new Map([${skinnedCats.join(', ')}]);
 `;
 
@@ -446,8 +453,8 @@ const cssRules = `
     zoom: 0.35;
 }
 
-${cssCats.join('\n')};
-${cssEmojis.join('\n')};
+${cssCats.join('\n')}
+${cssEmojis.join('\n')}
 `;
 
 // write emoji.jsx

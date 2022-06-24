@@ -89,11 +89,11 @@ export function subscribeCloudSubscription(productId: string) {
     };
 }
 
-export function requestCloudTrial(page: string, email = '') {
+export function requestCloudTrial(page: string, subscriptionId: string, email = ''): ActionFunc {
     trackEvent('api', 'api_request_cloud_trial_license', {from_page: page});
-    return async () => {
+    return async (): Promise<any> => {
         try {
-            await Client4.requestCloudTrial(email);
+            await Client4.requestCloudTrial(subscriptionId, email);
         } catch (error) {
             return false;
         }
@@ -101,11 +101,11 @@ export function requestCloudTrial(page: string, email = '') {
     };
 }
 
-export function validateBusinessEmail() {
+export function validateBusinessEmail(email = '') {
     trackEvent('api', 'api_validate_business_email');
     return async () => {
         try {
-            await Client4.validateBusinessEmail();
+            await Client4.validateBusinessEmail(email);
         } catch (error) {
             return false;
         }
@@ -149,12 +149,20 @@ export function getMessagesUsage(): ActionFunc {
 
 export function getFilesUsage(): ActionFunc {
     return async (dispatch: DispatchFunc) => {
-        dispatch({
-            type: CloudTypes.RECEIVED_FILES_USAGE,
+        try {
+            const result = await Client4.getFilesUsage();
 
-            // TODO: Fill this in with the backing client API method once it is available in the server
-            data: 0,
-        });
+            if (result) {
+                // match limit notation in bits
+                const inBits = result.bytes * 8;
+                dispatch({
+                    type: CloudTypes.RECEIVED_FILES_USAGE,
+                    data: inBits,
+                });
+            }
+        } catch (error) {
+            return error;
+        }
         return {data: true};
     };
 }

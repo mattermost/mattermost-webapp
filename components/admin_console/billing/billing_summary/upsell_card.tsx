@@ -170,11 +170,11 @@ export const ExploreEnterpriseCard = () => {
             title={{
 
                 id: t('admin.billing.subscriptions.billing_summary.explore_enterprise'),
-                defaultMessage: 'Explore Enterprise benefits',
+                defaultMessage: 'Explore Enterprise features',
             }}
             cta={{
                 id: t('admin.billing.subscriptions.billing_summary.explore_enterprise.cta'),
-                defaultMessage: 'View all benefits',
+                defaultMessage: 'View all features',
             }}
             ctaAction={openExternalPricingLink}
             andMore={true}

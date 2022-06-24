@@ -48,6 +48,7 @@ describe('Toast', () => {
     beforeEach(() => {
         // # Click on test channel then off-topic channel in LHS
         cy.uiClickSidebarItem(testChannelName);
+        cy.postMessage('This is Testing');
         cy.uiClickSidebarItem('off-topic');
     });
 

@@ -6,12 +6,12 @@ import React from 'react';
 import {autocompleteCustomEmojis} from 'mattermost-redux/actions/emojis';
 import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
 
-import {getEmojiMap, getRecentEmojis} from 'selectors/emojis';
+import {getEmojiMap, getRecentEmojisNames} from 'selectors/emojis';
 
 import store from 'stores/redux_store.jsx';
 
 import * as Emoticons from 'utils/emoticons';
-import {compareEmojis} from 'utils/emoji_utils';
+import {compareEmojis, emojiMatchesSkin} from 'utils/emoji_utils';
 
 import Suggestion from './suggestion.jsx';
 import Provider from './provider.jsx';
@@ -112,7 +112,7 @@ export default class EmoticonProvider extends Provider {
         const state = store.getState();
         const skintone = state.entities?.preferences?.myPreferences['emoji--emoji_skintone']?.value || 'default';
         const emojiMap = getEmojiMap(state);
-        const recentEmojis = getRecentEmojis(state);
+        const recentEmojis = getRecentEmojisNames(state);
 
         // Check for named emoji
         for (const [name, emoji] of emojiMap) {
@@ -129,7 +129,7 @@ export default class EmoticonProvider extends Provider {
                             matched;
 
                         // if the emoji has skin, only add those that match with the user selected skin.
-                        if (Emoticons.emojiMatchesSkin(emoji, skintone)) {
+                        if (emojiMatchesSkin(emoji, skintone)) {
                             matchedArray.push({name: alias, emoji});
                         }
                         break;

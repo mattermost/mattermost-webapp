@@ -4,10 +4,9 @@
 import {useSelector} from 'react-redux';
 
 import {getCloudContactUsLink, InquiryType, SalesInquiryIssue} from 'selectors/cloud';
-import {GlobalState} from 'types/store';
 
-export default function useOpenSalesLink(issue?: SalesInquiryIssue) {
-    const contactSalesLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales, issue));
+export default function useOpenSalesLink(issue?: SalesInquiryIssue, inquireType: InquiryType = InquiryType.Sales) {
+    const contactSalesLink = useSelector(getCloudContactUsLink)(inquireType, issue);
 
     return () => window.open(contactSalesLink, '_blank');
 }
