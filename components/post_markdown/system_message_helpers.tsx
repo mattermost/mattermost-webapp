@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {ReactNode} from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
 
 import {General, Posts} from 'mattermost-redux/constants';
 import {Post} from '@mattermost/types/posts';
@@ -11,6 +11,7 @@ import {Channel} from '@mattermost/types/channels';
 
 import * as Utils from 'utils/utils';
 import {TextFormattingOptions} from 'utils/text_formatting';
+import {getSiteURL} from 'utils/url';
 
 import Markdown from 'components/markdown';
 import CombinedSystemMessage from 'components/post_view/combined_system_message';
@@ -378,12 +379,15 @@ const systemMessageRenderers = {
     [Posts.POST_TYPES.CHANNEL_DELETED]: renderChannelDeletedMessage,
     [Posts.POST_TYPES.CHANNEL_UNARCHIVED]: renderChannelUnarchivedMessage,
     [Posts.POST_TYPES.ME]: renderMeMessage,
+    [Posts.POST_TYPES.REMINDER_ACK]: renderReminderACKMessage,
 };
 
 export function renderSystemMessage(post: Post, channel: Channel, isUserCanManageMembers?: boolean): ReactNode {
+    const isEphemeral = Utils.isPostEphemeral(post);
+    if (isEphemeral && post.props?.type === Posts.POST_TYPES.REMINDER_ACK) {
+        return renderReminderACKMessage(post);
+    }
     if (post.props && post.props.add_channel_member) {
-        const isEphemeral = Utils.isPostEphemeral(post);
-
         if (channel && (channel.type === General.PRIVATE_CHANNEL || channel.type === General.OPEN_CHANNEL) &&
             isUserCanManageMembers &&
             isEphemeral
@@ -417,4 +421,33 @@ export function renderSystemMessage(post: Post, channel: Channel, isUserCanManag
     }
 
     return null;
+}
+
+function renderReminderACKMessage(post: Post): ReactNode {
+    const username = renderUsername(post.props.username);
+    const permaLink = renderFormattedText(`[this post](${getSiteURL()}/${post.props.team_name}/pl/${post.props.post_id})`);
+    const localTime = new Date(post.props.target_time * 1000);
+
+    const reminderTime = (<FormattedTime value={localTime}/>);
+    const reminderDate = (
+        <FormattedDate
+            value={localTime}
+            day='2-digit'
+            month='short'
+            year='numeric'
+        />);
+    return (
+        <>
+            <FormattedMessage
+                id={'post.reminder.acknowledgement'}
+                defaultMessage={'You will be reminded about {permaLink} by {username} at {reminderTime}, {reminderDate}'}
+                values={{
+                    username,
+                    permaLink,
+                    reminderTime,
+                    reminderDate,
+                }}
+            />
+        </>
+    );
 }
