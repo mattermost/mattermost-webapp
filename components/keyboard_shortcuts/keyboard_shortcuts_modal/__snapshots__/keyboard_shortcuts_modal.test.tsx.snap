@@ -460,6 +460,29 @@ exports[`components/KeyboardShortcutsModal should match snapshot modal 1`] = `
                   }
                 />
               </div>
+              <span>
+                <strong>
+                  Searching
+                </strong>
+              </span>
+              <div
+                className="subsection"
+              >
+                <Memo(KeyboardShortcutSequence)
+                  shortcut={
+                    Object {
+                      "default": Object {
+                        "defaultMessage": "In channel:	Ctrl|F",
+                        "id": "shortcuts.msgs.search_channel",
+                      },
+                      "mac": Object {
+                        "defaultMessage": "In channel:	⌘|F",
+                        "id": "shortcuts.msgs.search_channel.mac",
+                      },
+                    }
+                  }
+                />
+              </div>
             </div>
           </div>
         </div>

@@ -57,6 +57,9 @@ describe('Components/SidebarHeader', () => {
                     },
                 },
                 users: {
+                    profiles: {
+                        uid: {},
+                    },
                     currentUserId: 'uid',
                 },
                 usage: {

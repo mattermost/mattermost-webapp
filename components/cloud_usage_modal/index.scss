@@ -8,6 +8,10 @@
         margin-bottom: 0;
     }
 
+    .modal-content {
+        background-color: var(--center-channel-bg);
+    }
+
     .modal-body {
         color: var(--center-channel-color);
     }

@@ -388,7 +388,7 @@ export function decrementThreadCounts(post: ExtendedPost) {
         const state = getState();
         const thread = getThreadSelector(state, post.id);
 
-        if (!thread || (thread.unread_replies === 0 && thread.unread_mentions === 0)) {
+        if (!thread || (!thread.unread_replies && !thread.unread_mentions)) {
             return {data: false};
         }
 

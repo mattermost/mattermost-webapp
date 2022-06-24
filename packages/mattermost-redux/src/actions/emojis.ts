@@ -11,7 +11,7 @@ import {GetStateFunc, DispatchFunc, ActionFunc, ActionResult} from 'mattermost-r
 
 import {SystemEmoji, CustomEmoji} from '@mattermost/types/emojis';
 
-import {getRecentEmojis} from 'selectors/emojis';
+import {getRecentEmojisData} from 'selectors/emojis';
 
 import LocalStorageStore from 'stores/local_storage_store';
 
@@ -229,7 +229,7 @@ export function migrateRecentEmojis(): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState() as GlobalState;
         const currentUserId = getCurrentUserId(state);
-        const recentEmojisFromPreference = getRecentEmojis(state);
+        const recentEmojisFromPreference = getRecentEmojisData(state);
         if (recentEmojisFromPreference.length === 0) {
             const recentEmojisFromLocalStorage = LocalStorageStore.getRecentEmojis(currentUserId);
             if (recentEmojisFromLocalStorage) {
