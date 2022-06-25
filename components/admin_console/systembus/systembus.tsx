@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {DefaultLinkModel, DefaultNodeModel} from '@projectstorm/react-diagrams';
+import {DefaultNodeModel, DefaultLinkModel} from '@projectstorm/react-diagrams';
 
 import React, {useEffect, useMemo, useState} from 'react';
 
@@ -71,21 +71,78 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
     };
 
     const createNodesAndEdges = (nodes: GraphNode[], edges: GraphEdge[]): {nodes: DefaultNodeModel[]; links: DefaultLinkModel[]} => {
-        const newNodeObject = new Map<string, DefaultNodeModel>();
+        const newNodeObject: {[key: string]: DefaultNodeModel} = {}
         const newNodes = nodes.map((node) => {
+            var name = ''
+            var color = 'rgb(0,192,255)'
+            switch (node.type) {
+                case 'event': {
+                    name = node.eventName
+                    color = 'rgb(255,0,128)'
+                    break;
+                }
+                case 'action': {
+                    name = node.actionName
+                    color = 'rgb(0,192,255)'
+                    break;
+                }
+                case 'webhook': {
+                    name = 'webhook\n'+node.id
+                    color = 'rgb(255,0,255)'
+                    break;
+                }
+                case 'slash-command': {
+                    name = node.command.command
+                    color = 'rgb(127,0,255)'
+                    break;
+                }
+                case 'flow': {
+                    name = node.controlType
+                    color = 'rgb(204,204,0)'
+                    break;
+                }
+            }
             const newNode = new DefaultNodeModel({
-                name: node.eventName || node.actionName,
+                name: name,
                 id: node.id,
-                color: 'rgb(0,192,255)',
+                color: color,
             });
+            console.log(newNode)
             newNode.setPosition(node.x || 100, node.y || 100);
-            newNodeObject.set(node.id, newNode);
+            for (var portName of node.outputs) {
+                newNode.addOutPort(portName)
+            }
+            for (var portName of node.inputs) {
+                newNode.addInPort(portName)
+            }
+            newNodeObject[node.id] = newNode;
             return newNode;
         });
         const newEdges = edges.map((edge) => {
-            const port1 = newNodeObject.get(edge.from)?.addInPort('Out');
-            const port2 = newNodeObject.get(edge.to)?.addInPort('In');
-            return port1.link<DefaultLinkModel>(port2);
+            let portName = 'out'
+            if (edge.fromOutput) {
+                portName = edge.fromOutput
+            }
+            console.log("edge", edge)
+            console.log("portName", portName)
+            const port1 = newNodeObject[edge.from].getPort(portName);
+            const port2 = newNodeObject[edge.to].getPort('in');
+
+            if (port1 && port2) {
+                const link = new DefaultLinkModel();
+                let label = ""
+                for (const [key, value] of Object.entries(edge.config)) {
+                    label += key+": "+value+"\n"
+                }
+                if (label) {
+                    link.addLabel(label)
+                }
+                console.log(link);
+                link.setSourcePort(port1)
+                link.setTargetPort(port2)
+                return link
+            }
+            return new DefaultLinkModel();
         });
         return {nodes: newNodes, links: newEdges};
     };
