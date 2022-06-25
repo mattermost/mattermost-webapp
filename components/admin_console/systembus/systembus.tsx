@@ -83,8 +83,8 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
             return newNode;
         });
         const newEdges = edges.map((edge) => {
-            const port1 = newNodeObject.get(edge.to)?.addInPort('Out');
-            const port2 = newNodeObject.get(edge.from)?.addInPort('In');
+            const port1 = newNodeObject.get(edge.from)?.addInPort('Out');
+            const port2 = newNodeObject.get(edge.to)?.addInPort('In');
             return port1.link<DefaultLinkModel>(port2);
         });
         return {nodes: newNodes, links: newEdges};
