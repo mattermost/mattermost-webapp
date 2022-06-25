@@ -89,5 +89,18 @@
         color: white;
         font-size: 24px;
     }
+    .graph-toolbox {
+        max-width: 100px;
+        color: white;
+        padding: 10px;
+        font-size: 14px;
+        background: #cccccc;
+
+        .toolbox-node-item {
+            border: 1px solid white;
+            padding: 5px;
+            border-radius: 5px;
+        }
+    }
   }
 }

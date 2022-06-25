@@ -61,7 +61,7 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
                 ...selected,
                 nodes: modifiedData.nodes,
                 links: modifiedData.links,
-                original: graphsData,
+                original: selected,
             };
             setSelectedGraph(selected);
         });
@@ -80,12 +80,12 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
             var color = 'rgb(0,192,255)'
             switch (node.type) {
                 case 'event': {
-                    name = node.eventName
+                    name = node.eventName!
                     color = 'rgb(255,0,128)'
                     break;
                 }
                 case 'action': {
-                    name = node.actionName
+                    name = node.actionName!
                     color = 'rgb(0,192,255)'
                     break;
                 }
@@ -95,12 +95,12 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
                     break;
                 }
                 case 'slash-command': {
-                    name = node.command.command
+                    name = node.command!.command
                     color = 'rgb(127,0,255)'
                     break;
                 }
                 case 'flow': {
-                    name = node.controlType
+                    name = node.controlType!
                     color = 'rgb(204,204,0)'
                     break;
                 }

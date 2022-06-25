@@ -34,19 +34,19 @@ export type Command = {
 }
 
 export type GraphNode = {
-    actionName: string;
-    command: Command;
-    eventName: string;
+    actionName?: string;
+    command?: Command;
+    eventName?: string;
     id: string;
     inputs: string[];
     outputs: string[];
-    secret: string;
+    secret?: string;
     type: string;
-    controlType: string;
-    ifValue: string;
-    ifComparison: string;
-    caseValues: string[];
-    randomOptions: number;
+    controlType?: string;
+    ifValue?: string;
+    ifComparison?: string;
+    caseValues?: string[];
+    randomOptions?: number;
     x: number;
     y: number;
 }
@@ -125,12 +125,21 @@ export const Graph = ({data, onSave}: Props) => {
     const canvas = data ? <CanvasWidget engine={engine.current}/> : undefined;
 
     return (
-        <SystemBusCanvasWidget>
+        <SystemBusCanvasWidget engine={engine.current}>
             <h1 className='graph-title'>{data.name}</h1>
             {canvas}
+            <div className='graph-toolbox'>
+                <ToolboxNodeItem
+                    name='test'
+                    model={{
+                        name: 'event',
+                        color: 'rgb(255,0,128)',
+                    }}
+                />
+            </div>
             <button
                 className='btn btn-primary save-graph-button'
-                onClick={() => onSave(engine.current.getModel().serialize())}
+                onClick={() => onSave(engine.current?.getModel().serialize())}
             >
                 <FormattedMessage
                     id='admin.systembus.save-graph-button'
@@ -140,5 +149,26 @@ export const Graph = ({data, onSave}: Props) => {
         </SystemBusCanvasWidget>
     );
 };
+
+export interface NodeWidgetProps {
+	model: any;
+	name: string;
+}
+
+class ToolboxNodeItem extends React.Component<NodeProps> {
+	render() {
+		return (
+			<div
+				draggable={true}
+				onDragStart={(event) => {
+					event.dataTransfer.setData('storm-diagram-node', JSON.stringify(this.props.model));
+				}}
+				className="toolbox-node-item"
+			>
+				{this.props.name}
+			</div>
+		);
+	}
+}
 
 export default Graph;
