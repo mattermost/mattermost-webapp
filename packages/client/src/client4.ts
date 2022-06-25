@@ -458,8 +458,8 @@ export default class Client4 {
         return `${this.getBaseRoute()}/system`;
     }
 
-    getSystemBusRoute() {
-        return `${this.getBaseRoute()}/systembus`;
+    getActionsRoute() {
+        return `${this.getBaseRoute()}/actions`;
     }
 
     getCSRFFromCookie() {
@@ -3951,42 +3951,42 @@ export default class Client4 {
         );
     }
 
-    getSystemBusEvents = () => {
+    getActionsEvents = () => {
         // TODO: Add the correct type here
         return this.doFetch<any[]>(
-            `${this.getSystemBusRoute()}/events`,
+            `${this.getActionsRoute()}/events`,
             {method: 'get'},
         );
     };
 
-    getSystemBusActions = () => {
+    getActions = () => {
         // TODO: Add the correct type here
         return this.doFetch<any[]>(
-            `${this.getSystemBusRoute()}/actions`,
+            `${this.getActionsRoute()}/actions`,
             {method: 'get'},
         );
     };
 
-    getSystemBusLinks = () => {
+    getActionsGraphs = () => {
         // TODO: Add the correct type here
         return this.doFetch<any[]>(
-            `${this.getSystemBusRoute()}/links`,
+            `${this.getActionsRoute()}/graphs`,
             {method: 'get'},
         );
     };
 
-    createSystemBusLink = (link: any) => {
+    createActionsGraph = (graph: any) => {
         // TODO: Add the correct type here
         return this.doFetch<any[]>(
-            `${this.getSystemBusRoute()}/links`,
-            {method: 'post', body: JSON.stringify(link)},
+            `${this.getActionsRoute()}/graphs`,
+            {method: 'post', body: JSON.stringify(graph)},
         );
     };
 
-    deleteSystemBusLink = (linkId: any) => {
+    deleteActionsGraph = (graphId: any) => {
         // TODO: Add the correct type here
         return this.doFetch<any[]>(
-            `${this.getSystemBusRoute()}/links/${linkId}`,
+            `${this.getActionsRoute()}/graphs/${graphId}`,
             {method: 'delete'},
         );
     };
