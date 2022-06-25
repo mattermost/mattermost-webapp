@@ -230,6 +230,7 @@ ProfilePopoverState
         if (this.props.hide) {
             this.props.hide();
         }
+
         this.props.actions.openModal({
             modalId: ModalIdentifiers.USER_SETTINGS,
             dialogType: UserSettingsModal,
@@ -237,6 +238,12 @@ ProfilePopoverState
         });
         this.handleCloseModals();
     };
+    goToProfile = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault();
+        if (this.props.user?.username) {
+            browserHistory.push(`/people/@${this.props.user.username}`);
+        }
+    }
     showCustomStatusModal = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         if (this.props.hide) {
@@ -395,7 +402,11 @@ ProfilePopoverState
                         placement='top'
                         overlay={<Tooltip id='fullNameTooltip'>{fullname}</Tooltip>}
                     >
-                        <span className='user-profile-popover__heading'>{fullname}</span>
+                        <a
+                            href={`/people/@${this.props.user.username}`}
+                            onClick={this.goToProfile}
+                            className='user-profile-popover__heading'
+                        >{fullname}</a>
                     </OverlayTrigger>
                     {sharedIcon}
                 </div>,

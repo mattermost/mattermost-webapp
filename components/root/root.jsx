@@ -34,6 +34,7 @@ import NeedsTeam from 'components/needs_team';
 import OnBoardingTaskList from 'components/onboarding_tasklist';
 import LaunchingWorkspace, {LAUNCHING_WORKSPACE_FULLSCREEN_Z_INDEX} from 'components/preparing_workspace/launching_workspace';
 import {Animations} from 'components/preparing_workspace/steps';
+import People from 'components/people/people';
 
 import {initializePlugins} from 'plugins';
 import 'plugins/export.js';
@@ -568,6 +569,17 @@ export default class Root extends React.PureComponent {
                                     )}
                                 />
                             ))}
+                            <Route
+                                key={'product-people'}
+                                path={'/people/:userId?'}
+                                render={(props) => (
+                                    <LoggedIn {...props}>
+                                        <div className={classNames(['product-wrapper', {wide: true}])}>
+                                            <People/>
+                                        </div>
+                                    </LoggedIn>
+                                )}
+                            />
                             <LoggedInRoute
                                 path={'/:team'}
                                 component={NeedsTeam}

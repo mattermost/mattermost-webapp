@@ -42,10 +42,6 @@ export function useClickOutsideRef(ref: MutableRefObject<HTMLElement | null>, ha
 export const useCurrentProductId = (products?: ProductComponent[]): string | null => {
     const location = useLocation();
 
-    if (!products) {
-        return null;
-    }
-
     return getCurrentProductId(products, location.pathname);
 };
 

@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
-import {withRouter} from 'react-router-dom';
+import {withRouter, RouteComponentProps} from 'react-router-dom';
 
 import {getTeams} from 'mattermost-redux/actions/teams';
 
@@ -29,9 +29,13 @@ import {GlobalState} from 'types/store';
 
 import {getThreadCounts} from 'mattermost-redux/selectors/entities/threads';
 
+import {getCurrentProductId} from 'utils/products';
+
 import TeamSidebar from './team_sidebar';
 
-function mapStateToProps(state: GlobalState) {
+type OwnProps = RouteComponentProps;
+
+function mapStateToProps(state: GlobalState, props: OwnProps) {
     const config: Partial<ClientConfig> = getConfig(state);
 
     const experimentalPrimaryTeam: string | undefined = config.ExperimentalPrimaryTeam;
@@ -40,6 +44,7 @@ function mapStateToProps(state: GlobalState) {
     const products = state.plugins.components.Product || [];
 
     return {
+        currentProductId: getCurrentProductId(products, props.location.pathname),
         currentTeamId: getCurrentTeamId(state),
         myTeams: getMyTeams(state),
         myTeamMembers: getTeamMemberships(state),

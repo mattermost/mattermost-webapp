@@ -59,6 +59,7 @@ export interface Props {
     userTeamsOrderPreference: string;
     threadCounts: ThreadsState['counts'];
     products: ProductComponent[];
+    currentProductId?: string;
     location: RouteComponentProps['location'];
 }
 
@@ -230,7 +231,9 @@ export default class TeamSidebar extends React.PureComponent<Props, State> {
         const sortedTeams = filterAndSortTeamsByDisplayName(this.props.myTeams, this.props.locale, this.props.userTeamsOrderPreference);
 
         const currentProduct = getCurrentProduct(this.props.products, this.props.location.pathname);
-        if (currentProduct && !currentProduct.showTeamSidebar) {
+        if (
+            (currentProduct && !currentProduct.showTeamSidebar) ||
+            this.props.currentProductId === 'product-people') {
             return null;
         }
 

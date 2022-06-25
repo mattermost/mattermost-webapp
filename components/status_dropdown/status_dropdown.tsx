@@ -10,6 +10,8 @@ import Text from '@mattermost/compass-components/components/text';
 import Icon from '@mattermost/compass-components/foundations/icon/Icon';
 import {TUserStatus} from '@mattermost/compass-components/shared';
 
+import {Link} from 'react-router-dom';
+
 import {PreferenceType} from '@mattermost/types/preferences';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import {CustomStatusDuration, UserCustomStatus, UserProfile, UserStatus} from '@mattermost/types/users';
@@ -39,6 +41,7 @@ import {getCurrentDateTimeForTimezone, getCurrentMomentForTimezone} from 'utils/
 import {localizeMessage} from 'utils/utils';
 
 import './status_dropdown.scss';
+import {browserHistory} from 'utils/browser_history';
 
 type Props = {
     status?: string;
@@ -504,12 +507,10 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
                         />
                     </Menu.Group>
                     <Menu.Group>
-                        <Menu.ItemToggleModalRedux
+                        <Menu.ItemAction
                             id='accountSettings'
                             ariaLabel='Profile'
-                            modalId={ModalIdentifiers.USER_SETTINGS}
-                            dialogType={UserSettingsModal}
-                            dialogProps={{isContentProductSettings: false}}
+                            onClick={() => browserHistory.push(`/people/${currentUser.username}`)}
                             text={localizeMessage('navbar_dropdown.accountSettings', 'Profile')}
                             icon={(
                                 <Icon
@@ -526,7 +527,7 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
                                     <CompleteYourProfileTour/>
                                 </div>
                             )}
-                        </Menu.ItemToggleModalRedux>
+                        </Menu.ItemAction>
                     </Menu.Group>
                     <Menu.Group>
                         <Menu.ItemAction

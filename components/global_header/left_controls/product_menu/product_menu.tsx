@@ -110,6 +110,14 @@ const ProductMenu = (): JSX.Element => {
                         onClick={handleClick}
                     />
                     {productItems}
+                    <ProductMenuItem
+                        key={'product-people'}
+                        destination={'/people'}
+                        icon={'account-outline'}
+                        text={'People'}
+                        active={currentProductID === 'product-people'}
+                        onClick={handleClick}
+                    />
                     <ProductMenuList
                         isMessaging={currentProductID === null}
                         onClick={handleClick}

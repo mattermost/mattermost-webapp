@@ -3,7 +3,11 @@
 
 import {ProductComponent} from '../types/store/plugins';
 
-export const getCurrentProductId = (products: ProductComponent[], pathname: string): string | null => {
+export const getCurrentProductId = (products: ProductComponent[] | undefined, pathname: string): string | null => {
+    if (pathname.startsWith('/people')) {
+        return 'product-people';
+    }
+
     if (!products) {
         return null;
     }

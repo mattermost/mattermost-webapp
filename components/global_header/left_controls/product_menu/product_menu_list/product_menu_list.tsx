@@ -143,6 +143,18 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                         />
                     }
                 />
+                {/* <Menu.ItemLink
+                    id='people'
+                    show={enableCustomUserGroups || isCloud}
+                    to={'/' + teamName + '/people'}
+                    text={formatMessage({id: 'navbar_dropdown.people', defaultMessage: 'People'})}
+                    icon={
+                        <Icon
+                            size={16}
+                            glyph={'account-outline'}
+                        />
+                    }
+                /> */}
                 <Menu.ItemToggleModalRedux
                     id='userGroups'
                     modalId={ModalIdentifiers.USER_GROUPS}
