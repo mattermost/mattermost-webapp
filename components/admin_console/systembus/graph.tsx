@@ -72,6 +72,7 @@ export const Graph = ({data}: Props) => {
     useEffect(() => {
         if (!engine.current) {
             engine.current = createEngine();
+            engine.current.getLinkFactories().registerFactory(new MattermostLinkFactory());
         }
         //2) setup the diagram model
         const model = new DiagramModel();

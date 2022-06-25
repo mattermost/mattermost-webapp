@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {DefaultNodeModel, DefaultLinkModel} from '@projectstorm/react-diagrams';
+import {DefaultNodeModel} from '@projectstorm/react-diagrams';
 
 import React, {useEffect, useMemo, useState} from 'react';
 
@@ -12,6 +12,7 @@ import FormattedAdminHeader from 'components/widgets/admin_console/formatted_adm
 import {Client4} from 'mattermost-redux/client';
 
 import Graph, {CanvasGraphType, GraphEdge, GraphNode, GraphType} from './graph';
+import {MattermostLinkModel} from './customlink';
 import './systembus.scss';
 
 const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
@@ -70,7 +71,7 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
         });
     };
 
-    const createNodesAndEdges = (nodes: GraphNode[], edges: GraphEdge[]): {nodes: DefaultNodeModel[]; links: DefaultLinkModel[]} => {
+    const createNodesAndEdges = (nodes: GraphNode[], edges: GraphEdge[]): {nodes: DefaultNodeModel[]; links: MattermostLinkModel[]} => {
         const newNodeObject: {[key: string]: DefaultNodeModel} = {}
         const newNodes = nodes.map((node) => {
             var name = ''
@@ -129,7 +130,7 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
             const port2 = newNodeObject[edge.to].getPort('in');
 
             if (port1 && port2) {
-                const link = new DefaultLinkModel();
+                const link = new MattermostLinkModel();
                 let label = ""
                 for (const [key, value] of Object.entries(edge.config)) {
                     label += key+": "+value+"\n"
@@ -142,7 +143,7 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
                 link.setTargetPort(port2)
                 return link
             }
-            return new DefaultLinkModel();
+            return new MattermostLinkModel();
         });
         return {nodes: newNodes, links: newEdges};
     };

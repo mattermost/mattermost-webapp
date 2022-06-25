@@ -57,5 +57,21 @@
     div {
         white-space: pre-line;
     }
+
+    .edge:hover {
+        opacity: 1;
+    }
+
+    .edge {
+        opacity: .5;
+    }
+
+    .edge:hover + foreignObject>div{
+        opacity: 1;
+    }
+    .edge + foreignObject>div{
+        opacity: 0;
+        z-index: 100;
+    }
   }
 }
