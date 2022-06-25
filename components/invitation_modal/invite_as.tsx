@@ -11,10 +11,10 @@ import {GlobalState} from 'types/store';
 
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
-import {checkHadPriorTrial, getSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
+import {getSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 
-import {closeModal} from 'actions/views/modals';
+import {closeModal, openModal} from 'actions/views/modals';
 
 import RadioGroup from 'components/common/radio_group';
 import RestrictedIndicator from 'components/widgets/menu/menu_items/restricted_indicator';
@@ -23,6 +23,7 @@ import {CloudProducts, ModalIdentifiers} from 'utils/constants';
 
 import {FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS} from 'utils/cloud_utils';
 
+import {InvitationModal} from './invitation_modal';
 import './invite_as.scss';
 
 export const InviteType = {
@@ -46,7 +47,6 @@ export default function InviteAs(props: Props) {
     const subscriptionProduct = useSelector(getSubscriptionProduct);
 
     const isSystemAdmin = useSelector(isCurrentUserSystemAdmin);
-    const hasPriorTrial = useSelector(checkHadPriorTrial);
     const isStarter = subscriptionProduct?.sku === CloudProducts.STARTER;
 
     let extraGuestLegend = true;
@@ -92,6 +92,18 @@ export default function InviteAs(props: Props) {
                     </span>
                 )}
                 clickCallback={closeInviteModal}
+
+                // the secondary back button first closes the restridted feature modal and then opens back the invitation modal
+                customSecondaryButtonInModal={{
+                    msg: formatMessage({id: 'cloud_free.professional_feature.back', defaultMessage: 'Back'}),
+                    action: () => {
+                        dispatch(closeModal(ModalIdentifiers.FEATURE_RESTRICTED_MODAL));
+                        dispatch(openModal({
+                            modalId: ModalIdentifiers.INVITATION,
+                            dialogType: InvitationModal,
+                        }));
+                    },
+                }}
             />
         );
         guestDisabledClass = isCloudFreeTrial ? '' : 'disabled-legend';
@@ -104,7 +116,7 @@ export default function InviteAs(props: Props) {
     }
 
     // disable the radio button logic (is disabled when is cloud starter - pre and post trial)
-    if (isCloud && ((!isCloudFreeTrial && !isPaidSubscription) || (hasPriorTrial && !isPaidSubscription))) {
+    if (isCloud && isStarter) {
         guestDisabled = (id: string) => {
             return (id === InviteType.GUEST);
         };

@@ -30,6 +30,7 @@ type FeatureRestrictedModalProps = {
     messageAdminPostTrial: string;
     titleEndUser?: string;
     messageEndUser?: string;
+    customSecondaryButton?: {msg: string; action: () => void};
 }
 
 const FeatureRestrictedModal = ({
@@ -39,6 +40,7 @@ const FeatureRestrictedModal = ({
     messageAdminPostTrial,
     titleEndUser,
     messageEndUser,
+    customSecondaryButton,
 }: FeatureRestrictedModalProps) => {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch<DispatchFunc>();
@@ -78,6 +80,14 @@ const FeatureRestrictedModal = ({
     };
 
     const showStartTrial = isSystemAdmin && !hasPriorTrial;
+
+    // define what is the secondary button text and action, by default will be the View Plan button
+    let secondaryBtnMsg = formatMessage({id: 'feature_restricted_modal.button.plans', defaultMessage: 'View plans'});
+    let secondaryBtnAction = handleViewPlansClick;
+    if (customSecondaryButton) {
+        secondaryBtnMsg = customSecondaryButton.msg;
+        secondaryBtnAction = customSecondaryButton.action;
+    }
 
     return (
         <GenericModal
@@ -126,9 +136,9 @@ const FeatureRestrictedModal = ({
                 <div className={classNames('FeatureRestrictedModal__buttons', {single: !showStartTrial})}>
                     <button
                         className='button-plans'
-                        onClick={handleViewPlansClick}
+                        onClick={secondaryBtnAction}
                     >
-                        {formatMessage({id: 'feature_restricted_modal.button.plans', defaultMessage: 'View plans'})}
+                        {secondaryBtnMsg}
                     </button>
                     {showStartTrial && (
                         <CloudStartTrialButton

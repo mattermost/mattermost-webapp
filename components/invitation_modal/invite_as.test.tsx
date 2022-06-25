@@ -91,6 +91,13 @@ describe('components/cloud_start_trial_btn/cloud_start_trial_btn', () => {
                     subscription: {
                         is_free_trial: 'false',
                         trial_end_at: 0,
+                        sku: CloudProducts.STARTER,
+                        product_id: 'cloud-starter-id',
+                    },
+                    products: {
+                        'cloud-starter-id': {
+                            sku: CloudProducts.STARTER,
+                        },
                     },
                 },
                 users: {

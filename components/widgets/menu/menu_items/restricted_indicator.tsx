@@ -26,6 +26,7 @@ type RestrictedIndicatorProps = {
     tooltipMessageBlocked?: string;
     ctaExtraContent?: React.ReactNode;
     clickCallback?: () => void;
+    customSecondaryButtonInModal?: {msg: string; action: () => void};
 }
 
 const RestrictedIndicator = ({
@@ -41,6 +42,7 @@ const RestrictedIndicator = ({
     messageEndUser,
     ctaExtraContent,
     clickCallback,
+    customSecondaryButtonInModal,
 }: RestrictedIndicatorProps) => {
     const {formatMessage} = useIntl();
 
@@ -83,6 +85,7 @@ const RestrictedIndicator = ({
                             messageAdminPostTrial,
                             titleEndUser,
                             messageEndUser,
+                            customSecondaryButtonInModal,
                         }}
                     >
                         <i className='RestrictedIndicator__icon-tooltip icon icon-key-variant'/>
