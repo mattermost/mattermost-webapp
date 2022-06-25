@@ -1,0 +1,57 @@
+
+.systembus {
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+
+  &__graphs-list-ctr{
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+  }
+
+  &__graphs-list{
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    overflow-y: scroll;
+  }
+
+  &__graphs-list-item{
+    display: flex;
+    flex-direction: column;
+    gap: 10PX;
+    padding: 10px;
+    margin-bottom: 10px;
+    color: var(--center-channel-text);
+    background-color: var(--center-channel-bg);
+
+    &__button-ctr{
+      display: flex;
+      justify-content: flex-end;
+      gap: 5px;
+    }
+  }
+  &__add-ctr{
+    display: flex;
+    width: 100%;
+    height: 64px;
+    justify-content: center;
+    align-items: center;
+  }
+  &__ctr {
+    height: 100%;
+    width: 100%;
+    background-size: 50px 50px;
+    display: flex;
+    background-color: rgb(60, 60, 60);
+
+    > * {
+      height: 100%;
+      min-height: 100%;
+      width: 100%;
+    }
+  }
+}
