@@ -7,7 +7,18 @@ export class MattermostLinkModel extends DefaultLinkModel {
             type: 'mattermost',
         });
     }
+
+
+    addPoint<P extends PointModel>(pointModel: P, index = 1): P {
+        if (this.points.length >= 2) {
+            return this.points[1] as any
+        }
+        pointModel.setParent(this);
+        this.points.splice(index, 0, pointModel);
+        return pointModel;
+    }
 }
+
 
 export class MattermostLinkFactory extends DefaultLinkFactory {
     constructor() {

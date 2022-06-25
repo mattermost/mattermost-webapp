@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React, {useRef, useEffect} from 'react';
+import {FormattedMessage} from 'react-intl';
 import createEngine, {DiagramModel, DefaultNodeModel, DefaultLinkModel, DiagramEngine} from '@projectstorm/react-diagrams';
 import {CanvasWidget} from '@projectstorm/react-canvas-core';
 
@@ -12,6 +13,7 @@ export type CanvasGraphType = {
     nodes: DefaultNodeModel[];
     links: DefaultLinkModel[];
     name: string;
+    original: GraphType;
 }
 
 export type SubCommand = {
@@ -65,9 +67,10 @@ export type GraphType = {
 
 type Props = {
     data: CanvasGraphType;
+    onSave: (data: any) => void;
 }
 
-export const Graph = ({data}: Props) => {
+export const Graph = ({data, onSave}: Props) => {
     const engine = useRef<DiagramEngine>()
     useEffect(() => {
         if (!engine.current) {
@@ -123,7 +126,17 @@ export const Graph = ({data}: Props) => {
 
     return (
         <SystemBusCanvasWidget>
+            <h1 className='graph-title'>{data.name}</h1>
             {canvas}
+            <button
+                className='btn btn-primary save-graph-button'
+                onClick={() => onSave(engine.current.getModel().serialize())}
+            >
+                <FormattedMessage
+                    id='admin.systembus.save-graph-button'
+                    defaultMessage='Save'
+                />
+            </button>
         </SystemBusCanvasWidget>
     );
 };

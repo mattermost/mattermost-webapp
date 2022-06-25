@@ -47,6 +47,7 @@
     background-size: 50px 50px;
     display: flex;
     background-color: rgb(60, 60, 60);
+    position: relative;
 
     > * {
       height: 100%;
@@ -72,6 +73,21 @@
     .edge + foreignObject>div{
         opacity: 0;
         z-index: 100;
+    }
+    .save-graph-button {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        width: 100px;
+        height: 40px;
+        min-height: 40px;
+    }
+    .graph-title {
+        position: absolute;
+        top: 0;
+        left: 24px;
+        color: white;
+        font-size: 24px;
     }
   }
 }

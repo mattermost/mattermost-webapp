@@ -53,6 +53,7 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
 
             setNewGraph({action_id: actionsOptions[0].id, event_id: eventsOptions[0].id, config: {}});
 
+            graphsData.sort((a, b) => a.name.localeCompare(b.name));
             setGraphs(graphsData);
             let selected = graphsData[0];
             const modifiedData = createNodesAndEdges(selected.nodes, selected.edges);
@@ -60,6 +61,7 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
                 ...selected,
                 nodes: modifiedData.nodes,
                 links: modifiedData.links,
+                original: graphsData,
             };
             setSelectedGraph(selected);
         });
@@ -155,6 +157,7 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
             ...selected,
             nodes: modifiedData.nodes,
             links: modifiedData.links,
+            original: selected,
         };
         setSelectedGraph(newSelected);
     };
@@ -163,6 +166,29 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
         Client4.deleteActionsGraph(graphId).then(() => {
             setGraphs([...graphs.filter((l) => l.id !== graphId)]);
         });
+    };
+
+    const onSave = async (data: any) => {
+        console.log(data)
+        const updatedGraph = {...selectedGraph?.original}
+        for (const layer of data.layers) {
+            if (layer.type === "diagram-links") {
+                // TODO: Allow to change edges
+            }
+            if (layer.type === "diagram-nodes") {
+                for (const node of updatedGraph.nodes || []) {
+                    const model = layer.models[node.id]
+                    if (model) {
+                        node.x = model.x
+                        node.y = model.y
+                    }
+                }
+            }
+        }
+        await Client4.updateActionsGraph(updatedGraph);
+        const graphsData = await Client4.getActionsGraphs();
+        graphsData.sort((a, b) => a.name.localeCompare(b.name));
+        setGraphs(graphsData);
     };
 
     return (
@@ -214,7 +240,11 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
                         </button>
                     </div>
                 </div>
-                {selectedGraph && <Graph data={selectedGraph}/>}
+                {selectedGraph &&
+                    <Graph
+                        data={selectedGraph}
+                        onSave={onSave}
+                    />}
             </div>
         </div>
     );

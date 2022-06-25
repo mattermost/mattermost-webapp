@@ -3991,6 +3991,15 @@ export default class Client4 {
         );
     };
 
+    updateActionsGraph = (graph: any) => {
+        // TODO: Add the correct type here
+        return this.doFetch<any[]>(
+            `${this.getActionsRoute()}/graphs/${graph.id}`,
+            {method: 'post', body: JSON.stringify(graph)},
+
+        );
+    };
+
     /**
      * @param query string query of graphQL, pass the json stringified version of the query
      * eg.  const query = JSON.stringify({query: `{license, config}`});
