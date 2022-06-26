@@ -14,6 +14,8 @@ type Props = {
     graphEventHandler: any;
 }
 
+export type NodeType = 'webhook' | 'flow' | 'event' | 'action' | 'slash-command' |'switch' | 'random' |'if';
+
 export const NodeTypeConstant = {
     WEBHOOK: 'webhook',
     FLOW: 'flow',
@@ -24,7 +26,6 @@ export const NodeTypeConstant = {
     RANDOM: 'random',
     IF: 'if',
 };
-export type NodeType = keyof typeof NodeTypeConstant;
 
 const SystembusCanvasWidget = ({children, engine, forceUpdate, graphEventHandler}: Props): JSX.Element => {
     const [dropData, setDropData] = useState<{data: any; point: any; inPorts: string[]; outPorts: string[]; nodeType: NodeType} | null>(null);
@@ -80,16 +81,16 @@ const SystembusCanvasWidget = ({children, engine, forceUpdate, graphEventHandler
         } else if (data.type === 'action') {
             createNode(data, point, ['in'], ['out']);
         } else if (data.type === NodeTypeConstant.SLASH_COMMAND) {
-            setDropData({data, point, inPorts: [], outPorts: ['main'], nodeType: NodeTypeConstant.SLASH_COMMAND});
+            setDropData({data, point, inPorts: [], outPorts: ['main'], nodeType: 'slash-command'});
         } else if (data.type === NodeTypeConstant.WEBHOOK) {
-            setDropData({data, point, inPorts: [], outPorts: ['out'], nodeType: NodeTypeConstant.WEBHOOK});
+            setDropData({data, point, inPorts: [], outPorts: ['out'], nodeType: 'webhook'});
         } else if (data.type === NodeTypeConstant.FLOW) {
             if (data.name === NodeTypeConstant.IF) {
-                setDropData({data, point, inPorts: ['in'], outPorts: ['then', 'else'], nodeType: NodeTypeConstant.IF});
+                setDropData({data, point, inPorts: ['in'], outPorts: ['then', 'else'], nodeType: 'if'});
             } else if (data.name === NodeTypeConstant.SWITCH) {
-                setDropData({data, point, inPorts: ['in'], outPorts: [], nodeType: NodeTypeConstant.SWITCH});
+                setDropData({data, point, inPorts: ['in'], outPorts: [], nodeType: 'switch'});
             } else if (data.name === NodeTypeConstant.RANDOM) {
-                setDropData({data, point, inPorts: ['in'], outPorts: [], nodeType: NodeTypeConstant.RANDOM});
+                setDropData({data, point, inPorts: ['in'], outPorts: [], nodeType: 'random'});
             }
         }
     };
