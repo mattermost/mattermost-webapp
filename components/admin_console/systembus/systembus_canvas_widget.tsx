@@ -29,6 +29,9 @@ const SystembusCanvasWidget = ({children, engine, forceUpdate}: Props): JSX.Elem
     const createNode = (data: any, point: any, inPorts: string[], outPorts: string[]) => {
         if (data && point) {
             const id = generateId();
+            if (data.type === 'webhook') {
+                data.name = `webhook\n${id}`
+            }
             const node: DefaultNodeModel = new DefaultNodeModel({id, name: data.name, color: data.color, extras: {original: {id, ...data}}});
             inPorts.forEach((port) => {
                 node.addInPort(port);

@@ -10,6 +10,7 @@ import {generateId} from 'utils/utils';
 import SystemBusCanvasWidget from './systembus_canvas_widget';
 import {MattermostLinkFactory, MattermostLinkModel} from './customlink';
 import Toolbox from './toolbox';
+import Infobox from './infobox';
 import EdgeConfigModal from './edgeConfigModal';
 
 export type CanvasGraphType = {
@@ -81,9 +82,16 @@ export const Graph = ({data, onSave, onCancel, actions, events}: Props) => {
     const [forceUpdate, setForceUpdate] = useState<number>(0);
     const [engine, setEngine] = useState<DiagramEngine|null>(null);
     const [newEdge, setNewEdge] = useState<any|null>(null);
+    const [selectedNode, setSelectedNode] = useState<any|null>(null);
 
     const eventHandler = (e: any) => {
         console.log(e)
+        if (e.function === "selectionChanged" && !e.isSelected) {
+            setSelectedNode(null)
+        }
+        if (e.function === "selectionChanged" && e.isSelected) {
+            setSelectedNode(e.entity)
+        }
         if (e.function === "linksUpdated" && e.isCreated) {
             e.link.registerListener({
                 eventDidFire: eventHandler,
@@ -155,6 +163,9 @@ export const Graph = ({data, onSave, onCancel, actions, events}: Props) => {
                 edge={newEdge}
                 actions={actions}
                 events={events}
+            />
+            <Infobox
+                node={selectedNode}
             />
             <Toolbox
                 actions={actions}

@@ -156,5 +156,16 @@
             background: rgb(204,204,0);
         }
     }
+    .graph-infobox {
+        position: fixed;
+        top: 130px;
+        right: 30px;
+        padding: 10px;
+        background: black;
+        color: white;
+        width: 300px;
+        min-height: auto;
+        height: auto;
+    }
   }
 }
