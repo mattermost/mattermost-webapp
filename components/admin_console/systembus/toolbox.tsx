@@ -13,49 +13,46 @@ export const Toolbox = ({events, actions}: Props) => {
             <h2>Events</h2>
             {events.map((event) => (
                 <ToolboxNodeItem
-                    nodeType='event'
                     name={event.name}
                     model={{
-                        nodeType: 'event',
+                        type: 'event',
                         name: event.name,
+                        eventName: event.id,
                         color: 'rgb(255,0,128)',
                     }}
                 />))}
             <h2>Actions</h2>
             {actions.map((action) => (
                 <ToolboxNodeItem
-                    nodeType='action'
                     name={action.name}
                     model={{
-                        nodeType: 'action',
+                        type: 'action',
                         name: action.name,
+                        actionName: action.id,
                         color: 'rgb(0,192,255)',
                     }}
                 />))}
             <h2>Flow control</h2>
             <ToolboxNodeItem
-                nodeType='flow'
                 name="If"
                 model={{
-                    nodeType: 'flow',
+                    type: 'flow',
                     name: "if",
                     color: 'rgb(204,204,0)',
                 }}
             />
             <ToolboxNodeItem
                 name="Switch"
-                nodeType='flow'
                 model={{
-                    nodeType: 'flow',
+                    type: 'flow',
                     name: "switch",
                     color: 'rgb(204,204,0)',
                 }}
             />
             <ToolboxNodeItem
                 name="Random"
-                nodeType='flow'
                 model={{
-                    nodeType: 'flow',
+                    type: 'flow',
                     name: "random",
                     color: 'rgb(204,204,0)',
                 }}
@@ -63,18 +60,16 @@ export const Toolbox = ({events, actions}: Props) => {
             <h2>Trigger</h2>
             <ToolboxNodeItem
                 name="Slash Command"
-                nodeType='slash-command'
                 model={{
-                    nodeType: 'slash-command',
+                    type: 'slash-command',
                     name: "slash-command",
                     color: 'rgb(127,0,255)',
                 }}
             />
             <ToolboxNodeItem
                 name="Webhook"
-                nodeType='webhook'
                 model={{
-                    nodeType: 'webhook',
+                    type: 'webhook',
                     name: "webhook",
                     color: 'rgb(255,0,255)',
                 }}
@@ -86,7 +81,6 @@ export const Toolbox = ({events, actions}: Props) => {
 export interface ToolboxProps {
     model: any;
     name: string;
-    nodeType: string;
 }
 
 class ToolboxNodeItem extends React.Component<ToolboxProps> {
@@ -97,7 +91,7 @@ class ToolboxNodeItem extends React.Component<ToolboxProps> {
                 onDragStart={(event) => {
                     event.dataTransfer.setData('storm-diagram-node', JSON.stringify(this.props.model));
                 }}
-                className={`toolbox-node-item toolbox-node-item-${this.props.nodeType}`}
+                className={`toolbox-node-item toolbox-node-item-${this.props.model.type}`}
             >
                 {this.props.name}
             </div>

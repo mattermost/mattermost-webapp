@@ -17,19 +17,19 @@ const SystembusCanvasWidget = ({children, engine, forceUpdate}: Props): JSX.Elem
             className='systembus__ctr'
             onDrop={(event) => {
                 const data = JSON.parse(event.dataTransfer.getData('storm-diagram-node'));
-                const node: DefaultNodeModel = new DefaultNodeModel({id: generateId(), ...data});
-                if (data.nodeType === 'event') {
+                const node: DefaultNodeModel = new DefaultNodeModel({id: generateId(), name: data.name, color: data.color, extras: {original: data}});
+                if (data.type === 'event') {
                     node.addOutPort('out');
-                } else if (data.nodeType === 'action') {
+                } else if (data.type === 'action') {
                     node.addInPort('in');
                     node.addOutPort('out');
-                } else if (data.nodeType === 'slash-command') {
+                } else if (data.type === 'slash-command') {
                     // TODO: ask for the slash command information and generate the right outputs
                     node.addOutPort('main');
-                } else if (data.nodeType === 'webhook') {
+                } else if (data.type === 'webhook') {
                     // TODO: ask for the webhook secret
                     node.addOutPort('out');
-                } else if (data.nodeType === 'flow') {
+                } else if (data.type === 'flow') {
                     if (data.name == "if") {
                         // TODO: ask for the if condition and check value
                         node.addInPort('in');
@@ -51,6 +51,9 @@ const SystembusCanvasWidget = ({children, engine, forceUpdate}: Props): JSX.Elem
                 }
                 const point = engine.getRelativeMousePoint(event);
                 node.setPosition(point);
+                const nodeOptions = node.getOptions()
+                nodeOptions.extras.original.x = point.x
+                nodeOptions.extras.original.y = point.y
                 engine.getModel().addNode(node);
                 forceUpdate();
             }}
