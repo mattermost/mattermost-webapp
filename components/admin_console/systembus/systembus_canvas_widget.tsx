@@ -47,6 +47,8 @@ const SystembusCanvasWidget = ({children, engine, forceUpdate}: Props): JSX.Elem
     const onDrop = (event: React.DragEvent<HTMLDivElement>) => {
         const data = JSON.parse(event.dataTransfer.getData('storm-diagram-node'));
         const point = engine.getRelativeMousePoint(event);
+        setDropAndPoint({data, point});
+
         if (data.nodeType === 'event') {
             createNode(['out']);
         } else if (data.nodeType === 'action') {
