@@ -50,8 +50,9 @@
     }
     &__label{
       display: flex;
-      font-size: 1.4em;
+      font-size: 1.2em;
       flex: 1 1 auto;
+      text-transform: capitalize;
     }
   }
   &__add-ctr{
