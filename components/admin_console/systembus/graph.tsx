@@ -68,9 +68,10 @@ export type GraphType = {
 type Props = {
     data: CanvasGraphType;
     onSave: (data: any) => void;
+    onCancel: () => void;
 }
 
-export const Graph = ({data, onSave}: Props) => {
+export const Graph = ({data, onSave, onCancel}: Props) => {
     const engine = useRef<DiagramEngine>();
     useEffect(() => {
         if (!engine.current) {
@@ -119,15 +120,26 @@ export const Graph = ({data, onSave}: Props) => {
                     }}
                 />
             </div>
-            <button
-                className='btn btn-primary save-graph-button'
-                onClick={() => onSave(engine.current?.getModel().serialize())}
-            >
-                <FormattedMessage
-                    id='admin.systembus.save-graph-button'
-                    defaultMessage='Save'
-                />
-            </button>
+            <div className='graph-btn-ctr'>
+                <button
+                    className='btn btn-secondary systembus__btn'
+                    onClick={onCancel}
+                >
+                    <FormattedMessage
+                        id='admin.systembus.cancel-graph-button'
+                        defaultMessage='Cancel'
+                    />
+                </button>
+                <button
+                    className='btn btn-primary systembus__btn'
+                    onClick={() => onSave(engine.current?.getModel().serialize())}
+                >
+                    <FormattedMessage
+                        id='admin.systembus.save-graph-button'
+                        defaultMessage='Save'
+                    />
+                </button>
+            </div>
         </SystemBusCanvasWidget>
     );
 };

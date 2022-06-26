@@ -4,6 +4,13 @@
   height: 100%;
   overflow: hidden;
 
+  &__btn{
+    display: flex;
+    place-content: center;
+    align-items: center;
+    border-radius: 4px;
+  }
+
   &__graphs-list-ctr{
     display: flex;
     flex-direction: column;
@@ -13,10 +20,12 @@
   }
 
   &__graphs-list{
-    display: flex;
-    flex-direction: column;
     overflow: hidden;
     overflow-y: scroll;
+    flex: 1 1 auto;
+    display: grid;
+    column-gap: 10px;
+    grid-template-columns: auto auto;
     padding: 10px;
   }
 
@@ -30,7 +39,7 @@
     background-color: var(--center-channel-bg);
     border-radius: 4px;
 
-    .selected{
+    .selected {
       border-right: 1px solid var(--center-channel-text);
     }
 
@@ -39,6 +48,11 @@
       justify-content: flex-end;
       gap: 5px;
     }
+    &__label{
+      display: flex;
+      font-size: 1.4em;
+      flex: 1 1 auto;
+    }
   }
   &__add-ctr{
     display: flex;
@@ -46,6 +60,7 @@
     height: 64px;
     justify-content: center;
     align-items: center;
+    background: var(--center-channel-bg);
   }
   &__ctr {
     height: 100%;
@@ -80,13 +95,15 @@
         opacity: 0;
         z-index: 100;
     }
-    .save-graph-button {
+    .graph-btn-ctr {
         position: absolute;
         bottom: 10px;
         left: 10px;
         width: 100px;
         height: 40px;
         min-height: 40px;
+      display: flex;
+      gap: 8px;
     }
     .graph-title {
         position: absolute;

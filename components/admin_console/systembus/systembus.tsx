@@ -193,6 +193,10 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
         setGraphs(graphsData);
     }, [selectedGraph]);
 
+    const onCancel = () => {
+
+    };
+
     return (
         <div className='wrapper--fixed'>
             <FormattedAdminHeader
@@ -212,6 +216,7 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
                     <Graph
                         data={selectedGraph!}
                         onSave={onSave}
+                        onCancel={onCancel}
                     />
                 }
             </div>
