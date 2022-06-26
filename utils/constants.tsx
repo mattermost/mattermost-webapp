@@ -385,6 +385,7 @@ export const ModalIdentifiers = {
     CLOUD_LIMITS: 'cloud_limits',
     REQUEST_BUSINESS_EMAIL_MODAL: 'request_business_email_modal',
     CREATE_TEAM_RESTRICTED_MODAL: 'create_team_restricted_modal',
+    SYSTEMBUS_NODE_MODAL: 'systembus_node_modal',
 };
 
 export const UserStatuses = {
