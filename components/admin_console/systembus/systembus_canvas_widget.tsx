@@ -13,9 +13,8 @@ type Props = {
     forceUpdate: () => void;
     graphEventHandler: any;
 }
-export type NodeType = 'webhook' | 'flow' | 'event' | 'action' | 'slash-command' |'switch' | 'random' |'if';
 
-export const NodeTypeConstant: Record<string, NodeType> = {
+export const NodeTypeConstant = {
     WEBHOOK: 'webhook',
     FLOW: 'flow',
     EVENT: 'event',
@@ -25,6 +24,7 @@ export const NodeTypeConstant: Record<string, NodeType> = {
     RANDOM: 'random',
     IF: 'if',
 };
+export type NodeType = keyof typeof NodeTypeConstant;
 
 const SystembusCanvasWidget = ({children, engine, forceUpdate, graphEventHandler}: Props): JSX.Element => {
     const [dropData, setDropData] = useState<{data: any; point: any; inPorts: string[]; outPorts: string[]; nodeType: NodeType} | null>(null);
@@ -42,8 +42,14 @@ const SystembusCanvasWidget = ({children, engine, forceUpdate, graphEventHandler
     const createNode = (data: any, point: any, inPorts: string[], outPorts: string[]) => {
         if (data && point) {
             const id = generateId();
-            if (data.type === 'webhook') {
+            if (data.type === NodeTypeConstant.WEBHOOK) {
                 data.name = `webhook\n${id}`;
+            } else if (data.type === NodeTypeConstant.FLOW) {
+                if (data.name === NodeTypeConstant.RANDOM) {
+                    for (let i = 0; i < data.randomOptions; i++) {
+                        outPorts.push(`Out ${i}`);
+                    }
+                }
             }
             const node: DefaultNodeModel = new DefaultNodeModel({id, name: data.name, color: data.color, extras: {original: {id, ...data}}});
             inPorts.forEach((port) => {

@@ -5,10 +5,12 @@ import React, {useLayoutEffect, useState} from 'react';
 import {useIntl} from 'react-intl';
 
 import GenericModal from 'components/generic_modal';
-import Input from 'components/widgets/inputs/input/input';
 
 import {NodeType, NodeTypeConstant} from '../systembus_canvas_widget';
+
 import './node-modal.scss';
+import RandomForm from './random-form';
+import WebhookForm from './webhook-form';
 
 type Props = {
     nodeType: NodeType;
@@ -19,37 +21,35 @@ type Props = {
 const NodeModal = ({nodeType, handleOnModalConfirm, handleOnModalCancel}: Props) => {
     const intl = useIntl();
     const {formatMessage} = intl;
-    const [displayName, setDisplayName] = useState('');
+    const [formData, setFormData] = useState<Record<string, any> | null>(null);
+    const [nodeForm, setNodeForm] = useState<JSX.Element | null>(null);
 
     const [modalHeader, setModalHeader] = useState(formatMessage({id: 'node_modal.modalTitle', defaultMessage: 'Create Node'}));
 
     useLayoutEffect(() => {
         if (nodeType === NodeTypeConstant.WEBHOOK) {
             setModalHeader(formatMessage({id: 'node_modal.modalTitle', defaultMessage: 'Create Webhook Node'}));
+            setNodeForm(<WebhookForm handleChange={handleChange}/>);
         } else if (nodeType === NodeTypeConstant.IF) {
             setModalHeader(formatMessage({id: 'node_modal.modalTitle', defaultMessage: 'Create If Node'}));
         } else if (nodeType === NodeTypeConstant.SLASH_COMMAND) {
             setModalHeader(formatMessage({id: 'node_modal.modalTitle', defaultMessage: 'Create Slash Command Node'}));
         } else if (nodeType === NodeTypeConstant.SWITCH) {
             setModalHeader(formatMessage({id: 'node_modal.modalTitle', defaultMessage: 'Create Switch Node'}));
-        } else if (nodeType === NodeTypeConstant.FLOW) {
-            setModalHeader(formatMessage({id: 'node_modal.modalTitle', defaultMessage: 'Create Flow Node'}));
         } else if (nodeType === NodeTypeConstant.RANDOM) {
-            setModalHeader(formatMessage({id: 'node_modal.modalTitle', defaultMessage: 'Create Flow Node'}));
+            setModalHeader(formatMessage({id: 'node_modal.modalTitle', defaultMessage: 'Create Random Node'}));
+            setNodeForm(<RandomForm handleChange={handleChange}/>);
         } else {
             setModalHeader(formatMessage({id: 'node_modal.modalTitle', defaultMessage: 'Create Node'}));
         }
     }, [nodeType, formatMessage]);
 
     const handleConfirm = () => {
-        const data = {
-            secret: displayName,
-        };
-        handleOnModalConfirm(data);
+        handleOnModalConfirm(formData!);
     };
 
-    const handleChange = ({target: {value: data}}: React.ChangeEvent<HTMLInputElement>) => {
-        setDisplayName(data);
+    const handleChange = (data: Record<string, any>) => {
+        setFormData(data);
     };
 
     return (
@@ -68,19 +68,7 @@ const NodeModal = ({nodeType, handleOnModalConfirm, handleOnModalCancel}: Props)
             onExited={handleOnModalCancel}
         >
             <div className='node-modal-body'>
-                <Input
-                    type='text'
-                    name='node-modal-name'
-                    containerClassName='node-modal-name-container'
-                    inputClassName='node-modal-name-input'
-                    label={formatMessage({id: 'node_modal.name.label', defaultMessage: 'Node name'})}
-                    placeholder={formatMessage({id: 'node_modal.name.placeholder', defaultMessage: 'secret'})}
-                    onChange={handleChange}
-                    value={displayName}
-                    data-testid='nameInput'
-                    maxLength={64}
-                    autoFocus={true}
-                />
+                {nodeForm}
             </div>
         </GenericModal>
     );

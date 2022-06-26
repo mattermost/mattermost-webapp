@@ -7,7 +7,7 @@ import GenericModal from 'components/generic_modal';
 type Props = {
     edge: any;
     onCancel: () => void;
-    onConfirm: (config: {[key:string]: string}) => void;
+    onConfirm: (config: {[key: string]: string}) => void;
     actions: any[];
     events: any[];
 }
@@ -17,48 +17,48 @@ const EdgeConfigModal = ({onCancel, onConfirm, edge, actions, events}: Props) =>
 
     const inNode = useMemo(() => {
         if (edge) {
-            return edge.sourcePort.parent.options.extras.original
+            return edge.sourcePort.parent.options.extras.original;
         }
-        return null
-    }, [edge, actions, events])
+        return null;
+    }, [edge, actions, events]);
 
     const outNode = useMemo(() => {
         if (edge) {
-            return edge.targetPort.parent.options.extras.original
+            return edge.targetPort.parent.options.extras.original;
         }
         return null;
-    }, [edge, actions, events])
+    }, [edge, actions, events]);
 
     if (!edge) {
-        return null
+        return null;
     }
 
-    let availableVariables = []
-    if (inNode.type === "event") {
-        const event = events.find((e) => e.id == inNode.eventName)
-        availableVariables = event?.fields || {}
+    let availableVariables = [];
+    if (inNode.type === 'event') {
+        const event = events.find((e) => e.id === inNode.eventName);
+        availableVariables = event?.fields || {};
     }
 
-    let configFields = {}
-    if (outNode.type === "event") {
-        return null
+    let configFields = {};
+    if (outNode.type === 'event') {
+        return null;
     }
 
-    if (outNode.type === "flow" && outNode.name === "if") {
-        configFields = {value: "string"}
+    if (outNode.type === 'flow' && outNode.name === 'if') {
+        configFields = {value: 'string'};
     }
 
-    if (outNode.type === "flow" && outNode.name === "random") {
-        return null
+    if (outNode.type === 'flow' && outNode.name === 'random') {
+        return null;
     }
 
-    if (outNode.type === "flow" && outNode.name === "switch") {
-        configFields = {value: "string"}
+    if (outNode.type === 'flow' && outNode.name === 'switch') {
+        configFields = {value: 'string'};
     }
 
-    if (outNode.type === "action") {
-        const action = actions.find((e) => e.id == outNode.actionName)
-        configFields = action?.config_definition || {}
+    if (outNode.type === 'action') {
+        const action = actions.find((e) => e.id === outNode.actionName);
+        configFields = action?.config_definition || {};
     }
 
     return (
@@ -71,18 +71,17 @@ const EdgeConfigModal = ({onCancel, onConfirm, edge, actions, events}: Props) =>
         >
             <div>
                 {Object.entries(configFields).map(([key, value]) => {
-                    if (value === "string") {
+                    if (value === 'string') {
                         return (
                             <div key={key}>
                                 <label
                                     htmlFor={`new-edge-config-${key}`}
                                 >
-                                    {key}:
+                                    {'{key}:'}
                                 </label>
                                 <input
                                     id={`new-edge-config-${key}`}
                                     type='text'
-                                    id='new-graph-title'
                                     onChange={(e) => setConfig({...config, [key]: e.target.value})}
                                     value={config[key]}
                                     autoFocus={true}
@@ -93,14 +92,14 @@ const EdgeConfigModal = ({onCancel, onConfirm, edge, actions, events}: Props) =>
                                     }}
                                 />
                             </div>
-                        )
+                        );
                     }
                     return null;
                 })}
-                <div>Available variables:</div>
+                <div>{'Available variables:'}</div>
                 <ul>
-                    {availableVariables.map((v) => (
-                        <li>{`{{.${v}}}`}</li>)
+                    {availableVariables.map((v: any, index: number) => (
+                        <li key={index}>{`{{.${v}}}`}</li>),
                     )}
                 </ul>
             </div>

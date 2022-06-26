@@ -3,7 +3,7 @@
 
 import {DefaultNodeModel} from '@projectstorm/react-diagrams';
 
-import React, {useCallback, useEffect, useState, useMemo} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 import GenericModal from 'components/generic_modal';
@@ -99,13 +99,13 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
                 color,
                 extras: {
                     original: node,
-                }
+                },
             });
             newNode.setPosition(node.x || 100, node.y || 100);
-            for (var portName of node.outputs) {
+            for (const portName of node.outputs) {
                 newNode.addOutPort(portName);
             }
-            for (var portName of node.inputs) {
+            for (const portName of node.inputs) {
                 newNode.addInPort(portName);
             }
             newNodeObject[node.id] = newNode;
@@ -128,7 +128,7 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
                 if (label) {
                     link.addLabel(label);
                 }
-                link.getOptions().extras = {original: edge}
+                link.getOptions().extras = {original: edge};
                 link.setSourcePort(port1);
                 link.setTargetPort(port2);
                 return link;
@@ -157,12 +157,12 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
     };
 
     const onSave = useCallback(async (data: any) => {
-        const orig = selectedGraph?.original
+        const orig = selectedGraph?.original;
         const updatedGraph = {
             id: orig?.id,
             name: orig?.name,
-            nodes: Object.values(data.layers[1].models).map((n) => {
-                const orig = n.getOptions().extras.original
+            nodes: Object.values(data.layers[1].models).map((n: any) => {
+                const orig = n.getOptions().extras.original;
                 return {
                     actionName: orig.actionName,
                     command: orig.command,
@@ -177,19 +177,19 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
                     randomOptions: orig.randomOptions,
                     x: Math.trunc(n.position.x),
                     y: Math.trunc(n.position.y),
-                }
+                };
             }),
-            edges: Object.values(data.layers[0].models).map((e) => {
-                const orig = e.getOptions().extras.original
+            edges: Object.values(data.layers[0].models).map((e: any) => {
+                const orig = e.getOptions().extras.original;
                 return {
                     config: orig.config,
                     from: e.sourcePort.parent.getOptions().id,
                     fromOutput: e.sourcePort.getOptions().name === 'out' ? '' : e.sourcePort.getOptions().name,
                     id: orig.id,
                     to: e.targetPort.parent.getOptions().id,
-                }
+                };
             }),
-        }
+        };
         await Client4.updateActionsGraph(updatedGraph);
         const graphsData = await Client4.getActionsGraphs();
         graphsData.sort((a, b) => a.name.localeCompare(b.name));
@@ -212,7 +212,7 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
                     modalHeaderText='New Graph'
                 >
                     <div>
-                        <label htmlFor='new-graph-title'>Graph Name:</label>
+                        <label htmlFor='new-graph-title'>{'Graph Name:'}</label>
                         <input
                             type='text'
                             id='new-graph-title'
