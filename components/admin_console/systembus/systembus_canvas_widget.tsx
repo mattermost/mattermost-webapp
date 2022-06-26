@@ -15,7 +15,7 @@ type Props = {
 }
 export type NodeType = 'webhook' | 'flow' | 'event' | 'action' | 'slash-command' |'switch' | 'random' |'if';
 
-export const NodeTypeConstant = {
+export const NodeTypeConstant: Record<string, NodeType> = {
     WEBHOOK: 'webhook',
     FLOW: 'flow',
     EVENT: 'event',
@@ -27,7 +27,7 @@ export const NodeTypeConstant = {
 };
 
 const SystembusCanvasWidget = ({children, engine, forceUpdate, graphEventHandler}: Props): JSX.Element => {
-    const [dropData, setDropData] = useState<{data: any; point: any; inPorts: string[]; outPorts: string[]} | null>(null);
+    const [dropData, setDropData] = useState<{data: any; point: any; inPorts: string[]; outPorts: string[]; nodeType: NodeType} | null>(null);
     const handleOnModalConfirm = (data: any) => {
         if (dropData) {
             createNode({...dropData.data, ...data}, dropData.point, dropData.inPorts, dropData.outPorts);
@@ -69,29 +69,21 @@ const SystembusCanvasWidget = ({children, engine, forceUpdate, graphEventHandler
     const onDrop = (event: React.DragEvent<HTMLDivElement>) => {
         const data = JSON.parse(event.dataTransfer.getData('storm-diagram-node'));
         const point = engine.getRelativeMousePoint(event);
-
-        console.log(data, point);
-
         if (data.type === 'event') {
             createNode(data, point, [], ['out']);
         } else if (data.type === 'action') {
             createNode(data, point, ['in'], ['out']);
         } else if (data.type === NodeTypeConstant.SLASH_COMMAND) {
-            // TODO: ask for the slash command information and generate the right outputs
-            createNode(data, point, [], ['main']);
+            setDropData({data, point, inPorts: [], outPorts: ['main'], nodeType: NodeTypeConstant.SLASH_COMMAND});
         } else if (data.type === NodeTypeConstant.WEBHOOK) {
-            setDropData({data, point, inPorts: [], outPorts: ['out']});
+            setDropData({data, point, inPorts: [], outPorts: ['out'], nodeType: NodeTypeConstant.WEBHOOK});
         } else if (data.type === NodeTypeConstant.FLOW) {
             if (data.name === NodeTypeConstant.IF) {
-                // TODO: ask for the if condition and check value
-                createNode(data, point, ['in'], ['then', 'else']);
+                setDropData({data, point, inPorts: ['in'], outPorts: ['then', 'else'], nodeType: NodeTypeConstant.IF});
             } else if (data.name === NodeTypeConstant.SWITCH) {
-                createNode(data, point, ['in'], ['case 1', 'case 2', 'case 3']);
-
-                // TODO: make this dynamic by asking the cases
+                setDropData({data, point, inPorts: ['in'], outPorts: [], nodeType: NodeTypeConstant.SWITCH});
             } else if (data.name === NodeTypeConstant.RANDOM) {
-                // TODO: make this dynamic by asking the number of outputs
-                createNode(data, point, ['in'], ['out 1', 'out 2', 'out 3']);
+                setDropData({data, point, inPorts: ['in'], outPorts: [], nodeType: NodeTypeConstant.RANDOM});
             }
         }
     };
@@ -104,7 +96,7 @@ const SystembusCanvasWidget = ({children, engine, forceUpdate, graphEventHandler
             {children}
             {dropData &&
                 <NodeModal
-                    nodeType={NodeTypeConstant.WEBHOOK}
+                    nodeType={dropData.nodeType}
                     handleOnModalCancel={handleOnModalCancel}
                     handleOnModalConfirm={handleOnModalConfirm}
                 />

@@ -7,8 +7,8 @@ import {useIntl} from 'react-intl';
 import GenericModal from 'components/generic_modal';
 import Input from 'components/widgets/inputs/input/input';
 
-import './node-modal.scss';
 import {NodeType, NodeTypeConstant} from '../systembus_canvas_widget';
+import './node-modal.scss';
 
 type Props = {
     nodeType: NodeType;
