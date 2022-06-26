@@ -8,6 +8,7 @@ import {CanvasWidget} from '@projectstorm/react-canvas-core';
 import SystemBusCanvasWidget from './systembus_canvas_widget';
 import {MattermostLinkFactory, MattermostLinkModel} from './customlink';
 import Toolbox from './toolbox';
+import EdgeConfigModal from './edgeConfigModal';
 
 export type CanvasGraphType = {
     id: string;
@@ -77,6 +78,19 @@ type Props = {
 export const Graph = ({data, onSave, onCancel, actions, events}: Props) => {
     const [forceUpdate, setForceUpdate] = useState<number>(0);
     const [engine, setEngine] = useState<DiagramEngine|null>(null);
+    const [newEdge, setNewEdge] = useState<any|null>(null);
+
+    const eventHandler = (e: any) => {
+        console.log(e)
+        if (e.function === "linksUpdated" && e.isCreated) {
+            e.link.registerListener({
+                eventDidFire: eventHandler,
+            });
+        }
+        if (e.function === "targetPortChanged") {
+            setNewEdge(e.entity)
+        }
+    }
 
     useEffect(() => {
         let localEngine = engine
@@ -94,22 +108,27 @@ export const Graph = ({data, onSave, onCancel, actions, events}: Props) => {
         const models = model.addAll(...data.nodes, ...data.links);
 
         //5) load model into engine
-        localEngine.setModel(model);
+        localEngine!.setModel(model);
 
         // add a selection listener to each
         models.forEach((item) => {
             item.registerListener({
-                eventDidFire: (e: any) => console.log(e),
+                eventDidFire: eventHandler,
             });
         });
 
         model.registerListener({
-            eventDidFire: (e: any) => console.log(e),
+            eventDidFire: eventHandler,
         });
     }, [data]);
 
     if (!engine) {
         return null;
+    }
+
+    const setEdgeConfig = () => {
+        console.log(newEdge)
+        setNewEdge(null);
     }
 
     //6) render the diagram!
@@ -120,6 +139,13 @@ export const Graph = ({data, onSave, onCancel, actions, events}: Props) => {
             engine={engine}
             forceUpdate={() => setForceUpdate(forceUpdate+1)}
         >
+            <EdgeConfigModal
+                onCancel={() => setNewEdge(null)}
+                onConfirm={setEdgeConfig}
+                edge={newEdge}
+                actions={actions}
+                events={events}
+            />
             <Toolbox
                 actions={actions}
                 events={events}

@@ -97,6 +97,9 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
                 name,
                 id: node.id,
                 color,
+                extras: {
+                    original: node,
+                }
             });
             newNode.setPosition(node.x || 100, node.y || 100);
             for (var portName of node.outputs) {
