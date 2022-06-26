@@ -14,27 +14,28 @@ type Props = {
 }
 
 const SystembusCanvasWidget = ({children, engine, forceUpdate}: Props): JSX.Element => {
-    const [dropDataAndPoint, setDropAndPoint] = useState<{data: any; point: any} | null>(null);
-    const handleOnModalConfirm = (data: Record<string, any>) => {
-        if (dropDataAndPoint) {
-            createNode(['out']);
-            setDropAndPoint(null);
+    const [dropData, setDropData] = useState<{data: any; point: any; inPorts: string[], outPorts: string[]} | null>(null);
+    const handleOnModalConfirm = () => {
+        if (dropData) {
+            createNode(dropData.data, dropData.point, dropData.inPorts, dropData.outPorts);
+            setDropData(null);
         }
     };
 
     const handleOnModalCancel = () => {
-        setDropAndPoint(null);
+        setDropData(null);
     };
 
-    const createNode = (ports: string[]) => {
-        if (dropDataAndPoint) {
-            const data = dropDataAndPoint!.data;
+    const createNode = (data: any, point: any, inPorts: string[], outPorts: string[]) => {
+        if (data && point) {
             const node: DefaultNodeModel = new DefaultNodeModel({id: generateId(), name: data.name, color: data.color, extras: {original: data}});
-            ports.forEach((port) => {
+            inPorts.forEach((port) => {
+                node.addInPort(port);
+            });
+            outPorts.forEach((port) => {
                 node.addOutPort(port);
             });
 
-            const point = dropDataAndPoint!.point;
             node.setPosition(point);
             const nodeOptions = node.getOptions();
             nodeOptions.extras.original.x = point.x;
@@ -47,29 +48,30 @@ const SystembusCanvasWidget = ({children, engine, forceUpdate}: Props): JSX.Elem
     const onDrop = (event: React.DragEvent<HTMLDivElement>) => {
         const data = JSON.parse(event.dataTransfer.getData('storm-diagram-node'));
         const point = engine.getRelativeMousePoint(event);
-        setDropAndPoint({data, point});
 
-        if (data.nodeType === 'event') {
-            createNode(['out']);
-        } else if (data.nodeType === 'action') {
-            createNode(['out', 'in']);
-        } else if (data.nodeType === 'slash-command') {
+        console.log(data, point)
+
+        if (data.type === 'event') {
+            createNode(data, point, [], ['out']);
+        } else if (data.type === 'action') {
+            createNode(data, point, ['in'], ['out']);
+        } else if (data.type === 'slash-command') {
             // TODO: ask for the slash command information and generate the right outputs
-            createNode(['main']);
-        } else if (data.nodeType === 'webhook') {
+            createNode(data, point, [], ['main']);
+        } else if (data.type === 'webhook') {
             // TODO: ask for the webhook secret
-            setDropAndPoint({data, point});
-        } else if (data.nodeType === 'flow') {
+            setDropData({data, point, inPorts: [], outPorts: ['out']});
+        } else if (data.type === 'flow') {
             if (data.name === 'if') {
                 // TODO: ask for the if condition and check value
-                createNode(['in', 'then', 'else']);
+                createNode(data, point, ['in'], ['then', 'else']);
             } else if (data.name === 'switch') {
-                createNode(['in', 'case 1', 'case 2', 'case 3']);
+                createNode(data, point, ['in'], ['case 1', 'case 2', 'case 3']);
 
                 // TODO: make this dynamic by asking the cases
             } else if (data.name === 'random') {
                 // TODO: make this dynamic by asking the number of outputs
-                createNode(['in', 'out 1', 'out 2', 'out 3']);
+                createNode(data, point, ['in'], ['out 1', 'out 2', 'out 3']);
             }
         }
     };
@@ -80,7 +82,7 @@ const SystembusCanvasWidget = ({children, engine, forceUpdate}: Props): JSX.Elem
             onDrop={onDrop}
         >
             {children}
-            {dropDataAndPoint &&
+            {dropData &&
                 <NodeModal
                     handleOnModalCancel={handleOnModalCancel}
                     handleOnModalConfirm={handleOnModalConfirm}
