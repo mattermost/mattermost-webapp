@@ -128,6 +128,7 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
                 if (label) {
                     link.addLabel(label);
                 }
+                link.getOptions().extras = {original: edge}
                 link.setSourcePort(port1);
                 link.setTargetPort(port2);
                 return link;
@@ -156,20 +157,38 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
     };
 
     const onSave = useCallback(async (data: any) => {
-        const updatedGraph = {...selectedGraph?.original};
-        for (const layer of data.layers) {
-            if (layer.type === 'diagram-links') {
-                // TODO: Allow to change edges
-            }
-            if (layer.type === 'diagram-nodes') {
-                for (const node of updatedGraph.nodes || []) {
-                    const model = layer.models[node.id];
-                    if (model) {
-                        node.x = model.x;
-                        node.y = model.y;
-                    }
+        const orig = selectedGraph?.original
+        const updatedGraph = {
+            id: orig?.id,
+            name: orig?.name,
+            nodes: Object.values(data.layers[1].models).map((n) => {
+                const orig = n.getOptions().extras.original
+                return {
+                    actionName: orig.actionName,
+                    command: orig.command,
+                    eventName: orig.eventName,
+                    id: orig.id,
+                    secret: orig.secret,
+                    type: orig.type,
+                    controlType: orig.controlType,
+                    ifValue: orig.ifValue,
+                    ifComparison: orig.ifComparison,
+                    caseValues: orig.caseValues,
+                    randomOptions: orig.randomOptions,
+                    x: Math.trunc(n.position.x),
+                    y: Math.trunc(n.position.y),
                 }
-            }
+            }),
+            edges: Object.values(data.layers[0].models).map((e) => {
+                const orig = e.getOptions().extras.original
+                return {
+                    config: orig.config,
+                    from: e.sourcePort.parent.getOptions().id,
+                    fromOutput: e.sourcePort.getOptions().name,
+                    id: orig.id,
+                    to: e.targetPort.parent.getOptions().id,
+                }
+            }),
         }
         await Client4.updateActionsGraph(updatedGraph);
         const graphsData = await Client4.getActionsGraphs();

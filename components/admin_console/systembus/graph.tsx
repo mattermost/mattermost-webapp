@@ -126,8 +126,9 @@ export const Graph = ({data, onSave, onCancel, actions, events}: Props) => {
         return null;
     }
 
-    const setEdgeConfig = () => {
+    const setEdgeConfig = (config: {[key: string]: string}) => {
         console.log(newEdge)
+        newEdge.getOptions().extras = {original: {config: config}}
         setNewEdge(null);
     }
 
@@ -164,7 +165,7 @@ export const Graph = ({data, onSave, onCancel, actions, events}: Props) => {
                 </button>
                 <button
                     className='btn btn-primary systembus__btn'
-                    onClick={() => onSave(engine.getModel().serialize())}
+                    onClick={() => onSave(engine.getModel())}
                 >
                     <FormattedMessage
                         id='admin.systembus.save-graph-button'
