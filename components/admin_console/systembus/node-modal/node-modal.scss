@@ -70,8 +70,25 @@
       }
     }
   }
+  &__select{
+    display: flex;
+    height: 34px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 1px;
+    border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+    border-radius: 4px;
+  }
+
+  &__column{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
 }
 
 .node-modal__url {
   margin-top: 4px;
 }
+
