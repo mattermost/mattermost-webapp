@@ -107,7 +107,7 @@ type ResultsCallback = (results: Results) => void;
 export default class CommandProvider extends Provider {
     private props: Props;
     private store: Store<GlobalState>;
-    private triggerCharacter: string;
+    triggerCharacter: string;
     private appCommandParser: AppCommandParser;
 
     constructor(props: Props) {
@@ -125,6 +125,7 @@ export default class CommandProvider extends Provider {
     }
 
     handlePretextChanged(pretext: string, resultCallback: ResultsCallback) {
+        console.log('starting the command provider');
         if (!pretext.startsWith(this.triggerCharacter)) {
             return false;
         }

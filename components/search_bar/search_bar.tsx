@@ -9,8 +9,7 @@ import Constants from 'utils/constants';
 import * as Utils from 'utils/utils';
 import SearchSuggestionList from 'components/suggestion/search_suggestion_list.jsx';
 import SuggestionDate from 'components/suggestion/suggestion_date.jsx';
-import SuggestionBox from 'components/suggestion/suggestion_box';
-import SuggestionBoxComponent from 'components/suggestion/suggestion_box/suggestion_box';
+import {SuggestionBox, SuggestionBoxForwarded} from 'components/suggestion/suggestion_box/suggestion_box';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import Provider from 'components/suggestion/provider';
 
@@ -23,7 +22,7 @@ const style: Record<string, CSSProperties> = {
 type Props = {
     searchTerms: string;
     updateHighlightedSearchHint: (indexDelta: number, changedViaKeyPress?: boolean) => void;
-    handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
+    handleChange: (value: string) => void;
     handleSubmit: (e: FormEvent<HTMLFormElement>) => void;
     handleEnterKey: (e: ChangeEvent<HTMLInputElement>) => void;
     handleClear: () => void;
@@ -50,7 +49,7 @@ const defaultProps: Partial<Props> = {
 const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element => {
     const {isFocused, keepFocused, searchTerms, suggestionProviders} = props;
 
-    const searchRef = useRef<SuggestionBoxComponent>();
+    const searchRef = useRef<SuggestionBoxForwarded>();
     const intl = useIntl();
 
     useEffect((): void => {
@@ -97,7 +96,7 @@ const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element =>
         }
     };
 
-    const getSearch = (node: SuggestionBoxComponent): void => {
+    const getSearch = (node: SuggestionBoxForwarded): void => {
         searchRef.current = node;
         if (props.getFocus) {
             props.getFocus(props.handleFocus);

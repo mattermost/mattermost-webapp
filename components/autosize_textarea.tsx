@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ChangeEvent, FormEvent, CSSProperties} from 'react';
+import React, {ChangeEvent, CSSProperties} from 'react';
 
 type Props = {
     id?: string;
@@ -10,7 +10,7 @@ type Props = {
     defaultValue?: string;
     onChange?: (e: ChangeEvent<HTMLTextAreaElement>) => void;
     onHeightChange?: (height: number, maxHeight: number) => void;
-    onInput?: (e: FormEvent<HTMLTextAreaElement>) => void;
+    onInput?: (value: string) => void;
     placeholder?: string;
     forwardedRef?: ((instance: HTMLTextAreaElement | null) => void) | React.MutableRefObject<HTMLTextAreaElement | null> | null;
 }
@@ -71,6 +71,11 @@ export class AutosizeTextarea extends React.PureComponent<Props> {
 
         this.textarea = textarea;
     }
+    handleOnInput = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        if (e.target.value && this.props.onInput) {
+            this.props.onInput(e.target.value);
+        }
+    }
 
     render() {
         const props = {...this.props};
@@ -85,7 +90,6 @@ export class AutosizeTextarea extends React.PureComponent<Props> {
             defaultValue,
             placeholder,
             disabled,
-            onInput,
 
             // TODO: The provided `id` is sometimes hard-coded and used to interface with the
             // component, e.g. `post_textbox`, so it can't be changed. This would ideally be
@@ -135,7 +139,7 @@ export class AutosizeTextarea extends React.PureComponent<Props> {
                     dir='auto'
                     disabled={disabled}
                     onChange={this.props.onChange}
-                    onInput={onInput}
+                    onInput={this.handleOnInput}
                     value={value}
                     defaultValue={defaultValue}
                 />
@@ -148,6 +152,7 @@ export class AutosizeTextarea extends React.PureComponent<Props> {
                         disabled={true}
                         rows={1}
                         {...otherProps}
+                        onInput={this.handleOnInput}
                         value={value || defaultValue}
                         aria-hidden={true}
                     />

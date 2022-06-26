@@ -243,6 +243,10 @@ export default class SuggestionList extends React.PureComponent {
 
             // ReactComponent names need to be upper case when used in JSX
             const Component = this.props.components[i];
+
+            // console.log({
+            //     Component,
+            // });
             if ((renderDividers.includes('all') || renderDividers.includes(item.type)) && prevItemType !== item.type) {
                 items.push(this.renderDivider(item.type));
                 prevItemType = item.type;
@@ -257,18 +261,20 @@ export default class SuggestionList extends React.PureComponent {
                 this.currentItem = item;
             }
 
-            items.push(
-                <Component
-                    key={term}
-                    ref={(ref) => this.itemRefs.set(term, ref)}
-                    item={this.props.items[i]}
-                    term={term}
-                    matchedPretext={this.props.matchedPretext[i]}
-                    isSelection={isSelection}
-                    onClick={this.props.onCompleteWord}
-                    onMouseMove={this.props.onItemHover}
-                />,
-            );
+            if (Component) {
+                items.push(
+                    <Component
+                        key={term}
+                        ref={(ref) => this.itemRefs.set(term, ref)}
+                        item={this.props.items[i]}
+                        term={term}
+                        matchedPretext={this.props.matchedPretext[i]}
+                        isSelection={isSelection}
+                        onClick={this.props.onCompleteWord}
+                        onMouseMove={this.props.onItemHover}
+                    />,
+                );
+            }
         }
         const mainClass = 'suggestion-list suggestion-list--' + this.props.position;
         const contentClass = 'suggestion-list__content suggestion-list__content--' + this.props.position;

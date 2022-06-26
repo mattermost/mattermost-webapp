@@ -15,20 +15,12 @@ import Constants from 'utils/constants';
 import * as Utils from 'utils/utils';
 import * as UserAgent from 'utils/user_agent';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import SuggestionBox from 'components/suggestion/suggestion_box';
-import SuggestionBoxComponent from 'components/suggestion/suggestion_box/suggestion_box';
+import {ProviderSuggestions, SuggestionBoxForwarded, SuggestionBox} from 'components/suggestion/suggestion_box/suggestion_box';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 import SwitchChannelProvider from 'components/suggestion/switch_channel_provider.jsx';
 import NoResultsIndicator from 'components/no_results_indicator/no_results_indicator';
 
 const CHANNEL_MODE = 'channel';
-
-type ProviderSuggestions = {
-    matchedPretext: any;
-    terms: string[];
-    items: any[];
-    component: React.ReactNode;
-}
 
 export type Props = {
 
@@ -55,7 +47,7 @@ type State = {
 
 export default class QuickSwitchModal extends React.PureComponent<Props, State> {
     private channelProviders: SwitchChannelProvider[];
-    private switchBox: SuggestionBoxComponent|null;
+    private switchBox: SuggestionBoxForwarded |null;
 
     constructor(props: Props) {
         super(props);
@@ -79,13 +71,13 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
         }
 
         const textbox = this.switchBox.getTextbox();
-        if (document.activeElement !== textbox) {
+        if (document.activeElement !== textbox && textbox) {
             textbox.focus();
             Utils.placeCaretAtEnd(textbox);
         }
     };
 
-    private setSwitchBoxRef = (input: SuggestionBoxComponent): void => {
+    private setSwitchBoxRef = (input: SuggestionBoxForwarded): void => {
         this.switchBox = input;
         this.focusTextbox();
     };
@@ -109,8 +101,8 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
         }
     };
 
-    private onChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-        this.setState({text: e.target.value, shouldShowLoadingSpinner: true});
+    private onChange = (value: string): void => {
+        this.setState({text: value, shouldShowLoadingSpinner: true});
     };
 
     public handleSubmit = async (selected?: any): Promise<void> => {

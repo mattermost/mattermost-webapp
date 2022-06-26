@@ -41,12 +41,12 @@ export default class AutocompleteSelector extends React.PureComponent {
         };
     }
 
-    onChange = (e) => {
-        if (!e || !e.target) {
+    onChange = (value) => {
+        if (!value) {
             return;
         }
 
-        this.setState({input: e.target.value});
+        this.setState({input: value});
     }
 
     handleSelected = (selected) => {

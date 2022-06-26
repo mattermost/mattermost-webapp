@@ -191,9 +191,8 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         updateHighlightedSearchHint();
     };
 
-    const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
-        const term = e.target.value;
-        actions.updateSearchTerms(term);
+    const handleChange = (value: string): void => {
+        actions.updateSearchTerms(value);
     };
 
     // call this function without parameters to reset `SearchHint`

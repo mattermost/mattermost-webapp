@@ -780,9 +780,7 @@ class CreateComment extends React.PureComponent<Props, State> {
         GlobalActions.emitLocalUserTypingEvent(channelId, rootId);
     }
 
-    handleChange = (e: React.ChangeEvent<TextboxElement>) => {
-        const message = e.target.value;
-
+    handleChange = (message: string) => {
         let serverError = this.state.serverError;
         if (isErrorInvalidSlashCommand(serverError)) {
             serverError = null;

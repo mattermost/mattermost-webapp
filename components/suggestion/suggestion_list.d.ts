@@ -11,6 +11,9 @@ interface SuggestionItem {}
 
 interface Props {
     ariaLiveRef?: React.Ref<HTMLDivElement>;
+    inputRef?: RefObject<HTMLInputElement | HTMLTextAreaElement>;
+
+    // onLoseVisibility: () => void;
     open: boolean;
     position?: 'top' | 'bottom';
     renderDividers?: string[];

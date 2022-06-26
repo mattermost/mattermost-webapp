@@ -93,9 +93,9 @@ export default class EditChannelHeaderModal extends React.PureComponent<Props, S
         this.props.actions.setShowPreview(newState);
     }
 
-    private handleChange = (e: React.ChangeEvent<TextboxElement>): void => {
+    private handleChange = (value: string): void => {
         this.setState({
-            header: e.target.value,
+            header: value,
         });
     }
 

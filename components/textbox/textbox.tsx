@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ChangeEvent, ClipboardEventHandler, createRef, ElementType, FocusEvent, KeyboardEvent, MouseEvent, useCallback, useEffect, useImperativeHandle} from 'react';
+import React, {ClipboardEventHandler, createRef, ElementType, FocusEvent, KeyboardEvent, MouseEvent, useCallback, useEffect, useImperativeHandle} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Channel} from '@mattermost/types/channels';
@@ -11,14 +11,14 @@ import {UserProfile} from '@mattermost/types/users';
 import AutosizeTextarea from 'components/autosize_textarea';
 
 import PostMarkdown from 'components/post_markdown';
-import Provider from 'components/suggestion/provider';
 import AtMentionProvider from 'components/suggestion/at_mention_provider';
 import ChannelMentionProvider from 'components/suggestion/channel_mention_provider.jsx';
 import AppCommandProvider from 'components/suggestion/command_provider/app_provider';
 import CommandProvider from 'components/suggestion/command_provider/command_provider';
 import EmoticonProvider from 'components/suggestion/emoticon_provider.jsx';
-import SuggestionBox from 'components/suggestion/suggestion_box';
-import SuggestionBoxComponent from 'components/suggestion/suggestion_box/suggestion_box';
+
+// import SuggestionBox from 'components/suggestion/suggestion_box';
+import {SuggestionBox, SuggestionBoxForwarded} from 'components/suggestion/suggestion_box/suggestion_box';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 
 import * as Utils from 'utils/utils';
@@ -31,7 +31,7 @@ type Props = {
     rootId?: string;
     tabIndex?: number;
     value: string;
-    onChange: (e: ChangeEvent<TextboxElement>) => void;
+    onChange: (value: string) => void;
     onKeyPress: (e: KeyboardEvent<any>) => void;
     onComposition?: () => void;
     onHeightChange?: (height: number, maxHeight: number) => void;
@@ -44,7 +44,7 @@ type Props = {
     supportsCommands?: boolean;
     handlePostError?: (message: JSX.Element | null) => void;
     onPaste?: ClipboardEventHandler;
-    suggestionList?: React.ComponentProps<typeof SuggestionBox>['listComponent'];
+    suggestionList?: SuggestionList;
     suggestionListPosition?: React.ComponentProps<typeof SuggestionList>['position'];
     emojiEnabled?: boolean;
     isRHS?: boolean;
@@ -109,13 +109,14 @@ const TextboxComponent: React.ForwardRefRenderFunction<TextboxForwarded, Props> 
     disabled,
     openWhenEmpty,
 }: Props, ref) => {
-    const [suggestionProviders, updateSuggestionProviders] = React.useState<Provider[]>([]);
+    type PossibleProviders = Array<AtMentionProvider | ChannelMentionProvider | EmoticonProvider | AppCommandProvider | CommandProvider>
+    const [suggestionProviders, updateSuggestionProviders] = React.useState<PossibleProviders>([]);
     const wrapper = createRef<HTMLDivElement>();
-    const message = createRef<SuggestionBoxComponent>();
+    const message = createRef<SuggestionBoxForwarded>();
     const previewDiv = createRef<HTMLDivElement>();
 
     useEffect(() => {
-        const newProviders: Provider[] = [];
+        const newProviders: PossibleProviders = [];
 
         if (supportsCommands) {
             newProviders.push(new AppCommandProvider({
@@ -216,7 +217,7 @@ const TextboxComponent: React.ForwardRefRenderFunction<TextboxForwarded, Props> 
         }
     }, [actions, autocompleteGroups, channelId, currentTeamId, currentUserId, priorityProfiles, rootId, suggestionProviders, useChannelMentions, value, checkMessageLength]);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => onChange(e);
+    const handleChange = (value: string) => onChange(value);
 
     // adding in the HTMLDivElement to support event handling in preview state
     // since we do only handle the sending when in preview mode this is fine to be casted
@@ -315,7 +316,8 @@ const TextboxComponent: React.ForwardRefRenderFunction<TextboxForwarded, Props> 
                 onKeyUp={handleKeyUp}
                 onComposition={onComposition}
                 onBlur={handleBlur}
-                onHeightChange={handleHeightChange}
+
+                // onHeightChange={handleHeightChange}
                 onPaste={onPaste}
                 style={{visibility: preview ? 'hidden' : 'visible'}}
                 inputComponent={inputComponent}

@@ -309,7 +309,7 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
         }
     };
 
-    const handleChange = (e: React.ChangeEvent<TextboxElement>) => setEditText(e.target.value);
+    const handleChange = (value: string) => setEditText(value);
 
     const handleHeightChange = (height: number, maxHeight: number) => setRenderScrollbar(height > maxHeight);
 

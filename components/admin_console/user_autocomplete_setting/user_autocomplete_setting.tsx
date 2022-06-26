@@ -27,8 +27,8 @@ type Props = {
 const UserAutocompleteSetting = ({id, label, placeholder, helpText, value, onChange, disabled, actions}: Props) => {
     const userSuggestionProvidersRef = useRef([new GenericUserProvider(actions.autocompleteUsers)]);
 
-    const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-        onChange(id, e.target.value);
+    const handleChange = useCallback((value: string) => {
+        onChange(id, value);
     }, [onChange, id]);
 
     const handleUserSelected = useCallback((user: UserProfile) => {

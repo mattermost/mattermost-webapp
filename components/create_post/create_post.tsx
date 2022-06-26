@@ -855,8 +855,7 @@ class CreatePost extends React.PureComponent<Props, State> {
         GlobalActions.emitLocalUserTypingEvent(channelId, '');
     }
 
-    handleChange = (e: React.ChangeEvent<TextboxElement>) => {
-        const message = e.target.value;
+    handleChange = (message: string) => {
         const channelId = this.props.currentChannel.id;
 
         let serverError = this.state.serverError;

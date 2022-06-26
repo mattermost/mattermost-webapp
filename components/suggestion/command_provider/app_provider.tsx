@@ -41,7 +41,7 @@ type ResultsCallback = (results: Results) => void;
 
 export default class AppCommandProvider extends Provider {
     private store: Store<GlobalState>;
-    private triggerCharacter: string;
+    triggerCharacter: string;
     private appCommandParser: AppCommandParser;
 
     constructor(props: Props) {

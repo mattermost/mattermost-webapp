@@ -81,7 +81,7 @@ export type Props = {
     autoFocus?: boolean;
     type?: string;
     id?: string;
-    onInput?: (e?: React.FormEvent<HTMLInputElement>) => void;
+    onInput?: (value: string) => void;
 }
 
 // A component that can be used to make controlled inputs that function properly in certain
@@ -179,9 +179,10 @@ export class QuickInput extends React.PureComponent<Props> {
         const inputElement = React.createElement(
             inputComponent || 'input',
             {
-                ...props,
                 ref: this.setInputRef,
                 defaultValue: value, // Only set the defaultValue since the real one will be updated using componentDidUpdate
+                ...props,
+
             },
         );
 

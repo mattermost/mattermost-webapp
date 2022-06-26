@@ -948,7 +948,7 @@ export function setSelectionRange(input: HTMLInputElement | HTMLTextAreaElement,
     input.setSelectionRange(selectionStart, selectionEnd);
 }
 
-export function setCaretPosition(input: HTMLInputElement, pos: number) {
+export function setCaretPosition(input: HTMLInputElement | HTMLTextAreaElement, pos: number) {
     if (!input) {
         return;
     }

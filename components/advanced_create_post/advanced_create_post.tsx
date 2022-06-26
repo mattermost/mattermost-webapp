@@ -780,8 +780,8 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         GlobalActions.emitLocalUserTypingEvent(channelId, '');
     }
 
-    handleChange = (e: React.ChangeEvent<TextboxElement>) => {
-        const message = e.target.value;
+    handleChange = (message: string) => {
+        // const message = e.target.value;
         const channelId = this.props.currentChannel.id;
 
         let serverError = this.state.serverError;
