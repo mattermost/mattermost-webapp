@@ -161,7 +161,7 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
         const updatedGraph = {
             id: orig?.id,
             name: orig?.name,
-            nodes: Object.values(data.layers[1].models).map((n: any) => {
+            nodes: Object.values(data.layers[1].models).map((n) => {
                 const orig = n.getOptions().extras.original;
                 return {
                     actionName: orig.actionName,
@@ -179,7 +179,7 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
                     y: Math.trunc(n.position.y),
                 };
             }),
-            edges: Object.values(data.layers[0].models).map((e: any) => {
+            edges: Object.values(data.layers[0].models).map((e) => {
                 const orig = e.getOptions().extras.original;
                 return {
                     config: orig.config,

@@ -77,7 +77,7 @@ const EdgeConfigModal = ({onCancel, onConfirm, edge, actions, events}: Props) =>
                                 <label
                                     htmlFor={`new-edge-config-${key}`}
                                 >
-                                    {'{key}:'}
+                                    {`${key}:`}
                                 </label>
                                 <input
                                     id={`new-edge-config-${key}`}
