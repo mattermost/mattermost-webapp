@@ -129,6 +129,13 @@ export const Graph = ({data, onSave, onCancel, actions, events}: Props) => {
     const setEdgeConfig = (config: {[key: string]: string}) => {
         console.log(newEdge)
         newEdge.getOptions().extras = {original: {config: config}}
+        let label = '';
+        for (const [key, value] of Object.entries(config)) {
+            label += key + ': ' + value + '\n';
+        }
+        if (label) {
+            newEdge.addLabel(label);
+        }
         setNewEdge(null);
     }
 

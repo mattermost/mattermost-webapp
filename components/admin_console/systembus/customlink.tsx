@@ -6,7 +6,7 @@ import {DefaultLinkFactory, DefaultLinkModel, DefaultLinkWidget, PointModel} fro
 export class MattermostLinkModel extends DefaultLinkModel {
     constructor() {
         super({
-            type: 'mattermost',
+            type: 'default',
         });
     }
 
@@ -22,7 +22,7 @@ export class MattermostLinkModel extends DefaultLinkModel {
 
 export class MattermostLinkFactory extends DefaultLinkFactory {
     constructor() {
-        super('mattermost');
+        super('default');
     }
 
     generateModel(): MattermostLinkModel {
