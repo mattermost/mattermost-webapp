@@ -2,16 +2,16 @@
 // See LICENSE.txt for license information.
 import React, {useRef, useEffect} from 'react';
 import {FormattedMessage} from 'react-intl';
-import createEngine, {DiagramModel, DefaultNodeModel, DefaultLinkModel, DiagramEngine} from '@projectstorm/react-diagrams';
+import createEngine, {DiagramModel, DefaultNodeModel, DiagramEngine} from '@projectstorm/react-diagrams';
 import {CanvasWidget} from '@projectstorm/react-canvas-core';
 
 import SystemBusCanvasWidget from './systembus_canvas_widget';
-import {MattermostLinkFactory} from './customlink';
+import {MattermostLinkFactory, MattermostLinkModel} from './customlink';
 
 export type CanvasGraphType = {
     id: string;
     nodes: DefaultNodeModel[];
-    links: DefaultLinkModel[];
+    links: MattermostLinkModel[];
     name: string;
     original: GraphType;
 }
@@ -21,7 +21,7 @@ export type SubCommand = {
     description: string;
     hint: string;
     name: string;
-    flags: {[key: string]: string}
+    flags: {[key: string]: string};
 }
 
 export type Command = {
@@ -29,8 +29,8 @@ export type Command = {
     description: string;
     hint: string;
     name: string;
-    subCommands: SubCommand[]
-    flags: {[key: string]: string}
+    subCommands: SubCommand[];
+    flags: {[key: string]: string};
 }
 
 export type GraphNode = {
@@ -71,54 +71,36 @@ type Props = {
 }
 
 export const Graph = ({data, onSave}: Props) => {
-    const engine = useRef<DiagramEngine>()
+    const engine = useRef<DiagramEngine>();
     useEffect(() => {
         if (!engine.current) {
             engine.current = createEngine();
             engine.current.getLinkFactories().registerFactory(new MattermostLinkFactory());
         }
+
         //2) setup the diagram model
         const model = new DiagramModel();
 
-        // //3-a) create another default node
-        // const node1 = new DefaultNodeModel('Node 2', 'rgb(192,255,0)');
-        // const port1 = node1.addInPort('0ut');
-        // node1.setPosition(100, 100);
-        //
-        // //3-B) create another default node
-        // const node2 = new DefaultNodeModel('Node 2', 'rgb(192,255,0)');
-        // const port2 = node2.addInPort('In');
-        // node2.setPosition(400, 100);
-        //
-        // // link the ports
-        // const link1 = port1.link<DefaultLinkModel>(port2);
-        // link1.getOptions().testName = 'Test';
-        // link1.addLabel('Hello World!');
-        //
-        // //4) add the models to the root graph
-        // model.addAll(node1, node2, link1);
-        //
-        // //5) load model into engine
-        // engine.setModel(model);
-
         //4) add the models to the root graph
         const models = model.addAll(...data.nodes, ...data.links);
+
         //5) load model into engine
         engine.current.setModel(model);
-        	// add a selection listener to each
+
+        // add a selection listener to each
         models.forEach((item) => {
             item.registerListener({
-                eventDidFire: (e: any) => console.log(e)
+                eventDidFire: (e: any) => console.log(e),
             });
         });
 
         model.registerListener({
-            eventDidFire: (e: any) => console.log(e)
+            eventDidFire: (e: any) => console.log(e),
         });
-    }, [data])
+    }, [data]);
 
     if (!engine.current) {
-        return null
+        return null;
     }
 
     //6) render the diagram!
@@ -151,24 +133,24 @@ export const Graph = ({data, onSave}: Props) => {
 };
 
 export interface NodeWidgetProps {
-	model: any;
-	name: string;
+    model: any;
+    name: string;
 }
 
-class ToolboxNodeItem extends React.Component<NodeProps> {
-	render() {
-		return (
-			<div
-				draggable={true}
-				onDragStart={(event) => {
-					event.dataTransfer.setData('storm-diagram-node', JSON.stringify(this.props.model));
-				}}
-				className="toolbox-node-item"
-			>
-				{this.props.name}
-			</div>
-		);
-	}
+class ToolboxNodeItem extends React.Component<NodeWidgetProps> {
+    render() {
+        return (
+            <div
+                draggable={true}
+                onDragStart={(event) => {
+                    event.dataTransfer.setData('storm-diagram-node', JSON.stringify(this.props.model));
+                }}
+                className='toolbox-node-item'
+            >
+                {this.props.name}
+            </div>
+        );
+    }
 }
 
 export default Graph;

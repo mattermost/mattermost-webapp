@@ -17,6 +17,7 @@
     flex-direction: column;
     overflow: hidden;
     overflow-y: scroll;
+    padding: 10px;
   }
 
   &__graphs-list-item{
@@ -27,6 +28,11 @@
     margin-bottom: 10px;
     color: var(--center-channel-text);
     background-color: var(--center-channel-bg);
+    border-radius: 4px;
+
+    .selected{
+      border-right: 1px solid var(--center-channel-text);
+    }
 
     &__button-ctr{
       display: flex;
@@ -100,6 +106,7 @@
             border: 1px solid white;
             padding: 5px;
             border-radius: 5px;
+          cursor: pointer;
         }
     }
   }

@@ -11,24 +11,24 @@ type Props = {
 }
 
 const SystembusCanvasWidget = ({children, engine}: Props): JSX.Element => {
-    const [forceUpdate, setForceUpdate] = useState<number>(0)
+    const [forceUpdate, setForceUpdate] = useState<number>(0);
     return (
         <div
             className='systembus__ctr'
             onDrop={(event) => {
-                var data = JSON.parse(event.dataTransfer.getData('storm-diagram-node'));
-                console.log("Dropping object", data);
-                var node: DefaultNodeModel = new DefaultNodeModel({id: generateId(), ...data});
+                const data = JSON.parse(event.dataTransfer.getData('storm-diagram-node'));
+                console.log('Dropping object', data);
+                const node: DefaultNodeModel = new DefaultNodeModel({id: generateId(), ...data});
                 if (data.name === 'event') {
                     node.addOutPort('out');
                 } else if (data.name === 'action') {
                     node.addInPort('in');
                     node.addOutPort('out');
                 }
-                let point = engine.getRelativeMousePoint(event);
+                const point = engine.getRelativeMousePoint(event);
                 node.setPosition(point);
                 engine.getModel().addNode(node);
-                setForceUpdate(forceUpdate+1);
+                setForceUpdate(forceUpdate + 1);
             }}
         >
             {children}

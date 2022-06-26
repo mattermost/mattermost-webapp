@@ -3,7 +3,7 @@
 
 import {DefaultNodeModel} from '@projectstorm/react-diagrams';
 
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
@@ -14,6 +14,7 @@ import {Client4} from 'mattermost-redux/client';
 import Graph, {CanvasGraphType, GraphEdge, GraphNode, GraphType} from './graph';
 import {MattermostLinkModel} from './customlink';
 import './systembus.scss';
+import GraphList from './graph-list';
 
 const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
     const [events, setEvents] = useState<any>([]);
@@ -22,6 +23,7 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
     const [currentEvent, setCurrentEvent] = useState<any>(null);
     const [graphs, setGraphs] = useState<GraphType[]>([]);
     const [selectedGraph, setSelectedGraph] = useState<CanvasGraphType | null>(null);
+    const [editingGraph, setEditingGraph] = useState(false);
     const [newGraph, setNewGraph] = useState<{event_id: string; action_id: string; config: {[key: string]: string}}>({event_id: '', action_id: '', config: {}});
 
     const actionsById = useMemo(() => {
@@ -74,93 +76,93 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
     };
 
     const createNodesAndEdges = (nodes: GraphNode[], edges: GraphEdge[]): {nodes: DefaultNodeModel[]; links: MattermostLinkModel[]} => {
-        const newNodeObject: {[key: string]: DefaultNodeModel} = {}
+        const newNodeObject: {[key: string]: DefaultNodeModel} = {};
         const newNodes = nodes.map((node) => {
-            var name = ''
-            var color = 'rgb(0,192,255)'
+            let name = '';
+            let color = 'rgb(0,192,255)';
             switch (node.type) {
-                case 'event': {
-                    name = node.eventName!
-                    color = 'rgb(255,0,128)'
-                    break;
-                }
-                case 'action': {
-                    name = node.actionName!
-                    color = 'rgb(0,192,255)'
-                    break;
-                }
-                case 'webhook': {
-                    name = 'webhook\n'+node.id
-                    color = 'rgb(255,0,255)'
-                    break;
-                }
-                case 'slash-command': {
-                    name = node.command!.command
-                    color = 'rgb(127,0,255)'
-                    break;
-                }
-                case 'flow': {
-                    name = node.controlType!
-                    color = 'rgb(204,204,0)'
-                    break;
-                }
+            case 'event': {
+                name = node.eventName!;
+                color = 'rgb(255,0,128)';
+                break;
+            }
+            case 'action': {
+                name = node.actionName!;
+                color = 'rgb(0,192,255)';
+                break;
+            }
+            case 'webhook': {
+                name = 'webhook\n' + node.id;
+                color = 'rgb(255,0,255)';
+                break;
+            }
+            case 'slash-command': {
+                name = node.command!.command;
+                color = 'rgb(127,0,255)';
+                break;
+            }
+            case 'flow': {
+                name = node.controlType!;
+                color = 'rgb(204,204,0)';
+                break;
+            }
             }
             const newNode = new DefaultNodeModel({
-                name: name,
+                name,
                 id: node.id,
-                color: color,
+                color,
             });
-            console.log(newNode)
+            console.log(newNode);
             newNode.setPosition(node.x || 100, node.y || 100);
             for (var portName of node.outputs) {
-                newNode.addOutPort(portName)
+                newNode.addOutPort(portName);
             }
             for (var portName of node.inputs) {
-                newNode.addInPort(portName)
+                newNode.addInPort(portName);
             }
             newNodeObject[node.id] = newNode;
             return newNode;
         });
         const newEdges = edges.map((edge) => {
-            let portName = 'out'
+            let portName = 'out';
             if (edge.fromOutput) {
-                portName = edge.fromOutput
+                portName = edge.fromOutput;
             }
-            console.log("edge", edge)
-            console.log("portName", portName)
+            console.log('edge', edge);
+            console.log('portName', portName);
             const port1 = newNodeObject[edge.from].getPort(portName);
             const port2 = newNodeObject[edge.to].getPort('in');
 
             if (port1 && port2) {
                 const link = new MattermostLinkModel();
-                let label = ""
+                let label = '';
                 for (const [key, value] of Object.entries(edge.config)) {
-                    label += key+": "+value+"\n"
+                    label += key + ': ' + value + '\n';
                 }
                 if (label) {
-                    link.addLabel(label)
+                    link.addLabel(label);
                 }
                 console.log(link);
-                link.setSourcePort(port1)
-                link.setTargetPort(port2)
-                return link
+                link.setSourcePort(port1);
+                link.setTargetPort(port2);
+                return link;
             }
             return new MattermostLinkModel();
         });
         return {nodes: newNodes, links: newEdges};
     };
 
-    const editGraph = (graphId: string) => {
+    const editGraph = useCallback((graphId: string) => {
         const selected = graphs.find((n) => n.id === graphId);
         const modifiedData = createNodesAndEdges(selected!.nodes, selected!.edges);
         const newSelected = {
-            ...selected,
+            ...selected!,
             nodes: modifiedData.nodes,
             links: modifiedData.links,
-            original: selected,
+            original: selected!,
         };
         setSelectedGraph(newSelected);
-    };
+    }, [graphs]);
 
     const deleteGraph = (graphId: string) => {
         Client4.deleteActionsGraph(graphId).then(() => {
@@ -168,19 +170,19 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
         });
     };
 
-    const onSave = async (data: any) => {
-        console.log(data)
-        const updatedGraph = {...selectedGraph?.original}
+    const onSave = useCallback(async (data: any) => {
+        console.log(data);
+        const updatedGraph = {...selectedGraph?.original};
         for (const layer of data.layers) {
-            if (layer.type === "diagram-links") {
+            if (layer.type === 'diagram-links') {
                 // TODO: Allow to change edges
             }
-            if (layer.type === "diagram-nodes") {
+            if (layer.type === 'diagram-nodes') {
                 for (const node of updatedGraph.nodes || []) {
-                    const model = layer.models[node.id]
+                    const model = layer.models[node.id];
                     if (model) {
-                        node.x = model.x
-                        node.y = model.y
+                        node.x = model.x;
+                        node.y = model.y;
                     }
                 }
             }
@@ -189,7 +191,7 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
         const graphsData = await Client4.getActionsGraphs();
         graphsData.sort((a, b) => a.name.localeCompare(b.name));
         setGraphs(graphsData);
-    };
+    }, [selectedGraph]);
 
     return (
         <div className='wrapper--fixed'>
@@ -198,53 +200,20 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
                 defaultMessage='System Bus Configuration'
             />
             <div className='systembus'>
-                <div className='systembus__graphs-list-ctr'>
-                    <div className='systembus__graphs-list'>
-                        {graphs.map((graph: any) => (
-                            <div
-                                key={graph.id}
-                                className='systembus__graphs-list-item'
-                            >
-                                {graph.name}
-                                <div className='systembus__graphs-list-item__button-ctr'>
-                                    <button
-                                        className='btn btn-primary'
-                                        onClick={() => editGraph(graph.id)}
-                                    >
-                                        <FormattedMessage
-                                            id='admin.systembus.edit-graph-button'
-                                            defaultMessage='Edit'
-                                        />
-                                    </button>
-                                    <button
-                                        className='btn btn-default'
-                                        onClick={() => deleteGraph(graph.id)}
-                                    >
-                                        <FormattedMessage
-                                            id='admin.systembus.delete-graph-button'
-                                            defaultMessage='Delete'
-                                        />
-                                    </button>
-                                </div>
-                            </div>))}
-                    </div>
-                    <div className='systembus__add-ctr'>
-                        <button
-                            className='btn btn-primary'
-                            onClick={() => addGraph()}
-                        >
-                            <FormattedMessage
-                                id='admin.systembus.add-graph-button'
-                                defaultMessage='Add graph'
-                            />
-                        </button>
-                    </div>
-                </div>
+                {
+                    <GraphList
+                        graphs={graphs}
+                        editGraph={editGraph}
+                        deleteGraph={deleteGraph}
+                        addGraph={addGraph}
+                    />
+                }
                 {selectedGraph &&
                     <Graph
-                        data={selectedGraph}
+                        data={selectedGraph!}
                         onSave={onSave}
-                    />}
+                    />
+                }
             </div>
         </div>
     );

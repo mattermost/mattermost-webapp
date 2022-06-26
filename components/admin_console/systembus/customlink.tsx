@@ -1,5 +1,7 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 import * as React from 'react';
-import {DefaultLinkFactory, DefaultLinkModel, DefaultLinkWidget, DefaultLabelModel, DefaultLabelWidget, DiagramEngine, PointModel} from '@projectstorm/react-diagrams';
+import {DefaultLinkFactory, DefaultLinkModel, DefaultLinkWidget, PointModel} from '@projectstorm/react-diagrams';
 
 export class MattermostLinkModel extends DefaultLinkModel {
     constructor() {
@@ -8,17 +10,15 @@ export class MattermostLinkModel extends DefaultLinkModel {
         });
     }
 
-
     addPoint<P extends PointModel>(pointModel: P, index = 1): P {
         if (this.points.length >= 2) {
-            return this.points[1] as any
+            return this.points[1] as any;
         }
         pointModel.setParent(this);
         this.points.splice(index, 0, pointModel);
         return pointModel;
     }
 }
-
 
 export class MattermostLinkFactory extends DefaultLinkFactory {
     constructor() {
@@ -32,7 +32,10 @@ export class MattermostLinkFactory extends DefaultLinkFactory {
     generateReactWidget({model}: {model: MattermostLinkModel}) {
         return (
             <g className='edge'>
-                <MattermostLinkWidget link={model} diagramEngine={this.engine}/>
+                <MattermostLinkWidget
+                    link={model}
+                    diagramEngine={this.engine}
+                />
             </g>
         );
     }
