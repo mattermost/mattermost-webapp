@@ -126,11 +126,12 @@
         z-index: 1000;
 
         h2 {
+            font-size: 24px;
             color: var(--center-channel-color);
         }
 
         .toolbox-node-item {
-            border: 1px solid white;
+            border: 2px solid white;
             padding: 5px;
             border-radius: 5px;
             cursor: pointer;

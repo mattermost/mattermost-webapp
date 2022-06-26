@@ -16,6 +16,7 @@ export const Toolbox = ({events, actions}: Props) => {
                     nodeType='event'
                     name={event.name}
                     model={{
+                        nodeType: 'event',
                         name: event.name,
                         color: 'rgb(255,0,128)',
                     }}
@@ -26,6 +27,7 @@ export const Toolbox = ({events, actions}: Props) => {
                     nodeType='action'
                     name={action.name}
                     model={{
+                        nodeType: 'action',
                         name: action.name,
                         color: 'rgb(0,192,255)',
                     }}
@@ -35,6 +37,7 @@ export const Toolbox = ({events, actions}: Props) => {
                 nodeType='flow'
                 name="If"
                 model={{
+                    nodeType: 'flow',
                     name: "if",
                     color: 'rgb(204,204,0)',
                 }}
@@ -43,6 +46,7 @@ export const Toolbox = ({events, actions}: Props) => {
                 name="Switch"
                 nodeType='flow'
                 model={{
+                    nodeType: 'flow',
                     name: "switch",
                     color: 'rgb(204,204,0)',
                 }}
@@ -51,6 +55,7 @@ export const Toolbox = ({events, actions}: Props) => {
                 name="Random"
                 nodeType='flow'
                 model={{
+                    nodeType: 'flow',
                     name: "random",
                     color: 'rgb(204,204,0)',
                 }}
@@ -60,6 +65,7 @@ export const Toolbox = ({events, actions}: Props) => {
                 name="Slash Command"
                 nodeType='slash-command'
                 model={{
+                    nodeType: 'slash-command',
                     name: "slash-command",
                     color: 'rgb(127,0,255)',
                 }}
@@ -68,6 +74,7 @@ export const Toolbox = ({events, actions}: Props) => {
                 name="Webhook"
                 nodeType='webhook'
                 model={{
+                    nodeType: 'webhook',
                     name: "webhook",
                     color: 'rgb(255,0,255)',
                 }}
