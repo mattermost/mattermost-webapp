@@ -40,7 +40,7 @@ export const Infobox = ({node}: Props) => {
                 <h2>Switch info</h2>
                 <div>Cases:</div>
                 <ul>
-                    {orig.caseValues.map((c: string) => (<li>{c}</li>))}
+                    {orig.caseValues?.map((c: string) => (<li>{c}</li>))}
                 </ul>
             </div>
         );

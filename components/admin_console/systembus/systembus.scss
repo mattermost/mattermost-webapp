@@ -161,11 +161,12 @@
         top: 130px;
         right: 30px;
         padding: 10px;
-        background: black;
         color: white;
         width: 300px;
         min-height: auto;
         height: auto;
+        background-color: rgba(0,0,0,.5);
+        z-index: 1000;
     }
   }
 }

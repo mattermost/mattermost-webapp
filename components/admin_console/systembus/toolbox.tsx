@@ -38,6 +38,7 @@ export const Toolbox = ({events, actions}: Props) => {
                 model={{
                     type: 'flow',
                     name: "if",
+                    controlType: "if",
                     color: 'rgb(204,204,0)',
                 }}
             />
@@ -46,6 +47,7 @@ export const Toolbox = ({events, actions}: Props) => {
                 model={{
                     type: 'flow',
                     name: "switch",
+                    controlType: "switch",
                     color: 'rgb(204,204,0)',
                 }}
             />
@@ -54,6 +56,7 @@ export const Toolbox = ({events, actions}: Props) => {
                 model={{
                     type: 'flow',
                     name: "random",
+                    controlType: "random",
                     color: 'rgb(204,204,0)',
                 }}
             />
