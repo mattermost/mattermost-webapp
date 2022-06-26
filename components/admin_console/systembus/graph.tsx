@@ -5,6 +5,8 @@ import {FormattedMessage} from 'react-intl';
 import createEngine, {DiagramModel, DefaultNodeModel, DiagramEngine} from '@projectstorm/react-diagrams';
 import {CanvasWidget} from '@projectstorm/react-canvas-core';
 
+import {generateId} from 'utils/utils';
+
 import SystemBusCanvasWidget from './systembus_canvas_widget';
 import {MattermostLinkFactory, MattermostLinkModel} from './customlink';
 import Toolbox from './toolbox';
@@ -128,7 +130,7 @@ export const Graph = ({data, onSave, onCancel, actions, events}: Props) => {
 
     const setEdgeConfig = (config: {[key: string]: string}) => {
         console.log(newEdge)
-        newEdge.getOptions().extras = {original: {config: config}}
+        newEdge.getOptions().extras = {original: {config: config, id: generateId()}}
         let label = '';
         for (const [key, value] of Object.entries(config)) {
             label += key + ': ' + value + '\n';

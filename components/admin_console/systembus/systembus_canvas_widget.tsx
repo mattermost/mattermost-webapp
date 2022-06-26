@@ -28,7 +28,8 @@ const SystembusCanvasWidget = ({children, engine, forceUpdate}: Props): JSX.Elem
 
     const createNode = (data: any, point: any, inPorts: string[], outPorts: string[]) => {
         if (data && point) {
-            const node: DefaultNodeModel = new DefaultNodeModel({id: generateId(), name: data.name, color: data.color, extras: {original: data}});
+            const id = generateId();
+            const node: DefaultNodeModel = new DefaultNodeModel({id, name: data.name, color: data.color, extras: {original: {id, ...data}}});
             inPorts.forEach((port) => {
                 node.addInPort(port);
             });
