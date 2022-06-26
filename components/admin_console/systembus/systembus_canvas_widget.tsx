@@ -28,10 +28,9 @@ export const NodeTypeConstant = {
 
 const SystembusCanvasWidget = ({children, engine, forceUpdate, graphEventHandler}: Props): JSX.Element => {
     const [dropData, setDropData] = useState<{data: any; point: any; inPorts: string[]; outPorts: string[]} | null>(null);
-
-    const handleOnModalConfirm = () => {
+    const handleOnModalConfirm = (data: any) => {
         if (dropData) {
-            createNode(dropData.data, dropData.point, dropData.inPorts, dropData.outPorts);
+            createNode({...dropData.data, ...data}, dropData.point, dropData.inPorts, dropData.outPorts);
             setDropData(null);
         }
     };
