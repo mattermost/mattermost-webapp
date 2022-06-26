@@ -7,6 +7,7 @@ import {CanvasWidget} from '@projectstorm/react-canvas-core';
 
 import SystemBusCanvasWidget from './systembus_canvas_widget';
 import {MattermostLinkFactory, MattermostLinkModel} from './customlink';
+import Toolbox from './toolbox';
 
 export type CanvasGraphType = {
     id: string;
@@ -67,11 +68,13 @@ export type GraphType = {
 
 type Props = {
     data: CanvasGraphType;
+    actions: any[];
+    events: any[];
     onSave: (data: any) => void;
     onCancel: () => void;
 }
 
-export const Graph = ({data, onSave, onCancel}: Props) => {
+export const Graph = ({data, onSave, onCancel, actions, events}: Props) => {
     const engine = useRef<DiagramEngine>();
     useEffect(() => {
         if (!engine.current) {
@@ -111,15 +114,10 @@ export const Graph = ({data, onSave, onCancel}: Props) => {
         <SystemBusCanvasWidget engine={engine.current}>
             <h1 className='graph-title'>{data.name}</h1>
             {canvas}
-            <div className='graph-toolbox'>
-                <ToolboxNodeItem
-                    name='test'
-                    model={{
-                        name: 'event',
-                        color: 'rgb(255,0,128)',
-                    }}
-                />
-            </div>
+            <Toolbox
+                actions={actions}
+                events={events}
+            />
             <div className='graph-btn-ctr'>
                 <button
                     className='btn btn-secondary systembus__btn'
@@ -143,26 +141,5 @@ export const Graph = ({data, onSave, onCancel}: Props) => {
         </SystemBusCanvasWidget>
     );
 };
-
-export interface NodeWidgetProps {
-    model: any;
-    name: string;
-}
-
-class ToolboxNodeItem extends React.Component<NodeWidgetProps> {
-    render() {
-        return (
-            <div
-                draggable={true}
-                onDragStart={(event) => {
-                    event.dataTransfer.setData('storm-diagram-node', JSON.stringify(this.props.model));
-                }}
-                className='toolbox-node-item'
-            >
-                {this.props.name}
-            </div>
-        );
-    }
-}
 
 export default Graph;

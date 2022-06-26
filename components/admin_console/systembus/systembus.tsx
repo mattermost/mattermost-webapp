@@ -217,6 +217,8 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
                         data={selectedGraph!}
                         onSave={onSave}
                         onCancel={onCancel}
+                        actions={actions}
+                        events={events}
                     />
                 }
             </div>
