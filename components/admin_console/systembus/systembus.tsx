@@ -184,7 +184,7 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
                 return {
                     config: orig.config,
                     from: e.sourcePort.parent.getOptions().id,
-                    fromOutput: e.sourcePort.getOptions().name,
+                    fromOutput: e.sourcePort.getOptions().name === 'out' ? '' : e.sourcePort.getOptions().name,
                     id: orig.id,
                     to: e.targetPort.parent.getOptions().id,
                 }
