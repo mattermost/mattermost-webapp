@@ -8,10 +8,10 @@ import {generateId} from 'utils/utils';
 type Props = {
     children?: React.ReactNode;
     engine: DiagramEngine;
+    forceUpdate: () => void
 }
 
-const SystembusCanvasWidget = ({children, engine}: Props): JSX.Element => {
-    const [forceUpdate, setForceUpdate] = useState<number>(0);
+const SystembusCanvasWidget = ({children, engine, forceUpdate}: Props): JSX.Element => {
     return (
         <div
             className='systembus__ctr'
@@ -52,7 +52,7 @@ const SystembusCanvasWidget = ({children, engine}: Props): JSX.Element => {
                 const point = engine.getRelativeMousePoint(event);
                 node.setPosition(point);
                 engine.getModel().addNode(node);
-                setForceUpdate(forceUpdate + 1);
+                forceUpdate();
             }}
         >
             {children}

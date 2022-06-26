@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {useRef, useEffect} from 'react';
+import React, {useRef, useEffect, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 import createEngine, {DiagramModel, DefaultNodeModel, DiagramEngine} from '@projectstorm/react-diagrams';
 import {CanvasWidget} from '@projectstorm/react-canvas-core';
@@ -75,6 +75,7 @@ type Props = {
 }
 
 export const Graph = ({data, onSave, onCancel, actions, events}: Props) => {
+    const [forceUpdate, setForceUpdate] = useState<number>(0);
     const engine = useRef<DiagramEngine>();
     useEffect(() => {
         if (!engine.current) {
@@ -111,7 +112,10 @@ export const Graph = ({data, onSave, onCancel, actions, events}: Props) => {
     const canvas = data ? <CanvasWidget engine={engine.current}/> : undefined;
 
     return (
-        <SystemBusCanvasWidget engine={engine.current}>
+        <SystemBusCanvasWidget
+            engine={engine.current}
+            forceUpdate={() => setForceUpdate(forceUpdate+1)}
+        >
             <h1 className='graph-title'>{data.name}</h1>
             {canvas}
             <Toolbox
