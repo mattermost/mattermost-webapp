@@ -22,10 +22,9 @@
   &__graphs-list{
     overflow: hidden;
     overflow-y: scroll;
-    flex: 1 1 auto;
-    display: grid;
+    display: flex;
+    flex-wrap: wrap;
     column-gap: 10px;
-    grid-template-columns: auto auto;
     padding: 10px;
   }
 
@@ -38,6 +37,8 @@
     color: var(--center-channel-text);
     background-color: var(--center-channel-bg);
     border-radius: 4px;
+    width: 400px;
+    height: 120px;
 
     .selected {
       border-right: 1px solid var(--center-channel-text);
@@ -99,7 +100,7 @@
     .graph-btn-ctr {
         position: absolute;
         bottom: 10px;
-        left: 10px;
+        left: 260px;
         width: 100px;
         height: 40px;
         min-height: 40px;
@@ -110,13 +111,13 @@
     .graph-title {
         position: absolute;
         top: 0;
-        left: 24px;
+        left: 274px;
         color: white;
         font-size: 24px;
     }
 
     .graph-toolbox {
-        width: 200px;
+        width: 250px;
         color: white;
         padding: 10px;
         font-size: 14px;

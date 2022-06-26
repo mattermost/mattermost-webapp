@@ -3,9 +3,7 @@
 
 import {DefaultNodeModel} from '@projectstorm/react-diagrams';
 
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
-
-import {FormattedMessage} from 'react-intl';
+import React, {useCallback, useEffect, useState} from 'react';
 
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 
@@ -19,59 +17,40 @@ import GraphList from './graph-list';
 const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
     const [events, setEvents] = useState<any>([]);
     const [actions, setActions] = useState<any>([]);
-    const [currentAction, setCurrentAction] = useState<any>(null);
-    const [currentEvent, setCurrentEvent] = useState<any>(null);
     const [graphs, setGraphs] = useState<GraphType[]>([]);
     const [selectedGraph, setSelectedGraph] = useState<CanvasGraphType | null>(null);
-    const [editingGraph, setEditingGraph] = useState(false);
     const [newGraph, setNewGraph] = useState<{event_id: string; action_id: string; config: {[key: string]: string}}>({event_id: '', action_id: '', config: {}});
-
-    const actionsById = useMemo(() => {
-        const result: {[key: string]: any} = {};
-        actions.forEach((action: any) => {
-            result[action.id] = action;
-        });
-        return result;
-    }, [actions]);
-    const eventsById = useMemo(() => {
-        const result: {[key: string]: any} = {};
-        events.forEach((event: any) => {
-            result[event.id] = event;
-        });
-        return result;
-    }, [events]);
 
     useEffect(() => {
         Promise.all([Client4.getActionsEvents(), Client4.getActions(), Client4.getActionsGraphs()]).then(([eventsData, actionsData, graphsData]) => {
             const eventsOptions = eventsData;
             eventsOptions.sort((a, b) => a.name.localeCompare(b.name));
             setEvents(eventsOptions);
-            setCurrentEvent(eventsOptions[0]);
 
             const actionsOptions = actionsData;
             actionsOptions.sort((a, b) => a.name.localeCompare(b.name));
             setActions(actionsOptions);
-            setCurrentAction(actionsOptions[0]);
 
             setNewGraph({action_id: actionsOptions[0].id, event_id: eventsOptions[0].id, config: {}});
 
             graphsData.sort((a, b) => a.name.localeCompare(b.name));
             setGraphs(graphsData);
-            let selected = graphsData[0];
-            const modifiedData = createNodesAndEdges(selected.nodes, selected.edges);
-            selected = {
-                ...selected,
-                nodes: modifiedData.nodes,
-                links: modifiedData.links,
-                original: selected,
-            };
-            setSelectedGraph(selected);
         });
     }, []);
 
     const addGraph = () => {
         Client4.createActionsGraph(newGraph).then((returnedGraph: any) => {
-            setGraphs([...graphs, returnedGraph]);
+            console.log(returnedGraph)
+            setGraphs([...graphs, {...returnedGraph, nodes: returnedGraph.nodes || [], edges: returnedGraph.edges || []}]);
+            const selected = returnedGraph;
+            const modifiedData = createNodesAndEdges(selected!.nodes || [], selected!.edges || []);
+            const newSelected = {
+                ...selected!,
+                nodes: modifiedData.nodes,
+                links: modifiedData.links,
+                original: selected!,
+            };
+            setSelectedGraph(newSelected);
         });
     };
 
@@ -112,7 +91,6 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
                 id: node.id,
                 color,
             });
-            console.log(newNode);
             newNode.setPosition(node.x || 100, node.y || 100);
             for (var portName of node.outputs) {
                 newNode.addOutPort(portName);
@@ -128,8 +106,6 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
             if (edge.fromOutput) {
                 portName = edge.fromOutput;
             }
-            console.log('edge', edge);
-            console.log('portName', portName);
             const port1 = newNodeObject[edge.from].getPort(portName);
             const port2 = newNodeObject[edge.to].getPort('in');
 
@@ -142,7 +118,6 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
                 if (label) {
                     link.addLabel(label);
                 }
-                console.log(link);
                 link.setSourcePort(port1);
                 link.setTargetPort(port2);
                 return link;
@@ -171,7 +146,6 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
     };
 
     const onSave = useCallback(async (data: any) => {
-        console.log(data);
         const updatedGraph = {...selectedGraph?.original};
         for (const layer of data.layers) {
             if (layer.type === 'diagram-links') {
@@ -191,10 +165,11 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
         const graphsData = await Client4.getActionsGraphs();
         graphsData.sort((a, b) => a.name.localeCompare(b.name));
         setGraphs(graphsData);
+        setSelectedGraph(null);
     }, [selectedGraph]);
 
     const onCancel = () => {
-
+        setSelectedGraph(null);
     };
 
     return (
@@ -204,7 +179,7 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
                 defaultMessage='System Bus Configuration'
             />
             <div className='systembus'>
-                {
+                {!selectedGraph &&
                     <GraphList
                         graphs={graphs}
                         editGraph={editGraph}

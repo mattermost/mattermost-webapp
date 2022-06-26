@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {useState} from 'react';
+import React from 'react';
 import {DefaultNodeModel, DiagramEngine} from '@projectstorm/react-diagrams';
 
 import {generateId} from 'utils/utils';
@@ -17,7 +17,6 @@ const SystembusCanvasWidget = ({children, engine, forceUpdate}: Props): JSX.Elem
             className='systembus__ctr'
             onDrop={(event) => {
                 const data = JSON.parse(event.dataTransfer.getData('storm-diagram-node'));
-                console.log('Dropping object', data);
                 const node: DefaultNodeModel = new DefaultNodeModel({id: generateId(), ...data});
                 if (data.nodeType === 'event') {
                     node.addOutPort('out');
@@ -28,6 +27,7 @@ const SystembusCanvasWidget = ({children, engine, forceUpdate}: Props): JSX.Elem
                     // TODO: ask for the slash command information and generate the right outputs
                     node.addOutPort('main');
                 } else if (data.nodeType === 'webhook') {
+                    // TODO: ask for the webhook secret
                     node.addOutPort('out');
                 } else if (data.nodeType === 'flow') {
                     if (data.name == "if") {

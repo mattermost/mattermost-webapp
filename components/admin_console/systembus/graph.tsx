@@ -76,11 +76,15 @@ type Props = {
 
 export const Graph = ({data, onSave, onCancel, actions, events}: Props) => {
     const [forceUpdate, setForceUpdate] = useState<number>(0);
-    const engine = useRef<DiagramEngine>();
+    const [engine, setEngine] = useState<DiagramEngine|null>(null);
+
     useEffect(() => {
-        if (!engine.current) {
-            engine.current = createEngine();
-            engine.current.getLinkFactories().registerFactory(new MattermostLinkFactory());
+        let localEngine = engine
+        if (!engine) {
+            const newEngine = createEngine()
+            setEngine(newEngine);
+            newEngine.getLinkFactories().registerFactory(new MattermostLinkFactory());
+            localEngine = newEngine
         }
 
         //2) setup the diagram model
@@ -90,7 +94,7 @@ export const Graph = ({data, onSave, onCancel, actions, events}: Props) => {
         const models = model.addAll(...data.nodes, ...data.links);
 
         //5) load model into engine
-        engine.current.setModel(model);
+        localEngine.setModel(model);
 
         // add a selection listener to each
         models.forEach((item) => {
@@ -104,24 +108,24 @@ export const Graph = ({data, onSave, onCancel, actions, events}: Props) => {
         });
     }, [data]);
 
-    if (!engine.current) {
+    if (!engine) {
         return null;
     }
 
     //6) render the diagram!
-    const canvas = data ? <CanvasWidget engine={engine.current}/> : undefined;
+    const canvas = data ? <CanvasWidget engine={engine}/> : undefined;
 
     return (
         <SystemBusCanvasWidget
-            engine={engine.current}
+            engine={engine}
             forceUpdate={() => setForceUpdate(forceUpdate+1)}
         >
-            <h1 className='graph-title'>{data.name}</h1>
-            {canvas}
             <Toolbox
                 actions={actions}
                 events={events}
             />
+            <h1 className='graph-title'>{data.name}</h1>
+            {canvas}
             <div className='graph-btn-ctr'>
                 <button
                     className='btn btn-secondary systembus__btn'
@@ -134,7 +138,7 @@ export const Graph = ({data, onSave, onCancel, actions, events}: Props) => {
                 </button>
                 <button
                     className='btn btn-primary systembus__btn'
-                    onClick={() => onSave(engine.current?.getModel().serialize())}
+                    onClick={() => onSave(engine.getModel().serialize())}
                 >
                     <FormattedMessage
                         id='admin.systembus.save-graph-button'
