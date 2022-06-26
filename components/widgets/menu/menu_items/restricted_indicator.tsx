@@ -85,7 +85,7 @@ const RestrictedIndicator = ({
                             messageAdminPostTrial,
                             titleEndUser,
                             messageEndUser,
-                            customSecondaryButtonInModal,
+                            customSecondaryButton: customSecondaryButtonInModal,
                         }}
                     >
                         <i className='RestrictedIndicator__icon-tooltip icon icon-key-variant'/>

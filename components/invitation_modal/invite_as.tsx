@@ -23,7 +23,7 @@ import {CloudProducts, ModalIdentifiers} from 'utils/constants';
 
 import {FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS} from 'utils/cloud_utils';
 
-import {InvitationModal} from './invitation_modal';
+import InvitationModal from 'components/invitation_modal';
 import './invite_as.scss';
 
 export const InviteType = {
