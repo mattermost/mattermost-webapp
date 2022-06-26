@@ -156,6 +156,7 @@ export const Graph = ({data, onSave, onCancel, actions, events}: Props) => {
         <SystemBusCanvasWidget
             engine={engine}
             forceUpdate={() => setForceUpdate(forceUpdate+1)}
+            graphEventHandler={eventHandler}
         >
             <EdgeConfigModal
                 onCancel={() => setNewEdge(null)}

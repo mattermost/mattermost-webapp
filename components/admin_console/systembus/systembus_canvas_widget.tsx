@@ -11,9 +11,10 @@ type Props = {
     children?: React.ReactNode;
     engine: DiagramEngine;
     forceUpdate: () => void;
+    graphEventHandler: any;
 }
 
-const SystembusCanvasWidget = ({children, engine, forceUpdate}: Props): JSX.Element => {
+const SystembusCanvasWidget = ({children, engine, forceUpdate, graphEventHandler}: Props): JSX.Element => {
     const [dropData, setDropData] = useState<{data: any; point: any; inPorts: string[], outPorts: string[]} | null>(null);
     const handleOnModalConfirm = () => {
         if (dropData) {
@@ -41,6 +42,10 @@ const SystembusCanvasWidget = ({children, engine, forceUpdate}: Props): JSX.Elem
             });
 
             node.setPosition(point);
+            node.registerListener({
+                eventDidFire: graphEventHandler,
+            });
+
             const nodeOptions = node.getOptions();
             nodeOptions.extras.original.x = point.x;
             nodeOptions.extras.original.y = point.y;
