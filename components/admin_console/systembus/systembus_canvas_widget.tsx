@@ -50,9 +50,14 @@ const SystembusCanvasWidget = ({children, engine, forceUpdate, graphEventHandler
                     for (let i = 0; i < data.randomOptions; i++) {
                         outPorts.push(`Out ${i}`);
                     }
+                } else if (data.name === NodeTypeConstant.SWITCH) {
+                    data.caseValues.forEach((value: string) => {
+                        outPorts.push(value);
+                    });
                 }
             }
             const node: DefaultNodeModel = new DefaultNodeModel({id, name: data.name, color: data.color, extras: {original: {id, ...data}}});
+            console.log('node', node);
             inPorts.forEach((port) => {
                 node.addInPort(port);
             });

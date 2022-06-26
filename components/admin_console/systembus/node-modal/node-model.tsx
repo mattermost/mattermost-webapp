@@ -10,6 +10,7 @@ import {NodeType, NodeTypeConstant} from '../systembus_canvas_widget';
 
 import './node-modal.scss';
 import RandomForm from './random-form';
+import SwitchForm from './switch-form';
 import WebhookForm from './webhook-form';
 
 type Props = {
@@ -36,6 +37,7 @@ const NodeModal = ({nodeType, handleOnModalConfirm, handleOnModalCancel}: Props)
             setModalHeader(formatMessage({id: 'node_modal.modalTitle', defaultMessage: 'Create Slash Command Node'}));
         } else if (nodeType === NodeTypeConstant.SWITCH) {
             setModalHeader(formatMessage({id: 'node_modal.modalTitle', defaultMessage: 'Create Switch Node'}));
+            setNodeForm(<SwitchForm handleChange={handleChange}/>);
         } else if (nodeType === NodeTypeConstant.RANDOM) {
             setModalHeader(formatMessage({id: 'node_modal.modalTitle', defaultMessage: 'Create Random Node'}));
             setNodeForm(<RandomForm handleChange={handleChange}/>);
