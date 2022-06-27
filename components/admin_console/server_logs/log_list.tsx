@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import { Grid } from 'gridjs-react';
+import { html } from "gridjs";
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
@@ -157,39 +158,35 @@ export default class Logs extends React.PureComponent<Props, State> {
                         data={logData}
                         columns = {[
                             {
+                                id: 'timestamp',
+                                name: 'Timestamp',
+                                width: '300px'
+                            },
+                            {
                                 id: 'node',
                                 name: 'Node'
                             },
                             {
-                                id: 'timestamp',
-                                name: 'Timestamp'
-                            }, {
                                 id: 'level',
-                                name: 'Level'
+                                name: 'Level',
+                                width: '100px'
                             }, {
                                 id: 'msg',
                                 name: 'Message'
+                            }, {
+                                id: 'caller',
+                                name: 'Caller'
+                            }, {
+                                id: 'options',
+                                name: 'Options',
+                                formatter: (_, row) => html(`<button class="log-list-button-full-event">Full Event</button>`)
                             }]}
                         sort={true}
                         search={true}
                         pagination={{
                             enabled: true,
-                            limit: 100,
+                            limit: 150,
                         }}
-                        style={{
-                            table: {
-                            border: '3px solid #ccc'
-                        },
-                            th: {
-                            'background-color': 'rgba(0, 0, 0, 0.1)',
-                            color: '#000',
-                            'border-bottom': '3px solid #ccc',
-                            'text-align': 'center'
-                        },
-                            td: {
-                            'text-align': 'center'
-                        }}
-                        }
                     />
                     {content}
                 </div>
