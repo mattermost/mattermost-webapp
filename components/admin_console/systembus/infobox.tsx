@@ -10,6 +10,10 @@ export const Infobox = ({node}: Props) => {
     if (!node) {
         return null;
     }
+    // Skip for edges
+    if (node.points) {
+        return null;
+    }
     const orig = node.options.extras.original
     if (!orig) {
         return null;
