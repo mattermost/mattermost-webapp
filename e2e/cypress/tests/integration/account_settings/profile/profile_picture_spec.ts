@@ -10,6 +10,8 @@
 // Stage: @prod
 // Group: @account_setting
 
+import "cypress-file-upload";
+
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Profile > Profile Settings > Profile Picture', () => {
