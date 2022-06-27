@@ -17,14 +17,14 @@ import {t} from 'utils/i18n';
 import GroupList from '../../group';
 
 type Props = {
-    onGroupRemoved: () => void;
+    onGroupRemoved: (groupId: string) => void;
     syncChecked: boolean;
     team: Team;
-    onAddCallback: () => void;
+    onAddCallback: (groupIds: string[]) => void;
     totalGroups: number;
     groups: Group[];
     removedGroups: Group[];
-    setNewGroupRole: () => void;
+    setNewGroupRole: (groupId: string) => void;
     isDisabled?: boolean;
 };
 
