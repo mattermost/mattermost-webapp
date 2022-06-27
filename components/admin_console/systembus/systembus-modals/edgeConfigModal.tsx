@@ -6,6 +6,7 @@ import {useIntl} from 'react-intl';
 import GenericModal from 'components/generic_modal';
 
 import './node-modal.scss';
+import Input from '../../../widgets/inputs/input/input';
 
 type Props = {
     edge: any;
@@ -70,13 +71,13 @@ const EdgeConfigModal = ({onCancel, onConfirm, edge, actions, events}: Props) =>
     }
 
     const onConfirmHandler = () => {
-        onConfirm(config)
-        setConfig({})
-    }
+        onConfirm(config);
+        setConfig({});
+    };
     const onCancelHandler = () => {
-        setConfig({})
-        onCancel()
-    }
+        setConfig({});
+        onCancel();
+    };
 
     return (
         <GenericModal
@@ -93,54 +94,67 @@ const EdgeConfigModal = ({onCancel, onConfirm, edge, actions, events}: Props) =>
             handleCancel={onCancelHandler}
             onExited={onCancelHandler}
         >
-            <div>
+            <div className={'node-modal__column'}>
                 {Object.entries(configFields).map(([key, value], idx) => {
                     return (
-                        <div key={key}>
-                            <label
-                                htmlFor={`new-edge-config-${key}`}
-                            >
-                                {`${key}:`}
-                            </label>
+                        <div
+
+                            key={key}
+                        >
+                            {(value !== 'string' && value !== 'number') &&
+                                <label
+                                    htmlFor={`new-edge-config-${key}`}
+                                >
+                                    {`${key}:`}
+                                </label>
+                            }
                             {value === 'string' &&
-                                <input
+                                <Input
+                                    key={`new-edge-config-${key}`}
                                     id={`new-edge-config-${key}`}
                                     type='text'
+                                    name='node-modal-name'
+                                    containerClassName='node-modal-name-container'
+                                    inputClassName='node-modal-name-input'
+                                    label={key}
+                                    placeholder={key}
                                     onChange={(e) => setConfig({...config, [key]: e.target.value})}
                                     value={config[key]}
-                                    autoFocus={idx===0}
-                                    onKeyDown={(e) => {
-                                        if (e.key === 'Enter') {
-                                            onConfirm(config);
-                                        }
-                                    }}
-                                />}
+                                    data-testid='nameInput'
+                                    maxLength={64}
+                                    autoFocus={idx === 0}
+                                />
+                            }
                             {value === 'number' &&
-                                <input
+                                <Input
+                                    key={`new-edge-config-${key}`}
                                     id={`new-edge-config-${key}`}
                                     type='number'
+                                    name='node-modal-name'
+                                    containerClassName='node-modal-name-container'
+                                    inputClassName='node-modal-name-input'
+                                    label={key}
+                                    placeholder={key}
                                     onChange={(e) => setConfig({...config, [key]: e.target.value})}
                                     value={config[key]}
-                                    autoFocus={idx===0}
-                                    onKeyDown={(e) => {
-                                        if (e.key === 'Enter') {
-                                            onConfirm(config);
-                                        }
-                                    }}
-                                />}
+                                    data-testid='nameInput'
+                                    maxLength={64}
+                                    autoFocus={idx === 0}
+                                />
+                            }
                             {value === 'longstring' &&
                                 <textarea
                                     id={`new-edge-config-${key}`}
                                     onChange={(e) => setConfig({...config, [key]: e.target.value})}
                                     value={config[key]}
-                                    autoFocus={idx===0}
+                                    autoFocus={idx === 0}
                                 >{config[key]}</textarea>}
                             {value.indexOf('|') !== -1 &&
                                 <select
                                     id={`new-edge-config-${key}`}
                                     onChange={(e) => setConfig({...config, [key]: e.target.value})}
                                     value={config[key]}
-                                    autoFocus={idx===0}
+                                    autoFocus={idx === 0}
                                 >
                                     {value.split('|').map((option) => <option value={option}>{option}</option>)}
                                 </select>}

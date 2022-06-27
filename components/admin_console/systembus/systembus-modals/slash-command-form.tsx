@@ -4,17 +4,10 @@
 import React, {useState} from 'react';
 import {useIntl} from 'react-intl';
 
-import ReactSelect, {ValueType} from 'react-select';
-
 import Input from 'components/widgets/inputs/input/input';
 
 type Props = {
     handleChange: (data: Record<string, any>) => void;
-}
-
-type SelectedOption = {
-    value: string;
-    label: string;
 }
 
 const inputLabels = [
