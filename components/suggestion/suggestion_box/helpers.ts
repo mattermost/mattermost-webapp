@@ -154,36 +154,15 @@ export const handleReceivedSuggestions = (
     state: typeof defaultState,
     onSuggestionsReceived?: (suggestions: ProviderSuggestions) => void,
 ) => {
-    console.log({suggestions});
-    console.log('handle recieved suggestions is called.');
     const newComponents: typeof defaultState['components'] = [];
     const newPretext: typeof defaultState['matchedPretext'] = [];
     if (onSuggestionsReceived) {
         onSuggestionsReceived(suggestions);
     }
-
-    // console.log(suggestions.component);
-
-    // suggestions.component returns a class component that's used to render in the
-    // suggestion list component.
     suggestions.terms.forEach(() => {
         newComponents.push(suggestions.component);
         newPretext.push(suggestions.matchedPretext);
     });
-
-    // for (let i = 0; i < suggestions.terms.length; i++) {
-    //     newComponents.push(suggestions.component);
-    //     newPretext.push(suggestions.matchedPretext);
-    // }
-    // console.log({
-    //     newComponents,
-    // });
-
-    // Why was this components before and not component?
-
-    // if (suggestions.component) {
-    //     newComponents = [suggestions.component];
-    // }
 
     const terms = suggestions.terms;
     const items = suggestions.items;
@@ -196,19 +175,12 @@ export const handleReceivedSuggestions = (
             selection = '';
         }
     }
-
-    // doesn't seem to be triggered when the user clicks on a suggestion
-    console.log({
-        terms,
-        items,
-    });
-
     setState((prevState) => ({
         ...prevState,
         cleared: false,
         selection,
         items,
-        components: newComponents,
+        components: newComponents || [suggestions.component],
         matchedPretext: newPretext,
         terms,
     }));
@@ -223,14 +195,13 @@ export const handleReceivedSuggestionsAndComplete = (
     handleCompleteWord: (term: string, matchedPretext: string) => boolean,
     onSuggestionsReceived?: (suggestions: ProviderSuggestions) => void,
 ) => {
-    console.log('handling completed suggestions');
     const {selection, matchedPretext} = handleReceivedSuggestions(suggestions, setState, state, onSuggestionsReceived);
     if (selection) {
         handleCompleteWord(selection, matchedPretext);
     }
 };
 
-export const nonDebouncedPretextChanged = (
+export const nonDebouncedPretextChanged = async (
     tempPretext: string,
     complete = false,
     providers: SuggestionBoxProps['providers'] = [],
@@ -245,25 +216,13 @@ export const nonDebouncedPretextChanged = (
     handleReceivedSuggestionsAndComplete: (suggestions: ProviderSuggestions) => void,
 ) => {
     let handled = false;
-
-    console.log('non debounce changes happenign');
-    console.log({
-        providers,
-        tempPretext,
-        handleReceivedSuggestions,
-        handleReceivedSuggestionsAndComplete,
-    });
-
     let callback: typeof handleReceivedSuggestions | typeof handleReceivedSuggestionsAndComplete = handleReceivedSuggestions;
     if (complete) {
         callback = handleReceivedSuggestionsAndComplete;
     }
-
-    // providers.forEach((provider) => {
-
-    // });
     for (const provider of providers) {
-        handled = provider.handlePretextChanged(
+        // eslint-disable-next-line no-await-in-loop
+        handled = await provider.handlePretextChanged(
             tempPretext,
             callback) || handled;
 
@@ -319,9 +278,7 @@ export const debouncedPretextChanged = (
     },
     handleReceivedSuggestionsAndComplete: (suggestions: ProviderSuggestions) => void,
     providers: SuggestionBoxProps['providers'] = [],
-
 ): void => {
-    console.log('debouncing');
     if (timeoutId) {
         clearTimeout(timeoutId);
     }
@@ -386,6 +343,9 @@ export const setSelection = (
     selection: typeof defaultState['selection'],
     setState: SetStateHandler,
 ) => {
+    if (!terms) {
+        return;
+    }
     const selectionIndex = terms.indexOf(selection);
 
     setState((prevState) => ({
@@ -403,6 +363,7 @@ export const hasSuggestions = (
 
 // previously handled the event and passed it up.
 // Need to see if doing it from the textbox causes issues here.
+
 export const handleChange = (
     value: string,
     inputRef: InputRef,
@@ -412,20 +373,20 @@ export const handleChange = (
     setPretext: React.Dispatch<React.SetStateAction<string>>,
     onChange?: (value: string) => void,
 ) => {
-    const textbox = getTextbox(inputRef);
+    // const textbox = getTextbox(inputRef);
 
-    if (!textbox) {
-        return;
-    }
+    // if (!textbox) {
+    //     return;
+    // }
 
-    const foundPretext = shouldSearchCompleteText ? textbox.value.trim() : textbox.value.substring(0, textbox.value.length + 1 || undefined);
+    const foundPretext = shouldSearchCompleteText ? value.trim() : value.substring(0, value.length + 1 || undefined);
 
     if (!isComposing && pretext !== foundPretext) {
         setPretext(foundPretext);
     }
 
     if (onChange) {
-        onChange(value);
+        onChange(value as string);
     }
 };
 

@@ -125,7 +125,6 @@ export default class CommandProvider extends Provider {
     }
 
     handlePretextChanged(pretext: string, resultCallback: ResultsCallback) {
-        console.log('starting the command provider');
         if (!pretext.startsWith(this.triggerCharacter)) {
             return false;
         }

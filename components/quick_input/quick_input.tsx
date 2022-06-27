@@ -77,7 +77,7 @@ export type Props = {
 
     maxLength?: number;
     className?: string;
-    placeholder?: string | { id: string; defaultMessage: string };
+    placeholder?: string;
     autoFocus?: boolean;
     type?: string;
     id?: string;
@@ -176,13 +176,23 @@ export class QuickInput extends React.PureComponent<Props> {
             Reflect.deleteProperty(props, 'onHeightChange');
         }
 
+        // need to create another input component here with a proper change handler.
         const inputElement = React.createElement(
             inputComponent || 'input',
             {
+                ...props,
                 ref: this.setInputRef,
                 defaultValue: value, // Only set the defaultValue since the real one will be updated using componentDidUpdate
-                ...props,
+                onInput: (e: React.ChangeEvent<HTMLInputElement>) => {
+                    if (this.props.onInput) {
+                        if (typeof e === 'string') {
+                            this.props.onInput(e);
+                            return;
+                        }
 
+                        this.props.onInput(e.target.value);
+                    }
+                },
             },
         );
 

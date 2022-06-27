@@ -592,8 +592,6 @@ const SuggestionBoxComponent: React.ForwardRefRenderFunction<SuggestionBoxForwar
     };
 
     useEffect(() => {
-        console.log({pretext});
-
         handlePretextChanged(pretext);
     }, [pretext]);
 
@@ -665,9 +663,13 @@ const SuggestionBoxComponent: React.ForwardRefRenderFunction<SuggestionBoxForwar
                 className='sr-only'
             />
             <QuickInput
+
                 ref={inputRef}
                 value={value}
-                onInput={(value) => handleChange(value, inputRef, shouldSearchCompleteText, isComposing, pretext, setPretext, onChange)}
+                onInput={(value) => {
+                    console.trace({oninputValue: value});
+                    handleChange(value, inputRef, shouldSearchCompleteText, isComposing, pretext, setPretext, onChange);
+                }}
 
                 // onHeightChange={onHeightChange}
 
@@ -681,6 +683,7 @@ const SuggestionBoxComponent: React.ForwardRefRenderFunction<SuggestionBoxForwar
                 onKeyDown={handleKeyDown}
                 onSelect={handleSelect}
                 {...props}
+
             />
             {(openWhenEmpty || value.length >= requiredCharacters) &&
             state.presentationType === 'text' &&
