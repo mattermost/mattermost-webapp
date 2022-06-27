@@ -10,7 +10,8 @@
 // Stage: @prod
 // Group: @account_setting
 
-import "cypress-file-upload";
+// TODO: Remove import once e2e/cypress/tests/support/index.ts is converted to Typescript.
+import 'cypress-file-upload';
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
