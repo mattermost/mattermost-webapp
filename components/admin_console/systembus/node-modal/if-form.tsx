@@ -52,14 +52,6 @@ const WebhookForm = ({handleChange}: Props): JSX.Element => {
         }
     };
 
-    // const handleIfComparisonOnChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    //     setData({
-    //         ...data,
-    //         ifComparison: e.target.value,
-    //     });
-    //     handleChange(data);
-    // };
-
     const handleMenuClose = () => {
         const modalBody = document.querySelector('.modal-body');
         if (modalBody) {
