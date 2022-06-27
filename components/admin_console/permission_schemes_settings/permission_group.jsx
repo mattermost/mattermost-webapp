@@ -9,7 +9,7 @@ import {PermissionsScope} from 'utils/constants';
 
 import PermissionCheckbox from './permission_checkbox';
 import PermissionRow from './permission_row.jsx';
-import PermissionDescription from './permission_description.jsx';
+import PermissionDescription from './permission_description';
 
 const getRecursivePermissions = (permissions) => {
     let result = [];
