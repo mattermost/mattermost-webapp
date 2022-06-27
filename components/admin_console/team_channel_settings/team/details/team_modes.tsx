@@ -10,7 +10,16 @@ import AdminPanel from 'components/widgets/admin_console/admin_panel';
 
 import LineSwitch from '../../line_switch.jsx';
 
-const SyncGroupsToggle = ({syncChecked, allAllowedChecked, allowedDomainsChecked, allowedDomains, onToggle, isDisabled}) => (
+type Props = {
+    syncChecked: boolean;
+    allAllowedChecked: boolean;
+    allowedDomainsChecked: boolean;
+    allowedDomains: string;
+    onToggle: (syncChecked: boolean, allAllowedChecked: boolean, allowedDomainsChecked: boolean, allowedDomains: string) => void;
+    isDisabled?: boolean;
+}
+
+const SyncGroupsToggle = ({syncChecked, allAllowedChecked, allowedDomainsChecked, allowedDomains, onToggle, isDisabled}: Props) => (
     <LineSwitch
         id='syncGroupSwitch'
         disabled={isDisabled}
@@ -28,7 +37,7 @@ const SyncGroupsToggle = ({syncChecked, allAllowedChecked, allowedDomainsChecked
                 id='admin.team_settings.team_details.syncGroupMembersDescr'
                 defaultMessage='When enabled, adding and removing users from groups will add or remove them from this team. The only way of inviting members to this team is by adding the groups they belong to. <link>Learn More</link>'
                 values={{
-                    link: (msg) => (
+                    link: (msg: string) => (
                         <a
                             href='https://www.mattermost.com/pl/default-ldap-group-constrained-team-channel.html'
                             referrer='noreferrer'
@@ -43,17 +52,8 @@ const SyncGroupsToggle = ({syncChecked, allAllowedChecked, allowedDomainsChecked
         )}
     />);
 
-SyncGroupsToggle.propTypes = {
-    syncChecked: PropTypes.bool.isRequired,
-    allAllowedChecked: PropTypes.bool.isRequired,
-    allowedDomainsChecked: PropTypes.bool.isRequired,
-    allowedDomains: PropTypes.string.isRequired,
-    onToggle: PropTypes.func.isRequired,
-    isDisabled: PropTypes.bool,
-};
-
-const AllowAllToggle = ({syncChecked, allAllowedChecked, allowedDomainsChecked, allowedDomains, onToggle, isDisabled}) =>
-    !syncChecked && (
+const AllowAllToggle = ({syncChecked, allAllowedChecked, allowedDomainsChecked, allowedDomains, onToggle, isDisabled}: Props) =>
+    (syncChecked ? null : (
         <LineSwitch
             id='allowAllToggleSwitch'
             disabled={isDisabled}
@@ -72,7 +72,7 @@ const AllowAllToggle = ({syncChecked, allAllowedChecked, allowedDomainsChecked, 
                     defaultMessage='This team can be discovered allowing anyone with an account to join this team.'
                 />
             )}
-        />);
+        />));
 
 AllowAllToggle.propTypes = {
     syncChecked: PropTypes.bool.isRequired,
@@ -83,8 +83,8 @@ AllowAllToggle.propTypes = {
     isDisabled: PropTypes.bool,
 };
 
-const AllowedDomainsToggle = ({syncChecked, allAllowedChecked, allowedDomainsChecked, allowedDomains, onToggle, isDisabled}) =>
-    !syncChecked && (
+const AllowedDomainsToggle = ({syncChecked, allAllowedChecked, allowedDomainsChecked, allowedDomains, onToggle, isDisabled}: Props) =>
+    (syncChecked ? null : (
         <LineSwitch
             disabled={isDisabled}
             toggled={allowedDomainsChecked}
@@ -118,7 +118,7 @@ const AllowedDomainsToggle = ({syncChecked, allAllowedChecked, allowedDomainsChe
                 onChange={(e) => onToggle(syncChecked, allAllowedChecked, allowedDomainsChecked, e.currentTarget.value)}
                 disabled={isDisabled}
             />
-        </LineSwitch>);
+        </LineSwitch>));
 
 AllowedDomainsToggle.propTypes = {
     syncChecked: PropTypes.bool.isRequired,
@@ -129,7 +129,11 @@ AllowedDomainsToggle.propTypes = {
     isDisabled: PropTypes.bool,
 };
 
-export const TeamModes = ({allAllowedChecked, syncChecked, allowedDomains, allowedDomainsChecked, onToggle, isDisabled, isLicensedForLDAPGroups}) => (
+type TeamModesProps = Props & {
+    isLicensedForLDAPGroups?: boolean;
+};
+
+export const TeamModes = ({allAllowedChecked, syncChecked, allowedDomains, allowedDomainsChecked, onToggle, isDisabled, isLicensedForLDAPGroups}: TeamModesProps) => (
     <AdminPanel
         id='team_manage'
         titleId={t('admin.team_settings.team_detail.manageTitle')}
