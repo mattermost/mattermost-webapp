@@ -92,6 +92,11 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
                 color = 'rgb(204,204,0)';
                 break;
             }
+            case 'sched': {
+                name = node.controlType!;
+                color = 'rgb(204,204,0)';
+                break;
+            }
             }
             const newNode = new DefaultNodeModel({
                 name,

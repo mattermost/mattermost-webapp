@@ -13,6 +13,8 @@ import IfForm from './if-form';
 import RandomForm from './random-form';
 import SwitchForm from './switch-form';
 import WebhookForm from './webhook-form';
+import CronForm from './cron-form';
+import IntervalForm from './interval-form';
 
 type Props = {
     nodeType: NodeType;
@@ -30,21 +32,25 @@ const NodeModal = ({nodeType, handleOnModalConfirm, handleOnModalCancel}: Props)
 
     useLayoutEffect(() => {
         if (nodeType === NodeTypeConstant.WEBHOOK) {
-            setModalHeader(formatMessage({id: 'node_modal.modalTitle', defaultMessage: 'Create Webhook Node'}));
+            setModalHeader(formatMessage({id: 'node_modal.modalTitle.webhook', defaultMessage: 'Create Webhook Node'}));
             setNodeForm(<WebhookForm handleChange={handleChange}/>);
         } else if (nodeType === NodeTypeConstant.IF) {
-            setModalHeader(formatMessage({id: 'node_modal.modalTitle', defaultMessage: 'Create If Node'}));
+            setModalHeader(formatMessage({id: 'node_modal.modalTitle.if', defaultMessage: 'Create If Node'}));
             setNodeForm(<IfForm handleChange={handleChange}/>);
         } else if (nodeType === NodeTypeConstant.SLASH_COMMAND) {
-            setModalHeader(formatMessage({id: 'node_modal.modalTitle', defaultMessage: 'Create Slash Command Node'}));
+            setModalHeader(formatMessage({id: 'node_modal.modalTitle.slash-command', defaultMessage: 'Create Slash Command Node'}));
         } else if (nodeType === NodeTypeConstant.SWITCH) {
-            setModalHeader(formatMessage({id: 'node_modal.modalTitle', defaultMessage: 'Create Switch Node'}));
+            setModalHeader(formatMessage({id: 'node_modal.modalTitle.switch', defaultMessage: 'Create Switch Node'}));
             setNodeForm(<SwitchForm handleChange={handleChange}/>);
         } else if (nodeType === NodeTypeConstant.RANDOM) {
-            setModalHeader(formatMessage({id: 'node_modal.modalTitle', defaultMessage: 'Create Random Node'}));
+            setModalHeader(formatMessage({id: 'node_modal.modalTitle.random', defaultMessage: 'Create Random Node'}));
             setNodeForm(<RandomForm handleChange={handleChange}/>);
+        } else if (nodeType === NodeTypeConstant.CRON) {
+            setModalHeader(formatMessage({id: 'node_modal.modalTitle.cron', defaultMessage: 'Create Cron Node'}));
+            setNodeForm(<CronForm handleChange={handleChange}/>);
         } else {
-            setModalHeader(formatMessage({id: 'node_modal.modalTitle', defaultMessage: 'Create Node'}));
+            setModalHeader(formatMessage({id: 'node_modal.modalTitle.interval', defaultMessage: 'Create Interval Node'}));
+            setNodeForm(<IntervalForm handleChange={handleChange}/>);
         }
     }, [nodeType, formatMessage]);
 

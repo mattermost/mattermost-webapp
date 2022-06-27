@@ -74,7 +74,25 @@ export const Toolbox = ({events, actions}: Props) => {
                 model={{
                     type: 'webhook',
                     name: "webhook",
-                    color: 'rgb(255,0,255)',
+                    color: 'rgb(127,0,255)',
+                }}
+            />
+            <ToolboxNodeItem
+                name="Cron"
+                model={{
+                    type: 'sched',
+                    name: "cron",
+                    controlType: "cron",
+                    color: 'rgb(127,0,255)',
+                }}
+            />
+            <ToolboxNodeItem
+                name="Interval"
+                model={{
+                    type: 'sched',
+                    name: "interval",
+                    controlType: "interval",
+                    color: 'rgb(127,0,255)',
                 }}
             />
         </div>

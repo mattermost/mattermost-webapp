@@ -44,6 +44,20 @@ export const Infobox = ({node}: Props) => {
                 </ul>
             </div>
         );
+    } else if (orig.type === 'sched' && orig.controlType === 'cron') {
+        return (
+            <div className='graph-infobox'>
+                <h2>Cron info</h2>
+                <div>Cron: {orig.cron}</div>
+            </div>
+        );
+    } else if (orig.type === 'flow' && orig.controlType === 'interval') {
+        return (
+            <div className='graph-infobox'>
+                <h2>Interval info</h2>
+                <div>Cron: {orig.seconds}</div>
+            </div>
+        );
     } else if (orig.type === 'flow' && orig.controlType === 'random') {
         return (
             <div className='graph-infobox'>

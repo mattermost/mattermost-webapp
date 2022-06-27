@@ -160,13 +160,16 @@
             background: rgb(0,192,255);
         }
         .toolbox-node-item-webhook {
-            background: rgb(255,0,255);
+            background: rgb(127,0,255);
         }
         .toolbox-node-item-slash-command {
             background: rgb(127,0,255);
         }
         .toolbox-node-item-flow {
             background: rgb(204,204,0);
+        }
+        .toolbox-node-item-sched {
+            background: rgb(127,0,255);
         }
     }
     .graph-infobox {

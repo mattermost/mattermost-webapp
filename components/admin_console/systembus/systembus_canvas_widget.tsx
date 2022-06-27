@@ -14,7 +14,7 @@ type Props = {
     graphEventHandler: any;
 }
 
-export type NodeType = 'webhook' | 'flow' | 'event' | 'action' | 'slash-command' |'switch' | 'random' |'if';
+export type NodeType = 'webhook' | 'flow' | 'event' | 'action' | 'slash-command' |'switch' | 'random' |'if' | 'sched' | 'cron' | 'interval';
 
 export const NodeTypeConstant = {
     WEBHOOK: 'webhook',
@@ -25,6 +25,9 @@ export const NodeTypeConstant = {
     SWITCH: 'switch',
     RANDOM: 'random',
     IF: 'if',
+    SCHED: 'sched',
+    CRON: 'cron',
+    INTERVAL: 'interval',
 };
 
 const SystembusCanvasWidget = ({children, engine, forceUpdate, graphEventHandler}: Props): JSX.Element => {
@@ -96,6 +99,12 @@ const SystembusCanvasWidget = ({children, engine, forceUpdate, graphEventHandler
                 setDropData({data, point, inPorts: ['in'], outPorts: [], nodeType: 'switch'});
             } else if (data.name === NodeTypeConstant.RANDOM) {
                 setDropData({data, point, inPorts: ['in'], outPorts: [], nodeType: 'random'});
+            }
+        } else if (data.type === NodeTypeConstant.SCHED) {
+            if (data.name === NodeTypeConstant.CRON) {
+                setDropData({data, point, inPorts: [], outPorts: ['out'], nodeType: 'cron'});
+            } else if (data.name === NodeTypeConstant.INTERVAL) {
+                setDropData({data, point, inPorts: [], outPorts: ['out'], nodeType: 'interval'});
             }
         }
     };
