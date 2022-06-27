@@ -137,7 +137,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
     }
 
     public render() {
-        const {id, postId, text, selectedValueText, subMenu, icon, filter, ariaLabel, direction, styleSelectableItem, extraText, renderSelected, rightDecorator, showMenu} = this.props;
+        const {id, postId, text, selectedValueText, subMenu, icon, filter, ariaLabel, direction, styleSelectableItem, extraText, renderSelected, rightDecorator, showMenu, subMenuClass} = this.props;
         const isMobile = Utils.isMobile();
         if (!showMenu) {
             return null;
@@ -175,7 +175,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
         if (!isMobile) {
             subMenuContent = (
                 <ul
-                    className={classNames(['a11y__popup Menu dropdown-menu SubMenu', {styleSelectableItem}])}
+                    className={classNames(['a11y__popup Menu dropdown-menu SubMenu', {styleSelectableItem}, subMenuClass])}
                     style={subMenuStyle}
                 >
                     {hasSubmenu ? subMenu!.map((s) => {

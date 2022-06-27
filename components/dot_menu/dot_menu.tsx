@@ -25,7 +25,7 @@ import {ModalData} from 'types/actions';
 import {PluginComponent} from 'types/store/plugins';
 
 import {toUTCUnix} from 'utils/datetime';
-import {getCurrentDateTimeForTimezone, getCurrentMomentForTimezone} from 'utils/timezone';
+import {getCurrentMomentForTimezone} from 'utils/timezone';
 
 import {ChangeEvent, trackDotMenuEvent} from './utils';
 import './dot_menu.scss';
@@ -623,24 +623,22 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         rightDecorator={<ShortcutKey shortcutKey='S'/>}
                         onClick={this.handleFlagMenuItemActivated}
                     />
-                    <span className='postReminderMenu'>
-                        <Menu.ItemSubMenu
-                            subMenu={postReminderSubMenuItems}
-                            showMenu={!isSystemMessage}
-                            subMenuClass='bankges'
+                    <Menu.ItemSubMenu
+                        subMenu={postReminderSubMenuItems}
+                        showMenu={!isSystemMessage}
+                        subMenuClass={this.props.location === Locations.CENTER ? 'postReminderSubMenu' : 'postReminderSubMenuRHS'}
 
-                            // TODO: translations
-                            // text={Utils.localizeMessage('status_dropdown.set_dnd', 'Do not disturb')}
-                            text={'Remind'}
-                            icon={Utils.getMenuItemIcon('icon-clock-outline')}
+                        // TODO: translations
+                        // text={Utils.localizeMessage('status_dropdown.set_dnd', 'Do not disturb')}
+                        text={'Remind'}
+                        icon={Utils.getMenuItemIcon('icon-clock-outline')}
 
-                            // rightDecorator={<ShortcutKey shortcutKey='A'/>}
-                            direction={'left'}
+                        // rightDecorator={<ShortcutKey shortcutKey='A'/>}
+                        direction={'left'}
 
-                            openUp={this.state.openUp}
-                            id={`remind_post_${this.props.post.id}`}
-                        />
-                    </span>
+                        openUp={this.state.openUp}
+                        id={`remind_post_${this.props.post.id}`}
+                    />
                     <Menu.ItemAction
                         id={`unpin_post_${this.props.post.id}`}
                         show={!isSystemMessage && !this.props.isReadOnly && this.props.post.is_pinned}
