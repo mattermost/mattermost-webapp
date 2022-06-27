@@ -141,7 +141,7 @@ export const Graph = ({data, onSave, onCancel, actions, events}: Props) => {
 
     const setEdgeConfig = (config: {[key: string]: string}) => {
         newEdge.setLocked(false)
-        newEdge.getOptions().extras = {original: {config, id: generateId()}};
+        newEdge.getOptions().extras = {original: {config, id: generateId().replaceAll('-','').substring(0, 26)}};
         let label = '';
         for (const [key, value] of Object.entries(config)) {
             label += key + ': ' + value + '\n';

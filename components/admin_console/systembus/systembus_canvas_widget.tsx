@@ -45,7 +45,7 @@ const SystembusCanvasWidget = ({children, engine, forceUpdate, graphEventHandler
 
     const createNode = (data: any, point: any, inPorts: string[], outPorts: string[]) => {
         if (data && point) {
-            const id = generateId();
+            const id = generateId().replaceAll('-','').substring(0, 26);
             if (data.type === NodeTypeConstant.WEBHOOK) {
                 data.name = `webhook\n${id}`;
             } else if (data.type === NodeTypeConstant.FLOW) {
