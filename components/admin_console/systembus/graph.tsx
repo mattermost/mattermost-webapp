@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {useRef, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 import createEngine, {DiagramModel, DefaultNodeModel, DiagramEngine} from '@projectstorm/react-diagrams';
 import {CanvasWidget} from '@projectstorm/react-canvas-core';
@@ -11,7 +11,7 @@ import SystemBusCanvasWidget from './systembus_canvas_widget';
 import {MattermostLinkFactory, MattermostLinkModel} from './customlink';
 import Toolbox from './toolbox';
 import Infobox from './infobox';
-import EdgeConfigModal from './edgeConfigModal';
+import EdgeConfigModal from './systembus-modals/edgeConfigModal';
 
 export type CanvasGraphType = {
     id: string;
@@ -85,30 +85,30 @@ export const Graph = ({data, onSave, onCancel, actions, events}: Props) => {
     const [selectedNode, setSelectedNode] = useState<any|null>(null);
 
     const eventHandler = (e: any) => {
-        console.log(e)
-        if (e.function === "selectionChanged" && !e.isSelected) {
-            setSelectedNode(null)
+        console.log(e);
+        if (e.function === 'selectionChanged' && !e.isSelected) {
+            setSelectedNode(null);
         }
-        if (e.function === "selectionChanged" && e.isSelected) {
-            setSelectedNode(e.entity)
+        if (e.function === 'selectionChanged' && e.isSelected) {
+            setSelectedNode(e.entity);
         }
-        if (e.function === "linksUpdated" && e.isCreated) {
+        if (e.function === 'linksUpdated' && e.isCreated) {
             e.link.registerListener({
                 eventDidFire: eventHandler,
             });
         }
-        if (e.function === "targetPortChanged") {
-            setNewEdge(e.entity)
+        if (e.function === 'targetPortChanged') {
+            setNewEdge(e.entity);
         }
-    }
+    };
 
     useEffect(() => {
-        let localEngine = engine
+        let localEngine = engine;
         if (!engine) {
-            const newEngine = createEngine()
+            const newEngine = createEngine();
             setEngine(newEngine);
             newEngine.getLinkFactories().registerFactory(new MattermostLinkFactory());
-            localEngine = newEngine
+            localEngine = newEngine;
         }
 
         //2) setup the diagram model
@@ -137,8 +137,8 @@ export const Graph = ({data, onSave, onCancel, actions, events}: Props) => {
     }
 
     const setEdgeConfig = (config: {[key: string]: string}) => {
-        console.log(newEdge)
-        newEdge.getOptions().extras = {original: {config: config, id: generateId()}}
+        console.log(newEdge);
+        newEdge.getOptions().extras = {original: {config, id: generateId()}};
         let label = '';
         for (const [key, value] of Object.entries(config)) {
             label += key + ': ' + value + '\n';
@@ -147,7 +147,7 @@ export const Graph = ({data, onSave, onCancel, actions, events}: Props) => {
             newEdge.addLabel(label);
         }
         setNewEdge(null);
-    }
+    };
 
     //6) render the diagram!
     const canvas = data ? <CanvasWidget engine={engine}/> : undefined;
@@ -155,7 +155,7 @@ export const Graph = ({data, onSave, onCancel, actions, events}: Props) => {
     return (
         <SystemBusCanvasWidget
             engine={engine}
-            forceUpdate={() => setForceUpdate(forceUpdate+1)}
+            forceUpdate={() => setForceUpdate(forceUpdate + 1)}
             graphEventHandler={eventHandler}
         >
             <EdgeConfigModal

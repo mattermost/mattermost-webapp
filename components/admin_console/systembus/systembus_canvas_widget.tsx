@@ -5,7 +5,7 @@ import {DefaultNodeModel, DiagramEngine} from '@projectstorm/react-diagrams';
 
 import {generateId} from 'utils/utils';
 
-import NodeModal from './node-modal/node-model';
+import NodeModal from './systembus-modals/node-model';
 
 type Props = {
     children?: React.ReactNode;
