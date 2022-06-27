@@ -11,6 +11,7 @@ import {NodeType, NodeTypeConstant} from '../systembus_canvas_widget';
 import './node-modal.scss';
 import IfForm from './if-form';
 import RandomForm from './random-form';
+import SlashCommandForm from './slash-command-form';
 import SwitchForm from './switch-form';
 import WebhookForm from './webhook-form';
 import CronForm from './cron-form';
@@ -39,6 +40,7 @@ const NodeModal = ({nodeType, handleOnModalConfirm, handleOnModalCancel}: Props)
             setNodeForm(<IfForm handleChange={handleChange}/>);
         } else if (nodeType === NodeTypeConstant.SLASH_COMMAND) {
             setModalHeader(formatMessage({id: 'node_modal.modalTitle.slash-command', defaultMessage: 'Create Slash Command Node'}));
+            setNodeForm(<SlashCommandForm handleChange={handleChange}/>);
         } else if (nodeType === NodeTypeConstant.SWITCH) {
             setModalHeader(formatMessage({id: 'node_modal.modalTitle.switch', defaultMessage: 'Create Switch Node'}));
             setNodeForm(<SwitchForm handleChange={handleChange}/>);
