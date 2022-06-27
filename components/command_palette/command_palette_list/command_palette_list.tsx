@@ -1,9 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import classNames from 'classnames';
-
-// See LICENSE.txt for license information.
 import React, {useCallback, useEffect, useState} from 'react';
+import classNames from 'classnames';
 
 import Constants from 'utils/constants';
 import {isKeyPressed} from 'utils/utils';

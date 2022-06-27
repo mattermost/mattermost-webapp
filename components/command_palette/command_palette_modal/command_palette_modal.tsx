@@ -7,27 +7,30 @@ import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {getCurrentTeamId, getTeams} from 'mattermost-redux/selectors/entities/teams';
+import {getChannelsInAllTeams} from 'mattermost-redux/selectors/entities/channels';
 import {CommandPaletteEntities} from 'components/command_palette/types';
 import Constants from 'utils/constants';
 import {isKeyPressed} from 'utils/utils';
-import {getChannelsInAllTeams} from 'mattermost-redux/selectors/entities/channels';
 import {switchToChannel} from '../../../actions/views/channel';
 import {GlobalState} from '../../../types/store';
 import {browserHistory} from '../../../utils/browser_history';
 import LoadingSpinner from '../../widgets/loading/loading_spinner';
 import {CommandPaletteList} from '../command_palette_list/command_palette_list';
 import {CommandPaletteItem} from '../command_palette_list_item/command_palette_list_item';
+import {GotoListItemData} from '../constant';
 import {boardToCommandPaletteItemTransformer, channelToCommandPaletteItemTransformer} from '../utils';
+import './command_palette_modal.scss';
 
 import Filters from './filters';
 import Footer from './footer';
 import Input from './input';
-import './command_palette_modal.scss';
 
 interface Props {
     selectedEntities: CommandPaletteEntities[];
     onExited: () => void;
 }
+
+const defaultEnities = [CommandPaletteEntities.Channel, CommandPaletteEntities.Playbooks, CommandPaletteEntities.Boards];
 
 const CommandPaletteModal = ({onExited, selectedEntities}: Props) => {
     const [modalVisibility, setModalVisibility] = useState(true);
@@ -97,7 +100,11 @@ const CommandPaletteModal = ({onExited, selectedEntities}: Props) => {
 
     const toggleFilter = useCallback((entity: CommandPaletteEntities) => {
         if (entities.includes(entity)) {
-            setEntities(entities.filter((e) => e !== entity));
+            const newEntities = entities.filter((e) => e !== entity);
+            setEntities(newEntities);
+        } else if (entity === CommandPaletteEntities.GoTo) {
+            setEntities([entity]);
+            setTransformedItems(GotoListItemData);
         } else {
             setEntities([...entities, entity]);
         }

@@ -15,7 +15,7 @@ type Props = {
     entities: CommandPaletteEntities[];
     intl: IntlShape;
     isCommandVisible: boolean;
-    toggleFilter: (entiy: CommandPaletteEntities) => void;
+    toggleFilter: (entity: CommandPaletteEntities) => void;
 };
 
 type Filter = Omit<FilterTagProps, 'isCommandVisible' | 'onClick'>;

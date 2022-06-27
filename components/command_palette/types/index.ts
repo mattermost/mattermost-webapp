@@ -18,6 +18,11 @@ export enum ChannelType {
     PRIVATE_CHANNEL= 'P',
 }
 
+export enum GotoType {
+    OPEN = 'O',
+    PRIVATE = 'P',
+}
+
 export enum BoardsType {
     OPEN_CHANNEL= 'O',
     PRIVATE_CHANNEL= 'P',
