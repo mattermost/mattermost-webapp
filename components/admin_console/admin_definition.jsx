@@ -4136,9 +4136,8 @@ const AdminDefinition = {
                                 </a>
                             ),
                             strong: (msg) => <strong>{msg}</strong>,
-                            
                         },
-                        help_text_markdown: true,
+                        help_text_markdown: false,
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
                             it.stateIsFalse('SamlSettings.Enable'),
@@ -4864,7 +4863,7 @@ const AdminDefinition = {
                                         {msg}
                                     </a>
                                 ),
-                                strong: (msg) => <strong>{msg}</strong>,                             
+                                strong: (msg) => <strong>{msg}</strong>,
                             },
                             {
                                 value: Constants.OFFICE365_SERVICE,
@@ -5864,7 +5863,7 @@ const AdminDefinition = {
                         label: t('admin.service.enableBotTitle'),
                         label_default: 'Enable Bot Account Creation: ',
                         help_text: t('admin.service.enableBotAccountCreation'),
-                        help_text_default: 'When true, System Admins can create bot accounts for integrations in <link>Integrations > Bot Accounts</link>. Bot accounts are similar to user accounts except they cannot be used to log in. See <link>documentation</link> to learn more.',
+                        help_text_default: 'When true, System Admins can create bot accounts for integrations in <linkBots>Integrations > Bot Accounts</linkBots>. Bot accounts are similar to user accounts except they cannot be used to log in. See <link>documentation</link> to learn more.',
                         help_text_markdown: false,
                         help_text_values: {
                             siteURL: getSiteURL(),
@@ -5878,10 +5877,12 @@ const AdminDefinition = {
                                     {msg}
                                 </a>
                             ),
-                            siteurl: (msg) => (
-                                <a 
+                            linkBots: (msg) => (
+                                <a
                                     href={`${siteURL}/_redirect/integrations/bots`}
-                                />
+                                >
+                                    {msg}
+                                </a>
                             ),
                         },
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.BOT_ACCOUNTS)),
@@ -6746,21 +6747,11 @@ const AdminDefinition = {
                         label: t('admin.experimental.threadAutoFollow.title'),
                         label_default: 'Automatically Follow Threads',
                         help_text: t('admin.experimental.threadAutoFollow.desc'),
-                        help_text_default: 'This setting must be enabled to support <linkThreads>Collapsed Reply Threads</linkThreads> and may impact your database server performance. If you cannot easily scale up and tune your database, or if you are running the Mattermost application server and database server on the same machine, we recommended disabling `ThreadAutoFollow` until Collapsed Reply Threads is promoted to general availability. Learn more about these <linkPerformance>performance considerations here</linkPerformance>.\n \n \nWhen enabled, threads a user starts, participates in, or is mentioned in are automatically followed. Entries are added to the `ThreadMembership` table to track followed threads for each user and the read or unread state of each followed thread. Enabling this configuration setting doesn’t retroactively follow threads for actions taken prior to the setting being enabled',
+                        help_text_default: 'This setting must be enabled to support <link>Collapsed Reply Threads</link> and may impact your database server performance. If you cannot easily scale up and tune your database, or if you are running the Mattermost application server and database server on the same machine, we recommended disabling `ThreadAutoFollow` until Collapsed Reply Threads is promoted to general availability. Learn more about these <link>performance considerations here</link>.\n \n \nWhen enabled, threads a user starts, participates in, or is mentioned in are automatically followed. Entries are added to the `ThreadMembership` table to track followed threads for each user and the read or unread state of each followed thread. Enabling this configuration setting doesn’t retroactively follow threads for actions taken prior to the setting being enabled',
                         help_text_values: {
-                            linkThreads: (msg) => (
+                            link: (msg) => (
                                 <a
-                                    href='ttps://support.mattermost.com/hc/en-us/articles/4413183568276'
-                                    referrer='noreferrer'
-                                    target='_blank'
-                                    rel='noreferrer'
-                                >
-                                    {msg}
-                                </a>
-                            ),
-                            linkPerformance: (msg) => (
-                                <a
-                                    href='ttps://support.mattermost.com/hc/en-us/articles/4413183568276'
+                                    href='https://support.mattermost.com/hc/en-us/articles/4413183568276'
                                     referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'

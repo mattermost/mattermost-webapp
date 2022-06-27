@@ -170,11 +170,7 @@
   "add_outgoing_webhook.save": "Salva",
   "add_outgoing_webhook.saving": "Salvataggio...",
   "add_outgoing_webhook.token": "**Token**: {token}",
-<<<<<<< HEAD
   "add_outgoing_webhook.token.message": "Assicurati di aggiungere questo account bot alle squadre e ai canali con cui vuoi che interagisca. Vedere la <link>documentazione</link> per ulteriori informazioni.",
-=======
-  "add_outgoing_webhook.token.message": "Assicurati di aggiungere questo account bot alle squadre e ai canali con cui vuoi che interagisca. Vedere la <link>documentazione</link>(https://mattermost.com/pl/default-bot-accounts) per ulteriori informazioni.",
->>>>>>> 488871c96f87e21b7147b4da4b25f0f17ee4ebb5
   "add_outgoing_webhook.triggerWords": "Parole di innesco (una per linea)",
   "add_outgoing_webhook.triggerWords.help": "Specificare le parole d'innesco per inviare la richiesta HTTP POST alla tua applicazione.  Se selezioni solo il canale, questo è facoltativo. L'innesco può essere per il canale, il webhook in uscita oppure entrambi ma se viene impostato per entrambi, il messaggio deve corrispondere a entrambi i valori.",
   "add_outgoing_webhook.triggerWordsOrChannelRequired": "E' richiesto un canale valido, o una lista di parole chiave",

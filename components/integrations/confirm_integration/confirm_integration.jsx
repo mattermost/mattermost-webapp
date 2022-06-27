@@ -281,11 +281,12 @@ export default class ConfirmIntegration extends React.PureComponent {
             );
             helpText = (
                 <p>
-                    <FormattedMarkdownMessage
+                    <FormattedMessage
                         id='bots.manage.created.text'
-                        defaultMessage='Your bot account **{botname}** has been created successfully. Please use the following access token to connect to the bot (see <link>documentation</link> for further details).'
+                        defaultMessage='Your bot account <strong>{botname}</strong> has been created successfully. Please use the following access token to connect to the bot (see <link>documentation</link> for further details).'
                         values={{
                             botname: bot.display_name || bot.username,
+                            strong: (msg) => <strong>{msg}</strong>,
                             link: (msg) => (
                                 <a
                                     href='https://mattermost.com/pl/default-bot-accounts'

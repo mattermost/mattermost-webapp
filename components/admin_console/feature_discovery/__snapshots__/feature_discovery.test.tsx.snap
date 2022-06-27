@@ -55,13 +55,14 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot 1`]
     <p
       className="trial-legal-terms"
     >
-      <injectIntl(FormattedMarkdownMessage)
-        defaultMessage="By clicking **Start trial**, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails."
+      <MemoizedFormattedMessage
+        defaultMessage="By clicking <strong>Start trial</strong>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails."
         id="admin.license.trial-request.accept-terms"
         values={
           Object {
             "linkEvaluation": [Function],
             "linkPrivacy": [Function],
+            "strong": [Function],
           }
         }
       />
@@ -119,13 +120,14 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot whe
     <p
       className="trial-legal-terms"
     >
-      <injectIntl(FormattedMarkdownMessage)
-        defaultMessage="By clicking **Start trial**, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails."
+      <MemoizedFormattedMessage
+        defaultMessage="By clicking <strong>Start trial</strong>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails."
         id="admin.license.trial-request.accept-terms"
         values={
           Object {
             "linkEvaluation": [Function],
             "linkPrivacy": [Function],
+            "strong": [Function],
           }
         }
       />

@@ -153,10 +153,11 @@ export default class Setup extends React.PureComponent<Props, State> {
                 >
                     {mfaRequired}
                     <p>
-                        <FormattedMarkdownMessage
+                        <FormattedMessage
                             id='mfa.setup.step1'
-                            defaultMessage='**Step 1: **On your phone, download Google Authenticator from <linkiTunes>iTunes</linkiTunes> or <linkGooglePlay>Google Play</linkGooglePlay>'
+                            defaultMessage='<strong>Step 1: </strong>On your phone, download Google Authenticator from <linkiTunes>iTunes</linkiTunes> or <linkGooglePlay>Google Play</linkGooglePlay>'
                             values={{
+                                strong: (msg: React.ReactNode) => <strong>{msg}</strong>,
                                 linkiTunes: (msg: React.ReactNode) => (
                                     <a
                                         href='https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8'

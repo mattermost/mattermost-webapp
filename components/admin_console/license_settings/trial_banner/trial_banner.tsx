@@ -185,8 +185,9 @@ const TrialBanner: React.FC<TrialBannerProps> = ({
                 />
                 <FormattedMarkdownMessage
                     id='admin.license.trial-request.accept-terms'
-                    defaultMessage='By clicking **Start trial**, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails.'
+                    defaultMessage='By clicking <strong>Start trial</strong>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails.'
                     values={{
+                        strong: (msg: React.ReactNode) => <strong>{msg}</strong>,
                         linkEvaluation: (msg: React.ReactNode) => (
                             <a
                                 href='https://mattermost.com/software-evaluation-agreement'
