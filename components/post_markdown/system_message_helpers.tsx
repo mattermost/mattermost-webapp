@@ -425,7 +425,8 @@ export function renderSystemMessage(post: Post, channel: Channel, isUserCanManag
 
 function renderReminderACKMessage(post: Post): ReactNode {
     const username = renderUsername(post.props.username);
-    const permaLink = renderFormattedText(`[this post](${getSiteURL()}/${post.props.team_name}/pl/${post.props.post_id})`);
+    const link = `${getSiteURL()}/${post.props.team_name}/pl/${post.props.post_id}`;
+    const permaLink = renderFormattedText(`[${link}](${link})`);
     const localTime = new Date(post.props.target_time * 1000);
 
     const reminderTime = (<FormattedTime value={localTime}/>);
