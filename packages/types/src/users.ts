@@ -40,6 +40,7 @@ export type UserProfile = {
     allow_marketing: boolean;
     props: Record<string, string>;
     notify_props: UserNotifyProps;
+    profile_props?: Record<string, string>;
     last_password_update: number;
     last_picture_update: number;
     failed_attempts: number;

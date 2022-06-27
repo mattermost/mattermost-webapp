@@ -4,10 +4,10 @@ import {useSelector, useDispatch} from 'react-redux';
 
 import {useEffect} from 'react';
 
-import {getUserByUsername as fetchUser} from 'mattermost-redux/actions/users';
+import {getUserByUsername as fetchUser, patchUser} from 'mattermost-redux/actions/users';
 import {GlobalState} from 'types/store';
 import {ActionFunc} from 'mattermost-redux/types/actions';
-import {getUserByUsername} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId, getUser, getUserByUsername} from 'mattermost-redux/selectors/entities/users';
 
 export function useUser(username: string) {
     return useReduxThing(username, fetchUser, getUserByUsername);
@@ -21,13 +21,12 @@ export function useUser(username: string) {
  *
  * @returns undefined == loading; null == not found
  */
-function useReduxThing<T extends NonNullable<any>>(
+export const useReduxThing = <T extends NonNullable<any>>(
     id: string,
     fetch: (id: string) => ActionFunc,
     select?: (state: GlobalState, id: string) => T,
-) {
+) => {
     const dispatch = useDispatch();
-    const thingFromState = useSelector<GlobalState, T | null>((state) => select?.(state, id || '') ?? null);
 
     useEffect(() => {
         if (id) {
@@ -35,5 +34,25 @@ function useReduxThing<T extends NonNullable<any>>(
         }
     }, [id]);
 
-    return thingFromState;
-}
+    return useSelector<GlobalState, T | null>((state) => select?.(state, id || '') ?? null);
+};
+
+export const useUserProfileProp = (
+    key: string,
+    userId: string | undefined,
+    defaultValue = '',
+): [string, (val: string) => void] => {
+    const dispatch = useDispatch();
+    const currentUserId = useSelector(getCurrentUserId);
+    const canChange = currentUserId === userId;
+    const user = useSelector((state: GlobalState) => (userId ? getUser(state, userId) : null));
+    const currentValue = user?.profile_props?.[key] ?? defaultValue;
+
+    const setValue = (value = currentValue) => {
+        if (canChange) {
+            dispatch(patchUser({...user, profile_props: {...user?.profile_props, [key]: value}}));
+        }
+    };
+
+    return [currentValue, setValue];
+};

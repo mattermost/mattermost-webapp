@@ -38,6 +38,7 @@ interface MarkdownEditProps {
     placeholder: string;
     className?: string;
     noBorder?: boolean;
+    truncate?: boolean;
     disabled?: boolean;
     previewDisabled?: boolean;
 }
@@ -85,20 +86,51 @@ const MarkdownEdit = (props: MarkdownEditProps) => {
                             cancel();
                         }
                     }}
+                    css={`
+                        textarea.custom-textarea {
+                            max-height: none !important;
+                        }
+                    `}
                 />
                 <SaveCancel>
-                    <PrimaryButton
-                        onClick={save}
-                    >
-                        {'Save'}
-                    </PrimaryButton>
                     <TertiaryButton
+                        css={`
+                            height: 32px;
+                        `}
                         onClick={cancel}
                     >
                         {'Cancel'}
                     </TertiaryButton>
+                    <PrimaryButton
+                        css={`
+                            height: 32px;
+                        `}
+                        onClick={save}
+                    >
+                        {'Save'}
+                    </PrimaryButton>
                 </SaveCancel>
             </MarkdownEditContainer>
+        );
+    }
+
+    let content = (
+        <PlaceholderText>
+            <Markdown message={props.placeholder}/>
+        </PlaceholderText>
+    );
+
+    if (value) {
+        content = props.truncate ? (
+            <ShowMore
+                isRHSExpanded={false}
+                isRHSOpen={false}
+                compactDisplay={false}
+            >
+                <Markdown message={value}/>
+            </ShowMore>
+        ) : (
+            <Markdown message={value}/>
         );
     }
 
@@ -132,19 +164,7 @@ const MarkdownEdit = (props: MarkdownEditProps) => {
                 </HoverMenuContainer>
             )}
             <RenderedText data-testid='rendered-text'>
-                {value ? (
-                    <ShowMore
-                        isRHSExpanded={false}
-                        isRHSOpen={false}
-                        compactDisplay={false}
-                    >
-                        <Markdown message={value}/>
-                    </ShowMore>
-                ) : (
-                    <PlaceholderText>
-                        <Markdown message={props.placeholder}/>
-                    </PlaceholderText>
-                )}
+                {content}
             </RenderedText>
         </MarkdownEditContainer>
     );
@@ -228,7 +248,7 @@ const PlaceholderText = styled.span`
 
 const SaveCancel = styled.div`
     display: flex;
-    gap: 4px;
+    gap: 8px;
     margin: 10px 0;
     justify-content: end;
 `;

@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState, HTMLAttributes} from 'react';
+import React, {useState, HTMLAttributes, useEffect, useRef} from 'react';
 import styled, {css} from 'styled-components';
 import {useRouteMatch} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
@@ -9,7 +9,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {EmailOutlineIcon} from '@mattermost/compass-icons/components';
 
 import Icon from '@mdi/react';
-import {mdiMapClockOutline, mdiBadgeAccountOutline} from '@mdi/js';
+import {mdiMapClockOutline, mdiBadgeAccountOutline, mdiMapMarkerOutline, mdiCheckBold, mdiCheck, mdiClose, mdiPencil, mdiPencilOutline, mdiGithub, mdiTwitter, mdiWeb} from '@mdi/js';
 
 import Pluggable from 'plugins/pluggable';
 
@@ -26,13 +26,15 @@ import Avatar from 'components/widgets/users/avatar';
 
 import Timestamp from 'components/timestamp';
 
-import {SecondaryButton} from 'components/buttons';
+import {Button, SecondaryButton} from 'components/buttons';
 
 import {openModal} from 'actions/views/modals';
 
 import UserSettingsModal from 'components/user_settings/modal';
 
-import {useUser} from './hooks';
+import {RequireGrouped} from 'utils/conditional_types';
+
+import {useUser, useUserProfileProp} from './hooks';
 
 const useUserDisplayMeta = (user: UserProfile | null) => {
     if (!user) {
@@ -61,21 +63,25 @@ const useUserDisplayMeta = (user: UserProfile | null) => {
 
 const ProfilePage = () => {
     const dispatch = useDispatch();
-    const [content, setContent] = useState('');
     const {params: {username: lookup}} = useRouteMatch<{username: string}>();
     const username = lookup.startsWith('@') ? lookup.slice(1) : lookup;
     const user = useUser(username);
     const meta = useUserDisplayMeta(user);
     const me = useSelector(getCurrentUser);
+    const [content, setContent] = useUserProfileProp('overview', user?.id, '');
+    const [location, setLocation] = useUserProfileProp('location', user?.id, '');
+    const [github, setGithub] = useUserProfileProp('github', user?.id, '');
+    const [twitter, setTwitter] = useUserProfileProp('twitter', user?.id, '');
+    const [link, setLink] = useUserProfileProp('link', user?.id, '');
+
+    const canEdit = user?.id === me.id;
 
     if (!user) {
         return null;
     }
 
-    const isMe = user.id === me.id;
-
     const openEditProfile = () => {
-        if (!isMe) {
+        if (!canEdit) {
             return;
         }
 
@@ -161,6 +167,78 @@ const ProfilePage = () => {
                             }}
                         />
                     </MetaItem>
+                    {(location || canEdit) && (
+                        <MetaItem
+                            value={location}
+                            setValue={canEdit ? setLocation : undefined}
+                            icon={(
+                                <Icon
+                                    path={mdiMapMarkerOutline}
+                                    size={'16px'}
+                                />
+                            )}
+                        />
+                    )}
+                    {(github || canEdit) && (
+                        <MetaItem
+                            value={github}
+                            setValue={canEdit ? setGithub : undefined}
+                            icon={(
+                                <Icon
+                                    path={mdiGithub}
+                                    size={'16px'}
+                                />
+                            )}
+                        >
+                            <a
+                                target='_blank'
+                                rel='noopener noreferrer'
+                                href={`https://github.com/${github}`}
+                            >
+                                {github}
+                            </a>
+                        </MetaItem>
+                    )}
+                    {(twitter || canEdit) && (
+                        <MetaItem
+                            value={twitter}
+                            setValue={canEdit ? setTwitter : undefined}
+                            icon={(
+                                <Icon
+                                    path={mdiTwitter}
+                                    size={'16px'}
+                                />
+                            )}
+                        >
+                            <a
+                                target='_blank'
+                                rel='noopener noreferrer'
+                                href={`https://twitter.com/${twitter}`}
+                            >
+                                {twitter}
+                            </a>
+                        </MetaItem>
+                    )}
+                    {(link || canEdit) && (
+                        <MetaItem
+                            value={link}
+                            setValue={canEdit ? setLink : undefined}
+                            icon={(
+                                <Icon
+                                    path={mdiWeb}
+                                    size={'16px'}
+                                />
+                            )}
+                        >
+                            <a
+                                target='_blank'
+                                rel='noopener noreferrer'
+                                href={link}
+                            >
+                                {link}
+                            </a>
+                        </MetaItem>
+                    )}
                     <Pluggable
                         key='profilePopoverPluggable3'
                         pluggableName='PopoverUserActions'
@@ -168,10 +246,10 @@ const ProfilePage = () => {
                         hide={() => null}
                         status={null}
                     />
-                    {isMe && (
+                    {canEdit && (
                         <SecondaryButton
                             css={`
-                                height: 24px;
+                                height: 32px;
                                 width: 100%;
                                 justify-content: center;
                                 margin: 2rem 0;
@@ -181,16 +259,17 @@ const ProfilePage = () => {
                             {'Edit Profile'}
                         </SecondaryButton>
                     )}
-
                 </Profile>
             </Aside>
             <Content>
-                <h3 css={css`font-size: 18px;`}>{'Overview'}</h3>
-                <MarkdownEdit
-                    value={content}
-                    onSave={setContent}
-                    placeholder='Add content'
-                />
+                {(content || canEdit) && (
+                    <MarkdownEdit
+                        value={content}
+                        disabled={!canEdit}
+                        onSave={setContent}
+                        placeholder='Add content'
+                    />
+                )}
             </Content>
         </ProfilePageRoot>
     );
@@ -210,11 +289,49 @@ const ProfilePageRoot = styled.div`
     grid-template:
         'hero hero hero hero' 80px
         '. aside content .' 1fr
-        / 1fr minmax(200px, auto) minmax(auto, var(--content-max-width)) 1fr;
+        / 1fr minmax(auto, 300px) minmax(auto, var(--content-max-width)) 1fr;
     ;
 `;
 
-const MetaItem = ({icon, children, ...attrs}: {icon?: React.ReactNode; children: React.ReactNode} & HTMLAttributes<HTMLDivElement>) => {
+type MetaItemProps = {
+    icon?: React.ReactNode;
+    children?: React.ReactNode;
+} & RequireGrouped<{
+    value: string;
+    setValue?: (value: string) => void;
+    isEditing?: boolean;
+}>;
+
+const MetaItem = ({
+    icon,
+    children,
+    isEditing: externalIsEditing,
+    value: inValue,
+    setValue: setOutValue,
+    ...attrs
+}: MetaItemProps & HTMLAttributes<HTMLDivElement>) => {
+    const [value, setValue] = useState(inValue);
+    const [internalIsEditing, setInternalIsEditing] = useState(false);
+    const editable = value != null && setOutValue != null;
+    const inlineSave = externalIsEditing == null;
+    const editing = externalIsEditing ?? internalIsEditing;
+
+    const edit = () => {
+        setInternalIsEditing(true);
+    };
+
+    const save = () => {
+        if (value != null) {
+            setOutValue?.(value);
+        }
+        setInternalIsEditing(false);
+    };
+
+    const cancel = () => {
+        setInternalIsEditing(false);
+        setValue(inValue);
+    };
+
     if (!icon) {
         return (
             <div
@@ -222,27 +339,69 @@ const MetaItem = ({icon, children, ...attrs}: {icon?: React.ReactNode; children:
                     margin-bottom: 1rem;
                 `}
             >
-                {children}
+                {value}
             </div>
         );
     }
 
     return (
-        <div
-            css={`
-                display: flex;
-                align-items: center;
-                gap: 4px;
-                > svg {
-                    position: relative;
-                    bottom: -1px;
-                }
-            `}
+        <MetaItemRoot
             {...attrs}
+            editing={editing}
         >
             {icon}
-            {children}
-        </div>
+            {editable && editing ? (
+                <>
+                    <input
+                        type='text'
+                        value={value}
+                        onChange={({target}) => target.value && setValue(target.value)}
+                        css={`
+                            background-color: rgba(var(--center-channel-bg-rgb), 1);
+                            border: none;
+                            border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.72);
+                            font-size: 14px;
+                            padding: 1px 0;
+                        `}
+                        autoFocus={true}
+                        onFocus={(e) => e.target.select()}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                save();
+                            } else if (e.key === 'Escape') {
+                                cancel();
+                            }
+                        }}
+                    />
+                    {inlineSave && (
+                        <>
+                            <MetaItemButton onClick={save}>
+                                <Icon
+                                    path={mdiCheck}
+                                    size={'16px'}
+                                />
+                            </MetaItemButton>
+                            <MetaItemButton onClick={cancel}>
+                                <Icon
+                                    path={mdiClose}
+                                    size={'16px'}
+                                />
+                            </MetaItemButton>
+                        </>
+                    )}
+                </>
+            ) : (
+                children ?? inValue
+            )}
+            {editable && !editing && inlineSave && (
+                <MetaItemButton onClick={edit}>
+                    <Icon
+                        path={mdiPencilOutline}
+                        size={'16px'}
+                    />
+                </MetaItemButton>
+            )}
+        </MetaItemRoot>
     );
 };
 
@@ -260,4 +419,37 @@ const Aside = styled.aside`
 
 const Content = styled.main`
     grid-area: content;
+`;
+
+const MetaItemButton = styled(Button).attrs({className: 'btn btn-transparent'})`
+    width: 20px;
+    height: 20px;
+    && {
+        padding: 2px;
+    }
+`;
+
+const MetaItemRoot = styled.div<{editing: boolean}>`
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    > svg {
+        position: relative;
+        bottom: -1px;
+    }
+
+    ${({editing}) => !editing && css`
+        padding: 1px 0 2px;
+
+        ${MetaItemButton} {
+            opacity: 0;
+        }
+
+        &:hover,
+        &:focus-within {
+            ${MetaItemButton} {
+                opacity: 1;
+            }
+        }
+    `}
 `;
