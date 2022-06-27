@@ -430,7 +430,7 @@ export default class SwitchChannelProvider extends Provider {
         return true;
     }
 
-    async fetchUsersAndChannels(channelPrefix, resultsCallback, forceDispatch = false) {
+    async fetchUsersAndChannels(channelPrefix, resultsCallback) {
         const state = getState();
         const teamId = getCurrentTeamId(state);
 
@@ -459,7 +459,7 @@ export default class SwitchChannelProvider extends Provider {
             store.dispatch(logError(err));
         }
 
-        if (this.shouldCancelDispatch(channelPrefix) || forceDispatch) {
+        if (this.shouldCancelDispatch(channelPrefix)) {
             return;
         }
 

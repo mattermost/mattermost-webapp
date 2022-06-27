@@ -1,113 +1,48 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import classNames from 'classnames';
-import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {useIntl} from 'react-intl';
+import React, {useCallback, useRef, useState} from 'react';
+import {FormattedMessage, useIntl} from 'react-intl';
 import {useSelector} from 'react-redux';
 import {ValueType} from 'react-select';
+import classNames from 'classnames';
 
-import {Group} from '@mattermost/types/groups';
-import {FileInfo} from '@mattermost/types/files';
-import {Team} from '@mattermost/types/teams';
-import {Channel} from '@mattermost/types/channels';
-import {ClientConfig} from '@mattermost/types/config';
-import {Post, PostMetadata, PostPreviewMetadata} from '@mattermost/types/posts';
+import NotificationBox from 'components/notification_box';
 
-import {ActionResult} from 'mattermost-redux/types/actions';
+import {PostPreviewMetadata} from '@mattermost/types/posts';
+import {GlobalState} from 'types/store';
+
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {General, Permissions} from 'mattermost-redux/constants';
 
-import {GlobalState} from 'types/store';
-
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils';
-import {applyMarkdown, ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
-import {containsAtChannel, groupsMentionedInText} from 'utils/post_utils';
-import {getSiteURL} from 'utils/url';
+import {
+    applyMarkdown,
+    ApplyMarkdownOptions,
+} from 'utils/markdown/apply_markdown';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import Notification from 'components/notification/notification';
 import PostMessagePreview from 'components/post_view/post_message_preview';
 import Textbox, {TextboxClass, TextboxElement} from 'components/textbox';
 import GenericModal from 'components/generic_modal';
 
-import ForwardPostChannelSelect, {ChannelOption} from './forward_post_channel_select';
+import ForwardPostChannelSelect, {
+    ChannelOption,
+} from './forward_post_channel_select';
+
+import {ActionProps, OwnProps, PropsFromRedux} from './index';
 
 import './forward_post_modal.scss';
 
 const {KeyCodes} = Constants;
 
-export type StateProps = {
+export type Props = PropsFromRedux & OwnProps & { actions: ActionProps };
 
-    // the current client config
-    config: Partial<ClientConfig>;
-
-    // the current channel
-    currentChannel: Channel;
-
-    // the current team
-    currentTeam: Team;
-
-    // id for the current user
-    currentUserId: string;
-
-    // determines if the connection has been bad before
-    badConnection: boolean;
-
-    // permalink relative to the server root URL
-    relativePermaLink: string;
-
-    // use groupd mentions defined for/by LDAP groups
-    useLDAPGroupMentions: boolean;
-
-    // use custom groupd mentions
-    useCustomGroupMentions: boolean;
-
-    groupsWithAllowReference: Map<string, Group> | null;
-};
-
-export type ActionProps = {
-
-    // hooks called before a message is sent to the server
-    runMessageWillBePostedHooks: (originalPost: Post) => ActionResult;
-
-    // function called for posting the new message
-    onSubmitPost: (post: Post, fileInfos: FileInfo[]) => void;
-
-    // join the selected channel when necessary
-    joinChannelById: (channelId: string) => Promise<ActionResult>;
-
-    // switch to the selected channel
-    switchToChannel: (channel: Channel) => Promise<ActionResult>;
-}
-
-export type OwnProps = {
-
-    // The function called immediately after the modal is hidden
-    onExited?: () => void;
-
-    // the post that is going to be forwarded
-    post: Post;
-};
-
-export type Props = StateProps & OwnProps & {actions: ActionProps };
+const noop = () => {};
 
 const ForwardPostModal = (props: Props) => {
-    const {
-        onExited,
-        post,
-        config,
-        currentChannel,
-        currentTeam,
-        currentUserId,
-        badConnection,
-        relativePermaLink,
-        useLDAPGroupMentions,
-        useCustomGroupMentions,
-        groupsWithAllowReference,
-        actions,
-    } = props;
+    const {onExited, post, config, currentChannel, currentTeam, actions} =
+        props;
 
     const {formatMessage} = useIntl();
 
@@ -119,33 +54,48 @@ const ForwardPostModal = (props: Props) => {
 
     const selectedChannelId = selectedChannel?.details?.id || '';
 
-    const canPostInSelectedChannel = useSelector((state: GlobalState) => Boolean(selectedChannelId) && haveIChannelPermission(state, selectedChannel?.details?.team_id || '', selectedChannelId, Permissions.CREATE_POST));
-    const useChannelMentions = useSelector((state: GlobalState) => haveIChannelPermission(state, selectedChannel?.details?.team_id || '', selectedChannelId, Permissions.USE_CHANNEL_MENTIONS));
+    const canPostInSelectedChannel = useSelector(
+        (state: GlobalState) =>
+            Boolean(selectedChannelId) &&
+            haveIChannelPermission(
+                state,
+                selectedChannel?.details?.team_id || '',
+                selectedChannelId,
+                Permissions.CREATE_POST,
+            ),
+    );
 
-    const maxPostSize = parseInt(config.MaxPostSize || '', 10) || Constants.DEFAULT_CHARACTER_LIMIT;
+    const maxPostSize =
+        parseInt(config.MaxPostSize || '', 10) ||
+        Constants.DEFAULT_CHARACTER_LIMIT;
     const enableEmojiPicker = config.EnableEmojiPicker === 'true';
     const isPrivateConversation = currentChannel.type !== General.OPEN_CHANNEL;
     const canForwardPost = isPrivateConversation || canPostInSelectedChannel;
-    const {current: permaLink} = useRef<string>(`${getSiteURL()}${relativePermaLink}`);
 
     const onHide = useCallback(() => {
         // focusPostTextbox();
         onExited?.();
     }, [onExited]);
 
-    const handleChannelSelect = (channel: ValueType<ChannelOption>) => {
-        if (Array.isArray(channel)) {
-            setSelectedChannel(channel[0]);
-        }
-        setSelectedChannel(channel as ChannelOption);
-        textboxRef.current?.getInputBox().focus();
-    };
+    const handleChannelSelect = useCallback(
+        (channel: ValueType<ChannelOption>) => {
+            if (Array.isArray(channel)) {
+                setSelectedChannel(channel[0]);
+            }
+            setSelectedChannel(channel as ChannelOption);
+            textboxRef.current?.getInputBox().focus();
+        },
+        [textboxRef],
+    );
 
-    const handleChange = (e: React.ChangeEvent<TextboxElement>) => {
-        const message = e.target.value;
+    const handleChange = useCallback(
+        (e: React.ChangeEvent<TextboxElement>) => {
+            const message = e.target.value;
 
-        setComment(message);
-    };
+            setComment(message);
+        },
+        [setComment],
+    );
 
     const setCommentAsync = async (message: string) => {
         await setComment(message);
@@ -156,23 +106,26 @@ const ForwardPostModal = (props: Props) => {
 
         setCommentAsync(res.message).then(() => {
             const textbox = textboxRef.current?.getInputBox();
-            Utils.setSelectionRange(textbox, res.selectionStart, res.selectionEnd);
+            Utils.setSelectionRange(
+                textbox,
+                res.selectionStart,
+                res.selectionEnd,
+            );
         });
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<TextboxElement>) => {
-        const ctrlKeyCombo = Utils.cmdOrCtrlPressed(e) && !e.altKey && !e.shiftKey;
+        const ctrlKeyCombo =
+            Utils.cmdOrCtrlPressed(e) && !e.altKey && !e.shiftKey;
         const ctrlAltCombo = Utils.cmdOrCtrlPressed(e, true) && e.altKey;
         const ctrlShiftCombo = Utils.cmdOrCtrlPressed(e, true) && e.shiftKey;
         const markdownLinkKey = Utils.isKeyPressed(e, KeyCodes.K);
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
-        const ctrlEnterKeyCombo = Utils.isKeyPressed(e, KeyCodes.ENTER) && ctrlOrMetaKeyPressed;
+        const ctrlEnterKeyCombo =
+            Utils.isKeyPressed(e, KeyCodes.ENTER) && ctrlOrMetaKeyPressed;
 
-        const {
-            selectionStart,
-            selectionEnd,
-            value,
-        } = e.target as TextboxElement;
+        const {selectionStart, selectionEnd, value} =
+            e.target as TextboxElement;
 
         // listen for line break key combo and insert new line character
         if (Utils.isUnhandledLineBreakKeyCombo(e)) {
@@ -214,25 +167,17 @@ const ForwardPostModal = (props: Props) => {
     };
 
     const handleSelect = (e: React.SyntheticEvent<Element, Event>) => {
-        Utils.adjustSelection(textboxRef.current?.getInputBox(), e as React.KeyboardEvent<HTMLInputElement>);
+        Utils.adjustSelection(
+            textboxRef.current?.getInputBox(),
+            e as React.KeyboardEvent<HTMLInputElement>,
+        );
     };
 
-    const handlePostError = (postError: React.ReactNode) => setPostError(postError);
-
-    // we don't care in this textbox about it
-    const handleHeightChange = Utils.noop;
-
-    // we don't care in this textbox about it
-    const handleMouseUpKeyUp = Utils.noop;
-
-    // this does not make any sense in this modal, so we add noop here
-    const emitTypingEvent = Utils.noop;
+    const handlePostError = (postError: React.ReactNode) =>
+        setPostError(postError);
 
     // we do not allow sending the forwarding when hitting enter
-    const postMsgKeyPress = Utils.noop;
-
-    // we do not care about the blur event
-    const handleBlur = Utils.noop;
+    const postMsgKeyPress = noop;
 
     // since the original post has a click handler specified we should prevent any action here
     const preventActionOnPreview = (e: React.MouseEvent) => {
@@ -240,8 +185,14 @@ const ForwardPostModal = (props: Props) => {
         e.stopPropagation();
     };
 
-    const createMessage = formatMessage({id: 'forward_post_modal.comment.placeholder', defaultMessage: 'Add a comment (optional)'});
-    const messagePreviewTitle = formatMessage({id: 'forward_post_modal.preview.title', defaultMessage: 'Message Preview'});
+    const createMessage = formatMessage({
+        id: 'forward_post_modal.comment.placeholder',
+        defaultMessage: 'Add a comment (optional)',
+    });
+    const messagePreviewTitle = formatMessage({
+        id: 'forward_post_modal.preview.title',
+        defaultMessage: 'Message Preview',
+    });
     const previewMetaData: PostPreviewMetadata = {
         post,
         post_id: post.id,
@@ -257,110 +208,96 @@ const ForwardPostModal = (props: Props) => {
         if (currentChannel.type === General.PRIVATE_CHANNEL) {
             const channel = `~${currentChannel.display_name}`;
             notificationText = (
-                <FormattedMarkdownMessage
-                    id={'forward_post_modal.notification.private_channel'}
-                    defaultMessage={'This message is from a private channel and can only be shared within **{channel}**'}
+                <FormattedMessage
+                    id='forward_post_modal.notification.private_channel'
+                    defaultMessage='This message is from a private channel and can only be shared with <strong>{channel}</strong>'
                     values={{
                         channel,
+                        strong: (x: React.ReactNode) => <strong>{x}</strong>,
                     }}
                 />
             );
         } else {
             const allParticipants = currentChannel.display_name.split(', ');
-            const participants = allParticipants.length === 1 ? allParticipants[0] : `${allParticipants.slice(0, -1).join(', ')}** and **${allParticipants[allParticipants.length - 1]}`;
+            const participants =
+                allParticipants.length === 1 ? allParticipants[0] : `${allParticipants.
+                    slice(0, -1).
+                    join(', ')}</strong> and <strong>${
+                    allParticipants[allParticipants.length - 1]
+                }`;
 
             notificationText = (
-                <FormattedMarkdownMessage
-                    id={'forward_post_modal.notification.dm_or_gm'}
-                    defaultMessage={'This message is from a private conversation and can only be shared within **{participants}**'}
+                <FormattedMessage
+                    id='forward_post_modal.notification.dm_or_gm'
+                    defaultMessage='This message is from a private conversation and can only be shared with <strong>{participants}</strong>'
                     values={{
                         participants,
+                        strong: (x: React.ReactNode) => <strong>{x}</strong>,
                     }}
                 />
             );
         }
 
         notification = (
-            <Notification
+            <NotificationBox
                 variant={'info'}
                 text={notificationText}
             />
         );
     }
 
-    const handlePostForwarding = useCallback(async () => {
-        let newPost = {} as Post;
-
-        newPost.channel_id = isPrivateConversation ? currentChannel.id : selectedChannelId;
-
-        const time = Utils.getTimestamp();
-        const userId = currentUserId;
-
-        newPost.message = comment ? `${comment}\n${permaLink}` : permaLink;
-        newPost.pending_post_id = `${userId}:${time}`;
-        newPost.user_id = userId;
-        newPost.create_at = time;
-        newPost.metadata = {} as PostMetadata;
-        newPost.props = {};
-
-        if (!useChannelMentions && containsAtChannel(newPost.message, {checkAllMentions: true})) {
-            newPost.props.mentionHighlightDisabled = true;
+    const handleSubmit = useCallback(async () => {
+        let result = await actions.forwardPost(
+            post,
+            isPrivateConversation ? currentChannel.id : selectedChannelId,
+            comment,
+        );
+        if (result.error) {
+            setPostError(result.error);
+            return;
         }
 
-        if (!useLDAPGroupMentions && !useCustomGroupMentions && groupsMentionedInText(newPost.message, groupsWithAllowReference)) {
-            newPost.props.disable_group_highlight = true;
+        if (
+            selectedChannel?.details.type === Constants.MENTION_MORE_CHANNELS &&
+            selectedChannel?.details.type === Constants.OPEN_CHANNEL
+        ) {
+            result = await actions.joinChannelById(selectedChannelId);
+
+            if (result.error) {
+                setPostError(result.error);
+                return;
+            }
         }
 
-        const hookResult = await actions.runMessageWillBePostedHooks(newPost);
+        // only switch channels when we are not in a private conversation
+        if (!isPrivateConversation && selectedChannel) {
+            result = await actions.switchToChannel(selectedChannel.details);
 
-        if (hookResult.error) {
-            setPostError(hookResult.error);
-
-            return hookResult;
+            if (result.error) {
+                setPostError(result.error);
+                return;
+            }
         }
 
-        newPost = hookResult.data;
+        onHide();
+    }, [
+        actions,
+        post,
+        isPrivateConversation,
+        currentChannel.id,
+        selectedChannelId,
+        comment,
+        selectedChannel,
+        onHide,
+    ]);
 
-        actions.onSubmitPost(newPost, [] as FileInfo[]);
-
-        return {data: true};
-    }, [actions, comment, currentChannel.id, currentUserId, groupsWithAllowReference, isPrivateConversation, permaLink, selectedChannelId, useChannelMentions, useCustomGroupMentions, useLDAPGroupMentions]);
-
-    const handleSubmit = useCallback(() => {
-        handlePostForwarding().then((res) => {
-            if (res.data === true) {
-                if (selectedChannel?.details.type === Constants.MENTION_MORE_CHANNELS && selectedChannel?.details.type === Constants.OPEN_CHANNEL) {
-                    return actions.joinChannelById(selectedChannelId);
-                }
-            }
-            return {data: false};
-        }).then(() => {
-            const channelToSwitchTo = isPrivateConversation ? currentChannel : selectedChannel?.details;
-            if (channelToSwitchTo) {
-                return actions.switchToChannel(channelToSwitchTo);
-            }
-            return {data: false};
-        }).then((res: ActionResult) => {
-            if (res.data === true) {
-                onHide();
-            }
-        });
-    }, [actions, selectedChannel, selectedChannelId, handlePostForwarding, onHide]);
-
-    useEffect(() => {
-        const handleEnterKey = (e: KeyboardEvent) => {
-            // prevent other eventlisteners to catch the event
-            e.stopPropagation();
-            const textboxIsFocused = document.activeElement === textboxRef?.current?.getInputBox();
-            if (Utils.isKeyPressed(e, KeyCodes.ENTER) && !textboxIsFocused && canForwardPost) {
-                handleSubmit();
-            }
-        };
-
-        document.addEventListener('keyup', handleEnterKey);
-
-        return () => document.removeEventListener('keyup', handleEnterKey);
-    }, [handleSubmit, canPostInSelectedChannel]);
+    const postPreviewFooterMessage = formatMessage({
+        id: 'forward_post_modal.preview.footer_message',
+        defaultMessage: 'Originally posted in ~{channelName}',
+    },
+    {
+        channel: currentChannel.display_name,
+    });
 
     return (
         <GenericModal
@@ -369,9 +306,18 @@ const ForwardPostModal = (props: Props) => {
             enforceFocus={false}
             autoCloseOnConfirmButton={false}
             useCompassDesign={true}
-            modalHeaderText={formatMessage({id: 'forward_post_modal.title', defaultMessage: 'Forward Message'})}
-            confirmButtonText={formatMessage({id: 'forward_post_modal.button.forward', defaultMessage: 'Forward'})}
-            cancelButtonText={formatMessage({id: 'forward_post_modal.button.cancel', defaultMessage: 'Cancel'})}
+            modalHeaderText={formatMessage({
+                id: 'forward_post_modal.title',
+                defaultMessage: 'Forward Message',
+            })}
+            confirmButtonText={formatMessage({
+                id: 'forward_post_modal.button.forward',
+                defaultMessage: 'Forward',
+            })}
+            cancelButtonText={formatMessage({
+                id: 'forward_post_modal.button.cancel',
+                defaultMessage: 'Cancel',
+            })}
             isConfirmDisabled={!canForwardPost}
             handleConfirm={handleSubmit}
             handleEnterKeyPress={handleSubmit}
@@ -379,7 +325,9 @@ const ForwardPostModal = (props: Props) => {
             onExited={onHide}
         >
             <div className={'forward-post__body'}>
-                {isPrivateConversation ? notification : (
+                {isPrivateConversation ? (
+                    notification
+                ) : (
                     <ForwardPostChannelSelect
                         onSelect={handleChannelSelect}
                         value={selectedChannel}
@@ -390,29 +338,22 @@ const ForwardPostModal = (props: Props) => {
                     onKeyPress={postMsgKeyPress}
                     onKeyDown={handleKeyDown}
                     onSelect={handleSelect}
-                    onMouseUp={handleMouseUpKeyUp}
-                    onKeyUp={handleMouseUpKeyUp}
-                    onComposition={emitTypingEvent}
-                    onHeightChange={handleHeightChange}
                     handlePostError={handlePostError}
                     value={comment}
-                    onBlur={handleBlur}
                     emojiEnabled={enableEmojiPicker}
                     createMessage={createMessage}
                     channelId={selectedChannelId}
                     id={'forward_post_textbox'}
                     ref={textboxRef}
-                    disabled={false}
                     characterLimit={maxPostSize}
-                    preview={false}
-                    badConnection={badConnection}
-                    listenForMentionKeyClick={true}
                     useChannelMentions={false}
                     supportsCommands={false}
                     suggestionListPosition='bottom'
                 />
                 <div>
-                    <span className={'forward-post__post-preview--title'}>{messagePreviewTitle}</span>
+                    <span className={'forward-post__post-preview--title'}>
+                        {messagePreviewTitle}
+                    </span>
                     <div
                         className='post forward-post__post-preview--override'
                         onClick={preventActionOnPreview}
@@ -420,11 +361,20 @@ const ForwardPostModal = (props: Props) => {
                         <PostMessagePreview
                             metadata={previewMetaData}
                             previewPost={previewMetaData.post}
-                            handleFileDropdownOpened={Utils.noop}
-                            isPostForwardPreview={true}
+                            handleFileDropdownOpened={noop}
+                            preventClickAction={true}
+                            previewFooterMessage={postPreviewFooterMessage}
                         />
                     </div>
-                    {postError && <label className={classNames('post-error', {'animation--highlight': postError})}>{postError}</label>}
+                    {postError && (
+                        <label
+                            className={classNames('post-error', {
+                                'animation--highlight': postError,
+                            })}
+                        >
+                            {postError}
+                        </label>
+                    )}
                 </div>
             </div>
         </GenericModal>

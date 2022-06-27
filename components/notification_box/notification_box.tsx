@@ -73,7 +73,7 @@ const NotificationText = styled.p(({noTitle}: {noTitle: boolean}) => {
     `;
 });
 
-const Notification = ({variant, title, text}: NotificationProps) => {
+const NotificationBox = ({variant, title, text}: NotificationProps) => {
     const color = variantColorMap[variant];
 
     const iconProps = {
@@ -109,4 +109,4 @@ const Notification = ({variant, title, text}: NotificationProps) => {
     );
 };
 
-export default memo(Notification);
+export default memo(NotificationBox);

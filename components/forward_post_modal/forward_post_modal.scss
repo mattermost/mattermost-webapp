@@ -133,7 +133,7 @@ $modal-max-height: 800px;
     border: none;
     box-shadow: none;
 
-    &[data-testid$='placeholder'] {
+    &#forward_post_textbox_placeholder {
         opacity: 0.64 !important;
     }
 }

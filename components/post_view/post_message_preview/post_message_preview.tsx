@@ -40,7 +40,7 @@ export type Props = OwnProps & {
 };
 
 const PostMessagePreview = (props: Props) => {
-    const {currentTeamUrl, channelDisplayName, user, previewPost, metadata, isEmbedVisible, compactDisplay, handleFileDropdownOpened, isPostForwardPreview} = props;
+    const {currentTeamUrl, channelDisplayName, user, previewPost, metadata, isEmbedVisible, compactDisplay, preventClickAction, previewFooterMessage, handleFileDropdownOpened} = props;
 
     const toggleEmbedVisibility = () => {
         if (previewPost) {
@@ -136,40 +136,27 @@ const PostMessagePreview = (props: Props) => {
         teamUrl = currentTeamUrl;
     }
 
-    let previewFooter = null;
-    if (channelDisplayName) {
-        const previewFooterMessage = isPostForwardPreview ? (
-            <FormattedMessage
-                id='forward_post_modal.preview.footer_message'
-                defaultMessage='Originally posted in ~{channelName}'
-                values={{
-                    channel: channelDisplayName,
-                }}
-            />
-        ) : (
-            <FormattedMessage
-                id='post_message_preview.channel'
-                defaultMessage='Only visible to users in ~{channel}'
-                values={{
-                    channel: channelDisplayName,
-                }}
-            />
-        );
-
-        previewFooter = (
-            <div className='post__preview-footer'>
-                <p>
-                    {previewFooterMessage}
-                </p>
-            </div>
-        );
-    }
+    const previewFooter = channelDisplayName || previewFooterMessage ? (
+        <div className='post__preview-footer'>
+            <p>
+                {previewFooterMessage || (
+                    <FormattedMessage
+                        id='post_message_preview.channel'
+                        defaultMessage='Only visible to users in ~{channel}'
+                        values={{
+                            channel: channelDisplayName,
+                        }}
+                    />
+                )}
+            </p>
+        </div>
+    ) : null;
 
     return (
         <PostAttachmentContainer
             className='permalink'
             link={`${teamUrl}/pl/${metadata.post_id}`}
-            preventClickAction={isPostForwardPreview}
+            preventClickAction={preventClickAction}
         >
             <div className='post-preview'>
                 <div className='post-preview__header'>

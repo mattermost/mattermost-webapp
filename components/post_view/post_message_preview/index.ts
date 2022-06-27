@@ -30,7 +30,8 @@ import PostMessagePreview from './post_message_preview';
 export type OwnProps = {
     metadata: PostPreviewMetadata;
     previewPost?: Post;
-    isPostForwardPreview?: boolean;
+    preventClickAction?: boolean;
+    previewFooterMessage?: string;
 }
 
 function makeMapStateToProps() {
