@@ -268,7 +268,6 @@
   "admin.billing.subscription.howItWorks": "Veja como funciona o faturamento",
   "admin.billing.subscription.mostRecentPaymentFailed": "O seu pagamento mais recente falhou",
   "admin.billing.subscription.nextBillingDate": "A partir de {data}, você será cobrado com base no número de usuários habilitados",
-  "admin.billing.subscription.paymentBegins": "Pagamento começa em: {beginDate}",
   "admin.billing.subscription.paymentFailed": "Pagamento falhou. Tente novamente ou entre em contato com o suporte.",
   "admin.billing.subscription.paymentVerificationFailed": "Desculpe, a verificação do pagamento falhou",
   "admin.billing.subscription.planDetails.currentPlan": "Plano Atual",
