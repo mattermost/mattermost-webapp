@@ -3005,7 +3005,6 @@
   "create_team.team_url.teamUrl": "チームURL",
   "create_team.team_url.unavailable": "このURLは既に使用されているか使用できません。他のものを試してください。",
   "create_team.team_url.webAddress": "あなたの新しいチームのウェブアドレスを選択してください:",
-  "create_team_restricted_modal.description.prevTrial": "複数のチームを作成することで、あなたのチームのコンテキストに特化したスペースを提供することができます。無制限にチームを作成するにはProfessionalプランにアップグレードしてください。",
   "custom_emoji.header": "カスタム絵文字",
   "custom_status.expiry.date_picker.title": "日付",
   "custom_status.expiry.time_picker.title": "時刻",

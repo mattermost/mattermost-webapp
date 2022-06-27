@@ -3005,7 +3005,6 @@
   "create_team.team_url.teamUrl": "Team URL",
   "create_team.team_url.unavailable": "Denna URL används redan eller är inte tillgänglig. Testa en annan.",
   "create_team.team_url.webAddress": "Välj webbadress för ditt nya team:",
-  "create_team_restricted_modal.description.prevTrial": "Flera team gör det möjligt att skapa kontextspecifika utrymmen som är bättre anpassade till dina och dina teams behov. Uppgradera till Professional-abonnemanget för att skapa obegränsat antal team.",
   "custom_emoji.header": "Anpassad emoij",
   "custom_status.expiry.date_picker.title": "Datum",
   "custom_status.expiry.time_picker.title": "Tid",

@@ -3003,7 +3003,6 @@
   "create_team.team_url.teamUrl": "Team URL",
   "create_team.team_url.unavailable": "This URL is taken or unavailable. Please try another.",
   "create_team.team_url.webAddress": "Choose the web address of your new team:",
-  "create_team_restricted_modal.description.prevTrial": "Multiple teams allow for context-specific spaces that are more attuned to your and your teams’ needs. Upgrade to the Professional plan to create unlimited teams.",
   "custom_emoji.header": "Custom Emoji",
   "custom_status.expiry.date_picker.title": "Date",
   "custom_status.expiry.time_picker.title": "Time",

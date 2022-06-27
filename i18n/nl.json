@@ -3015,7 +3015,6 @@
   "create_team.team_url.teamUrl": "Team URL",
   "create_team.team_url.unavailable": "Deze URL is al in gebruik of niet beschikbaar. Probeer het nog eens.",
   "create_team.team_url.webAddress": "Kies het web adres van uw nieuw team:",
-  "create_team_restricted_modal.description.prevTrial": "Meerdere teams zorgen voor contextspecifieke ruimtes die beter zijn afgestemd op jouw behoeften en die van jouw teams. Upgrade naar het Professional om een onbeperkt aantal teams te maken.",
   "custom_emoji.header": "Aangepaste emoticon",
   "custom_status.expiry.date_picker.title": "Datum",
   "custom_status.expiry.time_picker.title": "Tijd",
