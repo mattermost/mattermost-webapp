@@ -29,6 +29,9 @@ export default function CenterMessageLock(props: Props) {
     const currentChannel = useSelector(getCurrentChannel);
     const lastViewableMessage = useSelector(() => 1234567890);
     const oldest = useSelector((state: GlobalState) => getOldestPostsChunkInChannel(state, currentChannel?.id));
+    if (lastViewableMessage < 0) {
+        return null;
+    }
 
     const titleValues = {
         date: lastViewableMessage,
