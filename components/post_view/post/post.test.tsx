@@ -33,6 +33,7 @@ describe('Post', () => {
         },
         isBeingEdited: false,
         isFlagged: false,
+        colorizeUsernames: true,
     };
 
     test('should do nothing when clicking on the post', () => {
