@@ -3005,12 +3005,7 @@
   "create_team.team_url.teamUrl": "Team URL",
   "create_team.team_url.unavailable": "This URL is taken or unavailable. Please try another.",
   "create_team.team_url.webAddress": "Choose the web address of your new team:",
-  "create_team_restricted_modal.agreement": "By selecting <highlight>Try free for 30 days</highlight>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails.",
-  "create_team_restricted_modal.button.plans": "View plans",
-  "create_team_restricted_modal.description": "Create unlimited teams with one of the paid plans. Get the full experience of Enterprise when you start a free 30 day trial.",
   "create_team_restricted_modal.description.prevTrial": "Multiple teams allow for context-specific spaces that are more attuned to your and your teams’ needs. Upgrade to the Professional plan to create unlimited teams.",
-  "create_team_restricted_modal.title": "Try unlimited teams with a free trial",
-  "create_team_restricted_modal.title.prevTrial": "Upgrade to create unlimited teams",
   "custom_emoji.header": "Custom Emoji",
   "custom_status.expiry.date_picker.title": "Date",
   "custom_status.expiry.time_picker.title": "Time",
@@ -3779,8 +3774,11 @@
   "menu.cloudFree.tryEnterprise": "Are you interested in a limitless plan with high-security features?",
   "menu.cloudFree.tryEnterpriseFor30Days": "Try Enterprise free for 30 days",
   "menu.cloudFree.tryFreeFor30Days": "Try free for 30 days",
+<<<<<<< HEAD
   "menu.nonCloudFree.daysLeftOnTrial": "There are {daysLeftOnTrial} days left on your Cloud trial.",
   "menu.nonCloudFree.subscribeNow": "Upgrade Now",
+=======
+>>>>>>> 480f34b9b (Translated using Weblate (Dutch))
   "message_submit_error.invalidCommand": "Command with a trigger of '{command}' not found. ",
   "message_submit_error.sendAsMessageLink": "Click here to send as a message.",
   "mfa.confirm.complete": "**Set up complete!**",
