@@ -75,6 +75,7 @@ const EdgeConfigModal = ({onCancel, onConfirm, edge, actions, events}: Props) =>
     }
     const onCancelHandler = () => {
         setConfig({})
+        onCancel()
     }
 
     return (
@@ -93,31 +94,58 @@ const EdgeConfigModal = ({onCancel, onConfirm, edge, actions, events}: Props) =>
             onExited={onCancelHandler}
         >
             <div>
-                {Object.entries(configFields).map(([key, value]) => {
-                    if (value === 'string') {
-                        return (
-                            <div key={key}>
-                                <label
-                                    htmlFor={`new-edge-config-${key}`}
-                                >
-                                    {`${key}:`}
-                                </label>
+                {Object.entries(configFields).map(([key, value], idx) => {
+                    return (
+                        <div key={key}>
+                            <label
+                                htmlFor={`new-edge-config-${key}`}
+                            >
+                                {`${key}:`}
+                            </label>
+                            {value === 'string' &&
                                 <input
                                     id={`new-edge-config-${key}`}
                                     type='text'
                                     onChange={(e) => setConfig({...config, [key]: e.target.value})}
                                     value={config[key]}
-                                    autoFocus={true}
+                                    autoFocus={idx===0}
                                     onKeyDown={(e) => {
                                         if (e.key === 'Enter') {
                                             onConfirm(config);
                                         }
                                     }}
-                                />
-                            </div>
-                        );
-                    }
-                    return null;
+                                />}
+                            {value === 'number' &&
+                                <input
+                                    id={`new-edge-config-${key}`}
+                                    type='number'
+                                    onChange={(e) => setConfig({...config, [key]: e.target.value})}
+                                    value={config[key]}
+                                    autoFocus={idx===0}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                            onConfirm(config);
+                                        }
+                                    }}
+                                />}
+                            {value === 'longstring' &&
+                                <textarea
+                                    id={`new-edge-config-${key}`}
+                                    onChange={(e) => setConfig({...config, [key]: e.target.value})}
+                                    value={config[key]}
+                                    autoFocus={idx===0}
+                                >{config[key]}</textarea>}
+                            {value.indexOf('|') !== -1 &&
+                                <select
+                                    id={`new-edge-config-${key}`}
+                                    onChange={(e) => setConfig({...config, [key]: e.target.value})}
+                                    value={config[key]}
+                                    autoFocus={idx===0}
+                                >
+                                    {value.split('|').map((option) => <option value={option}>{option}</option>)}
+                                </select>}
+                        </div>
+                    );
                 })}
                 <div>{'Available variables:'}</div>
                 <ul>
