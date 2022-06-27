@@ -64,7 +64,7 @@ const SlashCommandForm = ({handleChange}: Props): JSX.Element => {
                             value={data[label]}
                             data-testid='nameInput'
                             maxLength={64}
-                            autoFocus={true}
+                            autoFocus={label === 'command'}
                         />);
                 })
             }
