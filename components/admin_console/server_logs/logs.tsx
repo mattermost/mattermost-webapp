@@ -89,8 +89,8 @@ export default class Logs extends React.PureComponent<Props, State> {
                             <div className='banner__content'>
                                 <FormattedMessage
                                     id='admin.logs.bannerDesc'
-                                    defaultMessage='To look up users by User ID or Token ID, go to User Management > Users and paste the ID into the search filter - Test.'
-                                />whooo
+                                    defaultMessage='To look up users by User ID or Token ID, go to User Management > Users and paste the ID into the search filter.'
+                                />
                             </div>
                         </div>
                         <button
