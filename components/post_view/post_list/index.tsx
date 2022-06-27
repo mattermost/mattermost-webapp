@@ -91,6 +91,7 @@ function makeMapStateToProps() {
             atOldestPost,
             latestPostTimeStamp,
             postListIds: postIds,
+            hasInaccessiblePosts: true,
             isPrefetchingInProcess,
             isMobileView: getIsMobileView(state),
         };

@@ -273,6 +273,10 @@ export default class PostList extends React.PureComponent<Props, State> {
     }
 
     canLoadMorePosts = async (type: CanLoadMorePosts = PostRequestTypes.BEFORE_ID) => {
+        if (this.props.hasInaccessiblePosts) {
+            return;
+        }
+
         if (!this.props.postListIds) {
             return;
         }
@@ -333,7 +337,7 @@ export default class PostList extends React.PureComponent<Props, State> {
                 className='post-list-holder-by-time'
                 key={'postlist-' + this.props.channelId}
             >
-                <CenterMessageLock />
+                <CenterMessageLock/>
                 <div className='post-list__table'>
                     <div
                         id='virtualizedPostListContent'

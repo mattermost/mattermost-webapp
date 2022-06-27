@@ -2,39 +2,49 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {useIntl} from 'react-intl';
+import {useIntl, FormatDateOptions} from 'react-intl';
 import {useSelector} from 'react-redux';
+
+import {EyeOffOutlineIcon} from '@mattermost/compass-icons/components';
+
+// import {GlobalState} from '@mattermost/types/store';
 
 import {isAdmin} from 'mattermost-redux/utils/user_utils';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
-import {getOldestPostsChunkInChannel} from 'mattermost-redux/selectors/entities/posts';
+
+// import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
+// import {getOldestPostsChunkInChannel} from 'mattermost-redux/selectors/entities/posts';
 
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import useGetLimits from 'components/common/hooks/useGetLimits';
 
 import './index.scss';
-import {GlobalState} from '@mattermost/types/store';
 
-interface Props{}
+const ONE_YEAR_MS = 1000 * 1 * 60 * 60 * 24 * 365;
 
-export default function CenterMessageLock(props: Props) {
+export default function CenterMessageLock() {
     const intl = useIntl();
 
     const openPricingModal = useOpenPricingModal();
     const isAdminUser = isAdmin(useSelector(getCurrentUser).roles);
-    const [cloudLimits] = useGetLimits();
+    const [cloudLimits, limitsLoaded] = useGetLimits();
     const currentTeam = useSelector(getCurrentTeam);
-    const currentChannel = useSelector(getCurrentChannel);
+
+    // const currentChannel = useSelector(getCurrentChannel);
     const lastViewableMessage = useSelector(() => 1234567890);
-    const oldest = useSelector((state: GlobalState) => getOldestPostsChunkInChannel(state, currentChannel?.id));
-    if (lastViewableMessage < 0) {
+
+    // const oldest = useSelector((state: GlobalState) => getOldestPostsChunkInChannel(state, currentChannel?.id));
+    if (lastViewableMessage < 0 || !limitsLoaded) {
         return null;
     }
 
+    const dateFormat: FormatDateOptions = {month: 'long', day: 'numeric'};
+    if (Date.now() - lastViewableMessage >= ONE_YEAR_MS) {
+        dateFormat.year = 'numeric';
+    }
     const titleValues = {
-        date: lastViewableMessage,
+        date: intl.formatDate(lastViewableMessage, dateFormat),
         team: currentTeam?.display_name,
     };
 
@@ -50,12 +60,21 @@ export default function CenterMessageLock(props: Props) {
     let description: React.ReactNode = intl.formatMessage(
         {
             id: 'workspace_limits.message_history.locked.description.end_user',
-            defaultMessage: 'Some older messages may not be shown because your workspace has over {limit} messages. Learn more',
+            defaultMessage: 'Some older messages may not be shown because your workspace has over {limit} messages. Select Notify Admin to send an automatic request to your System Admins to upgrade.',
         },
         {
             limit,
         },
     );
+
+    let cta = (<button className='btn btn-primary'>
+        {
+            intl.formatMessage({
+                id: 'workspace_limits.message_history.locked.cta.end_user',
+                defaultMessage: 'Notify Admin',
+            })
+        }
+    </button>);
 
     if (isAdminUser) {
         title = intl.formatMessage({
@@ -83,15 +102,36 @@ export default function CenterMessageLock(props: Props) {
                 ),
             },
         );
+
+        cta = (
+            <button
+                className='btn is-admin'
+                onClick={openPricingModal}
+            >
+                {
+                    intl.formatMessage({
+                        id: 'workspace_limits.message_history.locked.cta.admin',
+                        defaultMessage: 'Upgrade now',
+                    })
+                }
+            </button>
+        );
     }
 
     return (<div className='CenterMessageLock'>
         <div className='CenterMessageLock__left'>
-            <i className='icon icon-eye-outline'/>
+            <EyeOffOutlineIcon color={'rgba(var(--center-channel-text-rgb), 0.72)'}/>
         </div>
         <div className='CenterMessageLock__right'>
-            {title}
-            {description}
+            <div className='CenterMessageLock__title'>
+                {title}
+            </div>
+            <div className='CenterMessageLock__description'>
+                {description}
+            </div>
+            <div className='CenterMessageLock__cta'>
+                {cta}
+            </div>
         </div>
     </div>);
 }
