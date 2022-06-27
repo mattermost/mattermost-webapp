@@ -5,6 +5,8 @@ import React from 'react';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 import classNames from 'classnames';
 
+import {CloseIcon} from '@mattermost/compass-icons/components';
+
 import {Constants} from 'utils/constants';
 import * as Emoji from 'utils/emoji.jsx';
 import imgTrans from 'images/img_trans.gif';
@@ -89,7 +91,9 @@ export class EmojiPickerSkin extends React.PureComponent<Props, State> {
                         className='skin-tones__close-icon'
                         onClick={() => this.hideSkinTonePicker(this.props.userSkinTone)}
                     >
-                        <i className='icon-close icon--no-spacing icon-16'/>
+                        <CloseIcon
+                            color={'rgba(var(--center-channel-color-rgb), 0.56)'}
+                        />
                     </button>
                     <div className='skin-tones__close-text'>
                         <FormattedMessage
