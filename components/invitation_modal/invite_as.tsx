@@ -11,7 +11,7 @@ import {GlobalState} from 'types/store';
 
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
-import {getSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
+import {getSubscriptionProduct, checkHadPriorTrial} from 'mattermost-redux/selectors/entities/cloud';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 
 import {closeModal, openModal} from 'actions/views/modals';
@@ -56,6 +56,7 @@ export default function InviteAs(props: Props) {
 
     const isCloud = license?.Cloud === 'true';
     const isCloudFreeTrial = subscription?.is_free_trial === 'true';
+    const hasPriorTrial = useSelector(checkHadPriorTrial);
 
     const isPaidSubscription = isCloud && !isStarter && !isCloudFreeTrial;
 
@@ -92,6 +93,7 @@ export default function InviteAs(props: Props) {
                     </span>
                 )}
                 clickCallback={closeInviteModal}
+                tooltipMessage={hasPriorTrial ? formatMessage({id: 'cloud_free.professional_feature.upgrade', defaultMessage: 'Upgrade'}) : undefined}
 
                 // the secondary back button first closes the restridted feature modal and then opens back the invitation modal
                 customSecondaryButtonInModal={{
