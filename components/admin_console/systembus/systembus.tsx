@@ -6,18 +6,18 @@ import {DefaultNodeModel} from '@projectstorm/react-diagrams';
 import React, {useCallback, useEffect, useState} from 'react';
 
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
-import GenericModal from 'components/generic_modal';
 
 import {Client4} from 'mattermost-redux/client';
 
 import Graph, {CanvasGraphType, GraphEdge, GraphNode, GraphType} from './graph';
+import GraphTitleModal from './systembus-modals/graph-title-modal';
+
 import {MattermostLinkModel} from './customlink';
-import './systembus.scss';
 import GraphList from './graph-list';
+import './systembus.scss';
 
 const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
     const [newGraphOpen, setNewGraphOpen] = useState<boolean>(false);
-    const [newGraphName, setNewGraphName] = useState<string>('');
     const [events, setEvents] = useState<any>([]);
     const [actions, setActions] = useState<any>([]);
     const [graphs, setGraphs] = useState<GraphType[]>([]);
@@ -42,12 +42,11 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
     }, []);
 
     const addGraphRequest = () => {
-        setNewGraphName('');
         setNewGraphOpen(true);
     };
 
-    const addGraph = () => {
-        Client4.createActionsGraph({...newGraph, name: newGraphName}).then((returnedGraph: any) => {
+    const addGraph = (title: string) => {
+        Client4.createActionsGraph({...newGraph, name: title}).then((returnedGraph: any) => {
             setGraphs([...graphs, {...returnedGraph, nodes: returnedGraph.nodes || [], edges: returnedGraph.edges || []}]);
             const selected = returnedGraph;
             const modifiedData = createNodesAndEdges(selected!.nodes || [], selected!.edges || []);
@@ -59,6 +58,7 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
             };
             setSelectedGraph(newSelected);
         });
+        setNewGraphOpen(false);
     };
 
     const createNodesAndEdges = (nodes: GraphNode[], edges: GraphEdge[]): {nodes: DefaultNodeModel[]; links: MattermostLinkModel[]} => {
@@ -161,7 +161,7 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
         const updatedGraph = {
             id: orig?.id,
             name: orig?.name,
-            nodes: Object.values(data.layers[1].models).map((n) => {
+            nodes: Object.values(data.layers[1].models).map((n: any) => {
                 const orig = n.getOptions().extras.original;
                 return {
                     actionName: orig.actionName,
@@ -179,7 +179,7 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
                     y: Math.trunc(n.position.y),
                 };
             }),
-            edges: Object.values(data.layers[0].models).map((e) => {
+            edges: Object.values(data.layers[0].models).map((e: any) => {
                 const orig = e.getOptions().extras.original;
                 return {
                     config: orig.config,
@@ -204,29 +204,11 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
     return (
         <div className='wrapper--fixed'>
             {newGraphOpen && (
-                <GenericModal
-                    id='new-graph-title-modal'
-                    onExited={() => setNewGraphOpen(false)}
-                    handleCancel={() => setNewGraphOpen(false)}
-                    handleConfirm={addGraph}
-                    modalHeaderText='New Graph'
-                >
-                    <div>
-                        <label htmlFor='new-graph-title'>{'Graph Name:'}</label>
-                        <input
-                            type='text'
-                            id='new-graph-title'
-                            onChange={(e) => setNewGraphName(e.target.value)}
-                            value={newGraphName}
-                            autoFocus={true}
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter') {
-                                    addGraph();
-                                }
-                            }}
-                        />
-                    </div>
-                </GenericModal>)}
+                <GraphTitleModal
+                    handleOnModalConfirm={addGraph}
+                    handleOnModalCancel={() => setNewGraphOpen(false)}
+                />
+            )}
             <FormattedAdminHeader
                 id='admin.systembus.system_bus_settings'
                 defaultMessage='System Bus Configuration'

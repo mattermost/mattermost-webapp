@@ -1,8 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React, {useState, useMemo} from 'react';
+import {useIntl} from 'react-intl';
 
 import GenericModal from 'components/generic_modal';
+
+import './node-modal.scss';
 
 type Props = {
     edge: any;
@@ -14,6 +17,11 @@ type Props = {
 
 const EdgeConfigModal = ({onCancel, onConfirm, edge, actions, events}: Props) => {
     const [config, setConfig] = useState<{[key: string]: string}>({});
+
+    const intl = useIntl();
+    const {formatMessage} = intl;
+
+    const modalHeader = formatMessage({id: 'node_modal.modalTitle', defaultMessage: 'Create Edge'});
 
     const inNode = useMemo(() => {
         if (edge) {
@@ -63,11 +71,18 @@ const EdgeConfigModal = ({onCancel, onConfirm, edge, actions, events}: Props) =>
 
     return (
         <GenericModal
-            id='new-graph-title-modal'
-            onExited={onCancel}
-            handleCancel={onCancel}
+            id='new-edge-modal'
+            className='node-modal'
+            modalHeaderText={modalHeader}
+            confirmButtonText={modalHeader}
+            cancelButtonText={formatMessage({id: 'channel_modal.cancel', defaultMessage: 'Cancel'})}
+            isConfirmDisabled={false}
+            autoCloseOnConfirmButton={false}
+            useCompassDesign={true}
             handleConfirm={() => onConfirm(config)}
-            modalHeaderText='New Edge'
+            handleEnterKeyPress={() => onConfirm(config)}
+            handleCancel={onCancel}
+            onExited={onCancel}
         >
             <div>
                 {Object.entries(configFields).map(([key, value]) => {
