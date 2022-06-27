@@ -41,6 +41,7 @@ export default class RhsRootPost extends React.PureComponent {
         teamId: PropTypes.string.isRequired,
         currentUserId: PropTypes.string.isRequired,
         compactDisplay: PropTypes.bool,
+        colorizeUsernames: PropTypes.bool,
         commentCount: PropTypes.number.isRequired,
         isFlagged: PropTypes.bool.isRequired,
         previewCollapsed: PropTypes.string,
@@ -351,6 +352,7 @@ export default class RhsRootPost extends React.PureComponent {
         const isEphemeral = Utils.isPostEphemeral(post);
         const isSystemMessage = PostUtils.isSystemMessage(post);
         const isMeMessage = ReduxPostUtils.isMeMessage(post);
+        const colorize = this.props.compactDisplay && this.props.colorizeUsernames;
 
         const showRecentlyUsedReactions = (!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && !channelIsArchived && this.props.oneClickReactionsEnabled && this.props.enableEmojiPicker);
         let showRecentReacions;
@@ -406,6 +408,7 @@ export default class RhsRootPost extends React.PureComponent {
                     }
                     overwriteImage={Constants.SYSTEM_MESSAGE_PROFILE_IMAGE}
                     disablePopover={true}
+                    colorize={colorize}
                 />
             );
         } else if (post.props && post.props.from_webhook) {
@@ -417,6 +420,7 @@ export default class RhsRootPost extends React.PureComponent {
                         hideStatus={true}
                         overwriteName={post.props.override_username}
                         disablePopover={true}
+                        colorize={colorize}
                     />
                 );
             } else {
@@ -426,6 +430,7 @@ export default class RhsRootPost extends React.PureComponent {
                         userId={post.user_id}
                         hideStatus={true}
                         disablePopover={true}
+                        colorize={colorize}
                     />
                 );
             }
@@ -439,6 +444,7 @@ export default class RhsRootPost extends React.PureComponent {
                     isBusy={this.props.isBusy}
                     isRHS={true}
                     hasMention={true}
+                    colorize={colorize}
                 />
             );
         }
