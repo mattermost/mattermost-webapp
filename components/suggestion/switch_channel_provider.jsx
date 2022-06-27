@@ -399,6 +399,12 @@ function makeChannelSearchFilter(channelPrefix) {
 }
 
 export default class SwitchChannelProvider extends Provider {
+    /**
+     * whenever this gets adjusted/refactored to not call the callback twice we need to adjust the behavior in
+     * the ForwardPostChannelSelect component as well.
+     *
+     * @see {@link components/forward_post_modal/forward_post_channel_select.tsx}
+     */
     handlePretextChanged(channelPrefix, resultsCallback) {
         if (channelPrefix) {
             prefix = channelPrefix;

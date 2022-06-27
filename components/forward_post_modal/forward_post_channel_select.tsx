@@ -212,7 +212,7 @@ function ForwardPostChannelSelect({onSelect, value}: Props<ChannelOption>) {
         const handleDefaultResults = (res: ProviderResults) => {
             options = [
                 {
-                    label: 'Recent',
+                    label: formatMessage({id: 'suggestion.mention.recent.channels', defaultMessage: 'Recent'}),
                     options: res.items.filter((item) => item.channel.type !== 'threads').map((item) => {
                         const {channel} = item;
                         return {
@@ -232,44 +232,36 @@ function ForwardPostChannelSelect({onSelect, value}: Props<ChannelOption>) {
     const defaultOptions = useRef<GroupedOption[]>(getDefaultResults());
 
     const handleInputChange = (inputValue: string) => {
-        return new Promise<GroupedOption[]>((resolve) => {
-            let options: GroupedOption[] = [];
+        return new Promise<ChannelOption[]>((resolve) => {
+            const options: ChannelOption[] = [];
+
+            /** we optimistically assume this callback gets invoked twice when we have a value to be passed into the provider.
+             * If, for some reason, we decide to change the behavior of the provider we should change the handling here as well.
+             * A comment will be added to the repective section of the provider as well.
+             *
+             * @see {@link components/suggestion/switch_channel_provider.jsx}
+             */
+            let callCount = inputValue ? 1 : 0;
             const handleResults = (res: ProviderResults) => {
-                const newOptions: Record<string, any> = {};
+                callCount++;
                 res.items.forEach((item) => {
                     const {channel} = item;
-                    const option: ChannelOption = {
-                        label: channel.display_name || channel.name,
-                        value: channel.id,
-                        details: channel,
-                    };
-                    let dividerLabel = formatMessage({id: 'suggestion.mention.recent.channels', defaultMessage: 'Recent'});
-                    switch (channel.type) {
-                    case Constants.OPEN_CHANNEL:
-                        dividerLabel = formatMessage({id: 'suggestion.search.public', defaultMessage: 'Recent'});
-                        break;
-                    case Constants.PRIVATE_CHANNEL:
-                        dividerLabel = formatMessage({id: 'suggestion.mention.private.channels', defaultMessage: 'Private Channels'});
-                        break;
-                    case Constants.DM_CHANNEL:
-                        dividerLabel = formatMessage({id: 'suggestion.search.direct', defaultMessage: 'Direct Messages'});
-                        break;
-                    case Constants.GM_CHANNEL:
-                        dividerLabel = formatMessage({id: 'suggestion.search.group', defaultMessage: 'Group Messages'});
-                        break;
-                    }
 
-                    if (!newOptions[channel.type]) {
-                        newOptions[channel.type] = {label: dividerLabel, options: []};
+                    if (channel.type !== 'threads') {
+                        options.push({
+                            label: channel.display_name || channel.name,
+                            value: channel.id,
+                            details: channel,
+                        });
                     }
-                    newOptions[channel.type].options.push(option);
                 });
-
-                options = Object.values(newOptions);
             };
 
             provider.handlePretextChanged(inputValue, handleResults);
-            resolve(options);
+            if (callCount === 2) {
+                // only resolvbe when the count reaches 2
+                resolve(options);
+            }
         });
     };
 
