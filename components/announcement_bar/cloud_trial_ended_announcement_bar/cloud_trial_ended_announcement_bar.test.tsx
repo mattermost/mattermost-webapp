@@ -36,9 +36,6 @@ describe('components/global/CloudTrialEndAnnouncementBar', () => {
                 },
             },
             general: {
-                config: {
-                    FeatureFlagCloudFree: 'true',
-                } as any,
                 license: {
                     IsLicensed: 'true',
                     Cloud: 'true',

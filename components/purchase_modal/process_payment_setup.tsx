@@ -187,7 +187,7 @@ class ProcessPaymentSetup extends React.PureComponent<Props, State> {
                                 height={313}
                             />
                         }
-                        formattedButonText={formattedBtnText}
+                        formattedButtonText={formattedBtnText}
                         buttonHandler={this.props.onClose}
                         className={'success'}
                     />
@@ -234,7 +234,7 @@ class ProcessPaymentSetup extends React.PureComponent<Props, State> {
                         height={313}
                     />
                 }
-                formattedButonText={formattedBtnText}
+                formattedButtonText={formattedBtnText}
                 buttonHandler={handleClose}
                 className={'success'}
                 tertiaryBtnText={t('admin.billing.subscription.viewBilling')}
