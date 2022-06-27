@@ -24,7 +24,7 @@ import AutoHeightSwitcher, {AutoHeightSlots} from 'components/common/auto_height
 
 // When adding clickable targets within a root post to exclude from post's on click to open thread,
 // please add to/maintain the selector below
-const isEligibleForClick = makeIsEligibleForClick('.post-image__column, .embed-responsive-item, .attachment, .hljs, code, .postReminderMenu');
+const isEligibleForClick = makeIsEligibleForClick('.post-image__column, .embed-responsive-item, .attachment, .hljs, code, .postReminderSubMenu');
 
 export default class Post extends React.PureComponent {
     static propTypes = {
