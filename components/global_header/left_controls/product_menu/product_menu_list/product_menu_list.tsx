@@ -39,7 +39,7 @@ export type Props = {
     canManageIntegrations: boolean;
     enablePluginMarketplace: boolean;
     showVisitSystemConsoleTour: boolean;
-    isCloud: boolean;
+    isStarterFree: boolean;
     isFreeTrial: boolean;
     onClick?: React.MouseEventHandler<HTMLElement>;
     handleVisitConsoleClick: React.MouseEventHandler<HTMLElement>;
@@ -65,7 +65,7 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
         canManageIntegrations,
         enablePluginMarketplace,
         showVisitSystemConsoleTour,
-        isCloud,
+        isStarterFree,
         isFreeTrial,
         onClick,
         handleVisitConsoleClick,
@@ -146,7 +146,7 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                 <Menu.ItemToggleModalRedux
                     id='userGroups'
                     modalId={ModalIdentifiers.USER_GROUPS}
-                    show={enableCustomUserGroups || isCloud}
+                    show={enableCustomUserGroups || isStarterFree || isFreeTrial}
                     dialogType={UserGroupsModal}
                     dialogProps={{
                         backButtonAction: openGroupsModal,
@@ -158,10 +158,10 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                             glyph={'account-multiple-outline'}
                         />
                     }
-                    disabled={isCloud && !isFreeTrial}
-                    sibling={isCloud && (
+                    disabled={isStarterFree}
+                    sibling={(isStarterFree || isFreeTrial) && (
                         <RestrictedIndicator
-                            blocked={!isFreeTrial}
+                            blocked={isStarterFree}
                             tooltipMessage={formatMessage({
                                 id: 'navbar_dropdown.userGroups.tooltip.cloudFreeTrial',
                                 defaultMessage: 'During your trial you are able to create user groups. These user groups will be archived after your trial.',
