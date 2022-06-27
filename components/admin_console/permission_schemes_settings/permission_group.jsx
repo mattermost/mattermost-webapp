@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {PermissionsScope} from 'utils/constants';
 
-import PermissionCheckbox from './permission_checkbox.jsx';
+import PermissionCheckbox from './permission_checkbox';
 import PermissionRow from './permission_row.jsx';
 import PermissionDescription from './permission_description.jsx';
 

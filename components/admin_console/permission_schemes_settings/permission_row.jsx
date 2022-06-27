@@ -5,7 +5,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
-import PermissionCheckbox from './permission_checkbox.jsx';
+import PermissionCheckbox from './permission_checkbox';
 import PermissionDescription from './permission_description.jsx';
 
 export default class PermissionRow extends React.PureComponent {
