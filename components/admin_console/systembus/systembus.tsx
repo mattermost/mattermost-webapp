@@ -79,7 +79,7 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
             }
             case 'webhook': {
                 name = 'webhook\n' + node.id;
-                color = 'rgb(255,0,255)';
+                color = 'rgb(127,0,255)';
                 break;
             }
             case 'slash-command': {
@@ -94,7 +94,7 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
             }
             case 'sched': {
                 name = node.controlType!;
-                color = 'rgb(204,204,0)';
+                color = 'rgb(127,0,255)';
                 break;
             }
             }
