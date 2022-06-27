@@ -4,7 +4,7 @@ import {combineReducers} from 'redux';
 
 import {SchemeTypes, UserTypes} from 'mattermost-redux/action_types';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {SchemesState, Scheme} from 'mattermost-redux/types/schemes';
+import {SchemesState, Scheme} from '@mattermost/types/schemes';
 
 function schemes(state: {
     [x: string]: Scheme;

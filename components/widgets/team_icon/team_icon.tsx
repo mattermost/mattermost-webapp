@@ -5,7 +5,7 @@ import React from 'react';
 import classNames from 'classnames';
 import {injectIntl, IntlShape} from 'react-intl';
 
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 
 import {imageURLForTeam} from 'utils/utils';
 

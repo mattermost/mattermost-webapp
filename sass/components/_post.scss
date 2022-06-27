@@ -392,7 +392,7 @@
 
     .custom-textarea {
         bottom: 0;
-        max-height: calc(50vh - 38px);
+        max-height: calc(50vh - 40px);
         padding: 13px 0 12px 16px;
         cursor: auto;
         resize: none;
@@ -445,6 +445,35 @@
             vertical-align: top;
         }
 
+        .send-button {
+            display: none;
+            width: 45px;
+            height: 100%;
+            padding-right: 4px;
+            border-left: 1px solid transparent;
+            cursor: pointer;
+            font-size: 17px;
+            line-height: 49px;
+            text-align: center;
+            transition: all 0.15s;
+            vertical-align: bottom;
+
+            &:active {
+                opacity: 0.75;
+            }
+
+            &.disabled {
+                i {
+                    color: inherit;
+                }
+            }
+
+            .android &,
+            .ios & {
+                display: block;
+            }
+        }
+
         .icon--emoji-picker {
             cursor: pointer;
             opacity: 0.5;
@@ -454,31 +483,6 @@
             &:active {
                 box-shadow: none;
                 opacity: 0.9;
-            }
-
-            .icon--attachment {
-                position: relative;
-                display: inline-block;
-                opacity: 0.5;
-                vertical-align: top;
-
-                & + input {
-                    position: absolute;
-                    top: 0;
-                    right: 0;
-                    width: 100%;
-                    height: 100%;
-                    margin: 0;
-                    cursor: pointer;
-                    direction: ltr;
-                    filter: alpha(opacity=0);
-                    font-size: 23px;
-                    opacity: 0;
-                }
-
-                &:hover {
-                    opacity: 0.9;
-                }
             }
         }
     }
@@ -511,88 +515,38 @@
     top: 0;
     right: 0;
     display: flex;
-    padding: 8px;
-    margin: 0;
-    gap: 4px;
+    margin: 0 1px 0 0;
+
+    > div {
+        margin: 0 4px 0 0;
+    }
 
     .post-action {
         display: flex;
-        width: 32px;
-        height: 32px;
+        width: 36px;
+        height: 36px;
+        align-items: center;
+        justify-content: center;
         border: none;
+        margin: 5px 0;
         background: transparent;
         border-radius: 4px;
-        color: rgba(var(--center-channel-color-rgb), 0.56);
-        place-content: center;
-        place-items: center;
+        color: rgba(v(center-channel-color-rgb), 0.56);
+        fill: rgba(v(center-channel-color-rgb), 0.56);
 
         &:hover {
-            background: rgba(var(--center-channel-color-rgb), 0.08);
-            color: rgba(var(--center-channel-color-rgb), 0.72);
+            background: rgba(v(center-channel-color-rgb), 0.08);
+            color: rgba(v(center-channel-color-rgb), 0.72);
+            fill: rgba(v(center-channel-color-rgb), 0.72);
         }
 
         &:active,
         &--active,
         &--active:hover {
             background: rgba(var(--button-bg-rgb), 0.08);
-            color: var(--button-bg);
+            color: v(button-bg);
+            fill: v(button-bg);
         }
-
-        &.disabled,
-        &[disabled] {
-            color: rgba(var(--center-channel-color-rgb), 0.56);
-            opacity: 0.1;
-
-            &:hover,
-            &:active {
-                color: rgba(var(--center-channel-color-rgb), 0.56);
-                opacity: 0.1;
-            }
-        }
-    }
-
-    .send-button {
-        display: flex;
-        height: 32px;
-        padding: 0 16px;
-        border: none;
-        background: var(--button-bg);
-        border-radius: 4px;
-        color: var(--button-color);
-        cursor: pointer;
-        place-content: center;
-        place-items: center;
-        transition: color 150ms;
-
-        &.disabled,
-        &[disabled] {
-            background: rgba(var(--center-channel-color-rgb), 0.08) !important;
-
-            svg {
-                fill: rgba(var(--center-channel-color-rgb), 0.32) !important;
-            }
-        }
-
-        .android &,
-        .ios & {
-            display: flex;
-        }
-    }
-
-    &.btn-file__disabled {
-        opacity: 0.1;
-
-        &:hover,
-        &:active {
-            opacity: 0.1;
-        }
-    }
-
-    .icon--attachment {
-        position: relative;
-        overflow: hidden;
-        cursor: pointer;
-        vertical-align: top;
 
         & + input {
             position: absolute;
@@ -606,6 +560,15 @@
             font-size: 23px;
             opacity: 0;
             pointer-events: none;
+        }
+    }
+
+    &.btn-file__disabled {
+        opacity: 0.1;
+
+        &:hover,
+        &:active {
+            opacity: 0.1;
         }
     }
 }
@@ -670,13 +633,14 @@
     overflow: hidden;
     max-width: 100%;
     padding: 8px 0.5em 0 1.5em; // If this needs to be changed then .post-row__padding needs to be adjusted accordingly
+    transition: height 200ms, background-color 200ms;
     word-wrap: break-word;
 
     &:not(.post--editing):not(.post--editing):hover {
         background-color: rgba(v(center-channel-color-rgb), 0.04);
 
-        .post__header {
-            padding: 0 55px 0 0;
+        .PostAttachmentOpenGraph .remove-button {
+            display: flex;
         }
     }
 

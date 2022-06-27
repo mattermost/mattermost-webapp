@@ -19,9 +19,11 @@ import {getTeamByName, getMyTeamMember} from 'mattermost-redux/selectors/entitie
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {RequestStatus} from 'mattermost-redux/constants';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 
 import AlertBanner, {ModeType, AlertBannerProps} from 'components/alert_banner';
+import ExternalLoginButton, {ExternalLoginButtonType} from 'components/external_login_button/external_login_button';
+import ColumnLayout from 'components/header_footer_route/content_layouts/column';
 import {CustomizeHeaderType} from 'components/header_footer_route/header_footer_route';
 import LoadingScreen from 'components/loading_screen';
 import Markdown from 'components/markdown';
@@ -34,43 +36,19 @@ import LoginOpenIDIcon from 'components/widgets/icons/login_openid_icon';
 import Input, {SIZE} from 'components/widgets/inputs/input/input';
 import PasswordInput from 'components/widgets/inputs/password_input/password_input';
 import WomanWithChatsSVG from 'components/common/svg_images_components/woman_with_chats_svg';
+
 import {GlobalState} from 'types/store';
 import Constants from 'utils/constants';
+
 import {showNotification} from 'utils/notifications';
 import {t} from 'utils/i18n';
 import {setCSRFFromCookie} from 'utils/utils';
 
+import {SubmitOptions} from 'components/claim/components/email_to_ldap';
+
 import LoginMfa from './login_mfa';
 
 import './login.scss';
-
-type ExternalLoginButtonType = {
-    id: string;
-    url: string;
-    icon: React.ReactNode;
-    label: string;
-    style?: React.CSSProperties;
-};
-
-export const ExternalLoginButton = ({
-    id,
-    url,
-    icon,
-    label,
-    style,
-}: ExternalLoginButtonType) => (
-    <Link
-        id={id}
-        className={classNames('login-body-card-form-login-option', id)}
-        to={url}
-        style={style}
-    >
-        {icon}
-        <span className='login-body-card-form-login-option-label'>
-            {label}
-        </span>
-    </Link>
-);
 
 type LoginProps = {
     onCustomizeHeader?: CustomizeHeaderType;
@@ -148,7 +126,6 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
     const enableBaseLogin = enableSignInWithEmail || enableSignInWithUsername || ldapEnabled;
     const enableExternalSignup = enableSignUpWithGitLab || enableSignUpWithOffice365 || enableSignUpWithGoogle || enableSignUpWithOpenId || enableSignUpWithSaml;
     const showSignup = enableOpenServer && (enableExternalSignup || enableSignUpWithEmail || enableLdap);
-    const canSubmit = Boolean(loginId && password) && !hasError && !isWaiting;
 
     const getExternalLoginOptions = () => {
         const externalLoginOptions: ExternalLoginButtonType[] = [];
@@ -160,7 +137,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
         if (enableSignUpWithGitLab) {
             externalLoginOptions.push({
                 id: 'gitlab',
-                url: `${Client4.getOAuthPath()}/gitlab/login${search}`,
+                url: `${Client4.getOAuthRoute()}/gitlab/login${search}`,
                 icon: <LoginGitlabIcon/>,
                 label: GitLabButtonText || formatMessage({id: 'login.gitlab', defaultMessage: 'GitLab'}),
                 style: {color: GitLabButtonColor, borderColor: GitLabButtonColor},
@@ -170,7 +147,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
         if (enableSignUpWithGoogle) {
             externalLoginOptions.push({
                 id: 'google',
-                url: `${Client4.getOAuthPath()}/google/login${search}`,
+                url: `${Client4.getOAuthRoute()}/google/login${search}`,
                 icon: <LoginGoogleIcon/>,
                 label: formatMessage({id: 'login.google', defaultMessage: 'Google'}),
             });
@@ -179,7 +156,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
         if (enableSignUpWithOffice365) {
             externalLoginOptions.push({
                 id: 'office365',
-                url: `${Client4.getOAuthPath()}/office365/login${search}`,
+                url: `${Client4.getOAuthRoute()}/office365/login${search}`,
                 icon: <LoginOffice365Icon/>,
                 label: formatMessage({id: 'login.office365', defaultMessage: 'Office 365'}),
             });
@@ -188,7 +165,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
         if (enableSignUpWithOpenId) {
             externalLoginOptions.push({
                 id: 'openid',
-                url: `${Client4.getOAuthPath()}/openid/login${search}`,
+                url: `${Client4.getOAuthRoute()}/openid/login${search}`,
                 icon: <LoginOpenIDIcon/>,
                 label: OpenIdButtonText || formatMessage({id: 'login.openid', defaultMessage: 'Open ID'}),
                 style: {color: OpenIdButtonColor, borderColor: OpenIdButtonColor},
@@ -198,7 +175,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
         if (enableSignUpWithSaml) {
             externalLoginOptions.push({
                 id: 'saml',
-                url: `/login/sso/saml${search}`,
+                url: `${Client4.getUrl()}/login/sso/saml${search}`,
                 icon: <LockIcon/>,
                 label: SamlLoginButtonText || formatMessage({id: 'login.saml', defaultMessage: 'SAML'}),
             });
@@ -331,6 +308,14 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
         return setAlertBanner(mode ? {mode: mode as ModeType, title, onDismiss} : null);
     }, [extraParam, sessionExpired, siteName, onDismissSessionExpired]);
 
+    const onWindowFocus = () => {
+        if (extraParam === Constants.SIGNIN_VERIFIED && emailParam) {
+            passwordInput.current?.focus();
+        } else {
+            loginIdInput.current?.focus();
+        }
+    };
+
     useEffect(() => {
         if (onCustomizeHeader) {
             onCustomizeHeader({
@@ -356,9 +341,9 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
             return;
         }
 
-        if (extraParam === Constants.SIGNIN_VERIFIED && emailParam) {
-            passwordInput.current?.focus();
-        }
+        onWindowFocus();
+
+        window.addEventListener('focus', onWindowFocus);
 
         // Determine if the user was unexpectedly logged out.
         if (LocalStorageStore.getWasLoggedIn()) {
@@ -391,7 +376,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
                 closeSessionExpiredNotification.current = undefined;
             }
         };
-    });
+    }, []);
 
     if (initializing) {
         return (<LoadingScreen/>);
@@ -500,10 +485,10 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
             return;
         }
 
-        submit(loginId, password);
+        submit({loginId, password});
     };
 
-    const submit = async (loginId: string, password: string, token?: string) => {
+    const submit = async ({loginId, password, token}: SubmitOptions) => {
         setIsWaiting(true);
 
         const {error} = await dispatch(login(loginId, password, token));
@@ -600,7 +585,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
         } else if (useCaseOnboarding) {
             // need info about whether admin or not,
             // and whether admin has already completed
-            // first tiem onboarding. Instead of fetching and orchestrating that here,
+            // first time onboarding. Instead of fetching and orchestrating that here,
             // let the default root component handle it.
             history.push('/');
         } else {
@@ -635,7 +620,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
     };
 
     const onEnterKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === Constants.KeyCodes.ENTER[0] && canSubmit) {
+        if (e.key === Constants.KeyCodes.ENTER[0]) {
             preSubmit(e);
         }
     };
@@ -684,14 +669,10 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
 
         if (!enableBaseLogin && !enableExternalSignup) {
             return (
-                <div className='login-body-no-login'>
-                    <h1 className='login-body-no-login-title'>
-                        {formatMessage({id: 'login.noMethods.title', defaultMessage: 'This server doesn’t have any sign-in methods enabled'})}
-                    </h1>
-                    <p className='login-body-no-login-subtitle'>
-                        {formatMessage({id: 'login.noMethods.subtitle', defaultMessage: 'Please contact your System Administrator to resolve this.'})}
-                    </p>
-                </div>
+                <ColumnLayout
+                    title={formatMessage({id: 'login.noMethods.title', defaultMessage: 'This server doesn’t have any sign-in methods enabled'})}
+                    message={formatMessage({id: 'login.noMethods.subtitle', defaultMessage: 'Please contact your System Administrator to resolve this.'})}
+                />
             );
         }
 
@@ -769,7 +750,6 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
                                 <SaveButton
                                     extraClasses='login-body-card-form-button-submit large'
                                     saving={isWaiting}
-                                    disabled={!canSubmit}
                                     onClick={preSubmit}
                                     defaultMessage={formatMessage({id: 'login.logIn', defaultMessage: 'Log in'})}
                                     savingMessage={formatMessage({id: 'login.logingIn', defaultMessage: 'Logging in…'})}
@@ -779,7 +759,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
                         {enableBaseLogin && enableExternalSignup && (
                             <div className='login-body-card-form-divider'>
                                 <span className='login-body-card-form-divider-label'>
-                                    {formatMessage({id: 'login.or', defaultMessage: 'or'})}
+                                    {formatMessage({id: 'login.or', defaultMessage: 'or log in with'})}
                                 </span>
                             </div>
                         )}
@@ -788,6 +768,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
                                 {getExternalLoginOptions().map((option) => (
                                     <ExternalLoginButton
                                         key={option.id}
+                                        direction={enableBaseLogin ? undefined : 'column'}
                                         {...option}
                                     />
                                 ))}

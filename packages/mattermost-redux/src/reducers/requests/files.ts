@@ -6,7 +6,7 @@ import {FileTypes} from 'mattermost-redux/action_types';
 import {RequestStatus} from 'mattermost-redux/constants';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {FilesRequestsStatuses, RequestStatusType} from 'mattermost-redux/types/requests';
+import {FilesRequestsStatuses, RequestStatusType} from '@mattermost/types/requests';
 
 import {initialRequestState} from './helpers';
 

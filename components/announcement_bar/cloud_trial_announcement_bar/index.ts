@@ -33,10 +33,10 @@ function mapStateToProps(state: GlobalState) {
 
     if (isCloud && subscription?.is_free_trial === 'true') {
         isFreeTrial = true;
-        daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription.trial_end_at);
-        if (daysLeftOnTrial > TrialPeriodDays.TRIAL_MAX_DAYS) {
-            daysLeftOnTrial = TrialPeriodDays.TRIAL_MAX_DAYS;
-        }
+        daysLeftOnTrial = Math.min(
+            getRemainingDaysFromFutureTimestamp(subscription.trial_end_at),
+            TrialPeriodDays.TRIAL_30_DAYS,
+        );
     }
 
     return {

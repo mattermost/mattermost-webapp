@@ -125,12 +125,11 @@ export default class TeamDetails extends React.PureComponent {
                 serverError = <FormError error={result.error.message}/>;
                 saveNeeded = true;
             }
-            this.setState({serverError, saving: false, saveNeeded, usersToRemoveCount: 0, rolesToUpdate: {}, usersToAdd: {}, usersToRemove: {}}, () => {
-                actions.setNavigationBlocked(saveNeeded);
-                if (!saveNeeded) {
-                    browserHistory.push('/admin_console/user_management/teams');
-                }
-            });
+            this.setState({serverError, saving: false, saveNeeded, usersToRemoveCount: 0, rolesToUpdate: {}, usersToAdd: {}, usersToRemove: {}});
+            actions.setNavigationBlocked(saveNeeded);
+            if (!saveNeeded) {
+                browserHistory.push('/admin_console/user_management/teams');
+            }
             return;
         } else if (this.teamToBeRestored() && this.state.serverError === null) {
             const result = await actions.unarchiveTeam(team.id);
@@ -489,6 +488,7 @@ export default class TeamDetails extends React.PureComponent {
                             onToggleArchive={this.onToggleArchive}
                             isArchived={isLocalArchived}
                             isDisabled={this.props.isDisabled}
+                            saveNeeded={this.state.saveNeeded}
                         />
                         <ConfirmModal
                             show={showArchiveConfirmModal}

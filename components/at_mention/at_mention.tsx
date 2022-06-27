@@ -6,8 +6,8 @@ import {Overlay} from 'react-bootstrap';
 
 import {Client4} from 'mattermost-redux/client';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
-import {UserProfile} from 'mattermost-redux/types/users';
-import {Group} from 'mattermost-redux/types/groups';
+import {UserProfile} from '@mattermost/types/users';
+import {Group} from '@mattermost/types/groups';
 
 import ProfilePopover from 'components/profile_popover';
 

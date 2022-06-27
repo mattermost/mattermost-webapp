@@ -1,6 +1,6 @@
 .insights-modal {
     &.modal-dialog {
-        margin-top: calc(50vh - 240px);
+        margin-top: calc(50vh - 340px);
     }
 
     .modal-content {
@@ -41,6 +41,15 @@
                 padding: 0;
                 background: var(--center-channel-bg);
 
+                &.TopBoardsTable,
+                &.TopThreadsTable {
+                    .DataGrid_row {
+                        &:hover {
+                            cursor: pointer;
+                        }
+                    }
+                }
+
                 .DataGrid_header {
                     padding: 12px 0;
                     border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
@@ -69,12 +78,12 @@
                         padding: 0;
                         border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
                         border-left: none;
-                        background-color: var(--center-channel-bg) !important;
+                        background-color: var(--center-channel-bg);
                         color: var(--center-channel-color);
 
                         &:hover {
                             border-left: none;
-                            background-color: rgba(var(--button-bg-rgb), 0.08);
+                            background-color: rgba(var(--center-channel-color-rgb), 0.08);
                             color: var(--center-channel-color);
                         }
 
@@ -133,6 +142,8 @@
                         }
 
                         .DataGrid_cell {
+                            display: flex;
+                            align-items: center;
                             padding: 0 16px;
                             margin: 0;
                             white-space: normal;
@@ -145,6 +156,7 @@
                                 margin: 12px 12px 12px 0;
                             }
 
+                            span.replies,
                             span.cell-text {
                                 display: inline-block;
                                 padding: 14px 0;
@@ -155,8 +167,31 @@
                                 line-height: 20px;
                             }
 
+                            .channel-display-name {
+                                display: flex;
+                                overflow: hidden;
+                                color: var(--center-channel-color);
+
+                                &:hover {
+                                    text-decoration: none;
+                                }
+
+                                .icon {
+                                    color: rgba(var(--center-channel-color-rgb), 0.56);
+                                }
+
+                                span.cell-text {
+                                    overflow: hidden;
+                                    margin-left: 4px;
+                                    font-weight: 600;
+                                    text-overflow: ellipsis;
+                                    white-space: nowrap;
+                                }
+                            }
+
                             .times-used-container {
                                 display: flex;
+                                width: 100%;
                                 align-items: center;
 
                                 span.cell-text {
@@ -170,6 +205,47 @@
                                     background: var(--button-bg);
                                     border-radius: 6px;
                                 }
+                            }
+
+                            .thread-item {
+                                padding: 12px 0;
+
+                                .preview {
+                                    height: auto;
+                                }
+                            }
+
+                            .board-item {
+                                display: flex;
+                                align-items: center;
+
+                                span.board-icon {
+                                    display: flex;
+                                    width: 24px;
+                                    height: 24px;
+                                    align-items: center;
+                                    justify-content: center;
+                                    font-size: 24px;
+                                }
+
+                                span.board-title {
+                                    overflow: hidden;
+                                    max-width: 409px;
+                                    margin-left: 12px;
+                                    font-family: 'Open Sans';
+                                    font-size: 14px;
+                                    font-style: normal;
+                                    font-weight: 600;
+                                    line-height: 20px;
+                                    text-overflow: ellipsis;
+                                    white-space: nowrap;
+                                }
+                            }
+
+                            .replies,
+                            span.board-updates,
+                            .Avatars___xs {
+                                margin-left: auto;
                             }
                         }
                     }

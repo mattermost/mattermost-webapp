@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @mark_as_unread
 
 import {beRead, beUnread} from '../../support/assertions';
@@ -16,7 +15,7 @@ import {verifyPostNextToNewMessageSeparator, verifyTopSpaceForNewMessage, verify
 
 describe('Mark as Unread', () => {
     let testUser;
-
+    let team1;
     let channelA;
     let channelB;
 
@@ -27,10 +26,11 @@ describe('Mark as Unread', () => {
     beforeEach(() => {
         cy.apiAdminLogin();
         cy.apiInitSetup().then(({team, channel, user}) => {
+            team1 = team;
             testUser = user;
             channelA = channel;
 
-            cy.apiCreateChannel(team.id, 'channel-b', 'Channel B').then((out) => {
+            cy.apiCreateChannel(team1.id, 'channel-b', 'Channel B').then((out) => {
                 channelB = out.channel;
                 cy.apiAddUserToChannel(channelB.id, testUser.id);
             });
@@ -38,7 +38,7 @@ describe('Mark as Unread', () => {
             cy.apiCreateUser().then(({user: user2}) => {
                 const otherUser = user2;
 
-                cy.apiAddUserToTeam(team.id, otherUser.id).then(() => {
+                cy.apiAddUserToTeam(team1.id, otherUser.id).then(() => {
                     cy.apiAddUserToChannel(channelA.id, otherUser.id);
 
                     // Another user creates posts in the channel since you can't mark your own posts unread currently
@@ -70,7 +70,7 @@ describe('Mark as Unread', () => {
             });
 
             cy.apiLogin(testUser);
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team1.name}/channels/town-square`);
         });
     });
 
@@ -97,6 +97,29 @@ describe('Mark as Unread', () => {
 
         // And becomes read when switching back
         cy.get(`#sidebarItem_${channelA.name}`).should(beRead);
+    });
+
+    it('MM-T257 Mark as Unread when bringing window into focus', () => {
+        // * Verify channels are unread
+        cy.get(`#sidebarItem_${channelA.name}`).should(beUnread);
+        cy.get(`#sidebarItem_${channelB.name}`).should(beUnread);
+
+        // # Navigate to integration screen (away from chat/main screen)
+        cy.visit(`/${team1.name}/integrations/`);
+
+        // # Navigate back to chat/main screen
+        cy.visit(`/${team1.name}/channels/town-square`);
+
+        // * Verify channels are unread
+        cy.get(`#sidebarItem_${channelA.name}`).should(beUnread);
+        cy.get(`#sidebarItem_${channelB.name}`).should(beUnread);
+
+        switchToChannel(channelA);
+        switchToChannel(channelB);
+
+        // * Verify channel are read
+        cy.get(`#sidebarItem_${channelA.name}`).should(beRead);
+        cy.get(`#sidebarItem_${channelB.name}`).should(beRead);
     });
 
     it('New messages line should remain after switching back to channel', () => {
@@ -261,6 +284,44 @@ describe('Mark as Unread', () => {
 
         // The New Messages line should appear above the selected post
         verifyPostNextToNewMessageSeparator('post2');
+    });
+
+    it('MM-T244 Webapp: Post menu item `Mark as Unread` appearance', () => {
+        switchToChannel(channelA);
+        cy.get(`#sidebarItem_${channelA.name}`).should(beRead);
+        postMessage(post1.message);
+        cy.getLastPostId().then((postId) => {
+            cy.clickPostDotMenu(postId);
+            cy.get('ul.Menu__content.dropdown-menu').
+                as('menuOptions').
+                should('be.visible').
+                scrollIntoView();
+
+            // # Post menu item `Mark as Unread` should be visible
+            cy.get('@menuOptions').
+                find('[aria-label="Mark as Unread"]').
+                as('markAsReadElement').
+                should('be.visible');
+
+            // # Shrink the window and verify post menu options in the mobile view
+            cy.viewport('iphone-5');
+            cy.get('@markAsReadElement').should('be.visible');
+
+            // * Verify there are no extra divider lines at the bottom of the menu for the non-admin user
+            cy.findByText('Edit').should('not.exist');
+            cy.findByText('Delete').should('not.exist');
+
+            // * Verify there are extra divider lines at the bottom
+            cy.get('ul.Menu__content').find('li.MenuItem').each(($listElement) => {
+                cy.wrap($listElement).find('button').then(($buttonElement) => {
+                    cy.wrap($buttonElement).invoke('attr', 'aria-label').then((ariaLabel) => {
+                        if (ariaLabel !== 'Copy Text') {
+                            cy.wrap($buttonElement).should('have.css', 'border-color', 'rgba(63, 67, 80, 0.12)');
+                        }
+                    });
+                });
+            });
+        });
     });
 });
 

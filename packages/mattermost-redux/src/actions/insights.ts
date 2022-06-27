@@ -4,7 +4,7 @@
 import {InsightTypes} from 'mattermost-redux/action_types';
 import {GetStateFunc, DispatchFunc, ActionFunc} from 'mattermost-redux/types/actions';
 import {Client4} from 'mattermost-redux/client';
-import {TimeFrame} from 'mattermost-redux/types/insights';
+import {TimeFrame, TopChannelActionResult, TopChannelResponse, TopThreadActionResult, TopThreadResponse} from '@mattermost/types/insights';
 
 import {forceLogoutIfNecessary} from './helpers';
 import {logError} from './errors';
@@ -45,6 +45,76 @@ export function getMyTopReactions(teamId: string, page: number, perPage: number,
             type: InsightTypes.RECEIVED_MY_TOP_REACTIONS,
             data: {data, timeFrame},
             id: teamId,
+        });
+
+        return {data};
+    };
+}
+
+export function getTopChannelsForTeam(teamId: string, page: number, perPage: number, timeFrame: TimeFrame): (dispatch: DispatchFunc, getState: GetStateFunc) => Promise<TopChannelActionResult> | TopChannelActionResult {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let data: TopChannelResponse;
+        try {
+            data = await Client4.getTopChannelsForTeam(teamId, page, perPage, timeFrame);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(logError(error));
+            return {error};
+        }
+
+        return {data};
+    };
+}
+
+export function getMyTopChannels(teamId: string, page: number, perPage: number, timeFrame: TimeFrame): (dispatch: DispatchFunc, getState: GetStateFunc) => Promise<TopChannelActionResult> | TopChannelActionResult {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let data: TopChannelResponse;
+        try {
+            data = await Client4.getMyTopChannels(teamId, page, perPage, timeFrame);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(logError(error));
+            return {error};
+        }
+
+        return {data};
+    };
+}
+
+export function getTopThreadsForTeam(teamId: string, page: number, perPage: number, timeFrame: TimeFrame): (dispatch: DispatchFunc, getState: GetStateFunc) => Promise<TopThreadActionResult> | TopThreadActionResult {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let data: TopThreadResponse;
+        try {
+            data = await Client4.getTopThreadsForTeam(teamId, page, perPage, timeFrame);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(logError(error));
+            return {error};
+        }
+
+        dispatch({
+            type: InsightTypes.RECEIVED_TOP_THREADS,
+            data,
+        });
+
+        return {data};
+    };
+}
+
+export function getMyTopThreads(teamId: string, page: number, perPage: number, timeFrame: TimeFrame): (dispatch: DispatchFunc, getState: GetStateFunc) => Promise<TopThreadActionResult> | TopThreadActionResult {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let data: TopThreadResponse;
+        try {
+            data = await Client4.getMyTopThreads(teamId, page, perPage, timeFrame);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(logError(error));
+            return {error};
+        }
+
+        dispatch({
+            type: InsightTypes.RECEIVED_MY_TOP_THREADS,
+            data,
         });
 
         return {data};

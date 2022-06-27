@@ -6,7 +6,7 @@ import {useIntl} from 'react-intl';
 import classNames from 'classnames';
 
 import {getEmojiImageUrl, isSystemEmoji} from 'mattermost-redux/utils/emoji_utils';
-import {Emoji} from 'mattermost-redux/types/emojis';
+import {Emoji} from '@mattermost/types/emojis';
 
 type Props = {
     emoji: Emoji;
@@ -16,7 +16,8 @@ type Props = {
 const EmojiItem = ({emoji, onItemClick, order}: Props) => {
     const {formatMessage} = useIntl();
 
-    const handleClick = () => {
+    const handleClick = (e: React.MouseEvent) => {
+        e.stopPropagation();
         onItemClick(emoji);
     };
 

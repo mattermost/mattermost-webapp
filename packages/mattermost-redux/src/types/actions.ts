@@ -4,7 +4,7 @@
 import {AnyAction} from 'redux';
 import {BatchAction} from 'redux-batched-actions';
 
-import {GlobalState} from './store';
+import {GlobalState} from '@mattermost/types/store';
 
 export type GetStateFunc = () => GlobalState;
 export type GenericAction = AnyAction;

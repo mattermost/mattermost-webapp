@@ -6,6 +6,7 @@
 @import 'utils/variables';
 @import 'utils/mixins';
 
+.console__body .modal .GenericModal,
 .app__body .modal .GenericModal {
     &.modal-dialog {
         margin-top: calc(50vh - 240px);
@@ -111,7 +112,7 @@
             border-radius: 12px;
 
             .modal-header {
-                padding: 26px 32px 15px;
+                padding: 26px 32px 7px;
 
                 .close {
                     top: 20px;

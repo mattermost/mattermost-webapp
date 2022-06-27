@@ -5,9 +5,9 @@ import React, {ChangeEvent, FormEvent, SyntheticEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import {UserProfile} from 'mattermost-redux/types/users';
-import {CustomEmoji} from 'mattermost-redux/types/emojis';
-import {Team} from 'mattermost-redux/types/teams';
+import {UserProfile} from '@mattermost/types/users';
+import {CustomEmoji} from '@mattermost/types/emojis';
+import {Team} from '@mattermost/types/teams';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
 
@@ -362,7 +362,7 @@ export default class AddEmoji extends React.PureComponent<AddEmojiProps, AddEmoj
                                     <div className='form__help'>
                                         <FormattedMessage
                                             id='add_emoji.image.help'
-                                            defaultMessage='Specify a .gif, .png, or .jpg file of up to 64 KB for your emoji. The dimensions can be up to 128 pixels by 128 pixels.'
+                                            defaultMessage='Specify a .gif, .png, .webp or .jpg file of up to 64 KB for your emoji. The dimensions can be up to 128 pixels by 128 pixels.'
                                         />
                                     </div>
                                 </div>

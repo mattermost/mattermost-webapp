@@ -193,9 +193,11 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         ]
       }
     >
-      <div>
+      <div
+        className="truncated"
+      >
         <span
-          className="SidebarChannelLinkLabel truncated"
+          className="SidebarChannelLinkLabel"
         >
           channel_label
         </span>

@@ -24,6 +24,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
     static propTypes = {
         currentUser: PropTypes.object.isRequired,
         advancedSettingsCategory: PropTypes.array.isRequired,
+        isAdvancedTextEditorEnabled: PropTypes.bool,
         sendOnCtrlEnter: PropTypes.string.isRequired,
         codeBlockOnCtrlEnter: PropTypes.bool,
         formatting: PropTypes.string.isRequired,
@@ -56,11 +57,16 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
             join_leave: this.props.joinLeave,
         };
 
-        const preReleaseFeaturesKeys = Object.keys(PreReleaseFeatures);
+        const PreReleaseFeaturesLocal = JSON.parse(JSON.stringify(PreReleaseFeatures));
+        if (this.props.isAdvancedTextEditorEnabled) {
+            delete PreReleaseFeaturesLocal.MARKDOWN_PREVIEW;
+        }
+        const preReleaseFeaturesKeys = Object.keys(PreReleaseFeaturesLocal);
+
         let enabledFeatures = 0;
         for (const as of advancedSettings) {
             for (const key of preReleaseFeaturesKeys) {
-                const feature = PreReleaseFeatures[key];
+                const feature = PreReleaseFeaturesLocal[key];
 
                 if (as.name === Constants.FeatureTogglePrefix + feature.label) {
                     settings[as.name] = as.value;
@@ -78,7 +84,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
         const showDeactivateAccountModal = false;
 
         return {
-            preReleaseFeatures: PreReleaseFeatures,
+            preReleaseFeatures: PreReleaseFeaturesLocal,
             settings,
             preReleaseFeaturesKeys,
             enabledFeatures,
@@ -459,7 +465,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
             );
         }
 
-        const formattingSection = this.renderFormattingSection();
+        const formattingSection = this.props.isAdvancedTextEditorEnabled ? null : this.renderFormattingSection();
         let formattingSectionDivider = null;
         if (formattingSection) {
             formattingSectionDivider = <div className='divider-light'/>;

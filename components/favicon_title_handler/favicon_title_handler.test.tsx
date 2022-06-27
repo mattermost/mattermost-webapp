@@ -4,8 +4,8 @@
 import React, {ComponentProps} from 'react';
 import {ShallowWrapper} from 'enzyme';
 
-import {ChannelType} from 'mattermost-redux/types/channels';
-import {TeamType} from 'mattermost-redux/types/teams';
+import {ChannelType} from '@mattermost/types/channels';
+import {TeamType} from '@mattermost/types/teams';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 

@@ -7,7 +7,7 @@ import {Client4} from 'mattermost-redux/client';
 
 import ProfilePicture from 'components/profile_picture';
 import * as Utils from 'utils/utils';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 import './admin_user_card.scss';
 
 type BulletProps = {

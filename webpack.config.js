@@ -240,12 +240,12 @@ var config = {
             'mattermost-redux/test': 'packages/mattermost-redux/test',
             'mattermost-redux': 'packages/mattermost-redux/src',
             reselect: 'packages/reselect/src',
-            superagent: 'node_modules/superagent/lib/client',
         },
         extensions: ['.ts', '.tsx', '.js', '.jsx'],
         fallback: {
             crypto: require.resolve('crypto-browserify'),
             stream: require.resolve('stream-browserify'),
+            buffer: require.resolve('buffer/'),
         },
     },
     performance: {
@@ -419,8 +419,7 @@ if (targetIsDevServer) {
         ...config,
         devtool: 'eval-cheap-module-source-map',
         devServer: {
-            hot: true,
-            liveReload: false,
+            liveReload: true,
             proxy: [{
                 context: () => true,
                 bypass(req) {

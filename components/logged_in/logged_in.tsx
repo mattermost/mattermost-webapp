@@ -16,8 +16,8 @@ import {getBrowserTimezone} from 'utils/timezone.jsx';
 import store from 'stores/redux_store.jsx';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 import BrowserStore from 'stores/browser_store';
-import {UserProfile} from 'mattermost-redux/types/users';
-import {Channel} from 'mattermost-redux/types/channels';
+import {UserProfile} from '@mattermost/types/users';
+import {Channel} from '@mattermost/types/channels';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -45,6 +45,7 @@ export type Props = {
     showTermsOfService: boolean;
     location: {
         pathname: string;
+        search: string;
     };
 }
 
@@ -118,7 +119,7 @@ export default class LoggedIn extends React.PureComponent<Props> {
             if (rootEl) {
                 rootEl.setAttribute('class', '');
             }
-            GlobalActions.emitUserLoggedOutEvent('/login?redirect_to=' + encodeURIComponent(this.props.location.pathname), true, false);
+            GlobalActions.emitUserLoggedOutEvent('/login?redirect_to=' + encodeURIComponent(`${this.props.location.pathname}${this.props.location.search}`), true, false);
         }
 
         // Prevent backspace from navigating back a page

@@ -4,9 +4,11 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {AnalyticsRow} from 'mattermost-redux/types/admin';
-import {ClientLicense} from 'mattermost-redux/types/config';
+import {AnalyticsRow} from '@mattermost/types/admin';
+import {ClientLicense} from '@mattermost/types/config';
 import {EmbargoedEntityTrialError} from 'components/admin_console/license_settings/trial_banner/trial_banner';
+import AlertBanner from 'components/alert_banner';
+import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 
 import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
 import {ActionResult} from 'mattermost-redux/types/actions';
@@ -17,6 +19,7 @@ import {trackEvent} from 'actions/telemetry_actions';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import PurchaseModal from 'components/purchase_modal';
+import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
 
 import {ModalData} from 'types/actions';
 
@@ -45,6 +48,10 @@ type Props = {
         openModal: <P>(modalData: ModalData<P>) => void;
     };
     isCloud: boolean;
+    isCloudTrial: boolean;
+    hadPrevCloudTrial: boolean;
+    isSubscriptionLoaded: boolean;
+    isPaidSubscription: boolean;
 }
 
 type State = {
@@ -106,35 +113,60 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
     }
 
     renderStartTrial = (learnMoreURL: string, gettingTrialError: React.ReactNode) => {
+        const {
+            isCloud,
+            isCloudTrial,
+            hadPrevCloudTrial,
+            isPaidSubscription,
+        } = this.props;
+        const canRequestCloudFreeTrial = isCloud && !isCloudTrial && !hadPrevCloudTrial && !isPaidSubscription;
+
+        // by default we assume is not cloud, so the cta button is Start Trial (which will request a trial license)
         let primaryMessage = (
             <FormattedMessage
                 id='admin.ldap_feature_discovery.call_to_action.primary'
                 defaultMessage='Start trial'
             />
         );
-        if (this.props.isCloud) {
+        let ctaButtonFunction: (e: React.MouseEvent) => void = this.requestLicense;
+
+        // then if it is cloud, and this account already had a free trial, then the cta button must be Upgrade now
+        if (isCloud && hadPrevCloudTrial) {
+            ctaButtonFunction = this.openUpgradeModal;
             primaryMessage = (
                 <FormattedMessage
                     id='admin.ldap_feature_discovery_cloud.call_to_action.primary'
-                    defaultMessage='Subscribe now'
+                    defaultMessage='Upgrade now'
                 />
             );
         }
-        return (
-            <React.Fragment>
-                <button
-                    type='button'
-                    className='btn btn-primary'
-                    data-testid='featureDiscovery_primaryCallToAction'
-                    onClick={this.props.isCloud ? this.openUpgradeModal : this.requestLicense}
+
+        // if all conditions are set for being able to request a cloud trial, then show the cta start cloud trial button
+        // otherwise use the previously defined conditions to elaborate the button
+        const ctaPrimaryButton = canRequestCloudFreeTrial ? (
+            <CloudStartTrialButton
+                message={Utils.localizeMessage('admin.ldap_feature_discovery.call_to_action.primary', 'Start trial')}
+                telemetryId={'start_cloud_trial_feature_discovery'}
+                extraClass='btn btn-primary'
+            />
+        ) : (
+            <button
+                type='button'
+                className='btn btn-primary'
+                data-testid='featureDiscovery_primaryCallToAction'
+                onClick={ctaButtonFunction}
+            >
+                <LoadingWrapper
+                    loading={this.state.gettingTrial}
+                    text={Utils.localizeMessage('admin.license.trial-request.loading', 'Getting trial')}
                 >
-                    <LoadingWrapper
-                        loading={this.state.gettingTrial}
-                        text={Utils.localizeMessage('admin.license.trial-request.loading', 'Getting trial')}
-                    >
-                        {primaryMessage}
-                    </LoadingWrapper>
-                </button>
+                    {primaryMessage}
+                </LoadingWrapper>
+            </button>
+        );
+        return (
+            <>
+                {ctaPrimaryButton}
                 <a
                     className='btn btn-secondary'
                     href={learnMoreURL}
@@ -148,13 +180,13 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                     />
                 </a>
                 {gettingTrialError}
-                {!this.props.isCloud && <p className='trial-legal-terms'>
+                {(!this.props.isCloud || canRequestCloudFreeTrial) && <p className='trial-legal-terms'>
                     <FormattedMarkdownMessage
                         id='admin.license.trial-request.accept-terms'
                         defaultMessage='By clicking **Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails.'
                     />
                 </p>}
-            </React.Fragment>
+            </>
         );
     }
 
@@ -166,7 +198,17 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
             copyDefault,
             learnMoreURL,
             featureDiscoveryImage,
+            isCloud,
+            isCloudTrial,
+            isSubscriptionLoaded,
         } = this.props;
+
+        // on first load the license information is available and we can know if it is cloud license, but the subscription is not loaded yet
+        // so on initial load we check if it is cloud license and in the case the subscription is still undefined we show the loading spinner to avoid
+        // component change flashing
+        if (isCloud && !isSubscriptionLoaded) {
+            return (<LoadingSpinner/>);
+        }
 
         let gettingTrialError: React.ReactNode = '';
         if (this.state.gettingTrialError && this.state.gettingTrialResponseCode === 451) {
@@ -185,9 +227,36 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                 </p>
             );
         }
+
+        // if it is cloud and is in trial, in the case this component get's shown that means that the license hasn't been updated yet
+        // so let's notify to the user that the license is being updated
+        if (isCloud && isCloudTrial && isSubscriptionLoaded) {
+            return (
+                <div className='FeatureDiscovery'>
+                    <AlertBanner
+                        mode='info'
+                        title={
+                            <FormattedMessage
+                                id='admin.featureDiscovery.WarningTitle'
+                                defaultMessage='Your trial has started and updates are being made to your license.'
+                            />
+                        }
+                        message={
+                            <>
+                                <FormattedMarkdownMessage
+                                    id='admin.featureDiscovery.WarningDescription'
+                                    defaultMessage='Your License is being updated to give you full access to all the Enterprise Features. This page will automatically refresh once the license update is complete. Please wait '
+                                />
+                                <LoadingSpinner/>
+                            </>
+                        }
+                    />
+                </div>
+            );
+        }
+
         return (
             <div className='FeatureDiscovery'>
-
                 <div className='FeatureDiscovery_copyWrapper'>
                     <div
                         className='FeatureDiscovery_title'
@@ -206,11 +275,9 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                     </div>
                     {this.props.prevTrialLicense?.IsLicensed === 'true' ? Utils.renderPurchaseLicense() : this.renderStartTrial(learnMoreURL, gettingTrialError)}
                 </div>
-
                 <div className='FeatureDiscovery_imageWrapper'>
                     {featureDiscoveryImage}
                 </div>
-
             </div>
         );
     }

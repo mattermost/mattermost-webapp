@@ -17,7 +17,8 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {Post} from 'mattermost-redux/types/posts';
+import {Emoji} from '@mattermost/types/emojis';
+import {Post} from '@mattermost/types/posts';
 
 import {markPostAsUnread, emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 
@@ -65,7 +66,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const highlightedPostId = getHighlightedPostId(state);
     const showActionsMenuPulsatingDot = showActionsDropdownPulsatingDot(state);
 
-    let emojis = [];
+    let emojis: Emoji[] = [];
     const oneClickReactionsEnabled = get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.ONE_CLICK_REACTIONS_ENABLED, Preferences.ONE_CLICK_REACTIONS_ENABLED_DEFAULT) === 'true';
     if (oneClickReactionsEnabled) {
         emojis = getOneClickReactionEmojis(state);
@@ -82,6 +83,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         isConsecutivePost: isConsecutivePost(state, ownProps),
         isFlagged: get(state, Preferences.CATEGORY_FLAGGED_POST, ownProps.post.id, null) != null,
         compactDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
+        colorizeUsernames: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLORIZE_USERNAMES, Preferences.COLORIZE_USERNAMES_DEFAULT) === 'true',
         shouldShowActionsMenu: shouldShowActionsMenu(state, ownProps.post),
         showActionsMenuPulsatingDot,
         shortcutReactToLastPostEmittedFrom,

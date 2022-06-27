@@ -3,6 +3,7 @@
 
 /* eslint-disable max-lines */
 
+import {PreferenceType} from '@mattermost/types/preferences';
 import FormData from 'form-data';
 
 import {SystemSetting} from '@mattermost/types/general';
@@ -11,7 +12,7 @@ import type {AppBinding, AppCallRequest, AppCallResponse} from '@mattermost/type
 import {Audit} from '@mattermost/types/audits';
 import {UserAutocomplete, AutocompleteSuggestion} from '@mattermost/types/autocomplete';
 import {Bot, BotPatch} from '@mattermost/types/bots';
-import {Product, Subscription, CloudCustomer, Address, CloudCustomerPatch, Invoice, Limits} from '@mattermost/types/cloud';
+import {Product, SubscriptionResponse, CloudCustomer, Address, CloudCustomerPatch, Invoice, Limits, IntegrationsUsage} from '@mattermost/types/cloud';
 import {ChannelCategory, OrderedChannelCategories} from '@mattermost/types/channel_categories';
 import {
     Channel,
@@ -27,7 +28,7 @@ import {
     ChannelSearchOpts,
     ServerChannel,
 } from '@mattermost/types/channels';
-import {Options, StatusOK, ClientResponse, LogLevel} from '@mattermost/types/client4';
+import {Options, StatusOK, ClientResponse, LogLevel, FetchPaginatedThreadOptions} from '@mattermost/types/client4';
 import {Compliance} from '@mattermost/types/compliance';
 import {
     ClientConfig,
@@ -36,6 +37,7 @@ import {
     License,
     AdminConfig,
     EnvironmentConfig,
+    RequestLicenseBody,
 } from '@mattermost/types/config';
 import {CustomEmoji} from '@mattermost/types/emojis';
 import {ServerError} from '@mattermost/types/errors';
@@ -75,8 +77,8 @@ import type {
     MarketplaceApp,
     MarketplacePlugin,
 } from '@mattermost/types/marketplace';
-import {Post, PostList, PostSearchResults, OpenGraphMetadata} from '@mattermost/types/posts';
-import {PreferenceType} from '@mattermost/types/preferences';
+import {Post, PostList, PostSearchResults, OpenGraphMetadata, PostsUsageResponse, TeamsUsageResponse, PaginatedPostList, FilesUsageResponse} from '@mattermost/types/posts';
+import {BoardsUsageResponse} from '@mattermost/types/boards';
 import {Reaction} from '@mattermost/types/reactions';
 import {Role} from '@mattermost/types/roles';
 import {SamlCertificateStatus, SamlMetadataResponse} from '@mattermost/types/saml';
@@ -114,7 +116,7 @@ import {
 import {CompleteOnboardingRequest} from '@mattermost/types/setup';
 
 import {UserThreadList, UserThread, UserThreadWithPost} from '@mattermost/types/threads';
-import {TopReactionResponse} from '@mattermost/types/insights';
+import {TopChannelResponse, TopReactionResponse, TopThreadResponse} from '@mattermost/types/insights';
 
 import {cleanUrlForLogging} from './errors';
 import {buildQueryString} from './helpers';
@@ -136,6 +138,17 @@ export const DEFAULT_LIMIT_BEFORE = 30;
 export const DEFAULT_LIMIT_AFTER = 30;
 
 const GRAPHQL_ENDPOINT = '/api/v5/graphql';
+
+// placed here because currently not supported
+// to import from outside the package from main bundle
+const suitePluginIds = {
+    playbooks: 'playbooks',
+    focalboard: 'focalboard',
+    apps: 'com.mattermost.apps',
+    calls: 'com.mattermost.calls',
+    nps: 'com.mattermost.nps',
+    channelExport: 'com.mattermost.plugin-channel-export',
+};
 
 export default class Client4 {
     logToConsole = false;
@@ -341,12 +354,8 @@ export default class Client4 {
         return `${this.getBaseRoute()}/hooks/outgoing/${hookId}`;
     }
 
-    getOAuthPath() {
-        return '/oauth';
-    }
-
     getOAuthRoute() {
-        return `${this.url}${this.getOAuthPath()}`;
+        return `${this.url}/oauth`;
     }
 
     getOAuthAppsRoute() {
@@ -427,6 +436,10 @@ export default class Client4 {
 
     getCloudRoute() {
         return `${this.getBaseRoute()}/cloud`;
+    }
+
+    getUsageRoute() {
+        return `${this.getBaseRoute()}/usage`;
     }
 
     getPermissionsRoute() {
@@ -1154,6 +1167,13 @@ export default class Client4 {
         );
     }
 
+    archiveAllTeamsExcept = (teamId: string) => {
+        return this.doFetch<StatusOK>(
+            `${this.getTeamRoute(teamId)}/except`,
+            {method: 'delete'},
+        );
+    }
+
     updateTeam = (team: Team) => {
         this.trackEvent('api', 'api_teams_update_name', {team_id: team.id});
 
@@ -1653,9 +1673,9 @@ export default class Client4 {
         );
     };
 
-    getAllChannelsMembers = (userId: string) => {
+    getAllChannelsMembers = (userId: string, page = 0, perPage = PER_PAGE_DEFAULT) => {
         return this.doFetch<ChannelMembership[]>(
-            `${this.getUserRoute(userId)}/channel_members`,
+            `${this.getUserRoute(userId)}/channel_members${buildQueryString({page, per_page: perPage})}`,
             {method: 'get'},
         );
     };
@@ -1933,9 +1953,25 @@ export default class Client4 {
         );
     };
 
-    getPostThread = (postId: string, fetchThreads = true, collapsedThreads = false, collapsedThreadsExtended = false, direction?: 'up'|'down', perPage?: number, fromCreateAt?: number, fromPost?: string) => {
-        return this.doFetch<PostList>(
-            `${this.getPostRoute(postId)}/thread${buildQueryString({skipFetchThreads: !fetchThreads, collapsedThreads, collapsedThreadsExtended, direction, fromPost, fromCreateAt, perPage})}`,
+    getPostThread = (postId: string, fetchThreads = true, collapsedThreads = false, collapsedThreadsExtended = false) => {
+        // this is to ensure we have backwards compatibility for `getPostThread`
+        return this.getPaginatedPostThread(postId, {fetchThreads, collapsedThreads, collapsedThreadsExtended});
+    };
+
+    getPaginatedPostThread = async (postId: string, options: FetchPaginatedThreadOptions): Promise<PaginatedPostList> => {
+        // getting all option parameters with defaults from the options object and spread the rest
+        const {
+            fetchThreads = true,
+            collapsedThreads = false,
+            collapsedThreadsExtended = false,
+            direction = 'down',
+            fetchAll = false,
+            perPage = fetchAll ? undefined : PER_PAGE_DEFAULT,
+            ...rest
+        } = options;
+
+        return this.doFetch<PaginatedPostList>(
+            `${this.getPostRoute(postId)}/thread${buildQueryString({skipFetchThreads: !fetchThreads, collapsedThreads, collapsedThreadsExtended, direction, perPage, ...rest})}`,
             {method: 'get'},
         );
     };
@@ -2129,6 +2165,34 @@ export default class Client4 {
     getMyTopReactions = (teamId: string, page: number, perPage: number, timeRange: string) => {
         return this.doFetch<TopReactionResponse>(
             `${this.getUsersRoute()}/me/top/reactions${buildQueryString({page, per_page: perPage, time_range: timeRange, team_id: teamId})}`,
+            {method: 'get'},
+        );
+    }
+
+    getTopChannelsForTeam = (teamId: string, page: number, perPage: number, timeRange: string) => {
+        return this.doFetch<TopChannelResponse>(
+            `${this.getTeamRoute(teamId)}/top/channels${buildQueryString({page, per_page: perPage, time_range: timeRange})}`,
+            {method: 'get'},
+        );
+    }
+
+    getMyTopChannels = (teamId: string, page: number, perPage: number, timeRange: string) => {
+        return this.doFetch<TopChannelResponse>(
+            `${this.getUsersRoute()}/me/top/channels${buildQueryString({page, per_page: perPage, time_range: timeRange, team_id: teamId})}`,
+            {method: 'get'},
+        );
+    }
+
+    getTopThreadsForTeam = (teamId: string, page: number, perPage: number, timeRange: string) => {
+        return this.doFetch<TopThreadResponse>(
+            `${this.getTeamRoute(teamId)}/top/threads${buildQueryString({page, per_page: perPage, time_range: timeRange})}`,
+            {method: 'get'},
+        );
+    }
+
+    getMyTopThreads = (teamId: string, page: number, perPage: number, timeRange: string) => {
+        return this.doFetch<TopThreadResponse>(
+            `${this.getUsersRoute()}/me/top/threads${buildQueryString({page, per_page: perPage, time_range: timeRange, team_id: teamId})}`,
             {method: 'get'},
         );
     }
@@ -3189,6 +3253,13 @@ export default class Client4 {
         );
     };
 
+    requestTrialLicense = (body: RequestLicenseBody) => {
+        return this.doFetchWithResponse<ClientLicense>(
+            `${this.getBaseRoute()}/trial-license`,
+            {method: 'POST', body: JSON.stringify(body)},
+        );
+    }
+
     removeLicense = () => {
         return this.doFetch<StatusOK>(
             `${this.getBaseRoute()}/license`,
@@ -3403,6 +3474,13 @@ export default class Client4 {
             {method: 'post'},
         );
     };
+
+    getBoardsUsage = () => {
+        return this.doFetch<BoardsUsageResponse>(
+            `/plugins/${suitePluginIds.focalboard}/api/v1/limits`,
+            {method: 'get'},
+        );
+    }
 
     // Groups
 
@@ -3708,6 +3786,12 @@ export default class Client4 {
         );
     };
 
+    getIntegrationsUsage = () => {
+        return this.doFetch<IntegrationsUsage>(
+            `${this.getUsageRoute()}/integrations`, {method: 'get'},
+        );
+    };
+
     createPaymentMethod = async () => {
         return this.doFetch(
             `${this.getCloudRoute()}/payment`,
@@ -3749,8 +3833,22 @@ export default class Client4 {
         );
     }
 
+    requestCloudTrial = (subscriptionId: string, email = '') => {
+        return this.doFetchWithResponse<CloudCustomer>(
+            `${this.getCloudRoute()}/request-trial`,
+            {method: 'put', body: JSON.stringify({email, subscription_id: subscriptionId})},
+        );
+    }
+
+    validateBusinessEmail = (email = '') => {
+        return this.doFetchWithResponse<CloudCustomer>(
+            `${this.getCloudRoute()}/validate-business-email`,
+            {method: 'post', body: JSON.stringify({email})},
+        );
+    }
+
     getSubscription = () => {
-        return this.doFetch<Subscription>(
+        return this.doFetch<SubscriptionResponse>(
             `${this.getCloudRoute()}/subscription`,
             {method: 'get'},
         );
@@ -3777,6 +3875,27 @@ export default class Client4 {
     getCloudLimits = () => {
         return this.doFetch<Limits>(
             `${this.getCloudRoute()}/limits`,
+            {method: 'get'},
+        );
+    }
+
+    getPostsUsage = () => {
+        return this.doFetch<PostsUsageResponse>(
+            `${this.getUsageRoute()}/posts`,
+            {method: 'get'},
+        );
+    }
+
+    getFilesUsage = () => {
+        return this.doFetch<FilesUsageResponse>(
+            `${this.getUsageRoute()}/storage`,
+            {method: 'get'},
+        );
+    }
+
+    getTeamsUsage = () => {
+        return this.doFetch<TeamsUsageResponse>(
+            `${this.getUsageRoute()}/teams`,
             {method: 'get'},
         );
     }
@@ -3858,7 +3977,7 @@ export default class Client4 {
 
     /**
      * @param query string query of graphQL, pass the json stringified version of the query
-     * eg.  const query = JSON.stringify({query: `{license, config}`});
+     * eg.  const query = JSON.stringify({query: `{license, config}`, operationName: 'queryForLicenseAndConfig'});
      *      client4.fetchWithGraphQL(query);
      */
     fetchWithGraphQL = async <DataResponse>(query: string) => {
@@ -3867,13 +3986,13 @@ export default class Client4 {
 
     // Client Helpers
 
-    doFetch = async <ClientDataResponse>(url: string, options: Options): Promise<ClientDataResponse> => {
+    private doFetch = async <ClientDataResponse>(url: string, options: Options): Promise<ClientDataResponse> => {
         const {data} = await this.doFetchWithResponse<ClientDataResponse>(url, options);
 
         return data;
     };
 
-    doFetchWithResponse = async <ClientDataResponse>(url: string, options: Options): Promise<ClientResponse<ClientDataResponse>> => {
+    private doFetchWithResponse = async <ClientDataResponse>(url: string, options: Options): Promise<ClientResponse<ClientDataResponse>> => {
         const response = await fetch(url, this.getOptions(options));
         const headers = parseAndMergeNestedHeaders(response.headers);
 

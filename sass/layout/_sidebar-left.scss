@@ -1095,11 +1095,6 @@ $sidebarOpacityAnimationDuration: 0.15s;
             line-height: 18px;
             text-align: justify;
             white-space: nowrap;
-
-            &.truncated {
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
         }
 
         &.expanded {
@@ -1255,6 +1250,13 @@ $sidebarOpacityAnimationDuration: 0.15s;
         display: flex;
         overflow: hidden;
         flex-grow: 1;
+    }
+
+    .SidebarChannelLinkLabel_wrapper > div.truncated {
+        display: block;
+        overflow: hidden;
+        width: 100%;
+        text-overflow: ellipsis;
     }
 
     .DirectChannel__profile-picture {

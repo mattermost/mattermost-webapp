@@ -7,7 +7,7 @@ import keyMirror from 'key-mirror';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 
-import {CustomStatusDuration} from 'mattermost-redux/types/users';
+import {CustomStatusDuration} from '@mattermost/types/users';
 
 import * as PostListUtils from 'mattermost-redux/utils/post_list';
 
@@ -64,6 +64,11 @@ export const InviteTypes = {
     INVITE_GUEST: 'guest',
 };
 
+export const PreviousViewedTypes = {
+    CHANNELS: 'channels',
+    THREADS: 'threads',
+};
+
 export const Preferences = {
     CATEGORY_CHANNEL_OPEN_TIME: 'channel_open_time',
     CATEGORY_DIRECT_CHANNEL_SHOW: 'direct_channel_show',
@@ -85,6 +90,8 @@ export const Preferences = {
     MESSAGE_DISPLAY_CLEAN: 'clean',
     MESSAGE_DISPLAY_COMPACT: 'compact',
     MESSAGE_DISPLAY_DEFAULT: 'clean',
+    COLORIZE_USERNAMES: 'colorize_usernames',
+    COLORIZE_USERNAMES_DEFAULT: 'true',
     COLLAPSED_REPLY_THREADS: 'collapsed_reply_threads',
     COLLAPSED_REPLY_THREADS_OFF: 'off',
     COLLAPSED_REPLY_THREADS_ON: 'on',
@@ -109,8 +116,8 @@ export const Preferences = {
     INTERVAL_NEVER: 0,
     NAME_NAME_FORMAT: 'name_format',
     CATEGORY_SYSTEM_NOTICE: 'system_notice',
-    TEAMS_ORDER: 'teams_order',
     RECOMMENDED_NEXT_STEPS: 'recommended_next_steps',
+    TEAMS_ORDER: 'teams_order',
     CLOUD_UPGRADE_BANNER: 'cloud_upgrade_banner',
     CLOUD_TRIAL_BANNER: 'cloud_trial_banner',
     START_TRIAL_MODAL: 'start_trial_modal',
@@ -119,6 +126,7 @@ export const Preferences = {
     EMOJI_SKINTONE: 'emoji_skintone',
     ONE_CLICK_REACTIONS_ENABLED: 'one_click_reactions_enabled',
     ONE_CLICK_REACTIONS_ENABLED_DEFAULT: 'true',
+    CLOUD_TRIAL_END_BANNER: 'cloud_trial_end_banner',
 
     // For one off things that have a special, attention-grabbing UI until you interact with them
     TOUCHED: 'touched',
@@ -129,7 +137,9 @@ export const Preferences = {
     // A/B test preference value
     AB_TEST_PREFERENCE_VALUE: 'ab_test_preference_value',
 
+    RECENT_EMOJIS: 'recent_emojis',
     ONBOARDING: 'onboarding',
+    ADVANCED_TEXT_EDITOR: 'advanced_text_editor',
 };
 
 // For one off things that have a special, attention-grabbing UI until you interact with them
@@ -145,7 +155,8 @@ export const Unique = {
 };
 
 export const TrialPeriodDays = {
-    TRIAL_MAX_DAYS: 14,
+    TRIAL_30_DAYS: 30,
+    TRIAL_14_DAYS: 14,
     TRIAL_WARNING_THRESHOLD: 3,
     TRIAL_2_DAYS: 2,
     TRIAL_1_DAY: 1,
@@ -273,13 +284,15 @@ export const ActionTypes = keyMirror({
 
     PREFETCH_POSTS_FOR_CHANNEL: null,
 
-    SET_SHOW_NEXT_STEPS_VIEW: null,
     SET_FILES_FILTER_BY_EXT: null,
 
     SUPPRESS_RHS: null,
     UNSUPPRESS_RHS: null,
 
     FIRST_CHANNEL_NAME: null,
+
+    RECEIVED_BOARDS_INSIGHTS: null,
+    SET_EDIT_CHANNEL_MEMBERS: null,
 });
 
 export const PostRequestTypes = keyMirror({
@@ -342,6 +355,7 @@ export const ModalIdentifiers = {
     UPGRADE_CLOUD_ACCOUNT: 'upgrade_cloud_account',
     START_TRIAL_MODAL: 'start_trial_modal',
     TRIAL_BENEFITS_MODAL: 'trial_benefits_modal',
+    PRICING_MODAL: 'pricing_modal',
     LEARN_MORE_TRIAL_MODAL: 'learn_more_trial_modal',
     ENTERPRISE_EDITION_LICENSE: 'enterprise_edition_license',
     CONFIRM_NOTIFY_ADMIN: 'confirm_notify_admin',
@@ -349,13 +363,15 @@ export const ModalIdentifiers = {
     MORE_CHANNELS: 'more_channels',
     NEW_CHANNEL_MODAL: 'new_channel_modal',
     CLOUD_PURCHASE: 'cloud_purchase',
+    CLOUD_DOWNGRADE_CHOOSE_TEAM: 'cloud_downgrade_choose_team',
+    SUCCESS_MODAL: 'success_modal',
+    ERROR_MODAL: 'error_modal',
     DND_CUSTOM_TIME_PICKER: 'dnd_custom_time_picker',
     CUSTOM_STATUS: 'custom_status',
     COMMERCIAL_SUPPORT: 'commercial_support',
     NO_INTERNET_CONNECTION: 'no_internet_connection',
     JOIN_CHANNEL_PROMPT: 'join_channel_prompt',
     COLLAPSED_REPLY_THREADS_MODAL: 'collapsed_reply_threads_modal',
-    COLLAPSED_REPLY_THREADS_BETA_MODAL: 'collapsed_reply_threads_beta_modal',
     NOTIFY_CONFIRM_MODAL: 'notify_confirm_modal',
     CONFIRM_LICENSE_REMOVAL: 'confirm_license_removal',
     CONFIRM: 'confirm',
@@ -375,6 +391,9 @@ export const ModalIdentifiers = {
     SEND_DRAFT: 'send_draft_modal',
     UPLOAD_LICENSE: 'upload_license',
     INSIGHTS: 'insights',
+    CLOUD_LIMITS: 'cloud_limits',
+    REQUEST_BUSINESS_EMAIL_MODAL: 'request_business_email_modal',
+    FEATURE_RESTRICTED_MODAL: 'feature_restricted_modal',
 };
 
 export const UserStatuses = {
@@ -402,6 +421,11 @@ export const EventTypes = Object.assign(
 );
 
 export const CloudProducts = {
+
+    // STARTER sku is used by both free cloud starter
+    // and paid cloud starter (legacy cloud starter).
+    // Where differentiation is needed, check whether any limits are applied.
+    // If none are applied, it must be legacy cloud starter.
     STARTER: 'cloud-starter',
     PROFESSIONAL: 'cloud-professional',
     ENTERPRISE: 'cloud-enterprise',
@@ -481,6 +505,7 @@ export const SocketEvents = {
     LICENSE_CHANGED: 'license_changed',
     CONFIG_CHANGED: 'config_changed',
     PLUGIN_STATUSES_CHANGED: 'plugin_statuses_changed',
+    INTEGRATIONS_USAGE_CHANGED: 'integrations_usage_changed',
     OPEN_DIALOG: 'open_dialog',
     RECEIVED_GROUP: 'received_group',
     GROUP_MEMBER_ADD: 'group_member_add',
@@ -548,7 +573,15 @@ export const TopLevelProducts = {
     PLAYBOOKS: 'Playbooks',
 };
 
-export const RecommendedNextSteps = {
+export enum ItemStatus {
+    NONE = 'none',
+    SUCCESS = 'success',
+    INFO = 'info',
+    WARNING = 'warning',
+    ERROR = 'error',
+}
+
+export const RecommendedNextStepsLegacy = {
     COMPLETE_PROFILE: 'complete_profile',
     TEAM_SETUP: 'team_setup',
     INVITE_MEMBERS: 'invite_members',
@@ -569,6 +602,13 @@ export const Threads = {
 export const CloudBanners = {
     HIDE: 'hide',
     TRIAL: 'trial',
+    UPGRADE_FROM_TRIAL: 'upgrade_from_trial',
+};
+
+export const AdvancedTextEditor = {
+    COMMENT: 'comment',
+    POST: 'post',
+    EDIT: 'edit',
 };
 
 export const TELEMETRY_CATEGORIES = {
@@ -578,8 +618,10 @@ export const TELEMETRY_CATEGORIES = {
     POST_INFO: 'post_info',
     SELF_HOSTED_START_TRIAL_AUTO_MODAL: 'self_hosted_start_trial_auto_modal',
     SELF_HOSTED_START_TRIAL_MODAL: 'self_hosted_start_trial_modal',
+    CLOUD_START_TRIAL_BUTTON: 'cloud_start_trial_button',
     SELF_HOSTED_START_TRIAL_TASK_LIST: 'self_hosted_start_trial_task_list',
     WORKSPACE_OPTIMIZATION_DASHBOARD: 'workspace_optimization_dashboard',
+    REQUEST_BUSINESS_EMAIL: 'request_business_email',
 };
 
 export const TELEMETRY_LABELS = {
@@ -896,6 +938,7 @@ export const DocLinks = {
 
 export const LicenseLinks = {
     CONTACT_SALES: 'https://mattermost.com/contact-sales/',
+    SOFTWARE_EVALUATION_AGREEMENT: 'https://mattermost.com/software-evaluation-agreement/',
 };
 
 export const BillingSchemes = {
@@ -1579,6 +1622,7 @@ export const Constants = {
     } as Record<string, [string, number]>),
     CODE_PREVIEW_MAX_FILE_SIZE: 500000, // 500 KB
     HighlightedLanguages: {
+        '1c': {name: '1C:Enterprise', extensions: ['bsl', 'os'], aliases: ['bsl']},
         actionscript: {name: 'ActionScript', extensions: ['as'], aliases: ['as', 'as3']},
         applescript: {name: 'AppleScript', extensions: ['applescript', 'osascript', 'scpt']},
         bash: {name: 'Bash', extensions: ['sh'], aliases: ['sh']},
@@ -1673,6 +1717,7 @@ export const Constants = {
     },
     OVERLAY_TIME_DELAY_SMALL: 100,
     OVERLAY_TIME_DELAY: 400,
+    OVERLAY_DEFAULT_TRIGGER: ['hover', 'focus'],
     PERMALINK_FADEOUT: 5000,
     DEFAULT_MAX_USERS_PER_TEAM: 50,
     DEFAULT_MAX_CHANNELS_PER_TEAM: 2000,
@@ -1914,6 +1959,65 @@ export const InsightsCardTitles = {
             defaultMessage: 'Reactions I\'ve used the most',
         },
     },
+    TOP_THREADS: {
+        teamTitle: {
+            id: t('insights.topThreads.title'),
+            defaultMessage: 'Top threads',
+        },
+        myTitle: {
+            id: t('insights.topThreads.myTitle'),
+            defaultMessage: 'My top threads',
+        },
+        teamSubTitle: {
+            id: t('insights.topThreads.subTitle'),
+            defaultMessage: 'Most active threads for the team',
+        },
+        mySubTitle: {
+            id: t('insights.topThreads.mySubTitle'),
+            defaultMessage: 'Most active threads I\'ve followed',
+        },
+    },
+    TOP_BOARDS: {
+        teamTitle: {
+            id: t('insights.topBoards.title'),
+            defaultMessage: 'Top boards',
+        },
+        myTitle: {
+            id: t('insights.topBoards.myTitle'),
+            defaultMessage: 'My top boards',
+        },
+        teamSubTitle: {
+            id: t('insights.topBoards.subTitle'),
+            defaultMessage: 'Most active boards for the team',
+        },
+        mySubTitle: {
+            id: t('insights.topBoards.mySubTitle'),
+            defaultMessage: 'Most active boards I\'ve participated in',
+        },
+    },
+};
+
+export enum ClaimErrors {
+    MFA_VALIDATE_TOKEN_AUTHENTICATE = 'mfa.validate_token.authenticate.app_error',
+    ENT_LDAP_LOGIN_USER_NOT_REGISTERED = 'ent.ldap.do_login.user_not_registered.app_error',
+    ENT_LDAP_LOGIN_USER_FILTERED = 'ent.ldap.do_login.user_filtered.app_error',
+    ENT_LDAP_LOGIN_MATCHED_TOO_MANY_USERS = 'ent.ldap.do_login.matched_to_many_users.app_error',
+    ENT_LDAP_LOGIN_INVALID_PASSWORD = 'ent.ldap.do_login.invalid_password.app_error',
+    API_USER_INVALID_PASSWORD = 'api.user.check_user_password.invalid.app_error',
+}
+
+// TODO: Remove after last legacy free products are migrated
+// (months after freemium is launched)
+// Hard coding product ids is a bad practice in general.
+// We do it here because these are legacy (we aren't making more),
+// there aren't that many,
+// and we would rather simplify some logic subscription logic now
+// so that we don't have to add confusing data to subscriptions
+// such as the new free plan having is_paid_tier=true
+// even though it is free and not paid.
+export const LegacyFreeProductIds: Record<string, true> = {
+    prod_HyiHEAVKW5bYG3: true,
+    prod_Hm2oYaBiRSISL2: true,
 };
 
 export default Constants;

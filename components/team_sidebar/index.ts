@@ -17,7 +17,7 @@ import {
 } from 'mattermost-redux/selectors/entities/teams';
 import {get, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
-import {ClientConfig} from 'mattermost-redux/types/config';
+import {ClientConfig} from '@mattermost/types/config';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
 
