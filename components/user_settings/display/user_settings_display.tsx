@@ -38,6 +38,7 @@ function getDisplayStateFromProps(props: Props) {
         availabilityStatusOnPosts: props.availabilityStatusOnPosts,
         channelDisplayMode: props.channelDisplayMode,
         messageDisplay: props.messageDisplay,
+        colorizeUsernames: props.colorizeUsernames,
         collapseDisplay: props.collapseDisplay,
         collapsedReplyThreads: props.collapsedReplyThreads,
         linkPreviewDisplay: props.linkPreviewDisplay,
@@ -45,6 +46,15 @@ function getDisplayStateFromProps(props: Props) {
         clickToReply: props.clickToReply,
     };
 }
+
+type ChildOption = {
+    id: string;
+    message: string;
+    value: string;
+    display: string;
+    moreId: string;
+    moreMessage: string;
+};
 
 type Option = {
     value: string;
@@ -54,6 +64,7 @@ type Option = {
         moreId?: string;
         moreMessage?: string;
     };
+    childOption?: ChildOption;
 }
 
 type SectionProps ={
@@ -100,6 +111,7 @@ type Props = {
     availabilityStatusOnPosts: string;
     channelDisplayMode: string;
     messageDisplay: string;
+    colorizeUsernames: string;
     collapseDisplay: string;
     collapsedReplyThreads: string;
     collapsedReplyThreadsAllowUserPreference: boolean;
@@ -122,6 +134,7 @@ type State = {
     availabilityStatusOnPosts: string;
     channelDisplayMode: string;
     messageDisplay: string;
+    colorizeUsernames: string;
     collapseDisplay: string;
     collapsedReplyThreads: string;
     linkPreviewDisplay: string;
@@ -218,6 +231,12 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             name: Preferences.MESSAGE_DISPLAY,
             value: this.state.messageDisplay,
         };
+        const colorizeUsernamesPreference = {
+            user_id: userId,
+            category: Preferences.CATEGORY_DISPLAY_SETTINGS,
+            name: Preferences.COLORIZE_USERNAMES,
+            value: this.state.colorizeUsernames,
+        };
         const collapseDisplayPreference = {
             user_id: userId,
             category: Preferences.CATEGORY_DISPLAY_SETTINGS,
@@ -262,6 +281,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             teammateNameDisplayPreference,
             availabilityStatusOnPostsPreference,
             oneClickReactionsOnPostsPreference,
+            colorizeUsernamesPreference,
         ];
 
         this.trackChangeIfNecessary(collapsedReplyThreadsPreference, this.props.collapsedReplyThreads);
@@ -411,12 +431,18 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
 
         if (this.props.activeSection === section) {
             const format = [false, false, false];
+            let childOptionToShow: ChildOption | undefined;
             if (value === firstOption.value) {
                 format[0] = true;
+                childOptionToShow = firstOption.childOption;
             } else if (value === secondOption.value) {
                 format[1] = true;
+                childOptionToShow = secondOption.childOption;
             } else {
                 format[2] = true;
+                if (thirdOption) {
+                    childOptionToShow = thirdOption.childOption;
+                }
             }
 
             const name = section + 'Format';
@@ -447,6 +473,39 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                                 onChange={() => this.handleOnChange(thirdDisplay)}
                             />
                             {thirdMessage}
+                        </label>
+                        <br/>
+                    </div>
+                );
+            }
+
+            let childOptionSection;
+            if (childOptionToShow) {
+                const childDisplay = childOptionToShow.display;
+                childOptionSection = (
+                    <div className='checkbox'>
+                        <hr/>
+                        <label>
+                            <input
+                                id={name + 'childOption'}
+                                type='checkbox'
+                                name={childOptionToShow.id}
+                                checked={childOptionToShow.value === 'true'}
+                                onChange={(e) => {
+                                    this.handleOnChange({[childDisplay]: e.target.checked ? 'true' : 'false'});
+                                }}
+                            />
+                            <FormattedMessage
+                                id={childOptionToShow.id}
+                                defaultMessage={childOptionToShow.message}
+                            />
+                            {moreColon}
+                            <span className='font-weight--normal'>
+                                <FormattedMessage
+                                    id={childOptionToShow.moreId}
+                                    defaultMessage={childOptionToShow.moreMessage}
+                                />
+                            </span>
                         </label>
                         <br/>
                     </div>
@@ -493,6 +552,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                         <br/>
                         {messageDesc}
                     </div>
+                    {childOptionSection}
                 </fieldset>,
             ];
 
@@ -768,6 +828,14 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                     message: 'Compact',
                     moreId: t('user.settings.display.messageDisplayCompactDes'),
                     moreMessage: 'Fit as many messages on the screen as we can.',
+                },
+                childOption: {
+                    id: t('user.settings.display.colorize'),
+                    value: this.state.colorizeUsernames,
+                    display: 'colorizeUsernames',
+                    message: 'Colorize usernames',
+                    moreId: t('user.settings.display.colorizeDes'),
+                    moreMessage: 'Use colors to distinguish users in compact mode',
                 },
             },
             description: {

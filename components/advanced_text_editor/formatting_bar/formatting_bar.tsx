@@ -38,7 +38,6 @@ const FormattingBarContainer = styled.div<FormattingBarContainerProps>`
     height: 48px;
     max-height: ${(props) => (props.open ? '100px' : 0)};
     padding-left: 7px;
-    overflow: hidden;
     background: rgba(var(--center-channel-color-rgb), 0.04);
     align-items: center;
     gap: 4px;
