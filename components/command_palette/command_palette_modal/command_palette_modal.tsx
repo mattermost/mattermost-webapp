@@ -7,27 +7,35 @@ import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {getCurrentTeamId, getTeams} from 'mattermost-redux/selectors/entities/teams';
-import {CommandPaletteEntities} from 'components/command_palette/types';
-import Constants from 'utils/constants';
-import {isKeyPressed} from 'utils/utils';
 import {getChannelsInAllTeams} from 'mattermost-redux/selectors/entities/channels';
+import {CommandPaletteEntities} from 'components/command_palette/types';
+import Constants, {ModalIdentifiers} from 'utils/constants';
+import {isKeyPressed} from 'utils/utils';
 import {switchToChannel} from '../../../actions/views/channel';
+import {openModal} from '../../../actions/views/modals';
 import {GlobalState} from '../../../types/store';
 import {browserHistory} from '../../../utils/browser_history';
+import CustomStatusModal from '../../custom_status/custom_status_modal';
+import InvitationModal from '../../invitation_modal';
+import UserGroupsModal from '../../user_groups_modal';
+import UserSettingsModal from '../../user_settings/modal';
 import LoadingSpinner from '../../widgets/loading/loading_spinner';
 import {CommandPaletteList} from '../command_palette_list/command_palette_list';
 import {CommandPaletteItem} from '../command_palette_list_item/command_palette_list_item';
+import {GotoListItemConstants, GotoListItemData} from '../constant';
 import {boardToCommandPaletteItemTransformer, channelToCommandPaletteItemTransformer} from '../utils';
+import './command_palette_modal.scss';
 
 import Filters from './filters';
 import Footer from './footer';
 import Input from './input';
-import './command_palette_modal.scss';
 
 interface Props {
     selectedEntities: CommandPaletteEntities[];
     onExited: () => void;
 }
+
+const defaultEnities = [CommandPaletteEntities.Channel, CommandPaletteEntities.Playbooks, CommandPaletteEntities.Boards];
 
 const CommandPaletteModal = ({onExited, selectedEntities}: Props) => {
     const [modalVisibility, setModalVisibility] = useState(true);
@@ -97,7 +105,11 @@ const CommandPaletteModal = ({onExited, selectedEntities}: Props) => {
 
     const toggleFilter = useCallback((entity: CommandPaletteEntities) => {
         if (entities.includes(entity)) {
-            setEntities(entities.filter((e) => e !== entity));
+            const newEntities = entities.filter((e) => e !== entity);
+            setEntities(newEntities);
+        } else if (entity === CommandPaletteEntities.GoTo) {
+            setEntities([entity]);
+            setTransformedItems(GotoListItemData);
         } else {
             setEntities([...entities, entity]);
         }
@@ -125,6 +137,43 @@ const CommandPaletteModal = ({onExited, selectedEntities}: Props) => {
         }
         case CommandPaletteEntities.Channel : {
             dispatch(switchToChannel(item.channel));
+            break;
+        }
+        case CommandPaletteEntities.GoTo : {
+            if (item.title === GotoListItemConstants.CUSTOM_STATUS) {
+                dispatch(openModal({
+                    modalId: ModalIdentifiers.CUSTOM_STATUS,
+                    dialogType: CustomStatusModal,
+                }));
+            } else if (item.title === GotoListItemConstants.PROFILE_SETTINGS) {
+                dispatch(openModal({
+                    modalId: ModalIdentifiers.USER_SETTINGS,
+                    dialogType: UserSettingsModal,
+                    dialogProps: {isContentProductSettings: false},
+                }));
+            } else if (item.title === GotoListItemConstants.NOTIFICATION_SETTINGS) {
+                dispatch(openModal({
+                    modalId: ModalIdentifiers.USER_SETTINGS,
+                    dialogType: UserSettingsModal,
+                    dialogProps: {isContentProductSettings: true, activeTab: 'notifications'},
+                }));
+            } else if (item.title === GotoListItemConstants.DISPLAY_SETTINGS) {
+                dispatch(openModal({
+                    modalId: ModalIdentifiers.USER_SETTINGS,
+                    dialogType: UserSettingsModal,
+                    dialogProps: {isContentProductSettings: true, activeTab: 'display'},
+                }));
+            } else if (item.title === GotoListItemConstants.USER_GROUPS) {
+                dispatch(openModal({
+                    modalId: ModalIdentifiers.USER_GROUPS,
+                    dialogType: UserGroupsModal,
+                }));
+            } else if (item.title === GotoListItemConstants.INVITE_PEOPLE) {
+                dispatch(openModal({
+                    modalId: ModalIdentifiers.INVITATION,
+                    dialogType: InvitationModal,
+                }));
+            }
             break;
         }
         default: {

@@ -62,4 +62,12 @@
         height: 18px;
         margin: 0 0.2em;
     }
+
+    &__goto-icon {
+        border-radius: 4px;
+        color: rgba(var(--center-channel-color-rgb), 0.56);
+        background: rgba(var(--center-channel-text-rgb),0.08);
+        font-size: 1.8rem;
+        font-weight: 400;
+    }
 }

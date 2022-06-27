@@ -9,6 +9,7 @@ import ProfilePicture from 'components/profile_picture';
 export enum CmdPalettePictographType {
     IMAGE= 'image',
     ICON= 'icon',
+    GOTO_ICON= 'goto_icon',
     EMOJI= 'emoji',
     TEXT= 'text',
 }
@@ -29,6 +30,8 @@ export interface CmdPalettePictograph{
 export const CommandPaletteListItemPictograph = ({type, pictographItem, userStatus}: CmdPalettePictograph) => {
     if (type === CmdPalettePictographType.ICON) {
         return <i className={classNames('cmd-pl-list-item__icon', pictographItem)}/>;
+    } else if (type === CmdPalettePictographType.GOTO_ICON) {
+        return <i className={classNames('cmd-pl-list-item__goto-icon', pictographItem)}/>;
     } else if (type === CmdPalettePictographType.TEXT) {
         return (
             <div className='cmd-pl-list-item__text'>

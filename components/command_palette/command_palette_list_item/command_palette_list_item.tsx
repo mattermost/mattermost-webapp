@@ -10,7 +10,7 @@ import RenderEmoji from 'components/emoji/render_emoji';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 
-import {ChannelType, BoardsType, CommandPaletteEntities, PlaybooksType} from '../types';
+import {ChannelType, BoardsType, CommandPaletteEntities, PlaybooksType, GotoType} from '../types';
 
 import {CmdPalettePictograph, CommandPaletteListItemPictograph} from './command_palette_list_item_pictograph';
 
@@ -18,7 +18,7 @@ import './command_palette_list_item.scss';
 
 export interface CommandPaletteItem {
     title: string;
-    description: string;
+    description?: string;
     id: string;
     pictograph: CmdPalettePictograph;
     teamName?: string;
@@ -32,7 +32,7 @@ export interface CommandPaletteItem {
     isDeactivated?: boolean;
     channel?: Channel;
     type: CommandPaletteEntities;
-    subType: ChannelType | BoardsType | PlaybooksType;
+    subType: ChannelType | BoardsType | PlaybooksType | GotoType;
     isSelected?: boolean;
 }
 

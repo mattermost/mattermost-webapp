@@ -3,12 +3,12 @@
 import {Channel} from '@mattermost/types/channels';
 import {Team} from '@mattermost/types/teams';
 
-// See LICENSE.txt for license information.
 import {CommandPaletteItem} from './command_palette_list_item/command_palette_list_item';
 import {
     CmdPalettePictographIcon,
     CmdPalettePictographType,
 } from './command_palette_list_item/command_palette_list_item_pictograph';
+
 import {BoardsType, ChannelType, CommandPaletteEntities} from './types';
 export type Board = {
     channelId: string;
@@ -43,11 +43,6 @@ function filterName(name: string): string {
 export function boardToCommandPaletteItemTransformer(boards: Board[], teams: Record<string, Team>): CommandPaletteItem[] {
     return boards.filter(((b) => !b.isTemplate)).map((board) => {
         const isArchived = board.deleteAt ? board.deleteAt !== 0 : false;
-
-        let channelIcon = CmdPalettePictographIcon.GLOBE;
-        if (isArchived) {
-            channelIcon = CmdPalettePictographIcon.ARCHIVE;
-        }
         return {
             description: '',
             id: board.id,
@@ -152,8 +147,8 @@ export function commandPaletteSorter(prefix: string, cmdPaletteItemA: CommandPal
         bDisplayName = bDisplayName.substring(1);
     }
 
-    const aStartsWith = aDisplayName.startsWith(prefix) || cmdPaletteItemA.description.toLowerCase().startsWith(prefix);
-    const bStartsWith = bDisplayName.startsWith(prefix) || cmdPaletteItemB.description.toLowerCase().startsWith(prefix);
+    const aStartsWith = aDisplayName.startsWith(prefix) || cmdPaletteItemA.description?.toLowerCase().startsWith(prefix);
+    const bStartsWith = bDisplayName.startsWith(prefix) || cmdPaletteItemB.description?.toLowerCase().startsWith(prefix);
 
     // Open channels user haven't interacted should be at the  bottom of the list
     if (cmdPaletteItemA.type === CommandPaletteEntities.Channel &&
