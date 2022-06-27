@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {useState, useMemo} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 import {useIntl} from 'react-intl';
 
 import GenericModal from 'components/generic_modal';
@@ -69,6 +69,14 @@ const EdgeConfigModal = ({onCancel, onConfirm, edge, actions, events}: Props) =>
         configFields = action?.config_definition || {};
     }
 
+    const onConfirmHandler = () => {
+        onConfirm(config)
+        setConfig({})
+    }
+    const onCancelHandler = () => {
+        setConfig({})
+    }
+
     return (
         <GenericModal
             id='new-edge-modal'
@@ -79,10 +87,10 @@ const EdgeConfigModal = ({onCancel, onConfirm, edge, actions, events}: Props) =>
             isConfirmDisabled={false}
             autoCloseOnConfirmButton={false}
             useCompassDesign={true}
-            handleConfirm={() => onConfirm(config)}
-            handleEnterKeyPress={() => onConfirm(config)}
-            handleCancel={onCancel}
-            onExited={onCancel}
+            handleConfirm={onConfirmHandler}
+            handleEnterKeyPress={onConfirmHandler}
+            handleCancel={onCancelHandler}
+            onExited={onCancelHandler}
         >
             <div>
                 {Object.entries(configFields).map(([key, value]) => {

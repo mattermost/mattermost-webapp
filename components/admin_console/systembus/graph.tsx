@@ -90,7 +90,9 @@ export const Graph = ({data, onSave, onCancel, actions, events}: Props) => {
             setSelectedNode(null);
         }
         if (e.function === 'selectionChanged' && e.isSelected) {
-            setSelectedNode(e.entity);
+            if (!e.entity.points) {
+                setSelectedNode(e.entity);
+            }
         }
         if (e.function === 'linksUpdated' && e.isCreated) {
             e.link.registerListener({
@@ -98,6 +100,8 @@ export const Graph = ({data, onSave, onCancel, actions, events}: Props) => {
             });
         }
         if (e.function === 'targetPortChanged') {
+            e.entity.parent.parent.clearSelection();
+            e.entity.setLocked(true);
             setNewEdge(e.entity);
         }
     };
@@ -138,7 +142,7 @@ export const Graph = ({data, onSave, onCancel, actions, events}: Props) => {
     }
 
     const setEdgeConfig = (config: {[key: string]: string}) => {
-        console.log(newEdge);
+        newEdge.setLocked(false);
         newEdge.getOptions().extras = {original: {config, id: generateId()}};
         let label = '';
         for (const [key, value] of Object.entries(config)) {
@@ -160,7 +164,11 @@ export const Graph = ({data, onSave, onCancel, actions, events}: Props) => {
             graphEventHandler={eventHandler}
         >
             <EdgeConfigModal
-                onCancel={() => setNewEdge(null)}
+                onCancel={() => {
+                    newEdge.getOptions().extras = {original: {config: {}, id: generateId()}};
+                    newEdge.setLocked(false);
+                    setNewEdge(null);
+                }}
                 onConfirm={setEdgeConfig}
                 edge={newEdge}
                 actions={actions}
