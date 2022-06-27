@@ -79,7 +79,7 @@ export const GotoListItemData: CommandPaletteItem[] = [
             type: CmdPalettePictographType.GOTO_ICON,
             pictographItem: 'icon-account-multiple-outline',
         },
-        title: GotoListItemConstants.INVITE_PEOPLE,
+        title: GotoListItemConstants.USER_GROUPS,
         type: CommandPaletteEntities.GoTo,
         teamId: '',
         subType: GotoType.OPEN,

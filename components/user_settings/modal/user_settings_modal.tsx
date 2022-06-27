@@ -71,6 +71,7 @@ export type Props = {
     onExited: () => void;
     intl: IntlShape;
     isContentProductSettings: boolean;
+    activeTab?: string;
     actions: {
         sendVerificationEmail: (email: string) => Promise<{
             data: StatusOK;
@@ -98,9 +99,12 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
 
     constructor(props: Props) {
         super(props);
-
+        let activeTab = props.isContentProductSettings ? 'notifications' : 'profile';
+        if (props.activeTab) {
+            activeTab = props.activeTab;
+        }
         this.state = {
-            active_tab: props.isContentProductSettings ? 'notifications' : 'profile',
+            active_tab: activeTab,
             active_section: '',
             showConfirmModal: false,
             enforceFocus: true,

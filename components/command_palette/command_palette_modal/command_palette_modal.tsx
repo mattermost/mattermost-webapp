@@ -9,15 +9,20 @@ import {useDispatch, useSelector} from 'react-redux';
 import {getCurrentTeamId, getTeams} from 'mattermost-redux/selectors/entities/teams';
 import {getChannelsInAllTeams} from 'mattermost-redux/selectors/entities/channels';
 import {CommandPaletteEntities} from 'components/command_palette/types';
-import Constants from 'utils/constants';
+import Constants, {ModalIdentifiers} from 'utils/constants';
 import {isKeyPressed} from 'utils/utils';
 import {switchToChannel} from '../../../actions/views/channel';
+import {openModal} from '../../../actions/views/modals';
 import {GlobalState} from '../../../types/store';
 import {browserHistory} from '../../../utils/browser_history';
+import CustomStatusModal from '../../custom_status/custom_status_modal';
+import InvitationModal from '../../invitation_modal';
+import UserGroupsModal from '../../user_groups_modal';
+import UserSettingsModal from '../../user_settings/modal';
 import LoadingSpinner from '../../widgets/loading/loading_spinner';
 import {CommandPaletteList} from '../command_palette_list/command_palette_list';
 import {CommandPaletteItem} from '../command_palette_list_item/command_palette_list_item';
-import {GotoListItemData} from '../constant';
+import {GotoListItemConstants, GotoListItemData} from '../constant';
 import {boardToCommandPaletteItemTransformer, channelToCommandPaletteItemTransformer} from '../utils';
 import './command_palette_modal.scss';
 
@@ -132,6 +137,43 @@ const CommandPaletteModal = ({onExited, selectedEntities}: Props) => {
         }
         case CommandPaletteEntities.Channel : {
             dispatch(switchToChannel(item.channel));
+            break;
+        }
+        case CommandPaletteEntities.GoTo : {
+            if (item.title === GotoListItemConstants.CUSTOM_STATUS) {
+                dispatch(openModal({
+                    modalId: ModalIdentifiers.CUSTOM_STATUS,
+                    dialogType: CustomStatusModal,
+                }));
+            } else if (item.title === GotoListItemConstants.PROFILE_SETTINGS) {
+                dispatch(openModal({
+                    modalId: ModalIdentifiers.USER_SETTINGS,
+                    dialogType: UserSettingsModal,
+                    dialogProps: {isContentProductSettings: false},
+                }));
+            } else if (item.title === GotoListItemConstants.NOTIFICATION_SETTINGS) {
+                dispatch(openModal({
+                    modalId: ModalIdentifiers.USER_SETTINGS,
+                    dialogType: UserSettingsModal,
+                    dialogProps: {isContentProductSettings: true, activeTab: 'notifications'},
+                }));
+            } else if (item.title === GotoListItemConstants.DISPLAY_SETTINGS) {
+                dispatch(openModal({
+                    modalId: ModalIdentifiers.USER_SETTINGS,
+                    dialogType: UserSettingsModal,
+                    dialogProps: {isContentProductSettings: true, activeTab: 'display'},
+                }));
+            } else if (item.title === GotoListItemConstants.USER_GROUPS) {
+                dispatch(openModal({
+                    modalId: ModalIdentifiers.USER_GROUPS,
+                    dialogType: UserGroupsModal,
+                }));
+            } else if (item.title === GotoListItemConstants.INVITE_PEOPLE) {
+                dispatch(openModal({
+                    modalId: ModalIdentifiers.INVITATION,
+                    dialogType: InvitationModal,
+                }));
+            }
             break;
         }
         default: {
