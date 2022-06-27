@@ -39,7 +39,7 @@ const WebhookForm = ({handleChange}: Props): JSX.Element => {
             ...data,
             ifValue: value,
         });
-        handleChange(data);
+        handleChange({ifComparison: data.ifComparison.value, ifValue: value});
     };
 
     const handleIfComparisonOnChange = (selectedOption: ValueType<SelectedOption>) => {
@@ -48,7 +48,7 @@ const WebhookForm = ({handleChange}: Props): JSX.Element => {
                 ...data,
                 ifComparison: selectedOption,
             });
-            handleChange({ifComparison: data.ifComparison.value, ifValue: data.ifValue});
+            handleChange({ifComparison: selectedOption.value, ifValue: data.ifValue});
         }
     };
 
