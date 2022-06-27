@@ -32,13 +32,12 @@ const SlashCommandForm = ({handleChange}: Props): JSX.Element => {
     });
 
     const handleOnChange = (value: string, label: string) => {
-        setData({
+        const newData = {
             ...data,
             [label]: value,
-        });
-        if (data.command && data.description && data.hint && data.name && data.flags && data.subcommands) {
-            handleChange(data);
         }
+        setData(newData);
+        handleChange({command: {...newData, flags: {}, subcommands: []}});
     };
     return (
         <div className='node-modal__column'>
