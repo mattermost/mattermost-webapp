@@ -108,6 +108,7 @@ export const Graph = ({data, onSave, onCancel, actions, events}: Props) => {
             const newEngine = createEngine();
             setEngine(newEngine);
             newEngine.getLinkFactories().registerFactory(new MattermostLinkFactory());
+            newEngine.setMaxNumberPointsPerLink(0)
             localEngine = newEngine;
         }
 
