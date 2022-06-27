@@ -66,6 +66,13 @@ export default function InviteAs(props: Props) {
             dispatch(closeModal(ModalIdentifiers.INVITATION));
         };
 
+        let ctaExtraContentMsg = '';
+        if (isCloudFreeTrial) {
+            ctaExtraContentMsg = formatMessage({id: 'cloud_free.professional_feature.professional', defaultMessage: 'Professional feature'});
+        } else {
+            ctaExtraContentMsg = hasPriorTrial ? formatMessage({id: 'cloud_free.professional_feature.upgrade', defaultMessage: 'Upgrade'}) : formatMessage({id: 'cloud_free.professional_feature.try_free', defaultMessage: 'Professional feature- try it out free'});
+        }
+
         const restrictedIndicator = (
             <RestrictedIndicator
                 blocked={!isCloudFreeTrial}
@@ -89,14 +96,14 @@ export default function InviteAs(props: Props) {
                 })}
                 ctaExtraContent={(
                     <span className='badge-text'>
-                        {isCloudFreeTrial ? formatMessage({id: 'cloud_free.professional_feature.professional', defaultMessage: 'Professional feature'}) : formatMessage({id: 'cloud_free.professional_feature.try_free', defaultMessage: 'Professional feature- try it out free'})}
+                        {ctaExtraContentMsg}
                     </span>
                 )}
                 clickCallback={closeInviteModal}
                 tooltipMessage={hasPriorTrial ? formatMessage({id: 'cloud_free.professional_feature.upgrade', defaultMessage: 'Upgrade'}) : undefined}
 
                 // the secondary back button first closes the restridted feature modal and then opens back the invitation modal
-                customSecondaryButtonInModal={{
+                customSecondaryButtonInModal={hasPriorTrial ? undefined : {
                     msg: formatMessage({id: 'cloud_free.professional_feature.back', defaultMessage: 'Back'}),
                     action: () => {
                         dispatch(closeModal(ModalIdentifiers.FEATURE_RESTRICTED_MODAL));
