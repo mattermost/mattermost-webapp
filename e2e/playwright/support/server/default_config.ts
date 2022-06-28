@@ -496,7 +496,6 @@ const defaultServerConfig: AdminConfig = {
     ExperimentalSettings: {
         ClientSideCertEnable: false,
         ClientSideCertCheck: 'secondary',
-        EnableClickToReply: false,
         LinkMetadataTimeoutMilliseconds: 5000,
         RestrictSystemAdmin: false,
         UseNewSAMLLibrary: false,

@@ -7,10 +7,13 @@ import {useSelector} from 'react-redux';
 
 import {GlobalState} from 'types/store';
 
-import {checkSubscriptionIsLegacyFree, getSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
+import {checkSubscriptionIsLegacyFree, getSubscriptionProduct, getCloudSubscription} from 'mattermost-redux/selectors/entities/cloud';
+
+import {getRemainingDaysFromFutureTimestamp} from 'utils/utils';
+import {TrialPeriodDays} from 'utils/constants';
 
 import {
-    planDetailsTopElements,
+    PlanDetailsTopElements,
     currentPlanText,
 } from './plan_details';
 import FeatureList from './feature_list';
@@ -24,18 +27,30 @@ type Props = {
 }
 const PlanDetails = ({isFreeTrial, subscriptionPlan}: Props) => {
     const userCount = useSelector((state: GlobalState) => state.entities.admin.analytics!.TOTAL_USERS) as number;
+    const subscription = useSelector(getCloudSubscription);
     const product = useSelector(getSubscriptionProduct);
     const isLegacyFree = useSelector(checkSubscriptionIsLegacyFree);
-
+    const isLegacyFreePaidTier = Boolean(subscription?.is_legacy_cloud_paid_tier);
+    const daysLeftOnTrial = Math.min(
+        getRemainingDaysFromFutureTimestamp(subscription?.trial_end_at),
+        TrialPeriodDays.TRIAL_30_DAYS,
+    );
     if (!product) {
         return null;
     }
 
     return (
         <div className='PlanDetails'>
-            {planDetailsTopElements(userCount, isLegacyFree, isFreeTrial, subscriptionPlan)}
+            <PlanDetailsTopElements
+                userCount={userCount}
+                isLegacyFree={isLegacyFree}
+                isFreeTrial={isFreeTrial}
+                subscriptionPlan={subscriptionPlan}
+                daysLeftOnTrial={daysLeftOnTrial}
+            />
             <PlanPricing
                 isLegacyFree={isLegacyFree}
+                isLegacyFreePaidTier={isLegacyFreePaidTier}
                 product={product}
             />
             <div className='PlanDetails__teamAndChannelCount'>

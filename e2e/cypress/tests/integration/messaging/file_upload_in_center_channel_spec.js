@@ -18,7 +18,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('M16425 : Show single image thumbnails in standard mode', () => {
+    it('MM-T4861 Show single image thumbnails in standard mode', () => {
         // # Set the messages display setting to standard i.e not compact
         cy.apiSaveMessageDisplayPreference('clean');
 

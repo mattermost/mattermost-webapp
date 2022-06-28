@@ -9,7 +9,7 @@ import './dropdown_input.scss';
 
 // TODO: This component needs work, should not be used outside of AddressInfo until this comment is removed.
 
-type ValueType = {
+export type ValueType = {
     label: string;
     value: string;
 }
@@ -19,6 +19,7 @@ type Props<T> = Omit<SelectProps<T>, 'onChange'> & {
     legend?: string;
     error?: string;
     onChange: (value: T, action: ActionMeta<T>) => void;
+    testId?: string;
 };
 
 const baseStyles = {
@@ -84,7 +85,7 @@ const renderError = (error?: string) => {
 };
 
 const DropdownInput = <T extends ValueType>(props: Props<T>) => {
-    const {value, placeholder, className, addon, name, textPrefix, legend, onChange, styles, options, error, ...otherProps} = props;
+    const {value, placeholder, className, addon, name, textPrefix, legend, onChange, styles, options, error, testId, ...otherProps} = props;
 
     const [focused, setFocused] = useState(false);
 
@@ -111,7 +112,10 @@ const DropdownInput = <T extends ValueType>(props: Props<T>) => {
     const showLegend = Boolean(focused || value);
 
     return (
-        <div className='DropdownInput Input_container'>
+        <div
+            className='DropdownInput Input_container'
+            data-testid={testId || ''}
+        >
             <fieldset
                 className={classNames('Input_fieldset', className, {
                     Input_fieldset___error: error,

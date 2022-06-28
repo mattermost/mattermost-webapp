@@ -19,7 +19,6 @@ import {BtnStyle} from 'components/common/carousel/carousel_button';
 
 import {closeModal} from 'actions/views/modals';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
-import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import StartTrialBtn from './start_trial_btn';
@@ -45,8 +44,6 @@ const LearnMoreTrialModal = (
     // Cloud conditions
     const license = useSelector(getLicense);
     const isCloud = license?.Cloud === 'true';
-    const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
-    const isCloudFree = isCloud && isCloudFreeEnabled;
 
     const handleEmbargoError = useCallback(() => {
         setEmbargoed(true);
@@ -55,9 +52,9 @@ const LearnMoreTrialModal = (
     let startTrialBtnMsg = formatMessage({id: 'start_trial.modal_btn.start_free_trial', defaultMessage: 'Start free 30-day trial'});
 
     // close this modal once start trial btn is clicked and trial has started successfully
-    const dismissAction = () => {
+    const dismissAction = useCallback(() => {
         dispatch(closeModal(ModalIdentifiers.LEARN_MORE_TRIAL_MODAL));
-    };
+    }, []);
 
     let startTrialBtn = (
         <StartTrialBtn
@@ -68,8 +65,8 @@ const LearnMoreTrialModal = (
         />
     );
 
-    // no need to check if is cloud trial or if it have had prev cloud trial cause the button that show this modal takes care of that
-    if (isCloudFree) {
+    // no need to check if is cloud trial or if it have had prev cloud trial because the button that show this modal takes care of that
+    if (isCloud) {
         startTrialBtnMsg = formatMessage({id: 'menu.cloudFree.tryFreeFor30Days', defaultMessage: 'Try free for 30 days'});
         startTrialBtn = (
             <CloudStartTrialButton
@@ -101,8 +98,8 @@ const LearnMoreTrialModal = (
     const steps: LearnMoreTrialModalStepProps[] = useMemo(() => [
         {
             id: 'useSso',
-            title: formatMessage({id: 'learn_more_about_trial.modal.useSsoTitle', defaultMessage: 'Use SSO (with OpenID, SAML, Google, 0365)'}),
-            description: formatMessage({id: 'learn_more_about_trial.modal.useSsoDescription', defaultMessage: 'Sign on quickly and easily with our SSO feature that works with OpenID, SAML, Google, and 0365.'}),
+            title: formatMessage({id: 'learn_more_about_trial.modal.useSsoTitle', defaultMessage: 'Use SSO (with OpenID, SAML, Google, O365)'}),
+            description: formatMessage({id: 'learn_more_about_trial.modal.useSsoDescription', defaultMessage: 'Sign on quickly and easily with our SSO feature that works with OpenID, SAML, Google, and O365.'}),
             svgWrapperClassName: 'guestAccessSvg',
             svgElement: (
                 <GuestAccessSvg

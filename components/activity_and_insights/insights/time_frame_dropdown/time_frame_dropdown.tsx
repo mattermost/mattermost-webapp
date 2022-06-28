@@ -6,6 +6,8 @@ import ReactSelect, {ValueType} from 'react-select';
 
 import Icon from '@mattermost/compass-components/foundations/icon/Icon';
 
+import {trackEvent} from 'actions/telemetry_actions';
+
 import {TimeFrames} from '@mattermost/types/insights';
 
 import {localizeMessage} from 'utils/utils';
@@ -46,6 +48,7 @@ const TimeFrameDropdown = (props: Props) => {
 
     const onTimeFrameChange = (selectedOption: ValueType<SelectOption>) => {
         if (selectedOption && 'value' in selectedOption) {
+            trackEvent('insights', `time_frame_selected_${selectedOption.value}`);
             props.setTimeFrame(selectedOption);
         }
     };

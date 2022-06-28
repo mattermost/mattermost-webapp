@@ -220,13 +220,6 @@ const AdvanceTextEditor = ({
         />
     );
 
-    const showFormatJSX = readOnlyChannel ? null : (
-        <ShowFormat
-            onClick={handleShowFormat}
-            active={shouldShowPreview}
-        />
-    );
-
     const getEmojiPickerRef = () => {
         return emojiPickerRef.current;
     };
@@ -288,6 +281,13 @@ const AdvanceTextEditor = ({
         <SendButton
             disabled={disableSendButton}
             handleSubmit={handleSubmit}
+        />
+    );
+
+    const showFormatJSX = disableSendButton ? null : (
+        <ShowFormat
+            onClick={handleShowFormat}
+            active={shouldShowPreview}
         />
     );
 
