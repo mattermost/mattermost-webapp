@@ -22,7 +22,7 @@ Cypress.Commands.add('isExpanded', {prevSubject: true}, (subject) => {
 });
 
 Cypress.Commands.add('uiGetReply', () => {
-    return cy.findByRole('button', {name: 'Reply'});
+    return cy.get('.sidebar--right').findByTestId('SendMessageButton');
 });
 
 Cypress.Commands.add('uiReply', () => {
