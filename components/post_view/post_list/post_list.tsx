@@ -163,6 +163,8 @@ export default class PostList extends React.PureComponent<Props, State> {
             autoRetryEnable: true,
         };
 
+        this.extraPagesLoaded = 0;
+
         this.autoRetriesCount = 0;
         this.actionsForPostList = {
             loadOlderPosts: this.getPostsBefore,
@@ -303,6 +305,12 @@ export default class PostList extends React.PureComponent<Props, State> {
         if (this.state.loadingOlderPosts) {
             return;
         }
+
+        // Reset counter after "Load more" button click
+        if (!this.state.autoRetryEnable) {
+            this.extraPagesLoaded = 0;
+        }
+
         const oldestPostId = this.getOldestVisiblePostId();
         this.setState({loadingOlderPosts: true});
         await this.callLoadPosts(this.props.channelId, oldestPostId, PostRequestTypes.BEFORE_ID);
@@ -312,6 +320,12 @@ export default class PostList extends React.PureComponent<Props, State> {
         if (this.state.loadingNewerPosts) {
             return;
         }
+
+        // Reset counter after "Load more" button click
+        if (!this.state.autoRetryEnable) {
+            this.extraPagesLoaded = 0;
+        }
+
         const latestPostId = this.getLatestVisiblePostId();
         this.setState({loadingNewerPosts: true});
         await this.callLoadPosts(this.props.channelId, latestPostId, PostRequestTypes.AFTER_ID);
