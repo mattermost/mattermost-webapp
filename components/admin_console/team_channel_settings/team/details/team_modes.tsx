@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
 import {t} from 'utils/i18n';
@@ -40,7 +39,6 @@ const SyncGroupsToggle = ({syncChecked, allAllowedChecked, allowedDomainsChecked
                     link: (msg: string) => (
                         <a
                             href='https://www.mattermost.com/pl/default-ldap-group-constrained-team-channel.html'
-                            referrer='noreferrer'
                             target='_blank'
                             rel='noreferrer'
                         >
@@ -73,15 +71,6 @@ const AllowAllToggle = ({syncChecked, allAllowedChecked, allowedDomainsChecked, 
                 />
             )}
         />));
-
-AllowAllToggle.propTypes = {
-    syncChecked: PropTypes.bool.isRequired,
-    allAllowedChecked: PropTypes.bool.isRequired,
-    allowedDomainsChecked: PropTypes.bool.isRequired,
-    allowedDomains: PropTypes.string.isRequired,
-    onToggle: PropTypes.func.isRequired,
-    isDisabled: PropTypes.bool,
-};
 
 const AllowedDomainsToggle = ({syncChecked, allAllowedChecked, allowedDomainsChecked, allowedDomains, onToggle, isDisabled}: Props) =>
     (syncChecked ? null : (
@@ -119,15 +108,6 @@ const AllowedDomainsToggle = ({syncChecked, allAllowedChecked, allowedDomainsChe
                 disabled={isDisabled}
             />
         </LineSwitch>));
-
-AllowedDomainsToggle.propTypes = {
-    syncChecked: PropTypes.bool.isRequired,
-    allAllowedChecked: PropTypes.bool.isRequired,
-    allowedDomainsChecked: PropTypes.bool.isRequired,
-    allowedDomains: PropTypes.string.isRequired,
-    onToggle: PropTypes.func.isRequired,
-    isDisabled: PropTypes.bool,
-};
 
 type TeamModesProps = Props & {
     isLicensedForLDAPGroups?: boolean;
@@ -172,13 +152,3 @@ export const TeamModes = ({allAllowedChecked, syncChecked, allowedDomains, allow
             </div>
         </div>
     </AdminPanel>);
-
-TeamModes.propTypes = {
-    syncChecked: PropTypes.bool.isRequired,
-    allAllowedChecked: PropTypes.bool.isRequired,
-    allowedDomainsChecked: PropTypes.bool.isRequired,
-    onToggle: PropTypes.func.isRequired,
-    allowedDomains: PropTypes.string.isRequired,
-    isDisabled: PropTypes.bool,
-    isLicensedForLDAPGroups: PropTypes.bool,
-};
