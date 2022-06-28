@@ -313,7 +313,6 @@
   "admin.billing.subscription.paymentFailed": "Payment failed. Please try again or contact support.",
   "admin.billing.subscription.paymentVerificationFailed": "Sorry, the payment verification failed",
   "admin.billing.subscription.planDetails.currentPlan": "(Current Plan)",
-  "admin.billing.subscription.planDetails.features.10GBstoragePerUser": "10 GB storage per user",
   "admin.billing.subscription.planDetails.features.99uptime": "99.0% uptime",
   "admin.billing.subscription.planDetails.features.advanceTeamPermission": "Advanced team permissions",
   "admin.billing.subscription.planDetails.features.autoComplianceExports": "Automated compliance exports",
