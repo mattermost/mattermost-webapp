@@ -26,9 +26,9 @@ function withGetCloudSubscription<P>(WrappedComponent: ComponentType<P>): Compon
             if (!this.props.isCloud) {
                 return;
             }
-            const {subscription, actions, isCloud, userIsAdmin} = this.props;
+            const {subscription, actions, userIsAdmin} = this.props;
 
-            if (isEmpty(subscription) && isCloud && userIsAdmin && actions?.getCloudSubscription) {
+            if (isEmpty(subscription) && userIsAdmin && actions?.getCloudSubscription) {
                 await actions.getCloudSubscription();
             }
         }
