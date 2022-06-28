@@ -36,7 +36,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <PermissionRow
       additionalValues={Object {}}
       id="invite_user"
-      inherited={null}
       key="invite_user"
       onChange={[Function]}
       selectRow={[MockFunction]}
@@ -46,7 +45,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <PermissionRow
       additionalValues={Object {}}
       id="add_user_to_team"
-      inherited={null}
       key="add_user_to_team"
       onChange={[Function]}
       selectRow={[MockFunction]}
@@ -93,7 +91,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <PermissionRow
       additionalValues={Object {}}
       id="invite_user"
-      inherited={null}
       key="invite_user"
       onChange={[Function]}
       selectRow={[MockFunction]}
@@ -103,7 +100,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <PermissionRow
       additionalValues={Object {}}
       id="add_user_to_team"
-      inherited={null}
       key="add_user_to_team"
       onChange={[Function]}
       selectRow={[MockFunction]}
@@ -150,7 +146,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <PermissionRow
       additionalValues={Object {}}
       id="invite_user"
-      inherited={null}
       key="invite_user"
       onChange={[Function]}
       selectRow={[MockFunction]}
@@ -160,7 +155,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <PermissionRow
       additionalValues={Object {}}
       id="add_user_to_team"
-      inherited={null}
       key="add_user_to_team"
       onChange={[Function]}
       selectRow={[MockFunction]}
@@ -207,7 +201,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <PermissionRow
       additionalValues={Object {}}
       id="invite_user"
-      inherited={null}
       key="invite_user"
       onChange={[Function]}
       selectRow={[MockFunction]}
@@ -217,7 +210,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <PermissionRow
       additionalValues={Object {}}
       id="add_user_to_team"
-      inherited={null}
       key="add_user_to_team"
       onChange={[Function]}
       selectRow={[MockFunction]}
@@ -264,7 +256,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <PermissionRow
       additionalValues={Object {}}
       id="invite_user"
-      inherited={null}
       key="invite_user"
       onChange={[Function]}
       readOnly={true}
@@ -275,7 +266,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <PermissionRow
       additionalValues={Object {}}
       id="add_user_to_team"
-      inherited={null}
       key="add_user_to_team"
       onChange={[Function]}
       readOnly={true}
@@ -396,7 +386,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <PermissionRow
       additionalValues={Object {}}
       id="invite_user"
-      inherited={null}
       key="invite_user"
       onChange={[Function]}
       selectRow={[MockFunction]}
@@ -406,7 +395,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <PermissionRow
       additionalValues={Object {}}
       id="add_user_to_team"
-      inherited={null}
       key="add_user_to_team"
       onChange={[Function]}
       selectRow={[MockFunction]}
@@ -453,7 +441,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <PermissionRow
       additionalValues={Object {}}
       id="invite_user"
-      inherited={null}
       key="invite_user"
       onChange={[Function]}
       readOnly={true}
@@ -464,7 +451,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <PermissionRow
       additionalValues={Object {}}
       id="add_user_to_team"
-      inherited={null}
       key="add_user_to_team"
       onChange={[Function]}
       readOnly={true}
@@ -529,7 +515,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <PermissionRow
       additionalValues={Object {}}
       id="add_user_to_team"
-      inherited={null}
       key="add_user_to_team"
       onChange={[Function]}
       readOnly={false}
@@ -577,7 +562,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <PermissionRow
       additionalValues={Object {}}
       id="invite_user"
-      inherited={null}
       key="invite_user"
       onChange={[Function]}
       selectRow={[MockFunction]}
@@ -587,7 +571,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <PermissionRow
       additionalValues={Object {}}
       id="add_user_to_team"
-      inherited={null}
       key="add_user_to_team"
       onChange={[Function]}
       selectRow={[MockFunction]}
@@ -634,7 +617,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <PermissionRow
       additionalValues={Object {}}
       id="invite_user"
-      inherited={null}
       key="invite_user"
       onChange={[Function]}
       selectRow={[MockFunction]}
@@ -644,7 +626,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <PermissionRow
       additionalValues={Object {}}
       id="add_user_to_team"
-      inherited={null}
       key="add_user_to_team"
       onChange={[Function]}
       selectRow={[MockFunction]}
@@ -691,7 +672,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <PermissionRow
       additionalValues={Object {}}
       id="invite_user"
-      inherited={null}
       key="invite_user"
       onChange={[Function]}
       readOnly={true}
@@ -702,7 +682,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <PermissionRow
       additionalValues={Object {}}
       id="add_user_to_team"
-      inherited={null}
       key="add_user_to_team"
       onChange={[Function]}
       readOnly={true}
