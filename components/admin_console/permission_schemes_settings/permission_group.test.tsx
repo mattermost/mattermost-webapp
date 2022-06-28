@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import PermissionGroup from 'components/admin_console/permission_schemes_settings/permission_group.jsx';
+import PermissionGroup from 'components/admin_console/permission_schemes_settings/permission_group';
 
 describe('components/admin_console/permission_schemes_settings/permission_group', () => {
     const defaultProps = {
@@ -15,7 +15,7 @@ describe('components/admin_console/permission_schemes_settings/permission_group'
         role: {
             permissions: [],
         },
-        parentRole: null,
+        parentRole: undefined,
         scope: 'team_scope',
         value: 'checked',
         selectRow: jest.fn(),
@@ -187,7 +187,7 @@ describe('components/admin_console/permission_schemes_settings/permission_group'
     });
 
     test('should collapse when toggle to all permissions and expand otherwise', () => {
-        let wrapper = shallow(
+        let wrapper = shallow<PermissionGroup>(
             <PermissionGroup
                 {...defaultProps}
                 role={{permissions: ['invite_user']}}
@@ -220,7 +220,7 @@ describe('components/admin_console/permission_schemes_settings/permission_group'
 
     test('should toggle correctly between states', () => {
         let onChange = jest.fn();
-        let wrapper = shallow(
+        let wrapper = shallow<PermissionGroup>(
             <PermissionGroup
                 {...defaultProps}
                 role={{permissions: ['invite_user']}}
