@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 const config = {
-    sourceType: 'unambiguous',
     presets: [
         ['@babel/preset-env', {
             targets: {

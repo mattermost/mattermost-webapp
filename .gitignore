@@ -14,6 +14,7 @@ junit.xml
 coverage
 config.override.mk
 *.tsbuildinfo
+build-packages
 
 # Environment variables
 .env*

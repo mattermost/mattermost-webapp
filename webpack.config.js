@@ -26,6 +26,7 @@ const DEV = targetIsRun || targetIsStats || targetIsDevServer;
 
 const STANDARD_EXCLUDE = [
     path.join(__dirname, 'node_modules'),
+    path.join(__dirname, 'packages/mattermost-components'),
 ];
 
 // react-hot-loader and development source maps require eval
@@ -238,7 +239,6 @@ var config = {
             react: path.resolve('./node_modules/react'),
             '@mattermost/client': 'packages/client/src',
             '@mattermost/types': 'packages/types/src',
-            '@mattermost/components': 'packages/mattermost-components/src',
             'mattermost-redux/test': 'packages/mattermost-redux/test',
             'mattermost-redux': 'packages/mattermost-redux/src',
             reselect: 'packages/reselect/src',

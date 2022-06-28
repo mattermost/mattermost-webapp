@@ -12,7 +12,7 @@ export function componentLibraryTest() {
 export function MyComponent() {
     return (
         <div>
-            {'Testing'}
+            {'Testing '}
         </div>
     );
 }

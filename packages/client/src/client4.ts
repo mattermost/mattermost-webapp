@@ -122,10 +122,6 @@ import {cleanUrlForLogging} from './errors';
 import {buildQueryString} from './helpers';
 import {TelemetryHandler} from './telemetry';
 
-type DeepPartial<T> = {
-    [P in keyof T]?: DeepPartial<T[P]>;
-}
-
 const HEADER_AUTH = 'Authorization';
 const HEADER_BEARER = 'BEARER';
 const HEADER_CONTENT_TYPE = 'Content-Type';
