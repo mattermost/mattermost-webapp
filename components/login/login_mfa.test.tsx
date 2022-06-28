@@ -60,6 +60,6 @@ describe('components/login/LoginMfa', () => {
         input = wrapper.find('input').first();
         expect(input.props().disabled).toEqual(true);
 
-        expect(baseProps.onSubmit).toHaveBeenCalledWith(baseProps.loginId, baseProps.password, token);
+        expect(baseProps.onSubmit).toHaveBeenCalledWith({loginId: baseProps.loginId, password: baseProps.password, token});
     });
 });

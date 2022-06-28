@@ -23,7 +23,7 @@ jest.mock('mattermost-redux/actions/users', () => {
     const original = jest.requireActual('mattermost-redux/actions/users');
     return {
         ...original,
-        loadMe: () => ({type: 'MOCK_LOAD_ME'}),
+        loadMeREST: () => ({type: 'MOCK_LOAD_ME'}),
     };
 });
 

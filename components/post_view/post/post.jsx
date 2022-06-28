@@ -50,6 +50,11 @@ export default class Post extends React.PureComponent {
         compactDisplay: PropTypes.bool,
 
         /**
+         * Set to colorize usernames according to their hash in compact view
+         */
+        colorizeUsernames: PropTypes.bool,
+
+        /**
          * Set to render a preview of the parent post above this reply
          */
         isFirstReply: PropTypes.bool,
@@ -424,6 +429,7 @@ export default class Post extends React.PureComponent {
                 handleCardClick={this.handleCardClick}
                 handleDropdownOpened={this.handleDropdownOpened}
                 compactDisplay={this.props.compactDisplay}
+                colorizeUsernames={this.props.compactDisplay && this.props.colorizeUsernames}
                 isFirstReply={this.props.isFirstReply}
                 showTimeWithoutHover={!hideProfilePicture}
                 hover={(this.state.hover || this.state.a11yActive || this.state.fileDropdownOpened) && !this.props.isBeingEdited}

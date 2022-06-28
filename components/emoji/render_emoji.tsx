@@ -36,7 +36,7 @@ const RenderEmoji = ({emojiName, emojiStyle, size, onClick}: ComponentProps) => 
             data-emoticon={emojiName}
             style={{
                 backgroundImage: `url(${emojiImageUrl})`,
-                backgroundSize: size,
+                backgroundSize: 'contain',
                 height: size,
                 width: size,
                 maxHeight: size,

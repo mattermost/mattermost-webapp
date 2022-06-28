@@ -6,19 +6,25 @@ import {useIntl} from 'react-intl';
 
 import Icon from '@mattermost/compass-components/foundations/icon';
 
-import {Permissions} from 'mattermost-redux/constants';
 import {UserProfile} from '@mattermost/types/users';
+import {Permissions} from 'mattermost-redux/constants';
+
 import AboutBuildModal from 'components/about_build_modal';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 import MarketplaceModal from 'components/plugin_marketplace';
 import Menu from 'components/widgets/menu/menu';
+import RestrictedIndicator from 'components/widgets/menu/menu_items/restricted_indicator';
+import {VisitSystemConsoleTour} from 'components/onboarding_tasks';
+import UserGroupsModal from 'components/user_groups_modal';
+
+import {FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS} from 'utils/cloud_utils';
 import {ModalIdentifiers} from 'utils/constants';
 import {makeUrlSafe} from 'utils/url';
 import * as UserAgent from 'utils/user_agent';
-import {VisitSystemConsoleTour} from 'components/onboarding_tasks';
-import UserGroupsModal from 'components/user_groups_modal';
+
 import {ModalData} from 'types/actions';
+
 import './product_menu_list.scss';
 
 export type Props = {
@@ -37,6 +43,8 @@ export type Props = {
     canManageIntegrations: boolean;
     enablePluginMarketplace: boolean;
     showVisitSystemConsoleTour: boolean;
+    isStarterFree: boolean;
+    isFreeTrial: boolean;
     onClick?: React.MouseEventHandler<HTMLElement>;
     handleVisitConsoleClick: React.MouseEventHandler<HTMLElement>;
     enableCustomUserGroups?: boolean;
@@ -61,6 +69,8 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
         canManageIntegrations,
         enablePluginMarketplace,
         showVisitSystemConsoleTour,
+        isStarterFree,
+        isFreeTrial,
         onClick,
         handleVisitConsoleClick,
         isMobile = false,
@@ -140,7 +150,7 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                 <Menu.ItemToggleModalRedux
                     id='userGroups'
                     modalId={ModalIdentifiers.USER_GROUPS}
-                    show={enableCustomUserGroups}
+                    show={enableCustomUserGroups || isStarterFree || isFreeTrial}
                     dialogType={UserGroupsModal}
                     dialogProps={{
                         backButtonAction: openGroupsModal,
@@ -152,6 +162,44 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                             glyph={'account-multiple-outline'}
                         />
                     }
+                    disabled={isStarterFree}
+                    sibling={(isStarterFree || isFreeTrial) && (
+                        <RestrictedIndicator
+                            blocked={isStarterFree}
+                            tooltipMessage={formatMessage({
+                                id: 'navbar_dropdown.userGroups.tooltip.cloudFreeTrial',
+                                defaultMessage: 'During your trial you are able to create user groups. These user groups will be archived after your trial.',
+                            })}
+                            titleAdminPreTrial={formatMessage({
+                                id: 'navbar_dropdown.userGroups.modal.titleAdminPreTrial',
+                                defaultMessage: 'Try unlimited user groups with a free trial',
+                            })}
+                            messageAdminPreTrial={formatMessage({
+                                id: 'navbar_dropdown.userGroups.modal.messageAdminPreTrial',
+                                defaultMessage: 'Create unlimited user groups with one of our paid plans. Get the full experience of Enterprise when you start a free, {trialLength} day trial.',
+                            },
+                            {
+                                trialLength: FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS,
+                            },
+                            )}
+                            titleAdminPostTrial={formatMessage({
+                                id: 'navbar_dropdown.userGroups.modal.titleAdminPostTrial',
+                                defaultMessage: 'Upgrade to create unlimited user groups',
+                            })}
+                            messageAdminPostTrial={formatMessage({
+                                id: 'navbar_dropdown.userGroups.modal.messageAdminPostTrial',
+                                defaultMessage: 'User groups are a way to organize users and apply actions to all users within that group. Upgrade to the Professional plan to create unlimited user groups.',
+                            })}
+                            titleEndUser={formatMessage({
+                                id: 'navbar_dropdown.userGroups.modal.titleEndUser',
+                                defaultMessage: 'User groups available in paid plans',
+                            })}
+                            messageEndUser={formatMessage({
+                                id: 'navbar_dropdown.userGroups.modal.messageEndUser',
+                                defaultMessage: 'User groups are a way to organize users and apply actions to all users within that group.',
+                            })}
+                        />
+                    )}
                 />
                 <TeamPermissionGate
                     teamId={teamId}
