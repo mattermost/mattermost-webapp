@@ -18,10 +18,10 @@ exports[`components/admin_console/permission_schemes_settings/permission_row sho
     />
   </span>
   <injectIntl(PermissionDescription)
+    additionalValues={Object {}}
     id="id"
     inherited={
       Object {
-        "displayName": "Test",
         "name": "test",
       }
     }
@@ -49,8 +49,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_row sho
     />
   </span>
   <injectIntl(PermissionDescription)
+    additionalValues={Object {}}
     id="id"
-    inherited={null}
     rowType="permission"
     selectRow={[MockFunction]}
   />
@@ -75,8 +75,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_row sho
     />
   </span>
   <injectIntl(PermissionDescription)
+    additionalValues={Object {}}
     id="id"
-    inherited={null}
     rowType="permission"
     selectRow={[MockFunction]}
   />
@@ -101,8 +101,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_row sho
     />
   </span>
   <injectIntl(PermissionDescription)
+    additionalValues={Object {}}
     id="id"
-    inherited={null}
     rowType="permission"
     selectRow={[MockFunction]}
   />

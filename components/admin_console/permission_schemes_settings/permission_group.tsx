@@ -9,7 +9,7 @@ import {PermissionsScope} from 'utils/constants';
 import {Role} from '@mattermost/types/roles';
 
 import PermissionCheckbox from './permission_checkbox';
-import PermissionRow from './permission_row.jsx';
+import PermissionRow from './permission_row';
 import PermissionDescription from './permission_description';
 import {AdditionalValues, Permission, Permissions} from './permissions_tree/types';
 
@@ -155,7 +155,7 @@ export default class PermissionGroup extends React.PureComponent<Props, State> {
                 selected={this.props.selected}
                 selectRow={this.props.selectRow}
                 readOnly={this.props.readOnly || comesFromParent}
-                inherited={comesFromParent ? this.props.parentRole : null}
+                inherited={comesFromParent ? this.props.parentRole : undefined}
                 value={active ? 'checked' : ''}
                 onChange={this.toggleSelectRow}
                 additionalValues={additionalValues}

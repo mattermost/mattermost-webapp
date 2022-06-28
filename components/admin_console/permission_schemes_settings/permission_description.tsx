@@ -21,7 +21,7 @@ type Props = {
     rowType: string;
     inherited?: Partial<Role>;
     selectRow: (id: string) => void;
-    additionalValues?: AdditionalValues['edit_post'];
+    additionalValues?: AdditionalValues | AdditionalValues['edit_post'];
 }
 
 const PermissionDescription = (props: Props) => {
