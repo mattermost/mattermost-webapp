@@ -15,7 +15,6 @@ import {
     makeGetChannelsByCategory,
     makeGetChannelIdsForCategory,
 } from 'mattermost-redux/selectors/entities/channel_categories';
-import {getLastPostPerChannel} from 'mattermost-redux/selectors/entities/posts';
 import {shouldShowUnreadsCategory, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {Channel} from '@mattermost/types/channels';
@@ -148,11 +147,10 @@ export const getUnreadChannels = (() => {
         'sortChannels',
         (state: GlobalState, channels: Channel[]) => channels,
         getMyChannelMemberships,
-        getLastPostPerChannel,
         (state: GlobalState) => state.views.channel.lastUnreadChannel,
         isCollapsedThreadsEnabled,
-        (channels, myMembers, lastPosts, lastUnreadChannel, crtEnabled) => {
-            return sortUnreadChannels(channels, myMembers, lastPosts, lastUnreadChannel, crtEnabled);
+        (channels, myMembers, lastUnreadChannel, crtEnabled) => {
+            return sortUnreadChannels(channels, myMembers, lastUnreadChannel, crtEnabled);
         },
     );
 

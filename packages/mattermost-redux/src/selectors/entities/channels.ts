@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable max-lines */
-
 import {General, Permissions, Preferences} from 'mattermost-redux/constants';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 import {getDataRetentionCustomPolicy} from 'mattermost-redux/selectors/entities/admin';
@@ -15,7 +13,6 @@ import {
     getMyCurrentChannelMembership,
     getUsers,
 } from 'mattermost-redux/selectors/entities/common';
-import {getLastPostPerChannel} from 'mattermost-redux/selectors/entities/posts';
 import {
     getTeammateNameDisplaySetting,
     isCollapsedThreadsEnabled,
@@ -43,7 +40,6 @@ import {
     ChannelSearchOpts,
     ChannelStats,
 } from '@mattermost/types/channels';
-import {Post} from '@mattermost/types/posts';
 import {GlobalState} from '@mattermost/types/store';
 import {Team} from '@mattermost/types/teams';
 import {UserProfile, UsersState} from '@mattermost/types/users';
@@ -920,12 +916,6 @@ export const getUnreadChannels: (state: GlobalState, lastUnreadChannel?: Channel
     },
 );
 
-function maxDefined(a: number, b?: number) {
-    return typeof b === 'undefined' ? a : Math.max(a, b);
-}
-
-type LastUnreadChannel = (Channel & {hadMentions: boolean});
-
 export const getUnsortedAllTeamsUnreadChannels: (state: GlobalState) => Channel[] = createSelector(
     'getAllTeamsUnreadChannels',
     getCurrentUser,
@@ -956,8 +946,7 @@ export const getUnsortedAllTeamsUnreadChannels: (state: GlobalState) => Channel[
 export const sortUnreadChannels = (
     channels: Channel[],
     myMembers: RelationOneToOne<Channel, ChannelMembership>,
-    lastPosts: RelationOneToOne<Channel, Post>,
-    lastUnreadChannel: LastUnreadChannel | null,
+    lastUnreadChannel: (Channel & {hadMentions: boolean}) | null,
     crtEnabled: boolean,
 ) => {
     function isMuted(channel: Channel) {
@@ -989,23 +978,8 @@ export const sortUnreadChannels = (
             return 1;
         }
 
-        let lastPostAt = {
-            a: a.last_post_at,
-            b: b.last_post_at,
-        };
-
-        if (crtEnabled) {
-            lastPostAt = {
-                a: a.last_root_post_at,
-                b: b.last_root_post_at,
-            };
-        }
-
-        // If available, get the last post time from the loaded posts for the channel, but fall back to the
-        // channel's last_post_at if that's not available. The last post time from the loaded posts is more
-        // accurate because channel.last_post_at is not updated on the client as new messages come in.
-        const aLastPostAt = maxDefined(lastPostAt.a, lastPosts[a.id]?.create_at);
-        const bLastPostAt = maxDefined(lastPostAt.b, lastPosts[b.id]?.create_at);
+        const aLastPostAt = Math.max(crtEnabled ? (a.last_root_post_at || a.last_post_at) : a.last_post_at, a.create_at);
+        const bLastPostAt = Math.max(crtEnabled ? (b.last_root_post_at || b.last_post_at) : b.last_post_at, b.create_at);
 
         return bLastPostAt - aLastPostAt;
     });
@@ -1015,10 +989,9 @@ export const getSortedAllTeamsUnreadChannels: (state: GlobalState) => Channel[] 
     'getSortedAllTeamsUnreadChannels',
     getUnsortedAllTeamsUnreadChannels,
     getMyChannelMemberships,
-    getLastPostPerChannel,
     isCollapsedThreadsEnabled,
-    (channels, myMembers, lastPosts, crtEnabled) => {
-        return sortUnreadChannels(channels, myMembers, lastPosts, null, crtEnabled);
+    (channels, myMembers, crtEnabled) => {
+        return sortUnreadChannels(channels, myMembers, null, crtEnabled);
     },
 );
 
