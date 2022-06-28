@@ -65,6 +65,17 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       show={true}
       text="Reply"
     />
+    <MenuItemAction
+      className="MenuItem"
+      icon={
+        <span
+          className="icon-arrow-right-bold-outline MenuItem__compass-icon"
+        />
+      }
+      onClick={[Function]}
+      show={true}
+      text="Forward Message"
+    />
     <Connect(ChannelPermissionGate)
       channelId=""
       permissions={
@@ -324,6 +335,17 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       }
       show={true}
       text="Reply"
+    />
+    <MenuItemAction
+      className="MenuItem"
+      icon={
+        <span
+          className="icon-arrow-right-bold-outline MenuItem__compass-icon"
+        />
+      }
+      onClick={[Function]}
+      show={true}
+      text="Forward Message"
     />
     <Connect(ChannelPermissionGate)
       channelId=""
