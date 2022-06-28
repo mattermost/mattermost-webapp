@@ -3,18 +3,18 @@
 
 import React, {useCallback} from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
-import {FixedSizeList, ListChildComponentProps} from 'react-window';
+import {VariableSizeList, ListChildComponentProps} from 'react-window';
 import InfiniteLoader from 'react-window-infinite-loader';
 
 import {UserProfile} from '@mattermost/types/users';
 import {Channel} from '@mattermost/types/channels';
 
 import Member from './member';
-import {ChannelMember} from './channel_members_rhs';
+import {ChannelMember, ListItem} from './channel_members_rhs';
 
 export interface Props {
     channel: Channel;
-    members: ChannelMember[];
+    members: ListItem[];
     editing: boolean;
     hasNextPage: boolean;
     isNextPageLoading: boolean;
@@ -42,31 +42,65 @@ const MemberList = ({
 
     // Every row is loaded except for our loading indicator row.
     const isItemLoaded = useCallback((index: number) => {
+        if (!(index in members)) {
+            return false;
+        }
         return !hasNextPage || index < members.length;
-    }, [hasNextPage, members.length]);
+    }, [hasNextPage, members]);
+
+    const getItemSize = useCallback((index: number) => {
+        if (!(index in members)) {
+            return 0;
+        }
+
+        switch (members[index].type) {
+        case 'first-separator':
+            return 28;
+        case 'separator':
+            return 16 + 28;
+        }
+
+        return 48;
+    }, [members]);
 
     // Render an item or a loading indicator.
     const Item = ({index, style}: ListChildComponentProps) => {
-        const member = members[index];
-
         if (isItemLoaded(index)) {
-            return (
-                <div style={style}>
-                    <Member
+            if (members[index].type === 'member') {
+                const member = members[index].data as ChannelMember;
+                return (
+                    <div
+                        style={style}
                         key={member.user.id}
-                        channel={channel}
-                        index={index}
-                        totalUsers={members.length}
-                        member={member}
-                        editing={editing}
-                        actions={{openDirectMessage: actions.openDirectMessage}}
-                    />
-                </div>
-            );
+                    >
+                        <Member
+                            channel={channel}
+                            index={index}
+                            totalUsers={members.length}
+                            member={member}
+                            editing={editing}
+                            actions={{openDirectMessage: actions.openDirectMessage}}
+                        />
+                    </div>
+                );
+            } else if (members[index].type === 'separator' || members[index].type === 'first-separator') {
+                return (
+                    <div
+                        key={index}
+                        style={style}
+                    >
+                        {members[index].data}
+                    </div>
+                );
+            }
         }
 
         return null;
     };
+
+    if (members.length === 0) {
+        return null;
+    }
 
     return (
         <AutoSizer>
@@ -77,16 +111,17 @@ const MemberList = ({
                     loadMoreItems={loadMoreItems}
                 >
                     {({onItemsRendered, ref}) => (
-                        <FixedSizeList
+
+                        <VariableSizeList
                             itemCount={itemCount}
                             onItemsRendered={onItemsRendered}
                             ref={ref}
-                            itemSize={48}
+                            itemSize={getItemSize}
                             height={height}
                             width={width}
                         >
                             {Item}
-                        </FixedSizeList>
+                        </VariableSizeList>
                     )}
                 </InfiniteLoader>
             )}

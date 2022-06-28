@@ -10,17 +10,15 @@ import {UserProfile} from '@mattermost/types/users';
 import ProfilePicture from 'components/profile_picture';
 import {Client4} from 'mattermost-redux/client';
 import ChannelMembersDropdown from 'components/channel_members_dropdown';
-import {Channel, ChannelMembership} from '@mattermost/types/channels';
+import {Channel} from '@mattermost/types/channels';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 
 import Constants from 'utils/constants';
 
-import {isGuest, isChannelAdmin as isChannelAdminUtils} from 'mattermost-redux/utils/user_utils';
+import {isGuest} from 'mattermost-redux/utils/user_utils';
 import GuestBadge from 'components/widgets/badges/guest_badge';
-
-import AdminBadge from 'components/widgets/badges/admin_badge';
 
 import {ChannelMember} from './channel_members_rhs';
 
@@ -100,14 +98,6 @@ interface Props {
     };
 }
 
-function isChannelAdmin(channelMember: ChannelMembership | undefined) {
-    if (!channelMember) {
-        return false;
-    }
-
-    return isChannelAdminUtils(channelMember.roles) || channelMember.scheme_admin;
-}
-
 const Member = ({className, channel, member, index, totalUsers, editing, actions}: Props) => {
     return (
         <div
@@ -130,7 +120,6 @@ const Member = ({className, channel, member, index, totalUsers, editing, actions
                 <DisplayName>
                     {member.displayName}
                     <GuestBadge show={isGuest(member.user.roles)}/>
-                    <AdminBadge show={isChannelAdmin(member.membership)}/>
                 </DisplayName>
                 <Username>{'@'}{member.user.username}</Username>
             </UserInfo>

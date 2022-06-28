@@ -212,9 +212,6 @@ export function showChannelMembers(channelId: string, inEditingMode = false) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState() as GlobalState;
 
-        dispatch(loadMyChannelMemberAndRole(channelId));
-        dispatch(loadProfilesAndReloadChannelMembers(channelId));
-
         if (inEditingMode) {
             await dispatch(setEditChannelMembers(true));
         }

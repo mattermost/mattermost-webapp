@@ -16,7 +16,7 @@ import {GlobalState} from 'types/store';
 import {Constants} from 'utils/constants';
 import {getCurrentRelativeTeamUrl, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {
-    getActiveProfilesInCurrentChannel,
+    getActiveProfilesInCurrentChannelWithoutSorting,
     getUserStatuses, searchActiveProfilesInCurrentChannel,
 } from 'mattermost-redux/selectors/entities/users';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
@@ -36,13 +36,17 @@ import RHS, {Props, ChannelMember} from './channel_members_rhs';
 
 const getProfiles = createSelector(
     'getProfiles',
-    getActiveProfilesInCurrentChannel,
+    getActiveProfilesInCurrentChannelWithoutSorting,
     getUserStatuses,
     getTeammateNameDisplaySetting,
     getMembersInCurrentChannel,
     (profilesInCurrentChannel, userStatuses, teammateNameDisplaySetting, membersInCurrentChannel) => {
         const channelMembers: ChannelMember[] = [];
         profilesInCurrentChannel.forEach((profile) => {
+            if (!membersInCurrentChannel[profile.id]) {
+                return;
+            }
+
             const member = {
                 user: profile,
                 membership: membersInCurrentChannel[profile.id],
@@ -51,6 +55,7 @@ const getProfiles = createSelector(
             } as ChannelMember;
             channelMembers.push(member);
         });
+
         return channelMembers;
     },
 );
