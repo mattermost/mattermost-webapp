@@ -346,6 +346,8 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             return;
         }
 
+        const isShiftKeyPressed = e.shiftKey;
+
         switch (true) {
         case Utils.isKeyPressed(e, Constants.KeyCodes.R):
             this.handleCommentClick(e);
@@ -359,8 +361,20 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             break;
 
         // follow thread
-        case Utils.isKeyPressed(e, Constants.KeyCodes.F):
+        case Utils.isKeyPressed(e, Constants.KeyCodes.F) && !isShiftKeyPressed:
             this.handleSetThreadFollow(e);
+            this.props.handleDropdownOpened(false);
+            break;
+
+        // forward post
+        case Utils.isKeyPressed(e, Constants.KeyCodes.F) && isShiftKeyPressed:
+            this.handleForwardMenuItemActivated(e);
+            this.props.handleDropdownOpened(false);
+            break;
+
+        // forward post
+        case Utils.isKeyPressed(e, Constants.KeyCodes.X):
+            this.handleForwardMenuItemActivated(e);
             this.props.handleDropdownOpened(false);
             break;
 
@@ -487,6 +501,15 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         show={canPostBeForwarded}
                         text={Utils.localizeMessage('forward_post_button.label', 'Forward Message')}
                         icon={Utils.getMenuItemIcon('icon-arrow-right-bold-outline')}
+                        rightDecorator={<ShortcutKey shortcutKey='Shift + F'/>}
+                        onClick={this.handleForwardMenuItemActivated}
+                    />
+                    <Menu.ItemAction
+                        className={'MenuItem'}
+                        show={canPostBeForwarded}
+                        text={Utils.localizeMessage('forward_post_button.label', 'Forward Message')}
+                        icon={Utils.getMenuItemIcon('icon-arrow-right-bold-outline')}
+                        rightDecorator={<ShortcutKey shortcutKey='X'/>}
                         onClick={this.handleForwardMenuItemActivated}
                     />
                     <ChannelPermissionGate
