@@ -1399,7 +1399,7 @@ describe('components/CreateComment', () => {
         expect(wrapper.state('draft').message).toBe(codeBlockMarkdown);
     });
 
-    it('should be able to format a github codeblock (pasted as a table) with with existing draft post', () => {
+    it('should be able to format a github codeblock (pasted as a table) with existing draft post', () => {
         const draft = {
             message: '',
             uploadsInProgress: [],

@@ -4837,6 +4837,8 @@
   "user.settings.display.collapsedReplyThreadsTitle": "Collapsed Reply Threads",
   "user.settings.display.collapseOff": "Collapsed",
   "user.settings.display.collapseOn": "Expanded",
+  "user.settings.display.colorize": "Colorize usernames",
+  "user.settings.display.colorizeDes": "Use colors to distinguish users in compact mode",
   "user.settings.display.fixedWidthCentered": "Fixed width, centered",
   "user.settings.display.fullScreen": "Full width",
   "user.settings.display.icon": "Display Settings Icon",
