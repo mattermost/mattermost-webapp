@@ -40,7 +40,7 @@ function verifySingleImageThumbnail({mode = null} = {}) {
     cy.apiSaveMessageDisplayPreference(displayMode[mode]);
 
     // # Make a post with some text and a single image
-    cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(filename);
+    cy.get('#advancedTextEditorCell').find('#fileUploadInput').attachFile(filename);
     cy.get('.post-image__thumbnail').should('be.visible');
 
     cy.postMessage(MESSAGES.MEDIUM);

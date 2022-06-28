@@ -80,7 +80,7 @@ describe('Message Reply', () => {
         cy.get('#reply_textbox').type(msg);
 
         // # Post reply
-        cy.get('#addCommentButton').click();
+        cy.uiReply();
 
         cy.getLastPostId().then((replyId) => {
             // * Message displays in center
@@ -142,7 +142,7 @@ describe('Message Reply', () => {
         cy.get('#reply_textbox').type(msg);
 
         // # Post reply
-        cy.get('#addCommentButton').click().wait(TIMEOUTS.HALF_SEC);
+        cy.uiReply().wait(TIMEOUTS.HALF_SEC);
 
         // * Center channel has not changed
         cy.get('#channelHeaderTitle').should('contain', otherChannel.display_name);
