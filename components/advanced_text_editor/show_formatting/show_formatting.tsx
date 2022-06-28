@@ -21,7 +21,8 @@ interface ShowFormatProps {
 const ShowFormatting = (props: ShowFormatProps): JSX.Element => {
     const {formatMessage} = useIntl();
     const {onClick, active} = props;
-    const iconAriaLabel = formatMessage({id: 'generic_icons.format_letter_case', defaultMessage: 'Format letter Case Icon'});
+    const buttonAriaLabel = formatMessage({id: 'accessibility.button.preview', defaultMessage: 'preview'});
+    const iconAriaLabel = formatMessage({id: 'generic_icons.preview', defaultMessage: 'Eye Icon'});
 
     const tooltip = (
         <Tooltip id='PreviewInputTextButtonTooltip'>
@@ -44,6 +45,7 @@ const ShowFormatting = (props: ShowFormatProps): JSX.Element => {
                 type='button'
                 id='PreviewInputTextButton'
                 onClick={onClick}
+                aria-label={buttonAriaLabel}
                 className={classNames({active})}
             >
                 <EyeOutlineIcon
