@@ -180,6 +180,8 @@ const SystemBusSettings: React.FunctionComponent = (): JSX.Element => {
                     ifComparison: orig.ifComparison,
                     caseValues: orig.caseValues,
                     randomOptions: orig.randomOptions,
+                    cron: orig.cron,
+                    seconds: orig.seconds,
                     x: Math.trunc(n.position.x),
                     y: Math.trunc(n.position.y),
                 };

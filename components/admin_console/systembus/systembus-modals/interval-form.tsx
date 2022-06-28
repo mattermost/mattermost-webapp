@@ -14,7 +14,7 @@ const IntervalForm = ({handleChange}: Props): JSX.Element => {
 
     const handleIfValueOnChange = ({target: {value}}: React.ChangeEvent<HTMLInputElement>) => {
         setInterval(value);
-        handleChange({interval});
+        handleChange({seconds: parseInt(value, 10)});
     };
 
     return (

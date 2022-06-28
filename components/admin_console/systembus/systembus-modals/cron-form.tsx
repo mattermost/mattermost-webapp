@@ -17,7 +17,7 @@ const CronForm = ({handleChange}: Props): JSX.Element => {
 
     const handleIfValueOnChange = ({target: {value}}: React.ChangeEvent<HTMLInputElement>) => {
         setCron(value);
-        handleChange({cron});
+        handleChange({cron: value});
     };
 
     return (
