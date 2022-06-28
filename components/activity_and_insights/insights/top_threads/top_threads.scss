@@ -13,10 +13,26 @@
             font-style: normal;
             font-weight: 600;
             line-height: 16px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .Badge {
+            overflow: hidden;
+            flex: 2;
+
+            .Badge__box {
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+            }
         }
 
         .reply-count {
             margin-left: auto;
+            flex: 1;
+            text-align: end;
 
             i.icon {
                 width: 12px;
