@@ -25,7 +25,7 @@ exports[`components/activity_and_insights/insights/insights_title should match s
     </div>
     <button
       className="icon"
-      onClick={[MockFunction]}
+      onClick={[Function]}
     >
       <i
         className="icon icon-chevron-right"
@@ -61,7 +61,7 @@ exports[`components/activity_and_insights/insights/insights_title should match s
     </div>
     <button
       className="icon"
-      onClick={[MockFunction]}
+      onClick={[Function]}
     >
       <i
         className="icon icon-chevron-right"

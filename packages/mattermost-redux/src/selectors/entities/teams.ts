@@ -79,6 +79,14 @@ export const getTeamsList: (state: GlobalState) => Team[] = createSelector(
     },
 );
 
+export const getActiveTeamsList: (state: GlobalState) => Team[] = createSelector(
+    'getActiveTeamsList',
+    getTeamsList,
+    (teams) => {
+        return teams.filter((team) => team.delete_at === 0);
+    },
+);
+
 export const getCurrentTeam: (state: GlobalState) => Team = createSelector(
     'getCurrentTeam',
     getTeams,

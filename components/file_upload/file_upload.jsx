@@ -571,23 +571,38 @@ export class FileUpload extends PureComponent {
         if (this.props.pluginFileUploadMethods.length === 0) {
             bodyAction = (
                 <div>
-                    <button
-                        type='button'
-                        id='fileUploadButton'
-                        aria-label={buttonAriaLabel}
-                        className={classNames('style--none', {
-                            'AdvancedTextEditor__action-button': this.props.isAdvancedTextEditorEnabled,
-                            'post-action': !this.props.isAdvancedTextEditorEnabled,
-                            disabled: uploadsRemaining <= 0})}
-                        onClick={this.simulateInputClick}
-                        onTouchEnd={this.simulateInputClick}
+                    <OverlayTrigger
+                        delayShow={Constants.OVERLAY_TIME_DELAY_LONG}
+                        placement='top'
+                        trigger={['hover', 'focus']}
+                        overlay={
+                            <Tooltip id='upload-tooltip'>
+                                <KeyboardShortcutSequence
+                                    shortcut={KEYBOARD_SHORTCUTS.filesUpload}
+                                    hoistDescription={true}
+                                    isInsideTooltip={true}
+                                />
+                            </Tooltip>
+                        }
                     >
-                        <PaperclipIcon
-                            size={18}
-                            color={'currentColor'}
-                            aria-label={iconAriaLabel}
-                        />
-                    </button>
+                        <button
+                            type='button'
+                            id='fileUploadButton'
+                            aria-label={buttonAriaLabel}
+                            className={classNames('style--none', {
+                                'AdvancedTextEditor__action-button': this.props.isAdvancedTextEditorEnabled,
+                                'post-action': !this.props.isAdvancedTextEditorEnabled,
+                                disabled: uploadsRemaining <= 0})}
+                            onClick={this.simulateInputClick}
+                            onTouchEnd={this.simulateInputClick}
+                        >
+                            <PaperclipIcon
+                                size={18}
+                                color={'currentColor'}
+                                aria-label={iconAriaLabel}
+                            />
+                        </button>
+                    </OverlayTrigger>
                     <input
                         id='fileUploadInput'
                         tabIndex='-1'
@@ -636,20 +651,35 @@ export class FileUpload extends PureComponent {
                         accept={accept}
                     />
                     <MenuWrapper>
-                        <button
-                            type='button'
-                            id='fileUploadButton'
-                            aria-label={buttonAriaLabel}
-                            className={classNames('style--none', {
-                                'AdvancedTextEditor__action-button': this.props.isAdvancedTextEditorEnabled,
-                                'post-action': !this.props.isAdvancedTextEditorEnabled})}
+                        <OverlayTrigger
+                            delayShow={Constants.OVERLAY_TIME_DELAY_LONG}
+                            placement='top'
+                            trigger={['hover', 'focus']}
+                            overlay={
+                                <Tooltip id='upload-tooltip'>
+                                    <KeyboardShortcutSequence
+                                        shortcut={KEYBOARD_SHORTCUTS.filesUpload}
+                                        hoistDescription={true}
+                                        isInsideTooltip={true}
+                                    />
+                                </Tooltip>
+                            }
                         >
-                            <PaperclipIcon
-                                size={18}
-                                color={'currentColor'}
-                                aria-label={iconAriaLabel}
-                            />
-                        </button>
+                            <button
+                                type='button'
+                                id='fileUploadButton'
+                                aria-label={buttonAriaLabel}
+                                className={classNames('style--none', {
+                                    'AdvancedTextEditor__action-button': this.props.isAdvancedTextEditorEnabled,
+                                    'post-action': !this.props.isAdvancedTextEditorEnabled})}
+                            >
+                                <PaperclipIcon
+                                    size={18}
+                                    color={'currentColor'}
+                                    aria-label={iconAriaLabel}
+                                />
+                            </button>
+                        </OverlayTrigger>
                         <Menu
                             id='fileUploadOptions'
                             openLeft={true}
@@ -684,24 +714,10 @@ export class FileUpload extends PureComponent {
         }
 
         return (
-            <OverlayTrigger
-                delayShow={Constants.OVERLAY_TIME_DELAY}
-                placement='top'
-                trigger={['hover', 'focus']}
-                overlay={
-                    <Tooltip id='upload-tooltip'>
-                        <KeyboardShortcutSequence
-                            shortcut={KEYBOARD_SHORTCUTS.filesUpload}
-                            hoistDescription={true}
-                            isInsideTooltip={true}
-                        />
-                    </Tooltip>
-                }
-            >
-                <div className={uploadsRemaining <= 0 ? ' style--none btn-file__disabled' : 'style--none'}>
-                    {bodyAction}
-                </div>
-            </OverlayTrigger>
+
+            <div className={uploadsRemaining <= 0 ? ' style--none btn-file__disabled' : 'style--none'}>
+                {bodyAction}
+            </div>
         );
     }
 }
