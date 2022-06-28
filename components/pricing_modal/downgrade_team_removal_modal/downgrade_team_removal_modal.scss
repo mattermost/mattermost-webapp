@@ -93,8 +93,11 @@
             }
 
             .DropDown__menu {
-                max-height: 130px;
-                overflow-y: scroll !important;
+                max-height: 124px;
+            }
+
+            .DropDown__menu-list {
+                max-height: 124px;
             }
 
             .DropDown__value-container {
