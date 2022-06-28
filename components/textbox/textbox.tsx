@@ -317,7 +317,7 @@ const TextboxComponent: React.ForwardRefRenderFunction<TextboxForwarded, Props> 
                 onComposition={onComposition}
                 onBlur={handleBlur}
 
-                // onHeightChange={handleHeightChange}
+                onHeightChange={handleHeightChange}
                 onPaste={onPaste}
                 style={{visibility: preview ? 'hidden' : 'visible'}}
                 inputComponent={inputComponent}

@@ -9,7 +9,7 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 import {Channel} from '@mattermost/types/channels';
 import {ServerError} from '@mattermost/types/errors';
 
-import Textbox, {TextboxElement} from 'components/textbox';
+import Textbox from 'components/textbox';
 import {TextboxForwarded} from 'components/textbox/textbox';
 import TextboxLinks from 'components/textbox/textbox_links';
 import Constants from 'utils/constants';

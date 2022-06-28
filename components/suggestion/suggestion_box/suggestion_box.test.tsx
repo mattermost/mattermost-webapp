@@ -77,7 +77,7 @@ describe('components/SuggestionBox', () => {
         const contains = jest.fn().mockReturnValueOnce(true).mockReturnValue(false);
         const relatedTarget = jest.fn();
 
-        // instance.container = {contains};
+        instance.container = {contains};
         instance.handleEmitClearSuggestions = jest.fn();
 
         instance.handleFocusOut({relatedTarget});
