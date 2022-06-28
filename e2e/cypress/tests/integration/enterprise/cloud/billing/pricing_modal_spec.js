@@ -36,14 +36,6 @@ function simulateSubscription(subscription) {
             },
         ],
     });
-
-    cy.intercept('**/api/v4/config/client?format=old', (req) => {
-        req.reply((res) => {
-            const config = {...res.body};
-            config.FeatureFlagCloudFree = 'true';
-            res.send(config);
-        });
-    });
 }
 
 describe('Pricing modal', () => {
@@ -160,7 +152,7 @@ describe('Pricing modal', () => {
         cy.get('#pricingModal').get('.PricingModal__header').contains('Select a plan');
 
         // *Check that starter card Upgrade button is disabled
-        cy.get('#pricingModal').get('#starter').get('#starter_action').should('be.disabled').contains('Upgrade');
+        cy.get('#pricingModal').get('#starter').get('#starter_action').should('be.disabled').contains('Downgrade');
 
         // *Check that professsional card Upgrade button opens purchase modal
         cy.get('#pricingModal').get('#professional').get('#professional_action').click();
@@ -195,7 +187,7 @@ describe('Pricing modal', () => {
         cy.get('#pricingModal').get('.PricingModal__header').contains('Select a plan');
 
         // *Check that starter card Upgrade button is disabled
-        cy.get('#pricingModal').get('#starter').get('#starter_action').should('be.disabled').contains('Upgrade');
+        cy.get('#pricingModal').get('#starter').get('#starter_action').should('be.disabled').contains('Downgrade');
 
         // *Check that professsional card Upgrade button opens purchase modal
         cy.get('#pricingModal').get('#professional').get('#professional_action').click();
@@ -234,6 +226,35 @@ describe('Pricing modal', () => {
         cy.get('#pricingModal').get('#starter_plan_data_restrictions_cta').click();
 
         cy.get('.CloudUsageModal').should('exist');
-        cy.get('.CloudUsageModal').contains('Cloud starter limits');
+        cy.get('.CloudUsageModal').contains('Cloud Starter limits');
+    });
+
+    it('should open team downgrade selection modal when attempting downgrading from paid to starter', () => {
+        const subscription = {
+            id: 'sub_test1',
+            product_id: 'prod_3',
+            is_free_trial: 'true',
+        };
+        simulateSubscription(subscription);
+        cy.apiLogout();
+        cy.apiAdminLogin();
+        cy.visit(urlL);
+
+        // # Open the pricing modal
+        cy.get('#UpgradeButton').should('exist').click();
+
+        // *Pricing modal should be open
+        cy.get('#pricingModal').should('exist');
+        cy.get('#pricingModal').get('.PricingModal__header').contains('Select a plan');
+
+        // *Check that starter card Upgrade button is enabled
+        cy.get('#pricingModal').get('#starter').get('#starter_action').should('not.be.disabled').contains('Downgrade');
+
+        // *Check that starter downgrade button opens the downgrade team selection modal
+        cy.get('#pricingModal').get('#starter').get('#starter_action').click();
+
+        // *Close PurchaseModal
+        cy.get('.DowngradeTeamRemovalModal__buttons').get('.btn.btn-primary').should('be.disabled');
+        cy.get('.DropdownInput').should('exist').should('be.visible');
     });
 });

@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {ChannelTypes, GeneralTypes, PostTypes, UserTypes, ThreadTypes} from 'mattermost-redux/action_types';
+import {ChannelTypes, GeneralTypes, PostTypes, UserTypes, ThreadTypes, InsightTypes} from 'mattermost-redux/action_types';
 
 import {Posts} from 'mattermost-redux/constants';
 import {PostTypes as PostConstant} from 'utils/constants';
@@ -23,6 +23,7 @@ import {
 } from '@mattermost/types/utilities';
 
 import {comparePosts, isPermalink, shouldUpdatePost} from 'mattermost-redux/utils/post_utils';
+import {TopThread} from '@mattermost/types/insights';
 
 export function removeUnneededMetadata(post: Post) {
     if (!post.metadata) {
@@ -262,6 +263,23 @@ export function handlePosts(state: RelationOneToOne<Post, Post> = {}, action: Ge
                 is_following: following,
             },
         };
+    }
+
+    case InsightTypes.RECEIVED_TOP_THREADS:
+    case InsightTypes.RECEIVED_MY_TOP_THREADS: {
+        const topThreads = Object.values(action.data.items) as TopThread[];
+
+        if (topThreads.length === 0) {
+            return state;
+        }
+
+        const nextState = {...state};
+
+        for (const thread of topThreads) {
+            handlePostReceived(nextState, thread.post);
+        }
+
+        return nextState;
     }
 
     case UserTypes.LOGOUT_SUCCESS:
