@@ -6,9 +6,11 @@ import {shallow, mount} from 'enzyme';
 
 import CommandProvider from 'components/suggestion/command_provider/command_provider';
 import AtMentionProvider from 'components/suggestion/at_mention_provider/at_mention_provider.jsx';
-import SuggestionBox from 'components/suggestion/suggestion_box/suggestion_box';
+import {SuggestionBox} from 'components/suggestion/suggestion_box/suggestion_box';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 import * as Utils from 'utils/utils';
+
+import {findOverlap} from './helpers';
 
 jest.mock('mattermost-redux/client', () => {
     const actual = jest.requireActual('mattermost-redux/client');
@@ -44,13 +46,13 @@ describe('components/SuggestionBox', () => {
     };
 
     test('findOverlap', () => {
-        expect(SuggestionBox.findOverlap('', 'blue')).toBe('');
-        expect(SuggestionBox.findOverlap('red', '')).toBe('');
-        expect(SuggestionBox.findOverlap('red', 'blue')).toBe('');
-        expect(SuggestionBox.findOverlap('red', 'dog')).toBe('d');
-        expect(SuggestionBox.findOverlap('red', 'education')).toBe('ed');
-        expect(SuggestionBox.findOverlap('red', 'reduce')).toBe('red');
-        expect(SuggestionBox.findOverlap('black', 'ack')).toBe('ack');
+        expect(findOverlap('', 'blue')).toBe('');
+        expect(findOverlap('red', '')).toBe('');
+        expect(findOverlap('red', 'blue')).toBe('');
+        expect(findOverlap('red', 'dog')).toBe('d');
+        expect(findOverlap('red', 'education')).toBe('ed');
+        expect(findOverlap('red', 'reduce')).toBe('red');
+        expect(findOverlap('black', 'ack')).toBe('ack');
     });
 
     test('should avoid ref access on unmount race', (done) => {
@@ -74,7 +76,8 @@ describe('components/SuggestionBox', () => {
         const instance = wrapper.instance();
         const contains = jest.fn().mockReturnValueOnce(true).mockReturnValue(false);
         const relatedTarget = jest.fn();
-        instance.container = {contains};
+
+        // instance.container = {contains};
         instance.handleEmitClearSuggestions = jest.fn();
 
         instance.handleFocusOut({relatedTarget});

@@ -36,7 +36,7 @@ import {
     nonDebouncedPretextChanged, debouncedPretextChanged, clear, handleReceivedSuggestions, handleReceivedSuggestionsAndComplete, hasSuggestions, selectPrevious, selectNext, setSelection, handleChange} from './helpers';
 
 export interface SuggestionBoxProps {
-    id: string;
+    id?: string;
 
     /**
      * The list component to render, usually SuggestionList
@@ -97,12 +97,12 @@ export interface SuggestionBoxProps {
     /**
      * Function called when input box gains focus
      */
-    onFocus?: (e: FocusEvent<TextboxElement | HTMLDivElement>) => void | undefined;
+    onFocus?: (e: globalThis.FocusEvent) => void | undefined;
 
     /**
      * Function called when input box loses focus
      */
-    onBlur?: (e: FocusEvent<TextboxElement | HTMLDivElement>) => void | undefined;
+    onBlur?: (e: globalThis.FocusEvent) => void | undefined;
 
     /**
      * Function called when input box value changes
@@ -112,10 +112,10 @@ export interface SuggestionBoxProps {
     /**
      * Function called when a key is pressed and the input box is in focus
      */
-    onKeyDown?: ((e: KeyboardEvent<TextboxElement | HTMLDivElement> | ChangeEvent<HTMLInputElement>) => void) | ((e: ChangeEvent<HTMLInputElement>) => void) | undefined;
+    onKeyDown?: ((e: KeyboardEvent<TextboxElement | HTMLDivElement> | ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLInputElement>) => void) | undefined;
 
     // onKeyPress?: (e: KeyboardEvent<any> | KeyboardEvent<Element> | globalThis.KeyboardEvent | KeyboardEvent) => void | undefined;
-    onKeyPress?: (e: KeyboardEvent<any>) => void;
+    onKeyPress?: (e: KeyboardEvent<any> | globalThis.KeyboardEvent | React.KeyboardEvent<Element>) => void;
 
     onComposition?: (() => void) | undefined;
     onSelect?: (e: SyntheticEvent<TextboxElement>) => void | undefined;
@@ -208,18 +208,31 @@ type SuggestionBoxAlign ={
     placementShift: boolean;
 }
 
-export const defaultState = {
+export interface DefaultState {
+    focused: boolean;
+    cleared: boolean;
+    matchedPretext: Array<ProviderSuggestions['matchedPretext']>;
+    items: ProviderSuggestions['items'];
+    terms: ProviderSuggestions['terms'];
+    components: Array<React.Component<{item: Record<string, unknown>}>>;
+    selection: string;
+    selectionIndex: number;
+    allowDividers: boolean;
+    presentationType: 'text' | 'date';
+    suggestionBoxAlgn: SuggestionBoxAlign | undefined;
+}
+export const defaultState: DefaultState = {
     focused: false,
     cleared: true,
-    matchedPretext: [] as Array<ProviderSuggestions['matchedPretext']>,
-    items: [] as ProviderSuggestions['items'],
-    terms: [] as ProviderSuggestions['terms'],
-    components: [] as Array<React.Component<{item: Record<string, unknown>}>>,
+    matchedPretext: [],
+    items: [],
+    terms: [],
+    components: [],
     selection: '',
     selectionIndex: 0,
     allowDividers: true,
     presentationType: 'text',
-    suggestionBoxAlgn: undefined as SuggestionBoxAlign | undefined,
+    suggestionBoxAlgn: undefined,
 };
 
 export type SuggestionBoxForwarded = {
@@ -464,7 +477,7 @@ const SuggestionBoxComponent: React.ForwardRefRenderFunction<SuggestionBoxForwar
         }
     };
 
-    const handleFocusOut = useCallback((e: FocusEvent<HTMLDivElement | TextboxElement>) => {
+    const handleFocusOut = useCallback((e: globalThis.FocusEvent) => {
         // what's the point of this?
         if (preventSuggestionListCloseFlag) {
             setPreventSuggestionListCloseFlag(false);
@@ -494,7 +507,7 @@ const SuggestionBoxComponent: React.ForwardRefRenderFunction<SuggestionBoxForwar
         }
     }, [handleEmitClearSuggestions, onBlur, setState, forceSuggestionsWhenBlur, containerRef, preventSuggestionListCloseFlag]);
 
-    const handleFocusIn = useCallback((e: FocusEvent<HTMLDivElement | TextboxElement>) => {
+    const handleFocusIn = useCallback((e: globalThis.FocusEvent) => {
         // Focus is switching FROM e.relatedTarget, so only treat this as a focus event if we're not switching
         // between children (like from the textbox to the suggestion list). PreventSuggestionListCloseFlag is
         // checked because if true, it means that the focusIn comes from a click in the suggestion box, an
@@ -525,15 +538,7 @@ const SuggestionBoxComponent: React.ForwardRefRenderFunction<SuggestionBoxForwar
     }, [containerRef, onFocus, setState, pretext, preventSuggestionListCloseFlag, inputRef, openOnFocus, openWhenEmpty, requiredCharacters]);
 
     const handleKeyDown = (e: KeyboardEvent<HTMLDivElement | TextboxElement>) => {
-        console.log({
-            openWhenEmpty,
-            value,
-            suggestion: hasSuggestions(state.items),
-            terms: state.terms,
-        });
-        if ((openWhenEmpty || value)) {
-            console.log('keydown triggered');
-
+        if ((openWhenEmpty || value) && hasSuggestions(state.items)) {
             const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
             if (Utils.isKeyPressed(e, KeyCodes.UP)) {
                 selectPrevious(state.terms, state.selection, setState);
@@ -596,16 +601,19 @@ const SuggestionBoxComponent: React.ForwardRefRenderFunction<SuggestionBoxForwar
     }, [pretext]);
 
     useEffect(() => {
-        // Attach/detach event listeners that aren't supported by React
-        if (containerRef && containerRef.current) {
-            containerRef.current.removeEventListener('focusin', handleFocusIn);
-            containerRef.current.removeEventListener('focusout', handleFocusOut);
+        // copying to variable in the event this ref changes during the use effect.
+        const ref = containerRef && containerRef.current;
+        if (ref) {
+            ref.addEventListener('focusin', handleFocusIn);
+            ref.addEventListener('focusout', handleFocusOut);
         }
-
-        if (containerRef && containerRef.current) {
-            containerRef.current.addEventListener('focusin', handleFocusIn);
-            containerRef.current.addEventListener('focusout', handleFocusOut);
-        }
+        return () => {
+            // Attach/detach event listeners that aren't supported by React
+            if (ref) {
+                ref.removeEventListener('focusin', handleFocusIn);
+                ref.removeEventListener('focusout', handleFocusOut);
+            }
+        };
     }, [containerRef, handleFocusIn, handleFocusOut]);
 
     useEffect(() => {
@@ -663,11 +671,9 @@ const SuggestionBoxComponent: React.ForwardRefRenderFunction<SuggestionBoxForwar
                 className='sr-only'
             />
             <QuickInput
-
                 ref={inputRef}
                 value={value}
                 onInput={(value) => {
-                    console.trace({oninputValue: value});
                     handleChange(value, inputRef, shouldSearchCompleteText, isComposing, pretext, setPretext, onChange);
                 }}
 
@@ -703,18 +709,21 @@ const SuggestionBoxComponent: React.ForwardRefRenderFunction<SuggestionBoxForwar
                         renderNoResults={renderNoResults}
                         onCompleteWord={handleCompleteWord}
                         preventClose={preventSuggestionListClose}
-                        onItemHover={setSelection}
+
+                        onItemHover={(term: string) => {
+                            setSelection(term, state.terms, state.selection, setState);
+                        }}
                         cleared={state.cleared}
                         matchedPretext={state.matchedPretext}
                         items={state.items}
                         terms={state.terms}
 
-                        // suggestionBoxAlgn={state.suggestionBoxAlgn}
+                        suggestionBoxAlgn={state.suggestionBoxAlgn}
                         selection={state.selection}
                         components={state.components}
                         inputRef={inputRef}
 
-                        // onLoseVisibility={blur}
+                        onLoseVisibility={blur}
                     />
                 </div>
             }

@@ -13,10 +13,11 @@ import Constants from 'utils/constants';
 
 import * as Utils from 'utils/utils';
 
-import {defaultState, SuggestionBoxProps} from './suggestion_box';
+import {DefaultState, SuggestionBoxProps} from './suggestion_box';
 
 export type InputRef = React.RefObject<HTMLInputElement | HTMLTextAreaElement>;
-type SetStateHandler = React.Dispatch<React.SetStateAction<typeof defaultState>>;
+type SetStateHandler = React.Dispatch<React.SetStateAction<DefaultState>>;
+
 export type ProviderSuggestions = {
     matchedPretext: any;
     terms: string[];
@@ -26,7 +27,7 @@ export type ProviderSuggestions = {
 
 // Finds the longest substring that's at both the end of b and the start of a. For example,
 // if a = "firepit" and b = "pitbull", findOverlap would return "pit".
-const findOverlap = (a: string, b: string) => {
+export const findOverlap = (a: string, b: string) => {
     const aLower = a.toLowerCase();
     const bLower = b.toLowerCase();
 
@@ -132,7 +133,7 @@ export const handleMentionKeyClick = (mentionKey: string, value: string, isRHS: 
 // this is paired with a useEffect hook to debounce the change.
 export const clear = (
     setState: SetStateHandler,
-    state: typeof defaultState,
+    state: DefaultState,
 ) => {
     if (!state.cleared) {
         setState((prevState) => ({
@@ -151,11 +152,11 @@ export const clear = (
 export const handleReceivedSuggestions = (
     suggestions: ProviderSuggestions,
     setState: SetStateHandler,
-    state: typeof defaultState,
+    state: DefaultState,
     onSuggestionsReceived?: (suggestions: ProviderSuggestions) => void,
 ) => {
-    const newComponents: typeof defaultState['components'] = [];
-    const newPretext: typeof defaultState['matchedPretext'] = [];
+    const newComponents: DefaultState['components'] = [];
+    const newPretext: DefaultState['matchedPretext'] = [];
     if (onSuggestionsReceived) {
         onSuggestionsReceived(suggestions);
     }
@@ -191,7 +192,7 @@ export const handleReceivedSuggestions = (
 export const handleReceivedSuggestionsAndComplete = (
     suggestions: ProviderSuggestions,
     setState: SetStateHandler,
-    state: typeof defaultState,
+    state: DefaultState,
     handleCompleteWord: (term: string, matchedPretext: string) => boolean,
     onSuggestionsReceived?: (suggestions: ProviderSuggestions) => void,
 ) => {
@@ -205,7 +206,7 @@ export const nonDebouncedPretextChanged = async (
     tempPretext: string,
     complete = false,
     providers: SuggestionBoxProps['providers'] = [],
-    state: typeof defaultState,
+    state: DefaultState,
     inputRef: InputRef,
     setState: SetStateHandler,
 
@@ -252,7 +253,7 @@ export const nonDebouncedPretextChanged = async (
 
             setState((prevState) => ({
                 ...prevState,
-                presentationType: provider.presentationType(),
+                presentationType: provider.presentationType() as DefaultState['presentationType'],
                 allowDividers: provider.allowDividers(),
             }));
 
@@ -269,7 +270,7 @@ export const debouncedPretextChanged = (
     tempPretext: string,
     timeoutId: NodeJS.Timeout | undefined,
     setTimeoutId: React.Dispatch<React.SetStateAction<NodeJS.Timeout | undefined>>,
-    state: typeof defaultState,
+    state: DefaultState,
     inputRef: InputRef,
     setState: SetStateHandler,
     handleReceivedSuggestions: (suggestions: ProviderSuggestions) => {
@@ -296,8 +297,8 @@ export const debouncedPretextChanged = (
 
 const setSelectionByDelta = (
     delta: number,
-    terms: typeof defaultState['terms'],
-    selection: typeof defaultState['selection'],
+    terms: DefaultState['terms'],
+    selection: DefaultState['selection'],
     setState: SetStateHandler,
 ) => {
     let selectionIndex = terms.indexOf(selection);
@@ -326,21 +327,21 @@ const setSelectionByDelta = (
 };
 
 export const selectNext = (
-    terms: typeof defaultState['terms'],
-    selection: typeof defaultState['selection'],
+    terms: DefaultState['terms'],
+    selection: DefaultState['selection'],
     setState: SetStateHandler,
 ) => setSelectionByDelta(1, terms, selection, setState);
 
 export const selectPrevious = (
-    terms: typeof defaultState['terms'],
-    selection: typeof defaultState['selection'],
+    terms: DefaultState['terms'],
+    selection: DefaultState['selection'],
     setState: SetStateHandler,
 ) => setSelectionByDelta(-1, terms, selection, setState);
 
 export const setSelection = (
     term: string,
-    terms: typeof defaultState['terms'],
-    selection: typeof defaultState['selection'],
+    terms: DefaultState['terms'],
+    selection: DefaultState['selection'],
     setState: SetStateHandler,
 ) => {
     if (!terms) {
@@ -356,7 +357,7 @@ export const setSelection = (
 };
 
 export const hasSuggestions = (
-    items: typeof defaultState['items'],
+    items: DefaultState['items'],
 ) => {
     return items.some((item) => !item.loading);
 };
