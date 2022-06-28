@@ -145,7 +145,7 @@ export const getUnreadChannels = (() => {
 
     const sortChannels = createSelector(
         'sortChannels',
-        (state: GlobalState, channels: Channel[]) => channels,
+        (_: GlobalState, channels: Channel[]) => channels,
         getMyChannelMemberships,
         (state: GlobalState) => state.views.channel.lastUnreadChannel,
         isCollapsedThreadsEnabled,

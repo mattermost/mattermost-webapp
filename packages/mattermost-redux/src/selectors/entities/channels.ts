@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {max} from 'lodash';
+
 import {General, Permissions, Preferences} from 'mattermost-redux/constants';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 import {getDataRetentionCustomPolicy} from 'mattermost-redux/selectors/entities/admin';
@@ -978,8 +980,8 @@ export const sortUnreadChannels = (
             return 1;
         }
 
-        const aLastPostAt = Math.max(crtEnabled ? (a.last_root_post_at || a.last_post_at) : a.last_post_at, a.create_at);
-        const bLastPostAt = Math.max(crtEnabled ? (b.last_root_post_at || b.last_post_at) : b.last_post_at, b.create_at);
+        const aLastPostAt = max([crtEnabled ? a.last_root_post_at : a.last_post_at, a.create_at]) || 0;
+        const bLastPostAt = max([crtEnabled ? b.last_root_post_at : b.last_post_at, b.create_at]) || 0;
 
         return bLastPostAt - aLastPostAt;
     });
