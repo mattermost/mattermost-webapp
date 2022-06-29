@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import classNames from 'classnames';
 
-import {selectPost} from 'actions/views/rhs';
+import {selectPostAndParentChannel} from 'actions/views/rhs';
 import {trackEvent} from 'actions/telemetry_actions';
 
 import {getMyTopThreads as fetchMyTopThreads, getTopThreadsForTeam} from 'mattermost-redux/actions/insights';
@@ -89,7 +89,7 @@ const TopThreadsTable = (props: Props) => {
 
     const openThread = (post: Post) => {
         trackEvent('insights', 'open_thread_from_top_threads_modal');
-        dispatch(selectPost(post));
+        dispatch(selectPostAndParentChannel(post));
         closeModal();
     };
 
