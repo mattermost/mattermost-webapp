@@ -71,13 +71,6 @@ const CloudTrialEndAnnouncementBar: React.FC = () => {
         if (!isSystemAdmin(currentUser.roles)) {
             return false;
         }
-        // eslint-disable-next-line no-console
-        console.table({
-            currentUser,
-            subscription,
-            preferences,
-            limits,
-        });
         return true;
     };
 
