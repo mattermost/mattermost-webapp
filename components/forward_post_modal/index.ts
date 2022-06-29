@@ -18,7 +18,7 @@ import {haveICurrentChannelPermission} from 'mattermost-redux/selectors/entities
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
-import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import {joinChannelById, switchToChannel} from 'actions/views/channel';
 import {forwardPost} from 'actions/views/posts';
@@ -51,7 +51,6 @@ export type OwnProps = {
 };
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
-    const config = getConfig(state);
     const license = getLicense(state);
     const currentChannel = getCurrentChannel(state);
     const currentTeam = getCurrentTeam(state);
@@ -63,7 +62,6 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const groupsWithAllowReference = useLDAPGroupMentions || useCustomGroupMentions ? getAssociatedGroupsForReferenceByMention(state, currentTeam.id, currentChannel.id) : null;
 
     return {
-        config,
         currentChannel,
         currentTeam,
         currentUserId,
