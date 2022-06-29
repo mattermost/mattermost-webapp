@@ -7,7 +7,7 @@ import * as userActions from 'mattermost-redux/actions/users';
 
 import * as Actions from 'actions/team_actions.jsx';
 
-import store from 'tests/test_store';
+import configureStore from 'tests/test_store';
 
 import {browserHistory} from 'utils/browser_history';
 import {TestHelper} from 'utils/test_helper';
@@ -76,7 +76,7 @@ describe('Actions.Team', () => {
 
     let testStore;
     beforeEach(async () => {
-        testStore = store({
+        testStore = configureStore({
             entities: {
                 channels: {
                     currentChannelId,
