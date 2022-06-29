@@ -668,9 +668,20 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                 }
                 {
                     !enableUploads &&
-                    <FormattedMarkdownMessage
+                    <FormattedMessage
                         id='admin.plugin.uploadDisabledDesc'
-                        defaultMessage='Enable plugin uploads in config.json. See [documentation](!https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/) to learn more.'
+                        defaultMessage='Enable plugin uploads in config.json. See <link>documentation</link> to learn more.'
+                        values={{
+                            link: (msg: React.ReactNode) => (
+                                <a
+                                    href='https://developers.mattermost.com/integrate/admin-guide/admin-plugins-beta/'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        }}
                     />
                 }
             </div>
@@ -1092,9 +1103,20 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                                         />
                                     }
                                     helpText={
-                                        <FormattedMarkdownMessage
+                                        <FormattedMessage
                                             id='admin.plugins.settings.requirePluginSignatureDesc'
-                                            defaultMessage='When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more.'
+                                            defaultMessage='When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See <link>documentation</link> to learn more.'
+                                            values={{
+                                                link: (msg: React.ReactNode) => (
+                                                    <a
+                                                        href='https://mattermost.com/pl/default-plugin-signing'
+                                                        target='_blank'
+                                                        rel='noreferrer'
+                                                    >
+                                                        {msg}
+                                                    </a>
+                                                ),
+                                            }}
                                         />
                                     }
                                     value={this.state.requirePluginSignature}
@@ -1177,9 +1199,20 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                                         />
                                     }
                                     helpText={
-                                        <FormattedMarkdownMessage
+                                        <FormattedMessage
                                             id='admin.plugins.settings.enableMarketplaceDesc'
-                                            defaultMessage='When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html).'
+                                            defaultMessage='When true, enables System Administrators to install plugins from the <link>marketplace</link>.'
+                                            values={{
+                                                link: (msg: React.ReactNode) => (
+                                                    <a
+                                                        href='https://mattermost.com/pl/default-mattermost-marketplace.html'
+                                                        target='_blank'
+                                                        rel='noreferrer'
+                                                    >
+                                                        {msg}
+                                                    </a>
+                                                ),
+                                            }}
                                         />
                                     }
                                     value={this.state.enableMarketplace}

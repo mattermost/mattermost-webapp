@@ -7,7 +7,7 @@ import {bindActionCreators} from 'redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getIsAdvancedTextEditorEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
-import {uploadFile, handleFileUploadEnd} from 'actions/file_actions.jsx';
+import {uploadFile} from 'actions/file_actions';
 import {getCurrentLocale} from 'selectors/i18n';
 import {canUploadFiles} from 'utils/file_utils';
 
@@ -32,7 +32,6 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             uploadFile,
-            handleFileUploadEnd,
         }, dispatch),
     };
 }
