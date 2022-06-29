@@ -29,10 +29,47 @@ import {closeRightHandSide, goBack, setEditChannelMembers} from 'actions/views/r
 import {getIsEditingMembers, getPreviousRhsState} from 'selectors/rhs';
 import {setChannelMembersRhsSearchTerm} from 'actions/views/search';
 import {loadProfilesAndReloadChannelMembers, searchProfilesAndChannelMembers} from 'actions/user_actions';
-import {Channel} from '@mattermost/types/channels';
+import {Channel, ChannelMembership} from '@mattermost/types/channels';
 import {loadMyChannelMemberAndRole} from 'mattermost-redux/actions/channels';
 
+import {UserProfile} from '@mattermost/types/users';
+import {RelationOneToOne} from '@mattermost/types/utilities';
+
 import RHS, {Props, ChannelMember} from './channel_members_rhs';
+
+const buildProfileList = (
+    profilesInCurrentChannel: UserProfile[],
+    userStatuses: RelationOneToOne<UserProfile, string>,
+    teammateNameDisplaySetting: string,
+    membersInCurrentChannel: Record<string, ChannelMembership>,
+) => {
+    const channelMembers: ChannelMember[] = [];
+    profilesInCurrentChannel.forEach((profile) => {
+        if (!membersInCurrentChannel[profile.id]) {
+            return;
+        }
+
+        channelMembers.push({
+            user: profile,
+            membership: membersInCurrentChannel[profile.id],
+            status: userStatuses[profile.id],
+            displayName: displayUsername(profile, teammateNameDisplaySetting),
+        });
+    });
+
+    channelMembers.sort((a, b) => {
+        if (a.membership?.scheme_admin === b.membership?.scheme_admin) {
+            return a.displayName.localeCompare(b.displayName);
+        }
+
+        if (a.membership?.scheme_admin === true) {
+            return -1;
+        }
+        return 1;
+    });
+
+    return channelMembers;
+};
 
 const getProfiles = createSelector(
     'getProfiles',
@@ -40,41 +77,7 @@ const getProfiles = createSelector(
     getUserStatuses,
     getTeammateNameDisplaySetting,
     getMembersInCurrentChannel,
-    getIsEditingMembers,
-    (profilesInCurrentChannel, userStatuses, teammateNameDisplaySetting, membersInCurrentChannel, editing) => {
-        const channelMembers: ChannelMember[] = [];
-        profilesInCurrentChannel.forEach((profile) => {
-            if (!membersInCurrentChannel[profile.id]) {
-                return;
-            }
-
-            const member = {
-                user: profile,
-                membership: membersInCurrentChannel[profile.id],
-                status: userStatuses[profile.id],
-                displayName: displayUsername(profile, teammateNameDisplaySetting),
-            } as ChannelMember;
-            channelMembers.push(member);
-        });
-
-        // while editing members, their position might change in the list.
-        // it's more efficiente to resort them here rather than requerying the server for
-        // all the pages loaded so far.
-        if (editing) {
-            channelMembers.sort((a, b) => {
-                if (a.membership?.scheme_admin === b.membership?.scheme_admin) {
-                    return a.displayName.localeCompare(b.displayName);
-                }
-
-                if (a.membership?.scheme_admin === true) {
-                    return -1;
-                }
-                return 1;
-            });
-        }
-
-        return channelMembers;
-    },
+    buildProfileList,
 );
 
 const searchProfiles = createSelector(
@@ -83,18 +86,7 @@ const searchProfiles = createSelector(
     getUserStatuses,
     getTeammateNameDisplaySetting,
     getMembersInCurrentChannel,
-    (profilesInCurrentChannel, userStatuses, teammateNameDisplaySetting, membersInCurrentChannel) => {
-        const channelMembers: ChannelMember[] = [];
-        profilesInCurrentChannel.forEach((profile) => {
-            channelMembers.push({
-                user: profile,
-                membership: membersInCurrentChannel[profile.id],
-                status: userStatuses[profile.id],
-                displayName: displayUsername(profile, teammateNameDisplaySetting),
-            });
-        });
-        return channelMembers;
-    },
+    buildProfileList,
 );
 
 function mapStateToProps(state: GlobalState) {
