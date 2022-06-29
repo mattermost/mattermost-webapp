@@ -493,7 +493,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                     <Menu.ItemAction
                         className={'MenuItem'}
                         show={canPostBeForwarded}
-                        text={Utils.localizeMessage('forward_post_button.label', 'Forward Message')}
+                        text={Utils.localizeMessage('forward_post_button.label', 'Forward')}
                         icon={Utils.getMenuItemIcon('icon-arrow-right-bold-outline')}
                         rightDecorator={<ShortcutKey shortcutKey='Shift + F'/>}
                         onClick={this.handleForwardMenuItemActivated}

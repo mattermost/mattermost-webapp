@@ -79,7 +79,7 @@ const ForwardPostModal = ({onExited, post, currentChannel, currentTeam, actions}
 
     const messagePreviewTitle = formatMessage({
         id: 'forward_post_modal.preview.title',
-        defaultMessage: 'Message Preview',
+        defaultMessage: 'Message preview',
     });
 
     const previewMetaData: PostPreviewMetadata = {
@@ -203,7 +203,7 @@ const ForwardPostModal = ({onExited, post, currentChannel, currentTeam, actions}
             useCompassDesign={true}
             modalHeaderText={formatMessage({
                 id: 'forward_post_modal.title',
-                defaultMessage: 'Forward Message',
+                defaultMessage: 'Forward message',
             })}
             confirmButtonText={formatMessage({
                 id: 'forward_post_modal.button.forward',
