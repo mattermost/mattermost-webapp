@@ -91,9 +91,13 @@ export function subscribeCloudSubscription(productId: string) {
 
 export function requestCloudTrial(page: string, subscriptionId: string, email = ''): ActionFunc {
     trackEvent('api', 'api_request_cloud_trial_license', {from_page: page});
-    return async (): Promise<any> => {
+    return async (dispatch: DispatchFunc): Promise<any> => {
         try {
-            await Client4.requestCloudTrial(subscriptionId, email);
+            const newSubscription = await Client4.requestCloudTrial(subscriptionId, email);
+            dispatch({
+                type: CloudTypes.RECEIVED_CLOUD_SUBSCRIPTION,
+                data: newSubscription,
+            });
         } catch (error) {
             return false;
         }
