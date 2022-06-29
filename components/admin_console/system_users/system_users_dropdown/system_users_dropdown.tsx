@@ -213,7 +213,6 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
                 }
             }
         }
-
         const message = (
             <div>
                 {messageForUsersWithBotAccounts || defaultMessage}
