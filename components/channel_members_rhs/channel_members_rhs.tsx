@@ -237,6 +237,7 @@ export default function ChannelMembersRHS({
             <MembersContainer>
                 {channelMembers.length > 0 && (
                     <MemberList
+                        searchTerms={searchTerms}
                         members={list}
                         editing={editing}
                         channel={channel}

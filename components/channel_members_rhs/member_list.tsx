@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useCallback} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import {VariableSizeList, ListChildComponentProps} from 'react-window';
 import InfiniteLoader from 'react-window-infinite-loader';
@@ -18,6 +18,7 @@ export interface Props {
     editing: boolean;
     hasNextPage: boolean;
     isNextPageLoading: boolean;
+    searchTerms: string;
 
     actions: {
         openDirectMessage: (user: UserProfile) => void;
@@ -30,10 +31,26 @@ const MemberList = ({
     isNextPageLoading,
     channel,
     members,
+    searchTerms,
     editing,
     actions,
 }: Props) => {
-    // If there are more items to be loaded then add an extra row to hold a loading indicator.
+    const infiniteLoaderRef = useRef<InfiniteLoader | null>(null);
+    const variableSizeListRef = useRef<VariableSizeList | null>(null);
+    const [hasMounted, setHasMounted] = useState(false);
+
+    useEffect(() => {
+        if (hasMounted) {
+            if (infiniteLoaderRef.current) {
+                infiniteLoaderRef.current.resetloadMoreItemsCache();
+            }
+            if (variableSizeListRef.current) {
+                variableSizeListRef.current.resetAfterIndex(0);
+            }
+        }
+        setHasMounted(true);
+    }, [searchTerms, members.length, hasMounted]);
+
     const itemCount = hasNextPage ? members.length + 1 : members.length;
 
     // Only load 1 page of items at a time.
@@ -41,14 +58,11 @@ const MemberList = ({
     const loadMoreItems = isNextPageLoading ? () => {} : actions.loadMore;
 
     // Every row is loaded except for our loading indicator row.
-    const isItemLoaded = useCallback((index: number) => {
-        if (!(index in members)) {
-            return false;
-        }
+    const isItemLoaded = (index: number) => {
         return !hasNextPage || index < members.length;
-    }, [hasNextPage, members]);
+    };
 
-    const getItemSize = useCallback((index: number) => {
+    const getItemSize = (index: number) => {
         if (!(index in members)) {
             return 0;
         }
@@ -61,7 +75,7 @@ const MemberList = ({
         }
 
         return 48;
-    }, [members]);
+    };
 
     // Render an item or a loading indicator.
     const Item = ({index, style}: ListChildComponentProps) => {
@@ -106,6 +120,7 @@ const MemberList = ({
         <AutoSizer>
             {({height, width}) => (
                 <InfiniteLoader
+                    ref={infiniteLoaderRef}
                     isItemLoaded={isItemLoaded}
                     itemCount={itemCount}
                     loadMoreItems={loadMoreItems}
@@ -115,7 +130,11 @@ const MemberList = ({
                         <VariableSizeList
                             itemCount={itemCount}
                             onItemsRendered={onItemsRendered}
-                            ref={ref}
+                            ref={(list) => {
+                                ref(list);
+                                variableSizeListRef.current = list;
+                            }}
+
                             itemSize={getItemSize}
                             height={height}
                             width={width}
