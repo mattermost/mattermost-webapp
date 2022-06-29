@@ -2,8 +2,6 @@
 // See LICENSE.txt for license information.
 
 import {cloneDeep} from 'lodash';
-import thunk from 'redux-thunk';
-import configureStore from 'redux-mock-store';
 
 import {UserProfile} from '@mattermost/types/users';
 
@@ -12,7 +10,8 @@ import {getStatusesByIds} from 'mattermost-redux/actions/users';
 
 import * as Actions from 'actions/status_actions';
 import {GlobalState} from 'types/store';
-import {DispatchFunc} from 'mattermost-redux/types/actions';
+
+import mockStore from 'tests/test_store';
 
 jest.mock('mattermost-redux/actions/users', () => ({
     getStatusesByIds: jest.fn(() => {
@@ -25,8 +24,6 @@ interface CustomMatchers<R = unknown> {
 }
 
 type GreatExpectations = typeof expect & CustomMatchers;
-
-const mockStore = configureStore<GlobalState, DispatchFunc>([thunk]);
 
 describe('actions/status_actions', () => {
     const initialState = {

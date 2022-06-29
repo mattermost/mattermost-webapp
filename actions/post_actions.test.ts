@@ -1,16 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import thunk from 'redux-thunk';
-import configureStore from 'redux-mock-store';
-
 import {Post} from '@mattermost/types/posts';
 import {FileInfo} from '@mattermost/types/files';
 
-import {GlobalState} from 'types/store';
-import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {NewPost} from 'mattermost-redux/types/posts';
 
+import {GlobalState} from 'types/store';
 import {ChannelTypes, SearchTypes} from 'mattermost-redux/action_types';
 import * as PostActions from 'mattermost-redux/actions/posts';
 import {Posts} from 'mattermost-redux/constants';
@@ -18,7 +14,7 @@ import {Posts} from 'mattermost-redux/constants';
 import * as Actions from 'actions/post_actions';
 import {Constants, ActionTypes, RHSStates} from 'utils/constants';
 
-const mockStore = configureStore<GlobalState, DispatchFunc>([thunk]);
+import mockStore from 'tests/test_store';
 
 jest.mock('mattermost-redux/actions/posts', () => ({
     addReaction: (...args: any[]) => ({type: 'MOCK_ADD_REACTION', args}),

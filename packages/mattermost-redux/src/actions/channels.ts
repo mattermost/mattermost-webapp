@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable max-lines */
+
 import {AnyAction} from 'redux';
 import {batchActions} from 'redux-batched-actions';
 
@@ -566,45 +568,6 @@ export function fetchAllMyTeamsChannelsAndChannelMembers(): ActionFunc {
             },
         ]));
         return {data: {channels, channelsMembers}};
-    };
-}
-
-export function getMyChannelMembers(teamId: string): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        let channelMembers;
-        try {
-            const channelMembersRequest = Client4.getMyChannelMembers(teamId);
-
-            channelMembers = await channelMembersRequest;
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
-            return {error};
-        }
-
-        const state = getState();
-        const {currentUserId} = state.entities.users;
-        const {currentChannelId} = state.entities.channels;
-
-        dispatch({
-            type: ChannelTypes.RECEIVED_MY_CHANNEL_MEMBERS,
-            data: channelMembers,
-            remove: getChannelsIdForTeam(getState(), teamId),
-            currentUserId,
-            currentChannelId,
-        });
-        const roles = new Set<string>();
-
-        for (const member of channelMembers) {
-            for (const role of member.roles.split(' ')) {
-                roles.add(role);
-            }
-        }
-        if (roles.size > 0) {
-            dispatch(loadRolesIfNeeded(roles));
-        }
-
-        return {data: channelMembers};
     };
 }
 
@@ -1607,7 +1570,6 @@ export default {
     updateChannelNotifyProps,
     getChannel,
     fetchMyChannelsAndMembers,
-    getMyChannelMembers,
     getChannelTimezones,
     getChannelMembersByIds,
     leaveChannel,
