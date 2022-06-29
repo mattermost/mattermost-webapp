@@ -20,11 +20,6 @@ import {TELEMETRY_CATEGORIES} from 'utils/constants';
 
 import CloudStartTrialButton from './cloud_start_trial_btn';
 
-jest.mock('react-redux', () => ({
-    ...jest.requireActual('react-redux') as typeof import('react-redux'),
-    useDispatch: () => jest.fn(),
-}));
-
 jest.mock('actions/telemetry_actions.jsx', () => {
     const original = jest.requireActual('actions/telemetry_actions.jsx');
     return {
