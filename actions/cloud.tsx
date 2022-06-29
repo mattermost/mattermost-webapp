@@ -96,7 +96,7 @@ export function requestCloudTrial(page: string, subscriptionId: string, email = 
             const newSubscription = await Client4.requestCloudTrial(subscriptionId, email);
             dispatch({
                 type: CloudTypes.RECEIVED_CLOUD_SUBSCRIPTION,
-                data: newSubscription,
+                data: newSubscription.data,
             });
         } catch (error) {
             return false;
