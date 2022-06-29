@@ -4,14 +4,12 @@
 import React from 'react';
 
 import * as reactRedux from 'react-redux';
-import configureStore from 'redux-mock-store';
 import {act} from 'react-dom/test-utils';
-
-import thunk from 'redux-thunk';
 
 import {shallow} from 'enzyme';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import mockStore from 'tests/test_store';
 
 import {General} from 'mattermost-redux/constants';
 
@@ -62,7 +60,6 @@ describe('components/admin_console/license_settings/modals/upload_license_modal'
         fileObjFromProps: {name: 'Test license file'} as File,
     };
 
-    const mockStore = configureStore([thunk]);
     const store = mockStore(state);
 
     test('should match snapshot when is not licensed', () => {
@@ -81,7 +78,6 @@ describe('components/admin_console/license_settings/modals/upload_license_modal'
             },
         };
         const localStore = {...state, entities: licensedState};
-        const mockStore = configureStore([thunk]);
         const store = mockStore(localStore);
         const wrapper = shallow(
             <reactRedux.Provider store={store}>
@@ -151,7 +147,6 @@ describe('components/admin_console/license_settings/modals/upload_license_modal'
             },
         };
         const localStore = {...state, entities: licensedState};
-        const mockStore = configureStore([thunk]);
         const store = mockStore(localStore);
 
         const useDispatchMock = jest.spyOn(reactRedux, 'useDispatch');
@@ -185,7 +180,6 @@ describe('components/admin_console/license_settings/modals/upload_license_modal'
             },
         };
         const localStore = {...state, entities: licensedState};
-        const mockStore = configureStore([thunk]);
         const store = mockStore(localStore);
 
         const useDispatchMock = jest.spyOn(reactRedux, 'useDispatch');
@@ -218,7 +212,6 @@ describe('components/admin_console/license_settings/modals/upload_license_modal'
             },
         };
         const localStore = {...state, views: UploadLicenseModalHidden};
-        const mockStore = configureStore([thunk]);
         const store = mockStore(localStore);
         const wrapper = mountWithIntl(
             <reactRedux.Provider store={store}>

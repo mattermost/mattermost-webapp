@@ -224,6 +224,10 @@ export function insightsAreEnabled(state: GlobalState): boolean {
     return featureIsEnabled && isConfiguredForFeature && !currentUserIsGuest;
 }
 
+export function isGraphQLEnabled(state: GlobalState): boolean {
+    return getFeatureFlagValue(state, 'GraphQL') === 'true';
+}
+
 export function getIsAdvancedTextEditorEnabled(state: GlobalState): boolean {
     return getFeatureFlagValue(state, 'AdvancedTextEditor') === 'true';
 }

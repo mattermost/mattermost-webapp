@@ -2,8 +2,6 @@
 
 This package contains shared type definitions used by [the Mattermost web app](https://github.com/mattermost/mattermost-webapp) and related projects.
 
-**It is currently a work in progress and contains internal types that will be removed in a followup release.**
-
 ## Usage
 
 For technologies that support [subpath exports](https://nodejs.org/api/packages.html#subpath-exports), such as Node.js, Webpack, and Babel, you can import these types directly from individual files.
