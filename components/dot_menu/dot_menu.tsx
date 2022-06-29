@@ -372,12 +372,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             this.props.handleDropdownOpened(false);
             break;
 
-        // forward post
-        case Utils.isKeyPressed(e, Constants.KeyCodes.X):
-            this.handleForwardMenuItemActivated(e);
-            this.props.handleDropdownOpened(false);
-            break;
-
         // copy link
         case Utils.isKeyPressed(e, Constants.KeyCodes.K):
             this.copyLink(e);
@@ -502,14 +496,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         text={Utils.localizeMessage('forward_post_button.label', 'Forward Message')}
                         icon={Utils.getMenuItemIcon('icon-arrow-right-bold-outline')}
                         rightDecorator={<ShortcutKey shortcutKey='Shift + F'/>}
-                        onClick={this.handleForwardMenuItemActivated}
-                    />
-                    <Menu.ItemAction
-                        className={'MenuItem'}
-                        show={canPostBeForwarded}
-                        text={Utils.localizeMessage('forward_post_button.label', 'Forward Message')}
-                        icon={Utils.getMenuItemIcon('icon-arrow-right-bold-outline')}
-                        rightDecorator={<ShortcutKey shortcutKey='X'/>}
                         onClick={this.handleForwardMenuItemActivated}
                     />
                     <ChannelPermissionGate
