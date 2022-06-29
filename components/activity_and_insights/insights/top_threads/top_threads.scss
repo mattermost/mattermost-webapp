@@ -6,6 +6,7 @@
         margin-bottom: 4px;
 
         .display-name {
+            overflow: hidden;
             margin-left: 8px;
             color: var(--center-channel-color);
             font-family: 'Open Sans';
@@ -13,7 +14,6 @@
             font-style: normal;
             font-weight: 600;
             line-height: 16px;
-            overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
@@ -23,15 +23,15 @@
             flex: 2;
 
             .Badge__box {
+                overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
-                overflow: hidden;
             }
         }
 
         .reply-count {
-            margin-left: auto;
             flex: 1;
+            margin-left: auto;
             text-align: end;
 
             i.icon {
