@@ -7,6 +7,7 @@ import {useDispatch} from 'react-redux';
 
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 
+import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
 import {getClientConfig, getLicenseConfig} from 'mattermost-redux/actions/general';
 
 import useGetSubscription from 'components/common/hooks/useGetSubscription';
@@ -90,6 +91,7 @@ const CloudStartTrialButton = ({
             return TrialLoadStatus.Failed;
         }
 
+        await dispatch(getCloudSubscription());
         await dispatch(getClientConfig());
 
         await dispatch(getLicenseConfig());
