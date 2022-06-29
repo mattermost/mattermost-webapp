@@ -53,11 +53,8 @@ const MemberList = ({
 
     const itemCount = hasNextPage ? members.length + 1 : members.length;
 
-    // Only load 1 page of items at a time.
-    // Pass an empty callback to InfiniteLoader in case it asks us to load more than once.
     const loadMoreItems = isNextPageLoading ? () => {} : actions.loadMore;
 
-    // Every row is loaded except for our loading indicator row.
     const isItemLoaded = (index: number) => {
         return !hasNextPage || index < members.length;
     };
@@ -77,7 +74,6 @@ const MemberList = ({
         return 48;
     };
 
-    // Render an item or a loading indicator.
     const Item = ({index, style}: ListChildComponentProps) => {
         if (isItemLoaded(index)) {
             if (members[index].type === 'member') {

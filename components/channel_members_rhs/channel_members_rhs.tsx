@@ -132,7 +132,6 @@ export default function ChannelMembersRHS({
 
             listcp.push({type: 'member', data: member});
         }
-
         setList(listcp);
     }, [channelMembers]);
 

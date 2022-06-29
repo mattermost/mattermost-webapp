@@ -40,7 +40,8 @@ const getProfiles = createSelector(
     getUserStatuses,
     getTeammateNameDisplaySetting,
     getMembersInCurrentChannel,
-    (profilesInCurrentChannel, userStatuses, teammateNameDisplaySetting, membersInCurrentChannel) => {
+    getIsEditingMembers,
+    (profilesInCurrentChannel, userStatuses, teammateNameDisplaySetting, membersInCurrentChannel, editing) => {
         const channelMembers: ChannelMember[] = [];
         profilesInCurrentChannel.forEach((profile) => {
             if (!membersInCurrentChannel[profile.id]) {
@@ -55,6 +56,22 @@ const getProfiles = createSelector(
             } as ChannelMember;
             channelMembers.push(member);
         });
+
+        // while editing members, their position might change in the list.
+        // it's more efficiente to resort them here rather than requerying the server for
+        // all the pages loaded so far.
+        if (editing) {
+            channelMembers.sort((a, b) => {
+                if (a.membership?.scheme_admin === b.membership?.scheme_admin) {
+                    return a.displayName.localeCompare(b.displayName);
+                }
+
+                if (a.membership?.scheme_admin === true) {
+                    return -1;
+                }
+                return 1;
+            });
+        }
 
         return channelMembers;
     },
