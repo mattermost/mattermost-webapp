@@ -50,9 +50,9 @@ describe('plugins/MainMenuActions', () => {
         userIsAdmin: true,
         isFirstAdmin: false,
         canInviteTeamMember: false,
-        isCloudFreeEnabled: false,
         isFreeTrial: false,
         teamsLimitReached: false,
+        usageDeltaTeams: -1,
     };
 
     test('should match snapshot in web view', () => {

@@ -25,7 +25,7 @@ export default function AppBar() {
         return null;
     }
 
-    const coreProductsIds = ['playbooks', 'focalboard'];
+    const coreProductsIds = ['focalboard', 'playbooks'];
 
     // The type guard in the filter (which removes all undefined elements) is needed for
     // Typescript to correctly type coreProducts.
