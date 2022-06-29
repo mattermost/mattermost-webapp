@@ -1067,6 +1067,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
                     enableEmojiPicker={this.props.enableEmojiPicker}
                     enableGifPicker={this.props.enableGifPicker}
                     handleBlur={this.handleBlur}
+                    postError={this.state.postError}
                     handlePostError={this.handlePostError}
                     emitTypingEvent={this.emitTypingEvent}
                     handleMouseUpKeyUp={this.handleMouseUpKeyUp}
