@@ -234,7 +234,7 @@ const ForwardPostModal = ({onExited, post, currentChannel, currentTeam, actions}
                         channelId={selectedChannelId}
                         onSubmit={handleSubmit}
                     />
-                    <div>
+                    <div className={'forward-post__post-preview'}>
                         <span className={'forward-post__post-preview--title'}>
                             {messagePreviewTitle}
                         </span>

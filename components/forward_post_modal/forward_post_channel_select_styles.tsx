@@ -66,6 +66,7 @@ const baseStyles = {
     menu: (provided: CSSProperties): CSSPropertiesWithPseudos => ({
         ...provided,
         padding: 0,
+        zIndex: 10,
     }),
     menuList: (provided: CSSProperties): CSSPropertiesWithPseudos => ({
         ...provided,

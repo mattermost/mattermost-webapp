@@ -1,6 +1,8 @@
-$modal-max-height: 800px;
-
 .forward-post {
+    &.modal-dialog {
+        margin-top: 64px;
+    }
+
     .modal-body {
         // needed to allow the select menu to overflow the modal-body
         overflow: visible;
@@ -9,7 +11,6 @@ $modal-max-height: 800px;
     &__body {
         display: flex;
         overflow: visible;
-        max-height: calc(var(modal-max-height) - 140px);
         flex-direction: column;
         color: var(--center-channel-color);
         gap: 24px;
@@ -114,8 +115,9 @@ $modal-max-height: 800px;
         }
 
         &--override {
-            overflow: visible;
-            padding: 2px 0;
+            overflow: auto !important;
+            max-height: 480px;
+            padding: 2px 2px 2px 0;
 
             &:not(.post--editing):not(.post--editing):hover {
                 background-color: transparent;
