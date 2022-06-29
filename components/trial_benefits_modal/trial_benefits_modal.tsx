@@ -50,6 +50,7 @@ const TrialBenefitsModal = ({
 
     const license = useSelector((state: GlobalState) => getLicense(state));
     const show = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.TRIAL_BENEFITS_MODAL));
+    const isCloud = license?.Cloud === 'true';
 
     useEffect(() => {
         if (!trialJustStarted) {
@@ -123,10 +124,16 @@ const TrialBenefitsModal = ({
         },
     ], []);
 
+    let trialJustStartedTitle = formatMessage({id: 'trial_benefits.modal.trialStartTitle', defaultMessage: 'Your trial has started! Explore the benefits of Enterprise'});
+
+    if (isCloud) {
+        trialJustStartedTitle = formatMessage({id: 'trial_benefits.modal.trialStartTitleCloud', defaultMessage: 'Your trial has started!'});
+    }
+
     // declares the content shown just after the trial has started
     const trialJustStartedDeclaration = {
         id: 'trialStart',
-        title: formatMessage({id: 'trial_benefits.modal.trialStartTitle', defaultMessage: 'Your trial has started! Explore the benefits of Enterprise'}),
+        title: trialJustStartedTitle,
         description: (
             <>
                 <FormattedMessage
@@ -176,6 +183,7 @@ const TrialBenefitsModal = ({
             />
         ),
         bottomLeftMessage: formatMessage({id: 'trial_benefits.modal.onlyVisibleToAdmins', defaultMessage: 'Only visible to admins'}),
+        isCloud,
     };
 
     const handleOnClose = useCallback(() => {
@@ -213,24 +221,30 @@ const TrialBenefitsModal = ({
         svgWrapperClassName,
         svgElement,
         bottomLeftMessage,
+        isCloud,
     }: TrialBenefitsModalStepProps) => {
+        // when we are in cloud, ommit the cta to go to the system console, this because the license changes take some time to get applied (see MM-44463)
+        // also, the design of the modal changes a little bit by placing the svg image on top and the title changes too.
         return (
             <div
                 id={`trialBenefitsModalStarted-${id}`}
                 className='TrialBenefitsModalStep trial-just-started slide-container'
             >
+                {isCloud && <div className={`${svgWrapperClassName} svg-wrapper`}>
+                    {svgElement}
+                </div>}
                 <div className='title'>
                     {title}
                 </div>
                 <div className='description'>
                     {description}
                 </div>
-                <div className={`${svgWrapperClassName} svg-wrapper`}>
+                {!isCloud && <div className={`${svgWrapperClassName} svg-wrapper`}>
                     {svgElement}
-                </div>
+                </div>}
                 <div className='buttons-section-wrapper'>
                     <a
-                        className='tertiary-button'
+                        className={`${isCloud ? 'primary-button' : 'tertiary-button'}`}
                         onClick={handleOnClose}
                     >
                         <FormattedMessage
@@ -238,16 +252,18 @@ const TrialBenefitsModal = ({
                             defaultMessage='Close'
                         />
                     </a>
-                    <BlockableLink
-                        className='primary-button'
-                        to={ConsolePages.GUEST_ACCESS}
-                        onClick={handleOnClose}
-                    >
-                        <FormattedMessage
-                            id='trial_benefits_modal.trial_just_started.buttons.setUp'
-                            defaultMessage='Set up system console'
-                        />
-                    </BlockableLink>
+                    {!isCloud &&
+                        <BlockableLink
+                            className='primary-button'
+                            to={ConsolePages.GUEST_ACCESS}
+                            onClick={handleOnClose}
+                        >
+                            <FormattedMessage
+                                id='trial_benefits_modal.trial_just_started.buttons.setUp'
+                                defaultMessage='Set up system console'
+                            />
+                        </BlockableLink>
+                    }
                 </div>
                 {bottomLeftMessage && (
                     <div className='bottom-text-left-message'>

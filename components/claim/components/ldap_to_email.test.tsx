@@ -4,27 +4,33 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import LDAPToEmail from './ldap_to_email.jsx';
+import LDAPToEmail from './ldap_to_email';
 
 describe('components/claim/components/ldap_to_email.jsx', () => {
     const requiredProps = {
         email: '',
-        passwordConfig: {},
-        switchLdapToEmail: jest.fn(() => Promise.resolve({data: true})),
+        passwordConfig: {
+            minimumLength: 5,
+            requireLowercase: true,
+            requireUppercase: true,
+            requireNumber: true,
+            requireSymbol: true,
+        },
+        switchLdapToEmail: jest.fn(() => Promise.resolve({data: {follow_link: '/login'}})),
     };
 
     test('submit() should have called switchLdapToEmail', async () => {
         const loginId = '';
         const password = 'psw';
         const token = 'abcd1234';
-        const ldapPassword = 'ldapPsw';
+        const ldapPasswordParam = 'ldapPsw';
 
         const wrapper = shallow(<LDAPToEmail {...requiredProps}/>);
 
-        await wrapper.instance().submit(loginId, password, token, ldapPassword);
+        wrapper.find('LoginMfa').simulate('submit', {loginId, password, token, ldapPasswordParam});
 
         expect(requiredProps.switchLdapToEmail).toHaveBeenCalledTimes(1);
         expect(requiredProps.switchLdapToEmail).
-            toHaveBeenCalledWith(ldapPassword, requiredProps.email, password, token);
+            toHaveBeenCalledWith(ldapPasswordParam, requiredProps.email, password, token);
     });
 });

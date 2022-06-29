@@ -2,8 +2,6 @@
 
 This package contains the JavaScript/TypeScript client for [Mattermost](https://github.com/mattermost/mattermost-server). It's used by [the Mattermost web app](https://github.com/mattermost/mattermost-webapp) and related projects.
 
-**It is currently a work in progress.**
-
 ## Compilation and Packaging
 
 As a member of Mattermost with write access to our NPM organization, you can build and publish this package by running the following commands:

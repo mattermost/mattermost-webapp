@@ -4,6 +4,11 @@
 import React from 'react';
 import {IntlShape} from 'react-intl';
 
+import configureStore from 'redux-mock-store';
+import {Provider} from 'react-redux';
+
+import thunk from 'redux-thunk';
+
 import {mountWithThemedIntl} from 'tests/helpers/themed-intl-test-helper';
 
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
@@ -44,17 +49,50 @@ const defaultProps: Props = deepFreeze({
 let props = defaultProps;
 
 describe('InvitationModal', () => {
+    const state = {
+        entities: {
+            general: {
+                license: {
+                    IsLicensed: 'true',
+                    Cloud: 'true',
+                },
+            },
+            cloud: {
+                subscription: {
+                    is_free_trial: 'false',
+                    trial_end_at: 0,
+                },
+            },
+            users: {
+                currentUserId: 'uid',
+                profiles: {
+                    uid: {},
+                },
+            },
+        },
+    };
+
+    const mockStore = configureStore([thunk]);
+    const store = mockStore(state);
     beforeEach(() => {
         props = defaultProps;
     });
 
     it('shows invite view when view state is invite', () => {
-        const wrapper = mountWithThemedIntl(<InvitationModal {...props}/>);
+        const wrapper = mountWithThemedIntl(
+            <Provider store={store}>
+                <InvitationModal {...props}/>
+            </Provider>,
+        );
         expect(wrapper.find(InviteView).length).toBe(1);
     });
 
     it('shows result view when view state is result', () => {
-        const wrapper = mountWithThemedIntl(<InvitationModal {...props}/>);
+        const wrapper = mountWithThemedIntl(
+            <Provider store={store}>
+                <InvitationModal {...props}/>
+            </Provider>,
+        );
         wrapper.find(BaseInvitationModal).at(0).setState({view: View.RESULT});
 
         wrapper.update();
@@ -67,7 +105,11 @@ describe('InvitationModal', () => {
             canAddUsers: false,
             canInviteGuests: false,
         };
-        const wrapper = mountWithThemedIntl(<InvitationModal {...props}/>);
+        const wrapper = mountWithThemedIntl(
+            <Provider store={store}>
+                <InvitationModal {...props}/>
+            </Provider>,
+        );
 
         expect(wrapper.find(NoPermissionsView).length).toBe(1);
     });

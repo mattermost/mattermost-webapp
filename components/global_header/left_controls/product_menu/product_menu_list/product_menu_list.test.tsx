@@ -38,7 +38,7 @@ describe('components/global/product_switcher_menu', () => {
         canManageIntegrations: true,
         enablePluginMarketplace: false,
         showVisitSystemConsoleTour: false,
-        isCloud: false,
+        isStarterFree: false,
         isFreeTrial: false,
         onClick: () => jest.fn,
         handleVisitConsoleClick: () => jest.fn,
@@ -75,24 +75,34 @@ describe('components/global/product_switcher_menu', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot with cloud free', () => {
+    test('should match userGroups snapshot with cloud free', () => {
         const props = {
             ...defaultProps,
-            enableCustomUserGroups: true,
-            isCloud: true,
-            isCloudFreeEnabled: true,
+            enableCustomUserGroups: false,
+            isStarterFree: true,
+            isFreeTrial: false,
         };
         const wrapper = shallow(<ProductMenuList {...props}/>);
         expect(wrapper.find('#userGroups')).toMatchSnapshot();
     });
 
-    test('should match snapshot with cloud free trial', () => {
+    test('should match userGroups snapshot with cloud free trial', () => {
+        const props = {
+            ...defaultProps,
+            enableCustomUserGroups: false,
+            isStarterFree: false,
+            isFreeTrial: true,
+        };
+        const wrapper = shallow(<ProductMenuList {...props}/>);
+        expect(wrapper.find('#userGroups')).toMatchSnapshot();
+    });
+
+    test('should match userGroups snapshot with EnableCustomGroups config', () => {
         const props = {
             ...defaultProps,
             enableCustomUserGroups: true,
-            isCloud: true,
-            isCloudFreeEnabled: true,
-            isFreeTrial: true,
+            isStarterFree: false,
+            isFreeTrial: false,
         };
         const wrapper = shallow(<ProductMenuList {...props}/>);
         expect(wrapper.find('#userGroups')).toMatchSnapshot();
