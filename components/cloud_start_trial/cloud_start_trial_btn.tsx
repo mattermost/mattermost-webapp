@@ -38,6 +38,8 @@ enum TrialLoadStatus {
     Embargoed = 'EMBARGOED',
 }
 
+const TIME_UNTIL_CACHE_PURGE_GUESS = 5000;
+
 const CloudStartTrialButton = ({
     message,
     telemetryId,
@@ -100,7 +102,7 @@ const CloudStartTrialButton = ({
             dispatch(getCloudLimits());
         }
 
-        setTimeout(ensureUpdatedData, 5000);
+        setTimeout(ensureUpdatedData, TIME_UNTIL_CACHE_PURGE_GUESS);
         if (afterTrialRequest) {
             afterTrialRequest();
         }
