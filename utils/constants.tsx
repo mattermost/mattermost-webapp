@@ -1140,11 +1140,11 @@ export const DefaultRolePermissions = {
 };
 
 export const Locations = {
-    CENTER: 'CENTER',
-    RHS_ROOT: 'RHS_ROOT',
-    RHS_COMMENT: 'RHS_COMMENT',
-    SEARCH: 'SEARCH',
-    NO_WHERE: 'NO_WHERE',
+    CENTER: 'CENTER' as const,
+    RHS_ROOT: 'RHS_ROOT' as const,
+    RHS_COMMENT: 'RHS_COMMENT' as const,
+    SEARCH: 'SEARCH' as const,
+    NO_WHERE: 'NO_WHERE' as const,
 };
 
 export const PostListRowListIds = {

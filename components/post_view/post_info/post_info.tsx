@@ -12,6 +12,7 @@ import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 import {Post} from '@mattermost/types/posts';
 import {ExtendedPost} from 'mattermost-redux/actions/posts';
 
+import type {emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 import {trackEvent} from 'actions/telemetry_actions';
 import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils';
@@ -129,7 +130,7 @@ type Props = {
         /**
          * Function to set or unset emoji picker for last message
          */
-        emitShortcutReactToLastPostFrom?: (emittedFrom: string) => void;
+        emitShortcutReactToLastPostFrom?: typeof emitShortcutReactToLastPostFrom;
 
         /**
          * Function to set viewed Actions Menu for first time

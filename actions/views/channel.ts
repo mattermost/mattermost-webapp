@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {batchActions} from 'redux-batched-actions';
+import {AnyAction} from 'redux';
 
 import {Channel} from '@mattermost/types/channels';
 
@@ -96,14 +97,14 @@ export function switchToChannelById(channelId: string) {
     };
 }
 
-export function switchToChannel(channel: Channel) {
+export function switchToChannel(channel: Channel & {userId?: string}) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
         const selectedTeamId = channel.team_id;
         const teamUrl = selectedTeamId ? `/${getTeam(state, selectedTeamId).name}` : getCurrentRelativeTeamUrl(state);
 
-        if ((channel as Channel & {userId: string}).userId) {
-            const username = (channel as Channel & {userId: string}).userId ? channel.name : channel.display_name;
+        if (channel.userId) {
+            const username = channel.userId ? channel.name : channel.display_name;
             const user = getUserByUsername(state, username);
             if (!user) {
                 return {error: true};
@@ -378,7 +379,7 @@ export function loadPosts({
 
         const {data} = result;
 
-        const actions: Array<{type: string; data: boolean | string; channelId?: string; amount?: number}> = [{
+        const actions: AnyAction[] = [{
             type: ActionTypes.LOADING_POSTS,
             data: false,
             channelId,

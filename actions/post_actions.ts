@@ -340,8 +340,7 @@ export function resetInlineImageVisibility() {
  *
  * @param {string} emittedFrom - It can be either "CENTER", "RHS_ROOT" or "NO_WHERE"
  */
-
-export function emitShortcutReactToLastPostFrom(emittedFrom: string) {
+export function emitShortcutReactToLastPostFrom(emittedFrom: 'CENTER' | 'RHS_ROOT' | 'NO_WHERE') {
     return {
         type: ActionTypes.EMITTED_SHORTCUT_REACT_TO_LAST_POST,
         payload: emittedFrom,
