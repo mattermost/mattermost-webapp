@@ -91,7 +91,7 @@ export class AutosizeTextarea extends React.PureComponent<Props> {
             // component, e.g. `post_textbox`, so it can't be changed. This would ideally be
             // abstracted to avoid passing in an `id` prop at all, but we intentionally maintain
             // the old behaviour to address ABC-213.
-            id,
+            id = 'autosize_textarea',
             ...otherProps
         } = props;
 
