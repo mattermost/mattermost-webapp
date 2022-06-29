@@ -18,7 +18,7 @@ import * as PostActions from 'mattermost-redux/actions/posts';
 import {getCurrentUserId, getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentChannelId, getCurrentChannelNameForSearchShortcut} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannelId, getCurrentChannelNameForSearchShortcut, getChannel as getChannelSelector} from 'mattermost-redux/selectors/entities/channels';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {makeGetUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
@@ -34,6 +34,7 @@ import {RhsState} from 'types/store/rhs';
 import {GlobalState} from 'types/store';
 import {getPostsByIds} from 'mattermost-redux/actions/posts';
 import {unsetEditingPost} from '../post_actions';
+import {getChannel} from 'mattermost-redux/actions/channels';
 
 function selectPostFromRightHandSideSearchWithPreviousState(post: Post, previousRhsState?: RhsState) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
@@ -468,6 +469,16 @@ export function setRhsExpanded(expanded: boolean) {
 export function toggleRhsExpanded() {
     return {
         type: ActionTypes.TOGGLE_RHS_EXPANDED,
+    };
+}
+
+export function selectPostAndParentChannel(post: Post) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const channel = getChannelSelector(getState(), post.channel_id);
+        if (!channel) {
+            await dispatch(getChannel(post.channel_id));
+        }
+        return dispatch(selectPost(post));
     };
 }
 
