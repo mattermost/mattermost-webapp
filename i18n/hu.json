@@ -3736,7 +3736,7 @@
   "menu.cloudFree.tryEnterprise": "Érdekli egy korlátlan terv, magas biztonsági funkciókkal?",
   "menu.cloudFree.tryEnterpriseFor30Days": "Próbálja ki az Enterprise csomagot 30 napig ingyenesen",
   "menu.cloudFree.tryFreeFor30Days": "Próbálja ki ingyenesen 30 napig",
-:q  "message_submit_error.invalidCommand": "''{command}'' kulcsszót tartalmazó parancs nem található. ",
+  "message_submit_error.invalidCommand": "''{command}'' kulcsszót tartalmazó parancs nem található. ",
   "message_submit_error.sendAsMessageLink": "Kattintson ide, ha üzenetként szeretné küldeni.",
   "mfa.confirm.complete": "**Beállítás kész!**",
   "mfa.confirm.okay": "Oké",
