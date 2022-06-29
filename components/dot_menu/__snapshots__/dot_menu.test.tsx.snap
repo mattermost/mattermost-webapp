@@ -73,8 +73,13 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
         />
       }
       onClick={[Function]}
+      rightDecorator={
+        <ShortcutKey
+          shortcutKey="Shift + F"
+        />
+      }
       show={true}
-      text="Forward Message"
+      text="Forward"
     />
     <Connect(ChannelPermissionGate)
       channelId=""
@@ -344,8 +349,13 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
         />
       }
       onClick={[Function]}
+      rightDecorator={
+        <ShortcutKey
+          shortcutKey="Shift + F"
+        />
+      }
       show={true}
-      text="Forward Message"
+      text="Forward"
     />
     <Connect(ChannelPermissionGate)
       channelId=""
