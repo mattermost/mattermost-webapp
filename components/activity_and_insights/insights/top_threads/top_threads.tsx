@@ -13,7 +13,8 @@ import {Post} from '@mattermost/types/posts';
 import {TopThread} from '@mattermost/types/insights';
 import {UserProfile} from '@mattermost/types/users';
 
-import {selectPost} from 'actions/views/rhs';
+import {selectPostAndParentChannel} from 'actions/views/rhs';
+import {trackEvent} from 'actions/telemetry_actions';
 
 import Badge from 'components/widgets/badges/badge';
 import Avatar from 'components/widgets/users/avatar';
@@ -95,7 +96,7 @@ const TopThreads = (props: WidgetHocProps) => {
     }, []);
 
     const openRHS = async (post: Post) => {
-        dispatch(selectPost(post));
+        dispatch(selectPostAndParentChannel(post));
     };
 
     return (
@@ -113,6 +114,7 @@ const TopThreads = (props: WidgetHocProps) => {
                                 <div
                                     className='thread-item'
                                     onClick={() => {
+                                        trackEvent('insights', 'open_thread_from_top_threads_widget');
                                         openRHS(thread.post);
                                     }}
                                     key={key}

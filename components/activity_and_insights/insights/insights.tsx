@@ -3,6 +3,7 @@
 import React, {memo, useEffect, useState, useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
+import {trackEvent} from 'actions/telemetry_actions';
 import {selectChannel} from 'mattermost-redux/actions/channels';
 import {CardSizes, InsightsWidgetTypes, TimeFrames} from '@mattermost/types/insights';
 
@@ -29,10 +30,12 @@ const Insights = () => {
     const focalboardEnabled = useSelector((state: GlobalState) => state.plugins.plugins?.focalboard);
 
     const setFilterTypeTeam = useCallback(() => {
+        trackEvent('insights', 'change_scope_to_team_insights');
         setFilterType(InsightsScopes.TEAM);
     }, []);
 
     const setFilterTypeMy = useCallback(() => {
+        trackEvent('insights', 'change_scope_to_my_insights');
         setFilterType(InsightsScopes.MY);
     }, []);
 
