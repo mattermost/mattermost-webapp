@@ -7,9 +7,10 @@ import {useDispatch} from 'react-redux';
 
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 
+import {getClientConfig, getLicenseConfig} from 'mattermost-redux/actions/general';
+
 import useGetSubscription from 'components/common/hooks/useGetSubscription';
 
-import {getClientConfig, getLicenseConfig} from 'mattermost-redux/actions/general';
 import {requestCloudTrial, validateBusinessEmail, getCloudLimits} from 'actions/cloud';
 import {trackEvent} from 'actions/telemetry_actions';
 import {openModal, closeModal} from 'actions/views/modals';
@@ -93,7 +94,6 @@ const CloudStartTrialButton = ({
 
         await dispatch(getLicenseConfig());
         await dispatch(getCloudLimits());
-
         if (afterTrialRequest) {
             afterTrialRequest();
         }
