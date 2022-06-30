@@ -35,8 +35,7 @@ import {RhsState} from 'types/store/rhs';
 import {GlobalState} from 'types/store';
 import {getPostsByIds} from 'mattermost-redux/actions/posts';
 import {unsetEditingPost} from '../post_actions';
-import {loadProfilesAndReloadChannelMembers} from '../user_actions';
-import {loadMyChannelMemberAndRole, getChannel} from 'mattermost-redux/actions/channels';
+import {getChannel} from 'mattermost-redux/actions/channels';
 
 function selectPostFromRightHandSideSearchWithPreviousState(post: Post, previousRhsState?: RhsState) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
@@ -213,9 +212,6 @@ export function showRHSPlugin(pluggableId: string) {
 export function showChannelMembers(channelId: string, inEditingMode = false) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState() as GlobalState;
-
-        dispatch(loadMyChannelMemberAndRole(channelId));
-        dispatch(loadProfilesAndReloadChannelMembers(0, General.PROFILE_CHUNK_SIZE, channelId));
 
         if (inEditingMode) {
             await dispatch(setEditChannelMembers(true));
