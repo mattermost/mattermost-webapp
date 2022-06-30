@@ -153,7 +153,7 @@ export default class PostList extends React.PureComponent<Props, State> {
     private mounted: boolean | undefined;
 
     // public for testing purposes only
-    public extraPagesLoaded: number | undefined;
+    public extraPagesLoaded: number;
 
     constructor(props: Props) {
         super(props);
@@ -282,7 +282,7 @@ export default class PostList extends React.PureComponent<Props, State> {
             return;
         }
 
-        if ((this.extraPagesLoaded as any) > MAX_EXTRA_PAGES_LOADED) {
+        if (this.extraPagesLoaded > MAX_EXTRA_PAGES_LOADED) {
             // Prevent this from loading a lot of pages in a channel with only hidden messages
             // Enable load more messages manual link
             if (this.state.autoRetryEnable) {
@@ -298,7 +298,7 @@ export default class PostList extends React.PureComponent<Props, State> {
             await this.getPostsAfter();
         }
 
-        (this.extraPagesLoaded as any) += 1;
+        this.extraPagesLoaded += 1;
     }
 
     getPostsBefore = async () => {
