@@ -183,6 +183,7 @@ function ThreadItem({
             <div className='menu-anchor alt-visible'>
                 <ThreadMenu
                     threadId={threadId}
+                    lastPostId={postsInThread.length > 1 ? postsInThread[0].id : threadId}
                     isFollowing={isFollowing ?? false}
                     hasUnreads={Boolean(newReplies)}
                     unreadTimestamp={unreadTimestamp}

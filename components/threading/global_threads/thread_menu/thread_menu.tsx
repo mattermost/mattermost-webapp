@@ -7,6 +7,7 @@ import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 
 import {Preferences} from 'mattermost-redux/constants';
 import {UserThread} from '@mattermost/types/threads';
+import {Post} from '@mattermost/types/posts';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 
 import {setThreadFollow, updateThreadRead, markThreadAsUnread} from 'mattermost-redux/actions/threads';
@@ -36,10 +37,12 @@ type Props = {
     hasUnreads: boolean;
     children: ReactNode;
     unreadTimestamp: number;
+    lastPostId?: Post['id'];
 };
 
 function ThreadMenu({
     threadId,
+    lastPostId,
     isFollowing = false,
     unreadTimestamp,
     hasUnreads,
@@ -65,7 +68,7 @@ function ThreadMenu({
         if (hasUnreads) {
             dispatch(updateThreadRead(currentUserId, currentTeamId, threadId, Date.now()));
         } else {
-            dispatch(markThreadAsUnread(currentUserId, currentTeamId, threadId, threadId));
+            dispatch(markThreadAsUnread(currentUserId, currentTeamId, threadId, lastPostId || threadId));
         }
     }, [
         currentUserId,
