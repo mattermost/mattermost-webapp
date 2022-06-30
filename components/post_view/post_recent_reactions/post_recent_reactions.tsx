@@ -22,7 +22,7 @@ type Props = {
     location?: LocationTypes;
     locale: string;
     emojis: Emoji[];
-    size?: number;
+    size: number;
     defaultEmojis: Emoji[];
     actions: {
         addReaction: (postId: string, emojiName: string) => void;
@@ -56,7 +56,7 @@ export default class PostRecentReactions extends React.PureComponent<Props, Stat
             return !ignore;
         });
         const l = emojis.length;
-        for (let i = 0; i < this.props.size! - l; i++) {
+        for (let i = 0; i < this.props.size - l; i++) {
             emojis.push(additional[i]);
         }
 
@@ -78,7 +78,7 @@ export default class PostRecentReactions extends React.PureComponent<Props, Stat
         } = this.props;
 
         let emojis = [...this.props.emojis].slice(0, this.props.size);
-        if (emojis.length < this.props.size!) {
+        if (emojis.length < this.props.size) {
             emojis = this.complementEmojis(emojis);
         }
 
@@ -118,4 +118,3 @@ export default class PostRecentReactions extends React.PureComponent<Props, Stat
         );
     }
 }
-
