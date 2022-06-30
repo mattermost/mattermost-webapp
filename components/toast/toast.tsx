@@ -9,6 +9,7 @@ import {OverlayTriggerProps} from 'react-bootstrap';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import UnreadBelowIcon from 'components/widgets/icons/unread_below_icon';
+import UnreadAboveIcon from 'components/widgets/icons/unread_above_icon';
 import CloseIcon from 'components/widgets/icons/close_icon';
 import Constants from 'utils/constants';
 
@@ -71,7 +72,7 @@ export default class Toast extends React.PureComponent<Props> {
                 <div
                     className='toast__jump'
                 >
-                    {jumpDirection === 'down' && <UnreadBelowIcon/>}
+                    {jumpDirection === 'down' ? <UnreadBelowIcon/> : <UnreadAboveIcon/>}
                     {width > Constants.MOBILE_SCREEN_WIDTH && this.props.onClickMessage}
                 </div>
             );
