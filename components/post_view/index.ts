@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {withRouter, RouteChildrenProps} from 'react-router-dom';
+import {withRouter, RouteComponentProps} from 'react-router-dom';
 
 import {Channel} from '@mattermost/types/channels';
 import {Team, TeamMembership} from '@mattermost/types/teams';
@@ -47,7 +47,7 @@ interface RouteViewParams {
     postid?: string;
 }
 
-type Props = {channelId: string} & RouteChildrenProps<RouteViewParams>
+type Props = {channelId: string} & RouteComponentProps<RouteViewParams>
 
 function makeMapStateToProps() {
     return function mapStateToProps(state: GlobalState, ownProps: Props) {
