@@ -60,10 +60,9 @@ describe('components/ToastWrapper', () => {
             expect(wrapper.state('unreadCount')).toBe(15);
         });
 
-        test('If atLatestPost and not isNewMessageLineReached and unreadScrollPosition is startFromNewest then unread count then unread count is based on the unreadCountInChannel', () => {
+        test('If atLatestPost and prevState.unreadCountInChannel is not 0 then unread count then unread count is based on the unreadCountInChannel', () => {
             const props = {
                 ...baseProps,
-                unreadScrollPosition: Preferences.UNREAD_SCROLL_POSITION_START_FROM_NEWEST,
                 atLatestPost: true,
                 unreadCountInChannel: 10,
                 postListIds: [ //order of the postIds is in reverse order so unreadCount should be 3
@@ -81,10 +80,9 @@ describe('components/ToastWrapper', () => {
             expect(wrapper.state('unreadCount')).toBe(10);
         });
 
-        test('If atLatestPost and isNewMessageLineReached then unread count is based on the number of posts below the new message indicator', () => {
+        test('If atLatestPost and prevState.unreadCountInChannel is 0 then unread count is based on the number of posts below the new message indicator', () => {
             const props = {
                 ...baseProps,
-                isNewMessageLineReached: true,
                 atLatestPost: true,
                 postListIds: [ //order of the postIds is in reverse order so unreadCount should be 3
                     'post1',
@@ -492,9 +490,10 @@ describe('components/ToastWrapper', () => {
             expect(baseProps.updateNewMessagesAtInChannel).toHaveBeenCalledTimes(1);
         });
 
-        test('Should have unreadWithBottomStart toast if shouldStartFromBottomWhenUnread and unreadCount > 0 and not isNewMessageLineReached ', () => {
+        test('Should have unreadWithBottomStart toast if lastViewdAt and props.lastViewedAt !== prevState.lastViewedAt and shouldStartFromBottomWhenUnread and unreadCount > 0 and not isNewMessageLineReached ', () => {
             const props = {
                 ...baseProps,
+                lastViewedAt: 20000,
                 unreadCountInChannel: 10,
                 shouldStartFromBottomWhenUnread: true,
                 isNewMessageLineReached: false,
