@@ -276,8 +276,11 @@ class TestHelper {
             channel_id: channelId,
             notify_props: {},
             roles: 'system_user',
+            last_viewed_at: 0,
             msg_count: 0,
+            msg_count_root: 0,
             mention_count: 0,
+            mention_count_root: 0,
             scheme_user: false,
             scheme_admin: false,
         };

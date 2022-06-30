@@ -928,7 +928,7 @@
   "admin.ldap.syncNowHelpText": "馬上開始 AD/LDAP 同步。下面表格為每次同步的狀態。請看 \"系統控制台 > 紀錄\" 跟<link>文件</link>以解決問題。",
   "admin.ldap.sync_button": "開始 AD/LDAP 同步",
   "admin.ldap.testFailure": "AD/LDAP 測試失敗：{error}",
-  "admin.ldap.testHelpText": "測試 Mattermost 伺服器是否能連線至指定的 AD/LDAP 伺服器。請看 \"系統控制台 > 紀錄\" 跟<link>文件</link>以解決問題。 ",
+  "admin.ldap.testHelpText": "測試 Mattermost 伺服器是否能連線至指定的 AD/LDAP 伺服器。請看 \"系統控制台 > 紀錄\" 跟<link>文件</link>以解決問題。",
   "admin.ldap.testSuccess": "AD/LDAP Test Successful",
   "admin.ldap.uploading.certificate": "正在上傳憑證…",
   "admin.ldap.uploading.privateKey": "正在上傳私鑰…",
