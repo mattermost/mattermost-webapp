@@ -965,6 +965,7 @@ export function getPostsAround(channelId: string, postId: string, perPage = Post
             ],
             next_post_id: after.next_post_id,
             prev_post_id: before.prev_post_id,
+            has_inaccessible_posts: before.has_inaccessible_posts || after.has_inaccessible_posts || thread.has_inaccessible_posts
         };
 
         getProfilesAndStatusesForPosts(posts.posts, dispatch, getState);
