@@ -648,6 +648,10 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             return;
         }
 
+        if (this.props.shouldShowPreview) {
+            this.setShowPreview(!this.props.shouldShowPreview);
+        }
+
         await this.doSubmit(e);
     }
 
