@@ -13,7 +13,7 @@ import {getRemainingDaysFromFutureTimestamp} from 'utils/utils';
 import {TrialPeriodDays} from 'utils/constants';
 
 import {
-    planDetailsTopElements,
+    PlanDetailsTopElements,
     currentPlanText,
 } from './plan_details';
 import FeatureList from './feature_list';
@@ -41,7 +41,13 @@ const PlanDetails = ({isFreeTrial, subscriptionPlan}: Props) => {
 
     return (
         <div className='PlanDetails'>
-            {planDetailsTopElements(userCount, isLegacyFree, isFreeTrial, subscriptionPlan, daysLeftOnTrial)}
+            <PlanDetailsTopElements
+                userCount={userCount}
+                isLegacyFree={isLegacyFree}
+                isFreeTrial={isFreeTrial}
+                subscriptionPlan={subscriptionPlan}
+                daysLeftOnTrial={daysLeftOnTrial}
+            />
             <PlanPricing
                 isLegacyFree={isLegacyFree}
                 isLegacyFreePaidTier={isLegacyFreePaidTier}
@@ -49,8 +55,8 @@ const PlanDetails = ({isFreeTrial, subscriptionPlan}: Props) => {
             />
             <div className='PlanDetails__teamAndChannelCount'>
                 <FormattedMessage
-                    id='admin.billing.subscription.planDetails.features.unlimitedTeamsAndChannels'
-                    defaultMessage='Unlimited teams, channels, and search history'
+                    id='admin.billing.subscription.planDetails.subheader'
+                    defaultMessage='Plan details'
                 />
             </div>
             <FeatureList

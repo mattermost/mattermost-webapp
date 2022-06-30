@@ -3,15 +3,18 @@
 
 import React from 'react';
 import {Provider} from 'react-redux';
-import thunk from 'redux-thunk';
+import {AnyAction} from 'redux';
+import thunk, {ThunkDispatch} from 'redux-thunk';
 import configureStore from 'redux-mock-store';
 
 import {IntlProvider} from 'react-intl';
 
+import {GlobalState} from 'types/store';
+
 import {defaultIntl} from './helpers/intl-test-helper';
 
 export default function testConfigureStore(initialState = {}) {
-    return configureStore([thunk])(initialState);
+    return configureStore<GlobalState, ThunkDispatch<GlobalState, Record<string, never>, AnyAction>>([thunk])(initialState as GlobalState);
 }
 
 export function mockStore(initialState = {}, intl = defaultIntl) {
@@ -19,8 +22,7 @@ export function mockStore(initialState = {}, intl = defaultIntl) {
     return {
         store,
         mountOptions: intl ? {
-            // eslint-disable-next-line react/prop-types
-            wrappingComponent: ({children, ...props}) => (
+            wrappingComponent: ({children, ...props}: {children: React.ReactNode} & React.ComponentProps<typeof IntlProvider>) => (
                 <IntlProvider {...props}>
                     <Provider store={store}>
                         {children}

@@ -205,7 +205,7 @@ export const PostAttachmentOpenGraphImage = memo(({imageMetadata, isInPermalink,
     }
 
     const large = getIsLargeImage(imageMetadata);
-    const src = imageMetadata.url || '';
+    const src = imageMetadata.secure_url || imageMetadata.url || '';
 
     const toggleImagePreview = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();

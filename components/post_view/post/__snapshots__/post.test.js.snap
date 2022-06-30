@@ -51,6 +51,7 @@ exports[`Post should handle highlighting properly when jumping to pinned or flag
       </div>
       <div>
         <Connect(PostHeader)
+          colorizeUsernames={false}
           compactDisplay={false}
           handleCardClick={[Function]}
           handleCommentClick={[Function]}
@@ -148,6 +149,7 @@ exports[`Post should handle highlighting properly when jumping to pinned or flag
       </div>
       <div>
         <Connect(PostHeader)
+          colorizeUsernames={false}
           compactDisplay={false}
           handleCardClick={[Function]}
           handleCommentClick={[Function]}
@@ -245,6 +247,7 @@ exports[`Post should not remove post--highlight class after timeout so the class
       </div>
       <div>
         <Connect(PostHeader)
+          colorizeUsernames={false}
           compactDisplay={false}
           handleCardClick={[Function]}
           handleCommentClick={[Function]}
@@ -342,6 +345,7 @@ exports[`Post should not remove post--highlight class after timeout so the class
       </div>
       <div>
         <Connect(PostHeader)
+          colorizeUsernames={false}
           compactDisplay={false}
           handleCardClick={[Function]}
           handleCommentClick={[Function]}
