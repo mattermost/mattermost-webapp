@@ -4,13 +4,14 @@
 import React from 'react';
 import {render} from '@testing-library/react';
 import {IntlProvider} from 'react-intl';
-import configureStore from 'redux-mock-store';
 import {Provider} from 'react-redux';
 
 import SearchDateProvider from 'components/suggestion/search_date_provider';
 import SearchChannelProvider from 'components/suggestion/search_channel_provider';
 import SearchUserProvider from 'components/suggestion/search_user_provider';
 import en from 'i18n/en.json';
+
+import mockStore from 'tests/test_store';
 
 import SearchBar from './search_bar.tsx';
 
@@ -38,7 +39,6 @@ const wrapIntl = (component) => (
 );
 
 describe('components/search_bar/SearchBar', () => {
-    const mockStore = configureStore();
     const store = mockStore({});
 
     const wrapStore = (component) => (

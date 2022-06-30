@@ -91,7 +91,7 @@ export default function InviteView(props: Props) {
             onClick={copyText.onClick}
             data-testid='InviteView__copyInviteLink'
             aria-label='team invite link'
-            className='InviteView__copyLink tertiary-button'
+            className='InviteView__copyLink'
         >
             {!copyText.copiedRecently && (
                 <>
@@ -172,8 +172,8 @@ export default function InviteView(props: Props) {
                             inviteType: (
                                 props.inviteType === InviteType.MEMBER ?
                                     <FormattedMessage
-                                        id='invite_modal.members'
-                                        defaultMessage='members'
+                                        id='invite_modal.people'
+                                        defaultMessage='people'
                                     /> :
                                     <FormattedMessage
                                         id='invite_modal.guests'
