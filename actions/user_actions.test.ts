@@ -12,7 +12,7 @@ import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 
 import * as UserActions from 'actions/user_actions';
 import store from 'stores/redux_store';
-import TestHelper from 'tests/helpers/client-test-helper';
+import TestHelper from 'packages/mattermost-redux/test/test_helper';
 
 import {GlobalState} from 'types/store';
 
@@ -537,7 +537,10 @@ describe('Actions.User', () => {
         const user = TestHelper.fakeUser();
 
         const profiles = {
-            [user.id]: user,
+            current_user_id: {
+                ...user,
+                id: 'current_user_id',
+            },
         };
 
         const channels = {

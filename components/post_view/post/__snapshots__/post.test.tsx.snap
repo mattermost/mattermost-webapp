@@ -53,11 +53,14 @@ exports[`Post should handle highlighting properly when jumping to pinned or flag
         <Connect(PostHeader)
           colorizeUsernames={false}
           compactDisplay={false}
+          enablePostUsernameOverride={false}
           handleCardClick={[Function]}
           handleCommentClick={[Function]}
           handleDropdownOpened={[Function]}
           hover={false}
+          isBot={false}
           isFirstReply={true}
+          isGuest={false}
           post={
             Object {
               "id": "post1",
@@ -151,11 +154,14 @@ exports[`Post should handle highlighting properly when jumping to pinned or flag
         <Connect(PostHeader)
           colorizeUsernames={false}
           compactDisplay={false}
+          enablePostUsernameOverride={false}
           handleCardClick={[Function]}
           handleCommentClick={[Function]}
           handleDropdownOpened={[Function]}
           hover={false}
+          isBot={false}
           isFirstReply={true}
+          isGuest={false}
           post={
             Object {
               "id": "post1",
@@ -249,11 +255,14 @@ exports[`Post should not remove post--highlight class after timeout so the class
         <Connect(PostHeader)
           colorizeUsernames={false}
           compactDisplay={false}
+          enablePostUsernameOverride={false}
           handleCardClick={[Function]}
           handleCommentClick={[Function]}
           handleDropdownOpened={[Function]}
           hover={false}
+          isBot={false}
           isFirstReply={true}
+          isGuest={false}
           post={
             Object {
               "id": "post1",
@@ -347,11 +356,14 @@ exports[`Post should not remove post--highlight class after timeout so the class
         <Connect(PostHeader)
           colorizeUsernames={false}
           compactDisplay={false}
+          enablePostUsernameOverride={false}
           handleCardClick={[Function]}
           handleCommentClick={[Function]}
           handleDropdownOpened={[Function]}
           hover={false}
+          isBot={false}
           isFirstReply={true}
+          isGuest={false}
           post={
             Object {
               "id": "post1",

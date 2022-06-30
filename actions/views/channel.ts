@@ -411,9 +411,9 @@ export function syncPostsInChannel(channelId: string, since: number, prefetch = 
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const time = Date.now();
         const state = getState();
-        const socketStatus = getSocketStatus(state);
+        const socketStatus = getSocketStatus(state as GlobalState);
         let sinceTimeToGetPosts = since;
-        const lastPostsApiCallForChannel = getLastPostsApiTimeForChannel(state as unknown as GlobalState, channelId);
+        const lastPostsApiCallForChannel = getLastPostsApiTimeForChannel(state as GlobalState, channelId);
         const actions = [];
 
         if (lastPostsApiCallForChannel && lastPostsApiCallForChannel < socketStatus.lastDisconnectAt) {
