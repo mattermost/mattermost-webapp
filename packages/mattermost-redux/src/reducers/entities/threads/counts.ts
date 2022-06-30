@@ -4,7 +4,7 @@
 import {ChannelTypes, TeamTypes, ThreadTypes, UserTypes} from 'mattermost-redux/action_types';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {ThreadsState, UserThread} from '@mattermost/types/threads';
-import {Team, TeamUnread} from '@mattermost/types/teams';
+import {Team} from '@mattermost/types/teams';
 
 import Constants from 'utils/constants';
 
@@ -199,21 +199,6 @@ export function countsReducer(state: ThreadsState['counts'] = {}, action: Generi
     case ChannelTypes.RECEIVED_CHANNEL_DELETED:
     case ChannelTypes.LEAVE_CHANNEL:
         return handleLeaveChannel(state, action, extra);
-    case TeamTypes.RECEIVED_MY_TEAM_UNREADS: {
-        const members = action.data;
-        return {
-            ...state,
-            ...members.reduce((result: ThreadsState['counts'], member: TeamUnread) => {
-                result[member.team_id] = {
-                    ...state[member.team_id],
-                    total_unread_threads: member.thread_count || 0,
-                    total_unread_mentions: member.thread_mention_count || 0,
-                };
-
-                return result;
-            }, {}),
-        };
-    }
     case ThreadTypes.DECREMENT_THREAD_COUNTS: {
         const {channelType} = action;
         if (channelType === Constants.DM_CHANNEL || channelType === Constants.GM_CHANNEL) {

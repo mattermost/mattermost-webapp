@@ -228,7 +228,6 @@ export function reconnect(includeWebSocket = true) {
         StatusActions.loadStatusesForChannelAndSidebar();
 
         const crtEnabled = isCollapsedThreadsEnabled(state);
-        dispatch(TeamActions.getMyTeamUnreads(crtEnabled, true));
         if (crtEnabled) {
             const teams = getMyTeams(state);
             syncThreads(currentTeamId, currentUserId);
@@ -789,7 +788,6 @@ async function handleTeamAddedEvent(msg) {
     await dispatch(TeamActions.getTeam(msg.data.team_id));
     await dispatch(TeamActions.getMyTeamMembers());
     const state = getState();
-    await dispatch(TeamActions.getMyTeamUnreads(isCollapsedThreadsEnabled(state)));
     const license = getLicense(state);
     if (license.Cloud === 'true') {
         dispatch(getTeamsUsage());

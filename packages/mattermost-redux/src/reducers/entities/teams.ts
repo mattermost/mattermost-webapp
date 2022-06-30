@@ -1,10 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {combineReducers} from 'redux';
 
 import {AdminTypes, ChannelTypes, TeamTypes, UserTypes, SchemeTypes, GroupTypes} from 'mattermost-redux/action_types';
 import {teamListToMap} from 'mattermost-redux/utils/team_utils';
-import {Team, TeamMembership, TeamUnread} from '@mattermost/types/teams';
+import {Team, TeamMembership} from '@mattermost/types/teams';
 import {UserProfile} from '@mattermost/types/users';
 import {RelationOneToOne, IDMappedObjects} from '@mattermost/types/utilities';
 import {GenericAction} from 'mattermost-redux/types/actions';
@@ -136,26 +137,6 @@ function myMembers(state: RelationOneToOne<Team, TeamMembership> = {}, action: G
         updateState(receivedTeams, nextState);
         return nextState;
     }
-    case TeamTypes.RECEIVED_MY_TEAM_UNREADS: {
-        const nextState = {...state};
-        const unreads = action.data;
-        for (const u of unreads) {
-            const msgCount = u.msg_count < 0 ? 0 : u.msg_count;
-            const mentionCount = u.mention_count < 0 ? 0 : u.mention_count;
-            const msgCountRoot = u.msg_count_root < 0 ? 0 : u.msg_count_root;
-            const mentionCountRoot = u.mention_count_root < 0 ? 0 : u.mention_count_root;
-            const m = {
-                ...state[u.team_id],
-                mention_count: mentionCount,
-                msg_count: msgCount,
-                mention_count_root: mentionCountRoot,
-                msg_count_root: msgCountRoot,
-            };
-            nextState[u.team_id] = m;
-        }
-
-        return nextState;
-    }
     case ChannelTypes.INCREMENT_UNREAD_MSG_COUNT: {
         const {teamId, amount, amountRoot, onlyMentions} = action.data;
         const member = state[teamId];
@@ -232,7 +213,6 @@ function myMembers(state: RelationOneToOne<Team, TeamMembership> = {}, action: G
             },
         };
     }
-
     case TeamTypes.LEAVE_TEAM:
     case TeamTypes.RECEIVED_TEAM_DELETED: {
         const nextState = {...state};
@@ -243,7 +223,6 @@ function myMembers(state: RelationOneToOne<Team, TeamMembership> = {}, action: G
     case TeamTypes.UPDATED_TEAM_MEMBER_SCHEME_ROLES: {
         return updateMyTeamMemberSchemeRoles(state, action);
     }
-
     case ChannelTypes.POST_UNREAD_SUCCESS: {
         const {teamId, deltaMsgs, mentionCount, msgCount} = action.data;
 
@@ -259,26 +238,6 @@ function myMembers(state: RelationOneToOne<Team, TeamMembership> = {}, action: G
         };
 
         return {...state, [teamId]: newTeamState};
-    }
-
-    case UserTypes.LOGIN: {// Used by the mobile app
-        const {teamMembers, teamUnreads} = action.data;
-        const nextState = {...state};
-
-        for (const m of teamMembers) {
-            if (m.delete_at == null || m.delete_at === 0) {
-                const unread = teamUnreads.find((u: TeamUnread) => u.team_id === m.team_id);
-                if (unread) {
-                    m.mention_count = unread.mention_count;
-                    m.msg_count = unread.msg_count;
-                    m.mention_count_root = unread.mention_count_root;
-                    m.msg_count_root = unread.msg_count_root;
-                }
-                nextState[m.team_id] = m;
-            }
-        }
-
-        return nextState;
     }
     case UserTypes.LOGOUT_SUCCESS:
         return {};

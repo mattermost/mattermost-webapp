@@ -11,7 +11,7 @@ import {UserProfile, UserStatus, GetFilteredUsersStatsOpts, UsersStats, UserCust
 import {UserTypes, AdminTypes, GeneralTypes, PreferenceTypes, TeamTypes, RoleTypes} from 'mattermost-redux/action_types';
 
 import {setServerVersion, getClientConfig, getLicenseConfig} from 'mattermost-redux/actions/general';
-import {getMyTeams, getMyTeamMembers, getMyTeamUnreads} from 'mattermost-redux/actions/teams';
+import {getMyTeams, getMyTeamMembers} from 'mattermost-redux/actions/teams';
 import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
 import {bindClientFunc, forceLogoutIfNecessary, debounce} from 'mattermost-redux/actions/helpers';
 import {logError} from 'mattermost-redux/actions/errors';
@@ -166,9 +166,6 @@ export function loadMeREST(): ActionFunc {
                 dispatch(getMyTeams()),
                 dispatch(getMyTeamMembers()),
             ]);
-
-            const isCollapsedThreads = isCollapsedThreadsEnabled(state);
-            await dispatch(getMyTeamUnreads(isCollapsedThreads));
         } catch (error) {
             dispatch(logError(error));
             return {error};

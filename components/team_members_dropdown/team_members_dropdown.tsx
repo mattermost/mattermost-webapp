@@ -74,7 +74,6 @@ export default class TeamMembersDropdown extends React.PureComponent<Props, Stat
                 this.props.actions.getTeamMember(this.props.teamMember.team_id, this.props.user.id);
                 if (this.props.user.id === me.id) {
                     await this.props.actions.getMyTeamMembers();
-                    this.props.actions.getMyTeamUnreads(this.props.collapsedThreads);
                 }
             }
         }

@@ -227,9 +227,6 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
             GlobalActions.emitCloseRightHandSide();
         }
 
-        // If current team is set, then this is not first load
-        // The first load action pulls team unreads
-        this.props.actions.getMyTeamUnreads(this.props.collapsedThreads);
         this.props.actions.selectTeam(team);
         this.props.actions.setPreviousTeamId(team.id);
 
