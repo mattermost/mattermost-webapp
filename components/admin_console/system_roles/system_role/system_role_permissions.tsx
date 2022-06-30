@@ -195,6 +195,10 @@ export default class SystemRolePermissions extends React.PureComponent<Props, St
             ...SECTIONS_BY_ROLES,
         };
 
+        if (this.props.role.name === Constants.PERMISSIONS_SYSTEM_CUSTOM_GROUP_ADMIN) {
+            return 'This is where the description for the custom group admin goes';
+        }
+
         if (this.props.role.name === Constants.PERMISSIONS_SYSTEM_USER_MANAGER) {
             let permissionsToShow: Record<string, boolean> = {};
             Object.keys(permissionsMap).forEach((permission) => {

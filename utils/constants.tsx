@@ -1759,6 +1759,7 @@ export const Constants = {
     PERMISSIONS_DELETE_POST_ALL: 'all',
     PERMISSIONS_DELETE_POST_TEAM_ADMIN: 'team_admin',
     PERMISSIONS_DELETE_POST_SYSTEM_ADMIN: 'system_admin',
+    PERMISSIONS_SYSTEM_CUSTOM_GROUP_ADMIN: 'system_custom_group_admin',
     ALLOW_EDIT_POST_ALWAYS: 'always',
     ALLOW_EDIT_POST_NEVER: 'never',
     ALLOW_EDIT_POST_TIME_LIMIT: 'time_limit',

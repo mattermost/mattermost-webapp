@@ -47,7 +47,7 @@ import './system_roles.scss';
 export default class SystemRoles extends React.PureComponent<Props> {
     render() {
         const {roles} = this.props;
-        const roleNames = ['system_admin', 'system_manager', 'system_user_manager', 'system_read_only_admin'];
+        const roleNames = ['system_admin', 'system_manager', 'system_user_manager', 'system_custom_group_admin', 'system_read_only_admin'];
         const rows: Row[] = [];
         roleNames.forEach((name) => {
             const role = roles[name];
