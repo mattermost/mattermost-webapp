@@ -54,7 +54,7 @@ type Props = {
      * Array of Ids in the channel including date separators, new message indicator, more messages loader,
      * manual load messages trigger and postId in the order of newest to oldest for populating virtual list rows
      */
-    postListIds: string[];
+    postListIds?: string[];
 
     /*
      * The current channel id
@@ -183,15 +183,15 @@ export default class PostList extends React.PureComponent<Props, State> {
 
         let postIndex = 0;
         if (props.focusedPostId) {
-            postIndex = this.props.postListIds.findIndex((postId) => postId === this.props.focusedPostId);
+            postIndex = (this.props.postListIds || []).findIndex((postId) => postId === this.props.focusedPostId);
         } else {
-            postIndex = this.getNewMessagesSeparatorIndex(props.postListIds);
+            postIndex = this.getNewMessagesSeparatorIndex(props.postListIds || []);
         }
 
         const maxPostsForSlicing = props.focusedPostId ? MAXIMUM_POSTS_FOR_SLICING.permalink : MAXIMUM_POSTS_FOR_SLICING.channel;
         this.initRangeToRender = [
             Math.max(postIndex - 30, 0),
-            Math.max(postIndex + 30, Math.min(props.postListIds.length - 1, maxPostsForSlicing)),
+            Math.max(postIndex + 30, Math.min((props.postListIds || []).length - 1, maxPostsForSlicing)),
         ];
 
         this.showSearchHintThreshold = this.getShowSearchHintThreshold();
@@ -207,7 +207,7 @@ export default class PostList extends React.PureComponent<Props, State> {
 
     getSnapshotBeforeUpdate(prevProps: Props) {
         if (this.postListRef && this.postListRef.current) {
-            const postsAddedAtTop = this.props.postListIds && this.props.postListIds.length !== prevProps.postListIds.length && this.props.postListIds[0] === prevProps.postListIds[0];
+            const postsAddedAtTop = this.props.postListIds && this.props.postListIds.length !== (prevProps.postListIds || []).length && this.props.postListIds[0] === (prevProps.postListIds || [])[0];
             const channelHeaderAdded = this.props.atOldestPost !== prevProps.atOldestPost;
             if ((postsAddedAtTop || channelHeaderAdded) && this.state.atBottom === false) {
                 const postListNode = this.postListRef.current;
@@ -231,12 +231,12 @@ export default class PostList extends React.PureComponent<Props, State> {
         if (!this.postListRef.current) {
             return;
         }
-        const prevPostsCount = prevProps.postListIds.length;
-        const presentPostsCount = this.props.postListIds.length;
+        const prevPostsCount = (prevProps.postListIds || []).length;
+        const presentPostsCount = (this.props.postListIds || []).length;
 
         if (snapshot) {
             const postlistScrollHeight = this.postListRef.current.scrollHeight;
-            const postsAddedAtTop = presentPostsCount !== prevPostsCount && this.props.postListIds[0] === prevProps.postListIds[0];
+            const postsAddedAtTop = presentPostsCount !== prevPostsCount && (this.props.postListIds || [])[0] === (prevProps.postListIds || [])[0];
             const channelHeaderAdded = this.props.atOldestPost !== prevProps.atOldestPost;
             if ((postsAddedAtTop || channelHeaderAdded) && !this.state.atBottom && snapshot) {
                 const scrollValue = snapshot.previousScrollTop + (postlistScrollHeight - snapshot.previousScrollHeight);
@@ -255,7 +255,7 @@ export default class PostList extends React.PureComponent<Props, State> {
     }
 
     static getDerivedStateFromProps(props: Props, state: State) {
-        const postListIds = props.postListIds;
+        const postListIds = props.postListIds || [];
         let newPostListIds;
 
         if (props.atOldestPost) {
