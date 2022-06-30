@@ -4,7 +4,7 @@
 import React, {useEffect, useState} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 import {isEmpty} from 'lodash';
-import {Modal} from 'react-bootstrap';
+import {Modal, Spinner} from 'react-bootstrap';
 
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -36,6 +36,7 @@ function DowngradeTeamRemovalModal(props: Props) {
     const dispatch = useDispatch();
     const [radioValue, setRadioValue] = useState('');
     const [dropdownValue, setDropdownValue] = useState<ValueType | undefined>();
+    const [processing, setProcessing] = useState(false);
     const intl = useIntl();
     const isCloudDowngradeChooseTeamModalOpen = useSelector(
         (state: GlobalState) =>
@@ -46,6 +47,7 @@ function DowngradeTeamRemovalModal(props: Props) {
         if (!teams) {
             dispatch(getTeams(0, 10000));
         }
+        setProcessing(true);
     }, [teams]);
     const usage = useGetUsage();
 
@@ -134,92 +136,123 @@ function DowngradeTeamRemovalModal(props: Props) {
             aria-modal='true'
             aria-labelledby='downgradeTeamRemovalModalTitle'
         >
-            <Modal.Header className='DowngradeTeamRemovalModal__header'>
-                <FormattedMessage
-                    id='downgrade_plan_modal.title'
-                    defaultMessage='Confirm Plan Downgrade'
-                />
-                <button
-                    id='closeIcon'
-                    className='icon icon-close'
-                    aria-label='Close'
-                    title='Close'
-                    onClick={onHide}
-                />
-            </Modal.Header>
-            <Modal.Body>
-                <div className='DowngradeTeamRemovalModal__body'>
-                    <div>
-                        <FormattedMessage
-                            id='downgrade_plan_modal.subtitle'
-                            defaultMessage='{planName} is restricted to {teams} team, {messages} messages, {storage} file storage, {integrations} apps, and {boards} board cards. <strong>If you downgrade, some data will be archived</strong>. Archived data can be accessible when you upgrade back'
-                            values={{
-                                strong: (msg: React.ReactNode) => (
-                                    <strong>{msg}</strong>
-                                ),
-                                planName: props.starterProductName,
-                                messages: intl.formatNumber(
-                                    fallbackStarterLimits.messages.history,
-                                ),
-                                storage: asGBString(
-                                    fallbackStarterLimits.files.totalStorage,
-                                    intl.formatNumber,
-                                ),
-                                integrations:
-                                    fallbackStarterLimits.integrations.enabled,
-                                boards: fallbackStarterLimits.boards.cards,
-                                teams: fallbackStarterLimits.teams.active,
-                            }}
-                        />
-                    </div>
-                    <div className='cta'>
-                        <FormattedMessage
-                            id='downgrade_plan_modal.whichTeamToUse'
-                            defaultMessage='Which team would you like to continue using?'
-                        />
-                    </div>
-                    <div className='DowngradeTeamRemovalModal__selectionSection'>
-                        {selectionSection()}
-                    </div>
-                    <div className='warning'>
-                        <i className='icon icon-alert-outline'/>
-                        <span className='warning-text'>
+            {processing && <>
+                <Modal.Header className='DowngradeTeamRemovalModal__header'>
+                    <FormattedMessage
+                        id='downgrade_plan_modal.titlee'
+                        defaultMessage='Downgrading...'
+                    />
+                    <button
+                        id='closeIcon'
+                        className='icon icon-close'
+                        aria-label='Close'
+                        title='Close'
+                        onClick={onHide}
+                    />
+                </Modal.Header>
+                <Modal.Body>
+                    <div className='DowngradeTeamRemovalModal__body'>
+                        <div className='cta'>
                             <FormattedMessage
-                                id='downgrade_plan_modal.alert'
-                                defaultMessage='The unselected teams will be automatically archived in the system console, but not deleted'
+                                id='downgrade_plan_modal.whichTeamToUseLodinge'
+                                defaultMessage="We're processing your downgrade. Please wait"
                             />
-
-                        </span>
+                        </div>
+                        <div className='DowngradeTeamRemovalModal__selectionSection'>
+                            {/* <Spinner animation='border'/> */}
+                        </div>
                     </div>
-                </div>
-                <div className='DowngradeTeamRemovalModal__buttons'>
+                </Modal.Body>
+
+            </>}
+            {!processing && <>
+                <Modal.Header className='DowngradeTeamRemovalModal__header'>
+                    <FormattedMessage
+                        id='downgrade_plan_modal.title'
+                        defaultMessage='Confirm Plan Downgrade'
+                    />
                     <button
-                        onClick={() =>
-                            dispatch(
-                                closeModal(
-                                    ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM,
-                                ),
-                            )
-                        }
-                        className='btn btn-light'
-                    >
-                        <FormattedMessage
-                            id='admin.team_channel_settings.cancel'
-                            defaultMessage='Cancel'
-                        />
-                    </button>
-                    <button
-                        disabled={isEmpty(radioValue) && isEmpty(dropdownValue)}
-                        onClick={onConfirmDowngrade}
-                        className='btn btn-primary'
-                    >
-                        <FormattedMessage
-                            id='downgrade_plan_modal.confirmDowngrade'
-                            defaultMessage='Confirm Downgrade'
-                        />
-                    </button>
-                </div>
-            </Modal.Body>
+                        id='closeIcon'
+                        className='icon icon-close'
+                        aria-label='Close'
+                        title='Close'
+                        onClick={onHide}
+                    />
+                </Modal.Header>
+                <Modal.Body>
+                    <div className='DowngradeTeamRemovalModal__body'>
+                        <div>
+                            <FormattedMessage
+                                id='downgrade_plan_modal.subtitle'
+                                defaultMessage='{planName} is restricted to {teams} team, {messages} messages, {storage} file storage, {integrations} apps, and {boards} board cards. <strong>If you downgrade, some data will be archived</strong>. Archived data can be accessible when you upgrade back'
+                                values={{
+                                    strong: (msg: React.ReactNode) => (
+                                        <strong>{msg}</strong>
+                                    ),
+                                    planName: props.starterProductName,
+                                    messages: intl.formatNumber(
+                                        fallbackStarterLimits.messages.history,
+                                    ),
+                                    storage: asGBString(
+                                        fallbackStarterLimits.files.totalStorage,
+                                        intl.formatNumber,
+                                    ),
+                                    integrations:
+                                        fallbackStarterLimits.integrations.enabled,
+                                    boards: fallbackStarterLimits.boards.cards,
+                                    teams: fallbackStarterLimits.teams.active,
+                                }}
+                            />
+                        </div>
+                        <div className='cta'>
+                            <FormattedMessage
+                                id='downgrade_plan_modal.whichTeamToUse'
+                                defaultMessage='Which team would you like to continue using?'
+                            />
+                        </div>
+                        <div className='DowngradeTeamRemovalModal__selectionSection'>
+                            {selectionSection()}
+                        </div>
+                        <div className='warning'>
+                            <i className='icon icon-alert-outline'/>
+                            <span className='warning-text'>
+                                <FormattedMessage
+                                    id='downgrade_plan_modal.alert'
+                                    defaultMessage='The unselected teams will be automatically archived in the system console, but not deleted'
+                                />
+
+                            </span>
+                        </div>
+                    </div>
+                    <div className='DowngradeTeamRemovalModal__buttons'>
+                        <button
+                            onClick={() =>
+                                dispatch(
+                                    closeModal(
+                                        ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM,
+                                    ),
+                                )
+                            }
+                            className='btn btn-light'
+                        >
+                            <FormattedMessage
+                                id='admin.team_channel_settings.cancel'
+                                defaultMessage='Cancel'
+                            />
+                        </button>
+                        <button
+                            disabled={isEmpty(radioValue) && isEmpty(dropdownValue)}
+                            onClick={onConfirmDowngrade}
+                            className='btn btn-primary'
+                        >
+                            <FormattedMessage
+                                id='downgrade_plan_modal.confirmDowngrade'
+                                defaultMessage='Confirm Downgrade'
+                            />
+                        </button>
+                    </div>
+                </Modal.Body>
+            </>}
         </Modal>
     );
 }
