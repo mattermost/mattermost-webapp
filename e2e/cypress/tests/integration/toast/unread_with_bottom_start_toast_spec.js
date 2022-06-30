@@ -6,10 +6,8 @@
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
-
+// Stage: @prod
 // Group: @toast
-
-import * as TIMEOUTS from '../../fixtures/timeouts';
 
 import {scrollToTop} from './helpers';
 
@@ -45,29 +43,26 @@ describe('unread_with_bottom_start_toast', () => {
     beforeEach(() => {
         // # Click on test channel then off-topic channel in LHS
         cy.uiClickSidebarItem(testChannelName);
-        cy.wait(TIMEOUTS.ONE_SEC);
 
         cy.uiClickSidebarItem('off-topic');
-        cy.wait(TIMEOUTS.ONE_SEC);
     });
 
-    it('MM-40825_1 Unread with bottom start toast is shown when visiting a channel with unreads and should disappear if scrolled to new messages indicator', () => {
+    it('MM-T4873_1 Unread with bottom start toast is shown when visiting a channel with unreads and should disappear if scrolled to new messages indicator', () => {
         // # Visit test channel to update last visited time then visit off-topic
         cy.uiClickSidebarItem(testChannelName);
+
         cy.uiClickSidebarItem('off-topic');
 
         // # Add enough messages
         for (let index = 0; index < 30; index++) {
-            cy.postMessageAs({sender: otherUser, message: `This is an old message [${index}]`, channelId: testChannelId});
+            cy.postMessageAs({sender: otherUser, message: `This is an test message [${index}]`, channelId: testChannelId});
         }
-
-        cy.wait(TIMEOUTS.ONE_SEC);
 
         // # Switch to test channel
         cy.uiClickSidebarItem(testChannelName);
 
         // * Verify the newest message is visible
-        cy.get('div.post__content').contains('This is an old message [29]').should('be.visible');
+        cy.get('div.post__content').contains('This is an test message [29]').should('be.visible');
 
         // * Verify the toast is visible with correct message
         cy.get('div.toast').should('be.visible').contains('30 new messages');
@@ -82,19 +77,17 @@ describe('unread_with_bottom_start_toast', () => {
         cy.get('div.toast').should('not.exist');
     });
 
-    it('MM-40825_2 Unread with bottom start toast should take to the new messages indicator when clicked', () => {
+    it('MM-T4873_2 Unread with bottom start toast should take to the new messages indicator when clicked', () => {
         // # Add enough messages
         for (let index = 0; index < 30; index++) {
             cy.postMessageAs({sender: otherUser, message: `This is an old message [${index}]`, channelId: testChannelId});
         }
 
-        cy.wait(TIMEOUTS.ONE_SEC);
-
         // # Visit test channel
         cy.uiClickSidebarItem(testChannelName);
 
         // * Verify the toast is visible with correct message
-        cy.get('div.toast').should('be.visible');
+        cy.get('div.toast').should('be.visible').contains('30 new messages');
 
         // # Click on toast pointer
         cy.get('div.toast__visible div.toast__pointer').should('be.visible').click();
@@ -109,7 +102,7 @@ describe('unread_with_bottom_start_toast', () => {
         cy.get('.NotificationSeparator').should('be.visible');
     });
 
-    it('MM-40825_3 Unread with bottom start toast is shown when post is marked as unread', () => {
+    it('MM-T4873_3 Unread with bottom start toast is shown when post is marked as unread', () => {
         // # Visit test channel
         cy.uiClickSidebarItem(testChannelName);
 
@@ -121,7 +114,7 @@ describe('unread_with_bottom_start_toast', () => {
             cy.uiClickPostDropdownMenu(postId, 'Mark as Unread');
         });
 
-        // # Visit off-topic channel and swtich back to test channel
+        // # Visit off-topic channel and switch back to test channel
         cy.uiClickSidebarItem('off-topic');
         cy.uiClickSidebarItem(testChannelName);
 
@@ -132,7 +125,7 @@ describe('unread_with_bottom_start_toast', () => {
         cy.get('div.toast__visible div.toast__pointer').should('be.visible').click();
 
         // * Verify unread marked post is visible
-        cy.get('div.post__content').contains('This is an old message [0]').should('be.visible');
+        cy.get('div.post__content').contains('This is an test message [0]').should('be.visible');
 
         // * Verify new messages indicator is visible
         cy.get('.NotificationSeparator').should('be.visible');
