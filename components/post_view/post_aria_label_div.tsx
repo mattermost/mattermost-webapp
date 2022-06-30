@@ -14,7 +14,6 @@ import {makeCreateAriaLabelForPost} from 'utils/post_utils';
 export type Props = React.HTMLProps<HTMLDivElement> & {
     labelPrefix?: string;
     post: Post;
-    'data-something'?: string;
 }
 
 const PostAriaLabelDiv = React.forwardRef((props: Props, ref: React.Ref<HTMLDivElement>) => {

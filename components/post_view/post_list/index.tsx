@@ -48,11 +48,11 @@ function makeMapStateToProps() {
 
     return function mapStateToProps(state: GlobalState, ownProps: Props) {
         let latestPostTimeStamp = 0;
-        let postIds: string[] = [];
+        let postIds: string[] | undefined;
         let chunk;
         let atLatestPost = false;
         let atOldestPost = false;
-        let formattedPostIds: string[] = [];
+        let formattedPostIds: string[] | undefined;
         const {focusedPostId, unreadChunkTimeStamp, channelId} = ownProps;
         const channelViewState = state.views.channel;
         const lastViewedAt = channelViewState.lastChannelViewTime[channelId];

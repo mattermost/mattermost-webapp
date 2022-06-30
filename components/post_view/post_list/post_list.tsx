@@ -11,7 +11,7 @@ import {clearMarks, mark, measure, trackEvent} from 'actions/telemetry_actions.j
 
 import VirtPostList from 'components/post_view/post_list_virtualized/post_list_virtualized';
 import {updateNewMessagesAtInChannel} from 'actions/global_actions';
-import type {loadPosts, LoadPostsReturnValue, CanLoadMorePosts} from 'actions/views/channel';
+import type {LoadPostsParameters, LoadPostsReturnValue, CanLoadMorePosts} from 'actions/views/channel';
 
 const MAX_NUMBER_OF_AUTO_RETRIES = 3;
 export const MAX_EXTRA_PAGES_LOADED = 10;
@@ -45,7 +45,7 @@ export interface Props {
      *  This will be different from postListIds because of grouping and filtering of posts
      *  This array should be used for making Before and After API calls
      */
-    formattedPostIds: string[];
+    formattedPostIds?: string[];
 
     /**
      *  Array of post ids in the channel, ordered from newest to oldest
@@ -109,7 +109,7 @@ export interface Props {
         /*
          * Used for getting posts using BEFORE_ID and AFTER_ID
          */
-        loadPosts: (parameters: Parameters<typeof loadPosts>[0]) => Promise<LoadPostsReturnValue>;
+        loadPosts: (parameters: LoadPostsParameters) => Promise<LoadPostsReturnValue>;
 
         /*
          * Used to set mobile view on resize

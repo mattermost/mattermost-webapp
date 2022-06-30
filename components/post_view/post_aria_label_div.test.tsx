@@ -91,7 +91,7 @@ describe('PostAriaLabelDiv', () => {
             ...props,
             className: 'some-class',
             'data-something': 'something',
-        };
+        } as Props;
 
         wrapper = mount(
             <PostAriaLabelDiv {...props}>
