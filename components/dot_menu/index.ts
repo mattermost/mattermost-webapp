@@ -63,6 +63,7 @@ type Props = {
     isReadOnly: boolean | null;
     enableEmojiPicker?: boolean;
     location?: ComponentProps<typeof DotMenu>['location'];
+    isMilitaryTime: boolean;
 };
 
 function mapStateToProps(state: GlobalState, ownProps: Props) {
