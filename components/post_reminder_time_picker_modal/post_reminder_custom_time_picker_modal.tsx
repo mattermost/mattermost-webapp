@@ -59,18 +59,14 @@ export default class PostReminderCustomTimePicker extends React.PureComponent<Pr
 
     getText = () => {
         const modalHeaderText = (
-
-            // TODO Change translation
             <FormattedMessage
-                id='post_reminder_custom_time_picker_modal.defaultMsg'
+                id='post_reminder.custom_time_picker_modal.header'
                 defaultMessage='Remind about post at'
             />
         );
         const confirmButtonText = (
-
-            // Todo Change translations
             <FormattedMessage
-                id='post_reminder_custom_time_picker_modal.submitButton'
+                id='post_reminder.custom_time_picker_modal.submit_button'
                 defaultMessage='Set reminder'
             />
         );

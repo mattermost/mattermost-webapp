@@ -462,12 +462,11 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
 
     postReminderTimes = [
 
-        // TODO update translation strings
-        {id: 'thirty_minutes', label: 'status_dropdown.dnd_sub_menu_item.thirty_minutes', labelDefault: '30 mins'},
-        {id: 'one_hour', label: 'status_dropdown.dnd_sub_menu_item.one_hour', labelDefault: '1 hour'},
-        {id: 'two_hours', label: 'status_dropdown.dnd_sub_menu_item.two_hours', labelDefault: '2 hours'},
-        {id: 'tomorrow', label: 'status_dropdown.dnd_sub_menu_item.tomorrow', labelDefault: 'Tomorrow'},
-        {id: 'custom', label: 'status_dropdown.dnd_sub_menu_item.custom', labelDefault: 'Custom'},
+        {id: 'thirty_minutes', label: 'post_info.post_reminder.sub_menu.thirty_minutes', labelDefault: '30 mins'},
+        {id: 'one_hour', label: 'post_info.post_reminder.sub_menu.one_hour', labelDefault: '1 hour'},
+        {id: 'two_hours', label: 'post_info.post_reminder.sub_menu.two_hours', labelDefault: '2 hours'},
+        {id: 'tomorrow', label: 'post_info.post_reminder.sub_menu.tomorrow', labelDefault: 'Tomorrow'},
+        {id: 'custom', label: 'post_info.post_reminder.sub_menu.custom', labelDefault: 'Custom'},
     ];
 
     render(): JSX.Element {
@@ -483,7 +482,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         const headerText = (
             <>
                 <span className={'postReminderMenuHeader'}>
-                    {Utils.localizeMessage('status_dropdown.post_reminder_sub_menu_header', 'Remind after:')}
+                    {Utils.localizeMessage('post_info.post_reminder.sub_menu.header', 'Remind after:')}
                 </span>
             </>
         );
@@ -624,20 +623,14 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         onClick={this.handleFlagMenuItemActivated}
                     />
                     <Menu.ItemSubMenu
-                        subMenu={postReminderSubMenuItems}
-                        showMenu={!isSystemMessage}
-                        subMenuClass={this.props.location === Locations.CENTER ? 'postReminderSubMenu' : 'postReminderSubMenuRHS'}
-
-                        // TODO: translations
-                        // text={Utils.localizeMessage('status_dropdown.set_dnd', 'Do not disturb')}
-                        text={'Remind'}
-                        icon={Utils.getMenuItemIcon('icon-clock-outline')}
-
-                        // rightDecorator={<ShortcutKey shortcutKey='A'/>}
                         direction={'left'}
-
-                        openUp={this.state.openUp}
+                        icon={Utils.getMenuItemIcon('icon-clock-outline')}
                         id={`remind_post_${this.props.post.id}`}
+                        openUp={this.state.openUp}
+                        showMenu={!isSystemMessage}
+                        subMenu={postReminderSubMenuItems}
+                        subMenuClass={this.props.location === Locations.CENTER ? 'postReminderSubMenu' : 'postReminderSubMenuRHS'}
+                        text={Utils.localizeMessage('post_info.post_reminder.menu', 'Remind')}
                     />
                     <Menu.ItemAction
                         id={`unpin_post_${this.props.post.id}`}
