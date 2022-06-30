@@ -41,6 +41,9 @@ function simulateSubscription(subscription) {
 describe('Pricing modal', () => {
     let urlL;
 
+    // let createdUser;
+    // let createdTeam;
+
     before(() => {
         // * Check if server has license for Cloud
         cy.apiRequireLicenseForFeature('Cloud');
@@ -54,6 +57,9 @@ describe('Pricing modal', () => {
         };
         cy.apiInitSetup().then(({user, offTopicUrl: url}) => {
             urlL = url;
+
+            // createdUser = user;
+            // createdTeam = team;
             simulateSubscription(subscription);
             cy.apiLogin(user);
             cy.visit(url);
@@ -62,6 +68,104 @@ describe('Pricing modal', () => {
         // * Check that Upgrade button does not show
         cy.get('#UpgradeButton').should('not.exist');
     });
+
+    // it('should not ping admin twice before cool off period', () => {
+    //     const subscription = {
+    //         id: 'sub_test1',
+    //         product_id: 'prod_1',
+    //         is_free_trial: 'false',
+    //     };
+
+    //     simulateSubscription(subscription);
+    //     cy.apiLogout();
+    //     cy.apiLogin(createdUser);
+    //     cy.visit(urlL);
+
+    //     // # Open the pricing modal
+    //     cy.get('#UpgradeButton').should('exist').click();
+
+    //     // # Click NotifyAdmin CTA
+    //     cy.get('#notify_admin_cta').click();
+
+    //     // * Check that notified the admin
+    //     cy.get('#notify_admin_cta').contains('Notified!');
+
+    //     // # Click NotifyAdmin CTA again
+    //     cy.get('#notify_admin_cta').click();
+
+    //     // * Notifying the admin again is forbidden depending on server notification cool off time
+    //     cy.get('#notify_admin_cta').contains('Already notified!');
+    // });
+
+    // it('should ping admin when NotifyAdmin CTA is clicked for non admin users while in Starter', () => {
+    //     const subscription = {
+    //         id: 'sub_test1',
+    //         product_id: 'prod_1',
+    //         is_free_trial: 'false',
+    //     };
+
+    //     simulateSubscription(subscription);
+    //     cy.apiLogout();
+    //     cy.apiLogin(createdUser);
+    //     cy.visit(urlL);
+
+    //     // # Open the pricing modal
+    //     cy.get('#UpgradeButton').should('exist').click();
+
+    //     // # Click NotifyAdmin CTA
+    //     cy.get('#notify_admin_cta').click();
+
+    //     // * Check that notified the admin
+    //     cy.get('#notify_admin_cta').contains('Notified!');
+
+    //     // # Switch to admin view to check system-bot message
+    //     cy.apiLogout();
+    //     cy.apiAdminLogin();
+    //     cy.visit(urlL);
+
+    //     // # Open system-bot and admin DM
+    //     cy.get('.SidebarChannelLinkLabel').contains('system-bot').click();
+
+    //     // * Check for the post from the system-bot
+    //     cy.getLastPostId().then((postId) => {
+    //         cy.get(`#${postId}_message`).contains(`A member of ${createdTeam.name} has notified you to upgrade this workspace.`);
+    //     });
+    // });
+
+    // it('should ping admin when NotifyAdmin CTA is clicked for non admin users while in Enterprise Trial', () => {
+    //     const subscription = {
+    //         id: 'sub_test1',
+    //         product_id: 'prod_3',
+    //         is_free_trial: 'true',
+    //     };
+
+    //     simulateSubscription(subscription);
+    //     cy.apiLogout();
+    //     cy.apiLogin(createdUser);
+    //     cy.visit(urlL);
+
+    //     // # Open the pricing modal
+    //     cy.get('#UpgradeButton').should('exist').click();
+
+    //     // # Click NotifyAdmin CTA
+    //     cy.get('#notify_admin_cta').click();
+
+    //     // * Check that notified the admin
+    //     cy.get('#notify_admin_cta').contains('Notified!');
+
+    //     // # Switch to admin view to check system-bot message
+    //     cy.apiLogout();
+    //     cy.apiAdminLogin();
+    //     cy.visit(urlL);
+
+    //     // # Open system-bot and admin DM
+    //     cy.get('.SidebarChannelLinkLabel').contains('system-bot').click();
+
+    //     // * Check for the post from the system-bot
+    //     cy.getLastPostId().then((postId) => {
+    //         cy.get(`#${postId}_message`).contains(`A member of ${createdTeam.name} has notified you to upgrade this workspace.`);
+    //     });
+    // });
 
     it('should show Upgrade button in global header for admin users and starter sku', () => {
         const subscription = {
