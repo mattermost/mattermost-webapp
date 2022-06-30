@@ -149,6 +149,7 @@ class ToastWrapper extends React.PureComponent {
 
         if (
             typeof showUnreadWithBottomStartToast === 'undefined' &&
+            props.lastViewedAt &&
             props.lastViewedAt !== prevState.lastViewedAt &&
             props.shouldStartFromBottomWhenUnread &&
             unreadCount > 0 &&
