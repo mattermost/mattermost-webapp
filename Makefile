@@ -65,6 +65,7 @@ package-ci: ## used in the CI to build the package and bypass the npm install
 	@echo Building mattermost Webapp
 
 	rm -rf dist
+	npm install --workspace=packages/mattermost-components
 	npm run build --workspace=packages/mattermost-components
 	npm run build
 
