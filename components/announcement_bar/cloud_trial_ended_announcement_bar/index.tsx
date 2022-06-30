@@ -9,7 +9,12 @@ import {useSelector, useDispatch} from 'react-redux';
 import {t} from 'utils/i18n';
 
 import AnnouncementBar from '../default_announcement_bar';
-import {AnnouncementBarTypes, Preferences, CloudBanners} from 'utils/constants';
+import {
+    AnnouncementBarTypes,
+    Preferences,
+    CloudBanners,
+    CloudProducts,
+} from 'utils/constants';
 import {anyUsageDeltaExceededLimit} from 'utils/limits';
 import {GlobalState} from 'types/store';
 import useGetUsageDeltas from 'components/common/hooks/useGetUsageDeltas';
@@ -25,7 +30,6 @@ import {
 import {
     getSubscriptionProduct,
 } from 'mattermost-redux/selectors/entities/cloud';
-import {CloudProducts} from 'utils/constants';
 
 const CloudTrialEndAnnouncementBar: React.FC = () => {
     const usageDeltas = useGetUsageDeltas();
