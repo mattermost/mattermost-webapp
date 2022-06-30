@@ -3,7 +3,6 @@
 
 import {connect} from 'react-redux';
 import {Dispatch, bindActionCreators, ActionCreatorsMapObject} from 'redux';
-import {withRouter} from 'react-router-dom';
 
 import {getRecentPostsChunkInChannel, makeGetPostsChunkAroundPost, getUnreadPostsChunk, getPost} from 'mattermost-redux/selectors/entities/posts';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
@@ -36,9 +35,9 @@ const memoizedGetLatestPostId = memoizeResult((postIds: string[]) => getLatestPo
 // This causes the scroll correction etc an issue because post_list is not mounted for new channel instead it is updated
 
 interface Props {
-    focusedPostId: string;
+    focusedPostId?: string;
     unreadChunkTimeStamp: number;
-    changeUnreadChunkTimeStamp: (lastViewedAt?: string) => void;
+    changeUnreadChunkTimeStamp: (lastViewedAt: number) => void;
     channelId: string;
 }
 
@@ -46,7 +45,7 @@ function makeMapStateToProps() {
     const getPostsChunkAroundPost = makeGetPostsChunkAroundPost();
     const preparePostIdsForPostList = makePreparePostIdsForPostList();
 
-    return function mapStateToProps(state: GlobalState, ownProps: Props) {
+    return function mapStateToProps(state: GlobalState, ownProps: Pick<Props, 'focusedPostId' | 'unreadChunkTimeStamp' | 'channelId'>) {
         let latestPostTimeStamp = 0;
         let postIds: string[] | undefined;
         let chunk;
@@ -58,7 +57,7 @@ function makeMapStateToProps() {
         const lastViewedAt = channelViewState.lastChannelViewTime[channelId];
         const isPrefetchingInProcess = channelViewState.channelPrefetchStatus[channelId] === RequestStatus.STARTED;
 
-        const focusedPost = getPost(state, focusedPostId);
+        const focusedPost = getPost(state, focusedPostId || '');
 
         if (focusedPostId && focusedPost !== undefined) {
             chunk = getPostsChunkAroundPost(state, focusedPostId, channelId);
@@ -113,4 +112,4 @@ function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
-export default withRouter(connect<any, any, any>(makeMapStateToProps, mapDispatchToProps)(PostList));
+export default connect(makeMapStateToProps, mapDispatchToProps)(PostList);

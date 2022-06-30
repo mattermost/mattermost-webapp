@@ -50,7 +50,7 @@ export interface Props {
     /**
      *  Array of post ids in the channel, ordered from newest to oldest
      */
-    postListIds: string[];
+    postListIds?: string[];
 
     /**
      * The channel the posts are in
@@ -85,7 +85,7 @@ export interface Props {
     /*
      * Used for passing down to virt list so it can change the chunk of posts selected
      */
-    changeUnreadChunkTimeStamp: (lastViewedAt?: string) => void;
+    changeUnreadChunkTimeStamp: (lastViewedAt: number) => void;
 
     /*
      * Used for skipping the call on load
@@ -93,6 +93,8 @@ export interface Props {
     isPrefetchingInProcess: boolean;
 
     isMobileView: boolean;
+
+    lastViewedAt: number;
 
     actions: {
 
@@ -147,7 +149,7 @@ export default class PostList extends React.PureComponent<Props, State> {
         loadNewerPosts: () => Promise<void>;
         checkAndSetMobileView: () => void;
         canLoadMorePosts: (type: CanLoadMorePosts) => Promise<void>;
-        changeUnreadChunkTimeStamp: (lastViewedAt?: string) => void;
+        changeUnreadChunkTimeStamp: (lastViewedAt: number) => void;
         updateNewMessagesAtInChannel: typeof updateNewMessagesAtInChannel;
     }
     private mounted: boolean | undefined;
@@ -266,11 +268,11 @@ export default class PostList extends React.PureComponent<Props, State> {
     }
 
     getOldestVisiblePostId = () => {
-        return getOldestPostId(this.props.postListIds);
+        return getOldestPostId(this.props.postListIds || []);
     }
 
     getLatestVisiblePostId = () => {
-        return getLatestPostId(this.props.postListIds);
+        return getLatestPostId(this.props.postListIds || []);
     }
 
     canLoadMorePosts = async (type: CanLoadMorePosts = PostRequestTypes.BEFORE_ID) => {
@@ -363,6 +365,7 @@ export default class PostList extends React.PureComponent<Props, State> {
                             postListIds={this.props.formattedPostIds}
                             latestPostTimeStamp={this.props.latestPostTimeStamp}
                             isMobileView={this.props.isMobileView}
+                            lastViewedAt={this.props.lastViewedAt}
                         />
                     </div>
                 </div>

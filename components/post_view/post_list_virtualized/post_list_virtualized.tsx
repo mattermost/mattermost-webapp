@@ -85,7 +85,7 @@ type Props = {
     atLatestPost?: boolean;
 
     latestPostTimeStamp?: number;
-    lastViewedAt?: string;
+    lastViewedAt: number;
 
     /*
      * Set to focus this post
@@ -116,7 +116,7 @@ type Props = {
         /*
          * Function to change the post selected for postList
          */
-        changeUnreadChunkTimeStamp: (lastViewedAt?: string) => void;
+        changeUnreadChunkTimeStamp: (lastViewedAt: number) => void;
 
         updateNewMessagesAtInChannel: typeof updateNewMessagesAtInChannel;
 
@@ -370,7 +370,7 @@ export default class PostList extends React.PureComponent<Props, State> {
 
     scrollToFailed = (index: number) => {
         if (index === 0) {
-            this.props.actions.changeUnreadChunkTimeStamp('');
+            this.props.actions.changeUnreadChunkTimeStamp(0);
         } else {
             this.props.actions.changeUnreadChunkTimeStamp(this.props.lastViewedAt);
         }
@@ -556,7 +556,7 @@ export default class PostList extends React.PureComponent<Props, State> {
             this.scrollToBottom();
         } else {
             this.updateNewMessagesAtInChannel();
-            this.props.actions.changeUnreadChunkTimeStamp('');
+            this.props.actions.changeUnreadChunkTimeStamp(0);
         }
     }
 
