@@ -48,7 +48,7 @@ node_modules: package.json package-lock.json build-packages
 build-packages:
 	@echo Building packages for convenience
 
-	npm install --workspace=packages/mattermost-components
+	cd packages/mattermost-components && npm install
 	npm run build --workspace=packages/mattermost-components
 	touch $@
 
@@ -65,7 +65,7 @@ package-ci: ## used in the CI to build the package and bypass the npm install
 	@echo Building mattermost Webapp
 
 	rm -rf dist
-	npm install --workspace=packages/mattermost-components
+	cd packages/mattermost-components && npm install
 	npm run build --workspace=packages/mattermost-components
 	npm run build
 
