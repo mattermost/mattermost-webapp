@@ -73,4 +73,4 @@ function makeMapStateToProps() {
     };
 }
 
-export default withRouter(connect(makeMapStateToProps)(PostView) as any);
+export default withRouter(connect(makeMapStateToProps)(PostView));
