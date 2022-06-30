@@ -1,10 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useCallback, useEffect} from 'react';
-import {FormattedMessage} from 'react-intl';
+import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {debounce} from 'lodash';
+
+import {FormattedMessage} from 'react-intl';
 
 import {UserProfile} from '@mattermost/types/users';
 import {Channel, ChannelMembership} from '@mattermost/types/channels';
@@ -22,15 +23,14 @@ import SearchBar from './search';
 const USERS_PER_PAGE = 100;
 export interface ChannelMember {
     user: UserProfile;
-    membership: ChannelMembership;
-    status: string;
+    membership?: ChannelMembership;
+    status?: string;
     displayName: string;
 }
 
 const MembersContainer = styled.div`
-    flex: 1;
+    flex: 1 1 auto;
     padding: 0 4px 16px;
-    overflow-y: auto;
 `;
 
 export interface Props {
@@ -40,7 +40,6 @@ export interface Props {
     canGoBack: boolean;
     teamUrl: string;
     channelMembers: ChannelMember[];
-    channelAdmins: ChannelMember[];
     canManageMembers: boolean;
     editing: boolean;
 
@@ -50,11 +49,16 @@ export interface Props {
         closeRightHandSide: () => void;
         goBack: () => void;
         setChannelMembersRhsSearchTerm: (terms: string) => void;
-        loadProfilesAndReloadChannelMembers: (page: number, perParge: number, channelId: string) => void;
+        loadProfilesAndReloadChannelMembers: (page: number, perParge: number, channelId: string, sort: string) => void;
         loadMyChannelMemberAndRole: (channelId: string) => void;
         setEditChannelMembers: (active: boolean) => void;
         searchProfilesAndChannelMembers: (term: string, options: any) => Promise<{data: UserProfile[]}>;
     };
+}
+
+export interface ListItem {
+    type: 'member' | 'first-separator' | 'separator';
+    data: ChannelMember | JSX.Element;
 }
 
 export default function ChannelMembersRHS({
@@ -63,32 +67,73 @@ export default function ChannelMembersRHS({
     membersCount,
     canGoBack,
     teamUrl,
-    channelAdmins,
     channelMembers,
     canManageMembers,
     editing = false,
     actions,
 }: Props) {
+    const [list, setList] = useState<ListItem[]>([]);
+
+    const [page, setPage] = useState(0);
+    const [isNextPageLoading, setIsNextPageLoading] = useState(false);
+
     const searching = searchTerms !== '';
 
     // show search if there's more than 20 or if the user have an active search.
     const showSearch = searching || membersCount >= 20;
-
-    let normalMemberTitle;
-    if (channelMembers.length > 0 && !searching) {
-        normalMemberTitle = (
-            <FormattedMessage
-                id='channel_members_rhs.list.channel_members_title'
-                defaultMessage='MEMBERS'
-            />
-        );
-    }
 
     useEffect(() => {
         return () => {
             actions.setChannelMembersRhsSearchTerm('');
         };
     }, []);
+
+    useEffect(() => {
+        const listcp: ListItem[] = [];
+        let memberDone = false;
+
+        for (let i = 0; i < channelMembers.length; i++) {
+            const member = channelMembers[i];
+            if (listcp.length === 0) {
+                let text = null;
+                if (member.membership?.scheme_admin === true) {
+                    text = (
+                        <FormattedMessage
+                            id='channel_members_rhs.list.channel_admin_title'
+                            defaultMessage='CHANNEL ADMINS'
+                        />
+                    );
+                } else {
+                    text = (
+                        <FormattedMessage
+                            id='channel_members_rhs.list.channel_members_title'
+                            defaultMessage='MEMBERS'
+                        />
+                    );
+                    memberDone = true;
+                }
+
+                listcp.push({
+                    type: 'first-separator',
+                    data: <FirstMemberListSerparator>{text}</FirstMemberListSerparator>,
+                });
+            } else if (!memberDone && member.membership?.scheme_admin === false) {
+                listcp.push({
+                    type: 'separator',
+                    data: <MemberListSerparator>
+                        <FormattedMessage
+                            id='channel_members_rhs.list.channel_members_title'
+                            defaultMessage='MEMBERS'
+                        />
+                    </MemberListSerparator>,
+                });
+                memberDone = true;
+            }
+
+            listcp.push({type: 'member', data: member});
+        }
+        setList(listcp);
+    }, [channelMembers]);
 
     useEffect(() => {
         if (channel.type === Constants.DM_CHANNEL) {
@@ -100,8 +145,10 @@ export default function ChannelMembersRHS({
             return;
         }
 
+        setPage(0);
+        setIsNextPageLoading(false);
         actions.setChannelMembersRhsSearchTerm('');
-        actions.loadProfilesAndReloadChannelMembers(0, USERS_PER_PAGE, channel.id);
+        actions.loadProfilesAndReloadChannelMembers(0, USERS_PER_PAGE, channel.id, 'admin');
         actions.loadMyChannelMemberAndRole(channel.id);
     }, [channel.id, channel.type]);
 
@@ -145,6 +192,15 @@ export default function ChannelMembersRHS({
         await actions.closeRightHandSide();
     };
 
+    const loadMore = async () => {
+        setIsNextPageLoading(true);
+
+        await actions.loadProfilesAndReloadChannelMembers(page + 1, USERS_PER_PAGE, channel.id, 'admin');
+        setPage(page + 1);
+
+        setIsNextPageLoading(false);
+    };
+
     return (
         <div
             id='rhsContainer'
@@ -178,31 +234,33 @@ export default function ChannelMembersRHS({
             )}
 
             <MembersContainer>
-                {channelAdmins.length > 0 && (
-                    <MemberList
-                        members={channelAdmins}
-                        title={
-                            <FormattedMessage
-                                id='channel_members_rhs.list.channel_admin_title'
-                                defaultMessage='CHANNEL ADMINS'
-                            />
-                        }
-                        editing={editing}
-                        channel={channel}
-                        actions={{openDirectMessage}}
-                    />
-                )}
-
                 {channelMembers.length > 0 && (
                     <MemberList
-                        members={channelMembers}
-                        title={normalMemberTitle}
+                        searchTerms={searchTerms}
+                        members={list}
                         editing={editing}
                         channel={channel}
-                        actions={{openDirectMessage}}
+                        actions={{openDirectMessage, loadMore}}
+                        hasNextPage={channelMembers.length < membersCount}
+                        isNextPageLoading={isNextPageLoading}
                     />
                 )}
             </MembersContainer>
         </div>
     );
 }
+
+const MemberListSerparator = styled.div`
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 28px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    padding: 0px 12px;
+    color: rgba(var(--center-channel-color-rgb), 0.56);
+    margin-top: 16px;
+`;
+
+const FirstMemberListSerparator = styled(MemberListSerparator)`
+    margin-top: 0px;
+`;
