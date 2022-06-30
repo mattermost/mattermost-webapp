@@ -95,14 +95,14 @@ class ToastWrapper extends React.PureComponent {
         let unreadCount;
 
         if (props.atLatestPost) {
-            if (props.unreadScrollPosition === Preferences.UNREAD_SCROLL_POSITION_START_FROM_NEWEST && !props.isNewMessageLineReached) {
+            if (prevState.unreadCountInChannel) {
                 unreadCount = prevState.unreadCountInChannel;
             } else {
                 unreadCount = ToastWrapper.countNewMessages(props.postListIds, props.rootPosts, props.isCollapsedThreadsEnabled);
             }
         } else if (props.channelMarkedAsUnread) {
             if (props.unreadScrollPosition === Preferences.UNREAD_SCROLL_POSITION_START_FROM_NEWEST) {
-                unreadCount = props.unreadCountInChannel;
+                unreadCount = props.unreadCountInChannel + props.newRecentMessagesCount;
             } else {
                 unreadCount = prevState.unreadCountInChannel;
             }
@@ -149,6 +149,7 @@ class ToastWrapper extends React.PureComponent {
 
         if (
             typeof showUnreadWithBottomStartToast === 'undefined' &&
+            props.lastViewedAt !== prevState.lastViewedAt &&
             props.shouldStartFromBottomWhenUnread &&
             unreadCount > 0 &&
             !props.isNewMessageLineReached
