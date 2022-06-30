@@ -36,6 +36,7 @@ describe('components/dot_menu/DotMenu', () => {
             markPostAsUnread: jest.fn(),
             postEphemeralCallResponseForPost: jest.fn(),
             setThreadFollow: jest.fn(),
+            addPostReminder: jest.fn(),
         },
         canEdit: false,
         canDelete: false,
@@ -47,6 +48,7 @@ describe('components/dot_menu/DotMenu', () => {
         threadId: 'post_id_1',
         threadReplyCount: 0,
         userId: 'user_id_1',
+        isMilitaryTime: false,
     };
 
     test('should match snapshot, on Center', () => {
