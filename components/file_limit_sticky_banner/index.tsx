@@ -18,6 +18,7 @@ import useGetLimits from 'components/common/hooks/useGetLimits';
 import {fallbackStarterLimits, hasSomeLimits} from 'utils/limits';
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import {FileSizes} from 'utils/file_utils';
+import NotifyAdminCTA from 'components/notify_admin_cta/notify_admin_cta';
 
 const snoozeCoolOffDays = 10;
 const maxStarterPlanFileStorageGB = FileSizes.Gigabyte * 10;
@@ -126,10 +127,6 @@ function FileLimitStickyBanner() {
         </a>
     );
 
-    const NonAdminMessageLink = (
-        <a>{formatMessage({id: 'create_post.file_limit_sticky_banner.non_admin_link_message', defaultMessage: 'notify your admin to upgrade to a paid plan.'})}</a>
-    );
-
     const AdminMessage = (
         <span>
             {formatMessage({
@@ -152,7 +149,7 @@ function FileLimitStickyBanner() {
                 storageGB: '10',
             },
             )}
-            {NonAdminMessageLink}
+            {<NotifyAdminCTA CtaText={formatMessage({id: 'create_post.file_limit_sticky_banner.non_admin_link_message', defaultMessage: 'notify your admin to upgrade to a paid plan.'})}/>}
         </span>
     );
 
