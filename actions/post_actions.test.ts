@@ -4,8 +4,6 @@
 import {Post} from '@mattermost/types/posts';
 import {FileInfo} from '@mattermost/types/files';
 
-import {NewPost} from 'mattermost-redux/types/posts';
-
 import {GlobalState} from 'types/store';
 import {ChannelTypes, SearchTypes} from 'mattermost-redux/action_types';
 import * as PostActions from 'mattermost-redux/actions/posts';
@@ -190,7 +188,7 @@ describe('Actions.Posts', () => {
 
     test('handleNewPost', async () => {
         const testStore = mockStore(initialState);
-        const newPost = {id: 'new_post_id', channel_id: 'current_channel_id', message: 'new message', type: Constants.PostTypes.ADD_TO_CHANNEL, user_id: 'some_user_id', create_at: POST_CREATED_TIME} as NewPost;
+        const newPost = {id: 'new_post_id', channel_id: 'current_channel_id', message: 'new message', type: Constants.PostTypes.ADD_TO_CHANNEL, user_id: 'some_user_id', create_at: POST_CREATED_TIME} as Post;
         const msg = {data: {team_a: 'team_a', mentions: ['current_user_id']}};
 
         await testStore.dispatch(Actions.handleNewPost(newPost, msg as any));
@@ -212,7 +210,7 @@ describe('Actions.Posts', () => {
 
     test('handleNewPostOtherChannel', async () => {
         const testStore = mockStore(initialState);
-        const newPost = {id: 'other_channel_post_id', channel_id: 'other_channel_id', message: 'new message in other channel', type: '', user_id: 'other_user_id', create_at: POST_CREATED_TIME} as NewPost;
+        const newPost = {id: 'other_channel_post_id', channel_id: 'other_channel_id', message: 'new message in other channel', type: '', user_id: 'other_user_id', create_at: POST_CREATED_TIME} as Post;
         const msg = {data: {team_b: 'team_b', mentions: ['current_user_id']}};
 
         await testStore.dispatch(Actions.handleNewPost(newPost, msg as any));
