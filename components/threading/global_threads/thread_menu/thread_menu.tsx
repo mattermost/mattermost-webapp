@@ -33,11 +33,11 @@ import './thread_menu.scss';
 
 type Props = {
     threadId: UserThread['id'];
+    lastPostId: Post['id'];
     isFollowing?: boolean;
     hasUnreads: boolean;
     children: ReactNode;
     unreadTimestamp: number;
-    lastPostId?: Post['id'];
 };
 
 function ThreadMenu({
@@ -68,7 +68,7 @@ function ThreadMenu({
         if (hasUnreads) {
             dispatch(updateThreadRead(currentUserId, currentTeamId, threadId, Date.now()));
         } else {
-            dispatch(markThreadAsUnread(currentUserId, currentTeamId, threadId, lastPostId || threadId));
+            dispatch(markThreadAsUnread(currentUserId, currentTeamId, threadId, lastPostId));
         }
     }, [
         currentUserId,
