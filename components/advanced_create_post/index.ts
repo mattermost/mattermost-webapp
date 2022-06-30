@@ -14,9 +14,9 @@ import {ActionResult} from 'mattermost-redux/types/actions.js';
 
 import {CommandArgs} from '@mattermost/types/integrations.js';
 
-import {PostDraft} from 'types/store/rhs.js';
-
 import {ModalData} from 'types/actions.js';
+
+import {PostDraft} from 'types/store/draft';
 
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';

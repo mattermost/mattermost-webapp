@@ -1,62 +1,58 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Post} from '@mattermost/types/posts';
+import {TestHelper} from 'utils/test_helper';
 
 import {isFirstReply} from './index';
-
-function makePost(id: string): Post {
-    return {root_id: id} as Post;
-}
 
 describe('isFirstReply', () => {
     for (const testCase of [
         {
             name: 'a post with nothing above it',
-            post: makePost(''),
+            post: TestHelper.getPostMock({root_id: ''}),
             previousPost: null,
             expected: false,
         },
         {
             name: 'a comment with nothing above it',
-            post: makePost('root'),
+            post: TestHelper.getPostMock({root_id: 'root'}),
             previousPost: null,
             expected: true,
         },
         {
             name: 'a post with a regular post above it',
-            post: makePost(''),
-            previousPost: makePost(''),
+            post: TestHelper.getPostMock({root_id: ''}),
+            previousPost: TestHelper.getPostMock({root_id: ''}),
             expected: false,
         },
         {
             name: 'a post with a comment above it',
-            post: makePost(''),
-            previousPost: makePost('root'),
+            post: TestHelper.getPostMock({root_id: ''}),
+            previousPost: TestHelper.getPostMock({root_id: 'root'}),
             expected: false,
         },
         {
             name: 'a comment with a regular post above it',
-            post: makePost('root1'),
-            previousPost: makePost(''),
+            post: TestHelper.getPostMock({root_id: 'root1'}),
+            previousPost: TestHelper.getPostMock({root_id: ''}),
             expected: true,
         },
         {
             name: 'a comment with a comment on another thread above it',
-            post: makePost('root1'),
-            previousPost: makePost('root2'),
+            post: TestHelper.getPostMock({root_id: 'root1'}),
+            previousPost: TestHelper.getPostMock({root_id: 'root2'}),
             expected: true,
         },
         {
             name: 'a comment with a comment on the same thread above it',
-            post: makePost('root1'),
-            previousPost: makePost('root1'),
+            post: TestHelper.getPostMock({root_id: 'root1'}),
+            previousPost: TestHelper.getPostMock({root_id: 'root1'}),
             expected: false,
         },
         {
             name: 'a comment with its parent above it',
-            post: makePost('root1'),
-            previousPost: makePost('root1'),
+            post: TestHelper.getPostMock({root_id: 'root1'}),
+            previousPost: TestHelper.getPostMock({root_id: 'root1'}),
             expected: false,
         },
     ]) {

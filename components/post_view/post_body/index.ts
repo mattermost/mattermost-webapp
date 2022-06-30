@@ -7,17 +7,12 @@ import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 
 import {GlobalState} from 'types/store';
-import {UserActivityPost} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 
-import PostBody, {Props as PostBodyProps} from './post_body';
+import PostBody from './post_body';
 
 interface OwnProps {
-    post: UserActivityPost;
-    compactDisplay: PostBodyProps['compactDisplay'];
-    isCommentMention: PostBodyProps['isCommentMention'];
-    isFirstReply: PostBodyProps['isFirstReply'];
-    handleFileDropdownOpened: PostBodyProps['handleFileDropdownOpened'];
-    handleCommentClick: PostBodyProps['handleCommentClick'];
+    post: Post;
 }
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {

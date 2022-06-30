@@ -10,7 +10,7 @@ import {Emoji} from '@mattermost/types/emojis';
 import {FileInfo} from '@mattermost/types/files';
 import {ServerError} from '@mattermost/types/errors';
 import {Channel} from '@mattermost/types/channels';
-import {PostDraft} from 'types/store/rhs';
+import {PostDraft} from 'types/store/draft';
 
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import FilePreview from 'components/file_preview';
@@ -39,6 +39,10 @@ import {IconContainer} from './formatting_bar/formatting_icon';
 import './advanced_text_editor.scss';
 
 type Props = {
+
+    /**
+     * location of the advanced text editor in the UI (center channel / RHS)
+     */
     location: string;
     currentUserId: string;
     message: string;
@@ -259,6 +263,7 @@ const AdvanceTextEditor = ({
                     overlay={emojiPickerTooltip}
                 >
                     <IconContainer
+                        id={'emojiPickerButton'}
                         ref={emojiPickerRef}
                         onClick={toggleEmojiPicker}
                         type='button'
@@ -346,6 +351,7 @@ const AdvanceTextEditor = ({
             extraControls={extraControls}
             toggleAdvanceTextEditor={toggleAdvanceTextEditor}
             showFormattingControls={!isFormattingBarHidden}
+            location={location}
         />
     );
 
@@ -367,7 +373,8 @@ const AdvanceTextEditor = ({
             >
                 <div
                     role='application'
-                    id='centerChannelFooter'
+                    id='advancedTextEditorCell'
+                    data-a11y-sort-order='2'
                     aria-label={ariaLabelMessageInput}
                     tabIndex={-1}
                     className='AdvancedTextEditor__cell a11y__region'

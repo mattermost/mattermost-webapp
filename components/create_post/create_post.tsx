@@ -42,7 +42,7 @@ import TextboxLinks from 'components/textbox/textbox_links';
 
 import MessageSubmitError from 'components/message_submit_error';
 import {Channel, ChannelMemberCountsByGroup} from '@mattermost/types/channels';
-import {PostDraft} from 'types/store/rhs';
+import {PostDraft} from 'types/store/draft';
 import {Post, PostMetadata} from '@mattermost/types/posts';
 import {PreferenceType} from '@mattermost/types/preferences';
 import EmojiMap from 'utils/emoji_map';

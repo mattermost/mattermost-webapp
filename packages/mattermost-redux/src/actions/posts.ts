@@ -23,7 +23,6 @@ import {getCurrentUserId, getUsersByUsername} from 'mattermost-redux/selectors/e
 import {isCombinedUserActivityPost} from 'mattermost-redux/utils/post_list';
 
 import {ActionResult, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-import {NewPost} from 'mattermost-redux/types/posts';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {getProfilesByIds, getProfilesByUsernames, getStatusesByIds} from './users';
@@ -49,7 +48,7 @@ export function receivedPost(post: Post, crtEnabled?: boolean) {
 
 // receivedNewPost should be dispatched when receiving a newly created post or when sending a request to the server
 // to make a new post.
-export function receivedNewPost(post: Post | NewPost, crtEnabled: boolean) {
+export function receivedNewPost(post: Post, crtEnabled: boolean) {
     return {
         type: PostTypes.RECEIVED_NEW_POST,
         data: post,

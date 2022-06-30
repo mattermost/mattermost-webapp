@@ -28,7 +28,7 @@ import {getTable, formatMarkdownTableMessage, isGitHubCodeBlock, formatGithubCod
 import NotifyConfirmModal from 'components/notify_confirm_modal';
 import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload';
 import PostDeletedModal from 'components/post_deleted_modal';
-import {PostDraft} from 'types/store/rhs';
+import {PostDraft} from 'types/store/draft';
 import {Group} from '@mattermost/types/groups';
 import {ChannelMemberCountsByGroup} from '@mattermost/types/channels';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
@@ -1067,6 +1067,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
                     enableEmojiPicker={this.props.enableEmojiPicker}
                     enableGifPicker={this.props.enableGifPicker}
                     handleBlur={this.handleBlur}
+                    postError={this.state.postError}
                     handlePostError={this.handlePostError}
                     emitTypingEvent={this.emitTypingEvent}
                     handleMouseUpKeyUp={this.handleMouseUpKeyUp}

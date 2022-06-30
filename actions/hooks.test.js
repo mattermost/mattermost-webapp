@@ -1,12 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
+import mockStore from 'tests/test_store';
 
 import {runMessageWillBePostedHooks, runMessageWillBeUpdatedHooks, runSlashCommandWillBePostedHooks} from './hooks';
-
-const mockStore = configureStore([thunk]);
 
 describe('runMessageWillBePostedHooks', () => {
     test('should do nothing when no hooks are registered', async () => {

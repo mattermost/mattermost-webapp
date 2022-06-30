@@ -115,10 +115,10 @@ export function loadProfilesMissingStatus(users: UserProfile[]) {
     };
 }
 
-let intervalId: string | NodeJS.Timeout = '';
+let intervalId: NodeJS.Timeout;
 
 export function startPeriodicStatusUpdates() {
-    clearInterval(intervalId as NodeJS.Timeout);
+    clearInterval(intervalId);
 
     intervalId = setInterval(
         () => {
@@ -129,5 +129,5 @@ export function startPeriodicStatusUpdates() {
 }
 
 export function stopPeriodicStatusUpdates() {
-    clearInterval(intervalId as NodeJS.Timeout);
+    clearInterval(intervalId);
 }

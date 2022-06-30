@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {withRouter, RouteChildrenProps} from 'react-router-dom';
+import {withRouter, RouteComponentProps} from 'react-router-dom';
 
 import {Channel} from '@mattermost/types/channels';
 import {Team, TeamMembership} from '@mattermost/types/teams';
@@ -41,19 +41,17 @@ export const isChannelLoading = (params: RouteViewParams, channel?: Channel, tea
     return true;
 };
 
-interface Props extends RouteChildrenProps {
-    channelId: string;
-}
-
 interface RouteViewParams {
     team?: string;
     identifier?: string;
     postid?: string;
 }
 
+type Props = {channelId: string} & RouteComponentProps<RouteViewParams>
+
 function makeMapStateToProps() {
     return function mapStateToProps(state: GlobalState, ownProps: Props) {
-        const params: RouteViewParams | undefined = ownProps.match?.params as RouteViewParams;
+        const params = ownProps.match?.params;
         const team = getTeamByName(state, params?.team || '');
         let teammate;
 
@@ -67,7 +65,7 @@ function makeMapStateToProps() {
         }
 
         const teamMemberships = getTeamMemberships(state);
-        const channelLoading = isChannelLoading(ownProps.match?.params as RouteViewParams, channel, team, teammate, teamMemberships);
+        const channelLoading = isChannelLoading(params!, channel, team, teammate, teamMemberships);
         return {
             lastViewedAt,
             channelLoading,
@@ -75,4 +73,4 @@ function makeMapStateToProps() {
     };
 }
 
-export default withRouter(connect(makeMapStateToProps)(PostView) as any);
+export default withRouter(connect(makeMapStateToProps)(PostView));

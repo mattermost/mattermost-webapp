@@ -13,23 +13,12 @@ import ExternalImage from 'components/external_image';
 import SizeAwareImage from 'components/size_aware_image';
 import FilePreviewModal from 'components/file_preview_modal';
 
-type DialogProps = {
-    post: Post;
-    startIndex: number;
-    fileInfos: Array<{
-        has_preview_image: boolean;
-        link: string;
-        extension: string;
-        name: string;
-    }>;
-}
-
 interface Props {
     imageMetadata: PostImageMetadata;
     link: string;
     post: Post;
     actions: {
-        openModal: (modalData: ModalData<DialogProps>) => void;
+        openModal: <P>(modalData: ModalData<P>) => void;
     };
 }
 

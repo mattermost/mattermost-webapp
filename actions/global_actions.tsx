@@ -21,6 +21,7 @@ import {ChannelTypes} from 'mattermost-redux/action_types';
 import {fetchAppBindings} from 'mattermost-redux/actions/apps';
 import {Channel, ChannelMembership} from '@mattermost/types/channels';
 import {UserProfile} from '@mattermost/types/users';
+import {Post} from '@mattermost/types/posts';
 import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {Team} from '@mattermost/types/teams';
 import {calculateUnreadCount} from 'mattermost-redux/utils/channel_utils';
@@ -178,7 +179,7 @@ export function sendEphemeralPost(message: string, channelId?: string, parentId?
             update_at: timestamp,
             root_id: parentId || '',
             props: {},
-        };
+        } as Post;
 
         return doDispatch(handleNewPost(post));
     };
@@ -199,7 +200,7 @@ export function sendAddToChannelEphemeralPost(user: UserProfile, addedUsername: 
             addedUsername,
             addedUserId,
         },
-    };
+    } as unknown as Post;
 
     dispatch(handleNewPost(post));
 }

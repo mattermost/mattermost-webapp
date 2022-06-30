@@ -39,7 +39,7 @@ import ResetStatusModal from 'components/reset_status_modal';
 import TextboxClass from 'components/textbox/textbox';
 
 import {Channel, ChannelMemberCountsByGroup} from '@mattermost/types/channels';
-import {PostDraft} from 'types/store/rhs';
+import {PostDraft} from 'types/store/draft';
 import {Post, PostMetadata} from '@mattermost/types/posts';
 import {PreferenceType} from '@mattermost/types/preferences';
 import EmojiMap from 'utils/emoji_map';
@@ -1258,6 +1258,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                 <AdvanceTextEditor
                     location={Locations.CENTER}
                     currentUserId={this.props.currentUserId}
+                    postError={this.state.postError}
                     message={this.state.message}
                     showEmojiPicker={this.state.showEmojiPicker}
                     uploadsProgressPercent={this.state.uploadsProgressPercent}

@@ -33,7 +33,7 @@ interface Props {
     /**
      * The post to render
      */
-    post: UserActivityPost;
+    post: PostType & {system_post_ids?: UserActivityPost['system_post_ids']};
 
     /**
      * The logged in user ID
@@ -258,7 +258,7 @@ export default class Post extends React.PureComponent<Props, State> {
         return false;
     }
 
-    getClassName = (post: UserActivityPost, isSystemMessage?: boolean, isMeMessage?: boolean, fromWebhook?: boolean, fromAutoResponder?: boolean, fromBot?: boolean) => {
+    getClassName = (post: Props['post'], isSystemMessage?: boolean, isMeMessage?: boolean, fromWebhook?: boolean, fromAutoResponder?: boolean, fromBot?: boolean) => {
         let className = 'post';
 
         if (post.failed || post.state === Posts.POST_DELETED) {

@@ -1,9 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import thunk from 'redux-thunk';
-import configureStore from 'redux-mock-store';
-
 import {Channel, ChannelMembership, ChannelMessageCount} from '@mattermost/types/channels';
 import {Team, TeamMembership} from '@mattermost/types/teams';
 import {Post} from '@mattermost/types/posts';
@@ -15,11 +12,11 @@ import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 
 import * as UserActions from 'actions/user_actions';
 import store from 'stores/redux_store';
-import TestHelper from 'tests/helpers/client-test-helper';
-import {GlobalState} from 'types/store';
-import {DispatchFunc} from 'mattermost-redux/types/actions';
+import TestHelper from 'packages/mattermost-redux/test/test_helper';
 
-const mockStore = configureStore<GlobalState, DispatchFunc>([thunk]);
+import {GlobalState} from 'types/store';
+
+import mockStore from 'tests/test_store';
 
 jest.mock('mattermost-redux/actions/users', () => {
     const original = jest.requireActual('mattermost-redux/actions/users');
@@ -540,7 +537,10 @@ describe('Actions.User', () => {
         const user = TestHelper.fakeUser();
 
         const profiles = {
-            [user.id]: user,
+            current_user_id: {
+                ...user,
+                id: 'current_user_id',
+            },
         };
 
         const channels = {

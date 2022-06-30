@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import TestHelper from 'tests/helpers/client-test-helper';
+import TestHelper from 'mattermost-redux/test/test_helper';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 import AddBot from './add_bot.jsx';

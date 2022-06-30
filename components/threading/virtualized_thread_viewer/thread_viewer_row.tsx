@@ -27,6 +27,7 @@ type Props = {
     timestampProps?: Partial<TimestampProps>;
 };
 
+function noop() {}
 function ThreadViewerRow({
     a11yIndex,
     currentUserId,
@@ -65,12 +66,13 @@ function ThreadViewerRow({
             />
         );
     case PostListUtils.isCombinedUserActivityPost(listId): {
-        const Component: any = CombinedUserActivityPost;
         return (
-            <Component
+            <CombinedUserActivityPost
                 combinedId={listId}
                 previousPostId={previousPostId}
                 isLastPost={isLastPost}
+                shouldHighlight={false}
+                togglePostMenu={noop}
             />
         );
     }

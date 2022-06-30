@@ -13,7 +13,6 @@ import {
     markChannelAsReadOnServer,
 } from 'mattermost-redux/actions/channels';
 import * as PostActions from 'mattermost-redux/actions/posts';
-import {NewPost} from 'mattermost-redux/types/posts';
 
 import {WebsocketEvents} from 'mattermost-redux/constants';
 
@@ -44,7 +43,7 @@ export type NewPostMessageProps = {
     team_id: string;
 }
 
-export function completePostReceive(post: NewPost, websocketMessageProps: NewPostMessageProps, fetchedChannelMember?: boolean): ActionFunc {
+export function completePostReceive(post: Post, websocketMessageProps: NewPostMessageProps, fetchedChannelMember?: boolean): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
         const rootPost = PostSelectors.getPost(state, post.root_id);
@@ -143,7 +142,7 @@ export function setChannelReadAndViewed(dispatch: DispatchFunc, getState: GetSta
     return actionsToMarkChannelAsUnread(getState, websocketMessageProps.team_id, post.channel_id, websocketMessageProps.mentions, fetchedChannelMember, post.root_id === '');
 }
 
-export function setThreadRead(post: Post | NewPost) {
+export function setThreadRead(post: Post) {
     const getThreadLastViewedAt = makeGetThreadLastViewedAt();
     return (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState() as GlobalState;
