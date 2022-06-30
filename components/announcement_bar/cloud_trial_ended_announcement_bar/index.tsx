@@ -22,6 +22,10 @@ import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {
     getCurrentUser,
 } from 'mattermost-redux/selectors/entities/users';
+import {
+    getSubscriptionProduct,
+} from 'mattermost-redux/selectors/entities/cloud';
+import {CloudProducts} from 'utils/constants';
 
 const CloudTrialEndAnnouncementBar: React.FC = () => {
     const usageDeltas = useGetUsageDeltas();
@@ -35,11 +39,12 @@ const CloudTrialEndAnnouncementBar: React.FC = () => {
     const currentUser = useSelector((state: GlobalState) =>
         getCurrentUser(state),
     );
+    const subscriptionProduct = useSelector((state: GlobalState) => getSubscriptionProduct(state));
 
     const openPricingModal = useOpenPricingModal();
 
     const shouldShowBanner = () => {
-        if (!subscription) {
+        if (!subscription || !subscriptionProduct) {
             return false;
         }
 
@@ -52,6 +57,11 @@ const CloudTrialEndAnnouncementBar: React.FC = () => {
             return false;
         }
         if (preferences.some((pref) => pref.name === CloudBanners.HIDE && pref.value === 'true')) {
+            return false;
+        }
+
+        // Don't show this banner for professional or enterprise installations
+        if (subscriptionProduct?.sku !== CloudProducts.STARTER) {
             return false;
         }
 
