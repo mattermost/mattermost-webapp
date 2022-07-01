@@ -3,7 +3,7 @@
   "browser": {
     "./client/web_client.jsx": "./client/browser_web_client.jsx"
   },
-  "version": "5.36.0-0",
+  "version": "7.0.0",
   "private": true,
   "engines": {
     "npm": ">=7.0.0",
@@ -21,6 +21,9 @@
     "chart.js": "2.9.4",
     "classnames": "2.3.1",
     "core-js": "3.22.7",
+    "@types/color-hash": "1.0.2",
+    "color-contrast-checker": "2.1.0",
+    "color-hash": "2.0.1",
     "country-list": "2.2.0",
     "crypto-browserify": "3.12.0",
     "css-vars-ponyfill": "2.4.7",

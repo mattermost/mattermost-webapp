@@ -1,17 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import thunk from 'redux-thunk';
-import configureStore from 'redux-mock-store';
-
 import {ChannelTypes} from 'mattermost-redux/action_types';
 import {receivedNewPost} from 'mattermost-redux/actions/posts';
 import {Posts} from 'mattermost-redux/constants';
 
 import * as NewPostActions from 'actions/new_post';
+import mockStore from 'tests/test_store';
 import {Constants} from 'utils/constants';
-
-const mockStore = configureStore([thunk]);
 
 jest.mock('mattermost-redux/actions/channels', () => ({
     ...jest.requireActual('mattermost-redux/actions/channels'),

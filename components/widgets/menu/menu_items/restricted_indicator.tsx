@@ -17,16 +17,19 @@ import './restricted_indicator.scss';
 
 type RestrictedIndicatorProps = {
     useModal?: boolean;
-    blocked?: boolean;
-    tooltipTitle?: string;
-    tooltipMessage?: string;
-    tooltipMessageBlocked?: string | MessageDescriptor;
     titleAdminPreTrial?: string;
     messageAdminPreTrial?: string;
     titleAdminPostTrial?: string;
     messageAdminPostTrial?: string;
     titleEndUser?: string;
     messageEndUser?: string;
+    blocked?: boolean;
+    tooltipTitle?: string;
+    tooltipMessage?: string;
+    tooltipMessageBlocked?: string | MessageDescriptor;
+    ctaExtraContent?: React.ReactNode;
+    clickCallback?: () => void;
+    customSecondaryButtonInModal?: {msg: string; action: () => void};
 }
 
 const RestrictedIndicator = ({
@@ -41,6 +44,9 @@ const RestrictedIndicator = ({
     messageAdminPostTrial,
     titleEndUser,
     messageEndUser,
+    ctaExtraContent,
+    clickCallback,
+    customSecondaryButtonInModal,
 }: RestrictedIndicatorProps) => {
     const {formatMessage} = useIntl();
 
@@ -59,7 +65,18 @@ const RestrictedIndicator = ({
         return typeof tooltipMessageBlocked === 'string' ? tooltipMessageBlocked : formatMessage(tooltipMessageBlocked, {trialLength: FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS});
     }, [tooltipMessageBlocked]);
 
-    const icon = <i className={classNames('RestrictedIndicator__icon-tooltip', 'icon', blocked ? 'icon-key-variant' : 'trial')}/>;
+    const content = (
+        <>
+            <i className={classNames('RestrictedIndicator__icon-tooltip', 'icon', blocked ? 'icon-key-variant' : 'trial')}/>
+            {ctaExtraContent}
+        </>
+    );
+
+    const handleClickCallback = () => {
+        if (clickCallback) {
+            clickCallback();
+        }
+    };
 
     return (
         <span className='RestrictedIndicator__icon-tooltip-container'>
@@ -86,6 +103,7 @@ const RestrictedIndicator = ({
                         className='RestrictedIndicator__button'
                         modalId={ModalIdentifiers.FEATURE_RESTRICTED_MODAL}
                         dialogType={FeatureRestrictedModal}
+                        onClick={handleClickCallback}
                         dialogProps={{
                             titleAdminPreTrial,
                             messageAdminPreTrial,
@@ -93,12 +111,13 @@ const RestrictedIndicator = ({
                             messageAdminPostTrial,
                             titleEndUser,
                             messageEndUser,
+                            customSecondaryButton: customSecondaryButtonInModal,
                         }}
                     >
-                        {icon}
+                        {content}
                     </ToggleModalButton>
                 ) : (
-                    icon
+                    content
                 )}
             </OverlayTrigger>
         </span>

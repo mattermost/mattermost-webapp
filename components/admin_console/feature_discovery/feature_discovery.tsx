@@ -46,6 +46,7 @@ type Props = {
         requestTrialLicense: (users: number, termsAccepted: boolean, receiveEmailsAccepted: boolean, featureName: string) => Promise<ActionResult>;
         getLicenseConfig: () => void;
         getPrevTrialLicense: () => void;
+        getCloudSubscription: () => void;
         openModal: <P>(modalData: ModalData<P>) => void;
     };
     isCloud: boolean;

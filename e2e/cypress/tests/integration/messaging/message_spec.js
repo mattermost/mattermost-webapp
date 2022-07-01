@@ -152,7 +152,7 @@ describe('Message', () => {
         cy.get('#reply_textbox').type(MESSAGES.TINY);
 
         // # Click on Preview
-        cy.get('#previewLink').click();
+        cy.get('#PreviewInputTextButton').click();
 
         // # Click on Reply
         cy.uiReply();
