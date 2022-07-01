@@ -32,7 +32,7 @@ function createCategory(name: EmojiCategory): Category {
         name,
         id: Emoji.CategoryTranslations.get(name) || '',
         className: categoryClass.get(name) || '',
-        message: Emoji.CategoryMessage.get(name),
+        message: Emoji.CategoryMessage.get(name)!,
     };
 }
 

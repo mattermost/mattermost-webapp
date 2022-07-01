@@ -12,7 +12,7 @@ import {isCollapsedThreadsEnabled, insightsAreEnabled} from 'mattermost-redux/se
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getIsRhsOpen, getIsRhsMenuOpen} from 'selectors/rhs';
 import {getIsLhsOpen} from 'selectors/lhs';
-import {getLastViewedChannelNameByTeamName, getLastViewedTypeByTeamName} from 'selectors/local_storage';
+import {getLastViewedChannelNameByTeamName, getLastViewedTypeByTeamName, getPreviousTeamId, getPreviousTeamLastViewedType} from 'selectors/local_storage';
 
 import {GlobalState} from 'types/store';
 
@@ -33,11 +33,20 @@ const mapStateToProps = (state: GlobalState, ownProps: Props) => {
     const lastViewedType = getLastViewedTypeByTeamName(state, ownProps.match.params.team);
     let channelName = getLastViewedChannelNameByTeamName(state, ownProps.match.params.team);
 
+    const previousTeamId = getPreviousTeamId(state);
+    const team = getTeamByName(state, ownProps.match.params.team);
+
+    let previousTeamLastViewedType;
+
     if (!channelName) {
-        const team = getTeamByName(state, ownProps.match.params.team);
         channelName = getRedirectChannelNameForTeam(state, team!.id);
     }
-    const shouldRouteToGlobalThreads = isCollapsedThreadsEnabled(state) && lastViewedType === PreviousViewedTypes.THREADS;
+
+    if (previousTeamId !== team?.id) {
+        previousTeamLastViewedType = getPreviousTeamLastViewedType(state);
+    }
+
+    const shouldRouteToGlobalThreads = isCollapsedThreadsEnabled(state) && (lastViewedType === PreviousViewedTypes.THREADS || previousTeamLastViewedType === PreviousViewedTypes.THREADS);
     const lastChannelPath = shouldRouteToGlobalThreads ? `${ownProps.match.url}/threads` : `${ownProps.match.url}/channels/${channelName}`;
     return {
         lastChannelPath,

@@ -5,11 +5,9 @@ import React from 'react';
 
 import {shallow} from 'enzyme';
 
-import configureStore from 'redux-mock-store';
-
 import {Provider} from 'react-redux';
 
-import thunk from 'redux-thunk';
+import mockStore from 'tests/test_store';
 
 import LearnMoreTrialModalStep from 'components/learn_more_trial_modal/learn_more_trial_modal_step';
 
@@ -21,7 +19,6 @@ describe('components/learn_more_trial_modal/learn_more_trial_modal_step', () => 
         svgWrapperClassName: 'stepClassname',
         svgElement: <svg/>,
         buttonLabel: 'button',
-        isCloudFree: false,
     };
 
     const state = {
@@ -48,7 +45,6 @@ describe('components/learn_more_trial_modal/learn_more_trial_modal_step', () => 
         },
     };
 
-    const mockStore = configureStore([thunk]);
     const store = mockStore(state);
 
     test('should match snapshot', () => {
@@ -75,7 +71,7 @@ describe('components/learn_more_trial_modal/learn_more_trial_modal_step', () => 
     });
 
     test('should match snapshot when loaded in cloud workspace', () => {
-        const cloudProps = {...props, isCloud: true, isCloudFreeEnabled: true};
+        const cloudProps = {...props, isCloud: true};
         const wrapper = shallow(
             <Provider store={store}>
                 <LearnMoreTrialModalStep
