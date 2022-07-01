@@ -6,8 +6,11 @@
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
+
 // Stage: @prod
 // Group: @toast
+
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
 import {scrollToTop} from './helpers';
 
@@ -58,6 +61,8 @@ describe('unread_with_bottom_start_toast', () => {
             cy.postMessageAs({sender: otherUser, message: `This is an test message [${index}]`, channelId: testChannelId});
         }
 
+        cy.wait(TIMEOUTS.ONE_SEC);
+
         // # Switch to test channel
         cy.uiClickSidebarItem(testChannelName);
 
@@ -82,6 +87,8 @@ describe('unread_with_bottom_start_toast', () => {
         for (let index = 0; index < 30; index++) {
             cy.postMessageAs({sender: otherUser, message: `This is an old message [${index}]`, channelId: testChannelId});
         }
+
+        cy.wait(TIMEOUTS.ONE_SEC);
 
         // # Visit test channel
         cy.uiClickSidebarItem(testChannelName);
