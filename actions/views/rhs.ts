@@ -98,9 +98,11 @@ export function updateRhsState(rhsState: string, channelId?: string, previousRhs
 export function goBack() {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const prevState = getPreviousRhsState(getState() as GlobalState);
+        const defaultTab = 'channel-info';
+
         dispatch({
             type: ActionTypes.RHS_GO_BACK,
-            state: prevState,
+            state: prevState || defaultTab,
         });
 
         return {data: true};
