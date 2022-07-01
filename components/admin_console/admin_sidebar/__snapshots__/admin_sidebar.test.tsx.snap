@@ -151,20 +151,20 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
           >
             <AdminSidebarSection
               definitionKey="user_management.groups_feature_discovery"
-              indicator={
+              key="user_management.groups_feature_discovery"
+              name="user_management/groups"
+              restrictedIndicator={
                 <RestrictedIndicator
                   blocked={true}
                   tooltipMessageBlocked={
                     Object {
-                      "defaultMessage": "This is a paid feature, available with an upgrade or free {trialLength}-day trial",
+                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
                       "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
                     }
                   }
                   useModal={false}
                 />
               }
-              key="user_management.groups_feature_discovery"
-              name="user_management/groups"
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
@@ -175,20 +175,20 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
             />
             <AdminSidebarSection
               definitionKey="user_management.system_roles_feature_discovery"
-              indicator={
+              key="user_management.system_roles_feature_discovery"
+              name="user_management/system_roles"
+              restrictedIndicator={
                 <RestrictedIndicator
                   blocked={true}
                   tooltipMessageBlocked={
                     Object {
-                      "defaultMessage": "This is a paid feature, available with an upgrade or free {trialLength}-day trial",
+                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
                       "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
                     }
                   }
                   useModal={false}
                 />
               }
-              key="user_management.system_roles_feature_discovery"
-              name="user_management/system_roles"
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
@@ -219,20 +219,20 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
           >
             <AdminSidebarSection
               definitionKey="site.announcement_banner_feature_discovery"
-              indicator={
+              key="site.announcement_banner_feature_discovery"
+              name="site_config/announcement_banner"
+              restrictedIndicator={
                 <RestrictedIndicator
                   blocked={true}
                   tooltipMessageBlocked={
                     Object {
-                      "defaultMessage": "This is a paid feature, available with an upgrade or free {trialLength}-day trial",
+                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
                       "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
                     }
                   }
                   useModal={false}
                 />
               }
-              key="site.announcement_banner_feature_discovery"
-              name="site_config/announcement_banner"
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
@@ -263,20 +263,20 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
           >
             <AdminSidebarSection
               definitionKey="authentication.ldap_feature_discovery"
-              indicator={
+              key="authentication.ldap_feature_discovery"
+              name="authentication/ldap"
+              restrictedIndicator={
                 <RestrictedIndicator
                   blocked={true}
                   tooltipMessageBlocked={
                     Object {
-                      "defaultMessage": "This is a paid feature, available with an upgrade or free {trialLength}-day trial",
+                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
                       "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
                     }
                   }
                   useModal={false}
                 />
               }
-              key="authentication.ldap_feature_discovery"
-              name="authentication/ldap"
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
@@ -287,20 +287,20 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
             />
             <AdminSidebarSection
               definitionKey="authentication.saml_feature_discovery"
-              indicator={
+              key="authentication.saml_feature_discovery"
+              name="authentication/saml"
+              restrictedIndicator={
                 <RestrictedIndicator
                   blocked={true}
                   tooltipMessageBlocked={
                     Object {
-                      "defaultMessage": "This is a paid feature, available with an upgrade or free {trialLength}-day trial",
+                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
                       "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
                     }
                   }
                   useModal={false}
                 />
               }
-              key="authentication.saml_feature_discovery"
-              name="authentication/saml"
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
@@ -311,20 +311,20 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
             />
             <AdminSidebarSection
               definitionKey="authentication.openid_feature_discovery"
-              indicator={
+              key="authentication.openid_feature_discovery"
+              name="authentication/openid"
+              restrictedIndicator={
                 <RestrictedIndicator
                   blocked={true}
                   tooltipMessageBlocked={
                     Object {
-                      "defaultMessage": "This is a paid feature, available with an upgrade or free {trialLength}-day trial",
+                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
                       "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
                     }
                   }
                   useModal={false}
                 />
               }
-              key="authentication.openid_feature_discovery"
-              name="authentication/openid"
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
@@ -335,20 +335,20 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
             />
             <AdminSidebarSection
               definitionKey="authentication.guest_access_feature_discovery"
-              indicator={
+              key="authentication.guest_access_feature_discovery"
+              name="authentication/guest_access"
+              restrictedIndicator={
                 <RestrictedIndicator
                   blocked={true}
                   tooltipMessageBlocked={
                     Object {
-                      "defaultMessage": "This is a paid feature, available with an upgrade or free {trialLength}-day trial",
+                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
                       "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
                     }
                   }
                   useModal={false}
                 />
               }
-              key="authentication.guest_access_feature_discovery"
-              name="authentication/guest_access"
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
@@ -416,20 +416,20 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
           >
             <AdminSidebarSection
               definitionKey="compliance.data_retention_feature_discovery"
-              indicator={
+              key="compliance.data_retention_feature_discovery"
+              name="compliance/data_retention"
+              restrictedIndicator={
                 <RestrictedIndicator
                   blocked={true}
                   tooltipMessageBlocked={
                     Object {
-                      "defaultMessage": "This is a paid feature, available with an upgrade or free {trialLength}-day trial",
+                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
                       "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
                     }
                   }
                   useModal={false}
                 />
               }
-              key="compliance.data_retention_feature_discovery"
-              name="compliance/data_retention"
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
@@ -440,20 +440,20 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
             />
             <AdminSidebarSection
               definitionKey="compliance.compliance_export_feature_discovery"
-              indicator={
+              key="compliance.compliance_export_feature_discovery"
+              name="compliance/export"
+              restrictedIndicator={
                 <RestrictedIndicator
                   blocked={true}
                   tooltipMessageBlocked={
                     Object {
-                      "defaultMessage": "This is a paid feature, available with an upgrade or free {trialLength}-day trial",
+                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
                       "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
                     }
                   }
                   useModal={false}
                 />
               }
-              key="compliance.compliance_export_feature_discovery"
-              name="compliance/export"
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
@@ -464,20 +464,20 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
             />
             <AdminSidebarSection
               definitionKey="compliance.custom_terms_of_service_feature_discovery"
-              indicator={
+              key="compliance.custom_terms_of_service_feature_discovery"
+              name="compliance/custom_terms_of_service"
+              restrictedIndicator={
                 <RestrictedIndicator
                   blocked={true}
                   tooltipMessageBlocked={
                     Object {
-                      "defaultMessage": "This is a paid feature, available with an upgrade or free {trialLength}-day trial",
+                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
                       "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
                     }
                   }
                   useModal={false}
                 />
               }
-              key="compliance.custom_terms_of_service_feature_discovery"
-              name="compliance/custom_terms_of_service"
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
@@ -4637,20 +4637,20 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             />
             <AdminSidebarSection
               definitionKey="user_management.groups_feature_discovery"
-              indicator={
+              key="user_management.groups_feature_discovery"
+              name="user_management/groups"
+              restrictedIndicator={
                 <RestrictedIndicator
                   blocked={true}
                   tooltipMessageBlocked={
                     Object {
-                      "defaultMessage": "This is a paid feature, available with an upgrade or free {trialLength}-day trial",
+                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
                       "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
                     }
                   }
                   useModal={false}
                 />
               }
-              key="user_management.groups_feature_discovery"
-              name="user_management/groups"
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
@@ -4697,20 +4697,20 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             />
             <AdminSidebarSection
               definitionKey="user_management.system_roles_feature_discovery"
-              indicator={
+              key="user_management.system_roles_feature_discovery"
+              name="user_management/system_roles"
+              restrictedIndicator={
                 <RestrictedIndicator
                   blocked={true}
                   tooltipMessageBlocked={
                     Object {
-                      "defaultMessage": "This is a paid feature, available with an upgrade or free {trialLength}-day trial",
+                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
                       "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
                     }
                   }
                   useModal={false}
                 />
               }
-              key="user_management.system_roles_feature_discovery"
-              name="user_management/system_roles"
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
@@ -4941,20 +4941,20 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             />
             <AdminSidebarSection
               definitionKey="site.announcement_banner_feature_discovery"
-              indicator={
+              key="site.announcement_banner_feature_discovery"
+              name="site_config/announcement_banner"
+              restrictedIndicator={
                 <RestrictedIndicator
                   blocked={true}
                   tooltipMessageBlocked={
                     Object {
-                      "defaultMessage": "This is a paid feature, available with an upgrade or free {trialLength}-day trial",
+                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
                       "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
                     }
                   }
                   useModal={false}
                 />
               }
-              key="site.announcement_banner_feature_discovery"
-              name="site_config/announcement_banner"
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
@@ -5093,20 +5093,20 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             />
             <AdminSidebarSection
               definitionKey="authentication.ldap_feature_discovery"
-              indicator={
+              key="authentication.ldap_feature_discovery"
+              name="authentication/ldap"
+              restrictedIndicator={
                 <RestrictedIndicator
                   blocked={true}
                   tooltipMessageBlocked={
                     Object {
-                      "defaultMessage": "This is a paid feature, available with an upgrade or free {trialLength}-day trial",
+                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
                       "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
                     }
                   }
                   useModal={false}
                 />
               }
-              key="authentication.ldap_feature_discovery"
-              name="authentication/ldap"
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
@@ -5117,20 +5117,20 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             />
             <AdminSidebarSection
               definitionKey="authentication.saml_feature_discovery"
-              indicator={
+              key="authentication.saml_feature_discovery"
+              name="authentication/saml"
+              restrictedIndicator={
                 <RestrictedIndicator
                   blocked={true}
                   tooltipMessageBlocked={
                     Object {
-                      "defaultMessage": "This is a paid feature, available with an upgrade or free {trialLength}-day trial",
+                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
                       "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
                     }
                   }
                   useModal={false}
                 />
               }
-              key="authentication.saml_feature_discovery"
-              name="authentication/saml"
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
@@ -5153,20 +5153,20 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             />
             <AdminSidebarSection
               definitionKey="authentication.openid_feature_discovery"
-              indicator={
+              key="authentication.openid_feature_discovery"
+              name="authentication/openid"
+              restrictedIndicator={
                 <RestrictedIndicator
                   blocked={true}
                   tooltipMessageBlocked={
                     Object {
-                      "defaultMessage": "This is a paid feature, available with an upgrade or free {trialLength}-day trial",
+                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
                       "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
                     }
                   }
                   useModal={false}
                 />
               }
-              key="authentication.openid_feature_discovery"
-              name="authentication/openid"
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
@@ -5177,20 +5177,20 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             />
             <AdminSidebarSection
               definitionKey="authentication.guest_access_feature_discovery"
-              indicator={
+              key="authentication.guest_access_feature_discovery"
+              name="authentication/guest_access"
+              restrictedIndicator={
                 <RestrictedIndicator
                   blocked={true}
                   tooltipMessageBlocked={
                     Object {
-                      "defaultMessage": "This is a paid feature, available with an upgrade or free {trialLength}-day trial",
+                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
                       "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
                     }
                   }
                   useModal={false}
                 />
               }
-              key="authentication.guest_access_feature_discovery"
-              name="authentication/guest_access"
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
@@ -5326,20 +5326,20 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
           >
             <AdminSidebarSection
               definitionKey="compliance.data_retention_feature_discovery"
-              indicator={
+              key="compliance.data_retention_feature_discovery"
+              name="compliance/data_retention"
+              restrictedIndicator={
                 <RestrictedIndicator
                   blocked={true}
                   tooltipMessageBlocked={
                     Object {
-                      "defaultMessage": "This is a paid feature, available with an upgrade or free {trialLength}-day trial",
+                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
                       "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
                     }
                   }
                   useModal={false}
                 />
               }
-              key="compliance.data_retention_feature_discovery"
-              name="compliance/data_retention"
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
@@ -5350,20 +5350,20 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             />
             <AdminSidebarSection
               definitionKey="compliance.compliance_export_feature_discovery"
-              indicator={
+              key="compliance.compliance_export_feature_discovery"
+              name="compliance/export"
+              restrictedIndicator={
                 <RestrictedIndicator
                   blocked={true}
                   tooltipMessageBlocked={
                     Object {
-                      "defaultMessage": "This is a paid feature, available with an upgrade or free {trialLength}-day trial",
+                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
                       "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
                     }
                   }
                   useModal={false}
                 />
               }
-              key="compliance.compliance_export_feature_discovery"
-              name="compliance/export"
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
@@ -5374,20 +5374,20 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             />
             <AdminSidebarSection
               definitionKey="compliance.custom_terms_of_service_feature_discovery"
-              indicator={
+              key="compliance.custom_terms_of_service_feature_discovery"
+              name="compliance/custom_terms_of_service"
+              restrictedIndicator={
                 <RestrictedIndicator
                   blocked={true}
                   tooltipMessageBlocked={
                     Object {
-                      "defaultMessage": "This is a paid feature, available with an upgrade or free {trialLength}-day trial",
+                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
                       "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
                     }
                   }
                   useModal={false}
                 />
               }
-              key="compliance.custom_terms_of_service_feature_discovery"
-              name="compliance/custom_terms_of_service"
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)

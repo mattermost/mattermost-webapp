@@ -20,10 +20,10 @@ type Props = {
     parentLink?: string;
     subsection?: boolean;
     tag?: string | JSX.Element;
-    indicator?: string | JSX.Element;
+    restrictedIndicator?: string | JSX.Element;
 }
 
-const AdminSidebarSection = ({name, title, action, children = [], definitionKey, type, parentLink = '', subsection = false, tag, indicator}: Props) => {
+const AdminSidebarSection = ({name, title, action, children = [], definitionKey, type, parentLink = '', subsection = false, tag, restrictedIndicator}: Props) => {
     const getLink = () => parentLink + '/' + name;
 
     const link = getLink();
@@ -54,9 +54,9 @@ const AdminSidebarSection = ({name, title, action, children = [], definitionKey,
             {tag}
         </span>
     ) : null;
-    const indicatorElem = indicator && (
+    const indicatorElem = restrictedIndicator && (
         <span className={`${className}-indicator`}>
-            {indicator}
+            {restrictedIndicator}
         </span>
     );
     const sidebarItemSafeId = createSafeId(name);

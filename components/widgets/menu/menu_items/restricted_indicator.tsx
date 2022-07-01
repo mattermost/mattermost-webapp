@@ -49,7 +49,7 @@ const RestrictedIndicator = ({
             return formatMessage(
                 {
                     id: 'restricted_indicator.tooltip.message.blocked',
-                    defaultMessage: 'This is a paid feature, available with a free {trialLength}-day trial',
+                    defaultMessage: 'This is a professional feature, available with a free {trialLength}-day trial',
                 }, {
                     trialLength: FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS,
                 },

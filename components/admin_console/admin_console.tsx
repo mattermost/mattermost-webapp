@@ -8,7 +8,7 @@ import {ActionFunc} from 'mattermost-redux/types/actions';
 import {AdminConfig, EnvironmentConfig, ClientLicense} from '@mattermost/types/config';
 import {Role} from '@mattermost/types/roles';
 import {ConsoleAccess} from 'mattermost-redux/types/admin';
-import {CloudState} from '@mattermost/types/cloud';
+import {CloudState, Product} from '@mattermost/types/cloud';
 import {Team} from '@mattermost/types/teams';
 import {DeepPartial} from '@mattermost/types/utilities';
 
@@ -77,9 +77,9 @@ type Item = {
     isDisabled?: (config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, buildEnterpriseReady?: boolean, consoleAccess?: ConsoleAccess, cloud?: CloudState, isCurrentUserSystemAdmin?: boolean) => boolean;
     schema: Record<string, any>;
     url: string;
-    indicator?: {
-        value: () => React.ReactNode;
-        shouldDisplay: () => boolean;
+    restrictedIndicator?: {
+        value: (cloud: CloudState) => React.ReactNode;
+        shouldDisplay: (license: ClientLicense, subscriptionProduct?: Product) => boolean;
     };
 }
 

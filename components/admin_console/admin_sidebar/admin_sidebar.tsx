@@ -26,7 +26,7 @@ import QuickInput from 'components/quick_input';
 
 import {ConsoleAccess} from 'mattermost-redux/types/admin';
 import {AdminConfig, ClientLicense} from '@mattermost/types/config';
-import {CloudState} from '@mattermost/types/cloud';
+import {CloudState, Product} from '@mattermost/types/cloud';
 import {DeepPartial} from '@mattermost/types/utilities';
 import {PluginRedux, PluginsResponse} from '@mattermost/types/plugins';
 
@@ -43,6 +43,7 @@ export type Props = {
     showTaskList: boolean;
     plugins?: Record<string, PluginRedux>;
     siteName?: string;
+    subscriptionProduct?: Product;
     actions: {
 
         // Function to get installed plugins
@@ -190,7 +191,7 @@ class AdminSidebar extends React.PureComponent<Props, State> {
     }
 
     renderRootMenu = (definition: typeof AdminDefinition) => {
-        const {config, license, buildEnterpriseReady, consoleAccess, cloud} = this.props;
+        const {config, license, buildEnterpriseReady, consoleAccess, cloud, subscriptionProduct} = this.props;
         const sidebarSections: JSX.Element[] = [];
         Object.entries(definition).forEach(([key, section]) => {
             let isSectionHidden = false;
@@ -229,7 +230,7 @@ class AdminSidebar extends React.PureComponent<Props, State> {
                             definitionKey={subDefinitionKey}
                             name={item.url}
                             tag={tag}
-                            indicator={item.indicator?.shouldDisplay(license) ? item.indicator.value(cloud) : undefined}
+                            restrictedIndicator={item.restrictedIndicator?.shouldDisplay(license, subscriptionProduct) ? item.restrictedIndicator.value(cloud) : undefined}
                             title={
                                 <FormattedMessage
                                     id={item.title}
