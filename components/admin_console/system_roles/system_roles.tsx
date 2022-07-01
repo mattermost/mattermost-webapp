@@ -124,4 +124,7 @@ t('admin.permissions.roles.system_manager.type');
 t('admin.permissions.roles.system_read_only_admin.name');
 t('admin.permissions.roles.system_read_only_admin.description');
 t('admin.permissions.roles.system_read_only_admin.type');
+t('admin.permissions.roles.system_custom_group_admin.name');
+t('admin.permissions.roles.system_custom_group_admin.description');
+t('admin.permissions.roles.system_custom_group_admin.type');
 
