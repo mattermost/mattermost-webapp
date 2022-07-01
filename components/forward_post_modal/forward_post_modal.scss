@@ -3,11 +3,6 @@
         margin-top: 64px;
     }
 
-    .modal-body {
-        // needed to allow the select menu to overflow the modal-body
-        overflow: visible;
-    }
-
     &__body {
         display: flex;
         overflow: visible;
@@ -115,9 +110,7 @@
         }
 
         &--override {
-            overflow: auto !important;
-            max-height: 480px;
-            padding: 2px 2px 2px 0;
+            padding: 2px 0;
 
             &:not(.post--editing):not(.post--editing):hover {
                 background-color: transparent;
@@ -130,12 +123,20 @@
     }
 }
 
-.console__body .modal .GenericModal .modal-body .form-control,
-.app__body .modal .GenericModal .modal-body .form-control {
-    border: none;
-    box-shadow: none;
+.console__body .modal .GenericModal.forward-post,
+.app__body .modal .GenericModal.forward-post {
+    margin-top: 64px;
 
-    &#forward_post_textbox_placeholder {
-        opacity: 0.64 !important;
+    .modal-body {
+        max-height: calc(100vh - 128px - 61px - 88px);
+
+        .form-control {
+            border: none;
+            box-shadow: none;
+
+            &#forward_post_textbox_placeholder {
+                opacity: 0.64 !important;
+            }
+        }
     }
 }
