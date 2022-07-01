@@ -113,6 +113,9 @@ describe('components/threading/global_threads/thread_item', () => {
             postsInThread: [],
             thread: mockThread,
             threadId: mockThread.id,
+            actions: {
+                getPostThread: jest.fn(),
+            },
         };
     });
 

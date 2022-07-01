@@ -14,6 +14,7 @@ import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
 import {Posts} from 'mattermost-redux/constants';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import * as Utils from 'utils/utils';
 import {Constants, CrtTutorialSteps, Preferences} from 'utils/constants';
@@ -49,6 +50,9 @@ type Props = {
     post: Post;
     postsInThread: Post[];
     thread: UserThread;
+    actions: {
+        getPostThread: (rootId: string) => Promise<any>|ActionFunc;
+    };
 };
 
 const markdownPreviewOptions = {
@@ -68,6 +72,7 @@ function ThreadItem({
     thread,
     threadId,
     isFirstThreadInList,
+    actions,
 }: Props & OwnProps): React.ReactElement|null {
     const dispatch = useDispatch();
     const {select, goToInChannel} = useThreadRouting();
@@ -79,6 +84,10 @@ function ThreadItem({
     const showListTutorialTip = tipStep === CrtTutorialSteps.LIST_POPOVER;
     const msgDeleted = formatMessage({id: 'post_body.deleted', defaultMessage: '(message deleted)'});
     const postAuthor = post.props?.override_username || displayName;
+
+    useEffect(() => {
+        actions.getPostThread(post.id);
+    }, []);
 
     useEffect(() => {
         if (channel?.teammate_id) {
