@@ -54,6 +54,7 @@ describe('components/threading/common/thread_menu', () => {
     beforeEach(() => {
         props = {
             threadId: '1y8hpek81byspd4enyk9mp1ncw',
+            lastPostId: '1y8hpek81byspd4enyk9mp1ncw',
             unreadTimestamp: 1610486901110,
             hasUnreads: false,
             isFollowing: false,

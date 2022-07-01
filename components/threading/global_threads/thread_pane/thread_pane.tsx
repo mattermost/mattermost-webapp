@@ -112,6 +112,7 @@ const ThreadPane = ({
                         />
                         <ThreadMenu
                             threadId={threadId}
+                            lastPostId={postsInThread.length > 1 ? postsInThread[0].id : threadId}
                             isFollowing={isFollowing}
                             hasUnreads={Boolean(thread.unread_replies || thread.unread_mentions)}
                             unreadTimestamp={unreadTimestamp}
