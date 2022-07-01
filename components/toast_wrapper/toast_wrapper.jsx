@@ -95,8 +95,8 @@ class ToastWrapper extends React.PureComponent {
         let unreadCount;
 
         if (props.atLatestPost) {
-            if (prevState.unreadCountInChannel) {
-                unreadCount = prevState.unreadCountInChannel;
+            if (props.unreadScrollPosition === Preferences.UNREAD_SCROLL_POSITION_START_FROM_NEWEST && prevState.unreadCountInChannel) {
+                unreadCount = prevState.unreadCountInChannel + props.newRecentMessagesCount;
             } else {
                 unreadCount = ToastWrapper.countNewMessages(props.postListIds, props.rootPosts, props.isCollapsedThreadsEnabled);
             }
