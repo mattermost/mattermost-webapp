@@ -824,10 +824,6 @@
     }
 }
 
-.more-modal__icon-container {
-    margin-right: 6px;
-}
-
 .more-modal__list {
     display: flex;
     flex-direction: column;
@@ -895,6 +891,10 @@
             .more-modal__name_count {
                 font-weight: 400;
                 opacity: 0.6;
+            }
+
+            svg {
+                margin-right: 6px;
             }
         }
     }

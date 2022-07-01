@@ -54,7 +54,7 @@ describe('Collapsed Reply Threads', () => {
         cy.visit(offTopicUrlA);
     });
 
-    it('MM-44169 should stay on threads view when switching teams', () => {
+    it('MM-T4887 should stay on threads view when switching teams', () => {
         // # Navigate to the new teams town square
         cy.visit(`/${teamA.name}/channels/town-square`);
 

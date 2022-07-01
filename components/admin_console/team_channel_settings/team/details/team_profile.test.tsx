@@ -2,12 +2,12 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import configureStore from 'redux-mock-store';
 import * as reactRedux from 'react-redux';
 import {shallow} from 'enzyme';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import {TestHelper} from 'utils/test_helper';
+import mockStore from 'tests/test_store';
 
 import {CloudProducts} from 'utils/constants';
 import {FileSizes} from 'utils/file_utils';
@@ -103,7 +103,6 @@ describe('admin_console/team_channel_settings/team/TeamProfile__Cloud', () => {
     };
 
     test('should match snapshot - archived, at teams limit', () => {
-        const mockStore = configureStore();
         const store = mockStore(initialState);
         const wrapper = mountWithIntl(
             <reactRedux.Provider store={store}>
@@ -119,7 +118,6 @@ describe('admin_console/team_channel_settings/team/TeamProfile__Cloud', () => {
             ...baseProps,
             isArchived: false,
         };
-        const mockStore = configureStore();
         const store = mockStore(initialState);
         const wrapper = mountWithIntl(
             <reactRedux.Provider store={store}>
@@ -178,7 +176,6 @@ describe('admin_console/team_channel_settings/team/TeamProfile__Cloud', () => {
                 cardsLoaded: true,
             },
         };
-        const mockStore = configureStore();
         const store = mockStore(state);
         const wrapper = mountWithIntl(
             <reactRedux.Provider store={store}>
@@ -279,7 +276,6 @@ describe('admin_console/team_channel_settings/team/TeamProfile', () => {
         },
     };
     const state = JSON.parse(JSON.stringify(initialState));
-    const mockStore = configureStore();
     const store = mockStore(state);
     test('should match snapshot (not cloud, freemium disabled', () => {
         const wrapper = shallow(

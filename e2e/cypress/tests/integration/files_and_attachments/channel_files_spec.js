@@ -59,7 +59,7 @@ describe('Channel files', () => {
 
 function attachFile(file) {
     // # Post file to user
-    cy.get('#centerChannelFooter').
+    cy.get('#advancedTextEditorCell').
         find('#fileUploadInput').
         attachFile(file);
     waitUntilUploadComplete();

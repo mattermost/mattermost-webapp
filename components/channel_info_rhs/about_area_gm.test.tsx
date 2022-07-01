@@ -3,17 +3,14 @@
 
 import React from 'react';
 import {screen} from '@testing-library/react';
-import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
 import {Provider} from 'react-redux';
 
 import {renderWithIntl} from 'tests/react_testing_utils';
+import mockStore from 'tests/test_store';
 import {Channel} from '@mattermost/types/channels';
 import {UserProfile} from '@mattermost/types/users';
 
 import AboutAreaGM from './about_area_gm';
-
-const mockStore = configureStore([thunk]);
 
 const initialState = {
     entities: {
