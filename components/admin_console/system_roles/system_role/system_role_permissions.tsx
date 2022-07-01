@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import {FormattedMessage} from 'react-intl';
+
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 import {Role} from '@mattermost/types/roles';
 
@@ -10,6 +12,7 @@ import {t} from 'utils/i18n';
 
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import Constants from 'utils/constants';
+import FormattedMarkdownMessage from '../../../formatted_markdown_message';
 
 import SystemRolePermission from './system_role_permission';
 import {PermissionsToUpdate, PermissionToUpdate, SystemSection} from './types';
@@ -196,7 +199,34 @@ export default class SystemRolePermissions extends React.PureComponent<Props, St
         };
 
         if (this.props.role.name === Constants.PERMISSIONS_SYSTEM_CUSTOM_GROUP_ADMIN) {
-            return 'This is where the description for the custom group admin goes';
+            const {permissions} = this.props.role;
+            const permissionsList = permissions.length === 0 ? (
+                <FormattedMessage
+                    id='admin.permissions.roles.system_custom_group_admin.no_permissions_text'
+                    defaultMessage='No permissions'
+                />
+            ) : (
+                <ul className='SystemRolePermissionsList'>
+                    {permissions.map((permission) => {
+                        return (
+                            <li key={permission}>
+                                <strong><FormattedMessage id={`admin.permissions.permission.${permission}.name`}/></strong>
+                                <br/>
+                                <FormattedMessage id={`admin.permissions.permission.${permission}.description`}/>
+                            </li>
+                        );
+                    })}
+                </ul>
+            );
+
+            return (
+                <>
+                    <FormattedMarkdownMessage
+                        id='admin.permissions.roles.system_custom_group_admin.detail_text'
+                    />
+                    {permissionsList}
+                </>
+            );
         }
 
         if (this.props.role.name === Constants.PERMISSIONS_SYSTEM_USER_MANAGER) {
