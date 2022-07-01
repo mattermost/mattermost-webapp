@@ -104,6 +104,10 @@ export type PaymentMethod = {
     name: string;
 }
 
+export type NotifyAdminRequest = {
+    current_team_id: string;
+}
+
 // Invoice model represents a invoice on the system.
 export type Invoice = {
     id: string;

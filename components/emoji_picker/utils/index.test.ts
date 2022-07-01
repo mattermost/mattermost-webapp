@@ -192,7 +192,7 @@ describe('getFilteredEmojis', () => {
         expect(getFilteredEmojis(allEmojis as any, filter, recentEmojisString, userSkinTone)).toEqual(filteredResults);
     });
 
-    test('Should filter emojis containning skin tone with user skin tone', () => {
+    test('Should filter emojis containing skin tone with user skin tone', () => {
         const allEmojis = {
             thumbsup: thumbsupEmoji,
             thumbsupDark: thumbsupEmojiDarkSkin,
@@ -203,6 +203,8 @@ describe('getFilteredEmojis', () => {
         const recentEmojisString: string[] = [];
         const userSkinTone = SkinTones.Dark;
 
+        // Note that filteredResults doesn't match what will be returned in a real use case because the variants of
+        // thumbsup will be deduped when using non-test data
         const filteredResults = [
             thumbsupEmoji,
             thumbsupEmojiDarkSkin,
@@ -211,7 +213,7 @@ describe('getFilteredEmojis', () => {
         expect(getFilteredEmojis(allEmojis as any, filter, recentEmojisString, userSkinTone)).toEqual(filteredResults);
     });
 
-    test('Should filter recent emojis containning skin tone with user skin tone', () => {
+    test('Should filter recent emojis', () => {
         const allEmojis = {
             thumbsup: thumbsupEmoji,
             thumbsupDark: thumbsupEmojiDarkSkin,
@@ -219,28 +221,11 @@ describe('getFilteredEmojis', () => {
             thumbsupMedium: thumbsupEmojiMediumSkin,
         };
         const filter = 'thumbs';
-        const recentEmojisString = ['thumbsupMedium', 'thumbsupDark'];
+        const recentEmojisString = ['thumbsupDark'];
         const userSkinTone = SkinTones.Dark;
 
-        const filteredResults = [
-            thumbsupEmojiDarkSkin,
-            thumbsupEmoji,
-        ];
-
-        expect(getFilteredEmojis(allEmojis as any, filter, recentEmojisString, userSkinTone)).toEqual(filteredResults);
-    });
-
-    test('Should filter recent emojis containning skin tone and replace with user skin tone', () => {
-        const allEmojis = {
-            thumbsup: thumbsupEmoji,
-            thumbsupDark: thumbsupEmojiDarkSkin,
-            thumbsupLight: thumbsupEmojiLightSkin,
-            thumbsupMedium: thumbsupEmojiMediumSkin,
-        };
-        const filter = 'thumbs';
-        const recentEmojisString = ['thumbsupMedium', 'thumbsupLight'];
-        const userSkinTone = SkinTones.Dark;
-
+        // Note that filteredResults doesn't match what will be returned in a real use case because the variants of
+        // thumbsup will be deduped when using non-test data
         const filteredResults = [
             thumbsupEmojiDarkSkin,
             thumbsupEmoji,

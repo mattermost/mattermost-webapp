@@ -2,10 +2,10 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import configureStore from 'redux-mock-store';
 import {Provider} from 'react-redux';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import mockStore from 'tests/test_store';
 
 import {FileSizes} from 'utils/file_utils';
 import {limitThresholds} from 'utils/limits';
@@ -99,8 +99,6 @@ const users = {
 const id = 'menuItemCloudLimit';
 
 describe('components/widgets/menu/menu_items/menu_item_cloud_limit', () => {
-    const mockStore = configureStore();
-
     test('Does not render if not cloud', () => {
         const state = {
             entities: {
