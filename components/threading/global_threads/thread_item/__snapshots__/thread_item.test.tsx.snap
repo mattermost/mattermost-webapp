@@ -38,6 +38,7 @@ exports[`components/threading/global_threads/thread_item should report total num
     <Memo(ThreadMenu)
       hasUnreads={false}
       isFollowing={true}
+      lastPostId="1y8hpek81byspd4enyk9mp1ncw"
       threadId="1y8hpek81byspd4enyk9mp1ncw"
       unreadTimestamp={1611786714912}
     >
@@ -157,6 +158,7 @@ exports[`components/threading/global_threads/thread_item should report unread me
     <Memo(ThreadMenu)
       hasUnreads={true}
       isFollowing={true}
+      lastPostId="1y8hpek81byspd4enyk9mp1ncw"
       threadId="1y8hpek81byspd4enyk9mp1ncw"
       unreadTimestamp={1611786714912}
     >
@@ -274,6 +276,7 @@ exports[`components/threading/global_threads/thread_item should report unread me
     <Memo(ThreadMenu)
       hasUnreads={true}
       isFollowing={true}
+      lastPostId="1y8hpek81byspd4enyk9mp1ncw"
       threadId="1y8hpek81byspd4enyk9mp1ncw"
       unreadTimestamp={1611786714912}
     >
