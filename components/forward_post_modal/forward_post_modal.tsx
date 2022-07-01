@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {useCallback, useState} from 'react';
-import {FormattedMessage, useIntl} from 'react-intl';
+import {FormattedList, FormattedMessage, useIntl} from 'react-intl';
 import {useSelector} from 'react-redux';
 import {ValueType} from 'react-select';
 import classNames from 'classnames';
@@ -108,20 +108,14 @@ const ForwardPostModal = ({onExited, post, currentChannel, currentTeam, actions}
             );
         } else {
             const allParticipants = currentChannel.display_name.split(', ');
-            const participants =
-                allParticipants.length === 1 ? allParticipants[0] : `${allParticipants.
-                    slice(0, -1).
-                    join(', ')}</strong> and <strong>${
-                    allParticipants[allParticipants.length - 1]
-                }`;
+            const participants = allParticipants.map((participant) => <strong key={participant}>{participant}</strong>);
 
             notificationText = (
                 <FormattedMessage
                     id='forward_post_modal.notification.dm_or_gm'
-                    defaultMessage='This message is from a private conversation and can only be shared with <strong>{participants}</strong>'
+                    defaultMessage='This message is from a private conversation and can only be shared with {participants}'
                     values={{
-                        participants,
-                        strong: (x: React.ReactNode) => <strong>{x}</strong>,
+                        participants: <FormattedList value={participants}/>,
                     }}
                 />
             );
