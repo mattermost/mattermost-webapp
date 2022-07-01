@@ -60,11 +60,12 @@ describe('components/ToastWrapper', () => {
             expect(wrapper.state('unreadCount')).toBe(15);
         });
 
-        test('If atLatestPost and prevState.unreadCountInChannel is not 0 then unread count then unread count is based on the unreadCountInChannel', () => {
+        test('If atLatestPost and unreadScrollPosition is startFromNewest and prevState.unreadCountInChannel is not 0 then unread count then unread count is based on the unreadCountInChannel', () => {
             const props = {
                 ...baseProps,
                 atLatestPost: true,
                 unreadCountInChannel: 10,
+                unreadScrollPosition: Preferences.UNREAD_SCROLL_POSITION_START_FROM_NEWEST,
                 postListIds: [ //order of the postIds is in reverse order so unreadCount should be 3
                     'post1',
                     'post2',
