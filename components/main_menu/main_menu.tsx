@@ -60,7 +60,7 @@ export type Props = {
     intl: IntlShape;
     teamUrl: string;
     isFirstAdmin: boolean;
-    isCloud: boolean;
+    isStarterFree: boolean;
     isFreeTrial: boolean;
     usageDeltaTeams: number;
     location: {
@@ -153,8 +153,8 @@ export class MainMenu extends React.PureComponent<Props> {
 
         const someIntegrationEnabled = this.props.enableIncomingWebhooks || this.props.enableOutgoingWebhooks || this.props.enableCommands || this.props.enableOAuthServiceProvider || this.props.canManageSystemBots;
         const showIntegrations = !this.props.mobile && someIntegrationEnabled && this.props.canManageIntegrations;
-        const teamsLimitReached = this.props.isCloud && !this.props.isFreeTrial && this.props.usageDeltaTeams >= 0;
-        const createTeamRestricted = this.props.isCloud && (this.props.isFreeTrial || teamsLimitReached);
+        const teamsLimitReached = this.props.isStarterFree && !this.props.isFreeTrial && this.props.usageDeltaTeams >= 0;
+        const createTeamRestricted = this.props.isStarterFree && (this.props.isFreeTrial || teamsLimitReached);
 
         const {formatMessage} = this.props.intl;
 

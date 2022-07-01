@@ -72,7 +72,7 @@ describe('components/Menu', () => {
             getCloudLimits: jest.fn(),
         },
         teamIsGroupConstrained: false,
-        isCloud: false,
+        isStarterFree: false,
         subscription: {},
         userIsAdmin: true,
         isFreeTrial: false,
@@ -291,7 +291,7 @@ describe('components/Menu', () => {
     test('should match snapshot with cloud free trial', () => {
         const props = {
             ...defaultProps,
-            isCloud: true,
+            isStarterFree: true,
             isFreeTrial: true,
             usageDeltaTeams: -1,
         };
@@ -302,7 +302,7 @@ describe('components/Menu', () => {
     test('should match snapshot with cloud free and team limit reached', () => {
         const props = {
             ...defaultProps,
-            isCloud: true,
+            isStarterFree: true,
             isFreeTrial: false,
             usageDeltaTeams: 0,
         };
