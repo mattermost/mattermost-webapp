@@ -2,10 +2,17 @@
 // See LICENSE.txt for license information.
 
 import React, {useCallback, useState} from 'react';
+
 import {FormattedList, FormattedMessage, useIntl} from 'react-intl';
+
 import {useSelector} from 'react-redux';
+
 import {ValueType} from 'react-select';
+
 import classNames from 'classnames';
+
+import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import NotificationBox from 'components/notification_box';
 
@@ -34,12 +41,15 @@ export type Props = PropsFromRedux & OwnProps & { actions: ActionProps };
 
 const noop = () => {};
 
-const ForwardPostModal = ({onExited, post, currentChannel, currentTeam, actions}: Props) => {
+const ForwardPostModal = ({onExited, post, actions}: Props) => {
     const {formatMessage} = useIntl();
 
     const [comment, setComment] = useState('');
     const [postError, setPostError] = useState<React.ReactNode>(null);
     const [selectedChannel, setSelectedChannel] = useState<ChannelOption>();
+
+    const currentChannel = useSelector((state: GlobalState) => getCurrentChannel(state));
+    const currentTeam = useSelector((state: GlobalState) => getCurrentTeam(state));
 
     const selectedChannelId = selectedChannel?.details?.id || '';
 
