@@ -5879,7 +5879,7 @@ const AdminDefinition = {
                             ),
                             linkBots: (msg) => (
                                 <a
-                                    href={`${siteURL}/_redirect/integrations/bots`}
+                                    href={`${getSiteURL()}/_redirect/integrations/bots`}
                                 >
                                     {msg}
                                 </a>
