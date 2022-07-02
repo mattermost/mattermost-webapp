@@ -65,12 +65,7 @@ const RestrictedIndicator = ({
         return typeof tooltipMessageBlocked === 'string' ? tooltipMessageBlocked : formatMessage(tooltipMessageBlocked, {trialLength: FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS});
     }, [tooltipMessageBlocked]);
 
-    const content = (
-        <>
-            <i className={classNames('RestrictedIndicator__icon-tooltip', 'icon', blocked ? 'icon-key-variant' : 'trial')}/>
-            {ctaExtraContent}
-        </>
-    );
+    const icon = <i className={classNames('RestrictedIndicator__icon-tooltip', 'icon', blocked ? 'icon-key-variant' : 'trial')}/>;
 
     const handleClickCallback = () => {
         if (clickCallback) {
@@ -114,10 +109,14 @@ const RestrictedIndicator = ({
                             customSecondaryButton: customSecondaryButtonInModal,
                         }}
                     >
-                        {content}
+                        {icon}
+                        {ctaExtraContent}
                     </ToggleModalButton>
                 ) : (
-                    content
+                    <div className='RestrictedIndicator__content'>
+                        {icon}
+                        {ctaExtraContent}
+                    </div>
                 )}
             </OverlayTrigger>
         </span>

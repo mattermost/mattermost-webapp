@@ -256,7 +256,7 @@ const getRestrictedIndicator = (displayBlocked = false) => ({
     value: (cloud) => (
         <RestrictedIndicator
             useModal={false}
-            blocked={displayBlocked || !cloud?.subscription?.is_free_trial === 'true'}
+            blocked={displayBlocked || !(cloud?.subscription?.is_free_trial === 'true')}
             tooltipMessageBlocked={{
                 id: t('admin.sidebar.restricted_indicator.tooltip.message.blocked'),
                 defaultMessage: 'This is a professional feature, available with an upgrade or free {trialLength}-day trial',
