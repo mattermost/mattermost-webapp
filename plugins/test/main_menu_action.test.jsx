@@ -45,6 +45,7 @@ describe('plugins/MainMenuActions', () => {
             closeRhsMenu: jest.fn(),
             getCloudLimits: jest.fn(),
         },
+        isCloud: false,
         isStarterFree: false,
         subscription: {},
         userIsAdmin: true,

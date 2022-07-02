@@ -89,6 +89,7 @@ function mapStateToProps(state: GlobalState) {
         guestAccessEnabled: config.EnableGuestAccounts === 'true',
         canInviteTeamMember,
         isFirstAdmin: isFirstAdmin(state),
+        isCloud,
         isStarterFree,
         isFreeTrial,
     };
