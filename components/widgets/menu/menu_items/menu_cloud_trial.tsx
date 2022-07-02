@@ -93,7 +93,7 @@ const MenuCloudTrial = ({id}: Props): JSX.Element | null => {
                             openModalLink: (msg: string) => (
                                 <a
                                     className='open-trial-benefits-modal style-link'
-                                    onClick={openTrialBenefitsModal}
+                                    onClick={isAdmin ? openTrialBenefitsModal : openPricingModal}
                                 >
                                     {msg}
                                 </a>
