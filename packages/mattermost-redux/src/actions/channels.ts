@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable max-lines */
+
 import {AnyAction} from 'redux';
 import {batchActions} from 'redux-batched-actions';
 
@@ -525,10 +527,29 @@ export function fetchAllMyTeamsChannelsAndChannelMembers(): ActionFunc {
         const state = getState();
         const {currentUserId} = state.entities.users;
         let channels;
-        let channelsMembers;
+        let channelsMembers: ChannelMembership[] = [];
+        let allMembers = true;
+        let page = 0;
+        do {
+            try {
+                // eslint-disable-next-line no-await-in-loop
+                await Client4.getAllChannelsMembers(currentUserId, page, 200).then(
+                    // eslint-disable-next-line no-loop-func
+                    (data) => {
+                        channelsMembers = [...channelsMembers, ...data];
+                        page++;
+                        if (data.length < 200) {
+                            allMembers = false;
+                        }
+                    });
+            } catch (error) {
+                forceLogoutIfNecessary(error, dispatch, getState);
+                dispatch(logError(error));
+                return {error};
+            }
+        } while (allMembers && page <= 2);
         try {
             channels = await Client4.getAllTeamsChannels();
-            channelsMembers = await Client4.getAllChannelsMembers(currentUserId);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
             dispatch(logError(error));
@@ -547,45 +568,6 @@ export function fetchAllMyTeamsChannelsAndChannelMembers(): ActionFunc {
             },
         ]));
         return {data: {channels, channelsMembers}};
-    };
-}
-
-export function getMyChannelMembers(teamId: string): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        let channelMembers;
-        try {
-            const channelMembersRequest = Client4.getMyChannelMembers(teamId);
-
-            channelMembers = await channelMembersRequest;
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
-            return {error};
-        }
-
-        const state = getState();
-        const {currentUserId} = state.entities.users;
-        const {currentChannelId} = state.entities.channels;
-
-        dispatch({
-            type: ChannelTypes.RECEIVED_MY_CHANNEL_MEMBERS,
-            data: channelMembers,
-            remove: getChannelsIdForTeam(getState(), teamId),
-            currentUserId,
-            currentChannelId,
-        });
-        const roles = new Set<string>();
-
-        for (const member of channelMembers) {
-            for (const role of member.roles.split(' ')) {
-                roles.add(role);
-            }
-        }
-        if (roles.size > 0) {
-            dispatch(loadRolesIfNeeded(roles));
-        }
-
-        return {data: channelMembers};
     };
 }
 
@@ -1588,7 +1570,6 @@ export default {
     updateChannelNotifyProps,
     getChannel,
     fetchMyChannelsAndMembers,
-    getMyChannelMembers,
     getChannelTimezones,
     getChannelMembersByIds,
     leaveChannel,

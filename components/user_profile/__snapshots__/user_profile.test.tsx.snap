@@ -128,3 +128,47 @@ exports[`components/UserProfile should match snapshot, when user is shared 1`] =
   />
 </Fragment>
 `;
+
+exports[`components/UserProfile should match snapshot, with colorization 1`] = `
+<Fragment>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    overlay={
+      <Memo(Connect(injectIntl(ProfilePopover)))
+        className="user-profile-popover"
+        hasMention={false}
+        hide={[Function]}
+        hideStatus={false}
+        isBusy={false}
+        isRHS={false}
+        overwriteName=""
+        src="/api/v4/users/undefined/image?_=0"
+        userId="user_id"
+      />
+    }
+    placement="right"
+    rootClose={true}
+    trigger="click"
+  >
+    <button
+      aria-label="nickname"
+      className="user-popover style--none"
+      style={
+        Object {
+          "color": "#000000",
+        }
+      }
+    >
+      nickname
+    </button>
+  </OverlayTrigger>
+  <BotBadge
+    className="badge-popoverlist"
+    show={false}
+  />
+  <GuestBadge
+    className="badge-popoverlist"
+    show={false}
+  />
+</Fragment>
+`;

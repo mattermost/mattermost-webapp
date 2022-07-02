@@ -4,7 +4,8 @@
 import React from 'react';
 import {mount} from 'enzyme';
 import * as reactRedux from 'react-redux';
-import configureStore from 'redux-mock-store';
+
+import mockStore from 'tests/test_store';
 
 import {CloudProducts} from 'utils/constants';
 import * as cloudActions from 'mattermost-redux/actions/cloud';
@@ -20,9 +21,6 @@ describe('components/global/CloudUpgradeButton', () => {
     const initialState = {
         entities: {
             general: {
-                config: {
-                    FeatureFlagCloudFree: 'true',
-                } as any,
                 license: {
                     IsLicensed: 'true',
                     Cloud: 'true',
@@ -56,7 +54,6 @@ describe('components/global/CloudUpgradeButton', () => {
         const cloudSubscriptionSpy = jest.spyOn(cloudActions, 'getCloudSubscription');
         const cloudProductsSpy = jest.spyOn(cloudActions, 'getCloudProducts');
 
-        const mockStore = configureStore();
         const store = mockStore(state);
 
         const dummyDispatch = jest.fn();
@@ -89,7 +86,6 @@ describe('components/global/CloudUpgradeButton', () => {
             },
         };
 
-        const mockStore = configureStore();
         const store = mockStore(state);
 
         const dummyDispatch = jest.fn();
@@ -120,7 +116,6 @@ describe('components/global/CloudUpgradeButton', () => {
             },
         };
 
-        const mockStore = configureStore();
         const store = mockStore(state);
 
         const dummyDispatch = jest.fn();
@@ -151,7 +146,6 @@ describe('components/global/CloudUpgradeButton', () => {
             },
         };
 
-        const mockStore = configureStore();
         const store = mockStore(state);
 
         const dummyDispatch = jest.fn();
@@ -175,7 +169,6 @@ describe('components/global/CloudUpgradeButton', () => {
             },
         };
 
-        const mockStore = configureStore();
         const store = mockStore(state);
 
         const dummyDispatch = jest.fn();
@@ -200,7 +193,6 @@ describe('components/global/CloudUpgradeButton', () => {
         const cloudSubscriptionSpy = jest.spyOn(cloudActions, 'getCloudSubscription');
         const cloudProductsSpy = jest.spyOn(cloudActions, 'getCloudProducts');
 
-        const mockStore = configureStore();
         const store = mockStore(state);
 
         const dummyDispatch = jest.fn();

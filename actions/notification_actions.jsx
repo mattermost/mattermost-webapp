@@ -10,7 +10,7 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getTeammateNameDisplaySetting, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId, getCurrentUser, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
-import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
+import {isSystemMessage, isUserAddedInChannel} from 'mattermost-redux/utils/post_utils';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
 import {isThreadOpen} from 'selectors/views/threads';
@@ -34,7 +34,7 @@ export function sendDesktopNotification(post, msgProps) {
             return;
         }
 
-        if (isSystemMessage(post)) {
+        if (isSystemMessage(post) && !isUserAddedInChannel(post, currentUserId)) {
             return;
         }
 

@@ -90,6 +90,8 @@ export const Preferences = {
     MESSAGE_DISPLAY_CLEAN: 'clean',
     MESSAGE_DISPLAY_COMPACT: 'compact',
     MESSAGE_DISPLAY_DEFAULT: 'clean',
+    COLORIZE_USERNAMES: 'colorize_usernames',
+    COLORIZE_USERNAMES_DEFAULT: 'true',
     COLLAPSED_REPLY_THREADS: 'collapsed_reply_threads',
     COLLAPSED_REPLY_THREADS_OFF: 'off',
     COLLAPSED_REPLY_THREADS_ON: 'on',
@@ -135,6 +137,7 @@ export const Preferences = {
     // A/B test preference value
     AB_TEST_PREFERENCE_VALUE: 'ab_test_preference_value',
 
+    RECENT_EMOJIS: 'recent_emojis',
     ONBOARDING: 'onboarding',
     ADVANCED_TEXT_EDITOR: 'advanced_text_editor',
 };
@@ -287,6 +290,9 @@ export const ActionTypes = keyMirror({
     UNSUPPRESS_RHS: null,
 
     FIRST_CHANNEL_NAME: null,
+
+    RECEIVED_BOARDS_INSIGHTS: null,
+    SET_EDIT_CHANNEL_MEMBERS: null,
 });
 
 export const PostRequestTypes = keyMirror({
@@ -357,6 +363,9 @@ export const ModalIdentifiers = {
     MORE_CHANNELS: 'more_channels',
     NEW_CHANNEL_MODAL: 'new_channel_modal',
     CLOUD_PURCHASE: 'cloud_purchase',
+    CLOUD_DOWNGRADE_CHOOSE_TEAM: 'cloud_downgrade_choose_team',
+    SUCCESS_MODAL: 'success_modal',
+    ERROR_MODAL: 'error_modal',
     DND_CUSTOM_TIME_PICKER: 'dnd_custom_time_picker',
     CUSTOM_STATUS: 'custom_status',
     COMMERCIAL_SUPPORT: 'commercial_support',
@@ -382,7 +391,7 @@ export const ModalIdentifiers = {
     INSIGHTS: 'insights',
     CLOUD_LIMITS: 'cloud_limits',
     REQUEST_BUSINESS_EMAIL_MODAL: 'request_business_email_modal',
-    CREATE_TEAM_RESTRICTED_MODAL: 'create_team_restricted_modal',
+    FEATURE_RESTRICTED_MODAL: 'feature_restricted_modal',
 };
 
 export const UserStatuses = {
@@ -591,6 +600,7 @@ export const Threads = {
 export const CloudBanners = {
     HIDE: 'hide',
     TRIAL: 'trial',
+    UPGRADE_FROM_TRIAL: 'upgrade_from_trial',
 };
 
 export const AdvancedTextEditor = {
@@ -1610,6 +1620,7 @@ export const Constants = {
     } as Record<string, [string, number]>),
     CODE_PREVIEW_MAX_FILE_SIZE: 500000, // 500 KB
     HighlightedLanguages: {
+        '1c': {name: '1C:Enterprise', extensions: ['bsl', 'os'], aliases: ['bsl']},
         actionscript: {name: 'ActionScript', extensions: ['as'], aliases: ['as', 'as3']},
         applescript: {name: 'AppleScript', extensions: ['applescript', 'osascript', 'scpt']},
         bash: {name: 'Bash', extensions: ['sh'], aliases: ['sh']},
@@ -1946,7 +1957,52 @@ export const InsightsCardTitles = {
             defaultMessage: 'Reactions I\'ve used the most',
         },
     },
+    TOP_THREADS: {
+        teamTitle: {
+            id: t('insights.topThreads.title'),
+            defaultMessage: 'Top threads',
+        },
+        myTitle: {
+            id: t('insights.topThreads.myTitle'),
+            defaultMessage: 'My top threads',
+        },
+        teamSubTitle: {
+            id: t('insights.topThreads.subTitle'),
+            defaultMessage: 'Most active threads for the team',
+        },
+        mySubTitle: {
+            id: t('insights.topThreads.mySubTitle'),
+            defaultMessage: 'Most active threads I\'ve followed',
+        },
+    },
+    TOP_BOARDS: {
+        teamTitle: {
+            id: t('insights.topBoards.title'),
+            defaultMessage: 'Top boards',
+        },
+        myTitle: {
+            id: t('insights.topBoards.myTitle'),
+            defaultMessage: 'My top boards',
+        },
+        teamSubTitle: {
+            id: t('insights.topBoards.subTitle'),
+            defaultMessage: 'Most active boards for the team',
+        },
+        mySubTitle: {
+            id: t('insights.topBoards.mySubTitle'),
+            defaultMessage: 'Most active boards I\'ve participated in',
+        },
+    },
 };
+
+export enum ClaimErrors {
+    MFA_VALIDATE_TOKEN_AUTHENTICATE = 'mfa.validate_token.authenticate.app_error',
+    ENT_LDAP_LOGIN_USER_NOT_REGISTERED = 'ent.ldap.do_login.user_not_registered.app_error',
+    ENT_LDAP_LOGIN_USER_FILTERED = 'ent.ldap.do_login.user_filtered.app_error',
+    ENT_LDAP_LOGIN_MATCHED_TOO_MANY_USERS = 'ent.ldap.do_login.matched_to_many_users.app_error',
+    ENT_LDAP_LOGIN_INVALID_PASSWORD = 'ent.ldap.do_login.invalid_password.app_error',
+    API_USER_INVALID_PASSWORD = 'api.user.check_user_password.invalid.app_error',
+}
 
 // TODO: Remove after last legacy free products are migrated
 // (months after freemium is launched)

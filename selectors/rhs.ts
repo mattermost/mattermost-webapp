@@ -164,3 +164,7 @@ export function getIsRhsMenuOpen(state: GlobalState): boolean {
 export function getIsRhsExpanded(state: GlobalState): boolean {
     return state.views.rhs.isSidebarExpanded;
 }
+
+export function getIsEditingMembers(state: GlobalState): boolean {
+    return state.views.rhs.editChannelMembers === true;
+}
