@@ -9,10 +9,10 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
-import { DispatchFunc, GetStateFunc } from 'mattermost-redux/types/actions';
+import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
-import { Post } from '@mattermost/types/posts';
-import { Channel } from '@mattermost/types/channels';
+import {Post} from '@mattermost/types/posts';
+import {Channel} from '@mattermost/types/channels';
 
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions.jsx';
@@ -23,12 +23,13 @@ import {joinPrivateChannelPrompt} from 'utils/channel_utils';
 import {ActionTypes, Constants, ErrorPageTypes} from 'utils/constants';
 import {isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 import {isComment, getPostURL} from 'utils/post_utils';
+import {GlobalState} from 'types/store';
 
 let privateChannelJoinPromptVisible = false;
 
 function focusRootPost(post: Post, channel: Channel) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const postURL = getPostURL(getState(), post);
+        const postURL = getPostURL(getState() as GlobalState, post);
 
         dispatch(selectChannel(channel.id));
         dispatch({
@@ -44,7 +45,7 @@ function focusRootPost(post: Post, channel: Channel) {
 function focusReplyPost(post: Post, channel: Channel, teamId: string, returnTo: string) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         await dispatch(getPostThread(post.root_id));
-        const state = getState();
+        const state = getState() as GlobalState;
 
         const team = getTeam(state, channel.team_id || teamId);
         const currentChannel = getCurrentChannel(state);
