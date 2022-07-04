@@ -308,9 +308,6 @@
                 border-radius: 4px;
             }
 
-            & img {
-                -moz-transform: matrix(0.35, 0, 0, 0.35, 0, -20); // firefox displaces the transformation, so we need to compensate
-            }
             &:first-child {
                 margin-right: 0;
             }
