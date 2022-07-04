@@ -8,9 +8,9 @@ import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 
 import {Channel} from '@mattermost/types/channels';
-import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
+import {getIsRhsOpen, getPreviousRhsState, getRhsState} from 'selectors/rhs';
 
-import {closeRightHandSide, showChannelInfo} from 'actions/views/rhs';
+import {closeRightHandSide, goBack, showChannelInfo} from 'actions/views/rhs';
 
 import {RHSStates} from 'utils/constants';
 import {RhsState} from 'types/store/rhs';
@@ -31,21 +31,24 @@ const Icon = styled.i`
 
 const ChannelInfoButton = ({channel}: Props) => {
     const dispatch = useDispatch();
+    const prevState = useSelector(getPreviousRhsState);
 
     const rhsState: RhsState = useSelector(getRhsState);
     const isRhsOpen: boolean = useSelector(getIsRhsOpen);
-    const buttonActive = isRhsOpen &&
-        (rhsState === RHSStates.CHANNEL_INFO ||
+    const isChannelInfo = rhsState === RHSStates.CHANNEL_INFO ||
         rhsState === RHSStates.CHANNEL_MEMBERS ||
         rhsState === RHSStates.CHANNEL_FILES ||
-        rhsState === RHSStates.PIN);
+        rhsState === RHSStates.PIN;
+
+    const buttonActive = isRhsOpen && isChannelInfo;
     const toggleRHS = useCallback(() => {
         if (buttonActive) {
-            dispatch(closeRightHandSide());
+            const action = prevState ? goBack() : closeRightHandSide();
+            dispatch(action);
         } else {
             dispatch(showChannelInfo(channel.id));
         }
-    }, [buttonActive, channel.id, dispatch]);
+    }, [buttonActive, channel.id, prevState, dispatch]);
 
     const tooltipKey = buttonActive ? 'closeChannelInfo' : 'openChannelInfo';
 
