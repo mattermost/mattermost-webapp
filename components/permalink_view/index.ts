@@ -2,16 +2,18 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
 
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
-import {focusPost} from './actions';
-import PermalinkView from './permalink_view.jsx';
+import {GlobalState} from '@mattermost/types/store';
 
-function mapStateToProps(state) {
+import {focusPost} from './actions';
+import PermalinkView from './permalink_view';
+
+function mapStateToProps(state: GlobalState) {
     const team = getCurrentTeam(state);
     const channel = getCurrentChannel(state);
     const currentUserId = getCurrentUserId(state);
@@ -25,7 +27,7 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators({
             focusPost,
