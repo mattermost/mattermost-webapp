@@ -271,7 +271,6 @@
     .skin-tones {
         z-index: 10;
         display: flex;
-        overflow: hidden;
         height: 100%;
         align-items: center;
         background: var(--center-channel-bg);
@@ -286,7 +285,6 @@
             .skin-tones__icons {
                 position: relative;
                 display: inline-flex;
-                overflow: hidden;
                 justify-content: center;
                 opacity: 1;
             }
