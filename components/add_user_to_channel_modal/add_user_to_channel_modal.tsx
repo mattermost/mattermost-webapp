@@ -2,93 +2,112 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, {ChangeEvent, FormEvent, KeyboardEvent} from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {getFullName} from 'mattermost-redux/utils/user_utils';
+import {ActionResult} from 'mattermost-redux/types/actions';
 
 import SearchChannelWithPermissionsProvider from 'components/suggestion/search_channel_with_permissions_provider.jsx';
 import SuggestionBox from 'components/suggestion/suggestion_box';
+import SuggestionBoxComponent from 'components/suggestion/suggestion_box/suggestion_box';
 import ModalSuggestionList from 'components/suggestion/modal_suggestion_list';
 
 import {placeCaretAtEnd} from 'utils/utils';
 
-export default class AddUserToChannelModal extends React.PureComponent {
-    static propTypes = {
+import {UserProfile} from '@mattermost/types/users';
+import {Channel} from '@mattermost/types/channels';
+
+type Props = {
+
+    /**
+    * Function that's called when modal is closed
+    */
+    onHide: () => void;
+
+    /**
+    * The user that is being added to a channel
+    */
+    user: UserProfile;
+
+    /**
+    * Object used to determine if the user
+    * is a member of a given channel
+    */
+    channelMembers: {[channelId: string]: {
+        [userId: string]: Channel;
+    };};
+
+    actions: {
 
         /**
-         * Function that's called when modal is closed
-         */
-        onHide: PropTypes.func.isRequired,
+        * Function to add the user to a channel
+        */
+        addChannelMember: (channelId: string, userId: string) => Promise<ActionResult>;
 
         /**
-         * The user that is being added to a channel
-         */
-        user: PropTypes.object.isRequired,
+        * Function to fetch the user's channel membership
+        */
+        getChannelMember: (channelId: string, userId: string) => Promise<ActionResult>;
 
         /**
-         * Object used to determine if the user
-         * is a member of a given channel
-         */
-        channelMembers: PropTypes.object.isRequired,
+        * Function passed on to the constructor of the
+        * SearchChannelWithPermissionsProvider class to fetch channels
+        * based on a search term
+        */
+        autocompleteChannelsForSearch: (teamId: string, term: string) => Promise<ActionResult>;
+    };
 
-        actions: PropTypes.shape({
+}
 
-            /**
-             * Function to add the user to a channel
-             */
-            addChannelMember: PropTypes.func.isRequired,
+type State = {
 
-            /**
-             * Function to fetch the user's channel membership
-             */
-            getChannelMember: PropTypes.func.isRequired,
+    /**
+    * Whether or not the modal is visible
+    */
+    show: boolean;
 
-            /**
-             * Function passed on to the constructor of the
-             * SearchChannelWithPermissionsProvider class to fetch channels
-             * based on a search term
-             */
-            autocompleteChannelsForSearch: PropTypes.func.isRequired,
-        }).isRequired,
-    }
+    /**
+    * Whether or not a request to add the user is in progress
+    */
+    saving: boolean;
 
-    constructor(props) {
+    /**
+    * Whether or not a request to check for the user's channel membership
+    * is in progress
+    */
+    checkingForMembership: boolean;
+
+    /**
+    * The user input in the channel search box
+    */
+    text: string;
+
+    /**
+    * The id for the channel that is selected
+    */
+    selectedChannelId: string | null;
+
+    /**
+    * An error to display when the add request fails
+    */
+    submitError: string;
+}
+
+export default class AddUserToChannelModal extends React.PureComponent<Props, State> {
+    private suggestionProviders: SearchChannelWithPermissionsProvider[];
+    private channelSearchBox?: SuggestionBoxComponent;
+
+    constructor(props: Props) {
         super(props);
 
         this.state = {
-
-            /**
-             * Whether or not the modal is visible
-             */
             show: true,
-
-            /**
-             * Whether or not a request to add the user is in progress
-             */
             saving: false,
-
-            /**
-             * Whether or not a request to check for the user's channel membership
-             * is in progress
-             */
             checkingForMembership: false,
-
-            /**
-             * The user input in the channel search box
-             */
             text: '',
-
-            /**
-             * The id for the channel that is selected
-             */
             selectedChannelId: null,
-
-            /**
-             * An error to display when the add request fails
-             */
             submitError: '',
         };
         this.suggestionProviders = [new SearchChannelWithPermissionsProvider(props.actions.autocompleteChannelsForSearch)];
@@ -111,7 +130,7 @@ export default class AddUserToChannelModal extends React.PureComponent {
         }
     }
 
-    onInputChange = (e) => {
+    onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         this.setState({text: e.target.value, selectedChannelId: null});
     }
 
@@ -120,18 +139,18 @@ export default class AddUserToChannelModal extends React.PureComponent {
         this.props.onHide();
     }
 
-    setSearchBoxRef = (input) => {
+    setSearchBoxRef = (input: SuggestionBoxComponent) => {
         this.channelSearchBox = input;
         this.focusTextbox();
     }
 
-    handleSubmitError = (error) => {
+    handleSubmitError = (error: {message: string}) => {
         if (error) {
             this.setState({submitError: error.message, saving: false});
         }
     }
 
-    didSelectChannel = (selection) => {
+    didSelectChannel = (selection: {channel: Channel}) => {
         const channel = selection.channel;
         const userId = this.props.user.id;
 
@@ -147,7 +166,7 @@ export default class AddUserToChannelModal extends React.PureComponent {
         });
     }
 
-    handleSubmit = (e) => {
+    handleSubmit = (e: FormEvent) => {
         if (e && e.preventDefault) {
             e.preventDefault();
         }
@@ -174,7 +193,7 @@ export default class AddUserToChannelModal extends React.PureComponent {
         });
     }
 
-    isUserMemberOfChannel = (channelId) => {
+    isUserMemberOfChannel = (channelId: string | null) => {
         const user = this.props.user;
         const memberships = this.props.channelMembers;
 
