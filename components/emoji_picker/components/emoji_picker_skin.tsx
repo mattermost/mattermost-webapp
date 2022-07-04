@@ -13,12 +13,14 @@ import imgTrans from 'images/img_trans.gif';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 
-const skinsList = [['raised_hand_with_fingers_splayed', 'default'],
-    ['raised_hand_with_fingers_splayed_light_skin_tone', '1F3FB'],
-    ['raised_hand_with_fingers_splayed_medium_light_skin_tone', '1F3FC'],
-    ['raised_hand_with_fingers_splayed_medium_skin_tone', '1F3FD'],
+const skinsList = [
+    ['raised_hand_with_fingers_splayed_dark_skin_tone', '1F3FF'],
     ['raised_hand_with_fingers_splayed_medium_dark_skin_tone', '1F3FE'],
-    ['raised_hand_with_fingers_splayed_dark_skin_tone', '1F3FF']];
+    ['raised_hand_with_fingers_splayed_medium_skin_tone', '1F3FD'],
+    ['raised_hand_with_fingers_splayed_medium_light_skin_tone', '1F3FC'],
+    ['raised_hand_with_fingers_splayed_light_skin_tone', '1F3FB'],
+    ['raised_hand_with_fingers_splayed', 'default'],
+];
 
 const skinToneEmojis = new Map(skinsList.map((pair) => [pair[1], Emoji.Emojis[Emoji.EmojiIndicesByAlias.get(pair[0])!]]));
 
