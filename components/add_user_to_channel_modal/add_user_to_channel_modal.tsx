@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
-import React, {ChangeEvent, FormEvent, KeyboardEvent} from 'react';
+import React, {ChangeEvent, FormEvent} from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
@@ -17,9 +17,10 @@ import ModalSuggestionList from 'components/suggestion/modal_suggestion_list';
 import {placeCaretAtEnd} from 'utils/utils';
 
 import {UserProfile} from '@mattermost/types/users';
-import {Channel} from '@mattermost/types/channels';
+import {Channel, ChannelMembership} from '@mattermost/types/channels';
+import {RelationOneToOne} from '@mattermost/types/utilities';
 
-type Props = {
+export type Props = {
 
     /**
     * Function that's called when modal is closed
@@ -35,9 +36,7 @@ type Props = {
     * Object used to determine if the user
     * is a member of a given channel
     */
-    channelMembers: {[channelId: string]: {
-        [userId: string]: Channel;
-    };};
+    channelMembers: RelationOneToOne<Channel, Record<string, ChannelMembership>>;
 
     actions: {
 
