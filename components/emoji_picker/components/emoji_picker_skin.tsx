@@ -88,10 +88,11 @@ export class EmojiPickerSkin extends React.PureComponent<Props, State> {
             <>
                 <div className='skin-tones__close'>
                     <button
-                        className='skin-tones__close-icon'
+                        className='skin-tones__close-icon style--none'
                         onClick={() => this.hideSkinTonePicker(this.props.userSkinTone)}
                     >
                         <CloseIcon
+                            size={16}
                             color={'rgba(var(--center-channel-color-rgb), 0.56)'}
                         />
                     </button>
@@ -131,7 +132,7 @@ export class EmojiPickerSkin extends React.PureComponent<Props, State> {
             >
                 <button
                     data-testid={`skin-picked-${this.props.userSkinTone}`}
-                    className='style--none skin-tones__icon'
+                    className='style--none skin-tones__icon skin-tones__expand-icon'
                     onClick={this.showSkinTonePicker}
                     aria-label={this.ariaLabel(this.props.userSkinTone)}
                 >

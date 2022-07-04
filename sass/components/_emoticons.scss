@@ -186,7 +186,7 @@
     flex-shrink: 0;
     justify-content: space-between;
     padding: 0 10px;
-    margin-bottom: 8px;
+    margin: 8px 0 8px 0;
 
     .emoji-picker__category {
         display: inline-flex;
@@ -263,11 +263,10 @@
 .emoji-picker__search-container {
     position: relative;
     display: flex;
-    height: 34px;
     align-items: center;
     justify-content: space-between;
     border-color: transparent !important;
-    margin: 12px;
+    margin: 12px 12px 0 12px;
 
     .skin-tones {
         z-index: 10;
@@ -289,19 +288,18 @@
                 display: inline-flex;
                 overflow: hidden;
                 justify-content: center;
-                margin: 0 3px;
                 opacity: 1;
             }
         }
 
+        
         .skin-tones__icon {
-            position: relative;
-            display: inline-flex;
-            overflow: hidden;
-            width: 28px;
-            height: 28px;
-            margin: 3px;
+            display: flex;
+            width: 32px;
+            height: 32px;
+            margin-right: 4px;
             justify-content: center;
+            align-items: center;
             background: var(--button-bg-rgb);
             opacity: 1;
 
@@ -313,6 +311,13 @@
             & img {
                 -moz-transform: matrix(0.35, 0, 0, 0.35, 0, -20); // firefox displaces the transformation, so we need to compensate
             }
+            &:first-child {
+                margin-right: 0;
+            }
+        }
+
+        .skin-tones__expand-icon {
+            margin: 0;
         }
 
         .emoji-picker__item {
@@ -324,23 +329,18 @@
 
     .skin-tones__content {
         display: flex;
-        max-height: 34px;
         align-items: center;
         justify-content: space-between;
-
-        &.skin-tones__content__single {
-            padding-right: 10px;
-            padding-left: 10px;
-        }
     }
 
     .emoji-picker__text-container {
         position: relative;
         z-index: 5;
-        width: 95%;
+        width: 284px;
         height: 32px;
         border: 1px solid rgba(var(--center-channel-color-rgb), 0.24);
         border-radius: 4px;
+        margin-right: 8px;
 
         &:focus-within {
             border: 2px solid v(button-bg);
@@ -364,19 +364,21 @@
     }
 
     .skin-tones__close-text {
-        width: 60px;
+        width: 54px;
         font-size: 12px;
         font-weight: 600;
         line-height: 14px;
+        margin-right: 15px;
+        margin-left: 15px
     }
 
     .skin-tones__close-icon {
         display: flex;
+        justify-content: center;
+        align-items: center;
         width: 28px;
         height: 28px;
         border: none;
-        margin: 3px;
-        margin-right: 12px;
         background: none;
         border-radius: 4px;
         color: rgba(v(center-channel-color-rgb), 0.56);
