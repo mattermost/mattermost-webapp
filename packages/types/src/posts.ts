@@ -50,6 +50,14 @@ export type PostMetadata = {
     reactions: Reaction[];
 };
 
+export type PostToCreate = {
+    channel_id: string;
+    message: string;
+    root_id?: string;
+    file_ids?: string[];
+    props?: Record<string, any>
+}
+
 export type Post = {
     id: string;
     create_at: number;

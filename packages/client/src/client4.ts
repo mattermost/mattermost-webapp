@@ -77,7 +77,17 @@ import type {
     MarketplaceApp,
     MarketplacePlugin,
 } from '@mattermost/types/marketplace';
-import {Post, PostList, PostSearchResults, OpenGraphMetadata, PostsUsageResponse, TeamsUsageResponse, PaginatedPostList, FilesUsageResponse} from '@mattermost/types/posts';
+import {
+    Post,
+    PostList,
+    PostSearchResults,
+    OpenGraphMetadata,
+    PostsUsageResponse,
+    TeamsUsageResponse,
+    PaginatedPostList,
+    FilesUsageResponse,
+    PostToCreate
+} from '@mattermost/types/posts';
 import {BoardsUsageResponse} from '@mattermost/types/boards';
 import {Reaction} from '@mattermost/types/reactions';
 import {Role} from '@mattermost/types/roles';
@@ -1898,7 +1908,7 @@ export default class Client4 {
 
     // Post Routes
 
-    createPost = async (post: Post) => {
+    createPost = async (post: PostToCreate) => {
         const result = await this.doFetch<Post>(
             `${this.getPostsRoute()}`,
             {method: 'post', body: JSON.stringify(post)},
