@@ -20,10 +20,6 @@ const FeatureList = (props: FeatureListProps) => {
     const [limits] = useGetLimits();
     const featuresFreeTier = [
         intl.formatMessage({
-            id: 'admin.billing.subscription.planDetails.features.10GBstoragePerUser',
-            defaultMessage: '10 GB storage per user',
-        }),
-        intl.formatMessage({
             id: 'admin.billing.subscription.planDetails.features.99uptime',
             defaultMessage: '99.0% uptime',
         }),

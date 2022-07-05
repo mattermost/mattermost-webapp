@@ -2,16 +2,14 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import configureStore from 'redux-mock-store';
 import {Provider} from 'react-redux';
 
 import {shallow} from 'enzyme';
 
-import thunk from 'redux-thunk';
-
 import {CloudProducts} from 'utils/constants';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import mockStore from 'tests/test_store';
 
 import RadioGroup from 'components/common/radio_group';
 
@@ -56,7 +54,6 @@ describe('components/cloud_start_trial_btn/cloud_start_trial_btn', () => {
         },
     };
 
-    const mockStore = configureStore([thunk]);
     const store = mockStore(state);
 
     test('should match snapshot', () => {

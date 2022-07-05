@@ -6,6 +6,8 @@ import React from 'react';
 
 import LoadingScreen from 'components/loading_screen';
 
+import {Preferences} from 'utils/constants';
+
 import PostList from './post_list';
 
 export default class PostView extends React.PureComponent {
@@ -14,12 +16,15 @@ export default class PostView extends React.PureComponent {
         channelLoading: PropTypes.bool,
         channelId: PropTypes.string,
         focusedPostId: PropTypes.string,
+        unreadScrollPosition: PropTypes.string,
     }
 
     constructor(props) {
         super(props);
+        const shouldStartFromBottomWhenUnread = this.props.unreadScrollPosition === Preferences.UNREAD_SCROLL_POSITION_START_FROM_NEWEST;
         this.state = {
             unreadChunkTimeStamp: props.lastViewedAt,
+            shouldStartFromBottomWhenUnread,
             loaderForChangeOfPostsChunk: false,
             channelLoading: props.channelLoading,
         };
@@ -54,6 +59,19 @@ export default class PostView extends React.PureComponent {
         });
     }
 
+    toggleShouldStartFromBottomWhenUnread = () => {
+        this.setState((state) => ({
+            loaderForChangeOfPostsChunk: true,
+            shouldStartFromBottomWhenUnread: !state.shouldStartFromBottomWhenUnread,
+        }), () => {
+            window.requestAnimationFrame(() => {
+                this.setState({
+                    loaderForChangeOfPostsChunk: false,
+                });
+            });
+        });
+    }
+
     render() {
         if (this.props.channelLoading || this.state.loaderForChangeOfPostsChunk) {
             return (
@@ -75,6 +93,8 @@ export default class PostView extends React.PureComponent {
                     unreadChunkTimeStamp={this.state.unreadChunkTimeStamp}
                     channelId={this.props.channelId}
                     changeUnreadChunkTimeStamp={this.changeUnreadChunkTimeStamp}
+                    shouldStartFromBottomWhenUnread={this.state.shouldStartFromBottomWhenUnread}
+                    toggleShouldStartFromBottomWhenUnread={this.toggleShouldStartFromBottomWhenUnread}
                     focusedPostId={this.props.focusedPostId}
                 />
             </div>
