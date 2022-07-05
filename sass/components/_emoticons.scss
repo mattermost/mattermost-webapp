@@ -185,7 +185,7 @@
     flex-grow: 0;
     flex-shrink: 0;
     justify-content: space-between;
-    padding: 0 10px;
+    padding: 0 12px;
     margin: 8px 0 8px 0;
 
     .emoji-picker__category {
@@ -305,7 +305,7 @@
                 border-radius: 4px;
             }
 
-            &:first-child {
+            &:last-child {
                 margin-right: 0;
             }
         }
@@ -323,7 +323,7 @@
 
     .skin-tones__content {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         justify-content: space-between;
     }
 
