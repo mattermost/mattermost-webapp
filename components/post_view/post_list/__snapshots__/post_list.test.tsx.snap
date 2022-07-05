@@ -20,6 +20,7 @@ exports[`components/post_view/post_list snapshot for loading when there are no p
             "checkAndSetMobileView": [MockFunction],
             "loadNewerPosts": [Function],
             "loadOlderPosts": [Function],
+            "toggleShouldStartFromBottomWhenUnread": [MockFunction],
             "updateNewMessagesAtInChannel": [MockFunction],
           }
         }
@@ -31,6 +32,7 @@ exports[`components/post_view/post_list snapshot for loading when there are no p
         loadingNewerPosts={false}
         loadingOlderPosts={false}
         postListIds={Array []}
+        shouldStartFromBottomWhenUnread={false}
       />
     </div>
   </div>
@@ -57,6 +59,7 @@ exports[`components/post_view/post_list snapshot with couple of posts 1`] = `
             "checkAndSetMobileView": [MockFunction],
             "loadNewerPosts": [Function],
             "loadOlderPosts": [Function],
+            "toggleShouldStartFromBottomWhenUnread": [MockFunction],
             "updateNewMessagesAtInChannel": [MockFunction],
           }
         }
@@ -68,6 +71,7 @@ exports[`components/post_view/post_list snapshot with couple of posts 1`] = `
         loadingNewerPosts={false}
         loadingOlderPosts={false}
         postListIds={Array []}
+        shouldStartFromBottomWhenUnread={false}
       />
     </div>
   </div>

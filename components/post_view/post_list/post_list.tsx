@@ -98,6 +98,8 @@ export interface Props {
     lastViewedAt: number;
 
     hasInaccessiblePosts: boolean;
+    toggleShouldStartFromBottomWhenUnread: () => void;
+    shouldStartFromBottomWhenUnread: boolean;
 
     actions: {
 
@@ -154,6 +156,7 @@ export default class PostList extends React.PureComponent<Props, State> {
         canLoadMorePosts: (type: CanLoadMorePosts) => Promise<void>;
         changeUnreadChunkTimeStamp: (lastViewedAt: number) => void;
         updateNewMessagesAtInChannel: typeof updateNewMessagesAtInChannel;
+        toggleShouldStartFromBottomWhenUnread: () => void;
     }
     private mounted: boolean | undefined;
 
@@ -177,6 +180,7 @@ export default class PostList extends React.PureComponent<Props, State> {
             checkAndSetMobileView: props.actions.checkAndSetMobileView,
             canLoadMorePosts: this.canLoadMorePosts,
             changeUnreadChunkTimeStamp: props.changeUnreadChunkTimeStamp,
+            toggleShouldStartFromBottomWhenUnread: props.toggleShouldStartFromBottomWhenUnread,
             updateNewMessagesAtInChannel: this.props.actions.updateNewMessagesAtInChannel,
         };
     }
@@ -369,6 +373,7 @@ export default class PostList extends React.PureComponent<Props, State> {
                             focusedPostId={this.props.focusedPostId}
                             channelId={this.props.channelId}
                             autoRetryEnable={this.state.autoRetryEnable}
+                            shouldStartFromBottomWhenUnread={this.props.shouldStartFromBottomWhenUnread}
                             actions={this.actionsForPostList}
                             postListIds={this.props.formattedPostIds}
                             latestPostTimeStamp={this.props.latestPostTimeStamp}
