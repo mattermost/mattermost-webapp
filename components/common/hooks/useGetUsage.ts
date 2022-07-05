@@ -5,52 +5,63 @@ import {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {CloudUsage} from '@mattermost/types/cloud';
-import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getUsage} from 'mattermost-redux/selectors/entities/usage';
+import {isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
 import {
     getMessagesUsage,
     getFilesUsage,
     getIntegrationsUsage,
     getBoardsUsage,
+    getTeamsUsage,
 } from 'actions/cloud';
+import {useIsLoggedIn} from 'components/global_header/hooks';
 
 export default function useGetUsage(): CloudUsage {
     const usage = useSelector(getUsage);
+    const isCloud = useSelector(isCurrentLicenseCloud);
+    const isLoggedIn = useIsLoggedIn();
 
-    const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
     const dispatch = useDispatch();
 
     const [requestedMessages, setRequestedMessages] = useState(false);
     useEffect(() => {
-        if (isCloudFreeEnabled && !requestedMessages && !usage.messages.historyLoaded) {
+        if (isLoggedIn && isCloud && !requestedMessages && !usage.messages.historyLoaded) {
             dispatch(getMessagesUsage());
             setRequestedMessages(true);
         }
-    }, [isCloudFreeEnabled, requestedMessages, usage.messages.historyLoaded]);
+    }, [isLoggedIn, isCloud, requestedMessages, usage.messages.historyLoaded]);
 
     const [requestedStorage, setRequestedStorage] = useState(false);
     useEffect(() => {
-        if (isCloudFreeEnabled && !requestedStorage && !usage.files.totalStorage) {
+        if (isLoggedIn && isCloud && !requestedStorage && !usage.files.totalStorageLoaded) {
             dispatch(getFilesUsage());
             setRequestedStorage(true);
         }
-    }, [isCloudFreeEnabled, requestedStorage, usage.files.totalStorageLoaded]);
+    }, [isLoggedIn, isCloud, requestedStorage, usage.files.totalStorageLoaded]);
 
     const [requestedIntegrations, setRequestedIntegrations] = useState(false);
     useEffect(() => {
-        if (isCloudFreeEnabled && !requestedIntegrations && !usage.integrations.enabledLoaded) {
+        if (isLoggedIn && isCloud && !requestedIntegrations && !usage.integrations.enabledLoaded) {
             dispatch(getIntegrationsUsage());
             setRequestedIntegrations(true);
         }
-    }, [isCloudFreeEnabled, requestedIntegrations, usage.integrations.enabledLoaded]);
+    }, [isLoggedIn, isCloud, requestedIntegrations, usage.integrations.enabledLoaded]);
 
     const [requestedBoardsUsage, setRequestedBoardsUsage] = useState(false);
     useEffect(() => {
-        if (isCloudFreeEnabled && !requestedBoardsUsage && !usage.boards.cardsLoaded) {
+        if (isLoggedIn && isCloud && !requestedBoardsUsage && !usage.boards.cardsLoaded) {
             dispatch(getBoardsUsage());
             setRequestedBoardsUsage(true);
         }
-    }, [isCloudFreeEnabled, requestedBoardsUsage, usage.boards.cardsLoaded]);
+    }, [isLoggedIn, isCloud, requestedBoardsUsage, usage.boards.cardsLoaded, isCloud]);
+
+    const [requestedTeamsUsage, setRequestedTeamsUsage] = useState(false);
+    useEffect(() => {
+        if (isLoggedIn && isCloud && !requestedTeamsUsage && !usage.teams.teamsLoaded) {
+            dispatch(getTeamsUsage());
+            setRequestedTeamsUsage(true);
+        }
+    }, [isLoggedIn, isCloud, requestedTeamsUsage, usage.teams.teamsLoaded]);
 
     return usage;
 }

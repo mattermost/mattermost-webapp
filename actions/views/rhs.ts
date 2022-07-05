@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable max-lines */
+
 import debounce from 'lodash/debounce';
 import {batchActions} from 'redux-batched-actions';
 
@@ -16,12 +18,12 @@ import * as PostActions from 'mattermost-redux/actions/posts';
 import {getCurrentUserId, getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentChannelId, getCurrentChannelNameForSearchShortcut} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannelId, getCurrentChannelNameForSearchShortcut, getChannel as getChannelSelector} from 'mattermost-redux/selectors/entities/channels';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {makeGetUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
 import {Action, ActionResult, DispatchFunc, GenericAction, GetStateFunc} from 'mattermost-redux/types/actions';
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import {getSearchTerms, getRhsState, getPluggableId, getFilesSearchExtFilter, getPreviousRhsState} from 'selectors/rhs';
@@ -32,8 +34,7 @@ import {RhsState} from 'types/store/rhs';
 import {GlobalState} from 'types/store';
 import {getPostsByIds} from 'mattermost-redux/actions/posts';
 import {unsetEditingPost} from '../post_actions';
-import {loadProfilesAndReloadChannelMembers} from '../user_actions';
-import {loadMyChannelMemberAndRole} from 'mattermost-redux/actions/channels';
+import {getChannel} from 'mattermost-redux/actions/channels';
 
 function selectPostFromRightHandSideSearchWithPreviousState(post: Post, previousRhsState?: RhsState) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
@@ -206,12 +207,13 @@ export function showRHSPlugin(pluggableId: string) {
     };
 }
 
-export function showChannelMembers(channelId: string) {
+export function showChannelMembers(channelId: string, inEditingMode = false) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState() as GlobalState;
 
-        dispatch(loadMyChannelMemberAndRole(channelId));
-        dispatch(loadProfilesAndReloadChannelMembers(channelId));
+        if (inEditingMode) {
+            await dispatch(setEditChannelMembers(true));
+        }
 
         let previousRhsState = getRhsState(state);
         if (previousRhsState === RHSStates.CHANNEL_MEMBERS) {
@@ -470,6 +472,16 @@ export function toggleRhsExpanded() {
     };
 }
 
+export function selectPostAndParentChannel(post: Post) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const channel = getChannelSelector(getState(), post.channel_id);
+        if (!channel) {
+            await dispatch(getChannel(post.channel_id));
+        }
+        return dispatch(selectPost(post));
+    };
+}
+
 export function selectPost(post: Post) {
     return {
         type: ActionTypes.SELECT_POST,
@@ -569,3 +581,13 @@ export const suppressRHS = {
 export const unsuppressRHS = {
     type: ActionTypes.UNSUPPRESS_RHS,
 };
+
+export function setEditChannelMembers(active: boolean) {
+    return (dispatch: DispatchFunc) => {
+        dispatch({
+            type: ActionTypes.SET_EDIT_CHANNEL_MEMBERS,
+            active,
+        });
+        return {data: true};
+    };
+}

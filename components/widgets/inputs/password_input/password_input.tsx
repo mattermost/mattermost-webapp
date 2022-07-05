@@ -5,7 +5,9 @@ import React, {ChangeEventHandler, FocusEventHandler, useState} from 'react';
 import {useIntl} from 'react-intl';
 import classNames from 'classnames';
 
-import Input, {SIZE} from '../input/input';
+import {ItemStatus} from 'utils/constants';
+
+import Input, {CustomMessageInputType, SIZE} from '../input/input';
 
 import './password_input.scss';
 
@@ -16,6 +18,7 @@ type PasswordInputProps = {
     onBlur?: FocusEventHandler<HTMLInputElement>;
     onFocus?: FocusEventHandler<HTMLInputElement>;
     hasError?: boolean;
+    info?: string;
     error?: string;
     createMode?: boolean;
     disabled?: boolean;
@@ -30,6 +33,7 @@ const PasswordInput = React.forwardRef((
         onBlur,
         onFocus,
         hasError,
+        info,
         error,
         createMode,
         disabled,
@@ -43,12 +47,16 @@ const PasswordInput = React.forwardRef((
 
     const toggleShowPassword = () => setShowPassword(!showPassword);
 
+    const customMessageError: CustomMessageInputType | null = error ? {type: ItemStatus.ERROR, value: error} : null;
+    const customMessageInfo: CustomMessageInputType | null = info ? {type: ItemStatus.INFO, value: info} : null;
+    const customMessage = error ? customMessageError : customMessageInfo;
+
     return (
         <Input
-            containerClassName={classNames('password-input', className)}
+            className={classNames('password-input', className)}
             wrapperClassName={'password-input-with-toggle'}
             name='password-input'
-            type={showPassword ? 'text' : 'password'}
+            type={showPassword && !disabled ? 'text' : 'password'}
             inputSize={inputSize}
             addon={
                 <button
@@ -56,8 +64,9 @@ const PasswordInput = React.forwardRef((
                     type='button'
                     className='password-input-toggle'
                     onClick={toggleShowPassword}
+                    disabled={disabled}
                 >
-                    <i className={showPassword ? 'icon-eye-off-outline' : 'icon-eye-outline'}/>
+                    <i className={showPassword && !disabled ? 'icon-eye-off-outline' : 'icon-eye-outline'}/>
                 </button>
             }
             value={value}
@@ -65,12 +74,12 @@ const PasswordInput = React.forwardRef((
             onBlur={onBlur}
             onFocus={onFocus}
             placeholder={createMode ? (
-                formatMessage({id: 'widget.passwordInput.createPassword', defaultMessage: 'Create your password'})
+                formatMessage({id: 'widget.passwordInput.createPassword', defaultMessage: 'Choose a Password'})
             ) : (
                 formatMessage({id: 'widget.passwordInput.password', defaultMessage: 'Password'})
             )}
             hasError={hasError}
-            error={error}
+            customMessage={error || info ? customMessage : undefined}
             disabled={disabled}
             ref={ref}
         />

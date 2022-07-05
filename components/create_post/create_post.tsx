@@ -1,10 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable max-lines */
 
 import React, {CSSProperties, SyntheticEvent} from 'react';
 import classNames from 'classnames';
 import {injectIntl, IntlShape} from 'react-intl';
-import {SendIcon, EmoticonOutlineIcon} from '@mattermost/compass-icons/components';
 
 import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
@@ -32,25 +32,27 @@ import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx
 import FilePreview from 'components/file_preview';
 import FileUpload from 'components/file_upload';
 import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload';
+import LocalizedIcon from 'components/localized_icon';
 import MsgTyping from 'components/msg_typing';
 import ResetStatusModal from 'components/reset_status_modal';
+import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import Textbox, {TextboxElement} from 'components/textbox';
 import TextboxClass from 'components/textbox/textbox';
 import TextboxLinks from 'components/textbox/textbox_links';
 
 import MessageSubmitError from 'components/message_submit_error';
-import {Channel, ChannelMemberCountsByGroup} from 'mattermost-redux/types/channels';
+import {Channel, ChannelMemberCountsByGroup} from '@mattermost/types/channels';
 import {PostDraft} from 'types/store/rhs';
-import {Post, PostMetadata} from 'mattermost-redux/types/posts';
-import {PreferenceType} from 'mattermost-redux/types/preferences';
+import {Post, PostMetadata} from '@mattermost/types/posts';
+import {PreferenceType} from '@mattermost/types/preferences';
 import EmojiMap from 'utils/emoji_map';
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {ServerError} from 'mattermost-redux/types/errors';
-import {CommandArgs} from 'mattermost-redux/types/integrations';
-import {Group} from 'mattermost-redux/types/groups';
+import {ServerError} from '@mattermost/types/errors';
+import {CommandArgs} from '@mattermost/types/integrations';
+import {Group} from '@mattermost/types/groups';
 import {ModalData} from 'types/actions';
-import {FileInfo} from 'mattermost-redux/types/files';
-import {Emoji} from 'mattermost-redux/types/emojis';
+import {FileInfo} from '@mattermost/types/files';
+import {Emoji} from '@mattermost/types/emojis';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
 import {SendMessageTour} from 'components/onboarding_tour';
 import {ApplyMarkdownOptions, applyMarkdown} from 'utils/markdown/apply_markdown';
@@ -898,7 +900,9 @@ class CreatePost extends React.PureComponent<Props, State> {
 
         let message = this.state.message;
         if (isGitHubCodeBlock(table.className)) {
-            const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(this.state.caretPosition, message, clipboardData);
+            const selectionStart = (e.target as any).selectionStart;
+            const selectionEnd = (e.target as any).selectionEnd;
+            const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste({selectionStart, selectionEnd, message, clipboardData});
             const newCaretPosition = this.state.caretPosition + formattedCodeBlock.length;
             this.setMessageAndCaretPostion(formattedMessage, newCaretPosition);
             return;
@@ -1060,11 +1064,7 @@ class CreatePost extends React.PureComponent<Props, State> {
     }
 
     getFileUploadTarget = () => {
-        if (this.textboxRef.current) {
-            return this.textboxRef.current;
-        }
-
-        return null;
+        return this.textboxRef.current?.getInputBox();
     }
 
     getCreatePostControls = () => {
@@ -1368,27 +1368,40 @@ class CreatePost extends React.PureComponent<Props, State> {
             centerClass = 'center';
         }
 
-        const fileUpload = !readOnlyChannel && !this.props.shouldShowPreview ? (
-            <FileUpload
-                ref={this.fileUploadRef}
-                fileCount={this.getFileCount()}
-                getTarget={this.getFileUploadTarget}
-                onFileUploadChange={this.handleFileUploadChange}
-                onUploadStart={this.handleUploadStart}
-                onFileUpload={this.handleFileUploadComplete}
-                onUploadError={this.handleUploadError}
-                onUploadProgress={this.handleUploadProgress}
-                postType='post'
-                channelId={currentChannel.id}
-            />
-        ) : null;
+        let sendButtonClass = 'send-button theme';
+        if (!this.shouldEnableSendButton()) {
+            sendButtonClass += ' disabled';
+        }
+
+        let attachmentsDisabled = '';
+        if (!this.props.canUploadFiles) {
+            attachmentsDisabled = ' post-create--attachment-disabled';
+        }
+
+        let fileUpload;
+        if (!readOnlyChannel && !this.props.shouldShowPreview) {
+            fileUpload = (
+                <FileUpload
+                    ref={this.fileUploadRef}
+                    fileCount={this.getFileCount()}
+                    getTarget={this.getFileUploadTarget}
+                    onFileUploadChange={this.handleFileUploadChange}
+                    onUploadStart={this.handleUploadStart}
+                    onFileUpload={this.handleFileUploadComplete}
+                    onUploadError={this.handleUploadError}
+                    onUploadProgress={this.handleUploadProgress}
+                    postType='post'
+                    channelId={currentChannel.id}
+                />
+            );
+        }
 
         let emojiPicker = null;
-        if (this.props.enableEmojiPicker && !readOnlyChannel && !this.props.shouldShowPreview) {
-            const emojiButtonAriaLabel = formatMessage({id: 'emoji_picker.emojiPicker', defaultMessage: 'Emoji Picker'}).toLowerCase();
+        const emojiButtonAriaLabel = formatMessage({id: 'emoji_picker.emojiPicker', defaultMessage: 'Emoji Picker'}).toLowerCase();
 
+        if (this.props.enableEmojiPicker && !readOnlyChannel && !this.props.shouldShowPreview) {
             emojiPicker = (
-                <>
+                <div>
                     <EmojiPickerOverlay
                         show={this.state.showEmojiPicker}
                         target={this.getCreatePostControls}
@@ -1406,14 +1419,13 @@ class CreatePost extends React.PureComponent<Props, State> {
                         className={classNames('emoji-picker__container', 'post-action', {
                             'post-action--active': this.state.showEmojiPicker,
                         })}
-                        id='emojiPickerButton'
                     >
-                        <EmoticonOutlineIcon
-                            size={18}
-                            color={'currentColor'}
+                        <EmojiIcon
+                            id='emojiPickerButton'
+                            className={'icon icon--emoji '}
                         />
                     </button>
-                </>
+                </div>
             );
         }
 
@@ -1427,7 +1439,10 @@ class CreatePost extends React.PureComponent<Props, State> {
             );
         }
 
-        const sendButtonEnabled = this.shouldEnableSendButton();
+        let scrollbarClass = '';
+        if (renderScrollbar) {
+            scrollbarClass = ' scroll';
+        }
 
         return (
             <form
@@ -1437,7 +1452,7 @@ class CreatePost extends React.PureComponent<Props, State> {
                 onSubmit={this.handleSubmit}
             >
                 <div
-                    className={classNames('post-create', {'post-create--attachment-disabled': !this.props.canUploadFiles, scroll: renderScrollbar})}
+                    className={'post-create' + attachmentsDisabled + scrollbarClass}
                     style={this.state.renderScrollbar && this.state.scrollbarWidth ? {'--detected-scrollbar-width': `${this.state.scrollbarWidth}px`} as CSSProperties : undefined}
                 >
                     <div className='post-create-body'>
@@ -1479,28 +1494,24 @@ class CreatePost extends React.PureComponent<Props, State> {
                             >
                                 {fileUpload}
                                 {emojiPicker}
-                                <button
+                                <a
+                                    role='button'
                                     tabIndex={0}
                                     aria-label={formatMessage({
                                         id: 'create_post.send_message',
                                         defaultMessage: 'Send a message',
                                     })}
-                                    disabled={!sendButtonEnabled}
-                                    className={classNames('btn btn-primary send-button theme', {
-                                        disabled: !sendButtonEnabled,
-                                        hidden: !Utils.isMobile(),
-                                    })}
+                                    className={sendButtonClass}
                                     onClick={this.handleSubmit}
                                 >
-                                    <SendIcon
-                                        size={18}
-                                        color='currentColor'
-                                        aria-label={formatMessage({
+                                    <LocalizedIcon
+                                        className='fa fa-paper-plane'
+                                        title={{
                                             id: t('create_post.icon'),
                                             defaultMessage: 'Create a post',
-                                        })}
+                                        }}
                                     />
-                                </button>
+                                </a>
                             </span>
                         </div>
                         {SendTutorialTip}

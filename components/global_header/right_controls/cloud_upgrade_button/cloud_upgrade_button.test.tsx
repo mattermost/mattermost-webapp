@@ -4,9 +4,11 @@
 import React from 'react';
 import {mount} from 'enzyme';
 import * as reactRedux from 'react-redux';
-import configureStore from 'redux-mock-store';
+
+import mockStore from 'tests/test_store';
 
 import {CloudProducts} from 'utils/constants';
+import * as cloudActions from 'mattermost-redux/actions/cloud';
 
 import CloudUpgradeButton from './index';
 
@@ -19,9 +21,6 @@ describe('components/global/CloudUpgradeButton', () => {
     const initialState = {
         entities: {
             general: {
-                config: {
-                    FeatureFlagCloudFree: 'true',
-                } as any,
                 license: {
                     IsLicensed: 'true',
                     Cloud: 'true',
@@ -52,7 +51,9 @@ describe('components/global/CloudUpgradeButton', () => {
             ...initialState,
         };
 
-        const mockStore = configureStore();
+        const cloudSubscriptionSpy = jest.spyOn(cloudActions, 'getCloudSubscription');
+        const cloudProductsSpy = jest.spyOn(cloudActions, 'getCloudProducts');
+
         const store = mockStore(state);
 
         const dummyDispatch = jest.fn();
@@ -64,6 +65,8 @@ describe('components/global/CloudUpgradeButton', () => {
             </reactRedux.Provider>,
         );
 
+        expect(cloudSubscriptionSpy).toHaveBeenCalledTimes(1);
+        expect(cloudProductsSpy).toHaveBeenCalledTimes(1);
         expect(wrapper.find('UpgradeButton').exists()).toEqual(true);
     });
 
@@ -83,7 +86,6 @@ describe('components/global/CloudUpgradeButton', () => {
             },
         };
 
-        const mockStore = configureStore();
         const store = mockStore(state);
 
         const dummyDispatch = jest.fn();
@@ -114,7 +116,6 @@ describe('components/global/CloudUpgradeButton', () => {
             },
         };
 
-        const mockStore = configureStore();
         const store = mockStore(state);
 
         const dummyDispatch = jest.fn();
@@ -145,7 +146,6 @@ describe('components/global/CloudUpgradeButton', () => {
             },
         };
 
-        const mockStore = configureStore();
         const store = mockStore(state);
 
         const dummyDispatch = jest.fn();
@@ -169,7 +169,6 @@ describe('components/global/CloudUpgradeButton', () => {
             },
         };
 
-        const mockStore = configureStore();
         const store = mockStore(state);
 
         const dummyDispatch = jest.fn();
@@ -191,7 +190,9 @@ describe('components/global/CloudUpgradeButton', () => {
             Cloud: 'false',
         };
 
-        const mockStore = configureStore();
+        const cloudSubscriptionSpy = jest.spyOn(cloudActions, 'getCloudSubscription');
+        const cloudProductsSpy = jest.spyOn(cloudActions, 'getCloudProducts');
+
         const store = mockStore(state);
 
         const dummyDispatch = jest.fn();
@@ -203,6 +204,8 @@ describe('components/global/CloudUpgradeButton', () => {
             </reactRedux.Provider>,
         );
 
+        expect(cloudSubscriptionSpy).toHaveBeenCalledTimes(0); // no calls to cloud endpoints for non cloud
+        expect(cloudProductsSpy).toHaveBeenCalledTimes(0);
         expect(wrapper.find('UpgradeButton').exists()).toEqual(false);
     });
 });

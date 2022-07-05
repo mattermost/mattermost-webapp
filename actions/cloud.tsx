@@ -4,8 +4,6 @@
 import {Stripe} from '@stripe/stripe-js';
 import {getCode} from 'country-list';
 
-import {FileSizes} from 'utils/file_utils';
-
 import {Client4} from 'mattermost-redux/client';
 import {ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
 
@@ -91,11 +89,23 @@ export function subscribeCloudSubscription(productId: string) {
     };
 }
 
-export function requestCloudTrial(page: string) {
+export function requestCloudTrial(page: string, subscriptionId: string, email = ''): ActionFunc {
     trackEvent('api', 'api_request_cloud_trial_license', {from_page: page});
+    return async (): Promise<any> => {
+        try {
+            await Client4.requestCloudTrial(subscriptionId, email);
+        } catch (error) {
+            return false;
+        }
+        return true;
+    };
+}
+
+export function validateBusinessEmail(email = '') {
+    trackEvent('api', 'api_validate_business_email');
     return async () => {
         try {
-            await Client4.requestCloudTrial();
+            await Client4.validateBusinessEmail(email);
         } catch (error) {
             return false;
         }
@@ -139,24 +149,32 @@ export function getMessagesUsage(): ActionFunc {
 
 export function getFilesUsage(): ActionFunc {
     return async (dispatch: DispatchFunc) => {
-        dispatch({
-            type: CloudTypes.RECEIVED_FILES_USAGE,
+        try {
+            const result = await Client4.getFilesUsage();
 
-            // TODO: Fill this in with the backing client API method once it is available in the server
-            data: 3 * FileSizes.Gigabyte,
-        });
+            if (result) {
+                // match limit notation in bits
+                const inBits = result.bytes * 8;
+                dispatch({
+                    type: CloudTypes.RECEIVED_FILES_USAGE,
+                    data: inBits,
+                });
+            }
+        } catch (error) {
+            return error;
+        }
         return {data: true};
     };
 }
 
 export function getIntegrationsUsage(): ActionFunc {
     return async (dispatch: DispatchFunc) => {
+        const data = await Client4.getIntegrationsUsage();
         dispatch({
             type: CloudTypes.RECEIVED_INTEGRATIONS_USAGE,
-
-            // TODO: Fill this in with the backing client API method once it is available in the server
-            data: 3,
+            data: data.enabled,
         });
+
         return {data: true};
     };
 }
@@ -172,6 +190,23 @@ export function getBoardsUsage(): ActionFunc {
                     // the views and cards properties are the limits, not usage.
                     // So they are not passed in to the usage.
                     data: result.used_cards,
+                });
+            }
+        } catch (error) {
+            return error;
+        }
+        return {data: true};
+    };
+}
+
+export function getTeamsUsage(): ActionFunc {
+    return async (dispatch: DispatchFunc) => {
+        try {
+            const result = await Client4.getTeamsUsage();
+            if (result) {
+                dispatch({
+                    type: CloudTypes.RECEIVED_TEAMS_USAGE,
+                    data: {active: result.active, cloudArchived: result.cloud_archived},
                 });
             }
         } catch (error) {

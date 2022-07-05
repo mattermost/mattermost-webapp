@@ -28,17 +28,17 @@ import {
     applyRolesFilters,
 } from 'mattermost-redux/utils/user_utils';
 
-import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
-import {GlobalState} from 'mattermost-redux/types/store';
-import {Team, TeamMembership} from 'mattermost-redux/types/teams';
-import {Group} from 'mattermost-redux/types/groups';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {Channel, ChannelMembership} from '@mattermost/types/channels';
+import {GlobalState} from '@mattermost/types/store';
+import {Team, TeamMembership} from '@mattermost/types/teams';
+import {Group} from '@mattermost/types/groups';
+import {UserProfile} from '@mattermost/types/users';
 import {
     IDMappedObjects,
     RelationOneToMany,
     RelationOneToManyUnique,
     RelationOneToOne,
-} from 'mattermost-redux/types/utilities';
+} from '@mattermost/types/utilities';
 import {Reaction} from '@mattermost/types/reactions';
 
 export {getCurrentUser, getCurrentUserId, getUsers};
@@ -254,6 +254,11 @@ export const getProfileSetNotInCurrentTeam: (state: GlobalState) => Array<UserPr
 
 const PROFILE_SET_ALL = 'all';
 function sortAndInjectProfiles(profiles: IDMappedObjects<UserProfile>, profileSet?: 'all' | Array<UserProfile['id']> | Set<UserProfile['id']>): UserProfile[] {
+    const currentProfiles = injectProfiles(profiles, profileSet);
+    return currentProfiles.sort(sortByUsername);
+}
+
+function injectProfiles(profiles: IDMappedObjects<UserProfile>, profileSet?: 'all' | Array<UserProfile['id']> | Set<UserProfile['id']>): UserProfile[] {
     let currentProfiles: UserProfile[] = [];
 
     if (typeof profileSet === 'undefined') {
@@ -264,9 +269,7 @@ function sortAndInjectProfiles(profiles: IDMappedObjects<UserProfile>, profileSe
         currentProfiles = Array.from(profileSet).map((p) => profiles[p]);
     }
 
-    currentProfiles = currentProfiles.filter((profile) => Boolean(profile));
-
-    return currentProfiles.sort(sortByUsername);
+    return currentProfiles.filter((profile) => Boolean(profile));
 }
 
 export const getProfiles: (state: GlobalState, filters?: Filters) => UserProfile[] = createSelector(
@@ -325,6 +328,15 @@ export const getActiveProfilesInCurrentChannel: (state: GlobalState) => UserProf
     getProfileSetInCurrentChannel,
     (profiles, currentChannelProfileSet) => {
         return sortAndInjectProfiles(profiles, currentChannelProfileSet).filter((user) => user.delete_at === 0);
+    },
+);
+
+export const getActiveProfilesInCurrentChannelWithoutSorting: (state: GlobalState) => UserProfile[] = createSelector(
+    'getProfilesInCurrentChannel',
+    getUsers,
+    getProfileSetInCurrentChannel,
+    (profiles, currentChannelProfileSet) => {
+        return injectProfiles(profiles, currentChannelProfileSet).filter((user) => user.delete_at === 0);
     },
 );
 

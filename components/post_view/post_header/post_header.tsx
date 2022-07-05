@@ -4,7 +4,7 @@
 import React, {EventHandler, MouseEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 
 import Constants from 'utils/constants';
 import * as PostUtils from 'utils/post_utils';
@@ -43,6 +43,11 @@ export type Props = {
      * Set to render compactly
      */
     compactDisplay?: boolean;
+
+    /*
+     * Set to colorize usernames according to their hash
+     */
+    colorizeUsernames?: boolean;
 
     /**
      * Set to indicate that this is previous post was not a reply to the same thread
@@ -96,6 +101,7 @@ export default class PostHeader extends React.PureComponent<Props> {
             <UserProfile
                 userId={post.user_id}
                 hasMention={true}
+                colorize={this.props.colorizeUsernames}
             />
         );
         let indicator;
@@ -109,6 +115,7 @@ export default class PostHeader extends React.PureComponent<Props> {
                         hideStatus={true}
                         overwriteName={post.props.override_username}
                         overwriteIcon={this.props.overwriteIcon}
+                        colorize={this.props.colorizeUsernames}
                     />
                 );
             } else {
@@ -116,6 +123,7 @@ export default class PostHeader extends React.PureComponent<Props> {
                     <UserProfile
                         userId={post.user_id}
                         hideStatus={true}
+                        colorize={this.props.colorizeUsernames}
                     />
                 );
             }
@@ -129,6 +137,7 @@ export default class PostHeader extends React.PureComponent<Props> {
                     userId={post.user_id}
                     hideStatus={true}
                     hasMention={true}
+                    colorize={this.props.colorizeUsernames}
                 />
             );
 

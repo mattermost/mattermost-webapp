@@ -12,7 +12,6 @@
 
 describe('Collapsed Reply Threads', () => {
     let testTeam;
-    let testUser;
     let otherUser;
     let testChannel;
     let rootPost;
@@ -26,12 +25,10 @@ describe('Collapsed Reply Threads', () => {
         });
 
         // # Log in as user that hasn't had CRT enabled before
-        cy.apiInitSetup({loginAfter: true, promoteNewUserAsAdmin: true, userPrefix: 'tipbutton'}).then(({team, channel, user}) => {
+        cy.apiInitSetup({loginAfter: true, promoteNewUserAsAdmin: true, userPrefix: 'tipbutton'}).then(({team, channel}) => {
             testTeam = team;
-            testUser = user;
             testChannel = channel;
 
-            cy.apiSaveShowStartTrialModal(testUser.id, 'true');
             cy.apiCreateUser({prefix: 'other'}).then(({user: user1}) => {
                 otherUser = user1;
 

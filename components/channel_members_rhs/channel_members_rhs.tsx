@@ -1,12 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useState} from 'react';
-import {FormattedMessage} from 'react-intl';
+import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'styled-components';
+import {debounce} from 'lodash';
 
-import {UserProfile} from 'mattermost-redux/types/users';
-import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
+import {FormattedMessage} from 'react-intl';
+
+import {UserProfile} from '@mattermost/types/users';
+import {Channel, ChannelMembership} from '@mattermost/types/channels';
 import Constants, {ModalIdentifiers} from 'utils/constants';
 import MoreDirectChannels from 'components/more_direct_channels';
 import ChannelInviteModal from 'components/channel_invite_modal';
@@ -18,17 +20,17 @@ import Header from './header';
 import MemberList from './member_list';
 import SearchBar from './search';
 
+const USERS_PER_PAGE = 100;
 export interface ChannelMember {
     user: UserProfile;
-    membership: ChannelMembership;
-    status: string;
+    membership?: ChannelMembership;
+    status?: string;
     displayName: string;
 }
 
 const MembersContainer = styled.div`
-    flex: 1;
+    flex: 1 1 auto;
     padding: 0 4px 16px;
-    overflow-y: auto;
 `;
 
 export interface Props {
@@ -38,8 +40,8 @@ export interface Props {
     canGoBack: boolean;
     teamUrl: string;
     channelMembers: ChannelMember[];
-    channelAdmins: ChannelMember[];
     canManageMembers: boolean;
+    editing: boolean;
 
     actions: {
         openModal: <P>(modalData: ModalData<P>) => void;
@@ -47,34 +49,91 @@ export interface Props {
         closeRightHandSide: () => void;
         goBack: () => void;
         setChannelMembersRhsSearchTerm: (terms: string) => void;
-        loadProfilesAndReloadChannelMembers: (channelId: string) => void;
+        loadProfilesAndReloadChannelMembers: (page: number, perParge: number, channelId: string, sort: string) => void;
         loadMyChannelMemberAndRole: (channelId: string) => void;
+        setEditChannelMembers: (active: boolean) => void;
+        searchProfilesAndChannelMembers: (term: string, options: any) => Promise<{data: UserProfile[]}>;
     };
 }
 
-export default function ChannelMembersRHS({channel, searchTerms, membersCount, canGoBack, teamUrl, channelAdmins, channelMembers, canManageMembers, actions}: Props) {
-    const [editing, setEditing] = useState(false);
+export interface ListItem {
+    type: 'member' | 'first-separator' | 'separator';
+    data: ChannelMember | JSX.Element;
+}
+
+export default function ChannelMembersRHS({
+    channel,
+    searchTerms,
+    membersCount,
+    canGoBack,
+    teamUrl,
+    channelMembers,
+    canManageMembers,
+    editing = false,
+    actions,
+}: Props) {
+    const [list, setList] = useState<ListItem[]>([]);
+
+    const [page, setPage] = useState(0);
+    const [isNextPageLoading, setIsNextPageLoading] = useState(false);
 
     const searching = searchTerms !== '';
 
     // show search if there's more than 20 or if the user have an active search.
     const showSearch = searching || membersCount >= 20;
 
-    let normalMemberTitle;
-    if (channelMembers.length > 0 && !searching) {
-        normalMemberTitle = (
-            <FormattedMessage
-                id='channel_members_rhs.list.channel_members_title'
-                defaultMessage='MEMBERS'
-            />
-        );
-    }
-
     useEffect(() => {
         return () => {
             actions.setChannelMembersRhsSearchTerm('');
         };
     }, []);
+
+    useEffect(() => {
+        const listcp: ListItem[] = [];
+        let memberDone = false;
+
+        for (let i = 0; i < channelMembers.length; i++) {
+            const member = channelMembers[i];
+            if (listcp.length === 0) {
+                let text = null;
+                if (member.membership?.scheme_admin === true) {
+                    text = (
+                        <FormattedMessage
+                            id='channel_members_rhs.list.channel_admin_title'
+                            defaultMessage='CHANNEL ADMINS'
+                        />
+                    );
+                } else {
+                    text = (
+                        <FormattedMessage
+                            id='channel_members_rhs.list.channel_members_title'
+                            defaultMessage='MEMBERS'
+                        />
+                    );
+                    memberDone = true;
+                }
+
+                listcp.push({
+                    type: 'first-separator',
+                    data: <FirstMemberListSerparator>{text}</FirstMemberListSerparator>,
+                });
+            } else if (!memberDone && member.membership?.scheme_admin === false) {
+                listcp.push({
+                    type: 'separator',
+                    data: <MemberListSerparator>
+                        <FormattedMessage
+                            id='channel_members_rhs.list.channel_members_title'
+                            defaultMessage='MEMBERS'
+                        />
+                    </MemberListSerparator>,
+                });
+                memberDone = true;
+            }
+
+            listcp.push({type: 'member', data: member});
+        }
+        setList(listcp);
+    }, [channelMembers]);
 
     useEffect(() => {
         if (channel.type === Constants.DM_CHANNEL) {
@@ -86,15 +145,26 @@ export default function ChannelMembersRHS({channel, searchTerms, membersCount, c
             return;
         }
 
+        setPage(0);
+        setIsNextPageLoading(false);
         actions.setChannelMembersRhsSearchTerm('');
-        setEditing(false);
-        actions.loadProfilesAndReloadChannelMembers(channel.id);
+        actions.loadProfilesAndReloadChannelMembers(0, USERS_PER_PAGE, channel.id, 'admin');
         actions.loadMyChannelMemberAndRole(channel.id);
     }, [channel.id, channel.type]);
 
-    const doSearch = async (terms: string) => {
+    const setSearchTerms = async (terms: string) => {
         actions.setChannelMembersRhsSearchTerm(terms);
     };
+
+    const doSearch = useCallback(debounce(async (terms: string) => {
+        await actions.searchProfilesAndChannelMembers(terms, {in_team_id: channel.team_id, in_channel_id: channel.id});
+    }, Constants.SEARCH_TIMEOUT_MILLISECONDS), [actions.searchProfilesAndChannelMembers]);
+
+    useEffect(() => {
+        if (searchTerms) {
+            doSearch(searchTerms);
+        }
+    }, [searchTerms]);
 
     const inviteMembers = () => {
         if (channel.type === Constants.GM_CHANNEL) {
@@ -122,6 +192,15 @@ export default function ChannelMembersRHS({channel, searchTerms, membersCount, c
         await actions.closeRightHandSide();
     };
 
+    const loadMore = async () => {
+        setIsNextPageLoading(true);
+
+        await actions.loadProfilesAndReloadChannelMembers(page + 1, USERS_PER_PAGE, channel.id, 'admin');
+        setPage(page + 1);
+
+        setIsNextPageLoading(false);
+    };
+
     return (
         <div
             id='rhsContainer'
@@ -141,8 +220,8 @@ export default function ChannelMembersRHS({channel, searchTerms, membersCount, c
                 canManageMembers={canManageMembers}
                 editing={editing}
                 actions={{
-                    startEditing: () => setEditing(true),
-                    stopEditing: () => setEditing(false),
+                    startEditing: () => actions.setEditChannelMembers(true),
+                    stopEditing: () => actions.setEditChannelMembers(false),
                     inviteMembers,
                 }}
             />
@@ -150,36 +229,38 @@ export default function ChannelMembersRHS({channel, searchTerms, membersCount, c
             {showSearch && (
                 <SearchBar
                     terms={searchTerms}
-                    onInput={doSearch}
+                    onInput={setSearchTerms}
                 />
             )}
 
             <MembersContainer>
-                {channelAdmins.length > 0 && (
-                    <MemberList
-                        members={channelAdmins}
-                        title={
-                            <FormattedMessage
-                                id='channel_members_rhs.list.channel_admin_title'
-                                defaultMessage='CHANNEL ADMINS'
-                            />
-                        }
-                        editing={editing}
-                        channel={channel}
-                        actions={{openDirectMessage}}
-                    />
-                )}
-
                 {channelMembers.length > 0 && (
                     <MemberList
-                        members={channelMembers}
-                        title={normalMemberTitle}
+                        searchTerms={searchTerms}
+                        members={list}
                         editing={editing}
                         channel={channel}
-                        actions={{openDirectMessage}}
+                        actions={{openDirectMessage, loadMore}}
+                        hasNextPage={channelMembers.length < membersCount}
+                        isNextPageLoading={isNextPageLoading}
                     />
                 )}
             </MembersContainer>
         </div>
     );
 }
+
+const MemberListSerparator = styled.div`
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 28px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    padding: 0px 12px;
+    color: rgba(var(--center-channel-color-rgb), 0.56);
+    margin-top: 16px;
+`;
+
+const FirstMemberListSerparator = styled(MemberListSerparator)`
+    margin-top: 0px;
+`;

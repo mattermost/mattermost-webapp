@@ -21,6 +21,14 @@ Cypress.Commands.add('isExpanded', {prevSubject: true}, (subject) => {
     return cy.get(subject).should('have.class', 'sidebar--right--expanded');
 });
 
+Cypress.Commands.add('uiGetReply', () => {
+    return cy.get('.sidebar--right').findByTestId('SendMessageButton');
+});
+
+Cypress.Commands.add('uiReply', () => {
+    cy.uiGetReply().click();
+});
+
 // Sidebar search container
 
 Cypress.Commands.add('uiGetRHSSearchContainer', (options = {visible: true}) => {

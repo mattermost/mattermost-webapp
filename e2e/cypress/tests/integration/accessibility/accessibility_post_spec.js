@@ -52,7 +52,7 @@ describe('Verify Accessibility Support in Post', () => {
         performActionsToLastPost();
 
         // # Shift focus to the last post
-        cy.get('#fileUploadButton').focus().tab({shift: true}).tab({shift: true});
+        cy.get('#toggleFormattingBarButton').focus().tab({shift: true}).tab({shift: true}).tab({shift: true});
         cy.get('body').type('{uparrow}{downarrow}');
 
         // * Verify post message in Center Channel
@@ -76,7 +76,7 @@ describe('Verify Accessibility Support in Post', () => {
             // * Verify post message in RHS
             cy.get('#rhsContainer').within(() => {
                 // # Shift the focus to the last post
-                cy.get('#fileUploadButton').focus().tab({shift: true}).tab({shift: true}).type('{uparrow}');
+                cy.get('#toggleFormattingBarButton').focus().tab({shift: true}).tab({shift: true}).type('{uparrow}');
 
                 // * Verify reader reads out the post correctly
                 verifyPostLabel(`#rhsPost_${postId}`, otherUser.username, `wrote, ${lastMessage}, 2 reactions, message is saved and pinned`);
@@ -86,7 +86,7 @@ describe('Verify Accessibility Support in Post', () => {
             cy.getLastPostId().then((replyId) => {
                 cy.get('#rhsContainer').within(() => {
                     // # Shift the focus to the last reply message
-                    cy.get('#fileUploadButton').focus().tab({shift: true}).tab({shift: true}).type('{uparrow}{downarrow}');
+                    cy.get('#toggleFormattingBarButton').focus().tab({shift: true}).tab({shift: true}).type('{uparrow}{downarrow}');
 
                     // * Verify reader reads out the post correctly
                     verifyPostLabel(`#rhsPost_${replyId}`, testUser.username, `replied, ${replyMessage}`);
@@ -99,7 +99,7 @@ describe('Verify Accessibility Support in Post', () => {
         postMessages(testChannel, otherUser, 5);
 
         // # Shift focus to the last post
-        cy.get('#fileUploadButton').focus().tab({shift: true}).tab({shift: true}).type('{uparrow}');
+        cy.get('#toggleFormattingBarButton').focus().tab({shift: true}).tab({shift: true}).type('{uparrow}');
 
         // * Verify if focus changes to different posts when we use up arrows
         for (let index = 1; index < 5; index++) {
@@ -138,7 +138,7 @@ describe('Verify Accessibility Support in Post', () => {
 
         cy.get('#rhsContainer').within(() => {
             // # Shift focus to the last post
-            cy.get('#fileUploadButton').focus().tab({shift: true}).tab({shift: true}).type('{uparrow}');
+            cy.get('#toggleFormattingBarButton').focus().tab({shift: true}).tab({shift: true}).tab({shift: true}).type('{uparrow}');
         });
 
         // * Verify if focus changes to different posts when we use up arrows
@@ -162,7 +162,7 @@ describe('Verify Accessibility Support in Post', () => {
         postMessages(testChannel, otherUser, 1);
 
         // # Shift focus to the last post
-        cy.get('#fileUploadButton').focus().tab({shift: true}).tab({shift: true});
+        cy.get('#toggleFormattingBarButton').focus().tab({shift: true}).tab({shift: true}).tab({shift: true});
         cy.get('body').type('{uparrow}{downarrow}');
         cy.focused().tab();
 
@@ -235,7 +235,7 @@ describe('Verify Accessibility Support in Post', () => {
 
         cy.get('#rhsContainer').within(() => {
             // # Shift focus to the last post
-            cy.get('#fileUploadButton').focus().tab({shift: true}).tab({shift: true});
+            cy.get('#toggleFormattingBarButton').focus().tab({shift: true}).tab({shift: true});
         });
 
         // * Verify reverse tab on RHS
@@ -323,18 +323,18 @@ function performActionsToLastPost() {
     cy.getLastPostId().then((postId) => {
         // # Add grinning reaction
         cy.clickPostReactionIcon(postId);
-        cy.findByTestId('grinning').trigger('mouseover', {force: true});
+        cy.findAllByTestId('grinning').first().trigger('mouseover', {force: true});
         cy.get('.sprite-preview').should('be.visible');
         cy.get('.emoji-picker__preview').should('be.visible').and('have.text', ':grinning:');
-        cy.findByTestId('grinning').click({force: true});
+        cy.findAllByTestId('grinning').first().click({force: true});
         cy.get(`#postReaction-${postId}-grinning`).should('be.visible');
 
         // # Add smile reaction
         cy.clickPostReactionIcon(postId);
-        cy.findByTestId('smile').trigger('mouseover', {force: true});
+        cy.findAllByTestId('smile').first().trigger('mouseover', {force: true});
         cy.get('.sprite-preview').should('be.visible');
         cy.get('.emoji-picker__preview').should('be.visible').and('have.text', ':smile:');
-        cy.findByTestId('smile').click({force: true});
+        cy.findAllByTestId('smile').first().click({force: true});
         cy.get(`#postReaction-${postId}-smile`).should('be.visible');
 
         // # Save the post

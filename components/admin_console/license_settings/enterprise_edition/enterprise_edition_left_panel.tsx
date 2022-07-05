@@ -4,7 +4,7 @@ import React, {RefObject, useEffect, useState} from 'react';
 
 import {FormattedDate, FormattedMessage, FormattedNumber, FormattedTime} from 'react-intl';
 
-import {ClientLicense} from 'mattermost-redux/types/config';
+import {ClientLicense} from '@mattermost/types/config';
 import {LicenseSkus} from 'mattermost-redux/types/general';
 import {Client4} from 'mattermost-redux/client';
 
@@ -52,7 +52,7 @@ export const getSkuDisplayName = (skuShortName: string, isGovSku: boolean): stri
     return skuName;
 };
 
-const EnterpriseEditionLeftPanel: React.FC<EnterpriseEditionProps> = ({
+const EnterpriseEditionLeftPanel = ({
     openEELicenseModal,
     upgradedFromTE,
     license,

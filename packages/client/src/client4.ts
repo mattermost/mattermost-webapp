@@ -3,6 +3,7 @@
 
 /* eslint-disable max-lines */
 
+import {PreferenceType} from '@mattermost/types/preferences';
 import FormData from 'form-data';
 
 import {SystemSetting} from '@mattermost/types/general';
@@ -11,7 +12,7 @@ import type {AppBinding, AppCallRequest, AppCallResponse} from '@mattermost/type
 import {Audit} from '@mattermost/types/audits';
 import {UserAutocomplete, AutocompleteSuggestion} from '@mattermost/types/autocomplete';
 import {Bot, BotPatch} from '@mattermost/types/bots';
-import {Product, Subscription, CloudCustomer, Address, CloudCustomerPatch, Invoice, Limits} from '@mattermost/types/cloud';
+import {Product, SubscriptionResponse, CloudCustomer, Address, CloudCustomerPatch, Invoice, Limits, IntegrationsUsage, NotifyAdminRequest} from '@mattermost/types/cloud';
 import {ChannelCategory, OrderedChannelCategories} from '@mattermost/types/channel_categories';
 import {
     Channel,
@@ -27,7 +28,7 @@ import {
     ChannelSearchOpts,
     ServerChannel,
 } from '@mattermost/types/channels';
-import {Options, StatusOK, ClientResponse, LogLevel} from '@mattermost/types/client4';
+import {Options, StatusOK, ClientResponse, LogLevel, FetchPaginatedThreadOptions} from '@mattermost/types/client4';
 import {Compliance} from '@mattermost/types/compliance';
 import {
     ClientConfig,
@@ -76,9 +77,8 @@ import type {
     MarketplaceApp,
     MarketplacePlugin,
 } from '@mattermost/types/marketplace';
-import {Post, PostList, PostSearchResults, OpenGraphMetadata, PostsUsageResponse} from '@mattermost/types/posts';
+import {Post, PostList, PostSearchResults, OpenGraphMetadata, PostsUsageResponse, TeamsUsageResponse, PaginatedPostList, FilesUsageResponse} from '@mattermost/types/posts';
 import {BoardsUsageResponse} from '@mattermost/types/boards';
-import {PreferenceType} from '@mattermost/types/preferences';
 import {Reaction} from '@mattermost/types/reactions';
 import {Role} from '@mattermost/types/roles';
 import {SamlCertificateStatus, SamlMetadataResponse} from '@mattermost/types/saml';
@@ -116,7 +116,7 @@ import {
 import {CompleteOnboardingRequest} from '@mattermost/types/setup';
 
 import {UserThreadList, UserThread, UserThreadWithPost} from '@mattermost/types/threads';
-import {TopChannelResponse, TopReactionResponse} from '@mattermost/types/insights';
+import {TopChannelResponse, TopReactionResponse, TopThreadResponse} from '@mattermost/types/insights';
 
 import {cleanUrlForLogging} from './errors';
 import {buildQueryString} from './helpers';
@@ -714,7 +714,7 @@ export default class Client4 {
         );
     }
 
-    login = async (loginId: string, password: string, token = '', deviceId = '', ldapOnly = false) => {
+    login = async (loginId: string, password: string, token = '', ldapOnly = false) => {
         this.trackEvent('api', 'api_users_login');
 
         if (ldapOnly) {
@@ -722,10 +722,10 @@ export default class Client4 {
         }
 
         const body: any = {
-            device_id: deviceId,
             login_id: loginId,
             password,
             token,
+            deviceId: '',
         };
 
         if (ldapOnly) {
@@ -747,13 +747,13 @@ export default class Client4 {
         return profile;
     };
 
-    loginById = (id: string, password: string, token = '', deviceId = '') => {
+    loginById = (id: string, password: string, token = '') => {
         this.trackEvent('api', 'api_users_login');
         const body: any = {
-            device_id: deviceId,
             id,
             password,
             token,
+            device_id: '',
         };
 
         return this.doFetch<UserProfile>(
@@ -972,13 +972,6 @@ export default class Client4 {
         );
     };
 
-    attachDevice = (deviceId: string) => {
-        return this.doFetch<StatusOK>(
-            `${this.getUsersRoute()}/sessions/device`,
-            {method: 'put', body: JSON.stringify({device_id: deviceId})},
-        );
-    };
-
     searchUsers = (term: string, options: any) => {
         this.trackEvent('api', 'api_search_users');
 
@@ -1164,6 +1157,13 @@ export default class Client4 {
         return this.doFetch<Team>(
             `${this.getTeamRoute(teamId)}/restore`,
             {method: 'post'},
+        );
+    }
+
+    archiveAllTeamsExcept = (teamId: string) => {
+        return this.doFetch<StatusOK>(
+            `${this.getTeamRoute(teamId)}/except`,
+            {method: 'delete'},
         );
     }
 
@@ -1666,9 +1666,9 @@ export default class Client4 {
         );
     };
 
-    getAllChannelsMembers = (userId: string) => {
+    getAllChannelsMembers = (userId: string, page = 0, perPage = PER_PAGE_DEFAULT) => {
         return this.doFetch<ChannelMembership[]>(
-            `${this.getUserRoute(userId)}/channel_members`,
+            `${this.getUserRoute(userId)}/channel_members${buildQueryString({page, per_page: perPage})}`,
             {method: 'get'},
         );
     };
@@ -1946,9 +1946,25 @@ export default class Client4 {
         );
     };
 
-    getPostThread = (postId: string, fetchThreads = true, collapsedThreads = false, collapsedThreadsExtended = false, direction?: 'up'|'down', perPage?: number, fromCreateAt?: number, fromPost?: string) => {
-        return this.doFetch<PostList>(
-            `${this.getPostRoute(postId)}/thread${buildQueryString({skipFetchThreads: !fetchThreads, collapsedThreads, collapsedThreadsExtended, direction, fromPost, fromCreateAt, perPage})}`,
+    getPostThread = (postId: string, fetchThreads = true, collapsedThreads = false, collapsedThreadsExtended = false) => {
+        // this is to ensure we have backwards compatibility for `getPostThread`
+        return this.getPaginatedPostThread(postId, {fetchThreads, collapsedThreads, collapsedThreadsExtended});
+    };
+
+    getPaginatedPostThread = async (postId: string, options: FetchPaginatedThreadOptions): Promise<PaginatedPostList> => {
+        // getting all option parameters with defaults from the options object and spread the rest
+        const {
+            fetchThreads = true,
+            collapsedThreads = false,
+            collapsedThreadsExtended = false,
+            direction = 'down',
+            fetchAll = false,
+            perPage = fetchAll ? undefined : PER_PAGE_DEFAULT,
+            ...rest
+        } = options;
+
+        return this.doFetch<PaginatedPostList>(
+            `${this.getPostRoute(postId)}/thread${buildQueryString({skipFetchThreads: !fetchThreads, collapsedThreads, collapsedThreadsExtended, direction, perPage, ...rest})}`,
             {method: 'get'},
         );
     };
@@ -2156,6 +2172,20 @@ export default class Client4 {
     getMyTopChannels = (teamId: string, page: number, perPage: number, timeRange: string) => {
         return this.doFetch<TopChannelResponse>(
             `${this.getUsersRoute()}/me/top/channels${buildQueryString({page, per_page: perPage, time_range: timeRange, team_id: teamId})}`,
+            {method: 'get'},
+        );
+    }
+
+    getTopThreadsForTeam = (teamId: string, page: number, perPage: number, timeRange: string) => {
+        return this.doFetch<TopThreadResponse>(
+            `${this.getTeamRoute(teamId)}/top/threads${buildQueryString({page, per_page: perPage, time_range: timeRange})}`,
+            {method: 'get'},
+        );
+    }
+
+    getMyTopThreads = (teamId: string, page: number, perPage: number, timeRange: string) => {
+        return this.doFetch<TopThreadResponse>(
+            `${this.getUsersRoute()}/me/top/threads${buildQueryString({page, per_page: perPage, time_range: timeRange, team_id: teamId})}`,
             {method: 'get'},
         );
     }
@@ -3749,6 +3779,12 @@ export default class Client4 {
         );
     };
 
+    getIntegrationsUsage = () => {
+        return this.doFetch<IntegrationsUsage>(
+            `${this.getUsageRoute()}/integrations`, {method: 'get'},
+        );
+    };
+
     createPaymentMethod = async () => {
         return this.doFetch(
             `${this.getCloudRoute()}/payment`,
@@ -3776,6 +3812,13 @@ export default class Client4 {
         );
     }
 
+    notifyAdminToUpgrade = (req: NotifyAdminRequest) => {
+        return this.doFetchWithResponse<StatusOK>(
+            `${this.getCloudRoute()}/notify-admin-to-upgrade`,
+            {method: 'post', body: JSON.stringify(req)},
+        );
+    }
+
     confirmPaymentMethod = async (stripeSetupIntentID: string) => {
         return this.doFetch(
             `${this.getCloudRoute()}/payment/confirm`,
@@ -3790,15 +3833,22 @@ export default class Client4 {
         );
     }
 
-    requestCloudTrial = () => {
+    requestCloudTrial = (subscriptionId: string, email = '') => {
         return this.doFetchWithResponse<CloudCustomer>(
             `${this.getCloudRoute()}/request-trial`,
-            {method: 'put'},
+            {method: 'put', body: JSON.stringify({email, subscription_id: subscriptionId})},
+        );
+    }
+
+    validateBusinessEmail = (email = '') => {
+        return this.doFetchWithResponse<CloudCustomer>(
+            `${this.getCloudRoute()}/validate-business-email`,
+            {method: 'post', body: JSON.stringify({email})},
         );
     }
 
     getSubscription = () => {
-        return this.doFetch<Subscription>(
+        return this.doFetch<SubscriptionResponse>(
             `${this.getCloudRoute()}/subscription`,
             {method: 'get'},
         );
@@ -3832,6 +3882,20 @@ export default class Client4 {
     getPostsUsage = () => {
         return this.doFetch<PostsUsageResponse>(
             `${this.getUsageRoute()}/posts`,
+            {method: 'get'},
+        );
+    }
+
+    getFilesUsage = () => {
+        return this.doFetch<FilesUsageResponse>(
+            `${this.getUsageRoute()}/storage`,
+            {method: 'get'},
+        );
+    }
+
+    getTeamsUsage = () => {
+        return this.doFetch<TeamsUsageResponse>(
+            `${this.getUsageRoute()}/teams`,
             {method: 'get'},
         );
     }
@@ -3913,7 +3977,7 @@ export default class Client4 {
 
     /**
      * @param query string query of graphQL, pass the json stringified version of the query
-     * eg.  const query = JSON.stringify({query: `{license, config}`});
+     * eg.  const query = JSON.stringify({query: `{license, config}`, operationName: 'queryForLicenseAndConfig'});
      *      client4.fetchWithGraphQL(query);
      */
     fetchWithGraphQL = async <DataResponse>(query: string) => {

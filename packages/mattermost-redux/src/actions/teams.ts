@@ -17,9 +17,9 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {GetStateFunc, DispatchFunc, ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 
-import {Team, TeamMembership, TeamMemberWithError, GetTeamMembersOpts, TeamsWithCount, TeamSearchOpts} from 'mattermost-redux/types/teams';
+import {Team, TeamMembership, TeamMemberWithError, GetTeamMembersOpts, TeamsWithCount, TeamSearchOpts} from '@mattermost/types/teams';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import {isCollapsedThreadsEnabled} from '../selectors/entities/preferences';
 
@@ -59,15 +59,11 @@ async function getProfilesAndStatusesForMembers(userIds: string[], dispatch: Dis
     await Promise.all(requests);
 }
 
-export function selectTeam(team: Team | string): ActionFunc {
-    return async (dispatch: DispatchFunc) => {
-        const teamId = (typeof team === 'string') ? team : team.id;
-        dispatch({
-            type: TeamTypes.SELECT_TEAM,
-            data: teamId,
-        });
-
-        return {data: true};
+export function selectTeam(team: Team | string) {
+    const teamId = (typeof team === 'string') ? team : team.id;
+    return {
+        type: TeamTypes.SELECT_TEAM,
+        data: teamId,
     };
 }
 
@@ -298,6 +294,18 @@ export function unarchiveTeam(teamId: string): ActionFunc {
             type: TeamTypes.RECEIVED_TEAM_UNARCHIVED,
             data: team,
         });
+
+        return {data: true};
+    };
+}
+
+export function archiveAllTeamsExcept(teamId: string) {
+    return async () => {
+        try {
+            await Client4.archiveAllTeamsExcept(teamId);
+        } catch (error) {
+            return {error};
+        }
 
         return {data: true};
     };

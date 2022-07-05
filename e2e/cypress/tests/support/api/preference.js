@@ -263,7 +263,7 @@ Cypress.Commands.add('apiSaveActionsMenuPreference', (userId, value = true) => {
     return cy.apiSaveUserPreference([preference], userId);
 });
 
-Cypress.Commands.add('apiSaveShowStartTrialModal', (userId, value = 'true') => {
+Cypress.Commands.add('apiSaveStartTrialModal', (userId, value = 'true') => {
     const preference = {
         user_id: userId,
         category: 'start_trial_modal',
@@ -290,6 +290,17 @@ Cypress.Commands.add('apiSaveSkipStepsPreference', (userId, value) => {
         user_id: userId,
         category: 'recommended_next_steps',
         name: 'skip',
+        value,
+    };
+
+    return cy.apiSaveUserPreference([preference], userId);
+});
+
+Cypress.Commands.add('apiSaveUnreadScrollPositionPreference', (userId, value) => {
+    const preference = {
+        user_id: userId,
+        category: 'advanced_settings',
+        name: 'unread_scroll_position',
         value,
     };
 

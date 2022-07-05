@@ -5,11 +5,12 @@ import React from 'react';
 
 import {TIconGlyph} from '@mattermost/compass-components/foundations/icon';
 
-import {ClientPluginManifest} from 'mattermost-redux/types/plugins';
-import {PluginAnalyticsRow} from 'mattermost-redux/types/admin';
-import {FileInfo} from 'mattermost-redux/types/files';
-import {Post, PostEmbed} from 'mattermost-redux/types/posts';
-import {IDMappedObjects} from 'mattermost-redux/types/utilities';
+import {ClientPluginManifest} from '@mattermost/types/plugins';
+import {PluginAnalyticsRow} from '@mattermost/types/admin';
+import {FileInfo} from '@mattermost/types/files';
+import {Post, PostEmbed} from '@mattermost/types/posts';
+import {IDMappedObjects} from '@mattermost/types/utilities';
+import {TopBoardResponse} from '@mattermost/types/insights';
 
 export type PluginSiteStatsHandler = () => Promise<Record<string, PluginAnalyticsRow>>;
 
@@ -48,6 +49,9 @@ export type PluginsState = {
     };
     siteStatsHandlers: {
         [pluginId: string]: PluginSiteStatsHandler;
+    };
+    insightsHandlers: {
+        [pluginId: string]: (timeRange: string, page: number, perPage: number, teamId: string, insightType: string) => Promise<TopBoardResponse>;
     };
 };
 

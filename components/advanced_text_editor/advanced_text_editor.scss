@@ -2,13 +2,20 @@
     &__ctr {
         form {
             padding: unset;
-            margin: unset;
         }
     }
 
     width: 100%;
     padding: 0 24px;
     margin: 0 auto;
+
+    .sidebar--right & {
+        padding-top: 12px;
+    }
+
+    .ThreadViewer & {
+        padding-top: 12px;
+    }
 
     .custom-textarea {
         box-shadow: none;
@@ -17,12 +24,12 @@
             box-shadow: none;
         }
 
-        .custom-textarea--emoji-picker {
-            box-shadow: none;
+        &.custom-textarea--emoji-picker {
+            padding-right: 50px;
         }
 
-        .textbox-preview-area {
-            padding-right: 46px;
+        &.textbox-preview-area {
+            padding-right: 50px;
         }
     }
 
@@ -31,22 +38,24 @@
         border: 2px solid rgba(var(--center-channel-color-rgb), 0.16);
         border-radius: 4px;
 
-        &--collapsed {
-            .custom-textarea.textbox-preview-area {
-                padding-right: 90px;
-            }
-        }
-
         &:focus-visible,
-        &:focus-within {
+        &:focus-within,
+        &:focus-visible:hover,
+        &:focus-within:hover, {
             border: 2px solid rgba(var(--center-channel-color-rgb), 0.32);
             outline: none;
             outline-offset: 0;
         }
-    }
 
-    &__attachment-preview {
-        padding-bottom: 46px;
+        &:hover {
+            border: 2px solid rgba(var(--center-channel-color-rgb), 0.24);
+        }
+
+        &[disabled] {
+            &:hover {
+                border: none;
+            }
+        }
     }
 
     &__action-button {
@@ -138,6 +147,7 @@
 
         &--has-error {
             padding: 6px 0 0;
+            color: var(--error-text);
         }
 
         .post-error {
@@ -147,7 +157,6 @@
             margin-bottom: 0;
             font-size: 0.85em;
             font-weight: normal;
-            opacity: 0.55;
         }
     }
 }
@@ -162,10 +171,25 @@
             border-radius: 0;
 
             &:focus-visible,
-            &:focus-within {
+            &:focus-within,
+            &:focus-visible:hover,
+            &:focus-within:hover,
+            &:hover {
                 border-right: none;
                 border-left: none;
             }
+        }
+
+        .ThreadViewer & {
+            .msg-typing:empty {
+                display: none;
+            }
+        }
+    }
+
+    .sidebar--right .post-create__container {
+        form {
+            padding: 0;
         }
     }
 }

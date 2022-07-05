@@ -34,13 +34,13 @@ import NeedsTeam from 'components/needs_team';
 import OnBoardingTaskList from 'components/onboarding_tasklist';
 import LaunchingWorkspace, {LAUNCHING_WORKSPACE_FULLSCREEN_Z_INDEX} from 'components/preparing_workspace/launching_workspace';
 import {Animations} from 'components/preparing_workspace/steps';
-import {OnboardingTaskCategory, OnboardingTaskList} from 'components/onboarding_tasks';
+import OpenPricingModalPost from 'components/custom_open_pricing_modal_post_renderer';
 
 import {initializePlugins} from 'plugins';
 import 'plugins/export.js';
 import Pluggable from 'plugins/pluggable';
 import BrowserStore from 'stores/browser_store';
-import Constants, {StoragePrefixes, WindowSizes, RecommendedNextStepsLegacy, Preferences} from 'utils/constants';
+import Constants, {StoragePrefixes, WindowSizes} from 'utils/constants';
 import {EmojiIndicesByAlias} from 'utils/emoji.jsx';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils';
@@ -52,11 +52,10 @@ const LazyAdminConsole = React.lazy(() => import('components/admin_console'));
 const LazyLoggedIn = React.lazy(() => import('components/logged_in'));
 const LazyPasswordResetSendLink = React.lazy(() => import('components/password_reset_send_link'));
 const LazyPasswordResetForm = React.lazy(() => import('components/password_reset_form'));
-const LazySignupController = React.lazy(() => import('components/signup/signup_controller'));
-const LazySignupEmail = React.lazy(() => import('components/signup/signup_email'));
+const LazySignup = React.lazy(() => import('components/signup/signup'));
 const LazyTermsOfService = React.lazy(() => import('components/terms_of_service'));
-const LazyShouldVerifyEmail = React.lazy(() => import('components/should_verify_email'));
-const LazyDoVerifyEmail = React.lazy(() => import('components/do_verify_email'));
+const LazyShouldVerifyEmail = React.lazy(() => import('components/should_verify_email/should_verify_email'));
+const LazyDoVerifyEmail = React.lazy(() => import('components/do_verify_email/do_verify_email'));
 const LazyClaimController = React.lazy(() => import('components/claim'));
 const LazyHelpController = React.lazy(() => import('components/help/help_controller'));
 const LazyLinkingLandingPage = React.lazy(() => import('components/linking_landing_page'));
@@ -83,8 +82,7 @@ const AdminConsole = makeAsyncComponent('AdminConsole', LazyAdminConsole);
 const LoggedIn = makeAsyncComponent('LoggedIn', LazyLoggedIn);
 const PasswordResetSendLink = makeAsyncComponent('PasswordResedSendLink', LazyPasswordResetSendLink);
 const PasswordResetForm = makeAsyncComponent('PasswordResetForm', LazyPasswordResetForm);
-const SignupController = makeAsyncComponent('SignupController', LazySignupController);
-const SignupEmail = makeAsyncComponent('SignupEmail', LazySignupEmail);
+const Signup = makeAsyncComponent('SignupController', LazySignup);
 const ShouldVerifyEmail = makeAsyncComponent('ShouldVerifyEmail', LazyShouldVerifyEmail);
 const DoVerifyEmail = makeAsyncComponent('DoVerifyEmail', LazyDoVerifyEmail);
 const ClaimController = makeAsyncComponent('ClaimController', LazyClaimController);
@@ -120,15 +118,14 @@ export default class Root extends React.PureComponent {
             emitBrowserWindowResized: PropTypes.func.isRequired,
             getFirstAdminSetupComplete: PropTypes.func.isRequired,
             getProfiles: PropTypes.func.isRequired,
+            migrateRecentEmojis: PropTypes.func.isRequired,
             loadConfigAndMe: PropTypes.func.isRequired,
             savePreferences: PropTypes.func.isRequired,
+            registerCustomPostRenderer: PropTypes.func.isRequired,
         }).isRequired,
         plugins: PropTypes.array,
         products: PropTypes.array,
-        showTaskList: PropTypes.bool,
         showLaunchingWorkspace: PropTypes.bool,
-        firstTimeOnboarding: PropTypes.bool,
-        userId: PropTypes.string,
     }
 
     constructor(props) {
@@ -250,6 +247,7 @@ export default class Root extends React.PureComponent {
             }
         });
 
+        this.props.actions.migrateRecentEmojis();
         loadRecentlyUsedCustomEmojis()(store.dispatch, store.getState);
 
         const iosDownloadLink = getConfig(store.getState()).IosAppDownloadLink;
@@ -282,11 +280,6 @@ export default class Root extends React.PureComponent {
                 prevProps.history.push('/signup_user_complete');
             } else if (this.props.showTermsOfService) {
                 prevProps.history.push('/terms_of_service');
-            }
-        }
-        if (prevProps.userId !== this.props.userId) {
-            if (this.props.firstTimeOnboarding) {
-                this.initOnboardingPrefs();
             }
         }
     }
@@ -347,6 +340,9 @@ export default class Root extends React.PureComponent {
 
         this.initiateMeRequests();
 
+        // See figma design on issue https://mattermost.atlassian.net/browse/MM-43649
+        this.props.actions.registerCustomPostRenderer('custom_up_notification', OpenPricingModalPost, 'upgrade_post_message_renderer');
+
         if (this.desktopMediaQuery.addEventListener) {
             this.desktopMediaQuery.addEventListener('change', this.handleMediaQueryChangeEvent);
             this.smallDesktopMediaQuery.addEventListener('change', this.handleMediaQueryChangeEvent);
@@ -382,32 +378,6 @@ export default class Root extends React.PureComponent {
         } else {
             window.removeEventListener('resize', this.handleWindowResizeEvent);
         }
-    }
-
-    initOnboardingPrefs = async () => {
-        // save to preferences the show/open-task-list to true
-        // also save the recomendedNextSteps-hide to true to avoid asserting to true
-        // the logic to firstTimeOnboarding
-        await this.props.actions.savePreferences(this.props.userId, [
-            {
-                category: OnboardingTaskCategory,
-                user_id: this.props.userId,
-                name: OnboardingTaskList.ONBOARDING_TASK_LIST_SHOW,
-                value: 'true',
-            },
-            {
-                user_id: this.props.userId,
-                category: OnboardingTaskCategory,
-                name: OnboardingTaskList.ONBOARDING_TASK_LIST_OPEN,
-                value: 'true',
-            },
-            {
-                user_id: this.props.userId,
-                category: Preferences.RECOMMENDED_NEXT_STEPS,
-                name: RecommendedNextStepsLegacy.HIDE,
-                value: 'true',
-            },
-        ]);
     }
 
     handleLogoutLoginSignal = (e) => {
@@ -486,19 +456,15 @@ export default class Root extends React.PureComponent {
                         path={'/reset_password_complete'}
                         component={PasswordResetForm}
                     />
-                    <HFTRoute
+                    <HFRoute
                         path={'/signup_user_complete'}
-                        component={SignupController}
+                        component={Signup}
                     />
-                    <HFTRoute
-                        path={'/signup_email'}
-                        component={SignupEmail}
-                    />
-                    <HFTRoute
+                    <HFRoute
                         path={'/should_verify_email'}
                         component={ShouldVerifyEmail}
                     />
-                    <HFTRoute
+                    <HFRoute
                         path={'/do_verify_email'}
                         component={DoVerifyEmail}
                     />
@@ -530,7 +496,7 @@ export default class Root extends React.PureComponent {
                                 <RootRedirect/>
                             </Switch>
                             <CompassThemeProvider theme={this.props.theme}>
-                                {this.props.showTaskList && <OnBoardingTaskList/>}
+                                <OnBoardingTaskList/>
                             </CompassThemeProvider>
                         </>
                     </Route>
@@ -574,7 +540,7 @@ export default class Root extends React.PureComponent {
                         )}
                         <ModalController/>
                         <GlobalHeader/>
-                        {this.props.showTaskList && <OnBoardingTaskList/>}
+                        <OnBoardingTaskList/>
                         <TeamSidebar/>
                         <Switch>
                             {this.props.products?.map((product) => (

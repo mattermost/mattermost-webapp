@@ -1,16 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 
 const state: GlobalState = {
     entities: {
         general: {
-            appState: false,
-            credentials: {},
             config: {},
             dataRetentionPolicy: {},
-            deviceToken: '',
             license: {},
             serverVersion: '',
             warnMetricsStatus: {},
@@ -198,6 +195,11 @@ const state: GlobalState = {
             messages: {
                 history: 0,
                 historyLoaded: false,
+            },
+            teams: {
+                active: 0,
+                cloudArchived: 0,
+                teamsLoaded: false,
             },
             boards: {
                 cards: 0,

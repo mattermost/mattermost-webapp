@@ -9,7 +9,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {Link} from 'react-router-dom';
 
-import type {MarketplaceLabel} from 'mattermost-redux/types/marketplace';
+import type {MarketplaceLabel} from '@mattermost/types/marketplace';
 
 import MarketplaceItem from '../marketplace_item';
 

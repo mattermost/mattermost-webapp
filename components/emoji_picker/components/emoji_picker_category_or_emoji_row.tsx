@@ -4,7 +4,7 @@
 import React, {memo} from 'react';
 import {ListChildComponentProps, areEqual} from 'react-window';
 
-import {CustomEmoji, Emoji, SystemEmoji} from 'mattermost-redux/types/emojis';
+import {CustomEmoji, Emoji, SystemEmoji} from '@mattermost/types/emojis';
 
 import {CategoryOrEmojiRow, EmojiCursor} from 'components/emoji_picker/types';
 import {isCategoryHeaderRow} from 'components/emoji_picker/utils';

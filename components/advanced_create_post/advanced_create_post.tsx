@@ -38,18 +38,18 @@ import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload'
 import ResetStatusModal from 'components/reset_status_modal';
 import TextboxClass from 'components/textbox/textbox';
 
-import {Channel, ChannelMemberCountsByGroup} from 'mattermost-redux/types/channels';
+import {Channel, ChannelMemberCountsByGroup} from '@mattermost/types/channels';
 import {PostDraft} from 'types/store/rhs';
-import {Post, PostMetadata} from 'mattermost-redux/types/posts';
-import {PreferenceType} from 'mattermost-redux/types/preferences';
+import {Post, PostMetadata} from '@mattermost/types/posts';
+import {PreferenceType} from '@mattermost/types/preferences';
 import EmojiMap from 'utils/emoji_map';
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {ServerError} from 'mattermost-redux/types/errors';
-import {CommandArgs} from 'mattermost-redux/types/integrations';
-import {Group} from 'mattermost-redux/types/groups';
+import {ServerError} from '@mattermost/types/errors';
+import {CommandArgs} from '@mattermost/types/integrations';
+import {Group} from '@mattermost/types/groups';
 import {ModalData} from 'types/actions';
-import {FileInfo} from 'mattermost-redux/types/files';
-import {Emoji} from 'mattermost-redux/types/emojis';
+import {FileInfo} from '@mattermost/types/files';
+import {Emoji} from '@mattermost/types/emojis';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
 import {ApplyMarkdownOptions, applyMarkdown} from 'utils/markdown/apply_markdown';
 import AdvanceTextEditor from '../advanced_text_editor/advanced_text_editor';
@@ -212,7 +212,6 @@ type Props = {
     channelMemberCountsByGroup: ChannelMemberCountsByGroup;
     useLDAPGroupMentions: boolean;
     useCustomGroupMentions: boolean;
-    markdownPreviewFeatureIsEnabled: boolean;
 }
 
 type State = {
@@ -245,7 +244,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     private topDiv: React.RefObject<HTMLFormElement>;
     private textboxRef: React.RefObject<TextboxClass>;
     private fileUploadRef: React.RefObject<FileUploadClass>;
-    private createPostControlsRef: React.RefObject<HTMLSpanElement>;
 
     static getDerivedStateFromProps(props: Props, state: State): Partial<State> {
         let updatedState: Partial<State> = {
@@ -282,7 +280,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         this.topDiv = React.createRef<HTMLFormElement>();
         this.textboxRef = React.createRef<TextboxClass>();
         this.fileUploadRef = React.createRef<FileUploadClass>();
-        this.createPostControlsRef = React.createRef<HTMLSpanElement>();
     }
 
     componentDidMount() {
@@ -318,6 +315,11 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
 
         // Focus on textbox when emoji picker is closed
         if (prevState.showEmojiPicker && !this.state.showEmojiPicker) {
+            this.focusTextbox();
+        }
+
+        // Focus on textbox when returned from preview mode
+        if (prevProps.shouldShowPreview && !this.props.shouldShowPreview) {
             this.focusTextbox();
         }
     }
@@ -827,11 +829,9 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
 
         let message = this.state.message;
         if (isGitHubCodeBlock(table.className)) {
-            const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(
-                this.state.caretPosition,
-                message,
-                clipboardData,
-            );
+            const selectionStart = (e.target as any).selectionStart;
+            const selectionEnd = (e.target as any).selectionEnd;
+            const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste({selectionStart, selectionEnd, message, clipboardData});
             const newCaretPosition = this.state.caretPosition + formattedCodeBlock.length;
             this.setMessageAndCaretPostion(formattedMessage, newCaretPosition);
             return;
@@ -988,15 +988,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     }
 
     getFileUploadTarget = () => {
-        if (this.textboxRef.current) {
-            return this.textboxRef.current;
-        }
-
-        return null;
-    }
-
-    getCreatePostControls = () => {
-        return this.createPostControlsRef.current;
+        return this.textboxRef.current?.getInputBox();
     }
 
     fillMessageFromHistory() {
@@ -1080,46 +1072,11 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                 selectionEnd,
                 message: value,
             });
-        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.C)) {
+        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.E)) {
             e.stopPropagation();
             e.preventDefault();
-            this.applyMarkdown({
-                markdownMode: 'code',
-                selectionStart,
-                selectionEnd,
-                message: value,
-            });
-        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.NUMPAD_9)) {
-            this.applyMarkdown({
-                markdownMode: 'quote',
-                selectionStart,
-                selectionEnd,
-                message: value,
-            });
-        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.NUMPAD_8)) {
-            this.applyMarkdown({
-                markdownMode: 'ul',
-                selectionStart,
-                selectionEnd,
-                message: value,
-            });
-        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.NUMPAD_7)) {
-            this.applyMarkdown({
-                markdownMode: 'ol',
-                selectionStart,
-                selectionEnd,
-                message: value,
-            });
-        } else if (((isMac() && e.ctrlKey && e.shiftKey) || (e.altKey && e.shiftKey)) && Utils.isKeyPressed(e, KeyCodes.NUMPAD_3)) {
-            this.applyMarkdown({
-                markdownMode: 'heading',
-                selectionStart,
-                selectionEnd,
-                message: value,
-            });
-        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.E)) {
             this.toggleEmojiPicker();
-        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.P)) {
+        } else if (((isMac() && ctrlShiftCombo) || (!isMac() && ctrlAltCombo)) && Utils.isKeyPressed(e, KeyCodes.P)) {
             this.setShowPreview(!this.props.shouldShowPreview);
         } else if (ctrlAltCombo && Utils.isKeyPressed(e, KeyCodes.T)) {
             this.toggleAdvanceTextEditor();
@@ -1301,6 +1258,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                 <AdvanceTextEditor
                     location={Locations.CENTER}
                     currentUserId={this.props.currentUserId}
+                    postError={this.state.postError}
                     message={this.state.message}
                     showEmojiPicker={this.state.showEmojiPicker}
                     uploadsProgressPercent={this.state.uploadsProgressPercent}
@@ -1318,7 +1276,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     shouldShowPreview={this.props.shouldShowPreview}
                     maxPostSize={this.props.maxPostSize}
                     canPost={this.props.canPost}
-                    createPostControlsRef={this.createPostControlsRef}
                     applyMarkdown={this.applyMarkdown}
                     useChannelMentions={this.props.useChannelMentions}
                     badConnection={this.props.badConnection}
@@ -1338,7 +1295,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     handleEmojiClick={this.handleEmojiClick}
                     handleEmojiClose={this.handleEmojiClose}
                     hideEmojiPicker={this.hideEmojiPicker}
-                    getCreatePostControls={this.getCreatePostControls}
                     toggleAdvanceTextEditor={this.toggleAdvanceTextEditor}
                     handleUploadProgress={this.handleUploadProgress}
                     handleUploadError={this.handleUploadError}

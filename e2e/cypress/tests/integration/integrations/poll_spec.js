@@ -80,7 +80,8 @@ describe('/poll', () => {
 
         cy.uiGetRHS().within(() => {
             // # In RHS, post `/poll reply`
-            cy.get('#reply_textbox').type('/poll reply').type('{enter}');
+            cy.get('#reply_textbox').type('/poll reply');
+            cy.findByTestId('SendMessageButton').click();
 
             // * Poll displays as expected in RHS.
             cy.findByLabelText('matterpoll').should('be.visible');
@@ -107,7 +108,7 @@ describe('/poll', () => {
         // * Username displays the same on the original poll post and on the "This poll has ended" post
         cy.uiWaitUntilMessagePostedIncludes('The poll Do you like https://mattermost.com? has ended');
         cy.uiGetNthPost(-4).within(() => {
-            cy.contains('This poll has ended').should('be.visible');
+            cy.contains('This poll has ended').scrollIntoView().should('be.visible');
             cy.contains(user1.nickname);
         });
     });
@@ -156,7 +157,7 @@ describe('/poll', () => {
         });
 
         // * Clicking the link highlight the poll post in the center channel
-        cy.uiGetNthPost(-2).
+        cy.uiGetNthPost(-2).scrollIntoView().
             should('have.class', 'post--highlight').
             within(() => {
                 // * Users who voted are listed below the responses
