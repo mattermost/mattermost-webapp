@@ -27,7 +27,7 @@ describe('Scroll', () => {
         const filename = 'huge-image.jpg';
 
         // # Post an image in center channel
-        cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(filename);
+        cy.get('#advancedTextEditorCell').find('#fileUploadInput').attachFile(filename);
 
         cy.get('.post-image').should('be.visible');
 
