@@ -4,6 +4,8 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {Preferences} from 'mattermost-redux/constants';
+
 import PostList from './post_list';
 import PostView from './post_view';
 
@@ -14,6 +16,7 @@ describe('components/post_view/post_view', () => {
         channelLoading: false,
         channelId: '1234',
         focusedPostId: '12345',
+        unreadScrollPosition: Preferences.UNREAD_SCROLL_POSITION_START_FROM_LEFT,
     };
     jest.useFakeTimers();
 
