@@ -576,7 +576,7 @@
 .post-body__footer {
     display: inline-flex;
     align-items: center;
-    margin: 8px 0 4px;
+    margin: 8px 0;
     color: rgba(var(--center-channel-color-rgb), 0.64);
     font-family: "Open Sans", sans-serif;
     gap: 8px;
@@ -592,6 +592,7 @@
         &.cancel {
             background: rgba(var(--button-bg-rgb), 0.08);
             color: var(--button-bg);
+            font-weight: 600;
 
             &:hover {
                 background: rgba(var(--button-bg-rgb), 0.12);
