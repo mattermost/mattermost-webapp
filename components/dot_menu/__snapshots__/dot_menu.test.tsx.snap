@@ -79,7 +79,16 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
         />
       }
       show={true}
-      text="Forward"
+      text={
+        <span>
+          Forward
+          <Memo(Badge)
+            variant="success"
+          >
+            NEW
+          </Memo(Badge)>
+        </span>
+      }
     />
     <Connect(ChannelPermissionGate)
       channelId=""
@@ -355,7 +364,16 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
         />
       }
       show={true}
-      text="Forward"
+      text={
+        <span>
+          Forward
+          <Memo(Badge)
+            variant="success"
+          >
+            NEW
+          </Memo(Badge)>
+        </span>
+      }
     />
     <Connect(ChannelPermissionGate)
       channelId=""
