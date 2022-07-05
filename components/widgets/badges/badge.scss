@@ -7,7 +7,7 @@
 .Badge__box {
     padding: 1px 4px;
     border: none;
-    background: rgba(var(--center-channel-color-rgb), 0.16);
+    background: rgba(var(--semantic-color-general), 0.16);
     border-radius: 2px;
     font-family: inherit;
     font-size: 10px;
@@ -17,5 +17,25 @@
     &.BotBadge,
     &.GuestBadge {
         padding: 2px 4px;
+    }
+
+    &.info {
+        background: rgb(var(--semantic-color-info));
+        color: #fff;
+    }
+
+    &.success {
+        background: rgb(var(--semantic-color-success));
+        color: #fff;
+    }
+
+    &.warning {
+        background: rgb(var(--semantic-color-warning));
+        color: #fff;
+    }
+
+    &.danger {
+        background: rgb(var(--semantic-color-danger));
+        color: #fff;
     }
 }

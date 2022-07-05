@@ -23,6 +23,7 @@ import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
 import {ModalData} from 'types/actions';
 import {PluginComponent} from 'types/store/plugins';
 import ForwardPostModal from '../forward_post_modal';
+import Badge from '../widgets/badges/badge';
 
 import {ChangeEvent, trackDotMenuEvent} from './utils';
 import './dot_menu.scss';
@@ -449,6 +450,15 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         const fromBot = this.props.post.props?.from_bot === 'true';
         const canPostBeForwarded = !(fromWebhook || fromBot || isSystemMessage);
 
+        const forwardPostItemText = (
+            <span>
+                {Utils.localizeMessage('forward_post_button.label', 'Forward')}
+                <Badge variant='success'>
+                    {Utils.localizeMessage('badge.label.new', 'NEW')}
+                </Badge>
+            </span>
+        );
+
         return (
             <MenuWrapper
                 open={this.props.isMenuOpen}
@@ -493,7 +503,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                     <Menu.ItemAction
                         className={'MenuItem'}
                         show={canPostBeForwarded}
-                        text={Utils.localizeMessage('forward_post_button.label', 'Forward')}
+                        text={forwardPostItemText}
                         icon={Utils.getMenuItemIcon('icon-arrow-right-bold-outline')}
                         rightDecorator={<ShortcutKey shortcutKey='Shift + F'/>}
                         onClick={this.handleForwardMenuItemActivated}

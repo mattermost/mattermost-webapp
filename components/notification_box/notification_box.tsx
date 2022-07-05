@@ -15,11 +15,11 @@ type NotificationProps = {
 }
 
 const variantColorMap: Record<NotificationVariant, string> = {
-    general: 'var(--center-channel-color-rgb)',
-    info: '87,158,255',
-    success: '6,214,160',
-    warning: '255,188,31',
-    danger: '247,67,67',
+    general: 'var(--semantic-color-general)',
+    info: 'var(--semantic-color-info)',
+    success: 'var(--semantic-color-success)',
+    warning: 'var(--semantic-color-warning)',
+    danger: 'var(--semantic-color-danger)',
 };
 
 type NotificationWrapperProps = {
