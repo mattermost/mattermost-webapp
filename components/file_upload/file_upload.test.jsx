@@ -75,7 +75,6 @@ describe('components/FileUpload', () => {
             rootId: 'root_id',
             actions: {
                 uploadFile,
-                handleFileUploadEnd: jest.fn(),
             },
         };
     });

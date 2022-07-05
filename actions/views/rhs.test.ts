@@ -2,8 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {batchActions} from 'redux-batched-actions';
-import configureStore, {MockStoreEnhanced} from 'redux-mock-store';
-import thunk from 'redux-thunk';
+import {MockStoreEnhanced} from 'redux-mock-store';
 
 import * as PostActions from 'mattermost-redux/actions/posts';
 import * as SearchActions from 'mattermost-redux/actions/search';
@@ -37,13 +36,12 @@ import {
     goBack, showChannelMembers,
 } from 'actions/views/rhs';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
+import mockStore from 'tests/test_store';
 import {ActionTypes, RHSStates, Constants} from 'utils/constants';
 import {getBrowserUtcOffset} from 'utils/timezone.jsx';
 import {GlobalState} from 'types/store';
 import {ViewsState} from 'types/store/views';
 import {RhsState} from 'types/store/rhs';
-
-const mockStore = configureStore<GlobalState, DispatchFunc>([thunk]);
 
 const currentChannelId = '123';
 const currentTeamId = '321';

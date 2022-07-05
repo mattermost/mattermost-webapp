@@ -3,13 +3,13 @@
 
 import React from 'react';
 import {Provider} from 'react-redux';
-import configureStore from 'redux-mock-store';
 
 import {createIntl} from 'react-intl';
 
 import {shallow} from 'enzyme';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import mockStore from 'tests/test_store';
 
 import {Constants} from 'utils/constants';
 
@@ -31,7 +31,6 @@ describe('components/Menu', () => {
         // return wrapper.find('MainMenu').shallow();
     };
 
-    const mockStore = configureStore();
     const defaultProps = {
         mobile: false,
         teamId: 'team-id',
@@ -76,7 +75,6 @@ describe('components/Menu', () => {
         isCloud: false,
         subscription: {},
         userIsAdmin: true,
-        isCloudFreeEnabled: false,
         isFreeTrial: false,
         usageDeltaTeams: 1,
     };

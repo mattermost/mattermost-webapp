@@ -8,13 +8,12 @@ import {useSelector} from 'react-redux';
 import {GlobalState} from 'types/store';
 
 import {checkSubscriptionIsLegacyFree, getSubscriptionProduct, getCloudSubscription} from 'mattermost-redux/selectors/entities/cloud';
-import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {getRemainingDaysFromFutureTimestamp} from 'utils/utils';
 import {TrialPeriodDays} from 'utils/constants';
 
 import {
-    planDetailsTopElements,
+    PlanDetailsTopElements,
     currentPlanText,
 } from './plan_details';
 import FeatureList from './feature_list';
@@ -32,20 +31,23 @@ const PlanDetails = ({isFreeTrial, subscriptionPlan}: Props) => {
     const product = useSelector(getSubscriptionProduct);
     const isLegacyFree = useSelector(checkSubscriptionIsLegacyFree);
     const isLegacyFreePaidTier = Boolean(subscription?.is_legacy_cloud_paid_tier);
-    const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
-    let daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription?.trial_end_at);
-    const maxDays = isCloudFreeEnabled ? TrialPeriodDays.TRIAL_30_DAYS : TrialPeriodDays.TRIAL_14_DAYS;
-    if (daysLeftOnTrial > maxDays) {
-        daysLeftOnTrial = maxDays;
-    }
-
+    const daysLeftOnTrial = Math.min(
+        getRemainingDaysFromFutureTimestamp(subscription?.trial_end_at),
+        TrialPeriodDays.TRIAL_30_DAYS,
+    );
     if (!product) {
         return null;
     }
 
     return (
         <div className='PlanDetails'>
-            {planDetailsTopElements(userCount, isLegacyFree, isFreeTrial, subscriptionPlan, daysLeftOnTrial)}
+            <PlanDetailsTopElements
+                userCount={userCount}
+                isLegacyFree={isLegacyFree}
+                isFreeTrial={isFreeTrial}
+                subscriptionPlan={subscriptionPlan}
+                daysLeftOnTrial={daysLeftOnTrial}
+            />
             <PlanPricing
                 isLegacyFree={isLegacyFree}
                 isLegacyFreePaidTier={isLegacyFreePaidTier}
@@ -53,8 +55,8 @@ const PlanDetails = ({isFreeTrial, subscriptionPlan}: Props) => {
             />
             <div className='PlanDetails__teamAndChannelCount'>
                 <FormattedMessage
-                    id='admin.billing.subscription.planDetails.features.unlimitedTeamsAndChannels'
-                    defaultMessage='Unlimited teams, channels, and search history'
+                    id='admin.billing.subscription.planDetails.subheader'
+                    defaultMessage='Plan details'
                 />
             </div>
             <FeatureList

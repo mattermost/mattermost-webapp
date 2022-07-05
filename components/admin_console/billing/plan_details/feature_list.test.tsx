@@ -3,13 +3,12 @@
 
 import React from 'react';
 
-import configureStore from 'redux-mock-store';
-
 import {Provider} from 'react-redux';
 
 import {shallow} from 'enzyme';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import mockStore from 'tests/test_store';
 
 import {CloudProducts} from 'utils/constants';
 import {makeEmptyLimits, makeEmptyUsage} from 'utils/limits_test';
@@ -19,19 +18,22 @@ import FeatureList, {FeatureListProps} from './feature_list';
 function renderFeatureList(props: FeatureListProps, deep?: boolean) {
     const state = {
         entities: {
+            general: {
+                license: {},
+            },
             cloud: {
                 limits: makeEmptyLimits(),
             },
             usage: makeEmptyUsage(),
-            general: {
-                config: {
-                    FeatureFlagCloudFree: 'false',
+            users: {
+                currentUserId: 'uid',
+                profiles: {
+                    uid: {},
                 },
             },
         },
     };
 
-    const mockStore = configureStore([]);
     const store = mockStore(state);
     const wrapper = deep ?
         mountWithIntl(

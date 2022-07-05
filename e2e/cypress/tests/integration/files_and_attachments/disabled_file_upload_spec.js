@@ -40,10 +40,10 @@ describe('Upload Files - Settings', () => {
 
     it('MM-T1147_1 Disallow file sharing in the channel', () => {
         // * Attachment input should not exist in the DOM
-        cy.get('#centerChannelFooter').find('#fileUploadInput').should('not.exist');
+        cy.get('#advancedTextEditorCell').find('#fileUploadInput').should('not.exist');
 
         // * Paper clip icon should not be visible in the center channel
-        cy.get('#centerChannelFooter').find('#fileUploadButton').should('not.exist');
+        cy.get('#advancedTextEditorCell').find('#fileUploadButton').should('not.exist');
 
         // * Channel header file icon should not be visible
         cy.get('#channel-header').find('#channelHeaderFilesButton').should('not.exist');

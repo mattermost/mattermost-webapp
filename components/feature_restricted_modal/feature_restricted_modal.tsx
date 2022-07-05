@@ -18,22 +18,29 @@ import GenericModal from 'components/generic_modal';
 import {closeModal} from 'actions/views/modals';
 import {isModalOpen} from 'selectors/views/modals';
 import {GlobalState} from 'types/store';
+import {FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS} from 'utils/cloud_utils';
 import {ModalIdentifiers, AboutLinks, LicenseLinks} from 'utils/constants';
 
 import './feature_restricted_modal.scss';
 
 type FeatureRestrictedModalProps = {
-    modalTitle: string;
-    modalMessage: string;
-    modalTitleAfterTrial: string;
-    modalMessageAfterTrial: string;
+    titleAdminPreTrial: string;
+    messageAdminPreTrial: string;
+    titleAdminPostTrial: string;
+    messageAdminPostTrial: string;
+    titleEndUser?: string;
+    messageEndUser?: string;
+    customSecondaryButton?: {msg: string; action: () => void};
 }
 
 const FeatureRestrictedModal = ({
-    modalTitle,
-    modalMessage,
-    modalTitleAfterTrial,
-    modalMessageAfterTrial,
+    titleAdminPreTrial,
+    messageAdminPreTrial,
+    titleAdminPostTrial,
+    messageAdminPostTrial,
+    titleEndUser,
+    messageEndUser,
+    customSecondaryButton,
 }: FeatureRestrictedModalProps) => {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch<DispatchFunc>();
@@ -56,26 +63,51 @@ const FeatureRestrictedModal = ({
         dismissAction();
     };
 
+    const getTitle = () => {
+        if (isSystemAdmin) {
+            return hasPriorTrial ? titleAdminPostTrial : titleAdminPreTrial;
+        }
+
+        return titleEndUser;
+    };
+
+    const getMessage = () => {
+        if (isSystemAdmin) {
+            return hasPriorTrial ? messageAdminPostTrial : messageAdminPreTrial;
+        }
+
+        return messageEndUser;
+    };
+
     const showStartTrial = isSystemAdmin && !hasPriorTrial;
+
+    // define what is the secondary button text and action, by default will be the View Plan button
+    let secondaryBtnMsg = formatMessage({id: 'feature_restricted_modal.button.plans', defaultMessage: 'View plans'});
+    let secondaryBtnAction = handleViewPlansClick;
+    if (customSecondaryButton) {
+        secondaryBtnMsg = customSecondaryButton.msg;
+        secondaryBtnAction = customSecondaryButton.action;
+    }
 
     return (
         <GenericModal
             id='FeatureRestrictedModal'
             className='FeatureRestrictedModal'
             useCompassDesign={true}
-            modalHeaderText={hasPriorTrial ? modalTitleAfterTrial : modalTitle}
+            modalHeaderText={getTitle()}
             onExited={dismissAction}
         >
             <div className='FeatureRestrictedModal__body'>
                 <p className='FeatureRestrictedModal__description'>
-                    {hasPriorTrial ? modalMessageAfterTrial : modalMessage}
+                    {getMessage()}
                 </p>
                 {showStartTrial && (
                     <p className='FeatureRestrictedModal__terms'>
                         <FormattedMessage
                             id='feature_restricted_modal.agreement'
-                            defaultMessage='By selecting <highlight>Try free for 30 days</highlight>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails.'
+                            defaultMessage='By selecting <highlight>Try free for {trialLength} days</highlight>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails.'
                             values={{
+                                trialLength: FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS,
                                 highlight: (msg: React.ReactNode) => (
                                     <strong>{msg}</strong>
                                 ),
@@ -104,9 +136,9 @@ const FeatureRestrictedModal = ({
                 <div className={classNames('FeatureRestrictedModal__buttons', {single: !showStartTrial})}>
                     <button
                         className='button-plans'
-                        onClick={handleViewPlansClick}
+                        onClick={secondaryBtnAction}
                     >
-                        {formatMessage({id: 'feature_restricted_modal.button.plans', defaultMessage: 'View plans'})}
+                        {secondaryBtnMsg}
                     </button>
                     {showStartTrial && (
                         <CloudStartTrialButton

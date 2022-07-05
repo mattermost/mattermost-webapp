@@ -14,14 +14,19 @@ import {Constants, ModalIdentifiers} from 'utils/constants';
 import './restricted_indicator.scss';
 
 type RestrictedIndicatorProps = {
+    titleAdminPreTrial: string;
+    messageAdminPreTrial: string;
+    titleAdminPostTrial: string;
+    messageAdminPostTrial: string;
+    titleEndUser?: string;
+    messageEndUser?: string;
     blocked?: boolean;
     tooltipTitle?: string;
     tooltipMessage?: string;
     tooltipMessageBlocked?: string;
-    modalTitle?: string;
-    modalMessage?: string;
-    modalTitleAfterTrial?: string;
-    modalMessageAfterTrial?: string;
+    ctaExtraContent?: React.ReactNode;
+    clickCallback?: () => void;
+    customSecondaryButtonInModal?: {msg: string; action: () => void};
 }
 
 const RestrictedIndicator = ({
@@ -29,12 +34,23 @@ const RestrictedIndicator = ({
     tooltipTitle,
     tooltipMessage,
     tooltipMessageBlocked,
-    modalTitle,
-    modalMessage,
-    modalTitleAfterTrial,
-    modalMessageAfterTrial,
+    titleAdminPreTrial,
+    messageAdminPreTrial,
+    titleAdminPostTrial,
+    messageAdminPostTrial,
+    titleEndUser,
+    messageEndUser,
+    ctaExtraContent,
+    clickCallback,
+    customSecondaryButtonInModal,
 }: RestrictedIndicatorProps) => {
     const {formatMessage} = useIntl();
+
+    const handleClickCallback = () => {
+        if (clickCallback) {
+            clickCallback();
+        }
+    };
 
     return (
         <span className='RestrictedIndicator__icon-tooltip-container'>
@@ -61,17 +77,25 @@ const RestrictedIndicator = ({
                         className='RestrictedIndicator__button'
                         modalId={ModalIdentifiers.FEATURE_RESTRICTED_MODAL}
                         dialogType={FeatureRestrictedModal}
+                        onClick={handleClickCallback}
                         dialogProps={{
-                            modalTitle,
-                            modalMessage,
-                            modalTitleAfterTrial,
-                            modalMessageAfterTrial,
+                            titleAdminPreTrial,
+                            messageAdminPreTrial,
+                            titleAdminPostTrial,
+                            messageAdminPostTrial,
+                            titleEndUser,
+                            messageEndUser,
+                            customSecondaryButton: customSecondaryButtonInModal,
                         }}
                     >
                         <i className='RestrictedIndicator__icon-tooltip icon icon-key-variant'/>
+                        {ctaExtraContent}
                     </ToggleModalButton>
                 ) : (
-                    <i className='RestrictedIndicator__icon-tooltip icon trial'/>
+                    <>
+                        <i className='RestrictedIndicator__icon-tooltip icon trial'/>
+                        {ctaExtraContent}
+                    </>
                 )}
             </OverlayTrigger>
         </span>
