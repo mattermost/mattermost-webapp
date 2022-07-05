@@ -157,7 +157,7 @@ describe('Image attachment', () => {
 function verifyImageInPostFooter(verifyExistence = true) {
     if (verifyExistence) {
         // * Verify that the image exists in the post message footer
-        cy.get('#postCreateFooter').should('be.visible').find('div.post-image__column').
+        cy.get('#advancedTextEditorCell').should('be.visible').find('div.file-preview__container').
             should('exist').
             and('be.visible');
     } else {
