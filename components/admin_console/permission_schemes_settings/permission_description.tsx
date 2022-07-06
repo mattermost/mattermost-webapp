@@ -3,7 +3,7 @@
 /* eslint-disable react/no-string-refs */
 
 import React, {useState, useRef, MouseEvent} from 'react';
-import {FormattedMessage, injectIntl, IntlShape, useIntl} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 import {Overlay} from 'react-bootstrap';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
@@ -16,7 +16,6 @@ import {Role} from '@mattermost/types/roles';
 import {AdditionalValues} from './permissions_tree/types';
 
 type Props = {
-    intl: IntlShape;
     id: string;
     rowType: string;
     inherited?: Partial<Role>;
