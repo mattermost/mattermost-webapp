@@ -40,11 +40,11 @@ export enum DafaultBtnText {
     Failed = 'Try again later!',
 }
 
-type CTAProps = {
-    CtaText?: string;
+type Props = {
+    ctaText?: string | React.ReactNode;
 }
 
-function NotifyAdminCTA(props: CTAProps) {
+function NotifyAdminCTA(props: Props) {
     const [notifyStatus, setStatus] = useState(NotifyStatus.NotStarted);
     const {formatMessage} = useIntl();
 
@@ -68,7 +68,7 @@ function NotifyAdminCTA(props: CTAProps) {
         }
     };
 
-    const btnText = (status: NotifyStatus): string => {
+    const btnText = (status: NotifyStatus): string | React.ReactNode => {
         switch (status) {
         case NotifyStatus.Started:
             return formatMessage({id: 'notify_admin_to_upgrade_cta.notify-admin.notifying', defaultMessage: DafaultBtnText.Notifying});
@@ -79,8 +79,8 @@ function NotifyAdminCTA(props: CTAProps) {
         case NotifyStatus.Failed:
             return formatMessage({id: 'notify_admin_to_upgrade_cta.notify-admin.failed', defaultMessage: DafaultBtnText.Failed});
         default:
-            if (props.CtaText) {
-                return props.CtaText;
+            if (props.ctaText) {
+                return props.ctaText;
             }
             return formatMessage({id: 'notify_admin_to_upgrade_cta.notify-admin.notify', defaultMessage: DafaultBtnText.NotifyAdmin});
         }
@@ -88,7 +88,7 @@ function NotifyAdminCTA(props: CTAProps) {
 
     return (
         <>
-            {props.CtaText ? (
+            {props.ctaText ? (
                 <span>
                     <StyledA
                         id='notify_admin_cta'

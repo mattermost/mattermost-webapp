@@ -14,14 +14,19 @@ import {isCurrentLicenseCloud, getSubscriptionProduct as selectSubscriptionProdu
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import Constants, {CloudProducts, Preferences} from 'utils/constants';
 import {GlobalState} from 'types/store';
-import useGetLimits from 'components/common/hooks/useGetLimits';
-import {fallbackStarterLimits, hasSomeLimits} from 'utils/limits';
+import useGetUsage from 'components/common/hooks/useGetUsage';
+import {fallbackStarterLimits} from 'utils/limits';
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
-import {FileSizes} from 'utils/file_utils';
 import NotifyAdminCTA from 'components/notify_admin_cta/notify_admin_cta';
+import {FileSizes} from 'utils/file_utils';
+
+interface FileLimitSnoozePreference {
+    lastSnoozeTimestamp: number;
+}
 
 const snoozeCoolOffDays = 10;
-const maxStarterPlanFileStorageGB = FileSizes.Gigabyte * 10;
+const snoozeCoolOffDaysMillis = snoozeCoolOffDays * 24 * 60 * 60 * 1000;
+const maxStarterPlanFileStorageGB = fallbackStarterLimits.files.totalStorage;
 
 const StyledDiv = styled.div`
 width: 100%;
@@ -55,7 +60,8 @@ function FileLimitStickyBanner() {
     const [show, setShow] = useState(true);
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
-    const [cloudLimits, limitsLoaded] = useGetLimits();
+
+    const usage = useGetUsage();
     const openPricingModal = useOpenPricingModal();
 
     const user = useSelector(getCurrentUser);
@@ -68,9 +74,8 @@ function FileLimitStickyBanner() {
 
     let shouldShowAgain = true;
     if (snoozePreferenceVal !== '') {
-        const snoozeInfo = JSON.parse(snoozePreferenceVal);
-        const snoozeCoolOffDaysMillis = snoozeCoolOffDays * 24 * 60 * 60 * 1000;
-        const timeDiff = Date.now() - snoozeInfo.LastSnoozeTimestamp;
+        const snoozeInfo = JSON.parse(snoozePreferenceVal) as FileLimitSnoozePreference;
+        const timeDiff = Date.now() - snoozeInfo.lastSnoozeTimestamp;
         shouldShowAgain = timeDiff >= snoozeCoolOffDaysMillis;
     }
 
@@ -88,20 +93,18 @@ function FileLimitStickyBanner() {
 
     let isAbovePlanFileStorageLimit = false;
 
-    if ((limitsLoaded || hasSomeLimits(cloudLimits))) {
-        const currentFileLimitGB = cloudLimits.files?.total_storage || fallbackStarterLimits.files.totalStorage;
-        if (currentFileLimitGB > maxStarterPlanFileStorageGB) {
-            isAbovePlanFileStorageLimit = true;
-        }
+    const currentFileStorageUsage = usage.files.totalStorage;
+    if (currentFileStorageUsage > maxStarterPlanFileStorageGB) {
+        isAbovePlanFileStorageLimit = true;
     }
 
-    if (isAbovePlanFileStorageLimit) {
+    if (!isAbovePlanFileStorageLimit) {
         return null;
     }
 
     const snoozeBanner = () => {
-        const fileLimitBannerSnoozeInfo = {
-            LastSnoozeTimestamp: Date.now(),
+        const fileLimitBannerSnoozeInfo: FileLimitSnoozePreference = {
+            lastSnoozeTimestamp: Date.now(),
         };
 
         dispatch(savePreferences(user.id, [
@@ -116,27 +119,27 @@ function FileLimitStickyBanner() {
         setShow(false);
     };
 
-    const AdminMessageLink = (
-        <a
-            onClick={(e) => {
-                e.preventDefault();
-                openPricingModal();
-            }}
-        >
-            {formatMessage({id: 'create_post.file_limit_sticky_banner.admin_link_message', defaultMessage: 'upgrade to a paid plan.'})}
-        </a>
-    );
-
     const AdminMessage = (
         <span>
-            {formatMessage({
-                id: 'create_post.file_limit_sticky_banner.admin_message',
-                defaultMessage: 'Your free plan is limited to {storageGB}GB of files. New uploads will automatically archive older files. To view them again, you can delete older files or '},
             {
-                storageGB: '10',
-            },
-            )}
-            {AdminMessageLink}
+                formatMessage({
+                    id: 'create_post.file_limit_sticky_banner.admin_message',
+                    defaultMessage: 'Your free plan is limited to {storageGB}GB of files. New uploads will automatically archive older files. To view them again, you can delete older files or <a>upgrade to a paid plan.</a>'},
+                {
+                    storageGB: fallbackStarterLimits.files.totalStorage / FileSizes.Gigabyte,
+                    a: (chunks: React.ReactNode) => {
+                        return (
+                            <a
+                                onClick={
+                                    (e) => {
+                                        e.preventDefault();
+                                        openPricingModal();
+                                    }
+                                }
+                            >{chunks}</a>);
+                    },
+                })
+            }
         </span>
     );
 
@@ -144,33 +147,31 @@ function FileLimitStickyBanner() {
         <span>
             {formatMessage({
                 id: 'create_post.file_limit_sticky_banner.non_admin_message',
-                defaultMessage: 'Your free plan is limited to {storageGB}GB of files. New uploads will automatically archive older files. To view them again, '},
+                defaultMessage: 'Your free plan is limited to {storageGB}GB of files. New uploads will automatically archive older files. To view them again, <a>notify your admin to upgrade to a paid plan.</a>'},
             {
-                storageGB: '10',
+                storageGB: fallbackStarterLimits.files.totalStorage / FileSizes.Gigabyte,
+                a: (chunks: React.ReactNode) => <NotifyAdminCTA ctaText={chunks}/>,
             },
             )}
-            {<NotifyAdminCTA CtaText={formatMessage({id: 'create_post.file_limit_sticky_banner.non_admin_link_message', defaultMessage: 'notify your admin to upgrade to a paid plan.'})}/>}
         </span>
     );
 
     const tooltip = (
         <Tooltip id='file_limit_banner_snooze'>
-            {formatMessage({id: 'create_post.file_limit_sticky_banner.snooze_tooltip', defaultMessage: 'Snooze for {snoozeDays} days'}, {snoozeDays: '10'})}
+            {formatMessage({id: 'create_post.file_limit_sticky_banner.snooze_tooltip', defaultMessage: 'Snooze for {snoozeDays} days'}, {snoozeDays: snoozeCoolOffDays})}
         </Tooltip>
     );
 
     return (
-        <StyledDiv>
+        <StyledDiv id='cloud_file_limit_banner'>
             <InnerDiv>
-                <StyledI
-                    className='icon-alert-outline'
-                />
+                <StyledI className='icon-alert-outline'/>
                 {isAdmin ? AdminMessage : NonAdminMessage}
 
                 <OverlayTrigger
                     trigger={['hover', 'focus']}
                     delayShow={Constants.OVERLAY_TIME_DELAY}
-                    placement='bottom'
+                    placement='left'
                     overlay={tooltip}
                 >
                     <CloseIcon onClick={snoozeBanner}>

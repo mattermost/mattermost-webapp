@@ -13,20 +13,16 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 import {interceptFileUpload, waitUntilUploadComplete} from './helpers';
 
-const Gigabyte = 1 * 8 * 1024 * 1024 * 1024;
-
-function simulateSubscription(subscription, currentStorageGB) {
+function simulateSubscription(subscription, currentStorageUsageBytes) {
     cy.intercept('GET', '**/api/v4/cloud/subscription', {
         statusCode: 200,
         body: subscription,
     });
 
-    cy.intercept('GET', '**/api/v4/cloud/limits', {
+    cy.intercept('GET', '**/api/v4/usage/storage', {
         statusCode: 200,
         body: {
-            files: {
-                total_storage: currentStorageGB,
-            },
+            bytes: currentStorageUsageBytes,
         },
     });
 
@@ -58,7 +54,6 @@ function simulateSubscription(subscription, currentStorageGB) {
 describe('Cloud Freemium limits Upload Files', () => {
     let channelUrl;
     let createdUser;
-    let createdTeam;
 
     before(() => {
         // * Check if server has license for Cloud
@@ -70,18 +65,13 @@ describe('Cloud Freemium limits Upload Files', () => {
         cy.apiInitSetup().then((out) => {
             channelUrl = out.channelUrl;
             createdUser = out.user;
-            createdTeam = out.team;
 
             cy.visit(channelUrl);
             interceptFileUpload();
         });
     });
 
-    // afterEach(() => {
-    //     cy.apiLogout();
-    // });
-
-    it('Show file limits banner for admin uploading files when above current freemium file storage limit of 10GB', () => {
+    it('Show file limits banner for admin uploading files when storage usage above current freemium file storage limit of 10GB', () => {
         // # Login as sysadmin
         cy.apiAdminLogin();
 
@@ -91,9 +81,9 @@ describe('Cloud Freemium limits Upload Files', () => {
             is_free_trial: 'false',
         };
 
-        const currentFileStorage = Gigabyte * 11;
+        const currentFileStorageUsageBytes = 11000000000; // 11GB
 
-        simulateSubscription(currentsubscription, currentFileStorage);
+        simulateSubscription(currentsubscription, currentFileStorageUsageBytes);
 
         const filename = 'svg.svg';
 
@@ -120,9 +110,9 @@ describe('Cloud Freemium limits Upload Files', () => {
             is_free_trial: 'false',
         };
 
-        const currentFileStorage = Gigabyte * 8;
+        const currentFileStorageUsageBytes = 9900000000; // 9.9GB
 
-        simulateSubscription(currentsubscription, currentFileStorage);
+        simulateSubscription(currentsubscription, currentFileStorageUsageBytes);
 
         const filename = 'svg.svg';
 
@@ -133,7 +123,7 @@ describe('Cloud Freemium limits Upload Files', () => {
         cy.get('#advancedTextEditorCell').find('#fileUploadInput').attachFile(filename);
         waitUntilUploadComplete();
 
-        // banner doest not show
+        // banner does not show
         cy.get('#cloud_file_limit_banner').should('not.exist');
     });
 
@@ -141,14 +131,14 @@ describe('Cloud Freemium limits Upload Files', () => {
         // # Login user
         cy.apiLogin(createdUser);
 
-        const currentFileStorageGB = 11 * Gigabyte; // 11GB
+        const currentFileStorageUsageBytes = 11000000000; // 11GB
         const currentsubscription = {
             id: 'sub_test1',
             product_id: 'prod_1',
             is_free_trial: 'false',
         };
 
-        simulateSubscription(currentsubscription, currentFileStorageGB);
+        simulateSubscription(currentsubscription, currentFileStorageUsageBytes);
 
         const filename = 'svg.svg';
 
