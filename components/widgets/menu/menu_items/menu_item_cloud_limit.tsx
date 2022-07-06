@@ -75,7 +75,7 @@ const MenuItemCloudLimit = ({id}: Props) => {
             <div className={descriptionClass}>{words.description}</div>
             <div className='MenuItemCloudLimit__usage'>
                 <UsagePercentBar
-                    percent={80}
+                    percent={Math.floor((highestLimit.usage / highestLimit.limit) * 100)}
                 />
                 <span className='MenuItemCloudLimit__usage-label'>{words.status}</span>
             </div>
