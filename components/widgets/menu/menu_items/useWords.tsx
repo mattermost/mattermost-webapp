@@ -10,6 +10,7 @@ import {t} from 'utils/i18n';
 
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import {LimitTypes, LimitSummary} from 'components/common/hooks/useGetHighestThresholdCloudLimit';
+import NotifyAdminCTA from 'components/pricing_modal/notify_admin_cta';
 
 interface Words {
     title: React.ReactNode;
@@ -25,8 +26,8 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
     }
     const usageRatio = (highestLimit.usage / highestLimit.limit) * 100;
     let callToAction = intl.formatMessage({
-        id: 'workspace_limits.menu_limit.view_plans',
-        defaultMessage: 'View plans',
+        id: 'workspace_limits.menu_limit.notify_admin',
+        defaultMessage: 'Notify admin',
     });
     if (isAdminUser) {
         callToAction = intl.formatMessage({
@@ -37,13 +38,18 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
 
     const values: Record<string, PrimitiveType | FormatXMLElementFn<string, string> | ((chunks: React.ReactNode | React.ReactNodeArray) => JSX.Element)> = {
         callToAction,
-        a: (chunks: React.ReactNode | React.ReactNodeArray) => (
-            <a
-                onClick={openPricingModal}
-            >
-                {chunks}
-            </a>
-        ),
+        a: (chunks: React.ReactNode | React.ReactNodeArray) => {
+            if (isAdminUser) {
+                return (
+                    <a
+                        onClick={openPricingModal}
+                    >
+                        {chunks}
+                    </a>);
+            }
+
+            return <NotifyAdminCTA ctaText={chunks}/>;
+        },
     };
     switch (highestLimit.id) {
     case LimitTypes.messageHistory: {

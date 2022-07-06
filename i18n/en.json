@@ -5227,6 +5227,7 @@
   "workspace_limits.menu_limit.file_storage": "File storage limit",
   "workspace_limits.menu_limit.integrations": "Integrations limit",
   "workspace_limits.menu_limit.messages": "Total messages",
+  "workspace_limits.menu_limit.notify_admin": "Notify admin",
   "workspace_limits.menu_limit.over.boards_cards": "You’re over the {limit} board card limit. You can only access the most recent {limit} board cards. <a>{callToAction}</a>",
   "workspace_limits.menu_limit.over.files_storage": "You’re over the {limit} file storage limit. You can only access the most recent {limit} worth of files. <a>{callToAction}</a>",
   "workspace_limits.menu_limit.over.integrations_enabled": "You’ve reached the {limit} enabled integrations limit. You can’t enable additional integrations. Upgrade to remove this limit. <a>{callToAction}</a>",
