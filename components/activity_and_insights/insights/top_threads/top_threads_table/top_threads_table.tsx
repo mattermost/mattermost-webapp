@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import classNames from 'classnames';
 
-import {selectPost} from 'actions/views/rhs';
+import {selectPostAndParentChannel} from 'actions/views/rhs';
 import {trackEvent} from 'actions/telemetry_actions';
 import {openModal} from 'actions/views/modals';
 
@@ -105,7 +105,7 @@ const TopThreadsTable = (props: Props) => {
             }));
         } else {
             trackEvent('insights', 'open_thread_from_top_threads_modal');
-            dispatch(selectPost(thread.post));
+            dispatch(selectPostAndParentChannel(thread.post));
         }
         closeModal();
     }, [currentTeamId]);

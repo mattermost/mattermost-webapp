@@ -1258,6 +1258,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                 <AdvanceTextEditor
                     location={Locations.CENTER}
                     currentUserId={this.props.currentUserId}
+                    postError={this.state.postError}
                     message={this.state.message}
                     showEmojiPicker={this.state.showEmojiPicker}
                     uploadsProgressPercent={this.state.uploadsProgressPercent}

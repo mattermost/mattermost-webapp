@@ -4,6 +4,10 @@
 import hoistStatics from 'hoist-non-react-statics';
 import React from 'react';
 
+type DeferredRenderWrapperState = {
+    shouldRender: boolean;
+}
+
 /**
  * Allows two animation frames to complete to allow other components to update
  * and re-render before mounting and rendering an expensive `WrappedComponent`.
@@ -13,10 +17,10 @@ import React from 'react';
  * Based on this Twitter built component
  * https://gist.github.com/paularmstrong/cc2ead7e2a0dec37d8b2096fc8d85759#file-defercomponentrender-js
  */
-export default function deferComponentRender(WrappedComponent, PreRenderComponent = null) {
-    class DeferredRenderWrapper extends React.PureComponent {
-        constructor(props, context) {
-            super(props, context);
+export default function deferComponentRender<ComponentProps>(WrappedComponent: React.ComponentType<ComponentProps>, PreRenderComponent: React.ReactNode = null) {
+    class DeferredRenderWrapper extends React.PureComponent<ComponentProps, DeferredRenderWrapperState> {
+        constructor(props: ComponentProps) {
+            super(props);
 
             this.state = {
                 shouldRender: false,
