@@ -105,10 +105,7 @@ class ProcessPaymentSetup extends React.PureComponent<Props, State> {
         const success = await addPaymentMethod((await stripe)!, billingDetails!, isDevMode);
 
         if (typeof success !== 'boolean' || !success) {
-            pageVisited(
-                TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
-                'pageview_payment_failed',
-            );
+            trackEvent('cloud_admin', 'complete_payment_failed');
             this.setState({
                 error: true,
                 state: ProcessState.FAILED});
@@ -120,10 +117,7 @@ class ProcessPaymentSetup extends React.PureComponent<Props, State> {
 
             // the action subscribeCloudSubscription returns a true boolean when successful and an error when it fails
             if (typeof productUpdated !== 'boolean') {
-                pageVisited(
-                    TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
-                    'pageview_payment_failed',
-                );
+                trackEvent('cloud_admin', 'complete_payment_failed');
                 this.setState({
                     error: true,
                     state: ProcessState.FAILED});
