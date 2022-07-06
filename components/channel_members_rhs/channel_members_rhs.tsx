@@ -5,7 +5,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {debounce} from 'lodash';
 
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 
 import {UserProfile} from '@mattermost/types/users';
 import {Channel, ChannelMembership} from '@mattermost/types/channels';
@@ -88,6 +88,7 @@ export default function ChannelMembersRHS({
 
     const [page, setPage] = useState(0);
     const [isNextPageLoading, setIsNextPageLoading] = useState(false);
+    const {formatMessage} = useIntl();
 
     const searching = searchTerms !== '';
 
@@ -246,7 +247,10 @@ export default function ChannelMembersRHS({
                     <AlertBanner
                         mode='info'
                         variant='app'
-                        message='In the default channel, the only action available is removing guests.'
+                        message={formatMessage({
+                            id: 'channel_members_rhs.default_channel_moderation_restrictions',
+                            defaultMessage: 'In the default channel, the only action available is removing guests.',
+                        })}
                     />
                 </AlertContainer>
             )}
