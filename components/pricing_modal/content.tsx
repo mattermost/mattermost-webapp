@@ -191,31 +191,31 @@ function Content(props: ContentProps) {
     };
 
     const downgrade = async () => {
-        if (!starterProduct) {
-            return;
-        }
+        // if (!starterProduct) {
+        //     return;
+        // }
 
-        const result = await dispatch(subscribeCloudSubscription(starterProduct?.id));
+        // const result = await dispatch(subscribeCloudSubscription(starterProduct?.id));
 
-        if (typeof result === 'boolean' && result) {
-            dispatch(closeModal(ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM));
-            dispatch(
-                openModal({
-                    modalId: ModalIdentifiers.SUCCESS_MODAL,
-                    dialogType: SuccessModal,
-                }),
-            );
-        } else {
-            dispatch(
-                openModal({
-                    modalId: ModalIdentifiers.ERROR_MODAL,
-                    dialogType: ErrorModal,
-                }),
-            );
-            return;
-        }
+        // if (typeof result === 'boolean' && result) {
+        //     dispatch(closeModal(ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM));
+        //     dispatch(
+        //         openModal({
+        //             modalId: ModalIdentifiers.SUCCESS_MODAL,
+        //             dialogType: SuccessModal,
+        //         }),
+        //     );
+        // } else {
+        //     dispatch(
+        //         openModal({
+        //             modalId: ModalIdentifiers.ERROR_MODAL,
+        //             dialogType: ErrorModal,
+        //         }),
+        //     );
+        //     return;
+        // }
 
-        props.onHide();
+        // props.onHide();
     };
 
     return (
