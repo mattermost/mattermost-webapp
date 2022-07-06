@@ -291,5 +291,5 @@ const FirstMemberListSeparator = styled(MemberListSeparator)`
 `;
 
 const AlertContainer = styled.div`
-    padding: '0 20px 15px';
+    padding: 0 20px 15px;
 `;
