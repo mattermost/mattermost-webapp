@@ -3,7 +3,7 @@
 /* eslint-disable react/no-string-refs */
 
 import React, {useState, useRef, MouseEvent} from 'react';
-import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
+import {FormattedMessage, injectIntl, IntlShape, useIntl} from 'react-intl';
 import {Overlay} from 'react-bootstrap';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
@@ -28,6 +28,7 @@ const PermissionDescription = (props: Props): JSX.Element => {
     const [open, setOpen] = useState(false);
     const randomId = generateId();
     const contentRef = useRef<HTMLSpanElement>(null);
+    const intl = useIntl();
 
     const closeTooltip = () => setOpen(false);
 
@@ -57,7 +58,7 @@ const PermissionDescription = (props: Props): JSX.Element => {
                 <FormattedMarkdownMessage
                     id='admin.permissions.inherited_from'
                     values={{
-                        name: props.intl.formatMessage({
+                        name: intl.formatMessage({
                             id: 'admin.permissions.roles.' + inherited.name + '.name',
                             defaultMessage: inherited.display_name,
                         }),
@@ -103,4 +104,4 @@ const PermissionDescription = (props: Props): JSX.Element => {
     return content;
 };
 
-export default injectIntl(PermissionDescription);
+export default PermissionDescription;
