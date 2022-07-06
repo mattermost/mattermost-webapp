@@ -32,6 +32,7 @@ describe('components/feature_discovery', () => {
                         requestTrialLicense: jest.fn(),
                         getLicenseConfig: jest.fn(),
                         getPrevTrialLicense: jest.fn(),
+                        getCloudSubscription: jest.fn(),
                         openModal: jest.fn(),
                     }}
                 />,
@@ -61,6 +62,7 @@ describe('components/feature_discovery', () => {
                         getLicenseConfig: jest.fn(),
                         getPrevTrialLicense: jest.fn(),
                         openModal: jest.fn(),
+                        getCloudSubscription: jest.fn(),
                     }}
                 />,
             );
@@ -90,6 +92,7 @@ describe('components/feature_discovery', () => {
                         getLicenseConfig: jest.fn(),
                         getPrevTrialLicense: jest.fn(),
                         openModal: jest.fn(),
+                        getCloudSubscription: jest.fn(),
                     }}
                 />,
             );

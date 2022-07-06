@@ -2,10 +2,10 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import configureStore from 'redux-mock-store';
 import {Provider} from 'react-redux';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import mockStore from 'tests/test_store';
 
 import {CloudProducts} from 'utils/constants';
 import {FileSizes} from 'utils/file_utils';
@@ -68,8 +68,6 @@ const users = {
 };
 
 describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
-    const mockStore = configureStore();
-
     test('should render when on cloud license and during free trial period', () => {
         const FOURTEEN_DAYS = 1209600000; // in milliseconds
         const subscriptionCreateAt = Date.now();

@@ -486,6 +486,11 @@ export function getProfilesWithoutTeam(page: number, perPage: number = General.P
     };
 }
 
+export enum ProfilesInChannelSortBy {
+    None = '',
+    Admin = 'admin',
+}
+
 export function getProfilesInChannel(channelId: string, page: number, perPage: number = General.PROFILE_CHUNK_SIZE, sort = '', options: {active?: boolean} = {}): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const {currentUserId} = getState().entities.users;

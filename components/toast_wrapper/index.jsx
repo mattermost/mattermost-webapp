@@ -12,7 +12,7 @@ import {getAllPosts, getPostIdsInChannel} from 'mattermost-redux/selectors/entit
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {makePreparePostIdsForPostList} from 'mattermost-redux/utils/post_list';
 import {getCurrentChannel, countCurrentChannelUnreadMessages, isManuallyUnread} from 'mattermost-redux/selectors/entities/channels';
-import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getUnreadScrollPositionPreference, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {updateToastStatus} from 'actions/views/channel';
 
@@ -82,6 +82,7 @@ function makeMapStateToProps() {
         let newRecentMessagesCount = 0;
         const channelMarkedAsUnread = isManuallyUnread(state, ownProps.channelId);
         const lastViewedAt = state.views.channel.lastChannelViewTime[ownProps.channelId];
+        const unreadScrollPosition = getUnreadScrollPositionPreference(state);
         if (!ownProps.atLatestPost) {
             let postIds = getPostIdsInChannel(state, ownProps.channelId);
             if (postIds) {
@@ -93,6 +94,7 @@ function makeMapStateToProps() {
             rootPosts: getRootPosts(state),
             lastViewedAt,
             newRecentMessagesCount,
+            unreadScrollPosition,
             isCollapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
             unreadCountInChannel: countCurrentChannelUnreadMessages(state),
             channelMarkedAsUnread,

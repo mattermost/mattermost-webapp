@@ -22,12 +22,14 @@ interface UsedHocProps {
 function withGetCloudSubscription<P>(WrappedComponent: ComponentType<P>): ComponentType<any> {
     return class extends React.Component<P & UsedHocProps> {
         async componentDidMount() {
-            const {subscription, actions: {getCloudSubscription}, isCloud, userIsAdmin} = this.props;
+            // if not is cloud, not even try to destructure values from props, just return
+            if (!this.props.isCloud) {
+                return;
+            }
+            const {subscription, actions, userIsAdmin} = this.props;
 
-            if (isEmpty(subscription) && isCloud && userIsAdmin) {
-                if (getCloudSubscription) {
-                    await getCloudSubscription();
-                }
+            if (isEmpty(subscription) && userIsAdmin && actions?.getCloudSubscription) {
+                await actions.getCloudSubscription();
             }
         }
 
