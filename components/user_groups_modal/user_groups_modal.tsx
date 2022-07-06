@@ -3,7 +3,7 @@
 
 import React, {createRef, RefObject} from 'react';
 
-import {Modal} from 'react-bootstrap';
+import Modal from 'components/compass/modal/modal';
 
 import Constants from 'utils/constants';
 
@@ -18,6 +18,8 @@ import {debounce} from 'mattermost-redux/actions/helpers';
 import Input from 'components/widgets/inputs/input/input';
 import NoResultsIndicator from 'components/no_results_indicator';
 import {NoResultsVariant} from 'components/no_results_indicator/types';
+import Button from '../compass/button/button';
+import ModalTitle from '../compass/modal/modal_title';
 
 import UserGroupsList from './user_groups_list';
 import UserGroupsModalHeader from './user_groups_modal_header';
@@ -83,6 +85,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
     }
 
     doHide = () => {
+        this.props.onExited();
         this.setState({show: false});
     }
 
@@ -215,80 +218,88 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
     render() {
         const groups = this.state.selectedFilter === 'all' ? this.props.groups : this.props.myGroups;
 
+        // return (
+        //     <Modal
+        //         isOpen={this.state.show}
+        //         dialogId='userGroupsModal'
+        //         dialogClassName='a11y__modal user-groups-modal'
+        //         onClose={this.doHide}
+        //         aria-labelledby='userGroupsModalLabel'
+        //         title='User Groups'
+        //     >
+        //         {(groups.length === 0 && !this.props.searchTerm) ? <NoResultsIndicator
+        //             variant={NoResultsVariant.UserGroups}
+        //                                                            /> : <>
+        //             <div className='user-groups-search'>
+        //                                                                    <FaSearchIcon/>
+        //                                                                    <Input
+        //                     type='text'
+        //                     placeholder={Utils.localizeMessage('user_groups_modal.searchGroups', 'Search Groups')}
+        //                     onChange={this.handleSearch}
+        //                     value={this.props.searchTerm}
+        //                     data-testid='searchInput'
+        //                     className={'user-group-search-input'}
+        //                 />
+        //                                                                </div>
+        //             <div className='more-modal__dropdown'>
+        //                                                                    <MenuWrapper id='groupsFilterDropdown'>
+        //                     <a>
+        //                                                                            <span>{this.state.selectedFilter === 'all' ? Utils.localizeMessage('user_groups_modal.showAllGroups', 'Show: All Groups') : Utils.localizeMessage('user_groups_modal.showMyGroups', 'Show: My Groups')}</span>
+        //                                                                            <span className='icon icon-chevron-down'/>
+        //                                                                        </a>
+        //                     <Menu
+        //                                                                            openLeft={false}
+        //                                                                            ariaLabel={Utils.localizeMessage('user_groups_modal.filterAriaLabel', 'Groups Filter Menu')}
+        //                                                                        >
+        //                                                                            <Menu.ItemAction
+        //                             id='groupsDropdownAll'
+        //                             buttonClass='groups-filter-btn'
+        //                             onClick={() => {
+        //                                 this.getGroups(0);
+        //                             }}
+        //                             text={Utils.localizeMessage('user_groups_modal.allGroups', 'All Groups')}
+        //                             rightDecorator={this.state.selectedFilter === 'all' && <i className='icon icon-check'/>}
+        //                         />
+        //                                                                            <Menu.ItemAction
+        //                             id='groupsDropdownMy'
+        //                             buttonClass='groups-filter-btn'
+        //                             onClick={() => {
+        //                                 this.getMyGroups(0);
+        //                             }}
+        //                             text={Utils.localizeMessage('user_groups_modal.myGroups', 'My Groups')}
+        //                             rightDecorator={this.state.selectedFilter !== 'all' && <i className='icon icon-check'/>}
+        //                         />
+        //                                                                        </Menu>
+        //                 </MenuWrapper>
+        //                                                                </div>
+        //             <UserGroupsList
+        //                                                                    groups={groups}
+        //                                                                    searchTerm={this.props.searchTerm}
+        //                                                                    loading={this.state.loading}
+        //                                                                    onScroll={this.onScroll}
+        //                                                                    ref={this.divScrollRef}
+        //                                                                    onExited={this.props.onExited}
+        //                                                                    backButtonAction={this.props.backButtonAction}
+        //                                                                />
+        //         </>
+        //         }
+        //     </Modal>
+        // );
         return (
             <Modal
+                isOpen={this.state.show}
+                dialogId='userGroupsModal'
                 dialogClassName='a11y__modal user-groups-modal'
-                show={this.state.show}
-                onHide={this.doHide}
-                onExited={this.props.onExited}
-                role='dialog'
+                onClose={this.doHide}
                 aria-labelledby='userGroupsModalLabel'
-                id='userGroupsModal'
+                onConfirm={() => {}}
             >
-                <UserGroupsModalHeader
-                    onExited={this.props.onExited}
-                    backButtonAction={this.props.backButtonAction}
+                <ModalTitle
+                    title={'User Groups'}
+                    onClose={this.doHide}
+                    rightSection={<Button disableRipple={true}>{'CREATE USER GROUP'}</Button>}
                 />
-                <Modal.Body>
-                    {(groups.length === 0 && !this.props.searchTerm) ?
-                        <NoResultsIndicator
-                            variant={NoResultsVariant.UserGroups}
-                        /> :
-                        <>
-                            <div className='user-groups-search'>
-                                <FaSearchIcon/>
-                                <Input
-                                    type='text'
-                                    placeholder={Utils.localizeMessage('user_groups_modal.searchGroups', 'Search Groups')}
-                                    onChange={this.handleSearch}
-                                    value={this.props.searchTerm}
-                                    data-testid='searchInput'
-                                    className={'user-group-search-input'}
-                                />
-                            </div>
-                            <div className='more-modal__dropdown'>
-                                <MenuWrapper id='groupsFilterDropdown'>
-                                    <a>
-                                        <span>{this.state.selectedFilter === 'all' ? Utils.localizeMessage('user_groups_modal.showAllGroups', 'Show: All Groups') : Utils.localizeMessage('user_groups_modal.showMyGroups', 'Show: My Groups')}</span>
-                                        <span className='icon icon-chevron-down'/>
-                                    </a>
-                                    <Menu
-                                        openLeft={false}
-                                        ariaLabel={Utils.localizeMessage('user_groups_modal.filterAriaLabel', 'Groups Filter Menu')}
-                                    >
-                                        <Menu.ItemAction
-                                            id='groupsDropdownAll'
-                                            buttonClass='groups-filter-btn'
-                                            onClick={() => {
-                                                this.getGroups(0);
-                                            }}
-                                            text={Utils.localizeMessage('user_groups_modal.allGroups', 'All Groups')}
-                                            rightDecorator={this.state.selectedFilter === 'all' && <i className='icon icon-check'/>}
-                                        />
-                                        <Menu.ItemAction
-                                            id='groupsDropdownMy'
-                                            buttonClass='groups-filter-btn'
-                                            onClick={() => {
-                                                this.getMyGroups(0);
-                                            }}
-                                            text={Utils.localizeMessage('user_groups_modal.myGroups', 'My Groups')}
-                                            rightDecorator={this.state.selectedFilter !== 'all' && <i className='icon icon-check'/>}
-                                        />
-                                    </Menu>
-                                </MenuWrapper>
-                            </div>
-                            <UserGroupsList
-                                groups={groups}
-                                searchTerm={this.props.searchTerm}
-                                loading={this.state.loading}
-                                onScroll={this.onScroll}
-                                ref={this.divScrollRef}
-                                onExited={this.props.onExited}
-                                backButtonAction={this.props.backButtonAction}
-                            />
-                        </>
-                    }
-                </Modal.Body>
+                {'THIS IS THE CONTENT FOR THE USER GROUPS MODAL'}
             </Modal>
         );
     }
