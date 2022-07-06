@@ -53,12 +53,8 @@ const MenuItemCloudLimit = ({id}: Props) => {
         itemClass += ' MenuItemCloudLimit--critical';
     }
 
-    let descriptionClass = 'MenuItemCloudLimit__description';
-    if (!isAdminUser) {
-        // TODO: hide link hack to be removed once
-        // https://mattermost.atlassian.net/browse/MM-43648 is completed
-        descriptionClass += ' MenuItemCloudLimit__description--hide-link';
-    }
+    const descriptionClass = 'MenuItemCloudLimit__description';
+
     return (
         <li
             className={itemClass}
@@ -79,7 +75,7 @@ const MenuItemCloudLimit = ({id}: Props) => {
             <div className={descriptionClass}>{words.description}</div>
             <div className='MenuItemCloudLimit__usage'>
                 <UsagePercentBar
-                    percent={Math.floor((highestLimit.usage / highestLimit.limit) * 100)}
+                    percent={80}
                 />
                 <span className='MenuItemCloudLimit__usage-label'>{words.status}</span>
             </div>
