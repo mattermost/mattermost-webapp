@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {CSSProperties, useCallback, useRef, useState} from 'react';
+import React, {CSSProperties, useCallback, useEffect, useRef, useState} from 'react';
 import classNames from 'classnames';
 import {useIntl} from 'react-intl';
 import {EmoticonHappyOutlineIcon} from '@mattermost/compass-icons/components';
@@ -29,6 +29,8 @@ import * as Utils from 'utils/utils';
 import {ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
 import Constants, {Locations} from 'utils/constants';
 import Tooltip from '../tooltip';
+
+import {useUndoable, withUndoable} from './advanced_text_editor_context';
 
 import TexteditorActions from './texteditor_actions';
 import FormattingBar from './formatting_bar';
@@ -149,6 +151,7 @@ const AdvanceTextEditor = ({
     textboxRef,
     isThreadView,
 }: Props) => {
+    const {content, setContent} = useUndoable();
     const readOnlyChannel = !canPost;
     const {formatMessage} = useIntl();
     const ariaLabelMessageInput = Utils.localizeMessage(
@@ -160,6 +163,8 @@ const AdvanceTextEditor = ({
     const [scrollbarWidth, setScrollbarWidth] = useState(0);
     const [renderScrollbar, setRenderScrollbar] = useState(false);
 
+    useEffect(() => setContent(message), [message]);
+
     const handleHeightChange = (height: number, maxHeight: number) => {
         setRenderScrollbar(height > maxHeight);
 
@@ -170,9 +175,7 @@ const AdvanceTextEditor = ({
         });
     };
 
-    const handleShowFormat = useCallback(() => {
-        setShowPreview(!shouldShowPreview);
-    }, [shouldShowPreview, setShowPreview]);
+    const handleShowFormat = useCallback(() => setShowPreview(!shouldShowPreview), [shouldShowPreview, setShowPreview]);
 
     let serverErrorJsx = null;
     if (serverError) {
@@ -321,7 +324,7 @@ const AdvanceTextEditor = ({
         createMessage = Utils.localizeMessage('create_comment.addComment', 'Reply to this thread...');
     }
 
-    const messageValue = readOnlyChannel ? '' : message;
+    const messageValue = readOnlyChannel ? '' : content;
 
     /**
      * by getting the value directly from the textbox we eliminate all unnecessary
@@ -416,13 +419,14 @@ const AdvanceTextEditor = ({
                         {sendButton}
                     </TexteditorActions>
                 </div>
-                {showSendTutorialTip && currentChannel && prefillMessage &&
+                {showSendTutorialTip && currentChannel && prefillMessage && (
                     <SendMessageTour
                         prefillMessage={prefillMessage}
                         currentChannel={currentChannel}
                         currentUserId={currentUserId}
                         currentChannelTeammateUsername={currentChannelTeammateUsername}
-                    />}
+                    />
+                )}
             </div>
             <div
                 id='postCreateFooter'
@@ -442,4 +446,4 @@ const AdvanceTextEditor = ({
     );
 };
 
-export default AdvanceTextEditor;
+export default withUndoable(AdvanceTextEditor);
