@@ -23,7 +23,7 @@ import {
     selectTeam,
     archiveAllTeamsExcept,
 } from 'mattermost-redux/actions/teams';
-import './process_payment.scss';
+import './cloud_subscribe_with_loading_modal.scss';
 
 type Props = RouteComponentProps & {
     onBack: () => void;
