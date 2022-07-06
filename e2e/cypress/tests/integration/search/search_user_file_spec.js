@@ -55,7 +55,7 @@ describe('Search in DMs', () => {
         createNewDMChannel(otherUser.email);
 
         // # Post file to user
-        cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile('word-file.doc');
+        cy.get('#advancedTextEditorCell').find('#fileUploadInput').attachFile('word-file.doc');
         cy.get('.post-image__thumbnail').should('be.visible');
         cy.get('#post_textbox').should('be.visible').clear().type('{enter}');
 

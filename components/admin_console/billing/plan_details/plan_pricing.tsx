@@ -2,10 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {useSelector} from 'react-redux';
 import {FormattedMessage} from 'react-intl';
-
-import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {BillingSchemes, CloudProducts, CloudLinks} from 'utils/constants';
@@ -23,8 +20,6 @@ const PlanPricing = ({
     isLegacyFreePaidTier,
     product,
 }: Props) => {
-    const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
-
     let planPricing;
 
     if (isLegacyFree && !isLegacyFreePaidTier) {
@@ -69,7 +64,7 @@ const PlanPricing = ({
         );
     }
 
-    if (isCloudFreeEnabled && product.sku === CloudProducts.STARTER) {
+    if (product.sku === CloudProducts.STARTER) {
         return null;
     }
 
