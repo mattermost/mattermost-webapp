@@ -62,6 +62,7 @@ export default class ModalController extends React.PureComponent<Props> {
                 }
             }
         }
+
         return (
             <div>{modalOutput}</div>
         );
