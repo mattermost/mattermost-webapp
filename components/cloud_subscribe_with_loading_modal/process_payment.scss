@@ -1,6 +1,7 @@
 
 .loading-modal {
-    z-index: 99999999 !important;
+    top: 50%;
+    transform: translateY(50%);
     .ProcessPayment-progress {
         width: 387px;
         height: 4px;

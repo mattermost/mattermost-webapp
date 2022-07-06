@@ -392,6 +392,7 @@ export const ModalIdentifiers = {
     CLOUD_LIMITS: 'cloud_limits',
     REQUEST_BUSINESS_EMAIL_MODAL: 'request_business_email_modal',
     FEATURE_RESTRICTED_MODAL: 'feature_restricted_modal',
+    CLOUD_SUBSCRIBE_WITH_LOADING_MODAL: 'cloud_subscribe_with_loading_modal',
 };
 
 export const UserStatuses = {
