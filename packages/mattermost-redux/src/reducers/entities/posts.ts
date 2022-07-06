@@ -1390,6 +1390,25 @@ export function expandedURLs(state: Record<string, string> = {}, action: Generic
     }
 }
 
+const zeroStateLimitedViews = {
+    threads: {},
+    channels: {},
+    search: {},
+}
+export function limitedViews(state: PostsState['limitedViews'] = zeroStateLimitedViews, action: GenericAction) {
+    switch (action.type) {
+        // for each case, where needed, add the limit once observed. If a subsquent request for messages PRIOR to what is already loaded returns no limit, dump the limit.
+        // If limits change and there are no limits any more, dump all the limits in here.
+    case GeneralTypes.REDIRECT_LOCATION_SUCCESS:
+        return {
+            ...state,
+            [action.data.url]: action.data.location,
+        };
+    default:
+        return state;
+    }
+}
+
 export default function reducer(state: Partial<PostsState> = {}, action: GenericAction) {
     const nextPosts = handlePosts(state.posts, action);
     const nextPostsInChannel = postsInChannel(state.postsInChannel, action, state.posts!, nextPosts);
@@ -1428,6 +1447,11 @@ export default function reducer(state: Partial<PostsState> = {}, action: Generic
         messagesHistory: messagesHistory(state.messagesHistory, action),
 
         expandedURLs: expandedURLs(state.expandedURLs, action),
+
+        // For cloud instances with a message limit,
+        // whether this particular view has messages that are hidden
+        // because of the cloud workspace limit.
+        limitedViews: limitedViews(state.limitedViews, action),
     };
 
     if (state.posts === nextState.posts && state.postsInChannel === nextState.postsInChannel &&
@@ -1438,7 +1462,8 @@ export default function reducer(state: Partial<PostsState> = {}, action: Generic
         state.reactions === nextState.reactions &&
         state.openGraph === nextState.openGraph &&
         state.messagesHistory === nextState.messagesHistory &&
-        state.expandedURLs === nextState.expandedURLs) {
+        state.expandedURLs === nextState.expandedURLs &&
+        state.limitedViews === nextState.limitedViews) {
         // None of the children have changed so don't even let the parent object change
         return state;
     }

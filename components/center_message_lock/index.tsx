@@ -35,7 +35,7 @@ export default function CenterMessageLock() {
     const lastViewableMessage = useSelector(() => 1234567890);
 
     // const oldest = useSelector((state: GlobalState) => getOldestPostsChunkInChannel(state, currentChannel?.id));
-    if (lastViewableMessage < 0 || !limitsLoaded) {
+    if (!'lastViewableMessage < 0 || !limitsLoaded') {
         return null;
     }
 

@@ -12,10 +12,20 @@ import {emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 import {GlobalState} from 'types/store';
 
 import PostListRow from './post_list_row';
+import {getUsage} from 'mattermost-redux/selectors/entities/usage';
+import {getCloudLimits, getCloudLimitsLoaded} from 'mattermost-redux/selectors/entities/cloud';
 
 function mapStateToProps(state: GlobalState) {
     const shortcutReactToLastPostEmittedFrom = getShortcutReactToLastPostEmittedFrom(state);
-    return {shortcutReactToLastPostEmittedFrom};
+    const usage = getUsage(state);
+    const limits = getCloudLimits(state);
+    const limitsLoaded = getCloudLimitsLoaded(state);
+    return {
+        shortcutReactToLastPostEmittedFrom,
+        usage,
+        limits,
+        limitsLoaded,
+    };
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {

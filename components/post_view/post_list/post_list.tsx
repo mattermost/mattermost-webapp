@@ -11,7 +11,6 @@ import {clearMarks, mark, measure, trackEvent} from 'actions/telemetry_actions.j
 
 import VirtPostList from 'components/post_view/post_list_virtualized/post_list_virtualized';
 import {updateNewMessagesAtInChannel} from 'actions/global_actions';
-import CenterMessageLock from 'components/center_message_lock';
 import type {LoadPostsParameters, LoadPostsReturnValue, CanLoadMorePosts} from 'actions/views/channel';
 
 const MAX_NUMBER_OF_AUTO_RETRIES = 3;
@@ -359,7 +358,6 @@ export default class PostList extends React.PureComponent<Props, State> {
                 className='post-list-holder-by-time'
                 key={'postlist-' + this.props.channelId}
             >
-                <CenterMessageLock/>
                 <div className='post-list__table'>
                     <div
                         id='virtualizedPostListContent'
