@@ -37,7 +37,7 @@ function focusRootPost(post, channel) {
     };
 }
 
-function focusReplyPost(post, channel, teamId, returnTo) {
+function focusReplyPost(post, channel, teamId, returnTo, option) {
     return async (dispatch, getState) => {
         await dispatch(getPostThread(post.root_id));
         const state = getState();
@@ -46,13 +46,15 @@ function focusReplyPost(post, channel, teamId, returnTo) {
         const currentChannel = getCurrentChannel(state);
         const sameTeam = currentChannel && currentChannel.team_id === team.id;
 
+        const {noRedirect} = option;
+
         if (!sameTeam) {
             dispatch(selectChannel(channel.id));
         }
 
-        if (sameTeam && returnTo) {
+        if (sameTeam && returnTo && !noRedirect) {
             browserHistory.replace(returnTo);
-        } else {
+        } else if (!sameTeam || !noRedirect) {
             const postURL = getPostURL(state, post);
             browserHistory.replace(postURL);
         }
@@ -61,7 +63,7 @@ function focusReplyPost(post, channel, teamId, returnTo) {
     };
 }
 
-export function focusPost(postId, returnTo = '', currentUserId) {
+export function focusPost(postId, returnTo = '', currentUserId, option = {noRedirect: false}) {
     return async (dispatch, getState) => {
         // Ignore if prompt is still visible
         if (privateChannelJoinPromptVisible) {
@@ -138,7 +140,7 @@ export function focusPost(postId, returnTo = '', currentUserId) {
         const post = data.posts[postId];
 
         if (isCollapsed && isComment(post)) {
-            dispatch(focusReplyPost(post, channel, teamId, returnTo));
+            dispatch(focusReplyPost(post, channel, teamId, returnTo, option));
         } else {
             dispatch(focusRootPost(post, channel));
         }
