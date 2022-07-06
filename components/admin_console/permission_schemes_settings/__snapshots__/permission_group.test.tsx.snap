@@ -24,7 +24,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         id="admin.permissions.group.name.name"
       />
     </span>
-    <injectIntl(PermissionDescription)
+    <PermissionDescription
       id="name"
       rowType="group"
       selectRow={[MockFunction]}
@@ -79,7 +79,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         id="admin.permissions.group.name.name"
       />
     </span>
-    <injectIntl(PermissionDescription)
+    <PermissionDescription
       id="name"
       rowType="group"
       selectRow={[MockFunction]}
@@ -134,7 +134,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         id="admin.permissions.group.name.name"
       />
     </span>
-    <injectIntl(PermissionDescription)
+    <PermissionDescription
       id="name"
       rowType="group"
       selectRow={[MockFunction]}
@@ -189,7 +189,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         id="admin.permissions.group.name.name"
       />
     </span>
-    <injectIntl(PermissionDescription)
+    <PermissionDescription
       id="name"
       rowType="group"
       selectRow={[MockFunction]}
@@ -244,7 +244,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         id="admin.permissions.group.name.name"
       />
     </span>
-    <injectIntl(PermissionDescription)
+    <PermissionDescription
       id="name"
       rowType="group"
       selectRow={[MockFunction]}
@@ -301,7 +301,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         id="admin.permissions.group.name.name"
       />
     </span>
-    <injectIntl(PermissionDescription)
+    <PermissionDescription
       id="name"
       rowType="group"
       selectRow={[MockFunction]}
@@ -374,7 +374,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         id="admin.permissions.group.name.name"
       />
     </span>
-    <injectIntl(PermissionDescription)
+    <PermissionDescription
       id="name"
       rowType="group"
       selectRow={[MockFunction]}
@@ -429,7 +429,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         id="admin.permissions.group.name.name"
       />
     </span>
-    <injectIntl(PermissionDescription)
+    <PermissionDescription
       id="name"
       rowType="group"
       selectRow={[MockFunction]}
@@ -486,7 +486,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         id="admin.permissions.group.name.name"
       />
     </span>
-    <injectIntl(PermissionDescription)
+    <PermissionDescription
       id="name"
       rowType="group"
       selectRow={[MockFunction]}
@@ -550,7 +550,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         id="admin.permissions.group.name.name"
       />
     </span>
-    <injectIntl(PermissionDescription)
+    <PermissionDescription
       id="name"
       rowType="group"
       selectRow={[MockFunction]}
@@ -605,7 +605,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         id="admin.permissions.group.name.name"
       />
     </span>
-    <injectIntl(PermissionDescription)
+    <PermissionDescription
       id="name"
       rowType="group"
       selectRow={[MockFunction]}
@@ -660,7 +660,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         id="admin.permissions.group.name.name"
       />
     </span>
-    <injectIntl(PermissionDescription)
+    <PermissionDescription
       id="name"
       rowType="group"
       selectRow={[MockFunction]}
