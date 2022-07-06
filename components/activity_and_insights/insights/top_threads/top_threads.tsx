@@ -8,6 +8,7 @@ import {getMyTopThreads, getTopThreadsForTeam} from 'mattermost-redux/actions/in
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import {TopThread} from '@mattermost/types/insights';
+import {GlobalState} from '@mattermost/types/store';
 
 import {InsightsScopes} from 'utils/constants';
 
@@ -28,6 +29,7 @@ const TopThreads = (props: WidgetHocProps) => {
     const [topThreads, setTopThreads] = useState([] as TopThread[]);
 
     const currentTeamId = useSelector(getCurrentTeamId);
+    const complianceExportEnabled = useSelector((state: GlobalState) => state.entities.general.config.EnableComplianceExport);
 
     const getTopTeamThreads = useCallback(async () => {
         if (props.filterType === InsightsScopes.TEAM) {
@@ -98,6 +100,7 @@ const TopThreads = (props: WidgetHocProps) => {
                                 <TopThreadsItem
                                     thread={thread}
                                     key={key}
+                                    complianceExportEnabled={complianceExportEnabled}
                                 />
                             );
                         })

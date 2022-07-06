@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {memo} from 'react';
+import React, {memo, useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {FormattedMessage} from 'react-intl';
@@ -30,19 +30,18 @@ import {GlobalState} from '@mattermost/types/store';
 
 type Props = {
     thread: TopThread;
+    complianceExportEnabled?: string;
 }
 
-const TopThreadsItem = ({thread}: Props) => {
+const TopThreadsItem = ({thread, complianceExportEnabled}: Props) => {
     const dispatch = useDispatch();
 
     const isChannelMember = useSelector((state: GlobalState) => getMyChannelMembership(state, thread.channel_id));
     const currentTeamId = useSelector(getCurrentTeamId);
     const teammateNameDisplaySetting = useSelector(getTeammateNameDisplaySetting);
 
-    const openRHSOrJoinChannel = () => {
-        if (isChannelMember) {
-            dispatch(selectPost(thread.post));
-        } else {
+    const openRHSOrJoinChannel = useCallback(() => {
+        if (!isChannelMember && complianceExportEnabled === 'true') {
             dispatch(openModal({
                 modalId: ModalIdentifiers.INSIGHTS,
                 dialogType: JoinChannelModal,
@@ -51,11 +50,13 @@ const TopThreadsItem = ({thread}: Props) => {
                     currentTeamId,
                 },
             }));
+        } else {
+            dispatch(selectPost(thread.post));
         }
-    };
+    }, [thread, isChannelMember, currentTeamId]);
 
-    const getPreview = () => {
-        if (!isChannelMember) {
+    const getPreview = useCallback(() => {
+        if (!isChannelMember && complianceExportEnabled === 'true') {
             return (
                 <FormattedMessage
                     id='insights.topThreadItem.notChannelMember'
@@ -81,7 +82,7 @@ const TopThreadsItem = ({thread}: Props) => {
         return (
             <Attachment post={thread.post}/>
         );
-    };
+    }, [thread, isChannelMember]);
 
     return (
         <div

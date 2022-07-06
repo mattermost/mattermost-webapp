@@ -14,6 +14,7 @@ import {getMyTopThreads as fetchMyTopThreads, getTopThreadsForTeam} from 'matter
 
 import {TimeFrame, TopThread} from '@mattermost/types/insights';
 import {UserProfile} from '@mattermost/types/users';
+import {GlobalState} from '@mattermost/types/store';
 
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
@@ -51,6 +52,7 @@ const TopThreadsTable = (props: Props) => {
     const currentTeamId = useSelector(getCurrentTeamId);
     const teammateNameDisplaySetting = useSelector(getTeammateNameDisplaySetting);
     const myChannelMemberships = useSelector(getMyChannelMemberships);
+    const complianceExportEnabled = useSelector((state: GlobalState) => state.entities.general.config.EnableComplianceExport);
 
     const getTopTeamThreads = useCallback(async () => {
         if (props.filterType === InsightsScopes.TEAM) {
@@ -91,11 +93,8 @@ const TopThreadsTable = (props: Props) => {
         props.closeModal();
     }, [props.closeModal]);
 
-    const openRHSOrJoinChannel = (thread: TopThread, isChannelMember: boolean) => {
-        if (isChannelMember) {
-            trackEvent('insights', 'open_thread_from_top_threads_modal');
-            dispatch(selectPost(thread.post));
-        } else {
+    const openRHSOrJoinChannel = useCallback((thread: TopThread, isChannelMember: boolean) => {
+        if (!isChannelMember && complianceExportEnabled === 'true') {
             dispatch(openModal({
                 modalId: ModalIdentifiers.INSIGHTS,
                 dialogType: JoinChannelModal,
@@ -104,12 +103,15 @@ const TopThreadsTable = (props: Props) => {
                     currentTeamId,
                 },
             }));
+        } else {
+            trackEvent('insights', 'open_thread_from_top_threads_modal');
+            dispatch(selectPost(thread.post));
         }
         closeModal();
-    };
+    }, [currentTeamId]);
 
-    const getPreview = (thread: TopThread, isChannelMember: boolean) => {
-        if (!isChannelMember) {
+    const getPreview = useCallback((thread: TopThread, isChannelMember: boolean) => {
+        if (!isChannelMember && complianceExportEnabled === 'true') {
             return (
                 <FormattedMessage
                     id='insights.topThreadItem.notChannelMember'
@@ -136,7 +138,7 @@ const TopThreadsTable = (props: Props) => {
         return (
             <Attachment post={thread.post}/>
         );
-    };
+    }, []);
 
     const getColumns = useMemo((): Column[] => {
         const columns: Column[] = [
@@ -243,7 +245,7 @@ const TopThreadsTable = (props: Props) => {
                 }
             );
         });
-    }, [topThreads]);
+    }, [topThreads, myChannelMemberships]);
 
     return (
         <DataGrid
