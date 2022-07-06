@@ -163,7 +163,8 @@ const AdvanceTextEditor = ({
     const [scrollbarWidth, setScrollbarWidth] = useState(0);
     const [renderScrollbar, setRenderScrollbar] = useState(false);
 
-    useEffect(() => setContent(message), [message]);
+    // disabling the rule here since this will otherwise create an infinite loop
+    useEffect(() => setContent(message), [message]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleHeightChange = (height: number, maxHeight: number) => {
         setRenderScrollbar(height > maxHeight);
