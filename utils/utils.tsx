@@ -40,6 +40,7 @@ import {
     getTeam,
     getTeamByName,
     getTeamMemberships,
+    isTeamSameWithCurrentTeam,
 } from 'mattermost-redux/selectors/entities/teams';
 
 import {addUserToTeam} from 'actions/team_actions';
@@ -71,6 +72,8 @@ import {ClientConfig} from '@mattermost/types/config';
 
 import {GlobalState} from '@mattermost/types/store';
 import {TextboxElement} from '../components/textbox';
+
+import {focusPost} from 'components/permalink_view/actions';
 
 import {joinPrivateChannelPrompt} from './channel_utils';
 
@@ -1485,8 +1488,8 @@ export async function handleFormattedTextClick(e: React.MouseEvent, currentRelat
 
             const state = store.getState();
             const user = getCurrentUser(state);
+            const match = isChannelOrPermalink(linkAttribute.value);
             if (isSystemAdmin(user.roles)) {
-                const match = isChannelOrPermalink(linkAttribute.value);
                 if (match) {
                     // Get team by name
                     const {teamName} = match;
@@ -1550,7 +1553,12 @@ export async function handleFormattedTextClick(e: React.MouseEvent, currentRelat
             }
 
             e.stopPropagation();
-            browserHistory.push(linkAttribute.value);
+
+            if (match && match.type === 'permalink' && isTeamSameWithCurrentTeam(state, match.teamName)) {
+                focusPost(match.postId, linkAttribute.value, user.id, {noRedirect: true})(store.dispatch, store.getState);
+            } else {
+                browserHistory.push(linkAttribute.value);
+            }
         }
     } else if (channelMentionAttribute) {
         e.preventDefault();
