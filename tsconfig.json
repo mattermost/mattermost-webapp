@@ -35,11 +35,11 @@
     "dist",
     "e2e",
     "!node_modules/@types",
-    "coverage"
+    "coverage",
+    "packages/matermost-components"
   ],
   "references": [
     {"path": "./packages/client"},
-    {"path": "./packages/types"},
-    {"path": "./packages/mattermost-components"}
+    {"path": "./packages/types"}
   ]
 }
