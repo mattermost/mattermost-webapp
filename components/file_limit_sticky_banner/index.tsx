@@ -26,7 +26,6 @@ interface FileLimitSnoozePreference {
 
 const snoozeCoolOffDays = 10;
 const snoozeCoolOffDaysMillis = snoozeCoolOffDays * 24 * 60 * 60 * 1000;
-const maxStarterPlanFileStorageGB = fallbackStarterLimits.files.totalStorage;
 
 const StyledDiv = styled.div`
 width: 100%;
@@ -94,7 +93,7 @@ function FileLimitStickyBanner() {
     let isAbovePlanFileStorageLimit = false;
 
     const currentFileStorageUsage = usage.files.totalStorage;
-    if (currentFileStorageUsage > maxStarterPlanFileStorageGB) {
+    if (currentFileStorageUsage > fallbackStarterLimits.files.totalStorage) {
         isAbovePlanFileStorageLimit = true;
     }
 
