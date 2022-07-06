@@ -23,6 +23,7 @@ import {Team} from '@mattermost/types/teams';
 
 import AlertBanner, {ModeType, AlertBannerProps} from 'components/alert_banner';
 import ExternalLoginButton, {ExternalLoginButtonType} from 'components/external_login_button/external_login_button';
+import AlternateLinkLayout from 'components/header_footer_route/content_layouts/alternate_link';
 import ColumnLayout from 'components/header_footer_route/content_layouts/column';
 import {CustomizeHeaderType} from 'components/header_footer_route/header_footer_route';
 import LoadingScreen from 'components/loading_screen';
@@ -37,6 +38,7 @@ import Input, {SIZE} from 'components/widgets/inputs/input/input';
 import PasswordInput from 'components/widgets/inputs/password_input/password_input';
 import WomanWithChatsSVG from 'components/common/svg_images_components/woman_with_chats_svg';
 
+import {getIsMobileView, getIsTabletView} from 'selectors/views/browser';
 import {GlobalState} from 'types/store';
 import Constants from 'utils/constants';
 
@@ -93,6 +95,8 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
     const experimentalPrimaryTeam = useSelector((state: GlobalState) => (ExperimentalPrimaryTeam ? getTeamByName(state, ExperimentalPrimaryTeam) : undefined));
     const experimentalPrimaryTeamMember = useSelector((state: GlobalState) => getMyTeamMember(state, experimentalPrimaryTeam?.id ?? ''));
     const useCaseOnboarding = useSelector(getUseCaseOnboarding);
+    const isMobileView = useSelector(getIsMobileView);
+    const isTabletView = useSelector(getIsTabletView);
 
     const loginIdInput = useRef<HTMLInputElement>(null);
     const passwordInput = useRef<HTMLInputElement>(null);
@@ -126,6 +130,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
     const enableBaseLogin = enableSignInWithEmail || enableSignInWithUsername || ldapEnabled;
     const enableExternalSignup = enableSignUpWithGitLab || enableSignUpWithOffice365 || enableSignUpWithGoogle || enableSignUpWithOpenId || enableSignUpWithSaml;
     const showSignup = enableOpenServer && (enableExternalSignup || enableSignUpWithEmail || enableLdap);
+    const isMobileTabletView = isMobileView || isTabletView;
 
     const getExternalLoginOptions = () => {
         const externalLoginOptions: ExternalLoginButtonType[] = [];
@@ -308,6 +313,23 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
         return setAlertBanner(mode ? {mode: mode as ModeType, title, onDismiss} : null);
     }, [extraParam, sessionExpired, siteName, onDismissSessionExpired]);
 
+    const getAlternateLink = useCallback(() => (
+        showSignup ? (
+            <AlternateLinkLayout
+                className='login-body-alternate-link'
+                alternateMessage={formatMessage({
+                    id: 'login.noAccount',
+                    defaultMessage: 'Don\'t have an account?',
+                })}
+                alternateLinkPath='/signup_user_complete'
+                alternateLinkLabel={formatMessage({
+                    id: 'login.create',
+                    defaultMessage: 'Create an account',
+                })}
+            />
+        ) : undefined
+    ), [showSignup]);
+
     const onWindowFocus = () => {
         if (extraParam === Constants.SIGNIN_VERIFIED && emailParam) {
             passwordInput.current?.focus();
@@ -320,20 +342,10 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
         if (onCustomizeHeader) {
             onCustomizeHeader({
                 onBackButtonClick: showMfa ? handleHeaderBackButtonOnClick : undefined,
-                ...showSignup ? {
-                    alternateMessage: formatMessage({
-                        id: 'login.noAccount',
-                        defaultMessage: 'Don\'t have an account?',
-                    }),
-                    alternateLinkPath: '/signup_user_complete',
-                    alternateLinkLabel: formatMessage({
-                        id: 'login.create',
-                        defaultMessage: 'Create an account',
-                    }),
-                } : {},
+                alternateLink: isMobileTabletView ? getAlternateLink() : undefined,
             });
         }
-    }, [onCustomizeHeader, search, showMfa, showSignup]);
+    }, [onCustomizeHeader, search, showMfa, isMobileTabletView, getAlternateLink]);
 
     useEffect(() => {
         if (currentUser) {
@@ -782,6 +794,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
 
     return (
         <div className='login-body'>
+            {!isMobileTabletView && getAlternateLink()}
             <div className='login-body-content'>
                 {getContent()}
             </div>
