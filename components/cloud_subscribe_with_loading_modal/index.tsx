@@ -11,7 +11,6 @@ import {GlobalState} from 'types/store';
 import {Team} from '@mattermost/types/teams';
 import {t} from 'utils/i18n';
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
-import {getNextBillingDate} from 'utils/utils';
 import {isModalOpen} from 'selectors/views/modals';
 import CreditCardSvg from 'components/common/svg_images_components/credit_card_svg';
 import PaymentSuccessStandardSvg from 'components/common/svg_images_components/payment_success_standard_svg';
@@ -42,7 +41,7 @@ enum ProcessState {
 const MIN_PROCESSING_MILLISECONDS = 8000;
 const MAX_FAKE_PROGRESS = 95;
 
-function ProcessPaymentSetup(props: Props) {
+function CloudSubscribeWithLoad(props: Props) {
     let intervalId: NodeJS.Timeout;
     const progress = useRef(0);
     const dispatch = useDispatch();
@@ -177,9 +176,9 @@ function ProcessPaymentSetup(props: Props) {
 
     const modalContent = () => {
         const progressBar: JSX.Element | null = (
-            <div className='ProcessPayment-progress'>
+            <div className='CloudSubscribeWithLoad-progress'>
                 <div
-                    className='ProcessPayment-progress-fill'
+                    className='CloudSubscribeWithLoad-progress-fill'
                     style={{width: `${progress.current}%`}}
                 />
             </div>
@@ -244,4 +243,4 @@ function ProcessPaymentSetup(props: Props) {
     );
 }
 
-export default withRouter(ProcessPaymentSetup);
+export default withRouter(CloudSubscribeWithLoad);
