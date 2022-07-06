@@ -17,6 +17,8 @@ import {browserHistory} from 'utils/browser_history';
 
 import {ProfilesInChannelSortBy} from 'mattermost-redux/actions/users';
 
+import AlertBanner from 'components/alert_banner';
+
 import ActionBar from './action_bar';
 import Header from './header';
 import MemberList from './member_list';
@@ -37,6 +39,7 @@ const MembersContainer = styled.div`
 
 export interface Props {
     channel: Channel;
+    currentUserIsChannelAdmin: boolean;
     membersCount: number;
     searchTerms: string;
     canGoBack: boolean;
@@ -71,6 +74,7 @@ export interface ListItem {
 
 export default function ChannelMembersRHS({
     channel,
+    currentUserIsChannelAdmin,
     searchTerms,
     membersCount,
     canGoBack,
@@ -86,6 +90,8 @@ export default function ChannelMembersRHS({
     const [isNextPageLoading, setIsNextPageLoading] = useState(false);
 
     const searching = searchTerms !== '';
+
+    const isDefaultChannel = channel.name === Constants.DEFAULT_CHANNEL;
 
     // show search if there's more than 20 or if the user have an active search.
     const showSearch = searching || membersCount >= 20;
@@ -234,6 +240,17 @@ export default function ChannelMembersRHS({
                 }}
             />
 
+            {/* Users with user management permissions have special restrictions in the default channel */}
+            {(editing && isDefaultChannel && !currentUserIsChannelAdmin) && (
+                <AlertContainer>
+                    <AlertBanner
+                        mode='info'
+                        variant='app'
+                        message='In the default channel, the only action available is removing guests.'
+                    />
+                </AlertContainer>
+            )}
+
             {showSearch && (
                 <SearchBar
                     terms={searchTerms}
@@ -271,4 +288,8 @@ const MemberListSeparator = styled.div`
 
 const FirstMemberListSeparator = styled(MemberListSeparator)`
     margin-top: 0px;
+`;
+
+const AlertContainer = styled.div`
+    padding: '0 20px 15px';
 `;
