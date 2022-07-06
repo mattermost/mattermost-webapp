@@ -216,16 +216,6 @@
                             line-height: 24px;
                         }
                     }
-
-                    .disclaimer {
-                        margin-top: 36px;
-                        color: var(--error-text);
-                        font-family: 'Open Sans';
-                        font-size: 12px;
-                        font-style: normal;
-                        font-weight: 600;
-                        line-height: 16px;
-                    }
                 }
 
                 .plan_extra_briefing {
@@ -250,6 +240,11 @@
                         background: rgba(var(--center-channel-color-rgb), 0.08);
                         color: rgba(var(--center-channel-color-rgb), 0.32);
                         cursor: not-allowed;
+                    }
+
+                    &.secondary {
+                        background: rgba(var(--denim-button-bg-rgb), 0.08);
+                        color: var(--denim-button-bg);
                     }
 
                     &.active {

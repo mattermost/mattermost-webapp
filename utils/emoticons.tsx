@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {Emoji} from '@mattermost/types/emojis';
 
 import {formatWithRenderer} from './markdown';
 import MentionableRenderer from './markdown/mentionable_renderer';
@@ -91,28 +90,5 @@ export function handleEmoticons(
 }
 
 export function renderEmoji(name: string, matchText: string): string {
-    return `<span data-emoticon="${name}">${matchText}</span>`;
-}
-
-// if an emoji
-// - has `skin_variations` then it uses the default skin (yellow)
-// - has `skins` it's first value is considered the skin version (it can contain more values)
-// - any other case it doesn't have variations or is a custom emoji.
-export function getSkin(emoji: Emoji): string | null {
-    if ('skin_variations' in emoji) {
-        return 'default';
-    }
-    if ('skins' in emoji) {
-        const skin = emoji?.skins?.[0] ?? '';
-
-        if (skin.length !== 0) {
-            return skin;
-        }
-    }
-    return null;
-}
-
-export function emojiMatchesSkin(emoji: Emoji, skin: string): boolean {
-    const emojiSkin = getSkin(emoji);
-    return !emojiSkin || emojiSkin === skin;
+    return `<span data-emoticon="${name.toLowerCase()}">${matchText.toLowerCase()}</span>`;
 }

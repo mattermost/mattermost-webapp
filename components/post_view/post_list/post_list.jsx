@@ -99,6 +99,10 @@ export default class PostList extends React.PureComponent {
 
         isMobileView: PropTypes.bool.isRequired,
 
+        toggleShouldStartFromBottomWhenUnread: PropTypes.func.isRequired,
+
+        shouldStartFromBottomWhenUnread: PropTypes.bool,
+
         actions: PropTypes.shape({
 
             /*
@@ -148,6 +152,8 @@ export default class PostList extends React.PureComponent {
             autoRetryEnable: true,
         };
 
+        this.extraPagesLoaded = 0;
+
         this.autoRetriesCount = 0;
         this.actionsForPostList = {
             loadOlderPosts: this.getPostsBefore,
@@ -155,6 +161,7 @@ export default class PostList extends React.PureComponent {
             checkAndSetMobileView: props.actions.checkAndSetMobileView,
             canLoadMorePosts: this.canLoadMorePosts,
             changeUnreadChunkTimeStamp: props.changeUnreadChunkTimeStamp,
+            toggleShouldStartFromBottomWhenUnread: props.toggleShouldStartFromBottomWhenUnread,
             updateNewMessagesAtInChannel: this.props.actions.updateNewMessagesAtInChannel,
         };
     }
@@ -290,6 +297,12 @@ export default class PostList extends React.PureComponent {
         if (this.state.loadingOlderPosts) {
             return;
         }
+
+        // Reset counter after "Load more" button click
+        if (!this.state.autoRetryEnable) {
+            this.extraPagesLoaded = 0;
+        }
+
         const oldestPostId = this.getOldestVisiblePostId();
         this.setState({loadingOlderPosts: true});
         await this.callLoadPosts(this.props.channelId, oldestPostId, PostRequestTypes.BEFORE_ID);
@@ -299,6 +312,12 @@ export default class PostList extends React.PureComponent {
         if (this.state.loadingNewerPosts) {
             return;
         }
+
+        // Reset counter after "Load more" button click
+        if (!this.state.autoRetryEnable) {
+            this.extraPagesLoaded = 0;
+        }
+
         const latestPostId = this.getLatestVisiblePostId();
         this.setState({loadingNewerPosts: true});
         await this.callLoadPosts(this.props.channelId, latestPostId, PostRequestTypes.AFTER_ID);
@@ -332,6 +351,7 @@ export default class PostList extends React.PureComponent {
                             focusedPostId={this.props.focusedPostId}
                             channelId={this.props.channelId}
                             autoRetryEnable={this.state.autoRetryEnable}
+                            shouldStartFromBottomWhenUnread={this.props.shouldStartFromBottomWhenUnread}
                             actions={this.actionsForPostList}
                             postListIds={this.props.formattedPostIds}
                             latestPostTimeStamp={this.props.latestPostTimeStamp}

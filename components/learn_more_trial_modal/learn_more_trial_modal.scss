@@ -29,6 +29,7 @@
             right: 4px;
             width: 4rem;
             height: 4rem;
+            margin-top: 20px;
             border-radius: 4px;
             color: rgba(var(--center-channel-color-rgb), 0.56) !important;
             font-family:
@@ -53,6 +54,13 @@
         height: calc(100% - 38px);
         flex-direction: column;
         padding: 0;
+
+        .GenericModal__header {
+            padding-top: 0;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.1) !important;
+            margin-bottom: 20px;
+        }
 
         .GenericModal__body {
             height: 100%;
@@ -114,8 +122,9 @@
             }
         }
 
-        .start-cloud-trial-btn {
-            margin-top: 16px;
+        .start-cloud-trial-btn,
+        .start-trial-btn {
+            margin-top: -16px;
             border-radius: 4px;
         }
     }
