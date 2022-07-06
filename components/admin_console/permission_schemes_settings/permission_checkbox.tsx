@@ -11,7 +11,7 @@ type Props = {
     id?: string;
 };
 
-const PermissionCheckbox = ({value = '', id = ''}: Props) => {
+const PermissionCheckbox = ({value = '', id = ''}: Props): JSX.Element => {
     let icon = null;
     let extraClass = '';
     if (value === 'checked') {

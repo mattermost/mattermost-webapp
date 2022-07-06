@@ -22,8 +22,8 @@ type Props = {
     additionalValues: AdditionalValues;
 }
 
-const PermissionRow = (props: Props) => {
-    const toggleSelect = () => {
+const PermissionRow = (props: Props): JSX.Element => {
+    const toggleSelect = (): void => {
         if (props.readOnly) {
             return;
         }

@@ -24,7 +24,7 @@ type Props = {
     additionalValues?: AdditionalValues | AdditionalValues['edit_post'];
 }
 
-const PermissionDescription = (props: Props) => {
+const PermissionDescription = (props: Props): JSX.Element => {
     const [open, setOpen] = useState(false);
     const randomId = generateId();
     const contentRef = useRef<HTMLSpanElement>(null);

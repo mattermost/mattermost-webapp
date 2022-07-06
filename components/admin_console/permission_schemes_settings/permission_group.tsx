@@ -35,7 +35,7 @@ type State = {
     selected: string | undefined;
 };
 
-const getRecursivePermissions = (permissions: Permissions) => {
+const getRecursivePermissions = (permissions: Permissions): string[] => {
     let result: string[] = [];
     for (const permission of permissions) {
         if (typeof permission === 'string') {
@@ -88,7 +88,7 @@ export default class PermissionGroup extends React.PureComponent<Props, State> {
 
     toggleSelectGroup = () => {
         const {readOnly, permissions, role, onChange} = this.props;
-        if (readOnly) {
+        if (readOnly || !role) {
             return;
         }
         if (this.getStatus(permissions) === 'checked') {
@@ -122,11 +122,11 @@ export default class PermissionGroup extends React.PureComponent<Props, State> {
         } else {
             const permissionsToToggle = [];
             for (const permission of getRecursivePermissions(permissions)) {
-                if (role?.permissions?.indexOf(permission) === -1 && !this.fromParent(permission)) {
+                if (role.permissions?.indexOf(permission) === -1 && !this.fromParent(permission)) {
                     permissionsToToggle.push(permission);
                 }
             }
-            this.setState({prevPermissions: role && role.permissions ? role.permissions : [], expanded: false});
+            this.setState({prevPermissions: role.permissions || [], expanded: false});
             onChange(permissionsToToggle);
         }
     }
@@ -147,6 +147,7 @@ export default class PermissionGroup extends React.PureComponent<Props, State> {
         }
         const comesFromParent = this.fromParent(permission);
         const active = comesFromParent || this.props.role?.permissions?.indexOf(permission) !== -1;
+        const inherited = comesFromParent ? this.props.parentRole : undefined;
         return (
             <PermissionRow
                 key={permission}
@@ -155,7 +156,7 @@ export default class PermissionGroup extends React.PureComponent<Props, State> {
                 selected={this.props.selected}
                 selectRow={this.props.selectRow}
                 readOnly={this.props.readOnly || comesFromParent}
-                inherited={comesFromParent ? this.props.parentRole : undefined}
+                inherited={inherited}
                 value={active ? 'checked' : ''}
                 onChange={this.toggleSelectRow}
                 additionalValues={additionalValues}
@@ -276,6 +277,7 @@ export default class PermissionGroup extends React.PureComponent<Props, State> {
         if (combined) {
             classes += ' combined';
         }
+        const additionalValuesProp = additionalValues?.[id] ? additionalValues[id] : undefined;
 
         return (
             <div className='permission-group'>
@@ -298,7 +300,7 @@ export default class PermissionGroup extends React.PureComponent<Props, State> {
                             <FormattedMessage id={'admin.permissions.group.' + id + '.name'}/>
                         </span>
                         <PermissionDescription
-                            additionalValues={additionalValues?.[id] ? additionalValues[id] : undefined}
+                            additionalValues={additionalValuesProp}
                             inherited={inherited}
                             id={id}
                             selectRow={this.props.selectRow}
