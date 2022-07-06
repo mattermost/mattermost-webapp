@@ -3,20 +3,20 @@
 const config = {
     presets: [
         ['@babel/preset-env', {
-		    targets: {
+            targets: {
                 chrome: 66,
                 firefox: 60,
                 edge: 42,
                 safari: 12,
-		    },
-		    modules: false,
+            },
+            modules: false,
         }],
         ['@babel/preset-react', {
-		    useBuiltIns: true,
+            useBuiltIns: true,
         }],
         ['@babel/typescript', {
-		    allExtensions: true,
-		    isTSX: true,
+            allExtensions: true,
+            isTSX: true,
         }],
     ],
     plugins: [
