@@ -467,28 +467,6 @@ export function makeGetPostsForIds(): (state: GlobalState, postIds: Array<Post['
     );
 }
 
-export const getLastPostPerChannel: (state: GlobalState) => RelationOneToOne<Channel, Post> = createSelector(
-    'getLastPostPerChannel',
-    getAllPosts,
-    (state: GlobalState) => state.entities.posts.postsInChannel,
-    (allPosts, postsInChannel) => {
-        const ret: Record<string, Post> = {};
-
-        for (const [channelId, postsForChannel] of Object.entries(postsInChannel)) {
-            const recentBlock = postsForChannel.find((block) => block.recent);
-            if (!recentBlock) {
-                continue;
-            }
-
-            const postId = recentBlock.order[0];
-            if (allPosts.hasOwnProperty(postId)) {
-                ret[channelId] = allPosts[postId];
-            }
-        }
-
-        return ret;
-    },
-);
 export const getMostRecentPostIdInChannel: (state: GlobalState, channelId: Channel['id']) => Post['id'] | undefined | null = createSelector(
     'getMostRecentPostIdInChannel',
     getAllPosts,
