@@ -15,6 +15,8 @@ import ChannelInviteModal from 'components/channel_invite_modal';
 import {ModalData} from 'types/actions';
 import {browserHistory} from 'utils/browser_history';
 
+import {ProfilesInChannelSortBy} from 'mattermost-redux/actions/users';
+
 import ActionBar from './action_bar';
 import Header from './header';
 import MemberList from './member_list';
@@ -56,8 +58,14 @@ export interface Props {
     };
 }
 
+export enum ListItemType {
+    Member = 'member',
+    FirstSeparator = 'first-separator',
+    Separator = 'separator',
+}
+
 export interface ListItem {
-    type: 'member' | 'first-separator' | 'separator';
+    type: ListItemType;
     data: ChannelMember | JSX.Element;
 }
 
@@ -114,23 +122,23 @@ export default function ChannelMembersRHS({
                 }
 
                 listcp.push({
-                    type: 'first-separator',
-                    data: <FirstMemberListSerparator>{text}</FirstMemberListSerparator>,
+                    type: ListItemType.FirstSeparator,
+                    data: <FirstMemberListSeparator>{text}</FirstMemberListSeparator>,
                 });
             } else if (!memberDone && member.membership?.scheme_admin === false) {
                 listcp.push({
-                    type: 'separator',
-                    data: <MemberListSerparator>
+                    type: ListItemType.Separator,
+                    data: <MemberListSeparator>
                         <FormattedMessage
                             id='channel_members_rhs.list.channel_members_title'
                             defaultMessage='MEMBERS'
                         />
-                    </MemberListSerparator>,
+                    </MemberListSeparator>,
                 });
                 memberDone = true;
             }
 
-            listcp.push({type: 'member', data: member});
+            listcp.push({type: ListItemType.Member, data: member});
         }
         setList(listcp);
     }, [channelMembers]);
@@ -148,7 +156,7 @@ export default function ChannelMembersRHS({
         setPage(0);
         setIsNextPageLoading(false);
         actions.setChannelMembersRhsSearchTerm('');
-        actions.loadProfilesAndReloadChannelMembers(0, USERS_PER_PAGE, channel.id, 'admin');
+        actions.loadProfilesAndReloadChannelMembers(0, USERS_PER_PAGE, channel.id, ProfilesInChannelSortBy.Admin);
         actions.loadMyChannelMemberAndRole(channel.id);
     }, [channel.id, channel.type]);
 
@@ -195,7 +203,7 @@ export default function ChannelMembersRHS({
     const loadMore = async () => {
         setIsNextPageLoading(true);
 
-        await actions.loadProfilesAndReloadChannelMembers(page + 1, USERS_PER_PAGE, channel.id, 'admin');
+        await actions.loadProfilesAndReloadChannelMembers(page + 1, USERS_PER_PAGE, channel.id, ProfilesInChannelSortBy.Admin);
         setPage(page + 1);
 
         setIsNextPageLoading(false);
@@ -250,7 +258,7 @@ export default function ChannelMembersRHS({
     );
 }
 
-const MemberListSerparator = styled.div`
+const MemberListSeparator = styled.div`
     font-weight: 600;
     font-size: 12px;
     line-height: 28px;
@@ -261,6 +269,6 @@ const MemberListSerparator = styled.div`
     margin-top: 16px;
 `;
 
-const FirstMemberListSerparator = styled(MemberListSerparator)`
+const FirstMemberListSeparator = styled(MemberListSeparator)`
     margin-top: 0px;
 `;

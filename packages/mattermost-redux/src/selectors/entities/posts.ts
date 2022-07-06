@@ -374,9 +374,7 @@ export function makeGetProfilesForThread(): (state: GlobalState, rootId: string)
             const profileIds = posts.map((post) => post.user_id);
             const uniqueIds = [...new Set(profileIds)];
             return uniqueIds.reduce((acc: UserProfile[], id: string) => {
-                const profile: UserProfile = userStatuses ?
-                    {...allUsers[id], status: userStatuses[id]} :
-                    {...allUsers[id]};
+                const profile: UserProfile = userStatuses ? {...allUsers[id], status: userStatuses[id]} : {...allUsers[id]};
 
                 if (profile && Object.keys(profile).length > 0 && currentUserId !== id) {
                     return [
@@ -667,6 +665,20 @@ export function getUnreadPostsChunk(state: GlobalState, channelId: Channel['id']
 
     return getPostsChunkInChannelAroundTime(state, channelId, timeStamp);
 }
+
+export const isPostsChunkIncludingUnreadsPosts = (state: GlobalState, chunk: PostOrderBlock, timeStamp: number): boolean => {
+    const postsEntity = state.entities.posts;
+    const posts = postsEntity.posts;
+
+    if (!chunk || !chunk.order.length) {
+        return false;
+    }
+
+    const {order} = chunk;
+    const oldestPostInBlock = posts[order[order.length - 1]];
+
+    return oldestPostInBlock.create_at <= timeStamp;
+};
 
 export const isPostIdSending = (state: GlobalState, postId: Post['id']): boolean => {
     return state.entities.posts.pendingPostIds.some((sendingPostId) => sendingPostId === postId);
