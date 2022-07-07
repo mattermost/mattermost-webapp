@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 
 import {Command} from '@mattermost/types/integrations.js';
 import {ActionResult} from 'mattermost-redux/types/actions.js';
@@ -22,22 +22,22 @@ export type Props = {
     /**
     * The team data
     */
-    team: Team,
+    team: Team;
 
     actions: {
 
         /**
         * The function to call to add new command
         */
-        addCommand: (command: Command) => Promise<ActionResult>,
-    }
-}
+        addCommand: (command: Command) => Promise<ActionResult>;
+    };
+};
 
 const AddCommand = ({team, actions}: Props) => {
-    const [serverError, setServerError] = useState('')
-    
+    const [serverError, setServerError] = useState('');
+
     const addCommand = async (command: Command) => {
-        setServerError('')
+        setServerError('');
 
         const {data, error} = await actions.addCommand(command);
         if (data) {
@@ -48,7 +48,7 @@ const AddCommand = ({team, actions}: Props) => {
         if (error) {
             setServerError(error.message);
         }
-    }
+    };
 
     return (
         <AbstractCommand
@@ -61,6 +61,6 @@ const AddCommand = ({team, actions}: Props) => {
             serverError={serverError}
         />
     );
-}
+};
 
 export default AddCommand;
