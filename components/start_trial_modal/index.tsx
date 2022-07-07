@@ -80,7 +80,7 @@ function StartTrialModal(props: Props): JSX.Element | null {
         case TrialLoadStatus.Failed:
             return formatMessage({id: 'start_trial.modal.failed', defaultMessage: 'Failed'});
         default:
-            return formatMessage({id: 'start_trial.modal_btn.start', defaultMessage: 'Start 30-day trial'});
+            return formatMessage({id: 'start_trial.modal_btn.start', defaultMessage: 'Start free 30-day trial'});
         }
     };
 

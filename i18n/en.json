@@ -4568,7 +4568,7 @@
   "start_trial.modal_btn.start": "Start free 30-day trial",
   "start_trial.modal_btn.start_free_trial": "Start free 30-day trial",
   "start_trial.modal_title": "Start your free Enterprise trial now",
-  "start_trial.modal.disclaimer": "By clicking “Start 30-day trial”, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>privacy policy</linkPrivacy> and receiving product emails.",
+  "start_trial.modal.disclaimer": "By clicking “Start 30-day free trial”, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>privacy policy</linkPrivacy> and receiving product emails.",
   "start_trial.modal.failed": "Failed",
   "start_trial.modal.gettingTrial": "Getting Trial...",
   "start_trial.modal.loaded": "Loaded!",
