@@ -73,7 +73,6 @@ export class EmojiPickerSkin extends React.PureComponent<Props, State> {
             return (
                 <button
                     className='style--none skin-tones__icon'
-                    type='button'
                     data-testid={`skin-pick-${skin}`}
                     aria-label={this.ariaLabel(skin)}
                     key={skin}
