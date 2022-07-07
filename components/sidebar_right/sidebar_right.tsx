@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 
@@ -14,40 +13,49 @@ import RhsThread from 'components/rhs_thread';
 import RhsCard from 'components/rhs_card';
 import ChannelInfoRhs from 'components/channel_info_rhs';
 import ChannelMembersRhs from 'components/channel_members_rhs';
-import Search from 'components/search/index.tsx';
+import Search from 'components/search/index';
 
 import RhsPlugin from 'plugins/rhs_plugin';
+import {Channel} from '@mattermost/types/channels';
 
-export default class SidebarRight extends React.PureComponent {
-    static propTypes = {
-        isExpanded: PropTypes.bool.isRequired,
-        isOpen: PropTypes.bool.isRequired,
-        channel: PropTypes.object,
-        postRightVisible: PropTypes.bool,
-        postCardVisible: PropTypes.bool,
-        searchVisible: PropTypes.bool,
-        isPinnedPosts: PropTypes.bool,
-        isChannelFiles: PropTypes.bool,
-        isChannelInfo: PropTypes.bool,
-        isChannelMembers: PropTypes.bool,
-        isPluginView: PropTypes.bool,
-        previousRhsState: PropTypes.string,
-        rhsChannel: PropTypes.object,
-        selectedPostId: PropTypes.string,
-        selectedPostCardId: PropTypes.string,
-        actions: PropTypes.shape({
-            setRhsExpanded: PropTypes.func.isRequired,
-            showPinnedPosts: PropTypes.func.isRequired,
-            openRHSSearch: PropTypes.func.isRequired,
-            closeRightHandSide: PropTypes.func.isRequired,
-            openAtPrevious: PropTypes.func.isRequired,
-            updateSearchTerms: PropTypes.func.isRequired,
-            showChannelFiles: PropTypes.func.isRequired,
-            showChannelInfo: PropTypes.func.isRequired,
-        }),
+type Props = {
+    isExpanded: boolean;
+    isOpen: boolean;
+    channel: Channel;
+    postRightVisible: boolean;
+    postCardVisible: boolean;
+    searchVisible: boolean;
+    isPinnedPosts: boolean;
+    isChannelFiles: boolean;
+    isChannelInfo: boolean;
+    isChannelMembers: boolean;
+    isPluginView: boolean;
+    previousRhsState: string;
+    rhsChannel: Channel;
+    selectedPostId: string;
+    selectedPostCardId: string;
+    actions: {
+        setRhsExpanded: (expanded: boolean) => void;
+        showPinnedPosts: (channelId: string) => void;
+        openRHSSearch: () => void;
+        closeRightHandSide: () => void;
+        openAtPrevious: (previos: Partial<Props> | undefined) => void;
+        updateSearchTerms: (terms: string) => void;
+        showChannelFiles: (channelId: string) => void;
+        showChannelInfo: (channelId: string) => void;
     };
+}
 
-    constructor(props) {
+type State = {
+    isOpened: boolean;
+}
+
+export default class SidebarRight extends React.PureComponent<Props, State> {
+    sidebarRight: React.RefObject<HTMLDivElement>;
+    previous: Partial<Props> | undefined = undefined;
+    focusSearchBar?: () => void;
+
+    constructor(props: Props) {
         super(props);
 
         this.sidebarRight = React.createRef();
@@ -73,7 +81,7 @@ export default class SidebarRight extends React.PureComponent {
         };
     }
 
-    handleShortcut = (e) => {
+    handleShortcut = (e: KeyboardEvent) => {
         const channelInfoShortcutMac = Utils.isMac() && e.shiftKey;
         const channelInfoShortcut = !Utils.isMac() && e.altKey;
 
@@ -121,7 +129,7 @@ export default class SidebarRight extends React.PureComponent {
         }
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props) {
         const wasOpen = prevProps.searchVisible || prevProps.postRightVisible;
         const isOpen = this.props.searchVisible || this.props.postRightVisible;
 
@@ -170,7 +178,7 @@ export default class SidebarRight extends React.PureComponent {
         }
     }
 
-    onFinishTransition = (e) => {
+    onFinishTransition = (e: TransitionEvent) => {
         if (e.propertyName === 'transform') {
             this.setState({isOpened: this.props.isOpen});
         }
@@ -180,12 +188,14 @@ export default class SidebarRight extends React.PureComponent {
         this.props.actions.setRhsExpanded(false);
     };
 
-    handleUpdateSearchTerms = (term) => {
+    handleUpdateSearchTerms = (term: string) => {
         this.props.actions.updateSearchTerms(term);
-        this.focusSearchBar();
+        if (this.focusSearchBar) {
+            this.focusSearchBar();
+        }
     }
 
-    getSearchBarFocus = (focusSearchBar) => {
+    getSearchBarFocus = (focusSearchBar: () => void) => {
         this.focusSearchBar = focusSearchBar;
     }
 
@@ -211,11 +221,7 @@ export default class SidebarRight extends React.PureComponent {
             content = (
                 <div className='post-right__container'>
                     <FileUploadOverlay overlayType='right'/>
-                    <RhsThread
-                        previousRhsState={previousRhsState}
-                        toggleSize={this.toggleSize}
-                        shrink={this.onShrink}
-                    />
+                    <RhsThread previousRhsState={previousRhsState}/>
                 </div>
             );
             break;
@@ -227,7 +233,7 @@ export default class SidebarRight extends React.PureComponent {
             break;
         case isChannelInfo:
             content = (
-                <ChannelInfoRhs channel={rhsChannel}/>
+                <ChannelInfoRhs/>
             );
             break;
         case isChannelMembers:
@@ -236,14 +242,16 @@ export default class SidebarRight extends React.PureComponent {
             );
             break;
         }
+        const channelDisplayName = rhsChannel ? rhsChannel.display_name : '';
+        const containerClassName = classNames('sidebar--right', {
+            'sidebar--right--expanded': isSidebarRightExpanded,
+            'move--left': isOpen,
+            hidden: !isOpen,
+        });
 
         return (
             <div
-                className={classNames('sidebar--right', {
-                    'sidebar--right--expanded': isSidebarRightExpanded,
-                    'move--left': isOpen,
-                    hidden: !isOpen,
-                })}
+                className={containerClassName}
                 id='sidebar-right'
                 role='complementary'
                 ref={this.sidebarRight}
@@ -257,7 +265,7 @@ export default class SidebarRight extends React.PureComponent {
                         isSideBarRight={true}
                         isSideBarRightOpen={this.state.isOpened}
                         getFocus={this.getSearchBarFocus}
-                        channelDisplayName={rhsChannel ? rhsChannel.display_name : ''}
+                        channelDisplayName={channelDisplayName}
                     >
                         {isOpen && content}
                     </Search>
