@@ -16,7 +16,9 @@ import ChannelMembersRhs from 'components/channel_members_rhs';
 import Search from 'components/search/index';
 
 import RhsPlugin from 'plugins/rhs_plugin';
+
 import {Channel} from '@mattermost/types/channels';
+import {RhsState} from 'types/store/rhs';
 
 type Props = {
     isExpanded: boolean;
@@ -30,7 +32,7 @@ type Props = {
     isChannelInfo: boolean;
     isChannelMembers: boolean;
     isPluginView: boolean;
-    previousRhsState: string;
+    previousRhsState: RhsState;
     rhsChannel: Channel;
     selectedPostId: string;
     selectedPostCardId: string;
