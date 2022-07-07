@@ -304,23 +304,27 @@
 }
 
 @media screen and (max-width: 699px) {
-    .login-body .login-body-content {
-        min-width: 375px;
+    .login-body {
+        margin: auto 0;
 
-        .login-body-card {
-            width: 100%;
-        }
+        .login-body-content {
+            min-width: 375px;
 
-        .login-body-message {
-            width: auto;
-            align-self: flex-start;
-            padding: 24px;
+            .login-body-card {
+                width: 100%;
+            }
 
-            .login-body-message-title {
-                max-width: 271px;
-                padding-right: 0;
-                font-size: 45px;
-                line-height: 56px;
+            .login-body-message {
+                width: auto;
+                align-self: flex-start;
+                padding: 24px;
+
+                .login-body-message-title {
+                    max-width: 271px;
+                    padding-right: 0;
+                    font-size: 45px;
+                    line-height: 56px;
+                }
             }
         }
     }
