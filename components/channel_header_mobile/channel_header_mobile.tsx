@@ -62,7 +62,7 @@ export default class ChannelHeaderMobile extends React.PureComponent<Props> {
     }
 
     render() {
-        const {user, channel, isMuted, isReadOnly, isRHSOpen, currentRelativeTeamUrl, inGlobalThreads} = this.props;
+        const {user, channel, isMuted, inGlobalThreads} = this.props;
 
         let heading;
         if (inGlobalThreads) {
