@@ -113,6 +113,9 @@ describe('components/activity_and_insights/insights/top_threads/top_threads_tabl
             },
             general: {
                 config: {},
+                license: {
+                    Compliance: 'true',
+                },
             },
             users: {
                 currentUserId: 'current_user_id',

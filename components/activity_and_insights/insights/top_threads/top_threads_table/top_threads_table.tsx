@@ -19,6 +19,7 @@ import {GlobalState} from '@mattermost/types/store';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/channels';
+import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
@@ -53,6 +54,7 @@ const TopThreadsTable = (props: Props) => {
     const teammateNameDisplaySetting = useSelector(getTeammateNameDisplaySetting);
     const myChannelMemberships = useSelector(getMyChannelMemberships);
     const complianceExportEnabled = useSelector((state: GlobalState) => state.entities.general.config.EnableComplianceExport);
+    const license = useSelector(getLicense);
 
     const getTopTeamThreads = useCallback(async () => {
         if (props.filterType === InsightsScopes.TEAM) {
@@ -94,7 +96,7 @@ const TopThreadsTable = (props: Props) => {
     }, [props.closeModal]);
 
     const openRHSOrJoinChannel = useCallback((thread: TopThread, isChannelMember: boolean) => {
-        if (!isChannelMember && complianceExportEnabled === 'true') {
+        if (!isChannelMember && (license.Compliance === 'true' && complianceExportEnabled === 'true')) {
             dispatch(openModal({
                 modalId: ModalIdentifiers.INSIGHTS,
                 dialogType: JoinChannelModal,
@@ -111,7 +113,7 @@ const TopThreadsTable = (props: Props) => {
     }, [currentTeamId]);
 
     const getPreview = useCallback((thread: TopThread, isChannelMember: boolean) => {
-        if (!isChannelMember && complianceExportEnabled === 'true') {
+        if (!isChannelMember && (license.Compliance === 'true' && complianceExportEnabled === 'true')) {
             return (
                 <FormattedMessage
                     id='insights.topThreadItem.notChannelMember'

@@ -27,6 +27,7 @@ import {imageURLForUser} from 'utils/utils';
 import JoinChannelModal from '../../join_channel_modal/join_channel_modal';
 import {getMyChannelMembership} from 'mattermost-redux/selectors/entities/channels';
 import {GlobalState} from '@mattermost/types/store';
+import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
 type Props = {
     thread: TopThread;
@@ -39,9 +40,10 @@ const TopThreadsItem = ({thread, complianceExportEnabled}: Props) => {
     const isChannelMember = useSelector((state: GlobalState) => getMyChannelMembership(state, thread.channel_id));
     const currentTeamId = useSelector(getCurrentTeamId);
     const teammateNameDisplaySetting = useSelector(getTeammateNameDisplaySetting);
+    const license = useSelector(getLicense);
 
     const openRHSOrJoinChannel = useCallback(() => {
-        if (!isChannelMember && complianceExportEnabled === 'true') {
+        if (!isChannelMember && (license.Compliance === 'true' && complianceExportEnabled === 'true')) {
             dispatch(openModal({
                 modalId: ModalIdentifiers.INSIGHTS,
                 dialogType: JoinChannelModal,
@@ -56,7 +58,7 @@ const TopThreadsItem = ({thread, complianceExportEnabled}: Props) => {
     }, [thread, isChannelMember, currentTeamId]);
 
     const getPreview = useCallback(() => {
-        if (!isChannelMember && complianceExportEnabled === 'true') {
+        if (!isChannelMember && (license.Compliance === 'true' && complianceExportEnabled === 'true')) {
             return (
                 <FormattedMessage
                     id='insights.topThreadItem.notChannelMember'

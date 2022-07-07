@@ -96,6 +96,9 @@ describe('components/activity_and_insights/insights/top_threads/top_threads_item
             },
             general: {
                 config: {},
+                license: {
+                    Compliance: 'true',
+                },
             },
             users: {
                 currentUserId: 'current_user_id',
@@ -165,5 +168,70 @@ describe('components/activity_and_insights/insights/top_threads/top_threads_item
         );
         await actImmediate(wrapper);
         expect(wrapper.text().includes('This thread is from a channel you are not a member of and cannot be viewed unless you join the channel')).toBe(true);
+    });
+
+    test('check if compliance preview does not render when not licensed for it', async () => {
+        const store = await mockStore({
+            entities: {
+                teams: {
+                    currentTeamId: 'team_id1',
+                    teams: {
+                        team_id1: {
+                            id: 'team_id1',
+                            name: 'team1',
+                        },
+                    },
+                },
+                channels: {
+                    channels: {
+                        channel1: {
+                            id: 'channel1',
+                            team_id: 'team_id1',
+                            name: 'channel1',
+                        },
+                    },
+                    myMembers: {},
+                },
+                general: {
+                    config: {},
+                    license: {
+                        Compliance: 'false',
+                    },
+                },
+                users: {
+                    currentUserId: 'current_user_id',
+                    profiles: {
+                        current_user_id: {
+                            id: 'current_user_id',
+                        },
+                        user1: {
+                            id: 'user1',
+                        },
+                    },
+                },
+                preferences: {
+                    myPreferences: {},
+                },
+                groups: {
+                    groups: {},
+                    myGroups: [],
+                },
+                emojis: {
+                    customEmoji: {},
+                },
+            },
+        });
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <BrowserRouter>
+                    <TopThreadsItem
+                        {...props}
+                        complianceExportEnabled={'true'}
+                    />
+                </BrowserRouter>
+            </Provider>,
+        );
+        await actImmediate(wrapper);
+        expect(wrapper.text().includes('This thread is from a channel you are not a member of and cannot be viewed unless you join the channel')).toBe(false);
     });
 });
