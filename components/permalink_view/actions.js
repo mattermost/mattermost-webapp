@@ -44,17 +44,18 @@ function focusReplyPost(post, channel, teamId, returnTo, option) {
 
         const team = getTeam(state, channel.team_id || teamId);
         const currentChannel = getCurrentChannel(state);
+
         const sameTeam = currentChannel && currentChannel.team_id === team.id;
 
-        const {noRedirect} = option;
+        const {skipRedirectReplyPermalink} = option;
 
         if (!sameTeam) {
             dispatch(selectChannel(channel.id));
         }
 
-        if (sameTeam && returnTo && !noRedirect) {
+        if (sameTeam && returnTo && !skipRedirectReplyPermalink) {
             browserHistory.replace(returnTo);
-        } else if (!sameTeam || !noRedirect) {
+        } else if (!sameTeam || !skipRedirectReplyPermalink) {
             const postURL = getPostURL(state, post);
             browserHistory.replace(postURL);
         }
@@ -63,7 +64,7 @@ function focusReplyPost(post, channel, teamId, returnTo, option) {
     };
 }
 
-export function focusPost(postId, returnTo = '', currentUserId, option = {noRedirect: false}) {
+export function focusPost(postId, returnTo = '', currentUserId, option = {skipRedirectReplyPermalink: false}) {
     return async (dispatch, getState) => {
         // Ignore if prompt is still visible
         if (privateChannelJoinPromptVisible) {

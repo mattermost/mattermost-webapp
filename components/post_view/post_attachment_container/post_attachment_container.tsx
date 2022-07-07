@@ -47,7 +47,7 @@ const PostAttachmentContainer = (props: Props) => {
             const classNames = ['icon icon-menu-down', 'icon icon-menu-right', 'post-image', 'file-icon'];
 
             if (match && shouldFocusPostWithoutRedirect) {
-                dispatch(focusPost(match.postId, link, userId, {noRedirect: true}));
+                dispatch(focusPost(match.postId, link, userId, {skipRedirectReplyPermalink: true}));
                 return;
             }
             if (!classNames.some((className) => e.target.className.includes(className)) && e.target.id !== 'image-name-text') {
