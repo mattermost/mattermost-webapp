@@ -26,7 +26,7 @@ const ActivityAndInsightsLink = () => {
 
     const openInsights = useCallback((e) => {
         e.stopPropagation();
-        trackEvent('insights', 'go_to_insights');
+        trackEvent('insights', 'sidebar_open_insights');
     }, []);
 
     if (!insightsEnabled) {

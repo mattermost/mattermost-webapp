@@ -26,7 +26,7 @@ declare module 'dynamic-virtualized-list' {
         initialScrollOffset?: number;
         innerRef: React.Ref<any>;
         itemData: string[];
-        onItemsRendered: (args: any) => void;
+        onItemsRendered: (args: OnItemsRenderedArgs) => void;
         onScroll: (scrollArgs: OnScrollArgs) => void;
         overscanCountBackward: number;
         overscanCountForward: number;
@@ -44,5 +44,6 @@ declare module 'dynamic-virtualized-list' {
     export class DynamicSizeList extends React.PureComponent<DynamicSizeListProps> {
         scrollTo(scrollOffset: number, scrollByValue?: number, useAnimationFrame?: boolean): void;
         scrollToItem(index: number, align: string, offset?: number): void;
+        _getRangeToRender(): number[];
     }
 }

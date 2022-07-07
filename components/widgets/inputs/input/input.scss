@@ -10,7 +10,7 @@
     color: var(--away-indicator-dark);
 }
 
-.ok {
+.success {
     color: var(--online-indicator);
 }
 
@@ -100,8 +100,8 @@
         display: flex;
     }
 
-    .Input___ok {
-        @extend .ok;
+    .Input___success {
+        @extend .success;
 
         display: flex;
     }

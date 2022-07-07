@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {memo} from 'react';
+import {MessageDescriptor, useIntl} from 'react-intl';
 import styled from 'styled-components';
 import {
     FormatBoldIcon,
@@ -25,9 +26,9 @@ import Tooltip from 'components/tooltip';
 
 import {MarkdownMode} from 'utils/markdown/apply_markdown';
 import Constants from 'utils/constants';
+import {t} from 'utils/i18n';
 
 export const IconContainer = styled.button`
-    @include .style--none;
     display: flex;
     width: 32px;
     height: 32px;
@@ -35,6 +36,7 @@ export const IconContainer = styled.button`
     place-content: center;
     border: none;
     background: transparent;
+    padding: 0;
     border-radius: 4px;
     color: rgba(var(--center-channel-color-rgb), 0.56);
     fill: currentColor;
@@ -88,6 +90,18 @@ const MAP_MARKDOWN_MODE_TO_ICON: Record<FormattingIconProps['mode'], React.FC<Ic
     ol: FormatListNumberedIcon,
 };
 
+const MAP_MARKDOWN_MODE_TO_ARIA_LABEL: Record<FormattingIconProps['mode'], MessageDescriptor> = {
+    bold: {id: t('accessibility.button.bold'), defaultMessage: 'bold'},
+    italic: {id: t('accessibility.button.italic'), defaultMessage: 'italic'},
+    link: {id: t('accessibility.button.link'), defaultMessage: 'link'},
+    strike: {id: t('accessibility.button.strike'), defaultMessage: 'strike through'},
+    code: {id: t('accessibility.button.code'), defaultMessage: 'code'},
+    heading: {id: t('accessibility.button.heading'), defaultMessage: 'heading'},
+    quote: {id: t('accessibility.button.quote'), defaultMessage: 'quote'},
+    ul: {id: t('accessibility.button.bulleted_list'), defaultMessage: 'bulleted list'},
+    ol: {id: t('accessibility.button.numbered_list'), defaultMessage: 'numbered list'},
+};
+
 const MAP_MARKDOWN_MODE_TO_KEYBOARD_SHORTCUTS: Record<FormattingIconProps['mode'], KeyboardShortcutDescriptor> = {
     bold: KEYBOARD_SHORTCUTS.msgMarkdownBold,
     italic: KEYBOARD_SHORTCUTS.msgMarkdownItalic,
@@ -109,12 +123,16 @@ const FormattingIcon = (props: FormattingIconProps): JSX.Element => {
 
     /* get the correct Icon from the IconMap */
     const Icon = MAP_MARKDOWN_MODE_TO_ICON[mode];
+    const {formatMessage} = useIntl();
+    const ariaLabelDefinition = MAP_MARKDOWN_MODE_TO_ARIA_LABEL[mode];
+    const buttonAriaLabel = formatMessage(ariaLabelDefinition);
 
     const bodyAction = (
         <IconContainer
             type='button'
             id={`FormattingControl_${mode}`}
             onClick={onClick}
+            aria-label={buttonAriaLabel}
             {...otherProps}
         >
             <Icon

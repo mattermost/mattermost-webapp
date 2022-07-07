@@ -2,12 +2,12 @@
 // See LICENSE.txt for license information.
 import {FormatNumberOptions} from 'react-intl';
 
-import {CloudUsage} from '@mattermost/types/cloud';
+import {CloudUsage, Limits} from '@mattermost/types/cloud';
 
 import {FileSizes} from './file_utils';
 
 export function asGBString(bits: number, formatNumber: (b: number, options: FormatNumberOptions) => string): string {
-    return `${formatNumber(bits / FileSizes.Gigabyte, {maximumFractionDigits: 0})}GB`;
+    return `${formatNumber(bits / FileSizes.Gigabyte, {maximumFractionDigits: 1})}GB`;
 }
 
 export function inK(num: number): string {
@@ -29,11 +29,24 @@ export const fallbackStarterLimits = {
     files: {
         totalStorage: FileSizes.Gigabyte * 10,
     },
+    teams: {
+        active: 1,
+    },
     integrations: {
-        enabled: 10,
+        enabled: 5,
     },
     boards: {
         cards: 500,
+        views: 5,
+    },
+};
+
+// These are to be used when we need values
+// even if network requests are failing for some reason.
+// Use as a fallback.
+export const fallbackProfessionalLimits = {
+    files: {
+        totalStorage: FileSizes.Gigabyte * 250,
     },
 };
 
@@ -49,6 +62,10 @@ export function anyUsageDeltaExceededLimit(deltas: CloudUsage) {
         }
     });
     return foundAPositive;
+}
+
+export function hasSomeLimits(limits: Limits): boolean {
+    return Object.keys(limits).length > 0;
 }
 
 export const limitThresholds = Object.freeze({

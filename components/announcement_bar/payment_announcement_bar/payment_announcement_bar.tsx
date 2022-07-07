@@ -19,6 +19,8 @@ type Props = {
     isCloud: boolean;
     subscription?: Subscription;
     customer?: CloudCustomer;
+    isLegacyFree: boolean;
+    isStarterFree: boolean;
     actions: {
         getCloudSubscription: () => void;
         getCloudCustomer: () => void;
@@ -44,7 +46,7 @@ class PaymentAnnouncementBar extends React.PureComponent<Props> {
             return false;
         }
 
-        if (subscription?.is_paid_tier !== 'true') {
+        if (this.props.isStarterFree || this.props.isLegacyFree) {
             return false;
         }
 

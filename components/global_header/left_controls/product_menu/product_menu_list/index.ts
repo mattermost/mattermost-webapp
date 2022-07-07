@@ -6,10 +6,15 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {Action} from 'mattermost-redux/types/actions';
 
-import {getInt, isCustomGroupsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getCloudSubscription, getSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
+import {
+    getInt,
+    isCustomGroupsEnabled,
+} from 'mattermost-redux/selectors/entities/preferences';
 import {
     getConfig,
     getFirstAdminVisitMarketplaceStatus,
+    getLicense,
 } from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
@@ -19,6 +24,8 @@ import {GlobalState} from 'types/store';
 import {OnboardingTaskCategory, OnboardingTasksName, TaskNameMapToSteps} from 'components/onboarding_tasks';
 import {openModal} from 'actions/views/modals';
 import {ModalData} from 'types/actions';
+import {CloudProducts} from 'utils/constants';
+import {isCloudLicense} from 'utils/license_utils';
 
 import ProductMenuList from './product_menu_list';
 
@@ -45,6 +52,14 @@ function mapStateToProps(state: GlobalState) {
     const showVisitSystemConsoleTour = step === TaskNameMapToSteps[OnboardingTasksName.VISIT_SYSTEM_CONSOLE].STARTED;
     const enableCustomUserGroups = isCustomGroupsEnabled(state);
 
+    const subscription = getCloudSubscription(state);
+    const license = getLicense(state);
+    const subscriptionProduct = getSubscriptionProduct(state);
+
+    const isCloud = isCloudLicense(license);
+    const isStarterFree = isCloud && subscriptionProduct?.sku === CloudProducts.STARTER;
+    const isFreeTrial = isCloud && subscription?.is_free_trial === 'true';
+
     return {
         isMobile: state.views.channel.mobileView,
         appDownloadLink,
@@ -63,6 +78,8 @@ function mapStateToProps(state: GlobalState) {
         firstAdminVisitMarketplaceStatus: getFirstAdminVisitMarketplaceStatus(state),
         showVisitSystemConsoleTour,
         enableCustomUserGroups,
+        isStarterFree,
+        isFreeTrial,
     };
 }
 

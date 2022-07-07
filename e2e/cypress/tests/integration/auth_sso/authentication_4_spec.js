@@ -137,7 +137,9 @@ describe('Authentication', () => {
             cy.findByRole('checkbox', {name: 'At least one number'}).should('be.checked');
             cy.findByRole('checkbox', {name: 'At least one symbol (e.g. "~!@#$%^&*()")'}).should('be.checked');
 
-            cy.findByTestId('maximumLoginAttemptsinput').should('be.visible').and('have.value', isCloudLicensed ? '' : '10');
+            if (!isCloudLicensed) {
+                cy.findByTestId('maximumLoginAttemptsinput').should('be.visible').and('have.value', '10');
+            }
         });
     });
 
