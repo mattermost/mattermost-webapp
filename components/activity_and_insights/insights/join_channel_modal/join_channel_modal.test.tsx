@@ -135,6 +135,6 @@ describe('components/activity_and_insights/insights/join_channel_modal', () => {
             </Provider>,
         );
         await actImmediate(wrapper);
-        expect(wrapper.text().includes('You are about to view a thread in the nostrum channel which you are not yet a member of. Do you want to join the channel in order to view the thread?')).toBe(true);
+        expect(wrapper.text().includes('You\'ll need to join the nostrum channel to see this thread. Do you want to join nostrum now?')).toBe(true);
     });
 });

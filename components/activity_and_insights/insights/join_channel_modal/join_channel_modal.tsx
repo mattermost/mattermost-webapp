@@ -66,7 +66,7 @@ const JoinChannelModal = (props: Props) => {
                     >
                         <FormattedMessage
                             id='joinChannel.title'
-                            defaultMessage='Join channel to view thread'
+                            defaultMessage='Join channel?'
                         />
                     </Modal.Title>
                 </div>
@@ -76,7 +76,7 @@ const JoinChannelModal = (props: Props) => {
             >
                 <FormattedMessage
                     id='joinChannel.desciption'
-                    defaultMessage='You are about to view a thread in the {channel} channel which you are not yet a member of. Do you want to join the channel in order to view the thread?'
+                    defaultMessage={'You\'ll need to join the {channel} channel to see this thread. Do you want to join {channel} now?'}
                     values={{
                         channel: <strong>{props.thread.channel_display_name}</strong>,
                     }}

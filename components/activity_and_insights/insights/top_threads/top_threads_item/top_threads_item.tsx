@@ -63,7 +63,10 @@ const TopThreadsItem = ({thread, complianceExportEnabled}: Props) => {
                 <span className='compliance-information'>
                     <FormattedMessage
                         id='insights.topThreadItem.notChannelMember'
-                        defaultMessage='This thread is from a channel you are not a member of and cannot be viewed unless you join the channel'
+                        defaultMessage={'You\'ll need to join the {channel} channel to see this thread.'}
+                        values={{
+                            channel: <strong>{thread.channel_display_name}</strong>,
+                        }}
                     />
                 </span>
             );

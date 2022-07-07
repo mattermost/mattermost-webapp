@@ -151,7 +151,7 @@ describe('components/activity_and_insights/insights/top_threads/top_threads_item
             </Provider>,
         );
         await actImmediate(wrapper);
-        expect(wrapper.text().includes('This thread is from a channel you are not a member of and cannot be viewed unless you join the channel')).toBe(false);
+        expect(wrapper.text().includes('You\'ll need to join the nostrum channel to see this thread.')).toBe(false);
     });
 
     test('check if compliance preview renders', async () => {
@@ -167,7 +167,7 @@ describe('components/activity_and_insights/insights/top_threads/top_threads_item
             </Provider>,
         );
         await actImmediate(wrapper);
-        expect(wrapper.text().includes('This thread is from a channel you are not a member of and cannot be viewed unless you join the channel')).toBe(true);
+        expect(wrapper.text().includes('You\'ll need to join the nostrum channel to see this thread.')).toBe(true);
     });
 
     test('check if compliance preview does not render when not licensed for it', async () => {
@@ -232,6 +232,6 @@ describe('components/activity_and_insights/insights/top_threads/top_threads_item
             </Provider>,
         );
         await actImmediate(wrapper);
-        expect(wrapper.text().includes('This thread is from a channel you are not a member of and cannot be viewed unless you join the channel')).toBe(false);
+        expect(wrapper.text().includes('You\'ll need to join the nostrum channel to see this thread.')).toBe(false);
     });
 });
