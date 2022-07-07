@@ -102,9 +102,6 @@ export default class ChannelHeaderMobile extends React.PureComponent<Props> {
                         {channel && (
                             <ChannelInfoButton
                                 channel={channel}
-                                isReadOnly={isReadOnly}
-                                isRHSOpen={isRHSOpen}
-                                currentRelativeTeamUrl={currentRelativeTeamUrl}
                             />
                         )}
                         <ShowSearchButton/>
