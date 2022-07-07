@@ -36,6 +36,7 @@ import FilesFilterMenu from './files_filter_menu';
 import './search_results.scss';
 
 import type {Props} from './types';
+import SearchLimitsBanner from './search_limits_banner';
 
 const GET_MORE_BUFFER = 30;
 const FILES_SEARCH_TYPE = 'files';
@@ -348,6 +349,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
                     />
                 </div>
             }
+            <SearchLimitsBanner searchType={searchType}/>
             <Scrollbars
                 ref={scrollbars}
                 autoHide={true}
