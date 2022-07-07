@@ -177,7 +177,7 @@ describe('components/widgets/menu/menu_items/menu_item_cloud_limit', () => {
         expect(wrapper.find('li').exists()).toEqual(true);
     });
 
-    test('shows more attention grabbing UI if a limit is very close', () => {
+    test('shows more attention grabbing UI and notify admin CTA if a limit is very close for non admin users', () => {
         const state = {
             entities: {
                 general,
@@ -187,6 +187,35 @@ describe('components/widgets/menu/menu_items/menu_item_cloud_limit', () => {
                 },
                 users,
                 usage: usageCriticalMessages,
+                teams: {
+                    currentTeamId: 'current_team_id',
+                },
+            },
+        };
+        const store = mockStore(state);
+        const wrapper = mountWithIntl(<Provider store={store}><MenuItemCloudLimit id={id}/></Provider>);
+        expect(wrapper.find('li').prop('className')).toContain('critical');
+        expect(wrapper.find('#notify_admin_cta')).toBeTruthy();
+    });
+
+    test('shows more attention grabbing UI if a limit is very close', () => {
+        const state = {
+            entities: {
+                general,
+                cloud: {
+                    subscription,
+                    limits,
+                },
+                users: {
+                    currentUserId: 'current_user_id',
+                    profiles: {
+                        current_user_id: {roles: 'system_admin'},
+                    },
+                },
+                usage: usageCriticalMessages,
+                teams: {
+                    currentTeamId: 'current_team_id',
+                },
             },
         };
         const store = mockStore(state);
