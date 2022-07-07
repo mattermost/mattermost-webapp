@@ -7,6 +7,7 @@ import nock from 'nock';
 
 import {Client4} from 'mattermost-redux/client';
 import {getPostThread} from 'mattermost-redux/actions/posts';
+
 import {Preferences} from 'mattermost-redux/constants';
 import TestHelper from 'mattermost-redux/test/test_helper';
 
@@ -17,6 +18,8 @@ import {browserHistory} from 'utils/browser_history';
 
 import {focusPost} from 'components/permalink_view/actions';
 import PermalinkView from 'components/permalink_view/permalink_view.jsx';
+
+import * as Channels from 'mattermost-redux/selectors/entities/channels';
 
 jest.mock('utils/browser_history', () => ({
     browserHistory: {
@@ -30,22 +33,31 @@ jest.mock('actions/channel_actions.jsx', () => ({
     }),
 }));
 
+jest.mock('actions/views/rhs.ts', () => ({
+    selectPostAndHighlight: jest.fn((post) => {
+        return {type: 'MOCK_SELECT_POST_AND_HIGHLIGHT', args: [post]};
+    }),
+}));
+
 jest.mock('mattermost-redux/actions/posts', () => ({
     getPostThread: jest.fn((postId) => {
         const post = {id: 'postid1', message: 'some message', channel_id: 'channelid1'};
         const post2 = {id: 'postid2', message: 'some message', channel_id: 'channelid2'};
+        const replyPost1 = {id: 'replypostid1', message: 'some message', channel_id: 'channelid1', root_id: 'postid1'};
         const dmPost = {id: 'dmpostid1', message: 'some message', channel_id: 'dmchannelid'};
         const gmPost = {id: 'gmpostid1', message: 'some message', channel_id: 'gmchannelid'};
 
         switch (postId) {
         case 'postid1':
-            return {type: 'MOCK_GET_POST_THREAD', data: {posts: {postid1: post}, order: [post.id]}};
+            return {type: 'MOCK_GET_POST_THREAD', data: {posts: {replypostid1: replyPost1, postid1: post}, order: [post.id, replyPost1.id]}};
         case 'postid2':
             return {type: 'MOCK_GET_POST_THREAD', data: {posts: {postid2: post2}, order: [post2.id]}};
         case 'dmpostid1':
             return {type: 'MOCK_GET_POST_THREAD', data: {posts: {dmpostid1: dmPost}, order: [dmPost.id]}};
         case 'gmpostid1':
             return {type: 'MOCK_GET_POST_THREAD', data: {posts: {gmpostid1: gmPost}, order: [gmPost.id]}};
+        case 'replypostid1':
+            return {type: 'MOCK_GET_POST_THREAD', data: {posts: {replypostid1: replyPost1, postid1: post}, order: [post.id, replyPost1.id]}};
         default:
             return {type: 'MOCK_GET_POST_THREAD'};
         }
@@ -271,13 +283,65 @@ describe('components/PermalinkView', () => {
 
                 expect(getPostThread).toHaveBeenCalledWith('postid1');
                 expect(testStore.getActions()).toEqual([
-                    {type: 'MOCK_GET_POST_THREAD', data: {posts: {postid1: {id: 'postid1', message: 'some message', channel_id: 'channelid1'}}, order: ['postid1']}},
+                    {type: 'MOCK_GET_POST_THREAD',
+                        data: {
+                            posts: {
+                                replypostid1: {id: 'replypostid1', message: 'some message', channel_id: 'channelid1', root_id: 'postid1'},
+                                postid1: {id: 'postid1', message: 'some message', channel_id: 'channelid1'},
+                            },
+                            order: ['postid1', 'replypostid1']},
+                    },
                     {type: 'MOCK_SELECT_CHANNEL', args: ['channelid1']},
                     {type: 'RECEIVED_FOCUSED_POST', channelId: 'channelid1', data: 'postid1'},
                     {type: 'MOCK_LOAD_CHANNELS_FOR_CURRENT_USER'},
                     {type: 'MOCK_GET_CHANNEL_STATS', args: ['channelid1']},
                 ]);
                 expect(browserHistory.replace).toHaveBeenCalledWith('/currentteam/channels/channel1/postid1');
+            });
+
+            test('should not redirect to channel link with postId for a reply permalink when collapsedThreads enabled and option is set true', async () => {
+                const newState = {
+                    entities: {
+                        ...initialState.entities,
+                        general: {
+                            config: {
+                                FeatureFlagCollapsedThreads: 'true',
+                                CollapsedThreads: 'default_on',
+                            },
+                        },
+                    },
+                };
+                Channels.getCurrentChannel = jest.fn().mockReturnValue({id: 'channelid1', name: 'channel1', type: 'O', team_id: 'current_team_id'});
+
+                const testStore = await mockStore(newState);
+                await testStore.dispatch(focusPost('replypostid1', '#', initialState.entities.users.currentUserId, {skipRedirectReplyPermalink: true}));
+
+                expect(getPostThread).toHaveBeenCalledWith('replypostid1');
+
+                expect(testStore.getActions()).toEqual([
+                    {type: 'MOCK_GET_POST_THREAD',
+                        data: {
+                            posts: {
+                                replypostid1: {id: 'replypostid1', message: 'some message', channel_id: 'channelid1', root_id: 'postid1'},
+                                postid1: {id: 'postid1', message: 'some message', channel_id: 'channelid1'},
+
+                            },
+                            order: ['postid1', 'replypostid1']},
+                    },
+                    {type: 'MOCK_GET_POST_THREAD',
+                        data: {
+                            posts: {
+                                replypostid1: {id: 'replypostid1', message: 'some message', channel_id: 'channelid1', root_id: 'postid1'},
+                                postid1: {id: 'postid1', message: 'some message', channel_id: 'channelid1'},
+
+                            },
+                            order: ['postid1', 'replypostid1']},
+                    },
+                    {type: 'MOCK_LOAD_CHANNELS_FOR_CURRENT_USER'},
+                    {type: 'MOCK_GET_CHANNEL_STATS', args: ['channelid1']},
+                    {type: 'MOCK_SELECT_POST_AND_HIGHLIGHT', args: [{id: 'replypostid1', message: 'some message', channel_id: 'channelid1', root_id: 'postid1'}]},
+                ]);
+                expect(browserHistory.replace).not.toBeCalled();
             });
         });
     });
