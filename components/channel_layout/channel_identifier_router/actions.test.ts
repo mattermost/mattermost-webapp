@@ -1,9 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import thunk from 'redux-thunk';
-import configureStore from 'redux-mock-store';
-
 import {getChannelByNameAndTeamName, getChannelMember, joinChannel} from 'mattermost-redux/actions/channels';
 import {getUserByEmail} from 'mattermost-redux/actions/users';
 
@@ -16,6 +13,7 @@ import {
     goToDirectChannelByEmail,
     getPathFromIdentifier,
 } from 'components/channel_layout/channel_identifier_router/actions';
+import mockStore from 'tests/test_store';
 import {joinPrivateChannelPrompt} from 'utils/channel_utils';
 
 jest.mock('actions/global_actions', () => ({
@@ -40,8 +38,6 @@ jest.mock('utils/channel_utils', () => ({
         };
     }),
 }));
-
-const mockStore = configureStore([thunk]);
 
 describe('Actions', () => {
     const channel1 = {id: 'channel_id1', name: 'achannel', team_id: 'team_id1'};

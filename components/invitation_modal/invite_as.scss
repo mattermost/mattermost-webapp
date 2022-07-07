@@ -17,5 +17,48 @@
         &:last-child {
             margin-bottom: 0;
         }
+
+        .disabled-legend {
+            opacity: 0.6;
+        }
+
+        .Badge {
+            position: absolute;
+            display: inline-flex;
+            margin-left: 15px;
+
+            &__restricted-indicator-badge {
+                display: flex;
+                height: 24px;
+                padding: 4px 12px;
+                border: 1px solid rgba(var(--denim-button-bg-rgb), 0.08);
+                background: rgba(var(--denim-button-bg-rgb), 0.04);
+                border-radius: 20px;
+                color: var(--denim-button-bg);
+
+                .RestrictedIndicator__icon-tooltip-container {
+                    padding: 0;
+
+                    .badge-text {
+                        padding-left: 5px;
+                        font-size: 11px;
+                        font-weight: 700;
+                    }
+
+                    .RestrictedIndicator__icon-tooltip {
+                        padding: 0;
+                        font-size: 14px;
+                    }
+
+                    .RestrictedIndicator__button {
+                        display: flex;
+
+                        .badge-text {
+                            padding-left: 0;
+                        }
+                    }
+                }
+            }
+        }
     }
 }

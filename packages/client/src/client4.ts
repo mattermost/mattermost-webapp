@@ -12,7 +12,7 @@ import type {AppBinding, AppCallRequest, AppCallResponse} from '@mattermost/type
 import {Audit} from '@mattermost/types/audits';
 import {UserAutocomplete, AutocompleteSuggestion} from '@mattermost/types/autocomplete';
 import {Bot, BotPatch} from '@mattermost/types/bots';
-import {Product, SubscriptionResponse, CloudCustomer, Address, CloudCustomerPatch, Invoice, Limits, IntegrationsUsage} from '@mattermost/types/cloud';
+import {Product, SubscriptionResponse, CloudCustomer, Address, CloudCustomerPatch, Invoice, Limits, IntegrationsUsage, NotifyAdminRequest} from '@mattermost/types/cloud';
 import {ChannelCategory, OrderedChannelCategories} from '@mattermost/types/channel_categories';
 import {
     Channel,
@@ -714,7 +714,7 @@ export default class Client4 {
         );
     }
 
-    login = async (loginId: string, password: string, token = '', deviceId = '', ldapOnly = false) => {
+    login = async (loginId: string, password: string, token = '', ldapOnly = false) => {
         this.trackEvent('api', 'api_users_login');
 
         if (ldapOnly) {
@@ -722,10 +722,10 @@ export default class Client4 {
         }
 
         const body: any = {
-            device_id: deviceId,
             login_id: loginId,
             password,
             token,
+            deviceId: '',
         };
 
         if (ldapOnly) {
@@ -747,13 +747,13 @@ export default class Client4 {
         return profile;
     };
 
-    loginById = (id: string, password: string, token = '', deviceId = '') => {
+    loginById = (id: string, password: string, token = '') => {
         this.trackEvent('api', 'api_users_login');
         const body: any = {
-            device_id: deviceId,
             id,
             password,
             token,
+            device_id: '',
         };
 
         return this.doFetch<UserProfile>(
@@ -969,13 +969,6 @@ export default class Client4 {
         return this.doFetch<MfaSecret>(
             `${this.getUserRoute(userId)}/mfa/generate`,
             {method: 'post'},
-        );
-    };
-
-    attachDevice = (deviceId: string) => {
-        return this.doFetch<StatusOK>(
-            `${this.getUsersRoute()}/sessions/device`,
-            {method: 'put', body: JSON.stringify({device_id: deviceId})},
         );
     };
 
@@ -3819,6 +3812,13 @@ export default class Client4 {
         );
     }
 
+    notifyAdminToUpgrade = (req: NotifyAdminRequest) => {
+        return this.doFetchWithResponse<StatusOK>(
+            `${this.getCloudRoute()}/notify-admin-to-upgrade`,
+            {method: 'post', body: JSON.stringify(req)},
+        );
+    }
+
     confirmPaymentMethod = async (stripeSetupIntentID: string) => {
         return this.doFetch(
             `${this.getCloudRoute()}/payment/confirm`,
@@ -3977,7 +3977,7 @@ export default class Client4 {
 
     /**
      * @param query string query of graphQL, pass the json stringified version of the query
-     * eg.  const query = JSON.stringify({query: `{license, config}`});
+     * eg.  const query = JSON.stringify({query: `{license, config}`, operationName: 'queryForLicenseAndConfig'});
      *      client4.fetchWithGraphQL(query);
      */
     fetchWithGraphQL = async <DataResponse>(query: string) => {
