@@ -223,7 +223,7 @@ export default class SystemRolePermissions extends React.PureComponent<Props, St
                 <>
                     <FormattedMarkdownMessage
                         id='admin.permissions.roles.system_custom_group_admin.detail_text'
-                        defaultMessage="The built-in Custom Group Admin role can be used to delegate the administration of [Custom Groups](https://docs.mattermost.com/welcome/manage-custom-groups.html) to users other than the System Admin.\n \nDon't forget to deauthorize all other system users from administering Custom Groups by unchecking the associated permissions checkbox in System console > User Management > Permissions.\n \nThis role has the following permissions:"
+                        defaultMessage="The built-in Custom Group Manager role can be used to delegate the administration of [Custom Groups](https://docs.mattermost.com/welcome/manage-custom-groups.html) to users other than the System Admin.\n \nDon't forget to deauthorize all other system users from administering Custom Groups by unchecking the associated permissions checkbox in System console > User Management > Permissions.\n \nThis role has the following permissions:"
                     />
                     {permissionsList}
                 </>
