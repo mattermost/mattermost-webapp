@@ -30,7 +30,7 @@ import {ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
 import Constants, {Locations} from 'utils/constants';
 import Tooltip from '../tooltip';
 
-import {useUndoable, withUndoable} from './advanced_text_editor_context';
+import {UndoableProvider, useUndoable} from './advanced_text_editor_context';
 
 import TexteditorActions from './texteditor_actions';
 import FormattingBar from './formatting_bar';
@@ -77,7 +77,6 @@ type Props = {
     handleSelect: (e: React.SyntheticEvent<TextboxElement>) => void;
     handleKeyDown: (e: React.KeyboardEvent<TextboxElement>) => void;
     postMsgKeyPress: (e: React.KeyboardEvent<TextboxElement>) => void;
-    handleChange: (e: React.ChangeEvent<TextboxElement>) => void;
     toggleEmojiPicker: () => void;
     handleGifClick: (gif: string) => void;
     handleEmojiClick: (emoji: Emoji) => void;
@@ -133,7 +132,6 @@ const AdvanceTextEditor = ({
     handleSelect,
     handleKeyDown,
     postMsgKeyPress,
-    handleChange,
     toggleEmojiPicker,
     handleGifClick,
     handleEmojiClick,
@@ -151,7 +149,7 @@ const AdvanceTextEditor = ({
     textboxRef,
     isThreadView,
 }: Props) => {
-    const {content, setContent} = useUndoable();
+    const {content, setContent, clearContent} = useUndoable();
     const readOnlyChannel = !canPost;
     const {formatMessage} = useIntl();
     const ariaLabelMessageInput = Utils.localizeMessage(
@@ -163,8 +161,10 @@ const AdvanceTextEditor = ({
     const [scrollbarWidth, setScrollbarWidth] = useState(0);
     const [renderScrollbar, setRenderScrollbar] = useState(false);
 
-    // disabling the rule here since this will otherwise create an infinite loop
-    useEffect(() => setContent(message), [message]); // eslint-disable-line react-hooks/exhaustive-deps
+    // disabling the eslint-rule here since this will otherwise create an infinite loop
+    useEffect(() => setContent(message), []); // eslint-disable-line react-hooks/exhaustive-deps
+
+    const handleChange = (e: React.ChangeEvent<TextboxElement>) => setContent(e.target.value);
 
     const handleHeightChange = (height: number, maxHeight: number) => {
         setRenderScrollbar(height > maxHeight);
@@ -176,6 +176,11 @@ const AdvanceTextEditor = ({
         });
     };
 
+    const handleSubmitAndClear = (e: React.FormEvent) => {
+        handleSubmit(e);
+        clearContent();
+    };
+
     const handleShowFormat = useCallback(() => setShowPreview(!shouldShowPreview), [shouldShowPreview, setShowPreview]);
 
     let serverErrorJsx = null;
@@ -184,7 +189,7 @@ const AdvanceTextEditor = ({
             <MessageSubmitError
                 error={serverError}
                 submittedMessage={serverError.submittedMessage}
-                handleSubmit={handleSubmit}
+                handleSubmit={handleSubmitAndClear}
             />
         );
     }
@@ -289,7 +294,7 @@ const AdvanceTextEditor = ({
     const sendButton = readOnlyChannel ? null : (
         <SendButton
             disabled={disableSendButton}
-            handleSubmit={handleSubmit}
+            handleSubmit={handleSubmitAndClear}
         />
     );
 
@@ -447,4 +452,17 @@ const AdvanceTextEditor = ({
     );
 };
 
-export default withUndoable(AdvanceTextEditor);
+type PropsWithUndoable = Props & {
+    handleChange: (message: string) => void;
+}
+
+const UndoableAdvancedTextEditor = ({handleChange, ...props}: PropsWithUndoable) => (
+    <UndoableProvider
+        maxHistoryLength={50}
+        onContentChange={handleChange}
+    >
+        <AdvanceTextEditor {...props}/>
+    </UndoableProvider>
+);
+
+export default UndoableAdvancedTextEditor;

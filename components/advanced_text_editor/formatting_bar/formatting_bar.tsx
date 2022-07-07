@@ -7,10 +7,9 @@ import {useIntl} from 'react-intl';
 import styled from 'styled-components';
 import {useFloating, offset} from '@floating-ui/react-dom';
 import {CSSTransition} from 'react-transition-group';
-import {ArrowLeftIcon, ArrowRightIcon, DotsHorizontalIcon} from '@mattermost/compass-icons/components';
+import {DotsHorizontalIcon} from '@mattermost/compass-icons/components';
 
 import {ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
-import {useUndoable} from '../advanced_text_editor_context';
 import ToggleFormattingBar from '../toggle_formatting_bar/toggle_formatting_bar';
 
 import FormattingIcon, {IconContainer} from './formatting_icon';
@@ -144,42 +143,6 @@ interface FormattingBarProps {
      */
     location: string;
 }
-
-const UndoButton = memo(() => {
-    const {isUndoable, undo} = useUndoable();
-
-    return (
-        <IconContainer
-            disabled={!isUndoable}
-            type='button'
-            onClick={undo}
-            aria-label='undo'
-        >
-            <ArrowLeftIcon
-                color={'currentColor'}
-                size={18}
-            />
-        </IconContainer>
-    );
-});
-
-const RedoButton = memo(() => {
-    const {isRedoable, redo} = useUndoable();
-
-    return (
-        <IconContainer
-            disabled={!isRedoable}
-            type='button'
-            onClick={redo}
-            aria-label='redo'
-        >
-            <ArrowRightIcon
-                color={'currentColor'}
-                size={18}
-            />
-        </IconContainer>
-    );
-});
 
 const FormattingBar = (props: FormattingBarProps): JSX.Element => {
     const {
@@ -357,9 +320,6 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
                     })}
                 </HiddenControlsContainer>
             </CSSTransition>
-            <UndoButton/>
-            <RedoButton/>
-            <Separator show={true}/>
             {extraControls}
         </FormattingBarContainer>
     );

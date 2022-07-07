@@ -694,16 +694,14 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         GlobalActions.emitLocalUserTypingEvent(channelId, rootId);
     }
 
-    handleChange = (e: React.ChangeEvent<TextboxElement>) => {
-        const message = e.target.value;
-
+    handleChange = (newMessage: string) => {
         let serverError = this.state.serverError;
         if (isErrorInvalidSlashCommand(serverError)) {
             serverError = null;
         }
 
         const draft = this.state.draft!;
-        const updatedDraft = {...draft, message};
+        const updatedDraft = {...draft, message: newMessage};
 
         if (this.saveDraftFrame) {
             clearTimeout(this.saveDraftFrame);

@@ -780,8 +780,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         GlobalActions.emitLocalUserTypingEvent(channelId, '');
     }
 
-    handleChange = (e: React.ChangeEvent<TextboxElement>) => {
-        const message = e.target.value;
+    handleChange = (newMessage: string) => {
         const channelId = this.props.currentChannel.id;
 
         let serverError = this.state.serverError;
@@ -790,13 +789,13 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         }
 
         this.setState({
-            message,
+            message: newMessage,
             serverError,
         });
 
         const draft = {
             ...this.props.draft,
-            message,
+            message: newMessage,
         };
 
         if (this.saveDraftFrame) {
@@ -1259,7 +1258,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     location={Locations.CENTER}
                     currentUserId={this.props.currentUserId}
                     postError={this.state.postError}
-                    message={this.state.message}
+                    message={''}
                     showEmojiPicker={this.state.showEmojiPicker}
                     uploadsProgressPercent={this.state.uploadsProgressPercent}
                     currentChannel={this.state.currentChannel}
