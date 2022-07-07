@@ -8,6 +8,8 @@ import {Theme} from 'mattermost-redux/types/themes';
 import {ProductComponent} from 'types/store/plugins';
 import {GlobalState} from 'types/store';
 
+import webSocketClient from 'client/web_websocket_client.jsx';
+
 type Props = {
 
     /*
@@ -102,6 +104,7 @@ export default function Pluggable(props: Props): JSX.Element | null {
                     {...otherProps}
                     theme={theme}
                     key={pluggableName + p.id}
+                    webSocketClient={webSocketClient}
                 />
             );
         });
