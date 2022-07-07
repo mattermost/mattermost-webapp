@@ -13,6 +13,7 @@ import {t} from 'utils/i18n';
 import LoadingImagePreview from 'components/loading_image_preview';
 import Tooltip from 'components/tooltip';
 import OverlayTrigger from 'components/overlay_trigger';
+import {FileTypes} from 'utils/constants';
 
 const MIN_IMAGE_SIZE = 48;
 const MIN_IMAGE_SIZE_FOR_INTERNAL_BUTTONS = 100;
@@ -110,18 +111,15 @@ export default class SizeAwareImage extends React.PureComponent {
         return width < MIN_IMAGE_SIZE || height < MIN_IMAGE_SIZE;
     }
 
-    handleLoad = (event) => {
+    handleLoad = () => {
         if (this.mounted) {
-            const image = event.target;
-            const isSmallImage = this.isSmallImage(image.naturalWidth, image.naturalHeight);
             this.setState({
                 loaded: true,
                 error: false,
-                isSmallImage,
-                imageWidth: image.naturalWidth,
+                imageWidth: this.props.dimensions.width,
             }, () => { // Call onImageLoaded prop only after state has already been set
-                if (this.props.onImageLoaded && image.naturalHeight) {
-                    this.props.onImageLoaded({height: image.naturalHeight, width: image.naturalWidth});
+                if (this.props.onImageLoaded && this.props.dimensions.height) {
+                    this.props.onImageLoaded({height: this.props.dimensions.height, width: this.props.dimensions.width});
                 }
             });
         }
@@ -181,6 +179,8 @@ export default class SizeAwareImage extends React.PureComponent {
             ariaLabelImage += ` ${fileInfo.name}`.toLowerCase();
         }
 
+        const svgStyleAttribute = fileInfo.extension === FileTypes.SVG && {style: {width: this.state.imageWidth}};
+
         const image = (
             <img
                 {...props}
@@ -195,6 +195,7 @@ export default class SizeAwareImage extends React.PureComponent {
                 src={src}
                 onError={this.handleError}
                 onLoad={this.handleLoad}
+                {...svgStyleAttribute}
             />
         );
 

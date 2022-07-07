@@ -73,12 +73,12 @@ describe('components/SizeAwareImage', () => {
     });
 
     test('should set loaded state when img loads and call onImageLoaded prop', () => {
-        const height = 123;
-        const width = 1234;
+        const height = baseProps.dimensions.height;
+        const width = baseProps.dimensions.width;
 
         const wrapper = shallow(<SizeAwareImage {...baseProps}/>);
 
-        wrapper.find('img').prop('onLoad')({target: {naturalHeight: height, naturalWidth: width}});
+        wrapper.find('img').prop('onLoad')();
         expect(wrapper.state('loaded')).toBe(true);
         expect(baseProps.onImageLoaded).toHaveBeenCalledWith({height, width});
     });
