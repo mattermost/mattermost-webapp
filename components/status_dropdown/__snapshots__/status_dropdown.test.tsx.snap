@@ -38,13 +38,16 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
     <MenuHeader>
       <div
         className="username-wrapper"
+        onClick={[Function]}
       >
         <Text
+          className="bold"
           margin="none"
         >
           Nev Aa
         </Text>
         <Text
+          className=""
           color="disabled"
           margin="none"
         >
@@ -270,13 +273,16 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
     <MenuHeader>
       <div
         className="username-wrapper"
+        onClick={[Function]}
       >
         <Text
+          className="bold"
           margin="none"
         >
           Nev Aa
         </Text>
         <Text
+          className=""
           color="disabled"
           margin="none"
         >
@@ -583,13 +589,16 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
     <MenuHeader>
       <div
         className="username-wrapper"
+        onClick={[Function]}
       >
         <Text
+          className="bold"
           margin="none"
         >
           Nev Aa
         </Text>
         <Text
+          className=""
           color="disabled"
           margin="none"
         >
@@ -848,13 +857,16 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
     <MenuHeader>
       <div
         className="username-wrapper"
+        onClick={[Function]}
       >
         <Text
+          className="bold"
           margin="none"
         >
           Nev Aa
         </Text>
         <Text
+          className=""
           color="disabled"
           margin="none"
         >
@@ -1113,13 +1125,16 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
     <MenuHeader>
       <div
         className="username-wrapper"
+        onClick={[Function]}
       >
         <Text
+          className="bold"
           margin="none"
         >
           Nev Aa
         </Text>
         <Text
+          className=""
           color="disabled"
           margin="none"
         >
@@ -1387,13 +1402,16 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
       />
       <div
         className="username-wrapper"
+        onClick={[Function]}
       >
         <Text
+          className="bold"
           margin="none"
         >
           Nev Aa
         </Text>
         <Text
+          className=""
           color="disabled"
           margin="none"
         >
@@ -1619,13 +1637,16 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
     <MenuHeader>
       <div
         className="username-wrapper"
+        onClick={[Function]}
       >
         <Text
+          className="bold"
           margin="none"
         >
           Nev Aa
         </Text>
         <Text
+          className=""
           color="disabled"
           margin="none"
         >
@@ -1851,13 +1872,16 @@ exports[`components/StatusDropdown should not show clear status button when cust
     <MenuHeader>
       <div
         className="username-wrapper"
+        onClick={[Function]}
       >
         <Text
+          className="bold"
           margin="none"
         >
           Nev Aa
         </Text>
         <Text
+          className=""
           color="disabled"
           margin="none"
         >
@@ -2116,13 +2140,16 @@ exports[`components/StatusDropdown should show clear status button when custom s
     <MenuHeader>
       <div
         className="username-wrapper"
+        onClick={[Function]}
       >
         <Text
+          className="bold"
           margin="none"
         >
           Nev Aa
         </Text>
         <Text
+          className=""
           color="disabled"
           margin="none"
         >

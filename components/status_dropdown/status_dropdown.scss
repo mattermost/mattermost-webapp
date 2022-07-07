@@ -198,6 +198,9 @@ button.custom_status__row {
             max-width: 150px;
             text-overflow: ellipsis;
             white-space: nowrap;
+            &.bold {
+                font-weight: 500;
+            }
         }
     }
 
