@@ -115,10 +115,12 @@ const TopThreadsTable = (props: Props) => {
     const getPreview = useCallback((thread: TopThread, isChannelMember: boolean) => {
         if (!isChannelMember && (license.Compliance === 'true' && complianceExportEnabled === 'true')) {
             return (
-                <FormattedMessage
-                    id='insights.topThreadItem.notChannelMember'
-                    defaultMessage='This thread is from a channel you are not a member of and cannot be viewed unless you join the channel'
-                />
+                <span className='compliance-information'>
+                    <FormattedMessage
+                        id='insights.topThreadItem.notChannelMember'
+                        defaultMessage='This thread is from a channel you are not a member of and cannot be viewed unless you join the channel'
+                    />
+                </span>
             );
         }
 

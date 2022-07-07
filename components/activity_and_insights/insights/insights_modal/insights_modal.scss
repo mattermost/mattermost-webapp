@@ -3,6 +3,10 @@
         margin-top: calc(50vh - 340px);
     }
 
+    &.join-channel-modal {
+        max-width: 600px;
+    }
+
     .modal-content {
         .modal-header {
             align-items: flex-start;

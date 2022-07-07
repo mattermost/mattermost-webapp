@@ -51,7 +51,7 @@ const JoinChannelModal = (props: Props) => {
 
     return (
         <Modal
-            dialogClassName='a11y__modal insights-modal'
+            dialogClassName='a11y__modal insights-modal join-channel-modal'
             show={show}
             onHide={doHide}
             onExited={props.onExited}
