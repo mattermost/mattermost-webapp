@@ -9,9 +9,8 @@
 
 // Group: @incoming_webhook
 
-import {enableUsernameAndIconOverride} from './helpers';
-
 describe('Incoming webhook', () => {
+    let incomingWebhook;
     let testTeam;
     let siteName;
 
