@@ -25,6 +25,8 @@ const InnerDiv = styled.div`
 display: flex;
 gap: 8px;
 border-radius: 4px;
+border: 1px solid rgba(var(--center-channel-text-rgb), 0.08);
+border-radius: 4px;
 background-color: rgba(var(--center-channel-text-rgb), 0.04);
 padding: 10px;
 margin: 10px;
