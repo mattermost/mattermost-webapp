@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {getFilePreviewUrl, getFileDownloadUrl} from 'mattermost-redux/utils/file_utils';
+import {FileTypes} from 'utils/constants';
 
 import './image_preview.scss';
 
@@ -25,6 +26,8 @@ export default function ImagePreview({fileInfo, canDownloadFiles}) {
         return <img src={previewUrl}/>;
     }
 
+    const svgStyleAttribute = fileInfo.extension === FileTypes.SVG && {style: {width: fileInfo.width}};
+
     return (
         <a
             className='image_preview'
@@ -35,6 +38,7 @@ export default function ImagePreview({fileInfo, canDownloadFiles}) {
                 data-testid='imagePreview'
                 alt={'preview url image'}
                 src={previewUrl}
+                {...svgStyleAttribute}
             />
         </a>
     );
