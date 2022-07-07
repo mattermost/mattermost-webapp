@@ -102,7 +102,7 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot whe
     </div>
     <CloudStartTrialButton
       extraClass="btn btn-primary"
-      message="Start trial"
+      message="Try free for 30 days"
       telemetryId="start_cloud_trial_feature_discovery"
     />
     <a
@@ -121,13 +121,14 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot whe
       className="trial-legal-terms"
     >
       <MemoizedFormattedMessage
-        defaultMessage="By clicking <strong>Start trial</strong>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails."
-        id="admin.license.trial-request.accept-terms"
+        defaultMessage="By selecting <highlight>Try free for {trialLength} days</highlight>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails."
+        id="admin.license.trial-request.accept-terms.cloudFree"
         values={
           Object {
+            "highlight": [Function],
             "linkEvaluation": [Function],
             "linkPrivacy": [Function],
-            "strong": [Function],
+            "trialLength": 30,
           }
         }
       />

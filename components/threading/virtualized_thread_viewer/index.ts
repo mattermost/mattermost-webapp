@@ -21,7 +21,6 @@ import ThreadViewerVirtualized from './virtualized_thread_viewer';
 
 type OwnProps = {
     channel: Channel;
-    openTime: number;
     postIds: Array<Post['id'] | FakePost['id']>;
     selected: Post | FakePost;
     useRelativeTimestamp: boolean;
