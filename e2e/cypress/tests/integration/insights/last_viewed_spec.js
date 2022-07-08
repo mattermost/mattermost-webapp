@@ -59,7 +59,7 @@ describe('Insights as last viewed channel', () => {
         // # Switch back to Team A
         cy.get(`#${teamA.name}TeamButton`, {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
 
-        // Verify url is set up for threads view
+        // * Verify url is set up for insights view
         cy.url().should('include', `${teamA.name}/activity-and-insights`);
     });
 
