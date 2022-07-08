@@ -431,10 +431,13 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
                     listId={'status-drop-down-menu-list'}
                 >
                     {currentUser && (
-                        <Menu.Header >
+                        <Menu.Header onClick={this.openProfileModal}>
                             {this.renderProfilePicture('lg')}
-                            <div className={'username-wrapper'} onClick={this.openProfileModal}>
-                                <Text className={'bold'} margin={'none'}>{`${currentUser.first_name} ${currentUser.last_name}`}</Text>
+                            <div className={'username-wrapper'}>
+                                <Text
+                                    className={'bold'}
+                                    margin={'none'}
+                                >{`${currentUser.first_name} ${currentUser.last_name}`}</Text>
                                 <Text
                                     margin={'none'}
                                     className={!currentUser.first_name && !currentUser.last_name ? 'bold' : ''}

@@ -198,8 +198,9 @@ button.custom_status__row {
             max-width: 150px;
             text-overflow: ellipsis;
             white-space: nowrap;
+
             &.bold {
-                font-weight: 500;
+                font-weight: 600;
             }
         }
     }
@@ -207,6 +208,7 @@ button.custom_status__row {
     .MenuHeader {
         height: 50px;
         padding: 0 16px;
+        cursor: pointer;
     }
 
     .MenuItem > button,
