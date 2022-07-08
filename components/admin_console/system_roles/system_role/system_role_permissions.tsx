@@ -3,8 +3,6 @@
 
 import React from 'react';
 
-import {FormattedMessage} from 'react-intl';
-
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 import {Role} from '@mattermost/types/roles';
 
@@ -199,34 +197,11 @@ export default class SystemRolePermissions extends React.PureComponent<Props, St
         };
 
         if (this.props.role.name === Constants.PERMISSIONS_SYSTEM_CUSTOM_GROUP_ADMIN) {
-            const {permissions} = this.props.role;
-            const permissionsList = permissions.length === 0 ? (
-                <FormattedMessage
-                    id='admin.permissions.roles.system_custom_group_admin.no_permissions_text'
-                    defaultMessage='No permissions'
-                />
-            ) : (
-                <ul className='SystemRolePermissionsList'>
-                    {permissions.map((permission) => {
-                        return (
-                            <li key={permission}>
-                                <strong><FormattedMessage id={`admin.permissions.permission.${permission}.name`}/></strong>
-                                <br/>
-                                <FormattedMessage id={`admin.permissions.permission.${permission}.description`}/>
-                            </li>
-                        );
-                    })}
-                </ul>
-            );
-
             return (
-                <>
-                    <FormattedMarkdownMessage
-                        id='admin.permissions.roles.system_custom_group_admin.detail_text'
-                        defaultMessage="The built-in Custom Group Manager role can be used to delegate the administration of [Custom Groups](https://docs.mattermost.com/welcome/manage-custom-groups.html) to users other than the System Admin.\n \nDon't forget to deauthorize all other system users from administering Custom Groups by unchecking the associated permissions checkbox in System console > User Management > Permissions.\n \nThis role has the following permissions:"
-                    />
-                    {permissionsList}
-                </>
+                <FormattedMarkdownMessage
+                    id='admin.permissions.roles.system_custom_group_admin.detail_text'
+                    defaultMessage="The built-in Custom Group Manager role can be used to delegate the administration of [Custom Groups](https://docs.mattermost.com/welcome/manage-custom-groups.html) to users other than the System Admin.\n \nDon't forget to deauthorize all other system users from administering Custom Groups by unchecking the associated permissions checkbox in System console > User Management > Permissions.\n \nThis role has permission to create, edit, and delete custom user groups by selecting **User groups** from the Products menu."
+                />
             );
         }
 
