@@ -9,8 +9,13 @@ import {useSelector, useDispatch} from 'react-redux';
 import {t} from 'utils/i18n';
 
 import AnnouncementBar from '../default_announcement_bar';
-import {AnnouncementBarTypes, Preferences, CloudBanners} from 'utils/constants';
-import {anyUsageDeltaValueIsNegative} from 'utils/limits';
+import {
+    AnnouncementBarTypes,
+    Preferences,
+    CloudBanners,
+    CloudProducts,
+} from 'utils/constants';
+import {anyUsageDeltaExceededLimit} from 'utils/limits';
 import {GlobalState} from 'types/store';
 import useGetUsageDeltas from 'components/common/hooks/useGetUsageDeltas';
 import useGetLimits from 'components/common/hooks/useGetLimits';
@@ -22,6 +27,9 @@ import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {
     getCurrentUser,
 } from 'mattermost-redux/selectors/entities/users';
+import {
+    getSubscriptionProduct,
+} from 'mattermost-redux/selectors/entities/cloud';
 
 const CloudTrialEndAnnouncementBar: React.FC = () => {
     const usageDeltas = useGetUsageDeltas();
@@ -35,11 +43,12 @@ const CloudTrialEndAnnouncementBar: React.FC = () => {
     const currentUser = useSelector((state: GlobalState) =>
         getCurrentUser(state),
     );
+    const subscriptionProduct = useSelector((state: GlobalState) => getSubscriptionProduct(state));
 
     const openPricingModal = useOpenPricingModal();
 
     const shouldShowBanner = () => {
-        if (!subscription) {
+        if (!subscription || !subscriptionProduct) {
             return false;
         }
 
@@ -55,12 +64,17 @@ const CloudTrialEndAnnouncementBar: React.FC = () => {
             return false;
         }
 
+        // Don't show this banner for professional or enterprise installations
+        if (subscriptionProduct?.sku !== CloudProducts.STARTER) {
+            return false;
+        }
+
         const isFreeTrial = subscription.is_free_trial === 'true';
         if (isFreeTrial) {
             return false;
         }
 
-        const trialEnd = new Date(subscription.trial_end_at * 1000);
+        const trialEnd = new Date(subscription.trial_end_at);
         const now = new Date();
 
         // trial_end_at values will be 0 for all freemium subscriptions after June 15
@@ -96,7 +110,8 @@ const CloudTrialEndAnnouncementBar: React.FC = () => {
         defaultMessage:
             'Your trial has ended. Upgrade to regain access to paid features',
     };
-    if (anyUsageDeltaValueIsNegative(usageDeltas)) {
+
+    if (anyUsageDeltaExceededLimit(usageDeltas) || usageDeltas.teams.cloudArchived) {
         message = {id: t('freemium.banner.trial_ended.archived_data'), defaultMessage: 'Your trial has ended. Upgrade to regain access to archived data'};
     }
 

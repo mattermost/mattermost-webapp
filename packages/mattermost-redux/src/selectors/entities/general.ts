@@ -25,9 +25,11 @@ export function getLicense(state: GlobalState): ClientLicense {
     return state.entities.general.license;
 }
 
-export function getCurrentUrl(state: GlobalState): string {
-    return state.entities.general.credentials.url;
-}
+export const isCloudLicense: (state: GlobalState) => boolean = createSelector(
+    'isCloudLicense',
+    getLicense,
+    (license: ClientLicense) => license?.Cloud === 'true',
+);
 
 export function warnMetricsStatus(state: GlobalState): any {
     return state.entities.general.warnMetricsStatus;

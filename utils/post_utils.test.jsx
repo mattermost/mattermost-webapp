@@ -1012,6 +1012,21 @@ describe('PostUtils.splitMessageBasedOnCaretPosition', () => {
     });
 });
 
+describe('PostUtils.splitMessageBasedOnTextSelection', () => {
+    const cases = [
+        [0, 0, 'Test Replace Message', {firstPiece: '', lastPiece: 'Test Replace Message'}],
+        [20, 20, 'Test Replace Message', {firstPiece: 'Test Replace Message', lastPiece: ''}],
+        [0, 20, 'Test Replace Message', {firstPiece: '', lastPiece: ''}],
+        [0, 10, 'Test Replace Message', {firstPiece: '', lastPiece: 'ce Message'}],
+        [5, 12, 'Test Replace Message', {firstPiece: 'Test ', lastPiece: ' Message'}],
+        [7, 20, 'Test Replace Message', {firstPiece: 'Test Re', lastPiece: ''}],
+    ];
+
+    test.each(cases)('should return an object with two strings when given context and message', (start, end, message, expected) => {
+        expect(PostUtils.splitMessageBasedOnTextSelection(start, end, message)).toEqual(expected);
+    });
+});
+
 describe('PostUtils.getPostURL', () => {
     const currentTeam = TestHelper.getTeamMock({id: 'current_team_id', name: 'current_team_name'});
     const team = TestHelper.getTeamMock({id: 'team_id_1', name: 'team_1'});

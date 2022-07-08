@@ -36,11 +36,15 @@ import LoginOpenIDIcon from 'components/widgets/icons/login_openid_icon';
 import Input, {SIZE} from 'components/widgets/inputs/input/input';
 import PasswordInput from 'components/widgets/inputs/password_input/password_input';
 import WomanWithChatsSVG from 'components/common/svg_images_components/woman_with_chats_svg';
+
 import {GlobalState} from 'types/store';
 import Constants from 'utils/constants';
+
 import {showNotification} from 'utils/notifications';
 import {t} from 'utils/i18n';
 import {setCSRFFromCookie} from 'utils/utils';
+
+import {SubmitOptions} from 'components/claim/components/email_to_ldap';
 
 import LoginMfa from './login_mfa';
 
@@ -122,7 +126,6 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
     const enableBaseLogin = enableSignInWithEmail || enableSignInWithUsername || ldapEnabled;
     const enableExternalSignup = enableSignUpWithGitLab || enableSignUpWithOffice365 || enableSignUpWithGoogle || enableSignUpWithOpenId || enableSignUpWithSaml;
     const showSignup = enableOpenServer && (enableExternalSignup || enableSignUpWithEmail || enableLdap);
-    const canSubmit = Boolean(loginId && password) && !hasError && !isWaiting;
 
     const getExternalLoginOptions = () => {
         const externalLoginOptions: ExternalLoginButtonType[] = [];
@@ -305,6 +308,14 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
         return setAlertBanner(mode ? {mode: mode as ModeType, title, onDismiss} : null);
     }, [extraParam, sessionExpired, siteName, onDismissSessionExpired]);
 
+    const onWindowFocus = () => {
+        if (extraParam === Constants.SIGNIN_VERIFIED && emailParam) {
+            passwordInput.current?.focus();
+        } else {
+            loginIdInput.current?.focus();
+        }
+    };
+
     useEffect(() => {
         if (onCustomizeHeader) {
             onCustomizeHeader({
@@ -330,9 +341,9 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
             return;
         }
 
-        if (extraParam === Constants.SIGNIN_VERIFIED && emailParam) {
-            passwordInput.current?.focus();
-        }
+        onWindowFocus();
+
+        window.addEventListener('focus', onWindowFocus);
 
         // Determine if the user was unexpectedly logged out.
         if (LocalStorageStore.getWasLoggedIn()) {
@@ -365,7 +376,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
                 closeSessionExpiredNotification.current = undefined;
             }
         };
-    });
+    }, []);
 
     if (initializing) {
         return (<LoadingScreen/>);
@@ -474,10 +485,10 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
             return;
         }
 
-        submit(loginId, password);
+        submit({loginId, password});
     };
 
-    const submit = async (loginId: string, password: string, token?: string) => {
+    const submit = async ({loginId, password, token}: SubmitOptions) => {
         setIsWaiting(true);
 
         const {error} = await dispatch(login(loginId, password, token));
@@ -609,7 +620,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
     };
 
     const onEnterKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === Constants.KeyCodes.ENTER[0] && canSubmit) {
+        if (e.key === Constants.KeyCodes.ENTER[0]) {
             preSubmit(e);
         }
     };
@@ -739,7 +750,6 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
                                 <SaveButton
                                     extraClasses='login-body-card-form-button-submit large'
                                     saving={isWaiting}
-                                    disabled={!canSubmit}
                                     onClick={preSubmit}
                                     defaultMessage={formatMessage({id: 'login.logIn', defaultMessage: 'Log in'})}
                                     savingMessage={formatMessage({id: 'login.logingIn', defaultMessage: 'Logging in…'})}

@@ -5,55 +5,64 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useSelector} from 'react-redux';
 
-import {getCurrentLocale} from 'selectors/i18n';
 import {GlobalState} from 'types/store';
 
+import {checkSubscriptionIsLegacyFree, getSubscriptionProduct, getCloudSubscription} from 'mattermost-redux/selectors/entities/cloud';
+
+import {getRemainingDaysFromFutureTimestamp} from 'utils/utils';
+import {TrialPeriodDays} from 'utils/constants';
+
 import {
-    seatsAndSubscriptionDates,
-    getPlanPricing,
-    planDetailsTopElements,
+    PlanDetailsTopElements,
     currentPlanText,
-    featureList,
 } from './plan_details';
+import FeatureList from './feature_list';
+import PlanPricing from './plan_pricing';
 
 import './plan_details.scss';
 
-type PlanDetailsProps = {
+type Props = {
     isFreeTrial: boolean;
     subscriptionPlan: string | undefined;
 }
-const PlanDetails = ({isFreeTrial, subscriptionPlan}: PlanDetailsProps) => {
-    const locale = useSelector((state: GlobalState) => getCurrentLocale(state));
+const PlanDetails = ({isFreeTrial, subscriptionPlan}: Props) => {
     const userCount = useSelector((state: GlobalState) => state.entities.admin.analytics!.TOTAL_USERS) as number;
-    const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
-    const product = useSelector((state: GlobalState) => {
-        if (state.entities.cloud.products && subscription) {
-            return state.entities.cloud.products[subscription?.product_id];
-        }
-        return undefined;
-    });
-
-    if (!subscription || !product) {
+    const subscription = useSelector(getCloudSubscription);
+    const product = useSelector(getSubscriptionProduct);
+    const isLegacyFree = useSelector(checkSubscriptionIsLegacyFree);
+    const isLegacyFreePaidTier = Boolean(subscription?.is_legacy_cloud_paid_tier);
+    const daysLeftOnTrial = Math.min(
+        getRemainingDaysFromFutureTimestamp(subscription?.trial_end_at),
+        TrialPeriodDays.TRIAL_30_DAYS,
+    );
+    if (!product) {
         return null;
     }
 
-    const showSeatsAndSubscriptionDates = false;
-    const isPaidTier = Boolean(subscription?.is_paid_tier === 'true');
-
-    const planPricing = getPlanPricing(isPaidTier, product);
-
     return (
         <div className='PlanDetails'>
-            {planDetailsTopElements(userCount, isPaidTier, isFreeTrial, subscriptionPlan)}
-            {planPricing}
-            {showSeatsAndSubscriptionDates && seatsAndSubscriptionDates(locale, userCount, subscription.seats, new Date(subscription.start_at), new Date(subscription.end_at))}
+            <PlanDetailsTopElements
+                userCount={userCount}
+                isLegacyFree={isLegacyFree}
+                isFreeTrial={isFreeTrial}
+                subscriptionPlan={subscriptionPlan}
+                daysLeftOnTrial={daysLeftOnTrial}
+            />
+            <PlanPricing
+                isLegacyFree={isLegacyFree}
+                isLegacyFreePaidTier={isLegacyFreePaidTier}
+                product={product}
+            />
             <div className='PlanDetails__teamAndChannelCount'>
                 <FormattedMessage
-                    id='admin.billing.subscription.planDetails.features.unlimitedTeamsAndChannels'
-                    defaultMessage='Unlimited teams, channels, and search history'
+                    id='admin.billing.subscription.planDetails.subheader'
+                    defaultMessage='Plan details'
                 />
             </div>
-            {featureList(subscriptionPlan, isPaidTier)}
+            <FeatureList
+                subscriptionPlan={subscriptionPlan}
+                isLegacyFree={isLegacyFree}
+            />
             {currentPlanText(isFreeTrial)}
         </div>
     );

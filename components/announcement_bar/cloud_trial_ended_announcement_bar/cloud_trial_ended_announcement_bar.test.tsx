@@ -3,11 +3,11 @@
 
 import React from 'react';
 import * as reactRedux from 'react-redux';
-import configureStore from 'redux-mock-store';
 
 import {FileSizes} from 'utils/file_utils';
 import {CloudProducts, Preferences, CloudBanners} from 'utils/constants';
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import mockStore from 'tests/test_store';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 
 import CloudTrialEndAnnouncementBar from './index';
@@ -36,9 +36,6 @@ describe('components/global/CloudTrialEndAnnouncementBar', () => {
                 },
             },
             general: {
-                config: {
-                    FeatureFlagCloudFree: 'true',
-                } as any,
                 license: {
                     IsLicensed: 'true',
                     Cloud: 'true',
@@ -48,28 +45,6 @@ describe('components/global/CloudTrialEndAnnouncementBar', () => {
                 currentUserId: 'current_user_id',
                 profiles: {
                     current_user_id: {roles: 'system_admin'},
-                },
-            },
-            usage: {
-                integrations: {
-                    enabled: 11,
-                    enabledLoaded: true,
-                },
-                messages: {
-                    history: 10000,
-                    historyLoaded: true,
-                },
-                files: {
-                    totalStorage: 10 * FileSizes.Gigabyte,
-                    totalStorageLoaded: true,
-                },
-                teams: {
-                    active: 1,
-                    teamsLoaded: true,
-                },
-                boards: {
-                    cards: 500,
-                    cardsLoaded: true,
                 },
             },
             cloud: {
@@ -82,6 +57,16 @@ describe('components/global/CloudTrialEndAnnouncementBar', () => {
                     test_prod_1: {
                         id: 'test_prod_1',
                         sku: CloudProducts.STARTER,
+                        price_per_seat: 0,
+                    },
+                    test_prod_2: {
+                        id: 'test_prod_2',
+                        sku: CloudProducts.ENTERPRISE,
+                        price_per_seat: 0,
+                    },
+                    test_prod_3: {
+                        id: 'test_prod_3',
+                        sku: CloudProducts.PROFESSIONAL,
                         price_per_seat: 0,
                     },
                 },
@@ -107,19 +92,41 @@ describe('components/global/CloudTrialEndAnnouncementBar', () => {
                     },
                 },
             },
+            usage: {
+                integrations: {
+                    enabled: 11,
+                    enabledLoaded: true,
+                },
+                messages: {
+                    history: 10000,
+                    historyLoaded: true,
+                },
+                files: {
+                    totalStorage: 10 * FileSizes.Gigabyte,
+                    totalStorageLoaded: true,
+                },
+                teams: {
+                    active: 1,
+                    cloudArchived: 0,
+                    teamsLoaded: true,
+                },
+                boards: {
+                    cards: 500,
+                    cardsLoaded: true,
+                },
+            },
         },
     };
     it('Should show banner when not on free trial with a trial_end_at in the past', () => {
         const state = JSON.parse(JSON.stringify(initialState));
         state.entities.cloud.subscription = {
             ...state.entities.cloud.subscription,
-            trial_end_at: 1655577344,
+            trial_end_at: 1655577344000,
         };
 
         // Set the system time to be June 20th, since this banner won't show for trial's ending prior to June 15
         jest.useFakeTimers().setSystemTime(new Date('2022-06-20'));
 
-        const mockStore = configureStore();
         const store = mockStore(state);
 
         const dummyDispatch = jest.fn();
@@ -134,6 +141,35 @@ describe('components/global/CloudTrialEndAnnouncementBar', () => {
         expect(
             wrapper.find('AnnouncementBar').exists(),
         ).toEqual(true);
+    });
+
+    it('Should show banner cloudArchived teams exist', () => {
+        const state = JSON.parse(JSON.stringify(initialState));
+        state.entities.cloud.subscription = {
+            ...state.entities.cloud.subscription,
+            trial_end_at: 1655577344000,
+        };
+        state.entities.usage.teams = {
+            cloudArchived: 2,
+            active: -1,
+            teamsLoaded: true,
+        };
+
+        // Set the system time to be June 20th, since this banner won't show for trial's ending prior to June 15
+        jest.useFakeTimers().setSystemTime(new Date('2022-06-20'));
+
+        const store = mockStore(state);
+
+        const dummyDispatch = jest.fn();
+        useDispatchMock.mockReturnValue(dummyDispatch);
+
+        const wrapper = mountWithIntl(
+            <reactRedux.Provider store={store}>
+                <CloudTrialEndAnnouncementBar/>
+            </reactRedux.Provider>,
+        );
+
+        expect(wrapper.find('AnnouncementBar').exists()).toEqual(true);
     });
 
     it('should not show banner if on free trial', () => {
@@ -198,7 +234,6 @@ describe('components/global/CloudTrialEndAnnouncementBar', () => {
             },
         };
 
-        const mockStore = configureStore();
         const store = mockStore(state);
 
         const dummyDispatch = jest.fn();
@@ -224,7 +259,6 @@ describe('components/global/CloudTrialEndAnnouncementBar', () => {
             },
         };
 
-        const mockStore = configureStore();
         const store = mockStore(state);
         const wrapper = mountWithIntl(
             <reactRedux.Provider store={store}>
@@ -235,6 +269,34 @@ describe('components/global/CloudTrialEndAnnouncementBar', () => {
         expect(
             wrapper.find('AnnouncementBar').exists(),
         ).toEqual(false);
+    });
+
+    it('should not show for enterprise workspaces', () => {
+        const state = JSON.parse(JSON.stringify(initialState));
+        state.entities.cloud.subscription.product_id = 'test_prod_2';
+
+        const store = mockStore(state);
+        const wrapper = mountWithIntl(
+            <reactRedux.Provider store={store}>
+                <CloudTrialEndAnnouncementBar/>
+            </reactRedux.Provider>,
+        );
+
+        expect(wrapper.find('AnnouncementBar').exists()).toEqual(false);
+    });
+
+    it('should not show for professional workspaces', () => {
+        const state = JSON.parse(JSON.stringify(initialState));
+        state.entities.cloud.subscription.product_id = 'test_prod_3';
+
+        const store = mockStore(state);
+        const wrapper = mountWithIntl(
+            <reactRedux.Provider store={store}>
+                <CloudTrialEndAnnouncementBar/>
+            </reactRedux.Provider>,
+        );
+
+        expect(wrapper.find('AnnouncementBar').exists()).toEqual(false);
     });
 
     it('Should not show banner if preference is set to hidden', () => {
@@ -248,7 +310,6 @@ describe('components/global/CloudTrialEndAnnouncementBar', () => {
             },
         };
 
-        const mockStore = configureStore();
         const store = mockStore(state);
         const wrapper = mountWithIntl(
             <reactRedux.Provider store={store}>

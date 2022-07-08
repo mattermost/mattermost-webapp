@@ -6,11 +6,10 @@ import React from 'react';
 import {screen} from '@testing-library/react';
 
 import * as redux from 'react-redux';
-import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
 import {Provider} from 'react-redux';
 
 import {renderWithIntl} from 'tests/react_testing_utils';
+import mockStore from 'tests/test_store';
 import {FileSizes} from 'utils/file_utils';
 
 import {GlobalState} from '@mattermost/types/store';
@@ -32,6 +31,7 @@ const freeLimits = {
     },
     teams: {
         active: 1,
+        teamsLimits: true,
     },
     boards: {
         cards: 500,
@@ -40,7 +40,6 @@ const freeLimits = {
 };
 
 function setupStore(hasLimits: boolean) {
-    const mockStore = configureStore([thunk]);
     const state = {
         entities: {
             cloud: {
@@ -67,11 +66,11 @@ function setupStore(hasLimits: boolean) {
                     enabled: 0,
                     enabledLoaded: true,
                 },
-            },
-            general: {
-                config: {
-                    FeatureFlagCloudFree: hasLimits ? 'true' : 'false',
-                } as GlobalState['entities']['general']['config'],
+                teams: {
+                    active: 0,
+                    cloudArchived: 0,
+                    teamsLoaded: true,
+                },
             },
             admin: {
                 analytics: {
@@ -85,6 +84,16 @@ function setupStore(hasLimits: boolean) {
                 myPreferences: {
                 },
             },
+            general: {
+                license: {},
+                config: {},
+            },
+            users: {
+                currentUserId: 'uid',
+                profiles: {
+                    uid: {},
+                },
+            } as unknown as GlobalState['entities']['users'],
         },
     } as GlobalState;
     const store = mockStore(state);
@@ -102,7 +111,7 @@ describe('CloudUsageModal', () => {
         props = {
             title: '',
             onClose: jest.fn(),
-            needsTheme: true,
+            needsTheme: false,
         };
     });
 

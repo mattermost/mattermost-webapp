@@ -15,7 +15,6 @@ import {
     makeGetChannelsByCategory,
     makeGetChannelIdsForCategory,
 } from 'mattermost-redux/selectors/entities/channel_categories';
-import {getLastPostPerChannel} from 'mattermost-redux/selectors/entities/posts';
 import {shouldShowUnreadsCategory, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {Channel} from '@mattermost/types/channels';
@@ -113,16 +112,19 @@ export const getUnreadChannels = (() => {
         getCurrentChannelId,
         isUnreadFilterEnabled,
         (allChannels, unreadChannelIds, currentChannelId, unreadFilterEnabled) => {
-            const unreadChannels = [];
+            const unreadChannels: Channel[] = [];
+
             for (const channelId of unreadChannelIds) {
                 const channel = allChannels[channelId];
 
-                // Only include an archived channel if it's the current channel
-                if (channel.delete_at > 0 && channel.id !== currentChannelId) {
-                    continue;
-                }
+                if (channel) {
+                    // Only include an archived channel if it's the current channel
+                    if (channel.delete_at > 0 && channel.id !== currentChannelId) {
+                        continue;
+                    }
 
-                unreadChannels.push(channel);
+                    unreadChannels.push(channel);
+                }
             }
 
             // This selector is used for both the unread filter and the unreads category which treat the current
@@ -131,7 +133,9 @@ export const getUnreadChannels = (() => {
                 // The current channel is already in unreadChannels if it was previously unread but we need to add it
                 // if it wasn't previously unread
                 if (currentChannelId && unreadChannels.findIndex((channel) => channel.id === currentChannelId) === -1) {
-                    unreadChannels.push(allChannels[currentChannelId]);
+                    if (allChannels[currentChannelId]) {
+                        unreadChannels.push(allChannels[currentChannelId]);
+                    }
                 }
             }
 
@@ -141,13 +145,12 @@ export const getUnreadChannels = (() => {
 
     const sortChannels = createSelector(
         'sortChannels',
-        (state: GlobalState, channels: Channel[]) => channels,
+        (_: GlobalState, channels: Channel[]) => channels,
         getMyChannelMemberships,
-        getLastPostPerChannel,
         (state: GlobalState) => state.views.channel.lastUnreadChannel,
         isCollapsedThreadsEnabled,
-        (channels, myMembers, lastPosts, lastUnreadChannel, crtEnabled) => {
-            return sortUnreadChannels(channels, myMembers, lastPosts, lastUnreadChannel, crtEnabled);
+        (channels, myMembers, lastUnreadChannel, crtEnabled) => {
+            return sortUnreadChannels(channels, myMembers, lastUnreadChannel, crtEnabled);
         },
     );
 

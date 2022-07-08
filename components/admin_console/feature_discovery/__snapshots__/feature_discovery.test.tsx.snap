@@ -95,7 +95,7 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot whe
     </div>
     <CloudStartTrialButton
       extraClass="btn btn-primary"
-      message="Start trial"
+      message="Try free for 30 days"
       telemetryId="start_cloud_trial_feature_discovery"
     />
     <a
@@ -113,9 +113,17 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot whe
     <p
       className="trial-legal-terms"
     >
-      <injectIntl(FormattedMarkdownMessage)
-        defaultMessage="By clicking **Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails."
-        id="admin.license.trial-request.accept-terms"
+      <MemoizedFormattedMessage
+        defaultMessage="By selecting <highlight>Try free for {trialLength} days</highlight>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails."
+        id="admin.license.trial-request.accept-terms.cloudFree"
+        values={
+          Object {
+            "highlight": [Function],
+            "linkEvaluation": [Function],
+            "linkPrivacy": [Function],
+            "trialLength": 30,
+          }
+        }
       />
     </p>
   </div>
@@ -125,4 +133,10 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot whe
     <SamlSVG />
   </div>
 </div>
+`;
+
+exports[`components/feature_discovery FeatureDiscovery should match snapshot when is cloud environment and subscription is not loaded yet in redux store 1`] = `
+<LoadingSpinner
+  text={null}
+/>
 `;

@@ -573,6 +573,12 @@ export function splitMessageBasedOnCaretPosition(caretPosition: number, message:
     return {firstPiece, lastPiece};
 }
 
+export function splitMessageBasedOnTextSelection(selectionStart: number, selectionEnd: number, message: string): {firstPiece: string; lastPiece: string} {
+    const firstPiece = message.substring(0, selectionStart);
+    const lastPiece = message.substring(selectionEnd, message.length);
+    return {firstPiece, lastPiece};
+}
+
 export function getNewMessageIndex(postListIds: string[]): number {
     return postListIds.findIndex(
         (item) => item.indexOf(PostListRowListIds.START_OF_NEW_MESSAGES) === 0,

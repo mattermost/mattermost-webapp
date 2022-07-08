@@ -1,7 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import * as TIMEOUTS from '../../../fixtures/timeouts';
+
 export function addNewCommand(team, trigger, url) {
+    // # Open slash command page
+    cy.visit(`/${team.name}/integrations/commands/installed`);
+
     // # Add new command
     cy.get('#addSlashCommand').click();
 
@@ -26,5 +31,23 @@ export function addNewCommand(team, trigger, url) {
 
         // * Verify token was created
         cy.findByText('Token').should('exist').and('be.visible');
+    });
+}
+
+/**
+ * @param {*} linkToVisit : Channel / Group message / DM link to visit
+ * @param {*} trigger : Slash command trigger
+ */
+export function runSlashCommand(linkToVisit, trigger) {
+    // # Go back to home channel
+    cy.visit(linkToVisit);
+
+    // # Run slash command
+    cy.uiGetPostTextBox().clear().type(`/${trigger}{enter}{enter}`);
+    cy.wait(TIMEOUTS.TWO_SEC);
+
+    // # Get last post message text
+    cy.getLastPostId().then((postId) => {
+        cy.get(`#post_${postId}`).get('.Badge').contains('BOT');
     });
 }

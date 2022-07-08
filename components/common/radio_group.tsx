@@ -9,12 +9,13 @@ type RadioGroupProps = {
     id: string;
     values: Array<{ key: React.ReactNode | React.ReactNodeArray; value: string; testId?: string}>;
     value: string;
-    badge?: {matchVal: string; text: ReactNode};
+    badge?: {matchVal: string; badgeContent: ReactNode; extraClass?: string} | undefined | null;
     sideLegend?: {matchVal: string; text: ReactNode};
-    isDisabled?: (id: string) => boolean | boolean;
+    isDisabled?: null | ((id: string) => boolean);
     onChange(e: React.ChangeEvent<HTMLInputElement>): void;
+    testId?: string;
 }
-const RadioButtonGroup: React.FC<RadioGroupProps> = ({
+const RadioButtonGroup = ({
     id,
     onChange,
     isDisabled,
@@ -22,6 +23,7 @@ const RadioButtonGroup: React.FC<RadioGroupProps> = ({
     value,
     badge,
     sideLegend,
+    testId,
 }: RadioGroupProps) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         onChange(e);
@@ -57,8 +59,8 @@ const RadioButtonGroup: React.FC<RadioGroupProps> = ({
                     }
                 </label>
                 {(badge && val === badge?.matchVal) &&
-                    <Badge className='radio-badge'>
-                        {badge.text}
+                    <Badge className={`radio-badge ${badge.extraClass ?? ''}`}>
+                        {badge.badgeContent}
                     </Badge>
                 }
             </div>,
@@ -66,7 +68,10 @@ const RadioButtonGroup: React.FC<RadioGroupProps> = ({
     }
 
     return (
-        <div className='radio-list'>
+        <div
+            className='radio-list'
+            data-testid={testId || ''}
+        >
             {options}
         </div>
     );

@@ -56,17 +56,17 @@ describe('Verify Quick Navigation support across different regions in the app', 
 
     it('MM-T1460_1 Verify Navigation Support in Post List & Post Input', () => {
         // # Shift focus to the last post
-        cy.get('#fileUploadButton').focus().tab({shift: true}).tab({shift: true});
+        cy.get('#toggleFormattingBarButton').focus().tab({shift: true}).tab({shift: true});
         cy.get('body').type('{uparrow}{downarrow}');
 
         // * Verify post region reads out correctly
         verifyNavSupport('#virtualizedPostListContent > div', 'message list main region', '1');
 
         // # Shift focus to the post input
-        cy.get('#fileUploadButton').focus().tab({shift: true});
+        cy.get('#toggleFormattingBarButton').focus().tab({shift: true});
 
         // * Verify post input region reads out correctly
-        verifyNavSupport('#centerChannelFooter', 'message input complimentary region', '2');
+        verifyNavSupport('#advancedTextEditorCell', 'message input complimentary region', '2');
     });
 
     it('MM-T1460_3 Verify Navigation Support in RHS Post List & RHS Post Input', () => {
@@ -78,22 +78,22 @@ describe('Verify Quick Navigation support across different regions in the app', 
         });
 
         // * Verify post message in RHS
-        cy.get('#rhsContainer').within(() => {
+        cy.uiGetRHS().within(() => {
             // # Shift the focus to the last post
-            cy.get('#fileUploadButton').focus().tab({shift: true}).tab({shift: true}).type('{uparrow}');
+            cy.get('#toggleFormattingBarButton').focus().tab({shift: true}).tab({shift: true}).type('{uparrow}');
 
             // * Verify post region on RHS reads out correctly
             verifyNavSupport('.post-right__content', 'message details complimentary region', '3');
 
             // # Shift the focus to the RHS input
-            cy.get('#fileUploadButton').focus().tab({shift: true});
+            cy.get('#toggleFormattingBarButton').focus().tab({shift: true});
 
             // * Verify post input on RHS reads out correctly
-            cy.get('.post-create').
-                should('have.attr', 'aria-label', 'reply input region').
-                and('have.attr', 'data-a11y-sort-order', '4').
+            cy.get('#advancedTextEditorCell').
+                should('have.attr', 'aria-label', 'message input complimentary region').
+                and('have.attr', 'data-a11y-sort-order', '2').
                 and('have.class', 'a11y__region');
-            cy.get('#reply_textbox').
+            cy.uiGetReplyTextBox().
                 should('have.class', 'a11y--active a11y--focused');
         });
     });

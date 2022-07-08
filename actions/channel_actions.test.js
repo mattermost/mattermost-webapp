@@ -1,13 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import thunk from 'redux-thunk';
-import configureStore from 'redux-mock-store';
-
 import * as Actions from 'actions/channel_actions';
 import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
 
-const mockStore = configureStore([thunk]);
+import mockStore from 'tests/test_store';
 
 const initialState = {
     entities: {

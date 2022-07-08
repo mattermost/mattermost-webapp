@@ -6,22 +6,30 @@ import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 
-import {GlobalState} from 'types/store';
-
 import {trackEvent} from 'actions/telemetry_actions';
 import {CloudLinks, CloudProducts, ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
+import {fallbackStarterLimits, fallbackProfessionalLimits, asGBString} from 'utils/limits';
 import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
 import {closeModal, openModal} from 'actions/views/modals';
+import {subscribeCloudSubscription} from 'actions/cloud';
 import {
     getCloudSubscription as selectCloudSubscription,
     getSubscriptionProduct as selectSubscriptionProduct,
     getCloudProducts as selectCloudProducts} from 'mattermost-redux/selectors/entities/cloud';
-
+import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
+import useGetUsage from 'components/common/hooks/useGetUsage';
+import SuccessModal from 'components/cloud_subscribe_result_modal/success';
+import ErrorModal from 'components/cloud_subscribe_result_modal/error';
 import PurchaseModal from 'components/purchase_modal';
 import {makeAsyncComponent} from 'components/async_load';
 import StarMarkSvg from 'components/widgets/icons/star_mark_icon';
 import CheckMarkSvg from 'components/widgets/icons/check_mark_icon';
 import PlanLabel from 'components/common/plan_label';
+
+import DowngradeTeamRemovalModal from './downgrade_team_removal_modal';
+import ContactSalesCTA from './contact_sales_cta';
+import NotifyAdminCTA from './notify_admin_cta';
+import StarterDisclaimerCTA from './starter_disclaimer_cta';
 
 const LearnMoreTrialModal = makeAsyncComponent('LearnMoreTrialModal', React.lazy(() => import('components/learn_more_trial_modal/learn_more_trial_modal')));
 
@@ -39,6 +47,7 @@ enum ButtonCustomiserClasses {
     grayed = 'grayed',
     active = 'active',
     special = 'special',
+    secondary = 'secondary',
 }
 
 type ButtonDetails = {
@@ -56,7 +65,7 @@ type CardProps = {
     rate?: string;
     briefing: PlanBriefing;
     extraBriefing: PlanBriefing;
-    planDisclaimer?: string;
+    planExtraInformation?: JSX.Element;
     buttonDetails: ButtonDetails;
     planLabel?: JSX.Element;
 }
@@ -92,41 +101,43 @@ function Card(props: CardProps) {
                     <p>{props.rate}</p>
                 </div>
                 <div className='plan_briefing'>
-                    <span>{props.briefing.title}</span>
-                    {props.briefing.items.map((i) => {
-                        return (
-                            <div
-                                className='item'
-                                key={i}
-                            >
-                                <i className='fa fa-circle bullet'/><p>{i}</p>
-                            </div>
-                        );
-                    })}
-                    {props.planDisclaimer && (
-                        <p className='disclaimer'><i className='icon-alert-outline'/>{props.planDisclaimer}</p>
-                    )}
+                    <div>
+                        <span className='title'>{props.briefing.title}</span>
+                        {props.briefing.items.map((i) => {
+                            return (
+                                <div
+                                    className='item'
+                                    key={i}
+                                >
+                                    <i className='fa fa-circle bullet'/><p>{i}</p>
+                                </div>
+                            );
+                        })}
+                    </div>
+                    {props.planExtraInformation && props.planExtraInformation}
                 </div>
                 <div>
                     <button
                         id={props.id + '_action'}
-                        className={'plan_action_btn ' + props.buttonDetails.customClass}
+                        className={`plan_action_btn ${props.buttonDetails.disabled ? ButtonCustomiserClasses.grayed : props.buttonDetails.customClass}`}
                         disabled={props.buttonDetails.disabled}
                         onClick={props.buttonDetails.action}
                     >{props.buttonDetails.text}</button>
                 </div>
                 <div className='plan_extra_briefing'>
-                    <span>{props.extraBriefing.title}</span>
-                    {props.extraBriefing.items.map((i) => {
-                        return (
-                            <div
-                                className='item'
-                                key={i}
-                            >
-                                <i className='fa fa-circle bullet'/><p>{i}</p>
-                            </div>
-                        );
-                    })}
+                    <div>
+                        <span className='title'>{props.extraBriefing.title}</span>
+                        {props.extraBriefing.items.map((i) => {
+                            return (
+                                <div
+                                    className='item'
+                                    key={i}
+                                >
+                                    <i className='fa fa-circle bullet'/><p>{i}</p>
+                                </div>
+                            );
+                        })}
+                    </div>
                 </div>
             </div>
         </div>
@@ -134,10 +145,12 @@ function Card(props: CardProps) {
 }
 
 function Content(props: ContentProps) {
-    const {formatMessage} = useIntl();
+    const {formatMessage, formatNumber} = useIntl();
     const dispatch = useDispatch();
+    const usage = useGetUsage();
 
-    const contactSalesLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales));
+    const isAdmin = useSelector(isCurrentUserSystemAdmin);
+    const contactSalesLink = useSelector(getCloudContactUsLink)(InquiryType.Sales);
 
     const subscription = useSelector(selectCloudSubscription);
     const product = useSelector(selectSubscriptionProduct);
@@ -148,6 +161,9 @@ function Content(props: ContentProps) {
     const professionalProduct = Object.values(products || {}).find(((product) => {
         return product.sku === CloudProducts.PROFESSIONAL;
     }));
+    const starterProduct = Object.values(products || {}).find(((product) => {
+        return product.sku === CloudProducts.STARTER;
+    }));
 
     const isStarter = product?.sku === CloudProducts.STARTER;
 
@@ -157,7 +173,7 @@ function Content(props: ContentProps) {
     }
 
     const openPurchaseModal = () => {
-        trackEvent('cloud_admin', 'click_open_purchase_modal');
+        trackEvent('cloud_pricing', 'click_upgrade_button');
         props.onHide();
         dispatch(openModal({
             modalId: ModalIdentifiers.CLOUD_PURCHASE,
@@ -166,16 +182,41 @@ function Content(props: ContentProps) {
     };
 
     const openLearnMoreTrialModal = () => {
-        trackEvent(
-            TELEMETRY_CATEGORIES.SELF_HOSTED_START_TRIAL_MODAL,
-            'open_learn_more_trial_modal',
-        );
+        trackEvent('cloud_pricing', 'click_try_free_for_30_days');
         props.onHide();
         dispatch(closeModal(ModalIdentifiers.CLOUD_PURCHASE)); // close the purchase modal if it's open
         dispatch(openModal({
             modalId: ModalIdentifiers.LEARN_MORE_TRIAL_MODAL,
             dialogType: LearnMoreTrialModal,
         }));
+    };
+
+    const downgrade = async () => {
+        if (!starterProduct) {
+            return;
+        }
+
+        const result = await dispatch(subscribeCloudSubscription(starterProduct?.id));
+
+        if (typeof result === 'boolean' && result) {
+            dispatch(closeModal(ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM));
+            dispatch(
+                openModal({
+                    modalId: ModalIdentifiers.SUCCESS_MODAL,
+                    dialogType: SuccessModal,
+                }),
+            );
+        } else {
+            dispatch(
+                openModal({
+                    modalId: ModalIdentifiers.ERROR_MODAL,
+                    dialogType: ErrorModal,
+                }),
+            );
+            return;
+        }
+
+        props.onHide();
     };
 
     return (
@@ -225,30 +266,48 @@ function Content(props: ContentProps) {
                         briefing={{
                             title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),
                             items: [
-                                formatMessage({id: 'pricing_modal.briefing.starter.recentMessageBoards', defaultMessage: 'Access to {messages} most recent messages, {boards} most recent board'}, {messages: '10,000', boards: '500'}),
-                                formatMessage({id: 'pricing_modal.briefing.storage', defaultMessage: '{storage}GB file storage limit'}, {storage: '10'}),
+                                formatMessage({id: 'pricing_modal.briefing.starter.recentMessageBoards', defaultMessage: 'Access to {messages} most recent messages, {boards} most recent board cards'}, {messages: formatNumber(fallbackStarterLimits.messages.history), boards: fallbackStarterLimits.boards.cards}),
+                                formatMessage({id: 'pricing_modal.briefing.storage', defaultMessage: '{storage} file storage limit'}, {storage: asGBString(fallbackStarterLimits.files.totalStorage, formatNumber)}),
                                 formatMessage({id: 'pricing_modal.briefing.starter.oneTeamPerWorkspace', defaultMessage: 'One team per workspace'}),
-                                formatMessage({id: 'pricing_modal.briefing.starter.integrations', defaultMessage: '{integrations} integrations with other apps like GitHub, Jira and Jenkins'}, {integrations: '5'}),
+                                formatMessage({id: 'pricing_modal.briefing.starter.integrations', defaultMessage: '{integrations} integrations with other apps like GitHub, Jira and Jenkins'}, {integrations: fallbackStarterLimits.integrations.enabled}),
                             ],
                         }}
                         extraBriefing={{
                             title: formatMessage({id: 'pricing_modal.extra_briefing.title', defaultMessage: 'More features'}),
                             items: [
-                                formatMessage({id: 'pricing_modal.extra_briefing.starter.calls', defaultMessage: '1:1 audio calls and screen share'}),
+                                formatMessage({id: 'pricing_modal.extra_briefing.starter.calls', defaultMessage: '1:1 voice calls and screen share'}),
                             ],
                         }}
+                        planExtraInformation={<StarterDisclaimerCTA/>}
                         buttonDetails={{
-                            action: () => {}, // noop until we support downgrade
-                            text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
-                            disabled: true, // disabled until we have functionality to downgrade
-                            customClass: ButtonCustomiserClasses.grayed,
+                            action: () => {
+                                if (!starterProduct) {
+                                    return;
+                                }
+                                if (usage.teams.active > 1) {
+                                    dispatch(
+                                        openModal({
+                                            modalId: ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM,
+                                            dialogType: DowngradeTeamRemovalModal,
+                                            dialogProps: {
+                                                product_id: starterProduct?.id,
+                                                starterProductName: starterProduct?.name,
+                                            },
+                                        }),
+                                    );
+                                } else {
+                                    downgrade();
+                                }
+                            },
+                            text: formatMessage({id: 'pricing_modal.btn.downgrade', defaultMessage: 'Downgrade'}),
+                            disabled: isStarter,
+                            customClass: ButtonCustomiserClasses.secondary,
                         }}
-                        planDisclaimer={formatMessage({id: 'pricing_modal.planDisclaimer.starter', defaultMessage: 'This plan has data restrictions.'})}
                         planLabel={
                             isStarter ? (
                                 <PlanLabel
                                     text={formatMessage({id: 'pricing_modal.planLabel.currentPlan', defaultMessage: 'CURRENT PLAN'})}
-                                    color='#3DB887'
+                                    color='var(--denim-status-online)'
                                     bgColor='var(--center-channel-bg)'
                                     firstSvg={<CheckMarkSvg/>}
                                 />) : undefined}
@@ -263,7 +322,7 @@ function Content(props: ContentProps) {
                             title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),
                             items: [
                                 formatMessage({id: 'pricing_modal.briefing.professional.messageBoardsIntegrationsCalls', defaultMessage: 'Unlimited access to messages and boards history, teams, integrations and calls'}),
-                                formatMessage({id: 'pricing_modal.briefing.storage', defaultMessage: '{storage}GB file storage limit'}, {storage: '250'}),
+                                formatMessage({id: 'pricing_modal.briefing.storage', defaultMessage: '{storage} file storage limit'}, {storage: asGBString(fallbackProfessionalLimits.files.totalStorage, formatNumber)}),
                                 formatMessage({id: 'pricing_modal.briefing.professional.advancedPlaybook', defaultMessage: 'Advanced Playbook workflows with retrospectives'}),
                                 formatMessage({id: 'pricing_modal.extra_briefing.professional.ssoSaml', defaultMessage: 'SSO with SAML 2.0, including Okta, OneLogin and ADFS'}),
                             ],
@@ -275,16 +334,18 @@ function Content(props: ContentProps) {
                                 formatMessage({id: 'pricing_modal.extra_briefing.professional.guestAccess', defaultMessage: 'Guest access with MFA enforcement'}),
                             ],
                         }}
+                        planExtraInformation={(!isAdmin && (isEnterpriseTrial || isStarter)) ? <NotifyAdminCTA/> : undefined}
                         buttonDetails={{
                             action: openPurchaseModal,
                             text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
+                            disabled: !isAdmin,
                             customClass: isPostTrial ? ButtonCustomiserClasses.special : ButtonCustomiserClasses.active,
                         }}
                         planLabel={
                             <PlanLabel
                                 text={formatMessage({id: 'pricing_modal.planLabel.mostPopular', defaultMessage: 'MOST POPULAR'})}
                                 bgColor='var(--title-color-indigo-500)'
-                                color='var(--center-channel-bg)'
+                                color='var(--button-color)'
                                 firstSvg={<StarMarkSvg/>}
                                 secondSvg={<StarMarkSvg/>}
                             />}
@@ -310,8 +371,10 @@ function Content(props: ContentProps) {
                                 formatMessage({id: 'pricing_modal.extra_briefing.enterprise.playBookAnalytics', defaultMessage: 'Playbook analytics dashboard'}),
                             ],
                         }}
-                        buttonDetails={isPostTrial ? {
+                        planExtraInformation={(isPostTrial || !isAdmin) ? undefined : <ContactSalesCTA/>}
+                        buttonDetails={(isPostTrial || !isAdmin) ? {
                             action: () => {
+                                trackEvent('cloud_pricing', 'click_enterprise_contact_sales');
                                 window.open(contactSalesLink, '_blank');
                             },
                             text: formatMessage({id: 'pricing_modal.btn.contactSales', defaultMessage: 'Contact Sales'}),

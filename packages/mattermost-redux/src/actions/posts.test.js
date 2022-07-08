@@ -404,6 +404,68 @@ describe('Actions.Posts', () => {
         assert.ok(posts[post.id]);
     });
 
+    it('getPostsUnread should load recent posts when unreadScrollPosition is startFromNewest and unread posts are not the latestPosts', async () => {
+        const mockStore = configureStore({
+            entities: {
+                general: {
+                    config: {
+                        FeatureFlagCollapsedThreads: 'true',
+                        CollapsedThreads: 'always_on',
+                    },
+                },
+                preferences: {
+                    myPreferences: {
+                        'advanced_settings--unread_scroll_position': {
+                            category: 'advanced_settings',
+                            name: 'unread_scroll_position',
+                            value: Preferences.UNREAD_SCROLL_POSITION_START_FROM_NEWEST,
+                        },
+                    },
+                },
+            },
+        });
+
+        const {dispatch, getState} = mockStore;
+
+        const userId = getState().entities.users.currentUserId;
+        const channelId = TestHelper.basicChannel.id;
+        const post = TestHelper.fakePostWithId(channelId);
+        const recentPost = TestHelper.fakePostWithId(channelId);
+
+        const response = {
+            posts: {
+                [post.id]: post,
+            },
+            order: [post.id],
+            next_post_id: recentPost.id,
+            prev_post_id: '',
+        };
+
+        const responseWithRecentPosts = {
+            posts: {
+                [recentPost.id]: recentPost,
+            },
+            order: [recentPost.id],
+            next_post_id: '',
+            prev_post_id: '',
+        };
+
+        nock(Client4.getUsersRoute()).
+            get(`/${userId}/channels/${channelId}/posts/unread`).
+            query(true).
+            reply(200, response);
+
+        nock(Client4.getChannelsRoute()).
+            get(`/${channelId}/posts`).
+            query(true).
+            reply(200, responseWithRecentPosts);
+
+        await Actions.getPostsUnread(channelId)(dispatch, getState);
+        const {posts} = getState().entities.posts;
+
+        assert.ok(posts[recentPost.id]);
+    });
+
     it('getPostThread', async () => {
         const channelId = TestHelper.basicChannel.id;
         const post = {id: TestHelper.generateId(), channel_id: channelId, message: ''};

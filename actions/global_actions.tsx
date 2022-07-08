@@ -9,11 +9,11 @@ import {
     getChannelStats,
     selectChannel,
 } from 'mattermost-redux/actions/channels';
-import {logout, loadMe} from 'mattermost-redux/actions/users';
+import {logout, loadMe, loadMeREST} from 'mattermost-redux/actions/users';
 import {Preferences} from 'mattermost-redux/constants';
 import {getConfig, isPerformanceDebuggingEnabled} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId, getMyTeams, getTeam, getMyTeamMember, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
-import {getBool, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getBool, isCollapsedThreadsEnabled, isGraphQLEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentChannelStats, getCurrentChannelId, getMyChannelMember, getRedirectChannelNameForTeam, getChannelsNameMapInTeam, getAllDirectChannels, getChannelMessageCount} from 'mattermost-redux/selectors/entities/channels';
 import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
@@ -42,7 +42,7 @@ import WebSocketClient from 'client/web_websocket_client.jsx';
 
 import {GlobalState} from 'types/store';
 
-import {ActionTypes, PostTypes, RHSStates, ModalIdentifiers} from 'utils/constants';
+import {ActionTypes, PostTypes, RHSStates, ModalIdentifiers, PreviousViewedTypes} from 'utils/constants';
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils';
 import * as Utils from 'utils/utils';
 import SubMenuModal from '../components/widgets/menu/menu_modals/submenu_modal/submenu_modal';
@@ -63,12 +63,19 @@ export function emitChannelClickEvent(channel: Channel) {
         const member = getMyChannelMember(state, chan.id);
         const currentChannelId = getCurrentChannelId(state);
         const previousRhsState = getPreviousRhsState(state);
+
         dispatch(getChannelStats(chan.id));
 
         const penultimate = LocalStorageStore.getPreviousChannelName(userId, teamId);
+        const penultimateType = LocalStorageStore.getPreviousViewedType(userId, teamId);
         if (penultimate !== chan.name) {
             LocalStorageStore.setPenultimateChannelName(userId, teamId, penultimate);
             LocalStorageStore.setPreviousChannelName(userId, teamId, chan.name);
+        }
+
+        if (penultimateType !== PreviousViewedTypes.CHANNELS || penultimate !== chan.name) {
+            LocalStorageStore.setPreviousViewedType(userId, teamId, PreviousViewedTypes.CHANNELS);
+            LocalStorageStore.setPenultimateViewedType(userId, teamId, penultimateType);
         }
 
         // When switching to a different channel if the pinned posts is showing
@@ -327,7 +334,11 @@ export async function redirectUserToDefaultTeam() {
     const shouldLoadUser = Utils.isEmptyObject(getTeamMemberships(state)) || !user;
 
     if (shouldLoadUser) {
-        await dispatch(loadMe());
+        if (isGraphQLEnabled(state)) {
+            await dispatch(loadMe());
+        } else {
+            await dispatch(loadMeREST());
+        }
         state = getState();
         user = getCurrentUser(state);
     }
