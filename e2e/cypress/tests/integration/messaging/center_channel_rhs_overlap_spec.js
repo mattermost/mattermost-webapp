@@ -76,7 +76,7 @@ describe('Messaging', () => {
         cy.uiGetPostTextBox().should('not.be.focused');
 
         // # Post several replies
-        cy.get('#reply_textbox').clear().should('be.visible').as('replyTextBox');
+        cy.uiGetReplyTextBox().clear().should('be.visible').as('replyTextBox');
         for (let i = 1; i <= maxReplyCount; i++) {
             cy.get('@replyTextBox').type(`post ${i}`).type('{enter}');
         }

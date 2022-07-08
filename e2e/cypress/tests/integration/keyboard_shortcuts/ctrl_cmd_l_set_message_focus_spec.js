@@ -27,7 +27,7 @@ describe('Keyboard Shortcuts', () => {
             cy.findByText('Reply').click();
 
             // * Confirm that reply text box has focus
-            cy.get('#reply_textbox').should('be.focused');
+            cy.uiGetReplyTextBox().should('be.focused');
 
             // * Confirm the RHS is shown
             cy.get('#rhsCloseButton').should('exist');

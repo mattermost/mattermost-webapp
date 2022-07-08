@@ -189,7 +189,7 @@ describe('Keyboard Shortcuts', () => {
         cy.uiGetPostTextBox().type('{shift}{uparrow}');
 
         // # Verify that the RHS reply box is focused
-        cy.get('#reply_textbox').should('be.focused');
+        cy.uiGetReplyTextBox().should('be.focused');
 
         // * Verify that the recently posted message is shown in the RHS
         cy.getLastPostId().then((postId) => {

@@ -51,7 +51,7 @@ describe('Archived channels', () => {
             cy.get('#rhsContainer').should('be.visible');
 
             // * RHS text box should be visible
-            cy.get('#reply_textbox').should('be.visible');
+            cy.uiGetReplyTextBox();
 
             // # Archive the channel
             cy.uiArchiveChannel();
@@ -68,7 +68,7 @@ describe('Archived channels', () => {
             cy.get('#rhsContainer').should('be.visible');
 
             // * RHS text box should not be visible
-            cy.get('#reply_textbox').should('not.exist');
+            cy.uiGetReplyTextBox({exist: false});
         });
     });
 
@@ -126,7 +126,7 @@ describe('Archived channels', () => {
                 cy.clickPostCommentIcon(rhsPostId, 'SEARCH');
 
                 // * RHS text box should not be visible
-                cy.get('#reply_textbox').should('not.exist');
+                cy.uiGetReplyTextBox({exist: false});
             });
     });
 });

@@ -59,7 +59,7 @@ describe('Messaging', () => {
         cy.clickPostCommentIcon();
 
         // # Place the focus inside the RHS input box
-        cy.get('#reply_textbox').focus().should('be.focused');
+        cy.uiGetReplyTextBox().focus().should('be.focused');
 
         // # Use CTRL+K or CMD+K to open the channel switcher depending on OS
         cy.typeCmdOrCtrl().type('K', {release: true});
@@ -85,7 +85,7 @@ describe('Messaging', () => {
         cy.clickPostCommentIcon();
 
         // * Verify RHS textbox is focused the first time Reply arrow is clicked
-        cy.get('#reply_textbox').should('be.focused');
+        cy.uiGetReplyTextBox().should('be.focused');
 
         // # Focus away from RHS textbox
         cy.get('#rhsContainer .post-right__content').click();
@@ -94,7 +94,7 @@ describe('Messaging', () => {
         cy.clickPostCommentIcon();
 
         // * Verify RHS textbox is again focused the second time, when already open
-        cy.get('#reply_textbox').should('be.focused');
+        cy.uiGetReplyTextBox().should('be.focused');
     });
 
     it('MM-T203 Focus does not move when it has already been set elsewhere', () => {

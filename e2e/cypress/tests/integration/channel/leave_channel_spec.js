@@ -55,7 +55,7 @@ describe('Leave channel', () => {
             cy.get('#rhsContainer').should('be.visible');
 
             // * RHS text box should be visible
-            cy.get('#reply_textbox').should('be.visible');
+            cy.uiGetReplyTextBox();
 
             // # Archive the channel
             cy.uiLeaveChannel();
@@ -90,7 +90,7 @@ describe('Leave channel', () => {
             cy.get('#rhsContainer').should('be.visible');
 
             // * RHS text box should be visible
-            cy.get('#reply_textbox').should('be.visible');
+            cy.uiGetReplyTextBox();
 
             // * Close tour tip
             cy.get('#tipNextButton').should('be.visible').click();

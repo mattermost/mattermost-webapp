@@ -414,7 +414,7 @@ describe('Keyboard Shortcuts', () => {
         cy.getLastPostId().then((postId) => {
             // # Mouseover the post and click post comment icon.
             cy.clickPostCommentIcon(postId);
-            cy.get('#reply_textbox').focus().should('be.focused');
+            cy.uiGetReplyTextBox().focus().should('be.focused');
         }).then(() => {
             // # Type CTRL/CMD+SHIFT+L
             cy.get('body').cmdOrCtrlShortcut('{shift}L');

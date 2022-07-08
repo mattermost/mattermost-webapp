@@ -14,7 +14,7 @@ export function doReactToLastMessageShortcut(from) {
             clear().
             cmdOrCtrlShortcut('{shift}\\');
     } else if (from === 'RHS') {
-        cy.get('#reply_textbox').
+        cy.uiGetReplyTextBox().
             focus().
             clear().
             cmdOrCtrlShortcut('{shift}\\');

@@ -75,7 +75,7 @@ describe('Invalid slash command', () => {
         });
 
         // # Type a incorrect slash command and press enter in RHS
-        cy.get('#reply_textbox').type(`/${incorrectCommand1} {enter}`);
+        cy.uiGetReplyTextBox().type(`/${incorrectCommand1} {enter}`);
 
         // # Move the text search for error inside the RHS container only, so we are certain it is rendered below RHS textbox
         cy.get('#rhsContainer').within(() => {
@@ -89,14 +89,14 @@ describe('Invalid slash command', () => {
             and('not.have.id', 'post_textbox');
 
         // * Verify hitting backspace in the textbox removes the error message
-        cy.get('#reply_textbox').type('{backspace}');
+        cy.uiGetReplyTextBox().type('{backspace}');
         cy.get('#rhsContainer').within(() => {
             // * Verify error message is not displayed
             verifyNonCommandErrorMessageIsNotDisplayed(incorrectCommand1);
         });
 
         // # Press enter once with incorrect to allow the error message to show
-        cy.get('#reply_textbox').clear().type(`/${incorrectCommand2} {enter}`);
+        cy.uiGetReplyTextBox().clear().type(`/${incorrectCommand2} {enter}`);
 
         // * Check that error message of incorrect command is displayed
         cy.get('#rhsContainer').within(() => {
@@ -104,13 +104,13 @@ describe('Invalid slash command', () => {
         });
 
         // # Lets press enter again to submit it as plain text after error message is shown
-        cy.get('#reply_textbox').type('{enter}');
+        cy.uiGetReplyTextBox().type('{enter}');
 
         // * Verify incorrect command got posted as plain text message via twice enter press
         verifyLastPostedMessageContainsPlainTextOfCommand(incorrectCommand2);
 
         // # Lets add another incorrect command and press enter
-        cy.get('#reply_textbox').clear().type(`/${incorrectCommand3} {enter}`);
+        cy.uiGetReplyTextBox().clear().type(`/${incorrectCommand3} {enter}`);
 
         // * Check that error message of incorrect command is displayed
         cy.get('#rhsContainer').within(() => {

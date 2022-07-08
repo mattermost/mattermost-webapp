@@ -31,7 +31,7 @@ Cypress.Commands.add('uiGetPostHeader', (postId) => {
 
 Cypress.Commands.add('uiGetPostBody', (postId) => {
     return getPost(postId).within(() => {
-        return cy.get('.post__body').should('be.visible');
+        return cy.get('.post__body').scrollIntoView().should('be.visible');
     });
 });
 

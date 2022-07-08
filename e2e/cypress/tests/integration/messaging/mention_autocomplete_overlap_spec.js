@@ -32,9 +32,9 @@ describe('Messaging', () => {
         cy.get('#rhsContainer').should('be.visible');
 
         // # Enter @ to allow opening of autocomplete box
-        cy.get('#reply_textbox', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().type('@');
+        cy.uiGetReplyTextBox().clear().type('@');
 
-        cy.get('#reply_textbox').then((replyTextbox) => {
+        cy.uiGetReplyTextBox().then((replyTextbox) => {
             cy.get('#suggestionList').then((suggestionList) => {
                 // * Verify that the suggestion box opened below the textbox
                 expect(replyTextbox[0].getBoundingClientRect().top).to.be.lessThan(suggestionList[0].getBoundingClientRect().top);
@@ -57,7 +57,7 @@ describe('Messaging', () => {
 
         // # Make a series of post so we are way past the first message in terms of scroll
         Cypress._.times(2, () => {
-            cy.get('#reply_textbox').
+            cy.uiGetReplyTextBox().
                 clear().
                 invoke('val', MESSAGES.HUGE).
                 wait(TIMEOUTS.ONE_SEC).
@@ -65,9 +65,9 @@ describe('Messaging', () => {
         });
 
         // # Enter @ to allow opening of autocomplete box
-        cy.get('#reply_textbox', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().type('@');
+        cy.uiGetReplyTextBox().clear().type('@');
 
-        cy.get('#reply_textbox').then((replyTextbox) => {
+        cy.uiGetReplyTextBox().then((replyTextbox) => {
             cy.get('#suggestionList').then((suggestionList) => {
                 // * Verify that the suggestion box opened above the textbox
                 expect(replyTextbox[0].getBoundingClientRect().top).to.be.greaterThan(suggestionList[0].getBoundingClientRect().top);

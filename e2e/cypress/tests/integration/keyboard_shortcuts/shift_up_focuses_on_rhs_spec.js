@@ -27,7 +27,7 @@ describe('Keyboard Shortcuts', () => {
         cy.get('.sidebar--right__header').should('be.visible');
 
         // * RHS textbox should be focused
-        cy.get('#reply_textbox').should('be.focused');
+        cy.uiGetReplyTextBox().should('be.focused');
 
         // # Click into the post textbox in the center channel
         cy.uiGetPostTextBox().click();
@@ -36,6 +36,6 @@ describe('Keyboard Shortcuts', () => {
         cy.uiGetPostTextBox().type('{shift}{uparrow}');
 
         // * RHS textbox should be focused
-        cy.get('#reply_textbox').should('be.focused');
+        cy.uiGetReplyTextBox().should('be.focused');
     });
 });

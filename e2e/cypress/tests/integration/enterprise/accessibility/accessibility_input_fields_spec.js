@@ -221,7 +221,7 @@ describe('Verify Accessibility Support in different input fields', () => {
 
         cy.get('#rhsContainer').within(() => {
             // * Verify Accessibility Support in RHS input
-            cy.get('#reply_textbox').should('have.attr', 'aria-label', 'reply to this thread...').and('have.attr', 'role', 'textbox').focus().type('test').tab({shift: true}).tab().tab();
+            cy.uiGetReplyTextBox().should('have.attr', 'aria-label', 'reply to this thread...').and('have.attr', 'role', 'textbox').focus().type('test').tab({shift: true}).tab().tab();
 
             // * Verify if the focus is on the preview button
             cy.get('#PreviewInputTextButton').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'preview').tab();

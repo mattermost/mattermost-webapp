@@ -149,7 +149,7 @@ describe('Message', () => {
         cy.clickPostCommentIcon();
 
         // # Add some text to RHS text box
-        cy.get('#reply_textbox').type(MESSAGES.TINY);
+        cy.uiGetReplyTextBox().type(MESSAGES.TINY);
 
         // # Click on Preview
         cy.get('#PreviewInputTextButton').click();
@@ -158,7 +158,7 @@ describe('Message', () => {
         cy.uiReply();
 
         // * Focus to remain in the RHS text box
-        cy.get('#reply_textbox').should('be.focused');
+        cy.uiGetReplyTextBox().should('be.focused');
     });
 });
 

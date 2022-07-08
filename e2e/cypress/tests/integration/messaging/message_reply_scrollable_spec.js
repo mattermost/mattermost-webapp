@@ -50,7 +50,7 @@ describe('Message reply scrollable', () => {
         cy.get('.post-right__content > div > div').first().scrollIntoView();
 
         // # Type into comment box
-        cy.get('#reply_textbox').type('foo', {scrollBehavior: false}); // without scrollBehavior=false cypress automatically scrolls to replyTextBox. We need to check if application does that.
+        cy.uiGetReplyTextBox().type('foo', {scrollBehavior: false}); // without scrollBehavior=false cypress automatically scrolls to replyTextBox. We need to check if application does that.
 
         // * Check if RHS scrolled to bottom
         cy.uiGetRHS().findByLabelText('Send a message');
