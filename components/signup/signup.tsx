@@ -265,6 +265,8 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
         dispatch(removeGlobalItem('team'));
         trackEvent('signup', 'signup_user_01_welcome');
 
+        onWindowResize();
+
         window.addEventListener('resize', onWindowResize);
 
         if (search) {

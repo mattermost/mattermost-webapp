@@ -357,6 +357,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
             return;
         }
 
+        onWindowResize();
         onWindowFocus();
 
         window.addEventListener('resize', onWindowResize);
