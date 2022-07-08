@@ -5,19 +5,21 @@ import styled from 'styled-components';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
-import OverlayTrigger from 'components/overlay_trigger';
-import Tooltip from 'components/tooltip';
-
 import {getCurrentUser, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {get as selectPreference} from 'mattermost-redux/selectors/entities/preferences';
 import {isCurrentLicenseCloud, getSubscriptionProduct as selectSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
-import Constants, {CloudProducts, Preferences} from 'utils/constants';
+
 import {GlobalState} from 'types/store';
+
 import useGetUsage from 'components/common/hooks/useGetUsage';
-import {fallbackStarterLimits} from 'utils/limits';
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import NotifyAdminCTA from 'components/notify_admin_cta/notify_admin_cta';
+import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
+
+import {fallbackStarterLimits} from 'utils/limits';
+import Constants, {CloudProducts, Preferences} from 'utils/constants';
 import {FileSizes} from 'utils/file_utils';
 
 interface FileLimitSnoozePreference {
@@ -92,7 +94,7 @@ function FileLimitStickyBanner() {
 
     let isAbovePlanFileStorageLimit = false;
 
-    const currentFileStorageUsage = usage.files.totalStorage;
+    const currentFileStorageUsage = usage?.files?.totalStorage || 0;
     if (currentFileStorageUsage > fallbackStarterLimits.files.totalStorage) {
         isAbovePlanFileStorageLimit = true;
     }
@@ -118,7 +120,7 @@ function FileLimitStickyBanner() {
         setShow(false);
     };
 
-    const AdminMessage = (
+    const adminMessage = (
         <span>
             {
                 formatMessage({
@@ -142,7 +144,7 @@ function FileLimitStickyBanner() {
         </span>
     );
 
-    const NonAdminMessage = (
+    const nonAdminMessage = (
         <span>
             {formatMessage({
                 id: 'create_post.file_limit_sticky_banner.non_admin_message',
@@ -165,7 +167,7 @@ function FileLimitStickyBanner() {
         <StyledDiv id='cloud_file_limit_banner'>
             <InnerDiv>
                 <StyledI className='icon-alert-outline'/>
-                {isAdmin ? AdminMessage : NonAdminMessage}
+                {isAdmin ? adminMessage : nonAdminMessage}
 
                 <OverlayTrigger
                     trigger={['hover', 'focus']}
