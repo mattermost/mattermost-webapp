@@ -8,7 +8,7 @@ import {createOutgoingHook} from 'mattermost-redux/actions/integrations';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
-import AddOutgoingWebhook from './add_outgoing_webhook.jsx';
+import AddOutgoingWebhook from './add_outgoing_webhook';
 
 function mapStateToProps(state) {
     const config = getConfig(state);
