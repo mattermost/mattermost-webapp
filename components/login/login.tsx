@@ -331,7 +331,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
     ), [showSignup]);
 
     const onWindowResize = throttle(() => {
-        setIsMobileView(window.innerWidth <= MOBILE_SCREEN_WIDTH);
+        setIsMobileView(window.innerWidth < MOBILE_SCREEN_WIDTH);
     }, 100);
 
     const onWindowFocus = useCallback(() => {
