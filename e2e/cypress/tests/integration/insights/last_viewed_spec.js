@@ -6,7 +6,7 @@
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
-
+// Stage: @prod
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Insights as last viewed channel', () => {
