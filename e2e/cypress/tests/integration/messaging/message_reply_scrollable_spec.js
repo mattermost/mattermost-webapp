@@ -42,7 +42,7 @@ describe('Message reply scrollable', () => {
         });
 
         // * Check that after opening RHS it's scrolled to bottom
-        cy.get('#addCommentButton').should('be.visible');
+        cy.uiGetRHS().findByLabelText('Send a message');
     });
 
     it('MM-T4083_2 correctly scrolls to the bottom when the user types in the comment box', () => {
@@ -53,6 +53,6 @@ describe('Message reply scrollable', () => {
         cy.get('#reply_textbox').type('foo', {scrollBehavior: false}); // without scrollBehavior=false cypress automatically scrolls to replyTextBox. We need to check if application does that.
 
         // * Check if RHS scrolled to bottom
-        cy.get('#addCommentButton').should('be.visible');
+        cy.uiGetRHS().findByLabelText('Send a message');
     });
 });

@@ -56,7 +56,7 @@ describe('Guest Account - Member Invitation Flow', () => {
 
         // * Verify UI Elements in initial step
         cy.findByTestId('invitationModal').within(() => {
-            cy.get('h1').should('have.text', `Invite members to ${testTeam.display_name}`);
+            cy.get('h1').should('have.text', `Invite people to ${testTeam.display_name}`);
         });
 
         stubClipboard().as('clipboard');
