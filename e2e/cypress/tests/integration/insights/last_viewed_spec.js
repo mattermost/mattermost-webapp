@@ -46,7 +46,7 @@ describe('Insights as last viewed channel', () => {
         cy.visit(offTopicUrlA);
     });
 
-    it('Should go to insights view when switching a team if that was the last view on that team', () => {
+    it('MM-T4902_1 Should go to insights view when switching a team if that was the last view on that team', () => {
         // # Go to the Insights view on Team A
         cy.uiGetSidebarInsightsButton().click();
 
@@ -63,7 +63,7 @@ describe('Insights as last viewed channel', () => {
         cy.url().should('include', `${teamA.name}/activity-and-insights`);
     });
 
-    it('Should go to threads view when threads view is the penultimate view and leave the current channel', () => {
+    it('MM-T4902_2 Should go to insights view when insights view is the penultimate view and leave the current channel', () => {
         // # Go to the Insights view on Team A
         cy.uiGetSidebarInsightsButton().click();
 
@@ -73,7 +73,7 @@ describe('Insights as last viewed channel', () => {
         // # Leave the current channel
         cy.uiLeaveChannel();
 
-        // Verify url is set up for threads view when thread view is the penultimate view
+        // * Verify url is set up for insights view when insights view is the penultimate view
         cy.url().should('include', `${teamA.name}/activity-and-insights`);
     });
 });
