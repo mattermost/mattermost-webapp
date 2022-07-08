@@ -2,15 +2,17 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {createOutgoingHook} from 'mattermost-redux/actions/integrations';
-
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 
-import AddOutgoingWebhook from './add_outgoing_webhook';
+import {GlobalState} from 'types/store';
 
-function mapStateToProps(state) {
+import AddOutgoingWebhook, {Props} from './add_outgoing_webhook';
+
+function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
     const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
     const enablePostIconOverride = config.EnablePostIconOverride === 'true';
@@ -20,9 +22,9 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Props['actions']>({
             createOutgoingHook,
         }, dispatch),
     };
