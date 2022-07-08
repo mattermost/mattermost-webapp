@@ -131,6 +131,8 @@ export class MainMenu extends React.PureComponent<Props> {
             guestAccessEnabled,
             canInviteTeamMember,
         } = this.props;
+        // eslint-disable-next-line no-console
+        console.log({usageDeltaTeams: this.props.usageDeltaTeams});
 
         const safeAppDownloadLink = makeUrlSafe(appDownloadLink || '');
 

@@ -64,6 +64,8 @@ function mapStateToProps(state: GlobalState) {
     const isCloud = isCloudLicense(license);
     const isStarterFree = isCloud && subscriptionProduct?.sku === CloudProducts.STARTER;
     const isFreeTrial = isCloud && subscription?.is_free_trial === 'true';
+    // eslint-disable-next-line no-console
+    console.log({isCloud, isStarterFree, isFreeTrial});
 
     return {
         appDownloadLink,
