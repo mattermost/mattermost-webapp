@@ -7,6 +7,7 @@ import {useIntl} from 'react-intl';
 import {Link, useLocation, useHistory} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 import classNames from 'classnames';
+import throttle from 'lodash/throttle';
 
 import {redirectUserToDefaultTeam} from 'actions/global_actions';
 import {addUserToTeamFromInvite} from 'actions/team_actions';
@@ -38,7 +39,6 @@ import Input, {SIZE} from 'components/widgets/inputs/input/input';
 import PasswordInput from 'components/widgets/inputs/password_input/password_input';
 import WomanWithChatsSVG from 'components/common/svg_images_components/woman_with_chats_svg';
 
-import {getIsMobileView, getIsTabletView} from 'selectors/views/browser';
 import {GlobalState} from 'types/store';
 import Constants from 'utils/constants';
 
@@ -51,6 +51,8 @@ import {SubmitOptions} from 'components/claim/components/email_to_ldap';
 import LoginMfa from './login_mfa';
 
 import './login.scss';
+
+const MOBILE_SCREEN_WIDTH = 1200;
 
 type LoginProps = {
     onCustomizeHeader?: CustomizeHeaderType;
@@ -95,8 +97,6 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
     const experimentalPrimaryTeam = useSelector((state: GlobalState) => (ExperimentalPrimaryTeam ? getTeamByName(state, ExperimentalPrimaryTeam) : undefined));
     const experimentalPrimaryTeamMember = useSelector((state: GlobalState) => getMyTeamMember(state, experimentalPrimaryTeam?.id ?? ''));
     const useCaseOnboarding = useSelector(getUseCaseOnboarding);
-    const isMobileView = useSelector(getIsMobileView);
-    const isTabletView = useSelector(getIsTabletView);
 
     const loginIdInput = useRef<HTMLInputElement>(null);
     const passwordInput = useRef<HTMLInputElement>(null);
@@ -110,6 +110,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
     const [brandImageError, setBrandImageError] = useState(false);
     const [alertBanner, setAlertBanner] = useState<AlertBannerProps | null>(null);
     const [hasError, setHasError] = useState(false);
+    const [isMobileView, setIsMobileView] = useState(false);
 
     const enableCustomBrand = EnableCustomBrand === 'true';
     const enableLdap = EnableLdap === 'true';
@@ -130,7 +131,6 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
     const enableBaseLogin = enableSignInWithEmail || enableSignInWithUsername || ldapEnabled;
     const enableExternalSignup = enableSignUpWithGitLab || enableSignUpWithOffice365 || enableSignUpWithGoogle || enableSignUpWithOpenId || enableSignUpWithSaml;
     const showSignup = enableOpenServer && (enableExternalSignup || enableSignUpWithEmail || enableLdap);
-    const isMobileTabletView = isMobileView || isTabletView;
 
     const getExternalLoginOptions = () => {
         const externalLoginOptions: ExternalLoginButtonType[] = [];
@@ -330,22 +330,26 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
         ) : undefined
     ), [showSignup]);
 
-    const onWindowFocus = () => {
+    const onWindowResize = throttle(() => {
+        setIsMobileView(window.innerWidth <= MOBILE_SCREEN_WIDTH);
+    }, 100);
+
+    const onWindowFocus = useCallback(() => {
         if (extraParam === Constants.SIGNIN_VERIFIED && emailParam) {
             passwordInput.current?.focus();
         } else {
             loginIdInput.current?.focus();
         }
-    };
+    }, [emailParam, extraParam]);
 
     useEffect(() => {
         if (onCustomizeHeader) {
             onCustomizeHeader({
                 onBackButtonClick: showMfa ? handleHeaderBackButtonOnClick : undefined,
-                alternateLink: isMobileTabletView ? getAlternateLink() : undefined,
+                alternateLink: isMobileView ? getAlternateLink() : undefined,
             });
         }
-    }, [onCustomizeHeader, search, showMfa, isMobileTabletView, getAlternateLink]);
+    }, [onCustomizeHeader, search, showMfa, isMobileView, getAlternateLink]);
 
     useEffect(() => {
         if (currentUser) {
@@ -355,6 +359,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
 
         onWindowFocus();
 
+        window.addEventListener('resize', onWindowResize);
         window.addEventListener('focus', onWindowFocus);
 
         // Determine if the user was unexpectedly logged out.
@@ -387,6 +392,9 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
                 closeSessionExpiredNotification.current();
                 closeSessionExpiredNotification.current = undefined;
             }
+
+            window.removeEventListener('resize', onWindowResize);
+            window.removeEventListener('focus', onWindowFocus);
         };
     }, []);
 
@@ -794,7 +802,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
 
     return (
         <div className='login-body'>
-            {!isMobileTabletView && getAlternateLink()}
+            {!isMobileView && getAlternateLink()}
             <div className='login-body-content'>
                 {getContent()}
             </div>

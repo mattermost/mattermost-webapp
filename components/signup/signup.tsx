@@ -7,6 +7,7 @@ import {useIntl} from 'react-intl';
 import {useLocation, useHistory} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 import classNames from 'classnames';
+import throttle from 'lodash/throttle';
 
 import {redirectUserToDefaultTeam} from 'actions/global_actions';
 import {removeGlobalItem, setGlobalItem} from 'actions/storage';
@@ -44,12 +45,13 @@ import {UserProfile} from '@mattermost/types/users';
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
 import {getGlobalItem} from 'selectors/storage';
-import {getIsMobileView, getIsTabletView} from 'selectors/views/browser';
 import {GlobalState} from 'types/store';
 import {Constants, ItemStatus, ValidationErrors} from 'utils/constants';
 import {isValidUsername, isValidPassword, getPasswordConfig} from 'utils/utils';
 
 import './signup.scss';
+
+const MOBILE_SCREEN_WIDTH = 1200;
 
 type SignupProps = {
     onCustomizeHeader?: CustomizeHeaderType;
@@ -94,8 +96,6 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
     const loggedIn = Boolean(useSelector(getCurrentUserId));
     const useCaseOnboarding = useSelector(getUseCaseOnboarding);
     const usedBefore = useSelector((state: GlobalState) => (!inviteId && !loggedIn && token ? getGlobalItem(state, token, null) : undefined));
-    const isMobileView = useSelector(getIsMobileView);
-    const isTabletView = useSelector(getIsTabletView);
 
     const emailInput = useRef<HTMLInputElement>(null);
     const nameInput = useRef<HTMLInputElement>(null);
@@ -126,12 +126,12 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
     const [serverError, setServerError] = useState('');
     const [teamName, setTeamName] = useState(parsedTeamName ?? '');
     const [alertBanner, setAlertBanner] = useState<AlertBannerProps | null>(null);
+    const [isMobileView, setIsMobileView] = useState(false);
 
     const enableExternalSignup = enableSignUpWithGitLab || enableSignUpWithOffice365 || enableSignUpWithGoogle || enableLDAP || enableSAML;
     const hasError = Boolean(emailError || nameError || passwordError || serverError || alertBanner);
     const canSubmit = Boolean(email && name && password) && !hasError && !loading;
     const {error: passwordInfo} = isValidPassword('', getPasswordConfig(config), intl);
-    const isMobileTabletView = isMobileView || isTabletView;
 
     const getExternalSignupOptions = () => {
         const externalLoginOptions: ExternalLoginButtonType[] = [];
@@ -257,9 +257,15 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
         />
     ), []);
 
+    const onWindowResize = throttle(() => {
+        setIsMobileView(window.innerWidth <= MOBILE_SCREEN_WIDTH);
+    }, 100);
+
     useEffect(() => {
         dispatch(removeGlobalItem('team'));
         trackEvent('signup', 'signup_user_01_welcome');
+
+        window.addEventListener('resize', onWindowResize);
 
         if (search) {
             if ((inviteId || token) && loggedIn) {
@@ -278,6 +284,10 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
                 }
             }
         }
+
+        return () => {
+            window.removeEventListener('resize', onWindowResize);
+        };
     }, []);
 
     useEffect(() => {
@@ -290,10 +300,10 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
         if (onCustomizeHeader) {
             onCustomizeHeader({
                 onBackButtonClick: handleHeaderBackButtonOnClick,
-                alternateLink: isMobileTabletView ? getAlternateLink() : undefined,
+                alternateLink: isMobileView ? getAlternateLink() : undefined,
             });
         }
-    }, [onCustomizeHeader, handleHeaderBackButtonOnClick, isMobileTabletView, getAlternateLink, search]);
+    }, [onCustomizeHeader, handleHeaderBackButtonOnClick, isMobileView, getAlternateLink, search]);
 
     if (loading) {
         return (<LoadingScreen/>);
@@ -707,7 +717,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
 
     return (
         <div className='signup-body'>
-            {!isMobileTabletView && getAlternateLink()}
+            {!isMobileView && getAlternateLink()}
             <div className='signup-body-content'>
                 {getContent()}
             </div>
