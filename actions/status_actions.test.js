@@ -2,11 +2,11 @@
 // See LICENSE.txt for license information.
 
 import {cloneDeep} from 'lodash';
-import thunk from 'redux-thunk';
-import configureStore from 'redux-mock-store';
 
 import {Preferences} from 'mattermost-redux/constants';
 import {getStatusesByIds} from 'mattermost-redux/actions/users';
+
+import mockStore from 'tests/test_store';
 
 import * as Actions from 'actions/status_actions.jsx';
 
@@ -15,8 +15,6 @@ jest.mock('mattermost-redux/actions/users', () => ({
         return {type: ''};
     }),
 }));
-
-const mockStore = configureStore([thunk]);
 
 describe('actions/status_actions', () => {
     const initialState = {

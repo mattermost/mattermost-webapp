@@ -34,6 +34,7 @@ import NeedsTeam from 'components/needs_team';
 import OnBoardingTaskList from 'components/onboarding_tasklist';
 import LaunchingWorkspace, {LAUNCHING_WORKSPACE_FULLSCREEN_Z_INDEX} from 'components/preparing_workspace/launching_workspace';
 import {Animations} from 'components/preparing_workspace/steps';
+import OpenPricingModalPost from 'components/custom_open_pricing_modal_post_renderer';
 
 import {initializePlugins} from 'plugins';
 import 'plugins/export.js';
@@ -120,6 +121,7 @@ export default class Root extends React.PureComponent {
             migrateRecentEmojis: PropTypes.func.isRequired,
             loadConfigAndMe: PropTypes.func.isRequired,
             savePreferences: PropTypes.func.isRequired,
+            registerCustomPostRenderer: PropTypes.func.isRequired,
         }).isRequired,
         plugins: PropTypes.array,
         products: PropTypes.array,
@@ -337,6 +339,9 @@ export default class Root extends React.PureComponent {
         this.mounted = true;
 
         this.initiateMeRequests();
+
+        // See figma design on issue https://mattermost.atlassian.net/browse/MM-43649
+        this.props.actions.registerCustomPostRenderer('custom_up_notification', OpenPricingModalPost, 'upgrade_post_message_renderer');
 
         if (this.desktopMediaQuery.addEventListener) {
             this.desktopMediaQuery.addEventListener('change', this.handleMediaQueryChangeEvent);

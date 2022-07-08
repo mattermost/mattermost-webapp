@@ -555,6 +555,8 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             useCustomGroupMentions,
         } = this.props;
 
+        this.setShowPreview(false);
+
         const notificationsToChannel = this.props.enableConfirmNotificationsToChannel && this.props.useChannelMentions;
         let memberNotifyCount = 0;
         let channelTimezoneCount = 0;
@@ -829,11 +831,9 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
 
         let message = this.state.message;
         if (isGitHubCodeBlock(table.className)) {
-            const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(
-                this.state.caretPosition,
-                message,
-                clipboardData,
-            );
+            const selectionStart = (e.target as any).selectionStart;
+            const selectionEnd = (e.target as any).selectionEnd;
+            const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste({selectionStart, selectionEnd, message, clipboardData});
             const newCaretPosition = this.state.caretPosition + formattedCodeBlock.length;
             this.setMessageAndCaretPostion(formattedMessage, newCaretPosition);
             return;
@@ -1078,7 +1078,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             e.stopPropagation();
             e.preventDefault();
             this.toggleEmojiPicker();
-        } else if (((isMac() && ctrlShiftCombo) || (!isMac() && ctrlAltCombo)) && Utils.isKeyPressed(e, KeyCodes.P)) {
+        } else if (((isMac() && ctrlShiftCombo) || (!isMac() && ctrlAltCombo)) && Utils.isKeyPressed(e, KeyCodes.P) && this.state.message.length) {
             this.setShowPreview(!this.props.shouldShowPreview);
         } else if (ctrlAltCombo && Utils.isKeyPressed(e, KeyCodes.T)) {
             this.toggleAdvanceTextEditor();
@@ -1260,6 +1260,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                 <AdvanceTextEditor
                     location={Locations.CENTER}
                     currentUserId={this.props.currentUserId}
+                    postError={this.state.postError}
                     message={this.state.message}
                     showEmojiPicker={this.state.showEmojiPicker}
                     uploadsProgressPercent={this.state.uploadsProgressPercent}

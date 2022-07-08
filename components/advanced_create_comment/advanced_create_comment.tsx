@@ -14,6 +14,7 @@ import * as GlobalActions from 'actions/global_actions';
 import Constants, {AdvancedTextEditor, Locations, ModalIdentifiers, Preferences} from 'utils/constants';
 import {PreferenceType} from '@mattermost/types/preferences';
 import * as UserAgent from 'utils/user_agent';
+import {isMac} from 'utils/utils';
 import * as Utils from 'utils/utils';
 import {
     specialMentionsInText,
@@ -374,7 +375,9 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
 
         const caretPosition = this.state.caretPosition || 0;
         if (isGitHubCodeBlock(table.className)) {
-            const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(caretPosition, message, clipboardData);
+            const selectionStart = (e.target as any).selectionStart;
+            const selectionEnd = (e.target as any).selectionEnd;
+            const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste({selectionStart, selectionEnd, message, clipboardData});
             const newCaretPosition = caretPosition + formattedCodeBlock.length;
             message = formattedMessage;
             this.setCaretPosition(newCaretPosition);
@@ -835,7 +838,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             e.stopPropagation();
             e.preventDefault();
             this.toggleEmojiPicker();
-        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.P)) {
+        } else if (((isMac() && ctrlShiftCombo) || (!isMac() && ctrlAltCombo)) && Utils.isKeyPressed(e, KeyCodes.P) && draft.message.length) {
             this.setShowPreview(!this.props.shouldShowPreview);
         } else if (ctrlAltCombo && Utils.isKeyPressed(e, KeyCodes.T)) {
             this.toggleAdvanceTextEditor();
@@ -1065,6 +1068,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
                     enableEmojiPicker={this.props.enableEmojiPicker}
                     enableGifPicker={this.props.enableGifPicker}
                     handleBlur={this.handleBlur}
+                    postError={this.state.postError}
                     handlePostError={this.handlePostError}
                     emitTypingEvent={this.emitTypingEvent}
                     handleMouseUpKeyUp={this.handleMouseUpKeyUp}

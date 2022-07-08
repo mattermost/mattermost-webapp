@@ -3,8 +3,8 @@
 
 import React from 'react';
 
-export function makeAsyncComponent(displayName, LazyComponent, fallback = null) {
-    const Component = (props) => (
+export function makeAsyncComponent<ComponentProps>(displayName: string, LazyComponent: React.ComponentType<ComponentProps>, fallback: React.ReactNode = null) {
+    const Component = (props: ComponentProps) => (
         <React.Suspense fallback={fallback}>
             <LazyComponent {...props}/>
         </React.Suspense>

@@ -4,13 +4,11 @@
 import React from 'react';
 
 import {Provider} from 'react-redux';
-import configureStore from 'redux-mock-store';
-
-import thunk from 'redux-thunk';
 
 import {shallow} from 'enzyme';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import mockStore from 'tests/test_store';
 
 import BillingHistory from './billing_history';
 
@@ -87,7 +85,6 @@ describe('components/admin_console/billing/billing_history', () => {
 
     const NO_INVOICES_LEGEND = 'All of your monthly payments will show here';
 
-    const mockStore = configureStore([thunk]);
     const store = mockStore(state);
 
     test('should match snapshot', () => {
