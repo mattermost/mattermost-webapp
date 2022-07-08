@@ -1275,16 +1275,10 @@ export function handleUserTypingEvent(msg) {
 }
 
 function handleStatusChangedEvent(msg) {
-    const state = getState();
-    const currentUserId = getCurrentUserId(state);
-    const userId = msg.data.user_id;
-
-    if (userId !== currentUserId) {
-        dispatch({
-            type: UserTypes.RECEIVED_STATUSES,
-            data: [{user_id: userId, status: msg.data.status}],
-        });
-    }
+    dispatch({
+        type: UserTypes.RECEIVED_STATUSES,
+        data: [{user_id: msg.data.user_id, status: msg.data.status}],
+    });
 }
 
 function handleHelloEvent(msg) {
