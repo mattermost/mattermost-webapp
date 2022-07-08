@@ -46,13 +46,14 @@ describe('plugins/MainMenuActions', () => {
             getCloudLimits: jest.fn(),
         },
         isCloud: false,
+        isStarterFree: false,
         subscription: {},
         userIsAdmin: true,
         isFirstAdmin: false,
         canInviteTeamMember: false,
-        isCloudFreeEnabled: false,
         isFreeTrial: false,
         teamsLimitReached: false,
+        usageDeltaTeams: -1,
     };
 
     test('should match snapshot in web view', () => {

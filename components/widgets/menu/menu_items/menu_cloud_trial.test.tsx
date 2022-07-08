@@ -2,10 +2,10 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import configureStore from 'redux-mock-store';
 import {Provider} from 'react-redux';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import mockStore from 'tests/test_store';
 
 import {CloudProducts} from 'utils/constants';
 import {FileSizes} from 'utils/file_utils';
@@ -60,9 +60,14 @@ const limits = {
     },
 };
 
-describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
-    const mockStore = configureStore();
+const users = {
+    currentUserId: 'uid',
+    profiles: {
+        uid: {},
+    },
+};
 
+describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
     test('should render when on cloud license and during free trial period', () => {
         const FOURTEEN_DAYS = 1209600000; // in milliseconds
         const subscriptionCreateAt = Date.now();
@@ -83,16 +88,23 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
                     limits,
                 },
                 usage,
+                users: {
+                    currentUserId: 'uid',
+                    profiles: {
+                        uid: {},
+                    },
+                },
             },
         };
         const store = mockStore(state);
         const wrapper = mountWithIntl(<Provider store={store}><MenuCloudTrial id='menuCloudTrial'/></Provider>);
-        expect(wrapper.find('UpgradeLink').exists()).toEqual(true);
+        expect(wrapper.find('.MenuCloudTrial').exists()).toEqual(true);
     });
 
     test('should NOT render when NOT on cloud license and NOT during free trial period', () => {
         const state = {
             entities: {
+                users,
                 general: {
                     license: {
                         IsLicensed: 'false',
@@ -110,12 +122,13 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
         };
         const store = mockStore(state);
         const wrapper = mountWithIntl(<Provider store={store}><MenuCloudTrial id='menuCloudTrial'/></Provider>);
-        expect(wrapper.find('UpgradeLink').exists()).toEqual(false);
+        expect(wrapper.find('.MenuCloudTrial').exists()).toEqual(false);
     });
 
     test('should NOT render when NO license is available', () => {
         const state = {
             entities: {
+                users,
                 general: {},
                 cloud: {
                     customer: null,
@@ -129,19 +142,17 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
         };
         const store = mockStore(state);
         const wrapper = mountWithIntl(<Provider store={store}><MenuCloudTrial id='menuCloudTrial'/></Provider>);
-        expect(wrapper.find('UpgradeLink').exists()).toEqual(false);
+        expect(wrapper.find('.MenuCloudTrial').exists()).toEqual(false);
     });
 
-    test('should NOT render when is cloudFree enabled but is a paid customer', () => {
+    test('should NOT render when is cloud and not on a trial', () => {
         const state = {
             entities: {
+                users,
                 general: {
                     license: {
                         IsLicensed: 'true',
                         Cloud: 'true',
-                    },
-                    config: {
-                        FeatureFlagCloudFree: 'true',
                     },
                 },
                 cloud: {
@@ -157,19 +168,17 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
         const store = mockStore(state);
         const wrapper = mountWithIntl(<Provider store={store}><MenuCloudTrial id='menuCloudTrial'/></Provider>);
         expect(wrapper.find('.open-learn-more-trial-modal').exists()).toEqual(false);
-        expect(wrapper.find('UpgradeLink').exists()).toEqual(false);
+        expect(wrapper.find('.MenuCloudTrial').exists()).toEqual(false);
     });
 
-    test('should invite to start trial when cloud free is enabled, there are not paid subscription and havent had trial before', () => {
+    test('should invite to start trial when the subscription is not paid and have not had trial before', () => {
         const state = {
             entities: {
+                users,
                 general: {
                     license: {
                         IsLicensed: 'true',
                         Cloud: 'true',
-                    },
-                    config: {
-                        FeatureFlagCloudFree: 'true',
                     },
                 },
                 cloud: {
@@ -194,16 +203,14 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
         expect(wrapper.find('.open-learn-more-trial-modal').exists()).toEqual(true);
     });
 
-    test('should show the open trial benefits modal when is cloudFree and is free trial', () => {
+    test('should show the open trial benefits modal when is free trial', () => {
         const state = {
             entities: {
+                users,
                 general: {
                     license: {
                         IsLicensed: 'true',
                         Cloud: 'true',
-                    },
-                    config: {
-                        FeatureFlagCloudFree: 'true',
                     },
                 },
                 cloud: {
@@ -230,16 +237,14 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
         expect(openModalLink.find('span').text()).toBe('Review our Enterprise Features');
     });
 
-    test('should show the invitation to see plans when is CloudFree and is not in Trial and has had previous Trial', () => {
+    test('should show the invitation to see plans when is not in Trial and has had previous Trial', () => {
         const state = {
             entities: {
+                users,
                 general: {
                     license: {
                         IsLicensed: 'true',
                         Cloud: 'true',
-                    },
-                    config: {
-                        FeatureFlagCloudFree: 'true',
                     },
                 },
                 cloud: {
@@ -269,13 +274,11 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
     test('should return null if some limit needs attention', () => {
         const state = {
             entities: {
+                users,
                 general: {
                     license: {
                         IsLicensed: 'true',
                         Cloud: 'true',
-                    },
-                    config: {
-                        FeatureFlagCloudFree: 'true',
                     },
                 },
                 cloud: {
@@ -303,7 +306,7 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
         };
         const store = mockStore(state);
         const wrapper = mountWithIntl(<Provider store={store}><MenuCloudTrial id='menuCloudTrial'/></Provider>);
-        expect(wrapper.find('UpgradeLink').exists()).toEqual(false);
+        expect(wrapper.find('.MenuCloudTrial').exists()).toEqual(false);
         expect(wrapper.find('.open-see-plans-modal').exists()).toEqual(false);
         expect(wrapper.find('.open-learn-more-trial-modal').exists()).toEqual(false);
         expect(wrapper.find('.open-trial-benefits-modal').exists()).toEqual(false);

@@ -41,7 +41,7 @@ describe('Upload Files', () => {
         cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Attach file
-        cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(filename);
+        cy.get('#advancedTextEditorCell').find('#fileUploadInput').attachFile(filename);
         waitUntilUploadComplete();
 
         cy.get('#create_post').find('.file-preview').within(() => {

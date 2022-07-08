@@ -4,10 +4,7 @@
 import React from 'react';
 
 import {Provider} from 'react-redux';
-import configureStore from 'redux-mock-store';
 import {act} from 'react-dom/test-utils';
-
-import thunk from 'redux-thunk';
 
 import {shallow} from 'enzyme';
 
@@ -16,15 +13,26 @@ import * as cloudActions from 'actions/cloud';
 import GenericModal from 'components/generic_modal';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import mockStore from 'tests/test_store';
 
 import RequestBusinessEmailModal from './request_business_email_modal';
 
+jest.useFakeTimers();
+jest.mock('lodash/debounce', () => jest.fn((fn) => fn));
+
 describe('components/request_business_email_modal/request_business_email_modal', () => {
-    // required state to mount using the provider
     const state = {
         entities: {
             admin: {},
-            general: {},
+            general: {
+                license: {
+                    IsLicensed: 'true',
+                    Cloud: 'true',
+                },
+            },
+            cloud: {
+                subscription: {id: 'subscriptionID'},
+            },
         },
         views: {
             modals: {
@@ -41,7 +49,6 @@ describe('components/request_business_email_modal/request_business_email_modal',
         onExited: jest.fn(),
     };
 
-    const mockStore = configureStore([thunk]);
     const store = mockStore(state);
 
     test('should match snapshot', () => {
@@ -53,17 +60,20 @@ describe('components/request_business_email_modal/request_business_email_modal',
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should show the Start Cloud Trial Button', () => {
+    test('should show the Start Cloud Trial Button', async () => {
         const wrapper = mountWithIntl(
             <Provider store={store}>
                 <RequestBusinessEmailModal {...props}/>
             </Provider>,
         );
 
-        expect(wrapper.find('CloudStartTrialButton')).toHaveLength(1);
+        await act(async () => {
+            const startTrialBtn = wrapper.find('CloudStartTrialButton');
+            expect(startTrialBtn).toHaveLength(1);
+        });
     });
 
-    test('should call on close', () => {
+    test('should call on close', async () => {
         const mockOnClose = jest.fn();
 
         const wrapper = mountWithIntl(
@@ -75,12 +85,13 @@ describe('components/request_business_email_modal/request_business_email_modal',
             </Provider>,
         );
 
-        wrapper.find(GenericModal).props().onExited();
-
-        expect(mockOnClose).toHaveBeenCalled();
+        await act(async () => {
+            wrapper.find(GenericModal).props().onExited();
+            expect(mockOnClose).toHaveBeenCalled();
+        });
     });
 
-    test('should call on exited', () => {
+    test('should call on exited', async () => {
         const mockOnExited = jest.fn();
 
         const wrapper = mountWithIntl(
@@ -92,31 +103,35 @@ describe('components/request_business_email_modal/request_business_email_modal',
             </Provider>,
         );
 
-        wrapper.find(GenericModal).props().onExited();
-
-        expect(mockOnExited).toHaveBeenCalled();
+        await act(async () => {
+            wrapper.find(GenericModal).props().onExited();
+            expect(mockOnExited).toHaveBeenCalled();
+        });
     });
 
-    test('should show the Input to enter the valid Business Email', () => {
+    test('should show the Input to enter the valid Business Email', async () => {
         const wrapper = mountWithIntl(
             <Provider store={store}>
                 <RequestBusinessEmailModal {...props}/>
             </Provider>,
         );
 
-        expect(wrapper.find('InputBusinessEmail')).toHaveLength(1);
+        await act(async () => {
+            expect(wrapper.find('InputBusinessEmail')).toHaveLength(1);
+        });
     });
 
-    test('should start with Start Cloud Trial Button disabled', () => {
+    test('should start with Start Cloud Trial Button disabled', async () => {
         const wrapper = mountWithIntl(
             <Provider store={store}>
                 <RequestBusinessEmailModal {...props}/>
             </Provider>,
         );
 
-        const startTrialBtn = wrapper.find('CloudStartTrialButton');
-
-        expect(startTrialBtn.props().disabled).toEqual(true);
+        await act(async () => {
+            const startTrialBtn = wrapper.find('CloudStartTrialButton');
+            expect(startTrialBtn.props().disabled).toEqual(true);
+        });
     });
 
     test('should ENABLE the trial button if email is VALID', async () => {
@@ -176,59 +191,59 @@ describe('components/request_business_email_modal/request_business_email_modal',
         });
     });
 
-    // test('should DISABLE the trial button if email is INVALID', async () => {
-    //     // mock validation response to FALSE meaning the email is an invalid email
-    //     const validateBusinessEmail = () => () => Promise.resolve(false);
-    //     jest.spyOn(cloudActions, 'validateBusinessEmail').mockImplementation(validateBusinessEmail);
+    test('should DISABLE the trial button if email is INVALID', async () => {
+        // mock validation response to FALSE meaning the email is an invalid email
+        const validateBusinessEmail = () => () => Promise.resolve(false);
+        jest.spyOn(cloudActions, 'validateBusinessEmail').mockImplementation(validateBusinessEmail);
 
-    //     const event = {
-    //         target: {value: 'INvalid-email@domain.com'},
-    //     };
+        const event = {
+            target: {value: 'INvalid-email@domain.com'},
+        };
 
-    //     const wrapper = mountWithIntl(
-    //         <Provider store={store}>
-    //             <RequestBusinessEmailModal {...props}/>
-    //         </Provider>,
-    //     );
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <RequestBusinessEmailModal {...props}/>
+            </Provider>,
+        );
 
-    //     await act(async () => {
-    //         const inputBusinessEmail = wrapper.find('InputBusinessEmail');
-    //         const input = inputBusinessEmail.find('input');
-    //         input.find('input').at(0).simulate('change', event);
-    //     });
+        await act(async () => {
+            const inputBusinessEmail = wrapper.find('InputBusinessEmail');
+            const input = inputBusinessEmail.find('input');
+            input.find('input').at(0).simulate('change', event);
+        });
 
-    //     act(() => {
-    //         wrapper.update();
-    //         const startTrialBtn = wrapper.find('CloudStartTrialButton');
-    //         expect(startTrialBtn.props().disabled).toEqual(true);
-    //     });
-    // });
+        act(() => {
+            wrapper.update();
+            const startTrialBtn = wrapper.find('CloudStartTrialButton');
+            expect(startTrialBtn.props().disabled).toEqual(true);
+        });
+    });
 
-    // test('should show the error custom message if the email is invalid', async () => {
-    //     // mock validation response to FALSE meaning the email is an invalid email
-    //     const validateBusinessEmail = () => () => Promise.resolve(false);
-    //     jest.spyOn(cloudActions, 'validateBusinessEmail').mockImplementation(validateBusinessEmail);
+    test('should show the error custom message if the email is invalid', async () => {
+        // mock validation response to FALSE meaning the email is an invalid email
+        const validateBusinessEmail = () => () => Promise.resolve(false);
+        jest.spyOn(cloudActions, 'validateBusinessEmail').mockImplementation(validateBusinessEmail);
 
-    //     const event = {
-    //         target: {value: 'INvalid-email@domain.com'},
-    //     };
+        const event = {
+            target: {value: 'INvalid-email@domain.com'},
+        };
 
-    //     const wrapper = mountWithIntl(
-    //         <Provider store={store}>
-    //             <RequestBusinessEmailModal {...props}/>
-    //         </Provider>,
-    //     );
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <RequestBusinessEmailModal {...props}/>
+            </Provider>,
+        );
 
-    //     await act(async () => {
-    //         const inputBusinessEmail = wrapper.find('InputBusinessEmail');
-    //         const input = inputBusinessEmail.find('input');
-    //         input.find('input').at(0).simulate('change', event);
-    //     });
+        await act(async () => {
+            const inputBusinessEmail = wrapper.find('InputBusinessEmail');
+            const input = inputBusinessEmail.find('input');
+            input.find('input').at(0).simulate('change', event);
+        });
 
-    //     act(() => {
-    //         wrapper.update();
-    //         const customMessageElement = wrapper.find('.Input___customMessage.Input___error');
-    //         expect(customMessageElement.length).toBe(1);
-    //     });
-    // });
+        act(() => {
+            wrapper.update();
+            const customMessageElement = wrapper.find('.Input___customMessage.Input___error');
+            expect(customMessageElement.length).toBe(1);
+        });
+    });
 });

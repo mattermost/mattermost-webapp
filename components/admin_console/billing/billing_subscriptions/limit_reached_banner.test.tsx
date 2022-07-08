@@ -4,8 +4,6 @@
 import React from 'react';
 import {screen, fireEvent} from '@testing-library/react';
 
-import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
 import {Provider} from 'react-redux';
 
 import {UserProfile, UsersState} from '@mattermost/types/users';
@@ -20,6 +18,7 @@ import * as useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloud
 import * as useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import * as useSaveBool from 'components/common/hooks/useSavePreferences';
 import {renderWithIntl} from 'tests/react_testing_utils';
+import mockStore from 'tests/test_store';
 
 import {CloudProducts} from 'utils/constants';
 
@@ -40,15 +39,16 @@ const state: GlobalState = {
                 [upgradeCloudKey]: {value: 'false'},
             },
         },
-        general: {
-            config: {
-                FeatureFlagCloudFree: 'true',
-            } as GlobalState['entities']['general']['config'],
-        },
         cloud: {
             limits: {
             },
             products: {
+            },
+        },
+        general: {
+            license: {
+            },
+            config: {
             },
         },
     },
@@ -120,7 +120,6 @@ function makeSpies() {
 
 describe('limits_reached_banner', () => {
     test('does not render when product is enterprise', () => {
-        const mockStore = configureStore([thunk]);
         const store = mockStore(state);
         const spies = makeSpies();
         spies.useGetUsageDeltas.mockReturnValue(someLimitReached);
@@ -144,7 +143,6 @@ describe('limits_reached_banner', () => {
                 },
             },
         };
-        const mockStore = configureStore([thunk]);
         const store = mockStore(myState);
         const spies = makeSpies();
         spies.useGetUsageDeltas.mockReturnValue(someLimitReached);
@@ -154,7 +152,6 @@ describe('limits_reached_banner', () => {
     });
 
     test('does not render when no limit reached', () => {
-        const mockStore = configureStore([thunk]);
         const store = mockStore(state);
         const spies = makeSpies();
         spies.useGetUsageDeltas.mockReturnValue(noLimitReached);
@@ -164,7 +161,6 @@ describe('limits_reached_banner', () => {
     });
 
     test('renders starter banner', () => {
-        const mockStore = configureStore([thunk]);
         const store = mockStore(state);
         const spies = makeSpies();
         const mockOpenPricingModal = jest.fn();
@@ -178,7 +174,6 @@ describe('limits_reached_banner', () => {
     });
 
     test('clicking Contact Sales opens sales link', () => {
-        const mockStore = configureStore([thunk]);
         const store = mockStore(state);
         const spies = makeSpies();
         const mockOpenSalesLink = jest.fn();
@@ -192,7 +187,6 @@ describe('limits_reached_banner', () => {
     });
 
     test('renders professional banner', () => {
-        const mockStore = configureStore([thunk]);
         const store = mockStore(state);
         const spies = makeSpies();
         const mockOpenPurchaseModal = jest.fn();

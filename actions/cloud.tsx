@@ -89,11 +89,15 @@ export function subscribeCloudSubscription(productId: string) {
     };
 }
 
-export function requestCloudTrial(page: string, email = '') {
+export function requestCloudTrial(page: string, subscriptionId: string, email = ''): ActionFunc {
     trackEvent('api', 'api_request_cloud_trial_license', {from_page: page});
-    return async () => {
+    return async (dispatch: DispatchFunc): Promise<any> => {
         try {
-            await Client4.requestCloudTrial(email);
+            const newSubscription = await Client4.requestCloudTrial(subscriptionId, email);
+            dispatch({
+                type: CloudTypes.RECEIVED_CLOUD_SUBSCRIPTION,
+                data: newSubscription.data,
+            });
         } catch (error) {
             return false;
         }
@@ -101,11 +105,11 @@ export function requestCloudTrial(page: string, email = '') {
     };
 }
 
-export function validateBusinessEmail() {
+export function validateBusinessEmail(email = '') {
     trackEvent('api', 'api_validate_business_email');
     return async () => {
         try {
-            await Client4.validateBusinessEmail();
+            await Client4.validateBusinessEmail(email);
         } catch (error) {
             return false;
         }
