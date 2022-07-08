@@ -34,21 +34,21 @@ describe('Messaging', () => {
 
         // # Click the save icon to move focus out of the main input box
         cy.uiGetSavedPostButton().click();
-        cy.get('#post_textbox').should('not.be.focused');
+        cy.uiGetPostTextBox().should('not.be.focused');
 
         // # Push a character key such as "A"
         // # Expect to have "A" value in main input
         cy.get('body').type('A');
-        cy.get('#post_textbox').should('be.focused');
+        cy.uiGetPostTextBox().should('be.focused');
 
         // # Click the @-mention icon to move focus out of the main input box
         cy.uiGetRecentMentionButton().click();
-        cy.get('#post_textbox').should('not.be.focused');
+        cy.uiGetPostTextBox().should('not.be.focused');
 
         // # Push a character key such as "B"
         // # Expect to have "B" value in main input
         cy.get('body').type('B');
-        cy.get('#post_textbox').should('be.focused');
+        cy.uiGetPostTextBox().should('be.focused');
     });
 
     it('MM-T204 Focus will move to main input box after a new channel has been opened', () => {
@@ -74,7 +74,7 @@ describe('Messaging', () => {
         cy.get('#channelHeaderTitle').should('be.visible').should('contain', testChannelName);
 
         // * Verify focus is moved to main input box when the channel is opened
-        cy.get('#post_textbox').should('be.focused');
+        cy.uiGetPostTextBox().should('be.focused');
     });
 
     it('MM-T205 Focus to remain in RHS textbox each time Reply arrow is clicked', () => {
@@ -108,7 +108,7 @@ describe('Messaging', () => {
 
         // # Click the save icon to move focus out of the main input box
         cy.uiGetSavedPostButton().click();
-        cy.get('#post_textbox').should('not.be.focused');
+        cy.uiGetPostTextBox().should('not.be.focused');
 
         // Keycodes for keys that don't have a special character sequence for cypress.type()
         const numLockKeycode = 144;
@@ -120,7 +120,7 @@ describe('Messaging', () => {
             cy.get('body').trigger('keydown', {keyCode: keycode, which: keycode});
 
             // # Make sure main input is not focused
-            cy.get('#post_textbox').should('not.be.focused');
+            cy.uiGetPostTextBox().should('not.be.focused');
         });
 
         // For other keys we can use cypress.type() with a special character sequence.
@@ -129,7 +129,7 @@ describe('Messaging', () => {
             cy.get('body').type(key);
 
             // # Make sure main input is not focused
-            cy.get('#post_textbox').should('not.be.focused');
+            cy.uiGetPostTextBox().should('not.be.focused');
         });
     });
 });
@@ -167,5 +167,5 @@ function verifyFocusInAddChannelMemberModal() {
 
     // * Focus is not moved anywhere. Neither the search box or main input box has the focus
     cy.get('#selectItems input').should('not.be.focused').and('have.value', 'A');
-    cy.get('#post_textbox').should('not.be.focused');
+    cy.uiGetPostTextBox().should('not.be.focused');
 }

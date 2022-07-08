@@ -42,9 +42,6 @@ describe('Leave channel', () => {
     });
 
     it('MM-T4429_1 Leave a channel while RHS is open', () => {
-        // * Post text box should be visible
-        cy.get('#post_textbox').should('be.visible');
-
         // # Post a message in the channel
         cy.postMessage('Test leave channel while RHS open');
         cy.getLastPostId().then((id) => {
@@ -75,8 +72,7 @@ describe('Leave channel', () => {
 
     it('MM-T4429_2 Leave a channel while RHS is open and CRT on', () => {
         // * Post text box should be visible
-        cy.get('#post_textbox').should('be.visible');
-        cy.pause();
+        cy.uiGetPostTextBox();
 
         // # Set CRT to on
         cy.uiChangeCRTDisplaySetting('ON');

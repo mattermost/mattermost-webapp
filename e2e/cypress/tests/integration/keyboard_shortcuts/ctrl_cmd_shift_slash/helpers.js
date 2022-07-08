@@ -9,7 +9,7 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
  */
 export function doReactToLastMessageShortcut(from) {
     if (from === 'CENTER') {
-        cy.get('#post_textbox').
+        cy.uiGetPostTextBox().
             focus().
             clear().
             cmdOrCtrlShortcut('{shift}\\');

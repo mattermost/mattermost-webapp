@@ -115,10 +115,10 @@ describe('Verify Accessibility Support in different input fields', () => {
             cy.apiAddUserToTeam(testTeam.id, user.id).then(() => {
                 cy.apiAddUserToChannel(testChannel.id, user.id).then(() => {
                     // * Verify Accessibility support in post input field
-                    cy.get('#post_textbox').should('have.attr', 'aria-label', `write to ${testChannel.display_name}`).clear().focus();
+                    cy.uiGetPostTextBox().should('have.attr', 'aria-label', `write to ${testChannel.display_name}`).clear().focus();
 
                     // # Ensure User list is cached once in UI
-                    cy.get('#post_textbox').type('@').wait(TIMEOUTS.FIVE_SEC);
+                    cy.uiGetPostTextBox().type('@').wait(TIMEOUTS.FIVE_SEC);
 
                     // # Select the first user in the list
                     cy.get('#suggestionList').find('.suggestion-list__item').eq(0).within((el) => {
@@ -128,7 +128,7 @@ describe('Verify Accessibility Support in different input fields', () => {
                     });
 
                     // # Trigger the user autocomplete again
-                    cy.get('#post_textbox').clear().type('@').wait(TIMEOUTS.FIVE_SEC).type('{uparrow}{uparrow}{downarrow}');
+                    cy.uiGetPostTextBox().clear().type('@').wait(TIMEOUTS.FIVE_SEC).type('{uparrow}{uparrow}{downarrow}');
 
                     // * Verify Accessibility Support in message autocomplete
                     verifyMessageAutocomplete(1);
@@ -140,10 +140,10 @@ describe('Verify Accessibility Support in different input fields', () => {
                     verifyMessageAutocomplete(0);
 
                     // # Trigger the channel autocomplete filter and ensure channel list is cached once
-                    cy.get('#post_textbox').clear().type('~').wait(TIMEOUTS.FIVE_SEC);
+                    cy.uiGetPostTextBox().clear().type('~').wait(TIMEOUTS.FIVE_SEC);
 
                     // # Trigger the channel autocomplete again
-                    cy.get('#post_textbox').clear().type('~').wait(TIMEOUTS.FIVE_SEC).type('{downarrow}{downarrow}');
+                    cy.uiGetPostTextBox().clear().type('~').wait(TIMEOUTS.FIVE_SEC).type('{downarrow}{downarrow}');
 
                     // * Verify Accessibility Support in message autocomplete
                     verifyMessageAutocomplete(2, 'channel');
@@ -161,7 +161,7 @@ describe('Verify Accessibility Support in different input fields', () => {
     it('MM-T1458 Verify Accessibility Support in Main Post Input', () => {
         cy.get('#advancedTextEditorCell').within(() => {
             // * Verify Accessibility Support in Main Post input
-            cy.get('#post_textbox').should('have.attr', 'aria-label', `write to ${testChannel.display_name}`).and('have.attr', 'role', 'textbox').clear().focus().type('test').tab({shift: true}).tab().tab();
+            cy.uiGetPostTextBox().should('have.attr', 'aria-label', `write to ${testChannel.display_name}`).and('have.attr', 'role', 'textbox').clear().focus().type('test').tab({shift: true}).tab().tab();
 
             // * Verify if the focus is on the preview button
             cy.get('#PreviewInputTextButton').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'preview').tab();
@@ -209,7 +209,7 @@ describe('Verify Accessibility Support in different input fields', () => {
 
     it('MM-T1490 Verify Accessibility Support in RHS Input', () => {
         // # Wait till page is loaded
-        cy.get('#post_textbox').should('be.visible').clear();
+        cy.uiGetPostTextBox().clear();
 
         // # Post a message and open RHS
         const message = `hello${Date.now()}`;

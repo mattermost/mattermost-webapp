@@ -97,15 +97,15 @@ function uploadFileAndAddAutocompleteThenVerifyNoOverlap() {
     cy.get('#fileUploadInput').attachFile('mattermost-icon.png');
 
     // # Create and then type message to use
-    cy.get('#post_textbox').clear();
+    cy.uiGetPostTextBox().clear();
     let message = 'h{shift}';
     for (let i = 0; i < 12; i++) {
         message += '{enter}h';
     }
-    cy.get('#post_textbox').type(message);
+    cy.uiGetPostTextBox().type(message);
 
     // # Add the mention
-    cy.get('#post_textbox').type('{shift}{enter}').type('@');
+    cy.uiGetPostTextBox().type('{shift}{enter}').type('@');
 
     cy.get('#channel-header').should('be.visible').then((header) => {
         cy.get('#suggestionList').should('be.visible').then((list) => {

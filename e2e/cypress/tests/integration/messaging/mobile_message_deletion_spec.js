@@ -23,7 +23,7 @@ describe('Delete Parent Message', () => {
 
     it('MM-T110 Delete a parent message that has a reply: Reply RHS', () => {
         // # Close Hamburger menu, post a message, and add replies
-        cy.get('#post_textbox').click({force: true});
+        cy.uiGetPostTextBox().click({force: true});
         cy.postMessage('Parent Message');
 
         cy.getLastPostId().then((postId) => {

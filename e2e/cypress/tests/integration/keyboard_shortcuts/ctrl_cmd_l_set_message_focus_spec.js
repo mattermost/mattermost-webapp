@@ -36,7 +36,7 @@ describe('Keyboard Shortcuts', () => {
             cy.get('body').cmdOrCtrlShortcut('{shift}L');
 
             // * Confirm the message box has focus
-            cy.get('#post_textbox').should('be.focused');
+            cy.uiGetPostTextBox().should('be.focused');
         });
     });
 
@@ -51,6 +51,6 @@ describe('Keyboard Shortcuts', () => {
         cy.get('body').cmdOrCtrlShortcut('{shift}L');
 
         // * Confirm the message box has focus
-        cy.get('#post_textbox').should('be.focused');
+        cy.uiGetPostTextBox().should('be.focused');
     });
 });

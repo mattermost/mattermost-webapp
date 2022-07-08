@@ -93,7 +93,7 @@ function postAttachments() {
 
     // # Copy and paste the text below into the message box and post
     cy.fixture('long_text_post.txt', 'utf-8').then((text) => {
-        cy.get('#post_textbox').then((textbox) => {
+        cy.uiGetPostTextBox().then((textbox) => {
             textbox.val(text);
         }).type(' {backspace}{enter}');
     });

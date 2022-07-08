@@ -35,10 +35,10 @@ describe('Message Reply', () => {
     it('MM-T2132 - Message sends: just text', () => {
         // # Type `Hello` in center message box
         const msg = 'Hello';
-        cy.get('#post_textbox').type(msg);
+        cy.uiGetPostTextBox().type(msg);
 
         // # Press `Enter`
-        cy.get('#post_textbox').type('{enter}');
+        cy.uiGetPostTextBox().type('{enter}');
 
         // * Message displays in center
         cy.getLastPostId().then((postId) => {
