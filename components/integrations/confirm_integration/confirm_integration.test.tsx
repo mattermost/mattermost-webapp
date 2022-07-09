@@ -6,21 +6,26 @@ import {shallow} from 'enzyme';
 import {Router} from 'react-router-dom';
 
 import {browserHistory} from 'utils/browser_history';
+import {TestHelper} from 'utils/test_helper';
 import {renderWithIntl} from 'tests/react_testing_utils';
 
 import ConfirmIntegration from 'components/integrations/confirm_integration/confirm_integration';
 
+import {IncomingWebhook, OAuthApp, OutgoingWebhook} from '@mattermost/types/integrations';
+import {Bot} from '@mattermost/types/bots';
+import {IDMappedObjects} from '@mattermost/types/utilities';
+
 describe('components/integrations/ConfirmIntegration', () => {
     const id = 'r5tpgt4iepf45jt768jz84djic';
     const token = 'jb6oyqh95irpbx8fo9zmndkp1r';
-    const getSearchString = (type, identifier = id) => `?type=${type}&id=${identifier}`;
+    const getSearchString = (type: string, identifier = id) => `?type=${type}&id=${identifier}`;
 
     const location = {
         search: '',
     };
-    const team = {
+    const team = TestHelper.getTeamMock({
         name: 'team_test',
-    };
+    });
     const oauthApp = {
         id,
         client_secret: '<==secret==>',
@@ -31,11 +36,11 @@ describe('components/integrations/ConfirmIntegration', () => {
         user_id: userId,
         display_name: 'bot',
     };
-    const commands = {[id]: {id, token}};
-    const oauthApps = {[id]: oauthApp};
-    const incomingHooks = {[id]: {id}};
-    const outgoingHooks = {[id]: {id, token}};
-    const bots = {[userId]: bot};
+    const commands = {[id]: TestHelper.getCommandMock({id, token})};
+    const oauthApps = {[id]: oauthApp} as unknown as IDMappedObjects<OAuthApp>;
+    const incomingHooks = {[id]: {id}} as unknown as IDMappedObjects<IncomingWebhook>;
+    const outgoingHooks = {[id]: {id, token}} as unknown as IDMappedObjects<OutgoingWebhook>;
+    const bots = {[userId]: bot} as unknown as Record<string, Bot>;
 
     const props = {
         team,
