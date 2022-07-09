@@ -3470,7 +3470,7 @@ export default class Client4 {
 
     getBoardsUsage = () => {
         return this.doFetch<BoardsUsageResponse>(
-            `/plugins/${suitePluginIds.focalboard}/api/v1/limits`,
+            `/plugins/${suitePluginIds.focalboard}/api/v2/limits`,
             {method: 'get'},
         );
     }
