@@ -8,7 +8,7 @@ import {Router} from 'react-router-dom';
 import {browserHistory} from 'utils/browser_history';
 import {renderWithIntl} from 'tests/react_testing_utils';
 
-import ConfirmIntegration from 'components/integrations/confirm_integration/confirm_integration.jsx';
+import ConfirmIntegration from 'components/integrations/confirm_integration/confirm_integration';
 
 describe('components/integrations/ConfirmIntegration', () => {
     const id = 'r5tpgt4iepf45jt768jz84djic';
