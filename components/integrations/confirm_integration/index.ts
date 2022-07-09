@@ -6,9 +6,11 @@ import {connect} from 'react-redux';
 import {getCommands, getOAuthApps, getIncomingHooks, getOutgoingHooks} from 'mattermost-redux/selectors/entities/integrations';
 import {getBotAccounts} from 'mattermost-redux/selectors/entities/bots';
 
+import {GlobalState} from 'types/store';
+
 import ConfirmIntegration from './confirm_integration';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     return {
         commands: getCommands(state),
         oauthApps: getOAuthApps(state),

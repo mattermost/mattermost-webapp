@@ -28,7 +28,7 @@ type Props = {
     bots: Record<string, Bot>;
 }
 
-const ConfirmIntegration = ({team, location, commands, oauthApps, incomingHooks, outgoingHooks, bots}: Props): JSX.Element | string => {
+const ConfirmIntegration = ({team, location, commands, oauthApps, incomingHooks, outgoingHooks, bots}: Props): JSX.Element | null => {
     const type = (new URLSearchParams(location.search)).get('type') || '';
     const id = (new URLSearchParams(location.search)).get('id') || '';
 
@@ -292,7 +292,7 @@ const ConfirmIntegration = ({team, location, commands, oauthApps, incomingHooks,
         );
     } else {
         browserHistory.replace(`/error?type=${ErrorPageTypes.PAGE_NOT_FOUND}`);
-        return '';
+        return null;
     }
 
     return (
