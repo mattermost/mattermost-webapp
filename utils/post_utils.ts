@@ -428,12 +428,12 @@ export function makeGetMentionsFromMessage(): (state: GlobalState, post: Post) =
             for (let i = 0; i < mentionsArray.length; i++) {
                 const mention = mentionsArray[i];
                 const user = getUserFromMentionName(users, mention.substring(1));
-        
+
                 if (user) {
                     mentions[mention] = user;
                 }
             }
-        
+
             return mentions;
         },
     );
@@ -482,12 +482,11 @@ export function createAriaLabelForPost(post: Post, author: string, isFlagged: bo
 
     // Replace mentions with preferred username
     for (const mention of Object.keys(mentions)) {
-         const user = mentions[mention];
-         if (user) {
-             message = message.replace(mention, `@${displayUsername(user, teammateNameDisplaySetting)}`);
-         }
-     }
-    
+        const user = mentions[mention];
+        if (user) {
+            message = message.replace(mention, `@${displayUsername(user, teammateNameDisplaySetting)}`);
+        }
+    }
 
     let ariaLabel;
     if (post.root_id) {
