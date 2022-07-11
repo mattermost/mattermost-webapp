@@ -5255,7 +5255,7 @@
   "workspace_limits.modals.limits_reached.title.message_history": "Message history",
   "workspace_limits.modals.view_plan_options": "View plan options",
   "workspace_limits.modals.view_plans": "View plans",
-  "workspace_limits.search_files_limit.banner_text": "Some older files may not be shown because your workspace has met its file storage limit of {storage}GB. <a>{ctaAction}</a>",
+  "workspace_limits.search_files_limit.banner_text": "Some older files may not be shown because your workspace has met its file storage limit of {storage}. <a>{ctaAction}</a>",
   "workspace_limits.search_limit.upgrade_now": "Upgrade now",
   "workspace_limits.search_limit.view_plans": "View plans",
   "workspace_limits.search_message_limit.banner_text": "Some older messages may not be shown because your workspace has over {messages} messages. <a>{ctaAction}</a>",
