@@ -208,7 +208,12 @@
                             }
 
                             .thread-item {
+                                width: 100%;
                                 padding: 12px 0;
+
+                                .Badge__box {
+                                    background: rgba(var(--center-channel-color-rgb), 0.08);
+                                }
 
                                 .preview {
                                     height: auto;

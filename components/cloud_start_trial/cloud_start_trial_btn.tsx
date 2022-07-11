@@ -7,9 +7,6 @@ import {useDispatch} from 'react-redux';
 
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 
-import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
-import {getClientConfig, getLicenseConfig} from 'mattermost-redux/actions/general';
-
 import useGetSubscription from 'components/common/hooks/useGetSubscription';
 
 import {requestCloudTrial, validateBusinessEmail, getCloudLimits} from 'actions/cloud';
@@ -40,6 +37,8 @@ enum TrialLoadStatus {
     Failed = 'FAILED',
     Embargoed = 'EMBARGOED',
 }
+
+const TIME_UNTIL_CACHE_PURGE_GUESS = 5000;
 
 const CloudStartTrialButton = ({
     message,
@@ -91,11 +90,19 @@ const CloudStartTrialButton = ({
             return TrialLoadStatus.Failed;
         }
 
-        await dispatch(getCloudSubscription());
-        await dispatch(getClientConfig());
+        function ensureUpdatedData() {
+            // Depending on timing of pods rolling, the webhook may still not get sent.
+            // Re-request limits as a just-in-case, but only well after any
+            // pods still alive should have either purged cache,
+            // updated limits, or be brand new pods that won't be holding onto stale limits
+            // We don't need to re-request subscription: the updated value is sent in the
+            // request cloud trial response.
+            // We don't need to request license: its update process is independent
+            // from subscription/limit changes and always happens after pods roll.
+            dispatch(getCloudLimits());
+        }
 
-        await dispatch(getLicenseConfig());
-        await dispatch(getCloudLimits());
+        setTimeout(ensureUpdatedData, TIME_UNTIL_CACHE_PURGE_GUESS);
         if (afterTrialRequest) {
             afterTrialRequest();
         }

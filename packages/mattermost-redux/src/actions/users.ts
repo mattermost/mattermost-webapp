@@ -86,10 +86,9 @@ export function login(loginId: string, password: string, mfaToken = '', ldapOnly
         dispatch({type: UserTypes.LOGIN_REQUEST, data: null});
 
         const state = getState();
-        const deviceId = state.entities.general.deviceToken;
 
         try {
-            await Client4.login(loginId, password, mfaToken, deviceId, ldapOnly);
+            await Client4.login(loginId, password, mfaToken, ldapOnly);
 
             let isSuccessfullyLoggedIn = false;
             if (isGraphQLEnabled(state)) {
@@ -121,10 +120,9 @@ export function loginById(id: string, password: string, mfaToken = ''): ActionFu
         dispatch({type: UserTypes.LOGIN_REQUEST, data: null});
 
         const state = getState();
-        const deviceId = state.entities.general.deviceToken;
 
         try {
-            await Client4.loginById(id, password, mfaToken, deviceId);
+            await Client4.loginById(id, password, mfaToken);
 
             let isSuccessfullyLoggedIn = false;
             if (isGraphQLEnabled(state)) {
@@ -155,13 +153,8 @@ export function loadMeREST(): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
 
-        const deviceId = state.entities.general.deviceToken;
-        if (deviceId) {
-            Client4.attachDevice(deviceId);
-        }
-
         // Sometimes the server version is set in one or the other
-        const serverVersion = getState().entities.general.serverVersion || Client4.getServerVersion();
+        const serverVersion = state.entities.general.serverVersion || Client4.getServerVersion();
         dispatch(setServerVersion(serverVersion));
 
         try {
@@ -174,19 +167,19 @@ export function loadMeREST(): ActionFunc {
                 dispatch(getMyTeamMembers()),
             ]);
 
-            const isCollapsedThreads = isCollapsedThreadsEnabled(getState());
+            const isCollapsedThreads = isCollapsedThreadsEnabled(state);
             await dispatch(getMyTeamUnreads(isCollapsedThreads));
         } catch (error) {
             dispatch(logError(error));
             return {error};
         }
 
-        const {currentUserId} = getState().entities.users;
+        const {currentUserId} = state.entities.users;
         if (currentUserId) {
             Client4.setUserId(currentUserId);
         }
 
-        const user = getState().entities.users.profiles[currentUserId];
+        const user = state.entities.users.profiles[currentUserId];
         if (user) {
             Client4.setUserRoles(user.roles);
         }
@@ -199,13 +192,8 @@ export function loadMe(): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
 
-        const deviceId = state.entities.general.deviceToken;
-        if (deviceId) {
-            Client4.attachDevice(deviceId);
-        }
-
         // Sometimes the server version is set in one or the other
-        const serverVersion = getState().entities.general.serverVersion || Client4.getServerVersion();
+        const serverVersion = state.entities.general.serverVersion || Client4.getServerVersion();
         dispatch(setServerVersion(serverVersion));
 
         let responseData: MyDataQueryResponseType['data'] | null = null;
@@ -499,6 +487,11 @@ export function getProfilesWithoutTeam(page: number, perPage: number = General.P
 
         return {data: profiles};
     };
+}
+
+export enum ProfilesInChannelSortBy {
+    None = '',
+    Admin = 'admin',
 }
 
 export function getProfilesInChannel(channelId: string, page: number, perPage: number = General.PROFILE_CHUNK_SIZE, sort = '', options: {active?: boolean} = {}): ActionFunc {

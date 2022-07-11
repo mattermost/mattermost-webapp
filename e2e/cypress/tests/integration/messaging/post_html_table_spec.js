@@ -28,7 +28,7 @@ describe('Post HTML', () => {
         });
 
         // # Paste HTML data from clipboard to the message box.
-        cy.get('#create_post').trigger('paste', {clipboardData: {
+        cy.uiGetPostTextBox().trigger('paste', {clipboardData: {
             items: [1],
             types: ['text/html'],
             getData: () => '<table><img src="null" onerror="alert(\'xss\')" /></table>',
