@@ -22,6 +22,8 @@ import {getSiteURL} from 'utils/url';
 import {t} from 'utils/i18n';
 import {copyToClipboard} from 'utils/utils';
 
+import {ActionResult} from 'mattermost-redux/types/actions';
+
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
@@ -31,22 +33,26 @@ import {useThreadRouting} from '../../hooks';
 
 import './thread_menu.scss';
 
-type Props = {
+export type Props = {
     threadId: UserThread['id'];
-    lastPostId: Post['id'];
+    postsInThread: Post[];
     isFollowing?: boolean;
     hasUnreads: boolean;
     children: ReactNode;
     unreadTimestamp: number;
+    actions: {
+        getPostThread: (rootId: string) => Promise<ActionResult>;
+    };
 };
 
 function ThreadMenu({
     threadId,
-    lastPostId,
+    postsInThread,
     isFollowing = false,
     unreadTimestamp,
     hasUnreads,
     children,
+    actions,
 }: Props) {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
@@ -59,6 +65,10 @@ function ThreadMenu({
         goToInChannel,
     } = useThreadRouting();
 
+    React.useEffect(() => {
+        actions.getPostThread(threadId);
+    }, [threadId, actions]);
+
     const isSaved = useSelector((state: GlobalState) => get(state, Preferences.CATEGORY_FLAGGED_POST, threadId, null) != null, shallowEqual);
 
     const handleReadUnread = useCallback(() => {
@@ -68,15 +78,18 @@ function ThreadMenu({
         if (hasUnreads) {
             dispatch(updateThreadRead(currentUserId, currentTeamId, threadId, Date.now()));
         } else {
+            const lastPostId = postsInThread.length > 1 ? postsInThread[0].id : threadId;
             dispatch(markThreadAsUnread(currentUserId, currentTeamId, threadId, lastPostId));
         }
     }, [
         currentUserId,
         currentTeamId,
         threadId,
+        actions,
         hasUnreads,
         updateThreadRead,
         unreadTimestamp,
+        postsInThread,
     ]);
 
     return (
@@ -163,7 +176,9 @@ function areEqual(prevProps: Props, nextProps: Props) {
         prevProps.threadId === nextProps.threadId &&
         prevProps.isFollowing === nextProps.isFollowing &&
         prevProps.unreadTimestamp === nextProps.unreadTimestamp &&
-        prevProps.hasUnreads === nextProps.hasUnreads
+        prevProps.hasUnreads === nextProps.hasUnreads &&
+        prevProps.postsInThread === nextProps.postsInThread &&
+        prevProps.actions === nextProps.actions
     );
 }
 
