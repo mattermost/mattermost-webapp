@@ -11,6 +11,7 @@ import {isAdmin} from 'mattermost-redux/utils/user_utils';
 import {isCurrentLicenseCloud, getSubscriptionProduct as selectSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
 import {CloudProducts} from 'utils/constants';
 import useGetUsage from 'components/common/hooks/useGetUsage';
+import useGetLimits from 'components/common/hooks/useGetLimits';
 import {asGBString, fallbackStarterLimits} from 'utils/limits';
 
 const StyledDiv = styled.div`
@@ -18,13 +19,12 @@ width: 100%;
 `;
 
 const StyledA = styled.a`
-color: rgba(var(--denim-button-bg-rgb, 1)) !important;
+color: var(--denim-button-bg) !important;
 `;
 
 const InnerDiv = styled.div`
 display: flex;
 gap: 8px;
-border-radius: 4px;
 border: 1px solid rgba(var(--center-channel-text-rgb), 0.08);
 border-radius: 4px;
 background-color: rgba(var(--center-channel-text-rgb), 0.04);
@@ -48,6 +48,7 @@ function SearchLimitsBanner(props: Props) {
     const {formatMessage, formatNumber} = useIntl();
     const openPricingModal = useOpenPricingModal();
     const usage = useGetUsage();
+    const [cloudLimits] = useGetLimits();
     const isAdminUser = isAdmin(useSelector(getCurrentUser).roles);
     const isCloud = useSelector(isCurrentLicenseCloud);
     const product = useSelector(selectSubscriptionProduct);
@@ -57,8 +58,10 @@ function SearchLimitsBanner(props: Props) {
         return null;
     }
 
-    const currentFileStorageUsage = usage?.files?.totalStorage || 0;
-    const currentMessagesUsage = usage?.messages?.history || 0;
+    const currentFileStorageUsage = usage.files.totalStorage;
+    const fileStorageLimit = cloudLimits?.files?.total_storage || fallbackStarterLimits.files.totalStorage;
+    const currentMessagesUsage = usage.messages.history;
+    const messagesLimit = cloudLimits?.messages?.history || fallbackStarterLimits.messages.history;
 
     let ctaAction = formatMessage({
         id: 'workspace_limits.search_limit.view_plans',
@@ -83,7 +86,7 @@ function SearchLimitsBanner(props: Props) {
 
     switch (props.searchType) {
     case FILES_SEARCH_TYPE:
-        if (!(currentFileStorageUsage > fallbackStarterLimits.files.totalStorage)) {
+        if (!(currentFileStorageUsage > fileStorageLimit)) {
             return null;
         }
         return renderBanner(formatMessage({
@@ -91,7 +94,7 @@ function SearchLimitsBanner(props: Props) {
             defaultMessage: 'Some older files may not be shown because your workspace has met its file storage limit of {storage}. <a>{ctaAction}</a>',
         }, {
             ctaAction,
-            storage: asGBString(usage.files.totalStorage, formatNumber),
+            storage: asGBString(fileStorageLimit, formatNumber),
             a: (chunks: React.ReactNode | React.ReactNodeArray) => (
                 <StyledA
                     onClick={openPricingModal}
@@ -102,7 +105,7 @@ function SearchLimitsBanner(props: Props) {
         }), `${FILES_SEARCH_TYPE}_search_limits_banner`);
 
     case MESSAGES_SEARCH_TYPE:
-        if (!(currentMessagesUsage > fallbackStarterLimits.messages.history)) {
+        if (!(currentMessagesUsage > messagesLimit)) {
             return null;
         }
         return renderBanner(formatMessage({
@@ -110,7 +113,7 @@ function SearchLimitsBanner(props: Props) {
             defaultMessage: 'Some older messages may not be shown because your workspace has over {messages} messages. <a>{ctaAction}</a>',
         }, {
             ctaAction,
-            messages: formatNumber(usage.messages.history),
+            messages: formatNumber(messagesLimit),
             a: (chunks: React.ReactNode | React.ReactNodeArray) => (
                 <StyledA
                     onClick={openPricingModal}

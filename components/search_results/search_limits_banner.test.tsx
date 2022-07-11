@@ -8,32 +8,11 @@ import mockStore from '../../tests/test_store';
 import {mountWithIntl} from '../../tests/helpers/intl-test-helper';
 import {FileSizes} from '../../utils/file_utils';
 import {CloudProducts} from '../../utils/constants';
+import {makeEmptyUsage} from '../../utils/limits_test';
 
 import SearchLimitsBanner from './search_limits_banner';
 
-const usage = {
-    files: {
-        totalStorage: 0,
-        totalStorageLoaded: true,
-    },
-    messages: {
-        history: 0,
-        historyLoaded: true,
-    },
-    boards: {
-        cards: 0,
-        cardsLoaded: true,
-    },
-    integrations: {
-        enabled: 0,
-        enabledLoaded: true,
-    },
-    teams: {
-        active: 0,
-        cloudArchived: 0,
-        teamsLoaded: true,
-    },
-};
+const usage = makeEmptyUsage();
 
 const limits = {
     limitsLoaded: true,
@@ -143,11 +122,9 @@ describe('components/select_results/SearchLimitsBanner', () => {
     });
 
     test('should NOT show banner for non cloud when doing cloud messages search above the limit but NOT in starter product', () => {
-        const aboveMessagesLimitUsage = {
-            ...usage,
-        };
-
+        const aboveMessagesLimitUsage = JSON.parse(JSON.stringify(usage));
         aboveMessagesLimitUsage.messages.history = 15000; // above limit of 10k
+
         const state = {
             entities: {
                 general: {
@@ -179,11 +156,9 @@ describe('components/select_results/SearchLimitsBanner', () => {
     });
 
     test('should NOT show banner for non cloud when doing cloud files search above the limit but NOT in starter product', () => {
-        const aboveFilesLimitUsage = {
-            ...usage,
-        };
-
+        const aboveFilesLimitUsage = JSON.parse(JSON.stringify(usage));
         aboveFilesLimitUsage.files.totalStorage = 11 * FileSizes.Gigabyte; // above limit of 10GB
+
         const state = {
             entities: {
                 general: {
@@ -215,11 +190,9 @@ describe('components/select_results/SearchLimitsBanner', () => {
     });
 
     test('should show banner for CLOUD when doing cloud messages search above the limit in STARTER product', () => {
-        const aboveMessagesLimitUsage = {
-            ...usage,
-        };
-
+        const aboveMessagesLimitUsage = JSON.parse(JSON.stringify(usage));
         aboveMessagesLimitUsage.messages.history = 15000; // above limit of 10K
+
         const state = {
             entities: {
                 general: {
@@ -251,11 +224,9 @@ describe('components/select_results/SearchLimitsBanner', () => {
     });
 
     test('should show banner for CLOUD when doing cloud files search above the limit in STARTER product', () => {
-        const aboveFilesLimitUsage = {
-            ...usage,
-        };
-
+        const aboveFilesLimitUsage = JSON.parse(JSON.stringify(usage));
         aboveFilesLimitUsage.files.totalStorage = 11 * FileSizes.Gigabyte; // above limit of 10GB
+
         const state = {
             entities: {
                 general: {
