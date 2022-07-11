@@ -79,32 +79,6 @@ const products = {
     },
 };
 
-// const state = {
-//     entities: {
-//         general: {
-//             license: {
-//                 IsLicensed: 'true',
-//                 Cloud: 'false',
-//             },
-//         },
-//         users: {
-//             currentUserId: 'uid',
-//             profiles: {
-//                 uid: {},
-//             },
-//         },
-//         cloud: {
-//             subscription: {
-//                 is_free_trial: 'true',
-//                 product_id: 'prod_1', // starter
-//             },
-//             products,
-//             limits,
-//         },
-//         usage,
-//     },
-// };
-
 describe('components/select_results/SearchLimitsBanner', () => {
     test('should NOT show banner for non cloud when doing messages search', () => {
         const state = {
