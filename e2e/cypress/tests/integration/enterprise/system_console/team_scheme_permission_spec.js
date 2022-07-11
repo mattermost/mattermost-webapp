@@ -154,11 +154,11 @@ const channelMentionsPermissionCheck = (enabled) => {
 const createPostPermissionCheck = (enabled) => {
     if (enabled) {
         // # Try post it to the channel
-        cy.get('#post_textbox').should('not.be.disabled');
+        cy.uiGetPostTextBox().should('not.be.disabled');
         cy.postMessage('test');
     } else {
         // # Ensure the input is disabled
-        cy.get('#post_textbox').should('be.disabled');
+        cy.uiGetPostTextBox().should('be.disabled');
     }
 
     // # Get last post message text

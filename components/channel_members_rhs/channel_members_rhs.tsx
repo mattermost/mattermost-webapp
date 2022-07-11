@@ -5,7 +5,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {debounce} from 'lodash';
 
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 
 import {UserProfile} from '@mattermost/types/users';
 import {Channel, ChannelMembership} from '@mattermost/types/channels';
@@ -16,6 +16,8 @@ import {ModalData} from 'types/actions';
 import {browserHistory} from 'utils/browser_history';
 
 import {ProfilesInChannelSortBy} from 'mattermost-redux/actions/users';
+
+import AlertBanner from 'components/alert_banner';
 
 import ActionBar from './action_bar';
 import Header from './header';
@@ -37,6 +39,7 @@ const MembersContainer = styled.div`
 
 export interface Props {
     channel: Channel;
+    currentUserIsChannelAdmin: boolean;
     membersCount: number;
     searchTerms: string;
     canGoBack: boolean;
@@ -71,6 +74,7 @@ export interface ListItem {
 
 export default function ChannelMembersRHS({
     channel,
+    currentUserIsChannelAdmin,
     searchTerms,
     membersCount,
     canGoBack,
@@ -84,8 +88,11 @@ export default function ChannelMembersRHS({
 
     const [page, setPage] = useState(0);
     const [isNextPageLoading, setIsNextPageLoading] = useState(false);
+    const {formatMessage} = useIntl();
 
     const searching = searchTerms !== '';
+
+    const isDefaultChannel = channel.name === Constants.DEFAULT_CHANNEL;
 
     // show search if there's more than 20 or if the user have an active search.
     const showSearch = searching || membersCount >= 20;
@@ -234,6 +241,30 @@ export default function ChannelMembersRHS({
                 }}
             />
 
+            {/* Users with user management permissions have special restrictions in the default channel */}
+            {(editing && isDefaultChannel && !currentUserIsChannelAdmin) && (
+                <AlertContainer>
+                    <AlertBanner
+                        mode='info'
+                        variant='app'
+                        message={formatMessage({
+                            id: 'channel_members_rhs.default_channel_moderation_restrictions',
+                            defaultMessage: 'In this channel, you can only remove guests. Only <link>channel admins</link> can manage other members.',
+                        }, {
+                            link: (msg: React.ReactNode) => (
+                                <a
+                                    href='https://docs.mattermost.com/welcome/about-user-roles.html#channel-admin'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        })}
+                    />
+                </AlertContainer>
+            )}
+
             {showSearch && (
                 <SearchBar
                     terms={searchTerms}
@@ -271,4 +302,8 @@ const MemberListSeparator = styled.div`
 
 const FirstMemberListSeparator = styled(MemberListSeparator)`
     margin-top: 0px;
+`;
+
+const AlertContainer = styled.div`
+    padding: 0 20px 15px;
 `;

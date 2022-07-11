@@ -30,7 +30,7 @@ describe('Message', () => {
         const longLink = `~${testChannel.display_name}`;
 
         cy.postMessage('hello');
-        cy.get('#post_textbox').type(shortLink).type('{enter}');
+        cy.uiGetPostTextBox().type(shortLink).type('{enter}');
 
         cy.getLastPostId().then((postId) => {
             // # Grab last message with the long link url and go to the link
