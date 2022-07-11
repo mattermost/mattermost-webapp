@@ -99,7 +99,7 @@ function SearchLimitsBanner(props: Props) {
                     {chunks}
                 </StyledA>
             ),
-        }), 'files_search_limits_banner');
+        }), `${FILES_SEARCH_TYPE}_search_limits_banner`);
 
     case MESSAGES_SEARCH_TYPE:
         if (!(currentMessagesUsage > fallbackStarterLimits.messages.history)) {
@@ -118,7 +118,7 @@ function SearchLimitsBanner(props: Props) {
                     {chunks}
                 </StyledA>
             ),
-        }), 'messages_search_limits_banner');
+        }), `${MESSAGES_SEARCH_TYPE}_search_limits_banner`);
     default:
         return null;
     }
