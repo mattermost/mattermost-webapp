@@ -38,7 +38,8 @@ test('Intro to channel as regular user', async ({page, isMobile, browserName}, t
     }
 
     // Login as a new user
-    await loginPage.siteNameHeader.waitFor();
+    await loginPage.title.waitFor();
+    await loginPage.subtitle.waitFor();
     await page.waitForLoadState('domcontentloaded');
     await loginPage.login(user);
 
