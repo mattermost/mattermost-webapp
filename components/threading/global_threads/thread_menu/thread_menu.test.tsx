@@ -3,7 +3,6 @@
 
 import React, {ComponentProps} from 'react';
 import {set} from 'lodash';
-import {shallow} from 'enzyme';
 
 import {Provider} from 'react-redux';
 
@@ -24,10 +23,10 @@ import {
 } from 'actions/post_actions';
 jest.mock('actions/post_actions');
 
-import {copyToClipboard} from 'utils/utils';
 import {fakeDate} from 'tests/helpers/date';
 import {GlobalState} from 'types/store';
-import { mountWithIntl } from 'tests/helpers/intl-test-helper';
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import {copyToClipboard} from 'utils/utils';
 jest.mock('utils/utils');
 
 const mockRouting = {
