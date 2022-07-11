@@ -417,9 +417,32 @@ export function getLatestPostId(postIds: string[]): string {
     return '';
 }
 
+export function makeGetMentionsFromMessage(): (state: GlobalState, post: Post) => Record<string, UserProfile> {
+    return createSelector(
+        'getMentionsFromMessage',
+        (state: GlobalState, post: Post) => post,
+        (state: GlobalState) => getUsersByUsername(state),
+        (post, users) => {
+            const mentions: Record<string, UserProfile> = {};
+            const mentionsArray = post.message.match(Constants.MENTIONS_REGEX) || [];
+            for (let i = 0; i < mentionsArray.length; i++) {
+                const mention = mentionsArray[i];
+                const user = getUserFromMentionName(users, mention.substring(1));
+        
+                if (user) {
+                    mentions[mention] = user;
+                }
+            }
+        
+            return mentions;
+        },
+    );
+}
+
 export function makeCreateAriaLabelForPost(): (state: GlobalState, post: Post) => (intl: IntlShape) => string {
     const getReactionsForPost = makeGetUniqueReactionsToPost();
     const getDisplayName = makeGetDisplayName();
+    const getMentionsFromMessage = makeGetMentionsFromMessage();
 
     return createSelector(
         'makeCreateAriaLabelForPost',
@@ -428,15 +451,15 @@ export function makeCreateAriaLabelForPost(): (state: GlobalState, post: Post) =
         (state: GlobalState, post: Post) => getReactionsForPost(state, post.id),
         (state: GlobalState, post: Post) => get(state, Preferences.CATEGORY_FLAGGED_POST, post.id, null) != null,
         getEmojiMap,
-        (state: GlobalState) => getUsersByUsername(state),
+        (state: GlobalState, post: Post) => getMentionsFromMessage(state, post),
         (state: GlobalState) => getTeammateNameDisplaySetting(state),
-        (post, author, reactions, isFlagged, emojiMap, users, teammateNameDisplaySetting) => {
-            return (intl: IntlShape) => createAriaLabelForPost(post, author, isFlagged, reactions ?? {}, intl, emojiMap, users, teammateNameDisplaySetting);
+        (post, author, reactions, isFlagged, emojiMap, mentions, teammateNameDisplaySetting) => {
+            return (intl: IntlShape) => createAriaLabelForPost(post, author, isFlagged, reactions ?? {}, intl, emojiMap, mentions, teammateNameDisplaySetting);
         },
     );
 }
 
-export function createAriaLabelForPost(post: Post, author: string, isFlagged: boolean, reactions: Record<string, Reaction>, intl: IntlShape, emojiMap: EmojiMap, users: Record<string, UserProfile>, teammateNameDisplaySetting: string): string {
+export function createAriaLabelForPost(post: Post, author: string, isFlagged: boolean, reactions: Record<string, Reaction>, intl: IntlShape, emojiMap: EmojiMap, mentions: Record<string, UserProfile>, teammateNameDisplaySetting: string): string {
     const {formatMessage, formatTime, formatDate} = intl;
 
     let message = post.state === Posts.POST_DELETED ? formatMessage({
@@ -458,15 +481,13 @@ export function createAriaLabelForPost(post: Post, author: string, isFlagged: bo
     }
 
     // Replace mentions with preferred username
-    const mentionsArray = message.match(Constants.MENTIONS_WITHOUT_SPECIAL_MENTIONS) || [];
-    for (let i = 0; i < mentionsArray.length; i++) {
-        const mention = mentionsArray[i];
-        const user = getUserFromMentionName(users, mention.substring(1));
-
-        if (user) {
-            message = message.replace(mention, `@${displayUsername(user, teammateNameDisplaySetting)}`);
-        }
-    }
+    for (const mention of Object.keys(mentions)) {
+         const user = mentions[mention];
+         if (user) {
+             message = message.replace(mention, `@${displayUsername(user, teammateNameDisplaySetting)}`);
+         }
+     }
+    
 
     let ariaLabel;
     if (post.root_id) {
