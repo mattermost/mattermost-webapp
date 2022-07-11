@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import * as Actions from 'mattermost-redux/actions/integrations';
 import {getOutgoingHooks} from 'mattermost-redux/selectors/entities/integrations';
@@ -14,9 +14,11 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {loadOutgoingHooksAndProfilesForTeam} from 'actions/integration_actions';
 
-import InstalledOutgoingWebhook from './installed_outgoing_webhooks';
+import {GlobalState} from 'types/store';
 
-function mapStateToProps(state) {
+import InstalledOutgoingWebhook, {Props} from './installed_outgoing_webhooks';
+
+function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
     const teamId = getCurrentTeamId(state);
     const canManageOthersWebhooks = haveITeamPermission(state, teamId, Permissions.MANAGE_OTHERS_OUTGOING_WEBHOOKS);
@@ -36,9 +38,9 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<any>, Props['actions']>({
             loadOutgoingHooksAndProfilesForTeam,
             removeOutgoingHook: Actions.removeOutgoingHook,
             regenOutgoingHookToken: Actions.regenOutgoingHookToken,
