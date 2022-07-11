@@ -40,13 +40,13 @@ const assertGroupMentionDisabled = (groupName) => {
     cy.visit(`/${testTeam.name}/channels/off-topic`);
 
     // # Type suggestion in channel post text box
-    cy.get('#post_textbox').should('be.visible').clear().type(`@${suggestion}`).wait(TIMEOUTS.HALF_SEC);
+    cy.uiGetPostTextBox().clear().type(`@${suggestion}`).wait(TIMEOUTS.HALF_SEC);
 
     // * Should not open up suggestion list for groups
     cy.get('#suggestionList').should('not.exist');
 
     // # Type @groupName and post it to the channel
-    cy.get('#post_textbox').clear().type(`@${groupName}{enter}{enter}`);
+    cy.uiGetPostTextBox().clear().type(`@${groupName}{enter}{enter}`);
 
     // # Get last post message text
     cy.getLastPostId().then((postId) => {
@@ -80,7 +80,7 @@ const assertGroupMentionEnabled = (groupName) => {
     cy.visit(`/${testTeam.name}/channels/off-topic`);
 
     // # Type suggestion in channel post text box
-    cy.get('#post_textbox').should('be.visible').clear().type(`@${suggestion}`).wait(TIMEOUTS.HALF_SEC);
+    cy.uiGetPostTextBox().clear().type(`@${suggestion}`).wait(TIMEOUTS.HALF_SEC);
 
     // * Should open up suggestion list for groups
     // * Should match group item and group label
@@ -90,7 +90,7 @@ const assertGroupMentionEnabled = (groupName) => {
     });
 
     // # Type @groupName and post it to the channel
-    cy.get('#post_textbox').clear().type(`@${groupName}{enter}{enter}`).wait(TIMEOUTS.HALF_SEC);
+    cy.uiGetPostTextBox().clear().type(`@${groupName}{enter}{enter}`).wait(TIMEOUTS.HALF_SEC);
 
     // # Get last post message text
     cy.getLastPostId().then((postId) => {
