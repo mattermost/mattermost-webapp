@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {ChannelTypes, GeneralTypes, PostTypes, UserTypes, ThreadTypes, InsightTypes} from 'mattermost-redux/action_types';
+import {ChannelTypes, GeneralTypes, PostTypes, UserTypes, ThreadTypes, InsightTypes, CloudTypes} from 'mattermost-redux/action_types';
 
 import {Posts} from 'mattermost-redux/constants';
 import {PostTypes as PostConstant} from 'utils/constants';
@@ -1390,20 +1390,91 @@ export function expandedURLs(state: Record<string, string> = {}, action: Generic
     }
 }
 
-const zeroStateLimitedViews = {
+export const zeroStateLimitedViews = {
     threads: {},
     channels: {},
     search: {},
 }
-export function limitedViews(state: PostsState['limitedViews'] = zeroStateLimitedViews, action: GenericAction) {
+
+export function limitedViews(state: PostsState['limitedViews'] = zeroStateLimitedViews, action: GenericAction): PostsState['limitedViews'] {
+    // for each case, where needed, add the limit once observed. If a subsquent request for messages PRIOR to what is already loaded returns no limit, dump the limit.
     switch (action.type) {
-        // for each case, where needed, add the limit once observed. If a subsquent request for messages PRIOR to what is already loaded returns no limit, dump the limit.
-        // If limits change and there are no limits any more, dump all the limits in here.
-    case GeneralTypes.REDIRECT_LOCATION_SUCCESS:
-        return {
-            ...state,
-            [action.data.url]: action.data.location,
-        };
+    case PostTypes.RECEIVED_POSTS: {
+        if (action.data.has_inaccessible_posts && action.channelId) {
+            return {
+                ...state,
+                channels: {
+                    ...state.channels,
+                    [action.channelId]: true,
+                },
+            };
+        }
+    }
+    case PostTypes.RECEIVED_POSTS_AFTER: {
+        if (action.data.has_inaccessible_posts && action.channelId) {
+            return {
+                ...state,
+                channels: {
+                    ...state.channels,
+                    [action.channelId]: true,
+                },
+            };
+        }
+    }
+    case PostTypes.RECEIVED_POSTS_BEFORE: {
+        if (action.data.has_inaccessible_posts && action.channelId) {
+            return {
+                ...state,
+                channels: {
+                    ...state.channels,
+                    [action.channelId]: true,
+                },
+            };
+        }
+    }
+    case PostTypes.RECEIVED_POSTS_SINCE: {
+        if (action.data.has_inaccessible_posts && action.channelId) {
+            return {
+                ...state,
+                channels: {
+                    ...state.channels,
+                    [action.channelId]: true,
+                },
+            };
+        }
+    }
+    case PostTypes.RECEIVED_POSTS_IN_THREAD: {
+        if (action.data.has_inaccessible_posts && action.channelId) {
+            return {
+                ...state,
+                threads: {
+                    ...state.threads,
+                    [action.rootId]: true,
+                },
+            };
+        }
+    }
+    case PostTypes.RECEIVED_POSTS_IN_CHANNEL: {
+        if (action.data.has_inaccessible_posts && action.channelId) {
+            return {
+                ...state,
+                channels: {
+                    ...state.channels,
+                    [action.channelId]: true,
+                },
+            };
+        }
+        return state;
+    }
+    case CloudTypes.RECEIVED_CLOUD_LIMITS: {
+        const {limits} = action.data;
+        // If limits change and there is no message limit any more (e.g. upgrade to non limited plan),
+        // this state is stale and should be dumped.
+        if (!limits?.messages || (!limits?.messages?.history && limits?.messages?.history !== 0)) {
+            return zeroStateLimitedViews;
+        }
+    }
+    // TODO: for any deleted post, it is is contained in a channel's posts, then
     default:
         return state;
     }

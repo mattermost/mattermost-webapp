@@ -1,20 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useMemo} from 'react';
 import {useIntl, FormatDateOptions} from 'react-intl';
 import {useSelector} from 'react-redux';
 
 import {EyeOffOutlineIcon} from '@mattermost/compass-icons/components';
 
-// import {GlobalState} from '@mattermost/types/store';
+import {GlobalState} from '@mattermost/types/store';
 
 import {isAdmin} from 'mattermost-redux/utils/user_utils';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 // import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
-// import {getOldestPostsChunkInChannel} from 'mattermost-redux/selectors/entities/posts';
+import {getOldestPostsChunkInChannel, getAllPosts} from 'mattermost-redux/selectors/entities/posts';
 
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import useGetLimits from 'components/common/hooks/useGetLimits';
@@ -23,28 +23,40 @@ import './index.scss';
 
 const ONE_YEAR_MS = 1000 * 1 * 60 * 60 * 24 * 365;
 
-export default function CenterMessageLock() {
+interface Props {
+    channelId?: string
+}
+
+export default function CenterMessageLock(props: Props) {
     const intl = useIntl();
 
     const openPricingModal = useOpenPricingModal();
     const isAdminUser = isAdmin(useSelector(getCurrentUser).roles);
     const [cloudLimits, limitsLoaded] = useGetLimits();
     const currentTeam = useSelector(getCurrentTeam);
+    const allPosts = useSelector(getAllPosts);
+    const oldestPostsChunkInChannel = useSelector((state: GlobalState) => getOldestPostsChunkInChannel(state, props.channelId || ''));
+    const oldestAvailablePostDate = useMemo(() => {
+        if (props.channelId && oldestPostsChunkInChannel) {
+            const oldestPostId = oldestPostsChunkInChannel.order[0]
+            if (allPosts[oldestPostId]) {
+                return allPosts[oldestPostId].create_at;
+            }
+        }
+        return 0
+    }, [props.channelId, oldestPostsChunkInChannel, allPosts])
 
-    // const currentChannel = useSelector(getCurrentChannel);
-    const lastViewableMessage = useSelector(() => 1234567890);
 
-    // const oldest = useSelector((state: GlobalState) => getOldestPostsChunkInChannel(state, currentChannel?.id));
-    if (!'lastViewableMessage < 0 || !limitsLoaded') {
+    if (!limitsLoaded) {
         return null;
     }
 
     const dateFormat: FormatDateOptions = {month: 'long', day: 'numeric'};
-    if (Date.now() - lastViewableMessage >= ONE_YEAR_MS) {
+    if (Date.now() - oldestAvailablePostDate >= ONE_YEAR_MS) {
         dateFormat.year = 'numeric';
     }
     const titleValues = {
-        date: intl.formatDate(lastViewableMessage, dateFormat),
+        date: intl.formatDate(oldestAvailablePostDate, dateFormat),
         team: currentTeam?.display_name,
     };
 

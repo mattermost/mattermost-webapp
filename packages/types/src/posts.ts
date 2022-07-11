@@ -1,10 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Channel} from '@mattermost/types/channels';
-
-
-import {ChannelType} from './channels';
+import {Channel, ChannelType} from './channels';
 import {CustomEmoji} from './emojis';
 import {FileInfo} from './files';
 import {Reaction} from './reactions';
@@ -128,7 +125,7 @@ export type PostsState = {
     messagesHistory: MessageHistory;
     expandedURLs: Record<string, string>;
     limitedViews: {
-        posts: Record<Channel['id'], true>;
+        channels: Record<Channel['id'], true>;
         threads: Record<Post['root_id'], true>;
         search: Record<string, true>;
     }

@@ -302,6 +302,26 @@ function isSearchGettingMore(state = false, action: GenericAction) {
     }
 }
 
+function isLimitedResults(state = false, action: GenericAction): boolean {
+    switch (action.type) {
+    case SearchTypes.SEARCH_POSTS_REQUEST: {
+        if (!action.isGettingMore) {
+            return false;
+        }
+        return state;
+    }
+    case SearchTypes.RECEIVED_SEARCH_POSTS: {
+        if (action.data?.has_inaccessible_posts) {
+            return true;
+        }
+        return state;
+    }
+    default: {
+        return state;
+    }
+    }
+};
+
 export default combineReducers({
 
     // An ordered array with posts ids of flagged posts
@@ -331,4 +351,9 @@ export default combineReducers({
 
     // Boolean true if we are getting more search results
     isSearchGettingMore,
+
+    // Boolean true if a cloud workspace that has messages in excess of limits
+    // and some of the search results are those are among those in excess of the
+    // limits.
+    isLimitedResults,
 });

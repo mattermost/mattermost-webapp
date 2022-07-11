@@ -50,6 +50,7 @@ export type PostListRowProps = {
     usage: CloudUsage;
     limits: Limits;
     limitsLoaded: boolean;
+    channelLimitExceeded: boolean;
 
     actions: {
 
@@ -110,12 +111,6 @@ export default class PostListRow extends React.PureComponent<PostListRowProps> {
         }
 
         if (listId === CHANNEL_INTRO_MESSAGE) {
-            // const limitsExceededForThisChannel = true;
-            if ('this.props.limitsLoaded && limitsExceededForThisChannel') {
-                return (
-                    <CenterMessageLock/>
-                );
-            }
 
             return (
                 <ChannelIntroMessage/>
@@ -138,6 +133,13 @@ export default class PostListRow extends React.PureComponent<PostListRowProps> {
 
         const isOlderMessagesLoader = listId === OLDER_MESSAGES_LOADER;
         const isNewerMessagesLoader = listId === NEWER_MESSAGES_LOADER;
+
+        if (isOlderMessagesLoader && this.props.channelLimitExceeded) {
+            return (
+                <CenterMessageLock channelId={this.props.channel?.id}/>
+            );
+        }
+
         if (isOlderMessagesLoader || isNewerMessagesLoader) {
             const shouldHideAnimation = !loadingOlderPosts && !loadingNewerPosts;
 
