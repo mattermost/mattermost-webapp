@@ -65,6 +65,10 @@ export class EmojiPickerSkin extends React.PureComponent<Props, State> {
     }
 
     extended() {
+        const closeButtonLabel = this.props.intl.formatMessage({
+            id: 'emoji_skin.close',
+            defaultMessage: 'Close skin tones',
+        });
         const choices = skinsList.map((skinPair) => {
             const skin = skinPair[1];
             const emoji = skinToneEmojis.get(skin)!;
@@ -91,6 +95,7 @@ export class EmojiPickerSkin extends React.PureComponent<Props, State> {
                     <button
                         className='skin-tones__close-icon style--none'
                         onClick={() => this.hideSkinTonePicker(this.props.userSkinTone)}
+                        aria-label={closeButtonLabel}
                     >
                         <CloseIcon
                             size={16}
@@ -112,16 +117,18 @@ export class EmojiPickerSkin extends React.PureComponent<Props, State> {
     collapsed() {
         const emoji = skinToneEmojis.get(this.props.userSkinTone)!;
         const spriteClassName = classNames('emojisprite', `emoji-category-${emoji.category}`, `emoji-${emoji.unified.toLowerCase()}`);
+        const expandButtonLabel = this.props.intl.formatMessage({
+            id: 'emoji_picker.skin_tone',
+            defaultMessage: 'Skin tone',
+        });
+
         const tooltip = (
             <Tooltip
                 id='skinTooltip'
                 className='emoji-tooltip'
             >
                 <span>
-                    <FormattedMessage
-                        id={'emoji_picker.skin_tone'}
-                        defaultMessage={'Skin tone'}
-                    />
+                    {expandButtonLabel}
                 </span>
             </Tooltip>);
         return (
@@ -135,7 +142,7 @@ export class EmojiPickerSkin extends React.PureComponent<Props, State> {
                     data-testid={`skin-picked-${this.props.userSkinTone}`}
                     className='style--none skin-tones__icon skin-tones__expand-icon'
                     onClick={this.showSkinTonePicker}
-                    aria-label={this.ariaLabel(this.props.userSkinTone)}
+                    aria-label={expandButtonLabel}
                 >
                     <img
                         alt={'emoji skin tone picker'}
