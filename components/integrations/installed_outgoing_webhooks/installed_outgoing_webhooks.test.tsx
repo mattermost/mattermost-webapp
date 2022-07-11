@@ -78,14 +78,7 @@ describe('components/integrations/InstalledOutgoingWebhooks', () => {
         canManageOthersWebhooks: true,
     };
 
-    // let mockFunc;
-    // const loadOutgoingHooksAndProfilesForTeam = () => new Promise((resolve) => resolve());
-    beforeEach(() => {
-        // mockFunc = jest.fn();
-    });
-
     test('should match snapshot', () => {
-        // function emptyFunction() {} //eslint-disable-line no-empty-function
         const wrapper = shallow<InstalledOutgoingWebhooks>(
             <InstalledOutgoingWebhooks
                 {...defaultProps}
@@ -97,8 +90,6 @@ describe('components/integrations/InstalledOutgoingWebhooks', () => {
     });
 
     test('should call regenOutgoingHookToken function', () => {
-        function emptyFunction() {} //eslint-disable-line no-empty-function
-
         const wrapper = shallow<InstalledOutgoingWebhooks>(
             <InstalledOutgoingWebhooks
                 {...defaultProps}
@@ -110,8 +101,6 @@ describe('components/integrations/InstalledOutgoingWebhooks', () => {
     });
 
     test('should call removeOutgoingHook function', () => {
-        function emptyFunction() {} //eslint-disable-line no-empty-function
-
         const wrapper = shallow<InstalledOutgoingWebhooks>(
             <InstalledOutgoingWebhooks
                 {...defaultProps}
