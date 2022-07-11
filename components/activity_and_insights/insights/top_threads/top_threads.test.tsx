@@ -110,6 +110,13 @@ describe('components/activity_and_insights/insights/top_threads', () => {
                         name: 'channel1',
                     },
                 },
+                myMembers: {
+                    channel1: {
+                        id: 'channel1',
+                        team_id: 'team_id1',
+                        name: 'channel1',
+                    },
+                },
             },
             general: {
                 config: {},
