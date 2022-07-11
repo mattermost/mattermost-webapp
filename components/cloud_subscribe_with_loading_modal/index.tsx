@@ -8,35 +8,29 @@ import {useSelector, useDispatch} from 'react-redux';
 
 import {ModalIdentifiers} from 'utils/constants';
 import {GlobalState} from 'types/store';
+import {subscribeCloudSubscription} from 'actions/cloud';
+import {closeModal} from 'actions/views/modals';
 import {Team} from '@mattermost/types/teams';
+import {Product} from '@mattermost/types/cloud';
 import {t} from 'utils/i18n';
-import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import {isModalOpen} from 'selectors/views/modals';
+import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import CreditCardSvg from 'components/common/svg_images_components/credit_card_svg';
 import PaymentSuccessStandardSvg from 'components/common/svg_images_components/payment_success_standard_svg';
 import PaymentFailedSvg from 'components/common/svg_images_components/payment_failed_svg';
-import {Product} from '@mattermost/types/cloud';
-import {subscribeCloudSubscription} from 'actions/cloud';
-import {closeModal} from 'actions/views/modals';
 import IconMessage from 'components/purchase_modal/icon_message';
+import ProgressBar, {ProcessState} from 'components/icon_message_with_progress_bar';
 import {
     selectTeam,
     archiveAllTeamsExcept,
 } from 'mattermost-redux/actions/teams';
-import './cloud_subscribe_with_loading_modal.scss';
 
 type Props = RouteComponentProps & {
     onBack: () => void;
-    onClose: () => void;
+    onClose?: () => void;
     teamToKeep?: Team;
     selectedProduct?: Product | null | undefined;
 };
-
-enum ProcessState {
-    PROCESSING = 0,
-    SUCCESS,
-    FAILED,
-}
 
 const MIN_PROCESSING_MILLISECONDS = 8000;
 const MAX_FAKE_PROGRESS = 95;
@@ -122,10 +116,12 @@ function CloudSubscribeWithLoad(props: Props) {
                 ModalIdentifiers.CLOUD_SUBSCRIBE_WITH_LOADING_MODAL,
             ),
         );
-        props.onClose();
+        if (typeof props.onClose === 'function') {
+            props.onClose();
+        }
     };
 
-    const sucessPage = () => {
+    const successPage = () => {
         const formattedBtnText = (
             <FormattedMessage
                 defaultMessage='Return to {team}'
@@ -166,69 +162,10 @@ function CloudSubscribeWithLoad(props: Props) {
                 tertiaryBtnText={t('admin.billing.subscription.viewBilling')}
                 tertiaryButtonHandler={() => {
                     handleClose();
-                    props.history.push(
-                        '/admin_console/billing/subscription',
-                    );
+                    props.history.push('/admin_console/billing/subscription');
                 }}
             />
         );
-    };
-
-    const modalContent = () => {
-        const progressBar: JSX.Element | null = (
-            <div className='CloudSubscribeWithLoad-progress'>
-                <div
-                    className='CloudSubscribeWithLoad-progress-fill'
-                    style={{width: `${progress.current}%`}}
-                />
-            </div>
-        );
-        switch (processingState) {
-        case ProcessState.PROCESSING:
-            return (
-                <IconMessage
-                    title={t('admin.billing.subscription.downgrading')}
-                    subtitle={''}
-                    icon={
-                        <CreditCardSvg
-                            width={444}
-                            height={313}
-                        />
-                    }
-                    footer={progressBar}
-                    className={'processing'}
-                />
-            );
-        case ProcessState.SUCCESS:
-            return sucessPage();
-        case ProcessState.FAILED:
-            return (
-                <IconMessage
-                    title={t(
-                        'admin.billing.subscription.paymentVerificationFailed',
-                    )}
-                    subtitle={t('admin.billing.subscription.paymentFailed')}
-                    icon={
-                        <PaymentFailedSvg
-                            width={444}
-                            height={313}
-                        />
-                    }
-                    error={error}
-                    buttonText={t(
-                        'admin.billing.subscription.goBackTryAgain',
-                    )}
-                    buttonHandler={handleGoBack}
-                    linkText={t(
-                        'admin.billing.subscription.constCloudCard.contactSupport',
-                    )}
-                    linkURL={''}
-                    className={'failed'}
-                />
-            );
-        default:
-            return null;
-        }
     };
 
     return (
@@ -237,7 +174,36 @@ function CloudSubscribeWithLoad(props: Props) {
             onClose={handleClose}
         >
             <div className='loading-modal'>
-                {modalContent()}
+                <ProgressBar
+                    processingState={processingState}
+                    processingCopy={{
+                        title: t('admin.billing.subscription.downgrading'),
+                        subtitle: '',
+                        icon: (
+                            <CreditCardSvg
+                                width={444}
+                                height={313}
+                            />
+                        ),
+                    }}
+                    failedCopy={{
+                        title: t('admin.billing.subscription.paymentVerificationFailed'),
+                        subtitle: t('admin.billing.subscription.paymentFailed'),
+                        icon: (
+                            <PaymentFailedSvg
+                                width={444}
+                                height={313}
+                            />
+                        ),
+                        buttonText: t('admin.billing.subscription.goBackTryAgain'),
+                        linkText:
+                            t('admin.billing.subscription.constCloudCard.contactSupport'),
+                    }}
+                    progress={progress}
+                    successPage={successPage}
+                    handleGoBack={handleGoBack}
+                    error={error}
+                />
             </div>
         </FullScreenModal>
     );

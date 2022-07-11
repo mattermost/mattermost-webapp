@@ -80,7 +80,6 @@ function DowngradeTeamRemovalModal(props: Props) {
                         }),
                     );
                 },
-                onClose: () => { /* no-op */ },
                 teamToKeep,
                 selectedProduct: props.starterProduct,
             },
