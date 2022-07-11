@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {memo} from 'react';
-import {bindActionCreators, compose, Dispatch} from 'redux';
+import {compose} from 'redux';
 import {connect} from 'react-redux';
 
 import {getPost, makeGetPostsForThread} from 'mattermost-redux/selectors/entities/posts';
@@ -12,9 +12,6 @@ import {getThread} from 'mattermost-redux/selectors/entities/threads';
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 
 import {GlobalState} from 'types/store';
-
-import {GenericAction} from 'mattermost-redux/types/actions';
-import {getPostThread} from 'mattermost-redux/actions/posts';
 
 import ThreadItem, {OwnProps} from './thread_item';
 
@@ -39,15 +36,7 @@ function makeMapStateToProps() {
     };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
-    return {
-        actions: bindActionCreators({
-            getPostThread,
-        }, dispatch),
-    };
-}
-
 export default compose(
-    connect(makeMapStateToProps, mapDispatchToProps),
+    connect(makeMapStateToProps),
     memo,
 )(ThreadItem) as React.FunctionComponent<OwnProps>;
