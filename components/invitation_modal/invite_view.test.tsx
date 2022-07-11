@@ -3,12 +3,10 @@
 
 import React from 'react';
 
-import configureStore from 'redux-mock-store';
 import {Provider} from 'react-redux';
 
-import thunk from 'redux-thunk';
-
 import {mountWithThemedIntl} from 'tests/helpers/themed-intl-test-helper';
+import mockStore from 'tests/test_store';
 
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
 import {Team} from '@mattermost/types/teams';
@@ -84,7 +82,6 @@ describe('InviteView', () => {
         },
     };
 
-    const mockStore = configureStore([thunk]);
     const store = mockStore(state);
 
     beforeEach(() => {

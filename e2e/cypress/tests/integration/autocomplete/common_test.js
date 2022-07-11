@@ -7,8 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-import * as TIMEOUTS from '../../fixtures/timeouts';
-
 import {
     getPostTextboxInput,
     getQuickChannelSwitcherInput,
@@ -44,9 +42,8 @@ export function doTestUserChannelSection(prefix, testTeam, testUsers) {
     });
 
     // # Start an at mention that should return 2 users (in this case, the users share a last name)
-    cy.wait(TIMEOUTS.HALF_SEC).get('#post_textbox').
+    cy.uiGetPostTextBox().
         as('input').
-        should('be.visible').
         clear().
         type(`@${prefix}odinson`);
 
