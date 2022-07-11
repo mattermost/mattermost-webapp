@@ -85,9 +85,9 @@ describe('Search', () => {
             cy.visit(`/${testTeam.name}/messages/${channel.name}`);
 
             // # Post file to group
-            cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile('word-file.doc');
+            cy.get('#advancedTextEditorCell').find('#fileUploadInput').attachFile('word-file.doc');
             cy.get('.post-image__thumbnail').should('be.visible');
-            cy.get('#post_textbox').should('be.visible').clear().type('{enter}');
+            cy.uiGetPostTextBox().clear().type('{enter}');
 
             //# Type "in:" text in search input
             cy.get('#searchBox').type('in:');

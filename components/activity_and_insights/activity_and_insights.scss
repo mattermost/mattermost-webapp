@@ -412,6 +412,10 @@
                         border-radius: 4px;
                         cursor: pointer;
                     }
+
+                    .Badge__box {
+                        background: rgba(var(--center-channel-color-rgb), 0.08);
+                    }
                 }
             }
         }

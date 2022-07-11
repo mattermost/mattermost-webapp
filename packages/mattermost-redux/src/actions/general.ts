@@ -9,7 +9,6 @@ import {GeneralTypes} from 'mattermost-redux/action_types';
 
 import {getServerVersion} from 'mattermost-redux/selectors/entities/general';
 import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
-import {GeneralState} from '@mattermost/types/general';
 import {LogLevel} from '@mattermost/types/client4';
 import {GetStateFunc, DispatchFunc, ActionFunc} from 'mattermost-redux/types/actions';
 
@@ -110,22 +109,6 @@ export function logClientError(message: string, level = LogLevel.Error) {
             level,
         ],
     });
-}
-
-export function setAppState(state: GeneralState['appState']): ActionFunc {
-    return async (dispatch: DispatchFunc) => {
-        dispatch({type: GeneralTypes.RECEIVED_APP_STATE, data: state});
-
-        return {data: true};
-    };
-}
-
-export function setDeviceToken(token: GeneralState['deviceToken']): ActionFunc {
-    return async (dispatch: DispatchFunc) => {
-        dispatch({type: GeneralTypes.RECEIVED_APP_DEVICE_TOKEN, data: token});
-
-        return {data: true};
-    };
 }
 
 export function setServerVersion(serverVersion: string): ActionFunc {
@@ -232,8 +215,6 @@ export default {
     getDataRetentionPolicy,
     getLicenseConfig,
     logClientError,
-    setAppState,
-    setDeviceToken,
     setServerVersion,
     setUrl,
     getRedirectLocation,

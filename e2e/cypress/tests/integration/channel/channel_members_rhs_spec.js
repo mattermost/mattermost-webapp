@@ -192,6 +192,11 @@ describe('Channel members RHS', () => {
     });
 
     describe('as an admin', () => {
+        before(() => {
+            cy.apiLogout();
+            cy.apiLogin(admin);
+        });
+
         it('should be able to open the RHS from the channel menu', () => {
             // # Go to test channel
             cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
@@ -293,7 +298,7 @@ describe('Channel members RHS', () => {
 
             // # create a user that will not be listed by default
             const lastUser = generateRandomUser();
-            lastUser.username = 'zzzzzzz';
+            lastUser.username = 'zzzzzzz' + Date.now();
             cy.apiCreateUser({user: lastUser}).then(({user: newUser}) => {
                 cy.apiAddUserToTeam(testTeam.id, newUser.id).then(() => {
                     cy.apiAddUserToChannel(channel.id, newUser.id);

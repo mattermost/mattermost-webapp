@@ -13,7 +13,7 @@ import {Post} from '@mattermost/types/posts';
 import {TopThread} from '@mattermost/types/insights';
 import {UserProfile} from '@mattermost/types/users';
 
-import {selectPost} from 'actions/views/rhs';
+import {selectPostAndParentChannel} from 'actions/views/rhs';
 import {trackEvent} from 'actions/telemetry_actions';
 
 import Badge from 'components/widgets/badges/badge';
@@ -96,7 +96,7 @@ const TopThreads = (props: WidgetHocProps) => {
     }, []);
 
     const openRHS = async (post: Post) => {
-        dispatch(selectPost(post));
+        dispatch(selectPostAndParentChannel(post));
     };
 
     return (

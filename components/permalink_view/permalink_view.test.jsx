@@ -4,21 +4,19 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 import nock from 'nock';
-import thunk from 'redux-thunk';
-import configureStore from 'redux-mock-store';
 
 import {Client4} from 'mattermost-redux/client';
 import {getPostThread} from 'mattermost-redux/actions/posts';
 import {Preferences} from 'mattermost-redux/constants';
 import TestHelper from 'mattermost-redux/test/test_helper';
 
+import mockStore from 'tests/test_store';
+
 import {ErrorPageTypes} from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
 
 import {focusPost} from 'components/permalink_view/actions';
 import PermalinkView from 'components/permalink_view/permalink_view.jsx';
-
-const mockStore = configureStore([thunk]);
 
 jest.mock('utils/browser_history', () => ({
     browserHistory: {
