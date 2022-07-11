@@ -67,6 +67,12 @@
         -webkit-line-clamp: 2;
         line-height: 16px;
 
+        .markdown__heading {
+            margin: inherit;
+            font-size: inherit;
+            line-height: inherit;
+        }
+
         .file_card {
             width: auto;
             height: 32px;
