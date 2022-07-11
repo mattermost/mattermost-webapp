@@ -109,6 +109,14 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
             id = t('workspace_limits.menu_limit.over.files_storage');
             defaultMessage = 'You’re over the {limit} file storage limit. You can only access the most recent {limit} worth of files. <a>{callToAction}</a>';
         }
+
+        if (!isAdminUser && (usageRatio >= limitThresholds.danger || usageRatio >= limitThresholds.exceeded)) {
+            values.callToAction = intl.formatMessage({
+                id: 'workspace_limits.menu_limit.notify_admin',
+                defaultMessage: 'Notify admin',
+            });
+            values.a = (chunks: React.ReactNode | React.ReactNodeArray) => <NotifyAdminCTA ctaText={chunks}/>;
+        }
         return {
             title: intl.formatMessage({
                 id: 'workspace_limits.menu_limit.file_storage',
@@ -136,6 +144,14 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
             id = t('workspace_limits.menu_limit.over.integrations_enabled');
             defaultMessage = 'You’ve reached the {limit} enabled integrations limit. You can’t enable additional integrations. Upgrade to remove this limit. <a>{callToAction}</a>';
         }
+
+        if (!isAdminUser && (usageRatio >= limitThresholds.danger || usageRatio >= limitThresholds.exceeded)) {
+            values.callToAction = intl.formatMessage({
+                id: 'workspace_limits.menu_limit.notify_admin',
+                defaultMessage: 'Notify admin',
+            });
+            values.a = (chunks: React.ReactNode | React.ReactNodeArray) => <NotifyAdminCTA ctaText={chunks}/>;
+        }
         return {
             title: intl.formatMessage({
                 id: 'workspace_limits.menu_limit.integrations',
@@ -162,6 +178,14 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
         if (usageRatio >= limitThresholds.exceeded) {
             id = t('workspace_limits.menu_limit.over.boards_cards');
             defaultMessage = 'You’re over the {limit} board card limit. You can only access the most recent {limit} board cards. <a>{callToAction}</a>';
+        }
+
+        if (!isAdminUser && (usageRatio >= limitThresholds.danger || usageRatio >= limitThresholds.exceeded)) {
+            values.callToAction = intl.formatMessage({
+                id: 'workspace_limits.menu_limit.notify_admin',
+                defaultMessage: 'Notify admin',
+            });
+            values.a = (chunks: React.ReactNode | React.ReactNodeArray) => <NotifyAdminCTA ctaText={chunks}/>;
         }
         return {
             title: intl.formatMessage({
