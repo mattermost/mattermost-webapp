@@ -66,10 +66,10 @@ Cypress.Commands.add('postMessageReplyInRHS', (message) => {
 });
 
 Cypress.Commands.add('uiPostMessageQuickly', (message) => {
-    cy.get('#post_textbox', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().
+    cy.uiGetPostTextBox().should('be.visible').clear().
         invoke('val', message).wait(TIMEOUTS.HALF_SEC).type(' {backspace}{enter}');
     cy.waitUntil(() => {
-        return cy.get('#post_textbox').then((el) => {
+        return cy.uiGetPostTextBox().then((el) => {
             return el[0].textContent === '';
         });
     });
@@ -274,9 +274,7 @@ Cypress.Commands.add('sendDirectMessageToUser', (user, message) => {
     cy.uiGotoDirectMessageWithUser(user);
 
     // # Type message and send it to the user
-    cy.get('#post_textbox').
-        type(message).
-        type('{enter}');
+    cy.postMessage(message);
 });
 
 /**
@@ -314,9 +312,7 @@ Cypress.Commands.add('sendDirectMessageToUsers', (users, message) => {
     });
 
     // # Type message and send it to the user
-    cy.get('#post_textbox').
-        type(message).
-        type('{enter}');
+    cy.postMessage(message);
 });
 
 // ***********************************************************
@@ -443,7 +439,7 @@ Cypress.Commands.add('leaveTeam', () => {
 
 Cypress.Commands.add('clearPostTextbox', (channelName = 'town-square') => {
     cy.get(`#sidebarItem_${channelName}`).click({force: true});
-    cy.get('#post_textbox').clear();
+    cy.uiGetPostTextBox().clear();
 });
 
 // ***********************************************************

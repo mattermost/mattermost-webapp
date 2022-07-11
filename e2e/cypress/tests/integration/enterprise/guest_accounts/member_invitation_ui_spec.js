@@ -56,7 +56,7 @@ describe('Guest Account - Member Invitation Flow', () => {
 
         // * Verify UI Elements in initial step
         cy.findByTestId('invitationModal').within(() => {
-            cy.get('h1').should('have.text', `Invite members to ${testTeam.display_name}`);
+            cy.get('h1').should('have.text', `Invite people to ${testTeam.display_name}`);
         });
 
         stubClipboard().as('clipboard');
@@ -88,7 +88,7 @@ describe('Guest Account - Member Invitation Flow', () => {
 
     it('MM-T1324 Invite Members - Team Link - New User', () => {
         // # Wait for page to load and then logout. Else invite members link will be redirected to login page
-        cy.get('#post_textbox').should('be.visible').wait(TIMEOUTS.TWO_SEC);
+        cy.uiGetPostTextBox().wait(TIMEOUTS.TWO_SEC);
         const inviteMembersLink = `/signup_user_complete/?id=${testTeam.invite_id}`;
         cy.apiLogout();
 
@@ -124,7 +124,7 @@ describe('Guest Account - Member Invitation Flow', () => {
         cy.apiCreateTeam('team', 'Team').then(({team}) => {
             // # Visit the team and wait for page to load and then logout.
             cy.visit(`/${team.name}/channels/town-square`);
-            cy.get('#post_textbox').should('be.visible').wait(TIMEOUTS.TWO_SEC);
+            cy.uiGetPostTextBox().wait(TIMEOUTS.TWO_SEC);
             const inviteMembersLink = `/signup_user_complete/?id=${team.invite_id}`;
             cy.apiLogout();
 

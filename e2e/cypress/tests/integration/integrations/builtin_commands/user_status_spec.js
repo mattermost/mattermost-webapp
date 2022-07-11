@@ -75,13 +75,13 @@ function setStatus(status, icon) {
 
 function verifyUserStatus(testCase) {
     // # Clear then type '/'
-    cy.get('#post_textbox').should('be.visible').clear().type('/');
+    cy.uiGetPostTextBox().clear().type('/');
 
     // * Verify that the suggestion list is visible
     cy.get('#suggestionList').should('be.visible');
 
     // # Post slash command to change user status
-    cy.get('#post_textbox').type(`${testCase.name}{enter}`).wait(TIMEOUTS.ONE_HUNDRED_MILLIS).type('{enter}');
+    cy.uiGetPostTextBox().type(`${testCase.name}{enter}`).wait(TIMEOUTS.ONE_HUNDRED_MILLIS).type('{enter}');
 
     // * Get last post and verify system message
     cy.getLastPost().within(() => {

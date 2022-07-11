@@ -57,7 +57,7 @@ describe('Search in DMs', () => {
         // # Post file to user
         cy.get('#advancedTextEditorCell').find('#fileUploadInput').attachFile('word-file.doc');
         cy.get('.post-image__thumbnail').should('be.visible');
-        cy.get('#post_textbox').should('be.visible').clear().type('{enter}');
+        cy.uiGetPostTextBox().clear().type('{enter}');
 
         // # Type `in:` in searchbox
         cy.get('#searchBox').type('in:');
