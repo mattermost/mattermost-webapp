@@ -76,7 +76,7 @@ describe('Group Message', () => {
         cy.findByText('Go').click();
 
         // # Post something to create a GM
-        cy.get('#post_textbox').type('Hi!').type('{enter}');
+        cy.uiGetPostTextBox().type('Hi!').type('{enter}');
 
         // # Click on '+' sign to open DM modal
         cy.uiAddDirectMessage().click();

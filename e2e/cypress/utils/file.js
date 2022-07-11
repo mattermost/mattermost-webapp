@@ -27,7 +27,7 @@ const grepCommand = (word = '') => {
 const grepFiles = (command) => {
     return shell.exec(command, {silent: true}).stdout.
         split('\n').
-        filter((f) => f.includes('spec.js'));
+        filter((f) => f.includes('spec.js') || f.includes('spec.ts'));
 };
 
 const findFiles = (pattern) => {
@@ -57,7 +57,7 @@ const findFiles = (pattern) => {
             return fileOrDir;
         }).
         flat().
-        filter((file) => file.includes('spec.js')).
+        filter((file) => file.includes('spec.js') || file.includes('spec.ts')).
         map((file) => file.replace('./', ''));
 };
 

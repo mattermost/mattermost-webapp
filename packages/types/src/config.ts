@@ -184,6 +184,7 @@ export type ClientConfig = {
     WebsocketURL: string;
     ExperimentalSharedChannels: string;
     EnableAppBar: string;
+    EnableComplianceExport: string;
 };
 
 export type License = {

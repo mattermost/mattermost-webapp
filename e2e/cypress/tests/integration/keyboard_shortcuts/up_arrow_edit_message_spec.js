@@ -50,7 +50,7 @@ describe('Keyboard Shortcuts', () => {
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
         // # Press UP arrow
-        cy.get('#post_textbox').type('{uparrow}');
+        cy.uiGetPostTextBox().type('{uparrow}');
 
         // * Verify that Edit modal should not be visible
         cy.get('#edit_textbox').should('not.exist');
@@ -82,7 +82,7 @@ describe('Keyboard Shortcuts', () => {
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
         // # Press UP arrow
-        cy.get('#post_textbox').type('{uparrow}');
+        cy.uiGetPostTextBox().type('{uparrow}');
 
         // * Verify that the Edit Post Input is visible
         cy.get('#edit_textbox').should('be.visible');
@@ -104,7 +104,7 @@ describe('Keyboard Shortcuts', () => {
             // * Verify that testuser sees post
             cy.get(`#postMessageText_${postID}`).should('contain', message);
 
-            cy.get('#post_textbox').type('{uparrow}');
+            cy.uiGetPostTextBox().type('{uparrow}');
 
             // * Validate that edit box contains just posted message
             cy.get('#edit_textbox').should('have.text', message);
@@ -154,7 +154,7 @@ describe('Keyboard Shortcuts', () => {
         cy.uiGetFileThumbnail(filename).should('be.visible');
 
         // # Press up arrow
-        cy.get('#post_textbox').type('{uparrow}');
+        cy.uiGetPostTextBox().type('{uparrow}');
         cy.wait(TIMEOUTS.HALF_SEC);
 
         // # Clear all text and confirm
@@ -213,7 +213,7 @@ describe('Keyboard Shortcuts', () => {
 
         cy.getLastPostId().then((postID) => {
             // # Press UP arrow
-            cy.get('#post_textbox').type('{uparrow}');
+            cy.uiGetPostTextBox().type('{uparrow}');
 
             cy.wait(TIMEOUTS.HALF_SEC);
 
@@ -240,12 +240,12 @@ describe('Keyboard Shortcuts', () => {
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
         // # Post code block message from User 1
-        cy.get('#post_textbox').type(messageWithCodeblock1).type('{enter}');
+        cy.uiGetPostTextBox().type(messageWithCodeblock1).type('{enter}');
 
         cy.uiWaitUntilMessagePostedIncludes('codeblock1');
 
         // # Press UP arrow
-        cy.get('#post_textbox').type('{uparrow}');
+        cy.uiGetPostTextBox().type('{uparrow}');
 
         // # Edit text
         cy.get('#edit_textbox').clear().type(messageWithCodeblock2).type('{enter}');
@@ -288,7 +288,7 @@ describe('Keyboard Shortcuts', () => {
         // # Wait for file to upload
         cy.wait(TIMEOUTS.TWO_SEC);
 
-        cy.get('#post_textbox').type('{enter}');
+        cy.uiGetPostTextBox().type('{enter}');
 
         cy.getLastPost().within(() => {
             // * Attachment should exist
@@ -299,7 +299,7 @@ describe('Keyboard Shortcuts', () => {
         });
 
         // # Press UP arrow
-        cy.get('#post_textbox').type('{uparrow}');
+        cy.uiGetPostTextBox().type('{uparrow}');
 
         // # Add some text to the previous message and save
         cy.get('#edit_textbox').type('Test').type('{enter}');

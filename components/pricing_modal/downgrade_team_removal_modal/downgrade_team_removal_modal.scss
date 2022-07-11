@@ -93,8 +93,11 @@
             }
 
             .DropDown__menu {
-                max-height: 130px;
-                overflow-y: scroll !important;
+                max-height: 124px;
+            }
+
+            .DropDown__menu-list {
+                max-height: 124px;
             }
 
             .DropDown__value-container {
@@ -115,7 +118,7 @@
             align-items: center;
             margin-top: 19px;
             margin-bottom: 35px;
-            color: #d24b4e;
+            color: var(--sys-error-text);
             font-weight: 600;
             line-height: 16px;
 
@@ -142,7 +145,7 @@
             padding: 12px 20px;
             background: rgba(var(--denim-button-bg-rgb), 0.08);
             border-radius: 4px;
-            color: #1c58d9;
+            color: var(--sys-denim-button-bg);
             font-size: 14px;
             font-weight: 600;
             line-height: 14px;
@@ -151,7 +154,7 @@
         .btn.btn-primary {
             padding: 12px 20px;
             margin-left: 8px;
-            background: #1c58d9;
+            background: var(--sys-denim-button-bg);
             border-radius: 4px;
             color: #fff;
             font-size: 14px;
