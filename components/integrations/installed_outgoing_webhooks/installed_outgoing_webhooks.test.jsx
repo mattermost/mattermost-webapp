@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import InstalledOutgoingWebhooks from 'components/integrations/installed_outgoing_webhooks/installed_outgoing_webhooks.jsx';
+import InstalledOutgoingWebhooks from 'components/integrations/installed_outgoing_webhooks/installed_outgoing_webhooks';
 
 describe('components/integrations/InstalledOutgoingWebhooks', () => {
     let outgoingWebhooks = {};

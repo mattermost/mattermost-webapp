@@ -14,7 +14,7 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {loadOutgoingHooksAndProfilesForTeam} from 'actions/integration_actions';
 
-import InstalledOutgoingWebhook from './installed_outgoing_webhooks.jsx';
+import InstalledOutgoingWebhook from './installed_outgoing_webhooks';
 
 function mapStateToProps(state) {
     const config = getConfig(state);
