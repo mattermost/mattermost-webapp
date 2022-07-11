@@ -4,9 +4,10 @@
 import React, {useState} from 'react';
 
 import {Command} from '@mattermost/types/integrations.js';
+import {Team} from '@mattermost/types/teams.js';
+
 import {ActionResult} from 'mattermost-redux/types/actions.js';
 
-import {Team} from '@mattermost/types/teams.js';
 
 import {browserHistory} from 'utils/browser_history';
 import {t} from 'utils/i18n';
