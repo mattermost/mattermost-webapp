@@ -67,6 +67,7 @@ export const InviteTypes = {
 export const PreviousViewedTypes = {
     CHANNELS: 'channels',
     THREADS: 'threads',
+    INSIGHTS: 'insights',
 };
 
 export const Preferences = {
@@ -106,6 +107,9 @@ export const Preferences = {
     AVAILABILITY_STATUS_ON_POSTS_DEFAULT: 'true',
     USE_MILITARY_TIME: 'use_military_time',
     USE_MILITARY_TIME_DEFAULT: 'false',
+    UNREAD_SCROLL_POSITION: 'unread_scroll_position',
+    UNREAD_SCROLL_POSITION_START_FROM_LEFT: 'start_from_left_off',
+    UNREAD_SCROLL_POSITION_START_FROM_NEWEST: 'start_from_newest',
     CATEGORY_THEME: 'theme',
     CATEGORY_FLAGGED_POST: 'flagged_post',
     CATEGORY_NOTIFICATIONS: 'notifications',
@@ -392,6 +396,7 @@ export const ModalIdentifiers = {
     CLOUD_LIMITS: 'cloud_limits',
     REQUEST_BUSINESS_EMAIL_MODAL: 'request_business_email_modal',
     FEATURE_RESTRICTED_MODAL: 'feature_restricted_modal',
+    JOIN_PUBLIC_CHANNEL_MODAL: 'join_public_channel_modal',
 };
 
 export const UserStatuses = {

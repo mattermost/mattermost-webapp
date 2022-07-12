@@ -10,8 +10,9 @@ import {AccountMultipleOutlineIcon, ChartBarIcon, CogOutlineIcon, CreditCardOutl
 import {RESOURCE_KEYS} from 'mattermost-redux/constants/permissions_sysconsole';
 import {LicenseSkus} from 'mattermost-redux/types/general';
 
-import {Constants, LegacyFreeProductIds} from 'utils/constants';
+import {Constants, LegacyFreeProductIds, CloudProducts} from 'utils/constants';
 import {isCloudFreePlan} from 'utils/cloud_utils';
+import {isCloudLicense} from 'utils/license_utils';
 import {getSiteURL} from 'utils/url';
 import {t} from 'utils/i18n';
 import {
@@ -27,6 +28,7 @@ import SystemAnalytics from 'components/analytics/system_analytics';
 import TeamAnalytics from 'components/analytics/team_analytics';
 import PluginManagement from 'components/admin_console/plugin_management';
 import CustomPluginSettings from 'components/admin_console/custom_plugin_settings';
+import RestrictedIndicator from 'components/widgets/menu/menu_items/restricted_indicator';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
@@ -249,6 +251,20 @@ const usesLegacyOauth = (config, state, license, enterpriseReady, consoleAccess,
         ),
     )(config, state, license, enterpriseReady, consoleAccess, cloud);
 };
+
+const getRestrictedIndicator = (displayBlocked = false) => ({
+    value: (cloud) => (
+        <RestrictedIndicator
+            useModal={false}
+            blocked={displayBlocked || !(cloud?.subscription?.is_free_trial === 'true')}
+            tooltipMessageBlocked={{
+                id: t('admin.sidebar.restricted_indicator.tooltip.message.blocked'),
+                defaultMessage: 'This is a professional feature, available with an upgrade or free {trialLength}-day trial',
+            }}
+        />
+    ),
+    shouldDisplay: (license, subscriptionProduct) => displayBlocked || (isCloudLicense(license) && subscriptionProduct?.sku === CloudProducts.STARTER),
+});
 
 const AdminDefinition = {
     about: {
@@ -521,6 +537,7 @@ const AdminDefinition = {
                 id: 'Groups',
                 component: GroupSettings,
             },
+            restrictedIndicator: getRestrictedIndicator(),
         },
         groups_feature_discovery: {
             url: 'user_management/groups',
@@ -544,6 +561,7 @@ const AdminDefinition = {
                     },
                 ],
             },
+            restrictedIndicator: getRestrictedIndicator(true),
         },
         team_detail: {
             url: 'user_management/teams/:team_id',
@@ -657,6 +675,7 @@ const AdminDefinition = {
                 id: 'SystemRoles',
                 component: SystemRoles,
             },
+            restrictedIndicator: getRestrictedIndicator(),
         },
         system_roles_feature_discovery: {
             url: 'user_management/system_roles',
@@ -680,6 +699,7 @@ const AdminDefinition = {
                     },
                 ],
             },
+            restrictedIndicator: getRestrictedIndicator(true),
         },
     },
     environment: {
@@ -2557,6 +2577,7 @@ const AdminDefinition = {
                     },
                 ],
             },
+            restrictedIndicator: getRestrictedIndicator(),
         },
         announcement_banner_feature_discovery: {
             url: 'site_config/announcement_banner',
@@ -2580,6 +2601,7 @@ const AdminDefinition = {
                     },
                 ],
             },
+            restrictedIndicator: getRestrictedIndicator(true),
         },
         emoji: {
             url: 'site_config/emoji',
@@ -3885,6 +3907,7 @@ const AdminDefinition = {
                     },
                 ],
             },
+            restrictedIndicator: getRestrictedIndicator(),
         },
         ldap_feature_discovery: {
             url: 'authentication/ldap',
@@ -3908,6 +3931,7 @@ const AdminDefinition = {
                     },
                 ],
             },
+            restrictedIndicator: getRestrictedIndicator(true),
         },
         saml: {
             url: 'authentication/saml',
@@ -4427,6 +4451,7 @@ const AdminDefinition = {
                     },
                 ],
             },
+            restrictedIndicator: getRestrictedIndicator(),
         },
         saml_feature_discovery: {
             url: 'authentication/saml',
@@ -4450,6 +4475,7 @@ const AdminDefinition = {
                     },
                 ],
             },
+            restrictedIndicator: getRestrictedIndicator(true),
         },
         gitlab: {
             url: 'authentication/gitlab',
@@ -5222,6 +5248,7 @@ const AdminDefinition = {
                     },
                 ],
             },
+            restrictedIndicator: getRestrictedIndicator(),
         },
         openid_feature_discovery: {
             url: 'authentication/openid',
@@ -5245,6 +5272,7 @@ const AdminDefinition = {
                     },
                 ],
             },
+            restrictedIndicator: getRestrictedIndicator(true),
         },
         guest_access: {
             url: 'authentication/guest_access',
@@ -5330,6 +5358,7 @@ const AdminDefinition = {
                     },
                 ],
             },
+            restrictedIndicator: getRestrictedIndicator(),
         },
         guest_access_feature_discovery: {
             isDiscovery: true,
@@ -5353,6 +5382,7 @@ const AdminDefinition = {
                     },
                 ],
             },
+            restrictedIndicator: getRestrictedIndicator(true),
         },
     },
     plugins: {
@@ -5771,6 +5801,7 @@ const AdminDefinition = {
                 id: 'DataRetentionSettings',
                 component: DataRetentionSettings,
             },
+            restrictedIndicator: getRestrictedIndicator(),
         },
         data_retention_feature_discovery: {
             url: 'compliance/data_retention',
@@ -5794,6 +5825,7 @@ const AdminDefinition = {
                     },
                 ],
             },
+            restrictedIndicator: getRestrictedIndicator(true),
         },
         message_export: {
             url: 'compliance/export',
@@ -5826,6 +5858,7 @@ const AdminDefinition = {
                 id: 'MessageExportSettings',
                 component: MessageExportSettings,
             },
+            restrictedIndicator: getRestrictedIndicator(),
         },
         compliance_export_feature_discovery: {
             isDiscovery: true,
@@ -5849,6 +5882,7 @@ const AdminDefinition = {
                     },
                 ],
             },
+            restrictedIndicator: getRestrictedIndicator(true),
         },
         audits: {
             url: 'compliance/monitoring',
@@ -5956,6 +5990,7 @@ const AdminDefinition = {
                 id: 'TermsOfServiceSettings',
                 component: CustomTermsOfServiceSettings,
             },
+            restrictedIndicator: getRestrictedIndicator(),
         },
         custom_terms_of_service_feature_discovery: {
             url: 'compliance/custom_terms_of_service',
@@ -5979,6 +6014,7 @@ const AdminDefinition = {
                     },
                 ],
             },
+            restrictedIndicator: getRestrictedIndicator(true),
         },
     },
     experimental: {

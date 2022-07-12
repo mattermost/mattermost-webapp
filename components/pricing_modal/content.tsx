@@ -28,6 +28,7 @@ import PlanLabel from 'components/common/plan_label';
 
 import DowngradeTeamRemovalModal from './downgrade_team_removal_modal';
 import ContactSalesCTA from './contact_sales_cta';
+import NotifyAdminCTA from './notify_admin_cta';
 import StarterDisclaimerCTA from './starter_disclaimer_cta';
 
 const LearnMoreTrialModal = makeAsyncComponent('LearnMoreTrialModal', React.lazy(() => import('components/learn_more_trial_modal/learn_more_trial_modal')));
@@ -299,7 +300,7 @@ function Content(props: ContentProps) {
                                 }
                             },
                             text: formatMessage({id: 'pricing_modal.btn.downgrade', defaultMessage: 'Downgrade'}),
-                            disabled: isStarter,
+                            disabled: isStarter || !isAdmin,
                             customClass: ButtonCustomiserClasses.secondary,
                         }}
                         planLabel={
@@ -333,6 +334,7 @@ function Content(props: ContentProps) {
                                 formatMessage({id: 'pricing_modal.extra_briefing.professional.guestAccess', defaultMessage: 'Guest access with MFA enforcement'}),
                             ],
                         }}
+                        planExtraInformation={(!isAdmin && (isEnterpriseTrial || isStarter)) ? <NotifyAdminCTA/> : undefined}
                         buttonDetails={{
                             action: openPurchaseModal,
                             text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),

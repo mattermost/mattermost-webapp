@@ -4,12 +4,15 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import ChannelMembersDropdown from 'components/channel_members_dropdown/channel_members_dropdown.jsx';
+import ChannelMembersDropdown from 'components/channel_members_dropdown/channel_members_dropdown';
+import {Channel, ChannelMembership} from '@mattermost/types/channels';
+import {UserProfile} from '@mattermost/types/users';
+import {ActionResult} from 'mattermost-redux/types/actions';
 
 describe('components/channel_members_dropdown', () => {
     const user = {
         id: 'user-1',
-    };
+    } as UserProfile;
 
     const channel = {
         create_at: 1508265709607,
@@ -24,15 +27,17 @@ describe('components/channel_members_dropdown', () => {
         team_id: 'eatxocwc3bg9ffo9xyybnj4omr',
         type: 'O',
         update_at: 1508265709607,
-    };
+    } as Channel;
+
+    const channelMember = {
+        roles: 'channel_admin',
+        scheme_admin: true,
+    } as ChannelMembership;
 
     const baseProps = {
         channel,
         user,
-        channelMember: {
-            roles: 'channel_admin',
-            scheme_admin: 'system_admin',
-        },
+        channelMember,
         currentUserId: 'current-user-id',
         canChangeMemberRoles: false,
         canRemoveMember: true,
@@ -60,6 +65,7 @@ describe('components/channel_members_dropdown', () => {
                 roles: 'system_guest',
             },
             channelMember: {
+                ...baseProps.channelMember,
                 roles: 'channel_guest',
             },
             canChangeMemberRoles: true,
@@ -93,6 +99,7 @@ describe('components/channel_members_dropdown', () => {
                 roles: 'system_guest',
             },
             channelMember: {
+                ...baseProps.channelMember,
                 roles: 'channel_guest',
             },
             canChangeMemberRoles: false,
@@ -122,40 +129,20 @@ describe('components/channel_members_dropdown', () => {
     });
 
     test('If a removal is in progress do not execute another removal', () => {
-        const wrapper = shallow(
-            <ChannelMembersDropdown {...baseProps}/>,
-        );
-
-        wrapper.setState({removing: true});
-        wrapper.instance().handleRemoveFromChannel();
-        expect(wrapper.instance().props.actions.removeChannelMember).not.toBeCalled();
-    });
-
-    test('should fail to remove channel member', (done) => {
-        const wrapper = shallow(
-            <ChannelMembersDropdown {...baseProps}/>,
-        );
-
-        wrapper.instance().handleRemoveFromChannel();
-        expect(wrapper.state('removing')).toEqual(true);
-        expect(wrapper.instance().props.actions.removeChannelMember).toHaveBeenCalledTimes(1);
-        process.nextTick(() => {
-            expect(wrapper.state('serverError')).toEqual('Failed');
-            expect(wrapper.state('removing')).toEqual(false);
-            done();
+        const removeMock = jest.fn().mockImplementation(() => {
+            const myPromise = new Promise<ActionResult>((resolve) => {
+                setTimeout(() => {
+                    resolve({data: {}});
+                }, 3000);
+            });
+            return myPromise;
         });
-    });
 
-    test('should remove the channel member', (done) => {
         const props = {
             ...baseProps,
             actions: {
                 ...baseProps.actions,
-                removeChannelMember: jest.fn().mockImplementation(() => {
-                    const data = true;
-
-                    return Promise.resolve({data});
-                }),
+                removeChannelMember: removeMock,
             },
         };
 
@@ -163,14 +150,56 @@ describe('components/channel_members_dropdown', () => {
             <ChannelMembersDropdown {...props}/>,
         );
 
-        wrapper.instance().handleRemoveFromChannel();
-        expect(wrapper.state('removing')).toEqual(true);
-        expect(wrapper.instance().props.actions.removeChannelMember).toHaveBeenCalledTimes(1);
+        wrapper.find('[data-testid="removeFromChannel"]').simulate('click');
+        wrapper.find('[data-testid="removeFromChannel"]').simulate('click');
+        expect(removeMock).toHaveBeenCalledTimes(1);
+    });
+
+    test('should fail to remove channel member', (done) => {
+        const removeMock = jest.fn().mockImplementation(() => {
+            return Promise.resolve({error: {message: 'Failed'}});
+        });
+
+        const props = {
+            ...baseProps,
+            actions: {
+                ...baseProps.actions,
+                removeChannelMember: removeMock,
+            },
+        };
+
+        const wrapper = shallow(
+            <ChannelMembersDropdown {...props}/>,
+        );
+
+        wrapper.find('[data-testid="removeFromChannel"]').simulate('click');
         process.nextTick(() => {
-            expect(wrapper.state('serverError')).toBeNull();
-            expect(wrapper.state('removing')).toEqual(false);
-            expect(wrapper.instance().props.actions.getChannelStats).toHaveBeenCalledTimes(1);
-            expect(wrapper.instance().props.actions.getChannelStats).toHaveBeenCalledWith('owsyt8n43jfxjpzh9np93mx1wa');
+            expect(removeMock).toHaveBeenCalledTimes(1);
+            expect(wrapper.find('.has-error.control-label').text()).toEqual('Failed');
+            done();
+        });
+    });
+
+    test('should remove the channel member', (done) => {
+        const removeMock = jest.fn().mockImplementation(() => {
+            return Promise.resolve({data: true});
+        });
+
+        const props = {
+            ...baseProps,
+            actions: {
+                ...baseProps.actions,
+                removeChannelMember: removeMock,
+            },
+        };
+
+        const wrapper = shallow(
+            <ChannelMembersDropdown {...props}/>,
+        );
+
+        wrapper.find('[data-testid="removeFromChannel"]').simulate('click');
+        process.nextTick(() => {
+            expect(removeMock).toHaveBeenCalledTimes(1);
             done();
         });
     });
