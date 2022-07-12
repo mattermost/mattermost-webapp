@@ -64,8 +64,8 @@ const TrialBenefitsModal = ({
     const steps: TrialBenefitsModalStepProps[] = useMemo(() => [
         {
             id: 'useSso',
-            title: formatMessage({id: 'learn_more_about_trial.modal.useSsoTitle', defaultMessage: 'Use SSO (with OpenID, SAML, Google, O365)'}),
-            description: formatMessage({id: 'learn_more_about_trial.modal.useSsoDescription', defaultMessage: 'Sign on quickly and easily with our SSO feature that works with OpenID, SAML, Google, and O365.'}),
+            title: formatMessage({id: 'trial_benefits.modal.useSsoTitle', defaultMessage: 'Use SSO (with OpenID, SAML, Google, O365)'}),
+            description: formatMessage({id: 'trial_benefits.modal.useSsoDescription', defaultMessage: 'Sign on quickly and easily with our SSO feature that works with OpenID, SAML, Google, and O365.'}),
             svgWrapperClassName: 'guestAccessSvg',
             svgElement: (
                 <GuestAccessSvg
@@ -78,8 +78,8 @@ const TrialBenefitsModal = ({
         },
         {
             id: 'ldap',
-            title: formatMessage({id: 'learn_more_about_trial.modal.ldapTitle', defaultMessage: 'Synchronize your Active Directory/LDAP groups'}),
-            description: formatMessage({id: 'learn_more_about_trial.modal.ldapDescription', defaultMessage: 'Use AD/LDAP groups to organize and apply actions to multiple users at once. Manage team and channel memberships, permissions and more.'}),
+            title: formatMessage({id: 'trial_benefits.modal.ldapTitle', defaultMessage: 'Synchronize your Active Directory/LDAP groups'}),
+            description: formatMessage({id: 'trial_benefits.modal.ldapDescription', defaultMessage: 'Use AD/LDAP groups to organize and apply actions to multiple users at once. Manage team and channel memberships, permissions and more.'}),
             svgWrapperClassName: 'personMacSvg',
             svgElement: (
                 <MonitorImacLikeSVG
@@ -92,8 +92,8 @@ const TrialBenefitsModal = ({
         },
         {
             id: 'systemConsole',
-            title: formatMessage({id: 'learn_more_about_trial.modal.systemConsoleTitle', defaultMessage: 'Provide controlled access to the System Console'}),
-            description: formatMessage({id: 'learn_more_about_trial.modal.systemConsoleDescription', defaultMessage: 'Use System Roles to give designated users read and/or write access to select sections of System Console.'}),
+            title: formatMessage({id: 'trial_benefits.modal.systemConsoleTitle', defaultMessage: 'Provide controlled access to the System Console'}),
+            description: formatMessage({id: 'trial_benefits.modal.systemConsoleDescription', defaultMessage: 'Use System Roles to give designated users read and/or write access to select sections of System Console.'}),
             svgWrapperClassName: 'personBoxSvg',
             svgElement: (
                 <SystemRolesSVG
