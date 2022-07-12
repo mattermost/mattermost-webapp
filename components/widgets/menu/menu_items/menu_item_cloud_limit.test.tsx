@@ -195,10 +195,10 @@ describe('components/widgets/menu/menu_items/menu_item_cloud_limit', () => {
         const store = mockStore(state);
         const wrapper = mountWithIntl(<Provider store={store}><MenuItemCloudLimit id={id}/></Provider>);
         expect(wrapper.find('li').prop('className')).toContain('critical');
-        expect(wrapper.find('#notify_admin_cta')).toBeTruthy();
+        expect(wrapper.find('NotifyAdminCTA')).toHaveLength(1);
     });
 
-    test('shows more attention grabbing UI if a limit is very close', () => {
+    test('shows more attention grabbing UI if a limit is very close for admins', () => {
         const state = {
             entities: {
                 general,
@@ -221,6 +221,8 @@ describe('components/widgets/menu/menu_items/menu_item_cloud_limit', () => {
         const store = mockStore(state);
         const wrapper = mountWithIntl(<Provider store={store}><MenuItemCloudLimit id={id}/></Provider>);
         expect(wrapper.find('li').prop('className')).toContain('critical');
+        expect(wrapper.find('a')).toHaveLength(1);
+        expect(wrapper.find('a').text()).toEqual('View upgrade options.');
     });
 });
 
