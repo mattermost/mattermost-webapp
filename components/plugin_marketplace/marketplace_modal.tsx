@@ -101,8 +101,8 @@ export type MarketplaceModalProps = {
         closeModal: () => void;
         fetchListing(localOnly?: boolean): Promise<{error?: Error}>;
         filterListing(filter: string): Promise<{error?: Error}>;
-        setFirstAdminVisitMarketplaceStatus: () => void;
-        getPluginStatuses(): () => void;
+        setFirstAdminVisitMarketplaceStatus(): Promise<void>;
+        getPluginStatuses(): Promise<void>;
     };
 };
 
