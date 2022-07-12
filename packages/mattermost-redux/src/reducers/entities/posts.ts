@@ -1393,67 +1393,19 @@ export function expandedURLs(state: Record<string, string> = {}, action: Generic
 export const zeroStateLimitedViews = {
     threads: {},
     channels: {},
-    search: {},
-}
+};
 
-export function limitedViews(state: PostsState['limitedViews'] = zeroStateLimitedViews, action: GenericAction): PostsState['limitedViews'] {
+export function limitedViews(
+    state: PostsState['limitedViews'] = zeroStateLimitedViews,
+    postsInChannel: PostsState['postsInChannel'],
+    action: GenericAction,
+): PostsState['limitedViews'] {
     // for each case, where needed, add the limit once observed. If a subsquent request for messages PRIOR to what is already loaded returns no limit, dump the limit.
     switch (action.type) {
-    case PostTypes.RECEIVED_POSTS: {
-        if (action.data.has_inaccessible_posts && action.channelId) {
-            return {
-                ...state,
-                channels: {
-                    ...state.channels,
-                    [action.channelId]: true,
-                },
-            };
-        }
-    }
-    case PostTypes.RECEIVED_POSTS_AFTER: {
-        if (action.data.has_inaccessible_posts && action.channelId) {
-            return {
-                ...state,
-                channels: {
-                    ...state.channels,
-                    [action.channelId]: true,
-                },
-            };
-        }
-    }
-    case PostTypes.RECEIVED_POSTS_BEFORE: {
-        if (action.data.has_inaccessible_posts && action.channelId) {
-            return {
-                ...state,
-                channels: {
-                    ...state.channels,
-                    [action.channelId]: true,
-                },
-            };
-        }
-    }
-    case PostTypes.RECEIVED_POSTS_SINCE: {
-        if (action.data.has_inaccessible_posts && action.channelId) {
-            return {
-                ...state,
-                channels: {
-                    ...state.channels,
-                    [action.channelId]: true,
-                },
-            };
-        }
-    }
-    case PostTypes.RECEIVED_POSTS_IN_THREAD: {
-        if (action.data.has_inaccessible_posts && action.channelId) {
-            return {
-                ...state,
-                threads: {
-                    ...state.threads,
-                    [action.rootId]: true,
-                },
-            };
-        }
-    }
+    case PostTypes.RECEIVED_POSTS:
+    case PostTypes.RECEIVED_POSTS_AFTER:
+    case PostTypes.RECEIVED_POSTS_BEFORE:
+    case PostTypes.RECEIVED_POSTS_SINCE:
     case PostTypes.RECEIVED_POSTS_IN_CHANNEL: {
         if (action.data.has_inaccessible_posts && action.channelId) {
             return {
@@ -1466,15 +1418,92 @@ export function limitedViews(state: PostsState['limitedViews'] = zeroStateLimite
         }
         return state;
     }
+    case PostTypes.RECEIVED_POSTS_IN_THREAD: {
+        if (action.data.has_inaccessible_posts && action.channelId) {
+            return {
+                ...state,
+                threads: {
+                    ...state.threads,
+                    [action.rootId]: true,
+                },
+            };
+        }
+        return state;
+    }
     case CloudTypes.RECEIVED_CLOUD_LIMITS: {
         const {limits} = action.data;
+
         // If limits change and there is no message limit any more (e.g. upgrade to non limited plan),
         // this state is stale and should be dumped.
         if (!limits?.messages || (!limits?.messages?.history && limits?.messages?.history !== 0)) {
             return zeroStateLimitedViews;
         }
     }
-    // TODO: for any deleted post, it is is contained in a channel's posts, then
+    // eslint-disable-next-line no-fallthrough
+    case ChannelTypes.RECEIVED_CHANNEL_DELETED:
+    case ChannelTypes.DELETE_CHANNEL_SUCCESS:
+    case ChannelTypes.LEAVE_CHANNEL: {
+        if (action.data && action.data.viewArchivedChannels) {
+            // Nothing to do since we still want to store posts in archived channels
+            return state;
+        }
+
+        const channelId = action.data.id;
+        if (!state.channels[channelId]) {
+            return state;
+        }
+        const newState = {
+            threads: state.threads,
+            channels: {...state.channels},
+        };
+        delete newState.channels[channelId];
+        return newState;
+    }
+
+    case PostTypes.POST_DELETED:
+    case PostTypes.POST_REMOVED: {
+        const post: Post = action.data;
+
+        const threadIsLimited = state.threads[post.root_id] || state.threads[post.id];
+        const limitedChannels = Object.keys(state.channels);
+        const channelsWithDeletedPost = limitedChannels.reduce(
+            (acc: string[], channelId: string) => {
+                const channelHasDeletedPost = postsInChannel[channelId].some((postBlock: PostOrderBlock) => postBlock.order.some((postId: string) => postId === post.id || postId === post.root_id));
+                if (channelHasDeletedPost) {
+                    acc.push(channelId);
+                }
+                return acc;
+            },
+            [] as string[],
+        );
+        if (!threadIsLimited && channelsWithDeletedPost.length === 0) {
+            return state;
+        }
+
+        let newThreads = state.threads;
+        if (threadIsLimited) {
+            newThreads = {...state.threads};
+            delete newThreads[post.id];
+            delete newThreads[post.root_id];
+        }
+        let newChannels = state.channels;
+        if (channelsWithDeletedPost.length === 0) {
+            newChannels = {
+                ...state.channels,
+            };
+
+            channelsWithDeletedPost.forEach((channelId: string) => {
+                delete newChannels[channelId];
+            });
+        }
+        const nextState = {
+            threads: newThreads,
+            channels: newChannels,
+        };
+
+        return nextState;
+    }
+
     default:
         return state;
     }
@@ -1522,7 +1551,7 @@ export default function reducer(state: Partial<PostsState> = {}, action: Generic
         // For cloud instances with a message limit,
         // whether this particular view has messages that are hidden
         // because of the cloud workspace limit.
-        limitedViews: limitedViews(state.limitedViews, action),
+        limitedViews: limitedViews(state.limitedViews, nextPosts, action),
     };
 
     if (state.posts === nextState.posts && state.postsInChannel === nextState.postsInChannel &&

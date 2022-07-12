@@ -706,5 +706,5 @@ export function getExpandedLink(state: GlobalState, link: string): string {
 }
 
 export function getLimitedViews(state: GlobalState): GlobalState['entities']['posts']['limitedViews'] {
-    return state.entities.posts.limitedViews
+    return state.entities.posts.limitedViews;
 }

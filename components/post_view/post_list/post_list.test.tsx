@@ -47,7 +47,7 @@ const baseProps = {
     formattedPostIds: [],
     isPrefetchingInProcess: false,
     isMobileView: false,
-    hasInaccessiblePosts: true,
+    hasInaccessiblePosts: false,
     shouldStartFromBottomWhenUnread: false,
 };
 

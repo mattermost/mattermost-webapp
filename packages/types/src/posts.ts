@@ -127,8 +127,7 @@ export type PostsState = {
     limitedViews: {
         channels: Record<Channel['id'], true>;
         threads: Record<Post['root_id'], true>;
-        search: Record<string, true>;
-    }
+    };
 };
 
 export declare type OpenGraphMetadataImage = {

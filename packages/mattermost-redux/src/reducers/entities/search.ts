@@ -320,7 +320,7 @@ function isLimitedResults(state = false, action: GenericAction): boolean {
         return state;
     }
     }
-};
+}
 
 export default combineReducers({
 

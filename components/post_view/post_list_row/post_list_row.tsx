@@ -111,7 +111,6 @@ export default class PostListRow extends React.PureComponent<PostListRowProps> {
         }
 
         if (listId === CHANNEL_INTRO_MESSAGE) {
-
             return (
                 <ChannelIntroMessage/>
             );

@@ -1,5 +1,6 @@
-import {TeamsState} from '@mattermost/types/teams';
-import {Team} from '@mattermost/types/teams';
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+import {Team, TeamsState} from '@mattermost/types/teams';
 export const emptyTeam: () => Team = () => ({
     id: '',
     create_at: 0,

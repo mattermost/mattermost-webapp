@@ -3,7 +3,7 @@
 
 import React from 'react';
 import {Provider} from 'react-redux';
-import {screen, SelectorMatcherOptions} from '@testing-library/react';
+import {screen} from '@testing-library/react';
 
 import {makeEmptyUsage} from 'utils/limits_test';
 import {renderWithIntl} from 'tests/react_testing_utils';
@@ -40,19 +40,19 @@ const initialState = {
             postsInChannel: {
                 channelId: [
                     {
-                        order: ['a','b','c'],
+                        order: ['a', 'b', 'c'],
                         oldest: true,
-                    }
+                    },
                 ],
             },
             posts: {
-                'a': {...emptyPost(), id: 'a', created_at: 1},
-                'b': {...emptyPost(), id: 'b', created_at: 2},
-                'c': {...emptyPost(), id: 'c', created_at: 3},
-            }
-        }
+                a: {...emptyPost(), id: 'a', created_at: 1},
+                b: {...emptyPost(), id: 'b', created_at: 2},
+                c: {...emptyPost(), id: 'c', created_at: 3},
+            },
+        },
     },
-}
+};
 
 const exceededLimitsState = {
     ...initialState,
@@ -66,7 +66,7 @@ const exceededLimitsState = {
                 limits: {
                     messages: {
                         history: 2,
-                    }
+                    },
                 },
             },
         },
@@ -75,7 +75,7 @@ const exceededLimitsState = {
             messages: {
                 ...initialState.entities.usage.messages,
                 history: 3,
-            }
+            },
         },
     },
 };
@@ -86,15 +86,14 @@ const endUserLimitExceeded = {
         ...exceededLimitsState.entities,
         users: endUsersState(),
     },
-}
+};
 
 describe('CenterMessageLock', () => {
-
     it('returns null if limits not loaded', () => {
         renderWithIntl(
             <Provider store={testConfigureStore(initialState)}>
                 <CenterMessageLock channelId={'channelId'}/>
-            </Provider>
+            </Provider>,
         );
         expect(screen.queryByText('Notify Admin')).not.toBeInTheDocument();
         expect(screen.queryByText('Upgrade now')).not.toBeInTheDocument();
@@ -104,41 +103,41 @@ describe('CenterMessageLock', () => {
         renderWithIntl(
             <Provider store={testConfigureStore(exceededLimitsState)}>
                 <CenterMessageLock channelId={'channelId'}/>
-            </Provider>
+            </Provider>,
         );
-        screen.getByText('Upgrade now')
+        screen.getByText('Upgrade now');
     });
 
     it('End users have a call to notify admin', () => {
         renderWithIntl(
             <Provider store={testConfigureStore(endUserLimitExceeded)}>
                 <CenterMessageLock channelId={'channelId'}/>
-            </Provider>
+            </Provider>,
         );
-        screen.getByText('Notify Admin')
+        screen.getByText('Notify Admin');
     });
 
     it('Filtered messages over one year old display year', () => {
         renderWithIntl(
             <Provider store={testConfigureStore(exceededLimitsState)}>
                 <CenterMessageLock channelId={'channelId'}/>
-            </Provider>
+            </Provider>,
         );
-        screen.getByText('January 1, 1970', {exact: false})
+        screen.getByText('January 1, 1970', {exact: false});
     });
 
     it('New filtered messages do not show year', () => {
-        const state = JSON.parse(JSON.stringify(exceededLimitsState))
+        const state = JSON.parse(JSON.stringify(exceededLimitsState));
         const now = new Date();
         const firstOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-        const expectedDate = firstOfMonth.toLocaleString('en', {month: 'long', day: 'numeric'})
+        const expectedDate = firstOfMonth.toLocaleString('en', {month: 'long', day: 'numeric'});
 
         state.entities.posts.posts.a.create_at = Date.parse(firstOfMonth.toUTCString());
         renderWithIntl(
             <Provider store={testConfigureStore(state)}>
                 <CenterMessageLock channelId={'channelId'}/>
-            </Provider>
+            </Provider>,
         );
-        screen.getByText(expectedDate, {exact: false})
+        screen.getByText(expectedDate, {exact: false});
     });
 });

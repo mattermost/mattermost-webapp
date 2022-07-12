@@ -23,7 +23,7 @@ import './index.scss';
 const ONE_YEAR_MS = 1000 * 1 * 60 * 60 * 24 * 365;
 
 interface Props {
-    channelId?: string
+    channelId?: string;
 }
 
 export default function CenterMessageLock(props: Props) {
@@ -37,14 +37,13 @@ export default function CenterMessageLock(props: Props) {
     const oldestPostsChunkInChannel = useSelector((state: GlobalState) => getOldestPostsChunkInChannel(state, props.channelId || ''));
     const oldestAvailablePostDate = useMemo(() => {
         if (props.channelId && oldestPostsChunkInChannel) {
-            const oldestPostId = oldestPostsChunkInChannel.order[0]
+            const oldestPostId = oldestPostsChunkInChannel.order[0];
             if (allPosts[oldestPostId]) {
                 return allPosts[oldestPostId].create_at;
             }
         }
-        return 0
-    }, [props.channelId, oldestPostsChunkInChannel, allPosts])
-
+        return 0;
+    }, [props.channelId, oldestPostsChunkInChannel, allPosts]);
 
     if (!limitsLoaded) {
         return null;

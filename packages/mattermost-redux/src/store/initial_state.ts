@@ -3,7 +3,7 @@
 
 import {GlobalState} from '@mattermost/types/store';
 
-import {zeroStateLimitedViews} from '../reducers/entities/posts'
+import {zeroStateLimitedViews} from '../reducers/entities/posts';
 
 const state: GlobalState = {
     entities: {

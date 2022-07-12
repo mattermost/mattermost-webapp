@@ -11,13 +11,14 @@ import {emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 
 import {GlobalState} from 'types/store';
 
-import PostListRow, {PostListRowProps} from './post_list_row';
 import {getUsage} from 'mattermost-redux/selectors/entities/usage';
 import {getCloudLimits, getCloudLimitsLoaded} from 'mattermost-redux/selectors/entities/cloud';
 import {getLimitedViews} from 'mattermost-redux/selectors/entities/posts';
-import { getCurrentChannelId } from 'mattermost-redux/selectors/entities/common';
+import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/common';
 
 import {PostListRowListIds} from 'utils/constants';
+
+import PostListRow, {PostListRowProps} from './post_list_row';
 
 type OwnProps = Pick<PostListRowProps, 'channel' | 'listId'>
 
