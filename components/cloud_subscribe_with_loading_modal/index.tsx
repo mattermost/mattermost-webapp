@@ -46,9 +46,6 @@ function CloudSubscribeWithLoad(props: Props) {
     );
     useEffect(() => {
         intervalId = {} as NodeJS.Timeout;
-        if (props.teamToKeep) {
-            dispatch(selectTeam(props.teamToKeep?.id));
-        }
 
         handleSubscribe();
         intervalId = setInterval(
@@ -61,6 +58,7 @@ function CloudSubscribeWithLoad(props: Props) {
         const start = new Date();
 
         if (props.teamToKeep) {
+            await dispatch(selectTeam(props.teamToKeep?.id));
             await dispatch(archiveAllTeamsExcept(props.teamToKeep.id));
         }
 

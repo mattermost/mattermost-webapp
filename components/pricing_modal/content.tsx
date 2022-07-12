@@ -55,7 +55,7 @@ type ButtonDetails = {
     text: string;
     disabled?: boolean;
     customClass?: ButtonCustomiserClasses;
-}
+};
 
 type CardProps = {
     id: string;
