@@ -12,7 +12,7 @@ import {testComponentForMarkdownHotkeys, makeSelectionEvent} from 'tests/helpers
 
 import Constants, {ModalIdentifiers} from 'utils/constants';
 
-import CreateComment, {CreateComment as CreateCommentClass, State} from 'components/create_comment/create_comment';
+import CreateComment, {CreateComment as CreateCommentClass, State, Props} from 'components/create_comment/create_comment';
 import FileUpload from 'components/file_upload';
 import FilePreview from 'components/file_preview';
 import Textbox, {TextboxClass, TextboxElement} from 'components/textbox';
@@ -1534,7 +1534,7 @@ describe('components/CreateComment', () => {
             }}
             ctrlSend={true}
         />
-    ), (instance) => instance.state().draft.message);
+    ), (instance: ShallowWrapper<Props, State, CreateCommentClass>) => instance.state().draft?.message);
 
     testComponentForMarkdownHotkeys(
         (value: string) => (
@@ -1563,8 +1563,8 @@ describe('components/CreateComment', () => {
                 } as unknown as TextboxClass,
             };
         },
-        (instance) => instance.find(Textbox),
-        (instance) => instance.state().draft.message,
+        (instance: ShallowWrapper<Props, State, CreateCommentClass>) => instance.find(Textbox),
+        (instance: ShallowWrapper<Props, State, CreateCommentClass>) => instance.state().draft?.message,
     );
 
     it('should adjust selection to correct text', () => {

@@ -57,7 +57,7 @@ const KeyCodes = Constants.KeyCodes;
 
 const CreateCommentDraftTimeoutMilliseconds = 500;
 
-type Props = {
+export type Props = {
 
     /**
      * The channel for which this comment is a part of
