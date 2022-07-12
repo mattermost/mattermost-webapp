@@ -5,16 +5,12 @@ import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {noop} from 'lodash';
 
 import useGetUsage from 'components/common/hooks/useGetUsage';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import Tooltip from 'components/tooltip';
-
-import {ModalIdentifiers} from 'utils/constants';
-import {openModal} from 'actions/views/modals';
-import PricingModal from 'components/pricing_modal';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import useGetUsageDeltas from 'components/common/hooks/useGetUsageDeltas';
@@ -24,6 +20,7 @@ import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import ArchiveIcon from 'components/widgets/icons/archive_icon';
 import UnarchiveIcon from 'components/widgets/icons/unarchive_icon';
+import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import * as Utils from 'utils/utils';
 
 import TeamIcon from 'components/widgets/team_icon/team_icon';
@@ -33,9 +30,10 @@ import './team_profile.scss';
 export function TeamProfile({team, isArchived, isDisabled, onToggleArchive, saveNeeded}) {
     const teamIconUrl = Utils.imageURLForTeam(team);
     const usageDeltas = useGetUsageDeltas();
-    const dispatch = useDispatch();
     const usage = useGetUsage();
     const license = useSelector(getLicense);
+
+    const openPricingModal = useOpenPricingModal('TeamProfile');
 
     const [overrideRestoreDisabled, setOverrideRestoreDisabled] = useState(false);
     const [restoreDisabled, setRestoreDisabled] = useState(usageDeltas.teams.teamsLoaded && usageDeltas.teams.active >= 0 && isArchived);
@@ -200,12 +198,7 @@ export function TeamProfile({team, isArchived, isDisabled, onToggleArchive, save
                         {button()}
                         {restoreDisabled &&
                             <button
-                                onClick={() => {
-                                    dispatch(openModal({
-                                        modalId: ModalIdentifiers.PRICING_MODAL,
-                                        dialogType: PricingModal,
-                                    }));
-                                }}
+                                onClick={openPricingModal}
                                 type='button'
                                 className={
                                     classNames(

@@ -75,7 +75,7 @@ const BillingSubscriptions = () => {
 
     const product = useSelector(getSubscriptionProduct);
 
-    const openPricingModal = useOpenPricingModal();
+    const openPricingModal = useOpenPricingModal('BillingSubscriptions');
 
     // show the upgrade section when is a free tier customer
     const onUpgradeMattermostCloud = () => {

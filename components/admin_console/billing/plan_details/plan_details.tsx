@@ -28,7 +28,7 @@ export const PlanDetailsTopElements = ({
 }: Props) => {
     let userCountDisplay;
     let productName;
-    const openPricingModal = useOpenPricingModal();
+    const openPricingModal = useOpenPricingModal('PlanDetailsTopElements');
     const intl = useIntl();
 
     if (isLegacyFree) {

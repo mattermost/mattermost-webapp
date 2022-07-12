@@ -266,7 +266,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
         <button
             className='ml-1'
             onClick={() => {
-                trackEvent('cloud_pricing', 'click_compare_plans');
+                trackEvent('cloud_pricing', 'click_compare_plans', {callerComponent: 'PurchaseModal'});
                 this.openPricingModal();
             }}
         >

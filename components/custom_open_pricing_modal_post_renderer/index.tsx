@@ -10,7 +10,7 @@ import {Post} from '@mattermost/types/posts';
 export default function OpenPricingModalPost(props: {post: Post}) {
     const {formatMessage} = useIntl();
 
-    const openPricingModal = useOpenPricingModal();
+    const openPricingModal = useOpenPricingModal('OpenPricingModalPost');
     const style = {
         padding: '12px',
         borderRadius: '0 4px 4px 0',

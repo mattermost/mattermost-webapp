@@ -48,7 +48,7 @@ const FeatureRestrictedModal = ({
     const hasPriorTrial = useSelector(checkHadPriorTrial);
     const isSystemAdmin = useSelector(isCurrentUserSystemAdmin);
     const show = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.FEATURE_RESTRICTED_MODAL));
-    const openPricingModal = useOpenPricingModal();
+    const openPricingModal = useOpenPricingModal('FeatureRestrictedModal');
 
     if (!show) {
         return null;

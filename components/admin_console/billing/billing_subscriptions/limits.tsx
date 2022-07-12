@@ -39,7 +39,7 @@ const Limits = (props: Props): JSX.Element | null => {
     const [cloudLimits, limitsLoaded] = useGetLimits();
     const usage = useGetUsage();
     const openSalesLink = useOpenSalesLink(SalesInquiryIssue.UpgradeEnterprise);
-    const openPricingModal = useOpenPricingModal();
+    const openPricingModal = useOpenPricingModal('Limits');
 
     if (!subscriptionProduct || !limitsLoaded || !hasSomeLimits(cloudLimits)) {
         return null;

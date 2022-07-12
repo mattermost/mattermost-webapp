@@ -27,7 +27,7 @@ export default function LHSNearingLimitsModal() {
     const product = useSelector(getSubscriptionProduct);
     const usage = useGetUsage();
     const intl = useIntl();
-    const openPricingModal = useOpenPricingModal();
+    const openPricingModal = useOpenPricingModal('LHSNearingLimitsModal');
 
     const [limits] = useGetLimits();
 

@@ -38,7 +38,7 @@ const LimitReachedBanner = (props: Props) => {
 
     const openSalesLink = useOpenSalesLink(props.product?.sku === CloudProducts.PROFESSIONAL ? SalesInquiryIssue.UpgradeEnterprise : undefined);
     const openPurchaseModal = useOpenCloudPurchaseModal({});
-    const openPricingModal = useOpenPricingModal();
+    const openPricingModal = useOpenPricingModal('LimitReachedBanner');
     const saveBool = useSaveBool();
     if (hasDismissedBanner || !someLimitExceeded || (props.product?.sku !== CloudProducts.STARTER && props.product?.sku !== CloudProducts.PROFESSIONAL)) {
         return null;

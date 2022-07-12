@@ -47,7 +47,7 @@ const UpgradeCloudButton = (): JSX.Element | null => {
         }
     }, [isCloud]);
 
-    openPricingModal = useOpenPricingModal();
+    openPricingModal = useOpenPricingModal('UpgradeCloudButton');
 
     const isEnterpriseTrial = subscription?.is_free_trial === 'true';
     const isStarter = product?.sku === CloudProducts.STARTER;

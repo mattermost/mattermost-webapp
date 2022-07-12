@@ -64,7 +64,7 @@ interface GrandfatheredPlanBannerProps {
 }
 
 export const GrandfatheredPlanBanner = (props: GrandfatheredPlanBannerProps) => {
-    const openPricingModal = useOpenPricingModal();
+    const openPricingModal = useOpenPricingModal('GrandfatheredPlanBanner');
     const openSalesLink = useOpenSalesLink();
     const subscription = useGetSubscription();
     if (!subscription) {

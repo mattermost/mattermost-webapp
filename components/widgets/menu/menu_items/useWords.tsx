@@ -17,9 +17,9 @@ interface Words {
     status: React.ReactNode;
 }
 
-export default function useWords(highestLimit: LimitSummary | false, isAdminUser: boolean): Words | false {
+export default function useWords(highestLimit: LimitSummary | false, isAdminUser: boolean, callerComponent?: string): Words | false {
     const intl = useIntl();
-    const openPricingModal = useOpenPricingModal();
+    const openPricingModal = useOpenPricingModal(callerComponent);
     if (!highestLimit) {
         return false;
     }

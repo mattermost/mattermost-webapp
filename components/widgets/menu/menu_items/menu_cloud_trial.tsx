@@ -39,7 +39,7 @@ const MenuCloudTrial = ({id}: Props): JSX.Element | null => {
     const noPriorTrial = !(subscription?.is_free_trial === 'false' && subscription?.trial_end_at > 0);
     const freeTrialEndDay = moment(subscription?.trial_end_at).format('MMMM DD');
     const isAdmin = useSelector(isCurrentUserSystemAdmin);
-    const openPricingModal = useOpenPricingModal();
+    const openPricingModal = useOpenPricingModal('MenuCloudTrial');
 
     const openTrialBenefitsModal = async () => {
         await dispatch(openModal({

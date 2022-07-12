@@ -45,7 +45,7 @@ const CloudTrialEndAnnouncementBar: React.FC = () => {
     );
     const subscriptionProduct = useSelector((state: GlobalState) => getSubscriptionProduct(state));
 
-    const openPricingModal = useOpenPricingModal();
+    const openPricingModal = useOpenPricingModal('CloudTrialEndAnnouncementBar');
 
     const shouldShowBanner = () => {
         if (!subscription || !subscriptionProduct) {
