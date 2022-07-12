@@ -8,7 +8,8 @@ import {Theme} from 'mattermost-redux/types/themes';
 import {ProductComponent} from 'types/store/plugins';
 import {GlobalState} from 'types/store';
 
-import webSocketClient from 'client/web_websocket_client.jsx';
+import WebSocketClient from 'client/websocket_client';
+import webSocketClient from 'client/web_websocket_client';
 
 type Props = {
 
@@ -48,6 +49,7 @@ type Props = {
 
 type BaseChildProps = {
     theme: Theme;
+    webSocketClient?: WebSocketClient;
 }
 
 export default function Pluggable(props: Props): JSX.Element | null {
