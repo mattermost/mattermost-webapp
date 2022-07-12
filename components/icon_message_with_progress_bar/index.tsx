@@ -21,7 +21,7 @@ type PageCopy = {
 
 type Props = {
     processingState: ProcessState;
-    progress: React.MutableRefObject<number>;
+    progress: number;
     successPage: () => JSX.Element;
     processingCopy: PageCopy;
     failedCopy: PageCopy;
@@ -34,7 +34,7 @@ export default function IconMessageWithProgressBar({processingState, progress, s
         <div className='IconMessageWithProgressBar-progress'>
             <div
                 className='IconMessageWithProgressBar-progress-fill'
-                style={{width: `${progress.current}%`}}
+                style={{width: `${progress}%`}}
             />
         </div>
     );

@@ -21,7 +21,6 @@ import PaymentFailedSvg from 'components/common/svg_images_components/payment_fa
 import IconMessage from 'components/purchase_modal/icon_message';
 import ProgressBar, {ProcessState} from 'components/icon_message_with_progress_bar';
 import {
-    selectTeam,
     archiveAllTeamsExcept,
 } from 'mattermost-redux/actions/teams';
 
@@ -36,8 +35,8 @@ const MIN_PROCESSING_MILLISECONDS = 8000;
 const MAX_FAKE_PROGRESS = 95;
 
 function CloudSubscribeWithLoad(props: Props) {
-    let intervalId: NodeJS.Timeout;
-    const progress = useRef(0);
+    const intervalId = useRef<NodeJS.Timeout>({} as NodeJS.Timeout);
+    const [progress, setProgress] = useState(0);
     const dispatch = useDispatch();
     const [error, setError] = useState(false);
     const [processingState, setProcessingState] = useState(ProcessState.PROCESSING);
@@ -45,10 +44,8 @@ function CloudSubscribeWithLoad(props: Props) {
         isModalOpen(state, ModalIdentifiers.CLOUD_SUBSCRIBE_WITH_LOADING_MODAL),
     );
     useEffect(() => {
-        intervalId = {} as NodeJS.Timeout;
-
         handleSubscribe();
-        intervalId = setInterval(
+        intervalId.current = setInterval(
             updateProgress,
             MIN_PROCESSING_MILLISECONDS / MAX_FAKE_PROGRESS,
         );
@@ -84,23 +81,29 @@ function CloudSubscribeWithLoad(props: Props) {
     };
 
     const completeSubscribe = () => {
-        clearInterval(intervalId);
+        clearInterval(intervalId.current);
         setProcessingState(ProcessState.SUCCESS);
-        progress.current = 100;
+        setProgress(100);
     };
 
     const updateProgress = () => {
-        if (progress.current >= MAX_FAKE_PROGRESS) {
-            clearInterval(intervalId);
+        if (progress >= MAX_FAKE_PROGRESS) {
+            clearInterval(intervalId.current);
             return;
         }
-        progress.current =
-            progress.current + 3 > MAX_FAKE_PROGRESS ? MAX_FAKE_PROGRESS : progress.current + 3;
+
+        setProgress((progress) => {
+            if (progress >= MAX_FAKE_PROGRESS) {
+                clearInterval(intervalId.current);
+            }
+            return progress + 3 > MAX_FAKE_PROGRESS ? MAX_FAKE_PROGRESS : progress + 3;
+        },
+        );
     };
 
     const handleGoBack = () => {
-        clearInterval(intervalId);
-        progress.current = 0;
+        clearInterval(intervalId.current);
+        setProgress(0);
         setError(false);
         setProcessingState(ProcessState.PROCESSING);
         props.onBack();
