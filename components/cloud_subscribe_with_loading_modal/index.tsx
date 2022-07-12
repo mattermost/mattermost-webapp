@@ -56,9 +56,7 @@ function CloudSubscribeWithLoad(props: Props) {
 
     const handleSubscribe = async () => {
         const start = new Date();
-
         if (props.teamToKeep) {
-            await dispatch(selectTeam(props.teamToKeep?.id));
             await dispatch(archiveAllTeamsExcept(props.teamToKeep.id));
         }
 
