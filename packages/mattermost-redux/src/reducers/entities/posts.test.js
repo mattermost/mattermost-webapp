@@ -10,6 +10,7 @@ import {
     GeneralTypes,
     PostTypes,
     ThreadTypes,
+    CloudTypes,
 } from 'mattermost-redux/action_types';
 import {Posts} from 'mattermost-redux/constants';
 import * as reducers from 'mattermost-redux/reducers/entities/posts';
@@ -4193,5 +4194,169 @@ describe('postsReplies', () => {
                 expect(nextState).toEqual(testCase.nextState);
             });
         }
+    });
+});
+
+describe('limitedViews', () => {
+    const zeroState = deepFreeze(reducers.zeroStateLimitedViews);
+    const receivedPostActions = [
+        PostTypes.RECEIVED_POSTS,
+        PostTypes.RECEIVED_POSTS_AFTER,
+        PostTypes.RECEIVED_POSTS_BEFORE,
+        PostTypes.RECEIVED_POSTS_SINCE,
+        PostTypes.RECEIVED_POSTS_IN_CHANNEL,
+    ];
+    const forgetChannelActions = [
+        ChannelTypes.RECEIVED_CHANNEL_DELETED,
+        ChannelTypes.DELETE_CHANNEL_SUCCESS,
+        ChannelTypes.LEAVE_CHANNEL,
+    ];
+
+    receivedPostActions.forEach((action) => {
+        it(`${action} does nothing if posts are accessible`, () => {
+            const nextState = reducers.limitedViews(zeroState, {
+                type: action,
+                channelId: 'channelId',
+                data: {
+                    has_inaccessible_posts: false,
+                },
+            });
+
+            expect(nextState).toEqual(zeroState);
+        });
+
+        it(`${action} does nothing if action does not contain channelId`, () => {
+            const nextState = reducers.limitedViews(zeroState, {
+                type: action,
+                data: {
+                    has_inaccessible_posts: true,
+                },
+            });
+
+            expect(nextState).toEqual(zeroState);
+        });
+
+        it(`${action} sets channel view to limited if has inaccessible posts and channel id is present in action`, () => {
+            const nextState = reducers.limitedViews(zeroState, {
+                type: action,
+                channelId: 'channelId',
+                data: {
+                    has_inaccessible_posts: true,
+                },
+            });
+
+            expect(nextState).toEqual({...zeroState, channels: {channelId: true}});
+        });
+    });
+
+    it(`${PostTypes.RECEIVED_POSTS_IN_THREAD} does nothing if posts are accessible`, () => {
+        const nextState = reducers.limitedViews(zeroState, {
+            type: PostTypes.RECEIVED_POSTS_IN_THREAD,
+            rootId: 'rootId',
+            data: {
+                has_inaccessible_posts: false,
+            },
+        });
+
+        expect(nextState).toEqual(zeroState);
+    });
+
+    it(`${PostTypes.RECEIVED_POSTS_IN_THREAD} sets threads view to limited if has inaccessible posts and channel id is present in action`, () => {
+        const nextState = reducers.limitedViews(zeroState, {
+            type: PostTypes.RECEIVED_POSTS_IN_THREAD,
+            rootId: 'rootId',
+            data: {
+                has_inaccessible_posts: true,
+            },
+        });
+
+        expect(nextState).toEqual({...zeroState, threads: {rootId: true}});
+    });
+
+    it(`${CloudTypes.RECEIVED_CLOUD_LIMITS} clears out limited views if there are no longer message limits`, () => {
+        const nextState = reducers.limitedViews({...zeroState, threads: {rootId: true}}, {
+            type: CloudTypes.RECEIVED_CLOUD_LIMITS,
+            data: {
+                limits: {},
+            },
+        });
+
+        expect(nextState).toEqual(zeroState);
+    });
+
+    it(`${CloudTypes.RECEIVED_CLOUD_LIMITS} preserves limited views if there are still message limits`, () => {
+        const initialState = {...zeroState, threads: {rootId: true}};
+        const nextState = reducers.limitedViews(initialState, {
+            type: CloudTypes.RECEIVED_CLOUD_LIMITS,
+            data: {
+                limits: {
+                    message: {
+                        history: 10000,
+                    }
+                },
+            },
+        });
+
+        expect(nextState).toEqual(zeroState);
+    });
+
+    forgetChannelActions.forEach((action) => {
+        const initialState =  {...zeroState, channels: {channelId: true}};
+
+        it(`${action} does nothing if archived channel is still visible`, () => {
+            const nextState = reducers.limitedViews(initialState, {
+                type: action,
+                data: {
+                    viewArchivedChannels: true,
+                    id: 'channelId',
+                },
+            });
+
+            expect(nextState).toEqual(initialState);
+        });
+
+        it(`${action} does nothing if archived channel is not limited`, () => {
+            const nextState = reducers.limitedViews(initialState, {
+                type: action,
+                data: {
+                    id: 'channelId2',
+                },
+            });
+
+            expect(nextState).toEqual(initialState);
+            // e.g. old state should have been returned;
+            // reference equality should have been preserved
+            expect(nextState).toBe(initialState);
+        });
+
+        it(`${action} removes deleted channel`, () => {
+            const nextState = reducers.limitedViews(initialState, {
+                type: action,
+                data: {
+                    id: 'channelId',
+                },
+            });
+
+            expect(nextState).toEqual(zeroState);
+        });
+    });
+
+    it('makes no changes if events type is not listened to', () => {
+        const initialState = {
+            channels: {
+                channelId: true,
+            },
+            threads: {
+                rootId: true,
+            },
+        };
+        const nextState = reducers.limitedViews(initialState, {
+            type: GeneralTypes.REDIRECT_LOCATION_FAILURE,
+            data: {
+                url: 'http://failed-location-failure.com',
+            },
+        });
+
+        expect(nextState).toEqual(initialState);
     });
 });

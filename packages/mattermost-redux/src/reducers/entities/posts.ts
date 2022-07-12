@@ -1397,10 +1397,8 @@ export const zeroStateLimitedViews = {
 
 export function limitedViews(
     state: PostsState['limitedViews'] = zeroStateLimitedViews,
-    postsInChannel: PostsState['postsInChannel'],
     action: GenericAction,
 ): PostsState['limitedViews'] {
-    // for each case, where needed, add the limit once observed. If a subsquent request for messages PRIOR to what is already loaded returns no limit, dump the limit.
     switch (action.type) {
     case PostTypes.RECEIVED_POSTS:
     case PostTypes.RECEIVED_POSTS_AFTER:
@@ -1419,7 +1417,7 @@ export function limitedViews(
         return state;
     }
     case PostTypes.RECEIVED_POSTS_IN_THREAD: {
-        if (action.data.has_inaccessible_posts && action.channelId) {
+        if (action.data.has_inaccessible_posts) {
             return {
                 ...state,
                 threads: {
@@ -1438,8 +1436,8 @@ export function limitedViews(
         if (!limits?.messages || (!limits?.messages?.history && limits?.messages?.history !== 0)) {
             return zeroStateLimitedViews;
         }
+        return state;
     }
-    // eslint-disable-next-line no-fallthrough
     case ChannelTypes.RECEIVED_CHANNEL_DELETED:
     case ChannelTypes.DELETE_CHANNEL_SUCCESS:
     case ChannelTypes.LEAVE_CHANNEL: {
@@ -1458,50 +1456,6 @@ export function limitedViews(
         };
         delete newState.channels[channelId];
         return newState;
-    }
-
-    case PostTypes.POST_DELETED:
-    case PostTypes.POST_REMOVED: {
-        const post: Post = action.data;
-
-        const threadIsLimited = state.threads[post.root_id] || state.threads[post.id];
-        const limitedChannels = Object.keys(state.channels);
-        const channelsWithDeletedPost = limitedChannels.reduce(
-            (acc: string[], channelId: string) => {
-                const channelHasDeletedPost = postsInChannel[channelId].some((postBlock: PostOrderBlock) => postBlock.order.some((postId: string) => postId === post.id || postId === post.root_id));
-                if (channelHasDeletedPost) {
-                    acc.push(channelId);
-                }
-                return acc;
-            },
-            [] as string[],
-        );
-        if (!threadIsLimited && channelsWithDeletedPost.length === 0) {
-            return state;
-        }
-
-        let newThreads = state.threads;
-        if (threadIsLimited) {
-            newThreads = {...state.threads};
-            delete newThreads[post.id];
-            delete newThreads[post.root_id];
-        }
-        let newChannels = state.channels;
-        if (channelsWithDeletedPost.length === 0) {
-            newChannels = {
-                ...state.channels,
-            };
-
-            channelsWithDeletedPost.forEach((channelId: string) => {
-                delete newChannels[channelId];
-            });
-        }
-        const nextState = {
-            threads: newThreads,
-            channels: newChannels,
-        };
-
-        return nextState;
     }
 
     default:
@@ -1551,7 +1505,7 @@ export default function reducer(state: Partial<PostsState> = {}, action: Generic
         // For cloud instances with a message limit,
         // whether this particular view has messages that are hidden
         // because of the cloud workspace limit.
-        limitedViews: limitedViews(state.limitedViews, nextPosts, action),
+        limitedViews: limitedViews(state.limitedViews, action),
     };
 
     if (state.posts === nextState.posts && state.postsInChannel === nextState.postsInChannel &&

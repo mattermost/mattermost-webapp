@@ -20,7 +20,7 @@ import {PostListRowListIds} from 'utils/constants';
 
 import PostListRow, {PostListRowProps} from './post_list_row';
 
-type OwnProps = Pick<PostListRowProps, 'channel' | 'listId'>
+type OwnProps = Pick<PostListRowProps, 'listId'>
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const shortcutReactToLastPostEmittedFrom = getShortcutReactToLastPostEmittedFrom(state);
@@ -28,21 +28,23 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const limits = getCloudLimits(state);
     const limitsLoaded = getCloudLimitsLoaded(state);
 
-    let channelLimitExceeded = false;
-    if (ownProps.listId === PostListRowListIds.OLDER_MESSAGES_LOADER && limitsLoaded) {
-        let currentChannelId = ownProps.channel?.id || '';
-        if (!currentChannelId) {
-            currentChannelId = getCurrentChannelId(state);
-        }
-        channelLimitExceeded = Boolean(getLimitedViews(state).channels[currentChannelId]);
-    }
-    return {
+    const props: Pick<
+    PostListRowProps,
+    'shortcutReactToLastPostEmittedFrom' | 'usage' | 'limits' | 'limitsLoaded' | 'exceededLimitChannelId'
+    > = {
         shortcutReactToLastPostEmittedFrom,
         usage,
         limits,
         limitsLoaded,
-        channelLimitExceeded,
     };
+    if ((ownProps.listId === PostListRowListIds.OLDER_MESSAGES_LOADER || ownProps.listId === PostListRowListIds.CHANNEL_INTRO_MESSAGE) && limitsLoaded) {
+        const currentChannelId = getCurrentChannelId(state);
+        const channelLimitExceeded = Boolean(getLimitedViews(state).channels[currentChannelId]);
+        if (channelLimitExceeded) {
+            props.exceededLimitChannelId = currentChannelId;
+        }
+    }
+    return props;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
