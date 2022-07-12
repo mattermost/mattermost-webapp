@@ -63,6 +63,7 @@ type Props = {
     showChannelsTutorialStep: boolean;
 
     actions: {
+        markMostRecentPostInChannelAsUnread: (channelId: string) => void;
         clearChannelSelection: () => void;
         multiSelectChannelTo: (channelId: string) => void;
         multiSelectChannelAdd: (channelId: string) => void;
@@ -150,6 +151,9 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
         } else if (event.shiftKey) {
             event.preventDefault();
             this.props.actions.multiSelectChannelTo(this.props.channel.id);
+        } else if (event.altKey) {
+            console.log(`Alt key pressed: marking channel: ${this.props.channel.id} as unread`)
+            this.props.actions.markMostRecentPostInChannelAsUnread(this.props.channel.id)
         } else {
             this.props.actions.unsetEditingPost();
             this.props.actions.clearChannelSelection();
