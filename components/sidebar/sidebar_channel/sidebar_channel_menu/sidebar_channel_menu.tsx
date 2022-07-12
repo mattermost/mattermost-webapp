@@ -67,8 +67,8 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
     }
 
     markAsUnread = () => {
-        this.props.actions.markMostRecentPostInChannelAsUnread(this.props.channel.id)
-        trackEvent('ui', 'ui_sidebar_channel_menu_markAsUnread')
+        this.props.actions.markMostRecentPostInChannelAsUnread(this.props.channel.id);
+        trackEvent('ui', 'ui_sidebar_channel_menu_markAsUnread');
     }
 
     favoriteChannel = () => {
@@ -143,7 +143,7 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
                     icon={<i className='icon-mark-as-unread'/>}
                     text={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.markAsUnread', defaultMessage: 'Mark as Unread'})}
                 />
-            )
+            );
         }
 
         let favorite;

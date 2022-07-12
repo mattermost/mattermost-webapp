@@ -1414,11 +1414,10 @@ export function actionsToMarkChannelAsUnread(getState: GetStateFunc, teamId: str
 export function markMostRecentPostInChannelAsUnread(channelId: string): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
-        let postId = getMostRecentPostIdInChannel(state, channelId)
-        let post = {id: postId}
-        
-        if(post.id!= undefined && post.id!=null){
-            dispatch(markPostAsUnread(post, "CENTER"))
+        const postId = getMostRecentPostIdInChannel(state, channelId);
+        const post = {id: postId};
+        if (post.id !== undefined && post.id !== null) {
+            dispatch(markPostAsUnread(post, 'CENTER'));
         }
 
         return {data: true};
