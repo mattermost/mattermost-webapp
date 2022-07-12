@@ -8,11 +8,11 @@ import {useSelector} from 'react-redux';
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {isAdmin} from 'mattermost-redux/utils/user_utils';
-import {isCurrentLicenseCloud, getSubscriptionProduct as selectSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
-import {CloudProducts} from 'utils/constants';
+import {isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
+import {DataSearchTypes} from 'utils/constants';
 import useGetUsage from 'components/common/hooks/useGetUsage';
 import useGetLimits from 'components/common/hooks/useGetLimits';
-import {asGBString, fallbackStarterLimits} from 'utils/limits';
+import {asGBString} from 'utils/limits';
 
 const StyledDiv = styled.div`
 width: 100%;
@@ -41,9 +41,6 @@ type Props = {
     searchType: string;
 }
 
-const FILES_SEARCH_TYPE = 'files';
-const MESSAGES_SEARCH_TYPE = 'messages';
-
 function SearchLimitsBanner(props: Props) {
     const {formatMessage, formatNumber} = useIntl();
     const openPricingModal = useOpenPricingModal();
@@ -51,17 +48,15 @@ function SearchLimitsBanner(props: Props) {
     const [cloudLimits] = useGetLimits();
     const isAdminUser = isAdmin(useSelector(getCurrentUser).roles);
     const isCloud = useSelector(isCurrentLicenseCloud);
-    const product = useSelector(selectSubscriptionProduct);
-    const isStarter = product?.sku === CloudProducts.STARTER;
 
-    if (!isCloud || !isStarter) {
+    if (!isCloud) {
         return null;
     }
 
     const currentFileStorageUsage = usage.files.totalStorage;
-    const fileStorageLimit = cloudLimits?.files?.total_storage || fallbackStarterLimits.files.totalStorage;
+    const fileStorageLimit = cloudLimits?.files?.total_storage;
     const currentMessagesUsage = usage.messages.history;
-    const messagesLimit = cloudLimits?.messages?.history || fallbackStarterLimits.messages.history;
+    const messagesLimit = cloudLimits?.messages?.history;
 
     let ctaAction = formatMessage({
         id: 'workspace_limits.search_limit.view_plans',
@@ -85,8 +80,8 @@ function SearchLimitsBanner(props: Props) {
     };
 
     switch (props.searchType) {
-    case FILES_SEARCH_TYPE:
-        if (!(currentFileStorageUsage > fileStorageLimit)) {
+    case DataSearchTypes.FILES_SEARCH_TYPE:
+        if ((fileStorageLimit === undefined) || !(currentFileStorageUsage > fileStorageLimit)) {
             return null;
         }
         return renderBanner(formatMessage({
@@ -102,10 +97,10 @@ function SearchLimitsBanner(props: Props) {
                     {chunks}
                 </StyledA>
             ),
-        }), `${FILES_SEARCH_TYPE}_search_limits_banner`);
+        }), `${DataSearchTypes.FILES_SEARCH_TYPE}_search_limits_banner`);
 
-    case MESSAGES_SEARCH_TYPE:
-        if (!(currentMessagesUsage > messagesLimit)) {
+    case DataSearchTypes.MESSAGES_SEARCH_TYPE:
+        if ((messagesLimit === undefined) || !(currentMessagesUsage > messagesLimit)) {
             return null;
         }
         return renderBanner(formatMessage({
@@ -121,7 +116,7 @@ function SearchLimitsBanner(props: Props) {
                     {chunks}
                 </StyledA>
             ),
-        }), `${MESSAGES_SEARCH_TYPE}_search_limits_banner`);
+        }), `${DataSearchTypes.MESSAGES_SEARCH_TYPE}_search_limits_banner`);
     default:
         return null;
     }

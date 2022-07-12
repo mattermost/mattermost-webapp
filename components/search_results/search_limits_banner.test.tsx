@@ -121,7 +121,7 @@ describe('components/select_results/SearchLimitsBanner', () => {
         expect(wrapper.find('#files_search_limits_banner').exists()).toEqual(false);
     });
 
-    test('should NOT show banner for non cloud when doing cloud messages search above the limit but NOT in starter product', () => {
+    test('should NOT show banner for cloud when doing cloud messages search for product without limits', () => {
         const aboveMessagesLimitUsage = JSON.parse(JSON.stringify(usage));
         aboveMessagesLimitUsage.messages.history = 15000; // above limit of 10k
 
@@ -142,10 +142,13 @@ describe('components/select_results/SearchLimitsBanner', () => {
                 cloud: {
                     subscription: {
                         is_free_trial: 'false',
-                        product_id: 'prod_2', // NOT starter
+                        product_id: 'prod_3', // enterprise
                     },
                     products,
-                    limits,
+                    limits: {
+                        limits: {},
+                        limitsLoaded: false,
+                    },
                 },
                 usage: aboveMessagesLimitUsage,
             },
@@ -155,9 +158,9 @@ describe('components/select_results/SearchLimitsBanner', () => {
         expect(wrapper.find('#messages_search_limits_banner').exists()).toEqual(false);
     });
 
-    test('should NOT show banner for non cloud when doing cloud files search above the limit but NOT in starter product', () => {
-        const aboveFilesLimitUsage = JSON.parse(JSON.stringify(usage));
-        aboveFilesLimitUsage.files.totalStorage = 11 * FileSizes.Gigabyte; // above limit of 10GB
+    test('should NOT show banner for cloud when doing cloud files search for product without limits', () => {
+        const aboveMessagesLimitUsage = JSON.parse(JSON.stringify(usage));
+        aboveMessagesLimitUsage.messages.history = 15000; // above limit of 10k
 
         const state = {
             entities: {
@@ -176,12 +179,15 @@ describe('components/select_results/SearchLimitsBanner', () => {
                 cloud: {
                     subscription: {
                         is_free_trial: 'false',
-                        product_id: 'prod_2', // NOT starter
+                        product_id: 'prod_3', // enterprise
                     },
                     products,
-                    limits,
+                    limits: {
+                        limits: {},
+                        limitsLoaded: false,
+                    },
                 },
-                usage: aboveFilesLimitUsage,
+                usage: aboveMessagesLimitUsage,
             },
         };
         const store = mockStore(state);
@@ -245,6 +251,40 @@ describe('components/select_results/SearchLimitsBanner', () => {
                     subscription: {
                         is_free_trial: 'true',
                         product_id: 'prod_1', // starter
+                    },
+                    products,
+                    limits,
+                },
+                usage: aboveFilesLimitUsage,
+            },
+        };
+        const store = mockStore(state);
+        const wrapper = mountWithIntl(<Provider store={store}><SearchLimitsBanner searchType='files'/></Provider>);
+        expect(wrapper.find('#files_search_limits_banner').exists()).toEqual(true);
+    });
+
+    test('should show banner for CLOUD when doing cloud files search above the limit in PROFESSIONAL product', () => {
+        const aboveFilesLimitUsage = JSON.parse(JSON.stringify(usage));
+        aboveFilesLimitUsage.files.totalStorage = 11 * FileSizes.Gigabyte; // above limit of 10GB. This limit is higher in professional
+
+        const state = {
+            entities: {
+                general: {
+                    license: {
+                        IsLicensed: 'true',
+                        Cloud: 'true', // cloud
+                    },
+                },
+                users: {
+                    currentUserId: 'uid',
+                    profiles: {
+                        uid: {},
+                    },
+                },
+                cloud: {
+                    subscription: {
+                        is_free_trial: 'true',
+                        product_id: 'prod_2', // professional
                     },
                     products,
                     limits,

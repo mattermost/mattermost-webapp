@@ -2023,4 +2023,9 @@ export const LegacyFreeProductIds: Record<string, true> = {
     prod_Hm2oYaBiRSISL2: true,
 };
 
+export const DataSearchTypes = {
+    FILES_SEARCH_TYPE: 'files',
+    MESSAGES_SEARCH_TYPE: 'messages',
+};
+
 export default Constants;
