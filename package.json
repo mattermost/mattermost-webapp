@@ -301,6 +301,6 @@
   "workspaces": [
     "packages/client",
     "packages/types",
-    "packages/mattermost-components"
+    "packages/components"
   ]
 }
