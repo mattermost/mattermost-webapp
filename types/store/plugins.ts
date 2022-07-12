@@ -124,7 +124,6 @@ export type PostWillRenderEmbedPluginComponent = {
     component: React.ComponentType<{ embed: PostEmbed; webSocketClient?: WebSocketClient }>;
     match: (arg: PostEmbed) => boolean;
     toggleable: boolean;
-
 }
 
 export type ProductComponent = {
