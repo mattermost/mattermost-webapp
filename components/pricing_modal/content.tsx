@@ -381,7 +381,7 @@ function Content(props: ContentProps) {
                                 message={formatMessage({id: 'pricing_modal.btn.tryDays', defaultMessage: 'Try free for {days} days'}, {days: '30'})}
                                 telemetryId='start_cloud_trial_from_pricing_modal'
                                 disabled={isEnterpriseTrial}
-                                extraClass={isEnterpriseTrial ? ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.special}
+                                extraClass={`plan_action_btn ${isEnterpriseTrial ? ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.special}`}
                             />
                         ) : undefined}
                     />
