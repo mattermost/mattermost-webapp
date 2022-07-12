@@ -344,15 +344,3 @@ t('admin.permissions.sysconsole_section_experimental.description');
 t('admin.permissions.sysconsole_section_experimental_features.name');
 t('admin.permissions.sysconsole_section_experimental_feature_flags.name');
 t('admin.permissions.sysconsole_section_experimental_bleve.name');
-
-const allCustomGroupAdminPermissions = [
-    'create_custom_group',
-    'edit_custom_group',
-    'delete_custom_group',
-    'manage_custom_group_members',
-];
-
-allCustomGroupAdminPermissions.forEach((permission) => {
-    t(`admin.permissions.permission.${permission}.name`);
-    t(`admin.permissions.permission.${permission}.description`);
-});
