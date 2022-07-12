@@ -13,7 +13,6 @@ import {isAdmin} from 'mattermost-redux/utils/user_utils';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
-// import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getOldestPostsChunkInChannel, getAllPosts} from 'mattermost-redux/selectors/entities/posts';
 
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
