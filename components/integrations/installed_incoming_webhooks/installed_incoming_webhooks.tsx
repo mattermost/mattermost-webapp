@@ -4,19 +4,19 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Team} from 'mattermost-redux/types/teams';
-import {Channel} from 'mattermost-redux/types/channels';
-import {IncomingWebhook} from 'mattermost-redux/types/integrations';
+import {Team} from '@mattermost/types/teams';
+import {Channel} from '@mattermost/types/channels';
+import {IncomingWebhook} from '@mattermost/types/integrations';
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {UserProfile} from 'mattermost-redux/types/users';
-import {IDMappedObjects} from 'mattermost-redux/types/utilities';
+import {UserProfile} from '@mattermost/types/users';
+import {IDMappedObjects} from '@mattermost/types/utilities';
 
 import BackstageList from 'components/backstage/components/backstage_list.jsx';
 import InstalledIncomingWebhook, {matchesFilter} from 'components/integrations/installed_incoming_webhook.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import Constants from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 type Props = {
     team: Team;

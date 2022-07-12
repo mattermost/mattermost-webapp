@@ -1,4 +1,4 @@
-.PHONY: build test run clean stop check-style fix-style run-unit emojis help package-ci storybook build-storybook update-dependencies
+.PHONY: build test run clean stop check-style fix-style run-unit emojis help package-ci update-dependencies
 
 BUILD_SERVER_DIR = ../mattermost-server
 BUILD_WEBAPP_DIR = ../mattermost-webapp
@@ -13,14 +13,6 @@ RUN_IN_BACKGROUND ?=
 ifeq ($(RUN_CLIENT_IN_BACKGROUND),true)
 	RUN_IN_BACKGROUND := &
 endif
-
-build-storybook: node_modules ## Build the storybook
-	@echo Building storybook
-
-	npm run build-storybook
-
-storybook: node_modules ## Run the storybook development environment
-	npm run storybook
 
 check-style: node_modules ## Checks JS file for ESLint confirmity
 	@echo Checking for style guide compliance
@@ -109,6 +101,8 @@ restart: | stop run ## Restarts the app
 
 clean: ## Clears cached; deletes node_modules and dist directories
 	@echo Cleaning Webapp
+
+	npm run clean --workspaces --if-present
 
 	rm -rf dist
 	rm -rf node_modules

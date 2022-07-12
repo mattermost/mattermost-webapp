@@ -2,9 +2,10 @@
 // See LICENSE.txt for license information.
 
 import assert from 'assert';
+
 import nock from 'nock';
 
-import Client4 from 'mattermost-redux/client/client4';
+import {Client4} from '@mattermost/client';
 
 import {DEFAULT_LOCALE} from 'mattermost-redux/constants/general';
 import {generateId} from 'mattermost-redux/utils/helpers';
@@ -275,8 +276,11 @@ class TestHelper {
             channel_id: channelId,
             notify_props: {},
             roles: 'system_user',
+            last_viewed_at: 0,
             msg_count: 0,
+            msg_count_root: 0,
             mention_count: 0,
+            mention_count_root: 0,
             scheme_user: false,
             scheme_admin: false,
         };

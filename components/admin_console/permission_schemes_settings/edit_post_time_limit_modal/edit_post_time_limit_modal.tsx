@@ -5,12 +5,12 @@ import React, {useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Modal} from 'react-bootstrap';
 
-import {AdminConfig} from 'mattermost-redux/types/config';
+import {AdminConfig} from '@mattermost/types/config';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import {Constants} from 'utils/constants';
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils';
 import {t} from 'utils/i18n';
 
 const INT32_MAX = 2147483647;

@@ -5,7 +5,7 @@ import {shallow} from 'enzyme';
 import React from 'react';
 import {Provider} from 'react-redux';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import configureStore from 'store';
 
@@ -84,6 +84,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         teammateNameDisplay: '',
         channelDisplayMode: '',
         messageDisplay: '',
+        colorizeUsernames: '',
         collapseDisplay: '',
         linkPreviewDisplay: '',
         globalHeaderDisplay: '',

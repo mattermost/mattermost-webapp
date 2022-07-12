@@ -7,17 +7,16 @@ import {FormattedMessage} from 'react-intl';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
 
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 
 import Constants, {ModalIdentifiers} from 'utils/constants';
-import {localizeMessage} from 'utils/utils.jsx';
 
 import MultiSelect, {Value} from 'components/multiselect/multiselect';
 import ConfirmModal from 'components/confirm_modal';
 import TeamIcon from 'components/widgets/team_icon/team_icon';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
-import {imageURLForTeam} from 'utils/utils';
+import {localizeMessage, imageURLForTeam} from 'utils/utils';
 
 const TEAMS_PER_PAGE = 50;
 

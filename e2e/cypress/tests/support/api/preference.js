@@ -212,17 +212,6 @@ Cypress.Commands.add('apiSaveTutorialStep', (userId, value = '999') => {
     return cy.apiSaveUserPreference([preference], userId);
 });
 
-Cypress.Commands.add('apiSaveOnboardingPreference', (userId, name, value) => {
-    const preference = {
-        user_id: userId,
-        category: 'recommended_next_steps',
-        name,
-        value,
-    };
-
-    return cy.apiSaveUserPreference([preference], userId);
-});
-
 Cypress.Commands.add('apiSaveDirectChannelShowPreference', (userId, otherUserId, value) => {
     const preference = {
         user_id: userId,
@@ -274,11 +263,44 @@ Cypress.Commands.add('apiSaveActionsMenuPreference', (userId, value = true) => {
     return cy.apiSaveUserPreference([preference], userId);
 });
 
-Cypress.Commands.add('apiSaveShowStartTrialModal', (userId, value = 'true') => {
+Cypress.Commands.add('apiSaveStartTrialModal', (userId, value = 'true') => {
     const preference = {
         user_id: userId,
         category: 'start_trial_modal',
         name: 'trial_modal_auto_shown',
+        value,
+    };
+
+    return cy.apiSaveUserPreference([preference], userId);
+});
+
+Cypress.Commands.add('apiSaveOnboardingTaskListPreference', (userId, name, value) => {
+    const preference = {
+        user_id: userId,
+        category: 'onboarding_task_list',
+        name,
+        value,
+    };
+
+    return cy.apiSaveUserPreference([preference], userId);
+});
+
+Cypress.Commands.add('apiSaveSkipStepsPreference', (userId, value) => {
+    const preference = {
+        user_id: userId,
+        category: 'recommended_next_steps',
+        name: 'skip',
+        value,
+    };
+
+    return cy.apiSaveUserPreference([preference], userId);
+});
+
+Cypress.Commands.add('apiSaveUnreadScrollPositionPreference', (userId, value) => {
+    const preference = {
+        user_id: userId,
+        category: 'advanced_settings',
+        name: 'unread_scroll_position',
         value,
     };
 

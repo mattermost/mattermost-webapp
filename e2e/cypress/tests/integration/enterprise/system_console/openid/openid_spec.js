@@ -81,7 +81,7 @@ describe('System Console OpenId Connect', () => {
             expect(config.GoogleSettings.DiscoveryEndpoint).to.equal('https://accounts.google.com/.well-known/openid-configuration');
         });
 
-        verifyOAuthLogin('Google Apps', '', Cypress.config('baseUrl') + '/oauth/google/login');
+        verifyOAuthLogin('Google', '', Cypress.config('baseUrl') + '/oauth/google/login');
     });
 
     it('MM-T3621 - Set to Gitlab OpenId', () => {
@@ -139,12 +139,18 @@ const verifyOAuthLogin = (text, color, href) => {
 
     cy.url().then((url) => {
         const withExtra = url.includes('?extra=expired') ? '?extra=expired' : '';
-        cy.findByRole('link', {name: `${text}`}).then((btn) => {
-            expect(btn[0].href).equal(`${href}${withExtra}`);
+
+        // * Verify oauth login link
+        cy.get('.external-login-button').then((btn) => {
+            expect(btn.prop('href')).equal(`${href}${withExtra}`);
+
             if (color) {
                 const rbgArr = hexToRgbArray(color);
-                expect(btn[0].style.backgroundColor).equal(rgbArrayToString(rbgArr));
+                expect(btn[0].style.color).equal(rgbArrayToString(rbgArr));
+                expect(btn[0].style.borderColor).equal(rgbArrayToString(rbgArr));
             }
+
+            cy.get('.external-login-button-label').should('contain', text);
         });
     });
 };

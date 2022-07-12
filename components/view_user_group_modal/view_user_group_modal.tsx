@@ -7,14 +7,14 @@ import {Modal} from 'react-bootstrap';
 
 import {FormattedMessage} from 'react-intl';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import Constants from 'utils/constants';
 
 import FaSearchIcon from 'components/widgets/icons/fa_search_icon';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import LoadingScreen from 'components/loading_screen';
-import {Group} from 'mattermost-redux/types/groups';
+import {Group} from '@mattermost/types/groups';
 
 import './view_user_group_modal.scss';
 import {debounce} from 'mattermost-redux/actions/helpers';

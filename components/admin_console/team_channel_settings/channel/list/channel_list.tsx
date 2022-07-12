@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
-import {ChannelWithTeamData, ChannelSearchOpts} from 'mattermost-redux/types/channels';
+import {ChannelWithTeamData, ChannelSearchOpts} from '@mattermost/types/channels';
 import {debounce} from 'mattermost-redux/actions/helpers';
 
 import {browserHistory} from 'utils/browser_history';
@@ -99,7 +99,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
         let channels = [];
         let total = 0;
         let searchErrored = true;
-        const response = await this.props.actions.searchAllChannels(term, {...filters, page, per_page: PAGE_SIZE, include_deleted: true});
+        const response = await this.props.actions.searchAllChannels(term, {...filters, page, per_page: PAGE_SIZE, include_deleted: true, include_search_by_id: true});
         if (response?.data) {
             channels = page > 0 ? this.state.channels.concat(response.data.channels) : response.data.channels;
             total = response.data.total_count;

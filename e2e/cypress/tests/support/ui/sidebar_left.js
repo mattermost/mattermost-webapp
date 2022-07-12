@@ -103,6 +103,14 @@ Cypress.Commands.add('uiOpenFindChannels', () => {
     cy.uiGetFindChannels().click();
 });
 
+Cypress.Commands.add('uiGetSidebarThreadsButton', () => {
+    cy.get('#sidebar-threads-button').should('be.visible');
+});
+
+Cypress.Commands.add('uiGetSidebarInsightsButton', () => {
+    cy.get('#sidebar-insights-button').should('be.visible');
+});
+
 Cypress.Commands.add('uiGetChannelSidebarMenu', (channelName) => {
     cy.get(`#sidebarItem_${channelName}`).
         find('.SidebarMenu_menuButton').

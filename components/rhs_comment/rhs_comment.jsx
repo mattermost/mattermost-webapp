@@ -15,7 +15,7 @@ import {
 
 import Constants, {Locations, A11yCustomEventTypes, AppEvents} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils';
-import {isMobile} from 'utils/utils.jsx';
+import {isMobile} from 'utils/utils';
 import ActionsMenu from 'components/actions_menu';
 import DotMenu from 'components/dot_menu';
 import FileAttachmentListContainer from 'components/file_attachment_list';
@@ -36,7 +36,7 @@ import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import UserProfile from 'components/user_profile';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
-import {Emoji} from 'mattermost-redux/types/emojis';
+import {Emoji} from '@mattermost/types/emojis';
 import EditPost from 'components/edit_post';
 import AutoHeightSwitcher, {AutoHeightSlots} from 'components/common/auto_height_switcher';
 
@@ -46,6 +46,7 @@ export default class RhsComment extends React.PureComponent {
         teamId: PropTypes.string.isRequired,
         currentUserId: PropTypes.string.isRequired,
         compactDisplay: PropTypes.bool,
+        colorizeUsernames: PropTypes.bool,
         isFlagged: PropTypes.bool.isRequired,
         isBusy: PropTypes.bool,
         removePost: PropTypes.func.isRequired,
@@ -389,6 +390,7 @@ export default class RhsComment extends React.PureComponent {
         const isSystemMessage = PostUtils.isSystemMessage(post);
         const isMeMessage = checkIsMeMessage(post);
         const fromAutoResponder = PostUtils.fromAutoResponder(post);
+        const colorize = this.props.compactDisplay && this.props.colorizeUsernames;
 
         let botIndicator;
         let profilePicture;
@@ -403,6 +405,7 @@ export default class RhsComment extends React.PureComponent {
                     isBusy={this.props.isBusy}
                     isRHS={true}
                     hasMention={true}
+                    colorize={colorize}
                 />
             );
         }
@@ -415,6 +418,7 @@ export default class RhsComment extends React.PureComponent {
                     isBusy={this.props.isBusy}
                     isRHS={true}
                     hasMention={true}
+                    colorize={colorize}
                 />
             );
 
@@ -426,6 +430,7 @@ export default class RhsComment extends React.PureComponent {
                     post={post}
                     userId={post.user_id}
                     channelId={post.channel_id}
+                    colorize={colorize}
                 />
             );
 
@@ -438,6 +443,7 @@ export default class RhsComment extends React.PureComponent {
                             hideStatus={true}
                             overwriteName={post.props.override_username}
                             disablePopover={true}
+                            colorize={colorize}
                         />
                     );
                 } else {
@@ -447,6 +453,7 @@ export default class RhsComment extends React.PureComponent {
                             channelId={post.channel_id}
                             hideStatus={true}
                             disablePopover={true}
+                            colorize={colorize}
                         />
                     );
                 }
@@ -462,6 +469,7 @@ export default class RhsComment extends React.PureComponent {
                             isBusy={this.props.isBusy}
                             isRHS={true}
                             hasMention={true}
+                            colorize={colorize}
                         />
                     </span>
                 );
@@ -479,6 +487,7 @@ export default class RhsComment extends React.PureComponent {
                         userId={post.user_id}
                         channelId={post.channel_id}
                         hideStatus={true}
+                        colorize={colorize}
                     />
                 );
 
@@ -502,6 +511,7 @@ export default class RhsComment extends React.PureComponent {
                         overwriteImage={Constants.SYSTEM_MESSAGE_PROFILE_IMAGE}
                         disablePopover={true}
                         channelId={post.channel_id}
+                        colorize={colorize}
                     />
                 );
                 visibleMessage = (

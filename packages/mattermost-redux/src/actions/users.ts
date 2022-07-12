@@ -7,8 +7,8 @@ import {batchActions} from 'redux-batched-actions';
 import {Client4} from 'mattermost-redux/client';
 
 import {ActionFunc, ActionResult, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-import {UserProfile, UserStatus, GetFilteredUsersStatsOpts, UsersStats, UserCustomStatus} from 'mattermost-redux/types/users';
-import {UserTypes, AdminTypes} from 'mattermost-redux/action_types';
+import {UserProfile, UserStatus, GetFilteredUsersStatsOpts, UsersStats, UserCustomStatus} from '@mattermost/types/users';
+import {UserTypes, AdminTypes, GeneralTypes, PreferenceTypes, TeamTypes, RoleTypes} from 'mattermost-redux/action_types';
 
 import {setServerVersion, getClientConfig, getLicenseConfig} from 'mattermost-redux/actions/general';
 import {getMyTeams, getMyTeamMembers, getMyTeamUnreads} from 'mattermost-redux/actions/teams';
@@ -16,10 +16,19 @@ import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
 import {bindClientFunc, forceLogoutIfNecessary, debounce} from 'mattermost-redux/actions/helpers';
 import {logError} from 'mattermost-redux/actions/errors';
 import {getMyPreferences} from 'mattermost-redux/actions/preferences';
+import {
+    convertRolesNamesArrayToString,
+    myDataQuery,
+    MyDataQueryResponseType,
+    transformToRecievedMeReducerPayload,
+    transformToRecievedTeamsListReducerPayload,
+    transformToRecievedMyTeamMembersReducerPayload,
+    transformToRecievedRolesReducerPayload,
+} from 'mattermost-redux/actions/users_queries';
 
 import {getServerVersion} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUserId, getUsers} from 'mattermost-redux/selectors/entities/users';
-import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {isCollapsedThreadsEnabled, isGraphQLEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {removeUserFromList} from 'mattermost-redux/utils/user_utils';
 import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
@@ -76,14 +85,21 @@ export function login(loginId: string, password: string, mfaToken = '', ldapOnly
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         dispatch({type: UserTypes.LOGIN_REQUEST, data: null});
 
-        const deviceId = getState().entities.general.deviceToken;
+        const state = getState();
 
         try {
-            await Client4.login(loginId, password, mfaToken, deviceId, ldapOnly);
+            await Client4.login(loginId, password, mfaToken, ldapOnly);
 
-            const dataFromLoadMe = await dispatch(loadMe());
+            let isSuccessfullyLoggedIn = false;
+            if (isGraphQLEnabled(state)) {
+                const dataFromLoad = await dispatch(loadMe());
+                isSuccessfullyLoggedIn = dataFromLoad && dataFromLoad.data;
+            } else {
+                const dataFromLoadMeREST = await dispatch(loadMeREST());
+                isSuccessfullyLoggedIn = dataFromLoadMeREST && dataFromLoadMeREST.data;
+            }
 
-            if (dataFromLoadMe && dataFromLoadMe.data) {
+            if (isSuccessfullyLoggedIn) {
                 dispatch({type: UserTypes.LOGIN_SUCCESS});
             }
         } catch (error) {
@@ -103,13 +119,21 @@ export function loginById(id: string, password: string, mfaToken = ''): ActionFu
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         dispatch({type: UserTypes.LOGIN_REQUEST, data: null});
 
-        const deviceId = getState().entities.general.deviceToken;
+        const state = getState();
 
         try {
-            await Client4.loginById(id, password, mfaToken, deviceId);
-            const dataFromLoadMe = await dispatch(loadMe());
+            await Client4.loginById(id, password, mfaToken);
 
-            if (dataFromLoadMe && dataFromLoadMe.data) {
+            let isSuccessfullyLoggedIn = false;
+            if (isGraphQLEnabled(state)) {
+                const dataFromLoadMe = await dispatch(loadMe());
+                isSuccessfullyLoggedIn = dataFromLoadMe && dataFromLoadMe.data;
+            } else {
+                const dataFromLoadMeREST = await dispatch(loadMeREST());
+                isSuccessfullyLoggedIn = dataFromLoadMeREST && dataFromLoadMeREST.data;
+            }
+
+            if (isSuccessfullyLoggedIn) {
                 dispatch({type: UserTypes.LOGIN_SUCCESS});
             }
         } catch (error) {
@@ -125,20 +149,13 @@ export function loginById(id: string, password: string, mfaToken = ''): ActionFu
     };
 }
 
-export function loadMe(): ActionFunc {
+export function loadMeREST(): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
 
-        const deviceId = state.entities.general.deviceToken;
-        if (deviceId) {
-            Client4.attachDevice(deviceId);
-        }
-
         // Sometimes the server version is set in one or the other
-        const serverVersion = Client4.getServerVersion() || getState().entities.general.serverVersion;
+        const serverVersion = state.entities.general.serverVersion || Client4.getServerVersion();
         dispatch(setServerVersion(serverVersion));
-
-        const isCollapsedThreads = isCollapsedThreadsEnabled(getState());
 
         try {
             await Promise.all([
@@ -150,20 +167,84 @@ export function loadMe(): ActionFunc {
                 dispatch(getMyTeamMembers()),
             ]);
 
+            const isCollapsedThreads = isCollapsedThreadsEnabled(state);
             await dispatch(getMyTeamUnreads(isCollapsedThreads));
         } catch (error) {
             dispatch(logError(error));
             return {error};
         }
 
-        const {currentUserId} = getState().entities.users;
+        const {currentUserId} = state.entities.users;
         if (currentUserId) {
             Client4.setUserId(currentUserId);
         }
 
-        const user = getState().entities.users.profiles[currentUserId];
+        const user = state.entities.users.profiles[currentUserId];
         if (user) {
             Client4.setUserRoles(user.roles);
+        }
+
+        return {data: true};
+    };
+}
+
+export function loadMe(): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState();
+
+        // Sometimes the server version is set in one or the other
+        const serverVersion = state.entities.general.serverVersion || Client4.getServerVersion();
+        dispatch(setServerVersion(serverVersion));
+
+        let responseData: MyDataQueryResponseType['data'] | null = null;
+        try {
+            const {data} = await Client4.fetchWithGraphQL<MyDataQueryResponseType>(myDataQuery);
+            responseData = data;
+        } catch (error) {
+            dispatch(logError(error));
+            return {error};
+        }
+
+        if (!responseData) {
+            return {data: false};
+        }
+
+        dispatch(
+            batchActions([
+                {
+                    type: GeneralTypes.CLIENT_LICENSE_RECEIVED,
+                    data: responseData.license,
+                },
+                {
+                    type: GeneralTypes.CLIENT_CONFIG_RECEIVED,
+                    data: responseData.config,
+                },
+                {
+                    type: UserTypes.RECEIVED_ME,
+                    data: transformToRecievedMeReducerPayload(responseData.user),
+                },
+                {
+                    type: RoleTypes.RECEIVED_ROLES,
+                    data: transformToRecievedRolesReducerPayload(responseData.user.roles, responseData.teamMembers),
+                },
+                {
+                    type: PreferenceTypes.RECEIVED_ALL_PREFERENCES,
+                    data: responseData.user.preferences,
+                },
+                {
+                    type: TeamTypes.RECEIVED_TEAMS_LIST,
+                    data: transformToRecievedTeamsListReducerPayload(responseData.teamMembers),
+                },
+                {
+                    type: TeamTypes.RECEIVED_MY_TEAM_MEMBERS,
+                    data: transformToRecievedMyTeamMembersReducerPayload(responseData.teamMembers, responseData.user.id),
+                },
+            ]),
+        );
+
+        if (responseData.user.id) {
+            Client4.setUserId(responseData.user.id);
+            Client4.setUserRoles(convertRolesNamesArrayToString(responseData.user.roles));
         }
 
         return {data: true};
@@ -406,6 +487,11 @@ export function getProfilesWithoutTeam(page: number, perPage: number = General.P
 
         return {data: profiles};
     };
+}
+
+export enum ProfilesInChannelSortBy {
+    None = '',
+    Admin = 'admin',
 }
 
 export function getProfilesInChannel(channelId: string, page: number, perPage: number = General.PROFILE_CHUNK_SIZE, sort = '', options: {active?: boolean} = {}): ActionFunc {
@@ -834,10 +920,8 @@ export function getUserAudits(userId: string, page = 0, perPage: number = Genera
     });
 }
 
-export function autocompleteUsers(term: string, teamId = '', channelId = '', options: {
+export function autocompleteUsers(term: string, teamId = '', channelId = '', options?: {
     limit: number;
-} = {
-    limit: General.AUTOCOMPLETE_LIMIT_DEFAULT,
 }): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         dispatch({type: UserTypes.AUTOCOMPLETE_USERS_REQUEST, data: null});

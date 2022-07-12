@@ -63,7 +63,7 @@ export class EmojiPickerSkin extends React.PureComponent<Props, State> {
     extended() {
         const choices = skinsList.map((skinPair) => {
             const skin = skinPair[1];
-            const emoji = skinToneEmojis.get(skin);
+            const emoji = skinToneEmojis.get(skin)!;
             const spriteClassName = classNames('emojisprite', `emoji-category-${emoji.category}`, `emoji-${emoji.unified.toLowerCase()}`);
 
             return (
@@ -104,7 +104,7 @@ export class EmojiPickerSkin extends React.PureComponent<Props, State> {
         );
     }
     collapsed() {
-        const emoji = skinToneEmojis.get(this.props.userSkinTone);
+        const emoji = skinToneEmojis.get(this.props.userSkinTone)!;
         const spriteClassName = classNames('emojisprite', `emoji-category-${emoji.category}`, `emoji-${emoji.unified.toLowerCase()}`);
         const tooltip = (
             <Tooltip
@@ -120,7 +120,7 @@ export class EmojiPickerSkin extends React.PureComponent<Props, State> {
             </Tooltip>);
         return (
             <OverlayTrigger
-                trigger={['hover']}
+                trigger={['hover', 'focus']}
                 delayShow={Constants.OVERLAY_TIME_DELAY}
                 placement='top'
                 overlay={tooltip}

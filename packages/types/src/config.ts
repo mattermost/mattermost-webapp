@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {ThemeKey} from './themes';
-
 export type ClientConfig = {
     AboutLink: string;
     AllowBannerDismissal: string;
@@ -34,7 +32,7 @@ export type ClientConfig = {
     DataRetentionFileRetentionDays: string;
     DataRetentionMessageRetentionDays: string;
     DefaultClientLocale: string;
-    DefaultTheme: ThemeKey;
+    DefaultTheme: string;
     DiagnosticId: string;
     DiagnosticsEnabled: string;
     EmailLoginButtonBorderColor: string;
@@ -108,7 +106,6 @@ export type ClientConfig = {
     ExperimentalDataPrefetch: string;
     ExperimentalEnableAuthenticationTransfer: string;
     ExperimentalEnableAutomaticReplies: string;
-    ExperimentalEnableClickToReply: string;
     ExperimentalEnableDefaultChannelLeaveJoinMessages: string;
     ExperimentalEnablePostMetadata: string;
     ExperimentalGroupUnreadChannels: string;
@@ -116,6 +113,7 @@ export type ClientConfig = {
     ExperimentalTimezone: string;
     ExperimentalViewArchivedChannels: string;
     FileLevel: string;
+    FeatureFlagGraphQL: string;
     GfycatAPIKey: string;
     GfycatAPISecret: string;
     GoogleDeveloperKey: string;
@@ -125,6 +123,7 @@ export type ClientConfig = {
     IosAppDownloadLink: string;
     IosLatestVersion: string;
     IosMinVersion: string;
+    InsightsEnabled: string;
     InstallationDate: string;
     IsDefaultMarketplace: string;
     LdapFirstNameAttributeSet: string;
@@ -184,6 +183,8 @@ export type ClientConfig = {
     WebsocketSecurePort: string;
     WebsocketURL: string;
     ExperimentalSharedChannels: string;
+    EnableAppBar: string;
+    EnableComplianceExport: string;
 };
 
 export type License = {
@@ -233,6 +234,12 @@ export type LicenseFeatures = {
 };
 
 export type ClientLicense = Record<string, string>;
+
+export type RequestLicenseBody = {
+    users: number;
+    terms_accepted: boolean;
+    receive_emails_accepted: boolean;
+}
 
 export type DataRetentionPolicy = {
     message_deletion_enabled: boolean;
@@ -286,8 +293,11 @@ export type ServiceSettings = {
     AllowCookiesForSubdomains: boolean;
     ExtendSessionLengthWithActivity: boolean;
     SessionLengthWebInDays: number;
+    SessionLengthWebInHours: number;
     SessionLengthMobileInDays: number;
+    SessionLengthMobileInHours: number;
     SessionLengthSSOInDays: number;
+    SessionLengthSSOInHours: number;
     SessionCacheInMinutes: number;
     SessionIdleTimeoutInMinutes: number;
     WebsocketSecurePort: number;
@@ -323,7 +333,7 @@ export type ServiceSettings = {
     EnableLatex: boolean;
     EnableLocalMode: boolean;
     LocalModeSocketLocation: string;
-    CollapsedThreads: 'disabled' | 'default_on' | 'default_off';
+    CollapsedThreads: CollapsedThreads;
     ThreadAutoFollow: boolean;
 };
 
@@ -655,7 +665,6 @@ export type MetricsSettings = {
 export type ExperimentalSettings = {
     ClientSideCertEnable: boolean;
     ClientSideCertCheck: string;
-    EnableClickToReply: boolean;
     LinkMetadataTimeoutMilliseconds: number;
     RestrictSystemAdmin: boolean;
     UseNewSAMLLibrary: boolean;
@@ -736,7 +745,7 @@ export type PluginSettings = {
     Directory: string;
     ClientDirectory: string;
     Plugins: Record<string, any>;
-    PluginStates: Record<string, {Enable: boolean}>;
+    PluginStates: Record<string, { Enable: boolean }>;
     EnableMarketplace: boolean;
     EnableRemoteMarketplace: boolean;
     AutomaticPrepackagedPlugins: boolean;
@@ -826,4 +835,5 @@ export enum CollapsedThreads {
     DISABLED = 'disabled',
     DEFAULT_ON = 'default_on',
     DEFAULT_OFF = 'default_off',
+    ALWAYS_ON = 'always_on',
 }

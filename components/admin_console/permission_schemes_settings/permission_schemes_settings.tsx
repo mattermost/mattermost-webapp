@@ -9,8 +9,6 @@ import {RouteComponentProps} from 'react-router-dom';
 import {t} from 'utils/i18n';
 import * as Utils from 'utils/utils';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-
 import LoadingScreen from 'components/loading_screen';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 
@@ -19,7 +17,7 @@ import AdminPanelWithLink from 'components/widgets/admin_console/admin_panel_wit
 
 import {ActionResult} from 'mattermost-redux/types/actions';
 
-import {Scheme, SchemeScope, SchemesState} from 'mattermost-redux/types/schemes';
+import {Scheme, SchemeScope, SchemesState} from '@mattermost/types/schemes';
 
 import PermissionsSchemeSummary from './permissions_scheme_summary';
 
@@ -220,9 +218,20 @@ export default class PermissionSchemesSettings extends React.PureComponent<Props
                         <div className='banner info'>
                             <div className='banner__content'>
                                 <span>
-                                    <FormattedMarkdownMessage
+                                    <FormattedMessage
                                         id='admin.permissions.introBanner'
-                                        defaultMessage='Permission Schemes set the default permissions for Team Admins, Channel Admins and everyone else. Learn more about permission schemes in our [documentation](!https://docs.mattermost.com/onboard/advanced-permissions.html).'
+                                        defaultMessage='Permission Schemes set the default permissions for Team Admins, Channel Admins and everyone else. Learn more about permission schemes in our <link>documentation</link>.'
+                                        values={{
+                                            link: (msg: React.ReactNode) => (
+                                                <a
+                                                    href='https://docs.mattermost.com/onboard/advanced-permissions.html'
+                                                    target='_blank'
+                                                    rel='noreferrer'
+                                                >
+                                                    {msg}
+                                                </a>
+                                            ),
+                                        }}
                                     />
                                 </span>
                             </div>

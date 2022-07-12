@@ -1,15 +1,23 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useIntl} from 'react-intl';
+
 import classNames from 'classnames';
+
+import {ItemStatus} from 'utils/constants';
 
 import './input.scss';
 
+export enum SIZE {
+    MEDIUM = 'medium',
+    LARGE = 'large',
+}
+
+export type CustomMessageInputType = {type: 'info' | 'error' | 'warning' | 'success'; value: string} | null;
+
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-    info?: string;
-    error?: string;
     required?: boolean;
     hasError?: boolean;
     addon?: React.ReactElement;
@@ -21,36 +29,51 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     wrapperClassName?: string;
     inputClassName?: string;
     limit?: number;
+    useLegend?: boolean;
+
+    customMessage?: CustomMessageInputType;
+    inputSize?: SIZE;
 }
 
-function Input({
-    name,
-    value,
-    label,
-    placeholder,
-    className,
-    info,
-    error: propError,
-    hasError,
-    required,
-    addon,
-    textPrefix,
-    inputPrefix,
-    inputSuffix,
-    containerClassName,
-    wrapperClassName,
-    inputClassName,
-    limit,
-    maxLength,
-    onFocus,
-    onBlur,
-    onChange,
-    ...otherProps
-}: InputProps) {
+const Input = React.forwardRef((
+    {
+        name,
+        value,
+        label,
+        placeholder,
+        useLegend = true,
+        className,
+        hasError,
+        required,
+        addon,
+        textPrefix,
+        inputPrefix,
+        inputSuffix,
+        containerClassName,
+        wrapperClassName,
+        inputClassName,
+        limit,
+        customMessage,
+        maxLength,
+        inputSize = SIZE.MEDIUM,
+        disabled,
+        onFocus,
+        onBlur,
+        onChange,
+        ...otherProps
+    }: InputProps,
+    ref?: React.Ref<HTMLInputElement>,
+) => {
     const {formatMessage} = useIntl();
 
     const [focused, setFocused] = useState(false);
-    const [stateError, setStateError] = useState('');
+    const [customInputLabel, setCustomInputLabel] = useState<CustomMessageInputType>(null);
+
+    useEffect(() => {
+        if (customMessage !== undefined && customMessage !== null && customMessage.value !== '') {
+            setCustomInputLabel(customMessage);
+        }
+    }, [customMessage]);
 
     const handleOnFocus = (event: React.FocusEvent<HTMLInputElement>) => {
         setFocused(true);
@@ -70,7 +93,7 @@ function Input({
     };
 
     const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setStateError('');
+        setCustomInputLabel(null);
 
         if (onChange) {
             onChange(event);
@@ -78,38 +101,41 @@ function Input({
     };
 
     const validateInput = () => {
-        setStateError(required && (value == null || value === '') ? (
-            formatMessage({
-                id: 'widget.input.required',
-                defaultMessage: 'This field is required',
-            })) : '',
-        );
+        if (!required || (value !== null && value !== '')) {
+            return;
+        }
+        const validationErrorMsg = formatMessage({id: 'widget.input.required', defaultMessage: 'This field is required'});
+        setCustomInputLabel({type: ItemStatus.ERROR, value: validationErrorMsg});
     };
 
     const showLegend = Boolean(focused || value);
-    const error = propError || stateError;
+    const error = customInputLabel?.type === 'error';
     const limitExceeded = limit && value && !Array.isArray(value) ? value.toString().length - limit : 0;
 
     return (
-        <div className={classNames('Input_container', containerClassName)}>
+        <div className={classNames('Input_container', containerClassName, {disabled})}>
             <fieldset
                 className={classNames('Input_fieldset', className, {
                     Input_fieldset___error: error || hasError || limitExceeded > 0,
                     Input_fieldset___legend: showLegend,
                 })}
             >
-                <legend className={classNames('Input_legend', {Input_legend___focus: showLegend})}>
-                    {showLegend ? label || placeholder : null}
-                </legend>
+                {useLegend && (
+                    <legend className={classNames('Input_legend', {Input_legend___focus: showLegend})}>
+                        {showLegend ? label || placeholder : null}
+                    </legend>
+                )}
                 <div className={classNames('Input_wrapper', wrapperClassName)}>
                     {inputPrefix}
                     {textPrefix && <span>{textPrefix}</span>}
                     <input
+                        ref={ref}
                         id={`input_${name || ''}`}
-                        className={classNames('Input form-control', inputClassName, {Input__focus: showLegend})}
+                        className={classNames('Input form-control', inputSize, inputClassName, {Input__focus: showLegend})}
                         value={value}
                         placeholder={focused ? (label && placeholder) || label : label || placeholder}
                         name={name}
+                        disabled={disabled}
                         {...otherProps}
                         maxLength={limit ? undefined : maxLength}
                         onFocus={handleOnFocus}
@@ -125,18 +151,21 @@ function Input({
                 </div>
                 {addon}
             </fieldset>
-            {error ? (
-                <div className='Input___error'>
-                    <i className='icon icon-alert-outline'/>
-                    <span>{error}</span>
-                </div>
-            ) : info && (
-                <div className='Input___info'>
-                    {info}
+            {customInputLabel && (
+                <div className={`Input___customMessage Input___${customInputLabel.type}`}>
+                    <i
+                        className={classNames(`icon ${customInputLabel.type}`, {
+                            'icon-alert-outline': customInputLabel.type === ItemStatus.WARNING,
+                            'icon-alert-circle-outline': customInputLabel.type === ItemStatus.ERROR,
+                            'icon-information-outline': customInputLabel.type === ItemStatus.INFO,
+                            'icon-check': customInputLabel.type === ItemStatus.SUCCESS,
+                        })}
+                    />
+                    <span>{customInputLabel.value}</span>
                 </div>
             )}
         </div>
     );
-}
+});
 
 export default Input;

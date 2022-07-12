@@ -9,8 +9,8 @@ import './thread_footer.scss';
 
 import {GlobalState} from 'types/store';
 
-import {Post} from 'mattermost-redux/types/posts';
-import {threadIsSynthetic, UserThread} from 'mattermost-redux/types/threads';
+import {Post} from '@mattermost/types/posts';
+import {threadIsSynthetic, UserThread} from '@mattermost/types/threads';
 
 import {setThreadFollow, getThread as fetchThread} from 'mattermost-redux/actions/threads';
 import {selectPost} from 'actions/views/rhs';
@@ -101,7 +101,7 @@ function ThreadFooter({
                 </SimpleTooltip>
             )}
 
-            {participantIds ? (
+            {participantIds && participantIds.length > 0 ? (
                 <Avatars
                     userIds={participantIds}
                     size='sm'

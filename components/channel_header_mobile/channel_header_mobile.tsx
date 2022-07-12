@@ -6,8 +6,8 @@ import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
-import {Channel} from 'mattermost-redux/types/channels';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {Channel} from '@mattermost/types/channels';
+import {UserProfile} from '@mattermost/types/users';
 
 import {MobileChannelHeaderDropdown} from 'components/channel_header_dropdown';
 import MobileChannelHeaderPlug from 'plugins/mobile_channel_header_plug';
@@ -50,13 +50,15 @@ export default class ChannelHeaderMobile extends React.PureComponent<Props> {
 
     hideSidebars = (e: Event) => {
         if (this.props.isMobileView) {
-            this.props.actions.closeRhs();
+            if (this.props.isRHSOpen) {
+                this.props.actions.closeRhs();
+            }
 
             const target = e.target as HTMLElement | undefined;
 
             if (target && target.className !== 'navbar-toggle' && target.className !== 'icon-bar') {
-                this.props.actions.closeLhs();
-                this.props.actions.closeRhsMenu();
+                // this.props.actions.closeLhs();
+                // this.props.actions.closeRhsMenu();
             }
         }
     }

@@ -6,8 +6,13 @@ import ReactSelect, {ValueType} from 'react-select';
 
 import Icon from '@mattermost/compass-components/foundations/icon/Icon';
 
-import {InsightsTimeFrames} from 'utils/constants';
-import {localizeMessage} from 'utils/utils.jsx';
+import {trackEvent} from 'actions/telemetry_actions';
+
+import {TimeFrames} from '@mattermost/types/insights';
+
+import {localizeMessage} from 'utils/utils';
+
+import './time_frame_dropdown.scss';
 
 type SelectOption = {
     value: string;
@@ -35,10 +40,15 @@ const TimeFrameDropdown = (props: Props) => {
             ...provided,
             cursor: 'pointer',
         }),
+        menuPortal: (provided: React.CSSProperties) => ({
+            ...provided,
+            zIndex: 1100,
+        }),
     };
 
     const onTimeFrameChange = (selectedOption: ValueType<SelectOption>) => {
         if (selectedOption && 'value' in selectedOption) {
+            trackEvent('insights', `time_frame_selected_${selectedOption.value}`);
             props.setTimeFrame(selectedOption);
         }
     };
@@ -63,15 +73,15 @@ const TimeFrameDropdown = (props: Props) => {
             styles={reactStyles}
             options={[
                 {
-                    value: InsightsTimeFrames.INSIGHTS_1_DAY,
+                    value: TimeFrames.INSIGHTS_1_DAY,
                     label: localizeMessage('insights.timeFrame.today', 'Today'),
                 },
                 {
-                    value: InsightsTimeFrames.INSIGHTS_7_DAYS,
+                    value: TimeFrames.INSIGHTS_7_DAYS,
                     label: localizeMessage('insights.timeFrame.mediumRange', 'Last 7 days'),
                 },
                 {
-                    value: InsightsTimeFrames.INSIGHTS_28_DAYS,
+                    value: TimeFrames.INSIGHTS_28_DAYS,
                     label: localizeMessage('insights.timeFrame.longRange', 'Last 28 days'),
                 },
             ]}
@@ -82,6 +92,7 @@ const TimeFrameDropdown = (props: Props) => {
             components={{
                 DropdownIndicator: CustomDropwdown,
             }}
+            isSearchable={false}
         />
     );
 };

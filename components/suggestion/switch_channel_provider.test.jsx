@@ -1,11 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import configureStore from 'redux-mock-store';
-
 import {getState} from 'stores/redux_store';
 
+import mockStore from 'tests/test_store';
+
 import SwitchChannelProvider from 'components/suggestion/switch_channel_provider.jsx';
+import {Preferences} from 'mattermost-redux/constants';
 
 const latestPost = {
     id: 'latest_post_id',
@@ -71,6 +72,12 @@ describe('components/SwitchChannelProvider', () => {
                         name: 'current_user_id__other_user',
                     },
                 },
+                messageCounts: {
+                    direct_other_user: {
+                        root: 2,
+                        total: 2,
+                    },
+                },
             },
             preferences: {
                 myPreferences: {
@@ -128,7 +135,6 @@ describe('components/SwitchChannelProvider', () => {
 
     it('should change name on wrapper to be unique with same name user channel and public channel', () => {
         const switchProvider = new SwitchChannelProvider();
-        const mockStore = configureStore();
         const store = mockStore(defaultState);
 
         getState.mockImplementation(store.getState);
@@ -169,7 +175,6 @@ describe('components/SwitchChannelProvider', () => {
 
     it('should change name on wrapper to be unique with same name user in channel and public channel', () => {
         const switchProvider = new SwitchChannelProvider();
-        const mockStore = configureStore();
         const store = mockStore(defaultState);
 
         getState.mockImplementation(store.getState);
@@ -201,7 +206,6 @@ describe('components/SwitchChannelProvider', () => {
 
     it('should not fail if nothing matches', () => {
         const switchProvider = new SwitchChannelProvider();
-        const mockStore = configureStore();
         const store = mockStore(defaultState);
 
         getState.mockImplementation(store.getState);
@@ -248,7 +252,6 @@ describe('components/SwitchChannelProvider', () => {
 
         getState.mockClear();
 
-        const mockStore = configureStore();
         const store = mockStore({
             entities: {
                 general: {
@@ -349,7 +352,6 @@ describe('components/SwitchChannelProvider', () => {
         };
 
         const switchProvider = new SwitchChannelProvider();
-        const mockStore = configureStore();
         const store = mockStore(modifiedState);
 
         getState.mockImplementation(store.getState);
@@ -401,7 +403,6 @@ describe('components/SwitchChannelProvider', () => {
         };
 
         const switchProvider = new SwitchChannelProvider();
-        const mockStore = configureStore();
         const store = mockStore(modifiedState);
 
         getState.mockImplementation(store.getState);
@@ -523,7 +524,6 @@ describe('components/SwitchChannelProvider', () => {
         getState.mockClear();
 
         const switchProvider = new SwitchChannelProvider();
-        const mockStore = configureStore();
         const store = mockStore(modifiedState);
 
         getState.mockImplementation(store.getState);
@@ -613,7 +613,6 @@ describe('components/SwitchChannelProvider', () => {
         getState.mockClear();
 
         const switchProvider = new SwitchChannelProvider();
-        const mockStore = configureStore();
         const store = mockStore(modifiedState);
 
         getState.mockImplementation(store.getState);
@@ -705,7 +704,6 @@ describe('components/SwitchChannelProvider', () => {
         getState.mockClear();
 
         const switchProvider = new SwitchChannelProvider();
-        const mockStore = configureStore();
         const store = mockStore(modifiedState);
 
         getState.mockImplementation(store.getState);
@@ -792,7 +790,6 @@ describe('components/SwitchChannelProvider', () => {
         };
 
         const switchProvider = new SwitchChannelProvider();
-        const mockStore = configureStore();
         const store = mockStore(modifiedState);
 
         getState.mockImplementation(store.getState);
@@ -825,5 +822,97 @@ describe('components/SwitchChannelProvider', () => {
         ];
 
         expect(results.terms).toEqual(expectedOrder);
+    });
+
+    it('Should show threads as the first item in the list if search term matches', async () => {
+        const modifiedState = {
+            ...defaultState,
+            entities: {
+                ...defaultState.entities,
+                general: {
+                    config: {
+                        FeatureFlagCollapsedThreads: 'true',
+                        CollapsedThreads: 'default_off',
+                    },
+                },
+                threads: {
+                    countsIncludingDirect: {
+                        currentTeamId: {
+                            total: 0,
+                            total_unread_threads: 0,
+                            total_unread_mentions: 0,
+                        },
+                    },
+                    counts: {
+                        currentTeamId: {
+                            total: 0,
+                            total_unread_threads: 0,
+                            total_unread_mentions: 0,
+                        },
+                    },
+                },
+                preferences: {
+                    ...defaultState.entities.preferences,
+                    myPreferences: {
+                        ...defaultState.entities.preferences.myPreferences,
+                        [`${Preferences.CATEGORY_DISPLAY_SETTINGS}--${Preferences.COLLAPSED_REPLY_THREADS}`]: {
+                            value: 'on',
+                        },
+                    },
+                },
+                channels: {
+                    ...defaultState.entities.channels,
+                    myMembers: {
+                        current_channel_id: {
+                            channel_id: 'current_channel_id',
+                            user_id: 'current_user_id',
+                            roles: 'channel_role',
+                            mention_count: 1,
+                            msg_count: 9,
+                        },
+                        thread_gm_channel: {
+                            channel_id: 'thread_gm_channel',
+                            msg_count: 1,
+                            last_viewed_at: 3,
+                        },
+                        thread_user1: {},
+                    },
+                    channels: {
+                        thread_gm_channel: {
+                            id: 'thread_gm_channel',
+                            msg_count: 1,
+                            last_viewed_at: 3,
+                            type: 'G',
+                            name: 'thread_gm_channel',
+                            delete_at: 0,
+                            display_name: 'thread_gm_channel',
+                        },
+                    },
+                    channelsInTeam: {
+                        '': ['thread_gm_channel'],
+                    },
+                },
+            },
+        };
+
+        getState.mockClear();
+
+        const switchProvider = new SwitchChannelProvider();
+        const store = mockStore(modifiedState);
+
+        getState.mockImplementation(store.getState);
+        const searchText = 'thread';
+        const resultsCallback = jest.fn();
+
+        switchProvider.startNewRequest(searchText);
+        await switchProvider.fetchUsersAndChannels(searchText, resultsCallback);
+        const expectedOrder = [
+            'threads',
+            'thread_gm_channel',
+        ];
+
+        expect(resultsCallback).toBeCalledWith(expect.objectContaining({
+            terms: expectedOrder,
+        }));
     });
 });

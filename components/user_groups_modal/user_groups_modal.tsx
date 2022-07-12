@@ -8,8 +8,8 @@ import {Modal} from 'react-bootstrap';
 import Constants from 'utils/constants';
 
 import FaSearchIcon from 'components/widgets/icons/fa_search_icon';
-import * as Utils from 'utils/utils.jsx';
-import {Group, GroupSearachParams} from 'mattermost-redux/types/groups';
+import * as Utils from 'utils/utils';
+import {Group, GroupSearachParams} from '@mattermost/types/groups';
 
 import './user_groups_modal.scss';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';

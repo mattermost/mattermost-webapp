@@ -6,9 +6,9 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import Permissions from 'mattermost-redux/constants/permissions';
-import {Post} from 'mattermost-redux/types/posts';
-import {Reaction as ReactionType} from 'mattermost-redux/types/reactions';
-import {Emoji} from 'mattermost-redux/types/emojis';
+import {Post} from '@mattermost/types/posts';
+import {Reaction as ReactionType} from '@mattermost/types/reactions';
+import {Emoji} from '@mattermost/types/emojis';
 import {isSystemEmoji} from 'mattermost-redux/utils/emoji_utils';
 
 import Constants from 'utils/constants';
@@ -18,7 +18,7 @@ import AddReactionIcon from 'components/widgets/icons/add_reaction_icon';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils';
 
 const DEFAULT_EMOJI_PICKER_RIGHT_OFFSET = 15;
 const EMOJI_PICKER_WIDTH_OFFSET = 260;
@@ -55,6 +55,7 @@ type Props = {
 };
 
 type State = {
+    emojiNames: string[];
     showEmojiPicker: boolean;
 };
 
@@ -65,8 +66,21 @@ export default class ReactionList extends React.PureComponent<Props, State> {
         super(props);
 
         this.state = {
+            emojiNames: [],
             showEmojiPicker: false,
         };
+    }
+
+    static getDerivedStateFromProps(props: Props, state: State): Partial<State> | null {
+        let emojiNames = state.emojiNames;
+
+        for (const {emoji_name: emojiName} of Object.values(props.reactions ?? {})) {
+            if (!emojiNames.includes(emojiName)) {
+                emojiNames = [...emojiNames, emojiName];
+            }
+        }
+
+        return (emojiNames === state.emojiNames) ? null : {emojiNames};
     }
 
     getTarget = (): HTMLButtonElement | null => {
@@ -89,7 +103,6 @@ export default class ReactionList extends React.PureComponent<Props, State> {
 
     render(): React.ReactNode {
         const reactionsByName = new Map();
-        const emojiNames = [];
 
         if (this.props.reactions) {
             for (const reaction of Object.values(this.props.reactions)) {
@@ -98,7 +111,6 @@ export default class ReactionList extends React.PureComponent<Props, State> {
                 if (reactionsByName.has(emojiName)) {
                     reactionsByName.get(emojiName).push(reaction);
                 } else {
-                    emojiNames.push(emojiName);
                     reactionsByName.set(emojiName, [reaction]);
                 }
             }
@@ -108,15 +120,18 @@ export default class ReactionList extends React.PureComponent<Props, State> {
             return null;
         }
 
-        const reactions = emojiNames.map((emojiName) => {
-            return (
-                <Reaction
-                    key={emojiName}
-                    post={this.props.post}
-                    emojiName={emojiName}
-                    reactions={reactionsByName.get(emojiName) || []}
-                />
-            );
+        const reactions = this.state.emojiNames.map((emojiName) => {
+            if (reactionsByName.has(emojiName)) {
+                return (
+                    <Reaction
+                        key={emojiName}
+                        post={this.props.post}
+                        emojiName={emojiName}
+                        reactions={reactionsByName.get(emojiName) || []}
+                    />
+                );
+            }
+            return null;
         });
 
         const addReactionButton = this.getTarget();

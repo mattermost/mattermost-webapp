@@ -10,8 +10,8 @@ import {Tooltip} from 'react-bootstrap';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
-import {Post} from 'mattermost-redux/types/posts';
-import {AppBinding} from 'mattermost-redux/types/apps';
+import {Post} from '@mattermost/types/posts';
+import {AppBinding} from '@mattermost/types/apps';
 import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
 import {HandleBindingClick, PostEphemeralCallResponseForPost, OpenAppsModal} from 'types/apps';
@@ -22,7 +22,7 @@ import {ModalData} from 'types/actions';
 import MarketplaceModal from 'components/plugin_marketplace';
 import OverlayTrigger from 'components/overlay_trigger';
 import * as PostUtils from 'utils/post_utils';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import Pluggable from 'plugins/pluggable';
 import Menu from 'components/widgets/menu/menu';
@@ -118,7 +118,7 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
         >
             <FormattedMessage
                 id='post_info.tooltip.actions'
-                defaultMessage='Actions'
+                defaultMessage='Message actions'
             />
         </Tooltip>
     )

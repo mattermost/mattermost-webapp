@@ -35,10 +35,10 @@ describe('Messaging - Opening a private channel using keyboard shortcuts', () =>
             cy.findByRole('textbox', {name: 'quick switch input'}).type('P').type('{downarrow}').type('{enter}');
 
             // * Private channel opens
-            cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Private channel');
+            cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Private channel').wait(TIMEOUTS.HALF_SEC);
 
             // * Focus in the message box
-            cy.get('#post_textbox').should('be.focused');
+            cy.uiGetPostTextBox().should('be.focused');
         });
     });
 });

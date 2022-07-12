@@ -1,12 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ClipboardEventHandler, memo, useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import classNames from 'classnames';
 import {useIntl} from 'react-intl';
+import {EmoticonPlusOutlineIcon} from '@mattermost/compass-icons/components';
 
-import {Post} from 'mattermost-redux/types/posts';
-import {Emoji, SystemEmoji} from 'mattermost-redux/types/emojis';
+import {Post} from '@mattermost/types/posts';
+import {Emoji, SystemEmoji} from '@mattermost/types/emojis';
 
 import {AppEvents, Constants, ModalIdentifiers} from 'utils/constants';
 import {
@@ -16,15 +17,15 @@ import {
     isGitHubCodeBlock,
 } from 'utils/paste';
 import {postMessageOnKeyPress, splitMessageBasedOnCaretPosition} from 'utils/post_utils';
-import {isMac} from 'utils/utils';
+import {applyMarkdown, ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
 import * as Utils from 'utils/utils';
 
 import DeletePostModal from 'components/delete_post_modal';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import Textbox, {TextboxClass} from 'components/textbox';
-import EmojiIcon from 'components/widgets/icons/emoji_icon';
+import Textbox, {TextboxClass, TextboxElement} from 'components/textbox';
 import {ModalData} from 'types/actions';
+
+import EditPostFooter from './edit_post_footer';
 
 type DialogProps = {
     post?: Post;
@@ -112,7 +113,8 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
     // just a helper so it's not always needed to update with setting both properties to the same value
     const setCaretPosition = (position: number) => setSelectionRange({start: position, end: position});
 
-    const handlePaste: ClipboardEventHandler<HTMLTextAreaElement> = useCallback(({clipboardData, target, preventDefault}) => {
+    const handlePaste = useCallback((e: ClipboardEvent) => {
+        const {clipboardData, target} = e;
         if (
             !clipboardData ||
             !clipboardData.items ||
@@ -128,17 +130,13 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
             return;
         }
 
-        preventDefault();
+        e.preventDefault();
 
         let message = editText;
         let newCaretPosition = selectionRange.start;
 
-        if (table && isGitHubCodeBlock(table.className)) {
-            const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(
-                selectionRange.start,
-                message,
-                clipboardData,
-            );
+        if (isGitHubCodeBlock(table.className)) {
+            const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste({selectionStart: (target as any).selectionStart, selectionEnd: (target as any).selectionEnd, message, clipboardData});
             message = formattedMessage;
             newCaretPosition = selectionRange.start + formattedCodeBlock.length;
         } else if (table) {
@@ -165,8 +163,12 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
         return !rest.canDeletePost;
     };
 
-    const applyHotkeyMarkdown = (e: React.KeyboardEvent) => {
-        const res = Utils.applyHotkeyMarkdown(e);
+    const applyHotkeyMarkdown = (params: ApplyMarkdownOptions) => {
+        if (params.selectionStart === null || params.selectionEnd === null) {
+            return;
+        }
+
+        const res = applyMarkdown(params);
 
         setEditText(res.message);
         setSelectionRange({start: res.selectionStart, end: res.selectionEnd});
@@ -180,6 +182,8 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
 
         actions.unsetEditingPost();
     };
+
+    const handleAutomatedRefocusAndExit = () => handleRefocusAndExit(editingPost.refocusId || null);
 
     const handleEdit = async () => {
         if (!editingPost.post || isSaveDisabled()) {
@@ -199,7 +203,7 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
         }
 
         if (updatedPost.message === (editingPost.post?.message_source || editingPost.post?.message)) {
-            handleRefocusAndExit(editingPost.refocusId || null);
+            handleAutomatedRefocusAndExit();
             return;
         }
 
@@ -224,11 +228,12 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
 
         await actions.editPost(updatedPost as Post);
 
-        handleRefocusAndExit(editingPost.refocusId || null);
+        handleAutomatedRefocusAndExit();
     };
 
     const handleEditKeyPress = (e: React.KeyboardEvent) => {
         const {ctrlSend, codeBlockOnCtrlEnter} = rest;
+        const inputBox = textboxRef.current?.getInputBox();
 
         const {allowSending, ignoreKeyPress} = postMessageOnKeyPress(
             e,
@@ -237,7 +242,7 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
             codeBlockOnCtrlEnter,
             Date.now(),
             0,
-            selectionRange.start,
+            inputBox.selectionStart,
         );
 
         if (ignoreKeyPress) {
@@ -253,7 +258,7 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
         }
     };
 
-    const handleKeyDown = (e: React.KeyboardEvent) => {
+    const handleKeyDown = (e: React.KeyboardEvent<TextboxElement>) => {
         const {ctrlSend, codeBlockOnCtrlEnter} = rest;
 
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
@@ -263,30 +268,47 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
             (ctrlSend || codeBlockOnCtrlEnter) &&
             Utils.isKeyPressed(e, KeyCodes.ENTER) &&
             ctrlOrMetaKeyPressed;
-        const markdownHotkey =
-            Utils.isKeyPressed(e, KeyCodes.B) || Utils.isKeyPressed(e, KeyCodes.I);
         const markdownLinkKey = Utils.isKeyPressed(e, KeyCodes.K);
 
         // listen for line break key combo and insert new line character
         if (Utils.isUnhandledLineBreakKeyCombo(e)) {
             e.stopPropagation(); // perhaps this should happen in all of these cases? or perhaps Modal should not be listening?
-            setEditText(Utils.insertLineBreakFromKeyEvent(e));
+            setEditText(Utils.insertLineBreakFromKeyEvent(e as React.KeyboardEvent<HTMLTextAreaElement>));
         } else if (ctrlEnterKeyCombo) {
             handleEdit();
         } else if (Utils.isKeyPressed(e, KeyCodes.ESCAPE) && !showEmojiPicker) {
-            handleRefocusAndExit(editingPost.refocusId || null);
-        } else if ((ctrlKeyCombo && markdownHotkey) || (ctrlAltCombo && markdownLinkKey)) {
-            applyHotkeyMarkdown(e);
+            handleAutomatedRefocusAndExit();
+        } else if (ctrlAltCombo && markdownLinkKey) {
+            applyHotkeyMarkdown({
+                markdownMode: 'link',
+                selectionStart: e.currentTarget.selectionStart,
+                selectionEnd: e.currentTarget.selectionEnd,
+                message: e.currentTarget.value,
+            });
+        } else if (ctrlKeyCombo && Utils.isKeyPressed(e, KeyCodes.B)) {
+            applyHotkeyMarkdown({
+                markdownMode: 'bold',
+                selectionStart: e.currentTarget.selectionStart,
+                selectionEnd: e.currentTarget.selectionEnd,
+                message: e.currentTarget.value,
+            });
+        } else if (ctrlKeyCombo && Utils.isKeyPressed(e, KeyCodes.I)) {
+            applyHotkeyMarkdown({
+                markdownMode: 'italic',
+                selectionStart: e.currentTarget.selectionStart,
+                selectionEnd: e.currentTarget.selectionEnd,
+                message: e.currentTarget.value,
+            });
         }
     };
 
-    const handleSelect = (e: React.SyntheticEvent) => {
+    const handleSelect = (e: React.SyntheticEvent<TextboxElement>) => {
         if (textboxRef.current) {
             Utils.adjustSelection(textboxRef.current.getInputBox(), e);
         }
     };
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => setEditText(e.target.value);
+    const handleChange = (e: React.ChangeEvent<TextboxElement>) => setEditText(e.target.value);
 
     const handleHeightChange = (height: number, maxHeight: number) => setRenderScrollbar(height > maxHeight);
 
@@ -379,7 +401,10 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
                     className='style--none post-action'
                     onClick={toggleEmojiPicker}
                 >
-                    <EmojiIcon className='icon icon--emoji'/>
+                    <EmoticonPlusOutlineIcon
+                        size={18}
+                        color='currentColor'
+                    />
                 </button>
             </>
         );
@@ -416,7 +441,10 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
             <div className='post-body__actions'>
                 {emojiPicker}
             </div>
-            <EditPostHelperText ctrlSend={rest.ctrlSend}/>
+            <EditPostFooter
+                onSave={handleEdit}
+                onCancel={handleAutomatedRefocusAndExit}
+            />
             {postError && (
                 <div className={classNames('edit-post-footer', {'has-error': postError})}>
                     <label className={classNames('post-error', errorClass)}>{postError}</label>
@@ -425,25 +453,5 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
         </div>
     );
 };
-
-type EditPostHelperTextProps = {
-    ctrlSend: boolean;
-}
-
-const EditPostHelperText = memo(({ctrlSend}: EditPostHelperTextProps) => {
-    const ctrlSendKey = isMac() ? '⌘+' : 'CTRL+';
-
-    return (
-        <div className='post-body__helper-text'>
-            <FormattedMarkdownMessage
-                id='edit_post.helper_text'
-                defaultMessage='**{key}ENTER** to Save, **ESC** to Cancel'
-                values={{
-                    key: ctrlSend ? ctrlSendKey : '',
-                }}
-            />
-        </div>
-    );
-});
 
 export default EditPost;

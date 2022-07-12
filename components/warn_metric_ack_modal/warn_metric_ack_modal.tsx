@@ -5,10 +5,10 @@ import React, {CSSProperties} from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {UserProfile} from 'mattermost-redux/types/users';
-import {AnalyticsRow} from 'mattermost-redux/types/admin';
+import {UserProfile} from '@mattermost/types/users';
+import {AnalyticsRow} from '@mattermost/types/admin';
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {WarnMetricStatus} from 'mattermost-redux/types/config';
+import {WarnMetricStatus} from '@mattermost/types/config';
 
 import {getSiteURL} from 'utils/url';
 import {t} from 'utils/i18n';
@@ -19,7 +19,7 @@ import * as AdminActions from 'actions/admin_actions.jsx';
 
 const StatTypes = Constants.StatTypes;
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import ErrorLink from 'components/error_page/error_link';

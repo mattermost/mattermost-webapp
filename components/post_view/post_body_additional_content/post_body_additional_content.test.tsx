@@ -10,7 +10,7 @@ import {
     PostEmbed,
     PostImage,
     PostMetadata,
-} from 'mattermost-redux/types/posts';
+} from '@mattermost/types/posts';
 
 import {getEmbedFromMetadata} from 'mattermost-redux/utils/post_utils';
 

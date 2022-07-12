@@ -11,22 +11,23 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
 import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {getUsers, getCurrentUserId, getUserStatuses} from 'mattermost-redux/selectors/entities/users';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {PostWithFormatData} from 'mattermost-redux/types/posts';
+
+import {Channel} from '@mattermost/types/channels';
 import {
     MessageHistory,
     OpenGraphMetadata,
     Post,
     PostOrderBlock,
-    PostWithFormatData,
-} from 'mattermost-redux/types/posts';
-import {Reaction} from 'mattermost-redux/types/reactions';
-import {GlobalState} from 'mattermost-redux/types/store';
-import {UserProfile} from 'mattermost-redux/types/users';
+} from '@mattermost/types/posts';
+import {Reaction} from '@mattermost/types/reactions';
+import {GlobalState} from '@mattermost/types/store';
+import {UserProfile} from '@mattermost/types/users';
 import {
     IDMappedObjects,
     RelationOneToOne,
     RelationOneToMany,
-} from 'mattermost-redux/types/utilities';
+} from '@mattermost/types/utilities';
 
 import {createIdsSelector} from 'mattermost-redux/utils/helpers';
 import {
@@ -373,9 +374,7 @@ export function makeGetProfilesForThread(): (state: GlobalState, rootId: string)
             const profileIds = posts.map((post) => post.user_id);
             const uniqueIds = [...new Set(profileIds)];
             return uniqueIds.reduce((acc: UserProfile[], id: string) => {
-                const profile: UserProfile = userStatuses ?
-                    {...allUsers[id], status: userStatuses[id]} :
-                    {...allUsers[id]};
+                const profile: UserProfile = userStatuses ? {...allUsers[id], status: userStatuses[id]} : {...allUsers[id]};
 
                 if (profile && Object.keys(profile).length > 0 && currentUserId !== id) {
                     return [
@@ -468,28 +467,6 @@ export function makeGetPostsForIds(): (state: GlobalState, postIds: Array<Post['
     );
 }
 
-export const getLastPostPerChannel: (state: GlobalState) => RelationOneToOne<Channel, Post> = createSelector(
-    'getLastPostPerChannel',
-    getAllPosts,
-    (state: GlobalState) => state.entities.posts.postsInChannel,
-    (allPosts, postsInChannel) => {
-        const ret: Record<string, Post> = {};
-
-        for (const [channelId, postsForChannel] of Object.entries(postsInChannel)) {
-            const recentBlock = postsForChannel.find((block) => block.recent);
-            if (!recentBlock) {
-                continue;
-            }
-
-            const postId = recentBlock.order[0];
-            if (allPosts.hasOwnProperty(postId)) {
-                ret[channelId] = allPosts[postId];
-            }
-        }
-
-        return ret;
-    },
-);
 export const getMostRecentPostIdInChannel: (state: GlobalState, channelId: Channel['id']) => Post['id'] | undefined | null = createSelector(
     'getMostRecentPostIdInChannel',
     getAllPosts,
@@ -666,6 +643,20 @@ export function getUnreadPostsChunk(state: GlobalState, channelId: Channel['id']
 
     return getPostsChunkInChannelAroundTime(state, channelId, timeStamp);
 }
+
+export const isPostsChunkIncludingUnreadsPosts = (state: GlobalState, chunk: PostOrderBlock, timeStamp: number): boolean => {
+    const postsEntity = state.entities.posts;
+    const posts = postsEntity.posts;
+
+    if (!chunk || !chunk.order.length) {
+        return false;
+    }
+
+    const {order} = chunk;
+    const oldestPostInBlock = posts[order[order.length - 1]];
+
+    return oldestPostInBlock.create_at <= timeStamp;
+};
 
 export const isPostIdSending = (state: GlobalState, postId: Post['id']): boolean => {
     return state.entities.posts.pendingPostIds.some((sendingPostId) => sendingPostId === postId);

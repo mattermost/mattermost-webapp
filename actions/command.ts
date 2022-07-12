@@ -10,7 +10,7 @@ import {getCurrentRelativeTeamUrl, getCurrentTeamId} from 'mattermost-redux/sele
 import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
 import {IntegrationTypes} from 'mattermost-redux/action_types';
 import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-import type {CommandArgs} from 'mattermost-redux/types/integrations';
+import type {CommandArgs} from '@mattermost/types/integrations';
 
 import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
@@ -21,7 +21,7 @@ import * as GlobalActions from 'actions/global_actions';
 import * as PostActions from 'actions/post_actions.jsx';
 
 import {isUrlSafe, getSiteURL} from 'utils/url';
-import {localizeMessage, getUserIdFromChannelName, localizeAndFormatMessage} from 'utils/utils.jsx';
+import {localizeMessage, getUserIdFromChannelName, localizeAndFormatMessage} from 'utils/utils';
 import * as UserAgent from 'utils/user_agent';
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';

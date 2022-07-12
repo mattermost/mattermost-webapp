@@ -5,8 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {withRouter} from 'react-router-dom';
 
-import {getRecentPostsChunkInChannel, makeGetPostsChunkAroundPost, getUnreadPostsChunk, getPost} from 'mattermost-redux/selectors/entities/posts';
-import {isManuallyUnread} from 'mattermost-redux/selectors/entities/channels';
+import {getRecentPostsChunkInChannel, makeGetPostsChunkAroundPost, getUnreadPostsChunk, getPost, isPostsChunkIncludingUnreadsPosts} from 'mattermost-redux/selectors/entities/posts';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 import {markChannelAsRead, markChannelAsViewed} from 'mattermost-redux/actions/channels';
 import {makePreparePostIdsForPostList} from 'mattermost-redux/utils/post_list';
@@ -44,15 +43,16 @@ function makeMapStateToProps() {
         let atLatestPost = false;
         let atOldestPost = false;
         let formattedPostIds;
-        const {focusedPostId, unreadChunkTimeStamp, channelId} = ownProps;
+        const {focusedPostId, unreadChunkTimeStamp, channelId, shouldStartFromBottomWhenUnread} = ownProps;
         const channelViewState = state.views.channel;
         const lastViewedAt = channelViewState.lastChannelViewTime[channelId];
         const isPrefetchingInProcess = channelViewState.channelPrefetchStatus[channelId] === RequestStatus.STARTED;
-        const channelManuallyUnread = isManuallyUnread(state, channelId);
 
-        if (focusedPostId && unreadChunkTimeStamp !== '') {
+        const focusedPost = getPost(state, focusedPostId);
+
+        if (focusedPostId && focusedPost !== undefined && unreadChunkTimeStamp !== '') {
             chunk = getPostsChunkAroundPost(state, focusedPostId, channelId);
-        } else if (unreadChunkTimeStamp) {
+        } else if (unreadChunkTimeStamp && !shouldStartFromBottomWhenUnread) {
             chunk = getUnreadPostsChunk(state, channelId, unreadChunkTimeStamp);
         } else {
             chunk = getRecentPostsChunkInChannel(state, channelId);
@@ -64,8 +64,10 @@ function makeMapStateToProps() {
             atOldestPost = chunk.oldest;
         }
 
+        const shouldHideNewMessageIndicator = shouldStartFromBottomWhenUnread && !isPostsChunkIncludingUnreadsPosts(state, chunk, unreadChunkTimeStamp);
+
         if (postIds) {
-            formattedPostIds = preparePostIdsForPostList(state, {postIds, lastViewedAt, indicateNewMessages: true, channelId});
+            formattedPostIds = preparePostIdsForPostList(state, {postIds, lastViewedAt, indicateNewMessages: !shouldHideNewMessageIndicator, channelId});
             if (postIds.length) {
                 const latestPostId = memoizedGetLatestPostId(postIds);
                 const latestPost = getPost(state, latestPostId);
@@ -82,7 +84,7 @@ function makeMapStateToProps() {
             latestPostTimeStamp,
             postListIds: postIds,
             isPrefetchingInProcess,
-            channelManuallyUnread,
+            shouldStartFromBottomWhenUnread,
             isMobileView: getIsMobileView(state),
         };
     };

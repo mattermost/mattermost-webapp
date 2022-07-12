@@ -5,11 +5,11 @@ import React, {memo} from 'react';
 
 import styled from 'styled-components';
 
-import {UserProfile} from 'mattermost-redux/types/users';
-import {Channel, ChannelStats} from 'mattermost-redux/types/channels';
+import {UserProfile} from '@mattermost/types/users';
+import {Channel, ChannelStats} from '@mattermost/types/channels';
 import {getSiteURL} from 'utils/url';
 import ChannelInviteModal from 'components/channel_invite_modal';
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 import {ModalData} from 'types/actions';
 import Constants, {ModalIdentifiers} from 'utils/constants';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
@@ -139,6 +139,8 @@ const ChannelInfoRhs = ({
         return user.id !== currentUser.id;
     });
 
+    const canEditChannelProperties = !isArchived && canManageProperties;
+
     return (
         <div
             id='rhsContainer'
@@ -170,7 +172,7 @@ const ChannelInfoRhs = ({
                 dmUser={dmUser}
                 gmUsers={gmUsers}
 
-                canEditChannelProperties={canManageProperties}
+                canEditChannelProperties={canEditChannelProperties}
 
                 actions={{
                     editChannelHeader,

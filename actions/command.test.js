@@ -1,10 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import configureStore from 'redux-mock-store';
-
-import thunk from 'redux-thunk';
-
 import {Client4} from 'mattermost-redux/client';
 
 import * as Channels from 'mattermost-redux/selectors/entities/channels';
@@ -14,14 +10,15 @@ import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
 import * as GlobalActions from 'actions/global_actions';
 
+import mockStore from 'tests/test_store';
+
 import {ActionTypes, Constants, ModalIdentifiers} from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 import UserSettingsModal from 'components/user_settings/modal';
 
 import {executeCommand} from './command';
-const mockStore = configureStore([thunk]);
 
 const currentChannelId = '123';
 const currentTeamId = '321';

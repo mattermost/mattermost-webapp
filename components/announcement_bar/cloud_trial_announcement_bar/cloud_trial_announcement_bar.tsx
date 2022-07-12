@@ -7,15 +7,15 @@ import {isEmpty} from 'lodash';
 
 import {FormattedMessage} from 'react-intl';
 
-import {PreferenceType} from 'mattermost-redux/types/preferences';
-import {UserProfile} from 'mattermost-redux/types/users';
-import {AnalyticsRow} from 'mattermost-redux/types/admin';
-import {Subscription} from 'mattermost-redux/types/cloud';
+import {PreferenceType} from '@mattermost/types/preferences';
+import {UserProfile} from '@mattermost/types/users';
+import {AnalyticsRow} from '@mattermost/types/admin';
+import {Subscription} from '@mattermost/types/cloud';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
 import {t} from 'utils/i18n';
-import PurchaseModal from 'components/purchase_modal';
+import PricingModal from 'components/pricing_modal';
 
 import {ModalData} from 'types/actions';
 
@@ -48,6 +48,8 @@ type Props = {
     };
 };
 
+const MAX_DAYS_BANNER = 'max_days_banner';
+const THREE_DAYS_BANNER = '3_days_banner';
 class CloudTrialAnnouncementBar extends React.PureComponent<Props> {
     async componentDidMount() {
         if (isEmpty(this.props.analytics)) {
@@ -74,9 +76,9 @@ class CloudTrialAnnouncementBar extends React.PureComponent<Props> {
         const {daysLeftOnTrial} = this.props;
         let dismissValue = '';
         if (daysLeftOnTrial > TrialPeriodDays.TRIAL_WARNING_THRESHOLD) {
-            dismissValue = '14_days_banner';
+            dismissValue = MAX_DAYS_BANNER;
         } else if (daysLeftOnTrial <= TrialPeriodDays.TRIAL_WARNING_THRESHOLD && daysLeftOnTrial >= TrialPeriodDays.TRIAL_1_DAY) {
-            dismissValue = '3_days_banner';
+            dismissValue = THREE_DAYS_BANNER;
         }
         trackEvent(
             TELEMETRY_CATEGORIES.CLOUD_ADMIN,
@@ -119,8 +121,8 @@ class CloudTrialAnnouncementBar extends React.PureComponent<Props> {
             );
         }
         this.props.actions.openModal({
-            modalId: ModalIdentifiers.CLOUD_PURCHASE,
-            dialogType: PurchaseModal,
+            modalId: ModalIdentifiers.PRICING_MODAL,
+            dialogType: PricingModal,
         });
     }
 
@@ -136,9 +138,9 @@ class CloudTrialAnnouncementBar extends React.PureComponent<Props> {
             return null;
         }
 
-        if ((preferences.some((pref) => pref.name === CloudBanners.TRIAL && pref.value === '14_days_banner') && daysLeftOnTrial > TrialPeriodDays.TRIAL_WARNING_THRESHOLD) ||
+        if ((preferences.some((pref) => pref.name === CloudBanners.TRIAL && pref.value === MAX_DAYS_BANNER) && daysLeftOnTrial > TrialPeriodDays.TRIAL_WARNING_THRESHOLD) ||
             ((daysLeftOnTrial <= TrialPeriodDays.TRIAL_WARNING_THRESHOLD && daysLeftOnTrial >= TrialPeriodDays.TRIAL_1_DAY) &&
-            preferences.some((pref) => pref.name === CloudBanners.TRIAL && pref.value === '3_days_banner'))) {
+            preferences.some((pref) => pref.name === CloudBanners.TRIAL && pref.value === THREE_DAYS_BANNER))) {
             return null;
         }
 
@@ -195,7 +197,7 @@ class CloudTrialAnnouncementBar extends React.PureComponent<Props> {
                 handleClose={this.handleClose}
                 onButtonClick={this.showModal}
                 modalButtonText={t('admin.billing.subscription.cloudTrial.subscribeButton')}
-                modalButtonDefaultText={'Subscribe Now'}
+                modalButtonDefaultText={'Upgrade Now'}
                 message={bannerMessage}
                 showLinkAsButton={true}
                 icon={icon}

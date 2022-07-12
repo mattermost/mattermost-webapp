@@ -4,9 +4,6 @@
 import React from 'react';
 
 import {Provider} from 'react-redux';
-import configureStore from 'redux-mock-store';
-
-import thunk from 'redux-thunk';
 
 import {shallow} from 'enzyme';
 
@@ -17,6 +14,7 @@ import TrialBenefitsModal from 'components/trial_benefits_modal/trial_benefits_m
 import GenericModal from 'components/generic_modal';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import mockStore from 'tests/test_store';
 
 import {TELEMETRY_CATEGORIES} from 'utils/constants';
 
@@ -40,7 +38,8 @@ describe('components/trial_benefits_modal/trial_benefits_modal', () => {
         entities: {
             general: {
                 license: {
-                    IsLicensed: 'false',
+                    IsLicensed: 'true',
+                    Cloud: 'false',
                 },
             },
         },
@@ -65,7 +64,6 @@ describe('components/trial_benefits_modal/trial_benefits_modal', () => {
         trialJustStarted: false,
     };
 
-    const mockStore = configureStore([thunk]);
     const store = mockStore(state);
 
     test('should match snapshot', () => {
@@ -105,7 +103,6 @@ describe('components/trial_benefits_modal/trial_benefits_modal', () => {
             },
         };
         const localStore = {...state, views: trialBenefitsModalHidden};
-        const mockStore = configureStore([thunk]);
         const store = mockStore(localStore);
         const wrapper = mountWithIntl(
             <Provider store={store}>
@@ -194,5 +191,24 @@ describe('components/trial_benefits_modal/trial_benefits_modal', () => {
         const title = wrapper.find('#trialBenefitsModalStarted-trialStart div.title').text();
 
         expect(title).toBe('Your trial has started! Explore the benefits of Enterprise');
+    });
+
+    test('should have a shorter title and not include the cta button when in cloud env', () => {
+        const cloudState = {...state, entities: {...state.entities, general: {...state.entities.general, license: {Cloud: 'true'}}}};
+        const cloudStore = mockStore(cloudState);
+        const wrapper = mountWithIntl(
+            <Provider store={cloudStore}>
+                <TrialBenefitsModal
+                    {...props}
+                    trialJustStarted={true}
+                />
+            </Provider>,
+        );
+
+        const title = wrapper.find('#trialBenefitsModalStarted-trialStart div.title').text();
+        expect(title).toBe('Your trial has started!');
+
+        const ctaBtn = wrapper.find('#trialBenefitsModalStarted-trialStart button.btn-primary');
+        expect(ctaBtn).toHaveLength(0);
     });
 });

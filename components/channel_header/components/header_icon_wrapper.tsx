@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils';
 import {Constants} from 'utils/constants';
 import {t} from 'utils/i18n';
 import KeyboardShortcutSequence, {
@@ -90,6 +90,12 @@ const HeaderIconWrapper: React.FC<Props> = (props: Props) => {
             messageID: t('channel_header.closeChannelInfo'),
             message: 'Close info',
         },
+        channelMembers: {
+            class: 'channel-info',
+            id: 'channelMembersTooltip',
+            messageID: t('channel_header.channelMembers'),
+            message: 'Members',
+        },
     };
 
     function getTooltip(key: string) {
@@ -140,7 +146,7 @@ const HeaderIconWrapper: React.FC<Props> = (props: Props) => {
         return (
             <div>
                 <OverlayTrigger
-                    trigger={['hover']}
+                    trigger={['hover', 'focus']}
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='bottom'
                     overlay={isRhsOpen ? <></> : tooltip}

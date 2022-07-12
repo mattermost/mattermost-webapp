@@ -14,7 +14,7 @@ import Permissions from 'mattermost-redux/constants/permissions';
 
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {autocompleteUsersInChannel} from 'actions/views/channel';
@@ -27,6 +27,8 @@ type Props = {
     channelId: string;
     rootId?: string;
 };
+
+export type TextboxElement = HTMLInputElement | HTMLTextAreaElement;
 
 const makeMapStateToProps = () => {
     const getProfilesForThread = makeGetProfilesForThread();

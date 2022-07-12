@@ -5,11 +5,11 @@ import React, {useCallback} from 'react';
 import {ModalData} from 'types/actions';
 import LocalizedIcon from 'components/localized_icon';
 import {t} from 'utils/i18n';
-import {Group} from 'mattermost-redux/types/groups';
+import {Group} from '@mattermost/types/groups';
 import {ModalIdentifiers} from 'utils/constants';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import UpdateUserGroupModal from 'components/update_user_group_modal';
 

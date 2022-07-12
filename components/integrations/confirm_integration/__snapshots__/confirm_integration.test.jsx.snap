@@ -33,9 +33,14 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, comma
       />
     </h4>
     <p>
-      <injectIntl(FormattedMarkdownMessage)
-        defaultMessage="Your slash command is set up. The following token will be sent in the outgoing payload. Please use it to verify the request came from your Mattermost team (details at [Slash Commands](!https://developers.mattermost.com/integrate/admin-guide/admin-slash-commands/))."
+      <MemoizedFormattedMessage
+        defaultMessage="Your slash command is set up. The following token will be sent in the outgoing payload. Please use it to verify the request came from your Mattermost team (details at <link>Slash Commands</link>)."
         id="add_command.doneHelp"
+        values={
+          Object {
+            "link": [Function],
+          }
+        }
       />
     </p>
     <p
@@ -106,9 +111,14 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, incom
       />
     </h4>
     <p>
-      <injectIntl(FormattedMarkdownMessage)
-        defaultMessage="Your incoming webhook is set up. Please send data to the following URL (details at [Incoming Webhooks](!https://developers.mattermost.com/integrate/admin-guide/admin-webhooks-incoming/))."
+      <MemoizedFormattedMessage
+        defaultMessage="Your incoming webhook is set up. Please send data to the following URL (details at <link>Incoming Webhooks</link>)."
         id="add_incoming_webhook.doneHelp"
+        values={
+          Object {
+            "link": [Function],
+          }
+        }
       />
     </p>
     <p
@@ -181,9 +191,14 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, oauth
     <p
       key="add_oauth_app.doneHelp"
     >
-      <injectIntl(FormattedMarkdownMessage)
-        defaultMessage="Your OAuth 2.0 application is set up. Please use the following Client ID and Client Secret when requesting authorization for your application (details at [oAuth 2 Applications](!https://developers.mattermost.com/integrate/admin-guide/admin-oauth2/))."
+      <MemoizedFormattedMessage
+        defaultMessage="Your OAuth 2.0 application is set up. Please use the following Client ID and Client Secret when requesting authorization for your application (details at <link>oAuth 2 Applications</link>)."
         id="add_oauth_app.doneHelp"
+        values={
+          Object {
+            "link": [Function],
+          }
+        }
       />
     </p>
     <p
@@ -292,9 +307,14 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, outgo
       />
     </h4>
     <p>
-      <injectIntl(FormattedMarkdownMessage)
-        defaultMessage="Your outgoing webhook is set up. The following token will be sent in the outgoing payload. Please use it to verify that the request came from your Mattermost team (details at [Outgoing Webhooks](!https://developers.mattermost.com/integrate/admin-guide/admin-webhooks-outgoing/))."
+      <MemoizedFormattedMessage
+        defaultMessage="Your outgoing webhook is set up. The following token will be sent in the outgoing payload. Please use it to verify that the request came from your Mattermost team (details at <link>Outgoing Webhooks</link>)."
         id="add_outgoing_webhook.doneHelp"
+        values={
+          Object {
+            "link": [Function],
+          }
+        }
       />
     </p>
     <p

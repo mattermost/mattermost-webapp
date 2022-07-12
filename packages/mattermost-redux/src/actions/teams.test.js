@@ -4,6 +4,7 @@
 import fs from 'fs';
 
 import assert from 'assert';
+
 import nock from 'nock';
 
 import * as Actions from 'mattermost-redux/actions/teams';
@@ -40,7 +41,7 @@ describe('Actions.Teams', () => {
     });
 
     it('selectTeam', async () => {
-        await Actions.selectTeam(TestHelper.basicTeam)(store.dispatch, store.getState);
+        await store.dispatch(Actions.selectTeam(TestHelper.basicTeam));
         await TestHelper.wait(100);
         const {currentTeamId} = store.getState().entities.teams;
 

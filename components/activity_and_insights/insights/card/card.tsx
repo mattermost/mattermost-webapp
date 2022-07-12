@@ -3,11 +3,10 @@
 import React, {memo} from 'react';
 import classNames from 'classnames';
 
-import Icon from '@mattermost/compass-components/foundations/icon/Icon';
+import {CardSize, CardSizes} from '@mattermost/types/insights';
 
 import Card from 'components/card/card';
 import CardHeader from 'components/card/card_header';
-import {CardSize, CardSizes} from '../insights';
 
 import './card.scss';
 
@@ -17,6 +16,7 @@ type Props = {
     title: string;
     subTitle?: string;
     size: CardSize;
+    onClick: () => void;
 }
 
 const InsightsCard = (props: Props) => {
@@ -28,7 +28,9 @@ const InsightsCard = (props: Props) => {
                 small: props.size === CardSizes.small,
             })}
         >
-            <CardHeader>
+            <CardHeader
+                onClick={props.onClick}
+            >
                 <div className='title-and-subtitle'>
                     <div className='text-top'>
                         <h2>
@@ -39,11 +41,14 @@ const InsightsCard = (props: Props) => {
                         {props.subTitle}
                     </div>
                 </div>
-                <button className='icon'>
-                    <Icon
-                        size={16}
-                        glyph={'chevron-right'}
-                    />
+                <button
+                    className='icon'
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        props.onClick();
+                    }}
+                >
+                    <i className='icon icon-chevron-right'/>
                 </button>
             </CardHeader>
             <div

@@ -6,16 +6,19 @@ import styled, {css} from 'styled-components';
 import classNames from 'classnames';
 import {FormattedMessage} from 'react-intl';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 import ProfilePicture from 'components/profile_picture';
 import {Client4} from 'mattermost-redux/client';
 import ChannelMembersDropdown from 'components/channel_members_dropdown';
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 
 import Constants from 'utils/constants';
+
+import {isGuest} from 'mattermost-redux/utils/user_utils';
+import GuestBadge from 'components/widgets/badges/guest_badge';
 
 import {ChannelMember} from './channel_members_rhs';
 
@@ -64,7 +67,6 @@ const SendMessage = styled.button`
 
 const RoleChooser = styled.div`
     display: none;
-    opacity: 0;
     flex-basis: fit-content;
     flex-shrink: 0;
 
@@ -115,38 +117,43 @@ const Member = ({className, channel, member, index, totalUsers, editing, actions
                 />
             </Avatar>
             <UserInfo>
-                <DisplayName>{member.displayName}</DisplayName>
+                <DisplayName>
+                    {member.displayName}
+                    <GuestBadge show={isGuest(member.user.roles)}/>
+                </DisplayName>
                 <Username>{'@'}{member.user.username}</Username>
             </UserInfo>
             <RoleChooser
                 className={classNames({editing}, 'member-role-chooser')}
                 data-testid='rolechooser'
             >
-                <ChannelMembersDropdown
-                    channel={channel}
-                    user={member.user}
-                    channelMember={member.membership}
-                    index={index}
-                    totalUsers={totalUsers}
-                    channelAdminLabel={
-                        <FormattedMessage
-                            id='channel_members_rhs.member.select_role_channel_admin'
-                            defaultMessage='Admin'
-                        />
-                    }
-                    channelMemberLabel={
-                        <FormattedMessage
-                            id='channel_members_rhs.member.select_role_channel_member'
-                            defaultMessage='Member'
-                        />
-                    }
-                    guestLabel={
-                        <FormattedMessage
-                            id='channel_members_rhs.member.select_role_guest'
-                            defaultMessage='Guest'
-                        />
-                    }
-                />
+                {member.membership && (
+                    <ChannelMembersDropdown
+                        channel={channel}
+                        user={member.user}
+                        channelMember={member.membership}
+                        index={index}
+                        totalUsers={totalUsers}
+                        channelAdminLabel={
+                            <FormattedMessage
+                                id='channel_members_rhs.member.select_role_channel_admin'
+                                defaultMessage='Admin'
+                            />
+                        }
+                        channelMemberLabel={
+                            <FormattedMessage
+                                id='channel_members_rhs.member.select_role_channel_member'
+                                defaultMessage='Member'
+                            />
+                        }
+                        guestLabel={
+                            <FormattedMessage
+                                id='channel_members_rhs.member.select_role_guest'
+                                defaultMessage='Guest'
+                            />
+                        }
+                    />
+                )}
             </RoleChooser>
             {!editing && (
                 <SendMessage onClick={() => actions.openDirectMessage(member.user)}>

@@ -1,10 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React, {PureComponent} from 'react';
-import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import {defineMessages, FormattedMessage, injectIntl} from 'react-intl';
+import classNames from 'classnames';
+import {PaperclipIcon} from '@mattermost/compass-icons/components';
 
 import dragster from 'utils/dragster';
 import Constants from 'utils/constants';
@@ -24,12 +25,10 @@ import {
     isFileTransfer,
     isUriDrop,
     localizeMessage,
-} from 'utils/utils.jsx';
+} from 'utils/utils';
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
-
-import AttachmentIcon from 'components/widgets/icons/attachment_icon';
 import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
@@ -144,7 +143,7 @@ export class FileUpload extends PureComponent {
         pluginFilesWillUploadHooks: PropTypes.arrayOf(PropTypes.object),
 
         /**
-         * Function called when superAgent fires progress event.
+         * Function called when xhr fires progress event.
          */
         onUploadProgress: PropTypes.func.isRequired,
         actions: PropTypes.shape({
@@ -153,12 +152,9 @@ export class FileUpload extends PureComponent {
              * Function to be called to upload file
              */
             uploadFile: PropTypes.func.isRequired,
-
-            /**
-             * Function to be called when file is uploaded or failed
-             */
-            handleFileUploadEnd: PropTypes.func.isRequired,
         }).isRequired,
+
+        isAdvancedTextEditorEnabled: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -263,38 +259,16 @@ export class FileUpload extends PureComponent {
             // generate a unique id that can be used by other components to refer back to this upload
             const clientId = generateId();
 
-            const request = this.props.actions.uploadFile(
-                sortedFiles[i],
-                sortedFiles[i].name,
-                channelId,
+            const request = this.props.actions.uploadFile({
+                file: sortedFiles[i],
+                name: sortedFiles[i].name,
+                type: sortedFiles[i].type,
                 rootId,
+                channelId,
                 clientId,
-            );
-
-            request.on('progress', (progressEvent) => {
-                this.props.onUploadProgress({
-                    clientId,
-                    name: sortedFiles[i].name,
-                    percent: progressEvent.percent,
-                    type: sortedFiles[i].type,
-                });
-            });
-
-            request.end((err, res) => {
-                const {error, data} = this.props.actions.handleFileUploadEnd(
-                    sortedFiles[i],
-                    sortedFiles[i].name,
-                    channelId,
-                    rootId,
-                    clientId,
-                    {err, res},
-                );
-
-                if (error) {
-                    this.fileUploadFail(error, clientId, channelId, rootId);
-                } else if (data) {
-                    this.fileUploadSuccess(data, channelId, rootId);
-                }
+                onProgress: this.props.onUploadProgress,
+                onSuccess: this.fileUploadSuccess,
+                onError: this.fileUploadFail,
             });
 
             this.setState({requests: {...this.state.requests, [clientId]: request}});
@@ -447,8 +421,7 @@ export class FileUpload extends PureComponent {
             return;
         }
 
-        const target = this.props.getTarget();
-        const textarea = ReactDOM.findDOMNode(target);
+        const textarea = this.props.getTarget();
         if (!this.containsEventTarget(textarea, e.target)) {
             return;
         }
@@ -522,7 +495,8 @@ export class FileUpload extends PureComponent {
             }
             const postTextbox = this.props.postType === 'post' && document.activeElement.id === 'post_textbox';
             const commentTextbox = this.props.postType === 'comment' && document.activeElement.id === 'reply_textbox';
-            if (postTextbox || commentTextbox) {
+            const threadTextbox = this.props.postType === 'thread' && document.activeElement.id === 'reply_textbox';
+            if (postTextbox || commentTextbox || threadTextbox) {
                 this.fileInput.current.focus();
                 this.fileInput.current.click();
             }
@@ -591,21 +565,44 @@ export class FileUpload extends PureComponent {
         const uploadsRemaining = Constants.MAX_UPLOAD_FILES - this.props.fileCount;
 
         let bodyAction;
-        const ariaLabel = formatMessage({id: 'accessibility.button.attachment', defaultMessage: 'attachment'});
+        const buttonAriaLabel = formatMessage({id: 'accessibility.button.attachment', defaultMessage: 'attachment'});
+        const iconAriaLabel = formatMessage({id: 'generic_icons.attach', defaultMessage: 'Attachment Icon'});
 
         if (this.props.pluginFileUploadMethods.length === 0) {
             bodyAction = (
                 <div>
-                    <button
-                        type='button'
-                        id='fileUploadButton'
-                        aria-label={ariaLabel}
-                        className='style--none post-action icon icon--attachment'
-                        onClick={this.simulateInputClick}
-                        onTouchEnd={this.simulateInputClick}
+                    <OverlayTrigger
+                        delayShow={Constants.OVERLAY_TIME_DELAY_LONG}
+                        placement='top'
+                        trigger={['hover', 'focus']}
+                        overlay={
+                            <Tooltip id='upload-tooltip'>
+                                <KeyboardShortcutSequence
+                                    shortcut={KEYBOARD_SHORTCUTS.filesUpload}
+                                    hoistDescription={true}
+                                    isInsideTooltip={true}
+                                />
+                            </Tooltip>
+                        }
                     >
-                        <AttachmentIcon className='d-flex'/>
-                    </button>
+                        <button
+                            type='button'
+                            id='fileUploadButton'
+                            aria-label={buttonAriaLabel}
+                            className={classNames('style--none', {
+                                'AdvancedTextEditor__action-button': this.props.isAdvancedTextEditorEnabled,
+                                'post-action': !this.props.isAdvancedTextEditorEnabled,
+                                disabled: uploadsRemaining <= 0})}
+                            onClick={this.simulateInputClick}
+                            onTouchEnd={this.simulateInputClick}
+                        >
+                            <PaperclipIcon
+                                size={18}
+                                color={'currentColor'}
+                                aria-label={iconAriaLabel}
+                            />
+                        </button>
+                    </OverlayTrigger>
                     <input
                         id='fileUploadInput'
                         tabIndex='-1'
@@ -654,18 +651,35 @@ export class FileUpload extends PureComponent {
                         accept={accept}
                     />
                     <MenuWrapper>
-                        <button
-                            type='button'
-                            aria-label={ariaLabel}
-                            className='style--none post-action'
+                        <OverlayTrigger
+                            delayShow={Constants.OVERLAY_TIME_DELAY_LONG}
+                            placement='top'
+                            trigger={['hover', 'focus']}
+                            overlay={
+                                <Tooltip id='upload-tooltip'>
+                                    <KeyboardShortcutSequence
+                                        shortcut={KEYBOARD_SHORTCUTS.filesUpload}
+                                        hoistDescription={true}
+                                        isInsideTooltip={true}
+                                    />
+                                </Tooltip>
+                            }
                         >
-                            <div
+                            <button
+                                type='button'
                                 id='fileUploadButton'
-                                className='icon icon--attachment'
+                                aria-label={buttonAriaLabel}
+                                className={classNames('style--none', {
+                                    'AdvancedTextEditor__action-button': this.props.isAdvancedTextEditorEnabled,
+                                    'post-action': !this.props.isAdvancedTextEditorEnabled})}
                             >
-                                <AttachmentIcon className='d-flex'/>
-                            </div>
-                        </button>
+                                <PaperclipIcon
+                                    size={18}
+                                    color={'currentColor'}
+                                    aria-label={iconAriaLabel}
+                                />
+                            </button>
+                        </OverlayTrigger>
                         <Menu
                             id='fileUploadOptions'
                             openLeft={true}
@@ -696,28 +710,14 @@ export class FileUpload extends PureComponent {
         }
 
         if (!this.props.canUploadFiles) {
-            bodyAction = null;
+            return null;
         }
 
         return (
-            <OverlayTrigger
-                delayShow={Constants.OVERLAY_TIME_DELAY}
-                placement='top'
-                trigger='hover'
-                overlay={
-                    <Tooltip id='upload-tooltip'>
-                        <KeyboardShortcutSequence
-                            shortcut={KEYBOARD_SHORTCUTS.filesUpload}
-                            hoistDescription={true}
-                            isInsideTooltip={true}
-                        />
-                    </Tooltip>
-                }
-            >
-                <div className={uploadsRemaining <= 0 ? ' style--none btn-file__disabled' : 'style--none'}>
-                    {bodyAction}
-                </div>
-            </OverlayTrigger>
+
+            <div className={uploadsRemaining <= 0 ? ' style--none btn-file__disabled' : 'style--none'}>
+                {bodyAction}
+            </div>
         );
     }
 }
