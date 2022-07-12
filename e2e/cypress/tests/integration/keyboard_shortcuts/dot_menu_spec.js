@@ -38,7 +38,7 @@ describe('Keyboard Shortcuts', () => {
             cy.uiPostDropdownMenuShortcut(postId, 'Reply', 'R');
 
             // * Verify reply text box is focused
-            cy.get('#reply_textbox').should('be.focused');
+            cy.uiGetReplyTextBox().should('be.focused');
 
             // # Mark as unread
             cy.uiPostDropdownMenuShortcut(postId, 'Mark as Unread', 'U');

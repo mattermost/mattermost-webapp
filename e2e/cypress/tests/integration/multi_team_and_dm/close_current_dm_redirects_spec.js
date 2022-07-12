@@ -120,7 +120,7 @@ const sendDirectMessageToUser = (user, message) => {
     cy.get('#channelHeaderTitle').should('be.visible').and('contain.text', user.username);
 
     // # Type message and send it to the user
-    cy.get('#post_textbox').
+    cy.uiGetPostTextBox().
         type(message).
         type('{enter}');
 };

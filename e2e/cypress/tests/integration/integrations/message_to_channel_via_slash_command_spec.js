@@ -54,7 +54,7 @@ describe('Integrations', () => {
             cy.findByLabelText('off-topic public channel').should('exist');
 
             // # Post a slash command that sends message to off-topic channel
-            cy.get('#post_textbox').should('be.visible').
+            cy.uiGetPostTextBox().
                 clear().
                 type(`/${slashCommand.trigger} {enter}`);
 
