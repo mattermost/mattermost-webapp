@@ -5,7 +5,7 @@ import {Locator, Page} from '@playwright/test';
 
 import {UserProfile} from '@mattermost/types/lib/users';
 
-export class SignupPage {
+export default class SignupPage {
     readonly page: Page;
     readonly title: Locator;
     readonly subtitle: Locator;

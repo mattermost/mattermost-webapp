@@ -3,9 +3,9 @@
 
 import {Page} from '@playwright/test';
 
-import {PostTextbox} from '@support/ui/component/post_textbox';
+import {PostTextbox} from '@support/ui/component';
 
-export class ChannelPage {
+export default class ChannelPage {
     readonly page: Page;
     readonly postTextbox: PostTextbox;
 
