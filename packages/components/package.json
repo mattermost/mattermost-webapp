@@ -7,11 +7,6 @@
     "run": "rollup -c --watch",
     "clean": "rm -rf node_modules dist"
   },
-  "workspaces": [
-    "../mattermost-redux",
-    "../reselect",
-    "../types"
-  ],
   "devDependencies": {
     "@babel/cli": "^7.17.6",
     "@babel/core": "^7.17.7",
