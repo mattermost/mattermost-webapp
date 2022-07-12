@@ -13,7 +13,7 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 import {interceptFileUpload, waitUntilUploadComplete} from './helpers';
 
-function simulateSubscription(subscription, currentStorageUsageBytes) {
+function simulateSubscription(subscription, currentStorageUsageBytes, planLimit) {
     cy.intercept('GET', '**/api/v4/cloud/subscription', {
         statusCode: 200,
         body: subscription,
@@ -23,6 +23,15 @@ function simulateSubscription(subscription, currentStorageUsageBytes) {
         statusCode: 200,
         body: {
             bytes: currentStorageUsageBytes,
+        },
+    });
+
+    cy.intercept('GET', '**/api/v4/cloud/limits', {
+        statusCode: 200,
+        body: {
+            files: {
+                total_storage: planLimit,
+            },
         },
     });
 
@@ -71,7 +80,7 @@ describe('Cloud Freemium limits Upload Files', () => {
         });
     });
 
-    it('Show file limits banner for admin uploading files when storage usage above current freemium file storage limit of 10GB', () => {
+    it('Show file limits banner for admin uploading files when storage usage above current freemium file storage limit', () => {
         // # Login as sysadmin
         cy.apiAdminLogin();
 
@@ -81,9 +90,10 @@ describe('Cloud Freemium limits Upload Files', () => {
             is_free_trial: 'false',
         };
 
-        const currentFileStorageUsageBytes = 11000000000; // 11GB
+        const currentFileStorageUsageBytes = 11000000000;
+        const planLimit = 10000000000; // 1.2GB
 
-        simulateSubscription(currentsubscription, currentFileStorageUsageBytes);
+        simulateSubscription(currentsubscription, currentFileStorageUsageBytes, planLimit);
 
         const filename = 'svg.svg';
 
@@ -96,11 +106,11 @@ describe('Cloud Freemium limits Upload Files', () => {
 
         // * Banner shows
         cy.get('#cloud_file_limit_banner').should('exist');
-        cy.get('#cloud_file_limit_banner').contains('Your free plan is limited to 10GB of files. New uploads will automatically archive older files');
+        cy.get('#cloud_file_limit_banner').contains('Your free plan is limited to 1.2GB of files. New uploads will automatically archive older files');
         cy.get('#cloud_file_limit_banner').contains('upgrade to a paid plan');
     });
 
-    it('Do not show file limits banner for admin uploading files and not above current freemium file storage limit of 10GB', () => {
+    it('Do not show file limits banner for admin uploading files and not above current freemium file storage limit', () => {
         // # Login as sysadmin
         cy.apiAdminLogin();
 
@@ -110,9 +120,10 @@ describe('Cloud Freemium limits Upload Files', () => {
             is_free_trial: 'false',
         };
 
-        const currentFileStorageUsageBytes = 9900000000; // 9.9GB
+        const currentFileStorageUsageBytes = 900000000;
+        const planLimit = 10000000000; // 1.2GB
 
-        simulateSubscription(currentsubscription, currentFileStorageUsageBytes);
+        simulateSubscription(currentsubscription, currentFileStorageUsageBytes, planLimit);
 
         const filename = 'svg.svg';
 
@@ -127,18 +138,19 @@ describe('Cloud Freemium limits Upload Files', () => {
         cy.get('#cloud_file_limit_banner').should('not.exist');
     });
 
-    it('Show file limits banner for non admin uploading files when above current freemium file storage limit of 10GB', () => {
+    it('Show file limits banner for non admin uploading files when above current freemium file storage limit', () => {
         // # Login user
         cy.apiLogin(createdUser);
 
-        const currentFileStorageUsageBytes = 11000000000; // 11GB
+        const currentFileStorageUsageBytes = 11000000000;
+        const planLimit = 10000000000; // 1.2GB
         const currentsubscription = {
             id: 'sub_test1',
             product_id: 'prod_1',
             is_free_trial: 'false',
         };
 
-        simulateSubscription(currentsubscription, currentFileStorageUsageBytes);
+        simulateSubscription(currentsubscription, currentFileStorageUsageBytes, planLimit);
 
         const filename = 'svg.svg';
 
@@ -151,7 +163,7 @@ describe('Cloud Freemium limits Upload Files', () => {
 
         // * Banner shows
         cy.get('#cloud_file_limit_banner').should('exist');
-        cy.get('#cloud_file_limit_banner').contains('Your free plan is limited to 10GB of files. New uploads will automatically archive older files');
+        cy.get('#cloud_file_limit_banner').contains('Your free plan is limited to 1.2GB of files. New uploads will automatically archive older files');
         cy.get('#cloud_file_limit_banner').contains('notify your admin to upgrade to a paid plan');
     });
 });

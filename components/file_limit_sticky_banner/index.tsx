@@ -13,14 +13,14 @@ import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {GlobalState} from 'types/store';
 
 import useGetUsage from 'components/common/hooks/useGetUsage';
+import useGetLimits from 'components/common/hooks/useGetLimits';
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import NotifyAdminCTA from 'components/notify_admin_cta/notify_admin_cta';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 
-import {fallbackStarterLimits} from 'utils/limits';
 import Constants, {CloudProducts, Preferences} from 'utils/constants';
-import {FileSizes} from 'utils/file_utils';
+import {asGBString} from 'utils/limits';
 
 interface FileLimitSnoozePreference {
     lastSnoozeTimestamp: number;
@@ -59,10 +59,11 @@ color: #FFBC1F;
 
 function FileLimitStickyBanner() {
     const [show, setShow] = useState(true);
-    const {formatMessage} = useIntl();
+    const {formatMessage, formatNumber} = useIntl();
     const dispatch = useDispatch();
 
     const usage = useGetUsage();
+    const [cloudLimits] = useGetLimits();
     const openPricingModal = useOpenPricingModal();
 
     const user = useSelector(getCurrentUser);
@@ -92,14 +93,9 @@ function FileLimitStickyBanner() {
         return null;
     }
 
-    let isAbovePlanFileStorageLimit = false;
-
-    const currentFileStorageUsage = usage?.files?.totalStorage || 0;
-    if (currentFileStorageUsage > fallbackStarterLimits.files.totalStorage) {
-        isAbovePlanFileStorageLimit = true;
-    }
-
-    if (!isAbovePlanFileStorageLimit) {
+    const fileStorageLimit = cloudLimits?.files?.total_storage;
+    const currentFileStorageUsage = usage.files.totalStorage;
+    if ((fileStorageLimit === undefined) || !(currentFileStorageUsage > fileStorageLimit)) {
         return null;
     }
 
@@ -125,9 +121,9 @@ function FileLimitStickyBanner() {
             {
                 formatMessage({
                     id: 'create_post.file_limit_sticky_banner.admin_message',
-                    defaultMessage: 'Your free plan is limited to {storageGB}GB of files. New uploads will automatically archive older files. To view them again, you can delete older files or <a>upgrade to a paid plan.</a>'},
+                    defaultMessage: 'Your free plan is limited to {storageGB} of files. New uploads will automatically archive older files. To view them again, you can delete older files or <a>upgrade to a paid plan.</a>'},
                 {
-                    storageGB: fallbackStarterLimits.files.totalStorage / FileSizes.Gigabyte,
+                    storageGB: asGBString(fileStorageLimit, formatNumber),
                     a: (chunks: React.ReactNode) => {
                         return (
                             <a
@@ -148,9 +144,9 @@ function FileLimitStickyBanner() {
         <span>
             {formatMessage({
                 id: 'create_post.file_limit_sticky_banner.non_admin_message',
-                defaultMessage: 'Your free plan is limited to {storageGB}GB of files. New uploads will automatically archive older files. To view them again, <a>notify your admin to upgrade to a paid plan.</a>'},
+                defaultMessage: 'Your free plan is limited to {storageGB} of files. New uploads will automatically archive older files. To view them again, <a>notify your admin to upgrade to a paid plan.</a>'},
             {
-                storageGB: fallbackStarterLimits.files.totalStorage / FileSizes.Gigabyte,
+                storageGB: asGBString(fileStorageLimit, formatNumber),
                 a: (chunks: React.ReactNode) => <NotifyAdminCTA ctaText={chunks}/>,
             },
             )}
