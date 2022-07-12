@@ -67,11 +67,6 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
     }
 
     markAsUnread = () => {
-        // TODO: implement mention
-
-        // let mentions = [this.props.currentUserId]
-        // this.props.actions.markChannelAsUnread(this.props.currentTeamId, this.props.channel.id, mentions);
-
         this.props.actions.markMostRecentPostInChannelAsUnread(this.props.channel.id)
         trackEvent('ui', 'ui_sidebar_channel_menu_markAsUnread')
     }

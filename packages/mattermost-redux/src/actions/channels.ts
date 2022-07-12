@@ -1418,8 +1418,6 @@ export function markMostRecentPostInChannelAsUnread(channelId: string): ActionFu
         let post = {id: postId}
         
         if(post.id!= undefined && post.id!=null){
-            console.log(`markMostRecentPostInChannelAsUnread, post.id: ${postId}`)
-            
             dispatch(markPostAsUnread(post, "CENTER"))
         }
 

@@ -473,11 +473,6 @@ export const getMostRecentPostIdInChannel: (state: GlobalState, channelId: Chann
     (state: GlobalState, channelId: string) => getPostIdsInChannel(state, channelId),
     getMyPreferences,
     (posts, postIdsInChannel, preferences) => {
-        console.log("getMostRecentPostIdInChannel called")
-        console.log("posts:")
-        console.log(posts)
-        console.log("postIdsInChannel:")
-        console.log(postIdsInChannel)
         if (!postIdsInChannel) {
             return '';
         }
@@ -494,12 +489,10 @@ export const getMostRecentPostIdInChannel: (state: GlobalState, channelId: Chann
                     break;
                 }
             }
-            console.log(`getMostRecentPostIdInChannel: ${postId}\nallowSystemMessages=false`)
             return postId;
         }
 
         // return the most recent message in the channel
-        console.log(`getMostRecentPostIdInChannel: ${postIdsInChannel[0]}\nallowSystemMessages=true`)
         return postIdsInChannel[0];
     },
 );
