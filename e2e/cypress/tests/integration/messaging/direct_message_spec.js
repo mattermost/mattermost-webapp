@@ -62,8 +62,8 @@ describe('Direct Message', () => {
             cy.visit(`/${testTeam.name}/messages/@${otherUser.username}`);
 
             // # Edit the last post
-            cy.get('#post_textbox').should('be.visible');
-            cy.get('#post_textbox').clear().type('{uparrow}');
+            cy.uiGetPostTextBox();
+            cy.uiGetPostTextBox().clear().type('{uparrow}');
 
             // * Edit post Input should appear, and edit the post
             cy.get('#edit_textbox').should('be.visible');

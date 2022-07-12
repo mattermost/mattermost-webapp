@@ -67,6 +67,7 @@ export const InviteTypes = {
 export const PreviousViewedTypes = {
     CHANNELS: 'channels',
     THREADS: 'threads',
+    INSIGHTS: 'insights',
 };
 
 export const Preferences = {
@@ -395,6 +396,7 @@ export const ModalIdentifiers = {
     CLOUD_LIMITS: 'cloud_limits',
     REQUEST_BUSINESS_EMAIL_MODAL: 'request_business_email_modal',
     FEATURE_RESTRICTED_MODAL: 'feature_restricted_modal',
+    JOIN_PUBLIC_CHANNEL_MODAL: 'join_public_channel_modal',
 };
 
 export const UserStatuses = {
