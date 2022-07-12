@@ -3,7 +3,7 @@
 
 import {Page} from '@playwright/test';
 
-import {PostTextbox} from '../component/post_textbox';
+import {PostTextbox} from '@support/ui/component/post_textbox';
 
 export class ChannelPage {
     readonly page: Page;

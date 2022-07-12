@@ -2,8 +2,9 @@
 // See LICENSE.txt for license information.
 
 import {PlaywrightTestConfig, devices} from '@playwright/test';
-import testConfig from './test.config';
-import {duration} from './support/utils';
+
+import {duration} from '@support/utils';
+import testConfig from '@test.config';
 
 const config: PlaywrightTestConfig = {
     globalSetup: require.resolve('./global_setup'),
