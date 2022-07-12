@@ -3,15 +3,17 @@
 
 import {Locator, Page} from '@playwright/test';
 
-import {users, config} from '../../../../../packages/mattermost-redux/src/types';
+import {AdminConfig} from '@mattermost/types/lib/config';
+import {UserProfile} from '@mattermost/types/lib/users';
 
 export class LoginPage {
-    readonly adminConfig: config.AdminConfig;
+    readonly adminConfig: AdminConfig;
 
     readonly page: Page;
-    readonly siteNameHeader: Locator;
-    readonly siteDescription: Locator;
+    readonly title: Locator;
+    readonly subtitle: Locator;
     readonly loginInput: Locator;
+    readonly loginPlaceholder: Locator;
     readonly passwordInput: Locator;
     readonly signInButton: Locator;
     readonly createAccountLink: Locator;
@@ -20,21 +22,19 @@ export class LoginPage {
     readonly fieldWithError: Locator;
     readonly formContainer: Locator;
 
-    constructor(page: Page, adminConfig: config.AdminConfig) {
+    constructor(page: Page, adminConfig: AdminConfig) {
         this.page = page;
         this.adminConfig = adminConfig;
 
         const loginInputPlaceholder = adminConfig.LdapSettings.Enable
             ? 'Email, Username or AD/LDAP Username'
             : 'Email or Username';
-        const description =
-            adminConfig.TeamSettings.CustomDescriptionText ||
-            'All team communication in one place, searchable and accessible anywhere';
 
-        this.siteNameHeader = page.locator(`h1:has-text("${adminConfig.TeamSettings.SiteName}")`);
-        this.siteDescription = page.locator(`text=${description}`);
-        this.loginInput = page.locator(`[placeholder="${loginInputPlaceholder}"]`);
-        this.passwordInput = page.locator('[placeholder="Password"]');
+        this.title = page.locator('h1:has-text("Log in to your account")');
+        this.subtitle = page.locator('text=Collaborate with your team in real-time');
+        this.loginInput = page.locator('#input_loginId');
+        this.loginPlaceholder = page.locator(`[placeholder="${loginInputPlaceholder}"]`);
+        this.passwordInput = page.locator('#input_password-input');
         this.signInButton = page.locator('button:has-text("Log in")');
         this.createAccountLink = page.locator('text=Create an account');
         this.forgotPasswordLink = page.locator('text=Forgot your password?');
@@ -47,7 +47,7 @@ export class LoginPage {
         await this.page.goto('/login', {waitUntil: 'domcontentloaded'});
     }
 
-    async login(user: users.UserProfile, useUsername = true) {
+    async login(user: Partial<UserProfile>, useUsername = true) {
         await this.loginInput.fill(useUsername ? user.username : user.email);
         await this.passwordInput.fill(user.password);
         await Promise.all([this.page.waitForNavigation(), this.signInButton.click()]);

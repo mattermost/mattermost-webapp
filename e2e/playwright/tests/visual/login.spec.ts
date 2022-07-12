@@ -33,6 +33,10 @@ test('/login', async ({page, isMobile, browserName}, testInfo) => {
         await landingLoginPage.viewInBrowserButton.click();
     }
 
+    // Wait for sign in button to be shown
+    await loginPage.signInButton.waitFor();
+    await wait(duration.one_sec);
+
     // Should match default login page
     if (!testConfig.percyEnabled || !testConfig.applitoolsEnabled) {
         expect(await page.screenshot({fullPage: true})).toMatchSnapshot('login.png');
