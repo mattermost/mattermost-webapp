@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {PreferenceType} from '../../../../packages/mattermost-redux/src/types/preferences';
+import {PreferenceType} from '@mattermost/types/lib/preferences';
 
 import testConfig from '../../test.config';
 

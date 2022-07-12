@@ -13,6 +13,11 @@ const config: PlaywrightTestConfig = {
     testDir: 'tests',
     timeout: duration.one_min,
     workers: process.env.CI ? 2 : 1,
+    expect: {
+        toMatchSnapshot: {
+            threshold: 0.4,
+        },
+    },
     use: {
         baseURL: testConfig.baseURL,
         headless: true,
@@ -21,6 +26,7 @@ const config: PlaywrightTestConfig = {
         timezoneId: 'America/Los_Angeles',
         trace: 'off',
         video: 'on-first-retry',
+        actionTimeout: duration.ten_sec,
     },
     projects: [
         {
