@@ -192,9 +192,7 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
 
     handleUpdateSearchTerms = (term: string) => {
         this.props.actions.updateSearchTerms(term);
-        if (this.focusSearchBar) {
-            this.focusSearchBar();
-        }
+        this.focusSearchBar?.();
     }
 
     getSearchBarFocus = (focusSearchBar: () => void) => {
