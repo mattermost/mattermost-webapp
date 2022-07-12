@@ -187,6 +187,10 @@ function Content(props: ContentProps) {
         }));
     };
 
+    const closePricingModal = () => {
+        dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
+    };
+
     const downgrade = async () => {
         if (!starterProduct) {
             return;
@@ -382,6 +386,7 @@ function Content(props: ContentProps) {
                                 telemetryId='start_cloud_trial_from_pricing_modal'
                                 disabled={isEnterpriseTrial}
                                 extraClass={`plan_action_btn ${isEnterpriseTrial ? ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.special}`}
+                                afterTrialRequest={closePricingModal}
                             />
                         ) : undefined}
                     />
