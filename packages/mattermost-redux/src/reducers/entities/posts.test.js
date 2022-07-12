@@ -4292,7 +4292,7 @@ describe('limitedViews', () => {
                 limits: {
                     message: {
                         history: 10000,
-                    }
+                    },
                 },
             },
         });
@@ -4301,7 +4301,7 @@ describe('limitedViews', () => {
     });
 
     forgetChannelActions.forEach((action) => {
-        const initialState =  {...zeroState, channels: {channelId: true}};
+        const initialState = {...zeroState, channels: {channelId: true}};
 
         it(`${action} does nothing if archived channel is still visible`, () => {
             const nextState = reducers.limitedViews(initialState, {
@@ -4324,6 +4324,7 @@ describe('limitedViews', () => {
             });
 
             expect(nextState).toEqual(initialState);
+
             // e.g. old state should have been returned;
             // reference equality should have been preserved
             expect(nextState).toBe(initialState);
