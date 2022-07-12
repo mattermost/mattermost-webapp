@@ -2,8 +2,9 @@
 // See LICENSE.txt for license information.
 
 import {ReactWrapper, shallow} from 'enzyme';
-import React from 'react';
+import React, {ComponentProps} from 'react';
 import nock from 'nock';
+import {match} from 'react-router';
 
 import {act} from 'react-dom/test-utils';
 
@@ -13,13 +14,13 @@ import {Preferences} from 'mattermost-redux/constants';
 import TestHelper from 'packages/mattermost-redux/test/test_helper';
 
 import mockStore from 'tests/test_store';
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {ErrorPageTypes} from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
 
 import {focusPost} from 'components/permalink_view/actions';
 import PermalinkView from 'components/permalink_view/permalink_view';
-import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 jest.mock('utils/browser_history', () => ({
     browserHistory: {
@@ -74,10 +75,9 @@ jest.mock('mattermost-redux/actions/channels', () => ({
 }));
 
 describe('components/PermalinkView', () => {
-    const baseProps = {
+    const baseProps: ComponentProps<typeof PermalinkView> = {
         channelId: 'channel_id',
-        channelName: 'channel_name',
-        match: {params: {postid: 'post_id'}},
+        match: {params: {postid: 'post_id'}} as match<{ postid: string }>,
         returnTo: 'return_to',
         teamName: 'team_name',
         actions: {
