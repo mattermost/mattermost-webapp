@@ -167,8 +167,25 @@
         padding: 8px 12px;
         margin: 8px;
         margin-top: 0;
-        background-color: rgba(var(--button-bg-rgb), 0.04);
         border-radius: 4px;
+
+        &__free-trial {
+            &__content-title {
+                margin: 4px 0;
+                font-weight: 600;
+                line-height: 20px;
+            }
+
+            &__content-section {
+                display: flex;
+
+                &__icon-section {
+                    margin-top: -2px;
+                    color: var(--denim-button-bg);
+                    font-size: 18px;
+                }
+            }
+        }
 
         .upgradeLink {
             color: var(--button-bg);
