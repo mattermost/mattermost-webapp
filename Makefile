@@ -37,17 +37,12 @@ test: node_modules ## Runs tests
 i18n-extract: ## Extract strings for translation from the source code
 	npm run mmjstool -- i18n extract-webapp
 
-node_modules: package.json package-lock.json build-packages
+node_modules: package.json package-lock.json
 	@echo Getting dependencies using npm
 
 	node skip_integrity_check.js
 
 	npm install
-	touch $@
-
-build-packages:
-	@echo Building packages for convenience
-
 	npm run build --workspace=packages/components
 	touch $@
 
