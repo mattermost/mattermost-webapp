@@ -6,7 +6,7 @@ import {Locator, Page} from '@playwright/test';
 import {AdminConfig} from '@mattermost/types/lib/config';
 import {UserProfile} from '@mattermost/types/lib/users';
 
-export class LoginPage {
+export default class LoginPage {
     readonly adminConfig: AdminConfig;
 
     readonly page: Page;
