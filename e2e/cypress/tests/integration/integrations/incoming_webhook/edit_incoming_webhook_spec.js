@@ -12,7 +12,6 @@
 describe('Incoming webhook', () => {
     let incomingWebhook;
     let testTeam;
-    let siteName;
 
     before(() => {
         cy.apiGetConfig().then(({config}) => {
@@ -52,7 +51,7 @@ describe('Incoming webhook', () => {
         // # Change the channel from Off Topic to another channel that you have access to, then click "Update"
         cy.get('.backstage-form').should('be.visible').within(() => {
             cy.get('#channelSelect').select('Town Square');
-            cy.findByRole('button',{name: 'Update'}).scrollIntoView().click();
+            cy.findByRole('button', {name: 'Update'}).scrollIntoView().click();
         });
 
         // # Redirect to test team/channel
@@ -67,7 +66,7 @@ describe('Incoming webhook', () => {
         cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
 
         cy.getLastPost().within(() => {
-            cy.findByRole('link', { name: 'Testing Integration Attachments', hidden: true});
+            cy.findByRole('link', {name: 'Testing Integration Attachments', hidden: true});
             cy.get('.attachment__image').should('be.visible');
             cy.get(':nth-child(2) > thead > tr > .attachment-field__caption').should('have.text', 'Area');
             cy.get(':nth-child(3) > thead > tr > :nth-child(1)').should('have.text', 'Iteration');
