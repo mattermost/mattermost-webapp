@@ -76,7 +76,6 @@ export default class LeaveChannel extends React.PureComponent<Props> {
                 onClick={this.handleLeave}
                 text={localizeMessage('channel_header.leave', 'Leave Channel')}
                 isDangerous={true}
-
             />
         );
     }
