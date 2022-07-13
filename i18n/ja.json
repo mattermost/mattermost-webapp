@@ -3488,8 +3488,6 @@
   "help.messaging.write": "**メッセージを書く:** メッセージを書くにはMattermostの画面下部のテキスト入力ボックスを使用します。**ENTER** を押すとメッセージが送信されます。**SHIFT+ENTER** を使うとメッセージを送ることなく改行することができます。",
   "inProduct_notices.adminOnlyMessage": "管理者のみが閲覧可能",
   "input.clear": "クリア",
-  "insights..topBoards.board": "ボード",
-  "insights..topBoards.participants": "参加者",
   "insights.filter.ariaLabel": "インサイトフィルターメニュー",
   "insights.filter.myInsights": "私のインサイト",
   "insights.filter.teamInsights": "チームインサイト",

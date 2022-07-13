@@ -3489,8 +3489,6 @@
   "help.messaging.write": "**Berichten schrijven:** Gebruik het tekstinvoerveld onderaan de Mattermost-interface om een bericht te schrijven. Druk op **ENTER** om het bericht te versturen. Gebruik **SHIFT+ENTER** om een nieuwe regel te maken zonder een bericht te verzenden.",
   "inProduct_notices.adminOnlyMessage": "Enkel zichtbaar voor beheerders",
   "input.clear": "Wissen",
-  "insights..topBoards.board": "Board",
-  "insights..topBoards.participants": "Deelnemers",
   "insights.filter.ariaLabel": "Inzichten-filter-menu",
   "insights.filter.myInsights": "Mijn inzichten",
   "insights.filter.teamInsights": "Teaminzichten",
