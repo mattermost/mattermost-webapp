@@ -539,6 +539,7 @@
   "admin.complianceExport.exportFormat.title": "추출 포맷:",
   "admin.complianceExport.exportJobStartTime.description": "일일 데이터 보존 스케줄의 시작 시간을 설정하십시오. 시스템 사용자가 적은 시간대를 선택하십시오. HH:MM 형식의 24시간 타임 스탬프 여야합니다.",
   "admin.complianceExport.exportJobStartTime.example": "예시: \"02:00\"",
+  "admin.complianceExport.exportJobStartTime.title": "",
   "admin.complianceExport.globalRelayCustomerType.a10.description": "A10/Type 10",
   "admin.complianceExport.globalRelayCustomerType.a9.description": "A9/Type 9",
   "admin.complianceExport.globalRelayCustomerType.description": "귀사에서 보유한 글로벌 릴레이 고객 계정 유형.",
