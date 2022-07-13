@@ -10,7 +10,7 @@ import {t} from 'utils/i18n';
 
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import {LimitTypes, LimitSummary} from 'components/common/hooks/useGetHighestThresholdCloudLimit';
-import NotifyAdminCTA from 'components/pricing_modal/notify_admin_cta';
+import NotifyAdminCTA from 'components/notify_admin_cta/notify_admin_cta';
 
 interface Words {
     title: React.ReactNode;
