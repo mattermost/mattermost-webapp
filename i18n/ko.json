@@ -2026,6 +2026,7 @@
   "admin.service.complianceExportDesc": "",
   "admin.service.complianceExportTitle": "컴플라이언스 내보내기:",
   "admin.service.corsAllowCredentialsDescription": "",
+  "admin.service.corsAllowCredentialsLabel": "",
   "admin.service.corsDebugDescription": "",
   "admin.service.corsDescription": "Enable HTTP Cross origin request from a specific domain. Use \"*\" if you want to allow CORS from any domain or leave it blank to disable it.",
   "admin.service.corsEx": "http://example.com",
