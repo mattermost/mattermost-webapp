@@ -56,7 +56,7 @@ type ButtonDetails = {
     text: string;
     disabled?: boolean;
     customClass?: ButtonCustomiserClasses;
-}
+};
 
 type CardProps = {
     id: string;
@@ -291,7 +291,7 @@ function Content(props: ContentProps) {
                                             dialogType: DowngradeTeamRemovalModal,
                                             dialogProps: {
                                                 product_id: starterProduct?.id,
-                                                starterProductName: starterProduct?.name,
+                                                starterProduct,
                                             },
                                         }),
                                     );
