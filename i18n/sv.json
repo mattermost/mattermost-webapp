@@ -3488,8 +3488,6 @@
   "help.messaging.write": "**Skriv meddelanden:** Använd textrutan i nedre delen av Mattermost för att skriva ett meddelande. Tryck **ENTER** för att publicera det. Använd **SHIFT+ENTER** för att lägga in en ny rad utan att publicera meddelandet.",
   "inProduct_notices.adminOnlyMessage": "Visas endast för administratörer",
   "input.clear": "Rensa",
-  "insights..topBoards.board": "Board",
-  "insights..topBoards.participants": "Deltagare",
   "insights.filter.ariaLabel": "Insikter Filtrer-meny",
   "insights.filter.myInsights": "Mina insikter",
   "insights.filter.teamInsights": "Insikter om teamet",

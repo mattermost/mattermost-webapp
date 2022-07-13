@@ -3488,8 +3488,6 @@
   "help.messaging.write": "**İleti yazmak:** Mattermost arayüzünün alt bölümündeki metin yazma kutusunu kullanın. Bir iletiyi göndermek için **ENTER** tuşuna basın. İletiyi göndermeden yeni bir satıra başlamak için **SHIFT+ENTER** tuşlarına basın.",
   "inProduct_notices.adminOnlyMessage": "Yalnızca yöneticiler görebilir",
   "input.clear": "Temizle",
-  "insights..topBoards.board": "Pano",
-  "insights..topBoards.participants": "Katılımcılar",
   "insights.filter.ariaLabel": "Bilgiler süzgeç menüsü",
   "insights.filter.myInsights": "Benim bilgilerim",
   "insights.filter.teamInsights": "Takımın bilgileri",

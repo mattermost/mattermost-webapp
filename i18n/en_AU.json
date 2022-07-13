@@ -3490,8 +3490,6 @@
   "help.messaging.write": "**Write Messages:** Use the text input box at the bottom of the Mattermost interface to write a message. Press **ENTER** to send the message. Use **SHIFT+ENTER** to create a new line without sending a message.",
   "inProduct_notices.adminOnlyMessage": "Visible to Admins only",
   "input.clear": "Clear",
-  "insights..topBoards.board": "Board",
-  "insights..topBoards.participants": "Participants",
   "insights.filter.ariaLabel": "Insights Filter Menu",
   "insights.filter.myInsights": "My Insights",
   "insights.filter.teamInsights": "Team Insights",

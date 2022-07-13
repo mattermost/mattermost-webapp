@@ -3488,8 +3488,6 @@
   "help.messaging.write": "**Nachrichten schreiben:** Verwende das Texteingabefeld am unteren Rand der Mattermost-Oberfläche, um eine Nachricht zu schreiben. Drücke **ENTER**, um die Nachricht zu senden. Verwende **UMSCHALT+ENTER**, um eine neue Zeile zu erstellen, ohne die Nachricht zu senden.",
   "inProduct_notices.adminOnlyMessage": "Nur für Administratoren sichtbar",
   "input.clear": "Leeren",
-  "insights..topBoards.board": "Board",
-  "insights..topBoards.participants": "Teilnehmer",
   "insights.filter.ariaLabel": "Einblicke Filter Menü",
   "insights.filter.myInsights": "Meine Einblicke",
   "insights.filter.teamInsights": "Team Einblicke",
