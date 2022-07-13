@@ -136,7 +136,7 @@ function CloudSubscribeWithLoad(props: Props) {
             <FormattedMessage
                 id='success_modal.subtitle'
                 defaultMessage='Your final bill will be prorated. Your workspace now has {plan} limits.'
-                values={{productName}}
+                values={{plan: productName}}
             />
         );
         return (
