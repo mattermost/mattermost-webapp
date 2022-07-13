@@ -14,10 +14,6 @@ describe('Incoming webhook', () => {
     let testTeam;
 
     before(() => {
-        cy.apiGetConfig().then(({config}) => {
-            siteName = config.TeamSettings.SiteName;
-        });
-
         // # Create and visit new channel and create incoming webhook
         cy.apiInitSetup().then(({team, channel}) => {
             testTeam = team;
