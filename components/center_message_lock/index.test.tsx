@@ -46,9 +46,9 @@ const initialState = {
                 ],
             },
             posts: {
-                a: {...emptyPost(), id: 'a', created_at: 1},
+                a: {...emptyPost(), id: 'a', created_at: 3},
                 b: {...emptyPost(), id: 'b', created_at: 2},
-                c: {...emptyPost(), id: 'c', created_at: 3},
+                c: {...emptyPost(), id: 'c', created_at: 1},
             },
         },
     },
@@ -132,7 +132,7 @@ describe('CenterMessageLock', () => {
         const firstOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
         const expectedDate = firstOfMonth.toLocaleString('en', {month: 'long', day: 'numeric'});
 
-        state.entities.posts.posts.a.create_at = Date.parse(firstOfMonth.toUTCString());
+        state.entities.posts.posts.c.create_at = Date.parse(firstOfMonth.toUTCString());
         renderWithIntl(
             <Provider store={testConfigureStore(state)}>
                 <CenterMessageLock channelId={'channelId'}/>

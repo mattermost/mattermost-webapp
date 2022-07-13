@@ -30,8 +30,28 @@
         .btn {
             @include tertiary-button;
 
+            font-size: 12px;
+
+            &:hover,
+            &:focus {
+                color: var(--button-color);
+            }
+
+            &:focus {
+                border: 0;
+            }
+
             &.is-admin {
                 @include primary-button;
+
+                &:hover,
+                &:focus {
+                    color: var(--button-color);
+                }
+
+                &:focus {
+                    border: 0;
+                }
             }
         }
     }
