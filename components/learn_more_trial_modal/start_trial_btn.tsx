@@ -30,6 +30,9 @@ export type StartTrialBtnProps = {
     telemetryId: string;
     onClick?: () => void;
     handleEmbargoError?: () => void;
+    btnClass?: string;
+    renderAsButton?: boolean;
+    disabled?: boolean;
 };
 
 enum TrialLoadStatus {
@@ -42,9 +45,12 @@ enum TrialLoadStatus {
 
 const StartTrialBtn = ({
     message,
+    btnClass,
     telemetryId,
     onClick,
     handleEmbargoError,
+    disabled = false,
+    renderAsButton = false,
 }: StartTrialBtnProps) => {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch<DispatchFunc>();
@@ -126,7 +132,15 @@ const StartTrialBtn = ({
             </div>
         );
     }
-    return (
+
+    return renderAsButton ? (
+        <button
+            className={btnClass}
+            onClick={startTrial}
+        >
+            {btnText(status)}
+        </button>
+    ) : (
         <a
             className='StartTrialBtn start-trial-btn'
             onClick={startTrial}
