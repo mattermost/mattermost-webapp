@@ -206,7 +206,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
 
         // * Verify accessibility support in Invite People Dialog
         cy.get('.InvitationModal').should('have.attr', 'aria-modal', 'true').and('have.attr', 'aria-labelledby', 'invitation_modal_title').and('have.attr', 'role', 'dialog');
-        cy.get('#invitation_modal_title').should('be.visible').and('contain.text', 'Invite members to');
+        cy.get('#invitation_modal_title').should('be.visible').and('contain.text', 'Invite people to');
 
         // # Press tab
         cy.get('button.icon-close').focus().tab({shift: true}).tab();

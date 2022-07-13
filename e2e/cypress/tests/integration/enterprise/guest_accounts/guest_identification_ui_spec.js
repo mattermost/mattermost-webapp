@@ -192,7 +192,7 @@ describe('Verify Guest User Identification in different screens', () => {
 
     it('Verify Guest Badge in @mentions Autocomplete', () => {
         // # Start a draft in Channel containing "@user"
-        cy.get('#post_textbox').type(`@${guest.username}`);
+        cy.uiGetPostTextBox().type(`@${guest.username}`);
 
         // * Verify Guest Badge is displayed at mention auto-complete
         cy.get('#suggestionList').should('be.visible');

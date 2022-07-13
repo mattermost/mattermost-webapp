@@ -26,7 +26,7 @@ describe('Message Draft', () => {
         cy.get('#sidebarItem_off-topic').findByTestId('draftIcon').should('not.exist');
 
         // # Type in some text into the text area of the opened channel
-        cy.get('#post_textbox').type('comm');
+        cy.uiGetPostTextBox().type('comm');
 
         // # Go to another test channel without submitting the draft in the previous channel
         cy.get('#sidebarItem_town-square').click({force: true});
