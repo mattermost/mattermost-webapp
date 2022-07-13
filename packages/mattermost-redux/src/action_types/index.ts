@@ -22,6 +22,7 @@ import BotTypes from './bots';
 import PluginTypes from './plugins';
 import ChannelCategoryTypes from './channel_categories';
 import CloudTypes from './cloud';
+import HostedTypes from './hosted';
 import AppsTypes from './apps';
 import ThreadTypes from './threads';
 import InsightTypes from './insights';
@@ -48,6 +49,7 @@ export {
     PluginTypes,
     ChannelCategoryTypes,
     CloudTypes,
+    HostedTypes,
     AppsTypes,
     ThreadTypes,
     InsightTypes,

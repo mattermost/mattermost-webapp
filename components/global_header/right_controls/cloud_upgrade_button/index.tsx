@@ -6,12 +6,14 @@ import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 
-import {CloudProducts} from 'utils/constants';
+import {CloudProducts, SelfHostedProducts} from 'utils/constants';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getCloudProducts, getCloudSubscription} from 'mattermost-redux/actions/cloud';
+import {getSelfHostedProducts, getSelfHostedSubscription} from 'mattermost-redux/actions/hosted';
 import {getCloudSubscription as selectCloudSubscription, getSubscriptionProduct as selectSubscriptionProduct, isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
 
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
+import { selectSelfHostedSubscription, selectSelfHostedSubscriptionProduct } from 'mattermost-redux/selectors/entities/hosted';
 
 const UpgradeButton = styled.button`
 background: var(--denim-button-bg);
@@ -35,39 +37,54 @@ const UpgradeCloudButton = (): JSX.Element | null => {
     const dispatch = useDispatch();
     const {formatMessage} = useIntl();
 
-    const isAdmin = useSelector(isCurrentUserSystemAdmin);
-    const subscription = useSelector(selectCloudSubscription);
-    const product = useSelector(selectSubscriptionProduct);
+    openPricingModal = useOpenPricingModal();
     const isCloud = useSelector(isCurrentLicenseCloud);
+    const isSelfHostedPurchaseThroughCWS = true;
 
     useEffect(() => {
         if (isCloud) {
             dispatch(getCloudSubscription());
             dispatch(getCloudProducts());
+        } else if (isSelfHostedPurchaseThroughCWS) {
+            dispatch(getSelfHostedProducts());
+            dispatch(getSelfHostedSubscription());
         }
     }, [isCloud]);
 
-    openPricingModal = useOpenPricingModal();
+    const isAdmin = useSelector(isCurrentUserSystemAdmin);
+    const subscription = useSelector(selectCloudSubscription);
+    const product = useSelector(selectSubscriptionProduct);
+
+    const selfHostedSubscription = useSelector(selectSelfHostedSubscription)
+    const selfHostedProduct = useSelector(selectSelfHostedSubscriptionProduct);
 
     const isEnterpriseTrial = subscription?.is_free_trial === 'true';
     const isStarter = product?.sku === CloudProducts.STARTER;
 
-    if (!isCloud || !isAdmin) {
+    const isSelfHostedEnterpriseTrial = selfHostedSubscription?.is_free_trial === 'true';
+    const isSelfHostedStarter = selfHostedProduct?.sku === SelfHostedProducts.STARTER;
+
+    if (!isAdmin) {
         return null;
     }
 
-    let btn = null;
-    if (isStarter || isEnterpriseTrial) {
-        btn = (
-            <UpgradeButton
-                id='UpgradeButton'
-                onClick={openPricingModal}
-            >
-                {formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'})}
-            </UpgradeButton>);
+    // for cloud, only show when subscribed to starter or enterprise trial plans
+    if (isCloud && !(isStarter || isEnterpriseTrial)) {
+        return null;
     }
 
-    return btn;
+    // for non cloud, only show when subscribed to self hosted starter or self hosted enterprise trial plans
+    if (!isCloud && !(isSelfHostedStarter || isSelfHostedEnterpriseTrial)) {
+        return null;
+    }
+
+    return (
+        <UpgradeButton
+            id='UpgradeButton'
+            onClick={openPricingModal}
+        >
+            {formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'})}
+        </UpgradeButton>);
 };
 
 export default UpgradeCloudButton;

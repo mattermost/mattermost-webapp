@@ -13,6 +13,7 @@ import {Audit} from '@mattermost/types/audits';
 import {UserAutocomplete, AutocompleteSuggestion} from '@mattermost/types/autocomplete';
 import {Bot, BotPatch} from '@mattermost/types/bots';
 import {Product, SubscriptionResponse, CloudCustomer, Address, CloudCustomerPatch, Invoice, Limits, IntegrationsUsage, NotifyAdminRequest} from '@mattermost/types/cloud';
+import {SelfHostedProduct, SelfHostedSubscription} from '@mattermost/types/hosted';
 import {ChannelCategory, OrderedChannelCategories} from '@mattermost/types/channel_categories';
 import {
     Channel,
@@ -3768,6 +3769,42 @@ export default class Client4 {
         );
     }
 
+    getSelfHostedProducts = () => {
+        // replace with proper endpoint call
+        return new Promise<SelfHostedProduct[]>((resolve) => {
+            const selfHostedProducts: SelfHostedProduct[] = [
+                {
+                    id: 'prod_fakeStarter',
+                    name: 'Self-Hosted Starter',
+                    description: 'Free',
+                    price_per_year: 0,
+                    sku: 'starter',
+                    product_family: 'on-prem',
+                },
+                {
+                    id: 'prod_fakePro',
+                    name: 'Self-Hosted Professional',
+                    description: 'Ideal for small companies and departments with data security requirements',
+                    price_per_year: 120,
+                    sku: 'professional',
+                    product_family: 'on-prem',
+                },
+                {
+                    id: 'prod_fakeEnterprise',
+                    name: 'Self-Hosted Enterprise',
+                    description: 'Built to scale for high-trust organizations and companies in regulated industries.',
+                    price_per_year: 360,
+                    sku: 'enterprise',
+                    product_family: 'on-prem',
+                },
+            ];
+
+            setTimeout(() => {
+                resolve(selfHostedProducts);
+            }, 100);
+        });
+    };
+
     // Cloud routes
     getCloudProducts = (includeLegacyProducts?: boolean) => {
         let query = '';
@@ -3845,6 +3882,27 @@ export default class Client4 {
             `${this.getCloudRoute()}/validate-business-email`,
             {method: 'post', body: JSON.stringify({email})},
         );
+    }
+
+    getSelfHostedSubscription = () => {
+        // replace with proper endpoint call
+        return new Promise<SelfHostedSubscription>((resolve) => {
+            const subscription: SelfHostedSubscription = {
+                id: 'sub_fakeSelfHostedSub',
+                customer_id: 'cus_fakeCustomerId',
+                product_id: 'prod_fakeStarter',
+                start_at: 0,
+                end_at: 0,
+                create_at: 0,
+                seats: 100,
+                trial_end_at: 0,
+                is_free_trial: 'false',
+            };
+
+            setTimeout(() => {
+                resolve(subscription);
+            }, 100);
+        });
     }
 
     getSubscription = () => {
