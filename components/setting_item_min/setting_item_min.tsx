@@ -34,13 +34,14 @@ interface Props {
     describe?: JSX.Element | JSX.Element[] | string;
 
     isMobileView: boolean;
+
+    focused?: boolean;
 }
 
 export default class SettingItemMin extends React.PureComponent<Props> {
     private edit: HTMLButtonElement | null = null;
-
     componentDidMount() {
-        if (this.edit) {
+        if (this.edit && this.props.focused) {
             this.edit.focus();
         }
     }

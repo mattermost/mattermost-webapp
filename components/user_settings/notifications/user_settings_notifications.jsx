@@ -1002,6 +1002,7 @@ export default class NotificationsTab extends React.PureComponent {
                         active={this.props.activeSection === 'desktop'}
                         selectedSound={this.state.desktopNotificationSound}
                         isCollapsedThreadsEnabled={this.props.isCollapsedThreadsEnabled}
+                        focused={true}
                     />
                     <div className='divider-light'/>
                     <EmailNotificationSetting

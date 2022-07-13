@@ -952,6 +952,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                     describe={describe}
                     section={'name'}
                     updateSection={this.updateSection}
+                    focused={true}
                 />
             );
         }
