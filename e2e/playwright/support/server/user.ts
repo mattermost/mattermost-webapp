@@ -2,9 +2,9 @@
 // See LICENSE.txt for license information.
 
 import {UserProfile} from '@mattermost/types/lib/users';
-import testConfig from '../../test.config';
 
-import {getRandomId} from '../utils';
+import {getRandomId} from '@support/utils';
+import testConfig from '@test.config';
 
 export function createRandomUser(prefix = 'user') {
     const randomId = getRandomId();
