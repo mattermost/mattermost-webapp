@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/sidebar/show_three_days_left_trial_modal should match snapshot 1`] = `""`;

@@ -132,6 +132,7 @@ export const Preferences = {
     ONE_CLICK_REACTIONS_ENABLED_DEFAULT: 'true',
     CLOUD_TRIAL_END_BANNER: 'cloud_trial_end_banner',
     CLOUD_USER_EPHEMERAL_INFO: 'cloud_user_ephemeral_info',
+    THREE_DAYS_LEFT_TRIAL_MODAL: 'three_days_left_trial_modal',
 
     // For one off things that have a special, attention-grabbing UI until you interact with them
     TOUCHED: 'touched',
@@ -395,6 +396,7 @@ export const ModalIdentifiers = {
     UPLOAD_LICENSE: 'upload_license',
     INSIGHTS: 'insights',
     CLOUD_LIMITS: 'cloud_limits',
+    THREE_DAYS_LEFT_TRIAL_MODAL: 'three_days_left_trial_modal',
     REQUEST_BUSINESS_EMAIL_MODAL: 'request_business_email_modal',
     FEATURE_RESTRICTED_MODAL: 'feature_restricted_modal',
     CLOUD_SUBSCRIBE_WITH_LOADING_MODAL: 'cloud_subscribe_with_loading_modal',
@@ -608,6 +610,7 @@ export const CloudBanners = {
     HIDE: 'hide',
     TRIAL: 'trial',
     UPGRADE_FROM_TRIAL: 'upgrade_from_trial',
+    THREE_DAYS_LEFT_TRIAL_MODAL: 'three_days_left_trial_modal',
 };
 
 export const AdvancedTextEditor = {
@@ -624,6 +627,7 @@ export const TELEMETRY_CATEGORIES = {
     SELF_HOSTED_START_TRIAL_AUTO_MODAL: 'self_hosted_start_trial_auto_modal',
     SELF_HOSTED_START_TRIAL_MODAL: 'self_hosted_start_trial_modal',
     CLOUD_START_TRIAL_BUTTON: 'cloud_start_trial_button',
+    CLOUD_THREE_DAYS_LEFT_MODAL: 'cloud_three_days_left_modal',
     SELF_HOSTED_START_TRIAL_TASK_LIST: 'self_hosted_start_trial_task_list',
     WORKSPACE_OPTIMIZATION_DASHBOARD: 'workspace_optimization_dashboard',
     REQUEST_BUSINESS_EMAIL: 'request_business_email',
