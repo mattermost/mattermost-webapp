@@ -3,7 +3,7 @@
 
 import React, {useCallback} from 'react';
 
-import {useHistory} from 'react-router-dom';
+import {matchPath, useHistory} from 'react-router-dom';
 
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -18,25 +18,26 @@ export type Props = {
     link: string;
 };
 
-const getTeamAndPostIdFromLink = (link: string) => {
-    const match = (/\/([^/]+)\/pl\/(\w+)/).exec(link);
+type LinkParams = {
+    postId: string;
+    teamName: string;
+}
 
-    return {
-        teamName: match![1],
-        postId: match![2],
-    };
+const getTeamAndPostIdFromLink = (link: string) => {
+    const match = matchPath<LinkParams>(link, {path: '/:teamName/pl/:postId'});
+    return match!.params;
 };
 
 const PostAttachmentContainer = (props: Props) => {
     const {children, className, link} = props;
     const history = useHistory();
 
-    const match = getTeamAndPostIdFromLink(link);
+    const params = getTeamAndPostIdFromLink(link);
 
     const dispatch = useDispatch();
 
     const userId = useSelector(getCurrentUserId);
-    const shouldFocusPostWithoutRedirect = useSelector((state: GlobalState) => isTeamSameWithCurrentTeam(state, match.teamName));
+    const shouldFocusPostWithoutRedirect = useSelector((state: GlobalState) => isTeamSameWithCurrentTeam(state, params.teamName));
 
     const handleOnClick = useCallback((e) => {
         const {tagName} = e.target;
@@ -46,15 +47,15 @@ const PostAttachmentContainer = (props: Props) => {
         if (!elements.includes(tagName) && (e.target.getAttribute('role') !== 'button' && e.target.className !== `attachment attachment--${className}`)) {
             const classNames = ['icon icon-menu-down', 'icon icon-menu-right', 'post-image', 'file-icon'];
 
-            if (match && shouldFocusPostWithoutRedirect) {
-                dispatch(focusPost(match.postId, link, userId, {skipRedirectReplyPermalink: true}));
+            if (params && shouldFocusPostWithoutRedirect) {
+                dispatch(focusPost(params.postId, link, userId, {skipRedirectReplyPermalink: true}));
                 return;
             }
             if (!classNames.some((className) => e.target.className.includes(className)) && e.target.id !== 'image-name-text') {
                 history.push(link);
             }
         }
-    }, [className, dispatch, history, link, match, shouldFocusPostWithoutRedirect, userId]);
+    }, [className, dispatch, history, link, params, shouldFocusPostWithoutRedirect, userId]);
     return (
         <div
             className={`attachment attachment--${className}`}
