@@ -131,6 +131,7 @@ export const Preferences = {
     ONE_CLICK_REACTIONS_ENABLED: 'one_click_reactions_enabled',
     ONE_CLICK_REACTIONS_ENABLED_DEFAULT: 'true',
     CLOUD_TRIAL_END_BANNER: 'cloud_trial_end_banner',
+    CLOUD_USER_EPHEMERAL_INFO: 'cloud_user_ephemeral_info',
 
     // For one off things that have a special, attention-grabbing UI until you interact with them
     TOUCHED: 'touched',
