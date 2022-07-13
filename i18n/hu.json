@@ -3513,8 +3513,6 @@
   "help.messaging.write": "**Üzenetek írása:** Üzenet íráshoz használja a Mattermost alján található szövegbeviteli mezőt. Küldéshez nyomja meg az **ENTER** gombot. A **SHIFT+ENTER** billentyű kombinációval új sort szúrhat be az üzenet elküldése nélkül.",
   "inProduct_notices.adminOnlyMessage": "Csak az adminisztrátorok számára látható",
   "input.clear": "Törlés",
-  "insights..topBoards.board": "",
-  "insights..topBoards.participants": "",
   "insights.filter.ariaLabel": "Áttekintések szűrés menü",
   "insights.filter.myInsights": "Áttekintéseim",
   "insights.filter.teamInsights": "Csapat áttekintés",

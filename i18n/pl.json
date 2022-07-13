@@ -3511,8 +3511,6 @@
   "help.messaging.write": "**Pisz Wiadomości:** Użyj pola tekstowego na dole interfejsu Mattermost aby napisać wiadomość. Naciśnij klawisz **ENTER** aby wysłać wiadomość. Użyj **SHIFT+ENTER** aby utworzyć nową linie bez wysyłania wiadomości.",
   "inProduct_notices.adminOnlyMessage": "Widoczne tylko dla Administratorów",
   "input.clear": "Wyczyść",
-  "insights..topBoards.board": "",
-  "insights..topBoards.participants": "",
   "insights.filter.ariaLabel": "Menu filtrów Informacji",
   "insights.filter.myInsights": "Moje informacje",
   "insights.filter.teamInsights": "Informacje Zespołu",
