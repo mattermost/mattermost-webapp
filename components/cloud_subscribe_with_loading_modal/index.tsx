@@ -87,11 +87,6 @@ function CloudSubscribeWithLoad(props: Props) {
     };
 
     const updateProgress = () => {
-        if (progress >= MAX_FAKE_PROGRESS) {
-            clearInterval(intervalId.current);
-            return;
-        }
-
         setProgress((progress) => {
             if (progress >= MAX_FAKE_PROGRESS) {
                 clearInterval(intervalId.current);
@@ -140,7 +135,7 @@ function CloudSubscribeWithLoad(props: Props) {
         const formattedSubtitle = (
             <FormattedMessage
                 id='success_modal.subtitle'
-                defaultMessage='Your final bill will be prorated. Your workspace now has {productName} limits'
+                defaultMessage='Your final bill will be prorated. Your workspace now has {plan} limits.'
                 values={{productName}}
             />
         );
