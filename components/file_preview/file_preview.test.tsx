@@ -26,6 +26,7 @@ describe('FilePreview', () => {
             size: 100,
             mime_type: '',
             clientId: '',
+            archived: false,
         },
     ];
     const uploadsInProgress = ['clientID_1'];
@@ -46,6 +47,7 @@ describe('FilePreview', () => {
             size: 100,
             mime_type: '',
             clientId: '',
+            archived: false,
         },
     };
 

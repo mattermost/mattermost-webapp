@@ -310,6 +310,7 @@ export class TestHelper {
             width: 350,
             height: 200,
             clientId: 'client_id',
+            archived: false,
         };
         return Object.assign({}, defaultFileInfo, override);
     }

@@ -31,6 +31,7 @@ describe('FileAttachment', () => {
         delete_at: 0,
         mime_type: '',
         clientId: '',
+        archived: false,
     };
 
     const baseProps = {
