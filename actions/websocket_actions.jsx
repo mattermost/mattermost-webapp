@@ -916,22 +916,15 @@ function handleDeleteTeamEvent(msg) {
             {type: TeamTypes.UPDATED_TEAM, data: deletedTeam},
         ]));
 
-        if (browserHistory.location?.pathname === `/admin_console/user_management/teams/${deletedTeam.id}`) {
-            return;
-        }
-
-        // If a deletion just happened and it's attempting to redirect back to the teams list, let it.
-        if (browserHistory.location?.pathname === '/admin_console/user_management/teams') {
-            return;
-        }
-
-        if (newTeamId) {
-            dispatch({type: TeamTypes.SELECT_TEAM, data: newTeamId});
-            const globalState = getState();
-            const redirectChannel = getRedirectChannelNameForTeam(globalState, newTeamId);
-            browserHistory.push(`${getCurrentTeamUrl(globalState)}/channels/${redirectChannel}`);
-        } else {
-            browserHistory.push('/');
+        if (currentTeamId === deletedTeam.id) {
+            if (newTeamId) {
+                dispatch({type: TeamTypes.SELECT_TEAM, data: newTeamId});
+                const globalState = getState();
+                const redirectChannel = getRedirectChannelNameForTeam(globalState, newTeamId);
+                browserHistory.push(`${getCurrentTeamUrl(globalState)}/channels/${redirectChannel}`);
+            } else {
+                browserHistory.push('/');
+            }
         }
     }
 }
