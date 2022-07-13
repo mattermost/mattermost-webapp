@@ -33,9 +33,6 @@ describe('Incoming webhook', () => {
             cy.apiCreateWebhook(newIncomingHook).then((hook) => {
                 incomingWebhook = hook;
             });
-
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
-            cy.postMessage('Webhook Created');
         });
     });
 
@@ -52,16 +49,14 @@ describe('Incoming webhook', () => {
         cy.url().should('include', `${testTeam.name}/integrations/incoming_webhooks`);
         cy.findByText('Edit').click();
 
-        // # Enter webhook details such as title, description and channel, then save
+        // # Change the channel from Off Topic to another channel that you have access to, then click "Update"
         cy.get('.backstage-form').should('be.visible').within(() => {
             cy.get('#channelSelect').select('Town Square');
-            cy.findByText('Update').scrollIntoView().click();
+            cy.findByRole('button',{name: 'Update'}).scrollIntoView().click();
         });
 
-        // # Click back to site name and verify that it redirects to test team/channel
-        cy.findByText(`Back to ${siteName}`).click();
-        cy.url().should('include', `${testTeam.name}/channels/town-square`);
-        cy.postMessage('Webhook Edited');
+        // # Redirect to test team/channel
+        cy.visit(`${testTeam.name}/channels/town-square`);
 
         // # Post an incoming webhook and verify that it is posted in the channel
         const payload = {
@@ -72,7 +67,7 @@ describe('Incoming webhook', () => {
         cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
 
         cy.getLastPost().within(() => {
-            cy.get('.attachment__title-link').should('have.text', 'Testing Integration Attachments');
+            cy.findByRole('link', { name: 'Testing Integration Attachments', hidden: true});
             cy.get('.attachment__image').should('be.visible');
             cy.get(':nth-child(2) > thead > tr > .attachment-field__caption').should('have.text', 'Area');
             cy.get(':nth-child(3) > thead > tr > :nth-child(1)').should('have.text', 'Iteration');
