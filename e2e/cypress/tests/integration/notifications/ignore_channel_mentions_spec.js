@@ -97,7 +97,7 @@ function addNumberOfUsersToChannel(num = 1) {
     // * Assert that modal appears
     // # Click the first row for a number of times
     Cypress._.times(num, () => {
-        cy.get('#selectItems input').type('u');
+        cy.get('#selectItems input').typeWithForce('u');
         cy.get('#multiSelectList').should('be.visible').children().first().click();
     });
 

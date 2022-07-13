@@ -69,11 +69,12 @@ Cypress.Commands.add('goToDm', (username) => {
     cy.uiAddDirectMessage().click({force: true});
 
     // # Start typing part of a username that matches previously created users
-    cy.get('#selectItems input').type(username, {force: true});
+    cy.get('#selectItems input').typeWithForce(username);
     cy.findByRole('dialog', {name: 'Direct Messages'}).should('be.visible').wait(TIMEOUTS.ONE_SEC);
-    cy.findByRole('textbox', {name: 'Search for people'}).click({force: true}).
-        type(username).wait(TIMEOUTS.ONE_SEC).
-        type('{enter}');
+    cy.findByRole('textbox', {name: 'Search for people'}).
+        typeWithForce(username).
+        wait(TIMEOUTS.ONE_SEC).
+        typeWithForce('{enter}');
 
     // # Save the selected item
     return cy.get('#saveItems').click().wait(TIMEOUTS.HALF_SEC);
