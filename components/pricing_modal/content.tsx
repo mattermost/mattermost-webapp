@@ -28,10 +28,10 @@ import StarMarkSvg from 'components/widgets/icons/star_mark_icon';
 import CheckMarkSvg from 'components/widgets/icons/check_mark_icon';
 import PlanLabel from 'components/common/plan_label';
 import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
+import NotifyAdminCTA from 'components/notify_admin_cta/notify_admin_cta';
 
 import DowngradeTeamRemovalModal from './downgrade_team_removal_modal';
 import ContactSalesCTA from './contact_sales_cta';
-import NotifyAdminCTA from './notify_admin_cta';
 import StarterDisclaimerCTA from './starter_disclaimer_cta';
 
 import LadySvg from './lady.svg';
