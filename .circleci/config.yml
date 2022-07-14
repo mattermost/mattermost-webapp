@@ -30,15 +30,6 @@ jobs:
       - run: |
           npm ci
       - *save_cache
-  build-packages:
-    executor:
-      name: default
-    working_directory: ~/mattermost/mattermost-webapp
-    steps:
-      - checkout
-      - *restore_cache
-      - run: |
-          npm run build --workspace=packages/components
   check-deps:
     parameters:
       cve_data_directory:
@@ -105,6 +96,7 @@ jobs:
       - checkout
       - *restore_cache
       - run: |
+          npm run build --workspace=packages/components
           npm run check
 
   i18n-check:
@@ -135,6 +127,7 @@ jobs:
       - checkout
       - *restore_cache
       - run: |
+          npm run build --workspace=packages/components
           npm run check-types
 
   test:
@@ -241,25 +234,18 @@ workflows:
       #     context: sast-webhook
       #     requires:
       #       - install
-      - build-packages:
-          requires:
-            - install
       - lint:
           requires:
             - install
-            - build-packages
       - i18n-check:
           requires:
             - install
-            - build-packages
       - type-check:
           requires:
             - install
-            - build-packages
       - build:
           requires:
             - install
-            - build-packages
       - upload-s3:
           context: mattermost-ci-pr-builds-s3
           requires:
