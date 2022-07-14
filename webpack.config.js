@@ -236,7 +236,6 @@ var config = {
             path.resolve(__dirname),
         ],
         alias: {
-            react: path.resolve('./node_modules/react'),
             '@mattermost/client': 'packages/client/src',
             '@mattermost/types': 'packages/types/src',
             'mattermost-redux/test': 'packages/mattermost-redux/test',
