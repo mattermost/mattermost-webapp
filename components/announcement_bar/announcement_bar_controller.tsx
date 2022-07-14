@@ -15,6 +15,7 @@ import PaymentAnnouncementBar from './payment_announcement_bar';
 import CloudTrialAnnouncementBar from './cloud_trial_announcement_bar';
 import CloudTrialEndAnnouncementBar from './cloud_trial_ended_announcement_bar';
 import AutoStartTrialModal from './show_start_trial_modal/show_start_trial_modal';
+import CloudDelinquencyAnnouncementBar from './cloud_delinquency';
 
 type Props = {
     license?: ClientLicense;
@@ -63,6 +64,7 @@ class AnnouncementBarController extends React.PureComponent<Props> {
         let paymentAnnouncementBar = null;
         let cloudTrialAnnouncementBar = null;
         let cloudTrialEndAnnouncementBar = null;
+        let cloudDelinquencyAnnouncementBar = null;
         if (this.props.license?.Cloud === 'true') {
             paymentAnnouncementBar = (
                 <PaymentAnnouncementBar/>
@@ -73,6 +75,9 @@ class AnnouncementBarController extends React.PureComponent<Props> {
             cloudTrialEndAnnouncementBar = (
                 <CloudTrialEndAnnouncementBar/>
             );
+            cloudDelinquencyAnnouncementBar = (
+                <CloudDelinquencyAnnouncementBar/>
+            );
         }
 
         return (
@@ -82,6 +87,7 @@ class AnnouncementBarController extends React.PureComponent<Props> {
                 {paymentAnnouncementBar}
                 {cloudTrialAnnouncementBar}
                 {cloudTrialEndAnnouncementBar}
+                {cloudDelinquencyAnnouncementBar}
                 <AutoStartTrialModal/>
                 <VersionBar/>
                 <ConfigurationAnnouncementBar

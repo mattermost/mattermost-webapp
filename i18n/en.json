@@ -1142,6 +1142,8 @@
   "admin.jobTable.statusPending": "Pending",
   "admin.jobTable.statusSuccess": "Success",
   "admin.jobTable.statusWarning": "Warning",
+  "cloud_delinquency.banner.title": "Update your billing information now to keep using paid features.",
+  "cloud_delinquency.banner.buttonText": "Update billing now",
   "admin.ldap_feature_discovery_cloud.call_to_action.primary": "Upgrade now",
   "admin.ldap_feature_discovery.call_to_action.primary": "Start trial",
   "admin.ldap_feature_discovery.call_to_action.secondary": "Learn more",
