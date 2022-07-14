@@ -4,6 +4,7 @@
 /* eslint-disable max-lines */
 
 import debounce from 'lodash/debounce';
+import {AnyAction} from 'redux';
 import {batchActions} from 'redux-batched-actions';
 
 import {SearchTypes} from 'mattermost-redux/action_types';
@@ -33,6 +34,7 @@ import {getBrowserUtcOffset, getUtcOffsetForTimeZone} from 'utils/timezone';
 import {RhsState} from 'types/store/rhs';
 import {GlobalState} from 'types/store';
 import {getPostsByIds} from 'mattermost-redux/actions/posts';
+import {getEditingPost, getIsPostBeingEditedInRHS} from '../../selectors/posts';
 import {unsetEditingPost} from '../post_actions';
 import {getChannel} from 'mattermost-redux/actions/channels';
 
@@ -429,8 +431,12 @@ export function showChannelInfo(channelId: string) {
 }
 
 export function closeRightHandSide() {
-    return (dispatch: DispatchFunc) => {
-        dispatch(batchActions([
+    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState() as GlobalState;
+        const editingPost = getEditingPost(state);
+        const isPostBeingEditedInRHS = getIsPostBeingEditedInRHS(state, editingPost?.postId);
+
+        const actionsBatch: AnyAction[] = [
             {
                 type: ActionTypes.UPDATE_RHS_STATE,
                 state: null,
@@ -441,8 +447,13 @@ export function closeRightHandSide() {
                 channelId: '',
                 timestamp: 0,
             },
-            unsetEditingPost(),
-        ]));
+        ];
+
+        if (isPostBeingEditedInRHS) {
+            actionsBatch.push(unsetEditingPost());
+        }
+
+        dispatch(batchActions(actionsBatch));
         return {data: true};
     };
 }
