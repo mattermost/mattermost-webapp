@@ -174,7 +174,6 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
     test('should invite to start trial when the subscription is not paid and have not had trial before', () => {
         const state = {
             entities: {
-                users,
                 general: {
                     license: {
                         IsLicensed: 'true',
@@ -196,10 +195,17 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
                     limits,
                 },
                 usage,
+                users: {
+                    currentUserId: 'current_user_id',
+                    profiles: {
+                        current_user_id: {roles: 'system_admin'},
+                    },
+                },
             },
         };
         const store = mockStore(state);
         const wrapper = mountWithIntl(<Provider store={store}><MenuCloudTrial id='menuCloudTrial'/></Provider>);
+        console.log(wrapper.debug());
         expect(wrapper.find('.open-learn-more-trial-modal').exists()).toEqual(true);
     });
 
@@ -234,13 +240,12 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
         const wrapper = mountWithIntl(<Provider store={store}><MenuCloudTrial id='menuCloudTrial'/></Provider>);
         const openModalLink = wrapper.find('.open-trial-benefits-modal');
         expect(openModalLink.exists()).toEqual(true);
-        expect(openModalLink.find('span').text()).toBe('Review our Enterprise Features');
+        expect(openModalLink.text()).toBe('Learn more');
     });
 
     test('should show the invitation to see plans when is not in Trial and has had previous Trial', () => {
         const state = {
             entities: {
-                users,
                 general: {
                     license: {
                         IsLicensed: 'true',
@@ -262,13 +267,96 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
                     limits,
                 },
                 usage,
+                users: {
+                    currentUserId: 'current_user_id',
+                    profiles: {
+                        current_user_id: {roles: 'system_admin'},
+                    },
+                },
             },
         };
         const store = mockStore(state);
         const wrapper = mountWithIntl(<Provider store={store}><MenuCloudTrial id='menuCloudTrial'/></Provider>);
         const openModalLink = wrapper.find('.open-see-plans-modal');
         expect(openModalLink.exists()).toEqual(true);
-        expect(openModalLink.find('span').text()).toBe('See plans');
+        expect(openModalLink.text()).toEqual('See plans');
+    });
+
+    test('should show the invitation to open the trial benefits modal when is End User and is in TRIAL', () => {
+        const state = {
+            entities: {
+                general: {
+                    license: {
+                        IsLicensed: 'true',
+                        Cloud: 'true',
+                    },
+                },
+                cloud: {
+                    subscription: {
+                        is_free_trial: 'true',
+                        trial_end_at: 0,
+                        product_id: 'prod_starter',
+                    },
+                    products: {
+                        prod_starter: {
+                            id: 'prod_starter',
+                            sku: CloudProducts.STARTER,
+                        },
+                    },
+                    limits,
+                },
+                usage,
+                users: {
+                    currentUserId: 'current_user_id',
+                    profiles: {
+                        current_user_id: {roles: 'system_user'},
+                    },
+                },
+            },
+        };
+        const store = mockStore(state);
+        const wrapper = mountWithIntl(<Provider store={store}><MenuCloudTrial id='menuCloudTrial'/></Provider>);
+        const openModalLink = wrapper.find('.open-trial-benefits-modal');
+        expect(openModalLink.exists()).toEqual(true);
+        expect(openModalLink.text()).toEqual('Learn more');
+    });
+
+    test('should NOT show the menu cloud trial when is End User and is NOT in TRIAL', () => {
+        const state = {
+            entities: {
+                general: {
+                    license: {
+                        IsLicensed: 'true',
+                        Cloud: 'true',
+                    },
+                },
+                cloud: {
+                    subscription: {
+                        is_free_trial: 'false',
+                        trial_end_at: 12345,
+                        product_id: 'prod_starter',
+                    },
+                    products: {
+                        prod_starter: {
+                            id: 'prod_starter',
+                            sku: CloudProducts.STARTER,
+                        },
+                    },
+                    limits,
+                },
+                usage,
+                users: {
+                    currentUserId: 'current_user_id',
+                    profiles: {
+                        current_user_id: {roles: 'system_user'},
+                    },
+                },
+            },
+        };
+        const store = mockStore(state);
+        const wrapper = mountWithIntl(<Provider store={store}><MenuCloudTrial id='menuCloudTrial'/></Provider>);
+        const openModalLink = wrapper.find('.open-trial-benefits-modal');
+        expect(openModalLink.exists()).toEqual(false);
     });
 
     test('should return null if some limit needs attention', () => {

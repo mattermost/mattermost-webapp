@@ -5,18 +5,14 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 Cypress.Commands.add('uiEnableComplianceExport', (exportFormat = 'csv') => {
     // # Enable compliance export
+    cy.findByRole('radio', {name: /false/i}).click();
     cy.findByRole('radio', {name: /true/i}).click();
 
     // # Change export format
     cy.findByRole('combobox', {name: /export format:/i}).select(exportFormat);
 
     // # Save settings
-    cy.findByRole('button', {name: /save/i}).as('saveButton');
-    cy.get('@saveButton').click();
-
-    cy.waitUntil(() => cy.get('@saveButton').then((el) => {
-        return el[0].innerText === 'Save';
-    }));
+    cy.uiSaveConfig({confirm: true});
 });
 
 Cypress.Commands.add('uiGoToCompliancePage', () => {
