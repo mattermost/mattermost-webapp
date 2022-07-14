@@ -36,6 +36,7 @@ jobs:
     working_directory: ~/mattermost/mattermost-webapp
     steps:
       - checkout
+      - *restore_cache
       - run: |
           npm run build --workspace=packages/components
   check-deps:
