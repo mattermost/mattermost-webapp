@@ -10,9 +10,8 @@ import {renderWithIntl} from 'tests/react_testing_utils';
 import testConfigureStore from 'tests/test_store';
 import {adminUsersState, endUsersState} from 'tests/constants/users';
 import {emptyLimits} from 'tests/constants/cloud';
-import {emptyPost} from 'tests/constants/posts';
+import {TestHelper} from 'utils/test_helper';
 import {emptyTeams} from 'tests/constants/teams';
-import {cloudLicense} from 'tests/constants/license';
 
 import CenterMessageLock from './';
 
@@ -33,7 +32,7 @@ const initialState = {
             limits: {...emptyLimits(), limitsLoaded: false},
         },
         general: {
-            license: cloudLicense(),
+            license: TestHelper.getCloudLicenseMock(),
         },
         teams: emptyTeams(),
         posts: {
@@ -46,9 +45,9 @@ const initialState = {
                 ],
             },
             posts: {
-                a: {...emptyPost(), id: 'a', created_at: 3},
-                b: {...emptyPost(), id: 'b', created_at: 2},
-                c: {...emptyPost(), id: 'c', created_at: 1},
+                a: TestHelper.getPostMock({id: 'a', create_at: 3}),
+                b: TestHelper.getPostMock({id: 'b', create_at: 2}),
+                c: TestHelper.getPostMock({id: 'c', create_at: 1}),
             },
         },
     },

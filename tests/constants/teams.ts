@@ -1,28 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {Team, TeamsState} from '@mattermost/types/teams';
-export const emptyTeam: () => Team = () => ({
-    id: '',
-    create_at: 0,
-    update_at: 0,
-    delete_at: 0,
-    display_name: '',
-    name: '',
-    description: '',
-    email: '',
-    type: 'O',
-    company_name: '',
-    allowed_domains: '',
-    invite_id: '',
-    allow_open_invite: false,
-    scheme_id: '',
-    group_constrained: false,
-});
+import {TeamsState} from '@mattermost/types/teams';
+import {TestHelper} from 'utils/test_helper';
 
 export const emptyTeams: () => TeamsState = () => ({
     currentTeamId: 'current_team_id',
     teams: {
-        current_team_id: emptyTeam(),
+        current_team_id: TestHelper.getTeamMock({id: 'current_team_id'}),
     },
     myMembers: {},
     membersInTeam: {},
