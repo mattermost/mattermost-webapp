@@ -137,6 +137,7 @@ const StartTrialBtn = ({
         <button
             className={btnClass}
             onClick={startTrial}
+            disabled={disabled}
         >
             {btnText(status)}
         </button>
