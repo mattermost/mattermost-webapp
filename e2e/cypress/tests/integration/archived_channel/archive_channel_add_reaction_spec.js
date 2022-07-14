@@ -29,9 +29,6 @@ describe('Archived channels', () => {
     it('MM-T1720 Cannot add reactions to existing reactions', () => {
         const messageText = 'Test add reaction in archive channels';
 
-        // * Post text box should be visible
-        cy.get('#post_textbox').should('be.visible');
-
         // # Post a message in the channel
         cy.postMessage(messageText);
 

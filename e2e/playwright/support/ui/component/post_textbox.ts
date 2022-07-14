@@ -3,7 +3,7 @@
 
 import {expect, Locator, Page} from '@playwright/test';
 
-export class PostTextbox {
+export default class PostTextbox {
     readonly page: Page;
     readonly input: Locator;
     readonly attachment: Locator;
