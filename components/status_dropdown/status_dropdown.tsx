@@ -441,7 +441,7 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
                                 <Text
                                     margin={'none'}
                                     className={!currentUser.first_name && !currentUser.last_name ? 'bold' : ''}
-                                    color={!currentUser.first_name && !currentUser.last_name ? 'secondary' : 'disabled'}
+                                    color={!currentUser.first_name && !currentUser.last_name ? undefined : 'disabled'}
                                 >
                                     {'@' + currentUser.username}
                                 </Text>

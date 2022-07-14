@@ -209,6 +209,10 @@ button.custom_status__row {
         height: 50px;
         padding: 0 16px;
         cursor: pointer;
+
+        &:hover {
+            background-color: rgba(var(--center-channel-color-rgb), 0.1);
+        }
     }
 
     .MenuItem > button,

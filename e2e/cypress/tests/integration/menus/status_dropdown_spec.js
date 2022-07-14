@@ -90,6 +90,17 @@ describe('Status dropdown menu', () => {
             cy.get('body').find('#dndSubMenu-header_menuitem').should('be.visible');
         });
     });
+
+    it('MM-T4914 Profile menu header is clickable, opens Profile settings', () => {
+        // # Open user menu
+        cy.uiOpenUserMenu().within(() => {
+            // * Verify menu header is clickable
+            cy.get('.MenuHeader').should('have.css', 'cursor', 'pointer').click();
+
+            // * Verify click on header opens Profile settings modal
+            cy.get('#accountSettingsModal').should('exist');
+        });
+    });
 });
 
 function stepThroughStatuses(statusTestCases = []) {
