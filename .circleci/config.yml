@@ -29,9 +29,15 @@ jobs:
       - checkout
       - run: |
           npm ci
-          npm run build --workspace=packages/components
       - *save_cache
-
+  build-packages:
+    executor:
+      name: default
+    working_directory: ~/mattermost/mattermost-webapp
+    steps:
+      - checkout
+      - run: |
+          npm run build --workspace=packages/components
   check-deps:
     parameters:
       cve_data_directory:
@@ -237,15 +243,19 @@ workflows:
       - lint:
           requires:
             - install
+            - build-packages
       - i18n-check:
           requires:
             - install
+            - build-packages
       - type-check:
           requires:
             - install
+            - build-packages
       - build:
           requires:
             - install
+            - build-packages
       - upload-s3:
           context: mattermost-ci-pr-builds-s3
           requires:
