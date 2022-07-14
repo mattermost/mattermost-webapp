@@ -93,20 +93,18 @@ describe('Verify Accessibility Support in different sections in Settings and Pro
 
     it('MM-T1465_1 Verify Label & Tab behavior in section links', () => {
         // * Verify aria-label and tab support in section of Account settings modal
-        cy.uiOpenProfileModal().then(() => {
-            cy.findByRole('button', {name: 'profile settings'}).focus();
-            cy.focused().should('have.attr', 'aria-label', 'profile settings').tab();
-            cy.focused().should('have.attr', 'aria-label', 'security').tab();
-            cy.uiClose();
+        cy.uiOpenProfileModal();
+        cy.findByRole('button', {name: 'profile settings'}).should('be.visible').focus().should('be.focused');
+        ['profile settings', 'security'].forEach((text) => {
+            cy.focused().should('have.attr', 'aria-label', text).tab();
         });
+        cy.uiClose();
 
         // * Verify aria-label and tab support in section of Settings modal
-        cy.uiOpenSettingsModal().then(() => {
-            cy.findByRole('button', {name: 'notifications'}).focus();
-            cy.focused().should('have.attr', 'aria-label', 'notifications').tab();
-            cy.focused().should('have.attr', 'aria-label', 'display').tab();
-            cy.focused().should('have.attr', 'aria-label', 'sidebar').tab();
-            cy.focused().should('have.attr', 'aria-label', 'advanced').tab();
+        cy.uiOpenSettingsModal();
+        cy.findByRole('button', {name: 'notifications'}).should('be.visible').focus().should('be.focused');
+        ['notifications', 'display', 'sidebar', 'advanced'].forEach((text) => {
+            cy.focused().should('have.attr', 'aria-label', text).tab();
         });
     });
 
@@ -191,28 +189,28 @@ describe('Verify Accessibility Support in different sections in Settings and Pro
         cy.get('#changeInterfaceLanguageLabel').should('be.visible').and('have.text', 'Change interface language');
 
         // # When enter key is pressed on dropdown, it should expand and collapse
-        cy.get('@inputEl').type('{enter}');
+        cy.get('@inputEl').typeWithForce('{enter}');
         cy.get('#displayLanguage>div').should('have.class', 'react-select__control--menu-is-open');
-        cy.get('@inputEl').type('{enter}');
+        cy.get('@inputEl').typeWithForce('{enter}');
         cy.get('#displayLanguage>div').should('not.have.class', 'react-select__control--menu-is-open');
 
         // # Press down arrow twice and check aria label
-        cy.get('@inputEl').type('{enter}');
-        cy.get('@inputEl').type('{downarrow}{downarrow}');
+        cy.get('@inputEl').typeWithForce('{enter}');
+        cy.get('@inputEl').typeWithForce('{downarrow}{downarrow}');
         cy.get('#displayLanguage>span').as('ariaEl').within(($el) => {
             cy.wrap($el).should('have.attr', 'aria-live', 'assertive');
             cy.get('#aria-context').should('contain', 'option English (Australia) focused').and('contain', 'Use Up and Down to choose options, press Enter to select the currently focused option, press Escape to exit the menu, press Tab to select the option and exit the menu.');
         });
 
         // # Check if language setting gets changed after user presses enter
-        cy.get('@inputEl').type('{enter}');
+        cy.get('@inputEl').typeWithForce('{enter}');
         cy.get('#displayLanguage').should('contain', 'English (Australia)');
         cy.get('@ariaEl').get('#aria-selection-event').should('contain', 'option English (Australia), selected');
 
         // # Press down arrow, then up arrow and press enter
-        cy.get('@inputEl').type('{downarrow}{downarrow}{downarrow}{uparrow}');
+        cy.get('@inputEl').typeWithForce('{downarrow}{downarrow}{downarrow}{uparrow}');
         cy.get('@ariaEl').get('#aria-context').should('contain', 'option English (US) focused');
-        cy.get('@inputEl').type('{enter}');
+        cy.get('@inputEl').typeWithForce('{enter}');
         cy.get('#displayLanguage').should('contain', 'English (US)');
         cy.get('@ariaEl').get('#aria-selection-event').should('contain', 'option English (US), selected');
     });

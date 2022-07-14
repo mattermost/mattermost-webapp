@@ -243,8 +243,9 @@ Cypress.Commands.add('uiGotoDirectMessageWithUser', (user) => {
     cy.findByRole('dialog', {name: 'Direct Messages'}).should('be.visible').wait(TIMEOUTS.ONE_SEC);
 
     // # Type username
-    cy.findByRole('textbox', {name: 'Search for people'}).click({force: true}).
-        type(user.username).wait(TIMEOUTS.ONE_SEC);
+    cy.findByRole('textbox', {name: 'Search for people'}).
+        typeWithForce(user.username).
+        wait(TIMEOUTS.ONE_SEC);
 
     // * Expect user count in the list to be 1
     cy.get('#multiSelectList').
@@ -288,7 +289,7 @@ Cypress.Commands.add('sendDirectMessageToUsers', (users, message) => {
 
     users.forEach((user) => {
         // # Type username
-        cy.get('#selectItems input').should('be.enabled').type(`@${user.username}`, {force: true});
+        cy.get('#selectItems input').should('be.enabled').typeWithForce(`@${user.username}`);
 
         // * Expect user count in the list to be 1
         cy.get('#multiSelectList').
