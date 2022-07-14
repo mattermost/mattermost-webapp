@@ -30,7 +30,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
 
     const props: Pick<
     PostListRowProps,
-    'shortcutReactToLastPostEmittedFrom' | 'usage' | 'limits' | 'limitsLoaded' | 'exceededLimitChannelId'
+    'shortcutReactToLastPostEmittedFrom' | 'usage' | 'limits' | 'limitsLoaded' | 'exceededLimitChannelId' | 'firstInaccessiblePostTime'
     > = {
         shortcutReactToLastPostEmittedFrom,
         usage,
@@ -39,9 +39,11 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     };
     if ((ownProps.listId === PostListRowListIds.OLDER_MESSAGES_LOADER || ownProps.listId === PostListRowListIds.CHANNEL_INTRO_MESSAGE) && limitsLoaded) {
         const currentChannelId = getCurrentChannelId(state);
-        const channelLimitExceeded = Boolean(getLimitedViews(state).channels[currentChannelId]);
+        const firstInaccessiblePostTime = getLimitedViews(state).channels[currentChannelId];
+        const channelLimitExceeded = Boolean(firstInaccessiblePostTime) || firstInaccessiblePostTime === 0;
         if (channelLimitExceeded) {
             props.exceededLimitChannelId = currentChannelId;
+            props.firstInaccessiblePostTime = firstInaccessiblePostTime;
         }
     }
     return props;

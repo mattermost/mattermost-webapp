@@ -125,8 +125,8 @@ export type PostsState = {
     messagesHistory: MessageHistory;
     expandedURLs: Record<string, string>;
     limitedViews: {
-        channels: Record<Channel['id'], true>;
-        threads: Record<Post['root_id'], true>;
+        channels: Record<Channel['id'], number>;
+        threads: Record<Post['root_id'], number>;
     };
 };
 

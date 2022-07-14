@@ -1410,7 +1410,7 @@ export function limitedViews(
                 ...state,
                 channels: {
                     ...state.channels,
-                    [action.channelId]: true,
+                    [action.channelId]: action.data.first_inaccessible_post_time || 0,
                 },
             };
         }
@@ -1422,7 +1422,7 @@ export function limitedViews(
                 ...state,
                 threads: {
                     ...state.threads,
-                    [action.rootId]: true,
+                    [action.rootId]: action.data.first_inaccessible_post_time || 0,
                 },
             };
         }

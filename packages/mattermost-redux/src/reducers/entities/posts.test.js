@@ -4219,6 +4219,7 @@ describe('limitedViews', () => {
                 channelId: 'channelId',
                 data: {
                     has_inaccessible_posts: false,
+                    first_inaccessible_post_time: 123,
                 },
             });
 
@@ -4230,6 +4231,7 @@ describe('limitedViews', () => {
                 type: action,
                 data: {
                     has_inaccessible_posts: true,
+                    first_inaccessible_post_time: 123,
                 },
             });
 
@@ -4242,10 +4244,11 @@ describe('limitedViews', () => {
                 channelId: 'channelId',
                 data: {
                     has_inaccessible_posts: true,
+                    first_inaccessible_post_time: 123,
                 },
             });
 
-            expect(nextState).toEqual({...zeroState, channels: {channelId: true}});
+            expect(nextState).toEqual({...zeroState, channels: {channelId: 123}});
         });
     });
 
@@ -4255,6 +4258,7 @@ describe('limitedViews', () => {
             rootId: 'rootId',
             data: {
                 has_inaccessible_posts: false,
+                first_inaccessible_post_time: 123,
             },
         });
 
@@ -4267,14 +4271,15 @@ describe('limitedViews', () => {
             rootId: 'rootId',
             data: {
                 has_inaccessible_posts: true,
+                first_inaccessible_post_time: 123,
             },
         });
 
-        expect(nextState).toEqual({...zeroState, threads: {rootId: true}});
+        expect(nextState).toEqual({...zeroState, threads: {rootId: 123}});
     });
 
     it(`${CloudTypes.RECEIVED_CLOUD_LIMITS} clears out limited views if there are no longer message limits`, () => {
-        const nextState = reducers.limitedViews({...zeroState, threads: {rootId: true}}, {
+        const nextState = reducers.limitedViews({...zeroState, threads: {rootId: 123}}, {
             type: CloudTypes.RECEIVED_CLOUD_LIMITS,
             data: {
                 limits: {},
@@ -4285,23 +4290,23 @@ describe('limitedViews', () => {
     });
 
     it(`${CloudTypes.RECEIVED_CLOUD_LIMITS} preserves limited views if there are still message limits`, () => {
-        const initialState = {...zeroState, threads: {rootId: true}};
+        const initialState = {...zeroState, threads: {rootId: 123}};
         const nextState = reducers.limitedViews(initialState, {
             type: CloudTypes.RECEIVED_CLOUD_LIMITS,
             data: {
                 limits: {
-                    message: {
+                    messages: {
                         history: 10000,
                     },
                 },
             },
         });
 
-        expect(nextState).toEqual(zeroState);
+        expect(nextState).toEqual(initialState);
     });
 
     forgetChannelActions.forEach((action) => {
-        const initialState = {...zeroState, channels: {channelId: true}};
+        const initialState = {...zeroState, channels: {channelId: 123}};
 
         it(`${action} does nothing if archived channel is still visible`, () => {
             const nextState = reducers.limitedViews(initialState, {
@@ -4345,10 +4350,10 @@ describe('limitedViews', () => {
     it('makes no changes if events type is not listened to', () => {
         const initialState = {
             channels: {
-                channelId: true,
+                channelId: 123,
             },
             threads: {
-                rootId: true,
+                rootId: 124,
             },
         };
         const nextState = reducers.limitedViews(initialState, {

@@ -80,6 +80,20 @@ const exceededLimitsState = {
     },
 };
 
+const exceededLimitsStateNoAccessiblePosts = {
+    ...exceededLimitsState,
+    entities: {
+        ...exceededLimitsState.entities,
+        posts: {
+            postsInChannel: {
+                channelId: [
+                ],
+            },
+            posts: {},
+        },
+    },
+};
+
 const endUserLimitExceeded = {
     ...exceededLimitsState,
     entities: {
@@ -136,6 +150,22 @@ describe('CenterMessageLock', () => {
         renderWithIntl(
             <Provider store={testConfigureStore(state)}>
                 <CenterMessageLock channelId={'channelId'}/>
+            </Provider>,
+        );
+        screen.getByText(expectedDate, {exact: false});
+    });
+
+    it('when there are no messages, uses day after day of most recently archived post', () => {
+        const now = Date.now();
+        const secondOfMonth = new Date(now + (1000 * 60 * 60 * 24));
+        const expectedDate = secondOfMonth.toLocaleString('en', {month: 'long', day: 'numeric'});
+
+        renderWithIntl(
+            <Provider store={testConfigureStore(exceededLimitsStateNoAccessiblePosts)}>
+                <CenterMessageLock
+                    channelId={'channelId'}
+                    firstInaccessiblePostTime={now}
+                />
             </Provider>,
         );
         screen.getByText(expectedDate, {exact: false});

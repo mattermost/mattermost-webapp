@@ -20,10 +20,21 @@ import useGetLimits from 'components/common/hooks/useGetLimits';
 
 import './index.scss';
 
-const ONE_YEAR_MS = 1000 * 1 * 60 * 60 * 24 * 365;
+const ONE_DAY_MS = 1000 * 60 * 60 * 24;
+const ONE_YEAR_MS = ONE_DAY_MS * 365;
 
 interface Props {
     channelId?: string;
+    firstInaccessiblePostTime?: number;
+}
+
+// returns the same time on the next day.
+function getNextDay(timestamp?: number): number {
+    if (!timestamp) {
+        return 0;
+    }
+
+    return timestamp + (ONE_DAY_MS);
 }
 
 export default function CenterMessageLock(props: Props) {
@@ -33,7 +44,12 @@ export default function CenterMessageLock(props: Props) {
     const isAdminUser = isAdmin(useSelector(getCurrentUser).roles);
     const [cloudLimits, limitsLoaded] = useGetLimits();
     const currentTeam = useSelector(getCurrentTeam);
-    const oldestPostTime = useSelector((state: GlobalState) => getOldestPostTimeInChannel(state, props.channelId || ''));
+
+    // firstInaccessiblePostTime is the most recently inaccessible post's created at date.
+    // It is used as a backup for when there are no available posts in the channel;
+    // The message then shows that the user can retrieve messages prior to the day
+    // **after** the most recent day with inaccessible posts.
+    const oldestPostTime = useSelector((state: GlobalState) => getOldestPostTimeInChannel(state, props.channelId || '')) || getNextDay(props.firstInaccessiblePostTime);
 
     if (!limitsLoaded) {
         return null;

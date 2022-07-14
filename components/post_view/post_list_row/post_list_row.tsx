@@ -49,6 +49,7 @@ export type PostListRowProps = {
     limits: Limits;
     limitsLoaded: boolean;
     exceededLimitChannelId?: string;
+    firstInaccessiblePostTime?: number;
 
     actions: {
 
@@ -110,7 +111,10 @@ export default class PostListRow extends React.PureComponent<PostListRowProps> {
 
         if (this.props.exceededLimitChannelId) {
             return (
-                <CenterMessageLock channelId={this.props.exceededLimitChannelId}/>
+                <CenterMessageLock
+                    channelId={this.props.exceededLimitChannelId}
+                    firstInaccessiblePostTime={this.props.firstInaccessiblePostTime}
+                />
             );
         }
 
