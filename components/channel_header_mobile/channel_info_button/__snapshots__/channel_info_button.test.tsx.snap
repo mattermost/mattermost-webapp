@@ -9,7 +9,21 @@ exports[`components/ChannelHeaderMobile/ChannelInfoButton should match snapshot 
   }
   channel={
     Object {
+      "create_at": 0,
+      "creator_id": "id",
+      "delete_at": 0,
+      "display_name": "name",
+      "group_constrained": false,
+      "header": "header",
       "id": "channel_id",
+      "last_post_at": 0,
+      "last_root_post_at": 0,
+      "name": "DN",
+      "purpose": "purpose",
+      "scheme_id": "id",
+      "team_id": "team_id",
+      "type": "O",
+      "update_at": 0,
     }
   }
 >
