@@ -35,7 +35,7 @@ Cypress.Commands.add('uiAddUsersToCurrentChannel', (usernameList) => {
         cy.get('#channelAddMembers').click();
         cy.get('#addUsersToChannelModal').should('be.visible');
         usernameList.forEach((username) => {
-            cy.get('#react-select-2-input').type(`@${username}{enter}`);
+            cy.get('#selectItems input').typeWithForce(`@${username}{enter}`);
         });
         cy.get('#saveItems').click();
         cy.get('#addUsersToChannelModal').should('not.exist');

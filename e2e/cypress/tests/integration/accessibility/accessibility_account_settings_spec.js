@@ -93,20 +93,18 @@ describe('Verify Accessibility Support in different sections in Settings and Pro
 
     it('MM-T1465_1 Verify Label & Tab behavior in section links', () => {
         // * Verify aria-label and tab support in section of Account settings modal
-        cy.uiOpenProfileModal().then(() => {
-            cy.findByRole('button', {name: 'profile settings'}).focus();
-            cy.focused().should('have.attr', 'aria-label', 'profile settings').tab();
-            cy.focused().should('have.attr', 'aria-label', 'security').tab();
-            cy.uiClose();
+        cy.uiOpenProfileModal();
+        cy.findByRole('button', {name: 'profile settings'}).should('be.visible').focus().should('be.focused');
+        ['profile settings', 'security'].forEach((text) => {
+            cy.focused().should('have.attr', 'aria-label', text).tab();
         });
+        cy.uiClose();
 
         // * Verify aria-label and tab support in section of Settings modal
-        cy.uiOpenSettingsModal().then(() => {
-            cy.findByRole('button', {name: 'notifications'}).focus();
-            cy.focused().should('have.attr', 'aria-label', 'notifications').tab();
-            cy.focused().should('have.attr', 'aria-label', 'display').tab();
-            cy.focused().should('have.attr', 'aria-label', 'sidebar').tab();
-            cy.focused().should('have.attr', 'aria-label', 'advanced').tab();
+        cy.uiOpenSettingsModal();
+        cy.findByRole('button', {name: 'notifications'}).should('be.visible').focus().should('be.focused');
+        ['notifications', 'display', 'sidebar', 'advanced'].forEach((text) => {
+            cy.focused().should('have.attr', 'aria-label', text).tab();
         });
     });
 

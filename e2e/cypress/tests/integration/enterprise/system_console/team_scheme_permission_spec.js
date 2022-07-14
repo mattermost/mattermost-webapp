@@ -46,7 +46,7 @@ describe('Team Scheme Channel Mentions Permissions Test', () => {
         // # Assign the new team scheme to the test team using the add teams modal
         cy.findByTestId('add-teams').click();
 
-        cy.get('#selectItems').typeWithForce(testTeam.display_name);
+        cy.get('#selectItems input').typeWithForce(testTeam.display_name);
 
         cy.get('.team-info-block').then((el) => {
             el.click();
