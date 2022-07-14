@@ -66,7 +66,7 @@ const CloudDelinquencyAnnouncementBar: React.FC = () => {
     const message = {
         id: t('cloud_delinquency.banner.title'),
         defaultMessage:
-            'Update your billing information now to keep using paid features.',
+            'Update your billing information now to keep paid features.',
     };
 
     return (
