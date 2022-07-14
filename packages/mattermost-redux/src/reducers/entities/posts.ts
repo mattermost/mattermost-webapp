@@ -1417,7 +1417,7 @@ export function limitedViews(
         return state;
     }
     case PostTypes.RECEIVED_POSTS_IN_THREAD: {
-        if (action.data.has_inaccessible_posts) {
+        if (action.data.has_inaccessible_posts && action.rootId) {
             return {
                 ...state,
                 threads: {

@@ -30,11 +30,11 @@ interface Props {
 
 // returns the same time on the next day.
 function getNextDay(timestamp?: number): number {
-    if (!timestamp) {
+    if (timestamp === undefined) {
         return 0;
     }
 
-    return timestamp + (ONE_DAY_MS);
+    return timestamp + ONE_DAY_MS;
 }
 
 export default function CenterMessageLock(props: Props) {
