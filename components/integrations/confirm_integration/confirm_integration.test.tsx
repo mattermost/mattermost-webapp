@@ -32,15 +32,15 @@ describe('components/integrations/ConfirmIntegration', () => {
         callback_urls: ['https://someCallback', 'https://anotherCallback'],
     };
     const userId = 'b5tpgt4iepf45jt768jz84djhd';
-    const bot = {
+    const bot = TestHelper.getBotMock({
         user_id: userId,
         display_name: 'bot',
-    };
+    });
     const commands = {[id]: TestHelper.getCommandMock({id, token})};
     const oauthApps = {[id]: oauthApp} as unknown as IDMappedObjects<OAuthApp>;
     const incomingHooks = {[id]: {id}} as unknown as IDMappedObjects<IncomingWebhook>;
     const outgoingHooks = {[id]: {id, token}} as unknown as IDMappedObjects<OutgoingWebhook>;
-    const bots = {[userId]: bot} as unknown as Record<string, Bot>;
+    const bots: Record<string, Bot> = {[userId]: bot};
 
     const props = {
         team,
