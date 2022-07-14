@@ -52,6 +52,7 @@ function NotifyAdminCTA(props: Props) {
 
     const notifyFunc = async (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         e.preventDefault();
+        e.stopPropagation();
         try {
             setStatus(NotifyStatus.Started);
             const req = {
