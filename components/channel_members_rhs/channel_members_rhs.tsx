@@ -5,7 +5,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {debounce} from 'lodash';
 
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 
 import {UserProfile} from '@mattermost/types/users';
 import {Channel, ChannelMembership} from '@mattermost/types/channels';
@@ -14,6 +14,10 @@ import MoreDirectChannels from 'components/more_direct_channels';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import {ModalData} from 'types/actions';
 import {browserHistory} from 'utils/browser_history';
+
+import {ProfilesInChannelSortBy} from 'mattermost-redux/actions/users';
+
+import AlertBanner from 'components/alert_banner';
 
 import ActionBar from './action_bar';
 import Header from './header';
@@ -35,6 +39,7 @@ const MembersContainer = styled.div`
 
 export interface Props {
     channel: Channel;
+    currentUserIsChannelAdmin: boolean;
     membersCount: number;
     searchTerms: string;
     canGoBack: boolean;
@@ -56,13 +61,20 @@ export interface Props {
     };
 }
 
+export enum ListItemType {
+    Member = 'member',
+    FirstSeparator = 'first-separator',
+    Separator = 'separator',
+}
+
 export interface ListItem {
-    type: 'member' | 'first-separator' | 'separator';
+    type: ListItemType;
     data: ChannelMember | JSX.Element;
 }
 
 export default function ChannelMembersRHS({
     channel,
+    currentUserIsChannelAdmin,
     searchTerms,
     membersCount,
     canGoBack,
@@ -76,8 +88,11 @@ export default function ChannelMembersRHS({
 
     const [page, setPage] = useState(0);
     const [isNextPageLoading, setIsNextPageLoading] = useState(false);
+    const {formatMessage} = useIntl();
 
     const searching = searchTerms !== '';
+
+    const isDefaultChannel = channel.name === Constants.DEFAULT_CHANNEL;
 
     // show search if there's more than 20 or if the user have an active search.
     const showSearch = searching || membersCount >= 20;
@@ -114,23 +129,23 @@ export default function ChannelMembersRHS({
                 }
 
                 listcp.push({
-                    type: 'first-separator',
-                    data: <FirstMemberListSerparator>{text}</FirstMemberListSerparator>,
+                    type: ListItemType.FirstSeparator,
+                    data: <FirstMemberListSeparator>{text}</FirstMemberListSeparator>,
                 });
             } else if (!memberDone && member.membership?.scheme_admin === false) {
                 listcp.push({
-                    type: 'separator',
-                    data: <MemberListSerparator>
+                    type: ListItemType.Separator,
+                    data: <MemberListSeparator>
                         <FormattedMessage
                             id='channel_members_rhs.list.channel_members_title'
                             defaultMessage='MEMBERS'
                         />
-                    </MemberListSerparator>,
+                    </MemberListSeparator>,
                 });
                 memberDone = true;
             }
 
-            listcp.push({type: 'member', data: member});
+            listcp.push({type: ListItemType.Member, data: member});
         }
         setList(listcp);
     }, [channelMembers]);
@@ -148,7 +163,7 @@ export default function ChannelMembersRHS({
         setPage(0);
         setIsNextPageLoading(false);
         actions.setChannelMembersRhsSearchTerm('');
-        actions.loadProfilesAndReloadChannelMembers(0, USERS_PER_PAGE, channel.id, 'admin');
+        actions.loadProfilesAndReloadChannelMembers(0, USERS_PER_PAGE, channel.id, ProfilesInChannelSortBy.Admin);
         actions.loadMyChannelMemberAndRole(channel.id);
     }, [channel.id, channel.type]);
 
@@ -195,7 +210,7 @@ export default function ChannelMembersRHS({
     const loadMore = async () => {
         setIsNextPageLoading(true);
 
-        await actions.loadProfilesAndReloadChannelMembers(page + 1, USERS_PER_PAGE, channel.id, 'admin');
+        await actions.loadProfilesAndReloadChannelMembers(page + 1, USERS_PER_PAGE, channel.id, ProfilesInChannelSortBy.Admin);
         setPage(page + 1);
 
         setIsNextPageLoading(false);
@@ -226,6 +241,30 @@ export default function ChannelMembersRHS({
                 }}
             />
 
+            {/* Users with user management permissions have special restrictions in the default channel */}
+            {(editing && isDefaultChannel && !currentUserIsChannelAdmin) && (
+                <AlertContainer>
+                    <AlertBanner
+                        mode='info'
+                        variant='app'
+                        message={formatMessage({
+                            id: 'channel_members_rhs.default_channel_moderation_restrictions',
+                            defaultMessage: 'In this channel, you can only remove guests. Only <link>channel admins</link> can manage other members.',
+                        }, {
+                            link: (msg: React.ReactNode) => (
+                                <a
+                                    href='https://docs.mattermost.com/welcome/about-user-roles.html#channel-admin'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        })}
+                    />
+                </AlertContainer>
+            )}
+
             {showSearch && (
                 <SearchBar
                     terms={searchTerms}
@@ -250,7 +289,7 @@ export default function ChannelMembersRHS({
     );
 }
 
-const MemberListSerparator = styled.div`
+const MemberListSeparator = styled.div`
     font-weight: 600;
     font-size: 12px;
     line-height: 28px;
@@ -261,6 +300,10 @@ const MemberListSerparator = styled.div`
     margin-top: 16px;
 `;
 
-const FirstMemberListSerparator = styled(MemberListSerparator)`
+const FirstMemberListSeparator = styled(MemberListSeparator)`
     margin-top: 0px;
+`;
+
+const AlertContainer = styled.div`
+    padding: 0 20px 15px;
 `;

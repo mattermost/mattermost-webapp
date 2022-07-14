@@ -10,6 +10,7 @@ import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import type {MarketplaceLabel} from '@mattermost/types/marketplace';
+import {PluginStatusRedux} from '@mattermost/types/plugins';
 
 import MarketplaceItem from '../marketplace_item';
 
@@ -223,6 +224,7 @@ export type MarketplaceItemPluginProps = {
     iconData?: string;
     installedVersion?: string;
     installing: boolean;
+    pluginStatus?: PluginStatusRedux;
     error?: string;
     isDefaultMarketplace: boolean;
     trackEvent: (category: string, event: string, props?: unknown) => void;
@@ -363,6 +365,7 @@ export default class MarketplaceItemPlugin extends React.PureComponent <Marketpl
                     updateDetails={updateDetails}
                     iconSource={this.props.iconData}
                     {...this.props}
+                    error={this.props.error || this.props.pluginStatus?.error}
                 />
                 <UpdateConfirmationModal
                     show={this.state.showUpdateConfirmationModal}

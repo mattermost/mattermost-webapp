@@ -4,11 +4,11 @@
 import {test, expect} from '@playwright/test';
 import {Eyes, CheckSettings} from '@applitools/eyes-playwright';
 
-import {getAdminClient} from '../../support/server';
-import {LandingLoginPage, LoginPage} from '../../support/ui/page';
-import {duration, wait} from '../../support/utils';
-import {snapshotWithApplitools, snapshotWithPercy} from '../../support/visual';
-import testConfig from '../../test.config';
+import {getAdminClient} from '@support/server';
+import {LandingLoginPage, LoginPage} from '@support/ui/page';
+import {duration, wait} from '@support/utils';
+import {snapshotWithApplitools, snapshotWithPercy} from '@support/visual';
+import testConfig from '@test.config';
 
 let eyes: Eyes;
 
@@ -32,6 +32,10 @@ test('/login', async ({page, isMobile, browserName}, testInfo) => {
         const landingLoginPage = new LandingLoginPage(page);
         await landingLoginPage.viewInBrowserButton.click();
     }
+
+    // Wait for sign in button to be shown
+    await loginPage.signInButton.waitFor();
+    await wait(duration.one_sec);
 
     // Should match default login page
     if (!testConfig.percyEnabled || !testConfig.applitoolsEnabled) {

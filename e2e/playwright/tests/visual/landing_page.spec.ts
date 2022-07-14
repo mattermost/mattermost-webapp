@@ -3,7 +3,7 @@
 
 import {test, expect} from '@playwright/test';
 
-import {LandingLoginPage} from '../../support/ui/page';
+import {LandingLoginPage} from '@support/ui/page';
 
 test('/landing#/login', async ({page, isMobile}) => {
     test.skip(!isMobile, 'For mobile client only');

@@ -67,6 +67,7 @@ export const InviteTypes = {
 export const PreviousViewedTypes = {
     CHANNELS: 'channels',
     THREADS: 'threads',
+    INSIGHTS: 'insights',
 };
 
 export const Preferences = {
@@ -130,6 +131,7 @@ export const Preferences = {
     ONE_CLICK_REACTIONS_ENABLED: 'one_click_reactions_enabled',
     ONE_CLICK_REACTIONS_ENABLED_DEFAULT: 'true',
     CLOUD_TRIAL_END_BANNER: 'cloud_trial_end_banner',
+    CLOUD_USER_EPHEMERAL_INFO: 'cloud_user_ephemeral_info',
 
     // For one off things that have a special, attention-grabbing UI until you interact with them
     TOUCHED: 'touched',
@@ -395,6 +397,8 @@ export const ModalIdentifiers = {
     CLOUD_LIMITS: 'cloud_limits',
     REQUEST_BUSINESS_EMAIL_MODAL: 'request_business_email_modal',
     FEATURE_RESTRICTED_MODAL: 'feature_restricted_modal',
+    CLOUD_SUBSCRIBE_WITH_LOADING_MODAL: 'cloud_subscribe_with_loading_modal',
+    JOIN_PUBLIC_CHANNEL_MODAL: 'join_public_channel_modal',
 };
 
 export const UserStatuses = {
