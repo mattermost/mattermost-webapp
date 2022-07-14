@@ -137,7 +137,9 @@ jobs:
     steps:
       - checkout
       - *restore_cache
-      - run: npm run test-ci
+      - run: |
+          npm run build --workspace=packages/components
+          npm run test-ci
       - store_test_results:
           path: build/
 
