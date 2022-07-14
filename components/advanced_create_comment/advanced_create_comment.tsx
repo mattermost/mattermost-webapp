@@ -258,7 +258,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
 
         document.addEventListener('paste', this.pasteHandler);
         document.addEventListener('keydown', this.focusTextboxIfNecessary);
-        window.addEventListener('beforeunload', this.saveDraft);
+        window.addEventListener('beforeunload', this.saveDraftWithShow);
         if (useLDAPGroupMentions) {
             getChannelMemberCountsByGroup(channelId);
         }
@@ -275,8 +275,8 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         this.props.resetCreatePostRequest?.();
         document.removeEventListener('paste', this.pasteHandler);
         document.removeEventListener('keydown', this.focusTextboxIfNecessary);
-        window.removeEventListener('beforeunload', this.saveDraft);
-        this.saveDraft();
+        window.removeEventListener('beforeunload', this.saveDraftWithShow);
+        this.saveDraftWithShow();
     }
 
     componentDidUpdate(prevProps: Props, prevState: State) {
@@ -313,12 +313,33 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         }
     }
 
+    saveDraftWithShow = () => {
+        this.setState((prev) => {
+            if (prev.draft) {
+                return {
+                    draft: {
+                        ...prev.draft,
+                        show: !this.isDraftEmpty(prev.draft),
+                    } as PostDraft,
+                };
+            }
+
+            return {
+                draft: prev.draft,
+            };
+        }, this.saveDraft);
+    }
+
     saveDraft = () => {
         if (this.saveDraftFrame) {
             clearTimeout(this.saveDraftFrame);
             this.props.onUpdateCommentDraft(this.state.draft);
             this.saveDraftFrame = null;
         }
+    }
+
+    isDraftEmpty = (draft: PostDraft): boolean => {
+        return !draft || (!draft.message && draft.fileInfos.length === 0);
     }
 
     setShowPreview = (newPreviewValue: boolean) => {
@@ -703,7 +724,8 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         }
 
         const draft = this.state.draft!;
-        const updatedDraft = {...draft, message};
+        const show = this.isDraftEmpty(draft) ? false : draft.show;
+        const updatedDraft = {...draft, message, show};
 
         if (this.saveDraftFrame) {
             clearTimeout(this.saveDraftFrame);
@@ -1034,6 +1056,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
     }
 
     handleBlur = () => {
+        this.saveDraftWithShow();
         this.lastBlurAt = Date.now();
     }
 

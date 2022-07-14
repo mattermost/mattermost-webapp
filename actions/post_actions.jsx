@@ -298,7 +298,7 @@ export function deleteAndRemovePost(post) {
         if (post.root_id === '') {
             const key = StoragePrefixes.COMMENT_DRAFT + post.id;
             if (getGlobalItem(getState(), key, null)) {
-                dispatch(removeDraft(key));
+                dispatch(removeDraft(key, post.channelId, post.id));
             }
         }
 

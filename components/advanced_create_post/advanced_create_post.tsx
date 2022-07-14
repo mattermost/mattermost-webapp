@@ -303,7 +303,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         if (prevProps.currentChannel.id !== currentChannel.id) {
             this.lastChannelSwitchAt = Date.now();
             this.focusTextbox();
-            this.saveDraft(prevProps);
+            this.saveDraftWithShow(prevProps);
             if (useLDAPGroupMentions) {
                 actions.getChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled);
             }
@@ -329,11 +329,31 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         document.removeEventListener('keydown', this.documentKeyHandler);
         window.removeEventListener('beforeunload', this.unloadHandler);
         this.removeOrientationListeners();
-        this.saveDraft();
+        this.saveDraftWithShow();
     }
 
     unloadHandler = () => {
-        this.saveDraft();
+        this.saveDraftWithShow();
+    }
+
+    isDraftEmpty = (draft: PostDraft): boolean => {
+        return !draft || (!draft.message && draft.fileInfos.length === 0);
+    }
+
+    saveDraftWithShow = (props = this.props) => {
+        if (this.saveDraftFrame && props.currentChannel) {
+            const channelId = props.currentChannel.id;
+            const draft = this.draftsForChannel[channelId];
+
+            if (draft) {
+                this.draftsForChannel[channelId] = {
+                    ...draft,
+                    show: !this.isDraftEmpty(draft),
+                } as PostDraft;
+            }
+        }
+
+        this.saveDraft(props);
     }
 
     saveDraft = (props = this.props) => {
@@ -1153,6 +1173,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     }
 
     handleBlur = () => {
+        this.saveDraftWithShow();
         this.lastBlurAt = Date.now();
     }
 

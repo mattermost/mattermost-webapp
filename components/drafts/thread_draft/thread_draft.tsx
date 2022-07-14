@@ -4,17 +4,18 @@
 import React, {memo, useCallback, useMemo, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 
+import type {UserThread, UserThreadSynthetic} from '@mattermost/types/threads';
+import type {Channel} from '@mattermost/types/channels';
+import type {UserProfile, UserStatus} from '@mattermost/types/users';
+import type {Post} from '@mattermost/types/posts';
+
+import type {PostDraft} from 'types/store/rhs';
+
 import {getPost} from 'mattermost-redux/actions/posts';
-import {UserThread, UserThreadSynthetic} from 'mattermost-redux/types/threads';
-import {Channel} from 'mattermost-redux/types/channels';
-import {Post} from 'mattermost-redux/types/posts';
-import {UserProfile, UserStatus} from 'mattermost-redux/types/users';
 
 import {selectPost} from 'actions/views/rhs';
 import {removeDraft} from 'actions/views/drafts';
 import {makeOnSubmit} from 'actions/views/create_comment';
-
-import {PostDraft} from 'types/store/rhs';
 
 import DraftTitle from '../draft_title';
 import DraftActions from '../draft_actions';
@@ -62,8 +63,8 @@ function ThreadDraft({
     }, [channel.id, thread?.id]);
 
     const handleOnDelete = useCallback((id: string) => {
-        dispatch(removeDraft(id));
-    }, []);
+        dispatch(removeDraft(id, channel.id, rootId));
+    }, [channel.id, rootId]);
 
     const handleOnEdit = useCallback(() => {
         dispatch(selectPost({id: rootId, channel_id: channel.id} as Post));

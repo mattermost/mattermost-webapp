@@ -5,8 +5,8 @@ import React, {memo, useMemo, useCallback} from 'react';
 import {useDispatch} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 
-import {Channel} from 'mattermost-redux/types/channels';
-import {UserProfile, UserStatus} from 'mattermost-redux/types/users';
+import type {Channel} from '@mattermost/types/channels';
+import type {UserProfile, UserStatus} from '@mattermost/types/users';
 
 import {makeOnSubmit} from 'actions/views/create_comment';
 import {removeDraft} from 'actions/views/drafts';
@@ -52,12 +52,12 @@ function ChannelDraft({
     }, [channelUrl]);
 
     const handleOnDelete = useCallback((id: string) => {
-        dispatch(removeDraft(id));
-    }, []);
+        dispatch(removeDraft(id, channel.id));
+    }, [channel.id]);
 
     const handleOnSend = useCallback(async (id: string) => {
-        await dispatch(onSubmit(value));
-        dispatch(removeDraft(id));
+        dispatch(onSubmit(value));
+        dispatch(removeDraft(id, channel.id));
         history.push(channelUrl);
     }, [value, onSubmit, channelUrl]);
 

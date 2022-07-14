@@ -48,7 +48,7 @@ export function clearCommentDraftUploads() {
 // we're on will not save the draft quickly enough on page unload.
 export function updateCommentDraft(rootId: string, draft?: PostDraft) {
     const key = `${StoragePrefixes.COMMENT_DRAFT}${rootId}`;
-    return updateDraft(key, draft ?? null);
+    return updateDraft(key, draft ?? null, rootId);
 }
 
 export function makeOnMoveHistoryIndex(rootId: string, direction: number) {
