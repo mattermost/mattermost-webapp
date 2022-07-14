@@ -1,9 +1,0 @@
-{
-  "name": "reselect",
-  "main": "src/index.js",
-  "module": "src/index.js",
-  "scripts": {
-    "build": "echo 'Not a real package'",
-    "debug": "echo 'Not a real package'"
-  }
-}
