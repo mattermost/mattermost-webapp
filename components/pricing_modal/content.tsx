@@ -314,7 +314,7 @@ function Content(props: ContentProps) {
                                             dialogType: DowngradeTeamRemovalModal,
                                             dialogProps: {
                                                 product_id: cloudStarterProduct?.id,
-                                                starterProductName: cloudStarterProduct?.name,
+                                                cloudStarterProduct,
                                             },
                                         }),
                                     );
