@@ -1,0 +1,367 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/announcement_bar/cloud_delinquency Should match snapshot when delinquent < 90 days 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <CloudDelinquencyAnnouncementBar>
+    <Connect(AnnouncementBar)
+      icon={
+        <i
+          className="icon icon-alert-outline"
+        />
+      }
+      isTallBanner={true}
+      message={
+        <Memo(MemoizedFormattedMessage)
+          defaultMessage="Update your billing information now to keep using paid features."
+          id="cloud_delinquency.banner.title"
+        />
+      }
+      modalButtonDefaultText="Update billing now"
+      modalButtonText="cloud_delinquency.banner.buttonText"
+      onButtonClick={[Function]}
+      showCloseButton={false}
+      showLinkAsButton={true}
+      type="advisor"
+    >
+      <AnnouncementBar
+        actions={
+          Object {
+            "decrementAnnouncementBarCount": [Function],
+            "incrementAnnouncementBarCount": [Function],
+          }
+        }
+        announcementBarCount={1}
+        color=""
+        icon={
+          <i
+            className="icon icon-alert-outline"
+          />
+        }
+        isTallBanner={true}
+        message={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Update your billing information now to keep using paid features."
+            id="cloud_delinquency.banner.title"
+          />
+        }
+        modalButtonDefaultText="Update billing now"
+        modalButtonText="cloud_delinquency.banner.buttonText"
+        onButtonClick={[Function]}
+        showCloseButton={false}
+        showLinkAsButton={true}
+        textColor=""
+        type="advisor"
+      >
+        <div
+          className="announcement-bar announcement-bar-advisor"
+          style={
+            Object {
+              "backgroundColor": "",
+              "color": "",
+            }
+          }
+        >
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            delayHide={0}
+            delayShow={400}
+            overlay={<React.Fragment />}
+            placement="bottom"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <OverlayTrigger
+              defaultOverlayShown={false}
+              delayHide={0}
+              delayShow={400}
+              overlay={
+                <OverlayWrapper
+                  intl={
+                    Object {
+                      "defaultFormats": Object {},
+                      "defaultLocale": "en",
+                      "defaultRichTextElements": undefined,
+                      "formatDate": [Function],
+                      "formatDateTimeRange": [Function],
+                      "formatDateToParts": [Function],
+                      "formatDisplayName": [Function],
+                      "formatList": [Function],
+                      "formatListToParts": [Function],
+                      "formatMessage": [Function],
+                      "formatNumber": [Function],
+                      "formatNumberToParts": [Function],
+                      "formatPlural": [Function],
+                      "formatRelativeTime": [Function],
+                      "formatTime": [Function],
+                      "formatTimeToParts": [Function],
+                      "formats": Object {},
+                      "formatters": Object {
+                        "getDateTimeFormat": [Function],
+                        "getDisplayNames": [Function],
+                        "getListFormat": [Function],
+                        "getMessageFormat": [Function],
+                        "getNumberFormat": [Function],
+                        "getPluralRules": [Function],
+                        "getRelativeTimeFormat": [Function],
+                      },
+                      "locale": "en",
+                      "messages": Object {},
+                      "onError": [Function],
+                      "textComponent": "span",
+                      "timeZone": "Etc/UTC",
+                      "wrapRichTextChunksInFragment": undefined,
+                    }
+                  }
+                />
+              }
+              placement="bottom"
+              trigger={
+                Array [
+                  "hover",
+                  "focus",
+                ]
+              }
+            >
+              <div
+                className="announcement-bar__text"
+                onBlur={[Function]}
+                onClick={null}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+              >
+                <i
+                  className="icon icon-alert-outline"
+                />
+                <span
+                  onMouseEnter={[Function]}
+                >
+                  <FormattedMessage
+                    defaultMessage="Update your billing information now to keep using paid features."
+                    id="cloud_delinquency.banner.title"
+                  >
+                    <span>
+                      Update your billing information now to keep using paid features.
+                    </span>
+                  </FormattedMessage>
+                </span>
+                <button
+                  className="upgrade-button"
+                  onClick={[Function]}
+                >
+                  <FormattedMessage
+                    defaultMessage="Update billing now"
+                    id="cloud_delinquency.banner.buttonText"
+                  >
+                    <span>
+                      Update billing now
+                    </span>
+                  </FormattedMessage>
+                </button>
+              </div>
+            </OverlayTrigger>
+          </OverlayTrigger>
+        </div>
+      </AnnouncementBar>
+    </Connect(AnnouncementBar)>
+  </CloudDelinquencyAnnouncementBar>
+</Provider>
+`;
+
+exports[`components/announcement_bar/cloud_delinquency Should match snapshot when delinquent < 90 days 2`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <CloudDelinquencyAnnouncementBar>
+    <Connect(AnnouncementBar)
+      icon={
+        <i
+          className="icon icon-alert-outline"
+        />
+      }
+      isTallBanner={true}
+      message={
+        <Memo(MemoizedFormattedMessage)
+          defaultMessage="Update your billing information now to keep using paid features."
+          id="cloud_delinquency.banner.title"
+        />
+      }
+      modalButtonDefaultText="Update billing now"
+      modalButtonText="cloud_delinquency.banner.buttonText"
+      onButtonClick={[Function]}
+      showCloseButton={false}
+      showLinkAsButton={true}
+      type="critical"
+    >
+      <AnnouncementBar
+        actions={
+          Object {
+            "decrementAnnouncementBarCount": [Function],
+            "incrementAnnouncementBarCount": [Function],
+          }
+        }
+        announcementBarCount={1}
+        color=""
+        icon={
+          <i
+            className="icon icon-alert-outline"
+          />
+        }
+        isTallBanner={true}
+        message={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Update your billing information now to keep using paid features."
+            id="cloud_delinquency.banner.title"
+          />
+        }
+        modalButtonDefaultText="Update billing now"
+        modalButtonText="cloud_delinquency.banner.buttonText"
+        onButtonClick={[Function]}
+        showCloseButton={false}
+        showLinkAsButton={true}
+        textColor=""
+        type="critical"
+      >
+        <div
+          className="announcement-bar announcement-bar-critical"
+          style={
+            Object {
+              "backgroundColor": "",
+              "color": "",
+            }
+          }
+        >
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            delayHide={0}
+            delayShow={400}
+            overlay={<React.Fragment />}
+            placement="bottom"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <OverlayTrigger
+              defaultOverlayShown={false}
+              delayHide={0}
+              delayShow={400}
+              overlay={
+                <OverlayWrapper
+                  intl={
+                    Object {
+                      "defaultFormats": Object {},
+                      "defaultLocale": "en",
+                      "defaultRichTextElements": undefined,
+                      "formatDate": [Function],
+                      "formatDateTimeRange": [Function],
+                      "formatDateToParts": [Function],
+                      "formatDisplayName": [Function],
+                      "formatList": [Function],
+                      "formatListToParts": [Function],
+                      "formatMessage": [Function],
+                      "formatNumber": [Function],
+                      "formatNumberToParts": [Function],
+                      "formatPlural": [Function],
+                      "formatRelativeTime": [Function],
+                      "formatTime": [Function],
+                      "formatTimeToParts": [Function],
+                      "formats": Object {},
+                      "formatters": Object {
+                        "getDateTimeFormat": [Function],
+                        "getDisplayNames": [Function],
+                        "getListFormat": [Function],
+                        "getMessageFormat": [Function],
+                        "getNumberFormat": [Function],
+                        "getPluralRules": [Function],
+                        "getRelativeTimeFormat": [Function],
+                      },
+                      "locale": "en",
+                      "messages": Object {},
+                      "onError": [Function],
+                      "textComponent": "span",
+                      "timeZone": "Etc/UTC",
+                      "wrapRichTextChunksInFragment": undefined,
+                    }
+                  }
+                />
+              }
+              placement="bottom"
+              trigger={
+                Array [
+                  "hover",
+                  "focus",
+                ]
+              }
+            >
+              <div
+                className="announcement-bar__text"
+                onBlur={[Function]}
+                onClick={null}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+              >
+                <i
+                  className="icon icon-alert-outline"
+                />
+                <span
+                  onMouseEnter={[Function]}
+                >
+                  <FormattedMessage
+                    defaultMessage="Update your billing information now to keep using paid features."
+                    id="cloud_delinquency.banner.title"
+                  >
+                    <span>
+                      Update your billing information now to keep using paid features.
+                    </span>
+                  </FormattedMessage>
+                </span>
+                <button
+                  className="upgrade-button"
+                  onClick={[Function]}
+                >
+                  <FormattedMessage
+                    defaultMessage="Update billing now"
+                    id="cloud_delinquency.banner.buttonText"
+                  >
+                    <span>
+                      Update billing now
+                    </span>
+                  </FormattedMessage>
+                </button>
+              </div>
+            </OverlayTrigger>
+          </OverlayTrigger>
+        </div>
+      </AnnouncementBar>
+    </Connect(AnnouncementBar)>
+  </CloudDelinquencyAnnouncementBar>
+</Provider>
+`;
