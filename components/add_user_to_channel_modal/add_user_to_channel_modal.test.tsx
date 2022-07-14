@@ -5,15 +5,16 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import AddUserToChannelModal from 'components/add_user_to_channel_modal/add_user_to_channel_modal';
+import {TestHelper} from 'utils/test_helper';
 
 describe('components/AddUserToChannelModal', () => {
     const baseProps = {
         channelMembers: {},
-        user: {
+        user: TestHelper.getUserMock({
             id: 'someUserId',
             first_name: 'Fake',
             last_name: 'Person',
-        },
+        }),
         onHide: jest.fn(),
         actions: {
             addChannelMember: jest.fn().mockResolvedValue({}),
@@ -70,7 +71,7 @@ describe('components/AddUserToChannelModal', () => {
         const props = {...baseProps,
             channelMembers: {
                 someChannelId: {
-                    someUserId: {},
+                    someUserId: TestHelper.getChannelMembershipMock({}),
                 },
             },
         };
@@ -100,11 +101,11 @@ describe('components/AddUserToChannelModal', () => {
         it('should fetch the selected user\'s membership for the selected channel', () => {
             const props = {...baseProps};
 
-            const wrapper = shallow(
+            const wrapper = shallow<AddUserToChannelModal>(
                 <AddUserToChannelModal {...props}/>,
             );
 
-            const selection = {channel: {id: 'someChannelId', display_name: 'channelName'}};
+            const selection = {channel: TestHelper.getChannelMock({id: 'someChannelId', display_name: 'channelName'})};
             wrapper.instance().didSelectChannel(selection);
             expect(props.actions.getChannelMember).toBeCalledWith('someChannelId', 'someUserId');
         });
@@ -121,7 +122,7 @@ describe('components/AddUserToChannelModal', () => {
                 },
             };
 
-            const wrapper = shallow(
+            const wrapper = shallow<AddUserToChannelModal>(
                 <AddUserToChannelModal {...props}/>,
             );
 
@@ -130,7 +131,7 @@ describe('components/AddUserToChannelModal', () => {
             expect(wrapper.state().selectedChannelId).toEqual(null);
             expect(wrapper.state().submitError).toEqual('');
 
-            const selection = {channel: {id: 'someChannelId', display_name: 'channelName'}};
+            const selection = {channel: TestHelper.getChannelMock({id: 'someChannelId', display_name: 'channelName'})};
             wrapper.setState({submitError: 'some pre-existing error'});
 
             wrapper.instance().didSelectChannel(selection);
@@ -148,11 +149,12 @@ describe('components/AddUserToChannelModal', () => {
         it('should do nothing if no channel is selected', () => {
             const props = {...baseProps};
 
-            const wrapper = shallow(
+            const wrapper = shallow<AddUserToChannelModal>(
                 <AddUserToChannelModal {...props}/>,
             );
 
-            wrapper.instance().handleSubmit();
+            const event: any = {stopPropagation: jest.fn(), preventDefault: jest.fn()};
+            wrapper.instance().handleSubmit(event);
             expect(wrapper.state().saving).toBe(false);
             expect(props.actions.addChannelMember).not.toBeCalled();
         });
@@ -161,17 +163,18 @@ describe('components/AddUserToChannelModal', () => {
             const props = {...baseProps,
                 channelMembers: {
                     someChannelId: {
-                        someUserId: {},
+                        someUserId: TestHelper.getChannelMembershipMock({}),
                     },
                 },
             };
 
-            const wrapper = shallow(
+            const wrapper = shallow<AddUserToChannelModal>(
                 <AddUserToChannelModal {...props}/>,
             );
 
             wrapper.setState({selectedChannelId: 'someChannelId'});
-            wrapper.instance().handleSubmit();
+            const event: any = {stopPropagation: jest.fn(), preventDefault: jest.fn()};
+            wrapper.instance().handleSubmit(event);
             expect(wrapper.state().saving).toBe(false);
             expect(props.actions.addChannelMember).not.toBeCalled();
         });
@@ -183,12 +186,13 @@ describe('components/AddUserToChannelModal', () => {
                 },
             };
 
-            const wrapper = shallow(
+            const wrapper = shallow<AddUserToChannelModal>(
                 <AddUserToChannelModal {...props}/>,
             );
 
             wrapper.setState({selectedChannelId: 'someChannelId'});
-            wrapper.instance().handleSubmit();
+            const event: any = {stopPropagation: jest.fn(), preventDefault: jest.fn()};
+            wrapper.instance().handleSubmit(event);
             expect(wrapper.state().saving).toBe(true);
             expect(props.actions.addChannelMember).toBeCalled();
         });
@@ -205,7 +209,7 @@ describe('components/AddUserToChannelModal', () => {
                 },
             };
 
-            const wrapper = shallow(
+            const wrapper = shallow<AddUserToChannelModal>(
                 <AddUserToChannelModal {...props}/>,
             );
 
@@ -213,7 +217,8 @@ describe('components/AddUserToChannelModal', () => {
             expect(wrapper.state().saving).toBe(false);
             wrapper.setState({selectedChannelId: 'someChannelId'});
 
-            wrapper.instance().handleSubmit();
+            const event: any = {stopPropagation: jest.fn(), preventDefault: jest.fn()};
+            wrapper.instance().handleSubmit(event);
             expect(wrapper.state().show).toBe(true);
             expect(wrapper.state().saving).toBe(true);
 
@@ -235,14 +240,15 @@ describe('components/AddUserToChannelModal', () => {
                 },
             };
 
-            const wrapper = shallow(
+            const wrapper = shallow<AddUserToChannelModal>(
                 <AddUserToChannelModal {...props}/>,
             );
 
             expect(wrapper.state().show).toBe(true);
             wrapper.setState({selectedChannelId: 'someChannelId'});
 
-            wrapper.instance().handleSubmit();
+            const event: any = {stopPropagation: jest.fn(), preventDefault: jest.fn()};
+            wrapper.instance().handleSubmit(event);
 
             await promise;
             expect(wrapper.state().submitError).toEqual('some error');
