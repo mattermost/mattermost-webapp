@@ -171,6 +171,10 @@ export const shouldShowUnreadsCategory: (state: GlobalState) => boolean = create
     },
 );
 
+export function getUnreadScrollPositionPreference(state: GlobalState): string {
+    return get(state, Preferences.CATEGORY_ADVANCED_SETTINGS, Preferences.UNREAD_SCROLL_POSITION, Preferences.UNREAD_SCROLL_POSITION_START_FROM_LEFT);
+}
+
 export function getCollapsedThreadsPreference(state: GlobalState): string {
     const configValue = getConfig(state)?.CollapsedThreads;
     let preferenceDefault = Preferences.COLLAPSED_REPLY_THREADS_OFF;

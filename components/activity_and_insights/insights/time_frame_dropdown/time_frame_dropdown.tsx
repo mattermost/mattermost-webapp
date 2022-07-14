@@ -92,6 +92,7 @@ const TimeFrameDropdown = (props: Props) => {
             components={{
                 DropdownIndicator: CustomDropwdown,
             }}
+            isSearchable={false}
         />
     );
 };

@@ -4,7 +4,7 @@
 /* eslint-disable max-lines */
 import React from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
-import {DynamicSizeList} from 'dynamic-virtualized-list';
+import {DynamicSizeList, OnItemsRenderedArgs} from 'dynamic-virtualized-list';
 
 import {isDateLine, isStartOfNewMessages} from 'mattermost-redux/utils/post_list';
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
@@ -88,6 +88,9 @@ type Props = {
      * Set to focus this post
      */
     focusedPostId?: string;
+
+    shouldStartFromBottomWhenUnread: boolean;
+
     actions: {
 
         /*
@@ -117,6 +120,7 @@ type Props = {
 
         updateNewMessagesAtInChannel: (channelId: string, timeStamp: number) => void;
 
+        toggleShouldStartFromBottomWhenUnread: () => void;
     };
 }
 
@@ -137,6 +141,7 @@ type State = {
     showSearchHint: boolean;
     isSearchHintDismissed: boolean;
     isMobileView?: boolean;
+    isNewMessageLineReached: boolean;
 }
 
 export default class PostList extends React.PureComponent<Props, State> {
@@ -146,12 +151,14 @@ export default class PostList extends React.PureComponent<Props, State> {
     initRangeToRender: number[];
     showSearchHintThreshold: number;
     mounted: boolean;
+    newMessageLineIndex: number;
 
     constructor(props: Props) {
         super(props);
 
         const channelIntroMessage = PostListRowListIds.CHANNEL_INTRO_MESSAGE;
         this.mounted = true;
+
         this.state = {
             isScrolling: false,
 
@@ -168,6 +175,7 @@ export default class PostList extends React.PureComponent<Props, State> {
             initScrollOffsetFromBottom: 0,
             showSearchHint: false,
             isSearchHintDismissed: false,
+            isNewMessageLineReached: false,
         };
 
         this.listRef = React.createRef();
@@ -184,13 +192,13 @@ export default class PostList extends React.PureComponent<Props, State> {
         } else {
             postIndex = this.getNewMessagesSeparatorIndex(props.postListIds);
         }
+        this.newMessageLineIndex = this.getNewMessagesSeparatorIndex(props.postListIds);
 
         const maxPostsForSlicing = props.focusedPostId ? MAXIMUM_POSTS_FOR_SLICING.permalink : MAXIMUM_POSTS_FOR_SLICING.channel;
         this.initRangeToRender = [
             Math.max(postIndex - 30, 0),
             Math.max(postIndex + 30, Math.min(props.postListIds.length - 1, maxPostsForSlicing)),
         ];
-
         this.showSearchHintThreshold = this.getShowSearchHintThreshold();
     }
 
@@ -230,6 +238,8 @@ export default class PostList extends React.PureComponent<Props, State> {
         }
         const prevPostsCount = prevProps.postListIds.length;
         const presentPostsCount = this.props.postListIds.length;
+
+        this.newMessageLineIndex = this.getNewMessagesSeparatorIndex(this.props.postListIds);
 
         if (snapshot) {
             const postlistScrollHeight = this.postListRef.current.scrollHeight;
@@ -322,6 +332,12 @@ export default class PostList extends React.PureComponent<Props, State> {
             dynamicListStyle,
         });
     };
+
+    onNewMessageLineReached = () => {
+        this.setState({
+            isNewMessageLineReached: true,
+        });
+    }
 
     renderRow = ({data, itemId, style}: {data: string[]; itemId: string; style: Record<string, string>}) => {
         const index = data.indexOf(itemId);
@@ -511,7 +527,18 @@ export default class PostList extends React.PureComponent<Props, State> {
         });
     }
 
-    onItemsRendered = ({visibleStartIndex}: {visibleStartIndex: number}) => this.updateFloatingTimestamp(visibleStartIndex);
+    onItemsRendered = ({visibleStartIndex, visibleStopIndex}: Pick<OnItemsRenderedArgs, 'visibleStartIndex' | 'visibleStopIndex'>) => {
+        this.updateFloatingTimestamp(visibleStartIndex);
+
+        if (
+            this.newMessageLineIndex > 0 &&
+             !this.state.isNewMessageLineReached &&
+             this.newMessageLineIndex <= visibleStartIndex &&
+             this.newMessageLineIndex >= visibleStopIndex
+        ) {
+            this.onNewMessageLineReached();
+        }
+    }
 
     initScrollToIndex = () => {
         if (this.props.focusedPostId) {
@@ -521,6 +548,13 @@ export default class PostList extends React.PureComponent<Props, State> {
             return {
                 index,
                 position: 'center',
+            };
+        }
+
+        if (this.props.shouldStartFromBottomWhenUnread) {
+            return {
+                index: 0,
+                position: 'end',
             };
         }
 
@@ -557,6 +591,10 @@ export default class PostList extends React.PureComponent<Props, State> {
         }
     }
 
+    scrollToUnreadMessages = () => {
+        this.props.actions.toggleShouldStartFromBottomWhenUnread();
+    }
+
     scrollToBottom = () => {
         this.listRef.current?.scrollToItem(0, 'end');
     }
@@ -578,10 +616,14 @@ export default class PostList extends React.PureComponent<Props, State> {
                 width={width}
                 lastViewedBottom={this.state.lastViewedBottom}
                 latestPostTimeStamp={this.props.latestPostTimeStamp}
+                scrollToUnreadMessages={this.scrollToUnreadMessages}
                 scrollToNewMessage={this.scrollToNewMessage}
                 scrollToLatestMessages={this.scrollToLatestMessages}
                 updateNewMessagesAtInChannel={this.updateNewMessagesAtInChannel}
                 updateLastViewedBottomAt={this.updateLastViewedBottomAt}
+                shouldStartFromBottomWhenUnread={this.props.shouldStartFromBottomWhenUnread}
+
+                isNewMessageLineReached={this.state.isNewMessageLineReached}
                 channelId={this.props.channelId}
                 focusedPostId={this.props.focusedPostId}
                 initScrollOffsetFromBottom={this.state.initScrollOffsetFromBottom}
