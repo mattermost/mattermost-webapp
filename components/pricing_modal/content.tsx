@@ -32,6 +32,7 @@ import NotifyAdminCTA from 'components/notify_admin_cta/notify_admin_cta';
 import DowngradeTeamRemovalModal from './downgrade_team_removal_modal';
 import ContactSalesCTA from './contact_sales_cta';
 import StarterDisclaimerCTA from './starter_disclaimer_cta';
+import StartTrialCaution from './start_trial_caution';
 import Card, {ButtonCustomiserClasses} from './card';
 
 import LadySvg from './lady.svg';
@@ -282,6 +283,7 @@ function Content(props: ContentProps) {
                                 afterTrialRequest={closePricingModal}
                             />
                         ) : undefined}
+                        planDisclaimer={isPostTrial ? undefined : <StartTrialCaution/>}
                     />
                 </div>
             </Modal.Body>
