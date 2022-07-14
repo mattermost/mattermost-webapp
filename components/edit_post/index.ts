@@ -19,7 +19,10 @@ import {scrollPostListToBottom} from 'actions/views/channel';
 import {editPost} from 'actions/views/posts';
 import {getEditingPost} from 'selectors/posts';
 import {GlobalState} from 'types/store';
-import Constants from 'utils/constants';
+import Constants, {StoragePrefixes} from 'utils/constants';
+import {setGlobalItem} from '../../actions/storage';
+import {getPostDraft} from '../../selectors/rhs';
+import {PostDraft} from '../../types/store/rhs';
 
 import EditPost, {Actions} from './edit_post';
 
@@ -29,6 +32,7 @@ function mapStateToProps(state: GlobalState) {
     const currentUserId = getCurrentUserId(state);
     const channelId = editingPost.post.channel_id;
     const teamId = getCurrentTeamId(state);
+    const draft = getPostDraft(state, StoragePrefixes.EDIT_DRAFT, editingPost.postId);
 
     const isAuthor = editingPost?.post?.user_id === currentUserId;
     const deletePermission = isAuthor ? Permissions.DELETE_POST : Permissions.DELETE_OTHERS_POSTS;
@@ -42,13 +46,26 @@ function mapStateToProps(state: GlobalState) {
         canDeletePost: haveIChannelPermission(state, teamId, channelId, deletePermission),
         codeBlockOnCtrlEnter: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'code_block_ctrl_enter', true),
         ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
+        draft,
         config,
         editingPost,
+        teamId,
         channelId,
         maxPostSize: parseInt(config.MaxPostSize || '0', 10) || Constants.DEFAULT_CHARACTER_LIMIT,
         readOnlyChannel: !isCurrentUserSystemAdmin(state) && channel.name === Constants.DEFAULT_CHANNEL,
         useChannelMentions,
     };
+}
+
+// Temporarily store draft manually in localStorage since the current version of redux-persist
+// we're on will not save the draft quickly enough on page unload.
+function setDraft(key: string, value: PostDraft) {
+    if (value) {
+        localStorage.setItem(key, JSON.stringify(value));
+    } else {
+        localStorage.removeItem(key);
+    }
+    return setGlobalItem(key, value);
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
@@ -57,6 +74,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
             scrollPostListToBottom,
             addMessageIntoHistory,
             editPost,
+            setDraft,
             unsetEditingPost,
             openModal,
         }, dispatch),

@@ -47,7 +47,6 @@ import {TextboxClass, TextboxElement} from '../textbox';
 
 const KeyCodes = Constants.KeyCodes;
 
-const CreateCommentDraftTimeoutMilliseconds = 500;
 type Props = {
 
     // The channel for which this comment is a part of
@@ -711,7 +710,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         }
         this.saveDraftFrame = window.setTimeout(() => {
             this.props.onUpdateCommentDraft(updatedDraft);
-        }, CreateCommentDraftTimeoutMilliseconds);
+        }, Constants.SAVE_DRAFT_TIMEOUT);
 
         this.setState({draft: updatedDraft, serverError}, () => {
             if (this.props.scrollToBottom) {
