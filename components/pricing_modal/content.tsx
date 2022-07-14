@@ -1,13 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable max-lines */
-
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
-import styled from 'styled-components';
 
 import {CloudLinks, CloudProducts, ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
 import {fallbackStarterLimits, fallbackProfessionalLimits, asGBString} from 'utils/limits';
@@ -23,6 +20,9 @@ import {
     getCloudProducts as selectCloudProducts,
     isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
+import {getLicense} from 'mattermost-redux/selectors/entities/general';
+import {GlobalState} from '@mattermost/types/store';
+import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
 
 import useGetUsage from 'components/common/hooks/useGetUsage';
 import SuccessModal from 'components/cloud_subscribe_result_modal/success';
@@ -32,130 +32,22 @@ import StarMarkSvg from 'components/widgets/icons/star_mark_icon';
 import CheckMarkSvg from 'components/widgets/icons/check_mark_icon';
 import PlanLabel from 'components/common/plan_label';
 import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
+import StartTrialBtn from 'components/learn_more_trial_modal/start_trial_btn';
 import NotifyAdminCTA from 'components/notify_admin_cta/notify_admin_cta';
 
 import DowngradeTeamRemovalModal from './downgrade_team_removal_modal';
 import ContactSalesCTA from './contact_sales_cta';
 import StarterDisclaimerCTA from './starter_disclaimer_cta';
 import StartTrialCaution from './start_trial_caution';
+import Card, {ButtonCustomiserClasses} from './card';
 
 import LadySvg from './lady.svg';
 import ManSvg from './man.svg';
 
 import './content.scss';
-import StartTrialBtn from 'components/learn_more_trial_modal/start_trial_btn';
-
-type PlanBriefing = {
-    title: string;
-    items: string[];
-}
-
-enum ButtonCustomiserClasses {
-    grayed = 'grayed',
-    active = 'active',
-    special = 'special',
-    secondary = 'secondary',
-}
-
-type ButtonDetails = {
-    action: () => void;
-    text: string;
-    disabled?: boolean;
-    customClass?: ButtonCustomiserClasses;
-}
-
-type CardProps = {
-    id: string;
-    topColor: string;
-    plan: string;
-    price: string;
-    rate?: string;
-    briefing: PlanBriefing;
-    extraBriefing: PlanBriefing;
-    planExtraInformation?: JSX.Element;
-    buttonDetails?: ButtonDetails;
-    customButtonDetails?: JSX.Element;
-    planLabel?: JSX.Element;
-    planDisclaimer?: JSX.Element;
-}
 
 type ContentProps = {
     onHide: () => void;
-}
-
-type StyledProps = {
-    bgColor?: string;
-    color?: string;
-}
-
-const StyledDiv = styled.div<StyledProps>`
-background-color: ${(props) => props.bgColor};
-`;
-
-function Card(props: CardProps) {
-    return (
-        <div
-            id={props.id}
-            className='PlanCard'
-        >
-            {props.planLabel && props.planLabel}
-            <StyledDiv
-                className='top'
-                bgColor={props.topColor}
-            />
-            <div className='bottom'>
-                <div className='plan_price_rate_section'>
-                    <h4>{props.plan}</h4>
-                    <h1 className={props.plan === 'Enterprise' ? 'enterprise_price' : ''}>{props.price}</h1>
-                    <p>{props.rate}</p>
-                </div>
-                <div className='plan_briefing'>
-                    <div>
-                        <span className='title'>{props.briefing.title}</span>
-                        {props.briefing.items.map((i) => {
-                            return (
-                                <div
-                                    className='item'
-                                    key={i}
-                                >
-                                    <i className='fa fa-circle bullet'/><p>{i}</p>
-                                </div>
-                            );
-                        })}
-                    </div>
-                    {props.planExtraInformation && props.planExtraInformation}
-                </div>
-                <div>
-                    {props.customButtonDetails ? props.customButtonDetails : (
-                        <button
-                            id={props.id + '_action'}
-                            className={`plan_action_btn ${props.buttonDetails?.disabled ? ButtonCustomiserClasses.grayed : props.buttonDetails?.customClass}`}
-                            disabled={props.buttonDetails?.disabled}
-                            onClick={props.buttonDetails?.action}
-                        >
-                            {props.buttonDetails?.text}
-                        </button>
-                    )}
-                </div>
-                {props.planDisclaimer && props.planDisclaimer}
-                <div className='plan_extra_briefing'>
-                    <div>
-                        <span className='title'>{props.extraBriefing.title}</span>
-                        {props.extraBriefing.items.map((i) => {
-                            return (
-                                <div
-                                    className='item'
-                                    key={i}
-                                >
-                                    <i className='fa fa-circle bullet'/><p>{i}</p>
-                                </div>
-                            );
-                        })}
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
 }
 
 function Content(props: ContentProps) {
@@ -163,28 +55,41 @@ function Content(props: ContentProps) {
     const dispatch = useDispatch();
     const usage = useGetUsage();
 
+    useEffect(() => {
+        if (!isCloud) {
+            dispatch(getPrevTrialLicense());
+        }
+    }, [isCloud]);
+
     const isAdmin = useSelector(isCurrentUserSystemAdmin);
     const isCloud = useSelector(isCurrentLicenseCloud);
     const contactSalesLink = useSelector(getCloudContactUsLink)(InquiryType.Sales);
 
-    const subscription = useSelector(selectCloudSubscription);
-    const product = useSelector(selectSubscriptionProduct);
-    const products = useSelector(selectCloudProducts);
+    const cloudSubscription = useSelector(selectCloudSubscription);
+    const cloudProduct = useSelector(selectSubscriptionProduct);
+    const cloudProducts = useSelector(selectCloudProducts);
+    const license = useSelector(getLicense);
+    const prevSelfHostedTrialLicense = useSelector((state: GlobalState) => state.entities.admin.prevTrialLicense);
 
-    const isEnterprise = product?.sku === CloudProducts.ENTERPRISE;
-    const isEnterpriseTrial = subscription?.is_free_trial === 'true';
-    const professionalProduct = Object.values(products || {}).find(((product) => {
-        return product.sku === CloudProducts.PROFESSIONAL;
+    const isCloudEnterprise = cloudProduct?.sku === CloudProducts.ENTERPRISE;
+    const isCloudEnterpriseTrial = cloudSubscription?.is_free_trial === 'true';
+    const isSelfHostedEnterpriseTrial = !isCloud && license.IsTrial === 'true';
+
+    const cloudProfessionalProduct = Object.values(cloudProducts || {}).find(((cloudProduct) => {
+        return cloudProduct.sku === CloudProducts.PROFESSIONAL;
     }));
-    const starterProduct = Object.values(products || {}).find(((product) => {
-        return product.sku === CloudProducts.STARTER;
+    const cloudStarterProduct = Object.values(cloudProducts || {}).find(((cloudProduct) => {
+        return cloudProduct.sku === CloudProducts.STARTER;
     }));
 
-    const isStarter = product?.sku === CloudProducts.STARTER;
+    const isCloudStarter = cloudProduct?.sku === CloudProducts.STARTER;
+    const isSelfHostedStarter = license.IsLicensed === 'false';
+    const isStarter = isCloudStarter || isSelfHostedStarter;
 
-    let isPostTrial = false;
-    if ((subscription && subscription.trial_end_at > 0) && !isEnterpriseTrial && (isStarter || isEnterprise)) {
-        isPostTrial = true;
+    const isPostSelfHostedEnterpriseTrial = prevSelfHostedTrialLicense.IsLicensed === 'true';
+    let isPostCloudEnterpriseTrial = false;
+    if ((cloudSubscription && cloudSubscription.trial_end_at > 0) && !isCloudEnterpriseTrial && (isCloudStarter || isCloudEnterprise)) {
+        isPostCloudEnterpriseTrial = true;
     }
 
     const professionalBtnAction = () => {
@@ -209,11 +114,11 @@ function Content(props: ContentProps) {
     };
 
     const downgrade = async () => {
-        if (!starterProduct) {
+        if (!cloudStarterProduct) {
             return;
         }
 
-        const result = await dispatch(subscribeCloudSubscription(starterProduct?.id));
+        const result = await dispatch(subscribeCloudSubscription(cloudStarterProduct?.id));
 
         if (typeof result === 'boolean' && result) {
             dispatch(closeModal(ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM));
@@ -339,8 +244,8 @@ function Content(props: ContentProps) {
                 <CloudStartTrialButton
                     message={formatMessage({id: 'pricing_modal.btn.tryDays', defaultMessage: 'Try free for {days} days'}, {days: '30'})}
                     telemetryId='start_cloud_trial_from_pricing_modal'
-                    disabled={isEnterpriseTrial}
-                    extraClass={`plan_action_btn ${isEnterpriseTrial ? ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.special}`}
+                    disabled={isCloudEnterpriseTrial}
+                    extraClass={`plan_action_btn ${isCloudEnterpriseTrial ? ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.special}`}
                     afterTrialRequest={closePricingModal}
                 />
             );
@@ -351,8 +256,8 @@ function Content(props: ContentProps) {
                 message={formatMessage({id: 'pricing_modal.btn.tryDays', defaultMessage: 'Try free for {days} days'}, {days: '30'})}
                 telemetryId='start_trial_from_learn_more_about_trial_modal'
                 renderAsButton={true}
-                disabled={isEnterpriseTrial}
-                btnClass={`plan_action_btn ${isEnterpriseTrial ? ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.special}`}
+                disabled={isSelfHostedEnterpriseTrial}
+                btnClass={`plan_action_btn ${isSelfHostedEnterpriseTrial ? ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.special}`}
                 onClick={closePricingModal}
             />);
     };
@@ -399,7 +304,7 @@ function Content(props: ContentProps) {
                         planExtraInformation={isCloud ? <StarterDisclaimerCTA/> : undefined}
                         buttonDetails={{
                             action: () => {
-                                if (!starterProduct) {
+                                if (!cloudStarterProduct) {
                                     return;
                                 }
                                 if (usage.teams.active > 1) {
@@ -408,8 +313,8 @@ function Content(props: ContentProps) {
                                             modalId: ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM,
                                             dialogType: DowngradeTeamRemovalModal,
                                             dialogProps: {
-                                                product_id: starterProduct?.id,
-                                                starterProductName: starterProduct?.name,
+                                                product_id: cloudStarterProduct?.id,
+                                                starterProductName: cloudStarterProduct?.name,
                                             },
                                         }),
                                     );
@@ -434,7 +339,7 @@ function Content(props: ContentProps) {
                         id='professional'
                         topColor='#4A69AC'
                         plan='Professional'
-                        price={`$${professionalProduct ? professionalProduct.price_per_seat : '10'}`}
+                        price={`$${cloudProfessionalProduct ? cloudProfessionalProduct.price_per_seat : '10'}`}
                         rate={formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: '/user/month'})}
                         briefing={{
                             title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),
@@ -444,12 +349,12 @@ function Content(props: ContentProps) {
                             title: formatMessage({id: 'pricing_modal.extra_briefing.title', defaultMessage: 'More features'}),
                             items: isCloud ? CloudExtraBriefing.professional : SelfHostedExtraBriefing.professional,
                         }}
-                        planExtraInformation={(!isAdmin && (isEnterpriseTrial || isStarter)) ? <NotifyAdminCTA/> : undefined}
+                        planExtraInformation={(!isAdmin && (isCloudEnterpriseTrial || isCloudStarter)) ? <NotifyAdminCTA/> : undefined}
                         buttonDetails={{
                             action: professionalBtnAction,
                             text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
                             disabled: !isAdmin,
-                            customClass: isPostTrial ? ButtonCustomiserClasses.special : ButtonCustomiserClasses.active,
+                            customClass: (isPostCloudEnterpriseTrial || isPostSelfHostedEnterpriseTrial) ? ButtonCustomiserClasses.special : ButtonCustomiserClasses.active,
                         }}
                         planLabel={
                             <PlanLabel
@@ -473,8 +378,8 @@ function Content(props: ContentProps) {
                             title: formatMessage({id: 'pricing_modal.extra_briefing.title', defaultMessage: 'More features'}),
                             items: isCloud ? CloudExtraBriefing.enterprise : SelfHostedExtraBriefing.enterprise,
                         }}
-                        planExtraInformation={(isPostTrial || !isAdmin) ? undefined : <ContactSalesCTA/>}
-                        buttonDetails={(isPostTrial || !isAdmin) ? {
+                        planExtraInformation={(isPostCloudEnterpriseTrial || isPostSelfHostedEnterpriseTrial || !isAdmin) ? undefined : <ContactSalesCTA/>}
+                        buttonDetails={(isPostCloudEnterpriseTrial || isPostSelfHostedEnterpriseTrial || !isAdmin) ? {
                             action: () => {
                                 trackEvent('cloud_pricing', 'click_enterprise_contact_sales');
                                 window.open(contactSalesLink, '_blank');
@@ -482,10 +387,10 @@ function Content(props: ContentProps) {
                             text: formatMessage({id: 'pricing_modal.btn.contactSales', defaultMessage: 'Contact Sales'}),
                             customClass: ButtonCustomiserClasses.active,
                         } : undefined}
-                        customButtonDetails={(!isPostTrial && isAdmin) ? (
+                        customButtonDetails={(!(isPostCloudEnterpriseTrial || isPostSelfHostedEnterpriseTrial) && isAdmin) ? (
                             trialButton()
                         ) : undefined}
-                        planDisclaimer={<StartTrialCaution/>}
+                        planDisclaimer={(isPostCloudEnterpriseTrial || isPostSelfHostedEnterpriseTrial) ? undefined : <StartTrialCaution/>}
                     />
                 </div>
             </Modal.Body>
