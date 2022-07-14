@@ -3,6 +3,7 @@
 
 .RestrictedIndicator__icon-tooltip-container {
     display: flex;
+    height: 100%;
     flex: 1;
     align-self: stretch;
     padding: 0 10px;
@@ -13,7 +14,7 @@
 
     .RestrictedIndicator__icon-tooltip {
         padding: 5px 0;
-        color: var(--denim-button-bg) !important;
+        color: var(--denim-button-bg);
         line-height: 22px;
 
         &.trial::before {
@@ -33,7 +34,7 @@ button {
 }
 
 .RestrictedIndicator__icon-tooltip {
-    max-width: 200px;
+    max-width: 240px;
     align-items: center;
 
     .title {

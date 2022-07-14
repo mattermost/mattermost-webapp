@@ -3852,6 +3852,13 @@ export default class Client4 {
         );
     }
 
+    validateWorkspaceBusinessEmail = () => {
+        return this.doFetchWithResponse<CloudCustomer>(
+            `${this.getCloudRoute()}/validate-workspace-business-email`,
+            {method: 'post'},
+        );
+    }
+
     getSubscription = () => {
         return this.doFetch<SubscriptionResponse>(
             `${this.getCloudRoute()}/subscription`,

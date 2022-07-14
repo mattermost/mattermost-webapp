@@ -548,6 +548,10 @@
 
     .emoji-picker__search-container {
         height: 40px;
+
+        .emoji-picker__text-container {
+            width: 95%;
+        }
     }
 
     .emoji-picker__items {
