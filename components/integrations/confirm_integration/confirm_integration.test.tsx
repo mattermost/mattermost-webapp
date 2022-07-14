@@ -38,7 +38,7 @@ describe('components/integrations/ConfirmIntegration', () => {
     });
     const commands = {[id]: TestHelper.getCommandMock({id, token})};
     const oauthApps = {[id]: oauthApp} as unknown as IDMappedObjects<OAuthApp>;
-    const incomingHooks = {[id]: {id}} as unknown as IDMappedObjects<IncomingWebhook>;
+    const incomingHooks: IDMappedObjects<IncomingWebhook> = {[id]: TestHelper.getIncomingWebhookMock({id})};
     const outgoingHooks = {[id]: {id, token}} as unknown as IDMappedObjects<OutgoingWebhook>;
     const bots: Record<string, Bot> = {[userId]: bot};
 
