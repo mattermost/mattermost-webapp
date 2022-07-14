@@ -56,7 +56,7 @@ const CloudDelinquencyAnnouncementBar: React.FC = () => {
         if (diffDays > 90) {
             return AnnouncementBarTypes.CRITICAL;
         }
-        return AnnouncementBarTypes.ADVISOR;
+        return AnnouncementBarTypes.CRITICAL;
     };
 
     if (!shouldShowBanner()) {
