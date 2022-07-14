@@ -194,6 +194,7 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
           className="col col-auto"
         >
           <Connect(TextboxLinks)
+            isMarkdownPreviewEnabled={false}
             showPreview={false}
             updatePreview={[Function]}
           />
@@ -296,6 +297,7 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
           className="col col-auto"
         >
           <Connect(TextboxLinks)
+            isMarkdownPreviewEnabled={false}
             showPreview={false}
             updatePreview={[Function]}
           />
@@ -434,6 +436,7 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
           className="col col-auto"
         >
           <Connect(TextboxLinks)
+            isMarkdownPreviewEnabled={false}
             showPreview={false}
             updatePreview={[Function]}
           />
@@ -560,6 +563,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
           className="col col-auto"
         >
           <Connect(TextboxLinks)
+            isMarkdownPreviewEnabled={false}
             showPreview={false}
             updatePreview={[Function]}
           />
