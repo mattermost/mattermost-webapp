@@ -424,12 +424,6 @@ export const EventTypes = Object.assign(
     }),
 );
 
-export const SelfHostedProducts = {
-    STARTER: 'starter',
-    PROFESSIONAL: 'professional',
-    ENTERPRISE: 'enterprise',
-};
-
 export const CloudProducts = {
 
     // STARTER sku is used by both free cloud starter

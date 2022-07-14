@@ -6,15 +6,13 @@ import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 
-import {CloudProducts, SelfHostedProducts} from 'utils/constants';
+import {CloudProducts} from 'utils/constants';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getCloudProducts, getCloudSubscription} from 'mattermost-redux/actions/cloud';
-import {getSelfHostedProducts, getSelfHostedSubscription} from 'mattermost-redux/actions/hosted';
 import {getCloudSubscription as selectCloudSubscription, getSubscriptionProduct as selectSubscriptionProduct, isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
-import { selectSelfHostedSubscription, selectSelfHostedSubscriptionProduct } from 'mattermost-redux/selectors/entities/hosted';
 
 const UpgradeButton = styled.button`
 background: var(--denim-button-bg);
@@ -40,15 +38,11 @@ const UpgradeCloudButton = (): JSX.Element | null => {
 
     openPricingModal = useOpenPricingModal();
     const isCloud = useSelector(isCurrentLicenseCloud);
-    const isSelfHostedPurchaseThroughCWS = true;
 
     useEffect(() => {
         if (isCloud) {
             dispatch(getCloudSubscription());
             dispatch(getCloudProducts());
-        } else if (isSelfHostedPurchaseThroughCWS) {
-            dispatch(getSelfHostedProducts());
-            dispatch(getSelfHostedSubscription());
         }
     }, [isCloud]);
 
@@ -56,17 +50,15 @@ const UpgradeCloudButton = (): JSX.Element | null => {
     const subscription = useSelector(selectCloudSubscription);
     const product = useSelector(selectSubscriptionProduct);
     const config = useSelector(getConfig);
+    const license = useSelector(getLicense);
 
     const enableForSelfHosted = config?.EnableUpgradeForSelfHostedStarter === 'true';
-
-    const selfHostedSubscription = useSelector(selectSelfHostedSubscription)
-    const selfHostedProduct = useSelector(selectSelfHostedSubscriptionProduct);
 
     const isEnterpriseTrial = subscription?.is_free_trial === 'true';
     const isStarter = product?.sku === CloudProducts.STARTER;
 
-    const isSelfHostedEnterpriseTrial = selfHostedSubscription?.is_free_trial === 'true';
-    const isSelfHostedStarter = selfHostedProduct?.sku === SelfHostedProducts.STARTER;
+    const isSelfHostedEnterpriseTrial = !isCloud && license.IsTrial === 'true';
+    const isSelfHostedStarter = license.IsLicensed === 'false';
 
     if (!isAdmin) {
         return null;
@@ -82,7 +74,8 @@ const UpgradeCloudButton = (): JSX.Element | null => {
         return null;
     }
 
-    if (!isCloud && !enableForSelfHosted) {
+    // for non cloud, when on starter, check if button is configured to show
+    if (!isCloud && isSelfHostedStarter && !enableForSelfHosted) {
         return null;
     }
 
