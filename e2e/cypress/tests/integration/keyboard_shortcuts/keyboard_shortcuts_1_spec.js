@@ -43,7 +43,7 @@ describe('Keyboard Shortcuts', () => {
 
     it('MM-T1227 - CTRL/CMD+K - Join public channel', () => {
         // # Type CTRL/CMD+K
-        cy.get('#post_textbox').cmdOrCtrlShortcut('K');
+        cy.uiGetPostTextBox().cmdOrCtrlShortcut('K');
 
         cy.apiCreateUser({prefix: 'temp-'}).then(({user: tempUser}) => {
             // # Add user to team but not to test channel
@@ -102,7 +102,7 @@ describe('Keyboard Shortcuts', () => {
             cy.apiCreateDirectChannel([testUser.id, otherUser.id]).wait(TIMEOUTS.ONE_SEC).then(({channel}) => {
                 dmChannels.push(channel);
                 cy.visit(`/${team.name}/channels/${testUser.id}__${otherUser.id}`);
-                cy.get('#post_textbox').clear().type(`message from ${testUser.username}`).type('{enter}');
+                cy.uiGetPostTextBox().clear().type(`message from ${testUser.username}`).type('{enter}');
             });
 
             // # Add posts by second user to the newly created channels in the first team
@@ -111,13 +111,13 @@ describe('Keyboard Shortcuts', () => {
                 cy.visit(`/${team.name}/channels/off-topic`);
 
                 cy.get('#sidebarItem_' + publicChannels[0].name).scrollIntoView().click();
-                cy.get('#post_textbox').clear().type('message to public channel').type('{enter}');
+                cy.uiGetPostTextBox().clear().type('message to public channel').type('{enter}');
 
                 cy.get('#sidebarItem_' + privateChannels[0].name).scrollIntoView().click();
-                cy.get('#post_textbox').clear().type('message to private channel').type('{enter}');
+                cy.uiGetPostTextBox().clear().type('message to private channel').type('{enter}');
 
                 cy.get('#sidebarItem_' + dmChannels[0].name).scrollIntoView().click();
-                cy.get('#post_textbox').clear().type(`direct message from ${otherUser.username}`).type('{enter}');
+                cy.uiGetPostTextBox().clear().type(`direct message from ${otherUser.username}`).type('{enter}');
             });
 
             cy.apiLogout();
@@ -175,7 +175,7 @@ describe('Keyboard Shortcuts', () => {
             cy.apiCreateDirectChannel([testUser.id, otherUser.id]).wait(TIMEOUTS.ONE_SEC).then(({channel}) => {
                 favDMChannels.push(channel);
                 cy.visit(`/${team.name}/channels/${testUser.id}__${otherUser.id}`);
-                cy.get('#post_textbox').clear().type(`message from ${testUser.username}`).type('{enter}');
+                cy.uiGetPostTextBox().clear().type(`message from ${testUser.username}`).type('{enter}');
                 markAsFavorite(channel.name);
             });
 
@@ -185,13 +185,13 @@ describe('Keyboard Shortcuts', () => {
                 cy.visit(`/${team.name}/channels/off-topic`);
 
                 cy.get('#sidebarItem_' + favPublicChannels[0].name).scrollIntoView().click();
-                cy.get('#post_textbox').clear().type('message to public channel').type('{enter}');
+                cy.uiGetPostTextBox().clear().type('message to public channel').type('{enter}');
 
                 cy.get('#sidebarItem_' + favPrivateChannels[0].name).scrollIntoView().click();
-                cy.get('#post_textbox').clear().type('message to private channel').type('{enter}');
+                cy.uiGetPostTextBox().clear().type('message to private channel').type('{enter}');
 
                 cy.get('#sidebarItem_' + favDMChannels[0].name).scrollIntoView().click();
-                cy.get('#post_textbox').clear().type(`direct message from ${otherUser.username}`).type('{enter}');
+                cy.uiGetPostTextBox().clear().type(`direct message from ${otherUser.username}`).type('{enter}');
             });
 
             cy.apiLogout();
@@ -261,7 +261,7 @@ describe('Keyboard Shortcuts', () => {
             cy.apiCreateDirectChannel([testUser.id, otherUser.id]).wait(TIMEOUTS.ONE_SEC).then(({channel}) => {
                 dmChannels.push(channel);
                 cy.visit(`/${team.name}/channels/${testUser.id}__${otherUser.id}`);
-                cy.get('#post_textbox').clear().type(`message from ${testUser.username}`).type('{enter}');
+                cy.uiGetPostTextBox().clear().type(`message from ${testUser.username}`).type('{enter}');
             });
 
             // # Add posts by second user to the newly created channels in the first team
@@ -270,13 +270,13 @@ describe('Keyboard Shortcuts', () => {
                 cy.visit(`/${team.name}/channels/off-topic`);
 
                 cy.get('#sidebarItem_' + publicChannels[0].name).scrollIntoView().click();
-                cy.get('#post_textbox').clear().type('message to public channel').type('{enter}');
+                cy.uiGetPostTextBox().clear().type('message to public channel').type('{enter}');
 
                 cy.get('#sidebarItem_' + privateChannels[0].name).scrollIntoView().click();
-                cy.get('#post_textbox').clear().type('message to private channel').type('{enter}');
+                cy.uiGetPostTextBox().clear().type('message to private channel').type('{enter}');
 
                 cy.get('#sidebarItem_' + dmChannels[0].name).scrollIntoView().click();
-                cy.get('#post_textbox').clear().type(`direct message from ${otherUser.username}`).type('{enter}');
+                cy.uiGetPostTextBox().clear().type(`direct message from ${otherUser.username}`).type('{enter}');
             });
 
             cy.apiLogout();
@@ -334,7 +334,7 @@ describe('Keyboard Shortcuts', () => {
             cy.apiCreateDirectChannel([testUser.id, otherUser.id]).wait(TIMEOUTS.ONE_SEC).then(({channel}) => {
                 favDMChannels.push(channel);
                 cy.visit(`/${team.name}/channels/${testUser.id}__${otherUser.id}`);
-                cy.get('#post_textbox').clear().type(`message from ${testUser.username}`).type('{enter}');
+                cy.uiGetPostTextBox().clear().type(`message from ${testUser.username}`).type('{enter}');
                 markAsFavorite(channel.name);
             });
 
@@ -344,13 +344,13 @@ describe('Keyboard Shortcuts', () => {
                 cy.visit(`/${team.name}/channels/off-topic`);
 
                 cy.get('#sidebarItem_' + favPublicChannels[0].name).scrollIntoView().click();
-                cy.get('#post_textbox').clear().type('message to public channel').type('{enter}');
+                cy.uiGetPostTextBox().clear().type('message to public channel').type('{enter}');
 
                 cy.get('#sidebarItem_' + favPrivateChannels[0].name).scrollIntoView().click();
-                cy.get('#post_textbox').clear().type('message to private channel').type('{enter}');
+                cy.uiGetPostTextBox().clear().type('message to private channel').type('{enter}');
 
                 cy.get('#sidebarItem_' + favDMChannels[0].name).scrollIntoView().click();
-                cy.get('#post_textbox').clear().type(`direct message from ${otherUser.username}`).type('{enter}');
+                cy.uiGetPostTextBox().clear().type(`direct message from ${otherUser.username}`).type('{enter}');
             });
 
             cy.apiLogout();
@@ -389,7 +389,7 @@ describe('Keyboard Shortcuts', () => {
 
     it('MM-T1240 - CTRL/CMD+K: Open and close', () => {
         // # Type CTRL/CMD+K to open 'Switch Channels' modal
-        cy.get('#post_textbox').cmdOrCtrlShortcut('K').then(() => {
+        cy.uiGetPostTextBox().cmdOrCtrlShortcut('K').then(() => {
             // * Channel switcher hint should be visible and focused on
             cy.get('#quickSwitchHint').should('be.visible');
             cy.findByRole('textbox', {name: 'quick switch input'}).should('be.focused');
@@ -405,7 +405,7 @@ describe('Keyboard Shortcuts', () => {
         cy.get('#searchBox').click().should('be.focused').then(() => {
             // # Type CTRL/CMD+SHIFT+L
             cy.get('body').cmdOrCtrlShortcut('{shift}L');
-            cy.get('#post_textbox').should('be.focused');
+            cy.uiGetPostTextBox().should('be.focused');
         });
 
         // # Post a message and open RHS
@@ -414,17 +414,17 @@ describe('Keyboard Shortcuts', () => {
         cy.getLastPostId().then((postId) => {
             // # Mouseover the post and click post comment icon.
             cy.clickPostCommentIcon(postId);
-            cy.get('#reply_textbox').focus().should('be.focused');
+            cy.uiGetReplyTextBox().focus().should('be.focused');
         }).then(() => {
             // # Type CTRL/CMD+SHIFT+L
             cy.get('body').cmdOrCtrlShortcut('{shift}L');
-            cy.get('#post_textbox').should('be.focused');
+            cy.uiGetPostTextBox().should('be.focused');
         });
     });
 
     it('MM-T1252 - CTRL/CMD+SHIFT+A', () => {
         // # Type CTRL/CMD+SHIFT+A to open 'Profile' modal
-        cy.get('#post_textbox').cmdOrCtrlShortcut('{shift}A');
+        cy.uiGetPostTextBox().cmdOrCtrlShortcut('{shift}A');
         cy.uiGetSettingsModal().should('be.visible');
 
         // # Type CTRL/CMD+SHIFT+A to close 'Profile' modal
@@ -434,7 +434,7 @@ describe('Keyboard Shortcuts', () => {
 
     it('MM-T1278 - CTRL/CMD+SHIFT+K', () => {
         // # Type CTRL/CMD+SHIFT+K to open 'Direct Messages' modal
-        cy.get('#post_textbox').cmdOrCtrlShortcut('{shift}K');
+        cy.uiGetPostTextBox().cmdOrCtrlShortcut('{shift}K');
         cy.get('#moreDmModal').should('be.visible').contains('Direct Messages');
 
         // # Type CTRL/CMD+SHIFT+K to close 'Direct Messages' modal
@@ -450,13 +450,13 @@ describe('Keyboard Shortcuts', () => {
         cy.clickPostCommentIcon();
 
         // # Type CTRL/CMD+SHIFT+. to expand 'RHS'
-        cy.get('#post_textbox').cmdOrCtrlShortcut('{shift}.');
+        cy.uiGetPostTextBox().cmdOrCtrlShortcut('{shift}.');
 
         // * Verify RHS is now expanded
         cy.uiGetRHS().isExpanded();
 
         // # Type CTRL/CMD+SHIFT+. to collapse 'RHS'
-        cy.get('#post_textbox').cmdOrCtrlShortcut('{shift}.');
+        cy.get('body').cmdOrCtrlShortcut('{shift}.');
 
         // * Verify RHS is now in collapsed state
         cy.get('#sidebar-right').should('be.visible').and('not.have.class', 'sidebar--right--expanded');
@@ -464,19 +464,19 @@ describe('Keyboard Shortcuts', () => {
 
     it('MM-T4452 - CTRL/CMD+SHIFT+. Expand or collapse RHS when RHS is in closed state', () => {
         // # Type CTRL/CMD+SHIFT+. to open 'RHS'
-        cy.get('#post_textbox').cmdOrCtrlShortcut('{shift}.');
+        cy.uiGetPostTextBox().cmdOrCtrlShortcut('{shift}.');
 
         // * Verify RHS is now open and is in collapsed state
         cy.get('#sidebar-right').should('be.visible').and('not.have.class', 'sidebar--right--expanded');
 
         // # Type CTRL/CMD+SHIFT+. to expand 'RHS'
-        cy.get('#post_textbox').cmdOrCtrlShortcut('{shift}.');
+        cy.uiGetPostTextBox().cmdOrCtrlShortcut('{shift}.');
 
         // * Verify RHS is now fully expanded
         cy.uiGetRHS().isExpanded();
 
         // # Type CTRL/CMD+SHIFT+. to collapse 'RHS'
-        cy.get('#post_textbox').cmdOrCtrlShortcut('{shift}.');
+        cy.uiGetPostTextBox().cmdOrCtrlShortcut('{shift}.');
 
         // * Verify RHS is now in collapsed state
         cy.get('#sidebar-right').should('be.visible').and('not.have.class', 'sidebar--right--expanded');

@@ -87,6 +87,12 @@ export default class AnnouncementBar extends React.PureComponent<Props, State> {
         document.body.classList.add('announcement-bar--fixed');
     }
 
+    componentDidUpdate() {
+        if (this.props.announcementBarCount === 1) {
+            document.body.classList.add('announcement-bar--fixed');
+        }
+    }
+
     componentWillUnmount() {
         if (this.props.announcementBarCount === 1) {
             document.body.classList.remove('announcement-bar--fixed');

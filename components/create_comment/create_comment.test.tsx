@@ -1,7 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable dot-notation */
 
 import React from 'react';
+
+import {ShallowWrapper} from 'enzyme';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import {testComponentForLineBreak} from 'tests/helpers/line_break_helpers';
@@ -9,19 +12,26 @@ import {testComponentForMarkdownHotkeys, makeSelectionEvent} from 'tests/helpers
 
 import Constants, {ModalIdentifiers} from 'utils/constants';
 
-import CreateComment from 'components/create_comment/create_comment';
+import CreateComment, {CreateComment as CreateCommentClass, State, Props} from 'components/create_comment/create_comment';
 import FileUpload from 'components/file_upload';
 import FilePreview from 'components/file_preview';
-import Textbox from 'components/textbox';
+import Textbox, {TextboxClass, TextboxElement} from 'components/textbox';
+
+import {FileInfo} from '@mattermost/types/files';
+import {Emoji} from '@mattermost/types/emojis';
+import {Group} from '@mattermost/types/groups';
+import {ChannelMemberCountByGroup, ChannelMemberCountsByGroup} from '@mattermost/types/channels';
+import {ServerError} from '@mattermost/types/errors';
 
 describe('components/CreateComment', () => {
     jest.useFakeTimers();
+    let windowSpy: jest.SpyInstance;
     beforeEach(() => {
-        jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => setTimeout(cb, 16));
+        windowSpy = jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => setTimeout(cb, 16));
     });
 
     afterEach(() => {
-        window.requestAnimationFrame.mockRestore();
+        windowSpy.mockRestore();
     });
 
     const channelId = 'g6139tbospd18cmxroesdk3kkc';
@@ -35,8 +45,8 @@ describe('components/CreateComment', () => {
         channelMembersCount: 3,
         draft: {
             message: 'Test message',
-            uploadsInProgress: [{}],
-            fileInfos: [{}, {}, {}],
+            uploadsInProgress: [],
+            fileInfos: [{} as FileInfo, {} as FileInfo, {} as FileInfo],
         },
         enableAddButton: true,
         ctrlSend: false,
@@ -52,6 +62,10 @@ describe('components/CreateComment', () => {
         onEditLatestPost: jest.fn(),
         resetCreatePostRequest: jest.fn(),
         setShowPreview: jest.fn(),
+        emitShortcutReactToLastPostFrom: jest.fn(),
+        groupsWithAllowReference: null,
+        channelMemberCountsByGroup: {},
+        markdownPreviewFeatureIsEnabled: false,
         shouldShowPreview: false,
         enableEmojiPicker: true,
         enableGifPicker: true,
@@ -59,7 +73,7 @@ describe('components/CreateComment', () => {
         maxPostSize: Constants.DEFAULT_CHARACTER_LIMIT,
         rhsExpanded: false,
         badConnection: false,
-        getChannelTimezones: jest.fn(() => Promise.resolve([])),
+        getChannelTimezones: jest.fn(() => Promise.resolve({data: []})),
         isTimezoneEnabled: false,
         selectedPostFocussedAt: 0,
         isMarkdownPreviewEnabled: true,
@@ -133,7 +147,7 @@ describe('components/CreateComment', () => {
         const draft = {
             message: 'Test message',
             uploadsInProgress: [{}],
-            fileInfos: [{}, {}, {}],
+            fileInfos: [{} as FileInfo, {} as FileInfo, {} as FileInfo],
         };
 
         const wrapper = shallowWithIntl(
@@ -149,11 +163,11 @@ describe('components/CreateComment', () => {
             <CreateComment {...baseProps}/>,
         );
 
-        wrapper.instance().toggleEmojiPicker();
-        expect(wrapper.state().showEmojiPicker).toBe(true);
+        (wrapper.instance() as CreateCommentClass).toggleEmojiPicker();
+        expect(wrapper.state('showEmojiPicker')).toBe(true);
 
-        wrapper.instance().toggleEmojiPicker();
-        expect(wrapper.state().showEmojiPicker).toBe(false);
+        (wrapper.instance() as CreateCommentClass).toggleEmojiPicker();
+        expect(wrapper.state('showEmojiPicker')).toBe(false);
     });
 
     test('should correctly change state when hideEmojiPicker is called', () => {
@@ -161,8 +175,8 @@ describe('components/CreateComment', () => {
             <CreateComment {...baseProps}/>,
         );
 
-        wrapper.instance().hideEmojiPicker();
-        expect(wrapper.state().showEmojiPicker).toBe(false);
+        (wrapper.instance() as CreateCommentClass).hideEmojiPicker();
+        expect(wrapper.state('showEmojiPicker')).toBe(false);
     });
 
     test('should correctly update draft when handleEmojiClick is called', () => {
@@ -191,40 +205,46 @@ describe('components/CreateComment', () => {
             return document.createElement('div');
         };
 
-        wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), getBoundingClientRect: jest.fn(), focus: jest.fn()};
+        (wrapper.instance() as CreateCommentClass)['textboxRef'] = {
+            current: {
+                getInputBox: jest.fn(mockImpl),
+                getBoundingClientRect: jest.fn(),
+                focus: jest.fn(),
+            } as unknown as TextboxClass,
+        };
 
-        wrapper.instance().handleEmojiClick({name: 'smile'});
+        (wrapper.instance() as CreateCommentClass).handleEmojiClick({name: 'smile'} as Emoji);
         expect(onUpdateCommentDraft).toHaveBeenCalled();
 
         // Empty message case
         expect(onUpdateCommentDraft.mock.calls[0][0]).toEqual(
             expect.objectContaining({message: ':smile: '}),
         );
-        expect(wrapper.state().draft.message).toBe(':smile: ');
+        expect(wrapper.state<State['draft']>('draft')!.message).toBe(':smile: ');
 
         wrapper.setState({draft: {message: 'test', uploadsInProgress: [], fileInfos: []},
             caretPosition: 'test'.length, // cursor is at the end
         });
-        wrapper.instance().handleEmojiClick({name: 'smile'});
+        (wrapper.instance() as CreateCommentClass).handleEmojiClick({name: 'smile'} as Emoji);
 
         // Message with no space at the end
         expect(onUpdateCommentDraft.mock.calls[1][0]).toEqual(
             expect.objectContaining({message: 'test :smile:  '}),
         );
-        expect(wrapper.state().draft.message).toBe('test :smile:  ');
+        expect(wrapper.state<State['draft']>('draft')!.message).toBe('test :smile:  ');
 
         wrapper.setState({draft: {message: 'test ', uploadsInProgress: [], fileInfos: []},
             caretPosition: 'test '.length, // cursor is at the end
         });
-        wrapper.instance().handleEmojiClick({name: 'smile'});
+        (wrapper.instance() as CreateCommentClass).handleEmojiClick({name: 'smile'} as Emoji);
 
         // Message with space at the end
         expect(onUpdateCommentDraft.mock.calls[2][0]).toEqual(
             expect.objectContaining({message: 'test  :smile:  '}),
         );
-        expect(wrapper.state().draft.message).toBe('test  :smile:  ');
+        expect(wrapper.state<State['draft']>('draft')!.message).toBe('test  :smile:  ');
 
-        expect(wrapper.state().showEmojiPicker).toBe(false);
+        expect(wrapper.state('showEmojiPicker')).toBe(false);
     });
 
     test('handlePostError should update state with the correct error', () => {
@@ -232,19 +252,19 @@ describe('components/CreateComment', () => {
             <CreateComment {...baseProps}/>,
         );
 
-        wrapper.instance().handlePostError('test error 1');
-        expect(wrapper.state().postError).toBe('test error 1');
+        (wrapper.instance() as CreateCommentClass).handlePostError('test error 1');
+        expect(wrapper.state('postError')).toBe('test error 1');
 
-        wrapper.instance().handlePostError('test error 2');
-        expect(wrapper.state().postError).toBe('test error 2');
+        (wrapper.instance() as CreateCommentClass).handlePostError('test error 2');
+        expect(wrapper.state('postError')).toBe('test error 2');
     });
 
     test('handleUploadError should update state with the correct error', () => {
         const updateCommentDraftWithRootId = jest.fn();
         const draft = {
             message: 'Test message',
-            uploadsInProgress: [1, 2, 3],
-            fileInfos: [{}, {}, {}],
+            uploadsInProgress: ['1', '2', '3'],
+            fileInfos: [{} as FileInfo, {} as FileInfo, {} as FileInfo],
         };
         const props = {...baseProps, draft, updateCommentDraftWithRootId};
 
@@ -252,28 +272,28 @@ describe('components/CreateComment', () => {
             <CreateComment {...props}/>,
         );
 
-        const instance = wrapper.instance();
+        const instance = wrapper.instance() as CreateCommentClass;
 
         const testError1 = 'test error 1';
         wrapper.setState({draft});
-        instance.draftsForPost[props.rootId] = draft;
-        instance.handleUploadError(testError1, 1, null, props.rootId);
+        instance['draftsForPost'][props.rootId] = draft;
+        instance.handleUploadError(testError1, '1', undefined, props.rootId);
 
         expect(updateCommentDraftWithRootId).toHaveBeenCalled();
         expect(updateCommentDraftWithRootId.mock.calls[0][0]).toEqual(props.rootId);
         expect(updateCommentDraftWithRootId.mock.calls[0][1]).toEqual(
-            expect.objectContaining({uploadsInProgress: [2, 3]}),
+            expect.objectContaining({uploadsInProgress: ['2', '3']}),
         );
-        expect(wrapper.state().serverError.message).toBe(testError1);
-        expect(wrapper.state().draft.uploadsInProgress).toEqual([2, 3]);
+        expect(wrapper.state<State['serverError']>('serverError')!.message).toBe(testError1);
+        expect(wrapper.state<State['draft']>('draft')!.uploadsInProgress).toEqual(['2', '3']);
 
         // clientId = -1
         const testError2 = 'test error 2';
-        instance.handleUploadError(testError2, -1, null, props.rootId);
+        instance.handleUploadError(testError2, -1, undefined, props.rootId);
 
         // should not call onUpdateCommentDraft
         expect(updateCommentDraftWithRootId.mock.calls.length).toBe(1);
-        expect(wrapper.state().serverError.message).toBe(testError2);
+        expect(wrapper.state<State['serverError']>('serverError')!.message).toBe(testError2);
     });
 
     test('getFileCount should return the correct count', () => {
@@ -281,13 +301,13 @@ describe('components/CreateComment', () => {
             <CreateComment {...baseProps}/>,
         );
 
-        expect(wrapper.instance().getFileCount()).toBe(3);
+        expect((wrapper.instance() as CreateCommentClass).getFileCount()).toBe(3);
 
         wrapper.setState({draft: {message: 'test', uploadsInProgress: [{}], fileInfos: [{}, {}, {}]}});
-        expect(wrapper.instance().getFileCount()).toBe(4);
+        expect((wrapper.instance() as CreateCommentClass).getFileCount()).toBe(4);
 
         wrapper.setState({draft: {message: 'test', uploadsInProgress: [], fileInfos: []}});
-        expect(wrapper.instance().getFileCount()).toBe(0);
+        expect((wrapper.instance() as CreateCommentClass).getFileCount()).toBe(0);
     });
 
     test('should call openModal when showPostDeletedModal is called', () => {
@@ -295,7 +315,7 @@ describe('components/CreateComment', () => {
             <CreateComment {...baseProps}/>,
         );
 
-        wrapper.instance().showPostDeletedModal();
+        (wrapper.instance() as CreateCommentClass).showPostDeletedModal();
 
         expect(baseProps.openModal).toHaveBeenCalledTimes(1);
     });
@@ -304,8 +324,8 @@ describe('components/CreateComment', () => {
         const onUpdateCommentDraft = jest.fn();
         const draft = {
             message: 'Test message',
-            uploadsInProgress: [1, 2, 3],
-            fileInfos: [{}, {}, {}],
+            uploadsInProgress: ['1', '2', '3'],
+            fileInfos: [{} as FileInfo, {} as FileInfo, {} as FileInfo],
         };
         const props = {...baseProps, onUpdateCommentDraft, draft};
 
@@ -315,24 +335,24 @@ describe('components/CreateComment', () => {
 
         const focusTextbox = jest.fn();
         wrapper.setState({draft});
-        wrapper.instance().focusTextbox = focusTextbox;
-        wrapper.instance().handleUploadStart([4, 5]);
+        (wrapper.instance() as CreateCommentClass).focusTextbox = focusTextbox;
+        (wrapper.instance() as CreateCommentClass).handleUploadStart(['4', '5']);
 
         expect(onUpdateCommentDraft).toHaveBeenCalled();
         expect(onUpdateCommentDraft.mock.calls[0][0]).toEqual(
-            expect.objectContaining({uploadsInProgress: [1, 2, 3, 4, 5]}),
+            expect.objectContaining({uploadsInProgress: ['1', '2', '3', '4', '5']}),
         );
 
-        expect(wrapper.state().draft.uploadsInProgress === [1, 2, 3, 4, 5]);
+        expect(wrapper.state<State['draft']>('draft')!.uploadsInProgress === ['1', '2', '3', '4', '5']);
         expect(focusTextbox).toHaveBeenCalled();
     });
 
     test('handleFileUploadComplete should update comment draft correctly', () => {
         const updateCommentDraftWithRootId = jest.fn();
-        const fileInfos = [{id: '1', name: 'aaa', create_at: 100}, {id: '2', name: 'bbb', create_at: 200}];
+        const fileInfos = [{id: '1', name: 'aaa', create_at: 100} as FileInfo, {id: '2', name: 'bbb', create_at: 200} as FileInfo];
         const draft = {
             message: 'Test message',
-            uploadsInProgress: [1, 2, 3],
+            uploadsInProgress: ['1', '2', '3'],
             fileInfos,
         };
         const props = {...baseProps, updateCommentDraftWithRootId, draft};
@@ -341,21 +361,21 @@ describe('components/CreateComment', () => {
             <CreateComment {...props}/>,
         );
 
-        const instance = wrapper.instance();
+        const instance = wrapper.instance() as CreateCommentClass;
         wrapper.setState({draft});
-        instance.draftsForPost[props.rootId] = draft;
+        instance['draftsForPost'][props.rootId] = draft;
 
-        const uploadCompleteFileInfo = [{id: '3', name: 'ccc', create_at: 300}];
+        const uploadCompleteFileInfo = [{id: '3', name: 'ccc', create_at: 300} as FileInfo];
         const expectedNewFileInfos = fileInfos.concat(uploadCompleteFileInfo);
-        instance.handleFileUploadComplete(uploadCompleteFileInfo, [3], null, props.rootId);
+        instance.handleFileUploadComplete(uploadCompleteFileInfo, '3', '', props.rootId);
         expect(updateCommentDraftWithRootId).toHaveBeenCalled();
         expect(updateCommentDraftWithRootId.mock.calls[0][0]).toEqual(props.rootId);
         expect(updateCommentDraftWithRootId.mock.calls[0][1]).toEqual(
-            expect.objectContaining({uploadsInProgress: [1, 2], fileInfos: expectedNewFileInfos}),
+            expect.objectContaining({uploadsInProgress: ['1', '2'], fileInfos: expectedNewFileInfos}),
         );
 
-        expect(wrapper.state().draft.uploadsInProgress).toEqual([1, 2]);
-        expect(wrapper.state().draft.fileInfos).toEqual(expectedNewFileInfos);
+        expect(wrapper.state<State['draft']>('draft')!.uploadsInProgress).toEqual(['1', '2']);
+        expect(wrapper.state<State['draft']>('draft')!.fileInfos).toEqual(expectedNewFileInfos);
     });
 
     it('check for uploadsProgressPercent state on handleUploadProgress callback', () => {
@@ -373,8 +393,8 @@ describe('components/CreateComment', () => {
         const onUpdateCommentDraft = jest.fn();
         const draft = {
             message: 'Test message',
-            uploadsInProgress: [1, 2, 3],
-            fileInfos: [{id: '1', name: 'aaa', create_at: 100}, {id: '2', name: 'bbb', create_at: 200}],
+            uploadsInProgress: ['1', '2', '3'],
+            fileInfos: [{id: '1', name: 'aaa', create_at: 100} as FileInfo, {id: '2', name: 'bbb', create_at: 200} as FileInfo],
         };
         const props = {...baseProps, onUpdateCommentDraft, draft};
 
@@ -394,8 +414,8 @@ describe('components/CreateComment', () => {
         const onUpdateCommentDraft = jest.fn();
         const draft = {
             message: 'Test message',
-            uploadsInProgress: [1, 2, 3],
-            fileInfos: [{id: '1', name: 'aaa', create_at: 100}, {id: '2', name: 'bbb', create_at: 200}],
+            uploadsInProgress: ['1', '2', '3'],
+            fileInfos: [{id: '1', name: 'aaa', create_at: 100} as FileInfo, {id: '2', name: 'bbb', create_at: 200} as FileInfo],
         };
         const props = {...baseProps, onUpdateCommentDraft, draft};
 
@@ -404,7 +424,7 @@ describe('components/CreateComment', () => {
         );
 
         wrapper.setProps({rootDeleted: true});
-        wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+        (wrapper.instance() as CreateCommentClass).handleSubmit({preventDefault: jest.fn()} as unknown as React.FormEvent);
 
         expect(props.openModal).toHaveBeenCalledTimes(1);
         expect(props.openModal.mock.calls[0][0]).toMatchObject({
@@ -415,8 +435,8 @@ describe('components/CreateComment', () => {
     describe('focusTextbox', () => {
         const draft = {
             message: 'Test message',
-            uploadsInProgress: [1, 2, 3],
-            fileInfos: [{id: '1', name: 'aaa', create_at: 100}, {id: '2', name: 'bbb', create_at: 200}],
+            uploadsInProgress: ['1', '2', '3'],
+            fileInfos: [{id: '1', name: 'aaa', create_at: 100} as FileInfo, {id: '2', name: 'bbb', create_at: 200} as FileInfo],
         };
 
         it('is called when rootId changes', () => {
@@ -426,7 +446,7 @@ describe('components/CreateComment', () => {
             );
 
             const focusTextbox = jest.fn();
-            wrapper.instance().focusTextbox = focusTextbox;
+            (wrapper.instance() as CreateCommentClass).focusTextbox = focusTextbox;
 
             const newProps = {
                 ...props,
@@ -435,7 +455,9 @@ describe('components/CreateComment', () => {
 
             // Note that setProps doesn't actually trigger componentDidUpdate
             wrapper.setProps(newProps);
-            wrapper.instance().componentDidUpdate(props, newProps);
+            // eslint-disable-next-line
+            // @ts-ignore
+            (wrapper.instance() as CreateCommentClass).componentDidUpdate(props, newProps);
             expect(focusTextbox).toHaveBeenCalled();
         });
 
@@ -446,7 +468,7 @@ describe('components/CreateComment', () => {
             );
 
             const focusTextbox = jest.fn();
-            wrapper.instance().focusTextbox = focusTextbox;
+            (wrapper.instance() as CreateCommentClass).focusTextbox = focusTextbox;
 
             const newProps = {
                 ...props,
@@ -455,7 +477,9 @@ describe('components/CreateComment', () => {
 
             // Note that setProps doesn't actually trigger componentDidUpdate
             wrapper.setProps(newProps);
-            wrapper.instance().componentDidUpdate(props, props);
+            // eslint-disable-next-line
+            // @ts-ignore
+            (wrapper.instance() as CreateCommentClass).componentDidUpdate(props, props);
             expect(focusTextbox).toHaveBeenCalled();
         });
 
@@ -466,12 +490,14 @@ describe('components/CreateComment', () => {
             );
 
             const focusTextbox = jest.fn();
-            wrapper.instance().focusTextbox = focusTextbox;
-            wrapper.instance().handleBlur();
+            (wrapper.instance() as CreateCommentClass).focusTextbox = focusTextbox;
+            (wrapper.instance() as CreateCommentClass).handleBlur();
 
             // Note that setProps doesn't actually trigger componentDidUpdate
             wrapper.setProps(props);
-            wrapper.instance().componentDidUpdate(props, props);
+            // eslint-disable-next-line
+            // @ts-ignore
+            (wrapper.instance() as CreateCommentClass).componentDidUpdate(props, props);
             expect(focusTextbox).not.toHaveBeenCalled();
         });
     });
@@ -479,8 +505,8 @@ describe('components/CreateComment', () => {
     test('handleChange should update comment draft correctly', () => {
         const draft = {
             message: 'Test message',
-            uploadsInProgress: [1, 2, 3],
-            fileInfos: [{}, {}, {}],
+            uploadsInProgress: ['1', '2', '3'],
+            fileInfos: [{} as FileInfo, {} as FileInfo, {} as FileInfo],
         };
         const scrollToBottom = jest.fn();
         const props = {...baseProps, draft, scrollToBottom};
@@ -492,7 +518,7 @@ describe('components/CreateComment', () => {
         );
 
         const testMessage = 'new msg';
-        wrapper.instance().handleChange({target: {value: testMessage}});
+        (wrapper.instance() as CreateCommentClass).handleChange({target: {value: testMessage}} as unknown as React.ChangeEvent<TextboxElement>);
 
         // The callback won't we called until after a short delay
         expect(baseProps.onUpdateCommentDraft).not.toHaveBeenCalled();
@@ -503,21 +529,21 @@ describe('components/CreateComment', () => {
         expect(baseProps.onUpdateCommentDraft.mock.calls[0][0]).toEqual(
             expect.objectContaining({message: testMessage}),
         );
-        expect(wrapper.state().draft.message).toBe(testMessage);
+        expect(wrapper.state<State['draft']>('draft')!.message).toBe(testMessage);
         expect(scrollToBottom).toHaveBeenCalled();
     });
 
     it('handleChange should throw away invalid command error if user resumes typing', async () => {
         const onUpdateCommentDraft = jest.fn();
 
-        const error = new Error('No command found');
+        const error = new Error('No command found') as unknown as ServerError;
         error.server_error_id = 'api.command.execute_command.not_found.app_error';
         const onSubmit = jest.fn(() => Promise.reject(error));
 
         const draft = {
             message: '/fakecommand other text',
-            uploadsInProgress: [1, 2, 3],
-            fileInfos: [{}, {}, {}],
+            uploadsInProgress: ['1', '2', '3'],
+            fileInfos: [{} as FileInfo, {} as FileInfo, {} as FileInfo],
         };
         const props = {...baseProps, onUpdateCommentDraft, draft, onSubmit};
 
@@ -525,32 +551,32 @@ describe('components/CreateComment', () => {
             <CreateComment {...props}/>,
         );
 
-        await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+        await (wrapper.instance() as CreateCommentClass).handleSubmit({preventDefault: jest.fn()} as unknown as React.FormEvent);
 
         expect(onSubmit).toHaveBeenCalledWith({
             message: '/fakecommand other text',
             uploadsInProgress: [],
-            fileInfos: [{}, {}, {}],
+            fileInfos: [{} as FileInfo, {} as FileInfo, {} as FileInfo],
         }, {ignoreSlash: false});
 
-        wrapper.instance().handleChange({
+        (wrapper.instance() as CreateCommentClass).handleChange({
             target: {value: 'some valid text'},
-        });
+        } as unknown as React.ChangeEvent<TextboxElement>);
 
-        wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+        (wrapper.instance() as CreateCommentClass).handleSubmit({preventDefault: jest.fn()} as unknown as React.FormEvent);
 
         expect(onSubmit).toHaveBeenCalledWith({
             message: 'some valid text',
             uploadsInProgress: [],
-            fileInfos: [{}, {}, {}],
+            fileInfos: [{} as FileInfo, {} as FileInfo, {} as FileInfo],
         }, {ignoreSlash: false});
     });
 
     test('should scroll to bottom when uploadsInProgress increase', () => {
         const draft = {
             message: 'Test message',
-            uploadsInProgress: [1, 2, 3],
-            fileInfos: [{}, {}, {}],
+            uploadsInProgress: ['1', '2', '3'],
+            fileInfos: [{} as FileInfo, {} as FileInfo, {} as FileInfo],
         };
         const scrollToBottom = jest.fn();
         const props = {...baseProps, draft, scrollToBottom};
@@ -570,7 +596,7 @@ describe('components/CreateComment', () => {
         const draft = {
             message: 'Test message',
             uploadsInProgress: [],
-            fileInfos: [{}, {}, {}],
+            fileInfos: [{} as FileInfo, {} as FileInfo, {} as FileInfo],
         };
         const props = {...baseProps, draft, onSubmit};
 
@@ -579,14 +605,14 @@ describe('components/CreateComment', () => {
         );
 
         const preventDefault = jest.fn();
-        wrapper.instance().handleSubmit({preventDefault});
+        (wrapper.instance() as CreateCommentClass).handleSubmit({preventDefault} as unknown as React.FormEvent);
         expect(onSubmit).toHaveBeenCalled();
         expect(preventDefault).toHaveBeenCalled();
     });
 
     describe('handleSubmit', () => {
-        let onSubmit;
-        let preventDefault;
+        let onSubmit: jest.Mock;
+        let preventDefault: jest.Mock;
 
         beforeEach(() => {
             onSubmit = jest.fn();
@@ -601,7 +627,7 @@ describe('components/CreateComment', () => {
                         draft: {
                             message: `Test message @${mention}`,
                             uploadsInProgress: [],
-                            fileInfos: [{}, {}, {}],
+                            fileInfos: [{} as FileInfo, {} as FileInfo, {} as FileInfo],
                         },
                         onSubmit,
                         channelMembersCount: 1,
@@ -612,7 +638,7 @@ describe('components/CreateComment', () => {
                         <CreateComment {...props}/>,
                     );
 
-                    wrapper.instance().handleSubmit({preventDefault});
+                    (wrapper.instance() as CreateCommentClass).handleSubmit({preventDefault} as unknown as React.FormEvent);
                     expect(onSubmit).toHaveBeenCalled();
                     expect(preventDefault).toHaveBeenCalled();
                     expect(props.openModal).not.toHaveBeenCalled();
@@ -624,7 +650,7 @@ describe('components/CreateComment', () => {
                         draft: {
                             message: `Test message @${mention}`,
                             uploadsInProgress: [],
-                            fileInfos: [{}, {}, {}],
+                            fileInfos: [{} as FileInfo, {} as FileInfo, {} as FileInfo],
                         },
                         onSubmit,
                         channelMembersCount: 8,
@@ -635,7 +661,7 @@ describe('components/CreateComment', () => {
                         <CreateComment {...props}/>,
                     );
 
-                    wrapper.instance().handleSubmit({preventDefault});
+                    (wrapper.instance() as CreateCommentClass).handleSubmit({preventDefault} as unknown as React.FormEvent);
                     expect(onSubmit).toHaveBeenCalled();
                     expect(preventDefault).toHaveBeenCalled();
                     expect(props.openModal).not.toHaveBeenCalled();
@@ -647,7 +673,7 @@ describe('components/CreateComment', () => {
                         draft: {
                             message: `Test message ${mention}`,
                             uploadsInProgress: [],
-                            fileInfos: [{}, {}, {}],
+                            fileInfos: [{} as FileInfo, {} as FileInfo, {} as FileInfo],
                         },
                         onSubmit,
                         channelMembersCount: 8,
@@ -658,7 +684,7 @@ describe('components/CreateComment', () => {
                         <CreateComment {...props}/>,
                     );
 
-                    wrapper.instance().handleSubmit({preventDefault});
+                    (wrapper.instance() as CreateCommentClass).handleSubmit({preventDefault} as unknown as React.FormEvent);
                     expect(onSubmit).toHaveBeenCalled();
                     expect(preventDefault).toHaveBeenCalled();
                     expect(props.openModal).not.toHaveBeenCalled();
@@ -671,7 +697,7 @@ describe('components/CreateComment', () => {
                         draft: {
                             message: `Test message @${mention}`,
                             uploadsInProgress: [],
-                            fileInfos: [{}, {}, {}],
+                            fileInfos: [{} as FileInfo, {} as FileInfo, {} as FileInfo],
                         },
                         onSubmit,
                         channelMembersCount: 8,
@@ -682,7 +708,7 @@ describe('components/CreateComment', () => {
                         <CreateComment {...props}/>,
                     );
 
-                    wrapper.instance().handleSubmit({preventDefault});
+                    (wrapper.instance() as CreateCommentClass).handleSubmit({preventDefault} as unknown as React.FormEvent);
                     expect(onSubmit).toHaveBeenCalled();
                     expect(preventDefault).toHaveBeenCalled();
                     expect(props.openModal).not.toHaveBeenCalled();
@@ -695,7 +721,7 @@ describe('components/CreateComment', () => {
                     draft: {
                         message: `Test message @${mention}`,
                         uploadsInProgress: [],
-                        fileInfos: [{}, {}, {}],
+                        fileInfos: [{} as FileInfo, {} as FileInfo, {} as FileInfo],
                     },
                     onSubmit,
                     channelMembersCount: 8,
@@ -706,7 +732,7 @@ describe('components/CreateComment', () => {
                     <CreateComment {...props}/>,
                 );
 
-                wrapper.instance().handleSubmit({preventDefault});
+                (wrapper.instance() as CreateCommentClass).handleSubmit({preventDefault} as unknown as React.FormEvent);
                 expect(onSubmit).not.toHaveBeenCalled();
                 expect(preventDefault).toHaveBeenCalled();
                 expect(props.openModal).toHaveBeenCalled();
@@ -718,7 +744,7 @@ describe('components/CreateComment', () => {
                     draft: {
                         message: `Test message @${mention}`,
                         uploadsInProgress: [],
-                        fileInfos: [{}, {}, {}],
+                        fileInfos: [{} as FileInfo, {} as FileInfo, {} as FileInfo],
                     },
                     onSubmit,
                     isTimezoneEnabled: true,
@@ -730,7 +756,7 @@ describe('components/CreateComment', () => {
                     <CreateComment {...props}/>,
                 );
 
-                await wrapper.instance().handleSubmit({preventDefault});
+                await (wrapper.instance() as CreateCommentClass).handleSubmit({preventDefault} as unknown as React.FormEvent);
                 wrapper.setState({channelTimezoneCount: 4});
 
                 expect(onSubmit).not.toHaveBeenCalled();
@@ -746,7 +772,7 @@ describe('components/CreateComment', () => {
                     draft: {
                         message: `Test message @${mention}`,
                         uploadsInProgress: [],
-                        fileInfos: [{}, {}, {}],
+                        fileInfos: [{} as FileInfo, {} as FileInfo, {} as FileInfo],
                     },
                     onSubmit,
                     isTimezoneEnabled: true,
@@ -758,7 +784,7 @@ describe('components/CreateComment', () => {
                     <CreateComment {...props}/>,
                 );
 
-                await wrapper.instance().handleSubmit({preventDefault});
+                await (wrapper.instance() as CreateCommentClass).handleSubmit({preventDefault} as unknown as React.FormEvent);
                 wrapper.setState({channelTimezoneCount: 0});
 
                 expect(onSubmit).not.toHaveBeenCalled();
@@ -775,20 +801,20 @@ describe('components/CreateComment', () => {
                 draft: {
                     message: 'Test message @developers',
                     uploadsInProgress: [],
-                    fileInfos: [{}, {}, {}],
+                    fileInfos: [{} as FileInfo, {} as FileInfo, {} as FileInfo],
                 },
                 groupsWithAllowReference: new Map([
                     ['@developers', {
                         id: 'developers',
                         name: 'developers',
-                    }],
+                    } as Group],
                 ]),
                 channelMemberCountsByGroup: {
                     developers: {
                         channel_member_count: 10,
                         channel_member_timezones_count: 0,
-                    },
-                },
+                    } as ChannelMemberCountByGroup,
+                } as ChannelMemberCountsByGroup,
                 isTimezoneEnabled: false,
                 channelMembersCount: 8,
                 useChannelMentions: true,
@@ -798,15 +824,15 @@ describe('components/CreateComment', () => {
             const wrapper = shallowWithIntl(
                 <CreateComment {...props}/>,
             );
-            const showNotifyAllModal = wrapper.instance().showNotifyAllModal;
-            wrapper.instance().showNotifyAllModal = jest.fn((mentions, channelTimezoneCount, memberNotifyCount) => showNotifyAllModal(mentions, channelTimezoneCount, memberNotifyCount));
+            const showNotifyAllModal = (wrapper.instance() as CreateCommentClass).showNotifyAllModal;
+            (wrapper.instance() as CreateCommentClass).showNotifyAllModal = jest.fn((mentions, channelTimezoneCount, memberNotifyCount) => showNotifyAllModal(mentions, channelTimezoneCount, memberNotifyCount));
 
-            await wrapper.instance().handleSubmit({preventDefault});
+            await (wrapper.instance() as CreateCommentClass).handleSubmit({preventDefault} as unknown as React.FormEvent);
 
             expect(onSubmit).not.toHaveBeenCalled();
             expect(preventDefault).toHaveBeenCalled();
             expect(baseProps.getChannelTimezones).toHaveBeenCalledTimes(0);
-            expect(wrapper.instance().showNotifyAllModal).toHaveBeenCalledWith(['@developers'], 0, 10);
+            expect((wrapper.instance() as CreateCommentClass).showNotifyAllModal).toHaveBeenCalledWith(['@developers'], 0, 10);
             expect(props.openModal).toHaveBeenCalled();
         });
 
@@ -816,52 +842,52 @@ describe('components/CreateComment', () => {
                 draft: {
                     message: 'Test message @developers @boss @love @you @software-developers',
                     uploadsInProgress: [],
-                    fileInfos: [{}, {}, {}],
+                    fileInfos: [{} as FileInfo, {} as FileInfo, {} as FileInfo],
                 },
                 groupsWithAllowReference: new Map([
                     ['@developers', {
                         id: 'developers',
                         name: 'developers',
-                    }],
+                    } as Group],
                     ['@boss', {
                         id: 'boss',
                         name: 'boss',
-                    }],
+                    } as Group],
                     ['@love', {
                         id: 'love',
                         name: 'love',
-                    }],
+                    } as Group],
                     ['@you', {
                         id: 'you',
                         name: 'you',
-                    }],
+                    } as Group],
                     ['@software-developers', {
                         id: 'softwareDevelopers',
                         name: 'software-developers',
-                    }],
+                    } as Group],
                 ]),
                 channelMemberCountsByGroup: {
                     developers: {
                         channel_member_count: 10,
                         channel_member_timezones_count: 0,
-                    },
+                    } as ChannelMemberCountByGroup,
                     boss: {
                         channel_member_count: 20,
                         channel_member_timezones_count: 0,
-                    },
+                    } as ChannelMemberCountByGroup,
                     love: {
                         channel_member_count: 30,
                         channel_member_timezones_count: 0,
-                    },
+                    } as ChannelMemberCountByGroup,
                     you: {
                         channel_member_count: 40,
                         channel_member_timezones_count: 0,
-                    },
+                    } as ChannelMemberCountByGroup,
                     softwareDevelopers: {
                         channel_member_count: 5,
                         channel_member_timezones_count: 0,
-                    },
-                },
+                    } as ChannelMemberCountByGroup,
+                } as ChannelMemberCountsByGroup,
                 isTimezoneEnabled: false,
                 channelMembersCount: 8,
                 useChannelMentions: true,
@@ -872,15 +898,15 @@ describe('components/CreateComment', () => {
                 <CreateComment {...props}/>,
             );
 
-            const showNotifyAllModal = wrapper.instance().showNotifyAllModal;
-            wrapper.instance().showNotifyAllModal = jest.fn((mentions, channelTimezoneCount, memberNotifyCount) => showNotifyAllModal(mentions, channelTimezoneCount, memberNotifyCount));
+            const showNotifyAllModal = (wrapper.instance() as CreateCommentClass).showNotifyAllModal;
+            (wrapper.instance() as CreateCommentClass).showNotifyAllModal = jest.fn((mentions, channelTimezoneCount, memberNotifyCount) => showNotifyAllModal(mentions, channelTimezoneCount, memberNotifyCount));
 
-            await wrapper.instance().handleSubmit({preventDefault});
+            await (wrapper.instance() as CreateCommentClass).handleSubmit({preventDefault} as unknown as React.FormEvent);
 
             expect(onSubmit).not.toHaveBeenCalled();
             expect(preventDefault).toHaveBeenCalled();
             expect(baseProps.getChannelTimezones).toHaveBeenCalledTimes(0);
-            expect(wrapper.instance().showNotifyAllModal).toHaveBeenCalledWith(['@developers', '@boss', '@love', '@you', '@software-developers'], 0, 40);
+            expect((wrapper.instance() as CreateCommentClass).showNotifyAllModal).toHaveBeenCalledWith(['@developers', '@boss', '@love', '@you', '@software-developers'], 0, 40);
             expect(props.openModal).toHaveBeenCalled();
         });
 
@@ -890,20 +916,20 @@ describe('components/CreateComment', () => {
                 draft: {
                     message: 'Test message @developers',
                     uploadsInProgress: [],
-                    fileInfos: [{}, {}, {}],
+                    fileInfos: [{} as FileInfo, {} as FileInfo, {} as FileInfo],
                 },
                 groupsWithAllowReference: new Map([
                     ['@developers', {
                         id: 'developers',
                         name: 'developers',
-                    }],
+                    } as Group],
                 ]),
                 channelMemberCountsByGroup: {
                     developers: {
                         channel_member_count: 10,
                         channel_member_timezones_count: 5,
-                    },
-                },
+                    } as ChannelMemberCountByGroup,
+                } as ChannelMemberCountsByGroup,
                 isTimezoneEnabled: true,
                 channelMembersCount: 8,
                 useChannelMentions: true,
@@ -914,20 +940,20 @@ describe('components/CreateComment', () => {
                 <CreateComment {...props}/>,
             );
 
-            const showNotifyAllModal = wrapper.instance().showNotifyAllModal;
-            wrapper.instance().showNotifyAllModal = jest.fn((mentions, channelTimezoneCount, memberNotifyCount) => showNotifyAllModal(mentions, channelTimezoneCount, memberNotifyCount));
+            const showNotifyAllModal = (wrapper.instance() as CreateCommentClass).showNotifyAllModal;
+            (wrapper.instance() as CreateCommentClass).showNotifyAllModal = jest.fn((mentions, channelTimezoneCount, memberNotifyCount) => showNotifyAllModal(mentions, channelTimezoneCount, memberNotifyCount));
 
-            await wrapper.instance().handleSubmit({preventDefault});
+            await (wrapper.instance() as CreateCommentClass).handleSubmit({preventDefault} as unknown as React.FormEvent);
 
             expect(onSubmit).not.toHaveBeenCalled();
             expect(preventDefault).toHaveBeenCalled();
             expect(baseProps.getChannelTimezones).toHaveBeenCalledTimes(0);
-            expect(wrapper.instance().showNotifyAllModal).toHaveBeenCalledWith(['@developers'], 5, 10);
+            expect((wrapper.instance() as CreateCommentClass).showNotifyAllModal).toHaveBeenCalledWith(['@developers'], 5, 10);
             expect(props.openModal).toHaveBeenCalled();
         });
 
         it('should allow to force send invalid slash command as a message', async () => {
-            const error = new Error('No command found');
+            const error = new Error('No command found') as unknown as ServerError;
             error.server_error_id = 'api.command.execute_command.not_found.app_error';
             const onSubmitWithError = jest.fn(() => Promise.reject(error));
 
@@ -936,7 +962,7 @@ describe('components/CreateComment', () => {
                 draft: {
                     message: '/fakecommand other text',
                     uploadsInProgress: [],
-                    fileInfos: [{}, {}, {}],
+                    fileInfos: [{} as FileInfo, {} as FileInfo, {} as FileInfo],
                 },
                 onSubmit: onSubmitWithError,
             };
@@ -945,28 +971,28 @@ describe('components/CreateComment', () => {
                 <CreateComment {...props}/>,
             );
 
-            await wrapper.instance().handleSubmit({preventDefault});
+            await (wrapper.instance() as CreateCommentClass).handleSubmit({preventDefault} as unknown as React.FormEvent);
 
             expect(onSubmitWithError).toHaveBeenCalledWith({
                 message: '/fakecommand other text',
                 uploadsInProgress: [],
-                fileInfos: [{}, {}, {}],
+                fileInfos: [{} as FileInfo, {} as FileInfo, {} as FileInfo],
             }, {ignoreSlash: false});
             expect(preventDefault).toHaveBeenCalled();
 
             wrapper.setProps({onSubmit});
-            await wrapper.instance().handleSubmit({preventDefault});
+            await (wrapper.instance() as CreateCommentClass).handleSubmit({preventDefault} as unknown as React.FormEvent);
 
             expect(onSubmit).toHaveBeenCalledWith({
                 message: '/fakecommand other text',
                 uploadsInProgress: [],
-                fileInfos: [{}, {}, {}],
+                fileInfos: [{} as FileInfo, {} as FileInfo, {} as FileInfo],
             }, {ignoreSlash: true});
             expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
         });
 
         it('should update global draft state if invalid slash command error occurs', async () => {
-            const error = new Error('No command found');
+            const error = new Error('No command found') as unknown as ServerError;
             error.server_error_id = 'api.command.execute_command.not_found.app_error';
             const onSubmitWithError = jest.fn(() => Promise.reject(error));
 
@@ -975,7 +1001,7 @@ describe('components/CreateComment', () => {
                 draft: {
                     message: '/fakecommand other text',
                     uploadsInProgress: [],
-                    fileInfos: [{}, {}, {}],
+                    fileInfos: [{} as FileInfo, {} as FileInfo, {} as FileInfo],
                 },
                 onSubmit: onSubmitWithError,
             };
@@ -984,7 +1010,7 @@ describe('components/CreateComment', () => {
                 <CreateComment {...props}/>,
             );
 
-            const submitPromise = wrapper.instance().handleSubmit({preventDefault});
+            const submitPromise = (wrapper.instance() as CreateCommentClass).handleSubmit({preventDefault} as unknown as React.FormEvent);
             expect(props.onUpdateCommentDraft).not.toHaveBeenCalled();
 
             await submitPromise;
@@ -999,7 +1025,7 @@ describe('components/CreateComment', () => {
                     draft: {
                         message: `Test message @${mention}`,
                         uploadsInProgress: [],
-                        fileInfos: [{}, {}, {}],
+                        fileInfos: [{} as FileInfo, {} as FileInfo, {} as FileInfo],
                     },
                     onSubmit,
                 };
@@ -1008,9 +1034,9 @@ describe('components/CreateComment', () => {
                     <CreateComment {...props}/>,
                 );
 
-                wrapper.instance().handleSubmit({preventDefault});
+                (wrapper.instance() as CreateCommentClass).handleSubmit({preventDefault} as unknown as React.FormEvent);
                 expect(onSubmit).toHaveBeenCalled();
-                expect(wrapper.state('draft').props.mentionHighlightDisabled).toBe(true);
+                expect(wrapper.state<State['draft']>('draft')!.props.mentionHighlightDisabled).toBe(true);
             });
 
             it(`should not set mentionHighlightDisabled when user does have permission and message contains channel channel @${mention}`, async () => {
@@ -1021,7 +1047,7 @@ describe('components/CreateComment', () => {
                     draft: {
                         message: `Test message @${mention}`,
                         uploadsInProgress: [],
-                        fileInfos: [{}, {}, {}],
+                        fileInfos: [{} as FileInfo, {} as FileInfo, {} as FileInfo],
                     },
                     onSubmit,
                 };
@@ -1030,9 +1056,9 @@ describe('components/CreateComment', () => {
                     <CreateComment {...props}/>,
                 );
 
-                wrapper.instance().handleSubmit({preventDefault});
+                (wrapper.instance() as CreateCommentClass).handleSubmit({preventDefault} as unknown as React.FormEvent);
                 expect(onSubmit).toHaveBeenCalled();
-                expect(wrapper.state('draft').props).toBe(undefined);
+                expect(wrapper.state<State['draft']>('draft')!.props).toBe(undefined);
             });
         });
 
@@ -1043,7 +1069,7 @@ describe('components/CreateComment', () => {
                 draft: {
                     message: 'Test message',
                     uploadsInProgress: [],
-                    fileInfos: [{}, {}, {}],
+                    fileInfos: [{} as FileInfo, {} as FileInfo, {} as FileInfo],
                 },
                 onSubmit,
             };
@@ -1052,9 +1078,9 @@ describe('components/CreateComment', () => {
                 <CreateComment {...props}/>,
             );
 
-            wrapper.instance().handleSubmit({preventDefault});
+            (wrapper.instance() as CreateCommentClass).handleSubmit({preventDefault} as unknown as React.FormEvent);
             expect(onSubmit).toHaveBeenCalled();
-            expect(wrapper.state('draft').props).toBe(undefined);
+            expect(wrapper.state<State['draft']>('draft')!.props).toBe(undefined);
         });
     });
 
@@ -1062,8 +1088,8 @@ describe('components/CreateComment', () => {
         const onUpdateCommentDraft = jest.fn();
         const draft = {
             message: 'Test message',
-            uploadsInProgress: [4, 5, 6],
-            fileInfos: [{id: 1}, {id: 2}, {id: 3}],
+            uploadsInProgress: ['4', '5', '6'],
+            fileInfos: [{id: '1'} as FileInfo, {id: '2'} as FileInfo, {id: '3'} as FileInfo],
         };
         const props = {...baseProps, draft, onUpdateCommentDraft};
 
@@ -1073,52 +1099,52 @@ describe('components/CreateComment', () => {
 
         wrapper.setState({draft});
 
-        wrapper.instance().removePreview(3);
+        (wrapper.instance() as CreateCommentClass).removePreview('3');
         expect(onUpdateCommentDraft).toHaveBeenCalled();
         expect(onUpdateCommentDraft.mock.calls[0][0]).toEqual(
-            expect.objectContaining({fileInfos: [{id: 1}, {id: 2}]}),
+            expect.objectContaining({fileInfos: [{id: '1'}, {id: '2'}]}),
         );
-        expect(wrapper.state().draft.fileInfos).toEqual([{id: 1}, {id: 2}]);
+        expect(wrapper.state<State['draft']>('draft')!.fileInfos).toEqual([{id: '1'}, {id: '2'}]);
 
-        wrapper.instance().removePreview(5);
+        (wrapper.instance() as CreateCommentClass).removePreview('5');
         expect(onUpdateCommentDraft.mock.calls[1][0]).toEqual(
-            expect.objectContaining({uploadsInProgress: [4, 6]}),
+            expect.objectContaining({uploadsInProgress: ['4', '6']}),
         );
-        expect(wrapper.state().draft.uploadsInProgress).toEqual([4, 6]);
+        expect(wrapper.state<State['draft']>('draft')!.uploadsInProgress).toEqual(['4', '6']);
     });
 
     test('should match draft state on componentWillReceiveProps with change in messageInHistory', () => {
         const draft = {
             message: 'Test message',
             uploadsInProgress: [],
-            fileInfos: [{}, {}, {}],
+            fileInfos: [{} as FileInfo, {} as FileInfo, {} as FileInfo],
         };
 
         const wrapper = shallowWithIntl(
             <CreateComment {...baseProps}/>,
         );
-        expect(wrapper.state('draft')).toEqual(draft);
+        expect(wrapper.state<State['draft']>('draft'))!.toEqual(draft);
 
         const newDraft = {...draft, message: 'Test message edited'};
         wrapper.setProps({draft: newDraft, messageInHistory: 'Test message edited'});
-        expect(wrapper.state('draft')).toEqual(newDraft);
+        expect(wrapper.state<State['draft']>('draft'))!.toEqual(newDraft);
     });
 
     test('should match draft state on componentWillReceiveProps with new rootId', () => {
         const draft = {
             message: 'Test message',
-            uploadsInProgress: [4, 5, 6],
-            fileInfos: [{id: 1}, {id: 2}, {id: 3}],
+            uploadsInProgress: ['4', '5', '6'],
+            fileInfos: [{id: '1'}, {id: '2'}, {id: '3'}],
         };
 
         const wrapper = shallowWithIntl(
             <CreateComment {...baseProps}/>,
         );
         wrapper.setState({draft});
-        expect(wrapper.state('draft')).toEqual(draft);
+        expect(wrapper.state<State['draft']>('draft'))!.toEqual(draft);
 
         wrapper.setProps({rootId: 'new_root_id'});
-        expect(wrapper.state('draft')).toEqual({...draft, uploadsInProgress: [], fileInfos: [{}, {}, {}]});
+        expect(wrapper.state<State['draft']>('draft'))!.toEqual({...draft, uploadsInProgress: [], fileInfos: [{}, {}, {}]});
     });
 
     test('should match snapshot when cannot post', () => {
@@ -1143,7 +1169,7 @@ describe('components/CreateComment', () => {
         const wrapper = shallowWithIntl(
             <CreateComment {...baseProps}/>,
         );
-        const instance = wrapper.instance();
+        const instance = wrapper.instance() as CreateCommentClass;
         instance.focusTextbox = jest.fn();
 
         instance.handleFileUploadChange();
@@ -1165,7 +1191,7 @@ describe('components/CreateComment', () => {
                 onEditLatestPost={onEditLatestPost}
             />,
         );
-        const instance = wrapper.instance();
+        const instance = wrapper.instance() as CreateCommentClass;
         instance.commentMsgKeyPress = jest.fn();
         instance.focusTextbox = jest.fn();
         const blur = jest.fn();
@@ -1183,7 +1209,13 @@ describe('components/CreateComment', () => {
             return document.createElement('div');
         };
 
-        instance.textboxRef.current = {blur, focus, getInputBox: jest.fn(mockImpl)};
+        instance['textboxRef'] = {
+            current: {
+                getInputBox: jest.fn(mockImpl),
+                blur,
+                focus,
+            } as unknown as TextboxClass,
+        };
 
         const mockTarget = {
             selectionStart: 0,
@@ -1197,7 +1229,7 @@ describe('components/CreateComment', () => {
             key: Constants.KeyCodes.ENTER[0],
             keyCode: Constants.KeyCodes.ENTER[1],
             target: mockTarget,
-        };
+        } as unknown as React.KeyboardEvent<TextboxElement>;
         instance.handleKeyDown(commentMsgKey);
         expect(instance.commentMsgKeyPress).toHaveBeenCalledTimes(1);
 
@@ -1207,7 +1239,7 @@ describe('components/CreateComment', () => {
             key: Constants.KeyCodes.UP[0],
             keyCode: Constants.KeyCodes.UP[1],
             target: mockTarget,
-        };
+        } as unknown as React.KeyboardEvent<TextboxElement>;
         instance.handleKeyDown(upKey);
         expect(upKey.preventDefault).toHaveBeenCalledTimes(1);
         expect(onMoveHistoryIndexBack).toHaveBeenCalledTimes(1);
@@ -1218,7 +1250,7 @@ describe('components/CreateComment', () => {
             key: Constants.KeyCodes.DOWN[0],
             keyCode: Constants.KeyCodes.DOWN[1],
             target: mockTarget,
-        };
+        } as unknown as React.KeyboardEvent<TextboxElement>;
         instance.handleKeyDown(downKey);
         expect(downKey.preventDefault).toHaveBeenCalledTimes(1);
         expect(onMoveHistoryIndexForward).toHaveBeenCalledTimes(1);
@@ -1230,7 +1262,7 @@ describe('components/CreateComment', () => {
             key: Constants.KeyCodes.UP[0],
             keyCode: Constants.KeyCodes.UP[1],
             target: mockTarget,
-        };
+        } as unknown as React.KeyboardEvent<TextboxElement>;
         instance.handleKeyDown(upKeyForEdit);
         expect(upKeyForEdit.preventDefault).toHaveBeenCalledTimes(1);
         expect(onEditLatestPost).toHaveBeenCalledTimes(1);
@@ -1259,17 +1291,17 @@ describe('components/CreateComment', () => {
         );
 
         expect(scrollToBottom).toBeCalledTimes(0);
-        expect(wrapper.instance().doInitialScrollToBottom).toEqual(true);
+        expect((wrapper.instance() as CreateCommentClass)['doInitialScrollToBottom']).toEqual(true);
 
         // should scroll to bottom on first component update
         wrapper.setState({draft: {...draft, message: 'new message'}});
         expect(scrollToBottom).toBeCalledTimes(1);
-        expect(wrapper.instance().doInitialScrollToBottom).toEqual(false);
+        expect((wrapper.instance() as CreateCommentClass)['doInitialScrollToBottom']).toEqual(false);
 
         // but not after the first update
         wrapper.setState({draft: {...draft, message: 'another message'}});
         expect(scrollToBottom).toBeCalledTimes(1);
-        expect(wrapper.instance().doInitialScrollToBottom).toEqual(false);
+        expect((wrapper.instance() as CreateCommentClass)['doInitialScrollToBottom']).toEqual(false);
     });
 
     test('should the RHS thread scroll to bottom when state.draft.uploadsInProgress increases but not when it decreases', () => {
@@ -1326,8 +1358,13 @@ describe('components/CreateComment', () => {
             };
         };
 
-        wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()};
-
+        (wrapper.instance() as CreateCommentClass)['textboxRef'] = {
+            current: {
+                getInputBox: jest.fn(mockImpl),
+                focus: jest.fn(),
+                blur: jest.fn(),
+            } as unknown as TextboxClass,
+        };
         const event = {
             target: {
                 id: 'reply_textbox',
@@ -1340,12 +1377,12 @@ describe('components/CreateComment', () => {
                     return '<table><tr><td>test</td><td>test</td></tr><tr><td>test</td><td>test</td></tr></table>';
                 },
             },
-        };
+        } as unknown as ClipboardEvent;
 
         const markdownTable = '|test | test|\n|--- | ---|\n|test | test|\n';
 
-        wrapper.instance().pasteHandler(event);
-        expect(wrapper.state('draft').message).toBe(markdownTable);
+        (wrapper.instance() as CreateCommentClass).pasteHandler(event);
+        expect(wrapper.state<State['draft']>('draft')!.message).toBe(markdownTable);
     });
 
     it('should be able to format a github codeblock (pasted as a table)', () => {
@@ -1374,7 +1411,13 @@ describe('components/CreateComment', () => {
             };
         };
 
-        wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()};
+        (wrapper.instance() as CreateCommentClass)['textboxRef'] = {
+            current: {
+                getInputBox: jest.fn(mockImpl),
+                focus: jest.fn(),
+                blur: jest.fn(),
+            } as unknown as TextboxClass,
+        };
 
         const event = {
             target: {
@@ -1384,19 +1427,19 @@ describe('components/CreateComment', () => {
             clipboardData: {
                 items: [1],
                 types: ['text/plain', 'text/html'],
-                getData: (type) => {
+                getData: (type: string) => {
                     if (type === 'text/plain') {
                         return '// a javascript codeblock example\nif (1 > 0) {\n  return \'condition is true\';\n}';
                     }
                     return '<table class="highlight tab-size js-file-line-container" data-tab-size="8"><tbody><tr><td id="LC1" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> a javascript codeblock example</span></td></tr><tr><td id="L2" class="blob-num js-line-number" data-line-number="2">&nbsp;</td><td id="LC2" class="blob-code blob-code-inner js-file-line"><span class="pl-k">if</span> (<span class="pl-c1">1</span> <span class="pl-k">&gt;</span> <span class="pl-c1">0</span>) {</td></tr><tr><td id="L3" class="blob-num js-line-number" data-line-number="3">&nbsp;</td><td id="LC3" class="blob-code blob-code-inner js-file-line"><span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">\'</span>condition is true<span class="pl-pds">\'</span></span>);</td></tr><tr><td id="L4" class="blob-num js-line-number" data-line-number="4">&nbsp;</td><td id="LC4" class="blob-code blob-code-inner js-file-line">}</td></tr></tbody></table>';
                 },
             },
-        };
+        } as unknown as ClipboardEvent;
 
         const codeBlockMarkdown = "```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```";
 
-        wrapper.instance().pasteHandler(event);
-        expect(wrapper.state('draft').message).toBe(codeBlockMarkdown);
+        (wrapper.instance() as CreateCommentClass).pasteHandler(event);
+        expect(wrapper.state<State['draft']>('draft')!.message).toBe(codeBlockMarkdown);
     });
 
     it('should be able to format a github codeblock (pasted as a table) with existing draft post', () => {
@@ -1425,7 +1468,13 @@ describe('components/CreateComment', () => {
             };
         };
 
-        wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), getBoundingClientRect: jest.fn(), focus: jest.fn()};
+        (wrapper.instance() as CreateCommentClass)['textboxRef'] = {
+            current: {
+                getInputBox: jest.fn(mockImpl),
+                focus: jest.fn(),
+                getBoundingClientRect: jest.fn(),
+            } as unknown as TextboxClass,
+        };
         wrapper.setState({
             draft: {
                 ...draft,
@@ -1442,26 +1491,26 @@ describe('components/CreateComment', () => {
             clipboardData: {
                 items: [1],
                 types: ['text/plain', 'text/html'],
-                getData: (type) => {
+                getData: (type: string) => {
                     if (type === 'text/plain') {
                         return '// a javascript codeblock example\nif (1 > 0) {\n  return \'condition is true\';\n}';
                     }
                     return '<table class="highlight tab-size js-file-line-container" data-tab-size="8"><tbody><tr><td id="LC1" class="blob-code blob-code-inner js-file-line"><span class="pl-c"><span class="pl-c">//</span> a javascript codeblock example</span></td></tr><tr><td id="L2" class="blob-num js-line-number" data-line-number="2">&nbsp;</td><td id="LC2" class="blob-code blob-code-inner js-file-line"><span class="pl-k">if</span> (<span class="pl-c1">1</span> <span class="pl-k">&gt;</span> <span class="pl-c1">0</span>) {</td></tr><tr><td id="L3" class="blob-num js-line-number" data-line-number="3">&nbsp;</td><td id="LC3" class="blob-code blob-code-inner js-file-line"><span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">\'</span>condition is true<span class="pl-pds">\'</span></span>);</td></tr><tr><td id="L4" class="blob-num js-line-number" data-line-number="4">&nbsp;</td><td id="LC4" class="blob-code blob-code-inner js-file-line">}</td></tr></tbody></table>';
                 },
             },
-        };
+        } as unknown as ClipboardEvent;
 
         const codeBlockMarkdown = "test\n```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```";
 
-        wrapper.instance().pasteHandler(event);
-        expect(wrapper.state('draft').message).toBe(codeBlockMarkdown);
+        (wrapper.instance() as CreateCommentClass).pasteHandler(event);
+        expect(wrapper.state<State['draft']>('draft')!.message).toBe(codeBlockMarkdown);
     });
 
     test('should show preview and edit mode, and return focus on preview disable', () => {
         const wrapper = shallowWithIntl(
             <CreateComment {...baseProps}/>,
         );
-        const instance = wrapper.instance();
+        const instance = wrapper.instance() as CreateCommentClass;
         instance.focusTextbox = jest.fn();
         expect(instance.focusTextbox).not.toBeCalled();
 
@@ -1476,7 +1525,7 @@ describe('components/CreateComment', () => {
         expect(instance.focusTextbox).toBeCalled();
     });
 
-    testComponentForLineBreak((value) => (
+    testComponentForLineBreak((value: string) => (
         <CreateComment
             {...baseProps}
             draft={{
@@ -1485,10 +1534,10 @@ describe('components/CreateComment', () => {
             }}
             ctrlSend={true}
         />
-    ), (instance) => instance.state().draft.message);
+    ), (instance: ShallowWrapper<Props, State, CreateCommentClass>) => instance.state().draft?.message);
 
     testComponentForMarkdownHotkeys(
-        (value) => (
+        (value: string) => (
             <CreateComment
                 {...baseProps}
                 draft={{
@@ -1498,11 +1547,11 @@ describe('components/CreateComment', () => {
                 ctrlSend={true}
             />
         ),
-        (wrapper, setSelectionRangeFn) => {
+        (wrapper: ShallowWrapper, setSelectionRangeFn: jest.Mock) => {
             const mockTop = () => {
                 return document.createElement('div');
             };
-            wrapper.instance().textboxRef = {
+            (wrapper.instance() as CreateCommentClass)['textboxRef'] = {
                 current: {
                     getInputBox: jest.fn(() => {
                         return {
@@ -1511,11 +1560,11 @@ describe('components/CreateComment', () => {
                             setSelectionRange: setSelectionRangeFn,
                         };
                     }),
-                },
+                } as unknown as TextboxClass,
             };
         },
-        (instance) => instance.find(Textbox),
-        (instance) => instance.state().draft.message,
+        (instance: ShallowWrapper<Props, State, CreateCommentClass>) => instance.find(Textbox),
+        (instance: ShallowWrapper<Props, State, CreateCommentClass>) => instance.state().draft?.message,
     );
 
     it('should adjust selection to correct text', () => {
@@ -1535,7 +1584,7 @@ describe('components/CreateComment', () => {
         const mockTop = () => {
             return document.createElement('div');
         };
-        wrapper.instance().textboxRef = {
+        (wrapper.instance() as CreateCommentClass)['textboxRef'] = {
             current: {
                 getInputBox: jest.fn(() => {
                     return {
@@ -1544,12 +1593,12 @@ describe('components/CreateComment', () => {
                         setSelectionRange: setSelectionRangeFn,
                     };
                 }),
-            },
+            } as unknown as TextboxClass,
         };
 
         const textbox = wrapper.find(Textbox);
-        const e = makeSelectionEvent(value, 7, 14);
-        textbox.props().onSelect(e);
+        const e = makeSelectionEvent(value, 7, 14) as React.SyntheticEvent<TextboxElement, Event>;
+        textbox.props().onSelect!(e);
         expect(setSelectionRangeFn).toHaveBeenCalledWith(8, 13);
     });
 
@@ -1559,7 +1608,7 @@ describe('components/CreateComment', () => {
                 {...baseProps}
             />,
         );
-        const instance = wrapper.instance();
+        const instance = wrapper.instance() as CreateCommentClass;
         const blur = jest.fn();
 
         const mockImpl = () => {
@@ -1569,7 +1618,12 @@ describe('components/CreateComment', () => {
             };
         };
 
-        instance.textboxRef.current = {blur, getInputBox: jest.fn(mockImpl)};
+        instance['textboxRef'] = {
+            current: {
+                getInputBox: jest.fn(mockImpl),
+                blur,
+            } as unknown as TextboxClass,
+        };
 
         const mockTarget = {
             selectionStart: 0,
@@ -1583,7 +1637,7 @@ describe('components/CreateComment', () => {
             key: Constants.KeyCodes.ESCAPE[0],
             keyCode: Constants.KeyCodes.ESCAPE[1],
             target: mockTarget,
-        };
+        } as unknown as React.KeyboardEvent<TextboxElement>;
 
         instance.handleKeyDown(commentEscapeKey);
         expect(blur).toHaveBeenCalledTimes(1);

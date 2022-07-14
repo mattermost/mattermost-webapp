@@ -55,7 +55,7 @@ exports[`components/EditChannelHeaderModal edit direct message channel 1`] = `
     <div>
       <p>
         <MemoizedFormattedMessage
-          defaultMessage="Edit the text appearing next to the channel name in the channel header."
+          defaultMessage="Edit the text appearing next to the channel name in the header."
           id="edit_channel_header_modal.description"
         />
       </p>
@@ -182,7 +182,7 @@ exports[`components/EditChannelHeaderModal error with intl message 1`] = `
     <div>
       <p>
         <MemoizedFormattedMessage
-          defaultMessage="Edit the text appearing next to the channel name in the channel header."
+          defaultMessage="Edit the text appearing next to the channel name in the header."
           id="edit_channel_header_modal.description"
         />
       </p>
@@ -327,7 +327,7 @@ exports[`components/EditChannelHeaderModal error without intl message 1`] = `
     <div>
       <p>
         <MemoizedFormattedMessage
-          defaultMessage="Edit the text appearing next to the channel name in the channel header."
+          defaultMessage="Edit the text appearing next to the channel name in the header."
           id="edit_channel_header_modal.description"
         />
       </p>
@@ -464,7 +464,7 @@ exports[`components/EditChannelHeaderModal should match snapshot, init 1`] = `
     <div>
       <p>
         <MemoizedFormattedMessage
-          defaultMessage="Edit the text appearing next to the channel name in the channel header."
+          defaultMessage="Edit the text appearing next to the channel name in the header."
           id="edit_channel_header_modal.description"
         />
       </p>
@@ -591,7 +591,7 @@ exports[`components/EditChannelHeaderModal submitted 1`] = `
     <div>
       <p>
         <MemoizedFormattedMessage
-          defaultMessage="Edit the text appearing next to the channel name in the channel header."
+          defaultMessage="Edit the text appearing next to the channel name in the header."
           id="edit_channel_header_modal.description"
         />
       </p>

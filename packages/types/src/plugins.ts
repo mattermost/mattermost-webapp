@@ -86,6 +86,7 @@ export type PluginStatusRedux = {
     version: string;
     active: boolean;
     state: number;
+    error?: string;
     instances: PluginInstance[];
 }
 

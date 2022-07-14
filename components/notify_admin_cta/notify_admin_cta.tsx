@@ -16,10 +16,12 @@ font-weight: 600;
 line-height: 16px;
 `;
 
-const StyledBtn = styled.button`
+const StyledA = styled.a`
 border: none;
 background: none;
 color: var(--denim-button-bg);
+text-decoration: none;
+display: inline;
 `;
 
 enum NotifyStatus {
@@ -38,13 +40,19 @@ export enum DafaultBtnText {
     Failed = 'Try again later!',
 }
 
-function NotifyAdminCTA() {
+type Props = {
+    ctaText?: string | React.ReactNode;
+}
+
+function NotifyAdminCTA(props: Props) {
     const [notifyStatus, setStatus] = useState(NotifyStatus.NotStarted);
     const {formatMessage} = useIntl();
 
     const currentTeam = useSelector(getCurrentTeamId);
 
-    const notifyFunc = async () => {
+    const notifyFunc = async (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+        e.preventDefault();
+        e.stopPropagation();
         try {
             setStatus(NotifyStatus.Started);
             const req = {
@@ -61,7 +69,7 @@ function NotifyAdminCTA() {
         }
     };
 
-    const btnText = (status: NotifyStatus): string => {
+    const btnText = (status: NotifyStatus): string | React.ReactNode => {
         switch (status) {
         case NotifyStatus.Started:
             return formatMessage({id: 'notify_admin_to_upgrade_cta.notify-admin.notifying', defaultMessage: DafaultBtnText.Notifying});
@@ -72,21 +80,36 @@ function NotifyAdminCTA() {
         case NotifyStatus.Failed:
             return formatMessage({id: 'notify_admin_to_upgrade_cta.notify-admin.failed', defaultMessage: DafaultBtnText.Failed});
         default:
+            if (props.ctaText) {
+                return props.ctaText;
+            }
             return formatMessage({id: 'notify_admin_to_upgrade_cta.notify-admin.notify', defaultMessage: DafaultBtnText.NotifyAdmin});
         }
     };
 
     return (
-        <div>
-            <Span>{formatMessage({id: 'pricing_modal.wantToUpgrade', defaultMessage: 'Want to upgrade?'})}
-                <StyledBtn
-                    id='notify_admin_cta'
-                    onClick={notifyFunc}
-                >
-                    {btnText(notifyStatus)}
-                </StyledBtn>
-            </Span>
-        </div>);
+        <>
+            {props.ctaText ? (
+                <span>
+                    <StyledA
+                        id='notify_admin_cta'
+                        onClick={notifyFunc}
+                    >
+                        {btnText(notifyStatus)}
+                    </StyledA>
+                </span>
+            ) : (
+                <Span>
+                    {formatMessage({id: 'pricing_modal.wantToUpgrade', defaultMessage: 'Want to upgrade? '})}
+                    <StyledA
+                        id='notify_admin_cta'
+                        onClick={notifyFunc}
+                    >
+                        {btnText(notifyStatus)}
+                    </StyledA>
+                </Span>
+            )}
+        </>);
 }
 
 export default NotifyAdminCTA;

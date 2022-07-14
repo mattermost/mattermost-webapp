@@ -35,7 +35,7 @@ Cypress.Commands.add('uiAddUsersToCurrentChannel', (usernameList) => {
         cy.get('#channelAddMembers').click();
         cy.get('#addUsersToChannelModal').should('be.visible');
         usernameList.forEach((username) => {
-            cy.get('#react-select-2-input').type(`@${username}{enter}`);
+            cy.get('#selectItems input').typeWithForce(`@${username}{enter}`);
         });
         cy.get('#saveItems').click();
         cy.get('#addUsersToChannelModal').should('not.exist');
@@ -49,9 +49,9 @@ Cypress.Commands.add('uiArchiveChannel', () => {
 });
 
 Cypress.Commands.add('uiUnarchiveChannel', () => {
-    cy.get('#channelHeaderDropdownIcon').click();
-    cy.get('#channelUnarchiveChannel').click();
-    return cy.get('#unarchiveChannelModalDeleteButton').click();
+    cy.get('#channelHeaderDropdownIcon').should('be.visible').click();
+    cy.get('#channelUnarchiveChannel').should('be.visible').click();
+    return cy.get('#unarchiveChannelModalDeleteButton').should('be.visible').click();
 });
 
 Cypress.Commands.add('uiLeaveChannel', (isPrivate = false) => {
@@ -69,11 +69,12 @@ Cypress.Commands.add('goToDm', (username) => {
     cy.uiAddDirectMessage().click({force: true});
 
     // # Start typing part of a username that matches previously created users
-    cy.get('#selectItems input').type(username, {force: true});
+    cy.get('#selectItems input').typeWithForce(username);
     cy.findByRole('dialog', {name: 'Direct Messages'}).should('be.visible').wait(TIMEOUTS.ONE_SEC);
-    cy.findByRole('textbox', {name: 'Search for people'}).click({force: true}).
-        type(username).wait(TIMEOUTS.ONE_SEC).
-        type('{enter}');
+    cy.findByRole('textbox', {name: 'Search for people'}).
+        typeWithForce(username).
+        wait(TIMEOUTS.ONE_SEC).
+        typeWithForce('{enter}');
 
     // # Save the selected item
     return cy.get('#saveItems').click().wait(TIMEOUTS.HALF_SEC);

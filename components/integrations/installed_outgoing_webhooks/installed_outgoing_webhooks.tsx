@@ -1,79 +1,89 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import * as Utils from 'utils/utils';
+import {localizeMessage} from 'utils/utils';
 import Constants from 'utils/constants';
+
 import BackstageList from 'components/backstage/components/backstage_list.jsx';
 import InstalledOutgoingWebhook, {matchesFilter} from 'components/integrations/installed_outgoing_webhook.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
-export default class InstalledOutgoingWebhooks extends React.PureComponent {
-    static propTypes = {
+import {UserProfile} from '@mattermost/types/users';
+import {Team} from '@mattermost/types/teams';
+import {OutgoingWebhook} from '@mattermost/types/integrations';
+import {IDMappedObjects} from '@mattermost/types/utilities';
+import {Channel} from '@mattermost/types/channels';
+
+export type Props = {
+
+    /**
+    *  Data used in passing down as props for webhook modifications
+    */
+    team: Team;
+
+    /**
+    * Data used for checking if webhook is created by current user
+    */
+    user: UserProfile;
+
+    /**
+    *  Data used for checking modification privileges
+    */
+    canManageOthersWebhooks: boolean;
+
+    /**
+    * Data used in passing down as props for showing webhook details
+    */
+    outgoingWebhooks: OutgoingWebhook[];
+
+    /**
+    * Data used in sorting for displaying list and as props channel details
+    */
+    channels: IDMappedObjects<Channel>;
+
+    /**
+    *  Data used in passing down as props for webhook -created by label
+    */
+    users: IDMappedObjects<UserProfile>;
+
+    /**
+    *  Data used in passing as argument for loading webhooks
+    */
+    teamId: string;
+
+    actions: {
 
         /**
-        *  Data used in passing down as props for webhook modifications
+        * The function to call for removing outgoingWebhook
         */
-        team: PropTypes.object,
+        removeOutgoingHook: (hookId: string) => Promise<void>;
 
         /**
-        * Data used for checking if webhook is created by current user
+        * The function to call for outgoingWebhook List and for the status of api
         */
-        user: PropTypes.object,
+        loadOutgoingHooksAndProfilesForTeam: (teamId: string, page: number, perPage: number) => Promise<void>;
 
         /**
-        *  Data used for checking modification privileges
+        * The function to call for regeneration of webhook token
         */
-        canManageOthersWebhooks: PropTypes.bool,
+        regenOutgoingHookToken: (hookId: string) => Promise<void>;
+    };
 
-        /**
-        * Data used in passing down as props for showing webhook details
-        */
-        outgoingWebhooks: PropTypes.array,
+    /**
+    * Whether or not outgoing webhooks are enabled.
+    */
+    enableOutgoingWebhooks: boolean;
+}
 
-        /**
-        * Data used in sorting for displaying list and as props channel details
-        */
-        channels: PropTypes.object,
+type State = {
+    loading: boolean;
+};
 
-        /**
-        *  Data used in passing down as props for webhook -created by label
-        */
-        users: PropTypes.object,
-
-        /**
-        *  Data used in passing as argument for loading webhooks
-        */
-        teamId: PropTypes.string,
-
-        actions: PropTypes.shape({
-
-            /**
-            * The function to call for removing outgoingWebhook
-            */
-            removeOutgoingHook: PropTypes.func,
-
-            /**
-            * The function to call for outgoingWebhook List and for the status of api
-            */
-            loadOutgoingHooksAndProfilesForTeam: PropTypes.func,
-
-            /**
-            * The function to call for regeneration of webhook token
-            */
-            regenOutgoingHookToken: PropTypes.func,
-        }),
-
-        /**
-        * Whether or not outgoing webhooks are enabled.
-        */
-        enableOutgoingWebhooks: PropTypes.bool,
-    }
-
-    constructor(props) {
+export default class InstalledOutgoingWebhooks extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -86,29 +96,29 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent {
             this.props.actions.loadOutgoingHooksAndProfilesForTeam(
                 this.props.teamId,
                 Constants.Integrations.START_PAGE_NUM,
-                Constants.Integrations.PAGE_SIZE,
+                parseInt(Constants.Integrations.PAGE_SIZE, 10),
             ).then(
                 () => this.setState({loading: false}),
             );
         }
     }
 
-    regenOutgoingWebhookToken = (outgoingWebhook) => {
+    regenOutgoingWebhookToken = (outgoingWebhook: OutgoingWebhook) => {
         this.props.actions.regenOutgoingHookToken(outgoingWebhook.id);
     }
 
-    removeOutgoingHook = (outgoingWebhook) => {
+    removeOutgoingHook = (outgoingWebhook: OutgoingWebhook) => {
         this.props.actions.removeOutgoingHook(outgoingWebhook.id);
     }
 
-    outgoingWebhookCompare = (a, b) => {
+    outgoingWebhookCompare = (a: OutgoingWebhook, b: OutgoingWebhook) => {
         let displayNameA = a.display_name;
         if (!displayNameA) {
             const channelA = this.props.channels[a.channel_id];
             if (channelA) {
                 displayNameA = channelA.display_name;
             } else {
-                displayNameA = Utils.localizeMessage('installed_outgoing_webhooks.unknown_channel', 'A Private Webhook');
+                displayNameA = localizeMessage('installed_outgoing_webhooks.unknown_channel', 'A Private Webhook');
             }
         }
 
@@ -118,13 +128,13 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent {
             if (channelB) {
                 displayNameB = channelB.display_name;
             } else {
-                displayNameB = Utils.localizeMessage('installed_outgoing_webhooks.unknown_channel', 'A Private Webhook');
+                displayNameB = localizeMessage('installed_outgoing_webhooks.unknown_channel', 'A Private Webhook');
             }
         }
         return displayNameA.localeCompare(displayNameB);
     }
 
-    outgoingWebhooks = (filter) => this.props.outgoingWebhooks.
+    outgoingWebhooks = (filter: string) => this.props.outgoingWebhooks.
         sort(this.outgoingWebhookCompare).
         filter((outgoingWebhook) => matchesFilter(outgoingWebhook, this.props.channels[outgoingWebhook.channel_id], filter)).
         map((outgoingWebhook) => {
@@ -205,10 +215,10 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent {
                         }}
                     />
                 }
-                searchPlaceholder={Utils.localizeMessage('installed_outgoing_webhooks.search', 'Search Outgoing Webhooks')}
+                searchPlaceholder={localizeMessage('installed_outgoing_webhooks.search', 'Search Outgoing Webhooks')}
                 loading={this.state.loading}
             >
-                {(filter) => {
+                {(filter: string) => {
                     const children = this.outgoingWebhooks(filter);
                     return [children, children.length > 0];
                 }}

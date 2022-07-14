@@ -279,9 +279,29 @@ export default function HelpFormatting(): JSX.Element {
                 />
             </h2>
             <p>
-                <FormattedMarkdownMessage
+                <FormattedMessage
                     id='help.formatting.emojis.description'
-                    defaultMessage={'Open the emoji autocomplete by typing `:`. A full list of emojis can be found [online](!http://www.emoji-cheat-sheet.com/). It is also possible to create your own [Custom Emoji](!https://docs.mattermost.com/messaging/using-emoji.html#creating-custom-emojis) if the emoji you want to use doesn\'t exist.'}
+                    defaultMessage={'Open the emoji autocomplete by typing `:`. A full list of emojis can be found <linkEmoji>online</linkEmoji>. It is also possible to create your own <linkCustomEmoji>Custom Emoji</linkCustomEmoji> if the emoji you want to use doesn\'t exist.'}
+                    values={{
+                        linkEmoji: (msg: React.ReactNode) => (
+                            <a
+                                href='http://www.emoji-cheat-sheet.com/'
+                                target='_blank'
+                                rel='noreferrer'
+                            >
+                                {msg}
+                            </a>
+                        ),
+                        linkCustomEmoji: (msg: React.ReactNode) => (
+                            <a
+                                href='https://docs.mattermost.com/messaging/using-emoji.html#creating-custom-emojis'
+                                target='_blank'
+                                rel='noreferrer'
+                            >
+                                {msg}
+                            </a>
+                        ),
+                    }}
                 />
             </p>
             {renderRawExampleWithResult(':smile: :+1: :sheep:')}

@@ -2,23 +2,27 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {addChannelMember, getChannelMember, autocompleteChannelsForSearch} from 'mattermost-redux/actions/channels';
 import {getChannelMembersInChannels} from 'mattermost-redux/selectors/entities/channels';
 
-import AddUserToChannelModal from './add_user_to_channel_modal.jsx';
+import {GlobalState} from '@mattermost/types/store';
 
-function mapStateToProps(state) {
+import {ActionFunc} from 'mattermost-redux/types/actions';
+
+import AddUserToChannelModal, {Props} from './add_user_to_channel_modal';
+
+function mapStateToProps(state: GlobalState) {
     const channelMembers = getChannelMembersInChannels(state) || {};
     return {
         channelMembers,
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Props['actions']>({
             addChannelMember,
             getChannelMember,
             autocompleteChannelsForSearch,
