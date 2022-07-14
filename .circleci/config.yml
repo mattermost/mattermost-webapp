@@ -240,6 +240,7 @@ workflows:
       #     context: sast-webhook
       #     requires:
       #       - install
+      - build-packages
       - lint:
           requires:
             - install
