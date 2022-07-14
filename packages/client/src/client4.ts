@@ -3890,13 +3890,13 @@ export default class Client4 {
             const subscription: SelfHostedSubscription = {
                 id: 'sub_fakeSelfHostedSub',
                 customer_id: 'cus_fakeCustomerId',
-                product_id: 'prod_fakeStarter',
+                product_id: 'prod_fakeEnterprise',
                 start_at: 0,
                 end_at: 0,
                 create_at: 0,
                 seats: 100,
                 trial_end_at: 0,
-                is_free_trial: 'false',
+                is_free_trial: 'true',
             };
 
             setTimeout(() => {

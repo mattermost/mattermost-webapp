@@ -11,6 +11,7 @@ import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/user
 import {getCloudProducts, getCloudSubscription} from 'mattermost-redux/actions/cloud';
 import {getSelfHostedProducts, getSelfHostedSubscription} from 'mattermost-redux/actions/hosted';
 import {getCloudSubscription as selectCloudSubscription, getSubscriptionProduct as selectSubscriptionProduct, isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import { selectSelfHostedSubscription, selectSelfHostedSubscriptionProduct } from 'mattermost-redux/selectors/entities/hosted';
@@ -54,6 +55,9 @@ const UpgradeCloudButton = (): JSX.Element | null => {
     const isAdmin = useSelector(isCurrentUserSystemAdmin);
     const subscription = useSelector(selectCloudSubscription);
     const product = useSelector(selectSubscriptionProduct);
+    const config = useSelector(getConfig);
+
+    const enableForSelfHosted = config?.EnableUpgradeForSelfHostedStarter === 'true';
 
     const selfHostedSubscription = useSelector(selectSelfHostedSubscription)
     const selfHostedProduct = useSelector(selectSelfHostedSubscriptionProduct);
@@ -75,6 +79,10 @@ const UpgradeCloudButton = (): JSX.Element | null => {
 
     // for non cloud, only show when subscribed to self hosted starter or self hosted enterprise trial plans
     if (!isCloud && !(isSelfHostedStarter || isSelfHostedEnterpriseTrial)) {
+        return null;
+    }
+
+    if (!isCloud && !enableForSelfHosted) {
         return null;
     }
 
