@@ -265,7 +265,6 @@ const ConfirmIntegration = ({team, location, commands, oauthApps, incomingHooks,
                         link: (msg: string) => (
                             <a
                                 href='https://mattermost.com/pl/default-bot-accounts'
-                                referrer='noreferrer'
                                 target='_blank'
                                 rel='noreferrer'
                             >
