@@ -32,7 +32,7 @@ exports[`components/announcement_bar/cloud_delinquency Should match snapshot whe
       onButtonClick={[Function]}
       showCloseButton={false}
       showLinkAsButton={true}
-      type="critical"
+      type="advisor"
     >
       <AnnouncementBar
         actions={
@@ -61,10 +61,10 @@ exports[`components/announcement_bar/cloud_delinquency Should match snapshot whe
         showCloseButton={false}
         showLinkAsButton={true}
         textColor=""
-        type="critical"
+        type="advisor"
       >
         <div
-          className="announcement-bar announcement-bar-critical"
+          className="announcement-bar announcement-bar-advisor"
           style={
             Object {
               "backgroundColor": "",
