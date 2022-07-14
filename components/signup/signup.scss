@@ -86,12 +86,18 @@
 
                 &.with-brand-image {
                     align-self: center;
+
+                    .signup-body-message-subtitle,
+                    .signup-body-custom-branding-markdown {
+                        text-align: center;
+                    }
                 }
 
                 .signup-body-custom-branding-image {
                     max-height: 540px;
                     flex: 1;
                     align-self: center;
+                    margin-bottom: 28px;
                     border-radius: 8px;
                 }
             }
@@ -201,7 +207,6 @@
 
         .signup-body-custom-branding-markdown {
             flex: 1;
-            margin-top: 28px;
 
             ul + p,
             ol + p {
@@ -224,7 +229,6 @@
                 font-size: 18px;
                 font-weight: 400;
                 line-height: 28px;
-                text-align: center;
                 white-space: pre-wrap;
                 word-break: break-word;
             }
@@ -339,6 +343,7 @@
                         .signup-body-message-subtitle {
                             display: block;
                             margin: 0 0 32px;
+                            text-align: left;
                         }
                     }
                 }

@@ -659,8 +659,8 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
     };
 
     const getMessageSubtitle = () => {
-        if (enableCustomBrand) {
-            return CustomBrandText && (
+        if (enableCustomBrand && CustomBrandText) {
+            return (
                 <div className='login-body-custom-branding-markdown'>
                     <Markdown
                         message={CustomBrandText}
