@@ -32,7 +32,7 @@ describe('Edit Message', () => {
         cy.postMessage('Hello World!');
 
         // # Hit the up arrow to open the "edit modal"
-        cy.get('#post_textbox').type('{uparrow}');
+        cy.uiGetPostTextBox().type('{uparrow}');
 
         // # In the modal type @
         cy.get('#edit_textbox').type(' @');
@@ -134,7 +134,7 @@ describe('Edit Message', () => {
             cy.get(postText).should('have.text', secondMessage);
 
             // # Edit the last post
-            cy.get('#post_textbox').type('{uparrow}');
+            cy.uiGetPostTextBox().type('{uparrow}');
 
             // * Edit Post Input should appear, and edit the post
             cy.get('#edit_textbox').should('be.visible');

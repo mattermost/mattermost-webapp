@@ -43,7 +43,7 @@ export function runSlashCommand(linkToVisit, trigger) {
     cy.visit(linkToVisit);
 
     // # Run slash command
-    cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`/${trigger}{enter}{enter}`);
+    cy.uiGetPostTextBox().clear().type(`/${trigger}{enter}{enter}`);
     cy.wait(TIMEOUTS.TWO_SEC);
 
     // # Get last post message text

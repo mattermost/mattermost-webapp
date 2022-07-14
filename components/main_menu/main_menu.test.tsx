@@ -73,6 +73,7 @@ describe('components/Menu', () => {
         },
         teamIsGroupConstrained: false,
         isCloud: false,
+        isStarterFree: false,
         subscription: {},
         userIsAdmin: true,
         isFreeTrial: false,
@@ -292,6 +293,7 @@ describe('components/Menu', () => {
         const props = {
             ...defaultProps,
             isCloud: true,
+            isStarterFree: false,
             isFreeTrial: true,
             usageDeltaTeams: -1,
         };
@@ -303,6 +305,7 @@ describe('components/Menu', () => {
         const props = {
             ...defaultProps,
             isCloud: true,
+            isStarterFree: true,
             isFreeTrial: false,
             usageDeltaTeams: 0,
         };

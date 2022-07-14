@@ -27,6 +27,7 @@ exports[`components/channel_members_dropdown should match snapshot for channel_m
     openUp={false}
   >
     <MenuItemAction
+      data-testid="removeFromChannel"
       onClick={[Function]}
       show={true}
       text="Remove from Channel"
@@ -49,8 +50,8 @@ exports[`components/channel_members_dropdown should match snapshot for dropdown 
     />
     <span>
       <MemoizedFormattedMessage
-        defaultMessage="Channel Guest"
-        id="channel_members_dropdown.channel_guest"
+        defaultMessage="Channel Admin"
+        id="channel_members_dropdown.channel_admin"
       />
        
     </span>
@@ -62,6 +63,13 @@ exports[`components/channel_members_dropdown should match snapshot for dropdown 
     openUp={false}
   >
     <MenuItemAction
+      id="undefined-make-channel-member"
+      onClick={[Function]}
+      show={true}
+      text="Make Channel Member"
+    />
+    <MenuItemAction
+      data-testid="removeFromChannel"
       onClick={[Function]}
       show={true}
       text="Remove from Channel"
@@ -131,8 +139,8 @@ exports[`components/channel_members_dropdown should match snapshot for not dropd
     />
     <span>
       <MemoizedFormattedMessage
-        defaultMessage="Channel Guest"
-        id="channel_members_dropdown.channel_guest"
+        defaultMessage="Channel Admin"
+        id="channel_members_dropdown.channel_admin"
       />
        
     </span>
@@ -144,6 +152,7 @@ exports[`components/channel_members_dropdown should match snapshot for not dropd
     openUp={false}
   >
     <MenuItemAction
+      data-testid="removeFromChannel"
       onClick={[Function]}
       show={true}
       text="Remove from Channel"
@@ -179,6 +188,7 @@ exports[`components/channel_members_dropdown should match snapshot opening dropd
     openUp={true}
   >
     <MenuItemAction
+      data-testid="removeFromChannel"
       onClick={[Function]}
       show={true}
       text="Remove from Channel"

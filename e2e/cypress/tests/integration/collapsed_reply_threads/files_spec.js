@@ -93,7 +93,7 @@ describe('Collapsed Reply Threads', () => {
         cy.get('#advancedTextEditorCell').find('#fileUploadInput').attachFile(image);
         waitUntilUploadComplete();
         cy.get('.post-image__thumbnail').should('be.visible');
-        cy.get('#post_textbox').clear().type('{enter}');
+        cy.uiGetPostTextBox().clear().type('{enter}');
 
         cy.getLastPostId().then((rootId) => {
             // # Post a reply to create a thread and follow
@@ -119,7 +119,7 @@ describe('Collapsed Reply Threads', () => {
             cy.get('#advancedTextEditorCell').find('#fileUploadInput').attachFile(file.filename);
             waitUntilUploadComplete();
             cy.get('.post-image__thumbnail').should('be.visible');
-            cy.get('#post_textbox').clear().type('{enter}');
+            cy.uiGetPostTextBox().clear().type('{enter}');
 
             cy.getLastPostId().then((rootId) => {
                 // # Post a reply to create a thread and follow

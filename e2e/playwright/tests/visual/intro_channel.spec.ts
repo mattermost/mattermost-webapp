@@ -1,16 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import path from 'path';
-
 import {test, expect} from '@playwright/test';
 import {Eyes, CheckSettings} from '@applitools/eyes-playwright';
 
-import {initSetup} from '../../support/server';
-import {ChannelPage, LandingLoginPage, LoginPage} from '../../support/ui/page';
-import {hideTeamHeader, hidePostHeaderTime} from '../../support/ui/style';
-import {snapshotWithApplitools, snapshotWithPercy} from '../../support/visual';
-import testConfig from '../../test.config';
+import {initSetup} from '@support/server';
+import {ChannelPage, LandingLoginPage, LoginPage} from '@support/ui/page';
+import {hideTeamHeader, hidePostHeaderTime} from '@support/ui/style';
+import {snapshotWithApplitools, snapshotWithPercy} from '@support/visual';
+import testConfig from '@test.config';
 
 let eyes: Eyes;
 
@@ -22,10 +20,7 @@ test('Intro to channel as regular user', async ({page, isMobile, browserName}, t
     let targetWindow: CheckSettings;
     ({eyes, targetWindow} = await snapshotWithApplitools(page, isMobile, browserName, testInfo.title));
 
-    const {userClient, adminConfig, user} = await initSetup();
-
-    const fullPath = path.join(path.resolve(__dirname), '../..', 'support/fixtures/mattermost-icon_128x128.png');
-    await userClient.uploadProfileImageX(user.id, fullPath);
+    const {adminConfig, user} = await initSetup({withDefaultProfileImage: true});
 
     // Go to login page
     const loginPage = new LoginPage(page, adminConfig);
@@ -38,7 +33,8 @@ test('Intro to channel as regular user', async ({page, isMobile, browserName}, t
     }
 
     // Login as a new user
-    await loginPage.siteNameHeader.waitFor();
+    await loginPage.title.waitFor();
+    await loginPage.subtitle.waitFor();
     await page.waitForLoadState('domcontentloaded');
     await loginPage.login(user);
 

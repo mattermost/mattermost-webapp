@@ -2,8 +2,9 @@
 // See LICENSE.txt for license information.
 
 import {PlaywrightTestConfig, devices} from '@playwright/test';
-import testConfig from './test.config';
-import {duration} from './support/utils';
+
+import {duration} from '@support/utils';
+import testConfig from '@test.config';
 
 const config: PlaywrightTestConfig = {
     globalSetup: require.resolve('./global_setup'),
@@ -13,6 +14,11 @@ const config: PlaywrightTestConfig = {
     testDir: 'tests',
     timeout: duration.one_min,
     workers: process.env.CI ? 2 : 1,
+    expect: {
+        toMatchSnapshot: {
+            threshold: 0.4,
+        },
+    },
     use: {
         baseURL: testConfig.baseURL,
         headless: true,
@@ -21,6 +27,7 @@ const config: PlaywrightTestConfig = {
         timezoneId: 'America/Los_Angeles',
         trace: 'off',
         video: 'on-first-retry',
+        actionTimeout: duration.ten_sec,
     },
     projects: [
         {
