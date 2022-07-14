@@ -34,7 +34,7 @@ import {getBrowserUtcOffset, getUtcOffsetForTimeZone} from 'utils/timezone';
 import {RhsState} from 'types/store/rhs';
 import {GlobalState} from 'types/store';
 import {getPostsByIds} from 'mattermost-redux/actions/posts';
-import {getEditingPost, getIsPostBeingEditedInRHS} from '../../selectors/posts';
+import {getEditingPost} from '../../selectors/posts';
 import {unsetEditingPost} from '../post_actions';
 import {getChannel} from 'mattermost-redux/actions/channels';
 
@@ -434,7 +434,6 @@ export function closeRightHandSide() {
     return (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState() as GlobalState;
         const editingPost = getEditingPost(state);
-        const isPostBeingEditedInRHS = getIsPostBeingEditedInRHS(state, editingPost?.postId);
 
         const actionsBatch: AnyAction[] = [
             {
@@ -449,7 +448,7 @@ export function closeRightHandSide() {
             },
         ];
 
-        if (isPostBeingEditedInRHS) {
+        if (editingPost?.isRHS) {
             actionsBatch.push(unsetEditingPost());
         }
 
