@@ -10,7 +10,7 @@ import {UserProfile} from '@mattermost/types/users';
 import {Channel} from '@mattermost/types/channels';
 
 import Member from './member';
-import {ChannelMember, ListItem} from './channel_members_rhs';
+import {ChannelMember, ListItem, ListItemType} from './channel_members_rhs';
 
 export interface Props {
     channel: Channel;
@@ -65,9 +65,9 @@ const MemberList = ({
         }
 
         switch (members[index].type) {
-        case 'first-separator':
+        case ListItemType.FirstSeparator:
             return 28;
-        case 'separator':
+        case ListItemType.Separator:
             return 16 + 28;
         }
 
@@ -76,7 +76,9 @@ const MemberList = ({
 
     const Item = ({index, style}: ListChildComponentProps) => {
         if (isItemLoaded(index)) {
-            if (members[index].type === 'member') {
+            switch (members[index].type) {
+            case ListItemType.Member:
+                // eslint-disable-next-line no-case-declarations
                 const member = members[index].data as ChannelMember;
                 return (
                     <div
@@ -93,7 +95,8 @@ const MemberList = ({
                         />
                     </div>
                 );
-            } else if (members[index].type === 'separator' || members[index].type === 'first-separator') {
+            case ListItemType.Separator:
+            case ListItemType.FirstSeparator:
                 return (
                     <div
                         key={index}
@@ -102,6 +105,8 @@ const MemberList = ({
                         {members[index].data}
                     </div>
                 );
+            default:
+                return null;
             }
         }
 
