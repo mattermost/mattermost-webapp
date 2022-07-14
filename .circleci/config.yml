@@ -241,6 +241,8 @@ workflows:
       #     requires:
       #       - install
       - build-packages
+          requires:
+            - install
       - lint:
           requires:
             - install
