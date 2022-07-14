@@ -10,6 +10,7 @@ import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 import {GlobalState} from 'types/store';
 import {getListing, getInstalledListing} from 'selectors/views/marketplace';
 import {setFirstAdminVisitMarketplaceStatus} from 'mattermost-redux/actions/general';
+import {getPluginStatuses} from 'mattermost-redux/actions/admin';
 import {getFirstAdminVisitMarketplaceStatus} from 'mattermost-redux/selectors/entities/general';
 
 import {makeAsyncComponent} from 'components/async_load';
@@ -39,6 +40,7 @@ type Actions = {
     fetchListing(localOnly?: boolean): Promise<{error?: Error}>;
     filterListing(filter: string): Promise<{error?: Error}>;
     setFirstAdminVisitMarketplaceStatus(): Promise<void>;
+    getPluginStatuses(): Promise<void>;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
@@ -48,6 +50,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             fetchListing,
             filterListing,
             setFirstAdminVisitMarketplaceStatus,
+            getPluginStatuses,
         }, dispatch),
     };
 }

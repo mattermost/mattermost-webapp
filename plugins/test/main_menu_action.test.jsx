@@ -46,6 +46,7 @@ describe('plugins/MainMenuActions', () => {
             getCloudLimits: jest.fn(),
         },
         isCloud: false,
+        isStarterFree: false,
         subscription: {},
         userIsAdmin: true,
         isFirstAdmin: false,

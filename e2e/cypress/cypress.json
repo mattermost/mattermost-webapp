@@ -11,7 +11,7 @@
     "screenshotsFolder": "tests/screenshots",
     "supportFile": "tests/support/index.js",
     "taskTimeout": 20000,
-    "testFiles": "**/*_spec.js",
+    "testFiles": "**/*_spec.{js,ts}",
     "video": false,
     "viewportWidth": 1300,
     "env": {
