@@ -18,7 +18,6 @@ import AnnouncementBar from '../default_announcement_bar';
 import useGetSubscription from 'components/common/hooks/useGetSubscription';
 import {isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
-import {getSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
 
 const CloudDelinquencyAnnouncementBar: React.FC = () => {
     const subscription = useGetSubscription();
@@ -27,12 +26,9 @@ const CloudDelinquencyAnnouncementBar: React.FC = () => {
     const currentUser = useSelector((state: GlobalState) =>
         getCurrentUser(state),
     );
-    const subscriptionProduct = useSelector((state: GlobalState) =>
-        getSubscriptionProduct(state),
-    );
 
     const shouldShowBanner = () => {
-        if (!subscription || !subscriptionProduct) {
+        if (!subscription) {
             return false;
         }
 
@@ -60,7 +56,7 @@ const CloudDelinquencyAnnouncementBar: React.FC = () => {
         if (diffDays > 90) {
             return AnnouncementBarTypes.CRITICAL;
         }
-        return AnnouncementBarTypes.CRITICAL;
+        return AnnouncementBarTypes.ADVISOR;
     };
 
     if (!shouldShowBanner()) {

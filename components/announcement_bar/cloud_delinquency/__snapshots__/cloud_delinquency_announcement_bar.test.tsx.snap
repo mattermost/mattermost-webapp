@@ -183,7 +183,7 @@ exports[`components/announcement_bar/cloud_delinquency Should match snapshot whe
 </Provider>
 `;
 
-exports[`components/announcement_bar/cloud_delinquency Should match snapshot when delinquent < 90 days 2`] = `
+exports[`components/announcement_bar/cloud_delinquency Should match snapshot when delinquent > 90 days 1`] = `
 <Provider
   store={
     Object {

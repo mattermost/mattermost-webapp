@@ -4,6 +4,7 @@
 import React from 'react';
 import * as reactRedux from 'react-redux';
 
+import {CloudProducts, Preferences, CloudBanners} from 'utils/constants';
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import mockStore from 'tests/test_store';
 
@@ -37,6 +38,23 @@ describe('components/announcement_bar/cloud_delinquency', () => {
                     trial_end_at: 1652807380,
                     is_free_trial: 'false',
                     delinquent_since: 1652807380, // may 17 2022
+                },
+                products: {
+                    test_prod_1: {
+                        id: 'test_prod_1',
+                        sku: CloudProducts.STARTER,
+                        price_per_seat: 0,
+                    },
+                    test_prod_2: {
+                        id: 'test_prod_2',
+                        sku: CloudProducts.ENTERPRISE,
+                        price_per_seat: 0,
+                    },
+                    test_prod_3: {
+                        id: 'test_prod_3',
+                        sku: CloudProducts.PROFESSIONAL,
+                        price_per_seat: 0,
+                    },
                 },
             },
         },
@@ -98,7 +116,7 @@ describe('components/announcement_bar/cloud_delinquency', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    it('Should match snapshot when delinquent < 90 days', () => {
+    it('Should match snapshot when delinquent > 90 days', () => {
         const state = JSON.parse(JSON.stringify(initialState));
         const store = mockStore(state);
         jest.useFakeTimers().setSystemTime(new Date('2022-12-20'));
