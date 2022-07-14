@@ -25,7 +25,7 @@ type LinkParams = {
 
 const getTeamAndPostIdFromLink = (link: string) => {
     const match = matchPath<LinkParams>(link, {path: '/:teamName/pl/:postId'});
-    return match!.params;
+    return match?.params;
 };
 
 const PostAttachmentContainer = (props: Props) => {
@@ -37,7 +37,7 @@ const PostAttachmentContainer = (props: Props) => {
     const dispatch = useDispatch();
 
     const userId = useSelector(getCurrentUserId);
-    const shouldFocusPostWithoutRedirect = useSelector((state: GlobalState) => isTeamSameWithCurrentTeam(state, params.teamName));
+    const shouldFocusPostWithoutRedirect = useSelector((state: GlobalState) => isTeamSameWithCurrentTeam(state, params?.teamName ?? ''));
 
     const handleOnClick = useCallback((e) => {
         const {tagName} = e.target;
