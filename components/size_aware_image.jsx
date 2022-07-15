@@ -84,10 +84,14 @@ export default class SizeAwareImage extends React.PureComponent {
         super(props);
         const {dimensions} = props;
 
+        const isDimensionAvailable = this.dimensionsAvailable(dimensions);
+
         this.state = {
             loaded: false,
-            isSmallImage: this.dimensionsAvailable(dimensions) ? this.isSmallImage(
+            isSmallImage: isDimensionAvailable ? this.isSmallImage(
                 dimensions.width, dimensions.height) : false,
+            imageWidth: isDimensionAvailable ? dimensions.width : MIN_IMAGE_SIZE,
+            imageHeight: isDimensionAvailable ? dimensions.height : MIN_IMAGE_SIZE,
             linkCopiedRecently: false,
             linkCopyInProgress: false,
         };
@@ -116,10 +120,9 @@ export default class SizeAwareImage extends React.PureComponent {
             this.setState({
                 loaded: true,
                 error: false,
-                imageWidth: this.props.dimensions.width,
             }, () => { // Call onImageLoaded prop only after state has already been set
-                if (this.props.onImageLoaded && this.props.dimensions.height) {
-                    this.props.onImageLoaded({height: this.props.dimensions.height, width: this.props.dimensions.width});
+                if (this.props.onImageLoaded && this.state.imageHeight) {
+                    this.props.onImageLoaded({height: this.state.imageHeight, width: this.state.imageWidth});
                 }
             });
         }
@@ -175,11 +178,11 @@ export default class SizeAwareImage extends React.PureComponent {
         Reflect.deleteProperty(props, 'getFilePublicLink');
 
         let ariaLabelImage = localizeMessage('file_attachment.thumbnail', 'file thumbnail');
+        let svgStyleAttribute = {};
         if (fileInfo) {
             ariaLabelImage += ` ${fileInfo.name}`.toLowerCase();
+            svgStyleAttribute = fileInfo.extension === FileTypes.SVG && {style: {width: this.state.imageWidth}};
         }
-
-        const svgStyleAttribute = fileInfo.extension === FileTypes.SVG && {style: {width: this.state.imageWidth}};
 
         const image = (
             <img

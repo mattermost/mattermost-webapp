@@ -26,7 +26,10 @@ export default function ImagePreview({fileInfo, canDownloadFiles}) {
         return <img src={previewUrl}/>;
     }
 
-    const svgStyleAttribute = fileInfo.extension === FileTypes.SVG && {style: {width: fileInfo.width}};
+    let svgStyleAttribute = {};
+    if (fileInfo) {
+        svgStyleAttribute = fileInfo.extension === FileTypes.SVG && {style: {width: fileInfo.width}};
+    }
 
     return (
         <a
