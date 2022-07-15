@@ -8,16 +8,11 @@ exports[`components/PermalinkView should match snapshot 1`] = `
 `;
 
 exports[`components/PermalinkView should match snapshot with archived channel 1`] = `
-<PermalinkView
+<Memo(PermalinkView)
   actions={
     Object {
       "focusPost": [MockFunction] {
         "calls": Array [
-          Array [
-            "post_id",
-            "return_to",
-            "current_user",
-          ],
           Array [
             "post_id",
             "return_to",
@@ -29,17 +24,12 @@ exports[`components/PermalinkView should match snapshot with archived channel 1`
             "type": "return",
             "value": undefined,
           },
-          Object {
-            "type": "return",
-            "value": undefined,
-          },
         ],
       },
     }
   }
   channelId="channel_id"
   channelIsArchived={true}
-  channelName="channel_name"
   currentUserId="current_user"
   match={
     Object {
@@ -55,5 +45,5 @@ exports[`components/PermalinkView should match snapshot with archived channel 1`
     className="app__content"
     id="app-content"
   />
-</PermalinkView>
+</Memo(PermalinkView)>
 `;

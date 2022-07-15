@@ -101,7 +101,7 @@ describe('components/PermalinkView', () => {
             );
         });
 
-        expect(baseProps.actions.focusPost).toHaveBeenCalledTimes(2);
+        expect(baseProps.actions.focusPost).toHaveBeenCalledTimes(1);
         expect(baseProps.actions.focusPost).toBeCalledWith(baseProps.match.params.postid, baseProps.returnTo, baseProps.currentUserId);
     });
 
@@ -115,7 +115,7 @@ describe('components/PermalinkView', () => {
         const newPostid = `${baseProps.match.params.postid}_new`;
         await wrapper!.setProps({...baseProps, match: {params: {postid: newPostid}}} as any);
 
-        expect(baseProps.actions.focusPost).toHaveBeenCalledTimes(3);
+        expect(baseProps.actions.focusPost).toHaveBeenCalledTimes(2);
         expect(baseProps.actions.focusPost).toBeCalledWith(newPostid, baseProps.returnTo, baseProps.currentUserId);
     });
 
