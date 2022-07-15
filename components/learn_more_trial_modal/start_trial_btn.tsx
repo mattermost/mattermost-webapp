@@ -133,8 +133,11 @@ const StartTrialBtn = ({
         );
     }
 
+    const id = 'start_trial_btn';
+
     return renderAsButton ? (
         <button
+            id={id}
             className={btnClass}
             onClick={startTrial}
             disabled={disabled}
@@ -143,6 +146,7 @@ const StartTrialBtn = ({
         </button>
     ) : (
         <a
+            id={id}
             className='StartTrialBtn start-trial-btn'
             onClick={startTrial}
         >
