@@ -96,7 +96,7 @@ describe('Guest Account - Member Invitation Flow', () => {
         cy.visit(inviteMembersLink);
 
         // * Verify the sign up options
-        cy.findByText('AD/LDAP Credentials').should('be.visible');
+        cy.findByText('AD/LDAP Credentials').scrollIntoView().should('be.visible');
         cy.findByText('Email address').should('be.visible');
         cy.findByPlaceholderText('Choose a Password').should('be.visible');
 

@@ -278,6 +278,7 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                             id='channelArchiveChannel'
                             show={!isArchived && !isDefault && channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL}
                             modalId={ModalIdentifiers.DELETE_CHANNEL}
+                            className='MenuItem__dangerous'
                             dialogType={DeleteChannelModal}
                             dialogProps={{
                                 channel,

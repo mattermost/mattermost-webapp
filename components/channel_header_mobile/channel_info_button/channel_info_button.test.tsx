@@ -4,14 +4,15 @@
 import React from 'react';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import {TestHelper} from 'utils/test_helper';
 
 import ChannelInfoButton from './channel_info_button';
 
 describe('components/ChannelHeaderMobile/ChannelInfoButton', () => {
     const baseProps = {
-        channel: {
+        channel: TestHelper.getChannelMock({
             id: 'channel_id',
-        },
+        }),
         actions: {
             showChannelInfo: jest.fn(),
         },
