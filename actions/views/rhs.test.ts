@@ -458,8 +458,8 @@ describe('rhs view actions', () => {
             const state = cloneDeep(initialState);
             set(state, 'views.posts.editingPost', {});
 
-            const testStore = mockStore(state);
-            testStore.dispatch(closeRightHandSide());
+            store = mockStore(state);
+            store.dispatch(closeRightHandSide());
 
             const expectedActions = [{
                 type: 'BATCHING_REDUCER.BATCH',
@@ -480,15 +480,15 @@ describe('rhs view actions', () => {
                 ],
             }];
 
-            expect(testStore.getActions()).toEqual(expectedActions);
+            expect(store.getActions()).toEqual(expectedActions);
         });
 
         test('it dispatches the right actions with editingPost in center channel', () => {
             const state = cloneDeep(initialState);
             set(state, 'views.posts.editingPost.isRHS', false);
 
-            const testStore = mockStore(state);
-            testStore.dispatch(closeRightHandSide());
+            store = mockStore(state);
+            store.dispatch(closeRightHandSide());
 
             const expectedActions = [{
                 type: 'BATCHING_REDUCER.BATCH',
@@ -509,15 +509,15 @@ describe('rhs view actions', () => {
                 ],
             }];
 
-            expect(testStore.getActions()).toEqual(expectedActions);
+            expect(store.getActions()).toEqual(expectedActions);
         });
 
         test('it dispatches the right actions with editingPost in RHS', () => {
             const state = cloneDeep(initialState);
             set(state, 'views.posts.editingPost.isRHS', true);
 
-            const testStore = mockStore(state);
-            testStore.dispatch(closeRightHandSide());
+            store = mockStore(state);
+            store.dispatch(closeRightHandSide());
 
             const expectedActions = [{
                 type: 'BATCHING_REDUCER.BATCH',
@@ -544,7 +544,7 @@ describe('rhs view actions', () => {
                 ],
             }];
 
-            expect(testStore.getActions()).toEqual(expectedActions);
+            expect(store.getActions()).toEqual(expectedActions);
         });
     });
 
@@ -582,26 +582,12 @@ describe('rhs view actions', () => {
     });
 
     describe('Plugin actions', () => {
-        const stateWithPluginRhs = {
-            ...initialState,
-            views: {
-                rhs: {
-                    rhsState: RHSStates.PLUGIN,
-                    pluggableId,
-                    filesSearchExtFilter: [] as string[],
-                },
-            },
-        } as GlobalState;
+        const stateWithPluginRhs = cloneDeep(initialState);
+        set(stateWithPluginRhs, `views.rhs.${pluggableId}`, pluggableId);
+        set(stateWithPluginRhs, 'views.rhs.rhsState', RHSStates.PLUGIN);
 
-        const stateWithoutPluginRhs = {
-            ...initialState,
-            views: {
-                rhs: {
-                    rhsState: RHSStates.PIN,
-                    filesSearchExtFilter: [] as string[],
-                },
-            },
-        } as GlobalState;
+        const stateWithoutPluginRhs = cloneDeep(initialState);
+        set(stateWithoutPluginRhs, 'views.rhs.rhsState', RHSStates.PIN);
 
         describe('showRHSPlugin', () => {
             it('dispatches the right action', () => {
