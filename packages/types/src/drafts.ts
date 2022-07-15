@@ -12,7 +12,3 @@ export type Draft = {
     props: Record<string, any>;
     file_ids?: string[];
 };
-
-export type DraftList = {
-    drafts: Draft[];
-};

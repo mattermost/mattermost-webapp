@@ -1,7 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {DraftList} from '@mattermost/types/drafts';
+import type {Post} from '@mattermost/types/posts';
+import type{Channel} from '@mattermost/types/channels';
+import type{Draft} from '@mattermost/types/drafts';
+
 import {DraftTypes} from 'mattermost-redux/action_types';
 import {Client4} from 'mattermost-redux/client';
 
@@ -12,6 +15,41 @@ import {PostDraft} from 'types/store/rhs';
 
 import {logError} from './errors';
 import {forceLogoutIfNecessary} from './helpers';
+
+export function handleGetDrafts(draft: Draft[]) {
+    return {
+        type: DraftTypes.GET_USER_DRAFTS,
+        payload: draft,
+    };
+}
+
+export function handleUpdateDraft(draft: Draft) {
+    return {
+        type: DraftTypes.UPDATE_USER_DRAFT,
+        payload: draft,
+    };
+}
+
+export function handleUpsertDraft(draft: Draft) {
+    return {
+        type: DraftTypes.UPSERT_USER_DRAFT,
+        payload: draft,
+    };
+}
+
+export function handleCreateDraft(draft: Draft) {
+    return {
+        type: DraftTypes.CREATE_USER_DRAFT,
+        payload: draft,
+    };
+}
+
+export function handleDeleteDraft({channelId, rootId}: {channelId: Channel['id']; rootId: Post['id']}) {
+    return {
+        type: DraftTypes.DELETE_USER_DRAFT,
+        payload: {channelId, rootId},
+    };
+}
 
 export function upsertDraft(draft: PostDraft, rootId = '') {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
@@ -31,9 +69,7 @@ export function upsertDraft(draft: PostDraft, rootId = '') {
             props: draft.props,
             file_ids: fileIds,
         };
-
         try {
-            dispatch({type: DraftTypes.UPSERT_USER_DRAFT, payload: newDraft});
             await Client4.upsertDraft(newDraft);
         } catch (error) {
             dispatch({type: DraftTypes.UPSERT_DRAFT_FAILURE, payload: newDraft, error});
@@ -46,13 +82,12 @@ export function upsertDraft(draft: PostDraft, rootId = '') {
 
 export function getDrafts(teamId: string) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        let drafts: DraftList['drafts'] = [];
+        let drafts: Draft[] = [];
 
         try {
-            const res = await Client4.getUserDrafts(teamId);
-            drafts = res.drafts;
+            drafts = await Client4.getUserDrafts(teamId);
 
-            dispatch({type: DraftTypes.GET_USER_DRAFTS, payload: drafts});
+            dispatch(handleGetDrafts(drafts));
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
             dispatch({type: DraftTypes.GET_DRAFTS_FAILURE, error});
@@ -65,9 +100,13 @@ export function getDrafts(teamId: string) {
 
 export function deleteDraft(channelId: string, rootId: string) {
     return async (dispatch: DispatchFunc) => {
-        Client4.deleteDraft(channelId, rootId);
+        try {
+            await Client4.deleteDraft(channelId, rootId);
+        } catch (error) {
+            dispatch({type: DraftTypes.DELETE_DRAFT_FAILURE, payload: {channelId, rootId}, error});
+            return {data: false, error};
+        }
 
-        dispatch({type: DraftTypes.DELETE_USER_DRAFT, payload: {channelId, rootId}});
         return {data: true};
     };
 }

@@ -24,7 +24,7 @@ import * as PostActions from 'actions/post_actions.jsx';
 import {executeCommand} from 'actions/command';
 import {runMessageWillBePostedHooks, runSlashCommandWillBePostedHooks} from 'actions/hooks';
 import {actionOnGlobalItemsWithPrefix} from 'actions/storage';
-import {updateDraft} from 'actions/views/drafts';
+import {updateDraft, removeDraft} from 'actions/views/drafts';
 import EmojiMap from 'utils/emoji_map';
 import {getPostDraft} from 'selectors/rhs';
 
@@ -159,7 +159,8 @@ export function makeOnSubmit(channelId: string, rootId: string, latestPostId: st
 
         dispatch(addMessageIntoHistory(message));
 
-        dispatch(updateCommentDraft(rootId));
+        const key = `${StoragePrefixes.COMMENT_DRAFT}${rootId}`;
+        dispatch(removeDraft(key, channelId, rootId));
 
         const isReaction = Utils.REACTION_PATTERN.exec(message);
 

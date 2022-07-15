@@ -67,6 +67,12 @@ import {
     getUser as loadUser,
 } from 'mattermost-redux/actions/users';
 import {removeNotVisibleUsers} from 'mattermost-redux/actions/websocket';
+import {
+    handleCreateDraft,
+    handleDeleteDraft,
+    handleUpdateDraft,
+} from 'mattermost-redux/actions/drafts';
+
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentUser, getCurrentUserId, getStatusForUserId, getUser, getIsManualStatusForUserId, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getMyTeams, getCurrentRelativeTeamUrl, getCurrentTeamId, getCurrentTeamUrl, getTeam} from 'mattermost-redux/selectors/entities/teams';
@@ -566,6 +572,16 @@ export function handleEvent(msg) {
         break;
     case SocketEvents.APPS_FRAMEWORK_PLUGIN_DISABLED:
         dispatch(handleAppsPluginDisabled());
+        break;
+    case SocketEvents.DRAFT_CREATED:
+        dispatch(handleCreateDraftEvent(msg));
+        break;
+    case SocketEvents.DRAFT_UPDATED: {
+        dispatch(handleUpdateDraftEvent(msg));
+        break;
+    }
+    case SocketEvents.DRAFT_DELETED:
+        dispatch(handleDeleteDraftEvent(msg));
         break;
     default:
     }
@@ -1708,4 +1724,20 @@ function handleThreadFollowChanged(msg) {
         }
         handleFollowChanged(doDispatch, msg.data.thread_id, msg.broadcast.team_id, msg.data.state);
     };
+}
+
+function handleCreateDraftEvent(msg) {
+    const draft = JSON.parse(msg.data.draft);
+    return handleCreateDraft(draft);
+}
+
+function handleUpdateDraftEvent(msg) {
+    const draft = JSON.parse(msg.data.draft);
+    return handleUpdateDraft(draft);
+}
+
+function handleDeleteDraftEvent(msg) {
+    const draft = JSON.parse(msg.data.draft);
+    const {channel_id: channelId, root_id: rootId} = draft;
+    return handleDeleteDraft({channelId, rootId});
 }

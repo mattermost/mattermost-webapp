@@ -4080,7 +4080,7 @@ export default class Client4 {
     };
 
     getUserDrafts = (teamId: Team['id']) => {
-        return this.doFetch<DraftList>(
+        return this.doFetch<Draft[]>(
             `${this.getUserRoute('me')}/teams/${teamId}/drafts`,
             {method: 'get'},
         );

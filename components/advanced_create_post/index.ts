@@ -179,9 +179,9 @@ function setDraft(key: string, value: PostDraft) {
         }
         if (updatedValue) {
             return dispatch(updateDraft(key, updatedValue));
-        } else {
-            return dispatch(removeDraft(key, channelId));
         }
+
+        return dispatch(removeDraft(key, channelId));
     };
 }
 

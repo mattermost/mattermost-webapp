@@ -33,7 +33,6 @@ export function updateDraft(key: string, value: PostDraft|null, rootId = '') {
             dispatch(upsertDraft(updatedValue, rootId));
         } else {
             localStorage.removeItem(key);
-            dispatch(removeDraft(key, updatedValue!.channelId, rootId));
         }
 
         dispatch(setGlobalItem(key, updatedValue));

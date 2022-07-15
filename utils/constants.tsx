@@ -537,6 +537,9 @@ export const SocketEvents = {
     THREAD_UPDATED: 'thread_updated',
     THREAD_FOLLOW_CHANGED: 'thread_follow_changed',
     THREAD_READ_CHANGED: 'thread_read_changed',
+    DRAFT_CREATED: 'draft_created',
+    DRAFT_UPDATED: 'draft_updated',
+    DRAFT_DELETED: 'draft_deleted',
 };
 
 export const TutorialSteps = {
