@@ -5,12 +5,16 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {selectChannel} from 'mattermost-redux/actions/channels';
+import LocalStorageStore from 'stores/local_storage_store';
+
 import {CardSizes, InsightsWidgetTypes, TimeFrames} from '@mattermost/types/insights';
 
-import {InsightsScopes} from 'utils/constants';
+import {InsightsScopes, PreviousViewedTypes} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
 
 import {GlobalState} from 'types/store';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import InsightsHeader from './insights_header/insights_header';
 import TopChannels from './top_channels/top_channels';
@@ -43,9 +47,18 @@ const Insights = () => {
         setTimeFrame(value);
     }, []);
 
+    const currentUserId = useSelector(getCurrentUserId);
+    const currentTeamId = useSelector(getCurrentTeamId);
+
     useEffect(() => {
         dispatch(selectChannel(''));
-    }, []);
+        const penultimateType = LocalStorageStore.getPreviousViewedType(currentUserId, currentTeamId);
+
+        if (penultimateType !== PreviousViewedTypes.INSIGHTS) {
+            LocalStorageStore.setPenultimateViewedType(currentUserId, currentTeamId, penultimateType);
+            LocalStorageStore.setPreviousViewedType(currentUserId, currentTeamId, PreviousViewedTypes.INSIGHTS);
+        }
+    });
 
     return (
         <>

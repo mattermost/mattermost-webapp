@@ -42,9 +42,6 @@ describe('Archived channels', () => {
     });
 
     it('MM-T1716 Text box in center channel and in RHS should not be visible', () => {
-        // * Post text box should be visible
-        cy.get('#post_textbox').should('be.visible');
-
         // # Post a message in the channel
         cy.postMessage('Test archive reply');
         cy.getLastPostId().then((id) => {
@@ -54,13 +51,13 @@ describe('Archived channels', () => {
             cy.get('#rhsContainer').should('be.visible');
 
             // * RHS text box should be visible
-            cy.get('#reply_textbox').should('be.visible');
+            cy.uiGetReplyTextBox();
 
             // # Archive the channel
             cy.uiArchiveChannel();
 
             // * Post text box should not be visible
-            cy.get('#post_textbox').should('not.exist');
+            cy.uiGetPostTextBox({exist: false});
 
             // * RHS should not be visible
             cy.get('#rhsContainer').should('not.exist');
@@ -71,7 +68,7 @@ describe('Archived channels', () => {
             cy.get('#rhsContainer').should('be.visible');
 
             // * RHS text box should not be visible
-            cy.get('#reply_textbox').should('not.exist');
+            cy.uiGetReplyTextBox({exist: false});
         });
     });
 
@@ -129,7 +126,7 @@ describe('Archived channels', () => {
                 cy.clickPostCommentIcon(rhsPostId, 'SEARCH');
 
                 // * RHS text box should not be visible
-                cy.get('#reply_textbox').should('not.exist');
+                cy.uiGetReplyTextBox({exist: false});
             });
     });
 });
