@@ -39,6 +39,7 @@ function focusRootPost(post: Post, channel: Channel) {
         });
 
         browserHistory.replace(postURL);
+        return {data: true};
     };
 }
 
@@ -63,6 +64,7 @@ function focusReplyPost(post: Post, channel: Channel, teamId: string, returnTo: 
         }
 
         dispatch(selectPostAndHighlight(post));
+        return {data: true};
     };
 }
 
