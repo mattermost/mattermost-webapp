@@ -193,16 +193,12 @@ export default class PermissionsTree extends React.PureComponent<Props, State> {
             },
             {
                 id: 'custom_groups',
-                permissions: [{
-                    id: 'custom_groups',
-                    combined: true,
-                    permissions: [
-                        Permissions.CREATE_CUSTOM_GROUP,
-                        Permissions.MANAGE_CUSTOM_GROUP_MEMBERS,
-                        Permissions.DELETE_CUSTOM_GROUP,
-                        Permissions.EDIT_CUSTOM_GROUP,
-                    ],
-                }],
+                permissions: [
+                    Permissions.CREATE_CUSTOM_GROUP,
+                    Permissions.MANAGE_CUSTOM_GROUP_MEMBERS,
+                    Permissions.EDIT_CUSTOM_GROUP,
+                    Permissions.DELETE_CUSTOM_GROUP,
+                ],
             },
         ];
         this.updateGroups();

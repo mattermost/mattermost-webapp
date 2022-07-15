@@ -166,16 +166,10 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           Object {
             "id": "custom_groups",
             "permissions": Array [
-              Object {
-                "combined": true,
-                "id": "custom_groups",
-                "permissions": Array [
-                  "create_custom_group",
-                  "manage_custom_group_members",
-                  "delete_custom_group",
-                  "edit_custom_group",
-                ],
-              },
+              "create_custom_group",
+              "manage_custom_group_members",
+              "edit_custom_group",
+              "delete_custom_group",
             ],
           },
         ]
@@ -374,16 +368,10 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           Object {
             "id": "custom_groups",
             "permissions": Array [
-              Object {
-                "combined": true,
-                "id": "custom_groups",
-                "permissions": Array [
-                  "create_custom_group",
-                  "manage_custom_group_members",
-                  "delete_custom_group",
-                  "edit_custom_group",
-                ],
-              },
+              "create_custom_group",
+              "manage_custom_group_members",
+              "edit_custom_group",
+              "delete_custom_group",
             ],
           },
         ]
@@ -571,16 +559,10 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           Object {
             "id": "custom_groups",
             "permissions": Array [
-              Object {
-                "combined": true,
-                "id": "custom_groups",
-                "permissions": Array [
-                  "create_custom_group",
-                  "manage_custom_group_members",
-                  "delete_custom_group",
-                  "edit_custom_group",
-                ],
-              },
+              "create_custom_group",
+              "manage_custom_group_members",
+              "edit_custom_group",
+              "delete_custom_group",
             ],
           },
         ]
@@ -779,16 +761,10 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           Object {
             "id": "custom_groups",
             "permissions": Array [
-              Object {
-                "combined": true,
-                "id": "custom_groups",
-                "permissions": Array [
-                  "create_custom_group",
-                  "manage_custom_group_members",
-                  "delete_custom_group",
-                  "edit_custom_group",
-                ],
-              },
+              "create_custom_group",
+              "manage_custom_group_members",
+              "edit_custom_group",
+              "delete_custom_group",
             ],
           },
         ]
@@ -987,16 +963,10 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           Object {
             "id": "custom_groups",
             "permissions": Array [
-              Object {
-                "combined": true,
-                "id": "custom_groups",
-                "permissions": Array [
-                  "create_custom_group",
-                  "manage_custom_group_members",
-                  "delete_custom_group",
-                  "edit_custom_group",
-                ],
-              },
+              "create_custom_group",
+              "manage_custom_group_members",
+              "edit_custom_group",
+              "delete_custom_group",
             ],
           },
         ]
@@ -1195,16 +1165,10 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           Object {
             "id": "custom_groups",
             "permissions": Array [
-              Object {
-                "combined": true,
-                "id": "custom_groups",
-                "permissions": Array [
-                  "create_custom_group",
-                  "manage_custom_group_members",
-                  "delete_custom_group",
-                  "edit_custom_group",
-                ],
-              },
+              "create_custom_group",
+              "manage_custom_group_members",
+              "edit_custom_group",
+              "delete_custom_group",
             ],
           },
         ]
@@ -1409,16 +1373,10 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           Object {
             "id": "custom_groups",
             "permissions": Array [
-              Object {
-                "combined": true,
-                "id": "custom_groups",
-                "permissions": Array [
-                  "create_custom_group",
-                  "manage_custom_group_members",
-                  "delete_custom_group",
-                  "edit_custom_group",
-                ],
-              },
+              "create_custom_group",
+              "manage_custom_group_members",
+              "edit_custom_group",
+              "delete_custom_group",
             ],
           },
         ]
