@@ -208,7 +208,7 @@ describe('Interactive Menu', () => {
         cy.getLastPostId().then((postId) => {
             cy.get(`#messageAttachmentList_${postId}`).within(() => {
                 // # Type the missing user in the select input
-                cy.findByPlaceholderText('Select an option...').scrollIntoView().click().clear({force: true}).type(`${missingUser}`);
+                cy.findByPlaceholderText('Select an option...').scrollIntoView().click().clear({force: true}).type(missingUser);
 
                 cy.get('#suggestionList').within(() => {
                     // * Check if we get appropriate message when no options matches entered text
@@ -438,7 +438,7 @@ describe('Interactive Menu', () => {
             // # Get the last messages attachment container
             cy.get(`#messageAttachmentList_${lastPostId}`).within(() => {
                 // # Start typing only first few letters in the input
-                cy.findByPlaceholderText('Select an option...').scrollIntoView().clear({force: true}).type(`${firstFewLettersOfSelectedItem}`).wait(TIMEOUTS.ONE_SEC);
+                cy.findByPlaceholderText('Select an option...').scrollIntoView().clear({force: true}).type(firstFewLettersOfSelectedItem).wait(TIMEOUTS.ONE_SEC);
 
                 // * Message attachment dropdown with the selected item should be visible
                 cy.get('#suggestionList').should('exist').within(() => {
