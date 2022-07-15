@@ -55,7 +55,7 @@ describe('Keyboard Shortcuts', () => {
             // # Verify that the list of users and channels suggestions is present
             cy.get('#suggestionList').should('be.visible').within(() => {
                 // * The channel the current user is not a member of should be there in the search list; click it
-                cy.findByTestId(`${testChannel.name}`).scrollIntoView().should('exist').click().wait(TIMEOUTS.HALF_SEC);
+                cy.findByTestId(testChannel.name).scrollIntoView().should('exist').click().wait(TIMEOUTS.HALF_SEC);
             });
 
             // # Verify that we are in the test channel
@@ -456,7 +456,7 @@ describe('Keyboard Shortcuts', () => {
         cy.uiGetRHS().isExpanded();
 
         // # Type CTRL/CMD+SHIFT+. to collapse 'RHS'
-        cy.uiGetPostTextBox().cmdOrCtrlShortcut('{shift}.');
+        cy.get('body').cmdOrCtrlShortcut('{shift}.');
 
         // * Verify RHS is now in collapsed state
         cy.get('#sidebar-right').should('be.visible').and('not.have.class', 'sidebar--right--expanded');

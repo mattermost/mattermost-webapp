@@ -8,8 +8,6 @@ import {FormattedMessage, useIntl} from 'react-intl';
 
 import {useSelector, useDispatch} from 'react-redux';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-
 import completedImg from 'images/completed.svg';
 
 import {GlobalState} from '@mattermost/types/store';
@@ -205,17 +203,48 @@ const Completed = (props: Props): JSX.Element => {
                     )}
                     <div className='download-apps'>
                         <span>
-                            <FormattedMarkdownMessage
+                            <FormattedMessage
                                 id='onboardingTask.checklist.downloads'
-                                defaultMessage='Now that you’re all set up, [download our apps.](!https://mattermost.com/download)'
+                                defaultMessage='Now that you’re all set up, <link>download our apps.</link>!'
+                                values={{
+                                    link: (msg: React.ReactNode) => (
+                                        <a
+                                            href='https://mattermost.com/download'
+                                            target='_blank'
+                                            rel='noreferrer'
+                                        >
+                                            {msg}
+                                        </a>
+                                    ),
+                                }}
                             />
                         </span>
                     </div>
                     {showStartTrialBtn && <div className='disclaimer'>
                         <span>
-                            <FormattedMarkdownMessage
+                            <FormattedMessage
                                 id='onboardingTask.checklist.disclaimer'
-                                defaultMessage='By clicking “Start trial”, I agree to the [Mattermost Software Evaluation Agreement,](!https://mattermost.com/software-evaluation-agreement) [privacy policy,](!https://mattermost.com/privacy-policy/) and receiving product emails.'
+                                defaultMessage='By clicking “Start trial”, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>privacy policy</linkPrivacy> and receiving product emails.'
+                                values={{
+                                    linkEvaluation: (msg: React.ReactNode) => (
+                                        <a
+                                            href='https://mattermost.com/software-evaluation-agreement'
+                                            target='_blank'
+                                            rel='noreferrer'
+                                        >
+                                            {msg}
+                                        </a>
+                                    ),
+                                    linkPrivacy: (msg: React.ReactNode) => (
+                                        <a
+                                            href='https://mattermost.com/privacy-policy'
+                                            target='_blank'
+                                            rel='noreferrer'
+                                        >
+                                            {msg}
+                                        </a>
+                                    ),
+                                }}
                             />
                         </span>
                     </div>}

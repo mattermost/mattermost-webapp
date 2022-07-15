@@ -45,43 +45,47 @@ function SuccessModal(props: Props) {
             show={isSuccessModalOpen}
             onClose={onHide}
         >
-            <IconMessage
-                formattedTitle={
-                    <FormattedMessage
-                        defaultMessage={
-                            'You are now subscribed to {selectedProductName}'
-                        }
-                        id={'admin.billing.subscription.proratedPayment.title'}
-                        values={{
-                            selectedProductName: subscriptionProduct?.name,
-                        }}
-                    />
-                }
-                formattedSubtitle={
-                    <FormattedMessage
-                        id={'success_modal.subtitle'}
-                        defaultMessage={
-                            'Your final bill will be prorated. Your workspace now has {plan} limits.'
-                        }
-                        values={{plan: subscriptionProduct?.name}}
-                    />
-                }
-                error={false}
-                icon={
-                    <PaymentSuccessStandardSvg
-                        width={444}
-                        height={313}
-                    />
-                }
-                formattedButtonText={
-                    <FormattedMessage
-                        defaultMessage={'Return to workspace'}
-                        id={'success_modal.return_to_workspace'}
-                    />
-                }
-                buttonHandler={onHide}
-                className={'success'}
-            />
+            <div className='cloud_subscribe_result_modal'>
+                <IconMessage
+                    formattedTitle={
+                        <FormattedMessage
+                            defaultMessage={
+                                'You are now subscribed to {selectedProductName}'
+                            }
+                            id={
+                                'admin.billing.subscription.proratedPayment.title'
+                            }
+                            values={{
+                                selectedProductName: subscriptionProduct?.name,
+                            }}
+                        />
+                    }
+                    formattedSubtitle={
+                        <FormattedMessage
+                            id={'success_modal.subtitle'}
+                            defaultMessage={
+                                'Your final bill will be prorated. Your workspace now has {plan} limits.'
+                            }
+                            values={{plan: subscriptionProduct?.name}}
+                        />
+                    }
+                    error={false}
+                    icon={
+                        <PaymentSuccessStandardSvg
+                            width={444}
+                            height={313}
+                        />
+                    }
+                    formattedButtonText={
+                        <FormattedMessage
+                            defaultMessage={'Return to workspace'}
+                            id={'success_modal.return_to_workspace'}
+                        />
+                    }
+                    buttonHandler={onHide}
+                    className={'success'}
+                />
+            </div>
         </FullScreenModal>
     );
 }

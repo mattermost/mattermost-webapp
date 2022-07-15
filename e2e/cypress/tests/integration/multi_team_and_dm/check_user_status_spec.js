@@ -38,7 +38,7 @@ describe('Multi-Team + DMs', () => {
         cy.visit(testChannelUrl);
         cy.postMessage(MESSAGES.SMALL);
         cy.uiAddDirectMessage().click();
-        cy.get('#selectItems').type(`${userA.username}`);
+        cy.get('#selectItems').typeWithForce(userA.username);
         cy.findByText('Loading').should('be.visible');
         cy.findByText('Loading').should('not.exist');
         cy.get('#multiSelectList').findByText(`@${userA.username}`).click();
