@@ -165,9 +165,8 @@ function getTestUsers(prefix = '') {
 
 function getPostTextboxInput() {
     cy.wait(TIMEOUTS.HALF_SEC);
-    cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).
+    cy.uiGetPostTextBox().
         as('input').
-        should('be.visible').
         clear();
 }
 
@@ -194,9 +193,8 @@ function searchAndVerifyChannel(channel, shouldExist = true) {
 
 function searchAndVerifyUser(user) {
     // # Start @ mentions autocomplete with username
-    cy.get('#post_textbox').
+    cy.uiGetPostTextBox().
         as('input').
-        should('be.visible').
         clear().
         type(`@${user.username}`);
 

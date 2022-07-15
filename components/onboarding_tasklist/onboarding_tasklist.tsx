@@ -14,6 +14,7 @@ import {getShowTaskListBool} from 'selectors/onboarding';
 import {getBool, getMyPreferences as getMyPreferencesSelector} from 'mattermost-redux/selectors/entities/preferences';
 import {getMyPreferences, savePreferences} from 'mattermost-redux/actions/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {trackEvent} from 'actions/telemetry_actions';
 import checklistImg from 'images/onboarding-checklist.svg';
 import {
@@ -178,6 +179,7 @@ const OnBoardingTaskList = (): JSX.Element | null => {
     const itemsLeft = tasksList.length - completedCount;
     const isCurrentUserSystemAdmin = useIsCurrentUserSystemAdmin();
     const isFirstAdmin = useFirstAdminUser();
+    const isEnableOnboardingFlow = useSelector((state: GlobalState) => getConfig(state).EnableOnboardingFlow === 'true');
     const [showTaskList, firstTimeOnboarding] = useSelector(getShowTaskListBool);
 
     const startTask = (taskName: string) => {
@@ -272,7 +274,7 @@ const OnBoardingTaskList = (): JSX.Element | null => {
         }));
     }, []);
 
-    if (Object.keys(myPreferences).length === 0 || !showTaskList) {
+    if (Object.keys(myPreferences).length === 0 || !showTaskList || !isEnableOnboardingFlow) {
         return null;
     }
 

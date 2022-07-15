@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getUnreadScrollPositionPreference} from 'mattermost-redux/selectors/entities/preferences';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 import {getTeamByName, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
 
@@ -51,7 +52,9 @@ function makeMapStateToProps() {
 
         const teamMemberships = getTeamMemberships(state);
         const channelLoading = isChannelLoading(ownProps.match.params, channel, team, teammate, teamMemberships);
+        const unreadScrollPosition = getUnreadScrollPositionPreference(state);
         return {
+            unreadScrollPosition,
             lastViewedAt,
             channelLoading,
         };

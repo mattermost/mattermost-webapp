@@ -119,7 +119,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         cy.uiOpenTeamMenu('Invite People');
 
         // * Verify if Invite Members modal is displayed when guest account feature is disabled
-        cy.findByTestId('invitationModal').find('h1').should('have.text', `Invite members to ${testTeam.display_name}`);
+        cy.findByTestId('invitationModal').find('h1').should('have.text', `Invite people to ${testTeam.display_name}`);
 
         // * Verify Share Link Header and helper text
         cy.findByTestId('InviteView__copyInviteLink').should('be.visible').within(() => {

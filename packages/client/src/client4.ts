@@ -12,7 +12,7 @@ import type {AppBinding, AppCallRequest, AppCallResponse} from '@mattermost/type
 import {Audit} from '@mattermost/types/audits';
 import {UserAutocomplete, AutocompleteSuggestion} from '@mattermost/types/autocomplete';
 import {Bot, BotPatch} from '@mattermost/types/bots';
-import {Product, SubscriptionResponse, CloudCustomer, Address, CloudCustomerPatch, Invoice, Limits, IntegrationsUsage} from '@mattermost/types/cloud';
+import {Product, SubscriptionResponse, CloudCustomer, Address, CloudCustomerPatch, Invoice, Limits, IntegrationsUsage, NotifyAdminRequest} from '@mattermost/types/cloud';
 import {ChannelCategory, OrderedChannelCategories} from '@mattermost/types/channel_categories';
 import {
     Channel,
@@ -3414,12 +3414,12 @@ export default class Client4 {
         );
     }
 
-    installMarketplacePlugin = (id: string, version: string) => {
+    installMarketplacePlugin = (id: string) => {
         this.trackEvent('api', 'api_install_marketplace_plugin');
 
         return this.doFetch<MarketplacePlugin>(
             `${this.getPluginsMarketplaceRoute()}`,
-            {method: 'post', body: JSON.stringify({id, version})},
+            {method: 'post', body: JSON.stringify({id})},
         );
     }
 
@@ -3812,6 +3812,13 @@ export default class Client4 {
         );
     }
 
+    notifyAdminToUpgrade = (req: NotifyAdminRequest) => {
+        return this.doFetchWithResponse<StatusOK>(
+            `${this.getCloudRoute()}/notify-admin-to-upgrade`,
+            {method: 'post', body: JSON.stringify(req)},
+        );
+    }
+
     confirmPaymentMethod = async (stripeSetupIntentID: string) => {
         return this.doFetch(
             `${this.getCloudRoute()}/payment/confirm`,
@@ -3837,6 +3844,13 @@ export default class Client4 {
         return this.doFetchWithResponse<CloudCustomer>(
             `${this.getCloudRoute()}/validate-business-email`,
             {method: 'post', body: JSON.stringify({email})},
+        );
+    }
+
+    validateWorkspaceBusinessEmail = () => {
+        return this.doFetchWithResponse<CloudCustomer>(
+            `${this.getCloudRoute()}/validate-workspace-business-email`,
+            {method: 'post'},
         );
     }
 
