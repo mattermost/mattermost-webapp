@@ -65,7 +65,7 @@ export default class ChannelHeaderMobile extends React.PureComponent<Props> {
     }
 
     render() {
-        const {user, channel, isMuted, isReadOnly, isRHSOpen, currentRelativeTeamUrl, inGlobalThreads, inDrafts} = this.props;
+        const {user, channel, isMuted, inGlobalThreads, inDrafts} = this.props;
 
         let heading;
         if (inGlobalThreads) {
@@ -112,9 +112,6 @@ export default class ChannelHeaderMobile extends React.PureComponent<Props> {
                         {channel && (
                             <ChannelInfoButton
                                 channel={channel}
-                                isReadOnly={isReadOnly}
-                                isRHSOpen={isRHSOpen}
-                                currentRelativeTeamUrl={currentRelativeTeamUrl}
                             />
                         )}
                         <ShowSearchButton/>

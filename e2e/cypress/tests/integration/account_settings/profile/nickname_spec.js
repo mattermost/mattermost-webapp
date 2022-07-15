@@ -93,7 +93,7 @@ describe('Settings > Sidebar > General', () => {
             cy.get('#addUsersToChannelModal').should('be.visible').findByText(`Add people to ${channel.display_name}`);
 
             // # Type into the input box to search for a user
-            cy.get('#selectItems input').type('sys').wait(TIMEOUTS.ONE_SEC);
+            cy.get('#selectItems input').typeWithForce('sys').wait(TIMEOUTS.ONE_SEC);
 
             // * Verify that the username span contains the '@' symbol and the dark colour
             cy.get('#multiSelectList > div > .more-modal__details > .more-modal__name > span').should('contain', '@').and('have.css', 'color', 'rgb(63, 67, 80)');
@@ -107,7 +107,7 @@ describe('Settings > Sidebar > General', () => {
             // # Go to direct messages modal
             cy.get('.more-modal').should('be.visible').within(() => {
                 cy.findByText('Direct Messages').click();
-                cy.get('#selectItems').click().type('@');
+                cy.get('#selectItems input').typeWithForce('@');
 
                 // * Verify that the username span contains the '@' symbol and the dark colour
                 cy.get('.more-modal__details > .more-modal__name').should('contain', '@').and('have.css', 'color', 'rgb(63, 67, 80)');

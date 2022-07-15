@@ -99,7 +99,7 @@ const sendDirectMessageToUser = (user, message) => {
     cy.uiAddDirectMessage().click();
 
     // # Type username
-    cy.get('#selectItems input').should('be.enabled').type(`@${user.username}`, {force: true});
+    cy.get('#selectItems input').should('be.enabled').typeWithForce(`@${user.username}`);
 
     // * Expect user count in the list to be 1
     cy.get('#multiSelectList').

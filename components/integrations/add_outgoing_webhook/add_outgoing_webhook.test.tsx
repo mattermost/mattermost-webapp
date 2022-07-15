@@ -4,19 +4,21 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import AddOutgoingWebhook from 'components/integrations/add_outgoing_webhook/add_outgoing_webhook.jsx';
+import AddOutgoingWebhook from 'components/integrations/add_outgoing_webhook/add_outgoing_webhook';
+
+import {TestHelper} from 'utils/test_helper';
 
 describe('components/integrations/AddOutgoingWebhook', () => {
     test('should match snapshot', () => {
         const emptyFunction = jest.fn();
-        const teamId = 'testteamid';
+        const team = TestHelper.getTeamMock({
+            id: 'testteamid',
+            name: 'test',
+        });
 
         const wrapper = shallow(
             <AddOutgoingWebhook
-                team={{
-                    id: teamId,
-                    name: 'test',
-                }}
+                team={team}
                 actions={{createOutgoingHook: emptyFunction}}
                 enablePostUsernameOverride={false}
                 enablePostIconOverride={false}

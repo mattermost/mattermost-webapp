@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
 
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 
@@ -18,9 +18,11 @@ import {
 } from 'selectors/rhs';
 import {RHSStates} from 'utils/constants';
 
-import SidebarRight from './sidebar_right.jsx';
+import {GlobalState} from 'types/store';
 
-function mapStateToProps(state) {
+import SidebarRight from './sidebar_right';
+
+function mapStateToProps(state: GlobalState) {
     const rhsState = getRhsState(state);
     const channel = getCurrentChannel(state);
 
@@ -46,7 +48,7 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators({
             setRhsExpanded,
