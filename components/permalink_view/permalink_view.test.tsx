@@ -1,22 +1,26 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {shallow} from 'enzyme';
-import React from 'react';
+import {ReactWrapper, shallow} from 'enzyme';
+import React, {ComponentProps} from 'react';
 import nock from 'nock';
+import {match} from 'react-router';
+
+import {act} from 'react-dom/test-utils';
 
 import {Client4} from 'mattermost-redux/client';
 import {getPostThread} from 'mattermost-redux/actions/posts';
 import {Preferences} from 'mattermost-redux/constants';
-import TestHelper from 'mattermost-redux/test/test_helper';
+import TestHelper from 'packages/mattermost-redux/test/test_helper';
 
 import mockStore from 'tests/test_store';
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {ErrorPageTypes} from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
 
 import {focusPost} from 'components/permalink_view/actions';
-import PermalinkView from 'components/permalink_view/permalink_view.jsx';
+import PermalinkView from 'components/permalink_view/permalink_view';
 
 jest.mock('utils/browser_history', () => ({
     browserHistory: {
@@ -53,13 +57,13 @@ jest.mock('mattermost-redux/actions/posts', () => ({
 }));
 
 jest.mock('mattermost-redux/actions/users', () => ({
-    getMissingProfilesByIds: (userIds) => ({type: 'MOCK_GET_MISSING_PROFILES', userIds}),
+    getMissingProfilesByIds: (userIds: string[]) => ({type: 'MOCK_GET_MISSING_PROFILES', userIds}),
 }));
 
 jest.mock('mattermost-redux/actions/channels', () => ({
-    selectChannel: (...args) => ({type: 'MOCK_SELECT_CHANNEL', args}),
-    joinChannel: (...args) => ({type: 'MOCK_JOIN_CHANNEL', args}),
-    getChannelStats: (...args) => ({type: 'MOCK_GET_CHANNEL_STATS', args}),
+    selectChannel: (...args: any) => ({type: 'MOCK_SELECT_CHANNEL', args}),
+    joinChannel: (...args: any) => ({type: 'MOCK_JOIN_CHANNEL', args}),
+    getChannelStats: (...args: any) => ({type: 'MOCK_GET_CHANNEL_STATS', args}),
     getChannel: jest.fn((channelId) => {
         switch (channelId) {
         case 'channelid2':
@@ -71,10 +75,9 @@ jest.mock('mattermost-redux/actions/channels', () => ({
 }));
 
 describe('components/PermalinkView', () => {
-    const baseProps = {
+    const baseProps: ComponentProps<typeof PermalinkView> = {
         channelId: 'channel_id',
-        channelName: 'channel_name',
-        match: {params: {postid: 'post_id'}},
+        match: {params: {postid: 'post_id'}} as match<{ postid: string }>,
         returnTo: 'return_to',
         teamName: 'team_name',
         actions: {
@@ -83,48 +86,50 @@ describe('components/PermalinkView', () => {
         currentUserId: 'current_user',
     };
 
-    test('should match snapshot', () => {
+    test('should match snapshot', async () => {
         const wrapper = shallow(
             <PermalinkView {...baseProps}/>,
         );
 
-        wrapper.setState({valid: true});
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should call baseProps.actions.focusPost on doPermalinkEvent', async () => {
-        const wrapper = shallow(
-            <PermalinkView {...baseProps}/>,
-        );
+        await act(async () => {
+            mountWithIntl(
+                <PermalinkView {...baseProps}/>,
+            );
+        });
 
         expect(baseProps.actions.focusPost).toHaveBeenCalledTimes(1);
-
-        wrapper.setState({valid: false});
-        await wrapper.instance().doPermalinkEvent(baseProps);
-        expect(baseProps.actions.focusPost).toHaveBeenCalledTimes(2);
         expect(baseProps.actions.focusPost).toBeCalledWith(baseProps.match.params.postid, baseProps.returnTo, baseProps.currentUserId);
     });
 
     test('should call baseProps.actions.focusPost when postid changes', async () => {
-        const wrapper = shallow(
-            <PermalinkView {...baseProps}/>,
-        );
+        let wrapper: ReactWrapper<JSX.Element>;
+        await act(async () => {
+            wrapper = mountWithIntl(
+                <PermalinkView {...baseProps}/>,
+            );
+        });
         const newPostid = `${baseProps.match.params.postid}_new`;
-        await wrapper.setProps({...baseProps, match: {params: {postid: newPostid}}});
+        await wrapper!.setProps({...baseProps, match: {params: {postid: newPostid}}} as any);
 
         expect(baseProps.actions.focusPost).toHaveBeenCalledTimes(2);
         expect(baseProps.actions.focusPost).toBeCalledWith(newPostid, baseProps.returnTo, baseProps.currentUserId);
     });
 
-    test('should match snapshot with archived channel', () => {
+    test('should match snapshot with archived channel', async () => {
         const props = {...baseProps, channelIsArchived: true};
 
-        const wrapper = shallow(
-            <PermalinkView {...props}/>,
-        );
+        let wrapper: ReactWrapper<any>;
+        await act(async () => {
+            wrapper = mountWithIntl(
+                <PermalinkView {...props}/>,
+            );
+        });
 
-        wrapper.setState({valid: true});
-        expect(wrapper).toMatchSnapshot();
+        expect(wrapper!).toMatchSnapshot();
     });
 
     describe('actions', () => {
@@ -167,7 +172,7 @@ describe('components/PermalinkView', () => {
         describe('focusPost', () => {
             test('should redirect to error page for DM channel not a member of', async () => {
                 const testStore = await mockStore(initialState);
-                await testStore.dispatch(focusPost('dmpostid1'));
+                await testStore.dispatch(focusPost('dmpostid1', undefined, baseProps.currentUserId));
 
                 expect(getPostThread).toHaveBeenCalledWith('dmpostid1');
                 expect(testStore.getActions()).toEqual([
@@ -178,7 +183,7 @@ describe('components/PermalinkView', () => {
 
             test('should redirect to error page for GM channel not a member of', async () => {
                 const testStore = await mockStore(initialState);
-                await testStore.dispatch(focusPost('gmpostid1'));
+                await testStore.dispatch(focusPost('gmpostid1', undefined, baseProps.currentUserId));
 
                 expect(getPostThread).toHaveBeenCalledWith('gmpostid1');
                 expect(testStore.getActions()).toEqual([
@@ -211,7 +216,7 @@ describe('components/PermalinkView', () => {
                 };
 
                 const testStore = mockStore(modifiedState);
-                testStore.dispatch(focusPost('dmpostid1'));
+                testStore.dispatch(focusPost('dmpostid1', undefined, baseProps.currentUserId));
 
                 await nextTick();
                 expect.assertions(3);
@@ -252,7 +257,7 @@ describe('components/PermalinkView', () => {
                 };
 
                 const testStore = await mockStore(modifiedState);
-                await testStore.dispatch(focusPost('gmpostid1'));
+                await testStore.dispatch(focusPost('gmpostid1', undefined, baseProps.currentUserId));
 
                 expect(getPostThread).toHaveBeenCalledWith('gmpostid1');
                 expect(testStore.getActions()).toEqual([
@@ -267,7 +272,7 @@ describe('components/PermalinkView', () => {
 
             test('should redirect to channel link with postId for permalink', async () => {
                 const testStore = await mockStore(initialState);
-                await testStore.dispatch(focusPost('postid1'));
+                await testStore.dispatch(focusPost('postid1', undefined, baseProps.currentUserId));
 
                 expect(getPostThread).toHaveBeenCalledWith('postid1');
                 expect(testStore.getActions()).toEqual([

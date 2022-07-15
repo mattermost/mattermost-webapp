@@ -9,6 +9,10 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
+import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+
+import {Post} from '@mattermost/types/posts';
+import {Channel} from '@mattermost/types/channels';
 
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions.jsx';
@@ -19,12 +23,13 @@ import {joinPrivateChannelPrompt} from 'utils/channel_utils';
 import {ActionTypes, Constants, ErrorPageTypes} from 'utils/constants';
 import {isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 import {isComment, getPostURL} from 'utils/post_utils';
+import {GlobalState} from 'types/store';
 
 let privateChannelJoinPromptVisible = false;
 
-function focusRootPost(post, channel) {
-    return async (dispatch, getState) => {
-        const postURL = getPostURL(getState(), post);
+function focusRootPost(post: Post, channel: Channel) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const postURL = getPostURL(getState() as GlobalState, post);
 
         dispatch(selectChannel(channel.id));
         dispatch({
@@ -34,13 +39,14 @@ function focusRootPost(post, channel) {
         });
 
         browserHistory.replace(postURL);
+        return {data: true};
     };
 }
 
-function focusReplyPost(post, channel, teamId, returnTo) {
-    return async (dispatch, getState) => {
+function focusReplyPost(post: Post, channel: Channel, teamId: string, returnTo: string) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         await dispatch(getPostThread(post.root_id));
-        const state = getState();
+        const state = getState() as GlobalState;
 
         const team = getTeam(state, channel.team_id || teamId);
         const currentChannel = getCurrentChannel(state);
@@ -58,11 +64,12 @@ function focusReplyPost(post, channel, teamId, returnTo) {
         }
 
         dispatch(selectPostAndHighlight(post));
+        return {data: true};
     };
 }
 
-export function focusPost(postId, returnTo = '', currentUserId) {
-    return async (dispatch, getState) => {
+export function focusPost(postId: string, returnTo = '', currentUserId: string) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         // Ignore if prompt is still visible
         if (privateChannelJoinPromptVisible) {
             return;
@@ -118,7 +125,7 @@ export function focusPost(postId, returnTo = '', currentUserId) {
                         return;
                     }
                 }
-                await dispatch(joinChannel(currentUserId, null, channelId));
+                await dispatch(joinChannel(currentUserId, '', channelId, channel.name));
             }
         }
 
