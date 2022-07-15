@@ -6,7 +6,7 @@ import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
+import {CloudLinks, LicenseLinks, ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {closeModal} from 'actions/views/modals';
@@ -101,14 +101,14 @@ function SelfHostedContent(props: ContentProps) {
                     );
                 }
                 }
-                href='https://mattermost.com/sign-up/'
+                href={CloudLinks.CLOUD_SIGNUP_PAGE}
                 rel='noopener noreferrer'
                 target='_blank'
             >{formatMessage({id: 'pricing_modal.reviewDeploymentOptions', defaultMessage: 'Review deployment options'})}</a>
         </div>);
     };
 
-    const trialButton = (): JSX.Element => {
+    const trialButton = () => {
         return (
             <StartTrialBtn
                 message={formatMessage({id: 'pricing_modal.btn.tryDays', defaultMessage: 'Try free for {days} days'}, {days: '30'})}
@@ -190,7 +190,7 @@ function SelfHostedContent(props: ContentProps) {
                         }}
                         buttonDetails={{
                             action: () => {
-                                window.open('https://customers.mattermost.com/', '_blank');
+                                window.open(CloudLinks.SELF_HOSTED_LOGIN, '_blank');
                             },
                             text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
                             disabled: !isAdmin,
@@ -222,7 +222,7 @@ function SelfHostedContent(props: ContentProps) {
                         buttonDetails={(isPostSelfHostedEnterpriseTrial || !isAdmin) ? {
                             action: () => {
                                 trackEvent('self_hosted_pricing', 'click_enterprise_contact_sales');
-                                window.open('https://mattermost.com/contact-sales/', '_blank');
+                                window.open(LicenseLinks.CONTACT_SALES, '_blank');
                             },
                             text: formatMessage({id: 'pricing_modal.btn.contactSales', defaultMessage: 'Contact Sales'}),
                             customClass: ButtonCustomiserClasses.active,

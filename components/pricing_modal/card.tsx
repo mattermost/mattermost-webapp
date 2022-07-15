@@ -40,7 +40,6 @@ type CardProps = {
 
 type StyledProps = {
     bgColor?: string;
-    color?: string;
 }
 
 const StyledDiv = styled.div<StyledProps>`
@@ -53,7 +52,7 @@ function Card(props: CardProps) {
             id={props.id}
             className='PlanCard'
         >
-            {props.planLabel && props.planLabel}
+            {props.planLabel}
             <StyledDiv
                 className='top'
                 bgColor={props.topColor}
@@ -78,10 +77,10 @@ function Card(props: CardProps) {
                             );
                         })}
                     </div>
-                    {props.planExtraInformation && props.planExtraInformation}
+                    {props.planExtraInformation}
                 </div>
                 <div>
-                    {props.customButtonDetails ? props.customButtonDetails : (
+                    {props.customButtonDetails || (
                         <button
                             id={props.id + '_action'}
                             className={`plan_action_btn ${props.buttonDetails?.disabled ? ButtonCustomiserClasses.grayed : props.buttonDetails?.customClass}`}
@@ -92,7 +91,7 @@ function Card(props: CardProps) {
                         </button>
                     )}
                 </div>
-                {props.planDisclaimer && props.planDisclaimer}
+                {props.planDisclaimer}
                 <div className='plan_extra_briefing'>
                     <div>
                         <span className='title'>{props.extraBriefing.title}</span>
