@@ -32,7 +32,7 @@ color: var(--button-color);
 
 let openPricingModal: () => void;
 
-const UpgradeCloudButton = (): JSX.Element | null => {
+const PlanUpgradeButton = (): JSX.Element | null => {
     const dispatch = useDispatch();
     const {formatMessage} = useIntl();
 
@@ -88,5 +88,5 @@ const UpgradeCloudButton = (): JSX.Element | null => {
         </UpgradeButton>);
 };
 
-export default UpgradeCloudButton;
+export default PlanUpgradeButton;
 export {openPricingModal};
