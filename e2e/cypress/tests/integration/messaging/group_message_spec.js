@@ -248,7 +248,7 @@ describe('Group Message', () => {
             cy.uiAddDirectMessage().click().wait(TIMEOUTS.HALF_SEC);
 
             // # Open previously closed group message
-            cy.get('#selectItems input').typeWithForce(`${participants[0].username}`).wait(TIMEOUTS.HALF_SEC);
+            cy.get('#selectItems input').typeWithForce(participants[0].username).wait(TIMEOUTS.HALF_SEC);
             cy.get('#multiSelectList .suggestion-list__item').last().click().wait(TIMEOUTS.HALF_SEC);
 
             // * Verify that participants are listed in the input field

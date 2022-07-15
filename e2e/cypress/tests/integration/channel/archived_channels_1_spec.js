@@ -106,7 +106,7 @@ describe('Leave an archived channel', () => {
                 cy.get('#moreChannelsList').should('contain', channel.display_name);
             });
 
-            cy.get('body').type('{esc}', {force: true});
+            cy.get('body').typeWithForce('{esc}');
         });
     });
 
@@ -154,7 +154,7 @@ describe('Leave an archived channel', () => {
             cy.get('#moreChannelsList').should('contain', archivedPrivateChannel.name);
             cy.get('#moreChannelsList').should('contain', archivedPublicChannel.display_name);
         });
-        cy.get('body').type('{esc}', {force: true});
+        cy.get('body').typeWithForce('{esc}');
     });
 
     it('MM-T1700 - All archived public channels are shown Important', () => {
@@ -207,7 +207,7 @@ describe('Leave an archived channel', () => {
             cy.get('#moreChannelsList').should('contain', archivedPublicChannel1.display_name);
             cy.get('#moreChannelsList').should('contain', archivedPublicChannel2.display_name);
         });
-        cy.get('body').type('{esc}', {force: true});
+        cy.get('body').typeWithForce('{esc}');
     });
 
     it('MM-T1701 - Only Private channels you are a member of are displayed', () => {
@@ -261,7 +261,7 @@ describe('Leave an archived channel', () => {
             cy.get('#moreChannelsList').should('contain', archivedPrivateChannel1.name);
             cy.get('#moreChannelsList').should('not.contain', archivedPrivateChannel2.name);
         });
-        cy.get('body').type('{esc}', {force: true});
+        cy.get('body').typeWithForce('{esc}');
     });
 
     it('MM-T1703 - User can open archived channels', () => {
@@ -294,7 +294,7 @@ describe('Leave an archived channel', () => {
             // # More channels list should contain the archived channel
             cy.get('#moreChannelsList').should('contain', archivedChannel.display_name);
         });
-        cy.get('body').type('{esc}', {force: true});
+        cy.get('body').typeWithForce('{esc}');
     });
 
     it('MM-T1696 - When clicking Browse Channels no options for archived channels are shown when the feature is disabled', () => {
@@ -323,6 +323,6 @@ describe('Leave an archived channel', () => {
             cy.get('#channelsMoreDropdown').should('not.exist');
             cy.get('#moreChannelsList').should('not.contain', channel.name);
         });
-        cy.get('body').type('{esc}', {force: true});
+        cy.get('body').typeWithForce('{esc}');
     });
 });
