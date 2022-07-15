@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 
 import {FormattedList, FormattedMessage, useIntl} from 'react-intl';
 
@@ -31,7 +31,6 @@ import ForwardPostChannelSelect, {
     ChannelOption,
 } from './forward_post_channel_select';
 import ForwardPostCommentInput from './forward_post_comment_input';
-import {ForwardPostContext} from './forward_post_context';
 
 import {ActionProps, OwnProps, PropsFromRedux} from './index';
 
@@ -45,11 +44,29 @@ const ForwardPostModal = ({onExited, post, actions}: Props) => {
     const {formatMessage} = useIntl();
 
     const [comment, setComment] = useState('');
+    const [bodyHeight, setBodyHeight] = useState<number>(0);
+    const [hasError, setHasError] = useState<boolean>(false);
     const [postError, setPostError] = useState<React.ReactNode>(null);
     const [selectedChannel, setSelectedChannel] = useState<ChannelOption>();
 
     const currentChannel = useSelector((state: GlobalState) => getCurrentChannel(state));
     const currentTeam = useSelector((state: GlobalState) => getCurrentTeam(state));
+
+    const bodyRef = useRef<HTMLDivElement>();
+
+    const measuredRef = useCallback((node) => {
+        if (node !== null) {
+            bodyRef.current = node;
+            setBodyHeight(node.getBoundingClientRect().height);
+        }
+    }, []);
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const onHeightChange = (width: number, height: number) => {
+        if (bodyRef.current) {
+            setBodyHeight(bodyRef.current.getBoundingClientRect().height);
+        }
+    };
 
     const selectedChannelId = selectedChannel?.details?.id || '';
 
@@ -64,7 +81,7 @@ const ForwardPostModal = ({onExited, post, actions}: Props) => {
             ),
     );
     const isPrivateConversation = currentChannel.type !== General.OPEN_CHANNEL;
-    const canForwardPost = isPrivateConversation || canPostInSelectedChannel;
+    const canForwardPost = (isPrivateConversation || canPostInSelectedChannel) && !postError;
 
     const onHide = useCallback(() => {
         // focusPostTextbox();
@@ -139,14 +156,24 @@ const ForwardPostModal = ({onExited, post, actions}: Props) => {
         );
     }
 
+    const handlePostError = (error: React.ReactNode) => {
+        setPostError(error);
+        setHasError(true);
+        setTimeout(() => setHasError(false), Constants.ANIMATION_TIMEOUT);
+    };
+
     const handleSubmit = useCallback(async () => {
+        if (postError) {
+            return;
+        }
+
         let result = await actions.forwardPost(
             post,
             isPrivateConversation ? currentChannel.id : selectedChannelId,
             comment,
         );
         if (result.error) {
-            setPostError(result.error);
+            handlePostError(result.error);
             return;
         }
 
@@ -157,7 +184,7 @@ const ForwardPostModal = ({onExited, post, actions}: Props) => {
             result = await actions.joinChannelById(selectedChannelId);
 
             if (result.error) {
-                setPostError(result.error);
+                handlePostError(result.error);
                 return;
             }
         }
@@ -167,7 +194,7 @@ const ForwardPostModal = ({onExited, post, actions}: Props) => {
             result = await actions.switchToChannel(selectedChannel.details);
 
             if (result.error) {
-                setPostError(result.error);
+                handlePostError(result.error);
                 return;
             }
         }
@@ -191,12 +218,6 @@ const ForwardPostModal = ({onExited, post, actions}: Props) => {
     {
         channel: currentChannel.display_name,
     });
-
-    const providerValue = {
-        comment,
-        setComment,
-        setPostError,
-    };
 
     return (
         <GenericModal
@@ -223,49 +244,55 @@ const ForwardPostModal = ({onExited, post, actions}: Props) => {
             handleCancel={onHide}
             onExited={onHide}
         >
-            <ForwardPostContext.Provider value={providerValue}>
-                <div className={'forward-post__body'}>
-                    {isPrivateConversation ? (
-                        notification
-                    ) : (
-                        <ForwardPostChannelSelect
-                            onSelect={handleChannelSelect}
-                            value={selectedChannel}
-                        />
-                    )}
-                    <ForwardPostCommentInput
-                        canForwardPost={canForwardPost}
-                        channelId={selectedChannelId}
-                        onSubmit={handleSubmit}
+            <div
+                className={'forward-post__body'}
+                ref={measuredRef}
+            >
+                {isPrivateConversation ? (
+                    notification
+                ) : (
+                    <ForwardPostChannelSelect
+                        onSelect={handleChannelSelect}
+                        value={selectedChannel}
+                        currentBodyHeight={bodyHeight}
                     />
-                    <div className={'forward-post__post-preview'}>
-                        <span className={'forward-post__post-preview--title'}>
-                            {messagePreviewTitle}
-                        </span>
-                        <div
-                            className='post forward-post__post-preview--override'
-                            onClick={preventActionOnPreview}
-                        >
-                            <PostMessagePreview
-                                metadata={previewMetaData}
-                                previewPost={previewMetaData.post}
-                                handleFileDropdownOpened={noop}
-                                preventClickAction={true}
-                                previewFooterMessage={postPreviewFooterMessage}
-                            />
-                        </div>
-                        {postError && (
-                            <label
-                                className={classNames('post-error', {
-                                    'animation--highlight': postError,
-                                })}
-                            >
-                                {postError}
-                            </label>
-                        )}
+                )}
+                <ForwardPostCommentInput
+                    canForwardPost={canForwardPost}
+                    channelId={selectedChannelId}
+                    comment={comment}
+                    onChange={setComment}
+                    onError={handlePostError}
+                    onSubmit={handleSubmit}
+                    onHeightChange={onHeightChange}
+                />
+                <div className={'forward-post__post-preview'}>
+                    <span className={'forward-post__post-preview--title'}>
+                        {messagePreviewTitle}
+                    </span>
+                    <div
+                        className='post forward-post__post-preview--override'
+                        onClick={preventActionOnPreview}
+                    >
+                        <PostMessagePreview
+                            metadata={previewMetaData}
+                            previewPost={previewMetaData.post}
+                            handleFileDropdownOpened={noop}
+                            preventClickAction={true}
+                            previewFooterMessage={postPreviewFooterMessage}
+                        />
                     </div>
+                    {postError && (
+                        <label
+                            className={classNames('post-error', {
+                                'animation--highlight': hasError,
+                            })}
+                        >
+                            {postError}
+                        </label>
+                    )}
                 </div>
-            </ForwardPostContext.Provider>
+            </div>
         </GenericModal>
     );
 };

@@ -34,7 +34,7 @@ import SwitchChannelProvider from 'components/suggestion/switch_channel_provider
 import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 
-import {baseStyles} from './forward_post_channel_select_styles';
+import {getBaseStyles} from './forward_post_channel_select_styles';
 
 const AsyncSelect = require('react-select/lib/Async').default as React.ElementType<AsyncSelectProps<ChannelOption>>; // eslint-disable-line global-require
 
@@ -199,12 +199,15 @@ const DropdownIndicator = (props: IndicatorProps<ChannelOption>) => {
 
 type Props<O> = {
     onSelect: (channel: ValueType<O>) => void;
+    currentBodyHeight: number;
     value?: O;
 }
 
-function ForwardPostChannelSelect({onSelect, value}: Props<ChannelOption>) {
+function ForwardPostChannelSelect({onSelect, value, currentBodyHeight}: Props<ChannelOption>) {
     const {formatMessage} = useIntl();
     const {current: provider} = useRef<SwitchChannelProvider>(new SwitchChannelProvider());
+
+    const baseStyles = getBaseStyles(currentBodyHeight);
 
     const getDefaultResults = () => {
         let options: GroupedOption[] = [];

@@ -13,21 +13,22 @@ import Textbox, {TextboxClass, TextboxElement} from 'components/textbox';
 import Constants from 'utils/constants';
 import {applyMarkdown, ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
 import * as Utils from 'utils/utils';
-import {GlobalState} from '../../types/store';
-
-import {useForwardPostContext} from './forward_post_context';
+import {GlobalState} from 'types/store';
 
 const {KeyCodes} = Constants;
 
 type Props = {
     channelId: string;
     canForwardPost: boolean;
+    comment: string;
     onSubmit: () => void;
+    onChange: (comment: string) => void;
+    onError: (error: React.ReactNode) => void;
+    onHeightChange: (width: number, height: number) => void;
 }
 
-const ForwardPostCommentInput = ({channelId, canForwardPost, onSubmit}: Props) => {
+const ForwardPostCommentInput = ({channelId, canForwardPost, comment, onChange, onError, onSubmit, onHeightChange}: Props) => {
     const {formatMessage} = useIntl();
-    const {comment, setComment, setPostError} = useForwardPostContext();
 
     const config = useSelector((state: GlobalState) => getConfig(state));
 
@@ -41,9 +42,6 @@ const ForwardPostCommentInput = ({channelId, canForwardPost, onSubmit}: Props) =
     // we do not allow sending the forwarding when hitting enter
     const postMsgKeyPress = () => {};
 
-    const handlePostError = (postError: React.ReactNode) =>
-        setPostError(postError);
-
     const handleSelect = (e: React.SyntheticEvent<Element, Event>) => {
         Utils.adjustSelection(
             textboxRef?.current?.getInputBox(),
@@ -55,13 +53,13 @@ const ForwardPostCommentInput = ({channelId, canForwardPost, onSubmit}: Props) =
         (e: React.ChangeEvent<TextboxElement>) => {
             const message = e.target.value;
 
-            setComment(message);
+            onChange(message);
         },
-        [setComment],
+        [onChange],
     );
 
     const setCommentAsync = async (message: string) => {
-        await setComment(message);
+        await onChange(message);
     };
 
     const applyMarkdownMode = (params: ApplyMarkdownOptions) => {
@@ -92,7 +90,7 @@ const ForwardPostCommentInput = ({channelId, canForwardPost, onSubmit}: Props) =
 
         // listen for line break key combo and insert new line character
         if (Utils.isUnhandledLineBreakKeyCombo(e)) {
-            setComment(Utils.insertLineBreakFromKeyEvent(e));
+            onChange(Utils.insertLineBreakFromKeyEvent(e));
         } else if (ctrlAltCombo && markdownLinkKey) {
             applyMarkdownMode({
                 markdownMode: 'link',
@@ -140,7 +138,8 @@ const ForwardPostCommentInput = ({channelId, canForwardPost, onSubmit}: Props) =
             onKeyPress={postMsgKeyPress}
             onKeyDown={handleKeyDown}
             onSelect={handleSelect}
-            handlePostError={handlePostError}
+            onHeightChange={onHeightChange}
+            handlePostError={onError}
             value={comment}
             emojiEnabled={enableEmojiPicker}
             createMessage={createMessage}

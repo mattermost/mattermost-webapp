@@ -451,7 +451,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         const canPostBeForwarded = !(fromWebhook || fromBot || isSystemMessage);
 
         const forwardPostItemText = (
-            <span>
+            <span className={'title-with-new-badge'}>
                 <FormattedMessage
                     id='forward_post_button.label'
                     defaultMessage='Forward'

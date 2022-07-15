@@ -9,107 +9,115 @@ import {ChannelOption} from './forward_post_channel_select';
 
 type CSSPropertiesWithPseudos = CSSProperties & { [P in CSS.SimplePseudos]?: CSS.Properties };
 
-const baseStyles = {
-    input: (provided: CSSProperties): CSSPropertiesWithPseudos => ({
-        ...provided,
-        padding: 0,
-        margin: 0,
-        color: 'var(--center-channel-color)',
-    }),
-    placeholder: (provided: CSSProperties): CSSPropertiesWithPseudos => ({
-        ...provided,
-        margin: 0,
-        color: 'rgba(var(--center-channel-color-rgb), 0.64)',
-        fontSize: '14px',
-        lineHeight: '20px',
-    }),
+const menuMargin = 8;
+const selectHeight = 40;
 
-    // disabling this rule here since otherwise tsc will complain about it in the props
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    control: (provided: CSSProperties, state: ControlProps<{}>): CSSPropertiesWithPseudos => {
-        const focusShadow = 'inset 0 0 0 2px var(--button-bg)';
+const getBaseStyles = (bodyHeight: number) => {
+    const minMenuHeight = bodyHeight - selectHeight - (2 * menuMargin);
 
-        return ({
+    return ({
+        input: (provided: CSSProperties): CSSPropertiesWithPseudos => ({
             ...provided,
+            padding: 0,
+            margin: 0,
             color: 'var(--center-channel-color)',
+        }),
+        placeholder: (provided: CSSProperties): CSSPropertiesWithPseudos => ({
+            ...provided,
+            margin: 0,
+            color: 'rgba(var(--center-channel-color-rgb), 0.64)',
+            fontSize: '14px',
+            lineHeight: '20px',
+        }),
+
+        // disabling this rule here since otherwise tsc will complain about it in the props
+        // eslint-disable-next-line @typescript-eslint/ban-types
+        control: (provided: CSSProperties, state: ControlProps<{}>): CSSPropertiesWithPseudos => {
+            const focusShadow = 'inset 0 0 0 2px var(--button-bg)';
+
+            return ({
+                ...provided,
+                color: 'var(--center-channel-color)',
+                backgroundColor: 'var(--center-channel-bg)',
+                cursor: 'pointer',
+                borderWidth: 0,
+                boxShadow: state.isFocused ? focusShadow : 'inset 0 0 0 1px rgba(var(--center-channel-color-rgb), 0.16)',
+                borderRadius: '4px',
+                minHeight: `${selectHeight}px`,
+                padding: '0 0 0 16px',
+
+                ':hover': {
+                    color: state.isFocused ? focusShadow : 'inset 0 0 0 1px rgba(var(--center-channel-color-rgb), 0.24)',
+                },
+            });
+        },
+        indicatorSeparator: (): CSSPropertiesWithPseudos => ({
+            display: 'none',
+        }),
+        indicatorsContainer: (provided: CSSProperties): CSSPropertiesWithPseudos => ({
+            ...provided,
+            padding: '2px',
+        }),
+        dropdownIndicator: (provided: CSSProperties, state: ControlProps<ChannelOption>): CSSPropertiesWithPseudos => ({
+            ...provided,
+            transform: state.isFocused ? 'rotate(180deg)' : 'rotate(0)',
+            transition: 'transform 250ms ease-in-out',
+        }),
+        valueContainer: (provided: CSSProperties): CSSPropertiesWithPseudos => ({
+            ...provided,
+            overflow: 'visible',
+            padding: '0 16px 0 0',
+            margin: 0,
+        }),
+        menu: (provided: CSSProperties): CSSPropertiesWithPseudos => ({
+            ...provided,
+            padding: 0,
+            zIndex: 10,
+        }),
+        menuList: (provided: CSSProperties): CSSPropertiesWithPseudos => ({
+            ...provided,
+            padding: 0,
             backgroundColor: 'var(--center-channel-bg)',
-            cursor: 'pointer',
-            borderWidth: 0,
-            boxShadow: state.isFocused ? focusShadow : 'inset 0 0 0 1px rgba(var(--center-channel-color-rgb), 0.16)',
             borderRadius: '4px',
-            minHeight: '40px',
-            padding: '0 0 0 16px',
+            border: '1px solid rgba(var(--center-channel-color-rgb), 0.16)',
+            maxHeight: `min(${minMenuHeight}px, 300px)`,
 
-            ':hover': {
-                color: state.isFocused ? focusShadow : 'inset 0 0 0 1px rgba(var(--center-channel-color-rgb), 0.24)',
-            },
-        });
-    },
-    indicatorSeparator: (): CSSPropertiesWithPseudos => ({
-        display: 'none',
-    }),
-    indicatorsContainer: (provided: CSSProperties): CSSPropertiesWithPseudos => ({
-        ...provided,
-        padding: '2px',
-    }),
-    dropdownIndicator: (provided: CSSProperties, state: ControlProps<ChannelOption>): CSSPropertiesWithPseudos => ({
-        ...provided,
-        transform: state.isFocused ? 'rotate(180deg)' : 'rotate(0)',
-        transition: 'transform 250ms ease-in-out',
-    }),
-    valueContainer: (provided: CSSProperties): CSSPropertiesWithPseudos => ({
-        ...provided,
-        overflow: 'visible',
-        padding: '0 16px 0 0',
-        margin: 0,
-    }),
-    menu: (provided: CSSProperties): CSSPropertiesWithPseudos => ({
-        ...provided,
-        padding: 0,
-        zIndex: 10,
-    }),
-    menuList: (provided: CSSProperties): CSSPropertiesWithPseudos => ({
-        ...provided,
-        padding: 0,
-        backgroundColor: 'var(--center-channel-bg)',
-        borderRadius: '4px',
-        border: '1px solid rgba(var(--center-channel-color-rgb), 0.16)',
-
-        /* Elevation 4 */
-        boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12)',
-    }),
-    groupHeading: (provided: CSSProperties): CSSPropertiesWithPseudos => ({
-        ...provided,
-        cursor: 'default',
-        position: 'relative',
-        display: 'flex',
-        height: '2.8rem',
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-        padding: '0 0 0 2rem',
-        margin: 0,
-        color: 'rgba(var(--center-channel-color-rgb), 0.56)',
-        backgroundColor: 'none',
-        fontSize: '1.2rem',
-        fontWeight: 600,
-        textTransform: 'uppercase',
-    }),
-    singleValue: (provided: CSSProperties): CSSPropertiesWithPseudos => ({
-        ...provided,
-        maxWidth: 'calc(100% - 10px)',
-        width: '100%',
-        overflow: 'visible',
-    }),
-    option: (provided: CSSProperties, state: ControlProps<ChannelOption>): CSSPropertiesWithPseudos => ({
-        ...provided,
-        cursor: 'pointer',
-        padding: '8px 20px',
-        backgroundColor: state.isFocused ? 'rgba(var(--center-channel-color-rgb), 0.08)' : 'transparent',
-    }),
-    menuPortalTarget: (provided: CSSProperties): CSSPropertiesWithPseudos => ({
-        ...provided,
-        zIndex: 999999,
-    }),
+            /* Elevation 4 */
+            boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12)',
+        }),
+        groupHeading: (provided: CSSProperties): CSSPropertiesWithPseudos => ({
+            ...provided,
+            cursor: 'default',
+            position: 'relative',
+            display: 'flex',
+            height: '2.8rem',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+            padding: '0 0 0 2rem',
+            margin: 0,
+            color: 'rgba(var(--center-channel-color-rgb), 0.56)',
+            backgroundColor: 'none',
+            fontSize: '1.2rem',
+            fontWeight: 600,
+            textTransform: 'uppercase',
+        }),
+        singleValue: (provided: CSSProperties): CSSPropertiesWithPseudos => ({
+            ...provided,
+            maxWidth: 'calc(100% - 10px)',
+            width: '100%',
+            overflow: 'visible',
+        }),
+        option: (provided: CSSProperties, state: ControlProps<ChannelOption>): CSSPropertiesWithPseudos => ({
+            ...provided,
+            cursor: 'pointer',
+            padding: '8px 20px',
+            backgroundColor: state.isFocused ? 'rgba(var(--center-channel-color-rgb), 0.08)' : 'transparent',
+        }),
+        menuPortalTarget: (provided: CSSProperties): CSSPropertiesWithPseudos => ({
+            ...provided,
+            zIndex: 999999,
+        }),
+    });
 };
 
-export {baseStyles};
+export {getBaseStyles};
