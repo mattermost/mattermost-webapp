@@ -19,10 +19,9 @@ import useGetSubscription from 'components/common/hooks/useGetSubscription';
 import {isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
-const CloudDelinquencyAnnouncementBar: React.FC = () => {
+const CloudDelinquencyAnnouncementBar = () => {
     const subscription = useGetSubscription();
     const history = useHistory();
-
     const currentUser = useSelector((state: GlobalState) =>
         getCurrentUser(state),
     );

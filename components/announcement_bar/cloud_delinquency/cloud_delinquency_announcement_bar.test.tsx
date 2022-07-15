@@ -113,7 +113,7 @@ describe('components/announcement_bar/cloud_delinquency', () => {
             </reactRedux.Provider>,
         );
 
-        expect(wrapper).toMatchSnapshot();
+        expect(wrapper.find('.announcement-bar-advisor').exists()).toEqual(true);
     });
 
     it('Should match snapshot when delinquent > 90 days', () => {
@@ -127,6 +127,6 @@ describe('components/announcement_bar/cloud_delinquency', () => {
             </reactRedux.Provider>,
         );
 
-        expect(wrapper).toMatchSnapshot();
+        expect(wrapper.find('.announcement-bar-critical').exists()).toEqual(true);
     });
 });
