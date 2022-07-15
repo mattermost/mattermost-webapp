@@ -91,7 +91,7 @@ describe('Integrations', () => {
         cy.uiWaitUntilMessagePostedIncludes(`${userToInviteGM.username} added to ${testChannel.name} channel.`);
 
         cy.uiAddDirectMessage().click();
-        cy.get('#selectItems').type(`${userToInviteDM.username}`).wait(TIMEOUTS.ONE_SEC);
+        cy.get('#selectItems input').typeWithForce(`${userToInviteDM.username}`).wait(TIMEOUTS.ONE_SEC);
         cy.get('#multiSelectList').findByText(`@${userToInviteDM.username}`).click();
         cy.findByText('Go').click();
         cy.uiGetChannelHeaderButton().contains(`${userToInviteDM.username}`);
@@ -140,7 +140,7 @@ describe('Integrations', () => {
         cy.uiWaitUntilMessagePostedIncludes('We couldn\'t find the user. They may have been deactivated by the System Administrator.');
 
         cy.uiAddDirectMessage().click();
-        cy.get('#selectItems').type(`${userDM.username}`).wait(TIMEOUTS.ONE_SEC);
+        cy.get('#selectItems input').typeWithForce(`${userDM.username}`).wait(TIMEOUTS.ONE_SEC);
         cy.get('#multiSelectList').findByText(`@${userDM.username}`).click();
         cy.findByText('Go').click();
         cy.uiGetChannelHeaderButton().contains(`${userDM.username}`);
@@ -166,7 +166,7 @@ describe('Integrations', () => {
         cy.uiWaitUntilMessagePostedIncludes(`${userToInvite.username} is already in the channel.`);
 
         cy.uiAddDirectMessage().click();
-        cy.get('#selectItems').type(`${userDM.username}`).wait(TIMEOUTS.ONE_SEC);
+        cy.get('#selectItems input').typeWithForce(`${userDM.username}`).wait(TIMEOUTS.ONE_SEC);
         cy.get('#multiSelectList').findByText(`@${userDM.username}`).click();
         cy.findByText('Go').click();
         cy.uiGetChannelHeaderButton().contains(`${userDM.username}`);
@@ -190,7 +190,7 @@ describe('Integrations', () => {
         loginAndVisitChannel(userB, offTopicUrl);
 
         cy.uiAddDirectMessage().click();
-        cy.get('#selectItems').type(`${userDM.username}`).wait(TIMEOUTS.ONE_SEC);
+        cy.get('#selectItems input').typeWithForce(`${userDM.username}`).wait(TIMEOUTS.ONE_SEC);
         cy.get('#multiSelectList').findByText(`@${userDM.username}`).click();
         cy.findByText('Go').click();
         cy.uiGetChannelHeaderButton().contains(`${userDM.username}`);

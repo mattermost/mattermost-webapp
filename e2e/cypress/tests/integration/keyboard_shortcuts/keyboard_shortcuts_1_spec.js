@@ -456,7 +456,7 @@ describe('Keyboard Shortcuts', () => {
         cy.uiGetRHS().isExpanded();
 
         // # Type CTRL/CMD+SHIFT+. to collapse 'RHS'
-        cy.uiGetPostTextBox().cmdOrCtrlShortcut('{shift}.');
+        cy.get('body').cmdOrCtrlShortcut('{shift}.');
 
         // * Verify RHS is now in collapsed state
         cy.get('#sidebar-right').should('be.visible').and('not.have.class', 'sidebar--right--expanded');
