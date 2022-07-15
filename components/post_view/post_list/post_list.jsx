@@ -99,6 +99,10 @@ export default class PostList extends React.PureComponent {
 
         isMobileView: PropTypes.bool.isRequired,
 
+        toggleShouldStartFromBottomWhenUnread: PropTypes.func.isRequired,
+
+        shouldStartFromBottomWhenUnread: PropTypes.bool,
+
         actions: PropTypes.shape({
 
             /*
@@ -157,6 +161,7 @@ export default class PostList extends React.PureComponent {
             checkAndSetMobileView: props.actions.checkAndSetMobileView,
             canLoadMorePosts: this.canLoadMorePosts,
             changeUnreadChunkTimeStamp: props.changeUnreadChunkTimeStamp,
+            toggleShouldStartFromBottomWhenUnread: props.toggleShouldStartFromBottomWhenUnread,
             updateNewMessagesAtInChannel: this.props.actions.updateNewMessagesAtInChannel,
         };
     }
@@ -346,6 +351,7 @@ export default class PostList extends React.PureComponent {
                             focusedPostId={this.props.focusedPostId}
                             channelId={this.props.channelId}
                             autoRetryEnable={this.state.autoRetryEnable}
+                            shouldStartFromBottomWhenUnread={this.props.shouldStartFromBottomWhenUnread}
                             actions={this.actionsForPostList}
                             postListIds={this.props.formattedPostIds}
                             latestPostTimeStamp={this.props.latestPostTimeStamp}

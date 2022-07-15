@@ -44,7 +44,7 @@ describe('Integrations', () => {
 
         testCases.forEach((testCase) => {
             // # Type "/" on textbox
-            cy.get('#post_textbox').clear().type('/');
+            cy.uiGetPostTextBox().clear().type('/');
 
             // # Verify that the suggestion list is visible
             cy.get('#suggestionList').should('be.visible').then((container) => {
@@ -53,7 +53,7 @@ describe('Integrations', () => {
             });
 
             // # Hit enter and verify user status
-            cy.get('#post_textbox').type(' {enter}');
+            cy.uiGetPostTextBox().type(' {enter}');
             verifyUserStatus(testCase, false);
         });
     });

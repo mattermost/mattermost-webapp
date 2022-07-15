@@ -38,6 +38,7 @@
         }
 
         .top-reactions-card {
+            &.medium,
             &.small {
                 @media screen and (max-width: 1279px) and (min-width: 769px) {
                     width: calc(100% - 16px);
@@ -57,6 +58,12 @@
                 }
 
                 @media screen and (max-width: 1019px) and (min-width: 769px) {
+                    width: calc(100% - 16px);
+                }
+            }
+
+            &.medium {
+                @media screen and (max-width: 1279px) and (min-width: 769px) {
                     width: calc(100% - 16px);
                 }
             }
@@ -411,6 +418,10 @@
                         background: rgba(var(--center-channel-color-rgb), 0.08);
                         border-radius: 4px;
                         cursor: pointer;
+                    }
+
+                    .Badge__box {
+                        background: rgba(var(--center-channel-color-rgb), 0.08);
                     }
                 }
             }

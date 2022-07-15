@@ -1,9 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {UserProfile} from '../../../../packages/mattermost-redux/src/types/users';
+import {UserProfile} from '@mattermost/types/lib/users';
 
-import testConfig from '../../test.config';
+import testConfig from '@test.config';
 
 import {createRandomChannel} from './channel';
 import Client from './client';
