@@ -452,9 +452,15 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
 
         const forwardPostItemText = (
             <span>
-                {Utils.localizeMessage('forward_post_button.label', 'Forward')}
+                <FormattedMessage
+                    id='forward_post_button.label'
+                    defaultMessage='Forward'
+                />
                 <Badge variant='success'>
-                    {Utils.localizeMessage('badge.label.new', 'NEW')}
+                    <FormattedMessage
+                        id='badge.label.new'
+                        defaultMessage='NEW'
+                    />
                 </Badge>
             </span>
         );

@@ -42,7 +42,7 @@ const PostAttachmentContainer = (props: Props) => {
                 }
             }
         },
-        [history, preventClickAction],
+        [className, history, link],
     );
 
     return (

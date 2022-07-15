@@ -85,11 +85,6 @@ export function forwardPost(post, channelId, message = '') {
 
         const result = await dispatch(PostActions.createPost(newPost, []));
 
-        // Send to error bar if it's an edit post error about time limit.
-        if (result.error && result.error.server_error_id === 'api.post.update_post.permissions_time_limit.app_error') {
-            dispatch(logError({type: AnnouncementBarTypes.ANNOUNCEMENT, message: result.error.message}, true));
-        }
-
         return result;
     };
 }
