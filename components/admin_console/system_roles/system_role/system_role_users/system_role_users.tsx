@@ -195,7 +195,7 @@ export default class SystemRoleUsers extends React.PureComponent<Props, State> {
                         <UserGridRemove
                             user={user}
                             removeUser={this.onRemoveCallback}
-                            isDisabled={readOnly || user.id === currentUserId}
+                            isDisabled={readOnly}
                         />
                     ),
                 },
