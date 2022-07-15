@@ -218,7 +218,7 @@ export default class WebSocketClient {
     /**
      * @deprecated Use addMessageListener instead
      */
-    setEventCallback(callback: (msg: any) => void) {
+    setEventCallback(callback: MessageListener) {
         this.eventCallback = callback;
     }
 
@@ -233,7 +233,7 @@ export default class WebSocketClient {
     /**
      * @deprecated Use addFirstConnectListener instead
      */
-    setFirstConnectCallback(callback: () => void) {
+    setFirstConnectCallback(callback: FirstConnectListener) {
         this.firstConnectCallback = callback;
     }
 
@@ -248,7 +248,7 @@ export default class WebSocketClient {
     /**
      * @deprecated Use addReconnectListener instead
      */
-    setReconnectCallback(callback: () => void) {
+    setReconnectCallback(callback: ReconnectListener) {
         this.reconnectCallback = callback;
     }
 
@@ -263,7 +263,7 @@ export default class WebSocketClient {
     /**
      * @deprecated Use addMissedMessageListener instead
      */
-    setMissedEventCallback(callback: () => void) {
+    setMissedEventCallback(callback: MissedMessageListener) {
         this.missedEventCallback = callback;
     }
 
@@ -278,7 +278,7 @@ export default class WebSocketClient {
     /**
      * @deprecated Use addErrorListener instead
      */
-    setErrorCallback(callback: (event: Event) => void) {
+    setErrorCallback(callback: ErrorListener) {
         this.errorCallback = callback;
     }
 
@@ -293,7 +293,7 @@ export default class WebSocketClient {
     /**
      * @deprecated Use addCloseListener instead
      */
-    setCloseCallback(callback: (connectFailCount: number) => void) {
+    setCloseCallback(callback: CloseListener) {
         this.closeCallback = callback;
     }
 
