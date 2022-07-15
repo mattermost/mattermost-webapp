@@ -31,7 +31,7 @@ describe('Paste Image', () => {
         // # Paste image
         cy.fixture(filename).then((img) => {
             const blob = Cypress.Blob.base64StringToBlob(img, 'image/png');
-            cy.get('#create_post').trigger('paste', {clipboardData: {
+            cy.uiGetPostTextBox().trigger('paste', {clipboardData: {
                 items: [{
                     name: filename,
                     kind: 'file',
@@ -43,12 +43,10 @@ describe('Paste Image', () => {
                 types: [],
             }});
 
-            cy.waitUntil(() => cy.get('#postCreateFooter').then((el) => {
-                return el.find('.post-image.normal').length > 0;
-            }));
+            cy.uiWaitForFileUploadPreview();
         });
 
-        cy.uiGetFileUploadPreview().within(() => {
+        cy.uiGetFileUploadPreview().should('be.visible').within(() => {
             // * Type is correct
             cy.get('.post-image__type').should('contain.text', 'PNG');
 

@@ -38,17 +38,17 @@ describe('Keyboard Shortcuts', () => {
         cy.url().should('include', `/${testTeam.name}/messages/@${testUser.username}`);
 
         // # Type/edit some text and remove focus from the input field
-        cy.get('#post_textbox').clear().type('This is a normal sentence.').type('{backspace}{backspace}').blur();
+        cy.uiGetPostTextBox().clear().type('This is a normal sentence.').type('{backspace}{backspace}').blur();
 
         // * Verify that the backspace key presses modified the input correctly
-        cy.get('#post_textbox').should('have.value', 'This is a normal sentenc');
+        cy.uiGetPostTextBox().should('have.value', 'This is a normal sentenc');
 
         // # Select the body to remove focus from the input field
         cy.get('body').type('{backspace}');
         cy.get('body').type('{backspace}');
 
         // * Verify that the additional backspace key presses on blur doesn't affect the input
-        cy.get('#post_textbox').should('have.value', 'This is a normal sentenc');
+        cy.uiGetPostTextBox().should('have.value', 'This is a normal sentenc');
 
         // * Verify that the URL doesn't change from the last URL
         cy.url().should('include', `/${testTeam.name}/messages/@${testUser.username}`);

@@ -53,12 +53,8 @@ const MenuItemCloudLimit = ({id}: Props) => {
         itemClass += ' MenuItemCloudLimit--critical';
     }
 
-    let descriptionClass = 'MenuItemCloudLimit__description';
-    if (!isAdminUser) {
-        // TODO: hide link hack to be removed once
-        // https://mattermost.atlassian.net/browse/MM-43648 is completed
-        descriptionClass += ' MenuItemCloudLimit__description--hide-link';
-    }
+    const descriptionClass = 'MenuItemCloudLimit__description';
+
     return (
         <li
             className={itemClass}

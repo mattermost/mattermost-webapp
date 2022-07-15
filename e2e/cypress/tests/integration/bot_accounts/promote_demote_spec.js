@@ -43,7 +43,7 @@ describe('Managing bots in Teams and Channels', () => {
 
             // # Find bot
             cy.get('.more-modal__list').find('.more-modal__row').its('length').should('be.gt', 0);
-            cy.get('#searchUsersInput').type(`${bot.username}`);
+            cy.get('#searchUsersInput').type(bot.username);
 
             // # Wait for loading screen
             cy.get('#teamMembersModal .loading-screen').should('be.visible');

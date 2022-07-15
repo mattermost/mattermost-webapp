@@ -47,8 +47,13 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
         id="systemScheme"
         linkTextDefault="Edit Scheme"
         linkTextId="admin.permissions.systemSchemeBannerButton"
-        subtitleDefault="Set the default permissions inherited by all teams unless a [Team Override Scheme](!https://docs.mattermost.com/onboard/advanced-permissions.html) is applied."
+        subtitleDefault="Set the default permissions inherited by all teams unless a <link>Team Override Scheme</link> is applied."
         subtitleId="admin.permissions.systemSchemeBannerText"
+        subtitleValues={
+          Object {
+            "link": [Function],
+          }
+        }
         titleDefault="System Scheme"
         titleId="admin.permissions.systemSchemeBannerTitle"
         url="/admin_console/user_management/permissions/system_scheme"
@@ -58,8 +63,13 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
         id="team-override-schemes"
         linkTextDefault="New Team Override Scheme"
         linkTextId="admin.permissions.teamOverrideSchemesNewButton"
-        subtitleDefault="Use when specific teams need permission exceptions to the [System Scheme](!https://docs.mattermost.com/onboard/advanced-permissions.html)."
+        subtitleDefault="Use when specific teams need permission exceptions to the <link>System Scheme</link>"
         subtitleId="admin.permissions.teamOverrideSchemesBannerText"
+        subtitleValues={
+          Object {
+            "link": [Function],
+          }
+        }
         titleDefault="Team Override Schemes"
         titleId="admin.permissions.teamOverrideSchemesTitle"
         url="/admin_console/user_management/permissions/team_override_scheme"
@@ -140,8 +150,13 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
         id="systemScheme"
         linkTextDefault="Edit Scheme"
         linkTextId="admin.permissions.systemSchemeBannerButton"
-        subtitleDefault="Set the default permissions inherited by all teams unless a [Team Override Scheme](!https://docs.mattermost.com/onboard/advanced-permissions.html) is applied."
+        subtitleDefault="Set the default permissions inherited by all teams unless a <link>Team Override Scheme</link> is applied."
         subtitleId="admin.permissions.systemSchemeBannerText"
+        subtitleValues={
+          Object {
+            "link": [Function],
+          }
+        }
         titleDefault="System Scheme"
         titleId="admin.permissions.systemSchemeBannerTitle"
         url="/admin_console/user_management/permissions/system_scheme"
@@ -151,8 +166,13 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
         id="team-override-schemes"
         linkTextDefault="New Team Override Scheme"
         linkTextId="admin.permissions.teamOverrideSchemesNewButton"
-        subtitleDefault="Use when specific teams need permission exceptions to the [System Scheme](!https://docs.mattermost.com/onboard/advanced-permissions.html)."
+        subtitleDefault="Use when specific teams need permission exceptions to the <link>System Scheme</link>"
         subtitleId="admin.permissions.teamOverrideSchemesBannerText"
+        subtitleValues={
+          Object {
+            "link": [Function],
+          }
+        }
         titleDefault="Team Override Schemes"
         titleId="admin.permissions.teamOverrideSchemesTitle"
         url="/admin_console/user_management/permissions/team_override_scheme"
@@ -211,8 +231,13 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
         id="systemScheme"
         linkTextDefault="Edit Scheme"
         linkTextId="admin.permissions.systemSchemeBannerButton"
-        subtitleDefault="Set the default permissions inherited by all teams unless a [Team Override Scheme](!https://docs.mattermost.com/onboard/advanced-permissions.html) is applied."
+        subtitleDefault="Set the default permissions inherited by all teams unless a <link>Team Override Scheme</link> is applied."
         subtitleId="admin.permissions.systemSchemeBannerText"
+        subtitleValues={
+          Object {
+            "link": [Function],
+          }
+        }
         titleDefault="System Scheme"
         titleId="admin.permissions.systemSchemeBannerTitle"
         url="/admin_console/user_management/permissions/system_scheme"
@@ -223,8 +248,13 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
         id="team-override-schemes"
         linkTextDefault="New Team Override Scheme"
         linkTextId="admin.permissions.teamOverrideSchemesNewButton"
-        subtitleDefault="Use when specific teams need permission exceptions to the [System Scheme](!https://docs.mattermost.com/onboard/advanced-permissions.html)."
+        subtitleDefault="Use when specific teams need permission exceptions to the <link>System Scheme</link>"
         subtitleId="admin.permissions.teamOverrideSchemesBannerText"
+        subtitleValues={
+          Object {
+            "link": [Function],
+          }
+        }
         titleDefault="Team Override Schemes"
         titleId="admin.permissions.teamOverrideSchemesTitle"
         url="/admin_console/user_management/permissions/team_override_scheme"
@@ -331,8 +361,13 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
         id="systemScheme"
         linkTextDefault="Edit Scheme"
         linkTextId="admin.permissions.systemSchemeBannerButton"
-        subtitleDefault="Set the default permissions inherited by all teams unless a [Team Override Scheme](!https://docs.mattermost.com/onboard/advanced-permissions.html) is applied."
+        subtitleDefault="Set the default permissions inherited by all teams unless a <link>Team Override Scheme</link> is applied."
         subtitleId="admin.permissions.systemSchemeBannerText"
+        subtitleValues={
+          Object {
+            "link": [Function],
+          }
+        }
         titleDefault="System Scheme"
         titleId="admin.permissions.systemSchemeBannerTitle"
         url="/admin_console/user_management/permissions/system_scheme"
@@ -343,8 +378,13 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
         id="team-override-schemes"
         linkTextDefault="New Team Override Scheme"
         linkTextId="admin.permissions.teamOverrideSchemesNewButton"
-        subtitleDefault="Use when specific teams need permission exceptions to the [System Scheme](!https://docs.mattermost.com/onboard/advanced-permissions.html)."
+        subtitleDefault="Use when specific teams need permission exceptions to the <link>System Scheme</link>"
         subtitleId="admin.permissions.teamOverrideSchemesBannerText"
+        subtitleValues={
+          Object {
+            "link": [Function],
+          }
+        }
         titleDefault="Team Override Schemes"
         titleId="admin.permissions.teamOverrideSchemesTitle"
         url="/admin_console/user_management/permissions/team_override_scheme"
@@ -451,8 +491,13 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
         id="systemScheme"
         linkTextDefault="Edit Scheme"
         linkTextId="admin.permissions.systemSchemeBannerButton"
-        subtitleDefault="Set the default permissions inherited by all teams unless a [Team Override Scheme](!https://docs.mattermost.com/onboard/advanced-permissions.html) is applied."
+        subtitleDefault="Set the default permissions inherited by all teams unless a <link>Team Override Scheme</link> is applied."
         subtitleId="admin.permissions.systemSchemeBannerText"
+        subtitleValues={
+          Object {
+            "link": [Function],
+          }
+        }
         titleDefault="System Scheme"
         titleId="admin.permissions.systemSchemeBannerTitle"
         url="/admin_console/user_management/permissions/system_scheme"
@@ -462,8 +507,13 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
         id="team-override-schemes"
         linkTextDefault="New Team Override Scheme"
         linkTextId="admin.permissions.teamOverrideSchemesNewButton"
-        subtitleDefault="Use when specific teams need permission exceptions to the [System Scheme](!https://docs.mattermost.com/onboard/advanced-permissions.html)."
+        subtitleDefault="Use when specific teams need permission exceptions to the <link>System Scheme</link>"
         subtitleId="admin.permissions.teamOverrideSchemesBannerText"
+        subtitleValues={
+          Object {
+            "link": [Function],
+          }
+        }
         titleDefault="Team Override Schemes"
         titleId="admin.permissions.teamOverrideSchemesTitle"
         url="/admin_console/user_management/permissions/team_override_scheme"

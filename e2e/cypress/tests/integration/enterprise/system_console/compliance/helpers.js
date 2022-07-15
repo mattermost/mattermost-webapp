@@ -49,13 +49,13 @@ export function verifyExportedMessagesCount(expectedNumber) {
 
 export function editLastPost(message) {
     cy.getLastPostId().then(() => {
-        cy.get('#post_textbox').clear().type('{uparrow}');
+        cy.uiGetPostTextBox().clear().type('{uparrow}');
 
         // # Edit Post Input should appear
         cy.get('#edit_textbox').should('be.visible');
 
         // # Update the post message and type ENTER
-        cy.get('#edit_textbox').invoke('val', '').type(`${message}`).type('{enter}').wait(TIMEOUTS.HALF_SEC);
+        cy.get('#edit_textbox').invoke('val', '').type(message).type('{enter}').wait(TIMEOUTS.HALF_SEC);
 
         // * Edit modal should not be visible
         cy.get('#edit_textbox').should('not.exist');
@@ -63,32 +63,29 @@ export function editLastPost(message) {
 }
 
 export function gotoTeamAndPostImage() {
-    cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
-
-    // # Remove images from post message footer if exist
-    cy.waitUntil(() => cy.get('#postCreateFooter').then((el) => {
-        if (el.find('.post-image.normal').length > 0) {
-            cy.get('.file-preview__remove > .icon').click();
+    cy.uiGetPostTextBox().then((createPostEl) => {
+        if (createPostEl.find('.file-preview__container').length === 1) {
+            // # Remove images from post message footer if exist
+            cy.waitUntil(() => cy.uiGetFileUploadPreview().then((filePreviewEl) => {
+                if (filePreviewEl.find('.post-image.normal').length > 0) {
+                    cy.get('.file-preview__remove > .icon').click();
+                }
+                return filePreviewEl.find('.post-image.normal').length === 0;
+            }));
         }
-        return el.find('.post-image.normal').length === 0;
-    }));
-    const file = {
-        filename: 'image-400x400.jpg',
-        originalSize: {width: 400, height: 400},
-        thumbnailSize: {width: 400, height: 400},
-    };
-    cy.get('#fileUploadInput').attachFile(file.filename);
 
-    // # Wait until the image is uploaded
-    cy.waitUntil(() => cy.get('#postCreateFooter').then((el) => {
-        return el.find('.post-image.normal').length > 0;
-    }), {
-        timeout: TIMEOUTS.FIVE_MIN,
-        interval: TIMEOUTS.ONE_SEC,
-        errorMsg: 'Unable to upload attachment in time',
+        const file = {
+            filename: 'image-400x400.jpg',
+            originalSize: {width: 400, height: 400},
+            thumbnailSize: {width: 400, height: 400},
+        };
+        cy.get('#fileUploadInput').attachFile(file.filename);
+
+        // # Wait until the image is uploaded
+        cy.uiWaitForFileUploadPreview();
+
+        cy.postMessage(`file uploaded-${file.filename}`);
     });
-
-    cy.postMessage(`file uploaded-${file.filename}`);
 }
 
 export function gotoGlobalPolicy() {

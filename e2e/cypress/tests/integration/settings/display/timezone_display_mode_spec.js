@@ -191,7 +191,7 @@ function setTimezoneDisplayTo(isAutomatic, value) {
             cy.get('@changeTimezone').should('be.disabled');
         } else {
             // # Manually type new timezone
-            cy.get('@changeTimezone').clear().type(`${value}{enter}`);
+            cy.get('@changeTimezone').typeWithForce(`${value}{enter}`);
         }
     });
 
@@ -244,7 +244,7 @@ function verifyUnchangedTimezoneOnInvalidInput(userId) {
             // * Enter invalid input as timezone
             cy.get('#displayTimezone').find('input').
                 should('be.enabled').
-                clear().type('invalid');
+                typeWithForce('invalid');
 
             // # Click save
             cy.get('#saveSetting').should('be.visible').click({force: true});
