@@ -201,6 +201,7 @@ const ForwardPostModal = ({onExited, post, actions}: Props) => {
 
         onHide();
     }, [
+        postError,
         actions,
         post,
         isPrivateConversation,
