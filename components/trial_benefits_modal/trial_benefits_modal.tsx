@@ -9,7 +9,7 @@ import moment from 'moment';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
-import {ConsolePages, ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
+import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
 
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
@@ -20,8 +20,8 @@ import Carousel from 'components/common/carousel/carousel';
 import GenericModal from 'components/generic_modal';
 import HandsSvg from 'components/common/svg_images_components/hands_svg';
 import GuestAccessSvg from 'components/common/svg_images_components/guest_access_svg';
-import MonitorImacLikeSVG from 'components/common/svg_images_components/monitor_imaclike_svg';
-import SystemRolesSVG from 'components/admin_console/feature_discovery/features/images/system_roles_svg';
+import PersonMacSvg from 'components/common/svg_images_components/person_mac_svg';
+import PushNotificationsSvg from 'components/common/svg_images_components/push_notifications_svg';
 import PersonWithChecklistSvg from 'components/common/svg_images_components/person_with_checklist';
 import BlockableLink from 'components/admin_console/blockable_link';
 
@@ -34,6 +34,12 @@ export type Props = {
     onExited: () => void;
     trialJustStarted?: boolean;
 }
+
+const ConsolePages = {
+    GUEST_ACCESS: '/admin_console/authentication/guest_access',
+    COMPLIANCE_EXPORT: '/admin_console/compliance/export',
+    PUSH_NOTIFICATION_CENTER: '/admin_console/environment/push_notification_server',
+};
 
 const TrialBenefitsModal = ({
     onClose,
@@ -59,13 +65,11 @@ const TrialBenefitsModal = ({
     const trialLicenseDuration = (1000 * 60 * 60 * 24 * 30) + (1000 * 60 * 60 * 8);
     const trialEndDate = moment.unix((Number(license?.ExpiresAt) || new Date(Date.now()).getTime() + trialLicenseDuration) / 1000).format('MMMM,DD,YYYY');
 
-    const buttonLabel = formatMessage({id: 'learn_more_trial_modal_step.learnMoreAboutFeature', defaultMessage: 'Learn more about this feature.'});
-
     const steps: TrialBenefitsModalStepProps[] = useMemo(() => [
         {
-            id: 'useSso',
-            title: formatMessage({id: 'trial_benefits.modal.useSsoTitle', defaultMessage: 'Use SSO (with OpenID, SAML, Google, O365)'}),
-            description: formatMessage({id: 'trial_benefits.modal.useSsoDescription', defaultMessage: 'Sign on quickly and easily with our SSO feature that works with OpenID, SAML, Google, and O365.'}),
+            id: 'guestAccess',
+            title: formatMessage({id: 'trial_benefits.modal.guestAccessTitle', defaultMessage: 'Determine user access with Guest Accounts'}),
+            description: formatMessage({id: 'trial_benefits.modal.guestAccessDescription', defaultMessage: 'Collaborate with users outside of your organization while tightly controlling their access channels and team members.'}),
             svgWrapperClassName: 'guestAccessSvg',
             svgElement: (
                 <GuestAccessSvg
@@ -73,36 +77,36 @@ const TrialBenefitsModal = ({
                     height={180}
                 />
             ),
-            pageURL: 'https://docs.mattermost.com/onboard/sso-saml.html',
-            buttonLabel,
+            pageURL: ConsolePages.GUEST_ACCESS,
+            buttonLabel: formatMessage({id: 'benefits_trial.modal.learnMore', defaultMessage: 'Learn More'}),
         },
         {
-            id: 'ldap',
-            title: formatMessage({id: 'trial_benefits.modal.ldapTitle', defaultMessage: 'Synchronize your Active Directory/LDAP groups'}),
-            description: formatMessage({id: 'trial_benefits.modal.ldapDescription', defaultMessage: 'Use AD/LDAP groups to organize and apply actions to multiple users at once. Manage team and channel memberships, permissions and more.'}),
+            id: 'complianceExport',
+            title: formatMessage({id: 'trial_benefits.modal.complianceExportTitle', defaultMessage: 'Automate compliance exports'}),
+            description: formatMessage({id: 'trial_benefits.modal.complianceExportDescription', defaultMessage: 'Run daily compliance reports and export them to a variety of formats consumable by third-party integration tools such as Smarsh (Actiance).'}),
             svgWrapperClassName: 'personMacSvg',
             svgElement: (
-                <MonitorImacLikeSVG
+                <PersonMacSvg
                     width={400}
                     height={180}
                 />
             ),
-            pageURL: 'https://docs.mattermost.com/onboard/ad-ldap.html',
-            buttonLabel,
+            pageURL: ConsolePages.COMPLIANCE_EXPORT,
+            buttonLabel: formatMessage({id: 'benefits_trial.modal.learnMore', defaultMessage: 'Learn More'}),
         },
         {
-            id: 'systemConsole',
-            title: formatMessage({id: 'trial_benefits.modal.systemConsoleTitle', defaultMessage: 'Provide controlled access to the System Console'}),
-            description: formatMessage({id: 'trial_benefits.modal.systemConsoleDescription', defaultMessage: 'Use System Roles to give designated users read and/or write access to select sections of System Console.'}),
+            id: 'pushNotificationService',
+            title: formatMessage({id: 'trial_benefits.modal.pushNotificationServiceTitle', defaultMessage: 'Mobile Secure-ID Push Notifications'}),
+            description: formatMessage({id: 'trial_benefits.modal.pushNotificationServiceDescription', defaultMessage: 'ID-only push notification setting offers a high level of privacy while still allowing your team members to benefit from mobile push notifications.'}),
             svgWrapperClassName: 'personBoxSvg',
             svgElement: (
-                <SystemRolesSVG
+                <PushNotificationsSvg
                     width={400}
-                    height={180}
+                    height={200}
                 />
             ),
-            pageURL: ConsolePages.LICENSE,
-            buttonLabel,
+            pageURL: ConsolePages.PUSH_NOTIFICATION_CENTER,
+            buttonLabel: formatMessage({id: 'benefits_trial.modal.learnMore', defaultMessage: 'Learn More'}),
         },
         {
             id: 'playbooks',
@@ -145,7 +149,7 @@ const TrialBenefitsModal = ({
                     values={{
                         guestAccountsLink: (text: string) => (
                             <BlockableLink
-                                to={ConsolePages.GUEST_ACCOUNTS}
+                                to={ConsolePages.GUEST_ACCESS}
                                 onClick={handleOnClose}
                             >
                                 {text}
@@ -251,7 +255,7 @@ const TrialBenefitsModal = ({
                     {!isCloud &&
                         <BlockableLink
                             className='primary-button'
-                            to={ConsolePages.GUEST_ACCOUNTS}
+                            to={ConsolePages.GUEST_ACCESS}
                             onClick={handleOnClose}
                         >
                             <FormattedMessage

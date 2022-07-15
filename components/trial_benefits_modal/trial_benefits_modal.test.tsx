@@ -174,7 +174,7 @@ describe('components/trial_benefits_modal/trial_benefits_modal', () => {
 
         expect(trackEvent).toHaveBeenCalledWith(
             TELEMETRY_CATEGORIES.SELF_HOSTED_START_TRIAL_MODAL,
-            'benefits_modal_slide_shown_ldap',
+            'benefits_modal_slide_shown_complianceExport',
         );
     });
 

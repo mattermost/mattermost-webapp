@@ -1831,7 +1831,6 @@ export const ConsolePages = {
     SAML: '/admin_console/authentication/saml',
     SESSION_LENGTHS: '/admin_console/environment/session_lengths',
     WEB_SERVER: '/admin_console/environment/web_server',
-    PUSH_NOTIFICATION_CENTER: '/admin_console/environment/push_notification_server',
 };
 
 export const WindowSizes = {
