@@ -1,11 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {WebSocketMessage} from 'mattermost-redux/types/websocket';
+
 import {SocketEvents} from 'utils/constants';
 
 const MAX_WEBSOCKET_FAILS = 7;
 const MIN_WEBSOCKET_RETRY_TIME = 3000; // 3 sec
 const MAX_WEBSOCKET_RETRY_TIME = 300000; // 5 mins
+
+export type MessageListener = (msg: WebSocketMessage) => void;
+export type FirstConnectListener = () => void;
+export type ReconnectListener = () => void;
+export type MissedMessageListener = () => void;
+export type ErrorListener = (event: Event) => void;
+export type CloseListener = (connectFailCount: number) => void;
 
 export default class WebSocketClient {
     private conn: WebSocket | null;
@@ -20,13 +29,45 @@ export default class WebSocketClient {
     // server-sent event stream.
     private serverSequence: number;
     private connectFailCount: number;
-    private eventCallback: ((msg: any) => void) | null;
     private responseCallbacks: {[x: number]: ((msg: any) => void)};
-    private firstConnectCallback: (() => void) | null;
-    private reconnectCallback: (() => void) | null;
-    private missedEventCallback: (() => void) | null;
-    private errorCallback: ((event: Event) => void) | null;
-    private closeCallback: ((connectFailCount: number) => void) | null;
+
+    /**
+     * @deprecated Use messageListeners instead
+     */
+    private eventCallback: MessageListener | null = null;
+
+    /**
+     * @deprecated Use firstConnectListeners instead
+     */
+    private firstConnectCallback: FirstConnectListener | null = null;
+
+    /**
+     * @deprecated Use reconnectListeners instead
+     */
+    private reconnectCallback: ReconnectListener | null = null;
+
+    /**
+     * @deprecated Use missedMessageListeners instead
+     */
+    private missedEventCallback: MissedMessageListener | null = null;
+
+    /**
+     * @deprecated Use errorListeners instead
+     */
+    private errorCallback: ErrorListener | null = null;
+
+    /**
+     * @deprecated Use closeListeners instead
+     */
+    private closeCallback: CloseListener | null = null;
+
+    private messageListeners = new Set<MessageListener>();
+    private firstConnectListeners = new Set<FirstConnectListener>();
+    private reconnectListeners = new Set<ReconnectListener>();
+    private missedMessageListeners = new Set<MissedMessageListener>();
+    private errorListeners = new Set<ErrorListener>();
+    private closeListeners = new Set<CloseListener>();
+
     private connectionId: string | null;
 
     constructor() {
@@ -35,13 +76,7 @@ export default class WebSocketClient {
         this.responseSequence = 1;
         this.serverSequence = 0;
         this.connectFailCount = 0;
-        this.eventCallback = null;
         this.responseCallbacks = {};
-        this.firstConnectCallback = null;
-        this.reconnectCallback = null;
-        this.missedEventCallback = null;
-        this.errorCallback = null;
-        this.closeCallback = null;
         this.connectionId = '';
     }
 
@@ -75,11 +110,12 @@ export default class WebSocketClient {
 
             if (this.connectFailCount > 0) {
                 console.log('websocket re-established connection'); //eslint-disable-line no-console
-                if (this.reconnectCallback) {
-                    this.reconnectCallback();
-                }
-            } else if (this.firstConnectCallback) {
-                this.firstConnectCallback();
+
+                this.reconnectCallback?.();
+                this.reconnectListeners.forEach((listener) => listener());
+            } else if (this.firstConnectCallback || this.firstConnectListeners.size > 0) {
+                this.firstConnectCallback?.();
+                this.firstConnectListeners.forEach((listener) => listener());
             }
 
             this.connectFailCount = 0;
@@ -95,9 +131,8 @@ export default class WebSocketClient {
 
             this.connectFailCount++;
 
-            if (this.closeCallback) {
-                this.closeCallback(this.connectFailCount);
-            }
+            this.closeCallback?.(this.connectFailCount);
+            this.closeListeners.forEach((listener) => listener(this.connectFailCount));
 
             let retryTime = MIN_WEBSOCKET_RETRY_TIME;
 
@@ -123,9 +158,8 @@ export default class WebSocketClient {
                 console.log(evt); //eslint-disable-line no-console
             }
 
-            if (this.errorCallback) {
-                this.errorCallback(evt);
-            }
+            this.errorCallback?.(evt);
+            this.errorListeners.forEach((listener) => listener(evt));
         };
 
         this.conn.onmessage = (evt) => {
@@ -142,16 +176,19 @@ export default class WebSocketClient {
                     this.responseCallbacks[msg.seq_reply](msg);
                     Reflect.deleteProperty(this.responseCallbacks, msg.seq_reply);
                 }
-            } else if (this.eventCallback) {
+            } else if (this.eventCallback || this.messageListeners.size > 0) {
                 // We check the hello packet, which is always the first packet in a stream.
-                if (msg.event === SocketEvents.HELLO && this.missedEventCallback) {
+                if (msg.event === SocketEvents.HELLO && (this.missedEventCallback || this.missedMessageListeners.size > 0)) {
                     console.log('got connection id ', msg.data.connection_id); //eslint-disable-line no-console
                     // If we already have a connectionId present, and server sends a different one,
                     // that means it's either a long timeout, or server restart, or sequence number is not found.
                     // Then we do the sync calls, and reset sequence number to 0.
                     if (this.connectionId !== '' && this.connectionId !== msg.data.connection_id) {
                         console.log('long timeout, or server restart, or sequence number is not found.'); //eslint-disable-line no-console
-                        this.missedEventCallback();
+
+                        this.missedEventCallback?.();
+                        this.missedMessageListeners.forEach((listener) => listener());
+
                         this.serverSequence = 0;
                     }
 
@@ -171,33 +208,101 @@ export default class WebSocketClient {
                     return;
                 }
                 this.serverSequence = msg.seq + 1;
-                this.eventCallback(msg);
+
+                this.eventCallback?.(msg);
+                this.messageListeners.forEach((listener) => listener(msg));
             }
         };
     }
 
+    /**
+     * @deprecated Use addMessageListener instead
+     */
     setEventCallback(callback: (msg: any) => void) {
         this.eventCallback = callback;
     }
 
+    addMessageListener(listener: MessageListener) {
+        this.messageListeners.add(listener);
+    }
+
+    removeMessageListener(listener: MessageListener) {
+        this.messageListeners.delete(listener);
+    }
+
+    /**
+     * @deprecated Use addFirstConnectListener instead
+     */
     setFirstConnectCallback(callback: () => void) {
         this.firstConnectCallback = callback;
     }
 
+    addFirstConnectListener(listener: FirstConnectListener) {
+        this.firstConnectListeners.add(listener);
+    }
+
+    removeFirstConnectListener(listener: FirstConnectListener) {
+        this.firstConnectListeners.delete(listener);
+    }
+
+    /**
+     * @deprecated Use addReconnectListener instead
+     */
     setReconnectCallback(callback: () => void) {
         this.reconnectCallback = callback;
     }
 
+    addReconnectListener(listener: ReconnectListener) {
+        this.reconnectListeners.add(listener);
+    }
+
+    removeReconnectListener(listener: ReconnectListener) {
+        this.reconnectListeners.delete(listener);
+    }
+
+    /**
+     * @deprecated Use addMissedMessageListener instead
+     */
     setMissedEventCallback(callback: () => void) {
         this.missedEventCallback = callback;
     }
 
+    addMissedMessageListener(listener: MissedMessageListener) {
+        this.missedMessageListeners.add(listener);
+    }
+
+    removeMissedMessageListener(listener: MissedMessageListener) {
+        this.missedMessageListeners.delete(listener);
+    }
+
+    /**
+     * @deprecated Use addErrorListener instead
+     */
     setErrorCallback(callback: (event: Event) => void) {
         this.errorCallback = callback;
     }
 
+    addErrorListener(listener: ErrorListener) {
+        this.errorListeners.add(listener);
+    }
+
+    removeErrorListener(listener: ErrorListener) {
+        this.errorListeners.delete(listener);
+    }
+
+    /**
+     * @deprecated Use addCloseListener instead
+     */
     setCloseCallback(callback: (connectFailCount: number) => void) {
         this.closeCallback = callback;
+    }
+
+    addCloseListener(listener: CloseListener) {
+        this.closeListeners.add(listener);
+    }
+
+    removeCloseListener(listener: CloseListener) {
+        this.closeListeners.delete(listener);
     }
 
     close() {
