@@ -35,7 +35,7 @@ exports[`components/threading/global_threads/thread_item should report total num
   <div
     className="menu-anchor alt-visible"
   >
-    <Connect(Component)
+    <Memo(ThreadMenu)
       hasUnreads={false}
       isFollowing={true}
       threadId="1y8hpek81byspd4enyk9mp1ncw"
@@ -58,7 +58,7 @@ exports[`components/threading/global_threads/thread_item should report total num
           />
         </Memo(Button)>
       </SimpleTooltip>
-    </Connect(Component)>
+    </Memo(ThreadMenu)>
   </div>
   <div
     aria-readonly="true"
@@ -154,7 +154,7 @@ exports[`components/threading/global_threads/thread_item should report unread me
   <div
     className="menu-anchor alt-visible"
   >
-    <Connect(Component)
+    <Memo(ThreadMenu)
       hasUnreads={true}
       isFollowing={true}
       threadId="1y8hpek81byspd4enyk9mp1ncw"
@@ -177,7 +177,7 @@ exports[`components/threading/global_threads/thread_item should report unread me
           />
         </Memo(Button)>
       </SimpleTooltip>
-    </Connect(Component)>
+    </Memo(ThreadMenu)>
   </div>
   <div
     aria-readonly="true"
@@ -271,7 +271,7 @@ exports[`components/threading/global_threads/thread_item should report unread me
   <div
     className="menu-anchor alt-visible"
   >
-    <Connect(Component)
+    <Memo(ThreadMenu)
       hasUnreads={true}
       isFollowing={true}
       threadId="1y8hpek81byspd4enyk9mp1ncw"
@@ -294,7 +294,7 @@ exports[`components/threading/global_threads/thread_item should report unread me
           />
         </Memo(Button)>
       </SimpleTooltip>
-    </Connect(Component)>
+    </Memo(ThreadMenu)>
   </div>
   <div
     aria-readonly="true"

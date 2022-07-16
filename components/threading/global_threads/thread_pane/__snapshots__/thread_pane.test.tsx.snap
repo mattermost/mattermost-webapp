@@ -40,7 +40,7 @@ exports[`components/threading/global_threads/thread_pane should match snapshot 1
           isFollowing={true}
           onClick={[Function]}
         />
-        <Memo(Connect(Component))
+        <Memo(ThreadMenu)
           hasUnreads={false}
           isFollowing={true}
           threadId="1y8hpek81byspd4enyk9mp1ncw"
@@ -58,7 +58,7 @@ exports[`components/threading/global_threads/thread_pane should match snapshot 1
               />
             </Memo(Button)>
           </SimpleTooltip>
-        </Memo(Connect(Component))>
+        </Memo(ThreadMenu)>
       </React.Fragment>
     }
   />
