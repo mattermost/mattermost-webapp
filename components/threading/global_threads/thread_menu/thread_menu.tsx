@@ -30,7 +30,7 @@ import {useThreadRouting} from '../../hooks';
 
 import './thread_menu.scss';
 
-export type Props = {
+type Props = {
     threadId: UserThread['id'];
     isFollowing?: boolean;
     hasUnreads: boolean;
