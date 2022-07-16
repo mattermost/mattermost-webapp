@@ -4,13 +4,13 @@
 import {createSelector} from 'reselect';
 
 import {makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
-import {Post, PostType} from 'mattermost-redux/types/posts';
+import {Post, PostType} from '@mattermost/types/posts';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 
 import {makeGetGlobalItem} from 'selectors/storage';
 import {PostTypes} from 'utils/constants';
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils';
 import {GlobalState} from 'types/store';
 import {RhsState, FakePost, PostDraft, SearchType} from 'types/store/rhs';
 
@@ -100,7 +100,10 @@ export function getRhsState(state: GlobalState): RhsState {
 }
 
 export function getPreviousRhsState(state: GlobalState): RhsState {
-    return state.views.rhs.previousRhsState;
+    if (state.views.rhs.previousRhsStates === null || state.views.rhs.previousRhsStates.length === 0) {
+        return null;
+    }
+    return state.views.rhs.previousRhsStates[state.views.rhs.previousRhsStates.length - 1];
 }
 
 export function getSearchTerms(state: GlobalState): string {
@@ -160,4 +163,8 @@ export function getIsRhsMenuOpen(state: GlobalState): boolean {
 
 export function getIsRhsExpanded(state: GlobalState): boolean {
     return state.views.rhs.isSidebarExpanded;
+}
+
+export function getIsEditingMembers(state: GlobalState): boolean {
+    return state.views.rhs.editChannelMembers === true;
 }

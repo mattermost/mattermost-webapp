@@ -15,6 +15,7 @@ import 'katex/dist/katex.min.css';
 import '@mattermost/compass-icons/css/compass-icons.css';
 
 import {isDevMode, setCSRFFromCookie} from 'utils/utils';
+import {AnnouncementBarTypes} from 'utils/constants';
 import store from 'stores/redux_store.jsx';
 import App from 'components/app';
 
@@ -25,18 +26,23 @@ function preRenderSetup(callwhendone) {
         if (msg === 'ResizeObserver loop limit exceeded') {
             return;
         }
-        var l = {};
-        l.level = 'ERROR';
-        l.message = 'msg: ' + msg + ' row: ' + line + ' col: ' + column + ' stack: ' + stack + ' url: ' + url;
 
-        const req = new XMLHttpRequest();
-        req.open('POST', '/api/v4/logs');
-        req.setRequestHeader('Content-Type', 'application/json');
-        req.send(JSON.stringify(l));
-
+        let displayable = false;
         if (isDevMode()) {
-            store.dispatch(logError({type: 'developer', message: 'DEVELOPER MODE: A JavaScript error has occurred.  Please use the JavaScript console to capture and report the error (row: ' + line + ' col: ' + column + ').'}, true));
+            displayable = true;
         }
+
+        store.dispatch(
+            logError({
+                type: AnnouncementBarTypes.DEVELOPER,
+                message: 'A JavaScript error in the webapp client has occurred. (msg: ' + msg + ', row: ' + line + ', col: ' + column + ').',
+                stack,
+                url,
+            },
+            displayable,
+            true,
+            ),
+        );
     };
     setCSRFFromCookie();
     callwhendone();

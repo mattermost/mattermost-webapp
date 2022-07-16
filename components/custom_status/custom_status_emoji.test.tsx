@@ -3,10 +3,11 @@
 import {mount} from 'enzyme';
 import React from 'react';
 
-import configureStore from 'redux-mock-store';
 import {Provider} from 'react-redux';
 
 import * as CustomStatusSelectors from 'selectors/views/custom_status';
+
+import mockStore from 'tests/test_store';
 
 import CustomStatusEmoji from './custom_status_emoji';
 
@@ -14,14 +15,13 @@ jest.mock('selectors/views/custom_status');
 jest.mock('selectors/general');
 
 describe('components/custom_status/custom_status_emoji', () => {
-    const mockStore = configureStore();
     const store = mockStore({});
 
     const getCustomStatus = () => {
         return null;
     };
     (CustomStatusSelectors.makeGetCustomStatus as jest.Mock).mockReturnValue(getCustomStatus);
-    (CustomStatusSelectors.isCustomStatusEnabled as jest.Mock).mockReturnValue(true);
+    (CustomStatusSelectors.isCustomStatusEnabled as any as jest.Mock).mockReturnValue(true);
     it('should match snapshot', () => {
         const wrapper = mount(<CustomStatusEmoji/>, {wrappingComponent: Provider, wrappingComponentProps: {store}});
         expect(wrapper).toMatchSnapshot();
@@ -41,14 +41,14 @@ describe('components/custom_status/custom_status_emoji', () => {
     });
 
     it('should not render when EnableCustomStatus in config is false', () => {
-        (CustomStatusSelectors.isCustomStatusEnabled as jest.Mock).mockReturnValue(false);
+        (CustomStatusSelectors.isCustomStatusEnabled as any as jest.Mock).mockReturnValue(false);
         const wrapper = mount(<CustomStatusEmoji/>, {wrappingComponent: Provider, wrappingComponentProps: {store}});
 
         expect(wrapper.isEmptyRender()).toBeTruthy();
     });
 
     it('should not render when custom status is expired', () => {
-        (CustomStatusSelectors.isCustomStatusEnabled as jest.Mock).mockReturnValue(true);
+        (CustomStatusSelectors.isCustomStatusEnabled as any as jest.Mock).mockReturnValue(true);
         (CustomStatusSelectors.isCustomStatusExpired as jest.Mock).mockReturnValue(true);
         const wrapper = mount(<CustomStatusEmoji/>, {wrappingComponent: Provider, wrappingComponentProps: {store}});
 

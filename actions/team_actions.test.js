@@ -1,18 +1,19 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-
 import * as TeamActions from 'mattermost-redux/actions/teams';
 import * as channelActions from 'mattermost-redux/actions/channels';
 import * as userActions from 'mattermost-redux/actions/users';
-import {ChannelTypes} from 'mattermost-redux/action_types';
 
 import * as Actions from 'actions/team_actions.jsx';
+
+import configureStore from 'tests/test_store';
+
 import {browserHistory} from 'utils/browser_history';
+import {TestHelper} from 'utils/test_helper';
 
 jest.mock('mattermost-redux/actions/teams', () => ({
+    ...jest.requireActual('mattermost-redux/actions/teams'),
     addUsersToTeamGracefully: jest.fn(() => {
         return {
             type: 'ADD_USER',
@@ -70,14 +71,12 @@ jest.mock('utils/browser_history', () => ({
     },
 }));
 
-const store = configureStore([thunk]);
-
 describe('Actions.Team', () => {
     const currentChannelId = 'currentChannelId';
 
     let testStore;
     beforeEach(async () => {
-        testStore = store({
+        testStore = configureStore({
             entities: {
                 channels: {
                     currentChannelId,
@@ -88,23 +87,20 @@ describe('Actions.Team', () => {
     });
 
     describe('switchTeam', () => {
-        test('should view the current channel if it is not manually unread', () => {
+        test('should switch to a team by its URL if no team is provided', () => {
             testStore.dispatch(Actions.switchTeam('/test'));
-            expect(channelActions.viewChannel).toHaveBeenCalledWith(currentChannelId);
+
             expect(browserHistory.push).toHaveBeenCalledWith('/test');
+            expect(testStore.getActions()).toEqual([]);
         });
 
-        test('should not view the current channel if it is manually unread', () => {
-            testStore.dispatch({
-                type: ChannelTypes.ADD_MANUALLY_UNREAD,
-                data: {
-                    channelId: currentChannelId,
-                },
-            });
+        test('should select a team without changing URL if a team is provided', () => {
+            const team = TestHelper.getTeamMock();
 
-            testStore.dispatch(Actions.switchTeam('/test'));
-            expect(channelActions.viewChannel).toHaveBeenCalledWith(currentChannelId);
-            expect(browserHistory.push).toHaveBeenCalledWith('/test');
+            testStore.dispatch(Actions.switchTeam('/test', team));
+
+            expect(browserHistory.push).not.toHaveBeenCalled();
+            expect(testStore.getActions()).toContainEqual(TeamActions.selectTeam(team));
         });
     });
 

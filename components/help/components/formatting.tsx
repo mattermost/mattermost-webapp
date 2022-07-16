@@ -235,7 +235,7 @@ export default function HelpFormatting(): JSX.Element {
             </p>
             <FormattedMessage
                 id='help.formatting.linkEx'
-                defaultMessage={'[Check out Mattermost!](https://about.mattermost.com/)'}
+                defaultMessage={'[Check out Mattermost!](https://mattermost.com/)'}
             >
                 {(example) => (
                     <div>
@@ -256,9 +256,20 @@ export default function HelpFormatting(): JSX.Element {
                 />
             </h2>
             <p>
-                <FormattedMarkdownMessage
+                <FormattedMessage
                     id='help.formatting.images.description'
-                    defaultMessage='Create in-line images using an `!` followed by the alt text in square brackets and the link in normal brackets. Add hover text by placing it in quotes after the link. See the [product documentation](!https://docs.mattermost.com/messaging/formatting-text.html#in-line-images) for details on working with in-line images.'
+                    defaultMessage='Create in-line images using an `!` followed by the alt text in square brackets and the link in normal brackets. Add hover text by placing it in quotes after the link. See the <link>product documentation</link> for details on working with in-line images.'
+                    values={{
+                        link: (msg: React.ReactNode) => (
+                            <a
+                                href='https://docs.mattermost.com/messaging/formatting-text.html#in-line-images'
+                                target='_blank'
+                                rel='noreferrer'
+                            >
+                                {msg}
+                            </a>
+                        ),
+                    }}
                 />
             </p>
             <h2 className='markdown__heading'>
@@ -268,9 +279,29 @@ export default function HelpFormatting(): JSX.Element {
                 />
             </h2>
             <p>
-                <FormattedMarkdownMessage
+                <FormattedMessage
                     id='help.formatting.emojis.description'
-                    defaultMessage={'Open the emoji autocomplete by typing `:`. A full list of emojis can be found [online](!http://www.emoji-cheat-sheet.com/). It is also possible to create your own [Custom Emoji](!https://docs.mattermost.com/messaging/using-emoji.html#creating-custom-emojis) if the emoji you want to use doesn\'t exist.'}
+                    defaultMessage={'Open the emoji autocomplete by typing `:`. A full list of emojis can be found <linkEmoji>online</linkEmoji>. It is also possible to create your own <linkCustomEmoji>Custom Emoji</linkCustomEmoji> if the emoji you want to use doesn\'t exist.'}
+                    values={{
+                        linkEmoji: (msg: React.ReactNode) => (
+                            <a
+                                href='http://www.emoji-cheat-sheet.com/'
+                                target='_blank'
+                                rel='noreferrer'
+                            >
+                                {msg}
+                            </a>
+                        ),
+                        linkCustomEmoji: (msg: React.ReactNode) => (
+                            <a
+                                href='https://docs.mattermost.com/messaging/using-emoji.html#creating-custom-emojis'
+                                target='_blank'
+                                rel='noreferrer'
+                            >
+                                {msg}
+                            </a>
+                        ),
+                    }}
                 />
             </p>
             {renderRawExampleWithResult(':smile: :+1: :sheep:')}

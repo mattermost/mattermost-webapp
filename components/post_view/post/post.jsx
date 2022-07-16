@@ -9,7 +9,7 @@ import {isMeMessage as checkIsMeMessage} from 'mattermost-redux/utils/post_utils
 
 import {makeIsEligibleForClick} from 'utils/utils';
 import * as PostUtils from 'utils/post_utils';
-import Constants, {A11yCustomEventTypes} from 'utils/constants';
+import Constants, {A11yCustomEventTypes, AppEvents} from 'utils/constants';
 
 import PostProfilePicture from 'components/post_profile_picture';
 import PostAriaLabelDiv from 'components/post_view/post_aria_label_div';
@@ -19,6 +19,8 @@ import PostContext from 'components/post_view/post_context';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import ThreadFooter from 'components/threading/channel_threads/thread_footer';
 import {trackEvent} from 'actions/telemetry_actions';
+import EditPost from 'components/edit_post';
+import AutoHeightSwitcher, {AutoHeightSlots} from 'components/common/auto_height_switcher';
 
 // When adding clickable targets within a root post to exclude from post's on click to open thread,
 // please add to/maintain the selector below
@@ -46,6 +48,11 @@ export default class Post extends React.PureComponent {
          * Set to render post compactly
          */
         compactDisplay: PropTypes.bool,
+
+        /**
+         * Set to colorize usernames according to their hash in compact view
+         */
+        colorizeUsernames: PropTypes.bool,
 
         /**
          * Set to render a preview of the parent post above this reply
@@ -86,6 +93,8 @@ export default class Post extends React.PureComponent {
          * To Check if the current post is last in the list
          */
         isLastPost: PropTypes.bool,
+
+        isBeingEdited: PropTypes.bool,
 
         /**
          * Whether or not the channel that contains this post is archived
@@ -129,9 +138,6 @@ export default class Post extends React.PureComponent {
     }
 
     componentDidMount() {
-        document.addEventListener('keydown', this.handleAlt);
-        document.addEventListener('keyup', this.handleAlt);
-
         // Refs can be null when this component is shallowly rendered for testing
         if (this.postRef.current) {
             this.postRef.current.addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
@@ -146,8 +152,9 @@ export default class Post extends React.PureComponent {
     }
 
     componentWillUnmount() {
-        document.removeEventListener('keydown', this.handleAlt);
-        document.removeEventListener('keyup', this.handleAlt);
+        if (this.state.hover) {
+            this.removeKeyboardListeners();
+        }
 
         if (this.postRef.current) {
             this.postRef.current.removeEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
@@ -181,7 +188,7 @@ export default class Post extends React.PureComponent {
     }
 
     handlePostClick = (e) => {
-        const {post, clickToReply} = this.props;
+        const {post, clickToReply, isBeingEdited} = this.props;
 
         if (!post) {
             return;
@@ -194,7 +201,8 @@ export default class Post extends React.PureComponent {
             !e.altKey &&
             clickToReply &&
             (fromAutoResponder || !isSystemMessage) &&
-            isEligibleForClick(e)
+            isEligibleForClick(e) &&
+            !isBeingEdited
         ) {
             trackEvent('crt', 'clicked_to_reply');
             this.props.actions.selectPost(post);
@@ -297,15 +305,20 @@ export default class Post extends React.PureComponent {
         }
 
         if (this.props.compactDisplay) {
+            sameUserClass = '';
             className += ' post--compact';
         }
 
-        if (this.state.dropdownOpened || this.state.fileDropdownOpened || this.state.a11yActive) {
+        if ((this.state.dropdownOpened || this.state.fileDropdownOpened || this.state.a11yActive) && !this.props.isBeingEdited) {
             className += ' post--hovered';
         }
 
         if (post.is_pinned || this.props.isFlagged) {
             className += ' post--pinned-or-flagged';
+        }
+
+        if (this.props.isBeingEdited) {
+            className += ' post--editing';
         }
 
         if (this.state.alt && !(this.props.channelIsArchived || post.system_post_ids)) {
@@ -315,12 +328,32 @@ export default class Post extends React.PureComponent {
         return className + ' ' + sameUserClass + ' ' + rootUser + ' ' + postType + ' ' + currentUserCss;
     }
 
-    setHover = () => {
-        this.setState({hover: true});
+    setHover = (e) => {
+        this.setState({
+            hover: true,
+            alt: e.altKey,
+        });
+
+        this.addKeyboardListeners();
     }
 
     unsetHover = () => {
-        this.setState({hover: false});
+        this.setState({
+            hover: false,
+            alt: false,
+        });
+
+        this.removeKeyboardListeners();
+    }
+
+    addKeyboardListeners = () => {
+        document.addEventListener('keydown', this.handleAlt);
+        document.addEventListener('keyup', this.handleAlt);
+    }
+
+    removeKeyboardListeners = () => {
+        document.removeEventListener('keydown', this.handleAlt);
+        document.removeEventListener('keyup', this.handleAlt);
     }
 
     handleAlt = (e) => {
@@ -330,10 +363,12 @@ export default class Post extends React.PureComponent {
     }
 
     handleA11yActivateEvent = () => {
-        this.setState({
-            a11yActive: true,
-            ariaHidden: false,
-        });
+        if (!this.props.isBeingEdited) {
+            this.setState({
+                a11yActive: true,
+                ariaHidden: false,
+            });
+        }
     }
 
     handleA11yDeactivateEvent = () => {
@@ -347,8 +382,11 @@ export default class Post extends React.PureComponent {
         const {
             post,
             hasReplies,
+            compactDisplay,
             isCollapsedThreadsEnabled,
+            isBeingEdited,
         } = this.props;
+
         if (!post.id) {
             return null;
         }
@@ -384,6 +422,51 @@ export default class Post extends React.PureComponent {
             centerClass = 'center';
         }
 
+        const postHeader = (
+            <PostHeader
+                post={post}
+                handleCommentClick={this.handleCommentClick}
+                handleCardClick={this.handleCardClick}
+                handleDropdownOpened={this.handleDropdownOpened}
+                compactDisplay={this.props.compactDisplay}
+                colorizeUsernames={this.props.compactDisplay && this.props.colorizeUsernames}
+                isFirstReply={this.props.isFirstReply}
+                showTimeWithoutHover={!hideProfilePicture}
+                hover={(this.state.hover || this.state.a11yActive || this.state.fileDropdownOpened) && !this.props.isBeingEdited}
+                isLastPost={this.props.isLastPost}
+            />
+        );
+
+        const postBody = (
+            <PostBody
+                post={post}
+                handleCommentClick={this.handleCommentClick}
+                compactDisplay={this.props.compactDisplay}
+                isCommentMention={this.props.isCommentMention}
+                isFirstReply={this.props.isFirstReply}
+                handleFileDropdownOpened={this.handleFileDropdownOpened}
+            />
+        );
+
+        const threadFooter = isCollapsedThreadsEnabled && !post.root_id && (hasReplies || post.is_following) ? <ThreadFooter threadId={post.id}/> : null;
+
+        const slot1 = (
+            <>
+                {compactDisplay && postHeader}
+                {postBody}
+            </>
+        );
+
+        const slot2 = (
+            <>
+                {compactDisplay && postHeader}
+                {(compactDisplay && isBeingEdited) && <div className={'clearfix'}/>}
+                <EditPost/>
+            </>
+        );
+
+        const showSlot = isBeingEdited ? AutoHeightSlots.SLOT2 : AutoHeightSlots.SLOT1;
+
         return (
             <PostContext.Provider value={{handlePopupOpened: this.handleDropdownOpened}}>
                 <PostAriaLabelDiv
@@ -415,29 +498,14 @@ export default class Post extends React.PureComponent {
                             {profilePic}
                         </div>
                         <div>
-                            <PostHeader
-                                post={post}
-                                handleCommentClick={this.handleCommentClick}
-                                handleCardClick={this.handleCardClick}
-                                handleDropdownOpened={this.handleDropdownOpened}
-                                compactDisplay={this.props.compactDisplay}
-                                isFirstReply={this.props.isFirstReply}
-                                showTimeWithoutHover={!hideProfilePicture}
-                                hover={this.state.hover || this.state.a11yActive || this.state.fileDropdownOpened}
-                                isLastPost={this.props.isLastPost}
+                            {!compactDisplay && postHeader}
+                            <AutoHeightSwitcher
+                                showSlot={showSlot}
+                                slot1={slot1}
+                                slot2={slot2}
+                                onTransitionEnd={() => document.dispatchEvent(new Event(AppEvents.FOCUS_EDIT_TEXTBOX))}
                             />
-                            <PostBody
-                                post={post}
-                                handleCommentClick={this.handleCommentClick}
-                                compactDisplay={this.props.compactDisplay}
-                                isCommentMention={this.props.isCommentMention}
-                                isFirstReply={this.props.isFirstReply}
-                                handleFileDropdownOpened={this.handleFileDropdownOpened}
-                            />
-                            {isCollapsedThreadsEnabled && !post.root_id && (hasReplies || post.is_following) ? (
-                                <ThreadFooter threadId={post.id}/>
-                            ) : null}
-
+                            {threadFooter}
                         </div>
                     </div>
                 </PostAriaLabelDiv>

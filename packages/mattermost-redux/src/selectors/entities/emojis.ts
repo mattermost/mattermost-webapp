@@ -5,15 +5,19 @@ import {createSelector} from 'reselect';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
-import {CustomEmoji} from 'mattermost-redux/types/emojis';
-import {GlobalState} from 'mattermost-redux/types/store';
-import {IDMappedObjects} from 'mattermost-redux/types/utilities';
+import {CustomEmoji} from '@mattermost/types/emojis';
+import {GlobalState} from '@mattermost/types/store';
+import {IDMappedObjects} from '@mattermost/types/utilities';
 
 import {createIdsSelector} from 'mattermost-redux/utils/helpers';
 
+export const getCustomEmojisEnabled = (state: GlobalState): boolean => {
+    return getConfig(state)?.EnableCustomEmoji === 'true';
+};
+
 export const getCustomEmojis: (state: GlobalState) => IDMappedObjects<CustomEmoji> = createSelector(
     'getCustomEmojis',
-    (state) => getConfig(state)?.EnableCustomEmoji === 'true',
+    getCustomEmojisEnabled,
     (state) => state.entities.emojis.customEmoji,
     (customEmojiEnabled, customEmoji) => {
         if (!customEmojiEnabled) {

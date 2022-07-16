@@ -6,6 +6,7 @@ import testConfigureStore from 'tests/test_store';
 import {browserHistory} from 'utils/browser_history';
 import Constants, {NotificationLevels, StoragePrefixes, UserStatuses} from 'utils/constants';
 import * as utils from 'utils/notifications';
+import * as baseUtils from 'utils/utils';
 
 import {sendDesktopNotification, enableBrowserNotifications, trackEnableNotificationsBarDisplay, scheduleNextNotificationsPermissionRequest} from './notification_actions';
 
@@ -32,6 +33,7 @@ describe('notification_actions', () => {
 
         beforeEach(() => {
             spy = jest.spyOn(utils, 'showNotification');
+            baseUtils.ding = jest.fn();
 
             crt = {
                 user_id: 'current_user_id',
@@ -277,6 +279,24 @@ describe('notification_actions', () => {
             });
         });
 
+        test('should notify user on add to channel', () => {
+            const store = testConfigureStore(baseState);
+            post.type = 'system_add_to_channel';
+            post.props.addedUserId = 'current_user_id';
+            return store.dispatch(sendDesktopNotification(post, msgProps)).then(() => {
+                expect(spy).toHaveBeenCalled();
+            });
+        });
+
+        test('should not notify user on other user add to channel', () => {
+            const store = testConfigureStore(baseState);
+            post.type = 'system_add_to_channel';
+            post.props.addedUserId = 'not_current_user_id';
+            return store.dispatch(sendDesktopNotification(post, msgProps)).then(() => {
+                expect(spy).not.toHaveBeenCalled();
+            });
+        });
+
         test('should not notify user on muted channels', () => {
             const store = testConfigureStore(baseState);
             post.channel_id = 'muted_channel_id';
@@ -305,6 +325,25 @@ describe('notification_actions', () => {
             const store = testConfigureStore(baseState);
             return store.dispatch(sendDesktopNotification(post, msgProps)).then(() => {
                 expect(spy).toHaveBeenCalled();
+            });
+        });
+
+        test('should default sound when no sound is specified', () => {
+            const dingSpy = jest.spyOn(baseUtils, 'ding');
+            baseState.entities.users.profiles.current_user_id.notify_props.desktop_sound = 'true';
+            const store = testConfigureStore(baseState);
+            return store.dispatch(sendDesktopNotification(post, msgProps)).then(() => {
+                expect(dingSpy).toHaveBeenCalledWith('Bing');
+            });
+        });
+
+        test('should use specified sound when specified', () => {
+            const dingSpy = jest.spyOn(baseUtils, 'ding');
+            baseState.entities.users.profiles.current_user_id.notify_props.desktop_sound = 'true';
+            baseState.entities.users.profiles.current_user_id.notify_props.desktop_notification_sound = 'Crackle';
+            const store = testConfigureStore(baseState);
+            return store.dispatch(sendDesktopNotification(post, msgProps)).then(() => {
+                expect(dingSpy).toHaveBeenCalledWith('Crackle');
             });
         });
 

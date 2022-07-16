@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
@@ -75,6 +75,7 @@ export default class LeaveChannel extends React.PureComponent<Props> {
                 show={(!isDefault || isGuestUser) && channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL}
                 onClick={this.handleLeave}
                 text={localizeMessage('channel_header.leave', 'Leave Channel')}
+                isDangerous={true}
             />
         );
     }

@@ -3,10 +3,10 @@
 
 import React from 'react';
 
-import {Post, PostEmbed} from 'mattermost-redux/types/posts';
+import {Post, PostEmbed} from '@mattermost/types/posts';
 
 import {getEmbedFromMetadata} from 'mattermost-redux/utils/post_utils';
-import {AppBinding} from 'mattermost-redux/types/apps';
+import {AppBinding} from '@mattermost/types/apps';
 
 import MessageAttachmentList from 'components/post_view/message_attachments/message_attachment_list';
 import PostAttachmentOpenGraph from 'components/post_view/post_attachment_opengraph';
@@ -18,6 +18,8 @@ import EmbeddedBindings from '../embedded_bindings/embedded_bindings';
 import {TextFormattingOptions} from 'utils/text_formatting';
 import PostMessagePreview from 'components/post_view/post_message_preview';
 
+import webSocketClient from 'client/web_websocket_client.jsx';
+
 export type Props = {
     post: Post;
     pluginPostWillRenderEmbedComponents?: PostWillRenderEmbedPluginComponent[];
@@ -25,6 +27,7 @@ export type Props = {
     isEmbedVisible?: boolean;
     options?: Partial<TextFormattingOptions>;
     appsEnabled: boolean;
+    handleFileDropdownOpened: (open: boolean) => void;
     actions: {
         toggleEmbedVisibility: (id: string) => void;
     };
@@ -56,7 +59,12 @@ export default class PostBodyAdditionalContent extends React.PureComponent<Props
         for (const c of postWillRenderEmbedComponents) {
             if (c.match(embed)) {
                 const Component = c.component;
-                return this.props.isEmbedVisible && <Component embed={embed}/>;
+                return this.props.isEmbedVisible && (
+                    <Component
+                        embed={embed}
+                        webSocketClient={webSocketClient}
+                    />
+                );
             }
         }
         switch (embed.type) {
@@ -118,6 +126,8 @@ export default class PostBodyAdditionalContent extends React.PureComponent<Props
                 return (
                     <PostMessagePreview
                         metadata={embed.data}
+                        previewPost={embed.data.post}
+                        handleFileDropdownOpened={this.props.handleFileDropdownOpened}
                     />
                 );
             }

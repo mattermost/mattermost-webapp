@@ -7,8 +7,8 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {emitUserLoggedOutEvent} from 'actions/global_actions';
-import Constants from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import Constants, {Preferences} from 'utils/constants';
+import * as Utils from 'utils/utils';
 import {t} from 'utils/i18n';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
@@ -16,6 +16,7 @@ import ConfirmModal from 'components/confirm_modal';
 import BackIcon from 'components/widgets/icons/fa_back_icon';
 
 import JoinLeaveSection from './join_leave_section';
+import PerformanceDebuggingSection from './performance_debugging_section';
 
 const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
 
@@ -23,10 +24,12 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
     static propTypes = {
         currentUser: PropTypes.object.isRequired,
         advancedSettingsCategory: PropTypes.array.isRequired,
+        isAdvancedTextEditorEnabled: PropTypes.bool,
         sendOnCtrlEnter: PropTypes.string.isRequired,
         codeBlockOnCtrlEnter: PropTypes.bool,
         formatting: PropTypes.string.isRequired,
         joinLeave: PropTypes.string.isRequired,
+        unreadScrollPosition: PropTypes.string.isRequired,
         updateSection: PropTypes.func,
         activeSection: PropTypes.string,
         closeModal: PropTypes.func.isRequired,
@@ -53,13 +56,19 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
             code_block_ctrl_enter: this.props.codeBlockOnCtrlEnter,
             formatting: this.props.formatting,
             join_leave: this.props.joinLeave,
+            [Preferences.UNREAD_SCROLL_POSITION]: this.props.unreadScrollPosition,
         };
 
-        const preReleaseFeaturesKeys = Object.keys(PreReleaseFeatures);
+        const PreReleaseFeaturesLocal = JSON.parse(JSON.stringify(PreReleaseFeatures));
+        if (this.props.isAdvancedTextEditorEnabled) {
+            delete PreReleaseFeaturesLocal.MARKDOWN_PREVIEW;
+        }
+        const preReleaseFeaturesKeys = Object.keys(PreReleaseFeaturesLocal);
+
         let enabledFeatures = 0;
         for (const as of advancedSettings) {
             for (const key of preReleaseFeaturesKeys) {
-                const feature = PreReleaseFeatures[key];
+                const feature = PreReleaseFeaturesLocal[key];
 
                 if (as.name === Constants.FeatureTogglePrefix + feature.label) {
                     settings[as.name] = as.value;
@@ -77,7 +86,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
         const showDeactivateAccountModal = false;
 
         return {
-            preReleaseFeatures: PreReleaseFeatures,
+            preReleaseFeatures: PreReleaseFeaturesLocal,
             settings,
             preReleaseFeaturesKeys,
             enabledFeatures,
@@ -231,6 +240,24 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
         );
     }
 
+    renderUnreadScrollPositionLabel(option) {
+        if (option === Preferences.UNREAD_SCROLL_POSITION_START_FROM_LEFT) {
+            return (
+                <FormattedMessage
+                    id='user.settings.advance.startFromLeftOff'
+                    defaultMessage='Start me where I left off'
+                />
+            );
+        }
+
+        return (
+            <FormattedMessage
+                id='user.settings.advance.startFromNewest'
+                defaultMessage='Start me at the newest message'
+            />
+        );
+    }
+
     renderCtrlEnterLabel() {
         const ctrlEnter = this.state.settings.send_on_ctrl_enter;
         const codeBlockCtrlEnter = this.state.settings.code_block_ctrl_enter;
@@ -334,6 +361,88 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                 }
                 describe={this.renderOnOffLabel(this.state.settings.formatting)}
                 section={'formatting'}
+                updateSection={this.handleUpdateSection}
+            />
+        );
+    }
+
+    renderUnreadScrollPositionSection = () => {
+        if (this.props.activeSection === Preferences.UNREAD_SCROLL_POSITION) {
+            return (
+                <SettingItemMax
+                    title={
+                        <FormattedMessage
+                            id='user.settings.advance.unreadScrollPositionTitle'
+                            defaultMessage='Scroll position when viewing an unread channel'
+                        />
+                    }
+                    inputs={[
+                        <fieldset key='unreadScrollPositionSetting'>
+                            <legend className='form-legend hidden-label'>
+                                <FormattedMessage
+                                    id='user.settings.advance.unreadScrollPositionTitle'
+                                    defaultMessage='Scroll position when viewing an unread channel'
+                                />
+                            </legend>
+                            <div className='radio'>
+                                <label>
+                                    <input
+                                        id='unreadPositionStartFromLeftOff'
+                                        type='radio'
+                                        name='unreadScrollPosition'
+                                        checked={this.state.settings.unread_scroll_position === Preferences.UNREAD_SCROLL_POSITION_START_FROM_LEFT}
+                                        onChange={this.updateSetting.bind(this, Preferences.UNREAD_SCROLL_POSITION, Preferences.UNREAD_SCROLL_POSITION_START_FROM_LEFT)}
+                                    />
+                                    <FormattedMessage
+                                        id='user.settings.advance.startFromLeftOff'
+                                        defaultMessage='Start me where I left off'
+                                    />
+                                </label>
+                                <br/>
+                            </div>
+                            <div className='radio'>
+                                <label>
+                                    <input
+                                        id='unreadPositionStartFromNewest'
+                                        type='radio'
+                                        name='unreadScrollPosition'
+                                        checked={this.state.settings.unread_scroll_position === Preferences.UNREAD_SCROLL_POSITION_START_FROM_NEWEST}
+                                        onChange={this.updateSetting.bind(this, Preferences.UNREAD_SCROLL_POSITION, Preferences.UNREAD_SCROLL_POSITION_START_FROM_NEWEST)}
+                                    />
+                                    <FormattedMessage
+                                        id='user.settings.advance.startFromNewest'
+                                        defaultMessage='Start me at the newest message'
+                                    />
+                                </label>
+                                <br/>
+                            </div>
+                            <div className='mt-5'>
+                                <FormattedMessage
+                                    id='user.settings.advance.unreadScrollPositionDesc'
+                                    defaultMessage='Choose your scroll position when you view an unread channel. Channels will always be marked as read when viewed.'
+                                />
+                            </div>
+                        </fieldset>,
+                    ]}
+                    setting={Preferences.UNREAD_SCROLL_POSITION}
+                    submit={this.handleSubmit}
+                    saving={this.state.isSaving}
+                    server_error={this.state.serverError}
+                    updateSection={this.handleUpdateSection}
+                />
+            );
+        }
+
+        return (
+            <SettingItemMin
+                title={
+                    <FormattedMessage
+                        id='user.settings.advance.unreadScrollPositionTitle'
+                        defaultMessage='Scroll position when viewing an unread channel'
+                    />
+                }
+                describe={this.renderUnreadScrollPositionLabel(this.state.settings[Preferences.UNREAD_SCROLL_POSITION])}
+                section={Preferences.UNREAD_SCROLL_POSITION}
                 updateSection={this.handleUpdateSection}
             />
         );
@@ -458,7 +567,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
             );
         }
 
-        const formattingSection = this.renderFormattingSection();
+        const formattingSection = this.props.isAdvancedTextEditorEnabled ? null : this.renderFormattingSection();
         let formattingSectionDivider = null;
         if (formattingSection) {
             formattingSectionDivider = <div className='divider-light'/>;
@@ -526,7 +635,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                         describe={
                             <FormattedMessage
                                 id='user.settings.advance.enabledFeatures'
-                                defaultMessage='{count, number} {count, plural, one {Feature} other {Features}} Enabled'
+                                defaultMessage='{count, number} {count, plural, one {feature} other {features}} enabled'
                                 values={{count: this.state.enabledFeatures}}
                             />
                         }
@@ -622,6 +731,12 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
             );
         }
 
+        const unreadScrollPositionSection = this.renderUnreadScrollPositionSection();
+        let unreadScrollPositionSectionDivider = null;
+        if (unreadScrollPositionSection) {
+            unreadScrollPositionSectionDivider = <div className='divider-light'/>;
+        }
+
         return (
             <div>
                 <div className='modal-header'>
@@ -670,7 +785,13 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                     {previewFeaturesSectionDivider}
                     {previewFeaturesSection}
                     {formattingSectionDivider}
+                    <PerformanceDebuggingSection
+                        activeSection={this.props.activeSection}
+                        onUpdateSection={this.handleUpdateSection}
+                    />
                     {deactivateAccountSection}
+                    {unreadScrollPositionSectionDivider}
+                    {unreadScrollPositionSection}
                     <div className='divider-dark'/>
                     {makeConfirmationModal}
                 </div>

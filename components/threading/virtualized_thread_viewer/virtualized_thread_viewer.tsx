@@ -5,14 +5,14 @@ import React, {PureComponent, RefObject} from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import {DynamicSizeList, OnScrollArgs, OnItemsRenderedArgs} from 'dynamic-virtualized-list';
 
-import {Channel} from 'mattermost-redux/types/channels';
-import {Post} from 'mattermost-redux/types/posts';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {Channel} from '@mattermost/types/channels';
+import {Post} from '@mattermost/types/posts';
+import {UserProfile} from '@mattermost/types/users';
 
 import {isDateLine, isStartOfNewMessages, isCreateComment} from 'mattermost-redux/utils/post_list';
 
 import DelayedAction from 'utils/delayed_action';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import Constants from 'utils/constants';
 import {FakePost} from 'types/store/rhs';
 import {getNewMessageIndex, getPreviousPostId, getLatestPostId} from 'utils/post_utils';
@@ -421,14 +421,17 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
     }
 
     renderToast = (width: number) => {
-        const {lastViewedBottom, userScrolledToBottom} = this.state;
-        const isNewMessagesVisible = this.isNewMessagesVisible();
+        const {visibleStopIndex, lastViewedBottom, userScrolledToBottom} = this.state;
+        const canShow =
+            visibleStopIndex !== 0 &&
+            !this.isNewMessagesVisible() &&
+            !userScrolledToBottom;
 
         return (
             <NewRepliesBanner
                 threadId={this.props.selected.id}
                 lastViewedBottom={lastViewedBottom}
-                canShow={!(userScrolledToBottom || isNewMessagesVisible)}
+                canShow={canShow}
                 onDismiss={this.handleToastDismiss}
                 width={width}
                 onClick={this.handleToastClick}
@@ -476,6 +479,7 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
                                     ref={this.listRef}
                                     style={virtListStyles}
                                     width={width}
+                                    className={'post-list__dynamic--RHS'}
                                 >
                                     {this.renderRow}
                                 </DynamicSizeList>

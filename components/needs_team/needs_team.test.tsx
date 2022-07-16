@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {TeamType} from 'mattermost-redux/types/teams';
+import {TeamType} from '@mattermost/types/teams';
 
 import {TestHelper} from 'utils/test_helper';
 
@@ -81,6 +81,7 @@ describe('components/needs_team', () => {
 
     const actions = {
         fetchMyChannelsAndMembers: jest.fn().mockResolvedValue({data: true}),
+        fetchAllMyTeamsChannelsAndChannelMembers: jest.fn().mockResolvedValue({data: true}),
         fetchThreadMentionCountsByChannel: jest.fn().mockResolvedValue({data: true}),
         getMyTeamUnreads: jest.fn(),
         viewChannel: jest.fn(),
@@ -93,7 +94,7 @@ describe('components/needs_team', () => {
         getAllGroupsAssociatedToChannelsInTeam: jest.fn().mockResolvedValue({data: true}),
         getAllGroupsAssociatedToTeam: jest.fn().mockResolvedValue({data: true}),
         getGroups: jest.fn().mockResolvedValue({data: true}),
-        getGroupsByUserId: jest.fn().mockResolvedValue({data: true}),
+        getGroupsByUserIdPaginated: jest.fn().mockResolvedValue({data: true}),
     };
     const baseProps = {
         license: {},
@@ -109,6 +110,9 @@ describe('components/needs_team', () => {
         selectedThreadId: null,
         collapsedThreads: true,
         shouldShowAppBar: true,
+        adminSetupRequired: false,
+        isUserFirstAdmin: false,
+        isCustomGroupsEnabled: false,
     };
     it('should match snapshots for init with existing team', () => {
         const fetchMyChannelsAndMembers = jest.fn().mockResolvedValue({data: true});
@@ -215,5 +219,58 @@ describe('components/needs_team', () => {
         wrapper.setProps({match: newTeamMatch});
         wrapper.update();
         expect(wrapper.state().team).toEqual(null);
+    });
+
+    it('check for getGroupsByUserIdPaginated call if isCustomGroupsEnabled is true', async () => {
+        const fetchMyChannelsAndMembers = jest.fn().mockResolvedValue({data: true});
+
+        const existingTeamMatch = {
+            params: {
+                team: 'test',
+            },
+        };
+
+        const getGroupsByUserIdPaginated = jest.fn().mockResolvedValue({data: true});
+        const newActions = {...baseProps.actions, getGroupsByUserIdPaginated, fetchMyChannelsAndMembers};
+        const props = {
+            ...baseProps,
+            license: {
+                IsLicensed: 'true',
+            },
+            isCustomGroupsEnabled: true,
+            actions: newActions,
+            match: existingTeamMatch,
+        };
+
+        shallow<NeedsTeam>(
+            <NeedsTeam {...props}/>,
+        );
+        expect(getGroupsByUserIdPaginated).toHaveBeenCalledTimes(1);
+    });
+
+    it('check for absence of getGroupsByUserIdPaginated call if isCustomGroupsEnabled is false', async () => {
+        const fetchMyChannelsAndMembers = jest.fn().mockResolvedValue({data: true});
+
+        const existingTeamMatch = {
+            params: {
+                team: 'test',
+            },
+        };
+
+        const getGroupsByUserIdPaginated = jest.fn().mockResolvedValue({data: true});
+        const newActions = {...baseProps.actions, getGroupsByUserIdPaginated, fetchMyChannelsAndMembers};
+        const props = {
+            ...baseProps,
+            license: {
+                IsLicensed: 'true',
+            },
+            actions: newActions,
+            match: existingTeamMatch,
+        };
+
+        shallow<NeedsTeam>(
+            <NeedsTeam {...props}/>,
+        );
+        expect(getGroupsByUserIdPaginated).toHaveBeenCalledTimes(0);
     });
 });

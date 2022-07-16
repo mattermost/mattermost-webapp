@@ -264,6 +264,34 @@ exports[`components/KeyboardShortcutsModal should match snapshot modal 1`] = `
                   }
                 }
               />
+              <Memo(KeyboardShortcutSequence)
+                shortcut={
+                  Object {
+                    "default": Object {
+                      "defaultMessage": "Expand the right sidebar:	Ctrl|Shift|.",
+                      "id": "shortcuts.nav.expand_sidebar",
+                    },
+                    "mac": Object {
+                      "defaultMessage": "Expand the right sidebar:	⌘|Shift|.",
+                      "id": "shortcuts.nav.expand_sidebar.mac",
+                    },
+                  }
+                }
+              />
+              <Memo(KeyboardShortcutSequence)
+                shortcut={
+                  Object {
+                    "default": Object {
+                      "defaultMessage": "View channel info:	Ctrl|Alt|I",
+                      "id": "shortcuts.nav.open_channel_info",
+                    },
+                    "mac": Object {
+                      "defaultMessage": "View channel info:	⌘|Shift|I",
+                      "id": "shortcuts.nav.open_channel_info.mac",
+                    },
+                  }
+                }
+              />
             </div>
           </div>
         </div>
@@ -427,6 +455,29 @@ exports[`components/KeyboardShortcutsModal should match snapshot modal 1`] = `
                       "mac": Object {
                         "defaultMessage": "Link:	⌘|Alt|K",
                         "id": "shortcuts.msgs.markdown.link.mac",
+                      },
+                    }
+                  }
+                />
+              </div>
+              <span>
+                <strong>
+                  Searching
+                </strong>
+              </span>
+              <div
+                className="subsection"
+              >
+                <Memo(KeyboardShortcutSequence)
+                  shortcut={
+                    Object {
+                      "default": Object {
+                        "defaultMessage": "In channel:	Ctrl|F",
+                        "id": "shortcuts.msgs.search_channel",
+                      },
+                      "mac": Object {
+                        "defaultMessage": "In channel:	⌘|F",
+                        "id": "shortcuts.msgs.search_channel.mac",
                       },
                     }
                   }

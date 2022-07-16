@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {getLicenseConfig} from 'mattermost-redux/actions/general';
-import {StatusOK} from 'mattermost-redux/types/client4';
+import {StatusOK} from '@mattermost/types/client4';
 import {Action, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
 import {uploadLicense, removeLicense, getPrevTrialLicense} from 'mattermost-redux/actions/admin';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
@@ -21,6 +21,7 @@ import LicenseSettings from './license_settings';
 
 function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
+
     return {
         stats: state.entities.admin.analytics,
         upgradedFromTE: config.UpgradedFromTE === 'true',

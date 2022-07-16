@@ -3,12 +3,12 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 import * as redux from 'react-redux';
-import configureStore from 'redux-mock-store';
+
+import mockStore from 'tests/test_store';
 
 import GlobalSearchNav from './global_search_nav';
 
 describe('components/GlobalSearchNav', () => {
-    const mockStore = configureStore();
     const store = mockStore({});
     jest.spyOn(React, 'useEffect').mockImplementation(() => {});
 

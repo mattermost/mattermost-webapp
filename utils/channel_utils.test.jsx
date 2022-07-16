@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import * as Utils from 'utils/channel_utils.jsx';
+import * as Utils from 'utils/channel_utils';
 
 describe('Channel Utils', () => {
     describe('findNextUnreadChannelId', () => {

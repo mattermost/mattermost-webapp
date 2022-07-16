@@ -7,10 +7,10 @@ import React, {HTMLAttributes} from 'react';
 import classNames from 'classnames';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 import {ExtendedPost} from 'mattermost-redux/actions/posts';
-import {Post} from 'mattermost-redux/types/posts';
-import {UserThread} from 'mattermost-redux/types/threads';
+import {Post} from '@mattermost/types/posts';
+import {UserThread} from '@mattermost/types/threads';
 
 import deferComponentRender from 'components/deferComponentRender';
 import FileUploadOverlay from 'components/file_upload_overlay';
@@ -24,8 +24,9 @@ const DeferredThreadViewerVirt = deferComponentRender(ThreadViewerVirtualized);
 
 type Attrs = Pick<HTMLAttributes<HTMLDivElement>, 'className' | 'id'>;
 
-type Props = Attrs & {
+export type Props = Attrs & {
     isCollapsedThreadsEnabled: boolean;
+    appsEnabled: boolean;
     userThread?: UserThread | null;
     channel: Channel | null;
     selected: Post | FakePost;
@@ -34,13 +35,14 @@ type Props = Attrs & {
     currentTeamId: string;
     socketConnectionStatus: boolean;
     actions: {
+        fetchRHSAppsBindings: (channelId: string, rootID: string) => unknown;
+        getNewestPostThread: (rootId: string) => Promise<any>|ActionFunc;
+        getPostThread: (rootId: string, fetchThreads: boolean) => Promise<any>|ActionFunc;
+        getThread: (userId: string, teamId: string, threadId: string, extended: boolean) => Promise<any>|ActionFunc;
         removePost: (post: ExtendedPost) => void;
         selectPostCard: (post: Post) => void;
-        getPostThread: (rootId: string, root?: boolean) => Promise<any>|ActionFunc;
-        getThread: (userId: string, teamId: string, threadId: string, extended: boolean) => Promise<any>|ActionFunc;
-        updateThreadRead: (userId: string, teamId: string, threadId: string, timestamp: number) => unknown;
         updateThreadLastOpened: (threadId: string, lastViewedAt: number) => unknown;
-        fetchRHSAppsBindings: (channelId: string, rootID: string) => unknown;
+        updateThreadRead: (userId: string, teamId: string, threadId: string, timestamp: number) => unknown;
     };
     useRelativeTimestamp?: boolean;
     postIds: string[];
@@ -69,7 +71,9 @@ export default class ThreadViewer extends React.PureComponent<Props, State> {
 
         this.onInit();
 
-        this.props.actions.fetchRHSAppsBindings(this.props.channel?.id || '', this.props.selected.id);
+        if (this.props.appsEnabled) {
+            this.props.actions.fetchRHSAppsBindings(this.props.channel?.id || '', this.props.selected.id);
+        }
     }
 
     public componentDidUpdate(prevProps: Props) {
@@ -92,8 +96,9 @@ export default class ThreadViewer extends React.PureComponent<Props, State> {
             this.markThreadRead();
         }
 
-        if (this.props.channel?.id !== prevProps.channel?.id ||
-            this.props.selected.id !== prevProps.selected.id) {
+        if (this.props.appsEnabled && (
+            this.props.channel?.id !== prevProps.channel?.id || this.props.selected.id !== prevProps.selected.id
+        )) {
             this.props.actions.fetchRHSAppsBindings(this.props.channel?.id || '', this.props.selected.id);
         }
     }
@@ -156,16 +161,17 @@ export default class ThreadViewer extends React.PureComponent<Props, State> {
     // fetches the thread/posts if needed and
     // scrolls to either bottom or new messages line
     private onInit = async (reconnected = false): Promise<void> => {
+        this.setState({isLoading: !reconnected});
         if (reconnected || this.morePostsToFetch()) {
-            this.setState({isLoading: !reconnected});
             await this.props.actions.getPostThread(this.props.selected.id, !reconnected);
+        } else {
+            await this.props.actions.getNewestPostThread(this.props.selected.id);
         }
 
         if (
             this.props.isCollapsedThreadsEnabled &&
             this.props.userThread == null
         ) {
-            this.setState({isLoading: !reconnected});
             await this.fetchThread();
         }
 
@@ -195,7 +201,7 @@ export default class ThreadViewer extends React.PureComponent<Props, State> {
             );
         }
 
-        if (this.state.isLoading) {
+        if (this.state.isLoading && this.props.postIds.length < 2) {
             return (
                 <LoadingScreen
                     style={{
@@ -220,12 +226,11 @@ export default class ThreadViewer extends React.PureComponent<Props, State> {
                                     onCardClick={this.handleCardClick}
                                     onCardClickPost={this.handleCardClickPost}
                                     postIds={this.props.postIds}
-                                    removePost={this.props.actions.removePost}
                                     selected={this.props.selected}
                                     useRelativeTimestamp={this.props.useRelativeTimestamp || false}
                                     highlightedPostId={this.props.highlightedPostId}
                                     selectedPostFocusedAt={this.props.selectedPostFocusedAt}
-                                    isThreadView={this.props.isCollapsedThreadsEnabled && this.props.isThreadView}
+                                    isThreadView={Boolean(this.props.isCollapsedThreadsEnabled && this.props.isThreadView)}
                                 />
                             )}
                         </>

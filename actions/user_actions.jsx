@@ -29,7 +29,7 @@ import {getDisplayedChannels} from 'selectors/views/channel_sidebar';
 
 import store from 'stores/redux_store.jsx';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import {Constants, Preferences, UserStatuses} from 'utils/constants';
 
 export const queue = new PQueue({concurrency: 4});
@@ -218,7 +218,7 @@ export function loadNewDMIfNeeded(channelId) {
             const userId = Utils.getUserIdFromChannelName(channel);
 
             if (!userId) {
-                return;
+                return {data: false};
             }
 
             const pref = getBool(state, Preferences.CATEGORY_DIRECT_CHANNEL_SHOW, userId, false);
@@ -229,18 +229,23 @@ export function loadNewDMIfNeeded(channelId) {
                     {user_id: currentUserId, category: Preferences.CATEGORY_CHANNEL_OPEN_TIME, name: channelId, value: now.toString()},
                 ])(doDispatch, doGetState);
                 loadProfilesForDM();
+                return {data: true};
             }
+            return {data: false};
         }
+
+        let result = {data: false};
 
         const channel = getChannel(doGetState(), channelId);
         if (channel) {
-            checkPreference(channel);
+            result = checkPreference(channel);
         } else {
             const {data} = await getChannelAndMyMember(channelId)(doDispatch, doGetState);
             if (data) {
-                checkPreference(data.channel);
+                result = checkPreference(data.channel);
             }
         }
+        return result;
     };
 }
 
@@ -254,14 +259,16 @@ export function loadNewGMIfNeeded(channelId) {
             if (pref === false) {
                 dispatch(savePreferences(currentUserId, [{user_id: currentUserId, category: Preferences.CATEGORY_GROUP_CHANNEL_SHOW, name: channelId, value: 'true'}]));
                 loadProfilesForGM();
+                return {data: true};
             }
+            return {data: false};
         }
 
         const channel = getChannel(state, channelId);
         if (!channel) {
             await getChannelAndMyMember(channelId)(doDispatch, doGetState);
         }
-        checkPreference();
+        return checkPreference();
     };
 }
 

@@ -1,27 +1,25 @@
 .IconMessage {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    display: block;
-    overflow: auto;
-    width: 100%;
-    height: 100%;
-    margin: auto;
-    text-align: center;
-
     .content {
         &.success {
             padding-bottom: 2px;
             padding-left: 7px;
+
+            > .IconMessage__svg-wrapper {
+                margin-left: 68px;
+            }
         }
 
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        margin: 0;
-        transform: translate(-50%, -50%);
+        &.failed {
+            > .IconMessage__svg-wrapper {
+                margin-left: 60px;
+            }
+        }
+
+        display: flex;
+        flex-direction: column;
+        align-content: center;
+        justify-content: center;
+        text-align: center;
 
         .IconMessage-h3 {
             margin-top: 43px;
@@ -50,6 +48,18 @@
             line-height: 20px;
         }
 
+        .IconMessage-buttons {
+            display: flex;
+            height: 40px;
+            justify-content: center;
+            margin-top: 16px;
+            font-size: 14px;
+            font-weight: 600;
+            gap: 16px;
+            line-height: 14px;
+            text-align: center;
+        }
+
         .IconMessage-progress {
             width: 387px;
             height: 4px;
@@ -66,19 +76,18 @@
         }
 
         .IconMessage-button {
-            min-width: 95px;
-            height: 40px;
-            align-self: center;
-            margin-top: 16px;
-            margin-right: auto;
-            margin-left: auto;
-            font-size: 14px;
-            font-weight: 600;
-            line-height: 14px;
-            text-align: center;
+            button {
+                background: var(--button-bg);
+                border-radius: 4px;
+                color: var(--button-color);
+            }
+        }
 
-            &.error {
-                width: 176px;
+        .IconMessage-tertiary-button {
+            button {
+                background: rgba(var(--denim-button-bg-rgb), 0.08);
+                border-radius: 4px;
+                color: var(--button-bg);
             }
         }
 
@@ -90,6 +99,16 @@
             font-weight: 600;
             line-height: 14px;
             text-align: center;
+        }
+    }
+
+    &__svg-wrapper {
+        align-self: center;
+
+        svg {
+            @media screen and (max-width: 600px) {
+                width: 150%;
+            }
         }
     }
 }

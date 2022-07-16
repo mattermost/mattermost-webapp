@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import assert from 'assert';
+
 import expect from 'expect';
 
 import {
@@ -35,6 +36,27 @@ describe('posts', () => {
                 expect(nextState).toEqual({
                     post1: {id: 'post1'},
                     post2: {id: 'post2'},
+                });
+            });
+
+            it('should add a new permalink post and remove stored nested permalink data', () => {
+                const state = deepFreeze({
+                    post1: {id: 'post1'},
+                    post2: {id: 'post2', metadata: {embeds: [{type: 'permalink', data: {post_id: 'post1', post: {id: 'post1'}}}]}},
+                });
+
+                const nextState = reducers.handlePosts(state, {
+                    type: actionType,
+                    data: {id: 'post3', metadata: {embeds: [{type: 'permalink', data: {post_id: 'post2', post: {id: 'post2', metadata: {embeds: [{type: 'permalink', data: {post_id: 'post1', post: {id: 'post1'}}}]}}}}]}},
+                });
+
+                expect(nextState).not.toEqual(state);
+                expect(nextState.post1).toEqual(state.post1);
+                expect(nextState.post2).toEqual(state.post2);
+                expect(nextState).toEqual({
+                    post1: {id: 'post1'},
+                    post2: {id: 'post2', metadata: {embeds: [{type: 'permalink', data: {post_id: 'post1', post: {id: 'post1'}}}]}},
+                    post3: {id: 'post3', metadata: {embeds: [{type: 'permalink', data: {post_id: 'post2'}}]}},
                 });
             });
 

@@ -1,13 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import configureStore from 'redux-mock-store';
-
 import {sendMembersInvites, sendGuestsInvites} from 'actions/invite_actions';
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
-import {Channel} from 'mattermost-redux/types/channels';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {Channel} from '@mattermost/types/channels';
+import {UserProfile} from '@mattermost/types/users';
+
+import mockStore from 'tests/test_store';
 
 jest.mock('actions/team_actions', () => ({
     addUsersToTeam: () => ({ // since we are using addUsersToTeamGracefully, this call will always succeed
@@ -25,6 +25,10 @@ jest.mock('mattermost-redux/actions/channels', () => ({
             return ({type: 'MOCK_RECEIVED_ME'});
         }
         throw new Error('ERROR');
+    },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    getChannelMembersByIds: (channelId: string, userIds: string[]) => {
+        return ({type: 'MOCK_RECEIVED_CHANNEL_MEMBERS'});
     },
 }));
 
@@ -48,7 +52,6 @@ jest.mock('mattermost-redux/actions/teams', () => ({
 }));
 
 describe('actions/invite_actions', () => {
-    const mockStore = configureStore();
     const store = mockStore({
         entities: {
             general: {

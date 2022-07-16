@@ -36,10 +36,6 @@
       "versions": "",
       "reason": "MM-36772 - Emoji updates are handled separately from regular dependencies."
     },
-    "jasny-bootstrap": {
-      "versions": "",
-      "reason": "MM-18032 - Breaking changes that may involve upgrading Bootstrap."
-    },
     "p-queue": {
       "versions": "",
       "reason": "MM-34914 - Breaking changes to how modules are loaded."

@@ -4,10 +4,10 @@
 import React, {memo} from 'react';
 /* eslint-disable react/no-string-refs */
 
-import {Channel} from 'mattermost-redux/types/channels';
-import {Post} from 'mattermost-redux/types/posts';
+import {Channel} from '@mattermost/types/channels';
+import {Post} from '@mattermost/types/posts';
 
-import {FakePost} from 'types/store/rhs';
+import {FakePost, RhsState} from 'types/store/rhs';
 
 import RhsHeaderPost from 'components/rhs_header_post';
 import ThreadViewer from 'components/threading/thread_viewer';
@@ -16,7 +16,7 @@ type Props = {
     posts: Post[];
     channel: Channel | null;
     selected: Post | FakePost;
-    previousRhsState?: string;
+    previousRhsState?: RhsState;
 }
 
 const RhsThread = ({

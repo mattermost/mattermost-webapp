@@ -4,16 +4,16 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Role} from 'mattermost-redux/types/roles';
-import {ServerError} from 'mattermost-redux/types/errors';
-import {UserProfile, UsersStats, GetFilteredUsersStatsOpts} from 'mattermost-redux/types/users';
+import {Role} from '@mattermost/types/roles';
+import {ServerError} from '@mattermost/types/errors';
+import {UserProfile, UsersStats, GetFilteredUsersStatsOpts} from '@mattermost/types/users';
 
 import Constants, {ModalIdentifiers} from 'utils/constants';
 import {t} from 'utils/i18n';
 
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import Badge from 'components/widgets/badges/badge';
-import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
+import ToggleModalButton from 'components/toggle_modal_button';
 import DataGrid from 'components/admin_console/data_grid/data_grid';
 import UserGridName from 'components/admin_console/user_grid/user_grid_name';
 import UserGridRemove from 'components/admin_console/user_grid/user_grid_remove';
@@ -254,7 +254,7 @@ export default class SystemRoleUsers extends React.PureComponent<Props, State> {
                 subtitleId={t('admin.permissions.system_role_users.description')}
                 subtitleDefault='List of people assigned to this system role.'
                 button={
-                    <ToggleModalButtonRedux
+                    <ToggleModalButton
                         id='addRoleMembers'
                         className='btn btn-primary'
                         modalId={ModalIdentifiers.ADD_USER_TO_ROLE}
@@ -272,7 +272,7 @@ export default class SystemRoleUsers extends React.PureComponent<Props, State> {
                             id='admin.permissions.system_role_users.add_people'
                             defaultMessage='Add People'
                         />
-                    </ToggleModalButtonRedux>
+                    </ToggleModalButton>
                 }
             >
                 <DataGrid

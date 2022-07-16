@@ -9,8 +9,6 @@ import {RouteComponentProps} from 'react-router-dom';
 import {t} from 'utils/i18n';
 import * as Utils from 'utils/utils';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-
 import LoadingScreen from 'components/loading_screen';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 
@@ -19,7 +17,7 @@ import AdminPanelWithLink from 'components/widgets/admin_console/admin_panel_wit
 
 import {ActionResult} from 'mattermost-redux/types/actions';
 
-import {Scheme, SchemeScope, SchemesState} from 'mattermost-redux/types/schemes';
+import {Scheme, SchemeScope, SchemesState} from '@mattermost/types/schemes';
 
 import PermissionsSchemeSummary from './permissions_scheme_summary';
 
@@ -163,7 +161,18 @@ export default class PermissionSchemesSettings extends React.PureComponent<Props
                     titleId={t('admin.permissions.teamOverrideSchemesTitle')}
                     titleDefault='Team Override Schemes'
                     subtitleId={t('admin.permissions.teamOverrideSchemesBannerText')}
-                    subtitleDefault='Use when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme).'
+                    subtitleDefault='Use when specific teams need permission exceptions to the <link>System Scheme</link>'
+                    subtitleValues={{
+                        link: (msg: React.ReactNode) => (
+                            <a
+                                href='https://docs.mattermost.com/onboard/advanced-permissions.html'
+                                target='_blank'
+                                rel='noreferrer'
+                            >
+                                {msg}
+                            </a>
+                        ),
+                    }}
                     url='/admin_console/user_management/permissions/team_override_scheme'
                     disabled={(teamOverrideView !== null) || this.props.isDisabled}
                     linkTextId={t('admin.permissions.teamOverrideSchemesNewButton')}
@@ -220,9 +229,20 @@ export default class PermissionSchemesSettings extends React.PureComponent<Props
                         <div className='banner info'>
                             <div className='banner__content'>
                                 <span>
-                                    <FormattedMarkdownMessage
+                                    <FormattedMessage
                                         id='admin.permissions.introBanner'
-                                        defaultMessage='Permission Schemes set the default permissions for Team Admins, Channel Admins and everyone else. Learn more about permission schemes in our [documentation](!https://about.mattermost.com/default-advanced-permissions).'
+                                        defaultMessage='Permission Schemes set the default permissions for Team Admins, Channel Admins and everyone else. Learn more about permission schemes in our <link>documentation</link>.'
+                                        values={{
+                                            link: (msg: React.ReactNode) => (
+                                                <a
+                                                    href='https://docs.mattermost.com/onboard/advanced-permissions.html'
+                                                    target='_blank'
+                                                    rel='noreferrer'
+                                                >
+                                                    {msg}
+                                                </a>
+                                            ),
+                                        }}
                                     />
                                 </span>
                             </div>
@@ -233,7 +253,18 @@ export default class PermissionSchemesSettings extends React.PureComponent<Props
                             titleId={t('admin.permissions.systemSchemeBannerTitle')}
                             titleDefault='System Scheme'
                             subtitleId={t('admin.permissions.systemSchemeBannerText')}
-                            subtitleDefault='Set the default permissions inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied.'
+                            subtitleDefault='Set the default permissions inherited by all teams unless a <link>Team Override Scheme</link> is applied.'
+                            subtitleValues={{
+                                link: (msg: React.ReactNode) => (
+                                    <a
+                                        href='https://docs.mattermost.com/onboard/advanced-permissions.html'
+                                        target='_blank'
+                                        rel='noreferrer'
+                                    >
+                                        {msg}
+                                    </a>
+                                ),
+                            }}
                             url='/admin_console/user_management/permissions/system_scheme'
                             disabled={teamOverrideView !== null}
                             linkTextId={t('admin.permissions.systemSchemeBannerButton')}
@@ -409,7 +440,11 @@ t('admin.permissions.permission.playbook_private_manage_properties.name');
 t('admin.permissions.permission.playbook_private_manage_properties.description');
 t('admin.permissions.permission.playbook_private_manage_members.name');
 t('admin.permissions.permission.playbook_private_manage_members.description');
+t('admin.permissions.permission.playbook_private_make_public.name');
+t('admin.permissions.permission.playbook_private_make_public.description');
 t('admin.permissions.group.runs.name');
 t('admin.permissions.group.runs.description');
 t('admin.permissions.permission.run_create.name');
 t('admin.permissions.permission.run_create.description');
+t('admin.permissions.group.custom_groups.name');
+t('admin.permissions.group.custom_groups.description');

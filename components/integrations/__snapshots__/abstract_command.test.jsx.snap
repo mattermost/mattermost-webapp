@@ -145,7 +145,7 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
               values={
                 Object {
                   "link": <a
-                    href="https://docs.mattermost.com/help/messaging/executing-commands.html#built-in-commands"
+                    href="https://developers.mattermost.com/integrate/admin-guide/admin-slash-commands/#built-in-commands"
                     rel="noopener noreferrer"
                     target="_blank"
                   >
@@ -615,7 +615,7 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
               values={
                 Object {
                   "link": <a
-                    href="https://docs.mattermost.com/help/messaging/executing-commands.html#built-in-commands"
+                    href="https://developers.mattermost.com/integrate/admin-guide/admin-slash-commands/#built-in-commands"
                     rel="noopener noreferrer"
                     target="_blank"
                   >

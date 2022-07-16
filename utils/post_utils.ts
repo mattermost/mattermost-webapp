@@ -10,22 +10,25 @@ import {Client4} from 'mattermost-redux/client';
 import {Permissions, Posts} from 'mattermost-redux/constants';
 
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {makeGetReactionsForPost} from 'mattermost-redux/selectors/entities/posts';
-import {get, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {get, getTeammateNameDisplaySetting, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeamId, getTeam} from 'mattermost-redux/selectors/entities/teams';
-import {makeGetDisplayName, getCurrentUserId, getUser, UserMentionKey} from 'mattermost-redux/selectors/entities/users';
+import {makeGetDisplayName, getCurrentUserId, getUser, UserMentionKey, getUsersByUsername} from 'mattermost-redux/selectors/entities/users';
 
-import {Channel} from 'mattermost-redux/types/channels';
-import {ClientConfig, ClientLicense} from 'mattermost-redux/types/config';
-import {ServerError} from 'mattermost-redux/types/errors';
-import {Group} from 'mattermost-redux/types/groups';
-import {Post} from 'mattermost-redux/types/posts';
-import {Reaction} from 'mattermost-redux/types/reactions';
+import {Channel} from '@mattermost/types/channels';
+import {ClientConfig, ClientLicense} from '@mattermost/types/config';
+import {ServerError} from '@mattermost/types/errors';
+import {Group} from '@mattermost/types/groups';
+import {Post} from '@mattermost/types/posts';
+import {Reaction} from '@mattermost/types/reactions';
+import {UserProfile} from '@mattermost/types/users';
 
 import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
 import * as PostListUtils from 'mattermost-redux/utils/post_list';
 import {canEditPost as canEditPostRedux} from 'mattermost-redux/utils/post_utils';
+import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
 import {getEmojiMap} from 'selectors/emojis';
 import {getIsMobileView} from 'selectors/views/browser';
@@ -133,6 +136,20 @@ export function shouldShowDotMenu(state: GlobalState, post: Post, channel: Chann
     }
 
     return false;
+}
+
+export function shouldShowActionsMenu(state: GlobalState, post: Post): boolean {
+    const config = getConfig(state);
+    const pluginsEnabled = config.PluginsEnabled === 'true';
+    if (!pluginsEnabled) {
+        return false;
+    }
+
+    if (isSystemMessage(post)) {
+        return false;
+    }
+
+    return true;
 }
 
 export function containsAtChannel(text: string, options?: {checkAllMentions: boolean}): boolean {
@@ -400,9 +417,32 @@ export function getLatestPostId(postIds: string[]): string {
     return '';
 }
 
+export function makeGetMentionsFromMessage(): (state: GlobalState, post: Post) => Record<string, UserProfile> {
+    return createSelector(
+        'getMentionsFromMessage',
+        (state: GlobalState, post: Post) => post,
+        (state: GlobalState) => getUsersByUsername(state),
+        (post, users) => {
+            const mentions: Record<string, UserProfile> = {};
+            const mentionsArray = post.message.match(Constants.MENTIONS_REGEX) || [];
+            for (let i = 0; i < mentionsArray.length; i++) {
+                const mention = mentionsArray[i];
+                const user = getUserFromMentionName(users, mention.substring(1));
+
+                if (user) {
+                    mentions[mention] = user;
+                }
+            }
+
+            return mentions;
+        },
+    );
+}
+
 export function makeCreateAriaLabelForPost(): (state: GlobalState, post: Post) => (intl: IntlShape) => string {
     const getReactionsForPost = makeGetUniqueReactionsToPost();
     const getDisplayName = makeGetDisplayName();
+    const getMentionsFromMessage = makeGetMentionsFromMessage();
 
     return createSelector(
         'makeCreateAriaLabelForPost',
@@ -411,13 +451,15 @@ export function makeCreateAriaLabelForPost(): (state: GlobalState, post: Post) =
         (state: GlobalState, post: Post) => getReactionsForPost(state, post.id),
         (state: GlobalState, post: Post) => get(state, Preferences.CATEGORY_FLAGGED_POST, post.id, null) != null,
         getEmojiMap,
-        (post, author, reactions, isFlagged, emojiMap) => {
-            return (intl: IntlShape) => createAriaLabelForPost(post, author, isFlagged, reactions ?? {}, intl, emojiMap);
+        (state: GlobalState, post: Post) => getMentionsFromMessage(state, post),
+        (state: GlobalState) => getTeammateNameDisplaySetting(state),
+        (post, author, reactions, isFlagged, emojiMap, mentions, teammateNameDisplaySetting) => {
+            return (intl: IntlShape) => createAriaLabelForPost(post, author, isFlagged, reactions ?? {}, intl, emojiMap, mentions, teammateNameDisplaySetting);
         },
     );
 }
 
-export function createAriaLabelForPost(post: Post, author: string, isFlagged: boolean, reactions: Record<string, Reaction>, intl: IntlShape, emojiMap: EmojiMap): string {
+export function createAriaLabelForPost(post: Post, author: string, isFlagged: boolean, reactions: Record<string, Reaction>, intl: IntlShape, emojiMap: EmojiMap, mentions: Record<string, UserProfile>, teammateNameDisplaySetting: string): string {
     const {formatMessage, formatTime, formatDate} = intl;
 
     let message = post.state === Posts.POST_DELETED ? formatMessage({
@@ -435,6 +477,14 @@ export function createAriaLabelForPost(post: Post, author: string, isFlagged: bo
     while ((match = Emoticons.EMOJI_PATTERN.exec(message)) !== null) {
         if (emojiMap.has(match[2])) {
             message = message.replace(match[0], `${match[2].replace(/_/g, ' ')} emoji`);
+        }
+    }
+
+    // Replace mentions with preferred username
+    for (const mention of Object.keys(mentions)) {
+        const user = mentions[mention];
+        if (user) {
+            message = message.replace(mention, `@${displayUsername(user, teammateNameDisplaySetting)}`);
         }
     }
 
@@ -543,6 +593,12 @@ export function splitMessageBasedOnCaretPosition(caretPosition: number, message:
     return {firstPiece, lastPiece};
 }
 
+export function splitMessageBasedOnTextSelection(selectionStart: number, selectionEnd: number, message: string): {firstPiece: string; lastPiece: string} {
+    const firstPiece = message.substring(0, selectionStart);
+    const lastPiece = message.substring(selectionEnd, message.length);
+    return {firstPiece, lastPiece};
+}
+
 export function getNewMessageIndex(postListIds: string[]): number {
     return postListIds.findIndex(
         (item) => item.indexOf(PostListRowListIds.START_OF_NEW_MESSAGES) === 0,
@@ -625,4 +681,23 @@ export function makeGetUniqueReactionsToPost(): (state: GlobalState, postId: Pos
             return reactionsForPost;
         },
     );
+}
+
+export function getUserFromMentionName(usersByUsername: Record<string, UserProfile>, mentionName: string) {
+    let mentionNameToLowerCase = mentionName.toLowerCase();
+
+    while (mentionNameToLowerCase.length > 0) {
+        if (usersByUsername.hasOwnProperty(mentionNameToLowerCase)) {
+            return usersByUsername[mentionNameToLowerCase];
+        }
+
+        // Repeatedly trim off trailing punctuation in case this is at the end of a sentence
+        if ((/[._-]$/).test(mentionNameToLowerCase)) {
+            mentionNameToLowerCase = mentionNameToLowerCase.substring(0, mentionNameToLowerCase.length - 1);
+        } else {
+            break;
+        }
+    }
+
+    return '';
 }

@@ -8,10 +8,18 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {shouldShowTermsOfService, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
+import {getFirstAdminSetupComplete} from 'mattermost-redux/actions/general';
+import {getProfiles} from 'mattermost-redux/actions/users';
+import {savePreferences} from 'mattermost-redux/actions/preferences';
 
-import {loadMeAndConfig} from 'actions/views/root';
+import {migrateRecentEmojis} from 'mattermost-redux/actions/emojis';
+
 import {scheduleNextNotificationsPermissionRequest} from 'actions/notification_actions';
+
+import {getShowLaunchingWorkspace} from 'selectors/onboarding';
 import {emitBrowserWindowResized, setBrowserNotificationsPermission} from 'actions/views/browser';
+import {loadConfigAndMe, registerCustomPostRenderer} from 'actions/views/root';
+
 import LocalStorageStore from 'stores/local_storage_store';
 
 import Root from './root.jsx';
@@ -21,8 +29,9 @@ function mapStateToProps(state) {
     const showTermsOfService = shouldShowTermsOfService(state);
     const plugins = state.plugins.components.CustomRouteComponent;
     const products = state.plugins.components.Product;
+    const userId = getCurrentUserId(state);
 
-    const teamId = LocalStorageStore.getPreviousTeamId(getCurrentUserId(state));
+    const teamId = LocalStorageStore.getPreviousTeamId(userId);
     const permalinkRedirectTeam = getTeam(state, teamId);
 
     return {
@@ -34,16 +43,22 @@ function mapStateToProps(state) {
         showTermsOfService,
         plugins,
         products,
+        showLaunchingWorkspace: getShowLaunchingWorkspace(state),
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            loadMeAndConfig,
             setBrowserNotificationsPermission,
             scheduleNextNotificationsPermissionRequest,
+            loadConfigAndMe,
             emitBrowserWindowResized,
+            getFirstAdminSetupComplete,
+            getProfiles,
+            migrateRecentEmojis,
+            savePreferences,
+            registerCustomPostRenderer,
         }, dispatch),
     };
 }

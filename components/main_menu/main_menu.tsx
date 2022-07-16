@@ -1,16 +1,17 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable max-lines */
 import React from 'react';
 import {injectIntl, IntlShape} from 'react-intl';
-import {matchPath} from 'react-router-dom';
 
 import {Permissions} from 'mattermost-redux/constants';
 
 import * as GlobalActions from 'actions/global_actions';
+import {FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS} from 'utils/cloud_utils';
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import {cmdOrCtrlPressed, isKeyPressed} from 'utils/utils';
-import {useSafeUrl} from 'utils/url';
+import {makeUrlSafe} from 'utils/url';
 import * as UserAgent from 'utils/user_agent';
 import InvitationModal from 'components/invitation_modal';
 
@@ -27,15 +28,12 @@ import AboutBuildModal from 'components/about_build_modal';
 import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
 
 import Menu from 'components/widgets/menu/menu';
+import RestrictedIndicator from 'components/widgets/menu/menu_items/restricted_indicator';
 import TeamGroupsManageModal from 'components/team_groups_manage_modal';
 
-import withGetCloudSubscription from '../common/hocs/cloud/with_get_cloud_subscription';
-import {SubscriptionStats} from 'mattermost-redux/types/cloud';
 import {ModalData} from 'types/actions';
 import {PluginComponent} from 'types/store/plugins';
-import {UserProfile} from 'mattermost-redux/types/users';
-
-import {browserHistory} from 'utils/browser_history';
+import {UserProfile} from '@mattermost/types/users';
 
 export type Props = {
     mobile: boolean;
@@ -59,20 +57,24 @@ export type Props = {
     isMentionSearch?: boolean;
     teamIsGroupConstrained: boolean;
     isLicensedForLDAPGroups?: boolean;
-    showDueToStepsNotFinished: boolean;
     intl: IntlShape;
     teamUrl: string;
+    isFirstAdmin: boolean;
+    isCloud: boolean;
+    isStarterFree: boolean;
+    isFreeTrial: boolean;
+    usageDeltaTeams: number;
     location: {
         pathname: string;
     };
+    guestAccessEnabled: boolean;
+    canInviteTeamMember: boolean;
     actions: {
         openModal: <P>(modalData: ModalData<P>) => void;
         showMentions: () => void;
         showFlaggedPosts: () => void;
         closeRightHandSide: () => void;
         closeRhsMenu: () => void;
-        unhideNextSteps: () => void;
-        getSubscriptionStats: () => SubscriptionStats;
     };
 
 };
@@ -119,18 +121,18 @@ export class MainMenu extends React.PureComponent<Props> {
         }
     }
 
-    unhideNextStepsAndNavigateToTipsView = () => {
-        this.props.actions.unhideNextSteps();
-        browserHistory.push(`${this.props.teamUrl}/tips`);
-    }
-
     render() {
         const {
+            appDownloadLink,
             currentUser,
             teamIsGroupConstrained,
             isLicensedForLDAPGroups,
             teamId = '',
+            guestAccessEnabled,
+            canInviteTeamMember,
         } = this.props;
+
+        const safeAppDownloadLink = makeUrlSafe(appDownloadLink || '');
 
         if (!currentUser) {
             return null;
@@ -152,26 +154,30 @@ export class MainMenu extends React.PureComponent<Props> {
 
         const someIntegrationEnabled = this.props.enableIncomingWebhooks || this.props.enableOutgoingWebhooks || this.props.enableCommands || this.props.enableOAuthServiceProvider || this.props.canManageSystemBots;
         const showIntegrations = !this.props.mobile && someIntegrationEnabled && this.props.canManageIntegrations;
-        const inTipsView = matchPath(this.props.location.pathname, {path: '/:team/tips'}) != null;
+        const teamsLimitReached = this.props.isStarterFree && !this.props.isFreeTrial && this.props.usageDeltaTeams >= 0;
+        const createTeamRestricted = this.props.isCloud && (this.props.isFreeTrial || teamsLimitReached);
 
         const {formatMessage} = this.props.intl;
 
-        const invitePeopleModal = (
-            <Menu.ItemToggleModalRedux
-                id='invitePeople'
-                modalId={ModalIdentifiers.INVITATION}
-                dialogType={InvitationModal}
-                text={formatMessage({
-                    id: 'navbar_dropdown.invitePeople',
-                    defaultMessage: 'Invite People',
-                })}
-                extraText={formatMessage({
-                    id: 'navbar_dropdown.invitePeopleExtraText',
-                    defaultMessage: 'Add people to the team',
-                })}
-                icon={this.props.mobile && <i className='fa fa-user-plus'/>}
-            />
-        );
+        let invitePeopleModal = null;
+        if (guestAccessEnabled || canInviteTeamMember) {
+            invitePeopleModal = (
+                <Menu.ItemToggleModalRedux
+                    id='invitePeople'
+                    modalId={ModalIdentifiers.INVITATION}
+                    dialogType={InvitationModal}
+                    text={formatMessage({
+                        id: 'navbar_dropdown.invitePeople',
+                        defaultMessage: 'Invite People',
+                    })}
+                    extraText={formatMessage({
+                        id: 'navbar_dropdown.invitePeopleExtraText',
+                        defaultMessage: 'Add people to the team',
+                    })}
+                    icon={this.props.mobile && <i className='fa fa-user-plus'/>}
+                />
+            );
+        }
 
         return this.props.mobile ? (
             <Menu
@@ -300,6 +306,7 @@ export class MainMenu extends React.PureComponent<Props> {
                     <SystemPermissionGate permissions={[Permissions.CREATE_TEAM]}>
                         <Menu.ItemLink
                             id='createTeam'
+                            show={!teamsLimitReached}
                             to='/create_team'
                             text={formatMessage({id: 'navbar_dropdown.create', defaultMessage: 'Create a Team'})}
                             icon={<i className='fa fa-plus-square'/>}
@@ -340,13 +347,6 @@ export class MainMenu extends React.PureComponent<Props> {
                         text={formatMessage({id: 'navbar_dropdown.help', defaultMessage: 'Help'})}
                         icon={<i className='fa fa-question'/>}
                     />
-                    <Menu.ItemAction
-                        id='gettingStarted'
-                        show={this.props.showDueToStepsNotFinished && !inTipsView}
-                        onClick={() => this.unhideNextStepsAndNavigateToTipsView()}
-                        text={formatMessage({id: 'navbar_dropdown.gettingStarted', defaultMessage: 'Getting Started'})}
-                        icon={<i className='icon icon-play'/>}
-                    />
                     <Menu.ItemExternalLink
                         id='reportLink'
                         show={Boolean(this.props.reportAProblemLink)}
@@ -357,7 +357,7 @@ export class MainMenu extends React.PureComponent<Props> {
                     <Menu.ItemExternalLink
                         id='nativeAppLink'
                         show={this.props.appDownloadLink && !UserAgent.isMobileApp()}
-                        url={useSafeUrl(this.props.appDownloadLink || '')}
+                        url={safeAppDownloadLink}
                         text={formatMessage({id: 'navbar_dropdown.nativeApps', defaultMessage: 'Download Apps'})}
                         icon={<i className='fa fa-mobile'/>}
                     />
@@ -469,13 +469,55 @@ export class MainMenu extends React.PureComponent<Props> {
                         <Menu.ItemLink
                             id='createTeam'
                             to='/create_team'
+                            className={createTeamRestricted ? 'MenuItem__with-icon-tooltip' : ''}
+                            disabled={teamsLimitReached}
                             text={formatMessage({id: 'navbar_dropdown.create', defaultMessage: 'Create a Team'})}
+                            sibling={createTeamRestricted && (
+                                <RestrictedIndicator
+                                    blocked={!this.props.isFreeTrial}
+                                    tooltipMessage={formatMessage({
+                                        id: 'navbar_dropdown.create.tooltip.cloudFreeTrial',
+                                        defaultMessage: 'During your trial you are able to create multiple teams. These teams will be archived after your trial.',
+                                    })}
+                                    titleAdminPreTrial={formatMessage({
+                                        id: 'navbar_dropdown.create.modal.titleAdminPreTrial',
+                                        defaultMessage: 'Try unlimited teams with a free trial',
+                                    })}
+                                    messageAdminPreTrial={formatMessage({
+                                        id: 'navbar_dropdown.create.modal.messageAdminPreTrial',
+                                        defaultMessage: 'Create unlimited teams with one of our paid plans. Get the full experience of Enterprise when you start a free, {trialLength} day trial.',
+                                    },
+                                    {
+                                        trialLength: FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS,
+                                    },
+                                    )}
+                                    titleAdminPostTrial={formatMessage({
+                                        id: 'navbar_dropdown.create.modal.titleAdminPostTrial',
+                                        defaultMessage: 'Upgrade to create unlimited teams',
+                                    })}
+                                    messageAdminPostTrial={formatMessage({
+                                        id: 'navbar_dropdown.create.modal.messageAdminPostTrial',
+                                        defaultMessage: 'Multiple teams allow for context-specific spaces that are more attuned to your and your teams’ needs. Upgrade to the Professional plan to create unlimited teams.',
+                                    })}
+                                    titleEndUser={formatMessage({
+                                        id: 'navbar_dropdown.create.modal.titleEndUser',
+                                        defaultMessage: 'Multiple teams available in paid plans',
+                                    })}
+                                    messageEndUser={formatMessage({
+                                        id: 'navbar_dropdown.create.modal.messageEndUser',
+                                        defaultMessage: 'Multiple teams allow for context-specific spaces that are more attuned to your teams’ needs.',
+                                    })}
+                                />
+                            )}
                         />
                     </SystemPermissionGate>
+                </Menu.Group>
+                <Menu.Group>
+                    {pluginItems}
                 </Menu.Group>
             </Menu>
         );
     }
 }
 
-export default injectIntl(withGetCloudSubscription((MainMenu)));
+export default injectIntl(MainMenu);

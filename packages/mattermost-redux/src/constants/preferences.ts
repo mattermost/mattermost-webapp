@@ -36,6 +36,10 @@ const Preferences = {
     MENTION_KEYS: 'mention_keys',
     USE_MILITARY_TIME: 'use_military_time',
 
+    CATEGORY_ACTIONS_MENU: 'actions_menu',
+    NAME_ACTIONS_MENU_TUTORIAL_STATE: 'actions_menu_tutorial_state',
+    ACTIONS_MENU_VIEWED: 'actions_menu_modal_viewed',
+
     CATEGORY_CUSTOM_STATUS: 'custom_status',
     NAME_CUSTOM_STATUS_TUTORIAL_STATE: 'custom_status_tutorial_state',
     NAME_RECENT_CUSTOM_STATUSES: 'recent_custom_statuses',
@@ -51,6 +55,23 @@ const Preferences = {
     ADVANCED_SEND_ON_CTRL_ENTER: 'send_on_ctrl_enter',
     CATEGORY_WHATS_NEW_MODAL: 'whats_new_modal',
     HAS_SEEN_SIDEBAR_WHATS_NEW_MODAL: 'has_seen_sidebar_whats_new_modal',
+
+    CATEGORY_PERFORMANCE_DEBUGGING: 'performance_debugging',
+    NAME_DISABLE_CLIENT_PLUGINS: 'disable_client_plugins',
+    NAME_DISABLE_TELEMETRY: 'disable_telemetry',
+    NAME_DISABLE_TYPING_MESSAGES: 'disable_typing_messages',
+
+    UNREAD_SCROLL_POSITION: 'unread_scroll_position',
+    UNREAD_SCROLL_POSITION_START_FROM_LEFT: 'start_from_left_off',
+    UNREAD_SCROLL_POSITION_START_FROM_NEWEST: 'start_from_newest',
+
+    CATEGORY_INSIGHTS: 'insights',
+    NAME_INSIGHTS_TUTORIAL_STATE: 'insights_tutorial_state',
+    INSIGHTS_VIEWED: 'insights_modal_viewed',
+
+    CATEGORY_UPGRADE_CLOUD: 'upgrade_cloud',
+    SYSTEM_CONSOLE_LIMIT_REACHED: 'system_console_limit_reached',
+
     CATEGORY_THEME: 'theme',
     THEMES: {
         denim: {
@@ -163,7 +184,7 @@ const Preferences = {
             errorTextColor: '#d24b4e',
             mentionHighlightBg: '#133a91',
             mentionHighlightLink: '#a4f4f4',
-            codeTheme: 'github',
+            codeTheme: 'solarized-dark',
         },
         onyx: {
             type: 'Onyx',
@@ -194,6 +215,7 @@ const Preferences = {
             codeTheme: 'monokai',
         },
     } as Record<ThemeKey, Theme>,
+    RECENT_EMOJIS: 'recent_emojis',
 };
 
 export default Preferences;

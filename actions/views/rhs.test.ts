@@ -2,16 +2,15 @@
 // See LICENSE.txt for license information.
 
 import {batchActions} from 'redux-batched-actions';
-import configureStore, {MockStoreEnhanced} from 'redux-mock-store';
-import thunk from 'redux-thunk';
+import {MockStoreEnhanced} from 'redux-mock-store';
 
 import * as PostActions from 'mattermost-redux/actions/posts';
 import * as SearchActions from 'mattermost-redux/actions/search';
 import {SearchTypes} from 'mattermost-redux/action_types';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
-import {Post} from 'mattermost-redux/types/posts';
-import {UserProfile} from 'mattermost-redux/types/users';
-import {IDMappedObjects} from 'mattermost-redux/types/utilities';
+import {Post} from '@mattermost/types/posts';
+import {UserProfile} from '@mattermost/types/users';
+import {IDMappedObjects} from '@mattermost/types/utilities';
 
 import {
     updateRhsState,
@@ -34,14 +33,15 @@ import {
     updateSearchType,
     suppressRHS,
     unsuppressRHS,
+    goBack, showChannelMembers,
 } from 'actions/views/rhs';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
+import mockStore from 'tests/test_store';
 import {ActionTypes, RHSStates, Constants} from 'utils/constants';
 import {getBrowserUtcOffset} from 'utils/timezone.jsx';
 import {GlobalState} from 'types/store';
 import {ViewsState} from 'types/store/views';
-
-const mockStore = configureStore<GlobalState, DispatchFunc>([thunk]);
+import {RhsState} from 'types/store/rhs';
 
 const currentChannelId = '123';
 const currentTeamId = '321';
@@ -125,13 +125,25 @@ describe('rhs view actions', () => {
     });
 
     describe('updateRhsState', () => {
-        test(`it dispatches ${ActionTypes.UPDATE_RHS_STATE} correctly`, () => {
+        test(`it dispatches ${ActionTypes.UPDATE_RHS_STATE} correctly with defaults`, () => {
             store.dispatch(updateRhsState(RHSStates.PIN));
 
             const action = {
                 type: ActionTypes.UPDATE_RHS_STATE,
                 state: RHSStates.PIN,
                 channelId: currentChannelId,
+            };
+
+            expect(store.getActions()).toEqual([action]);
+        });
+
+        test(`it dispatches ${ActionTypes.UPDATE_RHS_STATE} correctly`, () => {
+            store.dispatch(updateRhsState(RHSStates.PIN, 'channelId', RHSStates.CHANNEL_INFO as RhsState));
+            const action = {
+                type: ActionTypes.UPDATE_RHS_STATE,
+                state: RHSStates.PIN,
+                channelId: 'channelId',
+                previousRhsState: RHSStates.CHANNEL_INFO,
             };
 
             expect(store.getActions()).toEqual([action]);
@@ -310,6 +322,7 @@ describe('rhs view actions', () => {
                     type: ActionTypes.UPDATE_RHS_STATE,
                     channelId: currentChannelId,
                     state: RHSStates.PIN,
+                    previousRhsState: null,
                 },
                 {
                     type: 'MOCK_GET_PINNED_POSTS',
@@ -355,6 +368,7 @@ describe('rhs view actions', () => {
                     type: ActionTypes.UPDATE_RHS_STATE,
                     channelId,
                     state: RHSStates.PIN,
+                    previousRhsState: null,
                 },
                 {
                     type: 'MOCK_GET_PINNED_POSTS',
@@ -378,6 +392,21 @@ describe('rhs view actions', () => {
                             },
                         },
                     ],
+                },
+            ]);
+        });
+    });
+
+    describe('showChannelMembers', () => {
+        test('it dispatches the right actions', async () => {
+            await store.dispatch(showChannelMembers(currentChannelId));
+
+            expect(store.getActions()).toEqual([
+                {
+                    type: ActionTypes.UPDATE_RHS_STATE,
+                    channelId: currentChannelId,
+                    state: RHSStates.CHANNEL_MEMBERS,
+                    previousRhsState: null,
                 },
             ]);
         });
@@ -431,6 +460,12 @@ describe('rhs view actions', () => {
                     postId: '',
                     channelId: '',
                     timestamp: 0,
+                },
+                {
+                    type: ActionTypes.TOGGLE_EDITING_POST,
+                    data: {
+                        show: false,
+                    },
                 },
             ]));
 
@@ -642,6 +677,7 @@ describe('rhs view actions', () => {
                     type: ActionTypes.UPDATE_RHS_STATE,
                     channelId: currentChannelId,
                     state: RHSStates.PIN,
+                    previousRhsState: null,
                 },
                 {
                     type: 'MOCK_GET_PINNED_POSTS',
@@ -832,7 +868,7 @@ describe('rhs view actions', () => {
         });
     });
 
-    describe('rsh suppress actions', () => {
+    describe('rhs suppress actions', () => {
         it('should suppress rhs', () => {
             const store = mockStore(initialState);
             store.dispatch(suppressRHS);
@@ -846,6 +882,19 @@ describe('rhs view actions', () => {
             store.dispatch(unsuppressRHS);
             expect(store.getActions()).toEqual([{
                 type: ActionTypes.UNSUPPRESS_RHS,
+            }]);
+        });
+    });
+
+    describe('rhs go back', () => {
+        it('should be able to go back', () => {
+            const testState = {...initialState};
+            testState.views.rhs.previousRhsStates = [RHSStates.CHANNEL_FILES as RhsState];
+            const store = mockStore(testState);
+            store.dispatch(goBack());
+            expect(store.getActions()).toEqual([{
+                type: ActionTypes.RHS_GO_BACK,
+                state: RHSStates.CHANNEL_FILES as RhsState,
             }]);
         });
     });

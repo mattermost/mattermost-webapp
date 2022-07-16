@@ -27,7 +27,7 @@ import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import EmojiMap from 'utils/emoji_map';
 import {getPostDraft} from 'selectors/rhs';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import {Constants, StoragePrefixes} from 'utils/constants';
 import {PostDraft} from 'types/store/rhs';
 import {GlobalState} from 'types/store';

@@ -1,11 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Channel} from 'mattermost-redux/types/channels';
-import {MarketplaceApp, MarketplacePlugin} from 'mattermost-redux/types/marketplace';
-import {RelationOneToOne} from 'mattermost-redux/types/utilities';
-import {Team} from 'mattermost-redux/types/teams';
-import {UserThread} from 'mattermost-redux/types/threads';
+import {Channel} from '@mattermost/types/channels';
+import {MarketplaceApp, MarketplacePlugin} from '@mattermost/types/marketplace';
+import {RelationOneToOne} from '@mattermost/types/utilities';
+import {Team} from '@mattermost/types/teams';
+import {UserThread} from '@mattermost/types/threads';
 
 import {I18nState} from './i18n';
 import {RhsViewState} from './rhs';
@@ -69,6 +69,7 @@ export type ViewsState = {
         editingPost: {
             postId: string;
             show: boolean;
+            isRHS: boolean;
         };
         menuActions: {
             [postId: string]: {
@@ -88,10 +89,11 @@ export type ViewsState = {
                 dialogType: React.ComponentType;
             };
         };
+        showLaunchingWorkspace: boolean;
     };
 
     emoji: {
-        emojiPickerCustomPage: 0;
+        emojiPickerCustomPage: number;
         shortcutReactToLastPostEmittedFrom: string;
     };
 
@@ -103,6 +105,7 @@ export type ViewsState = {
 
     search: {
         modalSearch: string;
+        channelMembersRhsSearch: string;
         modalFilters: ModalFilters;
         systemUsersSearch: {
             term: string;
@@ -156,6 +159,10 @@ export type ViewsState = {
         filter: string;
     };
 
+    productMenu: {
+        switcherOpen: boolean;
+    };
+
     channelSidebar: {
         unreadFilterEnabled: boolean;
         draggingState: DraggingState;
@@ -165,12 +172,20 @@ export type ViewsState = {
         firstChannelName: string;
     };
 
-    nextSteps: {
-        show: boolean;
-    };
     statusDropdown: {
         isOpen: boolean;
     };
+
+    addChannelDropdown: {
+        isOpen: boolean;
+    };
+
+    onboardingTasks: {
+        isShowOnboardingTaskCompletion: boolean;
+        isShowOnboardingCompleteProfileTour: boolean;
+        isShowOnboardingVisitConsoleTour: boolean;
+    };
+
     threads: {
         selectedThreadIdInTeam: RelationOneToOne<Team, UserThread['id'] | null>;
         lastViewedAt: {[id: string]: number};

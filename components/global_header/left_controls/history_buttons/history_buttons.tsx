@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import styled from 'styled-components';
 import IconButton from '@mattermost/compass-components/components/icon-button';
 
@@ -26,6 +26,9 @@ const HistoryButtonsContainer = styled.nav`
 `;
 
 const HistoryButtons = (): JSX.Element => {
+    const [canGoBack, setCanGoBack] = useState(true);
+    const [canGoForward, setCanGoForward] = useState(true);
+
     const getTooltip = (shortcut: KeyboardShortcutDescriptor) => (
         <Tooltip
             id='upload-tooltip'
@@ -40,17 +43,50 @@ const HistoryButtons = (): JSX.Element => {
     const goBack = () => {
         trackEvent('ui', 'ui_history_back');
         browserHistory.goBack();
+        window.postMessage(
+            {
+                type: 'history-button',
+            },
+            window.location.origin,
+        );
     };
 
     const goForward = () => {
         trackEvent('ui', 'ui_history_forward');
         browserHistory.goForward();
+        window.postMessage(
+            {
+                type: 'history-button',
+            },
+            window.location.origin,
+        );
     };
+
+    const handleButtonMessage = useCallback((message: {origin: string; data: {type: string; message: {enableBack: boolean; enableForward: boolean}}}) => {
+        if (message.origin !== window.location.origin) {
+            return;
+        }
+
+        switch (message.data.type) {
+        case 'history-button-return': {
+            setCanGoBack(message.data.message.enableBack);
+            setCanGoForward(message.data.message.enableForward);
+            break;
+        }
+        }
+    }, []);
+
+    useEffect(() => {
+        window.addEventListener('message', handleButtonMessage);
+        return () => {
+            window.removeEventListener('message', handleButtonMessage);
+        };
+    }, [handleButtonMessage]);
 
     return (
         <HistoryButtonsContainer>
             <OverlayTrigger
-                trigger={['hover']}
+                trigger={['hover', 'focus']}
                 delayShow={Constants.OVERLAY_TIME_DELAY}
                 placement='bottom'
                 overlay={getTooltip(KEYBOARD_SHORTCUTS.browserChannelPrev)}
@@ -61,11 +97,12 @@ const HistoryButtons = (): JSX.Element => {
                     size={'sm'}
                     compact={true}
                     inverted={true}
+                    disabled={!canGoBack}
                     aria-label={Utils.localizeMessage('sidebar_left.channel_navigator.goBackLabel', 'Back')}
                 />
             </OverlayTrigger>
             <OverlayTrigger
-                trigger={['hover']}
+                trigger={['hover', 'focus']}
                 delayShow={Constants.OVERLAY_TIME_DELAY}
                 placement='bottom'
                 overlay={getTooltip(KEYBOARD_SHORTCUTS.browserChannelNext)}
@@ -76,6 +113,7 @@ const HistoryButtons = (): JSX.Element => {
                     size={'sm'}
                     compact={true}
                     inverted={true}
+                    disabled={!canGoForward}
                     aria-label={Utils.localizeMessage('sidebar_left.channel_navigator.goForwardLabel', 'Forward')}
                 />
             </OverlayTrigger>

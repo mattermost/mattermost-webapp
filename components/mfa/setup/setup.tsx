@@ -4,10 +4,10 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
-import * as Utils from 'utils/utils.jsx';
-import {t} from 'utils/i18n.jsx';
+import * as Utils from 'utils/utils';
+import {t} from 'utils/i18n';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import LocalizedInput from 'components/localized_input/localized_input';
@@ -153,9 +153,30 @@ export default class Setup extends React.PureComponent<Props, State> {
                 >
                     {mfaRequired}
                     <p>
-                        <FormattedMarkdownMessage
+                        <FormattedMessage
                             id='mfa.setup.step1'
-                            defaultMessage="**Step 1: **On your phone, download Google Authenticator from [iTunes](!https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8') or [Google Play](!https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en)"
+                            defaultMessage='<strong>Step 1: </strong>On your phone, download Google Authenticator from <linkiTunes>iTunes</linkiTunes> or <linkGooglePlay>Google Play</linkGooglePlay>'
+                            values={{
+                                strong: (msg: React.ReactNode) => <strong>{msg}</strong>,
+                                linkiTunes: (msg: React.ReactNode) => (
+                                    <a
+                                        href='https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8'
+                                        target='_blank'
+                                        rel='noreferrer'
+                                    >
+                                        {msg}
+                                    </a>
+                                ),
+                                linkGooglePlay: (msg: React.ReactNode) => (
+                                    <a
+                                        href='https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en'
+                                        target='_blank'
+                                        rel='noreferrer'
+                                    >
+                                        {msg}
+                                    </a>
+                                ),
+                            }}
                         />
                     </p>
                     <p>

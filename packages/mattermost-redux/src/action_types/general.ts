@@ -4,11 +4,6 @@
 import keyMirror from 'mattermost-redux/utils/key_mirror';
 
 export default keyMirror({
-    RECEIVED_APP_STATE: null,
-    RECEIVED_APP_CREDENTIALS: null,
-    REMOVED_APP_CREDENTIALS: null,
-    RECEIVED_APP_DEVICE_TOKEN: null,
-
     PING_RESET: null,
 
     RECEIVED_SERVER_VERSION: null,
@@ -25,11 +20,6 @@ export default keyMirror({
     LOG_CLIENT_ERROR_SUCCESS: null,
     LOG_CLIENT_ERROR_FAILURE: null,
 
-    SUPPORTED_TIMEZONES_REQUEST: null,
-    SUPPORTED_TIMEZONES_SUCCESS: null,
-    SUPPORTED_TIMEZONES_FAILURE: null,
-    SUPPORTED_TIMEZONES_RECEIVED: null,
-
     WEBSOCKET_REQUEST: null,
     WEBSOCKET_SUCCESS: null,
     WEBSOCKET_FAILURE: null,
@@ -44,4 +34,6 @@ export default keyMirror({
     WARN_METRIC_STATUS_REMOVED: null,
 
     FIRST_ADMIN_VISIT_MARKETPLACE_STATUS_RECEIVED: null,
+    FIRST_ADMIN_COMPLETE_SETUP_RECEIVED: null,
+    SHOW_LAUNCHING_WORKSPACE: null,
 });

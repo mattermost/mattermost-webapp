@@ -1,9 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-
 import {
     removeReaction,
     addMessageIntoHistory,
@@ -27,20 +24,15 @@ import {executeCommand} from 'actions/command';
 import * as HookActions from 'actions/hooks';
 import {StoragePrefixes} from 'utils/constants';
 
-/* eslint-disable global-require */
+import mockStore from 'tests/test_store';
 
-const mockStore = configureStore([thunk]);
+/* eslint-disable global-require */
 
 jest.mock('mattermost-redux/actions/posts', () => ({
     removeReaction: (...args) => ({type: 'MOCK_REMOVE_REACTION', args}),
     addMessageIntoHistory: (...args) => ({type: 'MOCK_ADD_MESSAGE_INTO_HISTORY', args}),
     moveHistoryIndexBack: (...args) => ({type: 'MOCK_MOVE_MESSAGE_HISTORY_BACK', args}),
     moveHistoryIndexForward: (...args) => ({type: 'MOCK_MOVE_MESSAGE_HISTORY_FORWARD', args}),
-}));
-
-jest.mock('dispatcher/app_dispatcher.jsx', () => ({
-    handleViewAction: jest.fn(),
-    register: jest.fn(),
 }));
 
 jest.mock('actions/command', () => ({

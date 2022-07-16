@@ -4,7 +4,7 @@
 import React from 'react';
 import {Provider} from 'react-redux';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import configureStore from 'store';
 
@@ -37,7 +37,6 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
         actions: {
             logError: jest.fn(),
             clearErrors: jest.fn(),
-            getMe: jest.fn(),
             updateMe: jest.fn(),
             sendVerificationEmail: jest.fn(),
             setDefaultProfileImage: jest.fn(),
@@ -62,17 +61,6 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
         (wrapper.instance() as UserSettingsGeneralTab).submitUser(requiredProps.user, false);
         expect(updateMe).toHaveBeenCalledTimes(1);
         expect(updateMe).toHaveBeenCalledWith(requiredProps.user);
-    });
-
-    test('submitUser() should have called getMe', async () => {
-        const updateMe = jest.fn(() => Promise.resolve({data: true}));
-        const getMe = jest.fn();
-        const props = {...requiredProps, actions: {...requiredProps.actions, updateMe, getMe}};
-        const wrapper = shallowWithIntl(<UserSettingsGeneral {...props}/>);
-
-        await (wrapper.instance() as UserSettingsGeneralTab).submitUser(requiredProps.user, false);
-        expect(getMe).toHaveBeenCalledTimes(1);
-        expect(getMe).toHaveBeenCalledWith();
     });
 
     test('submitPicture() should not have called uploadProfileImage', () => {
@@ -170,5 +158,13 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
             </Provider>,
         );
         expect(wrapper.find('.profile-img').exists()).toBeFalsy();
+    });
+
+    test('it should display an error about a username conflicting with a group name', async () => {
+        const updateMe = () => Promise.resolve({data: false, error: {server_error_id: 'app.user.group_name_conflict', message: ''}});
+        const props = {...requiredProps, actions: {...requiredProps.actions, updateMe}};
+        const wrapper = shallowWithIntl(<UserSettingsGeneral {...props}/>);
+        await (wrapper.instance() as UserSettingsGeneralTab).submitUser(requiredProps.user, false);
+        expect(wrapper.state('serverError')).toBe('This username conflicts with an existing group name.');
     });
 });

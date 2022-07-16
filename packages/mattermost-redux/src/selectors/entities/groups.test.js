@@ -5,6 +5,7 @@ import assert from 'assert';
 
 import deepFreezeAndThrowOnMutation from 'mattermost-redux/utils/deep_freeze';
 import * as Selectors from 'mattermost-redux/selectors/entities/groups';
+import TestHelper from 'mattermost-redux/test/test_helper';
 
 describe('Selectors.Groups', () => {
     const teamID = 'c6ubwm63apgftbjs71enbjjpsh';
@@ -16,6 +17,9 @@ describe('Selectors.Groups', () => {
     const expectedAssociatedGroupID3 = 'xos794c6tfb57eog481acokozc';
     const expectedAssociatedGroupID4 = 'tnd8zod9f3fdtqosxjmhwucbth';
     const channelAssociatedGroupIDs = [expectedAssociatedGroupID3, expectedAssociatedGroupID4];
+
+    const expectedAssociatedGroupID5 = 'pak66a8raibpmn6r3w8r7mf35a';
+
     const group1 = {
         id: expectedAssociatedGroupID1,
         name: '9uobsi3xb3y5tfjb3ze7umnh1o',
@@ -59,7 +63,7 @@ describe('Selectors.Groups', () => {
         allow_reference: false,
     };
     const group4 = {
-        id: [expectedAssociatedGroupID4],
+        id: expectedAssociatedGroupID4,
         name: 'nobctj4brfgtpj3a1peiyq47tc',
         display_name: 'engineering',
         description: '',
@@ -72,6 +76,30 @@ describe('Selectors.Groups', () => {
         member_count: 8,
         allow_reference: true,
     };
+    const group5 = {
+        id: expectedAssociatedGroupID5,
+        name: 'group5',
+        display_name: 'R&D',
+        description: '',
+        source: 'custom',
+        create_at: 1553808971099,
+        remote_id: null,
+        update_at: 1553808971099,
+        delete_at: 0,
+        has_syncables: false,
+        member_count: 8,
+        allow_reference: true,
+    };
+
+    const user1 = TestHelper.fakeUserWithId();
+    const user2 = TestHelper.fakeUserWithId();
+    const user3 = TestHelper.fakeUserWithId();
+
+    const profiles = {};
+    profiles[user1.id] = user1;
+    profiles[user2.id] = user2;
+    profiles[user3.id] = user3;
+
     const testState = deepFreezeAndThrowOnMutation({
         entities: {
             groups: {
@@ -82,12 +110,13 @@ describe('Selectors.Groups', () => {
                     [expectedAssociatedGroupID3]: group3,
                     [expectedAssociatedGroupID4]: group4,
                     [expectedAssociatedGroupID2]: group2,
+                    [expectedAssociatedGroupID5]: group5,
                 },
-                myGroups: {
-                    [expectedAssociatedGroupID1]: group1,
-                    [expectedAssociatedGroupID4]: group4,
-                    [expectedAssociatedGroupID2]: group2,
-                },
+                myGroups: [
+                    group1.id,
+                    group4.id,
+                    group2.id,
+                ],
             },
             teams: {
                 teams: {
@@ -111,6 +140,10 @@ describe('Selectors.Groups', () => {
             preferences: {
                 myPreferences: {},
             },
+            users: {
+                currentUserId: user1.id,
+                profiles,
+            },
         },
     });
 
@@ -118,7 +151,8 @@ describe('Selectors.Groups', () => {
         const groupsByName = Selectors.getAssociatedGroupsByName(testState, teamID, channelID);
         assert.equal(groupsByName[group1.name], group1);
         assert.equal(groupsByName[group4.name], group4);
-        assert.equal(Object.keys(groupsByName).length, 2);
+        assert.equal(groupsByName[group5.name], group5);
+        assert.equal(Object.keys(groupsByName).length, 3);
     });
 
     it('getGroupsAssociatedToTeam', () => {
@@ -130,7 +164,10 @@ describe('Selectors.Groups', () => {
     });
 
     it('getGroupsNotAssociatedToTeam', () => {
-        const expected = Object.entries(testState.entities.groups.groups).filter(([groupID]) => !teamAssociatedGroupIDs.includes(groupID)).map(([, group]) => group);
+        const expected = [
+            group3,
+            group4,
+        ];
         assert.deepEqual(Selectors.getGroupsNotAssociatedToTeam(testState, teamID), expected);
     });
 
@@ -143,7 +180,10 @@ describe('Selectors.Groups', () => {
     });
 
     it('getGroupsNotAssociatedToChannel', () => {
-        let expected = Object.values(testState.entities.groups.groups).filter((group) => !channelAssociatedGroupIDs.includes(group.id));
+        const expected = [
+            group1,
+            group2,
+        ];
         assert.deepEqual(Selectors.getGroupsNotAssociatedToChannel(testState, channelID, teamID), expected);
 
         let cloneState = JSON.parse(JSON.stringify(testState));
@@ -151,8 +191,7 @@ describe('Selectors.Groups', () => {
         cloneState.entities.teams.groupsAssociatedToTeam[teamID].ids = [expectedAssociatedGroupID1];
         cloneState = deepFreezeAndThrowOnMutation(cloneState);
 
-        expected = Object.values(cloneState.entities.groups.groups).filter((group) => !channelAssociatedGroupIDs.includes(group.id) && cloneState.entities.teams.groupsAssociatedToTeam[teamID].ids.includes(group.id));
-        assert.deepEqual(Selectors.getGroupsNotAssociatedToChannel(cloneState, channelID, teamID), expected);
+        assert.deepEqual(Selectors.getGroupsNotAssociatedToChannel(cloneState, channelID, teamID), [group1]);
     });
 
     it('getGroupsAssociatedToTeamForReference', () => {
@@ -173,6 +212,7 @@ describe('Selectors.Groups', () => {
         const expected = [
             group1,
             group4,
+            group5,
         ];
         assert.deepEqual(Selectors.getAllAssociatedGroupsForReference(testState), expected);
     });

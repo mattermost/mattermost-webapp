@@ -6,8 +6,8 @@ import {FormattedMessage} from 'react-intl';
 import debounce from 'lodash/debounce';
 import {Tabs, Tab, SelectCallback} from 'react-bootstrap';
 
-import {PluginStatusRedux} from 'mattermost-redux/types/plugins';
-import type {MarketplaceApp, MarketplacePlugin} from 'mattermost-redux/types/marketplace';
+import {PluginStatusRedux} from '@mattermost/types/plugins';
+import type {MarketplaceApp, MarketplacePlugin} from '@mattermost/types/marketplace';
 
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import RootPortal from 'components/root_portal';
@@ -101,7 +101,8 @@ export type MarketplaceModalProps = {
         closeModal: () => void;
         fetchListing(localOnly?: boolean): Promise<{error?: Error}>;
         filterListing(filter: string): Promise<{error?: Error}>;
-        setFirstAdminVisitMarketplaceStatus: () => void;
+        setFirstAdminVisitMarketplaceStatus(): Promise<void>;
+        getPluginStatuses(): Promise<void>;
     };
 };
 
@@ -133,6 +134,7 @@ export default class MarketplaceModal extends React.PureComponent<MarketplaceMod
         trackEvent('plugins', 'ui_marketplace_opened');
 
         this.fetchListing();
+        this.props.actions.getPluginStatuses();
         if (!this.props.firstAdminVisitMarketplaceStatus) {
             trackEvent('plugins', 'ui_first_admin_visit_marketplace_status');
 

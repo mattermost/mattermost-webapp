@@ -5,10 +5,16 @@ import React from 'react';
 
 import {TIconGlyph} from '@mattermost/compass-components/foundations/icon';
 
-import {ClientPluginManifest} from 'mattermost-redux/types/plugins';
-import {FileInfo} from 'mattermost-redux/types/files';
-import {Post, PostEmbed} from 'mattermost-redux/types/posts';
-import {IDMappedObjects} from 'mattermost-redux/types/utilities';
+import {ClientPluginManifest} from '@mattermost/types/plugins';
+import {PluginAnalyticsRow} from '@mattermost/types/admin';
+import {FileInfo} from '@mattermost/types/files';
+import {Post, PostEmbed} from '@mattermost/types/posts';
+import {IDMappedObjects} from '@mattermost/types/utilities';
+import {TopBoardResponse} from '@mattermost/types/insights';
+
+import WebSocketClient from 'client/websocket_client';
+
+export type PluginSiteStatsHandler = () => Promise<Record<string, PluginAnalyticsRow>>;
 
 export type PluginsState = {
     plugins: IDMappedObjects<ClientPluginManifest>;
@@ -24,6 +30,7 @@ export type PluginsState = {
         ChannelHeaderButton: PluginComponent[];
         MobileChannelHeaderButton: PluginComponent[];
         AppBar: PluginComponent[];
+        UserGuideDropdownItem: PluginComponent[];
         [componentName: string]: PluginComponent[];
     };
 
@@ -38,7 +45,15 @@ export type PluginsState = {
         [pluginId: string]: any;
     };
     adminConsoleCustomComponents: {
-        [pluginId: string]: AdminConsolePluginComponent;
+        [pluginId: string]: {
+            [settingName: string]: AdminConsolePluginComponent;
+        };
+    };
+    siteStatsHandlers: {
+        [pluginId: string]: PluginSiteStatsHandler;
+    };
+    insightsHandlers: {
+        [pluginId: string]: (timeRange: string, page: number, perPage: number, teamId: string, insightType: string) => Promise<TopBoardResponse>;
     };
 };
 
@@ -63,6 +78,8 @@ export type PluginComponent = {
     text?: string;
     dropdownText?: string;
     tooltipText?: string;
+    button?: React.ReactElement;
+    dropdownButton?: React.ReactElement;
     icon?: React.ReactElement;
     iconUrl?: string;
     mobileIcon?: React.ReactElement;
@@ -104,7 +121,7 @@ export type AdminConsolePluginComponent = {
 export type PostWillRenderEmbedPluginComponent = {
     id: string;
     pluginId: string;
-    component: React.ComponentType<{ embed: PostEmbed }>;
+    component: React.ComponentType<{ embed: PostEmbed; webSocketClient?: WebSocketClient }>;
     match: (arg: PostEmbed) => boolean;
     toggleable: boolean;
 }

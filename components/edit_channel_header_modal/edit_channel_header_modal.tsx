@@ -6,15 +6,15 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {Channel} from 'mattermost-redux/types/channels';
-import {ServerError} from 'mattermost-redux/types/errors';
+import {Channel} from '@mattermost/types/channels';
+import {ServerError} from '@mattermost/types/errors';
 
-import Textbox from 'components/textbox';
+import Textbox, {TextboxElement} from 'components/textbox';
 import TextboxClass from 'components/textbox/textbox';
 import TextboxLinks from 'components/textbox/textbox_links';
 import Constants from 'utils/constants';
 import {isMobile} from 'utils/user_agent';
-import {insertLineBreakFromKeyEvent, isKeyPressed, isUnhandledLineBreakKeyCombo, localizeMessage} from 'utils/utils.jsx';
+import {insertLineBreakFromKeyEvent, isKeyPressed, isUnhandledLineBreakKeyCombo, localizeMessage} from 'utils/utils';
 
 const KeyCodes = Constants.KeyCodes;
 
@@ -36,6 +36,8 @@ type Props = {
      * Should preview be showed
      */
     shouldShowPreview: boolean;
+
+    markdownPreviewFeatureIsEnabled: boolean;
 
     /**
      * Called when the modal has been hidden and should be removed.
@@ -82,7 +84,7 @@ export default class EditChannelHeaderModal extends React.PureComponent<Props, S
     }
 
     private handleModalKeyDown = (e: React.KeyboardEvent<Modal>): void => {
-        if (isKeyPressed(e, KeyCodes.ESCAPE)) {
+        if (isKeyPressed(e as unknown as React.KeyboardEvent, KeyCodes.ESCAPE)) {
             this.hideModal();
         }
     }
@@ -91,27 +93,25 @@ export default class EditChannelHeaderModal extends React.PureComponent<Props, S
         this.props.actions.setShowPreview(newState);
     }
 
-    private handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    private handleChange = (e: React.ChangeEvent<TextboxElement>): void => {
         this.setState({
             header: e.target.value,
         });
     }
 
     public handleSave = async (): Promise<void> => {
-        const {header} = this.state;
+        const header = this.state.header?.trim() ?? '';
         if (header === this.props.channel.header) {
             this.hideModal();
-            return;
-        }
-
-        this.setState({saving: true});
-
-        const {channel, actions} = this.props;
-        const {error} = await actions.patchChannel(channel.id!, {header});
-        if (error) {
-            this.setState({serverError: error, saving: false});
         } else {
-            this.hideModal();
+            this.setState({saving: true});
+            const {channel, actions} = this.props;
+            const {error} = await actions.patchChannel(channel.id!, {header});
+            if (error) {
+                this.setState({serverError: error, saving: false});
+            } else {
+                this.hideModal();
+            }
         }
     }
 
@@ -142,7 +142,7 @@ export default class EditChannelHeaderModal extends React.PureComponent<Props, S
 
         // listen for line break key combo and insert new line character
         if (isUnhandledLineBreakKeyCombo(e)) {
-            this.setState({header: insertLineBreakFromKeyEvent(e)});
+            this.setState({header: insertLineBreakFromKeyEvent(e as React.KeyboardEvent<HTMLTextAreaElement>)});
         } else if (ctrlSend && isKeyPressed(e, KeyCodes.ENTER) && e.ctrlKey === true) {
             this.handleKeyPress(e);
         }
@@ -240,7 +240,7 @@ export default class EditChannelHeaderModal extends React.PureComponent<Props, S
                         <p>
                             <FormattedMessage
                                 id='edit_channel_header_modal.description'
-                                defaultMessage='Edit the text appearing next to the channel name in the channel header.'
+                                defaultMessage='Edit the text appearing next to the channel name in the header.'
                             />
                         </p>
                         <div className='textarea-wrapper'>
@@ -263,10 +263,11 @@ export default class EditChannelHeaderModal extends React.PureComponent<Props, S
                         </div>
                         <div className='post-create-footer'>
                             <TextboxLinks
-                                characterLimit={1024}
+                                isMarkdownPreviewEnabled={this.props.markdownPreviewFeatureIsEnabled}
                                 showPreview={this.props.shouldShowPreview}
                                 updatePreview={this.setShowPreview}
-                                message={this.state.header}
+                                hasText={this.state.header ? this.state.header.length > 0 : false}
+                                hasExceededCharacterLimit={this.state.header ? this.state.header.length > 1024 : false}
                                 previewMessageLink={localizeMessage('edit_channel_header.previewHeader', 'Edit Header')}
                             />
                         </div>

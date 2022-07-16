@@ -19,14 +19,14 @@ import {
     ChannelMemberCountByGroup,
     ChannelMemberCountsByGroup,
     ServerChannel,
-} from 'mattermost-redux/types/channels';
+} from '@mattermost/types/channels';
 import {
     RelationOneToMany,
     RelationOneToOne,
     IDMappedObjects,
-} from 'mattermost-redux/types/utilities';
+} from '@mattermost/types/utilities';
 
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 import {channelListToMap, splitRoles} from 'mattermost-redux/utils/channel_utils';
 
 import messageCounts from './channels/message_counts';
@@ -181,7 +181,7 @@ function channels(state: IDMappedObjects<Channel> = {}, action: GenericAction) {
         };
     }
     case ChannelTypes.LEAVE_CHANNEL: {
-        if (action.data && action.data.type === General.PRIVATE_CHANNEL) {
+        if (action.data) {
             const nextState = {...state};
             Reflect.deleteProperty(nextState, action.data.id);
             return nextState;
@@ -267,7 +267,7 @@ function channelsInTeam(state: RelationOneToMany<Team, Channel> = {}, action: Ge
         return channelListToSet(state, action);
     }
     case ChannelTypes.LEAVE_CHANNEL: {
-        if (action.data && action.data.type === General.PRIVATE_CHANNEL) {
+        if (action.data) {
             return removeChannelFromSet(state, action);
         }
         return state;
@@ -279,14 +279,12 @@ function channelsInTeam(state: RelationOneToMany<Team, Channel> = {}, action: Ge
     }
 }
 
-function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = {}, action: GenericAction) {
+export function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = {}, action: GenericAction) {
     switch (action.type) {
     case ChannelTypes.RECEIVED_MY_CHANNEL_MEMBER: {
-        const channelMember = action.data;
-        return {
-            ...state,
-            [channelMember.channel_id]: channelMember,
-        };
+        const channelMember: ChannelMembership = action.data;
+
+        return receiveChannelMember(state, channelMember);
     }
     case ChannelTypes.RECEIVED_MY_CHANNEL_MEMBERS: {
         const nextState = {...state};
@@ -297,11 +295,9 @@ function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = {}, act
             });
         }
 
-        for (const cm of action.data) {
-            nextState[cm.channel_id] = cm;
-        }
+        const channelMembers: ChannelMembership[] = action.data;
 
-        return nextState;
+        return channelMembers.reduce(receiveChannelMember, state);
     }
     case ChannelTypes.RECEIVED_CHANNEL_PROPS: {
         const member = {...state[action.data.channel_id]};
@@ -429,20 +425,6 @@ function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = {}, act
             },
         };
     }
-    case ChannelTypes.RECEIVED_LAST_VIEWED_AT: {
-        const {data} = action;
-        let member = state[data.channel_id];
-
-        member = {
-            ...member,
-            last_viewed_at: data.last_viewed_at,
-        };
-
-        return {
-            ...state,
-            [action.data.channel_id]: member,
-        };
-    }
     case ChannelTypes.LEAVE_CHANNEL: {
         const nextState = {...state};
         if (action.data) {
@@ -462,7 +444,18 @@ function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = {}, act
         if (!channelState) {
             return state;
         }
-        return {...state, [data.channelId]: {...channelState, msg_count: data.msgCount, mention_count: data.mentionCount, msg_count_root: data.msgCountRoot, mention_count_root: data.mentionCountRoot, last_viewed_at: data.lastViewedAt}};
+
+        return {
+            ...state,
+            [data.channelId]: {
+                ...channelState,
+                msg_count: data.msgCount,
+                mention_count: data.mentionCount,
+                msg_count_root: data.msgCountRoot,
+                mention_count_root: data.mentionCountRoot,
+                last_viewed_at: data.lastViewedAt,
+            },
+        };
     }
 
     case UserTypes.LOGOUT_SUCCESS:
@@ -470,6 +463,29 @@ function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = {}, act
     default:
         return state;
     }
+}
+
+function receiveChannelMember(state: RelationOneToOne<Channel, ChannelMembership>, received: ChannelMembership) {
+    const member = state[received.channel_id];
+
+    let nextMember = received;
+    if (member && nextMember.last_viewed_at < member.last_viewed_at) {
+        // The last_viewed_at should almost never decrease upon receiving a member, so if it does, assume that the
+        // unread state of the existing channel member is correct. See MM-44900 for more information.
+        nextMember = {
+            ...received,
+            last_viewed_at: Math.max(member.last_viewed_at, received.last_viewed_at),
+            msg_count: Math.max(member.msg_count, received.msg_count),
+            msg_count_root: Math.max(member.msg_count_root, received.msg_count_root),
+            mention_count: Math.min(member.mention_count, received.mention_count),
+            mention_count_root: Math.min(member.mention_count_root, received.mention_count_root),
+        };
+    }
+
+    return {
+        ...state,
+        [nextMember.channel_id]: nextMember,
+    };
 }
 
 function membersInChannel(state: RelationOneToOne<Channel, Record<string, ChannelMembership>> = {}, action: GenericAction) {
@@ -609,6 +625,23 @@ function stats(state: RelationOneToOne<Channel, ChannelStats> = {}, action: Gene
                 [id]: {
                     ...nextStat,
                     pinnedpost_count: count,
+                },
+            };
+        }
+
+        return state;
+    }
+    case ChannelTypes.INCREMENT_FILE_COUNT: {
+        const nextState = {...state};
+        const id = action.id;
+        const nextStat = nextState[id];
+        if (nextStat) {
+            const count = nextStat.files_count + action.amount;
+            return {
+                ...nextState,
+                [id]: {
+                    ...nextStat,
+                    files_count: count,
                 },
             };
         }

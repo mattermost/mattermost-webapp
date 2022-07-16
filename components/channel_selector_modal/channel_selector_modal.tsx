@@ -5,12 +5,12 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {ChannelSearchOpts, ChannelWithTeamData} from 'mattermost-redux/types/channels';
+import {ChannelSearchOpts, ChannelWithTeamData} from '@mattermost/types/channels';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
 
 import Constants from 'utils/constants';
-import {localizeMessage, compareChannels} from 'utils/utils.jsx';
+import {localizeMessage, compareChannels} from 'utils/utils';
 
 import MultiSelect, {Value} from 'components/multiselect/multiselect';
 

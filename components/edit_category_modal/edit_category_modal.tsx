@@ -4,7 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
+import {ChannelCategory} from '@mattermost/types/channel_categories';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import QuickInput, {MaxLengthInput} from 'components/quick_input';
@@ -121,9 +121,11 @@ export default class EditCategoryModal extends React.PureComponent<Props, State>
 
         return (
             <GenericModal
+                ariaLabel={localizeMessage('rename_category_modal.renameCategory', 'Rename Category')}
                 onExited={this.props.onExited}
                 modalHeaderText={modalHeaderText}
                 handleConfirm={this.handleConfirm}
+                handleEnterKeyPress={this.handleConfirm}
                 handleCancel={this.handleCancel}
                 confirmButtonText={editButtonText}
                 isConfirmDisabled={this.isConfirmDisabled()}

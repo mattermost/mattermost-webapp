@@ -4,11 +4,11 @@
 import {createSelector} from 'reselect';
 
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {GlobalState} from 'mattermost-redux/types/store';
-import {Team} from 'mattermost-redux/types/teams';
-import {UserThread, ThreadsState, UserThreadType, UserThreadSynthetic} from 'mattermost-redux/types/threads';
-import {Post} from 'mattermost-redux/types/posts';
-import {IDMappedObjects, RelationOneToMany} from 'mattermost-redux/types/utilities';
+import {GlobalState} from '@mattermost/types/store';
+import {Team} from '@mattermost/types/teams';
+import {UserThread, ThreadsState, UserThreadType, UserThreadSynthetic} from '@mattermost/types/threads';
+import {Post} from '@mattermost/types/posts';
+import {IDMappedObjects, RelationOneToMany} from '@mattermost/types/utilities';
 
 export function getThreadsInTeam(state: GlobalState): RelationOneToMany<Team, UserThread> {
     return state.entities.threads.threadsInTeam;
@@ -113,6 +113,25 @@ export const getThreadOrderInCurrentTeam: (state: GlobalState, selectedThreadIdI
         }
 
         return sortByLastReply(ids, threads);
+    },
+);
+
+export const getNewestThreadInTeam: (state: GlobalState, teamID: string,) => (UserThread | null) = createSelector(
+    'getNewestThreadInTeam',
+    getThreadsInTeam,
+    getThreads,
+    (state: GlobalState, teamID: string) => teamID,
+    (
+        threadsInTeam,
+        threads,
+        teamID: string,
+    ) => {
+        const threadsInGivenTeam = threadsInTeam?.[teamID] ?? [];
+        if (!threadsInGivenTeam) {
+            return null;
+        }
+        const ids = [...threadsInGivenTeam.filter((id) => threads[id].is_following)];
+        return threads[sortByLastReply(ids, threads)[0]];
     },
 );
 

@@ -6,16 +6,16 @@ import React from 'react';
 import {Button} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 import {Client4Error} from 'mattermost-redux/types/client4';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import * as URL from 'utils/url';
+
 import logoImage from 'images/logo.png';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 
@@ -126,9 +126,20 @@ export default class TeamUrl extends React.PureComponent<Props, State> {
         for (let index = 0; index < Constants.RESERVED_TEAM_NAMES.length; index++) {
             if (cleanedName.indexOf(Constants.RESERVED_TEAM_NAMES[index]) === 0) {
                 this.setState({nameError: (
-                    <FormattedMarkdownMessage
+                    <FormattedMessage
                         id='create_team.team_url.taken'
-                        defaultMessage='This URL [starts with a reserved word](!https://docs.mattermost.com/help/getting-started/creating-teams.html#team-url) or is unavailable. Please try another.'
+                        defaultMessage='This URL <link>starts with a reserved word</link> or is unavailable. Please try another.'
+                        values={{
+                            link: (msg: React.ReactNode) => (
+                                <a
+                                    href='https://docs.mattermost.com/help/getting-started/creating-teams.html#team-url'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        }}
                     />),
                 });
                 return;

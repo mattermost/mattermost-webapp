@@ -1,26 +1,25 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+import {NoResultsVariant} from 'components/no_results_indicator/types';
+
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import * as UserAgent from 'utils/user_agent';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import SuggestionBox from 'components/suggestion/suggestion_box';
 import SuggestionBoxComponent from 'components/suggestion/suggestion_box/suggestion_box';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 import SwitchChannelProvider from 'components/suggestion/switch_channel_provider.jsx';
 import NoResultsIndicator from 'components/no_results_indicator/no_results_indicator';
-
-import {NoResultsVariant} from 'components/no_results_indicator/types';
 
 const CHANNEL_MODE = 'channel';
 
@@ -178,7 +177,6 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
         return (
             <Modal
                 dialogClassName='a11y__modal channel-switcher'
-                ref='modal'
                 show={true}
                 onHide={this.onHide}
                 enforceFocus={false}
@@ -222,13 +220,14 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
                             openWhenEmpty={true}
                             onSuggestionsReceived={this.handleSuggestionsReceived}
                             forceSuggestionsWhenBlur={true}
-                            renderDividers={true}
+                            renderDividers={[Constants.MENTION_UNREAD, Constants.MENTION_RECENT_CHANNELS]}
+                            shouldSearchCompleteText={true}
                         />
                         {!this.state.shouldShowLoadingSpinner && !this.state.hasSuggestions && this.state.text &&
-                        <NoResultsIndicator
-                            variant={NoResultsVariant.ChannelSearch}
-                            titleValues={{channelName: `"${this.state.pretext}"`}}
-                        />
+                            <NoResultsIndicator
+                                variant={NoResultsVariant.ChannelSearch}
+                                titleValues={{channelName: `"${this.state.pretext}"`}}
+                            />
                         }
                     </div>
                 </Modal.Body>
@@ -236,4 +235,3 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
         );
     }
 }
-/* eslint-enable react/no-string-refs */

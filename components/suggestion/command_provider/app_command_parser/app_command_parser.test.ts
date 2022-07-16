@@ -3,9 +3,9 @@
 
 /* eslint-disable max-lines */
 
+import mockStore from 'tests/test_store';
+
 import {
-    thunk,
-    configureStore,
     Client4,
     AppBinding,
     checkForExecuteSuggestion,
@@ -13,7 +13,6 @@ import {
 
 import {
     AppCallResponseTypes,
-    AppCallTypes,
     AutocompleteSuggestion,
 } from './app_command_parser_dependencies';
 
@@ -27,8 +26,6 @@ import {
     reduxTestState,
     testBindings,
 } from './tests/app_command_parser_test_data';
-
-const mockStore = configureStore([thunk]);
 
 const getOpenInModalOption = (command: string) => {
     return {
@@ -54,6 +51,7 @@ describe('AppCommandParser', () => {
                         bindings,
                         forms: {},
                     },
+                    pluginEnabled: true,
                 },
             },
         } as any;
@@ -260,7 +258,7 @@ describe('AppCommandParser', () => {
                 autocomplete: {verify: (parsed: ParsedCommand): void => {
                     expect(parsed.state).toBe(ParseState.EndValue);
                     expect(parsed.binding?.label).toBe('create');
-                    expect(parsed.form?.call?.path).toBe('/create-issue');
+                    expect(parsed.resolvedForm?.submit?.path).toBe('/create-issue');
                     expect(parsed.incomplete).toBe('epic2');
                     expect(parsed.incompleteStart).toBe(75);
                     expect(parsed.values?.project).toBe('P 1');
@@ -271,7 +269,7 @@ describe('AppCommandParser', () => {
                 submit: {verify: (parsed: ParsedCommand): void => {
                     expect(parsed.state).toBe(ParseState.EndValue);
                     expect(parsed.binding?.label).toBe('create');
-                    expect(parsed.form?.call?.path).toBe('/create-issue');
+                    expect(parsed.resolvedForm?.submit?.path).toBe('/create-issue');
                     expect(parsed.values?.project).toBe('P 1');
                     expect(parsed.values?.epic).toBe('epic2');
                     expect(parsed.values?.summary).toBe('SUM MA RY');
@@ -284,7 +282,7 @@ describe('AppCommandParser', () => {
                 autocomplete: {verify: (parsed: ParsedCommand): void => {
                     expect(parsed.state).toBe(ParseState.EndValue);
                     expect(parsed.binding?.label).toBe('create');
-                    expect(parsed.form?.call?.path).toBe('/create-issue');
+                    expect(parsed.resolvedForm?.submit?.path).toBe('/create-issue');
                     expect(parsed.incomplete).toBe('epic2');
                     expect(parsed.incompleteStart).toBe(75);
                     expect(parsed.values?.project).toBe('P 1');
@@ -295,7 +293,7 @@ describe('AppCommandParser', () => {
                 submit: {verify: (parsed: ParsedCommand): void => {
                     expect(parsed.state).toBe(ParseState.EndValue);
                     expect(parsed.binding?.label).toBe('create');
-                    expect(parsed.form?.call?.path).toBe('/create-issue');
+                    expect(parsed.resolvedForm?.submit?.path).toBe('/create-issue');
                     expect(parsed.values?.project).toBe('P 1');
                     expect(parsed.values?.epic).toBe('epic2');
                     expect(parsed.values?.summary).toBe('SUM MA RY');
@@ -308,7 +306,7 @@ describe('AppCommandParser', () => {
                 autocomplete: {verify: (parsed: ParsedCommand): void => {
                     expect(parsed.state).toBe(ParseState.EndValue);
                     expect(parsed.binding?.label).toBe('create');
-                    expect(parsed.form?.call?.path).toBe('/create-issue');
+                    expect(parsed.resolvedForm?.submit?.path).toBe('/create-issue');
                     expect(parsed.incomplete).toBe('M');
                     expect(parsed.incompleteStart).toBe(65);
                     expect(parsed.values?.project).toBe('KT');
@@ -317,7 +315,7 @@ describe('AppCommandParser', () => {
                 submit: {verify: (parsed: ParsedCommand): void => {
                     expect(parsed.state).toBe(ParseState.EndValue);
                     expect(parsed.binding?.label).toBe('create');
-                    expect(parsed.form?.call?.path).toBe('/create-issue');
+                    expect(parsed.resolvedForm?.submit?.path).toBe('/create-issue');
                     expect(parsed.values?.epic).toBe('M');
                 }},
             },
@@ -327,7 +325,7 @@ describe('AppCommandParser', () => {
                 autocomplete: {verify: (parsed: ParsedCommand): void => {
                     expect(parsed.state).toBe(ParseState.EndValue);
                     expect(parsed.binding?.label).toBe('view');
-                    expect(parsed.form?.call?.path).toBe('/view-issue');
+                    expect(parsed.resolvedForm?.submit?.path).toBe('/view-issue');
                     expect(parsed.incomplete).toBe('MM-123');
                     expect(parsed.incompleteStart).toBe(33);
                     expect(parsed.values?.project).toBe('P 1');
@@ -336,7 +334,7 @@ describe('AppCommandParser', () => {
                 submit: {verify: (parsed: ParsedCommand): void => {
                     expect(parsed.state).toBe(ParseState.EndValue);
                     expect(parsed.binding?.label).toBe('view');
-                    expect(parsed.form?.call?.path).toBe('/view-issue');
+                    expect(parsed.resolvedForm?.submit?.path).toBe('/view-issue');
                     expect(parsed.values?.project).toBe('P 1');
                     expect(parsed.values?.issue).toBe('MM-123');
                 }},
@@ -347,7 +345,7 @@ describe('AppCommandParser', () => {
                 submit: {verify: (parsed: ParsedCommand): void => {
                     expect(parsed.state).toBe(ParseState.StartParameter);
                     expect(parsed.binding?.label).toBe('view');
-                    expect(parsed.form?.call?.path).toBe('/view-issue');
+                    expect(parsed.resolvedForm?.submit?.path).toBe('/view-issue');
                     expect(parsed.incomplete).toBe('');
                     expect(parsed.incompleteStart).toBe(17);
                     expect(parsed.values).toEqual({});
@@ -359,14 +357,14 @@ describe('AppCommandParser', () => {
                 autocomplete: {verify: (parsed: ParsedCommand): void => {
                     expect(parsed.state).toBe(ParseState.FlagValueSeparator);
                     expect(parsed.binding?.label).toBe('create');
-                    expect(parsed.form?.call?.path).toBe('/create-issue');
+                    expect(parsed.resolvedForm?.submit?.path).toBe('/create-issue');
                     expect(parsed.incomplete).toBe('');
                     expect(parsed.values).toEqual({});
                 }},
                 submit: {verify: (parsed: ParsedCommand): void => {
                     expect(parsed.state).toBe(ParseState.EndValue);
                     expect(parsed.binding?.label).toBe('create');
-                    expect(parsed.form?.call?.path).toBe('/create-issue');
+                    expect(parsed.resolvedForm?.submit?.path).toBe('/create-issue');
                     expect(parsed.incomplete).toBe('');
                     expect(parsed.values).toEqual({
                         summary: '',
@@ -379,7 +377,7 @@ describe('AppCommandParser', () => {
                 autocomplete: {verify: (parsed: ParsedCommand): void => {
                     expect(parsed.state).toBe(ParseState.TickValue);
                     expect(parsed.binding?.label).toBe('view');
-                    expect(parsed.form?.call?.path).toBe('/view-issue');
+                    expect(parsed.resolvedForm?.submit?.path).toBe('/view-issue');
                     expect(parsed.incomplete).toBe('P 1');
                     expect(parsed.incompleteStart).toBe(27);
                     expect(parsed.values?.project).toBe(undefined);
@@ -393,7 +391,7 @@ describe('AppCommandParser', () => {
                 autocomplete: {verify: (parsed: ParsedCommand): void => {
                     expect(parsed.state).toBe(ParseState.QuotedValue);
                     expect(parsed.binding?.label).toBe('view');
-                    expect(parsed.form?.call?.path).toBe('/view-issue');
+                    expect(parsed.resolvedForm?.submit?.path).toBe('/view-issue');
                     expect(parsed.incomplete).toBe('P 1');
                     expect(parsed.incompleteStart).toBe(27);
                     expect(parsed.values?.project).toBe(undefined);
@@ -407,7 +405,7 @@ describe('AppCommandParser', () => {
                 autocomplete: {verify: (parsed: ParsedCommand): void => {
                     expect(parsed.state).toBe(ParseState.EndQuotedValue);
                     expect(parsed.binding?.label).toBe('view');
-                    expect(parsed.form?.call?.path).toBe('/view-issue');
+                    expect(parsed.resolvedForm?.submit?.path).toBe('/view-issue');
                     expect(parsed.incomplete).toBe('P 1');
                     expect(parsed.incompleteStart).toBe(27);
                     expect(parsed.values?.project).toBe(undefined);
@@ -416,7 +414,7 @@ describe('AppCommandParser', () => {
                 submit: {verify: (parsed: ParsedCommand): void => {
                     expect(parsed.state).toBe(ParseState.EndQuotedValue);
                     expect(parsed.binding?.label).toBe('view');
-                    expect(parsed.form?.call?.path).toBe('/view-issue');
+                    expect(parsed.resolvedForm?.submit?.path).toBe('/view-issue');
                     expect(parsed.values?.project).toBe('P 1');
                     expect(parsed.values?.issue).toBe(undefined);
                 }},
@@ -957,7 +955,7 @@ describe('AppCommandParser', () => {
         });
     });
 
-    describe('composeCallFromCommand', () => {
+    describe('composeCommandSubmitCall', () => {
         const base = {
             context: {
                 app_id: 'jira',
@@ -973,8 +971,8 @@ describe('AppCommandParser', () => {
             const cmd = '/jira issue create';
             const values = {};
 
-            const {call} = await parser.composeCallFromCommand(cmd);
-            expect(call).toEqual({
+            const {creq} = await parser.composeCommandSubmitCall(cmd);
+            expect(creq).toEqual({
                 ...base,
                 raw_command: cmd,
                 expand: {},
@@ -996,8 +994,8 @@ describe('AppCommandParser', () => {
                 project: '',
             };
 
-            const {call} = await parser.composeCallFromCommand(cmd);
-            expect(call).toEqual({
+            const {creq} = await parser.composeCommandSubmitCall(cmd);
+            expect(creq).toEqual({
                 ...base,
                 expand: {},
                 selected_field: undefined,
@@ -1036,7 +1034,7 @@ describe('AppCommandParser', () => {
                     team_id: 'team_id',
                 },
                 expand: {},
-                path: '/create-issue',
+                path: '/create-issue-lookup',
                 query: 'special',
                 raw_command: '/jira issue create --summary "The summary" --epic epic1 --project special',
                 selected_field: 'project',
@@ -1047,7 +1045,7 @@ describe('AppCommandParser', () => {
                         value: 'epic1',
                     },
                 },
-            }, AppCallTypes.LOOKUP);
+            }, false);
         });
     });
 });

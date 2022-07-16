@@ -35,9 +35,14 @@ exports[`components/PluginManagement should match snapshot 1`] = `
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See <link>documentation</link> to learn more."
                 id="admin.plugins.settings.enableDesc"
+                values={
+                  Object {
+                    "link": [Function],
+                  }
+                }
               />
             }
             id="enable"
@@ -66,9 +71,14 @@ exports[`components/PluginManagement should match snapshot 1`] = `
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more."
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See <link>documentation</link> to learn more."
                 id="admin.plugins.settings.requirePluginSignatureDesc"
+                values={
+                  Object {
+                    "link": [Function],
+                  }
+                }
               />
             }
             id="requirePluginSignature"
@@ -168,9 +178,14 @@ exports[`components/PluginManagement should match snapshot 1`] = `
               <p
                 className="help-text"
               >
-                <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
+                <MemoizedFormattedMessage
+                  defaultMessage="Upload a plugin for your Mattermost server. See <link>documentation</link> to learn more."
                   id="admin.plugin.uploadDesc"
+                  values={
+                    Object {
+                      "link": [Function],
+                    }
+                  }
                 />
               </p>
             </div>
@@ -184,9 +199,14 @@ exports[`components/PluginManagement should match snapshot 1`] = `
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html)."
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="When true, enables System Administrators to install plugins from the <link>marketplace</link>."
                 id="admin.plugins.settings.enableMarketplaceDesc"
+                values={
+                  Object {
+                    "link": [Function],
+                  }
+                }
               />
             }
             id="enableMarketplace"
@@ -365,9 +385,14 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See <link>documentation</link> to learn more."
                 id="admin.plugins.settings.enableDesc"
+                values={
+                  Object {
+                    "link": [Function],
+                  }
+                }
               />
             }
             id="enable"
@@ -396,9 +421,14 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more."
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See <link>documentation</link> to learn more."
                 id="admin.plugins.settings.requirePluginSignatureDesc"
+                values={
+                  Object {
+                    "link": [Function],
+                  }
+                }
               />
             }
             id="requirePluginSignature"
@@ -498,9 +528,14 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
               <p
                 className="help-text"
               >
-                <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
+                <MemoizedFormattedMessage
+                  defaultMessage="Upload a plugin for your Mattermost server. See <link>documentation</link> to learn more."
                   id="admin.plugin.uploadDesc"
+                  values={
+                    Object {
+                      "link": [Function],
+                    }
+                  }
                 />
               </p>
             </div>
@@ -514,9 +549,14 @@ exports[`components/PluginManagement should match snapshot when \`Enable Marketp
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html)."
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="When true, enables System Administrators to install plugins from the <link>marketplace</link>."
                 id="admin.plugins.settings.enableMarketplaceDesc"
+                values={
+                  Object {
+                    "link": [Function],
+                  }
+                }
               />
             }
             id="enableMarketplace"
@@ -792,9 +832,14 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See <link>documentation</link> to learn more."
                 id="admin.plugins.settings.enableDesc"
+                values={
+                  Object {
+                    "link": [Function],
+                  }
+                }
               />
             }
             id="enable"
@@ -823,9 +868,14 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more."
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See <link>documentation</link> to learn more."
                 id="admin.plugins.settings.requirePluginSignatureDesc"
+                values={
+                  Object {
+                    "link": [Function],
+                  }
+                }
               />
             }
             id="requirePluginSignature"
@@ -925,9 +975,14 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
               <p
                 className="help-text"
               >
-                <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
+                <MemoizedFormattedMessage
+                  defaultMessage="Upload a plugin for your Mattermost server. See <link>documentation</link> to learn more."
                   id="admin.plugin.uploadDesc"
+                  values={
+                    Object {
+                      "link": [Function],
+                    }
+                  }
                 />
               </p>
             </div>
@@ -941,9 +996,14 @@ exports[`components/PluginManagement should match snapshot when \`Enable Remote 
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html)."
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="When true, enables System Administrators to install plugins from the <link>marketplace</link>."
                 id="admin.plugins.settings.enableMarketplaceDesc"
+                values={
+                  Object {
+                    "link": [Function],
+                  }
+                }
               />
             }
             id="enableMarketplace"
@@ -1122,9 +1182,14 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See <link>documentation</link> to learn more."
                 id="admin.plugins.settings.enableDesc"
+                values={
+                  Object {
+                    "link": [Function],
+                  }
+                }
               />
             }
             id="enable"
@@ -1153,9 +1218,14 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more."
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See <link>documentation</link> to learn more."
                 id="admin.plugins.settings.requirePluginSignatureDesc"
+                values={
+                  Object {
+                    "link": [Function],
+                  }
+                }
               />
             }
             id="requirePluginSignature"
@@ -1257,9 +1327,14 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
               <p
                 className="help-text"
               >
-                <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
+                <MemoizedFormattedMessage
+                  defaultMessage="Upload a plugin for your Mattermost server. See <link>documentation</link> to learn more."
                   id="admin.plugin.uploadDesc"
+                  values={
+                    Object {
+                      "link": [Function],
+                    }
+                  }
                 />
               </p>
             </div>
@@ -1273,9 +1348,14 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html)."
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="When true, enables System Administrators to install plugins from the <link>marketplace</link>."
                 id="admin.plugins.settings.enableMarketplaceDesc"
+                values={
+                  Object {
+                    "link": [Function],
+                  }
+                }
               />
             }
             id="enableMarketplace"
@@ -1454,9 +1534,14 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See <link>documentation</link> to learn more."
                 id="admin.plugins.settings.enableDesc"
+                values={
+                  Object {
+                    "link": [Function],
+                  }
+                }
               />
             }
             id="enable"
@@ -1485,9 +1570,14 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more."
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See <link>documentation</link> to learn more."
                 id="admin.plugins.settings.requirePluginSignatureDesc"
+                values={
+                  Object {
+                    "link": [Function],
+                  }
+                }
               />
             }
             id="requirePluginSignature"
@@ -1587,9 +1677,14 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
               <p
                 className="help-text"
               >
-                <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
+                <MemoizedFormattedMessage
+                  defaultMessage="Upload a plugin for your Mattermost server. See <link>documentation</link> to learn more."
                   id="admin.plugin.uploadDesc"
+                  values={
+                    Object {
+                      "link": [Function],
+                    }
+                  }
                 />
               </p>
             </div>
@@ -1603,9 +1698,14 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html)."
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="When true, enables System Administrators to install plugins from the <link>marketplace</link>."
                 id="admin.plugins.settings.enableMarketplaceDesc"
+                values={
+                  Object {
+                    "link": [Function],
+                  }
+                }
               />
             }
             id="enableMarketplace"
@@ -1788,9 +1888,14 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See <link>documentation</link> to learn more."
                 id="admin.plugins.settings.enableDesc"
+                values={
+                  Object {
+                    "link": [Function],
+                  }
+                }
               />
             }
             id="enable"
@@ -1819,9 +1924,14 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more."
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See <link>documentation</link> to learn more."
                 id="admin.plugins.settings.requirePluginSignatureDesc"
+                values={
+                  Object {
+                    "link": [Function],
+                  }
+                }
               />
             }
             id="requirePluginSignature"
@@ -1921,9 +2031,14 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
               <p
                 className="help-text"
               >
-                <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
+                <MemoizedFormattedMessage
+                  defaultMessage="Upload a plugin for your Mattermost server. See <link>documentation</link> to learn more."
                   id="admin.plugin.uploadDesc"
+                  values={
+                    Object {
+                      "link": [Function],
+                    }
+                  }
                 />
               </p>
             </div>
@@ -1937,9 +2052,14 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html)."
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="When true, enables System Administrators to install plugins from the <link>marketplace</link>."
                 id="admin.plugins.settings.enableMarketplaceDesc"
+                values={
+                  Object {
+                    "link": [Function],
+                  }
+                }
               />
             }
             id="enableMarketplace"
@@ -2118,9 +2238,14 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See <link>documentation</link> to learn more."
                 id="admin.plugins.settings.enableDesc"
+                values={
+                  Object {
+                    "link": [Function],
+                  }
+                }
               />
             }
             id="enable"
@@ -2149,9 +2274,14 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more."
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See <link>documentation</link> to learn more."
                 id="admin.plugins.settings.requirePluginSignatureDesc"
+                values={
+                  Object {
+                    "link": [Function],
+                  }
+                }
               />
             }
             id="requirePluginSignature"
@@ -2253,9 +2383,14 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
               <p
                 className="help-text"
               >
-                <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="To enable plugins, set **Enable Plugins** to true. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
+                <MemoizedFormattedMessage
+                  defaultMessage="To enable plugins, set **Enable Plugins** to true. See <link>documentation</link> to learn more."
                   id="admin.plugin.uploadAndPluginDisabledDesc"
+                  values={
+                    Object {
+                      "link": [Function],
+                    }
+                  }
                 />
               </p>
             </div>
@@ -2269,9 +2404,14 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html)."
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="When true, enables System Administrators to install plugins from the <link>marketplace</link>."
                 id="admin.plugins.settings.enableMarketplaceDesc"
+                values={
+                  Object {
+                    "link": [Function],
+                  }
+                }
               />
             }
             id="enableMarketplace"
@@ -2425,9 +2565,14 @@ exports[`components/PluginManagement should match snapshot, text entered into th
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See <link>documentation</link> to learn more."
                 id="admin.plugins.settings.enableDesc"
+                values={
+                  Object {
+                    "link": [Function],
+                  }
+                }
               />
             }
             id="enable"
@@ -2456,9 +2601,14 @@ exports[`components/PluginManagement should match snapshot, text entered into th
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more."
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See <link>documentation</link> to learn more."
                 id="admin.plugins.settings.requirePluginSignatureDesc"
+                values={
+                  Object {
+                    "link": [Function],
+                  }
+                }
               />
             }
             id="requirePluginSignature"
@@ -2558,9 +2708,14 @@ exports[`components/PluginManagement should match snapshot, text entered into th
               <p
                 className="help-text"
               >
-                <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
+                <MemoizedFormattedMessage
+                  defaultMessage="Upload a plugin for your Mattermost server. See <link>documentation</link> to learn more."
                   id="admin.plugin.uploadDesc"
+                  values={
+                    Object {
+                      "link": [Function],
+                    }
+                  }
                 />
               </p>
             </div>
@@ -2574,9 +2729,14 @@ exports[`components/PluginManagement should match snapshot, text entered into th
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html)."
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="When true, enables System Administrators to install plugins from the <link>marketplace</link>."
                 id="admin.plugins.settings.enableMarketplaceDesc"
+                values={
+                  Object {
+                    "link": [Function],
+                  }
+                }
               />
             }
             id="enableMarketplace"
@@ -2755,9 +2915,14 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See <link>documentation</link> to learn more."
                 id="admin.plugins.settings.enableDesc"
+                values={
+                  Object {
+                    "link": [Function],
+                  }
+                }
               />
             }
             id="enable"
@@ -2786,9 +2951,14 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more."
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See <link>documentation</link> to learn more."
                 id="admin.plugins.settings.requirePluginSignatureDesc"
+                values={
+                  Object {
+                    "link": [Function],
+                  }
+                }
               />
             }
             id="requirePluginSignature"
@@ -2890,9 +3060,14 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
               <p
                 className="help-text"
               >
-                <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="Enable plugin uploads in config.json. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
+                <MemoizedFormattedMessage
+                  defaultMessage="Enable plugin uploads in config.json. See <link>documentation</link> to learn more."
                   id="admin.plugin.uploadDisabledDesc"
+                  values={
+                    Object {
+                      "link": [Function],
+                    }
+                  }
                 />
               </p>
             </div>
@@ -2906,9 +3081,14 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html)."
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="When true, enables System Administrators to install plugins from the <link>marketplace</link>."
                 id="admin.plugins.settings.enableMarketplaceDesc"
+                values={
+                  Object {
+                    "link": [Function],
+                  }
+                }
               />
             }
             id="enableMarketplace"
@@ -2929,7 +3109,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
             value={true}
           />
           <BooleanSetting
-            disabled={false}
+            disabled={true}
             falseText={
               <Memo(MemoizedFormattedMessage)
                 defaultMessage="false"
@@ -2960,12 +3140,17 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
             value={true}
           />
           <AdminTextSetting
-            disabled={false}
+            disabled={true}
             helpText={
               <div>
-                <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="URL of the marketplace server."
-                  id="admin.plugins.settings.marketplaceUrlDesc"
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Enable plugin uploads in config.json. See <link>documentation</link> to learn more."
+                  id="admin.plugin.uploadDisabledDesc"
+                  values={
+                    Object {
+                      "link": [Function],
+                    }
+                  }
                 />
               </div>
             }
@@ -3087,9 +3272,14 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See <link>documentation</link> to learn more."
                 id="admin.plugins.settings.enableDesc"
+                values={
+                  Object {
+                    "link": [Function],
+                  }
+                }
               />
             }
             id="enable"
@@ -3118,9 +3308,14 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more."
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See <link>documentation</link> to learn more."
                 id="admin.plugins.settings.requirePluginSignatureDesc"
+                values={
+                  Object {
+                    "link": [Function],
+                  }
+                }
               />
             }
             id="requirePluginSignature"
@@ -3220,9 +3415,14 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <p
                 className="help-text"
               >
-                <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
+                <MemoizedFormattedMessage
+                  defaultMessage="Upload a plugin for your Mattermost server. See <link>documentation</link> to learn more."
                   id="admin.plugin.uploadDesc"
+                  values={
+                    Object {
+                      "link": [Function],
+                    }
+                  }
                 />
               </p>
             </div>
@@ -3236,9 +3436,14 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html)."
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="When true, enables System Administrators to install plugins from the <link>marketplace</link>."
                 id="admin.plugins.settings.enableMarketplaceDesc"
+                values={
+                  Object {
+                    "link": [Function],
+                  }
+                }
               />
             }
             id="enableMarketplace"
@@ -3338,7 +3543,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 className="alert alert-transparent"
               >
                 <PluginItem
-                  appsEnabled={false}
+                  appsFeatureFlagEnabled={false}
                   handleDisable={[Function]}
                   handleEnable={[Function]}
                   handleRemove={[Function]}
@@ -3365,7 +3570,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   showInstances={true}
                 />
                 <PluginItem
-                  appsEnabled={false}
+                  appsFeatureFlagEnabled={false}
                   handleDisable={[Function]}
                   handleEnable={[Function]}
                   handleRemove={[Function]}
@@ -3480,9 +3685,14 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See <link>documentation</link> to learn more."
                 id="admin.plugins.settings.enableDesc"
+                values={
+                  Object {
+                    "link": [Function],
+                  }
+                }
               />
             }
             id="enable"
@@ -3511,9 +3721,14 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more."
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See <link>documentation</link> to learn more."
                 id="admin.plugins.settings.requirePluginSignatureDesc"
+                values={
+                  Object {
+                    "link": [Function],
+                  }
+                }
               />
             }
             id="requirePluginSignature"
@@ -3613,9 +3828,14 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <p
                 className="help-text"
               >
-                <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
+                <MemoizedFormattedMessage
+                  defaultMessage="Upload a plugin for your Mattermost server. See <link>documentation</link> to learn more."
                   id="admin.plugin.uploadDesc"
+                  values={
+                    Object {
+                      "link": [Function],
+                    }
+                  }
                 />
               </p>
             </div>
@@ -3629,9 +3849,14 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html)."
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="When true, enables System Administrators to install plugins from the <link>marketplace</link>."
                 id="admin.plugins.settings.enableMarketplaceDesc"
+                values={
+                  Object {
+                    "link": [Function],
+                  }
+                }
               />
             }
             id="enableMarketplace"
@@ -3731,7 +3956,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 className="alert alert-transparent"
               >
                 <PluginItem
-                  appsEnabled={false}
+                  appsFeatureFlagEnabled={false}
                   handleDisable={[Function]}
                   handleEnable={[Function]}
                   handleRemove={[Function]}
@@ -3841,9 +4066,14 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See <link>documentation</link> to learn more."
                 id="admin.plugins.settings.enableDesc"
+                values={
+                  Object {
+                    "link": [Function],
+                  }
+                }
               />
             }
             id="enable"
@@ -3872,9 +4102,14 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more."
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See <link>documentation</link> to learn more."
                 id="admin.plugins.settings.requirePluginSignatureDesc"
+                values={
+                  Object {
+                    "link": [Function],
+                  }
+                }
               />
             }
             id="requirePluginSignature"
@@ -3974,9 +4209,14 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <p
                 className="help-text"
               >
-                <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
+                <MemoizedFormattedMessage
+                  defaultMessage="Upload a plugin for your Mattermost server. See <link>documentation</link> to learn more."
                   id="admin.plugin.uploadDesc"
+                  values={
+                    Object {
+                      "link": [Function],
+                    }
+                  }
                 />
               </p>
             </div>
@@ -3990,9 +4230,14 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html)."
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="When true, enables System Administrators to install plugins from the <link>marketplace</link>."
                 id="admin.plugins.settings.enableMarketplaceDesc"
+                values={
+                  Object {
+                    "link": [Function],
+                  }
+                }
               />
             }
             id="enableMarketplace"
@@ -4092,7 +4337,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 className="alert alert-transparent"
               >
                 <PluginItem
-                  appsEnabled={false}
+                  appsFeatureFlagEnabled={false}
                   handleDisable={[Function]}
                   handleEnable={[Function]}
                   handleRemove={[Function]}
@@ -4202,9 +4447,14 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See <link>documentation</link> to learn more."
                 id="admin.plugins.settings.enableDesc"
+                values={
+                  Object {
+                    "link": [Function],
+                  }
+                }
               />
             }
             id="enable"
@@ -4233,9 +4483,14 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more."
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See <link>documentation</link> to learn more."
                 id="admin.plugins.settings.requirePluginSignatureDesc"
+                values={
+                  Object {
+                    "link": [Function],
+                  }
+                }
               />
             }
             id="requirePluginSignature"
@@ -4335,9 +4590,14 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <p
                 className="help-text"
               >
-                <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
+                <MemoizedFormattedMessage
+                  defaultMessage="Upload a plugin for your Mattermost server. See <link>documentation</link> to learn more."
                   id="admin.plugin.uploadDesc"
+                  values={
+                    Object {
+                      "link": [Function],
+                    }
+                  }
                 />
               </p>
             </div>
@@ -4351,9 +4611,14 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html)."
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="When true, enables System Administrators to install plugins from the <link>marketplace</link>."
                 id="admin.plugins.settings.enableMarketplaceDesc"
+                values={
+                  Object {
+                    "link": [Function],
+                  }
+                }
               />
             }
             id="enableMarketplace"
@@ -4453,7 +4718,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 className="alert alert-transparent"
               >
                 <PluginItem
-                  appsEnabled={false}
+                  appsFeatureFlagEnabled={false}
                   handleDisable={[Function]}
                   handleEnable={[Function]}
                   handleRemove={[Function]}
@@ -4563,9 +4828,14 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See <link>documentation</link> to learn more."
                 id="admin.plugins.settings.enableDesc"
+                values={
+                  Object {
+                    "link": [Function],
+                  }
+                }
               />
             }
             id="enable"
@@ -4594,9 +4864,14 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more."
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See <link>documentation</link> to learn more."
                 id="admin.plugins.settings.requirePluginSignatureDesc"
+                values={
+                  Object {
+                    "link": [Function],
+                  }
+                }
               />
             }
             id="requirePluginSignature"
@@ -4696,9 +4971,14 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <p
                 className="help-text"
               >
-                <injectIntl(FormattedMarkdownMessage)
-                  defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
+                <MemoizedFormattedMessage
+                  defaultMessage="Upload a plugin for your Mattermost server. See <link>documentation</link> to learn more."
                   id="admin.plugin.uploadDesc"
+                  values={
+                    Object {
+                      "link": [Function],
+                    }
+                  }
                 />
               </p>
             </div>
@@ -4712,9 +4992,14 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html)."
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="When true, enables System Administrators to install plugins from the <link>marketplace</link>."
                 id="admin.plugins.settings.enableMarketplaceDesc"
+                values={
+                  Object {
+                    "link": [Function],
+                  }
+                }
               />
             }
             id="enableMarketplace"
@@ -4814,7 +5099,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 className="alert alert-transparent"
               >
                 <PluginItem
-                  appsEnabled={false}
+                  appsFeatureFlagEnabled={false}
                   handleDisable={[Function]}
                   handleEnable={[Function]}
                   handleRemove={[Function]}
@@ -4841,7 +5126,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   showInstances={true}
                 />
                 <PluginItem
-                  appsEnabled={false}
+                  appsFeatureFlagEnabled={false}
                   handleDisable={[Function]}
                   handleEnable={[Function]}
                   handleRemove={[Function]}

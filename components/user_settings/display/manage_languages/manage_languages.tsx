@@ -6,12 +6,11 @@ import {FormattedMessage} from 'react-intl';
 import ReactSelect, {ValueType} from 'react-select';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import * as I18n from 'i18n/i18n.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
-import {isKeyPressed} from 'utils/utils.jsx';
+import {isKeyPressed} from 'utils/utils';
 import Constants from 'utils/constants';
 
 type Actions = {
@@ -217,9 +216,25 @@ export default class ManageLanguage extends React.PureComponent<Props, State> {
                 </div>
                 <div>
                     <br/>
-                    <FormattedMarkdownMessage
-                        id='user.settings.languages.promote'
-                        defaultMessage='Select which language Mattermost displays in the user interface.\n \nWould you like to help with translations? Join the [Mattermost Translation Server](!http://translate.mattermost.com/) to contribute.'
+                    <FormattedMessage
+                        id='user.settings.languages.promote1'
+                        defaultMessage='Select which language Mattermost displays in the user interface.'
+                    />
+                    <p/>
+                    <FormattedMessage
+                        id='user.settings.languages.promote2'
+                        defaultMessage='Would you like to help with translations? Join the <link>Mattermost Translation Server</link> to contribute.'
+                        values={{
+                            link: (msg: React.ReactNode) => (
+                                <a
+                                    href='http://translate.mattermost.com'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        }}
                     />
                 </div>
             </div>

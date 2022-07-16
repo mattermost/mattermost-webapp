@@ -1,18 +1,19 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
+import {batchActions} from 'redux-batched-actions';
+
 import {Client4} from 'mattermost-redux/client';
 
 import {GeneralTypes} from 'mattermost-redux/action_types';
 
 import {getServerVersion} from 'mattermost-redux/selectors/entities/general';
 import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
-import {GeneralState} from 'mattermost-redux/types/general';
-import {LogLevel} from 'mattermost-redux/types/client4';
-import {GetStateFunc, DispatchFunc, ActionFunc, batchActions} from 'mattermost-redux/types/actions';
+import {LogLevel} from '@mattermost/types/client4';
+import {GetStateFunc, DispatchFunc, ActionFunc} from 'mattermost-redux/types/actions';
 
 import {logError} from './errors';
 import {loadRolesIfNeeded} from './roles';
-import {loadMe} from './users';
 import {bindClientFunc, forceLogoutIfNecessary, FormattedError} from './helpers';
 
 export function getPing(): ActionFunc {
@@ -61,9 +62,7 @@ export function getClientConfig(): ActionFunc {
         Client4.setEnableLogging(data.EnableDeveloper === 'true');
         Client4.setDiagnosticId(data.DiagnosticId);
 
-        dispatch(batchActions([
-            {type: GeneralTypes.CLIENT_CONFIG_RECEIVED, data},
-        ]));
+        dispatch({type: GeneralTypes.CLIENT_CONFIG_RECEIVED, data});
 
         return {data};
     };
@@ -76,13 +75,11 @@ export function getDataRetentionPolicy(): ActionFunc {
             data = await Client4.getDataRetentionPolicy();
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(batchActions([
-                {
-                    type: GeneralTypes.RECEIVED_DATA_RETENTION_POLICY,
-                    error,
-                },
-                logError(error),
-            ]));
+            dispatch({
+                type: GeneralTypes.RECEIVED_DATA_RETENTION_POLICY,
+                error,
+            });
+            dispatch(logError(error));
             return {error};
         }
 
@@ -101,7 +98,7 @@ export function getLicenseConfig(): ActionFunc {
     });
 }
 
-export function logClientError(message: string, level: LogLevel = 'ERROR') {
+export function logClientError(message: string, level = LogLevel.Error) {
     return bindClientFunc({
         clientFunc: Client4.logClientError,
         onRequest: GeneralTypes.LOG_CLIENT_ERROR_REQUEST,
@@ -114,37 +111,12 @@ export function logClientError(message: string, level: LogLevel = 'ERROR') {
     });
 }
 
-export function setAppState(state: GeneralState['appState']): ActionFunc {
-    return async (dispatch: DispatchFunc) => {
-        dispatch({type: GeneralTypes.RECEIVED_APP_STATE, data: state});
-
-        return {data: true};
-    };
-}
-
-export function setDeviceToken(token: GeneralState['deviceToken']): ActionFunc {
-    return async (dispatch: DispatchFunc) => {
-        dispatch({type: GeneralTypes.RECEIVED_APP_DEVICE_TOKEN, data: token});
-
-        return {data: true};
-    };
-}
-
 export function setServerVersion(serverVersion: string): ActionFunc {
     return async (dispatch) => {
         dispatch({type: GeneralTypes.RECEIVED_SERVER_VERSION, data: serverVersion});
         dispatch(loadRolesIfNeeded([]));
 
         return {data: true};
-    };
-}
-
-export function setStoreFromLocalData(data: { token: string; url: string }): ActionFunc {
-    return async (dispatch: DispatchFunc, getState) => {
-        Client4.setToken(data.token);
-        Client4.setUrl(data.url);
-
-        return loadMe()(dispatch, getState);
     };
 }
 
@@ -220,16 +192,30 @@ export function getFirstAdminVisitMarketplaceStatus(): ActionFunc {
     };
 }
 
+// accompanying "set" happens as part of Client4.completeSetup
+export function getFirstAdminSetupComplete(): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let data;
+        try {
+            data = await Client4.getFirstAdminSetupComplete();
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            return {error};
+        }
+
+        data = JSON.parse(data.value);
+        dispatch({type: GeneralTypes.FIRST_ADMIN_COMPLETE_SETUP_RECEIVED, data});
+        return {data};
+    };
+}
+
 export default {
     getPing,
     getClientConfig,
     getDataRetentionPolicy,
     getLicenseConfig,
     logClientError,
-    setAppState,
-    setDeviceToken,
     setServerVersion,
-    setStoreFromLocalData,
     setUrl,
     getRedirectLocation,
     getWarnMetricsStatus,

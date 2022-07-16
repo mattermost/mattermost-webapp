@@ -6,20 +6,17 @@ import {createSelector} from 'reselect';
 import {General, Preferences} from 'mattermost-redux/constants';
 
 import {getConfig, getFeatureFlagValue, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {isGuest} from 'mattermost-redux/utils/user_utils';
 
-import {
-    AddChannelButtonTreatments,
-    AutoTourTreatments,
-    AddMembersToChanneltreatments,
-    InviteToTeamTreatments,
-} from 'mattermost-redux/constants/config';
-import {PreferenceType} from 'mattermost-redux/types/preferences';
-import {GlobalState} from 'mattermost-redux/types/store';
-import {Theme} from 'mattermost-redux/types/themes';
+import {PreferenceType} from '@mattermost/types/preferences';
+import {GlobalState} from '@mattermost/types/store';
+import {Theme, ThemeKey} from 'mattermost-redux/types/themes';
 
 import {createShallowSelector} from 'mattermost-redux/utils/helpers';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 import {setThemeDefaults} from 'mattermost-redux/utils/theme_utils';
+import {CollapsedThreads} from '@mattermost/types/config';
 
 export function getMyPreferences(state: GlobalState): { [x: string]: PreferenceType } {
     return state.entities.preferences.myPreferences;
@@ -117,7 +114,7 @@ const getThemePreference = createSelector(
 
 const getDefaultTheme = createSelector('getDefaultTheme', getConfig, (config): Theme => {
     if (config.DefaultTheme && config.DefaultTheme in Preferences.THEMES) {
-        const theme: Theme = Preferences.THEMES[config.DefaultTheme];
+        const theme: Theme = Preferences.THEMES[config.DefaultTheme as ThemeKey];
         if (theme) {
             return theme;
         }
@@ -174,11 +171,15 @@ export const shouldShowUnreadsCategory: (state: GlobalState) => boolean = create
     },
 );
 
+export function getUnreadScrollPositionPreference(state: GlobalState): string {
+    return get(state, Preferences.CATEGORY_ADVANCED_SETTINGS, Preferences.UNREAD_SCROLL_POSITION, Preferences.UNREAD_SCROLL_POSITION_START_FROM_LEFT);
+}
+
 export function getCollapsedThreadsPreference(state: GlobalState): string {
     const configValue = getConfig(state)?.CollapsedThreads;
     let preferenceDefault = Preferences.COLLAPSED_REPLY_THREADS_OFF;
 
-    if (configValue === 'default_on') {
+    if (configValue === CollapsedThreads.DEFAULT_ON || configValue === CollapsedThreads.ALWAYS_ON) {
         preferenceDefault = Preferences.COLLAPSED_REPLY_THREADS_ON;
     }
 
@@ -186,14 +187,14 @@ export function getCollapsedThreadsPreference(state: GlobalState): string {
         state,
         Preferences.CATEGORY_DISPLAY_SETTINGS,
         Preferences.COLLAPSED_REPLY_THREADS,
-        preferenceDefault ?? Preferences.COLLAPSED_REPLY_THREADS_FALLBACK_DEFAULT,
+        preferenceDefault,
     );
 }
 
 export function isCollapsedThreadsAllowed(state: GlobalState): boolean {
     return (
         getFeatureFlagValue(state, 'CollapsedThreads') === 'true' &&
-        getConfig(state).CollapsedThreads !== 'disabled'
+        getConfig(state).CollapsedThreads !== CollapsedThreads.DISABLED
     );
 }
 
@@ -201,29 +202,36 @@ export function isCollapsedThreadsEnabled(state: GlobalState): boolean {
     const isAllowed = isCollapsedThreadsAllowed(state);
     const userPreference = getCollapsedThreadsPreference(state);
 
-    return isAllowed && (userPreference === Preferences.COLLAPSED_REPLY_THREADS_ON || getConfig(state).CollapsedThreads as string === 'always_on');
+    return isAllowed && (userPreference === Preferences.COLLAPSED_REPLY_THREADS_ON || getConfig(state).CollapsedThreads === CollapsedThreads.ALWAYS_ON);
 }
 
 export function isGroupChannelManuallyVisible(state: GlobalState, channelId: string): boolean {
     return getBool(state, Preferences.CATEGORY_GROUP_CHANNEL_SHOW, channelId, false);
 }
 
-export function getAddChannelButtonTreatment(state: GlobalState): AddChannelButtonTreatments | undefined {
-    return getFeatureFlagValue(state, 'AddChannelButton') as AddChannelButtonTreatments | undefined;
+export function isCustomGroupsEnabled(state: GlobalState): boolean {
+    return getFeatureFlagValue(state, 'CustomGroups') === 'true' && getConfig(state).EnableCustomGroups === 'true';
 }
 
-export function getAutoTourTreatment(state: GlobalState): AutoTourTreatments | undefined {
-    return getFeatureFlagValue(state, 'AutoTour') as AutoTourTreatments | undefined;
+export function getUseCaseOnboarding(state: GlobalState): boolean {
+    return getFeatureFlagValue(state, 'UseCaseOnboarding') === 'true' && getLicense(state)?.Cloud === 'true';
 }
 
-export function getCreateGuidedChannel(state: GlobalState): boolean {
-    return getFeatureFlagValue(state, 'GuidedChannelCreation') === 'true';
+export function insightsAreEnabled(state: GlobalState): boolean {
+    const isConfiguredForFeature = getConfig(state).InsightsEnabled === 'true';
+    const featureIsEnabled = getFeatureFlagValue(state, 'InsightsEnabled') === 'true';
+    const currentUserIsGuest = isGuest(getCurrentUser(state).roles);
+    return featureIsEnabled && isConfiguredForFeature && !currentUserIsGuest;
 }
 
-export function getAddMembersToChannel(state: GlobalState): AddMembersToChanneltreatments | undefined {
-    return getFeatureFlagValue(state, 'AddMembersToChannel') as AddMembersToChanneltreatments | undefined;
+export function isGraphQLEnabled(state: GlobalState): boolean {
+    return getFeatureFlagValue(state, 'GraphQL') === 'true';
 }
 
-export function getInviteToTeamTreatment(state: GlobalState): InviteToTeamTreatments | undefined {
-    return getFeatureFlagValue(state, 'InviteToTeam') as InviteToTeamTreatments | undefined;
+export function getIsAdvancedTextEditorEnabled(state: GlobalState): boolean {
+    return getFeatureFlagValue(state, 'AdvancedTextEditor') === 'true';
+}
+
+export function getHasDismissedSystemConsoleLimitReached(state: GlobalState): boolean {
+    return getBool(state, Preferences.CATEGORY_UPGRADE_CLOUD, Preferences.SYSTEM_CONSOLE_LIMIT_REACHED, false);
 }

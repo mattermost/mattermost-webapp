@@ -58,7 +58,6 @@ export default keyMirror({
     RECEIVED_CHANNEL_PROPS: null,
     RECEIVED_CHANNEL_DELETED: null,
     RECEIVED_CHANNEL_UNARCHIVED: null,
-    RECEIVED_LAST_VIEWED_AT: null,
     UPDATE_CHANNEL_HEADER: null,
     UPDATE_CHANNEL_PURPOSE: null,
     CHANNEL_MEMBER_ADDED: null,
@@ -90,4 +89,6 @@ export default keyMirror({
 
     INCREMENT_PINNED_POST_COUNT: null,
     DECREMENT_PINNED_POST_COUNT: null,
+
+    INCREMENT_FILE_COUNT: null,
 });

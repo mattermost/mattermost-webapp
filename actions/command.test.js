@@ -1,10 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import configureStore from 'redux-mock-store';
-
-import thunk from 'redux-thunk';
-
 import {Client4} from 'mattermost-redux/client';
 
 import * as Channels from 'mattermost-redux/selectors/entities/channels';
@@ -14,14 +10,15 @@ import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
 import * as GlobalActions from 'actions/global_actions';
 
+import mockStore from 'tests/test_store';
+
 import {ActionTypes, Constants, ModalIdentifiers} from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 import UserSettingsModal from 'components/user_settings/modal';
 
 import {executeCommand} from './command';
-const mockStore = configureStore([thunk]);
 
 const currentChannelId = '123';
 const currentTeamId = '321';
@@ -85,10 +82,10 @@ const initialState = {
                                         app_id: 'appid',
                                         label: 'custom',
                                         description: 'Run the command.',
-                                        call: {
-                                            path: 'https://someserver.com/command',
-                                        },
                                         form: {
+                                            submit: {
+                                                path: 'https://someserver.com/command',
+                                            },
                                             fields: [
                                                 {
                                                     name: 'key1',
@@ -117,6 +114,7 @@ const initialState = {
                 ],
                 forms: {},
             },
+            pluginEnabled: true,
         },
     },
     views: {
@@ -291,6 +289,7 @@ describe('executeCommand', () => {
                     location: '/command/appid/custom',
                     root_id: '',
                     team_id: '456',
+                    track_as_submit: true,
                 },
                 raw_command: '/appid custom value1 --key2 value2',
                 path: 'https://someserver.com/command',
@@ -301,7 +300,7 @@ describe('executeCommand', () => {
                 expand: {},
                 query: undefined,
                 selected_field: undefined,
-            }, 'submit');
+            }, true);
             expect(result).toEqual({data: true});
         });
     });

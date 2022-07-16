@@ -6,7 +6,7 @@ import {bindActionCreators} from 'redux';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
-import {get, makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
+import {get, getIsAdvancedTextEditorEnabled, getUnreadScrollPositionPreference, makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {updateUserActive, revokeAllSessionsForUser} from 'mattermost-redux/actions/users';
 
@@ -25,11 +25,13 @@ function makeMapStateToProps() {
 
         return {
             advancedSettingsCategory: getAdvancedSettingsCategory(state, Preferences.CATEGORY_ADVANCED_SETTINGS),
+            isAdvancedTextEditorEnabled: getIsAdvancedTextEditorEnabled(state),
             sendOnCtrlEnter: get(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter', 'false'),
             codeBlockOnCtrlEnter: get(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'code_block_ctrl_enter', 'true'),
             formatting: get(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'formatting', 'true'),
             joinLeave: get(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'join_leave', 'true'),
             currentUser: getCurrentUser(state),
+            unreadScrollPosition: getUnreadScrollPositionPreference(state),
             enablePreviewFeatures,
             enableUserDeactivation,
         };

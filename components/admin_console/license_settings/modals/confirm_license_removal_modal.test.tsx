@@ -4,13 +4,11 @@
 import React from 'react';
 
 import {Provider} from 'react-redux';
-import configureStore from 'redux-mock-store';
-
-import thunk from 'redux-thunk';
 
 import {shallow} from 'enzyme';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import mockStore from 'tests/test_store';
 
 import ConfirmLicenseRemovalModal from './confirm_license_removal_modal';
 
@@ -43,7 +41,6 @@ describe('components/admin_console/license_settings/modals/confirm_license_remov
         handleRemove: mockHandleRemove,
     };
 
-    const mockStore = configureStore([thunk]);
     const store = mockStore(state);
 
     test('should match snapshot', () => {
@@ -84,7 +81,6 @@ describe('components/admin_console/license_settings/modals/confirm_license_remov
             },
         };
         const localStore = {...state, views: ConfirmLicenseRemovalModalHidden};
-        const mockStore = configureStore([thunk]);
         const store = mockStore(localStore);
         const wrapper = mountWithIntl(
             <Provider store={store}>

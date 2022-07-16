@@ -5,7 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import ChannelList from 'components/admin_console/data_retention_settings/channel_list/channel_list';
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 import {TestHelper} from 'utils/test_helper';
 
 describe('components/admin_console/data_retention_settings/channel_list', () => {

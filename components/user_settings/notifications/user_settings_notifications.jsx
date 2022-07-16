@@ -9,7 +9,7 @@ import {FormattedMessage} from 'react-intl';
 import semver from 'semver';
 
 import Constants, {NotificationLevels} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 

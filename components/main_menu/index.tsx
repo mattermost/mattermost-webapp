@@ -9,28 +9,25 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {
     getConfig,
+    getLicense,
 } from 'mattermost-redux/selectors/entities/general';
 import {
     getJoinableTeamIds,
     getCurrentTeam,
     getCurrentRelativeTeamUrl,
 } from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 import {haveICurrentTeamPermission, haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
-import {getSubscriptionStats} from 'mattermost-redux/actions/cloud';
+import {getCloudSubscription as selectCloudSubscription, getSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
+
 import {Permissions} from 'mattermost-redux/constants';
 
-import {RHSStates} from 'utils/constants';
+import {RHSStates, CloudProducts} from 'utils/constants';
 
-import {unhideNextSteps} from 'actions/views/next_steps';
 import {showMentions, showFlaggedPosts, closeRightHandSide, closeMenu as closeRhsMenu} from 'actions/views/rhs';
 import {openModal} from 'actions/views/modals';
 import {getRhsState} from 'selectors/rhs';
-
-import {
-    showOnboarding,
-    showNextSteps,
-} from 'components/next_steps_view/steps';
+import {isCloudLicense} from 'utils/license_utils';
 
 import {GlobalState} from 'types/store';
 
@@ -54,10 +51,19 @@ function mapStateToProps(state: GlobalState) {
     const canManageTeamIntegrations = (haveICurrentTeamPermission(state, Permissions.MANAGE_SLASH_COMMANDS) || haveICurrentTeamPermission(state, Permissions.MANAGE_OAUTH) || haveICurrentTeamPermission(state, Permissions.MANAGE_INCOMING_WEBHOOKS) || haveICurrentTeamPermission(state, Permissions.MANAGE_OUTGOING_WEBHOOKS));
     const canManageSystemBots = (haveISystemPermission(state, {permission: Permissions.MANAGE_BOTS}) || haveISystemPermission(state, {permission: Permissions.MANAGE_OTHERS_BOTS}));
     const canManageIntegrations = canManageTeamIntegrations || canManageSystemBots;
+    const canInviteTeamMember = haveICurrentTeamPermission(state, Permissions.ADD_USER_TO_TEAM);
 
     const joinableTeams = getJoinableTeamIds(state);
     const moreTeamsToJoin = joinableTeams && joinableTeams.length > 0;
     const rhsState = getRhsState(state);
+
+    const subscription = selectCloudSubscription(state);
+    const license = getLicense(state);
+    const subscriptionProduct = getSubscriptionProduct(state);
+
+    const isCloud = isCloudLicense(license);
+    const isStarterFree = isCloud && subscriptionProduct?.sku === CloudProducts.STARTER;
+    const isFreeTrial = isCloud && subscription?.is_free_trial === 'true';
 
     return {
         appDownloadLink,
@@ -79,9 +85,13 @@ function mapStateToProps(state: GlobalState) {
         isMentionSearch: rhsState === RHSStates.MENTION,
         teamIsGroupConstrained: Boolean(currentTeam.group_constrained),
         isLicensedForLDAPGroups: state.entities.general.license.LDAPGroups === 'true',
-        showGettingStarted: showOnboarding(state),
-        showDueToStepsNotFinished: showNextSteps(state),
         teamUrl: getCurrentRelativeTeamUrl(state),
+        guestAccessEnabled: config.EnableGuestAccounts === 'true',
+        canInviteTeamMember,
+        isFirstAdmin: isFirstAdmin(state),
+        isCloud,
+        isStarterFree,
+        isFreeTrial,
     };
 }
 
@@ -93,8 +103,6 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             showFlaggedPosts,
             closeRightHandSide,
             closeRhsMenu,
-            unhideNextSteps,
-            getSubscriptionStats,
         }, dispatch),
     };
 }

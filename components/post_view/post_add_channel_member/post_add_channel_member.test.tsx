@@ -4,8 +4,8 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {Post} from 'mattermost-redux/types/posts';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {Post} from '@mattermost/types/posts';
+import {UserProfile} from '@mattermost/types/users';
 
 import {sendAddToChannelEphemeralPost} from 'actions/global_actions';
 import {TestHelper} from 'utils/test_helper';
@@ -106,7 +106,7 @@ describe('components/post_view/PostAddChannelMember', () => {
         wrapper.find('.PostBody_addChannelMemberLink').simulate('click');
 
         expect(actions.addChannelMember).toHaveBeenCalledTimes(1);
-        expect(actions.addChannelMember).toHaveBeenCalledWith(post.channel_id, requiredProps.userIds[0]);
+        expect(actions.addChannelMember).toHaveBeenCalledWith(post.channel_id, requiredProps.userIds[0], post.root_id);
         expect(sendAddToChannelEphemeralPost).toHaveBeenCalledTimes(1);
         expect(sendAddToChannelEphemeralPost).toHaveBeenCalledWith(props.currentUser, props.usernames[0], props.userIds[0], post.channel_id, post.root_id, 2);
         expect(actions.removePost).toHaveBeenCalledTimes(1);

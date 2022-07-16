@@ -5,13 +5,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable max-lines */
 import React from 'react';
-import {FormattedDate, FormattedTime} from 'react-intl';
 
-import {ClientConfig, ClientLicense} from 'mattermost-redux/types/config';
+import {ClientConfig, ClientLicense} from '@mattermost/types/config';
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {StatusOK} from 'mattermost-redux/types/client4';
+import {StatusOK} from '@mattermost/types/client4';
 
-import {isLicenseExpired, isLicenseExpiring, isTrialLicense} from 'utils/license_utils.jsx';
+import {isLicenseExpired, isLicenseExpiring, isTrialLicense, isEnterpriseOrE20License} from 'utils/license_utils';
 
 import * as AdminActions from 'actions/admin_actions.jsx';
 import {trackEvent} from 'actions/telemetry_actions';
@@ -62,9 +61,10 @@ type Props = {
 
 type State = {
     fileSelected: boolean;
-    fileName: string | null;
+    file: File | null;
     serverError: string | null;
     gettingTrialError: string | null;
+    gettingTrialResponseCode: number | null;
     gettingTrial: boolean;
     removing: boolean;
     upgradingPercentage: number;
@@ -75,15 +75,16 @@ type State = {
 };
 export default class LicenseSettings extends React.PureComponent<Props, State> {
     private interval: ReturnType<typeof setInterval> | null;
-
+    private fileInputRef: React.RefObject<HTMLInputElement>;
     constructor(props: Props) {
         super(props);
 
         this.interval = null;
         this.state = {
             fileSelected: false,
-            fileName: null,
+            file: null,
             serverError: null,
+            gettingTrialResponseCode: null,
             gettingTrialError: null,
             gettingTrial: false,
             removing: false,
@@ -93,6 +94,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
             restartError: null,
             clickNormalUpgradeBtn: false,
         };
+        this.fileInputRef = React.createRef();
     }
 
     componentDidMount() {
@@ -103,6 +105,20 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
         }
         this.props.actions.getLicenseConfig();
         AdminActions.getStandardAnalytics();
+    }
+
+    componentDidUpdate(prevProps: Props, prevState: State) {
+        if (prevState.fileSelected !== this.state.fileSelected && this.state.fileSelected) {
+            this.props.actions.openModal({
+                modalId: ModalIdentifiers.UPLOAD_LICENSE,
+                dialogType: UploadLicenseModal,
+                dialogProps: {
+                    fileObjFromProps: this.state.file,
+                },
+            });
+        }
+        // eslint-disable-next-line react/no-did-update-set-state
+        this.setState({fileSelected: false, file: null});
     }
 
     componentWillUnmount() {
@@ -129,17 +145,17 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
         this.setState({upgradingPercentage: percentage || 0, upgradeError: error as string});
     }
 
+    handleChange = () => {
+        const element = this.fileInputRef.current;
+        if (element?.files?.length) {
+            this.setState({fileSelected: true, file: element.files[0]});
+        }
+    }
+
     openEELicenseModal = async () => {
         this.props.actions.openModal({
             modalId: ModalIdentifiers.ENTERPRISE_EDITION_LICENSE,
             dialogType: EELicenseModal,
-        });
-    };
-
-    openUploadModal = async () => {
-        this.props.actions.openModal({
-            modalId: ModalIdentifiers.UPLOAD_LICENSE,
-            dialogType: UploadLicenseModal,
         });
     };
 
@@ -193,9 +209,9 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
         }
         this.setState({gettingTrial: true, gettingTrialError: null});
         const requestedUsers = Math.max(this.props.stats.TOTAL_USERS, 30) || 30;
-        const {error} = await this.props.actions.requestTrialLicense(requestedUsers, true, true, 'license');
+        const {error, data} = await this.props.actions.requestTrialLicense(requestedUsers, true, true, 'license');
         if (error) {
-            this.setState({gettingTrialError: error});
+            this.setState({gettingTrialError: error, gettingTrialResponseCode: data.status});
         }
         this.setState({gettingTrial: false});
         await this.props.actions.getLicenseConfig();
@@ -265,16 +281,6 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
     render() {
         const {license, upgradedFromTE, isDisabled} = this.props;
 
-        const issued = (
-            <>
-                <FormattedDate value={new Date(parseInt(license.IssuedAt, 10))}/>
-                {' '}
-                <FormattedTime value={new Date(parseInt(license.IssuedAt, 10))}/>
-            </>
-        );
-        const startsAt = <FormattedDate value={new Date(parseInt(license.StartsAt, 10))}/>;
-        const expiresAt = <FormattedDate value={new Date(parseInt(license.ExpiresAt, 10))}/>;
-
         let leftPanel = null;
         let rightPanel = null;
 
@@ -307,12 +313,11 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
                     upgradedFromTE={upgradedFromTE}
                     license={license}
                     isTrialLicense={isTrialLicense(license)}
-                    issued={issued}
-                    startsAt={startsAt}
-                    expiresAt={expiresAt}
                     handleRemove={this.confirmLicenseRemoval}
                     isDisabled={isDisabled}
                     removing={this.state.removing}
+                    fileInputRef={this.fileInputRef}
+                    handleChange={this.handleChange}
                 />
             );
 
@@ -328,9 +333,10 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
             leftPanel = (
                 <StarterLeftPanel
                     openEELicenseModal={this.openEELicenseModal}
-                    openUploadModal={this.openUploadModal}
                     currentPlan={this.currentPlan}
                     upgradedFromTE={this.props.upgradedFromTE}
+                    fileInputRef={this.fileInputRef}
+                    handleChange={this.handleChange}
                 />
             );
 
@@ -353,6 +359,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
                                 this.props.prevTrialLicense?.IsLicensed !== 'true' &&
                                 <TrialBanner
                                     isDisabled={isDisabled}
+                                    gettingTrialResponseCode={this.state.gettingTrialResponseCode}
                                     gettingTrialError={this.state.gettingTrialError}
                                     requestLicense={this.requestLicense}
                                     gettingTrial={this.state.gettingTrial}
@@ -379,7 +386,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
                                 <div className='panel-card'>
                                     {rightPanel}
                                 </div>
-                                {this.comparePlans}
+                                {!isEnterpriseOrE20License(license) && this.comparePlans}
                             </div>
                         </div>
                     </div>
@@ -390,6 +397,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
 
     renewLicenseCard = () => {
         const {isDisabled} = this.props;
+
         if (isTrialLicense(this.props.license)) {
             return (
                 <TrialLicenseCard

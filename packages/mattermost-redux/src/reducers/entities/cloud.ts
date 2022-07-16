@@ -6,12 +6,20 @@ import {combineReducers} from 'redux';
 import {CloudTypes} from 'mattermost-redux/action_types';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {Product, Subscription, CloudCustomer, Invoice, SubscriptionStats} from 'mattermost-redux/types/cloud';
+import {Product, Subscription, SubscriptionResponse, CloudCustomer, Invoice, Limits} from '@mattermost/types/cloud';
 
-function subscription(state: Subscription | null = null, action: GenericAction) {
+import {LegacyFreeProductIds} from 'utils/constants';
+
+export function subscription(state: Subscription | null = null, action: GenericAction) {
     switch (action.type) {
     case CloudTypes.RECEIVED_CLOUD_SUBSCRIPTION: {
-        return action.data;
+        const responseSubscription: SubscriptionResponse = action.data;
+        const {is_paid_tier: isPaidTier, ...baseSubscription} = responseSubscription;
+        const subscription: Subscription = {...baseSubscription};
+        if (LegacyFreeProductIds[subscription.product_id] && isPaidTier === 'true') {
+            subscription.is_legacy_cloud_paid_tier = true;
+        }
+        return subscription;
     }
     default:
         return state;
@@ -64,13 +72,20 @@ function invoices(state: Record<string, Invoice> | null = null, action: GenericA
     }
 }
 
-function subscriptionStats(state: SubscriptionStats | null = null, action: GenericAction) {
+export interface LimitsReducer {
+    limits: Limits;
+    limitsLoaded: boolean;
+}
+const emptyLimits = {
+    limits: {},
+    limitsLoaded: false,
+};
+export function limits(state: LimitsReducer = emptyLimits, action: GenericAction) {
     switch (action.type) {
-    case CloudTypes.RECEIVED_CLOUD_SUBSCRIPTION_STATS: {
-        const data = action.data;
+    case CloudTypes.RECEIVED_CLOUD_LIMITS: {
         return {
-            ...state,
-            ...data,
+            limits: action.data,
+            limitsLoaded: true,
         };
     }
     default:
@@ -92,5 +107,6 @@ export default combineReducers({
     // represents the invoices tied to the current subscription
     invoices,
 
-    subscriptionStats,
+    // represents the usage limits associated with this workspace
+    limits,
 });
