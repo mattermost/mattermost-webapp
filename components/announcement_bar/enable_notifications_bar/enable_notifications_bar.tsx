@@ -4,9 +4,12 @@
 import React, {useEffect, useState, useCallback} from 'react';
 
 import {AnnouncementBarTypes} from 'utils/constants';
+import {AlertCircleOutlineIcon} from '@mattermost/compass-icons/components';
 
 import {t} from 'utils/i18n';
 import AnnouncementBar from '../default_announcement_bar';
+
+import './enable_notifications_bar.scss';
 
 type Props = {
     show: boolean;
@@ -16,6 +19,12 @@ type Props = {
         disableNotificationsPermissionRequests: () => void;
     };
 }
+
+const alertIcon = (
+    <div className="alert-icon">
+        <AlertCircleOutlineIcon />
+    </div>
+);
 
 const EnableNotificationsBar = ({show, actions}: Props) => {
     const [isDisplayed, setIsDisplayed] = useState(false);
@@ -49,6 +58,7 @@ const EnableNotificationsBar = ({show, actions}: Props) => {
     return (
         <AnnouncementBar
             type={AnnouncementBarTypes.GENERAL}
+            icon={alertIcon}
             message={t('enable_notifications_banner.message')}
             showLinkAsButton={true}
             modalButtonText='enable_notifications_banner.enable_button'

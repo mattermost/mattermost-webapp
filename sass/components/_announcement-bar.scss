@@ -129,11 +129,12 @@
             color: rgba(var(--sidebar-text-rgb), 0.72);
 
             &:hover {
-                background-color: rgba(255, 255, 255, 0.16);
+                background-color: rgba(255, 255, 255, 0.08);
+                color: $white;
             }
 
             &:active {
-                background-color: rgba(255, 255, 255, 0.24);
+                background-color: rgba(255, 255, 255, 0.16);
             }
 
             &:focus {
@@ -142,17 +143,21 @@
         }
 
         &.announcement-bar__btn--icon {
-            width: $announcement-bar-icon-btn-width + $announcement-bar-icon-btn-padding;
+            width: 24px;
             height: 24px;
-            padding: $announcement-bar-icon-btn-padding;
+            padding: 0;
             border: none;
-            color: rgba(var(--sidebar-text-rgb), 0.64);
-            font-size: 18px;
-            font-weight: normal;
-            text-decoration: none;
+
+            svg {
+                fill: rgba(var(--sidebar-text-rgb), 0.64);
+            }
 
             &:hover {
                 background-color: rgba(255, 255, 255, 0.08);
+
+                svg {
+                    fill: $white;
+                }
             }
 
             &:active {

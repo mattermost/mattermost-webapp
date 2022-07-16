@@ -1,0 +1,12 @@
+@import 'utils/variables';
+
+.alert-icon {
+  font-size: 0;
+  
+  svg {
+    fill: $white;
+
+    width: 18px;
+    height: 18px;
+  }
+}

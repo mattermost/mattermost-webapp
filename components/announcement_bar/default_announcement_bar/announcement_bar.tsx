@@ -6,6 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {WarnMetricStatus} from '@mattermost/types/config';
+import {CloseIcon} from '@mattermost/compass-icons/components';
 
 import {Constants, AnnouncementBarTypes, ModalIdentifiers} from 'utils/constants';
 import {isStringContainingUrl} from 'utils/url';
@@ -143,7 +144,7 @@ export default class AnnouncementBar extends React.PureComponent<Props, State> {
                     style={linkStyle}
                     onClick={this.handleClose}
                 >
-                    {'×'}
+                    <CloseIcon />
                 </button>
             );
         }
