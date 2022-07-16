@@ -68,8 +68,8 @@ interface ChannelDetailsState {
         };
     };
     saveNeeded: boolean;
-    serverError: JSX.Element | null;
-    previousServerError: JSX.Element | null;
+    serverError: JSX.Element | undefined;
+    previousServerError: JSX.Element | undefined;
     isPrivacyChanging: boolean;
     saving: boolean;
     showConvertConfirmModal: boolean;
@@ -121,8 +121,8 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
             rolesToUpdate: {},
             groups: props.groups,
             saveNeeded: false,
-            serverError: null,
-            previousServerError: null,
+            serverError: undefined,
+            previousServerError: undefined,
             channelPermissions: props.channelPermissions,
             teamScheme: props.teamScheme,
             isLocalArchived: props.channel.delete_at > 0,
@@ -221,7 +221,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
     async processGroupsChange(groups: Group[]) {
         const {actions, channelID} = this.props;
         actions.setNavigationBlocked(true);
-        let serverError = null;
+        let serverError: JSX.Element | undefined;
         let usersToRemoveCount = 0;
         if (this.state.isSynced) {
             try {
@@ -367,7 +367,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
             this.setState({showConvertAndRemoveConfirmModal: true});
             return;
         }
-        if (isPrivacyChanging && usersToRemoveCount === 0 && serverError === null) {
+        if (isPrivacyChanging && usersToRemoveCount === 0 && serverError == null) {
             this.setState({showConvertConfirmModal: true});
             return;
         }
@@ -381,7 +381,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
     private handleSubmit = async () => {
         this.setState({showConvertConfirmModal: false, showRemoveConfirmModal: false, showConvertAndRemoveConfirmModal: false, showArchiveConfirmModal: false, saving: true});
         const {groups, isSynced, isPublic, isPrivacyChanging, channelPermissions, usersToAdd, usersToRemove, rolesToUpdate} = this.state;
-        let serverError: JSX.Element | null = null;
+        let serverError: JSX.Element | undefined;
         let saveNeeded = false;
         const {groups: origGroups, channelID, actions, channel} = this.props;
 
@@ -400,14 +400,14 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
                 }
             });
             return;
-        } else if (this.channelToBeRestored() && this.state.serverError === null) {
+        } else if (this.channelToBeRestored() && this.state.serverError == null) {
             const result = await actions.unarchiveChannel(channel.id);
             if ('error' in result) {
                 serverError = <FormError error={result.error.message}/>;
             } else {
                 trackEvent('admin_channel_config_page', 'channel_unarchived', {channel_id: channelID});
             }
-            this.setState({serverError, previousServerError: null});
+            this.setState({serverError, previousServerError: undefined});
         }
 
         if (this.state.groups.length === 0 && isSynced) {
@@ -598,7 +598,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
 
         this.setState({serverError, saving: false, saveNeeded, isPrivacyChanging: privacyChanging, usersToRemoveCount: 0, rolesToUpdate: {}, usersToAdd: {}, usersToRemove: {}}, () => {
             actions.setNavigationBlocked(saveNeeded);
-            if (!saveNeeded && serverError === null) {
+            if (!saveNeeded && serverError == null) {
                 browserHistory.push('/admin_console/user_management/channels');
             }
         });
@@ -667,13 +667,13 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
             // if the channel is being archived then clear the other server
             // errors, they're no longer relevant.
             newState.previousServerError = serverError;
-            newState.serverError = null;
+            newState.serverError = undefined;
         } else {
             // if the channel is being unarchived (maybe the user had toggled
             // and untoggled) the button, so reinstate any server errors that
             // were present.
             newState.serverError = previousServerError;
-            newState.previousServerError = null;
+            newState.previousServerError = undefined;
         }
         this.props.actions.setNavigationBlocked(true);
         this.setState(newState);

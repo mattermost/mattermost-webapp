@@ -72,8 +72,8 @@ type State = {
     };
     totalGroups: number;
     saveNeeded: boolean;
-    serverError: JSX.Element | null;
-    previousServerError: JSX.Element | null;
+    serverError: JSX.Element | undefined;
+    previousServerError: JSX.Element | undefined;
     isLocalArchived: boolean;
     showArchiveConfirmModal: boolean;
 };
@@ -100,8 +100,8 @@ export default class TeamDetails extends React.PureComponent<Props, State> {
             rolesToUpdate: {},
             totalGroups: props.totalGroups,
             saveNeeded: false,
-            serverError: null,
-            previousServerError: null,
+            serverError: undefined,
+            previousServerError: undefined,
             isLocalArchived: team.delete_at > 0,
             showArchiveConfirmModal: false,
         };
@@ -143,7 +143,7 @@ export default class TeamDetails extends React.PureComponent<Props, State> {
         this.setState({showRemoveConfirmation: false, saving: true});
         const {groups, allAllowedChecked, allowedDomainsChecked, allowedDomains, syncChecked, usersToAdd, usersToRemove, rolesToUpdate} = this.state;
 
-        let serverError: JSX.Element | null = null;
+        let serverError: JSX.Element | undefined;
 
         const {team, groups: origGroups, teamID, actions} = this.props;
         if (this.teamToBeArchived()) {
@@ -159,12 +159,12 @@ export default class TeamDetails extends React.PureComponent<Props, State> {
                 browserHistory.push('/admin_console/user_management/teams');
             }
             return;
-        } else if (this.teamToBeRestored() && this.state.serverError === null) {
+        } else if (this.teamToBeRestored() && this.state.serverError == null) {
             const result = await actions.unarchiveTeam(team.id);
             if ('error' in result) {
                 serverError = <FormError error={result.error.message}/>;
             }
-            this.setState({serverError, previousServerError: null});
+            this.setState({serverError, previousServerError: undefined});
         }
 
         let saveNeeded = false;
@@ -309,7 +309,7 @@ export default class TeamDetails extends React.PureComponent<Props, State> {
         const {teamID, actions} = this.props;
         actions.setNavigationBlocked(true);
 
-        let serverError = null;
+        let serverError: JSX.Element | undefined;
         let usersToRemoveCount = 0;
         if (this.state.syncChecked) {
             try {
@@ -420,21 +420,21 @@ export default class TeamDetails extends React.PureComponent<Props, State> {
         const newState: Partial<State> = {
             saveNeeded: true,
             isLocalArchived: !isLocalArchived,
-            previousServerError: null,
-            serverError: null,
+            previousServerError: undefined,
+            serverError: undefined,
         };
 
         if (newState.isLocalArchived) {
             // if the channel is being archived then clear the other server
             // errors, they're no longer relevant.
             newState.previousServerError = serverError;
-            newState.serverError = null;
+            newState.serverError = undefined;
         } else {
             // if the channel is being unarchived (maybe the user had toggled
             // and untoggled) the button, so reinstate any server errors that
             // were present.
             newState.serverError = previousServerError;
-            newState.previousServerError = null;
+            newState.previousServerError = undefined;
         }
         this.props.actions.setNavigationBlocked(true);
         this.setState(newState as State);
