@@ -264,13 +264,12 @@ export function markThreadAsUnread(userId: string, teamId: string, threadId: str
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const getPostsForThread = makeGetPostsForThread();
         let posts = getPostsForThread(getState(), threadId);
-        const state = getState();
 
         // load posts in thread if they are not loaded already
         if (posts.length < 2) {
             getPostThread(threadId)(dispatch, getState).then(({data, error}) => {
                 if (data) {
-                    posts = getPostsForThread(state, threadId);
+                    posts = getPostsForThread(getState(), threadId);
                     markThreadAsUnreadForUser(dispatch, getState, {userId, teamId, threadId, lastPostId: posts[0].id});
                 } else if (error) {
                     return {error};
