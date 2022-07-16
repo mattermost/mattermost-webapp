@@ -128,7 +128,7 @@ const ForwardPostModal = ({onExited, post, actions}: Props) => {
             notificationText = (
                 <FormattedMessage
                     id='forward_post_modal.notification.private_channel'
-                    defaultMessage='This message is from a private channel and can only be shared with <strong>{channel}</strong>'
+                    defaultMessage='This message is from a private channel and can only be shared with <strong>{channelName}</strong>'
                     values={{
                         channelName,
                         strong: (x: React.ReactNode) => <strong>{x}</strong>,
@@ -145,6 +145,7 @@ const ForwardPostModal = ({onExited, post, actions}: Props) => {
                     defaultMessage='This message is from a private conversation and can only be shared with {participants}'
                     values={{
                         participants: <FormattedList value={participants}/>,
+                        strong: (x: React.ReactNode) => <strong>{x}</strong>,
                     }}
                 />
             );
