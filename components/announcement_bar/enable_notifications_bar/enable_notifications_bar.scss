@@ -1,12 +1,11 @@
 @import 'utils/variables';
 
 .alert-icon {
-  font-size: 0;
-  
-  svg {
-    fill: $white;
+    font-size: 0;
 
-    width: 18px;
-    height: 18px;
-  }
+    svg {
+        width: 18px;
+        height: 18px;
+        fill: $white;
+    }
 }

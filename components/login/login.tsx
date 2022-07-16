@@ -40,6 +40,7 @@ import PasswordInput from 'components/widgets/inputs/password_input/password_inp
 import WomanWithChatsSVG from 'components/common/svg_images_components/woman_with_chats_svg';
 
 import {GlobalState} from 'types/store';
+import {setBrowserNotificationsPermission} from 'actions/views/browser';
 import Constants from 'utils/constants';
 
 import {showNotification} from 'utils/notifications';
@@ -229,6 +230,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
                         closeSessionExpiredNotification.current = undefined;
                     }
                 },
+                onNotificationsPermissionStatusReceived: (permissionStatus) => dispatch(setBrowserNotificationsPermission(permissionStatus)),
             }).then((closeNotification) => {
                 closeSessionExpiredNotification.current = closeNotification;
             }).catch(() => {

@@ -3,8 +3,9 @@
 
 import React, {useEffect, useState, useCallback} from 'react';
 
-import {AnnouncementBarTypes} from 'utils/constants';
 import {AlertCircleOutlineIcon} from '@mattermost/compass-icons/components';
+
+import {AnnouncementBarTypes} from 'utils/constants';
 
 import {t} from 'utils/i18n';
 import AnnouncementBar from '../default_announcement_bar';
@@ -21,8 +22,8 @@ type Props = {
 }
 
 const alertIcon = (
-    <div className="alert-icon">
-        <AlertCircleOutlineIcon />
+    <div className='alert-icon'>
+        <AlertCircleOutlineIcon/>
     </div>
 );
 

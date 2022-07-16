@@ -50,5 +50,7 @@ export const setBrowserNotificationsPermission = (permission?: NotificationPermi
             type: ActionTypes.BROWSER_NOTIFICATIONS_PERMISSION_RECEIVED,
             data: isPermissionGranted,
         });
+
+        return {data: isPermissionGranted};
     };
 };
