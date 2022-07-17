@@ -12,7 +12,7 @@ import {getUser} from 'mattermost-redux/selectors/entities/users';
 import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
 
-import AddBot from './add_bot.jsx';
+import AddBot from './add_bot';
 
 function mapStateToProps(state, ownProps) {
     const config = getConfig(state);

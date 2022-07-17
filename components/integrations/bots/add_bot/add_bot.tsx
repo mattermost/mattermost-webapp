@@ -1,8 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable max-lines */
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, {ChangeEvent, FormEvent} from 'react';
 import {Link} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
 
@@ -13,158 +13,172 @@ import {General} from 'mattermost-redux/constants';
 
 import BotDefaultIcon from 'images/bot_default_icon.png';
 
-import {browserHistory} from 'utils/browser_history';
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import SpinnerButton from 'components/spinner_button';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import FormError from 'components/form_error';
+
+import {browserHistory} from 'utils/browser_history';
 import {AcceptedProfileImageTypes, Constants, ValidationErrors} from 'utils/constants';
 import * as Utils from 'utils/utils';
+
+import {Team} from '@mattermost/types/teams';
+import {Bot, BotPatch} from '@mattermost/types/bots';
+import {UserProfile} from '@mattermost/types/users';
+import {ActionResult} from 'mattermost-redux/types/actions';
 
 const roleOptionSystemAdmin = 'System Admin';
 const roleOptionMember = 'Member';
 
-export default class AddBot extends React.PureComponent {
-    static propTypes = {
+type Props = {
+
+    /**
+     *  Only used for routing since backstage is team based.
+     */
+    team: Team;
+
+    /**
+     *  Bot to edit (if editing)
+     */
+    bot?: Bot;
+
+    /**
+     *  Bot user
+     */
+    user?: UserProfile;
+
+    /**
+     *  Roles of the bot to edit (if editing)
+     */
+    roles?: string;
+
+    /**
+     * Maximum upload file size (for bot account profile picture)
+     */
+    maxFileSize: number;
+
+    /**
+     * Editing user has the MANAGE_SYSTEM permission
+     */
+    editingUserHasManageSystem: boolean;
+
+    /**
+     * Bot to edit
+     */
+    actions: {
 
         /**
-        *  Only used for routing since backstage is team based.
-        */
-        team: PropTypes.object.isRequired,
+         * Creates a new bot account.
+         */
+        createBot: (bot: Partial<Bot>) => ActionResult;
 
         /**
-        *  Bot to edit (if editing)
-        */
-        bot: PropTypes.object,
+         * Patches an existing bot account.
+         */
+        patchBot: (botUserId: string, botPatch: Partial<BotPatch>) => ActionResult;
 
         /**
-        *  Bot user
-        */
-        user: PropTypes.object,
+         * Uploads a user profile image
+         */
+        uploadProfileImage: (userId: string, image: File | string) => ActionResult;
 
         /**
-        *  Roles of the bot to edit (if editing)
-        */
-        roles: PropTypes.string,
+         * Set profile image to default
+         */
+        setDefaultProfileImage: (userId: string) => ActionResult;
 
         /**
-        * Maximum upload file size (for bot account profile picture)
-        */
-        maxFileSize: PropTypes.number.isRequired,
+         * For creating default access token
+         */
+        createUserAccessToken: (userId: string, description: string) => ActionResult;
 
         /**
-         * Editing user has the MANAGE_SYSTEM permission
-        */
-        editingUserHasManageSystem: PropTypes.bool.isRequired,
+         * For creating setting bot to system admin or special posting permissions
+         */
+        updateUserRoles: (userId: string, roles: string) => ActionResult;
+    };
+};
 
-        /**
-        * Bot to edit
-        */
-        actions: PropTypes.shape({
+type State = {
+    username: string;
+    displayName: string | undefined;
+    description: string | undefined;
+    role: string;
+    postAll: boolean;
+    postChannels: boolean;
+    error: JSX.Element | string;
+    adding: boolean;
+    image: any;
+    orientationStyles: {transform: string; transformOrigin: string};
+    pictureFile: File | null | string;
+};
 
-            /**
-            * Creates a new bot account.
-            */
-            createBot: PropTypes.func.isRequired,
-
-            /**
-            * Patches an existing bot account.
-            */
-            patchBot: PropTypes.func.isRequired,
-
-            /**
-            * Uploads a user profile image
-            */
-            uploadProfileImage: PropTypes.func.isRequired,
-
-            /**
-            * Set profile image to default
-            */
-            setDefaultProfileImage: PropTypes.func.isRequired,
-
-            /**
-            * For creating default access token
-            */
-            createUserAccessToken: PropTypes.func.isRequired,
-
-            /**
-            * For creating setting bot to system admin or special posting permissions
-            */
-            updateUserRoles: PropTypes.func.isRequired,
-        }),
-    }
-
-    constructor(props) {
+export default class AddBot extends React.PureComponent<Props, State> {
+    previewBlob: string | null = null;
+    constructor(props: Props) {
         super(props);
 
         this.state = {
             error: '',
-            username: '',
-            displayName: '',
-            description: '',
+            username: this.props.bot ? this.props.bot.username : '',
+            displayName: this.props.bot ? this.props.bot.display_name : '',
+            description: this.props.bot ? this.props.bot.description : '',
             adding: false,
             image: BotDefaultIcon,
-            role: roleOptionMember,
-            postAll: false,
-            postChannels: false,
+            role: UserUtils.isSystemAdmin(this.props.roles || '') ? roleOptionSystemAdmin : roleOptionMember,
+            postAll: this.props.bot ? UserUtils.hasPostAllRole(this.props.roles || '') : false,
+            postChannels: this.props.bot ? UserUtils.hasPostAllPublicRole(this.props.roles || '') : false,
+            orientationStyles: {transform: '', transformOrigin: ''},
+            pictureFile: null,
         };
-
-        if (this.props.bot) {
-            this.state.username = this.props.bot.username;
-            this.state.displayName = this.props.bot.display_name;
-            this.state.description = this.props.bot.description;
-            this.state.role = UserUtils.isSystemAdmin(this.props.roles || '') ? roleOptionSystemAdmin : roleOptionMember;
-            this.state.postAll = UserUtils.hasPostAllRole(this.props.roles || '');
-            this.state.postChannels = UserUtils.hasPostAllPublicRole(this.props.roles || '');
-        }
     }
 
-    updateUsername = (e) => {
+    updateUsername = (e: ChangeEvent<HTMLInputElement>) => {
         this.setState({
             username: e.target.value,
         });
     }
 
-    updateDisplayName = (e) => {
+    updateDisplayName = (e: ChangeEvent<HTMLInputElement>) => {
         this.setState({
             displayName: e.target.value,
         });
     }
 
-    updateDescription = (e) => {
+    updateDescription = (e: ChangeEvent<HTMLInputElement>) => {
         this.setState({
             description: e.target.value,
         });
     }
 
-    updateRole = (e) => {
+    updateRole = (e: ChangeEvent<HTMLSelectElement>) => {
         this.setState({
             role: e.target.value,
         });
     }
 
-    updatePostAll = (e) => {
+    updatePostAll = (e: ChangeEvent<HTMLInputElement>) => {
         this.setState({
             postAll: e.target.checked,
         });
     }
 
-    updatePostChannels = (e) => {
+    updatePostChannels = (e: ChangeEvent<HTMLInputElement>) => {
         this.setState({
             postChannels: e.target.checked,
         });
     }
 
-    updatePicture = (e) => {
+    updatePicture = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
             const pictureFile = e.target.files[0];
             this.previewBlob = URL.createObjectURL(pictureFile);
 
-            var reader = new FileReader();
+            const reader = new FileReader();
             reader.onload = (e2) => {
-                const orientation = FileUtils.getExifOrientation(e2.target.result);
+                const orientation = FileUtils.getExifOrientation(e2.target?.result as ArrayBuffer);
                 const orientationStyles = FileUtils.getOrientationStyles(orientation);
 
                 this.setState({
@@ -173,7 +187,7 @@ export default class AddBot extends React.PureComponent {
                 });
             };
             reader.readAsArrayBuffer(pictureFile);
-            e.target.value = null;
+            e.target.value = '';
             this.setState({pictureFile});
         } else {
             this.setState({pictureFile: null, image: null});
@@ -184,7 +198,11 @@ export default class AddBot extends React.PureComponent {
         this.setState({pictureFile: 'default', image: BotDefaultIcon});
     }
 
-    updateRoles = async (data) => {
+    isFile(file: File | string): file is File {
+        return (file as File).size !== undefined;
+    }
+
+    updateRoles = async (data: Bot) => {
         let roles = General.SYSTEM_USER_ROLE;
 
         if (this.state.role === roleOptionSystemAdmin) {
@@ -203,7 +221,7 @@ export default class AddBot extends React.PureComponent {
         return null;
     }
 
-    handleSubmit = async (e) => {
+    handleSubmit = async (e: FormEvent<HTMLButtonElement | HTMLFormElement>) => {
         e.preventDefault();
 
         if (this.state.adding) {
@@ -222,7 +240,7 @@ export default class AddBot extends React.PureComponent {
             return;
         }
 
-        if (this.state.pictureFile) {
+        if (this.state.pictureFile && this.isFile(this.state.pictureFile)) {
             if (!AcceptedProfileImageTypes.includes(this.state.pictureFile.type)) {
                 this.setState({
                     error: (
@@ -255,7 +273,7 @@ export default class AddBot extends React.PureComponent {
             description: this.state.description,
         };
 
-        let data;
+        let data: Bot | undefined;
         let error;
         if (this.props.bot) {
             const result = await this.props.actions.patchBot(this.props.bot.user_id, bot);
@@ -266,7 +284,7 @@ export default class AddBot extends React.PureComponent {
                 error = Utils.localizeMessage('bot.edit_failed', 'Failed to edit bot');
             }
 
-            if (!error) {
+            if (!error && data) {
                 if (this.state.pictureFile && this.state.pictureFile !== 'default') {
                     const imageResult = await this.props.actions.uploadProfileImage(data.user_id, this.state.pictureFile);
                     error = imageResult.error;
@@ -321,7 +339,7 @@ export default class AddBot extends React.PureComponent {
             }
 
             let token = '';
-            if (!error) {
+            if (!error && data) {
                 if (this.state.pictureFile && this.state.pictureFile !== 'default') {
                     await this.props.actions.uploadProfileImage(data.user_id, this.state.pictureFile);
                 } else {
@@ -404,7 +422,7 @@ export default class AddBot extends React.PureComponent {
         }
 
         let imageURL = '';
-        let removeImageIcon = (
+        let removeImageIcon: JSX.Element | null = (
             <OverlayTrigger
                 delayShow={Constants.OVERLAY_TIME_DELAY}
                 placement='right'
@@ -425,7 +443,7 @@ export default class AddBot extends React.PureComponent {
                 </a>
             </OverlayTrigger>
         );
-        let imageStyles = null;
+        let imageStyles;
         if (this.props.bot && !this.state.pictureFile) {
             if (this.props.user) {
                 imageURL = Utils.imageURLForUser(this.props.user.id, this.props.user.last_picture_update);
@@ -470,7 +488,7 @@ export default class AddBot extends React.PureComponent {
                                 <input
                                     id='username'
                                     type='text'
-                                    maxLength='22'
+                                    maxLength={22}
                                     className='form-control'
                                     value={this.state.username}
                                     onChange={this.updateUsername}
@@ -532,7 +550,7 @@ export default class AddBot extends React.PureComponent {
                                 <input
                                     id='displayName'
                                     type='text'
-                                    maxLength='64'
+                                    maxLength={64}
                                     className='form-control'
                                     value={this.state.displayName}
                                     onChange={this.updateDisplayName}
@@ -559,7 +577,7 @@ export default class AddBot extends React.PureComponent {
                                 <input
                                     id='description'
                                     type='text'
-                                    maxLength='1024'
+                                    maxLength={1024}
                                     className='form-control'
                                     value={this.state.description}
                                     onChange={this.updateDescription}
