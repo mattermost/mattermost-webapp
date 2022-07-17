@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {updateUserRoles, uploadProfileImage, setDefaultProfileImage, createUserAccessToken} from 'mattermost-redux/actions/users';
 import {createBot, patchBot} from 'mattermost-redux/actions/bots';
@@ -12,17 +12,21 @@ import {getUser} from 'mattermost-redux/selectors/entities/users';
 import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
 
-import AddBot from './add_bot';
+import {GlobalState} from 'types/store';
 
-function mapStateToProps(state, ownProps) {
+import {ActionFunc} from 'mattermost-redux/types/actions';
+
+import AddBot, {Props} from './add_bot';
+
+function mapStateToProps(state: GlobalState, ownProps: Props) {
     const config = getConfig(state);
     const botId = (new URLSearchParams(ownProps.location.search)).get('id');
     const bots = getBotAccounts(state);
-    const bot = bots ? bots[botId] : null;
-    const user = bot ? getUser(state, bot.user_id) : null;
-    const roles = user ? user.roles : null;
+    const bot = (bots && botId) ? bots[botId] : undefined;
+    const user = bot ? getUser(state, bot.user_id) : undefined;
+    const roles = user ? user.roles : undefined;
     return {
-        maxFileSize: parseInt(config.MaxFileSize, 10),
+        maxFileSize: parseInt(config.MaxFileSize!, 10),
         bot,
         roles,
         editingUserHasManageSystem: haveISystemPermission(state, {permission: Permissions.MANAGE_SYSTEM}),
@@ -30,9 +34,9 @@ function mapStateToProps(state, ownProps) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Props['actions']>({
             createBot,
             patchBot,
             uploadProfileImage,

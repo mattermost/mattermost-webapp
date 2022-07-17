@@ -32,7 +32,7 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 const roleOptionSystemAdmin = 'System Admin';
 const roleOptionMember = 'Member';
 
-type Props = {
+export type Props = {
 
     /**
      *  Only used for routing since backstage is team based.
@@ -63,6 +63,11 @@ type Props = {
      * Editing user has the MANAGE_SYSTEM permission
      */
     editingUserHasManageSystem: boolean;
+
+    /**
+     * TODO
+     */
+    location: {search: string};
 
     /**
      * Bot to edit
@@ -101,7 +106,7 @@ type Props = {
     };
 };
 
-type State = {
+export type State = {
     username: string;
     displayName: string | undefined;
     description: string | undefined;
@@ -110,7 +115,7 @@ type State = {
     postChannels: boolean;
     error: JSX.Element | string;
     adding: boolean;
-    image: any;
+    image: string;
     orientationStyles: {transform: string; transformOrigin: string};
     pictureFile: File | null | string;
 };
@@ -182,7 +187,7 @@ export default class AddBot extends React.PureComponent<Props, State> {
                 const orientationStyles = FileUtils.getOrientationStyles(orientation);
 
                 this.setState({
-                    image: this.previewBlob,
+                    image: this.previewBlob || '',
                     orientationStyles,
                 });
             };
@@ -190,7 +195,7 @@ export default class AddBot extends React.PureComponent<Props, State> {
             e.target.value = '';
             this.setState({pictureFile});
         } else {
-            this.setState({pictureFile: null, image: null});
+            this.setState({pictureFile: null, image: ''});
         }
     }
 
