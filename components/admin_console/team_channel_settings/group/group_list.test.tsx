@@ -6,16 +6,18 @@ import {shallow} from 'enzyme';
 
 import {Group} from '@mattermost/types/groups';
 
+import {TestHelper} from 'utils/test_helper';
+
 import GroupList from './group_list';
 
 describe('admin_console/team_channel_settings/group/GroupList', () => {
     test('should match snapshot', () => {
-        const testGroups: Group[] = [{
+        const testGroups: Group[] = [TestHelper.getGroupMock({
             id: '123',
             display_name: 'DN',
             member_count: 3,
 
-        } as Group];
+        })];
 
         const actions = {
             getData: jest.fn().mockResolvedValue(testGroups),
@@ -40,11 +42,11 @@ describe('admin_console/team_channel_settings/group/GroupList', () => {
     test('should match snapshot with paging', () => {
         const testGroups: Group[] = [];
         for (let i = 0; i < 30; i++) {
-            testGroups.push({
+            testGroups.push(TestHelper.getGroupMock({
                 id: 'id' + i,
                 display_name: 'DN' + i,
                 member_count: 3,
-            } as Group);
+            }));
         }
         const actions = {
             getData: jest.fn().mockResolvedValue(Promise.resolve(testGroups)),
