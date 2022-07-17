@@ -5,8 +5,14 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {shallow} from 'enzyme';
 
-import AbstractList from './abstract_list';
+import {Channel} from '@mattermost/types/channels';
+
+import {TestHelper} from 'utils/test_helper';
+
+import {TeamWithMembership} from '../system_user_detail/team_list/types';
+
 import GroupRow from './group/group_row';
+import AbstractList from './abstract_list';
 
 describe('admin_console/team_channel_settings/AbstractList', () => {
     const header = (
@@ -35,7 +41,7 @@ describe('admin_console/team_channel_settings/AbstractList', () => {
         </div>);
 
     test('should match snapshot, no headers', () => {
-        const testChannels = [];
+        const testChannels: Channel[] = [];
 
         const actions = {
             getData: jest.fn().mockResolvedValue(testChannels),
@@ -59,22 +65,22 @@ describe('admin_console/team_channel_settings/AbstractList', () => {
     });
 
     test('should match snapshot, with data', () => {
-        const testChannels = [{
+        const testTeams: TeamWithMembership[] = [TestHelper.getTeamMock({
             id: '123',
             display_name: 'DN',
-        }];
+        }) as TeamWithMembership];
 
         const actions = {
-            getData: jest.fn().mockResolvedValue(testChannels),
-            searchAllChannels: jest.fn().mockResolvedValue(testChannels),
+            getData: jest.fn().mockResolvedValue(testTeams),
+            searchAllChannels: jest.fn().mockResolvedValue(testTeams),
             removeGroup: jest.fn(),
         };
 
         const wrapper = shallow(
             <AbstractList
-                data={testChannels}
+                data={testTeams}
                 onPageChangedCallback={jest.fn()}
-                total={testChannels.length}
+                total={testTeams.length}
                 header={header}
                 renderRow={renderRow}
                 emptyListTextId={'test'}
