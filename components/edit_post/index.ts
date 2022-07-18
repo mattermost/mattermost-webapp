@@ -22,7 +22,6 @@ import {GlobalState} from 'types/store';
 import Constants, {StoragePrefixes} from 'utils/constants';
 import {setGlobalItem} from '../../actions/storage';
 import {getPostDraft} from '../../selectors/rhs';
-import {PostDraft} from '../../types/store/rhs';
 
 import EditPost, {Actions} from './edit_post';
 
@@ -57,24 +56,13 @@ function mapStateToProps(state: GlobalState) {
     };
 }
 
-// Temporarily store draft manually in localStorage since the current version of redux-persist
-// we're on will not save the draft quickly enough on page unload.
-function setDraft(key: string, value: PostDraft) {
-    if (value) {
-        localStorage.setItem(key, JSON.stringify(value));
-    } else {
-        localStorage.removeItem(key);
-    }
-    return setGlobalItem(key, value);
-}
-
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<any>, Actions>({
             scrollPostListToBottom,
             addMessageIntoHistory,
             editPost,
-            setDraft,
+            setDraft: setGlobalItem,
             unsetEditingPost,
             openModal,
         }, dispatch),
