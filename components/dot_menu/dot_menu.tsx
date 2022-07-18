@@ -9,7 +9,7 @@ import Permissions from 'mattermost-redux/constants/permissions';
 import {Post} from '@mattermost/types/posts';
 import {UserThread} from '@mattermost/types/threads';
 
-import {Locations, ModalIdentifiers, Constants, TELEMETRY_LABELS} from 'utils/constants';
+import {Locations, ModalIdentifiers, Constants, TELEMETRY_LABELS, Preferences} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
@@ -58,6 +58,7 @@ type Props = {
     currentTeamUrl?: string; // TechDebt: Made non-mandatory while converting to typescript
     teamUrl?: string; // TechDebt: Made non-mandatory while converting to typescript
     isMobileView: boolean;
+    showForwardPostNewLabel: boolean;
 
     /**
      * Components for overriding provided by plugins
@@ -107,6 +108,11 @@ type Props = {
          * Function to set the thread as followed/unfollowed
          */
         setThreadFollow: (userId: string, teamId: string, threadId: string, newState: boolean) => void;
+
+        /**
+         * Function to set a global storage item on the store
+         */
+        setGlobalItem: (name: string, value: any) => void;
 
     }; // TechDebt: Made non-mandatory while converting to typescript
 
@@ -262,7 +268,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     handleForwardMenuItemActivated = (e: ChangeEvent): void => {
         e.preventDefault();
 
-        trackDotMenuEvent(e, TELEMETRY_LABELS.DELETE);
+        trackDotMenuEvent(e, TELEMETRY_LABELS.FORWARD);
         const forwardPostModalData = {
             modalId: ModalIdentifiers.FORWARD_POST_MODAL,
             dialogType: ForwardPostModal,
@@ -271,6 +277,9 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             },
         };
 
+        if (this.props.showForwardPostNewLabel) {
+            this.props.actions.setGlobalItem(Preferences.FORWARD_POST_VIEWED, true);
+        }
         this.props.actions.openModal(forwardPostModalData);
     }
 
@@ -456,12 +465,14 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                     id='forward_post_button.label'
                     defaultMessage='Forward'
                 />
-                <Badge variant='success'>
-                    <FormattedMessage
-                        id='badge.label.new'
-                        defaultMessage='NEW'
-                    />
-                </Badge>
+                {this.props.showForwardPostNewLabel && (
+                    <Badge variant='success'>
+                        <FormattedMessage
+                            id='badge.label.new'
+                            defaultMessage='NEW'
+                        />
+                    </Badge>
+                )}
             </span>
         );
 

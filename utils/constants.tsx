@@ -145,6 +145,8 @@ export const Preferences = {
     RECENT_EMOJIS: 'recent_emojis',
     ONBOARDING: 'onboarding',
     ADVANCED_TEXT_EDITOR: 'advanced_text_editor',
+
+    FORWARD_POST_VIEWED: 'forward_post_viewed',
 };
 
 // For one off things that have a special, attention-grabbing UI until you interact with them
@@ -643,6 +645,7 @@ export const TELEMETRY_LABELS = {
     UNPIN: 'unpin',
     REPLY: 'reply',
     UNREAD: 'unread',
+    FORWARD: 'forward',
 };
 
 export const PostTypes = {
