@@ -4,6 +4,8 @@
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
+import {RouteComponentProps} from 'react-router-dom';
+
 import {updateUserRoles, uploadProfileImage, setDefaultProfileImage, createUserAccessToken} from 'mattermost-redux/actions/users';
 import {createBot, patchBot} from 'mattermost-redux/actions/bots';
 import {getBotAccounts} from 'mattermost-redux/selectors/entities/bots';
@@ -11,14 +13,21 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import {GlobalState} from 'types/store';
 
-import {ActionFunc} from 'mattermost-redux/types/actions';
-
 import AddBot, {Props} from './add_bot';
 
-function mapStateToProps(state: GlobalState, ownProps: Props) {
+type OwnProps = {
+
+    /**
+     * Search query for the bot
+     */
+    location: RouteComponentProps['location'];
+}
+
+function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const config = getConfig(state);
     const botId = (new URLSearchParams(ownProps.location.search)).get('id');
     const bots = getBotAccounts(state);

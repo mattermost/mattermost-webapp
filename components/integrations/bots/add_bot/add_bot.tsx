@@ -65,11 +65,6 @@ export type Props = {
     editingUserHasManageSystem: boolean;
 
     /**
-     * Search query for the bot
-     */
-    location: {search: string};
-
-    /**
      * Bot to edit
      */
     actions: {
