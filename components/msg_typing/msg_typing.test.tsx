@@ -11,6 +11,8 @@ describe('components/MsgTyping', () => {
         typingUsers: [],
         channelId: 'test',
         postId: null,
+        userStartedTyping: jest.fn(),
+        userStoppedTyping: jest.fn(),
     };
 
     test('should match snapshot, on nobody typing', () => {

@@ -48,7 +48,6 @@ const POST_CREATED_TIME = Date.now();
 global.Date.now = jest.fn(() => POST_CREATED_TIME);
 
 const INCREASED_POST_VISIBILITY = {amount: 1, data: 'current_channel_id', type: 'INCREASE_POST_VISIBILITY'};
-const STOP_TYPING = {type: 'stop_typing', data: {id: 'current_channel_idundefined', now: POST_CREATED_TIME, userId: 'some_user_id'}};
 
 describe('Actions.Posts', () => {
     const latestPost = {
@@ -194,7 +193,6 @@ describe('Actions.Posts', () => {
                 payload: [
                     INCREASED_POST_VISIBILITY,
                     PostActions.receivedNewPost(newPost, false),
-                    STOP_TYPING,
                 ],
                 type: 'BATCHING_REDUCER.BATCH',
             },
@@ -215,14 +213,6 @@ describe('Actions.Posts', () => {
                 meta: {batch: true},
                 payload: [
                     PostActions.receivedNewPost(newPost, false),
-                    {
-                        type: 'stop_typing',
-                        data: {
-                            id: 'other_channel_idundefined',
-                            now: POST_CREATED_TIME,
-                            userId: newPost.user_id,
-                        },
-                    },
                     {
                         type: ChannelTypes.INCREMENT_UNREAD_MSG_COUNT,
                         data: {
