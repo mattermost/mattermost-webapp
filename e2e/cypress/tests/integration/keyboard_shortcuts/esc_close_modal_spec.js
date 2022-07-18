@@ -30,7 +30,7 @@ describe('Keyboard Shortcuts', () => {
         cy.get('#quickSwitchInput').type(searchTerm, {force: true});
 
         // * Verify that the no search result test is displayed
-        cy.get('.no-results__title').should('be.visible').and('have.text', 'No results for "' + searchTerm + '"');
+        cy.get('.no-results__title').should('be.visible').and('have.text', 'No results for “' + searchTerm + '”');
 
         // # Press escape key
         cy.get('#quickSwitchInput').type('{esc}');

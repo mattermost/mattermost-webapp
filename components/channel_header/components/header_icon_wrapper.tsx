@@ -51,7 +51,7 @@ const HeaderIconWrapper: React.FC<Props> = (props: Props) => {
             class: 'text-nowrap',
             id: 'flaggedTooltip',
             messageID: t('channel_header.flagged'),
-            message: 'Saved Messages',
+            message: 'Saved posts',
         },
         pinnedPosts: {
             class: 'pinned-posts',

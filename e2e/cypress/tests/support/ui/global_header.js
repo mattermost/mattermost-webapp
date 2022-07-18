@@ -115,7 +115,7 @@ Cypress.Commands.add('uiGetRecentMentionButton', () => {
 });
 
 Cypress.Commands.add('uiGetSavedPostButton', () => {
-    return cy.findByRole('button', {name: 'Select to toggle a list of saved posts.'}).should('be.visible');
+    return cy.findByRole('button', {name: 'Select to toggle a list of Saved posts.'}).should('be.visible');
 });
 
 Cypress.Commands.add('uiGetSettingsButton', () => {
