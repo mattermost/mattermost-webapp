@@ -71,6 +71,7 @@ function SelfHostedContent(props: ContentProps) {
             formatMessage({id: 'pricing_modal.briefing.enterprise.groupSync', defaultMessage: 'AD/LDAP group sync'}),
             formatMessage({id: 'pricing_modal.briefing.enterprise.mobileSecurity', defaultMessage: 'Advanced mobile security via ID-only push notifications'}),
             formatMessage({id: 'pricing_modal.briefing.enterprise.rolesAndPermissions', defaultMessage: 'Advanced roles and permissions'}),
+            formatMessage({id: 'pricing_modal.briefing.enterprise.advancedComplianceManagement', defaultMessage: 'Advanced compliance management'}),
         ],
     };
 
@@ -190,7 +191,7 @@ function SelfHostedContent(props: ContentProps) {
                         }}
                         buttonDetails={{
                             action: () => {
-                                window.open(CloudLinks.SELF_HOSTED_LOGIN, '_blank');
+                                window.open(CloudLinks.SELF_HOSTED_SIGNUP, '_blank');
                             },
                             text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
                             disabled: !isAdmin,
