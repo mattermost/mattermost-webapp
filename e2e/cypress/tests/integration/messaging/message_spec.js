@@ -64,13 +64,13 @@ describe('Message', () => {
             cy.get(divPostId).click();
 
             // # Push a character key such as "A"
-            cy.get('#post_textbox').type('A');
+            cy.uiGetPostTextBox().type('A');
 
             // # Open the "..." menu on a post in the main to move the focus out of the main input box
             cy.clickPostDotMenu(postId);
 
             // # Push a character key such as "A"
-            cy.get('#post_textbox').type('A');
+            cy.uiGetPostTextBox().type('A');
 
             // * Focus is moved back to the main input and the keystroke is captured
             cy.focused().should('have.id', 'post_textbox');
@@ -149,16 +149,16 @@ describe('Message', () => {
         cy.clickPostCommentIcon();
 
         // # Add some text to RHS text box
-        cy.get('#reply_textbox').type(MESSAGES.TINY);
+        cy.uiGetReplyTextBox().type(MESSAGES.TINY);
 
         // # Click on Preview
-        cy.get('#previewLink').click();
+        cy.get('#PreviewInputTextButton').click();
 
         // # Click on Reply
         cy.uiReply();
 
         // * Focus to remain in the RHS text box
-        cy.get('#reply_textbox').should('be.focused');
+        cy.uiGetReplyTextBox().should('be.focused');
     });
 });
 

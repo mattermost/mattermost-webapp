@@ -5,18 +5,22 @@ import React from 'react';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 import classNames from 'classnames';
 
+import {CloseIcon} from '@mattermost/compass-icons/components';
+
 import {Constants} from 'utils/constants';
 import * as Emoji from 'utils/emoji.jsx';
 import imgTrans from 'images/img_trans.gif';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 
-const skinsList = [['raised_hand_with_fingers_splayed', 'default'],
-    ['raised_hand_with_fingers_splayed_light_skin_tone', '1F3FB'],
-    ['raised_hand_with_fingers_splayed_medium_light_skin_tone', '1F3FC'],
-    ['raised_hand_with_fingers_splayed_medium_skin_tone', '1F3FD'],
+const skinsList = [
+    ['raised_hand_with_fingers_splayed_dark_skin_tone', '1F3FF'],
     ['raised_hand_with_fingers_splayed_medium_dark_skin_tone', '1F3FE'],
-    ['raised_hand_with_fingers_splayed_dark_skin_tone', '1F3FF']];
+    ['raised_hand_with_fingers_splayed_medium_skin_tone', '1F3FD'],
+    ['raised_hand_with_fingers_splayed_medium_light_skin_tone', '1F3FC'],
+    ['raised_hand_with_fingers_splayed_light_skin_tone', '1F3FB'],
+    ['raised_hand_with_fingers_splayed', 'default'],
+];
 
 const skinToneEmojis = new Map(skinsList.map((pair) => [pair[1], Emoji.Emojis[Emoji.EmojiIndicesByAlias.get(pair[0])!]]));
 
@@ -61,35 +65,42 @@ export class EmojiPickerSkin extends React.PureComponent<Props, State> {
     }
 
     extended() {
+        const closeButtonLabel = this.props.intl.formatMessage({
+            id: 'emoji_skin.close',
+            defaultMessage: 'Close skin tones',
+        });
         const choices = skinsList.map((skinPair) => {
             const skin = skinPair[1];
-            const emoji = skinToneEmojis.get(skin);
+            const emoji = skinToneEmojis.get(skin)!;
             const spriteClassName = classNames('emojisprite', `emoji-category-${emoji.category}`, `emoji-${emoji.unified.toLowerCase()}`);
 
             return (
-                <div
-                    className='skin-tones__icon'
+                <button
+                    className='style--none skin-tones__icon'
+                    data-testid={`skin-pick-${skin}`}
+                    aria-label={this.ariaLabel(skin)}
                     key={skin}
                     onClick={() => this.hideSkinTonePicker(skin)}
                 >
                     <img
-                        data-testid={`skin-pick-${skin}`}
                         src={imgTrans}
                         className={spriteClassName}
-                        aria-label={this.ariaLabel(skin)}
-                        role='button'
                     />
-                </div>
+                </button>
             );
         });
         return (
             <>
                 <div className='skin-tones__close'>
                     <button
-                        className='skin-tones__close-icon'
+                        className='skin-tones__close-icon style--none'
                         onClick={() => this.hideSkinTonePicker(this.props.userSkinTone)}
+                        aria-label={closeButtonLabel}
                     >
-                        <i className='icon-close icon--no-spacing icon-16'/>
+                        <CloseIcon
+                            size={16}
+                            color={'rgba(var(--center-channel-color-rgb), 0.56)'}
+                        />
                     </button>
                     <div className='skin-tones__close-text'>
                         <FormattedMessage
@@ -104,18 +115,20 @@ export class EmojiPickerSkin extends React.PureComponent<Props, State> {
         );
     }
     collapsed() {
-        const emoji = skinToneEmojis.get(this.props.userSkinTone);
+        const emoji = skinToneEmojis.get(this.props.userSkinTone)!;
         const spriteClassName = classNames('emojisprite', `emoji-category-${emoji.category}`, `emoji-${emoji.unified.toLowerCase()}`);
+        const expandButtonLabel = this.props.intl.formatMessage({
+            id: 'emoji_picker.skin_tone',
+            defaultMessage: 'Skin tone',
+        });
+
         const tooltip = (
             <Tooltip
                 id='skinTooltip'
                 className='emoji-tooltip'
             >
                 <span>
-                    <FormattedMessage
-                        id={'emoji_picker.skin_tone'}
-                        defaultMessage={'Skin tone'}
-                    />
+                    {expandButtonLabel}
                 </span>
             </Tooltip>);
         return (
@@ -125,17 +138,18 @@ export class EmojiPickerSkin extends React.PureComponent<Props, State> {
                 placement='top'
                 overlay={tooltip}
             >
-                <div className='skin-tones__icon'>
+                <button
+                    data-testid={`skin-picked-${this.props.userSkinTone}`}
+                    className='style--none skin-tones__icon skin-tones__expand-icon'
+                    onClick={this.showSkinTonePicker}
+                    aria-label={expandButtonLabel}
+                >
                     <img
                         alt={'emoji skin tone picker'}
-                        data-testid={`skin-picked-${this.props.userSkinTone}`}
                         src={imgTrans}
                         className={spriteClassName}
-                        onClick={this.showSkinTonePicker}
-                        aria-label={this.ariaLabel(this.props.userSkinTone)}
-                        role='button'
                     />
-                </div>
+                </button>
             </OverlayTrigger>);
     }
 

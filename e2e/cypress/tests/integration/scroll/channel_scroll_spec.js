@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @scroll
 
 import * as MESSAGES from '../../fixtures/messages';
@@ -73,6 +72,38 @@ describe('Scroll', () => {
         // * Make post from another user and verify that channel is scrolled down as post appear
         Cypress._.times(3, (postIndex) => {
             postMessageAndcheckIfTopMessagesAreScrolled(postIndex + 1, otherUser, testChannel.id);
+        });
+    });
+
+    it('MM-T2367 Compact view', () => {
+        const message = 'This is the first post';
+
+        // # Set display mode to standard
+        cy.apiSaveMessageDisplayPreference('clean');
+
+        // # Post a starting message with user 1
+        Cypress._.times(2, () => {
+            cy.postMessage(message);
+        });
+
+        // * Verify that messages do no have user's name in post
+        cy.getLastPostId().then((parentMessageId) => {
+            cy.get(`#${parentMessageId}_message`).parent().invoke('text').then((text) => {
+                expect(text).to.equal(message);
+                expect(text).to.not.have.string('sysadmin');
+            });
+        });
+
+        // # Set display mode to compact
+        cy.apiSaveMessageDisplayPreference('compact');
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+        // * Verify that messages have user's name in post
+        cy.getLastPostId().then((parentMessageId) => {
+            cy.get(`#${parentMessageId}_message`).parent().invoke('text').then((text) => {
+                expect(text).to.contain('sysadmin');
+                expect(text).to.contain(message);
+            });
         });
     });
 

@@ -119,8 +119,6 @@ The following is the rough process for releasing these packages. They'll require
 
 For full releases accompanying new versions of Mattermost:
 
-1. Ensure that the standard style checking, type checking, and tests pasts for the desired commit.
-
 1. Clean the repo.
 
     ```sh
@@ -137,28 +135,41 @@ For full releases accompanying new versions of Mattermost:
 
 1. Check in the changes to the package-lock.json.
 
-1. Tag that commit for each package being released. The tag name should be of the form `@mattermost/package-name@x.y.z`.
-
-1. Push that commit and the corresponding tags up to GitHub
-
-   ```sh
-   git push
-   git push origin @mattermost/package-name@x.y.z
-   ```
-
 1. Build the desired packages.
 
     ```sh
     npm run build --workspace=packages/apple --workspace=packages/banana
     ```
 
-1. Publish those packages to npm.
+1. Test everything in the web app. This will be needed until the packages get their own standalone tests.
 
     ```sh
-    npm run publish --access=public --workspace=packages/apple --workspace=packages/banana
+    make check-style check-types test
     ```
 
-    Note that you can also run that with `--dry-run` to see which files will be published. You can also use `npm pack` to generate a tarfile which will contain those files as well.
+1. Assuming those pass, you can now publish those packages to npm. You can also do a dry run first or use `npm pack` to see exactly which files will be pushed.
+
+    ```sh
+    # Run a dry run which will list all the files to be included in the published package.
+    npm publish --dry-run --workspace=packages/apple
+
+    # Generate the tar file that will be uploaded to NPM for inspection.
+    npm pack --workspace=packages/apple
+
+    # Actually publish these packages. You can also use --workspaces to publish everything.
+    npm publish --access=public --workspace=packages/apple --workspace=packages/banana
+    ```
+
+    The packages have now been published! There's still a few remaining cleanup tasks to do though.
+
+1. Tag the commit for each package that has been updated. The tag name should be of the form `@mattermost/package-name@x.y.z`.
+
+1. Push that commit and the corresponding tags up to GitHub
+
+   ```sh
+   git push release-x.y
+   git push origin @mattermost/apple@x.y.z @mattermost/banana@x.y.z
+   ```
 
 #### Publishing a pre-release version
 

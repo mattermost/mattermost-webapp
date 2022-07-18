@@ -329,8 +329,10 @@ export default class MessageAttachment extends React.PureComponent<Props, State>
                 fileInfos: [{
                     has_preview_image: false,
                     link,
-                    extension,
+                    extension: extension ?? '',
+                    name: link,
                 }],
+                startIndex: 0,
             },
         });
     }

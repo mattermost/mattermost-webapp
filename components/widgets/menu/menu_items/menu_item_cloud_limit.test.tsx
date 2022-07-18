@@ -2,10 +2,10 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import configureStore from 'redux-mock-store';
 import {Provider} from 'react-redux';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import mockStore from 'tests/test_store';
 
 import {FileSizes} from 'utils/file_utils';
 import {limitThresholds} from 'utils/limits';
@@ -99,8 +99,6 @@ const users = {
 const id = 'menuItemCloudLimit';
 
 describe('components/widgets/menu/menu_items/menu_item_cloud_limit', () => {
-    const mockStore = configureStore();
-
     test('Does not render if not cloud', () => {
         const state = {
             entities: {
@@ -179,7 +177,7 @@ describe('components/widgets/menu/menu_items/menu_item_cloud_limit', () => {
         expect(wrapper.find('li').exists()).toEqual(true);
     });
 
-    test('shows more attention grabbing UI if a limit is very close', () => {
+    test('shows more attention grabbing UI and notify admin CTA if a limit is very close for non admin users', () => {
         const state = {
             entities: {
                 general,
@@ -189,11 +187,42 @@ describe('components/widgets/menu/menu_items/menu_item_cloud_limit', () => {
                 },
                 users,
                 usage: usageCriticalMessages,
+                teams: {
+                    currentTeamId: 'current_team_id',
+                },
             },
         };
         const store = mockStore(state);
         const wrapper = mountWithIntl(<Provider store={store}><MenuItemCloudLimit id={id}/></Provider>);
         expect(wrapper.find('li').prop('className')).toContain('critical');
+        expect(wrapper.find('NotifyAdminCTA')).toHaveLength(1);
+    });
+
+    test('shows more attention grabbing UI if a limit is very close for admins', () => {
+        const state = {
+            entities: {
+                general,
+                cloud: {
+                    subscription,
+                    limits,
+                },
+                users: {
+                    currentUserId: 'current_user_id',
+                    profiles: {
+                        current_user_id: {roles: 'system_admin'},
+                    },
+                },
+                usage: usageCriticalMessages,
+                teams: {
+                    currentTeamId: 'current_team_id',
+                },
+            },
+        };
+        const store = mockStore(state);
+        const wrapper = mountWithIntl(<Provider store={store}><MenuItemCloudLimit id={id}/></Provider>);
+        expect(wrapper.find('li').prop('className')).toContain('critical');
+        expect(wrapper.find('a')).toHaveLength(1);
+        expect(wrapper.find('a').text()).toEqual('View upgrade options.');
     });
 });
 

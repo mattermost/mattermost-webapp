@@ -12,9 +12,11 @@ import {getFirstAdminSetupComplete} from 'mattermost-redux/actions/general';
 import {getProfiles} from 'mattermost-redux/actions/users';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 
+import {migrateRecentEmojis} from 'mattermost-redux/actions/emojis';
+
 import {getShowLaunchingWorkspace} from 'selectors/onboarding';
 import {emitBrowserWindowResized} from 'actions/views/browser';
-import {loadConfigAndMe} from 'actions/views/root';
+import {loadConfigAndMe, registerCustomPostRenderer} from 'actions/views/root';
 
 import LocalStorageStore from 'stores/local_storage_store';
 
@@ -50,7 +52,9 @@ function mapDispatchToProps(dispatch) {
             emitBrowserWindowResized,
             getFirstAdminSetupComplete,
             getProfiles,
+            migrateRecentEmojis,
             savePreferences,
+            registerCustomPostRenderer,
         }, dispatch),
     };
 }

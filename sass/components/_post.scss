@@ -573,11 +573,47 @@
     }
 }
 
-.post-body__helper-text {
-    display: inline-block;
-    margin: 8px 0 4px;
+.post-body__footer {
+    display: inline-flex;
+    align-items: center;
+    margin: 8px 0;
     color: rgba(var(--center-channel-color-rgb), 0.64);
     font-family: "Open Sans", sans-serif;
+    font-size: 12px;
+    gap: 8px;
+
+    > button {
+        @include button-small;
+
+        padding: 10px 16px;
+        border-width: 0;
+        border-radius: 4px;
+        box-shadow: none;
+
+        &.cancel {
+            background: rgba(var(--button-bg-rgb), 0.08);
+            color: var(--button-bg);
+            font-weight: 600;
+
+            &:hover {
+                background: rgba(var(--button-bg-rgb), 0.12);
+            }
+
+            &:active {
+                background: rgba(var(--button-bg-rgb), 0.16);
+            }
+
+            @include button-focus;
+        }
+
+        &.save {
+            @include primary-button;
+
+            box-shadow: none;
+
+            @include button-focus;
+        }
+    }
 }
 
 .post-create-footer {
@@ -636,8 +672,12 @@
     transition: height 200ms, background-color 200ms;
     word-wrap: break-word;
 
-    &:not(.post--editing):hover {
-        background-color: rgba(var(--center-channel-color-rgb), 0.04);
+    &:not(.post--editing):not(.post--editing):hover {
+        background-color: rgba(v(center-channel-color-rgb), 0.04);
+
+        .PostAttachmentOpenGraph .remove-button {
+            display: flex;
+        }
     }
 
     .hide-element {

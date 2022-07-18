@@ -10,6 +10,9 @@ import {PluginAnalyticsRow} from '@mattermost/types/admin';
 import {FileInfo} from '@mattermost/types/files';
 import {Post, PostEmbed} from '@mattermost/types/posts';
 import {IDMappedObjects} from '@mattermost/types/utilities';
+import {TopBoardResponse} from '@mattermost/types/insights';
+
+import WebSocketClient from 'client/websocket_client';
 
 export type PluginSiteStatsHandler = () => Promise<Record<string, PluginAnalyticsRow>>;
 
@@ -48,6 +51,9 @@ export type PluginsState = {
     };
     siteStatsHandlers: {
         [pluginId: string]: PluginSiteStatsHandler;
+    };
+    insightsHandlers: {
+        [pluginId: string]: (timeRange: string, page: number, perPage: number, teamId: string, insightType: string) => Promise<TopBoardResponse>;
     };
 };
 
@@ -115,7 +121,7 @@ export type AdminConsolePluginComponent = {
 export type PostWillRenderEmbedPluginComponent = {
     id: string;
     pluginId: string;
-    component: React.ComponentType<{ embed: PostEmbed }>;
+    component: React.ComponentType<{ embed: PostEmbed; webSocketClient?: WebSocketClient }>;
     match: (arg: PostEmbed) => boolean;
     toggleable: boolean;
 }

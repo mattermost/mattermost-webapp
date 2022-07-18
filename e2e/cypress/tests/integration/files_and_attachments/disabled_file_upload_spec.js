@@ -39,11 +39,13 @@ describe('Upload Files - Settings', () => {
     });
 
     it('MM-T1147_1 Disallow file sharing in the channel', () => {
-        // * Attachment input should not exist in the DOM
-        cy.get('#centerChannelFooter').find('#fileUploadInput').should('not.exist');
+        cy.get('.post-create__container .AdvancedTextEditor').should('be.visible').within(() => {
+            // * Attachment input should not exist in the DOM
+            cy.get('#fileUploadInput').should('not.exist');
 
-        // * Paper clip icon should not be visible in the center channel
-        cy.get('#centerChannelFooter').find('#fileUploadButton').should('not.exist');
+            // * Paper clip icon should not be visible in the center channel
+            cy.get('#fileUploadButton').should('not.exist');
+        });
 
         // * Channel header file icon should not be visible
         cy.get('#channel-header').find('#channelHeaderFilesButton').should('not.exist');
@@ -54,11 +56,13 @@ describe('Upload Files - Settings', () => {
         // # Open RHS
         cy.getLastPost().click();
 
-        // * Attachment input should not exist in the DOM
-        cy.get('.post-create-body.comment-create-body').find('#fileUploadInput').should('not.exist');
+        cy.get('.post-right-comments-container .AdvancedTextEditor').should('be.visible').within(() => {
+            // * Attachment input should not exist in the DOM
+            cy.get('#fileUploadInput').should('not.exist');
 
-        // * Paper clip icon should not be visible in the RHS
-        cy.get('.post-create-body.comment-create-body').find('#fileUploadButton').should('not.exist');
+            // * Paper clip icon should not be visible in the RHS
+            cy.get('#fileUploadButton').should('not.exist');
+        });
 
         // # Click on the search input
         cy.uiGetSearchBox().click();
@@ -80,17 +84,17 @@ describe('Upload Files - Settings', () => {
         const filename = 'mattermost-icon.png';
 
         // # Drag and drop file in center channel
-        cy.get('#channel_view').trigger('dragenter');
+        cy.get('.row.main').trigger('dragenter');
         cy.fixture(filename).then((img) => {
             const blob = Cypress.Blob.base64StringToBlob(img, 'image/png');
             cy.window().then((win) => {
                 const file = new win.File([blob], filename);
                 const dataTransfer = new win.DataTransfer();
                 dataTransfer.items.add(file);
-                cy.get('#channel_view').trigger('drop', {dataTransfer});
+                cy.get('.row.main').trigger('drop', {dataTransfer});
 
                 // * An error should be visible saying 'File attachments are disabled'
-                cy.get('#postCreateFooter').find('.has-error').should('contain.text', 'File attachments are disabled.');
+                cy.get('#create_post #postCreateFooter').find('.has-error').should('contain.text', 'File attachments are disabled.');
             });
         });
 
@@ -111,7 +115,7 @@ describe('Upload Files - Settings', () => {
                 cy.get('.ThreadViewer').trigger('drop', {dataTransfer});
 
                 // * An error should be visible saying 'File attachments are disabled'
-                cy.get('.ThreadViewer').find('.post-create-footer').find('.has-error').should('contain.text', 'File attachments are disabled.');
+                cy.get('.ThreadViewer #postCreateFooter').find('.has-error').should('contain.text', 'File attachments are disabled.');
             });
         });
 
@@ -125,7 +129,7 @@ describe('Upload Files - Settings', () => {
         // # Paste a file in the center channel
         cy.fixture(filename).then((img) => {
             const blob = Cypress.Blob.base64StringToBlob(img, 'image/png');
-            cy.get('#create_post').trigger('paste', {clipboardData: {
+            cy.uiGetPostTextBox().trigger('paste', {clipboardData: {
                 items: [{
                     name: filename,
                     kind: 'file',
@@ -150,7 +154,7 @@ describe('Upload Files - Settings', () => {
         // # Paste a file in the RHS
         cy.fixture(filename).then((img) => {
             const blob = Cypress.Blob.base64StringToBlob(img, 'image/png');
-            cy.get('#reply_textbox').trigger('paste', {clipboardData: {
+            cy.uiGetReplyTextBox().trigger('paste', {clipboardData: {
                 items: [{
                     name: filename,
                     kind: 'file',
@@ -163,7 +167,7 @@ describe('Upload Files - Settings', () => {
             }});
 
             // * An error should be visible saying 'File attachments are disabled'
-            cy.get('.ThreadViewer').find('.post-create-footer').find('.has-error').should('contain.text', 'File attachments are disabled.');
+            cy.get('.ThreadViewer #postCreateFooter').find('.has-error').should('contain.text', 'File attachments are disabled.');
         });
 
         // # Delete the post
@@ -172,7 +176,7 @@ describe('Upload Files - Settings', () => {
 
     it('MM-T1147_4 keyboard shortcut CMD/CTRL+U should produce an error', () => {
         // # Type CMD/CRTL+U shortcut
-        cy.get('#post_textbox').cmdOrCtrlShortcut('{U}');
+        cy.uiGetPostTextBox().cmdOrCtrlShortcut('{U}');
 
         // * An error should be visible saying 'File attachments are disabled'
         cy.get('#postCreateFooter').find('.has-error').should('contain.text', 'File attachments are disabled.');

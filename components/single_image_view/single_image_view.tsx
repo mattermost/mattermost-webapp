@@ -91,6 +91,7 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
             dialogProps: {
                 fileInfos: [this.props.fileInfo],
                 postId: this.props.postId,
+                startIndex: 0,
             },
         });
     }

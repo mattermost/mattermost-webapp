@@ -36,18 +36,13 @@ function simulateSubscription(subscription) {
             },
         ],
     });
-
-    cy.intercept('**/api/v4/config/client?format=old', (req) => {
-        req.reply((res) => {
-            const config = {...res.body};
-            config.FeatureFlagCloudFree = 'true';
-            res.send(config);
-        });
-    });
 }
 
 describe('Pricing modal', () => {
     let urlL;
+
+    // let createdUser;
+    // let createdTeam;
 
     before(() => {
         // * Check if server has license for Cloud
@@ -62,6 +57,9 @@ describe('Pricing modal', () => {
         };
         cy.apiInitSetup().then(({user, offTopicUrl: url}) => {
             urlL = url;
+
+            // createdUser = user;
+            // createdTeam = team;
             simulateSubscription(subscription);
             cy.apiLogin(user);
             cy.visit(url);
@@ -70,6 +68,104 @@ describe('Pricing modal', () => {
         // * Check that Upgrade button does not show
         cy.get('#UpgradeButton').should('not.exist');
     });
+
+    // it('should not ping admin twice before cool off period', () => {
+    //     const subscription = {
+    //         id: 'sub_test1',
+    //         product_id: 'prod_1',
+    //         is_free_trial: 'false',
+    //     };
+
+    //     simulateSubscription(subscription);
+    //     cy.apiLogout();
+    //     cy.apiLogin(createdUser);
+    //     cy.visit(urlL);
+
+    //     // # Open the pricing modal
+    //     cy.get('#UpgradeButton').should('exist').click();
+
+    //     // # Click NotifyAdmin CTA
+    //     cy.get('#notify_admin_cta').click();
+
+    //     // * Check that notified the admin
+    //     cy.get('#notify_admin_cta').contains('Notified!');
+
+    //     // # Click NotifyAdmin CTA again
+    //     cy.get('#notify_admin_cta').click();
+
+    //     // * Notifying the admin again is forbidden depending on server notification cool off time
+    //     cy.get('#notify_admin_cta').contains('Already notified!');
+    // });
+
+    // it('should ping admin when NotifyAdmin CTA is clicked for non admin users while in Starter', () => {
+    //     const subscription = {
+    //         id: 'sub_test1',
+    //         product_id: 'prod_1',
+    //         is_free_trial: 'false',
+    //     };
+
+    //     simulateSubscription(subscription);
+    //     cy.apiLogout();
+    //     cy.apiLogin(createdUser);
+    //     cy.visit(urlL);
+
+    //     // # Open the pricing modal
+    //     cy.get('#UpgradeButton').should('exist').click();
+
+    //     // # Click NotifyAdmin CTA
+    //     cy.get('#notify_admin_cta').click();
+
+    //     // * Check that notified the admin
+    //     cy.get('#notify_admin_cta').contains('Notified!');
+
+    //     // # Switch to admin view to check system-bot message
+    //     cy.apiLogout();
+    //     cy.apiAdminLogin();
+    //     cy.visit(urlL);
+
+    //     // # Open system-bot and admin DM
+    //     cy.get('.SidebarChannelLinkLabel').contains('system-bot').click();
+
+    //     // * Check for the post from the system-bot
+    //     cy.getLastPostId().then((postId) => {
+    //         cy.get(`#${postId}_message`).contains(`A member of ${createdTeam.name} has notified you to upgrade this workspace.`);
+    //     });
+    // });
+
+    // it('should ping admin when NotifyAdmin CTA is clicked for non admin users while in Enterprise Trial', () => {
+    //     const subscription = {
+    //         id: 'sub_test1',
+    //         product_id: 'prod_3',
+    //         is_free_trial: 'true',
+    //     };
+
+    //     simulateSubscription(subscription);
+    //     cy.apiLogout();
+    //     cy.apiLogin(createdUser);
+    //     cy.visit(urlL);
+
+    //     // # Open the pricing modal
+    //     cy.get('#UpgradeButton').should('exist').click();
+
+    //     // # Click NotifyAdmin CTA
+    //     cy.get('#notify_admin_cta').click();
+
+    //     // * Check that notified the admin
+    //     cy.get('#notify_admin_cta').contains('Notified!');
+
+    //     // # Switch to admin view to check system-bot message
+    //     cy.apiLogout();
+    //     cy.apiAdminLogin();
+    //     cy.visit(urlL);
+
+    //     // # Open system-bot and admin DM
+    //     cy.get('.SidebarChannelLinkLabel').contains('system-bot').click();
+
+    //     // * Check for the post from the system-bot
+    //     cy.getLastPostId().then((postId) => {
+    //         cy.get(`#${postId}_message`).contains(`A member of ${createdTeam.name} has notified you to upgrade this workspace.`);
+    //     });
+    // });
 
     it('should show Upgrade button in global header for admin users and starter sku', () => {
         const subscription = {
@@ -160,7 +256,7 @@ describe('Pricing modal', () => {
         cy.get('#pricingModal').get('.PricingModal__header').contains('Select a plan');
 
         // *Check that starter card Upgrade button is disabled
-        cy.get('#pricingModal').get('#starter').get('#starter_action').should('be.disabled').contains('Upgrade');
+        cy.get('#pricingModal').get('#starter').get('#starter_action').should('be.disabled').contains('Downgrade');
 
         // *Check that professsional card Upgrade button opens purchase modal
         cy.get('#pricingModal').get('#professional').get('#professional_action').click();
@@ -195,7 +291,7 @@ describe('Pricing modal', () => {
         cy.get('#pricingModal').get('.PricingModal__header').contains('Select a plan');
 
         // *Check that starter card Upgrade button is disabled
-        cy.get('#pricingModal').get('#starter').get('#starter_action').should('be.disabled').contains('Upgrade');
+        cy.get('#pricingModal').get('#starter').get('#starter_action').should('be.disabled').contains('Downgrade');
 
         // *Check that professsional card Upgrade button opens purchase modal
         cy.get('#pricingModal').get('#professional').get('#professional_action').click();
@@ -234,6 +330,35 @@ describe('Pricing modal', () => {
         cy.get('#pricingModal').get('#starter_plan_data_restrictions_cta').click();
 
         cy.get('.CloudUsageModal').should('exist');
-        cy.get('.CloudUsageModal').contains('Cloud starter limits');
+        cy.get('.CloudUsageModal').contains('Cloud Starter limits');
+    });
+
+    it('should open team downgrade selection modal when attempting downgrading from paid to starter', () => {
+        const subscription = {
+            id: 'sub_test1',
+            product_id: 'prod_3',
+            is_free_trial: 'true',
+        };
+        simulateSubscription(subscription);
+        cy.apiLogout();
+        cy.apiAdminLogin();
+        cy.visit(urlL);
+
+        // # Open the pricing modal
+        cy.get('#UpgradeButton').should('exist').click();
+
+        // *Pricing modal should be open
+        cy.get('#pricingModal').should('exist');
+        cy.get('#pricingModal').get('.PricingModal__header').contains('Select a plan');
+
+        // *Check that starter card Upgrade button is enabled
+        cy.get('#pricingModal').get('#starter').get('#starter_action').should('not.be.disabled').contains('Downgrade');
+
+        // *Check that starter downgrade button opens the downgrade team selection modal
+        cy.get('#pricingModal').get('#starter').get('#starter_action').click();
+
+        // *Close PurchaseModal
+        cy.get('.DowngradeTeamRemovalModal__buttons').get('.btn.btn-primary').should('be.disabled');
+        cy.get('.DropdownInput').should('exist').should('be.visible');
     });
 });

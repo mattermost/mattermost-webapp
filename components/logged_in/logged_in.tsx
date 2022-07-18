@@ -45,6 +45,7 @@ export type Props = {
     showTermsOfService: boolean;
     location: {
         pathname: string;
+        search: string;
     };
 }
 
@@ -118,7 +119,7 @@ export default class LoggedIn extends React.PureComponent<Props> {
             if (rootEl) {
                 rootEl.setAttribute('class', '');
             }
-            GlobalActions.emitUserLoggedOutEvent('/login?redirect_to=' + encodeURIComponent(this.props.location.pathname), true, false);
+            GlobalActions.emitUserLoggedOutEvent('/login?redirect_to=' + encodeURIComponent(`${this.props.location.pathname}${this.props.location.search}`), true, false);
         }
 
         // Prevent backspace from navigating back a page

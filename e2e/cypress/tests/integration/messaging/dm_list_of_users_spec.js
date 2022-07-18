@@ -44,7 +44,7 @@ describe('Messaging', () => {
 
             // # Search for the deactivated user
             cy.findByRole('dialog', {name: 'Direct Messages'}).should('be.visible').wait(TIMEOUTS.ONE_SEC);
-            cy.findByRole('textbox', {name: 'Search for people'}).click({force: true}).type(deactivatedUser.email);
+            cy.findByRole('textbox', {name: 'Search for people'}).typeWithForce(deactivatedUser.email);
 
             // * Verify that the inactive user is not found
             cy.get('.no-channel-message').should('be.visible').and('contain', 'No results found matching');
@@ -72,7 +72,7 @@ describe('Messaging', () => {
             cy.get('#moreDmModal').should('be.visible').contains('Direct Messages');
 
             // # Search for the deactivated user
-            cy.get('#selectItems input').should('be.focused').type(deactivatedUser.email, {force: true});
+            cy.get('#selectItems input').should('be.focused').typeWithForce(deactivatedUser.email);
 
             // * Verify that the deactivated user is found
             cy.get('#moreDmModal .more-modal__row--selected').should('be.visible').

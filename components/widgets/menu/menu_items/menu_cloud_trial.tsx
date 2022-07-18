@@ -2,50 +2,44 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage, useIntl} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import {useSelector, useDispatch} from 'react-redux';
 
-import UpgradeLink from 'components/widgets/links/upgrade_link';
+import moment from 'moment';
+
 import TrialBenefitsModal from 'components/trial_benefits_modal/trial_benefits_modal';
 import LearnMoreTrialModal from 'components/learn_more_trial_modal/learn_more_trial_modal';
 
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
-import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
+import {getCloudSubscription, getSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
 
 import {openModal} from 'actions/views/modals';
 
-import {getRemainingDaysFromFutureTimestamp} from 'utils/utils';
-import {TrialPeriodDays, ModalIdentifiers, CloudProducts} from 'utils/constants';
+import {ModalIdentifiers, CloudProducts} from 'utils/constants';
 import useGetHighestThresholdCloudLimit from 'components/common/hooks/useGetHighestThresholdCloudLimit';
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import useGetLimits from 'components/common/hooks/useGetLimits';
 import useGetUsage from 'components/common/hooks/useGetUsage';
-import {getCloudSubscription, getSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
 
 import './menu_item.scss';
 
 type Props = {
     id: string;
 }
-const MenuCloudTrial = ({id}: Props) => {
+const MenuCloudTrial = ({id}: Props): JSX.Element | null => {
     const subscription = useSelector(getCloudSubscription);
     const subscriptionProduct = useSelector(getSubscriptionProduct);
     const license = useSelector(getLicense);
     const dispatch = useDispatch<DispatchFunc>();
-    const {formatMessage} = useIntl();
 
     const isCloud = license?.Cloud === 'true';
     const isFreeTrial = subscription?.is_free_trial === 'true';
     const noPriorTrial = !(subscription?.is_free_trial === 'false' && subscription?.trial_end_at > 0);
-    const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
+    const freeTrialEndDay = moment(subscription?.trial_end_at).format('MMMM DD');
+    const isAdmin = useSelector(isCurrentUserSystemAdmin);
     const openPricingModal = useOpenPricingModal();
-
-    let daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription?.trial_end_at);
-    const maxDays = isCloudFreeEnabled ? TrialPeriodDays.TRIAL_30_DAYS : TrialPeriodDays.TRIAL_14_DAYS;
-    if (daysLeftOnTrial > maxDays) {
-        daysLeftOnTrial = maxDays;
-    }
 
     const openTrialBenefitsModal = async () => {
         await dispatch(openModal({
@@ -63,93 +57,94 @@ const MenuCloudTrial = ({id}: Props) => {
 
     const someLimitNeedsAttention = Boolean(useGetHighestThresholdCloudLimit(useGetUsage(), useGetLimits()[0]));
 
-    const isStarter = subscriptionProduct?.sku === CloudProducts.STARTER;
-
     if (!isCloud) {
         return null;
     }
 
-    // TODO: Remove once cloud free launches
-    if (!isCloudFreeEnabled && isFreeTrial) {
-        return (
-            <li
-                className={'MenuCloudTrial'}
-                role='menuitem'
-                id={id}
-            >
-                <FormattedMessage
-                    id='menu.nonCloudFree.daysLeftOnTrial'
-                    defaultMessage='There are {daysLeftOnTrial} days left on your Cloud trial.'
-                    values={{daysLeftOnTrial}}
-                />
-                <UpgradeLink
-                    buttonText={formatMessage({id: 'menu.nonCloudFree.subscribeNow', defaultMessage: 'Subscribe Now'})}
-                    styleLink={true}
-                />
-            </li>
-        );
+    const isStarter = subscriptionProduct?.sku === CloudProducts.STARTER;
+
+    if (someLimitNeedsAttention || (!isStarter && !isFreeTrial)) {
+        return null;
     }
 
-    if (!isCloudFreeEnabled || someLimitNeedsAttention || (!isStarter && !isFreeTrial)) {
+    // for end users only display the trial information
+    if (!isAdmin && !isFreeTrial) {
         return null;
     }
 
     const freeTrialContent = (
-        <>
-            <FormattedMessage
-                id='menu.cloudFree.reviewEnterpriseFeaturesTitle'
-                defaultMessage='Are you making the most of your Enterprise trial? '
-            />
-            <a
-                className='open-trial-benefits-modal style-link'
-                onClick={openTrialBenefitsModal}
-            >
+        <div className='MenuCloudTrial__free-trial'>
+            <h5 className='MenuCloudTrial__free-trial__content-title'>
                 <FormattedMessage
-                    id='menu.cloudFree.reviewEnterpriseFeatures'
-                    defaultMessage='Review our Enterprise Features'
+                    id='menu.cloudFree.enterpriseTrialTitle'
+                    defaultMessage='Enterprise Trial'
                 />
-            </a>
-        </>
+            </h5>
+            <div className='MenuCloudTrial__free-trial__content-section'>
+                <div className='MenuCloudTrial__free-trial__content-section__icon-section'>
+                    <i className='icon-arrow-up-bold-circle-outline'/>
+                </div>
+                <FormattedMessage
+                    id='menu.cloudFree.enterpriseTrialDescription'
+                    defaultMessage='Your trial is active until {trialEndDay}. Discover our top Enterprise features. <openModalLink>Learn more</openModalLink>'
+                    values={
+                        {
+                            trialEndDay: freeTrialEndDay,
+                            openModalLink: (msg: string) => (
+                                <a
+                                    className='open-trial-benefits-modal style-link'
+                                    onClick={isAdmin ? openTrialBenefitsModal : openPricingModal}
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        }
+                    }
+                />
+            </div>
+        </div>
     );
 
     // menu option displayed when the workspace is not running any trial
     const noFreeTrialContent = noPriorTrial ? (
-        <>
-            <FormattedMessage
-                id='menu.cloudFree.tryEnterprise'
-                defaultMessage='Interested in a limitless plan with high-security features?'
-            />
-            <a
-                className='open-learn-more-trial-modal style-link'
-                onClick={openLearnMoreTrialModal}
-            >
-                <FormattedMessage
-                    id='menu.cloudFree.tryEnterpriseFor30Days'
-                    defaultMessage='Try Enterprise free for 30 days'
-                />
-            </a>
-        </>
+        <FormattedMessage
+            id='menu.cloudFree.priorTrial.tryEnterprise'
+            defaultMessage='Interested in a limitless plan with high-security features? <openModalLink>Try Enterprise free for 30 days</openModalLink>'
+            values={
+                {
+                    openModalLink: (msg: string) => (
+                        <a
+                            className='open-learn-more-trial-modal style-link'
+                            onClick={openLearnMoreTrialModal}
+                        >
+                            {msg}
+                        </a>
+                    ),
+                }
+            }
+        />
     ) : (
-        <>
-            <FormattedMessage
-                id='menu.cloudFree.tryEnterprise'
-                defaultMessage='Interested in a limitless plan with high-security features?'
-            />
-            <a
-                className='open-see-plans-modal style-link'
-                onClick={openPricingModal}
-            >
-                <FormattedMessage
-                    id='menu.cloudFree.seePlans'
-                    defaultMessage='See plans'
-                />
-            </a>
-        </>
+        <FormattedMessage
+            id='menu.cloudFree.postTrial.tryEnterprise'
+            defaultMessage='Interested in a limitless plan with high-security features? <openModalLink>See plans</openModalLink>'
+            values={
+                {
+                    openModalLink: (msg: string) => (
+                        <a
+                            className='open-see-plans-modal style-link'
+                            onClick={openPricingModal}
+                        >
+                            {msg}
+                        </a>
+                    ),
+                }
+            }
+        />
     );
 
     return (
         <li
-            className={'MenuCloudTrial'}
+            className='MenuCloudTrial'
             role='menuitem'
             id={id}
         >

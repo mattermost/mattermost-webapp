@@ -30,8 +30,8 @@ Cypress.Commands.add('checkLoginFailed', () => {
         // * Check the password input in error
         cy.get('.login-body-card-form-password-input.Input_fieldset').should('have.class', 'Input_fieldset___error');
 
-        // * Check the Log in button disabled
-        cy.get('#saveSetting').should('be.disabled');
+        // * Check the Log in button enabled
+        cy.get('#saveSetting').should('not.be.disabled');
     });
 });
 
@@ -108,7 +108,7 @@ Cypress.Commands.add('skipOrCreateTeam', (settings, userId) => {
             cy.checkCreateTeamPage(settings);
 
             cy.get('#createNewTeamLink').scrollIntoView().should('be.visible').click();
-            cy.get('#teamNameInput').should('be.visible').type(teamName, {force: true});
+            cy.get('#teamNameInput').should('be.visible').typeWithForce(teamName);
             cy.findByText('Next').should('be.visible').click();
             cy.findByText('Finish').should('be.visible').click();
         }

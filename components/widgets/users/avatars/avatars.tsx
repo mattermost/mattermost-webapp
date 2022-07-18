@@ -29,6 +29,7 @@ type Props = {
     breakAt?: number;
     size?: ComponentProps<typeof Avatar>['size'];
     fetchMissingUsers?: boolean;
+    disableProfileOverlay?: boolean;
 };
 
 const OTHERS_DISPLAY_LIMIT = 99;
@@ -53,10 +54,12 @@ const displayNameGetter = makeDisplayNameGetter();
 function UserAvatar({
     userId,
     overlayProps,
+    disableProfileOverlay,
     ...props
 }: {
     userId: UserProfile['id'];
     overlayProps: Partial<ComponentProps<typeof SimpleTooltip>>;
+    disableProfileOverlay: boolean;
 } & ComponentProps<typeof Avatar>) {
     const user = useSelector((state: GlobalState) => selectUser(state, userId)) as UserProfile | undefined;
     const name = useSelector((state: GlobalState) => displayNameGetter(state, true)(user));
@@ -66,6 +69,7 @@ function UserAvatar({
     return (
         <OverlayTrigger
             trigger='click'
+            disabled={disableProfileOverlay}
             placement='right'
             rootClose={true}
             overlay={
@@ -101,6 +105,7 @@ function Avatars({
     userIds,
     totalUsers,
     fetchMissingUsers = true,
+    disableProfileOverlay = false,
 }: Props) {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
@@ -134,6 +139,7 @@ function Avatars({
                     size={size}
                     tabIndex={0}
                     overlayProps={overlayProps}
+                    disableProfileOverlay={disableProfileOverlay}
                 />
             ))}
             {Boolean(nonDisplayCount) && (

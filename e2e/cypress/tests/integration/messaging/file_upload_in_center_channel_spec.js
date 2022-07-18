@@ -18,14 +18,14 @@ describe('Messaging', () => {
         });
     });
 
-    it('M16425 : Show single image thumbnails in standard mode', () => {
+    it('MM-T4861 Show single image thumbnails in standard mode', () => {
         // # Set the messages display setting to standard i.e not compact
         cy.apiSaveMessageDisplayPreference('clean');
 
         // # upload an image
         const IMAGE_NAME = 'huge-image.jpg';
         cy.get('#fileUploadInput').attachFile(IMAGE_NAME);
-        waitForImageUpload();
+        cy.uiWaitForFileUploadPreview();
 
         // # post it with a message
         const IMAGE_WITH_POST_TEXT = `image in compact display setting ${Date.now()}`;
@@ -53,10 +53,3 @@ describe('Messaging', () => {
         });
     });
 });
-
-function waitForImageUpload() {
-    // * Verify that the image exists in the post message footer
-    cy.waitUntil(() => cy.get('#postCreateFooter').then((el) => {
-        return el.find('.post-image.normal').length > 0;
-    }));
-}

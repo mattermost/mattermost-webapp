@@ -7,6 +7,7 @@ import {useIntl} from 'react-intl';
 import {Link, useLocation, useHistory} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 import classNames from 'classnames';
+import throttle from 'lodash/throttle';
 
 import {redirectUserToDefaultTeam} from 'actions/global_actions';
 import {addUserToTeamFromInvite} from 'actions/team_actions';
@@ -23,6 +24,7 @@ import {Team} from '@mattermost/types/teams';
 
 import AlertBanner, {ModeType, AlertBannerProps} from 'components/alert_banner';
 import ExternalLoginButton, {ExternalLoginButtonType} from 'components/external_login_button/external_login_button';
+import AlternateLinkLayout from 'components/header_footer_route/content_layouts/alternate_link';
 import ColumnLayout from 'components/header_footer_route/content_layouts/column';
 import {CustomizeHeaderType} from 'components/header_footer_route/header_footer_route';
 import LoadingScreen from 'components/loading_screen';
@@ -36,15 +38,21 @@ import LoginOpenIDIcon from 'components/widgets/icons/login_openid_icon';
 import Input, {SIZE} from 'components/widgets/inputs/input/input';
 import PasswordInput from 'components/widgets/inputs/password_input/password_input';
 import WomanWithChatsSVG from 'components/common/svg_images_components/woman_with_chats_svg';
+
 import {GlobalState} from 'types/store';
 import Constants from 'utils/constants';
+
 import {showNotification} from 'utils/notifications';
 import {t} from 'utils/i18n';
 import {setCSRFFromCookie} from 'utils/utils';
 
+import {SubmitOptions} from 'components/claim/components/email_to_ldap';
+
 import LoginMfa from './login_mfa';
 
 import './login.scss';
+
+const MOBILE_SCREEN_WIDTH = 1200;
 
 type LoginProps = {
     onCustomizeHeader?: CustomizeHeaderType;
@@ -102,6 +110,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
     const [brandImageError, setBrandImageError] = useState(false);
     const [alertBanner, setAlertBanner] = useState<AlertBannerProps | null>(null);
     const [hasError, setHasError] = useState(false);
+    const [isMobileView, setIsMobileView] = useState(false);
 
     const enableCustomBrand = EnableCustomBrand === 'true';
     const enableLdap = EnableLdap === 'true';
@@ -122,7 +131,6 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
     const enableBaseLogin = enableSignInWithEmail || enableSignInWithUsername || ldapEnabled;
     const enableExternalSignup = enableSignUpWithGitLab || enableSignUpWithOffice365 || enableSignUpWithGoogle || enableSignUpWithOpenId || enableSignUpWithSaml;
     const showSignup = enableOpenServer && (enableExternalSignup || enableSignUpWithEmail || enableLdap);
-    const canSubmit = Boolean(loginId && password) && !hasError && !isWaiting;
 
     const getExternalLoginOptions = () => {
         const externalLoginOptions: ExternalLoginButtonType[] = [];
@@ -305,32 +313,43 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
         return setAlertBanner(mode ? {mode: mode as ModeType, title, onDismiss} : null);
     }, [extraParam, sessionExpired, siteName, onDismissSessionExpired]);
 
-    const onWindowFocus = () => {
+    const getAlternateLink = useCallback(() => (
+        showSignup ? (
+            <AlternateLinkLayout
+                className='login-body-alternate-link'
+                alternateMessage={formatMessage({
+                    id: 'login.noAccount',
+                    defaultMessage: 'Don\'t have an account?',
+                })}
+                alternateLinkPath='/signup_user_complete'
+                alternateLinkLabel={formatMessage({
+                    id: 'login.create',
+                    defaultMessage: 'Create an account',
+                })}
+            />
+        ) : undefined
+    ), [showSignup]);
+
+    const onWindowResize = throttle(() => {
+        setIsMobileView(window.innerWidth < MOBILE_SCREEN_WIDTH);
+    }, 100);
+
+    const onWindowFocus = useCallback(() => {
         if (extraParam === Constants.SIGNIN_VERIFIED && emailParam) {
             passwordInput.current?.focus();
         } else {
             loginIdInput.current?.focus();
         }
-    };
+    }, [emailParam, extraParam]);
 
     useEffect(() => {
         if (onCustomizeHeader) {
             onCustomizeHeader({
                 onBackButtonClick: showMfa ? handleHeaderBackButtonOnClick : undefined,
-                ...showSignup ? {
-                    alternateMessage: formatMessage({
-                        id: 'login.noAccount',
-                        defaultMessage: 'Don\'t have an account?',
-                    }),
-                    alternateLinkPath: '/signup_user_complete',
-                    alternateLinkLabel: formatMessage({
-                        id: 'login.create',
-                        defaultMessage: 'Create an account',
-                    }),
-                } : {},
+                alternateLink: isMobileView ? getAlternateLink() : undefined,
             });
         }
-    }, [onCustomizeHeader, search, showMfa, showSignup]);
+    }, [onCustomizeHeader, search, showMfa, isMobileView, getAlternateLink]);
 
     useEffect(() => {
         if (currentUser) {
@@ -338,8 +357,10 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
             return;
         }
 
+        onWindowResize();
         onWindowFocus();
 
+        window.addEventListener('resize', onWindowResize);
         window.addEventListener('focus', onWindowFocus);
 
         // Determine if the user was unexpectedly logged out.
@@ -372,8 +393,11 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
                 closeSessionExpiredNotification.current();
                 closeSessionExpiredNotification.current = undefined;
             }
+
+            window.removeEventListener('resize', onWindowResize);
+            window.removeEventListener('focus', onWindowFocus);
         };
-    });
+    }, []);
 
     if (initializing) {
         return (<LoadingScreen/>);
@@ -482,10 +506,10 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
             return;
         }
 
-        submit(loginId, password);
+        submit({loginId, password});
     };
 
-    const submit = async (loginId: string, password: string, token?: string) => {
+    const submit = async ({loginId, password, token}: SubmitOptions) => {
         setIsWaiting(true);
 
         const {error} = await dispatch(login(loginId, password, token));
@@ -617,7 +641,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
     };
 
     const onEnterKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === Constants.KeyCodes.ENTER[0] && canSubmit) {
+        if (e.key === Constants.KeyCodes.ENTER[0]) {
             preSubmit(e);
         }
     };
@@ -747,7 +771,6 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
                                 <SaveButton
                                     extraClasses='login-body-card-form-button-submit large'
                                     saving={isWaiting}
-                                    disabled={!canSubmit}
                                     onClick={preSubmit}
                                     defaultMessage={formatMessage({id: 'login.logIn', defaultMessage: 'Log in'})}
                                     savingMessage={formatMessage({id: 'login.logingIn', defaultMessage: 'Logging in…'})}
@@ -780,6 +803,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
 
     return (
         <div className='login-body'>
+            {!isMobileView && getAlternateLink()}
             <div className='login-body-content'>
                 {getContent()}
             </div>
