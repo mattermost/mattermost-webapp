@@ -9,6 +9,7 @@ Cypress.Commands.overwrite('reload', (originalFn, forceReload, options, duration
 });
 
 Cypress.Commands.overwrite('visit', (originalFn, url, options, duration = TIMEOUTS.THREE_SEC) => {
+    localStorage.setItem('__landingPageSeen__', 'true');
     originalFn(url, options);
     cy.wait(duration);
 });
