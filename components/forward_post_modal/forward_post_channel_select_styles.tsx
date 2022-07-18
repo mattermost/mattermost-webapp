@@ -7,13 +7,15 @@ import * as CSS from 'csstype';
 
 import {ChannelOption} from './forward_post_channel_select';
 
-type CSSPropertiesWithPseudos = CSSProperties & { [P in CSS.SimplePseudos]?: CSS.Properties };
+type Pseudos = CSS.Pseudos | '::-webkit-scrollbar' | '::-webkit-scrollbar-track' | '::-webkit-scrollbar-thumb';
 
-const menuMargin = 8;
+type CSSPropertiesWithPseudos = CSSProperties & { [P in Pseudos]?: CSS.Properties };
+
+const menuMargin = 4;
 const selectHeight = 40;
 
 const getBaseStyles = (bodyHeight: number) => {
-    const minMenuHeight = bodyHeight - selectHeight - (2 * menuMargin);
+    const minMenuHeight = bodyHeight - selectHeight - menuMargin;
 
     return ({
         input: (provided: CSSProperties): CSSPropertiesWithPseudos => ({
@@ -72,6 +74,7 @@ const getBaseStyles = (bodyHeight: number) => {
         menu: (provided: CSSProperties): CSSPropertiesWithPseudos => ({
             ...provided,
             padding: 0,
+            margin: `${menuMargin}px 0 0 0`,
             zIndex: 10,
         }),
         menuList: (provided: CSSProperties): CSSPropertiesWithPseudos => ({
@@ -84,6 +87,28 @@ const getBaseStyles = (bodyHeight: number) => {
 
             /* Elevation 4 */
             boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12)',
+
+            /* scrollbar styles */
+            overflowY: 'scroll', // for Firefox and browsers that doesn't support overflow-y:overlay property
+
+            scrollbarColor: 'var(--center-channel-bg)',
+            scrollbarWidth: 'thin',
+
+            '::-webkit-scrollbar': {
+                width: '8px',
+            },
+
+            '::-webkit-scrollbar-track': {
+                width: '0px',
+                background: 'transparent',
+            },
+
+            '::-webkit-scrollbar-thumb': {
+                border: '1px var(--center-channel-bg) solid',
+                background: 'rgba(var(--center-channel-color-rgb), 0.24) !important',
+                backgroundClip: 'padding-box',
+                borderRadius: '9999px',
+            },
         }),
         groupHeading: (provided: CSSProperties): CSSPropertiesWithPseudos => ({
             ...provided,
@@ -115,7 +140,7 @@ const getBaseStyles = (bodyHeight: number) => {
         }),
         menuPortalTarget: (provided: CSSProperties): CSSPropertiesWithPseudos => ({
             ...provided,
-            zIndex: 999999,
+            zIndex: 10,
         }),
     });
 };
