@@ -28,7 +28,6 @@ describe('components/integrations/bots/AddBot', () => {
                 maxFileSize={100}
                 team={team}
                 editingUserHasManageSystem={true}
-                location={{search: ''}}
                 actions={actions}
             />,
         );
@@ -65,7 +64,6 @@ describe('components/integrations/bots/AddBot', () => {
                 maxFileSize={100}
                 team={team}
                 editingUserHasManageSystem={true}
-                location={{search: ''}}
                 actions={actions}
             />,
         );
