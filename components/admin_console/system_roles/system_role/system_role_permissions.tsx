@@ -10,6 +10,7 @@ import {t} from 'utils/i18n';
 
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import Constants from 'utils/constants';
+import FormattedMarkdownMessage from '../../../formatted_markdown_message';
 
 import SystemRolePermission from './system_role_permission';
 import {PermissionsToUpdate, PermissionToUpdate, SystemSection} from './types';
@@ -194,6 +195,15 @@ export default class SystemRolePermissions extends React.PureComponent<Props, St
         let editedSectionsByRole = {
             ...SECTIONS_BY_ROLES,
         };
+
+        if (this.props.role.name === Constants.PERMISSIONS_SYSTEM_CUSTOM_GROUP_ADMIN) {
+            return (
+                <FormattedMarkdownMessage
+                    id='admin.permissions.roles.system_custom_group_admin.detail_text'
+                    defaultMessage="The built-in Custom Group Manager role can be used to delegate the administration of [Custom Groups](https://docs.mattermost.com/welcome/manage-custom-groups.html) to users other than the System Admin.\n \nDon't forget to deauthorize all other system users from administering Custom Groups by unchecking the associated permissions checkbox in System console > User Management > Permissions.\n \nThis role has permission to create, edit, and delete custom user groups by selecting **User groups** from the Products menu."
+                />
+            );
+        }
 
         if (this.props.role.name === Constants.PERMISSIONS_SYSTEM_USER_MANAGER) {
             let permissionsToShow: Record<string, boolean> = {};

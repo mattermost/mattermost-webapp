@@ -37,7 +37,21 @@ exports[`admin_console/team_channel_settings/team/TeamProfile should match snaps
     onToggleArchive={[MockFunction]}
     team={
       Object {
-        "display_name": "test",
+        "allow_open_invite": false,
+        "allowed_domains": "",
+        "company_name": "",
+        "create_at": 0,
+        "delete_at": 0,
+        "description": "",
+        "display_name": "name",
+        "email": "",
+        "group_constrained": false,
+        "id": "team_id",
+        "invite_id": "",
+        "name": "DN",
+        "scheme_id": "id",
+        "type": "O",
+        "update_at": 0,
       }
     }
   />
@@ -81,7 +95,21 @@ exports[`admin_console/team_channel_settings/team/TeamProfile should match snaps
     onToggleArchive={[MockFunction]}
     team={
       Object {
-        "display_name": "test",
+        "allow_open_invite": false,
+        "allowed_domains": "",
+        "company_name": "",
+        "create_at": 0,
+        "delete_at": 0,
+        "description": "",
+        "display_name": "name",
+        "email": "",
+        "group_constrained": false,
+        "id": "team_id",
+        "invite_id": "",
+        "name": "DN",
+        "scheme_id": "id",
+        "type": "O",
+        "update_at": 0,
       }
     }
   />
@@ -106,7 +134,21 @@ exports[`admin_console/team_channel_settings/team/TeamProfile__Cloud restore sho
     onToggleArchive={[MockFunction]}
     team={
       Object {
-        "display_name": "test",
+        "allow_open_invite": false,
+        "allowed_domains": "",
+        "company_name": "",
+        "create_at": 0,
+        "delete_at": 0,
+        "description": "",
+        "display_name": "name",
+        "email": "",
+        "group_constrained": false,
+        "id": "team_id",
+        "invite_id": "",
+        "name": "DN",
+        "scheme_id": "id",
+        "type": "O",
+        "update_at": 0,
       }
     }
   >
@@ -209,12 +251,12 @@ exports[`admin_console/team_channel_settings/team/TeamProfile__Cloud restore sho
                 className="large-team-image-col"
               >
                 <injectIntl(TeamIcon)
-                  content="test"
+                  content="name"
                   size="lg"
                   url={null}
                 >
                   <TeamIcon
-                    content="test"
+                    content="name"
                     intl={
                       Object {
                         "defaultFormats": Object {},
@@ -261,12 +303,12 @@ exports[`admin_console/team_channel_settings/team/TeamProfile__Cloud restore sho
                         className="TeamIcon__content no-hover"
                       >
                         <div
-                          aria-label="test Team Initials"
+                          aria-label="name Team Initials"
                           className="TeamIcon__initials TeamIcon__initials__lg"
                           data-testid="teamIconInitial"
                           role="img"
                         >
-                          te
+                          na
                         </div>
                       </div>
                     </div>
@@ -334,7 +376,7 @@ exports[`admin_console/team_channel_settings/team/TeamProfile__Cloud restore sho
                     </FormattedMarkdownMessage>
                   </injectIntl(FormattedMarkdownMessage)>
                   <br />
-                  test
+                  name
                 </div>
                 <div
                   className="row"
@@ -466,7 +508,21 @@ exports[`admin_console/team_channel_settings/team/TeamProfile__Cloud should matc
     onToggleArchive={[MockFunction]}
     team={
       Object {
-        "display_name": "test",
+        "allow_open_invite": false,
+        "allowed_domains": "",
+        "company_name": "",
+        "create_at": 0,
+        "delete_at": 0,
+        "description": "",
+        "display_name": "name",
+        "email": "",
+        "group_constrained": false,
+        "id": "team_id",
+        "invite_id": "",
+        "name": "DN",
+        "scheme_id": "id",
+        "type": "O",
+        "update_at": 0,
       }
     }
   >
@@ -569,12 +625,12 @@ exports[`admin_console/team_channel_settings/team/TeamProfile__Cloud should matc
                 className="large-team-image-col"
               >
                 <injectIntl(TeamIcon)
-                  content="test"
+                  content="name"
                   size="lg"
                   url={null}
                 >
                   <TeamIcon
-                    content="test"
+                    content="name"
                     intl={
                       Object {
                         "defaultFormats": Object {},
@@ -621,12 +677,12 @@ exports[`admin_console/team_channel_settings/team/TeamProfile__Cloud should matc
                         className="TeamIcon__content no-hover"
                       >
                         <div
-                          aria-label="test Team Initials"
+                          aria-label="name Team Initials"
                           className="TeamIcon__initials TeamIcon__initials__lg"
                           data-testid="teamIconInitial"
                           role="img"
                         >
-                          te
+                          na
                         </div>
                       </div>
                     </div>
@@ -694,7 +750,7 @@ exports[`admin_console/team_channel_settings/team/TeamProfile__Cloud should matc
                     </FormattedMarkdownMessage>
                   </injectIntl(FormattedMarkdownMessage)>
                   <br />
-                  test
+                  name
                 </div>
                 <div
                   className="row"
@@ -959,7 +1015,21 @@ exports[`admin_console/team_channel_settings/team/TeamProfile__Cloud should matc
     onToggleArchive={[MockFunction]}
     team={
       Object {
-        "display_name": "test",
+        "allow_open_invite": false,
+        "allowed_domains": "",
+        "company_name": "",
+        "create_at": 0,
+        "delete_at": 0,
+        "description": "",
+        "display_name": "name",
+        "email": "",
+        "group_constrained": false,
+        "id": "team_id",
+        "invite_id": "",
+        "name": "DN",
+        "scheme_id": "id",
+        "type": "O",
+        "update_at": 0,
       }
     }
   >
@@ -1062,12 +1132,12 @@ exports[`admin_console/team_channel_settings/team/TeamProfile__Cloud should matc
                 className="large-team-image-col"
               >
                 <injectIntl(TeamIcon)
-                  content="test"
+                  content="name"
                   size="lg"
                   url={null}
                 >
                   <TeamIcon
-                    content="test"
+                    content="name"
                     intl={
                       Object {
                         "defaultFormats": Object {},
@@ -1114,12 +1184,12 @@ exports[`admin_console/team_channel_settings/team/TeamProfile__Cloud should matc
                         className="TeamIcon__content no-hover"
                       >
                         <div
-                          aria-label="test Team Initials"
+                          aria-label="name Team Initials"
                           className="TeamIcon__initials TeamIcon__initials__lg"
                           data-testid="teamIconInitial"
                           role="img"
                         >
-                          te
+                          na
                         </div>
                       </div>
                     </div>
@@ -1187,7 +1257,7 @@ exports[`admin_console/team_channel_settings/team/TeamProfile__Cloud should matc
                     </FormattedMarkdownMessage>
                   </injectIntl(FormattedMarkdownMessage)>
                   <br />
-                  test
+                  name
                 </div>
                 <div
                   className="row"

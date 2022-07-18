@@ -50,7 +50,7 @@ describe('Incoming webhook', () => {
     it('MM-T639 🚀 incoming Webhook creates DM', () => {
         // # Verify that the channel was created correctly with an unread message, and open it
         cy.uiGetLHS().
-            contains(`${generatedUser.username}`).
+            contains(generatedUser.username).
             should('have.class', 'unread-title').
             click();
         cy.getLastPost().within(($post) => {

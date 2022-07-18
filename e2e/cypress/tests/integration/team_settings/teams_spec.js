@@ -83,7 +83,7 @@ describe('Teams Suite', () => {
 
             cy.get('.users-emails-input__control').should('be.visible').within(($el) => {
                 // # Type the first letters of a user
-                cy.wrap($el).get('input').type(otherUser.first_name, {force: true});
+                cy.wrap($el).get('input').typeWithForce(otherUser.first_name);
             });
 
             // * Verify user is on the list, then select by clicking on it
@@ -195,7 +195,7 @@ describe('Teams Suite', () => {
             should('be.visible');
 
         // # Close the team settings
-        cy.get('body').type('{esc}', {force: true});
+        cy.get('body').typeWithForce('{esc}');
     });
 
     it('MM-T2312 Team setting / Team name: Change name', () => {
@@ -217,7 +217,7 @@ describe('Teams Suite', () => {
         cy.findByText(/save/i).click();
 
         // # Close the team settings
-        cy.get('body').type('{esc}', {force: true});
+        cy.get('body').typeWithForce('{esc}');
 
         // Team display name shows as "Testing Team" at top of team menu
         cy.uiGetLHSHeader().findByText(teamName);
@@ -272,7 +272,7 @@ describe('Teams Suite', () => {
         cy.findByText(/save/i).click();
 
         // # Close the team settings
-        cy.get('body').type('{esc}', {force: true});
+        cy.get('body').typeWithForce('{esc}');
 
         // # Login as new user
         cy.apiLogin(newUser);

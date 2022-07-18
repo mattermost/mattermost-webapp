@@ -94,7 +94,7 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
     public componentDidMount(): void {
         this.props.actions.getConfig();
         this.props.actions.getEnvironmentConfig();
-        this.props.actions.loadRolesIfNeeded(['channel_user', 'team_user', 'system_user', 'channel_admin', 'team_admin', 'system_admin', 'system_user_manager', 'system_read_only_admin', 'system_manager']);
+        this.props.actions.loadRolesIfNeeded(['channel_user', 'team_user', 'system_user', 'channel_admin', 'team_admin', 'system_admin', 'system_user_manager', 'system_custom_group_admin', 'system_read_only_admin', 'system_manager']);
         this.props.actions.selectChannel('');
         this.props.actions.selectTeam('');
         document.body.classList.add('console__body');
@@ -119,6 +119,7 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
             roles.system_user &&
             roles.system_user_manager &&
             roles.system_read_only_admin &&
+            roles.system_custom_group_admin &&
             roles.system_manager
         );
     }

@@ -35,7 +35,7 @@ describe('Custom Status - Recent Statuses', () => {
         cy.uiOpenUserMenu('Set a Custom Status');
 
         // # Type the custom status text in the custom status modal input
-        cy.get('#custom_status_modal .StatusModal__input input').type(customStatus.text, {force: true});
+        cy.get('#custom_status_modal .StatusModal__input input').typeWithForce(customStatus.text);
 
         // # Select an emoji from the emoji picker and set the status
         cy.get('#custom_status_modal .StatusModal__emoji-button').click();

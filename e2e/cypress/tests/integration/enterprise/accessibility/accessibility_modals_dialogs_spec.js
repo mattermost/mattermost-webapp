@@ -55,9 +55,9 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
 
             // # Search for a text and then check up and down arrow
             cy.findByRole('textbox', {name: 'Search for people'}).
-                type('s', {force: true}).
+                typeWithForce('s').
                 wait(TIMEOUTS.HALF_SEC).
-                type('{downarrow}{downarrow}{downarrow}{uparrow}', {force: true});
+                typeWithForce('{downarrow}{downarrow}{downarrow}{uparrow}');
             cy.get('#multiSelectList').children().eq(2).should('have.class', 'more-modal__row--selected').within(() => {
                 cy.get('.more-modal__name').invoke('text').then((user) => {
                     selectedRowText = user.split(' - ')[0].replace('@', '');
@@ -78,7 +78,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
             // # Search for an invalid text
             const additionalSearchTerm = 'somethingwhichdoesnotexist';
             cy.findByRole('textbox', {name: 'Search for people'}).clear().
-                type(additionalSearchTerm, {force: true}).
+                typeWithForce(additionalSearchTerm).
                 wait(TIMEOUTS.HALF_SEC);
 
             // * Check if reader can read no results
@@ -164,9 +164,9 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
 
             // # Search for a text and then check up and down arrow
             cy.findByRole('textbox', {name: 'Search for people'}).
-                type('u', {force: true}).
+                typeWithForce('u').
                 wait(TIMEOUTS.HALF_SEC).
-                type('{downarrow}{downarrow}{downarrow}{uparrow}', {force: true});
+                typeWithForce('{downarrow}{downarrow}{downarrow}{uparrow}');
             cy.get('#multiSelectList').
                 children().eq(1).
                 should('have.class', 'more-modal__row--selected').
@@ -189,7 +189,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
 
             // # Search for an invalid text and check if reader can read no results
             cy.findByRole('textbox', {name: 'Search for people'}).
-                type('somethingwhichdoesnotexist', {force: true}).
+                typeWithForce('somethingwhichdoesnotexist').
                 wait(TIMEOUTS.HALF_SEC);
 
             // * Check if reader can read no results

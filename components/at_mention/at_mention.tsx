@@ -12,6 +12,7 @@ import {Group} from '@mattermost/types/groups';
 import ProfilePopover from 'components/profile_popover';
 
 import {popOverOverlayPosition} from 'utils/position_utils';
+import {getUserFromMentionName} from 'utils/post_utils';
 
 const spaceRequiredForPopOver = 300;
 
@@ -68,26 +69,6 @@ export default class AtMention extends React.PureComponent<Props, State> {
         this.setState({show: false});
     }
 
-    getUserFromMentionName() {
-        const {usersByUsername, mentionName} = this.props;
-        let mentionNameToLowerCase = mentionName.toLowerCase();
-
-        while (mentionNameToLowerCase.length > 0) {
-            if (usersByUsername.hasOwnProperty(mentionNameToLowerCase)) {
-                return usersByUsername[mentionNameToLowerCase];
-            }
-
-            // Repeatedly trim off trailing punctuation in case this is at the end of a sentence
-            if ((/[._-]$/).test(mentionNameToLowerCase)) {
-                mentionNameToLowerCase = mentionNameToLowerCase.substring(0, mentionNameToLowerCase.length - 1);
-            } else {
-                break;
-            }
-        }
-
-        return '';
-    }
-
     getGroupFromMentionName() {
         const {groupsByName, mentionName} = this.props;
         const mentionNameTrimmed = mentionName.toLowerCase().replace(/[._-]*$/, '');
@@ -95,7 +76,7 @@ export default class AtMention extends React.PureComponent<Props, State> {
     }
 
     render() {
-        const user = this.getUserFromMentionName();
+        const user = getUserFromMentionName(this.props.usersByUsername, this.props.mentionName);
 
         if (!this.props.disableGroupHighlight && !user) {
             const group = this.getGroupFromMentionName();
