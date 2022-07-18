@@ -87,6 +87,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
 
     // generate intial component state and setters
     const [focused, setFocused] = useState<boolean>(false);
+    const [dropdownFocused, setDropdownFocused] = useState<boolean>(false);
     const [keepInputFocused, setKeepInputFocused] = useState<boolean>(false);
     const [indexChangedViaKeyPress, setIndexChangedViaKeyPress] = useState<boolean>(false);
     const [highlightedSearchHintIndex, setHighlightedSearchHintIndex] = useState<number>(-1);
@@ -167,8 +168,28 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                 setFocused(false);
             }
         }, 0);
-
         updateHighlightedSearchHint();
+    };
+
+    const handleDropdownBlur = () => setDropdownFocused(false);
+
+    const handleDropdownFocus = () => setDropdownFocused(true);
+
+    const isKeyNumericOrAlfanumeric = (code: number) => (code >= 48 && code <= 90) || (code >= 96 && code <= 111);
+
+    const handleDropdownKeyDown = (e: React.KeyboardEvent) => {
+        // allow navigation keys to continue normal behavior
+        if (e.key === 'Tab' || e.key === 'Shift' || e.key === 'Space') {
+            return;
+        }
+
+        e.preventDefault();
+
+        // copy the typed character to the search box as the focus is not in place yet
+        if (isKeyNumericOrAlfanumeric(e.keyCode)) {
+            actions.updateSearchTerms(e.key);
+        }
+        setFocused(true);
     };
 
     const handleSearchHintSelection = (): void => {
@@ -405,7 +426,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
             return <></>;
         }
 
-        const helpClass = `search-help-popover${(focused && termsUsed <= 2) ? ' visible' : ''}`;
+        const helpClass = `search-help-popover${((dropdownFocused || focused) && termsUsed <= 2) ? ' visible' : ''}`;
 
         return (
             <Popover
@@ -421,6 +442,9 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                     highlightedIndex={highlightedSearchHintIndex}
                     onOptionHover={setHoverHintIndex}
                     onSearchTypeSelected={(searchType || searchTerms) ? undefined : (value: SearchType) => actions.updateSearchType(value)}
+                    onElementBlur={handleDropdownBlur}
+                    onElementFocus={handleDropdownFocus}
+                    onKeyDown={handleDropdownKeyDown}
                     searchType={searchType}
                 />
             </Popover>

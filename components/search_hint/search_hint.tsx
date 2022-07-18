@@ -24,6 +24,9 @@ type Props = {
     highlightedIndex?: number;
     onOptionHover?: (index: number) => void;
     onSearchTypeSelected?: (searchType: 'files' | 'messages') => void;
+    onElementBlur?: () => void;
+    onElementFocus?: () => void;
+    onKeyDown?: (e: React.KeyboardEvent) => void;
     searchType?: 'files' | 'messages' | '';
 }
 
@@ -53,6 +56,9 @@ const SearchHint = (props: Props): JSX.Element => {
                         <button
                             className={classNames({highlighted: props.highlightedIndex === 0})}
                             onClick={() => props.onSearchTypeSelected && props.onSearchTypeSelected('messages')}
+                            onBlur={() => props.onElementBlur && props.onElementBlur()}
+                            onFocus={() => props.onElementFocus && props.onElementFocus()}
+                            onKeyDown={(e: React.KeyboardEvent) => props.onKeyDown && props.onKeyDown(e)}
                         >
                             <i className='icon icon-message-text-outline'/>
                             <FormattedMessage
@@ -64,6 +70,9 @@ const SearchHint = (props: Props): JSX.Element => {
                             <button
                                 className={classNames({highlighted: props.highlightedIndex === 1})}
                                 onClick={() => props.onSearchTypeSelected && props.onSearchTypeSelected('files')}
+                                onBlur={() => props.onElementBlur && props.onElementBlur()}
+                                onFocus={() => props.onElementFocus && props.onElementFocus()}
+                                onKeyDown={(e: React.KeyboardEvent) => props.onKeyDown && props.onKeyDown(e)}
                             >
                                 <i className='icon icon-file-text-outline'/>
                                 <FormattedMessage
