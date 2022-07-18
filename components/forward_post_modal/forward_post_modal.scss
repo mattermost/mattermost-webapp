@@ -111,6 +111,7 @@
 
         &--override {
             padding: 2px 0;
+            pointer-events: none;
 
             &:not(.post--editing):not(.post--editing):hover {
                 background-color: transparent;

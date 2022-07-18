@@ -27,9 +27,7 @@ import Constants from 'utils/constants';
 import PostMessagePreview from 'components/post_view/post_message_preview';
 import GenericModal from 'components/generic_modal';
 
-import ForwardPostChannelSelect, {
-    ChannelOption,
-} from './forward_post_channel_select';
+import ForwardPostChannelSelect, {ChannelOption} from './forward_post_channel_select';
 import ForwardPostCommentInput from './forward_post_comment_input';
 
 import {ActionProps, OwnProps, PropsFromRedux} from './index';
@@ -52,7 +50,7 @@ const ForwardPostModal = ({onExited, post, actions}: Props) => {
     const getChannel = makeGetChannel();
 
     const channel = useSelector((state: GlobalState) => getChannel(state, {id: post.channel_id}));
-    const currentTeam = useSelector((state: GlobalState) => getCurrentTeam(state));
+    const currentTeam = useSelector(getCurrentTeam);
 
     const bodyRef = useRef<HTMLDivElement>();
 

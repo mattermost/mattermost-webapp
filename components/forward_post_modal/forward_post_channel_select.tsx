@@ -77,6 +77,10 @@ const FormattedOption = (props: ChannelOption) => {
 
     const channelIsArchived = details.delete_at > 0;
 
+    if (teammate?.is_bot) {
+        return null;
+    }
+
     let icon;
     const iconProps = {
         size: 16,
@@ -216,7 +220,7 @@ function ForwardPostChannelSelect({onSelect, value, currentBodyHeight}: Props<Ch
             options = [
                 {
                     label: formatMessage({id: 'suggestion.mention.recent.channels', defaultMessage: 'Recent'}),
-                    options: res.items.filter((item) => item.channel.type !== 'threads').map((item) => {
+                    options: res.items.filter((item) => item.channel.type !== 'threads' && item.channel.delete_at === 0).map((item) => {
                         const {channel} = item;
                         return {
                             label: channel.display_name || channel.name,
@@ -247,16 +251,14 @@ function ForwardPostChannelSelect({onSelect, value, currentBodyHeight}: Props<Ch
             let callCount = inputValue ? 1 : 0;
             const handleResults = (res: ProviderResults) => {
                 callCount++;
-                res.items.forEach((item) => {
+                res.items.filter((item) => item.channel.type !== 'threads' && item.channel.delete_at === 0).forEach((item) => {
                     const {channel} = item;
 
-                    if (channel.type !== 'threads') {
-                        options.push({
-                            label: channel.display_name || channel.name,
-                            value: channel.id,
-                            details: channel,
-                        });
-                    }
+                    options.push({
+                        label: channel.display_name || channel.name,
+                        value: channel.id,
+                        details: channel,
+                    });
                 });
             };
 

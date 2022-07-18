@@ -11,7 +11,6 @@ import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {isCustomGroupsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getAssociatedGroupsForReferenceByMention} from 'mattermost-redux/selectors/entities/groups';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 
 import * as Utils from 'utils/utils';
 import {getSiteURL} from 'utils/url';
@@ -40,8 +39,7 @@ export function forwardPost(post, channelId, message = '') {
 
         const currentUserId = getCurrentUserId(state);
         const currentTeam = getCurrentTeam(state);
-        const currentChannel = getCurrentChannel(state);
-        const channel = getChannel(channelId);
+        const {data: channel} = getChannel(channelId);
 
         const relativePermaLink = Utils.getPermalinkURL(state, currentTeam.id, post.id);
         const permaLink = `${getSiteURL()}${relativePermaLink}`;
@@ -51,7 +49,7 @@ export function forwardPost(post, channelId, message = '') {
         const useLDAPGroupMentions = isLDAPEnabled && haveICurrentChannelPermission(state, Permissions.USE_GROUP_MENTIONS);
         const useChannelMentions = haveIChannelPermission(state, channel.team_id, channelId, Permissions.USE_CHANNEL_MENTIONS);
         const useCustomGroupMentions = isCustomGroupsEnabled(state) && haveICurrentChannelPermission(state, Permissions.USE_GROUP_MENTIONS);
-        const groupsWithAllowReference = useLDAPGroupMentions || useCustomGroupMentions ? getAssociatedGroupsForReferenceByMention(state, currentTeam.id, currentChannel.id) : null;
+        const groupsWithAllowReference = useLDAPGroupMentions || useCustomGroupMentions ? getAssociatedGroupsForReferenceByMention(state, currentTeam.id, channelId) : null;
 
         let newPost = {};
 
@@ -83,9 +81,7 @@ export function forwardPost(post, channelId, message = '') {
 
         newPost = hookResult.data;
 
-        const result = await dispatch(PostActions.createPost(newPost, []));
-
-        return result;
+        return dispatch(PostActions.createPost(newPost, []));
     };
 }
 
