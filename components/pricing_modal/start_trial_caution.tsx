@@ -10,7 +10,7 @@ const ContainerSpan = styled.span`
 font-style: normal;
 font-weight: 400;
 font-size: 10px;
-line-height: 16px;
+line-height: 14px;
 letter-spacing: 0.02em;
 color: rgba(var(--center-channel-text-rgb), 0.72);
 `;
