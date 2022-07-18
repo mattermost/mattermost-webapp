@@ -98,7 +98,7 @@ describe('Status dropdown menu', () => {
             cy.get('.MenuHeader').should('have.css', 'cursor', 'pointer').click();
 
             // * Verify click on header opens Profile settings modal
-            cy.get('#accountSettingsModal').should('exist');
+            cy.findByRole('dialog', {name: 'Profile'}).should('be.visible');
         });
     });
 });
