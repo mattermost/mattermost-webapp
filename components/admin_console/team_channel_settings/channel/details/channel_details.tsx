@@ -367,7 +367,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
             this.setState({showConvertAndRemoveConfirmModal: true});
             return;
         }
-        if (isPrivacyChanging && usersToRemoveCount === 0 && serverError == null) {
+        if (isPrivacyChanging && usersToRemoveCount === 0 && !serverError) {
             this.setState({showConvertConfirmModal: true});
             return;
         }
@@ -400,7 +400,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
                 }
             });
             return;
-        } else if (this.channelToBeRestored() && this.state.serverError == null) {
+        } else if (this.channelToBeRestored() && !this.state.serverError) {
             const result = await actions.unarchiveChannel(channel.id);
             if ('error' in result) {
                 serverError = <FormError error={result.error.message}/>;
@@ -598,7 +598,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
 
         this.setState({serverError, saving: false, saveNeeded, isPrivacyChanging: privacyChanging, usersToRemoveCount: 0, rolesToUpdate: {}, usersToAdd: {}, usersToRemove: {}}, () => {
             actions.setNavigationBlocked(saveNeeded);
-            if (!saveNeeded && serverError == null) {
+            if (!saveNeeded && !serverError) {
                 browserHistory.push('/admin_console/user_management/channels');
             }
         });

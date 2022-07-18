@@ -159,7 +159,7 @@ export default class TeamDetails extends React.PureComponent<Props, State> {
                 browserHistory.push('/admin_console/user_management/teams');
             }
             return;
-        } else if (this.teamToBeRestored() && this.state.serverError == null) {
+        } else if (this.teamToBeRestored() && !this.state.serverError) {
             const result = await actions.unarchiveTeam(team.id);
             if ('error' in result) {
                 serverError = <FormError error={result.error.message}/>;
