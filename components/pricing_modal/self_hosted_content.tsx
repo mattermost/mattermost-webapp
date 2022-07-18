@@ -113,7 +113,7 @@ function SelfHostedContent(props: ContentProps) {
         return (
             <StartTrialBtn
                 message={formatMessage({id: 'pricing_modal.btn.tryDays', defaultMessage: 'Try free for {days} days'}, {days: '30'})}
-                telemetryId='start_trial_from_learn_more_about_trial_modal'
+                telemetryId='start_trial_from_self_hosted_pricing_modal'
                 renderAsButton={true}
                 disabled={isSelfHostedEnterpriseTrial}
                 btnClass={`plan_action_btn ${isSelfHostedEnterpriseTrial ? ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.special}`}
@@ -191,6 +191,7 @@ function SelfHostedContent(props: ContentProps) {
                         }}
                         buttonDetails={{
                             action: () => {
+                                trackEvent('self_hosted_pricing', 'click_upgrade_button');
                                 window.open(CloudLinks.SELF_HOSTED_SIGNUP, '_blank');
                             },
                             text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),

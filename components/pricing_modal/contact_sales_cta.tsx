@@ -28,7 +28,6 @@ function ContactSalesCTA() {
     const openSalesLink = useOpenSalesLink();
 
     const openSelfHostedLink = () => {
-        trackEvent('self_hosted_pricing', 'click_enterprise_contact_sales');
         window.open(LicenseLinks.CONTACT_SALES, '_blank');
     };
 
@@ -37,7 +36,15 @@ function ContactSalesCTA() {
     return (
         <StyledDiv
             id='contact_sales_quote'
-            onClick={isCloud ? openSalesLink : openSelfHostedLink}
+            onClick={() => {
+                if (isCloud) {
+                    trackEvent('cloud_pricing', 'click_enterprise_contact_sales');
+                    openSalesLink();
+                } else {
+                    trackEvent('self_hosted_pricing', 'click_enterprise_contact_sales');
+                    openSelfHostedLink();
+                }
+            }}
         >
             {formatMessage({id: 'pricing_modal.btn.contactSalesForQuote', defaultMessage: 'Contact Sales for a quote'})}
         </StyledDiv>);
