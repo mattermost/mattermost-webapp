@@ -66,10 +66,10 @@ Cypress.Commands.add('postMessageReplyInRHS', (message) => {
 });
 
 Cypress.Commands.add('uiPostMessageQuickly', (message) => {
-    cy.get('#post_textbox', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().
+    cy.uiGetPostTextBox().should('be.visible').clear().
         invoke('val', message).wait(TIMEOUTS.HALF_SEC).type(' {backspace}{enter}');
     cy.waitUntil(() => {
-        return cy.get('#post_textbox').then((el) => {
+        return cy.uiGetPostTextBox().then((el) => {
             return el[0].textContent === '';
         });
     });
@@ -243,8 +243,9 @@ Cypress.Commands.add('uiGotoDirectMessageWithUser', (user) => {
     cy.findByRole('dialog', {name: 'Direct Messages'}).should('be.visible').wait(TIMEOUTS.ONE_SEC);
 
     // # Type username
-    cy.findByRole('textbox', {name: 'Search for people'}).click({force: true}).
-        type(user.username).wait(TIMEOUTS.ONE_SEC);
+    cy.findByRole('textbox', {name: 'Search for people'}).
+        typeWithForce(user.username).
+        wait(TIMEOUTS.ONE_SEC);
 
     // * Expect user count in the list to be 1
     cy.get('#multiSelectList').
@@ -274,9 +275,7 @@ Cypress.Commands.add('sendDirectMessageToUser', (user, message) => {
     cy.uiGotoDirectMessageWithUser(user);
 
     // # Type message and send it to the user
-    cy.get('#post_textbox').
-        type(message).
-        type('{enter}');
+    cy.postMessage(message);
 });
 
 /**
@@ -290,7 +289,7 @@ Cypress.Commands.add('sendDirectMessageToUsers', (users, message) => {
 
     users.forEach((user) => {
         // # Type username
-        cy.get('#selectItems input').should('be.enabled').type(`@${user.username}`, {force: true});
+        cy.get('#selectItems input').should('be.enabled').typeWithForce(`@${user.username}`);
 
         // * Expect user count in the list to be 1
         cy.get('#multiSelectList').
@@ -314,9 +313,7 @@ Cypress.Commands.add('sendDirectMessageToUsers', (users, message) => {
     });
 
     // # Type message and send it to the user
-    cy.get('#post_textbox').
-        type(message).
-        type('{enter}');
+    cy.postMessage(message);
 });
 
 // ***********************************************************
@@ -443,7 +440,7 @@ Cypress.Commands.add('leaveTeam', () => {
 
 Cypress.Commands.add('clearPostTextbox', (channelName = 'town-square') => {
     cy.get(`#sidebarItem_${channelName}`).click({force: true});
-    cy.get('#post_textbox').clear();
+    cy.uiGetPostTextBox().clear();
 });
 
 // ***********************************************************

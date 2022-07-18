@@ -130,7 +130,7 @@ describe('Settings > Sidebar > General > Edit', () => {
 
             cy.get('#search-items-container').should('be.visible').within(() => {
                 // * Ensure that the mentions are visible in the RHS
-                cy.findByText(`${newTempUserName}`);
+                cy.findByText(newTempUserName);
                 cy.findByText(`${newTempUserName} test message!`);
             });
 
@@ -151,7 +151,7 @@ describe('Settings > Sidebar > General > Edit', () => {
 
         for (const prefix of prefixes) {
             // # Add  username to textfield contents
-            cy.get('#username').clear().type(prefix).type('{backspace}.').type(`${otherUser.username}`);
+            cy.get('#username').clear().type(prefix).type('{backspace}.').type(otherUser.username);
             cy.uiSave();
 
             // * Check if element is present and contains expected text values

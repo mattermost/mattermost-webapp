@@ -80,7 +80,6 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
     static defaultProps = {
         userId: '',
         profilePicture: '',
-        status: UserStatuses.OFFLINE,
     }
 
     constructor(props: Props) {

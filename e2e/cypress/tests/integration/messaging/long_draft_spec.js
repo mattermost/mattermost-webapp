@@ -39,7 +39,7 @@ describe('Messaging', () => {
         ];
 
         // # Get the height before starting to write
-        cy.get('#post_textbox').should('be.visible').clear().invoke('height').as('initialHeight').as('previousHeight');
+        cy.uiGetPostTextBox().clear().invoke('height').as('initialHeight').as('previousHeight');
 
         // # Write all lines
         writeLinesToPostTextBox(lines);
@@ -53,7 +53,7 @@ describe('Messaging', () => {
         verifyPostTextbox('@previousHeight', lines.join('\n'));
 
         // # Clear the textbox
-        cy.get('#post_textbox').clear();
+        cy.uiGetPostTextBox().clear();
         cy.postMessage('World!');
 
         // # Write all lines again
@@ -75,14 +75,14 @@ describe('Messaging', () => {
 function writeLinesToPostTextBox(lines) {
     Cypress._.forEach(lines, (line, i) => {
         // # Add the text
-        cy.get('#post_textbox').type(line, {delay: TIMEOUTS.ONE_HUNDRED_MILLIS}).wait(TIMEOUTS.HALF_SEC);
+        cy.uiGetPostTextBox().type(line, {delay: TIMEOUTS.ONE_HUNDRED_MILLIS}).wait(TIMEOUTS.HALF_SEC);
 
         if (i < lines.length - 1) {
             // # Add new line
-            cy.get('#post_textbox').type('{shift}{enter}').wait(TIMEOUTS.HALF_SEC);
+            cy.uiGetPostTextBox().type('{shift}{enter}').wait(TIMEOUTS.HALF_SEC);
 
             // * Verify new height
-            cy.get('#post_textbox').invoke('height').then((height) => {
+            cy.uiGetPostTextBox().invoke('height').then((height) => {
                 // * Verify previous height should be lower than the current height
                 cy.get('@previousHeight').should('be.lessThan', parseInt(height, 10));
 
@@ -95,7 +95,7 @@ function writeLinesToPostTextBox(lines) {
 }
 
 function verifyPostTextbox(heightSelector, text) {
-    cy.get('#post_textbox').should('be.visible').and('have.text', text).invoke('height').then((currentHeight) => {
+    cy.uiGetPostTextBox().and('have.text', text).invoke('height').then((currentHeight) => {
         cy.get(heightSelector).should('be.gte', currentHeight);
     });
 }
