@@ -41,7 +41,7 @@ type Props = {
 const UsersToBeRemovedModal = ({total, scope, scopeId, users, onExited}: Props) => {
     const [show, setShow] = useState(true);
 
-    const handleHide = () => useCallback(() => setShow(false),[]);
+    const handleHide = useCallback(() => setShow(false), []);
 
     const title = (
         <FormattedMarkdownMessage
