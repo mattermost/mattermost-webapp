@@ -108,7 +108,7 @@ Cypress.Commands.add('skipOrCreateTeam', (settings, userId) => {
             cy.checkCreateTeamPage(settings);
 
             cy.get('#createNewTeamLink').scrollIntoView().should('be.visible').click();
-            cy.get('#teamNameInput').should('be.visible').type(teamName, {force: true});
+            cy.get('#teamNameInput').should('be.visible').typeWithForce(teamName);
             cy.findByText('Next').should('be.visible').click();
             cy.findByText('Finish').should('be.visible').click();
         }

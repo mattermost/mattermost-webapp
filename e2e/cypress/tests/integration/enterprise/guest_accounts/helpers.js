@@ -23,14 +23,14 @@ export function invitePeople(typeText, resultsCount, verifyText, channelName = '
 
     // # Search and add a user
     cy.get('.users-emails-input__control').should('be.visible').within(() => {
-        cy.get('input').type(typeText, {force: true});
+        cy.get('input').typeWithForce(typeText);
     });
     cy.get('.users-emails-input__menu').
         children().should('have.length', resultsCount).eq(0).should('contain', verifyText).click();
 
     // # Search and add a Channel
     cy.get('.channels-input__control').should('be.visible').within(() => {
-        cy.get('input').type(channelName, {force: true});
+        cy.get('input').typeWithForce(channelName);
     });
     cy.get('.channels-input__menu').
         children().should('have.length', 1).

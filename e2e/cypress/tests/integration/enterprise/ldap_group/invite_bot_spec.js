@@ -52,7 +52,7 @@ describe('Group Synced Team - Bot invitation flow', () => {
         cy.uiOpenTeamMenu('Invite People');
 
         // # Type the first letters of a bot
-        cy.get('.users-emails-input__control input').type(bot.username, {force: true});
+        cy.get('.users-emails-input__control input').typeWithForce(bot.username);
 
         // * Verify user is on the list, then select by clicking on it
         cy.get('.users-emails-input__menu').

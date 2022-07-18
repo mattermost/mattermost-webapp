@@ -345,6 +345,7 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
       }
     >
       <MenuItemToggleModalRedux
+        className="MenuItem__dangerous"
         dialogProps={
           Object {
             "channel": Object {
@@ -778,6 +779,7 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
       }
     >
       <MenuItemToggleModalRedux
+        className="MenuItem__dangerous"
         dialogProps={
           Object {
             "channel": Object {

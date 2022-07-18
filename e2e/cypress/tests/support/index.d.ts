@@ -5,7 +5,7 @@
 
 declare namespace Cypress {
     type AdminConfig = import('@mattermost/types/config').AdminConfig;
-    type AnalyticsRow = import('mattermost-redux/types/admin').AnalyticsRow;
+    type AnalyticsRow = import('@mattermost/types/admin').AnalyticsRow;
     type Bot = import('@mattermost/types/bots').Bot;
     type BotPatch = import('@mattermost/types/bots').BotPatch;
     type Channel = import('@mattermost/types/channels').Channel;
