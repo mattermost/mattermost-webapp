@@ -25,9 +25,6 @@ describe('components/global/PlanUpgradeButton', () => {
                     IsLicensed: 'true',
                     Cloud: 'true',
                 },
-                config: {
-                    EnableUpgradeForSelfHostedStarter: 'false', //disable upgrade
-                },
             },
             users: {
                 currentUserId: 'current_user_id',
@@ -199,9 +196,6 @@ describe('components/global/PlanUpgradeButton', () => {
                 IsLicensed: 'false', // starter
                 Cloud: 'false',
             },
-            config: {
-                EnableUpgradeForSelfHostedStarter: 'true',
-            },
         };
 
         const store = mockStore(state);
@@ -215,105 +209,6 @@ describe('components/global/PlanUpgradeButton', () => {
             </reactRedux.Provider>,
         );
 
-        expect(wrapper.find('UpgradeButton').exists()).toEqual(false);
-    });
-
-    it('should show Upgrade button in global header for self hosted starter users when EnableUpgradeForSelfHostedStarter is true', () => {
-        const state = JSON.parse(JSON.stringify(initialState));
-        state.entities.general = {
-            license: {
-                IsLicensed: 'false',
-                Cloud: 'false',
-            },
-            config: {
-                EnableUpgradeForSelfHostedStarter: 'true',
-            },
-        };
-
-        const cloudSubscriptionSpy = jest.spyOn(cloudActions, 'getCloudSubscription');
-        const cloudProductsSpy = jest.spyOn(cloudActions, 'getCloudProducts');
-
-        const store = mockStore(state);
-
-        const dummyDispatch = jest.fn();
-        useDispatchMock.mockReturnValue(dummyDispatch);
-
-        const wrapper = mount(
-            <reactRedux.Provider store={store}>
-                <PlanUpgradeButton/>
-            </reactRedux.Provider>,
-        );
-
-        expect(cloudSubscriptionSpy).toHaveBeenCalledTimes(0); // no calls to cloud endpoints for non cloud
-        expect(cloudProductsSpy).toHaveBeenCalledTimes(0);
-        expect(wrapper.find('UpgradeButton').exists()).toEqual(true);
-    });
-
-    it('should show Upgrade button in global header for self hosted enterprise trial users when EnableUpgradeForSelfHostedStarter is true', () => {
-        const state = JSON.parse(JSON.stringify(initialState));
-        state.entities.general = {
-            license: {
-                IsLicensed: 'true',
-                IsTrial: 'true',
-                Cloud: 'false',
-            },
-            config: {
-                EnableUpgradeForSelfHostedStarter: 'true',
-            },
-        };
-
-        const cloudSubscriptionSpy = jest.spyOn(cloudActions, 'getCloudSubscription');
-        const cloudProductsSpy = jest.spyOn(cloudActions, 'getCloudProducts');
-
-        const store = mockStore(state);
-
-        const dummyDispatch = jest.fn();
-        useDispatchMock.mockReturnValue(dummyDispatch);
-
-        const wrapper = mount(
-            <reactRedux.Provider store={store}>
-                <PlanUpgradeButton/>
-            </reactRedux.Provider>,
-        );
-
-        expect(cloudSubscriptionSpy).toHaveBeenCalledTimes(0); // no calls to cloud endpoints for non cloud
-        expect(cloudProductsSpy).toHaveBeenCalledTimes(0);
-        expect(wrapper.find('UpgradeButton').exists()).toEqual(true);
-    });
-
-    it('should NOT show Upgrade button in global header for self hosted starter users when EnableUpgradeForSelfHostedStarter is false', () => {
-        const state = JSON.parse(JSON.stringify(initialState));
-        state.entities.general.license = {
-            IsLicensed: 'false',
-            Cloud: 'false',
-        };
-
-        state.entities.general = {
-            license: {
-                IsLicensed: 'false',
-                Cloud: 'false',
-            },
-            config: {
-                EnableUpgradeForSelfHostedStarter: 'false', //disable upgrade
-            },
-        };
-
-        const cloudSubscriptionSpy = jest.spyOn(cloudActions, 'getCloudSubscription');
-        const cloudProductsSpy = jest.spyOn(cloudActions, 'getCloudProducts');
-
-        const store = mockStore(state);
-
-        const dummyDispatch = jest.fn();
-        useDispatchMock.mockReturnValue(dummyDispatch);
-
-        const wrapper = mount(
-            <reactRedux.Provider store={store}>
-                <PlanUpgradeButton/>
-            </reactRedux.Provider>,
-        );
-
-        expect(cloudSubscriptionSpy).toHaveBeenCalledTimes(0); // no calls to cloud endpoints for non cloud
-        expect(cloudProductsSpy).toHaveBeenCalledTimes(0);
         expect(wrapper.find('UpgradeButton').exists()).toEqual(false);
     });
 
@@ -322,11 +217,8 @@ describe('components/global/PlanUpgradeButton', () => {
 
         state.entities.general = {
             license: {
-                IsLicensed: 'false',
+                IsLicensed: 'true',
                 Cloud: 'false',
-            },
-            config: {
-                EnableUpgradeForSelfHostedStarter: 'false', //disable upgrade
             },
         };
 

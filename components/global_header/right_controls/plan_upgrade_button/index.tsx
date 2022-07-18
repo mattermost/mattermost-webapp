@@ -10,7 +10,7 @@ import {CloudProducts} from 'utils/constants';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getCloudProducts, getCloudSubscription} from 'mattermost-redux/actions/cloud';
 import {getCloudSubscription as selectCloudSubscription, getSubscriptionProduct as selectSubscriptionProduct, isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
-import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 
@@ -49,10 +49,7 @@ const PlanUpgradeButton = (): JSX.Element | null => {
     const isAdmin = useSelector(isCurrentUserSystemAdmin);
     const subscription = useSelector(selectCloudSubscription);
     const product = useSelector(selectSubscriptionProduct);
-    const config = useSelector(getConfig);
     const license = useSelector(getLicense);
-
-    const enableForSelfHosted = config?.EnableUpgradeForSelfHostedStarter === 'true';
 
     const isEnterpriseTrial = subscription?.is_free_trial === 'true';
     const isStarter = product?.sku === CloudProducts.STARTER;
@@ -71,11 +68,6 @@ const PlanUpgradeButton = (): JSX.Element | null => {
 
     // for non cloud, only show when subscribed to self hosted starter or self hosted enterprise trial plans
     if (!isCloud && !(isSelfHostedStarter || isSelfHostedEnterpriseTrial)) {
-        return null;
-    }
-
-    // for non cloud, when on starter, check if button is configured to show
-    if (!isCloud && isSelfHostedStarter && !enableForSelfHosted) {
         return null;
     }
 
