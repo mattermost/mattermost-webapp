@@ -27,11 +27,11 @@ describe('Scroll', () => {
         const filename = 'huge-image.jpg';
 
         // # Post an image in center channel
-        cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(filename);
+        cy.get('#advancedTextEditorCell').find('#fileUploadInput').attachFile(filename);
 
         cy.get('.post-image').should('be.visible');
 
-        cy.get('#post_textbox').should('be.visible').clear().type('{enter}');
+        cy.uiGetPostTextBox().clear().type('{enter}');
 
         // * Observe image preview is collapsed
         cy.uiGetFileThumbnail(filename).should('not.exist');

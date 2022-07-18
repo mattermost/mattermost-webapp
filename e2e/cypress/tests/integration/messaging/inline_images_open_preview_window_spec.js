@@ -20,16 +20,6 @@ describe('Messaging', () => {
     });
 
     it('MM-T187 Inline markdown images open preview window', () => {
-        // # Open 'Advanced' section of 'Settings' modal
-        cy.uiOpenSettingsModal('Advanced').within(() => {
-            // # Open 'Preview Pre-release Features' setting and check 'Show markdown preview option in message input box'
-            cy.findByRole('heading', {name: 'Preview Pre-release Features'}).should('be.visible').click();
-            cy.findByRole('checkbox', {name: 'Show markdown preview option in message input box'}).click().should('be.checked');
-
-            // # Save and close the modal
-            cy.uiSaveAndClose();
-        });
-
         // # Post the image link to the channel
         cy.postMessage('Hello ![test image](https://raw.githubusercontent.com/furqanmlk/furqanmlk.github.io/main/images/image-small-height.png)');
 

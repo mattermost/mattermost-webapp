@@ -28,9 +28,7 @@ type OwnProps = {
 
 function searchUsersToAdd(users: Record<string, UserProfile>, term: string): Record<string, UserProfile> {
     const profiles = filterProfilesStartingWithTerm(Object.keys(users).map((key) => users[key]), term);
-    const filteredProfilesMap = filterProfiles(profileListToMap(profiles), {});
-
-    return filteredProfilesMap;
+    return filterProfiles(profileListToMap(profiles), {});
 }
 
 function mapStateToProps(state: GlobalState, props: OwnProps) {

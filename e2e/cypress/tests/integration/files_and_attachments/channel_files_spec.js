@@ -59,12 +59,12 @@ describe('Channel files', () => {
 
 function attachFile(file) {
     // # Post file to user
-    cy.get('#centerChannelFooter').
+    cy.get('#advancedTextEditorCell').
         find('#fileUploadInput').
         attachFile(file);
     waitUntilUploadComplete();
     cy.get('.post-image__thumbnail').should('be.visible');
-    cy.get('#post_textbox').clear().type('{enter}');
+    cy.uiGetPostTextBox().clear().type('{enter}');
 }
 
 function filterSearchBy(option, returnedFiles) {

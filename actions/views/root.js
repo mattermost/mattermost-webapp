@@ -85,3 +85,18 @@ export function loadTranslations(locale, url) {
         });
     };
 }
+
+export function registerCustomPostRenderer(type, component, id) {
+    return async (dispatch) => {
+        // piggyback on plugins state to register a custom post renderer
+        dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_POST_COMPONENT,
+            data: {
+                postTypeId: id,
+                pluginId: id,
+                type,
+                component,
+            },
+        });
+    };
+}
