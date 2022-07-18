@@ -55,8 +55,6 @@ import RhsSuggestionList from 'components/suggestion/rhs_suggestion_list';
 
 const KeyCodes = Constants.KeyCodes;
 
-const CreateCommentDraftTimeoutMilliseconds = 500;
-
 export type Props = {
 
     /**
