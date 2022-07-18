@@ -117,6 +117,18 @@ export function validateBusinessEmail(email = '') {
     };
 }
 
+export function validateWorkspaceBusinessEmail() {
+    trackEvent('api', 'api_validate_workspace_business_email');
+    return async () => {
+        try {
+            await Client4.validateWorkspaceBusinessEmail();
+        } catch (error) {
+            return false;
+        }
+        return true;
+    };
+}
+
 export function getCloudLimits(): ActionFunc {
     return async (dispatch: DispatchFunc) => {
         try {

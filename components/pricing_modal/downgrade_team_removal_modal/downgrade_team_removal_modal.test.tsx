@@ -296,6 +296,12 @@ describe('components/pricing_modal/downgrade_team_removal_modal', () => {
                         id: 'prod_starter',
                         name: 'Cloud Starter',
                         sku: CloudProducts.STARTER,
+                        price_per_seat: 0,
+                        product_family: 'cloud',
+                        description: '',
+                        add_ons: [],
+                        billing_scheme: 'flat_fee',
+                        recurring_interval: 'month',
                     },
                     prod_enterprise: {
                         id: 'prod_enterprise',
@@ -322,7 +328,7 @@ describe('components/pricing_modal/downgrade_team_removal_modal', () => {
             <redux.Provider store={store}>
                 <DowngradeTeamRemovalModal
                     product_id={'prod_starter'}
-                    starterProductName={'Cloud Starter'}
+                    starterProduct={state.entities.cloud.products.prod_starter}
                 />
             </redux.Provider>,
         );
@@ -336,7 +342,7 @@ describe('components/pricing_modal/downgrade_team_removal_modal', () => {
             <redux.Provider store={store}>
                 <DowngradeTeamRemovalModal
                     product_id={'prod_starter'}
-                    starterProductName={'Cloud Starter'}
+                    starterProduct={state.entities.cloud.products.prod_starter}
                 />
             </redux.Provider>,
         );
@@ -351,7 +357,7 @@ describe('components/pricing_modal/downgrade_team_removal_modal', () => {
             <redux.Provider store={store}>
                 <DowngradeTeamRemovalModal
                     product_id={'prod_starter'}
-                    starterProductName={'Cloud Starter'}
+                    starterProduct={state.entities.cloud.products.prod_starter}
                 />
             </redux.Provider>,
         );

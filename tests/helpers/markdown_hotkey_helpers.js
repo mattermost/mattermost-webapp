@@ -86,8 +86,6 @@ export function testComponentForMarkdownHotkeys(generateInstance, initRefs, find
 
         const instance = shallowRender(generateInstance(input));
 
-        console.log('##### instance', instance.debug());
-
         const setSelectionRange = jest.fn();
         initRefs(instance, setSelectionRange);
 

@@ -220,6 +220,7 @@ class SwitchChannelSuggestion extends Suggestion {
         if (channel.team_id && team) {
             teamName = (<span className='ml-2 suggestion-list__team-name'>{team.display_name}</span>);
         }
+        const showSlug = (isPartOfOnlyOneTeam || channel.type === Constants.DM_CHANNEL) && channel.type !== Constants.THREADS;
 
         return (
             <div
@@ -239,9 +240,7 @@ class SwitchChannelSuggestion extends Suggestion {
                 <div className='suggestion-list__ellipsis suggestion-list__flex'>
                     <span className='suggestion-list__main'>
                         <span className={item.unread ? 'suggestion-list__unread' : ''}>{name}</span>
-                        {(isPartOfOnlyOneTeam || channel.type === Constants.DM_CHANNEL) && (
-                            <span className='ml-2 suggestion-list__desc'>{description}</span>
-                        )}
+                        {showSlug && <span className='ml-2 suggestion-list__desc'>{description}</span>}
                     </span>
                     {customStatus}
                     {sharedIcon}
