@@ -2,36 +2,42 @@
 // See LICENSE.txt for license information.
 
 import React, {useEffect, useState} from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 import {useDispatch, useSelector} from 'react-redux';
 import {noop} from 'lodash';
 
-import useGetUsage from 'components/common/hooks/useGetUsage';
-import {getLicense} from 'mattermost-redux/selectors/entities/general';
-import Tooltip from 'components/tooltip';
-
 import {ModalIdentifiers} from 'utils/constants';
-import {openModal} from 'actions/views/modals';
-import PricingModal from 'components/pricing_modal';
+import {t} from 'utils/i18n';
+import {imageURLForTeam, localizeMessage} from 'utils/utils';
 
+import {Team} from '@mattermost/types/teams';
+import {getLicense} from 'mattermost-redux/selectors/entities/general';
+import {openModal} from 'actions/views/modals';
+
+import useGetUsage from 'components/common/hooks/useGetUsage';
+import PricingModal from 'components/pricing_modal';
+import Tooltip from 'components/tooltip';
 import OverlayTrigger from 'components/overlay_trigger';
 import useGetUsageDeltas from 'components/common/hooks/useGetUsageDeltas';
-import {t} from 'utils/i18n';
-
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import ArchiveIcon from 'components/widgets/icons/archive_icon';
 import UnarchiveIcon from 'components/widgets/icons/unarchive_icon';
-import * as Utils from 'utils/utils';
-
 import TeamIcon from 'components/widgets/team_icon/team_icon';
 
 import './team_profile.scss';
 
-export function TeamProfile({team, isArchived, isDisabled, onToggleArchive, saveNeeded}) {
-    const teamIconUrl = Utils.imageURLForTeam(team);
+type Props = {
+    team: Team;
+    isArchived: boolean;
+    onToggleArchive: () => void;
+    isDisabled?: boolean;
+    saveNeeded?: boolean;
+}
+
+export function TeamProfile({team, isArchived, onToggleArchive, isDisabled, saveNeeded}: Props) {
+    const teamIconUrl = imageURLForTeam(team);
     const usageDeltas = useGetUsageDeltas();
     const dispatch = useDispatch();
     const usage = useGetUsage();
@@ -49,8 +55,8 @@ export function TeamProfile({team, isArchived, isDisabled, onToggleArchive, save
         return null;//
     }
 
-    let archiveBtnID;
-    let archiveBtnDefault;
+    let archiveBtnID: string;
+    let archiveBtnDefault: string;
     if (isArchived) {
         archiveBtnID = t('admin.team_settings.team_details.unarchiveTeam');
         archiveBtnDefault = 'Unarchive Team';
@@ -192,7 +198,7 @@ export function TeamProfile({team, isArchived, isDisabled, onToggleArchive, save
                                     defaultMessage='**Team Description**:'
                                 />
                                 <br/>
-                                {team.description || <span className='greyed-out'>{Utils.localizeMessage('admin.team_settings.team_detail.profileNoDescription', 'No team description added.')}</span>}
+                                {team.description || <span className='greyed-out'>{localizeMessage('admin.team_settings.team_detail.profileNoDescription', 'No team description added.')}</span>}
                             </div>
                         </div>
                     </div>
@@ -227,11 +233,3 @@ export function TeamProfile({team, isArchived, isDisabled, onToggleArchive, save
         </AdminPanel>
     );
 }
-
-TeamProfile.propTypes = {
-    team: PropTypes.object.isRequired,
-    onToggleArchive: PropTypes.func,
-    isArchived: PropTypes.bool.isRequired,
-    isDisabled: PropTypes.bool,
-    saveNeeded: PropTypes.bool,
-};

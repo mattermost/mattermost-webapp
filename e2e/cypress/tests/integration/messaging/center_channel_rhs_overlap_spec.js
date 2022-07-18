@@ -264,7 +264,7 @@ describe('Messaging', () => {
         });
 
         // # [19] Post message with quotes
-        cy.uiGetPostTextBox().should('be.visible').clear().type(`${messageWithCodeblock1}`).wait(TIMEOUTS.HALF_SEC);
+        cy.uiGetPostTextBox().should('be.visible').clear().type(messageWithCodeblock1).wait(TIMEOUTS.HALF_SEC);
         cy.uiGetPostTextBox().type('{enter}');
 
         // * Check that the message has been posted
@@ -289,7 +289,7 @@ describe('Messaging', () => {
         });
 
         // # [21] Post message with quotes incomplete
-        cy.uiGetPostTextBox().clear().type(`${messageWithCodeblockIncomplete2}`).wait(TIMEOUTS.HALF_SEC);
+        cy.uiGetPostTextBox().clear().type(messageWithCodeblockIncomplete2).wait(TIMEOUTS.HALF_SEC);
         cy.uiGetPostTextBox().type('{enter}');
 
         // * Check that the message has not been posted
@@ -403,7 +403,7 @@ describe('Messaging', () => {
         });
 
         // # [31] Post message with quotes
-        cy.uiGetPostTextBox().should('be.visible').clear().type(`${messageWithCodeblock1}`).wait(TIMEOUTS.HALF_SEC);
+        cy.uiGetPostTextBox().should('be.visible').clear().type(messageWithCodeblock1).wait(TIMEOUTS.HALF_SEC);
         cy.uiGetPostTextBox().type('{enter}').wait(TIMEOUTS.HALF_SEC);
 
         // * Check that the message has been posted
@@ -428,7 +428,7 @@ describe('Messaging', () => {
         });
 
         // # [33] Post message with quotes incomplete
-        cy.uiGetPostTextBox().clear().type(`${messageWithCodeblockIncomplete2}`).wait(TIMEOUTS.HALF_SEC);
+        cy.uiGetPostTextBox().clear().type(messageWithCodeblockIncomplete2).wait(TIMEOUTS.HALF_SEC);
         cy.uiGetPostTextBox().type('{enter}').wait(TIMEOUTS.HALF_SEC);
 
         // * Check that the message has been posted

@@ -4,23 +4,21 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import AddOAuthApp from 'components/integrations/add_oauth_app/add_oauth_app.jsx';
+import AddOAuthApp from 'components/integrations/add_oauth_app/add_oauth_app';
+
+import {TestHelper} from 'utils/test_helper';
 
 describe('components/integrations/AddOAuthApp', () => {
     const emptyFunction = jest.fn();
-    const team = {
+    const team = TestHelper.getTeamMock({
         id: 'dbcxd9wpzpbpfp8pad78xj12pr',
         name: 'test',
-    };
+    });
 
     test('should match snapshot', () => {
         const wrapper = shallow(
             <AddOAuthApp
                 team={team}
-                addOAuthAppRequest={{
-                    status: 'not_started',
-                    error: null,
-                }}
                 actions={{addOAuthApp: emptyFunction}}
             />,
         );

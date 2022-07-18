@@ -52,7 +52,7 @@ describe('Prompting set status', () => {
             cy.get('.online--icon').should('not.exist');
             cy.findByText('Offline').should('be.visible');
         });
-        cy.apiGetUserStatus(`${user1.id}`).then((result) => {
+        cy.apiGetUserStatus(user1.id).then((result) => {
             cy.wrap(result.status.status).should('be.equal', 'offline');
         });
 
@@ -80,7 +80,7 @@ describe('Prompting set status', () => {
             cy.get('.online--icon').should('not.exist');
             cy.findByText('Offline').should('be.visible');
         });
-        cy.apiGetUserStatus(`${user1.id}`).then((result) => {
+        cy.apiGetUserStatus(user1.id).then((result) => {
             cy.wrap(result.status.status).should('be.equal', 'offline');
         });
     });
