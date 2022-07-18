@@ -4721,7 +4721,6 @@
   "threading.threadMenu.unsave": "Kaydedilenlerden çıkar",
   "time_dropdown.choose_time": "Bir saat seçin",
   "timestamp.datetime": "{time} zamanında {relativeOrDate}",
-  "trial_benefits.modal.guestAccessTitle": "Konuk hesapları ile kullanıcı erişimini belirleyin",
   "trial_benefits.modal.ldapDescription": "Aynı anda birden çok kullanıcıyı düzenlemek ve üzerinde işlem yapmak için AD/LDAP gruplarını kullanın. Takım ve kanal üyeliklerini, izinleri ve daha fazlasını yönetin.",
   "trial_benefits.modal.ldapTitle": "Aktif Dizin/LDAP gruplarınızı eşitleyin",
   "trial_benefits.modal.onlyVisibleToAdmins": "Yalnızca yöneticiler görebilir",

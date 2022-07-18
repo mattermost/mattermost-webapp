@@ -4721,7 +4721,6 @@
   "threading.threadMenu.unsave": "Unsave",
   "time_dropdown.choose_time": "Choose a time",
   "timestamp.datetime": "{relativeOrDate} at {time}",
-  "trial_benefits.modal.guestAccessTitle": "Determine user access with Guest Accounts",
   "trial_benefits.modal.ldapDescription": "Use AD/LDAP groups to organise and apply actions to multiple users at once. Manage team and channel memberships, permissions and more.",
   "trial_benefits.modal.ldapTitle": "Synchronise your Active Directory/LDAP groups",
   "trial_benefits.modal.onlyVisibleToAdmins": "Only visible to admins",
