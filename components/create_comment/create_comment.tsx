@@ -55,7 +55,9 @@ import RhsSuggestionList from 'components/suggestion/rhs_suggestion_list';
 
 const KeyCodes = Constants.KeyCodes;
 
-type Props = {
+const CreateCommentDraftTimeoutMilliseconds = 500;
+
+export type Props = {
 
     /**
      * The channel for which this comment is a part of
@@ -247,7 +249,7 @@ type Props = {
     markdownPreviewFeatureIsEnabled: boolean;
 }
 
-type State = {
+export type State = {
     showEmojiPicker: boolean;
     uploadsProgressPercent: {[clientID: string]: FilePreviewInfo};
     renderScrollbar: boolean;
@@ -262,7 +264,7 @@ type State = {
     serverError: (ServerError & {submittedMessage?: string}) | null;
 }
 
-class CreateComment extends React.PureComponent<Props, State> {
+export class CreateComment extends React.PureComponent<Props, State> {
     private lastBlurAt = 0;
     private draftsForPost: {[postID: string]: PostDraft | null} = {};
     private doInitialScrollToBottom = false;

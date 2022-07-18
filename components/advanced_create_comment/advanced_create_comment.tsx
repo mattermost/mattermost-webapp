@@ -45,6 +45,8 @@ import {
 import AdvanceTextEditor from '../advanced_text_editor/advanced_text_editor';
 import {TextboxClass, TextboxElement} from '../textbox';
 
+import FileLimitStickyBanner from '../file_limit_sticky_banner';
+
 const KeyCodes = Constants.KeyCodes;
 
 type Props = {
@@ -1041,6 +1043,11 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         const draft = this.state.draft!;
         return (
             <form onSubmit={this.handleSubmit}>
+                {
+                    this.props.canPost &&
+                    (this.props.draft.fileInfos.length > 0 || this.props.draft.uploadsInProgress.length > 0) &&
+                    <FileLimitStickyBanner/>
+                }
                 <AdvanceTextEditor
                     location={Locations.RHS_COMMENT}
                     textboxRef={this.textboxRef}

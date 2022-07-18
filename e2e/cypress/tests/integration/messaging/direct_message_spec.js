@@ -108,7 +108,7 @@ describe('Direct Message', () => {
 
         // # Search for your username
         cy.get('#selectItems input').
-            type(testUser.username, {force: true}).
+            typeWithForce(testUser.username).
             wait(TIMEOUTS.HALF_SEC);
 
         // * Verify username shows up on search

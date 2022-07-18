@@ -6,10 +6,12 @@ import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 
-import {trackEvent} from 'actions/telemetry_actions';
 import {CloudLinks, CloudProducts, ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
 import {fallbackStarterLimits, fallbackProfessionalLimits, asGBString} from 'utils/limits';
+
 import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
+
+import {trackEvent} from 'actions/telemetry_actions';
 import {closeModal, openModal} from 'actions/views/modals';
 import {subscribeCloudSubscription} from 'actions/cloud';
 import {
@@ -17,21 +19,20 @@ import {
     getSubscriptionProduct as selectSubscriptionProduct,
     getCloudProducts as selectCloudProducts} from 'mattermost-redux/selectors/entities/cloud';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
+
 import useGetUsage from 'components/common/hooks/useGetUsage';
 import SuccessModal from 'components/cloud_subscribe_result_modal/success';
 import ErrorModal from 'components/cloud_subscribe_result_modal/error';
 import PurchaseModal from 'components/purchase_modal';
-import {makeAsyncComponent} from 'components/async_load';
 import StarMarkSvg from 'components/widgets/icons/star_mark_icon';
 import CheckMarkSvg from 'components/widgets/icons/check_mark_icon';
 import PlanLabel from 'components/common/plan_label';
+import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
+import NotifyAdminCTA from 'components/notify_admin_cta/notify_admin_cta';
 
 import DowngradeTeamRemovalModal from './downgrade_team_removal_modal';
 import ContactSalesCTA from './contact_sales_cta';
-import NotifyAdminCTA from './notify_admin_cta';
 import StarterDisclaimerCTA from './starter_disclaimer_cta';
-
-const LearnMoreTrialModal = makeAsyncComponent('LearnMoreTrialModal', React.lazy(() => import('components/learn_more_trial_modal/learn_more_trial_modal')));
 
 import LadySvg from './lady.svg';
 import ManSvg from './man.svg';
@@ -55,7 +56,7 @@ type ButtonDetails = {
     text: string;
     disabled?: boolean;
     customClass?: ButtonCustomiserClasses;
-}
+};
 
 type CardProps = {
     id: string;
@@ -66,7 +67,8 @@ type CardProps = {
     briefing: PlanBriefing;
     extraBriefing: PlanBriefing;
     planExtraInformation?: JSX.Element;
-    buttonDetails: ButtonDetails;
+    buttonDetails?: ButtonDetails;
+    customButtonDetails?: JSX.Element;
     planLabel?: JSX.Element;
 }
 
@@ -117,12 +119,16 @@ function Card(props: CardProps) {
                     {props.planExtraInformation && props.planExtraInformation}
                 </div>
                 <div>
-                    <button
-                        id={props.id + '_action'}
-                        className={`plan_action_btn ${props.buttonDetails.disabled ? ButtonCustomiserClasses.grayed : props.buttonDetails.customClass}`}
-                        disabled={props.buttonDetails.disabled}
-                        onClick={props.buttonDetails.action}
-                    >{props.buttonDetails.text}</button>
+                    {props.customButtonDetails ? props.customButtonDetails : (
+                        <button
+                            id={props.id + '_action'}
+                            className={`plan_action_btn ${props.buttonDetails?.disabled ? ButtonCustomiserClasses.grayed : props.buttonDetails?.customClass}`}
+                            disabled={props.buttonDetails?.disabled}
+                            onClick={props.buttonDetails?.action}
+                        >
+                            {props.buttonDetails?.text}
+                        </button>
+                    )}
                 </div>
                 <div className='plan_extra_briefing'>
                     <div>
@@ -181,14 +187,8 @@ function Content(props: ContentProps) {
         }));
     };
 
-    const openLearnMoreTrialModal = () => {
-        trackEvent('cloud_pricing', 'click_try_free_for_30_days');
-        props.onHide();
-        dispatch(closeModal(ModalIdentifiers.CLOUD_PURCHASE)); // close the purchase modal if it's open
-        dispatch(openModal({
-            modalId: ModalIdentifiers.LEARN_MORE_TRIAL_MODAL,
-            dialogType: LearnMoreTrialModal,
-        }));
+    const closePricingModal = () => {
+        dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
     };
 
     const downgrade = async () => {
@@ -291,7 +291,7 @@ function Content(props: ContentProps) {
                                             dialogType: DowngradeTeamRemovalModal,
                                             dialogProps: {
                                                 product_id: starterProduct?.id,
-                                                starterProductName: starterProduct?.name,
+                                                starterProduct,
                                             },
                                         }),
                                     );
@@ -379,12 +379,16 @@ function Content(props: ContentProps) {
                             },
                             text: formatMessage({id: 'pricing_modal.btn.contactSales', defaultMessage: 'Contact Sales'}),
                             customClass: ButtonCustomiserClasses.active,
-                        } : {
-                            action: openLearnMoreTrialModal,
-                            text: formatMessage({id: 'pricing_modal.btn.tryDays', defaultMessage: 'Try free for {days} days'}, {days: '30'}),
-                            customClass: isEnterpriseTrial ? ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.special,
-                            disabled: isEnterpriseTrial,
-                        }}
+                        } : undefined}
+                        customButtonDetails={(!isPostTrial && isAdmin) ? (
+                            <CloudStartTrialButton
+                                message={formatMessage({id: 'pricing_modal.btn.tryDays', defaultMessage: 'Try free for {days} days'}, {days: '30'})}
+                                telemetryId='start_cloud_trial_from_pricing_modal'
+                                disabled={isEnterpriseTrial}
+                                extraClass={`plan_action_btn ${isEnterpriseTrial ? ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.special}`}
+                                afterTrialRequest={closePricingModal}
+                            />
+                        ) : undefined}
                     />
                 </div>
             </Modal.Body>

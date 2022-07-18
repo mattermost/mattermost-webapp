@@ -1,16 +1,22 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import path from 'path';
+
 import {PreferenceType} from '@mattermost/types/lib/preferences';
 
-import testConfig from '../../test.config';
+import testConfig from '@test.config';
 
 import {makeClient} from '.';
 import {getOnPremServerConfig} from './default_config';
 import {createRandomTeam} from './team';
 import {createRandomUser} from './user';
 
-export async function initSetup(userPrefix = 'user', teamPrefix = {name: 'team', displayName: 'Team'}) {
+export async function initSetup({
+    userPrefix = 'user',
+    teamPrefix = {name: 'team', displayName: 'Team'},
+    withDefaultProfileImage = false,
+} = {}) {
     try {
         const {adminClient, adminUser} = await getAdminClient();
 
@@ -25,6 +31,11 @@ export async function initSetup(userPrefix = 'user', teamPrefix = {name: 'team',
         await adminClient.addToTeam(team.id, user.id);
 
         const {client: userClient} = await makeClient(user);
+
+        if (withDefaultProfileImage) {
+            const fullPath = path.join(path.resolve(__dirname), '../', 'fixtures/mattermost-icon_128x128.png');
+            await userClient.uploadProfileImageX(user.id, fullPath);
+        }
 
         const preferences: PreferenceType[] = [
             {user_id: user.id, category: 'tutorial_step', name: user.id, value: '999'},
