@@ -50,7 +50,7 @@ describe('Message permalink', () => {
         // # Post 25 messages
         let index = 0;
         for (index = 0; index < 25; index++) {
-            cy.get('#post_textbox').clear().type(String(index)).type('{enter}');
+            cy.uiGetPostTextBox().clear().type(String(index)).type('{enter}');
         }
 
         // # Search for a message in the current channel
@@ -89,7 +89,7 @@ describe('Message permalink', () => {
         cy.visit(`/${testTeam.name}/channels/off-topic`);
 
         // # Clear then type ~ and prefix of channel name
-        cy.get('#post_textbox').should('be.visible').clear().type('~' + publicChannelName.substring(0, 3)).wait(TIMEOUTS.HALF_SEC);
+        cy.uiGetPostTextBox().clear().type('~' + publicChannelName.substring(0, 3)).wait(TIMEOUTS.HALF_SEC);
 
         // * Verify that the item is displayed or not as expected.
         cy.get('#suggestionList').should('be.visible').within(() => {
@@ -97,7 +97,7 @@ describe('Message permalink', () => {
         });
 
         // # Post channel mention
-        cy.get('#post_textbox').type('{enter}{enter}');
+        cy.uiGetPostTextBox().type('{enter}{enter}');
 
         // # Check that the user name has been posted
         cy.getLastPostId().then((postId) => {
@@ -111,15 +111,15 @@ describe('Message permalink', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Clear then type ~ and prefix of channel name
-        cy.get('#post_textbox').should('be.visible').clear().type(`~${testChannel.display_name}`).wait(TIMEOUTS.HALF_SEC);
+        cy.uiGetPostTextBox().clear().type(`~${testChannel.display_name}`).wait(TIMEOUTS.HALF_SEC);
 
         // * Verify that the item is displayed or not as expected.
         cy.get('#suggestionList').within(() => {
-            cy.findByText(`${testChannel.display_name}`).should('be.visible');
+            cy.findByText(testChannel.display_name).should('be.visible');
         });
 
         // # Post channel mention
-        cy.get('#post_textbox').
+        cy.uiGetPostTextBox().
             type('{enter}').
             should('contain', testChannel.name).
             type('{enter}');
@@ -214,7 +214,7 @@ describe('Message permalink', () => {
             cy.visit(`/${testTeam.name}/channels/off-topic`);
 
             // # Clear then type channel url
-            cy.get('#post_textbox').should('be.visible').clear().type(`${Cypress.config('baseUrl')}/${testTeam.name}/channels/${testChannel.name}`).type('{enter}');
+            cy.uiGetPostTextBox().clear().type(`${Cypress.config('baseUrl')}/${testTeam.name}/channels/${testChannel.name}`).type('{enter}');
 
             // # Login as the temporary user
             cy.apiLogout();
