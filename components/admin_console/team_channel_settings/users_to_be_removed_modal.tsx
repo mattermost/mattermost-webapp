@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Modal} from 'react-bootstrap';
 
@@ -41,9 +41,7 @@ type Props = {
 const UsersToBeRemovedModal = ({total, scope, scopeId, users, onExited}: Props) => {
     const [show, setShow] = useState(true);
 
-    const handleHide = () => setShow(false);
-
-    const handleExit = () => onExited?.();
+    const handleHide = () => useCallback(() => setShow(false),[]);
 
     const title = (
         <FormattedMarkdownMessage
@@ -81,7 +79,7 @@ const UsersToBeRemovedModal = ({total, scope, scopeId, users, onExited}: Props) 
             dialogClassName='a11y__modal settings-modal'
             show={show}
             onHide={handleHide}
-            onExited={handleExit}
+            onExited={onExited}
             id='confirmModal'
             role='dialog'
             aria-labelledby='confirmModalLabel'
