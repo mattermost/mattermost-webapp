@@ -375,9 +375,8 @@ export default class SchemaAdminSettings extends React.PureComponent {
     }
 
     isHidden = (setting) => {
-        const enterpriseReady = this.props.config.BuildEnterpriseReady === 'true';
         if (typeof setting.isHidden === 'function') {
-            return setting.isHidden(this.props.config, this.state, this.props.license, enterpriseReady, this.props.consoleAccess, this.props.cloud, this.props.isCurrentUserSystemAdmin, setting);
+            return setting.isHidden(this.props.config, this.state, this.props.license);
         }
         return Boolean(setting.isHidden);
     }

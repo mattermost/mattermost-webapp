@@ -215,13 +215,6 @@ export const it = {
     userHasReadPermissionOnResource: (key) => (config, state, license, enterpriseReady, consoleAccess) => consoleAccess?.read?.[key],
     userHasReadPermissionOnSomeResources: (key) => Object.values(key).some((resource) => it.userHasReadPermissionOnResource(resource)),
     userHasWritePermissionOnResource: (key) => (config, state, license, enterpriseReady, consoleAccess) => consoleAccess?.write?.[key],
-    hostingMatches: () => (config, state, license, enterpriseReady, consoleAccess, cloud, isSystemAdmin, setting) => {
-        if (setting && setting.hosting) {
-            return true;
-        }
-
-        return false;
-    },
     isSystemAdmin: (config, state, license, enterpriseReady, consoleAccess, icloud, isSystemAdmin) => isSystemAdmin,
 };
 
