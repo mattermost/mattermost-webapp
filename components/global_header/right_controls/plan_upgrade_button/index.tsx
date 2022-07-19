@@ -10,7 +10,7 @@ import Constants, {CloudProducts} from 'utils/constants';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getCloudProducts, getCloudSubscription} from 'mattermost-redux/actions/cloud';
 import {getCloudSubscription as selectCloudSubscription, getSubscriptionProduct as selectSubscriptionProduct, isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
-import {getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -51,6 +51,7 @@ const PlanUpgradeButton = (): JSX.Element | null => {
     const isAdmin = useSelector(isCurrentUserSystemAdmin);
     const subscription = useSelector(selectCloudSubscription);
     const product = useSelector(selectSubscriptionProduct);
+    const config = useSelector(getConfig);
     const license = useSelector(getLicense);
 
     const isEnterpriseTrial = subscription?.is_free_trial === 'true';
@@ -58,8 +59,14 @@ const PlanUpgradeButton = (): JSX.Element | null => {
 
     const isSelfHostedEnterpriseTrial = !isCloud && license.IsTrial === 'true';
     const isSelfHostedStarter = license.IsLicensed === 'false';
+    const isEnterpriseReady = config.BuildEnterpriseReady === 'true';
 
     if (!isAdmin) {
+        return null;
+    }
+
+    // If not on Enterprise edition, don't show
+    if (!isEnterpriseReady) {
         return null;
     }
 
