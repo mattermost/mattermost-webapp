@@ -53,7 +53,7 @@ export function useGlobalState<TVal>(
     ];
 }
 
-export function useLocalStorageState(key: string, defaultValue: string) {
+export function useLocalStorageState(key: string, defaultValue: string): [string, (value: string) => void] {
     const [value, setValue] = useState(() => {
         const value = localStorage.getItem(key);
 
@@ -64,5 +64,5 @@ export function useLocalStorageState(key: string, defaultValue: string) {
         localStorage.setItem(key, value);
     }, [key, value]);
 
-    return [value, setValue] as const;
+    return [value, setValue];
 }
