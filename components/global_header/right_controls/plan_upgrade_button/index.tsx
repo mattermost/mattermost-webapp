@@ -20,7 +20,7 @@ border-radius: 4px;
 border: none;
 box-shadow: none;
 height: 24px;
-width: 67px;
+width: auto;
 font-family: 'Open Sans';
 font-style: normal;
 font-weight: 600;
@@ -37,6 +37,8 @@ const PlanUpgradeButton = (): JSX.Element | null => {
     const {formatMessage} = useIntl();
 
     openPricingModal = useOpenPricingModal();
+    const openPricingModalA = useOpenPricingModal('PlanUpgradeButton_A');
+    const openPricingModalB = useOpenPricingModal('PlanUpgradeButton_B');
     const isCloud = useSelector(isCurrentLicenseCloud);
 
     useEffect(() => {
@@ -53,8 +55,16 @@ const PlanUpgradeButton = (): JSX.Element | null => {
     const license = useSelector(getLicense);
 
     const enableForSelfHosted = config?.EnableUpgradeForSelfHostedStarter === 'true';
+    const buttonTextFeatureFlag = config?.FeatureFlagServerUpgradeButtonText;
+    let btnText = formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'});
+    let btnClickAction = openPricingModalA;
+    if (isCloud && buttonTextFeatureFlag === 'B') {
+        btnClickAction = openPricingModalB;
+        btnText = formatMessage({id: 'pricing_modal.btn.viewPlans', defaultMessage: 'View plans'});
+    }
 
     const isEnterpriseTrial = subscription?.is_free_trial === 'true';
+
     const isStarter = product?.sku === CloudProducts.STARTER;
 
     const isSelfHostedEnterpriseTrial = !isCloud && license.IsTrial === 'true';
@@ -82,9 +92,9 @@ const PlanUpgradeButton = (): JSX.Element | null => {
     return (
         <UpgradeButton
             id='UpgradeButton'
-            onClick={openPricingModal}
+            onClick={btnClickAction}
         >
-            {formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'})}
+            {btnText}
         </UpgradeButton>);
 };
 
