@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {useCallback} from 'react';
+import {useCallback, useState, useEffect} from 'react';
 import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 
 import {createSelector} from 'reselect';
@@ -51,4 +51,18 @@ export function useGlobalState<TVal>(
         value,
         setValue,
     ];
+}
+
+export function useLocalStorageState(key: string, defaultValue: string) {
+    const [value, setValue] = useState(() => {
+        const value = localStorage.getItem(key);
+
+        return value || defaultValue;
+    });
+
+    useEffect(() => {
+        localStorage.setItem(key, value);
+    }, [key, value]);
+
+    return [value, setValue] as const;
 }

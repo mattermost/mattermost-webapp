@@ -14,7 +14,6 @@ export const getPenultimateChannelNameKey = (userId, teamId) => ['user_team_penu
 const getRecentEmojisKey = (userId) => ['recent_emojis', userId].join(':');
 const getWasLoggedInKey = () => 'was_logged_in';
 const teamIdJoinedOnLoadKey = 'teamIdJoinedOnLoad';
-const insightsTimeFrameKey = 'insightsTimeFrame';
 
 const getPathScopedKey = (path, key) => {
     if (path === '' || path === '/') {
@@ -46,10 +45,6 @@ class LocalStorageStoreClass {
         localStorage.setItem(getPathScopedKey(basePath, key), value);
     }
 
-    getInsightsTimeFrame() {
-        return this.getItem(insightsTimeFrameKey);
-    }
-
     getPreviousChannelName(userId, teamId, state = store.getState()) {
         return this.getItem(getPreviousChannelNameKey(userId, teamId), state) || getRedirectChannelNameForTeam(state, teamId);
     }
@@ -63,10 +58,6 @@ class LocalStorageStoreClass {
         const basePath = getBasePath(state);
 
         localStorage.removeItem(getPathScopedKey(basePath, key));
-    }
-
-    setInsightsTimeFrame(timeFrame) {
-        return this.setItem(insightsTimeFrameKey, timeFrame);
     }
 
     setPreviousChannelName(userId, teamId, channelName) {
