@@ -23,7 +23,7 @@ exports[`components/global/AtMentionsButton should match snapshot 1`] = `
   }
 >
   <ForwardRef
-    aria-label="Select to toggle a list of Saved Messages."
+    aria-label="Select to toggle a list of Saved Messages"
     compact={true}
     icon="bookmark-outline"
     inverted={true}

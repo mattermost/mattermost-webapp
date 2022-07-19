@@ -31,7 +31,7 @@ const SavedPostsButton = (): JSX.Element | null => {
         <Tooltip id='recentMentions'>
             <FormattedMessage
                 id='channel_header.flagged'
-                defaultMessage='Saved posts'
+                defaultMessage='Saved Messages'
             />
         </Tooltip>
     );
@@ -50,7 +50,7 @@ const SavedPostsButton = (): JSX.Element | null => {
                 onClick={savedPostsButtonClick}
                 inverted={true}
                 compact={true}
-                aria-label='Select to toggle a list of Saved posts.' // proper wording and translation needed
+                aria-label='Select to toggle a list of Saved Messages' // proper wording and translation needed
             />
         </OverlayTrigger>
     );
