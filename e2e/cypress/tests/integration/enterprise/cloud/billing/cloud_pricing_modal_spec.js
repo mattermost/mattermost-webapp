@@ -180,6 +180,11 @@ describe('Pricing modal', () => {
 
         // * Check that Upgrade button shows for admins
         cy.get('#UpgradeButton').should('exist');
+
+        // *Check for Upgrade button tooltip
+        cy.get('#UpgradeButton').trigger('mouseover').then(() => {
+            cy.get('#upgrade_button_tooltip').should('be.visible').contains('Only visible to system admins');
+        });
     });
 
     it('should show Upgrade button in global header for admin users and enterprise trial sku', () => {
