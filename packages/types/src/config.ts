@@ -184,7 +184,6 @@ export type ClientConfig = {
     WebsocketURL: string;
     ExperimentalSharedChannels: string;
     EnableAppBar: string;
-    EnableUpgradeForSelfHostedStarter: string;
     EnableComplianceExport: string;
 };
 
