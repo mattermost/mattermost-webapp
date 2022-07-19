@@ -1,26 +1,32 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
+/* eslint-disable max-lines */
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, {ChangeEvent, ClipboardEvent, createRef, MouseEvent, RefObject} from 'react';
 import {defineMessages, FormattedMessage} from 'react-intl';
 
 import {setThemeDefaults} from 'mattermost-redux/utils/theme_utils';
+import {Theme} from 'mattermost-redux/types/themes';
 
 import {t} from 'utils/i18n';
-
 import Constants from 'utils/constants';
 
 import LocalizedIcon from 'components/localized_icon';
 import OverlayTrigger from 'components/overlay_trigger';
 import Popover from 'components/widgets/popover';
 
-import ColorChooser from './color_chooser/color_chooser';
+import ColorChooser from '../color_chooser/color_chooser';
 
 const COPY_SUCCESS_INTERVAL = 3000;
 
-const messages = defineMessages({
+type Messages = {
+    [key: string]: {
+        id: string;
+        defaultMessage: string;
+    };
+}
+
+const messages: Messages = defineMessages({
     sidebarBg: {
         id: t('user.settings.custom_theme.sidebarBg'),
         defaultMessage: 'Sidebar BG',
@@ -119,25 +125,39 @@ const messages = defineMessages({
     },
 });
 
-export default class CustomThemeChooser extends React.PureComponent {
-    static propTypes = {
-        theme: PropTypes.object.isRequired,
-        updateTheme: PropTypes.func.isRequired,
-    };
+type Props = {
+    theme: Theme;
+    updateTheme: (theme: Theme) => void;
+};
 
-    constructor(props) {
+type State = {
+    copyTheme: string;
+};
+
+export default class CustomThemeChooser extends React.PureComponent<Props, State> {
+    textareaRef: RefObject<HTMLTextAreaElement>;
+    sidebarStylesHeaderRef: RefObject<HTMLDivElement>;
+    centerChannelStylesHeaderRef: RefObject<HTMLDivElement>;
+    linkAndButtonStylesHeaderRef: RefObject<HTMLDivElement>;
+
+    constructor(props: Props) {
         super(props);
         const copyTheme = this.setCopyTheme(this.props.theme);
+
+        this.textareaRef = createRef();
+        this.sidebarStylesHeaderRef = createRef();
+        this.centerChannelStylesHeaderRef = createRef();
+        this.linkAndButtonStylesHeaderRef = createRef();
 
         this.state = {
             copyTheme,
         };
     }
 
-    handleColorChange = (settingId, color) => {
+    handleColorChange = (settingId: string, color: string) => {
         const {updateTheme, theme} = this.props;
         if (theme[settingId] !== color) {
-            const newTheme = {
+            const newTheme: Theme = {
                 ...theme,
                 type: 'custom',
                 [settingId]: color,
@@ -158,7 +178,7 @@ export default class CustomThemeChooser extends React.PureComponent {
         }
     }
 
-    setCopyTheme(theme) {
+    setCopyTheme(theme: Theme) {
         const copyTheme = Object.assign({}, theme);
         delete copyTheme.type;
         delete copyTheme.image;
@@ -166,11 +186,11 @@ export default class CustomThemeChooser extends React.PureComponent {
         return JSON.stringify(copyTheme);
     }
 
-    pasteBoxChange = (e) => {
+    pasteBoxChange = (e: ClipboardEvent<HTMLTextAreaElement>) => {
         let text = '';
 
-        if (window.clipboardData && window.clipboardData.getData) { // IE
-            text = window.clipboardData.getData('Text');
+        if ((window as any).clipboardData && (window as any).clipboardData.getData) { // IE
+            text = (window as any).clipboardData.getData('Text');
         } else {
             text = e.clipboardData.getData('Text');//e.clipboardData.getData('text/plain');
         }
@@ -196,38 +216,38 @@ export default class CustomThemeChooser extends React.PureComponent {
         this.props.updateTheme(theme);
     }
 
-    onChangeHandle = (e) => {
-        e.stopPropagation();
-    }
+    onChangeHandle = (e: ChangeEvent<HTMLTextAreaElement>) => e.stopPropagation();
 
     selectTheme = () => {
-        const textarea = this.refs.textarea;
-        textarea.focus();
-        textarea.setSelectionRange(0, this.state.copyTheme.length);
+        this.textareaRef.current?.focus();
+        this.textareaRef.current?.setSelectionRange(0, this.state.copyTheme.length);
     }
 
-    toggleSidebarStyles = (e) => {
+    toggleSidebarStyles = (e: MouseEvent<HTMLDivElement>) => {
         e.preventDefault();
 
-        this.refs.sidebarStylesHeader.classList.toggle('open');
-        this.toggleSection(this.refs.sidebarStyles);
+        this.sidebarStylesHeaderRef.current?.classList.toggle('open');
+        this.toggleSection(this.sidebarStylesHeaderRef.current);
     }
 
-    toggleCenterChannelStyles = (e) => {
+    toggleCenterChannelStyles = (e: MouseEvent<HTMLDivElement>) => {
         e.preventDefault();
 
-        this.refs.centerChannelStylesHeader.classList.toggle('open');
-        this.toggleSection(this.refs.centerChannelStyles);
+        this.centerChannelStylesHeaderRef.current?.classList.toggle('open');
+        this.toggleSection(this.centerChannelStylesHeaderRef.current);
     }
 
-    toggleLinkAndButtonStyles = (e) => {
+    toggleLinkAndButtonStyles = (e: MouseEvent<HTMLDivElement>) => {
         e.preventDefault();
 
-        this.refs.linkAndButtonStylesHeader.classList.toggle('open');
-        this.toggleSection(this.refs.linkAndButtonStyles);
+        this.linkAndButtonStylesHeaderRef.current?.classList.toggle('open');
+        this.toggleSection(this.linkAndButtonStylesHeaderRef.current);
     }
 
-    toggleSection(node) {
+    toggleSection(node: HTMLElement | null) {
+        if (!node) {
+            return;
+        }
         node.classList.toggle('open');
 
         // set overflow after animation, so the colorchooser is fully shown
@@ -240,8 +260,8 @@ export default class CustomThemeChooser extends React.PureComponent {
         };
     }
 
-    onCodeThemeChange = (e) => {
-        const theme = {
+    onCodeThemeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const theme: Theme = {
             ...this.props.theme,
             type: 'custom',
             codeTheme: e.target.value,
@@ -257,26 +277,27 @@ export default class CustomThemeChooser extends React.PureComponent {
     }
 
     showCopySuccess = () => {
-        const copySuccess = document.querySelector('.copy-theme-success');
-        copySuccess.style.display = 'inline-block';
-
-        setTimeout(() => {
-            copySuccess.style.display = 'none';
-        }, COPY_SUCCESS_INTERVAL);
+        const copySuccess: HTMLElement | null = document.querySelector('.copy-theme-success');
+        if (copySuccess) {
+            copySuccess.style.display = 'inline-block';
+            setTimeout(() => {
+                copySuccess.style.display = 'none';
+            }, COPY_SUCCESS_INTERVAL);
+        }
     }
 
     render() {
         const theme = this.props.theme;
 
-        const sidebarElements = [];
-        const centerChannelElements = [];
-        const linkAndButtonElements = [];
+        const sidebarElements: JSX.Element[] = [];
+        const centerChannelElements: JSX.Element[] = [];
+        const linkAndButtonElements: JSX.Element[] = [];
         Constants.THEME_ELEMENTS.forEach((element, index) => {
             if (element.id === 'codeTheme') {
-                const codeThemeOptions = [];
+                const codeThemeOptions: JSX.Element[] = [];
                 let codeThemeURL = '';
 
-                element.themes.forEach((codeTheme, codeThemeIndex) => {
+                element.themes?.forEach((codeTheme, codeThemeIndex) => {
                     if (codeTheme.id === theme[element.id]) {
                         codeThemeURL = codeTheme.iconURL;
                     }
@@ -290,7 +311,7 @@ export default class CustomThemeChooser extends React.PureComponent {
                     );
                 });
 
-                var popoverContent = (
+                const popoverContent = (
                     <Popover
                         popoverStyle='info'
                         id='code-popover'
@@ -319,7 +340,6 @@ export default class CustomThemeChooser extends React.PureComponent {
                             <select
                                 id='codeThemeSelect'
                                 className='form-control'
-                                type='text'
                                 defaultValue={theme[element.id]}
                                 onChange={this.onCodeThemeChange}
                             >
@@ -328,7 +348,6 @@ export default class CustomThemeChooser extends React.PureComponent {
                             <OverlayTrigger
                                 placement='top'
                                 overlay={popoverContent}
-                                ref='headerOverlay'
                             >
                                 <span className='input-group-addon'>
                                     <img
@@ -349,7 +368,7 @@ export default class CustomThemeChooser extends React.PureComponent {
                         <ColorChooser
                             id={element.id}
                             label={<FormattedMessage {...messages[element.id]}/>}
-                            value={theme[element.id]}
+                            value={theme[element.id] || ''}
                             onChange={this.handleColorChange}
                         />
                     </div>,
@@ -369,7 +388,7 @@ export default class CustomThemeChooser extends React.PureComponent {
                         <ColorChooser
                             id={element.id}
                             label={<FormattedMessage {...messages[element.id]}/>}
-                            value={color}
+                            value={color || ''}
                             onChange={this.handleColorChange}
                         />
                     </div>,
@@ -383,7 +402,7 @@ export default class CustomThemeChooser extends React.PureComponent {
                         <ColorChooser
                             id={element.id}
                             label={<FormattedMessage {...messages[element.id]}/>}
-                            value={theme[element.id]}
+                            value={theme[element.id] || ''}
                             onChange={this.handleColorChange}
                         />
                     </div>,
@@ -400,7 +419,7 @@ export default class CustomThemeChooser extends React.PureComponent {
                     />
                 </label>
                 <textarea
-                    ref='textarea'
+                    ref={this.textareaRef}
                     className='form-control'
                     id='pasteBox'
                     value={this.state.copyTheme}
@@ -437,7 +456,7 @@ export default class CustomThemeChooser extends React.PureComponent {
             <div className='appearance-section pt-2'>
                 <div className='theme-elements row'>
                     <div
-                        ref='sidebarStylesHeader'
+                        ref={this.sidebarStylesHeaderRef}
                         id='sidebarStyles'
                         className='theme-elements__header'
                         onClick={this.toggleSidebarStyles}
@@ -457,16 +476,13 @@ export default class CustomThemeChooser extends React.PureComponent {
                             />
                         </div>
                     </div>
-                    <div
-                        ref='sidebarStyles'
-                        className='theme-elements__body'
-                    >
+                    <div className='theme-elements__body'>
                         {sidebarElements}
                     </div>
                 </div>
                 <div className='theme-elements row'>
                     <div
-                        ref='centerChannelStylesHeader'
+                        ref={this.centerChannelStylesHeaderRef}
                         id='centerChannelStyles'
                         className='theme-elements__header'
                         onClick={this.toggleCenterChannelStyles}
@@ -487,7 +503,6 @@ export default class CustomThemeChooser extends React.PureComponent {
                         </div>
                     </div>
                     <div
-                        ref='centerChannelStyles'
                         id='centerChannelStyles'
                         className='theme-elements__body'
                     >
@@ -496,7 +511,7 @@ export default class CustomThemeChooser extends React.PureComponent {
                 </div>
                 <div className='theme-elements row'>
                     <div
-                        ref='linkAndButtonStylesHeader'
+                        ref={this.linkAndButtonStylesHeaderRef}
                         id='linkAndButtonsStyles'
                         className='theme-elements__header'
                         onClick={this.toggleLinkAndButtonStyles}
@@ -516,10 +531,7 @@ export default class CustomThemeChooser extends React.PureComponent {
                             />
                         </div>
                     </div>
-                    <div
-                        ref='linkAndButtonStyles'
-                        className='theme-elements__body'
-                    >
+                    <div className='theme-elements__body'>
                         {linkAndButtonElements}
                     </div>
                 </div>
@@ -530,4 +542,3 @@ export default class CustomThemeChooser extends React.PureComponent {
         );
     }
 }
-/* eslint-enable react/no-string-refs */

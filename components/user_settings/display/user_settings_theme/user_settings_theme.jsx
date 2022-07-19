@@ -14,7 +14,7 @@ import ImportThemeModal from 'components/user_settings/import_theme_modal.tsx';
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils';
 
-import CustomThemeChooser from './custom_theme_chooser.jsx';
+import CustomThemeChooser from './custom_theme_chooser/custom_theme_chooser';
 import PremadeThemeChooser from './premade_theme_chooser';
 export default class ThemeSetting extends React.PureComponent {
     static propTypes = {
