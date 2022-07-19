@@ -551,7 +551,7 @@ describe('Messaging', () => {
 
         // # Edit post by opening modal
         cy.getLastPostId().then((postId) => {
-            cy.clickPostDotMenu(postId);
+            cy.clickPostDotMenu(postId, 'RHS_ROOT');
 
             // * Click edit post
             cy.get(`#edit_post_${postId}`).scrollIntoView().should('be.visible').click();
