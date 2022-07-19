@@ -4,7 +4,7 @@
 import React from 'react';
 
 import {Preferences} from 'mattermost-redux/constants';
-import {changeOpacity } from 'mattermost-redux/utils/theme_utils';
+import {changeOpacity} from 'mattermost-redux/utils/theme_utils';
 import {Theme, ThemeKey} from 'mattermost-redux/types/themes';
 
 import ThemeThumbnail from '../theme_thumbnail';
