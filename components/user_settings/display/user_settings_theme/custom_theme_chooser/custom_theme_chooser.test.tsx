@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {shallow} from 'enzyme';
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 
 import CustomThemeChooser from 'components/user_settings/display/user_settings_theme/custom_theme_chooser/custom_theme_chooser';
 
@@ -16,7 +16,7 @@ describe('components/user_settings/display/CustomThemeChooser', () => {
 
     it('should match, init', () => {
         const elementMock = {addEventListener: jest.fn()};
-        jest.spyOn(document, 'querySelector').mockImplementation(() => elementMock);
+        jest.spyOn(document, 'querySelector').mockImplementation(() => elementMock as unknown as HTMLElement);
         const wrapper = shallow(
             <CustomThemeChooser {...baseProps}/>,
         );
@@ -26,8 +26,8 @@ describe('components/user_settings/display/CustomThemeChooser', () => {
 
     it('should create a custom theme when the code theme changes', () => {
         const elementMock = {addEventListener: jest.fn()};
-        jest.spyOn(document, 'querySelector').mockImplementation(() => elementMock);
-        const wrapper = shallow(
+        jest.spyOn(document, 'querySelector').mockImplementation(() => elementMock as unknown as HTMLElement);
+        const wrapper = shallow<CustomThemeChooser>(
             <CustomThemeChooser {...baseProps}/>,
         );
 
@@ -35,7 +35,7 @@ describe('components/user_settings/display/CustomThemeChooser', () => {
             target: {
                 value: 'monokai',
             },
-        };
+        } as ChangeEvent<HTMLSelectElement>;
 
         wrapper.instance().onCodeThemeChange(event);
         expect(baseProps.updateTheme).toHaveBeenCalledTimes(1);
