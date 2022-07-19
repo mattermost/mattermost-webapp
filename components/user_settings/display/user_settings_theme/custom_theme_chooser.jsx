@@ -16,7 +16,7 @@ import LocalizedIcon from 'components/localized_icon';
 import OverlayTrigger from 'components/overlay_trigger';
 import Popover from 'components/widgets/popover';
 
-import ColorChooser from './color_chooser';
+import ColorChooser from './color_chooser/color_chooser';
 
 const COPY_SUCCESS_INTERVAL = 3000;
 
