@@ -8,13 +8,14 @@ import {Role} from '@mattermost/types/roles';
 import {Team} from '@mattermost/types/teams';
 
 const myDataQueryString = `
-query MyData {
+query gql-w-myData {
     config
     license
     user(id: "me") {
       id
       create_at: createAt
       delete_at: deleteAt
+      update_at: updateAt
       username
       auth_service: authService
       email
@@ -30,15 +31,21 @@ query MyData {
       props
       notify_props: notifyProps
       last_picture_update: lastPictureUpdate
+      last_password_update: lastPasswordUpdate
+      terms_of_service_id: termsOfServiceId
+      terms_of_service_create_at: termsOfServiceCreateAt
       locale
       timezone
-      is_bot: isBot
+      remote_id: remoteId
       preferences {
         name
         user_id: userId
         category
         value
       }
+      is_bot: isBot
+      bot_description: botDescription
+      mfa_active: mfaActive
     }
     teamMembers(userId: "me") {
       team {
@@ -66,7 +73,7 @@ query MyData {
       scheme_user: schemeUser
       scheme_admin: schemeAdmin
     }
-}
+  }
 `;
 
 export const myDataQuery = JSON.stringify({query: myDataQueryString, operationName: 'MyData'});
@@ -114,17 +121,6 @@ export function transformToRecievedMeReducerPayload(user: Partial<MyDataQueryRes
         ...user,
         position: user?.position ?? '',
         roles: convertRolesNamesArrayToString(user?.roles ?? []),
-
-        // below fields arent included in the response but not inside of user rest api types
-        auth_data: '',
-        email_verified: true,
-        allow_marketing: true,
-        last_activity_at: 0,
-        bot_description: '',
-        bot_last_icon_update: 0,
-        terms_of_service_id: '',
-        terms_of_service_create_at: 0,
-        remote_id: '',
     };
 }
 
