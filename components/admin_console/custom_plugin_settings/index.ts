@@ -7,17 +7,21 @@ import {createSelector} from 'reselect';
 
 import {getRoles} from 'mattermost-redux/selectors/entities/roles';
 import {appsFeatureFlagEnabled} from 'mattermost-redux/selectors/entities/apps';
+import {isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
 import {GlobalState} from '@mattermost/types/store';
-import {PluginRedux} from '@mattermost/types/plugins';
+import {PluginRedux, PluginSetting} from '@mattermost/types/plugins';
 
 import {Constants} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
+
+import {AdminConfig, License} from '@mattermost/types/config';
 
 import {getAdminConsoleCustomComponents} from 'selectors/admin_console';
 import SchemaAdminSettings from '../schema_admin_settings';
 import {it} from '../admin_definition';
 
 import {appsPluginID} from 'utils/apps';
+import {isCloudLicense} from 'utils/license_utils';
 
 import {AdminConsolePluginComponent} from 'types/store/plugins';
 
@@ -31,8 +35,9 @@ function makeGetPluginSchema() {
         'makeGetPluginSchema',
         (state: GlobalState, pluginId: string) => state.entities.admin.plugins?.[pluginId],
         (state: GlobalState, pluginId: string) => getAdminConsoleCustomComponents(state, pluginId),
+        isCurrentLicenseCloud,
         (state) => appsFeatureFlagEnabled(state),
-        (plugin: PluginRedux | undefined, customComponents: Record<string, AdminConsolePluginComponent>, appsFeatureFlagIsEnabled) => {
+        (plugin: PluginRedux | undefined, customComponents: Record<string, AdminConsolePluginComponent>, appsFeatureFlagIsEnabled, isCloudLicense) => {
             if (!plugin) {
                 return null;
             }
@@ -61,6 +66,12 @@ function makeGetPluginSchema() {
                         isDisabled = it.any(it.stateIsTrue(pluginEnabledConfigKey), it.not(it.userHasWritePermissionOnResource('plugins')));
                     }
 
+                    const isHidden = () => {
+                        isCloudLicense = false;
+                        return (isCloudLicense && setting.hosting === 'on-prem') ||
+                            (!isCloudLicense && setting.hosting === 'cloud');
+                    };
+
                     return {
                         ...setting,
                         type,
@@ -69,6 +80,7 @@ function makeGetPluginSchema() {
                         label: displayName,
                         translate: Boolean(plugin.translate),
                         isDisabled,
+                        isHidden,
                         banner_type: bannerType,
                         component,
                         showTitle: customComponents[key] ? customComponents[key].options.showTitle : false,

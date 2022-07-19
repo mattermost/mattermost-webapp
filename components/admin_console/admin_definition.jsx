@@ -5435,7 +5435,6 @@ const AdminDefinition = {
         custom: {
             url: 'plugins/plugin_:plugin_id',
             isDisabled: it.not(it.userHasWritePermissionOnResource('plugins')),
-            // isHidden: it.hostingMatches(),
             schema: {
                 id: 'CustomPluginSettings',
                 component: CustomPluginSettings,
