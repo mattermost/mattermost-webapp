@@ -7,8 +7,8 @@ import {PreferenceType} from '@mattermost/types/preferences';
 import {Role} from '@mattermost/types/roles';
 import {Team} from '@mattermost/types/teams';
 
-const myDataQueryString = `
-query gql-w-myData {
+const meUserInfoQueryString = `
+query gql-w-meUserInfo {
     config
     license
     user(id: "me") {
@@ -76,9 +76,9 @@ query gql-w-myData {
   }
 `;
 
-export const myDataQuery = JSON.stringify({query: myDataQueryString, operationName: 'MyData'});
+export const meUserInfoQuery = JSON.stringify({query: meUserInfoQueryString, operationName: 'gql-w-meUserInfo'});
 
-export type MyDataQueryResponseType = {
+export type MeUserInfoQueryResponseType = {
     data: {
         user: UserProfile & {
             roles: Role[];
@@ -103,8 +103,8 @@ export function convertRolesNamesArrayToString(roles: Role[]): string {
 }
 
 export function transformToRecievedRolesReducerPayload(
-    userRoles: MyDataQueryResponseType['data']['user']['roles'],
-    teamMembers: MyDataQueryResponseType['data']['teamMembers']): Role[] {
+    userRoles: MeUserInfoQueryResponseType['data']['user']['roles'],
+    teamMembers: MeUserInfoQueryResponseType['data']['teamMembers']): Role[] {
     let roles: Role[] = [...userRoles];
 
     teamMembers.forEach((teamMember) => {
@@ -116,7 +116,7 @@ export function transformToRecievedRolesReducerPayload(
     return roles;
 }
 
-export function transformToRecievedMeReducerPayload(user: Partial<MyDataQueryResponseType['data']['user']>) {
+export function transformToRecievedMeReducerPayload(user: Partial<MeUserInfoQueryResponseType['data']['user']>) {
     return {
         ...user,
         position: user?.position ?? '',
@@ -124,13 +124,13 @@ export function transformToRecievedMeReducerPayload(user: Partial<MyDataQueryRes
     };
 }
 
-export function transformToRecievedTeamsListReducerPayload(teamsMembers: Partial<MyDataQueryResponseType['data']['teamMembers']>) {
+export function transformToRecievedTeamsListReducerPayload(teamsMembers: Partial<MeUserInfoQueryResponseType['data']['teamMembers']>) {
     return teamsMembers.map((teamMember) => ({...teamMember?.team, delete_at: 0}));
 }
 
-export function transformToRecievedMyTeamMembersReducerPayload(
-    teamsMembers: Partial<MyDataQueryResponseType['data']['teamMembers']>,
-    userId: MyDataQueryResponseType['data']['user']['id'],
+export function transformToRecievedTeamMembersReducerPayload(
+    teamsMembers: Partial<MeUserInfoQueryResponseType['data']['teamMembers']>,
+    userId: MeUserInfoQueryResponseType['data']['user']['id'],
 ) {
     return teamsMembers.map((teamMember) => ({
         team_id: teamMember?.team?.id ?? '',

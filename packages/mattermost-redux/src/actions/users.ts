@@ -17,12 +17,11 @@ import {bindClientFunc, forceLogoutIfNecessary, debounce} from 'mattermost-redux
 import {logError} from 'mattermost-redux/actions/errors';
 import {getMyPreferences} from 'mattermost-redux/actions/preferences';
 import {
+    meUserInfoQuery,
+    MeUserInfoQueryResponseType,
     convertRolesNamesArrayToString,
-    myDataQuery,
-    MyDataQueryResponseType,
     transformToRecievedMeReducerPayload,
     transformToRecievedTeamsListReducerPayload,
-    transformToRecievedMyTeamMembersReducerPayload,
     transformToRecievedRolesReducerPayload,
 } from 'mattermost-redux/actions/users_queries';
 
@@ -196,9 +195,9 @@ export function loadMe(): ActionFunc {
         const serverVersion = state.entities.general.serverVersion || Client4.getServerVersion();
         dispatch(setServerVersion(serverVersion));
 
-        let responseData: MyDataQueryResponseType['data'] | null = null;
+        let responseData: MeUserInfoQueryResponseType['data'] | null = null;
         try {
-            const {data} = await Client4.fetchWithGraphQL<MyDataQueryResponseType>(myDataQuery);
+            const {data} = await Client4.fetchWithGraphQL<MeUserInfoQueryResponseType>(meUserInfoQuery);
             responseData = data;
         } catch (error) {
             dispatch(logError(error));
