@@ -6,13 +6,15 @@ import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 
-import {CloudProducts} from 'utils/constants';
+import Constants, {CloudProducts} from 'utils/constants';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getCloudProducts, getCloudSubscription} from 'mattermost-redux/actions/cloud';
 import {getCloudSubscription as selectCloudSubscription, getSubscriptionProduct as selectSubscriptionProduct, isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
+import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 
 const UpgradeButton = styled.button`
 background: var(--denim-button-bg);
@@ -71,13 +73,26 @@ const PlanUpgradeButton = (): JSX.Element | null => {
         return null;
     }
 
+    const tooltip = (
+        <Tooltip id='upgrade_button_tooltip'>
+            {formatMessage({id: 'pricing_modal.btn.tooltip', defaultMessage: 'Only visible to system admins'})}
+        </Tooltip>
+    );
+
     return (
-        <UpgradeButton
-            id='UpgradeButton'
-            onClick={openPricingModal}
+        <OverlayTrigger
+            trigger={['hover', 'focus']}
+            delayShow={Constants.OVERLAY_TIME_DELAY}
+            placement='bottom'
+            overlay={tooltip}
         >
-            {formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'})}
-        </UpgradeButton>);
+            <UpgradeButton
+                id='UpgradeButton'
+                onClick={openPricingModal}
+            >
+                {formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'})}
+            </UpgradeButton>
+        </OverlayTrigger>);
 };
 
 export default PlanUpgradeButton;
