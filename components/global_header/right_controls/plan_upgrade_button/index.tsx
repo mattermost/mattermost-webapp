@@ -10,6 +10,7 @@ import {CloudProducts} from 'utils/constants';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getCloudProducts, getCloudSubscription} from 'mattermost-redux/actions/cloud';
 import {getCloudSubscription as selectCloudSubscription, getSubscriptionProduct as selectSubscriptionProduct, isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 
@@ -31,13 +32,11 @@ color: var(--button-color);
 
 let openPricingModal: () => void;
 
-const UpgradeCloudButton = (): JSX.Element | null => {
+const PlanUpgradeButton = (): JSX.Element | null => {
     const dispatch = useDispatch();
     const {formatMessage} = useIntl();
 
-    const isAdmin = useSelector(isCurrentUserSystemAdmin);
-    const subscription = useSelector(selectCloudSubscription);
-    const product = useSelector(selectSubscriptionProduct);
+    openPricingModal = useOpenPricingModal();
     const isCloud = useSelector(isCurrentLicenseCloud);
 
     useEffect(() => {
@@ -47,28 +46,47 @@ const UpgradeCloudButton = (): JSX.Element | null => {
         }
     }, [isCloud]);
 
-    openPricingModal = useOpenPricingModal();
+    const isAdmin = useSelector(isCurrentUserSystemAdmin);
+    const subscription = useSelector(selectCloudSubscription);
+    const product = useSelector(selectSubscriptionProduct);
+    const config = useSelector(getConfig);
+    const license = useSelector(getLicense);
+
+    const enableForSelfHosted = config?.EnableUpgradeForSelfHostedStarter === 'true';
 
     const isEnterpriseTrial = subscription?.is_free_trial === 'true';
     const isStarter = product?.sku === CloudProducts.STARTER;
 
-    if (!isCloud || !isAdmin) {
+    const isSelfHostedEnterpriseTrial = !isCloud && license.IsTrial === 'true';
+    const isSelfHostedStarter = license.IsLicensed === 'false';
+
+    if (!isAdmin) {
         return null;
     }
 
-    let btn = null;
-    if (isStarter || isEnterpriseTrial) {
-        btn = (
-            <UpgradeButton
-                id='UpgradeButton'
-                onClick={openPricingModal}
-            >
-                {formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'})}
-            </UpgradeButton>);
+    // for cloud, only show when subscribed to starter or enterprise trial plans
+    if (isCloud && !(isStarter || isEnterpriseTrial)) {
+        return null;
     }
 
-    return btn;
+    // for non cloud, only show when subscribed to self hosted starter or self hosted enterprise trial plans
+    if (!isCloud && !(isSelfHostedStarter || isSelfHostedEnterpriseTrial)) {
+        return null;
+    }
+
+    // for non cloud, when on starter, check if button is configured to show
+    if (!isCloud && isSelfHostedStarter && !enableForSelfHosted) {
+        return null;
+    }
+
+    return (
+        <UpgradeButton
+            id='UpgradeButton'
+            onClick={openPricingModal}
+        >
+            {formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'})}
+        </UpgradeButton>);
 };
 
-export default UpgradeCloudButton;
+export default PlanUpgradeButton;
 export {openPricingModal};

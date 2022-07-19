@@ -42,7 +42,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       id="all"
       key="all"
       onChange={[Function]}
-      parentRole={null}
       permissions={
         Array [
           Object {
@@ -242,7 +241,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       id="all"
       key="all"
       onChange={[Function]}
-      parentRole={null}
       permissions={
         Array [
           Object {
@@ -450,7 +448,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       id="all"
       key="all"
       onChange={[Function]}
-      parentRole={null}
       permissions={
         Array [
           Object {
@@ -647,7 +644,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       id="all"
       key="all"
       onChange={[Function]}
-      parentRole={null}
       permissions={
         Array [
           Object {
@@ -855,7 +851,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       id="all"
       key="all"
       onChange={[Function]}
-      parentRole={null}
       permissions={
         Array [
           Object {
@@ -1063,7 +1058,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       id="all"
       key="all"
       onChange={[Function]}
-      parentRole={null}
       permissions={
         Array [
           Object {

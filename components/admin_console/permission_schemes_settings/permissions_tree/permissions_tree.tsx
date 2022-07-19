@@ -9,7 +9,7 @@ import {ClientConfig, ClientLicense} from '@mattermost/types/config.js';
 import Permissions from 'mattermost-redux/constants/permissions';
 import {Role} from '@mattermost/types/roles';
 
-import PermissionGroup from '../permission_group.jsx';
+import PermissionGroup from '../permission_group';
 
 import EditPostTimeLimitButton from '../edit_post_time_limit_button';
 import EditPostTimeLimitModal from '../edit_post_time_limit_modal';
@@ -23,8 +23,8 @@ type Props = {
     config: Partial<ClientConfig>;
     role: Partial<Role>;
     onToggle: (name: string, ids: string[]) => void;
-    parentRole?: Partial<Role> | null;
-    selected?: string | null;
+    parentRole?: Partial<Role>;
+    selected?: string;
     selectRow: (id: string) => void;
     readOnly?: boolean;
     license?: ClientLicense;
