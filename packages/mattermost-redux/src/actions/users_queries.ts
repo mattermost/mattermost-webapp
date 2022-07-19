@@ -7,8 +7,8 @@ import {PreferenceType} from '@mattermost/types/preferences';
 import {Role} from '@mattermost/types/roles';
 import {Team} from '@mattermost/types/teams';
 
-const meUserInfoQueryString = `
-query gql-w-meUserInfo {
+const currentUserInfoQueryString = `
+query gqlWebCurrentUserInfo {
     config
     license
     user(id: "me") {
@@ -76,9 +76,9 @@ query gql-w-meUserInfo {
   }
 `;
 
-export const meUserInfoQuery = JSON.stringify({query: meUserInfoQueryString, operationName: 'gql-w-meUserInfo'});
+export const currentUserInfoQuery = JSON.stringify({query: currentUserInfoQueryString, operationName: 'gqlWebCurrentUserInfo'});
 
-export type MeUserInfoQueryResponseType = {
+export type CurrentUserInfoQueryResponseType = {
     data: {
         user: UserProfile & {
             roles: Role[];
@@ -103,8 +103,8 @@ export function convertRolesNamesArrayToString(roles: Role[]): string {
 }
 
 export function transformToRecievedRolesReducerPayload(
-    userRoles: MeUserInfoQueryResponseType['data']['user']['roles'],
-    teamMembers: MeUserInfoQueryResponseType['data']['teamMembers']): Role[] {
+    userRoles: CurrentUserInfoQueryResponseType['data']['user']['roles'],
+    teamMembers: CurrentUserInfoQueryResponseType['data']['teamMembers']): Role[] {
     let roles: Role[] = [...userRoles];
 
     teamMembers.forEach((teamMember) => {
@@ -116,7 +116,7 @@ export function transformToRecievedRolesReducerPayload(
     return roles;
 }
 
-export function transformToRecievedMeReducerPayload(user: Partial<MeUserInfoQueryResponseType['data']['user']>) {
+export function transformToRecievedMeReducerPayload(user: Partial<CurrentUserInfoQueryResponseType['data']['user']>) {
     return {
         ...user,
         position: user?.position ?? '',
@@ -124,13 +124,13 @@ export function transformToRecievedMeReducerPayload(user: Partial<MeUserInfoQuer
     };
 }
 
-export function transformToRecievedTeamsListReducerPayload(teamsMembers: Partial<MeUserInfoQueryResponseType['data']['teamMembers']>) {
+export function transformToRecievedTeamsListReducerPayload(teamsMembers: Partial<CurrentUserInfoQueryResponseType['data']['teamMembers']>) {
     return teamsMembers.map((teamMember) => ({...teamMember?.team, delete_at: 0}));
 }
 
-export function transformToRecievedTeamMembersReducerPayload(
-    teamsMembers: Partial<MeUserInfoQueryResponseType['data']['teamMembers']>,
-    userId: MeUserInfoQueryResponseType['data']['user']['id'],
+export function transformToRecievedMyTeamMembersReducerPayload(
+    teamsMembers: Partial<CurrentUserInfoQueryResponseType['data']['teamMembers']>,
+    userId: CurrentUserInfoQueryResponseType['data']['user']['id'],
 ) {
     return teamsMembers.map((teamMember) => ({
         team_id: teamMember?.team?.id ?? '',
@@ -141,7 +141,7 @@ export function transformToRecievedTeamMembersReducerPayload(
         scheme_guest: teamMember?.scheme_guest ?? false,
         scheme_user: teamMember?.scheme_user ?? false,
 
-        // below fields arent included in the response but where inside of TeamMembership api types
+        // below fields arent included in the response but were inside of TeamMembership api types
         mention_count: 0,
         mention_count_root: 0,
         msg_count: 0,
