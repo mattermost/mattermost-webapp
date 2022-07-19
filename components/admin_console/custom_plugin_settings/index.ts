@@ -9,19 +9,16 @@ import {getRoles} from 'mattermost-redux/selectors/entities/roles';
 import {appsFeatureFlagEnabled} from 'mattermost-redux/selectors/entities/apps';
 import {isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
 import {GlobalState} from '@mattermost/types/store';
-import {PluginRedux, PluginSetting} from '@mattermost/types/plugins';
+import {PluginRedux} from '@mattermost/types/plugins';
 
 import {Constants} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
-
-import {AdminConfig, License} from '@mattermost/types/config';
 
 import {getAdminConsoleCustomComponents} from 'selectors/admin_console';
 import SchemaAdminSettings from '../schema_admin_settings';
 import {it} from '../admin_definition';
 
 import {appsPluginID} from 'utils/apps';
-import {isCloudLicense} from 'utils/license_utils';
 
 import {AdminConsolePluginComponent} from 'types/store/plugins';
 
@@ -67,7 +64,6 @@ function makeGetPluginSchema() {
                     }
 
                     const isHidden = () => {
-                        isCloudLicense = false;
                         return (isCloudLicense && setting.hosting === 'on-prem') ||
                             (!isCloudLicense && setting.hosting === 'cloud');
                     };
