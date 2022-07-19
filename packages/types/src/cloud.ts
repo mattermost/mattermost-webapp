@@ -189,3 +189,7 @@ export type TeamsUsage = {
     cloudArchived: number;
     teamsLoaded: boolean;
 }
+
+export type ValidBusinessEmail = {
+    is_valid: string;
+}

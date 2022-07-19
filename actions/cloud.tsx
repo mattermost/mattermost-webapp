@@ -109,7 +109,11 @@ export function validateBusinessEmail(email = '') {
     trackEvent('api', 'api_validate_business_email');
     return async () => {
         try {
-            await Client4.validateBusinessEmail(email);
+            const res = await Client4.validateBusinessEmail(email);
+            if (res.data.is_valid === 'true') {
+                return true;
+            }
+            return false;
         } catch (error) {
             return false;
         }
@@ -121,11 +125,14 @@ export function validateWorkspaceBusinessEmail() {
     trackEvent('api', 'api_validate_workspace_business_email');
     return async () => {
         try {
-            await Client4.validateWorkspaceBusinessEmail();
+            const res = await Client4.validateWorkspaceBusinessEmail();
+            if (res.data.is_valid === 'true') {
+                return true;
+            }
+            return false;
         } catch (error) {
             return false;
         }
-        return true;
     };
 }
 
