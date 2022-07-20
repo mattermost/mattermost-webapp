@@ -4,17 +4,18 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import PermissionRow from 'components/admin_console/permission_schemes_settings/permission_row.jsx';
+import PermissionRow from 'components/admin_console/permission_schemes_settings/permission_row';
 
 describe('components/admin_console/permission_schemes_settings/permission_row', () => {
     const defaultProps = {
         id: 'id',
         uniqId: 'uniqId',
-        inherited: null,
+        inherited: undefined,
         readOnly: false,
         value: 'checked',
         selectRow: jest.fn(),
         onChange: jest.fn(),
+        additionalValues: {},
     };
 
     test('should match snapshot on editable and not inherited', () => {
@@ -28,7 +29,7 @@ describe('components/admin_console/permission_schemes_settings/permission_row', 
         const wrapper = shallow(
             <PermissionRow
                 {...defaultProps}
-                inherited={{name: 'test', displayName: 'Test'}}
+                inherited={{name: 'test'}}
             />,
         );
         expect(wrapper).toMatchSnapshot();
