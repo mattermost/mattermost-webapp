@@ -92,6 +92,14 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
         };
     }
 
+    openProfileModal = (): void => {
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.USER_SETTINGS,
+            dialogType: UserSettingsModal,
+            dialogProps: {isContentProductSettings: false},
+        });
+    }
+
     setStatus = (status: string, dndEndTime?: number): void => {
         this.props.actions.setStatus({
             user_id: this.props.userId,
@@ -422,13 +430,17 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
                     listId={'status-drop-down-menu-list'}
                 >
                     {currentUser && (
-                        <Menu.Header>
+                        <Menu.Header onClick={this.openProfileModal}>
                             {this.renderProfilePicture('lg')}
                             <div className={'username-wrapper'}>
-                                <Text margin={'none'}>{`${currentUser.first_name} ${currentUser.last_name}`}</Text>
+                                <Text
+                                    className={'bold'}
+                                    margin={'none'}
+                                >{`${currentUser.first_name} ${currentUser.last_name}`}</Text>
                                 <Text
                                     margin={'none'}
-                                    color={!currentUser.first_name && !currentUser.last_name ? 'secondary' : 'disabled'}
+                                    className={!currentUser.first_name && !currentUser.last_name ? 'bold' : ''}
+                                    color={!currentUser.first_name && !currentUser.last_name ? undefined : 'disabled'}
                                 >
                                     {'@' + currentUser.username}
                                 </Text>
