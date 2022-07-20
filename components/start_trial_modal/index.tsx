@@ -139,7 +139,7 @@ function StartTrialModal(props: Props): JSX.Element | null {
                     <span>
                         <FormattedMessage
                             id='start_trial.modal.disclaimer'
-                            defaultMessage='By clicking “Start 30-day trial”, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>privacy policy</linkPrivacy> and receiving product emails.'
+                            defaultMessage='By clicking “Start free 30-day trial”, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>privacy policy</linkPrivacy> and receiving product emails.'
                             values={{
                                 linkEvaluation: (msg: React.ReactNode) => (
                                     <a

@@ -3,6 +3,7 @@
 
 import classNames from 'classnames';
 import React, {memo, useCallback, useEffect, useRef, useState} from 'react';
+import {useIntl} from 'react-intl';
 import styled from 'styled-components';
 import {useFloating, offset} from '@floating-ui/react-dom';
 import {CSSTransition} from 'react-transition-group';
@@ -136,6 +137,11 @@ interface FormattingBarProps {
     disableControls: boolean;
     extraControls: JSX.Element;
     toggleAdvanceTextEditor: () => void;
+
+    /**
+     * location of the advanced text editor in the UI (center channel / RHS)
+     */
+    location: string;
 }
 
 const FormattingBar = (props: FormattingBarProps): JSX.Element => {
@@ -148,10 +154,14 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
         disableControls,
         extraControls,
         toggleAdvanceTextEditor,
+        location,
     } = props;
     const [showHiddenControls, setShowHiddenControls] = useState(false);
     const formattingBarRef = useRef<HTMLDivElement>(null);
     const {controls, hiddenControls, wideMode} = useFormattingBarControls(formattingBarRef);
+
+    const {formatMessage} = useIntl();
+    const HiddenControlsButtonAriaLabel = formatMessage({id: 'accessibility.button.hidden_controls_button', defaultMessage: 'show hidden formatting options'});
 
     const {x, y, reference, floating, strategy, update, refs: {reference: buttonRef, floating: floatingRef}} = useFloating<HTMLButtonElement>({
         placement: 'top',
@@ -273,9 +283,11 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
             {hasHiddenControls && showFormattingControls && (
                 <>
                     <IconContainer
+                        id={'HiddenControlsButton' + location}
                         ref={reference}
                         className={classNames({active: showHiddenControls})}
                         onClick={toggleHiddenControls}
+                        aria-label={HiddenControlsButtonAriaLabel}
                     >
                         <DotsHorizontalIcon
                             color={'currentColor'}

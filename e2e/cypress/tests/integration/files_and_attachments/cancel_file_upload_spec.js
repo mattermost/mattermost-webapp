@@ -27,7 +27,7 @@ describe('Upload Files', () => {
         cy.route({...options, response: {client_ids: [], file_infos: []}});
 
         // # Post an image in center channel
-        cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(hugeImage);
+        cy.get('#advancedTextEditorCell').find('#fileUploadInput').attachFile(hugeImage);
 
         // * Verify thumbnail of ongoing file upload
         cy.get('.file-preview__container').should('be.visible').within(() => {
@@ -48,8 +48,8 @@ describe('Upload Files', () => {
 
         // # Post a different file in center channel
         const filename = 'long_text_post.txt';
-        cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(filename);
-        cy.get('#post_textbox').should('be.visible').clear().type('{enter}');
+        cy.get('#advancedTextEditorCell').find('#fileUploadInput').attachFile(filename);
+        cy.uiGetPostTextBox().clear().type('{enter}');
 
         // * Verify the file is successfully posted as last post
         cy.getLastPostId().then((postId) => {

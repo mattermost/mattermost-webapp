@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {UserProfile} from '../../packages/mattermost-redux/src/types/users';
+import {UserProfile} from '@mattermost/types/lib/users';
 
 import {
     Client,
@@ -14,6 +14,14 @@ import {
 } from './support/server';
 import {defaultTeam} from './support/utils';
 import testConfig from './test.config';
+
+const productsAsPlugin = [
+    'com.mattermost.apps',
+    'com.mattermost.calls',
+    'com.mattermost.nps',
+    'focalboard',
+    'playbooks',
+];
 
 async function globalSetup() {
     let {adminClient, adminUser} = await getAdminClient();
@@ -93,12 +101,11 @@ async function sysadminSetup(client: Client, user: UserProfile) {
         }
     }
 
-    // Ensure Boards and Playbooks are installed and active.
-    // Soon Calls to be added.
+    // Ensure all products as plugin are installed and active.
     const pluginStatus = await client.getPluginStatuses();
     const plugins = await client.getPlugins();
 
-    ['playbooks', 'focalboard'].forEach(async (pluginId) => {
+    productsAsPlugin.forEach(async (pluginId) => {
         const isInstalled = pluginStatus.some((plugin) => plugin.plugin_id === pluginId);
         if (!isInstalled) {
             console.log(`${pluginId} is not installed. Related visual test will fail.`);

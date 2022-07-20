@@ -24,10 +24,10 @@ describe('Messaging', () => {
     it('MM-T73 Mobile view: Clicking on airplane icon does not open file attachment modal but sends the message', () => {
         // # type some characters in the message box
         const message = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ';
-        cy.get('#post_textbox').clear().type(message);
+        cy.uiGetPostTextBox().clear().type(message);
 
         // # click send
-        cy.get('.send-button').click();
+        cy.findByTestId('SendMessageButton').click();
 
         // # check if message sent correctly
         cy.getLastPostId().then((postId) => {

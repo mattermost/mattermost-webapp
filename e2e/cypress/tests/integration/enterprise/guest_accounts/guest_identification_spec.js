@@ -105,7 +105,7 @@ describe('Guest Accounts', () => {
 
         // # Type guest user e-mail address.
         cy.get('.users-emails-input__control').should('be.visible').within(() => {
-            cy.get('input').type(guestEmail + '{enter}', {force: true});
+            cy.get('input').typeWithForce(guestEmail + '{enter}');
         });
         cy.get('.users-emails-input__menu').
             children().should('have.length', 1).
@@ -113,7 +113,7 @@ describe('Guest Accounts', () => {
 
         // # Search and add to a Channel.
         cy.get('.channels-input__control').should('be.visible').within(() => {
-            cy.get('input').type(testChannel.name, {force: true});
+            cy.get('input').typeWithForce(testChannel.name);
         });
         cy.get('.channels-input__menu').
             children().should('have.length', 1).

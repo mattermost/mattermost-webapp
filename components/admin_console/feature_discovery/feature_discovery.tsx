@@ -4,19 +4,21 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+
 import {AnalyticsRow} from '@mattermost/types/admin';
 import {ClientLicense} from '@mattermost/types/config';
 import {EmbargoedEntityTrialError} from 'components/admin_console/license_settings/trial_banner/trial_banner';
 import AlertBanner from 'components/alert_banner';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 
-import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
+import {ModalIdentifiers, TELEMETRY_CATEGORIES, AboutLinks, LicenseLinks} from 'utils/constants';
 import {ActionResult} from 'mattermost-redux/types/actions';
+import {FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS} from 'utils/cloud_utils';
 import * as Utils from 'utils/utils';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import PurchaseModal from 'components/purchase_modal';
 import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
@@ -45,6 +47,7 @@ type Props = {
         requestTrialLicense: (users: number, termsAccepted: boolean, receiveEmailsAccepted: boolean, featureName: string) => Promise<ActionResult>;
         getLicenseConfig: () => void;
         getPrevTrialLicense: () => void;
+        getCloudSubscription: () => void;
         openModal: <P>(modalData: ModalData<P>) => void;
     };
     isCloud: boolean;
@@ -145,7 +148,11 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
         // otherwise use the previously defined conditions to elaborate the button
         const ctaPrimaryButton = canRequestCloudFreeTrial ? (
             <CloudStartTrialButton
-                message={Utils.localizeMessage('admin.ldap_feature_discovery.call_to_action.primary', 'Start trial')}
+                message={Utils.localizeAndFormatMessage(
+                    'admin.ldap_feature_discovery.call_to_action.primary.cloudFree',
+                    'Try free for {trialLength} days',
+                    {trialLength: FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS},
+                )}
                 telemetryId={'start_cloud_trial_feature_discovery'}
                 extraClass='btn btn-primary'
             />
@@ -181,10 +188,41 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                 </a>
                 {gettingTrialError}
                 {(!this.props.isCloud || canRequestCloudFreeTrial) && <p className='trial-legal-terms'>
-                    <FormattedMarkdownMessage
-                        id='admin.license.trial-request.accept-terms'
-                        defaultMessage='By clicking **Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails.'
-                    />
+                    {canRequestCloudFreeTrial ? (
+                        <FormattedMessage
+                            id='admin.license.trial-request.accept-terms.cloudFree'
+                            defaultMessage='By selecting <highlight>Try free for {trialLength} days</highlight>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails.'
+                            values={{
+                                trialLength: FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS,
+                                highlight: (msg: React.ReactNode) => (
+                                    <strong>{msg}</strong>
+                                ),
+                                linkEvaluation: (msg: React.ReactNode) => (
+                                    <a
+                                        href={LicenseLinks.SOFTWARE_EVALUATION_AGREEMENT}
+                                        target='_blank'
+                                        rel='noreferrer'
+                                    >
+                                        {msg}
+                                    </a>
+                                ),
+                                linkPrivacy: (msg: React.ReactNode) => (
+                                    <a
+                                        href={AboutLinks.PRIVACY_POLICY}
+                                        target='_blank'
+                                        rel='noreferrer'
+                                    >
+                                        {msg}
+                                    </a>
+                                ),
+                            }}
+                        />
+                    ) : (
+                        <FormattedMarkdownMessage
+                            id='admin.license.trial-request.accept-terms'
+                            defaultMessage='By clicking **Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails.'
+                        />
+                    )}
                 </p>}
             </>
         );
@@ -220,9 +258,20 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
         } else if (this.state.gettingTrialError) {
             gettingTrialError = (
                 <p className='trial-error'>
-                    <FormattedMarkdownMessage
+                    <FormattedMessage
                         id='admin.license.trial-request.error'
-                        defaultMessage='Trial license could not be retrieved. Visit [https://mattermost.com/trial/](https://mattermost.com/trial/) to request a license.'
+                        defaultMessage='Trial license could not be retrieved. Visit <link>https://mattermost.com/trial</link> to request a license.'
+                        values={{
+                            link: (msg: React.ReactNode) => (
+                                <a
+                                    href='https://mattermost.com/trial/'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        }}
                     />
                 </p>
             );

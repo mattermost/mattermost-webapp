@@ -13,6 +13,7 @@ import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {isCloudLicense} from 'utils/license_utils';
 
 import {checkHadPriorTrial} from 'mattermost-redux/selectors/entities/cloud';
+import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
 import {LicenseSkus} from 'mattermost-redux/types/general';
 
 import {openModal} from 'actions/views/modals';
@@ -44,6 +45,7 @@ type Actions = {
     requestTrialLicense: () => Promise<{error?: string; data?: null}>;
     getLicenseConfig: () => void;
     getPrevTrialLicense: () => void;
+    getCloudSubscription: () => void;
     openModal: <P>(modalData: ModalData<P>) => void;
 }
 
@@ -53,6 +55,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             requestTrialLicense,
             getLicenseConfig,
             getPrevTrialLicense,
+            getCloudSubscription,
             openModal,
         }, dispatch),
     };

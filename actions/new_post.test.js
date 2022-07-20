@@ -1,21 +1,17 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import thunk from 'redux-thunk';
-import configureStore from 'redux-mock-store';
-
 import {ChannelTypes} from 'mattermost-redux/action_types';
 import {receivedNewPost} from 'mattermost-redux/actions/posts';
 import {Posts} from 'mattermost-redux/constants';
 
 import * as NewPostActions from 'actions/new_post';
+import mockStore from 'tests/test_store';
 import {Constants} from 'utils/constants';
-
-const mockStore = configureStore([thunk]);
 
 jest.mock('mattermost-redux/actions/channels', () => ({
     ...jest.requireActual('mattermost-redux/actions/channels'),
-    markChannelAsReadOnServer: (...args) => ({type: 'MOCK_MARK_CHANNEL_AS_READ_ON_SERVER', args}),
+    markChannelAsViewedOnServer: (...args) => ({type: 'MOCK_MARK_CHANNEL_AS_VIEWED_ON_SERVER', args}),
 }));
 
 const POST_CREATED_TIME = Date.now();
@@ -177,7 +173,7 @@ describe('actions/new_post', () => {
             ]);
             expect(testStore.getActions()).toMatchObject([
                 {
-                    type: 'MOCK_MARK_CHANNEL_AS_READ_ON_SERVER',
+                    type: 'MOCK_MARK_CHANNEL_AS_VIEWED_ON_SERVER',
                     args: [channelId],
                 },
             ]);

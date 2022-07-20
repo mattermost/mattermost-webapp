@@ -1,14 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-
 import * as TeamActions from 'mattermost-redux/actions/teams';
 import * as channelActions from 'mattermost-redux/actions/channels';
 import * as userActions from 'mattermost-redux/actions/users';
 
 import * as Actions from 'actions/team_actions.jsx';
+
+import configureStore from 'tests/test_store';
 
 import {browserHistory} from 'utils/browser_history';
 import {TestHelper} from 'utils/test_helper';
@@ -72,14 +71,12 @@ jest.mock('utils/browser_history', () => ({
     },
 }));
 
-const store = configureStore([thunk]);
-
 describe('Actions.Team', () => {
     const currentChannelId = 'currentChannelId';
 
     let testStore;
     beforeEach(async () => {
-        testStore = store({
+        testStore = configureStore({
             entities: {
                 channels: {
                     currentChannelId,

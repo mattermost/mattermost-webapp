@@ -38,7 +38,7 @@ describe('Messaging', () => {
 
     it('MM-T1224 - CTRL/CMD+K - Open DM using mouse', () => {
         // # Type CTRL/CMD+K
-        cy.get('#post_textbox').cmdOrCtrlShortcut('K');
+        cy.uiGetPostTextBox().cmdOrCtrlShortcut('K');
 
         // # In the "Switch Channels" modal type the first 6 characters of the username
         cy.findByRole('textbox', {name: 'quick switch input'}).should('be.focused').type(secondUser.username.substring(0, 6)).wait(TIMEOUTS.HALF_SEC);
@@ -61,7 +61,7 @@ describe('Messaging', () => {
         });
 
         // # Verify that the focus is on the message box
-        cy.get('#post_textbox').should('be.focused');
+        cy.uiGetPostTextBox().should('be.focused');
 
         // # Send a DM
         cy.postMessage(`Hi there, ${secondUser.username}!`);

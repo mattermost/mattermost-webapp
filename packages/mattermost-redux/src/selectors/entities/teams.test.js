@@ -516,7 +516,7 @@ describe('Selectors.Teams', () => {
         withSiteURLState.entities.general = general;
         assert.deepEqual(Selectors.getCurrentTeamUrl(withSiteURLState), siteURL + '/' + team1.name);
 
-        const credentialURL = 'http://localhost';
+        const credentialURL = 'http://localhost:8065';
         const withCredentialURLState = {
             ...withSiteURLState,
             entities: {
@@ -552,7 +552,7 @@ describe('Selectors.Teams', () => {
             withSiteURLState.entities.general = general;
             assert.deepEqual(Selectors.getCurrentTeamUrl(withSiteURLState), siteURL);
 
-            const credentialURL = 'http://localhost';
+            const credentialURL = 'http://localhost:8065';
             const withCredentialURLState = {
                 ...withSiteURLState,
                 entities: {

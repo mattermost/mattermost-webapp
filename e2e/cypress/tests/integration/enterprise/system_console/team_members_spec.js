@@ -119,7 +119,7 @@ describe('Team members test', () => {
         cy.get('#addTeamMembers').click();
 
         // # Enter user1 and user2 emails
-        cy.get('#addUsersToTeamModal input').clear().type(`${user1.email}{enter}${user2.email}{enter}`);
+        cy.get('#addUsersToTeamModal input').typeWithForce(`${user1.email}{enter}${user2.email}{enter}`);
 
         // # Confirm add the users
         cy.get('#addUsersToTeamModal #saveItems').click();

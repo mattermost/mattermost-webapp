@@ -27,7 +27,7 @@ describe('Messaging', () => {
         cy.postMessage(message);
 
         // # Hit up arrow to open edit modal
-        cy.get('#post_textbox', {timeout: TIMEOUTS.HALF_MIN}).clear().type('{uparrow}').wait(TIMEOUTS.HALF_SEC);
+        cy.uiGetPostTextBox().clear().type('{uparrow}').wait(TIMEOUTS.HALF_SEC);
 
         // # Type first tilde (a{backspace} used so cursor is in the textbox and {home} gets us to the beginning of the line)
         cy.get('#edit_textbox').type('a{backspace}{home}~').wait(TIMEOUTS.HALF_SEC);
