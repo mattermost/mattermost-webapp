@@ -12,7 +12,7 @@ import {t} from 'utils/i18n';
 import Constants from 'utils/constants';
 
 import LocalizedIcon from 'components/localized_icon';
-import OverlayTrigger from 'components/overlay_trigger';
+import OverlayTrigger, {BaseOverlayTrigger} from 'components/overlay_trigger';
 import Popover from 'components/widgets/popover';
 
 import ColorChooser from '../color_chooser/color_chooser';
@@ -139,6 +139,10 @@ export default class CustomThemeChooser extends React.PureComponent<Props, State
     sidebarStylesHeaderRef: RefObject<HTMLDivElement>;
     centerChannelStylesHeaderRef: RefObject<HTMLDivElement>;
     linkAndButtonStylesHeaderRef: RefObject<HTMLDivElement>;
+    sidebarStylesRef: RefObject<HTMLDivElement>;
+    headerOverlayRef: RefObject<BaseOverlayTrigger>;
+    centerChannelStylesRef: RefObject<HTMLDivElement>;
+    linkAndButtonStylesRef: RefObject<HTMLDivElement>;
 
     constructor(props: Props) {
         super(props);
@@ -148,6 +152,10 @@ export default class CustomThemeChooser extends React.PureComponent<Props, State
         this.sidebarStylesHeaderRef = createRef();
         this.centerChannelStylesHeaderRef = createRef();
         this.linkAndButtonStylesHeaderRef = createRef();
+        this.sidebarStylesRef = createRef();
+        this.headerOverlayRef = createRef();
+        this.centerChannelStylesRef = createRef();
+        this.linkAndButtonStylesRef = createRef();
 
         this.state = {
             copyTheme,
@@ -227,21 +235,21 @@ export default class CustomThemeChooser extends React.PureComponent<Props, State
         e.preventDefault();
 
         this.sidebarStylesHeaderRef.current?.classList.toggle('open');
-        this.toggleSection(this.sidebarStylesHeaderRef.current);
+        this.toggleSection(this.sidebarStylesRef.current);
     }
 
     toggleCenterChannelStyles = (e: MouseEvent<HTMLDivElement>) => {
         e.preventDefault();
 
         this.centerChannelStylesHeaderRef.current?.classList.toggle('open');
-        this.toggleSection(this.centerChannelStylesHeaderRef.current);
+        this.toggleSection(this.centerChannelStylesRef.current);
     }
 
     toggleLinkAndButtonStyles = (e: MouseEvent<HTMLDivElement>) => {
         e.preventDefault();
 
         this.linkAndButtonStylesHeaderRef.current?.classList.toggle('open');
-        this.toggleSection(this.linkAndButtonStylesHeaderRef.current);
+        this.toggleSection(this.linkAndButtonStylesRef.current);
     }
 
     toggleSection(node: HTMLElement | null) {
@@ -348,6 +356,7 @@ export default class CustomThemeChooser extends React.PureComponent<Props, State
                             <OverlayTrigger
                                 placement='top'
                                 overlay={popoverContent}
+                                ref={this.headerOverlayRef}
                             >
                                 <span className='input-group-addon'>
                                     <img
@@ -476,7 +485,10 @@ export default class CustomThemeChooser extends React.PureComponent<Props, State
                             />
                         </div>
                     </div>
-                    <div className='theme-elements__body'>
+                    <div
+                        ref={this.sidebarStylesRef}
+                        className='theme-elements__body'
+                    >
                         {sidebarElements}
                     </div>
                 </div>
@@ -503,6 +515,7 @@ export default class CustomThemeChooser extends React.PureComponent<Props, State
                         </div>
                     </div>
                     <div
+                        ref={this.centerChannelStylesRef}
                         id='centerChannelStyles'
                         className='theme-elements__body'
                     >
@@ -531,7 +544,10 @@ export default class CustomThemeChooser extends React.PureComponent<Props, State
                             />
                         </div>
                     </div>
-                    <div className='theme-elements__body'>
+                    <div
+                        ref={this.linkAndButtonStylesRef}
+                        className='theme-elements__body'
+                    >
                         {linkAndButtonElements}
                     </div>
                 </div>
