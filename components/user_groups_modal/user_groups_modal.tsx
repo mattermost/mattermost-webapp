@@ -297,7 +297,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                 <ModalTitle
                     title={'User Groups'}
                     onClose={this.doHide}
-                    rightSection={<Button disableRipple={true}>{'CREATE USER GROUP'}</Button>}
+                    rightSection={<Button disableRipple={true}>{'Create user group'}</Button>}
                 />
                 {'THIS IS THE CONTENT FOR THE USER GROUPS MODAL'}
             </Modal>

@@ -11,13 +11,14 @@ import Button from '../button/button';
 const StyledModalTitle = styled(MUIDialogTitle)<DialogTitleProps>(() => ({
     display: 'grid',
     gridTemplateColumns: '1fr max-content max-content',
-    gap: 24,
+    gap: 12,
     fontFamily: 'Metropolis',
     fontStyle: 'normal',
     fontWeight: 600,
     fontSize: 22,
     lineHeight: '28px',
     color: 'var(--center-channel-color)',
+    alignItems: 'center',
 }));
 
 type ModalTitleProps = {
@@ -36,6 +37,7 @@ const ModalTitle = ({title, onClose, rightSection = null}: ModalTitleProps) => {
                     type='button'
                     onClick={onClose}
                     disableRipple={true}
+                    variant={'icon'}
                 >
                     <CloseIcon
                         size={24}
