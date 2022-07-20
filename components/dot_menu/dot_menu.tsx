@@ -309,23 +309,23 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         this.props.handleCommentClick(e);
     }
 
-    setPostReminder = (index: number): void => {
+    setPostReminder = (id: string): void => {
         const currentDate = getCurrentMomentForTimezone(this.props.timezone);
         let endTime = currentDate;
-        switch (index) {
-        case 0:
+        switch (id) {
+        case 'thirty_minutes':
             // add 30 minutes in current time
             endTime = currentDate.add(30, 'minutes');
             break;
-        case 1:
+        case 'one_hour':
             // add 1 hour in current time
             endTime = currentDate.add(1, 'hour');
             break;
-        case 2:
+        case 'two_hours':
             // add 2 hours in current time
             endTime = currentDate.add(2, 'hours');
             break;
-        case 3:
+        case 'tomorrow':
             // add one day in current date
             endTime = currentDate.add(1, 'day');
             break;
@@ -495,9 +495,9 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                 isHeader: true,
             } as any,
         ].concat(
-            this.postReminderTimes.map(({id, label, labelDefault}, index) => {
+            this.postReminderTimes.map(({id, label, labelDefault}) => {
                 let text: React.ReactNode = Utils.localizeMessage(label, labelDefault);
-                if (index === 3) {
+                if (id === 'custom') {
                     const tomorrow = getCurrentMomentForTimezone(this.props.timezone).add(1, 'day').toDate();
                     text = (
                         <>
@@ -521,7 +521,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                     id: `postReminder-${id}`,
                     direction: 'right',
                     text,
-                    action: index === 4 ? () => this.setCustomPostReminder() : () => this.setPostReminder(index),
+                    action: id === 'custom' ? () => this.setCustomPostReminder() : () => this.setPostReminder(id),
                 } as any;
             }),
         );
