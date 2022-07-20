@@ -1,13 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {WebSocketMessage} from 'mattermost-redux/types/websocket';
-
-import {SocketEvents} from 'utils/constants';
-
 const MAX_WEBSOCKET_FAILS = 7;
 const MIN_WEBSOCKET_RETRY_TIME = 3000; // 3 sec
 const MAX_WEBSOCKET_RETRY_TIME = 300000; // 5 mins
+
+const WEBSOCKET_HELLO = 'hello';
 
 export type MessageListener = (msg: WebSocketMessage) => void;
 export type FirstConnectListener = () => void;
@@ -178,7 +176,7 @@ export default class WebSocketClient {
                 }
             } else if (this.eventCallback || this.messageListeners.size > 0) {
                 // We check the hello packet, which is always the first packet in a stream.
-                if (msg.event === SocketEvents.HELLO && (this.missedEventCallback || this.missedMessageListeners.size > 0)) {
+                if (msg.event === WEBSOCKET_HELLO && (this.missedEventCallback || this.missedMessageListeners.size > 0)) {
                     console.log('got connection id ', msg.data.connection_id); //eslint-disable-line no-console
                     // If we already have a connectionId present, and server sends a different one,
                     // that means it's either a long timeout, or server restart, or sequence number is not found.
@@ -361,4 +359,18 @@ export default class WebSocketClient {
         };
         this.sendMessage('get_statuses_by_ids', data, callback);
     }
+}
+
+export type WebSocketBroadcast = {
+    omit_users: Record<string, boolean>;
+    user_id: string;
+    channel_id: string;
+    team_id: string;
+}
+
+export type WebSocketMessage<T = any> = {
+    event: string;
+    data: T;
+    broadcast: WebSocketBroadcast;
+    seq: number;
 }
