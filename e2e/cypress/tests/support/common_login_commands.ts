@@ -96,10 +96,10 @@ interface CheckInvitePeoplePageOptions {
     teamName?: string | null;
 }
 
-function checkInvitePeoplePage(options: CheckInvitePeoplePageOptions = {}): void {
+function checkInvitePeoplePage(settings: CheckInvitePeoplePageOptions = {}): void {
     cy.findByText('Copy invite link', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
-    if (options.teamName != null && options.teamName.length > 0) {
-        const inviteRegexp = new RegExp(`Invite .* to ${options.teamName}`);
+    if (settings.teamName != null && settings.teamName.length > 0) {
+        const inviteRegexp = new RegExp(`Invite .* to ${settings.teamName}`);
         cy.findByText(inviteRegexp).should('be.visible');
     }
 }
@@ -142,7 +142,7 @@ function skipOrCreateTeam(settings: CreateTeamSettings, userId: string) {
             cy.checkCreateTeamPage(settings);
 
             cy.get('#createNewTeamLink').scrollIntoView().should('be.visible').click();
-            cy.get('#teamNameInput').should('be.visible').type(teamName, {force: true});
+            cy.get('#teamNameInput').should('be.visible').typeWithForce(teamName);
             cy.findByText('Next').should('be.visible').click();
             cy.findByText('Finish').should('be.visible').click();
         }

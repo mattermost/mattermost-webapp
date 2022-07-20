@@ -13,6 +13,13 @@ function uiGetFileUploadPreview(): ChainableT<JQuery> {
 }
 Cypress.Commands.add('uiGetFileUploadPreview', uiGetFileUploadPreview);
 
+function uiWaitForFileUploadPreview(): ChainableT<boolean> {
+    return cy.waitUntil(() => cy.uiGetFileUploadPreview().then((el) => {
+        return el.find('.post-image.normal').length > 0;
+    }));
+}
+Cypress.Commands.add('uiWaitForFileUploadPreview', uiWaitForFileUploadPreview);
+
 function uiGetFilePreviewModal(options = {exist: true}): ChainableT<JQuery> {
     if (options.exist) {
         return cy.get('.file-preview-modal').should('be.visible');
@@ -176,6 +183,8 @@ declare global {
             uiGetArrowRightFilePreviewModal: typeof uiGetArrowRightFilePreviewModal;
 
             uiGetHeaderFilePreviewModal: typeof uiGetHeaderFilePreviewModal;
+
+            uiWaitForFileUploadPreview: typeof uiWaitForFileUploadPreview;
         }
     }
 }

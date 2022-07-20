@@ -3,15 +3,13 @@
 //
 import React from 'react';
 
-import configureStore from 'redux-mock-store';
 import * as redux from 'react-redux';
 import {screen} from '@testing-library/react';
 
-import thunk from 'redux-thunk';
-
 import {renderWithIntl} from 'tests/react_testing_utils';
-import {CloudProducts} from 'utils/constants';
+import mockStore from 'tests/test_store';
 
+import {CloudProducts} from 'utils/constants';
 import {FileSizes} from 'utils/file_utils';
 
 import DowngradeTeamRemovalModal from './';
@@ -298,6 +296,12 @@ describe('components/pricing_modal/downgrade_team_removal_modal', () => {
                         id: 'prod_starter',
                         name: 'Cloud Starter',
                         sku: CloudProducts.STARTER,
+                        price_per_seat: 0,
+                        product_family: 'cloud',
+                        description: '',
+                        add_ons: [],
+                        billing_scheme: 'flat_fee',
+                        recurring_interval: 'month',
                     },
                     prod_enterprise: {
                         id: 'prod_enterprise',
@@ -319,13 +323,12 @@ describe('components/pricing_modal/downgrade_team_removal_modal', () => {
     };
 
     test('renders modal', () => {
-        const mockStore = configureStore([thunk]);
         const store = mockStore(state);
         renderWithIntl(
             <redux.Provider store={store}>
                 <DowngradeTeamRemovalModal
                     product_id={'prod_starter'}
-                    starterProductName={'Cloud Starter'}
+                    starterProduct={state.entities.cloud.products.prod_starter}
                 />
             </redux.Provider>,
         );
@@ -334,13 +337,12 @@ describe('components/pricing_modal/downgrade_team_removal_modal', () => {
     });
 
     test('renders dropdown with 4+ teams', () => {
-        const mockStore = configureStore([thunk]);
         const store = mockStore(state);
         renderWithIntl(
             <redux.Provider store={store}>
                 <DowngradeTeamRemovalModal
                     product_id={'prod_starter'}
-                    starterProductName={'Cloud Starter'}
+                    starterProduct={state.entities.cloud.products.prod_starter}
                 />
             </redux.Provider>,
         );
@@ -350,13 +352,12 @@ describe('components/pricing_modal/downgrade_team_removal_modal', () => {
     test('renders radio buttons with fewer than 4 teams', () => {
         const newState = {...state};
         newState.entities.usage.teams.active = 2;
-        const mockStore = configureStore([thunk]);
         const store = mockStore(state);
         renderWithIntl(
             <redux.Provider store={store}>
                 <DowngradeTeamRemovalModal
                     product_id={'prod_starter'}
-                    starterProductName={'Cloud Starter'}
+                    starterProduct={state.entities.cloud.products.prod_starter}
                 />
             </redux.Provider>,
         );

@@ -1,9 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import configureStore from 'redux-mock-store';
-
 import {getState} from 'stores/redux_store';
+
+import mockStore from 'tests/test_store';
 
 import SearchChannelWithPermissionsProvider from 'components/suggestion/search_channel_with_permissions_provider.jsx';
 
@@ -122,7 +122,6 @@ describe('components/SearchChannelWithPermissionsProvider', () => {
     });
 
     it('should show public channels if user has public channel manage permission', () => {
-        const mockStore = configureStore();
         const roles = 'public_channels_manager';
         const resultsCallback = jest.fn();
 
@@ -154,7 +153,6 @@ describe('components/SearchChannelWithPermissionsProvider', () => {
     });
 
     it('should show private channels if user has private channel manage permission', () => {
-        const mockStore = configureStore();
         const roles = 'private_channels_manager';
         const resultsCallback = jest.fn();
 
@@ -187,7 +185,6 @@ describe('components/SearchChannelWithPermissionsProvider', () => {
     });
 
     it('should show both public and private channels if user has public and private channel manage permission', () => {
-        const mockStore = configureStore();
         const roles = 'public_channels_manager private_channels_manager';
         const resultsCallback = jest.fn();
 
@@ -221,7 +218,6 @@ describe('components/SearchChannelWithPermissionsProvider', () => {
     });
 
     it('should show nothing if the user does not have permissions to manage channels', () => {
-        const mockStore = configureStore();
         const roles = '';
         const resultsCallback = jest.fn();
 
@@ -253,7 +249,6 @@ describe('components/SearchChannelWithPermissionsProvider', () => {
     });
 
     it('should show nothing if the search does not match', () => {
-        const mockStore = configureStore();
         const roles = 'public_channels_manager private_channels_manager';
         const resultsCallback = jest.fn();
 

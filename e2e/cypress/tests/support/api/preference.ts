@@ -50,12 +50,7 @@ function apiSaveChannelDisplayModePreference(value = 'full'): ReturnType<typeof 
 }
 Cypress.Commands.add('apiSaveChannelDisplayModePreference', apiSaveChannelDisplayModePreference);
 
-/**
- * Saves message display preference of a user directly via API
- * This API assume that the user is logged in and has cookie to access
- * @param {String} value - Either "clean" (default) or "compact"
- */
-Cypress.Commands.add('apiSaveMessageDisplayPreference', (value = 'clean') => {
+function apiSaveMessageDisplayPreference(value = 'clean'): ResponseT<any> {
     return cy.getCookie('MMUSERID').then((cookie) => {
         const preference = {
             user_id: cookie.value,
@@ -66,7 +61,8 @@ Cypress.Commands.add('apiSaveMessageDisplayPreference', (value = 'clean') => {
 
         return cy.apiSaveUserPreference([preference]);
     });
-});
+}
+Cypress.Commands.add('apiSaveMessageDisplayPreference', apiSaveMessageDisplayPreference);
 
 function apiSaveShowMarkdownPreviewPreference(value = 'true'): ReturnType<typeof apiSaveUserPreference> {
     return cy.getCookie('MMUSERID').then((cookie) => {
@@ -268,6 +264,18 @@ function apiSaveSkipStepsPreference(userId: string, value: 'true' | 'false'): Re
 }
 Cypress.Commands.add('apiSaveSkipStepsPreference', apiSaveSkipStepsPreference);
 
+function apiSaveUnreadScrollPositionPreference(userId: string, value: string): ResponseT<any>  {
+    const preference = {
+        user_id: userId,
+        category: 'advanced_settings',
+        name: 'unread_scroll_position',
+        value,
+    };
+
+    return cy.apiSaveUserPreference([preference], userId);
+}
+Cypress.Commands.add('apiSaveUnreadScrollPositionPreference', apiSaveUnreadScrollPositionPreference);
+
 declare global {
     // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
@@ -452,6 +460,14 @@ declare global {
              * @param {boolean} collapse - Either "true" to show previews collapsed (default), or "false"
              */
             apiSaveCollapsePreviewsPreference: typeof apiSaveCollapsePreviewsPreference;
+            apiSaveUnreadScrollPositionPreference: typeof apiSaveUnreadScrollPositionPreference;
+
+            /**
+             * Saves message display preference of a user directly via API
+             * This API assume that the user is logged in and has cookie to access
+             * @param {String} value - Either "clean" (default) or "compact"
+             */
+            apiSaveMessageDisplayPreference: typeof apiSaveMessageDisplayPreference;
         }
     }
 }

@@ -235,6 +235,7 @@ function resetUserPreference(userId: string) {
     cy.apiSaveActionsMenuPreference(userId);
     cy.apiSaveSkipStepsPreference(userId, 'true');
     cy.apiSaveStartTrialModal(userId, 'true');
+    cy.apiSaveUnreadScrollPositionPreference(userId, 'start_from_left_off');
 }
 
 declare global {

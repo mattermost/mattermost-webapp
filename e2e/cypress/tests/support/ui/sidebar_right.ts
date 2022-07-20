@@ -28,7 +28,7 @@ function isExpanded(subject: any): ChainableT<JQuery> {
 Cypress.Commands.add('isExpanded', {prevSubject: true}, isExpanded);
 
 function uiGetReply(): ChainableT<JQuery> {
-    return cy.findByRole('button', {name: 'Reply'});
+    return cy.get('.sidebar--right').findByTestId('SendMessageButton');
 }
 Cypress.Commands.add('uiGetReply', uiGetReply);
 

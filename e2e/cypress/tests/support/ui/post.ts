@@ -3,6 +3,24 @@
 
 import {ChainableT} from '../api/types';
 
+function uiGetPostTextBox(option = {exist: true}): ChainableT<JQuery> {
+    if (option.exist) {
+        return cy.get('#post_textbox').should('be.visible');
+    }
+
+    return cy.get('#post_textbox').should('not.exist');
+}
+Cypress.Commands.add('uiGetPostTextBox', uiGetPostTextBox);
+
+function uiGetReplyTextBox(option = {exist: true}): ChainableT<JQuery> {
+    if (option.exist) {
+        return cy.get('#reply_textbox').should('be.visible');
+    }
+
+    return cy.get('#reply_textbox').should('not.exist');
+}
+Cypress.Commands.add('uiGetReplyTextBox', uiGetReplyTextBox);
+
 function uiGetPostProfileImage(postId: string): ChainableT<JQuery> {
     return getPost(postId).within(() => {
         return cy.get('.post__img').should('be.visible');
@@ -98,6 +116,26 @@ declare global {
              *   cy.uiGetPostEmbedContainer();
              */
             uiGetPostEmbedContainer: typeof uiGetPostEmbedContainer;
+
+            /**
+             * Get post textbox
+             *
+             * @param {bool} option.exist - Set to false to check whether element should not exist. Otherwise, true (default) to check visibility.
+             *
+             * @example
+             *   cy.uiGetPostTextBox();
+             */
+            uiGetPostTextBox: typeof uiGetPostTextBox;
+
+            /**
+             * Get reply textbox
+             *
+             * @param {bool} option.exist - Set to false to check whether element should not exist. Otherwise, true (default) to check visibility.
+             *
+             * @example
+             *   cy.uiGetReplyTextBox();
+             */
+            uiGetReplyTextBox: typeof uiGetReplyTextBox;
         }
     }
 }

@@ -28,15 +28,20 @@ function uiResetPermissionsToDefault() {
 }
 Cypress.Commands.add('uiResetPermissionsToDefault', uiResetPermissionsToDefault);
 
-function uiSaveConfig() {
+function uiSaveConfig(options = {confirm: true}) {
     // # Save settings
     cy.get('#saveSetting').should('be.enabled').click();
-    cy.wait(TIMEOUTS.ONE_SEC);
+    cy.wait(TIMEOUTS.HALF_SEC);
 
-    // # Wait until the UI shows the saving is done and revert the text to "Save"
-    cy.waitUntil(() => cy.get('#saveSetting').then((el) => {
-        return el[0].innerText === 'Save';
-    }));
+
+    if (options.confirm) {
+        // # Wait until the UI shows the saving is done and revert the text to "Save"
+        cy.waitUntil(() => cy.get('#saveSetting').then((el) => {
+            return el[0].innerText === 'Save';
+        }));
+    } else {
+        cy.wait(TIMEOUTS.HALF_SEC);
+    }
 }
 Cypress.Commands.add('uiSaveConfig', uiSaveConfig);
 
@@ -67,7 +72,7 @@ declare global {
              * @example
              *   cy.uiSaveConfig();
              */
-            uiSaveConfig(): ChainableT<void>;
+            uiSaveConfig(options?: {confirm: boolean}): ChainableT<void>;
         }
     }
 }

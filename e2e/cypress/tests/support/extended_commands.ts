@@ -10,7 +10,7 @@ function reload(originalFn: any, forceReload: boolean, options: Record<string, a
     return cy.wait(duration);
 }
 
-Cypress.Commands.overwrite('reload', reload);
+Cypress.Commands.overwrite('reload', reload as any);
 
 function visit(originalFn: any, url: string, options: Record<string, any>, duration = TIMEOUTS.THREE_SEC): ChainableT<any> {
     originalFn(url, options);
@@ -18,6 +18,11 @@ function visit(originalFn: any, url: string, options: Record<string, any>, durat
 }
 
 Cypress.Commands.overwrite('visit', visit);
+
+function typeWithForce(subject: string, text: string, options = {}): ChainableT<JQuery> {
+    return cy.get(subject).type(text, {force: true, options} as any);
+}
+Cypress.Commands.add('typeWithForce', {prevSubject: true}, typeWithForce);
 
 // TODO: Can we delete this? Are we overwriting with a compatible API? its conflicing,
 // so compiler errors if we try to declare again
@@ -50,3 +55,12 @@ Cypress.Commands.overwrite('visit', visit);
 //         }
 //     }
 // }
+
+declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
+    namespace Cypress {
+        interface Chainable {
+            typeWithForce: typeof typeWithForce;
+        }
+    }
+}

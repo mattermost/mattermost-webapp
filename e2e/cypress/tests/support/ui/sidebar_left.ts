@@ -132,6 +132,11 @@ function uiGetChannelSidebarMenu(channelName: string): ChainableT<JQuery> {
 }
 Cypress.Commands.add('uiGetChannelSidebarMenu', uiGetChannelSidebarMenu);
 
+function uiGetSidebarInsightsButton(): ChainableT<JQuery> {
+    cy.get('#sidebar-insights-button').should('be.visible');
+});
+Cypress.Commands.add('uiGetSidebarInsightsButton', uiGetSidebarInsightsButton);
+
 function uiClickSidebarItem(name: string) {
     cy.uiGetSidebarItem(name).click();
 

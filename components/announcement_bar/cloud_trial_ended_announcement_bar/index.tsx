@@ -9,7 +9,12 @@ import {useSelector, useDispatch} from 'react-redux';
 import {t} from 'utils/i18n';
 
 import AnnouncementBar from '../default_announcement_bar';
-import {AnnouncementBarTypes, Preferences, CloudBanners} from 'utils/constants';
+import {
+    AnnouncementBarTypes,
+    Preferences,
+    CloudBanners,
+    CloudProducts,
+} from 'utils/constants';
 import {anyUsageDeltaExceededLimit} from 'utils/limits';
 import {GlobalState} from 'types/store';
 import useGetUsageDeltas from 'components/common/hooks/useGetUsageDeltas';
@@ -22,6 +27,9 @@ import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {
     getCurrentUser,
 } from 'mattermost-redux/selectors/entities/users';
+import {
+    getSubscriptionProduct,
+} from 'mattermost-redux/selectors/entities/cloud';
 
 const CloudTrialEndAnnouncementBar: React.FC = () => {
     const usageDeltas = useGetUsageDeltas();
@@ -35,11 +43,12 @@ const CloudTrialEndAnnouncementBar: React.FC = () => {
     const currentUser = useSelector((state: GlobalState) =>
         getCurrentUser(state),
     );
+    const subscriptionProduct = useSelector((state: GlobalState) => getSubscriptionProduct(state));
 
     const openPricingModal = useOpenPricingModal();
 
     const shouldShowBanner = () => {
-        if (!subscription) {
+        if (!subscription || !subscriptionProduct) {
             return false;
         }
 
@@ -52,6 +61,11 @@ const CloudTrialEndAnnouncementBar: React.FC = () => {
             return false;
         }
         if (preferences.some((pref) => pref.name === CloudBanners.HIDE && pref.value === 'true')) {
+            return false;
+        }
+
+        // Don't show this banner for professional or enterprise installations
+        if (subscriptionProduct?.sku !== CloudProducts.STARTER) {
             return false;
         }
 

@@ -5,7 +5,7 @@ import {UserProfile} from '@mattermost/types/users';
 import {Team} from '@mattermost/types/teams';
 import {Channel} from '@mattermost/types/channels';
 
-import {ChainableT} from './types';
+import {ChainableT} from '../../types';
 
 interface SetupResult {
     user: UserProfile;
@@ -33,12 +33,12 @@ function apiInitSetup(arg: SetupParam = {}): ChainableT<SetupResult> {
         channelPrefix = {name: 'channel', displayName: 'Channel'},
     } = arg;
 
-    return cy.apiCreateTeam(teamPrefix.name, teamPrefix.displayName).then(({team}) => {
+    return (cy.apiCreateTeam(teamPrefix.name, teamPrefix.displayName) as any).then(({team}) => {
         // # Add public channel
-        return cy.apiCreateChannel(team.id, channelPrefix.name, channelPrefix.displayName).then(({channel}) => {
-            return cy.apiCreateUser({prefix: userPrefix || (promoteNewUserAsAdmin ? 'admin' : 'user')}).then(({user}) => {
+        return (cy.apiCreateChannel(team.id, channelPrefix.name, channelPrefix.displayName) as any).then(({channel}) => {
+            return (cy.apiCreateUser({prefix: userPrefix || (promoteNewUserAsAdmin ? 'admin' : 'user')}) as any).then(({user}) => {
                 if (promoteNewUserAsAdmin) {
-                    cy.apiPatchUserRoles(user.id, ['system_admin', 'system_user']);
+                    (cy as any).apiPatchUserRoles(user.id, ['system_admin', 'system_user']);
 
                     // Only hide start trial modal for admin since it's not applicable to other users
                     cy.apiSaveStartTrialModal(user.id, hideAdminTrialModal.toString());

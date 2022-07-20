@@ -14,7 +14,7 @@ function uiCreateSidebarCategory(categoryName = `category-${getRandomId()}`): Ch
 
     cy.findByRole('dialog', {name: 'Rename Category'}).should('be.visible').within(() => {
         // # Fill in the category name and click 'Create'
-        cy.findByRole('textbox').should('be.visible').type(categoryName, {force: true}).
+        cy.findByRole('textbox').should('be.visible').typeWithForce(categoryName).
             invoke('val').should('equal', categoryName);
         cy.findByRole('button', {name: 'Create'}).should('be.enabled').click();
     });
@@ -36,7 +36,7 @@ function uiMoveChannelToCategory(channelName: string, categoryName = `category-$
     if (newCategory) {
         cy.findByRole('dialog', {name: 'Rename Category'}).should('be.visible').within(() => {
             // # Fill in the category name and click 'Create'
-            cy.findByRole('textbox').should('be.visible').type(categoryName, {force: true}).
+            cy.findByRole('textbox').should('be.visible').typeWithForce(categoryName).
                 invoke('val').should('equal', categoryName);
             cy.findByRole('button', {name: 'Create'}).should('be.enabled').click();
         });

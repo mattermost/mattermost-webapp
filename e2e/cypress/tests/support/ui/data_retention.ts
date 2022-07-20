@@ -45,7 +45,7 @@ Cypress.Commands.add('uiAddTeamsToCustomPolicy', uiAddTeamsToCustomPolicy);
 function uiAddChannelsToCustomPolicy(channelNames: string[]) {
     cy.uiGetButton('Add channels').click();
     channelNames.forEach((channelName) => {
-        cy.findByRole('textbox', {name: 'Search and add channels'}).clear().type(channelName);
+        cy.findByRole('textbox', {name: 'Search and add channels'}).typeWithForce(channelName);
         cy.wait(TIMEOUTS.ONE_SEC);
         cy.get('.channel-info-block').then((el) => {
             el.click();
