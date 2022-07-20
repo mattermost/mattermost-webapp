@@ -29,7 +29,7 @@ query MyData {
       }
       props
       notify_props: notifyProps
-      last_picture_update: lastPictureUpdateAt
+      last_picture_update: lastPictureUpdate
       locale
       timezone
       is_bot: isBot

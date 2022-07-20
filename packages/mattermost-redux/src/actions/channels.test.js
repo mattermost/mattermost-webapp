@@ -966,6 +966,7 @@ describe('Actions.Channels', () => {
                                 channel_id: channelId,
                                 mention_count: 0,
                                 msg_count: 10,
+                                last_viewed_at: 1000,
                             },
                         },
                     },
@@ -985,11 +986,12 @@ describe('Actions.Channels', () => {
 
             const state = store.getState();
 
-            assert.equal(state.entities.channels.myMembers[channelId].mention_count, 0);
-            assert.equal(state.entities.channels.myMembers[channelId].msg_count, state.entities.channels.messageCounts[channelId].total);
+            expect(state.entities.channels.myMembers[channelId].mention_count).toBe(0);
+            expect(state.entities.channels.myMembers[channelId].msg_count).toBe(state.entities.channels.messageCounts[channelId].total);
+            expect(state.entities.channels.myMembers[channelId].last_viewed_at).toBeGreaterThan(1000);
 
-            assert.equal(state.entities.teams.myMembers[teamId].mention_count, 0);
-            assert.equal(state.entities.teams.myMembers[teamId].msg_count, 0);
+            expect(state.entities.teams.myMembers[teamId].mention_count).toBe(0);
+            expect(state.entities.teams.myMembers[teamId].msg_count).toBe(0);
         });
 
         it('one unread channel', async () => {
@@ -1013,6 +1015,7 @@ describe('Actions.Channels', () => {
                                 channel_id: channelId,
                                 mention_count: 2,
                                 msg_count: 5,
+                                last_viewed_at: 1000,
                             },
                         },
                     },
@@ -1032,11 +1035,12 @@ describe('Actions.Channels', () => {
 
             const state = store.getState();
 
-            assert.equal(state.entities.channels.myMembers[channelId].mention_count, 0);
-            assert.equal(state.entities.channels.myMembers[channelId].msg_count, state.entities.channels.messageCounts[channelId].total);
+            expect(state.entities.channels.myMembers[channelId].mention_count).toBe(0);
+            expect(state.entities.channels.myMembers[channelId].msg_count).toBe(state.entities.channels.messageCounts[channelId].total);
+            expect(state.entities.channels.myMembers[channelId].last_viewed_at).toBeGreaterThan(1000);
 
-            assert.equal(state.entities.teams.myMembers[teamId].mention_count, 0);
-            assert.equal(state.entities.teams.myMembers[teamId].msg_count, 0);
+            expect(state.entities.teams.myMembers[teamId].mention_count).toBe(0);
+            expect(state.entities.teams.myMembers[teamId].msg_count).toBe(0);
         });
 
         it('one unread DM channel', async () => {
@@ -1059,6 +1063,7 @@ describe('Actions.Channels', () => {
                                 channel_id: channelId,
                                 mention_count: 2,
                                 msg_count: 5,
+                                last_viewed_at: 1000,
                             },
                         },
                     },
@@ -1073,8 +1078,9 @@ describe('Actions.Channels', () => {
 
             const state = store.getState();
 
-            assert.equal(state.entities.channels.myMembers[channelId].mention_count, 0);
-            assert.equal(state.entities.channels.myMembers[channelId].msg_count, state.entities.channels.messageCounts[channelId].total);
+            expect(state.entities.channels.myMembers[channelId].mention_count).toBe(0);
+            expect(state.entities.channels.myMembers[channelId].msg_count).toBe(state.entities.channels.messageCounts[channelId].total);
+            expect(state.entities.channels.myMembers[channelId].last_viewed_at).toBeGreaterThan(1000);
         });
 
         it('two unread channels, same team, reading one', async () => {
@@ -1104,11 +1110,13 @@ describe('Actions.Channels', () => {
                                 channel_id: channelId1,
                                 mention_count: 2,
                                 msg_count: 5,
+                                last_viewed_at: 1000,
                             },
                             [channelId2]: {
                                 channel_id: channelId2,
                                 mention_count: 4,
                                 msg_count: 9,
+                                last_viewed_at: 2000,
                             },
                         },
                     },
@@ -1128,14 +1136,16 @@ describe('Actions.Channels', () => {
 
             const state = store.getState();
 
-            assert.equal(state.entities.channels.myMembers[channelId1].mention_count, 0);
-            assert.equal(state.entities.channels.myMembers[channelId1].msg_count, state.entities.channels.messageCounts[channelId1].total);
+            expect(state.entities.channels.myMembers[channelId1].mention_count).toBe(0);
+            expect(state.entities.channels.myMembers[channelId1].msg_count).toBe(state.entities.channels.messageCounts[channelId1].total);
+            expect(state.entities.channels.myMembers[channelId1].last_viewed_at).toBeGreaterThan(1000);
 
-            assert.equal(state.entities.channels.myMembers[channelId2].mention_count, 4);
-            assert.equal(state.entities.channels.myMembers[channelId2].msg_count, 9);
+            expect(state.entities.channels.myMembers[channelId2].mention_count).toBe(4);
+            expect(state.entities.channels.myMembers[channelId2].msg_count).toBe(9);
+            expect(state.entities.channels.myMembers[channelId2].last_viewed_at).toBe(2000);
 
-            assert.equal(state.entities.teams.myMembers[teamId].mention_count, 4);
-            assert.equal(state.entities.teams.myMembers[teamId].msg_count, 3);
+            expect(state.entities.teams.myMembers[teamId].mention_count).toBe(4);
+            expect(state.entities.teams.myMembers[teamId].msg_count).toBe(3);
         });
 
         it('two unread channels, same team, reading both', async () => {
@@ -1165,11 +1175,13 @@ describe('Actions.Channels', () => {
                                 channel_id: channelId1,
                                 mention_count: 2,
                                 msg_count: 5,
+                                last_viewed_at: 1000,
                             },
                             [channelId2]: {
                                 channel_id: channelId2,
                                 mention_count: 4,
                                 msg_count: 9,
+                                last_viewed_at: 2000,
                             },
                         },
                     },
@@ -1189,14 +1201,16 @@ describe('Actions.Channels', () => {
 
             const state = store.getState();
 
-            assert.equal(state.entities.channels.myMembers[channelId1].mention_count, 0);
-            assert.equal(state.entities.channels.myMembers[channelId1].msg_count, state.entities.channels.messageCounts[channelId1].total);
+            expect(state.entities.channels.myMembers[channelId1].mention_count).toBe(0);
+            expect(state.entities.channels.myMembers[channelId1].msg_count).toBe(state.entities.channels.messageCounts[channelId1].total);
+            expect(state.entities.channels.myMembers[channelId1].last_viewed_at).toBeGreaterThan(1000);
 
-            assert.equal(state.entities.channels.myMembers[channelId2].mention_count, 0);
-            assert.equal(state.entities.channels.myMembers[channelId2].msg_count, state.entities.channels.messageCounts[channelId2].total);
+            expect(state.entities.channels.myMembers[channelId2].mention_count).toBe(0);
+            expect(state.entities.channels.myMembers[channelId2].msg_count).toBe(state.entities.channels.messageCounts[channelId2].total);
+            expect(state.entities.channels.myMembers[channelId2].last_viewed_at).toBeGreaterThan(2000);
 
-            assert.equal(state.entities.teams.myMembers[teamId].mention_count, 0);
-            assert.equal(state.entities.teams.myMembers[teamId].msg_count, 0);
+            expect(state.entities.teams.myMembers[teamId].mention_count).toBe(0);
+            expect(state.entities.teams.myMembers[teamId].msg_count).toBe(0);
         });
 
         it('two unread channels, same team, reading both (opposite order)', async () => {
@@ -1226,11 +1240,13 @@ describe('Actions.Channels', () => {
                                 channel_id: channelId1,
                                 mention_count: 2,
                                 msg_count: 5,
+                                last_viewed_at: 1000,
                             },
                             [channelId2]: {
                                 channel_id: channelId2,
                                 mention_count: 4,
                                 msg_count: 9,
+                                last_viewed_at: 1000,
                             },
                         },
                     },
@@ -1250,14 +1266,16 @@ describe('Actions.Channels', () => {
 
             const state = store.getState();
 
-            assert.equal(state.entities.channels.myMembers[channelId1].mention_count, 0);
-            assert.equal(state.entities.channels.myMembers[channelId1].msg_count, state.entities.channels.messageCounts[channelId1].total);
+            expect(state.entities.channels.myMembers[channelId1].mention_count).toBe(0);
+            expect(state.entities.channels.myMembers[channelId1].msg_count).toBe(state.entities.channels.messageCounts[channelId1].total);
+            expect(state.entities.channels.myMembers[channelId1].last_viewed_at).toBeGreaterThan(1000);
 
-            assert.equal(state.entities.channels.myMembers[channelId2].mention_count, 0);
-            assert.equal(state.entities.channels.myMembers[channelId2].msg_count, state.entities.channels.messageCounts[channelId2].total);
+            expect(state.entities.channels.myMembers[channelId2].mention_count).toBe(0);
+            expect(state.entities.channels.myMembers[channelId2].msg_count).toBe(state.entities.channels.messageCounts[channelId2].total);
+            expect(state.entities.channels.myMembers[channelId2].last_viewed_at).toBeGreaterThan(2000);
 
-            assert.equal(state.entities.teams.myMembers[teamId].mention_count, 0);
-            assert.equal(state.entities.teams.myMembers[teamId].msg_count, 0);
+            expect(state.entities.teams.myMembers[teamId].mention_count).toBe(0);
+            expect(state.entities.teams.myMembers[teamId].msg_count).toBe(0);
         });
 
         it('two unread channels, different teams, reading one', async () => {
@@ -1288,11 +1306,13 @@ describe('Actions.Channels', () => {
                                 channel_id: channelId1,
                                 mention_count: 2,
                                 msg_count: 5,
+                                last_viewed_at: 1000,
                             },
                             [channelId2]: {
                                 channel_id: channelId2,
                                 mention_count: 4,
                                 msg_count: 9,
+                                last_viewed_at: 2000,
                             },
                         },
                     },
@@ -1317,17 +1337,19 @@ describe('Actions.Channels', () => {
 
             const state = store.getState();
 
-            assert.equal(state.entities.channels.myMembers[channelId1].mention_count, 0);
-            assert.equal(state.entities.channels.myMembers[channelId1].msg_count, state.entities.channels.messageCounts[channelId1].total);
+            expect(state.entities.channels.myMembers[channelId1].mention_count).toBe(0);
+            expect(state.entities.channels.myMembers[channelId1].msg_count).toBe(state.entities.channels.messageCounts[channelId1].total);
+            expect(state.entities.channels.myMembers[channelId1].last_viewed_at).toBeGreaterThan(1000);
 
-            assert.equal(state.entities.channels.myMembers[channelId2].mention_count, 4);
-            assert.equal(state.entities.channels.myMembers[channelId2].msg_count, 9);
+            expect(state.entities.channels.myMembers[channelId2].mention_count).toBe(4);
+            expect(state.entities.channels.myMembers[channelId2].msg_count).toBe(9);
+            expect(state.entities.channels.myMembers[channelId2].last_viewed_at).toBe(2000);
 
-            assert.equal(state.entities.teams.myMembers[teamId1].mention_count, 0);
-            assert.equal(state.entities.teams.myMembers[teamId1].msg_count, 0);
+            expect(state.entities.teams.myMembers[teamId1].mention_count).toBe(0);
+            expect(state.entities.teams.myMembers[teamId1].msg_count).toBe(0);
 
-            assert.equal(state.entities.teams.myMembers[teamId2].mention_count, 4);
-            assert.equal(state.entities.teams.myMembers[teamId2].msg_count, 3);
+            expect(state.entities.teams.myMembers[teamId2].mention_count).toBe(4);
+            expect(state.entities.teams.myMembers[teamId2].msg_count).toBe(3);
         });
 
         it('two unread channels, different teams, reading both', async () => {
@@ -1358,11 +1380,13 @@ describe('Actions.Channels', () => {
                                 channel_id: channelId1,
                                 mention_count: 2,
                                 msg_count: 5,
+                                last_viewed_at: 1000,
                             },
                             [channelId2]: {
                                 channel_id: channelId2,
                                 mention_count: 4,
                                 msg_count: 9,
+                                last_viewed_at: 2000,
                             },
                         },
                     },
@@ -1387,17 +1411,19 @@ describe('Actions.Channels', () => {
 
             const state = store.getState();
 
-            assert.equal(state.entities.channels.myMembers[channelId1].mention_count, 0);
-            assert.equal(state.entities.channels.myMembers[channelId1].msg_count, state.entities.channels.messageCounts[channelId1].total);
+            expect(state.entities.channels.myMembers[channelId1].mention_count).toBe(0);
+            expect(state.entities.channels.myMembers[channelId1].msg_count).toBe(state.entities.channels.messageCounts[channelId1].total);
+            expect(state.entities.channels.myMembers[channelId1].last_viewed_at).toBeGreaterThan(1000);
 
-            assert.equal(state.entities.channels.myMembers[channelId2].mention_count, 0);
-            assert.equal(state.entities.channels.myMembers[channelId2].msg_count, state.entities.channels.messageCounts[channelId2].total);
+            expect(state.entities.channels.myMembers[channelId2].mention_count).toBe(0);
+            expect(state.entities.channels.myMembers[channelId2].msg_count).toBe(state.entities.channels.messageCounts[channelId2].total);
+            expect(state.entities.channels.myMembers[channelId2].last_viewed_at).toBeGreaterThan(2000);
 
-            assert.equal(state.entities.teams.myMembers[teamId1].mention_count, 0);
-            assert.equal(state.entities.teams.myMembers[teamId1].msg_count, 0);
+            expect(state.entities.teams.myMembers[teamId1].mention_count).toBe(0);
+            expect(state.entities.teams.myMembers[teamId1].msg_count).toBe(0);
 
-            assert.equal(state.entities.teams.myMembers[teamId2].mention_count, 0);
-            assert.equal(state.entities.teams.myMembers[teamId2].msg_count, 0);
+            expect(state.entities.teams.myMembers[teamId2].mention_count).toBe(0);
+            expect(state.entities.teams.myMembers[teamId2].msg_count).toBe(0);
         });
 
         it('two unread channels, different teams, reading both (opposite order)', async () => {
@@ -1428,11 +1454,13 @@ describe('Actions.Channels', () => {
                                 channel_id: channelId1,
                                 mention_count: 2,
                                 msg_count: 5,
+                                last_viewed_at: 1000,
                             },
                             [channelId2]: {
                                 channel_id: channelId2,
                                 mention_count: 4,
                                 msg_count: 9,
+                                last_viewed_at: 2000,
                             },
                         },
                     },
@@ -1457,17 +1485,19 @@ describe('Actions.Channels', () => {
 
             const state = store.getState();
 
-            assert.equal(state.entities.channels.myMembers[channelId1].mention_count, 0);
-            assert.equal(state.entities.channels.myMembers[channelId1].msg_count, state.entities.channels.messageCounts[channelId1].total);
+            expect(state.entities.channels.myMembers[channelId1].mention_count).toBe(0);
+            expect(state.entities.channels.myMembers[channelId1].msg_count).toBe(state.entities.channels.messageCounts[channelId1].total);
+            expect(state.entities.channels.myMembers[channelId1].last_viewed_at).toBeGreaterThan(1000);
 
-            assert.equal(state.entities.channels.myMembers[channelId2].mention_count, 0);
-            assert.equal(state.entities.channels.myMembers[channelId2].msg_count, state.entities.channels.messageCounts[channelId2].total);
+            expect(state.entities.channels.myMembers[channelId2].mention_count).toBe(0);
+            expect(state.entities.channels.myMembers[channelId2].msg_count).toBe(state.entities.channels.messageCounts[channelId2].total);
+            expect(state.entities.channels.myMembers[channelId2].last_viewed_at).toBeGreaterThan(2000);
 
-            assert.equal(state.entities.teams.myMembers[teamId1].mention_count, 0);
-            assert.equal(state.entities.teams.myMembers[teamId1].msg_count, 0);
+            expect(state.entities.teams.myMembers[teamId1].mention_count).toBe(0);
+            expect(state.entities.teams.myMembers[teamId1].msg_count).toBe(0);
 
-            assert.equal(state.entities.teams.myMembers[teamId2].mention_count, 0);
-            assert.equal(state.entities.teams.myMembers[teamId2].msg_count, 0);
+            expect(state.entities.teams.myMembers[teamId2].mention_count).toBe(0);
+            expect(state.entities.teams.myMembers[teamId2].msg_count).toBe(0);
         });
     });
 

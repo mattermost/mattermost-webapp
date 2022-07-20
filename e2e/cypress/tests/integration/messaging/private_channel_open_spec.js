@@ -38,7 +38,7 @@ describe('Messaging - Opening a private channel using keyboard shortcuts', () =>
             cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Private channel').wait(TIMEOUTS.HALF_SEC);
 
             // * Focus in the message box
-            cy.get('#post_textbox').should('be.focused');
+            cy.uiGetPostTextBox().should('be.focused');
         });
     });
 });
