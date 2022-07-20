@@ -18,7 +18,6 @@ import {containsAtChannel, groupsMentionedInText} from 'utils/post_utils';
 import {ActionTypes, AnnouncementBarTypes} from 'utils/constants';
 
 import {runMessageWillBePostedHooks} from '../hooks';
-import {getChannel} from 'mattermost-redux/actions/channels';
 
 export function editPost(post) {
     return async (dispatch, getState) => {
@@ -33,13 +32,13 @@ export function editPost(post) {
     };
 }
 
-export function forwardPost(post, channelId, message = '') {
+export function forwardPost(post, channel, message = '') {
     return async (dispatch, getState) => {
         const state = getState();
+        const channelId = channel.id;
 
         const currentUserId = getCurrentUserId(state);
         const currentTeam = getCurrentTeam(state);
-        const {data: channel} = getChannel(channelId);
 
         const relativePermaLink = Utils.getPermalinkURL(state, currentTeam.id, post.id);
         const permaLink = `${getSiteURL()}${relativePermaLink}`;

@@ -26,7 +26,7 @@ export type ActionProps = {
     switchToChannel: (channel: Channel) => Promise<ActionResult>;
 
     // action called to forward the post with an optional comment
-    forwardPost: (post: Post, channelId: string, message?: string) => Promise<ActionResult>;
+    forwardPost: (post: Post, channelId: Channel, message?: string) => Promise<ActionResult>;
 }
 
 export type OwnProps = {

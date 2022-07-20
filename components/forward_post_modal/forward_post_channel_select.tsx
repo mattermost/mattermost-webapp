@@ -62,6 +62,12 @@ type GroupedOption = {
     options: ChannelOption[];
 }
 
+export const makeSelectedChannelOption = (channel: Channel) => ({
+    label: channel.display_name || channel.name,
+    value: channel.id,
+    details: channel,
+});
+
 const FormattedOption = (props: ChannelOption) => {
     const {details} = props;
 
@@ -222,11 +228,7 @@ function ForwardPostChannelSelect({onSelect, value, currentBodyHeight}: Props<Ch
                     label: formatMessage({id: 'suggestion.mention.recent.channels', defaultMessage: 'Recent'}),
                     options: res.items.filter((item) => item.channel.type !== 'threads' && item.channel.delete_at === 0).map((item) => {
                         const {channel} = item;
-                        return {
-                            label: channel.display_name || channel.name,
-                            value: channel.id,
-                            details: channel,
-                        };
+                        return makeSelectedChannelOption(channel);
                     }),
                 },
             ];
@@ -254,11 +256,7 @@ function ForwardPostChannelSelect({onSelect, value, currentBodyHeight}: Props<Ch
                 res.items.filter((item) => item.channel.type !== 'threads' && item.channel.delete_at === 0).forEach((item) => {
                     const {channel} = item;
 
-                    options.push({
-                        label: channel.display_name || channel.name,
-                        value: channel.id,
-                        details: channel,
-                    });
+                    options.push(makeSelectedChannelOption(channel));
                 });
             };
 
