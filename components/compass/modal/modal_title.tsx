@@ -23,29 +23,33 @@ const StyledModalTitle = styled(MUIDialogTitle)<DialogTitleProps>(() => ({
 
 type ModalTitleProps = {
     title: string;
-    rightSection?: React.ReactNode | React.ReactNodeArray;
+    rightSection?: React.ReactNode | React.ReactNode[];
+    children?: React.ReactNode | React.ReactNode[];
     onClose?: React.MouseEventHandler;
 }
 
-const ModalTitle = ({title, onClose, rightSection = null}: ModalTitleProps) => {
+const ModalTitle = ({title, onClose, children, rightSection = null}: ModalTitleProps) => {
     return (
-        <StyledModalTitle>
-            {title}
-            {rightSection}
-            {onClose && (
-                <Button
-                    type='button'
-                    onClick={onClose}
-                    disableRipple={true}
-                    variant={'icon'}
-                >
-                    <CloseIcon
-                        size={24}
-                        color='var(--center-channel-color)'
-                    />
-                </Button>
-            )}
-        </StyledModalTitle>
+        <>
+            <StyledModalTitle>
+                {title}
+                {rightSection}
+                {onClose && (
+                    <Button
+                        type='button'
+                        onClick={onClose}
+                        disableRipple={true}
+                        variant={'icon'}
+                    >
+                        <CloseIcon
+                            size={24}
+                            color='var(--center-channel-color)'
+                        />
+                    </Button>
+                )}
+            </StyledModalTitle>
+            {children}
+        </>
     );
 };
 

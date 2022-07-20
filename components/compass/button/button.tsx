@@ -46,6 +46,10 @@ const StyledButton = styled(MUIButtonBase)<ButtonProps>(({variant = 'primary'}) 
         '&:focus:focus-visible': {
             boxShadow: 'inset 0 0 0 2px var(--sidebar-text-active-border)',
         },
+
+        svg: {
+            fill: 'currentColor',
+        },
     });
 });
 

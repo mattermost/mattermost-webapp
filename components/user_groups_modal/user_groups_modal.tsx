@@ -1,28 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {MagnifyIcon} from '@mattermost/compass-icons/components';
+import {Autocomplete, TextField, InputAdornment} from '@mui/material';
 import React, {createRef, RefObject} from 'react';
 
 import Modal from 'components/compass/modal/modal';
 
 import Constants from 'utils/constants';
 
-import FaSearchIcon from 'components/widgets/icons/fa_search_icon';
-import * as Utils from 'utils/utils';
 import {Group, GroupSearachParams} from '@mattermost/types/groups';
 
 import './user_groups_modal.scss';
-import MenuWrapper from 'components/widgets/menu/menu_wrapper';
-import Menu from 'components/widgets/menu/menu';
 import {debounce} from 'mattermost-redux/actions/helpers';
-import Input from 'components/widgets/inputs/input/input';
-import NoResultsIndicator from 'components/no_results_indicator';
-import {NoResultsVariant} from 'components/no_results_indicator/types';
 import Button from '../compass/button/button';
 import ModalTitle from '../compass/modal/modal_title';
-
-import UserGroupsList from './user_groups_list';
-import UserGroupsModalHeader from './user_groups_modal_header';
 
 const GROUPS_PER_PAGE = 60;
 
@@ -285,6 +277,24 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
         //         }
         //     </Modal>
         // );
+        const options = [
+            {
+                label: 'Group 1',
+                value: 'group1',
+            },
+            {
+                label: 'Group 2',
+                value: 'group2',
+            },
+            {
+                label: 'Group 3',
+                value: 'group3',
+            },
+            {
+                label: 'Group 4',
+                value: 'group4',
+            },
+        ];
         return (
             <Modal
                 isOpen={this.state.show}
@@ -298,7 +308,22 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                     title={'User Groups'}
                     onClose={this.doHide}
                     rightSection={<Button disableRipple={true}>{'Create user group'}</Button>}
-                />
+                >
+                    <TextField
+                        label={'Search Groups'}
+                        id={'search_groups_input'}
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position='start'>
+                                    <MagnifyIcon
+                                        size={18}
+                                        color={'currentColor'}
+                                    />
+                                </InputAdornment>
+                            ),
+                        }}
+                    />
+                </ModalTitle>
                 {'THIS IS THE CONTENT FOR THE USER GROUPS MODAL'}
             </Modal>
         );
