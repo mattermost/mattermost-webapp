@@ -96,6 +96,23 @@ exports[`PostBodyAdditionalContent with a normal link Should render the plugin c
         "url": "https://example.com/song.mp3",
       }
     }
+    webSocketClient={
+      WebSocketClient {
+        "closeCallback": null,
+        "conn": null,
+        "connectFailCount": 0,
+        "connectionId": "",
+        "connectionUrl": null,
+        "errorCallback": null,
+        "eventCallback": null,
+        "firstConnectCallback": null,
+        "missedEventCallback": null,
+        "reconnectCallback": null,
+        "responseCallbacks": Object {},
+        "responseSequence": 1,
+        "serverSequence": 0,
+      }
+    }
   />
 </div>
 `;
@@ -117,6 +134,23 @@ exports[`PostBodyAdditionalContent with a normal link Should render the plugin c
       Object {
         "type": "link",
         "url": "https://example.com/song.mp3",
+      }
+    }
+    webSocketClient={
+      WebSocketClient {
+        "closeCallback": null,
+        "conn": null,
+        "connectFailCount": 0,
+        "connectionId": "",
+        "connectionUrl": null,
+        "errorCallback": null,
+        "eventCallback": null,
+        "firstConnectCallback": null,
+        "missedEventCallback": null,
+        "reconnectCallback": null,
+        "responseCallbacks": Object {},
+        "responseSequence": 1,
+        "serverSequence": 0,
       }
     }
   />

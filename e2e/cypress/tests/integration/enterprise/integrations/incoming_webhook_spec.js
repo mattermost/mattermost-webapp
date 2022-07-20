@@ -61,7 +61,7 @@ describe('Incoming webhook', () => {
 
         cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
 
-        cy.get('#searchBox').wait(TIMEOUTS.HALF_SEC).type('findme').type('{enter}', {force: true});
+        cy.get('#searchBox').wait(TIMEOUTS.HALF_SEC).typeWithForce('findme').typeWithForce('{enter}');
 
         cy.get('#search-items-container').within(() => {
             cy.get('.attachment__body').should('contain', id);

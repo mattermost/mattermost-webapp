@@ -10,6 +10,7 @@ import {
     getCurrentChannel,
     getCurrentChannelStats,
     getMembersInCurrentChannel,
+    getMyCurrentChannelMembership,
     isCurrentChannelArchived,
 } from 'mattermost-redux/selectors/entities/channels';
 import {GlobalState} from 'types/store';
@@ -92,11 +93,13 @@ const searchProfiles = createSelector(
 function mapStateToProps(state: GlobalState) {
     const channel = getCurrentChannel(state);
     const currentTeam = getCurrentTeam(state);
+    const currentUser = getMyCurrentChannelMembership(state);
     const {member_count: membersCount} = getCurrentChannelStats(state) || {member_count: 0};
 
     if (!channel) {
         return {
             channel: {} as Channel,
+            currentUserIsChannelAdmin: false,
             channelMembers: [],
             channelAdmins: [],
             searchTerms: '',
@@ -129,8 +132,11 @@ function mapStateToProps(state: GlobalState) {
     const canGoBack = Boolean(getPreviousRhsState(state));
     const editing = getIsEditingMembers(state);
 
+    const currentUserIsChannelAdmin = currentUser && currentUser.scheme_admin;
+
     return {
         channel,
+        currentUserIsChannelAdmin,
         membersCount,
         searchTerms,
         teamUrl,
