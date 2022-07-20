@@ -336,7 +336,7 @@ describe('Pricing modal', () => {
         cy.get('.CloudUsageModal').contains('Cloud Starter limits');
     });
 
-    it('should open team downgrade selection modal when attempting downgrading from paid to starter', () => {
+    it('should open team downgrade selection modal when attempting downgrading from enterprise trial to starter', () => {
         const subscription = {
             id: 'sub_test1',
             product_id: 'prod_3',
@@ -354,7 +354,7 @@ describe('Pricing modal', () => {
         cy.get('#pricingModal').should('exist');
         cy.get('#pricingModal').get('.PricingModal__header').contains('Select a plan');
 
-        // *Check that starter card Upgrade button is enabled
+        // *Check that starter card Downgrade button is enabled
         cy.get('#pricingModal').get('#starter').get('#starter_action').should('not.be.disabled').contains('Downgrade');
 
         // *Check that starter downgrade button opens the downgrade team selection modal
@@ -363,5 +363,27 @@ describe('Pricing modal', () => {
         // *Close PurchaseModal
         cy.get('.DowngradeTeamRemovalModal__buttons').get('.btn.btn-primary').should('be.disabled');
         cy.get('.DropdownInput').should('exist').should('be.visible');
+    });
+
+    it('should not allow downgrades from enterprise plans that are not trials', () => {
+        const subscription = {
+            id: 'sub_test1',
+            product_id: 'prod_3',
+            is_free_trial: 'false',
+        };
+        simulateSubscription(subscription);
+        cy.apiLogout();
+        cy.apiAdminLogin();
+        cy.visit(urlL);
+
+        // # Open the pricing modal
+        cy.visit('/admin_console/billing/subscription?action=show_pricing_modal');
+
+        // *Pricing modal should be open
+        cy.get('#pricingModal').should('exist');
+        cy.get('#pricingModal').get('.PricingModal__header').contains('Select a plan');
+
+        // *Check that starter card Downgrade button is disabled
+        cy.get('#pricingModal').get('#starter').get('#starter_action').should('be.disabled').contains('Downgrade');
     });
 });
