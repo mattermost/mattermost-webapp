@@ -32,8 +32,8 @@ function makeGetPluginSchema() {
         'makeGetPluginSchema',
         (state: GlobalState, pluginId: string) => state.entities.admin.plugins?.[pluginId],
         (state: GlobalState, pluginId: string) => getAdminConsoleCustomComponents(state, pluginId),
-        isCurrentLicenseCloud,
         (state) => appsFeatureFlagEnabled(state),
+        isCurrentLicenseCloud,
         (plugin: PluginRedux | undefined, customComponents: Record<string, AdminConsolePluginComponent>, appsFeatureFlagIsEnabled, isCloudLicense) => {
             if (!plugin) {
                 return null;
