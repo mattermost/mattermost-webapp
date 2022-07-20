@@ -17,7 +17,7 @@ import {fallbackStarterLimits, asGBString} from 'utils/limits';
 import {t} from 'utils/i18n';
 
 const Disclaimer = styled.div`
-margin-top: 36px;
+margin-bottom: 8px;
 color: var(--error-text);
 font-family: 'Open Sans';
 font-size: 12px;

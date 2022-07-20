@@ -34,6 +34,7 @@ import ContactSalesCTA from './contact_sales_cta';
 import StarterDisclaimerCTA from './starter_disclaimer_cta';
 import StartTrialCaution from './start_trial_caution';
 import Card, {ButtonCustomiserClasses} from './card';
+import NewCard from './newcard';
 
 import LadySvg from './lady.svg';
 import ManSvg from './man.svg';
@@ -152,7 +153,7 @@ function Content(props: ContentProps) {
                     <div className='self-hosted-svg-right'>
                         <ManSvg/>
                     </div>
-                    <Card
+                    {/* <Card
                         id='starter'
                         topColor='#9DA7B8'
                         plan='Starter'
@@ -205,6 +206,60 @@ function Content(props: ContentProps) {
                                     bgColor='var(--center-channel-bg)'
                                     firstSvg={<CheckMarkSvg/>}
                                 />) : undefined}
+                    /> */}
+                    <NewCard
+                        id='starter'
+                        topColor='#339970'
+                        plan='Starter'
+                        planSummary='Increased productivity for small teams'
+                        price='Free'
+                        rate='Free forever'
+                        planLabel={
+                            <PlanLabel
+                                text={formatMessage({id: 'pricing_modal.planLabel.currentPlan', defaultMessage: 'CURRENT PLAN'})}
+                                color='var(--denim-status-online)'
+                                bgColor='var(--center-channel-bg)'
+                                firstSvg={<CheckMarkSvg/>}
+                            />}
+                        planExtraInformation={<StarterDisclaimerCTA/>}
+                        contactSalesCTA={<ContactSalesCTA/>}
+                        buttonDetails={{
+                            action: openPurchaseModal,
+                            text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
+                            disabled: !isAdmin,
+                            customClass: isPostTrial ? ButtonCustomiserClasses.special : ButtonCustomiserClasses.active,
+                        }}
+                        briefing={{
+                            title: 'Everything you need to get started',
+                            items: [
+                                formatMessage({id: 'pricing_modal.briefing.starter.recentMessageBoards', defaultMessage: 'Access to {messages} most recent messages, {boards} most recent board cards'}, {messages: formatNumber(fallbackStarterLimits.messages.history), boards: fallbackStarterLimits.boards.cards}),
+                                formatMessage({id: 'pricing_modal.briefing.storage', defaultMessage: '{storage} file storage limit'}, {storage: asGBString(fallbackStarterLimits.files.totalStorage, formatNumber)}),
+                                formatMessage({id: 'pricing_modal.briefing.starter.oneTeamPerWorkspace', defaultMessage: 'One team per workspace'}),
+                                formatMessage({id: 'pricing_modal.briefing.starter.integrations', defaultMessage: '{integrations} integrations with other apps like GitHub, Jira and Jenkins'}, {integrations: fallbackStarterLimits.integrations.enabled}),
+                            ],
+                        }}
+                        // planAddonsInfo={{
+                        //     title: 'Available Add-ons',
+                        //     items: [
+                        //         {
+                        //             title: 'Professional-Plus Support',
+                        //             items: [
+                        //                 '24x7 coverage',
+                        //                 '4 hour L1&L2 response',
+                        //             ],
+                        //         },
+                        //         {
+                        //             title: 'Professional-Plus Support',
+                        //         },
+                        //         {
+                        //             title: 'Professional-Plus Support',
+                        //             items: [
+                        //                 '24x7 coverage',
+                        //                 '4 hour L1&L2 response',
+                        //             ],
+                        //         },
+                        //     ],
+                        // }}
                     />
                     <Card
                         id='professional'
