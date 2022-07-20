@@ -278,7 +278,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         };
 
         if (this.props.showForwardPostNewLabel) {
-            this.props.actions.setGlobalItem(Preferences.FORWARD_POST_VIEWED, true);
+            this.props.actions.setGlobalItem(Preferences.FORWARD_POST_VIEWED, false);
         }
         this.props.actions.openModal(forwardPostModalData);
     }

@@ -109,7 +109,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
         }
     }
 
-    const showForwardPostNewLabel = getGlobalItem(state, Preferences.FORWARD_POST_VIEWED, false);
+    const showForwardPostNewLabel = getGlobalItem(state, Preferences.FORWARD_POST_VIEWED, true);
 
     return {
         channelIsArchived: isArchivedChannel(channel),
