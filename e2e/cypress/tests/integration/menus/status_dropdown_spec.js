@@ -96,10 +96,10 @@ describe('Status dropdown menu', () => {
         cy.uiOpenUserMenu().within(() => {
             // * Verify menu header is clickable
             cy.get('.MenuHeader').should('have.css', 'cursor', 'pointer').click();
-
-            // * Verify click on header opens Profile settings modal
-            cy.findByRole('dialog', {name: 'Profile'}).should('be.visible');
         });
+
+        // * Verify click on header opens Profile settings modal
+        cy.findByRole('dialog', {name: 'Profile'}).should('be.visible');
     });
 });
 
