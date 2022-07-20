@@ -316,7 +316,8 @@ describe('components/PermalinkView', () => {
                         },
                     },
                 };
-                Channels.getCurrentChannel = jest.fn().mockReturnValue({id: 'channelid1', name: 'channel1', type: 'O', team_id: 'current_team_id'});
+
+                jest.spyOn<typeof Channels, keyof typeof Channels>(Channels, 'getCurrentChannel').mockReturnValue({id: 'channelid1', name: 'channel1', type: 'O', team_id: 'current_team_id'});
 
                 const testStore = await mockStore(newState);
                 await testStore.dispatch(focusPost('replypostid1', '#', initialState.entities.users.currentUserId, {skipRedirectReplyPermalink: true}));
