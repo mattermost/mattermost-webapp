@@ -6,6 +6,9 @@ import classNames from 'classnames';
 
 import './avatar.scss';
 
+import {Client4} from 'mattermost-redux/client';
+import BotDefaultIcon from 'images/bot_default_icon.png';
+
 export type TAvatarSizeToken = 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
 
 type Props = {
@@ -16,6 +19,9 @@ type Props = {
 };
 
 type Attrs = HTMLAttributes<HTMLElement>;
+
+const isURLForUser = (url: string | undefined): url is string => Boolean(url && url.startsWith(Client4.getUsersRoute()));
+const replaceURLWithDefaultImageURL = (url: string) => url.replace(/\?_=(\w+)/, '/default');
 
 const Avatar = ({
     url,
@@ -43,6 +49,19 @@ const Avatar = ({
             tabIndex={0}
             alt={`${username || 'user'} profile image`}
             src={url}
+            onError={(e) => {
+                let fallbackSrc = '';
+
+                if (isURLForUser(url)) {
+                    fallbackSrc = replaceURLWithDefaultImageURL(url);
+                } else {
+                    fallbackSrc = BotDefaultIcon;
+                }
+
+                if (e.currentTarget.src !== fallbackSrc) {
+                    e.currentTarget.src = fallbackSrc;
+                }
+            }}
         />
     );
 };
