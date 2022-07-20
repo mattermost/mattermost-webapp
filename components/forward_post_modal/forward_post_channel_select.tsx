@@ -226,7 +226,7 @@ function ForwardPostChannelSelect({onSelect, value, currentBodyHeight}: Props<Ch
             options = [
                 {
                     label: formatMessage({id: 'suggestion.mention.recent.channels', defaultMessage: 'Recent'}),
-                    options: res.items.filter((item) => item.channel.type !== 'threads' && item.channel.delete_at === 0).map((item) => {
+                    options: res.items.filter((item) => item.channel.type !== 'threads' && !item.channel.delete_at).map((item) => {
                         const {channel} = item;
                         return makeSelectedChannelOption(channel);
                     }),
