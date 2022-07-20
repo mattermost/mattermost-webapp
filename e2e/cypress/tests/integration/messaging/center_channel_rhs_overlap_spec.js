@@ -504,6 +504,7 @@ describe('Messaging', () => {
     it('MM-T2140 Edited message displays edits and "Edited" in center and RHS', () => {
         // # Mobile app
         cy.viewport('iphone-6');
+        cy.reload();
 
         // # Post message
         cy.uiGetPostTextBox().type(message1).type('{enter}').wait(TIMEOUTS.HALF_SEC);
