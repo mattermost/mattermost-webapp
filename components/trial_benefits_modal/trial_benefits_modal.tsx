@@ -24,6 +24,7 @@ import MonitorImacLikeSVG from 'components/common/svg_images_components/monitor_
 import SystemRolesSVG from 'components/admin_console/feature_discovery/features/images/system_roles_svg';
 import PersonWithChecklistSvg from 'components/common/svg_images_components/person_with_checklist';
 import BlockableLink from 'components/admin_console/blockable_link';
+import useOpenInvitePeopleModal from 'components/common/hooks/useOpenInvitePeopleModal';
 
 import TrialBenefitsModalStep, {TrialBenefitsModalStepProps} from './trial_benefits_modal_step';
 
@@ -45,6 +46,8 @@ const TrialBenefitsModal = ({
     const license = useSelector((state: GlobalState) => getLicense(state));
     const show = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.TRIAL_BENEFITS_MODAL));
     const isCloud = license?.Cloud === 'true';
+
+    const openInvitePeopleModal = useOpenInvitePeopleModal();
 
     useEffect(() => {
         if (!trialJustStarted) {
@@ -190,6 +193,11 @@ const TrialBenefitsModal = ({
         onExited();
     }, [onClose, onExited]);
 
+    const invitePeople = () => {
+        openInvitePeopleModal();
+        handleOnClose();
+    };
+
     const handleOnPrevNextSlideClick = useCallback((slideIndex: number) => {
         const slideId = steps[slideIndex - 1]?.id;
 
@@ -221,6 +229,31 @@ const TrialBenefitsModal = ({
     }: TrialBenefitsModalStepProps) => {
         // when we are in cloud, ommit the cta to go to the system console, this because the license changes take some time to get applied (see MM-44463)
         // also, the design of the modal changes a little bit by placing the svg image on top and the title changes too.
+        let actionButton = (
+            <a
+                className={`${isCloud ? 'primary-button' : 'tertiary-button'}`}
+                onClick={handleOnClose}
+            >
+                <FormattedMessage
+                    id='trial_benefits_modal.trial_just_started.buttons.close'
+                    defaultMessage='Close'
+                />
+            </a>
+        );
+
+        if (isCloud) {
+            actionButton = (
+                <a
+                    className='primary-button'
+                    onClick={invitePeople}
+                >
+                    <FormattedMessage
+                        id='trial_benefits_modal.trial_just_started.buttons.invitePeople'
+                        defaultMessage='Invite people'
+                    />
+                </a>
+            );
+        }
         return (
             <div
                 id={`trialBenefitsModalStarted-${id}`}
@@ -239,15 +272,7 @@ const TrialBenefitsModal = ({
                     {svgElement}
                 </div>}
                 <div className='buttons-section-wrapper'>
-                    <a
-                        className={`${isCloud ? 'primary-button' : 'tertiary-button'}`}
-                        onClick={handleOnClose}
-                    >
-                        <FormattedMessage
-                            id='trial_benefits_modal.trial_just_started.buttons.close'
-                            defaultMessage='Close'
-                        />
-                    </a>
+                    {actionButton}
                     {!isCloud &&
                         <BlockableLink
                             className='primary-button'
