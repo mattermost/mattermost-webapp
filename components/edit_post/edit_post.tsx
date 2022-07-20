@@ -119,6 +119,16 @@ const EditPost = ({editingPost, actions, canEditPost, config, channelId, draft, 
     useEffect(() => saveDraft, [saveDraft]);
 
     useEffect(() => {
+        if (saveDraftFrame.current) {
+            clearTimeout(saveDraftFrame.current);
+        }
+
+        saveDraftFrame.current = window.setTimeout(() => {
+            actions.setDraft(draftStorageId, draftRef.current);
+        }, Constants.SAVE_DRAFT_TIMEOUT);
+    }, [actions, draftStorageId, editText]);
+
+    useEffect(() => {
         const focusTextBox = () => textboxRef?.current?.focus();
 
         document.addEventListener(AppEvents.FOCUS_EDIT_TEXTBOX, focusTextBox);
@@ -339,14 +349,6 @@ const EditPost = ({editingPost, actions, canEditPost, config, channelId, draft, 
             message,
         };
 
-        if (saveDraftFrame.current) {
-            clearTimeout(saveDraftFrame.current);
-        }
-
-        saveDraftFrame.current = window.setTimeout(() => {
-            actions.setDraft(draftStorageId, draftRef.current);
-        }, Constants.SAVE_DRAFT_TIMEOUT);
-
         setEditText(message);
     };
 
@@ -371,9 +373,10 @@ const EditPost = ({editingPost, actions, canEditPost, config, channelId, draft, 
             return;
         }
 
-        if (editText === '') {
-            setEditText(`:${emojiAlias}: `);
-        } else {
+        let newMessage = `:${emojiAlias}: `;
+        let newCaretPosition = newMessage.length;
+
+        if (editText.length > 0) {
             const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition(
                 selectionRange.start,
                 editText,
@@ -381,25 +384,34 @@ const EditPost = ({editingPost, actions, canEditPost, config, channelId, draft, 
 
             // check whether the first piece of the message is empty when cursor
             // is placed at beginning of message and avoid adding an empty string at the beginning of the message
-            const newMessage = firstPiece === '' ? `:${emojiAlias}: ${lastPiece}` : `${firstPiece} :${emojiAlias}: ${lastPiece}`;
-            const newCaretPosition = firstPiece === '' ? `:${emojiAlias}: `.length : `${firstPiece} :${emojiAlias}: `.length;
-
-            setEditText(newMessage);
-            setCaretPosition(newCaretPosition);
+            newMessage = firstPiece === '' ? `:${emojiAlias}: ${lastPiece}` : `${firstPiece} :${emojiAlias}: ${lastPiece}`;
+            newCaretPosition = firstPiece === '' ? `:${emojiAlias}: `.length : `${firstPiece} :${emojiAlias}: `.length;
         }
 
+        draftRef.current = {
+            ...draftRef.current,
+            message: newMessage,
+        };
+
+        setEditText(newMessage);
+        setCaretPosition(newCaretPosition);
         setShowEmojiPicker(false);
         textboxRef.current?.focus();
     };
 
     const handleGifClick = (gif: string) => {
-        if (editText === '') {
-            setEditText(gif);
-        } else {
-            const newMessage = (/\s+$/).test(editText) ? `${editText}${gif}` : `${editText} ${gif}`;
-            setEditText(newMessage);
+        let newMessage = gif;
+
+        if (editText.length > 0) {
+            newMessage = (/\s+$/).test(editText) ? `${editText}${gif}` : `${editText} ${gif}`;
         }
 
+        draftRef.current = {
+            ...draftRef.current,
+            message: newMessage,
+        };
+
+        setEditText(newMessage);
         setShowEmojiPicker(false);
         textboxRef.current?.focus();
     };
