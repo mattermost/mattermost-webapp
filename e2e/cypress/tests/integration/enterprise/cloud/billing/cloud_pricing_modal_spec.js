@@ -13,7 +13,7 @@ function simulateSubscription(subscription) {
         body: subscription,
     });
 
-    cy.intercept('GET', '**/api/v4/cloud/products', {
+    cy.intercept('GET', '**/api/v4/cloud/products**', {
         statusCode: 200,
         body: [
             {
@@ -336,7 +336,7 @@ describe('Pricing modal', () => {
         cy.get('.CloudUsageModal').contains('Cloud Starter limits');
     });
 
-    it('should open team downgrade selection modal when attempting downgrading from enterprise trial to starter', () => {
+    it('should not allow downgrades from enterprise trial', () => {
         const subscription = {
             id: 'sub_test1',
             product_id: 'prod_3',
@@ -354,18 +354,11 @@ describe('Pricing modal', () => {
         cy.get('#pricingModal').should('exist');
         cy.get('#pricingModal').get('.PricingModal__header').contains('Select a plan');
 
-        // *Check that starter card Downgrade button is enabled
-        cy.get('#pricingModal').get('#starter').get('#starter_action').should('not.be.disabled').contains('Downgrade');
-
-        // *Check that starter downgrade button opens the downgrade team selection modal
-        cy.get('#pricingModal').get('#starter').get('#starter_action').click();
-
-        // *Close PurchaseModal
-        cy.get('.DowngradeTeamRemovalModal__buttons').get('.btn.btn-primary').should('be.disabled');
-        cy.get('.DropdownInput').should('exist').should('be.visible');
+        // *Check that starter card Downgrade button is disabled
+        cy.get('#pricingModal').get('#starter').get('#starter_action').should('be.disabled').contains('Downgrade');
     });
 
-    it('should not allow downgrades from enterprise plans that are not trials', () => {
+    it('should not allow downgrades from enterprise plans', () => {
         const subscription = {
             id: 'sub_test1',
             product_id: 'prod_3',

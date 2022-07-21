@@ -57,7 +57,7 @@ function Content(props: ContentProps) {
     const products = useSelector(selectCloudProducts);
 
     const isEnterprise = product?.sku === CloudProducts.ENTERPRISE;
-    const isEnterpriseTrial = isEnterprise && subscription?.is_free_trial === 'true';
+    const isEnterpriseTrial = subscription?.is_free_trial === 'true';
     const professionalProduct = Object.values(products || {}).find(((product) => {
         return product.sku === CloudProducts.PROFESSIONAL;
     }));
@@ -194,7 +194,7 @@ function Content(props: ContentProps) {
                                 }
                             },
                             text: formatMessage({id: 'pricing_modal.btn.downgrade', defaultMessage: 'Downgrade'}),
-                            disabled: isStarter || !isEnterpriseTrial || !isAdmin,
+                            disabled: isStarter || isEnterprise || !isAdmin,
                             customClass: ButtonCustomiserClasses.secondary,
                         }}
                         planLabel={
