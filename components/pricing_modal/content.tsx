@@ -321,7 +321,7 @@ function Content(props: ContentProps) {
                             customClass: isPostTrial ? ButtonCustomiserClasses.special : ButtonCustomiserClasses.active,
                         }}
                         briefing={{
-                            title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),
+                            title: 'No limits on your team’s usage',
                             items: [
                                 formatMessage({id: 'pricing_modal.briefing.professional.messageBoardsIntegrationsCalls', defaultMessage: 'Unlimited access to messages and boards history, teams, integrations and calls'}),
                                 formatMessage({id: 'pricing_modal.briefing.storage', defaultMessage: '{storage} file storage limit'}, {storage: asGBString(fallbackProfessionalLimits.files.totalStorage, formatNumber)}),
@@ -418,7 +418,7 @@ function Content(props: ContentProps) {
                         ) : undefined}
                         contactSalesCTA={<ContactSalesCTA/>}
                         briefing={{
-                            title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),
+                            title: 'Features for large- scale collaboration',
                             items: [
                                 formatMessage({id: 'pricing_modal.briefing.enterprise.unlimitedFileStorage', defaultMessage: 'Unlimited file storage'}),
                                 formatMessage({id: 'pricing_modal.briefing.enterprise.groupSync', defaultMessage: 'AD/LDAP group sync'}),
