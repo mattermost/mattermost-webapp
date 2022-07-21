@@ -121,7 +121,7 @@ type Props = {
     userId: string;
     threadId: UserThread['id'];
     isCollapsedThreadsEnabled: boolean;
-    isPostForwardingEnabled: boolean;
+    isPostForwardingEnabled?: boolean;
     isFollowingThread?: boolean;
     isMentionedInRootPost?: boolean;
     threadReplyCount?: number;
@@ -155,6 +155,8 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         };
 
         this.buttonRef = React.createRef<HTMLButtonElement>();
+
+        this.canPostBeForwarded = false;
     }
 
     static getDerivedStateFromProps(props: Props) {
@@ -465,7 +467,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
 
         const fromWebhook = this.props.post.props?.from_webhook === 'true';
         const fromBot = this.props.post.props?.from_bot === 'true';
-        this.canPostBeForwarded = this.props.isPostForwardingEnabled && !(fromWebhook || fromBot || isSystemMessage);
+        this.canPostBeForwarded = Boolean(this.props.isPostForwardingEnabled && !(fromWebhook || fromBot || isSystemMessage));
 
         const forwardPostItemText = (
             <span className={'title-with-new-badge'}>
