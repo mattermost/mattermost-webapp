@@ -67,6 +67,7 @@ function Content(props: ContentProps) {
     }));
 
     const isStarter = product?.sku === CloudProducts.STARTER;
+    const isProfessional = product?.sku === CloudProducts.PROFESSIONAL;
 
     let isPostTrial = false;
     if ((subscription && subscription.trial_end_at > 0) && !isEnterpriseTrial && (isStarter || isEnterprise)) {
@@ -215,19 +216,37 @@ function Content(props: ContentProps) {
                         price='Free'
                         rate='Free forever'
                         planLabel={
-                            <PlanLabel
-                                text={formatMessage({id: 'pricing_modal.planLabel.currentPlan', defaultMessage: 'CURRENT PLAN'})}
-                                color='var(--denim-status-online)'
-                                bgColor='var(--center-channel-bg)'
-                                firstSvg={<CheckMarkSvg/>}
-                            />}
+                            isStarter ? (
+                                <PlanLabel
+                                    text={formatMessage({id: 'pricing_modal.planLabel.currentPlan', defaultMessage: 'CURRENT PLAN'})}
+                                    color='var(--denim-status-online)'
+                                    bgColor='var(--center-channel-bg)'
+                                    firstSvg={<CheckMarkSvg/>}
+                                />) : undefined}
                         planExtraInformation={<StarterDisclaimerCTA/>}
-                        contactSalesCTA={<ContactSalesCTA/>}
                         buttonDetails={{
-                            action: openPurchaseModal,
-                            text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
-                            disabled: !isAdmin,
-                            customClass: isPostTrial ? ButtonCustomiserClasses.special : ButtonCustomiserClasses.active,
+                            action: () => {
+                                if (!starterProduct) {
+                                    return;
+                                }
+                                if (usage.teams.active > 1) {
+                                    dispatch(
+                                        openModal({
+                                            modalId: ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM,
+                                            dialogType: DowngradeTeamRemovalModal,
+                                            dialogProps: {
+                                                product_id: starterProduct?.id,
+                                                starterProduct,
+                                            },
+                                        }),
+                                    );
+                                } else {
+                                    downgrade();
+                                }
+                            },
+                            text: formatMessage({id: 'pricing_modal.btn.downgrade', defaultMessage: 'Downgrade'}),
+                            disabled: isStarter || !isAdmin,
+                            customClass: ButtonCustomiserClasses.secondary,
                         }}
                         briefing={{
                             title: 'Everything you need to get started',
@@ -236,32 +255,12 @@ function Content(props: ContentProps) {
                                 formatMessage({id: 'pricing_modal.briefing.storage', defaultMessage: '{storage} file storage limit'}, {storage: asGBString(fallbackStarterLimits.files.totalStorage, formatNumber)}),
                                 formatMessage({id: 'pricing_modal.briefing.starter.oneTeamPerWorkspace', defaultMessage: 'One team per workspace'}),
                                 formatMessage({id: 'pricing_modal.briefing.starter.integrations', defaultMessage: '{integrations} integrations with other apps like GitHub, Jira and Jenkins'}, {integrations: fallbackStarterLimits.integrations.enabled}),
+                                formatMessage({id: 'pricing_modal.extra_briefing.starter.calls', defaultMessage: '1:1 voice calls and screen share'}),
                             ],
                         }}
-                        // planAddonsInfo={{
-                        //     title: 'Available Add-ons',
-                        //     items: [
-                        //         {
-                        //             title: 'Professional-Plus Support',
-                        //             items: [
-                        //                 '24x7 coverage',
-                        //                 '4 hour L1&L2 response',
-                        //             ],
-                        //         },
-                        //         {
-                        //             title: 'Professional-Plus Support',
-                        //         },
-                        //         {
-                        //             title: 'Professional-Plus Support',
-                        //             items: [
-                        //                 '24x7 coverage',
-                        //                 '4 hour L1&L2 response',
-                        //             ],
-                        //         },
-                        //     ],
-                        // }}
                     />
-                    <Card
+
+                    {/* <Card
                         id='professional'
                         topColor='#4A69AC'
                         plan='Professional'
@@ -298,8 +297,54 @@ function Content(props: ContentProps) {
                                 firstSvg={<StarMarkSvg/>}
                                 secondSvg={<StarMarkSvg/>}
                             />}
+                    /> */}
+
+                    <NewCard
+                        id='professional'
+                        topColor='var(--denim-button-bg)'
+                        plan='Professional'
+                        planSummary='Scalable solutions for growing teams'
+                        price={`$${professionalProduct ? professionalProduct.price_per_seat : '10'}`}
+                        rate={formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: '/user/month'})}
+                        planLabel={
+                            isProfessional ? (
+                                <PlanLabel
+                                    text={formatMessage({id: 'pricing_modal.planLabel.currentPlan', defaultMessage: 'CURRENT PLAN'})}
+                                    color='var(--denim-status-online)'
+                                    bgColor='var(--center-channel-bg)'
+                                    firstSvg={<CheckMarkSvg/>}
+                                />) : undefined}
+                        buttonDetails={{
+                            action: openPurchaseModal,
+                            text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
+                            disabled: !isAdmin,
+                            customClass: isPostTrial ? ButtonCustomiserClasses.special : ButtonCustomiserClasses.active,
+                        }}
+                        briefing={{
+                            title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),
+                            items: [
+                                formatMessage({id: 'pricing_modal.briefing.professional.messageBoardsIntegrationsCalls', defaultMessage: 'Unlimited access to messages and boards history, teams, integrations and calls'}),
+                                formatMessage({id: 'pricing_modal.briefing.storage', defaultMessage: '{storage} file storage limit'}, {storage: asGBString(fallbackProfessionalLimits.files.totalStorage, formatNumber)}),
+                                formatMessage({id: 'pricing_modal.briefing.professional.advancedPlaybook', defaultMessage: 'Advanced Playbook workflows with retrospectives'}),
+                                formatMessage({id: 'pricing_modal.extra_briefing.professional.ssoSaml', defaultMessage: 'SSO with SAML 2.0, including Okta, OneLogin and ADFS'}),
+                                formatMessage({id: 'pricing_modal.extra_briefing.professional.ssoadLdap', defaultMessage: 'SSO support with AD/LDAP, Google, O365, OpenID'}),
+                                formatMessage({id: 'pricing_modal.extra_briefing.professional.guestAccess', defaultMessage: 'Guest access with MFA enforcement'}),
+                            ],
+                        }}
+                        planAddonsInfo={{
+                            title: 'Available Add-ons',
+                            items: [
+                                {
+                                    title: 'Professional-Plus Support',
+                                    items: [
+                                        '24x7 coverage',
+                                        '4 hour L1&L2 response',
+                                    ],
+                                },
+                            ],
+                        }}
                     />
-                    <Card
+                    {/* <Card
                         id='enterprise'
                         topColor='var(--denim-button-bg)'
                         plan='Enterprise'
@@ -339,6 +384,66 @@ function Content(props: ContentProps) {
                             />
                         ) : undefined}
                         planDisclaimer={isPostTrial ? undefined : <StartTrialCaution/>}
+                    /> */}
+
+                    <NewCard
+                        id='enterprise'
+                        topColor='#E07315'
+                        plan='Enterprise'
+                        planSummary='Administration, security, and compliance for large teams'
+                        planLabel={
+                            isEnterprise ? (
+                                <PlanLabel
+                                    text={formatMessage({id: 'pricing_modal.planLabel.currentPlan', defaultMessage: 'CURRENT PLAN'})}
+                                    color='var(--denim-status-online)'
+                                    bgColor='var(--center-channel-bg)'
+                                    firstSvg={<CheckMarkSvg/>}
+                                />) : undefined}
+                        buttonDetails={(isPostTrial || !isAdmin) ? {
+                            action: () => {
+                                trackEvent('cloud_pricing', 'click_enterprise_contact_sales');
+                                window.open(contactSalesLink, '_blank');
+                            },
+                            text: formatMessage({id: 'pricing_modal.btn.contactSales', defaultMessage: 'Contact Sales'}),
+                            customClass: ButtonCustomiserClasses.active,
+                        } : undefined}
+                        customButtonDetails={(!isPostTrial && isAdmin) ? (
+                            <CloudStartTrialButton
+                                message={formatMessage({id: 'pricing_modal.btn.tryDays', defaultMessage: 'Try free for {days} days'}, {days: '30'})}
+                                telemetryId='start_cloud_trial_from_pricing_modal'
+                                disabled={isEnterpriseTrial}
+                                extraClass={`plan_action_btn ${isEnterpriseTrial ? ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.special}`}
+                                afterTrialRequest={closePricingModal}
+                            />
+                        ) : undefined}
+                        contactSalesCTA={<ContactSalesCTA/>}
+                        briefing={{
+                            title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),
+                            items: [
+                                formatMessage({id: 'pricing_modal.briefing.enterprise.unlimitedFileStorage', defaultMessage: 'Unlimited file storage'}),
+                                formatMessage({id: 'pricing_modal.briefing.enterprise.groupSync', defaultMessage: 'AD/LDAP group sync'}),
+                                formatMessage({id: 'pricing_modal.briefing.enterprise.mobileSecurity', defaultMessage: 'Advanced mobile security via ID-only push notifications'}),
+                                formatMessage({id: 'pricing_modal.briefing.enterprise.rolesAndPermissions', defaultMessage: 'Advanced roles and permissions'}),
+                                formatMessage({id: 'pricing_modal.briefing.enterprise.compliance', defaultMessage: 'Advanced compliance management'}),
+                                formatMessage({id: 'pricing_modal.extra_briefing.enterprise.playBookAnalytics', defaultMessage: 'Playbook analytics dashboard'})
+                            ],
+                        }}
+                        planAddonsInfo={{
+                            title: 'Available Add-ons',
+                            items: [
+                                {title: 'Premium support'},
+                                {title: 'Mission-critical 24x7'},
+                                {title: '1hr-L1, 2hr-L2'},
+                                {title: 'Licensing for up to 4 standalone, non-production environments'},
+                                {title: 'U.S.- only based support'},
+                                {title: 'Dedicated virtual secure cloud deployment (Cloud)'},
+                                {title: 'Dedicated Kubernetes cluster'},
+                                {title: 'Dedicated database'},
+                                {title: 'Dedicated encryption keys 99%'},
+                                {title: '99% uptime guarantee'},
+                                {title: 'Multi-server licensing (Self-Hosted)'},
+                            ],
+                        }}
                     />
                 </div>
             </Modal.Body>

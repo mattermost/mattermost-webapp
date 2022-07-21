@@ -129,6 +129,7 @@
         display: flex;
         align-self: center;
         gap: 48px;
+        margin-bottom: 111px;
 
         .self-hosted-svg-left {
             position: absolute;
@@ -175,7 +176,7 @@
 
                 .plan_price_rate_section {
                     width: 100%;
-                    height: 200px;
+                    height: 221px;
                     text-align: center;
                     padding-right: 24px;
                     padding-left: 24px;
@@ -234,14 +235,21 @@
                 .contact_sales_cta {
                     margin-top: 16px;
                     text-align: center;
-                    height: 81px;
+                    height: 49px;
                     padding-right: 24px;
                     padding-left: 24px;
+                }
+
+                .plan_limits_cta {
+                    padding-right: 24px;
+                    padding-left: 24px;
+                    height: 21px;
                 }
 
                 .plan_buttons {
                     padding-right: 24px;
                     padding-left: 24px;
+                    height: 40px;
                     .plan_action_btn {
                         width: 100%;
                         height: 40px;
@@ -276,16 +284,14 @@
                 }
 
                 .plan_briefing {
-                    display: flex;
                     height: auto;
-                    flex-direction: column;
-                    justify-content: space-between;
-                    margin-top: 16px;
-                    margin-bottom: 8px;
-                    padding-top: 16px;
-                    border-top: 1px solid rgba(var(--center-channel-text-rgb), 0.16);
                     padding-right: 24px;
                     padding-left: 24px;
+                    margin-bottom: 24px;
+
+                    hr {
+                        border-top: 1px solid rgba(var(--center-channel-text-rgb), 0.16); 
+                    }
 
                     .title {
                         color: var(--center-channel-text);
@@ -363,7 +369,7 @@
                     }
 
                     .subitem {
-                        margin-left: 10px;
+                        margin-left: 20px;
                     }
                 }
             }

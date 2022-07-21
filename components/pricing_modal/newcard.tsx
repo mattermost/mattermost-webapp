@@ -44,7 +44,7 @@ type CardProps = {
     customButtonDetails?: JSX.Element;
     contactSalesCTA?: JSX.Element;
     briefing: PlanBriefing;
-    planAddonsInfo: PlanAddonsInfo;
+    planAddonsInfo?: PlanAddonsInfo;
 }
 
 type StyledProps = {
@@ -74,8 +74,11 @@ function Card(props: CardProps) {
                     <p>{props.rate}</p>
                 </div>
 
-                <div className='plan_buttons'>
+                <div className='plan_limits_cta'>
                     {props.planExtraInformation}
+                </div>
+
+                <div className='plan_buttons'>
                     {props.customButtonDetails || (
                         <button
                             id={props.id + '_action'}
@@ -97,6 +100,7 @@ function Card(props: CardProps) {
                 </div>
 
                 <div className='plan_briefing'>
+                    <hr/>
                     <div>
                         <span className='title'>{props.briefing.title}</span>
                         {props.briefing.items?.map((i) => {
