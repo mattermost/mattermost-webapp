@@ -6,7 +6,6 @@ import {
     LockOutlineIcon,
     MessageTextOutlineIcon,
 } from '@mattermost/compass-icons/components';
-import classNames from 'classnames';
 
 import React, {useRef} from 'react';
 
@@ -14,7 +13,7 @@ import {useIntl} from 'react-intl';
 
 import {useSelector} from 'react-redux';
 
-import {components, IndicatorProps, OptionProps, ValueType} from 'react-select';
+import {components, IndicatorProps, OptionProps, SingleValueProps, ValueType} from 'react-select';
 
 import {Props as AsyncSelectProps} from 'react-select/src/Async';
 
@@ -69,8 +68,8 @@ export const makeSelectedChannelOption = (channel: Channel) => ({
     details: channel,
 });
 
-const FormattedOption = (props: OptionProps<ChannelOption>) => {
-    const {data: {details}, isSelected, isFocused} = props;
+const FormattedOption = (props: ChannelOption & {className: string}) => {
+    const {details} = props;
 
     const {formatMessage} = useIntl();
 
@@ -81,10 +80,6 @@ const FormattedOption = (props: OptionProps<ChannelOption>) => {
     const team = useSelector((state: GlobalState) => getTeam(state, details.team_id));
     const userImageUrl = user?.id && Utils.imageURLForUser(user.id, user.last_picture_update);
     const isPartOfOnlyOneTeam = useSelector((state: GlobalState) => getMyTeams(state).length === 1);
-
-    if (teammate?.is_bot) {
-        return null;
-    }
 
     const channelIsArchived = details.delete_at > 0;
 
@@ -176,26 +171,56 @@ const FormattedOption = (props: OptionProps<ChannelOption>) => {
     ) : null;
 
     return (
+        <div
+            id={`post-forward_channel-select_${details.name}`}
+            className={props.className}
+            data-testid={details.name}
+            aria-label={name}
+        >
+            {icon}
+            <span className='option__content'>
+                <span className='option__content--text'>{name}</span>
+                {(isPartOfOnlyOneTeam || details.type === Constants.DM_CHANNEL) && description && (
+                    <span className='option__content--description'>{description}</span>
+                )}
+                {customStatus}
+                {sharedIcon}
+                {tag}
+            </span>
+            {!isPartOfOnlyOneTeam && teamName}
+        </div>
+    );
+};
+
+const Option = (props: OptionProps<ChannelOption>) => {
+    const {data} = props;
+
+    const teammate = useSelector((state: GlobalState) => getDirectTeammate(state, data.details.id));
+
+    if (teammate?.is_bot) {
+        return null;
+    }
+
+    return (
         <components.Option {...props}>
-            <div
-                id={`post-forward_channel-select_${details.name}`}
-                className={classNames('option', {isSelected, isFocused})}
-                data-testid={details.name}
-                aria-label={name}
-            >
-                {icon}
-                <span className='option__content'>
-                    <span className='option__content--text'>{name}</span>
-                    {(isPartOfOnlyOneTeam || details.type === Constants.DM_CHANNEL) && description && (
-                        <span className='option__content--description'>{description}</span>
-                    )}
-                    {customStatus}
-                    {sharedIcon}
-                    {tag}
-                </span>
-                {!isPartOfOnlyOneTeam && teamName}
-            </div>
+            <FormattedOption
+                {...data}
+                className='option'
+            />
         </components.Option>
+    );
+};
+
+const SingleValue = (props: SingleValueProps<ChannelOption>) => {
+    const {data} = props;
+
+    return (
+        <components.SingleValue {...props}>
+            <FormattedOption
+                {...data}
+                className='singleValue'
+            />
+        </components.SingleValue>
     );
 };
 
@@ -281,7 +306,7 @@ function ForwardPostChannelSelect({onSelect, value, currentBodyHeight}: Props<Ch
             onChange={onSelect}
             loadOptions={handleInputChange}
             defaultOptions={defaultOptions.current}
-            components={{DropdownIndicator, Option: FormattedOption}}
+            components={{DropdownIndicator, Option, SingleValue}}
             styles={baseStyles}
             legend='Forrward to'
             placeholder='Select channel or people'

@@ -37,7 +37,8 @@
     &__select {
         position: relative;
 
-        .option {
+        .option,
+        .singleValue {
             top: 100%;
             display: grid;
             align-content: center;
