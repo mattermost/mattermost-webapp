@@ -224,7 +224,7 @@ export function loadNewDMIfNeeded(channelId: string) {
             const userId = Utils.getUserIdFromChannelName(channel);
 
             if (!userId) {
-                return;
+                return {data: false};
             }
 
             const pref = getBool(state, Preferences.CATEGORY_DIRECT_CHANNEL_SHOW, userId, false);
@@ -235,19 +235,23 @@ export function loadNewDMIfNeeded(channelId: string) {
                     {user_id: currentUserId, category: Preferences.CATEGORY_CHANNEL_OPEN_TIME, name: channelId, value: now.toString()},
                 ])(doDispatch);
                 loadProfilesForDM();
+                return {data: true};
             }
+            return {data: false};
         }
+
+        let result = {data: false};
 
         const channel = getChannel(doGetState(), channelId);
         if (channel) {
-            checkPreference(channel);
+            result = checkPreference(channel);
         } else {
-            const result = await getChannelAndMyMember(channelId)(doDispatch, doGetState) as ActionResult;
-            if (result.data) {
-                checkPreference(result.data.channel);
+            const {data} = await getChannelAndMyMember(channelId)(doDispatch, doGetState) as ActionResult;
+            if (data) {
+                result = checkPreference(data.channel);
             }
         }
-        return {data: true};
+        return result;
     };
 }
 
@@ -261,15 +265,21 @@ export function loadNewGMIfNeeded(channelId: string) {
             if (pref === false) {
                 dispatch(savePreferences(currentUserId, [{user_id: currentUserId, category: Preferences.CATEGORY_GROUP_CHANNEL_SHOW, name: channelId, value: 'true'}]));
                 loadProfilesForGM();
+                return {data: true};
             }
+            return {data: false};
         }
 
         const channel = getChannel(state, channelId);
         if (!channel) {
             await getChannelAndMyMember(channelId)(doDispatch, doGetState);
         }
+<<<<<<< HEAD:actions/user_actions.ts
         checkPreference();
         return {data: true};
+=======
+        return checkPreference();
+>>>>>>> f527eff50942abbe9fadf0a992e7d68de466af3c:actions/user_actions.jsx
     };
 }
 

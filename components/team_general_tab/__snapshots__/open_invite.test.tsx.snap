@@ -8,9 +8,14 @@ exports[`components/TeamSettings/OpenInvite should match snapshot on active with
     Array [
       <div>
         <div>
-          <injectIntl(FormattedMarkdownMessage)
-            defaultMessage="No, members of this team are added and removed by linked groups. [Learn More](!https://mattermost.com/pl/default-ldap-group-constrained-team-channel.html)"
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="No, members of this team are added and removed by linked groups. <link>Learn More</link>"
             id="team_settings.openInviteDescription.groupConstrained"
+            values={
+              Object {
+                "link": [Function],
+              }
+            }
           />
         </div>
       </div>,

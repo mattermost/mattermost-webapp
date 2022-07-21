@@ -20,6 +20,7 @@ import {GetStateFunc} from 'mattermost-redux/types/actions';
 jest.mock('mattermost-redux/actions/channels', () => ({
     ...jest.requireActual('mattermost-redux/actions/channels'),
     markChannelAsReadOnServer: (...args: any[]) => ({type: 'MOCK_MARK_CHANNEL_AS_READ_ON_SERVER', args}),
+    markChannelAsViewedOnServer: (...args: any[]) => ({type: 'MOCK_MARK_CHANNEL_AS_VIEWED_ON_SERVER', args}),
 }));
 
 const POST_CREATED_TIME = Date.now();
@@ -183,7 +184,7 @@ describe('actions/new_post', () => {
             ]);
             expect(testStore.getActions()).toMatchObject([
                 {
-                    type: 'MOCK_MARK_CHANNEL_AS_READ_ON_SERVER',
+                    type: 'MOCK_MARK_CHANNEL_AS_VIEWED_ON_SERVER',
                     args: [channelId],
                 },
             ]);
