@@ -205,9 +205,8 @@ export function isCollapsedThreadsEnabled(state: GlobalState): boolean {
     return isAllowed && (userPreference === Preferences.COLLAPSED_REPLY_THREADS_ON || getConfig(state).CollapsedThreads === CollapsedThreads.ALWAYS_ON);
 }
 
-// TODO: remove the `true` alternate return when the feature is tested and passed on the PR
 export function getIsPostForwardingEnabled(state: GlobalState): boolean {
-    return getFeatureFlagValue(state, 'PostForwarding') === 'true' || true;
+    return getFeatureFlagValue(state, 'PostForwarding') === 'true';
 }
 
 export function isGroupChannelManuallyVisible(state: GlobalState, channelId: string): boolean {
