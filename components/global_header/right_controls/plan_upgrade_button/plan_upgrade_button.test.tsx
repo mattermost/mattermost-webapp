@@ -10,9 +10,9 @@ import mockStore from 'tests/test_store';
 import {CloudProducts} from 'utils/constants';
 import * as cloudActions from 'mattermost-redux/actions/cloud';
 
-import CloudUpgradeButton from './index';
+import PlanUpgradeButton from './index';
 
-describe('components/global/CloudUpgradeButton', () => {
+describe('components/global/PlanUpgradeButton', () => {
     const useDispatchMock = jest.spyOn(reactRedux, 'useDispatch');
 
     beforeEach(() => {
@@ -24,6 +24,9 @@ describe('components/global/CloudUpgradeButton', () => {
                 license: {
                     IsLicensed: 'true',
                     Cloud: 'true',
+                },
+                config: {
+                    BuildEnterpriseReady: 'true',
                 },
             },
             users: {
@@ -46,7 +49,7 @@ describe('components/global/CloudUpgradeButton', () => {
             },
         },
     };
-    it('should show Upgrade button in global header for admin users, cloud and starter subscription', () => {
+    it('should show Upgrade button in global header for admin users, cloud starter subscription', () => {
         const state = {
             ...initialState,
         };
@@ -61,7 +64,7 @@ describe('components/global/CloudUpgradeButton', () => {
 
         const wrapper = mount(
             <reactRedux.Provider store={store}>
-                <CloudUpgradeButton/>
+                <PlanUpgradeButton/>
             </reactRedux.Provider>,
         );
 
@@ -93,14 +96,14 @@ describe('components/global/CloudUpgradeButton', () => {
 
         const wrapper = mount(
             <reactRedux.Provider store={store}>
-                <CloudUpgradeButton/>
+                <PlanUpgradeButton/>
             </reactRedux.Provider>,
         );
 
         expect(wrapper.find('UpgradeButton').exists()).toEqual(true);
     });
 
-    it('should not show for enterprise non-trial', () => {
+    it('should not show for cloud enterprise non-trial', () => {
         const state = JSON.parse(JSON.stringify(initialState));
         state.entities.cloud = {
             subscription: {
@@ -123,14 +126,14 @@ describe('components/global/CloudUpgradeButton', () => {
 
         const wrapper = mount(
             <reactRedux.Provider store={store}>
-                <CloudUpgradeButton/>
+                <PlanUpgradeButton/>
             </reactRedux.Provider>,
         );
 
         expect(wrapper.find('UpgradeButton').exists()).toEqual(false);
     });
 
-    it('should not show for professional product', () => {
+    it('should not show for cloud professional product', () => {
         const state = JSON.parse(JSON.stringify(initialState));
         state.entities.cloud = {
             subscription: {
@@ -153,14 +156,14 @@ describe('components/global/CloudUpgradeButton', () => {
 
         const wrapper = mount(
             <reactRedux.Provider store={store}>
-                <CloudUpgradeButton/>
+                <PlanUpgradeButton/>
             </reactRedux.Provider>,
         );
 
         expect(wrapper.find('UpgradeButton').exists()).toEqual(false);
     });
 
-    it('should not show Upgrade button in global header for non admin users', () => {
+    it('should not show Upgrade button in global header for non admin cloud users', () => {
         const state = JSON.parse(JSON.stringify(initialState));
         state.entities.users = {
             currentUserId: 'current_user_id',
@@ -176,15 +179,75 @@ describe('components/global/CloudUpgradeButton', () => {
 
         const wrapper = mount(
             <reactRedux.Provider store={store}>
-                <CloudUpgradeButton/>
+                <PlanUpgradeButton/>
             </reactRedux.Provider>,
         );
 
         expect(wrapper.find('UpgradeButton').exists()).toEqual(false);
     });
 
-    it('should not show Upgrade button in global header for non cloud', () => {
+    it('should not show Upgrade button in global header for non admin self hosted users', () => {
         const state = JSON.parse(JSON.stringify(initialState));
+        state.entities.users = {
+            currentUserId: 'current_user_id',
+            profiles: {
+                current_user_id: {roles: 'system_user'},
+            },
+        };
+        state.entities.general.license = {
+            IsLicensed: 'false', // starter
+            Cloud: 'false',
+        };
+
+        const store = mockStore(state);
+
+        const dummyDispatch = jest.fn();
+        useDispatchMock.mockReturnValue(dummyDispatch);
+
+        const wrapper = mount(
+            <reactRedux.Provider store={store}>
+                <PlanUpgradeButton/>
+            </reactRedux.Provider>,
+        );
+
+        expect(wrapper.find('UpgradeButton').exists()).toEqual(false);
+    });
+
+    it('should not show Upgrade button in global header for non enterprise edition self hosted users', () => {
+        const state = JSON.parse(JSON.stringify(initialState));
+        state.entities.users = {
+            currentUserId: 'current_user_id',
+            profiles: {
+                current_user_id: {roles: 'system_user'},
+            },
+        };
+
+        state.entities.general.license = {
+            IsLicensed: 'false',
+            Cloud: 'false',
+        };
+
+        state.entities.general.config = {
+            BuildEnterpriseReady: 'false',
+        };
+
+        const store = mockStore(state);
+
+        const dummyDispatch = jest.fn();
+        useDispatchMock.mockReturnValue(dummyDispatch);
+
+        const wrapper = mount(
+            <reactRedux.Provider store={store}>
+                <PlanUpgradeButton/>
+            </reactRedux.Provider>,
+        );
+
+        expect(wrapper.find('UpgradeButton').exists()).toEqual(false);
+    });
+
+    it('should NOT show Upgrade button in global header for self hosted non trial and licensed', () => {
+        const state = JSON.parse(JSON.stringify(initialState));
+
         state.entities.general.license = {
             IsLicensed: 'true',
             Cloud: 'false',
@@ -200,7 +263,7 @@ describe('components/global/CloudUpgradeButton', () => {
 
         const wrapper = mount(
             <reactRedux.Provider store={store}>
-                <CloudUpgradeButton/>
+                <PlanUpgradeButton/>
             </reactRedux.Provider>,
         );
 

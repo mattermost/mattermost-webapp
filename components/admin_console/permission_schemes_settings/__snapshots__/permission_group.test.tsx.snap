@@ -24,10 +24,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         id="admin.permissions.group.name.name"
       />
     </span>
-    <injectIntl(PermissionDescription)
-      additionalValues={Object {}}
+    <PermissionDescription
       id="name"
-      inherited={null}
       rowType="group"
       selectRow={[MockFunction]}
     />
@@ -38,10 +36,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <PermissionRow
       additionalValues={Object {}}
       id="invite_user"
-      inherited={null}
       key="invite_user"
       onChange={[Function]}
-      readOnly={null}
       selectRow={[MockFunction]}
       uniqId="uniqId-invite_user"
       value=""
@@ -49,10 +45,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <PermissionRow
       additionalValues={Object {}}
       id="add_user_to_team"
-      inherited={null}
       key="add_user_to_team"
       onChange={[Function]}
-      readOnly={null}
       selectRow={[MockFunction]}
       uniqId="uniqId-add_user_to_team"
       value=""
@@ -85,10 +79,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         id="admin.permissions.group.name.name"
       />
     </span>
-    <injectIntl(PermissionDescription)
-      additionalValues={Object {}}
+    <PermissionDescription
       id="name"
-      inherited={null}
       rowType="group"
       selectRow={[MockFunction]}
     />
@@ -99,10 +91,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <PermissionRow
       additionalValues={Object {}}
       id="invite_user"
-      inherited={null}
       key="invite_user"
       onChange={[Function]}
-      readOnly={null}
       selectRow={[MockFunction]}
       uniqId="uniqId-invite_user"
       value=""
@@ -110,10 +100,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <PermissionRow
       additionalValues={Object {}}
       id="add_user_to_team"
-      inherited={null}
       key="add_user_to_team"
       onChange={[Function]}
-      readOnly={null}
       selectRow={[MockFunction]}
       uniqId="uniqId-add_user_to_team"
       value=""
@@ -146,10 +134,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         id="admin.permissions.group.name.name"
       />
     </span>
-    <injectIntl(PermissionDescription)
-      additionalValues={Object {}}
+    <PermissionDescription
       id="name"
-      inherited={null}
       rowType="group"
       selectRow={[MockFunction]}
     />
@@ -160,10 +146,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <PermissionRow
       additionalValues={Object {}}
       id="invite_user"
-      inherited={null}
       key="invite_user"
       onChange={[Function]}
-      readOnly={null}
       selectRow={[MockFunction]}
       uniqId="uniqId-invite_user"
       value=""
@@ -171,10 +155,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <PermissionRow
       additionalValues={Object {}}
       id="add_user_to_team"
-      inherited={null}
       key="add_user_to_team"
       onChange={[Function]}
-      readOnly={null}
       selectRow={[MockFunction]}
       uniqId="uniqId-add_user_to_team"
       value=""
@@ -207,10 +189,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         id="admin.permissions.group.name.name"
       />
     </span>
-    <injectIntl(PermissionDescription)
-      additionalValues={Object {}}
+    <PermissionDescription
       id="name"
-      inherited={null}
       rowType="group"
       selectRow={[MockFunction]}
     />
@@ -221,10 +201,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <PermissionRow
       additionalValues={Object {}}
       id="invite_user"
-      inherited={null}
       key="invite_user"
       onChange={[Function]}
-      readOnly={null}
       selectRow={[MockFunction]}
       uniqId="uniqId-invite_user"
       value="checked"
@@ -232,10 +210,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <PermissionRow
       additionalValues={Object {}}
       id="add_user_to_team"
-      inherited={null}
       key="add_user_to_team"
       onChange={[Function]}
-      readOnly={null}
       selectRow={[MockFunction]}
       uniqId="uniqId-add_user_to_team"
       value="checked"
@@ -268,10 +244,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         id="admin.permissions.group.name.name"
       />
     </span>
-    <injectIntl(PermissionDescription)
-      additionalValues={Object {}}
+    <PermissionDescription
       id="name"
-      inherited={null}
       rowType="group"
       selectRow={[MockFunction]}
     />
@@ -282,7 +256,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <PermissionRow
       additionalValues={Object {}}
       id="invite_user"
-      inherited={null}
       key="invite_user"
       onChange={[Function]}
       readOnly={true}
@@ -293,7 +266,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <PermissionRow
       additionalValues={Object {}}
       id="add_user_to_team"
-      inherited={null}
       key="add_user_to_team"
       onChange={[Function]}
       readOnly={true}
@@ -329,10 +301,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         id="admin.permissions.group.name.name"
       />
     </span>
-    <injectIntl(PermissionDescription)
-      additionalValues={Object {}}
+    <PermissionDescription
       id="name"
-      inherited={null}
       rowType="group"
       selectRow={[MockFunction]}
     />
@@ -404,10 +374,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         id="admin.permissions.group.name.name"
       />
     </span>
-    <injectIntl(PermissionDescription)
-      additionalValues={Object {}}
+    <PermissionDescription
       id="name"
-      inherited={null}
       rowType="group"
       selectRow={[MockFunction]}
     />
@@ -418,10 +386,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <PermissionRow
       additionalValues={Object {}}
       id="invite_user"
-      inherited={null}
       key="invite_user"
       onChange={[Function]}
-      readOnly={null}
       selectRow={[MockFunction]}
       uniqId="uniqId-invite_user"
       value="checked"
@@ -429,10 +395,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <PermissionRow
       additionalValues={Object {}}
       id="add_user_to_team"
-      inherited={null}
       key="add_user_to_team"
       onChange={[Function]}
-      readOnly={null}
       selectRow={[MockFunction]}
       uniqId="uniqId-add_user_to_team"
       value=""
@@ -465,10 +429,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         id="admin.permissions.group.name.name"
       />
     </span>
-    <injectIntl(PermissionDescription)
-      additionalValues={Object {}}
+    <PermissionDescription
       id="name"
-      inherited={null}
       rowType="group"
       selectRow={[MockFunction]}
     />
@@ -479,7 +441,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <PermissionRow
       additionalValues={Object {}}
       id="invite_user"
-      inherited={null}
       key="invite_user"
       onChange={[Function]}
       readOnly={true}
@@ -490,7 +451,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <PermissionRow
       additionalValues={Object {}}
       id="add_user_to_team"
-      inherited={null}
       key="add_user_to_team"
       onChange={[Function]}
       readOnly={true}
@@ -526,10 +486,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         id="admin.permissions.group.name.name"
       />
     </span>
-    <injectIntl(PermissionDescription)
-      additionalValues={Object {}}
+    <PermissionDescription
       id="name"
-      inherited={null}
       rowType="group"
       selectRow={[MockFunction]}
     />
@@ -557,7 +515,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <PermissionRow
       additionalValues={Object {}}
       id="add_user_to_team"
-      inherited={null}
       key="add_user_to_team"
       onChange={[Function]}
       readOnly={false}
@@ -593,10 +550,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         id="admin.permissions.group.name.name"
       />
     </span>
-    <injectIntl(PermissionDescription)
-      additionalValues={Object {}}
+    <PermissionDescription
       id="name"
-      inherited={null}
       rowType="group"
       selectRow={[MockFunction]}
     />
@@ -607,10 +562,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <PermissionRow
       additionalValues={Object {}}
       id="invite_user"
-      inherited={null}
       key="invite_user"
       onChange={[Function]}
-      readOnly={null}
       selectRow={[MockFunction]}
       uniqId="uniqId-invite_user"
       value=""
@@ -618,10 +571,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <PermissionRow
       additionalValues={Object {}}
       id="add_user_to_team"
-      inherited={null}
       key="add_user_to_team"
       onChange={[Function]}
-      readOnly={null}
       selectRow={[MockFunction]}
       uniqId="uniqId-add_user_to_team"
       value=""
@@ -654,10 +605,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         id="admin.permissions.group.name.name"
       />
     </span>
-    <injectIntl(PermissionDescription)
-      additionalValues={Object {}}
+    <PermissionDescription
       id="name"
-      inherited={null}
       rowType="group"
       selectRow={[MockFunction]}
     />
@@ -668,10 +617,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <PermissionRow
       additionalValues={Object {}}
       id="invite_user"
-      inherited={null}
       key="invite_user"
       onChange={[Function]}
-      readOnly={null}
       selectRow={[MockFunction]}
       uniqId="uniqId-invite_user"
       value=""
@@ -679,10 +626,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <PermissionRow
       additionalValues={Object {}}
       id="add_user_to_team"
-      inherited={null}
       key="add_user_to_team"
       onChange={[Function]}
-      readOnly={null}
       selectRow={[MockFunction]}
       uniqId="uniqId-add_user_to_team"
       value=""
@@ -715,10 +660,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         id="admin.permissions.group.name.name"
       />
     </span>
-    <injectIntl(PermissionDescription)
-      additionalValues={Object {}}
+    <PermissionDescription
       id="name"
-      inherited={null}
       rowType="group"
       selectRow={[MockFunction]}
     />
@@ -729,7 +672,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <PermissionRow
       additionalValues={Object {}}
       id="invite_user"
-      inherited={null}
       key="invite_user"
       onChange={[Function]}
       readOnly={true}
@@ -740,7 +682,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
     <PermissionRow
       additionalValues={Object {}}
       id="add_user_to_team"
-      inherited={null}
       key="add_user_to_team"
       onChange={[Function]}
       readOnly={true}
