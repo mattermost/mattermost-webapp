@@ -83,10 +83,6 @@ const FormattedOption = (props: ChannelOption) => {
 
     const channelIsArchived = details.delete_at > 0;
 
-    if (teammate?.is_bot) {
-        return null;
-    }
-
     let icon;
     const iconProps = {
         size: 16,
@@ -207,6 +203,8 @@ const DropdownIndicator = (props: IndicatorProps<ChannelOption>) => {
     );
 };
 
+const validChannelTypes = ['O', 'P', 'D', 'G'];
+
 type Props<O> = {
     onSelect: (channel: ValueType<O>) => void;
     currentBodyHeight: number;
@@ -219,6 +217,8 @@ function ForwardPostChannelSelect({onSelect, value, currentBodyHeight}: Props<Ch
 
     const baseStyles = getBaseStyles(currentBodyHeight);
 
+    const isValidChannelType = (channel: Channel) => validChannelTypes.includes(channel.type) && !channel.delete_at;
+
     const getDefaultResults = () => {
         let options: GroupedOption[] = [];
 
@@ -226,7 +226,7 @@ function ForwardPostChannelSelect({onSelect, value, currentBodyHeight}: Props<Ch
             options = [
                 {
                     label: formatMessage({id: 'suggestion.mention.recent.channels', defaultMessage: 'Recent'}),
-                    options: res.items.filter((item) => item.channel.type !== 'threads' && !item.channel.delete_at).map((item) => {
+                    options: res.items.filter((item) => isValidChannelType(item.channel)).map((item) => {
                         const {channel} = item;
                         return makeSelectedChannelOption(channel);
                     }),
@@ -253,7 +253,7 @@ function ForwardPostChannelSelect({onSelect, value, currentBodyHeight}: Props<Ch
             let callCount = inputValue ? 1 : 0;
             const handleResults = (res: ProviderResults) => {
                 callCount++;
-                res.items.filter((item) => item.channel.type !== 'threads' && item.channel.delete_at === 0).forEach((item) => {
+                res.items.filter((item) => isValidChannelType(item.channel)).forEach((item) => {
                     const {channel} = item;
 
                     options.push(makeSelectedChannelOption(channel));
