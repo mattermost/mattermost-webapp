@@ -9,3 +9,5 @@ export {
 } from './client4';
 
 export {TelemetryHandler} from './telemetry';
+
+export {default as WebSocketClient, WebSocketMessage} from './websocket';

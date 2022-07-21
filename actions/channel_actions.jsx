@@ -86,6 +86,7 @@ export function loadChannelsForCurrentUser() {
         }
 
         loadProfilesForSidebar();
+        return {data: true};
     };
 }
 

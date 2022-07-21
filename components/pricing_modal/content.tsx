@@ -4,7 +4,6 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
-import styled from 'styled-components';
 
 import {CloudLinks, CloudProducts, ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
 import {fallbackStarterLimits, fallbackProfessionalLimits, asGBString} from 'utils/limits';
@@ -33,121 +32,16 @@ import NotifyAdminCTA from 'components/notify_admin_cta/notify_admin_cta';
 import DowngradeTeamRemovalModal from './downgrade_team_removal_modal';
 import ContactSalesCTA from './contact_sales_cta';
 import StarterDisclaimerCTA from './starter_disclaimer_cta';
+import StartTrialCaution from './start_trial_caution';
+import Card, {ButtonCustomiserClasses} from './card';
 
 import LadySvg from './lady.svg';
 import ManSvg from './man.svg';
 
 import './content.scss';
 
-type PlanBriefing = {
-    title: string;
-    items: string[];
-}
-
-enum ButtonCustomiserClasses {
-    grayed = 'grayed',
-    active = 'active',
-    special = 'special',
-    secondary = 'secondary',
-}
-
-type ButtonDetails = {
-    action: () => void;
-    text: string;
-    disabled?: boolean;
-    customClass?: ButtonCustomiserClasses;
-};
-
-type CardProps = {
-    id: string;
-    topColor: string;
-    plan: string;
-    price: string;
-    rate?: string;
-    briefing: PlanBriefing;
-    extraBriefing: PlanBriefing;
-    planExtraInformation?: JSX.Element;
-    buttonDetails?: ButtonDetails;
-    customButtonDetails?: JSX.Element;
-    planLabel?: JSX.Element;
-}
-
 type ContentProps = {
     onHide: () => void;
-}
-
-type StyledProps = {
-    bgColor?: string;
-    color?: string;
-}
-
-const StyledDiv = styled.div<StyledProps>`
-background-color: ${(props) => props.bgColor};
-`;
-
-function Card(props: CardProps) {
-    return (
-        <div
-            id={props.id}
-            className='PlanCard'
-        >
-            {props.planLabel && props.planLabel}
-            <StyledDiv
-                className='top'
-                bgColor={props.topColor}
-            />
-            <div className='bottom'>
-                <div className='plan_price_rate_section'>
-                    <h4>{props.plan}</h4>
-                    <h1 className={props.plan === 'Enterprise' ? 'enterprise_price' : ''}>{props.price}</h1>
-                    <p>{props.rate}</p>
-                </div>
-                <div className='plan_briefing'>
-                    <div>
-                        <span className='title'>{props.briefing.title}</span>
-                        {props.briefing.items.map((i) => {
-                            return (
-                                <div
-                                    className='item'
-                                    key={i}
-                                >
-                                    <i className='fa fa-circle bullet'/><p>{i}</p>
-                                </div>
-                            );
-                        })}
-                    </div>
-                    {props.planExtraInformation && props.planExtraInformation}
-                </div>
-                <div>
-                    {props.customButtonDetails ? props.customButtonDetails : (
-                        <button
-                            id={props.id + '_action'}
-                            className={`plan_action_btn ${props.buttonDetails?.disabled ? ButtonCustomiserClasses.grayed : props.buttonDetails?.customClass}`}
-                            disabled={props.buttonDetails?.disabled}
-                            onClick={props.buttonDetails?.action}
-                        >
-                            {props.buttonDetails?.text}
-                        </button>
-                    )}
-                </div>
-                <div className='plan_extra_briefing'>
-                    <div>
-                        <span className='title'>{props.extraBriefing.title}</span>
-                        {props.extraBriefing.items.map((i) => {
-                            return (
-                                <div
-                                    className='item'
-                                    key={i}
-                                >
-                                    <i className='fa fa-circle bullet'/><p>{i}</p>
-                                </div>
-                            );
-                        })}
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
 }
 
 function Content(props: ContentProps) {
@@ -237,7 +131,7 @@ function Content(props: ContentProps) {
                 />
             </Modal.Header>
             <Modal.Body>
-                <div className='self-hosted-alert'>
+                <div className='alert-option'>
                     <span>{formatMessage({id: 'pricing_modal.lookingToSelfHost', defaultMessage: 'Looking to self-host?'})}</span>
                     <a
                         onClick={() =>
@@ -389,6 +283,7 @@ function Content(props: ContentProps) {
                                 afterTrialRequest={closePricingModal}
                             />
                         ) : undefined}
+                        planDisclaimer={isPostTrial ? undefined : <StartTrialCaution/>}
                     />
                 </div>
             </Modal.Body>

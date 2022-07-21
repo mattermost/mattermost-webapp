@@ -97,7 +97,7 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
 
 function searchAndSelectUser(text) {
     cy.findByRole('textbox', {name: 'Search for people'}).
-        type(text).
+        typeWithForce(text).
         wait(TIMEOUTS.ONE_SEC);
     cy.get('.more-modal__row.clickable').
         first().
