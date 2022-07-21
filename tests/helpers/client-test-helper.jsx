@@ -73,7 +73,6 @@ class TestHelperClass {
     fakeUser = () => {
         var user = {};
         user.email = this.fakeEmail();
-        user.allow_marketing = true;
         user.password = 'password1';
         user.username = this.generateId();
         return user;
