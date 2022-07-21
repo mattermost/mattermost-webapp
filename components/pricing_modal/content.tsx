@@ -129,9 +129,9 @@ function Content(props: ContentProps) {
         title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),
         items: [
             formatMessage({id: 'admin.billing.subscription.planDetails.features.groupAndOneToOneMessaging', defaultMessage: 'Group and one-to-one messaging, file sharing, and search'}),
-            formatMessage({id: 'admin.billing.subscription.planDetails.features.incidentCollaboration',defaultMessage: 'Incident collaboration'}),
-            formatMessage({id: 'admin.billing.subscription.planDetails.features.unlimittedUsersAndMessagingHistory',defaultMessage: 'Unlimited users & message history'}),
-            formatMessage({id: 'admin.billing.subscription.planDetails.features.mfa',defaultMessage: 'Multi-Factor Authentication (MFA)'}),
+            formatMessage({id: 'admin.billing.subscription.planDetails.features.incidentCollaboration', defaultMessage: 'Incident collaboration'}),
+            formatMessage({id: 'admin.billing.subscription.planDetails.features.unlimittedUsersAndMessagingHistory', defaultMessage: 'Unlimited users & message history'}),
+            formatMessage({id: 'admin.billing.subscription.planDetails.features.mfa', defaultMessage: 'Multi-Factor Authentication (MFA)'}),
         ],
     };
 
