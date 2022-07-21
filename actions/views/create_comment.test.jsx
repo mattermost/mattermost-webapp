@@ -18,6 +18,7 @@ import {
     makeOnSubmit,
     makeOnEditLatestPost,
 } from 'actions/views/create_comment';
+import {removeDraft} from 'actions/views/drafts';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import * as PostActions from 'actions/post_actions.jsx';
 import {executeCommand} from 'actions/command';
@@ -27,6 +28,19 @@ import {StoragePrefixes} from 'utils/constants';
 import mockStore from 'tests/test_store';
 
 /* eslint-disable global-require */
+
+jest.mock('mattermost-redux/client', () => {
+    const original = jest.requireActual('mattermost-redux/client');
+
+    return {
+        ...original,
+        Client4: {
+            ...original.Client4,
+            deleteDraft: jest.fn().mockResolvedValue([]),
+            upsertDraft: jest.fn().mockResolvedValue([]),
+        },
+    };
+});
 
 jest.mock('mattermost-redux/actions/posts', () => ({
     removeReaction: (...args) => ({type: 'MOCK_REMOVE_REACTION', args}),
@@ -138,6 +152,8 @@ describe('rhs view actions', () => {
                         message: '',
                         fileInfos: [],
                         uploadsInProgress: [],
+                        channelId,
+                        rootId,
                     },
                     timestamp: new Date(),
                 },
@@ -164,7 +180,7 @@ describe('rhs view actions', () => {
             // make sure callback is a function which clears uploadsInProgress
             expect(typeof callback).toBe('function');
 
-            const draft = {message: 'test msg', uploadsInProgress: [3, 4], fileInfos: [{id: 1}, {id: 2}]};
+            const draft = {message: 'test msg', channelId, rootId, uploadsInProgress: [3, 4], fileInfos: [{id: 1}, {id: 2}]};
 
             expect(callback(null, draft)).toEqual({...draft, uploadsInProgress: []});
 
@@ -177,7 +193,7 @@ describe('rhs view actions', () => {
     });
 
     describe('updateCommentDraft', () => {
-        const draft = {message: 'test msg', fileInfos: [{id: 1}], uploadsInProgress: [2, 3]};
+        const draft = {message: 'test msg', channelId, rootId, fileInfos: [{id: 1}], uploadsInProgress: [2, 3]};
 
         test('it calls setGlobalItem action correctly', () => {
             jest.useFakeTimers('modern');
@@ -219,7 +235,7 @@ describe('rhs view actions', () => {
 
             const testStore = mockStore(initialState);
 
-            testStore.dispatch(updateCommentDraft(rootId, {message: 'test message', fileInfos: [], uploadsInProgress: []}));
+            testStore.dispatch(updateCommentDraft(rootId, {message: 'test message', channelId, rootId, fileInfos: [], uploadsInProgress: []}));
 
             expect(store.getActions()).toEqual(
                 expect.arrayContaining(testStore.getActions()),
@@ -228,7 +244,7 @@ describe('rhs view actions', () => {
     });
 
     describe('submitPost', () => {
-        const draft = {message: '', fileInfos: []};
+        const draft = {message: '', channelId, rootId, fileInfos: []};
 
         const post = {
             file_ids: [],
@@ -287,7 +303,7 @@ describe('rhs view actions', () => {
             root_id: rootId,
         };
 
-        const draft = {message: '/test msg'};
+        const draft = {message: '/test msg', channelId, rootId};
 
         test('it calls executeCommand', async () => {
             await store.dispatch(submitCommand(channelId, rootId, draft));
@@ -330,16 +346,18 @@ describe('rhs view actions', () => {
     describe('makeOnSubmit', () => {
         const onSubmit = makeOnSubmit(channelId, rootId, latestPostId);
         const draft = {
-            message: '',
+            message: 'test',
             fileInfos: [],
             uploadsInProgress: [],
+            rootId,
+            channelId,
         };
 
         test('it adds message into history', () => {
             store.dispatch(onSubmit(draft));
 
             const testStore = mockStore(initialState);
-            testStore.dispatch(addMessageIntoHistory(''));
+            testStore.dispatch(addMessageIntoHistory('test'));
 
             expect(store.getActions()).toEqual(
                 expect.arrayContaining(testStore.getActions()),
@@ -350,7 +368,8 @@ describe('rhs view actions', () => {
             store.dispatch(onSubmit(draft));
 
             const testStore = mockStore(initialState);
-            testStore.dispatch(updateCommentDraft(rootId, null));
+            const key = `${StoragePrefixes.COMMENT_DRAFT}${rootId}`;
+            testStore.dispatch(removeDraft(key, channelId, rootId));
 
             expect(store.getActions()).toEqual(
                 expect.arrayContaining(testStore.getActions()),
