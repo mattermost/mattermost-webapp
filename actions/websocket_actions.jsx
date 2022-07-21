@@ -160,11 +160,12 @@ export function initialize() {
 
     connUrl += Client4.getUrlVersion() + '/websocket';
 
-    WebSocketClient.setEventCallback(handleEvent);
-    WebSocketClient.setFirstConnectCallback(handleFirstConnect);
-    WebSocketClient.setReconnectCallback(() => reconnect(false));
-    WebSocketClient.setMissedEventCallback(restart);
-    WebSocketClient.setCloseCallback(handleClose);
+    WebSocketClient.addMessageListener(handleEvent);
+    WebSocketClient.addFirstConnectListener(handleFirstConnect);
+    WebSocketClient.addReconnectListener(() => reconnect(false));
+    WebSocketClient.addMissedMessageListener(restart);
+    WebSocketClient.addCloseListener(handleClose);
+
     WebSocketClient.initialize(connUrl);
 }
 
