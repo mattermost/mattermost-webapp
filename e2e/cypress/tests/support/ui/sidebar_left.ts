@@ -133,8 +133,8 @@ function uiGetChannelSidebarMenu(channelName: string): ChainableT<JQuery> {
 Cypress.Commands.add('uiGetChannelSidebarMenu', uiGetChannelSidebarMenu);
 
 function uiGetSidebarInsightsButton(): ChainableT<JQuery> {
-    cy.get('#sidebar-insights-button').should('be.visible');
-});
+    return cy.get('#sidebar-insights-button').should('be.visible');
+}
 Cypress.Commands.add('uiGetSidebarInsightsButton', uiGetSidebarInsightsButton);
 
 function uiClickSidebarItem(name: string) {
@@ -278,6 +278,7 @@ declare global {
             uiGetSystemConsoleMenu: typeof uiGetSystemConsoleMenu;
 
             uiGetSidebarThreadsButton: typeof uiGetSidebarThreadsButton;
+            uiGetSidebarInsightsButton: typeof uiGetSidebarInsightsButton;
         }
     }
 }

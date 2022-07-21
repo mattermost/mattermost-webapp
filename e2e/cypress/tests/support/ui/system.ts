@@ -33,7 +33,6 @@ function uiSaveConfig(options = {confirm: true}) {
     cy.get('#saveSetting').should('be.enabled').click();
     cy.wait(TIMEOUTS.HALF_SEC);
 
-
     if (options.confirm) {
         // # Wait until the UI shows the saving is done and revert the text to "Save"
         cy.waitUntil(() => cy.get('#saveSetting').then((el) => {
