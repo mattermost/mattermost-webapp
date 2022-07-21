@@ -8,7 +8,7 @@ type ButtonProps = MUIButtonBaseProps & {
     variant?: 'primary' | 'secondary' | 'tertiary' | 'icon';
 }
 
-const StyledButton = styled(MUIButtonBase)<ButtonProps>(({variant = 'primary'}) => {
+const Button = styled(MUIButtonBase)<ButtonProps>(({variant = 'primary'}) => {
     const isIcon = variant === 'icon';
 
     return ({
@@ -53,4 +53,4 @@ const StyledButton = styled(MUIButtonBase)<ButtonProps>(({variant = 'primary'}) 
     });
 });
 
-export default StyledButton;
+export default Button;

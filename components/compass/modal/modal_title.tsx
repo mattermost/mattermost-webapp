@@ -3,12 +3,14 @@
 
 import React from 'react';
 import {styled} from '@mui/material/styles';
-import MUIDialogTitle, {DialogTitleProps} from '@mui/material/DialogTitle';
+import MUIDialogTitle, {DialogTitleProps as MUIDialogTitleProps} from '@mui/material/DialogTitle';
 import {CloseIcon} from '@mattermost/compass-icons/components';
 
 import Button from '../button/button';
 
-const StyledModalTitle = styled(MUIDialogTitle)<DialogTitleProps>(() => ({
+type DialogTitleProps = MUIDialogTitleProps & { hasCloseButton: boolean };
+
+const StyledModalTitle = styled(MUIDialogTitle)<DialogTitleProps>(({hasCloseButton}) => ({
     display: 'grid',
     gridTemplateColumns: '1fr max-content max-content',
     gap: 12,
@@ -19,6 +21,11 @@ const StyledModalTitle = styled(MUIDialogTitle)<DialogTitleProps>(() => ({
     lineHeight: '28px',
     color: 'var(--center-channel-color)',
     alignItems: 'center',
+    padding: hasCloseButton ? '22px 26px 24px 32px' : '28px 32px 24px',
+}));
+
+const StyledModalTitleSection = styled('div')(() => ({
+    padding: '0 32px 24px 32px',
 }));
 
 type ModalTitleProps = {
@@ -29,12 +36,14 @@ type ModalTitleProps = {
 }
 
 const ModalTitle = ({title, onClose, children, rightSection = null}: ModalTitleProps) => {
+    const hasCloseButton = Boolean(onClose);
+
     return (
         <>
-            <StyledModalTitle>
+            <StyledModalTitle hasCloseButton={hasCloseButton}>
                 {title}
                 {rightSection}
-                {onClose && (
+                {hasCloseButton && (
                     <Button
                         type='button'
                         onClick={onClose}
@@ -48,7 +57,11 @@ const ModalTitle = ({title, onClose, children, rightSection = null}: ModalTitleP
                     </Button>
                 )}
             </StyledModalTitle>
-            {children}
+            {children && (
+                <StyledModalTitleSection>
+                    {children}
+                </StyledModalTitleSection>
+            )}
         </>
     );
 };

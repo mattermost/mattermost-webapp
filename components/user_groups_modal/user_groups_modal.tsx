@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {MagnifyIcon} from '@mattermost/compass-icons/components';
-import {Autocomplete, TextField, InputAdornment} from '@mui/material';
+import {InputAdornment} from '@mui/material';
 import React, {createRef, RefObject} from 'react';
 
 import Modal from 'components/compass/modal/modal';
@@ -14,6 +14,7 @@ import {Group, GroupSearachParams} from '@mattermost/types/groups';
 import './user_groups_modal.scss';
 import {debounce} from 'mattermost-redux/actions/helpers';
 import Button from '../compass/button/button';
+import TextField from '../compass/textfield/textfield';
 import ModalTitle from '../compass/modal/modal_title';
 
 const GROUPS_PER_PAGE = 60;
@@ -208,7 +209,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
     }
 
     render() {
-        const groups = this.state.selectedFilter === 'all' ? this.props.groups : this.props.myGroups;
+        // const groups = this.state.selectedFilter === 'all' ? this.props.groups : this.props.myGroups;
 
         // return (
         //     <Modal
@@ -277,24 +278,6 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
         //         }
         //     </Modal>
         // );
-        const options = [
-            {
-                label: 'Group 1',
-                value: 'group1',
-            },
-            {
-                label: 'Group 2',
-                value: 'group2',
-            },
-            {
-                label: 'Group 3',
-                value: 'group3',
-            },
-            {
-                label: 'Group 4',
-                value: 'group4',
-            },
-        ];
         return (
             <Modal
                 isOpen={this.state.show}
@@ -310,18 +293,15 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                     rightSection={<Button disableRipple={true}>{'Create user group'}</Button>}
                 >
                     <TextField
-                        label={'Search Groups'}
-                        id={'search_groups_input'}
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position='start'>
-                                    <MagnifyIcon
-                                        size={18}
-                                        color={'currentColor'}
-                                    />
-                                </InputAdornment>
-                            ),
-                        }}
+                        placeholder='Search Groups'
+                        id='search_groups_input'
+                        fullWidth={true}
+                        startIcon={(
+                            <MagnifyIcon
+                                size={18}
+                                color={'currentColor'}
+                            />
+                        )}
                     />
                 </ModalTitle>
                 {'THIS IS THE CONTENT FOR THE USER GROUPS MODAL'}
