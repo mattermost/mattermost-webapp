@@ -346,7 +346,6 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(AddUserToChannelModal)",
             "type": [Function],
           }
         }
@@ -639,7 +638,6 @@ exports[`components/ProfilePopover should match snapshot for shared user 1`] = `
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(AddUserToChannelModal)",
             "type": [Function],
           }
         }
@@ -942,7 +940,6 @@ exports[`components/ProfilePopover should match snapshot with custom status 1`] 
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(AddUserToChannelModal)",
             "type": [Function],
           }
         }
@@ -1202,7 +1199,6 @@ exports[`components/ProfilePopover should match snapshot with custom status expi
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(AddUserToChannelModal)",
             "type": [Function],
           }
         }

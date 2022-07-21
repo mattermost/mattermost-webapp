@@ -16,7 +16,7 @@ import Timestamp from 'components/timestamp';
 import Avatar from 'components/widgets/users/avatar';
 import BotBadge from 'components/widgets/badges/bot_badge';
 
-import {openPricingModal} from '../components/global_header/right_controls/cloud_upgrade_button';
+import {openPricingModal} from '../components/global_header/right_controls/plan_upgrade_button';
 
 import Textbox from './textbox';
 

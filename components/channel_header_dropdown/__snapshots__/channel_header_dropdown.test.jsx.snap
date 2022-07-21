@@ -55,7 +55,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(ChannelNotificationsModal)",
           "type": [Function],
         }
       }
@@ -102,7 +101,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(ChannelInviteModal)",
             "type": [Function],
           }
         }
@@ -122,7 +120,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(MoreDirectChannels)",
             "type": [Function],
           }
         }
@@ -156,7 +153,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(AddGroupsToChannelModal)",
             "type": [Function],
           }
         }
@@ -176,7 +172,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(injectIntl(ChannelGroupsManageModal))",
             "type": [Function],
           }
         }
@@ -232,7 +227,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(EditChannelHeaderModal)",
           "type": [Function],
         }
       }
@@ -262,7 +256,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(EditChannelHeaderModal)",
             "type": [Function],
           }
         }
@@ -284,7 +277,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(injectIntl(EditChannelPurposeModal))",
             "type": [Function],
           }
         }
@@ -306,7 +298,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(injectIntl(RenameChannelModal))",
             "type": [Function],
           }
         }
@@ -336,7 +327,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(ConvertChannelModal)",
             "type": [Function],
           }
         }
@@ -369,7 +359,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(DeleteChannelModal)",
             "type": [Function],
           }
         }
@@ -432,7 +421,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(UnarchiveChannelModal)",
             "type": [Function],
           }
         }
@@ -501,7 +489,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(ChannelNotificationsModal)",
           "type": [Function],
         }
       }
@@ -548,7 +535,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(ChannelInviteModal)",
             "type": [Function],
           }
         }
@@ -568,7 +554,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(MoreDirectChannels)",
             "type": [Function],
           }
         }
@@ -602,7 +587,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(AddGroupsToChannelModal)",
             "type": [Function],
           }
         }
@@ -622,7 +606,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(injectIntl(ChannelGroupsManageModal))",
             "type": [Function],
           }
         }
@@ -678,7 +661,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(EditChannelHeaderModal)",
           "type": [Function],
         }
       }
@@ -708,7 +690,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(EditChannelHeaderModal)",
             "type": [Function],
           }
         }
@@ -730,7 +711,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(injectIntl(EditChannelPurposeModal))",
             "type": [Function],
           }
         }
@@ -752,7 +732,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(injectIntl(RenameChannelModal))",
             "type": [Function],
           }
         }
@@ -782,7 +761,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(ConvertChannelModal)",
             "type": [Function],
           }
         }
@@ -815,7 +793,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(DeleteChannelModal)",
             "type": [Function],
           }
         }
@@ -893,7 +870,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(UnarchiveChannelModal)",
             "type": [Function],
           }
         }
