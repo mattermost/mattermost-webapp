@@ -6,13 +6,15 @@ import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 
-import {CloudProducts} from 'utils/constants';
+import Constants, {CloudProducts} from 'utils/constants';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getCloudProducts, getCloudSubscription} from 'mattermost-redux/actions/cloud';
 import {getCloudSubscription as selectCloudSubscription, getSubscriptionProduct as selectSubscriptionProduct, isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
+import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 
 const UpgradeButton = styled.button`
 background: var(--denim-button-bg);
@@ -54,7 +56,6 @@ const PlanUpgradeButton = (): JSX.Element | null => {
     const config = useSelector(getConfig);
     const license = useSelector(getLicense);
 
-    const enableForSelfHosted = config?.EnableUpgradeForSelfHostedStarter === 'true';
     const buttonTextFeatureFlag = config?.FeatureFlagServerUpgradeButtonText;
     let btnText = formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'});
     let btnClickAction = openPricingModalA;
@@ -69,8 +70,14 @@ const PlanUpgradeButton = (): JSX.Element | null => {
 
     const isSelfHostedEnterpriseTrial = !isCloud && license.IsTrial === 'true';
     const isSelfHostedStarter = license.IsLicensed === 'false';
+    const isEnterpriseReady = config.BuildEnterpriseReady === 'true';
 
     if (!isAdmin) {
+        return null;
+    }
+
+    // If not on Enterprise edition, don't show
+    if (!isEnterpriseReady) {
         return null;
     }
 
@@ -84,18 +91,26 @@ const PlanUpgradeButton = (): JSX.Element | null => {
         return null;
     }
 
-    // for non cloud, when on starter, check if button is configured to show
-    if (!isCloud && isSelfHostedStarter && !enableForSelfHosted) {
-        return null;
-    }
+    const tooltip = (
+        <Tooltip id='upgrade_button_tooltip'>
+            {formatMessage({id: 'pricing_modal.btn.tooltip', defaultMessage: 'Only visible to system admins'})}
+        </Tooltip>
+    );
 
     return (
-        <UpgradeButton
-            id='UpgradeButton'
-            onClick={btnClickAction}
+        <OverlayTrigger
+            trigger={['hover', 'focus']}
+            delayShow={Constants.OVERLAY_TIME_DELAY}
+            placement='bottom'
+            overlay={tooltip}
         >
-            {btnText}
-        </UpgradeButton>);
+            <UpgradeButton
+                id='UpgradeButton'
+                onClick={btnClickAction}
+            >
+                {btnText}
+            </UpgradeButton>
+        </OverlayTrigger>);
 };
 
 export default PlanUpgradeButton;
