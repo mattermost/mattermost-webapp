@@ -6,7 +6,7 @@ import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {CloudLinks, CloudProducts, ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
-import {fallbackStarterLimits, fallbackProfessionalLimits, asGBString} from 'utils/limits';
+import {fallbackStarterLimits, fallbackProfessionalLimits, asGBString, hasSomeLimits} from 'utils/limits';
 
 import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
 
@@ -20,6 +20,7 @@ import {
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 
 import useGetUsage from 'components/common/hooks/useGetUsage';
+import useGetLimits from 'components/common/hooks/useGetLimits';
 import SuccessModal from 'components/cloud_subscribe_result_modal/success';
 import ErrorModal from 'components/cloud_subscribe_result_modal/error';
 import PurchaseModal from 'components/purchase_modal';
@@ -48,6 +49,7 @@ function Content(props: ContentProps) {
     const {formatMessage, formatNumber} = useIntl();
     const dispatch = useDispatch();
     const usage = useGetUsage();
+    const [limits] = useGetLimits();
 
     const isAdmin = useSelector(isCurrentUserSystemAdmin);
     const contactSalesLink = useSelector(getCloudContactUsLink)(InquiryType.Sales);
@@ -113,6 +115,26 @@ function Content(props: ContentProps) {
         props.onHide();
     };
 
+    const starterBriefing = {
+        title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),
+        items: [
+            formatMessage({id: 'pricing_modal.briefing.starter.recentMessageBoards', defaultMessage: 'Access to {messages} most recent messages, {boards} most recent board cards'}, {messages: formatNumber(fallbackStarterLimits.messages.history), boards: fallbackStarterLimits.boards.cards}),
+            formatMessage({id: 'pricing_modal.briefing.storage', defaultMessage: '{storage} file storage limit'}, {storage: asGBString(fallbackStarterLimits.files.totalStorage, formatNumber)}),
+            formatMessage({id: 'pricing_modal.briefing.starter.oneTeamPerWorkspace', defaultMessage: 'One team per workspace'}),
+            formatMessage({id: 'pricing_modal.briefing.starter.integrations', defaultMessage: '{integrations} integrations with other apps like GitHub, Jira and Jenkins'}, {integrations: fallbackStarterLimits.integrations.enabled}),
+        ],
+    };
+
+    const legacyStarterBriefing = {
+        title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),
+        items: [
+            formatMessage({id: 'admin.billing.subscription.planDetails.features.groupAndOneToOneMessaging', defaultMessage: 'Group and one-to-one messaging, file sharing, and search'}),
+            formatMessage({id: 'admin.billing.subscription.planDetails.features.incidentCollaboration',defaultMessage: 'Incident collaboration'}),
+            formatMessage({id: 'admin.billing.subscription.planDetails.features.unlimittedUsersAndMessagingHistory',defaultMessage: 'Unlimited users & message history'}),
+            formatMessage({id: 'admin.billing.subscription.planDetails.features.mfa',defaultMessage: 'Multi-Factor Authentication (MFA)'}),
+        ],
+    };
+
     return (
         <div className='Content'>
             <Modal.Header className='PricingModal__header'>
@@ -157,15 +179,7 @@ function Content(props: ContentProps) {
                         topColor='#9DA7B8'
                         plan='Starter'
                         price={formatMessage({id: 'pricing_modal.price.free', defaultMessage: 'Free'})}
-                        briefing={{
-                            title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),
-                            items: [
-                                formatMessage({id: 'pricing_modal.briefing.starter.recentMessageBoards', defaultMessage: 'Access to {messages} most recent messages, {boards} most recent board cards'}, {messages: formatNumber(fallbackStarterLimits.messages.history), boards: fallbackStarterLimits.boards.cards}),
-                                formatMessage({id: 'pricing_modal.briefing.storage', defaultMessage: '{storage} file storage limit'}, {storage: asGBString(fallbackStarterLimits.files.totalStorage, formatNumber)}),
-                                formatMessage({id: 'pricing_modal.briefing.starter.oneTeamPerWorkspace', defaultMessage: 'One team per workspace'}),
-                                formatMessage({id: 'pricing_modal.briefing.starter.integrations', defaultMessage: '{integrations} integrations with other apps like GitHub, Jira and Jenkins'}, {integrations: fallbackStarterLimits.integrations.enabled}),
-                            ],
-                        }}
+                        briefing={hasSomeLimits(limits) ? starterBriefing : legacyStarterBriefing}
                         extraBriefing={{
                             title: formatMessage({id: 'pricing_modal.extra_briefing.title', defaultMessage: 'More features'}),
                             items: [
