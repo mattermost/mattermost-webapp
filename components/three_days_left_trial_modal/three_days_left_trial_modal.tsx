@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useCallback, useMemo} from 'react';
+import React, {useMemo} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useIntl} from 'react-intl';
 
@@ -45,7 +45,7 @@ function ThreeDaysLeftTrialModal(props: Props): JSX.Element | null {
     const usage = useGetUsage();
     const [limits] = useGetLimits();
 
-    const handleOnClose = useCallback(() => async () => {
+    const handleOnClose = () => async () => {
         if (props.onClose) {
             props.onClose();
         }
@@ -61,7 +61,7 @@ function ThreeDaysLeftTrialModal(props: Props): JSX.Element | null {
             value: 'true',
         }]));
         dispatch(closeModal(ModalIdentifiers.THREE_DAYS_LEFT_TRIAL_MODAL));
-    }, []);
+    };
 
     const buttonLabel = formatMessage({id: 'three_days_left_trial_modal.learnMore', defaultMessage: 'Learn more'});
 
