@@ -4213,13 +4213,12 @@ describe('limitedViews', () => {
     ];
 
     receivedPostActions.forEach((action) => {
-        it(`${action} does nothing if posts are accessible`, () => {
+        it(`${action} does nothing if all posts are accessible`, () => {
             const nextState = reducers.limitedViews(zeroState, {
                 type: action,
                 channelId: 'channelId',
                 data: {
-                    has_inaccessible_posts: false,
-                    first_inaccessible_post_time: 123,
+                    first_inaccessible_post_time: 0,
                 },
             });
 
@@ -4230,7 +4229,6 @@ describe('limitedViews', () => {
             const nextState = reducers.limitedViews(zeroState, {
                 type: action,
                 data: {
-                    has_inaccessible_posts: true,
                     first_inaccessible_post_time: 123,
                 },
             });
@@ -4238,12 +4236,11 @@ describe('limitedViews', () => {
             expect(nextState).toEqual(zeroState);
         });
 
-        it(`${action} sets channel view to limited if has inaccessible posts and channel id is present in action`, () => {
+        it(`${action} sets channel view to limited if inaccessible post time exists and channel id is present in action`, () => {
             const nextState = reducers.limitedViews(zeroState, {
                 type: action,
                 channelId: 'channelId',
                 data: {
-                    has_inaccessible_posts: true,
                     first_inaccessible_post_time: 123,
                 },
             });
@@ -4252,25 +4249,23 @@ describe('limitedViews', () => {
         });
     });
 
-    it(`${PostTypes.RECEIVED_POSTS_IN_THREAD} does nothing if posts are accessible`, () => {
+    it(`${PostTypes.RECEIVED_POSTS_IN_THREAD} does nothing if inaccessible post time is 0`, () => {
         const nextState = reducers.limitedViews(zeroState, {
             type: PostTypes.RECEIVED_POSTS_IN_THREAD,
             rootId: 'rootId',
             data: {
-                has_inaccessible_posts: false,
-                first_inaccessible_post_time: 123,
+                first_inaccessible_post_time: 0,
             },
         });
 
         expect(nextState).toEqual(zeroState);
     });
 
-    it(`${PostTypes.RECEIVED_POSTS_IN_THREAD} sets threads view to limited if has inaccessible posts and channel id is present in action`, () => {
+    it(`${PostTypes.RECEIVED_POSTS_IN_THREAD} sets threads view to limited if has inaccessible post time and channel id is present in action`, () => {
         const nextState = reducers.limitedViews(zeroState, {
             type: PostTypes.RECEIVED_POSTS_IN_THREAD,
             rootId: 'rootId',
             data: {
-                has_inaccessible_posts: true,
                 first_inaccessible_post_time: 123,
             },
         });

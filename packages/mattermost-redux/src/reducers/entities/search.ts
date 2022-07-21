@@ -311,7 +311,7 @@ function isLimitedResults(state = -1, action: GenericAction): number {
         return state;
     }
     case SearchTypes.RECEIVED_SEARCH_POSTS: {
-        if (action.data?.has_inaccessible_posts) {
+        if (action.data?.first_inaccessible_post_time) {
             return action.data.first_inaccessible_post_time || 0;
         }
         return state;

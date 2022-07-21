@@ -1405,7 +1405,7 @@ export function limitedViews(
     case PostTypes.RECEIVED_POSTS_BEFORE:
     case PostTypes.RECEIVED_POSTS_SINCE:
     case PostTypes.RECEIVED_POSTS_IN_CHANNEL: {
-        if (action.data.has_inaccessible_posts && action.channelId) {
+        if (action.data.first_inaccessible_post_time && action.channelId) {
             return {
                 ...state,
                 channels: {
@@ -1417,7 +1417,7 @@ export function limitedViews(
         return state;
     }
     case PostTypes.RECEIVED_POSTS_IN_THREAD: {
-        if (action.data.has_inaccessible_posts && action.rootId) {
+        if (action.data.first_inaccessible_post_time && action.rootId) {
             return {
                 ...state,
                 threads: {
