@@ -334,7 +334,6 @@
   "admin.billing.subscription.planDetails.features.mfa": "Multi-Factor Authentication (MFA)",
   "admin.billing.subscription.planDetails.features.mfaAuthentication": "Google, GitLab, O365 & MFA Authentication",
   "admin.billing.subscription.planDetails.features.mfaEnforcement": "MFA enforcement",
-  "admin.billing.subscription.planDetails.features.multilanguage": "Multi-language translations",
   "admin.billing.subscription.planDetails.features.multiplatformSso": "SSO with Google, O365",
   "admin.billing.subscription.planDetails.features.openid": "OpenID",
   "admin.billing.subscription.planDetails.features.premiumSupport": "Premium Support (optional upgrade)",

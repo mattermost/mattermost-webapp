@@ -115,10 +115,6 @@ const FeatureList = (props: FeatureListProps) => {
             id: 'admin.billing.subscription.planDetails.features.mfa',
             defaultMessage: 'Multi-Factor Authentication (MFA)',
         }),
-        intl.formatMessage({
-            id: 'admin.billing.subscription.planDetails.features.multilanguage',
-            defaultMessage: 'Multi-language translations',
-        }),
     ];
 
     const featuresCloudProfessional = [
