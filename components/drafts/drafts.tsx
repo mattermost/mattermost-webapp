@@ -5,7 +5,8 @@ import React, {memo, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import {useIntl} from 'react-intl';
 
-import {UserProfile, UserStatus} from 'mattermost-redux/types/users';
+import type {UserProfile, UserStatus} from '@mattermost/types/users';
+
 import {selectChannel} from 'mattermost-redux/actions/channels';
 
 import {Draft} from 'selectors/drafts';

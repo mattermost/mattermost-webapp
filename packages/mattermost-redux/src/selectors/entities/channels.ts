@@ -1237,3 +1237,14 @@ export function makeGetGmChannelMemberCount(): (state: GlobalState, channel: Cha
         },
     );
 }
+
+export const getMyActiveChannelIds = createSelector(
+    'getMyActiveChannels',
+    getMyChannels,
+    (channels) => channels.flatMap((chan) => {
+        if (chan.delete_at > 0) {
+            return [];
+        }
+        return chan.id;
+    }),
+);

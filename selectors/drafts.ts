@@ -3,7 +3,10 @@
 
 import {createSelector} from 'reselect';
 
-import {getMyChannels} from 'mattermost-redux/selectors/entities/channels';
+import type {Draft as ServerDraft} from '@mattermost/types/drafts';
+
+import {getMyActiveChannelIds} from 'mattermost-redux/selectors/entities/channels';
+
 import {GlobalState} from 'types/store';
 import {PostDraft} from 'types/store/rhs';
 
@@ -22,17 +25,6 @@ export type Draft = Info & {
 
 export type DraftSelector = (state: GlobalState) => Draft[];
 export type DraftCountSelector = (state: GlobalState) => number;
-
-const getMyActiveChannels = createSelector(
-    'getMyActiveChannels',
-    getMyChannels,
-    (channels) => channels.flatMap((chan) => {
-        if (chan.delete_at > 0) {
-            return [];
-        }
-        return chan.id;
-    }),
-);
 
 function getInfoFromKey(key: string, prefix: string): Info|null {
     const keyArr = key.split('_');
@@ -73,7 +65,7 @@ export function makeGetDraftsByPrefix(prefix: string): DraftSelector {
                 ) {
                     const info = getInfoFromKey(key, prefix);
 
-                    if (info === null) {
+                    if (info === null || !info.id) {
                         return [];
                     }
 
@@ -98,7 +90,7 @@ export function makeGetDrafts(): DraftSelector {
         'makeGetDrafts',
         getChannelDrafts,
         getRHSDrafts,
-        getMyActiveChannels,
+        getMyActiveChannelIds,
         (channelDrafts, rhsDrafts, myChannels) => (
             [...channelDrafts, ...rhsDrafts]
         ).
@@ -114,7 +106,7 @@ export function makeGetDraftsCount(): DraftCountSelector {
         'makeGetDraftsCount',
         getChannelDrafts,
         getRHSDrafts,
-        getMyActiveChannels,
+        getMyActiveChannelIds,
         (channelDrafts, rhsDrafts, myChannels) => [...channelDrafts, ...rhsDrafts].
             filter((draft) => myChannels.indexOf(draft.value.channelId) !== -1).length,
     );

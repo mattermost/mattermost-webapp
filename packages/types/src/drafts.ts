@@ -12,3 +12,7 @@ export type Draft = {
     props: Record<string, any>;
     file_ids?: string[];
 };
+
+export type DraftState = {
+    drafts: Draft[];
+}

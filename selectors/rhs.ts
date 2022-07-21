@@ -9,7 +9,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {Channel} from '@mattermost/types/channels';
 
 import {makeGetGlobalItem} from 'selectors/storage';
-import {PostTypes} from 'utils/constants';
+import {PostTypes, StoragePrefixes} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
 import {GlobalState} from 'types/store';
 import {RhsState, FakePost, PostDraft, SearchType} from 'types/store/rhs';
@@ -135,7 +135,11 @@ export function getIsSearchGettingMore(state: GlobalState): boolean {
 }
 
 export function getPostDraft(state: GlobalState, prefixId: string, suffixId: string): PostDraft {
-    const defaultDraft = {message: '', fileInfos: [], uploadsInProgress: [], createAt: 0, updateAt: 0, channelId: ''};
+    const defaultDraft = {message: '', fileInfos: [], uploadsInProgress: [], createAt: 0, updateAt: 0, channelId: '', rootId: ''};
+
+    if (prefixId === StoragePrefixes.COMMENT_DRAFT) {
+        defaultDraft.rootId = suffixId;
+    }
     const draft = makeGetGlobalItem(prefixId + suffixId, defaultDraft)(state);
 
     if (

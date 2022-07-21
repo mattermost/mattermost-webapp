@@ -60,6 +60,10 @@ const KeyCodes = Constants.KeyCodes;
 
 const CreatePostDraftTimeoutMilliseconds = 500;
 
+function isDraftEmpty(draft: PostDraft): boolean {
+    return !draft || (!draft.message && draft.fileInfos.length === 0);
+}
+
 // Temporary fix for IE-11, see MM-13423
 function trimRight(str: string) {
     if (String.prototype.trimRight as any) {
@@ -339,10 +343,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         this.saveDraftWithShow();
     }
 
-    isDraftEmpty = (draft: PostDraft): boolean => {
-        return !draft || (!draft.message && draft.fileInfos.length === 0);
-    }
-
     saveDraftWithShow = (props = this.props) => {
         if (this.saveDraftFrame && props.currentChannel) {
             const channelId = props.currentChannel.id;
@@ -351,7 +351,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             if (draft) {
                 this.draftsForChannel[channelId] = {
                     ...draft,
-                    show: !this.isDraftEmpty(draft),
+                    show: !isDraftEmpty(draft),
                 } as PostDraft;
             }
         }

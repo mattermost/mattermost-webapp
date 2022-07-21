@@ -4,12 +4,12 @@
 import {connect} from 'react-redux';
 
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
-import {Channel} from 'mattermost-redux/types/channels';
 
 import {getPostDraft} from 'selectors/rhs';
 import {StoragePrefixes} from 'utils/constants';
 import {GlobalState} from 'types/store';
 import {PostDraft} from 'types/store/rhs';
+import {Channel} from '@mattermost/types/channels';
 
 import ChannelPencilIcon from './channel_pencil_icon';
 

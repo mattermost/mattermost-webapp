@@ -200,6 +200,10 @@ type State = {
     isFormattingBarHidden: boolean;
 };
 
+function isDraftEmpty(draft: PostDraft): boolean {
+    return !draft || (!draft.message && draft.fileInfos.length === 0);
+}
+
 class AdvancedCreateComment extends React.PureComponent<Props, State> {
     private lastBlurAt = 0;
     private draftsForPost: {[postID: string]: PostDraft | null} = {};
@@ -322,7 +326,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
                 return {
                     draft: {
                         ...prev.draft,
-                        show: !this.isDraftEmpty(prev.draft),
+                        show: !isDraftEmpty(prev.draft),
                     } as PostDraft,
                 };
             }
@@ -339,10 +343,6 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             this.props.onUpdateCommentDraft(this.state.draft);
             this.saveDraftFrame = null;
         }
-    }
-
-    isDraftEmpty = (draft: PostDraft): boolean => {
-        return !draft || (!draft.message && draft.fileInfos.length === 0);
     }
 
     setShowPreview = (newPreviewValue: boolean) => {
@@ -727,7 +727,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         }
 
         const draft = this.state.draft!;
-        const show = this.isDraftEmpty(draft) ? false : draft.show;
+        const show = isDraftEmpty(draft) ? false : draft.show;
         const updatedDraft = {...draft, message, show};
 
         if (this.saveDraftFrame) {

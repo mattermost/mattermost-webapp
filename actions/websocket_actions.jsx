@@ -67,11 +67,9 @@ import {
     getUser as loadUser,
 } from 'mattermost-redux/actions/users';
 import {removeNotVisibleUsers} from 'mattermost-redux/actions/websocket';
-import {
-    handleCreateDraft,
-    handleDeleteDraft,
-    handleUpdateDraft,
-} from 'mattermost-redux/actions/drafts';
+import {transformServerDraft} from 'mattermost-redux/actions/drafts';
+import {setGlobalItem} from 'actions/storage';
+import {removeDraft} from 'actions/views/drafts';
 
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentUser, getCurrentUserId, getStatusForUserId, getUser, getIsManualStatusForUserId, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
@@ -574,10 +572,8 @@ export function handleEvent(msg) {
         dispatch(handleAppsPluginDisabled());
         break;
     case SocketEvents.DRAFT_CREATED:
-        dispatch(handleCreateDraftEvent(msg));
-        break;
     case SocketEvents.DRAFT_UPDATED: {
-        dispatch(handleUpdateDraftEvent(msg));
+        dispatch(handleUpsertDraftEvent(msg));
         break;
     }
     case SocketEvents.DRAFT_DELETED:
@@ -1726,18 +1722,21 @@ function handleThreadFollowChanged(msg) {
     };
 }
 
-function handleCreateDraftEvent(msg) {
-    const draft = JSON.parse(msg.data.draft);
-    return handleCreateDraft(draft);
-}
+function handleUpsertDraftEvent(msg) {
+    return async (doDispatch, doGetState) => {
+        const draft = JSON.parse(msg.data.draft);
+        draft.show = true;
+        const {key, value} = transformServerDraft(draft);
 
-function handleUpdateDraftEvent(msg) {
-    const draft = JSON.parse(msg.data.draft);
-    return handleUpdateDraft(draft);
+        localStorage.setItem(key, JSON.stringify(value));
+        doDispatch(setGlobalItem(key, value));
+    };
 }
 
 function handleDeleteDraftEvent(msg) {
-    const draft = JSON.parse(msg.data.draft);
-    const {channel_id: channelId, root_id: rootId} = draft;
-    return handleDeleteDraft({channelId, rootId});
+    return async (doDispatch, doGetState) => {
+        const draft = JSON.parse(msg.data.draft);
+        const {key, value} = transformServerDraft(draft);
+        doDispatch(removeDraft(key, value.channelId, value.rootId));
+    };
 }

@@ -1,112 +1,58 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import type {Post} from '@mattermost/types/posts';
-import type{Channel} from '@mattermost/types/channels';
-import type{Draft} from '@mattermost/types/drafts';
+import {batchActions} from 'redux-batched-actions';
 
-import {DraftTypes} from 'mattermost-redux/action_types';
+import type {DispatchFunc} from 'mattermost-redux/types/actions';
+import type {Draft as ServerDraft} from '@mattermost/types/drafts';
+import type {GlobalState} from 'types/store';
+import type {PostDraft} from 'types/store/rhs';
+
 import {Client4} from 'mattermost-redux/client';
 
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {setGlobalItem} from 'actions/storage';
+import {StoragePrefixes} from 'utils/constants';
 
-import {PostDraft} from 'types/store/rhs';
-
-import {logError} from './errors';
-import {forceLogoutIfNecessary} from './helpers';
-
-export function handleGetDrafts(draft: Draft[]) {
-    return {
-        type: DraftTypes.GET_USER_DRAFTS,
-        payload: draft,
-    };
+export type Draft = {
+    key: keyof GlobalState['storage']['storage'];
+    value: PostDraft;
+    timestamp: Date;
 }
 
-export function handleUpdateDraft(draft: Draft) {
+export function transformServerDraft(draft: ServerDraft): Draft {
+    let key: Draft['key'] = `${StoragePrefixes.DRAFT}${draft.channel_id}`;
+
+    if (draft.root_id !== '') {
+        key = `${StoragePrefixes.COMMENT_DRAFT}${draft.root_id}`;
+    }
+
     return {
-        type: DraftTypes.UPDATE_USER_DRAFT,
-        payload: draft,
-    };
-}
-
-export function handleUpsertDraft(draft: Draft) {
-    return {
-        type: DraftTypes.UPSERT_USER_DRAFT,
-        payload: draft,
-    };
-}
-
-export function handleCreateDraft(draft: Draft) {
-    return {
-        type: DraftTypes.CREATE_USER_DRAFT,
-        payload: draft,
-    };
-}
-
-export function handleDeleteDraft({channelId, rootId}: {channelId: Channel['id']; rootId: Post['id']}) {
-    return {
-        type: DraftTypes.DELETE_USER_DRAFT,
-        payload: {channelId, rootId},
-    };
-}
-
-export function upsertDraft(draft: PostDraft, rootId = '') {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const state = getState();
-        const userId = getCurrentUserId(state);
-
-        const fileIds = draft.fileInfos.map((file) => file.id);
-
-        const newDraft = {
-            create_at: draft.createAt || 0,
-            update_at: draft.updateAt || 0,
-            delete_at: 0,
-            user_id: userId,
-            channel_id: draft.channelId,
-            root_id: draft.rootId || rootId,
+        key,
+        timestamp: new Date(draft.update_at),
+        value: {
             message: draft.message,
+            fileInfos: [],
             props: draft.props,
-            file_ids: fileIds,
-        };
-        try {
-            await Client4.upsertDraft(newDraft);
-        } catch (error) {
-            dispatch({type: DraftTypes.UPSERT_DRAFT_FAILURE, payload: newDraft, error});
-            return {data: false, error};
-        }
-
-        return {data: true};
+            uploadsInProgress: [],
+            channelId: draft.channel_id,
+            rootId: draft.root_id,
+            createAt: draft.create_at,
+            updateAt: draft.update_at,
+            show: true,
+        },
     };
 }
 
 export function getDrafts(teamId: string) {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        let drafts: Draft[] = [];
-
-        try {
-            drafts = await Client4.getUserDrafts(teamId);
-
-            dispatch(handleGetDrafts(drafts));
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch({type: DraftTypes.GET_DRAFTS_FAILURE, error});
-            dispatch(logError(error));
-        }
-
-        return {data: drafts};
-    };
-}
-
-export function deleteDraft(channelId: string, rootId: string) {
     return async (dispatch: DispatchFunc) => {
-        try {
-            await Client4.deleteDraft(channelId, rootId);
-        } catch (error) {
-            dispatch({type: DraftTypes.DELETE_DRAFT_FAILURE, payload: {channelId, rootId}, error});
-            return {data: false, error};
-        }
+        let drafts: ServerDraft[] = [];
+        drafts = await Client4.getUserDrafts(teamId);
+        const actions = drafts.map((draft) => {
+            const {key, value} = transformServerDraft(draft);
+            localStorage.setItem(key, JSON.stringify(value));
+            return setGlobalItem(key, value);
+        });
 
-        return {data: true};
+        dispatch(batchActions(actions));
     };
 }
