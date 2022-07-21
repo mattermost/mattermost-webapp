@@ -20,7 +20,7 @@ type Props = {
 
 type Attrs = HTMLAttributes<HTMLElement>;
 
-const isURLForUser = (url: string | undefined): url is string => Boolean(url && url.startsWith(Client4.getUsersRoute()));
+const isURLForUser = (url: string) => url.startsWith(Client4.getUsersRoute());
 const replaceURLWithDefaultImageURL = (url: string) => url.replace(/\?_=(\w+)/, '/default');
 
 const Avatar = ({
@@ -50,13 +50,7 @@ const Avatar = ({
             alt={`${username || 'user'} profile image`}
             src={url}
             onError={(e) => {
-                let fallbackSrc = '';
-
-                if (isURLForUser(url)) {
-                    fallbackSrc = replaceURLWithDefaultImageURL(url);
-                } else {
-                    fallbackSrc = BotDefaultIcon;
-                }
+                const fallbackSrc = (url && isURLForUser(url)) ? replaceURLWithDefaultImageURL(url) : BotDefaultIcon;
 
                 if (e.currentTarget.src !== fallbackSrc) {
                     e.currentTarget.src = fallbackSrc;
