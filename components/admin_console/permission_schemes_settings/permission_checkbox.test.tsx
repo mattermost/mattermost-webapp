@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import PermissionCheckbox from 'components/admin_console/permission_schemes_settings/permission_checkbox.jsx';
+import PermissionCheckbox from 'components/admin_console/permission_schemes_settings/permission_checkbox';
 
 describe('components/admin_console/permission_schemes_settings/permission_checkbox', () => {
     test('should match snapshot on no value', () => {

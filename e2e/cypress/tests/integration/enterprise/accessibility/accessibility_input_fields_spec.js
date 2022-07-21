@@ -241,6 +241,24 @@ describe('Verify Accessibility Support in different input fields', () => {
             // * Verify if the focus is on the hidden controls button
             cy.get('#HiddenControlsButtonRHS_COMMENT').should('be.focused').and('have.attr', 'aria-label', 'show hidden formatting options').tab();
 
+            // * Verify if the focus is on the hidden heading button
+            cy.get('#FormattingControl_heading').should('be.focused').and('have.attr', 'aria-label', 'heading').tab();
+
+            // * Verify if the focus is on the hidden link button
+            cy.get('#FormattingControl_link').should('be.focused').and('have.attr', 'aria-label', 'link').tab();
+
+            // * Verify if the focus is on the hidden code button
+            cy.get('#FormattingControl_code').should('be.focused').and('have.attr', 'aria-label', 'code').tab();
+
+            // * Verify if the focus is on the hidden quote button
+            cy.get('#FormattingControl_quote').should('be.focused').and('have.attr', 'aria-label', 'quote').tab();
+
+            // * Verify if the focus is on the hidden bulleted list button
+            cy.get('#FormattingControl_ul').should('be.focused').and('have.attr', 'aria-label', 'bulleted list').tab();
+
+            // * Verify if the focus is on the hidden numbered list button
+            cy.get('#FormattingControl_ol').should('be.focused').and('have.attr', 'aria-label', 'numbered list').tab();
+
             // * Verify if the focus is on the attachment icon
             cy.get('#fileUploadButton').should('be.focused').and('have.attr', 'aria-label', 'attachment').tab();
 

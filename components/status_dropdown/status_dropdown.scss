@@ -198,12 +198,21 @@ button.custom_status__row {
             max-width: 150px;
             text-overflow: ellipsis;
             white-space: nowrap;
+
+            &.bold {
+                font-weight: 600;
+            }
         }
     }
 
     .MenuHeader {
         height: 50px;
         padding: 0 16px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: rgba(var(--center-channel-color-rgb), 0.1);
+        }
     }
 
     .MenuItem > button,

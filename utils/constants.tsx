@@ -621,6 +621,7 @@ export const AdvancedTextEditor = {
 
 export const TELEMETRY_CATEGORIES = {
     CLOUD_PURCHASING: 'cloud_purchasing',
+    SELF_HOSTED_PURCHASING: 'self_hosted_purchasing',
     CLOUD_ADMIN: 'cloud_admin',
     POST_INFO_MORE: 'post_info_more_menu',
     POST_INFO: 'post_info',
@@ -932,6 +933,8 @@ export const CloudLinks = {
     PRORATED_PAYMENT: 'https://mattermost.com/pl/mattermost-cloud-prorate-documentation',
     DEPLOYMENT_OPTIONS: 'https://mattermost.com/deploy/',
     DOWNLOAD_UPDATE: 'https://mattermost.com/deploy/',
+    CLOUD_SIGNUP_PAGE: 'https://mattermost.com/sign-up/',
+    SELF_HOSTED_SIGNUP: 'https://customers.mattermost.com/signup',
 };
 
 export const DocLinks = {
