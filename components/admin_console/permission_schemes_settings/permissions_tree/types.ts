@@ -3,6 +3,8 @@
 
 import {ClientLicense} from '@mattermost/types/config';
 
+export type Permissions = Array<string | Group | Permission>;
+
 export type Permission = {
     id: string;
     combined?: boolean;
@@ -15,7 +17,7 @@ export type Group = {
 }
 
 export type AdditionalValues = {
-    edit_post: {
+    [edit_post: string]: {
         editTimeLimitButton: JSX.Element;
     };
 }

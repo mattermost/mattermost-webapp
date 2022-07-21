@@ -11,7 +11,7 @@ export function addNewCommand(team, trigger, url) {
     cy.get('#addSlashCommand').click();
 
     // # Type a trigger word, url and display name
-    cy.get('#trigger').type(`${trigger}`);
+    cy.get('#trigger').type(trigger);
     cy.get('#displayName').type('Test Message');
     cy.apiGetChannelByName(team.name, 'town-square').then(({channel}) => {
         let urlToType = url;

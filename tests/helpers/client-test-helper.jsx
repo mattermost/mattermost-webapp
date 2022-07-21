@@ -3,7 +3,7 @@
 
 import {Client4} from 'mattermost-redux/client';
 
-import WebSocketClient from 'client/websocket_client';
+import {WebSocketClient} from '@mattermost/client';
 
 var HEADER_TOKEN = 'token';
 
