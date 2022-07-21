@@ -115,6 +115,8 @@ function Content(props: ContentProps) {
         props.onHide();
     };
 
+    const hasLimits = hasSomeLimits(limits);
+
     const starterBriefing = {
         title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),
         items: [
@@ -179,13 +181,13 @@ function Content(props: ContentProps) {
                         topColor='#9DA7B8'
                         plan='Starter'
                         price={formatMessage({id: 'pricing_modal.price.free', defaultMessage: 'Free'})}
-                        briefing={hasSomeLimits(limits) ? starterBriefing : legacyStarterBriefing}
-                        extraBriefing={{
+                        briefing={hasLimits ? starterBriefing : legacyStarterBriefing}
+                        extraBriefing={hasLimits ? {
                             title: formatMessage({id: 'pricing_modal.extra_briefing.title', defaultMessage: 'More features'}),
                             items: [
                                 formatMessage({id: 'pricing_modal.extra_briefing.starter.calls', defaultMessage: '1:1 voice calls and screen share'}),
                             ],
-                        }}
+                        } : undefined}
                         planExtraInformation={<StarterDisclaimerCTA/>}
                         buttonDetails={{
                             action: () => {
