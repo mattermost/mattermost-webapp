@@ -39,8 +39,6 @@ const PlanUpgradeButton = (): JSX.Element | null => {
     const {formatMessage} = useIntl();
 
     openPricingModal = useOpenPricingModal();
-    const openPricingModalA = useOpenPricingModal('PlanUpgradeButton_A');
-    const openPricingModalB = useOpenPricingModal('PlanUpgradeButton_B');
     const isCloud = useSelector(isCurrentLicenseCloud);
 
     useEffect(() => {
@@ -58,9 +56,7 @@ const PlanUpgradeButton = (): JSX.Element | null => {
 
     const buttonTextFeatureFlag = config?.FeatureFlagServerUpgradeButtonText;
     let btnText = formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'});
-    let btnClickAction = openPricingModalA;
-    if (isCloud && buttonTextFeatureFlag === 'B') {
-        btnClickAction = openPricingModalB;
+    if (isCloud && buttonTextFeatureFlag === 'View plans') {
         btnText = formatMessage({id: 'pricing_modal.btn.viewPlans', defaultMessage: 'View plans'});
     }
 
@@ -106,7 +102,7 @@ const PlanUpgradeButton = (): JSX.Element | null => {
         >
             <UpgradeButton
                 id='UpgradeButton'
-                onClick={btnClickAction}
+                onClick={openPricingModal}
             >
                 {btnText}
             </UpgradeButton>
