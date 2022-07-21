@@ -54,7 +54,7 @@ const PlanUpgradeButton = (): JSX.Element | null => {
     const config = useSelector(getConfig);
     const license = useSelector(getLicense);
 
-    const buttonTextFeatureFlag = config?.FeatureFlagServerUpgradeButtonText;
+    const buttonTextFeatureFlag = config?.FeatureFlagPlanUpgradeButtonText;
     let btnText = formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'});
     if (isCloud && buttonTextFeatureFlag === 'View plans') {
         btnText = formatMessage({id: 'pricing_modal.btn.viewPlans', defaultMessage: 'View plans'});
