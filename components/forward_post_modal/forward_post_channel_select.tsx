@@ -6,6 +6,7 @@ import {
     LockOutlineIcon,
     MessageTextOutlineIcon,
 } from '@mattermost/compass-icons/components';
+import classNames from 'classnames';
 
 import React, {useRef} from 'react';
 
@@ -13,7 +14,7 @@ import {useIntl} from 'react-intl';
 
 import {useSelector} from 'react-redux';
 
-import {components, IndicatorProps, ValueType} from 'react-select';
+import {components, IndicatorProps, OptionProps, ValueType} from 'react-select';
 
 import {Props as AsyncSelectProps} from 'react-select/src/Async';
 
@@ -68,8 +69,8 @@ export const makeSelectedChannelOption = (channel: Channel) => ({
     details: channel,
 });
 
-const FormattedOption = (props: ChannelOption) => {
-    const {details} = props;
+const FormattedOption = (props: OptionProps<ChannelOption>) => {
+    const {data: {details}, isSelected, isFocused} = props;
 
     const {formatMessage} = useIntl();
 
@@ -80,6 +81,10 @@ const FormattedOption = (props: ChannelOption) => {
     const team = useSelector((state: GlobalState) => getTeam(state, details.team_id));
     const userImageUrl = user?.id && Utils.imageURLForUser(user.id, user.last_picture_update);
     const isPartOfOnlyOneTeam = useSelector((state: GlobalState) => getMyTeams(state).length === 1);
+
+    if (teammate?.is_bot) {
+        return null;
+    }
 
     const channelIsArchived = details.delete_at > 0;
 
@@ -171,24 +176,26 @@ const FormattedOption = (props: ChannelOption) => {
     ) : null;
 
     return (
-        <div
-            id={`post-forward_channel-select_${details.name}`}
-            className='option'
-            data-testid={details.name}
-            aria-label={name}
-        >
-            {icon}
-            <span className='option__content'>
-                <span className='option__content--text'>{name}</span>
-                {(isPartOfOnlyOneTeam || details.type === Constants.DM_CHANNEL) && description && (
-                    <span className='option__content--description'>{description}</span>
-                )}
-                {customStatus}
-                {sharedIcon}
-                {tag}
-            </span>
-            {!isPartOfOnlyOneTeam && teamName}
-        </div>
+        <components.Option {...props}>
+            <div
+                id={`post-forward_channel-select_${details.name}`}
+                className={classNames('option', {isSelected, isFocused})}
+                data-testid={details.name}
+                aria-label={name}
+            >
+                {icon}
+                <span className='option__content'>
+                    <span className='option__content--text'>{name}</span>
+                    {(isPartOfOnlyOneTeam || details.type === Constants.DM_CHANNEL) && description && (
+                        <span className='option__content--description'>{description}</span>
+                    )}
+                    {customStatus}
+                    {sharedIcon}
+                    {tag}
+                </span>
+                {!isPartOfOnlyOneTeam && teamName}
+            </div>
+        </components.Option>
     );
 };
 
@@ -268,20 +275,13 @@ function ForwardPostChannelSelect({onSelect, value, currentBodyHeight}: Props<Ch
         });
     };
 
-    const formatOptionLabel = (channel: ChannelOption) => (
-        <FormattedOption
-            {...channel}
-        />
-    );
-
     return (
         <AsyncSelect
             value={value}
             onChange={onSelect}
             loadOptions={handleInputChange}
             defaultOptions={defaultOptions.current}
-            formatOptionLabel={formatOptionLabel}
-            components={{DropdownIndicator}}
+            components={{DropdownIndicator, Option: FormattedOption}}
             styles={baseStyles}
             legend='Forrward to'
             placeholder='Select channel or people'
