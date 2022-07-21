@@ -6,8 +6,9 @@ import {useDispatch} from 'react-redux';
 import {FormattedMessage} from 'react-intl';
 
 import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
-import {Channel} from 'mattermost-redux/types/channels';
-import {UserProfile} from 'mattermost-redux/types/users';
+
+import type {Channel} from '@mattermost/types/channels';
+import type {UserProfile} from '@mattermost/types/users';
 
 import {imageURLForUser} from 'utils/utils';
 import {Constants} from 'utils/constants';

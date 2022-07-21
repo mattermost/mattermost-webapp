@@ -8,8 +8,8 @@ import {makeGetGmChannelMemberCount} from 'mattermost-redux/selectors/entities/c
 import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
 import {Constants} from 'utils/constants';
 
-import {Channel} from 'mattermost-redux/types/channels';
-import {GlobalState} from 'types/store';
+import type {Channel} from '@mattermost/types/channels';
+import type {GlobalState} from 'types/store';
 
 import DraftTitle from './draft_title';
 

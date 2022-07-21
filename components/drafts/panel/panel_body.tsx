@@ -5,9 +5,9 @@ import React, {useCallback} from 'react';
 import {useSelector} from 'react-redux';
 
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
-import {UserProfile, UserStatus} from 'mattermost-redux/types/users';
 
-import {PostDraft} from 'types/store/rhs';
+import type {UserProfile, UserStatus} from '@mattermost/types/users';
+import type {PostDraft} from 'types/store/rhs';
 
 import Markdown from 'components/markdown';
 import FilePreview from 'components/file_preview';

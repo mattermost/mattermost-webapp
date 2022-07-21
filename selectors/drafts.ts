@@ -3,8 +3,6 @@
 
 import {createSelector} from 'reselect';
 
-import type {Draft as ServerDraft} from '@mattermost/types/drafts';
-
 import {getMyActiveChannelIds} from 'mattermost-redux/selectors/entities/channels';
 
 import {GlobalState} from 'types/store';

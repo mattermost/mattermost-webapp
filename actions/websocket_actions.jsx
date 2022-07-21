@@ -1723,7 +1723,7 @@ function handleThreadFollowChanged(msg) {
 }
 
 function handleUpsertDraftEvent(msg) {
-    return async (doDispatch, doGetState) => {
+    return async (doDispatch) => {
         const draft = JSON.parse(msg.data.draft);
         draft.show = true;
         const {key, value} = transformServerDraft(draft);
@@ -1734,7 +1734,7 @@ function handleUpsertDraftEvent(msg) {
 }
 
 function handleDeleteDraftEvent(msg) {
-    return async (doDispatch, doGetState) => {
+    return async (doDispatch) => {
         const draft = JSON.parse(msg.data.draft);
         const {key, value} = transformServerDraft(draft);
         doDispatch(removeDraft(key, value.channelId, value.rootId));

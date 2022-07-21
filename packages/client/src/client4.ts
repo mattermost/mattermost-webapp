@@ -78,7 +78,7 @@ import type {
     MarketplacePlugin,
 } from '@mattermost/types/marketplace';
 import {Post, PostList, PostSearchResults, OpenGraphMetadata, PostsUsageResponse, TeamsUsageResponse, PaginatedPostList, FilesUsageResponse} from '@mattermost/types/posts';
-import {Draft, DraftList} from '@mattermost/types/drafts';
+import {Draft} from '@mattermost/types/drafts';
 import {BoardsUsageResponse} from '@mattermost/types/boards';
 import {Reaction} from '@mattermost/types/reactions';
 import {Role} from '@mattermost/types/roles';
