@@ -146,8 +146,6 @@ export default class CustomThemeChooser extends React.PureComponent<Props, State
 
     constructor(props: Props) {
         super(props);
-        const copyTheme = this.setCopyTheme(this.props.theme);
-
         this.textareaRef = createRef();
         this.sidebarStylesHeaderRef = createRef();
         this.centerChannelStylesHeaderRef = createRef();
@@ -157,11 +155,12 @@ export default class CustomThemeChooser extends React.PureComponent<Props, State
         this.centerChannelStylesRef = createRef();
         this.linkAndButtonStylesRef = createRef();
 
+        const copyTheme = this.setCopyTheme(this.props.theme);
+
         this.state = {
             copyTheme,
         };
     }
-
     handleColorChange = (settingId: string, color: string) => {
         const {updateTheme, theme} = this.props;
         if (theme[settingId] !== color) {
