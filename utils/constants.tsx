@@ -145,6 +145,8 @@ export const Preferences = {
     RECENT_EMOJIS: 'recent_emojis',
     ONBOARDING: 'onboarding',
     ADVANCED_TEXT_EDITOR: 'advanced_text_editor',
+
+    FORWARD_POST_VIEWED: 'forward_post_viewed',
 };
 
 // For one off things that have a special, attention-grabbing UI until you interact with them
@@ -397,6 +399,7 @@ export const ModalIdentifiers = {
     CLOUD_LIMITS: 'cloud_limits',
     REQUEST_BUSINESS_EMAIL_MODAL: 'request_business_email_modal',
     FEATURE_RESTRICTED_MODAL: 'feature_restricted_modal',
+    FORWARD_POST_MODAL: 'forward_post_modal',
     CLOUD_SUBSCRIBE_WITH_LOADING_MODAL: 'cloud_subscribe_with_loading_modal',
     JOIN_PUBLIC_CHANNEL_MODAL: 'join_public_channel_modal',
 };
@@ -643,6 +646,7 @@ export const TELEMETRY_LABELS = {
     UNPIN: 'unpin',
     REPLY: 'reply',
     UNREAD: 'unread',
+    FORWARD: 'forward',
 };
 
 export const PostTypes = {
@@ -1155,6 +1159,7 @@ export const Locations = {
     RHS_COMMENT: 'RHS_COMMENT',
     SEARCH: 'SEARCH',
     NO_WHERE: 'NO_WHERE',
+    MODAL: 'MODAL',
 };
 
 export const PostListRowListIds = {
