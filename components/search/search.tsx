@@ -175,23 +175,6 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
 
     const handleDropdownFocus = () => setDropdownFocused(true);
 
-    const isKeyNumericOrAlfanumeric = (code: number) => (code >= 48 && code <= 90) || (code >= 96 && code <= 111);
-
-    const handleDropdownKeyDown = (e: React.KeyboardEvent) => {
-        // allow navigation keys to continue normal behavior
-        if (e.key === 'Tab' || e.key === 'Shift' || e.key === 'Space') {
-            return;
-        }
-
-        e.preventDefault();
-
-        // copy the typed character to the search box as the focus is not in place yet
-        if (isKeyNumericOrAlfanumeric(e.keyCode)) {
-            actions.updateSearchTerms(e.key);
-        }
-        setFocused(true);
-    };
-
     const handleSearchHintSelection = (): void => {
         if (focused) {
             setKeepInputFocused(true);
@@ -211,6 +194,14 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         actions.updateSearchTerms(terms);
         updateHighlightedSearchHint();
     };
+
+    const handleOnSearchTypeSelected = (searchType || searchTerms) ? undefined : (value: SearchType) => {
+        actions.updateSearchType(value); 
+        if(!searchType){
+            setDropdownFocused(false);
+        }
+        setFocused(true);
+    }
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
         const term = e.target.value;
@@ -441,10 +432,9 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                     onMouseDown={handleSearchHintSelection}
                     highlightedIndex={highlightedSearchHintIndex}
                     onOptionHover={setHoverHintIndex}
-                    onSearchTypeSelected={(searchType || searchTerms) ? undefined : (value: SearchType) => actions.updateSearchType(value)}
+                    onSearchTypeSelected={handleOnSearchTypeSelected}
                     onElementBlur={handleDropdownBlur}
                     onElementFocus={handleDropdownFocus}
-                    onKeyDown={handleDropdownKeyDown}
                     searchType={searchType}
                 />
             </Popover>
