@@ -196,12 +196,12 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
     };
 
     const handleOnSearchTypeSelected = (searchType || searchTerms) ? undefined : (value: SearchType) => {
-        actions.updateSearchType(value); 
-        if(!searchType){
+        actions.updateSearchType(value);
+        if (!searchType) {
             setDropdownFocused(false);
         }
         setFocused(true);
-    }
+    };
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
         const term = e.target.value;
