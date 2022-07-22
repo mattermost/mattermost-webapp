@@ -352,8 +352,7 @@ export default combineReducers({
     // Boolean true if we are getting more search results
     isSearchGettingMore,
 
-    // Boolean true if a cloud workspace that has messages in excess of limits
-    // and some of the search results are those are among those in excess of the
-    // limits.
+    // Boolean true if the search returns results inaccessible because
+    // they are beyond a cloud workspace's message limits.
     isLimitedResults,
 });
