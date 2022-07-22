@@ -86,6 +86,7 @@ export default class RhsRootPost extends React.PureComponent {
          */
         showActionsMenuPulsatingDot: PropTypes.bool,
         oneClickReactionsEnabled: PropTypes.bool,
+
         // e.g. import {Emoji} from '@mattermost/types/emojis';
         recentEmojis: PropTypes.arrayOf(PropTypes.object),
 
