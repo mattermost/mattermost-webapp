@@ -36,6 +36,7 @@ exports[`admin_console/team_channel_settings/team/TeamMembers should match snaps
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
+          "displayName": "Connect(AddUsersToTeamModal)",
           "type": [Function],
         }
       }
@@ -334,6 +335,7 @@ exports[`admin_console/team_channel_settings/team/TeamMembers should match snaps
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
+          "displayName": "Connect(AddUsersToTeamModal)",
           "type": [Function],
         }
       }

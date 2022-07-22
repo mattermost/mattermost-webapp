@@ -114,6 +114,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               "$$typeof": Symbol(react.memo),
               "WrappedComponent": [Function],
               "compare": null,
+              "displayName": "Connect(TeamFilterDropdown)",
               "type": [Function],
             },
             "values": Object {
@@ -316,6 +317,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               "$$typeof": Symbol(react.memo),
               "WrappedComponent": [Function],
               "compare": null,
+              "displayName": "Connect(TeamFilterDropdown)",
               "type": [Function],
             },
             "values": Object {
@@ -923,6 +925,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
               "$$typeof": Symbol(react.memo),
               "WrappedComponent": [Function],
               "compare": null,
+              "displayName": "Connect(TeamFilterDropdown)",
               "type": [Function],
             },
             "values": Object {

@@ -113,6 +113,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
+          "displayName": "Connect(AccessHistoryModal)",
           "type": [Function],
         }
       }
@@ -140,6 +141,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
+          "displayName": "Connect(ActivityLogModal)",
           "type": [Function],
         }
       }
@@ -277,6 +279,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
+          "displayName": "Connect(AccessHistoryModal)",
           "type": [Function],
         }
       }
@@ -304,6 +307,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
+          "displayName": "Connect(ActivityLogModal)",
           "type": [Function],
         }
       }
@@ -441,6 +445,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
+          "displayName": "Connect(AccessHistoryModal)",
           "type": [Function],
         }
       }
@@ -468,6 +473,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
+          "displayName": "Connect(ActivityLogModal)",
           "type": [Function],
         }
       }
@@ -605,6 +611,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
+          "displayName": "Connect(AccessHistoryModal)",
           "type": [Function],
         }
       }
@@ -632,6 +639,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
+          "displayName": "Connect(ActivityLogModal)",
           "type": [Function],
         }
       }
