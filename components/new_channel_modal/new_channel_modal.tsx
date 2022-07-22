@@ -229,7 +229,7 @@ const NewChannelModal = () => {
             errorText={serverError}
             isConfirmDisabled={!canCreate}
             autoCloseOnConfirmButton={false}
-            useCompassDesign={true}
+            compassDesign={true}
             handleConfirm={handleOnModalConfirm}
             handleEnterKeyPress={handleOnModalConfirm}
             handleCancel={handleOnModalCancel}

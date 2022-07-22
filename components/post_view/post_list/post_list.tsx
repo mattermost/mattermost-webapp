@@ -96,7 +96,6 @@ export interface Props {
 
     lastViewedAt: number;
 
-    hasInaccessiblePosts: boolean;
     toggleShouldStartFromBottomWhenUnread: () => void;
     shouldStartFromBottomWhenUnread: boolean;
 
@@ -282,10 +281,13 @@ export default class PostList extends React.PureComponent<Props, State> {
     }
 
     canLoadMorePosts = async (type: CanLoadMorePosts = PostRequestTypes.BEFORE_ID) => {
+<<<<<<< HEAD
         if (this.props.hasInaccessiblePosts) {
             return;
         }
 
+=======
+>>>>>>> e949d96a76995b7149d7b467074f99bd40968db7
         if (!this.props.postListIds) {
             return;
         }
