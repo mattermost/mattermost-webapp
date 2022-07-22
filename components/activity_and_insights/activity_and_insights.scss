@@ -522,6 +522,20 @@
             }
         }
 
+        .top-dms-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .dms-loading-container {
+                display: flex;
+                flex: 0.2;
+                flex-direction: column;
+                align-items: left;
+                margin-top: auto;
+            }
+        }
+
         .empty-state {
             display: flex;
             flex: 1;

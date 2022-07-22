@@ -11,6 +11,7 @@
 
     &.large {
         width: auto;
+        clear: both;
 
         @media screen and (max-width: 1019px) {
             width: calc(100% - 16px);

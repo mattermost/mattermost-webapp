@@ -9,6 +9,8 @@ export enum InsightsWidgetTypes {
     TOP_REACTIONS = 'TOP_REACTIONS',
     TOP_THREADS = 'TOP_THREADS',
     TOP_BOARDS = 'TOP_BOARDS',
+    TOP_DMS = 'TOP_DMS',
+    NEW_TEAM_MEMBERS = 'NEW_TEAM_MEMBERS',
 }
 
 export enum CardSizes {
