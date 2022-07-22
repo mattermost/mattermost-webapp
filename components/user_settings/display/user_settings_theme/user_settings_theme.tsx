@@ -1,49 +1,65 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
-
 import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
-import ImportThemeModal from 'components/user_settings/import_theme_modal.tsx';
+import ImportThemeModal from 'components/user_settings/import_theme_modal';
 
 import {Constants, ModalIdentifiers} from 'utils/constants';
-import * as Utils from 'utils/utils';
+import {applyTheme} from 'utils/utils';
+
+import {Theme} from 'mattermost-redux/types/themes';
+
+import {ModalData} from 'types/actions';
 
 import CustomThemeChooser from './custom_theme_chooser/custom_theme_chooser';
 import PremadeThemeChooser from './premade_theme_chooser';
-export default class ThemeSetting extends React.PureComponent {
-    static propTypes = {
-        actions: PropTypes.shape({
-            saveTheme: PropTypes.func.isRequired,
-            deleteTeamSpecificThemes: PropTypes.func.isRequired,
-            openModal: PropTypes.func.isRequired,
-        }).isRequired,
-        currentTeamId: PropTypes.string.isRequired,
-        theme: PropTypes.object,
-        selected: PropTypes.bool.isRequired,
-        updateSection: PropTypes.func.isRequired,
-        setRequireConfirm: PropTypes.func.isRequired,
-        setEnforceFocus: PropTypes.func.isRequired,
-        allowCustomThemes: PropTypes.bool,
-    };
 
-    constructor(props) {
+type Props = {
+    currentTeamId: string;
+    theme: Theme;
+    selected: boolean;
+    updateSection: (section: string) => void;
+    setRequireConfirm: (requireConfirm: boolean) => void;
+    setEnforceFocus: (enforceFocus: boolean) => void;
+    allowCustomThemes: boolean;
+    showAllTeamsCheckbox: boolean;
+    applyToAllTeams: boolean;
+    actions: {
+        saveTheme: (teamId: string, theme: Theme) => void;
+        deleteTeamSpecificThemes: () => void;
+        openModal: <P>(modalData: ModalData<P>) => void;
+    };
+};
+
+type State = {
+    isSaving: boolean;
+    type: string;
+    showAllTeamsCheckbox: boolean;
+    applyToAllTeams: boolean;
+    serverError: string;
+    theme: Theme;
+};
+
+export default class ThemeSetting extends React.PureComponent<Props, State> {
+    originalTheme: Theme;
+    constructor(props: Props) {
         super(props);
 
         this.state = {
             ...this.getStateFromProps(props),
             isSaving: false,
+            serverError: '',
         };
 
         this.originalTheme = Object.assign({}, this.state.theme);
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props) {
         if (prevProps.selected && !this.props.selected) {
             this.resetFields();
         }
@@ -51,11 +67,11 @@ export default class ThemeSetting extends React.PureComponent {
 
     componentWillUnmount() {
         if (this.props.selected) {
-            Utils.applyTheme(this.props.theme);
+            applyTheme(this.props.theme);
         }
     }
 
-    getStateFromProps(props = this.props) {
+    getStateFromProps(props = this.props): State {
         const theme = {...props.theme};
         if (!theme.codeTheme) {
             theme.codeTheme = Constants.DEFAULT_CODE_THEME;
@@ -66,10 +82,12 @@ export default class ThemeSetting extends React.PureComponent {
             type: theme.type || 'premade',
             showAllTeamsCheckbox: props.showAllTeamsCheckbox,
             applyToAllTeams: props.applyToAllTeams,
+            serverError: '',
+            isSaving: false,
         };
     }
 
-    submitTheme = async () => {
+    submitTheme = async (): Promise<void> => {
         const teamId = this.state.applyToAllTeams ? '' : this.props.currentTeamId;
 
         this.setState({isSaving: true});
@@ -86,40 +104,40 @@ export default class ThemeSetting extends React.PureComponent {
         this.setState({isSaving: false});
     };
 
-    updateTheme = (theme) => {
+    updateTheme = (theme: Theme): void => {
         let themeChanged = this.state.theme.length === theme.length;
         if (!themeChanged) {
             for (const field in theme) {
                 if (theme.hasOwnProperty(field)) {
                     if (this.state.theme[field] !== theme[field]) {
                         themeChanged = true;
+                        console.log('theme changed');
                         break;
                     }
                 }
             }
         }
+        console.log('themeChanged', theme.sidebarBg);
 
         this.props.setRequireConfirm(themeChanged);
 
         this.setState({theme});
-        Utils.applyTheme(theme);
+        applyTheme(theme);
     };
 
-    updateType(type) {
-        this.setState({type});
-    }
+    updateType = (type: string): void => this.setState({type});
 
-    resetFields = () => {
+    resetFields = (): void => {
         const state = this.getStateFromProps();
-        state.serverError = null;
+        state.serverError = '';
         this.setState(state);
 
-        Utils.applyTheme(state.theme);
+        applyTheme(state.theme);
 
         this.props.setRequireConfirm(false);
     };
 
-    handleImportModal = () => {
+    handleImportModal = (): void => {
         this.props.actions.openModal({
             modalId: ModalIdentifiers.IMPORT_THEME_MODAL,
             dialogType: ImportThemeModal,
@@ -131,9 +149,7 @@ export default class ThemeSetting extends React.PureComponent {
         this.props.setEnforceFocus(false);
     };
 
-    handleUpdateSection = (section) => {
-        this.props.updateSection(section);
-    };
+    handleUpdateSection = (section: string): void => this.props.updateSection(section);
 
     render() {
         let serverError;
