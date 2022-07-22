@@ -13,10 +13,10 @@ executors:
 aliases:
   - &restore_cache
     restore_cache:
-      key: dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}-6
+      key: dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}-7
   - &save_cache
     save_cache:
-      key: dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}-6
+      key: dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}-7
       paths:
         - ~/mattermost/mattermost-webapp/node_modules
 
@@ -30,7 +30,6 @@ jobs:
       - run: |
           npm ci
       - *save_cache
-
   check-deps:
     parameters:
       cve_data_directory:
@@ -97,6 +96,7 @@ jobs:
       - checkout
       - *restore_cache
       - run: |
+          npm run build --workspace=packages/components
           npm run check
 
   i18n-check:
@@ -127,6 +127,7 @@ jobs:
       - checkout
       - *restore_cache
       - run: |
+          npm run build --workspace=packages/components
           npm run check-types
 
   test:
@@ -136,7 +137,9 @@ jobs:
     steps:
       - checkout
       - *restore_cache
-      - run: npm run test-ci
+      - run: |
+          npm run build --workspace=packages/components
+          npm run test-ci
       - store_test_results:
           path: build/
 
