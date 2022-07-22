@@ -10,7 +10,7 @@ import {
     actionsToMarkChannelAsRead,
     actionsToMarkChannelAsUnread,
     actionsToMarkChannelAsViewed,
-    markChannelAsReadOnServer,
+    markChannelAsViewedOnServer,
 } from 'mattermost-redux/actions/channels';
 import * as PostActions from 'mattermost-redux/actions/posts';
 
@@ -130,7 +130,7 @@ export function setChannelReadAndViewed(dispatch: DispatchFunc, getState: GetSta
 
     if (markAsRead) {
         if (markAsReadOnServer) {
-            dispatch(markChannelAsReadOnServer(post.channel_id));
+            dispatch(markChannelAsViewedOnServer(post.channel_id));
         }
 
         return [

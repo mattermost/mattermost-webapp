@@ -461,6 +461,7 @@ function pluginStatuses(state: Record<string, PluginStatusRedux> = {}, action: G
                 version: (nextState[id] && nextState[id].version) || plugin.version,
                 active: pluginState > 0,
                 state: pluginState,
+                error: plugin.error,
                 instances,
             };
         }
