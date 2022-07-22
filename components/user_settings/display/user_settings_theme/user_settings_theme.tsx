@@ -24,8 +24,8 @@ type Props = {
     theme: Theme;
     selected: boolean;
     updateSection: (section: string) => void;
-    setRequireConfirm: (requireConfirm: boolean) => void;
-    setEnforceFocus: (enforceFocus: boolean) => void;
+    setRequireConfirm?: (requireConfirm: boolean) => void;
+    setEnforceFocus?: (enforceFocus: boolean) => void;
     allowCustomThemes: boolean;
     showAllTeamsCheckbox: boolean;
     applyToAllTeams: boolean;
@@ -98,7 +98,7 @@ export default class ThemeSetting extends React.PureComponent<Props, State> {
             await this.props.actions.deleteTeamSpecificThemes();
         }
 
-        this.props.setRequireConfirm(false);
+        this.props.setRequireConfirm?.(false);
         this.originalTheme = Object.assign({}, this.state.theme);
         this.props.updateSection('');
         this.setState({isSaving: false});
@@ -111,15 +111,13 @@ export default class ThemeSetting extends React.PureComponent<Props, State> {
                 if (theme.hasOwnProperty(field)) {
                     if (this.state.theme[field] !== theme[field]) {
                         themeChanged = true;
-                        console.log('theme changed');
                         break;
                     }
                 }
             }
         }
-        console.log('themeChanged', theme.sidebarBg);
 
-        this.props.setRequireConfirm(themeChanged);
+        this.props.setRequireConfirm?.(themeChanged);
 
         this.setState({theme});
         applyTheme(theme);
@@ -134,7 +132,7 @@ export default class ThemeSetting extends React.PureComponent<Props, State> {
 
         applyTheme(state.theme);
 
-        this.props.setRequireConfirm(false);
+        this.props.setRequireConfirm?.(false);
     };
 
     handleImportModal = (): void => {
@@ -146,7 +144,7 @@ export default class ThemeSetting extends React.PureComponent<Props, State> {
             },
         });
 
-        this.props.setEnforceFocus(false);
+        this.props.setEnforceFocus?.(false);
     };
 
     handleUpdateSection = (section: string): void => this.props.updateSection(section);
