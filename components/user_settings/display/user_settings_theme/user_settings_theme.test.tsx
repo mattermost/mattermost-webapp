@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {ComponentProps} from 'react';
 import {shallow} from 'enzyme';
 import {IntlProvider} from 'react-intl';
 import {Provider} from 'react-redux';
@@ -9,7 +9,7 @@ import {render, fireEvent, screen} from '@testing-library/react';
 
 import {Preferences} from 'mattermost-redux/constants';
 
-import UserSettingsTheme from 'components/user_settings/display/user_settings_theme/user_settings_theme.jsx';
+import UserSettingsTheme from 'components/user_settings/display/user_settings_theme/user_settings_theme';
 
 import mockStore from 'tests/test_store';
 
@@ -28,9 +28,8 @@ describe('components/user_settings/display/user_settings_theme/user_settings_the
     };
     const store = mockStore(initialState);
 
-    const requiredProps = {
+    const requiredProps: ComponentProps<typeof UserSettingsTheme> = {
         theme: Preferences.THEMES.denim,
-        updateTheme: jest.fn(),
         currentTeamId: 'teamId',
         selected: false,
         updateSection: jest.fn(),
@@ -41,7 +40,9 @@ describe('components/user_settings/display/user_settings_theme/user_settings_the
             deleteTeamSpecificThemes: jest.fn().mockResolvedValue({data: true}),
             openModal: jest.fn(),
         },
-        focused: false,
+        allowCustomThemes: true,
+        showAllTeamsCheckbox: true,
+        applyToAllTeams: true,
     };
 
     it('should match snapshot', () => {
@@ -53,7 +54,7 @@ describe('components/user_settings/display/user_settings_theme/user_settings_the
     });
 
     it('should saveTheme', async () => {
-        const wrapper = shallow(
+        const wrapper = shallow<UserSettingsTheme>(
             <UserSettingsTheme {...requiredProps}/>,
         );
 
@@ -78,7 +79,7 @@ describe('components/user_settings/display/user_settings_theme/user_settings_the
             },
         };
 
-        const wrapper = shallow(
+        const wrapper = shallow<UserSettingsTheme>(
             <UserSettingsTheme {...props}/>,
         );
 
