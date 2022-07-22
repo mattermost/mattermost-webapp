@@ -83,7 +83,7 @@ export function useNotifyAdmin<T = HTMLAnchorElement | HTMLButtonElement>(props:
         }
     };
 
-    return [btnText(notifyStatus), notifyFunc]
+    return [btnText(notifyStatus), notifyFunc];
 }
 
 function NotifyAdminCTA(props: Props) {

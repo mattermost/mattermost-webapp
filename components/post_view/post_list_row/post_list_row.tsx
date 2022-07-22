@@ -11,8 +11,6 @@ import {CloudUsage, Limits} from '@mattermost/types/cloud';
 
 import type {emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 
-import type {emitShortcutReactToLastPostFrom} from 'actions/post_actions';
-
 import CombinedUserActivityPost from 'components/post_view/combined_user_activity_post';
 import Post from 'components/post_view/post';
 import DateSeparator from 'components/post_view/date_separator';
