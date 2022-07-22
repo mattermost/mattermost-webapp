@@ -293,7 +293,7 @@ describe('Pricing modal', () => {
         cy.get('#pricingModal').should('exist');
         cy.get('#pricingModal').get('.PricingModal__header').contains('Select a plan');
 
-        // *Check that starter card Upgrade button is disabled
+        // *Check that starter card Downgrade button is disabled
         cy.get('#pricingModal').get('#starter').get('#starter_action').should('be.disabled').contains('Downgrade');
 
         // *Check that professsional card Upgrade button opens purchase modal
@@ -334,6 +334,28 @@ describe('Pricing modal', () => {
 
         cy.get('.CloudUsageModal').should('exist');
         cy.get('.CloudUsageModal').contains('Cloud Starter limits');
+    });
+
+    it('should allow downgrades from professional plans', () => {
+        const subscription = {
+            id: 'sub_test1',
+            product_id: 'prod_2',
+            is_free_trial: 'false',
+        };
+        simulateSubscription(subscription);
+        cy.apiLogout();
+        cy.apiAdminLogin();
+        cy.visit(urlL);
+
+        // # Open the pricing modal
+        cy.visit('/admin_console/billing/subscription?action=show_pricing_modal');
+
+        // *Pricing modal should be open
+        cy.get('#pricingModal').should('exist');
+        cy.get('#pricingModal').get('.PricingModal__header').contains('Select a plan');
+
+        // *Check that starter card Downgrade button is disabled
+        cy.get('#pricingModal').get('#starter').get('#starter_action').should('not.be.disabled').contains('Downgrade');
     });
 
     it('should not allow downgrades from enterprise trial', () => {
