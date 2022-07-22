@@ -4,13 +4,23 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import TestHelper from 'tests/helpers/client-test-helper';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
-import AddBot from './add_bot.jsx';
+import {TestHelper} from 'utils/test_helper';
+
+import AddBot from './add_bot';
 
 describe('components/integrations/bots/AddBot', () => {
-    const team = TestHelper.fakeTeam();
+    const team = TestHelper.getTeamMock();
+
+    const actions = {
+        createBot: jest.fn(),
+        patchBot: jest.fn(),
+        uploadProfileImage: jest.fn(),
+        setDefaultProfileImage: jest.fn(),
+        createUserAccessToken: jest.fn(),
+        updateUserRoles: jest.fn(),
+    };
 
     it('blank', () => {
         const wrapper = shallow(
@@ -18,6 +28,7 @@ describe('components/integrations/bots/AddBot', () => {
                 maxFileSize={100}
                 team={team}
                 editingUserHasManageSystem={true}
+                actions={actions}
             />,
         );
         expect(wrapper.containsMatchingElement(
@@ -46,13 +57,14 @@ describe('components/integrations/bots/AddBot', () => {
     });
 
     it('edit bot', () => {
-        const bot = TestHelper.fakeBot();
+        const bot = TestHelper.getBotMock({});
         const wrapper = shallow(
             <AddBot
                 bot={bot}
                 maxFileSize={100}
                 team={team}
                 editingUserHasManageSystem={true}
+                actions={actions}
             />,
         );
         expect(wrapper.containsMatchingElement(
