@@ -6,6 +6,7 @@ exports[`components/new_channel_modal should match snapshot 1`] = `
   autoCloseOnConfirmButton={false}
   cancelButtonText="Cancel"
   className="new-channel-modal"
+  compassDesign={true}
   confirmButtonText="Create channel"
   enforceFocus={true}
   errorText=""
@@ -17,7 +18,6 @@ exports[`components/new_channel_modal should match snapshot 1`] = `
   modalHeaderText="Create a new channel"
   onExited={[Function]}
   show={true}
-  useCompassDesign={true}
 >
   <div
     className="new-channel-modal-body"
