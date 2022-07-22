@@ -121,6 +121,7 @@ type Props = {
     userId: string;
     threadId: UserThread['id'];
     isCollapsedThreadsEnabled: boolean;
+    isPostForwardingEnabled?: boolean;
     isFollowingThread?: boolean;
     isMentionedInRootPost?: boolean;
     threadReplyCount?: number;
@@ -140,6 +141,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     }
     private editDisableAction: DelayedAction;
     private buttonRef: React.RefObject<HTMLButtonElement>;
+    private canPostBeForwarded: boolean;
 
     constructor(props: Props) {
         super(props);
@@ -153,6 +155,8 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         };
 
         this.buttonRef = React.createRef<HTMLButtonElement>();
+
+        this.canPostBeForwarded = false;
     }
 
     static getDerivedStateFromProps(props: Props) {
@@ -266,6 +270,12 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     }
 
     handleForwardMenuItemActivated = (e: ChangeEvent): void => {
+        if (!this.canPostBeForwarded) {
+            // adding this early return since only hiding the Item from the menu is not enough,
+            // since a user can always use the Shortcuts to activate the function as well
+            return;
+        }
+
         e.preventDefault();
 
         trackDotMenuEvent(e, TELEMETRY_LABELS.FORWARD);
@@ -457,7 +467,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
 
         const fromWebhook = this.props.post.props?.from_webhook === 'true';
         const fromBot = this.props.post.props?.from_bot === 'true';
-        const canPostBeForwarded = !(fromWebhook || fromBot || isSystemMessage);
+        this.canPostBeForwarded = Boolean(this.props.isPostForwardingEnabled && !(fromWebhook || fromBot || isSystemMessage));
 
         const forwardPostItemText = (
             <span className={'title-with-new-badge'}>
@@ -519,7 +529,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                     />
                     <Menu.ItemAction
                         className={'MenuItem'}
-                        show={canPostBeForwarded}
+                        show={this.canPostBeForwarded}
                         text={forwardPostItemText}
                         icon={Utils.getMenuItemIcon('icon-arrow-right-bold-outline')}
                         rightDecorator={<ShortcutKey shortcutKey='Shift + F'/>}
