@@ -5,6 +5,8 @@ import React, {useCallback, useEffect, useMemo} from 'react';
 import {useSelector} from 'react-redux';
 import {FormattedMessage, useIntl} from 'react-intl';
 
+import {matchPath, useLocation} from 'react-router-dom';
+
 import moment from 'moment';
 
 import {trackEvent} from 'actions/telemetry_actions';
@@ -45,6 +47,12 @@ const TrialBenefitsModal = ({
 
     const license = useSelector((state: GlobalState) => getLicense(state));
     const show = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.TRIAL_BENEFITS_MODAL));
+
+    // determine if the modal will be open from admin console so the action button must be close instead of the invite people CTA
+    // since console is team/channel agnostic
+    const {pathname} = useLocation();
+    const inAdminConsole = matchPath(pathname, {path: '/admin_console'}) != null;
+
     const isCloud = license?.Cloud === 'true';
 
     const openInvitePeopleModal = useOpenInvitePeopleModal();
@@ -241,7 +249,7 @@ const TrialBenefitsModal = ({
             </a>
         );
 
-        if (isCloud) {
+        if (isCloud && !inAdminConsole) {
             actionButton = (
                 <a
                     className='primary-button'
