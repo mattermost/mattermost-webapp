@@ -179,6 +179,7 @@ export function filterFilesSearchByExt(extensions: string[]) {
             type: ActionTypes.SET_FILES_FILTER_BY_EXT,
             data: extensions,
         });
+        return {data: true};
     };
 }
 

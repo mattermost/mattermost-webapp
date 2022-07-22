@@ -10,7 +10,7 @@ import {Post} from '@mattermost/types/posts';
 import {makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
 
 import {GlobalState} from 'types/store';
-import {deleteAndRemovePost} from 'actions/post_actions.jsx';
+import {deleteAndRemovePost} from 'actions/post_actions';
 
 import DeletePostModal from './delete_post_modal';
 

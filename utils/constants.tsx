@@ -650,27 +650,27 @@ export const TELEMETRY_LABELS = {
 };
 
 export const PostTypes = {
-    JOIN_LEAVE: 'system_join_leave',
-    JOIN_CHANNEL: 'system_join_channel',
-    LEAVE_CHANNEL: 'system_leave_channel',
-    ADD_TO_CHANNEL: 'system_add_to_channel',
-    REMOVE_FROM_CHANNEL: 'system_remove_from_channel',
-    ADD_REMOVE: 'system_add_remove',
-    JOIN_TEAM: 'system_join_team',
-    LEAVE_TEAM: 'system_leave_team',
-    ADD_TO_TEAM: 'system_add_to_team',
-    REMOVE_FROM_TEAM: 'system_remove_from_team',
-    HEADER_CHANGE: 'system_header_change',
-    DISPLAYNAME_CHANGE: 'system_displayname_change',
-    CONVERT_CHANNEL: 'system_convert_channel',
-    PURPOSE_CHANGE: 'system_purpose_change',
-    CHANNEL_DELETED: 'system_channel_deleted',
-    CHANNEL_UNARCHIVED: 'system_channel_restored',
-    FAKE_PARENT_DELETED: 'system_fake_parent_deleted',
-    EPHEMERAL: 'system_ephemeral',
-    EPHEMERAL_ADD_TO_CHANNEL: 'system_ephemeral_add_to_channel',
-    REMOVE_LINK_PREVIEW: 'remove_link_preview',
-    ME: 'me',
+    JOIN_LEAVE: 'system_join_leave' as const,
+    JOIN_CHANNEL: 'system_join_channel' as const,
+    LEAVE_CHANNEL: 'system_leave_channel' as const,
+    ADD_TO_CHANNEL: 'system_add_to_channel' as const,
+    REMOVE_FROM_CHANNEL: 'system_remove_from_channel' as const,
+    ADD_REMOVE: 'system_add_remove' as const,
+    JOIN_TEAM: 'system_join_team' as const,
+    LEAVE_TEAM: 'system_leave_team' as const,
+    ADD_TO_TEAM: 'system_add_to_team' as const,
+    REMOVE_FROM_TEAM: 'system_remove_from_team' as const,
+    HEADER_CHANGE: 'system_header_change' as const,
+    DISPLAYNAME_CHANGE: 'system_displayname_change' as const,
+    CONVERT_CHANNEL: 'system_convert_channel' as const,
+    PURPOSE_CHANGE: 'system_purpose_change' as const,
+    CHANNEL_DELETED: 'system_channel_deleted' as const,
+    CHANNEL_UNARCHIVED: 'system_channel_restored' as const,
+    FAKE_PARENT_DELETED: 'system_fake_parent_deleted' as const,
+    EPHEMERAL: 'system_ephemeral' as const,
+    EPHEMERAL_ADD_TO_CHANNEL: 'system_ephemeral_add_to_channel' as const,
+    REMOVE_LINK_PREVIEW: 'remove_link_preview' as const,
+    ME: 'me' as const,
 };
 
 export const StatTypes = keyMirror({
@@ -1154,12 +1154,12 @@ export const DefaultRolePermissions = {
 };
 
 export const Locations = {
-    CENTER: 'CENTER',
-    RHS_ROOT: 'RHS_ROOT',
-    RHS_COMMENT: 'RHS_COMMENT',
-    SEARCH: 'SEARCH',
-    NO_WHERE: 'NO_WHERE',
-    MODAL: 'MODAL',
+    CENTER: 'CENTER' as const,
+    RHS_ROOT: 'RHS_ROOT' as const,
+    RHS_COMMENT: 'RHS_COMMENT' as const,
+    SEARCH: 'SEARCH' as const,
+    NO_WHERE: 'NO_WHERE' as const,
+    MODAL: 'MODAL' as const,
 };
 
 export const PostListRowListIds = {

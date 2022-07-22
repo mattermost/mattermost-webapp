@@ -758,7 +758,6 @@ export default class RhsComment extends React.PureComponent {
                             {fileAttachment}
                             <ReactionList
                                 post={post}
-                                isReadOnly={isReadOnly || channelIsArchived}
                             />
                         </div>
                     </div>
