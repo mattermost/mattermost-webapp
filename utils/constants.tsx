@@ -146,6 +146,8 @@ export const Preferences = {
     RECENT_EMOJIS: 'recent_emojis',
     ONBOARDING: 'onboarding',
     ADVANCED_TEXT_EDITOR: 'advanced_text_editor',
+
+    FORWARD_POST_VIEWED: 'forward_post_viewed',
 };
 
 // For one off things that have a special, attention-grabbing UI until you interact with them
@@ -399,6 +401,7 @@ export const ModalIdentifiers = {
     THREE_DAYS_LEFT_TRIAL_MODAL: 'three_days_left_trial_modal',
     REQUEST_BUSINESS_EMAIL_MODAL: 'request_business_email_modal',
     FEATURE_RESTRICTED_MODAL: 'feature_restricted_modal',
+    FORWARD_POST_MODAL: 'forward_post_modal',
     CLOUD_SUBSCRIBE_WITH_LOADING_MODAL: 'cloud_subscribe_with_loading_modal',
     JOIN_PUBLIC_CHANNEL_MODAL: 'join_public_channel_modal',
 };
@@ -621,6 +624,7 @@ export const AdvancedTextEditor = {
 
 export const TELEMETRY_CATEGORIES = {
     CLOUD_PURCHASING: 'cloud_purchasing',
+    SELF_HOSTED_PURCHASING: 'self_hosted_purchasing',
     CLOUD_ADMIN: 'cloud_admin',
     POST_INFO_MORE: 'post_info_more_menu',
     POST_INFO: 'post_info',
@@ -646,6 +650,7 @@ export const TELEMETRY_LABELS = {
     UNPIN: 'unpin',
     REPLY: 'reply',
     UNREAD: 'unread',
+    FORWARD: 'forward',
 };
 
 export const PostTypes = {
@@ -932,6 +937,8 @@ export const CloudLinks = {
     PRORATED_PAYMENT: 'https://mattermost.com/pl/mattermost-cloud-prorate-documentation',
     DEPLOYMENT_OPTIONS: 'https://mattermost.com/deploy/',
     DOWNLOAD_UPDATE: 'https://mattermost.com/deploy/',
+    CLOUD_SIGNUP_PAGE: 'https://mattermost.com/sign-up/',
+    SELF_HOSTED_SIGNUP: 'https://customers.mattermost.com/signup',
 };
 
 export const DocLinks = {
@@ -1156,6 +1163,7 @@ export const Locations = {
     RHS_COMMENT: 'RHS_COMMENT',
     SEARCH: 'SEARCH',
     NO_WHERE: 'NO_WHERE',
+    MODAL: 'MODAL',
 };
 
 export const PostListRowListIds = {
@@ -1239,6 +1247,7 @@ export const Constants = {
     HERE_MENTION_REGEX: /(?:\B|\b_+)@(here)(?!(\.|-|_)*[^\W_])/gi,
     NOTIFY_ALL_MEMBERS: 5,
     ALL_MEMBERS_MENTIONS_REGEX: /(?:\B|\b_+)@(channel|all)(?!(\.|-|_)*[^\W_])/gi,
+    MENTIONS_REGEX: /(?:\B|\b_+)@([a-z0-9.\-_]+)/gi,
     DEFAULT_CHARACTER_LIMIT: 4000,
     IMAGE_TYPE_GIF: 'gif',
     TEXT_TYPES: ['txt', 'rtf'],
@@ -1770,6 +1779,7 @@ export const Constants = {
     PERMISSIONS_DELETE_POST_ALL: 'all',
     PERMISSIONS_DELETE_POST_TEAM_ADMIN: 'team_admin',
     PERMISSIONS_DELETE_POST_SYSTEM_ADMIN: 'system_admin',
+    PERMISSIONS_SYSTEM_CUSTOM_GROUP_ADMIN: 'system_custom_group_admin',
     ALLOW_EDIT_POST_ALWAYS: 'always',
     ALLOW_EDIT_POST_NEVER: 'never',
     ALLOW_EDIT_POST_TIME_LIMIT: 'time_limit',
@@ -1834,6 +1844,7 @@ export const ConsolePages = {
     SAML: '/admin_console/authentication/saml',
     SESSION_LENGTHS: '/admin_console/environment/session_lengths',
     WEB_SERVER: '/admin_console/environment/web_server',
+    PUSH_NOTIFICATION_CENTER: '/admin_console/environment/push_notification_server',
 };
 
 export const WindowSizes = {

@@ -67,7 +67,10 @@ describe('Notifications', () => {
             });
 
             // # Enter "in:town-square" in the search bar and hit ENTER
-            cy.get('#searchBox').type('in:town-square').type('{enter}', {force: true}).type('{enter}', {force: true});
+            cy.get('#searchBox').
+                typeWithForce('in:town-square').
+                typeWithForce('{enter}').
+                typeWithForce('{enter}');
 
             // # Click "Jump" to one of the search results
             cy.get('a.search-item__jump').last().click();

@@ -9,14 +9,17 @@ import {closeModal} from 'actions/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
 import {isModalOpen} from 'selectors/views/modals';
 import {GlobalState} from 'types/store';
+import {isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
 
 import Content from './content';
+import SelfHostedContent from './self_hosted_content';
 
 import './pricing_modal.scss';
 
 function PricingModal() {
     const [showModal, setShowModal] = useState(true);
     const dispatch = useDispatch();
+    const isCloud = useSelector(isCurrentLicenseCloud);
     const isCloudPurchaseModalOpen = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.CLOUD_PURCHASE));
 
     const onHide = () => {
@@ -28,6 +31,16 @@ function PricingModal() {
             setShowModal(false);
         }
     };
+
+    const content = isCloud ? (
+        <Content
+            onHide={onHide}
+        />
+    ) : (
+        <SelfHostedContent
+            onHide={onHide}
+        />
+    );
 
     return (
         <Modal
@@ -44,9 +57,7 @@ function PricingModal() {
             aria-modal='true'
             aria-labelledby='pricing_modal_title'
         >
-            <Content
-                onHide={onHide}
-            />
+            {content}
 
         </Modal>
     );
