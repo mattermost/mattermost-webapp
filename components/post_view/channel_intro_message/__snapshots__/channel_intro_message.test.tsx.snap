@@ -66,6 +66,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
+          "displayName": "Connect(EditChannelHeaderModal)",
           "type": [Function],
         }
       }
@@ -193,6 +194,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
+          "displayName": "Connect(EditChannelHeaderModal)",
           "type": [Function],
         }
       }
@@ -281,6 +283,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
+            "displayName": "Connect(AddGroupsToTeamModal)",
             "type": [Function],
           }
         }
@@ -347,6 +350,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
+          "displayName": "Connect(EditChannelHeaderModal)",
           "type": [Function],
         }
       }
@@ -475,6 +479,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
                   "$$typeof": Symbol(react.memo),
                   "WrappedComponent": [Function],
                   "compare": null,
+                  "displayName": "Connect(EditChannelHeaderModal)",
                   "type": [Function],
                 }
               }
@@ -573,6 +578,7 @@ exports[`components/post_view/ChannelIntroMessages test DIRECT Channel should ma
         "$$typeof": Symbol(react.memo),
         "WrappedComponent": [Function],
         "compare": null,
+        "displayName": "Connect(EditChannelHeaderModal)",
         "type": [Function],
       }
     }
@@ -654,6 +660,7 @@ exports[`components/post_view/ChannelIntroMessages test DIRECT Channel should ma
         "$$typeof": Symbol(react.memo),
         "WrappedComponent": [Function],
         "compare": null,
+        "displayName": "Connect(EditChannelHeaderModal)",
         "type": [Function],
       }
     }
@@ -780,6 +787,7 @@ exports[`components/post_view/ChannelIntroMessages test Group Channel should mat
         "$$typeof": Symbol(react.memo),
         "WrappedComponent": [Function],
         "compare": null,
+        "displayName": "Connect(EditChannelHeaderModal)",
         "type": [Function],
       }
     }
@@ -864,6 +872,7 @@ exports[`components/post_view/ChannelIntroMessages test Group Channel should mat
         "$$typeof": Symbol(react.memo),
         "WrappedComponent": [Function],
         "compare": null,
+        "displayName": "Connect(EditChannelHeaderModal)",
         "type": [Function],
       }
     }
@@ -974,6 +983,7 @@ exports[`components/post_view/ChannelIntroMessages test OFFTOPIC Channel should 
               "$$typeof": Symbol(react.memo),
               "WrappedComponent": [Function],
               "compare": null,
+              "displayName": "Connect(EditChannelHeaderModal)",
               "type": [Function],
             }
           }
@@ -1077,6 +1087,7 @@ exports[`components/post_view/ChannelIntroMessages test OFFTOPIC Channel should 
               "$$typeof": Symbol(react.memo),
               "WrappedComponent": [Function],
               "compare": null,
+              "displayName": "Connect(EditChannelHeaderModal)",
               "type": [Function],
             }
           }
@@ -1216,6 +1227,7 @@ exports[`components/post_view/ChannelIntroMessages test Open Channel should matc
               "$$typeof": Symbol(react.memo),
               "WrappedComponent": [Function],
               "compare": null,
+              "displayName": "Connect(EditChannelHeaderModal)",
               "type": [Function],
             }
           }
@@ -1344,6 +1356,7 @@ exports[`components/post_view/ChannelIntroMessages test Open Channel should matc
               "$$typeof": Symbol(react.memo),
               "WrappedComponent": [Function],
               "compare": null,
+              "displayName": "Connect(EditChannelHeaderModal)",
               "type": [Function],
             }
           }

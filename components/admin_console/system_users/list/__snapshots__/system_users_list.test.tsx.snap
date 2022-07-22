@@ -22,6 +22,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
+          "displayName": "Connect(SystemUsersDropdown)",
           "type": [Function],
         },
       ]
@@ -44,6 +45,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
         "$$typeof": Symbol(react.memo),
         "WrappedComponent": [Function],
         "compare": null,
+        "displayName": "Connect(UserListRowWithError)",
         "type": [Function],
       }
     }
@@ -106,6 +108,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
+          "displayName": "Connect(SystemUsersDropdown)",
           "type": [Function],
         },
       ]
@@ -226,6 +229,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
         "$$typeof": Symbol(react.memo),
         "WrappedComponent": [Function],
         "compare": null,
+        "displayName": "Connect(UserListRowWithError)",
         "type": [Function],
       }
     }
@@ -309,6 +313,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
+          "displayName": "Connect(SystemUsersDropdown)",
           "type": [Function],
         },
       ]
@@ -454,6 +459,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
         "$$typeof": Symbol(react.memo),
         "WrappedComponent": [Function],
         "compare": null,
+        "displayName": "Connect(UserListRowWithError)",
         "type": [Function],
       }
     }
