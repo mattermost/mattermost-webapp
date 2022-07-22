@@ -118,6 +118,7 @@ exports[`admin_console/system_role_users should match snapshot 1`] = `
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
+          "displayName": "Connect(AddUsersToRoleModal)",
           "type": [Function],
         }
       }
@@ -520,6 +521,7 @@ exports[`admin_console/system_role_users should match snapshot with readOnly tru
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
+          "displayName": "Connect(AddUsersToRoleModal)",
           "type": [Function],
         }
       }
