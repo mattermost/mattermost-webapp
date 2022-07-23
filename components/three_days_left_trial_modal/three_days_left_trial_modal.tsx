@@ -11,12 +11,8 @@ import {GlobalState} from 'types/store';
 import {closeModal} from 'actions/views/modals';
 
 import {DispatchFunc} from 'mattermost-redux/types/actions';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
-import {savePreferences} from 'mattermost-redux/actions/preferences';
 
-import {trackEvent} from 'actions/telemetry_actions';
-
-import {CloudBanners, ConsolePages, ModalIdentifiers, Preferences, TELEMETRY_CATEGORIES} from 'utils/constants';
+import {ConsolePages, ModalIdentifiers} from 'utils/constants';
 
 import GenericModal from 'components/generic_modal';
 import GuestAccessSvg from 'components/common/svg_images_components/guest_access_svg';
@@ -32,35 +28,24 @@ import ThreeDaysLeftTrialCard, {ThreeDaysLeftTrialCardProps} from './three_days_
 import './three_days_left_trial_modal.scss';
 
 type Props = {
-    onClose?: () => void;
+    onExited?: () => void;
     limitsOVerpassed: boolean;
 }
 
 function ThreeDaysLeftTrialModal(props: Props): JSX.Element | null {
     const dispatch = useDispatch<DispatchFunc>();
-    const currentUserId = useSelector(getCurrentUserId);
     const {formatMessage} = useIntl();
     const openPricingModal = useOpenPricingModal();
     const show = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.THREE_DAYS_LEFT_TRIAL_MODAL));
     const usage = useGetUsage();
     const [limits] = useGetLimits();
 
+    // move this to the show three days left so it is easier to test
     const handleOnClose = async () => {
-        if (props.onClose) {
-            props.onClose();
+        if (props.onExited) {
+            props.onExited();
         }
-        trackEvent(
-            TELEMETRY_CATEGORIES.CLOUD_ADMIN,
-            'dismissed_three_days_left_trial_modal',
-        );
-
-        await dispatch(savePreferences(currentUserId, [{
-            category: Preferences.CLOUD_TRIAL_BANNER,
-            user_id: currentUserId,
-            name: CloudBanners.THREE_DAYS_LEFT_TRIAL_MODAL,
-            value: 'true',
-        }]));
-        dispatch(closeModal(ModalIdentifiers.THREE_DAYS_LEFT_TRIAL_MODAL));
+        await dispatch(closeModal(ModalIdentifiers.THREE_DAYS_LEFT_TRIAL_MODAL));
     };
 
     const handleOpenPricingModal = async () => {

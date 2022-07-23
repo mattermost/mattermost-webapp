@@ -40,7 +40,7 @@ const ThreeDaysLeftTrialCard = (
             <div className={`${svgWrapperClassName} svg-wrapper`}>
                 {svgElement}
             </div>
-            <div className={'content-wrapper'}>
+            <div className='content-wrapper'>
                 <div className='title'>
                     {title}
                 </div>
