@@ -1,9 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {MagnifyIcon} from '@mattermost/compass-icons/components';
-import {InputAdornment} from '@mui/material';
+import ChevronDownIcon from '@mattermost/compass-icons/components/chevron-down';
 import React, {createRef, RefObject} from 'react';
+import {CheckIcon, DotsHorizontalIcon, DotsVerticalIcon, MagnifyIcon} from '@mattermost/compass-icons/components';
+import {IconButton, List, ListItem, ListItemText, MenuItem, SelectChangeEvent, Typography} from '@mui/material';
 
 import Modal from 'components/compass/modal/modal';
 
@@ -16,6 +17,8 @@ import {debounce} from 'mattermost-redux/actions/helpers';
 import Button from '../compass/button/button';
 import TextField from '../compass/textfield/textfield';
 import ModalTitle from '../compass/modal/modal_title';
+import Select from '../compass/select/select';
+import ListItemIcon from '../compass/list-item-icon/list-item-icon';
 
 const GROUPS_PER_PAGE = 60;
 
@@ -47,24 +50,40 @@ export type Props = {
     };
 }
 
+type FilterOptions = 'my' | 'all';
+
+type FilterOptionLabels = {
+    [k in FilterOptions]: string;
+}
+
 type State = {
     page: number;
     myGroupsPage: number;
     loading: boolean;
     show: boolean;
-    selectedFilter: string;
+    selectedFilter: FilterOptions;
     allGroupsFull: boolean;
     myGroupsFull: boolean;
+    value: string;
 }
 
 export default class UserGroupsModal extends React.PureComponent<Props, State> {
     divScrollRef: RefObject<HTMLDivElement>;
     private searchTimeoutId: number
+    private filterOptions: FilterOptions[];
+    private filterOptionLabels: FilterOptionLabels;
 
     constructor(props: Props) {
         super(props);
         this.divScrollRef = createRef();
         this.searchTimeoutId = 0;
+
+        this.filterOptions = ['all', 'my'];
+
+        this.filterOptionLabels = {
+            all: 'All Groups',
+            my: 'My Groups',
+        };
 
         this.state = {
             page: 0,
@@ -74,6 +93,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
             selectedFilter: 'all',
             allGroupsFull: false,
             myGroupsFull: false,
+            value: '',
         };
     }
 
@@ -278,6 +298,11 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
         //         }
         //     </Modal>
         // );
+
+        const groups = this.state.selectedFilter === 'all' ? this.props.groups : this.props.myGroups;
+
+        console.log('##### props', this.props);
+        const handleChange = (e: React.ChangeEvent<HTMLInputElement| HTMLTextAreaElement>) => this.setState({value: e.target.value});
         return (
             <Modal
                 isOpen={this.state.show}
@@ -293,9 +318,11 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                     rightSection={<Button disableRipple={true}>{'Create user group'}</Button>}
                 >
                     <TextField
-                        placeholder='Search Groups'
+                        label='Search Groups'
                         id='search_groups_input'
                         fullWidth={true}
+                        value={this.state.value}
+                        onChange={handleChange}
                         startIcon={(
                             <MagnifyIcon
                                 size={18}
@@ -303,8 +330,63 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                             />
                         )}
                     />
+                    <Select
+                        variant='standard'
+                        multiple={false}
+                        value={this.state.selectedFilter}
+                        defaultValue={this.filterOptions[0]}
+                        renderValue={(selected: FilterOptions) => `Show: ${this.filterOptionLabels[selected]}`}
+                        onChange={(event: SelectChangeEvent<FilterOptions>) => this.setState({selectedFilter: event.target.value as FilterOptions})}
+                        IconComponent={ChevronDownIcon}
+                    >
+                        {this.filterOptions.map((option: FilterOptions) => {
+                            const isSelected = option === this.state.selectedFilter;
+                            return (
+                                <MenuItem
+                                    key={option}
+                                    value={option}
+                                    selected={isSelected}
+                                >
+                                    <ListItemText disableTypography={true}>
+                                        {this.filterOptionLabels[option]}
+                                    </ListItemText>
+                                    {isSelected && (
+                                        <ListItemIcon position='end'>
+                                            <CheckIcon
+                                                size={18}
+                                                color={'var(--button-bg)'}
+                                            />
+                                        </ListItemIcon>
+                                    )}
+                                </MenuItem>
+                            );
+                        })}
+                    </Select>
                 </ModalTitle>
-                {'THIS IS THE CONTENT FOR THE USER GROUPS MODAL'}
+                <List>
+                    {groups.map((group) => {
+                        const membersText = `${group.member_count} member${group.member_count > 1 ? 's' : ''}`;
+                        return (
+                            <ListItem
+                                key={group.id}
+                                secondaryAction={(
+                                    <IconButton>
+                                        <DotsVerticalIcon
+                                            size={18}
+                                            color={'currentColor'}
+                                        />
+                                    </IconButton>
+                                )}
+                            >
+                                <ListItemText disableTypography={true}>
+                                    <Typography variant={'body1'}>{group.display_name}</Typography>
+                                    <Typography variant={'body2'}>{`@${group.name}`}</Typography>
+                                    <Typography variant={'body2'}>{membersText}</Typography>
+                                </ListItemText>
+                            </ListItem>
+                        );
+                    })}
+                </List>
             </Modal>
         );
     }

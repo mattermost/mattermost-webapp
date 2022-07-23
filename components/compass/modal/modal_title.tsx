@@ -40,7 +40,10 @@ const ModalTitle = ({title, onClose, children, rightSection = null}: ModalTitleP
 
     return (
         <>
-            <StyledModalTitle hasCloseButton={hasCloseButton}>
+            <StyledModalTitle
+                hasCloseButton={hasCloseButton}
+                component={'div'}
+            >
                 {title}
                 {rightSection}
                 {hasCloseButton && (

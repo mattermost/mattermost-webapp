@@ -1,24 +1,19 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {styled} from '@mui/material/styles';
 import React from 'react';
 import {InputAdornment} from '@mui/material';
 import MUITextField, {TextFieldProps as MUITextFieldProps} from '@mui/material/TextField';
-
-const StyledTextField = styled(MUITextField)<MUITextFieldProps>(() => ({
-    legend: {
-        width: 0,
-    },
-}));
 
 type TextFieldProps = Omit<MUITextFieldProps, 'InputProps'> & {
     startIcon?: React.ReactNode;
     endIcon?: React.ReactNode;
 }
 
-const TextField = ({startIcon, endIcon, ...props}: TextFieldProps) => {
-    const InputProps: MUITextFieldProps['InputProps'] = {notched: false};
+const TextField2 = ({startIcon, endIcon, value, onFocus, onBlur, ...props}: TextFieldProps) => {
+    const [shrink, setShrink] = React.useState(Boolean(value));
+
+    const InputProps: MUITextFieldProps['InputProps'] = {};
 
     if (startIcon) {
         InputProps.startAdornment = (
@@ -36,12 +31,35 @@ const TextField = ({startIcon, endIcon, ...props}: TextFieldProps) => {
         );
     }
 
+    const makeFocusHandler = (focus: boolean) => (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        if (focus) {
+            setShrink(true);
+            onFocus?.(e);
+            return;
+        }
+
+        setShrink(Boolean(value));
+        onBlur?.(e);
+    };
+
+    const InputLabelProps: MUITextFieldProps['InputLabelProps'] = {
+        shrink,
+        sx: {
+            '&.MuiInputLabel-root:not(.MuiInputLabel-shrink)': {
+                transform: startIcon ? 'translate(40px, 0.8rem)' : 'translate(24px, 0.8rem)',
+            },
+        },
+    };
+
     return (
-        <StyledTextField
+        <MUITextField
             {...props}
+            onFocus={makeFocusHandler(true)}
+            onBlur={makeFocusHandler(false)}
             InputProps={InputProps}
+            InputLabelProps={InputLabelProps}
         />
     );
 };
 
-export default TextField;
+export default TextField2;
