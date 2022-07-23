@@ -35,7 +35,7 @@ const ThreeDaysLeftTrialCard = (
     return (
         <div
             id={`threeDaysLeftTrialCard-${id}`}
-            className='ThreeDaysLeftTrialCard slide-container'
+            className='three-days-left-card slide-container'
         >
             <div className={`${svgWrapperClassName} svg-wrapper`}>
                 {svgElement}

@@ -54,11 +54,11 @@ const ShowThreeDaysLeftTrialModal = () => {
     const someLimitNeedsAttention = Boolean(useGetHighestThresholdCloudLimit(useGetUsage(), useGetLimits()[0]));
 
     useEffect(() => {
-        if (subscription?.trial_end_at === undefined || subscription.trial_end_at === 0) {
-            return;
-        }
+        // if (subscription?.trial_end_at === undefined || subscription.trial_end_at === 0) {
+        //     return;
+        // }
 
-        if (isCloud && isFreeTrial && isUserAdmin && !hadAdminDismissedModal && trialEndInThreeDaysOrLess) {
+        // if (isCloud && isFreeTrial && isUserAdmin && !hadAdminDismissedModal && trialEndInThreeDaysOrLess) {
             dispatch(openModal({
                 modalId: ModalIdentifiers.THREE_DAYS_LEFT_TRIAL_MODAL,
                 dialogType: ThreeDaysLeftTrialModal,
@@ -68,7 +68,7 @@ const ShowThreeDaysLeftTrialModal = () => {
                 TELEMETRY_CATEGORIES.CLOUD_THREE_DAYS_LEFT_MODAL,
                 'trigger_cloud_three_days_left_modal',
             );
-        }
+        // }
     }, [subscription?.trial_end_at]);
 
     return null;

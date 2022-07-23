@@ -45,7 +45,7 @@ function ThreeDaysLeftTrialModal(props: Props): JSX.Element | null {
     const usage = useGetUsage();
     const [limits] = useGetLimits();
 
-    const handleOnClose = () => async () => {
+    const handleOnClose = async () => {
         if (props.onClose) {
             props.onClose();
         }
@@ -63,18 +63,23 @@ function ThreeDaysLeftTrialModal(props: Props): JSX.Element | null {
         dispatch(closeModal(ModalIdentifiers.THREE_DAYS_LEFT_TRIAL_MODAL));
     };
 
+    const handleOpenPricingModal = async () => {
+        await dispatch(closeModal(ModalIdentifiers.THREE_DAYS_LEFT_TRIAL_MODAL));
+        openPricingModal();
+    };
+
     const buttonLabel = formatMessage({id: 'three_days_left_trial_modal.learnMore', defaultMessage: 'Learn more'});
 
     const steps: ThreeDaysLeftTrialCardProps[] = useMemo(() => [
         {
             id: 'useSso',
-            title: formatMessage({id: 'three_days_left_trial.modal.useSsoTitle', defaultMessage: 'Use SSO (with OpenID, SAML, Google, O365)'}),
-            description: formatMessage({id: 'three_days_left_trial.modal.useSsoDescription', defaultMessage: 'Sign on quickly and easily with our SSO feature that works with OpenID, SAML, Google, and O365.'}),
+            title: formatMessage({id: 'three_days_left_trial.modal.useSsoTitle', defaultMessage: 'Single Sign on (with OpenID, SAML, Google, 0365)'}),
+            description: formatMessage({id: 'three_days_left_trial.modal.useSsoDescription', defaultMessage: 'Collaborate with users outside of your organization while tightly controlling their access to channels and team members.'}),
             svgWrapperClassName: 'guestAccessSvg',
             svgElement: (
                 <GuestAccessSvg
-                    width={400}
-                    height={180}
+                    width={130}
+                    height={90}
                 />
             ),
             pageURL: 'https://docs.mattermost.com/onboard/sso-saml.html',
@@ -87,8 +92,8 @@ function ThreeDaysLeftTrialModal(props: Props): JSX.Element | null {
             svgWrapperClassName: 'personMacSvg',
             svgElement: (
                 <MonitorImacLikeSVG
-                    width={400}
-                    height={180}
+                    width={130}
+                    height={90}
                 />
             ),
             pageURL: 'https://docs.mattermost.com/onboard/ad-ldap.html',
@@ -101,8 +106,8 @@ function ThreeDaysLeftTrialModal(props: Props): JSX.Element | null {
             svgWrapperClassName: 'personBoxSvg',
             svgElement: (
                 <SystemRolesSVG
-                    width={400}
-                    height={180}
+                    width={130}
+                    height={90}
                 />
             ),
             pageURL: ConsolePages.LICENSE,
@@ -146,17 +151,21 @@ function ThreeDaysLeftTrialModal(props: Props): JSX.Element | null {
             className='ThreeDaysLeftTrialModal'
             id='threeDaysLeftTrialModal'
             onExited={handleOnClose}
+            onHide={handleOnClose}
             modalHeaderText={headerText}
+            useCompassDesign={true}
         >
-            <div className='headerSubtitleText'>
+            <div className='header-subtitle-text'>
                 {headerSubtitleText}
             </div>
-            {content}
+            <div className='cards-container'>
+                {content}
+            </div>
             <div className='divisory-line'/>
             <div className='footer-content'>
                 <button
-                    onClick={openPricingModal}
-                    className='AlertBanner__buttonLeft'
+                    onClick={handleOpenPricingModal}
+                    className='open-view-plans-modal-btn primary-button'
                 >
                     {formatMessage({id: 'three_days_left_trial.modal.viewPlans', defaultMessage: 'View plan options'})}
                 </button>

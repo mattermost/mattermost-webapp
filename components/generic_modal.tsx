@@ -13,6 +13,7 @@ import './generic_modal.scss';
 type Props = {
     className?: string;
     onExited: () => void;
+    onHide?: () => void;
     modalHeaderText?: React.ReactNode;
     show?: boolean;
     handleCancel?: () => void;
@@ -58,6 +59,9 @@ export default class GenericModal extends React.PureComponent<Props, State> {
 
     onHide = () => {
         this.setState({show: false});
+        if (this.props.onHide) {
+            this.props.onHide();
+        }
     }
 
     handleCancel = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
