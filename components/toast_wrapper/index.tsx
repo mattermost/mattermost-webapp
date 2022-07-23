@@ -5,28 +5,28 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {withRouter} from 'react-router-dom';
 
-// @ts-expect-error TS(2307): Cannot find module 'reselect' or its corresponding... Remove this comment to see the full error message
+// @ts-expect-error TS(2307) FIXME: Cannot find module 'reselect' or its corresponding... Remove this comment to see the full error message
 import {createSelector} from 'reselect';
 
-// @ts-expect-error TS(2307): Cannot find module 'mattermost-redux/constants' or... Remove this comment to see the full error message
+// @ts-expect-error TS(2307) FIXME: Cannot find module 'mattermost-redux/constants' or... Remove this comment to see the full error message
 import {Posts} from 'mattermost-redux/constants';
 
-// @ts-expect-error TS(2307): Cannot find module 'mattermost-redux/selectors/ent... Remove this comment to see the full error message
+// @ts-expect-error TS(2307) FIXME: Cannot find module 'mattermost-redux/selectors/ent... Remove this comment to see the full error message
 import {getAllPosts, getPostIdsInChannel} from 'mattermost-redux/selectors/entities/posts';
 
-// @ts-expect-error TS(2307): Cannot find module 'mattermost-redux/selectors/ent... Remove this comment to see the full error message
+// @ts-expect-error TS(2307) FIXME: Cannot find module 'mattermost-redux/selectors/ent... Remove this comment to see the full error message
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
-// @ts-expect-error TS(2307): Cannot find module 'mattermost-redux/utils/post_li... Remove this comment to see the full error message
+// @ts-expect-error TS(2307) FIXME: Cannot find module 'mattermost-redux/utils/post_li... Remove this comment to see the full error message
 import {makePreparePostIdsForPostList} from 'mattermost-redux/utils/post_list';
 
-// @ts-expect-error TS(2307): Cannot find module 'mattermost-redux/selectors/ent... Remove this comment to see the full error message
+// @ts-expect-error TS(2307) FIXME: Cannot find module 'mattermost-redux/selectors/ent... Remove this comment to see the full error message
 import {getCurrentChannel, countCurrentChannelUnreadMessages, isManuallyUnread} from 'mattermost-redux/selectors/entities/channels';
 
-// @ts-expect-error TS(2307): Cannot find module 'mattermost-redux/selectors/ent... Remove this comment to see the full error message
+// @ts-expect-error TS(2307) FIXME: Cannot find module 'mattermost-redux/selectors/ent... Remove this comment to see the full error message
 import {getUnreadScrollPositionPreference, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
-// @ts-expect-error TS(2307): Cannot find module 'actions/views/channel' or its ... Remove this comment to see the full error message
+// @ts-expect-error TS(2307) FIXME: Cannot find module 'actions/views/channel' or its ... Remove this comment to see the full error message
 import {updateToastStatus} from 'actions/views/channel';
 
 import ToastWrapper from './toast_wrapper.jsx';
