@@ -4743,6 +4743,7 @@
   "three_days_left_trial_modal.learnMore": "Learn more",
   "three_days_left_trial.modal.ldapDescription": "Use AD/LDAP groups to organize and apply actions to multiple users at once. Manage team and channel memberships, permissions and more.",
   "three_days_left_trial.modal.ldapTitle": "Synchronize your Active Directory/LDAP groups",
+  "three_days_left_trial.modal.limitsTitle": "Limits",
   "three_days_left_trial.modal.subtitle": "There is still time to explore what our paid plans can help you accomplish.",
   "three_days_left_trial.modal.subtitleLimitsOverpassed": "There are 3 days left on your trial. Upgrade to our Professional or Enterprise plan to avoid exceeding your data limits on the Starter plan.",
   "three_days_left_trial.modal.systemConsoleDescription": "Use System Roles to give designated users read and/or write access to select sections of System Console.",
