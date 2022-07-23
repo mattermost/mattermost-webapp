@@ -25,7 +25,7 @@
             color: rgba(var(--center-channel-text-rgb), 0.72);
         }
 
-        .cards-container {
+        .content-container {
             display: flex;
             flex-direction: column;
             margin-right: 24px;
@@ -67,6 +67,19 @@
                     .LearnMoreActionButton {
                         margin-left: 5px;
                     }
+                }
+            }
+
+            .workspace-limits-panel {
+                margin: 24px 0;
+
+                .limits-title {
+                    font-weight: 700;
+                    font-size: 10px;
+                    line-height: 16px;                    
+                    letter-spacing: 0.02em;
+                    text-transform: uppercase;
+                    color: rgba(var(--center-channel-text-rgb), 0.56);
                 }
             }
         }

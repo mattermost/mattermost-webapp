@@ -133,12 +133,17 @@ function ThreeDaysLeftTrialModal(props: Props): JSX.Element | null {
     if (props.limitsOVerpassed) {
         headerText = formatMessage({id: 'three_days_left_trial.modal.titleLimitsOverpassed', defaultMessage: 'Upgrade before the trial ends'});
         headerSubtitleText = formatMessage({id: 'three_days_left_trial.modal.subtitleLimitsOverpassed', defaultMessage: 'There are 3 days left on your trial. Upgrade to our Professional or Enterprise plan to avoid exceeding your data limits on the Starter plan.'});
-        content = () => (
-            <WorkspaceLimitsPanel
-                showIcons={true}
-                limits={limits}
-                usage={usage}
-            />
+        content = (
+            <div className='workspace-limits-panel'>
+                <p className='limits-title'>
+                    {formatMessage({id: 'three_days_left_trial.modal.limitsTitle', defaultMessage: 'Limits'})}
+                </p>
+                <WorkspaceLimitsPanel
+                    showIcons={true}
+                    limits={limits}
+                    usage={usage}
+                />
+            </div>
         );
     }
 
@@ -158,7 +163,7 @@ function ThreeDaysLeftTrialModal(props: Props): JSX.Element | null {
             <div className='header-subtitle-text'>
                 {headerSubtitleText}
             </div>
-            <div className='cards-container'>
+            <div className='content-container'>
                 {content}
             </div>
             <div className='divisory-line'/>
