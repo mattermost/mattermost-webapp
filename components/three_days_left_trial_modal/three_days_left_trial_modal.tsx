@@ -156,7 +156,6 @@ function ThreeDaysLeftTrialModal(props: Props): JSX.Element | null {
             className='ThreeDaysLeftTrialModal'
             id='threeDaysLeftTrialModal'
             onExited={handleOnClose}
-            onHide={handleOnClose}
             modalHeaderText={headerText}
             useCompassDesign={true}
         >
