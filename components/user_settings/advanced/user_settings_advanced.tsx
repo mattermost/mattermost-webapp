@@ -35,7 +35,7 @@ type Setting = {
     join_leave: Props['joinLeave'];
 };
 
-type Props = {
+export type Props = {
     currentUser: UserProfile;
     advancedSettingsCategory: PreferenceType[];
     isAdvancedTextEditorEnabled: boolean;
@@ -126,6 +126,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
     updateSetting = (setting: string, value: string): void => {
         const settings = this.state.settings;
         settings[setting] = value;
+
         // this.setState((prevState) => ({...prevState, settings})); //todo
         this.setState(settings);
     }
@@ -515,7 +516,6 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
                                 name='sendOnCtrlEnter'
                                 checked={ctrlSendActive[0]}
                                 onChange={() => {
-                                    console.log('ctrlSendOn')
                                     this.updateSetting('send_on_ctrl_enter', 'true');
                                     this.updateSetting('code_block_ctrl_enter', 'true');
                                 }}
@@ -535,7 +535,6 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
                                 name='sendOnCtrlEnter'
                                 checked={ctrlSendActive[1]}
                                 onChange={() => {
-                                    console.log('ctrlSendOnForCode')
                                     this.updateSetting('send_on_ctrl_enter', 'false');
                                     this.updateSetting('code_block_ctrl_enter', 'true');
                                 }}
@@ -555,7 +554,6 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
                                 name='sendOnCtrlEnter'
                                 checked={ctrlSendActive[2]}
                                 onChange={() => {
-                                    console.log('ctrlSendOnForCode')
                                     this.updateSetting('send_on_ctrl_enter', 'false');
                                     this.updateSetting('code_block_ctrl_enter', 'false');
                                 }}

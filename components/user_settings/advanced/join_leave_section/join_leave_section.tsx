@@ -17,7 +17,7 @@ type Props = {
     currentUserId: string;
     joinLeave?: string;
     onUpdateSection: (section?: string) => void;
-    renderOnOffLabel: (label: string) => string;
+    renderOnOffLabel: (label: string) => string | JSX.Element;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
     };
