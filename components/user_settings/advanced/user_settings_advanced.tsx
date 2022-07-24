@@ -127,8 +127,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
         const settings = this.state.settings;
         settings[setting] = value;
 
-        // this.setState((prevState) => ({...prevState, settings})); //todo
-        this.setState(settings);
+        this.setState((prevState) => ({...prevState, ...settings}));
     }
 
     toggleFeature = (feature: string, checked: boolean): void => {
