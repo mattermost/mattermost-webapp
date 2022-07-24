@@ -4,11 +4,11 @@
 import {test, expect} from '@playwright/test';
 import {Eyes, CheckSettings} from '@applitools/eyes-playwright';
 
-import {getAdminClient} from '../../support/server';
-import {LandingLoginPage, LoginPage, SignupPage} from '../../support/ui/page';
-import {duration, wait} from '../../support/utils';
-import {snapshotWithApplitools, snapshotWithPercy} from '../../support/visual';
-import testConfig from '../../test.config';
+import {getAdminClient} from '@support/server';
+import {LandingLoginPage, LoginPage, SignupPage} from '@support/ui/page';
+import {duration, wait} from '@support/utils';
+import {snapshotWithApplitools, snapshotWithPercy} from '@support/visual';
+import testConfig from '@test.config';
 
 let eyes: Eyes;
 
@@ -33,7 +33,9 @@ test('/signup_email', async ({page, isMobile, browserName}, testInfo) => {
         await landingLoginPage.viewInBrowserButton.click();
     }
 
-    await loginPage.siteNameHeader.waitFor();
+    // Wait for sign in button to be shown
+    await loginPage.signInButton.waitFor();
+    await wait(duration.one_sec);
 
     // Create an account
     await loginPage.createAccountLink.click();
@@ -52,10 +54,13 @@ test('/signup_email', async ({page, isMobile, browserName}, testInfo) => {
     await eyes?.check('/signup_email page', targetWindow);
 
     // Click sign in button without entering user credential
-    const signupPage = new SignupPage(page, adminConfig);
-    await signupPage.createAccountButton.click();
+    const signupPage = new SignupPage(page);
+    const invalidUser = {email: 'invalid', username: 'a', password: 'b'};
+    await signupPage.create(invalidUser, false);
     await wait(duration.one_sec);
-    await signupPage.fieldWithError.waitFor();
+    await signupPage.emailError.waitFor();
+    await signupPage.usernameError.waitFor();
+    await signupPage.passwordError.waitFor();
     await page.waitForLoadState('domcontentloaded');
 
     // Should match with error at login page

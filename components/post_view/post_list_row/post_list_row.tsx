@@ -9,6 +9,8 @@ import * as PostListUtils from 'mattermost-redux/utils/post_list';
 
 import {Channel} from '@mattermost/types/channels';
 
+import type {emitShortcutReactToLastPostFrom} from 'actions/post_actions';
+
 import CombinedUserActivityPost from 'components/post_view/combined_user_activity_post';
 import Post from 'components/post_view/post';
 import DateSeparator from 'components/post_view/date_separator';
@@ -48,7 +50,7 @@ export type PostListRowProps = {
         /**
           * Function to set or unset emoji picker for last message
           */
-        emitShortcutReactToLastPostFrom: (location: string) => void;
+        emitShortcutReactToLastPostFrom: typeof emitShortcutReactToLastPostFrom;
     };
 }
 
@@ -141,7 +143,7 @@ export default class PostListRow extends React.PureComponent<PostListRowProps> {
 
         const postProps = {
             previousPostId: previousListId,
-            shouldHighlight: this.props.shouldHighlight,
+            shouldHighlight: Boolean(this.props.shouldHighlight),
             togglePostMenu: this.props.togglePostMenu,
             isLastPost: this.props.isLastPost,
         };

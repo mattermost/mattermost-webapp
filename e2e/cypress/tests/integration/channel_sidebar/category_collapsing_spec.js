@@ -72,7 +72,7 @@ describe('Channel sidebar', () => {
 
             // Force a reload to ensure the unread message displays
             cy.reload();
-            cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+            cy.uiGetPostTextBox();
 
             // # Check that the CHANNELS group header is visible
             cy.get('.SidebarChannelGroupHeader:contains(CHANNELS)').should('be.visible').as('channelsGroup');
@@ -114,7 +114,7 @@ describe('Channel sidebar', () => {
 
         // # Reload the page and wait
         cy.reload();
-        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+        cy.uiGetPostTextBox();
 
         // * Verify that the category still appears collapsed after refresh
         cy.get('.SidebarChannelGroupHeader:contains(CHANNELS) i').should('have.class', 'icon-rotate-minus-90');
@@ -131,7 +131,7 @@ describe('Channel sidebar', () => {
 
         // # Reload the page and wait
         cy.reload();
-        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+        cy.uiGetPostTextBox();
 
         // * Verify that the category still appears not collapsed after refresh
         cy.get('.SidebarChannelGroupHeader:contains(CHANNELS) i').should('not.have.class', 'icon-rotate-minus-90');

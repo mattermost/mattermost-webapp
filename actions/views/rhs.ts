@@ -34,8 +34,7 @@ import {RhsState} from 'types/store/rhs';
 import {GlobalState} from 'types/store';
 import {getPostsByIds} from 'mattermost-redux/actions/posts';
 import {unsetEditingPost} from '../post_actions';
-import {loadProfilesAndReloadChannelMembers} from '../user_actions';
-import {loadMyChannelMemberAndRole, getChannel} from 'mattermost-redux/actions/channels';
+import {getChannel} from 'mattermost-redux/actions/channels';
 
 function selectPostFromRightHandSideSearchWithPreviousState(post: Post, previousRhsState?: RhsState) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
@@ -180,6 +179,7 @@ export function filterFilesSearchByExt(extensions: string[]) {
             type: ActionTypes.SET_FILES_FILTER_BY_EXT,
             data: extensions,
         });
+        return {data: true};
     };
 }
 
@@ -211,9 +211,6 @@ export function showRHSPlugin(pluggableId: string) {
 export function showChannelMembers(channelId: string, inEditingMode = false) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState() as GlobalState;
-
-        dispatch(loadMyChannelMemberAndRole(channelId));
-        dispatch(loadProfilesAndReloadChannelMembers(channelId));
 
         if (inEditingMode) {
             await dispatch(setEditChannelMembers(true));
@@ -353,6 +350,7 @@ export function showChannelFiles(channelId: string) {
             state: RHSStates.CHANNEL_FILES,
             previousRhsState,
         });
+        dispatch(updateSearchType('files'));
 
         const results = await dispatch(performSearch('channel:' + channelId));
         const fileData = results instanceof Array ? results[0].data : null;

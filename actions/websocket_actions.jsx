@@ -99,9 +99,9 @@ import {browserHistory} from 'utils/browser_history';
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
 import {loadCustomEmojisIfNeeded} from 'actions/emoji_actions';
 import {redirectUserToDefaultTeam} from 'actions/global_actions';
-import {handleNewPost} from 'actions/post_actions.jsx';
-import * as StatusActions from 'actions/status_actions.jsx';
-import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
+import {handleNewPost} from 'actions/post_actions';
+import * as StatusActions from 'actions/status_actions';
+import {loadProfilesForSidebar} from 'actions/user_actions';
 import store from 'stores/redux_store.jsx';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 import {loadPlugin, loadPluginsIfNecessary, removePlugin} from 'plugins';
@@ -160,11 +160,12 @@ export function initialize() {
 
     connUrl += Client4.getUrlVersion() + '/websocket';
 
-    WebSocketClient.setEventCallback(handleEvent);
-    WebSocketClient.setFirstConnectCallback(handleFirstConnect);
-    WebSocketClient.setReconnectCallback(() => reconnect(false));
-    WebSocketClient.setMissedEventCallback(restart);
-    WebSocketClient.setCloseCallback(handleClose);
+    WebSocketClient.addMessageListener(handleEvent);
+    WebSocketClient.addFirstConnectListener(handleFirstConnect);
+    WebSocketClient.addReconnectListener(() => reconnect(false));
+    WebSocketClient.addMissedMessageListener(restart);
+    WebSocketClient.addCloseListener(handleClose);
+
     WebSocketClient.initialize(connUrl);
 }
 
@@ -916,22 +917,15 @@ function handleDeleteTeamEvent(msg) {
             {type: TeamTypes.UPDATED_TEAM, data: deletedTeam},
         ]));
 
-        if (browserHistory.location?.pathname === `/admin_console/user_management/teams/${deletedTeam.id}`) {
-            return;
-        }
-
-        // If a deletion just happened and it's attempting to redirect back to the teams list, let it.
-        if (browserHistory.location?.pathname === '/admin_console/user_management/teams') {
-            return;
-        }
-
-        if (newTeamId) {
-            dispatch({type: TeamTypes.SELECT_TEAM, data: newTeamId});
-            const globalState = getState();
-            const redirectChannel = getRedirectChannelNameForTeam(globalState, newTeamId);
-            browserHistory.push(`${getCurrentTeamUrl(globalState)}/channels/${redirectChannel}`);
-        } else {
-            browserHistory.push('/');
+        if (currentTeamId === deletedTeam.id) {
+            if (newTeamId) {
+                dispatch({type: TeamTypes.SELECT_TEAM, data: newTeamId});
+                const globalState = getState();
+                const redirectChannel = getRedirectChannelNameForTeam(globalState, newTeamId);
+                browserHistory.push(`${getCurrentTeamUrl(globalState)}/channels/${redirectChannel}`);
+            } else {
+                browserHistory.push('/');
+            }
         }
     }
 }

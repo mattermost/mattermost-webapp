@@ -21,6 +21,7 @@ describe('PostList', () => {
         loadNewerPosts: jest.fn(),
         canLoadMorePosts: jest.fn(),
         changeUnreadChunkTimeStamp: jest.fn(),
+        toggleShouldStartFromBottomWhenUnread: jest.fn(),
         updateNewMessagesAtInChannel: jest.fn(),
     };
 
@@ -40,7 +41,8 @@ describe('PostList', () => {
         atLatestPost: false,
         isMobileView: false,
         autoRetryEnable: false,
-        lastViewedAt: '',
+        lastViewedAt: 0,
+        shouldStartFromBottomWhenUnread: false,
         actions: baseActions,
     };
 
@@ -557,7 +559,7 @@ describe('PostList', () => {
             const wrapper = shallow<PostList>(<PostList {...props}/>);
             const instance = wrapper.instance();
 
-            instance.onItemsRendered({visibleStartIndex: 0});
+            instance.onItemsRendered({visibleStartIndex: 0, visibleStopIndex: 0});
             expect(wrapper.state('topPostId')).toBe('');
         });
 
@@ -570,10 +572,10 @@ describe('PostList', () => {
             const wrapper = shallow<PostList>(<PostList {...props}/>);
             const instance = wrapper.instance();
 
-            instance.onItemsRendered({visibleStartIndex: 1});
+            instance.onItemsRendered({visibleStartIndex: 1, visibleStopIndex: 0});
             expect(wrapper.state('topPostId')).toBe('post2');
 
-            instance.onItemsRendered({visibleStartIndex: 2});
+            instance.onItemsRendered({visibleStartIndex: 2, visibleStopIndex: 0});
             expect(wrapper.state('topPostId')).toBe('post3');
         });
     });
@@ -592,7 +594,7 @@ describe('PostList', () => {
             const wrapper = shallow<PostList>(<PostList {...baseProps}/>);
             const instance = wrapper.instance();
             instance.scrollToLatestMessages();
-            expect(baseActions.changeUnreadChunkTimeStamp).toHaveBeenCalledWith('');
+            expect(baseActions.changeUnreadChunkTimeStamp).toHaveBeenCalledWith(0);
         });
     });
 

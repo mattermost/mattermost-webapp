@@ -18,6 +18,26 @@ declare namespace Cypress {
     interface Chainable {
 
         /**
+         * Get post textbox
+         *
+         * @param {bool} option.exist - Set to false to check whether element should not exist. Otherwise, true (default) to check visibility.
+         *
+         * @example
+         *   cy.uiGetPostTextBox();
+         */
+        uiGetPostTextBox(option: {exist: boolean}): Chainable;
+
+        /**
+         * Get reply textbox
+         *
+         * @param {bool} option.exist - Set to false to check whether element should not exist. Otherwise, true (default) to check visibility.
+         *
+         * @example
+         *   cy.uiGetReplyTextBox();
+         */
+        uiGetReplyTextBox(option: {exist: boolean}): Chainable;
+
+        /**
          * Get post profile image of a given post ID or the last post if post ID is not given
          *
          * @param {string} - postId (optional)

@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {AnyAction, bindActionCreators, Dispatch} from 'redux';
+import {ActionCreatorsMapObject, AnyAction, bindActionCreators, Dispatch} from 'redux';
 
 import {getChannelStats, updateChannelMemberSchemeRoles, removeChannelMember, getChannelMember} from 'mattermost-redux/actions/channels';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
@@ -12,7 +12,9 @@ import {canManageMembers} from 'utils/channel_utils';
 import {GlobalState} from 'types/store';
 import {Channel} from '@mattermost/types/channels';
 
-import ChannelMembersDropdown from './channel_members_dropdown.jsx';
+import {Action} from 'mattermost-redux/types/actions';
+
+import ChannelMembersDropdown from './channel_members_dropdown';
 
 interface OwnProps {
     channel: Channel;
@@ -37,7 +39,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
 
 function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<Action>, any>({
             getChannelMember,
             getChannelStats,
             updateChannelMemberSchemeRoles,

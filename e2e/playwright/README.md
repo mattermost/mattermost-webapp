@@ -32,15 +32,14 @@ npm run test
 Change directory to root folder of mattermost-webapp then run docker container
 
 ```
-cd ../..
-docker run -it --rm -v "$(pwd):/mattermost-webapp/" --ipc=host mcr.microsoft.com/playwright:v1.20.0-focal /bin/bash
+docker run -it --rm -v "$(pwd):/playwright/" --ipc=host mcr.microsoft.com/playwright:v1.23.1-focal /bin/bash
 ```
 
 #### 2. Inside the docker container
 
 ```
 export PW_BASE_URL=http://host.docker.internal:8065
-cd mattermost-webapp/e2e/playwright/
+cd playwright
 
 # Install npm packages
 npm i

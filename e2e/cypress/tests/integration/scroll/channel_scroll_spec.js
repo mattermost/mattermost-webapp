@@ -102,7 +102,7 @@ describe('Scroll', () => {
         cy.getLastPostId().then((parentMessageId) => {
             cy.get(`#${parentMessageId}_message`).parent().invoke('text').then((text) => {
                 expect(text).to.contain('sysadmin');
-                expect(text).to.contain(`${message}`);
+                expect(text).to.contain(message);
             });
         });
     });

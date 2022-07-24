@@ -69,7 +69,7 @@ const TopBoardsTable = (props: Props) => {
             {
                 name: (
                     <FormattedMessage
-                        id='insights..topBoards.board'
+                        id='insights.topBoardsTable.board'
                         defaultMessage='Board'
                     />
                 ),
@@ -89,7 +89,7 @@ const TopBoardsTable = (props: Props) => {
             {
                 name: (
                     <FormattedMessage
-                        id='insights..topBoards.participants'
+                        id='insights.topBoardsTable.participants'
                         defaultMessage='Participants'
                     />
                 ),
