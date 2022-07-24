@@ -29,8 +29,8 @@ describe('components/sidebar/show_three_days_left_trial_modal', () => {
                 admin: {},
                 preferences: {
                     myPreferences: {
-                        'cloud_trial_banner--three_days_left_trial_modal': {
-                            name: 'show_three_days_left_trial_modal',
+                        'cloud_trial_banner--three_days_left_trial_modal_dismissed': {
+                            name: 'three_days_left_trial_modal_dismissed',
                             value: 'false',
                         },
                     },
@@ -230,8 +230,8 @@ describe('components/sidebar/show_three_days_left_trial_modal', () => {
     test('should NOT show the modal when admin have already dismissed the modal', () => {
         const modalDismissedPreference = {
             myPreferences: {
-                'cloud_trial_banner--three_days_left_trial_modal': {
-                    name: 'show_three_days_left_trial_modal',
+                'cloud_trial_banner--three_days_left_trial_modal_dismissed': {
+                    name: 'three_days_left_trial_modal_dismissed',
                     value: 'true',
                 },
             },
