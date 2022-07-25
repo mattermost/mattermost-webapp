@@ -37,17 +37,14 @@ export function makeGetRootPosts() {
         getAllPosts,
         getCurrentUserId,
         getCurrentChannel,
-        (allPosts: $TSFixMe, currentUserId: $TSFixMe, channel: $TSFixMe) => {
+        (allPosts: any, currentUserId: any, channel: any) => {
             // Count the number of new posts that haven't been deleted and are root posts
-            // @ts-expect-error TS(2550): Property 'values' does not exist on type 'ObjectCo... Remove this comment to see the full error message
-            return Object.values(allPosts).filter((post: $TSFixMe) => {
-                return (
-                    post.root_id === '' &&
-                    post.channel_id === channel.id &&
-                    post.state !== Posts.POST_DELETED
-                );
-            }).reduce((map: $TSFixMe, obj: $TSFixMe) => {
-                map[obj.id] = true;
+            return Object.values(allPosts).filter((post) => {
+                return ((post as any).root_id === '' &&
+    (post as any).channel_id === channel.id &&
+    (post as any).state !== Posts.POST_DELETED);
+            }).reduce((map, obj) => {
+                (map as any)[(obj as any).id] = true;
                 return map;
             }, {});
         },
@@ -59,16 +56,16 @@ export function makeCountUnreadsBelow() {
         'makeCountUnreadsBelow',
         getAllPosts,
         getCurrentUserId,
-        (state: $TSFixMe, postIds: $TSFixMe) => postIds,
-        (state: $TSFixMe, postIds: $TSFixMe, lastViewedBottom: $TSFixMe) => lastViewedBottom,
+        (state: any, postIds: any) => postIds,
+        (state: any, postIds: any, lastViewedBottom: any) => lastViewedBottom,
         isCollapsedThreadsEnabled,
-        (allPosts: $TSFixMe, currentUserId: $TSFixMe, postIds: $TSFixMe, lastViewedBottom: $TSFixMe, isCollapsed: $TSFixMe) => {
+        (allPosts: any, currentUserId: any, postIds: any, lastViewedBottom: any, isCollapsed: any) => {
             if (!postIds) {
                 return 0;
             }
 
             // Count the number of new posts made by other users that haven't been deleted
-            return postIds.map((id: $TSFixMe) => allPosts[id]).filter((post: $TSFixMe) => {
+            return postIds.map((id: any) => allPosts[id]).filter((post: any) => {
                 return post &&
                     post.user_id !== currentUserId &&
                     post.state !== Posts.POST_DELETED &&
@@ -93,7 +90,7 @@ function makeMapStateToProps() {
     const countUnreadsBelow = makeCountUnreadsBelow();
     const getRootPosts = makeGetRootPosts();
     const preparePostIdsForPostList = makePreparePostIdsForPostList();
-    return function mapStateToProps(state: $TSFixMe, ownProps: $TSFixMe) {
+    return function mapStateToProps(state: any, ownProps: any) {
         let newRecentMessagesCount = 0;
         const channelMarkedAsUnread = isManuallyUnread(state, ownProps.channelId);
         const lastViewedAt = state.views.channel.lastChannelViewTime[ownProps.channelId];
@@ -117,7 +114,7 @@ function makeMapStateToProps() {
     };
 }
 
-function mapDispatchToProps(dispatch: $TSFixMe) {
+function mapDispatchToProps(dispatch: any) {
     return {
         actions: bindActionCreators({
             updateToastStatus,
