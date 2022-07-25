@@ -19,7 +19,7 @@ import * as reducers from 'mattermost-redux/reducers/entities/posts';
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
 import {TestHelper} from 'utils/test_helper';
 
-function toPostsRecord(partials: Record<string,Partial<Post>>): Record<string, Post> {
+function toPostsRecord(partials: Record<string, Partial<Post>>): Record<string, Post> {
     const result: Record<string, Post> = {};
     return Object.keys(partials).reduce((acc, k) => {
         acc[k] = TestHelper.getPostMock(partials[k]);
@@ -27,7 +27,6 @@ function toPostsRecord(partials: Record<string,Partial<Post>>): Record<string, P
         return acc;
     }, result);
 }
-
 
 describe('posts', () => {
     for (const actionType of [
