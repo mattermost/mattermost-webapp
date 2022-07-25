@@ -865,8 +865,6 @@
   "admin.experimental.enableThemeSelection.title": "Tema seçilebilsin:",
   "admin.experimental.enableTutorial.desc": "Bu seçenek etkinleştirildiğinde, yeni bir Mattermost hesabı ile ilk kez oturum açan kullanıcılara eğitim isteyip istemedikleri sorulur. Bu seçenek devre dışı bırakıldığında eğitim görüntülenmez ve yeni bir Mattermost hesabı ile ilk kez oturum açan kullanıcılar meydan (town-square) kanalına yönlendirilir.",
   "admin.experimental.enableTutorial.title": "Eğitim görüntülensin:",
-  "admin.experimental.enableUpgradeForSelfHostedStarter.desc": " Bu seçenek etkinleştirildiğinde, Self Hosted Starter kullanıcılarına genel üst bilgi bölümünde bir yükselt düğmesi görüntülenir",
-  "admin.experimental.enableUpgradeForSelfHostedStarter.title": "Self Hosted Starter yükseltilebilsin",
   "admin.experimental.enableUserDeactivation.desc": "Bu seçenek etkinleştirildiğinde, **Ayarlar > Gelişmiş** bölümünden kullanıcılar kendi hesaplarını devre dışı bırakabilir. Bir kullanıcı kendi hesabını devre dışı bıraktığında bu işlemi onaylamasını isteyen bir e-posta alır. Bu seçenek devre dışı bırakıldığında, kullanıcılar kendi hesaplarını devre dışı bırakamaz.",
   "admin.experimental.enableUserDeactivation.title": "Kullanıcılar hesaplarını devre dışı bırakabilsin:",
   "admin.experimental.enableUserTypingMessages.desc": "Bu seçenek etkinleştirildiğinde, diğer kullanıcılar ileti yazarken ileti kutusunun altında \"kullanıcı yazıyor...\" iletisi görüntülenir. Büyük kurulumlarda bu seçeneğin devre dışı bırakılması sunucu başarımını arttırır.",
