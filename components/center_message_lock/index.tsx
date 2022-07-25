@@ -17,7 +17,7 @@ import {getOldestPostTimeInChannel} from 'mattermost-redux/selectors/entities/po
 
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import useGetLimits from 'components/common/hooks/useGetLimits';
-import {useNotifyAdmin} from 'components/notify_admin_cta/notify_admin_cta'
+import {useNotifyAdmin} from 'components/notify_admin_cta/notify_admin_cta';
 
 import './index.scss';
 
@@ -90,12 +90,13 @@ export default function CenterMessageLock(props: Props) {
         },
     );
 
-    let cta = (<button
-        className='btn btn-primary'
-        onClick={notifyAdmin}
-    >
-        {notifyAdminStatus}
-    </button>);
+    let cta = (
+        <button
+            className='btn btn-primary'
+            onClick={notifyAdmin}
+        >
+            {notifyAdminStatus}
+        </button>);
 
     if (isAdminUser) {
         title = intl.formatMessage({
