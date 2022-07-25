@@ -7,7 +7,7 @@ import {bindActionCreators, Dispatch} from 'redux';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis';
-import {emitShortcutReactToLastPostFrom} from 'actions/post_actions.jsx';
+import {emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 
 import {GlobalState} from 'types/store';
 

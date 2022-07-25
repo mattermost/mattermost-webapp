@@ -10,7 +10,7 @@ import {getMyChannelRoles} from 'mattermost-redux/selectors/entities/roles';
 import {getRoles} from 'mattermost-redux/selectors/entities/roles_helpers';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 
-import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
+import {Action} from 'mattermost-redux/types/actions';
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 import {getIsAdvancedTextEditorEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
@@ -22,7 +22,7 @@ import {GlobalState} from 'types/store';
 import ChannelView from './channel_view';
 
 type Actions = {
-    goToLastViewedChannel: () => Promise<{data: boolean}>;
+    goToLastViewedChannel: () => void;
 }
 
 function isDeactivatedChannel(state: GlobalState, channelId: string) {
@@ -69,9 +69,9 @@ function mapStateToProps(state: GlobalState) {
     };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc|GenericAction>, Actions>({
+        actions: bindActionCreators<ActionCreatorsMapObject<Action>, Actions>({
             goToLastViewedChannel,
         }, dispatch),
     };

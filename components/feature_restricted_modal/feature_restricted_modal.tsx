@@ -93,7 +93,7 @@ const FeatureRestrictedModal = ({
         <GenericModal
             id='FeatureRestrictedModal'
             className='FeatureRestrictedModal'
-            useCompassDesign={true}
+            compassDesign={true}
             modalHeaderText={getTitle()}
             onExited={dismissAction}
         >

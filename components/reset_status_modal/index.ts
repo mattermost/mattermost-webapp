@@ -18,7 +18,7 @@ import {Preferences} from 'mattermost-redux/constants';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
 
-import {autoResetStatus} from 'actions/user_actions.jsx';
+import {autoResetStatus} from 'actions/user_actions';
 
 import ResetStatusModal from './reset_status_modal';
 
@@ -31,7 +31,7 @@ function mapStateToProps(state: GlobalState) {
 }
 
 type Actions = {
-    autoResetStatus: () => Promise<UserStatus>;
+    autoResetStatus: () => Promise<{data: UserStatus}>;
     setStatus: (status: UserStatus) => void;
     savePreferences: (userId: string, preferences: PreferenceType[]) => void;
 };

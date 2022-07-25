@@ -24,7 +24,7 @@ import {Post} from '@mattermost/types/posts';
 import {GlobalState} from 'types/store';
 
 import {closeRightHandSide} from 'actions/views/rhs';
-import {emitShortcutReactToLastPostFrom} from 'actions/post_actions.jsx';
+import {emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 import {Preferences} from 'utils/constants';
 import {shouldShowDotMenu, shouldShowActionsMenu} from 'utils/post_utils';
 import {getSelectedPostCard} from 'selectors/rhs';

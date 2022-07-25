@@ -143,7 +143,6 @@ exports[`components/RhsComment should match snapshot 1`] = `
           slot2={<Memo(Connect(EditPost)) />}
         />
         <Connect(ReactionList)
-          isReadOnly={false}
           post={
             Object {
               "channel_id": "channel_id",
@@ -358,7 +357,6 @@ exports[`components/RhsComment should match snapshot hovered 1`] = `
           slot2={<Memo(Connect(EditPost)) />}
         />
         <Connect(ReactionList)
-          isReadOnly={false}
           post={
             Object {
               "channel_id": "channel_id",
@@ -541,7 +539,6 @@ exports[`components/RhsComment should match snapshot hovered on deleted post 1`]
           slot2={<Memo(Connect(EditPost)) />}
         />
         <Connect(ReactionList)
-          isReadOnly={false}
           post={
             Object {
               "channel_id": "channel_id",
@@ -752,7 +749,6 @@ exports[`components/RhsComment should match snapshot mobile 1`] = `
           slot2={<Memo(Connect(EditPost)) />}
         />
         <Connect(ReactionList)
-          isReadOnly={false}
           post={
             Object {
               "channel_id": "channel_id",
@@ -921,7 +917,6 @@ exports[`components/RhsComment should match snapshot on CRT enabled 1`] = `
           slot2={<Memo(Connect(EditPost)) />}
         />
         <Connect(ReactionList)
-          isReadOnly={false}
           post={
             Object {
               "channel_id": "channel_id",
@@ -1090,7 +1085,6 @@ exports[`components/RhsComment should match snapshot when being edited 1`] = `
           slot2={<Memo(Connect(EditPost)) />}
         />
         <Connect(ReactionList)
-          isReadOnly={false}
           post={
             Object {
               "channel_id": "channel_id",
@@ -1259,7 +1253,6 @@ exports[`components/RhsComment should match snapshot when highlighted 1`] = `
           slot2={<Memo(Connect(EditPost)) />}
         />
         <Connect(ReactionList)
-          isReadOnly={false}
           post={
             Object {
               "channel_id": "channel_id",

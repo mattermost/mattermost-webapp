@@ -36,12 +36,12 @@ import {sendDesktopNotification} from 'actions/notification_actions.jsx';
 import {ActionTypes} from 'utils/constants';
 import {isThreadOpen, makeGetThreadLastViewedAt} from 'selectors/views/threads';
 
-type NewPostMessageProps = {
+export type NewPostMessageProps = {
     mentions: string[];
     team_id: string;
 }
 
-export function completePostReceive(post: Post, websocketMessageProps: NewPostMessageProps, fetchedChannelMember: boolean): ActionFunc {
+export function completePostReceive(post: Post, websocketMessageProps: NewPostMessageProps, fetchedChannelMember?: boolean): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
         const rootPost = PostSelectors.getPost(state, post.root_id);
@@ -72,7 +72,7 @@ export function completePostReceive(post: Post, websocketMessageProps: NewPostMe
         const isCRTReplyByCurrentUser = isCRTReply && post.user_id === getCurrentUserId(state);
         if (!isCRTReplyByCurrentUser) {
             actions.push(
-                ...setChannelReadAndViewed(dispatch, getState, post, websocketMessageProps, fetchedChannelMember),
+                ...setChannelReadAndViewed(dispatch, getState, post as Post, websocketMessageProps, fetchedChannelMember),
             );
         }
         dispatch(batchActions(actions));
@@ -87,7 +87,7 @@ export function completePostReceive(post: Post, websocketMessageProps: NewPostMe
 
 // setChannelReadAndViewed returns an array of actions to mark the channel read and viewed, and it dispatches an action
 // to asynchronously mark the channel as read on the server if necessary.
-export function setChannelReadAndViewed(dispatch: DispatchFunc, getState: GetStateFunc, post: Post, websocketMessageProps: NewPostMessageProps, fetchedChannelMember: boolean): Redux.AnyAction[] {
+export function setChannelReadAndViewed(dispatch: DispatchFunc, getState: GetStateFunc, post: Post, websocketMessageProps: NewPostMessageProps, fetchedChannelMember?: boolean): Redux.AnyAction[] {
     const state = getState();
     const currentUserId = getCurrentUserId(state);
 
