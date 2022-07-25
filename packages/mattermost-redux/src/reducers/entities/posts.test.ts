@@ -5,6 +5,8 @@ import assert from 'assert';
 
 import expect from 'expect';
 
+import {Post, PostOrderBlock} from '@mattermost/types/posts';
+
 import {
     ChannelTypes,
     GeneralTypes,
@@ -15,6 +17,17 @@ import {
 import {Posts} from 'mattermost-redux/constants';
 import * as reducers from 'mattermost-redux/reducers/entities/posts';
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
+import {TestHelper} from 'utils/test_helper';
+
+function toPostsRecord(partials: Record<string,Partial<Post>>): Record<string, Post> {
+    const result: Record<string, Post> = {};
+    return Object.keys(partials).reduce((acc, k) => {
+        acc[k] = TestHelper.getPostMock(partials[k]);
+
+        return acc;
+    }, result);
+}
+
 
 describe('posts', () => {
     for (const actionType of [
@@ -682,7 +695,7 @@ describe('postsInChannel', () => {
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.RECEIVED_NEW_POST,
                 data: {id: 'post1', channel_id: 'channel1'},
-            });
+            }, {}, {});
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -702,7 +715,7 @@ describe('postsInChannel', () => {
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.RECEIVED_NEW_POST,
                 data: {id: 'post1', channel_id: 'channel1'},
-            });
+            }, {}, {});
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -722,7 +735,7 @@ describe('postsInChannel', () => {
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.RECEIVED_NEW_POST,
                 data: {id: 'post1', channel_id: 'channel1'},
-            });
+            }, {}, {});
 
             expect(nextState).toEqual({
                 channel1: [
@@ -741,7 +754,7 @@ describe('postsInChannel', () => {
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.RECEIVED_NEW_POST,
                 data: {id: 'post1', channel_id: 'channel1'},
-            });
+            }, {}, {});
 
             expect(nextState).toBe(state);
         });
@@ -756,7 +769,7 @@ describe('postsInChannel', () => {
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.RECEIVED_NEW_POST,
                 data: {id: 'post3', channel_id: 'channel1', pending_post_id: 'pending'},
-            }, {}, {post1: {create_at: 1}, post2: {create_at: 2}, post3: {create_at: 3}});
+            }, {}, toPostsRecord({post1: {create_at: 1}, post2: {create_at: 2}, post3: {create_at: 3}}));
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -776,7 +789,7 @@ describe('postsInChannel', () => {
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.RECEIVED_NEW_POST,
                 data: {id: 'post3', channel_id: 'channel1', pending_post_id: 'pending'},
-            });
+            }, {}, {});
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -796,7 +809,7 @@ describe('postsInChannel', () => {
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.POST_REMOVED,
                 data: {id: 'post1', channel_id: 'channel1'},
-            });
+            }, {}, {});
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -819,7 +832,7 @@ describe('postsInChannel', () => {
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.RECEIVED_POST,
                 data: {id: 'post3', channel_id: 'channel1', pending_post_id: 'pending'},
-            });
+            }, {}, {});
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -839,7 +852,7 @@ describe('postsInChannel', () => {
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.RECEIVED_POST,
                 data: {id: 'post3', channel_id: 'channel1', pending_post_id: 'pending'},
-            });
+            }, {}, {});
 
             expect(nextState).toBe(state);
             expect(nextState).toEqual({
@@ -859,7 +872,7 @@ describe('postsInChannel', () => {
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.RECEIVED_POST,
                 data: {id: 'post3', channel_id: 'channel1'},
-            });
+            }, {}, {});
 
             expect(nextState).toBe(state);
             expect(nextState).toEqual({
@@ -879,7 +892,7 @@ describe('postsInChannel', () => {
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.RECEIVED_POST,
                 data: {id: 'post3', channel_id: 'channel2', pending_post_id: 'pending'},
-            });
+            }, {}, {});
 
             expect(nextState).toBe(state);
             expect(nextState).toEqual({
@@ -898,12 +911,12 @@ describe('postsInChannel', () => {
                 ],
             });
 
-            const nextPosts = {
+            const nextPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1', create_at: 4000},
                 post2: {id: 'post2', channel_id: 'channel1', create_at: 3000},
                 post3: {id: 'post3', channel_id: 'channel1', create_at: 2000},
                 post4: {id: 'post4', channel_id: 'channel1', create_at: 1000},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.RECEIVED_POSTS_IN_CHANNEL,
@@ -916,7 +929,7 @@ describe('postsInChannel', () => {
                     order: ['post1', 'post3'],
                 },
                 recent: true,
-            }, null, nextPosts);
+            }, {}, nextPosts);
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -933,12 +946,12 @@ describe('postsInChannel', () => {
                 ],
             });
 
-            const nextPosts = {
+            const nextPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1', create_at: 4000},
                 post2: {id: 'post2', channel_id: 'channel1', create_at: 3000},
                 post3: {id: 'post3', channel_id: 'channel1', create_at: 2000},
                 post4: {id: 'post4', channel_id: 'channel1', create_at: 1000},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.RECEIVED_POSTS_IN_CHANNEL,
@@ -951,7 +964,7 @@ describe('postsInChannel', () => {
                     order: ['post2', 'post4'],
                 },
                 recent: true,
-            }, null, nextPosts);
+            }, {}, nextPosts);
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -976,7 +989,7 @@ describe('postsInChannel', () => {
                     order: [],
                 },
                 recent: true,
-            }, null, {});
+            }, {}, {});
 
             expect(nextState).toBe(state);
             expect(nextState).toEqual({
@@ -997,7 +1010,7 @@ describe('postsInChannel', () => {
                     order: [],
                 },
                 recent: true,
-            }, null, {});
+            }, {}, {});
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -1015,12 +1028,12 @@ describe('postsInChannel', () => {
                 ],
             });
 
-            const nextPosts = {
+            const nextPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1', create_at: 4000},
                 post2: {id: 'post2', channel_id: 'channel1', create_at: 3000},
                 post3: {id: 'post3', channel_id: 'channel1', create_at: 2000},
                 post4: {id: 'post4', channel_id: 'channel1', create_at: 1000},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.RECEIVED_POSTS_IN_CHANNEL,
@@ -1035,7 +1048,7 @@ describe('postsInChannel', () => {
                     order: ['post1', 'post2'],
                 },
                 recent: true,
-            }, null, nextPosts);
+            }, {}, nextPosts);
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -1052,12 +1065,12 @@ describe('postsInChannel', () => {
                 ],
             });
 
-            const nextPosts = {
+            const nextPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1', create_at: 4000},
                 post2: {id: 'post2', channel_id: 'channel1', create_at: 3000},
                 post3: {id: 'post3', channel_id: 'channel1', create_at: 2000},
                 post4: {id: 'post4', channel_id: 'channel1', create_at: 1000},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.RECEIVED_POSTS_IN_CHANNEL,
@@ -1070,7 +1083,7 @@ describe('postsInChannel', () => {
                     order: ['post1', 'post2'],
                 },
                 recent: true,
-            }, null, nextPosts);
+            }, {}, nextPosts);
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -1088,12 +1101,12 @@ describe('postsInChannel', () => {
                 ],
             });
 
-            const nextPosts = {
+            const nextPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1', create_at: 4000},
                 post2: {id: 'post2', channel_id: 'channel1', create_at: 3000},
                 post3: {id: 'post3', channel_id: 'channel1', create_at: 2000},
                 post4: {id: 'post4', channel_id: 'channel1', create_at: 1000},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.RECEIVED_POSTS_IN_CHANNEL,
@@ -1106,7 +1119,7 @@ describe('postsInChannel', () => {
                     order: ['post1', 'post2'],
                 },
                 recent: true,
-            }, null, nextPosts);
+            }, {}, nextPosts);
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -1124,11 +1137,11 @@ describe('postsInChannel', () => {
                 ],
             });
 
-            const nextPosts = {
+            const nextPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1', create_at: 4000},
                 post2: {id: 'post2', channel_id: 'channel1', create_at: 3000},
                 post3: {id: 'post3', channel_id: 'channel1', create_at: 2000},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.RECEIVED_POSTS_IN_CHANNEL,
@@ -1141,7 +1154,7 @@ describe('postsInChannel', () => {
                     order: ['post1', 'post2'],
                 },
                 recent: true,
-            }, null, nextPosts);
+            }, {}, nextPosts);
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -1160,12 +1173,12 @@ describe('postsInChannel', () => {
                 ],
             });
 
-            const nextPosts = {
+            const nextPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1', create_at: 4000},
                 post2: {id: 'post2', channel_id: 'channel1', create_at: 3000},
                 post3: {id: 'post3', channel_id: 'channel1', create_at: 2000},
                 post4: {id: 'post4', channel_id: 'channel1', create_at: 1000},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.RECEIVED_POSTS_IN_CHANNEL,
@@ -1178,7 +1191,7 @@ describe('postsInChannel', () => {
                     order: ['post1', 'post3'],
                 },
                 recent: false,
-            }, null, nextPosts);
+            }, {}, nextPosts);
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -1195,12 +1208,12 @@ describe('postsInChannel', () => {
                 ],
             });
 
-            const nextPosts = {
+            const nextPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1', create_at: 4000},
                 post2: {id: 'post2', channel_id: 'channel1', create_at: 3000},
                 post3: {id: 'post3', channel_id: 'channel1', create_at: 2000},
                 post4: {id: 'post4', channel_id: 'channel1', create_at: 1000},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.RECEIVED_POSTS_IN_CHANNEL,
@@ -1213,7 +1226,7 @@ describe('postsInChannel', () => {
                     order: ['post2', 'post4'],
                 },
                 recent: false,
-            }, null, nextPosts);
+            }, {}, nextPosts);
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -1238,7 +1251,7 @@ describe('postsInChannel', () => {
                     order: [],
                 },
                 recent: false,
-            }, null, {});
+            }, {}, {});
 
             expect(nextState).toBe(state);
             expect(nextState).toEqual({
@@ -1259,7 +1272,7 @@ describe('postsInChannel', () => {
                     order: [],
                 },
                 recent: false,
-            }, null, {});
+            }, {}, {});
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -1277,12 +1290,12 @@ describe('postsInChannel', () => {
                 ],
             });
 
-            const nextPosts = {
+            const nextPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1', create_at: 4000},
                 post2: {id: 'post2', channel_id: 'channel1', create_at: 3000},
                 post3: {id: 'post3', channel_id: 'channel1', create_at: 2000},
                 post4: {id: 'post4', channel_id: 'channel1', create_at: 1000},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.RECEIVED_POSTS_IN_CHANNEL,
@@ -1297,7 +1310,7 @@ describe('postsInChannel', () => {
                     order: ['post1', 'post2'],
                 },
                 recent: false,
-            }, null, nextPosts);
+            }, {}, nextPosts);
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -1314,12 +1327,12 @@ describe('postsInChannel', () => {
                 ],
             });
 
-            const nextPosts = {
+            const nextPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1', create_at: 4000},
                 post2: {id: 'post2', channel_id: 'channel1', create_at: 3000},
                 post3: {id: 'post3', channel_id: 'channel1', create_at: 2000},
                 post4: {id: 'post4', channel_id: 'channel1', create_at: 1000},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.RECEIVED_POSTS_IN_CHANNEL,
@@ -1332,7 +1345,7 @@ describe('postsInChannel', () => {
                     order: ['post1', 'post2'],
                 },
                 recent: false,
-            }, null, nextPosts);
+            }, {}, nextPosts);
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -1350,12 +1363,12 @@ describe('postsInChannel', () => {
                 ],
             });
 
-            const nextPosts = {
+            const nextPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1', create_at: 4000},
                 post2: {id: 'post2', channel_id: 'channel1', create_at: 3000},
                 post3: {id: 'post3', channel_id: 'channel1', create_at: 2000},
                 post4: {id: 'post4', channel_id: 'channel1', create_at: 1000},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.RECEIVED_POSTS_IN_CHANNEL,
@@ -1368,7 +1381,7 @@ describe('postsInChannel', () => {
                     order: ['post2', 'post3'],
                 },
                 recent: false,
-            }, null, nextPosts);
+            }, {}, nextPosts);
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -1385,12 +1398,12 @@ describe('postsInChannel', () => {
                 ],
             });
 
-            const nextPosts = {
+            const nextPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1', create_at: 4000},
                 post2: {id: 'post2', channel_id: 'channel1', create_at: 3000},
                 post3: {id: 'post3', channel_id: 'channel1', create_at: 2000},
                 post4: {id: 'post4', channel_id: 'channel1', create_at: 1000},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.RECEIVED_POSTS_IN_CHANNEL,
@@ -1404,7 +1417,7 @@ describe('postsInChannel', () => {
                 },
                 recent: false,
                 oldest: true,
-            }, null, nextPosts);
+            }, {}, nextPosts);
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -1423,12 +1436,12 @@ describe('postsInChannel', () => {
                 ],
             });
 
-            const nextPosts = {
+            const nextPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1', create_at: 4000},
                 post2: {id: 'post2', channel_id: 'channel1', create_at: 3000},
                 post3: {id: 'post3', channel_id: 'channel1', create_at: 2000},
                 post4: {id: 'post4', channel_id: 'channel1', create_at: 1000},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.RECEIVED_POSTS_SINCE,
@@ -1440,7 +1453,7 @@ describe('postsInChannel', () => {
                     },
                     order: ['post1', 'post2'],
                 },
-            }, null, nextPosts);
+            }, {}, nextPosts);
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -1457,12 +1470,12 @@ describe('postsInChannel', () => {
                 ],
             });
 
-            const nextPosts = {
+            const nextPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1', create_at: 4000},
                 post2: {id: 'post2', channel_id: 'channel1', create_at: 3000},
                 post3: {id: 'post3', channel_id: 'channel1', create_at: 2000},
                 post4: {id: 'post4', channel_id: 'channel1', create_at: 1000},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.RECEIVED_POSTS_SINCE,
@@ -1474,7 +1487,7 @@ describe('postsInChannel', () => {
                     },
                     order: ['post1', 'post4'],
                 },
-            }, null, nextPosts);
+            }, {}, nextPosts);
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -1491,14 +1504,14 @@ describe('postsInChannel', () => {
                 ],
             });
 
-            const nextPosts = {
+            const nextPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1', create_at: 4000},
                 post2: {id: 'post2', channel_id: 'channel1', create_at: 3000},
                 post3: {id: 'post3', channel_id: 'channel1', create_at: 2000},
                 post4: {id: 'post4', channel_id: 'channel1', create_at: 1000},
                 post5: {id: 'post5', channel_id: 'channel1', create_at: 500},
                 post6: {id: 'post6', channel_id: 'channel1', create_at: 300},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.RECEIVED_POSTS_SINCE,
@@ -1514,7 +1527,7 @@ describe('postsInChannel', () => {
                     },
                     order: ['post1', 'post2', 'post3', 'post4', 'post5', 'post6'],
                 },
-            }, null, nextPosts);
+            }, {}, nextPosts);
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -1531,12 +1544,12 @@ describe('postsInChannel', () => {
                 ],
             });
 
-            const nextPosts = {
+            const nextPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1', create_at: 4000},
                 post2: {id: 'post2', channel_id: 'channel1', create_at: 3000},
                 post3: {id: 'post3', channel_id: 'channel1', create_at: 2000},
                 post4: {id: 'post4', channel_id: 'channel1', create_at: 1000},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.RECEIVED_POSTS_SINCE,
@@ -1548,7 +1561,7 @@ describe('postsInChannel', () => {
                     },
                     order: ['post1', 'post4'],
                 },
-            }, null, nextPosts);
+            }, {}, nextPosts);
 
             expect(nextState).toBe(state);
             expect(nextState).toEqual({
@@ -1565,11 +1578,11 @@ describe('postsInChannel', () => {
                 ],
             });
 
-            const nextPosts = {
+            const nextPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1', create_at: 4000},
                 post2: {id: 'post2', channel_id: 'channel1', create_at: 3000},
                 post3: {id: 'post3', channel_id: 'channel1', create_at: 2000},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.RECEIVED_POSTS_SINCE,
@@ -1581,7 +1594,7 @@ describe('postsInChannel', () => {
                     },
                     order: ['post1', 'post2'],
                 },
-            }, null, nextPosts);
+            }, {}, nextPosts);
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -1605,7 +1618,7 @@ describe('postsInChannel', () => {
                     posts: {},
                     order: [],
                 },
-            }, null, {});
+            }, {}, {});
 
             expect(nextState).toBe(state);
             expect(nextState).toEqual({
@@ -1626,7 +1639,7 @@ describe('postsInChannel', () => {
                     order: [],
                 },
                 page: 0,
-            }, null, {});
+            }, {}, {});
 
             expect(nextState).toBe(state);
             expect(nextState).toEqual({});
@@ -1639,12 +1652,12 @@ describe('postsInChannel', () => {
                 ],
             });
 
-            const nextPosts = {
+            const nextPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1', create_at: 4000},
                 post2: {id: 'post2', channel_id: 'channel1', create_at: 3000},
                 post3: {id: 'post3', channel_id: 'channel1', create_at: 2000},
                 post4: {id: 'post4', channel_id: 'channel1', create_at: 1000},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.RECEIVED_POSTS_SINCE,
@@ -1656,7 +1669,7 @@ describe('postsInChannel', () => {
                     },
                     order: ['post1'],
                 },
-            }, null, nextPosts);
+            }, {}, nextPosts);
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -1673,12 +1686,12 @@ describe('postsInChannel', () => {
                 ],
             });
 
-            const nextPosts = {
+            const nextPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1', create_at: 4000},
                 post2: {id: 'post2', channel_id: 'channel1', create_at: 3000},
                 post3: {id: 'post3', channel_id: 'channel1', create_at: 2000},
                 post4: {id: 'post4', channel_id: 'channel1', create_at: 1000},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.RECEIVED_POSTS_SINCE,
@@ -1690,7 +1703,7 @@ describe('postsInChannel', () => {
                     },
                     order: ['post1', 'post2'],
                 },
-            }, null, nextPosts);
+            }, {}, nextPosts);
 
             expect(nextState).toBe(state);
             expect(nextState).toEqual({
@@ -1707,12 +1720,12 @@ describe('postsInChannel', () => {
                 ],
             });
 
-            const nextPosts = {
+            const nextPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1', create_at: 4000},
                 post2: {id: 'post2', channel_id: 'channel1', create_at: 3000},
                 post3: {id: 'post3', channel_id: 'channel1', create_at: 2000},
                 post4: {id: 'post4', channel_id: 'channel1', create_at: 1000},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.RECEIVED_POSTS_SINCE,
@@ -1724,7 +1737,7 @@ describe('postsInChannel', () => {
                     },
                     order: ['post1', 'post2'],
                 },
-            }, null, nextPosts);
+            }, {}, nextPosts);
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -1739,11 +1752,11 @@ describe('postsInChannel', () => {
         it('should save posts when channel is not loaded', () => {
             const state = deepFreeze({});
 
-            const nextPosts = {
+            const nextPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1', create_at: 4000},
                 post2: {id: 'post2', channel_id: 'channel1', create_at: 3000},
                 post3: {id: 'post3', channel_id: 'channel1', create_at: 2000},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.RECEIVED_POSTS_AFTER,
@@ -1757,7 +1770,7 @@ describe('postsInChannel', () => {
                 },
                 afterPostId: 'post3',
                 recent: false,
-            }, null, nextPosts);
+            }, {}, nextPosts);
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -1772,11 +1785,11 @@ describe('postsInChannel', () => {
                 channel1: [],
             });
 
-            const nextPosts = {
+            const nextPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1', create_at: 4000},
                 post2: {id: 'post2', channel_id: 'channel1', create_at: 3000},
                 post3: {id: 'post3', channel_id: 'channel1', create_at: 2000},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.RECEIVED_POSTS_AFTER,
@@ -1790,7 +1803,7 @@ describe('postsInChannel', () => {
                 },
                 afterPostId: 'post3',
                 recent: false,
-            }, null, nextPosts);
+            }, {}, nextPosts);
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -1807,12 +1820,12 @@ describe('postsInChannel', () => {
                 ],
             });
 
-            const nextPosts = {
+            const nextPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1', create_at: 4000},
                 post2: {id: 'post2', channel_id: 'channel1', create_at: 3000},
                 post3: {id: 'post3', channel_id: 'channel1', create_at: 2000},
                 post4: {id: 'post4', channel_id: 'channel1', create_at: 1000},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.RECEIVED_POSTS_AFTER,
@@ -1825,7 +1838,7 @@ describe('postsInChannel', () => {
                     order: ['post1', 'post2'],
                 },
                 afterPostId: 'post3',
-            }, null, nextPosts);
+            }, {}, nextPosts);
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -1843,12 +1856,12 @@ describe('postsInChannel', () => {
                 ],
             });
 
-            const nextPosts = {
+            const nextPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1', create_at: 4000},
                 post2: {id: 'post2', channel_id: 'channel1', create_at: 3000},
                 post3: {id: 'post3', channel_id: 'channel1', create_at: 2000},
                 post4: {id: 'post4', channel_id: 'channel1', create_at: 1000},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.RECEIVED_POSTS_AFTER,
@@ -1861,7 +1874,7 @@ describe('postsInChannel', () => {
                     order: ['post2', 'post3'],
                 },
                 afterPostId: 'post4',
-            }, null, nextPosts);
+            }, {}, nextPosts);
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -1878,10 +1891,10 @@ describe('postsInChannel', () => {
                 ],
             });
 
-            const nextPosts = {
+            const nextPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1', create_at: 4000},
                 post2: {id: 'post2', channel_id: 'channel1', create_at: 3000},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.RECEIVED_POSTS_AFTER,
@@ -1891,7 +1904,7 @@ describe('postsInChannel', () => {
                     order: [],
                 },
                 afterPostId: 'post1',
-            }, null, nextPosts);
+            }, {}, nextPosts);
 
             expect(nextState).toBe(state);
             expect(nextState).toEqual({
@@ -1906,11 +1919,11 @@ describe('postsInChannel', () => {
         it('should save posts when channel is not loaded', () => {
             const state = deepFreeze({});
 
-            const nextPosts = {
+            const nextPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1', create_at: 4000},
                 post2: {id: 'post2', channel_id: 'channel1', create_at: 3000},
                 post3: {id: 'post3', channel_id: 'channel1', create_at: 2000},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.RECEIVED_POSTS_BEFORE,
@@ -1923,7 +1936,7 @@ describe('postsInChannel', () => {
                     order: ['post2', 'post3'],
                 },
                 beforePostId: 'post1',
-            }, null, nextPosts);
+            }, {}, nextPosts);
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -1936,11 +1949,11 @@ describe('postsInChannel', () => {
         it('should have oldest set to false', () => {
             const state = deepFreeze({});
 
-            const nextPosts = {
+            const nextPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1', create_at: 4000},
                 post2: {id: 'post2', channel_id: 'channel1', create_at: 3000},
                 post3: {id: 'post3', channel_id: 'channel1', create_at: 2000},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.RECEIVED_POSTS_BEFORE,
@@ -1954,7 +1967,7 @@ describe('postsInChannel', () => {
                 },
                 beforePostId: 'post1',
                 oldest: false,
-            }, null, nextPosts);
+            }, {}, nextPosts);
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -1969,11 +1982,11 @@ describe('postsInChannel', () => {
                 channel1: [],
             });
 
-            const nextPosts = {
+            const nextPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1', create_at: 4000},
                 post2: {id: 'post2', channel_id: 'channel1', create_at: 3000},
                 post3: {id: 'post3', channel_id: 'channel1', create_at: 2000},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.RECEIVED_POSTS_BEFORE,
@@ -1986,7 +1999,7 @@ describe('postsInChannel', () => {
                     order: ['post2', 'post3'],
                 },
                 beforePostId: 'post1',
-            }, null, nextPosts);
+            }, {}, nextPosts);
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -2003,12 +2016,12 @@ describe('postsInChannel', () => {
                 ],
             });
 
-            const nextPosts = {
+            const nextPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1', create_at: 4000},
                 post2: {id: 'post2', channel_id: 'channel1', create_at: 3000},
                 post3: {id: 'post3', channel_id: 'channel1', create_at: 2000},
                 post4: {id: 'post4', channel_id: 'channel1', create_at: 1000},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.RECEIVED_POSTS_BEFORE,
@@ -2021,7 +2034,7 @@ describe('postsInChannel', () => {
                     order: ['post3', 'post4'],
                 },
                 beforePostId: 'post2',
-            }, null, nextPosts);
+            }, {}, nextPosts);
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -2039,12 +2052,12 @@ describe('postsInChannel', () => {
                 ],
             });
 
-            const nextPosts = {
+            const nextPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1', create_at: 4000},
                 post2: {id: 'post2', channel_id: 'channel1', create_at: 3000},
                 post3: {id: 'post3', channel_id: 'channel1', create_at: 2000},
                 post4: {id: 'post4', channel_id: 'channel1', create_at: 1000},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.RECEIVED_POSTS_BEFORE,
@@ -2057,7 +2070,7 @@ describe('postsInChannel', () => {
                     order: ['post2', 'post3', 'post4'],
                 },
                 beforePostId: 'post1',
-            }, null, nextPosts);
+            }, {}, nextPosts);
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -2074,10 +2087,10 @@ describe('postsInChannel', () => {
                 ],
             });
 
-            const nextPosts = {
+            const nextPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1', create_at: 4000},
                 post2: {id: 'post2', channel_id: 'channel1', create_at: 3000},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.RECEIVED_POSTS_BEFORE,
@@ -2087,7 +2100,7 @@ describe('postsInChannel', () => {
                     order: [],
                 },
                 beforePostId: 'post2',
-            }, null, nextPosts);
+            }, {}, nextPosts);
 
             expect(nextState).toBe(state);
             expect(nextState).toEqual({
@@ -2106,16 +2119,16 @@ describe('postsInChannel', () => {
                 ],
             });
 
-            const prevPosts = {
+            const prevPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1'},
                 post2: {id: 'post2', channel_id: 'channel1'},
                 post3: {id: 'post3', channel_id: 'channel1'},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.POST_DELETED,
                 data: prevPosts.post2,
-            }, prevPosts, null);
+            }, prevPosts, {});
 
             expect(nextState).toBe(state);
             expect(nextState).toEqual({
@@ -2132,17 +2145,17 @@ describe('postsInChannel', () => {
                 ],
             });
 
-            const prevPosts = {
+            const prevPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1', root_id: 'post4'},
                 post2: {id: 'post2', channel_id: 'channel1', root_id: 'post3'},
                 post3: {id: 'post3', channel_id: 'channel1'},
                 post4: {id: 'post4', channel_id: 'channel1'},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.POST_DELETED,
                 data: prevPosts.post3,
-            }, prevPosts, null);
+            }, prevPosts, {});
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -2160,17 +2173,17 @@ describe('postsInChannel', () => {
                 ],
             });
 
-            const prevPosts = {
+            const prevPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1', root_id: 'post4'},
                 post2: {id: 'post2', channel_id: 'channel1'},
                 post3: {id: 'post3', channel_id: 'channel1', root_id: 'post4'},
                 post4: {id: 'post4', channel_id: 'channel1'},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.POST_DELETED,
                 data: prevPosts.post4,
-            }, prevPosts, null);
+            }, prevPosts, {});
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -2189,17 +2202,17 @@ describe('postsInChannel', () => {
                 ],
             });
 
-            const prevPosts = {
+            const prevPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1'},
                 post2: {id: 'post2', channel_id: 'channel1'},
                 post3: {id: 'post3', channel_id: 'channel1', root_id: 'post4'},
                 post4: {id: 'post4', channel_id: 'channel1'},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.POST_DELETED,
                 data: prevPosts.post4,
-            }, prevPosts, null);
+            }, prevPosts, {});
 
             expect(nextState).not.toBe(state);
             expect(nextState[0]).toBe(state[0]);
@@ -2218,17 +2231,17 @@ describe('postsInChannel', () => {
                 ],
             });
 
-            const prevPosts = {
+            const prevPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1', root_id: 'post4'},
                 post2: {id: 'post2', channel_id: 'channel1', root_id: 'post3'},
                 post3: {id: 'post3', channel_id: 'channel1'},
                 post4: {id: 'post4', channel_id: 'channel1'},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.POST_DELETED,
                 data: prevPosts.post2,
-            }, prevPosts, null);
+            }, prevPosts, {});
 
             expect(nextState).toBe(state);
             expect(nextState).toEqual({
@@ -2245,17 +2258,17 @@ describe('postsInChannel', () => {
                 ],
             });
 
-            const prevPosts = {
+            const prevPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1'},
                 post2: {id: 'post2', channel_id: 'channel1'},
                 post3: {id: 'post3', channel_id: 'channel1'},
                 post4: {id: 'post4', channel_id: 'channel1'},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.POST_DELETED,
                 data: prevPosts.post4,
-            }, prevPosts, null);
+            }, prevPosts, {});
 
             expect(nextState).toBe(state);
             expect(nextState).toEqual({
@@ -2268,16 +2281,16 @@ describe('postsInChannel', () => {
         it('should do nothing if no posts in the channel have been loaded', () => {
             const state = deepFreeze({});
 
-            const prevPosts = {
+            const prevPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1'},
                 post2: {id: 'post2', channel_id: 'channel1'},
                 post3: {id: 'post3', channel_id: 'channel1'},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.POST_DELETED,
                 data: prevPosts.post1,
-            }, prevPosts, null);
+            }, prevPosts, {});
 
             expect(nextState).toBe(state);
             expect(nextState).toEqual({});
@@ -2291,17 +2304,17 @@ describe('postsInChannel', () => {
                 ],
             });
 
-            const prevPosts = {
+            const prevPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1', root_id: 'post4'},
                 post2: {id: 'post2', channel_id: 'channel1', root_id: 'post4'},
                 post3: {id: 'post3', channel_id: 'channel1', root_id: 'post4'},
                 post4: {id: 'post4', channel_id: 'channel1'},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.POST_DELETED,
                 data: prevPosts.post4,
-            }, prevPosts, null);
+            }, prevPosts, {});
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -2320,16 +2333,16 @@ describe('postsInChannel', () => {
                 ],
             });
 
-            const prevPosts = {
+            const prevPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1'},
                 post2: {id: 'post2', channel_id: 'channel1'},
                 post3: {id: 'post3', channel_id: 'channel1'},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.POST_REMOVED,
                 data: prevPosts.post2,
-            }, prevPosts, null);
+            }, prevPosts, {});
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -2346,17 +2359,17 @@ describe('postsInChannel', () => {
                 ],
             });
 
-            const prevPosts = {
+            const prevPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1', root_id: 'post4'},
                 post2: {id: 'post2', channel_id: 'channel1', root_id: 'post3'},
                 post3: {id: 'post3', channel_id: 'channel1'},
                 post4: {id: 'post4', channel_id: 'channel1'},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.POST_REMOVED,
                 data: prevPosts.post3,
-            }, prevPosts, null);
+            }, prevPosts, {});
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -2373,17 +2386,17 @@ describe('postsInChannel', () => {
                 ],
             });
 
-            const prevPosts = {
+            const prevPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1', root_id: 'post4'},
                 post2: {id: 'post2', channel_id: 'channel1', root_id: 'post3'},
                 post3: {id: 'post3', channel_id: 'channel1'},
                 post4: {id: 'post4', channel_id: 'channel1'},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.POST_REMOVED,
                 data: prevPosts.post2,
-            }, prevPosts, null);
+            }, prevPosts, {});
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -2400,17 +2413,17 @@ describe('postsInChannel', () => {
                 ],
             });
 
-            const prevPosts = {
+            const prevPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1'},
                 post2: {id: 'post2', channel_id: 'channel1'},
                 post3: {id: 'post3', channel_id: 'channel1'},
                 post4: {id: 'post4', channel_id: 'channel1'},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.POST_REMOVED,
                 data: prevPosts.post4,
-            }, prevPosts, null);
+            }, prevPosts, {});
 
             expect(nextState).toBe(state);
             expect(nextState).toEqual({
@@ -2423,16 +2436,16 @@ describe('postsInChannel', () => {
         it('should do nothing if no posts in the channel have been loaded', () => {
             const state = deepFreeze({});
 
-            const prevPosts = {
+            const prevPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1'},
                 post2: {id: 'post2', channel_id: 'channel1'},
                 post3: {id: 'post3', channel_id: 'channel1'},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.POST_REMOVED,
                 data: prevPosts.post1,
-            }, prevPosts, null);
+            }, prevPosts, {});
 
             expect(nextState).toBe(state);
             expect(nextState).toEqual({});
@@ -2446,17 +2459,17 @@ describe('postsInChannel', () => {
                 ],
             });
 
-            const prevPosts = {
+            const prevPosts = toPostsRecord({
                 post1: {id: 'post1', channel_id: 'channel1', root_id: 'post4'},
                 post2: {id: 'post2', channel_id: 'channel1'},
                 post3: {id: 'post3', channel_id: 'channel1', root_id: 'post4'},
                 post4: {id: 'post4', channel_id: 'channel1'},
-            };
+            });
 
             const nextState = reducers.postsInChannel(state, {
                 type: PostTypes.POST_REMOVED,
                 data: prevPosts.post4,
-            }, prevPosts, null);
+            }, prevPosts, {});
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -2490,7 +2503,7 @@ describe('postsInChannel', () => {
                         id: 'channel1',
                         viewArchivedChannels: false,
                     },
-                });
+                }, {}, {});
 
                 expect(nextState).not.toBe(state);
                 expect(nextState.channel2).toBe(state.channel2);
@@ -2517,7 +2530,7 @@ describe('postsInChannel', () => {
                         id: 'channel3',
                         viewArchivedChannels: false,
                     },
-                });
+                }, {}, {});
 
                 expect(nextState).toBe(state);
                 expect(nextState.channel1).toBe(state.channel1);
@@ -2549,7 +2562,7 @@ describe('postsInChannel', () => {
                         id: 'channel1',
                         viewArchivedChannels: true,
                     },
-                });
+                }, {}, {});
 
                 expect(nextState).toBe(state);
                 expect(nextState.channel1).toBe(state.channel1);
@@ -2570,7 +2583,7 @@ describe('postsInChannel', () => {
 
 describe('mergePostBlocks', () => {
     it('should do nothing with no blocks', () => {
-        const blocks = [];
+        const blocks: PostOrderBlock[] = [];
         const posts = {};
 
         const nextBlocks = reducers.mergePostBlocks(blocks, posts);
@@ -2579,12 +2592,12 @@ describe('mergePostBlocks', () => {
     });
 
     it('should do nothing with only one block', () => {
-        const blocks = [
+        const blocks: PostOrderBlock[] = [
             {order: ['a'], recent: false},
         ];
-        const posts = {
+        const posts = toPostsRecord({
             a: {create_at: 1000},
-        };
+        });
 
         const nextBlocks = reducers.mergePostBlocks(blocks, posts);
 
@@ -2596,10 +2609,10 @@ describe('mergePostBlocks', () => {
             {order: ['a'], recent: false},
             {order: ['b'], recent: false},
         ];
-        const posts = {
+        const posts = toPostsRecord({
             a: {create_at: 1000},
             b: {create_at: 1001},
-        };
+        });
 
         const nextBlocks = reducers.mergePostBlocks(blocks, posts);
 
@@ -2611,9 +2624,9 @@ describe('mergePostBlocks', () => {
             {order: ['a'], recent: false},
             {order: ['a'], recent: false},
         ];
-        const posts = {
+        const posts = toPostsRecord({
             a: {create_at: 1000},
-        };
+        });
 
         const nextBlocks = reducers.mergePostBlocks(blocks, posts);
 
@@ -2628,12 +2641,12 @@ describe('mergePostBlocks', () => {
             {order: ['a', 'b', 'c'], recent: false},
             {order: ['b', 'c', 'd'], recent: false},
         ];
-        const posts = {
+        const posts = toPostsRecord({
             a: {create_at: 1003},
             b: {create_at: 1002},
             c: {create_at: 1001},
             d: {create_at: 1000},
-        };
+        });
 
         const nextBlocks = reducers.mergePostBlocks(blocks, posts);
 
@@ -2650,13 +2663,13 @@ describe('mergePostBlocks', () => {
             {order: ['c', 'd'], recent: false},
             {order: ['b', 'c'], recent: false},
         ];
-        const posts = {
+        const posts = toPostsRecord({
             a: {create_at: 1004},
             b: {create_at: 1003},
             c: {create_at: 1002},
             d: {create_at: 1001},
             e: {create_at: 1000},
-        };
+        });
 
         const nextBlocks = reducers.mergePostBlocks(blocks, posts);
 
@@ -2672,13 +2685,13 @@ describe('mergePostBlocks', () => {
             {order: ['b', 'c'], recent: false},
             {order: ['d', 'e'], recent: false},
         ];
-        const posts = {
+        const posts = toPostsRecord({
             a: {create_at: 1004},
             b: {create_at: 1003},
             c: {create_at: 1002},
             d: {create_at: 1001},
             e: {create_at: 1000},
-        };
+        });
 
         const nextBlocks = reducers.mergePostBlocks(blocks, posts);
 
@@ -2695,11 +2708,11 @@ describe('mergePostBlocks', () => {
             {order: ['a', 'b'], recent: true},
             {order: ['b', 'c'], recent: false},
         ];
-        const posts = {
+        const posts = toPostsRecord({
             a: {create_at: 1002},
             b: {create_at: 1001},
             c: {create_at: 1000},
-        };
+        });
 
         const nextBlocks = reducers.mergePostBlocks(blocks, posts);
 
@@ -2714,11 +2727,11 @@ describe('mergePostBlocks', () => {
             {order: ['a', 'b'], oldest: true},
             {order: ['b', 'c'], oldest: false},
         ];
-        const posts = {
+        const posts = toPostsRecord({
             a: {create_at: 1002},
             b: {create_at: 1001},
             c: {create_at: 1000},
-        };
+        });
 
         const nextBlocks = reducers.mergePostBlocks(blocks, posts);
 
@@ -2733,11 +2746,11 @@ describe('mergePostBlocks', () => {
             {order: ['a', 'b'], recent: true},
             {order: [], recent: false},
         ];
-        const posts = {
+        const posts = toPostsRecord({
             a: {create_at: 1002},
             b: {create_at: 1001},
             c: {create_at: 1000},
-        };
+        });
 
         const nextBlocks = reducers.mergePostBlocks(blocks, posts);
 
@@ -2807,14 +2820,14 @@ describe('mergePostOrder', () => {
         },
     ];
 
-    const posts = {
+    const posts = toPostsRecord({
         a: {create_at: 10000},
         b: {create_at: 9000},
         c: {create_at: 8000},
         d: {create_at: 7000},
         e: {create_at: 6000},
         f: {create_at: 5000},
-    };
+    });
 
     for (const test of tests) {
         it(test.name, () => {
@@ -2846,7 +2859,7 @@ describe('postsInThread', () => {
                 const nextState = reducers.postsInThread(state, {
                     type: actionType,
                     data: {id: 'comment3', root_id: 'root1', pending_post_id: 'pending'},
-                });
+                }, {});
 
                 expect(nextState).not.toBe(state);
                 expect(nextState).toEqual({
@@ -2862,7 +2875,7 @@ describe('postsInThread', () => {
                 const nextState = reducers.postsInThread(state, {
                     type: actionType,
                     data: {id: 'comment2', root_id: 'root1', pending_post_id: 'pending'},
-                });
+                }, {});
 
                 expect(nextState).toBe(state);
                 expect(nextState).toEqual({
@@ -2878,7 +2891,7 @@ describe('postsInThread', () => {
                 const nextState = reducers.postsInThread(state, {
                     type: actionType,
                     data: {id: 'comment3', root_id: 'root1'},
-                });
+                }, {});
 
                 expect(nextState).not.toBe(state);
                 expect(nextState).toEqual({
@@ -2892,7 +2905,7 @@ describe('postsInThread', () => {
                 const nextState = reducers.postsInThread(state, {
                     type: actionType,
                     data: {id: 'comment1', root_id: 'root1'},
-                });
+                }, {});
 
                 expect(nextState).not.toBe(state);
                 expect(nextState).toEqual({
@@ -2908,7 +2921,7 @@ describe('postsInThread', () => {
                 const nextState = reducers.postsInThread(state, {
                     type: actionType,
                     data: {id: 'root2'},
-                });
+                }, {});
 
                 expect(nextState).toBe(state);
                 expect(nextState.root1).toBe(state.root1);
@@ -2925,7 +2938,7 @@ describe('postsInThread', () => {
                 const nextState = reducers.postsInThread(state, {
                     type: actionType,
                     data: {id: 'comment1'},
-                });
+                }, {});
 
                 expect(nextState).toBe(state);
                 expect(nextState).toEqual({
@@ -2959,7 +2972,7 @@ describe('postsInThread', () => {
                         order: [],
                         posts,
                     },
-                });
+                }, {});
 
                 expect(nextState).not.toBe(state);
                 expect(nextState).toEqual({
@@ -2985,7 +2998,7 @@ describe('postsInThread', () => {
                         order: [],
                         posts,
                     },
-                });
+                }, {});
 
                 expect(nextState).not.toBe(state);
                 expect(nextState).toEqual({
@@ -3010,7 +3023,7 @@ describe('postsInThread', () => {
                         order: [],
                         posts,
                     },
-                });
+                }, {});
 
                 expect(nextState).not.toBe(state);
                 expect(nextState).toEqual({
@@ -3031,7 +3044,7 @@ describe('postsInThread', () => {
                         order: [],
                         posts,
                     },
-                });
+                }, {});
 
                 expect(nextState).toBe(state);
                 expect(nextState).toEqual({
@@ -3054,7 +3067,7 @@ describe('postsInThread', () => {
                         order: [],
                         posts,
                     },
-                });
+                }, {});
 
                 expect(nextState).toBe(state);
                 expect(nextState).toEqual({
@@ -3082,7 +3095,7 @@ describe('postsInThread', () => {
                     posts,
                 },
                 rootId: 'root1',
-            });
+            }, {});
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -3108,7 +3121,7 @@ describe('postsInThread', () => {
                     posts,
                 },
                 rootId: 'root2',
-            });
+            }, {});
 
             expect(nextState).not.toBe(state);
             expect(nextState.root1).toBe(state.root1);
@@ -3135,7 +3148,7 @@ describe('postsInThread', () => {
                     posts,
                 },
                 rootId: 'root1',
-            });
+            }, {});
 
             expect(nextState).not.toBe(state);
             expect(nextState).toEqual({
@@ -3157,7 +3170,7 @@ describe('postsInThread', () => {
                     posts,
                 },
                 rootId: 'root2',
-            });
+            }, {});
 
             expect(nextState).toBe(state);
             expect(nextState).toEqual({
@@ -3176,7 +3189,7 @@ describe('postsInThread', () => {
             const nextState = reducers.postsInThread(state, {
                 type: PostTypes.POST_DELETED,
                 data: {id: 'root1'},
-            });
+            }, {});
 
             expect(nextState).not.toBe(state);
             expect(nextState.root2).toBe(state.root2);
@@ -3193,7 +3206,7 @@ describe('postsInThread', () => {
             const nextState = reducers.postsInThread(state, {
                 type: PostTypes.POST_DELETED,
                 data: {id: 'comment1'},
-            });
+            }, {});
 
             expect(nextState).toBe(state);
             expect(nextState).toEqual({
@@ -3209,7 +3222,7 @@ describe('postsInThread', () => {
             const nextState = reducers.postsInThread(state, {
                 type: PostTypes.POST_DELETED,
                 data: {id: 'root2'},
-            });
+            }, {});
 
             expect(nextState).toBe(state);
             expect(nextState).toEqual({
@@ -3228,7 +3241,7 @@ describe('postsInThread', () => {
             const nextState = reducers.postsInThread(state, {
                 type: PostTypes.POST_REMOVED,
                 data: {id: 'root1'},
-            });
+            }, {});
 
             expect(nextState).not.toBe(state);
             expect(nextState.root2).toBe(state.root2);
@@ -3246,7 +3259,7 @@ describe('postsInThread', () => {
             const nextState = reducers.postsInThread(state, {
                 type: PostTypes.POST_REMOVED,
                 data: {id: 'comment1', root_id: 'root1'},
-            });
+            }, {});
 
             expect(nextState).not.toBe(state);
             expect(nextState.root2).toBe(state.root2);
@@ -3264,7 +3277,7 @@ describe('postsInThread', () => {
             const nextState = reducers.postsInThread(state, {
                 type: PostTypes.POST_REMOVED,
                 data: {id: 'root2'},
-            });
+            }, {});
 
             expect(nextState).toBe(state);
             expect(nextState).toEqual({
@@ -3286,7 +3299,7 @@ describe('postsInThread', () => {
                     root3: ['comment4'],
                 });
 
-                const prevPosts = {
+                const prevPosts = toPostsRecord({
                     root1: {id: 'root1', channel_id: 'channel1'},
                     comment1: {id: 'comment1', channel_id: 'channel1', root_id: 'root1'},
                     comment2: {id: 'comment2', channel_id: 'channel1', root_id: 'root1'},
@@ -3294,7 +3307,7 @@ describe('postsInThread', () => {
                     comment3: {id: 'comment3', channel_id: 'channel2', root_id: 'root2'},
                     root3: {id: 'root3', channel_id: 'channel1'},
                     comment4: {id: 'comment3', channel_id: 'channel1', root_id: 'root3'},
-                };
+                });
 
                 const nextState = reducers.postsInThread(state, {
                     type: actionType,
@@ -3316,11 +3329,11 @@ describe('postsInThread', () => {
                     root1: ['comment1', 'comment2'],
                 });
 
-                const prevPosts = {
+                const prevPosts = toPostsRecord({
                     root1: {id: 'root1', channel_id: 'channel1'},
                     comment1: {id: 'comment1', channel_id: 'channel1', root_id: 'root1'},
                     comment2: {id: 'comment2', channel_id: 'channel1', root_id: 'root1'},
-                };
+                });
 
                 const nextState = reducers.postsInThread(state, {
                     type: actionType,
@@ -3342,13 +3355,13 @@ describe('postsInThread', () => {
                     root2: ['comment3'],
                 });
 
-                const prevPosts = {
+                const prevPosts = toPostsRecord({
                     root1: {id: 'root1', channel_id: 'channel1'},
                     comment1: {id: 'comment1', channel_id: 'channel1', root_id: 'root1'},
                     comment2: {id: 'comment2', channel_id: 'channel1', root_id: 'root1'},
                     root2: {id: 'root2', channel_id: 'channel2'},
                     comment3: {id: 'comment3', channel_id: 'channel2', root_id: 'root2'},
-                };
+                });
 
                 const nextState = reducers.postsInThread(state, {
                     type: actionType,
@@ -3370,9 +3383,9 @@ describe('postsInThread', () => {
                     root1: ['comment1'],
                 });
 
-                const prevPosts = {
+                const prevPosts = toPostsRecord({
                     comment1: {id: 'comment1', channel_id: 'channel1', root_id: 'root1'},
-                };
+                });
 
                 const nextState = reducers.postsInThread(state, {
                     type: actionType,
