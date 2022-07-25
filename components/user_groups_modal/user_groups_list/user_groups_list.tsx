@@ -1,23 +1,24 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+import React, {useCallback, useState} from 'react';
+import {FormattedMessage} from 'react-intl';
 import {AccountMultipleOutlineIcon, DotsVerticalIcon, TrashCanOutlineIcon} from '@mattermost/compass-icons/components';
 import {Menu, Divider, IconButton, List, ListItem, ListItemButton, ListItemText, Typography} from '@mui/material';
 
-// See LICENSE.txt for license information.
-import React, {useCallback, useState} from 'react';
-
 import {Group, GroupPermissions} from '@mattermost/types/groups';
 
+import LoadingScreen from 'components/loading_screen';
 import NoResultsIndicator from 'components/no_results_indicator';
 import {NoResultsVariant} from 'components/no_results_indicator/types';
+import ViewUserGroupModal from 'components/view_user_group_modal';
+import ListItemIcon from 'components/compass/list-item-icon/list-item-icon';
+import MenuItem from 'components/compass/menu-item/menu-item';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {ModalData} from 'types/actions';
+
+import * as Utils from 'utils/utils';
 import {ModalIdentifiers} from 'utils/constants';
-import ViewUserGroupModal from 'components/view_user_group_modal';
-import ListItemIcon from '../../compass/list-item-icon/list-item-icon';
-import MenuItem from '../../compass/menu-item/menu-item';
-import LoadingScreen from '../../loading_screen';
 
 export type Props = {
     groups: Group[];
@@ -82,7 +83,6 @@ const UserGroupsList = React.forwardRef((props: Props, ref?: React.Ref<HTMLUList
             ref={ref}
         >
             {groups.map((group) => {
-                const membersText = `${group.member_count} member${group.member_count > 1 ? 's' : ''}`;
                 return (
                     <ListItemButton
                         key={group.id}
@@ -118,7 +118,13 @@ const UserGroupsList = React.forwardRef((props: Props, ref?: React.Ref<HTMLUList
                                     variant={'body2'}
                                     sx={{marginLeft: 'auto', fontSize: '1.2rem'}}
                                 >
-                                    {membersText}
+                                    <FormattedMessage
+                                        id='user_groups_modal.memberCount'
+                                        defaultMessage='{member_count} {member_count, plural, one {member} other {members}}'
+                                        values={{
+                                            member_count: group.member_count,
+                                        }}
+                                    />
                                 </Typography>
                             </ListItemText>
                         </ListItem>
@@ -184,7 +190,7 @@ const GroupItemMenu = ({group, viewGroup, archiveGroup, groupPermissionsMap}: Gr
                             color={'currentColor'}
                         />
                     </ListItemIcon>
-                    {'View Group'}
+                    {Utils.localizeMessage('user_groups_modal.viewGroup', 'View Group')}
                 </MenuItem>
                 {groupPermissionsMap[group.id].can_delete && (
                     <>
@@ -201,7 +207,7 @@ const GroupItemMenu = ({group, viewGroup, archiveGroup, groupPermissionsMap}: Gr
                                     color={'currentColor'}
                                 />
                             </ListItemIcon>
-                            {'Archive Group'}
+                            {Utils.localizeMessage('user_groups_modal.archiveGroup', 'Archive Group')}
                         </MenuItem>
                     </>
                 )}

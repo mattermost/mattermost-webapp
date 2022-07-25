@@ -21,6 +21,7 @@ describe('component/user_groups_modal', () => {
             setModalSearchTerm: jest.fn(),
             getGroupsByUserIdPaginated: jest.fn(),
             searchGroups: jest.fn(),
+            openModal: jest.fn(),
         },
     };
 
