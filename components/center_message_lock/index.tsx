@@ -17,6 +17,7 @@ import {getOldestPostTimeInChannel} from 'mattermost-redux/selectors/entities/po
 
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import useGetLimits from 'components/common/hooks/useGetLimits';
+import {useNotifyAdmin} from 'components/notify_admin_cta/notify_admin_cta'
 
 import './index.scss';
 
@@ -50,6 +51,12 @@ export default function CenterMessageLock(props: Props) {
     // The message then shows that the user can retrieve messages prior to the day
     // **after** the most recent day with inaccessible posts.
     const oldestPostTime = useSelector((state: GlobalState) => getOldestPostTimeInChannel(state, props.channelId || '')) || getNextDay(props.firstInaccessiblePostTime);
+    const [notifyAdminStatus, notifyAdmin] = useNotifyAdmin({
+        ctaText: intl.formatMessage({
+            id: 'workspace_limits.message_history.locked.cta.end_user',
+            defaultMessage: 'Notify Admin',
+        }),
+    });
 
     if (!limitsLoaded) {
         return null;
@@ -83,13 +90,11 @@ export default function CenterMessageLock(props: Props) {
         },
     );
 
-    let cta = (<button className='btn btn-primary'>
-        {
-            intl.formatMessage({
-                id: 'workspace_limits.message_history.locked.cta.end_user',
-                defaultMessage: 'Notify Admin',
-            })
-        }
+    let cta = (<button
+        className='btn btn-primary'
+        onClick={notifyAdmin}
+    >
+        {notifyAdminStatus}
     </button>);
 
     if (isAdminUser) {
