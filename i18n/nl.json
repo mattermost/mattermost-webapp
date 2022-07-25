@@ -865,7 +865,6 @@
   "admin.experimental.enableThemeSelection.title": "Themaselectie inschakelen:",
   "admin.experimental.enableTutorial.desc": "Als dit ingeschakeld is, krijgen gebruikers een handleiding wanneer ze voor de eerste keer Mattermost openen na het aanmaken van het account. Als dit uitgeschakeld is, dan is de handleiding uitgeschakeld, en gebruikers worden geplaatst in het Dorpsplein wanneer ze Mattermost voor de eerste keer openen na het aanmaken van hun account.",
   "admin.experimental.enableTutorial.title": "Handleiding inschakelen:",
-  "admin.experimental.enableUpgradeForSelfHostedStarter.desc": " Indien aangevinkt, krijgen zelf Self-Hosted Starter-gebruikers een upgrade-knop te zien in de globale hoofding",
   "admin.experimental.enableUpgradeForSelfHostedStarter.title": "Upgrade inschakelen voor Self-Hosted Starter",
   "admin.experimental.enableUserDeactivation.desc": "Als dit ingeschakeld is, kunnen gebruikers hun eigen account deactiveren via **Instellingen > Geavanceerd**. Als een gebruiker zijn eigen account deactiveert, krijgen ze een e-mailbericht waarin wordt bevestigd dat ze zijn gedeactiveerd. Als dit uitgeschakeld is, kunnen gebruikers hun eigen account niet deactiveren.",
   "admin.experimental.enableUserDeactivation.title": "Deactivering van account inschakelen:",

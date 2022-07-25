@@ -865,6 +865,7 @@
   "admin.experimental.enableThemeSelection.title": "Motivauswahl aktivieren:",
   "admin.experimental.enableTutorial.desc": "Wenn wahr, werden die Benutzer zu einem Tutorial aufgefordert, wenn diese Mattermost zum ersten Mal nach der Kontoerstellung öffnen. Wenn falsch, ist das Tutorial deaktiviert und den Benutzer wird der Marktplatz-Kanal angezeigt, wenn Mattermost zum ersten Mal nach der Kontoerstellung geöffnet wird.",
   "admin.experimental.enableTutorial.title": "Tutorial aktivieren:",
+  "admin.experimental.enableUpgradeForSelfHostedStarter.title": "Aktiviere Upgrade für selbstgehostete Starter Edition",
   "admin.experimental.enableUserDeactivation.desc": "Wenn wahr, können Benutzer ihr eigenes Konto über **Einstellungen > Erweitert** deaktivieren. Wenn ein Benutzer sein eigenes Konto deaktiviert, erhält er eine E-Mail-Benachrichtigung, die bestätigt, dass er deaktiviert wurde. Wenn falsch, dürfen Benutzer ihr eigenes Konto nicht deaktivieren.",
   "admin.experimental.enableUserDeactivation.title": "Kontodeaktivierung aktivieren:",
   "admin.experimental.enableUserTypingMessages.desc": "Diese Einstellung bestimmt, ob unterhalb des Nachrichtenfeldes \"Benutzer tippt....\" Nachrichten angezeigt werden. Das Deaktivieren der Einstellung in größeren Implementierungen kann die Serverleistung verbessern.",
