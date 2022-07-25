@@ -27,7 +27,6 @@ describe('components/user_settings/notifications/DesktopNotificationSettings', (
         error: '',
         active: true,
         saving: false,
-        focused: false,
         selectedSound: 'Bing',
         isCollapsedThreadsEnabled: false,
         threads: NotificationLevels.ALL,

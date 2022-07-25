@@ -21,16 +21,15 @@ type SelectedOption = {
 
 type Props = {
     activity: string;
-    threads: string;
+    threads?: string;
     sound: string;
     updateSection: (section: string) => void;
-    setParentState: (key: string | null, value: string | null) => void;
+    setParentState: (key: string, value: string | boolean) => void;
     submit: () => void;
     cancel: () => void;
     error: string;
     active: boolean;
     saving: boolean;
-    focused: boolean;
     selectedSound: string;
     isCollapsedThreadsEnabled: boolean;
 };
@@ -54,18 +53,17 @@ export default class DesktopNotificationSettings extends React.PureComponent<Pro
 
     handleMinUpdateSection = (section: string): void => {
         this.props.updateSection(section);
-
         this.props.cancel();
     }
 
-    handleMaxUpdateSection = (section: string): void => {
-        this.props.updateSection(section);
-    }
+    handleMaxUpdateSection = (section: string): void => this.props.updateSection(section);
 
     handleOnChange = (e: ChangeEvent<HTMLInputElement>): void => {
         const key = e.currentTarget.getAttribute('data-key');
         const value = e.currentTarget.getAttribute('data-value');
-        this.props.setParentState(key, value);
+        if (key && value) {
+            this.props.setParentState(key, value);
+        }
     }
 
     handleThreadsOnChange = (e: ChangeEvent<HTMLInputElement>): void => {
