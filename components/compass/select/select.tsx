@@ -14,11 +14,6 @@ function Select <T>(props: MUISelectProps<T>) {
             vertical: -4,
             horizontal: 'left',
         },
-        MenuListProps: {
-            sx: {
-                minWidth: '200px',
-            },
-        },
     };
 
     return (

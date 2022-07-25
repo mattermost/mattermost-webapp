@@ -59,16 +59,58 @@ const Modal = ({children, isOpen, onClose, onConfirm, onCancel, dialogClassName 
     };
 
     const theme = createTheme({
+        typography: {
+            body1: {
+                color: 'var(--center-channel-text)',
+                fontSize: '1.4rem',
+                lineHeight: '2rem',
+            },
+            body2: {
+                color: 'rgba(var(--center-channel-text-rgb), 0.56)',
+                fontSize: '1.4rem',
+                lineHeight: '2rem',
+            },
+        },
         components: {
             MuiButtonBase: {
                 defaultProps: {
                     disableRipple: true,
                 },
             },
+            MuiIconButton: {
+                styleOverrides: {
+                    root: {
+                        borderRadius: 4,
+                    },
+                },
+            },
             MuiOutlinedInput: {
                 styleOverrides: {
                     root: {
+                        backgroundColor: 'var(--center-channel-bg)',
                         fontSize: '1.6rem',
+
+                        '.MuiOutlinedInput-notchedOutline': {
+                            borderColor: 'rgba(var(--center-channel-text-rgb), 0.16)',
+                        },
+
+                        '&:hover:not(.Mui-focused) .MuiOutlinedInput-notchedOutline': {
+                            borderColor: 'rgba(var(--center-channel-text-rgb), 0.48)',
+                        },
+
+                        '&:active': {
+                            backgroundColor: 'rgba(var(--button-bg-rgb), 0.04)',
+
+                            '.MuiOutlinedInput-notchedOutline': {
+                                borderColor: 'rgba(var(--button-bg-rgb), 1)',
+                            },
+                        },
+
+                        '.Mui-focused': {
+                            '.MuiOutlinedInput-notchedOutline': {
+                                borderColor: 'var(--button-bg)',
+                            },
+                        },
                     },
                     input: {
                         height: 'unset',
@@ -155,14 +197,54 @@ const Modal = ({children, isOpen, onClose, onConfirm, onCancel, dialogClassName 
                             backgroundColor: 'transparent',
                             boxShadow: 'inset 0 0 0 2px var(--sidebar-active-border)',
                         },
+
+                        '.MuiListItemIcon-root': {
+                            minWidth: 'unset',
+                        },
+                    },
+                },
+            },
+            MuiMenu: {
+                styleOverrides: {
+                    list: {
+                        minWidth: 100,
+                    },
+                },
+            },
+            MuiListItem: {
+                styleOverrides: {
+                    root: {
+                        padding: '18px 64px 18px 32px',
                     },
                 },
             },
             MuiListItemText: {
                 styleOverrides: {
                     root: {
-                        color: 'var(--center-channel-text)',
-                        fontSize: '1.4rem',
+                        margin: 0,
+                    },
+                },
+            },
+            MuiListItemIcon: {
+                styleOverrides: {
+                    root: {
+                        minWidth: 0,
+                        color: 'currentColor',
+                    },
+                },
+            },
+            MuiListItemButton: {
+                styleOverrides: {
+                    dense: {
+                        paddingTop: 0,
+                        paddingBottom: 0,
+                    },
+                },
+            },
+            MuiListItemSecondaryAction: {
+                styleOverrides: {
+                    root: {
+                        right: 32,
                     },
                 },
             },

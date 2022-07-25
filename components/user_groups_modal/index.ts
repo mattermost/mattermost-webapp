@@ -15,10 +15,12 @@ import {Group, GroupSearachParams} from '@mattermost/types/groups';
 import {ModalIdentifiers} from 'utils/constants';
 import {isModalOpen} from 'selectors/views/modals';
 import {setModalSearchTerm} from 'actions/views/search';
+import {openModal} from '../../actions/views/modals';
+import {ModalData} from '../../types/actions';
 
 import UserGroupsModal from './user_groups_modal';
 
-type Actions = {
+export type Actions = {
     getGroups: (
         filterAllowReference?: boolean,
         page?: number,
@@ -36,6 +38,7 @@ type Actions = {
     searchGroups: (
         params: GroupSearachParams,
     ) => Promise<{data: Group[]}>;
+    openModal: <P>(modalData: ModalData<P>) => void;
 };
 
 function mapStateToProps(state: GlobalState) {
@@ -67,6 +70,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
             setModalSearchTerm,
             getGroupsByUserIdPaginated,
             searchGroups,
+            openModal,
         }, dispatch),
     };
 }

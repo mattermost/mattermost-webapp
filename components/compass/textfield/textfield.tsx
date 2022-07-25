@@ -10,7 +10,7 @@ type TextFieldProps = Omit<MUITextFieldProps, 'InputProps'> & {
     endIcon?: React.ReactNode;
 }
 
-const TextField2 = ({startIcon, endIcon, value, onFocus, onBlur, ...props}: TextFieldProps) => {
+const TextField = ({startIcon, endIcon, value, onFocus, onBlur, ...props}: TextFieldProps) => {
     const [shrink, setShrink] = React.useState(Boolean(value));
 
     const InputProps: MUITextFieldProps['InputProps'] = {};
@@ -62,4 +62,4 @@ const TextField2 = ({startIcon, endIcon, value, onFocus, onBlur, ...props}: Text
     );
 };
 
-export default TextField2;
+export default TextField;

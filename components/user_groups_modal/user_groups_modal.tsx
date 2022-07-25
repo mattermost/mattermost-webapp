@@ -3,22 +3,35 @@
 
 import ChevronDownIcon from '@mattermost/compass-icons/components/chevron-down';
 import React, {createRef, RefObject} from 'react';
-import {CheckIcon, DotsHorizontalIcon, DotsVerticalIcon, MagnifyIcon} from '@mattermost/compass-icons/components';
-import {IconButton, List, ListItem, ListItemText, MenuItem, SelectChangeEvent, Typography} from '@mui/material';
+import {
+    CheckIcon,
+    MagnifyIcon,
+} from '@mattermost/compass-icons/components';
+import {
+    ListItemText,
+    SelectChangeEvent,
+} from '@mui/material';
 
 import Modal from 'components/compass/modal/modal';
 
-import Constants from 'utils/constants';
+import Constants, {ModalIdentifiers} from 'utils/constants';
 
 import {Group, GroupSearachParams} from '@mattermost/types/groups';
 
-import './user_groups_modal.scss';
 import {debounce} from 'mattermost-redux/actions/helpers';
 import Button from '../compass/button/button';
 import TextField from '../compass/textfield/textfield';
 import ModalTitle from '../compass/modal/modal_title';
 import Select from '../compass/select/select';
 import ListItemIcon from '../compass/list-item-icon/list-item-icon';
+import MenuItem from '../compass/menu-item/menu-item';
+import CreateUserGroupsModal from '../create_user_groups_modal';
+
+import UserGroupsList from './user_groups_list';
+
+import {Actions} from './index';
+
+import './user_groups_modal.scss';
 
 const GROUPS_PER_PAGE = 60;
 
@@ -29,25 +42,7 @@ export type Props = {
     searchTerm: string;
     currentUserId: string;
     backButtonAction: () => void;
-    actions: {
-        getGroups: (
-            filterAllowReference?: boolean,
-            page?: number,
-            perPage?: number,
-            includeMemberCount?: boolean
-        ) => Promise<{data: Group[]}>;
-        setModalSearchTerm: (term: string) => void;
-        getGroupsByUserIdPaginated: (
-            userId: string,
-            filterAllowReference?: boolean,
-            page?: number,
-            perPage?: number,
-            includeMemberCount?: boolean
-        ) => Promise<{data: Group[]}>;
-        searchGroups: (
-            params: GroupSearachParams,
-        ) => Promise<{data: Group[]}>;
-    };
+    actions: Actions;
 }
 
 type FilterOptions = 'my' | 'all';
@@ -68,7 +63,7 @@ type State = {
 }
 
 export default class UserGroupsModal extends React.PureComponent<Props, State> {
-    divScrollRef: RefObject<HTMLDivElement>;
+    divScrollRef: RefObject<HTMLUListElement>;
     private searchTimeoutId: number
     private filterOptions: FilterOptions[];
     private filterOptionLabels: FilterOptionLabels;
@@ -128,7 +123,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                 return;
             }
 
-            const searchTimeoutId = window.setTimeout(
+            this.searchTimeoutId = window.setTimeout(
                 async () => {
                     const params: GroupSearachParams = {
                         q: searchTerm,
@@ -146,8 +141,6 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                 },
                 Constants.SEARCH_TIMEOUT_MILLISECONDS,
             );
-
-            this.searchTimeoutId = searchTimeoutId;
         }
     }
 
@@ -195,10 +188,10 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
         const clientHeight = this.divScrollRef.current?.clientHeight || 0;
 
         if ((scrollTop + clientHeight + 30) >= scrollHeight) {
-            if (this.state.selectedFilter === 'all' && this.state.loading === false && !this.state.allGroupsFull) {
+            if (this.state.selectedFilter === 'all' && !this.state.loading && !this.state.allGroupsFull) {
                 this.scrollGetGroups();
             }
-            if (this.state.selectedFilter !== 'all' && this.props.myGroups.length % GROUPS_PER_PAGE === 0 && this.state.loading === false) {
+            if (this.state.selectedFilter !== 'all' && this.props.myGroups.length % GROUPS_PER_PAGE === 0 && !this.state.loading) {
                 this.scrollGetMyGroups();
             }
         }
@@ -228,81 +221,21 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
         this.setState({selectedFilter: 'all'});
     }
 
+    goToCreateModal = () => {
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.USER_GROUPS_CREATE,
+            dialogType: CreateUserGroupsModal,
+            dialogProps: {
+                backButtonCallback: this.props.backButtonAction,
+            },
+        });
+        this.props.onExited();
+    };
+
     render() {
-        // const groups = this.state.selectedFilter === 'all' ? this.props.groups : this.props.myGroups;
-
-        // return (
-        //     <Modal
-        //         isOpen={this.state.show}
-        //         dialogId='userGroupsModal'
-        //         dialogClassName='a11y__modal user-groups-modal'
-        //         onClose={this.doHide}
-        //         aria-labelledby='userGroupsModalLabel'
-        //         title='User Groups'
-        //     >
-        //         {(groups.length === 0 && !this.props.searchTerm) ? <NoResultsIndicator
-        //             variant={NoResultsVariant.UserGroups}
-        //                                                            /> : <>
-        //             <div className='user-groups-search'>
-        //                                                                    <FaSearchIcon/>
-        //                                                                    <Input
-        //                     type='text'
-        //                     placeholder={Utils.localizeMessage('user_groups_modal.searchGroups', 'Search Groups')}
-        //                     onChange={this.handleSearch}
-        //                     value={this.props.searchTerm}
-        //                     data-testid='searchInput'
-        //                     className={'user-group-search-input'}
-        //                 />
-        //                                                                </div>
-        //             <div className='more-modal__dropdown'>
-        //                                                                    <MenuWrapper id='groupsFilterDropdown'>
-        //                     <a>
-        //                                                                            <span>{this.state.selectedFilter === 'all' ? Utils.localizeMessage('user_groups_modal.showAllGroups', 'Show: All Groups') : Utils.localizeMessage('user_groups_modal.showMyGroups', 'Show: My Groups')}</span>
-        //                                                                            <span className='icon icon-chevron-down'/>
-        //                                                                        </a>
-        //                     <Menu
-        //                                                                            openLeft={false}
-        //                                                                            ariaLabel={Utils.localizeMessage('user_groups_modal.filterAriaLabel', 'Groups Filter Menu')}
-        //                                                                        >
-        //                                                                            <Menu.ItemAction
-        //                             id='groupsDropdownAll'
-        //                             buttonClass='groups-filter-btn'
-        //                             onClick={() => {
-        //                                 this.getGroups(0);
-        //                             }}
-        //                             text={Utils.localizeMessage('user_groups_modal.allGroups', 'All Groups')}
-        //                             rightDecorator={this.state.selectedFilter === 'all' && <i className='icon icon-check'/>}
-        //                         />
-        //                                                                            <Menu.ItemAction
-        //                             id='groupsDropdownMy'
-        //                             buttonClass='groups-filter-btn'
-        //                             onClick={() => {
-        //                                 this.getMyGroups(0);
-        //                             }}
-        //                             text={Utils.localizeMessage('user_groups_modal.myGroups', 'My Groups')}
-        //                             rightDecorator={this.state.selectedFilter !== 'all' && <i className='icon icon-check'/>}
-        //                         />
-        //                                                                        </Menu>
-        //                 </MenuWrapper>
-        //                                                                </div>
-        //             <UserGroupsList
-        //                                                                    groups={groups}
-        //                                                                    searchTerm={this.props.searchTerm}
-        //                                                                    loading={this.state.loading}
-        //                                                                    onScroll={this.onScroll}
-        //                                                                    ref={this.divScrollRef}
-        //                                                                    onExited={this.props.onExited}
-        //                                                                    backButtonAction={this.props.backButtonAction}
-        //                                                                />
-        //         </>
-        //         }
-        //     </Modal>
-        // );
-
         const groups = this.state.selectedFilter === 'all' ? this.props.groups : this.props.myGroups;
-
-        console.log('##### props', this.props);
         const handleChange = (e: React.ChangeEvent<HTMLInputElement| HTMLTextAreaElement>) => this.setState({value: e.target.value});
+
         return (
             <Modal
                 isOpen={this.state.show}
@@ -310,12 +243,11 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                 dialogClassName='a11y__modal user-groups-modal'
                 onClose={this.doHide}
                 aria-labelledby='userGroupsModalLabel'
-                onConfirm={() => {}}
             >
                 <ModalTitle
                     title={'User Groups'}
                     onClose={this.doHide}
-                    rightSection={<Button disableRipple={true}>{'Create user group'}</Button>}
+                    rightSection={<Button onClick={this.goToCreateModal}>{'Create Group'}</Button>}
                 >
                     <TextField
                         label='Search Groups'
@@ -363,30 +295,15 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                         })}
                     </Select>
                 </ModalTitle>
-                <List>
-                    {groups.map((group) => {
-                        const membersText = `${group.member_count} member${group.member_count > 1 ? 's' : ''}`;
-                        return (
-                            <ListItem
-                                key={group.id}
-                                secondaryAction={(
-                                    <IconButton>
-                                        <DotsVerticalIcon
-                                            size={18}
-                                            color={'currentColor'}
-                                        />
-                                    </IconButton>
-                                )}
-                            >
-                                <ListItemText disableTypography={true}>
-                                    <Typography variant={'body1'}>{group.display_name}</Typography>
-                                    <Typography variant={'body2'}>{`@${group.name}`}</Typography>
-                                    <Typography variant={'body2'}>{membersText}</Typography>
-                                </ListItemText>
-                            </ListItem>
-                        );
-                    })}
-                </List>
+                <UserGroupsList
+                    groups={groups}
+                    searchTerm={this.props.searchTerm}
+                    loading={this.state.loading}
+                    onScroll={this.onScroll}
+                    ref={this.divScrollRef}
+                    onExited={this.props.onExited}
+                    backButtonAction={this.props.backButtonAction}
+                />
             </Modal>
         );
     }

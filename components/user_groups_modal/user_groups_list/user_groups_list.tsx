@@ -1,22 +1,23 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {useCallback} from 'react';
+import {AccountMultipleOutlineIcon, DotsVerticalIcon, TrashCanOutlineIcon} from '@mattermost/compass-icons/components';
+import {Menu, Divider, IconButton, List, ListItem, ListItemButton, ListItemText, Typography} from '@mui/material';
 
-import {FormattedMessage} from 'react-intl';
+// See LICENSE.txt for license information.
+import React, {useCallback, useState} from 'react';
 
 import {Group, GroupPermissions} from '@mattermost/types/groups';
 
 import NoResultsIndicator from 'components/no_results_indicator';
 import {NoResultsVariant} from 'components/no_results_indicator/types';
-import LoadingScreen from 'components/loading_screen';
-import MenuWrapper from 'components/widgets/menu/menu_wrapper';
-import Menu from 'components/widgets/menu/menu';
 
-import * as Utils from 'utils/utils';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {ModalData} from 'types/actions';
 import {ModalIdentifiers} from 'utils/constants';
 import ViewUserGroupModal from 'components/view_user_group_modal';
+import ListItemIcon from '../../compass/list-item-icon/list-item-icon';
+import MenuItem from '../../compass/menu-item/menu-item';
+import LoadingScreen from '../../loading_screen';
 
 export type Props = {
     groups: Group[];
@@ -32,7 +33,7 @@ export type Props = {
     };
 }
 
-const UserGroupsList = React.forwardRef((props: Props, ref?: React.Ref<HTMLDivElement>) => {
+const UserGroupsList = React.forwardRef((props: Props, ref?: React.Ref<HTMLUListElement>) => {
     const {
         groups,
         searchTerm,
@@ -46,7 +47,7 @@ const UserGroupsList = React.forwardRef((props: Props, ref?: React.Ref<HTMLDivEl
 
     const archiveGroup = useCallback(async (groupId: string) => {
         await actions.archiveGroup(groupId);
-    }, [actions.archiveGroup]);
+    }, [actions]);
 
     const goToViewGroupModal = useCallback((group: Group) => {
         actions.openModal({
@@ -61,93 +62,152 @@ const UserGroupsList = React.forwardRef((props: Props, ref?: React.Ref<HTMLDivEl
             },
         });
         onExited();
-    }, [actions.openModal, onExited, backButtonAction]);
+    }, [actions, backButtonAction, onExited]);
+
+    if (loading) {
+        return <LoadingScreen/>;
+    }
+
+    if (groups.length === 0 && !searchTerm) {
+        return (
+            <NoResultsIndicator
+                variant={NoResultsVariant.UserGroups}
+            />
+        );
+    }
 
     return (
-        <div
-            className='user-groups-modal__content user-groups-list'
+        <List
             onScroll={onScroll}
             ref={ref}
         >
-            {(groups.length === 0 && searchTerm) &&
-                <NoResultsIndicator
-                    variant={NoResultsVariant.ChannelSearch}
-                    titleValues={{channelName: `"${searchTerm}"`}}
-                />
-            }
             {groups.map((group) => {
+                const membersText = `${group.member_count} member${group.member_count > 1 ? 's' : ''}`;
                 return (
-                    <div
-                        className='group-row'
+                    <ListItemButton
                         key={group.id}
+                        disableGutters={true}
+                        dense={true}
                         onClick={() => {
                             goToViewGroupModal(group);
                         }}
                     >
-                        <span className='group-display-name'>
-                            {group.display_name}
-                        </span>
-                        <span className='group-name'>
-                            {'@'}{group.name}
-                        </span>
-                        <div className='group-member-count'>
-                            <FormattedMessage
-                                id='user_groups_modal.memberCount'
-                                defaultMessage='{member_count} {member_count, plural, one {member} other {members}}'
-                                values={{
-                                    member_count: group.member_count,
+                        <ListItem
+                            secondaryAction={(
+                                <GroupItemMenu
+                                    group={group}
+                                    viewGroup={goToViewGroupModal}
+                                    archiveGroup={archiveGroup}
+                                    groupPermissionsMap={groupPermissionsMap}
+                                />
+                            )}
+                        >
+                            <ListItemText
+                                disableTypography={true}
+                                sx={{
+                                    width: '100%',
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    gap: 1,
                                 }}
-                            />
-                        </div>
-                        <div className='group-action'>
-                            <MenuWrapper
-                                isDisabled={false}
-                                stopPropagationOnToggle={true}
-                                id={`customWrapper-${group.id}`}
                             >
-                                <button className='action-wrapper'>
-                                    <i className='icon icon-dots-vertical'/>
-                                </button>
-                                <Menu
-                                    openLeft={true}
-                                    openUp={false}
-                                    className={'group-actions-menu'}
-                                    ariaLabel={Utils.localizeMessage('admin.user_item.menuAriaLabel', 'User Actions Menu')}
+                                <Typography variant={'body1'}>{group.display_name}</Typography>
+                                <Typography variant={'body2'}>{`@${group.name}`}</Typography>
+                                <Typography
+                                    variant={'body2'}
+                                    sx={{marginLeft: 'auto', fontSize: '1.2rem'}}
                                 >
-                                    <Menu.Group>
-                                        <Menu.ItemAction
-                                            onClick={() => {
-                                                goToViewGroupModal(group);
-                                            }}
-                                            icon={<i className='icon-account-multiple-outline'/>}
-                                            text={Utils.localizeMessage('user_groups_modal.viewGroup', 'View Group')}
-                                            disabled={false}
-                                        />
-                                    </Menu.Group>
-                                    <Menu.Group>
-                                        <Menu.ItemAction
-                                            show={groupPermissionsMap[group.id].can_delete}
-                                            onClick={() => {
-                                                archiveGroup(group.id);
-                                            }}
-                                            icon={<i className='icon-archive-outline'/>}
-                                            text={Utils.localizeMessage('user_groups_modal.archiveGroup', 'Archive Group')}
-                                            disabled={false}
-                                            isDangerous={true}
-                                        />
-                                    </Menu.Group>
-                                </Menu>
-                            </MenuWrapper>
-                        </div>
-                    </div>
+                                    {membersText}
+                                </Typography>
+                            </ListItemText>
+                        </ListItem>
+                    </ListItemButton>
                 );
             })}
-            {
-                (loading) &&
-                <LoadingScreen/>
-            }
-        </div>
+        </List>
     );
 });
+
+type GroupItemMenuProps = {
+    group: Group;
+    archiveGroup: (groupId: string) => void;
+    viewGroup: (group: Group) => void;
+    groupPermissionsMap: Props['groupPermissionsMap'];
+}
+
+const GroupItemMenu = ({group, viewGroup, archiveGroup, groupPermissionsMap}: GroupItemMenuProps) => {
+    const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+
+    const open = Boolean(anchorEl);
+
+    const handleClose = () => setAnchorEl(null);
+    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+        event.stopPropagation();
+        setAnchorEl(event.currentTarget);
+    };
+
+    return (
+        <>
+            <IconButton
+                size='small'
+                onClick={handleClick}
+                aria-controls={open ? 'demo-customized-menu' : undefined}
+                aria-haspopup='true'
+                aria-expanded={open ? 'true' : undefined}
+            >
+                <DotsVerticalIcon
+                    size={18}
+                    color={'currentColor'}
+                />
+            </IconButton>
+            <Menu
+                anchorOrigin={{
+                    horizontal: 'right',
+                    vertical: 'bottom',
+                }}
+                transformOrigin={{
+                    vertical: -4,
+                    horizontal: 'right',
+                }}
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                MenuListProps={{
+                    'aria-labelledby': 'demo-customized-button',
+                }}
+            >
+                <MenuItem onClick={() => viewGroup(group)}>
+                    <ListItemIcon position={'start'}>
+                        <AccountMultipleOutlineIcon
+                            size={18}
+                            color={'currentColor'}
+                        />
+                    </ListItemIcon>
+                    {'View Group'}
+                </MenuItem>
+                {groupPermissionsMap[group.id].can_delete && (
+                    <>
+                        <Divider/>
+                        <MenuItem
+                            destructive={true}
+                            onClick={() => {
+                                archiveGroup(group.id);
+                            }}
+                        >
+                            <ListItemIcon position={'start'}>
+                                <TrashCanOutlineIcon
+                                    size={18}
+                                    color={'currentColor'}
+                                />
+                            </ListItemIcon>
+                            {'Archive Group'}
+                        </MenuItem>
+                    </>
+                )}
+            </Menu>
+        </>
+    );
+};
 
 export default React.memo(UserGroupsList);

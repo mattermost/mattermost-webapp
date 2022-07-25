@@ -26,6 +26,7 @@ const StyledModalTitle = styled(MUIDialogTitle)<DialogTitleProps>(({hasCloseButt
 
 const StyledModalTitleSection = styled('div')(() => ({
     padding: '0 32px 24px 32px',
+    borderBottom: '1px solid rgba(var(--center-channel-text-rgb), 0.12)',
 }));
 
 type ModalTitleProps = {
