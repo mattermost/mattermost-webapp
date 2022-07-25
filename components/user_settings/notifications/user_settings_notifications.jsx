@@ -17,7 +17,7 @@ import {isDesktopApp} from 'utils/user_agent';
 
 import DesktopNotificationSettings from './desktop_notification_setting/desktop_notification_settings.tsx';
 import EmailNotificationSetting from './email_notification_setting';
-import ManageAutoResponder from './manage_auto_responder.jsx';
+import ManageAutoResponder from './manage_auto_responder/manage_auto_responder';
 
 function getNotificationsStateFromProps(props) {
     const user = props.user;
