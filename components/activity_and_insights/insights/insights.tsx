@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {trackEvent} from 'actions/telemetry_actions';
 import {selectChannel} from 'mattermost-redux/actions/channels';
 import LocalStorageStore from 'stores/local_storage_store';
-import {useLocalStorageState} from 'stores/hooks';
+import {useGlobalState} from 'stores/hooks';
 
 import {CardSizes, InsightsWidgetTypes, TimeFrame, TimeFrames} from '@mattermost/types/insights';
 
@@ -31,8 +31,9 @@ type SelectOption = {
 
 const Insights = () => {
     const dispatch = useDispatch();
-    const [filterType, setFilterType] = useLocalStorageState('insightsScope', InsightsScopes.TEAM);
-    const [timeFrame, setTimeFrame] = useLocalStorageState('insightsTimeFrame', TimeFrames.INSIGHTS_7_DAYS);
+
+    const [filterType, setFilterType] = useGlobalState(InsightsScopes.TEAM, 'insightsScope');
+    const [timeFrame, setTimeFrame] = useGlobalState(TimeFrames.INSIGHTS_7_DAYS as string, 'insightsTimeFrame');
     const focalboardEnabled = useSelector((state: GlobalState) => state.plugins.plugins?.focalboard);
 
     const setFilterTypeTeam = useCallback(() => {
