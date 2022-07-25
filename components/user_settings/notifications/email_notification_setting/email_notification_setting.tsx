@@ -11,6 +11,7 @@ import {Preferences, NotificationLevels} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
+import {UserNotifyProps} from '@mattermost/types/users';
 
 const SECONDS_PER_MINUTE = 60;
 
@@ -22,7 +23,7 @@ type Props = {
     emailInterval: number;
     onSubmit: () => void;
     onCancel: () => void;
-    onChange: (enableEmail: string) => void;
+    onChange: (enableEmail: UserNotifyProps['email']) => void;
     serverError?: string;
     saving?: boolean;
     sendEmailNotifications: boolean;
@@ -115,7 +116,7 @@ export default class EmailNotificationSetting extends React.PureComponent<Props,
             newInterval,
         });
 
-        this.props.onChange(enableEmail);
+        this.props.onChange(enableEmail as UserNotifyProps['email']);
     }
 
     handleThreadsOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
