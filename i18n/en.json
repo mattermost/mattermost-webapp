@@ -5312,5 +5312,12 @@
   "workspace_limits.upgrade_professional": "Professional plan data limit",
   "workspace_limits.upgrade_reasons.professional": "On the Professional plan you can only view the most recent {fileStorage} of files. With Enterprise, experience unlimited file storage.",
   "workspace_limits.upgrade_reasons.starter": "{planName} is restricted to {messagesLimit} message history, {storageLimit} file storage, {appsLimit} apps, and {boardsCardsLimit} board cards.  You can delete items to free up space or upgrade to a paid plan.",
+  "workspace_limits.upgrade_for_file.tooltip.file": "Unarchive this file by upgrading",
+  "workspace_limits.upgrade_for_file.tooltip.description": "Your workspace has hit the file storage limit of {storageLimit}. To view this again, {upgradeVariant}",
+  "workspace_limits.upgrade_for_file.upgrade_to_paid": "upgrade to a paid plan",
+  "workspace_limits.upgrade_for_file.upgrade_paid_tier": "upgrade your plan",
+  "workspace_limits.upgrade_for_file.archive_warning": "Your free plan is limited to {storageLimit} of files. New uploads will automatically archive older files.",
+  "workspace_limits.upgrade_for_file.archive_warning.admin_cta": "To view them again, you can delete older files or <a>{upgradeVariant}.</a>",
+  "workspace_limits.upgrade_for_file.archive_warning.end_user_cta": "To view them again, notify your admin to <a>{upgradeVariant}</a>.",
   "yourcomputer": "Your computer"
 }

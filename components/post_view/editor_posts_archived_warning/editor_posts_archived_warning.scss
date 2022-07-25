@@ -1,0 +1,8 @@
+.EditorPostsArchivedWarning {
+    background: rgba(var(--away-indicator-rgb, 0.16));
+    border: 1px solid var(--away-indicator);
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
