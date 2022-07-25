@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {Dispatch, bindActionCreators, ActionCreatorsMapObject} from 'redux';
 
-import {getRecentPostsChunkInChannel, makeGetPostsChunkAroundPost, getUnreadPostsChunk, getPost, isPostsChunkIncludingUnreadsPosts} from 'mattermost-redux/selectors/entities/posts';
+import {getRecentPostsChunkInChannel, makeGetPostsChunkAroundPost, getUnreadPostsChunk, getPost, isPostsChunkIncludingUnreadsPosts, getLimitedViews} from 'mattermost-redux/selectors/entities/posts';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 import {Action} from 'mattermost-redux/types/actions';
 import {markChannelAsRead, markChannelAsViewed} from 'mattermost-redux/actions/channels';
@@ -56,6 +56,8 @@ function makeMapStateToProps() {
         const channelViewState = state.views.channel;
         const lastViewedAt = channelViewState.lastChannelViewTime[channelId];
         const isPrefetchingInProcess = channelViewState.channelPrefetchStatus[channelId] === RequestStatus.STARTED;
+        const limitedViews = getLimitedViews(state);
+        const hasInaccessiblePosts = Boolean(limitedViews.channels[channelId]) || limitedViews.channels[channelId] === 0;
 
         const focusedPost = getPost(state, focusedPostId || '');
 
@@ -95,6 +97,7 @@ function makeMapStateToProps() {
             isPrefetchingInProcess,
             shouldStartFromBottomWhenUnread,
             isMobileView: getIsMobileView(state),
+            hasInaccessiblePosts,
         };
     };
 }
