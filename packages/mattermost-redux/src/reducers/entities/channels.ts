@@ -190,22 +190,22 @@ function channels(state: IDMappedObjects<Channel> = {}, action: GenericAction) {
     }
 
     case PostTypes.RECEIVED_NEW_POST: {
-        const {channel_id, create_at, root_id} = action.data; //eslint-disable-line @typescript-eslint/naming-convention
-        const isCrtReply = action.features?.crtEnabled && root_id !== '';
+        const {channel_id: channelId, create_at: createAt, root_id: rootId} = action.data;
+        const isCrtReply = action.features?.crtEnabled && rootId !== '';
 
-        const channel = state[channel_id];
+        const channel = state[channelId];
 
         if (!channel) {
             return state;
         }
 
-        const lastRootPostAt = isCrtReply ? channel.last_root_post_at : Math.max(create_at, channel.last_root_post_at);
+        const lastRootPostAt = isCrtReply ? channel.last_root_post_at : Math.max(createAt, channel.last_root_post_at);
 
         return {
             ...state,
-            [channel_id]: {
+            [channelId]: {
                 ...channel,
-                last_post_at: Math.max(create_at, channel.last_post_at),
+                last_post_at: Math.max(createAt, channel.last_post_at),
                 last_root_post_at: lastRootPostAt,
             },
         };
@@ -336,6 +336,10 @@ export function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = 
         } = action.data;
         const member = state[channelId];
 
+        if (amount === amountRoot) {
+            return state;
+        }
+
         if (!member) {
             // Don't keep track of unread posts until we've loaded the actual channel member
             return state;
@@ -363,6 +367,10 @@ export function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = 
     case ChannelTypes.DECREMENT_UNREAD_MSG_COUNT: {
         const {channelId, amount, amountRoot} = action.data;
 
+        if (amount === amountRoot) {
+            return state;
+        }
+
         const member = state[channelId];
 
         if (!member) {
@@ -386,6 +394,11 @@ export function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = 
             amountRoot,
             fetchedChannelMember,
         } = action.data;
+
+        if (amount === amountRoot) {
+            return state;
+        }
+
         const member = state[channelId];
 
         if (!member) {
@@ -409,6 +422,11 @@ export function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = 
     }
     case ChannelTypes.DECREMENT_UNREAD_MENTION_COUNT: {
         const {channelId, amount, amountRoot} = action.data;
+
+        if (amount === amountRoot) {
+            return state;
+        }
+
         const member = state[channelId];
 
         if (!member) {
