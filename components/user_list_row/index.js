@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 
 import {getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
 
-import UserListRow from './user_list_row.jsx';
+import UserListRow from './user_list_row';
 
 function mapStateToProps(state, ownProps) {
     const user = ownProps.user || {};

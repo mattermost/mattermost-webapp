@@ -313,7 +313,7 @@ export const KEYBOARD_SHORTCUTS = {
         },
         mac: {
             id: t('shortcuts.msgs.markdown.formatting.mac'),
-            defaultMessage: 'Show/Hide Formatting:\t⌘|Alt|T',
+            defaultMessage: 'Show/Hide Formatting:\t⌘|⌥|T',
         },
     },
     msgShowEmojiPicker: {
@@ -353,7 +353,7 @@ export const KEYBOARD_SHORTCUTS = {
         },
         mac: {
             id: t('shortcuts.msgs.markdown.link.mac'),
-            defaultMessage: 'Link:\t⌘|Alt|K',
+            defaultMessage: 'Link:\t⌘|⌥|K',
         },
     },
     filesUpload: {

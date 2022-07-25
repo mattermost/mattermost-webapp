@@ -21,7 +21,7 @@ jest.mock('actions/global_actions', () => ({
     emitUserPostedEvent: jest.fn(),
 }));
 
-jest.mock('actions/post_actions.jsx', () => ({
+jest.mock('actions/post_actions', () => ({
     createPost: jest.fn(() => {
         return new Promise((resolve) => {
             process.nextTick(() => resolve());

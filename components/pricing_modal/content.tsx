@@ -92,7 +92,7 @@ function Content(props: ContentProps) {
             return;
         }
 
-        const result = await dispatch(subscribeCloudSubscription(starterProduct?.id));
+        const result = await dispatch(subscribeCloudSubscription(starterProduct.id));
 
         if (typeof result === 'boolean' && result) {
             dispatch(closeModal(ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM));
@@ -200,7 +200,7 @@ function Content(props: ContentProps) {
                                             modalId: ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM,
                                             dialogType: DowngradeTeamRemovalModal,
                                             dialogProps: {
-                                                product_id: starterProduct?.id,
+                                                product_id: starterProduct.id,
                                                 starterProduct,
                                             },
                                         }),
@@ -210,7 +210,7 @@ function Content(props: ContentProps) {
                                 }
                             },
                             text: formatMessage({id: 'pricing_modal.btn.downgrade', defaultMessage: 'Downgrade'}),
-                            disabled: isStarter || !isAdmin,
+                            disabled: isStarter || isEnterprise || !isAdmin,
                             customClass: ButtonCustomiserClasses.secondary,
                         }}
                         planLabel={

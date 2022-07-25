@@ -393,7 +393,7 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
                             >
                                 <FilePreviewModalHeader
                                     isMobileView={this.props.isMobileView}
-                                    post={this.props.post}
+                                    post={this.props.post!}
                                     showPublicLink={showPublicLink}
                                     fileIndex={this.state.imageIndex}
                                     totalFiles={this.props.fileInfos?.length}

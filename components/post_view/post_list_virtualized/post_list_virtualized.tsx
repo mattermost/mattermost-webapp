@@ -9,6 +9,9 @@ import {DynamicSizeList, OnItemsRenderedArgs} from 'dynamic-virtualized-list';
 import {isDateLine, isStartOfNewMessages} from 'mattermost-redux/utils/post_list';
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
+import type {updateNewMessagesAtInChannel} from 'actions/global_actions';
+import type {CanLoadMorePosts} from 'actions/views/channel';
+
 import Constants, {PostListRowListIds, EventTypes, PostRequestTypes} from 'utils/constants';
 import DelayedAction from 'utils/delayed_action';
 import {getPreviousPostId, getLatestPostId, getNewMessageIndex} from 'utils/post_utils';
@@ -51,7 +54,7 @@ type Props = {
      * Array of Ids in the channel including date separators, new message indicator, more messages loader,
      * manual load messages trigger and postId in the order of newest to oldest for populating virtual list rows
      */
-    postListIds: string[];
+    postListIds?: string[];
 
     /*
      * The current channel id
@@ -82,7 +85,7 @@ type Props = {
     atLatestPost?: boolean;
 
     latestPostTimeStamp?: number;
-    lastViewedAt?: string;
+    lastViewedAt: number;
 
     /*
      * Set to focus this post
@@ -96,17 +99,17 @@ type Props = {
         /*
          * Function to get older posts in the channel
          */
-        loadOlderPosts: () => void;
+        loadOlderPosts: () => Promise<void>;
 
         /*
          * Function to get newer posts in the channel
          */
-        loadNewerPosts: () => void;
+        loadNewerPosts: () => Promise<void>;
 
         /*
          * Function used for autoLoad of posts incase screen is not filled with posts
          */
-        canLoadMorePosts: (postRequestTypes?: string) => boolean;
+        canLoadMorePosts: (type: CanLoadMorePosts) => Promise<void>;
 
         /*
          * Function to check and set if app is in mobile view
@@ -116,9 +119,9 @@ type Props = {
         /*
          * Function to change the post selected for postList
          */
-        changeUnreadChunkTimeStamp: (lastViewedAt?: string) => void;
+        changeUnreadChunkTimeStamp: (lastViewedAt: number) => void;
 
-        updateNewMessagesAtInChannel: (channelId: string, timeStamp: number) => void;
+        updateNewMessagesAtInChannel: typeof updateNewMessagesAtInChannel;
 
         toggleShouldStartFromBottomWhenUnread: () => void;
     };
@@ -188,16 +191,16 @@ export default class PostList extends React.PureComponent<Props, State> {
 
         let postIndex = 0;
         if (props.focusedPostId) {
-            postIndex = this.props.postListIds.findIndex((postId) => postId === this.props.focusedPostId);
+            postIndex = (this.props.postListIds || []).findIndex((postId) => postId === this.props.focusedPostId);
         } else {
-            postIndex = this.getNewMessagesSeparatorIndex(props.postListIds);
+            postIndex = this.getNewMessagesSeparatorIndex(props.postListIds || []);
         }
-        this.newMessageLineIndex = this.getNewMessagesSeparatorIndex(props.postListIds);
+        this.newMessageLineIndex = this.getNewMessagesSeparatorIndex(props.postListIds || []);
 
         const maxPostsForSlicing = props.focusedPostId ? MAXIMUM_POSTS_FOR_SLICING.permalink : MAXIMUM_POSTS_FOR_SLICING.channel;
         this.initRangeToRender = [
             Math.max(postIndex - 30, 0),
-            Math.max(postIndex + 30, Math.min(props.postListIds.length - 1, maxPostsForSlicing)),
+            Math.max(postIndex + 30, Math.min((props.postListIds || []).length - 1, maxPostsForSlicing)),
         ];
         this.showSearchHintThreshold = this.getShowSearchHintThreshold();
     }
@@ -212,7 +215,7 @@ export default class PostList extends React.PureComponent<Props, State> {
 
     getSnapshotBeforeUpdate(prevProps: Props) {
         if (this.postListRef && this.postListRef.current) {
-            const postsAddedAtTop = this.props.postListIds && this.props.postListIds.length !== prevProps.postListIds.length && this.props.postListIds[0] === prevProps.postListIds[0];
+            const postsAddedAtTop = this.props.postListIds && this.props.postListIds.length !== (prevProps.postListIds || []).length && this.props.postListIds[0] === (prevProps.postListIds || [])[0];
             const channelHeaderAdded = this.props.atOldestPost !== prevProps.atOldestPost;
             if ((postsAddedAtTop || channelHeaderAdded) && this.state.atBottom === false) {
                 const postListNode = this.postListRef.current;
@@ -228,7 +231,7 @@ export default class PostList extends React.PureComponent<Props, State> {
         return null;
     }
 
-    componentDidUpdate(prevProps: Props, prevState: State, snapshot: {previousScrollTop: number; previousScrollHeight: number}) {
+    componentDidUpdate(prevProps: Props, _prevState: State, snapshot: {previousScrollTop: number; previousScrollHeight: number}) {
         if (this.props.isMobileView && !prevProps.isMobileView) {
             this.scrollStopAction = new DelayedAction(this.handleScrollStop);
         }
@@ -236,14 +239,14 @@ export default class PostList extends React.PureComponent<Props, State> {
         if (!this.postListRef.current) {
             return;
         }
-        const prevPostsCount = prevProps.postListIds.length;
-        const presentPostsCount = this.props.postListIds.length;
+        const prevPostsCount = (prevProps.postListIds || []).length;
+        const presentPostsCount = (this.props.postListIds || []).length;
 
-        this.newMessageLineIndex = this.getNewMessagesSeparatorIndex(this.props.postListIds);
+        this.newMessageLineIndex = this.getNewMessagesSeparatorIndex(this.props.postListIds || []);
 
         if (snapshot) {
             const postlistScrollHeight = this.postListRef.current.scrollHeight;
-            const postsAddedAtTop = presentPostsCount !== prevPostsCount && this.props.postListIds[0] === prevProps.postListIds[0];
+            const postsAddedAtTop = presentPostsCount !== prevPostsCount && (this.props.postListIds || [])[0] === (prevProps.postListIds || [])[0];
             const channelHeaderAdded = this.props.atOldestPost !== prevProps.atOldestPost;
             if ((postsAddedAtTop || channelHeaderAdded) && !this.state.atBottom && snapshot) {
                 const scrollValue = snapshot.previousScrollTop + (postlistScrollHeight - snapshot.previousScrollHeight);
@@ -262,7 +265,7 @@ export default class PostList extends React.PureComponent<Props, State> {
     }
 
     static getDerivedStateFromProps(props: Props, state: State) {
-        const postListIds = props.postListIds;
+        const postListIds = props.postListIds || [];
         let newPostListIds;
 
         if (props.atOldestPost) {
@@ -383,7 +386,7 @@ export default class PostList extends React.PureComponent<Props, State> {
 
     scrollToFailed = (index: number) => {
         if (index === 0) {
-            this.props.actions.changeUnreadChunkTimeStamp('');
+            this.props.actions.changeUnreadChunkTimeStamp(0);
         } else {
             this.props.actions.changeUnreadChunkTimeStamp(this.props.lastViewedAt);
         }
@@ -587,7 +590,7 @@ export default class PostList extends React.PureComponent<Props, State> {
             this.scrollToBottom();
         } else {
             this.updateNewMessagesAtInChannel();
-            this.props.actions.changeUnreadChunkTimeStamp('');
+            this.props.actions.changeUnreadChunkTimeStamp(0);
         }
     }
 
@@ -655,7 +658,7 @@ export default class PostList extends React.PureComponent<Props, State> {
                         />
                         <ScrollToBottomArrows
                             isScrolling={this.state.isScrolling}
-                            atBottom={this.state.atBottom}
+                            atBottom={Boolean(this.state.atBottom)}
                             onClick={this.scrollToBottom}
                         />
                     </React.Fragment>

@@ -215,7 +215,6 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
           />
         </div>
         <Connect(ReactionList)
-          isReadOnly={false}
           post={
             Object {
               "channel_id": "channel_id",
@@ -456,7 +455,6 @@ exports[`components/RhsRootPost should match snapshot hovered 1`] = `
           />
         </div>
         <Connect(ReactionList)
-          isReadOnly={false}
           post={
             Object {
               "channel_id": "channel_id",
@@ -697,7 +695,6 @@ exports[`components/RhsRootPost should match snapshot on CRT enabled 1`] = `
           />
         </div>
         <Connect(ReactionList)
-          isReadOnly={false}
           post={
             Object {
               "channel_id": "channel_id",
@@ -868,7 +865,6 @@ exports[`components/RhsRootPost should match snapshot on deleted post 1`] = `
           />
         </div>
         <Connect(ReactionList)
-          isReadOnly={false}
           post={
             Object {
               "channel_id": "channel_id",
@@ -1043,7 +1039,6 @@ exports[`components/RhsRootPost should match snapshot on flagged, deleted post 1
           />
         </div>
         <Connect(ReactionList)
-          isReadOnly={false}
           post={
             Object {
               "channel_id": "channel_id",
@@ -1286,7 +1281,6 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
           />
         </div>
         <Connect(ReactionList)
-          isReadOnly={false}
           post={
             Object {
               "channel_id": "channel_id",
