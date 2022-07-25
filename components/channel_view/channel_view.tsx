@@ -13,6 +13,7 @@ import PostView from 'components/post_view';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import AdvancedCreatePost from 'components/advanced_create_post';
+import EditorPostsArchivedWarning from 'components/editor_posts_archived_warning'
 
 type Props = {
     channelId: string;
@@ -171,6 +172,7 @@ export default class ChannelView extends React.PureComponent<Props, State> {
                         className='post-create__container AdvancedTextEditor__ctr'
                         id='post-create'
                     >
+                        <EditorPostsArchivedWarning />
                         <AdvancedCreatePost
                             getChannelView={this.getChannelView}
                         />
@@ -182,6 +184,7 @@ export default class ChannelView extends React.PureComponent<Props, State> {
                         className='post-create__container'
                         id='post-create'
                     >
+                        <EditorPostsArchivedWarning />
                         <CreatePost
                             getChannelView={this.getChannelView}
                         />

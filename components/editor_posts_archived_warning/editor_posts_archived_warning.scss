@@ -5,4 +5,8 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+
+    &:not(:last-child) {
+        margin-bottom: 12px;
+    }
 }
