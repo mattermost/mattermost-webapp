@@ -92,7 +92,7 @@ describe('Messaging', () => {
 
             cy.clickEmojiInEmojiPicker('wave');
 
-            var recentEmojis = ['wave emoji', '+1 emoji', 'grinning emoji'];
+            let recentEmojis = ['wave emoji', '+1 emoji', 'grinning emoji'];
 
             // # Hover over post again
             // * Verify most recent emoji is shown slotted in the 1st place, pushing white check mark emoji out
