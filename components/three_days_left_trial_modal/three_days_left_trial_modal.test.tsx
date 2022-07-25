@@ -88,7 +88,7 @@ describe('components/three_days_left_trial_modal/three_days_left_trial_modal', (
                 <ThreeDaysLeftTrialModal {...props}/>
             </Provider>,
         );
-        expect(wrapper).toMatchSnapshot();
+        expect(wrapper.debug()).toMatchSnapshot();
     });
 
     test('should match snapshot when limits are overpassed and show the limits panel', () => {
@@ -100,7 +100,7 @@ describe('components/three_days_left_trial_modal/three_days_left_trial_modal', (
                 />
             </Provider>,
         );
-        expect(wrapper).toMatchSnapshot();
+        expect(wrapper.debug()).toMatchSnapshot();
     });
 
     test('should show the three days left modal with the three cards', () => {

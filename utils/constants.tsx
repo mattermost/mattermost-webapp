@@ -613,7 +613,7 @@ export const CloudBanners = {
     HIDE: 'hide',
     TRIAL: 'trial',
     UPGRADE_FROM_TRIAL: 'upgrade_from_trial',
-    THREE_DAYS_LEFT_TRIAL_MODAL_DISMISSED: 'three_days_left_trial_modal_dismissed',
+    THREE_DAYS_LEFT_TRIAL_MODAL_DISMISSED: 'dismiss_3_days_left_trial_modal',
 };
 
 export const AdvancedTextEditor = {

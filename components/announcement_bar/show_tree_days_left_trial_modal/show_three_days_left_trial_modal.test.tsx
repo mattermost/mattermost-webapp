@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {mount, shallow} from 'enzyme';
+import {mount} from 'enzyme';
 
 import {FileSizes} from 'utils/file_utils';
 
@@ -29,8 +29,8 @@ describe('components/sidebar/show_three_days_left_trial_modal', () => {
                 admin: {},
                 preferences: {
                     myPreferences: {
-                        'cloud_trial_banner--three_days_left_trial_modal_dismissed': {
-                            name: 'three_days_left_trial_modal_dismissed',
+                        'cloud_trial_banner--dismiss_3_days_left_trial_modal': {
+                            name: 'dismiss_3_days_left_trial_modal',
                             value: 'false',
                         },
                     },
@@ -134,13 +134,6 @@ describe('components/sidebar/show_three_days_left_trial_modal', () => {
         };
     });
 
-    test('should match snapshot', () => {
-        const wrapper = shallow(
-            <ShowThreeDaysLeftTrialModal/>,
-        );
-        expect(wrapper).toMatchSnapshot();
-    });
-
     test('should show the modal when is cloud, free trial, admin, have not dimissed previously and there are less than 3 days in the trial, ', () => {
         mount(
             <ShowThreeDaysLeftTrialModal/>,
@@ -230,8 +223,8 @@ describe('components/sidebar/show_three_days_left_trial_modal', () => {
     test('should NOT show the modal when admin have already dismissed the modal', () => {
         const modalDismissedPreference = {
             myPreferences: {
-                'cloud_trial_banner--three_days_left_trial_modal_dismissed': {
-                    name: 'three_days_left_trial_modal_dismissed',
+                'cloud_trial_banner--dismiss_3_days_left_trial_modal': {
+                    name: 'dismiss_3_days_left_trial_modal',
                     value: 'true',
                 },
             },
