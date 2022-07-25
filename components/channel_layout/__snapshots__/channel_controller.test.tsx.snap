@@ -21,6 +21,7 @@ exports[`components/channel_layout/ChannelController Should match snapshot 1`] =
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
+          "displayName": "Connect(CenterChannel)",
           "type": [Function],
         }
       }

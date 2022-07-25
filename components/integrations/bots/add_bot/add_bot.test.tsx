@@ -6,6 +6,7 @@ import {shallow} from 'enzyme';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
+// import TestHelper from 'mattermost-redux/test/test_helper';
 import {TestHelper} from 'utils/test_helper';
 
 import AddBot from './add_bot';

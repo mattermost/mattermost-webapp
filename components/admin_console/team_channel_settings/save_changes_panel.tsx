@@ -4,13 +4,20 @@ import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
-import PropTypes from 'prop-types';
-
 import SaveButton from 'components/save_button';
 import {localizeMessage} from 'utils/utils';
 import BlockableLink from 'components/admin_console/blockable_link';
 
-export default function SaveChangesPanel({saveNeeded, onClick, saving, serverError, cancelLink, isDisabled}) {
+type Props = {
+    saving: boolean;
+    saveNeeded: boolean;
+    onClick: () => void;
+    cancelLink: string;
+    serverError?: JSX.Element;
+    isDisabled?: boolean;
+};
+
+const SaveChangesPanel = ({saveNeeded, onClick, saving, serverError, cancelLink, isDisabled}: Props) => {
     return (
         <div className='admin-console-save'>
             <SaveButton
@@ -35,13 +42,6 @@ export default function SaveChangesPanel({saveNeeded, onClick, saving, serverErr
             </div>
         </div>
     );
-}
-
-SaveChangesPanel.propTypes = {
-    saving: PropTypes.bool.isRequired,
-    saveNeeded: PropTypes.bool.isRequired,
-    onClick: PropTypes.func.isRequired,
-    cancelLink: PropTypes.string.isRequired,
-    serverError: PropTypes.node,
-    isDisabled: PropTypes.bool,
 };
+
+export default SaveChangesPanel;

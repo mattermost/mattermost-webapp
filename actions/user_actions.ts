@@ -240,15 +240,15 @@ export function loadNewDMIfNeeded(channelId: string) {
             return {data: false};
         }
 
-        let result = {data: false};
+        let result = {data: false} as ActionResult;
 
         const channel = getChannel(doGetState(), channelId);
         if (channel) {
             result = checkPreference(channel);
         } else {
-            const {data} = await getChannelAndMyMember(channelId)(doDispatch, doGetState) as ActionResult;
-            if (data) {
-                result = checkPreference(data.channel);
+            result = await getChannelAndMyMember(channelId)(doDispatch, doGetState) as ActionResult;
+            if (result.data) {
+                result = checkPreference(result.data.channel);
             }
         }
         return result;
@@ -274,12 +274,7 @@ export function loadNewGMIfNeeded(channelId: string) {
         if (!channel) {
             await getChannelAndMyMember(channelId)(doDispatch, doGetState);
         }
-<<<<<<< HEAD:actions/user_actions.ts
-        checkPreference();
-        return {data: true};
-=======
         return checkPreference();
->>>>>>> f527eff50942abbe9fadf0a992e7d68de466af3c:actions/user_actions.jsx
     };
 }
 

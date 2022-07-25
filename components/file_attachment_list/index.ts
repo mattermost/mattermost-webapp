@@ -22,7 +22,7 @@ export type OwnProps = {
     post: Post;
     compactDisplay?: boolean;
     isInPermalink?: boolean;
-    handleFileDropdownOpened: (open: boolean) => void;
+    handleFileDropdownOpened?: (open: boolean) => void;
 }
 
 function makeMapStateToProps() {
