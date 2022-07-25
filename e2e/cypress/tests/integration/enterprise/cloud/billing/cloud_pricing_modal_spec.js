@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-function simulateSubscription(subscription) {
+function simulateSubscription(subscription, withLimits = true) {
     cy.intercept('GET', '**/api/v4/cloud/subscription', {
         statusCode: 200,
         body: subscription,
@@ -36,6 +36,17 @@ function simulateSubscription(subscription) {
             },
         ],
     });
+
+    if (withLimits) {
+        cy.intercept('GET', '**/api/v4/cloud/limits', {
+            statusCode: 200,
+            body: {
+                messages: {
+                    history: 10000,
+                },
+            },
+        });
+    }
 }
 
 describe('Pricing modal', () => {
@@ -334,6 +345,29 @@ describe('Pricing modal', () => {
 
         cy.get('.CloudUsageModal').should('exist');
         cy.get('.CloudUsageModal').contains('Cloud Starter limits');
+    });
+
+    it('should not show starter disclaimer CTA when on legacy starter product that has no limits', () => {
+        const subscription = {
+            id: 'sub_test1',
+            product_id: 'prod_1',
+            is_free_trial: 'false',
+            trial_end_at: 100000000, // signifies that this subscription has trialled before
+        };
+        simulateSubscription(subscription, false);
+        cy.apiLogout();
+        cy.apiAdminLogin();
+        cy.visit(urlL);
+
+        // # Open the pricing modal
+        cy.get('#UpgradeButton').should('exist').click();
+
+        // * Pricing modal should be open
+        cy.get('#pricingModal').should('exist');
+        cy.get('#pricingModal').get('.PricingModal__header').contains('Select a plan');
+
+        // * CTA should not show when there are no limits
+        cy.get('#pricingModal').get('#starter_plan_data_restrictions_cta').should('not.exist');
     });
 
     it('should allow downgrades from professional plans', () => {
