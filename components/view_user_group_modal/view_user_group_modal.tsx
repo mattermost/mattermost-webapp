@@ -11,7 +11,6 @@ import {UserProfile} from '@mattermost/types/users';
 
 import Constants from 'utils/constants';
 
-import FaSearchIcon from 'components/widgets/icons/fa_search_icon';
 import * as Utils from 'utils/utils';
 import LoadingScreen from 'components/loading_screen';
 import {Group} from '@mattermost/types/groups';
