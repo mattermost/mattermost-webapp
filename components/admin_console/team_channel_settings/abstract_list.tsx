@@ -1,38 +1,51 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, {MouseEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
+import {Group} from '@mattermost/types/groups';
+import {Team} from '@mattermost/types/teams';
+
 import NextIcon from 'components/widgets/icons/fa_next_icon';
 import PreviousIcon from 'components/widgets/icons/fa_previous_icon';
+import {TeamWithMembership} from '../system_user_detail/team_list/types';
 
 export const PAGE_SIZE = 10;
 
-export default class AbstractList extends React.PureComponent {
-    static propTypes = {
-        data: PropTypes.arrayOf(PropTypes.object),
-        onPageChangedCallback: PropTypes.func,
-        total: PropTypes.number.isRequired,
-        header: PropTypes.node.isRequired,
-        renderRow: PropTypes.func.isRequired,
-        emptyListTextId: PropTypes.string.isRequired,
-        emptyListTextDefaultMessage: PropTypes.string.isRequired,
-        actions: PropTypes.shape({
-            getData: PropTypes.func.isRequired,
-            removeGroup: PropTypes.func,
-        }).isRequired,
-        noPadding: PropTypes.bool,
-    };
+type Paging = {
+    startCount: number;
+    endCount: number;
+    total: number;
+};
 
+type Props = {
+    data: Array<Group | TeamWithMembership>;
+    onPageChangedCallback?: (page: Paging, data: Array<Group | Team>) => void;
+    total: number;
+    header: JSX.Element;
+    renderRow: (item: Group | TeamWithMembership) => JSX.Element;
+    emptyListTextId: string;
+    emptyListTextDefaultMessage: string;
+    actions: {
+        getData: (page: number, perPage: number, notAssociatedToGroup?: string, excludeDefaultChannels?: boolean, includeDeleted?: boolean) => Promise<Array<Group | Team>>;
+    };
+    noPadding?: boolean;
+};
+
+type State = {
+    loading: boolean;
+    page: number;
+};
+
+export default class AbstractList extends React.PureComponent<Props, State> {
     static defaultProps = {
         data: [],
         noPadding: false,
     };
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
         this.state = {
             loading: true,
@@ -44,28 +57,28 @@ export default class AbstractList extends React.PureComponent {
         this.performSearch(this.state.page);
     }
 
-    previousPage = async (e) => {
+    previousPage = async (e: MouseEvent<HTMLButtonElement>): Promise<void> => {
         e.preventDefault();
         const page = this.state.page < 1 ? 0 : this.state.page - 1;
         this.setState({page, loading: true});
         this.performSearch(page);
     }
 
-    nextPage = async (e) => {
+    nextPage = async (e: MouseEvent<HTMLButtonElement>): Promise<void> => {
         e.preventDefault();
         const page = this.state.page + 1;
         this.setState({page, loading: true});
         this.performSearch(page);
     }
 
-    renderHeader = () => {
+    renderHeader = (): JSX.Element | null => {
         if (this.props.data.length > 0) {
             return this.props.header;
         }
         return null;
     }
 
-    renderRows = () => {
+    renderRows = (): JSX.Element | JSX.Element[] => {
         if (this.state.loading) {
             return (
                 <div className='groups-list-loading'>
@@ -87,7 +100,7 @@ export default class AbstractList extends React.PureComponent {
         return this.props.data.slice(offset, offset + PAGE_SIZE).map(this.props.renderRow);
     }
 
-    performSearch = (page) => {
+    performSearch = (page: number): void => {
         this.setState({loading: true});
 
         this.props.actions.getData(page, PAGE_SIZE, '', false, true).then((response) => {
@@ -98,7 +111,7 @@ export default class AbstractList extends React.PureComponent {
         });
     }
 
-    getPaging() {
+    getPaging(): Paging {
         const startCount = (this.state.page * PAGE_SIZE) + 1;
         let endCount = (this.state.page * PAGE_SIZE) + PAGE_SIZE;
         const total = this.props.total;
@@ -145,7 +158,7 @@ export default class AbstractList extends React.PureComponent {
                     <button
                         type='button'
                         className={'btn btn-link prev ' + (firstPage ? 'disabled' : '')}
-                        onClick={firstPage ? null : this.previousPage}
+                        onClick={firstPage ? undefined : this.previousPage}
                         disabled={firstPage}
                     >
                         <PreviousIcon/>
@@ -153,7 +166,7 @@ export default class AbstractList extends React.PureComponent {
                     <button
                         type='button'
                         className={'btn btn-link next ' + (lastPage ? 'disabled' : '')}
-                        onClick={lastPage ? null : this.nextPage}
+                        onClick={lastPage ? undefined : this.nextPage}
                         disabled={lastPage}
                         data-testid='page-link-next'
                     >

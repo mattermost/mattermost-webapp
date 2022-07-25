@@ -66,8 +66,21 @@ exports[`admin_console/team_channel_settings/AbstractList should match snapshot,
     <GroupRow
       group={
         Object {
+          "allow_open_invite": false,
+          "allowed_domains": "",
+          "company_name": "",
+          "create_at": 0,
+          "delete_at": 0,
+          "description": "",
           "display_name": "DN",
+          "email": "",
+          "group_constrained": false,
           "id": "123",
+          "invite_id": "",
+          "name": "DN",
+          "scheme_id": "id",
+          "type": "O",
+          "update_at": 0,
         }
       }
       key="123"
@@ -97,7 +110,6 @@ exports[`admin_console/team_channel_settings/AbstractList should match snapshot,
     <button
       className="btn btn-link prev disabled"
       disabled={true}
-      onClick={null}
       type="button"
     >
       <PreviousIcon
@@ -108,7 +120,6 @@ exports[`admin_console/team_channel_settings/AbstractList should match snapshot,
       className="btn btn-link next disabled"
       data-testid="page-link-next"
       disabled={true}
-      onClick={null}
       type="button"
     >
       <NextIcon
