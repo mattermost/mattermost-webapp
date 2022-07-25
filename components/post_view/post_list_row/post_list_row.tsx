@@ -7,7 +7,7 @@ import classNames from 'classnames';
 
 import * as PostListUtils from 'mattermost-redux/utils/post_list';
 
-import {Channel} from '@mattermost/types/channels';
+import {CloudUsage, Limits} from '@mattermost/types/cloud';
 
 import type {emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 
@@ -18,9 +18,9 @@ import NewMessageSeparator from 'components/post_view/new_message_separator/new_
 import ChannelIntroMessage from 'components/post_view/channel_intro_message/';
 import {isIdNotPost} from 'utils/post_utils';
 import {PostListRowListIds, Locations} from 'utils/constants';
+import CenterMessageLock from 'components/center_message_lock';
 
 export type PostListRowProps = {
-    channel?: Channel;
     listId: string;
     previousListId?: string;
     fullWidth?: boolean;
@@ -44,6 +44,12 @@ export type PostListRowProps = {
      */
     loadingNewerPosts: boolean;
     loadingOlderPosts: boolean;
+
+    usage: CloudUsage;
+    limits: Limits;
+    limitsLoaded: boolean;
+    exceededLimitChannelId?: string;
+    firstInaccessiblePostTime?: number;
 
     actions: {
 
@@ -100,6 +106,15 @@ export default class PostListRow extends React.PureComponent<PostListRowProps> {
         if (PostListUtils.isStartOfNewMessages(listId)) {
             return (
                 <NewMessageSeparator separatorId={listId}/>
+            );
+        }
+
+        if (this.props.exceededLimitChannelId) {
+            return (
+                <CenterMessageLock
+                    channelId={this.props.exceededLimitChannelId}
+                    firstInaccessiblePostTime={this.props.firstInaccessiblePostTime}
+                />
             );
         }
 
