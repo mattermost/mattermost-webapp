@@ -305,14 +305,17 @@ export default class TeamSidebar extends React.PureComponent<Props, State> {
             );
         }
 
-        plugins.push(
-            <div
-                key='team-sidebar-bottom-plugin'
-                className='team-sidebar-bottom-plugin is-empty'
-            >
-                <Pluggable pluggableName='BottomTeamSidebar'/>
-            </div>,
-        );
+        // Disable team sidebar pluggables in products until proper support can be provided.
+        if (!currentProduct) {
+            plugins.push(
+                <div
+                    key='team-sidebar-bottom-plugin'
+                    className='team-sidebar-bottom-plugin is-empty'
+                >
+                    <Pluggable pluggableName='BottomTeamSidebar'/>
+                </div>,
+            );
+        }
 
         return (
             <div
