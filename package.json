@@ -1,5 +1,5 @@
 {
-  "name": "@mattermost/webapp",
+  "name": "mattermost-webapp",
   "browser": {
     "./client/web_client.jsx": "./client/browser_web_client.jsx"
   },
@@ -21,6 +21,7 @@
     "chart.js": "2.9.4",
     "classnames": "2.3.1",
     "core-js": "3.23.3",
+    "@types/color-hash": "1.0.2",
     "color-contrast-checker": "2.1.0",
     "color-hash": "2.0.1",
     "country-list": "2.2.0",
@@ -54,17 +55,17 @@
     "popper.js": "1.16.1",
     "process": "0.11.10",
     "prop-types": "15.8.1",
-    "react": "17.0.2",
+    "react": "16.13.1",
     "react-beautiful-dnd": "13.1.0",
     "react-bootstrap": "github:mattermost/react-bootstrap#c6957962364e0818a51bbfd13e89919903b422d6",
     "react-color": "2.19.3",
     "react-contextmenu": "2.14.0",
     "react-custom-scrollbars": "4.2.1",
     "react-day-picker": "7.4.10",
-    "react-dom": "17.0.2",
+    "react-dom": "16.13.1",
     "react-hot-loader": "4.13.0",
     "react-intl": "5.20.10",
-    "react-is": "17.0.2",
+    "react-is": "16.13.1",
     "react-overlays": "1.2.0",
     "react-popper": "2.2.5",
     "react-redux": "7.2.4",
@@ -102,12 +103,11 @@
     "@babel/preset-react": "7.16.0",
     "@babel/preset-typescript": "7.16.0",
     "@deanwhillier/jest-matchmedia-mock": "1.2.0",
-    "@hot-loader/react-dom": "17.0.2",
+    "@hot-loader/react-dom": "16.13.0",
     "@testing-library/jest-dom": "5.16.4",
     "@testing-library/react": "12.1.4",
     "@types/bootstrap": "4.5.0",
     "@types/chart.js": "2.9.34",
-    "@types/color-hash": "1.0.2",
     "@types/country-list": "2.1.0",
     "@types/enzyme": "3.10.11",
     "@types/highlight.js": "10.1.0",
@@ -119,13 +119,13 @@
     "@types/marked": "0.7.4",
     "@types/moment-timezone": "0.5.30",
     "@types/node": "16.3.1",
-    "@types/react": "17.0.2",
+    "@types/react": "16.9.49",
     "@types/react-beautiful-dnd": "13.1.2",
     "@types/react-bootstrap": "0.32.22",
     "@types/react-color": "3.0.6",
     "@types/react-custom-scrollbars": "4.0.10",
-    "@types/react-dom": "17.0.2",
-    "@types/react-is": "17.0.2",
+    "@types/react-dom": "16.9.8",
+    "@types/react-is": "16.7.1",
     "@types/react-overlays": "1.1.3",
     "@types/react-redux": "7.1.16",
     "@types/react-router-dom": "5.1.7",
@@ -153,7 +153,7 @@
     "css-loader": "5.2.6",
     "dotenv-webpack": "7.0.3",
     "enzyme": "3.11.0",
-    "enzyme-adapter-react-17-updated": "1.0.2",
+    "enzyme-adapter-react-16": "1.15.6",
     "enzyme-to-json": "3.6.2",
     "eslint": "7.29.0",
     "eslint-import-resolver-webpack": "0.13.1",
@@ -231,6 +231,7 @@
       "text-summary"
     ],
     "moduleNameMapper": {
+      "^@mattermost/(components)$": "<rootDir>/packages/$1/src",
       "^@mattermost/(client)$": "<rootDir>/packages/$1/src",
       "^@mattermost/(types)/(.*)$": "<rootDir>/packages/$1/src/$2",
       "^mattermost-redux/test/(.*)$": "<rootDir>/packages/mattermost-redux/test/$1",
@@ -300,6 +301,7 @@
   },
   "workspaces": [
     "packages/client",
-    "packages/types"
+    "packages/types",
+    "packages/components"
   ]
 }

@@ -231,7 +231,7 @@ const ForwardPostModal = ({onExited, post, actions}: Props) => {
             show={true}
             enforceFocus={false}
             autoCloseOnConfirmButton={false}
-            useCompassDesign={true}
+            compassDesign={true}
             modalHeaderText={formatMessage({
                 id: 'forward_post_modal.title',
                 defaultMessage: 'Forward message',

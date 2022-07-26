@@ -33,7 +33,7 @@ import {
     unpinPost,
     setEditingPost,
     markPostAsUnread,
-} from 'actions/post_actions.jsx';
+} from 'actions/post_actions';
 
 import {getIsMobileView} from 'selectors/views/browser';
 
