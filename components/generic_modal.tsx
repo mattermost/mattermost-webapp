@@ -3,4 +3,6 @@
 
 import {GenericModal} from '@mattermost/components';
 
+import './generic_modal.scss';
+
 export default GenericModal;
