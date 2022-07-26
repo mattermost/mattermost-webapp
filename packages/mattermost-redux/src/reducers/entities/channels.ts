@@ -502,7 +502,7 @@ export function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = 
 
 function receiveChannelMember(state: RelationOneToOne<Channel, ChannelMembership>, received: ChannelMembership) {
     const existingChannelMember = state[received.channel_id];
-    let updatedChannelMember = structuredClone(received) as ChannelMembership;
+    let updatedChannelMember = {...received};
 
     if (isEqual(existingChannelMember, updatedChannelMember)) {
         return state;
