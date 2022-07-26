@@ -4,6 +4,7 @@
 import * as TIMEOUTS from '../fixtures/timeouts';
 
 Cypress.Commands.overwrite('reload', (originalFn, forceReload, options, duration = TIMEOUTS.THREE_SEC) => {
+    localStorage.setItem('__landingPageSeen__', 'true');
     originalFn(forceReload, options);
     cy.wait(duration);
 });
