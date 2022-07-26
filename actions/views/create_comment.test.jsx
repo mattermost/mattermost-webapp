@@ -193,7 +193,7 @@ describe('rhs view actions', () => {
     });
 
     describe('updateCommentDraft', () => {
-        const draft = {message: 'test msg', channelId, rootId, fileInfos: [{id: 1}], uploadsInProgress: [2, 3]};
+        const draft = {message: 'test msg', fileInfos: [{id: 1}], uploadsInProgress: [2, 3]};
 
         test('it calls setGlobalItem action correctly', () => {
             jest.useFakeTimers('modern');
@@ -214,6 +214,15 @@ describe('rhs view actions', () => {
     });
 
     describe('makeOnMoveHistoryIndex', () => {
+        beforeAll(() => {
+            jest.useFakeTimers('modern');
+            jest.setSystemTime(42);
+        });
+
+        afterAll(() => {
+            jest.useRealTimers();
+        });
+
         test('it moves comment history index back', () => {
             const onMoveHistoryIndex = makeOnMoveHistoryIndex(rootId, -1);
 
