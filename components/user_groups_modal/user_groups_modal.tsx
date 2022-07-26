@@ -12,13 +12,16 @@ import {
     SelectChangeEvent,
 } from '@mui/material';
 
+import {FormattedMessage} from 'react-intl';
+
 import Modal from 'components/compass/modal/modal';
 
 import Constants, {ModalIdentifiers} from 'utils/constants';
+import * as Utils from 'utils/utils';
 
 import {Group, GroupSearachParams} from '@mattermost/types/groups';
-
 import {debounce} from 'mattermost-redux/actions/helpers';
+
 import Button from '../compass/button/button';
 import TextField from '../compass/textfield/textfield';
 import ModalTitle from '../compass/modal/modal_title';
@@ -76,8 +79,8 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
         this.filterOptions = ['all', 'my'];
 
         this.filterOptionLabels = {
-            all: 'All Groups',
-            my: 'My Groups',
+            all: Utils.localizeMessage('user_groups_modal.allGroups', 'All Groups'),
+            my: Utils.localizeMessage('user_groups_modal.myGroups', 'My Groups'),
         };
 
         this.state = {
@@ -245,12 +248,19 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                 aria-labelledby='userGroupsModalLabel'
             >
                 <ModalTitle
-                    title={'User Groups'}
+                    title={Utils.localizeMessage('user_groups_modal.title', 'User Groups')}
                     onClose={this.doHide}
-                    rightSection={<Button onClick={this.goToCreateModal}>{'Create Group'}</Button>}
+                    rightSection={(
+                        <Button onClick={this.goToCreateModal}>
+                            <FormattedMessage
+                                id='user_groups_modal.createNew'
+                                defaultMessage='Create Group'
+                            />
+                        </Button>
+                    )}
                 >
                     <TextField
-                        label='Search Groups'
+                        label={Utils.localizeMessage('user_groups_modal.searchGroups', 'Search Groups')}
                         id='search_groups_input'
                         fullWidth={true}
                         value={this.state.value}
@@ -267,9 +277,10 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                         multiple={false}
                         value={this.state.selectedFilter}
                         defaultValue={this.filterOptions[0]}
-                        renderValue={(selected: FilterOptions) => `Show: ${this.filterOptionLabels[selected]}`}
+                        renderValue={(selected: FilterOptions) => (selected === 'all' ? Utils.localizeMessage('user_groups_modal.showAllGroups', 'Show: All Groups') : Utils.localizeMessage('user_groups_modal.showMyGroups', 'Show: My Groups'))}
                         onChange={(event: SelectChangeEvent<FilterOptions>) => this.setState({selectedFilter: event.target.value as FilterOptions})}
                         IconComponent={ChevronDownIcon}
+                        aria-label={Utils.localizeMessage('user_groups_modal.filterAriaLabel', 'Groups Filter Menu')}
                     >
                         {this.filterOptions.map((option: FilterOptions) => {
                             const isSelected = option === this.state.selectedFilter;
