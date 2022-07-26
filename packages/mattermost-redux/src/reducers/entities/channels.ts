@@ -3,6 +3,7 @@
 
 import {combineReducers} from 'redux';
 import shallowEquals from 'shallow-equals';
+import {isEqual} from 'lodash';
 
 import {AdminTypes, ChannelTypes, UserTypes, SchemeTypes, GroupTypes, PostTypes} from 'mattermost-redux/action_types';
 
@@ -500,25 +501,29 @@ export function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = 
 }
 
 function receiveChannelMember(state: RelationOneToOne<Channel, ChannelMembership>, received: ChannelMembership) {
-    const member = state[received.channel_id];
+    const existingChannelMember = state[received.channel_id];
+    let updatedChannelMember = structuredClone(received) as ChannelMembership;
 
-    let nextMember = received;
-    if (member && nextMember.last_viewed_at < member.last_viewed_at) {
+    if (isEqual(existingChannelMember, updatedChannelMember)) {
+        return state;
+    }
+
+    if (existingChannelMember && updatedChannelMember.last_viewed_at < existingChannelMember.last_viewed_at) {
         // The last_viewed_at should almost never decrease upon receiving a member, so if it does, assume that the
         // unread state of the existing channel member is correct. See MM-44900 for more information.
-        nextMember = {
+        updatedChannelMember = {
             ...received,
-            last_viewed_at: Math.max(member.last_viewed_at, received.last_viewed_at),
-            msg_count: Math.max(member.msg_count, received.msg_count),
-            msg_count_root: Math.max(member.msg_count_root, received.msg_count_root),
-            mention_count: Math.min(member.mention_count, received.mention_count),
-            mention_count_root: Math.min(member.mention_count_root, received.mention_count_root),
+            last_viewed_at: Math.max(existingChannelMember.last_viewed_at, received.last_viewed_at),
+            msg_count: Math.max(existingChannelMember.msg_count, received.msg_count),
+            msg_count_root: Math.max(existingChannelMember.msg_count_root, received.msg_count_root),
+            mention_count: Math.min(existingChannelMember.mention_count, received.mention_count),
+            mention_count_root: Math.min(existingChannelMember.mention_count_root, received.mention_count_root),
         };
     }
 
     return {
         ...state,
-        [nextMember.channel_id]: nextMember,
+        [updatedChannelMember.channel_id]: updatedChannelMember,
     };
 }
 
