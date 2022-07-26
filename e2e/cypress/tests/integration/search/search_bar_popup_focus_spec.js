@@ -32,7 +32,7 @@ describe('Search', () => {
         cy.get('#searchbar-help-popup').should('be.visible');
     });
 
-    it('MM-34969 - Search bar popup should be hidden when focus is out of search bar items', () => {
+    it('MM-T4945_2 - Search bar popup should be hidden when focus is out of search bar items', () => {
         //# clicks on the search box
         cy.uiGetSearchBox().click();
 
