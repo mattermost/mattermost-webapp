@@ -96,7 +96,6 @@ jobs:
       - checkout
       - *restore_cache
       - run: |
-          npm run build --workspace=packages/components
           npm run check
 
   i18n-check:
@@ -127,7 +126,6 @@ jobs:
       - checkout
       - *restore_cache
       - run: |
-          npm run build --workspace=packages/components
           npm run check-types
 
   test:
@@ -138,7 +136,6 @@ jobs:
       - checkout
       - *restore_cache
       - run: |
-          npm run build --workspace=packages/components
           npm run test-ci
       - store_test_results:
           path: build/
