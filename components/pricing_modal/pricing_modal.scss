@@ -152,7 +152,7 @@
                 top: -36px;
                 left: 52px;
                 display: flex;
-                width: 184px;
+                width: auto;
                 height: 36px;
                 align-items: center;
                 justify-content: center;
@@ -224,11 +224,10 @@
                     p {
                         color: rgba(var(--center-channel-color-rgb), 0.72);
                         font-family: 'Metropolis';
-                        font-size: 18px;
+                        font-size: 16px;
                         font-style: normal;
                         font-weight: 400;
-                        letter-spacing: -0.02em;
-                        line-height: 20px;
+                        line-height: 24px;
                     }
                 }
 
