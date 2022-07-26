@@ -69,7 +69,6 @@ import {
 import {removeNotVisibleUsers} from 'mattermost-redux/actions/websocket';
 import {transformServerDraft} from 'mattermost-redux/actions/drafts';
 import {setGlobalItem} from 'actions/storage';
-import {removeDraft} from 'actions/views/drafts';
 
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentUser, getCurrentUserId, getStatusForUserId, getUser, getIsManualStatusForUserId, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
@@ -1737,7 +1736,9 @@ function handleUpsertDraftEvent(msg) {
 function handleDeleteDraftEvent(msg) {
     return async (doDispatch) => {
         const draft = JSON.parse(msg.data.draft);
-        const {key, value} = transformServerDraft(draft);
-        doDispatch(removeDraft(key, value.channelId, value.rootId));
+        const {key} = transformServerDraft(draft);
+
+        localStorage.removeItem(key);
+        doDispatch(setGlobalItem(key, {message: '', fileInfos: [], uploadsInProgress: []}));
     };
 }
