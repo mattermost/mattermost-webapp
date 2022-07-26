@@ -232,7 +232,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
       >
         <TrialBanner
           enterpriseReady={true}
-          gettingTrial={false}
           gettingTrialError={null}
           gettingTrialResponseCode={null}
           handleRestart={[Function]}
@@ -1204,7 +1203,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
       >
         <TrialBanner
           enterpriseReady={true}
-          gettingTrial={false}
           gettingTrialError={null}
           gettingTrialResponseCode={null}
           handleRestart={[Function]}
@@ -1319,7 +1317,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
       >
         <TrialBanner
           enterpriseReady={true}
-          gettingTrial={false}
           gettingTrialError={null}
           gettingTrialResponseCode={null}
           handleRestart={[Function]}
@@ -1540,7 +1537,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
       >
         <TrialBanner
           enterpriseReady={false}
-          gettingTrial={false}
           gettingTrialError={null}
           gettingTrialResponseCode={null}
           handleRestart={[Function]}
