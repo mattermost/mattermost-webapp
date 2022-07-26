@@ -471,7 +471,7 @@ export class FileUpload extends PureComponent {
                     ext = '.' + items[i].type.split('/')[1].toLowerCase();
                 }
 
-                const name = formatMessage(holders.pasted) + d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + hour + '-' + minute + ext;
+                const name = file.name || formatMessage(holders.pasted) + d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + hour + '-' + minute + ext;
 
                 const newFile = new Blob([file], {type: file.type});
                 newFile.name = name;

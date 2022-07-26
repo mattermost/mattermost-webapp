@@ -202,7 +202,7 @@ describe('components/FileUpload', () => {
         ['File constructor is supported', true],
         ['File constructor is not supported', false],
     ])('should upload file on paste when %s', (_, fileSupported) => {
-        const expectedFileName = 'Image Pasted at 2000-2-1 01-01';
+        const expectedFileName = 'test';
 
         const event = new Event('paste');
         event.preventDefault = jest.fn();
