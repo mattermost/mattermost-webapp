@@ -18,7 +18,7 @@ describe('Search', () => {
         });
     });
 
-    it('MM-34969 - Search bar popup should be visible when focus changes to one of its buttons', () => {
+    it('MM-T4945_1 - Search bar popup should be visible when focus changes to one of its buttons', () => {
         //# clicks on the search box
         cy.uiGetSearchBox().click();
 
