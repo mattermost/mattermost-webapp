@@ -1,5 +1,5 @@
 {
-  "name": "@mattermost/webapp",
+  "name": "mattermost-webapp",
   "browser": {
     "./client/web_client.jsx": "./client/browser_web_client.jsx"
   },
@@ -233,6 +233,7 @@
       "text-summary"
     ],
     "moduleNameMapper": {
+      "^@mattermost/(components)$": "<rootDir>/packages/$1/src",
       "^@mattermost/(client)$": "<rootDir>/packages/$1/src",
       "^@mattermost/(types)/(.*)$": "<rootDir>/packages/$1/src/$2",
       "^mattermost-redux/test/(.*)$": "<rootDir>/packages/mattermost-redux/test/$1",
@@ -302,6 +303,7 @@
   },
   "workspaces": [
     "packages/client",
-    "packages/types"
+    "packages/types",
+    "packages/components"
   ]
 }

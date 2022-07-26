@@ -14,9 +14,9 @@ import {ActionResult, GetStateFunc, DispatchFunc} from 'mattermost-redux/types/a
 
 import {CommandArgs} from '@mattermost/types/integrations.js';
 
-import {PostDraft} from 'types/store/rhs.js';
-
 import {ModalData} from 'types/actions.js';
+
+import {PostDraft} from 'types/store/draft';
 
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
@@ -45,7 +45,7 @@ import {updateDraft} from 'actions/views/drafts';
 
 import {connectionErrorCount} from 'selectors/views/system';
 
-import {addReaction, createPost, setEditingPost, emitShortcutReactToLastPostFrom} from 'actions/post_actions.jsx';
+import {addReaction, createPost, setEditingPost, emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 import {scrollPostListToBottom} from 'actions/views/channel';
 import {selectPostFromRightHandSideSearchByPostId} from 'actions/views/rhs';
 import {setShowPreviewOnCreatePost} from 'actions/views/textbox';

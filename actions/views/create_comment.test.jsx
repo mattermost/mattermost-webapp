@@ -20,7 +20,7 @@ import {
 } from 'actions/views/create_comment';
 import {removeDraft} from 'actions/views/drafts';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
-import * as PostActions from 'actions/post_actions.jsx';
+import * as PostActions from 'actions/post_actions';
 import {executeCommand} from 'actions/command';
 import * as HookActions from 'actions/hooks';
 import {StoragePrefixes} from 'utils/constants';
@@ -62,7 +62,7 @@ jest.mock('actions/hooks', () => ({
     runSlashCommandWillBePostedHooks: jest.fn((message, args) => () => ({data: {message, args}})),
 }));
 
-jest.mock('actions/post_actions.jsx', () => ({
+jest.mock('actions/post_actions', () => ({
     addReaction: (...args) => ({type: 'MOCK_ADD_REACTION', args}),
     createPost: jest.fn(() => ({type: 'MOCK_CREATE_POST'})),
     setEditingPost: (...args) => ({type: 'MOCK_SET_EDITING_POST', args}),

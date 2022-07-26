@@ -12,7 +12,8 @@ import {makeGetGlobalItem} from 'selectors/storage';
 import {PostTypes, StoragePrefixes} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
 import {GlobalState} from 'types/store';
-import {RhsState, FakePost, PostDraft, SearchType} from 'types/store/rhs';
+import {RhsState, FakePost, SearchType} from 'types/store/rhs';
+import {PostDraft} from 'types/store/draft';
 
 export function getSelectedPostId(state: GlobalState): Post['id'] {
     return state.views.rhs.selectedPostId;

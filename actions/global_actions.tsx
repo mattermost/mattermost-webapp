@@ -21,14 +21,15 @@ import {ChannelTypes} from 'mattermost-redux/action_types';
 import {fetchAppBindings} from 'mattermost-redux/actions/apps';
 import {Channel, ChannelMembership} from '@mattermost/types/channels';
 import {UserProfile} from '@mattermost/types/users';
+import {Post} from '@mattermost/types/posts';
 import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {Team} from '@mattermost/types/teams';
 import {calculateUnreadCount} from 'mattermost-redux/utils/channel_utils';
 
 import {browserHistory} from 'utils/browser_history';
-import {handleNewPost} from 'actions/post_actions.jsx';
-import {stopPeriodicStatusUpdates} from 'actions/status_actions.jsx';
-import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
+import {handleNewPost} from 'actions/post_actions';
+import {stopPeriodicStatusUpdates} from 'actions/status_actions';
+import {loadProfilesForSidebar} from 'actions/user_actions';
 import {closeRightHandSide, closeMenu as closeRhsMenu, updateRhsState} from 'actions/views/rhs';
 import {clearUserCookie} from 'actions/views/cookie';
 import {close as closeLhs} from 'actions/views/lhs';
@@ -177,9 +178,9 @@ export function sendEphemeralPost(message: string, channelId?: string, parentId?
             type: PostTypes.EPHEMERAL,
             create_at: timestamp,
             update_at: timestamp,
-            root_id: parentId,
+            root_id: parentId || '',
             props: {},
-        };
+        } as Post;
 
         return doDispatch(handleNewPost(post));
     };
@@ -200,7 +201,7 @@ export function sendAddToChannelEphemeralPost(user: UserProfile, addedUsername: 
             addedUsername,
             addedUserId,
         },
-    };
+    } as unknown as Post;
 
     dispatch(handleNewPost(post));
 }
