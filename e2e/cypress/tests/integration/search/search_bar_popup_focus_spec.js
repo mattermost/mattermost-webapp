@@ -48,7 +48,7 @@ describe('Search', () => {
         cy.get('#searchbar-help-popup').should('not.be.visible');
     });
 
-    it('MM-34969 - Search bar popup should be open when focus back to search box', () => {
+    it('MM-T4945_3 - Search bar popup should be open when focus back to search box', () => {
         //# clicks on the search box
         cy.uiGetSearchBox().click();
 
