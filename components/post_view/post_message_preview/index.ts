@@ -27,15 +27,17 @@ import {General} from 'mattermost-redux/constants';
 
 import PostMessagePreview from './post_message_preview';
 
-type Props = {
+export type OwnProps = {
     metadata: PostPreviewMetadata;
     previewPost?: Post;
+    preventClickAction?: boolean;
+    previewFooterMessage?: string;
 }
 
 function makeMapStateToProps() {
     const getChannel = makeGetChannel();
 
-    return (state: GlobalState, ownProps: Props) => {
+    return (state: GlobalState, ownProps: OwnProps) => {
         const config = getConfig(state);
         const currentTeamUrl = getCurrentRelativeTeamUrl(state);
         let user = null;

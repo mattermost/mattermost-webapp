@@ -6,11 +6,11 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {GlobalState} from 'types/store/index.js';
 
-import {PostDraft} from 'types/store/rhs.js';
-
 import {ModalData} from 'types/actions.js';
 
 import {ActionFunc, ActionResult, DispatchFunc} from 'mattermost-redux/types/actions.js';
+
+import {PostDraft} from 'types/store/draft';
 
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 

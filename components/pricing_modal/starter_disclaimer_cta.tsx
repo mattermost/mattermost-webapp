@@ -11,9 +11,10 @@ import {getCloudProducts} from 'mattermost-redux/selectors/entities/cloud';
 
 import {openModal, closeModal} from 'actions/views/modals';
 import CloudUsageModal from 'components/cloud_usage_modal';
+import useGetLimits from 'components/common/hooks/useGetLimits';
 
 import {CloudProducts, ModalIdentifiers} from 'utils/constants';
-import {fallbackStarterLimits, asGBString} from 'utils/limits';
+import {fallbackStarterLimits, asGBString, hasSomeLimits} from 'utils/limits';
 import {t} from 'utils/i18n';
 
 const Disclaimer = styled.div`
@@ -30,8 +31,13 @@ cursor: pointer;
 function StarterDisclaimerCTA() {
     const intl = useIntl();
     const dispatch = useDispatch();
+    const [limits] = useGetLimits();
     const products = useSelector(getCloudProducts);
     const starterProductName = Object.values(products || {})?.find((product: Product) => product?.sku === CloudProducts.STARTER)?.name || 'Cloud Starter';
+
+    if (!hasSomeLimits(limits)) {
+        return null;
+    }
 
     const openLimitsMiniModal = () => {
         dispatch(openModal({
