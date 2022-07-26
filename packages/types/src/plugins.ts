@@ -51,6 +51,7 @@ export type PluginSetting = {
     placeholder: string;
     default: any;
     options?: PluginSettingOption[];
+    hosting?: 'on-prem' | 'cloud';
 };
 
 export type PluginSettingOption = {
