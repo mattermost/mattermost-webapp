@@ -14,6 +14,7 @@ import * as GlobalActions from 'actions/global_actions';
 import Constants, {AdvancedTextEditor, Locations, ModalIdentifiers, Preferences} from 'utils/constants';
 import {PreferenceType} from '@mattermost/types/preferences';
 import * as UserAgent from 'utils/user_agent';
+import {isMac} from 'utils/utils';
 import * as Utils from 'utils/utils';
 import {
     specialMentionsInText,
@@ -28,7 +29,7 @@ import {getTable, formatMarkdownTableMessage, isGitHubCodeBlock, formatGithubCod
 import NotifyConfirmModal from 'components/notify_confirm_modal';
 import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload';
 import PostDeletedModal from 'components/post_deleted_modal';
-import {PostDraft} from 'types/store/rhs';
+import {PostDraft} from 'types/store/draft';
 import {Group} from '@mattermost/types/groups';
 import {ChannelMemberCountsByGroup} from '@mattermost/types/channels';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
@@ -43,6 +44,8 @@ import {
 } from 'utils/markdown/apply_markdown';
 import AdvanceTextEditor from '../advanced_text_editor/advanced_text_editor';
 import {TextboxClass, TextboxElement} from '../textbox';
+
+import FileLimitStickyBanner from '../file_limit_sticky_banner';
 
 const KeyCodes = Constants.KeyCodes;
 
@@ -837,7 +840,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             e.stopPropagation();
             e.preventDefault();
             this.toggleEmojiPicker();
-        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.P)) {
+        } else if (((isMac() && ctrlShiftCombo) || (!isMac() && ctrlAltCombo)) && Utils.isKeyPressed(e, KeyCodes.P) && draft.message.length) {
             this.setShowPreview(!this.props.shouldShowPreview);
         } else if (ctrlAltCombo && Utils.isKeyPressed(e, KeyCodes.T)) {
             this.toggleAdvanceTextEditor();
@@ -1041,6 +1044,11 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         const draft = this.state.draft!;
         return (
             <form onSubmit={this.handleSubmit}>
+                {
+                    this.props.canPost &&
+                    (this.props.draft.fileInfos.length > 0 || this.props.draft.uploadsInProgress.length > 0) &&
+                    <FileLimitStickyBanner/>
+                }
                 <AdvanceTextEditor
                     location={Locations.RHS_COMMENT}
                     textboxRef={this.textboxRef}

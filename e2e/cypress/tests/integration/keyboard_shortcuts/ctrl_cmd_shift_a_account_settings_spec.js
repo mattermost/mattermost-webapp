@@ -18,7 +18,7 @@ describe('Keyboard Shortcuts', () => {
 
     it('MM-T4441_1 CTRL/CMD+SHIFT+A - Settings should open in desktop view', () => {
         // # Type CTRL/CMD+SHIFT+A to open 'Settings'
-        cy.get('#post_textbox').cmdOrCtrlShortcut('{shift}A');
+        cy.uiGetPostTextBox().cmdOrCtrlShortcut('{shift}A');
 
         // * Ensure account settings modal is open
         cy.get('#accountSettingsModal').should('be.visible');
@@ -31,7 +31,7 @@ describe('Keyboard Shortcuts', () => {
         cy.viewport('iphone-6');
 
         // # Type CTRL/CMD+SHIFT+A to open 'Settings'
-        cy.get('#post_textbox').cmdOrCtrlShortcut('{shift}A');
+        cy.uiGetPostTextBox().cmdOrCtrlShortcut('{shift}A');
 
         // * Ensure Settings modal is open
         cy.get('#accountSettingsModal').should('be.visible');
@@ -41,7 +41,7 @@ describe('Keyboard Shortcuts', () => {
 
     it('CTRL+A - Should not open Settings', () => {
         // # Type CTRL/CMD+A to select the text
-        cy.get('#post_textbox').cmdOrCtrlShortcut('A');
+        cy.uiGetPostTextBox().cmdOrCtrlShortcut('A');
 
         // * Ensure Settings modal is not open
         cy.get('#accountSettingsModal').should('not.exist');

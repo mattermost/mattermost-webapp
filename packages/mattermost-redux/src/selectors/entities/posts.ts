@@ -467,28 +467,6 @@ export function makeGetPostsForIds(): (state: GlobalState, postIds: Array<Post['
     );
 }
 
-export const getLastPostPerChannel: (state: GlobalState) => RelationOneToOne<Channel, Post> = createSelector(
-    'getLastPostPerChannel',
-    getAllPosts,
-    (state: GlobalState) => state.entities.posts.postsInChannel,
-    (allPosts, postsInChannel) => {
-        const ret: Record<string, Post> = {};
-
-        for (const [channelId, postsForChannel] of Object.entries(postsInChannel)) {
-            const recentBlock = postsForChannel.find((block) => block.recent);
-            if (!recentBlock) {
-                continue;
-            }
-
-            const postId = recentBlock.order[0];
-            if (allPosts.hasOwnProperty(postId)) {
-                ret[channelId] = allPosts[postId];
-            }
-        }
-
-        return ret;
-    },
-);
 export const getMostRecentPostIdInChannel: (state: GlobalState, channelId: Channel['id']) => Post['id'] | undefined | null = createSelector(
     'getMostRecentPostIdInChannel',
     getAllPosts,
@@ -581,6 +559,31 @@ export function getOldestPostsChunkInChannel(state: GlobalState, channelId: Chan
     }
 
     return postsForChannel.find((block) => block.oldest);
+}
+
+// returns timestamp of the channel's oldest post. 0 otherwise
+export function getOldestPostTimeInChannel(state: GlobalState, channelId: Channel['id']): number {
+    const postsForChannel = state.entities.posts.postsInChannel[channelId];
+
+    if (!postsForChannel) {
+        return 0;
+    }
+
+    const allPosts = getAllPosts(state);
+    const oldestPostTime = postsForChannel.reduce((acc: number, postBlock) => {
+        if (postBlock.order.length > 0) {
+            const oldestPostIdInBlock = postBlock.order[postBlock.order.length - 1];
+            const blockOldestPostTime = allPosts[oldestPostIdInBlock]?.create_at;
+            if (typeof blockOldestPostTime === 'number' && blockOldestPostTime < acc) {
+                return blockOldestPostTime;
+            }
+        }
+        return acc;
+    }, Number.MAX_SAFE_INTEGER);
+    if (oldestPostTime === Number.MAX_SAFE_INTEGER) {
+        return 0;
+    }
+    return oldestPostTime;
 }
 
 // getPostIdsInChannel returns the IDs of posts loaded at the bottom of the given channel. It does not include older
@@ -725,4 +728,8 @@ export const makeIsPostCommentMention = (): ((state: GlobalState, postId: Post['
 
 export function getExpandedLink(state: GlobalState, link: string): string {
     return state.entities.posts.expandedURLs[link];
+}
+
+export function getLimitedViews(state: GlobalState): GlobalState['entities']['posts']['limitedViews'] {
+    return state.entities.posts.limitedViews;
 }

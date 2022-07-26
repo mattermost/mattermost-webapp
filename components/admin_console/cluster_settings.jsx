@@ -8,7 +8,6 @@ import {Client4} from 'mattermost-redux/client';
 
 import * as Utils from 'utils/utils';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 
 import AdminSettings from './admin_settings';
@@ -78,11 +77,21 @@ export default class ClusterSettings extends AdminSettings {
                     className='alert alert-warning'
                 >
                     <WarningIcon/>
-                    <FormattedMarkdownMessage
+                    <FormattedMessage
                         id='admin.cluster.loadedFrom'
-                        defaultMessage='This configuration file was loaded from Node ID {clusterId}. Please see the Troubleshooting Guide in our [documentation](!http://docs.mattermost.com/deployment/cluster.html) if you are accessing the System Console through a load balancer and experiencing issues.'
+                        defaultMessage='This configuration file was loaded from Node ID {clusterId}. Please see the Troubleshooting Guide in our <link>documentation</link> if you are accessing the System Console through a load balancer and experiencing issues.'
                         values={{
                             clusterId: Client4.clusterId,
+                            link: (msg) => (
+                                <a
+                                    href='http://docs.mattermost.com/deployment/cluster.html'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
                         }}
                     />
                 </div>
@@ -98,9 +107,21 @@ export default class ClusterSettings extends AdminSettings {
                     className='alert alert-warning'
                 >
                     <WarningIcon/>
-                    <FormattedMarkdownMessage
+                    <FormattedMessage
                         id='admin.cluster.should_not_change'
-                        defaultMessage='WARNING: These settings may not sync with the other servers in the cluster. High Availability inter-node communication will not start until you modify the config.json to be identical on all servers and restart Mattermost. Please see the [documentation](!http://docs.mattermost.com/deployment/cluster.html) on how to add or remove a server from the cluster. If you are accessing the System Console through a load balancer and experiencing issues, please see the Troubleshooting Guide in our [documentation](!http://docs.mattermost.com/deployment/cluster.html).'
+                        defaultMessage='WARNING: These settings may not sync with the other servers in the cluster. High Availability inter-node communication will not start until you modify the config.json to be identical on all servers and restart Mattermost. Please see the <link>documentation</link> on how to add or remove a server from the cluster. If you are accessing the System Console through a load balancer and experiencing issues, please see the Troubleshooting Guide in our <link>documentation</link>.'
+                        values={{
+                            link: (msg) => (
+                                <a
+                                    href='http://docs.mattermost.com/deployment/cluster.html'
+                                    referrer='noreferrer'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        }}
                     />
                 </div>
             );
@@ -131,9 +152,21 @@ export default class ClusterSettings extends AdminSettings {
                         />
                     }
                     helpText={
-                        <FormattedMarkdownMessage
+                        <FormattedMessage
                             id='admin.cluster.enableDescription'
-                            defaultMessage='When true, Mattermost will run in High Availability mode. Please see [documentation](!http://docs.mattermost.com/deployment/cluster.html) to learn more about configuring High Availability for Mattermost.'
+                            defaultMessage='When true, Mattermost will run in High Availability mode. Please see <link>documentation</link> to learn more about configuring High Availability for Mattermost.'
+                            values={{
+                                link: (msg) => (
+                                    <a
+                                        href='http://docs.mattermost.com/deployment/cluster.html'
+                                        referrer='noreferrer'
+                                        target='_blank'
+                                        rel='noreferrer'
+                                    >
+                                        {msg}
+                                    </a>
+                                ),
+                            }}
                         />
                     }
                     value={this.state.Enable}

@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {ChannelType} from './channels';
+import {Channel, ChannelType} from './channels';
 import {CustomEmoji} from './emojis';
 import {FileInfo} from './files';
 import {Reaction} from './reactions';
@@ -25,7 +25,9 @@ export type PostType = 'system_add_remove' |
 'system_leave_channel' |
 'system_purpose_change' |
 'system_remove_from_channel' |
-'system_combined_user_activity';
+'system_combined_user_activity' |
+'system_fake_parent_deleted' |
+'';
 
 export type PostEmbedType = 'image' | 'link' | 'message_attachment' | 'opengraph' | 'permalink';
 
@@ -85,6 +87,7 @@ export type PostList = {
     posts: Record<string, Post>;
     next_post_id: string;
     prev_post_id: string;
+    first_inaccessible_post_time: number;
 };
 
 export type PaginatedPostList = PostList & {
@@ -121,6 +124,10 @@ export type PostsState = {
     currentFocusedPostId: string;
     messagesHistory: MessageHistory;
     expandedURLs: Record<string, string>;
+    limitedViews: {
+        channels: Record<Channel['id'], number>;
+        threads: Record<Post['root_id'], number>;
+    };
 };
 
 export declare type OpenGraphMetadataImage = {

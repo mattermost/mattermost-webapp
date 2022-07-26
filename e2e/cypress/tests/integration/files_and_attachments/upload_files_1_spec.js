@@ -9,8 +9,6 @@
 
 // Group: @files_and_attachments
 
-import * as TIMEOUTS from '../../fixtures/timeouts';
-
 import {
     downloadAttachmentAndVerifyItsProperties,
     interceptFileUpload,
@@ -38,7 +36,7 @@ describe('Upload Files', () => {
         const aspectRatio = 1;
 
         cy.visit(channelUrl);
-        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+        cy.uiGetPostTextBox();
 
         // # Attach file
         cy.get('#advancedTextEditorCell').find('#fileUploadInput').attachFile(filename);

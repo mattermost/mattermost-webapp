@@ -425,6 +425,20 @@ export function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = 
             },
         };
     }
+    case ChannelTypes.RECEIVED_LAST_VIEWED_AT: {
+        const {data} = action;
+        let member = state[data.channel_id];
+
+        member = {
+            ...member,
+            last_viewed_at: data.last_viewed_at,
+        };
+
+        return {
+            ...state,
+            [action.data.channel_id]: member,
+        };
+    }
     case ChannelTypes.LEAVE_CHANNEL: {
         const nextState = {...state};
         if (action.data) {

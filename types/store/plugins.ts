@@ -12,6 +12,8 @@ import {Post, PostEmbed} from '@mattermost/types/posts';
 import {IDMappedObjects} from '@mattermost/types/utilities';
 import {TopBoardResponse} from '@mattermost/types/insights';
 
+import {WebSocketClient} from '@mattermost/client';
+
 export type PluginSiteStatsHandler = () => Promise<Record<string, PluginAnalyticsRow>>;
 
 export type PluginsState = {
@@ -119,7 +121,7 @@ export type AdminConsolePluginComponent = {
 export type PostWillRenderEmbedPluginComponent = {
     id: string;
     pluginId: string;
-    component: React.ComponentType<{ embed: PostEmbed }>;
+    component: React.ComponentType<{ embed: PostEmbed; webSocketClient?: WebSocketClient }>;
     match: (arg: PostEmbed) => boolean;
     toggleable: boolean;
 }

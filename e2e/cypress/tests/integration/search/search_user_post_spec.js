@@ -17,9 +17,7 @@
 function createNewDMChannel(channelname) {
     cy.uiAddDirectMessage().scrollIntoView().click();
 
-    cy.get('#selectItems').within(() => {
-        cy.get('input[type="text"]').scrollIntoView().type(channelname, {force: true});
-    });
+    cy.get('#selectItems input').typeWithForce(channelname);
 
     cy.contains('.more-modal__description', channelname).click({force: true});
     cy.get('#saveItems').click();

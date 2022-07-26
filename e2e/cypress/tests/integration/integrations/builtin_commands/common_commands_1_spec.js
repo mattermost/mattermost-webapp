@@ -46,7 +46,7 @@ describe('Integrations', () => {
 
     it('MM-T573 / autocomplete list can scroll', () => {
         // # Clear post textbox
-        cy.get('#post_textbox').clear().type('/');
+        cy.uiGetPostTextBox().clear().type('/');
 
         // * Suggestion list should be visible
         // # Scroll to bottom and verify that the last command "/shrug" is visible
@@ -85,7 +85,7 @@ describe('Integrations', () => {
         const message = getRandomId();
 
         // # Type "/echo message 3"
-        cy.get('#post_textbox').clear().type(`/echo ${message} 3{enter}`);
+        cy.uiGetPostTextBox().clear().type(`/echo ${message} 3{enter}`);
 
         // * Verify that post is not shown after 1 second
         cy.wait(TIMEOUTS.ONE_SEC);

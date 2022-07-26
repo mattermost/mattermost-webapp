@@ -4,6 +4,8 @@
 // Stage: @prod
 // Group: @multi_team_and_dm
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 describe('Direct messages: redirections', () => {
     let testUser;
     let secondDMUser;
@@ -99,7 +101,7 @@ const sendDirectMessageToUser = (user, message) => {
     cy.uiAddDirectMessage().click();
 
     // # Type username
-    cy.get('#selectItems input').should('be.enabled').type(`@${user.username}`, {force: true});
+    cy.get('#selectItems input').should('be.enabled').typeWithForce(`@${user.username}`).wait(TIMEOUTS.ONE_SEC);
 
     // * Expect user count in the list to be 1
     cy.get('#multiSelectList').
@@ -120,7 +122,7 @@ const sendDirectMessageToUser = (user, message) => {
     cy.get('#channelHeaderTitle').should('be.visible').and('contain.text', user.username);
 
     // # Type message and send it to the user
-    cy.get('#post_textbox').
+    cy.uiGetPostTextBox().
         type(message).
         type('{enter}');
 };

@@ -139,6 +139,8 @@ const ChannelInfoRhs = ({
         return user.id !== currentUser.id;
     });
 
+    const canEditChannelProperties = !isArchived && canManageProperties;
+
     return (
         <div
             id='rhsContainer'
@@ -170,7 +172,7 @@ const ChannelInfoRhs = ({
                 dmUser={dmUser}
                 gmUsers={gmUsers}
 
-                canEditChannelProperties={canManageProperties}
+                canEditChannelProperties={canEditChannelProperties}
 
                 actions={{
                     editChannelHeader,
