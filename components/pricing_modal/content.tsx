@@ -4,10 +4,9 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
-import styled from 'styled-components';
 
 import {CloudLinks, CloudProducts, ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
-import {fallbackStarterLimits, fallbackProfessionalLimits, asGBString} from 'utils/limits';
+import {fallbackStarterLimits, fallbackProfessionalLimits, asGBString, hasSomeLimits} from 'utils/limits';
 
 import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
 
@@ -21,6 +20,7 @@ import {
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 
 import useGetUsage from 'components/common/hooks/useGetUsage';
+import useGetLimits from 'components/common/hooks/useGetLimits';
 import SuccessModal from 'components/cloud_subscribe_result_modal/success';
 import ErrorModal from 'components/cloud_subscribe_result_modal/error';
 import PurchaseModal from 'components/purchase_modal';
@@ -33,127 +33,23 @@ import NotifyAdminCTA from 'components/notify_admin_cta/notify_admin_cta';
 import DowngradeTeamRemovalModal from './downgrade_team_removal_modal';
 import ContactSalesCTA from './contact_sales_cta';
 import StarterDisclaimerCTA from './starter_disclaimer_cta';
+import StartTrialCaution from './start_trial_caution';
+import Card, {ButtonCustomiserClasses} from './card';
 
 import LadySvg from './lady.svg';
 import ManSvg from './man.svg';
 
 import './content.scss';
 
-type PlanBriefing = {
-    title: string;
-    items: string[];
-}
-
-enum ButtonCustomiserClasses {
-    grayed = 'grayed',
-    active = 'active',
-    special = 'special',
-    secondary = 'secondary',
-}
-
-type ButtonDetails = {
-    action: () => void;
-    text: string;
-    disabled?: boolean;
-    customClass?: ButtonCustomiserClasses;
-};
-
-type CardProps = {
-    id: string;
-    topColor: string;
-    plan: string;
-    price: string;
-    rate?: string;
-    briefing: PlanBriefing;
-    extraBriefing: PlanBriefing;
-    planExtraInformation?: JSX.Element;
-    buttonDetails?: ButtonDetails;
-    customButtonDetails?: JSX.Element;
-    planLabel?: JSX.Element;
-}
-
 type ContentProps = {
     onHide: () => void;
-}
-
-type StyledProps = {
-    bgColor?: string;
-    color?: string;
-}
-
-const StyledDiv = styled.div<StyledProps>`
-background-color: ${(props) => props.bgColor};
-`;
-
-function Card(props: CardProps) {
-    return (
-        <div
-            id={props.id}
-            className='PlanCard'
-        >
-            {props.planLabel && props.planLabel}
-            <StyledDiv
-                className='top'
-                bgColor={props.topColor}
-            />
-            <div className='bottom'>
-                <div className='plan_price_rate_section'>
-                    <h4>{props.plan}</h4>
-                    <h1 className={props.plan === 'Enterprise' ? 'enterprise_price' : ''}>{props.price}</h1>
-                    <p>{props.rate}</p>
-                </div>
-                <div className='plan_briefing'>
-                    <div>
-                        <span className='title'>{props.briefing.title}</span>
-                        {props.briefing.items.map((i) => {
-                            return (
-                                <div
-                                    className='item'
-                                    key={i}
-                                >
-                                    <i className='fa fa-circle bullet'/><p>{i}</p>
-                                </div>
-                            );
-                        })}
-                    </div>
-                    {props.planExtraInformation && props.planExtraInformation}
-                </div>
-                <div>
-                    {props.customButtonDetails ? props.customButtonDetails : (
-                        <button
-                            id={props.id + '_action'}
-                            className={`plan_action_btn ${props.buttonDetails?.disabled ? ButtonCustomiserClasses.grayed : props.buttonDetails?.customClass}`}
-                            disabled={props.buttonDetails?.disabled}
-                            onClick={props.buttonDetails?.action}
-                        >
-                            {props.buttonDetails?.text}
-                        </button>
-                    )}
-                </div>
-                <div className='plan_extra_briefing'>
-                    <div>
-                        <span className='title'>{props.extraBriefing.title}</span>
-                        {props.extraBriefing.items.map((i) => {
-                            return (
-                                <div
-                                    className='item'
-                                    key={i}
-                                >
-                                    <i className='fa fa-circle bullet'/><p>{i}</p>
-                                </div>
-                            );
-                        })}
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
 }
 
 function Content(props: ContentProps) {
     const {formatMessage, formatNumber} = useIntl();
     const dispatch = useDispatch();
     const usage = useGetUsage();
+    const [limits] = useGetLimits();
 
     const isAdmin = useSelector(isCurrentUserSystemAdmin);
     const contactSalesLink = useSelector(getCloudContactUsLink)(InquiryType.Sales);
@@ -196,7 +92,7 @@ function Content(props: ContentProps) {
             return;
         }
 
-        const result = await dispatch(subscribeCloudSubscription(starterProduct?.id));
+        const result = await dispatch(subscribeCloudSubscription(starterProduct.id));
 
         if (typeof result === 'boolean' && result) {
             dispatch(closeModal(ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM));
@@ -219,6 +115,28 @@ function Content(props: ContentProps) {
         props.onHide();
     };
 
+    const hasLimits = hasSomeLimits(limits);
+
+    const starterBriefing = {
+        title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),
+        items: [
+            formatMessage({id: 'pricing_modal.briefing.starter.recentMessageBoards', defaultMessage: 'Access to {messages} most recent messages, {boards} most recent board cards'}, {messages: formatNumber(fallbackStarterLimits.messages.history), boards: fallbackStarterLimits.boards.cards}),
+            formatMessage({id: 'pricing_modal.briefing.storage', defaultMessage: '{storage} file storage limit'}, {storage: asGBString(fallbackStarterLimits.files.totalStorage, formatNumber)}),
+            formatMessage({id: 'pricing_modal.briefing.starter.oneTeamPerWorkspace', defaultMessage: 'One team per workspace'}),
+            formatMessage({id: 'pricing_modal.briefing.starter.integrations', defaultMessage: '{integrations} integrations with other apps like GitHub, Jira and Jenkins'}, {integrations: fallbackStarterLimits.integrations.enabled}),
+        ],
+    };
+
+    const legacyStarterBriefing = {
+        title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),
+        items: [
+            formatMessage({id: 'admin.billing.subscription.planDetails.features.groupAndOneToOneMessaging', defaultMessage: 'Group and one-to-one messaging, file sharing, and search'}),
+            formatMessage({id: 'admin.billing.subscription.planDetails.features.incidentCollaboration', defaultMessage: 'Incident collaboration'}),
+            formatMessage({id: 'admin.billing.subscription.planDetails.features.unlimittedUsersAndMessagingHistory', defaultMessage: 'Unlimited users & message history'}),
+            formatMessage({id: 'admin.billing.subscription.planDetails.features.mfa', defaultMessage: 'Multi-Factor Authentication (MFA)'}),
+        ],
+    };
+
     return (
         <div className='Content'>
             <Modal.Header className='PricingModal__header'>
@@ -237,7 +155,7 @@ function Content(props: ContentProps) {
                 />
             </Modal.Header>
             <Modal.Body>
-                <div className='self-hosted-alert'>
+                <div className='alert-option'>
                     <span>{formatMessage({id: 'pricing_modal.lookingToSelfHost', defaultMessage: 'Looking to self-host?'})}</span>
                     <a
                         onClick={() =>
@@ -263,21 +181,13 @@ function Content(props: ContentProps) {
                         topColor='#9DA7B8'
                         plan='Starter'
                         price={formatMessage({id: 'pricing_modal.price.free', defaultMessage: 'Free'})}
-                        briefing={{
-                            title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),
-                            items: [
-                                formatMessage({id: 'pricing_modal.briefing.starter.recentMessageBoards', defaultMessage: 'Access to {messages} most recent messages, {boards} most recent board cards'}, {messages: formatNumber(fallbackStarterLimits.messages.history), boards: fallbackStarterLimits.boards.cards}),
-                                formatMessage({id: 'pricing_modal.briefing.storage', defaultMessage: '{storage} file storage limit'}, {storage: asGBString(fallbackStarterLimits.files.totalStorage, formatNumber)}),
-                                formatMessage({id: 'pricing_modal.briefing.starter.oneTeamPerWorkspace', defaultMessage: 'One team per workspace'}),
-                                formatMessage({id: 'pricing_modal.briefing.starter.integrations', defaultMessage: '{integrations} integrations with other apps like GitHub, Jira and Jenkins'}, {integrations: fallbackStarterLimits.integrations.enabled}),
-                            ],
-                        }}
-                        extraBriefing={{
+                        briefing={hasLimits ? starterBriefing : legacyStarterBriefing}
+                        extraBriefing={hasLimits ? {
                             title: formatMessage({id: 'pricing_modal.extra_briefing.title', defaultMessage: 'More features'}),
                             items: [
                                 formatMessage({id: 'pricing_modal.extra_briefing.starter.calls', defaultMessage: '1:1 voice calls and screen share'}),
                             ],
-                        }}
+                        } : undefined}
                         planExtraInformation={<StarterDisclaimerCTA/>}
                         buttonDetails={{
                             action: () => {
@@ -290,7 +200,7 @@ function Content(props: ContentProps) {
                                             modalId: ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM,
                                             dialogType: DowngradeTeamRemovalModal,
                                             dialogProps: {
-                                                product_id: starterProduct?.id,
+                                                product_id: starterProduct.id,
                                                 starterProduct,
                                             },
                                         }),
@@ -300,7 +210,7 @@ function Content(props: ContentProps) {
                                 }
                             },
                             text: formatMessage({id: 'pricing_modal.btn.downgrade', defaultMessage: 'Downgrade'}),
-                            disabled: isStarter || !isAdmin,
+                            disabled: isStarter || isEnterprise || !isAdmin,
                             customClass: ButtonCustomiserClasses.secondary,
                         }}
                         planLabel={
@@ -389,6 +299,7 @@ function Content(props: ContentProps) {
                                 afterTrialRequest={closePricingModal}
                             />
                         ) : undefined}
+                        planDisclaimer={isPostTrial ? undefined : <StartTrialCaution/>}
                     />
                 </div>
             </Modal.Body>
