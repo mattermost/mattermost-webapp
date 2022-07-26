@@ -3,7 +3,7 @@
 /* eslint-disable react/no-string-refs */
 /* eslint-disable max-lines */
 
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {emitUserLoggedOutEvent} from 'actions/global_actions';
@@ -476,7 +476,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
         );
     }
 
-    renderFeatureLabel(feature: string): JSX.Element | null {
+    renderFeatureLabel(feature: string): ReactNode {
         switch (feature) {
         case 'MARKDOWN_PREVIEW':
             return (
