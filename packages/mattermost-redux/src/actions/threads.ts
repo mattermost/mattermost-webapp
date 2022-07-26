@@ -265,9 +265,12 @@ export function markThreadAsUnread(userId: string, teamId: string, threadId: str
         const getPostsForThread = makeGetPostsForThread();
         let posts = getPostsForThread(getState(), threadId);
 
+        const getThreadInfo = getThread(userId, teamId, threadId);
+        const {data: thread} = await getThreadInfo(dispatch, getState);
+
         // load posts in thread if they are not loaded already
-        if (posts.length < 2) {
-            getPostThread(threadId)(dispatch, getState).then(({data, error}) => {
+        if (thread.replyCount !== posts.length - 1) {
+            dispatch(getPostThread(threadId)).then(({data, error}) => {
                 if (data) {
                     posts = getPostsForThread(getState(), threadId);
                     markThreadAsUnreadForUser(dispatch, getState, {userId, teamId, threadId, lastPostId: posts[0].id});
