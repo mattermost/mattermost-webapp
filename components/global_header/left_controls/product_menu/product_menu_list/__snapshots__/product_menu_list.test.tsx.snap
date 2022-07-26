@@ -121,7 +121,6 @@ exports[`components/global/product_switcher_menu should match snapshot with id 1
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(UserGroupsModal)",
           "type": [Function],
         }
       }
@@ -152,7 +151,6 @@ exports[`components/global/product_switcher_menu should match snapshot with id 1
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(MarketplaceModal)",
             "type": [Function],
           }
         }
@@ -186,7 +184,6 @@ exports[`components/global/product_switcher_menu should match snapshot with id 1
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(AboutBuildModal)",
           "type": [Function],
         }
       }
@@ -326,7 +323,6 @@ exports[`components/global/product_switcher_menu should match snapshot with most
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(UserGroupsModal)",
           "type": [Function],
         }
       }
@@ -357,7 +353,6 @@ exports[`components/global/product_switcher_menu should match snapshot with most
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(MarketplaceModal)",
             "type": [Function],
           }
         }
@@ -391,7 +386,6 @@ exports[`components/global/product_switcher_menu should match snapshot with most
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(AboutBuildModal)",
           "type": [Function],
         }
       }
@@ -422,7 +416,6 @@ exports[`components/global/product_switcher_menu should match userGroups snapsho
       "$$typeof": Symbol(react.memo),
       "WrappedComponent": [Function],
       "compare": null,
-      "displayName": "Connect(UserGroupsModal)",
       "type": [Function],
     }
   }
@@ -453,7 +446,6 @@ exports[`components/global/product_switcher_menu should match userGroups snapsho
       "$$typeof": Symbol(react.memo),
       "WrappedComponent": [Function],
       "compare": null,
-      "displayName": "Connect(UserGroupsModal)",
       "type": [Function],
     }
   }
@@ -495,7 +487,6 @@ exports[`components/global/product_switcher_menu should match userGroups snapsho
       "$$typeof": Symbol(react.memo),
       "WrappedComponent": [Function],
       "compare": null,
-      "displayName": "Connect(UserGroupsModal)",
       "type": [Function],
     }
   }
@@ -650,7 +641,6 @@ exports[`components/global/product_switcher_menu should show integrations should
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(UserGroupsModal)",
           "type": [Function],
         }
       }
@@ -681,7 +671,6 @@ exports[`components/global/product_switcher_menu should show integrations should
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(MarketplaceModal)",
             "type": [Function],
           }
         }
@@ -715,7 +704,6 @@ exports[`components/global/product_switcher_menu should show integrations should
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(AboutBuildModal)",
           "type": [Function],
         }
       }

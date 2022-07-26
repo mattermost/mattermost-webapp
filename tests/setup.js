@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import Adapter from 'enzyme-adapter-react-16';
+import Adapter from 'enzyme-adapter-react-17-updated';
 import {configure} from 'enzyme';
 
 import '@testing-library/jest-dom';
