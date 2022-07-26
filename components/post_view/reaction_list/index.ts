@@ -9,21 +9,17 @@ import {canAddReactions} from 'mattermost-redux/selectors/entities/reactions';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {Post} from '@mattermost/types/posts';
-import {Reaction} from '@mattermost/types/reactions';
 
 import {GlobalState} from 'types/store';
 
-import {addReaction} from 'actions/post_actions.jsx';
+import {addReaction} from 'actions/post_actions';
 
 import {makeGetUniqueReactionsToPost} from 'utils/post_utils';
 
 import ReactionList from './reaction_list';
 
 type Props = {
-    enableEmojiPicker: boolean;
-    isReadOnly: boolean;
     post: Post;
-    reactions: { [x: string]: Reaction } | undefined | null;
 };
 
 function makeMapStateToProps() {

@@ -14,6 +14,7 @@ import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 import {CustomEmoji} from '@mattermost/types/emojis';
 import {Session} from '@mattermost/types/sessions';
 import {ProductComponent} from 'types/store/plugins';
+import {ClientLicense} from '@mattermost/types/config';
 
 export class TestHelper {
     public static getUserMock(override: Partial<UserProfile> = {}): UserProfile {
@@ -373,6 +374,18 @@ export class TestHelper {
             update_at: 0,
             delete_at: 0,
             creator_id: 'user_id',
+            ...override,
+        };
+    }
+    public static getLicenseMock(override: ClientLicense = {}): ClientLicense {
+        return {
+            ...override,
+        };
+    }
+    public static getCloudLicenseMock(override: ClientLicense = {}): ClientLicense {
+        return {
+            ...this.getLicenseMock(override),
+            Cloud: 'true',
             ...override,
         };
     }

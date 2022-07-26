@@ -46,7 +46,7 @@ export default function CloudUsageModal(props: Props) {
     const modal = (
         <GenericModal
             handleCancel={props.onClose}
-            useCompassDesign={true}
+            compassDesign={true}
             onExited={props.onClose}
             modalHeaderText={messageToElement(props.title)}
             cancelButtonText={props.secondaryAction && messageToElement(props.secondaryAction.message)}
