@@ -451,27 +451,23 @@ export class FileUpload extends PureComponent {
 
             for (let i = 0; i < items.length; i++) {
                 const file = items[i].getAsFile();
+
                 if (!file) {
                     continue;
                 }
 
-                var d = new Date();
-                let hour = d.getHours();
-                hour = hour < 10 ? `0${hour}` : `${hour}`;
+                const now = new Date();
+                const hour = now.getHours().toString().padStart(2, '0');
+                const minute = now.getMinutes().toString().padStart(2, '0');
 
-                let minute = d.getMinutes();
-                minute = minute < 10 ? `0${minute}` : `${minute}`;
-
-                var ext = '';
-                if (file.name) {
-                    if (file.name.includes('.')) {
-                        ext = file.name.substr(file.name.lastIndexOf('.'));
-                    }
+                let ext = '';
+                if (file.name && file.name.includes('.')) {
+                    ext = file.name.substr(file.name.lastIndexOf('.'));
                 } else if (items[i].type.includes('/')) {
                     ext = '.' + items[i].type.split('/')[1].toLowerCase();
                 }
 
-                const name = file.name || formatMessage(holders.pasted) + d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + hour + '-' + minute + ext;
+                const name = file.name || formatMessage(holders.pasted) + now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate() + ' ' + hour + '-' + minute + ext;
 
                 const newFile = new Blob([file], {type: file.type});
                 newFile.name = name;
