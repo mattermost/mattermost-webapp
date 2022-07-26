@@ -268,6 +268,7 @@ function Content(props: ContentProps) {
                                     color='var(--denim-status-online)'
                                     bgColor='var(--center-channel-bg)'
                                     firstSvg={<CheckMarkSvg/>}
+                                    renderLastDaysOnTrial={true}
                                 />) : undefined}
                         planExtraInformation={(!isAdmin && (isStarter || isEnterpriseTrial)) ? <NotifyAdminCTA preTrial={isPreTrial}/> : undefined}
                         buttonDetails={(isPostTrial || !isAdmin) ? {

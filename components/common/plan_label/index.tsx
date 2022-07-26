@@ -17,6 +17,7 @@ type PlanLabelProps = {
     color: string;
     firstSvg: JSX.Element;
     secondSvg?: JSX.Element;
+    renderLastDaysOnTrial?: boolean;
 }
 
 type StyledProps = {
@@ -34,7 +35,7 @@ function PlanLabel(props: PlanLabelProps) {
     const subscription = useSelector(selectCloudSubscription);
     let text = props.text;
 
-    if (subscription?.is_free_trial === 'true') {
+    if (props.renderLastDaysOnTrial && subscription?.is_free_trial === 'true') {
         const daysLeftOnTrial = Math.min(
             getRemainingDaysFromFutureTimestamp(subscription.trial_end_at),
             TrialPeriodDays.TRIAL_30_DAYS,
