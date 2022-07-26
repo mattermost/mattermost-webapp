@@ -3,9 +3,11 @@
 
 import React from 'react';
 import classNames from 'classnames';
+import {FormattedMessage} from 'react-intl';
 
 import {getFileThumbnailUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 import {FileInfo} from '@mattermost/types/files';
+import {ArchiveOutlineIcon} from '@mattermost/compass-icons/components';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
@@ -26,6 +28,7 @@ import FilenameOverlay from './filename_overlay';
 import FileThumbnail from './file_thumbnail';
 
 import type {PropsFromRedux} from './index';
+import ArchivedTooltip from './archived_tooltip';
 
 interface Props extends PropsFromRedux {
 
@@ -104,6 +107,11 @@ export default class FileAttachment extends React.PureComponent<Props, State> {
 
     loadFiles = () => {
         const fileInfo = this.props.fileInfo;
+        if (fileInfo.archived) {
+            // if archived, file preview will not be accessible anyway.
+            // So skip trying to load.
+            return
+        }
         const fileType = getFileType(fileInfo.extension);
 
         if (fileType === FileTypes.IMAGE) {
@@ -291,17 +299,40 @@ export default class FileAttachment extends React.PureComponent<Props, State> {
                 </a>
             );
 
+            if (fileInfo.archived) {
+                fileThumbnail = (
+                    <ArchiveOutlineIcon
+                        size={48}
+                        color={'rgba(var(--center-channel-text-rgb), 0.56)'}
+                    />
+                );
+            }
+
             fileDetail = (
                 <div
                     className='post-image__detail_wrapper'
                     onClick={this.onAttachmentClick}
                 >
                     <div className='post-image__detail'>
-                        <span className={'post-image__name'}>
+                        <span className={classNames('post-image__name', {
+                            'post-image__name--archived': fileInfo.archived,
+                            })}>
                             {fileInfo.name}
                         </span>
-                        <span className='post-image__type'>{fileInfo.extension.toUpperCase()}</span>
-                        <span className='post-image__size'>{fileSizeToString(fileInfo.size)}</span>
+                        {fileInfo.archived ?
+                            <span className={'post-image__archived'}>
+
+                                <FormattedMessage
+                                    id="workspace_limits.archived_file.archived"
+                                    defaultMessage="This file is archived"
+                                />
+                            </span>
+                            :
+                            <>
+                                <span className='post-image__type'>{fileInfo.extension.toUpperCase()}</span>
+                                <span className='post-image__size'>{fileSizeToString(fileInfo.size)}</span>
+                            </>
+                        }
                     </div>
                 </div>
             );
@@ -310,7 +341,7 @@ export default class FileAttachment extends React.PureComponent<Props, State> {
         }
 
         let filenameOverlay;
-        if (this.props.canDownloadFiles) {
+        if (this.props.canDownloadFiles && !fileInfo.archived) {
             filenameOverlay = (
                 <FilenameOverlay
                     fileInfo={fileInfo}
@@ -324,12 +355,14 @@ export default class FileAttachment extends React.PureComponent<Props, State> {
             );
         }
 
-        return (
+        const content =
+        (
             <div
                 className={
                     classNames([
                         'post-image__column',
                         {'keep-open': this.state.keepOpen},
+                        {'post-image__column--archived': fileInfo.archived},
                     ])
                 }
             >
@@ -341,5 +374,19 @@ export default class FileAttachment extends React.PureComponent<Props, State> {
                 </div>
             </div>
         );
+
+        if (fileInfo.archived) {
+            return (
+                <OverlayTrigger
+                    className='hidden-xs'
+                    delayShow={1000}
+                    placement='right'
+                    overlay={<ArchivedTooltip/>}
+                >
+                    {content}
+                </OverlayTrigger>
+            )
+        }
+        return content;
     }
 }

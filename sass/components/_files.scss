@@ -299,6 +299,10 @@
     }
 }
 
+.post-image__archived-tooltip-title {
+    font-weight: 600;
+}
+
 .post-image__columns {
     position: relative;
     display: flex;
@@ -320,6 +324,10 @@
     color: v(center-channel-color);
     cursor: pointer;
     transition: box-shadow 0.15s ease;
+
+    &--archived {
+        cursor: default;
+    }
 
     &:hover,
     &:focus-within,
@@ -501,9 +509,23 @@
                 white-space: nowrap;
                 word-break: break-word;
 
+                &--archived {
+                    color: rgba(var(--center-channel-text-rgb), 0.56);
+                }
+
                 a {
                     border-radius: 100px;
                 }
+            }
+
+            .post-image__archived {
+                display: inline-block;
+                overflow: hidden;
+                max-width: 134px;
+                float: left;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                color: rgba(var(--center-channel-text-rgb), 0.56);
             }
 
             .post-image__type {
