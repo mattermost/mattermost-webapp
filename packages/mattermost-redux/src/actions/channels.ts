@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable max-lines */
-
 import {AnyAction} from 'redux';
 import {batchActions} from 'redux-batched-actions';
 
@@ -474,10 +472,8 @@ export function fetchMyChannelsAndMembers(teamId: string): ActionFunc {
         const state = getState();
         const shouldFetchArchived = isMinimumServerVersion(getServerVersion(state), 5, 21);
         try {
-            const channelRequest = Client4.getMyChannels(teamId, shouldFetchArchived);
-            const memberRequest = Client4.getMyChannelMembers(teamId);
-            channels = await channelRequest;
-            channelMembers = await memberRequest;
+            channels = await Client4.getMyChannels(teamId, shouldFetchArchived);
+            channelMembers = await Client4.getMyChannelMembers(teamId);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
             dispatch({type: ChannelTypes.CHANNELS_FAILURE, error});

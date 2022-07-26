@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable max-lines */
-
 import {combineReducers} from 'redux';
 import shallowEquals from 'shallow-equals';
 
@@ -446,6 +444,10 @@ export function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = 
     case ChannelTypes.RECEIVED_LAST_VIEWED_AT: {
         const {data} = action;
         let member = state[data.channel_id];
+
+        if (member.last_viewed_at === data.last_viewed_at) {
+            return state;
+        }
 
         member = {
             ...member,
