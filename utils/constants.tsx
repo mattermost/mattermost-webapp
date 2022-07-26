@@ -950,6 +950,8 @@ export const DocLinks = {
     SITE_URL: 'https://docs.mattermost.com/configure/configuration-settings.html#site-url',
     SSL_CERTIFICATE: 'https://docs.mattermost.com/onboard/ssl-client-certificate.html',
     UPGRADE_SERVER: 'https://docs.mattermost.com/upgrade/upgrading-mattermost-server.html',
+    ONBOARD_LDAP: 'https://docs.mattermost.com/onboard/ad-ldap.html',
+    ONBOARD_SSO: 'https://docs.mattermost.com/onboard/sso-saml.html',
 };
 
 export const LicenseLinks = {

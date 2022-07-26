@@ -83,7 +83,7 @@ const ShowThreeDaysLeftTrialModal = () => {
                 modalId: ModalIdentifiers.THREE_DAYS_LEFT_TRIAL_MODAL,
                 dialogType: ThreeDaysLeftTrialModal,
                 dialogProps: {
-                    limitsOVerpassed: someLimitNeedsAttention,
+                    limitsOverpassed: someLimitNeedsAttention,
                     onExited: handleOnClose,
                 },
             }));

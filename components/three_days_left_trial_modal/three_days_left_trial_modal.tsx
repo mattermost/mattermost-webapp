@@ -12,7 +12,7 @@ import {closeModal} from 'actions/views/modals';
 
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 
-import {ConsolePages, ModalIdentifiers} from 'utils/constants';
+import {ConsolePages, DocLinks, ModalIdentifiers} from 'utils/constants';
 
 import GenericModal from 'components/generic_modal';
 import GuestAccessSvg from 'components/common/svg_images_components/guest_access_svg';
@@ -29,7 +29,7 @@ import './three_days_left_trial_modal.scss';
 
 type Props = {
     onExited?: () => void;
-    limitsOVerpassed: boolean;
+    limitsOverpassed: boolean;
 }
 
 function ThreeDaysLeftTrialModal(props: Props): JSX.Element | null {
@@ -67,7 +67,7 @@ function ThreeDaysLeftTrialModal(props: Props): JSX.Element | null {
                     height={90}
                 />
             ),
-            pageURL: 'https://docs.mattermost.com/onboard/sso-saml.html',
+            pageURL: DocLinks.ONBOARD_SSO,
             buttonLabel,
         },
         {
@@ -81,7 +81,7 @@ function ThreeDaysLeftTrialModal(props: Props): JSX.Element | null {
                     height={90}
                 />
             ),
-            pageURL: 'https://docs.mattermost.com/onboard/ad-ldap.html',
+            pageURL: DocLinks.ONBOARD_LDAP,
             buttonLabel,
         },
         {
@@ -115,7 +115,7 @@ function ThreeDaysLeftTrialModal(props: Props): JSX.Element | null {
         [],
     );
 
-    if (props.limitsOVerpassed) {
+    if (props.limitsOverpassed) {
         headerText = formatMessage({id: 'three_days_left_trial.modal.titleLimitsOverpassed', defaultMessage: 'Upgrade before the trial ends'});
         headerSubtitleText = formatMessage({id: 'three_days_left_trial.modal.subtitleLimitsOverpassed', defaultMessage: 'There are 3 days left on your trial. Upgrade to our Professional or Enterprise plan to avoid exceeding your data limits on the Starter plan.'});
         content = (
@@ -142,7 +142,7 @@ function ThreeDaysLeftTrialModal(props: Props): JSX.Element | null {
             id='threeDaysLeftTrialModal'
             onExited={handleOnClose}
             modalHeaderText={headerText}
-            useCompassDesign={true}
+            compassDesign={true}
         >
             <div className='header-subtitle-text'>
                 {headerSubtitleText}
@@ -154,7 +154,7 @@ function ThreeDaysLeftTrialModal(props: Props): JSX.Element | null {
             <div className='footer-content'>
                 <button
                     onClick={handleOpenPricingModal}
-                    className='open-view-plans-modal-btn primary-button'
+                    className='open-view-plans-modal-btn'
                 >
                     {formatMessage({id: 'three_days_left_trial.modal.viewPlans', defaultMessage: 'View plan options'})}
                 </button>
