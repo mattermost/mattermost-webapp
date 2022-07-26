@@ -29,7 +29,7 @@ import {getUnreadScrollPositionPreference, isCollapsedThreadsEnabled} from 'matt
 // @ts-expect-error TS(2307) FIXME: Cannot find module 'actions/views/channel' or its ... Remove this comment to see the full error message
 import {updateToastStatus} from 'actions/views/channel';
 
-import ToastWrapper from './toast_wrapper.jsx';
+import ToastWrapper from './toast_wrapper';
 export function makeGetRootPosts() {
     return createSelector(
         'makeGetRootPosts',

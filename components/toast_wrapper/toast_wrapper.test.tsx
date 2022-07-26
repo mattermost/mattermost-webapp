@@ -18,7 +18,7 @@ import {PostListRowListIds} from 'utils/constants';
 // @ts-expect-error TS(2307) FIXME: Cannot find module 'utils/browser_history' or its ... Remove this comment to see the full error message
 import {browserHistory} from 'utils/browser_history';
 
-import ToastWrapper from './toast_wrapper.jsx';
+import ToastWrapper from './toast_wrapper';
 
 // @ts-expect-error TS(2582) FIXME: Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe('components/ToastWrapper', () => {
