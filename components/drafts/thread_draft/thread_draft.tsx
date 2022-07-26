@@ -9,7 +9,7 @@ import type {Channel} from '@mattermost/types/channels';
 import type {UserProfile, UserStatus} from '@mattermost/types/users';
 import type {Post} from '@mattermost/types/posts';
 
-import type {PostDraft} from 'types/store/rhs';
+import type {PostDraft} from 'types/store/draft';
 
 import {getPost} from 'mattermost-redux/actions/posts';
 

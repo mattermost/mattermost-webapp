@@ -22,7 +22,7 @@ import {Emoji} from '@mattermost/types/emojis';
 import {Group} from '@mattermost/types/groups';
 import {ChannelMemberCountByGroup, ChannelMemberCountsByGroup} from '@mattermost/types/channels';
 import {ServerError} from '@mattermost/types/errors';
-import {PostDraft} from 'types/store/rhs';
+import {PostDraft} from 'types/store/draft';
 
 describe('components/CreateComment', () => {
     jest.useFakeTimers();

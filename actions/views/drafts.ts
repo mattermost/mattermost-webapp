@@ -8,7 +8,7 @@ import {Client4} from 'mattermost-redux/client';
 import type {UserProfile} from '@mattermost/types/users';
 
 import {setGlobalItem} from 'actions/storage';
-import {PostDraft} from 'types/store/rhs';
+import {PostDraft} from 'types/store/draft';
 
 export function removeDraft(key: string, channelId: string, rootId = '') {
     return async (dispatch: DispatchFunc) => {

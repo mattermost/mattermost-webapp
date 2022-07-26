@@ -6,7 +6,7 @@ import {batchActions} from 'redux-batched-actions';
 import type {DispatchFunc} from 'mattermost-redux/types/actions';
 import type {Draft as ServerDraft} from '@mattermost/types/drafts';
 import type {GlobalState} from 'types/store';
-import type {PostDraft} from 'types/store/rhs';
+import type {PostDraft} from 'types/store/draft';
 
 import {Client4} from 'mattermost-redux/client';
 

@@ -6,7 +6,7 @@ import {createSelector} from 'reselect';
 import {getMyActiveChannelIds} from 'mattermost-redux/selectors/entities/channels';
 
 import {GlobalState} from 'types/store';
-import {PostDraft} from 'types/store/rhs';
+import {PostDraft} from 'types/store/draft';
 
 import {StoragePrefixes} from 'utils/constants';
 

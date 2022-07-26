@@ -7,7 +7,7 @@ import {useSelector} from 'react-redux';
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 
 import type {UserProfile, UserStatus} from '@mattermost/types/users';
-import type {PostDraft} from 'types/store/rhs';
+import type {PostDraft} from 'types/store/draft';
 
 import Markdown from 'components/markdown';
 import FilePreview from 'components/file_preview';

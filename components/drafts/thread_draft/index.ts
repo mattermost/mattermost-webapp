@@ -7,7 +7,7 @@ import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getThreadOrSynthetic} from 'mattermost-redux/selectors/entities/threads';
 
-import {PostDraft} from 'types/store/rhs';
+import {PostDraft} from 'types/store/draft';
 import {GlobalState} from 'types/store';
 
 import ThreadDraft from './thread_draft';

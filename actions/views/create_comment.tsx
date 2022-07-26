@@ -32,7 +32,7 @@ import {getPostDraft} from 'selectors/rhs';
 
 import * as Utils from 'utils/utils';
 import {Constants, StoragePrefixes} from 'utils/constants';
-import type {PostDraft} from 'types/store/rhs';
+import type {PostDraft} from 'types/store/draft';
 import type {GlobalState} from 'types/store';
 import type {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 

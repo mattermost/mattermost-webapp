@@ -10,7 +10,7 @@ import type {UserProfile, UserStatus} from '@mattermost/types/users';
 
 import {makeOnSubmit} from 'actions/views/create_comment';
 import {removeDraft} from 'actions/views/drafts';
-import {PostDraft} from 'types/store/rhs';
+import {PostDraft} from 'types/store/draft';
 
 import DraftTitle from '../draft_title';
 import DraftActions from '../draft_actions';
