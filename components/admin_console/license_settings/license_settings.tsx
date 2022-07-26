@@ -362,7 +362,6 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
                                     gettingTrialResponseCode={this.state.gettingTrialResponseCode}
                                     gettingTrialError={this.state.gettingTrialError}
                                     requestLicense={this.requestLicense}
-                                    gettingTrial={this.state.gettingTrial}
                                     enterpriseReady={this.props.enterpriseReady}
                                     upgradingPercentage={this.state.upgradingPercentage}
                                     handleUpgrade={this.handleUpgrade}

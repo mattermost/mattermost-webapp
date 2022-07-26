@@ -8,9 +8,11 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 
 import {AnalyticsRow} from '@mattermost/types/admin';
 import {ClientLicense} from '@mattermost/types/config';
+
 import {EmbargoedEntityTrialError} from 'components/admin_console/license_settings/trial_banner/trial_banner';
 import AlertBanner from 'components/alert_banner';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
+import StartTrialBtn from 'components/learn_more_trial_modal/start_trial_btn';
 
 import {ModalIdentifiers, TELEMETRY_CATEGORIES, AboutLinks, LicenseLinks} from 'utils/constants';
 import {ActionResult} from 'mattermost-redux/types/actions';
@@ -19,7 +21,6 @@ import * as Utils from 'utils/utils';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
-import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import PurchaseModal from 'components/purchase_modal';
 import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
 
@@ -125,52 +126,49 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
         const canRequestCloudFreeTrial = isCloud && !isCloudTrial && !hadPrevCloudTrial && !isPaidSubscription;
 
         // by default we assume is not cloud, so the cta button is Start Trial (which will request a trial license)
-        let primaryMessage = (
-            <FormattedMessage
-                id='admin.ldap_feature_discovery.call_to_action.primary'
-                defaultMessage='Start trial'
-            />
-        );
-        let ctaButtonFunction: (e: React.MouseEvent) => void = this.requestLicense;
-
-        // then if it is cloud, and this account already had a free trial, then the cta button must be Upgrade now
-        if (isCloud && hadPrevCloudTrial) {
-            ctaButtonFunction = this.openUpgradeModal;
-            primaryMessage = (
-                <FormattedMessage
-                    id='admin.ldap_feature_discovery_cloud.call_to_action.primary'
-                    defaultMessage='Upgrade now'
-                />
-            );
-        }
-
-        // if all conditions are set for being able to request a cloud trial, then show the cta start cloud trial button
-        // otherwise use the previously defined conditions to elaborate the button
-        const ctaPrimaryButton = canRequestCloudFreeTrial ? (
-            <CloudStartTrialButton
-                message={Utils.localizeAndFormatMessage(
-                    'admin.ldap_feature_discovery.call_to_action.primary.cloudFree',
-                    'Try free for {trialLength} days',
-                    {trialLength: FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS},
+        let ctaPrimaryButton = (
+            <StartTrialBtn
+                message={Utils.localizeMessage(
+                    'admin.ldap_feature_discovery.call_to_action.primary',
+                    'Start trial',
                 )}
                 telemetryId={'start_cloud_trial_feature_discovery'}
-                extraClass='btn btn-primary'
+                btnClass='btn btn-primary'
+                renderAsButton={true}
             />
-        ) : (
-            <button
-                type='button'
-                className='btn btn-primary'
-                data-testid='featureDiscovery_primaryCallToAction'
-                onClick={ctaButtonFunction}
-            >
-                <LoadingWrapper
-                    loading={this.state.gettingTrial}
-                    text={Utils.localizeMessage('admin.license.trial-request.loading', 'Getting trial')}
-                >
-                    {primaryMessage}
-                </LoadingWrapper>
-            </button>
         );
+
+        if (isCloud) {
+        // if all conditions are set for being able to request a cloud trial, then show the cta start cloud trial button
+            if (canRequestCloudFreeTrial) {
+                ctaPrimaryButton = (
+                    <CloudStartTrialButton
+                        message={Utils.localizeAndFormatMessage(
+                            'admin.ldap_feature_discovery.call_to_action.primary.cloudFree',
+                            'Try free for {trialLength} days',
+                            {trialLength: FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS},
+                        )}
+                        telemetryId={'start_cloud_trial_feature_discovery'}
+                        extraClass='btn btn-primary'
+                    />
+                );
+            } else if (hadPrevCloudTrial) {
+                // if it is cloud, but this account already had a free trial, then the cta button must be Upgrade now
+                ctaPrimaryButton = (
+                    <button
+                        className='btn btn-primary'
+                        data-testid='featureDiscovery_primaryCallToAction'
+                        onClick={this.openUpgradeModal}
+                    >
+                        <FormattedMessage
+                            id='admin.ldap_feature_discovery_cloud.call_to_action.primary'
+                            defaultMessage='Upgrade now'
+                        />
+                    </button>
+                );
+            }
+        }
+
         return (
             <>
                 {ctaPrimaryButton}
@@ -190,7 +188,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                 {(!this.props.isCloud || canRequestCloudFreeTrial) && <p className='trial-legal-terms'>
                     {canRequestCloudFreeTrial ? (
                         <FormattedMessage
-                            id='admin.license.trial-request.accept-terms.cloudFree'
+                            id='admin.feature_discovery.trial-request.accept-terms.cloudFree'
                             defaultMessage='By selecting <highlight>Try free for {trialLength} days</highlight>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails.'
                             values={{
                                 trialLength: FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS,
@@ -219,7 +217,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                         />
                     ) : (
                         <FormattedMarkdownMessage
-                            id='admin.license.trial-request.accept-terms'
+                            id='admin.feature_discovery.trial-request.accept-terms'
                             defaultMessage='By clicking **Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails.'
                         />
                     )}
@@ -259,7 +257,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
             gettingTrialError = (
                 <p className='trial-error'>
                     <FormattedMessage
-                        id='admin.license.trial-request.error'
+                        id='admin.feature_discovery.trial-request.error'
                         defaultMessage='Trial license could not be retrieved. Visit <link>https://mattermost.com/trial</link> to request a license.'
                         values={{
                             link: (msg: React.ReactNode) => (

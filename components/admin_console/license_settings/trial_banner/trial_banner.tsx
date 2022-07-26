@@ -21,13 +21,13 @@ import {Preferences, Unique} from 'utils/constants';
 
 import {GlobalState} from 'types/store';
 import store from 'stores/redux_store.jsx';
+import StartTrialBtn from 'components/learn_more_trial_modal/start_trial_btn';
 
 interface TrialBannerProps {
     isDisabled: boolean;
     gettingTrialError: string | null;
     gettingTrialResponseCode: number | null;
     requestLicense: (e?: React.MouseEvent<HTMLButtonElement>, reload?: boolean) => Promise<void>;
-    gettingTrial: boolean;
     enterpriseReady: boolean;
     upgradingPercentage: number;
     handleUpgrade: () => Promise<void>;
@@ -62,7 +62,6 @@ const TrialBanner: React.FC<TrialBannerProps> = ({
     gettingTrialError,
     gettingTrialResponseCode,
     requestLicense,
-    gettingTrial,
     enterpriseReady,
     upgradingPercentage,
     handleUpgrade,
@@ -160,22 +159,16 @@ const TrialBanner: React.FC<TrialBannerProps> = ({
                 );
         }
         trialButton = (
-            <button
-                type='button'
-                className='btn btn-primary'
-                onClick={requestLicense}
+            <StartTrialBtn
+                message={localizeMessage(
+                    'admin.ldap_feature_discovery.call_to_action.primary',
+                    'Start trial',
+                )}
+                telemetryId={'start_cloud_trial_feature_discovery'}
+                btnClass='btn btn-primary'
+                renderAsButton={true}
                 disabled={isDisabled}
-            >
-                <LoadingWrapper
-                    loading={gettingTrial}
-                    text={localizeMessage('admin.license.trial-request.loading', 'Getting trial')}
-                >
-                    <FormattedMessage
-                        id='admin.license.trial-request.submit'
-                        defaultMessage='Start trial'
-                    />
-                </LoadingWrapper>
-            </button>
+            />
         );
         content = (
             <>
