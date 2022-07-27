@@ -39,7 +39,7 @@ export default class FileAttachmentList extends React.PureComponent<Props> {
             isInPermalink,
         } = this.props;
 
-        if (fileInfos && fileInfos.length === 1) {
+        if (fileInfos && fileInfos.length === 1 && !fileInfos[0].archived) {
             const fileType = getFileType(fileInfos[0].extension);
 
             if (fileType === FileTypes.IMAGE || (fileType === FileTypes.SVG && enableSVGs)) {
@@ -53,7 +53,7 @@ export default class FileAttachmentList extends React.PureComponent<Props> {
                     />
                 );
             }
-        } else if (fileCount === 1 && this.props.isEmbedVisible) {
+        } else if (fileCount === 1 && this.props.isEmbedVisible && !Boolean(fileInfos?.[0])) {
             return (
                 <div style={style.minHeightPlaceholder}/>
             );

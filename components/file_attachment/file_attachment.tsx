@@ -132,6 +132,9 @@ export default class FileAttachment extends React.PureComponent<Props, State> {
     }
 
     onAttachmentClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+        if (this.props.fileInfo.archived) {
+            return;
+        }
         e.preventDefault();
 
         if ('blur' in e.target) {
@@ -303,7 +306,7 @@ export default class FileAttachment extends React.PureComponent<Props, State> {
                 fileThumbnail = (
                     <ArchiveOutlineIcon
                         size={48}
-                        color={'rgba(var(--center-channel-text-rgb), 0.56)'}
+                        color={'rgba(var(--center-channel-text-rgb), 0.48)'}
                     />
                 );
             }
@@ -337,7 +340,9 @@ export default class FileAttachment extends React.PureComponent<Props, State> {
                 </div>
             );
 
-            fileActions = this.renderFileMenuItems();
+            if (!fileInfo.archived) {
+                fileActions = this.renderFileMenuItems();
+            }
         }
 
         let filenameOverlay;
@@ -376,9 +381,9 @@ export default class FileAttachment extends React.PureComponent<Props, State> {
         );
 
         if (fileInfo.archived) {
+            console.log('archived, have a trigger')
             return (
                 <OverlayTrigger
-                    className='hidden-xs'
                     delayShow={1000}
                     placement='right'
                     overlay={<ArchivedTooltip/>}
