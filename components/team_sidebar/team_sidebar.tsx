@@ -306,7 +306,8 @@ export default class TeamSidebar extends React.PureComponent<Props, State> {
         }
 
         // Disable team sidebar pluggables in products until proper support can be provided.
-        if (!currentProduct) {
+        const isNonChannelsProduct = !currentProduct;
+        if (isNonChannelsProduct) {
             plugins.push(
                 <div
                     key='team-sidebar-bottom-plugin'
