@@ -61,7 +61,7 @@ export default class PostReminderCustomTimePicker extends React.PureComponent<Pr
         const modalHeaderText = (
             <FormattedMessage
                 id='post_reminder.custom_time_picker_modal.header'
-                defaultMessage='Remind about post at'
+                defaultMessage='Set a reminder'
             />
         );
         const confirmButtonText = (
@@ -154,14 +154,14 @@ export default class PostReminderCustomTimePicker extends React.PureComponent<Pr
 
         return (
             <GenericModal
-                ariaLabel={localizeMessage('post_reminder_custom_time_picker_modal.defaultMsg', 'Remind about post at')}
+                ariaLabel={localizeMessage('post_reminder_custom_time_picker_modal.defaultMsg', 'Set a reminder')}
                 onExited={this.props.onExited}
                 modalHeaderText={modalHeaderText}
                 confirmButtonText={confirmButtonText}
                 handleConfirm={this.handleConfirm}
                 handleEnterKeyPress={this.handleConfirm}
                 id='PostReminderCustomTimePickerModal'
-                className={'postReminderModal modal-overflow'}
+                className={'PostReminderModal modal-overflow'}
             >
                 <div className='PostReminderModal__content'>
                     <div>

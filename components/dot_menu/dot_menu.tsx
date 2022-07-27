@@ -482,7 +482,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         const headerText = (
             <>
                 <span className={'postReminderMenuHeader'}>
-                    {Utils.localizeMessage('post_info.post_reminder.sub_menu.header', 'Remind after:')}
+                    {Utils.localizeMessage('post_info.post_reminder.sub_menu.header', 'Set a reminder for:')}
                 </span>
             </>
         );
@@ -497,7 +497,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         ].concat(
             this.postReminderTimes.map(({id, label, labelDefault}) => {
                 let text: React.ReactNode = Utils.localizeMessage(label, labelDefault);
-                if (id === 'custom') {
+                if (id === 'tomorrow') {
                     const tomorrow = getCurrentMomentForTimezone(this.props.timezone).add(1, 'day').toDate();
                     text = (
                         <>
