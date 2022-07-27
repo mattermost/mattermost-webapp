@@ -19,6 +19,7 @@ type Props = {
     userId: string;
     postId: string;
     currentDate: Date;
+    isMilitaryTime: boolean;
     actions: {
         addPostReminder: (postId: string, userId: string, timestamp: number) => void;
     };
@@ -78,8 +79,18 @@ export default class PostReminderCustomTimePicker extends React.PureComponent<Pr
     }
 
     handleConfirm = () => {
-        const hours = parseInt(this.state.selectedTime.split(':')[0], 10);
-        const minutes = parseInt(this.state.selectedTime.split(':')[1], 10);
+        let hours;
+        let minutes;
+        if (this.props.isMilitaryTime) {
+            hours = parseInt(this.state.selectedTime.split(':')[0], 10);
+            minutes = parseInt(this.state.selectedTime.split(':')[1], 10);
+        } else {
+            hours = parseInt(this.state.selectedTime.split(':')[0], 10);
+            const suffix = this.state.selectedTime.split(':')[1];
+            minutes = parseInt(suffix.split(' ')[0], 10);
+            const ampm = suffix.split(' ')[1];
+            hours = ampm === 'AM' ? hours : hours + 12;
+        }
         const endTime = new Date(this.state.selectedDate);
         endTime.setHours(hours, minutes);
         if (endTime < new Date()) {
@@ -114,11 +125,19 @@ export default class PostReminderCustomTimePicker extends React.PureComponent<Pr
 
         for (let i = h; i < 24; i++) {
             for (let j = m / 30; j < 2; j++) {
-                const t = i.toString().padStart(2, '0') + ':' + (j * 30).toString().padStart(2, '0');
+                let t;
+                if (this.props.isMilitaryTime) {
+                    t = i.toString().padStart(2, '0') + ':' + (j * 30).toString().padStart(2, '0');
+                } else {
+                    const ampm = i >= 12 ? ' PM' : ' AM';
+                    const hour = i > 12 ? i - 12 : i;
+                    t = hour.toString() + ':' + (j * 30).toString().padStart(2, '0') + ampm;
+                }
                 timeMenuItems.push(
                     t,
                 );
             }
+            m = 0;
         }
 
         return {

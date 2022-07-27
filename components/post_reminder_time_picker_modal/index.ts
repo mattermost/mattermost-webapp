@@ -6,8 +6,10 @@ import {connect} from 'react-redux';
 
 import {bindActionCreators, Dispatch} from 'redux';
 
+import {Preferences} from 'mattermost-redux/constants';
 import {addPostReminder} from 'mattermost-redux/actions/posts';
 
+import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {GlobalState} from 'types/store';
@@ -17,9 +19,11 @@ const PostReminderCustomTimePicker = makeAsyncComponent('PostReminderCustomTimeP
 
 function mapStateToProps(state: GlobalState) {
     const userId = getCurrentUserId(state);
+    const isMilitaryTime = getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.USE_MILITARY_TIME, false);
 
     return {
         userId,
+        isMilitaryTime,
     };
 }
 
