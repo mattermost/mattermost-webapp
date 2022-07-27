@@ -19,7 +19,7 @@ import {PostListRowListIds} from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
 
 // @ts-expect-error TS(6142): Module './toast_wrapper.jsx' was resolved to '/Use... Remove this comment to see the full error message
-import ToastWrapper from './toast_wrapper.jsx';
+import ToastWrapper from './toast_wrapper.tsx';
 
 // @ts-expect-error TS(2582): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe('components/ToastWrapper', () => {
