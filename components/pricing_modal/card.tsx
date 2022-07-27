@@ -4,6 +4,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import BuildingSvg from './building.svg';
+import TadaSvg from './tada.svg';
+
 export enum ButtonCustomiserClasses {
     grayed = 'grayed',
     active = 'active',
@@ -13,7 +16,12 @@ export enum ButtonCustomiserClasses {
 
 type PlanBriefing = {
     title: string;
-    items: string[];
+    items?: string[];
+}
+
+type PlanAddonsInfo = {
+    title: string;
+    items: PlanBriefing[];
 }
 
 type ButtonDetails = {
@@ -26,16 +34,17 @@ type ButtonDetails = {
 type CardProps = {
     id: string;
     topColor: string;
+    planLabel?: JSX.Element;
     plan: string;
-    price: string;
+    planSummary?: string;
+    price?: string;
     rate?: string;
-    briefing: PlanBriefing;
-    extraBriefing?: PlanBriefing;
     planExtraInformation?: JSX.Element;
     buttonDetails?: ButtonDetails;
     customButtonDetails?: JSX.Element;
-    planLabel?: JSX.Element;
-    planDisclaimer?: JSX.Element;
+    contactSalesCTA?: JSX.Element;
+    briefing: PlanBriefing;
+    planAddonsInfo?: PlanAddonsInfo;
 }
 
 type StyledProps = {
@@ -59,27 +68,17 @@ function Card(props: CardProps) {
             />
             <div className='bottom'>
                 <div className='plan_price_rate_section'>
-                    <h4>{props.plan}</h4>
-                    <h1 className={props.plan === 'Enterprise' ? 'enterprise_price' : ''}>{props.price}</h1>
+                    <h3>{props.plan}</h3>
+                    <p>{props.planSummary}</p>
+                    {props.price ? <h1>{props.price}</h1> : <BuildingSvg/>}
                     <p>{props.rate}</p>
                 </div>
-                <div className='plan_briefing'>
-                    <div>
-                        <span className='title'>{props.briefing.title}</span>
-                        {props.briefing.items.map((i) => {
-                            return (
-                                <div
-                                    className='item'
-                                    key={i}
-                                >
-                                    <i className='fa fa-circle bullet'/><p>{i}</p>
-                                </div>
-                            );
-                        })}
-                    </div>
+
+                <div className='plan_limits_cta'>
                     {props.planExtraInformation}
                 </div>
-                <div>
+
+                <div className='plan_buttons'>
                     {props.customButtonDetails || (
                         <button
                             id={props.id + '_action'}
@@ -91,11 +90,20 @@ function Card(props: CardProps) {
                         </button>
                     )}
                 </div>
-                {props.planDisclaimer}
-                <div className='plan_extra_briefing'>
+
+                <div className='contact_sales_cta'>
+                    {props.contactSalesCTA && (
+                        <div>
+                            <p>{'or'}</p>
+                            {props.contactSalesCTA}
+                        </div>)}
+                </div>
+
+                <div className='plan_briefing'>
+                    <hr/>
                     <div>
-                        <span className='title'>{props.extraBriefing?.title}</span>
-                        {props.extraBriefing?.items.map((i) => {
+                        <span className='title'>{props.briefing.title}</span>
+                        {props.briefing.items?.map((i) => {
                             return (
                                 <div
                                     className='item'
@@ -107,6 +115,36 @@ function Card(props: CardProps) {
                         })}
                     </div>
                 </div>
+
+                {props.planAddonsInfo && (
+                    <div className='plan_add_ons'>
+                        <div className='illustration'><TadaSvg/></div>
+                        <h4 className='title'>{props.planAddonsInfo.title}</h4>
+                        {props.planAddonsInfo.items.map((i, ind) => {
+                            return (
+                                <div
+                                    className='item'
+                                    key={ind}
+                                >
+                                    <div className='item_title'><i className='fa fa-circle bullet fa-xs'/><p>{i.title}</p></div>
+                                    {i.items?.map((sub) => {
+                                        return (
+                                            <div
+                                                className='subitem'
+                                                key={sub}
+                                            >
+                                                <div className='subitem_title'><i className='fa fa-circle bullet fa-xs'/><p>{sub}</p></div>
+                                            </div>
+
+                                        );
+                                    })}
+                                </div>
+                            );
+                        })}
+
+                    </div>
+                )}
+
             </div>
         </div>
     );

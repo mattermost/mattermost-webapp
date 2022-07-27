@@ -32,7 +32,7 @@ import NotifyAdminCTA from 'components/notify_admin_cta/notify_admin_cta';
 import DowngradeTeamRemovalModal from './downgrade_team_removal_modal';
 import ContactSalesCTA from './contact_sales_cta';
 import StarterDisclaimerCTA from './starter_disclaimer_cta';
-import NewCard, {ButtonCustomiserClasses} from './newcard';
+import Card, {ButtonCustomiserClasses} from './card';
 
 import './content.scss';
 
@@ -137,7 +137,7 @@ function Content(props: ContentProps) {
                     <h1 className='title'>
                         {formatMessage({id: 'pricing_modal.title', defaultMessage: 'Select a plan'})}
                     </h1>
-                    <div>{'Choose a plan to get started'}</div>
+                    <div>{formatMessage({id: 'pricing_modal.subtitle', defaultMessage: 'Choose a plan to get started'})}</div>
                 </div>
                 <button
                     id='closeIcon'
@@ -163,7 +163,7 @@ function Content(props: ContentProps) {
                     >{formatMessage({id: 'pricing_modal.reviewDeploymentOptions', defaultMessage: 'Review deployment options'})}</a>
                 </div>
                 <div className='PricingModal__body'>
-                    <NewCard
+                    <Card
                         id='starter'
                         topColor='#339970'
                         plan='Starter'
@@ -209,7 +209,7 @@ function Content(props: ContentProps) {
                         }}
                     />
 
-                    <NewCard
+                    <Card
                         id='professional'
                         topColor='var(--denim-button-bg)'
                         plan='Professional'
@@ -256,7 +256,7 @@ function Content(props: ContentProps) {
                         }}
                     />
 
-                    <NewCard
+                    <Card
                         id='enterprise'
                         topColor='#E07315'
                         plan='Enterprise'
