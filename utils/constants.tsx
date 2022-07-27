@@ -440,6 +440,11 @@ export const CloudProducts = {
     LEGACY: 'cloud-legacy',
 };
 
+export const SelfHostedLicenseSKUNames = {
+    PROFESSIONAL: 'professional',
+    ENTERPRISE: 'enterprise',
+};
+
 export const A11yClassNames = {
     REGION: 'a11y__region',
     SECTION: 'a11y__section',

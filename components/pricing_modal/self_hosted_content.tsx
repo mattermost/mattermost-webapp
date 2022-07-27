@@ -6,7 +6,7 @@ import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {CloudLinks, LicenseLinks, ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
+import {CloudLinks, LicenseLinks, ModalIdentifiers, SelfHostedLicenseSKUNames, TELEMETRY_CATEGORIES} from 'utils/constants';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {closeModal} from 'actions/views/modals';
@@ -44,8 +44,8 @@ function SelfHostedContent(props: ContentProps) {
     const isSelfHostedEnterpriseTrial = license.IsTrial === 'true';
 
     const isStarter = license.IsLicensed === 'false';
-    const isProfessional = false;
-    const isEnterprise = false;
+    const isProfessional = license.SkuShortName === SelfHostedLicenseSKUNames.PROFESSIONAL;
+    const isEnterprise = license.SkuShortName === SelfHostedLicenseSKUNames.ENTERPRISE;
     const isPostSelfHostedEnterpriseTrial = prevSelfHostedTrialLicense.IsLicensed === 'true';
 
     const closePricingModal = () => {
@@ -180,7 +180,7 @@ function SelfHostedContent(props: ContentProps) {
                                 window.open(CloudLinks.SELF_HOSTED_SIGNUP, '_blank');
                             },
                             text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
-                            disabled: !isAdmin,
+                            disabled: !isAdmin || isProfessional,
                             customClass: isPostSelfHostedEnterpriseTrial ? ButtonCustomiserClasses.special : ButtonCustomiserClasses.active,
                         }}
 
