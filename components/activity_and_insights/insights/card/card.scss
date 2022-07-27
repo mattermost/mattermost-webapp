@@ -95,6 +95,11 @@
             }
         }
 
+        @media screen and (min-width: 1680px) {
+            width: 1264px;
+            align-self: center;
+        }
+
         @media screen and (max-width: 1019px) {
             width: calc(100% - 16px);
         }

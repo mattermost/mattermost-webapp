@@ -1,18 +1,19 @@
 .ActivityAndInsights {
     background-color: rgba(var(--center-channel-color-rgb), 0.04);
 
-    @media screen and (min-width: 1680px) {
-        display: block;
-    }
-
     .insights-body {
         padding: 24px;
         overflow-x: hidden;
         overflow-y: auto;
 
         @media screen and (min-width: 1680px) {
-            max-width: 1264px;
-            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+
+            .card-row {
+                width: 1280px;
+                margin: auto;
+            }
         }
 
         @media screen and (max-width: 768px) {

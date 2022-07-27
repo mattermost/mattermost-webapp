@@ -79,33 +79,35 @@ const Insights = () => {
                     timeFrame={timeFrame.value}
                     timeFrameLabel={timeFrame.label}
                 />
-                <TopThreads
-                    size={focalboardEnabled ? CardSizes.small : CardSizes.medium}
-                    filterType={filterType}
-                    widgetType={InsightsWidgetTypes.TOP_THREADS}
-                    class={'top-threads-card'}
-                    timeFrame={timeFrame.value}
-                    timeFrameLabel={timeFrame.label}
-                />
-                {
-                    focalboardEnabled &&
-                    <TopBoards
-                        size={CardSizes.small}
+                <div className='card-row'>
+                    <TopThreads
+                        size={focalboardEnabled ? CardSizes.small : CardSizes.medium}
                         filterType={filterType}
-                        widgetType={InsightsWidgetTypes.TOP_BOARDS}
-                        class={'top-boards-card'}
+                        widgetType={InsightsWidgetTypes.TOP_THREADS}
+                        class={'top-threads-card'}
                         timeFrame={timeFrame.value}
                         timeFrameLabel={timeFrame.label}
                     />
-                }
-                <TopReactions
-                    size={focalboardEnabled ? CardSizes.small : CardSizes.medium}
-                    filterType={filterType}
-                    widgetType={InsightsWidgetTypes.TOP_REACTIONS}
-                    class={'top-reactions-card'}
-                    timeFrame={timeFrame.value}
-                    timeFrameLabel={timeFrame.label}
-                />
+                    {
+                        focalboardEnabled &&
+                        <TopBoards
+                            size={CardSizes.small}
+                            filterType={filterType}
+                            widgetType={InsightsWidgetTypes.TOP_BOARDS}
+                            class={'top-boards-card'}
+                            timeFrame={timeFrame.value}
+                            timeFrameLabel={timeFrame.label}
+                        />
+                    }
+                    <TopReactions
+                        size={focalboardEnabled ? CardSizes.small : CardSizes.medium}
+                        filterType={filterType}
+                        widgetType={InsightsWidgetTypes.TOP_REACTIONS}
+                        class={'top-reactions-card'}
+                        timeFrame={timeFrame.value}
+                        timeFrameLabel={timeFrame.label}
+                    />
+                </div>
                 <TopDMsAndNewMembers
                     size={CardSizes.large}
                     filterType={filterType}
