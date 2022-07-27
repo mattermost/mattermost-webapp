@@ -954,7 +954,7 @@ export const DocLinks = {
 };
 
 export const LicenseLinks = {
-    CONTACT_SALES: 'https://mattermost.com/contact-sales/',
+    CONTACT_SALES: 'https://mattermost.com/pl/contact-sales',
     SOFTWARE_EVALUATION_AGREEMENT: 'https://mattermost.com/software-evaluation-agreement/',
 };
 
