@@ -301,6 +301,11 @@
 
 .post-image__archived-tooltip-title {
     font-weight: 600;
+    padding-bottom: 1px;
+
+}
+.post-image__archived-tooltip-description {
+    opacity: 0.56;
 }
 
 .post-image__columns {
@@ -327,6 +332,10 @@
 
     &--archived {
         cursor: default;
+
+        svg {
+            margin: 0 4px;
+        }
     }
 
     &:hover,
