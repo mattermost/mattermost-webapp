@@ -104,3 +104,26 @@ export type TopBoardResponse = {
     has_next: boolean;
     items: TopBoard[];
 };
+
+export type TopDM = {
+    post_count: number;
+    second_participant : {
+        id: string;
+        first_name: string;
+        last_name: string;
+        last_picture_update: number;
+        nickname: string;
+        position: string;
+        username: string;
+    }
+};
+
+export type TopDMsResponse = {
+    has_next: boolean;
+    items: TopDM[];
+};
+
+export type TopDMsActionResult = {
+    data?: TopDMsResponse;
+    error?: any;
+};

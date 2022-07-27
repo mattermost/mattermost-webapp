@@ -152,6 +152,10 @@
                             margin: 0;
                             white-space: normal;
 
+                            &.message-count {
+                                justify-content: end;
+                            }
+
                             &.rankCell {
                                 flex: 0.2 0;
                             }
@@ -208,6 +212,11 @@
                                     margin-left: 16px;
                                     background: var(--button-bg);
                                     border-radius: 6px;
+
+                                    &.top-dms {
+                                        background: var(--online-indicator);
+                                        opacity: 1;
+                                    }
                                 }
                             }
 
@@ -256,6 +265,30 @@
                             .Avatars___xs {
                                 margin-left: auto;
                             }
+
+                            .user-info {
+                                display: flex;
+                                align-items: center;
+                                overflow: hidden;
+
+                                &:hover {
+                                    text-decoration: none;
+                                }
+
+                                .display-name {
+                                    font-family: 'Open Sans';
+                                    font-style: normal;
+                                    font-weight: 600;
+                                    font-size: 14px;
+                                    line-height: 20px;
+                                    color: var(--center-channel-color);
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
+                                    white-space: nowrap;
+                                    margin-left: 12px;
+                                }
+                            }
+                            
                         }
                     }
                 }
