@@ -47,7 +47,7 @@ export function getDrafts(teamId: string) {
     return async (dispatch: DispatchFunc) => {
         let drafts: ServerDraft[] = [];
         drafts = await Client4.getUserDrafts(teamId);
-        const actions = drafts.map((draft) => {
+        const actions = (drafts || []).map((draft) => {
             const {key, value} = transformServerDraft(draft);
             localStorage.setItem(key, JSON.stringify(value));
             return setGlobalItem(key, value);

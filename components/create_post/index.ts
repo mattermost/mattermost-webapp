@@ -175,6 +175,7 @@ function setDraft(key: string, value: PostDraft) {
             updatedValue = {
                 ...value,
                 channelId,
+                remote: false,
             };
         }
 

@@ -256,7 +256,10 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         let updatedState: Partial<State> = {
             currentChannel: props.currentChannel,
         };
-        if (props.currentChannel.id !== state.currentChannel.id) {
+        if (
+            props.currentChannel.id !== state.currentChannel.id ||
+            (props.draft.remote && props.draft.message !== state.message)
+        ) {
             updatedState = {
                 ...updatedState,
                 message: props.draft.message,

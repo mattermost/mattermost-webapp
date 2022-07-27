@@ -85,5 +85,6 @@ export type GlobalState = {
         connected: boolean;
         lastConnectAt: number;
         lastDisconnectAt: number;
+        connectionId: string;
     };
 };

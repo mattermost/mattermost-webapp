@@ -572,10 +572,9 @@ export function handleEvent(msg) {
         dispatch(handleAppsPluginDisabled());
         break;
     case SocketEvents.DRAFT_CREATED:
-    case SocketEvents.DRAFT_UPDATED: {
+    case SocketEvents.DRAFT_UPDATED:
         dispatch(handleUpsertDraftEvent(msg));
         break;
-    }
     case SocketEvents.DRAFT_DELETED:
         dispatch(handleDeleteDraftEvent(msg));
         break;
@@ -1288,6 +1287,7 @@ function handleStatusChangedEvent(msg) {
 
 function handleHelloEvent(msg) {
     setServerVersion(msg.data.server_version)(dispatch, getState);
+    dispatch(setConnectionId(msg.data.connection_id));
 }
 
 function handleReactionAddedEvent(msg) {
@@ -1299,6 +1299,13 @@ function handleReactionAddedEvent(msg) {
         type: PostTypes.RECEIVED_REACTION,
         data: reaction,
     });
+}
+
+function setConnectionId(connectionId) {
+    return {
+        type: GeneralTypes.SET_CONNECTION_ID,
+        payload: {connectionId},
+    };
 }
 
 function handleAddEmoji(msg) {
@@ -1725,8 +1732,9 @@ function handleThreadFollowChanged(msg) {
 function handleUpsertDraftEvent(msg) {
     return async (doDispatch) => {
         const draft = JSON.parse(msg.data.draft);
-        draft.show = true;
         const {key, value} = transformServerDraft(draft);
+        value.show = true;
+        value.remote = true;
 
         localStorage.setItem(key, JSON.stringify(value));
         doDispatch(setGlobalItem(key, value));
@@ -1739,6 +1747,6 @@ function handleDeleteDraftEvent(msg) {
         const {key} = transformServerDraft(draft);
 
         localStorage.removeItem(key);
-        doDispatch(setGlobalItem(key, {message: '', fileInfos: [], uploadsInProgress: []}));
+        doDispatch(setGlobalItem(key, {message: '', fileInfos: [], uploadsInProgress: [], remote: true}));
     };
 }

@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 /* eslint-disable max-lines */
 
+import isEqual from 'lodash/isEqual';
 import React, {CSSProperties, SyntheticEvent} from 'react';
 import classNames from 'classnames';
 import {injectIntl, IntlShape} from 'react-intl';
@@ -330,7 +331,10 @@ class CreatePost extends React.PureComponent<Props, State> {
 
     static getDerivedStateFromProps(props: Props, state: State): Partial<State> {
         let updatedState: Partial<State> = {currentChannel: props.currentChannel};
-        if (props.currentChannel.id !== state.currentChannel.id) {
+        if (
+            props.currentChannel.id !== state.currentChannel.id ||
+            (props.draft.remote && props.draft.message !== state.message)
+        ) {
             updatedState = {
                 ...updatedState,
                 message: props.draft.message,

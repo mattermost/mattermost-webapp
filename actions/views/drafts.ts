@@ -8,13 +8,17 @@ import {Client4} from 'mattermost-redux/client';
 import type {UserProfile} from '@mattermost/types/users';
 
 import {setGlobalItem} from 'actions/storage';
+import {getConnectionId} from 'selectors/general';
+import type {GlobalState} from 'types/store';
 import {PostDraft} from 'types/store/draft';
+import {StoragePrefixes} from 'utils/constants';
 
 export function removeDraft(key: string, channelId: string, rootId = '') {
-    return async (dispatch: DispatchFunc) => {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         localStorage.removeItem(key);
         dispatch(setGlobalItem(key, {message: '', fileInfos: [], uploadsInProgress: []}));
-        await Client4.deleteDraft(channelId, rootId);
+        const connectionId = getConnectionId(getState() as GlobalState);
+        await Client4.deleteDraft(channelId, rootId, connectionId);
 
         return {data: true};
     };
@@ -31,12 +35,15 @@ export function updateDraft(key: string, value: PostDraft|null, rootId = '') {
                 ...value,
                 createAt: data.createAt || timestamp,
                 updateAt: timestamp,
+                remote: false,
             };
             localStorage.setItem(key, JSON.stringify(updatedValue));
 
-            const userId = getCurrentUserId(getState());
+            const state = getState() as GlobalState;
+            const connectionId = getConnectionId(state);
+            const userId = getCurrentUserId(state);
             if (updatedValue.show) {
-                await upsertDraft(updatedValue, userId, rootId);
+                await upsertDraft(updatedValue, userId, rootId, connectionId);
             }
         } else {
             localStorage.removeItem(key);
@@ -53,6 +60,8 @@ export function removeFilePreview(key: string, id: string) {
             return;
         }
         const draft = JSON.parse(item) as PostDraft;
+        const state = getState() as GlobalState;
+        const connectionId = getConnectionId(state);
 
         const index = draft.fileInfos.findIndex((info) => info.id === id);
 
@@ -66,17 +75,21 @@ export function removeFilePreview(key: string, id: string) {
                 ...draft,
                 fileInfos,
             };
+            let rootId = '';
+            if (key.startsWith(StoragePrefixes.COMMENT_DRAFT)) {
+                rootId = id;
+            }
 
             localStorage.setItem(key, JSON.stringify(updatedDraft));
             dispatch(setGlobalItem(key, updatedDraft));
 
-            const userId = getCurrentUserId(getState());
-            await upsertDraft(updatedDraft, userId);
+            const userId = getCurrentUserId(state);
+            await upsertDraft(updatedDraft, userId, rootId, connectionId);
         }
     };
 }
 
-function upsertDraft(draft: PostDraft, userId: UserProfile['id'], rootId = '') {
+function upsertDraft(draft: PostDraft, userId: UserProfile['id'], rootId = '', connectionId: string) {
     const fileIds = draft.fileInfos.map((file) => file.id);
     const newDraft = {
         create_at: draft.createAt || 0,
@@ -90,5 +103,5 @@ function upsertDraft(draft: PostDraft, userId: UserProfile['id'], rootId = '') {
         file_ids: fileIds,
     };
 
-    return Client4.upsertDraft(newDraft);
+    return Client4.upsertDraft(newDraft, connectionId);
 }

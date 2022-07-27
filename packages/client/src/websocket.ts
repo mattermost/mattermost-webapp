@@ -101,7 +101,7 @@ export default class WebSocketClient {
         this.conn = new WebSocket(`${connectionUrl}?connection_id=${this.connectionId}&sequence_number=${this.serverSequence}`);
         this.connectionUrl = connectionUrl;
 
-        this.conn.onopen = () => {
+        this.conn.onopen = (ev) => {
             if (token) {
                 this.sendMessage('authentication_challenge', {token});
             }

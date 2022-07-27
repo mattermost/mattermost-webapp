@@ -9,6 +9,7 @@ function getInitialState() {
         connected: false,
         lastConnectAt: 0,
         lastDisconnectAt: 0,
+        connectionId: '',
     };
 }
 
@@ -29,6 +30,17 @@ export default function reducer(state = getInitialState(), action: GenericAction
 
     if (action.type === UserTypes.LOGOUT_SUCCESS) {
         return getInitialState();
+    }
+
+    if (action.type === UserTypes.LOGOUT_SUCCESS) {
+        return getInitialState();
+    }
+
+    if (action.type === GeneralTypes.SET_CONNECTION_ID) {
+        return {
+            ...state,
+            connectionId: action.payload.connectionId,
+        };
     }
 
     return state;
