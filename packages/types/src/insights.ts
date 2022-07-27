@@ -107,7 +107,7 @@ export type TopBoardResponse = {
 
 export type TopDM = {
     post_count: number;
-    second_participant : {
+    second_participant: {
         id: string;
         first_name: string;
         last_name: string;
@@ -115,7 +115,7 @@ export type TopDM = {
         nickname: string;
         position: string;
         username: string;
-    }
+    };
 };
 
 export type TopDMsResponse = {

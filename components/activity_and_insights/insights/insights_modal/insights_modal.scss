@@ -268,27 +268,26 @@
 
                             .user-info {
                                 display: flex;
-                                align-items: center;
                                 overflow: hidden;
+                                align-items: center;
 
                                 &:hover {
                                     text-decoration: none;
                                 }
 
                                 .display-name {
+                                    overflow: hidden;
+                                    margin-left: 12px;
+                                    color: var(--center-channel-color);
                                     font-family: 'Open Sans';
+                                    font-size: 14px;
                                     font-style: normal;
                                     font-weight: 600;
-                                    font-size: 14px;
                                     line-height: 20px;
-                                    color: var(--center-channel-color);
-                                    overflow: hidden;
                                     text-overflow: ellipsis;
                                     white-space: nowrap;
-                                    margin-left: 12px;
                                 }
                             }
-                            
                         }
                     }
                 }

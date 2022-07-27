@@ -1,29 +1,24 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {memo, useEffect, useState, useCallback, useMemo} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import React, {memo, useCallback} from 'react';
+import {useSelector} from 'react-redux';
+import {FormattedMessage} from 'react-intl';
 
-import {getMyTopDMs} from 'mattermost-redux/actions/insights';
-
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 
+import {UserProfile} from '@mattermost/types/users';
 import {TopDM} from '@mattermost/types/insights';
-import {GlobalState} from '@mattermost/types/store';
 
-import Constants, {InsightsScopes} from 'utils/constants';
+import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import Avatar from 'components/widgets/users/avatar';
+import Tooltip from 'components/tooltip';
 
-import CircleLoader from '../../skeleton_loader/circle_loader/circle_loader';
+import {imageURLForUser} from 'utils/utils';
+import Constants from 'utils/constants';
 
 import './../../../activity_and_insights.scss';
-import Tooltip from 'components/tooltip';
-import { FormattedMessage } from 'react-intl';
-import { UserProfile } from '@mattermost/types/users';
-import { displayUsername } from 'mattermost-redux/utils/user_utils';
-import { imageURLForUser } from 'utils/utils';
 
 type Props = {
     dm: TopDM;

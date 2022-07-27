@@ -531,18 +531,18 @@
                 }
 
                 .title-line {
-                    margin-bottom: 8px;
                     width: 124px;
+                    margin-bottom: 8px;
                 }
 
                 .info-line {
                     .title {
-                        height: 8px;
                         width: 72px;
+                        height: 8px;
 
                         &:nth-of-type(1) {
-                            margin-bottom: 12px;
                             width: 92px;
+                            margin-bottom: 12px;
                         }
                     }
                 }
@@ -550,12 +550,12 @@
 
             .top-dms-item {
                 display: flex;
+                width: 20%;
                 flex: 0.2;
                 flex-direction: column;
+                margin: 0 12px;
                 margin-top: auto;
                 font-family: 'Open Sans';
-                margin: 0 12px;
-                width: 20%;
 
                 &:nth-of-type(1) {
                     margin-left: 0;
@@ -572,43 +572,45 @@
                 }
 
                 .dm-name {
+                    overflow: hidden;
                     margin-top: 12px;
-                    font-weight: 600;
-                    font-size: 12px;
-                    line-height: 16px;
                     color: var(--center-channel-color);
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                    overflow: hidden;
-                }
-                .dm-role {
-                    margin-top: 4px;
-                    font-weight: 400;
-                    font-size: 11px;
+                    font-size: 12px;
+                    font-weight: 600;
                     line-height: 16px;
-                    color: rgba(var(--center-channel-color-rgb), 0.72);
                     text-overflow: ellipsis;
                     white-space: nowrap;
-                    overflow: hidden;
                 }
-                .channel-message-count {
+
+                .dm-role {
+                    overflow: hidden;
                     margin-top: 4px;
+                    color: rgba(var(--center-channel-color-rgb), 0.72);
+                    font-size: 11px;
+                    font-weight: 400;
+                    line-height: 16px;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+
+                .channel-message-count {
                     display: flex;
                     flex: 1 0;
                     align-items: center;
+                    margin-top: 4px;
 
                     .message-count {
-                        font-weight: 400;
-                        font-size: 11px;
-                        line-height: 16px;
                         color: rgba(var(--center-channel-color-rgb), 0.72);
+                        font-size: 11px;
+                        font-weight: 400;
+                        line-height: 16px;
                     }
 
                     .horizontal-bar {
-                        margin-left: 8px;
                         min-height: 8px;
-                        border-radius: 6px;
+                        margin-left: 8px;
                         background-color: var(--online-indicator);
+                        border-radius: 6px;
                     }
                 }
             }

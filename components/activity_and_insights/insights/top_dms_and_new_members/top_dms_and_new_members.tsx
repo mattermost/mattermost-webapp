@@ -8,27 +8,24 @@ import {getMyTopDMs} from 'mattermost-redux/actions/insights';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import {TopDM} from '@mattermost/types/insights';
-import {GlobalState} from '@mattermost/types/store';
 
-import Constants, {InsightsScopes} from 'utils/constants';
-
-import OverlayTrigger from 'components/overlay_trigger';
+import {InsightsScopes} from 'utils/constants';
 
 import TitleLoader from '../skeleton_loader/title_loader/title_loader';
 import CircleLoader from '../skeleton_loader/circle_loader/circle_loader';
 import widgetHoc, {WidgetHocProps} from '../widget_hoc/widget_hoc';
 import WidgetEmptyState from '../widget_empty_state/widget_empty_state';
+
 import TopDMsItem from './top_dms_item/top_dms_item';
 
 import './../../activity_and_insights.scss';
-import Tooltip from 'components/tooltip';
-import { FormattedMessage } from 'react-intl';
 
 const TopDMsAndNewMembers = (props: WidgetHocProps) => {
     const dispatch = useDispatch();
 
     const [loading, setLoading] = useState(false);
     const [topDMs, setTopDMs] = useState([] as TopDM[]);
+    const [newMembers] = useState([] as TopDM[]);
 
     const currentTeamId = useSelector(getCurrentTeamId);
 
@@ -55,7 +52,7 @@ const TopDMsAndNewMembers = (props: WidgetHocProps) => {
                     className='dms-loading-container'
                     key={i}
                 >
-                    <CircleLoader 
+                    <CircleLoader
                         size={72}
                     />
                     <div className='title-line'>
@@ -74,11 +71,11 @@ const TopDMsAndNewMembers = (props: WidgetHocProps) => {
     return (
         <div className='top-dms-container'>
             {
-                loading && 
+                loading &&
                 skeletonLoader
             }
             {
-                (!loading && topDMs) &&
+                (!loading && topDMs && props.filterType === InsightsScopes.MY) &&
                 topDMs.map((topDM: TopDM, index: number) => {
                     const barSize = ((topDM.post_count / topDMs[0].post_count) * 0.6);
                     return (
@@ -91,9 +88,9 @@ const TopDMsAndNewMembers = (props: WidgetHocProps) => {
                 })
             }
             {
-                (topDMs.length === 0 && !loading) &&
+                (((topDMs.length === 0 && props.filterType === InsightsScopes.MY) || (newMembers.length === 0 && props.filterType === InsightsScopes.TEAM)) && !loading) &&
                 <WidgetEmptyState
-                    icon={'message-text-outline'}
+                    icon={'account-multiple-outline'}
                 />
             }
         </div>

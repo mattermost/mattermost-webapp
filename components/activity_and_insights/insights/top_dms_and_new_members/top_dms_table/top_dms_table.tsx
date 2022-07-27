@@ -7,33 +7,21 @@ import {Link} from 'react-router-dom';
 
 import classNames from 'classnames';
 
-import {selectPostAndParentChannel} from 'actions/views/rhs';
-import {trackEvent} from 'actions/telemetry_actions';
-import {openModal} from 'actions/views/modals';
+import {getMyTopDMs} from 'mattermost-redux/actions/insights';
 
-import {getMyTopDMs, getMyTopThreads as fetchMyTopThreads, getTopThreadsForTeam} from 'mattermost-redux/actions/insights';
-
-import {TimeFrame, TopDM, TopThread} from '@mattermost/types/insights';
+import {TimeFrame, TopDM} from '@mattermost/types/insights';
 import {UserProfile} from '@mattermost/types/users';
-import {GlobalState} from '@mattermost/types/store';
 
-import {getCurrentTeam, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
-import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/channels';
-import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
-import {InsightsScopes, ModalIdentifiers} from 'utils/constants';
+import {InsightsScopes} from 'utils/constants';
 import {imageURLForUser} from 'utils/utils';
 
-import Badge from 'components/widgets/badges/badge';
 import Avatar from 'components/widgets/users/avatar';
-import Avatars from 'components/widgets/users/avatars';
-import Markdown from 'components/markdown';
-import Attachment from 'components/threading/global_threads/thread_item/attachments';
 import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_grid';
-
 
 import './../../../activity_and_insights.scss';
 
@@ -142,7 +130,7 @@ const TopDMsTable = (props: Props) => {
                             </span>
                         ),
                         user: (
-                            <Link 
+                            <Link
                                 className='user-info'
                                 to={`/${currentTeam.name}/messages/@${dm.second_participant.username}`}
                                 onClick={closeModal}
@@ -153,7 +141,7 @@ const TopDMsTable = (props: Props) => {
                                 />
                                 <span className='display-name'>{displayUsername(dm.second_participant as UserProfile, teammateNameDisplaySetting)}</span>
                             </Link>
-                            
+
                         ),
                         sent: (
                             <>
@@ -177,7 +165,7 @@ const TopDMsTable = (props: Props) => {
                                     }}
                                 />
                             </div>
-                        )
+                        ),
                     },
                 }
             );
