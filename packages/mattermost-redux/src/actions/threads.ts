@@ -260,7 +260,21 @@ export function markAllThreadsInTeamRead(userId: string, teamId: string) {
     };
 }
 
-export function markThreadAsUnread(userId: string, teamId: string, threadId: string) {
+export function markThreadAsUnread(userId: string, teamId: string, threadId: string, postId: string) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        try {
+            await Client4.markThreadAsUnreadForUser(userId, teamId, threadId, postId);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(logError(error));
+            return {error};
+        }
+
+        return {};
+    };
+}
+
+export function markLastPostInThreadAsUnread(userId: string, teamId: string, threadId: string) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const getPostsForThread = makeGetPostsForThread();
         let posts = getPostsForThread(getState(), threadId);
@@ -269,38 +283,36 @@ export function markThreadAsUnread(userId: string, teamId: string, threadId: str
         const {data: thread} = await getThreadInfo(dispatch, getState);
 
         // load posts in thread if they are not loaded already
-        if (thread.replyCount !== posts.length - 1) {
+        if (thread?.reply_count === posts.length - 1) {
+            dispatch(markThreadAsUnreadForUser({userId, teamId, threadId, lastPostId: posts[0].id}));
+        } else {
             dispatch(getPostThread(threadId)).then(({data, error}) => {
                 if (data) {
                     posts = getPostsForThread(getState(), threadId);
-                    markThreadAsUnreadForUser(dispatch, getState, {userId, teamId, threadId, lastPostId: posts[0].id});
+                    dispatch(markThreadAsUnreadForUser({userId, teamId, threadId, lastPostId: posts[0].id}));
                 } else if (error) {
                     return {error};
                 }
                 return {};
             });
-        } else {
-            markThreadAsUnreadForUser(dispatch, getState, {userId, teamId, threadId, lastPostId: posts[0].id});
         }
 
         return {};
     };
 }
 
-function markThreadAsUnreadForUser(
-    dispatch: DispatchFunc,
-    getState: GetStateFunc,
-    params: {userId: string; teamId: string; threadId: string; lastPostId: string},
-) {
-    const {userId, teamId, threadId, lastPostId} = params;
-    try {
-        Client4.markThreadAsUnreadForUser(userId, teamId, threadId, lastPostId);
-    } catch (serverError) {
-        forceLogoutIfNecessary(serverError, dispatch, getState);
-        dispatch(logError(serverError));
-        return {serverError};
-    }
-    return {};
+function markThreadAsUnreadForUser(params: { userId: string; teamId: string; threadId: string; lastPostId: string }) {
+    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const {userId, teamId, threadId, lastPostId} = params;
+        try {
+            Client4.markThreadAsUnreadForUser(userId, teamId, threadId, lastPostId);
+        } catch (serverError) {
+            forceLogoutIfNecessary(serverError, dispatch, getState);
+            dispatch(logError(serverError));
+            return {serverError};
+        }
+        return {};
+    };
 }
 
 export function updateThreadRead(userId: string, teamId: string, threadId: string, timestamp: number) {
