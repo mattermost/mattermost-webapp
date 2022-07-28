@@ -22,7 +22,7 @@ import DesktopNotificationSettings from './desktop_notification_setting/desktop_
 import EmailNotificationSetting from './email_notification_setting';
 import ManageAutoResponder from './manage_auto_responder/manage_auto_responder';
 
-type Props = {
+export type Props = {
     user: UserProfile;
     updateSection: (section: string) => void;
     activeSection: string;
