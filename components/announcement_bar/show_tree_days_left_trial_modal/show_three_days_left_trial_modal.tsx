@@ -53,7 +53,7 @@ const ShowThreeDaysLeftTrialModal = () => {
     // the trial will end in three days or left
     const trialEndInThreeDaysOrLess = diffDays <= 3;
 
-    // validate the logic for the limits and pass that to the modal as a property
+    // validate the logic for the limits and pass that to the modal as a property - demo
     const someLimitNeedsAttention = Boolean(useGetHighestThresholdCloudLimit(useGetUsage(), useGetLimits()[0]));
 
     const currentUserId = useSelector(getCurrentUserId);
