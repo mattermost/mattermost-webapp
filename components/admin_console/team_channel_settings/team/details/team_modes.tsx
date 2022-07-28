@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import {t} from 'utils/i18n';
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
 
-import LineSwitch from '../../line_switch.jsx';
+import LineSwitch from '../../line_switch';
 
 type Props = {
     syncChecked: boolean;
@@ -75,6 +75,7 @@ const AllowAllToggle = ({syncChecked, allAllowedChecked, allowedDomainsChecked, 
 const AllowedDomainsToggle = ({syncChecked, allAllowedChecked, allowedDomainsChecked, allowedDomains, onToggle, isDisabled}: Props) =>
     (syncChecked ? null : (
         <LineSwitch
+            id='allowedDomainsToggleSwitch'
             disabled={isDisabled}
             toggled={allowedDomainsChecked}
             last={true}
@@ -93,20 +94,22 @@ const AllowedDomainsToggle = ({syncChecked, allAllowedChecked, allowedDomainsChe
                 />
             )}
         >
-            <div className='help-text csvDomains'>
-                <FormattedMessage
-                    id='admin.team_settings.team_details.csvDomains'
-                    defaultMessage='Comma Separated Email Domain List'
+            <>
+                <div className='help-text csvDomains'>
+                    <FormattedMessage
+                        id='admin.team_settings.team_details.csvDomains'
+                        defaultMessage='Comma Separated Email Domain List'
+                    />
+                </div>
+                <input
+                    type='text'
+                    value={allowedDomains}
+                    placeholder='mattermost.com'
+                    className='form-control'
+                    onChange={(e) => onToggle(syncChecked, allAllowedChecked, allowedDomainsChecked, e.currentTarget.value)}
+                    disabled={isDisabled}
                 />
-            </div>
-            <input
-                type='text'
-                value={allowedDomains}
-                placeholder='mattermost.com'
-                className='form-control'
-                onChange={(e) => onToggle(syncChecked, allAllowedChecked, allowedDomainsChecked, e.currentTarget.value)}
-                disabled={isDisabled}
-            />
+            </>
         </LineSwitch>));
 
 type TeamModesProps = Props & {
