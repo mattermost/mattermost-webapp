@@ -78,7 +78,7 @@ const TopDMsItem = ({dm, barSize, team}: Props) => {
                     />
                 </div>
             </div>
-            
+
         </div>
     );
 };
