@@ -266,7 +266,7 @@ export function markPostAsUnread(post: Post, location: string) {
             const threadId = post.root_id || post.id;
             ThreadActions.handleFollowChanged(dispatch, threadId, currentTeamId, true);
             dispatch(manuallyMarkThreadAsUnread(threadId, post.create_at - 1));
-            await dispatch(ThreadActions.markThreadAsUnread(userId, currentTeamId, threadId));
+            await dispatch(ThreadActions.markThreadAsUnread(userId, currentTeamId, threadId, post.id));
         } else {
             // use normal channel unread system
             await dispatch(PostActions.setUnreadPost(userId, post.id));
