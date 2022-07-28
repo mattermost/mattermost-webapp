@@ -9,7 +9,7 @@
 
 // Group: @messaging
 
-import {verifySavedPost} from '../../support/ui/post';
+import {verifySavedPost, verifyUnsavedPost} from '../../support/ui/post';
 
 describe('Save Post', () => {
     before(() => {
@@ -19,7 +19,7 @@ describe('Save Post', () => {
         });
     });
 
-    it('MM-Txxxx Save menu item should save post', () => {
+    it('MM-T4948_1 Save menu item should save post', () => {
         // # Post a message
         const message = Date.now().toString();
         cy.postMessage(message);
@@ -39,10 +39,13 @@ describe('Save Post', () => {
 
             // # Remove post from saved by clicking the menu item in the dotmenu
             cy.uiClickPostDropdownMenu(postId, 'Remove from Saved');
+
+            // * Assert the post is removed from the saved posts list
+            verifyUnsavedPost(postId);
         });
     });
 
-    it('MM-Txxxx Save hotkey should save post', () => {
+    it('MM-T4948_2 Save hotkey should save post', () => {
         // # Post a message
         const message = Date.now().toString();
         cy.postMessage(message);
@@ -54,7 +57,7 @@ describe('Save Post', () => {
         });
 
         cy.get('@postId2').then((postId) => {
-            // # Open the post dotmen
+            // # Open the post dotmenu
             cy.clickPostDotMenu(postId, 'CENTER');
 
             // # Press s to save
@@ -63,8 +66,14 @@ describe('Save Post', () => {
             // * Assert the post pre-header is displayed and works as expected
             verifySavedPost(postId, message);
 
+            // # Open the post dotmenu again
+            cy.clickPostDotMenu(postId, 'CENTER');
+
             // # Press s again to unsave
             cy.get('body').type('s');
+
+            // * Assert the post is removed from the saved posts list
+            verifyUnsavedPost(postId);
         });
     });
 });

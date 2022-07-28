@@ -90,3 +90,4 @@ declare namespace Cypress {
 }
 
 export function verifySavedPost(postId, message): void;
+export function verifyUnsavedPost(postId): void;
