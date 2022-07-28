@@ -179,9 +179,7 @@ export default class NotificationsTab extends React.PureComponent<Props, State> 
     wrapperRef: RefObject<HTMLDivElement>;
 
     static defaultProps = {
-        user: null,
         activeSection: '',
-        activeTab: '',
     }
 
     constructor(props: Props) {

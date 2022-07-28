@@ -6,8 +6,9 @@ import {shallow} from 'enzyme';
 
 import {TestHelper} from 'utils/test_helper';
 
+import {UserNotifyProps} from '@mattermost/types/users';
+
 import UserSettingsNotifications from './user_settings_notifications';
-import { UserNotifyProps } from '@mattermost/types/users';
 
 describe('components/user_settings/display/UserSettingsDisplay', () => {
     const user = TestHelper.getUserMock({
