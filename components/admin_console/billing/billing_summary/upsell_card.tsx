@@ -92,7 +92,9 @@ export default function UpsellCard(props: Props) {
                     telemetryId={'start_cloud_trial_billing_subscription'}
                     extraClass={ctaClassname}
                 />
-                <StartTrialCaution/>
+                <p className='disclaimer'>
+                    <StartTrialCaution/>
+                </p>
             </>
         );
     }
