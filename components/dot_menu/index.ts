@@ -12,11 +12,7 @@ import {getCurrentUserId, getCurrentUserMentionKeys} from 'mattermost-redux/sele
 import {getCurrentTeamId, getCurrentTeam, getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getThreadOrSynthetic} from 'mattermost-redux/selectors/entities/threads';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
-<<<<<<< HEAD
-import {getBool, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
-=======
-import {getIsPostForwardingEnabled, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
->>>>>>> master
+import {getBool, getIsPostForwardingEnabled, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
 
@@ -169,11 +165,8 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             openModal,
             markPostAsUnread,
             setThreadFollow,
-<<<<<<< HEAD
             addPostReminder,
-=======
             setGlobalItem,
->>>>>>> master
         }, dispatch),
     };
 }
