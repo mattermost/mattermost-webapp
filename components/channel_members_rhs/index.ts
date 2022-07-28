@@ -130,11 +130,11 @@ function mapStateToProps(state: GlobalState) {
 
     const teamUrl = getCurrentRelativeTeamUrl(state);
     const prevRhsState = getPreviousRhsState(state);
-    const isInfoSubview = prevRhsState === RHSStates.CHANNEL_INFO ||
+    const hasInfoPrevState = prevRhsState === RHSStates.CHANNEL_INFO ||
         prevRhsState === RHSStates.CHANNEL_FILES ||
         prevRhsState === RHSStates.PIN;
 
-    const canGoBack = Boolean(prevRhsState) && isInfoSubview;
+    const canGoBack = Boolean(hasInfoPrevState);
     const editing = getIsEditingMembers(state);
 
     const currentUserIsChannelAdmin = currentUser && currentUser.scheme_admin;
