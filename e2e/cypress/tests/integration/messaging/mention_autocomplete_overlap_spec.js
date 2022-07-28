@@ -37,7 +37,7 @@ describe('Messaging', () => {
         cy.uiGetReplyTextBox().then((replyTextbox) => {
             cy.get('#suggestionList').then((suggestionList) => {
                 // * Verify that the suggestion box opened below the textbox
-                expect(replyTextbox[0].getBoundingClientRect().top).to.be.lessThan(suggestionList[0].getBoundingClientRect().top);
+                expect(replyTextbox[0].getBoundingClientRect().top).to.be.greaterThan(suggestionList[0].getBoundingClientRect().top);
             });
         });
 
