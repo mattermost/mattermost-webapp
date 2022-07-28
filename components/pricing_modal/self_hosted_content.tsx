@@ -138,7 +138,7 @@ function SelfHostedContent(props: ContentProps) {
                         topColor='#339970'
                         plan='Starter'
                         planSummary={formatMessage({id: 'pricing_modal.planSummary.starter', defaultMessage: 'Increased productivity for small teams'})}
-                        price={formatMessage({id: 'pricing_modal.price.free', defaultMessage: 'Free'})}
+                        price='$0'
                         rate={formatMessage({id: 'pricing_modal.price.freeForever', defaultMessage: 'Free forever'})}
                         planLabel={
                             isStarter ? (
@@ -216,7 +216,7 @@ function SelfHostedContent(props: ContentProps) {
                         ) : undefined}
                         contactSalesCTA={(isPostSelfHostedEnterpriseTrial || !isAdmin) ? undefined : <ContactSalesCTA/>}
                         briefing={{
-                            title: formatMessage({id: 'pricing_modal.briefing.enterprise.title', defaultMessage: 'Features for large- scale collaboration'}),
+                            title: formatMessage({id: 'pricing_modal.briefing.enterprise.title', defaultMessage: 'Features for large-scale collaboration'}),
                             items: enterpriseBriefing,
                         }}
                     />

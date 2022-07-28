@@ -40,17 +40,9 @@ function PlanLabel(props: PlanLabelProps) {
 
     let text = props.text;
 
-    if (props.renderLastDaysOnTrial && isCloud && subscription?.is_free_trial === 'true') {
+    if (props.renderLastDaysOnTrial && ((isCloud && subscription?.is_free_trial === 'true') || isSelfHostedEnterpriseTrial)) {
         const daysLeftOnTrial = Math.min(
-            getRemainingDaysFromFutureTimestamp(subscription.trial_end_at),
-            TrialPeriodDays.TRIAL_30_DAYS,
-        );
-        text = formatMessage({id: 'pricing_modal.plan_label_trialDays', defaultMessage: '{days} DAYS LEFT ON TRIAL'}, {days: daysLeftOnTrial});
-    }
-
-    if (props.renderLastDaysOnTrial && isSelfHostedEnterpriseTrial) {
-        const daysLeftOnTrial = Math.min(
-            getRemainingDaysFromFutureTimestamp(parseInt(license.ExpiresAt, 10)),
+            getRemainingDaysFromFutureTimestamp(isSelfHostedEnterpriseTrial ? parseInt(license.ExpiresAt, 10) : subscription?.trial_end_at),
             TrialPeriodDays.TRIAL_30_DAYS,
         );
         text = formatMessage({id: 'pricing_modal.plan_label_trialDays', defaultMessage: '{days} DAYS LEFT ON TRIAL'}, {days: daysLeftOnTrial});

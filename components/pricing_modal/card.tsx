@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {useIntl} from 'react-intl';
 import styled from 'styled-components';
 
 import BuildingSvg from './building.svg';
@@ -56,6 +57,7 @@ background-color: ${(props) => props.bgColor};
 `;
 
 function Card(props: CardProps) {
+    const {formatMessage} = useIntl();
     return (
         <div
             id={props.id}
@@ -67,52 +69,54 @@ function Card(props: CardProps) {
                 bgColor={props.topColor}
             />
             <div className='bottom'>
-                <div className='plan_price_rate_section'>
-                    <h3>{props.plan}</h3>
-                    <p>{props.planSummary}</p>
-                    {props.price ? <h1>{props.price}</h1> : <BuildingSvg/>}
-                    <p>{props.rate}</p>
-                </div>
+                <div className='bottom_container'>
+                    <div className='plan_price_rate_section'>
+                        <h3>{props.plan}</h3>
+                        <p>{props.planSummary}</p>
+                        {props.price ? <h1>{props.price}</h1> : <BuildingSvg/>}
+                        <span>{props.rate}</span>
+                    </div>
 
-                <div className='plan_limits_cta'>
-                    {props.planExtraInformation}
-                </div>
+                    <div className='plan_limits_cta'>
+                        {props.planExtraInformation}
+                    </div>
 
-                <div className='plan_buttons'>
-                    {props.customButtonDetails || (
-                        <button
-                            id={props.id + '_action'}
-                            className={`plan_action_btn ${props.buttonDetails?.disabled ? ButtonCustomiserClasses.grayed : props.buttonDetails?.customClass}`}
-                            disabled={props.buttonDetails?.disabled}
-                            onClick={props.buttonDetails?.action}
-                        >
-                            {props.buttonDetails?.text}
-                        </button>
-                    )}
-                </div>
+                    <div className='plan_buttons'>
+                        {props.customButtonDetails || (
+                            <button
+                                id={props.id + '_action'}
+                                className={`plan_action_btn ${props.buttonDetails?.disabled ? ButtonCustomiserClasses.grayed : props.buttonDetails?.customClass}`}
+                                disabled={props.buttonDetails?.disabled}
+                                onClick={props.buttonDetails?.action}
+                            >
+                                {props.buttonDetails?.text}
+                            </button>
+                        )}
+                    </div>
 
-                <div className='contact_sales_cta'>
-                    {props.contactSalesCTA && (
+                    <div className='contact_sales_cta'>
+                        {props.contactSalesCTA && (
+                            <div>
+                                <p>{formatMessage({id: 'pricing_modal.or', defaultMessage: 'or'})}</p>
+                                {props.contactSalesCTA}
+                            </div>)}
+                    </div>
+
+                    <div className='plan_briefing'>
+                        <hr/>
                         <div>
-                            <p>{'or'}</p>
-                            {props.contactSalesCTA}
-                        </div>)}
-                </div>
-
-                <div className='plan_briefing'>
-                    <hr/>
-                    <div>
-                        <span className='title'>{props.briefing.title}</span>
-                        {props.briefing.items?.map((i) => {
-                            return (
-                                <div
-                                    className='item'
-                                    key={i}
-                                >
-                                    <i className='fa fa-circle bullet'/><p>{i}</p>
-                                </div>
-                            );
-                        })}
+                            <span className='title'>{props.briefing.title}</span>
+                            {props.briefing.items?.map((i) => {
+                                return (
+                                    <div
+                                        className='item'
+                                        key={i}
+                                    >
+                                        <i className='fa fa-circle bullet'/><p>{i}</p>
+                                    </div>
+                                );
+                            })}
+                        </div>
                     </div>
                 </div>
 
@@ -120,11 +124,11 @@ function Card(props: CardProps) {
                     <div className='plan_add_ons'>
                         <div className='illustration'><TadaSvg/></div>
                         <h4 className='title'>{props.planAddonsInfo.title}</h4>
-                        {props.planAddonsInfo.items.map((i, ind) => {
+                        {props.planAddonsInfo.items.map((i) => {
                             return (
                                 <div
                                     className='item'
-                                    key={ind}
+                                    key={i.title}
                                 >
                                     <div className='item_title'><i className='fa fa-circle bullet fa-xs'/><p>{i.title}</p></div>
                                     {i.items?.map((sub) => {
