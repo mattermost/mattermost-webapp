@@ -27,7 +27,7 @@ import PerformanceDebuggingSection from './performance_debugging_section';
 
 const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
 
-type Setting = {
+type Settings = {
     [key: string]: string | undefined;
     send_on_ctrl_enter: Props['sendOnCtrlEnter'];
     code_block_ctrl_enter: Props['codeBlockOnCtrlEnter'];
@@ -59,7 +59,7 @@ export type Props = {
 
 type State = {
     preReleaseFeatures: typeof PreReleaseFeatures;
-    settings: Setting;
+    settings: Settings;
     enabledFeatures: number;
     isSaving: boolean;
     previewFeaturesEnabled: boolean;
@@ -77,7 +77,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
 
     getStateFromProps = (): State => {
         const advancedSettings = this.props.advancedSettingsCategory;
-        const settings: Setting = {
+        const settings: Settings = {
             send_on_ctrl_enter: this.props.sendOnCtrlEnter,
             code_block_ctrl_enter: this.props.codeBlockOnCtrlEnter,
             formatting: this.props.formatting,
