@@ -31,7 +31,6 @@ const Icon = styled.i`
 
 const ChannelInfoButton = ({channel}: Props) => {
     const dispatch = useDispatch();
-    const prevState = useSelector(getPreviousRhsState);
 
     const rhsState: RhsState = useSelector(getRhsState);
     const isRhsOpen: boolean = useSelector(getIsRhsOpen);
@@ -43,12 +42,12 @@ const ChannelInfoButton = ({channel}: Props) => {
     const buttonActive = isRhsOpen && isChannelInfo;
     const toggleRHS = useCallback(() => {
         if (buttonActive) {
-            const action = prevState ? goBack() : closeRightHandSide();
+            const action = rhsState === RHSStates.CHANNEL_INFO ? closeRightHandSide() : showChannelInfo(channel.id);
             dispatch(action);
         } else {
             dispatch(showChannelInfo(channel.id));
         }
-    }, [buttonActive, channel.id, prevState, dispatch]);
+    }, [buttonActive, channel.id, rhsState, dispatch]);
 
     const tooltipKey = buttonActive ? 'closeChannelInfo' : 'openChannelInfo';
 
