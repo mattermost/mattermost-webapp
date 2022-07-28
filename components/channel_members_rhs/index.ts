@@ -130,7 +130,7 @@ function mapStateToProps(state: GlobalState) {
 
     const teamUrl = getCurrentRelativeTeamUrl(state);
     const prevRhsState = getPreviousRhsState(state);
-    const isInfoSubview = prevRhsState === RHSStates.CHANNEL_MEMBERS ||
+    const isInfoSubview = prevRhsState === RHSStates.CHANNEL_INFO ||
         prevRhsState === RHSStates.CHANNEL_FILES ||
         prevRhsState === RHSStates.PIN;
 
