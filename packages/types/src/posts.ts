@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {ChannelType} from './channels';
+import {Channel, ChannelType} from './channels';
 import {CustomEmoji} from './emojis';
 import {FileInfo} from './files';
 import {Reaction} from './reactions';
@@ -87,6 +87,7 @@ export type PostList = {
     posts: Record<string, Post>;
     next_post_id: string;
     prev_post_id: string;
+    first_inaccessible_post_time: number;
 };
 
 export type PaginatedPostList = PostList & {
@@ -123,6 +124,10 @@ export type PostsState = {
     currentFocusedPostId: string;
     messagesHistory: MessageHistory;
     expandedURLs: Record<string, string>;
+    limitedViews: {
+        channels: Record<Channel['id'], number>;
+        threads: Record<Post['root_id'], number>;
+    };
 };
 
 export declare type OpenGraphMetadataImage = {

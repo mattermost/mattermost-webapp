@@ -912,6 +912,7 @@ describe('Actions.Posts', () => {
             ],
             next_post_id: postsAfter.next_post_id,
             prev_post_id: postsBefore.prev_post_id,
+            first_inaccessible_post_time: 0,
         });
 
         const {posts, postsInChannel, postsInThread} = store.getState().entities.posts;
