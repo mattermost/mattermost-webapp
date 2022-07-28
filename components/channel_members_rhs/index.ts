@@ -14,7 +14,7 @@ import {
     isCurrentChannelArchived,
 } from 'mattermost-redux/selectors/entities/channels';
 import {GlobalState} from 'types/store';
-import {Constants} from 'utils/constants';
+import {Constants, RHSStates} from 'utils/constants';
 import {getCurrentRelativeTeamUrl, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {
     getActiveProfilesInCurrentChannelWithoutSorting,
@@ -129,7 +129,12 @@ function mapStateToProps(state: GlobalState) {
     }
 
     const teamUrl = getCurrentRelativeTeamUrl(state);
-    const hasRhsPrevState = Boolean(getPreviousRhsState(state));
+    const prevRhsState = getPreviousRhsState(state);
+    const isInfoSubview = prevRhsState === RHSStates.CHANNEL_MEMBERS ||
+        prevRhsState === RHSStates.CHANNEL_FILES ||
+        prevRhsState === RHSStates.PIN;
+
+    const canGoBack = Boolean(prevRhsState) && isInfoSubview;
     const editing = getIsEditingMembers(state);
 
     const currentUserIsChannelAdmin = currentUser && currentUser.scheme_admin;
@@ -140,7 +145,7 @@ function mapStateToProps(state: GlobalState) {
         membersCount,
         searchTerms,
         teamUrl,
-        canGoBack: hasRhsPrevState,
+        canGoBack,
         canManageMembers,
         channelMembers,
         editing,

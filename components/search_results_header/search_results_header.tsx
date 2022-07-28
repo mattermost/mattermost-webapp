@@ -80,18 +80,25 @@ export default class SearchResultsHeader extends React.PureComponent<Props> {
 
         const showExpand = this.props.previousRhsState !== RHSStates.CHANNEL_INFO;
 
+        const showBack = this.props.previousRhsState === RHSStates.CHANNEL_INFO ||
+            this.props.previousRhsState === RHSStates.CHANNEL_MEMBERS ||
+            this.props.previousRhsState === RHSStates.CHANNEL_FILES ||
+            this.props.previousRhsState === RHSStates.PIN;
+
         return (
             <div className='sidebar--right__header'>
                 <span className='sidebar--right__title'>
-                    <BackButton
-                        className='sidebar--right__back'
-                        onClick={() => this.props.actions.goBack()}
-                    >
-                        <BackButtonIcon
-                            className='icon-arrow-back-ios'
-                            ariaLabel={{id: t('rhs_header.back.icon'), defaultMessage: 'Back Icon'}}
-                        />
-                    </BackButton>
+                    {showBack && (
+                        <BackButton
+                            className='sidebar--right__back'
+                            onClick={() => this.props.actions.goBack()}
+                        >
+                            <BackButtonIcon
+                                className='icon-arrow-back-ios'
+                                ariaLabel={{id: t('rhs_header.back.icon'), defaultMessage: 'Back Icon'}}
+                            />
+                        </BackButton>
+                    )}
                     {this.props.children}
                 </span>
 
