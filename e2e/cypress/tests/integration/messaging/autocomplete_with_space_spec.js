@@ -62,13 +62,13 @@ describe('Messaging', () => {
 
 function verifySuggestionList({input, isChannel = false, expected, withoutSuggestion}) {
     // # Clear then type ~ or @
-    cy.get('#post_textbox').should('be.visible').clear().type(isChannel ? '~' : '@');
+    cy.uiGetPostTextBox().clear().type(isChannel ? '~' : '@');
 
     // * Verify that the suggestion list is visible
     cy.get('#suggestionList').should('be.visible');
 
     // # Type input
-    cy.get('#post_textbox').type(input);
+    cy.uiGetPostTextBox().type(input);
 
     // * Verify that the item is displayed or not as expected.
     if (withoutSuggestion) {

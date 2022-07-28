@@ -161,9 +161,11 @@ describe('Verify Guest User Identification in different screens', () => {
         // # Open a DM with Guest User
         cy.uiAddDirectMessage().click();
         cy.findByRole('dialog', {name: 'Direct Messages'}).should('be.visible').wait(TIMEOUTS.ONE_SEC);
-        cy.findByRole('textbox', {name: 'Search for people'}).should('have.focused').
-            type(guest.username).wait(TIMEOUTS.ONE_SEC).
-            type('{enter}');
+        cy.findByRole('textbox', {name: 'Search for people'}).
+            should('have.focused').
+            typeWithForce(guest.username).
+            wait(TIMEOUTS.ONE_SEC).
+            typeWithForce('{enter}');
         cy.uiGetButton('Go').click().wait(TIMEOUTS.HALF_SEC);
 
         // * Verify Guest Badge in DM header
@@ -175,12 +177,16 @@ describe('Verify Guest User Identification in different screens', () => {
         // # Open a GM with Guest User and Sysadmin
         cy.uiAddDirectMessage().click();
         cy.findByRole('dialog', {name: 'Direct Messages'}).should('be.visible').wait(TIMEOUTS.ONE_SEC);
-        cy.findByRole('textbox', {name: 'Search for people'}).should('have.focused').
-            type(guest.username).wait(TIMEOUTS.ONE_SEC).
-            type('{enter}');
-        cy.findByRole('textbox', {name: 'Search for people'}).should('have.focused').
-            type(admin.username).wait(TIMEOUTS.ONE_SEC).
-            type('{enter}');
+        cy.findByRole('textbox', {name: 'Search for people'}).
+            should('have.focused').
+            typeWithForce(guest.username).
+            wait(TIMEOUTS.ONE_SEC).
+            typeWithForce('{enter}');
+        cy.findByRole('textbox', {name: 'Search for people'}).
+            should('have.focused').
+            typeWithForce(admin.username).
+            wait(TIMEOUTS.ONE_SEC).
+            typeWithForce('{enter}');
         cy.uiGetButton('Go').click().wait(TIMEOUTS.HALF_SEC);
 
         // * Verify Guest Badge in GM header
@@ -192,7 +198,7 @@ describe('Verify Guest User Identification in different screens', () => {
 
     it('Verify Guest Badge in @mentions Autocomplete', () => {
         // # Start a draft in Channel containing "@user"
-        cy.get('#post_textbox').type(`@${guest.username}`);
+        cy.uiGetPostTextBox().type(`@${guest.username}`);
 
         // * Verify Guest Badge is displayed at mention auto-complete
         cy.get('#suggestionList').should('be.visible');

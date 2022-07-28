@@ -4,6 +4,7 @@
 import React from 'react';
 import {shallow, ReactWrapper} from 'enzyme';
 import {IntlProvider} from 'react-intl';
+import {BrowserRouter} from 'react-router-dom';
 import {act} from '@testing-library/react';
 
 import * as global_actions from 'actions/global_actions';
@@ -18,6 +19,7 @@ import SaveButton from 'components/save_button';
 import {RequestStatus} from 'mattermost-redux/constants';
 import {ClientConfig} from '@mattermost/types/config';
 import {GlobalState} from 'types/store';
+import {WindowSizes} from 'utils/constants';
 
 let mockState: GlobalState;
 let mockLocation = {pathname: '', search: '', hash: ''};
@@ -135,6 +137,11 @@ describe('components/signup/Signup', () => {
             storage: {
                 initialized: true,
             },
+            views: {
+                browser: {
+                    windowSize: WindowSizes.DESKTOP_VIEW,
+                },
+            },
         } as unknown as GlobalState;
 
         mockConfig = {
@@ -193,7 +200,9 @@ describe('components/signup/Signup', () => {
 
         const wrapper = mountWithIntl(
             <IntlProvider {...intlProviderProps}>
-                <Signup/>
+                <BrowserRouter>
+                    <Signup/>
+                </BrowserRouter>
             </IntlProvider>,
         );
 
@@ -232,7 +241,9 @@ describe('components/signup/Signup', () => {
 
         const wrapper = mountWithIntl(
             <IntlProvider {...intlProviderProps}>
-                <Signup/>
+                <BrowserRouter>
+                    <Signup/>
+                </BrowserRouter>
             </IntlProvider>,
         );
 

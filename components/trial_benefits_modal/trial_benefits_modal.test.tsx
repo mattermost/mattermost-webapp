@@ -4,9 +4,6 @@
 import React from 'react';
 
 import {Provider} from 'react-redux';
-import configureStore from 'redux-mock-store';
-
-import thunk from 'redux-thunk';
 
 import {shallow} from 'enzyme';
 
@@ -17,6 +14,7 @@ import TrialBenefitsModal from 'components/trial_benefits_modal/trial_benefits_m
 import GenericModal from 'components/generic_modal';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import mockStore from 'tests/test_store';
 
 import {TELEMETRY_CATEGORIES} from 'utils/constants';
 
@@ -66,7 +64,6 @@ describe('components/trial_benefits_modal/trial_benefits_modal', () => {
         trialJustStarted: false,
     };
 
-    const mockStore = configureStore([thunk]);
     const store = mockStore(state);
 
     test('should match snapshot', () => {
@@ -106,7 +103,6 @@ describe('components/trial_benefits_modal/trial_benefits_modal', () => {
             },
         };
         const localStore = {...state, views: trialBenefitsModalHidden};
-        const mockStore = configureStore([thunk]);
         const store = mockStore(localStore);
         const wrapper = mountWithIntl(
             <Provider store={store}>
@@ -178,7 +174,7 @@ describe('components/trial_benefits_modal/trial_benefits_modal', () => {
 
         expect(trackEvent).toHaveBeenCalledWith(
             TELEMETRY_CATEGORIES.SELF_HOSTED_START_TRIAL_MODAL,
-            'benefits_modal_slide_shown_complianceExport',
+            'benefits_modal_slide_shown_ldap',
         );
     });
 

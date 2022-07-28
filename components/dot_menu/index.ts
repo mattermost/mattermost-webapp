@@ -12,7 +12,11 @@ import {getCurrentUserId, getCurrentUserMentionKeys} from 'mattermost-redux/sele
 import {getCurrentTeamId, getCurrentTeam, getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getThreadOrSynthetic} from 'mattermost-redux/selectors/entities/threads';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
+<<<<<<< HEAD
 import {getBool, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+=======
+import {getIsPostForwardingEnabled, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+>>>>>>> master
 
 import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
 
@@ -35,7 +39,7 @@ import {
     unpinPost,
     setEditingPost,
     markPostAsUnread,
-} from 'actions/post_actions.jsx';
+} from 'actions/post_actions';
 
 import {getCurrentUserTimezone} from 'selectors/general';
 import {getIsMobileView} from 'selectors/views/browser';
@@ -45,10 +49,12 @@ import * as PostUtils from 'utils/post_utils';
 import {isArchivedChannel} from 'utils/channel_utils';
 import {getSiteURL} from 'utils/url';
 
-import {Locations} from 'utils/constants';
+import {Locations, Preferences} from 'utils/constants';
 import {allAtMentions} from 'utils/text_formatting';
 
 import {matchUserMentionTriggersWithMessageMentions} from 'utils/post_utils';
+import {setGlobalItem} from '../../actions/storage';
+import {getGlobalItem} from '../../selectors/storage';
 
 import DotMenu from './dot_menu';
 
@@ -111,6 +117,9 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
         }
     }
 
+    const isPostForwardingEnabled = getIsPostForwardingEnabled(state);
+    const showForwardPostNewLabel = getGlobalItem(state, Preferences.FORWARD_POST_VIEWED, true);
+
     return {
         channelIsArchived: isArchivedChannel(channel),
         components: state.plugins.components,
@@ -126,10 +135,12 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
         isFollowingThread,
         isMentionedInRootPost,
         isCollapsedThreadsEnabled: collapsedThreads,
+        isPostForwardingEnabled,
         threadReplyCount,
         isMobileView: getIsMobileView(state),
         timezone: getCurrentUserTimezone(state),
         isMilitaryTime,
+        showForwardPostNewLabel,
         ...ownProps,
     };
 }
@@ -144,6 +155,7 @@ type Actions = {
     markPostAsUnread: (post: Post) => void;
     setThreadFollow: (userId: string, teamId: string, threadId: string, newState: boolean) => void;
     addPostReminder: (postId: string, userId: string, timestamp: number) => void;
+    setGlobalItem: (name: string, value: any) => void;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
@@ -157,7 +169,11 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             openModal,
             markPostAsUnread,
             setThreadFollow,
+<<<<<<< HEAD
             addPostReminder,
+=======
+            setGlobalItem,
+>>>>>>> master
         }, dispatch),
     };
 }

@@ -171,6 +171,10 @@ export const shouldShowUnreadsCategory: (state: GlobalState) => boolean = create
     },
 );
 
+export function getUnreadScrollPositionPreference(state: GlobalState): string {
+    return get(state, Preferences.CATEGORY_ADVANCED_SETTINGS, Preferences.UNREAD_SCROLL_POSITION, Preferences.UNREAD_SCROLL_POSITION_START_FROM_LEFT);
+}
+
 export function getCollapsedThreadsPreference(state: GlobalState): string {
     const configValue = getConfig(state)?.CollapsedThreads;
     let preferenceDefault = Preferences.COLLAPSED_REPLY_THREADS_OFF;
@@ -201,6 +205,10 @@ export function isCollapsedThreadsEnabled(state: GlobalState): boolean {
     return isAllowed && (userPreference === Preferences.COLLAPSED_REPLY_THREADS_ON || getConfig(state).CollapsedThreads === CollapsedThreads.ALWAYS_ON);
 }
 
+export function getIsPostForwardingEnabled(state: GlobalState): boolean {
+    return getFeatureFlagValue(state, 'PostForwarding') === 'true';
+}
+
 export function isGroupChannelManuallyVisible(state: GlobalState, channelId: string): boolean {
     return getBool(state, Preferences.CATEGORY_GROUP_CHANNEL_SHOW, channelId, false);
 }
@@ -218,6 +226,10 @@ export function insightsAreEnabled(state: GlobalState): boolean {
     const featureIsEnabled = getFeatureFlagValue(state, 'InsightsEnabled') === 'true';
     const currentUserIsGuest = isGuest(getCurrentUser(state).roles);
     return featureIsEnabled && isConfiguredForFeature && !currentUserIsGuest;
+}
+
+export function isGraphQLEnabled(state: GlobalState): boolean {
+    return getFeatureFlagValue(state, 'GraphQL') === 'true';
 }
 
 export function getIsAdvancedTextEditorEnabled(state: GlobalState): boolean {

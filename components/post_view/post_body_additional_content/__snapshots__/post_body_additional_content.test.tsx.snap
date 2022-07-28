@@ -96,6 +96,29 @@ exports[`PostBodyAdditionalContent with a normal link Should render the plugin c
         "url": "https://example.com/song.mp3",
       }
     }
+    webSocketClient={
+      WebSocketClient {
+        "closeCallback": null,
+        "closeListeners": Set {},
+        "conn": null,
+        "connectFailCount": 0,
+        "connectionId": "",
+        "connectionUrl": null,
+        "errorCallback": null,
+        "errorListeners": Set {},
+        "eventCallback": null,
+        "firstConnectCallback": null,
+        "firstConnectListeners": Set {},
+        "messageListeners": Set {},
+        "missedEventCallback": null,
+        "missedMessageListeners": Set {},
+        "reconnectCallback": null,
+        "reconnectListeners": Set {},
+        "responseCallbacks": Object {},
+        "responseSequence": 1,
+        "serverSequence": 0,
+      }
+    }
   />
 </div>
 `;
@@ -117,6 +140,29 @@ exports[`PostBodyAdditionalContent with a normal link Should render the plugin c
       Object {
         "type": "link",
         "url": "https://example.com/song.mp3",
+      }
+    }
+    webSocketClient={
+      WebSocketClient {
+        "closeCallback": null,
+        "closeListeners": Set {},
+        "conn": null,
+        "connectFailCount": 0,
+        "connectionId": "",
+        "connectionUrl": null,
+        "errorCallback": null,
+        "errorListeners": Set {},
+        "eventCallback": null,
+        "firstConnectCallback": null,
+        "firstConnectListeners": Set {},
+        "messageListeners": Set {},
+        "missedEventCallback": null,
+        "missedMessageListeners": Set {},
+        "reconnectCallback": null,
+        "reconnectListeners": Set {},
+        "responseCallbacks": Object {},
+        "responseSequence": 1,
+        "serverSequence": 0,
       }
     }
   />

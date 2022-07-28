@@ -31,10 +31,6 @@ export const isCloudLicense: (state: GlobalState) => boolean = createSelector(
     (license: ClientLicense) => license?.Cloud === 'true',
 );
 
-export function getCurrentUrl(state: GlobalState): string {
-    return state.entities.general.credentials.url;
-}
-
 export function warnMetricsStatus(state: GlobalState): any {
     return state.entities.general.warnMetricsStatus;
 }
