@@ -52,3 +52,62 @@ function getPost(postId) {
 
     return cy.getLastPost();
 }
+
+export function verifySavedPost(postId, message) {
+    // * Check that the center save icon has been updated correctly
+    cy.get(`#post_${postId}`).trigger('mouseover', {force: true});
+    cy.get(`#CENTER_flagIcon_${postId}`).
+        should('have.class', 'post-menu__item').
+        and('have.attr', 'aria-label', 'remove from saved');
+
+    // # Open the post-dotmenu
+    cy.clickPostDotMenu(postId, 'CENTER');
+
+    // * Check that the dotmenu item is changed accordingly
+    cy.findAllByTestId(`post-menu-${postId}`).eq(0).should('be.visible');
+    cy.findByText('Remove from Saved').scrollIntoView().should('be.visible');
+
+    // * Check that the post is highlighted
+    cy.get(`#post_${postId}`).should('have.class', 'post--pinned-or-flagged');
+
+    // * Check that the post pre-header is visible
+    cy.get('div.post-pre-header').should('be.visible');
+
+    // * Check that the post pre-header has the saved icon
+    cy.get('span.icon--post-pre-header').
+        should('be.visible').
+        within(() => {
+            cy.get('svg').should('have.attr', 'aria-label', 'Saved Icon');
+        });
+
+    // * Check that the post pre-header has the saved post link
+    cy.get('div.post-pre-header__text-container').
+        should('be.visible').
+        and('have.text', 'Saved').
+        within(() => {
+            cy.get('a').as('savedLink').should('be.visible');
+        });
+
+    // * Check that the saved posts list is not open in RHS before clicking the link in the post pre-header
+    cy.get('#searchContainer').should('not.exist');
+
+    // # Click the link
+    cy.get('@savedLink').click();
+
+    // * Check that the saved posts list is open in RHS
+    cy.get('#searchContainer').should('be.visible').within(() => {
+        cy.get('.sidebar--right__title').
+            should('be.visible').
+            and('have.text', 'Saved Posts');
+
+        // * Check that the post pre-header is not shown for the saved message in RHS
+        cy.get('#search-items-container').within(() => {
+            cy.get('div.post__content').should('be.visible');
+            cy.get(`#rhsPostMessageText_${postId}`).contains(message);
+            cy.get('div.post-pre-header').should('not.exist');
+        });
+    });
+
+    // # Close the RHS
+    cy.get('#searchResultsCloseButton').should('be.visible').click();
+}
