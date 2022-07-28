@@ -8,6 +8,7 @@ export {
     DEFAULT_LIMIT_BEFORE,
 } from './client4';
 
-export {TelemetryHandler} from './telemetry';
-
-export {default as WebSocketClient, WebSocketMessage} from './websocket';
+export type {TelemetryHandler} from './telemetry';
+export type {WebSocketMessage} from './websocket';
+// eslint-disable-next-line no-duplicate-imports
+export {default as WebSocketClient} from './websocket';

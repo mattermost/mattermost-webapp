@@ -21,7 +21,7 @@ import {GlobalState} from '@mattermost/types/store';
 import {CloudLinks, ConsolePages, DocLinks, LicenseLinks} from 'utils/constants';
 import {daysToLicenseExpire, isEnterpriseOrE20License, getIsStarterLicense} from '../../../utils/license_utils';
 
-type DataModel = {
+export type DataModel = {
     [key: string]: {
         title: string;
         description: string;
@@ -32,7 +32,7 @@ type DataModel = {
     };
 }
 
-enum ItemStatus {
+export enum ItemStatus {
     NONE = 'none',
     OK = 'ok',
     INFO = 'info',
@@ -40,7 +40,7 @@ enum ItemStatus {
     ERROR = 'error',
 }
 
-type ItemModel = {
+export type ItemModel = {
     id: string;
     title: string;
     description: string;
@@ -438,5 +438,4 @@ const useMetricsData = () => {
     return {getAccessData, getConfigurationData, getUpdatesData, getPerformanceData, getDataPrivacyData, getEaseOfManagementData, isLicensed, isEnterpriseLicense};
 };
 
-export {DataModel, ItemModel, ItemStatus};
 export default useMetricsData;
