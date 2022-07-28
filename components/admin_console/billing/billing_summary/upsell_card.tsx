@@ -3,18 +3,18 @@
 
 import React from 'react';
 
-import {FormattedMessage, useIntl} from 'react-intl';
+import {useIntl} from 'react-intl';
 
 import classNames from 'classnames';
 
 import WomanUpArrowsAndCloudsSvg from 'components/common/svg_images_components/woman_up_arrows_and_clouds_svg';
+import StartTrialCaution from 'components/pricing_modal/start_trial_caution';
+
 import {Message, t} from 'utils/i18n';
 import {openExternalPricingLink, FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS} from 'utils/cloud_utils';
 
 import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
 import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurchaseModal';
-
-import {AboutLinks, LicenseLinks} from 'utils/constants';
 
 import './upsell_card.scss';
 
@@ -92,36 +92,7 @@ export default function UpsellCard(props: Props) {
                     telemetryId={'start_cloud_trial_billing_subscription'}
                     extraClass={ctaClassname}
                 />
-                <p className='disclaimer'>
-                    <FormattedMessage
-                        id='feature_restricted_modal.agreement'
-                        defaultMessage='By selecting <highlight>Try free for {trialLength} days</highlight>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails.'
-                        values={{
-                            trialLength: FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS,
-                            highlight: (msg: React.ReactNode) => (
-                                <strong>{msg}</strong>
-                            ),
-                            linkEvaluation: (msg: React.ReactNode) => (
-                                <a
-                                    href={LicenseLinks.SOFTWARE_EVALUATION_AGREEMENT}
-                                    target='_blank'
-                                    rel='noreferrer'
-                                >
-                                    {msg}
-                                </a>
-                            ),
-                            linkPrivacy: (msg: React.ReactNode) => (
-                                <a
-                                    href={AboutLinks.PRIVACY_POLICY}
-                                    target='_blank'
-                                    rel='noreferrer'
-                                >
-                                    {msg}
-                                </a>
-                            ),
-                        }}
-                    />
-                </p>
+                <StartTrialCaution/>
             </>
         );
     }
