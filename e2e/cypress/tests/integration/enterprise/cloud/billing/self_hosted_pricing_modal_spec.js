@@ -45,6 +45,11 @@ describe('Self hosted Pricing modal', () => {
 
         // * Check that Upgrade button does not show
         cy.get('#UpgradeButton').should('exist').contains('Upgrade');
+
+        // *Check for Upgrade button tooltip
+        cy.get('#UpgradeButton').trigger('mouseover').then(() => {
+            cy.get('#upgrade_button_tooltip').should('be.visible').contains('Only visible to system admins');
+        });
     });
 
     it('should not show Upgrade button in global header for non admin users', () => {

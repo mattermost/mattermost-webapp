@@ -12,7 +12,7 @@ import type {AppBinding, AppCallRequest, AppCallResponse} from '@mattermost/type
 import {Audit} from '@mattermost/types/audits';
 import {UserAutocomplete, AutocompleteSuggestion} from '@mattermost/types/autocomplete';
 import {Bot, BotPatch} from '@mattermost/types/bots';
-import {Product, SubscriptionResponse, CloudCustomer, Address, CloudCustomerPatch, Invoice, Limits, IntegrationsUsage, NotifyAdminRequest} from '@mattermost/types/cloud';
+import {Product, SubscriptionResponse, CloudCustomer, Address, CloudCustomerPatch, Invoice, Limits, IntegrationsUsage, NotifyAdminRequest, Subscription, ValidBusinessEmail} from '@mattermost/types/cloud';
 import {ChannelCategory, OrderedChannelCategories} from '@mattermost/types/channel_categories';
 import {
     Channel,
@@ -515,7 +515,7 @@ export default class Client4 {
 
     // User Routes
 
-    createUser = (user: UserProfile, token: string, inviteId: string, redirect: string) => {
+    createUser = (user: UserProfile, token: string, inviteId: string, redirect?: string) => {
         this.trackEvent('api', 'api_users_create');
 
         const queryParams: any = {};
@@ -3834,21 +3834,21 @@ export default class Client4 {
     }
 
     requestCloudTrial = (subscriptionId: string, email = '') => {
-        return this.doFetchWithResponse<CloudCustomer>(
+        return this.doFetchWithResponse<Subscription>(
             `${this.getCloudRoute()}/request-trial`,
             {method: 'put', body: JSON.stringify({email, subscription_id: subscriptionId})},
         );
     }
 
     validateBusinessEmail = (email = '') => {
-        return this.doFetchWithResponse<CloudCustomer>(
+        return this.doFetchWithResponse<ValidBusinessEmail>(
             `${this.getCloudRoute()}/validate-business-email`,
             {method: 'post', body: JSON.stringify({email})},
         );
     }
 
     validateWorkspaceBusinessEmail = () => {
-        return this.doFetchWithResponse<CloudCustomer>(
+        return this.doFetchWithResponse<ValidBusinessEmail>(
             `${this.getCloudRoute()}/validate-workspace-business-email`,
             {method: 'post'},
         );

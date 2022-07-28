@@ -10,7 +10,7 @@ import {Team, TeamMembership} from '@mattermost/types/teams';
 import {Group} from '@mattermost/types/groups';
 import {UserProfile, UserStatus} from '@mattermost/types/users';
 
-import {startPeriodicStatusUpdates, stopPeriodicStatusUpdates} from 'actions/status_actions.jsx';
+import {startPeriodicStatusUpdates, stopPeriodicStatusUpdates} from 'actions/status_actions';
 import {reconnect} from 'actions/websocket_actions.jsx';
 import * as GlobalActions from 'actions/global_actions';
 
