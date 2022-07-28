@@ -4,8 +4,10 @@
 import React, {ComponentProps} from 'react';
 import {shallow} from 'enzyme';
 
-import UserSettingsNotifications from './user_settings_notifications';
 import {TestHelper} from 'utils/test_helper';
+
+import UserSettingsNotifications from './user_settings_notifications';
+import { UserNotifyProps } from '@mattermost/types/users';
 
 describe('components/user_settings/display/UserSettingsDisplay', () => {
     const user = TestHelper.getUserMock({
@@ -23,7 +25,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         },
         isCollapsedThreadsEnabled: false,
         sendPushNotifications: false,
-        enableAutoResponder: false
+        enableAutoResponder: false,
     };
 
     test('should have called handleSubmit', async () => {
@@ -52,12 +54,12 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
     test('should reset state when handleUpdateSection is called', () => {
         const newUpdateSection = jest.fn();
         const updateArg = 'unreadChannels';
-        const props = {...requiredProps, updateSection: newUpdateSection, user: {...user, notify_props: {desktop: 'on'}}};
+        const props = {...requiredProps, updateSection: newUpdateSection, user: {...user, notify_props: {desktop: 'on'} as unknown as UserNotifyProps}};
         const wrapper = shallow<UserSettingsNotifications>(
-            <UserSettingsNotifications { ...props }/>,
+            <UserSettingsNotifications {...props}/>,
         );
 
-        wrapper.setState({isSaving: true, desktopActivity: 'off'});
+        wrapper.setState({isSaving: true, desktopActivity: 'off' as unknown as UserNotifyProps['desktop']});
         wrapper.instance().handleUpdateSection(updateArg);
 
         expect(wrapper.state('isSaving')).toEqual(false);
