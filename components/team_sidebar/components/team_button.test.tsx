@@ -5,9 +5,9 @@ import React from 'react';
 
 import {BrowserRouter as Router} from 'react-router-dom';
 
-import TeamButton from 'team_button';
-
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+
+import TeamButton from './team_button';
 
 describe('components/TeamSidebar/TeamButton', () => {
     const baseProps = {
@@ -21,7 +21,6 @@ describe('components/TeamSidebar/TeamButton', () => {
         disabled: false,
         unread: false,
         mentions: 0,
-        placement: 'left',
         teamIconUrl: null,
         switchTeam: () => {},
         isDraggable: false,
