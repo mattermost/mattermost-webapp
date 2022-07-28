@@ -379,13 +379,12 @@ const systemMessageRenderers = {
     [Posts.POST_TYPES.CHANNEL_DELETED]: renderChannelDeletedMessage,
     [Posts.POST_TYPES.CHANNEL_UNARCHIVED]: renderChannelUnarchivedMessage,
     [Posts.POST_TYPES.ME]: renderMeMessage,
-    [Posts.POST_TYPES.REMINDER_ACK]: renderReminderACKMessage,
 };
 
-export function renderSystemMessage(post: Post, channel: Channel, isUserCanManageMembers?: boolean): ReactNode {
+export function renderSystemMessage(post: Post, channel: Channel, isUserCanManageMembers?: boolean, isMilitaryTime?: boolean): ReactNode {
     const isEphemeral = Utils.isPostEphemeral(post);
     if (isEphemeral && post.props?.type === Posts.POST_TYPES.REMINDER_ACK) {
-        return renderReminderACKMessage(post);
+        return renderReminderACKMessage(post, Boolean(isMilitaryTime));
     }
     if (post.props && post.props.add_channel_member) {
         if (channel && (channel.type === General.PRIVATE_CHANNEL || channel.type === General.OPEN_CHANNEL) &&
@@ -423,13 +422,17 @@ export function renderSystemMessage(post: Post, channel: Channel, isUserCanManag
     return null;
 }
 
-function renderReminderACKMessage(post: Post): ReactNode {
+function renderReminderACKMessage(post: Post, isMilitaryTime: boolean): ReactNode {
     const username = renderUsername(post.props.username);
     const link = `${getSiteURL()}/${post.props.team_name}/pl/${post.props.post_id}`;
     const permaLink = renderFormattedText(`[${link}](${link})`);
     const localTime = new Date(post.props.target_time * 1000);
 
-    const reminderTime = (<FormattedTime value={localTime}/>);
+    const reminderTime = (
+        <FormattedTime
+            value={localTime}
+            hour12={!isMilitaryTime}
+        />);
     const reminderDate = (
         <FormattedDate
             value={localTime}
@@ -441,12 +444,12 @@ function renderReminderACKMessage(post: Post): ReactNode {
         <>
             <FormattedMessage
                 id={'post.reminder.acknowledgement'}
-                defaultMessage={'You will be reminded about {permaLink} by {username} at {reminderTime}, {reminderDate}'}
+                defaultMessage='You will be reminded at {reminderTime}, {reminderDate} about this message from {username}: {permaLink}'
                 values={{
-                    username,
-                    permaLink,
                     reminderTime,
                     reminderDate,
+                    username,
+                    permaLink,
                 }}
             />
         </>

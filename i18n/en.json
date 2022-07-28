@@ -4236,7 +4236,7 @@
   "post.ariaLabel.reaction": ", 1 reaction",
   "post.ariaLabel.reactionMultiple": ", {reactionCount} reactions",
   "post.ariaLabel.replyMessage": "At {time} {date}, {authorName} replied, {message}",
-  "post.reminder.acknowledgement": "You will be reminded about {permaLink} by {username} at {reminderTime}, {reminderDate}",
+  "post.reminder.acknowledgement": "You will be reminded at {reminderTime}, {reminderDate} about this message from {username}: {permaLink}",
   "postlist.toast.history": "Viewing message history",
   "postlist.toast.newMessages": "{count, number} new {count, plural, one {message} other {messages}}",
   "postlist.toast.newMessagesSince": "{count, number} new {count, plural, one {message} other {messages}} {isToday, select, true {} other {since}} {date}",

@@ -9,6 +9,7 @@ import {
     getMyGroupMentionKeysForChannel,
     getMyGroupMentionKeys,
 } from 'mattermost-redux/selectors/entities/groups';
+import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
 import {Post} from '@mattermost/types/posts';
 import {Channel} from '@mattermost/types/channels';
@@ -16,6 +17,7 @@ import {Channel} from '@mattermost/types/channels';
 import {GlobalState} from 'types/store';
 
 import {canManageMembers} from 'utils/channel_utils';
+import {Preferences} from 'utils/constants';
 
 import {MentionKey} from 'utils/text_formatting';
 
@@ -68,6 +70,7 @@ function makeMapStateToProps() {
             hasPluginTooltips: Boolean(state.plugins.components.LinkTooltip),
             isUserCanManageMembers: channel && canManageMembers(state, channel),
             mentionKeys: getMentionKeysForPost(state, ownProps.post, channel),
+            isMilitaryTime: getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.USE_MILITARY_TIME, false),
         };
     };
 }
