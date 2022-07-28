@@ -191,5 +191,5 @@ export type TeamsUsage = {
 }
 
 export type ValidBusinessEmail = {
-    is_valid: string;
+    is_valid: boolean;
 }

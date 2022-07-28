@@ -110,14 +110,10 @@ export function validateBusinessEmail(email = '') {
     return async () => {
         try {
             const res = await Client4.validateBusinessEmail(email);
-            if (res.data.is_valid === 'true') {
-                return true;
-            }
-            return false;
+            return res.data.is_valid;
         } catch (error) {
             return false;
         }
-        return true;
     };
 }
 
@@ -126,10 +122,7 @@ export function validateWorkspaceBusinessEmail() {
     return async () => {
         try {
             const res = await Client4.validateWorkspaceBusinessEmail();
-            if (res.data.is_valid === 'true') {
-                return true;
-            }
-            return false;
+            return res.data.is_valid;
         } catch (error) {
             return false;
         }
