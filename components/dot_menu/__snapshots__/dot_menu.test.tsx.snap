@@ -680,21 +680,6 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
     <MenuItemAction
       icon={
         <span
-          className="icon-bookmark MenuItem__compass-icon"
-        />
-      }
-      onClick={[Function]}
-      rightDecorator={
-        <ShortcutKey
-          shortcutKey="S"
-        />
-      }
-      show={false}
-      text="Remove from Saved"
-    />
-    <MenuItemAction
-      icon={
-        <span
           className="icon-bookmark-outline MenuItem__compass-icon"
         />
       }
@@ -704,7 +689,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
           shortcutKey="S"
         />
       }
-      show={false}
+      show={true}
       text="Save"
     />
     <MenuItemAction
@@ -973,21 +958,6 @@ exports[`components/dot_menu/DotMenu should match snapshot, show "New" badge on 
     <MenuItemAction
       icon={
         <span
-          className="icon-bookmark MenuItem__compass-icon"
-        />
-      }
-      onClick={[Function]}
-      rightDecorator={
-        <ShortcutKey
-          shortcutKey="S"
-        />
-      }
-      show={false}
-      text="Remove from Saved"
-    />
-    <MenuItemAction
-      icon={
-        <span
           className="icon-bookmark-outline MenuItem__compass-icon"
         />
       }
@@ -997,7 +967,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, show "New" badge on 
           shortcutKey="S"
         />
       }
-      show={false}
+      show={true}
       text="Save"
     />
     <MenuItemAction
