@@ -8,9 +8,9 @@ import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 
 import {Channel} from '@mattermost/types/channels';
-import {getIsRhsOpen, getPreviousRhsState, getRhsState} from 'selectors/rhs';
+import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 
-import {closeRightHandSide, goBack, showChannelInfo} from 'actions/views/rhs';
+import {closeRightHandSide, showChannelInfo} from 'actions/views/rhs';
 
 import {RHSStates} from 'utils/constants';
 import {RhsState} from 'types/store/rhs';
