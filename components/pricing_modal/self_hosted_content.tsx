@@ -156,7 +156,7 @@ function SelfHostedContent(props: ContentProps) {
                             customClass: ButtonCustomiserClasses.secondary,
                         }}
                         briefing={{
-                            title: formatMessage({id: 'pricing_modal.briefing.starter.title', defaultMessage: 'Everything you need to get started'}),
+                            title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),
                             items: starterBriefing,
                         }}
                     />
@@ -186,7 +186,7 @@ function SelfHostedContent(props: ContentProps) {
                         }}
 
                         briefing={{
-                            title: formatMessage({id: 'pricing_modal.briefing.professional.title', defaultMessage: 'No limits on your team’s usage'}),
+                            title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),
                             items: professionalBriefing,
                         }}
                     />
@@ -218,7 +218,7 @@ function SelfHostedContent(props: ContentProps) {
                         planTrialDisclaimer={isPostSelfHostedEnterpriseTrial ? undefined : <StartTrialCaution/>}
                         contactSalesCTA={(isPostSelfHostedEnterpriseTrial || !isAdmin) ? undefined : <ContactSalesCTA/>}
                         briefing={{
-                            title: formatMessage({id: 'pricing_modal.briefing.enterprise.title', defaultMessage: 'Features for large-scale collaboration'}),
+                            title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),
                             items: enterpriseBriefing,
                         }}
                     />

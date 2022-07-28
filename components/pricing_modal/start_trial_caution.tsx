@@ -4,7 +4,7 @@ import React from 'react';
 import styled from 'styled-components';
 import {useIntl} from 'react-intl';
 
-import {AboutLinks} from 'utils/constants';
+import {LicenseLinks} from 'utils/constants';
 
 const ContainerSpan = styled.span`
 font-style: normal;
@@ -33,7 +33,7 @@ function StartTrialCaution() {
         span: (chunks: React.ReactNode | React.ReactNodeArray) => (<Span>{chunks}</Span>),
         a: (chunks: React.ReactNode | React.ReactNodeArray) => (
             <A
-                href={AboutLinks.PRIVACY_POLICY}
+                href={LicenseLinks.SOFTWARE_EVALUATION_AGREEMENT}
                 target='_blank'
             >
                 {chunks}
