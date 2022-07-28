@@ -89,10 +89,6 @@
 
         .Card__header {
             padding-bottom: 16px;
-
-            @media screen and (max-width: 1019px) {
-                padding-bottom: 12px;
-            }
         }
 
         @media screen and (min-width: 1680px) {
@@ -118,10 +114,6 @@
 
     @media (max-width: 768px) {
         margin: 8px 0;
-
-        &:nth-of-type(1) {
-            margin: 0 0 8px;
-        }
 
         &:nth-of-type(4) {
             margin: 8px 0 0;

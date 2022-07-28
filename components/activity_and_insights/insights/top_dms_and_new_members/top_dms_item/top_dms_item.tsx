@@ -3,11 +3,13 @@
 import React, {memo, useCallback} from 'react';
 import {useSelector} from 'react-redux';
 import {FormattedMessage} from 'react-intl';
+import {Link} from 'react-router-dom';
 
 import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 
 import {UserProfile} from '@mattermost/types/users';
 import {TopDM} from '@mattermost/types/insights';
+import {Team} from '@mattermost/types/teams';
 
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
@@ -23,9 +25,10 @@ import './../../../activity_and_insights.scss';
 type Props = {
     dm: TopDM;
     barSize: number;
+    team: Team;
 }
 
-const TopDMsItem = ({dm, barSize}: Props) => {
+const TopDMsItem = ({dm, barSize, team}: Props) => {
     const teammateNameDisplaySetting = useSelector(getTeammateNameDisplaySetting);
 
     const tooltip = useCallback((messageCount: number) => {
@@ -50,24 +53,32 @@ const TopDMsItem = ({dm, barSize}: Props) => {
                 url={imageURLForUser(dm.second_participant.id, dm.second_participant.last_picture_update)}
                 size={'xl'}
             />
-            <span className='dm-name'>{displayUsername(dm.second_participant as UserProfile, teammateNameDisplaySetting)}</span>
-            <span className='dm-role'>{dm.second_participant.position}</span>
-            <div className='channel-message-count'>
-                <OverlayTrigger
-                    trigger={['hover']}
-                    delayShow={Constants.OVERLAY_TIME_DELAY}
-                    placement='top'
-                    overlay={tooltip(dm.post_count)}
+            <div className='dm-info'>
+                <Link
+                    className='dm-name'
+                    to={`/${team.name}/messages/@${dm.second_participant.username}`}
                 >
-                    <span className='message-count'>{dm.post_count}</span>
-                </OverlayTrigger>
-                <span
-                    className='horizontal-bar'
-                    style={{
-                        flex: `${barSize} 0`,
-                    }}
-                />
+                    {displayUsername(dm.second_participant as UserProfile, teammateNameDisplaySetting)}
+                </Link>
+                <span className='dm-role'>{dm.second_participant.position}</span>
+                <div className='channel-message-count'>
+                    <OverlayTrigger
+                        trigger={['hover']}
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        placement='top'
+                        overlay={tooltip(dm.post_count)}
+                    >
+                        <span className='message-count'>{dm.post_count}</span>
+                    </OverlayTrigger>
+                    <span
+                        className='horizontal-bar'
+                        style={{
+                            flex: `${barSize} 0`,
+                        }}
+                    />
+                </div>
             </div>
+            
         </div>
     );
 };

@@ -16,6 +16,15 @@
             }
         }
 
+        .card-row {
+            &:after {
+                content: " ";
+                display: block; 
+                height: 0; 
+                clear: both;
+            }
+        }
+
         @media screen and (max-width: 768px) {
             padding: 16px;
         }
@@ -519,6 +528,11 @@
             display: flex;
             align-items: center;
 
+            @media screen and (max-width: 1279px) {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+
             .dms-loading-container {
                 display: flex;
                 flex: 0.2;
@@ -565,52 +579,86 @@
                     margin-right: 0;
                 }
 
+                @media screen and (max-width: 1279px) {
+                    margin: 0;
+                    width: auto;
+                    flex: 100% 0;
+                    flex-direction: row;
+                    margin-top: 24px;
+                    align-items: center;
+
+                    &:nth-of-type(1) {
+                        margin-top: 0;
+                    }
+                }
+
+                @media screen and (max-width: 1279px) and (min-width: 1020px) {
+                    flex: 50% 0;
+
+                    &:nth-of-type(2) {
+                        margin-top: 0;
+                    }
+                }
+
                 .Avatar-xl {
                     width: 72px;
                     min-width: 72px;
                     height: 72px;
                 }
 
-                .dm-name {
-                    overflow: hidden;
-                    margin-top: 12px;
-                    color: var(--center-channel-color);
-                    font-size: 12px;
-                    font-weight: 600;
-                    line-height: 16px;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                }
-
-                .dm-role {
-                    overflow: hidden;
-                    margin-top: 4px;
-                    color: rgba(var(--center-channel-color-rgb), 0.72);
-                    font-size: 11px;
-                    font-weight: 400;
-                    line-height: 16px;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                }
-
-                .channel-message-count {
+                .dm-info {
                     display: flex;
-                    flex: 1 0;
-                    align-items: center;
-                    margin-top: 4px;
+                    flex-direction: column;
+                    margin-top: 12px;
 
-                    .message-count {
+                    @media screen and (max-width: 1279px) {
+                        margin-top: 0;
+                        margin-left: 12px;
+                    }
+
+                    .dm-name {
+                        overflow: hidden;
+                        color: var(--center-channel-color);
+                        font-size: 12px;
+                        font-weight: 600;
+                        line-height: 16px;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+
+                        &:hover {
+                            text-decoration: none;
+                        }
+                    }
+    
+                    .dm-role {
+                        overflow: hidden;
+                        margin-top: 4px;
                         color: rgba(var(--center-channel-color-rgb), 0.72);
                         font-size: 11px;
                         font-weight: 400;
                         line-height: 16px;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
                     }
-
-                    .horizontal-bar {
-                        min-height: 8px;
-                        margin-left: 8px;
-                        background-color: var(--online-indicator);
-                        border-radius: 6px;
+    
+                    .channel-message-count {
+                        display: flex;
+                        align-items: center;
+                        margin-top: 4px;
+    
+                        .message-count {
+                            color: rgba(var(--center-channel-color-rgb), 0.72);
+                            font-size: 11px;
+                            font-weight: 400;
+                            line-height: 16px;
+                        }
+    
+                        .horizontal-bar {
+                            min-height: 8px;
+                            margin-left: 8px;
+                            background-color: var(--online-indicator);
+                            border-radius: 6px;
+                        }
                     }
                 }
             }

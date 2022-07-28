@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import {getMyTopDMs} from 'mattermost-redux/actions/insights';
 
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import {TopDM} from '@mattermost/types/insights';
 
@@ -27,12 +27,12 @@ const TopDMsAndNewMembers = (props: WidgetHocProps) => {
     const [topDMs, setTopDMs] = useState([] as TopDM[]);
     const [newMembers] = useState([] as TopDM[]);
 
-    const currentTeamId = useSelector(getCurrentTeamId);
+    const currentTeam = useSelector(getCurrentTeam);
 
     const getMyTopTeamDMs = useCallback(async () => {
         if (props.filterType === InsightsScopes.MY) {
             setLoading(true);
-            const data: any = await dispatch(getMyTopDMs(currentTeamId, 0, 5, props.timeFrame));
+            const data: any = await dispatch(getMyTopDMs(currentTeam.id, 0, 5, props.timeFrame));
             if (data.data?.items) {
                 setTopDMs(data.data.items);
             }
@@ -83,6 +83,7 @@ const TopDMsAndNewMembers = (props: WidgetHocProps) => {
                             key={index}
                             dm={topDM}
                             barSize={barSize}
+                            team={currentTeam}
                         />
                     );
                 })
