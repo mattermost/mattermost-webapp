@@ -44,7 +44,7 @@ export type Props = {
     formatting: string;
     joinLeave: string;
     unreadScrollPosition: string;
-    updateSection: (section: string | undefined) => void;
+    updateSection: (section?: string) => void;
     activeSection: string;
     closeModal: () => void;
     collapseModal: () => void;
@@ -131,7 +131,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
     }
 
     toggleFeature = (feature: string, checked: boolean): void => {
-        const settings = this.state.settings;
+        const {settings} = this.state;
         settings[Constants.FeatureTogglePrefix + feature] = String(checked);
 
         let enabledFeatures = 0;
@@ -208,7 +208,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
         });
     }
 
-    handleUpdateSection = (section: string | undefined): void => {
+    handleUpdateSection = (section?: string): void => {
         if (!section) {
             this.setState(this.getStateFromProps());
         }
@@ -268,7 +268,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
         );
     }
 
-    renderUnreadScrollPositionLabel(option: string | undefined): JSX.Element {
+    renderUnreadScrollPositionLabel(option?: string): JSX.Element {
         if (option === Preferences.UNREAD_SCROLL_POSITION_START_FROM_LEFT) {
             return (
                 <FormattedMessage
@@ -674,8 +674,8 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
             }
         }
 
-        let deactivateAccountSection: JSX.Element | string = '';
-        let makeConfirmationModal: JSX.Element | string = '';
+        let deactivateAccountSection: ReactNode = '';
+        let makeConfirmationModal: ReactNode = '';
         const currentUser = this.props.currentUser;
 
         if (currentUser.auth_service === '' && this.props.enableUserDeactivation) {

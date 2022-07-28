@@ -16,7 +16,7 @@ export type Props = {
     user: UserProfile;
     activeTab?: string;
     activeSection: string;
-    updateSection: (section: string | undefined) => void;
+    updateSection: (section?: string) => void;
     updateTab: (notifications: string) => void;
     closeModal: () => void;
     collapseModal: () => void;
