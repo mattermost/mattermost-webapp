@@ -25,7 +25,7 @@ describe('Messaging', () => {
         cy.postMessage('test post 1');
 
         // # Press the up arrow to open the edit modal
-        cy.get('#post_textbox').type('{uparrow}');
+        cy.uiGetPostTextBox().type('{uparrow}');
 
         // # Immediately after opening the edit modal, type more text and assert that the text has been inputted
         cy.get('#edit_textbox').type(' and test post 2').should('have.text', 'test post 1 and test post 2');

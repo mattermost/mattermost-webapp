@@ -8,7 +8,7 @@ export function loginAndVisitChannel(user, channelUrl) {
     cy.visit(channelUrl);
 
     cy.get('#postListContent', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
-    cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+    cy.uiGetPostTextBox();
 }
 
 export function verifyEphemeralMessage(message) {

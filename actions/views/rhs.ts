@@ -181,6 +181,7 @@ export function filterFilesSearchByExt(extensions: string[]) {
             type: ActionTypes.SET_FILES_FILTER_BY_EXT,
             data: extensions,
         });
+        return {data: true};
     };
 }
 
@@ -351,6 +352,7 @@ export function showChannelFiles(channelId: string) {
             state: RHSStates.CHANNEL_FILES,
             previousRhsState,
         });
+        dispatch(updateSearchType('files'));
 
         const results = await dispatch(performSearch('channel:' + channelId));
         const fileData = results instanceof Array ? results[0].data : null;

@@ -7,15 +7,46 @@ import {bindActionCreators, Dispatch} from 'redux';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis';
-import {emitShortcutReactToLastPostFrom} from 'actions/post_actions.jsx';
+import {emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 
 import {GlobalState} from 'types/store';
 
-import PostListRow from './post_list_row';
+import {getUsage} from 'mattermost-redux/selectors/entities/usage';
+import {getCloudLimits, getCloudLimitsLoaded} from 'mattermost-redux/selectors/entities/cloud';
+import {getLimitedViews} from 'mattermost-redux/selectors/entities/posts';
+import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/common';
 
-function mapStateToProps(state: GlobalState) {
+import {PostListRowListIds} from 'utils/constants';
+
+import PostListRow, {PostListRowProps} from './post_list_row';
+
+type OwnProps = Pick<PostListRowProps, 'listId'>
+
+function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const shortcutReactToLastPostEmittedFrom = getShortcutReactToLastPostEmittedFrom(state);
-    return {shortcutReactToLastPostEmittedFrom};
+    const usage = getUsage(state);
+    const limits = getCloudLimits(state);
+    const limitsLoaded = getCloudLimitsLoaded(state);
+
+    const props: Pick<
+    PostListRowProps,
+    'shortcutReactToLastPostEmittedFrom' | 'usage' | 'limits' | 'limitsLoaded' | 'exceededLimitChannelId' | 'firstInaccessiblePostTime'
+    > = {
+        shortcutReactToLastPostEmittedFrom,
+        usage,
+        limits,
+        limitsLoaded,
+    };
+    if ((ownProps.listId === PostListRowListIds.OLDER_MESSAGES_LOADER || ownProps.listId === PostListRowListIds.CHANNEL_INTRO_MESSAGE) && limitsLoaded) {
+        const currentChannelId = getCurrentChannelId(state);
+        const firstInaccessiblePostTime = getLimitedViews(state).channels[currentChannelId];
+        const channelLimitExceeded = Boolean(firstInaccessiblePostTime) || firstInaccessiblePostTime === 0;
+        if (channelLimitExceeded) {
+            props.exceededLimitChannelId = currentChannelId;
+            props.firstInaccessiblePostTime = firstInaccessiblePostTime;
+        }
+    }
+    return props;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {

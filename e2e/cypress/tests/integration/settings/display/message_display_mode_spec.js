@@ -38,7 +38,7 @@ function verifyLineBreaksRemainIntact(display) {
     const secondLine = 'Second line';
 
     // # Enter in text
-    cy.get('#post_textbox').
+    cy.uiGetPostTextBox().
         clear().
         type(firstLine).
         type('{shift}{enter}{enter}').

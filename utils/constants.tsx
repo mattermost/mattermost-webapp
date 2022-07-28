@@ -67,6 +67,7 @@ export const InviteTypes = {
 export const PreviousViewedTypes = {
     CHANNELS: 'channels',
     THREADS: 'threads',
+    INSIGHTS: 'insights',
 };
 
 export const Preferences = {
@@ -106,6 +107,9 @@ export const Preferences = {
     AVAILABILITY_STATUS_ON_POSTS_DEFAULT: 'true',
     USE_MILITARY_TIME: 'use_military_time',
     USE_MILITARY_TIME_DEFAULT: 'false',
+    UNREAD_SCROLL_POSITION: 'unread_scroll_position',
+    UNREAD_SCROLL_POSITION_START_FROM_LEFT: 'start_from_left_off',
+    UNREAD_SCROLL_POSITION_START_FROM_NEWEST: 'start_from_newest',
     CATEGORY_THEME: 'theme',
     CATEGORY_FLAGGED_POST: 'flagged_post',
     CATEGORY_NOTIFICATIONS: 'notifications',
@@ -127,6 +131,8 @@ export const Preferences = {
     ONE_CLICK_REACTIONS_ENABLED: 'one_click_reactions_enabled',
     ONE_CLICK_REACTIONS_ENABLED_DEFAULT: 'true',
     CLOUD_TRIAL_END_BANNER: 'cloud_trial_end_banner',
+    CLOUD_USER_EPHEMERAL_INFO: 'cloud_user_ephemeral_info',
+    THREE_DAYS_LEFT_TRIAL_MODAL: 'three_days_left_trial_modal',
 
     // For one off things that have a special, attention-grabbing UI until you interact with them
     TOUCHED: 'touched',
@@ -140,6 +146,8 @@ export const Preferences = {
     RECENT_EMOJIS: 'recent_emojis',
     ONBOARDING: 'onboarding',
     ADVANCED_TEXT_EDITOR: 'advanced_text_editor',
+
+    FORWARD_POST_VIEWED: 'forward_post_viewed',
 };
 
 // For one off things that have a special, attention-grabbing UI until you interact with them
@@ -390,8 +398,12 @@ export const ModalIdentifiers = {
     UPLOAD_LICENSE: 'upload_license',
     INSIGHTS: 'insights',
     CLOUD_LIMITS: 'cloud_limits',
+    THREE_DAYS_LEFT_TRIAL_MODAL: 'three_days_left_trial_modal',
     REQUEST_BUSINESS_EMAIL_MODAL: 'request_business_email_modal',
     FEATURE_RESTRICTED_MODAL: 'feature_restricted_modal',
+    FORWARD_POST_MODAL: 'forward_post_modal',
+    CLOUD_SUBSCRIBE_WITH_LOADING_MODAL: 'cloud_subscribe_with_loading_modal',
+    JOIN_PUBLIC_CHANNEL_MODAL: 'join_public_channel_modal',
 };
 
 export const UserStatuses = {
@@ -601,6 +613,7 @@ export const CloudBanners = {
     HIDE: 'hide',
     TRIAL: 'trial',
     UPGRADE_FROM_TRIAL: 'upgrade_from_trial',
+    THREE_DAYS_LEFT_TRIAL_MODAL_DISMISSED: 'dismiss_3_days_left_trial_modal',
 };
 
 export const AdvancedTextEditor = {
@@ -611,12 +624,14 @@ export const AdvancedTextEditor = {
 
 export const TELEMETRY_CATEGORIES = {
     CLOUD_PURCHASING: 'cloud_purchasing',
+    SELF_HOSTED_PURCHASING: 'self_hosted_purchasing',
     CLOUD_ADMIN: 'cloud_admin',
     POST_INFO_MORE: 'post_info_more_menu',
     POST_INFO: 'post_info',
     SELF_HOSTED_START_TRIAL_AUTO_MODAL: 'self_hosted_start_trial_auto_modal',
     SELF_HOSTED_START_TRIAL_MODAL: 'self_hosted_start_trial_modal',
     CLOUD_START_TRIAL_BUTTON: 'cloud_start_trial_button',
+    CLOUD_THREE_DAYS_LEFT_MODAL: 'cloud_three_days_left_modal',
     SELF_HOSTED_START_TRIAL_TASK_LIST: 'self_hosted_start_trial_task_list',
     WORKSPACE_OPTIMIZATION_DASHBOARD: 'workspace_optimization_dashboard',
     REQUEST_BUSINESS_EMAIL: 'request_business_email',
@@ -635,30 +650,31 @@ export const TELEMETRY_LABELS = {
     UNPIN: 'unpin',
     REPLY: 'reply',
     UNREAD: 'unread',
+    FORWARD: 'forward',
 };
 
 export const PostTypes = {
-    JOIN_LEAVE: 'system_join_leave',
-    JOIN_CHANNEL: 'system_join_channel',
-    LEAVE_CHANNEL: 'system_leave_channel',
-    ADD_TO_CHANNEL: 'system_add_to_channel',
-    REMOVE_FROM_CHANNEL: 'system_remove_from_channel',
-    ADD_REMOVE: 'system_add_remove',
-    JOIN_TEAM: 'system_join_team',
-    LEAVE_TEAM: 'system_leave_team',
-    ADD_TO_TEAM: 'system_add_to_team',
-    REMOVE_FROM_TEAM: 'system_remove_from_team',
-    HEADER_CHANGE: 'system_header_change',
-    DISPLAYNAME_CHANGE: 'system_displayname_change',
-    CONVERT_CHANNEL: 'system_convert_channel',
-    PURPOSE_CHANGE: 'system_purpose_change',
-    CHANNEL_DELETED: 'system_channel_deleted',
-    CHANNEL_UNARCHIVED: 'system_channel_restored',
-    FAKE_PARENT_DELETED: 'system_fake_parent_deleted',
-    EPHEMERAL: 'system_ephemeral',
-    EPHEMERAL_ADD_TO_CHANNEL: 'system_ephemeral_add_to_channel',
-    REMOVE_LINK_PREVIEW: 'remove_link_preview',
-    ME: 'me',
+    JOIN_LEAVE: 'system_join_leave' as const,
+    JOIN_CHANNEL: 'system_join_channel' as const,
+    LEAVE_CHANNEL: 'system_leave_channel' as const,
+    ADD_TO_CHANNEL: 'system_add_to_channel' as const,
+    REMOVE_FROM_CHANNEL: 'system_remove_from_channel' as const,
+    ADD_REMOVE: 'system_add_remove' as const,
+    JOIN_TEAM: 'system_join_team' as const,
+    LEAVE_TEAM: 'system_leave_team' as const,
+    ADD_TO_TEAM: 'system_add_to_team' as const,
+    REMOVE_FROM_TEAM: 'system_remove_from_team' as const,
+    HEADER_CHANGE: 'system_header_change' as const,
+    DISPLAYNAME_CHANGE: 'system_displayname_change' as const,
+    CONVERT_CHANNEL: 'system_convert_channel' as const,
+    PURPOSE_CHANGE: 'system_purpose_change' as const,
+    CHANNEL_DELETED: 'system_channel_deleted' as const,
+    CHANNEL_UNARCHIVED: 'system_channel_restored' as const,
+    FAKE_PARENT_DELETED: 'system_fake_parent_deleted' as const,
+    EPHEMERAL: 'system_ephemeral' as const,
+    EPHEMERAL_ADD_TO_CHANNEL: 'system_ephemeral_add_to_channel' as const,
+    REMOVE_LINK_PREVIEW: 'remove_link_preview' as const,
+    ME: 'me' as const,
 };
 
 export const StatTypes = keyMirror({
@@ -921,6 +937,8 @@ export const CloudLinks = {
     PRORATED_PAYMENT: 'https://mattermost.com/pl/mattermost-cloud-prorate-documentation',
     DEPLOYMENT_OPTIONS: 'https://mattermost.com/deploy/',
     DOWNLOAD_UPDATE: 'https://mattermost.com/deploy/',
+    CLOUD_SIGNUP_PAGE: 'https://mattermost.com/sign-up/',
+    SELF_HOSTED_SIGNUP: 'https://customers.mattermost.com/signup',
 };
 
 export const DocLinks = {
@@ -932,6 +950,8 @@ export const DocLinks = {
     SITE_URL: 'https://docs.mattermost.com/configure/configuration-settings.html#site-url',
     SSL_CERTIFICATE: 'https://docs.mattermost.com/onboard/ssl-client-certificate.html',
     UPGRADE_SERVER: 'https://docs.mattermost.com/upgrade/upgrading-mattermost-server.html',
+    ONBOARD_LDAP: 'https://docs.mattermost.com/onboard/ad-ldap.html',
+    ONBOARD_SSO: 'https://docs.mattermost.com/onboard/sso-saml.html',
 };
 
 export const LicenseLinks = {
@@ -1140,11 +1160,12 @@ export const DefaultRolePermissions = {
 };
 
 export const Locations = {
-    CENTER: 'CENTER',
-    RHS_ROOT: 'RHS_ROOT',
-    RHS_COMMENT: 'RHS_COMMENT',
-    SEARCH: 'SEARCH',
-    NO_WHERE: 'NO_WHERE',
+    CENTER: 'CENTER' as const,
+    RHS_ROOT: 'RHS_ROOT' as const,
+    RHS_COMMENT: 'RHS_COMMENT' as const,
+    SEARCH: 'SEARCH' as const,
+    NO_WHERE: 'NO_WHERE' as const,
+    MODAL: 'MODAL' as const,
 };
 
 export const PostListRowListIds = {
@@ -1228,6 +1249,7 @@ export const Constants = {
     HERE_MENTION_REGEX: /(?:\B|\b_+)@(here)(?!(\.|-|_)*[^\W_])/gi,
     NOTIFY_ALL_MEMBERS: 5,
     ALL_MEMBERS_MENTIONS_REGEX: /(?:\B|\b_+)@(channel|all)(?!(\.|-|_)*[^\W_])/gi,
+    MENTIONS_REGEX: /(?:\B|\b_+)@([a-z0-9.\-_]+)/gi,
     DEFAULT_CHARACTER_LIMIT: 4000,
     IMAGE_TYPE_GIF: 'gif',
     TEXT_TYPES: ['txt', 'rtf'],
@@ -1759,6 +1781,7 @@ export const Constants = {
     PERMISSIONS_DELETE_POST_ALL: 'all',
     PERMISSIONS_DELETE_POST_TEAM_ADMIN: 'team_admin',
     PERMISSIONS_DELETE_POST_SYSTEM_ADMIN: 'system_admin',
+    PERMISSIONS_SYSTEM_CUSTOM_GROUP_ADMIN: 'system_custom_group_admin',
     ALLOW_EDIT_POST_ALWAYS: 'always',
     ALLOW_EDIT_POST_NEVER: 'never',
     ALLOW_EDIT_POST_TIME_LIMIT: 'time_limit',
@@ -1823,6 +1846,7 @@ export const ConsolePages = {
     SAML: '/admin_console/authentication/saml',
     SESSION_LENGTHS: '/admin_console/environment/session_lengths',
     WEB_SERVER: '/admin_console/environment/web_server',
+    PUSH_NOTIFICATION_CENTER: '/admin_console/environment/push_notification_server',
 };
 
 export const WindowSizes = {
@@ -2016,6 +2040,11 @@ export enum ClaimErrors {
 export const LegacyFreeProductIds: Record<string, true> = {
     prod_HyiHEAVKW5bYG3: true,
     prod_Hm2oYaBiRSISL2: true,
+};
+
+export const DataSearchTypes = {
+    FILES_SEARCH_TYPE: 'files',
+    MESSAGES_SEARCH_TYPE: 'messages',
 };
 
 export default Constants;
