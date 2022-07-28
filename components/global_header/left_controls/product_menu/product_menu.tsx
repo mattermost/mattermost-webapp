@@ -7,18 +7,27 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import IconButton from '@mattermost/compass-components/components/icon-button';
 
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getInt} from 'mattermost-redux/selectors/entities/preferences';
+
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
+import {BoardsTourTip, PlaybooksTourTip} from 'components/onboarding_explore_tools_tour';
+import {FINISHED, TutorialTourName} from 'components/onboarding_tour';
 
 import {isSwitcherOpen} from 'selectors/views/product_menu';
 
 import {setProductMenuSwitcherOpen} from 'actions/views/product_menu';
 import {
+    GenericTaskSteps,
     OnboardingTaskCategory,
     OnboardingTasksName,
     TaskNameMapToSteps,
     useHandleOnBoardingTaskData,
 } from 'components/onboarding_tasks';
+
+import {GlobalState} from 'types/store';
 
 import {useClickOutsideRef, useCurrentProductId, useProducts} from '../../hooks';
 
@@ -60,13 +69,29 @@ const ProductMenu = (): JSX.Element => {
     const menuRef = useRef<HTMLDivElement>(null);
     const currentProductID = useCurrentProductId(products);
 
+    const enableTutorial = useSelector((state: GlobalState) => getConfig(state).EnableTutorial === 'true');
+    const currentUserId = useSelector((state: GlobalState) => getCurrentUserId(state));
+    const tutorialStep = useSelector((state: GlobalState) => getInt(state, TutorialTourName.EXPLORE_OTHER_TOOLS, currentUserId, 0));
+    const triggerStep = useSelector((state: GlobalState) => getInt(state, OnboardingTaskCategory, OnboardingTasksName.EXPLORE_OTHER_TOOLS, FINISHED));
+    const exploreToolsTourTriggered = triggerStep === GenericTaskSteps.STARTED;
+
+    const pluginsList = useSelector((state: GlobalState) => state.plugins.plugins);
+    const focalboard = pluginsList.focalboard;
+    const playbooks = pluginsList.playbooks;
+
+    const boardsStep = 0;
+    const playbooksStep = focalboard ? 1 : 0;
+
+    const showBoardsTour = enableTutorial && tutorialStep === boardsStep && exploreToolsTourTriggered && focalboard;
+    const showPlaybooksTour = (enableTutorial && tutorialStep === playbooksStep && exploreToolsTourTriggered && playbooks);
     const handleClick = () => dispatch(setProductMenuSwitcherOpen(!switcherOpen));
 
     const handleOnBoardingTaskData = useHandleOnBoardingTaskData();
-    const taskName = OnboardingTasksName.VISIT_SYSTEM_CONSOLE;
+
+    const visitSystemConsoleTaskName = OnboardingTasksName.VISIT_SYSTEM_CONSOLE;
     const handleVisitConsoleClick = () => {
-        const steps = TaskNameMapToSteps[taskName];
-        handleOnBoardingTaskData(taskName, steps.FINISHED, true, 'finish');
+        const steps = TaskNameMapToSteps[visitSystemConsoleTaskName];
+        handleOnBoardingTaskData(visitSystemConsoleTaskName, steps.FINISHED, true, 'finish');
         localStorage.setItem(OnboardingTaskCategory, 'true');
     };
 
@@ -74,16 +99,34 @@ const ProductMenu = (): JSX.Element => {
         dispatch(setProductMenuSwitcherOpen(false));
     });
 
-    const productItems = products?.map((product) => (
-        <ProductMenuItem
-            key={product.id}
-            destination={product.switcherLinkURL}
-            icon={product.switcherIcon}
-            text={product.switcherText}
-            active={product.id === currentProductID}
-            onClick={handleClick}
-        />
-    ));
+    const productItems = products?.map((product) => {
+        let showTourTip;
+
+        // focalboard
+        if (product.pluginId === 'focalboard' && showBoardsTour) {
+            dispatch(setProductMenuSwitcherOpen(true));
+            showTourTip = (<BoardsTourTip singleTip={!playbooks}/>);
+        }
+
+        // playbooks
+        if (product.pluginId === 'playbooks' && showPlaybooksTour) {
+            dispatch(setProductMenuSwitcherOpen(true));
+            showTourTip = (<PlaybooksTourTip singleTip={!focalboard}/>);
+        }
+
+        return (
+            <ProductMenuItem
+                key={product.id}
+                destination={product.switcherLinkURL}
+                icon={product.switcherIcon}
+                text={product.switcherText}
+                active={product.id === currentProductID}
+                onClick={handleClick}
+                tourTip={showTourTip}
+                id={product.pluginId || product.id}
+            />
+        );
+    });
 
     return (
         <div ref={menuRef}>
