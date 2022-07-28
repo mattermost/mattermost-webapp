@@ -284,12 +284,12 @@ export function markLastPostInThreadAsUnread(userId: string, teamId: string, thr
 
         // load posts in thread if they are not loaded already
         if (thread?.reply_count === posts.length - 1) {
-            dispatch(markThreadAsUnreadForUser({userId, teamId, threadId, lastPostId: posts[0].id}));
+            dispatch(markThreadAsUnread(userId, teamId, threadId, posts[0].id));
         } else {
             dispatch(getPostThread(threadId)).then(({data, error}) => {
                 if (data) {
                     posts = getPostsForThread(getState(), threadId);
-                    dispatch(markThreadAsUnreadForUser({userId, teamId, threadId, lastPostId: posts[0].id}));
+                    dispatch(markThreadAsUnread(userId, teamId, threadId, posts[0].id));
                 } else if (error) {
                     return {error};
                 }
@@ -297,20 +297,6 @@ export function markLastPostInThreadAsUnread(userId: string, teamId: string, thr
             });
         }
 
-        return {};
-    };
-}
-
-function markThreadAsUnreadForUser(params: { userId: string; teamId: string; threadId: string; lastPostId: string }) {
-    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const {userId, teamId, threadId, lastPostId} = params;
-        try {
-            Client4.markThreadAsUnreadForUser(userId, teamId, threadId, lastPostId);
-        } catch (serverError) {
-            forceLogoutIfNecessary(serverError, dispatch, getState);
-            dispatch(logError(serverError));
-            return {serverError};
-        }
         return {};
     };
 }
