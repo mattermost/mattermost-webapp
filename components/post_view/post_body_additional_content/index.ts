@@ -16,7 +16,7 @@ import PostBodyAdditionalContent, {
     Props,
 } from './post_body_additional_content';
 
-function mapStateToProps(state: GlobalState, ownProps: Props) {
+function mapStateToProps(state: GlobalState, ownProps: Omit<Props, 'appsEnabled' | 'actions'>) {
     return {
         isEmbedVisible: isEmbedVisible(state, ownProps.post.id),
         pluginPostWillRenderEmbedComponents: state.plugins.components.PostWillRenderEmbedComponent as unknown as PostWillRenderEmbedPluginComponent[],

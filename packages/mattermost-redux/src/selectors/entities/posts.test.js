@@ -61,12 +61,6 @@ describe('Selectors.Posts', () => {
         },
     });
 
-    it('should return the most recent post for each channel', () => {
-        const lastPosts = Selectors.getLastPostPerChannel(testState);
-
-        assert.deepEqual(lastPosts, {1: posts.e, 2: posts.f});
-    });
-
     it('should return single post with no children', () => {
         const getPostsForThread = Selectors.makeGetPostsForThread();
 

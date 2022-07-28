@@ -859,6 +859,15 @@ describe('PostUtils.getLatestPostId', () => {
 
 describe('PostUtils.createAriaLabelForPost', () => {
     const emojiMap = new EmojiMap(new Map());
+    const users = {
+        'benjamin.cooke': {
+            username: 'benjamin.cooke',
+            nickname: 'sysadmin',
+            first_name: 'Benjamin',
+            last_name: 'Cooke',
+        },
+    };
+    const teammateNameDisplaySetting = 'username';
 
     test('Should show username, timestamp, message, attachments, reactions, flagged and pinned', () => {
         const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'});
@@ -883,7 +892,7 @@ describe('PostUtils.createAriaLabelForPost', () => {
         };
         const isFlagged = true;
 
-        const ariaLabel = PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl, emojiMap);
+        const ariaLabel = PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl, emojiMap, users, teammateNameDisplaySetting);
         expect(ariaLabel.indexOf(author)).not.toBe(-1);
         expect(ariaLabel.indexOf(testPost.message)).not.toBe(-1);
         expect(ariaLabel.indexOf('3 attachments')).not.toBe(-1);
@@ -903,7 +912,7 @@ describe('PostUtils.createAriaLabelForPost', () => {
         const reactions = {};
         const isFlagged = true;
 
-        const ariaLabel = PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl, emojiMap);
+        const ariaLabel = PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl, emojiMap, users, teammateNameDisplaySetting);
         expect(ariaLabel.indexOf('replied')).not.toBe(-1);
     });
 
@@ -918,7 +927,7 @@ describe('PostUtils.createAriaLabelForPost', () => {
         const reactions = {};
         const isFlagged = true;
 
-        const ariaLabel = PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl, emojiMap);
+        const ariaLabel = PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl, emojiMap, users, teammateNameDisplaySetting);
         expect(ariaLabel.indexOf('smile emoji')).not.toBe(-1);
         expect(ariaLabel.indexOf('+1 emoji')).not.toBe(-1);
         expect(ariaLabel.indexOf('non-potable water emoji')).not.toBe(-1);
@@ -938,7 +947,7 @@ describe('PostUtils.createAriaLabelForPost', () => {
         const reactions = {};
         const isFlagged = true;
 
-        expect(() => PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl, emojiMap)).not.toThrow();
+        expect(() => PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl, emojiMap, users, teammateNameDisplaySetting)).not.toThrow();
     });
 
     test('Should not mention reactions if passed an empty object', () => {
@@ -953,8 +962,40 @@ describe('PostUtils.createAriaLabelForPost', () => {
         const reactions = {};
         const isFlagged = true;
 
-        const ariaLabel = PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl, emojiMap);
+        const ariaLabel = PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl, emojiMap, users, teammateNameDisplaySetting);
         expect(ariaLabel.indexOf('reaction')).toBe(-1);
+    });
+
+    test('Should show the username as mention name in the message', () => {
+        const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'});
+
+        const testPost = {
+            message: 'test_message @benjamin.cooke',
+            root_id: 'test_id',
+            create_at: (new Date().getTime() / 1000) || 0,
+        };
+        const author = 'test_author';
+        const reactions = {};
+        const isFlagged = true;
+
+        const ariaLabel = PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl, emojiMap, users, teammateNameDisplaySetting);
+        expect(ariaLabel.indexOf('@benjamin.cooke')).not.toBe(-1);
+    });
+
+    test('Should show the nickname as mention name in the message', () => {
+        const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'});
+
+        const testPost = {
+            message: 'test_message @benjamin.cooke',
+            root_id: 'test_id',
+            create_at: (new Date().getTime() / 1000) || 0,
+        };
+        const author = 'test_author';
+        const reactions = {};
+        const isFlagged = true;
+
+        const ariaLabel = PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl, emojiMap, users, 'nickname_full_name');
+        expect(ariaLabel.indexOf('@sysadmin')).not.toBe(-1);
     });
 });
 

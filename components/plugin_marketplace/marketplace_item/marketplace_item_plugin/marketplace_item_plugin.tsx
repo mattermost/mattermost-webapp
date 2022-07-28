@@ -10,6 +10,7 @@ import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import type {MarketplaceLabel} from '@mattermost/types/marketplace';
+import {PluginStatusRedux} from '@mattermost/types/plugins';
 
 import MarketplaceItem from '../marketplace_item';
 
@@ -223,12 +224,13 @@ export type MarketplaceItemPluginProps = {
     iconData?: string;
     installedVersion?: string;
     installing: boolean;
+    pluginStatus?: PluginStatusRedux;
     error?: string;
     isDefaultMarketplace: boolean;
     trackEvent: (category: string, event: string, props?: unknown) => void;
 
     actions: {
-        installPlugin: (category: string, event: string) => void;
+        installPlugin: (id: string) => void;
         closeMarketplaceModal: () => void;
     };
 };
@@ -268,7 +270,7 @@ export default class MarketplaceItemPlugin extends React.PureComponent <Marketpl
 
     onInstall = (): void => {
         this.trackEvent('ui_marketplace_download');
-        this.props.actions.installPlugin(this.props.id, this.props.version);
+        this.props.actions.installPlugin(this.props.id);
     }
 
     onConfigure = (): void => {
@@ -281,7 +283,7 @@ export default class MarketplaceItemPlugin extends React.PureComponent <Marketpl
         this.trackEvent('ui_marketplace_download_update');
 
         this.hideUpdateConfirmationModal();
-        this.props.actions.installPlugin(this.props.id, this.props.version);
+        this.props.actions.installPlugin(this.props.id);
     }
 
     getItemButton(): JSX.Element {
@@ -363,6 +365,7 @@ export default class MarketplaceItemPlugin extends React.PureComponent <Marketpl
                     updateDetails={updateDetails}
                     iconSource={this.props.iconData}
                     {...this.props}
+                    error={this.props.error || this.props.pluginStatus?.error}
                 />
                 <UpdateConfirmationModal
                     show={this.state.showUpdateConfirmationModal}

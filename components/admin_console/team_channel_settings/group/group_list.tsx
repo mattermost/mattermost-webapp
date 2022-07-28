@@ -6,8 +6,9 @@ import {FormattedMessage} from 'react-intl';
 
 import {Group} from '@mattermost/types/groups';
 import {Channel} from '@mattermost/types/channels';
+import {Team} from '@mattermost/types/teams';
 
-import AbstractList from 'components/admin_console/team_channel_settings/abstract_list.jsx';
+import AbstractList from 'components/admin_console/team_channel_settings/abstract_list';
 
 import GroupRow from './group_row';
 
@@ -40,23 +41,24 @@ const Header = () => {
 };
 
 interface Props {
-    data?: Array<Partial<Group>>;
+    data?: Group[];
     onPageChangedCallback?: () => void;
     total: number;
     emptyListTextId: string;
     emptyListTextDefaultMessage: string;
     actions: {
-        getData: () => void;
+        getData: () => Promise<Group[]>;
     };
     removeGroup: (gid: string) => void;
     setNewGroupRole: (gid: string) => void;
     type: string;
+    team?: Team;
     channel?: Partial<Channel>;
     isDisabled?: boolean;
 }
 
 export default class GroupList extends React.PureComponent<Props> {
-    renderRow = (item: Group) => {
+    renderRow = (item: Partial<Group>) => {
         return (
             <GroupRow
                 key={item.id}

@@ -10,6 +10,8 @@
 // Stage: @prod
 // Group: @messaging
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 describe('Messaging', () => {
     before(() => {
         // # Create new team and new user and visit off-topic
@@ -71,15 +73,8 @@ describe('Messaging', () => {
 });
 
 function verifyImageInPostFooter(verifyExistence = true) {
-    if (verifyExistence) {
-        // * Verify that the image exists in the post message footer
-        cy.get('#postCreateFooter').should('be.visible').find('div.post-image__column').
-            should('exist').
-            and('be.visible');
-    } else {
-        // * Verify that the image no longer exists in the post message footer
-        cy.get('#postCreateFooter').find('div.post-image__column').should('not.exist');
-    }
+    // * Verify that the image exists or not
+    cy.get('#advancedTextEditorCell').find('.file-preview').should(verifyExistence ? 'be.visible' : 'not.exist').wait(TIMEOUTS.THREE_SEC);
 }
 
 function postAttachments() {
@@ -93,7 +88,7 @@ function postAttachments() {
 
     // # Copy and paste the text below into the message box and post
     cy.fixture('long_text_post.txt', 'utf-8').then((text) => {
-        cy.get('#post_textbox').then((textbox) => {
+        cy.uiGetPostTextBox().then((textbox) => {
             textbox.val(text);
         }).type(' {backspace}{enter}');
     });

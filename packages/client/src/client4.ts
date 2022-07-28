@@ -515,7 +515,7 @@ export default class Client4 {
 
     // User Routes
 
-    createUser = (user: UserProfile, token: string, inviteId: string, redirect: string) => {
+    createUser = (user: UserProfile, token: string, inviteId: string, redirect?: string) => {
         this.trackEvent('api', 'api_users_create');
 
         const queryParams: any = {};
@@ -3414,12 +3414,12 @@ export default class Client4 {
         );
     }
 
-    installMarketplacePlugin = (id: string, version: string) => {
+    installMarketplacePlugin = (id: string) => {
         this.trackEvent('api', 'api_install_marketplace_plugin');
 
         return this.doFetch<MarketplacePlugin>(
             `${this.getPluginsMarketplaceRoute()}`,
-            {method: 'post', body: JSON.stringify({id, version})},
+            {method: 'post', body: JSON.stringify({id})},
         );
     }
 
@@ -3844,6 +3844,13 @@ export default class Client4 {
         return this.doFetchWithResponse<CloudCustomer>(
             `${this.getCloudRoute()}/validate-business-email`,
             {method: 'post', body: JSON.stringify({email})},
+        );
+    }
+
+    validateWorkspaceBusinessEmail = () => {
+        return this.doFetchWithResponse<CloudCustomer>(
+            `${this.getCloudRoute()}/validate-workspace-business-email`,
+            {method: 'post'},
         );
     }
 
