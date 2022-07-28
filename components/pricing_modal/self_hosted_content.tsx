@@ -20,6 +20,7 @@ import PlanLabel from 'components/common/plan_label';
 import StartTrialBtn from 'components/learn_more_trial_modal/start_trial_btn';
 
 import ContactSalesCTA from './contact_sales_cta';
+import StartTrialCaution from './start_trial_caution';
 import Card, {ButtonCustomiserClasses} from './card';
 
 import './content.scss';
@@ -214,6 +215,7 @@ function SelfHostedContent(props: ContentProps) {
                         customButtonDetails={(!isPostSelfHostedEnterpriseTrial && isAdmin) ? (
                             trialButton()
                         ) : undefined}
+                        planTrialDisclaimer={isPostSelfHostedEnterpriseTrial ? undefined : <StartTrialCaution/>}
                         contactSalesCTA={(isPostSelfHostedEnterpriseTrial || !isAdmin) ? undefined : <ContactSalesCTA/>}
                         briefing={{
                             title: formatMessage({id: 'pricing_modal.briefing.enterprise.title', defaultMessage: 'Features for large-scale collaboration'}),

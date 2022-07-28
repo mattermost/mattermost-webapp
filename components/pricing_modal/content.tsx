@@ -32,6 +32,7 @@ import NotifyAdminCTA from 'components/notify_admin_cta/notify_admin_cta';
 import DowngradeTeamRemovalModal from './downgrade_team_removal_modal';
 import ContactSalesCTA from './contact_sales_cta';
 import StarterDisclaimerCTA from './starter_disclaimer_cta';
+import StartTrialCaution from './start_trial_caution';
 import Card, {ButtonCustomiserClasses} from './card';
 
 import './content.scss';
@@ -204,7 +205,7 @@ function Content(props: ContentProps) {
                             customClass: ButtonCustomiserClasses.secondary,
                         }}
                         briefing={{
-                            title: formatMessage({id: 'pricing_modal.briefing.starter.title', defaultMessage: 'Everything you need to get started'}),
+                            title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),
                             items: hasLimits ? starterBriefing : legacyStarterBriefing,
                         }}
                     />
@@ -228,11 +229,11 @@ function Content(props: ContentProps) {
                         buttonDetails={{
                             action: openPurchaseModal,
                             text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
-                            disabled: !isAdmin || isProfessional,
+                            disabled: !isAdmin || isProfessional || isEnterprise,
                             customClass: isPostTrial ? ButtonCustomiserClasses.special : ButtonCustomiserClasses.active,
                         }}
                         briefing={{
-                            title: formatMessage({id: 'pricing_modal.briefing.professional.title', defaultMessage: 'No limits on your team’s usage'}),
+                            title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),
                             items: [
                                 formatMessage({id: 'pricing_modal.briefing.professional.messageBoardsIntegrationsCalls', defaultMessage: 'Unlimited access to messages and boards history, teams, integrations and calls'}),
                                 formatMessage({id: 'pricing_modal.briefing.storage', defaultMessage: '{storage} file storage limit'}, {storage: asGBString(fallbackProfessionalLimits.files.totalStorage, formatNumber)}),
@@ -279,6 +280,7 @@ function Content(props: ContentProps) {
                             text: formatMessage({id: 'pricing_modal.btn.contactSales', defaultMessage: 'Contact Sales'}),
                             customClass: ButtonCustomiserClasses.active,
                         } : undefined}
+                        planTrialDisclaimer={isPostTrial ? undefined : <StartTrialCaution/>}
                         customButtonDetails={(!isPostTrial && isAdmin) ? (
                             <CloudStartTrialButton
                                 message={formatMessage({id: 'pricing_modal.btn.tryDays', defaultMessage: 'Try free for {days} days'}, {days: '30'})}
@@ -290,7 +292,7 @@ function Content(props: ContentProps) {
                         ) : undefined}
                         contactSalesCTA={(isPostTrial || !isAdmin) ? undefined : <ContactSalesCTA/>}
                         briefing={{
-                            title: formatMessage({id: 'pricing_modal.briefing.enterprise.title', defaultMessage: 'Features for large-scale collaboration'}),
+                            title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),
                             items: [
                                 formatMessage({id: 'pricing_modal.briefing.enterprise.unlimitedFileStorage', defaultMessage: 'Unlimited file storage'}),
                                 formatMessage({id: 'pricing_modal.briefing.enterprise.groupSync', defaultMessage: 'AD/LDAP group sync'}),

@@ -46,6 +46,7 @@ type CardProps = {
     contactSalesCTA?: JSX.Element;
     briefing: PlanBriefing;
     planAddonsInfo?: PlanAddonsInfo;
+    planTrialDisclaimer?: JSX.Element;
 }
 
 type StyledProps = {
@@ -92,6 +93,7 @@ function Card(props: CardProps) {
                                 {props.buttonDetails?.text}
                             </button>
                         )}
+                        {props.planTrialDisclaimer}
                     </div>
 
                     <div className='contact_sales_cta'>
