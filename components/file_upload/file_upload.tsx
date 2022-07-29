@@ -80,7 +80,7 @@ const customStyles = {
     top: 'auto',
 };
 
-type Props = {
+export type Props = {
     channelId: string;
 
     /**
@@ -105,7 +105,7 @@ type Props = {
     /**
      * Function to be called when file upload input is clicked
      */
-    onClick: () => void;
+    onClick?: () => void;
 
     /**
      * Function to be called when file upload is complete
@@ -157,14 +157,14 @@ type Props = {
         /**
          * Function to be called to upload file
          */
-        uploadFile: ({file, name, type, rootId, channelId, clientId, onProgress, onSuccess, onError}: UploadFile) => void;
+        uploadFile: ({file, name, type, rootId, channelId, clientId, onProgress, onSuccess, onError}: UploadFile) => XMLHttpRequest;
     };
 
     isAdvancedTextEditorEnabled: boolean;
 };
 
 type State = {
-    requests: any;
+    requests: Record<string, XMLHttpRequest>;
     menuOpen: boolean;
 };
 
