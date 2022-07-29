@@ -39,6 +39,7 @@ type Props = {
     isCollapsedThreadsEnabled: boolean;
     currentUserId: string;
     insightsAreEnabled: boolean;
+    isMobileView: boolean;
     actions: {
         getProfiles: (page?: number, perPage?: number, options?: Record<string, string | boolean>) => ActionFunc;
     };
@@ -74,8 +75,9 @@ export default class CenterChannel extends React.PureComponent<Props, State> {
     }
 
     render() {
-        const {lastChannelPath, isCollapsedThreadsEnabled, insightsAreEnabled} = this.props;
+        const {lastChannelPath, isCollapsedThreadsEnabled, insightsAreEnabled, isMobileView} = this.props;
         const url = this.props.match.url;
+
         return (
             <div
                 key='inner-wrap'
@@ -85,11 +87,13 @@ export default class CenterChannel extends React.PureComponent<Props, State> {
                     'move--left-small': this.props.rhsMenuOpen,
                 })}
             >
-                <div className='row header'>
-                    <div id='navbar_wrapper'>
-                        <ChannelHeaderMobile/>
+                {isMobileView && (
+                    <div className='row header'>
+                        <div id='navbar_wrapper'>
+                            <ChannelHeaderMobile/>
+                        </div>
                     </div>
-                </div>
+                )}
                 <div className='row main'>
                     <Switch>
                         <Route
