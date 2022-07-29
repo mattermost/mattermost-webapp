@@ -4,13 +4,16 @@
 import React from 'react';
 import {styled} from '@mui/material/styles';
 import MUIDialogTitle, {DialogTitleProps as MUIDialogTitleProps} from '@mui/material/DialogTitle';
+
 import {CloseIcon} from '@mattermost/compass-icons/components';
 
-import Button from '../button/button';
+import IconButton from 'components/compass/icon-button/icon-button';
 
 type DialogTitleProps = MUIDialogTitleProps & { hasCloseButton: boolean };
 
-const StyledModalTitle = styled(MUIDialogTitle)<DialogTitleProps>(({hasCloseButton}) => ({
+const StyledModalTitle = styled(MUIDialogTitle, {
+    shouldForwardProp: (prop) => prop !== 'hasCloseButton',
+})<DialogTitleProps>(({hasCloseButton}) => ({
     display: 'grid',
     gridTemplateColumns: '1fr max-content max-content',
     gap: 12,
@@ -48,17 +51,12 @@ const ModalTitle = ({title, onClose, children, rightSection = null}: ModalTitleP
                 {title}
                 {rightSection}
                 {hasCloseButton && (
-                    <Button
+                    <IconButton
+                        compact={true}
                         type='button'
                         onClick={onClose}
-                        disableRipple={true}
-                        variant={'icon'}
-                    >
-                        <CloseIcon
-                            size={24}
-                            color='var(--center-channel-color)'
-                        />
-                    </Button>
+                        IconComponent={CloseIcon}
+                    />
                 )}
             </StyledModalTitle>
             {children && (

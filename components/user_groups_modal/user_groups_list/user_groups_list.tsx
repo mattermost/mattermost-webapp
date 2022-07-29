@@ -147,10 +147,21 @@ const GroupItemMenu = ({group, viewGroup, archiveGroup, groupPermissionsMap}: Gr
 
     const open = Boolean(anchorEl);
 
-    const handleClose = () => setAnchorEl(null);
+    const handleClose = (event: React.MouseEvent<HTMLElement>) => {
+        event.stopPropagation();
+        setAnchorEl(null);
+    };
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         event.stopPropagation();
         setAnchorEl(event.currentTarget);
+    };
+    const makeHandleViewClick = (group: Group) => (event: React.MouseEvent<HTMLElement>) => {
+        event.stopPropagation();
+        viewGroup(group);
+    };
+    const makeHandleArchiveClick = (group: Group) => (event: React.MouseEvent<HTMLElement>) => {
+        event.stopPropagation();
+        archiveGroup(group.id);
     };
 
     return (
@@ -183,7 +194,7 @@ const GroupItemMenu = ({group, viewGroup, archiveGroup, groupPermissionsMap}: Gr
                     'aria-labelledby': 'demo-customized-button',
                 }}
             >
-                <MenuItem onClick={() => viewGroup(group)}>
+                <MenuItem onClick={makeHandleViewClick(group)}>
                     <ListItemIcon position={'start'}>
                         <AccountMultipleOutlineIcon
                             size={18}
@@ -192,24 +203,20 @@ const GroupItemMenu = ({group, viewGroup, archiveGroup, groupPermissionsMap}: Gr
                     </ListItemIcon>
                     {Utils.localizeMessage('user_groups_modal.viewGroup', 'View Group')}
                 </MenuItem>
+                {groupPermissionsMap[group.id].can_delete && <Divider/>}
                 {groupPermissionsMap[group.id].can_delete && (
-                    <>
-                        <Divider/>
-                        <MenuItem
-                            destructive={true}
-                            onClick={() => {
-                                archiveGroup(group.id);
-                            }}
-                        >
-                            <ListItemIcon position={'start'}>
-                                <TrashCanOutlineIcon
-                                    size={18}
-                                    color={'currentColor'}
-                                />
-                            </ListItemIcon>
-                            {Utils.localizeMessage('user_groups_modal.archiveGroup', 'Archive Group')}
-                        </MenuItem>
-                    </>
+                    <MenuItem
+                        destructive={true}
+                        onClick={makeHandleArchiveClick(group)}
+                    >
+                        <ListItemIcon position={'start'}>
+                            <TrashCanOutlineIcon
+                                size={18}
+                                color={'currentColor'}
+                            />
+                        </ListItemIcon>
+                        {Utils.localizeMessage('user_groups_modal.archiveGroup', 'Archive Group')}
+                    </MenuItem>
                 )}
             </Menu>
         </>

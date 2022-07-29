@@ -172,6 +172,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
         false,
         (): void => {},
     );
+
     scrollGetMyGroups = debounce(
         async () => {
             const {myGroupsPage} = this.state;
