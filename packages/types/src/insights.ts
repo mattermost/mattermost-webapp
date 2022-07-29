@@ -106,6 +106,7 @@ export type TopBoardResponse = {
 };
 
 export type TopDM = {
+    outgoing_message_count: number;
     post_count: number;
     second_participant: {
         id: string;

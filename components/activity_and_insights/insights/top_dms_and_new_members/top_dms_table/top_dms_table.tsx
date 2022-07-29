@@ -145,12 +145,12 @@ const TopDMsTable = (props: Props) => {
                         ),
                         sent: (
                             <>
-                                {'100'}
+                                {dm.outgoing_message_count}
                             </>
                         ),
                         received: (
                             <>
-                                {'200'}
+                                {dm.post_count - dm.outgoing_message_count}
                             </>
                         ),
                         total: (
