@@ -1,14 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {ComponentProps} from 'react';
 
 import {General} from 'mattermost-redux/constants';
 
 import {clearFileInput} from 'utils/utils';
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
-import FileUpload from 'components/file_upload/file_upload.jsx';
+import FileUpload from 'components/file_upload/file_upload';
+import {PluginComponent} from 'types/store/plugins';
 
 const generatedIdRegex = /[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}/;
 
@@ -26,7 +27,7 @@ jest.mock('utils/utils', () => {
         ...original,
         clearFileInput: jest.fn(),
         sortFilesByName: jest.fn((files) => {
-            return files.sort((a, b) => a.name.localeCompare(b.name, 'en', {numeric: true}));
+            return files.sort((a: File, b: File) => a.name.localeCompare(b.name, 'en', {numeric: true}));
         }),
     };
 });
@@ -49,19 +50,18 @@ afterEach(() => {
 
 describe('components/FileUpload', () => {
     const MaxFileSize = 10;
-    function emptyFunction() {} //eslint-disable-line no-empty-function
-    let baseProps;
-    let uploadFile;
+    let baseProps: ComponentProps<typeof FileUpload>;
+    let uploadFile: () => void;
     beforeEach(() => {
         uploadFile = jest.fn(() => ({
-            end: emptyFunction,
-            on: emptyFunction,
+            end: jest.fn(),
+            on: jest.fn(),
         }));
 
         baseProps = {
             channelId: 'channel_id',
             fileCount: 1,
-            getTarget: emptyFunction,
+            getTarget: jest.fn(),
             locale: General.DEFAULT_LOCALE,
             onClick: jest.fn(),
             onFileUpload: jest.fn(),
@@ -73,6 +73,9 @@ describe('components/FileUpload', () => {
             maxFileSize: MaxFileSize,
             canUploadFiles: true,
             rootId: 'root_id',
+            pluginFileUploadMethods: [],
+            pluginFilesWillUploadHooks: [],
+            isAdvancedTextEditorEnabled: true,
             actions: {
                 uploadFile,
             },
@@ -265,7 +268,7 @@ describe('components/FileUpload', () => {
         );
 
         expect(baseProps.onUploadError).toHaveBeenCalledTimes(1);
-        expect(baseProps.onUploadError).toHaveBeenCalledWith(null);
+        expect(baseProps.onUploadError).toHaveBeenCalledWith('');
     });
 
     test('should error max upload files', () => {
@@ -284,7 +287,7 @@ describe('components/FileUpload', () => {
         expect(baseProps.onUploadStart).toBeCalledWith([], props.channelId);
 
         expect(baseProps.onUploadError).toHaveBeenCalledTimes(2);
-        expect(baseProps.onUploadError.mock.calls[0][0]).toEqual(null);
+        expect(baseProps.onUploadError.mock.calls[0][0]).toEqual('');
     });
 
     test('should error max upload files', () => {
@@ -303,7 +306,7 @@ describe('components/FileUpload', () => {
         expect(baseProps.onUploadStart).toBeCalledWith([], props.channelId);
 
         expect(baseProps.onUploadError).toHaveBeenCalledTimes(2);
-        expect(baseProps.onUploadError.mock.calls[0][0]).toEqual(null);
+        expect(baseProps.onUploadError.mock.calls[0][0]).toEqual('');
     });
 
     test('should error max too large files', () => {
@@ -320,7 +323,7 @@ describe('components/FileUpload', () => {
         expect(baseProps.onUploadStart).toBeCalledWith([], baseProps.channelId);
 
         expect(baseProps.onUploadError).toHaveBeenCalledTimes(2);
-        expect(baseProps.onUploadError.mock.calls[0][0]).toEqual(null);
+        expect(baseProps.onUploadError.mock.calls[0][0]).toEqual('');
     });
 
     test('should functions when handleChange is called', () => {
@@ -354,7 +357,7 @@ describe('components/FileUpload', () => {
         instance.handleDrop(e);
 
         expect(baseProps.onUploadError).toBeCalled();
-        expect(baseProps.onUploadError).toHaveBeenCalledWith(null);
+        expect(baseProps.onUploadError).toHaveBeenCalledWith('');
 
         expect(instance.uploadFiles).toBeCalled();
         expect(instance.uploadFiles).toHaveBeenCalledWith(e.dataTransfer.files);
@@ -367,7 +370,7 @@ describe('components/FileUpload', () => {
         const pluginHook = () => {
             return {files: null};
         };
-        const props = {...baseProps, pluginFilesWillUploadHooks: [{hook: pluginHook}]};
+        const props = {...baseProps, pluginFilesWillUploadHooks: [{hook: pluginHook} as unknown as PluginComponent]};
         const files = [{name: 'file1.pdf'}, {name: 'file2.jpg'}];
 
         const wrapper = shallowWithIntl(
@@ -381,14 +384,14 @@ describe('components/FileUpload', () => {
         expect(baseProps.onUploadStart).toHaveBeenCalledTimes(0);
 
         expect(baseProps.onUploadError).toHaveBeenCalledTimes(1);
-        expect(baseProps.onUploadError).toHaveBeenCalledWith(null);
+        expect(baseProps.onUploadError).toHaveBeenCalledWith('');
     });
 
     test('FilesWillUploadHook - should reject one file and allow one file', () => {
-        const pluginHook = (files) => {
+        const pluginHook = (files: File[]) => {
             return {files: files.filter((f) => f.name === 'file1.pdf')};
         };
-        const props = {...baseProps, pluginFilesWillUploadHooks: [{hook: pluginHook}]};
+        const props = {...baseProps, pluginFilesWillUploadHooks: [{hook: pluginHook} as unknown as PluginComponent]};
         const files = [{name: 'file1.pdf'}, {name: 'file2.jpg'}];
 
         const wrapper = shallowWithIntl(
@@ -403,6 +406,6 @@ describe('components/FileUpload', () => {
         expect(baseProps.onUploadStart).toHaveBeenCalledWith([expect.stringMatching(generatedIdRegex)], props.channelId);
 
         expect(baseProps.onUploadError).toHaveBeenCalledTimes(1);
-        expect(baseProps.onUploadError).toHaveBeenCalledWith(null);
+        expect(baseProps.onUploadError).toHaveBeenCalledWith('');
     });
 });
