@@ -767,7 +767,6 @@ class ChannelHeader extends React.PureComponent {
                     </div>
                     <ChannelHeaderDropdown/>
                 </MenuWrapper>
-                <ChannelInfoButton channel={channel}/>
                 {toggleFavorite}
             </React.Fragment>
         );
@@ -789,7 +788,6 @@ class ChannelHeader extends React.PureComponent {
                         </span>
                     </strong>
                     <BotBadge className='badge-popoverlist'/>
-                    <ChannelInfoButton channel={channel}/>
                     {toggleFavorite}
                 </div>
             );
@@ -827,6 +825,7 @@ class ChannelHeader extends React.PureComponent {
                         channelMember={channelMember}
                     />
                     <CallButton/>
+                    <ChannelInfoButton channel={channel}/>
                 </div>
             </div>
         );
