@@ -3,12 +3,12 @@
 
 import {TypographyOptions} from '@mui/material/styles/createTypography';
 
-import {body1Overrides} from './body1';
-import {body2Overrides} from './body2';
+import {body1StyleOverrides} from './body1';
+import {body2StyleOverrides} from './body2';
 
 const typographyOverrides: TypographyOptions = {
-    body1: body1Overrides,
-    body2: body2Overrides,
+    body1: body1StyleOverrides,
+    body2: body2StyleOverrides,
 };
 
 export default typographyOverrides;

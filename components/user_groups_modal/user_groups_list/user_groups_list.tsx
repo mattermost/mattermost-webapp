@@ -118,15 +118,16 @@ const UserGroupsList = React.forwardRef((props: Props, ref?: React.Ref<HTMLUList
                                 <Typography variant={'body2'}>{`@${group.name}`}</Typography>
                                 <Typography
                                     variant={'body2'}
-                                    sx={{marginLeft: 'auto', fontSize: '1.2rem'}}
+                                    sx={{fontSize: '1.2rem'}}
+                                    ml={'auto'}
+                                    mr={1}
                                 >
                                     {formatMessage({
                                         id: 'user_groups_modal.memberCount',
                                         defaultMessage: '{member_count} {member_count, plural, one {member} other {members}}',
                                     },
-                                    {
-                                        member_count: group.member_count,
-                                    })}
+                                    {member_count: group.member_count},
+                                    )}
                                 </Typography>
                             </ListItemText>
                         </ListItem>
