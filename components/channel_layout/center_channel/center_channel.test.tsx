@@ -23,6 +23,7 @@ describe('components/channel_layout/CenterChannel', () => {
         isOnboardingHidden: true,
         enableTipsViewRoute: false,
         insightsAreEnabled: true,
+        isMobileView: false,
         actions: {
             getProfiles: jest.fn,
         },

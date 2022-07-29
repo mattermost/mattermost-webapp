@@ -6,18 +6,17 @@ import * as reactRedux from 'react-redux';
 import {shallow} from 'enzyme';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import {TestHelper} from 'utils/test_helper';
 import mockStore from 'tests/test_store';
 
 import {CloudProducts} from 'utils/constants';
 import {FileSizes} from 'utils/file_utils';
 
-import {TeamProfile} from './team_profile.jsx';
+import {TeamProfile} from './team_profile';
 
 describe('admin_console/team_channel_settings/team/TeamProfile__Cloud', () => {
     const baseProps = {
-        team: {
-            display_name: 'test',
-        },
+        team: TestHelper.getTeamMock(),
         onToggleArchive: jest.fn(),
         isArchived: true,
     };
@@ -192,9 +191,7 @@ describe('admin_console/team_channel_settings/team/TeamProfile__Cloud', () => {
 
 describe('admin_console/team_channel_settings/team/TeamProfile', () => {
     const baseProps = {
-        team: {
-            display_name: 'test',
-        },
+        team: TestHelper.getTeamMock(),
         onToggleArchive: jest.fn(),
         isArchived: false,
     };

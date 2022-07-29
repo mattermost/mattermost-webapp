@@ -106,7 +106,7 @@ describe('channel name tooltips', () => {
     it('Should show tooltip on hover - user with a long username', () => {
         // # Open a DM with the user
         cy.findByRole('button', {name: 'Write a direct message'}).click();
-        cy.focused().as('searchBox').type(longUser.username, {force: true});
+        cy.focused().as('searchBox').typeWithForce(longUser.username);
 
         // * Verify that the user is selected in the results list before typing enter
         cy.get('div.more-modal__row').
@@ -115,7 +115,7 @@ describe('channel name tooltips', () => {
             and('have.class', 'more-modal__row--selected').
             and('contain.text', longUser.username.toLowerCase());
 
-        cy.get('@searchBox').type('{enter}', {force: true});
+        cy.get('@searchBox').typeWithForce('{enter}');
         cy.uiGetButton('Go').click();
 
         // # Hover on the channel name

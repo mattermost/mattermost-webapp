@@ -14,6 +14,7 @@ import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 import {CustomEmoji} from '@mattermost/types/emojis';
 import {Session} from '@mattermost/types/sessions';
 import {ProductComponent} from 'types/store/plugins';
+import {ClientLicense} from '@mattermost/types/config';
 
 export class TestHelper {
     public static getUserMock(override: Partial<UserProfile> = {}): UserProfile {
@@ -22,12 +23,10 @@ export class TestHelper {
             roles: '',
             username: 'some-user',
             password: '',
-            auth_data: '',
             auth_service: '',
             create_at: 0,
             delete_at: 0,
             email: '',
-            email_verified: true,
             first_name: '',
             last_name: '',
             locale: '',
@@ -37,7 +36,6 @@ export class TestHelper {
             terms_of_service_id: '',
             update_at: 0,
             is_bot: false,
-            allow_marketing: false,
             props: {},
             notify_props: {
                 channel: 'false',
@@ -53,12 +51,9 @@ export class TestHelper {
             },
             last_picture_update: 0,
             last_password_update: 0,
-            failed_attempts: 0,
             mfa_active: false,
-            mfa_secret: '',
             last_activity_at: 0,
             bot_description: '',
-            bot_last_icon_update: 0,
         };
         return Object.assign({}, defaultUser, override);
     }
@@ -379,6 +374,18 @@ export class TestHelper {
             update_at: 0,
             delete_at: 0,
             creator_id: 'user_id',
+            ...override,
+        };
+    }
+    public static getLicenseMock(override: ClientLicense = {}): ClientLicense {
+        return {
+            ...override,
+        };
+    }
+    public static getCloudLicenseMock(override: ClientLicense = {}): ClientLicense {
+        return {
+            ...this.getLicenseMock(override),
+            Cloud: 'true',
             ...override,
         };
     }

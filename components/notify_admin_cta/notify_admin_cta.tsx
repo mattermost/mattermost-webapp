@@ -41,17 +41,32 @@ export enum DafaultBtnText {
 }
 
 type Props = {
-    ctaText?: string | React.ReactNode;
+    ctaText?: React.ReactNode;
 }
 
-function NotifyAdminCTA(props: Props) {
+export function useNotifyAdmin<T = HTMLAnchorElement | HTMLButtonElement>(props: Props): [React.ReactNode, (e: React.MouseEvent<T, MouseEvent>) => void] {
+    const currentTeam = useSelector(getCurrentTeamId);
     const [notifyStatus, setStatus] = useState(NotifyStatus.NotStarted);
     const {formatMessage} = useIntl();
 
-    const currentTeam = useSelector(getCurrentTeamId);
+    const btnText = (status: NotifyStatus): React.ReactNode => {
+        switch (status) {
+        case NotifyStatus.Started:
+            return formatMessage({id: 'notify_admin_to_upgrade_cta.notify-admin.notifying', defaultMessage: DafaultBtnText.Notifying});
+        case NotifyStatus.Success:
+            return formatMessage({id: 'notify_admin_to_upgrade_cta.notify-admin.notified', defaultMessage: DafaultBtnText.Notified});
+        case NotifyStatus.AlreadyComplete:
+            return formatMessage({id: 'notify_admin_to_upgrade_cta.notify-admin.already_notified', defaultMessage: DafaultBtnText.AlreadyNotified});
+        case NotifyStatus.Failed:
+            return formatMessage({id: 'notify_admin_to_upgrade_cta.notify-admin.failed', defaultMessage: DafaultBtnText.Failed});
+        default:
+            return props.ctaText || formatMessage({id: 'notify_admin_to_upgrade_cta.notify-admin.notify', defaultMessage: DafaultBtnText.NotifyAdmin});
+        }
+    };
 
-    const notifyFunc = async (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    const notifyFunc = async (e: React.MouseEvent<T, MouseEvent>) => {
         e.preventDefault();
+        e.stopPropagation();
         try {
             setStatus(NotifyStatus.Started);
             const req = {
@@ -68,23 +83,12 @@ function NotifyAdminCTA(props: Props) {
         }
     };
 
-    const btnText = (status: NotifyStatus): string | React.ReactNode => {
-        switch (status) {
-        case NotifyStatus.Started:
-            return formatMessage({id: 'notify_admin_to_upgrade_cta.notify-admin.notifying', defaultMessage: DafaultBtnText.Notifying});
-        case NotifyStatus.Success:
-            return formatMessage({id: 'notify_admin_to_upgrade_cta.notify-admin.notified', defaultMessage: DafaultBtnText.Notified});
-        case NotifyStatus.AlreadyComplete:
-            return formatMessage({id: 'notify_admin_to_upgrade_cta.notify-admin.already_notified', defaultMessage: DafaultBtnText.AlreadyNotified});
-        case NotifyStatus.Failed:
-            return formatMessage({id: 'notify_admin_to_upgrade_cta.notify-admin.failed', defaultMessage: DafaultBtnText.Failed});
-        default:
-            if (props.ctaText) {
-                return props.ctaText;
-            }
-            return formatMessage({id: 'notify_admin_to_upgrade_cta.notify-admin.notify', defaultMessage: DafaultBtnText.NotifyAdmin});
-        }
-    };
+    return [btnText(notifyStatus), notifyFunc];
+}
+
+function NotifyAdminCTA(props: Props) {
+    const [status, notify] = useNotifyAdmin(props);
+    const {formatMessage} = useIntl();
 
     return (
         <>
@@ -92,9 +96,9 @@ function NotifyAdminCTA(props: Props) {
                 <span>
                     <StyledA
                         id='notify_admin_cta'
-                        onClick={notifyFunc}
+                        onClick={notify}
                     >
-                        {btnText(notifyStatus)}
+                        {status}
                     </StyledA>
                 </span>
             ) : (
@@ -102,9 +106,9 @@ function NotifyAdminCTA(props: Props) {
                     {formatMessage({id: 'pricing_modal.wantToUpgrade', defaultMessage: 'Want to upgrade? '})}
                     <StyledA
                         id='notify_admin_cta'
-                        onClick={notifyFunc}
+                        onClick={notify}
                     >
-                        {btnText(notifyStatus)}
+                        {status}
                     </StyledA>
                 </Span>
             )}
