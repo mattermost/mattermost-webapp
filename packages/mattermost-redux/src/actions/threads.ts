@@ -279,8 +279,8 @@ export function markLastPostInThreadAsUnread(userId: string, teamId: string, thr
         const getPostsForThread = makeGetPostsForThread();
         let posts = getPostsForThread(getState(), threadId);
 
-        const getThreadInfo = getThread(userId, teamId, threadId);
-        const {data: thread} = await getThreadInfo(dispatch, getState);
+        const state = getState();
+        const thread = getThreadSelector(state, threadId);
 
         // load posts in thread if they are not loaded already
         if (thread?.reply_count === posts.length - 1) {
