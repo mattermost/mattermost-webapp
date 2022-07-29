@@ -386,7 +386,7 @@ describe('components/FileUpload', () => {
 
         expect(uploadFile).toHaveBeenCalledTimes(0);
 
-        expect(baseProps.onUploadStart).toHaveBeenCalledTimes(0);
+        expect(baseProps.onUploadStart).toHaveBeenCalledTimes(1);
 
         expect(baseProps.onUploadError).toHaveBeenCalledTimes(1);
         expect(baseProps.onUploadError).toHaveBeenCalledWith('');
