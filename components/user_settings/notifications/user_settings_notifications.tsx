@@ -943,7 +943,7 @@ export default class NotificationsTab extends React.PureComponent<Props, State> 
         }
 
         const pushNotificationSection = this.createPushNotificationSection();
-        const enableEmailProp = (this.state.enableEmail === 'true').toString() as UserNotifyProps['email'];
+        const enableEmailProp = this.state.enableEmail === 'true';
 
         return (
             <div id='notificationSettings'>
@@ -1013,7 +1013,7 @@ export default class NotificationsTab extends React.PureComponent<Props, State> 
                     <EmailNotificationSetting
                         activeSection={this.props.activeSection}
                         updateSection={this.handleUpdateSection}
-                        enableEmail={enableEmailProp === 'true'}
+                        enableEmail={enableEmailProp}
                         onSubmit={this.handleSubmit}
                         onCancel={this.handleCancel}
                         onChange={this.handleEmailRadio}
