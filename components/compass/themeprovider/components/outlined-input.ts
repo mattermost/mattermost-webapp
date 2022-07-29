@@ -6,7 +6,7 @@ import {DefaultTheme} from '@mui/private-theming';
 
 const componentName = 'MuiOutlinedInput';
 
-export const outlinedInputOverrides: ComponentsOverrides<DefaultTheme>[typeof componentName] = {
+export const outlinedInputStyleOverrides: ComponentsOverrides<DefaultTheme>[typeof componentName] = {
     root: {
         backgroundColor: 'var(--center-channel-bg)',
         fontSize: '1.6rem',
@@ -41,5 +41,5 @@ export const outlinedInputOverrides: ComponentsOverrides<DefaultTheme>[typeof co
 };
 
 export default {
-    styleOverrides: outlinedInputOverrides,
+    styleOverrides: outlinedInputStyleOverrides,
 };

@@ -6,7 +6,7 @@ import {DefaultTheme} from '@mui/private-theming';
 
 const componentName = 'MuiInputLabel';
 
-export const inputLabelOverrides: ComponentsOverrides<DefaultTheme>[typeof componentName] = {
+export const inputLabelStyleOverrides: ComponentsOverrides<DefaultTheme>[typeof componentName] = {
     root: {
         fontSize: '1.6rem',
         top: 6,
@@ -19,5 +19,5 @@ export const inputLabelOverrides: ComponentsOverrides<DefaultTheme>[typeof compo
 };
 
 export default {
-    styleOverrides: inputLabelOverrides,
+    styleOverrides: inputLabelStyleOverrides,
 };

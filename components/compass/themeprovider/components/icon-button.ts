@@ -13,7 +13,7 @@ declare module '@mui/material/IconButton' {
     }
 }
 
-export const iconButtonOverrides: ComponentsOverrides<DefaultTheme>[typeof componentName] = {
+export const iconButtonStyleOverrides: ComponentsOverrides<DefaultTheme>[typeof componentName] = {
     root: {
         borderRadius: 4,
         color: 'rgba(var(--center-channel-text-rgb), 0.56)',
@@ -95,5 +95,5 @@ const iconButtonVariantsOverride: ComponentsVariants[typeof componentName] = [
 
 export default {
     variants: iconButtonVariantsOverride,
-    styleOverrides: iconButtonOverrides,
+    styleOverrides: iconButtonStyleOverrides,
 };

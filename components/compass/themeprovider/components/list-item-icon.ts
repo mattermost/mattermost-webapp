@@ -6,7 +6,7 @@ import {DefaultTheme} from '@mui/private-theming';
 
 const componentName = 'MuiListItemIcon';
 
-export const listItemIconOverrides: ComponentsOverrides<DefaultTheme>[typeof componentName] = {
+export const listItemIconStyleOverrides: ComponentsOverrides<DefaultTheme>[typeof componentName] = {
     root: {
         minWidth: 0,
         color: 'currentColor',
@@ -14,5 +14,5 @@ export const listItemIconOverrides: ComponentsOverrides<DefaultTheme>[typeof com
 };
 
 export default {
-    styleOverrides: listItemIconOverrides,
+    styleOverrides: listItemIconStyleOverrides,
 };

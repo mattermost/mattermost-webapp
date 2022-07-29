@@ -3,8 +3,9 @@
 
 import {ThemeOptions} from '@mui/material/styles/createTheme';
 
-import MuiIconButtonOverrides from './icon-button';
+import MuiButtonOverrides from './button';
 import MuiButtonBaseOverrides from './button-base';
+import MuiIconButtonOverrides from './icon-button';
 import MuiListItemOverrides from './list-item';
 import MuiListItemTextOverrides from './list-item-text';
 import MuiListItemIconOverrides from './list-item-icon';
@@ -28,6 +29,7 @@ const componentOverrides: ThemeOptions['components'] = {
     MuiListItemText: MuiListItemTextOverrides,
     MuiListItemIcon: MuiListItemIconOverrides,
     MuiListItemButton: MuiListItemButtonOverrides,
+    MuiButton: MuiButtonOverrides,
     MuiButtonBase: MuiButtonBaseOverrides,
     MuiIconButton: MuiIconButtonOverrides,
     MuiListItemSecondaryAction: MuiListItemSecondaryActionOverrides,

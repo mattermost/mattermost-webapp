@@ -1,16 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import ChevronDownIcon from '@mattermost/compass-icons/components/chevron-down';
 import React, {createRef, RefObject} from 'react';
-import {
-    CheckIcon,
-    MagnifyIcon,
-} from '@mattermost/compass-icons/components';
-import {
-    ListItemText,
-    SelectChangeEvent,
-} from '@mui/material';
+import ChevronDownIcon from '@mattermost/compass-icons/components/chevron-down';
+import MagnifyIcon from '@mattermost/compass-icons/components/magnify';
+import CheckIcon from '@mattermost/compass-icons/components/check';
+import Button from '@mui/material/Button';
+import ListItemText from '@mui/material/ListItemText';
+import {SelectChangeEvent} from '@mui/material/Select';
 
 import {FormattedMessage} from 'react-intl';
 
@@ -22,7 +19,6 @@ import * as Utils from 'utils/utils';
 import {Group, GroupSearachParams} from '@mattermost/types/groups';
 import {debounce} from 'mattermost-redux/actions/helpers';
 
-import Button from '../compass/button/button';
 import TextField from '../compass/textfield/textfield';
 import ModalTitle from '../compass/modal/modal_title';
 import Select from '../compass/select/select';

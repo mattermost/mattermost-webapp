@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React, {useCallback, useState} from 'react';
-import {FormattedMessage} from 'react-intl';
+import {useIntl} from 'react-intl';
 import {AccountMultipleOutlineIcon, DotsVerticalIcon, TrashCanOutlineIcon} from '@mattermost/compass-icons/components';
 import {Menu, Divider, IconButton, List, ListItem, ListItemButton, ListItemText, Typography} from '@mui/material';
 
@@ -45,6 +45,8 @@ const UserGroupsList = React.forwardRef((props: Props, ref?: React.Ref<HTMLUList
         onExited,
         actions,
     } = props;
+
+    const {formatMessage} = useIntl();
 
     const archiveGroup = useCallback(async (groupId: string) => {
         await actions.archiveGroup(groupId);
@@ -118,13 +120,13 @@ const UserGroupsList = React.forwardRef((props: Props, ref?: React.Ref<HTMLUList
                                     variant={'body2'}
                                     sx={{marginLeft: 'auto', fontSize: '1.2rem'}}
                                 >
-                                    <FormattedMessage
-                                        id='user_groups_modal.memberCount'
-                                        defaultMessage='{member_count} {member_count, plural, one {member} other {members}}'
-                                        values={{
-                                            member_count: group.member_count,
-                                        }}
-                                    />
+                                    {formatMessage({
+                                        id: 'user_groups_modal.memberCount',
+                                        defaultMessage: '{member_count} {member_count, plural, one {member} other {members}}',
+                                    },
+                                    {
+                                        member_count: group.member_count,
+                                    })}
                                 </Typography>
                             </ListItemText>
                         </ListItem>

@@ -6,7 +6,7 @@ import {DefaultTheme} from '@mui/private-theming';
 
 const componentName = 'MuiMenuItem';
 
-export const menuItemOverrides: ComponentsOverrides<DefaultTheme>[typeof componentName] = {
+export const menuItemStyleOverrides: ComponentsOverrides<DefaultTheme>[typeof componentName] = {
     root: {
         background: 'transparent',
 
@@ -35,5 +35,5 @@ export const menuItemOverrides: ComponentsOverrides<DefaultTheme>[typeof compone
 };
 
 export default {
-    styleOverrides: menuItemOverrides,
+    styleOverrides: menuItemStyleOverrides,
 };

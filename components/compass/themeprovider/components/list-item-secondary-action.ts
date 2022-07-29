@@ -6,12 +6,12 @@ import {DefaultTheme} from '@mui/private-theming';
 
 const componentName = 'MuiListItemSecondaryAction';
 
-export const listItemSecondaryActionOverrides: ComponentsOverrides<DefaultTheme>[typeof componentName] = {
+export const listItemSecondaryActionStyleOverrides: ComponentsOverrides<DefaultTheme>[typeof componentName] = {
     root: {
         right: 32,
     },
 };
 
 export default {
-    styleOverrides: listItemSecondaryActionOverrides,
+    styleOverrides: listItemSecondaryActionStyleOverrides,
 };

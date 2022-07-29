@@ -6,7 +6,7 @@ import {DefaultTheme} from '@mui/private-theming';
 
 const componentName = 'MuiSelect';
 
-export const selectOverrides: ComponentsOverrides<DefaultTheme>[typeof componentName] = {
+export const selectStyleOverrides: ComponentsOverrides<DefaultTheme>[typeof componentName] = {
     standard: ({ownerState}) => ({
         backgroundColor: ownerState?.open ? 'rgba(var(--button-bg-rgb), 0.08)' : 'transparent',
         color: 'var(--button-bg)',
@@ -44,5 +44,5 @@ export const selectOverrides: ComponentsOverrides<DefaultTheme>[typeof component
 };
 
 export default {
-    styleOverrides: selectOverrides,
+    styleOverrides: selectStyleOverrides,
 };

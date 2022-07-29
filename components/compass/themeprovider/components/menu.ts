@@ -6,12 +6,12 @@ import {DefaultTheme} from '@mui/private-theming';
 
 const componentName = 'MuiMenu';
 
-export const menuItemOverrides: ComponentsOverrides<DefaultTheme>[typeof componentName] = {
+export const menuStyleOverrides: ComponentsOverrides<DefaultTheme>[typeof componentName] = {
     list: {
         minWidth: 100,
     },
 };
 
 export default {
-    styleOverrides: menuItemOverrides,
+    styleOverrides: menuStyleOverrides,
 };

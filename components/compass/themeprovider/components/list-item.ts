@@ -6,12 +6,12 @@ import {DefaultTheme} from '@mui/private-theming';
 
 const componentName = 'MuiListItem';
 
-export const listItemOverrides: ComponentsOverrides<DefaultTheme>[typeof componentName] = {
+export const listItemStyleOverrides: ComponentsOverrides<DefaultTheme>[typeof componentName] = {
     root: {
         padding: '18px 64px 18px 32px',
     },
 };
 
 export default {
-    styleOverrides: listItemOverrides,
+    styleOverrides: listItemStyleOverrides,
 };

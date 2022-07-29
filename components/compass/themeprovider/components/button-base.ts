@@ -5,10 +5,10 @@ import {ComponentsProps} from '@mui/material';
 
 const componentName = 'MuiButtonBase';
 
-export const inputDefaultProps: ComponentsProps[typeof componentName] = {
+export const buttonBaseDefaultProps: ComponentsProps[typeof componentName] = {
     disableRipple: true,
 };
 
 export default {
-    defaultProps: inputDefaultProps,
+    defaultProps: buttonBaseDefaultProps,
 };

@@ -6,7 +6,7 @@ import {DefaultTheme} from '@mui/private-theming';
 
 const componentName = 'MuiListItemButton';
 
-export const listItemButtonOverrides: ComponentsOverrides<DefaultTheme>[typeof componentName] = {
+export const listItemButtonStyleOverrides: ComponentsOverrides<DefaultTheme>[typeof componentName] = {
     dense: {
         paddingTop: 0,
         paddingBottom: 0,
@@ -14,5 +14,5 @@ export const listItemButtonOverrides: ComponentsOverrides<DefaultTheme>[typeof c
 };
 
 export default {
-    styleOverrides: listItemButtonOverrides,
+    styleOverrides: listItemButtonStyleOverrides,
 };

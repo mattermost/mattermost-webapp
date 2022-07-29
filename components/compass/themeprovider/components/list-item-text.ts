@@ -6,12 +6,12 @@ import {DefaultTheme} from '@mui/private-theming';
 
 const componentName = 'MuiListItemText';
 
-export const listItemTextOverrides: ComponentsOverrides<DefaultTheme>[typeof componentName] = {
+export const listItemTextStyleOverrides: ComponentsOverrides<DefaultTheme>[typeof componentName] = {
     root: {
         margin: 0,
     },
 };
 
 export default {
-    styleOverrides: listItemTextOverrides,
+    styleOverrides: listItemTextStyleOverrides,
 };
