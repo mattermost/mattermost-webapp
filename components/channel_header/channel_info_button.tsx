@@ -42,12 +42,12 @@ const ChannelInfoButton = ({channel}: Props) => {
     const buttonActive = isRhsOpen && isChannelInfo;
     const toggleRHS = useCallback(() => {
         if (buttonActive) {
-            const action = rhsState === RHSStates.CHANNEL_INFO ? closeRightHandSide() : showChannelInfo(channel.id);
+            const action = isChannelInfo ? closeRightHandSide() : showChannelInfo(channel.id);
             dispatch(action);
         } else {
             dispatch(showChannelInfo(channel.id));
         }
-    }, [buttonActive, channel.id, rhsState, dispatch]);
+    }, [buttonActive, channel.id, isChannelInfo, dispatch]);
 
     const tooltipKey = buttonActive ? 'closeChannelInfo' : 'openChannelInfo';
 
