@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getIsAdvancedTextEditorEnabled} from 'mattermost-redux/selectors/entities/preferences';
@@ -11,11 +11,13 @@ import {uploadFile} from 'actions/file_actions';
 import {getCurrentLocale} from 'selectors/i18n';
 import {canUploadFiles} from 'utils/file_utils';
 
-import FileUpload from './file_upload.jsx';
+import {GlobalState} from 'types/store';
 
-function mapStateToProps(state) {
+import FileUpload from './file_upload';
+
+function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
-    const maxFileSize = parseInt(config.MaxFileSize, 10);
+    const maxFileSize = parseInt(config.MaxFileSize || '', 10);
     const isAdvancedTextEditorEnabled = getIsAdvancedTextEditorEnabled(state);
 
     return {
@@ -28,7 +30,7 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators({
             uploadFile,
