@@ -11,6 +11,7 @@ import {FileInfo} from '@mattermost/types/files';
 import {Post, PostEmbed} from '@mattermost/types/posts';
 import {IDMappedObjects} from '@mattermost/types/utilities';
 import {TopBoardResponse} from '@mattermost/types/insights';
+import {ServerError} from '@mattermost/types/errors';
 
 import {WebSocketClient} from '@mattermost/client';
 
@@ -85,6 +86,7 @@ export type PluginComponent = {
     mobileIcon?: React.ReactElement;
     filter?: (id: string) => boolean;
     action?: (...args: any) => void; // TODO Add more concrete types?
+    hook?: (files: File[], uploadFiles: (files: File[]) => void) => { message?: string; files?: File[] };
 };
 
 export type FilePreviewComponent = {

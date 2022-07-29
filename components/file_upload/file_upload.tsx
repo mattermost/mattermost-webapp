@@ -31,10 +31,14 @@ import Menu from 'components/widgets/menu/menu';
 import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
+import {FilePreviewInfo} from 'components/file_preview/file_preview';
+
 import {FileInfo, FileUploadResponse} from '@mattermost/types/files';
 import {ServerError} from '@mattermost/types/errors';
-import {FilePreviewInfo} from 'components/file_preview/file_preview';
+
 import {UploadFile} from 'actions/file_actions';
+
+import {PluginComponent} from 'types/store/plugins';
 
 const holders = defineMessages({
     limited: {
@@ -77,7 +81,7 @@ const customStyles = {
 };
 
 type Props = {
-    channelId: string; // required
+    channelId: string;
 
     /**
      * Current root post's ID
@@ -87,21 +91,21 @@ type Props = {
     /**
      * Number of files to attach
      */
-    fileCount: number; // required
+    fileCount: number;
 
     /**
      * Function to get file upload targeted input
      */
-    getTarget: () => HTMLInputElement | null; // required
+    getTarget: () => HTMLInputElement | null;
 
-    intl: IntlShape; // required
+    intl: IntlShape;
 
-    locale: string; // required
+    locale: string;
 
     /**
      * Function to be called when file upload input is clicked
      */
-    onClick?: () => void;
+    onClick: () => void;
 
     /**
      * Function to be called when file upload is complete
@@ -136,18 +140,18 @@ type Props = {
     /**
      * Whether or not file upload is allowed.
      */
-    canUploadFiles: boolean; // required
+    canUploadFiles: boolean;
 
     /**
      * Plugin file upload methods to be added
      */
-    pluginFileUploadMethods: any[]; //todo
-    pluginFilesWillUploadHooks: any[]; //todo
+    pluginFileUploadMethods: PluginComponent[];
+    pluginFilesWillUploadHooks: PluginComponent[];
 
     /**
      * Function called when xhr fires progress event.
      */
-    onUploadProgress: (filePreviewInfo: FilePreviewInfo) => void; // required
+    onUploadProgress: (filePreviewInfo: FilePreviewInfo) => void;
     actions: {
 
         /**
@@ -160,7 +164,7 @@ type Props = {
 };
 
 type State = {
-    requests: any; //todo
+    requests: any;
     menuOpen: boolean;
 };
 
@@ -232,14 +236,14 @@ export class FileUpload extends PureComponent<Props, State> {
 
         const willUploadHooks = this.props.pluginFilesWillUploadHooks;
         for (const h of willUploadHooks) {
-            const result = h.hook(sortedFiles, this.pluginUploadFiles);
+            const result = h.hook?.(sortedFiles, this.pluginUploadFiles);
 
             // Display an error message if there is one but don't reject the upload
-            if (result.message) {
+            if (result?.message) {
                 this.props.onUploadError(result.message);
             }
 
-            sortedFiles = result.files;
+            sortedFiles = result?.files || [];
         }
 
         if (sortedFiles) {
