@@ -54,6 +54,16 @@ exports[`components/ChannelHeader should render active channel files 1`] = `
               </div>
               <ChannelHeaderDropdown />
             </MenuWrapper>
+            <ChannelInfoButton
+              channel={
+                Object {
+                  "delete_at": 0,
+                  "id": "channel_id",
+                  "name": "Test",
+                  "team_id": "team_id",
+                }
+              }
+            />
             <OverlayTrigger
               defaultOverlayShown={false}
               delayShow={400}
@@ -185,16 +195,6 @@ exports[`components/ChannelHeader should render active channel files 1`] = `
       }
     />
     <Connect(CallButton) />
-    <ChannelInfoButton
-      channel={
-        Object {
-          "delete_at": 0,
-          "id": "channel_id",
-          "name": "Test",
-          "team_id": "team_id",
-        }
-      }
-    />
   </div>
 </div>
 `;
@@ -253,6 +253,16 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
               </div>
               <ChannelHeaderDropdown />
             </MenuWrapper>
+            <ChannelInfoButton
+              channel={
+                Object {
+                  "delete_at": 0,
+                  "id": "channel_id",
+                  "name": "Test",
+                  "team_id": "team_id",
+                }
+              }
+            />
             <OverlayTrigger
               defaultOverlayShown={false}
               delayShow={400}
@@ -384,16 +394,6 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
       }
     />
     <Connect(CallButton) />
-    <ChannelInfoButton
-      channel={
-        Object {
-          "delete_at": 0,
-          "id": "channel_id",
-          "name": "Test",
-          "team_id": "team_id",
-        }
-      }
-    />
   </div>
 </div>
 `;
@@ -452,6 +452,16 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
               </div>
               <ChannelHeaderDropdown />
             </MenuWrapper>
+            <ChannelInfoButton
+              channel={
+                Object {
+                  "delete_at": 0,
+                  "id": "channel_id",
+                  "name": "Test",
+                  "team_id": "team_id",
+                }
+              }
+            />
             <OverlayTrigger
               defaultOverlayShown={false}
               delayShow={400}
@@ -583,16 +593,6 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
       }
     />
     <Connect(CallButton) />
-    <ChannelInfoButton
-      channel={
-        Object {
-          "delete_at": 0,
-          "id": "channel_id",
-          "name": "Test",
-          "team_id": "team_id",
-        }
-      }
-    />
   </div>
 </div>
 `;
@@ -651,6 +651,16 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
               </div>
               <ChannelHeaderDropdown />
             </MenuWrapper>
+            <ChannelInfoButton
+              channel={
+                Object {
+                  "delete_at": 0,
+                  "id": "channel_id",
+                  "name": "Test",
+                  "team_id": "team_id",
+                }
+              }
+            />
             <OverlayTrigger
               defaultOverlayShown={false}
               delayShow={400}
@@ -782,16 +792,6 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
       }
     />
     <Connect(CallButton) />
-    <ChannelInfoButton
-      channel={
-        Object {
-          "delete_at": 0,
-          "id": "channel_id",
-          "name": "Test",
-          "team_id": "team_id",
-        }
-      }
-    />
   </div>
 </div>
 `;
@@ -854,6 +854,16 @@ exports[`components/ChannelHeader should render archived view 1`] = `
               </div>
               <ChannelHeaderDropdown />
             </MenuWrapper>
+            <ChannelInfoButton
+              channel={
+                Object {
+                  "delete_at": 1234,
+                  "id": "channel_id",
+                  "name": "Test",
+                  "team_id": "team_id",
+                }
+              }
+            />
           </div>
         </div>
         <div
@@ -926,16 +936,6 @@ exports[`components/ChannelHeader should render archived view 1`] = `
       }
     />
     <Connect(CallButton) />
-    <ChannelInfoButton
-      channel={
-        Object {
-          "delete_at": 1234,
-          "id": "channel_id",
-          "name": "Test",
-          "team_id": "team_id",
-        }
-      }
-    />
   </div>
 </div>
 `;
@@ -994,6 +994,16 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
               </div>
               <ChannelHeaderDropdown />
             </MenuWrapper>
+            <ChannelInfoButton
+              channel={
+                Object {
+                  "delete_at": 0,
+                  "id": "channel_id",
+                  "name": "Test",
+                  "team_id": "team_id",
+                }
+              }
+            />
             <OverlayTrigger
               defaultOverlayShown={false}
               delayShow={400}
@@ -1157,16 +1167,6 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
       }
     />
     <Connect(CallButton) />
-    <ChannelInfoButton
-      channel={
-        Object {
-          "delete_at": 0,
-          "id": "channel_id",
-          "name": "Test",
-          "team_id": "team_id",
-        }
-      }
-    />
   </div>
 </div>
 `;
@@ -1225,6 +1225,16 @@ exports[`components/ChannelHeader should render not active channel files 1`] = `
               </div>
               <ChannelHeaderDropdown />
             </MenuWrapper>
+            <ChannelInfoButton
+              channel={
+                Object {
+                  "delete_at": 0,
+                  "id": "channel_id",
+                  "name": "Test",
+                  "team_id": "team_id",
+                }
+              }
+            />
             <OverlayTrigger
               defaultOverlayShown={false}
               delayShow={400}
@@ -1356,16 +1366,6 @@ exports[`components/ChannelHeader should render not active channel files 1`] = `
       }
     />
     <Connect(CallButton) />
-    <ChannelInfoButton
-      channel={
-        Object {
-          "delete_at": 0,
-          "id": "channel_id",
-          "name": "Test",
-          "team_id": "team_id",
-        }
-      }
-    />
   </div>
 </div>
 `;
@@ -1441,6 +1441,15 @@ exports[`components/ChannelHeader should render properly when custom status is e
               </div>
               <ChannelHeaderDropdown />
             </MenuWrapper>
+            <ChannelInfoButton
+              channel={
+                Object {
+                  "header": "not the bot description",
+                  "status": "offline",
+                  "type": "D",
+                }
+              }
+            />
           </div>
         </div>
         <div
@@ -1577,15 +1586,6 @@ exports[`components/ChannelHeader should render properly when custom status is e
       }
     />
     <Connect(CallButton) />
-    <ChannelInfoButton
-      channel={
-        Object {
-          "header": "not the bot description",
-          "status": "offline",
-          "type": "D",
-        }
-      }
-    />
   </div>
 </div>
 `;
@@ -1661,6 +1661,15 @@ exports[`components/ChannelHeader should render properly when custom status is s
               </div>
               <ChannelHeaderDropdown />
             </MenuWrapper>
+            <ChannelInfoButton
+              channel={
+                Object {
+                  "header": "not the bot description",
+                  "status": "offline",
+                  "type": "D",
+                }
+              }
+            />
           </div>
         </div>
         <div
@@ -1813,15 +1822,6 @@ exports[`components/ChannelHeader should render properly when custom status is s
       }
     />
     <Connect(CallButton) />
-    <ChannelInfoButton
-      channel={
-        Object {
-          "header": "not the bot description",
-          "status": "offline",
-          "type": "D",
-        }
-      }
-    />
   </div>
 </div>
 `;
@@ -1886,6 +1886,16 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
               </div>
               <ChannelHeaderDropdown />
             </MenuWrapper>
+            <ChannelInfoButton
+              channel={
+                Object {
+                  "delete_at": 0,
+                  "id": "channel_id",
+                  "name": "Test",
+                  "team_id": "team_id",
+                }
+              }
+            />
             <OverlayTrigger
               defaultOverlayShown={false}
               delayShow={400}
@@ -2017,16 +2027,6 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
       }
     />
     <Connect(CallButton) />
-    <ChannelInfoButton
-      channel={
-        Object {
-          "delete_at": 0,
-          "id": "channel_id",
-          "name": "Test",
-          "team_id": "team_id",
-        }
-      }
-    />
   </div>
 </div>
 `;
@@ -2089,6 +2089,23 @@ exports[`components/ChannelHeader should render properly when populated with cha
               </div>
               <ChannelHeaderDropdown />
             </MenuWrapper>
+            <ChannelInfoButton
+              channel={
+                Object {
+                  "header": "See ~test",
+                  "id": "channel_id",
+                  "name": "Test",
+                  "props": Object {
+                    "channel_mentions": Object {
+                      "test": Object {
+                        "display_name": "Test",
+                      },
+                    },
+                  },
+                  "team_id": "team_id",
+                }
+              }
+            />
           </div>
         </div>
         <div
@@ -2253,23 +2270,6 @@ exports[`components/ChannelHeader should render properly when populated with cha
       }
     />
     <Connect(CallButton) />
-    <ChannelInfoButton
-      channel={
-        Object {
-          "header": "See ~test",
-          "id": "channel_id",
-          "name": "Test",
-          "props": Object {
-            "channel_mentions": Object {
-              "test": Object {
-                "display_name": "Test",
-              },
-            },
-          },
-          "team_id": "team_id",
-        }
-      }
-    />
   </div>
 </div>
 `;
@@ -2334,6 +2334,18 @@ exports[`components/ChannelHeader should render shared view 1`] = `
               </div>
               <ChannelHeaderDropdown />
             </MenuWrapper>
+            <ChannelInfoButton
+              channel={
+                Object {
+                  "delete_at": 0,
+                  "id": "channel_id",
+                  "name": "Test",
+                  "shared": true,
+                  "team_id": "team_id",
+                  "type": "O",
+                }
+              }
+            />
             <OverlayTrigger
               defaultOverlayShown={false}
               delayShow={400}
@@ -2467,18 +2479,6 @@ exports[`components/ChannelHeader should render shared view 1`] = `
       }
     />
     <Connect(CallButton) />
-    <ChannelInfoButton
-      channel={
-        Object {
-          "delete_at": 0,
-          "id": "channel_id",
-          "name": "Test",
-          "shared": true,
-          "team_id": "team_id",
-          "type": "O",
-        }
-      }
-    />
   </div>
 </div>
 `;
@@ -2537,6 +2537,16 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
               </div>
               <ChannelHeaderDropdown />
             </MenuWrapper>
+            <ChannelInfoButton
+              channel={
+                Object {
+                  "delete_at": 0,
+                  "id": "channel_id",
+                  "name": "Test",
+                  "team_id": "team_id",
+                }
+              }
+            />
             <OverlayTrigger
               defaultOverlayShown={false}
               delayShow={400}
@@ -2676,16 +2686,6 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
       }
     />
     <Connect(CallButton) />
-    <ChannelInfoButton
-      channel={
-        Object {
-          "delete_at": 0,
-          "id": "channel_id",
-          "name": "Test",
-          "team_id": "team_id",
-        }
-      }
-    />
   </div>
 </div>
 `;
