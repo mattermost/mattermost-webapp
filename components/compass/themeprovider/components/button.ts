@@ -4,6 +4,21 @@
 import {ComponentsOverrides} from '@mui/material/styles/overrides';
 import {DefaultTheme} from '@mui/private-theming';
 
+declare module '@mui/material/Button' {
+    interface ButtonPropsVariantOverrides {
+
+        // disable MUI variant names and instead ...
+        text: false;
+        contained: false;
+        outlined: false;
+
+        // ... use our own variant names
+        primary: true;
+        secondary: true;
+        tertiary: true;
+    }
+}
+
 const componentName = 'MuiButton';
 
 export const buttonStyleOverrides: ComponentsOverrides<DefaultTheme>[typeof componentName] = {
