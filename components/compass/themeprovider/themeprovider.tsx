@@ -5,7 +5,7 @@ import React from 'react';
 import {createTheme} from '@mui/material/styles';
 import MUIThemeProvider, {ThemeProviderProps as MUIThemeProviderProps} from '@mui/material/styles/ThemeProvider';
 
-import componentOverrides from './overrides';
+import componentOverrides from './components';
 
 export type ThemeProviderProps = Omit<MUIThemeProviderProps, 'theme'>;
 
