@@ -2,13 +2,11 @@
 // See LICENSE.txt for license information.
 import assert from 'assert';
 
-import {checkIfMFARequired} from 'utils/route';
-
 import {UserProfile} from '@mattermost/types/users';
 
 import {ClientLicense} from '@mattermost/types/config';
 
-import {ConfigOption} from './route';
+import {checkIfMFARequired, ConfigOption} from './route';
 
 describe('Utils.Route', () => {
     describe('checkIfMFARequired', () => {
