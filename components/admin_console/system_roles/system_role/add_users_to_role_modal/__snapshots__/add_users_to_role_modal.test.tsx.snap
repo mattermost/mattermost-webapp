@@ -90,16 +90,11 @@ exports[`admin_console/add_users_to_role_modal should match snapshot 1`] = `
       options={
         Array [
           Object {
-            "allow_marketing": false,
-            "auth_data": "",
             "auth_service": "",
             "bot_description": "",
-            "bot_last_icon_update": 0,
             "create_at": 0,
             "delete_at": 0,
             "email": "",
-            "email_verified": true,
-            "failed_attempts": 0,
             "first_name": "",
             "id": "user_id",
             "is_bot": false,
@@ -110,7 +105,6 @@ exports[`admin_console/add_users_to_role_modal should match snapshot 1`] = `
             "last_picture_update": 0,
             "locale": "",
             "mfa_active": false,
-            "mfa_secret": "",
             "nickname": "",
             "notify_props": Object {
               "channel": "false",
@@ -135,16 +129,11 @@ exports[`admin_console/add_users_to_role_modal should match snapshot 1`] = `
             "value": "user_id",
           },
           Object {
-            "allow_marketing": false,
-            "auth_data": "",
             "auth_service": "",
             "bot_description": "",
-            "bot_last_icon_update": 0,
             "create_at": 0,
             "delete_at": 0,
             "email": "",
-            "email_verified": true,
-            "failed_attempts": 0,
             "first_name": "",
             "id": "user_id",
             "is_bot": false,
@@ -155,7 +144,6 @@ exports[`admin_console/add_users_to_role_modal should match snapshot 1`] = `
             "last_picture_update": 0,
             "locale": "",
             "mfa_active": false,
-            "mfa_secret": "",
             "nickname": "",
             "notify_props": Object {
               "channel": "false",
