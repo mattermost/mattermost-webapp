@@ -5,8 +5,6 @@ import React, {useCallback} from 'react';
 
 import {useDispatch, useSelector} from 'react-redux';
 
-import styled from 'styled-components';
-
 import {Channel} from '@mattermost/types/channels';
 import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 
@@ -21,23 +19,12 @@ interface Props {
     channel: Channel;
 }
 
-const Icon = styled.i`
-    font-size:18px;
-    line-height:18px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-`;
-
 const ChannelInfoButton = ({channel}: Props) => {
     const dispatch = useDispatch();
 
     const rhsState: RhsState = useSelector(getRhsState);
     const isRhsOpen: boolean = useSelector(getIsRhsOpen);
-    const isChannelInfo = rhsState === RHSStates.CHANNEL_INFO ||
-        rhsState === RHSStates.CHANNEL_MEMBERS ||
-        rhsState === RHSStates.CHANNEL_FILES ||
-        rhsState === RHSStates.PIN;
+    const isChannelInfo = rhsState === RHSStates.CHANNEL_INFO;
 
     const buttonActive = isRhsOpen && isChannelInfo;
     const toggleRHS = useCallback(() => {
@@ -51,9 +38,9 @@ const ChannelInfoButton = ({channel}: Props) => {
 
     const tooltipKey = buttonActive ? 'closeChannelInfo' : 'openChannelInfo';
 
-    let buttonClass = 'channel-header__icon';
+    let buttonClass = 'channel-header__icon channel-header__icon--wide channel-header__icon--left';
     if (buttonActive) {
-        buttonClass += ' channel-header__icon--active-inverted';
+        buttonClass += ' channel-header__icon--active';
     }
 
     return (
@@ -61,7 +48,7 @@ const ChannelInfoButton = ({channel}: Props) => {
             buttonClass={buttonClass}
             buttonId='channel-info-btn'
             onClick={toggleRHS}
-            iconComponent={<Icon className='icon-information-outline'/>}
+            iconComponent={<i className='icon icon-information-outline'/>}
             tooltipKey={tooltipKey}
         />
     );
