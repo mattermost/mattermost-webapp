@@ -5,13 +5,15 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {getEmailInterval} from 'mattermost-redux/utils/notify_props';
+
 import {PreferenceType} from '@mattermost/types/preferences';
+import {UserNotifyProps} from '@mattermost/types/users';
 
 import {Preferences, NotificationLevels} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
+
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
-import {UserNotifyProps} from '@mattermost/types/users';
 
 const SECONDS_PER_MINUTE = 60;
 
