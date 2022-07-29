@@ -53,7 +53,7 @@ export default class FileAttachmentList extends React.PureComponent<Props> {
                     />
                 );
             }
-        } else if (fileCount === 1 && this.props.isEmbedVisible && !Boolean(fileInfos?.[0])) {
+        } else if (fileCount === 1 && this.props.isEmbedVisible && !fileInfos?.[0]) {
             return (
                 <div style={style.minHeightPlaceholder}/>
             );

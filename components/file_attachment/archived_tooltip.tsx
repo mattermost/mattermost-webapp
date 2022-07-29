@@ -12,20 +12,20 @@ export default function ArchivedTooltip() {
     const intl = useIntl();
     return (
         <Tooltip
-            id="archived-tooltip"
+            id='archived-tooltip'
             className='hidden-xs'
         >
             <div className='post-image__archived-tooltip-title'>
                 {intl.formatMessage({
-                    id: "workspace_limits.archived_file.tooltip_title",
-                    defaultMessage: "Unarchive this file by upgrading",
+                    id: 'workspace_limits.archived_file.tooltip_title',
+                    defaultMessage: 'Unarchive this file by upgrading',
                 })}
             </div>
             <div className='post-image__archived-tooltip-description'>
                 {intl.formatMessage(
                     {
-                        id: "workspace_limits.archived_file.tooltip_description",
-                        defaultMessage: "Your workspace has hit the file storage limit of {storageLimit}. To view this again, upgrade to a paid plan",
+                        id: 'workspace_limits.archived_file.tooltip_description',
+                        defaultMessage: 'Your workspace has hit the file storage limit of {storageLimit}. To view this again, upgrade to a paid plan',
                     },
                     {
                         storageLimit: asGBString(useGetLimits()[0].files?.total_storage || 0, intl.formatNumber),
