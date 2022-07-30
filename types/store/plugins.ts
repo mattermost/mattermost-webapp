@@ -106,7 +106,7 @@ export type PostPluginComponent = {
     id: string;
     pluginId: string;
     type: string;
-    component: React.Component;
+    component: React.ElementType;
 };
 
 export type AdminConsolePluginComponent = {
