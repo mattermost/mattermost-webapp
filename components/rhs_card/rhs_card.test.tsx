@@ -5,8 +5,6 @@ import {shallow} from 'enzyme';
 
 import {TestHelper} from 'utils/test_helper';
 
-import {Post} from '@mattermost/types/posts';
-
 import {PostPluginComponent} from 'types/store/plugins';
 import {RhsState} from 'types/store/rhs';
 
