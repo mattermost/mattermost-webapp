@@ -22,7 +22,7 @@ import {PostPluginComponent} from 'types/store/plugins';
 import {emitCloseRightHandSide} from 'actions/global_actions';
 
 type Props = {
-    selected: Post;
+    selected?: Post;
     pluginPostCardTypes: Record<string, PostPluginComponent>;
     previousRhsState: RhsState;
     enablePostUsernameOverride: boolean;
