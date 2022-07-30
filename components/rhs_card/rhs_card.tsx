@@ -22,12 +22,12 @@ import {PostPluginComponent} from 'types/store/plugins';
 import {emitCloseRightHandSide} from 'actions/global_actions';
 
 type Props = {
-    selected?: Post;
-    pluginPostCardTypes: Record<string, PostPluginComponent>;
-    previousRhsState: RhsState;
-    enablePostUsernameOverride: boolean;
     isMobileView: boolean;
-    teamUrl: string;
+    selected?: Post;
+    pluginPostCardTypes?: Record<string, PostPluginComponent>;
+    previousRhsState?: RhsState;
+    enablePostUsernameOverride?: boolean;
+    teamUrl?: string;
 };
 
 type State = {
@@ -112,7 +112,7 @@ export default class RhsCard extends React.Component<Props, State> {
         const {selected, pluginPostCardTypes, teamUrl} = this.props;
         const postType = selected.type;
         let content: ReactNode = null;
-        if (pluginPostCardTypes.hasOwnProperty(postType)) {
+        if (pluginPostCardTypes?.hasOwnProperty(postType)) {
             const PluginComponent = pluginPostCardTypes[postType].component;
             content = <PluginComponent post={selected}/>;
         }
