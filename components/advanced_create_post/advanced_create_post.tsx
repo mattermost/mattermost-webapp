@@ -398,7 +398,11 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         this.setState({postError});
     }
 
-    toggleEmojiPicker = () => {
+    toggleEmojiPicker = (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+        if (e) {
+            e.stopPropagation();
+        }
+
         this.setState({showEmojiPicker: !this.state.showEmojiPicker});
     }
 
