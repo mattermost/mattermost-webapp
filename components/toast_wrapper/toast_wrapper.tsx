@@ -2,18 +2,36 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage, injectIntl} from 'react-intl';
 
+// @ts-expect-error TS(2307): Cannot find module 'components/toast/toast' or its... Remove this comment to see the full error message
 import Toast from 'components/toast/toast';
+
+// @ts-expect-error TS(2307): Cannot find module 'components/timestamp' or its c... Remove this comment to see the full error message
 import Timestamp, {RelativeRanges} from 'components/timestamp';
+
+// @ts-expect-error TS(2307): Cannot find module 'utils/post_utils' or its corre... Remove this comment to see the full error message
 import {isIdNotPost, getNewMessageIndex} from 'utils/post_utils';
+
+// @ts-expect-error TS(2307): Cannot find module 'utils/utils' or its correspond... Remove this comment to see the full error message
 import * as Utils from 'utils/utils';
+
+// @ts-expect-error TS(2307): Cannot find module 'utils/datetime' or its corresp... Remove this comment to see the full error message
 import {isToday} from 'utils/datetime';
+
+// @ts-expect-error TS(2307): Cannot find module 'utils/constants' or its corres... Remove this comment to see the full error message
 import Constants from 'utils/constants';
+
+// @ts-expect-error TS(2307): Cannot find module 'utils/browser_history' or its ... Remove this comment to see the full error message
 import {browserHistory} from 'utils/browser_history';
+
+// @ts-expect-error TS(2307): Cannot find module 'components/search_shortcut' or... Remove this comment to see the full error message
 import {SearchShortcut} from 'components/search_shortcut';
+
+// @ts-expect-error TS(2307): Cannot find module 'components/hint-toast/hint_toa... Remove this comment to see the full error message
 import {HintToast} from 'components/hint-toast/hint_toast';
+
+// @ts-expect-error TS(2307): Cannot find module 'mattermost-redux/constants' or... Remove this comment to see the full error message
 import {Preferences} from 'mattermost-redux/constants';
 
 const TOAST_TEXT_COLLAPSE_WIDTH = 500;
@@ -22,75 +40,86 @@ const TOAST_REL_RANGES = [
     RelativeRanges.TODAY_YESTERDAY,
 ];
 
-class ToastWrapper extends React.PureComponent {
-    static propTypes = {
-        unreadCountInChannel: PropTypes.number,
-        newRecentMessagesCount: PropTypes.number,
-        channelMarkedAsUnread: PropTypes.bool,
-        isCollapsedThreadsEnabled: PropTypes.bool,
-        rootPosts: PropTypes.object,
-        atLatestPost: PropTypes.bool,
-        postListIds: PropTypes.array,
-        latestPostTimeStamp: PropTypes.number,
-        atBottom: PropTypes.bool,
-        lastViewedBottom: PropTypes.number,
-        width: PropTypes.number,
-        lastViewedAt: PropTypes.number,
-        focusedPostId: PropTypes.string,
-        initScrollOffsetFromBottom: PropTypes.number,
-        updateNewMessagesAtInChannel: PropTypes.func,
-        scrollToNewMessage: PropTypes.func,
-        scrollToLatestMessages: PropTypes.func,
-        scrollToUnreadMessages: PropTypes.func,
-        updateLastViewedBottomAt: PropTypes.func,
-        showSearchHintToast: PropTypes.bool,
-        onSearchHintDismiss: PropTypes.func,
-        shouldStartFromBottomWhenUnread: PropTypes.bool,
-        isNewMessageLineReached: PropTypes.bool,
-        unreadScrollPosition: PropTypes.string,
+type OwnProps = {
+    unreadCountInChannel?: number;
+    newRecentMessagesCount?: number;
+    channelMarkedAsUnread?: boolean;
+    isCollapsedThreadsEnabled?: boolean;
+    rootPosts?: $TSFixMe;
+    atLatestPost?: boolean;
+    postListIds?: $TSFixMe[];
+    latestPostTimeStamp?: number;
+    atBottom?: boolean;
+    lastViewedBottom?: number;
+    width?: number;
+    lastViewedAt?: number;
+    focusedPostId?: string;
+    initScrollOffsetFromBottom?: number;
 
-        /*
-         * Object from react-router
-         */
-        match: PropTypes.shape({
-            params: PropTypes.shape({
-                team: PropTypes.string,
-            }).isRequired,
-        }).isRequired,
+    // @ts-expect-error TS(2552): Cannot find name '$TSFixMeFunction'. Did you mean ... Remove this comment to see the full error message
+    updateNewMessagesAtInChannel?: $TSFixMeFunction;
 
-        actions: PropTypes.shape({
+    // @ts-expect-error TS(2552): Cannot find name '$TSFixMeFunction'. Did you mean ... Remove this comment to see the full error message
+    scrollToNewMessage?: $TSFixMeFunction;
 
-            /**
-             * Action creator to update toast status
-             */
-            updateToastStatus: PropTypes.func.isRequired,
-        }).isRequired,
+    // @ts-expect-error TS(2552): Cannot find name '$TSFixMeFunction'. Did you mean ... Remove this comment to see the full error message
+    scrollToLatestMessages?: $TSFixMeFunction;
+
+    // @ts-expect-error TS(2552): Cannot find name '$TSFixMeFunction'. Did you mean ... Remove this comment to see the full error message
+    scrollToUnreadMessages?: $TSFixMeFunction;
+
+    // @ts-expect-error TS(2552): Cannot find name '$TSFixMeFunction'. Did you mean ... Remove this comment to see the full error message
+    updateLastViewedBottomAt?: $TSFixMeFunction;
+    showSearchHintToast?: boolean;
+
+    // @ts-expect-error TS(2552): Cannot find name '$TSFixMeFunction'. Did you mean ... Remove this comment to see the full error message
+    onSearchHintDismiss?: $TSFixMeFunction;
+    shouldStartFromBottomWhenUnread?: boolean;
+    isNewMessageLineReached?: boolean;
+    unreadScrollPosition?: string;
+    match: {
+        params: {
+            team?: string;
+        };
     };
+    actions: {
 
+        // @ts-expect-error TS(2552): Cannot find name '$TSFixMeFunction'. Did you mean ... Remove this comment to see the full error message
+        updateToastStatus: $TSFixMeFunction;
+    };
+};
+
+type State = $TSFixMe;
+
+type Props = OwnProps & typeof ToastWrapper.defaultProps;
+
+class ToastWrapper extends React.PureComponent<Props, State> {
     static defaultProps = {
         focusedPostId: '',
     };
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
         this.state = {
             unreadCountInChannel: props.unreadCountInChannel,
         };
     }
 
-    static countNewMessages = (postListIds, rootPosts, isCollapsedThreadsEnabled) => {
+    static countNewMessages = (postListIds: $TSFixMe, rootPosts: $TSFixMe, isCollapsedThreadsEnabled: $TSFixMe) => {
         const mark = getNewMessageIndex(postListIds);
         if (mark <= 0) {
             return 0;
         }
-        let newMessages = postListIds.slice(0, mark).filter((id) => !isIdNotPost(id));
+        let newMessages = postListIds.slice(0, mark).filter((id: $TSFixMe) => !isIdNotPost(id));
         if (isCollapsedThreadsEnabled) { // in collapsed mode we only count root posts
-            newMessages = newMessages.filter((id) => rootPosts[id]);
+            newMessages = newMessages.filter((id: $TSFixMe) => rootPosts[id]);
         }
         return newMessages.length;
     }
 
-    static getDerivedStateFromProps(props, prevState) {
+    mounted: $TSFixMe;
+
+    static getDerivedStateFromProps(props: $TSFixMe, prevState: $TSFixMe) {
         let {showUnreadToast, showNewMessagesToast, showMessageHistoryToast, showUnreadWithBottomStartToast} = prevState;
         let unreadCount;
 
@@ -178,7 +207,7 @@ class ToastWrapper extends React.PureComponent {
         this.props.actions.updateToastStatus(toastPresent);
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps: Props, prevState: State) {
         const {showUnreadToast, showNewMessagesToast, showMessageHistoryToast, showUnreadWithBottomStartToast} = this.state;
         const {
             atBottom,
@@ -195,8 +224,13 @@ class ToastWrapper extends React.PureComponent {
             this.hideArchiveToast();
         }
 
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         const prevPostsCount = prevProps.postListIds.length;
+
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         const presentPostsCount = postListIds.length;
+
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         const postsAddedAtBottom = presentPostsCount !== prevPostsCount && postListIds[0] !== prevProps.postListIds[0];
         const notBottomWithLatestPosts = atBottom === false && atLatestPost && presentPostsCount > 0;
 
@@ -221,7 +255,7 @@ class ToastWrapper extends React.PureComponent {
         document.removeEventListener('keydown', this.handleShortcut);
     }
 
-    handleShortcut = (e) => {
+    handleShortcut = (e: $TSFixMe) => {
         if (Utils.isKeyPressed(e, Constants.KeyCodes.ESCAPE)) {
             if (this.state.showUnreadToast) {
                 this.hideUnreadToast();
@@ -276,9 +310,12 @@ class ToastWrapper extends React.PureComponent {
         }
     }
 
-    newMessagesToastText = (count, since) => {
+    newMessagesToastText = (count: $TSFixMe, since: $TSFixMe) => {
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         if (this.props.width > TOAST_TEXT_COLLAPSE_WIDTH && typeof since !== 'undefined') {
             return (
+
+                // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                 <FormattedMessage
                     id='postlist.toast.newMessagesSince'
                     defaultMessage='{count, number} new {count, plural, one {message} other {messages}} {isToday, select, true {} other {since}} {date}'
@@ -286,6 +323,8 @@ class ToastWrapper extends React.PureComponent {
                         count,
                         isToday: isToday(new Date(since)).toString(),
                         date: (
+
+                            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                             <Timestamp
                                 value={since}
                                 useTime={false}
@@ -297,6 +336,8 @@ class ToastWrapper extends React.PureComponent {
             );
         }
         return (
+
+            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
             <FormattedMessage
                 id='postlist.toast.newMessages'
                 defaultMessage={'{count, number} new {count, plural, one {message} other {messages}}'}
@@ -307,6 +348,8 @@ class ToastWrapper extends React.PureComponent {
 
     archiveToastText = () => {
         return (
+
+            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
             <FormattedMessage
                 id='postlist.toast.history'
                 defaultMessage='Viewing message history'
@@ -316,10 +359,14 @@ class ToastWrapper extends React.PureComponent {
 
     getSearchHintToastText = () => {
         return (
+
+            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
             <FormattedMessage
                 id='postlist.toast.searchHint'
                 defaultMessage='Tip: Try {searchShortcut} to search this channel'
                 values={{
+
+                    // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                     searchShortcut: <SearchShortcut/>,
                 }}
             />
@@ -385,6 +432,8 @@ class ToastWrapper extends React.PureComponent {
 
         if (showUnreadToast && unreadCount > 0) {
             return (
+
+                // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                 <Toast {...unreadToastProps}>
                     {this.newMessagesToastText(unreadCount, lastViewedAt)}
                 </Toast>
@@ -403,6 +452,8 @@ class ToastWrapper extends React.PureComponent {
 
         if (showUnreadWithBottomStartToast && unreadCount > 0) {
             return (
+
+                // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                 <Toast {...unreadWithBottomStartToastProps}>
                     {this.newMessagesToastText(unreadCount, lastViewedAt)}
                 </Toast>
@@ -417,6 +468,8 @@ class ToastWrapper extends React.PureComponent {
             };
 
             return (
+
+                // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                 <Toast
                     {...unreadToastProps}
                     {...showNewMessagesToastOverrides}
@@ -438,6 +491,8 @@ class ToastWrapper extends React.PureComponent {
             };
 
             return (
+
+                // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                 <Toast {...archiveToastProps}>
                     {this.archiveToastText()}
                 </Toast>
@@ -446,6 +501,8 @@ class ToastWrapper extends React.PureComponent {
 
         if (showSearchHintToast) {
             return (
+
+                // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                 <HintToast
                     onDismiss={this.hideSearchHintToast}
                 >
@@ -461,6 +518,8 @@ class ToastWrapper extends React.PureComponent {
         const toastToRender = this.getToastToRender();
 
         return (
+
+            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
             <React.Fragment>
                 {toastToRender}
             </React.Fragment>
@@ -468,4 +527,5 @@ class ToastWrapper extends React.PureComponent {
     }
 }
 
+// @ts-expect-error TS(2769): No overload matches this call.
 export default injectIntl(ToastWrapper);
