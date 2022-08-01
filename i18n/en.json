@@ -4765,6 +4765,7 @@
   "time_dropdown.choose_time": "Choose a time",
   "timestamp.datetime": "{relativeOrDate} at {time}",
   "trial_benefits_modal.trial_just_started.buttons.close": "Close",
+  "trial_benefits_modal.trial_just_started.buttons.invitePeople": "Invite people",
   "trial_benefits_modal.trial_just_started.buttons.setUp": "Set up system console",
   "trial_benefits.modal.ldapDescription": "Use AD/LDAP groups to organize and apply actions to multiple users at once. Manage team and channel memberships, permissions and more.",
   "trial_benefits.modal.ldapTitle": "Synchronize your Active Directory/LDAP groups",
