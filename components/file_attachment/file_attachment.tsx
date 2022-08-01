@@ -10,7 +10,9 @@ import {
     arrow,
     offset,
     useFloating,
+    autoPlacement,
 } from '@floating-ui/react-dom';
+import {useHover, useInteractions} from '@floating-ui/react-dom-interactions';
 
 import {ArchiveOutlineIcon} from '@mattermost/compass-icons/components';
 
@@ -62,16 +64,16 @@ interface Props extends PropsFromRedux {
 }
 
 export default function FileAttachment(props: Props) {
-    // , State>
     const mounted = useRef(true);
+    // const hideLimitTooltipTimeout = useRef<NodeJS.Timeout | null>(null);
     const [loaded, setLoaded] = useState(getFileType(props.fileInfo.extension) !== FileTypes.IMAGE);
     const [loadFilesCalled, setLoadFilesCalled] = useState(false);
     const [keepOpen, setKeepOpen] = useState(false);
     const [openUp, setOpenUp] = useState(false);
-    const [limitTooltipOpen, setLimitTooltipOpen] = useState(false);
+    // const [limitTooltipOpen, setLimitTooltipOpen] = useState(false);
+    // const [limitTooltipClass, setLimitTooltipClass] = useState('');
     const buttonRef = useRef<HTMLButtonElement | null>(null);
 
-    // const referenceRef = useRef<HTMLDivElement | null>(null);
     const arrowRef = useRef(null);
     const {
         x,
@@ -79,28 +81,40 @@ export default function FileAttachment(props: Props) {
         reference,
         floating,
         strategy,
+        placement,
         middlewareData: {
             arrow: {
                 x: arrowX,
                 y: arrowY,
             } = {},
         },
+        context,
     } = useFloating({
         middleware: [
-
-            // autoPlacement({
-            //     alignment: 'start',
-            //     autoAlignment: false,
-            //     allowedPlacements: ['top', 'right'],
-            // }),
+            autoPlacement({
+                allowedPlacements: ['right', 'top'],
+            }),
             offset(10),
             arrow({
                 element: arrowRef,
                 padding: 4,
             }),
         ],
+        placement: 'right',
         strategy: 'fixed',
     });
+
+    /*const {getReferenceProps, getFloatingProps} =*/ useInteractions([
+        useHover(
+            context,
+            {
+                delay: {
+                    open: 1000,
+                    close: 0,
+                }
+            },
+        ),
+    ]);
 
     const handleImageLoaded = () => {
         if (mounted.current) {
@@ -383,12 +397,30 @@ export default function FileAttachment(props: Props) {
         (
             <div
                 {...contentRef}
-                onMouseEnter={() => {
-                    setLimitTooltipOpen(true);
-                }}
-                onMouseLeave={() => {
-                    setLimitTooltipOpen(false);
-                }}
+                // onMouseEnter={() => {
+                //     if (!fileInfo.archived) {
+                //         return;
+                //     }
+                //     if (hideLimitTooltipTimeout.current) {
+                //         clearTimeout(hideLimitTooltipTimeout.current)
+                //         hideLimitTooltipTimeout.current = null;
+                //     }
+                //     setLimitTooltipOpen(true);
+                //     setLimitTooltipClass('open');
+                // }}
+                // onMouseLeave={() => {
+                //     if (!fileInfo.archived) {
+                //         return;
+                //     }
+                //     setLimitTooltipClass('');
+                //     if (hideLimitTooltipTimeout.current) {
+                //         clearTimeout(hideLimitTooltipTimeout.current)
+                //         hideLimitTooltipTimeout.current = null;
+                //     }
+                //     hideLimitTooltipTimeout.current = setTimeout(() => {
+                //         setLimitTooltipOpen(false);
+                //     }, 1000)
+                // }}
                 className={
                     classNames([
                         'post-image__column',
@@ -410,10 +442,12 @@ export default function FileAttachment(props: Props) {
         return (
             <>
                 {content}
-                {limitTooltipOpen && ReactDOM.createPortal(
+                {/*limitTooltipOpen && */ ReactDOM.createPortal(
                     <div
                         ref={floating}
-                        className='floating-ui-tooltip'
+                        className={classNames('floating-ui-tooltip', {
+                            // [limitTooltipClass]: Boolean(limitTooltipClass),
+                        })}
                         style={{
                             position: strategy,
                             top: y ?? 0,
@@ -425,7 +459,7 @@ export default function FileAttachment(props: Props) {
                         <div
                             ref={arrowRef}
                             className='floating-ui-tooltip-arrow'
-                            style={{left: arrowX, top: arrowY}}
+                            style={placement === 'top' ? {left: arrowX, top: arrowY} : {left: '-4px', top: arrowY}}
                         />
                     </div>,
                     document.getElementById('root') as HTMLElement,

@@ -42,9 +42,16 @@
     text-align: center;
     word-break: break-word;
     pointer-events: none;
-    color: rgba(255, 255, 255, 0.64);
+    color: #fff;
     background: #000;
     border-radius: 4px;
+    opacity: 0;
+    transition: opacity 0.15s linear;
+
+    // &.open {
+    //     transition: opacity 0.15s linear;
+    //     opacity: 0.9;
+    // }
 }
 
 .floating-ui-tooltip-arrow {
