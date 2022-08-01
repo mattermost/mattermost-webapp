@@ -70,7 +70,7 @@ const ThreadList = ({
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
 
-    const {total = 0, total_unread_threads: totalUnread} = useSelector(getThreadCountsInCurrentTeam);
+    const {total = 0, total_unread_threads: totalUnread} = useSelector(getThreadCountsInCurrentTeam) ?? {};
 
     const [isLoading, setLoading] = React.useState<boolean>(false);
     const [hasLoaded, setHasLoaded] = React.useState<boolean>(false);
