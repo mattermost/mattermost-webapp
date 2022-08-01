@@ -5,6 +5,8 @@ import React, {useRef} from 'react';
 import styled from 'styled-components';
 import {useDispatch, useSelector} from 'react-redux';
 
+import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+
 import IconButton from '@mattermost/compass-components/components/icon-button';
 
 import Menu from 'components/widgets/menu/menu';
@@ -57,6 +59,7 @@ const ProductMenu = (): JSX.Element => {
     const products = useProducts();
     const dispatch = useDispatch();
     const switcherOpen = useSelector(isSwitcherOpen);
+    const currentTeam = useSelector(getCurrentTeam);
     const menuRef = useRef<HTMLDivElement>(null);
     const currentProductID = useCurrentProductId(products);
 
@@ -103,7 +106,7 @@ const ProductMenu = (): JSX.Element => {
                     ariaLabel={'switcherOpen'}
                 >
                     <ProductMenuItem
-                        destination={'/'}
+                        destination={currentTeam?.name ? `/${currentTeam.name}` : '/' }
                         icon={'product-channels'}
                         text={'Channels'}
                         active={currentProductID === null}
