@@ -472,8 +472,10 @@ export function fetchMyChannelsAndMembers(teamId: string): ActionFunc {
         const state = getState();
         const shouldFetchArchived = isMinimumServerVersion(getServerVersion(state), 5, 21);
         try {
-            channels = await Client4.getMyChannels(teamId, shouldFetchArchived);
-            channelMembers = await Client4.getMyChannelMembers(teamId);
+            [channels, channelMembers] = await Promise.all([
+                Client4.getMyChannels(teamId, shouldFetchArchived),
+                Client4.getMyChannelMembers(teamId),
+            ]);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
             dispatch({type: ChannelTypes.CHANNELS_FAILURE, error});

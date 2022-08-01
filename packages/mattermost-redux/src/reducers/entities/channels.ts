@@ -335,7 +335,7 @@ export function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = 
         } = action.data;
         const member = state[channelId];
 
-        if (amount === amountRoot) {
+        if (amount === 0 && amountRoot === 0) {
             return state;
         }
 
@@ -366,7 +366,7 @@ export function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = 
     case ChannelTypes.DECREMENT_UNREAD_MSG_COUNT: {
         const {channelId, amount, amountRoot} = action.data;
 
-        if (amount === amountRoot) {
+        if (amount === 0 && amountRoot === 0) {
             return state;
         }
 
@@ -394,7 +394,7 @@ export function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = 
             fetchedChannelMember,
         } = action.data;
 
-        if (amount === amountRoot) {
+        if (amount === 0 && amountRoot === 0) {
             return state;
         }
 
@@ -422,7 +422,7 @@ export function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = 
     case ChannelTypes.DECREMENT_UNREAD_MENTION_COUNT: {
         const {channelId, amount, amountRoot} = action.data;
 
-        if (amount === amountRoot) {
+        if (amount === 0 && amountRoot === 0) {
             return state;
         }
 
