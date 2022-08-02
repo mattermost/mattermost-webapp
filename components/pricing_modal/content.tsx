@@ -131,6 +131,20 @@ function Content(props: ContentProps) {
         formatMessage({id: 'admin.billing.subscription.planDetails.features.mfa', defaultMessage: 'Multi-Factor Authentication (MFA)'}),
     ];
 
+    const renderSalesCTA = () => {
+        if (!isAdmin) {
+            return undefined;
+        }
+        if (isEnterprise || isEnterpriseTrial || isProfessional) {
+            return <ContactSalesCTA/>;
+        }
+        if (!isPostTrial) {
+            return <StartTrialCaution/>;
+        }
+
+        return undefined;
+    };
+
     return (
         <div className='Content'>
             <Modal.Header className='PricingModal__header'>
@@ -280,7 +294,6 @@ function Content(props: ContentProps) {
                             text: formatMessage({id: 'pricing_modal.btn.contactSales', defaultMessage: 'Contact Sales'}),
                             customClass: ButtonCustomiserClasses.active,
                         } : undefined}
-                        planTrialDisclaimer={isPostTrial ? undefined : <StartTrialCaution/>}
                         customButtonDetails={(!isPostTrial && isAdmin) ? (
                             <CloudStartTrialButton
                                 message={formatMessage({id: 'pricing_modal.btn.tryDays', defaultMessage: 'Try free for {days} days'}, {days: '30'})}
@@ -290,7 +303,7 @@ function Content(props: ContentProps) {
                                 afterTrialRequest={closePricingModal}
                             />
                         ) : undefined}
-                        contactSalesCTA={(isPostTrial || !isAdmin) ? undefined : <ContactSalesCTA/>}
+                        salesCTA={renderSalesCTA()}
                         briefing={{
                             title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),
                             items: [

@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {useIntl} from 'react-intl';
 import styled from 'styled-components';
 
 import BuildingSvg from './building.svg';
@@ -43,10 +42,9 @@ type CardProps = {
     planExtraInformation?: JSX.Element;
     buttonDetails?: ButtonDetails;
     customButtonDetails?: JSX.Element;
-    contactSalesCTA?: JSX.Element;
+    salesCTA?: JSX.Element;
     briefing: PlanBriefing;
     planAddonsInfo?: PlanAddonsInfo;
-    planTrialDisclaimer?: JSX.Element;
 }
 
 type StyledProps = {
@@ -58,7 +56,6 @@ background-color: ${(props) => props.bgColor};
 `;
 
 function Card(props: CardProps) {
-    const {formatMessage} = useIntl();
     return (
         <div
             id={props.id}
@@ -93,14 +90,12 @@ function Card(props: CardProps) {
                                 {props.buttonDetails?.text}
                             </button>
                         )}
-                        {props.planTrialDisclaimer}
                     </div>
 
-                    <div className='contact_sales_cta'>
-                        {props.contactSalesCTA && (
+                    <div className='sales_cta'>
+                        {props.salesCTA && (
                             <div>
-                                <p>{formatMessage({id: 'pricing_modal.or', defaultMessage: 'or'})}</p>
-                                {props.contactSalesCTA}
+                                {props.salesCTA}
                             </div>)}
                     </div>
 
