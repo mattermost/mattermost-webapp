@@ -30,7 +30,7 @@ type CardProps = {
     price: string;
     rate?: string;
     briefing: PlanBriefing;
-    extraBriefing: PlanBriefing;
+    extraBriefing?: PlanBriefing;
     planExtraInformation?: JSX.Element;
     buttonDetails?: ButtonDetails;
     customButtonDetails?: JSX.Element;
@@ -94,8 +94,8 @@ function Card(props: CardProps) {
                 {props.planDisclaimer}
                 <div className='plan_extra_briefing'>
                     <div>
-                        <span className='title'>{props.extraBriefing.title}</span>
-                        {props.extraBriefing.items.map((i) => {
+                        <span className='title'>{props.extraBriefing?.title}</span>
+                        {props.extraBriefing?.items.map((i) => {
                             return (
                                 <div
                                     className='item'

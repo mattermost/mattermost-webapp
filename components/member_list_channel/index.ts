@@ -19,8 +19,8 @@ import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {
     loadProfilesAndTeamMembersAndChannelMembers,
     loadTeamMembersAndChannelMembersForProfilesList,
-} from 'actions/user_actions.jsx';
-import {loadStatusesForProfilesList} from 'actions/status_actions.jsx';
+} from 'actions/user_actions';
+import {loadStatusesForProfilesList} from 'actions/status_actions';
 import {setModalSearchTerm} from 'actions/views/search';
 
 import {GlobalState} from 'types/store';

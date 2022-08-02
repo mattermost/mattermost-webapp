@@ -4,12 +4,14 @@
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
-import {getProfiles} from 'mattermost-redux/actions/users';
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
+import {getProfiles} from 'mattermost-redux/actions/users';
 import {getTeamByName} from 'mattermost-redux/selectors/entities/teams';
 import {getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
 import {isCollapsedThreadsEnabled, insightsAreEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+
+import {getIsMobileView} from 'selectors/views/browser';
 import {getIsRhsOpen, getIsRhsMenuOpen} from 'selectors/rhs';
 import {getIsLhsOpen} from 'selectors/lhs';
 import {getLastViewedChannelNameByTeamName, getLastViewedTypeByTeamName, getPreviousTeamId, getPreviousTeamLastViewedType} from 'selectors/local_storage';
@@ -63,6 +65,7 @@ const mapStateToProps = (state: GlobalState, ownProps: Props) => {
         isCollapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
         currentUserId: getCurrentUserId(state),
         insightsAreEnabled: insightsAreEnabled(state),
+        isMobileView: getIsMobileView(state),
     };
 };
 
