@@ -35,7 +35,7 @@ function shouldShowJoinLeaveMessages(state: GlobalState) {
 interface PostFilterOptions {
     postIds: string[];
     lastViewedAt: number;
-    indicateNewMessages: boolean;
+    indicateNewMessages?: boolean;
 }
 
 export function makePreparePostIdsForPostList() {
