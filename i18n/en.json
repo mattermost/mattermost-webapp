@@ -2370,7 +2370,7 @@
   "admin.team_settings.team_row.managementMethod.inviteOnly": "Invite Only",
   "admin.team_settings.title": "Teams",
   "admin.team.brandDesc": "Enable custom branding to show an image of your choice, uploaded below, and some help text, written below, on the login page.",
-  "admin.team.brandDescriptionHelp": "Description of service shown in login screens and UI. When not specified, \"All team communication in one place, searchable and accessible anywhere\" is displayed.",
+  "admin.team.brandDescriptionHelp": "Displays as a title above the login form. When not specified, the phrase \"Log in\" is displayed.",
   "admin.team.brandDescriptionTitle": "Site Description: ",
   "admin.team.brandImageTitle": "Custom Brand Image:",
   "admin.team.brandTextDescription": "Text that will appear below your custom brand image on your login screen. Supports Markdown-formatted text. Maximum 500 characters allowed.",
