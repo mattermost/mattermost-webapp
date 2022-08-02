@@ -53,6 +53,8 @@ test: #todo check on how to create junit.xml, there currently is none
 
     - rm -rf tmp
 
+    # Include Mattermost Common Components Package
+    - npm run build --workspace=packages/components
     # typescript
     - npm run check-types
 
