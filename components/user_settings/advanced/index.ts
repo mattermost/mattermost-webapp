@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
@@ -12,12 +12,15 @@ import {updateUserActive, revokeAllSessionsForUser} from 'mattermost-redux/actio
 
 import {Preferences} from 'utils/constants';
 
-import AdvancedSettingsDisplay from './user_settings_advanced.jsx';
+import {GlobalState} from 'types/store';
+import {ActionFunc} from 'mattermost-redux/types/actions';
+
+import AdvancedSettingsDisplay, {Props} from './user_settings_advanced';
 
 function makeMapStateToProps() {
     const getAdvancedSettingsCategory = makeGetCategory();
 
-    return (state) => {
+    return (state: GlobalState) => {
         const config = getConfig(state);
 
         const enablePreviewFeatures = config.EnablePreviewFeatures === 'true';
@@ -38,9 +41,9 @@ function makeMapStateToProps() {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Props['actions']>({
             savePreferences,
             updateUserActive,
             revokeAllSessionsForUser,
