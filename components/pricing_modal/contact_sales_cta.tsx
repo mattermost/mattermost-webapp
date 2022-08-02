@@ -34,24 +34,21 @@ function ContactSalesCTA() {
     const isCloud = useSelector(isCurrentLicenseCloud);
 
     return (
-        <>
-            <p>{formatMessage({id: 'pricing_modal.or', defaultMessage: 'or'})}</p>
-            <StyledA
-                id='contact_sales_quote'
-                onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-                    e.preventDefault();
-                    if (isCloud) {
-                        trackEvent('cloud_pricing', 'click_enterprise_contact_sales');
-                        openSalesLink();
-                    } else {
-                        trackEvent('self_hosted_pricing', 'click_enterprise_contact_sales');
-                        openSelfHostedLink();
-                    }
-                }}
-            >
-                {formatMessage({id: 'pricing_modal.btn.contactSalesForQuote', defaultMessage: 'Contact Sales'})}
-            </StyledA>
-        </>);
+        <StyledA
+            id='contact_sales_quote'
+            onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+                e.preventDefault();
+                if (isCloud) {
+                    trackEvent('cloud_pricing', 'click_enterprise_contact_sales');
+                    openSalesLink();
+                } else {
+                    trackEvent('self_hosted_pricing', 'click_enterprise_contact_sales');
+                    openSelfHostedLink();
+                }
+            }}
+        >
+            {formatMessage({id: 'pricing_modal.btn.contactSalesForQuote', defaultMessage: 'Contact Sales'})}
+        </StyledA>);
 }
 
 export default ContactSalesCTA;

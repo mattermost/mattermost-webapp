@@ -8,6 +8,7 @@ import {LicenseLinks} from 'utils/constants';
 
 const ContainerSpan = styled.span`
 font-style: normal;
+display: inline-block;
 font-weight: 400;
 font-size: 10px;
 line-height: 14px;

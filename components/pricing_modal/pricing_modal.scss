@@ -205,15 +205,10 @@
                         }
                     }
 
-                    .sales_cta {
+                    .contact_sales_cta {
                         height: 49px;
                         margin-top: 16px;
                         text-align: center;
-
-                        span {
-                            display: inline-block;
-                            text-align: start;
-                        }
                     }
 
                     .plan_limits_cta {
@@ -262,37 +257,41 @@
                             border-top: 1px solid rgba(var(--center-channel-text-rgb), 0.16);
                         }
 
-                        .title {
-                            color: var(--center-channel-text);
-                            font-family: 'Metropolis';
-                            font-size: 13px;
-                            font-style: normal;
-                            font-weight: 600;
-                            letter-spacing: -0.02em;
-                            line-height: 24px;
-                            white-space: nowrap;
-                        }
+                        .plan_briefing_content {
+                            margin-top: 16px;
 
-                        .item {
-                            display: flex;
-                            max-height: 72px;
-
-                            .bullet {
-                                display: inline-block;
-                                margin: 8px 8px 0 0;
-                                color: #0058cc;
-                                font-size: 10px;
-                            }
-
-                            p {
-                                margin: 0;
-                                color: rgba(var(--center-channel-text-rgb), 0.72);
+                            .title {
+                                color: var(--center-channel-text);
                                 font-family: 'Metropolis';
-                                font-size: 14px;
+                                font-size: 13px;
                                 font-style: normal;
-                                font-weight: 400;
+                                font-weight: 600;
                                 letter-spacing: -0.02em;
                                 line-height: 24px;
+                                white-space: nowrap;
+                            }
+    
+                            .item {
+                                display: flex;
+                                max-height: 72px;
+    
+                                .bullet {
+                                    display: inline-block;
+                                    margin: 8px 8px 0 0;
+                                    color: #0058cc;
+                                    font-size: 10px;
+                                }
+    
+                                p {
+                                    margin: 0;
+                                    color: rgba(var(--center-channel-text-rgb), 0.72);
+                                    font-family: 'Metropolis';
+                                    font-size: 14px;
+                                    font-style: normal;
+                                    font-weight: 400;
+                                    letter-spacing: -0.02em;
+                                    line-height: 24px;
+                                }
                             }
                         }
                     }

@@ -19,8 +19,8 @@ import CheckMarkSvg from 'components/widgets/icons/check_mark_icon';
 import PlanLabel from 'components/common/plan_label';
 import StartTrialBtn from 'components/learn_more_trial_modal/start_trial_btn';
 
-import StartTrialCaution from './start_trial_caution';
 import ContactSalesCTA from './contact_sales_cta';
+import StartTrialCaution from './start_trial_caution';
 import Card, {ButtonCustomiserClasses} from './card';
 
 import './content.scss';
@@ -109,25 +109,6 @@ function SelfHostedContent(props: ContentProps) {
                 btnClass={`plan_action_btn ${isSelfHostedEnterpriseTrial ? ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.special}`}
                 onClick={closePricingModal}
             />);
-    };
-
-    const renderSalesCTA = () => {
-        if (!isAdmin) {
-            return undefined;
-        }
-
-        if (isPostSelfHostedEnterpriseTrial) {
-            return undefined;
-        }
-
-        if (isEnterprise || isSelfHostedEnterpriseTrial || isProfessional) {
-            return <ContactSalesCTA/>;
-        }
-        if (!isPostSelfHostedEnterpriseTrial) {
-            return <StartTrialCaution/>;
-        }
-
-        return undefined;
     };
 
     return (
@@ -234,7 +215,8 @@ function SelfHostedContent(props: ContentProps) {
                         customButtonDetails={(!isPostSelfHostedEnterpriseTrial && isAdmin) ? (
                             trialButton()
                         ) : undefined}
-                        salesCTA={renderSalesCTA()}
+                        planTrialDisclaimer={(!isPostSelfHostedEnterpriseTrial && isAdmin) ? <StartTrialCaution/> : undefined}
+                        contactSalesCTA={(isPostSelfHostedEnterpriseTrial || !isAdmin) ? undefined : <ContactSalesCTA/>}
                         briefing={{
                             title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),
                             items: enterpriseBriefing,

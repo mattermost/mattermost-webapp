@@ -131,25 +131,6 @@ function Content(props: ContentProps) {
         formatMessage({id: 'admin.billing.subscription.planDetails.features.mfa', defaultMessage: 'Multi-Factor Authentication (MFA)'}),
     ];
 
-    const renderSalesCTA = () => {
-        if (!isAdmin) {
-            return undefined;
-        }
-
-        if (isPostTrial) {
-            return undefined;
-        }
-
-        if (isEnterprise || isEnterpriseTrial || isProfessional) {
-            return <ContactSalesCTA/>;
-        }
-        if (!isPostTrial) {
-            return <StartTrialCaution/>;
-        }
-
-        return undefined;
-    };
-
     return (
         <div className='Content'>
             <Modal.Header className='PricingModal__header'>
@@ -308,7 +289,8 @@ function Content(props: ContentProps) {
                                 afterTrialRequest={closePricingModal}
                             />
                         ) : undefined}
-                        salesCTA={renderSalesCTA()}
+                        planTrialDisclaimer={(!isPostTrial && isAdmin) ? <StartTrialCaution/> : undefined}
+                        contactSalesCTA={(isPostTrial || !isAdmin) ? undefined : <ContactSalesCTA/>}
                         briefing={{
                             title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),
                             items: [
