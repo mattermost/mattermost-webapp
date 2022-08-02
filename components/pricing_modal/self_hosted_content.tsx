@@ -115,10 +115,10 @@ function SelfHostedContent(props: ContentProps) {
         if (!isAdmin) {
             return undefined;
         }
-        if (isSelfHostedEnterpriseTrial) {
+        if (isEnterprise || isSelfHostedEnterpriseTrial || isProfessional) {
             return <ContactSalesCTA/>;
         }
-        if (isPostSelfHostedEnterpriseTrial) {
+        if (!isPostSelfHostedEnterpriseTrial) {
             return <StartTrialCaution/>;
         }
 
