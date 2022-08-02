@@ -94,7 +94,7 @@ function makeMapStateToProps() {
         if (!ownProps.atLatestPost) {
             let postIds = getPostIdsInChannel(state, ownProps.channelId);
             if (postIds) {
-                postIds = preparePostIdsForPostList(state, {postIds, lastViewedAt, channelId: ownProps.channelId});
+                postIds = preparePostIdsForPostList(state, {postIds, lastViewedAt});
             }
             newRecentMessagesCount = countUnreadsBelow(state, postIds, lastViewedAt);
         }
