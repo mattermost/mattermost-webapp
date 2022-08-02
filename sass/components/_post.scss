@@ -577,7 +577,7 @@
     display: inline-block;
     margin: 8px 0 4px;
     color: rgba(var(--center-channel-color-rgb), 0.64);
-    font-family: "Open Sans", sans-serif;
+    font-family: "Open Sans", Meiryo, "メイリオ", Arial, sans-serif
 }
 
 .post-create-footer {
@@ -1268,6 +1268,21 @@
             display: table-cell;
             vertical-align: top;
         }
+        .ReplyButton {
+            border: 1px solid red;
+            position: relative;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            transition: 0.3s ease-in-out;
+            background: rgba(255,255,255,0.1);
+            color: red;
+            &:hover:not(:disabled) {
+                filter: drop-shadow(0px 2px 2px #ccc);
+                background: rgba(255,255,255,0.9);
+                color: red;
+            }
+        }
     }
 
     .center {
@@ -1454,10 +1469,6 @@
 
         &.post--ephemeral {
             padding-right: 20px !important;
-        }
-
-        p + p {
-            margin: 0.5em 0 0;
         }
 
         ul,

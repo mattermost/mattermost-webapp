@@ -7,13 +7,15 @@
     display: inline-flex;
     width: calc(100% + 15px);
     align-items: center;
-    padding: 0 0 5px 10px;
+    padding: 5px 0 5px 10px;
     margin-top: 1px;
     margin-bottom: 5px;
     color: rgba(var(--center-channel-color-rgb), 0.64);
     font-size: 12px;
     line-height: 15px;
     white-space: nowrap;
+    background: rgba(var(--center-channel-color-rgb), 0.03);
+    border-radius: 9px;
 
     .indicator {
         width: 24px;

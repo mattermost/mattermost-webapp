@@ -8,6 +8,7 @@
     height: 100%;
     padding: 0;
     transform: translateX(100%);
+    box-shadow: 0 16px 20px 2px rgb(0 0 0 / 42%), 0 6px 28px 4px rgb(0 0 0 / 36%), 0 10px 10px -6px rgb(0 0 0);
 
     body.announcement-bar--fixed & {
         height: calc(100% - #{$announcement-bar-height});
@@ -174,7 +175,7 @@
         margin: 0 0 0 8px;
         color: rgba(var(--center-channel-color-rgb), 0.56);
         cursor: pointer;
-        font-family: "Open Sans", sans-serif;
+        font-family: "Open Sans", Meiryo, "メイリオ", Arial, sans-serif;
         font-size: 12px;
         font-weight: normal;
         line-height: 2.4rem;
@@ -201,7 +202,7 @@
         border-left: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
         margin: 0 0 0 8px;
         color: rgba(var(--center-channel-color-rgb), 0.56);
-        font-family: "Open Sans", sans-serif;
+        font-family: "Open Sans", Meiryo, "メイリオ", Arial, sans-serif;
         font-size: 12px;
         font-weight: normal;
         line-height: 2.4rem;

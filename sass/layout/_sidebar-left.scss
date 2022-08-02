@@ -35,6 +35,7 @@ $sidebarOpacityAnimationDuration: 0.15s;
     flex-direction: column;
     border-right: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
     background-color: var(--sidebar-bg);
+    box-shadow: 0 16px 20px 2px rgb(0 0 0 / 42%), 0 6px 28px 4px rgb(0 0 0 / 36%), 0 10px 10px 0.5px #000;
 
     h1,
     h2,
