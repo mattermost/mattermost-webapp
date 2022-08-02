@@ -7,6 +7,7 @@ import {createSelector} from 'reselect';
 
 import {getRoles} from 'mattermost-redux/selectors/entities/roles';
 import {appsFeatureFlagEnabled} from 'mattermost-redux/selectors/entities/apps';
+import {isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
 import {GlobalState} from '@mattermost/types/store';
 import {PluginRedux} from '@mattermost/types/plugins';
 
@@ -32,7 +33,8 @@ function makeGetPluginSchema() {
         (state: GlobalState, pluginId: string) => state.entities.admin.plugins?.[pluginId],
         (state: GlobalState, pluginId: string) => getAdminConsoleCustomComponents(state, pluginId),
         (state) => appsFeatureFlagEnabled(state),
-        (plugin: PluginRedux | undefined, customComponents: Record<string, AdminConsolePluginComponent>, appsFeatureFlagIsEnabled) => {
+        isCurrentLicenseCloud,
+        (plugin: PluginRedux | undefined, customComponents: Record<string, AdminConsolePluginComponent>, appsFeatureFlagIsEnabled, isCloudLicense) => {
             if (!plugin) {
                 return null;
             }
@@ -61,6 +63,11 @@ function makeGetPluginSchema() {
                         isDisabled = it.any(it.stateIsTrue(pluginEnabledConfigKey), it.not(it.userHasWritePermissionOnResource('plugins')));
                     }
 
+                    const isHidden = () => {
+                        return (isCloudLicense && setting.hosting === 'on-prem') ||
+                            (!isCloudLicense && setting.hosting === 'cloud');
+                    };
+
                     return {
                         ...setting,
                         type,
@@ -69,6 +76,7 @@ function makeGetPluginSchema() {
                         label: displayName,
                         translate: Boolean(plugin.translate),
                         isDisabled,
+                        isHidden,
                         banner_type: bannerType,
                         component,
                         showTitle: customComponents[key] ? customComponents[key].options.showTitle : false,
