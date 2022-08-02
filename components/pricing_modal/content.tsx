@@ -135,6 +135,11 @@ function Content(props: ContentProps) {
         if (!isAdmin) {
             return undefined;
         }
+
+        if (isPostTrial) {
+            return undefined;
+        }
+
         if (isEnterprise || isEnterpriseTrial || isProfessional) {
             return <ContactSalesCTA/>;
         }
