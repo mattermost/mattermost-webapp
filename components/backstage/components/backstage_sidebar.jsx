@@ -25,6 +25,7 @@ export default class BackstageSidebar extends React.PureComponent {
             enableOAuthServiceProvider: PropTypes.bool.isRequired,
             canCreateOrDeleteCustomEmoji: PropTypes.bool.isRequired,
             canManageIntegrations: PropTypes.bool.isRequired,
+            integrationTypes: PropTypes.array.isRequired,
         };
     }
 
@@ -156,6 +157,15 @@ export default class BackstageSidebar extends React.PureComponent {
             </SystemPermissionGate>
         );
 
+        const integrationTypes = this.props.integrationTypes.map((integrationType) => (
+            <BackstageSection
+                name={integrationType.route}
+                parentLink={'/' + this.props.team.name + '/integrations'}
+                title={integrationType.name}
+                id={integrationType.id}
+            />
+        ));
+
         return (
             <BackstageCategory
                 name='integrations'
@@ -173,6 +183,7 @@ export default class BackstageSidebar extends React.PureComponent {
                 {commands}
                 {oauthApps}
                 {botAccounts}
+                {integrationTypes}
             </BackstageCategory>
         );
     }

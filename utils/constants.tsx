@@ -220,6 +220,7 @@ export const ActionTypes = keyMirror({
     REMOVED_ADMIN_CONSOLE_REDUCER: null,
     RECEIVED_ADMIN_CONSOLE_CUSTOM_COMPONENT: null,
     RECEIVED_PLUGIN_STATS_HANDLER: null,
+    RECEIVED_INTEGRATION_TYPE: null,
 
     MODAL_OPEN: null,
     MODAL_CLOSE: null,

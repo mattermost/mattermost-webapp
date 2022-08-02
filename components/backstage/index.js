@@ -39,6 +39,8 @@ function mapStateToProps(state) {
     const canManageSystemBots = (haveISystemPermission(state, {permission: Permissions.MANAGE_BOTS}) || haveISystemPermission(state, {permission: Permissions.MANAGE_OTHERS_BOTS}));
     const canManageIntegrations = canManageTeamIntegrations || canManageSystemBots;
 
+    const integrationTypes = state.plugins.components.IntegrationType;
+
     return {
         user,
         team,
@@ -50,6 +52,7 @@ function mapStateToProps(state) {
         enableOAuthServiceProvider,
         canCreateOrDeleteCustomEmoji,
         canManageIntegrations,
+        integrationTypes,
     };
 }
 

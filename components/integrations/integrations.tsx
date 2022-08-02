@@ -19,8 +19,14 @@ import SystemPermissionGate from 'components/permissions_gates/system_permission
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
 import IntegrationOption from './integration_option.jsx';
+import Pluggable from 'plugins/pluggable';
+import { IntegrationType } from 'types/store/plugins.js';
 
-export default class Integrations extends React.PureComponent {
+type Props = {
+    integrationTypes: IntegrationType[];
+}
+
+export default class Integrations extends React.PureComponent<Props> {
     static get propTypes() {
         return {
             team: PropTypes.object,
@@ -179,6 +185,17 @@ export default class Integrations extends React.PureComponent {
                 />
             </SystemPermissionGate>,
         );
+
+        for (const integrationType of this.props.integrationTypes) {
+            options.push(
+                <IntegrationOption
+                    image={integrationType.icon}
+                    title={integrationType.name}
+                    description={integrationType.description}
+                    link={'/' + this.props.team.name + '/integrations/' + integrationType.route}
+                />
+            );
+        }
 
         return (
             <div className='backstage-content row'>

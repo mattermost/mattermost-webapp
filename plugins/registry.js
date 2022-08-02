@@ -901,4 +901,26 @@ export default class PluginRegistry {
             },
         });
     }
+
+    registerIntegrationType(name, description, route, icon, component) {
+        const id = generateId();
+
+        const data = {
+            id,
+            pluginId: this.id,
+            name,
+            description,
+            route,
+            icon,
+            component,
+        };
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'IntegrationType',
+            data,
+        });
+
+        return id;
+    }
 }

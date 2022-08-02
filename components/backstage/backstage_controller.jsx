@@ -69,6 +69,8 @@ export default class BackstageController extends React.PureComponent {
         enableOAuthServiceProvider: PropTypes.bool.isRequired,
         canCreateOrDeleteCustomEmoji: PropTypes.bool.isRequired,
         canManageIntegrations: PropTypes.bool.isRequired,
+
+        integrationTypes: PropTypes.array.isRequired,
     }
 
     scrollToTop = () => {
@@ -113,6 +115,7 @@ export default class BackstageController extends React.PureComponent {
                         enableOAuthServiceProvider={this.props.enableOAuthServiceProvider}
                         canCreateOrDeleteCustomEmoji={this.props.canCreateOrDeleteCustomEmoji}
                         canManageIntegrations={this.props.canManageIntegrations}
+                        integrationTypes={this.props.integrationTypes}
                     />
                     <Switch>
                         <BackstageRoute
@@ -205,6 +208,13 @@ export default class BackstageController extends React.PureComponent {
                             path={`${this.props.match.url}/bots`}
                             component={Bots}
                         />
+                        {this.props.integrationTypes.map((integrationType) => (
+                            <BackstageRoute
+                                extraProps={extraProps}
+                                path={`${this.props.match.url}/${integrationType.route}`}
+                                component={integrationType.component}
+                            />
+                        ))}
                     </Switch>
                 </div>
             </div>

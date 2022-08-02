@@ -31,6 +31,7 @@ export type PluginsState = {
         MobileChannelHeaderButton: PluginComponent[];
         AppBar: PluginComponent[];
         UserGuideDropdownItem: PluginComponent[];
+        IntegrationType: IntegrationType[];
         [componentName: string]: PluginComponent[];
     };
 
@@ -138,3 +139,12 @@ export type ProductComponent = {
     headerRightComponent?: React.ComponentType;
     showTeamSidebar: boolean;
 };
+
+export type IntegrationType = {
+    id: string;
+    pluginId: string;
+    name: string;
+    description: string;
+    route: string;
+    icon: React.ComponentType;
+}
