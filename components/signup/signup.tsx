@@ -89,6 +89,8 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
         CustomDescriptionText,
         GitLabButtonText,
         GitLabButtonColor,
+        OpenIdButtonText,
+        OpenIdButtonColor,
         EnableCustomBrand,
         CustomBrandText,
         TermsOfServiceLink,
