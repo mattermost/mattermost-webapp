@@ -90,10 +90,10 @@ describe('Collapsed Reply Threads', () => {
     it('MM-T4777_1 should show image thumbnail in thread list item', () => {
         const image = 'jpg-image-file.jpg';
 
-        cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(image);
+        cy.get('#advancedTextEditorCell').find('#fileUploadInput').attachFile(image);
         waitUntilUploadComplete();
         cy.get('.post-image__thumbnail').should('be.visible');
-        cy.get('#post_textbox').clear().type('{enter}');
+        cy.uiGetPostTextBox().clear().type('{enter}');
 
         cy.getLastPostId().then((rootId) => {
             // # Post a reply to create a thread and follow
@@ -116,10 +116,10 @@ describe('Collapsed Reply Threads', () => {
     files.forEach((file) => {
         it(`${file.testCase} should display correct icon for ${file.extensions} on threads list`, () => {
             // # Post a file
-            cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(file.filename);
+            cy.get('#advancedTextEditorCell').find('#fileUploadInput').attachFile(file.filename);
             waitUntilUploadComplete();
             cy.get('.post-image__thumbnail').should('be.visible');
-            cy.get('#post_textbox').clear().type('{enter}');
+            cy.uiGetPostTextBox().clear().type('{enter}');
 
             cy.getLastPostId().then((rootId) => {
                 // # Post a reply to create a thread and follow

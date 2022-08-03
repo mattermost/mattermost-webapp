@@ -3,10 +3,10 @@
 
 import React from 'react';
 import {screen} from '@testing-library/react';
-import configureStore from 'redux-mock-store';
 import {Provider} from 'react-redux';
 
 import {renderWithIntl} from 'tests/react_testing_utils';
+import mockStore from 'tests/test_store';
 
 import {LimitTypes, LimitSummary} from 'components/common/hooks/useGetHighestThresholdCloudLimit';
 
@@ -188,8 +188,15 @@ describe('useWords', () => {
         },
     ];
 
-    const mockStore = configureStore();
-    const store = mockStore({});
+    const store = mockStore({
+        entities: {
+            general: {
+                license: {
+                    Cloud: 'true',
+                },
+            },
+        },
+    });
     tests.forEach((t: Test) => {
         test(t.label, () => {
             renderWithIntl(

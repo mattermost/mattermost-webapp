@@ -45,9 +45,9 @@ describe('Upload Files', () => {
         const aspectRatio = originalWidth / originalHeight;
 
         // # Post an image in center channel
-        cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(filename);
+        cy.get('#advancedTextEditorCell').find('#fileUploadInput').attachFile(filename);
         waitUntilUploadComplete();
-        cy.get('#post_textbox').should('be.visible').clear().type('{enter}');
+        cy.uiGetPostTextBox().clear().type('{enter}');
 
         // # Click reply arrow to open the reply thread in RHS
         cy.clickPostCommentIcon();
@@ -163,7 +163,7 @@ describe('Upload Files', () => {
         ];
 
         imageFilenames.forEach((filename) => {
-            cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(filename);
+            cy.get('#advancedTextEditorCell').find('#fileUploadInput').attachFile(filename);
             waitUntilUploadComplete();
             cy.postMessage('hello');
             cy.uiWaitUntilMessagePostedIncludes('hello');
@@ -191,9 +191,9 @@ describe('Upload Files', () => {
         const filename = 'huge-image.jpg';
 
         // # Post an image in center channel
-        cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(filename);
+        cy.get('#advancedTextEditorCell').find('#fileUploadInput').attachFile(filename);
         waitUntilUploadComplete();
-        cy.get('#post_textbox').should('be.visible').clear().type('{enter}');
+        cy.uiGetPostTextBox().clear().type('{enter}');
 
         // # Login as testUser
         cy.apiLogin(testUser);
@@ -257,7 +257,7 @@ describe('Upload Files', () => {
         waitUntilUploadComplete();
 
         // # Scan inside of the message footer region
-        cy.get('#postCreateFooter').should('be.visible').within(() => {
+        cy.get('#advancedTextEditorCell').should('be.visible').within(() => {
             // * Verify that image name is present
             cy.findByText(imageFilename).should('be.visible');
 
@@ -275,7 +275,7 @@ describe('Upload Files', () => {
         });
 
         // # Now post with the message attachment
-        cy.get('#post_textbox').should('be.visible').clear().type('{enter}');
+        cy.uiGetPostTextBox().clear().type('{enter}');
 
         // * Check that the image in the post is with valid source link
         cy.uiGetFileThumbnail(imageFilename).should('have.attr', 'src').then((src) => {
@@ -314,7 +314,7 @@ describe('Upload Files', () => {
         const minimumSeparation = 5;
 
         cy.visit(channelUrl);
-        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+        cy.uiGetPostTextBox();
 
         // # Upload files
         Cypress._.forEach(attachmentFilesList, ({filename}) => {
@@ -363,6 +363,60 @@ describe('Upload Files', () => {
             cy.uiGetHeaderFilePreviewModal().within(() => {
                 cy.findByText(attachmentFilesList[0].filename);
             });
+        });
+    });
+
+    it('MM-T2261 Upload SVG and post', () => {
+        const filename = 'svg.svg';
+        const aspectRatio = 1;
+
+        cy.visit(channelUrl);
+        cy.uiGetPostTextBox();
+
+        // # Attach file
+        cy.get('#advancedTextEditorCell').find('#fileUploadInput').attachFile(filename);
+        waitUntilUploadComplete();
+
+        cy.get('#create_post').find('.file-preview').within(() => {
+            // * Filename is correct
+            cy.get('.post-image__name').should('contain.text', filename);
+
+            // * Type is correct
+            cy.get('.post-image__type').should('contain.text', 'SVG');
+
+            // * Size is correct
+            cy.get('.post-image__size').should('contain.text', '6KB');
+
+            // * Img thumbnail exist
+            cy.get('.post-image__thumbnail > img').should('exist');
+        });
+
+        // # Post message
+        cy.postMessage('hello');
+        cy.uiWaitUntilMessagePostedIncludes('hello');
+
+        // # Open file preview
+        cy.uiGetFileThumbnail(filename).click();
+
+        // * Verify image preview modal is opened
+        cy.uiGetFilePreviewModal().within(() => {
+            cy.uiGetContentFilePreviewModal().find('img').should((img) => {
+                // * Image aspect ratio is maintained
+                expect(img.width() / img.height()).to.be.closeTo(aspectRatio, 1);
+            });
+
+            // * Download button should exist
+            cy.uiGetDownloadFilePreviewModal().then((downloadLink) => {
+                expect(downloadLink.attr('download')).to.equal(filename);
+
+                const fileAttachmentURL = downloadLink.attr('href');
+
+                // * Verify that download link has correct name
+                downloadAttachmentAndVerifyItsProperties(fileAttachmentURL, filename, 'attachment');
+            });
+
+            // # Close modal
+            cy.uiCloseFilePreviewModal();
         });
     });
 });

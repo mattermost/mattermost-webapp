@@ -44,6 +44,7 @@
         // override cloud start trial border used in other contexts
         border: 1px solid var(--denim-button-bg) !important;
         border: none;
+        background: var(--sys-center-channel-bg);
         font-size: 14px;
         font-weight: 600;
         line-height: 14px;
@@ -53,5 +54,16 @@
 
             width: 100%;
         }
+    }
+
+    .disclaimer {
+        margin: 5px 0;
+        color: rgba(var(--center-channel-text-rgb), 0.72);
+        font-size: 10px;
+        font-style: normal;
+        font-weight: 400;
+        letter-spacing: 0.02em;
+        line-height: 14px;
+        text-align: justify;
     }
 }

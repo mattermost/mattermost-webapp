@@ -143,7 +143,7 @@ export class FileUpload extends PureComponent {
         pluginFilesWillUploadHooks: PropTypes.arrayOf(PropTypes.object),
 
         /**
-         * Function called when superAgent fires progress event.
+         * Function called when xhr fires progress event.
          */
         onUploadProgress: PropTypes.func.isRequired,
         actions: PropTypes.shape({
@@ -152,11 +152,6 @@ export class FileUpload extends PureComponent {
              * Function to be called to upload file
              */
             uploadFile: PropTypes.func.isRequired,
-
-            /**
-             * Function to be called when file is uploaded or failed
-             */
-            handleFileUploadEnd: PropTypes.func.isRequired,
         }).isRequired,
 
         isAdvancedTextEditorEnabled: PropTypes.bool,
@@ -264,38 +259,16 @@ export class FileUpload extends PureComponent {
             // generate a unique id that can be used by other components to refer back to this upload
             const clientId = generateId();
 
-            const request = this.props.actions.uploadFile(
-                sortedFiles[i],
-                sortedFiles[i].name,
-                channelId,
+            const request = this.props.actions.uploadFile({
+                file: sortedFiles[i],
+                name: sortedFiles[i].name,
+                type: sortedFiles[i].type,
                 rootId,
+                channelId,
                 clientId,
-            );
-
-            request.on('progress', (progressEvent) => {
-                this.props.onUploadProgress({
-                    clientId,
-                    name: sortedFiles[i].name,
-                    percent: progressEvent.percent,
-                    type: sortedFiles[i].type,
-                });
-            });
-
-            request.end((err, res) => {
-                const {error, data} = this.props.actions.handleFileUploadEnd(
-                    sortedFiles[i],
-                    sortedFiles[i].name,
-                    channelId,
-                    rootId,
-                    clientId,
-                    {err, res},
-                );
-
-                if (error) {
-                    this.fileUploadFail(error, clientId, channelId, rootId);
-                } else if (data) {
-                    this.fileUploadSuccess(data, channelId, rootId);
-                }
+                onProgress: this.props.onUploadProgress,
+                onSuccess: this.fileUploadSuccess,
+                onError: this.fileUploadFail,
             });
 
             this.setState({requests: {...this.state.requests, [clientId]: request}});
@@ -478,27 +451,23 @@ export class FileUpload extends PureComponent {
 
             for (let i = 0; i < items.length; i++) {
                 const file = items[i].getAsFile();
+
                 if (!file) {
                     continue;
                 }
 
-                var d = new Date();
-                let hour = d.getHours();
-                hour = hour < 10 ? `0${hour}` : `${hour}`;
+                const now = new Date();
+                const hour = now.getHours().toString().padStart(2, '0');
+                const minute = now.getMinutes().toString().padStart(2, '0');
 
-                let minute = d.getMinutes();
-                minute = minute < 10 ? `0${minute}` : `${minute}`;
-
-                var ext = '';
-                if (file.name) {
-                    if (file.name.includes('.')) {
-                        ext = file.name.substr(file.name.lastIndexOf('.'));
-                    }
+                let ext = '';
+                if (file.name && file.name.includes('.')) {
+                    ext = file.name.substr(file.name.lastIndexOf('.'));
                 } else if (items[i].type.includes('/')) {
                     ext = '.' + items[i].type.split('/')[1].toLowerCase();
                 }
 
-                const name = formatMessage(holders.pasted) + d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + hour + '-' + minute + ext;
+                const name = file.name || formatMessage(holders.pasted) + now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate() + ' ' + hour + '-' + minute + ext;
 
                 const newFile = new Blob([file], {type: file.type});
                 newFile.name = name;
@@ -598,23 +567,38 @@ export class FileUpload extends PureComponent {
         if (this.props.pluginFileUploadMethods.length === 0) {
             bodyAction = (
                 <div>
-                    <button
-                        type='button'
-                        id='fileUploadButton'
-                        aria-label={buttonAriaLabel}
-                        className={classNames('style--none', {
-                            'AdvancedTextEditor__action-button': this.props.isAdvancedTextEditorEnabled,
-                            'post-action': !this.props.isAdvancedTextEditorEnabled,
-                            disabled: uploadsRemaining <= 0})}
-                        onClick={this.simulateInputClick}
-                        onTouchEnd={this.simulateInputClick}
+                    <OverlayTrigger
+                        delayShow={Constants.OVERLAY_TIME_DELAY_LONG}
+                        placement='top'
+                        trigger={['hover', 'focus']}
+                        overlay={
+                            <Tooltip id='upload-tooltip'>
+                                <KeyboardShortcutSequence
+                                    shortcut={KEYBOARD_SHORTCUTS.filesUpload}
+                                    hoistDescription={true}
+                                    isInsideTooltip={true}
+                                />
+                            </Tooltip>
+                        }
                     >
-                        <PaperclipIcon
-                            size={18}
-                            color={'currentColor'}
-                            aria-label={iconAriaLabel}
-                        />
-                    </button>
+                        <button
+                            type='button'
+                            id='fileUploadButton'
+                            aria-label={buttonAriaLabel}
+                            className={classNames('style--none', {
+                                'AdvancedTextEditor__action-button': this.props.isAdvancedTextEditorEnabled,
+                                'post-action': !this.props.isAdvancedTextEditorEnabled,
+                                disabled: uploadsRemaining <= 0})}
+                            onClick={this.simulateInputClick}
+                            onTouchEnd={this.simulateInputClick}
+                        >
+                            <PaperclipIcon
+                                size={18}
+                                color={'currentColor'}
+                                aria-label={iconAriaLabel}
+                            />
+                        </button>
+                    </OverlayTrigger>
                     <input
                         id='fileUploadInput'
                         tabIndex='-1'
@@ -663,20 +647,35 @@ export class FileUpload extends PureComponent {
                         accept={accept}
                     />
                     <MenuWrapper>
-                        <button
-                            type='button'
-                            id='fileUploadButton'
-                            aria-label={buttonAriaLabel}
-                            className={classNames('style--none', {
-                                'AdvancedTextEditor__action-button': this.props.isAdvancedTextEditorEnabled,
-                                'post-action': !this.props.isAdvancedTextEditorEnabled})}
+                        <OverlayTrigger
+                            delayShow={Constants.OVERLAY_TIME_DELAY_LONG}
+                            placement='top'
+                            trigger={['hover', 'focus']}
+                            overlay={
+                                <Tooltip id='upload-tooltip'>
+                                    <KeyboardShortcutSequence
+                                        shortcut={KEYBOARD_SHORTCUTS.filesUpload}
+                                        hoistDescription={true}
+                                        isInsideTooltip={true}
+                                    />
+                                </Tooltip>
+                            }
                         >
-                            <PaperclipIcon
-                                size={18}
-                                color={'currentColor'}
-                                aria-label={iconAriaLabel}
-                            />
-                        </button>
+                            <button
+                                type='button'
+                                id='fileUploadButton'
+                                aria-label={buttonAriaLabel}
+                                className={classNames('style--none', {
+                                    'AdvancedTextEditor__action-button': this.props.isAdvancedTextEditorEnabled,
+                                    'post-action': !this.props.isAdvancedTextEditorEnabled})}
+                            >
+                                <PaperclipIcon
+                                    size={18}
+                                    color={'currentColor'}
+                                    aria-label={iconAriaLabel}
+                                />
+                            </button>
+                        </OverlayTrigger>
                         <Menu
                             id='fileUploadOptions'
                             openLeft={true}
@@ -711,24 +710,10 @@ export class FileUpload extends PureComponent {
         }
 
         return (
-            <OverlayTrigger
-                delayShow={Constants.OVERLAY_TIME_DELAY}
-                placement='top'
-                trigger={['hover', 'focus']}
-                overlay={
-                    <Tooltip id='upload-tooltip'>
-                        <KeyboardShortcutSequence
-                            shortcut={KEYBOARD_SHORTCUTS.filesUpload}
-                            hoistDescription={true}
-                            isInsideTooltip={true}
-                        />
-                    </Tooltip>
-                }
-            >
-                <div className={uploadsRemaining <= 0 ? ' style--none btn-file__disabled' : 'style--none'}>
-                    {bodyAction}
-                </div>
-            </OverlayTrigger>
+
+            <div className={uploadsRemaining <= 0 ? ' style--none btn-file__disabled' : 'style--none'}>
+                {bodyAction}
+            </div>
         );
     }
 }

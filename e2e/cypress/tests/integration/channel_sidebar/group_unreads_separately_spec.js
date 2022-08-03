@@ -76,12 +76,53 @@ describe('Channel sidebar - group unreads separately', () => {
         cy.get('.SidebarChannelGroup:contains(CHANNELS)').should('be.visible').get(`.SidebarChannel.unread:contains(${testChannel.display_name})`).should('be.visible');
     });
 
+    it('MM-T3719_3 Channels marked as unread should appear in the unreads category', () => {
+        // # Click on the unread channel
+        cy.get(`.SidebarChannel.unread .SidebarLink:contains(${testChannel.display_name})`).should('be.visible').click();
+
+        // # Switch to another channel
+        cy.get('.SidebarLink:contains(Town Square)').should('be.visible').click();
+
+        // * Verify that the channel is currently in the CHANNELS category
+        cy.get('.SidebarChannelGroup:contains(CHANNELS)').should('be.visible').get(`.SidebarChannel:not(.unread):contains(${testChannel.display_name})`).should('be.visible');
+
+        // # Switch back to the test channel
+        cy.get(`.SidebarChannel:not(.unread) .SidebarLink:contains(${testChannel.display_name})`).should('be.visible').click();
+
+        // # Mark the last message as unread
+        cy.getLastPostId().then((postId) => {
+            cy.uiClickPostDropdownMenu(postId, 'Mark as Unread');
+        });
+
+        // * Verify that the channel appears in the UNREADS section
+        cy.get('.SidebarChannelGroup:contains(UNREADS)').should('be.visible').get(`.SidebarChannel.unread:contains(${testChannel.display_name})`).should('be.visible');
+    });
+
     it('MM-T3719_4 Read channels should not enter the unreads category', () => {
         // # Switch to a read channel
         cy.get('.SidebarLink:contains(Off-Topic)').should('be.visible').click();
 
         // * Verify channel is not in the UNREADS category
         cy.get('.SidebarChannelGroup:contains(CHANNELS)').should('be.visible').get('.SidebarChannel:not(.unread):contains(Off-Topic)').should('be.visible');
+    });
+
+    it('MM-T4655 Leaving an unread channel when unread category is ON', () => {
+        // # Click on the unread channel
+        cy.get(`.SidebarChannel.unread .SidebarLink:contains(${testChannel.display_name})`).should('be.visible').click();
+
+        // # Mark the last message as unread
+        cy.getLastPostId().then((postId) => {
+            cy.uiClickPostDropdownMenu(postId, 'Mark as Unread');
+        });
+
+        // * Verify that the channel appears in the UNREADS section
+        cy.get('.SidebarChannelGroup:contains(UNREADS)').should('be.visible').get(`.SidebarChannel.unread:contains(${testChannel.display_name})`).should('be.visible');
+
+        // # Leave the channel
+        cy.uiLeaveChannel();
+
+        // * User should be redirect to Town Square
+        cy.url().should('include', '/channels/town-square');
     });
 });
 

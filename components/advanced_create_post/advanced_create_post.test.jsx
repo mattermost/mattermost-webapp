@@ -21,7 +21,7 @@ jest.mock('actions/global_actions', () => ({
     emitUserPostedEvent: jest.fn(),
 }));
 
-jest.mock('actions/post_actions.jsx', () => ({
+jest.mock('actions/post_actions', () => ({
     createPost: jest.fn(() => {
         return new Promise((resolve) => {
             process.nextTick(() => resolve());
@@ -127,6 +127,7 @@ function advancedCreatePost({
             maxPostSize={Constants.DEFAULT_CHARACTER_LIMIT}
             userIsOutOfOffice={false}
             rhsExpanded={false}
+            rhsOpen={false}
             emojiMap={emojiMap}
             badConnection={false}
             shouldShowPreview={false}

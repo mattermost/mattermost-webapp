@@ -8,7 +8,7 @@ export type WebSocketBroadcast = {
     team_id: string;
 }
 
-export type WebSocketMessage<T> = {
+export type WebSocketMessage<T = any> = {
     event: string;
     data: T;
     broadcast: WebSocketBroadcast;

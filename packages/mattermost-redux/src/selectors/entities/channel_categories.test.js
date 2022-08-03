@@ -720,9 +720,9 @@ describe('makeSortChannelsByNameWithDMs', () => {
 });
 
 describe('makeSortChannelsByRecency', () => {
-    const channel1 = {id: 'channel1', display_name: 'Apple', last_post_at: 1000, last_root_post_at: 3000};
-    const channel2 = {id: 'channel2', display_name: 'Banana', last_post_at: 2000, last_root_post_at: 1000};
-    const channel3 = {id: 'channel3', display_name: 'Zucchini', last_post_at: 3000, last_root_post_at: 2000};
+    const channel1 = {id: 'channel1', display_name: 'Apple', last_post_at: 1000, last_root_post_at: 3000, create_at: 0};
+    const channel2 = {id: 'channel2', display_name: 'Banana', last_post_at: 2000, last_root_post_at: 1000, create_at: 0};
+    const channel3 = {id: 'channel3', display_name: 'Zucchini', last_post_at: 3000, last_root_post_at: 2000, create_at: 0};
 
     const baseState = {
         entities: {
@@ -771,28 +771,6 @@ describe('makeSortChannelsByRecency', () => {
         expect(sortChannelsByRecency(state, [channel3, channel2, channel1])).toMatchObject([channel1, channel3, channel2]);
         expect(sortChannelsByRecency(state, [channel1, channel3, channel2])).toMatchObject([channel1, channel3, channel2]);
     });
-
-    test('should sort channels by their latest post when possible', () => {
-        const sortChannelsByRecency = Selectors.makeSortChannelsByRecency();
-
-        const state = mergeObjects(baseState, {
-            entities: {
-                posts: {
-                    posts: {
-                        post1: {id: 'post1', channel_id: 'channel1', create_at: 2500},
-                    },
-                    postsInChannel: {
-                        channel1: [
-                            {order: ['post1'], recent: true},
-                        ],
-                    },
-                },
-            },
-        });
-
-        expect(sortChannelsByRecency(state, [channel1, channel2, channel3])).toMatchObject([channel3, channel1, channel2]);
-        expect(sortChannelsByRecency(state, [channel3, channel2, channel1])).toMatchObject([channel3, channel1, channel2]);
-    });
 });
 
 describe('makeGetChannelIdsForCategory', () => {
@@ -800,12 +778,12 @@ describe('makeGetChannelIdsForCategory', () => {
     const otherUser1 = {id: 'otherUser1', username: 'otherUser1', first_name: 'Other', last_name: 'User', locale: 'en'};
     const otherUser2 = {id: 'otherUser2', username: 'otherUser2', first_name: 'Another', last_name: 'User', locale: 'en'};
 
-    const channel1 = {id: 'channel1', type: General.OPEN_CHANNEL, team_id: 'team1', display_name: 'Zebra', delete_at: 0};
-    const channel2 = {id: 'channel2', type: General.PRIVATE_CHANNEL, team_id: 'team1', display_name: 'Aardvark', delete_at: 0};
-    const channel3 = {id: 'channel3', type: General.OPEN_CHANNEL, team_id: 'team1', display_name: 'Bear', delete_at: 0};
-    const dmChannel1 = {id: 'dmChannel1', type: General.DM_CHANNEL, team_id: '', display_name: '', name: `${currentUser.id}__${otherUser1.id}`, delete_at: 0, last_post_at: 2000};
-    const dmChannel2 = {id: 'dmChannel2', type: General.DM_CHANNEL, team_id: '', display_name: '', name: `${otherUser2.id}__${currentUser.id}`, delete_at: 0};
-    const gmChannel1 = {id: 'gmChannel1', type: General.GM_CHANNEL, team_id: '', display_name: `${currentUser.username}, ${otherUser1.username}, ${otherUser2.username}`, name: 'gmChannel1', delete_at: 0};
+    const channel1 = {id: 'channel1', type: General.OPEN_CHANNEL, team_id: 'team1', display_name: 'Zebra', delete_at: 0, create_at: 0};
+    const channel2 = {id: 'channel2', type: General.PRIVATE_CHANNEL, team_id: 'team1', display_name: 'Aardvark', delete_at: 0, create_at: 0};
+    const channel3 = {id: 'channel3', type: General.OPEN_CHANNEL, team_id: 'team1', display_name: 'Bear', delete_at: 0, create_at: 0};
+    const dmChannel1 = {id: 'dmChannel1', type: General.DM_CHANNEL, team_id: '', display_name: '', name: `${currentUser.id}__${otherUser1.id}`, delete_at: 0, last_post_at: 2000, create_at: 0};
+    const dmChannel2 = {id: 'dmChannel2', type: General.DM_CHANNEL, team_id: '', display_name: '', name: `${otherUser2.id}__${currentUser.id}`, delete_at: 0, create_at: 0};
+    const gmChannel1 = {id: 'gmChannel1', type: General.GM_CHANNEL, team_id: '', display_name: `${currentUser.username}, ${otherUser1.username}, ${otherUser2.username}`, name: 'gmChannel1', delete_at: 0, create_at: 0};
 
     const baseState = {
         entities: {
@@ -953,7 +931,7 @@ describe('makeGetChannelIdsForCategory', () => {
         const getChannelIdsForCategory = Selectors.makeGetChannelIdsForCategory();
 
         const otherUser3 = {id: 'otherUser3', username: 'otherUser3', first_name: 'Third', last_name: 'User', locale: 'en'};
-        const gmChannel2 = {id: 'gmChannel2', type: General.GM_CHANNEL, team_id: '', display_name: `${currentUser.username}, ${otherUser1.username}, ${otherUser3.username}`, name: 'gmChannel2', delete_at: 0, last_post_at: 2000};
+        const gmChannel2 = {id: 'gmChannel2', type: General.GM_CHANNEL, team_id: '', display_name: `${currentUser.username}, ${otherUser1.username}, ${otherUser3.username}`, name: 'gmChannel2', delete_at: 0, last_post_at: 2000, create_at: 0};
 
         const directMessagesCategory = {
             id: 'directMessagesCategory',

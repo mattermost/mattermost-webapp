@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ClipboardEventHandler, memo, useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import classNames from 'classnames';
 import {useIntl} from 'react-intl';
 import {EmoticonPlusOutlineIcon} from '@mattermost/compass-icons/components';
@@ -17,15 +17,15 @@ import {
     isGitHubCodeBlock,
 } from 'utils/paste';
 import {postMessageOnKeyPress, splitMessageBasedOnCaretPosition} from 'utils/post_utils';
-import {isMac} from 'utils/utils';
 import {applyMarkdown, ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
 import * as Utils from 'utils/utils';
 
 import DeletePostModal from 'components/delete_post_modal';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import Textbox, {TextboxClass, TextboxElement} from 'components/textbox';
 import {ModalData} from 'types/actions';
+
+import EditPostFooter from './edit_post_footer';
 
 type DialogProps = {
     post?: Post;
@@ -113,7 +113,8 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
     // just a helper so it's not always needed to update with setting both properties to the same value
     const setCaretPosition = (position: number) => setSelectionRange({start: position, end: position});
 
-    const handlePaste: ClipboardEventHandler<HTMLTextAreaElement> = useCallback(({clipboardData, target, preventDefault}) => {
+    const handlePaste = useCallback((e: ClipboardEvent) => {
+        const {clipboardData, target} = e;
         if (
             !clipboardData ||
             !clipboardData.items ||
@@ -129,17 +130,13 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
             return;
         }
 
-        preventDefault();
+        e.preventDefault();
 
         let message = editText;
         let newCaretPosition = selectionRange.start;
 
-        if (table && isGitHubCodeBlock(table.className)) {
-            const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(
-                selectionRange.start,
-                message,
-                clipboardData,
-            );
+        if (isGitHubCodeBlock(table.className)) {
+            const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste({selectionStart: (target as any).selectionStart, selectionEnd: (target as any).selectionEnd, message, clipboardData});
             message = formattedMessage;
             newCaretPosition = selectionRange.start + formattedCodeBlock.length;
         } else if (table) {
@@ -186,6 +183,8 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
         actions.unsetEditingPost();
     };
 
+    const handleAutomatedRefocusAndExit = () => handleRefocusAndExit(editingPost.refocusId || null);
+
     const handleEdit = async () => {
         if (!editingPost.post || isSaveDisabled()) {
             return;
@@ -204,7 +203,7 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
         }
 
         if (updatedPost.message === (editingPost.post?.message_source || editingPost.post?.message)) {
-            handleRefocusAndExit(editingPost.refocusId || null);
+            handleAutomatedRefocusAndExit();
             return;
         }
 
@@ -229,7 +228,7 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
 
         await actions.editPost(updatedPost as Post);
 
-        handleRefocusAndExit(editingPost.refocusId || null);
+        handleAutomatedRefocusAndExit();
     };
 
     const handleEditKeyPress = (e: React.KeyboardEvent) => {
@@ -278,7 +277,7 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
         } else if (ctrlEnterKeyCombo) {
             handleEdit();
         } else if (Utils.isKeyPressed(e, KeyCodes.ESCAPE) && !showEmojiPicker) {
-            handleRefocusAndExit(editingPost.refocusId || null);
+            handleAutomatedRefocusAndExit();
         } else if (ctrlAltCombo && markdownLinkKey) {
             applyHotkeyMarkdown({
                 markdownMode: 'link',
@@ -442,7 +441,10 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
             <div className='post-body__actions'>
                 {emojiPicker}
             </div>
-            <EditPostHelperText ctrlSend={rest.ctrlSend}/>
+            <EditPostFooter
+                onSave={handleEdit}
+                onCancel={handleAutomatedRefocusAndExit}
+            />
             {postError && (
                 <div className={classNames('edit-post-footer', {'has-error': postError})}>
                     <label className={classNames('post-error', errorClass)}>{postError}</label>
@@ -451,25 +453,5 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
         </div>
     );
 };
-
-type EditPostHelperTextProps = {
-    ctrlSend: boolean;
-}
-
-const EditPostHelperText = memo(({ctrlSend}: EditPostHelperTextProps) => {
-    const ctrlSendKey = isMac() ? '⌘+' : 'CTRL+';
-
-    return (
-        <div className='post-body__helper-text'>
-            <FormattedMarkdownMessage
-                id='edit_post.helper_text'
-                defaultMessage='**{key}ENTER** to Save, **ESC** to Cancel'
-                values={{
-                    key: ctrlSend ? ctrlSendKey : '',
-                }}
-            />
-        </div>
-    );
-});
 
 export default EditPost;

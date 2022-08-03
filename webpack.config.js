@@ -26,6 +26,7 @@ const DEV = targetIsRun || targetIsStats || targetIsDevServer;
 
 const STANDARD_EXCLUDE = [
     path.join(__dirname, 'node_modules'),
+    path.join(__dirname, 'packages/components'),
 ];
 
 // react-hot-loader and development source maps require eval
@@ -240,7 +241,6 @@ var config = {
             'mattermost-redux/test': 'packages/mattermost-redux/test',
             'mattermost-redux': 'packages/mattermost-redux/src',
             reselect: 'packages/reselect/src',
-            superagent: 'node_modules/superagent/lib/client',
         },
         extensions: ['.ts', '.tsx', '.js', '.jsx'],
         fallback: {
@@ -301,9 +301,7 @@ var config = {
                 {from: 'images/c_socket.png', to: 'images'},
                 {from: 'images/admin-onboarding-background.jpg', to: 'images'},
                 {from: 'images/payment-method-illustration.png', to: 'images'},
-                {from: 'images/trial-ending-soon.png', to: 'images'},
                 {from: 'images/cloud-laptop.png', to: 'images'},
-                {from: 'images/trial-ended.png', to: 'images'},
             ],
         }),
 

@@ -18,12 +18,11 @@ import {
 } from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 import {haveICurrentTeamPermission, haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
-import {getCloudSubscription as selectCloudSubscription} from 'mattermost-redux/selectors/entities/cloud';
-import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getCloudSubscription as selectCloudSubscription, getSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
 
 import {Permissions} from 'mattermost-redux/constants';
 
-import {RHSStates} from 'utils/constants';
+import {RHSStates, CloudProducts} from 'utils/constants';
 
 import {showMentions, showFlaggedPosts, closeRightHandSide, closeMenu as closeRhsMenu} from 'actions/views/rhs';
 import {openModal} from 'actions/views/modals';
@@ -60,10 +59,11 @@ function mapStateToProps(state: GlobalState) {
 
     const subscription = selectCloudSubscription(state);
     const license = getLicense(state);
+    const subscriptionProduct = getSubscriptionProduct(state);
 
     const isCloud = isCloudLicense(license);
-    const isCloudFreeEnabled = isCloud && cloudFreeEnabled(state);
-    const isFreeTrial = subscription?.is_free_trial === 'true';
+    const isStarterFree = isCloud && subscriptionProduct?.sku === CloudProducts.STARTER;
+    const isFreeTrial = isCloud && subscription?.is_free_trial === 'true';
 
     return {
         appDownloadLink,
@@ -90,7 +90,7 @@ function mapStateToProps(state: GlobalState) {
         canInviteTeamMember,
         isFirstAdmin: isFirstAdmin(state),
         isCloud,
-        isCloudFreeEnabled,
+        isStarterFree,
         isFreeTrial,
     };
 }

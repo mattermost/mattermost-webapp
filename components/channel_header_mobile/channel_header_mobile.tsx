@@ -50,7 +50,9 @@ export default class ChannelHeaderMobile extends React.PureComponent<Props> {
 
     hideSidebars = (e: Event) => {
         if (this.props.isMobileView) {
-            this.props.actions.closeRhs();
+            if (this.props.isRHSOpen) {
+                this.props.actions.closeRhs();
+            }
 
             const target = e.target as HTMLElement | undefined;
 
@@ -62,7 +64,7 @@ export default class ChannelHeaderMobile extends React.PureComponent<Props> {
     }
 
     render() {
-        const {user, channel, isMuted, isReadOnly, isRHSOpen, currentRelativeTeamUrl, inGlobalThreads} = this.props;
+        const {user, channel, isMuted, inGlobalThreads} = this.props;
 
         let heading;
         if (inGlobalThreads) {
@@ -102,9 +104,6 @@ export default class ChannelHeaderMobile extends React.PureComponent<Props> {
                         {channel && (
                             <ChannelInfoButton
                                 channel={channel}
-                                isReadOnly={isReadOnly}
-                                isRHSOpen={isRHSOpen}
-                                currentRelativeTeamUrl={currentRelativeTeamUrl}
                             />
                         )}
                         <ShowSearchButton/>

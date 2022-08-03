@@ -3,9 +3,9 @@
 
 /* eslint-disable max-lines */
 
+import mockStore from 'tests/test_store';
+
 import {
-    thunk,
-    configureStore,
     Client4,
     AppBinding,
     checkForExecuteSuggestion,
@@ -26,8 +26,6 @@ import {
     reduxTestState,
     testBindings,
 } from './tests/app_command_parser_test_data';
-
-const mockStore = configureStore([thunk]);
 
 const getOpenInModalOption = (command: string) => {
     return {

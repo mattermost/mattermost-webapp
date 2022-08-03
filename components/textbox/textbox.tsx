@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ChangeEvent, ClipboardEventHandler, ElementType, FocusEvent, KeyboardEvent, MouseEvent} from 'react';
+import React, {ChangeEvent, ElementType, FocusEvent, KeyboardEvent, MouseEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Channel} from '@mattermost/types/channels';
@@ -24,7 +24,7 @@ import * as Utils from 'utils/utils';
 
 import {TextboxElement} from './index';
 
-type Props = {
+export type Props = {
     id: string;
     channelId: string;
     rootId?: string;
@@ -40,9 +40,9 @@ type Props = {
     onMouseUp?: (e: React.MouseEvent<TextboxElement>) => void;
     onKeyUp?: (e: React.KeyboardEvent<TextboxElement>) => void;
     onBlur?: (e: FocusEvent<TextboxElement>) => void;
-    supportsCommands: boolean;
+    supportsCommands?: boolean;
     handlePostError?: (message: JSX.Element | null) => void;
-    onPaste?: ClipboardEventHandler;
+    onPaste?: (e: ClipboardEvent) => void;
     suggestionList?: React.ComponentProps<typeof SuggestionBox>['listComponent'];
     suggestionListPosition?: React.ComponentProps<typeof SuggestionList>['position'];
     emojiEnabled?: boolean;
@@ -56,9 +56,9 @@ type Props = {
     preview?: boolean;
     autocompleteGroups: Array<{ id: string }> | null;
     actions: {
-        autocompleteUsersInChannel: (prefix: string, channelId: string | undefined) => (dispatch: any, getState: any) => Promise<string[]>;
-        autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => (dispatch: any, getState: any) => Promise<ActionResult>;
-        searchAssociatedGroupsForReference: (prefix: string, teamId: string, channelId: string | undefined) => (dispatch: any, getState: any) => Promise<{ data: any }>;
+        autocompleteUsersInChannel: (prefix: string, channelId: string) => Promise<ActionResult>;
+        autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => Promise<ActionResult>;
+        searchAssociatedGroupsForReference: (prefix: string, teamId: string, channelId: string | undefined) => Promise<{ data: any }>;
     };
     useChannelMentions: boolean;
     inputComponent?: ElementType;
@@ -233,6 +233,9 @@ export default class Textbox extends React.PureComponent<Props> {
         if (textbox) {
             textbox.focus();
             Utils.placeCaretAtEnd(textbox);
+            setTimeout(() => {
+                Utils.scrollToCaret(textbox);
+            });
 
             // reset character count warning
             this.checkMessageLength(textbox.value);

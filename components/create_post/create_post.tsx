@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable max-lines */
 
 import React, {CSSProperties, SyntheticEvent} from 'react';
 import classNames from 'classnames';
@@ -41,7 +42,7 @@ import TextboxLinks from 'components/textbox/textbox_links';
 
 import MessageSubmitError from 'components/message_submit_error';
 import {Channel, ChannelMemberCountsByGroup} from '@mattermost/types/channels';
-import {PostDraft} from 'types/store/rhs';
+import {PostDraft} from 'types/store/draft';
 import {Post, PostMetadata} from '@mattermost/types/posts';
 import {PreferenceType} from '@mattermost/types/preferences';
 import EmojiMap from 'utils/emoji_map';
@@ -899,7 +900,9 @@ class CreatePost extends React.PureComponent<Props, State> {
 
         let message = this.state.message;
         if (isGitHubCodeBlock(table.className)) {
-            const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(this.state.caretPosition, message, clipboardData);
+            const selectionStart = (e.target as any).selectionStart;
+            const selectionEnd = (e.target as any).selectionEnd;
+            const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste({selectionStart, selectionEnd, message, clipboardData});
             const newCaretPosition = this.state.caretPosition + formattedCodeBlock.length;
             this.setMessageAndCaretPostion(formattedMessage, newCaretPosition);
             return;

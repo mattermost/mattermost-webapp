@@ -12,7 +12,7 @@ import {getCurrentTeamUrl, getCurrentTeamId} from 'mattermost-redux/selectors/en
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
-import {loadNewDMIfNeeded, loadNewGMIfNeeded, loadProfilesForSidebar} from 'actions/user_actions.jsx';
+import {loadNewDMIfNeeded, loadNewGMIfNeeded, loadProfilesForSidebar} from 'actions/user_actions';
 import {browserHistory} from 'utils/browser_history';
 import {Constants, Preferences, NotificationLevels} from 'utils/constants';
 import {getDirectChannelName} from 'utils/utils';
@@ -86,6 +86,7 @@ export function loadChannelsForCurrentUser() {
         }
 
         loadProfilesForSidebar();
+        return {data: true};
     };
 }
 
@@ -136,7 +137,7 @@ export function autocompleteChannelsForSearch(term, success, error) {
         const teamId = getCurrentTeamId(state);
 
         if (!teamId) {
-            return;
+            return {data: false};
         }
 
         const {data, error: err} = await dispatch(ChannelActions.autocompleteChannelsForSearch(teamId, term));
@@ -145,6 +146,7 @@ export function autocompleteChannelsForSearch(term, success, error) {
         } else if (err && error) {
             error({id: err.server_error_id, ...err});
         }
+        return {data: true};
     };
 }
 

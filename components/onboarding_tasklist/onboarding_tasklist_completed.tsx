@@ -8,13 +8,10 @@ import {FormattedMessage, useIntl} from 'react-intl';
 
 import {useSelector, useDispatch} from 'react-redux';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-
 import completedImg from 'images/completed.svg';
 
 import {GlobalState} from '@mattermost/types/store';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
-import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
 import {LicenseSkus} from 'mattermost-redux/types/general';
 
@@ -129,16 +126,15 @@ const Completed = (props: Props): JSX.Element => {
     const isCloud = license?.Cloud === 'true';
     const isFreeTrial = subscription?.is_free_trial === 'true';
     const hadPrevCloudTrial = subscription?.is_free_trial === 'false' && subscription?.trial_end_at > 0;
-    const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
-    const isCloudFreePaidSubscription = isCloud && isCloudFreeEnabled && license?.SkuShortName !== LicenseSkus.Starter && !isFreeTrial;
+    const isPaidSubscription = isCloud && license?.SkuShortName !== LicenseSkus.Starter && !isFreeTrial;
 
     // Show this CTA if the instance is currently not licensed and has never had a trial license loaded before
     // also check that the user is a system admin (this after the onboarding task list is shown to all users)
     const selfHostedTrialCondition = (isCurrentLicensed === 'false' && isPrevLicensed === 'false') &&
     (props.isCurrentUserSystemAdmin || props.isFirstAdmin);
 
-    // if Cloud, show if isCloudFreeEnabled and is not in trial and had never been on trial
-    const cloudTrialCondition = isCloud && isCloudFreeEnabled && !isFreeTrial && !hadPrevCloudTrial && !isCloudFreePaidSubscription;
+    // if Cloud, show if not in trial and had never been on trial
+    const cloudTrialCondition = isCloud && !isFreeTrial && !hadPrevCloudTrial && !isPaidSubscription;
 
     const showStartTrialBtn = selfHostedTrialCondition || cloudTrialCondition;
 
@@ -181,7 +177,7 @@ const Completed = (props: Props): JSX.Element => {
                                     defaultMessage='Start your free Enterprise trial now!'
                                 />
                             </span>
-                            {isCloud && isCloudFreeEnabled ? (
+                            {isCloud ? (
                                 <CloudStartTrialButton
                                     message={formatMessage({id: 'menu.cloudFree.tryFreeFor30Days', defaultMessage: 'Try free for 30 days'})}
                                     telemetryId={'start_cloud_trial_after_completing_steps'}
@@ -207,17 +203,48 @@ const Completed = (props: Props): JSX.Element => {
                     )}
                     <div className='download-apps'>
                         <span>
-                            <FormattedMarkdownMessage
+                            <FormattedMessage
                                 id='onboardingTask.checklist.downloads'
-                                defaultMessage='Now that you’re all set up, [download our apps.](!https://mattermost.com/download)'
+                                defaultMessage='Now that you’re all set up, <link>download our apps.</link>!'
+                                values={{
+                                    link: (msg: React.ReactNode) => (
+                                        <a
+                                            href='https://mattermost.com/download'
+                                            target='_blank'
+                                            rel='noreferrer'
+                                        >
+                                            {msg}
+                                        </a>
+                                    ),
+                                }}
                             />
                         </span>
                     </div>
                     {showStartTrialBtn && <div className='disclaimer'>
                         <span>
-                            <FormattedMarkdownMessage
+                            <FormattedMessage
                                 id='onboardingTask.checklist.disclaimer'
-                                defaultMessage='By clicking “Start trial”, I agree to the [Mattermost Software Evaluation Agreement,](!https://mattermost.com/software-evaluation-agreement) [privacy policy,](!https://mattermost.com/privacy-policy/) and receiving product emails.'
+                                defaultMessage='By clicking “Start trial”, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>privacy policy</linkPrivacy> and receiving product emails.'
+                                values={{
+                                    linkEvaluation: (msg: React.ReactNode) => (
+                                        <a
+                                            href='https://mattermost.com/software-evaluation-agreement'
+                                            target='_blank'
+                                            rel='noreferrer'
+                                        >
+                                            {msg}
+                                        </a>
+                                    ),
+                                    linkPrivacy: (msg: React.ReactNode) => (
+                                        <a
+                                            href='https://mattermost.com/privacy-policy'
+                                            target='_blank'
+                                            rel='noreferrer'
+                                        >
+                                            {msg}
+                                        </a>
+                                    ),
+                                }}
                             />
                         </span>
                     </div>}

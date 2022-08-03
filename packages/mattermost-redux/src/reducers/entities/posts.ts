@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {ChannelTypes, GeneralTypes, PostTypes, UserTypes, ThreadTypes} from 'mattermost-redux/action_types';
+import {ChannelTypes, GeneralTypes, PostTypes, UserTypes, ThreadTypes, InsightTypes, CloudTypes} from 'mattermost-redux/action_types';
 
 import {Posts} from 'mattermost-redux/constants';
 import {PostTypes as PostConstant} from 'utils/constants';
@@ -23,6 +23,7 @@ import {
 } from '@mattermost/types/utilities';
 
 import {comparePosts, isPermalink, shouldUpdatePost} from 'mattermost-redux/utils/post_utils';
+import {TopThread} from '@mattermost/types/insights';
 
 export function removeUnneededMetadata(post: Post) {
     if (!post.metadata) {
@@ -262,6 +263,23 @@ export function handlePosts(state: RelationOneToOne<Post, Post> = {}, action: Ge
                 is_following: following,
             },
         };
+    }
+
+    case InsightTypes.RECEIVED_TOP_THREADS:
+    case InsightTypes.RECEIVED_MY_TOP_THREADS: {
+        const topThreads = Object.values(action.data.items) as TopThread[];
+
+        if (topThreads.length === 0) {
+            return state;
+        }
+
+        const nextState = {...state};
+
+        for (const thread of topThreads) {
+            handlePostReceived(nextState, thread.post);
+        }
+
+        return nextState;
     }
 
     case UserTypes.LOGOUT_SUCCESS:
@@ -1372,6 +1390,79 @@ export function expandedURLs(state: Record<string, string> = {}, action: Generic
     }
 }
 
+export const zeroStateLimitedViews = {
+    threads: {},
+    channels: {},
+};
+
+export function limitedViews(
+    state: PostsState['limitedViews'] = zeroStateLimitedViews,
+    action: GenericAction,
+): PostsState['limitedViews'] {
+    switch (action.type) {
+    case PostTypes.RECEIVED_POSTS:
+    case PostTypes.RECEIVED_POSTS_AFTER:
+    case PostTypes.RECEIVED_POSTS_BEFORE:
+    case PostTypes.RECEIVED_POSTS_SINCE:
+    case PostTypes.RECEIVED_POSTS_IN_CHANNEL: {
+        if (action.data.first_inaccessible_post_time && action.channelId) {
+            return {
+                ...state,
+                channels: {
+                    ...state.channels,
+                    [action.channelId]: action.data.first_inaccessible_post_time || 0,
+                },
+            };
+        }
+        return state;
+    }
+    case PostTypes.RECEIVED_POSTS_IN_THREAD: {
+        if (action.data.first_inaccessible_post_time && action.rootId) {
+            return {
+                ...state,
+                threads: {
+                    ...state.threads,
+                    [action.rootId]: action.data.first_inaccessible_post_time || 0,
+                },
+            };
+        }
+        return state;
+    }
+    case CloudTypes.RECEIVED_CLOUD_LIMITS: {
+        const {limits} = action.data;
+
+        // If limits change and there is no message limit any more (e.g. upgrade to non limited plan),
+        // this state is stale and should be dumped.
+        if (!limits?.messages || (!limits?.messages?.history && limits?.messages?.history !== 0)) {
+            return zeroStateLimitedViews;
+        }
+        return state;
+    }
+    case ChannelTypes.RECEIVED_CHANNEL_DELETED:
+    case ChannelTypes.DELETE_CHANNEL_SUCCESS:
+    case ChannelTypes.LEAVE_CHANNEL: {
+        if (action.data && action.data.viewArchivedChannels) {
+            // Nothing to do since we still want to store posts in archived channels
+            return state;
+        }
+
+        const channelId = action.data.id;
+        if (!state.channels[channelId]) {
+            return state;
+        }
+        const newState = {
+            threads: state.threads,
+            channels: {...state.channels},
+        };
+        delete newState.channels[channelId];
+        return newState;
+    }
+
+    default:
+        return state;
+    }
+}
+
 export default function reducer(state: Partial<PostsState> = {}, action: GenericAction) {
     const nextPosts = handlePosts(state.posts, action);
     const nextPostsInChannel = postsInChannel(state.postsInChannel, action, state.posts!, nextPosts);
@@ -1410,6 +1501,11 @@ export default function reducer(state: Partial<PostsState> = {}, action: Generic
         messagesHistory: messagesHistory(state.messagesHistory, action),
 
         expandedURLs: expandedURLs(state.expandedURLs, action),
+
+        // For cloud instances with a message limit,
+        // whether this particular view has messages that are hidden
+        // because of the cloud workspace limit.
+        limitedViews: limitedViews(state.limitedViews, action),
     };
 
     if (state.posts === nextState.posts && state.postsInChannel === nextState.postsInChannel &&
@@ -1420,7 +1516,8 @@ export default function reducer(state: Partial<PostsState> = {}, action: Generic
         state.reactions === nextState.reactions &&
         state.openGraph === nextState.openGraph &&
         state.messagesHistory === nextState.messagesHistory &&
-        state.expandedURLs === nextState.expandedURLs) {
+        state.expandedURLs === nextState.expandedURLs &&
+        state.limitedViews === nextState.limitedViews) {
         // None of the children have changed so don't even let the parent object change
         return state;
     }

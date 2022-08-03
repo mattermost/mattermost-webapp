@@ -3,13 +3,12 @@
 
 import React from 'react';
 import {Provider} from 'react-redux';
-import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
 import {cloneDeep, set} from 'lodash';
 import {mount} from 'enzyme';
 
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 import {OpenGraphMetadata, Post} from '@mattermost/types/posts';
+import mockStore from 'tests/test_store';
 import {Preferences} from 'utils/constants';
 
 import {getBestImage, getIsLargeImage, PostAttachmentOpenGraphImage, PostAttachmentOpenGraphBody} from './post_attachment_opengraph';
@@ -68,8 +67,6 @@ const initialState = {
         },
     },
 };
-
-const mockStore = configureStore([thunk]);
 
 describe('PostAttachmentOpenGraph', () => {
     const imageUrl = 'http://mattermost.com/OpenGraphImage.jpg';
@@ -367,6 +364,22 @@ describe('Helpers', () => {
             };
 
             const imageData = getBestImage(openGraphData);
+            const imageUrl = imageData?.secure_url || imageData?.url;
+
+            expect(imageUrl).toEqual(openGraphData.images[0].secure_url);
+        });
+
+        test('should handle undefined metadata', () => {
+            const openGraphData = {
+                images: [{
+                    secure_url: 'https://example.com/image.png',
+                    url: 'http://example.com/image.png',
+                }],
+            };
+
+            const imagesMetadata = {};
+
+            const imageData = getBestImage(openGraphData, imagesMetadata);
             const imageUrl = imageData?.secure_url || imageData?.url;
 
             expect(imageUrl).toEqual(openGraphData.images[0].secure_url);
