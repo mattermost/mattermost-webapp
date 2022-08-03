@@ -131,7 +131,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
     const [alertBanner, setAlertBanner] = useState<AlertBannerProps | null>(null);
     const [isMobileView, setIsMobileView] = useState(false);
 
-    const enableExternalSignup = enableSignUpWithGitLab || enableSignUpWithOffice365 || enableSignUpWithGoogle || enableLDAP || enableSAML;
+    const enableExternalSignup = enableSignUpWithGitLab || enableSignUpWithOffice365 || enableSignUpWithGoogle || enableSignUpWithOpenId || enableLDAP || enableSAML;
     const hasError = Boolean(emailError || nameError || passwordError || serverError || alertBanner);
     const canSubmit = Boolean(email && name && password) && !hasError && !loading;
     const {error: passwordInfo} = isValidPassword('', getPasswordConfig(config), intl);
@@ -174,7 +174,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
         if (enableSignUpWithOpenId) {
             externalLoginOptions.push({
                 id: 'openid',
-                url: `${Client4.getOAuthRoute()}/openid/login${search}`,
+                url: `${Client4.getOAuthRoute()}/openid/signup${search}`,
                 icon: <LoginOpenIDIcon/>,
                 label: OpenIdButtonText || formatMessage({id: 'login.openid', defaultMessage: 'Open ID'}),
                 style: {color: OpenIdButtonColor, borderColor: OpenIdButtonColor},
