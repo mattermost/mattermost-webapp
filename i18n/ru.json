@@ -1,7 +1,7 @@
 {
   "about.buildnumber": "Номер сборки:",
   "about.cloudEdition": "Облако",
-  "about.copyright": "Copyright 2015 - {currentYear} Platrum, Inc. Все права защищены",
+  "about.copyright": "Copyright 2015 - {currentYear} Mattermost, Inc. Все права защищены",
   "about.database": "База данных:",
   "about.date": "Дата сборки:",
   "about.dbversion": "Версия Схемы Базы Данных:",
@@ -4914,7 +4914,7 @@
   "warn_metric_ack_modal.number_of_posts.description": "В системе Platrum имеется большое количество сообщений. Поиск в базе данных Platrum по умолчанию начинает показывать снижение производительности примерно на 2,5 миллиона сообщений. С более чем 5 миллионами сообщений, Elasticsearch может помочь избежать значительных проблем с производительностью, таких как таймауты при поиске и задержки. Свяжитесь с нами, чтобы узнать больше и дайте знать, чем мы можем помочь.",
   "warn_metric_ack_modal.number_of_posts.header.title": "Улучшить производительность",
   "warn_metric_ack_modal.number_of_users.header.title": "Масштабирование с Platrum",
-  "warn_metric_ack_modal.subtext": "Нажав кнопку Подтвердить, вы поделитесь своей информацией с компанией Platrum Inc. {link}",
+  "warn_metric_ack_modal.subtext": "Нажав кнопку Подтвердить, вы поделитесь своей информацией с компанией Mattermost Inc. {link}",
   "web.footer.about": "О системе",
   "web.footer.help": "Помощь",
   "web.footer.privacy": "Конфиденциальность",

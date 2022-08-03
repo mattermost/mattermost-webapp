@@ -4,10 +4,11 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 
+import Icon from '@mattermost/compass-components/foundations/icon';
+
 import {UserProfile} from '@mattermost/types/users';
 import {Permissions} from 'mattermost-redux/constants';
 
-import Icon from '@mattermost/compass-components/foundations/icon';
 import AboutBuildModal from 'components/about_build_modal';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
@@ -21,6 +22,7 @@ import {FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS} from 'utils/cloud_utils';
 import {ModalIdentifiers} from 'utils/constants';
 import {makeUrlSafe} from 'utils/url';
 import * as UserAgent from 'utils/user_agent';
+
 import {ModalData} from 'types/actions';
 
 import './product_menu_list.scss';
