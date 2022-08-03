@@ -515,31 +515,6 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
                         />
                     </Menu.Group>
                     <Menu.Group>
-                        <Menu.ItemToggleModalRedux
-                            id='accountSettings'
-                            ariaLabel='Profile'
-                            modalId={ModalIdentifiers.USER_SETTINGS}
-                            dialogType={UserSettingsModal}
-                            dialogProps={{isContentProductSettings: false}}
-                            text={localizeMessage('navbar_dropdown.accountSettings', 'Profile')}
-                            icon={(
-                                <Icon
-                                    size={16}
-                                    glyph={'account-outline'}
-                                />
-                            )}
-                        >
-                            {this.props.showCompleteYourProfileTour && (
-                                <div
-                                    onClick={this.handleCompleteYourProfileTask}
-                                    className={'account-settings-complete'}
-                                >
-                                    <CompleteYourProfileTour/>
-                                </div>
-                            )}
-                        </Menu.ItemToggleModalRedux>
-                    </Menu.Group>
-                    <Menu.Group>
                         <Menu.ItemAction
                             id='logout'
                             onClick={this.handleEmitUserLoggedOutEvent}

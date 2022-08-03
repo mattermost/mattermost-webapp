@@ -514,32 +514,6 @@ ProfilePopoverState
                 </div>,
             );
         }
-        if (this.props.user.id === this.props.currentUserId && !haveOverrideProp) {
-            dataContent.push(
-                <div
-                    data-toggle='tooltip'
-                    key='user-popover-settings'
-                    className='popover__row first'
-                >
-                    <a
-                        href='#'
-                        onClick={this.handleEditAccountSettings}
-                    >
-                        <LocalizedIcon
-                            className='fa fa-pencil-square-o'
-                            title={{
-                                id: t('generic_icons.edit'),
-                                defaultMessage: 'Edit Icon',
-                            }}
-                        />
-                        <FormattedMessage
-                            id='user_profile.account.editProfile'
-                            defaultMessage='Edit Profile'
-                        />
-                    </a>
-                </div>,
-            );
-        }
         if (haveOverrideProp) {
             dataContent.push(
                 <div
