@@ -9,6 +9,10 @@ import {IDMappedObjects} from '@mattermost/types/utilities';
 
 import {Post} from 'packages/types/src/posts';
 
+import {GlobalState as ToastWrapperState} from '@mattermost/types/store';
+
+import {ViewsState} from 'types/store/views';
+
 import {createSelector} from 'reselect';
 
 import {Posts} from 'mattermost-redux/constants';
@@ -26,6 +30,10 @@ import {getUnreadScrollPositionPreference, isCollapsedThreadsEnabled} from 'matt
 import {updateToastStatus} from 'actions/views/channel';
 
 import ToastWrapper from './toast_wrapper';
+
+type GlobalState = ToastWrapperState & {
+    views: ViewsState;
+}
 
 export function makeGetRootPosts() {
     return createSelector(
@@ -86,7 +94,7 @@ function makeMapStateToProps() {
     const countUnreadsBelow = makeCountUnreadsBelow();
     const getRootPosts = makeGetRootPosts();
     const preparePostIdsForPostList = makePreparePostIdsForPostList();
-    return function mapStateToProps(state: $TSFixMe, ownProps: $TSFixMe) {
+    return function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         let newRecentMessagesCount = 0;
         const channelMarkedAsUnread = isManuallyUnread(state, ownProps.channelId);
         const lastViewedAt = state.views.channel.lastChannelViewTime[ownProps.channelId];
