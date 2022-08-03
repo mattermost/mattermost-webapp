@@ -5,14 +5,7 @@ import React, {useRef, useState, useEffect} from 'react';
 import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 import {FormattedMessage} from 'react-intl';
-import {
-    ReferenceType,
-    arrow,
-    offset,
-    useFloating,
-    autoPlacement,
-} from '@floating-ui/react-dom';
-import {useHover, useInteractions} from '@floating-ui/react-dom-interactions';
+import {useHover, useInteractions, useFloating, arrow, offset, autoPlacement, ReferenceType} from '@floating-ui/react-dom-interactions';
 
 import {ArchiveOutlineIcon} from '@mattermost/compass-icons/components';
 
@@ -65,13 +58,13 @@ interface Props extends PropsFromRedux {
 
 export default function FileAttachment(props: Props) {
     const mounted = useRef(true);
-    // const hideLimitTooltipTimeout = useRef<NodeJS.Timeout | null>(null);
     const [loaded, setLoaded] = useState(getFileType(props.fileInfo.extension) !== FileTypes.IMAGE);
     const [loadFilesCalled, setLoadFilesCalled] = useState(false);
     const [keepOpen, setKeepOpen] = useState(false);
     const [openUp, setOpenUp] = useState(false);
-    // const [limitTooltipOpen, setLimitTooltipOpen] = useState(false);
-    // const [limitTooltipClass, setLimitTooltipClass] = useState('');
+
+    const [openTooltip, setOpenTooltip] = useState(false);
+
     const buttonRef = useRef<HTMLButtonElement | null>(null);
 
     const arrowRef = useRef(null);
@@ -90,6 +83,8 @@ export default function FileAttachment(props: Props) {
         },
         context,
     } = useFloating({
+        open: openTooltip,
+        onOpenChange: (nowOpen) => { console.log('nowOpen', nowOpen); setOpenTooltip(nowOpen) },
         middleware: [
             autoPlacement({
                 allowedPlacements: ['right', 'top'],
@@ -104,7 +99,7 @@ export default function FileAttachment(props: Props) {
         strategy: 'fixed',
     });
 
-    /*const {getReferenceProps, getFloatingProps} =*/ useInteractions([
+    const {getReferenceProps, getFloatingProps} = useInteractions([
         useHover(
             context,
             {
@@ -393,34 +388,12 @@ export default function FileAttachment(props: Props) {
     if (fileInfo.archived) {
         contentRef.ref = reference;
     }
+
     const content =
         (
             <div
                 {...contentRef}
-                // onMouseEnter={() => {
-                //     if (!fileInfo.archived) {
-                //         return;
-                //     }
-                //     if (hideLimitTooltipTimeout.current) {
-                //         clearTimeout(hideLimitTooltipTimeout.current)
-                //         hideLimitTooltipTimeout.current = null;
-                //     }
-                //     setLimitTooltipOpen(true);
-                //     setLimitTooltipClass('open');
-                // }}
-                // onMouseLeave={() => {
-                //     if (!fileInfo.archived) {
-                //         return;
-                //     }
-                //     setLimitTooltipClass('');
-                //     if (hideLimitTooltipTimeout.current) {
-                //         clearTimeout(hideLimitTooltipTimeout.current)
-                //         hideLimitTooltipTimeout.current = null;
-                //     }
-                //     hideLimitTooltipTimeout.current = setTimeout(() => {
-                //         setLimitTooltipOpen(false);
-                //     }, 1000)
-                // }}
+                {...(fileInfo.archived ? getReferenceProps() : {})}
                 className={
                     classNames([
                         'post-image__column',
@@ -442,18 +415,18 @@ export default function FileAttachment(props: Props) {
         return (
             <>
                 {content}
-                {/*limitTooltipOpen && */ ReactDOM.createPortal(
+                {openTooltip && ReactDOM.createPortal(
                     <div
-                        ref={floating}
-                        className={classNames('floating-ui-tooltip', {
-                            // [limitTooltipClass]: Boolean(limitTooltipClass),
+                        {...getFloatingProps({
+                            ref: floating,
+                            className: classNames('floating-ui-tooltip'),
+                            style: {
+                                position: strategy,
+                                top: y ?? 0,
+                                left: x ?? 0,
+                                zIndex: 1,
+                            },
                         })}
-                        style={{
-                            position: strategy,
-                            top: y ?? 0,
-                            left: x ?? 0,
-                            zIndex: 1,
-                        }}
                     >
                         {'My tooltip'}
                         <div
@@ -469,3 +442,92 @@ export default function FileAttachment(props: Props) {
     }
     return content;
 }
+
+//const contentRef: {ref?: any /*(node: ReferenceType | null) => void*/} = {};
+//if (fileInfo.archived) {
+//    contentRef.ref = setReferenceElement;
+//}
+
+// import ArchivedTooltip from './archived_tooltip';
+// import { usePopper } from 'react-popper';
+    // const hideLimitTooltipTimeout = useRef<NodeJS.Timeout | null>(null);
+    // const [limitTooltipOpen, setLimitTooltipOpen] = useState(false);
+    // const [limitTooltipClass, setLimitTooltipClass] = useState('');
+    // const [referenceElement, setReferenceElement] = useState(null);
+    // const [popperElement, setPopperElement] = useState(null);
+    // const [arrowElement, setArrowElement] = useState(null);
+    // const { styles, attributes, state } = usePopper(
+    //     referenceElement,
+    //     popperElement,
+    //     {
+    //         strategy: 'fixed',
+    //         placement: 'right',
+    //         modifiers: [
+    //             {
+    //                 name: 'arrow',
+    //                 options: { element: arrowElement }
+    //             },
+    //             {
+    //                 name: 'offset',
+    //                 options: {
+    //                     offset: [0, 10],
+    //                 },
+    //             },
+    //         ]
+    //     }
+    // );
+    // console.log('popper attributes')
+    // console.log(attributes)
+
+//
+//
+    //
+//                <div ref={setPopperElement as any}
+//                    className="popper-tooltip"
+//                    style={{
+//                        ...styles.popper,
+//                        zIndex: 1,
+//                    }}
+//                    {...attributes.popper}
+//                >
+//                    Popper element
+//                    <div
+//                        className="popper-tooltip-arrow"
+//                        ref={setArrowElement as any}
+//                        style={{
+//                            ...styles.arrow,
+//                            transform: 'rotate(45deg)',
+//                            right: attributes?.popper?.['data-popper-placement'] === 'right' ? '-4px' : 'calc(100% + 4px)',
+//                            background: 'red',
+//                        }}
+//                    />
+//                </div>
+//            </>
+//, {
+                                // [limitTooltipClass]: Boolean(limitTooltipClass),
+//                            }
+//
+// onMouseEnter={() => {
+//     if (!fileInfo.archived) {
+//         return;
+//     }
+//     if (hideLimitTooltipTimeout.current) {
+//         clearTimeout(hideLimitTooltipTimeout.current)
+//         hideLimitTooltipTimeout.current = null;
+//     }
+//     setLimitTooltipOpen(true);
+//     setLimitTooltipClass('open');
+// }}
+// onMouseLeave={() => {
+//     if (!fileInfo.archived) {
+//         return;
+//     }
+//     setLimitTooltipClass('');
+//     if (hideLimitTooltipTimeout.current) {
+//         clearTimeout(hideLimitTooltipTimeout.current)
+//         hideLimitTooltipTimeout.current = null;
+//     }
+//     hideLimitTooltipTimeout.current = setTimeout(() => {
+//         setLimitTooltipOpen(false);
+//     }, 1000)
+// }}

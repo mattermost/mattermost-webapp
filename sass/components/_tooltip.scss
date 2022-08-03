@@ -61,3 +61,33 @@
   height: 8px;
   transform: rotate(45deg);
 }
+
+.popper-tooltip {
+    max-width: 220px;
+    padding: 4px 8px;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 18px;
+    text-align: center;
+    word-break: break-word;
+    pointer-events: none;
+    color: #fff;
+    background: #000;
+    border-radius: 4px;
+    opacity: 0.9;
+    transition: opacity 0.15s linear;
+
+    // &.open {
+    //     transition: opacity 0.15s linear;
+    //     opacity: 0.9;
+    // }
+}
+
+.popper-tooltip-arrow {
+  position: absolute;
+  background: #000;
+  width: 8px;
+  height: 8px;
+  transform: rotate(45deg);
+}
