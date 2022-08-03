@@ -11,27 +11,17 @@
 // Group: @integrations
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
-import {getRandomId} from '../../../utils';
 
 describe('Integrations', () => {
-    let testUser;
-    let testChannel;
-    let otherChannel;
-
     before(() => {
-        cy.apiInitSetup({userPrefix: 'testUser'}).then(({team, user, channel}) => {
-            testUser = user;
-            testChannel = channel;
-
-            cy.apiCreateChannel(team.id, 'other-channel', 'Other Channel').then((out) => {
-                otherChannel = out.channel;
-            });
-
-            cy.apiLogin(testUser);
+        cy.apiInitSetup({loginAfter: true}).then(() => {
             cy.visit('/');
+            cy.postMessage('hello');
         });
     });
 
+    // This test was moved here since Cypress is behaving differently as compared to browser
+    // and kept redirecting into the landing page even if the corresponding localstorage is already set.
     it('MM-T686 /logout', () => {
         // # Type "/logout"
         cy.uiGetPostTextBox().should('be.visible').clear().type('/logout {enter}').wait(TIMEOUTS.HALF_SEC);

@@ -197,6 +197,7 @@ describe('Login page', () => {
     it('MM-42489 Should login with a valid email and password using enter key and logout', () => {
         // # Visit login page
         cy.visit('/login');
+
         // # Remove autofocus from login id input
         cy.get('.login-body-card-content').should('be.visible').focus();
 
