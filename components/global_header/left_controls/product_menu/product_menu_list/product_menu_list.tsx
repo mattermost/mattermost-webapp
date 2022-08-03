@@ -6,25 +6,21 @@ import {useIntl} from 'react-intl';
 
 import Icon from '@mattermost/compass-components/foundations/icon';
 
-import {UserProfile} from '@mattermost/types/users';
 import {Permissions} from 'mattermost-redux/constants';
-
+import {UserProfile} from '@mattermost/types/users';
 import AboutBuildModal from 'components/about_build_modal';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 import MarketplaceModal from 'components/plugin_marketplace';
 import Menu from 'components/widgets/menu/menu';
 import RestrictedIndicator from 'components/widgets/menu/menu_items/restricted_indicator';
-import {VisitSystemConsoleTour} from 'components/onboarding_tasks';
-import UserGroupsModal from 'components/user_groups_modal';
-
 import {FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS} from 'utils/cloud_utils';
 import {ModalIdentifiers} from 'utils/constants';
 import {makeUrlSafe} from 'utils/url';
 import * as UserAgent from 'utils/user_agent';
-
+import {VisitSystemConsoleTour} from 'components/onboarding_tasks';
+import UserGroupsModal from 'components/user_groups_modal';
 import {ModalData} from 'types/actions';
-
 import './product_menu_list.scss';
 
 export type Props = {
@@ -43,7 +39,7 @@ export type Props = {
     canManageIntegrations: boolean;
     enablePluginMarketplace: boolean;
     showVisitSystemConsoleTour: boolean;
-    isStarterFree: boolean;
+    isCloud: boolean;
     isFreeTrial: boolean;
     onClick?: React.MouseEventHandler<HTMLElement>;
     handleVisitConsoleClick: React.MouseEventHandler<HTMLElement>;
@@ -69,7 +65,7 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
         canManageIntegrations,
         enablePluginMarketplace,
         showVisitSystemConsoleTour,
-        isStarterFree,
+        isCloud,
         isFreeTrial,
         onClick,
         handleVisitConsoleClick,
@@ -98,7 +94,9 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
     return (
         <Menu.Group>
             <div onClick={onClick}>
-                <Menu.CloudTrial id='menuCloudTrial'/>
+                <SystemPermissionGate permissions={[Permissions.SYSCONSOLE_WRITE_BILLING]}>
+                    <Menu.CloudTrial id='menuCloudTrial'/>
+                </SystemPermissionGate>
                 <Menu.ItemCloudLimit id='menuItemCloudLimit'/>
                 <SystemPermissionGate
                     permissions={[Permissions.SYSCONSOLE_WRITE_ABOUT_EDITION_AND_LICENSE]}
@@ -148,7 +146,7 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                 <Menu.ItemToggleModalRedux
                     id='userGroups'
                     modalId={ModalIdentifiers.USER_GROUPS}
-                    show={enableCustomUserGroups || isStarterFree || isFreeTrial}
+                    show={enableCustomUserGroups || isCloud}
                     dialogType={UserGroupsModal}
                     dialogProps={{
                         backButtonAction: openGroupsModal,
@@ -160,10 +158,10 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                             glyph={'account-multiple-outline'}
                         />
                     }
-                    disabled={isStarterFree}
-                    sibling={(isStarterFree || isFreeTrial) && (
+                    disabled={isCloud && !isFreeTrial}
+                    sibling={isCloud && (
                         <RestrictedIndicator
-                            blocked={isStarterFree}
+                            blocked={!isFreeTrial}
                             tooltipMessage={formatMessage({
                                 id: 'navbar_dropdown.userGroups.tooltip.cloudFreeTrial',
                                 defaultMessage: 'During your trial you are able to create user groups. These user groups will be archived after your trial.',
@@ -226,18 +224,6 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                         <Icon
                             size={16}
                             glyph={'download-outline'}
-                        />
-                    }
-                />
-                <Menu.ItemToggleModalRedux
-                    id='about'
-                    modalId={ModalIdentifiers.ABOUT}
-                    dialogType={AboutBuildModal}
-                    text={formatMessage({id: 'navbar_dropdown.about', defaultMessage: 'About {appTitle}'}, {appTitle: siteName})}
-                    icon={
-                        <Icon
-                            size={16}
-                            glyph={'information-outline'}
                         />
                     }
                 />

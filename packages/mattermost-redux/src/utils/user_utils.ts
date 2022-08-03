@@ -166,6 +166,7 @@ export function nameSuggestionsForUser(user: UserProfile): string[] {
 }
 
 export function filterProfilesStartingWithTerm(users: UserProfile[], term: string): UserProfile[] {
+    return filterProfilesMatchingWithTerm(users, term);
     const lowercasedTerm = term.toLowerCase();
     let trimmedTerm = lowercasedTerm;
     if (trimmedTerm.startsWith('@')) {
