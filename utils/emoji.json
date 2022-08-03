@@ -8869,7 +8869,8 @@
         "unified": "1F9D1-200D-2695-FE0F",
         "short_name": "health_worker",
         "short_names": [
-            "health_worker"
+            "health_worker",
+            "doctor"
         ],
         "text": null,
         "texts": null,
@@ -55284,7 +55285,8 @@
         "unified": "1F9D1-1F3FB-200D-2695-FE0F",
         "short_name": "health_worker_light_skin_tone",
         "short_names": [
-            "health_worker_light_skin_tone"
+            "health_worker_light_skin_tone",
+            "doctor_light_skin_tone"
         ],
         "name": "HEALTH WORKER: LIGHT SKIN TONE",
         "category": "people-body",
@@ -55296,7 +55298,8 @@
         "unified": "1F9D1-1F3FC-200D-2695-FE0F",
         "short_name": "health_worker_medium_light_skin_tone",
         "short_names": [
-            "health_worker_medium_light_skin_tone"
+            "health_worker_medium_light_skin_tone",
+            "doctor_medium_light_skin_tone"
         ],
         "name": "HEALTH WORKER: MEDIUM LIGHT SKIN TONE",
         "category": "people-body",
@@ -55308,7 +55311,8 @@
         "unified": "1F9D1-1F3FD-200D-2695-FE0F",
         "short_name": "health_worker_medium_skin_tone",
         "short_names": [
-            "health_worker_medium_skin_tone"
+            "health_worker_medium_skin_tone",
+            "doctor_medium_skin_tone"
         ],
         "name": "HEALTH WORKER: MEDIUM SKIN TONE",
         "category": "people-body",
@@ -55320,7 +55324,8 @@
         "unified": "1F9D1-1F3FE-200D-2695-FE0F",
         "short_name": "health_worker_medium_dark_skin_tone",
         "short_names": [
-            "health_worker_medium_dark_skin_tone"
+            "health_worker_medium_dark_skin_tone",
+            "doctor_medium_dark_skin_tone"
         ],
         "name": "HEALTH WORKER: MEDIUM DARK SKIN TONE",
         "category": "people-body",
@@ -55332,7 +55337,8 @@
         "unified": "1F9D1-1F3FF-200D-2695-FE0F",
         "short_name": "health_worker_dark_skin_tone",
         "short_names": [
-            "health_worker_dark_skin_tone"
+            "health_worker_dark_skin_tone",
+            "doctor_dark_skin_tone"
         ],
         "name": "HEALTH WORKER: DARK SKIN TONE",
         "category": "people-body",
