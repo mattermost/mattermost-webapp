@@ -23,6 +23,8 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {makePreparePostIdsForPostList} from 'mattermost-redux/utils/post_list';
 
+import {Channel} from '@mattermost/types/channels';
+
 import {getCurrentChannel, countCurrentChannelUnreadMessages, isManuallyUnread} from 'mattermost-redux/selectors/entities/channels';
 
 import {getUnreadScrollPositionPreference, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
@@ -41,7 +43,7 @@ export function makeGetRootPosts() {
         getAllPosts,
         getCurrentUserId,
         getCurrentChannel,
-        (allPosts: IDMappedObjects<Post>, currentUserId: $TSFixMe, channel: $TSFixMe) => {
+        (allPosts: IDMappedObjects<Post>, currentUserId: string, channel: Channel) => {
             // Count the number of new posts that haven't been deleted and are root posts
             return Object.values(allPosts).filter((post) => {
                 return ((post as $TSFixMe).root_id === '' &&
@@ -60,8 +62,8 @@ export function makeCountUnreadsBelow() {
         'makeCountUnreadsBelow',
         getAllPosts,
         getCurrentUserId,
-        (state: $TSFixMe, postIds: $TSFixMe) => postIds,
-        (state: $TSFixMe, postIds: $TSFixMe, lastViewedBottom: $TSFixMe) => lastViewedBottom,
+        (state: GlobalState, postIds: $TSFixMe) => postIds,
+        (state: GlobalState, postIds: $TSFixMe, lastViewedBottom: $TSFixMe) => lastViewedBottom,
         isCollapsedThreadsEnabled,
         (allPosts: $TSFixMe, currentUserId: $TSFixMe, postIds: $TSFixMe, lastViewedBottom: $TSFixMe, isCollapsed: $TSFixMe) => {
             if (!postIds) {
