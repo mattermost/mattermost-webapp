@@ -32,11 +32,6 @@ describe('Integrations', () => {
         });
     });
 
-    beforeEach(() => {
-        cy.get('#sidebarItem_off-topic').click();
-        cy.uiGetPostTextBox();
-    });
-
     it('MM-T686 /logout', () => {
         // # Type "/logout"
         cy.uiGetPostTextBox().should('be.visible').clear().type('/logout {enter}').wait(TIMEOUTS.HALF_SEC);
