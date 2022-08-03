@@ -371,7 +371,6 @@
 }
 
 .post-create__container {
-    z-index: 12;
     width: 100%;
     flex: 0 0 auto;
     background: var(--center-channel-bg);
@@ -1964,7 +1963,6 @@
             -webkit-box-orient: vertical;
             -webkit-line-clamp: 4;
             text-overflow: ellipsis;
-            white-space: nowrap;
         }
 
         .post-preview-collapse__show-more-button {
