@@ -63,9 +63,9 @@ export function makeCountUnreadsBelow() {
         getAllPosts,
         getCurrentUserId,
         (state: GlobalState, postIds: $TSFixMe) => postIds,
-        (state: GlobalState, postIds: $TSFixMe, lastViewedBottom: $TSFixMe) => lastViewedBottom,
+        (state: GlobalState, postIds: $TSFixMe, lastViewedBottom: number) => lastViewedBottom,
         isCollapsedThreadsEnabled,
-        (allPosts: $TSFixMe, currentUserId: $TSFixMe, postIds: $TSFixMe, lastViewedBottom: $TSFixMe, isCollapsed: $TSFixMe) => {
+        (allPosts: IDMappedObjects<Post>, currentUserId: string, postIds: string[], lastViewedBottom: number, isCollapsed: boolean) => {
             if (!postIds) {
                 return 0;
             }
