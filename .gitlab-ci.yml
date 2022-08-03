@@ -5,7 +5,7 @@ stages:
   - trigger
 
 variables:
-  IMAGE_BUILD_WEBAPP: $CI_REGISTRY/mattermost/ci/images/mattermost-build-webapp:20210524_node-16
+  IMAGE_BUILD_WEBAPP: $CI_REGISTRY/mattermost/ci/devops-images/mattermost-build-webapp:20220802_node-16.10.0@sha256:3272aa759f10c2ef1719ed08cc82ddb07224bec5be86f09800c72f5e2a623c3d
   BUILD: "yes"
   TEST: "yes"
 
@@ -53,6 +53,8 @@ test: #todo check on how to create junit.xml, there currently is none
 
     - rm -rf tmp
 
+    # Include Mattermost Common Components Package
+    - npm run build --workspace=packages/components
     # typescript
     - npm run check-types
 
