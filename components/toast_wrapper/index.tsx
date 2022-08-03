@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
 import {withRouter} from 'react-router-dom';
 
 import {IDMappedObjects} from '@mattermost/types/utilities';
@@ -110,7 +110,7 @@ function makeMapStateToProps() {
     };
 }
 
-function mapDispatchToProps(dispatch: $TSFixMe) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators({
             updateToastStatus,
