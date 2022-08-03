@@ -229,18 +229,6 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                         />
                     }
                 />
-                <Menu.ItemToggleModalRedux
-                    id='about'
-                    modalId={ModalIdentifiers.ABOUT}
-                    dialogType={AboutBuildModal}
-                    text={formatMessage({id: 'navbar_dropdown.about', defaultMessage: 'About {appTitle}'}, {appTitle: siteName})}
-                    icon={
-                        <Icon
-                            size={16}
-                            glyph={'information-outline'}
-                        />
-                    }
-                />
             </div>
         </Menu.Group>
     );

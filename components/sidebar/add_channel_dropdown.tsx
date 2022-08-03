@@ -130,7 +130,6 @@ const AddChannelDropdown = ({
                     {createUserGroup}
                 </Menu.Group>
                 {createCategory}
-                {invitePeople}
             </>
         );
     };
