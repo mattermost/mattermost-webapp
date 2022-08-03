@@ -172,7 +172,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
                 label: formatMessage({id: 'login.office365', defaultMessage: 'Office 365'}),
             });
         }
-        
+
         if (isLicensed && enableSignUpWithOpenId) {
             externalLoginOptions.push({
                 id: 'openid',
