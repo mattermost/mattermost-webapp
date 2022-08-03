@@ -2197,6 +2197,13 @@ export default class Client4 {
         );
     }
 
+    getNewTeamMembers = (teamId: string, page: number, perPage: number, timeRange: string) => {
+        return this.doFetch<TopDMsResponse>(
+            `${this.getTeamRoute(teamId)}/top/team_members${buildQueryString({page, per_page: perPage, time_range: timeRange})}`,
+            {method: 'get'},
+        );
+    }
+
     searchPostsWithParams = (teamId: string, params: any) => {
         this.trackEvent('api', 'api_posts_search', {team_id: teamId});
 

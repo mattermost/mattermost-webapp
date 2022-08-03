@@ -105,18 +105,20 @@ export type TopBoardResponse = {
     items: TopBoard[];
 };
 
+type MinUserProfile = {
+    id: string;
+    first_name: string;
+    last_name: string;
+    last_picture_update: number;
+    nickname: string;
+    position: string;
+    username: string;
+};
+
 export type TopDM = {
     outgoing_message_count: number;
     post_count: number;
-    second_participant: {
-        id: string;
-        first_name: string;
-        last_name: string;
-        last_picture_update: number;
-        nickname: string;
-        position: string;
-        username: string;
-    };
+    second_participant: MinUserProfile;
 };
 
 export type TopDMsResponse = {
@@ -126,5 +128,20 @@ export type TopDMsResponse = {
 
 export type TopDMsActionResult = {
     data?: TopDMsResponse;
+    error?: any;
+};
+
+export type NewMember = MinUserProfile & {
+    create_at: number;
+};
+
+export type NewMembersResponse = {
+    has_next: boolean;
+    items: NewMember[];
+    total_count: number;
+};
+
+export type NewMembersActionResult = {
+    data?: NewMembersResponse;
     error?: any;
 };

@@ -564,7 +564,7 @@
 
             .top-dms-item {
                 display: flex;
-                width: 20%;
+                //width: 20%;
                 flex: 0.2;
                 flex-direction: column;
                 margin: 0 12px;
@@ -658,6 +658,66 @@
                             margin-left: 8px;
                             background-color: var(--online-indicator);
                             border-radius: 6px;
+                        }
+
+                        .say-hello {
+                            margin-left: 6px;
+                            color: var(--button-bg);
+                            font-family: 'Open Sans';
+                            font-size: 11px;
+                            font-style: normal;
+                            font-weight: 600;
+                            line-height: 10px;
+                        }
+                    }
+                }
+            }
+
+            .new-members-item {
+                flex: 0.1666;
+
+                &.new-members-info {
+                    display: flex;
+                    flex-direction: column;
+
+                    span.total-count {
+                        color: var(--center-channel-color);
+                        font-family: 'Metropolis';
+                        font-size: 52px;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: 48px;
+                    }
+
+                    .time-range-info {
+                        margin-top: 2px;
+                        color: rgba(var(--center-channel-color-rgb), 0.64);
+                        font-family: 'Open Sans';
+                        font-size: 12px;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: 16px;
+                    }
+
+                    button.see-all-button {
+                        display: flex;
+                        align-items: center;
+                        align-self: flex-start;
+                        padding: 0;
+                        border: none;
+                        margin-top: 5px;
+                        background: none;
+                        color: var(--button-bg);
+                        font-family: 'Open Sans';
+                        font-size: 12px;
+                        font-style: normal;
+                        font-weight: 600;
+                        line-height: 10px;
+
+                        .icon {
+                            width: 14px;
+                            height: 14px;
+                            font-size: 14px;
                         }
                     }
                 }
