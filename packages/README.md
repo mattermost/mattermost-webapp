@@ -100,6 +100,15 @@ To set up a new package:
         }
     }
     ```
+1. Add the compiled code to the CircleCI dependency cache. This is done by modifying the `paths` used by the `save_cache` step in `.circleci/config.yml`
+    ```yml
+    aliases:
+      - &save_cache
+        save_cache:
+          paths:
+            - ~/mattermost/mattermost-webapp/packages/apple/lib
+            - ~/mattermost/mattermost-webapp/packages/banana/lib
+    ```
 
 ### Publishing a subpackage
 
