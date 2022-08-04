@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 /* eslint-disable max-lines */
 
-import React, {ChangeEvent, PureComponent, DragEvent, MouseEvent, RefObject} from 'react';
+import React, {ChangeEvent, PureComponent, DragEvent, MouseEvent, TouchEvent, RefObject} from 'react';
 import {defineMessages, FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 import classNames from 'classnames';
 import {PaperclipIcon} from '@mattermost/compass-icons/components';
@@ -278,7 +278,7 @@ export class FileUpload extends PureComponent<Props, State> {
                 file: sortedFiles[i],
                 name: sortedFiles[i].name,
                 type: sortedFiles[i].type,
-                rootId,
+                rootId: rootId || '',
                 channelId,
                 clientId,
                 onProgress: this.props.onUploadProgress,
