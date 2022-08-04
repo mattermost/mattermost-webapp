@@ -35,6 +35,7 @@ jest.mock('mattermost-redux/actions/insights', () => ({
             items: [
                 {
                     post_count: 17,
+                    outgoing_message_count: 12,
                     second_participant: {
                         id: 'q7bgtp9dtfdwxriz1e8p8zon3e',
                         last_picture_update: 0,
