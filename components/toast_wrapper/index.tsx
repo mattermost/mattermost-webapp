@@ -62,16 +62,16 @@ export function makeCountUnreadsBelow() {
         'makeCountUnreadsBelow',
         getAllPosts,
         getCurrentUserId,
-        (state: GlobalState, postIds: $TSFixMe) => postIds,
-        (state: GlobalState, postIds: $TSFixMe, lastViewedBottom: number) => lastViewedBottom,
         isCollapsedThreadsEnabled,
-        (allPosts: IDMappedObjects<Post>, currentUserId: string, postIds: string[], lastViewedBottom: number, isCollapsed: boolean) => {
+        (state: GlobalState, postIds: string[] | null | undefined) => postIds,
+        (state: GlobalState, postIds: string[] | null | undefined, lastViewedBottom: number) => lastViewedBottom,
+        (allPosts: IDMappedObjects<Post>, currentUserId: string, isCollapsed: boolean, postIds, lastViewedBottom) => {
             if (!postIds) {
                 return 0;
             }
 
             // Count the number of new posts made by other users that haven't been deleted
-            return postIds.map((id: $TSFixMe) => allPosts[id]).filter((post: $TSFixMe) => {
+            return postIds.map((id: string) => allPosts[id]).filter((post: Post) => {
                 return post &&
                     post.user_id !== currentUserId &&
                     post.state !== Posts.POST_DELETED &&
