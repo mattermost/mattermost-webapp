@@ -1,9 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable max-lines */
 
-import React, {ChangeEvent, DragEvent, MouseEvent, PureComponent, RefObject, TouchEvent} from 'react';
-import {defineMessages, FormattedMessage, injectIntl, IntlShape} from 'react-intl';
+import React, {PureComponent} from 'react';
+import PropTypes from 'prop-types';
+import {defineMessages, FormattedMessage, injectIntl} from 'react-intl';
 import classNames from 'classnames';
 import {PaperclipIcon} from '@mattermost/compass-icons/components';
 
@@ -16,6 +16,7 @@ import {
     isMobileApp,
 } from 'utils/user_agent';
 import {getTable} from 'utils/paste';
+import {intlShape} from 'utils/react_intl';
 import {
     clearFileInput,
     cmdOrCtrlPressed,
@@ -31,14 +32,6 @@ import Menu from 'components/widgets/menu/menu';
 import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
-import {FilePreviewInfo} from 'components/file_preview/file_preview';
-
-import {FileInfo, FileUploadResponse} from '@mattermost/types/files';
-import {ServerError} from '@mattermost/types/errors';
-
-import {UploadFile} from 'actions/file_actions';
-
-import {PluginComponent} from 'types/store/plugins';
 
 const holders = defineMessages({
     limited: {
@@ -80,104 +73,96 @@ const customStyles = {
     top: 'auto',
 };
 
-export type Props = {
-    channelId: string;
-
-    /**
-     * Current root post's ID
-     */
-    rootId?: string;
-
-    /**
-     * Number of files to attach
-     */
-    fileCount: number;
-
-    /**
-     * Function to get file upload targeted input
-     */
-    getTarget: () => HTMLInputElement | null;
-
-    intl: IntlShape;
-
-    locale: string;
-
-    /**
-     * Function to be called when file upload input is clicked
-     */
-    onClick?: () => void;
-
-    /**
-     * Function to be called when file upload is complete
-     */
-    onFileUpload: (fileInfos: FileInfo[], clientIds: string[], channelId: string, currentRootId: string) => void;
-
-    /**
-     * Function to be called when file upload input's change event is fired
-     */
-    onFileUploadChange: () => void;
-
-    /**
-     * Function to be called when upload fails
-     */
-    onUploadError: (err: string | ServerError, clientId?: string, channelId?: string, currentRootId?: string) => void;
-
-    /**
-     * Function to be called when file upload starts
-     */
-    onUploadStart: (clientIds: string[], channelId: string) => void;
-
-    /**
-     * Type of the object which the uploaded file is attached to
-     */
-    postType: string;
-
-    /**
-     * The maximum uploaded file size.
-     */
-    maxFileSize: number;
-
-    /**
-     * Whether or not file upload is allowed.
-     */
-    canUploadFiles: boolean;
-
-    /**
-     * Plugin file upload methods to be added
-     */
-    pluginFileUploadMethods: PluginComponent[];
-    pluginFilesWillUploadHooks: PluginComponent[];
-
-    /**
-     * Function called when xhr fires progress event.
-     */
-    onUploadProgress: (filePreviewInfo: FilePreviewInfo) => void;
-    actions: {
+export class FileUpload extends PureComponent {
+    static propTypes = {
+        channelId: PropTypes.string.isRequired,
 
         /**
-         * Function to be called to upload file
+         * Current root post's ID
          */
-        uploadFile: ({file, name, type, rootId, channelId, clientId, onProgress, onSuccess, onError}: UploadFile) => XMLHttpRequest;
+        rootId: PropTypes.string,
+
+        /**
+         * Number of files to attach
+         */
+        fileCount: PropTypes.number.isRequired,
+
+        /**
+         * Function to get file upload targeted input
+         */
+        getTarget: PropTypes.func.isRequired,
+
+        intl: intlShape.isRequired,
+
+        locale: PropTypes.string.isRequired,
+
+        /**
+         * Function to be called when file upload input is clicked
+         */
+        onClick: PropTypes.func,
+
+        /**
+         * Function to be called when file upload is complete
+         */
+        onFileUpload: PropTypes.func,
+
+        /**
+         * Function to be called when file upload input's change event is fired
+         */
+        onFileUploadChange: PropTypes.func,
+
+        /**
+         * Function to be called when upload fails
+         */
+        onUploadError: PropTypes.func,
+
+        /**
+         * Function to be called when file upload starts
+         */
+        onUploadStart: PropTypes.func,
+
+        /**
+         * Type of the object which the uploaded file is attached to
+         */
+        postType: PropTypes.string,
+
+        /**
+         * The maximum uploaded file size.
+         */
+        maxFileSize: PropTypes.number,
+
+        /**
+         * Whether or not file upload is allowed.
+         */
+        canUploadFiles: PropTypes.bool.isRequired,
+
+        /**
+         * Plugin file upload methods to be added
+         */
+        pluginFileUploadMethods: PropTypes.arrayOf(PropTypes.object),
+        pluginFilesWillUploadHooks: PropTypes.arrayOf(PropTypes.object),
+
+        /**
+         * Function called when xhr fires progress event.
+         */
+        onUploadProgress: PropTypes.func.isRequired,
+        actions: PropTypes.shape({
+
+            /**
+             * Function to be called to upload file
+             */
+            uploadFile: PropTypes.func.isRequired,
+        }).isRequired,
+
+        isAdvancedTextEditorEnabled: PropTypes.bool,
     };
-
-    isAdvancedTextEditorEnabled: boolean;
-};
-
-type State = {
-    requests: Record<string, XMLHttpRequest>;
-    menuOpen: boolean;
-};
-
-export class FileUpload extends PureComponent<Props, State> {
-    fileInput: RefObject<HTMLInputElement>;
-    unbindDragsterEvents?: () => void;
 
     static defaultProps = {
         pluginFileUploadMethods: [],
         pluginFilesWillUploadHooks: [],
     };
 
-    constructor(props: Props) {
+    constructor(props) {
         super(props);
         this.state = {
             requests: {},
@@ -203,47 +188,47 @@ export class FileUpload extends PureComponent<Props, State> {
         document.removeEventListener('paste', this.pasteUpload);
         document.removeEventListener('keydown', this.keyUpload);
 
-        this.unbindDragsterEvents?.();
+        this.unbindDragsterEvents();
     }
 
-    fileUploadSuccess = (data: FileUploadResponse, channelId: string, currentRootId: string) => {
+    fileUploadSuccess = (data, channelId, currentRootId) => {
         if (data) {
             this.props.onFileUpload(data.file_infos, data.client_ids, channelId, currentRootId);
 
             const requests = Object.assign({}, this.state.requests);
-            for (let j = 0; j < data.client_ids.length; j++) {
+            for (var j = 0; j < data.client_ids.length; j++) {
                 Reflect.deleteProperty(requests, data.client_ids[j]);
             }
             this.setState({requests});
         }
     }
 
-    fileUploadFail = (err: string | ServerError, clientId: string, channelId: string, currentRootId: string) => {
+    fileUploadFail = (err, clientId, channelId, currentRootId) => {
         this.props.onUploadError(err, clientId, channelId, currentRootId);
     }
 
-    pluginUploadFiles = (files: File[]) => {
+    pluginUploadFiles = (files) => {
         // clear any existing errors
-        this.props.onUploadError('');
+        this.props.onUploadError(null);
         this.uploadFiles(files);
     }
 
-    checkPluginHooksAndUploadFiles = (files: FileList | File[]) => {
+    checkPluginHooksAndUploadFiles = (files) => {
         // clear any existing errors
-        this.props.onUploadError('');
+        this.props.onUploadError(null);
 
         let sortedFiles = Array.from(files).sort((a, b) => a.name.localeCompare(b.name, this.props.locale, {numeric: true}));
 
         const willUploadHooks = this.props.pluginFilesWillUploadHooks;
         for (const h of willUploadHooks) {
-            const result = h.hook?.(sortedFiles, this.pluginUploadFiles);
+            const result = h.hook(sortedFiles, this.pluginUploadFiles);
 
             // Display an error message if there is one but don't reject the upload
-            if (result?.message) {
+            if (result.message) {
                 this.props.onUploadError(result.message);
             }
 
-            sortedFiles = result?.files || [];
+            sortedFiles = result.files;
         }
 
         if (sortedFiles) {
@@ -251,16 +236,16 @@ export class FileUpload extends PureComponent<Props, State> {
         }
     }
 
-    uploadFiles = (sortedFiles: File[]) => {
+    uploadFiles = (sortedFiles) => {
         const {channelId, rootId} = this.props;
 
         const uploadsRemaining = Constants.MAX_UPLOAD_FILES - this.props.fileCount;
         let numUploads = 0;
 
         // keep track of how many files have been too large
-        const tooLargeFiles: File[] = [];
-        const zeroFiles: File[] = [];
-        const clientIds: string[] = [];
+        const tooLargeFiles = [];
+        const zeroFiles = [];
+        const clientIds = [];
 
         for (let i = 0; i < sortedFiles.length && numUploads < uploadsRemaining; i++) {
             if (sortedFiles[i].size > this.props.maxFileSize) {
@@ -278,7 +263,7 @@ export class FileUpload extends PureComponent<Props, State> {
                 file: sortedFiles[i],
                 name: sortedFiles[i].name,
                 type: sortedFiles[i].type,
-                rootId: rootId || '',
+                rootId,
                 channelId,
                 clientId,
                 onProgress: this.props.onUploadProgress,
@@ -301,7 +286,7 @@ export class FileUpload extends PureComponent<Props, State> {
         }
 
         if (tooLargeFiles.length > 1) {
-            const tooLargeFilenames = tooLargeFiles.map((file) => file.name).join(', ');
+            var tooLargeFilenames = tooLargeFiles.map((file) => file.name).join(', ');
 
             errors.push(formatMessage(holders.filesAbove, {max: (this.props.maxFileSize / 1048576), filenames: tooLargeFilenames}));
         } else if (tooLargeFiles.length > 0) {
@@ -309,7 +294,7 @@ export class FileUpload extends PureComponent<Props, State> {
         }
 
         if (zeroFiles.length > 1) {
-            const zeroFilenames = zeroFiles.map((file) => file.name).join(', ');
+            var zeroFilenames = zeroFiles.map((file) => file.name).join(', ');
 
             errors.push(formatMessage(holders.zeroBytesFiles, {filenames: zeroFilenames}));
         } else if (zeroFiles.length > 0) {
@@ -321,29 +306,30 @@ export class FileUpload extends PureComponent<Props, State> {
         }
     }
 
-    handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files && e.target.files.length > 0) {
+    handleChange = (e) => {
+        if (e.target.files.length > 0) {
             this.checkPluginHooksAndUploadFiles(e.target.files);
+
             clearFileInput(e.target);
         }
 
         this.props.onFileUploadChange();
     }
 
-    handleDrop = (e: DragEvent<HTMLInputElement>) => {
+    handleDrop = (e) => {
         if (!this.props.canUploadFiles) {
             this.props.onUploadError(localizeMessage('file_upload.disabled', 'File attachments are disabled.'));
             return;
         }
 
-        this.props.onUploadError('');
+        this.props.onUploadError(null);
 
         const items = e.dataTransfer.items || [];
-        const droppedFiles: FileList = e.dataTransfer.files;
-        const files: File[] = [];
+        const droppedFiles = e.dataTransfer.files;
+        const files = [];
         Array.from(droppedFiles).forEach((file, index) => {
             const item = items[index];
-            if (item && item.webkitGetAsEntry && (item.webkitGetAsEntry() === null || item.webkitGetAsEntry()?.isDirectory)) {
+            if (item && item.webkitGetAsEntry && (item.webkitGetAsEntry() === null || item.webkitGetAsEntry().isDirectory)) {
                 return;
             }
             files.push(file);
@@ -361,9 +347,9 @@ export class FileUpload extends PureComponent<Props, State> {
             }
 
             // For IE browsers
-            // if (types.contains && !types.contains('Files')) {
-            //     return;
-            // }
+            if (types.contains && !types.contains('Files')) {
+                return;
+            }
         }
 
         if (files.length === 0) {
@@ -378,30 +364,29 @@ export class FileUpload extends PureComponent<Props, State> {
         this.props.onFileUploadChange();
     }
 
-    registerDragEvents = (containerSelector: string, overlaySelector: string) => {
-        // eslint-disable-next-line @typescript-eslint/no-this-alias
+    registerDragEvents = (containerSelector, overlaySelector) => {
         const self = this;
 
         const overlay = document.querySelector(overlaySelector);
 
         const dragTimeout = new DelayedAction(() => {
-            overlay?.classList.add('hidden');
+            overlay.classList.add('hidden');
         });
 
         let dragsterActions = {};
         if (this.props.canUploadFiles) {
             dragsterActions = {
-                enter(e: CustomEvent) {
-                    const files = e.detail.dataTransfer;
+                enter(e) {
+                    var files = e.detail.dataTransfer;
                     if (!isUriDrop(files) && isFileTransfer(files)) {
-                        overlay?.classList.remove('hidden');
+                        overlay.classList.remove('hidden');
                     }
                 },
-                leave(e: CustomEvent) {
-                    const files = e.detail.dataTransfer;
+                leave(e) {
+                    var files = e.detail.dataTransfer;
 
                     if (!isUriDrop(files) && isFileTransfer(files)) {
-                        overlay?.classList.add('hidden');
+                        overlay.classList.add('hidden');
                     }
 
                     dragTimeout.cancel();
@@ -409,8 +394,8 @@ export class FileUpload extends PureComponent<Props, State> {
                 over() {
                     dragTimeout.fireAfter(OVERLAY_TIMEOUT);
                 },
-                drop(e: CustomEvent) {
-                    overlay?.classList.add('hidden');
+                drop(e) {
+                    overlay.classList.add('hidden');
                     dragTimeout.cancel();
 
                     self.handleDrop(e.detail);
@@ -418,7 +403,7 @@ export class FileUpload extends PureComponent<Props, State> {
             };
         } else {
             dragsterActions = {
-                drop(e: CustomEvent) {
+                drop(e) {
                     self.handleDrop(e.detail);
                 },
             };
@@ -427,9 +412,9 @@ export class FileUpload extends PureComponent<Props, State> {
         this.unbindDragsterEvents = dragster(containerSelector, dragsterActions);
     }
 
-    containsEventTarget = (targetElement: HTMLInputElement | null, eventTarget: EventTarget | null) => targetElement && targetElement.contains(eventTarget as Node);
+    containsEventTarget = (targetElement, eventTarget) => targetElement && targetElement.contains(eventTarget);
 
-    pasteUpload = (e: ClipboardEvent) => {
+    pasteUpload = (e) => {
         const {formatMessage} = this.props.intl;
 
         if (!e.clipboardData || !e.clipboardData.items || getTable(e.clipboardData)) {
@@ -441,7 +426,7 @@ export class FileUpload extends PureComponent<Props, State> {
             return;
         }
 
-        this.props.onUploadError('');
+        this.props.onUploadError(null);
 
         const items = [];
         for (let i = 0; i < e.clipboardData.items.length; i++) {
@@ -466,29 +451,26 @@ export class FileUpload extends PureComponent<Props, State> {
 
             for (let i = 0; i < items.length; i++) {
                 const file = items[i].getAsFile();
+
                 if (!file) {
                     continue;
                 }
 
-                const d = new Date();
-                let hour: number | string = d.getHours();
-                hour = hour < 10 ? `0${hour}` : `${hour}`;
-
-                let minute: number | string = d.getMinutes();
-                minute = minute < 10 ? `0${minute}` : `${minute}`;
+                const now = new Date();
+                const hour = now.getHours().toString().padStart(2, '0');
+                const minute = now.getMinutes().toString().padStart(2, '0');
 
                 let ext = '';
-                if (file.name) {
-                    if (file.name.includes('.')) {
-                        ext = file.name.substr(file.name.lastIndexOf('.'));
-                    }
+                if (file.name && file.name.includes('.')) {
+                    ext = file.name.substr(file.name.lastIndexOf('.'));
                 } else if (items[i].type.includes('/')) {
                     ext = '.' + items[i].type.split('/')[1].toLowerCase();
                 }
 
-                const name = formatMessage(holders.pasted) + d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + hour + '-' + minute + ext;
+                const name = file.name || formatMessage(holders.pasted) + now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate() + ' ' + hour + '-' + minute + ext;
 
-                const newFile: File = new File([file], name, {type: file.type});
+                const newFile = new Blob([file], {type: file.type});
+                newFile.name = name;
                 files.push(newFile);
             }
 
@@ -499,7 +481,7 @@ export class FileUpload extends PureComponent<Props, State> {
         }
     }
 
-    keyUpload = (e: KeyboardEvent) => {
+    keyUpload = (e) => {
         if (cmdOrCtrlPressed(e) && isKeyPressed(e, Constants.KeyCodes.U)) {
             e.preventDefault();
 
@@ -507,17 +489,17 @@ export class FileUpload extends PureComponent<Props, State> {
                 this.props.onUploadError(localizeMessage('file_upload.disabled', 'File attachments are disabled.'));
                 return;
             }
-            const postTextbox = this.props.postType === 'post' && document.activeElement?.id === 'post_textbox';
-            const commentTextbox = this.props.postType === 'comment' && document.activeElement?.id === 'reply_textbox';
-            const threadTextbox = this.props.postType === 'thread' && document.activeElement?.id === 'reply_textbox';
+            const postTextbox = this.props.postType === 'post' && document.activeElement.id === 'post_textbox';
+            const commentTextbox = this.props.postType === 'comment' && document.activeElement.id === 'reply_textbox';
+            const threadTextbox = this.props.postType === 'thread' && document.activeElement.id === 'reply_textbox';
             if (postTextbox || commentTextbox || threadTextbox) {
-                this.fileInput.current?.focus();
-                this.fileInput.current?.click();
+                this.fileInput.current.focus();
+                this.fileInput.current.click();
             }
         }
     }
 
-    cancelUpload = (clientId: string) => {
+    cancelUpload = (clientId) => {
         const requests = Object.assign({}, this.state.requests);
         const request = requests[clientId];
 
@@ -529,7 +511,7 @@ export class FileUpload extends PureComponent<Props, State> {
         }
     }
 
-    handleMaxUploadReached = (e: MouseEvent<HTMLInputElement>) => {
+    handleMaxUploadReached = (e) => {
         if (e) {
             e.preventDefault();
         }
@@ -540,11 +522,11 @@ export class FileUpload extends PureComponent<Props, State> {
         onUploadError(formatMessage(holders.limited, {count: Constants.MAX_UPLOAD_FILES}));
     }
 
-    toggleMenu = (open: boolean) => {
+    toggleMenu = (open) => {
         this.setState({menuOpen: open});
     }
 
-    handleLocalFileUploaded = (e: MouseEvent<HTMLInputElement>) => {
+    handleLocalFileUploaded = (e) => {
         const uploadsRemaining = Constants.MAX_UPLOAD_FILES - this.props.fileCount;
         if (uploadsRemaining > 0) {
             if (this.props.onClick) {
@@ -556,10 +538,10 @@ export class FileUpload extends PureComponent<Props, State> {
         this.setState({menuOpen: false});
     }
 
-    simulateInputClick = (e: MouseEvent<HTMLButtonElement | HTMLAnchorElement> | TouchEvent) => {
+    simulateInputClick = (e) => {
         e.preventDefault();
         e.stopPropagation();
-        this.fileInput.current?.click();
+        this.fileInput.current.click();
     }
 
     render() {
@@ -586,7 +568,7 @@ export class FileUpload extends PureComponent<Props, State> {
             bodyAction = (
                 <div>
                     <OverlayTrigger
-                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        delayShow={Constants.OVERLAY_TIME_DELAY_LONG}
                         placement='top'
                         trigger={['hover', 'focus']}
                         overlay={
@@ -619,7 +601,7 @@ export class FileUpload extends PureComponent<Props, State> {
                     </OverlayTrigger>
                     <input
                         id='fileUploadInput'
-                        tabIndex={-1}
+                        tabIndex='-1'
                         aria-label={formatMessage(holders.uploadFile)}
                         ref={this.fileInput}
                         type='file'
@@ -654,7 +636,7 @@ export class FileUpload extends PureComponent<Props, State> {
             bodyAction = (
                 <div>
                     <input
-                        tabIndex={-1}
+                        tabIndex='-1'
                         aria-label={formatMessage(holders.uploadFile)}
                         ref={this.fileInput}
                         type='file'
@@ -666,7 +648,7 @@ export class FileUpload extends PureComponent<Props, State> {
                     />
                     <MenuWrapper>
                         <OverlayTrigger
-                            delayShow={Constants.OVERLAY_TIME_DELAY}
+                            delayShow={Constants.OVERLAY_TIME_DELAY_LONG}
                             placement='top'
                             trigger={['hover', 'focus']}
                             overlay={
