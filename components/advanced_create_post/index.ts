@@ -50,7 +50,7 @@ import {selectPostFromRightHandSideSearchByPostId} from 'actions/views/rhs';
 import {setShowPreviewOnCreatePost} from 'actions/views/textbox';
 import {executeCommand} from 'actions/command';
 import {runMessageWillBePostedHooks, runSlashCommandWillBePostedHooks} from 'actions/hooks';
-import {getPostDraft, getIsRhsExpanded} from 'selectors/rhs';
+import {getPostDraft, getIsRhsExpanded, getIsRhsOpen} from 'selectors/rhs';
 import {showPreviewOnCreatePost} from 'selectors/views/textbox';
 import {getCurrentLocale} from 'selectors/i18n';
 import {getEmojiMap, getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis';
@@ -117,6 +117,7 @@ function makeMapStateToProps() {
             maxPostSize: parseInt(config.MaxPostSize || '', 10) || Constants.DEFAULT_CHARACTER_LIMIT,
             userIsOutOfOffice,
             rhsExpanded: getIsRhsExpanded(state),
+            rhsOpen: getIsRhsOpen(state),
             emojiMap: getEmojiMap(state),
             badConnection,
             isTimezoneEnabled,
