@@ -287,7 +287,7 @@ describe('components/FileUpload', () => {
         expect(baseProps.onUploadStart).toBeCalledWith([], props.channelId);
 
         expect(baseProps.onUploadError).toHaveBeenCalledTimes(2);
-        expect(baseProps.onUploadError.mock.calls[0][0]).toEqual(null);
+        expect(baseProps.onUploadError.mock.calls[0][0]).toEqual('');
     });
 
     test('should error max upload files', () => {
@@ -307,7 +307,7 @@ describe('components/FileUpload', () => {
         expect(baseProps.onUploadStart).toBeCalledWith([], props.channelId);
 
         expect(baseProps.onUploadError).toHaveBeenCalledTimes(2);
-        expect(baseProps.onUploadError.mock.calls[0][0]).toEqual(null);
+        expect(baseProps.onUploadError.mock.calls[0][0]).toEqual('');
     });
 
     test('should error max too large files', () => {
@@ -325,7 +325,7 @@ describe('components/FileUpload', () => {
         expect(baseProps.onUploadStart).toBeCalledWith([], baseProps.channelId);
 
         expect(baseProps.onUploadError).toHaveBeenCalledTimes(2);
-        expect(baseProps.onUploadError.mock.calls[0][0]).toEqual(null);
+        expect(baseProps.onUploadError.mock.calls[0][0]).toEqual('');
     });
 
     test('should functions when handleChange is called', () => {
@@ -384,7 +384,7 @@ describe('components/FileUpload', () => {
 
         expect(uploadFile).toHaveBeenCalledTimes(0);
 
-        expect(baseProps.onUploadStart).toHaveBeenCalledTimes(0);
+        expect(baseProps.onUploadStart).toHaveBeenCalledTimes(1);
 
         expect(baseProps.onUploadError).toHaveBeenCalledTimes(1);
         expect(baseProps.onUploadError).toHaveBeenCalledWith('');
