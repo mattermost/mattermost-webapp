@@ -45,12 +45,12 @@ export function makeGetRootPosts() {
         getCurrentChannel,
         (allPosts: IDMappedObjects<Post>, currentUserId: string, channel: Channel) => {
             // Count the number of new posts that haven't been deleted and are root posts
-            return Object.values(allPosts).filter((post) => {
-                return ((post as $TSFixMe).root_id === '' &&
-    (post as $TSFixMe).channel_id === channel.id &&
-    (post as $TSFixMe).state !== Posts.POST_DELETED);
+            return Object.values(allPosts).filter((post: Post) => {
+                return (post.root_id === '' &&
+                post.channel_id === channel.id &&
+                post.state !== Posts.POST_DELETED);
             }).reduce((map, obj) => {
-                (map as $TSFixMe)[(obj as $TSFixMe).id] = true;
+                (map as $TSFixMe)[(obj as Post).id] = true;
                 return map;
             }, {});
         },
