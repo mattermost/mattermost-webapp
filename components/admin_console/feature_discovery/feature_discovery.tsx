@@ -15,7 +15,6 @@ import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import StartTrialBtn from 'components/learn_more_trial_modal/start_trial_btn';
 
 import {ModalIdentifiers, TELEMETRY_CATEGORIES, AboutLinks, LicenseLinks} from 'utils/constants';
-import {ActionResult} from 'mattermost-redux/types/actions';
 import {FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS} from 'utils/cloud_utils';
 import * as Utils from 'utils/utils';
 
@@ -45,8 +44,6 @@ type Props = {
 
     stats?: Record<string, number | AnalyticsRow[]>;
     actions: {
-        requestTrialLicense: (users: number, termsAccepted: boolean, receiveEmailsAccepted: boolean, featureName: string) => Promise<ActionResult>;
-        getLicenseConfig: () => void;
         getPrevTrialLicense: () => void;
         getCloudSubscription: () => void;
         openModal: <P>(modalData: ModalData<P>) => void;

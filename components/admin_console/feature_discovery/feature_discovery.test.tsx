@@ -29,8 +29,6 @@ describe('components/feature_discovery', () => {
                     isSubscriptionLoaded={true}
                     isPaidSubscription={false}
                     actions={{
-                        requestTrialLicense: jest.fn(),
-                        getLicenseConfig: jest.fn(),
                         getPrevTrialLicense: jest.fn(),
                         getCloudSubscription: jest.fn(),
                         openModal: jest.fn(),
@@ -58,8 +56,6 @@ describe('components/feature_discovery', () => {
                     isPaidSubscription={false}
                     isSubscriptionLoaded={true}
                     actions={{
-                        requestTrialLicense: jest.fn(),
-                        getLicenseConfig: jest.fn(),
                         getPrevTrialLicense: jest.fn(),
                         openModal: jest.fn(),
                         getCloudSubscription: jest.fn(),
@@ -88,8 +84,6 @@ describe('components/feature_discovery', () => {
                     isSubscriptionLoaded={false}
                     isPaidSubscription={false}
                     actions={{
-                        requestTrialLicense: jest.fn(),
-                        getLicenseConfig: jest.fn(),
                         getPrevTrialLicense: jest.fn(),
                         openModal: jest.fn(),
                         getCloudSubscription: jest.fn(),
