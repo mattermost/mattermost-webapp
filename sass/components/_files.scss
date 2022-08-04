@@ -300,10 +300,10 @@
 }
 
 .post-image__archived-tooltip-title {
-    font-weight: 600;
     padding-bottom: 1px;
-
+    font-weight: 600;
 }
+
 .post-image__archived-tooltip-description {
     opacity: 0.56;
 }
@@ -531,10 +531,10 @@
                 display: inline-block;
                 overflow: hidden;
                 max-width: 134px;
+                color: rgba(var(--center-channel-text-rgb), 0.56);
                 float: left;
                 text-overflow: ellipsis;
                 white-space: nowrap;
-                color: rgba(var(--center-channel-text-rgb), 0.56);
             }
 
             .post-image__type {

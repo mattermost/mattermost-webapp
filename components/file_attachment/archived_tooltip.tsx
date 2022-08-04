@@ -4,17 +4,13 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-import Tooltip from 'components/tooltip';
 import useGetLimits from 'components/common/hooks/useGetLimits';
 import {asGBString} from 'utils/limits';
 
 export default function ArchivedTooltip() {
     const intl = useIntl();
     return (
-        <Tooltip
-            id='archived-tooltip'
-            className='hidden-xs'
-        >
+        <>
             <div className='post-image__archived-tooltip-title'>
                 {intl.formatMessage({
                     id: 'workspace_limits.archived_file.tooltip_title',
@@ -32,6 +28,6 @@ export default function ArchivedTooltip() {
                     },
                 )}
             </div>
-        </Tooltip>
+        </>
     );
 }

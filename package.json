@@ -10,7 +10,7 @@
     "node": ">=16.4.0"
   },
   "dependencies": {
-    "@floating-ui/react-dom": "1.0.0",
+    "@floating-ui/react-dom": "0.7.2",
     "@floating-ui/react-dom-interactions": "0.9.1",
     "@mattermost/compass-components": "^0.2.12",
     "@mattermost/compass-icons": "0.1.24",

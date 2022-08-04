@@ -2,10 +2,8 @@
 // See LICENSE.txt for license information.
 
 import React, {useRef, useState, useEffect} from 'react';
-import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 import {FormattedMessage} from 'react-intl';
-import {useHover, useInteractions, useFloating, arrow, offset, autoPlacement, ReferenceType} from '@floating-ui/react-dom-interactions';
 
 import {ArchiveOutlineIcon} from '@mattermost/compass-icons/components';
 
@@ -17,6 +15,7 @@ import Tooltip from 'components/tooltip';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import GetPublicModal from 'components/get_public_link_modal';
+import useTooltip from 'components/common/hooks/useTooltip';
 
 import {Constants, FileTypes, ModalIdentifiers} from 'utils/constants';
 
@@ -26,6 +25,8 @@ import {
     loadImage,
     localizeMessage,
 } from 'utils/utils';
+
+import ArchivedTooltip from './archived_tooltip';
 
 import FilenameOverlay from './filename_overlay';
 import FileThumbnail from './file_thumbnail';
@@ -63,53 +64,16 @@ export default function FileAttachment(props: Props) {
     const [keepOpen, setKeepOpen] = useState(false);
     const [openUp, setOpenUp] = useState(false);
 
-    const [openTooltip, setOpenTooltip] = useState(false);
-
-    const buttonRef = useRef<HTMLButtonElement | null>(null);
-
-    const arrowRef = useRef(null);
     const {
-        x,
-        y,
         reference,
-        floating,
-        strategy,
-        placement,
-        middlewareData: {
-            arrow: {
-                x: arrowX,
-                y: arrowY,
-            } = {},
-        },
-        context,
-    } = useFloating({
-        open: openTooltip,
-        onOpenChange: (nowOpen) => { console.log('nowOpen', nowOpen); setOpenTooltip(nowOpen) },
-        middleware: [
-            autoPlacement({
-                allowedPlacements: ['right', 'top'],
-            }),
-            offset(10),
-            arrow({
-                element: arrowRef,
-                padding: 4,
-            }),
-        ],
+        getReferenceProps,
+        tooltip,
+    } = useTooltip({
+        message: <ArchivedTooltip/>,
         placement: 'right',
-        strategy: 'fixed',
     });
 
-    const {getReferenceProps, getFloatingProps} = useInteractions([
-        useHover(
-            context,
-            {
-                delay: {
-                    open: 1000,
-                    close: 0,
-                }
-            },
-        ),
-    ]);
+    const buttonRef = useRef<HTMLButtonElement | null>(null);
 
     const handleImageLoaded = () => {
         if (mounted.current) {
@@ -384,15 +348,10 @@ export default function FileAttachment(props: Props) {
         );
     }
 
-    const contentRef: {ref?: (node: ReferenceType | null) => void} = {};
-    if (fileInfo.archived) {
-        contentRef.ref = reference;
-    }
-
     const content =
         (
             <div
-                {...contentRef}
+                ref={fileInfo.archived ? reference : undefined}
                 {...(fileInfo.archived ? getReferenceProps() : {})}
                 className={
                     classNames([
@@ -415,28 +374,7 @@ export default function FileAttachment(props: Props) {
         return (
             <>
                 {content}
-                {openTooltip && ReactDOM.createPortal(
-                    <div
-                        {...getFloatingProps({
-                            ref: floating,
-                            className: classNames('floating-ui-tooltip'),
-                            style: {
-                                position: strategy,
-                                top: y ?? 0,
-                                left: x ?? 0,
-                                zIndex: 1,
-                            },
-                        })}
-                    >
-                        {'My tooltip'}
-                        <div
-                            ref={arrowRef}
-                            className='floating-ui-tooltip-arrow'
-                            style={placement === 'top' ? {left: arrowX, top: arrowY} : {left: '-4px', top: arrowY}}
-                        />
-                    </div>,
-                    document.getElementById('root') as HTMLElement,
-                )}
+                {tooltip}
             </>
         );
     }
