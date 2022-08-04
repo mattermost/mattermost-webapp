@@ -9,16 +9,11 @@ exports[`admin_console/system_role_users should match snapshot 1`] = `
         Object {
           "excludeUsers": Object {
             "userToAdd": Object {
-              "allow_marketing": false,
-              "auth_data": "",
               "auth_service": "",
               "bot_description": "",
-              "bot_last_icon_update": 0,
               "create_at": 0,
               "delete_at": 0,
               "email": "",
-              "email_verified": true,
-              "failed_attempts": 0,
               "first_name": "",
               "id": "user_id",
               "is_bot": false,
@@ -28,7 +23,6 @@ exports[`admin_console/system_role_users should match snapshot 1`] = `
               "last_picture_update": 0,
               "locale": "",
               "mfa_active": false,
-              "mfa_secret": "",
               "nickname": "",
               "notify_props": Object {
                 "channel": "false",
@@ -54,16 +48,11 @@ exports[`admin_console/system_role_users should match snapshot 1`] = `
           },
           "includeUsers": Object {
             "userToRemove": Object {
-              "allow_marketing": false,
-              "auth_data": "",
               "auth_service": "",
               "bot_description": "",
-              "bot_last_icon_update": 0,
               "create_at": 0,
               "delete_at": 0,
               "email": "",
-              "email_verified": true,
-              "failed_attempts": 0,
               "first_name": "",
               "id": "user_id",
               "is_bot": false,
@@ -73,7 +62,6 @@ exports[`admin_console/system_role_users should match snapshot 1`] = `
               "last_picture_update": 0,
               "locale": "",
               "mfa_active": false,
-              "mfa_secret": "",
               "nickname": "",
               "notify_props": Object {
                 "channel": "false",
@@ -118,6 +106,7 @@ exports[`admin_console/system_role_users should match snapshot 1`] = `
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
+          "displayName": "Connect(AddUsersToRoleModal)",
           "type": [Function],
         }
       }
@@ -178,16 +167,11 @@ exports[`admin_console/system_role_users should match snapshot 1`] = `
             "name": <UserGridName
               user={
                 Object {
-                  "allow_marketing": false,
-                  "auth_data": "",
                   "auth_service": "",
                   "bot_description": "",
-                  "bot_last_icon_update": 0,
                   "create_at": 0,
                   "delete_at": 0,
                   "email": "",
-                  "email_verified": true,
-                  "failed_attempts": 0,
                   "first_name": "",
                   "id": "user_id",
                   "is_bot": false,
@@ -197,7 +181,6 @@ exports[`admin_console/system_role_users should match snapshot 1`] = `
                   "last_picture_update": 0,
                   "locale": "",
                   "mfa_active": false,
-                  "mfa_secret": "",
                   "nickname": "",
                   "notify_props": Object {
                     "channel": "false",
@@ -236,16 +219,11 @@ exports[`admin_console/system_role_users should match snapshot 1`] = `
               removeUser={[Function]}
               user={
                 Object {
-                  "allow_marketing": false,
-                  "auth_data": "",
                   "auth_service": "",
                   "bot_description": "",
-                  "bot_last_icon_update": 0,
                   "create_at": 0,
                   "delete_at": 0,
                   "email": "",
-                  "email_verified": true,
-                  "failed_attempts": 0,
                   "first_name": "",
                   "id": "user_id",
                   "is_bot": false,
@@ -255,7 +233,6 @@ exports[`admin_console/system_role_users should match snapshot 1`] = `
                   "last_picture_update": 0,
                   "locale": "",
                   "mfa_active": false,
-                  "mfa_secret": "",
                   "nickname": "",
                   "notify_props": Object {
                     "channel": "false",
@@ -288,16 +265,11 @@ exports[`admin_console/system_role_users should match snapshot 1`] = `
             "name": <UserGridName
               user={
                 Object {
-                  "allow_marketing": false,
-                  "auth_data": "",
                   "auth_service": "",
                   "bot_description": "",
-                  "bot_last_icon_update": 0,
                   "create_at": 0,
                   "delete_at": 0,
                   "email": "",
-                  "email_verified": true,
-                  "failed_attempts": 0,
                   "first_name": "",
                   "id": "user_id",
                   "is_bot": false,
@@ -307,7 +279,6 @@ exports[`admin_console/system_role_users should match snapshot 1`] = `
                   "last_picture_update": 0,
                   "locale": "",
                   "mfa_active": false,
-                  "mfa_secret": "",
                   "nickname": "",
                   "notify_props": Object {
                     "channel": "false",
@@ -346,16 +317,11 @@ exports[`admin_console/system_role_users should match snapshot 1`] = `
               removeUser={[Function]}
               user={
                 Object {
-                  "allow_marketing": false,
-                  "auth_data": "",
                   "auth_service": "",
                   "bot_description": "",
-                  "bot_last_icon_update": 0,
                   "create_at": 0,
                   "delete_at": 0,
                   "email": "",
-                  "email_verified": true,
-                  "failed_attempts": 0,
                   "first_name": "",
                   "id": "user_id",
                   "is_bot": false,
@@ -365,7 +331,6 @@ exports[`admin_console/system_role_users should match snapshot 1`] = `
                   "last_picture_update": 0,
                   "locale": "",
                   "mfa_active": false,
-                  "mfa_secret": "",
                   "nickname": "",
                   "notify_props": Object {
                     "channel": "false",
@@ -411,16 +376,11 @@ exports[`admin_console/system_role_users should match snapshot with readOnly tru
         Object {
           "excludeUsers": Object {
             "userToAdd": Object {
-              "allow_marketing": false,
-              "auth_data": "",
               "auth_service": "",
               "bot_description": "",
-              "bot_last_icon_update": 0,
               "create_at": 0,
               "delete_at": 0,
               "email": "",
-              "email_verified": true,
-              "failed_attempts": 0,
               "first_name": "",
               "id": "user_id",
               "is_bot": false,
@@ -430,7 +390,6 @@ exports[`admin_console/system_role_users should match snapshot with readOnly tru
               "last_picture_update": 0,
               "locale": "",
               "mfa_active": false,
-              "mfa_secret": "",
               "nickname": "",
               "notify_props": Object {
                 "channel": "false",
@@ -456,16 +415,11 @@ exports[`admin_console/system_role_users should match snapshot with readOnly tru
           },
           "includeUsers": Object {
             "userToRemove": Object {
-              "allow_marketing": false,
-              "auth_data": "",
               "auth_service": "",
               "bot_description": "",
-              "bot_last_icon_update": 0,
               "create_at": 0,
               "delete_at": 0,
               "email": "",
-              "email_verified": true,
-              "failed_attempts": 0,
               "first_name": "",
               "id": "user_id",
               "is_bot": false,
@@ -475,7 +429,6 @@ exports[`admin_console/system_role_users should match snapshot with readOnly tru
               "last_picture_update": 0,
               "locale": "",
               "mfa_active": false,
-              "mfa_secret": "",
               "nickname": "",
               "notify_props": Object {
                 "channel": "false",
@@ -520,6 +473,7 @@ exports[`admin_console/system_role_users should match snapshot with readOnly tru
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
+          "displayName": "Connect(AddUsersToRoleModal)",
           "type": [Function],
         }
       }
@@ -580,16 +534,11 @@ exports[`admin_console/system_role_users should match snapshot with readOnly tru
             "name": <UserGridName
               user={
                 Object {
-                  "allow_marketing": false,
-                  "auth_data": "",
                   "auth_service": "",
                   "bot_description": "",
-                  "bot_last_icon_update": 0,
                   "create_at": 0,
                   "delete_at": 0,
                   "email": "",
-                  "email_verified": true,
-                  "failed_attempts": 0,
                   "first_name": "",
                   "id": "user_id",
                   "is_bot": false,
@@ -599,7 +548,6 @@ exports[`admin_console/system_role_users should match snapshot with readOnly tru
                   "last_picture_update": 0,
                   "locale": "",
                   "mfa_active": false,
-                  "mfa_secret": "",
                   "nickname": "",
                   "notify_props": Object {
                     "channel": "false",
@@ -638,16 +586,11 @@ exports[`admin_console/system_role_users should match snapshot with readOnly tru
               removeUser={[Function]}
               user={
                 Object {
-                  "allow_marketing": false,
-                  "auth_data": "",
                   "auth_service": "",
                   "bot_description": "",
-                  "bot_last_icon_update": 0,
                   "create_at": 0,
                   "delete_at": 0,
                   "email": "",
-                  "email_verified": true,
-                  "failed_attempts": 0,
                   "first_name": "",
                   "id": "user_id",
                   "is_bot": false,
@@ -657,7 +600,6 @@ exports[`admin_console/system_role_users should match snapshot with readOnly tru
                   "last_picture_update": 0,
                   "locale": "",
                   "mfa_active": false,
-                  "mfa_secret": "",
                   "nickname": "",
                   "notify_props": Object {
                     "channel": "false",
@@ -690,16 +632,11 @@ exports[`admin_console/system_role_users should match snapshot with readOnly tru
             "name": <UserGridName
               user={
                 Object {
-                  "allow_marketing": false,
-                  "auth_data": "",
                   "auth_service": "",
                   "bot_description": "",
-                  "bot_last_icon_update": 0,
                   "create_at": 0,
                   "delete_at": 0,
                   "email": "",
-                  "email_verified": true,
-                  "failed_attempts": 0,
                   "first_name": "",
                   "id": "user_id",
                   "is_bot": false,
@@ -709,7 +646,6 @@ exports[`admin_console/system_role_users should match snapshot with readOnly tru
                   "last_picture_update": 0,
                   "locale": "",
                   "mfa_active": false,
-                  "mfa_secret": "",
                   "nickname": "",
                   "notify_props": Object {
                     "channel": "false",
@@ -748,16 +684,11 @@ exports[`admin_console/system_role_users should match snapshot with readOnly tru
               removeUser={[Function]}
               user={
                 Object {
-                  "allow_marketing": false,
-                  "auth_data": "",
                   "auth_service": "",
                   "bot_description": "",
-                  "bot_last_icon_update": 0,
                   "create_at": 0,
                   "delete_at": 0,
                   "email": "",
-                  "email_verified": true,
-                  "failed_attempts": 0,
                   "first_name": "",
                   "id": "user_id",
                   "is_bot": false,
@@ -767,7 +698,6 @@ exports[`admin_console/system_role_users should match snapshot with readOnly tru
                   "last_picture_update": 0,
                   "locale": "",
                   "mfa_active": false,
-                  "mfa_secret": "",
                   "nickname": "",
                   "notify_props": Object {
                     "channel": "false",

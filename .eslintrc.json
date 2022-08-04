@@ -26,6 +26,8 @@
     }
   },
   "rules": {
+    "no-duplicate-imports": 0,
+    "import/no-duplicates": 2,
     "max-nested-callbacks": ["error", 10],
     "no-unused-expressions": 0,
     "babel/no-unused-expressions": 2,

@@ -15,6 +15,7 @@ import PaymentAnnouncementBar from './payment_announcement_bar';
 import CloudTrialAnnouncementBar from './cloud_trial_announcement_bar';
 import CloudTrialEndAnnouncementBar from './cloud_trial_ended_announcement_bar';
 import AutoStartTrialModal from './show_start_trial_modal/show_start_trial_modal';
+import ShowThreeDaysLeftTrialModal from './show_tree_days_left_trial_modal/show_three_days_left_trial_modal';
 
 type Props = {
     license?: ClientLicense;
@@ -83,6 +84,7 @@ class AnnouncementBarController extends React.PureComponent<Props> {
                 {cloudTrialAnnouncementBar}
                 {cloudTrialEndAnnouncementBar}
                 <AutoStartTrialModal/>
+                <ShowThreeDaysLeftTrialModal/>
                 <VersionBar/>
                 <ConfigurationAnnouncementBar
                     config={this.props.config}

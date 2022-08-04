@@ -12,7 +12,7 @@ import useOpenSalesLink from 'components/common/hooks/useOpenSalesLink';
 
 import {LicenseLinks} from 'utils/constants';
 
-const StyledDiv = styled.div`
+const StyledA = styled.a`
 color: var(--denim-button-bg);
 font-family: 'Open Sans';
 font-size: 12px;
@@ -34,9 +34,10 @@ function ContactSalesCTA() {
     const isCloud = useSelector(isCurrentLicenseCloud);
 
     return (
-        <StyledDiv
+        <StyledA
             id='contact_sales_quote'
-            onClick={() => {
+            onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+                e.preventDefault();
                 if (isCloud) {
                     trackEvent('cloud_pricing', 'click_enterprise_contact_sales');
                     openSalesLink();
@@ -46,8 +47,8 @@ function ContactSalesCTA() {
                 }
             }}
         >
-            {formatMessage({id: 'pricing_modal.btn.contactSalesForQuote', defaultMessage: 'Contact Sales for a quote'})}
-        </StyledDiv>);
+            {formatMessage({id: 'pricing_modal.btn.contactSalesForQuote', defaultMessage: 'Contact Sales'})}
+        </StyledA>);
 }
 
 export default ContactSalesCTA;
