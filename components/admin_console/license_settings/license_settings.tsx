@@ -211,9 +211,9 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
         const requestedUsers = Math.max(this.props.stats.TOTAL_USERS, 30) || 30;
         const {error, data} = await this.props.actions.requestTrialLicense(requestedUsers, true, true, 'license');
         if (error) {
-            this.setState({gettingTrialError: error, gettingTrialResponseCode: data.status});
+            this.setState({gettingTrialError: error});
         }
-        this.setState({gettingTrial: false});
+        this.setState({gettingTrial: false, gettingTrialResponseCode: data?.status});
         await this.props.actions.getLicenseConfig();
     }
 
@@ -362,6 +362,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
                                     gettingTrialResponseCode={this.state.gettingTrialResponseCode}
                                     gettingTrialError={this.state.gettingTrialError}
                                     requestLicense={this.requestLicense}
+                                    gettingTrial={this.state.gettingTrial}
                                     enterpriseReady={this.props.enterpriseReady}
                                     upgradingPercentage={this.state.upgradingPercentage}
                                     handleUpgrade={this.handleUpgrade}

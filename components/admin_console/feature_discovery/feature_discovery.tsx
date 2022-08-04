@@ -79,29 +79,6 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
         this.props.actions.getPrevTrialLicense();
     }
 
-    requestLicense = async (e: React.MouseEvent) => {
-        e.preventDefault();
-        if (this.state.gettingTrial) {
-            return;
-        }
-        this.setState({gettingTrial: true, gettingTrialError: null});
-        let users = 0;
-        if (this.props.stats && (typeof this.props.stats.TOTAL_USERS === 'number')) {
-            users = this.props.stats.TOTAL_USERS;
-        }
-        const requestedUsers = Math.max(users, 30);
-        const {error, data} = await this.props.actions.requestTrialLicense(requestedUsers, true, true, this.props.featureName);
-        if (error) {
-            if (typeof data?.status === 'undefined') {
-                this.setState({gettingTrialError: error});
-            } else {
-                this.setState({gettingTrialError: error, gettingTrialResponseCode: data.status});
-            }
-        }
-        this.setState({gettingTrial: false});
-        this.props.actions.getLicenseConfig();
-    }
-
     openUpgradeModal = (e: React.MouseEvent) => {
         e.preventDefault();
 
@@ -135,6 +112,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                 telemetryId={'start_cloud_trial_feature_discovery'}
                 btnClass='btn btn-primary'
                 renderAsButton={true}
+                trackingPage={this.props.featureName}
             />
         );
 
@@ -258,17 +236,18 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                 <p className='trial-error'>
                     <FormattedMessage
                         id='admin.feature_discovery.trial-request.error'
-                        defaultMessage='Trial license could not be retrieved. Visit <link>https://mattermost.com/trial</link> to request a license.'
+                        defaultMessage='Trial license could not be retrieved. Visit <link>{trialInfoLink}</link> to request a license.'
                         values={{
                             link: (msg: React.ReactNode) => (
                                 <a
-                                    href='https://mattermost.com/trial/'
+                                    href={LicenseLinks.TRIAL_INFO_LINK}
                                     target='_blank'
                                     rel='noreferrer'
                                 >
                                     {msg}
                                 </a>
                             ),
+                            trialInfoLink: LicenseLinks.TRIAL_INFO_LINK,
                         }}
                     />
                 </p>
