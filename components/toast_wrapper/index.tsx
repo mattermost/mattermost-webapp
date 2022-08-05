@@ -49,10 +49,10 @@ export function makeGetRootPosts() {
                 return (post.root_id === '' &&
                 post.channel_id === channel.id &&
                 post.state !== Posts.POST_DELETED);
-            }).reduce((map, obj) => {
-                (map as $TSFixMe)[(obj as Post).id] = true;
+            }).reduce((map: any, obj: Post) => {
+                map[obj.id] = true;
                 return map;
-            }, {});
+            }, {} as IDMappedObjects<Post>);
         },
     );
 }
