@@ -1248,7 +1248,9 @@ export const Constants = {
     MAX_ADD_MEMBERS_BATCH: 256,
 
     SPECIAL_MENTIONS: ['all', 'channel', 'here'],
+    PLAN_MENTIONS: /Professional plan|Enterprise trial/gi,
     SPECIAL_MENTIONS_REGEX: /(?:\B|\b_+)@(channel|all|here)(?!(\.|-|_)*[^\W_])/gi,
+    SUM_OF_MEMBERS_MENTION_REGEX: /\d+ members/gi,
     ALL_MENTION_REGEX: /(?:\B|\b_+)@(all)(?!(\.|-|_)*[^\W_])/gi,
     CHANNEL_MENTION_REGEX: /(?:\B|\b_+)@(channel)(?!(\.|-|_)*[^\W_])/gi,
     HERE_MENTION_REGEX: /(?:\B|\b_+)@(here)(?!(\.|-|_)*[^\W_])/gi,

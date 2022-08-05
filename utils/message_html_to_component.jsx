@@ -5,6 +5,7 @@ import React from 'react';
 import {Parser, ProcessNodeDefinitions} from 'html-to-react';
 
 import AtMention from 'components/at_mention';
+import AtSumOfMembersMention from 'components/at_sum_members_mention';
 import LatexBlock from 'components/latex_block';
 import LatexInline from 'components/latex_inline';
 import LinkTooltip from 'components/link_tooltip/link_tooltip';
@@ -12,6 +13,7 @@ import MarkdownImage from 'components/markdown_image';
 import PostEmoji from 'components/post_emoji';
 import PostEditedIndicator from 'components/post_view/post_edited_indicator';
 import CodeBlock from 'components/code_block/code_block';
+import AtPlanMention from 'components/at_plan_mention';
 
 /*
  * Converts HTML to React components using html-to-react.
@@ -110,6 +112,39 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
                     </AtMention>
                 );
                 return callAtMention;
+            },
+        });
+    }
+
+    if (options.atSumOfMembersMentions) {
+        const mentionAttrib = 'data-sum-of-members-mention';
+        processingInstructions.push({
+            replaceChildren: true,
+            shouldProcessNode: (node) => node.attribs && node.attribs[mentionAttrib],
+            processNode: (node) => {
+                const mentionName = node.attribs[mentionAttrib];
+                const sumOfMembersMention = (
+                    <AtSumOfMembersMention
+                        userIds={options.userIds}
+                        text={mentionName}
+                    />);
+                return sumOfMembersMention;
+            },
+        });
+    }
+
+    if (options.atPlanMentions) {
+        const mentionAttrib = 'data-plan-mention';
+        processingInstructions.push({
+            replaceChildren: true,
+            shouldProcessNode: (node) => node.attribs && node.attribs[mentionAttrib],
+            processNode: (node) => {
+                const mentionName = node.attribs[mentionAttrib];
+                const sumOfMembersMention = (
+                    <AtPlanMention
+                        plan={mentionName}
+                    />);
+                return sumOfMembersMention;
             },
         });
     }
