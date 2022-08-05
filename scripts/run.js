@@ -6,11 +6,10 @@
 const chalk = require('chalk');
 const concurrently = require('concurrently');
 
+const {makeRunner} = require('./runner.js');
 const {getWorkspaceCommands} = require('./utils.js');
 
-async function watchAll() {
-    console.log(chalk.inverse.bold('Watching web app and all subpackages...') + '\n');
-
+async function watchAll(useRunner) {
     const commands = [];
 
     commands.unshift(...getWorkspaceCommands('run'));
@@ -21,13 +20,25 @@ async function watchAll() {
 
     commands.unshift({command: 'npm:run:webapp', name: 'webapp', prefixColor: 'cyan'});
 
+    let outputStream = process.stdout;
+    if (useRunner) {
+        outputStream = makeRunner(commands);
+    }
+
+    if (!useRunner) {
+        console.log(chalk.inverse.bold('Watching web app and all subpackages...') + '\n');
+    }
+
     const {result} = concurrently(
         commands,
         {
             killOthers: 'failure',
+            outputStream,
         },
     );
     await result;
 }
 
-watchAll();
+const useRunner = process.argv[2] === '--runner';
+
+watchAll(useRunner);
