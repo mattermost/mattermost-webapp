@@ -31,19 +31,22 @@ const NewMembersTotal = ({total, timeFrame, openInsightsModal}: Props) => {
     return (
         <div className='new-members-item new-members-info'>
             <span className='total-count'>{total}</span>
-            <span className='time-range-info'>
-                {timeFrameInfo()}
-            </span>
-            <button
-                className='see-all-button'
-                onClick={(e) => {
-                    e.stopPropagation();
-                    openInsightsModal();
-                }}
-            >
-                {localizeMessage('insights.newMembers.seeAll', 'See all')}
-                <i className='icon icon-chevron-right'/>
-            </button>
+            <div className='members-info'>
+                <span className='time-range-info'>
+                    {timeFrameInfo()}
+                </span>
+                <button
+                    className='see-all-button'
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        openInsightsModal();
+                    }}
+                >
+                    {localizeMessage('insights.newMembers.seeAll', 'See all')}
+                    <i className='icon icon-chevron-right'/>
+                </button>
+            </div>
+
         </div>
     );
 };

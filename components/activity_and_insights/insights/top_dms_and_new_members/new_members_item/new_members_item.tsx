@@ -31,28 +31,31 @@ const NewMembersItem = ({newMember, team}: Props) => {
     return (
         <div className='top-dms-item new-members-item'>
             <Avatar
-                url={imageURLForUser(newMember.Id)}
+                url={imageURLForUser(newMember.id)}
                 size={'xl'}
             />
             <div className='dm-info'>
                 <Link
                     className='dm-name'
-                    to={`/${team.name}/messages/@${newMember.Username}`}
+                    to={`/${team.name}/messages/@${newMember.username}`}
                 >
                     {displayUsername(newMember as UserProfile, teammateNameDisplaySetting)}
                 </Link>
-                <span className='dm-role'>{newMember.Position}</span>
+                <span className='dm-role'>{newMember.position}</span>
                 <div className='channel-message-count'>
                     <RenderEmoji
                         emojiName={'wave'}
                         size={14}
                     />
-                    <span className='say-hello'>
+                    <Link
+                        className='say-hello'
+                        to={`/${team.name}/messages/@${newMember.username}`}
+                    >
                         <FormattedMessage
                             id='insights.newMembers.sayHello'
                             defaultMessage='Say hello'
                         />
-                    </span>
+                    </Link>
                 </div>
             </div>
         </div>

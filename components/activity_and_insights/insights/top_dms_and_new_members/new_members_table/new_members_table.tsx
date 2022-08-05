@@ -29,6 +29,8 @@ import './../../../activity_and_insights.scss';
 type Props = {
     filterType: string;
     timeFrame: TimeFrame;
+    offset: number;
+    setOffset: (offset: number) => void;
     closeModal: () => void;
 }
 
@@ -38,7 +40,6 @@ const NewMembersTable = (props: Props) => {
     const [loading, setLoading] = useState(false);
     const [newMembers, setNewMembers] = useState([] as NewMember[]);
     const [hasNext, setHasNext] = useState(false);
-    const [offset, setOffset] = useState(0);
 
     const teammateNameDisplaySetting = useSelector(getTeammateNameDisplaySetting);
     const currentTeam = useSelector(getCurrentTeam);
@@ -46,7 +47,7 @@ const NewMembersTable = (props: Props) => {
     const getNewTeamMembersList = useCallback(async () => {
         if (props.filterType === InsightsScopes.TEAM) {
             setLoading(true);
-            const data: any = await dispatch(getNewTeamMembers(currentTeam.id, offset, 10, props.timeFrame));
+            const data: any = await dispatch(getNewTeamMembers(currentTeam.id, props.offset, 10, props.timeFrame));
             if (data.data?.items) {
                 setNewMembers(data.data.items);
             }
@@ -55,7 +56,7 @@ const NewMembersTable = (props: Props) => {
             }
             setLoading(false);
         }
-    }, [props.timeFrame, props.filterType, offset]);
+    }, [props.timeFrame, props.filterType, props.offset]);
 
     useEffect(() => {
         getNewTeamMembersList();
@@ -109,11 +110,11 @@ const NewMembersTable = (props: Props) => {
                         teamMember: (
                             <Link
                                 className='user-info'
-                                to={`/${currentTeam.name}/messages/@${member.Username}`}
+                                to={`/${currentTeam.name}/messages/@${member.username}`}
                                 onClick={closeModal}
                             >
                                 <Avatar
-                                    url={imageURLForUser(member.Id)}
+                                    url={imageURLForUser(member.id)}
                                     size={'sm'}
                                 />
                                 <span className='display-name'>{displayUsername(member as UserProfile, teammateNameDisplaySetting)}</span>
@@ -122,13 +123,13 @@ const NewMembersTable = (props: Props) => {
                         ),
                         position: (
                             <>
-                                {member.Position}
+                                {member.position}
                             </>
                         ),
                         joined: (
                             <span className='cell-text'>
                                 <FormattedDate
-                                    value={new Date(member.CreateAt)}
+                                    value={new Date(member.create_at)}
                                     day='2-digit'
                                     month='short'
                                     year='numeric'
@@ -157,8 +158,8 @@ const NewMembersTable = (props: Props) => {
             />
             <ModalPagination
                 hasNext={hasNext}
-                offset={offset}
-                setOffset={setOffset}
+                offset={props.offset}
+                setOffset={props.setOffset}
             />
         </>
 

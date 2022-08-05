@@ -131,7 +131,7 @@ const TopDMsAndNewMembers = (props: WidgetHocProps) => {
                 })
             }
             {
-                (!loading && props.filterType === InsightsScopes.TEAM) && (
+                (!loading && props.filterType === InsightsScopes.TEAM && newMembers.length > 0) && (
                     <>
                         <NewMembersTotal
                             total={totalNewMembers}

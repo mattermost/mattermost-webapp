@@ -33,9 +33,11 @@ const InsightsModal = (props: Props) => {
         value: props.timeFrame,
         label: props.timeFrameLabel,
     });
+    const [offset, setOffset] = useState(0);
 
     const setTimeFrameValue = useCallback((value) => {
         setTimeFrame(value);
+        setOffset(0);
     }, []);
 
     const doHide = useCallback(() => {
@@ -89,12 +91,14 @@ const InsightsModal = (props: Props) => {
                     filterType={props.filterType}
                     timeFrame={timeFrame.value}
                     closeModal={doHide}
+                    offset={offset}
+                    setOffset={setOffset}
                 />
             );
         default:
             return null;
         }
-    }, [props.widgetType, timeFrame]);
+    }, [props.widgetType, timeFrame, offset]);
 
     return (
         <Modal
