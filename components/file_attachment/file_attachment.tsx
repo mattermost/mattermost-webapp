@@ -67,10 +67,11 @@ export default function FileAttachment(props: Props) {
     const {
         reference,
         getReferenceProps,
-        tooltip,
+        tooltip: archivedTooltip,
     } = useTooltip({
         message: <ArchivedTooltip/>,
         placement: 'right',
+        allowedPlacements: ['right', 'top'],
     });
 
     const buttonRef = useRef<HTMLButtonElement | null>(null);
@@ -374,7 +375,7 @@ export default function FileAttachment(props: Props) {
         return (
             <>
                 {content}
-                {tooltip}
+                {archivedTooltip}
             </>
         );
     }

@@ -5,6 +5,7 @@ import {shallow} from 'enzyme';
 import React from 'react';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import {FileTypes} from 'utils/constants';
 
 import FileAttachment from './file_attachment';
 
@@ -12,7 +13,19 @@ jest.mock('utils/utils', () => {
     const original = jest.requireActual('utils/utils');
     return {
         ...original,
-        loadImage: jest.fn((id, callback) => callback()),
+        loadImage: jest.fn((id: string, callback: () => void) => {
+            if (id !== 'noLoad') {
+                callback();
+            }
+        }),
+    };
+});
+
+jest.mock('mattermost-redux/utils/file_utils', () => {
+    const original = jest.requireActual('mattermost-redux/utils/file_utils');
+    return {
+        ...original,
+        getFileThumbnailUrl: (fileId: string) => fileId,
     };
 });
 
@@ -122,8 +135,7 @@ describe('FileAttachment', () => {
     });
 
     test('should match snapshot, when file is not loaded', () => {
-        const wrapper = shallow(<FileAttachment {...baseProps}/>);
-        wrapper.setState({loaded: false});
+        const wrapper = shallow(<FileAttachment {...{...baseProps, fileInfo: {...baseProps.fileInfo, id: 'noLoad', extension: 'jpg'}, enableSVGs: true}}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
