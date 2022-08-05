@@ -3,13 +3,22 @@
 
 import React from 'react';
 
-import {getMyChannels, getMyChannelMemberships} from 'mattermost-redux/selectors/entities/channels';
-
 import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_utils';
 
 import store from 'stores/redux_store.jsx';
 
 import {Constants} from 'utils/constants';
+
+import {
+    getMyChannelMemberships,
+    getChannelsInAllTeams,
+} from 'mattermost-redux/selectors/entities/channels';
+
+import {
+    getCurrentTeamId,
+    getMyTeams,
+    getTeam,
+} from 'mattermost-redux/selectors/entities/teams';
 
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
@@ -18,8 +27,8 @@ export class ChannelMentionSuggestion extends Suggestion {
     render() {
         const isSelection = this.props.isSelection;
         const item = this.props.item;
-        const channelIsArchived = item.channel.delete_at && item.channel.delete_at !== 0;
 
+        const channelIsArchived = item.channel.delete_at && item.channel.delete_at !== 0;
         const channelName = item.channel.display_name;
         let channelIcon;
         if (channelIsArchived) {
@@ -37,12 +46,17 @@ export class ChannelMentionSuggestion extends Suggestion {
         }
 
         let className = 'suggestion-list__item';
+        let teamName = null;
+        const team = getTeam(store.getState(), item.channel.team_id);
+        if (item.channel.team_id && team) {
+            teamName = (<span className='ml-2 suggestion-list__team-name'>{team.display_name}</span>);
+        }
         if (isSelection) {
             className += ' suggestion--selected';
         }
 
         const description = '~' + item.channel.name;
-
+        const isPartOfOnlyOneTeam = getMyTeams(store.getState()).length === 1;
         return (
             <div
                 className={className}
@@ -51,12 +65,16 @@ export class ChannelMentionSuggestion extends Suggestion {
                 {...Suggestion.baseProps}
             >
                 {channelIcon}
-                <div className='suggestion-list__ellipsis'>
+                <div
+                    onMouseEnter={(e) => this.setState({teamNameToHover: e.currentTarget.lastChild.lastChild.textContent})}
+                    className='suggestion-list__ellipsis'
+                >
                     <span className='suggestion-list__main'>
                         {channelName}
                     </span>
                     <span className='ml-2'>
                         {description}
+                        <span>{!isPartOfOnlyOneTeam && teamName}</span>
                     </span>
                 </div>
             </div>
@@ -77,6 +95,7 @@ export default class ChannelMentionProvider extends Provider {
     }
 
     handlePretextChanged(pretext, resultCallback) {
+        const currentTeamId = getCurrentTeamId(store.getState());
         this.resetRequest();
 
         const captured = (/\B(~([^~\r\n]*))$/i).exec(pretext.toLowerCase());
@@ -117,19 +136,20 @@ export default class ChannelMentionProvider extends Provider {
 
         const words = prefix.toLowerCase().split(/\s+/);
         const wrappedChannelIds = {};
-        var wrappedChannels = [];
-        getMyChannels(store.getState()).forEach((item) => {
+        let wrappedChannels = [];
+
+        getChannelsInAllTeams(store.getState()).forEach((item) => {
             if (item.type !== 'O' || item.delete_at > 0) {
                 return;
             }
             const nameWords = item.name.toLowerCase().split(/\s+/).concat(item.display_name.toLowerCase().split(/\s+/));
-            var matched = true;
-            for (var j = 0; matched && j < words.length; j++) {
+            let matched = true;
+            for (let j = 0; matched && j < words.length; j++) {
                 if (!words[j]) {
                     continue;
                 }
-                var wordMatched = false;
-                for (var i = 0; i < nameWords.length; i++) {
+                let wordMatched = false;
+                for (let i = 0; i < nameWords.length; i++) {
                     if (nameWords[i].startsWith(words[j])) {
                         wordMatched = true;
                         break;
@@ -155,11 +175,18 @@ export default class ChannelMentionProvider extends Provider {
             //
             return sortChannelsByTypeAndDisplayName('en', a.channel, b.channel);
         });
-        const channelMentions = wrappedChannels.map((item) => '~' + item.channel.name);
+        const channelMentions = wrappedChannels.map((item) => {
+            const team = getTeam(store.getState(), item.channel.team_id);
+            if (currentTeamId !== item.channel.team_id) {
+                return '~' + item.channel.name + `(${team.name})`;
+            }
+            return '~' + item.channel.name;
+        });
+
         resultCallback({
             terms: channelMentions.concat([' ']),
             items: wrappedChannels.concat([{
-                type: Constants.MENTION_MORE_CHANNELS,
+                type: Constants.MENTION_CHANNELS,
                 loading: true,
             }]),
             component: ChannelMentionSuggestion,
@@ -206,7 +233,7 @@ export default class ChannelMentionProvider extends Provider {
                 }
 
                 wrappedMoreChannels.push({
-                    type: Constants.MENTION_MORE_CHANNELS,
+                    type: Constants.MENTION_CHANNELS,
                     channel: item,
                 });
             });
@@ -219,7 +246,14 @@ export default class ChannelMentionProvider extends Provider {
             });
 
             const wrapped = wrappedChannels.concat(wrappedMoreChannels);
-            const mentions = wrapped.map((item) => '~' + item.channel.name);
+
+            const mentions = wrapped.map((item) => {
+                const team = getTeam(store.getState(), item.channel.team_id);
+                if (currentTeamId !== item.channel.team_id) {
+                    return '~' + item.channel.name + `(${team.name})`;
+                }
+                return '~' + item.channel.name;
+            });
 
             resultCallback({
                 matchedPretext: captured[1],
