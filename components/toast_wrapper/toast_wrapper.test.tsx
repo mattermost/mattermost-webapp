@@ -4,7 +4,7 @@
 import React from 'react';
 
 // @ts-expect-error TS(2307): Cannot find module 'mattermost-redux/constants/pre... Remove this comment to see the full error message
-import Preferences from 'mattermost-redux/constants/preferences';
+import Preferences from '@mattermost/constants/preferences';
 
 // @ts-expect-error TS(2307): Cannot find module 'mattermost-redux/utils/post_li... Remove this comment to see the full error message
 import {DATE_LINE} from 'mattermost-redux/utils/post_list';
