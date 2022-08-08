@@ -22,7 +22,7 @@ border-radius: 4px;
 border: none;
 box-shadow: none;
 height: 24px;
-width: 67px;
+width: auto;
 font-family: 'Open Sans';
 font-style: normal;
 font-weight: 600;
@@ -54,7 +54,14 @@ const PlanUpgradeButton = (): JSX.Element | null => {
     const config = useSelector(getConfig);
     const license = useSelector(getLicense);
 
+    const buttonTextFeatureFlag = config?.FeatureFlagPlanUpgradeButtonText;
+    let btnText = formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'});
+    if (isCloud && buttonTextFeatureFlag === 'view_plans') {
+        btnText = formatMessage({id: 'pricing_modal.btn.viewPlans', defaultMessage: 'View plans'});
+    }
+
     const isEnterpriseTrial = subscription?.is_free_trial === 'true';
+
     const isStarter = product?.sku === CloudProducts.STARTER;
 
     const isSelfHostedEnterpriseTrial = !isCloud && license.IsTrial === 'true';
@@ -97,7 +104,7 @@ const PlanUpgradeButton = (): JSX.Element | null => {
                 id='UpgradeButton'
                 onClick={openPricingModal}
             >
-                {formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'})}
+                {btnText}
             </UpgradeButton>
         </OverlayTrigger>);
 };

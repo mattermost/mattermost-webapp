@@ -132,6 +132,7 @@ export const Preferences = {
     ONE_CLICK_REACTIONS_ENABLED_DEFAULT: 'true',
     CLOUD_TRIAL_END_BANNER: 'cloud_trial_end_banner',
     CLOUD_USER_EPHEMERAL_INFO: 'cloud_user_ephemeral_info',
+    THREE_DAYS_LEFT_TRIAL_MODAL: 'three_days_left_trial_modal',
 
     // For one off things that have a special, attention-grabbing UI until you interact with them
     TOUCHED: 'touched',
@@ -397,6 +398,7 @@ export const ModalIdentifiers = {
     UPLOAD_LICENSE: 'upload_license',
     INSIGHTS: 'insights',
     CLOUD_LIMITS: 'cloud_limits',
+    THREE_DAYS_LEFT_TRIAL_MODAL: 'three_days_left_trial_modal',
     REQUEST_BUSINESS_EMAIL_MODAL: 'request_business_email_modal',
     FEATURE_RESTRICTED_MODAL: 'feature_restricted_modal',
     FORWARD_POST_MODAL: 'forward_post_modal',
@@ -438,6 +440,11 @@ export const CloudProducts = {
     PROFESSIONAL: 'cloud-professional',
     ENTERPRISE: 'cloud-enterprise',
     LEGACY: 'cloud-legacy',
+};
+
+export const SelfHostedLicenseSKUNames = {
+    PROFESSIONAL: 'professional',
+    ENTERPRISE: 'enterprise',
 };
 
 export const A11yClassNames = {
@@ -611,6 +618,7 @@ export const CloudBanners = {
     HIDE: 'hide',
     TRIAL: 'trial',
     UPGRADE_FROM_TRIAL: 'upgrade_from_trial',
+    THREE_DAYS_LEFT_TRIAL_MODAL_DISMISSED: 'dismiss_3_days_left_trial_modal',
 };
 
 export const AdvancedTextEditor = {
@@ -628,6 +636,7 @@ export const TELEMETRY_CATEGORIES = {
     SELF_HOSTED_START_TRIAL_AUTO_MODAL: 'self_hosted_start_trial_auto_modal',
     SELF_HOSTED_START_TRIAL_MODAL: 'self_hosted_start_trial_modal',
     CLOUD_START_TRIAL_BUTTON: 'cloud_start_trial_button',
+    CLOUD_THREE_DAYS_LEFT_MODAL: 'cloud_three_days_left_modal',
     SELF_HOSTED_START_TRIAL_TASK_LIST: 'self_hosted_start_trial_task_list',
     WORKSPACE_OPTIMIZATION_DASHBOARD: 'workspace_optimization_dashboard',
     REQUEST_BUSINESS_EMAIL: 'request_business_email',
@@ -650,27 +659,27 @@ export const TELEMETRY_LABELS = {
 };
 
 export const PostTypes = {
-    JOIN_LEAVE: 'system_join_leave',
-    JOIN_CHANNEL: 'system_join_channel',
-    LEAVE_CHANNEL: 'system_leave_channel',
-    ADD_TO_CHANNEL: 'system_add_to_channel',
-    REMOVE_FROM_CHANNEL: 'system_remove_from_channel',
-    ADD_REMOVE: 'system_add_remove',
-    JOIN_TEAM: 'system_join_team',
-    LEAVE_TEAM: 'system_leave_team',
-    ADD_TO_TEAM: 'system_add_to_team',
-    REMOVE_FROM_TEAM: 'system_remove_from_team',
-    HEADER_CHANGE: 'system_header_change',
-    DISPLAYNAME_CHANGE: 'system_displayname_change',
-    CONVERT_CHANNEL: 'system_convert_channel',
-    PURPOSE_CHANGE: 'system_purpose_change',
-    CHANNEL_DELETED: 'system_channel_deleted',
-    CHANNEL_UNARCHIVED: 'system_channel_restored',
-    FAKE_PARENT_DELETED: 'system_fake_parent_deleted',
-    EPHEMERAL: 'system_ephemeral',
-    EPHEMERAL_ADD_TO_CHANNEL: 'system_ephemeral_add_to_channel',
-    REMOVE_LINK_PREVIEW: 'remove_link_preview',
-    ME: 'me',
+    JOIN_LEAVE: 'system_join_leave' as const,
+    JOIN_CHANNEL: 'system_join_channel' as const,
+    LEAVE_CHANNEL: 'system_leave_channel' as const,
+    ADD_TO_CHANNEL: 'system_add_to_channel' as const,
+    REMOVE_FROM_CHANNEL: 'system_remove_from_channel' as const,
+    ADD_REMOVE: 'system_add_remove' as const,
+    JOIN_TEAM: 'system_join_team' as const,
+    LEAVE_TEAM: 'system_leave_team' as const,
+    ADD_TO_TEAM: 'system_add_to_team' as const,
+    REMOVE_FROM_TEAM: 'system_remove_from_team' as const,
+    HEADER_CHANGE: 'system_header_change' as const,
+    DISPLAYNAME_CHANGE: 'system_displayname_change' as const,
+    CONVERT_CHANNEL: 'system_convert_channel' as const,
+    PURPOSE_CHANGE: 'system_purpose_change' as const,
+    CHANNEL_DELETED: 'system_channel_deleted' as const,
+    CHANNEL_UNARCHIVED: 'system_channel_restored' as const,
+    FAKE_PARENT_DELETED: 'system_fake_parent_deleted' as const,
+    EPHEMERAL: 'system_ephemeral' as const,
+    EPHEMERAL_ADD_TO_CHANNEL: 'system_ephemeral_add_to_channel' as const,
+    REMOVE_LINK_PREVIEW: 'remove_link_preview' as const,
+    ME: 'me' as const,
 };
 
 export const StatTypes = keyMirror({
@@ -946,11 +955,13 @@ export const DocLinks = {
     SITE_URL: 'https://docs.mattermost.com/configure/configuration-settings.html#site-url',
     SSL_CERTIFICATE: 'https://docs.mattermost.com/onboard/ssl-client-certificate.html',
     UPGRADE_SERVER: 'https://docs.mattermost.com/upgrade/upgrading-mattermost-server.html',
+    ONBOARD_LDAP: 'https://docs.mattermost.com/onboard/ad-ldap.html',
+    ONBOARD_SSO: 'https://docs.mattermost.com/onboard/sso-saml.html',
 };
 
 export const LicenseLinks = {
-    CONTACT_SALES: 'https://mattermost.com/contact-sales/',
-    SOFTWARE_EVALUATION_AGREEMENT: 'https://mattermost.com/software-evaluation-agreement/',
+    CONTACT_SALES: 'https://mattermost.com/pl/contact-sales',
+    SOFTWARE_EVALUATION_AGREEMENT: 'https://mattermost.com/pl/software-evaluation-agreement',
 };
 
 export const BillingSchemes = {
@@ -1154,12 +1165,12 @@ export const DefaultRolePermissions = {
 };
 
 export const Locations = {
-    CENTER: 'CENTER',
-    RHS_ROOT: 'RHS_ROOT',
-    RHS_COMMENT: 'RHS_COMMENT',
-    SEARCH: 'SEARCH',
-    NO_WHERE: 'NO_WHERE',
-    MODAL: 'MODAL',
+    CENTER: 'CENTER' as const,
+    RHS_ROOT: 'RHS_ROOT' as const,
+    RHS_COMMENT: 'RHS_COMMENT' as const,
+    SEARCH: 'SEARCH' as const,
+    NO_WHERE: 'NO_WHERE' as const,
+    MODAL: 'MODAL' as const,
 };
 
 export const PostListRowListIds = {
@@ -2052,6 +2063,11 @@ export enum ClaimErrors {
 export const LegacyFreeProductIds: Record<string, true> = {
     prod_HyiHEAVKW5bYG3: true,
     prod_Hm2oYaBiRSISL2: true,
+};
+
+export const DataSearchTypes = {
+    FILES_SEARCH_TYPE: 'files',
+    MESSAGES_SEARCH_TYPE: 'messages',
 };
 
 export default Constants;
