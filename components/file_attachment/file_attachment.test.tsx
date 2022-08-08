@@ -10,8 +10,9 @@ import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {renderWithIntl, renderWithIntlAndStore} from 'tests/react_testing_utils';
 
-import FileAttachment from './file_attachment';
 import {GlobalState} from '@mattermost/types/store';
+
+import FileAttachment from './file_attachment';
 
 jest.mock('utils/utils', () => {
     const original = jest.requireActual('utils/utils');
