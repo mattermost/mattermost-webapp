@@ -960,8 +960,10 @@ export const DocLinks = {
 };
 
 export const LicenseLinks = {
-    CONTACT_SALES: 'https://mattermost.com/pl/contact-sales',
-    SOFTWARE_EVALUATION_AGREEMENT: 'https://mattermost.com/pl/software-evaluation-agreement',
+    CONTACT_SALES: 'https://mattermost.com/contact-sales/',
+    SOFTWARE_EVALUATION_AGREEMENT: 'https://mattermost.com/software-evaluation-agreement/',
+    TRIAL_INFO_LINK: 'https://mattermost.com/trial',
+    EMBARGOED_COUNTRIES: 'https://mattermost.com/pl/limitations-for-embargoed-countries',
 };
 
 export const BillingSchemes = {
