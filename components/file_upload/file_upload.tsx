@@ -7,6 +7,8 @@ import {defineMessages, FormattedMessage, injectIntl, IntlShape} from 'react-int
 import classNames from 'classnames';
 import {PaperclipIcon} from '@mattermost/compass-icons/components';
 
+import {FilePreviewInfo} from '../file_preview/file_preview';
+
 import dragster from 'utils/dragster';
 import Constants from 'utils/constants';
 import DelayedAction from 'utils/delayed_action';
@@ -38,8 +40,6 @@ import Tooltip from 'components/tooltip';
 import {FilesWillUploadHook, PluginComponent} from 'types/store/plugins';
 
 import {UploadFile} from 'actions/file_actions';
-
-import {FilePreviewInfo} from '../file_preview/file_preview';
 
 const holders = defineMessages({
     limited: {
