@@ -16,7 +16,7 @@ type OwnProps = {
 }
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
-    const user = ownProps.user || {};
+    const user = ownProps.user;
     return {
         status: getStatusForUserId(state, user.id),
     };
