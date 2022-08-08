@@ -386,6 +386,7 @@ function siteStatsHandlers(state: PluginsState['siteStatsHandlers'] = {}, action
 
 function insightsHandlers(state: PluginsState['insightsHandlers'] = {}, action: GenericAction) {
     switch (action.type) {
+    case ActionTypes.RECEIVED_PLAYBOOKS_INSIGHTS:
     case ActionTypes.RECEIVED_BOARDS_INSIGHTS:
         if (action.data) {
             const nextState = {...state};

@@ -300,6 +300,7 @@ export const ActionTypes = keyMirror({
     FIRST_CHANNEL_NAME: null,
 
     RECEIVED_BOARDS_INSIGHTS: null,
+    RECEIVED_PLAYBOOKS_INSIGHTS: null,
     SET_EDIT_CHANNEL_MEMBERS: null,
 });
 
@@ -2020,6 +2021,24 @@ export const InsightsCardTitles = {
         mySubTitle: {
             id: t('insights.topBoards.mySubTitle'),
             defaultMessage: 'Most active boards I\'ve participated in',
+        },
+    },
+    TOP_PLAYBOOKS: {
+        teamTitle: {
+            id: t('insights.topPlaybooks.title'),
+            defaultMessage: 'Top playbooks',
+        },
+        myTitle: {
+            id: t('insights.topPlaybooks.myTitle'),
+            defaultMessage: 'My top playbooks',
+        },
+        teamSubTitle: {
+            id: t('insights.topPlaybooks.subTitle'),
+            defaultMessage: 'Playbooks with the most runs',
+        },
+        mySubTitle: {
+            id: t('insights.topPlaybooks.mySubTitle'),
+            defaultMessage: 'Playbooks I\'ve used with the most runs',
         },
     },
 };

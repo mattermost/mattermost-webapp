@@ -21,6 +21,7 @@ import TopChannels from './top_channels/top_channels';
 import TopReactions from './top_reactions/top_reactions';
 import TopThreads from './top_threads/top_threads';
 import TopBoards from './top_boards/top_boards';
+import TopPlaybooks from './top_playbooks/top_playbooks';
 
 import './../activity_and_insights.scss';
 
@@ -102,6 +103,13 @@ const Insights = () => {
                     filterType={filterType}
                     widgetType={InsightsWidgetTypes.TOP_REACTIONS}
                     class={'top-reactions-card'}
+                    timeFrame={timeFrame as TimeFrame}
+                />
+                <TopPlaybooks
+                    size={CardSizes.medium}
+                    filterType={filterType}
+                    widgetType={InsightsWidgetTypes.TOP_PLAYBOOKS}
+                    class={'top-playbooks-card'}
                     timeFrame={timeFrame as TimeFrame}
                 />
             </div>
