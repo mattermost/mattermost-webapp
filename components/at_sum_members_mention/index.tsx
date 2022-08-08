@@ -22,7 +22,7 @@ function AtSumOfMembersMention(props: Props) {
             <NotificationFromMembersModal
                 show={show}
                 onHide={closeModal}
-                userIds={['35jru68ypjd98kppystub16p3h', 'muj41o4ox78bjjok4r6teypp7w', '1cmokosaftbi5prpfj76n5jf9r']}
+                userIds={props.userIds}
                 feature={props.messageMetadata.requestedFeature}
             />
             <a

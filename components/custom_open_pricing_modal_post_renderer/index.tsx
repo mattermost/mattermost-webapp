@@ -1,21 +1,30 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useState} from 'react';
 import {useIntl} from 'react-intl';
+import {useSelector} from 'react-redux';
 
 import Markdown from 'components/markdown';
 
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import {Post} from '@mattermost/types/posts';
+import {GlobalState} from 'types/store';
+import {getUser} from 'mattermost-redux/selectors/entities/users';
+import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurchaseModal';
 
 export default function OpenPricingModalPost(props: {post: Post}) {
+    let allProfessional = true;
+
+    const openPurchaseModal = useOpenCloudPurchaseModal({});
     const {formatMessage} = useIntl();
 
     const openPricingModal = useOpenPricingModal();
     const style = {
+        display: 'flex',
+        gap: '10px',
         padding: '12px',
-        borderRadius: '0 4px 4px 0',
+        borderRadius: '4px',
         border: '1px solid rgba(var(--center-channel-text-rgb), 0.16)',
         width: 'max-content',
         margin: '10px 0',
@@ -34,7 +43,7 @@ export default function OpenPricingModalPost(props: {post: Post}) {
     const requestFeatures = postProps.requested_features;
 
     const me = [];
-    const getUsers = (d: any) => {
+    const getUserIds = (d: any) => {
         const userIds: any = [];
         d.forEach((x: any) => {
             userIds.push(x.user_id);
@@ -42,20 +51,53 @@ export default function OpenPricingModalPost(props: {post: Post}) {
 
         return userIds;
     };
+
+    const getUserNames = (d: any) => {
+        const userNames: any = [];
+        getUserIds(d).forEach((id: any) => {
+            const profile = useSelector((state: GlobalState) => getUser(state, id));
+            userNames.push('@' + profile?.username);
+        });
+
+        return userNames;
+    };
+
     const renderUsers = (d: any) => {
         if (d.length >= 5) {
             return `${d.length} members `;
         }
 
-        const users = getUsers(d);
-        const lastIndex = users.length - 1;
-        return users.slice(0, lastIndex).join(', ');
+        let renderedUsers;
+
+        const users = getUserNames(d);
+
+        if (users.length === 1) {
+            renderedUsers = users[0];
+        } else {
+            const lastIndex = users.length - 1;
+            renderedUsers = users.slice(0, lastIndex).join(', ');
+        }
+
+        return renderedUsers;
     };
 
     const options = {
         atSumOfMembersMentions: true,
         atPlanMentions: true,
         markdown: false,
+    };
+
+    const mapFeatureToPlan = (feature: string) => {
+        switch (feature) {
+        case 'Guest Accounts':
+        case 'Create Multiple Teams':
+            return 'Professional plan';
+        case 'Custom user groups':
+            allProfessional = false;
+            return 'Enterprise plan';
+        default:
+            return 'Professional plan';
+        }
     };
 
     if (requestFeatures) {
@@ -69,7 +111,7 @@ export default function OpenPricingModalPost(props: {post: Post}) {
                     </span>
                     <span>
                         <Markdown
-                            message=' - available on the Professional plan'
+                            message={` - available on the ${mapFeatureToPlan(key)}`}
                             options={options}
                         />
                     </span>
@@ -80,7 +122,7 @@ export default function OpenPricingModalPost(props: {post: Post}) {
                         <Markdown
                             message={`${renderUsers(requestFeatures[key])} requested access to this feature`}
                             options={options}
-                            userIds={getUsers(requestFeatures[key])}
+                            userIds={getUserIds(requestFeatures[key])}
                             messageMetadata={{requestedFeature: key}}
                         />
                     </li>
@@ -90,28 +132,43 @@ export default function OpenPricingModalPost(props: {post: Post}) {
         }
     }
 
+    const renderButtons = () => {
+        if (allProfessional) {
+            return (
+                <>
+                    <button
+                        onClick={openPurchaseModal}
+                        style={btnStyle}
+                    >
+                        {'Upgrade to Professional'}
+                    </button>
+                    <button
+                        onClick={openPricingModal}
+                        style={{...btnStyle, color: 'var(--button-bg)', background: 'rgba(var(--denim-button-bg-rgb), 0.08)'}}
+                    >
+                        {formatMessage({id: 'postypes.custom_open_pricing_modal_post_renderer.view_options', defaultMessage: 'View upgrade options'})}
+                    </button>
+                </>
+            );
+        }
+        return (
+            <button
+                onClick={openPricingModal}
+                style={{...btnStyle, border: '1px solid var(--button-bg)', color: 'var(--button-bg)', background: 'var(--sidebar-text)'}}
+            >
+                {formatMessage({id: 'postypes.custom_open_pricing_modal_post_renderer.view_options', defaultMessage: 'View upgrade options'})}
+            </button>);
+    };
+
     return (
         <div>
             <span>{props.post.message}</span>
             {me}
             <div style={{display: 'flex'}}>
                 <div
-                    style={{
-                        height: 'inherit',
-                        width: '5px',
-                        backgroundColor: 'var(--denim-sidebar-active-border)',
-                        margin: '10px 0',
-                    }}
-                />
-                <div
                     style={style}
                 >
-                    <button
-                        onClick={openPricingModal}
-                        style={btnStyle}
-                    >
-                        {formatMessage({id: 'postypes.custom_open_pricing_modal_post_renderer.view_options', defaultMessage: 'View upgrade options'})}
-                    </button>
+                    {renderButtons()}
                 </div>
             </div>
         </div>
