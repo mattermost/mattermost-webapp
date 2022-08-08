@@ -31,6 +31,7 @@ export type PluginsState = {
         MobileChannelHeaderButton: PluginComponent[];
         AppBar: PluginComponent[];
         UserGuideDropdownItem: PluginComponent[];
+        FilesWillUploadHook: PluginComponent[];
         [componentName: string]: PluginComponent[];
     };
 
@@ -85,8 +86,11 @@ export type PluginComponent = {
     mobileIcon?: React.ReactElement;
     filter?: (id: string) => boolean;
     action?: (...args: any) => void; // TODO Add more concrete types?
-    hook?: (files: File[], uploadFiles: (files: File[]) => void) => { message?: string; files?: File[] };
 };
+
+export type FilesWillUploadHook = {
+    hook: (files: File[], uploadFiles: (files: File[]) => void) => { message?: string; files?: File[] };
+}
 
 export type FilePreviewComponent = {
     id: string;

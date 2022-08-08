@@ -11,7 +11,7 @@ import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import FileUpload, {FileUpload as FileUploadClass} from 'components/file_upload/file_upload';
 
-import {PluginComponent} from 'types/store/plugins';
+import {FilesWillUploadHook} from 'types/store/plugins';
 
 import {FileInfo} from '@mattermost/types/files';
 
@@ -372,7 +372,7 @@ describe('components/FileUpload', () => {
         const pluginHook = () => {
             return {files: null};
         };
-        const props = {...baseProps, pluginFilesWillUploadHooks: [{hook: pluginHook} as unknown as PluginComponent]};
+        const props = {...baseProps, pluginFilesWillUploadHooks: [{hook: pluginHook} as unknown as FilesWillUploadHook]};
         const files = [{name: 'file1.pdf'} as File, {name: 'file2.jpg'} as File];
 
         const wrapper = shallowWithIntl(
@@ -394,7 +394,7 @@ describe('components/FileUpload', () => {
         const pluginHook = (files: File[]) => {
             return {files: files.filter((f) => f.name === 'file1.pdf')};
         };
-        const props = {...baseProps, pluginFilesWillUploadHooks: [{hook: pluginHook} as unknown as PluginComponent]};
+        const props = {...baseProps, pluginFilesWillUploadHooks: [{hook: pluginHook} as unknown as FilesWillUploadHook]};
         const files = [{name: 'file1.pdf'} as File, {name: 'file2.jpg'} as File];
 
         const wrapper = shallowWithIntl(

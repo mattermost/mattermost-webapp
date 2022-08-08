@@ -35,7 +35,7 @@ import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 
-import {PluginComponent} from 'types/store/plugins';
+import {FilesWillUploadHook, PluginComponent} from 'types/store/plugins';
 
 import {FilePreviewInfo} from '../file_preview/file_preview';
 import {UploadFile} from '../../actions/file_actions';
@@ -146,7 +146,7 @@ export type Props = {
      * Plugin file upload methods to be added
      */
     pluginFileUploadMethods: PluginComponent[];
-    pluginFilesWillUploadHooks: PluginComponent[];
+    pluginFilesWillUploadHooks: FilesWillUploadHook[];
 
     /**
      * Function called when xhr fires progress event.

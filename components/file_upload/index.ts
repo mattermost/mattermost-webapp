@@ -11,6 +11,7 @@ import {uploadFile} from 'actions/file_actions';
 import {getCurrentLocale} from 'selectors/i18n';
 import {canUploadFiles} from 'utils/file_utils';
 
+import {FilesWillUploadHook} from 'types/store/plugins';
 import {GlobalState} from 'types/store';
 
 import FileUpload, {Props} from './file_upload';
@@ -26,7 +27,7 @@ function mapStateToProps(state: GlobalState) {
         locale: getCurrentLocale(state),
         isAdvancedTextEditorEnabled,
         pluginFileUploadMethods: state.plugins.components.FileUploadMethod,
-        pluginFilesWillUploadHooks: state.plugins.components.FilesWillUploadHook,
+        pluginFilesWillUploadHooks: state.plugins.components.FilesWillUploadHook as unknown as FilesWillUploadHook[],
     };
 }
 
