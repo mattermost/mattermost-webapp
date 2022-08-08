@@ -4,9 +4,14 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
+import {screen} from '@testing-library/react';
+
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
+import {renderWithIntl, renderWithIntlAndStore} from 'tests/react_testing_utils';
+
 import FileAttachment from './file_attachment';
+import {GlobalState} from '@mattermost/types/store';
 
 jest.mock('utils/utils', () => {
     const original = jest.requireActual('utils/utils');
@@ -63,6 +68,27 @@ describe('FileAttachment', () => {
     test('should match snapshot, regular file', () => {
         const wrapper = shallow(<FileAttachment {...baseProps}/>);
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('non archived file does not show archived elements', () => {
+        const reduxState = {
+            entities: {
+                general: {
+                    config: {},
+                },
+            },
+        } as GlobalState;
+        renderWithIntlAndStore(<FileAttachment {...baseProps}/>, reduxState);
+
+        expect(screen.queryByTestId('archived-file-icon')).not.toBeInTheDocument();
+        expect(screen.queryByText(/This file is archived/)).not.toBeInTheDocument();
+    });
+
+    test('non archived file does not show archived elements in compact display mode', () => {
+        renderWithIntl(<FileAttachment {...{...baseProps, compactDisplay: true}}/>);
+
+        expect(screen.queryByTestId('archived-file-icon')).not.toBeInTheDocument();
+        expect(screen.queryByText(/archived/)).not.toBeInTheDocument();
     });
 
     test('should match snapshot, regular image', () => {
@@ -149,5 +175,37 @@ describe('FileAttachment', () => {
         const a = wrapper.find('#file-attachment-link');
         a.simulate('click', e);
         expect(e.target.blur).toHaveBeenCalled();
+    });
+
+    describe('archived file', () => {
+        test('shows archived image instead of real image and explanatory test in compact mode', () => {
+            const props = {
+                ...baseProps,
+                fileInfo: {
+                    ...baseProps.fileInfo,
+                    archived: true,
+                },
+                compactDisplay: true,
+            };
+            renderWithIntl(<FileAttachment {...props}/>);
+            screen.getByTestId('archived-file-icon');
+            screen.getByText(baseProps.fileInfo.name);
+            screen.getByText(/archived/);
+        });
+
+        test('shows archived image instead of real image and explanatory test in full mode', () => {
+            const props = {
+                ...baseProps,
+                fileInfo: {
+                    ...baseProps.fileInfo,
+                    archived: true,
+                },
+                compactDisplay: false,
+            };
+            renderWithIntl(<FileAttachment {...props}/>);
+            screen.getByTestId('archived-file-icon');
+            screen.getByText(baseProps.fileInfo.name);
+            screen.getByText(/This file is archived/);
+        });
     });
 });

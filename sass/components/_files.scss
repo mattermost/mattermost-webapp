@@ -492,6 +492,30 @@
     font-size: 12px;
     text-align: left;
 
+    .post-image__archived-name {
+        align-items: center;
+        justify-content: start;
+    }
+
+    .post-image__archived-filename {
+        overflow: hidden;
+        max-width: 165px;
+        color: rgba(var(--center-channel-text-rgb), 0.56);
+        font-weight: 600;
+        outline: none;
+        text-decoration: none;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        word-break: break-word;
+    }
+
+    .post-image__archived-label {
+        padding-left: 7px;
+        color: rgba(var(--center-channel-text-rgb), 0.56);
+        font-size: 10px;
+        font-weight: normal;
+    }
+
     .post-image__detail_wrapper {
         display: flex;
         flex: 1;

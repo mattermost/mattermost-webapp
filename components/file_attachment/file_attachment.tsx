@@ -3,7 +3,7 @@
 
 import React, {useRef, useState, useEffect} from 'react';
 import classNames from 'classnames';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 
 import {ArchiveOutlineIcon} from '@mattermost/compass-icons/components';
 
@@ -18,6 +18,7 @@ import GetPublicModal from 'components/get_public_link_modal';
 import useTooltip from 'components/common/hooks/useTooltip';
 
 import {Constants, FileTypes, ModalIdentifiers} from 'utils/constants';
+import {trimFilename} from 'utils/file_utils';
 
 import {
     fileSizeToString,
@@ -59,6 +60,7 @@ interface Props extends PropsFromRedux {
 
 export default function FileAttachment(props: Props) {
     const mounted = useRef(true);
+    const intl = useIntl();
     const [loaded, setLoaded] = useState(getFileType(props.fileInfo.extension) !== FileTypes.IMAGE);
     const [loadFilesCalled, setLoadFilesCalled] = useState(false);
     const [keepOpen, setKeepOpen] = useState(false);
@@ -295,6 +297,7 @@ export default function FileAttachment(props: Props) {
                 <ArchiveOutlineIcon
                     size={48}
                     color={'rgba(var(--center-channel-text-rgb), 0.48)'}
+                    data-testid='archived-file-icon'
                 />
             );
         }
@@ -347,6 +350,28 @@ export default function FileAttachment(props: Props) {
                 <i className='icon icon-download-outline'/>
             </FilenameOverlay>
         );
+    } else if (fileInfo.archived && compactDisplay) {
+        const fileName = fileInfo.name;
+        const trimmedFilename = trimFilename(fileName);
+        fileThumbnail = (
+            <ArchiveOutlineIcon
+                size={16}
+                color={'rgba(var(--center-channel-text-rgb), 0.48)'}
+                data-testid='archived-file-icon'
+            />
+        );
+        filenameOverlay =
+            (<span className='post-image__archived-name'>
+                <span className='post-image__archived-filename'>
+                    {trimmedFilename}
+                </span>
+                <span className='post-image__archived-label'>
+                    {intl.formatMessage({
+                        id: 'workspace_limits.archived_file.archived_compact',
+                        defaultMessage: '(archived)',
+                    })}
+                </span>
+            </span>);
     }
 
     const content =
