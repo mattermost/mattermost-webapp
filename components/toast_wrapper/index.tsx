@@ -3,7 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
-import {withRouter} from 'react-router-dom';
+import {withRouter, RouteComponentProps} from 'react-router-dom';
 
 import {IDMappedObjects} from '@mattermost/types/utilities';
 
@@ -37,6 +37,11 @@ type GlobalState = ToastWrapperState & {
     views: ViewsState;
 }
 
+type OwnProps = RouteComponentProps & {
+    channelId: string;
+    atLatestPost: boolean;
+}
+
 export function makeGetRootPosts() {
     return createSelector(
         'makeGetRootPosts',
@@ -49,10 +54,10 @@ export function makeGetRootPosts() {
                 return (post.root_id === '' &&
                 post.channel_id === channel.id &&
                 post.state !== Posts.POST_DELETED);
-            }).reduce((map: any, obj: Post) => {
-                map[obj.id] = true;
+            }).reduce((map, obj) => {
+                (map as any)[obj.id] = true;
                 return map;
-            }, {} as IDMappedObjects<Post>);
+            }, {});
         },
     );
 }
