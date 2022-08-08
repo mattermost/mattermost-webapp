@@ -37,8 +37,9 @@ import Tooltip from 'components/tooltip';
 
 import {FilesWillUploadHook, PluginComponent} from 'types/store/plugins';
 
+import {UploadFile} from 'actions/file_actions';
+
 import {FilePreviewInfo} from '../file_preview/file_preview';
-import {UploadFile} from '../../actions/file_actions';
 
 const holders = defineMessages({
     limited: {
@@ -375,49 +376,44 @@ export class FileUpload extends PureComponent<Props, State> {
     }
 
     registerDragEvents = (containerSelector: string, overlaySelector: string) => {
-        // eslint-disable-next-line @typescript-eslint/no-this-alias
-        const self = this;
-
         const overlay = document.querySelector(overlaySelector);
 
         const dragTimeout = new DelayedAction(() => {
             overlay?.classList.add('hidden');
         });
 
+        const enter = (e: CustomEvent) => {
+            const files = e.detail.dataTransfer;
+            if (!isUriDrop(files) && isFileTransfer(files)) {
+                overlay?.classList.remove('hidden');
+            }
+        };
+
+        const leave = (e: CustomEvent) => {
+            const files = e.detail.dataTransfer;
+
+            if (!isUriDrop(files) && isFileTransfer(files)) {
+                overlay?.classList.add('hidden');
+            }
+
+            dragTimeout.cancel();
+        };
+
+        const over = () => dragTimeout.fireAfter(OVERLAY_TIMEOUT);
+        const dropWithHiddenClass = (e: CustomEvent) => {
+            overlay?.classList.add('hidden');
+            dragTimeout.cancel();
+
+            this.handleDrop(e.detail);
+        };
+
+        const drop = (e: CustomEvent) => this.handleDrop(e.detail);
+
         let dragsterActions = {};
         if (this.props.canUploadFiles) {
-            dragsterActions = {
-                enter(e: CustomEvent) {
-                    const files = e.detail.dataTransfer;
-                    if (!isUriDrop(files) && isFileTransfer(files)) {
-                        overlay?.classList.remove('hidden');
-                    }
-                },
-                leave(e: CustomEvent) {
-                    const files = e.detail.dataTransfer;
-
-                    if (!isUriDrop(files) && isFileTransfer(files)) {
-                        overlay?.classList.add('hidden');
-                    }
-
-                    dragTimeout.cancel();
-                },
-                over() {
-                    dragTimeout.fireAfter(OVERLAY_TIMEOUT);
-                },
-                drop(e: CustomEvent) {
-                    overlay?.classList.add('hidden');
-                    dragTimeout.cancel();
-
-                    self.handleDrop(e.detail);
-                },
-            };
+            dragsterActions = {enter, leave, over, dropWithHiddenClass};
         } else {
-            dragsterActions = {
-                drop(e: CustomEvent) {
-                    self.handleDrop(e.detail);
-                },
-            };
+            dragsterActions = {drop};
         }
 
         this.unbindDragsterEvents = dragster(containerSelector, dragsterActions);
