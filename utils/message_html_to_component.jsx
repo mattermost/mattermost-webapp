@@ -126,6 +126,7 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
                 const sumOfMembersMention = (
                     <AtSumOfMembersMention
                         userIds={options.userIds}
+                        messageMetadata={options.messageMetadata}
                         text={mentionName}
                     />);
                 return sumOfMembersMention;

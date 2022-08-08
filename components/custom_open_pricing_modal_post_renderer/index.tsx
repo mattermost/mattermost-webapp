@@ -81,6 +81,7 @@ export default function OpenPricingModalPost(props: {post: Post}) {
                             message={`${renderUsers(requestFeatures[key])} requested access to this feature`}
                             options={options}
                             userIds={getUsers(requestFeatures[key])}
+                            messageMetadata={{requestedFeature: key}}
                         />
                     </li>
                 </ul>);
