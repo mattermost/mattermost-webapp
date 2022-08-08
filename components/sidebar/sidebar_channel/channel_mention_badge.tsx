@@ -36,9 +36,7 @@ export default class ChannelMentionBadge extends React.PureComponent<Props, Stat
 const style = {
     undread: {
         borderRadius: '20px',
-        padding: '2px',
         minWidth: '12px',
         minHeight: '12px',
-        marginTop: '4px',
     },
 };
