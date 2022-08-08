@@ -247,7 +247,7 @@ export class FileUpload extends PureComponent<Props, State> {
             sortedFiles = result?.files || [];
         }
 
-        if (sortedFiles) {
+        if (sortedFiles && sortedFiles.length) {
             this.uploadFiles(sortedFiles);
         }
     }
