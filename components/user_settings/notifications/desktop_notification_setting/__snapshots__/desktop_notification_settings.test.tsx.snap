@@ -149,7 +149,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
   saving={false}
   section=""
   server_error=""
-  submit={[Function]}
+  submit={[MockFunction]}
   title="Desktop Notifications"
   updateSection={[Function]}
 />
@@ -246,7 +246,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
   saving={false}
   section=""
   server_error=""
-  submit={[Function]}
+  submit={[MockFunction]}
   title="Desktop Notifications"
   updateSection={[Function]}
 />
@@ -260,7 +260,6 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
       id="user.settings.notifications.desktop.mentionsNoSound"
     />
   }
-  focused={false}
   section="desktop"
   title="Desktop Notifications"
   updateSection={[Function]}
@@ -275,7 +274,6 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
       id="user.settings.notifications.off"
     />
   }
-  focused={false}
   section="desktop"
   title="Desktop Notifications"
   updateSection={[Function]}
@@ -431,7 +429,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
   saving={false}
   section=""
   server_error=""
-  submit={[Function]}
+  submit={[MockFunction]}
   title="Desktop Notifications"
   updateSection={[Function]}
 />
@@ -635,7 +633,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
   saving={false}
   section=""
   server_error=""
-  submit={[Function]}
+  submit={[MockFunction]}
   title="Desktop Notifications"
   updateSection={[Function]}
 />
@@ -649,7 +647,6 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
       id="user.settings.notifications.desktop.mentionsNoSound"
     />
   }
-  focused={false}
   section="desktop"
   title="Desktop Notifications"
   updateSection={[Function]}

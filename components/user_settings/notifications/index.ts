@@ -2,15 +2,18 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {updateMe} from 'mattermost-redux/actions/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 
-import UserSettingsNotifications from './user_settings_notifications.jsx';
+import {GlobalState} from 'types/store';
 
-function mapStateToProps(state) {
+import UserSettingsNotifications, {Props} from './user_settings_notifications';
+
+function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
 
     const sendPushNotifications = config.SendPushNotifications === 'true';
@@ -23,9 +26,11 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators({updateMe}, dispatch),
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Props['actions']>({
+            updateMe,
+        }, dispatch),
     };
 }
 
