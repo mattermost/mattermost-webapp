@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
-
 import {getChannelHeaderMenuPluginComponents} from 'selectors/plugins';
 
 describe('selectors/plugins', () => {
@@ -26,7 +24,7 @@ describe('selectors/plugins', () => {
                 },
             };
             const components = getChannelHeaderMenuPluginComponents(state);
-            assert.deepEqual(expectedComponents, components);
+            expect(components).toEqual(expectedComponents);
         });
 
         test('one channel header component found as shouldRender returns true', () => {
@@ -53,7 +51,7 @@ describe('selectors/plugins', () => {
             };
 
             const components = getChannelHeaderMenuPluginComponents(state);
-            assert.deepEqual(expectedComponents, components);
+            expect(components).toEqual(expectedComponents);
         });
 
         test('one channel header component found as shouldRender is not defined', () => {
@@ -80,7 +78,7 @@ describe('selectors/plugins', () => {
             };
 
             const components = getChannelHeaderMenuPluginComponents(state);
-            assert.deepEqual(expectedComponents, components);
+            expect(components).toEqual(expectedComponents);
         });
 
         test('no channel header components found as shouldRender returns false', () => {
@@ -105,7 +103,7 @@ describe('selectors/plugins', () => {
             };
 
             const components = getChannelHeaderMenuPluginComponents(state);
-            assert.deepEqual(expectedComponents, components);
+            expect(components).toEqual(expectedComponents);
         });
     });
 });
