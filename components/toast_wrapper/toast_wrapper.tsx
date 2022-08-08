@@ -4,7 +4,6 @@
 import React from 'react';
 import {FormattedMessage, injectIntl} from 'react-intl';
 
-// @ts-expect-error TS(2307): Cannot find module 'components/toast/toast' or its... Remove this comment to see the full error message
 import Toast from 'components/toast/toast';
 
 // @ts-expect-error TS(2307): Cannot find module 'components/timestamp' or its c... Remove this comment to see the full error message
