@@ -74,7 +74,7 @@ const InsightsModal = (props: Props) => {
             return (
                 <TopDMsTable
                     filterType={props.filterType}
-                    timeFrame={timeFrame.value}
+                    timeFrame={timeFrame}
                     closeModal={doHide}
                 />
             );
