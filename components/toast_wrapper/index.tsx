@@ -45,6 +45,9 @@ export function makeGetRootPosts() {
     (post as any).state !== Posts.POST_DELETED);
             }).reduce((map, obj) => {
                 (map as any)[(obj as any).id] = true;
+                // line 49 and line 50 added for Diego
+                // eslint-disable-next-line no-console
+                console.log(map);
                 return map;
             }, {});
         },
