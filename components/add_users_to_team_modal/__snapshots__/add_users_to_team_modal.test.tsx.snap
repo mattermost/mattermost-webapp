@@ -87,16 +87,11 @@ exports[`components/admin_console/add_users_to_team_modal/AddUsersToTeamModal sh
       options={
         Array [
           Object {
-            "allow_marketing": false,
-            "auth_data": "",
             "auth_service": "",
             "bot_description": "",
-            "bot_last_icon_update": 0,
             "create_at": 0,
             "delete_at": 0,
             "email": "",
-            "email_verified": true,
-            "failed_attempts": 0,
             "first_name": "",
             "id": "userid1",
             "is_bot": false,
@@ -107,7 +102,6 @@ exports[`components/admin_console/add_users_to_team_modal/AddUsersToTeamModal sh
             "last_picture_update": 0,
             "locale": "",
             "mfa_active": false,
-            "mfa_secret": "",
             "nickname": "",
             "notify_props": Object {
               "channel": "false",
@@ -132,16 +126,11 @@ exports[`components/admin_console/add_users_to_team_modal/AddUsersToTeamModal sh
             "value": "userid1",
           },
           Object {
-            "allow_marketing": false,
-            "auth_data": "",
             "auth_service": "",
             "bot_description": "",
-            "bot_last_icon_update": 0,
             "create_at": 0,
             "delete_at": 0,
             "email": "",
-            "email_verified": true,
-            "failed_attempts": 0,
             "first_name": "",
             "id": "userid2",
             "is_bot": false,
@@ -152,7 +141,6 @@ exports[`components/admin_console/add_users_to_team_modal/AddUsersToTeamModal sh
             "last_picture_update": 0,
             "locale": "",
             "mfa_active": false,
-            "mfa_secret": "",
             "nickname": "",
             "notify_props": Object {
               "channel": "false",
@@ -283,16 +271,11 @@ exports[`components/admin_console/add_users_to_team_modal/AddUsersToTeamModal sh
       options={
         Array [
           Object {
-            "allow_marketing": false,
-            "auth_data": "",
             "auth_service": "",
             "bot_description": "",
-            "bot_last_icon_update": 0,
             "create_at": 0,
             "delete_at": 0,
             "email": "",
-            "email_verified": true,
-            "failed_attempts": 0,
             "first_name": "",
             "id": "userid2",
             "is_bot": false,
@@ -303,7 +286,6 @@ exports[`components/admin_console/add_users_to_team_modal/AddUsersToTeamModal sh
             "last_picture_update": 0,
             "locale": "",
             "mfa_active": false,
-            "mfa_secret": "",
             "nickname": "",
             "notify_props": Object {
               "channel": "false",
@@ -328,16 +310,11 @@ exports[`components/admin_console/add_users_to_team_modal/AddUsersToTeamModal sh
             "value": "userid2",
           },
           Object {
-            "allow_marketing": false,
-            "auth_data": "",
             "auth_service": "",
             "bot_description": "",
-            "bot_last_icon_update": 0,
             "create_at": 0,
             "delete_at": 0,
             "email": "",
-            "email_verified": true,
-            "failed_attempts": 0,
             "first_name": "",
             "id": "userid-not-removed",
             "is_bot": false,
@@ -348,7 +325,6 @@ exports[`components/admin_console/add_users_to_team_modal/AddUsersToTeamModal sh
             "last_picture_update": 0,
             "locale": "",
             "mfa_active": false,
-            "mfa_secret": "",
             "nickname": "",
             "notify_props": Object {
               "channel": "false",

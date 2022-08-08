@@ -21,6 +21,16 @@ describe('components/UserProfile', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot, with colorization', () => {
+        const props = {
+            ...baseProps,
+            colorize: true,
+        };
+
+        const wrapper = shallow(<UserProfile {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should match snapshot, when user is shared', () => {
         const props = {
             ...baseProps,

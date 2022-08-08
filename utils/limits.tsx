@@ -7,7 +7,7 @@ import {CloudUsage, Limits} from '@mattermost/types/cloud';
 import {FileSizes} from './file_utils';
 
 export function asGBString(bits: number, formatNumber: (b: number, options: FormatNumberOptions) => string): string {
-    return `${formatNumber(bits / FileSizes.Gigabyte, {maximumFractionDigits: 0})}GB`;
+    return `${formatNumber(bits / FileSizes.Gigabyte, {maximumFractionDigits: 1})}GB`;
 }
 
 export function inK(num: number): string {
@@ -29,11 +29,15 @@ export const fallbackStarterLimits = {
     files: {
         totalStorage: FileSizes.Gigabyte * 10,
     },
+    teams: {
+        active: 1,
+    },
     integrations: {
-        enabled: 10,
+        enabled: 5,
     },
     boards: {
         cards: 500,
+        views: 5,
     },
 };
 

@@ -1,9 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-
 import {
     removeReaction,
     addMessageIntoHistory,
@@ -22,14 +19,14 @@ import {
     makeOnEditLatestPost,
 } from 'actions/views/create_comment';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
-import * as PostActions from 'actions/post_actions.jsx';
+import * as PostActions from 'actions/post_actions';
 import {executeCommand} from 'actions/command';
 import * as HookActions from 'actions/hooks';
 import {StoragePrefixes} from 'utils/constants';
 
-/* eslint-disable global-require */
+import mockStore from 'tests/test_store';
 
-const mockStore = configureStore([thunk]);
+/* eslint-disable global-require */
 
 jest.mock('mattermost-redux/actions/posts', () => ({
     removeReaction: (...args) => ({type: 'MOCK_REMOVE_REACTION', args}),
@@ -51,7 +48,7 @@ jest.mock('actions/hooks', () => ({
     runSlashCommandWillBePostedHooks: jest.fn((message, args) => () => ({data: {message, args}})),
 }));
 
-jest.mock('actions/post_actions.jsx', () => ({
+jest.mock('actions/post_actions', () => ({
     addReaction: (...args) => ({type: 'MOCK_ADD_REACTION', args}),
     createPost: jest.fn(() => ({type: 'MOCK_CREATE_POST'})),
     setEditingPost: (...args) => ({type: 'MOCK_SET_EDITING_POST', args}),

@@ -131,7 +131,7 @@ describe('Channels', () => {
 
         // * Assert that channel is archived and new messages can't be posted.
         cy.get('#channelArchivedMessage').should('contain', 'You are viewing an archived channel. New messages cannot be posted.');
-        cy.get('#post_textbox').should('not.exist');
+        cy.uiGetPostTextBox({exist: false});
 
         // # Switch to another channel
         cy.get('#sidebarItem_town-square').click();

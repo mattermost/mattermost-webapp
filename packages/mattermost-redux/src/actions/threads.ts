@@ -4,33 +4,25 @@
 import {uniq} from 'lodash';
 import {batchActions} from 'redux-batched-actions';
 
-import {ThreadTypes, PostTypes, UserTypes} from 'mattermost-redux/action_types';
-import {Client4} from 'mattermost-redux/client';
-
-import ThreadConstants from 'mattermost-redux/constants/threads';
-
-import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-
 import type {UserThread, UserThreadList} from '@mattermost/types/threads';
-
 import {Post} from '@mattermost/types/posts';
 
+import {ThreadTypes, PostTypes, UserTypes} from 'mattermost-redux/action_types';
+import {Client4} from 'mattermost-redux/client';
+import ThreadConstants from 'mattermost-redux/constants/threads';
+import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
-
 import {getMissingFilesByPosts} from 'mattermost-redux/actions/files';
-
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-
 import {getThreadsInChannel, getThread as getThreadSelector} from 'mattermost-redux/selectors/entities/threads';
-
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
-
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {makeGetPostsForThread} from 'mattermost-redux/selectors/entities/posts';
 
 import {logError} from './errors';
 import {forceLogoutIfNecessary} from './helpers';
+import {getPostThread} from './posts';
 
 type ExtendedPost = Post & { system_post_ids?: string[] };
 
@@ -191,7 +183,7 @@ export function handleThreadArrived(dispatch: DispatchFunc, getState: GetStateFu
         type: ThreadTypes.RECEIVED_THREAD,
         data: {
             thread,
-            team_id: teamId || currentTeamId,
+            team_id: teamId,
         },
     });
 
@@ -276,6 +268,33 @@ export function markThreadAsUnread(userId: string, teamId: string, threadId: str
             forceLogoutIfNecessary(error, dispatch, getState);
             dispatch(logError(error));
             return {error};
+        }
+
+        return {};
+    };
+}
+
+export function markLastPostInThreadAsUnread(userId: string, teamId: string, threadId: string) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const getPostsForThread = makeGetPostsForThread();
+        let posts = getPostsForThread(getState(), threadId);
+
+        const state = getState();
+        const thread = getThreadSelector(state, threadId);
+
+        // load posts in thread if they are not loaded already
+        if (thread?.reply_count === posts.length - 1) {
+            dispatch(markThreadAsUnread(userId, teamId, threadId, posts[0].id));
+        } else {
+            dispatch(getPostThread(threadId)).then(({data, error}) => {
+                if (data) {
+                    posts = getPostsForThread(getState(), threadId);
+                    dispatch(markThreadAsUnread(userId, teamId, threadId, posts[0].id));
+                } else if (error) {
+                    return {error};
+                }
+                return {};
+            });
         }
 
         return {};
@@ -388,7 +407,7 @@ export function decrementThreadCounts(post: ExtendedPost) {
         const state = getState();
         const thread = getThreadSelector(state, post.id);
 
-        if (!thread || (thread.unread_replies === 0 && thread.unread_mentions === 0)) {
+        if (!thread || (!thread.unread_replies && !thread.unread_mentions)) {
             return {data: false};
         }
 

@@ -38,7 +38,7 @@ import Textbox, {TextboxElement} from 'components/textbox';
 import TextboxClass from 'components/textbox/textbox';
 import TextboxLinks from 'components/textbox/textbox_links';
 import MessageSubmitError from 'components/message_submit_error';
-import {PostDraft} from 'types/store/rhs';
+import {PostDraft} from 'types/store/draft';
 import {Group} from '@mattermost/types/groups';
 import {ChannelMemberCountsByGroup} from '@mattermost/types/channels';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
@@ -57,7 +57,7 @@ const KeyCodes = Constants.KeyCodes;
 
 const CreateCommentDraftTimeoutMilliseconds = 500;
 
-type Props = {
+export type Props = {
 
     /**
      * The channel for which this comment is a part of
@@ -249,7 +249,7 @@ type Props = {
     markdownPreviewFeatureIsEnabled: boolean;
 }
 
-type State = {
+export type State = {
     showEmojiPicker: boolean;
     uploadsProgressPercent: {[clientID: string]: FilePreviewInfo};
     renderScrollbar: boolean;
@@ -264,7 +264,7 @@ type State = {
     serverError: (ServerError & {submittedMessage?: string}) | null;
 }
 
-class CreateComment extends React.PureComponent<Props, State> {
+export class CreateComment extends React.PureComponent<Props, State> {
     private lastBlurAt = 0;
     private draftsForPost: {[postID: string]: PostDraft | null} = {};
     private doInitialScrollToBottom = false;
@@ -440,7 +440,9 @@ class CreateComment extends React.PureComponent<Props, State> {
 
         const caretPosition = this.state.caretPosition || 0;
         if (isGitHubCodeBlock(table.className)) {
-            const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(caretPosition, message, clipboardData);
+            const selectionStart = (e.target as any).selectionStart;
+            const selectionEnd = (e.target as any).selectionEnd;
+            const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste({selectionStart, selectionEnd, message, clipboardData});
             const newCaretPosition = caretPosition + formattedCodeBlock.length;
             message = formattedMessage;
             this.setCaretPosition(newCaretPosition);
@@ -1063,7 +1065,7 @@ class CreateComment extends React.PureComponent<Props, State> {
     }
 
     getFileUploadTarget = () => {
-        return this.textboxRef.current;
+        return this.textboxRef.current?.getInputBox();
     }
 
     getCreateCommentControls = () => {

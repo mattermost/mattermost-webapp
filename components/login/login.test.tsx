@@ -19,7 +19,7 @@ import {ActionFunc} from 'mattermost-redux/types/actions';
 import {ClientConfig} from '@mattermost/types/config';
 import LocalStorageStore from 'stores/local_storage_store';
 import {GlobalState} from 'types/store';
-import Constants from 'utils/constants';
+import Constants, {WindowSizes} from 'utils/constants';
 
 let mockState: GlobalState;
 let mockLocation = {pathname: '', search: '', hash: ''};
@@ -93,6 +93,11 @@ describe('components/login/Login', () => {
             },
             storage: {
                 initialized: true,
+            },
+            views: {
+                browser: {
+                    windowSize: WindowSizes.DESKTOP_VIEW,
+                },
             },
         } as unknown as GlobalState;
 

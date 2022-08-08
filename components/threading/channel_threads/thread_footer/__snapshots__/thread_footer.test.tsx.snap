@@ -65,6 +65,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
         onMouseLeave={[Function]}
       >
         <UserAvatar
+          disableProfileOverlay={false}
           key="5"
           overlayProps={
             Object {
@@ -84,6 +85,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
         >
           <OverlayTrigger
             defaultOverlayShown={false}
+            disabled={false}
             overlay={
               <Memo(Connect(injectIntl(ProfilePopover)))
                 className="user-profile-popover"
@@ -255,6 +257,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                         <img
                           alt="user profile image"
                           className="Avatar Avatar-sm"
+                          onError={[Function]}
                           src="/api/v4/users/5/image?_=0"
                           style={
                             Object {
@@ -272,6 +275,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
           </OverlayTrigger>
         </UserAvatar>
         <UserAvatar
+          disableProfileOverlay={false}
           key="4"
           overlayProps={
             Object {
@@ -291,6 +295,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
         >
           <OverlayTrigger
             defaultOverlayShown={false}
+            disabled={false}
             overlay={
               <Memo(Connect(injectIntl(ProfilePopover)))
                 className="user-profile-popover"
@@ -462,6 +467,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                         <img
                           alt="user profile image"
                           className="Avatar Avatar-sm"
+                          onError={[Function]}
                           src="/api/v4/users/4/image?_=0"
                           style={
                             Object {
@@ -479,6 +485,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
           </OverlayTrigger>
         </UserAvatar>
         <UserAvatar
+          disableProfileOverlay={false}
           key="3"
           overlayProps={
             Object {
@@ -498,6 +505,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
         >
           <OverlayTrigger
             defaultOverlayShown={false}
+            disabled={false}
             overlay={
               <Memo(Connect(injectIntl(ProfilePopover)))
                 className="user-profile-popover"
@@ -669,6 +677,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                         <img
                           alt="user profile image"
                           className="Avatar Avatar-sm"
+                          onError={[Function]}
                           src="/api/v4/users/3/image?_=0"
                           style={
                             Object {
@@ -1157,6 +1166,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
         onMouseLeave={[Function]}
       >
         <UserAvatar
+          disableProfileOverlay={false}
           key="5"
           overlayProps={
             Object {
@@ -1176,6 +1186,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
         >
           <OverlayTrigger
             defaultOverlayShown={false}
+            disabled={false}
             overlay={
               <Memo(Connect(injectIntl(ProfilePopover)))
                 className="user-profile-popover"
@@ -1347,6 +1358,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                         <img
                           alt="user profile image"
                           className="Avatar Avatar-sm"
+                          onError={[Function]}
                           src="/api/v4/users/5/image?_=0"
                           style={
                             Object {
@@ -1364,6 +1376,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
           </OverlayTrigger>
         </UserAvatar>
         <UserAvatar
+          disableProfileOverlay={false}
           key="4"
           overlayProps={
             Object {
@@ -1383,6 +1396,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
         >
           <OverlayTrigger
             defaultOverlayShown={false}
+            disabled={false}
             overlay={
               <Memo(Connect(injectIntl(ProfilePopover)))
                 className="user-profile-popover"
@@ -1554,6 +1568,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                         <img
                           alt="user profile image"
                           className="Avatar Avatar-sm"
+                          onError={[Function]}
                           src="/api/v4/users/4/image?_=0"
                           style={
                             Object {
@@ -1571,6 +1586,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
           </OverlayTrigger>
         </UserAvatar>
         <UserAvatar
+          disableProfileOverlay={false}
           key="3"
           overlayProps={
             Object {
@@ -1590,6 +1606,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
         >
           <OverlayTrigger
             defaultOverlayShown={false}
+            disabled={false}
             overlay={
               <Memo(Connect(injectIntl(ProfilePopover)))
                 className="user-profile-popover"
@@ -1761,6 +1778,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                         <img
                           alt="user profile image"
                           className="Avatar Avatar-sm"
+                          onError={[Function]}
                           src="/api/v4/users/3/image?_=0"
                           style={
                             Object {

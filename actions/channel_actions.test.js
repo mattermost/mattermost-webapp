@@ -1,13 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import thunk from 'redux-thunk';
-import configureStore from 'redux-mock-store';
-
 import * as Actions from 'actions/channel_actions';
-import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
+import {loadProfilesForSidebar} from 'actions/user_actions';
 
-const mockStore = configureStore([thunk]);
+import mockStore from 'tests/test_store';
 
 const initialState = {
     entities: {
@@ -119,7 +116,7 @@ jest.mock('mattermost-redux/actions/channels', () => ({
     createGroupChannel: (...args) => ({type: 'MOCK_CREATE_GROUP_CHANNEL', args}),
 }));
 
-jest.mock('actions/user_actions.jsx', () => ({
+jest.mock('actions/user_actions', () => ({
     loadNewDMIfNeeded: jest.fn(),
     loadNewGMIfNeeded: jest.fn(),
     loadProfilesForSidebar: jest.fn(),

@@ -84,18 +84,18 @@ describe('Leave an archived channel', () => {
 
         createArchivedChannel({prefix: 'unarchive-'}, [messageText]).then(({name}) => {
             // # View the archived channel, noting that it is read-only
-            cy.get('#post_textbox').should('not.exist');
+            cy.uiGetPostTextBox({exist: false});
 
             // # Unarchive the channel:
-            cy.uiUnarchiveChannel();
+            cy.uiUnarchiveChannel().then(() => {
+                // * Channel is no longer read-only
+                cy.uiGetPostTextBox();
 
-            // * Channel is no longer read-only
-            cy.get('#post_textbox').should('be.visible');
+                // * Channel is displayed in LHS with the normal icon, not an archived channel icon
+                cy.get(`#sidebarItem_${name}`).scrollIntoView().should('be.visible');
 
-            // * Channel is displayed in LHS with the normal icon, not an archived channel icon
-            cy.get(`#sidebarItem_${name}`).scrollIntoView().should('be.visible');
-
-            cy.get(`#sidebarItem_${name}`).find('.icon-globe').should('be.visible');
+                cy.get(`#sidebarItem_${name}`).find('.icon-globe').should('be.visible');
+            });
         });
     });
 
@@ -114,12 +114,12 @@ describe('Leave an archived channel', () => {
 
         createArchivedChannel(channelOptions, [messageText]).then(({name}) => {
             // # View the archived channel, noting that it is read-only
-            cy.get('#post_textbox').should('not.exist');
+            cy.uiGetPostTextBox({exist: false});
 
             // # Unarchive the channel:
             cy.uiUnarchiveChannel().then(() => {
                 // * Channel is no longer read-only
-                cy.get('#post_textbox').should('be.visible');
+                cy.uiGetPostTextBox();
 
                 // * Channel is displayed in LHS with the normal icon, not an archived channel icon
                 cy.get(`#sidebarItem_${name}`).find('.icon-lock-outline').should('be.visible');

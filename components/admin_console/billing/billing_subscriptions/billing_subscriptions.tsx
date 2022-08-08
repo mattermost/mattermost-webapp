@@ -4,10 +4,13 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {t} from 'utils/i18n';
+
 import BlockableLink from 'components/admin_console/blockable_link';
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import useOpenSalesLink from 'components/common/hooks/useOpenSalesLink';
 import AlertBanner from 'components/alert_banner';
+import useGetSubscription from 'components/common/hooks/useGetSubscription';
 
 export const creditCardExpiredBanner = (setShowCreditCardBanner: (value: boolean) => void) => {
     return (
@@ -56,13 +59,31 @@ export const paymentFailedBanner = () => {
     );
 };
 
-interface Props {
+interface GrandfatheredPlanBannerProps {
     setShowGrandfatheredPlanBanner: (value: boolean) => void;
 }
 
-export const GrandfatheredPlanBanner = (props: Props) => {
+export const GrandfatheredPlanBanner = (props: GrandfatheredPlanBannerProps) => {
     const openPricingModal = useOpenPricingModal();
     const openSalesLink = useOpenSalesLink();
+    const subscription = useGetSubscription();
+    if (!subscription) {
+        return null;
+    }
+
+    let message = {
+        id: t('admin.billing.subscription.grandfatheredBannerBody'),
+        defaultMessage:
+            'Your workspace will update to the current Cloud Starter plan on November 1, 2022. You may lose access to some Enterprise features. Contact Sales to learn more or to subscribe to the Enterprise plan today.',
+    };
+
+    if (subscription.is_legacy_cloud_paid_tier) {
+        message = {
+            id: t('admin.billing.subscription.grandfatheredPayingBannerBody'),
+            defaultMessage: 'Your workspace will update to the current Cloud Enterprise plan ($30 / user) on November 1, 2022. Your grandfathered $10 legacy plan is set to expire November 1, 2022. You can downgrade to Professional by viewing the current plans.',
+        };
+    }
+
     return (
         <AlertBanner
             mode='info'
@@ -76,8 +97,7 @@ export const GrandfatheredPlanBanner = (props: Props) => {
             onDismiss={() => props.setShowGrandfatheredPlanBanner(false)}
             message={
                 <FormattedMessage
-                    id='admin.billing.subscription.grandfatheredBannerBody'
-                    defaultMessage='Your workspace will update to the current Cloud Starter plan on November 1, 2022. You may lose access to some Enterprise features. Contact Sales to learn more or to subscribe to the Enterprise plan today.'
+                    {...message}
                 />
             }
             actionButtonLeft={

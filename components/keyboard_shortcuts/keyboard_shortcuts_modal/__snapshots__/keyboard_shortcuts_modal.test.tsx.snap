@@ -453,8 +453,31 @@ exports[`components/KeyboardShortcutsModal should match snapshot modal 1`] = `
                         "id": "shortcuts.msgs.markdown.link",
                       },
                       "mac": Object {
-                        "defaultMessage": "Link:	⌘|Alt|K",
+                        "defaultMessage": "Link:	⌘|⌥|K",
                         "id": "shortcuts.msgs.markdown.link.mac",
+                      },
+                    }
+                  }
+                />
+              </div>
+              <span>
+                <strong>
+                  Searching
+                </strong>
+              </span>
+              <div
+                className="subsection"
+              >
+                <Memo(KeyboardShortcutSequence)
+                  shortcut={
+                    Object {
+                      "default": Object {
+                        "defaultMessage": "In channel:	Ctrl|F",
+                        "id": "shortcuts.msgs.search_channel",
+                      },
+                      "mac": Object {
+                        "defaultMessage": "In channel:	⌘|F",
+                        "id": "shortcuts.msgs.search_channel.mac",
                       },
                     }
                   }

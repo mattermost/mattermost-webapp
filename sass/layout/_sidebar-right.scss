@@ -117,7 +117,7 @@
             padding: 5px 15px 60px 15px;
         }
 
-        .scrollbar--view {
+        .post-right__content {
             .emoji-picker--active & {
                 pointer-events: none;
             }
@@ -322,6 +322,8 @@
 @media screen and (min-width: 769px) {
     // adjust RHS position and height
     #sidebar-right {
+        // If this is changed, the interaction with the App Bar icons must be tested
+        //(see .app-bar__icon in components/app_bar/app_bar.scss)
         z-index: 20;
         top: 0;
 

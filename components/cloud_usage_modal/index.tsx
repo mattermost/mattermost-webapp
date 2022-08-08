@@ -14,6 +14,8 @@ import GenericModal from 'components/generic_modal';
 import useGetLimits from 'components/common/hooks/useGetLimits';
 import useGetUsage from 'components/common/hooks/useGetUsage';
 
+import {Limits} from '@mattermost/types/cloud';
+
 import WorkspaceLimitsPanel, {messageToElement} from './workspace_limits_panel';
 
 import './index.scss';
@@ -28,6 +30,9 @@ export interface Props {
     primaryAction?: ModalAction;
     secondaryAction?: ModalAction;
     onClose: () => void;
+    ownLimits?: Limits;
+    backdrop?: boolean;
+    backdropClassName?: string;
 
     // e.g. in contexts where the CompassThemeProvider isn't already applied, like the system console
     needsTheme?: boolean;
@@ -41,13 +46,15 @@ export default function CloudUsageModal(props: Props) {
     const modal = (
         <GenericModal
             handleCancel={props.onClose}
-            useCompassDesign={true}
+            compassDesign={true}
             onExited={props.onClose}
             modalHeaderText={messageToElement(props.title)}
             cancelButtonText={props.secondaryAction && messageToElement(props.secondaryAction.message)}
             handleConfirm={props.primaryAction?.onClick}
             confirmButtonText={props.primaryAction && messageToElement(props.primaryAction.message)}
             className='CloudUsageModal'
+            backdrop={props.backdrop}
+            backdropClassName={props.backdropClassName}
         >
             <>
                 <p className='CloudUsageModal__description'>
@@ -55,7 +62,7 @@ export default function CloudUsageModal(props: Props) {
                 </p>
                 <WorkspaceLimitsPanel
                     showIcons={true}
-                    limits={limits}
+                    limits={props.ownLimits || limits}
                     usage={usage}
                 />
             </>

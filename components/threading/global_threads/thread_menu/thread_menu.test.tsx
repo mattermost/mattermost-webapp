@@ -5,7 +5,7 @@ import React, {ComponentProps} from 'react';
 import {set} from 'lodash';
 import {shallow} from 'enzyme';
 
-import {setThreadFollow, updateThreadRead, markThreadAsUnread} from 'mattermost-redux/actions/threads';
+import {setThreadFollow, updateThreadRead, markLastPostInThreadAsUnread} from 'mattermost-redux/actions/threads';
 jest.mock('mattermost-redux/actions/threads');
 
 import {manuallyMarkThreadAsUnread} from 'actions/views/threads';
@@ -132,7 +132,7 @@ describe('components/threading/common/thread_menu', () => {
         );
         wrapper.find('button').simulate('click');
         wrapper.find(Menu.ItemAction).find({text: 'Mark as read'}).simulate('click');
-        expect(markThreadAsUnread).not.toHaveBeenCalled();
+        expect(markLastPostInThreadAsUnread).not.toHaveBeenCalled();
         expect(updateThreadRead).toHaveBeenCalledWith('uid', 'tid', '1y8hpek81byspd4enyk9mp1ncw', 1612582579566);
         expect(manuallyMarkThreadAsUnread).toHaveBeenCalledWith('1y8hpek81byspd4enyk9mp1ncw', 1612582579566);
         expect(mockDispatch).toHaveBeenCalledTimes(2);
@@ -149,7 +149,7 @@ describe('components/threading/common/thread_menu', () => {
         wrapper.find('button').simulate('click');
         wrapper.find(Menu.ItemAction).find({text: 'Mark as unread'}).simulate('click');
         expect(updateThreadRead).not.toHaveBeenCalled();
-        expect(markThreadAsUnread).toHaveBeenCalledWith('uid', 'tid', '1y8hpek81byspd4enyk9mp1ncw', '1y8hpek81byspd4enyk9mp1ncw');
+        expect(markLastPostInThreadAsUnread).toHaveBeenCalledWith('uid', 'tid', '1y8hpek81byspd4enyk9mp1ncw');
         expect(manuallyMarkThreadAsUnread).toHaveBeenCalledWith('1y8hpek81byspd4enyk9mp1ncw', 1610486901110);
         expect(mockDispatch).toHaveBeenCalledTimes(2);
     });

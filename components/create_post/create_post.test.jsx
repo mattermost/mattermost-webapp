@@ -24,7 +24,7 @@ jest.mock('actions/global_actions', () => ({
     emitUserPostedEvent: jest.fn(),
 }));
 
-jest.mock('actions/post_actions.jsx', () => ({
+jest.mock('actions/post_actions', () => ({
     createPost: jest.fn(() => {
         return new Promise((resolve) => {
             process.nextTick(() => resolve());
@@ -296,7 +296,7 @@ describe('components/create_post', () => {
         const postTextbox = wrapper.find('#post_textbox');
         postTextbox.simulate('change', {target: {value: 'change'}});
         expect(setDraft).not.toHaveBeenCalled();
-        jest.runOnlyPendingTimers();
+        jest.runAllTimers();
         expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, draft);
     });
 

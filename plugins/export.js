@@ -16,7 +16,7 @@ import Timestamp from 'components/timestamp';
 import Avatar from 'components/widgets/users/avatar';
 import BotBadge from 'components/widgets/badges/bot_badge';
 
-import {openPricingModal} from '../components/global_header/right_controls/cloud_upgrade_button';
+import {openPricingModal} from '../components/global_header/right_controls/plan_upgrade_button';
 
 import Textbox from './textbox';
 
@@ -33,6 +33,7 @@ window.ReactBootstrap = require('react-bootstrap');
 window.ReactRouterDom = require('react-router-dom');
 window.PropTypes = require('prop-types');
 window.Luxon = require('luxon');
+window.StyledComponents = require('styled-components');
 
 // Functions exposed on window for plugins to use.
 window.PostUtils = {formatText, messageHtmlToComponent};

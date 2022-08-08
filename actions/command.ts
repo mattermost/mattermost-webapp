@@ -18,7 +18,7 @@ import {DoAppCallResult} from 'types/apps';
 
 import {openModal} from 'actions/views/modals';
 import * as GlobalActions from 'actions/global_actions';
-import * as PostActions from 'actions/post_actions.jsx';
+import * as PostActions from 'actions/post_actions';
 
 import {isUrlSafe, getSiteURL} from 'utils/url';
 import {localizeMessage, getUserIdFromChannelName, localizeAndFormatMessage} from 'utils/utils';

@@ -13,7 +13,7 @@ import {ServerError} from '@mattermost/types/errors';
 import {GlobalState} from 'types/store';
 
 import {incrementEmojiPickerPage, setUserSkinTone} from 'actions/emoji_actions';
-import {getEmojiMap, getRecentEmojis, getUserSkinTone} from 'selectors/emojis';
+import {getEmojiMap, getRecentEmojisNames, getUserSkinTone} from 'selectors/emojis';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import EmojiPicker from './emoji_picker';
@@ -23,7 +23,7 @@ function mapStateToProps(state: GlobalState) {
         customEmojisEnabled: getCustomEmojisEnabled(state),
         customEmojiPage: state.views.emoji.emojiPickerCustomPage,
         emojiMap: getEmojiMap(state),
-        recentEmojis: getRecentEmojis(state),
+        recentEmojis: getRecentEmojisNames(state),
         userSkinTone: getUserSkinTone(state),
         currentTeamName: getCurrentTeam(state)?.name ?? '',
     };

@@ -106,7 +106,6 @@ export type ClientConfig = {
     ExperimentalDataPrefetch: string;
     ExperimentalEnableAuthenticationTransfer: string;
     ExperimentalEnableAutomaticReplies: string;
-    ExperimentalEnableClickToReply: string;
     ExperimentalEnableDefaultChannelLeaveJoinMessages: string;
     ExperimentalEnablePostMetadata: string;
     ExperimentalGroupUnreadChannels: string;
@@ -114,6 +113,8 @@ export type ClientConfig = {
     ExperimentalTimezone: string;
     ExperimentalViewArchivedChannels: string;
     FileLevel: string;
+    FeatureFlagGraphQL: string;
+    FeatureFlagPlanUpgradeButtonText: string;
     GfycatAPIKey: string;
     GfycatAPISecret: string;
     GoogleDeveloperKey: string;
@@ -123,6 +124,7 @@ export type ClientConfig = {
     IosAppDownloadLink: string;
     IosLatestVersion: string;
     IosMinVersion: string;
+    InsightsEnabled: string;
     InstallationDate: string;
     IsDefaultMarketplace: string;
     LdapFirstNameAttributeSet: string;
@@ -183,6 +185,7 @@ export type ClientConfig = {
     WebsocketURL: string;
     ExperimentalSharedChannels: string;
     EnableAppBar: string;
+    EnableComplianceExport: string;
 };
 
 export type License = {
@@ -663,7 +666,6 @@ export type MetricsSettings = {
 export type ExperimentalSettings = {
     ClientSideCertEnable: boolean;
     ClientSideCertCheck: string;
-    EnableClickToReply: boolean;
     LinkMetadataTimeoutMilliseconds: number;
     RestrictSystemAdmin: boolean;
     UseNewSAMLLibrary: boolean;

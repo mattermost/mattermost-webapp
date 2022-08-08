@@ -106,7 +106,7 @@
                 }
             }
 
-            &.MenuItem__with-icon-tooltip {
+            &.MenuItem__with-sibling {
                 padding-right: 0 !important;
 
                 &.disabled {
@@ -116,6 +116,10 @@
 
                     &:hover {
                         background: none;
+                    }
+
+                    .icon {
+                        color: rgba(var(--sys-center-channel-color-rgb), 0.48);
                     }
                 }
             }
@@ -155,25 +159,6 @@
             &:focus,
             &:hover {
                 color: inherit;
-
-                & + .MenuItem__icon-tooltip-container {
-                    background-color: rgba(var(--center-channel-text-rgb), 0.1);
-                }
-            }
-        }
-
-        .MenuItem__icon-tooltip-container {
-            height: 100%;
-            padding: 0 10px;
-            color: var(--denim-button-bg);
-
-            .MenuItem__icon-tooltip {
-                padding: 5px 0;
-                line-height: 22px;
-
-                &.trial::before {
-                    content: "\26a1"; /* High Voltage Sign */
-                }
             }
         }
     }
@@ -182,8 +167,25 @@
         padding: 8px 12px;
         margin: 8px;
         margin-top: 0;
-        background-color: rgba(var(--button-bg-rgb), 0.04);
         border-radius: 4px;
+
+        &__free-trial {
+            &__content-title {
+                margin: 4px 0;
+                font-weight: 600;
+                line-height: 20px;
+            }
+
+            &__content-section {
+                display: flex;
+
+                &__icon-section {
+                    margin-top: -2px;
+                    color: var(--denim-button-bg);
+                    font-size: 18px;
+                }
+            }
+        }
 
         .upgradeLink {
             color: var(--button-bg);
@@ -262,14 +264,6 @@
         &__description {
             padding-bottom: 12px;
             font-size: 12px;
-
-            // TODO: hide link hack to be removed once
-            // https://mattermost.atlassian.net/browse/MM-43648 is completed
-            &--hide-link {
-                a {
-                    display: none;
-                }
-            }
         }
 
         &__usage {
@@ -359,17 +353,4 @@
 .MenuItem__divider {
     border-top: $border-gray;
     margin: 8px 0;
-}
-
-#MenuItem__icon-tooltip {
-    align-items: center;
-
-    .title {
-        display: block;
-    }
-
-    .message {
-        font-size: 11px;
-        opacity: 0.56;
-    }
 }

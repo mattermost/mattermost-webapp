@@ -3,10 +3,16 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 import styled from 'styled-components';
+import {useSelector} from 'react-redux';
+
+import {isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
+import {trackEvent} from 'actions/telemetry_actions';
 
 import useOpenSalesLink from 'components/common/hooks/useOpenSalesLink';
 
-const StyledDiv = styled.div`
+import {LicenseLinks} from 'utils/constants';
+
+const StyledA = styled.a`
 color: var(--denim-button-bg);
 font-family: 'Open Sans';
 font-size: 12px;
@@ -20,13 +26,29 @@ text-align: center;
 function ContactSalesCTA() {
     const {formatMessage} = useIntl();
     const openSalesLink = useOpenSalesLink();
+
+    const openSelfHostedLink = () => {
+        window.open(LicenseLinks.CONTACT_SALES, '_blank');
+    };
+
+    const isCloud = useSelector(isCurrentLicenseCloud);
+
     return (
-        <StyledDiv
+        <StyledA
             id='contact_sales_quote'
-            onClick={openSalesLink}
+            onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+                e.preventDefault();
+                if (isCloud) {
+                    trackEvent('cloud_pricing', 'click_enterprise_contact_sales');
+                    openSalesLink();
+                } else {
+                    trackEvent('self_hosted_pricing', 'click_enterprise_contact_sales');
+                    openSelfHostedLink();
+                }
+            }}
         >
-            {formatMessage({id: 'pricing_modal.btn.contactSalesForQuote', defaultMessage: 'Contact Sales for a quote'})}
-        </StyledDiv>);
+            {formatMessage({id: 'pricing_modal.btn.contactSalesForQuote', defaultMessage: 'Contact Sales'})}
+        </StyledA>);
 }
 
 export default ContactSalesCTA;

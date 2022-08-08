@@ -106,8 +106,8 @@ describe('Login page', () => {
         // # Clear password field
         cy.findByPlaceholderText('Password').clear();
 
-        // # Verify Log in button disabled
-        cy.get('#saveSetting').should('be.disabled');
+        // # Verify Log in button enabled
+        cy.get('#saveSetting').should('not.be.disabled');
     });
 
     it('MM-T3306_4 Should disable Log in button when empty email/username field', () => {
@@ -117,8 +117,8 @@ describe('Login page', () => {
         // # Enter a password
         cy.findByPlaceholderText('Password').clear().type('samplepassword');
 
-        // # Verify Log in button disabled
-        cy.get('#saveSetting').should('be.disabled');
+        // # Verify Log in button enabled
+        cy.get('#saveSetting').should('not.be.disabled');
     });
 
     it('MM-T3306_5 Should disable Log in button when empty password field', () => {
@@ -128,8 +128,8 @@ describe('Login page', () => {
         // # Clear password field
         cy.findByPlaceholderText('Password').clear();
 
-        // # Verify Log in button disabled
-        cy.get('#saveSetting').should('be.disabled');
+        // # Verify Log in button enabled
+        cy.get('#saveSetting').should('not.be.disabled');
     });
 
     it('MM-T3306_6 Should show error with invalid email/username and password', () => {
@@ -195,6 +195,9 @@ describe('Login page', () => {
     });
 
     it('MM-42489 Should login with a valid email and password using enter key and logout', () => {
+        // # Visit login page
+        cy.visit('/login');
+
         // # Remove autofocus from login id input
         cy.get('.login-body-card-content').should('be.visible').focus();
 

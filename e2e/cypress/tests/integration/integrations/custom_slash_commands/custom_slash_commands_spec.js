@@ -22,7 +22,7 @@ import {
     saveConfigForScheme,
 } from '../../enterprise/system_console/channel_moderation/helpers';
 
-import {addNewCommand} from './helpers';
+import {addNewCommand, runSlashCommand} from './helpers';
 
 describe('Slash commands', () => {
     const trigger = 'my_trigger';
@@ -30,6 +30,9 @@ describe('Slash commands', () => {
     let user2;
     let team1;
     let commandURL;
+    const userIds = [];
+    let groupChannel;
+    let visitLink;
 
     before(() => {
         cy.requireWebhookServer();
@@ -41,6 +44,21 @@ describe('Slash commands', () => {
                 commandURL = `${Cypress.env().webhookBaseUrl}/send_message_to_channel?channel_id=${channel.id}`;
             });
 
+            // # Create a GM with at least 3 users
+            ['charlie', 'diana', 'eddie'].forEach((name) => {
+                cy.apiCreateUser({prefix: name, bypassTutorial: true}).then(({user: groupUser}) => {
+                    cy.apiAddUserToTeam(team1.id, groupUser.id);
+                    userIds.push(groupUser.id);
+                });
+            });
+
+            // # Add test user to the list of group members
+            userIds.push(user1.id);
+
+            cy.apiCreateGroupChannel(userIds).then(({channel}) => {
+                groupChannel = channel;
+            });
+
             cy.apiCreateUser().then(({user: otherUser}) => {
                 user2 = otherUser;
                 cy.apiAddUserToTeam(team.id, user2.id);
@@ -48,11 +66,51 @@ describe('Slash commands', () => {
         });
     });
 
+    it('MM-T669 Custom slash command in DM and GM', () => {
+        const gmTrigger = 'gm_trigger';
+        const dmTrigger = 'dm_trigger';
+
+        cy.apiAdminLogin(user1);
+        cy.apiGetChannelByName(team1.name, groupChannel.name).then(({channel}) => {
+            const customGMUrl = `${Cypress.env().webhookBaseUrl}/send_message_to_channel?channel_id=${channel.id}`;
+
+            // # Add a new command to send a GM
+            addNewCommand(team1, gmTrigger, customGMUrl);
+
+            visitLink = `/${team1.name}/channels/${groupChannel.name}`;
+
+            // * Verify running custom command in GM
+            runSlashCommand(visitLink, gmTrigger);
+
+            // # Cleanup command
+            deleteCommand(team1, gmTrigger);
+        });
+
+        // # Create a new DM channel
+        cy.apiCreateDirectChannel([user1.id, user2.id]).then(() => {
+            visitLink = `/${team1.name}/messages/@${user2.username}`;
+            cy.visit(visitLink);
+        });
+
+        // # Get channel id to create a custom slash command in DM
+        cy.getCurrentChannelId().then((channelId) => {
+            const message = `hello from ${user2.username}: ${Date.now()}`;
+            cy.postMessageAs({sender: user2, message, channelId});
+
+            const customDMUrl = `${Cypress.env().webhookBaseUrl}/send_message_to_channel?channel_id=${channelId}`;
+
+            addNewCommand(team1, dmTrigger, customDMUrl);
+
+            // * Verify running custom command in DM
+            runSlashCommand(visitLink, dmTrigger);
+
+            // # Cleanup command
+            deleteCommand(team1, dmTrigger);
+        });
+    });
+
     it('MM-T696 Can\'t delete other user\'s slash command', () => {
         cy.apiAdminLogin(user1);
-
-        // # Open slash command page
-        cy.visit(`/${team1.name}/integrations/commands/installed`);
 
         // # Create new Slash command
         addNewCommand(team1, trigger, 'http://dot.com');
@@ -80,9 +138,6 @@ describe('Slash commands', () => {
     });
 
     it('MM-T697 Delete slash command', () => {
-        // # Open slash command page
-        cy.visit(`/${team1.name}/integrations/commands/installed`);
-
         // # Create new Slash command
         addNewCommand(team1, trigger, 'http://dot.com');
 
@@ -92,7 +147,7 @@ describe('Slash commands', () => {
         cy.visit(`/${team1.name}/channels/town-square`);
 
         // # Run slash command
-        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`/${trigger} {enter}`);
+        cy.uiGetPostTextBox().clear().type(`/${trigger} {enter}`);
         cy.wait(TIMEOUTS.TWO_SEC);
 
         // * Verify error
@@ -105,9 +160,6 @@ describe('Slash commands', () => {
                 EnablePostUsernameOverride: true,
             },
         });
-
-        // # Open slash command page
-        cy.visit(`/${team1.name}/integrations/commands/installed`);
 
         // # Create new Slash command
         addNewCommand(team1, trigger, commandURL);
@@ -144,9 +196,6 @@ describe('Slash commands', () => {
             },
         });
 
-        // # Open slash command page
-        cy.visit(`/${team1.name}/integrations/commands/installed`);
-
         // # Create new Slash command
         addNewCommand(team1, trigger, commandURL);
 
@@ -179,9 +228,6 @@ describe('Slash commands', () => {
     });
 
     it('MM-T703 Show custom slash command in autocomplete', () => {
-        // # Open slash command page
-        cy.visit(`/${team1.name}/integrations/commands/installed`);
-
         // # Create new Slash command
         addNewCommand(team1, trigger, commandURL);
 
@@ -204,14 +250,14 @@ describe('Slash commands', () => {
         cy.visit(`/${team1.name}/channels/town-square`);
 
         // # Type slash
-        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type('/');
+        cy.uiGetPostTextBox().clear().type('/');
         cy.wait(TIMEOUTS.TWO_SEC);
 
         // * Verify that command is in the list
-        cy.contains(`${trigger}`);
+        cy.contains(trigger);
 
         // # Type full command
-        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').type(`${trigger}`);
+        cy.uiGetPostTextBox().type(trigger);
         cy.wait(TIMEOUTS.TWO_SEC);
 
         // * Verify that autocomplete info is correct
@@ -231,11 +277,11 @@ describe('Slash commands', () => {
         cy.visit(`/${team1.name}/channels/town-square`);
 
         // # Run slash command
-        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type('/');
+        cy.uiGetPostTextBox().clear().type('/');
         cy.wait(TIMEOUTS.TWO_SEC);
 
         // * Verify that command is not in the list
-        cy.contains(`${trigger}`).should('not.exist');
+        cy.contains(trigger).should('not.exist');
 
         // # Cleanup command
         deleteCommand(team1, trigger);

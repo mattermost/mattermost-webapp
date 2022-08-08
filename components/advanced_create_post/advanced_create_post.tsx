@@ -39,7 +39,7 @@ import ResetStatusModal from 'components/reset_status_modal';
 import TextboxClass from 'components/textbox/textbox';
 
 import {Channel, ChannelMemberCountsByGroup} from '@mattermost/types/channels';
-import {PostDraft} from 'types/store/rhs';
+import {PostDraft} from 'types/store/draft';
 import {Post, PostMetadata} from '@mattermost/types/posts';
 import {PreferenceType} from '@mattermost/types/preferences';
 import EmojiMap from 'utils/emoji_map';
@@ -52,7 +52,10 @@ import {FileInfo} from '@mattermost/types/files';
 import {Emoji} from '@mattermost/types/emojis';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
 import {ApplyMarkdownOptions, applyMarkdown} from 'utils/markdown/apply_markdown';
+
 import AdvanceTextEditor from '../advanced_text_editor/advanced_text_editor';
+
+import FileLimitStickyBanner from '../file_limit_sticky_banner';
 const KeyCodes = Constants.KeyCodes;
 
 const CreatePostDraftTimeoutMilliseconds = 500;
@@ -136,6 +139,9 @@ type Props = {
     userIsOutOfOffice: boolean;
     rhsExpanded: boolean;
 
+    //If RHS open
+    rhsOpen: boolean;
+
     //To check if the timezones are enable on the server.
     isTimezoneEnabled: boolean;
 
@@ -212,7 +218,6 @@ type Props = {
     channelMemberCountsByGroup: ChannelMemberCountsByGroup;
     useLDAPGroupMentions: boolean;
     useCustomGroupMentions: boolean;
-    markdownPreviewFeatureIsEnabled: boolean;
 }
 
 type State = {
@@ -556,6 +561,8 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             useCustomGroupMentions,
         } = this.props;
 
+        this.setShowPreview(false);
+
         const notificationsToChannel = this.props.enableConfirmNotificationsToChannel && this.props.useChannelMentions;
         let memberNotifyCount = 0;
         let channelTimezoneCount = 0;
@@ -830,11 +837,9 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
 
         let message = this.state.message;
         if (isGitHubCodeBlock(table.className)) {
-            const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(
-                this.state.caretPosition,
-                message,
-                clipboardData,
-            );
+            const selectionStart = (e.target as any).selectionStart;
+            const selectionEnd = (e.target as any).selectionEnd;
+            const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste({selectionStart, selectionEnd, message, clipboardData});
             const newCaretPosition = this.state.caretPosition + formattedCodeBlock.length;
             this.setMessageAndCaretPostion(formattedMessage, newCaretPosition);
             return;
@@ -967,6 +972,11 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             return;
         }
 
+        // Hacky fix to avoid cursor jumping textbox sometimes
+        if (this.props.rhsOpen && document.activeElement?.tagName === 'BODY') {
+            return;
+        }
+
         // Bit of a hack to not steal focus from the channel switch modal if it's open
         // This is a special case as the channel switch modal does not enforce focus like
         // most modals do
@@ -991,11 +1001,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     }
 
     getFileUploadTarget = () => {
-        if (this.textboxRef.current) {
-            return this.textboxRef.current;
-        }
-
-        return null;
+        return this.textboxRef.current?.getInputBox();
     }
 
     fillMessageFromHistory() {
@@ -1079,46 +1085,11 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                 selectionEnd,
                 message: value,
             });
-        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.C)) {
+        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.E)) {
             e.stopPropagation();
             e.preventDefault();
-            this.applyMarkdown({
-                markdownMode: 'code',
-                selectionStart,
-                selectionEnd,
-                message: value,
-            });
-        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.NUMPAD_9)) {
-            this.applyMarkdown({
-                markdownMode: 'quote',
-                selectionStart,
-                selectionEnd,
-                message: value,
-            });
-        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.NUMPAD_8)) {
-            this.applyMarkdown({
-                markdownMode: 'ul',
-                selectionStart,
-                selectionEnd,
-                message: value,
-            });
-        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.NUMPAD_7)) {
-            this.applyMarkdown({
-                markdownMode: 'ol',
-                selectionStart,
-                selectionEnd,
-                message: value,
-            });
-        } else if (((isMac() && e.ctrlKey && e.shiftKey) || (e.altKey && e.shiftKey)) && Utils.isKeyPressed(e, KeyCodes.NUMPAD_3)) {
-            this.applyMarkdown({
-                markdownMode: 'heading',
-                selectionStart,
-                selectionEnd,
-                message: value,
-            });
-        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.E)) {
             this.toggleEmojiPicker();
-        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.P)) {
+        } else if (((isMac() && ctrlShiftCombo) || (!isMac() && ctrlAltCombo)) && Utils.isKeyPressed(e, KeyCodes.P) && this.state.message.length) {
             this.setShowPreview(!this.props.shouldShowPreview);
         } else if (ctrlAltCombo && Utils.isKeyPressed(e, KeyCodes.T)) {
             this.toggleAdvanceTextEditor();
@@ -1297,9 +1268,15 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                 className={centerClass}
                 onSubmit={this.handleSubmit}
             >
+                {
+                    this.props.canPost &&
+                    (this.props.draft.fileInfos.length > 0 || this.props.draft.uploadsInProgress.length > 0) &&
+                    <FileLimitStickyBanner/>
+                }
                 <AdvanceTextEditor
                     location={Locations.CENTER}
                     currentUserId={this.props.currentUserId}
+                    postError={this.state.postError}
                     message={this.state.message}
                     showEmojiPicker={this.state.showEmojiPicker}
                     uploadsProgressPercent={this.state.uploadsProgressPercent}

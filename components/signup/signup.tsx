@@ -7,6 +7,7 @@ import {useIntl} from 'react-intl';
 import {useLocation, useHistory} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 import classNames from 'classnames';
+import throttle from 'lodash/throttle';
 
 import {redirectUserToDefaultTeam} from 'actions/global_actions';
 import {removeGlobalItem, setGlobalItem} from 'actions/storage';
@@ -19,6 +20,7 @@ import LaptopAlertSVG from 'components/common/svg_images_components/laptop_alert
 import ManWithLaptopSVG from 'components/common/svg_images_components/man_with_laptop_svg';
 import ExternalLoginButton, {ExternalLoginButtonType} from 'components/external_login_button/external_login_button';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+import AlternateLinkLayout from 'components/header_footer_route/content_layouts/alternate_link';
 import ColumnLayout from 'components/header_footer_route/content_layouts/column';
 import {CustomizeHeaderType} from 'components/header_footer_route/header_footer_route';
 import LoadingScreen from 'components/loading_screen';
@@ -48,6 +50,8 @@ import {Constants, ItemStatus, ValidationErrors} from 'utils/constants';
 import {isValidUsername, isValidPassword, getPasswordConfig} from 'utils/utils';
 
 import './signup.scss';
+
+const MOBILE_SCREEN_WIDTH = 1200;
 
 type SignupProps = {
     onCustomizeHeader?: CustomizeHeaderType;
@@ -91,7 +95,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
     const {IsLicensed} = useSelector(getLicense);
     const loggedIn = Boolean(useSelector(getCurrentUserId));
     const useCaseOnboarding = useSelector(getUseCaseOnboarding);
-    const usedBefore = useSelector((state: GlobalState) => (!loggedIn && token ? getGlobalItem(state, token, null) : undefined));
+    const usedBefore = useSelector((state: GlobalState) => (!inviteId && !loggedIn && token ? getGlobalItem(state, token, null) : undefined));
 
     const emailInput = useRef<HTMLInputElement>(null);
     const nameInput = useRef<HTMLInputElement>(null);
@@ -108,7 +112,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
     const enableSAML = EnableSaml === 'true';
     const enableCustomBrand = EnableCustomBrand === 'true';
 
-    const noOpenServer = !inviteId && !enableOpenServer && !noAccounts;
+    const noOpenServer = !inviteId && !token && !enableOpenServer && !noAccounts;
 
     const [email, setEmail] = useState(parsedEmail ?? '');
     const [name, setName] = useState('');
@@ -122,6 +126,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
     const [serverError, setServerError] = useState('');
     const [teamName, setTeamName] = useState(parsedTeamName ?? '');
     const [alertBanner, setAlertBanner] = useState<AlertBannerProps | null>(null);
+    const [isMobileView, setIsMobileView] = useState(false);
 
     const enableExternalSignup = enableSignUpWithGitLab || enableSignUpWithOffice365 || enableSignUpWithGoogle || enableLDAP || enableSAML;
     const hasError = Boolean(emailError || nameError || passwordError || serverError || alertBanner);
@@ -237,9 +242,32 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
         setLoading(false);
     };
 
+    const getAlternateLink = useCallback(() => (
+        <AlternateLinkLayout
+            className='signup-body-alternate-link'
+            alternateMessage={formatMessage({
+                id: 'signup_user_completed.haveAccount',
+                defaultMessage: 'Already have an account?',
+            })}
+            alternateLinkPath='/login'
+            alternateLinkLabel={formatMessage({
+                id: 'signup_user_completed.signIn',
+                defaultMessage: 'Log in',
+            })}
+        />
+    ), []);
+
+    const onWindowResize = throttle(() => {
+        setIsMobileView(window.innerWidth < MOBILE_SCREEN_WIDTH);
+    }, 100);
+
     useEffect(() => {
         dispatch(removeGlobalItem('team'));
         trackEvent('signup', 'signup_user_01_welcome');
+
+        onWindowResize();
+
+        window.addEventListener('resize', onWindowResize);
 
         if (search) {
             if ((inviteId || token) && loggedIn) {
@@ -258,6 +286,10 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
                 }
             }
         }
+
+        return () => {
+            window.removeEventListener('resize', onWindowResize);
+        };
     }, []);
 
     useEffect(() => {
@@ -270,18 +302,10 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
         if (onCustomizeHeader) {
             onCustomizeHeader({
                 onBackButtonClick: handleHeaderBackButtonOnClick,
-                alternateMessage: formatMessage({
-                    id: 'signup_user_completed.haveAccount',
-                    defaultMessage: 'Already have an account?',
-                }),
-                alternateLinkPath: '/login',
-                alternateLinkLabel: formatMessage({
-                    id: 'signup_user_completed.signIn',
-                    defaultMessage: 'Log in',
-                }),
+                alternateLink: isMobileView ? getAlternateLink() : undefined,
             });
         }
-    }, [onCustomizeHeader, handleHeaderBackButtonOnClick, search]);
+    }, [onCustomizeHeader, handleHeaderBackButtonOnClick, isMobileView, getAlternateLink, search]);
 
     if (loading) {
         return (<LoadingScreen/>);
@@ -478,7 +502,6 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
                 email: emailInput.current?.value.trim(),
                 username: nameInput.current?.value.trim().toLowerCase(),
                 password: passwordInput.current?.value,
-                allow_marketing: true,
             } as UserProfile;
 
             const redirectTo = (new URLSearchParams(search)).get('redirect_to') as string;
@@ -695,6 +718,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
 
     return (
         <div className='signup-body'>
+            {!isMobileView && getAlternateLink()}
             <div className='signup-body-content'>
                 {getContent()}
             </div>

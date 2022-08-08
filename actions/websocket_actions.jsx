@@ -32,7 +32,7 @@ import {
 import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
 import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
 
-import {getBool, isCollapsedThreadsEnabled, cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getBool, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getNewestThreadInTeam, getThread, getThreads} from 'mattermost-redux/selectors/entities/threads';
 import {
     getThread as fetchThread,
@@ -99,9 +99,9 @@ import {browserHistory} from 'utils/browser_history';
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
 import {loadCustomEmojisIfNeeded} from 'actions/emoji_actions';
 import {redirectUserToDefaultTeam} from 'actions/global_actions';
-import {handleNewPost} from 'actions/post_actions.jsx';
-import * as StatusActions from 'actions/status_actions.jsx';
-import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
+import {handleNewPost} from 'actions/post_actions';
+import * as StatusActions from 'actions/status_actions';
+import {loadProfilesForSidebar} from 'actions/user_actions';
 import store from 'stores/redux_store.jsx';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 import {loadPlugin, loadPluginsIfNecessary, removePlugin} from 'plugins';
@@ -160,11 +160,12 @@ export function initialize() {
 
     connUrl += Client4.getUrlVersion() + '/websocket';
 
-    WebSocketClient.setEventCallback(handleEvent);
-    WebSocketClient.setFirstConnectCallback(handleFirstConnect);
-    WebSocketClient.setReconnectCallback(() => reconnect(false));
-    WebSocketClient.setMissedEventCallback(restart);
-    WebSocketClient.setCloseCallback(handleClose);
+    WebSocketClient.addMessageListener(handleEvent);
+    WebSocketClient.addFirstConnectListener(handleFirstConnect);
+    WebSocketClient.addReconnectListener(() => reconnect(false));
+    WebSocketClient.addMissedMessageListener(restart);
+    WebSocketClient.addCloseListener(handleClose);
+
     WebSocketClient.initialize(connUrl);
 }
 
@@ -657,6 +658,12 @@ const handleNewPostEventDebounced = debouncePostEvent(100);
 export function handleNewPostEvent(msg) {
     return (myDispatch, myGetState) => {
         const post = JSON.parse(msg.data.post);
+
+        if (window.logPostEvents) {
+            // eslint-disable-next-line no-console
+            console.log('handleNewPostEvent - new post received', post);
+        }
+
         myDispatch(handleNewPost(post, msg));
 
         getProfilesAndStatusesForPosts([post], myDispatch, myGetState);
@@ -684,6 +691,11 @@ export function handleNewPostEvents(queue) {
         // Note that this method doesn't properly update the sidebar state for these posts
         const posts = queue.map((msg) => JSON.parse(msg.data.post));
 
+        if (window.logPostEvents) {
+            // eslint-disable-next-line no-console
+            console.log('handleNewPostEvents - new posts received', posts);
+        }
+
         // Receive the posts as one continuous block since they were received within a short period
         const crtEnabled = isCollapsedThreadsEnabled(myGetState());
         const actions = posts.map((post) => receivedNewPost(post, crtEnabled));
@@ -700,6 +712,12 @@ export function handleNewPostEvents(queue) {
 export function handlePostEditEvent(msg) {
     // Store post
     const post = JSON.parse(msg.data.post);
+
+    if (window.logPostEvents) {
+        // eslint-disable-next-line no-console
+        console.log('handlePostEditEvent - post edit received', post);
+    }
+
     const crtEnabled = isCollapsedThreadsEnabled(getState());
     dispatch(receivedPost(post, crtEnabled));
 
@@ -717,6 +735,12 @@ export function handlePostEditEvent(msg) {
 
 async function handlePostDeleteEvent(msg) {
     const post = JSON.parse(msg.data.post);
+
+    if (window.logPostEvents) {
+        // eslint-disable-next-line no-console
+        console.log('handlePostDeleteEvent - post delete received', post);
+    }
+
     const state = getState();
     const collapsedThreads = isCollapsedThreadsEnabled(state);
 
@@ -734,7 +758,7 @@ async function handlePostDeleteEvent(msg) {
             const teamId = getCurrentTeamId(state);
             dispatch(fetchThread(userId, teamId, post.root_id, true));
         } else {
-            const res = await dispatch(getPostThread(post.id));
+            const res = await dispatch(getPostThread(post.root_id));
             const {order, posts} = res.data;
             const rootPost = posts[order[0]];
             dispatch(receivedPost(rootPost));
@@ -768,8 +792,7 @@ async function handleTeamAddedEvent(msg) {
     const state = getState();
     await dispatch(TeamActions.getMyTeamUnreads(isCollapsedThreadsEnabled(state)));
     const license = getLicense(state);
-    const isCloudFreeEnabled = cloudFreeEnabled(state);
-    if (license.Cloud === 'true' && isCloudFreeEnabled) {
+    if (license.Cloud === 'true') {
         dispatch(getTeamsUsage());
     }
 }
@@ -836,8 +859,7 @@ function handleUpdateTeamEvent(msg) {
     const state = store.getState();
     const license = getLicense(state);
     dispatch({type: TeamTypes.UPDATED_TEAM, data: JSON.parse(msg.data.team)});
-    const isCloudFreeEnabled = cloudFreeEnabled(state);
-    if (license.Cloud === 'true' && isCloudFreeEnabled) {
+    if (license.Cloud === 'true') {
         dispatch(getTeamsUsage());
     }
 }
@@ -851,8 +873,7 @@ function handleDeleteTeamEvent(msg) {
     const state = store.getState();
     const {teams} = state.entities.teams;
     const license = getLicense(state);
-    const isCloudFreeEnabled = cloudFreeEnabled(state);
-    if (license.Cloud === 'true' && isCloudFreeEnabled) {
+    if (license.Cloud === 'true') {
         dispatch(getTeamsUsage());
     }
     if (
@@ -896,22 +917,15 @@ function handleDeleteTeamEvent(msg) {
             {type: TeamTypes.UPDATED_TEAM, data: deletedTeam},
         ]));
 
-        if (browserHistory.location?.pathname === `/admin_console/user_management/teams/${deletedTeam.id}`) {
-            return;
-        }
-
-        // If a deletion just happened and it's attempting to redirect back to the teams list, let it.
-        if (browserHistory.location?.pathname === '/admin_console/user_management/teams') {
-            return;
-        }
-
-        if (newTeamId) {
-            dispatch({type: TeamTypes.SELECT_TEAM, data: newTeamId});
-            const globalState = getState();
-            const redirectChannel = getRedirectChannelNameForTeam(globalState, newTeamId);
-            browserHistory.push(`${getCurrentTeamUrl(globalState)}/channels/${redirectChannel}`);
-        } else {
-            browserHistory.push('/');
+        if (currentTeamId === deletedTeam.id) {
+            if (newTeamId) {
+                dispatch({type: TeamTypes.SELECT_TEAM, data: newTeamId});
+                const globalState = getState();
+                const redirectChannel = getRedirectChannelNameForTeam(globalState, newTeamId);
+                browserHistory.push(`${getCurrentTeamUrl(globalState)}/channels/${redirectChannel}`);
+            } else {
+                browserHistory.push('/');
+            }
         }
     }
 }
@@ -1345,7 +1359,15 @@ function handlePluginStatusesChangedEvent(msg) {
 }
 
 function handleIntegrationsUsageChangedEvent(msg) {
-    store.dispatch({type: CloudTypes.RECEIVED_INTEGRATIONS_USAGE, data: msg.data.usage.enabled});
+    const state = store.getState();
+    const license = getLicense(state);
+
+    if (license.Cloud === 'true') {
+        store.dispatch({
+            type: CloudTypes.RECEIVED_INTEGRATIONS_USAGE,
+            data: msg.data.usage.enabled,
+        });
+    }
 }
 
 function handleOpenDialogEvent(msg) {
@@ -1527,19 +1549,24 @@ function handleCloudPaymentStatusUpdated() {
 }
 
 export function handleCloudSubscriptionChanged(msg) {
-    return (doDispatch) => {
-        if (msg.data.limits) {
-            doDispatch({
-                type: CloudTypes.RECEIVED_CLOUD_LIMITS,
-                data: msg.data.limits,
-            });
-        }
+    return (doDispatch, doGetState) => {
+        const state = doGetState();
+        const license = getLicense(state);
 
-        if (msg.data.subscription) {
-            doDispatch({
-                type: CloudTypes.RECEIVED_CLOUD_SUBSCRIPTION,
-                data: msg.data.subscription,
-            });
+        if (license.Cloud === 'true') {
+            if (msg.data.limits) {
+                doDispatch({
+                    type: CloudTypes.RECEIVED_CLOUD_LIMITS,
+                    data: msg.data.limits,
+                });
+            }
+
+            if (msg.data.subscription) {
+                doDispatch({
+                    type: CloudTypes.RECEIVED_CLOUD_SUBSCRIPTION,
+                    data: msg.data.subscription,
+                });
+            }
         }
         return {data: true};
     };

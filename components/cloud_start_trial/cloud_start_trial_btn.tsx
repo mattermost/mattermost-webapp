@@ -1,14 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {useDispatch} from 'react-redux';
 
 import {DispatchFunc} from 'mattermost-redux/types/actions';
-import {getLicenseConfig} from 'mattermost-redux/actions/general';
 
-import {requestCloudTrial, validateBusinessEmail} from 'actions/cloud';
+import useGetSubscription from 'components/common/hooks/useGetSubscription';
+
+import {requestCloudTrial, validateWorkspaceBusinessEmail, getCloudLimits} from 'actions/cloud';
 import {trackEvent} from 'actions/telemetry_actions';
 import {openModal, closeModal} from 'actions/views/modals';
 
@@ -37,6 +38,8 @@ enum TrialLoadStatus {
     Embargoed = 'EMBARGOED',
 }
 
+const TIME_UNTIL_CACHE_PURGE_GUESS = 5000;
+
 const CloudStartTrialButton = ({
     message,
     telemetryId,
@@ -48,37 +51,58 @@ const CloudStartTrialButton = ({
 }: CloudStartTrialBtnProps) => {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch<DispatchFunc>();
-
+    const subscription = useGetSubscription();
+    const [openBusinessEmailModal, setOpenBusinessEmailModal] = useState(false);
     const [status, setLoadStatus] = useState(TrialLoadStatus.NotStarted);
+
+    const validateBusinessEmailOnLoad = async () => {
+        const isValidBusinessEmail = await validateWorkspaceBusinessEmail()();
+        if (!isValidBusinessEmail) {
+            setOpenBusinessEmailModal(true);
+        }
+    };
+
+    useEffect(() => {
+        validateBusinessEmailOnLoad();
+    }, []);
 
     const requestStartTrial = async (): Promise<TrialLoadStatus> => {
         setLoadStatus(TrialLoadStatus.Started);
 
         // email is set ONLY from the instance of this component created in the requestBusinessEmail modal.
-        // So the flow is the following: This button is clicked from
-        // the learn more about trial modal, If the email of the admin and the
+        // So the flow is the following: If the email of the admin and the
         // email of the CWS customer are not valid, the requestBusinessModal is shown and that component will
-        // create this StartCloudTrialBtn passing the email as TRUE, so the requetTrial flow continues normally
-        if (!email) {
-            const isValidBusinessEmail = await validateBusinessEmail()();
-            if (!isValidBusinessEmail) {
-                trackEvent(
-                    TELEMETRY_CATEGORIES.CLOUD_START_TRIAL_BUTTON,
-                    'trial_request_attempt_with_no_valid_business_email',
-                );
-                await dispatch(closeModal(ModalIdentifiers.LEARN_MORE_TRIAL_MODAL));
-                openRequestBusinessEmailModal();
-                setLoadStatus(TrialLoadStatus.Failed);
-                return TrialLoadStatus.Failed;
-            }
-        }
-
-        const productUpdated = await requestCloudTrial('start_trial_btn', (email || ''))();
-        if (!productUpdated) {
+        // create this StartCloudTrialBtn passing the email as Truthy, so the requetTrial flow continues normally
+        if (openBusinessEmailModal && !email) {
+            trackEvent(
+                TELEMETRY_CATEGORIES.CLOUD_START_TRIAL_BUTTON,
+                'trial_request_attempt_with_no_valid_business_email',
+            );
+            await dispatch(closeModal(ModalIdentifiers.LEARN_MORE_TRIAL_MODAL));
+            openRequestBusinessEmailModal();
             setLoadStatus(TrialLoadStatus.Failed);
             return TrialLoadStatus.Failed;
         }
-        await dispatch(getLicenseConfig());
+
+        const subscriptionUpdated = await dispatch(requestCloudTrial('start_cloud_trial_btn', subscription?.id as string, (email || '')));
+        if (!subscriptionUpdated) {
+            setLoadStatus(TrialLoadStatus.Failed);
+            return TrialLoadStatus.Failed;
+        }
+
+        function ensureUpdatedData() {
+            // Depending on timing of pods rolling, the webhook may still not get sent.
+            // Re-request limits as a just-in-case, but only well after any
+            // pods still alive should have either purged cache,
+            // updated limits, or be brand new pods that won't be holding onto stale limits
+            // We don't need to re-request subscription: the updated value is sent in the
+            // request cloud trial response.
+            // We don't need to request license: its update process is independent
+            // from subscription/limit changes and always happens after pods roll.
+            dispatch(getCloudLimits());
+        }
+
+        setTimeout(ensureUpdatedData, TIME_UNTIL_CACHE_PURGE_GUESS);
         if (afterTrialRequest) {
             afterTrialRequest();
         }
@@ -120,6 +144,9 @@ const CloudStartTrialButton = ({
         }
     };
     const startCloudTrial = async () => {
+        if (status !== TrialLoadStatus.NotStarted) {
+            return;
+        }
         const updatedStatus = await requestStartTrial();
 
         await openTrialBenefitsModal(updatedStatus);
@@ -134,9 +161,10 @@ const CloudStartTrialButton = ({
 
     return (
         <button
+            id='start_cloud_trial_btn'
             className={`CloudStartTrialButton ${extraClass}`}
             onClick={startCloudTrial}
-            disabled={disabled}
+            disabled={disabled || status === TrialLoadStatus.Failed}
         >
             {btnText(status)}
         </button>

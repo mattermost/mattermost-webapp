@@ -5,6 +5,9 @@ import {useDispatch} from 'react-redux';
 import {useIntl} from 'react-intl';
 
 import {openModal} from 'actions/views/modals';
+
+import {trackEvent} from 'actions/telemetry_actions';
+
 import {CardSize, InsightsWidgetTypes, TimeFrame} from '@mattermost/types/insights';
 
 import InsightsCard from '../card/card';
@@ -19,7 +22,6 @@ export interface WidgetHocProps {
     filterType: string;
     class: string;
     timeFrame: TimeFrame;
-    timeFrameLabel: string;
 }
 
 function widgetHoc<T>(WrappedComponent: ComponentType<T>) {
@@ -42,6 +44,7 @@ function widgetHoc<T>(WrappedComponent: ComponentType<T>) {
         }, [props.filterType, props.widgetType]);
 
         const openInsightsModal = useCallback(() => {
+            trackEvent('insights', `open_modal_${props.widgetType.toLowerCase()}`);
             dispatch(openModal({
                 modalId: ModalIdentifiers.INSIGHTS,
                 dialogType: InsightsModal,
@@ -51,10 +54,9 @@ function widgetHoc<T>(WrappedComponent: ComponentType<T>) {
                     subtitle: subTitle(),
                     filterType: props.filterType,
                     timeFrame: props.timeFrame,
-                    timeFrameLabel: props.timeFrameLabel,
                 },
             }));
-        }, [props.widgetType, title, subTitle, props.filterType, props.timeFrame, props.timeFrameLabel]);
+        }, [props.widgetType, title, subTitle, props.filterType, props.timeFrame]);
 
         return (
             <InsightsCard

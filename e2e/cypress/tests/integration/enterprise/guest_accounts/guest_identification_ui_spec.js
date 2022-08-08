@@ -56,23 +56,11 @@ describe('Verify Guest User Identification in different screens', () => {
     });
 
     it('MM-T1370 Verify Guest Badge in Channel Members dropdown and dialog', () => {
-        cy.get('#sidebarItem_town-square').click({force: true});
-
-        // # Open Channel Members Dialog
+        // # Open Channel Members RHS
         cy.get('#channelHeaderDropdownIcon').click();
-        cy.get('#channelViewMembers').click().wait(TIMEOUTS.HALF_SEC);
-        cy.get('#channelMembersModal').should('be.visible').within(($el) => {
-            cy.wrap($el).findAllByTestId('userListItemDetails').each(($elChild) => {
-                cy.wrap($elChild).invoke('text').then((username) => {
-                    // * Verify Guest Badge in Channel Members List
-                    if (username === guest.username) {
-                        cy.wrap($elChild).find('.Badge').should('be.visible').and('have.text', 'GUEST');
-                    }
-                });
-            });
-
-            // #Close Channel Members Dialog
-            cy.wrap($el).find('.close').click();
+        cy.get('#channelManageMembers').click().wait(TIMEOUTS.HALF_SEC);
+        cy.uiGetRHS().findByTestId(`memberline-${guest.id}`).within(($el) => {
+            cy.wrap($el).get('.Badge__box').should('be.visible').should('have.text', 'GUEST');
         });
     });
 
@@ -173,9 +161,11 @@ describe('Verify Guest User Identification in different screens', () => {
         // # Open a DM with Guest User
         cy.uiAddDirectMessage().click();
         cy.findByRole('dialog', {name: 'Direct Messages'}).should('be.visible').wait(TIMEOUTS.ONE_SEC);
-        cy.findByRole('textbox', {name: 'Search for people'}).should('have.focused').
-            type(guest.username).wait(TIMEOUTS.ONE_SEC).
-            type('{enter}');
+        cy.findByRole('textbox', {name: 'Search for people'}).
+            should('have.focused').
+            typeWithForce(guest.username).
+            wait(TIMEOUTS.ONE_SEC).
+            typeWithForce('{enter}');
         cy.uiGetButton('Go').click().wait(TIMEOUTS.HALF_SEC);
 
         // * Verify Guest Badge in DM header
@@ -187,12 +177,16 @@ describe('Verify Guest User Identification in different screens', () => {
         // # Open a GM with Guest User and Sysadmin
         cy.uiAddDirectMessage().click();
         cy.findByRole('dialog', {name: 'Direct Messages'}).should('be.visible').wait(TIMEOUTS.ONE_SEC);
-        cy.findByRole('textbox', {name: 'Search for people'}).should('have.focused').
-            type(guest.username).wait(TIMEOUTS.ONE_SEC).
-            type('{enter}');
-        cy.findByRole('textbox', {name: 'Search for people'}).should('have.focused').
-            type(admin.username).wait(TIMEOUTS.ONE_SEC).
-            type('{enter}');
+        cy.findByRole('textbox', {name: 'Search for people'}).
+            should('have.focused').
+            typeWithForce(guest.username).
+            wait(TIMEOUTS.ONE_SEC).
+            typeWithForce('{enter}');
+        cy.findByRole('textbox', {name: 'Search for people'}).
+            should('have.focused').
+            typeWithForce(admin.username).
+            wait(TIMEOUTS.ONE_SEC).
+            typeWithForce('{enter}');
         cy.uiGetButton('Go').click().wait(TIMEOUTS.HALF_SEC);
 
         // * Verify Guest Badge in GM header
@@ -204,7 +198,7 @@ describe('Verify Guest User Identification in different screens', () => {
 
     it('Verify Guest Badge in @mentions Autocomplete', () => {
         // # Start a draft in Channel containing "@user"
-        cy.get('#post_textbox').type(`@${guest.username}`);
+        cy.uiGetPostTextBox().type(`@${guest.username}`);
 
         // * Verify Guest Badge is displayed at mention auto-complete
         cy.get('#suggestionList').should('be.visible');

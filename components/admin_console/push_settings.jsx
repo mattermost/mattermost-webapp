@@ -8,8 +8,6 @@ import {FormattedMessage} from 'react-intl';
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
-
 import AdminSettings from './admin_settings';
 import DropdownSetting from './dropdown_setting.jsx';
 import SettingsGroup from './settings_group.jsx';
@@ -124,9 +122,21 @@ export default class PushSettings extends AdminSettings {
         let pushServerHelpText = null;
         if (this.state.pushNotificationServerType === PUSH_NOTIFICATIONS_OFF) {
             sendHelpText = (
-                <FormattedMarkdownMessage
+                <FormattedMessage
                     id='admin.email.pushOffHelp'
-                    defaultMessage='Please see [documentation on push notifications](!https://docs.mattermost.com/deploy/mobile-hpns.html) to learn more about setup options.'
+                    defaultMessage='Please see <link>documentation on push notifications</link> to learn more about setup options.'
+                    values={{
+                        link: (msg) => (
+                            <a
+                                href='https://docs.mattermost.com/deploy/mobile-hpns.html'
+                                referrer='noreferrer'
+                                target='_blank'
+                                rel='noreferrer'
+                            >
+                                {msg}
+                            </a>
+                        ),
+                    }}
                 />
             );
         } else if (this.state.pushNotificationServerType === PUSH_NOTIFICATIONS_MHPNS) {
@@ -157,7 +167,7 @@ export default class PushSettings extends AdminSettings {
                         ),
                         linkHPNS: (msg) => (
                             <a
-                                href='https://docs.mattermost.com/deploy/mobile-hpns.html]'
+                                href='https://docs.mattermost.com/deploy/mobile-hpns.html'
                                 referrer='noreferrer'
                                 target='_blank'
                                 rel='noreferrer'
@@ -196,7 +206,7 @@ export default class PushSettings extends AdminSettings {
                         ),
                         linkHPNS: (msg) => (
                             <a
-                                href='https://docs.mattermost.com/deploy/mobile-hpns.html]'
+                                href='https://docs.mattermost.com/deploy/mobile-hpns.html'
                                 referrer='noreferrer'
                                 target='_blank'
                                 rel='noreferrer'

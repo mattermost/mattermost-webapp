@@ -394,7 +394,7 @@ function dropAlpha(value: string): string {
 }
 
 // given '#fffff', returns '255, 255, 255' (no trailing comma)
-function toRgbValues(hexStr: string): string {
+export function toRgbValues(hexStr: string): string {
     const rgbaStr = `${parseInt(hexStr.substr(1, 2), 16)}, ${parseInt(hexStr.substr(3, 2), 16)}, ${parseInt(hexStr.substr(5, 2), 16)}`;
     return rgbaStr;
 }
@@ -782,6 +782,10 @@ export function placeCaretAtEnd(el: HTMLInputElement | HTMLTextAreaElement) {
     el.focus();
     el.selectionStart = el.value.length;
     el.selectionEnd = el.value.length;
+}
+
+export function scrollToCaret(el: HTMLInputElement | HTMLTextAreaElement) {
+    el.scrollTop = el.scrollHeight;
 }
 
 function createHtmlElement(el: keyof HTMLElementTagNameMap) {

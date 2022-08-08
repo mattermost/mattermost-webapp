@@ -10,7 +10,7 @@ import {Emoji} from '@mattermost/types/emojis';
 import {FileInfo} from '@mattermost/types/files';
 import {ServerError} from '@mattermost/types/errors';
 import {Channel} from '@mattermost/types/channels';
-import {PostDraft} from 'types/store/rhs';
+import {PostDraft} from 'types/store/draft';
 
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import FilePreview from 'components/file_preview';
@@ -39,6 +39,10 @@ import {IconContainer} from './formatting_bar/formatting_icon';
 import './advanced_text_editor.scss';
 
 type Props = {
+
+    /**
+     * location of the advanced text editor in the UI (center channel / RHS)
+     */
     location: string;
     currentUserId: string;
     message: string;
@@ -220,13 +224,6 @@ const AdvanceTextEditor = ({
         />
     );
 
-    const showFormatJSX = readOnlyChannel ? null : (
-        <ShowFormat
-            onClick={handleShowFormat}
-            active={shouldShowPreview}
-        />
-    );
-
     const getEmojiPickerRef = () => {
         return emojiPickerRef.current;
     };
@@ -266,6 +263,7 @@ const AdvanceTextEditor = ({
                     overlay={emojiPickerTooltip}
                 >
                     <IconContainer
+                        id={'emojiPickerButton'}
                         ref={emojiPickerRef}
                         onClick={toggleEmojiPicker}
                         type='button'
@@ -288,6 +286,13 @@ const AdvanceTextEditor = ({
         <SendButton
             disabled={disableSendButton}
             handleSubmit={handleSubmit}
+        />
+    );
+
+    const showFormatJSX = disableSendButton ? null : (
+        <ShowFormat
+            onClick={handleShowFormat}
+            active={shouldShowPreview}
         />
     );
 
@@ -334,7 +339,19 @@ const AdvanceTextEditor = ({
         };
     }, [textboxRef]);
 
-    const textboxId = location === Locations.CENTER ? 'post_textbox' : 'reply_textbox';
+    let textboxId = 'textbox';
+
+    switch (location) {
+    case Locations.CENTER:
+        textboxId = 'post_textbox';
+        break;
+    case Locations.RHS_COMMENT:
+        textboxId = 'reply_textbox';
+        break;
+    case Locations.MODAL:
+        textboxId = 'modal_textbox';
+        break;
+    }
 
     const formattingBar = readOnlyChannel ? null : (
         <FormattingBar
@@ -346,6 +363,7 @@ const AdvanceTextEditor = ({
             extraControls={extraControls}
             toggleAdvanceTextEditor={toggleAdvanceTextEditor}
             showFormattingControls={!isFormattingBarHidden}
+            location={location}
         />
     );
 
@@ -367,7 +385,8 @@ const AdvanceTextEditor = ({
             >
                 <div
                     role='application'
-                    id='centerChannelFooter'
+                    id='advancedTextEditorCell'
+                    data-a11y-sort-order='2'
                     aria-label={ariaLabelMessageInput}
                     tabIndex={-1}
                     className='AdvancedTextEditor__cell a11y__region'
