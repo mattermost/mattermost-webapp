@@ -691,6 +691,12 @@
             width: 80px;
         }
 
+        &--archived {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         // helper to center the image icon in the preview window
         .file-details__preview-helper {
             display: inline-block;

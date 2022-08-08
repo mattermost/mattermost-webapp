@@ -13,6 +13,7 @@ import Constants, {FileTypes, ZoomSettings} from 'utils/constants';
 import * as Utils from 'utils/utils';
 import AudioVideoPreview from 'components/audio_video_preview';
 import CodePreview from 'components/code_preview';
+import ArchivedPreview from 'components/archived_preview';
 import FileInfoPreview from 'components/file_info_preview';
 
 import {FilePreviewComponent} from 'types/store/plugins';
@@ -62,12 +63,12 @@ type State = {
     show: boolean;
     imageIndex: number;
     imageHeight: number | string;
-    loaded: boolean[];
+    loaded: Record<number, boolean>;
     prevFileInfosCount: number;
-    progress: number[];
+    progress: Record<number, number>;
     showCloseBtn: boolean;
     showZoomControls: boolean;
-    scale: number[];
+    scale: Record<number, number>;
 }
 
 export default class FilePreviewModal extends React.PureComponent<Props, State> {
@@ -84,12 +85,12 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
             show: true,
             imageIndex: this.props.startIndex,
             imageHeight: '100%',
-            loaded: Utils.fillArray(false, this.props.fileInfos.length),
+            loaded: Utils.fillRecord(false, this.props.fileInfos.length),
             prevFileInfosCount: 0,
-            progress: Utils.fillArray(0, this.props.fileInfos.length),
+            progress: Utils.fillRecord(0, this.props.fileInfos.length),
             showCloseBtn: false,
             showZoomControls: false,
-            scale: Utils.fillArray(ZoomSettings.DEFAULT_SCALE, this.props.fileInfos.length),
+            scale: Utils.fillRecord(ZoomSettings.DEFAULT_SCALE, this.props.fileInfos.length),
         };
     }
 
@@ -135,8 +136,8 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
             updatedState.showZoomControls = false;
         }
         if (props.fileInfos.length !== state.prevFileInfosCount) {
-            updatedState.loaded = Utils.fillArray(false, props.fileInfos.length);
-            updatedState.progress = Utils.fillArray(0, props.fileInfos.length);
+            updatedState.loaded = Utils.fillRecord(false, props.fileInfos.length);
+            updatedState.progress = Utils.fillRecord(0, props.fileInfos.length);
             updatedState.prevFileInfosCount = props.fileInfos.length;
         }
         return Object.keys(updatedState).length ? updatedState : null;
@@ -155,6 +156,10 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
 
     loadImage = (index: number) => {
         const fileInfo = this.props.fileInfos[index];
+        if (isFileInfo(fileInfo) && fileInfo.archived) {
+            this.handleImageLoaded(index);
+            return;
+        }
         const fileType = Utils.getFileType(fileInfo.extension);
 
         if (fileType === FileTypes.IMAGE && isFileInfo(fileInfo)) {
@@ -277,78 +282,90 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
         let modalImageClass = '';
         let zoomBar;
 
-        if (this.state.loaded[this.state.imageIndex]) {
-            if (fileType === FileTypes.IMAGE || fileType === FileTypes.SVG) {
-                content = (
-                    <ImagePreview
-                        fileInfo={fileInfo}
-                        canDownloadFiles={this.props.canDownloadFiles}
-                    />
-                );
-            } else if (fileType === FileTypes.VIDEO || fileType === FileTypes.AUDIO) {
-                content = (
-                    <AudioVideoPreview
-                        fileInfo={fileInfo as FileInfo}
-                        fileUrl={fileUrl}
-                    />
-                );
-            } else if (fileType === FileTypes.PDF) {
-                modalImageClass = ' file-preview-modal__content-scrollable';
-                content = (
-                    <div
-                        className='file-preview-modal__scrollable'
-                        onClick={this.handleBgClose}
-                    >
-                        <React.Suspense fallback={null}>
-                            <PDFPreview
-                                fileInfo={fileInfo}
-                                fileUrl={fileUrl}
-                                scale={this.state.scale[this.state.imageIndex]}
-                                handleBgClose={this.handleBgClose}
-                            />
-                        </React.Suspense>
-                    </div>
-                );
-                zoomBar = (
-                    <PopoverBar
-                        scale={this.state.scale[this.state.imageIndex]}
-                        showZoomControls={this.state.showZoomControls}
-                        handleZoomIn={this.handleZoomIn}
-                        handleZoomOut={this.handleZoomOut}
-                        handleZoomReset={this.handleZoomReset}
-                    />
-                );
-            } else if (CodePreview.supports(fileInfo)) {
-                dialogClassName += ' modal-code';
-                content = (
-                    <CodePreview
-                        fileInfo={fileInfo}
-                        fileUrl={fileUrl}
-                        className='file-preview-modal__code-preview'
-                    />
-                );
-            } else {
-                content = (
-                    <FileInfoPreview
-                        fileInfo={fileInfo as FileInfo}
-                        fileUrl={fileUrl}
-                    />
-                );
-            }
-        } else {
-            // display a progress indicator when the preview for an image is still loading
-            const loading = Utils.localizeMessage('view_image.loading', 'Loading');
-            const progress = Math.floor(this.state.progress[this.state.imageIndex]);
-
+        if (isFileInfo(fileInfo) && fileInfo.archived) {
             content = (
-                <LoadingImagePreview
-                    loading={loading}
-                    progress={progress}
+                <ArchivedPreview
+                    fileInfo={fileInfo}
+                    fileUrl={fileUrl}
+                    className='file-preview-modal__code-preview'
                 />
             );
         }
 
-        if (isFileInfo(fileInfo)) {
+        if (!isFileInfo(fileInfo) || !fileInfo.archived) {
+            if (this.state.loaded[this.state.imageIndex] ) {
+                if (fileType === FileTypes.IMAGE || fileType === FileTypes.SVG) {
+                    content = (
+                        <ImagePreview
+                            fileInfo={fileInfo}
+                            canDownloadFiles={this.props.canDownloadFiles}
+                        />
+                    );
+                } else if (fileType === FileTypes.VIDEO || fileType === FileTypes.AUDIO) {
+                    content = (
+                        <AudioVideoPreview
+                            fileInfo={fileInfo as FileInfo}
+                            fileUrl={fileUrl}
+                        />
+                    );
+                } else if (fileType === FileTypes.PDF) {
+                    modalImageClass = ' file-preview-modal__content-scrollable';
+                    content = (
+                        <div
+                            className='file-preview-modal__scrollable'
+                            onClick={this.handleBgClose}
+                        >
+                            <React.Suspense fallback={null}>
+                                <PDFPreview
+                                    fileInfo={fileInfo}
+                                    fileUrl={fileUrl}
+                                    scale={this.state.scale[this.state.imageIndex]}
+                                    handleBgClose={this.handleBgClose}
+                                />
+                            </React.Suspense>
+                        </div>
+                    );
+                    zoomBar = (
+                        <PopoverBar
+                            scale={this.state.scale[this.state.imageIndex]}
+                            showZoomControls={this.state.showZoomControls}
+                            handleZoomIn={this.handleZoomIn}
+                            handleZoomOut={this.handleZoomOut}
+                            handleZoomReset={this.handleZoomReset}
+                        />
+                    );
+                } else if (CodePreview.supports(fileInfo)) {
+                    dialogClassName += ' modal-code';
+                    content = (
+                        <CodePreview
+                            fileInfo={fileInfo}
+                            fileUrl={fileUrl}
+                            className='file-preview-modal__code-preview'
+                        />
+                    );
+                } else {
+                    content = (
+                        <FileInfoPreview
+                            fileInfo={fileInfo as FileInfo}
+                            fileUrl={fileUrl}
+                        />
+                    );
+                }
+            } else {
+                // display a progress indicator when the preview for an image is still loading
+                const loading = Utils.localizeMessage('view_image.loading', 'Loading');
+                const progress = Math.floor(this.state.progress[this.state.imageIndex]);
+
+                content = (
+                    <LoadingImagePreview
+                        loading={loading}
+                        progress={progress}
+                    />
+                );
+            }
+        }
+
+        if (isFileInfo(fileInfo) && !fileInfo.archived) {
             for (const preview of this.props.pluginFilePreviewComponents) {
                 if (preview.override(fileInfo, this.props.post)) {
                     content = (
