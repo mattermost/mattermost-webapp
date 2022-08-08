@@ -1,13 +1,32 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/GenericModal should match snapshot for base case 1`] = `
-<StyledModal
+<Modal
+  animation={true}
   aria-labelledby="genericModalLabel"
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
   dialogClassName="a11y__modal GenericModal"
+  dialogComponentClass={[Function]}
   enforceFocus={true}
   id="genericModal"
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
   onExited={[MockFunction]}
   onHide={[Function]}
+  renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
   show={true}
@@ -40,17 +59,36 @@ exports[`components/GenericModal should match snapshot for base case 1`] = `
       />
     </ModalBody>
   </div>
-</StyledModal>
+</Modal>
 `;
 
 exports[`components/GenericModal should match snapshot with both buttons 1`] = `
-<StyledModal
+<Modal
+  animation={true}
   aria-labelledby="genericModalLabel"
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
   dialogClassName="a11y__modal GenericModal"
+  dialogComponentClass={[Function]}
   enforceFocus={true}
   id="genericModal"
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
   onExited={[MockFunction]}
   onHide={[Function]}
+  renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
   show={true}
@@ -108,17 +146,36 @@ exports[`components/GenericModal should match snapshot with both buttons 1`] = `
       </button>
     </ModalFooter>
   </div>
-</StyledModal>
+</Modal>
 `;
 
 exports[`components/GenericModal should match snapshot with disabled confirm button 1`] = `
-<StyledModal
+<Modal
+  animation={true}
   aria-labelledby="genericModalLabel"
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
   dialogClassName="a11y__modal GenericModal"
+  dialogComponentClass={[Function]}
   enforceFocus={true}
   id="genericModal"
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
   onExited={[MockFunction]}
   onHide={[Function]}
+  renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
   show={true}
@@ -167,5 +224,5 @@ exports[`components/GenericModal should match snapshot with disabled confirm but
       </button>
     </ModalFooter>
   </div>
-</StyledModal>
+</Modal>
 `;

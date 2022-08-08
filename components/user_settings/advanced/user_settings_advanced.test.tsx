@@ -1,18 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {ComponentProps} from 'react';
 import {shallow} from 'enzyme';
 
-import AdvancedSettingsDisplay from 'components/user_settings/advanced/user_settings_advanced.jsx';
-import * as Utils from 'utils/utils';
+import AdvancedSettingsDisplay from 'components/user_settings/advanced/user_settings_advanced';
+
 import {Preferences} from 'utils/constants';
+import {TestHelper} from 'utils/test_helper';
+import {isMac} from 'utils/utils';
 
 jest.mock('actions/global_actions');
 jest.mock('utils/utils');
 
 describe('components/user_settings/display/UserSettingsDisplay', () => {
-    const user = {
+    const user = TestHelper.getUserMock({
         id: 'user_id',
         username: 'username',
         locale: 'en',
@@ -21,9 +23,9 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
             automaticTimezone: 'America/New_York',
             manualTimezone: '',
         },
-    };
+    });
 
-    const requiredProps = {
+    const requiredProps: ComponentProps<typeof AdvancedSettingsDisplay> = {
         currentUser: user,
         updateSection: jest.fn(),
         activeSection: '',
@@ -39,22 +41,26 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         formatting: '',
         joinLeave: '',
         unreadScrollPosition: Preferences.UNREAD_SCROLL_POSITION_START_FROM_LEFT,
+        isAdvancedTextEditorEnabled: false,
+        codeBlockOnCtrlEnter: 'false',
+        enablePreviewFeatures: false,
+        enableUserDeactivation: false,
     };
 
     test('should have called handleSubmit', async () => {
         const updateSection = jest.fn();
 
         const props = {...requiredProps, updateSection};
-        const wrapper = shallow(<AdvancedSettingsDisplay {...props}/>);
+        const wrapper = shallow<AdvancedSettingsDisplay>(<AdvancedSettingsDisplay {...props}/>);
 
-        await wrapper.instance().handleSubmit();
+        await wrapper.instance().handleSubmit([]);
         expect(updateSection).toHaveBeenCalledWith('');
     });
 
     test('should have called updateSection', () => {
         const updateSection = jest.fn();
         const props = {...requiredProps, updateSection};
-        const wrapper = shallow(<AdvancedSettingsDisplay {...props}/>);
+        const wrapper = shallow<AdvancedSettingsDisplay>(<AdvancedSettingsDisplay {...props}/>);
 
         wrapper.instance().handleUpdateSection('');
         expect(updateSection).toHaveBeenCalledWith('');
@@ -66,7 +72,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
     test('should have called updateUserActive', () => {
         const updateUserActive = jest.fn(() => Promise.resolve({}));
         const props = {...requiredProps, actions: {...requiredProps.actions, updateUserActive}};
-        const wrapper = shallow(<AdvancedSettingsDisplay {...props}/>);
+        const wrapper = shallow<AdvancedSettingsDisplay>(<AdvancedSettingsDisplay {...props}/>);
 
         wrapper.instance().handleDeactivateAccountSubmit();
         expect(updateUserActive).toHaveBeenCalled();
@@ -74,7 +80,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
     });
 
     test('handleDeactivateAccountSubmit() should have called revokeAllSessions', () => {
-        const wrapper = shallow(<AdvancedSettingsDisplay {...requiredProps}/>);
+        const wrapper = shallow<AdvancedSettingsDisplay>(<AdvancedSettingsDisplay {...requiredProps}/>);
 
         wrapper.instance().handleDeactivateAccountSubmit();
         expect(requiredProps.actions.revokeAllSessionsForUser).toHaveBeenCalled();
@@ -85,7 +91,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         const error = {message: 'error'};
         const revokeAllSessionsForUser = () => Promise.resolve({error});
         const props = {...requiredProps, actions: {...requiredProps.actions, revokeAllSessionsForUser}};
-        const wrapper = shallow(<AdvancedSettingsDisplay {...props}/>);
+        const wrapper = shallow<AdvancedSettingsDisplay>(<AdvancedSettingsDisplay {...props}/>);
 
         await wrapper.instance().handleDeactivateAccountSubmit();
 
@@ -93,18 +99,18 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
     });
 
     test('function getCtrlSendText should return correct value for Mac', () => {
-        Utils.isMac.mockReturnValue(true);
+        (isMac as jest.Mock).mockReturnValue(true);
         const props = {...requiredProps};
 
-        const wrapper = shallow(<AdvancedSettingsDisplay {...props}/>);
+        const wrapper = shallow<AdvancedSettingsDisplay>(<AdvancedSettingsDisplay {...props}/>);
         expect(wrapper.instance().getCtrlSendText().ctrlSendTitle.defaultMessage).toEqual('Send Messages on ⌘+ENTER');
     });
 
     test('function getCtrlSendText should return correct value for Windows', () => {
-        Utils.isMac.mockReturnValue(false);
+        (isMac as jest.Mock).mockReturnValue(false);
         const props = {...requiredProps};
 
-        const wrapper = shallow(<AdvancedSettingsDisplay {...props}/>);
+        const wrapper = shallow<AdvancedSettingsDisplay>(<AdvancedSettingsDisplay {...props}/>);
         expect(wrapper.instance().getCtrlSendText().ctrlSendTitle.defaultMessage).toEqual('Send Messages on CTRL+ENTER');
     });
 });

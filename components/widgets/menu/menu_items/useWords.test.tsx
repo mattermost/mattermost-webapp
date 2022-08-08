@@ -188,7 +188,15 @@ describe('useWords', () => {
         },
     ];
 
-    const store = mockStore({});
+    const store = mockStore({
+        entities: {
+            general: {
+                license: {
+                    Cloud: 'true',
+                },
+            },
+        },
+    });
     tests.forEach((t: Test) => {
         test(t.label, () => {
             renderWithIntl(

@@ -2,13 +2,11 @@
 // See LICENSE.txt for license information.
 import assert from 'assert';
 
-import {checkIfMFARequired} from 'utils/route';
-
 import {UserProfile} from '@mattermost/types/users';
 
 import {ClientLicense} from '@mattermost/types/config';
 
-import {ConfigOption} from './route';
+import {checkIfMFARequired, ConfigOption} from './route';
 
 describe('Utils.Route', () => {
     describe('checkIfMFARequired', () => {
@@ -21,15 +19,12 @@ describe('Utils.Route', () => {
                 delete_at: 0,
                 username: '',
                 password: '',
-                auth_data: '',
                 email: '',
-                email_verified: false,
                 nickname: '',
                 first_name: '',
                 last_name: '',
                 position: '',
                 roles: '',
-                allow_marketing: true,
                 props: {userid: '121'},
                 notify_props: {desktop: 'default',
                     desktop_sound: 'false',
@@ -43,14 +38,11 @@ describe('Utils.Route', () => {
                     mention_keys: ''},
                 last_password_update: 0,
                 last_picture_update: 0,
-                failed_attempts: 0,
                 locale: '',
                 timezone: {useAutomaticTimezone: '', automaticTimezone: '', manualTimezone: ''},
-                mfa_secret: 'string',
                 last_activity_at: 0,
                 is_bot: false,
                 bot_description: '',
-                bot_last_icon_update: 0,
                 terms_of_service_id: '',
                 terms_of_service_create_at: 0,
                 remote_id: ''};
@@ -84,15 +76,12 @@ describe('Utils.Route', () => {
                 delete_at: 0,
                 username: '',
                 password: '',
-                auth_data: '',
                 email: '',
-                email_verified: false,
                 nickname: '',
                 first_name: '',
                 last_name: '',
                 position: '',
                 roles: '',
-                allow_marketing: true,
                 props: {userid: '121'},
                 notify_props: {desktop: 'default',
                     desktop_sound: 'false',
@@ -106,14 +95,11 @@ describe('Utils.Route', () => {
                     mention_keys: ''},
                 last_password_update: 0,
                 last_picture_update: 0,
-                failed_attempts: 0,
                 locale: '',
                 timezone: {useAutomaticTimezone: '', automaticTimezone: '', manualTimezone: ''},
-                mfa_secret: 'string',
                 last_activity_at: 0,
                 is_bot: false,
                 bot_description: '',
-                bot_last_icon_update: 0,
                 terms_of_service_id: '',
                 terms_of_service_create_at: 0,
                 remote_id: ''};

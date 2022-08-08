@@ -198,16 +198,13 @@ describe('components/FileUpload', () => {
         expect(baseProps.onUploadError).toHaveBeenCalledWith(params.err, params.clientId, params.channelId, params.rootId);
     });
 
-    test.each([
-        ['File constructor is supported', true],
-        ['File constructor is not supported', false],
-    ])('should upload file on paste when %s', (_, fileSupported) => {
-        const expectedFileName = 'Image Pasted at 2000-2-1 01-01';
+    test('should upload file on paste', () => {
+        const expectedFileName = 'test.png';
 
         const event = new Event('paste');
         event.preventDefault = jest.fn();
-        const getAsFile = jest.fn().mockReturnValue(new File(['test'], 'test'));
-        const file = {getAsFile, kind: 'file', name: 'test'};
+        const getAsFile = jest.fn().mockReturnValue(new File(['test'], 'test.png'));
+        const file = {getAsFile, kind: 'file', name: 'test.png'};
         event.clipboardData = {items: [file], types: ['image/png']};
 
         const wrapper = shallowWithIntl(
@@ -215,12 +212,10 @@ describe('components/FileUpload', () => {
                 {...baseProps}
             />,
         );
+
         jest.spyOn(wrapper.instance(), 'containsEventTarget').mockReturnValue(true);
         const spy = jest.spyOn(wrapper.instance(), 'checkPluginHooksAndUploadFiles');
 
-        if (!fileSupported) {
-            global.File = undefined;
-        }
         document.dispatchEvent(event);
         expect(event.preventDefault).toHaveBeenCalled();
         expect(spy).toHaveBeenCalledWith([expect.objectContaining({name: expectedFileName})]);
