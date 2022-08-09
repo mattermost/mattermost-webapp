@@ -43,7 +43,7 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
         }).then(() => {
             // # Post messages to have unread messages to test user
             for (let index = 0; index < 5; index++) {
-                cy.postMessageAs({sender: otherUser, message: 'This is an old message', channelId: otherChannel.id});
+                (cy as any).postMessageAs({sender: otherUser, message: 'This is an old message', channelId: otherChannel.id});
             }
         });
     });
@@ -51,7 +51,7 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
     beforeEach(() => {
         // # Login as test user and visit the off-topic channel
         cy.apiLogin(testUser);
-        cy.apiSaveSidebarSettingPreference();
+        (cy as any).apiSaveSidebarSettingPreference();
         cy.visit(offTopicUrl);
         cy.get('#postListContent').should('be.visible');
     });

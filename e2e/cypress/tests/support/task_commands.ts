@@ -1,5 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+import {AxiosResponse, Method} from 'axios';
+import {ChainableT} from '../types';
+import {Post} from '@mattermost/types/posts';
 
 /**
 * postMessageAs is a task which is wrapped as command with post-verification
@@ -8,7 +11,14 @@
 * @param {String} message - message in a post
 * @param {Object} channelId - where a post will be posted
 */
-Cypress.Commands.add('postMessageAs', ({sender, message, channelId, rootId, createAt}) => {
+
+interface PostMessageResp {
+    id: string;
+    status: number;
+    data: Post;
+}
+
+function postMessageAs({sender, message, channelId, rootId, createAt}): ChainableT<PostMessageResp> {
     const baseUrl = Cypress.config('baseUrl');
 
     return cy.task('postMessageAs', {sender, message, channelId, rootId, createAt, baseUrl}).then(({status, data}) => {
@@ -17,7 +27,8 @@ Cypress.Commands.add('postMessageAs', ({sender, message, channelId, rootId, crea
         // # Return the data so it can be interacted in a test
         return cy.wrap({id: data.id, status, data});
     });
-});
+}
+Cypress.Commands.add('postMessageAs', postMessageAs);
 
 /**
  * @param {string} [numberOfMessages = 30] - Number of messages
@@ -25,13 +36,16 @@ Cypress.Commands.add('postMessageAs', ({sender, message, channelId, rootId, crea
  * @param {String} message - message in a post
  * @param {Object} channelId - where a post will be posted
  */
-Cypress.Commands.add('postListOfMessages', ({numberOfMessages = 30, ...rest}) => {
+
+function postListOfMessages({numberOfMessages = 30, ...rest}): ChainableT<any> {
     const baseUrl = Cypress.config('baseUrl');
 
-    return cy.
+    return (cy as any).
         task('postListOfMessages', {numberOfMessages, baseUrl, ...rest}, {timeout: numberOfMessages * 200}).
         each((message) => expect(message.status).to.equal(201));
-});
+} 
+
+Cypress.Commands.add('postListOfMessages', postListOfMessages);
 
 /**
 * reactToMessageAs is a task wrapped as command with post-verification
@@ -57,7 +71,8 @@ Cypress.Commands.add('reactToMessageAs', ({sender, postId, reaction}) => {
 * @param {String} url - incoming webhook URL
 * @param {Object} data - payload on incoming webhook
 */
-Cypress.Commands.add('postIncomingWebhook', ({url, data, waitFor}) => {
+
+function postIncomingWebhook({url, data, waitFor}): ChainableT<any> {
     cy.task('postIncomingWebhook', {url, data}).its('status').should('be.equal', 200);
 
     if (!waitFor) {
@@ -78,12 +93,24 @@ Cypress.Commands.add('postIncomingWebhook', ({url, data, waitFor}) => {
             return false;
         }
     }));
-});
+}
 
-Cypress.Commands.add('externalRequest', ({user, method, path, data, failOnStatusCode = true}) => {
+Cypress.Commands.add('postIncomingWebhook', postIncomingWebhook);
+
+
+interface ExternalRequestArg<T> {
+    user: {
+    };
+    method: string;
+    path: string;
+    data?: T;
+    failOnStatusCode?: boolean;
+}
+function externalRequest<T=any, U=any>(arg: ExternalRequestArg<U>): ChainableT<Pick<AxiosResponse<T>, 'data' | 'status'>> {
+    const {user, method, path, data, failOnStatusCode = true} = arg;
     const baseUrl = Cypress.config('baseUrl');
 
-    return cy.task('externalRequest', {baseUrl, user, method, path, data}).then((response) => {
+    return cy.task('externalRequest', {baseUrl, user, method, path, data}).then((response: Pick<AxiosResponse<T & {id: string}>, 'data' | 'status'>) => {
         // Temporarily ignore error related to Cloud
         const cloudErrorId = [
             'ent.cloud.request_error',
@@ -96,7 +123,9 @@ Cypress.Commands.add('externalRequest', ({user, method, path, data, failOnStatus
 
         return cy.wrap(response);
     });
-});
+}
+Cypress.Commands.add('externalRequest', externalRequest);
+
 
 /**
 * postMessageAs is a task which is wrapped as command with post-verification
@@ -104,7 +133,8 @@ Cypress.Commands.add('externalRequest', ({user, method, path, data, failOnStatus
 * @param {String} message - message in a post
 * @param {Object} channelId - where a post will be posted
 */
-Cypress.Commands.add('postBotMessage', ({token, message, props, channelId, rootId, createAt, failOnStatus = true}) => {
+
+function postBotMessage({token, message, props, channelId, rootId, createAt, failOnStatus = true}): ChainableT<PostMessageResp> {
     const baseUrl = Cypress.config('baseUrl');
 
     return cy.task('postBotMessage', {token, message, props, channelId, rootId, createAt, baseUrl}).then(({status, data}) => {
@@ -115,7 +145,9 @@ Cypress.Commands.add('postBotMessage', ({token, message, props, channelId, rootI
         // # Return the data so it can be interacted in a test
         return cy.wrap({id: data.id, status, data});
     });
-});
+}
+
+Cypress.Commands.add('postBotMessage', postBotMessage);
 
 /**
 * urlHealthCheck is a task wrapped as command that checks whether
@@ -126,7 +158,8 @@ Cypress.Commands.add('postBotMessage', ({token, message, props, channelId, rootI
 * @param {String} method - a request using a specific method
 * @param {String} httpStatus - expected HTTP status
 */
-Cypress.Commands.add('urlHealthCheck', ({name, url, helperMessage, method, httpStatus}) => {
+
+function urlHealthCheck({name, url, helperMessage, method, httpStatus}): ChainableT<any> {
     Cypress.log({name, message: `Checking URL health at ${url}`});
 
     return cy.task('urlHealthCheck', {url, method}).then(({data, errorCode, status, success}) => {
@@ -144,7 +177,10 @@ Cypress.Commands.add('urlHealthCheck', ({name, url, helperMessage, method, httpS
 
         return cy.wrap({data, status});
     });
-});
+}
+
+Cypress.Commands.add('urlHealthCheck', urlHealthCheck);
+
 
 Cypress.Commands.add('requireWebhookServer', () => {
     const baseUrl = Cypress.config('baseUrl');
@@ -177,3 +213,66 @@ __Tips:__
 });
 
 Cypress.Commands.overwrite('log', (subject, message) => cy.task('log', message));
+
+declare global {
+        // eslint-disable-next-line @typescript-eslint/no-namespace
+        namespace Cypress {
+            interface Chainable {
+
+            /**
+             * externalRequest is a task which is wrapped as command with post-verification
+             * that the external request is successfully completed
+             * @param {Object} options
+             * @param {<UserProfile, 'username' | 'password'>} options.user - a user initiating external request
+             * @param {String} options.method - an HTTP method (e.g. get, post, etc)
+             * @param {String} options.path - API path that is relative to Cypress.config().baseUrl
+             * @param {Object} options.data - payload
+             * @param {Boolean} options.failOnStatusCode - whether to fail on status code, default is true
+             *
+             * @example
+             *    cy.externalRequest({user: sysadmin, method: 'POST', path: 'config', data});
+             */
+            externalRequest(options?: {
+                user: Pick<UserProfile, 'username' | 'password'>;
+                method: string;
+                path: string;
+                data?: Record<string, any>;
+                failOnStatusCode?: boolean;
+            }): Chainable<any>;
+
+            /**
+             * Adds a given reaction to a specific post from a user
+             * @param {Object} reactToMessageObject - Information on person and post to which a reaction needs to be added
+             * @param {Object} reactToMessageObject.sender - a user object who will post a message
+             * @param {string} reactToMessageObject.postId  - post on which reaction is intended
+             * @param {string} reactToMessageObject.reaction - emoji text eg. smile
+             * @returns {Response} response: Cypress-chainable response
+             *
+             * @example
+             *    cy.reactToMessageAs({sender:user2, postId:"ABC123", reaction: 'smile'});
+             */
+            reactToMessageAs({sender, postId, reaction}: {sender: Record<string, unknown>; postId: string; reaction: string}): Chainable<any>;
+
+            /**
+             * Verify that the webhook server is accessible, and then sets up base URLs and credential.
+             *
+             * @example
+             *    cy.requireWebhookServer();
+             */
+            requireWebhookServer(): Chainable;
+
+            postMessageAs: typeof postMessageAs;
+
+            postListOfMessages: typeof postListOfMessages;
+
+            postIncomingWebhook: typeof postIncomingWebhook;
+
+            postBotMessage: typeof postBotMessage;
+
+            urlHealthCheck: typeof urlHealthCheck;
+
+            externalRequest: typeof externalRequest;
+
+        }
+    }
+}
