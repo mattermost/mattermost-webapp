@@ -41,7 +41,7 @@ type OwnProps = {
     latestPostTimeStamp?: number;
     atBottom?: boolean;
     lastViewedBottom?: number;
-    width?: number;
+    width: number;
     lastViewedAt?: number;
     focusedPostId?: string;
     initScrollOffsetFromBottom?: number;
