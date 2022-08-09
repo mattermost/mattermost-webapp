@@ -38,7 +38,7 @@ Cypress.Commands.add('uiGetLHSTeamMenu', () => {
     return cy.uiGetLHS().find('#sidebarDropdownMenu');
 });
 
-function uiOpenSystemConsoleMenu(item = ''): ChainableT<JQuery>{
+function uiOpenSystemConsoleMenu(item = ''): ChainableT<JQuery> {
     // # Click on LHS header button
     cy.uiGetSystemConsoleButton().click();
 
@@ -57,13 +57,12 @@ function uiOpenSystemConsoleMenu(item = ''): ChainableT<JQuery>{
 
 Cypress.Commands.add('uiOpenSystemConsoleMenu', uiOpenSystemConsoleMenu);
 
-function uiGetSystemConsoleButton(): ChainableT<JQuery>{
+function uiGetSystemConsoleButton(): ChainableT<JQuery> {
     return cy.get('.admin-sidebar').
         findByRole('button', {name: 'Menu Icon'});
 }
 
 Cypress.Commands.add('uiGetSystemConsoleButton', uiGetSystemConsoleButton);
-
 
 function uiGetSystemConsoleMenu(): ChainableT<JQuery> {
     return cy.get('.admin-sidebar').
@@ -149,9 +148,9 @@ Cypress.Commands.add('uiGetSidebarItem', (channelName) => {
 });
 
 declare global {
-        // eslint-disable-next-line @typescript-eslint/no-namespace
-        namespace Cypress {
-            interface Chainable {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
+    namespace Cypress {
+        interface Chainable {
 
             /**
              * Get LHS

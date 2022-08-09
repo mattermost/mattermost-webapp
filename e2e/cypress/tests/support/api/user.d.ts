@@ -205,7 +205,7 @@ declare namespace Cypress {
          * @example
          *   cy.apiCreateUser(options);
          */
-        apiCreateUser(options: Record<string, any>): Chainable<{user:UserProfile}>;
+        apiCreateUser(options: Record<string, any>): Chainable<{user: UserProfile}>;
 
         /**
          * Create a new guest user with an options to set name prefix and be able to bypass tutorial steps.

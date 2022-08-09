@@ -273,7 +273,6 @@ function sendDirectMessageToUser(user: User, message: string): ChainableT<any> {
 
     // # Type message and send it to the user
     cy.postMessage(message);
-    return;
 }
 Cypress.Commands.add('sendDirectMessageToUser', sendDirectMessageToUser);
 

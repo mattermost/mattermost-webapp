@@ -1,8 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {AxiosResponse, Method} from 'axios';
-import {ChainableT} from '../types';
+import {AxiosResponse} from 'axios';
+
 import {Post} from '@mattermost/types/posts';
+
+import {ChainableT} from '../types';
 
 /**
 * postMessageAs is a task which is wrapped as command with post-verification
@@ -43,7 +45,7 @@ function postListOfMessages({numberOfMessages = 30, ...rest}): ChainableT<any> {
     return (cy as any).
         task('postListOfMessages', {numberOfMessages, baseUrl, ...rest}, {timeout: numberOfMessages * 200}).
         each((message) => expect(message.status).to.equal(201));
-} 
+}
 
 Cypress.Commands.add('postListOfMessages', postListOfMessages);
 
@@ -97,7 +99,6 @@ function postIncomingWebhook({url, data, waitFor}): ChainableT<any> {
 
 Cypress.Commands.add('postIncomingWebhook', postIncomingWebhook);
 
-
 interface ExternalRequestArg<T> {
     user: {
     };
@@ -125,7 +126,6 @@ function externalRequest<T=any, U=any>(arg: ExternalRequestArg<U>): ChainableT<P
     });
 }
 Cypress.Commands.add('externalRequest', externalRequest);
-
 
 /**
 * postMessageAs is a task which is wrapped as command with post-verification
@@ -181,7 +181,6 @@ function urlHealthCheck({name, url, helperMessage, method, httpStatus}): Chainab
 
 Cypress.Commands.add('urlHealthCheck', urlHealthCheck);
 
-
 Cypress.Commands.add('requireWebhookServer', () => {
     const baseUrl = Cypress.config('baseUrl');
     const webhookBaseUrl = Cypress.env('webhookBaseUrl');
@@ -215,9 +214,9 @@ __Tips:__
 Cypress.Commands.overwrite('log', (subject, message) => cy.task('log', message));
 
 declare global {
-        // eslint-disable-next-line @typescript-eslint/no-namespace
-        namespace Cypress {
-            interface Chainable {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
+    namespace Cypress {
+        interface Chainable {
 
             /**
              * externalRequest is a task which is wrapped as command with post-verification
