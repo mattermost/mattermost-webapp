@@ -12,6 +12,7 @@ import {TourTipOverlayPunchOut} from 'components/widgets/tour_tip/tour_tip_backd
 import useBoardingTourTipManager from './onboarding_tour_manager';
 
 import {getLastStep} from './utils';
+import {TutorialTourName} from './constant';
 
 type Props = {
     screen: JSX.Element;
@@ -89,7 +90,7 @@ const OnboardingTourTip = ({
         handlePrevious,
         handleSkip,
         handleJump,
-    } = useBoardingTourTipManager();
+    } = useBoardingTourTipManager(TutorialTourName.ONBOARDING_TUTORIAL_STEP);
 
     return (
         <TourTip
