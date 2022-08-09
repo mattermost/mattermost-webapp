@@ -27,8 +27,7 @@ export default function FileAttachmentList(props: Props) {
                 startIndex: indexClicked,
             },
         });
-    }
-
+    };
 
     const {
         compactDisplay,
