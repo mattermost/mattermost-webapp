@@ -1,57 +1,83 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
+/* eslint-disable max-lines */
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {emitUserLoggedOutEvent} from 'actions/global_actions';
+
 import Constants, {Preferences} from 'utils/constants';
-import * as Utils from 'utils/utils';
 import {t} from 'utils/i18n';
+import {isMac, localizeMessage} from 'utils/utils';
+
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 import ConfirmModal from 'components/confirm_modal';
 import BackIcon from 'components/widgets/icons/fa_back_icon';
+
+import {UserProfile} from '@mattermost/types/users';
+import {PreferenceType} from '@mattermost/types/preferences';
+
+import {ActionResult} from 'mattermost-redux/types/actions';
 
 import JoinLeaveSection from './join_leave_section';
 import PerformanceDebuggingSection from './performance_debugging_section';
 
 const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
 
-export default class AdvancedSettingsDisplay extends React.PureComponent {
-    static propTypes = {
-        currentUser: PropTypes.object.isRequired,
-        advancedSettingsCategory: PropTypes.array.isRequired,
-        isAdvancedTextEditorEnabled: PropTypes.bool,
-        sendOnCtrlEnter: PropTypes.string.isRequired,
-        codeBlockOnCtrlEnter: PropTypes.bool,
-        formatting: PropTypes.string.isRequired,
-        joinLeave: PropTypes.string.isRequired,
-        unreadScrollPosition: PropTypes.string.isRequired,
-        updateSection: PropTypes.func,
-        activeSection: PropTypes.string,
-        closeModal: PropTypes.func.isRequired,
-        collapseModal: PropTypes.func.isRequired,
-        enablePreviewFeatures: PropTypes.bool,
-        enableUserDeactivation: PropTypes.bool,
-        actions: PropTypes.shape({
-            savePreferences: PropTypes.func.isRequired,
-            updateUserActive: PropTypes.func.isRequired,
-            revokeAllSessionsForUser: PropTypes.func.isRequired,
-        }).isRequired,
-    }
+type Settings = {
+    [key: string]: string | undefined;
+    send_on_ctrl_enter: Props['sendOnCtrlEnter'];
+    code_block_ctrl_enter: Props['codeBlockOnCtrlEnter'];
+    formatting: Props['formatting'];
+    join_leave: Props['joinLeave'];
+};
 
-    constructor(props) {
+export type Props = {
+    currentUser: UserProfile;
+    advancedSettingsCategory: PreferenceType[];
+    isAdvancedTextEditorEnabled: boolean;
+    sendOnCtrlEnter: string;
+    codeBlockOnCtrlEnter: string;
+    formatting: string;
+    joinLeave: string;
+    unreadScrollPosition: string;
+    updateSection: (section?: string) => void;
+    activeSection: string;
+    closeModal: () => void;
+    collapseModal: () => void;
+    enablePreviewFeatures: boolean;
+    enableUserDeactivation: boolean;
+    actions: {
+        savePreferences: (userId: string, preferences: PreferenceType[]) => Promise<ActionResult>;
+        updateUserActive: (userId: string, active: boolean) => Promise<ActionResult>;
+        revokeAllSessionsForUser: (userId: string) => Promise<ActionResult>;
+    };
+};
+
+type State = {
+    preReleaseFeatures: typeof PreReleaseFeatures;
+    settings: Settings;
+    enabledFeatures: number;
+    isSaving: boolean;
+    previewFeaturesEnabled: boolean;
+    showDeactivateAccountModal: boolean;
+    serverError: string;
+    preReleaseFeaturesKeys: string[];
+}
+
+export default class AdvancedSettingsDisplay extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         this.state = this.getStateFromProps();
     }
 
-    getStateFromProps = () => {
+    getStateFromProps = (): State => {
         const advancedSettings = this.props.advancedSettingsCategory;
-        const settings = {
+        const settings: Settings = {
             send_on_ctrl_enter: this.props.sendOnCtrlEnter,
             code_block_ctrl_enter: this.props.codeBlockOnCtrlEnter,
             formatting: this.props.formatting,
@@ -93,17 +119,19 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
             isSaving,
             previewFeaturesEnabled,
             showDeactivateAccountModal,
+            serverError: '',
         };
     }
 
-    updateSetting = (setting, value) => {
+    updateSetting = (setting: string, value: string): void => {
         const settings = this.state.settings;
         settings[setting] = value;
-        this.setState(settings);
+
+        this.setState((prevState) => ({...prevState, ...settings}));
     }
 
-    toggleFeature = (feature, checked) => {
-        const settings = this.state.settings;
+    toggleFeature = (feature: string, checked: boolean): void => {
+        const {settings} = this.state;
         settings[Constants.FeatureTogglePrefix + feature] = String(checked);
 
         let enabledFeatures = 0;
@@ -116,8 +144,8 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
         this.setState({settings, enabledFeatures});
     }
 
-    saveEnabledFeatures = () => {
-        const features = [];
+    saveEnabledFeatures = (): void => {
+        const features: string[] = [];
         Object.keys(this.state.settings).forEach((setting) => {
             if (setting.lastIndexOf(Constants.FeatureTogglePrefix) === 0) {
                 features.push(setting);
@@ -127,8 +155,8 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
         this.handleSubmit(features);
     }
 
-    handleSubmit = async (settings) => {
-        const preferences = [];
+    handleSubmit = async (settings: string[]): Promise<void> => {
+        const preferences: PreferenceType[] = [];
         const {actions, currentUser} = this.props;
         const userId = currentUser.id;
 
@@ -148,7 +176,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
         this.handleUpdateSection('');
     }
 
-    handleDeactivateAccountSubmit = async () => {
+    handleDeactivateAccountSubmit = async (): Promise<void> => {
         const userId = this.props.currentUser.id;
 
         this.setState({isSaving: true});
@@ -168,19 +196,19 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
         }
     }
 
-    handleShowDeactivateAccountModal = () => {
+    handleShowDeactivateAccountModal = (): void => {
         this.setState({
             showDeactivateAccountModal: true,
         });
     }
 
-    handleHideDeactivateAccountModal = () => {
+    handleHideDeactivateAccountModal = (): void => {
         this.setState({
             showDeactivateAccountModal: false,
         });
     }
 
-    handleUpdateSection = (section) => {
+    handleUpdateSection = (section?: string): void => {
         if (!section) {
             this.setState(this.getStateFromProps());
         }
@@ -210,7 +238,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                 defaultMessage: 'Send Messages on ⌘+ENTER',
             },
         };
-        if (Utils.isMac()) {
+        if (isMac()) {
             return {
                 ctrlSendTitle: title.mac,
                 ctrlSendDesc: description.mac,
@@ -222,7 +250,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
         };
     }
 
-    renderOnOffLabel(enabled) {
+    renderOnOffLabel(enabled: string): JSX.Element {
         if (enabled === 'false') {
             return (
                 <FormattedMessage
@@ -240,7 +268,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
         );
     }
 
-    renderUnreadScrollPositionLabel(option) {
+    renderUnreadScrollPositionLabel(option?: string): JSX.Element {
         if (option === Preferences.UNREAD_SCROLL_POSITION_START_FROM_LEFT) {
             return (
                 <FormattedMessage
@@ -258,7 +286,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
         );
     }
 
-    renderCtrlEnterLabel() {
+    renderCtrlEnterLabel(): JSX.Element {
         const ctrlEnter = this.state.settings.send_on_ctrl_enter;
         const codeBlockCtrlEnter = this.state.settings.code_block_ctrl_enter;
         if (ctrlEnter === 'false' && codeBlockCtrlEnter === 'false') {
@@ -448,7 +476,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
         );
     }
 
-    renderFeatureLabel(feature) {
+    renderFeatureLabel(feature: string): ReactNode {
         switch (feature) {
         case 'MARKDOWN_PREVIEW':
             return (
@@ -567,7 +595,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
             );
         }
 
-        const formattingSection = this.props.isAdvancedTextEditorEnabled ? null : this.renderFormattingSection();
+        const formattingSection = this.renderFormattingSection();
         let formattingSectionDivider = null;
         if (formattingSection) {
             formattingSectionDivider = <div className='divider-light'/>;
@@ -584,7 +612,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                 const inputs = [];
 
                 this.state.preReleaseFeaturesKeys.forEach((key) => {
-                    const feature = this.state.preReleaseFeatures[key];
+                    const feature = this.state.preReleaseFeatures[key as keyof typeof PreReleaseFeatures];
                     inputs.push(
                         <div key={'advancedPreviewFeatures_' + feature.label}>
                             <div className='checkbox'>
@@ -631,7 +659,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
             } else {
                 previewFeaturesSection = (
                     <SettingItemMin
-                        title={Utils.localizeMessage('user.settings.advance.preReleaseTitle', 'Preview Pre-release Features')}
+                        title={localizeMessage('user.settings.advance.preReleaseTitle', 'Preview Pre-release Features')}
                         describe={
                             <FormattedMessage
                                 id='user.settings.advance.enabledFeatures'
@@ -646,8 +674,8 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
             }
         }
 
-        let deactivateAccountSection = '';
-        let makeConfirmationModal = '';
+        let deactivateAccountSection: ReactNode = '';
+        let makeConfirmationModal: ReactNode = '';
         const currentUser = this.props.currentUser;
 
         if (currentUser.auth_service === '' && this.props.enableUserDeactivation) {

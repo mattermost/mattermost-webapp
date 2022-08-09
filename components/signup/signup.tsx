@@ -28,6 +28,7 @@ import Markdown from 'components/markdown';
 import LockIcon from 'components/widgets/icons/lock_icon';
 import LoginGoogleIcon from 'components/widgets/icons/login_google_icon';
 import LoginGitlabIcon from 'components/widgets/icons/login_gitlab_icon';
+import LoginOpenIDIcon from 'components/widgets/icons/login_openid_icon';
 import LoginOffice365Icon from 'components/widgets/icons/login_office_365_icon';
 import Input, {CustomMessageInputType, SIZE} from 'components/widgets/inputs/input/input';
 import PasswordInput from 'components/widgets/inputs/password_input/password_input';
@@ -79,6 +80,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
         EnableSignUpWithGitLab,
         EnableSignUpWithGoogle,
         EnableSignUpWithOffice365,
+        EnableSignUpWithOpenId,
         EnableLdap,
         EnableSaml,
         SamlLoginButtonText,
@@ -87,6 +89,8 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
         CustomDescriptionText,
         GitLabButtonText,
         GitLabButtonColor,
+        OpenIdButtonText,
+        OpenIdButtonColor,
         EnableCustomBrand,
         CustomBrandText,
         TermsOfServiceLink,
@@ -108,6 +112,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
     const enableSignUpWithGitLab = EnableSignUpWithGitLab === 'true';
     const enableSignUpWithGoogle = EnableSignUpWithGoogle === 'true';
     const enableSignUpWithOffice365 = EnableSignUpWithOffice365 === 'true';
+    const enableSignUpWithOpenId = EnableSignUpWithOpenId === 'true';
     const enableLDAP = EnableLdap === 'true';
     const enableSAML = EnableSaml === 'true';
     const enableCustomBrand = EnableCustomBrand === 'true';
@@ -128,7 +133,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
     const [alertBanner, setAlertBanner] = useState<AlertBannerProps | null>(null);
     const [isMobileView, setIsMobileView] = useState(false);
 
-    const enableExternalSignup = enableSignUpWithGitLab || enableSignUpWithOffice365 || enableSignUpWithGoogle || enableLDAP || enableSAML;
+    const enableExternalSignup = enableSignUpWithGitLab || enableSignUpWithOffice365 || enableSignUpWithGoogle || enableSignUpWithOpenId || enableLDAP || enableSAML;
     const hasError = Boolean(emailError || nameError || passwordError || serverError || alertBanner);
     const canSubmit = Boolean(email && name && password) && !hasError && !loading;
     const {error: passwordInfo} = isValidPassword('', getPasswordConfig(config), intl);
@@ -165,6 +170,16 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
                 url: `${Client4.getOAuthRoute()}/office365/signup${search}`,
                 icon: <LoginOffice365Icon/>,
                 label: formatMessage({id: 'login.office365', defaultMessage: 'Office 365'}),
+            });
+        }
+
+        if (isLicensed && enableSignUpWithOpenId) {
+            externalLoginOptions.push({
+                id: 'openid',
+                url: `${Client4.getOAuthRoute()}/openid/signup${search}`,
+                icon: <LoginOpenIDIcon/>,
+                label: OpenIdButtonText || formatMessage({id: 'login.openid', defaultMessage: 'Open ID'}),
+                style: {color: OpenIdButtonColor, borderColor: OpenIdButtonColor},
             });
         }
 
@@ -502,7 +517,6 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
                 email: emailInput.current?.value.trim(),
                 username: nameInput.current?.value.trim().toLowerCase(),
                 password: passwordInput.current?.value,
-                allow_marketing: true,
             } as UserProfile;
 
             const redirectTo = (new URLSearchParams(search)).get('redirect_to') as string;

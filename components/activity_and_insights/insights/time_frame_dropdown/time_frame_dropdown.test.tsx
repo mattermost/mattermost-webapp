@@ -10,10 +10,7 @@ import TimeFrameDropdown from './time_frame_dropdown';
 
 describe('components/activity_and_insights/insights/insights_title', () => {
     const props = {
-        timeFrame: {
-            value: TimeFrames.INSIGHTS_7_DAYS,
-            label: 'Last 7 days',
-        },
+        timeFrame: TimeFrames.INSIGHTS_7_DAYS,
         setTimeFrame: jest.fn(),
     };
 
