@@ -595,7 +595,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
             );
         }
 
-        const formattingSection = this.props.isAdvancedTextEditorEnabled ? null : this.renderFormattingSection();
+        const formattingSection = this.renderFormattingSection();
         let formattingSectionDivider = null;
         if (formattingSection) {
             formattingSectionDivider = <div className='divider-light'/>;
