@@ -48,18 +48,20 @@ const TopDMsItem = ({dm, barSize, team}: Props) => {
     }, []);
 
     return (
-        <div className='top-dms-item'>
+        <Link
+            className='top-dms-item'
+            to={`/${team.name}/messages/@${dm.second_participant.username}`}
+        >
             <Avatar
                 url={imageURLForUser(dm.second_participant.id, dm.second_participant.last_picture_update)}
                 size={'xl'}
             />
             <div className='dm-info'>
-                <Link
+                <div
                     className='dm-name'
-                    to={`/${team.name}/messages/@${dm.second_participant.username}`}
                 >
                     {displayUsername(dm.second_participant as UserProfile, teammateNameDisplaySetting)}
-                </Link>
+                </div>
                 <span className='dm-role'>{dm.second_participant.position}</span>
                 <div className='channel-message-count'>
                     <OverlayTrigger
@@ -79,7 +81,7 @@ const TopDMsItem = ({dm, barSize, team}: Props) => {
                 </div>
             </div>
 
-        </div>
+        </Link>
     );
 };
 

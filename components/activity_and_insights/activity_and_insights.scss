@@ -85,6 +85,12 @@
             }
         }
 
+        .top-dms-card {
+            .Card__body {
+                padding: 0 12px 12px;
+            }
+        }
+
         .top-channel-container {
             display: flex;
 
@@ -564,9 +570,10 @@
 
             .top-dms-item {
                 display: flex;
-                width: 20%;
-                flex: 0.2;
+                flex-basis: 20%;
                 flex-direction: column;
+                flex-grow: 0;
+                padding: 12px;
                 margin: 0 12px;
                 margin-top: auto;
                 font-family: 'Open Sans';
@@ -577,6 +584,13 @@
 
                 &:nth-of-type(5) {
                     margin-right: 0;
+                }
+
+                &:hover {
+                    background: rgba(var(--center-channel-color-rgb), 0.08);
+                    border-radius: 4px;
+                    cursor: pointer;
+                    text-decoration: none;
                 }
 
                 @media screen and (max-width: 1279px) {
@@ -618,20 +632,18 @@
 
                     .dm-name {
                         overflow: hidden;
+                        max-width: 150px;
                         color: var(--center-channel-color);
                         font-size: 12px;
                         font-weight: 600;
                         line-height: 16px;
                         text-overflow: ellipsis;
                         white-space: nowrap;
-
-                        &:hover {
-                            text-decoration: none;
-                        }
                     }
 
                     .dm-role {
                         overflow: hidden;
+                        max-width: 150px;
                         margin-top: 4px;
                         color: rgba(var(--center-channel-color-rgb), 0.72);
                         font-size: 11px;
