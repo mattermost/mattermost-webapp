@@ -51,9 +51,11 @@ describe('components/ToastWrapper', () => {
         scrollToLatestMessages: jest.fn(),
 
         // @ts-expect-error TS(2304) FIXME: Cannot find name 'jest'.
+
         updateLastViewedBottomAt: jest.fn(),
         lastViewedAt: 12344,
         actions: {
+
 
             // @ts-expect-error TS(2304) FIXME: Cannot find name 'jest'.
             updateToastStatus: jest.fn(),
@@ -312,6 +314,7 @@ describe('components/ToastWrapper', () => {
                 unreadCountInChannel: 10,
                 newRecentMessagesCount: 5,
             };
+
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
             wrapper.setState({showUnreadToast: false, lastViewedBottom: 1234});
             wrapper.setProps({latestPostTimeStamp: 1235});
@@ -335,6 +338,7 @@ describe('components/ToastWrapper', () => {
                     'post5',
                 ],
             };
+
 
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
 
@@ -379,6 +383,7 @@ describe('components/ToastWrapper', () => {
                     'post5',
                 ],
             };
+
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
             wrapper.setState({showUnreadToast: false});
             wrapper.setProps({latestPostTimeStamp: 1235, lastViewedBottom: 1234});
@@ -592,6 +597,7 @@ describe('components/ToastWrapper', () => {
             });
 
             //should not call if atBottom is null
+            
             // @ts-expect-error TS(2304) FIXME: Cannot find name 'expect'.
             expect(baseProps.updateNewMessagesAtInChannel).toHaveBeenCalledTimes(0);
 
@@ -758,6 +764,7 @@ describe('components/ToastWrapper', () => {
             const instance = wrapper.instance();
 
             instance.hideSearchHintToast();
+
 
             // @ts-expect-error TS(2304) FIXME: Cannot find name 'expect'.
             expect(dismissHandler).toHaveBeenCalled();

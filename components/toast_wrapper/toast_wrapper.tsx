@@ -213,7 +213,6 @@ class ToastWrapper extends React.PureComponent<Props, State> {
         //Marking existing messages as read based on last time user reached to the bottom
         //This moves the new message indicator to the latest posts and keeping in sync with the toast count
         if (postsAddedAtBottom && notBottomWithLatestPosts && !showUnreadToast) {
-            // @ts-expect-error TS(2722) FIXME: Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
             updateNewMessagesAtInChannel(lastViewedBottom);
         }
 
@@ -268,7 +267,6 @@ class ToastWrapper extends React.PureComponent<Props, State> {
                 showNewMessagesToast: false,
             });
             if (updateLastViewedBottomAt) {
-                // @ts-expect-error TS(2722) FIXME: Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
                 this.props.updateLastViewedBottomAt();
             }
         }
