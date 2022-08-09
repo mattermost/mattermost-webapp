@@ -5,30 +5,31 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
-import {GlobalState} from '@mattermost/types/store';
 import {savePreferences, savePreferences as storeSavePreferences} from 'mattermost-redux/actions/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
-import {setAddChannelDropdown} from 'actions/views/add_channel_dropdown';
-import {open as openLhs} from 'actions/views/lhs.js';
+
+import {setProductMenuSwitcherOpen} from 'actions/views/product_menu';
 import {trackEvent as trackEventAction} from 'actions/telemetry_actions';
+
+import {GlobalState} from 'types/store';
+
 import {
     generateTelemetryTag,
     OnboardingTaskCategory,
     OnboardingTaskList,
     OnboardingTasksName,
 } from 'components/onboarding_tasks';
-import {switchToChannels} from 'actions/views/onboarding_tasks';
 
 import {
     AutoTourStatus,
-    ChannelsTour,
+    OtherToolsTour,
+    ExploreOtherToolsTourSteps,
     FINISHED,
-    OnboardingTourSteps,
     SKIPPED,
     TTNameMapToATStatusKey,
     TutorialTourName,
-} from './constant';
-import {getLastStep, isKeyPressed, KeyCodes} from './utils';
+} from '../onboarding_tour/constant';
+import {isKeyPressed, KeyCodes} from '../onboarding_tour/utils';
 
 export type ActionType = 'next' | 'prev' | 'dismiss' | 'jump' | 'skipped'
 
@@ -49,32 +50,12 @@ const useHandleNavigationAndExtraActions = () => {
     const currentUserId = useSelector(getCurrentUserId);
 
     const nextStepActions = useCallback((step: number) => {
-        switch (step) {
-        case OnboardingTourSteps.CHANNELS_AND_DIRECT_MESSAGES : {
-            dispatch(openLhs());
-            break;
-        }
-        case OnboardingTourSteps.CREATE_AND_JOIN_CHANNELS : {
-            dispatch(setAddChannelDropdown(true));
-            break;
-        }
-        case OnboardingTourSteps.INVITE_PEOPLE : {
-            dispatch(setAddChannelDropdown(true));
-            break;
-        }
-        case OnboardingTourSteps.SEND_MESSAGE : {
-            dispatch(switchToChannels());
-            break;
-        }
-        case OnboardingTourSteps.CUSTOMIZE_EXPERIENCE : {
-            break;
-        }
-        case OnboardingTourSteps.FINISHED: {
+        if (step === ExploreOtherToolsTourSteps.FINISHED) {
             let preferences = [
                 {
                     user_id: currentUserId,
                     category: OnboardingTaskCategory,
-                    name: OnboardingTasksName.CHANNELS_TOUR,
+                    name: OnboardingTasksName.EXPLORE_OTHER_TOOLS,
                     value: FINISHED.toString(),
                 },
             ];
@@ -87,53 +68,32 @@ const useHandleNavigationAndExtraActions = () => {
                 },
             ];
             dispatch(savePreferences(currentUserId, preferences));
-            break;
-        }
-        default:
         }
     }, [currentUserId]);
 
-    const lastStepActions = useCallback((lastStep: number) => {
-        switch (lastStep) {
-        case OnboardingTourSteps.CHANNELS_AND_DIRECT_MESSAGES : {
-            break;
-        }
-        case OnboardingTourSteps.CREATE_AND_JOIN_CHANNELS : {
-            dispatch(setAddChannelDropdown(false));
-            break;
-        }
-        case OnboardingTourSteps.INVITE_PEOPLE : {
-            dispatch(setAddChannelDropdown(false));
-            break;
-        }
-        case OnboardingTourSteps.SEND_MESSAGE : {
-            break;
-        }
-        case OnboardingTourSteps.CUSTOMIZE_EXPERIENCE : {
-            break;
-        }
-        default:
-        }
-    }, [currentUserId]);
-
-    return useCallback((step: number, lastStep: number) => {
-        lastStepActions(lastStep);
+    return useCallback((step: number) => {
         nextStepActions(step);
-    }, [nextStepActions, lastStepActions]);
+    }, [nextStepActions]);
 };
 
 const useOnBoardingTourTipManager = (): OnBoardingTourTipManager => {
     const [show, setShow] = useState(false);
-    const tourSteps = OnboardingTourSteps;
+    const tourSteps = ExploreOtherToolsTourSteps;
 
-    // Function to save the tutorial step in redux store start here which needs to be modified
     const dispatch = useDispatch();
     const currentUserId = useSelector(getCurrentUserId);
-    const tourCategory = TutorialTourName.ONBOARDING_TUTORIAL_STEP;
+    const tourCategory = TutorialTourName.EXPLORE_OTHER_TOOLS;
     const currentStep = useSelector((state: GlobalState) => getInt(state, tourCategory, currentUserId, 0));
     const autoTourStatus = useSelector((state: GlobalState) => getInt(state, tourCategory, TTNameMapToATStatusKey[tourCategory], 0));
     const isAutoTourEnabled = autoTourStatus === AutoTourStatus.ENABLED;
     const handleActions = useHandleNavigationAndExtraActions();
+
+    const pluginsList = useSelector((state: GlobalState) => state.plugins.plugins);
+    const focalboard = pluginsList.focalboard;
+    const playbooks = pluginsList.playbooks;
+
+    // if both plugins are enabled, then the last step is one, otherwise if just one is enabled it must be 0
+    const lastStep = (focalboard && playbooks) ? 1 : 0;
 
     const handleSaveDataAndTrackEvent = useCallback(
         (stepValue: number, eventSource: ActionType, autoTour = true, trackEvent = true) => {
@@ -154,14 +114,12 @@ const useOnBoardingTourTipManager = (): OnBoardingTourTipManager => {
             dispatch(storeSavePreferences(currentUserId, preferences));
             if (trackEvent) {
                 const eventSuffix = `${stepValue}--${eventSource}`;
-                const telemetryTag = generateTelemetryTag(ChannelsTour, tourCategory, eventSuffix);
+                const telemetryTag = generateTelemetryTag(OtherToolsTour, tourCategory, eventSuffix);
                 trackEventAction(tourCategory, telemetryTag);
             }
         },
         [currentUserId],
     );
-
-    // Function to save the tutorial step in redux store end here
 
     const handleEventPropagationAndDefault = (e: React.MouseEvent | KeyboardEvent) => {
         e.stopPropagation();
@@ -198,13 +156,14 @@ const useOnBoardingTourTipManager = (): OnBoardingTourTipManager => {
         }
         handleHide();
         handleSaveDataAndTrackEvent(stepValue, type);
-        handleActions(stepValue, currentStep);
+        handleActions(stepValue);
     }, [currentStep, handleHide, handleSaveDataAndTrackEvent, handleActions]);
 
     const handleDismiss = useCallback((e: React.MouseEvent): void => {
         handleEventPropagationAndDefault(e);
         handleHide();
         handleSaveDataAndTrackEvent(currentStep, 'dismiss', false);
+        dispatch(setProductMenuSwitcherOpen(false));
     }, [handleSaveDataAndTrackEvent, handleHide]);
 
     const handlePrevious = useCallback((e: React.MouseEvent): void => {
@@ -216,7 +175,8 @@ const useOnBoardingTourTipManager = (): OnBoardingTourTipManager => {
         if (e) {
             handleEventPropagationAndDefault(e);
         }
-        if (getLastStep(tourSteps) === currentStep) {
+        if (lastStep === currentStep) {
+            dispatch(setProductMenuSwitcherOpen(false));
             handleSavePreferences(FINISHED);
         } else {
             handleSavePreferences(true);
@@ -234,7 +194,7 @@ const useOnBoardingTourTipManager = (): OnBoardingTourTipManager => {
         handleEventPropagationAndDefault(e);
         handleHide();
         handleSaveDataAndTrackEvent(SKIPPED, 'skipped', false);
-        handleActions(SKIPPED, currentStep);
+        handleActions(SKIPPED);
     }, [handleSaveDataAndTrackEvent, handleHide]);
 
     useEffect(() => {

@@ -67,5 +67,3 @@ export const shouldShowAppBar = createSelector(
         return enabled && Boolean(bindings.length || appBarComponents.length || channelHeaderComponents.length);
     },
 );
-
-export const getPlugins = (state: GlobalState) => state.plugins.plugins;
