@@ -126,7 +126,7 @@ describe('components/activity_and_insights/insights/top_dms_and_new_members', ()
             </Provider>,
         );
         await actImmediate(wrapper);
-        expect(wrapper.find('.top-dms-item').length).toEqual(1);
+        expect(wrapper.find('a.top-dms-item').length).toEqual(1);
     });
 
     test('new members should render', async () => {

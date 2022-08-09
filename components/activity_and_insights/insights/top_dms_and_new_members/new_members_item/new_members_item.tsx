@@ -29,36 +29,33 @@ const NewMembersItem = ({newMember, team}: Props) => {
     const teammateNameDisplaySetting = useSelector(getTeammateNameDisplaySetting);
 
     return (
-        <div className='top-dms-item new-members-item'>
+        <Link 
+            className='top-dms-item new-members-item'
+            to={`/${team.name}/messages/@${newMember.username}`}
+        >
             <Avatar
                 url={imageURLForUser(newMember.id)}
                 size={'xl'}
             />
             <div className='dm-info'>
-                <Link
-                    className='dm-name'
-                    to={`/${team.name}/messages/@${newMember.username}`}
-                >
+                <div className='dm-name'>
                     {displayUsername(newMember as UserProfile, teammateNameDisplaySetting)}
-                </Link>
+                </div>
                 <span className='dm-role'>{newMember.position}</span>
                 <div className='channel-message-count'>
                     <RenderEmoji
                         emojiName={'wave'}
                         size={14}
                     />
-                    <Link
-                        className='say-hello'
-                        to={`/${team.name}/messages/@${newMember.username}`}
-                    >
+                    <div className='say-hello'>
                         <FormattedMessage
                             id='insights.newMembers.sayHello'
                             defaultMessage='Say hello'
                         />
-                    </Link>
+                    </div>
                 </div>
             </div>
-        </div>
+        </Link>
     );
 };
 
