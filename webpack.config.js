@@ -380,42 +380,42 @@ var config = {
             generateStatsFile: true,
             statsFilename: 'bundlestats.json',
         }),
-
-        new ModuleFederationPlugin({
-            name: 'mattermost-webapp',
-            shared: {
-                '@mattermost/client': packageJson.version,
-                '@mattermost/components': packageJson.version,
-                '@mattermost/types': packageJson.version,
-                luxon: packageJson.dependencies.luxon,
-                react: { // TODO these cause warnings for some reason since it claims something is requirinig different versions of React (* =16.8.0, and ^18.0)
-                    version: packageJson.dependencies.react,
-                    singleton: true,
-                },
-                'react-bootstrap': {
-                    version: packageJson.dependencies['react-bootstrap'],
-                    singleton: true,
-                },
-                'react-dom': { // TODO same thing here (^16.14.0)
-                    version: packageJson.dependencies['react-dom'],
-                    singleton: true,
-                },
-                'react-intl': {
-                    version: packageJson.dependencies['react-intl'],
-                    singleton: true,
-                },
-                'react-redux': {
-                    version: packageJson.dependencies['react-redux'],
-                    singleton: true,
-                },
-                'react-router-dom': {
-                    version: packageJson.dependencies['react-router-dom'],
-                    singleton: true,
-                },
-            },
-        }),
     ],
 };
+
+function makeSingletonSharedModules(packageNames) {
+    const sharedObject = {};
+
+    for (const packageName of packageNames) {
+        const version = packageJson.dependencies[packageName];
+
+        sharedObject[packageName] = {
+            requiredVersion: version,
+            singleton: true,
+            version,
+        };
+    }
+
+    return sharedObject;
+}
+
+config.plugins.push(new ModuleFederationPlugin({
+    name: 'mattermost-webapp',
+    shared: [
+        '@mattermost/client',
+        '@mattermost/components',
+        '@mattermost/types',
+        'luxon',
+        makeSingletonSharedModules([
+            'react',
+            'react-bootstrap',
+            'react-dom',
+            'react-intl',
+            'react-redux',
+            'react-router-dom',
+        ]),
+    ],
+}));
 
 if (!targetIsStats) {
     config.stats = MYSTATS;
