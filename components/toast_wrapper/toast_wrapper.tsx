@@ -6,6 +6,8 @@ import {FormattedMessage, injectIntl} from 'react-intl';
 
 import Toast from 'components/toast/toast';
 
+import type {updateNewMessagesAtInChannel} from 'actions/global_actions';
+
 // @ts-expect-error TS(2307): Cannot find module 'components/timestamp' or its c... Remove this comment to see the full error message
 import Timestamp, {RelativeRanges} from 'components/timestamp';
 
@@ -55,10 +57,9 @@ type OwnProps = {
     focusedPostId?: string;
     initScrollOffsetFromBottom?: number;
 
-    // @ts-expect-error TS(2552): Cannot find name '$TSFixMeFunction'. Did you mean ... Remove this comment to see the full error message
-    updateNewMessagesAtInChannel?: $TSFixMeFunction;
+    updateNewMessagesAtInChannel?: typeof updateNewMessagesAtInChannel;
 
-    // @ts-expect-error TS(2552): Cannot find name '$TSFixMeFunction'. Did you mean ... Remove this comment to see the full error message
+    // @ts-expect-error TS(2552): Cannot find name '$'. Did you mean ... Remove this comment to see the full error message
     scrollToNewMessage?: $TSFixMeFunction;
 
     // @ts-expect-error TS(2552): Cannot find name '$TSFixMeFunction'. Did you mean ... Remove this comment to see the full error message
