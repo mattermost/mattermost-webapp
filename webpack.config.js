@@ -7,12 +7,15 @@ const path = require('path');
 const url = require('url');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
+const {ModuleFederationPlugin} = require('webpack').container;
 const nodeExternals = require('webpack-node-externals');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const LiveReloadPlugin = require('webpack-livereload-plugin');
 const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
+
+const packageJson = require('./package.json');
 
 const NPM_TARGET = process.env.npm_lifecycle_event; //eslint-disable-line no-process-env
 
@@ -371,10 +374,45 @@ var config = {
                 sizes: '96x96',
             }],
         }),
+
         new BundleAnalyzerPlugin({
             analyzerMode: 'disabled',
             generateStatsFile: true,
             statsFilename: 'bundlestats.json',
+        }),
+
+        new ModuleFederationPlugin({
+            name: 'mattermost-webapp',
+            shared: {
+                '@mattermost/client': packageJson.version,
+                '@mattermost/components': packageJson.version,
+                '@mattermost/types': packageJson.version,
+                luxon: packageJson.dependencies.luxon,
+                react: { // TODO these cause warnings for some reason since it claims something is requirinig different versions of React (* =16.8.0, and ^18.0)
+                    version: packageJson.dependencies.react,
+                    singleton: true,
+                },
+                'react-bootstrap': {
+                    version: packageJson.dependencies['react-bootstrap'],
+                    singleton: true,
+                },
+                'react-dom': { // TODO same thing here (^16.14.0)
+                    version: packageJson.dependencies['react-dom'],
+                    singleton: true,
+                },
+                'react-intl': {
+                    version: packageJson.dependencies['react-intl'],
+                    singleton: true,
+                },
+                'react-redux': {
+                    version: packageJson.dependencies['react-redux'],
+                    singleton: true,
+                },
+                'react-router-dom': {
+                    version: packageJson.dependencies['react-router-dom'],
+                    singleton: true,
+                },
+            },
         }),
     ],
 };
