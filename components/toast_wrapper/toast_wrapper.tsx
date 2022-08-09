@@ -18,8 +18,8 @@ import * as Utils from 'utils/utils';
 // @ts-expect-error TS(2307): Cannot find module 'utils/datetime' or its corresp... Remove this comment to see the full error message
 import {isToday} from 'utils/datetime';
 
-// @ts-expect-error TS(2307): Cannot find module 'utils/constants' or its corres... Remove this comment to see the full error message
 import Constants from 'utils/constants';
+
 
 // @ts-expect-error TS(2307): Cannot find module 'utils/browser_history' or its ... Remove this comment to see the full error message
 import {browserHistory} from 'utils/browser_history';
@@ -46,7 +46,7 @@ type OwnProps = {
     isCollapsedThreadsEnabled?: boolean;
     rootPosts?: $TSFixMe;
     atLatestPost?: boolean;
-    postListIds?: $TSFixMe[];
+    postListIds?: string[];
     latestPostTimeStamp?: number;
     atBottom?: boolean;
     lastViewedBottom?: number;
