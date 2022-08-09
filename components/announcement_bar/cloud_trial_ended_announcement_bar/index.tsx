@@ -105,15 +105,11 @@ const CloudTrialEndAnnouncementBar: React.FC = () => {
         );
     };
 
-    let message = {
-        id: t('freemium.banner.trial_ended.premium_features'),
+    const message = {
+        id: t('starter.banner.downgraded'),
         defaultMessage:
-            'Your trial has ended. Upgrade to regain access to paid features',
+            'Your workspace now has restrictions and some data have been archived',
     };
-
-    if (anyUsageDeltaExceededLimit(usageDeltas) || usageDeltas.teams.cloudArchived) {
-        message = {id: t('freemium.banner.trial_ended.archived_data'), defaultMessage: 'Your trial has ended. Upgrade to regain access to archived data'};
-    }
 
     return (
         <AnnouncementBar
