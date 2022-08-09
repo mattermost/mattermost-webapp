@@ -29,7 +29,7 @@ const NewMembersItem = ({newMember, team}: Props) => {
     const teammateNameDisplaySetting = useSelector(getTeammateNameDisplaySetting);
 
     return (
-        <Link 
+        <Link
             className='top-dms-item new-members-item'
             to={`/${team.name}/messages/@${newMember.username}`}
         >

@@ -716,6 +716,8 @@
                 &.new-members-info {
                     display: flex;
                     flex-direction: column;
+                    align-self: flex-start;
+                    padding: 12px;
 
                     @media screen and (max-width: 1279px) {
                         flex-direction: row;
@@ -731,7 +733,7 @@
 
                         @media screen and (max-width: 1279px) {
                             margin-top: 8px;
-                            margin-left: 24px;
+                            margin-left: 12px;
                         }
                     }
 
