@@ -2,38 +2,77 @@
 // See LICENSE.txt for license information.
 /* eslint-disable max-lines */
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, {ChangeEvent, RefObject} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import semver from 'semver';
 
 import Constants, {NotificationLevels} from 'utils/constants';
-import * as Utils from 'utils/utils';
+import {localizeMessage, moveCursorToEnd} from 'utils/utils';
+import {isDesktopApp} from 'utils/user_agent';
+
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 
-import {isDesktopApp} from 'utils/user_agent';
+import {UserNotifyProps, UserProfile} from '@mattermost/types/users';
 
-import DesktopNotificationSettings from './desktop_notification_settings.jsx';
+import {ActionResult} from 'mattermost-redux/types/actions';
+
+import DesktopNotificationSettings from './desktop_notification_setting/desktop_notification_settings';
 import EmailNotificationSetting from './email_notification_setting';
-import ManageAutoResponder from './manage_auto_responder.jsx';
+import ManageAutoResponder from './manage_auto_responder/manage_auto_responder';
 
-function getNotificationsStateFromProps(props) {
+export type Props = {
+    user: UserProfile;
+    updateSection: (section: string) => void;
+    activeSection: string;
+    closeModal: () => void;
+    collapseModal: () => void;
+    sendPushNotifications: boolean;
+    enableAutoResponder: boolean;
+    actions: {
+        updateMe: (user: UserProfile) => Promise<ActionResult>;
+    };
+    isCollapsedThreadsEnabled: boolean;
+}
+
+type State = {
+    enableEmail: UserNotifyProps['email'];
+    desktopActivity: UserNotifyProps['desktop'];
+    desktopThreads: UserNotifyProps['desktop_threads'];
+    pushThreads: UserNotifyProps['push_threads'];
+    emailThreads: UserNotifyProps['email_threads'];
+    pushActivity: UserNotifyProps['push'];
+    pushStatus: UserNotifyProps['push_status'];
+    desktopSound: UserNotifyProps['desktop_sound'];
+    desktopNotificationSound: UserNotifyProps['desktop_notification_sound'];
+    usernameKey: boolean;
+    customKeys: string;
+    customKeysChecked: boolean;
+    firstNameKey: boolean;
+    channelKey: boolean;
+    autoResponderActive: boolean;
+    autoResponderMessage: UserNotifyProps['auto_responder_message'];
+    notifyCommentsLevel: UserNotifyProps['comments'];
+    isSaving: boolean;
+    serverError: string;
+};
+
+function getNotificationsStateFromProps(props: Props): State {
     const user = props.user;
 
-    let desktop = NotificationLevels.MENTION;
-    let desktopThreads = NotificationLevels.ALL;
-    let pushThreads = NotificationLevels.ALL;
-    let emailThreads = NotificationLevels.ALL;
-    let sound = 'true';
-    let desktopNotificationSound = 'Bing';
-    let comments = 'never';
-    let enableEmail = 'true';
-    let pushActivity = NotificationLevels.MENTION;
-    let pushStatus = Constants.UserStatuses.AWAY;
+    let desktop: UserNotifyProps['desktop'] = NotificationLevels.MENTION;
+    let desktopThreads: UserNotifyProps['desktop_threads'] = NotificationLevels.ALL;
+    let pushThreads: UserNotifyProps['push_threads'] = NotificationLevels.ALL;
+    let emailThreads: UserNotifyProps['email_threads'] = NotificationLevels.ALL;
+    let sound: UserNotifyProps['desktop_sound'] = 'true';
+    let desktopNotificationSound: UserNotifyProps['desktop_notification_sound'] = 'Bing';
+    let comments: UserNotifyProps['comments'] = 'never';
+    let enableEmail: UserNotifyProps['email'] = 'true';
+    let pushActivity: UserNotifyProps['push'] = NotificationLevels.MENTION;
+    let pushStatus: UserNotifyProps['push_status'] = Constants.UserStatuses.AWAY;
     let autoResponderActive = false;
-    let autoResponderMessage = Utils.localizeMessage(
+    let autoResponderMessage: UserNotifyProps['auto_responder_message'] = localizeMessage(
         'user.settings.notifications.autoResponderDefault',
         'Hello, I am out of office and unable to respond to messages.',
     );
@@ -129,31 +168,21 @@ function getNotificationsStateFromProps(props) {
         autoResponderMessage,
         notifyCommentsLevel: comments,
         isSaving: false,
+        serverError: '',
     };
 }
 
-export default class NotificationsTab extends React.PureComponent {
-    static propTypes = {
-        user: PropTypes.object,
-        updateSection: PropTypes.func,
-        activeSection: PropTypes.string,
-        closeModal: PropTypes.func.isRequired,
-        collapseModal: PropTypes.func.isRequired,
-        sendPushNotifications: PropTypes.bool,
-        enableAutoResponder: PropTypes.bool,
-        actions: PropTypes.shape({
-            updateMe: PropTypes.func.isRequired,
-        }).isRequired,
-        isCollapsedThreadsEnabled: PropTypes.bool.isRequired,
-    }
+export default class NotificationsTab extends React.PureComponent<Props, State> {
+    customCheckRef: RefObject<HTMLInputElement>;
+    customMentionsRef: RefObject<HTMLInputElement>;
+    drawerRef: RefObject<HTMLHeadingElement>;
+    wrapperRef: RefObject<HTMLDivElement>;
 
     static defaultProps = {
-        user: null,
         activeSection: '',
-        activeTab: '',
     }
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
 
         this.state = getNotificationsStateFromProps(props);
@@ -163,11 +192,11 @@ export default class NotificationsTab extends React.PureComponent {
         this.wrapperRef = React.createRef();
     }
 
-    handleSubmit = () => {
-        const data = {};
+    handleSubmit = (): void => {
+        const data: UserNotifyProps = {} as UserNotifyProps;
         data.email = this.state.enableEmail;
         data.desktop_sound = this.state.desktopSound;
-        if (!isDesktopApp() || (window.desktop && semver.gte(window.desktop.version, '4.6.0'))) {
+        if (!isDesktopApp() || (window.desktop && semver.gte(window.desktop.version || '', '4.6.0'))) {
             data.desktop_notification_sound = this.state.desktopNotificationSound;
         }
         data.desktop = this.state.desktopActivity;
@@ -177,11 +206,11 @@ export default class NotificationsTab extends React.PureComponent {
         data.push = this.state.pushActivity;
         data.push_status = this.state.pushStatus;
         data.comments = this.state.notifyCommentsLevel;
-        data.auto_responder_active = this.state.autoResponderActive.toString();
+        data.auto_responder_active = this.state.autoResponderActive.toString() as UserNotifyProps['auto_responder_active'];
         data.auto_responder_message = this.state.autoResponderMessage;
 
         if (!data.auto_responder_message || data.auto_responder_message === '') {
-            data.auto_responder_message = Utils.localizeMessage(
+            data.auto_responder_message = localizeMessage(
                 'user.settings.notifications.autoResponderDefault',
                 'Hello, I am out of office and unable to respond to messages.',
             );
@@ -198,12 +227,12 @@ export default class NotificationsTab extends React.PureComponent {
         }
 
         data.mention_keys = stringKeys;
-        data.first_name = this.state.firstNameKey.toString();
-        data.channel = this.state.channelKey.toString();
+        data.first_name = this.state.firstNameKey.toString() as UserNotifyProps['first_name'];
+        data.channel = this.state.channelKey.toString() as UserNotifyProps['channel'];
 
         this.setState({isSaving: true});
 
-        this.props.actions.updateMe({notify_props: data}).
+        this.props.actions.updateMe({notify_props: data} as UserProfile).
             then(({data: result, error: err}) => {
                 if (result) {
                     this.handleUpdateSection('');
@@ -214,14 +243,9 @@ export default class NotificationsTab extends React.PureComponent {
             });
     }
 
-    handleCancel = (e) => {
-        if (e) {
-            e.preventDefault();
-        }
-        this.setState(getNotificationsStateFromProps(this.props));
-    }
+    handleCancel = (): void => this.setState(getNotificationsStateFromProps(this.props));
 
-    handleUpdateSection = (section) => {
+    handleUpdateSection = (section: string): void => {
         if (section) {
             this.props.updateSection(section);
         } else {
@@ -231,50 +255,36 @@ export default class NotificationsTab extends React.PureComponent {
         this.handleCancel();
     };
 
-    setStateValue = (key, value) => {
-        const data = {};
+    setStateValue = (key: string, value: string | boolean): void => {
+        const data: {[key: string]: string | boolean } = {};
         data[key] = value;
-        this.setState(data);
+        this.setState((prevState) => ({...prevState, ...data}));
     }
 
-    handleNotifyPushThread = (e) => {
+    handleNotifyPushThread = (e: ChangeEvent<HTMLInputElement>): void => {
         const pushThreads = e.target.checked ? NotificationLevels.ALL : NotificationLevels.MENTION;
         this.setState({pushThreads});
     }
 
-    handleNotifyCommentsRadio(notifyCommentsLevel) {
-        this.setState({notifyCommentsLevel});
-    }
+    handleNotifyCommentsRadio = (notifyCommentsLevel: UserNotifyProps['comments']): void => this.setState({notifyCommentsLevel});
 
-    handlePushRadio(pushActivity) {
-        this.setState({pushActivity});
-    }
+    handlePushRadio = (pushActivity: UserNotifyProps['push']): void => this.setState({pushActivity});
 
-    handlePushStatusRadio(pushStatus) {
-        this.setState({pushStatus});
-    }
+    handlePushStatusRadio = (pushStatus: UserNotifyProps['push_status']): void => this.setState({pushStatus});
 
-    handleEmailRadio = (enableEmail) => {
-        this.setState({enableEmail});
-    }
+    handleEmailRadio = (enableEmail: UserNotifyProps['email']): void => this.setState({enableEmail});
 
-    updateUsernameKey = (val) => {
-        this.setState({usernameKey: val});
-    }
+    updateUsernameKey = (val: boolean): void => this.setState({usernameKey: val});
 
-    updateFirstNameKey = (val) => {
-        this.setState({firstNameKey: val});
-    }
+    updateFirstNameKey = (val: boolean): void => this.setState({firstNameKey: val});
 
-    updateChannelKey = (val) => {
-        this.setState({channelKey: val});
-    }
+    updateChannelKey = (val: boolean): void => this.setState({channelKey: val});
 
-    updateCustomMentionKeys = () => {
-        const checked = this.customCheckRef.current.checked;
+    updateCustomMentionKeys = (): void => {
+        const checked = this.customCheckRef.current?.checked;
 
         if (checked) {
-            const text = this.customMentionsRef.current.value;
+            const text = this.customMentionsRef.current?.value || '';
 
             // remove all spaces and split string into individual keys
             this.setState({customKeys: text.replace(/ /g, ''), customKeysChecked: true});
@@ -283,8 +293,10 @@ export default class NotificationsTab extends React.PureComponent {
         }
     }
 
-    onCustomChange = () => {
-        this.customCheckRef.current.checked = true;
+    onCustomChange = (): void => {
+        if (this.customCheckRef.current) {
+            this.customCheckRef.current.checked = true;
+        }
         this.updateCustomMentionKeys();
     }
 
@@ -503,7 +515,7 @@ export default class NotificationsTab extends React.PureComponent {
 
             return (
                 <SettingItemMax
-                    title={Utils.localizeMessage('user.settings.notifications.push', 'Mobile Push Notifications')}
+                    title={localizeMessage('user.settings.notifications.push', 'Mobile Push Notifications')}
                     inputs={inputs}
                     submit={submit}
                     server_error={this.state.serverError}
@@ -512,7 +524,7 @@ export default class NotificationsTab extends React.PureComponent {
             );
         }
 
-        let describe = '';
+        let describe: JSX.Element;
         if (this.state.pushActivity === NotificationLevels.ALL) {
             if (this.state.pushStatus === Constants.UserStatuses.AWAY) {
                 describe = (
@@ -577,7 +589,7 @@ export default class NotificationsTab extends React.PureComponent {
 
         return (
             <SettingItemMin
-                title={Utils.localizeMessage('user.settings.notifications.push', 'Mobile Push Notifications')}
+                title={localizeMessage('user.settings.notifications.push', 'Mobile Push Notifications')}
                 describe={describe}
                 section={'push'}
                 updateSection={this.handleUpdateSection}
@@ -594,9 +606,7 @@ export default class NotificationsTab extends React.PureComponent {
             const inputs = [];
 
             if (user.first_name) {
-                const handleUpdateFirstNameKey = (e) => {
-                    this.updateFirstNameKey(e.target.checked);
-                };
+                const handleUpdateFirstNameKey = (e: ChangeEvent<HTMLInputElement>): void => this.updateFirstNameKey(e.target.checked);
                 inputs.push(
                     <div key='userNotificationFirstNameOption'>
                         <div className='checkbox'>
@@ -620,9 +630,7 @@ export default class NotificationsTab extends React.PureComponent {
                 );
             }
 
-            const handleUpdateUsernameKey = (e) => {
-                this.updateUsernameKey(e.target.checked);
-            };
+            const handleUpdateUsernameKey = (e: ChangeEvent<HTMLInputElement>): void => this.updateUsernameKey(e.target.checked);
             inputs.push(
                 <div key='userNotificationUsernameOption'>
                     <div className='checkbox'>
@@ -645,9 +653,7 @@ export default class NotificationsTab extends React.PureComponent {
                 </div>,
             );
 
-            const handleUpdateChannelKey = (e) => {
-                this.updateChannelKey(e.target.checked);
-            };
+            const handleUpdateChannelKey = (e: ChangeEvent<HTMLInputElement>): void => this.updateChannelKey(e.target.checked);
             inputs.push(
                 <div key='userNotificationChannelOption'>
                     <div className='checkbox'>
@@ -692,7 +698,7 @@ export default class NotificationsTab extends React.PureComponent {
                         type='text'
                         defaultValue={this.state.customKeys}
                         onChange={this.onCustomChange}
-                        onFocus={Utils.moveCursorToEnd}
+                        onFocus={moveCursorToEnd}
                         aria-labelledby='notificationTriggerCustom'
                     />
                 </div>,
@@ -712,7 +718,7 @@ export default class NotificationsTab extends React.PureComponent {
 
             keysSection = (
                 <SettingItemMax
-                    title={Utils.localizeMessage('user.settings.notifications.wordsTrigger', 'Words That Trigger Mentions')}
+                    title={localizeMessage('user.settings.notifications.wordsTrigger', 'Words That Trigger Mentions')}
                     inputs={inputs}
                     submit={this.handleSubmit}
                     saving={this.state.isSaving}
@@ -739,7 +745,7 @@ export default class NotificationsTab extends React.PureComponent {
                 keys = keys.concat(this.state.customKeys.split(','));
             }
 
-            let describe = '';
+            let describe: JSX.Element | string = '';
             for (let i = 0; i < keys.length; i++) {
                 if (keys[i] !== '') {
                     describe += '"' + keys[i] + '", ';
@@ -759,7 +765,7 @@ export default class NotificationsTab extends React.PureComponent {
 
             keysSection = (
                 <SettingItemMin
-                    title={Utils.localizeMessage('user.settings.notifications.wordsTrigger', 'Words That Trigger Mentions')}
+                    title={localizeMessage('user.settings.notifications.wordsTrigger', 'Words That Trigger Mentions')}
                     describe={describe}
                     section={'keys'}
                     updateSection={this.handleUpdateSection}
@@ -783,7 +789,7 @@ export default class NotificationsTab extends React.PureComponent {
             inputs.push(
                 <fieldset key='userNotificationLevelOption'>
                     <legend className='form-legend hidden-label'>
-                        {Utils.localizeMessage('user.settings.notifications.comments', 'Reply notifications')}
+                        {localizeMessage('user.settings.notifications.comments', 'Reply notifications')}
                     </legend>
                     <div className='radio'>
                         <label>
@@ -846,7 +852,7 @@ export default class NotificationsTab extends React.PureComponent {
 
             commentsSection = (
                 <SettingItemMax
-                    title={Utils.localizeMessage('user.settings.notifications.comments', 'Reply notifications')}
+                    title={localizeMessage('user.settings.notifications.comments', 'Reply notifications')}
                     extraInfo={extraInfo}
                     inputs={inputs}
                     submit={this.handleSubmit}
@@ -856,7 +862,7 @@ export default class NotificationsTab extends React.PureComponent {
                 />
             );
         } else {
-            let describe = '';
+            let describe: JSX.Element;
             if (this.state.notifyCommentsLevel === 'never') {
                 describe = (
                     <FormattedMessage
@@ -882,7 +888,7 @@ export default class NotificationsTab extends React.PureComponent {
 
             commentsSection = (
                 <SettingItemMin
-                    title={Utils.localizeMessage('user.settings.notifications.comments', 'Reply notifications')}
+                    title={localizeMessage('user.settings.notifications.comments', 'Reply notifications')}
                     describe={describe}
                     section={'comments'}
                     updateSection={this.handleUpdateSection}
@@ -897,7 +903,7 @@ export default class NotificationsTab extends React.PureComponent {
                     <div>
                         <ManageAutoResponder
                             autoResponderActive={this.state.autoResponderActive}
-                            autoResponderMessage={this.state.autoResponderMessage}
+                            autoResponderMessage={this.state.autoResponderMessage || ''}
                             updateSection={this.handleUpdateSection}
                             setParentState={this.setStateValue}
                             submit={this.handleSubmit}
@@ -928,7 +934,6 @@ export default class NotificationsTab extends React.PureComponent {
                                 defaultMessage='Automatic Direct Message Replies'
                             />
                         }
-                        width='medium'
                         describe={describe}
                         section={'auto-responder'}
                         updateSection={this.handleUpdateSection}
@@ -938,6 +943,7 @@ export default class NotificationsTab extends React.PureComponent {
         }
 
         const pushNotificationSection = this.createPushNotificationSection();
+        const enableEmailProp = this.state.enableEmail === 'true';
 
         return (
             <div id='notificationSettings'>
@@ -960,10 +966,10 @@ export default class NotificationsTab extends React.PureComponent {
                                 id='generic_icons.collapse'
                                 defaultMessage='Collapse Icon'
                             >
-                                {(title) => (
+                                {(title: string[]) => (
                                     <i
                                         className='fa fa-angle-left'
-                                        title={title}
+                                        title={title[0]}
                                         onClick={this.props.collapseModal}
                                     />
                                 )}
@@ -1000,14 +1006,14 @@ export default class NotificationsTab extends React.PureComponent {
                         cancel={this.handleCancel}
                         error={this.state.serverError}
                         active={this.props.activeSection === 'desktop'}
-                        selectedSound={this.state.desktopNotificationSound}
+                        selectedSound={this.state.desktopNotificationSound || 'default'}
                         isCollapsedThreadsEnabled={this.props.isCollapsedThreadsEnabled}
                     />
                     <div className='divider-light'/>
                     <EmailNotificationSetting
                         activeSection={this.props.activeSection}
                         updateSection={this.handleUpdateSection}
-                        enableEmail={this.state.enableEmail === 'true'}
+                        enableEmail={enableEmailProp}
                         onSubmit={this.handleSubmit}
                         onCancel={this.handleCancel}
                         onChange={this.handleEmailRadio}
@@ -1015,7 +1021,7 @@ export default class NotificationsTab extends React.PureComponent {
                         serverError={this.state.serverError}
                         isCollapsedThreadsEnabled={this.props.isCollapsedThreadsEnabled}
                         setParentState={this.setStateValue}
-                        threads={this.state.emailThreads}
+                        threads={this.state.emailThreads || ''}
                     />
                     <div className='divider-light'/>
                     {pushNotificationSection}
@@ -1036,4 +1042,3 @@ export default class NotificationsTab extends React.PureComponent {
         );
     }
 }
-/* eslint-enable react/no-string-refs */
