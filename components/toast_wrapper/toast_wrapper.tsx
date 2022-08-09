@@ -4,34 +4,24 @@
 import React from 'react';
 import {FormattedMessage, injectIntl} from 'react-intl';
 
-// @ts-expect-error TS(2307) FIXME: Cannot find module 'components/toast/toast' or its... Remove this comment to see the full error message
 import Toast from 'components/toast/toast';
 
-// @ts-expect-error TS(2307) FIXME: Cannot find module 'components/timestamp' or its c... Remove this comment to see the full error message
 import Timestamp, {RelativeRanges} from 'components/timestamp';
 
-// @ts-expect-error TS(2307) FIXME: Cannot find module 'utils/post_utils' or its corre... Remove this comment to see the full error message
 import {isIdNotPost, getNewMessageIndex} from 'utils/post_utils';
 
-// @ts-expect-error TS(2307) FIXME: Cannot find module 'utils/utils' or its correspond... Remove this comment to see the full error message
 import * as Utils from 'utils/utils';
 
-// @ts-expect-error TS(2307) FIXME: Cannot find module 'utils/datetime' or its corresp... Remove this comment to see the full error message
 import {isToday} from 'utils/datetime';
 
-// @ts-expect-error TS(2307) FIXME: Cannot find module 'utils/constants' or its corres... Remove this comment to see the full error message
 import Constants from 'utils/constants';
 
-// @ts-expect-error TS(2307) FIXME: Cannot find module 'utils/browser_history' or its ... Remove this comment to see the full error message
 import {browserHistory} from 'utils/browser_history';
 
-// @ts-expect-error TS(2307) FIXME: Cannot find module 'components/search_shortcut' or... Remove this comment to see the full error message
 import {SearchShortcut} from 'components/search_shortcut';
 
-// @ts-expect-error TS(2307) FIXME: Cannot find module 'components/hint-toast/hint_toa... Remove this comment to see the full error message
 import {HintToast} from 'components/hint-toast/hint_toast';
 
-// @ts-expect-error TS(2307) FIXME: Cannot find module 'mattermost-redux/constants' or... Remove this comment to see the full error message
 import {Preferences} from 'mattermost-redux/constants';
 
 const TOAST_TEXT_COLLAPSE_WIDTH = 500;
@@ -498,3 +488,4 @@ class ToastWrapper extends React.PureComponent<Props, State> {
 
 // @ts-expect-error TS(2769) FIXME: No overload matches this call.
 export default injectIntl(ToastWrapper);
+
