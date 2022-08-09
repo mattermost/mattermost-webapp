@@ -4,11 +4,12 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-import {FileInfo} from '@mattermost/types/files';
 import {ArchiveOutlineIcon} from '@mattermost/compass-icons/components';
 
+import {FileInfo} from '@mattermost/types/files';
+
 interface Props {
-    fileInfo: FileInfo
+    fileInfo: FileInfo;
 }
 
 export default function FileInfoPreview(props: Props) {

@@ -286,14 +286,12 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
             content = (
                 <ArchivedPreview
                     fileInfo={fileInfo}
-                    fileUrl={fileUrl}
-                    className='file-preview-modal__code-preview'
                 />
             );
         }
 
         if (!isFileInfo(fileInfo) || !fileInfo.archived) {
-            if (this.state.loaded[this.state.imageIndex] ) {
+            if (this.state.loaded[this.state.imageIndex]) {
                 if (fileType === FileTypes.IMAGE || fileType === FileTypes.SVG) {
                     content = (
                         <ImagePreview
