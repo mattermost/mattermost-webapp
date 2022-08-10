@@ -4,6 +4,8 @@
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 
+import classNames from 'classnames';
+
 import {FileInfo} from '@mattermost/types/files';
 import {Post} from '@mattermost/types/posts';
 
@@ -279,7 +281,6 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
         let dialogClassName = 'a11y__modal modal-image file-preview-modal';
 
         let content;
-        let modalImageClass = '';
         let zoomBar;
 
         if (isFileInfo(fileInfo) && fileInfo.archived) {
@@ -307,7 +308,6 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
                         />
                     );
                 } else if (fileType === FileTypes.PDF) {
-                    modalImageClass = ' file-preview-modal__content-scrollable';
                     content = (
                         <div
                             className='file-preview-modal__scrollable'
@@ -425,7 +425,12 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
                                 {zoomBar}
                             </Modal.Title>
                             <div
-                                className={'file-preview-modal__content' + modalImageClass}
+                                className={classNames(
+                                    'file-preview-modal__content',
+                                    {
+                                        'file-preview-modal__content-scrollable': (!isFileInfo(fileInfo) || !fileInfo.archived) && this.state.loaded[this.state.imageIndex] && (fileType === FileTypes.PDF),
+                                    },
+                                )}
                                 onClick={this.handleBgClose}
                             >
                                 {content}
