@@ -6,7 +6,7 @@ import React from 'react';
 
 import {Posts} from 'mattermost-redux/constants';
 
-import RhsComment from 'components/rhs_comment/rhs_comment.jsx';
+import RhsComment from 'components/rhs_comment/rhs_comment';
 import EmojiMap from 'utils/emoji_map';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
 import PostPreHeader from 'components/post_view/post_pre_header';

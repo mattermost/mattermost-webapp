@@ -48,7 +48,7 @@ export type Props = {
     handleOpenTip: () => void;
     handleNextTip: (e: React.MouseEvent) => void;
     handleDismissTip: () => void;
-    showPulsatingDot: boolean;
+    showPulsatingDot?: boolean;
     showTutorialTip: boolean;
 
     /**
