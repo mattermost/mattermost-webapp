@@ -1,9 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {memo, useState, useCallback, useEffect, useMemo} from 'react';
+import React, {memo, useState, useCallback, useEffect, useMemo, ComponentProps} from 'react';
 import {useSelector} from 'react-redux';
 
 import {Link} from 'react-router-dom';
+
+import {FormattedMessage} from 'react-intl';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
@@ -13,10 +15,27 @@ import {TopPlaybook} from '@mattermost/types/insights';
 
 import {GlobalState} from 'types/store';
 
+import Timestamp from 'components/timestamp';
+
 import TitleLoader from '../skeleton_loader/title_loader/title_loader';
 import widgetHoc, {WidgetHocProps} from '../widget_hoc/widget_hoc';
+import WidgetEmptyState from '../widget_empty_state/widget_empty_state';
 
 import './../../activity_and_insights.scss';
+
+const TIME_SPEC: Partial<ComponentProps<typeof Timestamp>> = {
+    units: [
+        'now',
+        'minute',
+        ['hour', -48],
+        ['day', -30],
+        'month',
+        'year',
+    ],
+    useTime: false,
+    day: 'numeric',
+    style: 'narrow',
+};
 
 const TopPlaybooks = (props: WidgetHocProps) => {
     const [loading, setLoading] = useState(false);
@@ -26,12 +45,12 @@ const TopPlaybooks = (props: WidgetHocProps) => {
     const playbooksHandler = useSelector((state: GlobalState) => state.plugins.insightsHandlers.playbooks);
 
     const getTopPlaybooks = useCallback(async () => {
-        // setLoading(true);
-        // const data: any = await boardsHandler(props.timeFrame, 0, 3, currentTeamId, props.filterType);
-        // if (data.items) {
-        //     setTopBoards(data.items);
-        // }
-        // setLoading(false);
+        setLoading(true);
+        const data: any = await playbooksHandler(props.timeFrame, 0, 3, currentTeamId, props.filterType);
+        if (data.items) {
+            setPlaybooks(data.items);
+        }
+        setLoading(false);
     }, [props.timeFrame, currentTeamId, props.filterType]);
 
     useEffect(() => {
@@ -67,38 +86,65 @@ const TopPlaybooks = (props: WidgetHocProps) => {
             {
                 (topPlaybooks && !loading) &&
                 <div className='playbooks-list'>
-                    <Link
-                        className='playbook-item'
-                        onClick={trackClickEvent}
-                        to={'/boards/workspace/'}
-                    >
-                        <div className='display-info'>
-                            <span className='display-name'>{'Support incidence'}</span>
-                            <span className='last-run-time'>
-                                {'Last run: 2d 5h 49m'}
-                            </span>
-                        </div>
-                        <div className='display-info run-info'>
-                            <span
-                                className='horizontal-bar'
-                                style={{
-                                    width: '100%',
-                                }}
-                            />
-                            <span className='last-run-time'>
-                                {'32 runs'}
-                            </span>
-                        </div>
-                    </Link>
+                    {
+                        topPlaybooks.map((playbook, key) => {
+                            const barSize = (playbook.num_runs / topPlaybooks[0].num_runs) * 100;
+
+                            return (
+                                <Link
+                                    className='playbook-item'
+                                    onClick={trackClickEvent}
+                                    to={`/playbooks/playbooks/${playbook.playbook_id}`}
+                                    key={key}
+                                >
+                                    <div className='display-info'>
+                                        <span className='display-name'>{playbook.title}</span>
+                                        <span className='last-run-time'>
+                                            <FormattedMessage
+                                                id='insights.topPlaybooks.lastRun'
+                                                defaultMessage='Last run: {relativeTime}'
+                                                values={{
+                                                    relativeTime: (
+                                                        <Timestamp
+                                                            value={playbook.last_run_at}
+                                                            {...TIME_SPEC}
+                                                        />
+                                                    ),
+                                                }}
+                                            />
+                                        </span>
+                                    </div>
+                                    <div className='display-info run-info'>
+                                        <span
+                                            className='horizontal-bar'
+                                            style={{
+                                                width: `${barSize}%`,
+                                            }}
+                                        />
+                                        <span className='last-run-time'>
+                                            <FormattedMessage
+                                                id='insights.topPlaybooks.totalRuns'
+                                                defaultMessage={'{total} runs'}
+                                                values={{
+                                                    total: playbook.num_runs,
+                                                }}
+                                            />
+                                        </span>
+                                    </div>
+                                </Link>
+                            );
+                        })
+                    }
+
                 </div>
             }
-            {/* {
+            {
 
                 (topPlaybooks.length === 0 && !loading) &&
                 <WidgetEmptyState
                     icon={'product-playbooks'}
                 />
-            } */}
+            }
         </div>
     );
 };

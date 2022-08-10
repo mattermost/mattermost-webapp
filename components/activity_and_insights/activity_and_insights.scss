@@ -50,6 +50,7 @@
             }
         }
 
+        .top-playbooks-card,
         .top-boards-card,
         .top-threads-card {
             &.small {
@@ -525,15 +526,18 @@
 
         .top-playbooks-container {
             .top-playbooks-loading-container {
+                padding: 0 12px;
+
                 .title {
                     &:nth-of-type(1) {
                         height: 12px;
                         margin-bottom: 8px;
                     }
+
                     &:nth-of-type(2) {
+                        max-width: 80%;
                         height: 8px;
                         margin-bottom: 8px;
-                        max-width: 80%;
                     }
                 }
 
@@ -551,12 +555,12 @@
 
                     .title {
                         &:nth-of-type(2) {
-                            margin-bottom: 0px;
+                            margin-bottom: 0;
                         }
-                        
                     }
                 }
             }
+
             .playbooks-list {
                 .playbook-item {
                     display: flex;
@@ -577,11 +581,11 @@
                     .display-info {
                         display: flex;
                         overflow: hidden;
+                        flex: 0.8 0;
                         flex-direction: column;
-                        flex: .8 0;
 
                         &.run-info {
-                            flex: .2 0;
+                            flex: 0.2 0;
                         }
 
                         .display-name {
@@ -610,10 +614,10 @@
 
                         .horizontal-bar {
                             height: 8px;
-                            border-radius: 6px;
                             margin-top: 4px;
                             margin-bottom: 4px;
                             background-color: var(--button-bg);
+                            border-radius: 6px;
                         }
                     }
                 }

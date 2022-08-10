@@ -43,47 +43,28 @@ const TIME_SPEC: Partial<ComponentProps<typeof Timestamp>> = {
 
 const TopPlaybooksTable = (props: Props) => {
     const [loading, setLoading] = useState(false);
-    const [topPlaybooks, setTopPlaybooks] = useState([
-        {
-            playbook_id: '6nrnwj5hfty8787mos9h6dtx6y',
-            num_runs: 3,
-            title: 'sth',
-            last_run_at: 1658827931570,
-        },
-        {
-            playbook_id: '3ii9fwq47pdtupqdd6ajo3axuc',
-            num_runs: 2,
-            title: 'Test playbook',
-            last_run_at: 1659986623440,
-        },
-        {
-            playbook_id: '3ii9fwq47pdtupqdd6ajo3axuc',
-            num_runs: 1,
-            title: 'Another playbook',
-            last_run_at: 1659555849231,
-        },
-    ] as TopPlaybook[]);
+    const [topPlaybooks, setTopPlaybooks] = useState([] as TopPlaybook[]);
 
     const currentTeamId = useSelector(getCurrentTeamId);
     const playbooksHandler = useSelector((state: GlobalState) => state.plugins.insightsHandlers.playbooks);
 
     const getTopPlaybooks = useCallback(async () => {
-        // setLoading(true);
-        // const data: any = await boardsHandler(props.timeFrame, 0, 10, currentTeamId, props.filterType);
-        // if (data.items) {
-        //     setTopPlaybooks(data.items);
-        // }
-        // setLoading(false);
+        setLoading(true);
+        const data: any = await playbooksHandler(props.timeFrame, 0, 10, currentTeamId, props.filterType);
+        if (data.items) {
+            setTopPlaybooks(data.items);
+        }
+        setLoading(false);
     }, [props.timeFrame, currentTeamId, props.filterType]);
 
     useEffect(() => {
         getTopPlaybooks();
     }, [getTopPlaybooks]);
 
-    const goToBoard = useCallback((playbook: TopPlaybook) => {
+    const goToPlaybook = useCallback((playbook: TopPlaybook) => {
         props.closeModal();
         trackEvent('insights', 'open_playbook_from_top_playbookss_modal');
-        browserHistory.push('/boards/workspace/');
+        browserHistory.push(`/playbooks/playbooks/${playbook.playbook_id}`);
     }, [props.closeModal]);
 
     const getColumns = useMemo((): Column[] => {
@@ -176,7 +157,7 @@ const TopPlaybooksTable = (props: Props) => {
                         ),
                     },
                     onClick: () => {
-                        goToBoard(playbook);
+                        goToPlaybook(playbook);
                     },
                 }
             );
