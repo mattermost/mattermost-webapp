@@ -414,6 +414,7 @@ const AdvanceTextEditor = ({
                         badConnection={badConnection}
                         listenForMentionKeyClick={true}
                         useChannelMentions={useChannelMentions}
+                        rootId={postId}
                     />
                     {attachmentPreview}
                     <TexteditorActions
