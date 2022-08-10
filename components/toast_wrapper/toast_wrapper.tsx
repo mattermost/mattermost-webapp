@@ -41,7 +41,7 @@ type OwnProps = {
     latestPostTimeStamp?: number;
     atBottom?: boolean;
     lastViewedBottom?: number;
-    width?: number;
+    width: number;
     lastViewedAt?: number;
     focusedPostId?: string;
     initScrollOffsetFromBottom?: number;
@@ -407,7 +407,17 @@ class ToastWrapper extends React.PureComponent<Props, State> {
             );
         }
 
-        const unreadWithBottomStartToastProps = {
+        interface ToastProps {
+            show: boolean;
+            width: number;
+            onDismiss: () => void;
+            onClick: () => void;
+            onClickMessage: string;
+            showActions: boolean;
+            jumpDirection: 'up' | 'down';
+        }
+
+        const unreadWithBottomStartToastProps: ToastProps = {
             show: true,
             width,
             onDismiss: this.hideUnreadWithBottomStartToast,
