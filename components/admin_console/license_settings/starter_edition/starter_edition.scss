@@ -80,10 +80,11 @@
     position: relative;
 
     .PlanDetails__viewPlansButton {
+        position: absolute;
+        right: 10px;
         display: block;
         margin-left: auto;
-        position: absolute;
-    
+
         &.btn {
             padding: 11px 16px;
             background: $primary-color;
@@ -92,14 +93,14 @@
             font-size: 12px;
             font-weight: bold;
             line-height: 9.5px;
-    
+
             &:focus,
             &:active,
             &:focus:active {
                 border-color: transparent;
                 outline: none;
             }
-    
+
             &.btn-secondary {
                 background: rgba(var(--denim-button-bg-rgb), 0.08);
                 color: var(--denim-button-bg);
