@@ -57,19 +57,15 @@ type OwnProps = {
     focusedPostId?: string;
     initScrollOffsetFromBottom?: number;
 
-    updateNewMessagesAtInChannel?: typeof updateNewMessagesAtInChannel;
+    updateNewMessagesAtInChannel?: (lastViewedBottom?: number) => void;
 
-    // @ts-expect-error TS(2552): Cannot find name '$'. Did you mean ... Remove this comment to see the full error message
-    scrollToNewMessage?: $TSFixMeFunction;
+    scrollToNewMessage?: () => void;
 
-    // @ts-expect-error TS(2552): Cannot find name '$TSFixMeFunction'. Did you mean ... Remove this comment to see the full error message
-    scrollToLatestMessages?: $TSFixMeFunction;
+    scrollToLatestMessages?: () => void;
 
-    // @ts-expect-error TS(2552): Cannot find name '$TSFixMeFunction'. Did you mean ... Remove this comment to see the full error message
-    scrollToUnreadMessages?: $TSFixMeFunction;
+    scrollToUnreadMessages?: () => void;
 
-    // @ts-expect-error TS(2552): Cannot find name '$TSFixMeFunction'. Did you mean ... Remove this comment to see the full error message
-    updateLastViewedBottomAt?: $TSFixMeFunction;
+    updateLastViewedBottomAt?: (lastViewedBottom?: number) => void;
     showSearchHintToast?: boolean;
 
     // @ts-expect-error TS(2552): Cannot find name '$TSFixMeFunction'. Did you mean ... Remove this comment to see the full error message
@@ -105,7 +101,7 @@ class ToastWrapper extends React.PureComponent<Props, State> {
         };
     }
 
-    static countNewMessages = (postListIds: $TSFixMe, rootPosts: $TSFixMe, isCollapsedThreadsEnabled: $TSFixMe) => {
+    static countNewMessages = (postListIds: string[], rootPosts: $TSFixMe, isCollapsedThreadsEnabled: boolean) => {
         const mark = getNewMessageIndex(postListIds);
         if (mark <= 0) {
             return 0;
