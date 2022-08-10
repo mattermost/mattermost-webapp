@@ -6,8 +6,6 @@ import {FormattedMessage, injectIntl} from 'react-intl';
 
 import Toast from 'components/toast/toast';
 
-import type {updateNewMessagesAtInChannel} from 'actions/global_actions';
-
 // @ts-expect-error TS(2307): Cannot find module 'components/timestamp' or its c... Remove this comment to see the full error message
 import Timestamp, {RelativeRanges} from 'components/timestamp';
 
@@ -106,9 +104,9 @@ class ToastWrapper extends React.PureComponent<Props, State> {
         if (mark <= 0) {
             return 0;
         }
-        let newMessages = postListIds.slice(0, mark).filter((id: $TSFixMe) => !isIdNotPost(id));
+        let newMessages = postListIds.slice(0, mark).filter((id: string) => !isIdNotPost(id));
         if (isCollapsedThreadsEnabled) { // in collapsed mode we only count root posts
-            newMessages = newMessages.filter((id: $TSFixMe) => rootPosts[id]);
+            newMessages = newMessages.filter((id: string) => rootPosts[id]);
         }
         return newMessages.length;
     }
