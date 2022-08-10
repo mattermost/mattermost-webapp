@@ -409,7 +409,17 @@ class ToastWrapper extends React.PureComponent<Props, State> {
             );
         }
 
-        const unreadWithBottomStartToastProps = {
+        interface ToastProps {
+            show: boolean;
+            width: number;
+            onDismiss: () => void;
+            onClick: () => void;
+            onClickMessage: string;
+            showActions: boolean;
+            jumpDirection: 'up' | 'down';
+        }
+
+        const unreadWithBottomStartToastProps: ToastProps = {
             show: true,
             width,
             onDismiss: this.hideUnreadWithBottomStartToast,
