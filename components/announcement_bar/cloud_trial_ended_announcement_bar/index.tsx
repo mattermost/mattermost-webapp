@@ -15,9 +15,7 @@ import {
     CloudBanners,
     CloudProducts,
 } from 'utils/constants';
-import {anyUsageDeltaExceededLimit} from 'utils/limits';
 import {GlobalState} from 'types/store';
-import useGetUsageDeltas from 'components/common/hooks/useGetUsageDeltas';
 import useGetLimits from 'components/common/hooks/useGetLimits';
 import useGetSubscription from 'components/common/hooks/useGetSubscription';
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
@@ -32,7 +30,6 @@ import {
 } from 'mattermost-redux/selectors/entities/cloud';
 
 const CloudTrialEndAnnouncementBar: React.FC = () => {
-    const usageDeltas = useGetUsageDeltas();
     const limits = useGetLimits();
     const subscription = useGetSubscription();
     const getCategory = makeGetCategory();
