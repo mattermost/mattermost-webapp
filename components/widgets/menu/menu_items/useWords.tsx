@@ -18,7 +18,7 @@ interface Words {
     status: React.ReactNode;
 }
 
-export default function useWords(highestLimit: LimitSummary | false, isAdminUser: boolean): Words | false {
+export default function useWords(highestLimit: LimitSummary | false, isAdminUser: boolean, callerInfo: string): Words | false {
     const intl = useIntl();
     const openPricingModal = useOpenPricingModal();
     if (!highestLimit) {
@@ -42,7 +42,7 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
         callToAction,
         a: (chunks: React.ReactNode | React.ReactNodeArray) => (
             <a
-                onClick={openPricingModal}
+                onClick={() => openPricingModal({callerInfo})}
             >
                 {chunks}
             </a>),
@@ -54,7 +54,12 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
             id: 'workspace_limits.menu_limit.notify_admin',
             defaultMessage: 'Notify admin',
         });
-        values.a = (chunks: React.ReactNode | React.ReactNodeArray) => <NotifyAdminCTA ctaText={chunks}/>;
+        values.a = (chunks: React.ReactNode | React.ReactNodeArray) => (
+            <NotifyAdminCTA
+                callerInfo={callerInfo}
+                ctaText={chunks}
+            />
+        );
     }
 
     switch (highestLimit.id) {

@@ -80,7 +80,7 @@ const BillingSubscriptions = () => {
     // show the upgrade section when is a free tier customer
     const onUpgradeMattermostCloud = () => {
         trackEvent('cloud_admin', 'click_upgrade_mattermost_cloud');
-        openPricingModal();
+        openPricingModal({callerInfo: 'admin_console_billing_billing_subscriptions'});
     };
 
     let isFreeTrial = false;
@@ -112,7 +112,7 @@ const BillingSubscriptions = () => {
         }
 
         if (actionQueryParam === 'show_pricing_modal') {
-            openPricingModal();
+            openPricingModal({callerInfo: 'admin_console_billing_billing_subscriptions_action_query_param'});
         }
     }, []);
 

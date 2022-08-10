@@ -69,7 +69,7 @@ const LimitReachedBanner = (props: Props) => {
         defaultMessage: 'View plans',
     };
 
-    let upgradeAction = openPricingModal;
+    let upgradeAction = () => openPricingModal({callerInfo: 'limit_reached_banner'});
 
     if (props.product.sku === CloudProducts.PROFESSIONAL) {
         title = (

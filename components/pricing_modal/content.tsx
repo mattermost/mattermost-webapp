@@ -225,7 +225,7 @@ function Content(props: ContentProps) {
                                     bgColor='var(--center-channel-bg)'
                                     firstSvg={<CheckMarkSvg/>}
                                 />) : undefined}
-                        planExtraInformation={(!isAdmin && (isStarter || isEnterpriseTrial)) ? <NotifyAdminCTA/> : undefined}
+                        planExtraInformation={(!isAdmin && (isStarter || isEnterpriseTrial)) ? <NotifyAdminCTA callerInfo='professional_plan_pricing_modal_card'/> : undefined}
                         buttonDetails={{
                             action: openPurchaseModal,
                             text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
@@ -271,7 +271,12 @@ function Content(props: ContentProps) {
                                     firstSvg={<CheckMarkSvg/>}
                                     renderLastDaysOnTrial={true}
                                 />) : undefined}
-                        planExtraInformation={(!isAdmin && (isStarter || isEnterpriseTrial)) ? <NotifyAdminCTA preTrial={isPreTrial}/> : undefined}
+                        planExtraInformation={(!isAdmin && (isStarter || isEnterpriseTrial)) ? (
+                            <NotifyAdminCTA
+                                callerInfo='enterprise_plan_pricing_modal_card'
+                                preTrial={isPreTrial}
+                            />
+                        ) : undefined}
                         buttonDetails={(isPostTrial || !isAdmin) ? {
                             action: () => {
                                 trackEvent('cloud_pricing', 'click_enterprise_contact_sales');
