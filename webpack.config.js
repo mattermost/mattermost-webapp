@@ -402,10 +402,18 @@ function makeSingletonSharedModules(packageNames) {
 config.plugins.push(new ModuleFederationPlugin({
     name: 'mattermost-webapp',
     shared: [
+
+        // Shared modules will be made available to other containers (ie products and plugins using module federation).
+        // To allow for better sharing, containers shouldn't require exact versions of packages like the web app does.
+
+        // Other containers will use these shared modules if their required versions match. If they don't match, the
+        // version packaged with the container will be used.
         '@mattermost/client',
         '@mattermost/components',
         '@mattermost/types',
         'luxon',
+
+        // Other containers will be forced to use the exact versions of shared modules that the web app provides.
         makeSingletonSharedModules([
             'react',
             'react-bootstrap',
