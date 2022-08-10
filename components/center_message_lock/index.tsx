@@ -93,7 +93,7 @@ export default function CenterMessageLock(props: Props) {
     let cta = (
         <button
             className='btn btn-primary'
-            onClick={notifyAdmin}
+            onClick={(e) => notifyAdmin(e, 'center_message_lock')}
         >
             {notifyAdminStatus}
         </button>);
@@ -116,7 +116,7 @@ export default function CenterMessageLock(props: Props) {
                         href='#'
                         onClick={(e: React.MouseEvent) => {
                             e.preventDefault();
-                            openPricingModal();
+                            openPricingModal({callerInfo: 'center_message_lock'});
                         }}
                     >
                         {chunks}
@@ -128,7 +128,7 @@ export default function CenterMessageLock(props: Props) {
         cta = (
             <button
                 className='btn is-admin'
-                onClick={openPricingModal}
+                onClick={() => openPricingModal({callerInfo: 'center_message_lock'})}
             >
                 {
                     intl.formatMessage({

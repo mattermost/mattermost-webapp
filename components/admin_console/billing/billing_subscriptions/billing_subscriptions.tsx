@@ -102,7 +102,7 @@ export const GrandfatheredPlanBanner = (props: GrandfatheredPlanBannerProps) => 
             }
             actionButtonLeft={
                 <button
-                    onClick={openPricingModal}
+                    onClick={() => openPricingModal({callerInfo: 'grandfathered_plan_banner'})}
                     className='AlertBanner__buttonLeft'
                 >
                     <FormattedMessage
