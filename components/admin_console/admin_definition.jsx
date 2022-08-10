@@ -2043,9 +2043,7 @@ const AdminDefinition = {
                         label: t('admin.team.brandDescriptionTitle'),
                         label_default: 'Site Description: ',
                         help_text: t('admin.team.brandDescriptionHelp'),
-                        help_text_default: 'Description of service shown in login screens and UI. When not specified, "All team communication in one place, searchable and accessible anywhere" is displayed.',
-                        placeholder: t('web.root.signup_info'),
-                        placeholder_default: 'All team communication in one place, searchable and accessible anywhere',
+                        help_text_default: 'Displays as a title above the login form. When not specified, the phrase "Log in" is displayed.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
                     },
                     {
@@ -2314,7 +2312,10 @@ const AdminDefinition = {
                         label: t('admin.lockTeammateNameDisplay'),
                         label_default: 'Lock Teammate Name Display for all users: ',
                         help_text: t('admin.lockTeammateNameDisplayHelpText'),
-                        help_text_default: 'When true, disables users\' ability to change settings under Account Menu > Account Settings > Display > Teammate Name Display.',
+                        help_text_default: 'When true, disables users\' ability to change settings under <strong>Account Menu > Account Settings > Display > Teammate Name Display</strong>.',
+                        help_text_values: {
+                            strong: (msg) => <strong>{msg}</strong>,
+                        },
                         isHidden: it.not(it.licensedForFeature('LockTeammateNameDisplay')),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.USERS_AND_TEAMS)),
                     },
@@ -3688,7 +3689,10 @@ const AdminDefinition = {
                                 placeholder: t('admin.ldap.firstnameAttrEx'),
                                 placeholder_default: 'E.g.: "givenName"',
                                 help_text: t('admin.ldap.firstnameAttrDesc'),
-                                help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the first name of users in Mattermost. When set, users cannot edit their first name, since it is synchronized with the LDAP server. When left blank, users can set their first name in **Account Menu > Account Settings > Profile**.',
+                                help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the first name of users in Mattermost. When set, users cannot edit their first name, since it is synchronized with the LDAP server. When left blank, users can set their first name in <strong>Account Menu > Account Settings > Profile</strong>.',
+                                help_text_values: {
+                                    strong: (msg) => <strong>{msg}</strong>,
+                                },
                                 isDisabled: it.any(
                                     it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                                     it.all(
@@ -3705,7 +3709,10 @@ const AdminDefinition = {
                                 placeholder: t('admin.ldap.lastnameAttrEx'),
                                 placeholder_default: 'E.g.: "sn"',
                                 help_text: t('admin.ldap.lastnameAttrDesc'),
-                                help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the last name of users in Mattermost. When set, users cannot edit their last name, since it is synchronized with the LDAP server. When left blank, users can set their last name in **Account Menu > Account Settings > Profile**.',
+                                help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the last name of users in Mattermost. When set, users cannot edit their last name, since it is synchronized with the LDAP server. When left blank, users can set their last name in <strong>Account Menu > Account Settings > Profile</strong>.',
+                                help_text_values: {
+                                    strong: (msg) => <strong>{msg}</strong>,
+                                },
                                 isDisabled: it.any(
                                     it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                                     it.all(
@@ -3722,7 +3729,10 @@ const AdminDefinition = {
                                 placeholder: t('admin.ldap.nicknameAttrEx'),
                                 placeholder_default: 'E.g.: "nickname"',
                                 help_text: t('admin.ldap.nicknameAttrDesc'),
-                                help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the nickname of users in Mattermost. When set, users cannot edit their nickname, since it is synchronized with the LDAP server. When left blank, users can set their nickname in **Account Menu > Account Settings > Profile**.',
+                                help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the nickname of users in Mattermost. When set, users cannot edit their nickname, since it is synchronized with the LDAP server. When left blank, users can set their nickname in <strong>Account Menu > Account Settings > Profile</strong>.',
+                                help_text_values: {
+                                    strong: (msg) => <strong>{msg}</strong>,
+                                },
                                 isDisabled: it.any(
                                     it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                                     it.all(
@@ -3739,7 +3749,10 @@ const AdminDefinition = {
                                 placeholder: t('admin.ldap.positionAttrEx'),
                                 placeholder_default: 'E.g.: "title"',
                                 help_text: t('admin.ldap.positionAttrDesc'),
-                                help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the position field in Mattermost. When set, users cannot edit their position, since it is synchronized with the LDAP server. When left blank, users can set their position in **Account Menu > Account Settings > Profile**.',
+                                help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the position field in Mattermost. When set, users cannot edit their position, since it is synchronized with the LDAP server. When left blank, users can set their position in <strong>Account Menu > Account Settings > Profile</strong>.',
+                                help_text_values: {
+                                    strong: (msg) => <strong>{msg}</strong>,
+                                },
                                 isDisabled: it.any(
                                     it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                                     it.all(

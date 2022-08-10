@@ -33,7 +33,7 @@ describe('Custom Status - Setting Your Own Custom Status', () => {
         cy.get('#custom_status_modal .StatusModal__emoji-button span').should('have.class', 'icon--emoji');
 
         // # Type the status text in the input
-        cy.get('#custom_status_modal .StatusModal__input input').type(customStatus.text, {force: true});
+        cy.get('#custom_status_modal .StatusModal__input input').typeWithForce(customStatus.text);
 
         // * Speech balloon emoji should now be visible in the custom status input
         cy.get('#custom_status_modal .StatusModal__emoji-button span').invoke('attr', 'data-emoticon').should('contain', 'speech_balloon');

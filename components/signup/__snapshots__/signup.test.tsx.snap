@@ -281,6 +281,19 @@ exports[`components/signup/Signup should match snapshot for all signup options e
             url="/oauth/office365/signup"
           />
           <ExternalLoginButton
+            icon={<LoginOpenIdIcon />}
+            id="openid"
+            key="openid"
+            label="Open ID"
+            style={
+              Object {
+                "borderColor": "",
+                "color": "",
+              }
+            }
+            url="/oauth/openid/signup"
+          />
+          <ExternalLoginButton
             icon={<LockIcon />}
             id="ldap"
             key="ldap"

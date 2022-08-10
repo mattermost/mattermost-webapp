@@ -5,10 +5,13 @@ import React, {ComponentProps} from 'react';
 
 import {shallow} from 'enzyme';
 
+import PermissionGroup from 'components/admin_console/permission_schemes_settings/permission_group';
+
 import {LicenseSkus} from 'mattermost-redux/types/general';
 
 import PermissionsTreePlaybooks from 'components/admin_console/permission_schemes_settings/permissions_tree_playbooks';
-import PermissionGroup from 'components/admin_console/permission_schemes_settings/permission_group.jsx';
+
+import {Group, Permission} from './permissions_tree/types';
 
 describe('components/admin_console/permission_schemes_settings/permissions_tree_playbooks', () => {
     const defaultProps: ComponentProps<typeof PermissionsTreePlaybooks> = {
@@ -39,8 +42,8 @@ describe('components/admin_console/permission_schemes_settings/permissions_tree_
 
                 const groups = wrapper.find(PermissionGroup).first().prop('permissions');
                 expect(groups).toHaveLength(2);
-                expect(groups[0].id).toStrictEqual('playbook_public');
-                expect(groups[1].id).toStrictEqual('runs');
+                expect((groups[0] as Group | Permission).id).toStrictEqual('playbook_public');
+                expect((groups[1] as Group | Permission).id).toStrictEqual('runs');
             }));
         });
 
@@ -60,9 +63,9 @@ describe('components/admin_console/permission_schemes_settings/permissions_tree_
 
                 const groups = wrapper.find(PermissionGroup).first().prop('permissions');
                 expect(groups).toHaveLength(3);
-                expect(groups[0].id).toStrictEqual('playbook_public');
-                expect(groups[1].id).toStrictEqual('playbook_private');
-                expect(groups[2].id).toStrictEqual('runs');
+                expect((groups[0] as Group | Permission).id).toStrictEqual('playbook_public');
+                expect((groups[1] as Group | Permission).id).toStrictEqual('playbook_private');
+                expect((groups[2] as Group | Permission).id).toStrictEqual('runs');
             }));
         });
     });

@@ -7,14 +7,15 @@ import {PreferenceType} from '@mattermost/types/preferences';
 import {Role} from '@mattermost/types/roles';
 import {Team} from '@mattermost/types/teams';
 
-const myDataQueryString = `
-query MyData {
+const currentUserInfoQueryString = `
+query gqlWebCurrentUserInfo {
     config
     license
     user(id: "me") {
       id
       create_at: createAt
       delete_at: deleteAt
+      update_at: updateAt
       username
       auth_service: authService
       email
@@ -29,16 +30,22 @@ query MyData {
       }
       props
       notify_props: notifyProps
-      last_picture_update: lastPictureUpdateAt
+      last_picture_update: lastPictureUpdate
+      last_password_update: lastPasswordUpdate
+      terms_of_service_id: termsOfServiceId
+      terms_of_service_create_at: termsOfServiceCreateAt
       locale
       timezone
-      is_bot: isBot
+      remote_id: remoteId
       preferences {
         name
         user_id: userId
         category
         value
       }
+      is_bot: isBot
+      bot_description: botDescription
+      mfa_active: mfaActive
     }
     teamMembers(userId: "me") {
       team {
@@ -66,12 +73,12 @@ query MyData {
       scheme_user: schemeUser
       scheme_admin: schemeAdmin
     }
-}
+  }
 `;
 
-export const myDataQuery = JSON.stringify({query: myDataQueryString, operationName: 'MyData'});
+export const currentUserInfoQuery = JSON.stringify({query: currentUserInfoQueryString, operationName: 'gqlWebCurrentUserInfo'});
 
-export type MyDataQueryResponseType = {
+export type CurrentUserInfoQueryResponseType = {
     data: {
         user: UserProfile & {
             roles: Role[];
@@ -96,8 +103,8 @@ export function convertRolesNamesArrayToString(roles: Role[]): string {
 }
 
 export function transformToRecievedRolesReducerPayload(
-    userRoles: MyDataQueryResponseType['data']['user']['roles'],
-    teamMembers: MyDataQueryResponseType['data']['teamMembers']): Role[] {
+    userRoles: CurrentUserInfoQueryResponseType['data']['user']['roles'],
+    teamMembers: CurrentUserInfoQueryResponseType['data']['teamMembers']): Role[] {
     let roles: Role[] = [...userRoles];
 
     teamMembers.forEach((teamMember) => {
@@ -109,32 +116,21 @@ export function transformToRecievedRolesReducerPayload(
     return roles;
 }
 
-export function transformToRecievedMeReducerPayload(user: Partial<MyDataQueryResponseType['data']['user']>) {
+export function transformToRecievedMeReducerPayload(user: Partial<CurrentUserInfoQueryResponseType['data']['user']>) {
     return {
         ...user,
         position: user?.position ?? '',
         roles: convertRolesNamesArrayToString(user?.roles ?? []),
-
-        // below fields arent included in the response but not inside of user rest api types
-        auth_data: '',
-        email_verified: true,
-        allow_marketing: true,
-        last_activity_at: 0,
-        bot_description: '',
-        bot_last_icon_update: 0,
-        terms_of_service_id: '',
-        terms_of_service_create_at: 0,
-        remote_id: '',
     };
 }
 
-export function transformToRecievedTeamsListReducerPayload(teamsMembers: Partial<MyDataQueryResponseType['data']['teamMembers']>) {
+export function transformToRecievedTeamsListReducerPayload(teamsMembers: Partial<CurrentUserInfoQueryResponseType['data']['teamMembers']>) {
     return teamsMembers.map((teamMember) => ({...teamMember?.team, delete_at: 0}));
 }
 
 export function transformToRecievedMyTeamMembersReducerPayload(
-    teamsMembers: Partial<MyDataQueryResponseType['data']['teamMembers']>,
-    userId: MyDataQueryResponseType['data']['user']['id'],
+    teamsMembers: Partial<CurrentUserInfoQueryResponseType['data']['teamMembers']>,
+    userId: CurrentUserInfoQueryResponseType['data']['user']['id'],
 ) {
     return teamsMembers.map((teamMember) => ({
         team_id: teamMember?.team?.id ?? '',
@@ -145,7 +141,7 @@ export function transformToRecievedMyTeamMembersReducerPayload(
         scheme_guest: teamMember?.scheme_guest ?? false,
         scheme_user: teamMember?.scheme_user ?? false,
 
-        // below fields arent included in the response but where inside of TeamMembership api types
+        // below fields arent included in the response but were inside of TeamMembership api types
         mention_count: 0,
         mention_count_root: 0,
         msg_count: 0,

@@ -1,5 +1,5 @@
 {
-  "name": "@mattermost/webapp",
+  "name": "mattermost-webapp",
   "browser": {
     "./client/web_client.jsx": "./client/browser_web_client.jsx"
   },
@@ -16,14 +16,14 @@
     "@stripe/react-stripe-js": "1.6.0",
     "@stripe/stripe-js": "1.20.3",
     "@tippyjs/react": "4.2.6",
+    "@types/color-hash": "1.0.2",
     "bootstrap": "3.4.1",
     "buffer": "6.0.3",
     "chart.js": "2.9.4",
     "classnames": "2.3.1",
-    "core-js": "3.23.3",
-    "@types/color-hash": "1.0.2",
     "color-contrast-checker": "2.1.0",
     "color-hash": "2.0.1",
+    "core-js": "3.23.3",
     "country-list": "2.2.0",
     "crypto-browserify": "3.12.0",
     "css-vars-ponyfill": "2.4.7",
@@ -148,6 +148,8 @@
     "babel-plugin-styled-components": "1.12.0",
     "babel-plugin-typescript-to-proptypes": "1.4.2",
     "bundle-loader": "0.5.6",
+    "chalk": "2.4.2",
+    "concurrently": "7.3.0",
     "copy-webpack-plugin": "10.0.0",
     "cross-env": "7.0.3",
     "css-loader": "5.2.6",
@@ -197,7 +199,7 @@
     "stylelint-scss": "3.19.0",
     "terser-webpack-plugin": "5.1.4",
     "webpack": "5.64.2",
-    "webpack-cli": "4.9.1",
+    "webpack-cli": "4.10.0",
     "webpack-dev-server": "4.5.0",
     "webpack-livereload-plugin": "3.0.2",
     "webpack-node-externals": "3.0.0",
@@ -231,6 +233,7 @@
       "text-summary"
     ],
     "moduleNameMapper": {
+      "^@mattermost/(components)$": "<rootDir>/packages/$1/src",
       "^@mattermost/(client)$": "<rootDir>/packages/$1/src",
       "^@mattermost/(types)/(.*)$": "<rootDir>/packages/$1/src/$2",
       "^mattermost-redux/test/(.*)$": "<rootDir>/packages/mattermost-redux/test/$1",
@@ -278,11 +281,15 @@
     "outputName": "test-results.xml"
   },
   "scripts": {
+    "postinstall": "npm run build --workspaces",
     "check": "eslint --ext .js,.jsx,.tsx,.ts . --quiet --cache && stylelint \"**/*.{css,scss}\" --cache",
     "fix": "eslint --ext .js,.jsx,.tsx,.ts . --quiet --fix --cache && stylelint \"**/*.{css,scss}\" --fix --cache",
-    "build": "cross-env NODE_ENV=production webpack",
-    "run": "webpack --progress --watch",
-    "dev-server": "webpack serve --mode development",
+    "build": "node scripts/build",
+    "build:webapp": "cross-env NODE_ENV=production webpack",
+    "run": "node scripts/run",
+    "run:webapp": "webpack --progress --watch",
+    "dev-server": "node scripts/dev-server",
+    "dev-server:webapp": "webpack serve --mode development",
     "test": "cross-env TZ=Etc/UTC jest --maxWorkers=50%",
     "test-ci": "cross-env NODE_OPTIONS=--max_old_space_size=500 TZ=Etc/UTC jest --ci --maxWorkers=8",
     "stats": "cross-env NODE_ENV=production webpack --profile --json > webpack_stats.json",
@@ -300,6 +307,7 @@
   },
   "workspaces": [
     "packages/client",
-    "packages/types"
+    "packages/types",
+    "packages/components"
   ]
 }

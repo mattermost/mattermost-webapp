@@ -4,6 +4,7 @@
 /* eslint-disable max-lines */
 
 import debounce from 'lodash/debounce';
+import {AnyAction} from 'redux';
 import {batchActions} from 'redux-batched-actions';
 
 import {SearchTypes} from 'mattermost-redux/action_types';
@@ -33,6 +34,7 @@ import {getBrowserUtcOffset, getUtcOffsetForTimeZone} from 'utils/timezone';
 import {RhsState} from 'types/store/rhs';
 import {GlobalState} from 'types/store';
 import {getPostsByIds} from 'mattermost-redux/actions/posts';
+import {getEditingPost} from '../../selectors/posts';
 import {unsetEditingPost} from '../post_actions';
 import {getChannel} from 'mattermost-redux/actions/channels';
 
@@ -97,9 +99,11 @@ export function updateRhsState(rhsState: string, channelId?: string, previousRhs
 export function goBack() {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const prevState = getPreviousRhsState(getState() as GlobalState);
+        const defaultTab = 'channel-info';
+
         dispatch({
             type: ActionTypes.RHS_GO_BACK,
-            state: prevState,
+            state: prevState || defaultTab,
         });
 
         return {data: true};
@@ -179,6 +183,7 @@ export function filterFilesSearchByExt(extensions: string[]) {
             type: ActionTypes.SET_FILES_FILTER_BY_EXT,
             data: extensions,
         });
+        return {data: true};
     };
 }
 
@@ -349,6 +354,7 @@ export function showChannelFiles(channelId: string) {
             state: RHSStates.CHANNEL_FILES,
             previousRhsState,
         });
+        dispatch(updateSearchType('files'));
 
         const results = await dispatch(performSearch('channel:' + channelId));
         const fileData = results instanceof Array ? results[0].data : null;
@@ -429,8 +435,11 @@ export function showChannelInfo(channelId: string) {
 }
 
 export function closeRightHandSide() {
-    return (dispatch: DispatchFunc) => {
-        dispatch(batchActions([
+    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState() as GlobalState;
+        const editingPost = getEditingPost(state);
+
+        const actionsBatch: AnyAction[] = [
             {
                 type: ActionTypes.UPDATE_RHS_STATE,
                 state: null,
@@ -441,8 +450,13 @@ export function closeRightHandSide() {
                 channelId: '',
                 timestamp: 0,
             },
-            unsetEditingPost(),
-        ]));
+        ];
+
+        if (editingPost?.isRHS) {
+            actionsBatch.push(unsetEditingPost());
+        }
+
+        dispatch(batchActions(actionsBatch));
         return {data: true};
     };
 }

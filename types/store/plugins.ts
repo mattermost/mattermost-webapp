@@ -12,7 +12,7 @@ import {Post, PostEmbed} from '@mattermost/types/posts';
 import {IDMappedObjects} from '@mattermost/types/utilities';
 import {TopBoardResponse} from '@mattermost/types/insights';
 
-import WebSocketClient from 'client/websocket_client';
+import {WebSocketClient} from '@mattermost/client';
 
 export type PluginSiteStatsHandler = () => Promise<Record<string, PluginAnalyticsRow>>;
 

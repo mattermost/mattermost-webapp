@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @integrations
 
 /**
@@ -253,10 +254,10 @@ describe('Slash commands', () => {
         cy.wait(TIMEOUTS.TWO_SEC);
 
         // * Verify that command is in the list
-        cy.contains(`${trigger}`);
+        cy.contains(trigger);
 
         // # Type full command
-        cy.uiGetPostTextBox().type(`${trigger}`);
+        cy.uiGetPostTextBox().type(trigger);
         cy.wait(TIMEOUTS.TWO_SEC);
 
         // * Verify that autocomplete info is correct
@@ -280,7 +281,7 @@ describe('Slash commands', () => {
         cy.wait(TIMEOUTS.TWO_SEC);
 
         // * Verify that command is not in the list
-        cy.contains(`${trigger}`).should('not.exist');
+        cy.contains(trigger).should('not.exist');
 
         // # Cleanup command
         deleteCommand(team1, trigger);

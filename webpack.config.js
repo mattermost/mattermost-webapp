@@ -2,11 +2,9 @@
 // See LICENSE.txt for license information.
 
 const childProcess = require('child_process');
-
 const path = require('path');
 
 const url = require('url');
-
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
@@ -17,10 +15,10 @@ const LiveReloadPlugin = require('webpack-livereload-plugin');
 
 const NPM_TARGET = process.env.npm_lifecycle_event; //eslint-disable-line no-process-env
 
-const targetIsRun = NPM_TARGET === 'run';
+const targetIsRun = NPM_TARGET?.startsWith('run');
 const targetIsTest = NPM_TARGET === 'test';
 const targetIsStats = NPM_TARGET === 'stats';
-const targetIsDevServer = NPM_TARGET === 'dev-server';
+const targetIsDevServer = NPM_TARGET?.startsWith('dev-server');
 
 const DEV = targetIsRun || targetIsStats || targetIsDevServer;
 
@@ -235,8 +233,6 @@ var config = {
             path.resolve(__dirname),
         ],
         alias: {
-            '@mattermost/client': 'packages/client/src',
-            '@mattermost/types': 'packages/types/src',
             'mattermost-redux/test': 'packages/mattermost-redux/test',
             'mattermost-redux': 'packages/mattermost-redux/src',
             reselect: 'packages/reselect/src',
