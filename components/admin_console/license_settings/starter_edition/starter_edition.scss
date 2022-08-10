@@ -1,3 +1,5 @@
+@import 'utils/variables';
+
 .StarterEditionRightPannel {
     .svg-image {
         text-align: center;
@@ -75,6 +77,36 @@
 }
 
 .StarterLeftPanel {
+    position: relative;
+
+    .PlanDetails__viewPlansButton {
+        display: block;
+        margin-left: auto;
+        position: absolute;
+    
+        &.btn {
+            padding: 11px 16px;
+            background: $primary-color;
+            border-radius: 4px;
+            color: $white;
+            font-size: 12px;
+            font-weight: bold;
+            line-height: 9.5px;
+    
+            &:focus,
+            &:active,
+            &:focus:active {
+                border-color: transparent;
+                outline: none;
+            }
+    
+            &.btn-secondary {
+                background: rgba(var(--denim-button-bg-rgb), 0.08);
+                color: var(--denim-button-bg);
+            }
+        }
+    }
+
     .pre-title {
         margin-bottom: 10px;
         color: rgba(63, 67, 80, 0.56) !important;
