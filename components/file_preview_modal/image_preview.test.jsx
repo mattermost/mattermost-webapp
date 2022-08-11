@@ -12,6 +12,8 @@ describe('components/view_image/ImagePreview', () => {
         fileInfo: {
             id: 'file_id',
         },
+        toolbar: 'A',
+        setToolbarZoom: jest.fn(),
     };
 
     test('should match snapshot, without preview', () => {
@@ -80,7 +82,7 @@ describe('components/view_image/ImagePreview', () => {
             <ImagePreview {...props}/>,
         );
 
-        expect(wrapper.find('a').prop('href')).toBe('#');
-        expect(wrapper.find('img').prop('src')).toBe(props.fileInfo.link);
+        expect(wrapper.find('div').prop('className')).toBe('image_preview_div__normal');
+        expect(wrapper.find('canvas').prop('className')).toBe('image_preview_canvas__normal');
     });
 });

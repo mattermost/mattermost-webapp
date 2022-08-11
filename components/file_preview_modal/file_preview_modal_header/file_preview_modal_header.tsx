@@ -4,12 +4,14 @@
 import React, {memo} from 'react';
 
 import {FileInfo} from '@mattermost/types/files';
+import {FileTypes} from 'utils/constants';
 
 import {Post} from '@mattermost/types/posts';
 
 import FilePreviewModalInfo from '../file_preview_modal_info/file_preview_modal_info';
 import FilePreviewModalMainNav from '../file_preview_modal_main_nav/file_preview_modal_main_nav';
 import FilePreviewModalMainActions from '../file_preview_modal_main_actions/file_preview_modal_main_actions';
+import FilePreviewModalImageControls from '../file_preview_modal_image_controls/file_preview_modal_image_controls';
 import {LinkInfo} from '../types';
 
 import './file_preview_modal_header.scss';
@@ -26,12 +28,15 @@ interface Props {
     enablePublicLink: boolean;
     canDownloadFiles: boolean;
     isExternalFile: boolean;
+    fileType: string;
+    toolbarZoom: number | string;
+    setToolbarZoom: (toolbarZoom: number | string) => void;
     handlePrev: () => void;
     handleNext: () => void;
     handleModalClose: () => void;
 }
 
-const FilePreviewModalHeader: React.FC<Props> = ({post, totalFiles, fileIndex, ...actionProps}: Props) => {
+const FilePreviewModalHeader: React.FC<Props> = ({post, totalFiles, fileIndex, toolbarZoom, setToolbarZoom, fileType, ...actionProps}: Props) => {
     let mainActions = (<div/>);
     if (totalFiles > 1) {
         mainActions = (
@@ -43,6 +48,15 @@ const FilePreviewModalHeader: React.FC<Props> = ({post, totalFiles, fileIndex, .
             />
         );
     }
+    let imageControls;
+    if (fileType === FileTypes.IMAGE || fileType === FileTypes.SVG) {
+        imageControls = (
+            <FilePreviewModalImageControls
+                toolbarZoom={toolbarZoom}
+                setToolbarZoom={setToolbarZoom}
+            />
+        );
+    }
     const actions = (
         <FilePreviewModalMainActions
             {...actionProps}
@@ -50,18 +64,21 @@ const FilePreviewModalHeader: React.FC<Props> = ({post, totalFiles, fileIndex, .
             usedInside='Header'
         />);
     return (
-        <div className='file-preview-modal-header'>
-            {actionProps.isMobileView && actions}
-            {!actionProps.isMobileView &&
-            <FilePreviewModalInfo
-                showFileName={true}
-                post={post}
-                filename={actionProps.filename}
-            />
-            }
-            {mainActions}
-            {!actionProps.isMobileView && actions}
-        </div>
+        <React.Fragment>
+            <div className='file-preview-modal-header'>
+                {actionProps.isMobileView && actions}
+                {!actionProps.isMobileView &&
+                <FilePreviewModalInfo
+                    showFileName={true}
+                    post={post}
+                    filename={actionProps.filename}
+                />
+                }
+                {mainActions}
+                {!actionProps.isMobileView && actions}
+            </div>
+            {imageControls}
+        </React.Fragment>
     );
 };
 

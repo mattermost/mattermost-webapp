@@ -59,6 +59,7 @@ export type Props = {
 }
 
 type State = {
+    toolbarZoom: number | string;
     show: boolean;
     imageIndex: number;
     imageHeight: number | string;
@@ -81,6 +82,7 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
         super(props);
 
         this.state = {
+            toolbarZoom: 'A',
             show: true,
             imageIndex: this.props.startIndex,
             imageHeight: '100%',
@@ -91,6 +93,10 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
             showZoomControls: false,
             scale: Utils.fillArray(ZoomSettings.DEFAULT_SCALE, this.props.fileInfos.length),
         };
+    }
+
+    setToolbarZoom = (newToolbarZoom: number | string) => {
+        this.setState({toolbarZoom: newToolbarZoom});
     }
 
     handleNext = () => {
@@ -282,7 +288,8 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
                 content = (
                     <ImagePreview
                         fileInfo={fileInfo}
-                        canDownloadFiles={this.props.canDownloadFiles}
+                        toolbarZoom={this.state.toolbarZoom}
+                        setToolbarZoom={this.setToolbarZoom}
                     />
                 );
             } else if (fileType === FileTypes.VIDEO || fileType === FileTypes.AUDIO) {
@@ -396,6 +403,9 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
                                     post={this.props.post!}
                                     showPublicLink={showPublicLink}
                                     fileIndex={this.state.imageIndex}
+                                    toolbarZoom={this.state.toolbarZoom}
+                                    setToolbarZoom={this.setToolbarZoom}
+                                    fileType={fileType}
                                     totalFiles={this.props.fileInfos?.length}
                                     filename={fileName}
                                     fileURL={fileDownloadUrl}

@@ -19,10 +19,9 @@
 
     &__content {
         display: flex;
-        height: calc(100vh - 72px);
+        height: calc(100vh - 120px);
         align-items: center;
         justify-content: center;
-        padding: 48px;
         background: rgba(0, 0, 0, 0.9);
 
         @media screen and (max-width: 768px) {

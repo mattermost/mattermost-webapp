@@ -1,0 +1,59 @@
+.image-controls {
+    display: flex;
+    position: relative;
+    color: white;
+    height: 48px;
+    background: rgba(61, 60, 64, 1);
+    align-items: center;
+    justify-content: center;
+}
+
+.image-controls-dropdown {
+    height: 32px;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    width: 140px;
+    color: white;
+    border: none;
+    border-bottom: 1px solid white;
+    border-bottom-left-radius: 4px 1px;
+    border-bottom-right-radius: 4px 1px;
+    background-color: transparent;
+}
+
+#rectangle {
+    width: 140px;
+    height: 50px;
+    border-radius: 5%;
+    background-color: white;
+}
+
+.image-controls-button {
+    font-family: 'compass-icons';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 18px;
+
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    overflow: hidden;
+    outline: none;
+    padding: 0 22px 0 0;
+    text-align: center;
+
+    background-color: transparent;
+
+    align-items: center;
+    text-align: center;
+
+    &.active {
+        color: white;
+    }
+
+    &.inactive {
+        color: rgba(255, 255, 255, 0.56);
+    }
+}
