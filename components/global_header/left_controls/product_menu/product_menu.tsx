@@ -69,8 +69,8 @@ const ProductMenu = (): JSX.Element => {
     const menuRef = useRef<HTMLDivElement>(null);
     const currentProductID = useCurrentProductId(products);
 
-    const enableTutorial = useSelector((state: GlobalState) => getConfig(state).EnableTutorial === 'true');
-    const currentUserId = useSelector((state: GlobalState) => getCurrentUserId(state));
+    const enableTutorial = useSelector(getConfig).EnableTutorial === 'true';
+    const currentUserId = useSelector(getCurrentUserId);
     const tutorialStep = useSelector((state: GlobalState) => getInt(state, TutorialTourName.EXPLORE_OTHER_TOOLS, currentUserId, 0));
     const triggerStep = useSelector((state: GlobalState) => getInt(state, OnboardingTaskCategory, OnboardingTasksName.EXPLORE_OTHER_TOOLS, FINISHED));
     const exploreToolsTourTriggered = triggerStep === GenericTaskSteps.STARTED;
@@ -100,18 +100,18 @@ const ProductMenu = (): JSX.Element => {
     });
 
     const productItems = products?.map((product) => {
-        let showTourTip;
+        let tourTip;
 
         // focalboard
         if (product.pluginId === 'focalboard' && showBoardsTour) {
             dispatch(setProductMenuSwitcherOpen(true));
-            showTourTip = (<BoardsTourTip singleTip={!playbooks}/>);
+            tourTip = (<BoardsTourTip singleTip={!playbooks}/>);
         }
 
         // playbooks
         if (product.pluginId === 'playbooks' && showPlaybooksTour) {
             dispatch(setProductMenuSwitcherOpen(true));
-            showTourTip = (<PlaybooksTourTip singleTip={!focalboard}/>);
+            tourTip = (<PlaybooksTourTip singleTip={!focalboard}/>);
         }
 
         return (
@@ -122,8 +122,8 @@ const ProductMenu = (): JSX.Element => {
                 text={product.switcherText}
                 active={product.id === currentProductID}
                 onClick={handleClick}
-                tourTip={showTourTip}
-                id={product.pluginId || product.id}
+                tourTip={tourTip}
+                id={`product-menu-item-${product.pluginId || product.id}`}
             />
         );
     });

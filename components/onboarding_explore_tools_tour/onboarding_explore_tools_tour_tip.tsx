@@ -4,8 +4,6 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Placement} from 'tippy.js';
-
 import TourTip from 'components/widgets/tour_tip/tour_tip';
 import {TourTipOverlayPunchOut} from 'components/widgets/tour_tip/tour_tip_backdrop';
 
@@ -19,11 +17,7 @@ type Props = {
     imageURL?: string;
     overlayPunchOut: TourTipOverlayPunchOut | null;
     singleTip?: boolean;
-    placement?: Placement;
-    pulsatingDotPlacement?: Omit<Placement, 'auto'| 'auto-end'>;
-    pulsatingDotTranslate?: {x: number; y: number};
     offset?: [number, number];
-    width?: string | number;
 }
 
 const OnboardingExploreToolsTourTip = ({
@@ -32,11 +26,7 @@ const OnboardingExploreToolsTourTip = ({
     imageURL,
     overlayPunchOut,
     singleTip,
-    pulsatingDotTranslate,
-    pulsatingDotPlacement,
     offset = [-18, 4],
-    placement = 'right-start',
-    width = 320,
 }: Props) => {
     const prevBtn = (
         <>
@@ -102,10 +92,10 @@ const OnboardingExploreToolsTourTip = ({
             nextBtn={nextBtn()}
             prevBtn={prevBtn}
             step={currentStep}
-            placement={placement}
-            pulsatingDotPlacement={pulsatingDotPlacement}
-            pulsatingDotTranslate={pulsatingDotTranslate}
-            width={width}
+            placement={'right-start'}
+            pulsatingDotPlacement={'right-start'}
+            pulsatingDotTranslate={{x: 10, y: 0}}
+            width={352}
             offset={offset}
             handleOpen={handleOpen}
             handleDismiss={handleDismiss}

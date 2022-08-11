@@ -32,14 +32,16 @@
             }
 
             // fix for https://mattermost.atlassian.net/browse/MM-41711. This covers the current placements we use for the channels and other tools tour
-            &[data-placement^=right]>.tippy-arrow {
-                transform: translate3d(0px, 14px, 0px) !important;
+            &[data-placement^=right] > .tippy-arrow {
+                transform: translate3d(0, 14px, 0) !important;
             }
-            &[data-placement^=top]>.tippy-arrow {
-                transform: translate3d(14px, 0px, 0px) !important;
+
+            &[data-placement^=top] > .tippy-arrow {
+                transform: translate3d(14px, 0, 0) !important;
             }
-            &[data-placement^=bottom]>.tippy-arrow {
-                transform: translate3d(317px, 0px, 0px) !important;
+
+            &[data-placement^=bottom] > .tippy-arrow {
+                transform: translate3d(317px, 0, 0) !important;
             }
         }
     }

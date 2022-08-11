@@ -17,7 +17,6 @@ interface BoardsTourTipProps {
     singleTip: boolean;
 }
 
-const translate = {x: 10, y: 0};
 export const BoardsTourTip = ({singleTip}: BoardsTourTipProps) => {
     const title = (
         <FormattedMessage
@@ -41,10 +40,6 @@ export const BoardsTourTip = ({singleTip}: BoardsTourTipProps) => {
             title={title}
             screen={screen}
             overlayPunchOut={overlayPunchOut}
-            placement='right-start'
-            pulsatingDotPlacement='right-start'
-            pulsatingDotTranslate={translate}
-            width={352}
             singleTip={singleTip}
             imageURL={BoardsImg}
         />

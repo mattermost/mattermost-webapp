@@ -123,10 +123,10 @@ export const useTasksList = () => {
     const list: Record<string, string> = {...OnboardingTasksName};
     const pluginsPreferenceState = useSelector((state: GlobalState) => get(state, Constants.Preferences.ONBOARDING, OnboardingPreferences.USE_CASE));
     const pluginsPreference = pluginsPreferenceState && JSON.parse(pluginsPreferenceState);
-    if ((pluginsPreference && !pluginsPreference.boards) || !pluginsList.focalboard) {
+    if ((pluginsPreference && !pluginsPreference.boards) || !pluginsList.focalboard || !isUserFirstAdmin) {
         delete list.BOARDS_TOUR;
     }
-    if ((pluginsPreference && !pluginsPreference.playbooks) || !pluginsList.playbooks) {
+    if ((pluginsPreference && !pluginsPreference.playbooks) || !pluginsList.playbooks || !isUserFirstAdmin) {
         delete list.PLAYBOOKS_TOUR;
     }
     if (!showStartTrialTask) {

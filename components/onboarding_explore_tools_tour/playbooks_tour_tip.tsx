@@ -12,8 +12,6 @@ import OnboardingExploreToolsTourTip from './onboarding_explore_tools_tour_tip';
 
 import './explore_tools_tour_tip.scss';
 
-const translate = {x: 10, y: 0};
-
 interface PlaybooksTourTipProps {
     singleTip: boolean;
 }
@@ -40,10 +38,6 @@ export const PlaybooksTourTip = ({singleTip}: PlaybooksTourTipProps) => {
         <OnboardingExploreToolsTourTip
             title={title}
             screen={screen}
-            placement='right-start'
-            pulsatingDotPlacement='right-start'
-            pulsatingDotTranslate={translate}
-            width={352}
             overlayPunchOut={overlayPunchOut}
             singleTip={singleTip}
             imageURL={PlaybooksImg}
