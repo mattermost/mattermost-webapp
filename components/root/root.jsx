@@ -265,8 +265,8 @@ export default class Root extends React.PureComponent {
         } else {
             landing = desktopAppDownloadLink;
         }
-        const isTestServer = window.location.hostname?.search(/^.*\.test\.mattermost\.com$/g) !== 0;
-        if (landing && !BrowserStore.hasSeenLandingPage() && !toResetPasswordScreen && !this.props.location.pathname.includes('/landing') && isTestServer && !UserAgent.isDesktopApp()) {
+
+        if (landing && !BrowserStore.hasSeenLandingPage() && !toResetPasswordScreen && !this.props.location.pathname.includes('/landing') && !window.location.hostname?.endsWith('.test.mattermost.com') && !UserAgent.isDesktopApp()) {
             this.props.history.push('/landing#' + this.props.location.pathname + this.props.location.search);
             BrowserStore.setLandingPageSeen(true);
         }
