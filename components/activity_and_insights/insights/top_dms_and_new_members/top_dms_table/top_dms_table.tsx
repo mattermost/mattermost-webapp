@@ -80,29 +80,29 @@ const TopDMsTable = (props: Props) => {
                     />
                 ),
                 field: 'user',
-                width: 0.25,
+                width: 0.4,
             },
             {
                 name: (
                     <FormattedMessage
                         id='insights.topDMs.sentMessages'
-                        defaultMessage='Messages sent'
+                        defaultMessage='Sent'
                     />
                 ),
                 field: 'sent',
                 className: 'message-count',
-                width: 0.2,
+                width: 0.15,
             },
             {
                 name: (
                     <FormattedMessage
                         id='insights.topDMs.receivedMessages'
-                        defaultMessage='Messages received'
+                        defaultMessage='Received'
                     />
                 ),
                 field: 'received',
                 className: 'message-count',
-                width: 0.25,
+                width: 0.15,
             },
             {
                 name: (

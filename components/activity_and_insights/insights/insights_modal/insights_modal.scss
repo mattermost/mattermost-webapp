@@ -54,6 +54,17 @@
                     }
                 }
 
+                &.TopDMsTable {
+                    .DataGrid_header {
+                        .DataGrid_cell {
+                            &:nth-of-type(3),
+                            &:nth-of-type(4) {
+                                text-align: right;
+                            }
+                        }
+                    }
+                }
+
                 .DataGrid_header {
                     padding: 12px 0;
                     border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
