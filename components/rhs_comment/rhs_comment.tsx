@@ -277,7 +277,7 @@ export default class RhsComment extends React.PureComponent<Props, State> {
             this.state.fileDropdownOpened ||
             this.state.showEmojiPicker;
 
-        return classNames('post post--thread same--root post--comment', {
+        return classNames('a11y__section post post--thread same--root post--comment', {
             'post--highlight': this.props.shouldHighlight,
             'post--editing': this.props.isPostBeingEdited,
             'current--user': this.props.currentUserId === post.user_id,
@@ -419,28 +419,17 @@ export default class RhsComment extends React.PureComponent<Props, State> {
             );
 
             if (post.props && post.props.from_webhook) {
-                if (post.props.override_username && this.props.enablePostUsernameOverride) {
-                    userProfile = (
-                        <UserProfile
-                            userId={post.user_id}
-                            channelId={post.channel_id}
-                            hideStatus={true}
-                            overwriteName={post.props.override_username}
-                            disablePopover={true}
-                            colorize={colorize}
-                        />
-                    );
-                } else {
-                    userProfile = (
-                        <UserProfile
-                            userId={post.user_id}
-                            channelId={post.channel_id}
-                            hideStatus={true}
-                            disablePopover={true}
-                            colorize={colorize}
-                        />
-                    );
-                }
+                const overwriteName = post.props.override_username && this.props.enablePostUsernameOverride ? post.props.override_username : undefined;
+                userProfile = (
+                    <UserProfile
+                        userId={post.user_id}
+                        channelId={post.channel_id}
+                        hideStatus={true}
+                        overwriteName={overwriteName}
+                        disablePopover={true}
+                        colorize={colorize}
+                    />
+                );
 
                 botIndicator = (<BotBadge className='col col__name'/>);
             } else if (fromAutoResponder) {
@@ -510,7 +499,7 @@ export default class RhsComment extends React.PureComponent<Props, State> {
         }
 
         const failedPostOptions = post.failed ? <FailedPostOptions post={this.props.post}/> : undefined;
-        const postClass = PostUtils.isEdited(this.props.post) ? ' post--edited' : '';
+        const postClass = classNames('post__body', {'post--edited': PostUtils.isEdited(this.props.post)});
 
         let fileAttachment: ReactNode = null;
         if (post.file_ids && post.file_ids.length > 0) {
@@ -524,7 +513,7 @@ export default class RhsComment extends React.PureComponent<Props, State> {
         }
 
         const showRecentlyUsedReactions = (!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && !channelIsArchived && this.props.oneClickReactionsEnabled && this.props.enableEmojiPicker);
-        let showRecentReactions;
+        let showRecentReactions: ReactNode;
         if (showRecentlyUsedReactions) {
             showRecentReactions = (
                 <PostRecentReactions
@@ -538,7 +527,7 @@ export default class RhsComment extends React.PureComponent<Props, State> {
             );
         }
 
-        let postReaction;
+        let postReaction: ReactNode;
         if (!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && this.props.enableEmojiPicker && !channelIsArchived) {
             postReaction = (
                 <PostReaction
@@ -553,7 +542,7 @@ export default class RhsComment extends React.PureComponent<Props, State> {
             );
         }
 
-        let flagIcon = null;
+        let flagIcon: ReactNode = null;
         if (!isMobileView && (!isEphemeral && !post.failed && !isSystemMessage)) {
             flagIcon = (
                 <PostFlagIcon
@@ -564,7 +553,7 @@ export default class RhsComment extends React.PureComponent<Props, State> {
             );
         }
 
-        let options;
+        let options: ReactNode;
         if (isEphemeral) {
             options = (
                 <div className='col col__remove'>
@@ -626,7 +615,7 @@ export default class RhsComment extends React.PureComponent<Props, State> {
 
         const postTime = this.renderPostTime();
 
-        let postInfoIcon;
+        let postInfoIcon: ReactNode;
         if (post.props && post.props.card) {
             postInfoIcon = (
                 <OverlayTrigger
@@ -657,7 +646,7 @@ export default class RhsComment extends React.PureComponent<Props, State> {
             );
         }
 
-        let customStatus;
+        let customStatus: ReactNode;
         if (!isSystemMessage) {
             customStatus = (
                 <CustomStatusEmoji
@@ -690,7 +679,7 @@ export default class RhsComment extends React.PureComponent<Props, State> {
                 id={'rhsPost_' + post.id}
                 tabIndex={-1}
                 post={post}
-                className={`a11y__section ${this.getClassName(post, isSystemMessage, isMeMessage)}`}
+                className={this.getClassName(post, isSystemMessage, isMeMessage)}
                 onClick={this.handlePostClick}
                 onMouseOver={this.setHover}
                 onMouseLeave={this.unsetHover}
@@ -725,7 +714,7 @@ export default class RhsComment extends React.PureComponent<Props, State> {
                             </div>
                             {!isPostBeingEdited && options}
                         </div>
-                        <div className={`post__body${postClass}`} >
+                        <div className={postClass} >
                             {failedPostOptions}
                             <AutoHeightSwitcher
                                 showSlot={showSlot}
