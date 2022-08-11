@@ -93,7 +93,7 @@ type Props = {
          */
         setActionsMenuInitialisationState: (initializationState: Record<string, boolean>) => void;
     };
-    timestampProps?: TimestampProps;
+    timestampProps?: Partial<TimestampProps>;
     collapsedThreadsEnabled?: boolean;
 
     shouldShowActionsMenu?: boolean;
