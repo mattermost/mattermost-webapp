@@ -1,10 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, {MouseEvent, ReactNode, RefObject} from 'react';
 import {Overlay} from 'react-bootstrap';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 import classNames from 'classnames';
 
 import {Permissions} from 'mattermost-redux/constants';
@@ -35,62 +34,79 @@ import {
     NotificationLevels,
     RHSStates,
 } from 'utils/constants';
-import {intlShape} from 'utils/react_intl';
 import {handleFormattedTextClick, localizeMessage, isEmptyObject, toTitleCase} from 'utils/utils';
 
-import HeaderIconWrapper from './components/header_icon_wrapper';
+import {UserCustomStatus, UserProfile} from '@mattermost/types/users';
+import {Channel, ChannelNotifyProps} from '@mattermost/types/channels';
+import {RhsState} from 'types/store/rhs';
+
+import {ModalData} from 'types/actions';
 
 import ChannelInfoButton from './channel_info_button';
+import HeaderIconWrapper from './components/header_icon_wrapper';
 
 const headerMarkdownOptions = {singleline: true, mentionHighlight: false, atMentions: true};
 const popoverMarkdownOptions = {singleline: false, mentionHighlight: false, atMentions: true};
 
-class ChannelHeader extends React.PureComponent {
-    static propTypes = {
-        teamId: PropTypes.string.isRequired,
-        currentUser: PropTypes.object.isRequired,
-        channel: PropTypes.object,
-        memberCount: PropTypes.number,
-        channelMember: PropTypes.object,
-        dmUser: PropTypes.object,
-        gmMembers: PropTypes.array,
-        isFavorite: PropTypes.bool,
-        isReadOnly: PropTypes.bool,
-        isMuted: PropTypes.bool,
-        hasGuests: PropTypes.bool,
-        rhsState: PropTypes.oneOf(
-            Object.values(RHSStates),
-        ),
-        rhsOpen: PropTypes.bool,
-        isQuickSwitcherOpen: PropTypes.bool,
-        intl: intlShape.isRequired,
-        pinnedPostsCount: PropTypes.number,
-        hasMoreThanOneTeam: PropTypes.bool,
-        actions: PropTypes.shape({
-            favoriteChannel: PropTypes.func.isRequired,
-            unfavoriteChannel: PropTypes.func.isRequired,
-            showFlaggedPosts: PropTypes.func.isRequired,
-            showPinnedPosts: PropTypes.func.isRequired,
-            showChannelFiles: PropTypes.func.isRequired,
-            showMentions: PropTypes.func.isRequired,
-            closeRightHandSide: PropTypes.func.isRequired,
-            getCustomEmojisInText: PropTypes.func.isRequired,
-            updateChannelNotifyProps: PropTypes.func.isRequired,
-            goToLastViewedChannel: PropTypes.func.isRequired,
-            openModal: PropTypes.func.isRequired,
-            closeModal: PropTypes.func.isRequired,
-            showChannelMembers: PropTypes.func.isRequired,
-        }).isRequired,
-        teammateNameDisplaySetting: PropTypes.string.isRequired,
-        currentRelativeTeamUrl: PropTypes.string.isRequired,
-        announcementBarCount: PropTypes.number,
-        customStatus: PropTypes.object,
-        isCustomStatusEnabled: PropTypes.bool.isRequired,
-        isCustomStatusExpired: PropTypes.bool.isRequired,
-        isFileAttachmentsEnabled: PropTypes.bool.isRequired,
+type Props = {
+    teamId: string;
+    currentUser: UserProfile;
+    channel: Channel;
+    memberCount?: number;
+    channelMember?: any; // todo
+    dmUser?: UserProfile;
+    gmMembers?: UserProfile[];
+    isFavorite?: boolean;
+    isReadOnly?: boolean;
+    isMuted?: boolean;
+    hasGuests?: boolean;
+    rhsState?: RhsState;
+    rhsOpen?: boolean;
+    isQuickSwitcherOpen?: boolean;
+    intl?: IntlShape;
+    pinnedPostsCount?: number;
+    hasMoreThanOneTeam?: boolean;
+    actions: {
+        favoriteChannel: (channelId: string) => void;
+        unfavoriteChannel: (channelId: string) => void;
+        showFlaggedPosts: () => void; // check if it is used somewhere
+        showPinnedPosts: (channelId?: string) => void;
+        showChannelFiles: (channelId: string) => void;
+        showMentions: () => void; // check if it is used somewhere
+        closeRightHandSide: () => void;
+        getCustomEmojisInText: (text: string) => void;
+        updateChannelNotifyProps: (userId: string, channelId: string, props: Partial<ChannelNotifyProps>) => void;
+        goToLastViewedChannel: () => void;
+        openModal: (modalData: ModalData<any>) => void; // todo
+        closeModal: () => void;
+        showChannelMembers: (channelId: string, inEditingMode?: boolean) => void;
     };
+    teammateNameDisplaySetting: string;
+    currentRelativeTeamUrl: string;
+    announcementBarCount?: number;
+    customStatus?: UserCustomStatus;
+    isCustomStatusEnabled: boolean;
+    isCustomStatusExpired: boolean;
+    isFileAttachmentsEnabled: boolean;
+};
 
-    constructor(props) {
+type State = {
+    titleMenuOpen: boolean;
+    showChannelHeaderPopover: boolean;
+    leftOffset: number;
+    topOffset: number;
+    popoverOverlayWidth: number;
+};
+
+class ChannelHeader extends React.PureComponent<Props, State> {
+    toggleFavoriteRef: RefObject<HTMLButtonElement>;
+    headerDescriptionRef: RefObject<HTMLSpanElement>;
+    headerPopoverTextMeasurerRef: RefObject<HTMLDivElement>;
+    headerOverlayRef: RefObject<Overlay>;
+    getHeaderMarkdownOptions: (channelNamesMap: Record<string, any>) => Record<string, any>;
+    getPopoverMarkdownOptions: (channelNamesMap: Record<string, any>) => Record<string, any>;
+
+    constructor(props: Props) {
         super(props);
         this.toggleFavoriteRef = React.createRef();
         this.headerDescriptionRef = React.createRef();
@@ -105,10 +121,10 @@ class ChannelHeader extends React.PureComponent {
             titleMenuOpen: false,
         };
 
-        this.getHeaderMarkdownOptions = memoizeResult((channelNamesMap) => (
+        this.getHeaderMarkdownOptions = memoizeResult((channelNamesMap: Record<string, any>) => (
             {...headerMarkdownOptions, channelNamesMap}
         ));
-        this.getPopoverMarkdownOptions = memoizeResult((channelNamesMap) => (
+        this.getPopoverMarkdownOptions = memoizeResult((channelNamesMap: Record<string, any>) => (
             {...popoverMarkdownOptions, channelNamesMap}
         ));
     }
@@ -117,7 +133,7 @@ class ChannelHeader extends React.PureComponent {
         this.props.actions.getCustomEmojisInText(this.props.channel ? this.props.channel.header : '');
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props) {
         const header = this.props.channel ? this.props.channel.header : '';
         const prevHeader = prevProps.channel ? prevProps.channel.header : '';
         if (header !== prevHeader) {
@@ -125,11 +141,9 @@ class ChannelHeader extends React.PureComponent {
         }
     }
 
-    handleClose = () => {
-        this.props.actions.goToLastViewedChannel();
-    };
+    handleClose = () => this.props.actions.goToLastViewedChannel();
 
-    toggleFavorite = (e) => {
+    toggleFavorite = (e: MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
         if (this.props.isFavorite) {
             this.props.actions.unfavoriteChannel(this.props.channel.id);
@@ -160,7 +174,7 @@ class ChannelHeader extends React.PureComponent {
         actions.updateChannelNotifyProps(currentUser.id, channel.id, options);
     };
 
-    showPinnedPosts = (e) => {
+    showPinnedPosts = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         if (this.props.rhsState === RHSStates.PIN) {
             this.props.actions.closeRightHandSide();
@@ -179,12 +193,10 @@ class ChannelHeader extends React.PureComponent {
 
     removeTooltipLink = () => {
         // Bootstrap adds the attr dynamically, removing it to prevent a11y readout
-        this.toggleFavoriteRef.current.removeAttribute('aria-describedby');
+        this.toggleFavoriteRef.current?.removeAttribute('aria-describedby');
     }
 
-    setTitleMenuOpen = (open) => {
-        this.setState({titleMenuOpen: open});
-    }
+    setTitleMenuOpen = (open: boolean) => this.setState({titleMenuOpen: open});
 
     showEditChannelHeaderModal = () => {
         if (this.headerOverlayRef.current) {
@@ -201,16 +213,16 @@ class ChannelHeader extends React.PureComponent {
         actions.openModal(modalData);
     }
 
-    showChannelHeaderPopover = (headerText) => {
-        const headerDescriptionRect = this.headerDescriptionRef.current.getBoundingClientRect();
-        const headerPopoverTextMeasurerRect = this.headerPopoverTextMeasurerRef.current.getBoundingClientRect();
+    showChannelHeaderPopover = (headerText: string) => {
+        const headerDescriptionRect = this.headerDescriptionRef.current?.getBoundingClientRect();
+        const headerPopoverTextMeasurerRect = this.headerPopoverTextMeasurerRef.current?.getBoundingClientRect();
         const announcementBarSize = 40;
-        if (headerPopoverTextMeasurerRect.width > headerDescriptionRect.width || headerText.match(/\n{2,}/g)) {
+        if (headerPopoverTextMeasurerRect?.width > headerDescriptionRect?.width || headerText.match(/\n{2,}/g)) {
             this.setState({showChannelHeaderPopover: true, leftOffset: this.headerDescriptionRef.current.offsetLeft});
         }
 
         // add 40px to take the global header into account
-        const topOffset = (announcementBarSize * this.props.announcementBarCount) + 40;
+        const topOffset = (announcementBarSize * (this.props.announcementBarCount || 1)) + 40;
 
         this.setState({topOffset});
     }
@@ -224,12 +236,12 @@ class ChannelHeader extends React.PureComponent {
     };
 
     setPopoverOverlayWidth = () => {
-        const headerDescriptionRect = this.headerDescriptionRef.current.getBoundingClientRect();
+        const headerDescriptionRect = this.headerDescriptionRef.current?.getBoundingClientRect();
         const ellipsisWidthAdjustment = 10;
-        this.setState({popoverOverlayWidth: headerDescriptionRect.width + ellipsisWidthAdjustment});
+        this.setState({popoverOverlayWidth: headerDescriptionRect?.width + ellipsisWidthAdjustment});
     }
 
-    handleFormattedTextClick = (e) => handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
+    handleFormattedTextClick = (e: MouseEvent<HTMLSpanElement>) => handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
 
     renderCustomStatus = () => {
         const {customStatus, isCustomStatusEnabled, isCustomStatusExpired} = this.props;
@@ -241,7 +253,7 @@ class ChannelHeader extends React.PureComponent {
         return (
             <>
                 <CustomStatusEmoji
-                    userID={this.props.dmUser.id}
+                    userID={this.props.dmUser?.id}
                     showTooltip={true}
                     tooltipDirection='bottom'
                     emojiStyle={{
@@ -274,7 +286,7 @@ class ChannelHeader extends React.PureComponent {
         const {formatMessage} = this.props.intl;
         const ariaLabelChannelHeader = localizeMessage('accessibility.sections.channelHeader', 'channel header region');
 
-        let hasGuestsText = '';
+        let hasGuestsText: ReactNode = '';
         if (hasGuests) {
             hasGuestsText = (
                 <span className='has-guest-header'>
@@ -302,11 +314,8 @@ class ChannelHeader extends React.PureComponent {
 
         const channelNamesMap = channel.props && channel.props.channel_mentions;
 
-        let channelTitle = channel.display_name;
-        let archivedIcon = null;
-        if (channelIsArchived) {
-            archivedIcon = (<ArchiveIcon className='icon icon__archive icon channel-header-archived-icon svg-text-color'/>);
-        }
+        let channelTitle: ReactNode = channel.display_name;
+        const archivedIcon = channelIsArchived ? <ArchiveIcon className='icon icon__archive icon channel-header-archived-icon svg-text-color'/> : null;
         let sharedIcon = null;
         if (channel.shared) {
             sharedIcon = (
@@ -322,7 +331,7 @@ class ChannelHeader extends React.PureComponent {
         const isPrivate = (channel.type === Constants.PRIVATE_CHANNEL);
 
         if (isDirect) {
-            const teammateId = dmUser.id;
+            const teammateId = dmUser?.id;
             if (currentUser.id === teammateId) {
                 channelTitle = (
                     <FormattedMessage
@@ -339,7 +348,7 @@ class ChannelHeader extends React.PureComponent {
             channelTitle = (
                 <React.Fragment>
                     {channelTitle}
-                    <GuestBadge show={isGuest(dmUser.roles)}/>
+                    <GuestBadge show={isGuest(dmUser?.roles)}/>
                 </React.Fragment>
             );
         }
@@ -390,26 +399,23 @@ class ChannelHeader extends React.PureComponent {
             }
         }
 
-        let dmHeaderIconStatus;
-        let dmHeaderTextStatus;
-        if (isDirect && !dmUser.delete_at && !dmUser.is_bot) {
-            dmHeaderIconStatus = (
-                <StatusIcon
-                    status={channel.status}
-                />
-            );
+        let dmHeaderIconStatus: ReactNode;
+        let dmHeaderTextStatus: ReactNode;
+        if (isDirect && !dmUser?.delete_at && !dmUser?.is_bot) {
+            dmHeaderIconStatus = (<StatusIcon status={channel.status} />);
 
             dmHeaderTextStatus = (
                 <span className='header-status__text'>
                     <FormattedMessage
                         id={`status_dropdown.set_${channel.status}`}
-                        defaultMessage={toTitleCase(channel.status)}
+                        defaultMessage={toTitleCase(channel.status || '')}
                     />
                     {this.renderCustomStatus()}
                 </span>
             );
         }
 
+        // todo convert to use classnames
         let channelFilesIconClass = 'channel-header__icon channel-header__icon--wide channel-header__icon--left';
         if (rhsState === RHSStates.CHANNEL_FILES) {
             channelFilesIconClass += ' channel-header__icon--active';
@@ -487,7 +493,7 @@ class ChannelHeader extends React.PureComponent {
         }
 
         let headerTextContainer;
-        const headerText = (isDirect && dmUser.is_bot) ? dmUser.bot_description : channel.header;
+        const headerText = (isDirect && dmUser?.is_bot) ? dmUser.bot_description : channel.header;
         if (headerText) {
             const popoverContent = (
                 <Popover
@@ -562,7 +568,9 @@ class ChannelHeader extends React.PureComponent {
                             ref={this.headerOverlayRef}
                             onEnter={this.setPopoverOverlayWidth}
                             onHide={() => this.setState({showChannelHeaderPopover: false})}
-                        >{popoverContent}</Overlay>
+                        >
+                            {popoverContent}
+                        </Overlay>
 
                         <Markdown
                             message={headerText}
@@ -575,7 +583,7 @@ class ChannelHeader extends React.PureComponent {
             let editMessage;
             if (!isReadOnly && !channelIsArchived) {
                 if (isDirect || isGroup) {
-                    if (!isDirect || !dmUser.is_bot) {
+                    if (!isDirect || !dmUser?.is_bot) {
                         editMessage = (
                             <button
                                 className='header-placeholder style--none'
@@ -748,7 +756,7 @@ class ChannelHeader extends React.PureComponent {
                         >
                             <strong
                                 role='heading'
-                                aria-level='2'
+                                aria-level={2}
                                 id='channelHeaderTitle'
                                 className='heading'
                             >
@@ -770,7 +778,7 @@ class ChannelHeader extends React.PureComponent {
                 {toggleFavorite}
             </React.Fragment>
         );
-        if (isDirect && dmUser.is_bot) {
+        if (isDirect && dmUser?.is_bot) {
             title = (
                 <div
                     id='channelHeaderDropdownButton'
@@ -778,7 +786,7 @@ class ChannelHeader extends React.PureComponent {
                 >
                     <strong
                         role='heading'
-                        aria-level='2'
+                        aria-level={2}
                         id='channelHeaderTitle'
                         className='heading'
                     >
@@ -798,7 +806,7 @@ class ChannelHeader extends React.PureComponent {
                 id='channel-header'
                 aria-label={ariaLabelChannelHeader}
                 role='banner'
-                tabIndex='-1'
+                tabIndex={-1}
                 data-channelid={`${channel.id}`}
                 className='channel-header alt a11y__region'
                 data-a11y-sort-order='8'
