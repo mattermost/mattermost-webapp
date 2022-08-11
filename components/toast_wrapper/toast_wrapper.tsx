@@ -45,7 +45,7 @@ type OwnProps = {
     lastViewedAt?: number;
     focusedPostId?: string;
     initScrollOffsetFromBottom?: number;
-    updateNewMessagesAtInChannel?: $TSFixMeFunction;
+    updateNewMessagesAtInChannel: (lastViewedAt?: number) => void;
     scrollToNewMessage?: $TSFixMeFunction;
     scrollToLatestMessages?: $TSFixMeFunction;
     scrollToUnreadMessages?: $TSFixMeFunction;
@@ -213,7 +213,6 @@ class ToastWrapper extends React.PureComponent<Props, State> {
         //Marking existing messages as read based on last time user reached to the bottom
         //This moves the new message indicator to the latest posts and keeping in sync with the toast count
         if (postsAddedAtBottom && notBottomWithLatestPosts && !showUnreadToast) {
-            // @ts-expect-error TS(2722) FIXME: Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
             updateNewMessagesAtInChannel(lastViewedBottom);
         }
 
