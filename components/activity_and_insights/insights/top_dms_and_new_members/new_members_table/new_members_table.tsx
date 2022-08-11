@@ -154,7 +154,7 @@ const NewMembersTable = (props: Props) => {
                 startCount={1}
                 endCount={10}
                 total={0}
-                className={classNames('InsightsTable', 'TopDMsTable')}
+                className={classNames('InsightsTable', 'NewMembersTable')}
             />
             <ModalPagination
                 hasNext={hasNext}

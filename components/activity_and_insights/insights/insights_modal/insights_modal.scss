@@ -87,6 +87,10 @@
                 }
 
                 .DataGrid_rows {
+                    .DataGrid_loading {
+                        padding: 234px 0;
+                    }
+
                     .DataGrid_row {
                         display: flex;
                         flex-direction: row;
