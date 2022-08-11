@@ -2,17 +2,18 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
-import React, {RefObject, MouseEvent, ReactNode} from 'react';
+import React, {MouseEvent, ReactNode, RefObject} from 'react';
 import {FormattedMessage} from 'react-intl';
+import classNames from 'classnames';
 
 import {Posts, Preferences} from 'mattermost-redux/constants/index';
 import {
+    isMeMessage as checkIsMeMessage,
     isPostEphemeral,
     isPostPendingOrFailed,
-    isMeMessage as checkIsMeMessage,
 } from 'mattermost-redux/utils/post_utils';
 
-import Constants, {Locations, A11yCustomEventTypes, AppEvents} from 'utils/constants';
+import Constants, {A11yCustomEventTypes, AppEvents, Locations} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils';
 import {isMobile} from 'utils/utils';
 
@@ -43,7 +44,6 @@ import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import EditPost from 'components/edit_post';
 import AutoHeightSwitcher, {AutoHeightSlots} from 'components/common/auto_height_switcher';
 import {Props as TimestampProps} from 'components/timestamp/timestamp';
-import classNames from 'classnames';
 
 type Props = {
     post: Post;
@@ -271,45 +271,22 @@ export default class RhsComment extends React.PureComponent<Props, State> {
     };
 
     getClassName = (post: Post, isSystemMessage: boolean, isMeMessage: boolean) => {
-        let className = 'post post--thread same--root post--comment';
-
-        if (this.props.shouldHighlight) {
-            className += ' post--highlight';
-        }
-
-        if (this.props.isPostBeingEdited) {
-            className += ' post--editing';
-        }
-
-        if (this.props.currentUserId === post.user_id) {
-            className += ' current--user';
-        }
-
-        if (isSystemMessage || isMeMessage) {
-            className += ' post--system';
-        }
-
-        if (this.props.compactDisplay) {
-            className += ' post--compact';
-        }
-
-        if (this.state.showDotMenu ||
+        const hovered = this.state.showDotMenu ||
             this.state.showActionsMenu ||
             this.state.showActionTip ||
             this.state.fileDropdownOpened ||
-            this.state.showEmojiPicker) {
-            className += ' post--hovered';
-        }
+            this.state.showEmojiPicker;
 
-        if (this.props.isConsecutivePost) {
-            className += ' same--user';
-        }
-
-        if (this.state.alt && !this.props.channelIsArchived) {
-            className += ' cursor--pointer';
-        }
-
-        return className;
+        return classNames('post post--thread same--root post--comment', {
+            'post--highlight': this.props.shouldHighlight,
+            'post--editing': this.props.isPostBeingEdited,
+            'current--user': this.props.currentUserId === post.user_id,
+            'post--system': isSystemMessage || isMeMessage,
+            'post--compact': this.props.compactDisplay,
+            'post--hovered': hovered,
+            'same--user': this.props.isConsecutivePost,
+            'cursor--pointer': this.state.alt && !this.props.channelIsArchived,
+        });
     };
 
     handleAlt = (e: KeyboardEvent) => {
