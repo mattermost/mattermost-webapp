@@ -570,7 +570,7 @@
 
             .top-dms-item {
                 display: flex;
-                flex-basis: 20%;
+                flex-basis: 16.66%;
                 flex-direction: column;
                 flex-grow: 0;
                 padding: 12px;
@@ -582,7 +582,7 @@
                     margin-left: 0;
                 }
 
-                &:nth-of-type(5) {
+                &:nth-of-type(6) {
                     margin-right: 0;
                 }
 
@@ -599,7 +599,6 @@
                     flex-direction: row;
                     align-items: center;
                     margin: 0;
-                    margin-top: 24px;
 
                     &:nth-of-type(1) {
                         margin-top: 0;
@@ -634,9 +633,9 @@
                         overflow: hidden;
                         max-width: 150px;
                         color: var(--center-channel-color);
-                        font-size: 12px;
+                        font-size: 14px;
                         font-weight: 600;
-                        line-height: 16px;
+                        line-height: 20px;
                         text-overflow: ellipsis;
                         white-space: nowrap;
                     }

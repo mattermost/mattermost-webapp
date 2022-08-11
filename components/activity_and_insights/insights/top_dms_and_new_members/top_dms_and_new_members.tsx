@@ -40,7 +40,7 @@ const TopDMsAndNewMembers = (props: WidgetHocProps) => {
     const getMyTopTeamDMs = useCallback(async () => {
         if (props.filterType === InsightsScopes.MY) {
             setLoading(true);
-            const data: any = await dispatch(getMyTopDMs(currentTeam.id, 0, 5, props.timeFrame));
+            const data: any = await dispatch(getMyTopDMs(currentTeam.id, 0, 6, props.timeFrame));
             if (data.data?.items) {
                 setTopDMs(data.data.items);
             }
@@ -118,7 +118,7 @@ const TopDMsAndNewMembers = (props: WidgetHocProps) => {
             {
                 (!loading && topDMs && props.filterType === InsightsScopes.MY) &&
                 topDMs.map((topDM: TopDM, index: number) => {
-                    const barSize = ((topDM.post_count / topDMs[0].post_count) * 0.6);
+                    const barSize = ((topDM.post_count / topDMs[0].post_count) * 0.75);
                     return (
                         <TopDMsItem
                             key={index}
