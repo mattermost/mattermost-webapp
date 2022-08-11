@@ -88,7 +88,7 @@ const LimitReachedBanner = (props: Props) => {
             id: t('workspace_limits.upgrade_button'),
             defaultMessage: 'Upgrade',
         };
-        upgradeAction = openPurchaseModal;
+        upgradeAction = () => openPurchaseModal({callerInfo: 'admin_console_limit_reached_banner'});
     }
 
     const onDismiss = () => {

@@ -10,14 +10,19 @@ import PurchaseModal from 'components/purchase_modal';
 
 interface OpenPurchaseModalOptions{
     onClick?: () => void;
+    callerInfo?: string;
 }
+type TelemetryProps = Pick<OpenPurchaseModalOptions, 'callerInfo'>
+
 export default function useOpenCloudPurchaseModal(options: OpenPurchaseModalOptions) {
     const dispatch = useDispatch();
-    return () => {
+    return (telemetryProps: TelemetryProps) => {
         if (options.onClick) {
             options.onClick();
         }
-        trackEvent('cloud_admin', 'click_open_purchase_modal');
+        trackEvent('cloud_admin', 'click_open_purchase_modal', {
+            callerInfo: telemetryProps.callerInfo,
+        });
         dispatch(openModal({
             modalId: ModalIdentifiers.CLOUD_PURCHASE,
             dialogType: PurchaseModal,
