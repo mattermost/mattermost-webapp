@@ -8,7 +8,7 @@ import {ActionFunc} from 'mattermost-redux/types/actions';
 import {AdminConfig, EnvironmentConfig, ClientLicense} from '@mattermost/types/config';
 import {Role} from '@mattermost/types/roles';
 import {ConsoleAccess} from 'mattermost-redux/types/admin';
-import {CloudState} from '@mattermost/types/cloud';
+import {CloudState, Product} from '@mattermost/types/cloud';
 import {Team} from '@mattermost/types/teams';
 import {DeepPartial} from '@mattermost/types/utilities';
 
@@ -77,6 +77,10 @@ type Item = {
     isDisabled?: (config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, buildEnterpriseReady?: boolean, consoleAccess?: ConsoleAccess, cloud?: CloudState, isCurrentUserSystemAdmin?: boolean) => boolean;
     schema: Record<string, any>;
     url: string;
+    restrictedIndicator?: {
+        value: (cloud: CloudState) => React.ReactNode;
+        shouldDisplay: (license: ClientLicense, subscriptionProduct?: Product) => boolean;
+    };
 }
 
 export default class AdminConsole extends React.PureComponent<Props, State> {
@@ -90,7 +94,7 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
     public componentDidMount(): void {
         this.props.actions.getConfig();
         this.props.actions.getEnvironmentConfig();
-        this.props.actions.loadRolesIfNeeded(['channel_user', 'team_user', 'system_user', 'channel_admin', 'team_admin', 'system_admin', 'system_user_manager', 'system_read_only_admin', 'system_manager']);
+        this.props.actions.loadRolesIfNeeded(['channel_user', 'team_user', 'system_user', 'channel_admin', 'team_admin', 'system_admin', 'system_user_manager', 'system_custom_group_admin', 'system_read_only_admin', 'system_manager']);
         this.props.actions.selectChannel('');
         this.props.actions.selectTeam('');
         document.body.classList.add('console__body');
@@ -115,6 +119,7 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
             roles.system_user &&
             roles.system_user_manager &&
             roles.system_read_only_admin &&
+            roles.system_custom_group_admin &&
             roles.system_manager
         );
     }

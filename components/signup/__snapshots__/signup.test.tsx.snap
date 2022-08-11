@@ -4,6 +4,12 @@ exports[`components/signup/Signup should match snapshot for all signup options e
 <div
   className="signup-body"
 >
+  <AlternateLink
+    alternateLinkLabel="Log in"
+    alternateLinkPath="/login"
+    alternateMessage="Already have an account?"
+    className="signup-body-alternate-link"
+  />
   <div
     className="signup-body-content"
   >
@@ -142,6 +148,12 @@ exports[`components/signup/Signup should match snapshot for all signup options e
 <div
   className="signup-body"
 >
+  <AlternateLink
+    alternateLinkLabel="Log in"
+    alternateLinkPath="/login"
+    alternateMessage="Already have an account?"
+    className="signup-body-alternate-link"
+  />
   <div
     className="signup-body-content"
   >
@@ -267,6 +279,19 @@ exports[`components/signup/Signup should match snapshot for all signup options e
             key="office365"
             label="Office 365"
             url="/oauth/office365/signup"
+          />
+          <ExternalLoginButton
+            icon={<LoginOpenIdIcon />}
+            id="openid"
+            key="openid"
+            label="Open ID"
+            style={
+              Object {
+                "borderColor": "",
+                "color": "",
+              }
+            }
+            url="/oauth/openid/signup"
           />
           <ExternalLoginButton
             icon={<LockIcon />}

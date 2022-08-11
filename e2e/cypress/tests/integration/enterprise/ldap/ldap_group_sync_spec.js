@@ -233,7 +233,7 @@ context('ldap', () => {
             cy.uiBrowseOrCreateChannel('Browse Channels').click();
 
             // * Search private channel name and make sure it isn't there in public channel directory
-            cy.get('#searchChannelsTextbox').type(`${testChannel.display_name}`);
+            cy.get('#searchChannelsTextbox').type(testChannel.display_name);
             cy.get('#moreChannelsList').should('include.text', 'No more channels to join');
         });
 
@@ -455,7 +455,7 @@ context('ldap', () => {
                 cy.uiBrowseOrCreateChannel('Browse Channels').click();
 
                 // * Search public channel and ensure it appears in the list
-                cy.get('#searchChannelsTextbox').type(`${publicChannel.display_name}`);
+                cy.get('#searchChannelsTextbox').type(publicChannel.display_name);
                 cy.get('#moreChannelsList').should('include.text', publicChannel.display_name);
 
                 // # login as a admin and revert to private channel
@@ -472,7 +472,7 @@ context('ldap', () => {
                 cy.uiBrowseOrCreateChannel('Browse Channels').click();
 
                 // * Search private channel name and make sure it isn't there in public channel directory
-                cy.get('#searchChannelsTextbox').type(`${publicChannel.display_name}`);
+                cy.get('#searchChannelsTextbox').type(publicChannel.display_name);
                 cy.get('#moreChannelsList').should('include.text', 'No more channels to join');
             });
         });

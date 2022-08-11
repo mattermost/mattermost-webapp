@@ -10,10 +10,11 @@ import {
     getCurrentChannel,
     getCurrentChannelStats,
     getMembersInCurrentChannel,
+    getMyCurrentChannelMembership,
     isCurrentChannelArchived,
 } from 'mattermost-redux/selectors/entities/channels';
 import {GlobalState} from 'types/store';
-import {Constants} from 'utils/constants';
+import {Constants, RHSStates} from 'utils/constants';
 import {getCurrentRelativeTeamUrl, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {
     getActiveProfilesInCurrentChannelWithoutSorting,
@@ -92,11 +93,13 @@ const searchProfiles = createSelector(
 function mapStateToProps(state: GlobalState) {
     const channel = getCurrentChannel(state);
     const currentTeam = getCurrentTeam(state);
+    const currentUser = getMyCurrentChannelMembership(state);
     const {member_count: membersCount} = getCurrentChannelStats(state) || {member_count: 0};
 
     if (!channel) {
         return {
             channel: {} as Channel,
+            currentUserIsChannelAdmin: false,
             channelMembers: [],
             channelAdmins: [],
             searchTerms: '',
@@ -126,11 +129,19 @@ function mapStateToProps(state: GlobalState) {
     }
 
     const teamUrl = getCurrentRelativeTeamUrl(state);
-    const canGoBack = Boolean(getPreviousRhsState(state));
+    const prevRhsState = getPreviousRhsState(state);
+    const hasInfoPrevState = prevRhsState === RHSStates.CHANNEL_INFO ||
+        prevRhsState === RHSStates.CHANNEL_FILES ||
+        prevRhsState === RHSStates.PIN;
+
+    const canGoBack = Boolean(hasInfoPrevState);
     const editing = getIsEditingMembers(state);
+
+    const currentUserIsChannelAdmin = currentUser && currentUser.scheme_admin;
 
     return {
         channel,
+        currentUserIsChannelAdmin,
         membersCount,
         searchTerms,
         teamUrl,

@@ -6,7 +6,6 @@ import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
 import withGetCloudSubscription from 'components/common/hocs/cloud/with_get_cloud_subscription';
 
-import {getLicenseConfig} from 'mattermost-redux/actions/general';
 import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
 import {Action, GenericAction} from 'mattermost-redux/types/actions';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
@@ -17,7 +16,6 @@ import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
 import {LicenseSkus} from 'mattermost-redux/types/general';
 
 import {openModal} from 'actions/views/modals';
-import {requestTrialLicense} from 'actions/admin_actions';
 
 import {ModalData} from 'types/actions';
 import {GlobalState} from 'types/store';
@@ -42,8 +40,6 @@ function mapStateToProps(state: GlobalState) {
 }
 
 type Actions = {
-    requestTrialLicense: () => Promise<{error?: string; data?: null}>;
-    getLicenseConfig: () => void;
     getPrevTrialLicense: () => void;
     getCloudSubscription: () => void;
     openModal: <P>(modalData: ModalData<P>) => void;
@@ -52,8 +48,6 @@ type Actions = {
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<Action>, Actions>({
-            requestTrialLicense,
-            getLicenseConfig,
             getPrevTrialLicense,
             getCloudSubscription,
             openModal,

@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @integrations
 
 /**
@@ -146,7 +147,7 @@ describe('Slash commands', () => {
         cy.visit(`/${team1.name}/channels/town-square`);
 
         // # Run slash command
-        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`/${trigger} {enter}`);
+        cy.uiGetPostTextBox().clear().type(`/${trigger} {enter}`);
         cy.wait(TIMEOUTS.TWO_SEC);
 
         // * Verify error
@@ -249,14 +250,14 @@ describe('Slash commands', () => {
         cy.visit(`/${team1.name}/channels/town-square`);
 
         // # Type slash
-        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type('/');
+        cy.uiGetPostTextBox().clear().type('/');
         cy.wait(TIMEOUTS.TWO_SEC);
 
         // * Verify that command is in the list
-        cy.contains(`${trigger}`);
+        cy.contains(trigger);
 
         // # Type full command
-        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').type(`${trigger}`);
+        cy.uiGetPostTextBox().type(trigger);
         cy.wait(TIMEOUTS.TWO_SEC);
 
         // * Verify that autocomplete info is correct
@@ -276,11 +277,11 @@ describe('Slash commands', () => {
         cy.visit(`/${team1.name}/channels/town-square`);
 
         // # Run slash command
-        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type('/');
+        cy.uiGetPostTextBox().clear().type('/');
         cy.wait(TIMEOUTS.TWO_SEC);
 
         // * Verify that command is not in the list
-        cy.contains(`${trigger}`).should('not.exist');
+        cy.contains(trigger).should('not.exist');
 
         // # Cleanup command
         deleteCommand(team1, trigger);

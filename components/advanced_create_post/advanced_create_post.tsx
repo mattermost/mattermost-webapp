@@ -39,7 +39,7 @@ import ResetStatusModal from 'components/reset_status_modal';
 import TextboxClass from 'components/textbox/textbox';
 
 import {Channel, ChannelMemberCountsByGroup} from '@mattermost/types/channels';
-import {PostDraft} from 'types/store/rhs';
+import {PostDraft} from 'types/store/draft';
 import {Post, PostMetadata} from '@mattermost/types/posts';
 import {PreferenceType} from '@mattermost/types/preferences';
 import EmojiMap from 'utils/emoji_map';
@@ -52,7 +52,10 @@ import {FileInfo} from '@mattermost/types/files';
 import {Emoji} from '@mattermost/types/emojis';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
 import {ApplyMarkdownOptions, applyMarkdown} from 'utils/markdown/apply_markdown';
+
 import AdvanceTextEditor from '../advanced_text_editor/advanced_text_editor';
+
+import FileLimitStickyBanner from '../file_limit_sticky_banner';
 const KeyCodes = Constants.KeyCodes;
 
 const CreatePostDraftTimeoutMilliseconds = 500;
@@ -135,6 +138,9 @@ type Props = {
     //Whether to display a confirmation modal to reset status.
     userIsOutOfOffice: boolean;
     rhsExpanded: boolean;
+
+    //If RHS open
+    rhsOpen: boolean;
 
     //To check if the timezones are enable on the server.
     isTimezoneEnabled: boolean;
@@ -555,6 +561,8 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             useCustomGroupMentions,
         } = this.props;
 
+        this.setShowPreview(false);
+
         const notificationsToChannel = this.props.enableConfirmNotificationsToChannel && this.props.useChannelMentions;
         let memberNotifyCount = 0;
         let channelTimezoneCount = 0;
@@ -964,6 +972,11 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             return;
         }
 
+        // Hacky fix to avoid cursor jumping textbox sometimes
+        if (this.props.rhsOpen && document.activeElement?.tagName === 'BODY') {
+            return;
+        }
+
         // Bit of a hack to not steal focus from the channel switch modal if it's open
         // This is a special case as the channel switch modal does not enforce focus like
         // most modals do
@@ -1076,7 +1089,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             e.stopPropagation();
             e.preventDefault();
             this.toggleEmojiPicker();
-        } else if (((isMac() && ctrlShiftCombo) || (!isMac() && ctrlAltCombo)) && Utils.isKeyPressed(e, KeyCodes.P)) {
+        } else if (((isMac() && ctrlShiftCombo) || (!isMac() && ctrlAltCombo)) && Utils.isKeyPressed(e, KeyCodes.P) && this.state.message.length) {
             this.setShowPreview(!this.props.shouldShowPreview);
         } else if (ctrlAltCombo && Utils.isKeyPressed(e, KeyCodes.T)) {
             this.toggleAdvanceTextEditor();
@@ -1255,6 +1268,11 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                 className={centerClass}
                 onSubmit={this.handleSubmit}
             >
+                {
+                    this.props.canPost &&
+                    (this.props.draft.fileInfos.length > 0 || this.props.draft.uploadsInProgress.length > 0) &&
+                    <FileLimitStickyBanner/>
+                }
                 <AdvanceTextEditor
                     location={Locations.CENTER}
                     currentUserId={this.props.currentUserId}

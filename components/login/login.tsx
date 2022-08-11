@@ -1,12 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable max-lines */
 import React, {useState, useEffect, useRef, useCallback} from 'react';
 import {useIntl} from 'react-intl';
 import {Link, useLocation, useHistory} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 import classNames from 'classnames';
+import throttle from 'lodash/throttle';
 
 import {redirectUserToDefaultTeam} from 'actions/global_actions';
 import {addUserToTeamFromInvite} from 'actions/team_actions';
@@ -23,6 +23,7 @@ import {Team} from '@mattermost/types/teams';
 
 import AlertBanner, {ModeType, AlertBannerProps} from 'components/alert_banner';
 import ExternalLoginButton, {ExternalLoginButtonType} from 'components/external_login_button/external_login_button';
+import AlternateLinkLayout from 'components/header_footer_route/content_layouts/alternate_link';
 import ColumnLayout from 'components/header_footer_route/content_layouts/column';
 import {CustomizeHeaderType} from 'components/header_footer_route/header_footer_route';
 import LoadingScreen from 'components/loading_screen';
@@ -49,6 +50,8 @@ import {SubmitOptions} from 'components/claim/components/email_to_ldap';
 import LoginMfa from './login_mfa';
 
 import './login.scss';
+
+const MOBILE_SCREEN_WIDTH = 1200;
 
 type LoginProps = {
     onCustomizeHeader?: CustomizeHeaderType;
@@ -106,6 +109,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
     const [brandImageError, setBrandImageError] = useState(false);
     const [alertBanner, setAlertBanner] = useState<AlertBannerProps | null>(null);
     const [hasError, setHasError] = useState(false);
+    const [isMobileView, setIsMobileView] = useState(false);
 
     const enableCustomBrand = EnableCustomBrand === 'true';
     const enableLdap = EnableLdap === 'true';
@@ -308,32 +312,43 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
         return setAlertBanner(mode ? {mode: mode as ModeType, title, onDismiss} : null);
     }, [extraParam, sessionExpired, siteName, onDismissSessionExpired]);
 
-    const onWindowFocus = () => {
+    const getAlternateLink = useCallback(() => (
+        showSignup ? (
+            <AlternateLinkLayout
+                className='login-body-alternate-link'
+                alternateMessage={formatMessage({
+                    id: 'login.noAccount',
+                    defaultMessage: 'Don\'t have an account?',
+                })}
+                alternateLinkPath='/signup_user_complete'
+                alternateLinkLabel={formatMessage({
+                    id: 'login.create',
+                    defaultMessage: 'Create an account',
+                })}
+            />
+        ) : undefined
+    ), [showSignup]);
+
+    const onWindowResize = throttle(() => {
+        setIsMobileView(window.innerWidth < MOBILE_SCREEN_WIDTH);
+    }, 100);
+
+    const onWindowFocus = useCallback(() => {
         if (extraParam === Constants.SIGNIN_VERIFIED && emailParam) {
             passwordInput.current?.focus();
         } else {
             loginIdInput.current?.focus();
         }
-    };
+    }, [emailParam, extraParam]);
 
     useEffect(() => {
         if (onCustomizeHeader) {
             onCustomizeHeader({
                 onBackButtonClick: showMfa ? handleHeaderBackButtonOnClick : undefined,
-                ...showSignup ? {
-                    alternateMessage: formatMessage({
-                        id: 'login.noAccount',
-                        defaultMessage: 'Don\'t have an account?',
-                    }),
-                    alternateLinkPath: '/signup_user_complete',
-                    alternateLinkLabel: formatMessage({
-                        id: 'login.create',
-                        defaultMessage: 'Create an account',
-                    }),
-                } : {},
+                alternateLink: isMobileView ? getAlternateLink() : undefined,
             });
         }
-    }, [onCustomizeHeader, search, showMfa, showSignup]);
+    }, [onCustomizeHeader, search, showMfa, isMobileView, getAlternateLink]);
 
     useEffect(() => {
         if (currentUser) {
@@ -341,8 +356,10 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
             return;
         }
 
+        onWindowResize();
         onWindowFocus();
 
+        window.addEventListener('resize', onWindowResize);
         window.addEventListener('focus', onWindowFocus);
 
         // Determine if the user was unexpectedly logged out.
@@ -375,6 +392,9 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
                 closeSessionExpiredNotification.current();
                 closeSessionExpiredNotification.current = undefined;
             }
+
+            window.removeEventListener('resize', onWindowResize);
+            window.removeEventListener('focus', onWindowFocus);
         };
     }, []);
 
@@ -782,6 +802,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
 
     return (
         <div className='login-body'>
+            {!isMobileView && getAlternateLink()}
             <div className='login-body-content'>
                 {getContent()}
             </div>

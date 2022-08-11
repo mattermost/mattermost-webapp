@@ -109,11 +109,23 @@ export function validateBusinessEmail(email = '') {
     trackEvent('api', 'api_validate_business_email');
     return async () => {
         try {
-            await Client4.validateBusinessEmail(email);
+            const res = await Client4.validateBusinessEmail(email);
+            return res.data.is_valid;
         } catch (error) {
             return false;
         }
-        return true;
+    };
+}
+
+export function validateWorkspaceBusinessEmail() {
+    trackEvent('api', 'api_validate_workspace_business_email');
+    return async () => {
+        try {
+            const res = await Client4.validateWorkspaceBusinessEmail();
+            return res.data.is_valid;
+        } catch (error) {
+            return false;
+        }
     };
 }
 

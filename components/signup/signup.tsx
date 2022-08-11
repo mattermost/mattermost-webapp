@@ -1,12 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable max-lines */
 import React, {useState, useEffect, useRef, useCallback} from 'react';
 import {useIntl} from 'react-intl';
 import {useLocation, useHistory} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 import classNames from 'classnames';
+import throttle from 'lodash/throttle';
 
 import {redirectUserToDefaultTeam} from 'actions/global_actions';
 import {removeGlobalItem, setGlobalItem} from 'actions/storage';
@@ -19,6 +19,7 @@ import LaptopAlertSVG from 'components/common/svg_images_components/laptop_alert
 import ManWithLaptopSVG from 'components/common/svg_images_components/man_with_laptop_svg';
 import ExternalLoginButton, {ExternalLoginButtonType} from 'components/external_login_button/external_login_button';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+import AlternateLinkLayout from 'components/header_footer_route/content_layouts/alternate_link';
 import ColumnLayout from 'components/header_footer_route/content_layouts/column';
 import {CustomizeHeaderType} from 'components/header_footer_route/header_footer_route';
 import LoadingScreen from 'components/loading_screen';
@@ -26,6 +27,7 @@ import Markdown from 'components/markdown';
 import LockIcon from 'components/widgets/icons/lock_icon';
 import LoginGoogleIcon from 'components/widgets/icons/login_google_icon';
 import LoginGitlabIcon from 'components/widgets/icons/login_gitlab_icon';
+import LoginOpenIDIcon from 'components/widgets/icons/login_openid_icon';
 import LoginOffice365Icon from 'components/widgets/icons/login_office_365_icon';
 import Input, {CustomMessageInputType, SIZE} from 'components/widgets/inputs/input/input';
 import PasswordInput from 'components/widgets/inputs/password_input/password_input';
@@ -48,6 +50,8 @@ import {Constants, ItemStatus, ValidationErrors} from 'utils/constants';
 import {isValidUsername, isValidPassword, getPasswordConfig} from 'utils/utils';
 
 import './signup.scss';
+
+const MOBILE_SCREEN_WIDTH = 1200;
 
 type SignupProps = {
     onCustomizeHeader?: CustomizeHeaderType;
@@ -75,6 +79,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
         EnableSignUpWithGitLab,
         EnableSignUpWithGoogle,
         EnableSignUpWithOffice365,
+        EnableSignUpWithOpenId,
         EnableLdap,
         EnableSaml,
         SamlLoginButtonText,
@@ -83,6 +88,8 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
         CustomDescriptionText,
         GitLabButtonText,
         GitLabButtonColor,
+        OpenIdButtonText,
+        OpenIdButtonColor,
         EnableCustomBrand,
         CustomBrandText,
         TermsOfServiceLink,
@@ -104,6 +111,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
     const enableSignUpWithGitLab = EnableSignUpWithGitLab === 'true';
     const enableSignUpWithGoogle = EnableSignUpWithGoogle === 'true';
     const enableSignUpWithOffice365 = EnableSignUpWithOffice365 === 'true';
+    const enableSignUpWithOpenId = EnableSignUpWithOpenId === 'true';
     const enableLDAP = EnableLdap === 'true';
     const enableSAML = EnableSaml === 'true';
     const enableCustomBrand = EnableCustomBrand === 'true';
@@ -122,8 +130,9 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
     const [serverError, setServerError] = useState('');
     const [teamName, setTeamName] = useState(parsedTeamName ?? '');
     const [alertBanner, setAlertBanner] = useState<AlertBannerProps | null>(null);
+    const [isMobileView, setIsMobileView] = useState(false);
 
-    const enableExternalSignup = enableSignUpWithGitLab || enableSignUpWithOffice365 || enableSignUpWithGoogle || enableLDAP || enableSAML;
+    const enableExternalSignup = enableSignUpWithGitLab || enableSignUpWithOffice365 || enableSignUpWithGoogle || enableSignUpWithOpenId || enableLDAP || enableSAML;
     const hasError = Boolean(emailError || nameError || passwordError || serverError || alertBanner);
     const canSubmit = Boolean(email && name && password) && !hasError && !loading;
     const {error: passwordInfo} = isValidPassword('', getPasswordConfig(config), intl);
@@ -160,6 +169,16 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
                 url: `${Client4.getOAuthRoute()}/office365/signup${search}`,
                 icon: <LoginOffice365Icon/>,
                 label: formatMessage({id: 'login.office365', defaultMessage: 'Office 365'}),
+            });
+        }
+
+        if (isLicensed && enableSignUpWithOpenId) {
+            externalLoginOptions.push({
+                id: 'openid',
+                url: `${Client4.getOAuthRoute()}/openid/signup${search}`,
+                icon: <LoginOpenIDIcon/>,
+                label: OpenIdButtonText || formatMessage({id: 'login.openid', defaultMessage: 'Open ID'}),
+                style: {color: OpenIdButtonColor, borderColor: OpenIdButtonColor},
             });
         }
 
@@ -237,9 +256,32 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
         setLoading(false);
     };
 
+    const getAlternateLink = useCallback(() => (
+        <AlternateLinkLayout
+            className='signup-body-alternate-link'
+            alternateMessage={formatMessage({
+                id: 'signup_user_completed.haveAccount',
+                defaultMessage: 'Already have an account?',
+            })}
+            alternateLinkPath='/login'
+            alternateLinkLabel={formatMessage({
+                id: 'signup_user_completed.signIn',
+                defaultMessage: 'Log in',
+            })}
+        />
+    ), []);
+
+    const onWindowResize = throttle(() => {
+        setIsMobileView(window.innerWidth < MOBILE_SCREEN_WIDTH);
+    }, 100);
+
     useEffect(() => {
         dispatch(removeGlobalItem('team'));
         trackEvent('signup', 'signup_user_01_welcome');
+
+        onWindowResize();
+
+        window.addEventListener('resize', onWindowResize);
 
         if (search) {
             if ((inviteId || token) && loggedIn) {
@@ -258,6 +300,10 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
                 }
             }
         }
+
+        return () => {
+            window.removeEventListener('resize', onWindowResize);
+        };
     }, []);
 
     useEffect(() => {
@@ -270,18 +316,10 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
         if (onCustomizeHeader) {
             onCustomizeHeader({
                 onBackButtonClick: handleHeaderBackButtonOnClick,
-                alternateMessage: formatMessage({
-                    id: 'signup_user_completed.haveAccount',
-                    defaultMessage: 'Already have an account?',
-                }),
-                alternateLinkPath: '/login',
-                alternateLinkLabel: formatMessage({
-                    id: 'signup_user_completed.signIn',
-                    defaultMessage: 'Log in',
-                }),
+                alternateLink: isMobileView ? getAlternateLink() : undefined,
             });
         }
-    }, [onCustomizeHeader, handleHeaderBackButtonOnClick, search]);
+    }, [onCustomizeHeader, handleHeaderBackButtonOnClick, isMobileView, getAlternateLink, search]);
 
     if (loading) {
         return (<LoadingScreen/>);
@@ -478,7 +516,6 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
                 email: emailInput.current?.value.trim(),
                 username: nameInput.current?.value.trim().toLowerCase(),
                 password: passwordInput.current?.value,
-                allow_marketing: true,
             } as UserProfile;
 
             const redirectTo = (new URLSearchParams(search)).get('redirect_to') as string;
@@ -695,6 +732,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
 
     return (
         <div className='signup-body'>
+            {!isMobileView && getAlternateLink()}
             <div className='signup-body-content'>
                 {getContent()}
             </div>

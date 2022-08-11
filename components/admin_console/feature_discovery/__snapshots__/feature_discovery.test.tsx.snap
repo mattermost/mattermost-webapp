@@ -24,22 +24,13 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot 1`]
         id="translation.test.copy"
       />
     </div>
-    <button
-      className="btn btn-primary"
-      data-testid="featureDiscovery_primaryCallToAction"
-      onClick={[Function]}
-      type="button"
-    >
-      <LoadingWrapper
-        loading={false}
-        text="Getting trial"
-      >
-        <MemoizedFormattedMessage
-          defaultMessage="Start trial"
-          id="admin.ldap_feature_discovery.call_to_action.primary"
-        />
-      </LoadingWrapper>
-    </button>
+    <StartTrialBtn
+      btnClass="btn btn-primary"
+      message="Start trial"
+      renderAsButton={true}
+      telemetryId="start_cloud_trial_feature_discovery"
+      trackingPage="test"
+    />
     <a
       className="btn btn-secondary"
       data-testid="featureDiscovery_secondaryCallToAction"
@@ -57,7 +48,7 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot 1`]
     >
       <injectIntl(FormattedMarkdownMessage)
         defaultMessage="By clicking **Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails."
-        id="admin.license.trial-request.accept-terms"
+        id="admin.feature_discovery.trial-request.accept-terms"
       />
     </p>
   </div>
@@ -95,7 +86,7 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot whe
     </div>
     <CloudStartTrialButton
       extraClass="btn btn-primary"
-      message="Start trial"
+      message="Try free for 30 days"
       telemetryId="start_cloud_trial_feature_discovery"
     />
     <a
@@ -113,9 +104,17 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot whe
     <p
       className="trial-legal-terms"
     >
-      <injectIntl(FormattedMarkdownMessage)
-        defaultMessage="By clicking **Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails."
-        id="admin.license.trial-request.accept-terms"
+      <MemoizedFormattedMessage
+        defaultMessage="By selecting <highlight>Try free for {trialLength} days</highlight>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails."
+        id="admin.feature_discovery.trial-request.accept-terms.cloudFree"
+        values={
+          Object {
+            "highlight": [Function],
+            "linkEvaluation": [Function],
+            "linkPrivacy": [Function],
+            "trialLength": 30,
+          }
+        }
       />
     </p>
   </div>

@@ -1,8 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect} from 'react';
-import {FormattedMessage} from 'react-intl';
+import React, {useEffect, useState} from 'react';
+import {FormattedMessage, useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {savePreferences} from 'mattermost-redux/actions/preferences';
@@ -14,10 +14,9 @@ import AlertBanner from 'components/alert_banner';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
-import {localizeMessage} from 'utils/utils';
 import {format} from 'utils/markdown';
 
-import {Preferences, Unique} from 'utils/constants';
+import {LicenseLinks, Preferences, Unique} from 'utils/constants';
 
 import {GlobalState} from 'types/store';
 import store from 'stores/redux_store.jsx';
@@ -41,14 +40,14 @@ interface TrialBannerProps {
     restarting: boolean;
 }
 
-export const EmbargoedEntityTrialError: React.FC = () => {
+export const EmbargoedEntityTrialError = () => {
     return (
         <FormattedMessage
             id='admin.license.trial-request.embargoed'
             defaultMessage='We were unable to process the request due to limitations for embargoed countries. <link>Learn more in our documentation</link>, or reach out to legal@mattermost.com for questions around export limitations.'
             values={{
                 link: (text: string) => (
-                    <a href='https://mattermost.com/pl/limitations-for-embargoed-countries'>
+                    <a href={LicenseLinks.EMBARGOED_COUNTRIES}>
                         {text}
                     </a>
                 ),
@@ -57,7 +56,15 @@ export const EmbargoedEntityTrialError: React.FC = () => {
     );
 };
 
-const TrialBanner: React.FC<TrialBannerProps> = ({
+enum TrialLoadStatus {
+    NotStarted = 'NOT_STARTED',
+    Started = 'STARTED',
+    Success = 'SUCCESS',
+    Failed = 'FAILED',
+    Embargoed = 'EMBARGOED',
+}
+
+const TrialBanner = ({
     isDisabled,
     gettingTrialError,
     gettingTrialResponseCode,
@@ -77,6 +84,7 @@ const TrialBanner: React.FC<TrialBannerProps> = ({
     let content;
     let gettingTrialErrorMsg;
 
+    const {formatMessage} = useIntl();
     const state = store.getState();
     const getCategory = makeGetCategory();
     const preferences = getCategory(state, Preferences.UNIQUE);
@@ -88,7 +96,24 @@ const TrialBanner: React.FC<TrialBannerProps> = ({
 
     const userId = useSelector((state: GlobalState) => getCurrentUserId(state));
 
+    const [status, setLoadStatus] = useState(TrialLoadStatus.NotStarted);
+
     const dispatch = useDispatch();
+
+    const btnText = (status: TrialLoadStatus): string => {
+        switch (status) {
+        case TrialLoadStatus.Started:
+            return formatMessage({id: 'start_trial.modal.gettingTrial', defaultMessage: 'Getting Trial...'});
+        case TrialLoadStatus.Success:
+            return formatMessage({id: 'start_trial.modal.loaded', defaultMessage: 'Loaded!'});
+        case TrialLoadStatus.Failed:
+            return formatMessage({id: 'start_trial.modal.failed', defaultMessage: 'Failed'});
+        case TrialLoadStatus.Embargoed:
+            return formatMessage({id: 'admin.license.trial-request.embargoed'});
+        default:
+            return formatMessage({id: 'admin.license.trial-request.startTrial', defaultMessage: 'Start trial'});
+        }
+    };
 
     useEffect(() => {
         async function savePrefsAndRequestTrial() {
@@ -101,6 +126,16 @@ const TrialBanner: React.FC<TrialBannerProps> = ({
             }
         }
     }, [upgradingPercentage, clickedUpgradeAndTrialBtn]);
+
+    useEffect(() => {
+        if (gettingTrial && !gettingTrialError && gettingTrialResponseCode !== 200) {
+            setLoadStatus(TrialLoadStatus.Started);
+        } else if (gettingTrialError) {
+            setLoadStatus(TrialLoadStatus.Failed);
+        } else if (gettingTrialResponseCode === 451) {
+            setLoadStatus(TrialLoadStatus.Embargoed);
+        }
+    }, [gettingTrial, gettingTrialError, gettingTrialResponseCode]);
 
     useEffect(() => {
         // validating the percentage in 0 we make sure to only remove the prefs value on component load after restart
@@ -152,9 +187,21 @@ const TrialBanner: React.FC<TrialBannerProps> = ({
                     </div>
                 ) : (
                     <p className='trial-error'>
-                        <FormattedMarkdownMessage
-                            id='admin.license.trial-request.error'
-                            defaultMessage='Trial license could not be retrieved. Visit [https://mattermost.com/trial/](https://mattermost.com/trial/) to request a license.'
+                        <FormattedMessage
+                            id='admin.trial_banner.trial-request.error'
+                            defaultMessage='Trial license could not be retrieved. Visit <link>{trialInfoLink}</link> to request a license.'
+                            values={{
+                                link: (msg: React.ReactNode) => (
+                                    <a
+                                        href={LicenseLinks.TRIAL_INFO_LINK}
+                                        target='_blank'
+                                        rel='noreferrer'
+                                    >
+                                        {msg}
+                                    </a>
+                                ),
+                                trialInfoLink: LicenseLinks.TRIAL_INFO_LINK,
+                            }}
                         />
                     </p>
                 );
@@ -164,17 +211,9 @@ const TrialBanner: React.FC<TrialBannerProps> = ({
                 type='button'
                 className='btn btn-primary'
                 onClick={requestLicense}
-                disabled={isDisabled}
+                disabled={isDisabled || gettingTrialError !== null || gettingTrialResponseCode === 451}
             >
-                <LoadingWrapper
-                    loading={gettingTrial}
-                    text={localizeMessage('admin.license.trial-request.loading', 'Getting trial')}
-                >
-                    <FormattedMessage
-                        id='admin.license.trial-request.submit'
-                        defaultMessage='Start trial'
-                    />
-                </LoadingWrapper>
+                {btnText(status)}
             </button>
         );
         content = (
@@ -183,9 +222,30 @@ const TrialBanner: React.FC<TrialBannerProps> = ({
                     id='admin.license.trial-request.title'
                     defaultMessage='Experience Mattermost Enterprise Edition for free for the next 30 days. No obligation to buy or credit card required. '
                 />
-                <FormattedMarkdownMessage
+                <FormattedMessage
                     id='admin.license.trial-request.accept-terms'
-                    defaultMessage='By clicking **Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails.'
+                    defaultMessage='By clicking <strong>Start trial</strong>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails.'
+                    values={{
+                        strong: (msg: React.ReactNode) => <strong>{msg}</strong>,
+                        linkEvaluation: (msg: React.ReactNode) => (
+                            <a
+                                href='https://mattermost.com/software-evaluation-agreement'
+                                target='_blank'
+                                rel='noreferrer'
+                            >
+                                {msg}
+                            </a>
+                        ),
+                        linkPrivacy: (msg: React.ReactNode) => (
+                            <a
+                                href='https://mattermost.com/privacy-policy/'
+                                target='_blank'
+                                rel='noreferrer'
+                            >
+                                {msg}
+                            </a>
+                        ),
+                    }}
                 />
             </>
         );
@@ -232,9 +292,30 @@ const TrialBanner: React.FC<TrialBannerProps> = ({
         upgradeTermsMessage = (
             <>
                 <p className='upgrade-legal-terms'>
-                    <FormattedMarkdownMessage
+                    <FormattedMessage
                         id='admin.license.upgrade-and-trial-request.accept-terms-initial-part'
-                        defaultMessage='By selecting **Upgrade Server And Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails. '
+                        defaultMessage='By selecting <strong>Upgrade Server And Start trial</strong>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails. '
+                        values={{
+                            strong: (msg: React.ReactNode) => <strong>{msg}</strong>,
+                            linkEvaluation: (msg: React.ReactNode) => (
+                                <a
+                                    href='https://mattermost.com/software-evaluation-agreement/'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                            linkPrivacy: (msg: React.ReactNode) => (
+                                <a
+                                    href='https://mattermost.com/privacy-policy/'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        }}
                     />
                     <FormattedMessage
                         id='admin.license.upgrade-and-trial-request.accept-terms-final-part'

@@ -13,14 +13,12 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import './header.scss';
 
 export type HeaderProps = {
-    alternateMessage?: string;
-    alternateLinkPath?: string;
-    alternateLinkLabel?: string;
+    alternateLink?: React.ReactElement;
     backButtonURL?: string;
     onBackButtonClick?: React.EventHandler<React.MouseEvent>;
 }
 
-const Header = ({alternateMessage, alternateLinkPath, alternateLinkLabel, backButtonURL, onBackButtonClick}: HeaderProps) => {
+const Header = ({alternateLink, backButtonURL, onBackButtonClick}: HeaderProps) => {
     const {EnableCustomBrand, SiteName} = useSelector(getConfig);
 
     return (
@@ -32,21 +30,7 @@ const Header = ({alternateMessage, alternateLinkPath, alternateLinkLabel, backBu
                 >
                     {EnableCustomBrand === 'true' || SiteName !== 'Mattermost' ? SiteName : <Logo/>}
                 </Link>
-                <div className='header-alternate-container'>
-                    {alternateMessage && (
-                        <span className='header-alternate-message'>
-                            {alternateMessage}
-                        </span>
-                    )}
-                    {alternateLinkPath && alternateLinkLabel && (
-                        <Link
-                            className='header-alternate-link'
-                            to={{pathname: alternateLinkPath, search: location.search}}
-                        >
-                            {alternateLinkLabel}
-                        </Link>
-                    )}
-                </div>
+                {alternateLink}
             </div>
             {onBackButtonClick && (
                 <BackButton

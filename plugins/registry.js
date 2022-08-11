@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint max-lines: 0 */
-
 import React from 'react';
 
 import reducerRegistry from 'mattermost-redux/store/reducer_registry';

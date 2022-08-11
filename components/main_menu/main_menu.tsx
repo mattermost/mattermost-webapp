@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable max-lines */
 import React from 'react';
 import {injectIntl, IntlShape} from 'react-intl';
 
@@ -61,6 +60,7 @@ export type Props = {
     teamUrl: string;
     isFirstAdmin: boolean;
     isCloud: boolean;
+    isStarterFree: boolean;
     isFreeTrial: boolean;
     usageDeltaTeams: number;
     location: {
@@ -153,7 +153,7 @@ export class MainMenu extends React.PureComponent<Props> {
 
         const someIntegrationEnabled = this.props.enableIncomingWebhooks || this.props.enableOutgoingWebhooks || this.props.enableCommands || this.props.enableOAuthServiceProvider || this.props.canManageSystemBots;
         const showIntegrations = !this.props.mobile && someIntegrationEnabled && this.props.canManageIntegrations;
-        const teamsLimitReached = this.props.isCloud && !this.props.isFreeTrial && this.props.usageDeltaTeams >= 0;
+        const teamsLimitReached = this.props.isStarterFree && !this.props.isFreeTrial && this.props.usageDeltaTeams >= 0;
         const createTeamRestricted = this.props.isCloud && (this.props.isFreeTrial || teamsLimitReached);
 
         const {formatMessage} = this.props.intl;

@@ -93,7 +93,7 @@ describe('Verify Quick Navigation support across different regions in the app', 
                 should('have.attr', 'aria-label', 'message input complimentary region').
                 and('have.attr', 'data-a11y-sort-order', '2').
                 and('have.class', 'a11y__region');
-            cy.get('#reply_textbox').
+            cy.uiGetReplyTextBox().
                 should('have.class', 'a11y--active a11y--focused');
         });
     });
