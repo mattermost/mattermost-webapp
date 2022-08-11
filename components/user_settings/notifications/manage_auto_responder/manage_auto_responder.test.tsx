@@ -1,13 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {ComponentProps} from 'react';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
-import ManageAutoResponder from 'components/user_settings/notifications/manage_auto_responder.jsx';
+
+import ManageAutoResponder from './manage_auto_responder';
 
 describe('components/user_settings/notifications/ManageAutoResponder', () => {
-    const requiredProps = {
+    const requiredProps: ComponentProps<typeof ManageAutoResponder> = {
         autoResponderActive: false,
         autoResponderMessage: 'Hello World!',
         updateSection: jest.fn(),
