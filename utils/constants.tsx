@@ -299,8 +299,7 @@ export const ActionTypes = keyMirror({
 
     FIRST_CHANNEL_NAME: null,
 
-    RECEIVED_BOARDS_INSIGHTS: null,
-    RECEIVED_PLAYBOOKS_INSIGHTS: null,
+    RECEIVED_PLUGIN_INSIGHT: null,
     SET_EDIT_CHANNEL_MEMBERS: null,
 });
 
