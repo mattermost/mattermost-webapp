@@ -85,7 +85,7 @@ const InsightsModal = (props: Props) => {
             return (
                 <NewMembersTable
                     filterType={props.filterType}
-                    timeFrame={timeFrame.value}
+                    timeFrame={timeFrame}
                     closeModal={doHide}
                     offset={offset}
                     setOffset={setOffset}

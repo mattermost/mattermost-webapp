@@ -105,10 +105,9 @@ const TopDMsAndNewMembers = (props: WidgetHocProps) => {
                 subtitle: '',
                 filterType: props.filterType,
                 timeFrame: props.timeFrame,
-                timeFrameLabel: props.timeFrameLabel,
             },
         }));
-    }, [props.widgetType, props.filterType, props.timeFrame, props.timeFrameLabel]);
+    }, [props.widgetType, props.filterType, props.timeFrame]);
 
     return (
         <div className='top-dms-container'>
