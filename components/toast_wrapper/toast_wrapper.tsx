@@ -62,8 +62,7 @@ type OwnProps = {
 
     scrollToNewMessage: () => void;
 
-    // @ts-expect-error TS(2552): Cannot find name '$TSFixMeFunction'. Did you mean ... Remove this comment to see the full error message
-    scrollToLatestMessages?: $TSFixMeFunction;
+    scrollToLatestMessages: () => void;
 
     // @ts-expect-error TS(2552): Cannot find name '$TSFixMeFunction'. Did you mean ... Remove this comment to see the full error message
     scrollToUnreadMessages?: $TSFixMeFunction;
