@@ -129,7 +129,7 @@ if (DEV) {
 }
 
 var config = {
-    entry: ['./root.jsx', 'root.html'],
+    entry: ['./root.tsx', 'root.html'],
     output: {
         publicPath,
         filename: '[name].[contenthash].js',
@@ -403,7 +403,7 @@ config.plugins.push(new webpack.DefinePlugin({
 
 // Test mode configuration
 if (targetIsTest) {
-    config.entry = ['./root.jsx'];
+    config.entry = ['./root.tsx'];
     config.target = 'node';
     config.externals = [nodeExternals()];
 }

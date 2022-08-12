@@ -22,7 +22,7 @@ export default function RootRedirect(props: Props) {
         if (props.currentUserId) {
             if (props.isElegibleForFirstAdmingOnboarding) {
                 props.actions.getFirstAdminSetupComplete().then((firstAdminCompletedSignup) => {
-                    // root.jsx ensures admin profiles are eventually loaded
+                    // root.tsx ensures admin profiles are eventually loaded
                     if (firstAdminCompletedSignup.data === false && props.isFirstAdmin) {
                         browserHistory.push('/preparing-workspace');
                     } else {
