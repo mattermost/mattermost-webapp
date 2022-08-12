@@ -36,7 +36,7 @@ export default function LHSNearingLimitsModal() {
             id: t('workspace_limits.modals.view_plans'),
             defaultMessage: 'View plans',
         },
-        onClick: () => openPricingModal({callerInfo: 'cloud_usage_modal_lhs_nearing_limit_modal'}),
+        onClick: () => openPricingModal({trackingLocation: 'cloud_usage_modal_lhs_nearing_limit_modal'}),
     };
     const secondaryAction = {
         message: {

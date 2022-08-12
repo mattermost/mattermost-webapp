@@ -102,7 +102,7 @@ const PlanUpgradeButton = (): JSX.Element | null => {
         >
             <UpgradeButton
                 id='UpgradeButton'
-                onClick={() => openPricingModal({callerInfo: 'global_header_plan_upgrade_button'})}
+                onClick={() => openPricingModal({trackingLocation: 'global_header_plan_upgrade_button'})}
             >
                 {btnText}
             </UpgradeButton>

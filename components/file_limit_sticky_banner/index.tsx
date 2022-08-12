@@ -130,7 +130,7 @@ function FileLimitStickyBanner() {
                                 onClick={
                                     (e) => {
                                         e.preventDefault();
-                                        openPricingModal({callerInfo: 'file_limit_sticky_banner'});
+                                        openPricingModal({trackingLocation: 'file_limit_sticky_banner'});
                                     }
                                 }
                             >{chunks}</a>);

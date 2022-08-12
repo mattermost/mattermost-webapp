@@ -113,7 +113,7 @@ const BillingSubscriptions = () => {
         }
 
         if (actionQueryParam === 'show_pricing_modal') {
-            openPricingModal({callerInfo: 'admin_console_billing_billing_subscriptions_action_query_param'});
+            openPricingModal({trackingLocation: 'admin_console_billing_billing_subscriptions_action_query_param'});
         }
     }, []);
 

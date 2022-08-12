@@ -243,7 +243,7 @@ const Limits = (props: Props): JSX.Element | null => {
                 {subscriptionProduct.sku === CloudProducts.STARTER && (
                     <>
                         <button
-                            onClick={() => openPricingModal({callerInfo: 'admin_console_billing_billing_subscriptions_limits'})}
+                            onClick={() => openPricingModal({trackingLocation: 'admin_console_billing_billing_subscriptions_limits'})}
                             className='btn btn-primary'
                         >
                             {intl.formatMessage({

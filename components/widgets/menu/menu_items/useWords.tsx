@@ -42,7 +42,7 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
         callToAction,
         a: (chunks: React.ReactNode | React.ReactNodeArray) => (
             <a
-                onClick={() => openPricingModal({callerInfo})}
+                onClick={() => openPricingModal({trackingLocation: callerInfo})}
             >
                 {chunks}
             </a>),

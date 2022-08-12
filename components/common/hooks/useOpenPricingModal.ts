@@ -11,7 +11,7 @@ import PricingModal from 'components/pricing_modal';
 import {isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
 
 export type TelemetryProps = {
-    callerInfo: string;
+    trackingLocation: string;
 }
 
 export default function useOpenPricingModal() {
@@ -25,13 +25,13 @@ export default function useOpenPricingModal() {
             category = 'self_hosted_pricing';
         }
         trackEvent(category, 'click_open_pricing_modal', {
-            callerInfo: telemetryProps?.callerInfo,
+            callerInfo: telemetryProps?.trackingLocation,
         });
         dispatch(openModal({
             modalId: ModalIdentifiers.PRICING_MODAL,
             dialogType: PricingModal,
             dialogProps: {
-                callerCTA: telemetryProps?.callerInfo,
+                callerCTA: telemetryProps?.trackingLocation,
             },
         }));
     };
