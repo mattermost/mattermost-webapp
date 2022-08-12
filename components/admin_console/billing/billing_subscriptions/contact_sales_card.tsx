@@ -159,7 +159,7 @@ const ContactSalesCard = (props: Props) => {
                 {(!isFreeTrial && subscriptionPlan !== CloudProducts.ENTERPRISE && subscriptionPlan !== CloudProducts.LEGACY) &&
                     <button
                         type='button'
-                        onClick={() => onUpgradeMattermostCloud('admin_console_billing_contact_sales_card_upgrade_now_button')}
+                        onClick={() => onUpgradeMattermostCloud('admin_console_subscription_card_upgrade_now_button')}
                         className='PrivateCloudCard__actionButton'
                     >
                         <FormattedMessage
