@@ -48,7 +48,7 @@ import HeaderIconWrapper from './components/header_icon_wrapper';
 const headerMarkdownOptions = {singleline: true, mentionHighlight: false, atMentions: true};
 const popoverMarkdownOptions = {singleline: false, mentionHighlight: false, atMentions: true};
 
-type Props = {
+export type Props = {
     teamId: string;
     currentUser: UserProfile;
     channel: Channel;
