@@ -10,9 +10,9 @@ import PurchaseModal from 'components/purchase_modal';
 
 interface OpenPurchaseModalOptions{
     onClick?: () => void;
-    callerInfo?: string;
+    trackingLocation?: string;
 }
-type TelemetryProps = Pick<OpenPurchaseModalOptions, 'callerInfo'>
+type TelemetryProps = Pick<OpenPurchaseModalOptions, 'trackingLocation'>
 
 export default function useOpenCloudPurchaseModal(options: OpenPurchaseModalOptions) {
     const dispatch = useDispatch();
@@ -21,13 +21,13 @@ export default function useOpenCloudPurchaseModal(options: OpenPurchaseModalOpti
             options.onClick();
         }
         trackEvent('cloud_admin', 'click_open_purchase_modal', {
-            callerInfo: telemetryProps.callerInfo,
+            callerInfo: telemetryProps.trackingLocation,
         });
         dispatch(openModal({
             modalId: ModalIdentifiers.CLOUD_PURCHASE,
             dialogType: PurchaseModal,
             dialogProps: {
-                callerCTA: telemetryProps.callerInfo,
+                callerCTA: telemetryProps.trackingLocation,
             },
         }));
     };

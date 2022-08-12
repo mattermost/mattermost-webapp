@@ -81,7 +81,7 @@ function Content(props: ContentProps) {
     const openPurchaseModal = (callerInfo: string) => {
         props.onHide();
         const telemetryInfo = props.callerCTA + ' > ' + callerInfo;
-        openCloudPurchaseModal({callerInfo: telemetryInfo});
+        openCloudPurchaseModal({trackingLocation: telemetryInfo});
     };
 
     const closePricingModal = () => {
