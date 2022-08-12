@@ -129,7 +129,7 @@ export const freeTrial = (onUpgradeMattermostCloud: (callerInfo: string) => void
         </div>
         <button
             type='button'
-            onClick={() => onUpgradeMattermostCloud('admin_console_billing_summary_free_trial_upgrade_now_button')}
+            onClick={() => onUpgradeMattermostCloud('billing_summary_free_trial_upgrade_button')}
             className='UpgradeMattermostCloud__upgradeButton'
         >
             <FormattedMessage
