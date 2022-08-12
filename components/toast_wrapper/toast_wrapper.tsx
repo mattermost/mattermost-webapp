@@ -114,9 +114,9 @@ class ToastWrapper extends React.PureComponent<Props, State> {
         if (mark <= 0) {
             return 0;
         }
-        let newMessages = postListIds.slice(0, mark).filter((id: $TSFixMe) => !isIdNotPost(id));
+        let newMessages = postListIds.slice(0, mark).filter((id: string) => !isIdNotPost(id));
         if (isCollapsedThreadsEnabled) { // in collapsed mode we only count root posts
-            newMessages = newMessages.filter((id: $TSFixMe) => rootPosts[id]);
+            newMessages = newMessages.filter((id: string) => rootPosts[id]);
         }
         return newMessages.length;
     }
