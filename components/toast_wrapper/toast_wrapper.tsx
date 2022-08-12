@@ -47,18 +47,12 @@ type OwnProps = {
     lastViewedAt: number;
     focusedPostId?: string;
     initScrollOffsetFromBottom: number;
-
     updateNewMessagesAtInChannel: (lastViewedAt?: number) => void;
-
     scrollToNewMessage: () => void;
-
     scrollToLatestMessages: () => void;
-
     scrollToUnreadMessages: () => void;
-
     updateLastViewedBottomAt: (lastViewedBottom?: number) => void;
     showSearchHintToast?: boolean;
-
     onSearchHintDismiss?: () => void;
     shouldStartFromBottomWhenUnread?: boolean;
     isNewMessageLineReached?: boolean;
@@ -69,7 +63,6 @@ type OwnProps = {
         };
     };
     actions: {
-
         updateToastStatus: (toastPresent: boolean) => void;
     };
 };
@@ -219,9 +212,7 @@ class ToastWrapper extends React.PureComponent<Props, State> {
         }
 
         const prevPostsCount = prevProps.postListIds.length;
-
         const presentPostsCount = postListIds.length;
-
         const postsAddedAtBottom = presentPostsCount !== prevPostsCount && postListIds[0] !== prevProps.postListIds[0];
         const notBottomWithLatestPosts = atBottom === false && atLatestPost && presentPostsCount > 0;
 
@@ -300,11 +291,10 @@ class ToastWrapper extends React.PureComponent<Props, State> {
             });
         }
     }
-
+    
     newMessagesToastText = (count: number, since: number) => {
         if (this.props.width > TOAST_TEXT_COLLAPSE_WIDTH && typeof since !== 'undefined') {
             return (
-
                 <FormattedMessage
                     id='postlist.toast.newMessagesSince'
                     defaultMessage='{count, number} new {count, plural, one {message} other {messages}} {isToday, select, true {} other {since}} {date}'
@@ -312,7 +302,6 @@ class ToastWrapper extends React.PureComponent<Props, State> {
                         count,
                         isToday: isToday(new Date(since)).toString(),
                         date: (
-
                             <Timestamp
                                 value={since}
                                 useTime={false}
@@ -324,7 +313,6 @@ class ToastWrapper extends React.PureComponent<Props, State> {
             );
         }
         return (
-
             <FormattedMessage
                 id='postlist.toast.newMessages'
                 defaultMessage={'{count, number} new {count, plural, one {message} other {messages}}'}
@@ -335,7 +323,6 @@ class ToastWrapper extends React.PureComponent<Props, State> {
 
     archiveToastText = () => {
         return (
-
             <FormattedMessage
                 id='postlist.toast.history'
                 defaultMessage='Viewing message history'
@@ -345,12 +332,10 @@ class ToastWrapper extends React.PureComponent<Props, State> {
 
     getSearchHintToastText = () => {
         return (
-
             <FormattedMessage
                 id='postlist.toast.searchHint'
                 defaultMessage='Tip: Try {searchShortcut} to search this channel'
                 values={{
-
                     searchShortcut: <SearchShortcut/>,
                 }}
             />
@@ -376,7 +361,10 @@ class ToastWrapper extends React.PureComponent<Props, State> {
             return;
         }
 
+        // @ts-expect-error TS(2722) FIXME: Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
         scrollToNewMessage();
+
+        // @ts-expect-error TS(2722) FIXME: Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
         updateLastViewedBottomAt();
         this.hideNewMessagesToast();
     }
@@ -392,11 +380,13 @@ class ToastWrapper extends React.PureComponent<Props, State> {
             this.hideArchiveToast();
         }
 
+        // @ts-expect-error TS(2722) FIXME: Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
         scrollToLatestMessages();
         this.hideUnreadToast();
     }
 
     scrollToUnreadMessages = () => {
+        // @ts-expect-error TS(2722) FIXME: Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
         this.props.scrollToUnreadMessages();
         this.hideUnreadWithBottomStartToast();
     }
@@ -416,14 +406,23 @@ class ToastWrapper extends React.PureComponent<Props, State> {
 
         if (showUnreadToast && unreadCount as number > 0) {
             return (
-
                 <Toast {...unreadToastProps}>
                     {this.newMessagesToastText(unreadCount as number, lastViewedAt)}
                 </Toast>
             );
         }
 
-        const unreadWithBottomStartToastProps = {
+        interface ToastProps {
+            show: boolean;
+            width: number;
+            onDismiss: () => void;
+            onClick: () => void;
+            onClickMessage: string;
+            showActions: boolean;
+            jumpDirection: 'up' | 'down';
+        }
+
+        const unreadWithBottomStartToastProps: ToastProps = {
             show: true,
             width,
             onDismiss: this.hideUnreadWithBottomStartToast,
@@ -435,7 +434,6 @@ class ToastWrapper extends React.PureComponent<Props, State> {
 
         if (showUnreadWithBottomStartToast && unreadCount as number > 0) {
             return (
-
                 <Toast {...unreadWithBottomStartToastProps}>
                     {this.newMessagesToastText(unreadCount as number, lastViewedAt)}
                 </Toast>
@@ -450,7 +448,6 @@ class ToastWrapper extends React.PureComponent<Props, State> {
             };
 
             return (
-
                 <Toast
                     {...unreadToastProps}
                     {...showNewMessagesToastOverrides}
@@ -472,7 +469,6 @@ class ToastWrapper extends React.PureComponent<Props, State> {
             };
 
             return (
-
                 <Toast {...archiveToastProps}>
                     {this.archiveToastText()}
                 </Toast>
@@ -481,7 +477,6 @@ class ToastWrapper extends React.PureComponent<Props, State> {
 
         if (showSearchHintToast) {
             return (
-
                 <HintToast
                     onDismiss={this.hideSearchHintToast}
                 >
@@ -497,7 +492,6 @@ class ToastWrapper extends React.PureComponent<Props, State> {
         const toastToRender = this.getToastToRender();
 
         return (
-
             <React.Fragment>
                 {toastToRender}
             </React.Fragment>
@@ -506,3 +500,4 @@ class ToastWrapper extends React.PureComponent<Props, State> {
 }
 
 export default injectIntl(ToastWrapper);
+
