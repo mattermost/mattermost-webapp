@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import {ShallowWrapper} from 'enzyme';
+
 import Preferences from 'mattermost-redux/constants/preferences';
 
 import {DATE_LINE} from 'mattermost-redux/utils/post_list';
@@ -10,10 +12,9 @@ import {DATE_LINE} from 'mattermost-redux/utils/post_list';
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {PostListRowListIds} from 'utils/constants';
-
 import {browserHistory} from 'utils/browser_history';
 
-import ToastWrapper from './toast_wrapper1';
+import ToastWrapper, {ToastWrapper as ToastWrapperClass} from './toast_wrapper1';
 
 describe('components/ToastWrapper', () => {
     const baseProps = {
@@ -327,7 +328,7 @@ describe('components/ToastWrapper', () => {
                 ],
             };
 
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            const wrapper: ShallowWrapper<any, any, ToastWrapperClass> = shallowWithIntl(<ToastWrapper {...props}/>);
             expect(wrapper.state('showUnreadToast')).toBe(true);
             wrapper.instance().scrollToLatestMessages();
             expect(wrapper.state('showUnreadToast')).toBe(false);
