@@ -80,7 +80,7 @@ type State = {
 
 type Props = OwnProps & typeof ToastWrapper.defaultProps;
 
-class ToastWrapper extends React.PureComponent<Props, State> {
+export class ToastWrapper extends React.PureComponent<Props, State> {
     mounted: boolean;
     static defaultProps = {
         focusedPostId: '',
