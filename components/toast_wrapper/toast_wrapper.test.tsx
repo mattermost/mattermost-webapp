@@ -328,7 +328,7 @@ describe('components/ToastWrapper', () => {
                 ],
             };
 
-            const wrapper: ShallowWrapper<any, any, ToastWrapperClass> = shallowWithIntl(<ToastWrapper {...props}/>);
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>) as ShallowWrapper<any, any, ToastWrapperClass>;
             expect(wrapper.state('showUnreadToast')).toBe(true);
             wrapper.instance().scrollToLatestMessages();
             expect(wrapper.state('showUnreadToast')).toBe(false);
@@ -350,7 +350,7 @@ describe('components/ToastWrapper', () => {
                 ],
             };
 
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>) as ShallowWrapper<any, any, ToastWrapperClass>;
             wrapper.setState({showUnreadToast: false});
             wrapper.setProps({lastViewedBottom: 1234, latestPostTimeStamp: 1235, atBottom: false});
             expect(wrapper.state('showNewMessagesToast')).toBe(true);
@@ -375,7 +375,7 @@ describe('components/ToastWrapper', () => {
                 ],
             };
 
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>) as ShallowWrapper<any, any, ToastWrapperClass>;
             expect(wrapper.state('showUnreadToast')).toBe(true);
 
             wrapper.instance().handleShortcut({key: 'ESC', keyCode: 27});
@@ -397,7 +397,7 @@ describe('components/ToastWrapper', () => {
                 ],
             };
 
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>) as ShallowWrapper<any, any, ToastWrapperClass>;
             wrapper.setState({atBottom: false, showUnreadToast: false});
             wrapper.setProps({atBottom: false, lastViewedBottom: 1234, latestPostTimeStamp: 1235});
             expect(wrapper.state('showNewMessagesToast')).toBe(true);
@@ -530,7 +530,7 @@ describe('components/ToastWrapper', () => {
                 atLatestPost: false,
                 atBottom: false,
             };
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>) as ShallowWrapper<any, any, ToastWrapperClass>;
             expect(wrapper.state('showMessageHistoryToast')).toBe(true);
 
             const instance = wrapper.instance();
@@ -546,7 +546,7 @@ describe('components/ToastWrapper', () => {
                 atLatestPost: false,
                 atBottom: false,
             };
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>) as ShallowWrapper<any, any, ToastWrapperClass>;
             expect(wrapper.state('showMessageHistoryToast')).toBe(true);
 
             const instance = wrapper.instance();
@@ -602,7 +602,7 @@ describe('components/ToastWrapper', () => {
                 onSearchHintDismiss: dismissHandler,
             };
 
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>) as ShallowWrapper<any, any, ToastWrapperClass>;
             const instance = wrapper.instance();
 
             instance.hideSearchHintToast();
