@@ -314,7 +314,7 @@ class ToastWrapper extends React.PureComponent<Props, State> {
         }
     }
 
-    newMessagesToastText = (count: $TSFixMe, since: $TSFixMe) => {
+    newMessagesToastText = (count: number, since: number) => {
         // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         if (this.props.width > TOAST_TEXT_COLLAPSE_WIDTH && typeof since !== 'undefined') {
             return (
