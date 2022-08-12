@@ -259,7 +259,7 @@ class ToastWrapper extends React.PureComponent<Props, State> {
         document.removeEventListener('keydown', this.handleShortcut);
     }
 
-    handleShortcut = (e: $TSFixMe) => {
+    handleShortcut = (e: KeyboardEvent) => {
         if (Utils.isKeyPressed(e, Constants.KeyCodes.ESCAPE)) {
             if (this.state.showUnreadToast) {
                 this.hideUnreadToast();
