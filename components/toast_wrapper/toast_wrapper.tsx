@@ -436,7 +436,6 @@ class ToastWrapper extends React.PureComponent<Props, State> {
         if (showUnreadWithBottomStartToast && unreadCount as number > 0) {
             return (
 
-                // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                 <Toast {...unreadWithBottomStartToastProps}>
                     {this.newMessagesToastText(unreadCount as number, lastViewedAt)}
                 </Toast>
