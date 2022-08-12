@@ -44,46 +44,7 @@ export type UsersRequestsStatuses = {
 };
 
 export type AdminRequestsStatuses = {
-    getLogs: RequestStatusType;
-    getAudits: RequestStatusType;
-    getConfig: RequestStatusType;
-    updateConfig: RequestStatusType;
-    reloadConfig: RequestStatusType;
-    testEmail: RequestStatusType;
-    testSiteURL: RequestStatusType;
-    invalidateCaches: RequestStatusType;
-    recycleDatabase: RequestStatusType;
     createCompliance: RequestStatusType;
-    getCompliance: RequestStatusType;
-    testS3Connection: RequestStatusType;
-    getLdapGroups: RequestStatusType;
-    linkLdapGroup: RequestStatusType;
-    unlinkLdapGroup: RequestStatusType;
-    deleteBrandImage: RequestStatusType;
-    disablePlugin: RequestStatusType;
-    enablePlugin: RequestStatusType;
-    getAnalytics: RequestStatusType;
-    getClusterStatus: RequestStatusType;
-    getEnvironmentConfig: RequestStatusType;
-    getPluginStatuses: RequestStatusType;
-    getPlugins: RequestStatusType;
-    getSamlCertificateStatus: RequestStatusType;
-    installPluginFromUrl: RequestStatusType;
-    purgeElasticsearchIndexes: RequestStatusType;
-    removeIdpSamlCertificate: RequestStatusType;
-    removeLicense: RequestStatusType;
-    removePlugin: RequestStatusType;
-    removePrivateSamlCertificate: RequestStatusType;
-    removePublicSamlCertificate: RequestStatusType;
-    syncLdap: RequestStatusType;
-    testElasticsearch: RequestStatusType;
-    testLdap: RequestStatusType;
-    uploadBrandImage: RequestStatusType;
-    uploadIdpSamlCertificate: RequestStatusType;
-    uploadLicense: RequestStatusType;
-    uploadPlugin: RequestStatusType;
-    uploadPrivateSamlCertificate: RequestStatusType;
-    uploadPublicSamlCertificate: RequestStatusType;
 };
 
 export type EmojisRequestsStatuses = {
