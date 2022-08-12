@@ -98,12 +98,14 @@ type State = {
 type Props = OwnProps & typeof ToastWrapper.defaultProps;
 
 class ToastWrapper extends React.PureComponent<Props, State> {
+    mounted: boolean;
     static defaultProps = {
         focusedPostId: '',
     };
 
     constructor(props: Props) {
         super(props);
+        this.mounted = true;
         this.state = {
             unreadCountInChannel: props.unreadCountInChannel,
         };
@@ -120,8 +122,6 @@ class ToastWrapper extends React.PureComponent<Props, State> {
         }
         return newMessages.length;
     }
-
-    mounted: $TSFixMe;
 
     static getDerivedStateFromProps(props: Props, prevState: State) {
         let {showUnreadToast, showNewMessagesToast, showMessageHistoryToast, showUnreadWithBottomStartToast} = prevState;
