@@ -14,7 +14,7 @@ import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import {PostListRowListIds} from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
 
-import ToastWrapper, {ToastWrapper as ToastWrapperClass} from './toast_wrapper1';
+import ToastWrapper, {ToastWrapper as ToastWrapperClass} from './toast_wrapper';
 
 describe('components/ToastWrapper', () => {
     const baseProps = {
