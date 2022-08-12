@@ -41,20 +41,20 @@ const TOAST_REL_RANGES = [
 ];
 
 type OwnProps = {
-    unreadCountInChannel?: number;
-    newRecentMessagesCount?: number;
+    unreadCountInChannel: number;
+    newRecentMessagesCount: number;
     channelMarkedAsUnread?: boolean;
     isCollapsedThreadsEnabled?: boolean;
     rootPosts?: $TSFixMe;
     atLatestPost?: boolean;
     postListIds?: $TSFixMe[];
-    latestPostTimeStamp?: number;
+    latestPostTimeStamp: number;
     atBottom?: boolean;
-    lastViewedBottom?: number;
+    lastViewedBottom: number;
     width?: number;
     lastViewedAt?: number;
     focusedPostId?: string;
-    initScrollOffsetFromBottom?: number;
+    initScrollOffsetFromBottom: number;
 
     // @ts-expect-error TS(2552): Cannot find name '$TSFixMeFunction'. Did you mean ... Remove this comment to see the full error message
     updateNewMessagesAtInChannel?: $TSFixMeFunction;
@@ -119,7 +119,7 @@ class ToastWrapper extends React.PureComponent<Props, State> {
 
     mounted: $TSFixMe;
 
-    static getDerivedStateFromProps(props: $TSFixMe, prevState: $TSFixMe) {
+    static getDerivedStateFromProps(props: Props, prevState: $TSFixMe) {
         let {showUnreadToast, showNewMessagesToast, showMessageHistoryToast, showUnreadWithBottomStartToast} = prevState;
         let unreadCount;
 
@@ -527,5 +527,4 @@ class ToastWrapper extends React.PureComponent<Props, State> {
     }
 }
 
-// @ts-expect-error TS(2769): No overload matches this call.
 export default injectIntl(ToastWrapper);
