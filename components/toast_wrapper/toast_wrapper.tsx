@@ -33,6 +33,8 @@ import {HintToast} from 'components/hint-toast/hint_toast';
 
 // @ts-expect-error TS(2307): Cannot find module 'mattermost-redux/constants' or... Remove this comment to see the full error message
 import {Preferences} from 'mattermost-redux/constants';
+import {IDMappedObjects} from '@mattermost/types/utilities';
+import {Post} from '@mattermost/types/posts';
 
 const TOAST_TEXT_COLLAPSE_WIDTH = 500;
 
@@ -45,7 +47,7 @@ type OwnProps = {
     newRecentMessagesCount: number;
     channelMarkedAsUnread?: boolean;
     isCollapsedThreadsEnabled?: boolean;
-    rootPosts?: $TSFixMe;
+    rootPosts: IDMappedObjects<Post>;
     atLatestPost?: boolean;
     postListIds?: $TSFixMe[];
     latestPostTimeStamp: number;
@@ -105,7 +107,7 @@ class ToastWrapper extends React.PureComponent<Props, State> {
         };
     }
 
-    static countNewMessages = (postListIds: $TSFixMe, rootPosts: $TSFixMe, isCollapsedThreadsEnabled: $TSFixMe) => {
+    static countNewMessages = (postListIds: $TSFixMe, rootPosts: IDMappedObjects<Post>, isCollapsedThreadsEnabled: $TSFixMe) => {
         const mark = getNewMessageIndex(postListIds);
         if (mark <= 0) {
             return 0;
