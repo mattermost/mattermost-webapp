@@ -378,7 +378,8 @@ describe('components/ToastWrapper', () => {
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>) as ShallowWrapper<any, any, ToastWrapperClass>;
             expect(wrapper.state('showUnreadToast')).toBe(true);
 
-            wrapper.instance().handleShortcut({key: 'ESC', keyCode: 27});
+            const event = {key: 'ESC', keyCode: 27} as KeyboardEvent;
+            wrapper.instance().handleShortcut(event);
             expect(wrapper.state('showUnreadToast')).toBe(false);
         });
 
@@ -401,7 +402,9 @@ describe('components/ToastWrapper', () => {
             wrapper.setState({atBottom: false, showUnreadToast: false});
             wrapper.setProps({atBottom: false, lastViewedBottom: 1234, latestPostTimeStamp: 1235});
             expect(wrapper.state('showNewMessagesToast')).toBe(true);
-            wrapper.instance().handleShortcut({key: 'ESC', keyCode: 27});
+
+            const event = {key: 'ESC', keyCode: 27} as KeyboardEvent;
+            wrapper.instance().handleShortcut(event);
             expect(baseProps.updateLastViewedBottomAt).toHaveBeenCalledTimes(1);
         });
 
