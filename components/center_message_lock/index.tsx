@@ -93,7 +93,7 @@ export default function CenterMessageLock(props: Props) {
     let cta = (
         <button
             className='btn btn-primary'
-            onClick={(e) => notifyAdmin(e, 'center_message_lock')}
+            onClick={(e) => notifyAdmin(e, 'center_channel_posts_over_limit_banner')}
         >
             {notifyAdminStatus}
         </button>);
