@@ -101,13 +101,13 @@ function makeMapStateToProps() {
     const countUnreadsBelow = makeCountUnreadsBelow();
     const getRootPosts = makeGetRootPosts();
     const preparePostIdsForPostList = makePreparePostIdsForPostList();
-    return function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
+    return function mapStateToProps(state: GlobalState, {channelId, atLatestPost}: OwnProps) {
         let newRecentMessagesCount = 0;
-        const channelMarkedAsUnread = isManuallyUnread(state, ownProps.channelId);
-        const lastViewedAt = state.views.channel.lastChannelViewTime[ownProps.channelId];
+        const channelMarkedAsUnread = isManuallyUnread(state, channelId);
+        const lastViewedAt = state.views.channel.lastChannelViewTime[channelId];
         const unreadScrollPosition = getUnreadScrollPositionPreference(state);
-        if (!ownProps.atLatestPost) {
-            let postIds = getPostIdsInChannel(state, ownProps.channelId);
+        if (!atLatestPost) {
+            let postIds = getPostIdsInChannel(state, channelId);
             if (postIds) {
                 postIds = preparePostIdsForPostList(state, {postIds, lastViewedAt});
             }

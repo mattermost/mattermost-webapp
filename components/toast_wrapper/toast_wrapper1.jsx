@@ -2,19 +2,29 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage, injectIntl} from 'react-intl';
 
 import Toast from 'components/toast/toast';
+
 import Timestamp, {RelativeRanges} from 'components/timestamp';
+
 import {isIdNotPost, getNewMessageIndex} from 'utils/post_utils';
+
 import * as Utils from 'utils/utils';
+
 import {isToday} from 'utils/datetime';
+
 import Constants from 'utils/constants';
+
 import {browserHistory} from 'utils/browser_history';
+
 import {SearchShortcut} from 'components/search_shortcut';
+
 import {HintToast} from 'components/hint-toast/hint_toast';
+
 import {Preferences} from 'mattermost-redux/constants';
+import {IDMappedObjects} from '@mattermost/types/utilities';
+import {Post} from '@mattermost/types/posts';
 
 const TOAST_TEXT_COLLAPSE_WIDTH = 500;
 
@@ -66,31 +76,51 @@ export class ToastWrapper extends React.PureComponent {
             updateToastStatus: PropTypes.func.isRequired,
         }).isRequired,
     };
+    actions: {
+        updateToastStatus: (toastPresent: boolean) => void;
+    };
+};
 
+type State = {
+    unreadCount?: number;
+    unreadCountInChannel: number;
+    channelMarkedAsUnread?: boolean;
+    lastViewedAt?: number;
+    showUnreadToast?: boolean;
+    showNewMessagesToast?: boolean;
+    showMessageHistoryToast?: boolean;
+    showUnreadWithBottomStartToast?: boolean;
+};
+
+type Props = OwnProps & typeof ToastWrapper.defaultProps;
+
+class ToastWrapper extends React.PureComponent<Props, State> {
+    mounted: boolean;
     static defaultProps = {
         focusedPostId: '',
     };
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
+        this.mounted = true;
         this.state = {
             unreadCountInChannel: props.unreadCountInChannel,
         };
     }
 
-    static countNewMessages = (postListIds, rootPosts, isCollapsedThreadsEnabled) => {
+    static countNewMessages = (postListIds: string[], rootPosts: IDMappedObjects<Post>, isCollapsedThreadsEnabled: boolean) => {
         const mark = getNewMessageIndex(postListIds);
         if (mark <= 0) {
             return 0;
         }
-        let newMessages = postListIds.slice(0, mark).filter((id) => !isIdNotPost(id));
+        let newMessages = postListIds.slice(0, mark).filter((id: string) => !isIdNotPost(id));
         if (isCollapsedThreadsEnabled) { // in collapsed mode we only count root posts
-            newMessages = newMessages.filter((id) => rootPosts[id]);
+            newMessages = newMessages.filter((id: string) => rootPosts[id]);
         }
         return newMessages.length;
     }
 
-    static getDerivedStateFromProps(props, prevState) {
+    static getDerivedStateFromProps(props: Props, prevState: State) {
         let {showUnreadToast, showNewMessagesToast, showMessageHistoryToast, showUnreadWithBottomStartToast} = prevState;
         let unreadCount;
 
@@ -178,7 +208,7 @@ export class ToastWrapper extends React.PureComponent {
         this.props.actions.updateToastStatus(toastPresent);
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps: Props, prevState: State) {
         const {showUnreadToast, showNewMessagesToast, showMessageHistoryToast, showUnreadWithBottomStartToast} = this.state;
         const {
             atBottom,
@@ -221,7 +251,7 @@ export class ToastWrapper extends React.PureComponent {
         document.removeEventListener('keydown', this.handleShortcut);
     }
 
-    handleShortcut = (e) => {
+    handleShortcut = (e: KeyboardEvent) => {
         if (Utils.isKeyPressed(e, Constants.KeyCodes.ESCAPE)) {
             if (this.state.showUnreadToast) {
                 this.hideUnreadToast();
@@ -275,8 +305,8 @@ export class ToastWrapper extends React.PureComponent {
             });
         }
     }
-
-    newMessagesToastText = (count, since) => {
+    
+    newMessagesToastText = (count: number, since: number) => {
         if (this.props.width > TOAST_TEXT_COLLAPSE_WIDTH && typeof since !== 'undefined') {
             return (
                 <FormattedMessage
@@ -345,7 +375,10 @@ export class ToastWrapper extends React.PureComponent {
             return;
         }
 
+        // @ts-expect-error TS(2722) FIXME: Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
         scrollToNewMessage();
+
+        // @ts-expect-error TS(2722) FIXME: Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
         updateLastViewedBottomAt();
         this.hideNewMessagesToast();
     }
@@ -361,11 +394,13 @@ export class ToastWrapper extends React.PureComponent {
             this.hideArchiveToast();
         }
 
+        // @ts-expect-error TS(2722) FIXME: Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
         scrollToLatestMessages();
         this.hideUnreadToast();
     }
 
     scrollToUnreadMessages = () => {
+        // @ts-expect-error TS(2722) FIXME: Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
         this.props.scrollToUnreadMessages();
         this.hideUnreadWithBottomStartToast();
     }
@@ -383,15 +418,25 @@ export class ToastWrapper extends React.PureComponent {
             showActions: !atLatestPost || (atLatestPost && !atBottom),
         };
 
-        if (showUnreadToast && unreadCount > 0) {
+        if (showUnreadToast && unreadCount as number > 0) {
             return (
                 <Toast {...unreadToastProps}>
-                    {this.newMessagesToastText(unreadCount, lastViewedAt)}
+                    {this.newMessagesToastText(unreadCount as number, lastViewedAt)}
                 </Toast>
             );
         }
 
-        const unreadWithBottomStartToastProps = {
+        interface ToastProps {
+            show: boolean;
+            width: number;
+            onDismiss: () => void;
+            onClick: () => void;
+            onClickMessage: string;
+            showActions: boolean;
+            jumpDirection: 'up' | 'down';
+        }
+
+        const unreadWithBottomStartToastProps: ToastProps = {
             show: true,
             width,
             onDismiss: this.hideUnreadWithBottomStartToast,
@@ -401,10 +446,10 @@ export class ToastWrapper extends React.PureComponent {
             jumpDirection: 'up',
         };
 
-        if (showUnreadWithBottomStartToast && unreadCount > 0) {
+        if (showUnreadWithBottomStartToast && unreadCount as number > 0) {
             return (
                 <Toast {...unreadWithBottomStartToastProps}>
-                    {this.newMessagesToastText(unreadCount, lastViewedAt)}
+                    {this.newMessagesToastText(unreadCount as number, lastViewedAt)}
                 </Toast>
             );
         }
@@ -421,7 +466,7 @@ export class ToastWrapper extends React.PureComponent {
                     {...unreadToastProps}
                     {...showNewMessagesToastOverrides}
                 >
-                    {this.newMessagesToastText(unreadCount, lastViewedAt)}
+                    {this.newMessagesToastText(unreadCount as number, lastViewedAt)}
                 </Toast>
             );
         }
@@ -469,3 +514,4 @@ export class ToastWrapper extends React.PureComponent {
 }
 
 export default injectIntl(ToastWrapper);
+
