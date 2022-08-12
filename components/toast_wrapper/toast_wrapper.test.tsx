@@ -13,7 +13,7 @@ import {PostListRowListIds} from 'utils/constants';
 
 import {browserHistory} from 'utils/browser_history';
 
-import ToastWrapper from './toast_wrapper';
+import ToastWrapper from './toast_wrapper1';
 
 describe('components/ToastWrapper', () => {
     const baseProps = {
