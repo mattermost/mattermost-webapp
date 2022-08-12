@@ -58,8 +58,7 @@ type OwnProps = {
     focusedPostId?: string;
     initScrollOffsetFromBottom: number;
 
-    // @ts-expect-error TS(2552): Cannot find name '$TSFixMeFunction'. Did you mean ... Remove this comment to see the full error message
-    updateNewMessagesAtInChannel?: $TSFixMeFunction;
+    updateNewMessagesAtInChannel: (lastViewedAt?: number) => void;
 
     // @ts-expect-error TS(2552): Cannot find name '$TSFixMeFunction'. Did you mean ... Remove this comment to see the full error message
     scrollToNewMessage?: $TSFixMeFunction;
