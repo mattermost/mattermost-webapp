@@ -22,7 +22,7 @@ const TOAST_REL_RANGES = [
     RelativeRanges.TODAY_YESTERDAY,
 ];
 
-class ToastWrapper extends React.PureComponent {
+export class ToastWrapper extends React.PureComponent {
     static propTypes = {
         unreadCountInChannel: PropTypes.number,
         newRecentMessagesCount: PropTypes.number,
