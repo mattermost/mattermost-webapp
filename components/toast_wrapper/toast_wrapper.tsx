@@ -36,7 +36,7 @@ type OwnProps = {
     unreadCountInChannel: number;
     newRecentMessagesCount: number;
     channelMarkedAsUnread?: boolean;
-    isCollapsedThreadsEnabled: boolean;
+    isCollapsedThreadsEnabled?: boolean;
     rootPosts: IDMappedObjects<Post>;
     atLatestPost?: boolean;
     postListIds: string[];
@@ -46,11 +46,11 @@ type OwnProps = {
     width: number;
     lastViewedAt: number;
     focusedPostId?: string;
-    initScrollOffsetFromBottom: number;
+    initScrollOffsetFromBottom?: number;
     updateNewMessagesAtInChannel: (lastViewedAt?: number) => void;
     scrollToNewMessage: () => void;
     scrollToLatestMessages: () => void;
-    scrollToUnreadMessages: () => void;
+    scrollToUnreadMessages?: () => void;
     updateLastViewedBottomAt: (lastViewedBottom?: number) => void;
     showSearchHintToast?: boolean;
     onSearchHintDismiss?: () => void;
@@ -114,7 +114,7 @@ export class ToastWrapper extends React.PureComponent<Props, State> {
             if (props.unreadScrollPosition === Preferences.UNREAD_SCROLL_POSITION_START_FROM_NEWEST && prevState.unreadCountInChannel) {
                 unreadCount = prevState.unreadCountInChannel + props.newRecentMessagesCount;
             } else {
-                unreadCount = ToastWrapper.countNewMessages(props.postListIds, props.rootPosts, props.isCollapsedThreadsEnabled);
+                unreadCount = ToastWrapper.countNewMessages(props.postListIds, props.rootPosts, props.isCollapsedThreadsEnabled as boolean);
             }
         } else if (props.channelMarkedAsUnread) {
             if (props.unreadScrollPosition === Preferences.UNREAD_SCROLL_POSITION_START_FROM_NEWEST) {
@@ -132,7 +132,7 @@ export class ToastWrapper extends React.PureComponent<Props, State> {
         }
 
         if (typeof showMessageHistoryToast === 'undefined' && props.focusedPostId !== '' && props.atBottom !== null) {
-            showMessageHistoryToast = props.initScrollOffsetFromBottom > 1000 || !props.atLatestPost;
+            showMessageHistoryToast = props.initScrollOffsetFromBottom as number > 1000 || !props.atLatestPost;
         }
 
         // show unread toast when a channel is marked as unread
@@ -382,7 +382,7 @@ export class ToastWrapper extends React.PureComponent<Props, State> {
     }
 
     scrollToUnreadMessages = () => {
-        this.props.scrollToUnreadMessages();
+        this.props.scrollToUnreadMessages?.();
         this.hideUnreadWithBottomStartToast();
     }
 
@@ -407,24 +407,14 @@ export class ToastWrapper extends React.PureComponent<Props, State> {
             );
         }
 
-        interface ToastProps {
-            show: boolean;
-            width: number;
-            onDismiss: () => void;
-            onClick: () => void;
-            onClickMessage: string;
-            showActions: boolean;
-            jumpDirection: 'up' | 'down';
-        }
-
-        const unreadWithBottomStartToastProps: ToastProps = {
+        const unreadWithBottomStartToastProps = {
             show: true,
             width,
             onDismiss: this.hideUnreadWithBottomStartToast,
             onClick: this.scrollToUnreadMessages,
             onClickMessage: Utils.localizeMessage('postlist.toast.scrollToUnread', 'Jump to unreads'),
             showActions: true,
-            jumpDirection: 'up',
+            jumpDirection: 'up' as const,
         };
 
         if (showUnreadWithBottomStartToast && unreadCount as number > 0) {
