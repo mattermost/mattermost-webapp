@@ -8,7 +8,7 @@ exports[`components/ChannelHeader should render active channel files 1`] = `
   data-channelid="channel_id"
   id="channel-header"
   role="banner"
-  tabIndex="-1"
+  tabIndex={-1}
 >
   <div
     className="flex-parent"
@@ -38,12 +38,14 @@ exports[`components/ChannelHeader should render active channel files 1`] = `
                   className="channel-header__trigger style--none "
                 >
                   <strong
-                    aria-level="2"
+                    aria-level={2}
                     className="heading"
                     id="channelHeaderTitle"
                     role="heading"
                   >
-                    <span />
+                    <span>
+                      name
+                    </span>
                   </strong>
                   <span
                     aria-label="dropdown icon"
@@ -91,7 +93,8 @@ exports[`components/ChannelHeader should render active channel files 1`] = `
           </div>
         </div>
         <div
-          className="channel-header__description light"
+          className="channel-header__description"
+          dir="auto"
           id="channelHeaderDescription"
         >
           <HeaderIconWrapper
@@ -140,46 +143,120 @@ exports[`components/ChannelHeader should render active channel files 1`] = `
             onClick={[Function]}
             tooltipKey="channelFiles"
           />
-          <Connect(ChannelPermissionGate)
-            channelId="channel_id"
-            permissions={
-              Array [
-                "manage_public_channel_properties",
-              ]
-            }
-            teamId="team_id"
+          <div
+            className="header-popover-text-measurer"
           >
-            <button
-              className="header-placeholder style--none"
-              onClick={[Function]}
+            <Connect(Markdown)
+              message="header"
+              options={
+                Object {
+                  "atMentions": true,
+                  "channelNamesMap": undefined,
+                  "mentionHighlight": false,
+                  "singleline": true,
+                }
+              }
+            />
+          </div>
+          <span
+            className="header-description__text"
+            onClick={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+          >
+            <Overlay
+              animation={[Function]}
+              onEnter={[Function]}
+              onHide={[Function]}
+              placement="bottom"
+              rootClose={true}
+              show={false}
+              target={null}
             >
-              <MemoizedFormattedMessage
-                defaultMessage="Add a channel header"
-                id="channel_header.addChannelHeader"
-              />
-              <MemoizedFormattedMessage
-                defaultMessage="Edit"
-                id="channel_header.editLink"
+              <Popover
+                className="channel-header__popover"
+                id="header-popover"
+                placement="bottom"
+                popoverSize="lg"
+                popoverStyle="info"
+                style={
+                  Object {
+                    "maxWidth": "0px",
+                    "transform": "translate(0px, 0px)",
+                  }
+                }
               >
-                <Component />
-              </MemoizedFormattedMessage>
-            </button>
-          </Connect(ChannelPermissionGate)>
+                <span
+                  onClick={[Function]}
+                >
+                  <Connect(Markdown)
+                    message="header"
+                    options={
+                      Object {
+                        "atMentions": true,
+                        "channelNamesMap": undefined,
+                        "mentionHighlight": false,
+                        "singleline": false,
+                      }
+                    }
+                  />
+                </span>
+              </Popover>
+            </Overlay>
+            <Connect(Markdown)
+              message="header"
+              options={
+                Object {
+                  "atMentions": true,
+                  "channelNamesMap": undefined,
+                  "mentionHighlight": false,
+                  "singleline": true,
+                }
+              }
+            />
+          </span>
         </div>
       </div>
     </div>
     <Connect(injectIntl(ChannelHeaderPlug))
       channel={
         Object {
+          "create_at": 0,
+          "creator_id": "id",
           "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
+          "header": "header",
           "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
           "name": "Test",
+          "purpose": "purpose",
+          "scheme_id": "id",
           "team_id": "team_id",
+          "type": "O",
+          "update_at": 0,
         }
       }
       channelMember={
         Object {
           "channel_id": "channel_id",
+          "last_update_at": 0,
+          "last_viewed_at": 0,
+          "mention_count": 0,
+          "mention_count_root": 0,
+          "msg_count": 0,
+          "msg_count_root": 0,
+          "notify_props": Object {
+            "desktop": "default",
+            "email": "default",
+            "ignore_channel_mentions": "default",
+            "mark_unread": "all",
+            "push": "default",
+          },
+          "roles": "channel_user",
+          "scheme_admin": false,
+          "scheme_user": true,
           "user_id": "user_id",
         }
       }
@@ -188,10 +265,21 @@ exports[`components/ChannelHeader should render active channel files 1`] = `
     <ChannelInfoButton
       channel={
         Object {
+          "create_at": 0,
+          "creator_id": "id",
           "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
+          "header": "header",
           "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
           "name": "Test",
+          "purpose": "purpose",
+          "scheme_id": "id",
           "team_id": "team_id",
+          "type": "O",
+          "update_at": 0,
         }
       }
     />
@@ -207,7 +295,7 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
   data-channelid="channel_id"
   id="channel-header"
   role="banner"
-  tabIndex="-1"
+  tabIndex={-1}
 >
   <div
     className="flex-parent"
@@ -237,12 +325,14 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
                   className="channel-header__trigger style--none "
                 >
                   <strong
-                    aria-level="2"
+                    aria-level={2}
                     className="heading"
                     id="channelHeaderTitle"
                     role="heading"
                   >
-                    <span />
+                    <span>
+                      name
+                    </span>
                   </strong>
                   <span
                     aria-label="dropdown icon"
@@ -290,7 +380,8 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
           </div>
         </div>
         <div
-          className="channel-header__description light"
+          className="channel-header__description"
+          dir="auto"
           id="channelHeaderDescription"
         >
           <HeaderIconWrapper
@@ -339,46 +430,120 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
             onClick={[Function]}
             tooltipKey="channelFiles"
           />
-          <Connect(ChannelPermissionGate)
-            channelId="channel_id"
-            permissions={
-              Array [
-                "manage_public_channel_properties",
-              ]
-            }
-            teamId="team_id"
+          <div
+            className="header-popover-text-measurer"
           >
-            <button
-              className="header-placeholder style--none"
-              onClick={[Function]}
+            <Connect(Markdown)
+              message="header"
+              options={
+                Object {
+                  "atMentions": true,
+                  "channelNamesMap": undefined,
+                  "mentionHighlight": false,
+                  "singleline": true,
+                }
+              }
+            />
+          </div>
+          <span
+            className="header-description__text"
+            onClick={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+          >
+            <Overlay
+              animation={[Function]}
+              onEnter={[Function]}
+              onHide={[Function]}
+              placement="bottom"
+              rootClose={true}
+              show={false}
+              target={null}
             >
-              <MemoizedFormattedMessage
-                defaultMessage="Add a channel header"
-                id="channel_header.addChannelHeader"
-              />
-              <MemoizedFormattedMessage
-                defaultMessage="Edit"
-                id="channel_header.editLink"
+              <Popover
+                className="channel-header__popover"
+                id="header-popover"
+                placement="bottom"
+                popoverSize="lg"
+                popoverStyle="info"
+                style={
+                  Object {
+                    "maxWidth": "0px",
+                    "transform": "translate(0px, 0px)",
+                  }
+                }
               >
-                <Component />
-              </MemoizedFormattedMessage>
-            </button>
-          </Connect(ChannelPermissionGate)>
+                <span
+                  onClick={[Function]}
+                >
+                  <Connect(Markdown)
+                    message="header"
+                    options={
+                      Object {
+                        "atMentions": true,
+                        "channelNamesMap": undefined,
+                        "mentionHighlight": false,
+                        "singleline": false,
+                      }
+                    }
+                  />
+                </span>
+              </Popover>
+            </Overlay>
+            <Connect(Markdown)
+              message="header"
+              options={
+                Object {
+                  "atMentions": true,
+                  "channelNamesMap": undefined,
+                  "mentionHighlight": false,
+                  "singleline": true,
+                }
+              }
+            />
+          </span>
         </div>
       </div>
     </div>
     <Connect(injectIntl(ChannelHeaderPlug))
       channel={
         Object {
+          "create_at": 0,
+          "creator_id": "id",
           "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
+          "header": "header",
           "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
           "name": "Test",
+          "purpose": "purpose",
+          "scheme_id": "id",
           "team_id": "team_id",
+          "type": "O",
+          "update_at": 0,
         }
       }
       channelMember={
         Object {
           "channel_id": "channel_id",
+          "last_update_at": 0,
+          "last_viewed_at": 0,
+          "mention_count": 0,
+          "mention_count_root": 0,
+          "msg_count": 0,
+          "msg_count_root": 0,
+          "notify_props": Object {
+            "desktop": "default",
+            "email": "default",
+            "ignore_channel_mentions": "default",
+            "mark_unread": "all",
+            "push": "default",
+          },
+          "roles": "channel_user",
+          "scheme_admin": false,
+          "scheme_user": true,
           "user_id": "user_id",
         }
       }
@@ -387,10 +552,21 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
     <ChannelInfoButton
       channel={
         Object {
+          "create_at": 0,
+          "creator_id": "id",
           "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
+          "header": "header",
           "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
           "name": "Test",
+          "purpose": "purpose",
+          "scheme_id": "id",
           "team_id": "team_id",
+          "type": "O",
+          "update_at": 0,
         }
       }
     />
@@ -406,7 +582,7 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
   data-channelid="channel_id"
   id="channel-header"
   role="banner"
-  tabIndex="-1"
+  tabIndex={-1}
 >
   <div
     className="flex-parent"
@@ -436,12 +612,14 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
                   className="channel-header__trigger style--none "
                 >
                   <strong
-                    aria-level="2"
+                    aria-level={2}
                     className="heading"
                     id="channelHeaderTitle"
                     role="heading"
                   >
-                    <span />
+                    <span>
+                      name
+                    </span>
                   </strong>
                   <span
                     aria-label="dropdown icon"
@@ -489,7 +667,8 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
           </div>
         </div>
         <div
-          className="channel-header__description light"
+          className="channel-header__description"
+          dir="auto"
           id="channelHeaderDescription"
         >
           <HeaderIconWrapper
@@ -538,46 +717,120 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
             onClick={[Function]}
             tooltipKey="channelFiles"
           />
-          <Connect(ChannelPermissionGate)
-            channelId="channel_id"
-            permissions={
-              Array [
-                "manage_public_channel_properties",
-              ]
-            }
-            teamId="team_id"
+          <div
+            className="header-popover-text-measurer"
           >
-            <button
-              className="header-placeholder style--none"
-              onClick={[Function]}
+            <Connect(Markdown)
+              message="header"
+              options={
+                Object {
+                  "atMentions": true,
+                  "channelNamesMap": undefined,
+                  "mentionHighlight": false,
+                  "singleline": true,
+                }
+              }
+            />
+          </div>
+          <span
+            className="header-description__text"
+            onClick={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+          >
+            <Overlay
+              animation={[Function]}
+              onEnter={[Function]}
+              onHide={[Function]}
+              placement="bottom"
+              rootClose={true}
+              show={false}
+              target={null}
             >
-              <MemoizedFormattedMessage
-                defaultMessage="Add a channel header"
-                id="channel_header.addChannelHeader"
-              />
-              <MemoizedFormattedMessage
-                defaultMessage="Edit"
-                id="channel_header.editLink"
+              <Popover
+                className="channel-header__popover"
+                id="header-popover"
+                placement="bottom"
+                popoverSize="lg"
+                popoverStyle="info"
+                style={
+                  Object {
+                    "maxWidth": "0px",
+                    "transform": "translate(0px, 0px)",
+                  }
+                }
               >
-                <Component />
-              </MemoizedFormattedMessage>
-            </button>
-          </Connect(ChannelPermissionGate)>
+                <span
+                  onClick={[Function]}
+                >
+                  <Connect(Markdown)
+                    message="header"
+                    options={
+                      Object {
+                        "atMentions": true,
+                        "channelNamesMap": undefined,
+                        "mentionHighlight": false,
+                        "singleline": false,
+                      }
+                    }
+                  />
+                </span>
+              </Popover>
+            </Overlay>
+            <Connect(Markdown)
+              message="header"
+              options={
+                Object {
+                  "atMentions": true,
+                  "channelNamesMap": undefined,
+                  "mentionHighlight": false,
+                  "singleline": true,
+                }
+              }
+            />
+          </span>
         </div>
       </div>
     </div>
     <Connect(injectIntl(ChannelHeaderPlug))
       channel={
         Object {
+          "create_at": 0,
+          "creator_id": "id",
           "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
+          "header": "header",
           "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
           "name": "Test",
+          "purpose": "purpose",
+          "scheme_id": "id",
           "team_id": "team_id",
+          "type": "O",
+          "update_at": 0,
         }
       }
       channelMember={
         Object {
           "channel_id": "channel_id",
+          "last_update_at": 0,
+          "last_viewed_at": 0,
+          "mention_count": 0,
+          "mention_count_root": 0,
+          "msg_count": 0,
+          "msg_count_root": 0,
+          "notify_props": Object {
+            "desktop": "default",
+            "email": "default",
+            "ignore_channel_mentions": "default",
+            "mark_unread": "all",
+            "push": "default",
+          },
+          "roles": "channel_user",
+          "scheme_admin": false,
+          "scheme_user": true,
           "user_id": "user_id",
         }
       }
@@ -586,10 +839,21 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
     <ChannelInfoButton
       channel={
         Object {
+          "create_at": 0,
+          "creator_id": "id",
           "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
+          "header": "header",
           "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
           "name": "Test",
+          "purpose": "purpose",
+          "scheme_id": "id",
           "team_id": "team_id",
+          "type": "O",
+          "update_at": 0,
         }
       }
     />
@@ -605,7 +869,7 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
   data-channelid="channel_id"
   id="channel-header"
   role="banner"
-  tabIndex="-1"
+  tabIndex={-1}
 >
   <div
     className="flex-parent"
@@ -635,12 +899,14 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
                   className="channel-header__trigger style--none "
                 >
                   <strong
-                    aria-level="2"
+                    aria-level={2}
                     className="heading"
                     id="channelHeaderTitle"
                     role="heading"
                   >
-                    <span />
+                    <span>
+                      name
+                    </span>
                   </strong>
                   <span
                     aria-label="dropdown icon"
@@ -688,7 +954,8 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
           </div>
         </div>
         <div
-          className="channel-header__description light"
+          className="channel-header__description"
+          dir="auto"
           id="channelHeaderDescription"
         >
           <HeaderIconWrapper
@@ -737,46 +1004,120 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
             onClick={[Function]}
             tooltipKey="channelFiles"
           />
-          <Connect(ChannelPermissionGate)
-            channelId="channel_id"
-            permissions={
-              Array [
-                "manage_public_channel_properties",
-              ]
-            }
-            teamId="team_id"
+          <div
+            className="header-popover-text-measurer"
           >
-            <button
-              className="header-placeholder style--none"
-              onClick={[Function]}
+            <Connect(Markdown)
+              message="header"
+              options={
+                Object {
+                  "atMentions": true,
+                  "channelNamesMap": undefined,
+                  "mentionHighlight": false,
+                  "singleline": true,
+                }
+              }
+            />
+          </div>
+          <span
+            className="header-description__text"
+            onClick={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+          >
+            <Overlay
+              animation={[Function]}
+              onEnter={[Function]}
+              onHide={[Function]}
+              placement="bottom"
+              rootClose={true}
+              show={false}
+              target={null}
             >
-              <MemoizedFormattedMessage
-                defaultMessage="Add a channel header"
-                id="channel_header.addChannelHeader"
-              />
-              <MemoizedFormattedMessage
-                defaultMessage="Edit"
-                id="channel_header.editLink"
+              <Popover
+                className="channel-header__popover"
+                id="header-popover"
+                placement="bottom"
+                popoverSize="lg"
+                popoverStyle="info"
+                style={
+                  Object {
+                    "maxWidth": "0px",
+                    "transform": "translate(0px, 0px)",
+                  }
+                }
               >
-                <Component />
-              </MemoizedFormattedMessage>
-            </button>
-          </Connect(ChannelPermissionGate)>
+                <span
+                  onClick={[Function]}
+                >
+                  <Connect(Markdown)
+                    message="header"
+                    options={
+                      Object {
+                        "atMentions": true,
+                        "channelNamesMap": undefined,
+                        "mentionHighlight": false,
+                        "singleline": false,
+                      }
+                    }
+                  />
+                </span>
+              </Popover>
+            </Overlay>
+            <Connect(Markdown)
+              message="header"
+              options={
+                Object {
+                  "atMentions": true,
+                  "channelNamesMap": undefined,
+                  "mentionHighlight": false,
+                  "singleline": true,
+                }
+              }
+            />
+          </span>
         </div>
       </div>
     </div>
     <Connect(injectIntl(ChannelHeaderPlug))
       channel={
         Object {
+          "create_at": 0,
+          "creator_id": "id",
           "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
+          "header": "header",
           "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
           "name": "Test",
+          "purpose": "purpose",
+          "scheme_id": "id",
           "team_id": "team_id",
+          "type": "O",
+          "update_at": 0,
         }
       }
       channelMember={
         Object {
           "channel_id": "channel_id",
+          "last_update_at": 0,
+          "last_viewed_at": 0,
+          "mention_count": 0,
+          "mention_count_root": 0,
+          "msg_count": 0,
+          "msg_count_root": 0,
+          "notify_props": Object {
+            "desktop": "default",
+            "email": "default",
+            "ignore_channel_mentions": "default",
+            "mark_unread": "all",
+            "push": "default",
+          },
+          "roles": "channel_user",
+          "scheme_admin": false,
+          "scheme_user": true,
           "user_id": "user_id",
         }
       }
@@ -785,10 +1126,21 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
     <ChannelInfoButton
       channel={
         Object {
+          "create_at": 0,
+          "creator_id": "id",
           "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
+          "header": "header",
           "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
           "name": "Test",
+          "purpose": "purpose",
+          "scheme_id": "id",
           "team_id": "team_id",
+          "type": "O",
+          "update_at": 0,
         }
       }
     />
@@ -804,7 +1156,7 @@ exports[`components/ChannelHeader should render archived view 1`] = `
   data-channelid="channel_id"
   id="channel-header"
   role="banner"
-  tabIndex="-1"
+  tabIndex={-1}
 >
   <div
     className="flex-parent"
@@ -834,7 +1186,7 @@ exports[`components/ChannelHeader should render archived view 1`] = `
                   className="channel-header__trigger style--none "
                 >
                   <strong
-                    aria-level="2"
+                    aria-level={2}
                     className="heading"
                     id="channelHeaderTitle"
                     role="heading"
@@ -843,6 +1195,7 @@ exports[`components/ChannelHeader should render archived view 1`] = `
                       <ArchiveIcon
                         className="icon icon__archive icon channel-header-archived-icon svg-text-color"
                       />
+                      name
                     </span>
                   </strong>
                   <span
@@ -857,7 +1210,8 @@ exports[`components/ChannelHeader should render archived view 1`] = `
           </div>
         </div>
         <div
-          className="channel-header__description light"
+          className="channel-header__description"
+          dir="auto"
           id="channelHeaderDescription"
         >
           <HeaderIconWrapper
@@ -906,21 +1260,120 @@ exports[`components/ChannelHeader should render archived view 1`] = `
             onClick={[Function]}
             tooltipKey="channelFiles"
           />
+          <div
+            className="header-popover-text-measurer"
+          >
+            <Connect(Markdown)
+              message="header"
+              options={
+                Object {
+                  "atMentions": true,
+                  "channelNamesMap": undefined,
+                  "mentionHighlight": false,
+                  "singleline": true,
+                }
+              }
+            />
+          </div>
+          <span
+            className="header-description__text"
+            onClick={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+          >
+            <Overlay
+              animation={[Function]}
+              onEnter={[Function]}
+              onHide={[Function]}
+              placement="bottom"
+              rootClose={true}
+              show={false}
+              target={null}
+            >
+              <Popover
+                className="channel-header__popover"
+                id="header-popover"
+                placement="bottom"
+                popoverSize="lg"
+                popoverStyle="info"
+                style={
+                  Object {
+                    "maxWidth": "0px",
+                    "transform": "translate(0px, 0px)",
+                  }
+                }
+              >
+                <span
+                  onClick={[Function]}
+                >
+                  <Connect(Markdown)
+                    message="header"
+                    options={
+                      Object {
+                        "atMentions": true,
+                        "channelNamesMap": undefined,
+                        "mentionHighlight": false,
+                        "singleline": false,
+                      }
+                    }
+                  />
+                </span>
+              </Popover>
+            </Overlay>
+            <Connect(Markdown)
+              message="header"
+              options={
+                Object {
+                  "atMentions": true,
+                  "channelNamesMap": undefined,
+                  "mentionHighlight": false,
+                  "singleline": true,
+                }
+              }
+            />
+          </span>
         </div>
       </div>
     </div>
     <Connect(injectIntl(ChannelHeaderPlug))
       channel={
         Object {
+          "create_at": 0,
+          "creator_id": "id",
           "delete_at": 1234,
+          "display_name": "name",
+          "group_constrained": false,
+          "header": "header",
           "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
           "name": "Test",
+          "purpose": "purpose",
+          "scheme_id": "id",
           "team_id": "team_id",
+          "type": "O",
+          "update_at": 0,
         }
       }
       channelMember={
         Object {
           "channel_id": "channel_id",
+          "last_update_at": 0,
+          "last_viewed_at": 0,
+          "mention_count": 0,
+          "mention_count_root": 0,
+          "msg_count": 0,
+          "msg_count_root": 0,
+          "notify_props": Object {
+            "desktop": "default",
+            "email": "default",
+            "ignore_channel_mentions": "default",
+            "mark_unread": "all",
+            "push": "default",
+          },
+          "roles": "channel_user",
+          "scheme_admin": false,
+          "scheme_user": true,
           "user_id": "user_id",
         }
       }
@@ -929,10 +1382,21 @@ exports[`components/ChannelHeader should render archived view 1`] = `
     <ChannelInfoButton
       channel={
         Object {
+          "create_at": 0,
+          "creator_id": "id",
           "delete_at": 1234,
+          "display_name": "name",
+          "group_constrained": false,
+          "header": "header",
           "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
           "name": "Test",
+          "purpose": "purpose",
+          "scheme_id": "id",
           "team_id": "team_id",
+          "type": "O",
+          "update_at": 0,
         }
       }
     />
@@ -948,7 +1412,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
   data-channelid="channel_id"
   id="channel-header"
   role="banner"
-  tabIndex="-1"
+  tabIndex={-1}
 >
   <div
     className="flex-parent"
@@ -978,12 +1442,14 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
                   className="channel-header__trigger style--none "
                 >
                   <strong
-                    aria-level="2"
+                    aria-level={2}
                     className="heading"
                     id="channelHeaderTitle"
                     role="heading"
                   >
-                    <span />
+                    <span>
+                      name
+                    </span>
                   </strong>
                   <span
                     aria-label="dropdown icon"
@@ -1063,7 +1529,8 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
           </OverlayTrigger>
         </div>
         <div
-          className="channel-header__description light"
+          className="channel-header__description"
+          dir="auto"
           id="channelHeaderDescription"
         >
           <HeaderIconWrapper
@@ -1112,46 +1579,120 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
             onClick={[Function]}
             tooltipKey="channelFiles"
           />
-          <Connect(ChannelPermissionGate)
-            channelId="channel_id"
-            permissions={
-              Array [
-                "manage_public_channel_properties",
-              ]
-            }
-            teamId="team_id"
+          <div
+            className="header-popover-text-measurer"
           >
-            <button
-              className="header-placeholder style--none"
-              onClick={[Function]}
+            <Connect(Markdown)
+              message="header"
+              options={
+                Object {
+                  "atMentions": true,
+                  "channelNamesMap": undefined,
+                  "mentionHighlight": false,
+                  "singleline": true,
+                }
+              }
+            />
+          </div>
+          <span
+            className="header-description__text"
+            onClick={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+          >
+            <Overlay
+              animation={[Function]}
+              onEnter={[Function]}
+              onHide={[Function]}
+              placement="bottom"
+              rootClose={true}
+              show={false}
+              target={null}
             >
-              <MemoizedFormattedMessage
-                defaultMessage="Add a channel header"
-                id="channel_header.addChannelHeader"
-              />
-              <MemoizedFormattedMessage
-                defaultMessage="Edit"
-                id="channel_header.editLink"
+              <Popover
+                className="channel-header__popover"
+                id="header-popover"
+                placement="bottom"
+                popoverSize="lg"
+                popoverStyle="info"
+                style={
+                  Object {
+                    "maxWidth": "0px",
+                    "transform": "translate(0px, 0px)",
+                  }
+                }
               >
-                <Component />
-              </MemoizedFormattedMessage>
-            </button>
-          </Connect(ChannelPermissionGate)>
+                <span
+                  onClick={[Function]}
+                >
+                  <Connect(Markdown)
+                    message="header"
+                    options={
+                      Object {
+                        "atMentions": true,
+                        "channelNamesMap": undefined,
+                        "mentionHighlight": false,
+                        "singleline": false,
+                      }
+                    }
+                  />
+                </span>
+              </Popover>
+            </Overlay>
+            <Connect(Markdown)
+              message="header"
+              options={
+                Object {
+                  "atMentions": true,
+                  "channelNamesMap": undefined,
+                  "mentionHighlight": false,
+                  "singleline": true,
+                }
+              }
+            />
+          </span>
         </div>
       </div>
     </div>
     <Connect(injectIntl(ChannelHeaderPlug))
       channel={
         Object {
+          "create_at": 0,
+          "creator_id": "id",
           "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
+          "header": "header",
           "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
           "name": "Test",
+          "purpose": "purpose",
+          "scheme_id": "id",
           "team_id": "team_id",
+          "type": "O",
+          "update_at": 0,
         }
       }
       channelMember={
         Object {
           "channel_id": "channel_id",
+          "last_update_at": 0,
+          "last_viewed_at": 0,
+          "mention_count": 0,
+          "mention_count_root": 0,
+          "msg_count": 0,
+          "msg_count_root": 0,
+          "notify_props": Object {
+            "desktop": "default",
+            "email": "default",
+            "ignore_channel_mentions": "default",
+            "mark_unread": "all",
+            "push": "default",
+          },
+          "roles": "channel_user",
+          "scheme_admin": false,
+          "scheme_user": true,
           "user_id": "user_id",
         }
       }
@@ -1160,10 +1701,21 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
     <ChannelInfoButton
       channel={
         Object {
+          "create_at": 0,
+          "creator_id": "id",
           "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
+          "header": "header",
           "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
           "name": "Test",
+          "purpose": "purpose",
+          "scheme_id": "id",
           "team_id": "team_id",
+          "type": "O",
+          "update_at": 0,
         }
       }
     />
@@ -1179,7 +1731,7 @@ exports[`components/ChannelHeader should render not active channel files 1`] = `
   data-channelid="channel_id"
   id="channel-header"
   role="banner"
-  tabIndex="-1"
+  tabIndex={-1}
 >
   <div
     className="flex-parent"
@@ -1209,12 +1761,14 @@ exports[`components/ChannelHeader should render not active channel files 1`] = `
                   className="channel-header__trigger style--none "
                 >
                   <strong
-                    aria-level="2"
+                    aria-level={2}
                     className="heading"
                     id="channelHeaderTitle"
                     role="heading"
                   >
-                    <span />
+                    <span>
+                      name
+                    </span>
                   </strong>
                   <span
                     aria-label="dropdown icon"
@@ -1262,7 +1816,8 @@ exports[`components/ChannelHeader should render not active channel files 1`] = `
           </div>
         </div>
         <div
-          className="channel-header__description light"
+          className="channel-header__description"
+          dir="auto"
           id="channelHeaderDescription"
         >
           <HeaderIconWrapper
@@ -1288,7 +1843,7 @@ exports[`components/ChannelHeader should render not active channel files 1`] = `
           />
           <HeaderIconWrapper
             ariaLabel={true}
-            buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
+            buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left channel-header__icon--active"
             buttonId="channelHeaderPinButton"
             iconComponent={
               <i
@@ -1311,46 +1866,120 @@ exports[`components/ChannelHeader should render not active channel files 1`] = `
             onClick={[Function]}
             tooltipKey="channelFiles"
           />
-          <Connect(ChannelPermissionGate)
-            channelId="channel_id"
-            permissions={
-              Array [
-                "manage_public_channel_properties",
-              ]
-            }
-            teamId="team_id"
+          <div
+            className="header-popover-text-measurer"
           >
-            <button
-              className="header-placeholder style--none"
-              onClick={[Function]}
+            <Connect(Markdown)
+              message="header"
+              options={
+                Object {
+                  "atMentions": true,
+                  "channelNamesMap": undefined,
+                  "mentionHighlight": false,
+                  "singleline": true,
+                }
+              }
+            />
+          </div>
+          <span
+            className="header-description__text"
+            onClick={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+          >
+            <Overlay
+              animation={[Function]}
+              onEnter={[Function]}
+              onHide={[Function]}
+              placement="bottom"
+              rootClose={true}
+              show={false}
+              target={null}
             >
-              <MemoizedFormattedMessage
-                defaultMessage="Add a channel header"
-                id="channel_header.addChannelHeader"
-              />
-              <MemoizedFormattedMessage
-                defaultMessage="Edit"
-                id="channel_header.editLink"
+              <Popover
+                className="channel-header__popover"
+                id="header-popover"
+                placement="bottom"
+                popoverSize="lg"
+                popoverStyle="info"
+                style={
+                  Object {
+                    "maxWidth": "0px",
+                    "transform": "translate(0px, 0px)",
+                  }
+                }
               >
-                <Component />
-              </MemoizedFormattedMessage>
-            </button>
-          </Connect(ChannelPermissionGate)>
+                <span
+                  onClick={[Function]}
+                >
+                  <Connect(Markdown)
+                    message="header"
+                    options={
+                      Object {
+                        "atMentions": true,
+                        "channelNamesMap": undefined,
+                        "mentionHighlight": false,
+                        "singleline": false,
+                      }
+                    }
+                  />
+                </span>
+              </Popover>
+            </Overlay>
+            <Connect(Markdown)
+              message="header"
+              options={
+                Object {
+                  "atMentions": true,
+                  "channelNamesMap": undefined,
+                  "mentionHighlight": false,
+                  "singleline": true,
+                }
+              }
+            />
+          </span>
         </div>
       </div>
     </div>
     <Connect(injectIntl(ChannelHeaderPlug))
       channel={
         Object {
+          "create_at": 0,
+          "creator_id": "id",
           "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
+          "header": "header",
           "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
           "name": "Test",
+          "purpose": "purpose",
+          "scheme_id": "id",
           "team_id": "team_id",
+          "type": "O",
+          "update_at": 0,
         }
       }
       channelMember={
         Object {
           "channel_id": "channel_id",
+          "last_update_at": 0,
+          "last_viewed_at": 0,
+          "mention_count": 0,
+          "mention_count_root": 0,
+          "msg_count": 0,
+          "msg_count_root": 0,
+          "notify_props": Object {
+            "desktop": "default",
+            "email": "default",
+            "ignore_channel_mentions": "default",
+            "mark_unread": "all",
+            "push": "default",
+          },
+          "roles": "channel_user",
+          "scheme_admin": false,
+          "scheme_user": true,
           "user_id": "user_id",
         }
       }
@@ -1359,10 +1988,21 @@ exports[`components/ChannelHeader should render not active channel files 1`] = `
     <ChannelInfoButton
       channel={
         Object {
+          "create_at": 0,
+          "creator_id": "id",
           "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
+          "header": "header",
           "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
           "name": "Test",
+          "purpose": "purpose",
+          "scheme_id": "id",
           "team_id": "team_id",
+          "type": "O",
+          "update_at": 0,
         }
       }
     />
@@ -1375,10 +2015,10 @@ exports[`components/ChannelHeader should render properly when custom status is e
   aria-label="channel header region"
   className="channel-header alt a11y__region"
   data-a11y-sort-order="8"
-  data-channelid="undefined"
+  data-channelid="channel_id"
   id="channel-header"
   role="banner"
-  tabIndex="-1"
+  tabIndex={-1}
 >
   <div
     className="flex-parent"
@@ -1408,21 +2048,18 @@ exports[`components/ChannelHeader should render properly when custom status is e
                   className="channel-header__trigger style--none "
                 >
                   <strong
-                    aria-level="2"
+                    aria-level={2}
                     className="heading"
                     id="channelHeaderTitle"
                     role="heading"
                   >
                     <span>
-                      <ArchiveIcon
-                        className="icon icon__archive icon channel-header-archived-icon svg-text-color"
-                      />
                       <MemoizedFormattedMessage
                         defaultMessage="{displayname} (you) "
                         id="channel_header.directchannel.you"
                         values={
                           Object {
-                            "displayname": undefined,
+                            "displayname": "some-user",
                           }
                         }
                       />
@@ -1441,6 +2078,40 @@ exports[`components/ChannelHeader should render properly when custom status is e
               </div>
               <ChannelHeaderDropdown />
             </MenuWrapper>
+            <OverlayTrigger
+              defaultOverlayShown={false}
+              delayShow={400}
+              key="isFavorite-undefined"
+              onEntering={[Function]}
+              overlay={
+                <Tooltip
+                  id="favoriteTooltip"
+                >
+                  <Memo(MemoizedFormattedMessage)
+                    defaultMessage="Add to Favorites"
+                    id="channelHeader.addToFavorites"
+                  />
+                </Tooltip>
+              }
+              placement="bottom"
+              trigger={
+                Array [
+                  "hover",
+                  "focus",
+                ]
+              }
+            >
+              <button
+                aria-label="add to favorites"
+                className="style--none color--link channel-header__favorites inactive"
+                id="toggleFavorite"
+                onClick={[Function]}
+              >
+                <i
+                  className="icon icon-star-outline"
+                />
+              </button>
+            </OverlayTrigger>
           </div>
         </div>
         <div
@@ -1564,14 +2235,43 @@ exports[`components/ChannelHeader should render properly when custom status is e
     <Connect(injectIntl(ChannelHeaderPlug))
       channel={
         Object {
+          "create_at": 0,
+          "creator_id": "id",
+          "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
           "header": "not the bot description",
+          "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
+          "name": "DN",
+          "purpose": "purpose",
+          "scheme_id": "id",
           "status": "offline",
+          "team_id": "team_id",
           "type": "D",
+          "update_at": 0,
         }
       }
       channelMember={
         Object {
           "channel_id": "channel_id",
+          "last_update_at": 0,
+          "last_viewed_at": 0,
+          "mention_count": 0,
+          "mention_count_root": 0,
+          "msg_count": 0,
+          "msg_count_root": 0,
+          "notify_props": Object {
+            "desktop": "default",
+            "email": "default",
+            "ignore_channel_mentions": "default",
+            "mark_unread": "all",
+            "push": "default",
+          },
+          "roles": "channel_user",
+          "scheme_admin": false,
+          "scheme_user": true,
           "user_id": "user_id",
         }
       }
@@ -1580,9 +2280,22 @@ exports[`components/ChannelHeader should render properly when custom status is e
     <ChannelInfoButton
       channel={
         Object {
+          "create_at": 0,
+          "creator_id": "id",
+          "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
           "header": "not the bot description",
+          "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
+          "name": "DN",
+          "purpose": "purpose",
+          "scheme_id": "id",
           "status": "offline",
+          "team_id": "team_id",
           "type": "D",
+          "update_at": 0,
         }
       }
     />
@@ -1595,10 +2308,10 @@ exports[`components/ChannelHeader should render properly when custom status is s
   aria-label="channel header region"
   className="channel-header alt a11y__region"
   data-a11y-sort-order="8"
-  data-channelid="undefined"
+  data-channelid="channel_id"
   id="channel-header"
   role="banner"
-  tabIndex="-1"
+  tabIndex={-1}
 >
   <div
     className="flex-parent"
@@ -1628,21 +2341,18 @@ exports[`components/ChannelHeader should render properly when custom status is s
                   className="channel-header__trigger style--none "
                 >
                   <strong
-                    aria-level="2"
+                    aria-level={2}
                     className="heading"
                     id="channelHeaderTitle"
                     role="heading"
                   >
                     <span>
-                      <ArchiveIcon
-                        className="icon icon__archive icon channel-header-archived-icon svg-text-color"
-                      />
                       <MemoizedFormattedMessage
                         defaultMessage="{displayname} (you) "
                         id="channel_header.directchannel.you"
                         values={
                           Object {
-                            "displayname": undefined,
+                            "displayname": "some-user",
                           }
                         }
                       />
@@ -1661,6 +2371,40 @@ exports[`components/ChannelHeader should render properly when custom status is s
               </div>
               <ChannelHeaderDropdown />
             </MenuWrapper>
+            <OverlayTrigger
+              defaultOverlayShown={false}
+              delayShow={400}
+              key="isFavorite-undefined"
+              onEntering={[Function]}
+              overlay={
+                <Tooltip
+                  id="favoriteTooltip"
+                >
+                  <Memo(MemoizedFormattedMessage)
+                    defaultMessage="Add to Favorites"
+                    id="channelHeader.addToFavorites"
+                  />
+                </Tooltip>
+              }
+              placement="bottom"
+              trigger={
+                Array [
+                  "hover",
+                  "focus",
+                ]
+              }
+            >
+              <button
+                aria-label="add to favorites"
+                className="style--none color--link channel-header__favorites inactive"
+                id="toggleFavorite"
+                onClick={[Function]}
+              >
+                <i
+                  className="icon icon-star-outline"
+                />
+              </button>
+            </OverlayTrigger>
           </div>
         </div>
         <div
@@ -1800,14 +2544,43 @@ exports[`components/ChannelHeader should render properly when custom status is s
     <Connect(injectIntl(ChannelHeaderPlug))
       channel={
         Object {
+          "create_at": 0,
+          "creator_id": "id",
+          "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
           "header": "not the bot description",
+          "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
+          "name": "DN",
+          "purpose": "purpose",
+          "scheme_id": "id",
           "status": "offline",
+          "team_id": "team_id",
           "type": "D",
+          "update_at": 0,
         }
       }
       channelMember={
         Object {
           "channel_id": "channel_id",
+          "last_update_at": 0,
+          "last_viewed_at": 0,
+          "mention_count": 0,
+          "mention_count_root": 0,
+          "msg_count": 0,
+          "msg_count_root": 0,
+          "notify_props": Object {
+            "desktop": "default",
+            "email": "default",
+            "ignore_channel_mentions": "default",
+            "mark_unread": "all",
+            "push": "default",
+          },
+          "roles": "channel_user",
+          "scheme_admin": false,
+          "scheme_user": true,
           "user_id": "user_id",
         }
       }
@@ -1816,9 +2589,22 @@ exports[`components/ChannelHeader should render properly when custom status is s
     <ChannelInfoButton
       channel={
         Object {
+          "create_at": 0,
+          "creator_id": "id",
+          "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
           "header": "not the bot description",
+          "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
+          "name": "DN",
+          "purpose": "purpose",
+          "scheme_id": "id",
           "status": "offline",
+          "team_id": "team_id",
           "type": "D",
+          "update_at": 0,
         }
       }
     />
@@ -1828,19 +2614,13 @@ exports[`components/ChannelHeader should render properly when custom status is s
 
 exports[`components/ChannelHeader should render properly when empty 1`] = `
 <div
-  className="channel-header"
-/>
-`;
-
-exports[`components/ChannelHeader should render properly when populated 1`] = `
-<div
   aria-label="channel header region"
   className="channel-header alt a11y__region"
   data-a11y-sort-order="8"
   data-channelid="channel_id"
   id="channel-header"
   role="banner"
-  tabIndex="-1"
+  tabIndex={-1}
 >
   <div
     className="flex-parent"
@@ -1870,12 +2650,14 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
                   className="channel-header__trigger style--none "
                 >
                   <strong
-                    aria-level="2"
+                    aria-level={2}
                     className="heading"
                     id="channelHeaderTitle"
                     role="heading"
                   >
-                    <span />
+                    <span>
+                      name
+                    </span>
                   </strong>
                   <span
                     aria-label="dropdown icon"
@@ -1923,7 +2705,8 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
           </div>
         </div>
         <div
-          className="channel-header__description light"
+          className="channel-header__description"
+          dir="auto"
           id="channelHeaderDescription"
         >
           <HeaderIconWrapper
@@ -1972,46 +2755,120 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
             onClick={[Function]}
             tooltipKey="channelFiles"
           />
-          <Connect(ChannelPermissionGate)
-            channelId="channel_id"
-            permissions={
-              Array [
-                "manage_public_channel_properties",
-              ]
-            }
-            teamId="team_id"
+          <div
+            className="header-popover-text-measurer"
           >
-            <button
-              className="header-placeholder style--none"
-              onClick={[Function]}
+            <Connect(Markdown)
+              message="header"
+              options={
+                Object {
+                  "atMentions": true,
+                  "channelNamesMap": undefined,
+                  "mentionHighlight": false,
+                  "singleline": true,
+                }
+              }
+            />
+          </div>
+          <span
+            className="header-description__text"
+            onClick={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+          >
+            <Overlay
+              animation={[Function]}
+              onEnter={[Function]}
+              onHide={[Function]}
+              placement="bottom"
+              rootClose={true}
+              show={false}
+              target={null}
             >
-              <MemoizedFormattedMessage
-                defaultMessage="Add a channel header"
-                id="channel_header.addChannelHeader"
-              />
-              <MemoizedFormattedMessage
-                defaultMessage="Edit"
-                id="channel_header.editLink"
+              <Popover
+                className="channel-header__popover"
+                id="header-popover"
+                placement="bottom"
+                popoverSize="lg"
+                popoverStyle="info"
+                style={
+                  Object {
+                    "maxWidth": "0px",
+                    "transform": "translate(0px, 0px)",
+                  }
+                }
               >
-                <Component />
-              </MemoizedFormattedMessage>
-            </button>
-          </Connect(ChannelPermissionGate)>
+                <span
+                  onClick={[Function]}
+                >
+                  <Connect(Markdown)
+                    message="header"
+                    options={
+                      Object {
+                        "atMentions": true,
+                        "channelNamesMap": undefined,
+                        "mentionHighlight": false,
+                        "singleline": false,
+                      }
+                    }
+                  />
+                </span>
+              </Popover>
+            </Overlay>
+            <Connect(Markdown)
+              message="header"
+              options={
+                Object {
+                  "atMentions": true,
+                  "channelNamesMap": undefined,
+                  "mentionHighlight": false,
+                  "singleline": true,
+                }
+              }
+            />
+          </span>
         </div>
       </div>
     </div>
     <Connect(injectIntl(ChannelHeaderPlug))
       channel={
         Object {
+          "create_at": 0,
+          "creator_id": "id",
           "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
+          "header": "header",
           "id": "channel_id",
-          "name": "Test",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
+          "name": "DN",
+          "purpose": "purpose",
+          "scheme_id": "id",
           "team_id": "team_id",
+          "type": "O",
+          "update_at": 0,
         }
       }
       channelMember={
         Object {
           "channel_id": "channel_id",
+          "last_update_at": 0,
+          "last_viewed_at": 0,
+          "mention_count": 0,
+          "mention_count_root": 0,
+          "msg_count": 0,
+          "msg_count_root": 0,
+          "notify_props": Object {
+            "desktop": "default",
+            "email": "default",
+            "ignore_channel_mentions": "default",
+            "mark_unread": "all",
+            "push": "default",
+          },
+          "roles": "channel_user",
+          "scheme_admin": false,
+          "scheme_user": true,
           "user_id": "user_id",
         }
       }
@@ -2020,10 +2877,21 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
     <ChannelInfoButton
       channel={
         Object {
+          "create_at": 0,
+          "creator_id": "id",
           "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
+          "header": "header",
           "id": "channel_id",
-          "name": "Test",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
+          "name": "DN",
+          "purpose": "purpose",
+          "scheme_id": "id",
           "team_id": "team_id",
+          "type": "O",
+          "update_at": 0,
         }
       }
     />
@@ -2031,7 +2899,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
 </div>
 `;
 
-exports[`components/ChannelHeader should render properly when populated with channel props 1`] = `
+exports[`components/ChannelHeader should render properly when populated 1`] = `
 <div
   aria-label="channel header region"
   className="channel-header alt a11y__region"
@@ -2039,7 +2907,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
   data-channelid="channel_id"
   id="channel-header"
   role="banner"
-  tabIndex="-1"
+  tabIndex={-1}
 >
   <div
     className="flex-parent"
@@ -2069,15 +2937,13 @@ exports[`components/ChannelHeader should render properly when populated with cha
                   className="channel-header__trigger style--none "
                 >
                   <strong
-                    aria-level="2"
+                    aria-level={2}
                     className="heading"
                     id="channelHeaderTitle"
                     role="heading"
                   >
                     <span>
-                      <ArchiveIcon
-                        className="icon icon__archive icon channel-header-archived-icon svg-text-color"
-                      />
+                      name
                     </span>
                   </strong>
                   <span
@@ -2089,6 +2955,327 @@ exports[`components/ChannelHeader should render properly when populated with cha
               </div>
               <ChannelHeaderDropdown />
             </MenuWrapper>
+            <OverlayTrigger
+              defaultOverlayShown={false}
+              delayShow={400}
+              key="isFavorite-undefined"
+              onEntering={[Function]}
+              overlay={
+                <Tooltip
+                  id="favoriteTooltip"
+                >
+                  <Memo(MemoizedFormattedMessage)
+                    defaultMessage="Add to Favorites"
+                    id="channelHeader.addToFavorites"
+                  />
+                </Tooltip>
+              }
+              placement="bottom"
+              trigger={
+                Array [
+                  "hover",
+                  "focus",
+                ]
+              }
+            >
+              <button
+                aria-label="add to favorites"
+                className="style--none color--link channel-header__favorites inactive"
+                id="toggleFavorite"
+                onClick={[Function]}
+              >
+                <i
+                  className="icon icon-star-outline"
+                />
+              </button>
+            </OverlayTrigger>
+          </div>
+        </div>
+        <div
+          className="channel-header__description"
+          dir="auto"
+          id="channelHeaderDescription"
+        >
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide"
+            buttonId="member_rhs"
+            iconComponent={
+              <React.Fragment>
+                <i
+                  aria-hidden="true"
+                  className="icon icon-account-outline channel-header__members"
+                />
+                <span
+                  className="icon__text"
+                  id="channelMemberCountText"
+                >
+                  -
+                </span>
+              </React.Fragment>
+            }
+            onClick={[Function]}
+            tooltipKey="channelMembers"
+          />
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
+            buttonId="channelHeaderPinButton"
+            iconComponent={
+              <i
+                aria-hidden="true"
+                className="icon icon-pin-outline channel-header__pin"
+              />
+            }
+            onClick={[Function]}
+            tooltipKey="pinnedPosts"
+          />
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
+            buttonId="channelHeaderFilesButton"
+            iconComponent={
+              <i
+                className="icon icon-file-text-outline"
+              />
+            }
+            onClick={[Function]}
+            tooltipKey="channelFiles"
+          />
+          <div
+            className="header-popover-text-measurer"
+          >
+            <Connect(Markdown)
+              message="header"
+              options={
+                Object {
+                  "atMentions": true,
+                  "channelNamesMap": undefined,
+                  "mentionHighlight": false,
+                  "singleline": true,
+                }
+              }
+            />
+          </div>
+          <span
+            className="header-description__text"
+            onClick={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+          >
+            <Overlay
+              animation={[Function]}
+              onEnter={[Function]}
+              onHide={[Function]}
+              placement="bottom"
+              rootClose={true}
+              show={false}
+              target={null}
+            >
+              <Popover
+                className="channel-header__popover"
+                id="header-popover"
+                placement="bottom"
+                popoverSize="lg"
+                popoverStyle="info"
+                style={
+                  Object {
+                    "maxWidth": "0px",
+                    "transform": "translate(0px, 0px)",
+                  }
+                }
+              >
+                <span
+                  onClick={[Function]}
+                >
+                  <Connect(Markdown)
+                    message="header"
+                    options={
+                      Object {
+                        "atMentions": true,
+                        "channelNamesMap": undefined,
+                        "mentionHighlight": false,
+                        "singleline": false,
+                      }
+                    }
+                  />
+                </span>
+              </Popover>
+            </Overlay>
+            <Connect(Markdown)
+              message="header"
+              options={
+                Object {
+                  "atMentions": true,
+                  "channelNamesMap": undefined,
+                  "mentionHighlight": false,
+                  "singleline": true,
+                }
+              }
+            />
+          </span>
+        </div>
+      </div>
+    </div>
+    <Connect(injectIntl(ChannelHeaderPlug))
+      channel={
+        Object {
+          "create_at": 0,
+          "creator_id": "id",
+          "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
+          "header": "header",
+          "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
+          "name": "Test",
+          "purpose": "purpose",
+          "scheme_id": "id",
+          "team_id": "team_id",
+          "type": "O",
+          "update_at": 0,
+        }
+      }
+      channelMember={
+        Object {
+          "channel_id": "channel_id",
+          "last_update_at": 0,
+          "last_viewed_at": 0,
+          "mention_count": 0,
+          "mention_count_root": 0,
+          "msg_count": 0,
+          "msg_count_root": 0,
+          "notify_props": Object {
+            "desktop": "default",
+            "email": "default",
+            "ignore_channel_mentions": "default",
+            "mark_unread": "all",
+            "push": "default",
+          },
+          "roles": "channel_user",
+          "scheme_admin": false,
+          "scheme_user": true,
+          "user_id": "user_id",
+        }
+      }
+    />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "create_at": 0,
+          "creator_id": "id",
+          "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
+          "header": "header",
+          "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
+          "name": "Test",
+          "purpose": "purpose",
+          "scheme_id": "id",
+          "team_id": "team_id",
+          "type": "O",
+          "update_at": 0,
+        }
+      }
+    />
+  </div>
+</div>
+`;
+
+exports[`components/ChannelHeader should render properly when populated with channel props 1`] = `
+<div
+  aria-label="channel header region"
+  className="channel-header alt a11y__region"
+  data-a11y-sort-order="8"
+  data-channelid="channel_id"
+  id="channel-header"
+  role="banner"
+  tabIndex={-1}
+>
+  <div
+    className="flex-parent"
+  >
+    <div
+      className="flex-child"
+    >
+      <div
+        className="channel-header__info"
+        id="channelHeaderInfo"
+      >
+        <div
+          className="channel-header__title dropdown"
+        >
+          <div>
+            <MenuWrapper
+              animationComponent={[Function]}
+              className=""
+              onToggle={[Function]}
+            >
+              <div
+                className="channel-header__top"
+                id="channelHeaderDropdownButton"
+              >
+                <button
+                  aria-label="channel menu"
+                  className="channel-header__trigger style--none "
+                >
+                  <strong
+                    aria-level={2}
+                    className="heading"
+                    id="channelHeaderTitle"
+                    role="heading"
+                  >
+                    <span>
+                      name
+                    </span>
+                  </strong>
+                  <span
+                    aria-label="dropdown icon"
+                    className="icon icon-chevron-down header-dropdown-chevron-icon"
+                    id="channelHeaderDropdownIcon"
+                  />
+                </button>
+              </div>
+              <ChannelHeaderDropdown />
+            </MenuWrapper>
+            <OverlayTrigger
+              defaultOverlayShown={false}
+              delayShow={400}
+              key="isFavorite-undefined"
+              onEntering={[Function]}
+              overlay={
+                <Tooltip
+                  id="favoriteTooltip"
+                >
+                  <Memo(MemoizedFormattedMessage)
+                    defaultMessage="Add to Favorites"
+                    id="channelHeader.addToFavorites"
+                  />
+                </Tooltip>
+              }
+              placement="bottom"
+              trigger={
+                Array [
+                  "hover",
+                  "focus",
+                ]
+              }
+            >
+              <button
+                aria-label="add to favorites"
+                className="style--none color--link channel-header__favorites inactive"
+                id="toggleFavorite"
+                onClick={[Function]}
+              >
+                <i
+                  className="icon icon-star-outline"
+                />
+              </button>
+            </OverlayTrigger>
           </div>
         </div>
         <div
@@ -2232,8 +3419,15 @@ exports[`components/ChannelHeader should render properly when populated with cha
     <Connect(injectIntl(ChannelHeaderPlug))
       channel={
         Object {
+          "create_at": 0,
+          "creator_id": "id",
+          "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
           "header": "See ~test",
           "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
           "name": "Test",
           "props": Object {
             "channel_mentions": Object {
@@ -2242,12 +3436,32 @@ exports[`components/ChannelHeader should render properly when populated with cha
               },
             },
           },
+          "purpose": "purpose",
+          "scheme_id": "id",
           "team_id": "team_id",
+          "type": "O",
+          "update_at": 0,
         }
       }
       channelMember={
         Object {
           "channel_id": "channel_id",
+          "last_update_at": 0,
+          "last_viewed_at": 0,
+          "mention_count": 0,
+          "mention_count_root": 0,
+          "msg_count": 0,
+          "msg_count_root": 0,
+          "notify_props": Object {
+            "desktop": "default",
+            "email": "default",
+            "ignore_channel_mentions": "default",
+            "mark_unread": "all",
+            "push": "default",
+          },
+          "roles": "channel_user",
+          "scheme_admin": false,
+          "scheme_user": true,
           "user_id": "user_id",
         }
       }
@@ -2256,8 +3470,15 @@ exports[`components/ChannelHeader should render properly when populated with cha
     <ChannelInfoButton
       channel={
         Object {
+          "create_at": 0,
+          "creator_id": "id",
+          "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
           "header": "See ~test",
           "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
           "name": "Test",
           "props": Object {
             "channel_mentions": Object {
@@ -2266,7 +3487,11 @@ exports[`components/ChannelHeader should render properly when populated with cha
               },
             },
           },
+          "purpose": "purpose",
+          "scheme_id": "id",
           "team_id": "team_id",
+          "type": "O",
+          "update_at": 0,
         }
       }
     />
@@ -2282,7 +3507,7 @@ exports[`components/ChannelHeader should render shared view 1`] = `
   data-channelid="channel_id"
   id="channel-header"
   role="banner"
-  tabIndex="-1"
+  tabIndex={-1}
 >
   <div
     className="flex-parent"
@@ -2312,12 +3537,13 @@ exports[`components/ChannelHeader should render shared view 1`] = `
                   className="channel-header__trigger style--none "
                 >
                   <strong
-                    aria-level="2"
+                    aria-level={2}
                     className="heading"
                     id="channelHeaderTitle"
                     role="heading"
                   >
                     <span>
+                      name
                       <SharedChannelIndicator
                         channelType="O"
                         className="shared-channel-icon"
@@ -2371,7 +3597,8 @@ exports[`components/ChannelHeader should render shared view 1`] = `
           </div>
         </div>
         <div
-          className="channel-header__description light"
+          className="channel-header__description"
+          dir="auto"
           id="channelHeaderDescription"
         >
           <HeaderIconWrapper
@@ -2420,48 +3647,121 @@ exports[`components/ChannelHeader should render shared view 1`] = `
             onClick={[Function]}
             tooltipKey="channelFiles"
           />
-          <Connect(ChannelPermissionGate)
-            channelId="channel_id"
-            permissions={
-              Array [
-                "manage_public_channel_properties",
-              ]
-            }
-            teamId="team_id"
+          <div
+            className="header-popover-text-measurer"
           >
-            <button
-              className="header-placeholder style--none"
-              onClick={[Function]}
+            <Connect(Markdown)
+              message="header"
+              options={
+                Object {
+                  "atMentions": true,
+                  "channelNamesMap": undefined,
+                  "mentionHighlight": false,
+                  "singleline": true,
+                }
+              }
+            />
+          </div>
+          <span
+            className="header-description__text"
+            onClick={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+          >
+            <Overlay
+              animation={[Function]}
+              onEnter={[Function]}
+              onHide={[Function]}
+              placement="bottom"
+              rootClose={true}
+              show={false}
+              target={null}
             >
-              <MemoizedFormattedMessage
-                defaultMessage="Add a channel header"
-                id="channel_header.addChannelHeader"
-              />
-              <MemoizedFormattedMessage
-                defaultMessage="Edit"
-                id="channel_header.editLink"
+              <Popover
+                className="channel-header__popover"
+                id="header-popover"
+                placement="bottom"
+                popoverSize="lg"
+                popoverStyle="info"
+                style={
+                  Object {
+                    "maxWidth": "0px",
+                    "transform": "translate(0px, 0px)",
+                  }
+                }
               >
-                <Component />
-              </MemoizedFormattedMessage>
-            </button>
-          </Connect(ChannelPermissionGate)>
+                <span
+                  onClick={[Function]}
+                >
+                  <Connect(Markdown)
+                    message="header"
+                    options={
+                      Object {
+                        "atMentions": true,
+                        "channelNamesMap": undefined,
+                        "mentionHighlight": false,
+                        "singleline": false,
+                      }
+                    }
+                  />
+                </span>
+              </Popover>
+            </Overlay>
+            <Connect(Markdown)
+              message="header"
+              options={
+                Object {
+                  "atMentions": true,
+                  "channelNamesMap": undefined,
+                  "mentionHighlight": false,
+                  "singleline": true,
+                }
+              }
+            />
+          </span>
         </div>
       </div>
     </div>
     <Connect(injectIntl(ChannelHeaderPlug))
       channel={
         Object {
+          "create_at": 0,
+          "creator_id": "id",
           "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
+          "header": "header",
           "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
           "name": "Test",
+          "purpose": "purpose",
+          "scheme_id": "id",
           "shared": true,
           "team_id": "team_id",
           "type": "O",
+          "update_at": 0,
         }
       }
       channelMember={
         Object {
           "channel_id": "channel_id",
+          "last_update_at": 0,
+          "last_viewed_at": 0,
+          "mention_count": 0,
+          "mention_count_root": 0,
+          "msg_count": 0,
+          "msg_count_root": 0,
+          "notify_props": Object {
+            "desktop": "default",
+            "email": "default",
+            "ignore_channel_mentions": "default",
+            "mark_unread": "all",
+            "push": "default",
+          },
+          "roles": "channel_user",
+          "scheme_admin": false,
+          "scheme_user": true,
           "user_id": "user_id",
         }
       }
@@ -2470,12 +3770,22 @@ exports[`components/ChannelHeader should render shared view 1`] = `
     <ChannelInfoButton
       channel={
         Object {
+          "create_at": 0,
+          "creator_id": "id",
           "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
+          "header": "header",
           "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
           "name": "Test",
+          "purpose": "purpose",
+          "scheme_id": "id",
           "shared": true,
           "team_id": "team_id",
           "type": "O",
+          "update_at": 0,
         }
       }
     />
@@ -2491,7 +3801,7 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
   data-channelid="channel_id"
   id="channel-header"
   role="banner"
-  tabIndex="-1"
+  tabIndex={-1}
 >
   <div
     className="flex-parent"
@@ -2521,12 +3831,14 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
                   className="channel-header__trigger style--none "
                 >
                   <strong
-                    aria-level="2"
+                    aria-level={2}
                     className="heading"
                     id="channelHeaderTitle"
                     role="heading"
                   >
-                    <span />
+                    <span>
+                      name
+                    </span>
                   </strong>
                   <span
                     aria-label="dropdown icon"
@@ -2574,7 +3886,8 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
           </div>
         </div>
         <div
-          className="channel-header__description light"
+          className="channel-header__description"
+          dir="auto"
           id="channelHeaderDescription"
         >
           <HeaderIconWrapper
@@ -2631,46 +3944,120 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
             onClick={[Function]}
             tooltipKey="channelFiles"
           />
-          <Connect(ChannelPermissionGate)
-            channelId="channel_id"
-            permissions={
-              Array [
-                "manage_public_channel_properties",
-              ]
-            }
-            teamId="team_id"
+          <div
+            className="header-popover-text-measurer"
           >
-            <button
-              className="header-placeholder style--none"
-              onClick={[Function]}
+            <Connect(Markdown)
+              message="header"
+              options={
+                Object {
+                  "atMentions": true,
+                  "channelNamesMap": undefined,
+                  "mentionHighlight": false,
+                  "singleline": true,
+                }
+              }
+            />
+          </div>
+          <span
+            className="header-description__text"
+            onClick={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+          >
+            <Overlay
+              animation={[Function]}
+              onEnter={[Function]}
+              onHide={[Function]}
+              placement="bottom"
+              rootClose={true}
+              show={false}
+              target={null}
             >
-              <MemoizedFormattedMessage
-                defaultMessage="Add a channel header"
-                id="channel_header.addChannelHeader"
-              />
-              <MemoizedFormattedMessage
-                defaultMessage="Edit"
-                id="channel_header.editLink"
+              <Popover
+                className="channel-header__popover"
+                id="header-popover"
+                placement="bottom"
+                popoverSize="lg"
+                popoverStyle="info"
+                style={
+                  Object {
+                    "maxWidth": "0px",
+                    "transform": "translate(0px, 0px)",
+                  }
+                }
               >
-                <Component />
-              </MemoizedFormattedMessage>
-            </button>
-          </Connect(ChannelPermissionGate)>
+                <span
+                  onClick={[Function]}
+                >
+                  <Connect(Markdown)
+                    message="header"
+                    options={
+                      Object {
+                        "atMentions": true,
+                        "channelNamesMap": undefined,
+                        "mentionHighlight": false,
+                        "singleline": false,
+                      }
+                    }
+                  />
+                </span>
+              </Popover>
+            </Overlay>
+            <Connect(Markdown)
+              message="header"
+              options={
+                Object {
+                  "atMentions": true,
+                  "channelNamesMap": undefined,
+                  "mentionHighlight": false,
+                  "singleline": true,
+                }
+              }
+            />
+          </span>
         </div>
       </div>
     </div>
     <Connect(injectIntl(ChannelHeaderPlug))
       channel={
         Object {
+          "create_at": 0,
+          "creator_id": "id",
           "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
+          "header": "header",
           "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
           "name": "Test",
+          "purpose": "purpose",
+          "scheme_id": "id",
           "team_id": "team_id",
+          "type": "O",
+          "update_at": 0,
         }
       }
       channelMember={
         Object {
           "channel_id": "channel_id",
+          "last_update_at": 0,
+          "last_viewed_at": 0,
+          "mention_count": 0,
+          "mention_count_root": 0,
+          "msg_count": 0,
+          "msg_count_root": 0,
+          "notify_props": Object {
+            "desktop": "default",
+            "email": "default",
+            "ignore_channel_mentions": "default",
+            "mark_unread": "all",
+            "push": "default",
+          },
+          "roles": "channel_user",
+          "scheme_admin": false,
+          "scheme_user": true,
           "user_id": "user_id",
         }
       }
@@ -2679,10 +4066,21 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
     <ChannelInfoButton
       channel={
         Object {
+          "create_at": 0,
+          "creator_id": "id",
           "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
+          "header": "header",
           "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
           "name": "Test",
+          "purpose": "purpose",
+          "scheme_id": "id",
           "team_id": "team_id",
+          "type": "O",
+          "update_at": 0,
         }
       }
     />
