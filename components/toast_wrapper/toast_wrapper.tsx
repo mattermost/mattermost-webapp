@@ -43,7 +43,7 @@ type OwnProps = {
     latestPostTimeStamp: number;
     atBottom?: boolean;
     lastViewedBottom: number;
-    width?: number;
+    width: number;
     lastViewedAt: number;
     focusedPostId?: string;
     initScrollOffsetFromBottom: number;
@@ -302,7 +302,6 @@ class ToastWrapper extends React.PureComponent<Props, State> {
     }
 
     newMessagesToastText = (count: number, since: number) => {
-        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         if (this.props.width > TOAST_TEXT_COLLAPSE_WIDTH && typeof since !== 'undefined') {
             return (
 
@@ -418,7 +417,6 @@ class ToastWrapper extends React.PureComponent<Props, State> {
         if (showUnreadToast && unreadCount as number > 0) {
             return (
 
-                // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                 <Toast {...unreadToastProps}>
                     {this.newMessagesToastText(unreadCount as number, lastViewedAt)}
                 </Toast>
@@ -435,12 +433,12 @@ class ToastWrapper extends React.PureComponent<Props, State> {
             jumpDirection: 'up',
         };
 
-        if (showUnreadWithBottomStartToast && unreadCount > 0) {
+        if (showUnreadWithBottomStartToast && unreadCount as number > 0) {
             return (
 
                 // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                 <Toast {...unreadWithBottomStartToastProps}>
-                    {this.newMessagesToastText(unreadCount, lastViewedAt)}
+                    {this.newMessagesToastText(unreadCount as number, lastViewedAt)}
                 </Toast>
             );
         }
@@ -454,12 +452,11 @@ class ToastWrapper extends React.PureComponent<Props, State> {
 
             return (
 
-                // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                 <Toast
                     {...unreadToastProps}
                     {...showNewMessagesToastOverrides}
                 >
-                    {this.newMessagesToastText(unreadCount, lastViewedAt)}
+                    {this.newMessagesToastText(unreadCount as number, lastViewedAt)}
                 </Toast>
             );
         }
@@ -477,7 +474,6 @@ class ToastWrapper extends React.PureComponent<Props, State> {
 
             return (
 
-                // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                 <Toast {...archiveToastProps}>
                     {this.archiveToastText()}
                 </Toast>
@@ -487,7 +483,6 @@ class ToastWrapper extends React.PureComponent<Props, State> {
         if (showSearchHintToast) {
             return (
 
-                // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                 <HintToast
                     onDismiss={this.hideSearchHintToast}
                 >
@@ -504,7 +499,6 @@ class ToastWrapper extends React.PureComponent<Props, State> {
 
         return (
 
-            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
             <React.Fragment>
                 {toastToRender}
             </React.Fragment>
