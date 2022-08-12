@@ -4,34 +4,24 @@
 import React from 'react';
 import {FormattedMessage, injectIntl} from 'react-intl';
 
-// @ts-expect-error TS(2307): Cannot find module 'components/toast/toast' or its... Remove this comment to see the full error message
 import Toast from 'components/toast/toast';
 
-// @ts-expect-error TS(2307): Cannot find module 'components/timestamp' or its c... Remove this comment to see the full error message
 import Timestamp, {RelativeRanges} from 'components/timestamp';
 
-// @ts-expect-error TS(2307): Cannot find module 'utils/post_utils' or its corre... Remove this comment to see the full error message
 import {isIdNotPost, getNewMessageIndex} from 'utils/post_utils';
 
-// @ts-expect-error TS(2307): Cannot find module 'utils/utils' or its correspond... Remove this comment to see the full error message
 import * as Utils from 'utils/utils';
 
-// @ts-expect-error TS(2307): Cannot find module 'utils/datetime' or its corresp... Remove this comment to see the full error message
 import {isToday} from 'utils/datetime';
 
-// @ts-expect-error TS(2307): Cannot find module 'utils/constants' or its corres... Remove this comment to see the full error message
 import Constants from 'utils/constants';
 
-// @ts-expect-error TS(2307): Cannot find module 'utils/browser_history' or its ... Remove this comment to see the full error message
 import {browserHistory} from 'utils/browser_history';
 
-// @ts-expect-error TS(2307): Cannot find module 'components/search_shortcut' or... Remove this comment to see the full error message
 import {SearchShortcut} from 'components/search_shortcut';
 
-// @ts-expect-error TS(2307): Cannot find module 'components/hint-toast/hint_toa... Remove this comment to see the full error message
 import {HintToast} from 'components/hint-toast/hint_toast';
 
-// @ts-expect-error TS(2307): Cannot find module 'mattermost-redux/constants' or... Remove this comment to see the full error message
 import {Preferences} from 'mattermost-redux/constants';
 import {IDMappedObjects} from '@mattermost/types/utilities';
 import {Post} from '@mattermost/types/posts';
@@ -54,7 +44,7 @@ type OwnProps = {
     atBottom?: boolean;
     lastViewedBottom: number;
     width?: number;
-    lastViewedAt?: number;
+    lastViewedAt: number;
     focusedPostId?: string;
     initScrollOffsetFromBottom: number;
 
@@ -228,13 +218,10 @@ class ToastWrapper extends React.PureComponent<Props, State> {
             this.hideArchiveToast();
         }
 
-        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         const prevPostsCount = prevProps.postListIds.length;
 
-        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         const presentPostsCount = postListIds.length;
 
-        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         const postsAddedAtBottom = presentPostsCount !== prevPostsCount && postListIds[0] !== prevProps.postListIds[0];
         const notBottomWithLatestPosts = atBottom === false && atLatestPost && presentPostsCount > 0;
 
@@ -319,7 +306,6 @@ class ToastWrapper extends React.PureComponent<Props, State> {
         if (this.props.width > TOAST_TEXT_COLLAPSE_WIDTH && typeof since !== 'undefined') {
             return (
 
-                // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                 <FormattedMessage
                     id='postlist.toast.newMessagesSince'
                     defaultMessage='{count, number} new {count, plural, one {message} other {messages}} {isToday, select, true {} other {since}} {date}'
@@ -328,7 +314,6 @@ class ToastWrapper extends React.PureComponent<Props, State> {
                         isToday: isToday(new Date(since)).toString(),
                         date: (
 
-                            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                             <Timestamp
                                 value={since}
                                 useTime={false}
@@ -341,7 +326,6 @@ class ToastWrapper extends React.PureComponent<Props, State> {
         }
         return (
 
-            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
             <FormattedMessage
                 id='postlist.toast.newMessages'
                 defaultMessage={'{count, number} new {count, plural, one {message} other {messages}}'}
@@ -353,7 +337,6 @@ class ToastWrapper extends React.PureComponent<Props, State> {
     archiveToastText = () => {
         return (
 
-            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
             <FormattedMessage
                 id='postlist.toast.history'
                 defaultMessage='Viewing message history'
@@ -364,13 +347,11 @@ class ToastWrapper extends React.PureComponent<Props, State> {
     getSearchHintToastText = () => {
         return (
 
-            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
             <FormattedMessage
                 id='postlist.toast.searchHint'
                 defaultMessage='Tip: Try {searchShortcut} to search this channel'
                 values={{
 
-                    // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                     searchShortcut: <SearchShortcut/>,
                 }}
             />
@@ -434,12 +415,12 @@ class ToastWrapper extends React.PureComponent<Props, State> {
             showActions: !atLatestPost || (atLatestPost && !atBottom),
         };
 
-        if (showUnreadToast && unreadCount > 0) {
+        if (showUnreadToast && unreadCount as number > 0) {
             return (
 
                 // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                 <Toast {...unreadToastProps}>
-                    {this.newMessagesToastText(unreadCount, lastViewedAt)}
+                    {this.newMessagesToastText(unreadCount as number, lastViewedAt)}
                 </Toast>
             );
         }
