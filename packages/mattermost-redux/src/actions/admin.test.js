@@ -29,6 +29,8 @@ describe('Actions.Admin', () => {
 
     beforeEach(() => {
         store = configureStore();
+
+        nock.cleanAll();
     });
 
     afterAll(() => {
@@ -117,15 +119,6 @@ describe('Actions.Admin', () => {
                 },
             });
 
-        nock(Client4.getBaseRoute()).
-            post('/terms_of_service').
-            reply(201, {
-                create_at: 1537976679426,
-                id: '1234',
-                text: 'Terms of Service',
-                user_id: '1',
-            });
-
         const {data} = await Actions.getConfig()(store.dispatch, store.getState);
         const updated = JSON.parse(JSON.stringify(data));
         const oldSiteName = updated.TeamSettings.SiteName;
@@ -138,9 +131,9 @@ describe('Actions.Admin', () => {
 
         await Actions.updateConfig(updated)(store.dispatch, store.getState);
 
-        const state = store.getState();
+        let state = store.getState();
 
-        const config = state.entities.admin.config;
+        let config = state.entities.admin.config;
         assert.ok(config);
         assert.ok(config.TeamSettings);
         assert.ok(config.TeamSettings.SiteName === testSiteName);
@@ -152,6 +145,13 @@ describe('Actions.Admin', () => {
             reply(200, updated);
 
         await Actions.updateConfig(updated)(store.dispatch, store.getState);
+
+        state = store.getState();
+
+        config = state.entities.admin.config;
+        assert.ok(config);
+        assert.ok(config.TeamSettings);
+        assert.ok(config.TeamSettings.SiteName === oldSiteName);
     });
 
     it('reloadConfig', async () => {
@@ -160,6 +160,8 @@ describe('Actions.Admin', () => {
             reply(200, OK_RESPONSE);
 
         await Actions.reloadConfig()(store.dispatch, store.getState);
+
+        expect(nock.isDone()).toBe(true);
     });
 
     it('getEnvironmentConfig', async () => {
@@ -198,6 +200,8 @@ describe('Actions.Admin', () => {
             reply(200, OK_RESPONSE);
 
         await Actions.testEmail(config)(store.dispatch, store.getState);
+
+        expect(nock.isDone()).toBe(true);
     });
 
     it('testSiteURL', async () => {
@@ -206,6 +210,8 @@ describe('Actions.Admin', () => {
             reply(200, OK_RESPONSE);
 
         await Actions.testSiteURL('http://lo.cal')(store.dispatch, store.getState);
+
+        expect(nock.isDone()).toBe(true);
     });
 
     it('testS3Connection', async () => {
@@ -220,6 +226,8 @@ describe('Actions.Admin', () => {
             reply(200, OK_RESPONSE);
 
         await Actions.testS3Connection(config)(store.dispatch, store.getState);
+
+        expect(nock.isDone()).toBe(true);
     });
 
     it('invalidateCaches', async () => {
@@ -228,6 +236,8 @@ describe('Actions.Admin', () => {
             reply(200, OK_RESPONSE);
 
         await Actions.invalidateCaches()(store.dispatch, store.getState);
+
+        expect(nock.isDone()).toBe(true);
     });
 
     it('recycleDatabase', async () => {
@@ -236,6 +246,8 @@ describe('Actions.Admin', () => {
             reply(200, OK_RESPONSE);
 
         await Actions.recycleDatabase()(store.dispatch, store.getState);
+
+        expect(nock.isDone()).toBe(true);
     });
 
     it('createComplianceReport', async () => {
@@ -365,6 +377,8 @@ describe('Actions.Admin', () => {
             reply(200, OK_RESPONSE);
 
         await Actions.uploadBrandImage(testImageData)(store.dispatch, store.getState);
+
+        expect(nock.isDone()).toBe(true);
     });
 
     it('deleteBrandImage', async () => {
@@ -373,6 +387,8 @@ describe('Actions.Admin', () => {
             reply(200, OK_RESPONSE);
 
         await Actions.deleteBrandImage()(store.dispatch, store.getState);
+
+        expect(nock.isDone()).toBe(true);
     });
 
     it('getClusterStatus', async () => {
@@ -401,6 +417,8 @@ describe('Actions.Admin', () => {
             reply(200, OK_RESPONSE);
 
         await Actions.testLdap()(store.dispatch, store.getState);
+
+        expect(nock.isDone()).toBe(true);
     });
 
     it('syncLdap', async () => {
@@ -409,6 +427,8 @@ describe('Actions.Admin', () => {
             reply(200, OK_RESPONSE);
 
         await Actions.syncLdap()(store.dispatch, store.getState);
+
+        expect(nock.isDone()).toBe(true);
     });
 
     it('getSamlCertificateStatus', async () => {
@@ -439,6 +459,8 @@ describe('Actions.Admin', () => {
             reply(200, OK_RESPONSE);
 
         await Actions.uploadPublicSamlCertificate(testFileData)(store.dispatch, store.getState);
+
+        expect(nock.isDone()).toBe(true);
     });
 
     it('uploadPrivateSamlCertificate', async () => {
@@ -449,6 +471,8 @@ describe('Actions.Admin', () => {
             reply(200, OK_RESPONSE);
 
         await Actions.uploadPrivateSamlCertificate(testFileData)(store.dispatch, store.getState);
+
+        expect(nock.isDone()).toBe(true);
     });
 
     it('uploadIdpSamlCertificate', async () => {
@@ -459,6 +483,8 @@ describe('Actions.Admin', () => {
             reply(200, OK_RESPONSE);
 
         await Actions.uploadIdpSamlCertificate(testFileData)(store.dispatch, store.getState);
+
+        expect(nock.isDone()).toBe(true);
     });
 
     it('removePublicSamlCertificate', async () => {
@@ -467,6 +493,8 @@ describe('Actions.Admin', () => {
             reply(200, OK_RESPONSE);
 
         await Actions.removePublicSamlCertificate()(store.dispatch, store.getState);
+
+        expect(nock.isDone()).toBe(true);
     });
 
     it('removePrivateSamlCertificate', async () => {
@@ -475,6 +503,8 @@ describe('Actions.Admin', () => {
             reply(200, OK_RESPONSE);
 
         await Actions.removePrivateSamlCertificate()(store.dispatch, store.getState);
+
+        expect(nock.isDone()).toBe(true);
     });
 
     it('removeIdpSamlCertificate', async () => {
@@ -483,6 +513,8 @@ describe('Actions.Admin', () => {
             reply(200, OK_RESPONSE);
 
         await Actions.removeIdpSamlCertificate()(store.dispatch, store.getState);
+
+        expect(nock.isDone()).toBe(true);
     });
 
     it('uploadPublicLdapCertificate', async () => {
@@ -492,7 +524,9 @@ describe('Actions.Admin', () => {
             post('/ldap/certificate/public').
             reply(200, OK_RESPONSE);
 
-        await Actions.uploadPublicSamlCertificate(testFileData)(store.dispatch, store.getState);
+        await Actions.uploadPublicLdapCertificate(testFileData)(store.dispatch, store.getState);
+
+        expect(nock.isDone()).toBe(true);
     });
 
     it('uploadPrivateLdapCertificate', async () => {
@@ -502,10 +536,9 @@ describe('Actions.Admin', () => {
             post('/ldap/certificate/private').
             reply(200, OK_RESPONSE);
 
-        const request = await Actions.uploadPrivateLdapCertificate(testFileData)(store.dispatch, store.getState);
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('uploadPrivateLdapCertificate request failed err=' + request.error);
-        }
+        await Actions.uploadPrivateLdapCertificate(testFileData)(store.dispatch, store.getState);
+
+        expect(nock.isDone()).toBe(true);
     });
 
     it('removePublicLdapCertificate', async () => {
@@ -513,10 +546,9 @@ describe('Actions.Admin', () => {
             delete('/ldap/certificate/public').
             reply(200, OK_RESPONSE);
 
-        const request = await Actions.removePublicLdapCertificate()(store.dispatch, store.getState);
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('removePublicLdapCertificate request failed err=' + request.error);
-        }
+        await Actions.removePublicLdapCertificate()(store.dispatch, store.getState);
+
+        expect(nock.isDone()).toBe(true);
     });
 
     it('removePrivateLdapCertificate', async () => {
@@ -524,10 +556,9 @@ describe('Actions.Admin', () => {
             delete('/ldap/certificate/private').
             reply(200, OK_RESPONSE);
 
-        const request = await Actions.removePrivateLdapCertificate()(store.dispatch, store.getState);
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('removePrivateLdapCertificate request failed err=' + request.error);
-        }
+        await Actions.removePrivateLdapCertificate()(store.dispatch, store.getState);
+
+        expect(nock.isDone()).toBe(true);
     });
 
     it('testElasticsearch', async () => {
@@ -536,6 +567,8 @@ describe('Actions.Admin', () => {
             reply(200, OK_RESPONSE);
 
         await Actions.testElasticsearch({})(store.dispatch, store.getState);
+
+        expect(nock.isDone()).toBe(true);
     });
 
     it('purgeElasticsearchIndexes', async () => {
@@ -544,6 +577,8 @@ describe('Actions.Admin', () => {
             reply(200, OK_RESPONSE);
 
         await Actions.purgeElasticsearchIndexes()(store.dispatch, store.getState);
+
+        expect(nock.isDone()).toBe(true);
     });
 
     it('uploadLicense', async () => {
@@ -554,6 +589,8 @@ describe('Actions.Admin', () => {
             reply(200, OK_RESPONSE);
 
         await Actions.uploadLicense(testFileData)(store.dispatch, store.getState);
+
+        expect(nock.isDone()).toBe(true);
     });
 
     it('removeLicense', async () => {
@@ -562,6 +599,8 @@ describe('Actions.Admin', () => {
             reply(200, OK_RESPONSE);
 
         await Actions.removeLicense()(store.dispatch, store.getState);
+
+        expect(nock.isDone()).toBe(true);
     });
 
     it('getStandardAnalytics', async () => {
@@ -657,19 +696,25 @@ describe('Actions.Admin', () => {
         const data2 = fs.createReadStream('tests/setup.js');
         const testPlugin = {id: 'testplugin', webapp: {bundle_path: '/static/somebundle.js'}};
 
-        nock(Client4.getBaseRoute()).
+        let scope = nock(Client4.getBaseRoute()).
             post('/plugins', (body) => {
                 return !body.match(/Content-Disposition: form-data; name="force"\r\n\r\ntrue\r\n/);
             }).
             reply(200, testPlugin);
         await Actions.uploadPlugin(data1, false)(store.dispatch, store.getState);
 
-        nock(Client4.getBaseRoute()).
+        expect(scope.isDone()).toBe(true);
+
+        scope = nock(Client4.getBaseRoute()).
             post('/plugins', (body) => {
                 return body.match(/Content-Disposition: form-data; name="force"\r\n\r\ntrue\r\n/);
             }).
             reply(200, testPlugin);
+
+        expect(scope.isDone()).not.toBe(true);
         await Actions.uploadPlugin(data2, true)(store.dispatch, store.getState);
+
+        expect(scope.isDone()).toBe(true);
     });
 
     it('uploadPlugin', async () => {
@@ -680,6 +725,8 @@ describe('Actions.Admin', () => {
             post('/plugins').
             reply(200, testPlugin);
         await Actions.uploadPlugin(testFileData, false)(store.dispatch, store.getState);
+
+        expect(nock.isDone()).toBe(true);
     });
 
     it('overwriteInstallPlugin', async () => {
@@ -687,16 +734,20 @@ describe('Actions.Admin', () => {
         const testPlugin = {id: 'testplugin', webapp: {bundle_path: '/static/somebundle.js'}};
 
         let urlMatch = `/plugins/install_from_url?plugin_download_url=${downloadUrl}&force=false`;
-        nock(Client4.getBaseRoute()).
+        let scope = nock(Client4.getBaseRoute()).
             post(urlMatch).
             reply(200, testPlugin);
         await Actions.installPluginFromUrl(downloadUrl, false)(store.dispatch, store.getState);
 
+        expect(scope.isDone()).toBe(true);
+
         urlMatch = `/plugins/install_from_url?plugin_download_url=${downloadUrl}&force=true`;
-        nock(Client4.getBaseRoute()).
+        scope = nock(Client4.getBaseRoute()).
             post(urlMatch).
             reply(200, testPlugin);
         await Actions.installPluginFromUrl(downloadUrl, true)(store.dispatch, store.getState);
+
+        expect(scope.isDone()).toBe(true);
     });
 
     it('installPluginFromUrl', async () => {
@@ -708,6 +759,8 @@ describe('Actions.Admin', () => {
             post(urlMatch).
             reply(200, testPlugin);
         await Actions.installPluginFromUrl(downloadUrl, false)(store.dispatch, store.getState);
+
+        expect(nock.isDone()).toBe(true);
     });
 
     it('getPlugins', async () => {
@@ -862,45 +915,57 @@ describe('Actions.Admin', () => {
     });
 
     it('getLdapGroups is_linked', async () => {
-        nock(Client4.getBaseRoute()).
+        let scope = nock(Client4.getBaseRoute()).
             get('/ldap/groups?page=0&per_page=100&q=&is_linked=true').
             reply(200, NO_GROUPS_RESPONSE);
 
         await Actions.getLdapGroups(0, 100, {q: '', is_linked: true})(store.dispatch, store.getState);
 
-        nock(Client4.getBaseRoute()).
+        expect(scope.isDone()).toBe(true);
+
+        scope = nock(Client4.getBaseRoute()).
             get('/ldap/groups?page=0&per_page=100&q=&is_linked=false').
             reply(200, NO_GROUPS_RESPONSE);
 
         await Actions.getLdapGroups(0, 100, {q: '', is_linked: false})(store.dispatch, store.getState);
+
+        expect(scope.isDone()).toBe(true);
     });
 
     it('getLdapGroups is_configured', async () => {
-        nock(Client4.getBaseRoute()).
+        let scope = nock(Client4.getBaseRoute()).
             get('/ldap/groups?page=0&per_page=100&q=&is_configured=true').
             reply(200, NO_GROUPS_RESPONSE);
 
         await Actions.getLdapGroups(0, 100, {q: '', is_configured: true})(store.dispatch, store.getState);
 
-        nock(Client4.getBaseRoute()).
+        expect(scope.isDone()).toBe(true);
+
+        scope = nock(Client4.getBaseRoute()).
             get('/ldap/groups?page=0&per_page=100&q=&is_configured=false').
             reply(200, NO_GROUPS_RESPONSE);
 
         await Actions.getLdapGroups(0, 100, {q: '', is_configured: false})(store.dispatch, store.getState);
+
+        expect(scope.isDone()).toBe(true);
     });
 
     it('getLdapGroups with name query', async () => {
-        nock(Client4.getBaseRoute()).
+        let scope = nock(Client4.getBaseRoute()).
             get('/ldap/groups?page=0&per_page=100&q=est').
             reply(200, NO_GROUPS_RESPONSE);
 
         await Actions.getLdapGroups(0, 100, {q: 'est'})(store.dispatch, store.getState);
 
-        nock(Client4.getBaseRoute()).
+        expect(scope.isDone()).toBe(true);
+
+        scope = nock(Client4.getBaseRoute()).
             get('/ldap/groups?page=0&per_page=100&q=esta').
             reply(200, NO_GROUPS_RESPONSE);
 
         await Actions.getLdapGroups(0, 100, {q: 'esta'})(store.dispatch, store.getState);
+
+        expect(scope.isDone()).toBe(true);
     });
 
     it('linkLdapGroup', async () => {
@@ -989,7 +1054,7 @@ describe('Actions.Admin', () => {
 
         await Actions.setSamlIdpCertificateFromMetadata(samlIdpPublicCertificateText)(store.dispatch, store.getState);
 
-        // This test doesn't appear to actually check anything?
+        expect(nock.isDone()).toBe(true);
     });
 
     it('sendWarnMetricAck', async () => {
@@ -997,10 +1062,12 @@ describe('Actions.Admin', () => {
             id: 'metric1',
         };
         nock(Client4.getBaseRoute()).
-            post('/warn_metrics/ack').
+            post('/warn_metrics/ack/metric1').
             reply(200, OK_RESPONSE);
 
         await Actions.sendWarnMetricAck(warnMetricAck.id, false)(store.dispatch, store.getState);
+
+        expect(nock.isDone()).toBe(true);
     });
 
     it('getDataRetentionCustomPolicies', async () => {
