@@ -10,11 +10,11 @@ import {AnnouncementBarTypes} from 'utils/constants';
 import AnnouncementBar from '../default_announcement_bar';
 
 interface Props {
-    buildHash: string | undefined;
+    buildHash?: string;
 }
 
 interface State {
-    buildHashOnAppLoad: string | undefined;
+    buildHashOnAppLoad?: string;
 }
 
 export default class VersionBar extends React.PureComponent <Props, State> {
