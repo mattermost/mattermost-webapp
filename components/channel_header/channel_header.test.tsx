@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {ComponentProps} from 'react';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import ChannelHeader from 'components/channel_header/channel_header';
@@ -9,18 +9,19 @@ import ChannelInfoButton from 'components/channel_header/channel_info_button';
 import Markdown from 'components/markdown';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import Constants, {RHSStates} from 'utils/constants';
+import {TestHelper} from '../../utils/test_helper';
+import {ChannelType} from '@mattermost/types/channels';
+import {UserCustomStatus} from '@mattermost/types/users';
 
 describe('components/ChannelHeader', () => {
-    const baseProps = {
+    const baseProps: ComponentProps<typeof ChannelHeader> = {
         actions: {
-            leaveChannel: jest.fn(),
             favoriteChannel: jest.fn(),
             unfavoriteChannel: jest.fn(),
             showFlaggedPosts: jest.fn(),
             showPinnedPosts: jest.fn(),
             showChannelFiles: jest.fn(),
             showMentions: jest.fn(),
-            openRHSSearch: jest.fn(),
             closeRightHandSide: jest.fn(),
             openModal: jest.fn(),
             closeModal: jest.fn(),
@@ -29,14 +30,10 @@ describe('components/ChannelHeader', () => {
             goToLastViewedChannel: jest.fn(),
             showChannelMembers: jest.fn(),
         },
-        showChannelFilesButton: false,
-        teamUrl: 'team_url',
         teamId: 'team_id',
-        channel: {},
-        channelMember: {},
-        currentUser: {},
-        lastViewedChannelName: '',
-        penultimateViewedChannelName: '',
+        channel: TestHelper.getChannelMock({}),
+        channelMember: TestHelper.getChannelMembershipMock({}),
+        currentUser: TestHelper.getUserMock({}),
         teammateNameDisplaySetting: '',
         currentRelativeTeamUrl: '',
         isCustomStatusEnabled: false,
@@ -46,19 +43,19 @@ describe('components/ChannelHeader', () => {
 
     const populatedProps = {
         ...baseProps,
-        channel: {
+        channel: TestHelper.getChannelMock({
             id: 'channel_id',
             team_id: 'team_id',
             name: 'Test',
             delete_at: 0,
-        },
-        channelMember: {
+        }),
+        channelMember: TestHelper.getChannelMembershipMock({
             channel_id: 'channel_id',
             user_id: 'user_id',
-        },
-        currentUser: {
+        }),
+        currentUser: TestHelper.getUserMock({
             id: 'user_id',
-        },
+        }),
     };
 
     test('should render properly when empty', () => {
@@ -78,7 +75,7 @@ describe('components/ChannelHeader', () => {
     test('should render properly when populated with channel props', () => {
         const props = {
             ...baseProps,
-            channel: {
+            channel: TestHelper.getChannelMock({
                 id: 'channel_id',
                 team_id: 'team_id',
                 name: 'Test',
@@ -90,14 +87,14 @@ describe('components/ChannelHeader', () => {
                         },
                     },
                 },
-            },
-            channelMember: {
+            }),
+            channelMember: TestHelper.getChannelMembershipMock({
                 channel_id: 'channel_id',
                 user_id: 'user_id',
-            },
-            currentUser: {
+            }),
+            currentUser: TestHelper.getUserMock({
                 id: 'user_id',
-            },
+            }),
         };
 
         const wrapper = shallowWithIntl(
@@ -121,11 +118,11 @@ describe('components/ChannelHeader', () => {
     test('should render shared view', () => {
         const props = {
             ...populatedProps,
-            channel: {
+            channel: TestHelper.getChannelMock({
                 ...populatedProps.channel,
                 shared: true,
-                type: Constants.OPEN_CHANNEL,
-            },
+                type: Constants.OPEN_CHANNEL as ChannelType,
+            }),
         };
 
         const wrapper = shallowWithIntl(
@@ -190,7 +187,7 @@ describe('components/ChannelHeader', () => {
     test('should render not active channel files', () => {
         const props = {
             ...populatedProps,
-            rhsState: RHSStates.CHANNEL_PIN,
+            rhsState: RHSStates.PIN,
             showChannelFilesButton: true,
         };
 
@@ -227,15 +224,15 @@ describe('components/ChannelHeader', () => {
     test('should render bot description', () => {
         const props = {
             ...populatedProps,
-            channel: {
+            channel: TestHelper.getChannelMock({
                 header: 'not the bot description',
-                type: Constants.DM_CHANNEL,
-            },
-            dmUser: {
+                type: Constants.DM_CHANNEL as ChannelType,
+            }),
+            dmUser: TestHelper.getUserMock({
                 id: 'user_id',
                 is_bot: true,
                 bot_description: 'the bot description',
-            },
+            }),
         };
 
         const wrapper = shallowWithIntl(
@@ -262,22 +259,22 @@ describe('components/ChannelHeader', () => {
     test('should render the guest badges on gms', () => {
         const props = {
             ...populatedProps,
-            channel: {
+            channel: TestHelper.getChannelMock({
                 header: 'test',
                 display_name: 'regular_user, guest_user',
-                type: Constants.GM_CHANNEL,
-            },
+                type: Constants.GM_CHANNEL as ChannelType,
+            }),
             gmMembers: [
-                {
+                TestHelper.getUserMock({
                     id: 'user_id',
                     username: 'regular_user',
                     roles: 'system_user',
-                },
-                {
+                }),
+                TestHelper.getUserMock({
                     id: 'guest_id',
                     username: 'guest_user',
                     roles: 'system_guest',
-                },
+                }),
             ],
         };
 
@@ -292,20 +289,20 @@ describe('components/ChannelHeader', () => {
     test('should render properly when custom status is set', () => {
         const props = {
             ...populatedProps,
-            channel: {
+            channel: TestHelper.getChannelMock({
                 header: 'not the bot description',
-                type: Constants.DM_CHANNEL,
+                type: Constants.DM_CHANNEL as ChannelType,
                 status: 'offline',
-            },
-            dmUser: {
+            }),
+            dmUser: TestHelper.getUserMock({
                 id: 'user_id',
                 is_bot: false,
-            },
+            }),
             isCustomStatusEnabled: true,
             customStatus: {
                 emoji: 'calender',
                 text: 'In a meeting',
-            },
+            } as UserCustomStatus,
         };
 
         const wrapper = shallowWithIntl(
@@ -317,21 +314,21 @@ describe('components/ChannelHeader', () => {
     test('should render properly when custom status is expired', () => {
         const props = {
             ...populatedProps,
-            channel: {
+            channel: TestHelper.getChannelMock({
                 header: 'not the bot description',
-                type: Constants.DM_CHANNEL,
+                type: Constants.DM_CHANNEL as ChannelType,
                 status: 'offline',
-            },
-            dmUser: {
+            }),
+            dmUser: TestHelper.getUserMock({
                 id: 'user_id',
                 is_bot: false,
-            },
+            }),
             isCustomStatusEnabled: true,
             isCustomStatusExpired: true,
             customStatus: {
                 emoji: 'calender',
                 text: 'In a meeting',
-            },
+            } as UserCustomStatus,
         };
 
         const wrapper = shallowWithIntl(
