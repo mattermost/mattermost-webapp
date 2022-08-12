@@ -60,8 +60,7 @@ type OwnProps = {
 
     updateNewMessagesAtInChannel: (lastViewedAt?: number) => void;
 
-    // @ts-expect-error TS(2552): Cannot find name '$TSFixMeFunction'. Did you mean ... Remove this comment to see the full error message
-    scrollToNewMessage?: $TSFixMeFunction;
+    scrollToNewMessage: () => void;
 
     // @ts-expect-error TS(2552): Cannot find name '$TSFixMeFunction'. Did you mean ... Remove this comment to see the full error message
     scrollToLatestMessages?: $TSFixMeFunction;
