@@ -132,7 +132,7 @@ const MenuCloudTrial = ({id}: Props): JSX.Element | null => {
                     openModalLink: (msg: string) => (
                         <a
                             className='open-see-plans-modal style-link'
-                            onClick={openPricingModal}
+                            onClick={() => openPricingModal({callerInfo: 'menu_cloud_trial'})}
                         >
                             {msg}
                         </a>
