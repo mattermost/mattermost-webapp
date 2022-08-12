@@ -28,6 +28,7 @@ const StarterLeftPanel: React.FC<StarterEditionProps> = ({
 
     const viewPlansButton = (
         <button
+            id='starter_edition_view_plans'
             onClick={openPricingModal}
             className='btn btn-secondary PlanDetails__viewPlansButton'
         >
