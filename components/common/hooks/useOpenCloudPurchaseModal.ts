@@ -26,6 +26,9 @@ export default function useOpenCloudPurchaseModal(options: OpenPurchaseModalOpti
         dispatch(openModal({
             modalId: ModalIdentifiers.CLOUD_PURCHASE,
             dialogType: PurchaseModal,
+            dialogProps: {
+                callerCTA: telemetryProps.callerInfo,
+            },
         }));
     };
 }
