@@ -72,7 +72,7 @@ export const upgradeFreeTierMattermostCloud = (onUpgradeMattermostCloud: (caller
         </div>
         <button
             type='button'
-            onClick={() => onUpgradeMattermostCloud('admin_console_billing_summary_upgrade_legacy_free_tier_upgrade_now_button')}
+            onClick={() => onUpgradeMattermostCloud('billing_summary_legacy_free_tier_upgrade_button')}
             className='UpgradeMattermostCloud__upgradeButton'
         >
             <FormattedMessage
