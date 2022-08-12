@@ -263,10 +263,13 @@ class PurchaseModal extends React.PureComponent<Props, State> {
         this.setState({isUpgradeFromTrial: false});
     }
 
-    openPricingModal = () => {
+    openPricingModal = (callerInfo: string) => {
         this.props.actions.openModal({
             modalId: ModalIdentifiers.PRICING_MODAL,
             dialogType: PricingModal,
+            dialogProps: {
+                callerCTA: callerInfo,
+            },
         });
     };
 
@@ -275,7 +278,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             className='ml-1'
             onClick={() => {
                 trackEvent('cloud_pricing', 'click_compare_plans');
-                this.openPricingModal();
+                this.openPricingModal('purchase_modal_compare_plans_click');
             }}
         >
             <FormattedMessage
