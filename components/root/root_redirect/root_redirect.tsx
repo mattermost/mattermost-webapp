@@ -10,7 +10,7 @@ import {browserHistory} from 'utils/browser_history';
 export type Props = {
     isElegibleForFirstAdmingOnboarding: boolean;
     currentUserId: string;
-    location: Location;
+    location?: Location;
     isFirstAdmin: boolean;
     actions: {
         getFirstAdminSetupComplete: () => Promise<{data: boolean; error: any}>;
