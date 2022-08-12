@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants';
 import {Post} from '@mattermost/types/posts';
 
-import {Theme} from 'mattermost-redux/types/themes';
+import {Theme} from '@mattermost/types/themes';
 
 import * as Utils from 'utils/utils';
 

@@ -6,7 +6,7 @@ import {StripeElements, StripeCardElement, StripeCardElementChangeEvent} from '@
 import {ElementsConsumer, CardElement} from '@stripe/react-stripe-js';
 import {FormattedMessage} from 'react-intl';
 
-import {Theme} from 'mattermost-redux/types/themes';
+import {Theme} from '@mattermost/types/themes';
 import {toRgbValues} from 'utils/utils';
 
 import './card_input.css';

@@ -12,7 +12,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {GetStateFunc, DispatchFunc, ActionFunc} from 'mattermost-redux/types/actions';
 import {PreferenceType} from '@mattermost/types/preferences';
-import {Theme} from 'mattermost-redux/types/themes';
+import {Theme} from '@mattermost/types/themes';
 
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 

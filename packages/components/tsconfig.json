@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "target": "esnext",
-        "module": "esnext",
+        "module": "commonjs",
         "moduleResolution": "node",
         "jsx": "react",
         "esModuleInterop": true,
@@ -13,9 +13,17 @@
         "noEmit": true,
         "declaration": true,
         "outDir": "dist",
+        "rootDir": "./src",
         "paths": {
             "mattermost-redux/*": ["./node_modules/mattermost-redux/src/*"],
-            "@mattermost/types/*": ["./node_modules/@mattermost/types/src/*"]
-        }
+            "@mattermost/types/*": ["./node_modules/@mattermost/types/src/*"],
+            "@mattermost/client/*": ["./node_modules/@mattermost/client/src/*"]
+        },
+        "references": [
+            {"path": "../types"}
+        ],
+        "include": [
+            "./**/*"
+        ]
     }
 }

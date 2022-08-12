@@ -6,7 +6,7 @@ import ColorHash from 'color-hash';
 import ColorContrastChecker from 'color-contrast-checker';
 
 import {UserProfile as UserProfileType} from '@mattermost/types/users';
-import {Theme} from 'mattermost-redux/types/themes';
+import {Theme} from '@mattermost/types/themes';
 
 import {imageURLForUser, isMobile} from 'utils/utils';
 import LocalStorageStore from 'stores/local_storage_store';

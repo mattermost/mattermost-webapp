@@ -7,7 +7,7 @@ import {IntlProvider as BaseIntlProvider} from 'react-intl';
 import {MessageFormatElement} from '@formatjs/icu-messageformat-parser';
 
 import {Client4} from 'mattermost-redux/client';
-import {setLocalizeFunction} from 'mattermost-redux/utils/i18n_utils';
+import {setLocalizeFunction} from '@mattermost/components/utils/i18n';
 
 import * as I18n from 'i18n/i18n';
 

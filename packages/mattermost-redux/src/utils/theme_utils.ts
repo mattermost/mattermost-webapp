@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Theme, ThemeTypeMap} from 'mattermost-redux/types/themes';
+import {Theme, ThemeTypeMap} from '@mattermost/types/themes';
 import {Preferences} from '../constants';
 
 export function makeStyleFromTheme(getStyleFromTheme: (a: any) => any): (a: any) => any {

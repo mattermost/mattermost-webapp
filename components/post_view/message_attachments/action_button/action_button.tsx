@@ -4,7 +4,7 @@
 import React from 'react';
 
 import {changeOpacity} from 'mattermost-redux/utils/theme_utils';
-import {Theme} from 'mattermost-redux/types/themes';
+import {Theme} from '@mattermost/types/themes';
 import {PostAction, PostActionOption} from '@mattermost/types/integration_actions';
 
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';

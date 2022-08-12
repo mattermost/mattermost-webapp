@@ -66,7 +66,7 @@ import {Team} from '@mattermost/types/teams';
 import {Post} from '@mattermost/types/posts';
 import {UserProfile} from '@mattermost/types/users';
 import {Channel} from '@mattermost/types/channels';
-import {Theme} from 'mattermost-redux/types/themes';
+import {Theme} from '@mattermost/types/themes';
 import {ClientConfig} from '@mattermost/types/config';
 
 import {GlobalState} from '@mattermost/types/store';

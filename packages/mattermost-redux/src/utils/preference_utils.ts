@@ -2,10 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {PreferencesType} from '@mattermost/types/preferences';
-
-export function getPreferenceKey(category: string, name: string): string {
-    return `${category}--${name}`;
-}
+export {getPreferenceKey} from '@mattermost/components/utils/preferences';
 
 export function getPreferencesByCategory(myPreferences: PreferencesType, category: string): Map<string, any> {
     const prefix = `${category}--`;

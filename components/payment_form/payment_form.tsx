@@ -12,7 +12,7 @@ import {
 import {PaymentMethod} from '@mattermost/types/cloud';
 
 import {BillingDetails} from 'types/cloud/sku';
-import {Theme} from 'mattermost-redux/types/themes';
+import {Theme} from '@mattermost/types/themes';
 
 import DropdownInput from 'components/dropdown_input';
 import Input from 'components/widgets/inputs/input/input';

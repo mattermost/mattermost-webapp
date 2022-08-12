@@ -11,7 +11,7 @@ import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 import {PreferenceType} from '@mattermost/types/preferences';
 import {GlobalState} from '@mattermost/types/store';
-import {Theme, ThemeKey} from 'mattermost-redux/types/themes';
+import {Theme, ThemeKey} from '@mattermost/types/themes';
 
 import {createShallowSelector} from 'mattermost-redux/utils/helpers';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
