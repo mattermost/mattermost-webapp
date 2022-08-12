@@ -66,8 +66,7 @@ type OwnProps = {
 
     scrollToUnreadMessages: () => void;
 
-    // @ts-expect-error TS(2552): Cannot find name '$TSFixMeFunction'. Did you mean ... Remove this comment to see the full error message
-    updateLastViewedBottomAt?: $TSFixMeFunction;
+    updateLastViewedBottomAt: (lastViewedBottom?: number) => void;
     showSearchHintToast?: boolean;
 
     // @ts-expect-error TS(2552): Cannot find name '$TSFixMeFunction'. Did you mean ... Remove this comment to see the full error message
