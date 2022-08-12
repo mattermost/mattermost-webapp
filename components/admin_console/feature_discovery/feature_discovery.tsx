@@ -88,7 +88,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
             modalId: ModalIdentifiers.CLOUD_PURCHASE,
             dialogType: PurchaseModal,
             dialogProps: {
-                callerCTA: 'click_subscribe_from_feature_discovery',
+                callerCTA: 'feature_discovery_subscribe_button',
             },
         });
     }
