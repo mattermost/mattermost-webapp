@@ -23,6 +23,8 @@ import {SearchShortcut} from 'components/search_shortcut';
 import {HintToast} from 'components/hint-toast/hint_toast';
 
 import {Preferences} from 'mattermost-redux/constants';
+import {IDMappedObjects} from '@mattermost/types/utilities';
+import {Post} from '@mattermost/types/posts';
 
 const TOAST_TEXT_COLLAPSE_WIDTH = 500;
 
@@ -31,27 +33,27 @@ const TOAST_REL_RANGES = [
 ];
 
 type OwnProps = {
-    unreadCountInChannel?: number;
-    newRecentMessagesCount?: number;
+    unreadCountInChannel: number;
+    newRecentMessagesCount: number;
     channelMarkedAsUnread?: boolean;
-    isCollapsedThreadsEnabled?: boolean;
-    rootPosts?: $TSFixMe;
+    isCollapsedThreadsEnabled: boolean;
+    rootPosts: IDMappedObjects<Post>;
     atLatestPost?: boolean;
-    postListIds?: $TSFixMe[];
-    latestPostTimeStamp?: number;
+    postListIds: string[];
+    latestPostTimeStamp: number;
     atBottom?: boolean;
-    lastViewedBottom?: number;
+    lastViewedBottom: number;
     width: number;
-    lastViewedAt?: number;
+    lastViewedAt: number;
     focusedPostId?: string;
-    initScrollOffsetFromBottom?: number;
-    updateNewMessagesAtInChannel?: $TSFixMeFunction;
-    scrollToNewMessage?: $TSFixMeFunction;
-    scrollToLatestMessages?: $TSFixMeFunction;
-    scrollToUnreadMessages?: $TSFixMeFunction;
-    updateLastViewedBottomAt?: $TSFixMeFunction;
+    initScrollOffsetFromBottom: number;
+    updateNewMessagesAtInChannel: (lastViewedAt?: number) => void;
+    scrollToNewMessage: () => void;
+    scrollToLatestMessages: () => void;
+    scrollToUnreadMessages: () => void;
+    updateLastViewedBottomAt: (lastViewedBottom?: number) => void;
     showSearchHintToast?: boolean;
-    onSearchHintDismiss?: $TSFixMeFunction;
+    onSearchHintDismiss?: () => void;
     shouldStartFromBottomWhenUnread?: boolean;
     isNewMessageLineReached?: boolean;
     unreadScrollPosition?: string;
@@ -61,41 +63,50 @@ type OwnProps = {
         };
     };
     actions: {
-        updateToastStatus: $TSFixMeFunction;
+        updateToastStatus: (toastPresent: boolean) => void;
     };
 };
 
-type State = $TSFixMe;
+type State = {
+    unreadCount?: number;
+    unreadCountInChannel: number;
+    channelMarkedAsUnread?: boolean;
+    lastViewedAt?: number;
+    showUnreadToast?: boolean;
+    showNewMessagesToast?: boolean;
+    showMessageHistoryToast?: boolean;
+    showUnreadWithBottomStartToast?: boolean;
+};
 
 type Props = OwnProps & typeof ToastWrapper.defaultProps;
 
 class ToastWrapper extends React.PureComponent<Props, State> {
+    mounted: boolean;
     static defaultProps = {
         focusedPostId: '',
     };
 
     constructor(props: Props) {
         super(props);
+        this.mounted = true;
         this.state = {
             unreadCountInChannel: props.unreadCountInChannel,
         };
     }
 
-    static countNewMessages = (postListIds: $TSFixMe, rootPosts: $TSFixMe, isCollapsedThreadsEnabled: $TSFixMe) => {
+    static countNewMessages = (postListIds: string[], rootPosts: IDMappedObjects<Post>, isCollapsedThreadsEnabled: boolean) => {
         const mark = getNewMessageIndex(postListIds);
         if (mark <= 0) {
             return 0;
         }
-        let newMessages = postListIds.slice(0, mark).filter((id: $TSFixMe) => !isIdNotPost(id));
+        let newMessages = postListIds.slice(0, mark).filter((id: string) => !isIdNotPost(id));
         if (isCollapsedThreadsEnabled) { // in collapsed mode we only count root posts
-            newMessages = newMessages.filter((id: $TSFixMe) => rootPosts[id]);
+            newMessages = newMessages.filter((id: string) => rootPosts[id]);
         }
         return newMessages.length;
     }
 
-    mounted: $TSFixMe;
-
-    static getDerivedStateFromProps(props: $TSFixMe, prevState: $TSFixMe) {
+    static getDerivedStateFromProps(props: Props, prevState: State) {
         let {showUnreadToast, showNewMessagesToast, showMessageHistoryToast, showUnreadWithBottomStartToast} = prevState;
         let unreadCount;
 
@@ -200,13 +211,8 @@ class ToastWrapper extends React.PureComponent<Props, State> {
             this.hideArchiveToast();
         }
 
-        // @ts-expect-error TS(2532) FIXME: Object is possibly 'undefined'.
         const prevPostsCount = prevProps.postListIds.length;
-
-        // @ts-expect-error TS(2532) FIXME: Object is possibly 'undefined'.
         const presentPostsCount = postListIds.length;
-
-        // @ts-expect-error TS(2532) FIXME: Object is possibly 'undefined'.
         const postsAddedAtBottom = presentPostsCount !== prevPostsCount && postListIds[0] !== prevProps.postListIds[0];
         const notBottomWithLatestPosts = atBottom === false && atLatestPost && presentPostsCount > 0;
 
@@ -231,7 +237,7 @@ class ToastWrapper extends React.PureComponent<Props, State> {
         document.removeEventListener('keydown', this.handleShortcut);
     }
 
-    handleShortcut = (e: $TSFixMe) => {
+    handleShortcut = (e: KeyboardEvent) => {
         if (Utils.isKeyPressed(e, Constants.KeyCodes.ESCAPE)) {
             if (this.state.showUnreadToast) {
                 this.hideUnreadToast();
@@ -285,9 +291,8 @@ class ToastWrapper extends React.PureComponent<Props, State> {
             });
         }
     }
-
-    newMessagesToastText = (count: $TSFixMe, since: $TSFixMe) => {
-        // @ts-expect-error TS(2532) FIXME: Object is possibly 'undefined'.
+    
+    newMessagesToastText = (count: number, since: number) => {
         if (this.props.width > TOAST_TEXT_COLLAPSE_WIDTH && typeof since !== 'undefined') {
             return (
                 <FormattedMessage
@@ -399,10 +404,10 @@ class ToastWrapper extends React.PureComponent<Props, State> {
             showActions: !atLatestPost || (atLatestPost && !atBottom),
         };
 
-        if (showUnreadToast && unreadCount > 0) {
+        if (showUnreadToast && unreadCount as number > 0) {
             return (
                 <Toast {...unreadToastProps}>
-                    {this.newMessagesToastText(unreadCount, lastViewedAt)}
+                    {this.newMessagesToastText(unreadCount as number, lastViewedAt)}
                 </Toast>
             );
         }
@@ -427,10 +432,10 @@ class ToastWrapper extends React.PureComponent<Props, State> {
             jumpDirection: 'up',
         };
 
-        if (showUnreadWithBottomStartToast && unreadCount > 0) {
+        if (showUnreadWithBottomStartToast && unreadCount as number > 0) {
             return (
                 <Toast {...unreadWithBottomStartToastProps}>
-                    {this.newMessagesToastText(unreadCount, lastViewedAt)}
+                    {this.newMessagesToastText(unreadCount as number, lastViewedAt)}
                 </Toast>
             );
         }
@@ -447,7 +452,7 @@ class ToastWrapper extends React.PureComponent<Props, State> {
                     {...unreadToastProps}
                     {...showNewMessagesToastOverrides}
                 >
-                    {this.newMessagesToastText(unreadCount, lastViewedAt)}
+                    {this.newMessagesToastText(unreadCount as number, lastViewedAt)}
                 </Toast>
             );
         }
@@ -494,6 +499,5 @@ class ToastWrapper extends React.PureComponent<Props, State> {
     }
 }
 
-// @ts-expect-error TS(2769) FIXME: No overload matches this call.
 export default injectIntl(ToastWrapper);
 
