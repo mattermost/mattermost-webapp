@@ -8,7 +8,7 @@ import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 import {getCloudSubscription, getCloudProducts, getCloudCustomer} from 'mattermost-redux/actions/cloud';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 
-import {pageVisited, trackEvent} from 'actions/telemetry_actions';
+import {pageVisited} from 'actions/telemetry_actions';
 
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 import CloudTrialBanner from 'components/admin_console/billing/billing_subscriptions/cloud_trial_banner';
@@ -33,6 +33,7 @@ import BillingSummary from '../billing_summary';
 import PlanDetails from '../plan_details';
 
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
+import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurchaseModal';
 import useGetLimits from 'components/common/hooks/useGetLimits';
 
 import ContactSalesCard from './contact_sales_card';
@@ -76,11 +77,11 @@ const BillingSubscriptions = () => {
     const product = useSelector(getSubscriptionProduct);
 
     const openPricingModal = useOpenPricingModal();
+    const openCloudPurchaseModal = useOpenCloudPurchaseModal({});
 
     // show the upgrade section when is a free tier customer
-    const onUpgradeMattermostCloud = () => {
-        trackEvent('cloud_admin', 'click_upgrade_mattermost_cloud');
-        openPricingModal();
+    const onUpgradeMattermostCloud = (callerInfo: string) => {
+        openCloudPurchaseModal({callerInfo});
     };
 
     let isFreeTrial = false;
@@ -108,7 +109,7 @@ const BillingSubscriptions = () => {
         pageVisited('cloud_admin', 'pageview_billing_subscription');
 
         if (actionQueryParam === 'show_purchase_modal') {
-            onUpgradeMattermostCloud();
+            onUpgradeMattermostCloud('admin_console_billing_billing_subscriptions_action_query_param');
         }
 
         if (actionQueryParam === 'show_pricing_modal') {
