@@ -55,6 +55,14 @@ const noCompanyInfoSection = (
     </div>
 );
 
+const retrieveSubheaderText = (isCompanyBillingFilled: boolean) => {
+    if (isCompanyBillingFilled) {
+        return {id: 'admin.billing.company_info_display.detailsProvided', defaultMessage: 'Your company name and address'};
+    }
+
+    return {id: 'admin.billing.company_info_display.provideDetails', defaultMessage: 'Provide your company name and address'}
+}
+
 const CompanyInfoDisplay: React.FC = () => {
     const companyInfo = useSelector((state: GlobalState) => state.entities.cloud.customer);
 
@@ -64,7 +72,9 @@ const CompanyInfoDisplay: React.FC = () => {
 
     let body = noCompanyInfoSection;
     const address = companyInfo?.company_address?.line1 ? companyInfo.company_address : companyInfo?.billing_address;
-    if (address?.line1) {
+    const isCompanyBillingFilled = address?.line1 !== undefined;
+    const subHeaderText = retrieveSubheaderText(isCompanyBillingFilled);
+    if (isCompanyBillingFilled) {
         body = (
             <div className='CompanyInfoDisplay__companyInfo'>
                 <div className='CompanyInfoDisplay__companyInfo-text'>
@@ -118,8 +128,8 @@ const CompanyInfoDisplay: React.FC = () => {
                     </div>
                     <div className='CompanyInfoDisplay__headerText-bottom'>
                         <FormattedMessage
-                            id='admin.billing.company_info_display.provideDetails'
-                            defaultMessage='Provide your company name and address'
+                            id={subHeaderText.id}
+                            defaultMessage={subHeaderText.defaultMessage}
                         />
                     </div>
                 </div>
