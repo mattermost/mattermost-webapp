@@ -49,7 +49,7 @@ type OwnProps = {
     isCollapsedThreadsEnabled?: boolean;
     rootPosts: IDMappedObjects<Post>;
     atLatestPost?: boolean;
-    postListIds?: $TSFixMe[];
+    postListIds: string[];
     latestPostTimeStamp: number;
     atBottom?: boolean;
     lastViewedBottom: number;
@@ -107,7 +107,7 @@ class ToastWrapper extends React.PureComponent<Props, State> {
         };
     }
 
-    static countNewMessages = (postListIds: $TSFixMe, rootPosts: IDMappedObjects<Post>, isCollapsedThreadsEnabled: $TSFixMe) => {
+    static countNewMessages = (postListIds: string[], rootPosts: IDMappedObjects<Post>, isCollapsedThreadsEnabled: $TSFixMe) => {
         const mark = getNewMessageIndex(postListIds);
         if (mark <= 0) {
             return 0;
