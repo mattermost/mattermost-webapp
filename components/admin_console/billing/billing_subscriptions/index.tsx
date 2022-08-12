@@ -109,7 +109,7 @@ const BillingSubscriptions = () => {
         pageVisited('cloud_admin', 'pageview_billing_subscription');
 
         if (actionQueryParam === 'show_purchase_modal') {
-            onUpgradeMattermostCloud('admin_console_billing_billing_subscriptions_action_query_param');
+            onUpgradeMattermostCloud('billing_subscriptions_external_direct_link');
         }
 
         if (actionQueryParam === 'show_pricing_modal') {
