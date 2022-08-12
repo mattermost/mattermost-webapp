@@ -46,7 +46,7 @@ type OwnProps = {
     unreadCountInChannel: number;
     newRecentMessagesCount: number;
     channelMarkedAsUnread?: boolean;
-    isCollapsedThreadsEnabled?: boolean;
+    isCollapsedThreadsEnabled: boolean;
     rootPosts: IDMappedObjects<Post>;
     atLatestPost?: boolean;
     postListIds: string[];
@@ -109,7 +109,7 @@ class ToastWrapper extends React.PureComponent<Props, State> {
         };
     }
 
-    static countNewMessages = (postListIds: string[], rootPosts: IDMappedObjects<Post>, isCollapsedThreadsEnabled: $TSFixMe) => {
+    static countNewMessages = (postListIds: string[], rootPosts: IDMappedObjects<Post>, isCollapsedThreadsEnabled: boolean) => {
         const mark = getNewMessageIndex(postListIds);
         if (mark <= 0) {
             return 0;
