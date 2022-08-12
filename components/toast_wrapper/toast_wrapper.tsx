@@ -69,8 +69,7 @@ type OwnProps = {
     updateLastViewedBottomAt: (lastViewedBottom?: number) => void;
     showSearchHintToast?: boolean;
 
-    // @ts-expect-error TS(2552): Cannot find name '$TSFixMeFunction'. Did you mean ... Remove this comment to see the full error message
-    onSearchHintDismiss?: $TSFixMeFunction;
+    onSearchHintDismiss?: () => void;
     shouldStartFromBottomWhenUnread?: boolean;
     isNewMessageLineReached?: boolean;
     unreadScrollPosition?: string;
