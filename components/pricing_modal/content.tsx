@@ -39,6 +39,10 @@ import './content.scss';
 
 type ContentProps = {
     onHide: () => void;
+
+    // callerCTA is information about the cta that opened this modal. This helps us provide a telemetry path
+    // showing information about how the modal was opened all the way to more CTAs within the modal itself
+    callerCTA?: string;
 }
 
 function Content(props: ContentProps) {
@@ -75,9 +79,9 @@ function Content(props: ContentProps) {
 
     const openCloudPurchaseModal = useOpenCloudPurchaseModal({});
     const openPurchaseModal = (callerInfo: string) => {
-        trackEvent('cloud_pricing', 'click_upgrade_button');
         props.onHide();
-        openCloudPurchaseModal({callerInfo});
+        const telemetryInfo = props.callerCTA + ' > ' + callerInfo;
+        openCloudPurchaseModal({callerInfo: telemetryInfo});
     };
 
     const closePricingModal = () => {
@@ -225,7 +229,7 @@ function Content(props: ContentProps) {
                                 />) : undefined}
                         planExtraInformation={(!isAdmin && (isStarter || isEnterpriseTrial)) ? <NotifyAdminCTA callerInfo='professional_plan_pricing_modal_card'/> : undefined}
                         buttonDetails={{
-                            action: () => openPurchaseModal('pricing_modal_professional_card_upgrade_button'),
+                            action: () => openPurchaseModal('click_pricing_modal_professional_card_upgrade_button'),
                             text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
                             disabled: !isAdmin || isProfessional || isEnterprise,
                             customClass: isPostTrial ? ButtonCustomiserClasses.special : ButtonCustomiserClasses.active,

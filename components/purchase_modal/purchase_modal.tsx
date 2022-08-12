@@ -255,7 +255,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
     }
 
     handleSubmitClick = async () => {
-        const callerInfo = this.props.callerCTA + '>purchase_modal>upgrade_button_click';
+        const callerInfo = this.props.callerCTA + '> purchase_modal > upgrade_button_click';
         this.setState({processing: true, paymentInfoIsValid: false, buttonClickedInfo: callerInfo});
     }
 

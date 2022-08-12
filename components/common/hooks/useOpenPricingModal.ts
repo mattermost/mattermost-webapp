@@ -30,6 +30,9 @@ export default function useOpenPricingModal() {
         dispatch(openModal({
             modalId: ModalIdentifiers.PRICING_MODAL,
             dialogType: PricingModal,
+            dialogProps: {
+                callerCTA: telemetryProps?.callerInfo,
+            },
         }));
     };
 }

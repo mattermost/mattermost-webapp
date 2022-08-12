@@ -16,7 +16,14 @@ import SelfHostedContent from './self_hosted_content';
 
 import './pricing_modal.scss';
 
-function PricingModal() {
+type Props = {
+
+    // callerCTA is information about the cta that opened this modal. This helps us provide a telemetry path
+    // showing information about how the modal was opened all the way to more CTAs within the modal itself
+    callerCTA?: string;
+}
+
+function PricingModal(props: Props) {
     const [showModal, setShowModal] = useState(true);
     const dispatch = useDispatch();
     const isCloud = useSelector(isCurrentLicenseCloud);
@@ -35,6 +42,7 @@ function PricingModal() {
     const content = isCloud ? (
         <Content
             onHide={onHide}
+            callerCTA={props.callerCTA}
         />
     ) : (
         <SelfHostedContent
