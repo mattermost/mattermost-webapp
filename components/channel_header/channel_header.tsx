@@ -12,7 +12,7 @@ import {displayUsername, isGuest} from 'mattermost-redux/utils/user_utils';
 
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import Markdown from 'components/markdown';
-import OverlayTrigger from 'components/overlay_trigger';
+import OverlayTrigger, {BaseOverlayTrigger} from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import StatusIcon from 'components/status_icon';
 import ArchiveIcon from 'components/widgets/icons/archive_icon';
@@ -37,7 +37,7 @@ import {
 import {handleFormattedTextClick, localizeMessage, isEmptyObject, toTitleCase} from 'utils/utils';
 
 import {UserCustomStatus, UserProfile} from '@mattermost/types/users';
-import {Channel, ChannelNotifyProps} from '@mattermost/types/channels';
+import {Channel, ChannelMembership, ChannelNotifyProps} from '@mattermost/types/channels';
 import {RhsState} from 'types/store/rhs';
 
 import {ModalData} from 'types/actions';
@@ -53,7 +53,7 @@ type Props = {
     currentUser: UserProfile;
     channel: Channel;
     memberCount?: number;
-    channelMember?: any; // todo
+    channelMember?: ChannelMembership;
     dmUser?: UserProfile;
     gmMembers?: UserProfile[];
     isFavorite?: boolean;
@@ -63,7 +63,7 @@ type Props = {
     rhsState?: RhsState;
     rhsOpen?: boolean;
     isQuickSwitcherOpen?: boolean;
-    intl?: IntlShape;
+    intl: IntlShape;
     pinnedPostsCount?: number;
     hasMoreThanOneTeam?: boolean;
     actions: {
@@ -77,7 +77,7 @@ type Props = {
         getCustomEmojisInText: (text: string) => void;
         updateChannelNotifyProps: (userId: string, channelId: string, props: Partial<ChannelNotifyProps>) => void;
         goToLastViewedChannel: () => void;
-        openModal: (modalData: ModalData<any>) => void; // todo
+        openModal: <P>(modalData: ModalData<P>) => void;
         closeModal: () => void;
         showChannelMembers: (channelId: string, inEditingMode?: boolean) => void;
     };
@@ -102,7 +102,7 @@ class ChannelHeader extends React.PureComponent<Props, State> {
     toggleFavoriteRef: RefObject<HTMLButtonElement>;
     headerDescriptionRef: RefObject<HTMLSpanElement>;
     headerPopoverTextMeasurerRef: RefObject<HTMLDivElement>;
-    headerOverlayRef: RefObject<Overlay>;
+    headerOverlayRef: RefObject<BaseOverlayTrigger>;
     getHeaderMarkdownOptions: (channelNamesMap: Record<string, any>) => Record<string, any>;
     getPopoverMarkdownOptions: (channelNamesMap: Record<string, any>) => Record<string, any>;
 
@@ -217,8 +217,11 @@ class ChannelHeader extends React.PureComponent<Props, State> {
         const headerDescriptionRect = this.headerDescriptionRef.current?.getBoundingClientRect();
         const headerPopoverTextMeasurerRect = this.headerPopoverTextMeasurerRef.current?.getBoundingClientRect();
         const announcementBarSize = 40;
-        if (headerPopoverTextMeasurerRect?.width > headerDescriptionRect?.width || headerText.match(/\n{2,}/g)) {
-            this.setState({showChannelHeaderPopover: true, leftOffset: this.headerDescriptionRef.current.offsetLeft});
+
+        if (headerPopoverTextMeasurerRect && headerDescriptionRect) {
+            if (headerPopoverTextMeasurerRect.width > headerDescriptionRect.width || headerText.match(/\n{2,}/g)) {
+                this.setState({showChannelHeaderPopover: true, leftOffset: this.headerDescriptionRef.current?.offsetLeft || 0});
+            }
         }
 
         // add 40px to take the global header into account
@@ -238,7 +241,7 @@ class ChannelHeader extends React.PureComponent<Props, State> {
     setPopoverOverlayWidth = () => {
         const headerDescriptionRect = this.headerDescriptionRef.current?.getBoundingClientRect();
         const ellipsisWidthAdjustment = 10;
-        this.setState({popoverOverlayWidth: headerDescriptionRect?.width + ellipsisWidthAdjustment});
+        this.setState({popoverOverlayWidth: (headerDescriptionRect?.width || 0) + ellipsisWidthAdjustment});
     }
 
     handleFormattedTextClick = (e: MouseEvent<HTMLSpanElement>) => handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
@@ -262,7 +265,7 @@ class ChannelHeader extends React.PureComponent<Props, State> {
                     }}
                 />
                 <CustomStatusText
-                    text={customStatus.text}
+                    text={customStatus?.text}
                 />
             </>
         );
@@ -348,25 +351,27 @@ class ChannelHeader extends React.PureComponent<Props, State> {
             channelTitle = (
                 <React.Fragment>
                     {channelTitle}
-                    <GuestBadge show={isGuest(dmUser?.roles)}/>
+                    <GuestBadge show={isGuest(dmUser?.roles || '')}/>
                 </React.Fragment>
             );
         }
 
         if (isGroup) {
             // map the displayname to the gm member users
-            const membersMap = {};
-            for (const user of gmMembers) {
-                if (user.id === currentUser.id) {
-                    continue;
-                }
-                const userDisplayName = displayUsername(user, this.props.teammateNameDisplaySetting);
+            const membersMap: Record<string, UserProfile[]> = {};
+            if (gmMembers) {
+                for (const user of gmMembers) {
+                    if (user.id === currentUser.id) {
+                        continue;
+                    }
+                    const userDisplayName = displayUsername(user, this.props.teammateNameDisplaySetting);
 
-                if (!membersMap[userDisplayName]) {
-                    membersMap[userDisplayName] = []; //Create an array for cases with same display name
-                }
+                    if (!membersMap[userDisplayName]) {
+                        membersMap[userDisplayName] = []; //Create an array for cases with same display name
+                    }
 
-                membersMap[userDisplayName].push(user);
+                    membersMap[userDisplayName].push(user);
+                }
             }
 
             const displayNames = channel.display_name.split(', ');
@@ -379,10 +384,10 @@ class ChannelHeader extends React.PureComponent<Props, State> {
                 const user = membersMap[displayName].shift();
 
                 return (
-                    <React.Fragment key={user.id}>
+                    <React.Fragment key={user?.id}>
                         {index > 0 && ', '}
                         {displayName}
-                        <GuestBadge show={isGuest(user.roles)}/>
+                        <GuestBadge show={isGuest(user?.roles || '')}/>
                     </React.Fragment>
                 );
             });
@@ -402,7 +407,7 @@ class ChannelHeader extends React.PureComponent<Props, State> {
         let dmHeaderIconStatus: ReactNode;
         let dmHeaderTextStatus: ReactNode;
         if (isDirect && !dmUser?.delete_at && !dmUser?.is_bot) {
-            dmHeaderIconStatus = (<StatusIcon status={channel.status} />);
+            dmHeaderIconStatus = (<StatusIcon status={channel.status}/>);
 
             dmHeaderTextStatus = (
                 <span className='header-status__text'>
@@ -415,17 +420,13 @@ class ChannelHeader extends React.PureComponent<Props, State> {
             );
         }
 
-        // todo convert to use classnames
-        let channelFilesIconClass = 'channel-header__icon channel-header__icon--wide channel-header__icon--left';
-        if (rhsState === RHSStates.CHANNEL_FILES) {
-            channelFilesIconClass += ' channel-header__icon--active';
-        }
+        const channelFilesIconClass = classNames('channel-header__icon channel-header__icon--wide channel-header__icon--left', {
+            'channel-header__icon--active': rhsState === RHSStates.CHANNEL_FILES,
+        });
         const channelFilesIcon = <i className='icon icon-file-text-outline'/>;
-
-        let pinnedIconClass = 'channel-header__icon channel-header__icon--wide channel-header__icon--left';
-        if (rhsState === RHSStates.PIN) {
-            pinnedIconClass += ' channel-header__icon--active';
-        }
+        const pinnedIconClass = classNames('channel-header__icon channel-header__icon--wide channel-header__icon--left', {
+            'channel-header__icon--active': rhsState === RHSStates.PIN,
+        });
         const pinnedIcon = this.props.pinnedPostsCount ? (
             <>
                 <i
@@ -448,10 +449,9 @@ class ChannelHeader extends React.PureComponent<Props, State> {
 
         let memberListButton = null;
         if (!isDirect) {
-            let membersIconClass = 'member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide';
-            if (rhsState === RHSStates.CHANNEL_MEMBERS) {
-                membersIconClass += ' channel-header__icon--active';
-            }
+            const membersIconClass = classNames('member-rhs__trigger channel-header__icon channel-header__icon--left channel-header__icon--wide', {
+                'channel-header__icon--active': rhsState === RHSStates.CHANNEL_MEMBERS,
+            });
             const membersIcon = this.props.memberCount ? (
                 <>
                     <i
@@ -564,7 +564,7 @@ class ChannelHeader extends React.PureComponent<Props, State> {
                             show={this.state.showChannelHeaderPopover}
                             placement='bottom'
                             rootClose={true}
-                            target={this.headerDescriptionRef.current}
+                            target={this.headerDescriptionRef.current as React.ReactInstance}
                             ref={this.headerOverlayRef}
                             onEnter={this.setPopoverOverlayWidth}
                             onHide={() => this.setState({showChannelHeaderPopover: false})}
@@ -597,9 +597,9 @@ class ChannelHeader extends React.PureComponent<Props, State> {
                                     id='channel_header.editLink'
                                     defaultMessage='Edit'
                                 >
-                                    {(message) => (
+                                    {(message: string[]) => (
                                         <i
-                                            aria-label={message}
+                                            aria-label={message[0]}
                                             className='icon icon-pencil-outline edit-icon'
                                         />
                                     )}
@@ -626,9 +626,9 @@ class ChannelHeader extends React.PureComponent<Props, State> {
                                     id='channel_header.editLink'
                                     defaultMessage='Edit'
                                 >
-                                    {(message) => (
+                                    {(message: string[]) => (
                                         <i
-                                            aria-label={message}
+                                            aria-label={message[0]}
                                             className='icon icon-pencil-outline edit-icon'
                                         />
                                     )}
