@@ -84,7 +84,16 @@ type OwnProps = {
     };
 };
 
-type State = $TSFixMe;
+type State = {
+    unreadCount?: number;
+    unreadCountInChannel: number;
+    channelMarkedAsUnread?: boolean;
+    lastViewedAt?: number;
+    showUnreadToast?: boolean;
+    showNewMessagesToast?: boolean;
+    showMessageHistoryToast?: boolean;
+    showUnreadWithBottomStartToast?: boolean;
+};
 
 type Props = OwnProps & typeof ToastWrapper.defaultProps;
 
