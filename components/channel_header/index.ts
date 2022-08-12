@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {bindActionCreators} from 'redux';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 
@@ -46,7 +46,11 @@ import {getAnnouncementBarCount} from 'selectors/views/announcement_bar';
 import {ModalIdentifiers} from 'utils/constants';
 import {isFileAttachmentsEnabled} from 'utils/file_utils';
 
-import ChannelHeader from './channel_header';
+import {GlobalState} from 'types/store';
+
+import {Action} from 'mattermost-redux/types/actions';
+
+import ChannelHeader, {Props} from './channel_header';
 
 const EMPTY_CHANNEL = {};
 const EMPTY_CHANNEL_STATS = {member_count: 0, guest_count: 0, pinnedpost_count: 0, files_count: 0};
@@ -55,7 +59,7 @@ function makeMapStateToProps() {
     const doGetProfilesInChannel = makeGetProfilesInChannel();
     const getCustomStatus = makeGetCustomStatus();
 
-    return function mapStateToProps(state) {
+    return function mapStateToProps(state: GlobalState) {
         const channel = getCurrentChannel(state) || EMPTY_CHANNEL;
         const user = getCurrentUser(state);
         const teams = getMyTeams(state);
@@ -102,8 +106,8 @@ function makeMapStateToProps() {
     };
 }
 
-const mapDispatchToProps = (dispatch) => ({
-    actions: bindActionCreators({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+    actions: bindActionCreators<ActionCreatorsMapObject<Action>, Props['actions']>({
         favoriteChannel,
         unfavoriteChannel,
         showFlaggedPosts,
@@ -120,4 +124,4 @@ const mapDispatchToProps = (dispatch) => ({
     }, dispatch),
 });
 
-export default withRouter(connect(makeMapStateToProps, mapDispatchToProps)(ChannelHeader));
+export default withRouter<any, any>(connect(makeMapStateToProps, mapDispatchToProps)(ChannelHeader));
