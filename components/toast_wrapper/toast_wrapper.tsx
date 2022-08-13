@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import Toast from 'components/toast/toast';
 
@@ -57,6 +57,7 @@ type OwnProps = {
     shouldStartFromBottomWhenUnread?: boolean;
     isNewMessageLineReached?: boolean;
     unreadScrollPosition?: string;
+    intl: IntlShape;
     match: {
         params: {
             team?: string;
@@ -484,5 +485,6 @@ export class ToastWrapper extends React.PureComponent<Props, State> {
     }
 }
 
+// @ts-expect-error TS(2769) FIXME: No overload matches this call.
 export default injectIntl(ToastWrapper);
 
