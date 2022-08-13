@@ -211,20 +211,14 @@ export class ToastWrapper extends React.PureComponent<Props, State> {
             this.hideArchiveToast();
         }
 
-        // @ts-expect-error TS(2532) FIXME: Object is possibly 'undefined'.
         const prevPostsCount = prevProps.postListIds.length;
-
-        // @ts-expect-error TS(2532) FIXME: Object is possibly 'undefined'.
         const presentPostsCount = postListIds.length;
-
-        // @ts-expect-error TS(2532) FIXME: Object is possibly 'undefined'.
         const postsAddedAtBottom = presentPostsCount !== prevPostsCount && postListIds[0] !== prevProps.postListIds[0];
         const notBottomWithLatestPosts = atBottom === false && atLatestPost && presentPostsCount > 0;
 
         //Marking existing messages as read based on last time user reached to the bottom
         //This moves the new message indicator to the latest posts and keeping in sync with the toast count
         if (postsAddedAtBottom && notBottomWithLatestPosts && !showUnreadToast) {
-            // @ts-expect-error TS(2722) FIXME: Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
             updateNewMessagesAtInChannel(lastViewedBottom);
         }
 
@@ -279,7 +273,6 @@ export class ToastWrapper extends React.PureComponent<Props, State> {
                 showNewMessagesToast: false,
             });
             if (updateLastViewedBottomAt) {
-                // @ts-expect-error TS(2722) FIXME: Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
                 this.props.updateLastViewedBottomAt();
             }
         }
@@ -368,10 +361,7 @@ export class ToastWrapper extends React.PureComponent<Props, State> {
             return;
         }
 
-        // @ts-expect-error TS(2722) FIXME: Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
         scrollToNewMessage();
-
-        // @ts-expect-error TS(2722) FIXME: Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
         updateLastViewedBottomAt();
         this.hideNewMessagesToast();
     }
@@ -387,7 +377,6 @@ export class ToastWrapper extends React.PureComponent<Props, State> {
             this.hideArchiveToast();
         }
 
-        // @ts-expect-error TS(2722) FIXME: Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
         scrollToLatestMessages();
         this.hideUnreadToast();
     }
