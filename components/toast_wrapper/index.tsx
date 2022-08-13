@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-
 import {bindActionCreators, Dispatch} from 'redux';
 import {withRouter, RouteComponentProps} from 'react-router-dom';
 
@@ -43,7 +42,6 @@ type OwnProps = RouteComponentProps & {
     atLatestPost: boolean;
 }
 
-
 export function makeGetRootPosts() {
     return createSelector(
         'makeGetRootPosts',
@@ -69,19 +67,16 @@ export function makeCountUnreadsBelow() {
         'makeCountUnreadsBelow',
         getAllPosts,
         getCurrentUserId,
-
         isCollapsedThreadsEnabled,
         (state: GlobalState, postIds: string[] | null | undefined) => postIds,
         (state: GlobalState, postIds: string[] | null | undefined, lastViewedBottom: number) => lastViewedBottom,
         (allPosts: IDMappedObjects<Post>, currentUserId: string, isCollapsed: boolean, postIds, lastViewedBottom) => {
-
             if (!postIds) {
                 return 0;
             }
 
             // Count the number of new posts made by other users that haven't been deleted
             return postIds.map((id: string) => allPosts[id]).filter((post: Post) => {
-
                 return post &&
                     post.user_id !== currentUserId &&
                     post.state !== Posts.POST_DELETED &&
@@ -106,7 +101,6 @@ function makeMapStateToProps() {
     const countUnreadsBelow = makeCountUnreadsBelow();
     const getRootPosts = makeGetRootPosts();
     const preparePostIdsForPostList = makePreparePostIdsForPostList();
-
     return function mapStateToProps(state: GlobalState, {channelId, atLatestPost}: OwnProps) {
         let newRecentMessagesCount = 0;
         const channelMarkedAsUnread = isManuallyUnread(state, channelId);
@@ -140,3 +134,4 @@ function mapDispatchToProps(dispatch: Dispatch) {
 }
 
 export default withRouter(connect(makeMapStateToProps, mapDispatchToProps)(ToastWrapper));
+

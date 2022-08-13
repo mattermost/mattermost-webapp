@@ -36,7 +36,7 @@ type OwnProps = {
     unreadCountInChannel: number;
     newRecentMessagesCount: number;
     channelMarkedAsUnread?: boolean;
-    isCollapsedThreadsEnabled: boolean;
+    isCollapsedThreadsEnabled?: boolean;
     rootPosts: IDMappedObjects<Post>;
     atLatestPost?: boolean;
     postListIds: string[];
@@ -46,11 +46,11 @@ type OwnProps = {
     width: number;
     lastViewedAt: number;
     focusedPostId?: string;
-    initScrollOffsetFromBottom: number;
+    initScrollOffsetFromBottom?: number;
     updateNewMessagesAtInChannel: (lastViewedAt?: number) => void;
     scrollToNewMessage: () => void;
     scrollToLatestMessages: () => void;
-    scrollToUnreadMessages: () => void;
+    scrollToUnreadMessages?: () => void;
     updateLastViewedBottomAt: (lastViewedBottom?: number) => void;
     showSearchHintToast?: boolean;
     onSearchHintDismiss?: () => void;
@@ -81,7 +81,7 @@ type State = {
 
 type Props = OwnProps & typeof ToastWrapper.defaultProps;
 
-class ToastWrapper extends React.PureComponent<Props, State> {
+export class ToastWrapper extends React.PureComponent<Props, State> {
     mounted: boolean;
     static defaultProps = {
         focusedPostId: '',
@@ -115,7 +115,7 @@ class ToastWrapper extends React.PureComponent<Props, State> {
             if (props.unreadScrollPosition === Preferences.UNREAD_SCROLL_POSITION_START_FROM_NEWEST && prevState.unreadCountInChannel) {
                 unreadCount = prevState.unreadCountInChannel + props.newRecentMessagesCount;
             } else {
-                unreadCount = ToastWrapper.countNewMessages(props.postListIds, props.rootPosts, props.isCollapsedThreadsEnabled);
+                unreadCount = ToastWrapper.countNewMessages(props.postListIds, props.rootPosts, props.isCollapsedThreadsEnabled as boolean);
             }
         } else if (props.channelMarkedAsUnread) {
             if (props.unreadScrollPosition === Preferences.UNREAD_SCROLL_POSITION_START_FROM_NEWEST) {
@@ -133,7 +133,7 @@ class ToastWrapper extends React.PureComponent<Props, State> {
         }
 
         if (typeof showMessageHistoryToast === 'undefined' && props.focusedPostId !== '' && props.atBottom !== null) {
-            showMessageHistoryToast = props.initScrollOffsetFromBottom > 1000 || !props.atLatestPost;
+            showMessageHistoryToast = props.initScrollOffsetFromBottom as number > 1000 || !props.atLatestPost;
         }
 
         // show unread toast when a channel is marked as unread
@@ -292,7 +292,7 @@ class ToastWrapper extends React.PureComponent<Props, State> {
             });
         }
     }
-    
+
     newMessagesToastText = (count: number, since: number) => {
         if (this.props.width > TOAST_TEXT_COLLAPSE_WIDTH && typeof since !== 'undefined') {
             return (
@@ -362,10 +362,7 @@ class ToastWrapper extends React.PureComponent<Props, State> {
             return;
         }
 
-        // @ts-expect-error TS(2722) FIXME: Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
         scrollToNewMessage();
-
-        // @ts-expect-error TS(2722) FIXME: Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
         updateLastViewedBottomAt();
         this.hideNewMessagesToast();
     }
@@ -381,14 +378,12 @@ class ToastWrapper extends React.PureComponent<Props, State> {
             this.hideArchiveToast();
         }
 
-        // @ts-expect-error TS(2722) FIXME: Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
         scrollToLatestMessages();
         this.hideUnreadToast();
     }
 
     scrollToUnreadMessages = () => {
-        // @ts-expect-error TS(2722) FIXME: Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
-        this.props.scrollToUnreadMessages();
+        this.props.scrollToUnreadMessages?.();
         this.hideUnreadWithBottomStartToast();
     }
 
@@ -413,17 +408,7 @@ class ToastWrapper extends React.PureComponent<Props, State> {
             );
         }
 
-        interface ToastProps {
-            show: boolean;
-            width: number;
-            onDismiss: () => void;
-            onClick: () => void;
-            onClickMessage: string;
-            showActions: boolean;
-            jumpDirection: 'up' | 'down';
-        }
-
-        const unreadWithBottomStartToastProps: ToastProps = {
+        const unreadWithBottomStartToastProps = {
             show: true,
             width,
             onDismiss: this.hideUnreadWithBottomStartToast,
@@ -500,5 +485,6 @@ class ToastWrapper extends React.PureComponent<Props, State> {
     }
 }
 
+// @ts-expect-error TS(2769) FIXME: No overload matches this call.
 export default injectIntl(ToastWrapper);
 
