@@ -19,19 +19,19 @@ describe('Settings > Display > Message Display', () => {
         goToMessageDisplaySetting();
     });
 
-    // it('MM-T4984_1 Message Display: colorize usernames option should be hidden in Compact mode', () => {
-    //     // * Verify 'Standard' is selected
-    //     cy.findByRole('heading', {name: 'Message Display'}).click();
-    //     cy.findByRole('radio', {
-    //         name: 'Standard: Easy to scan and read.',
-    //     }).click();
+    it('MM-T4984_1 Message Display: colorize usernames option should not exist in Compact mode', () => {
+        // * Verify 'Standard' is selected
+        cy.findByRole('heading', {name: 'Message Display'}).click();
+        cy.findByRole('radio', {
+            name: 'Standard: Easy to scan and read.',
+        }).click();
 
-    //     // * Verify Colorize usernames option doesn't exist;
-    //     cy.findByRole('checkbox', {
-    //         name: 'Colorize usernames: Use colors to distinguish users in compact mode',
-    //     }).should('not.exist');
-    // });
-    it('MM-T4984_2 Message Display: colorize usernames option should be hidden in Compact mode', () => {
+        // * Verify Colorize usernames option doesn't exist;
+        cy.findByRole('checkbox', {
+            name: 'Colorize usernames: Use colors to distinguish users in compact mode',
+        }).should('not.exist');
+    });
+    it('MM-T4984_2 Message Display: colorize usernames option should exist in Compact mode', () => {
         // * Verify 'Standard' is selected
         cy.findByRole('heading', {name: 'Message Display'}).click();
         cy.findByRole('radio', {
@@ -42,6 +42,10 @@ describe('Settings > Display > Message Display', () => {
         cy.findByRole('checkbox', {
             name: 'Colorize usernames: Use colors to distinguish users in compact mode',
         }).should('exist');
+
+        // # Save and close the modal
+        cy.uiSave();
+        cy.uiClose();
     });
 });
 
