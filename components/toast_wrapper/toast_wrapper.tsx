@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import Toast from 'components/toast/toast';
 
@@ -63,6 +63,7 @@ type OwnProps = {
     shouldStartFromBottomWhenUnread?: boolean;
     isNewMessageLineReached?: boolean;
     unreadScrollPosition?: string;
+    intl: IntlShape;
     match: {
         params: {
             team?: string;
@@ -430,7 +431,7 @@ class ToastWrapper extends React.PureComponent<Props, State> {
             onClick: this.scrollToUnreadMessages,
             onClickMessage: Utils.localizeMessage('postlist.toast.scrollToUnread', 'Jump to unreads'),
             showActions: true,
-            jumpDirection: 'up',
+            jumpDirection: 'up' as const,
         };
 
         if (showUnreadWithBottomStartToast && unreadCount as number > 0) {
