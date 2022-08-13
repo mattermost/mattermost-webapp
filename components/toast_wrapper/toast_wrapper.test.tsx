@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import {ShallowWrapper} from 'enzyme';
+
 import Preferences from 'mattermost-redux/constants/preferences';
 
 import {DATE_LINE} from 'mattermost-redux/utils/post_list';
@@ -12,7 +14,7 @@ import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import {PostListRowListIds} from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
 
-import ToastWrapper from './toast_wrapper';
+import ToastWrapper, {ToastWrapper as ToastWrapperClass} from './toast_wrapper';
 
 describe('components/ToastWrapper', () => {
     const baseProps = {
@@ -326,7 +328,7 @@ describe('components/ToastWrapper', () => {
                 ],
             };
 
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>) as ShallowWrapper<any, any, ToastWrapperClass>;
             expect(wrapper.state('showUnreadToast')).toBe(true);
             wrapper.instance().scrollToLatestMessages();
             expect(wrapper.state('showUnreadToast')).toBe(false);
@@ -348,7 +350,7 @@ describe('components/ToastWrapper', () => {
                 ],
             };
 
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>) as ShallowWrapper<any, any, ToastWrapperClass>;
             wrapper.setState({showUnreadToast: false});
             wrapper.setProps({lastViewedBottom: 1234, latestPostTimeStamp: 1235, atBottom: false});
             expect(wrapper.state('showNewMessagesToast')).toBe(true);
@@ -373,10 +375,11 @@ describe('components/ToastWrapper', () => {
                 ],
             };
 
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>) as ShallowWrapper<any, any, ToastWrapperClass>;
             expect(wrapper.state('showUnreadToast')).toBe(true);
 
-            wrapper.instance().handleShortcut({key: 'ESC', keyCode: 27});
+            const event = {key: 'ESC', keyCode: 27} as KeyboardEvent;
+            wrapper.instance().handleShortcut(event);
             expect(wrapper.state('showUnreadToast')).toBe(false);
         });
 
@@ -395,11 +398,13 @@ describe('components/ToastWrapper', () => {
                 ],
             };
 
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>) as ShallowWrapper<any, any, ToastWrapperClass>;
             wrapper.setState({atBottom: false, showUnreadToast: false});
             wrapper.setProps({atBottom: false, lastViewedBottom: 1234, latestPostTimeStamp: 1235});
             expect(wrapper.state('showNewMessagesToast')).toBe(true);
-            wrapper.instance().handleShortcut({key: 'ESC', keyCode: 27});
+
+            const event = {key: 'ESC', keyCode: 27} as KeyboardEvent;
+            wrapper.instance().handleShortcut(event);
             expect(baseProps.updateLastViewedBottomAt).toHaveBeenCalledTimes(1);
         });
 
@@ -528,7 +533,7 @@ describe('components/ToastWrapper', () => {
                 atLatestPost: false,
                 atBottom: false,
             };
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>) as ShallowWrapper<any, any, ToastWrapperClass>;
             expect(wrapper.state('showMessageHistoryToast')).toBe(true);
 
             const instance = wrapper.instance();
@@ -544,7 +549,7 @@ describe('components/ToastWrapper', () => {
                 atLatestPost: false,
                 atBottom: false,
             };
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>) as ShallowWrapper<any, any, ToastWrapperClass>;
             expect(wrapper.state('showMessageHistoryToast')).toBe(true);
 
             const instance = wrapper.instance();
@@ -600,7 +605,7 @@ describe('components/ToastWrapper', () => {
                 onSearchHintDismiss: dismissHandler,
             };
 
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>) as ShallowWrapper<any, any, ToastWrapperClass>;
             const instance = wrapper.instance();
 
             instance.hideSearchHintToast();
@@ -609,3 +614,4 @@ describe('components/ToastWrapper', () => {
         });
     });
 });
+
