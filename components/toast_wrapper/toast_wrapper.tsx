@@ -485,6 +485,5 @@ export class ToastWrapper extends React.PureComponent<Props, State> {
     }
 }
 
-// @ts-expect-error TS(2769) FIXME: No overload matches this call.
 export default injectIntl(ToastWrapper);
 
