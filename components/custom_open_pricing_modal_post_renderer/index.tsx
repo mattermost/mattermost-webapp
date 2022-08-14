@@ -11,9 +11,9 @@ import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import {Post} from '@mattermost/types/posts';
 import {getUsers} from 'mattermost-redux/selectors/entities/users';
 import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurchaseModal';
-import { openModal } from 'actions/views/modals';
+import {openModal} from 'actions/views/modals';
 import LearnMoreTrialModal from 'components/learn_more_trial_modal/learn_more_trial_modal';
-import { ModalIdentifiers } from 'utils/constants';
+import {ModalIdentifiers} from 'utils/constants';
 
 const NonAdminPaidFeatures = {
     GUEST_ACCOUNTS: 'Guest Accounts',
