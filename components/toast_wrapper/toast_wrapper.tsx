@@ -32,7 +32,7 @@ const TOAST_REL_RANGES = [
     RelativeRanges.TODAY_YESTERDAY,
 ];
 
-type OwnProps = {
+export type OwnProps = {
     unreadCountInChannel: number;
     newRecentMessagesCount: number;
     channelMarkedAsUnread?: boolean;
