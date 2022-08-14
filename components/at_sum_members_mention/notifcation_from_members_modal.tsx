@@ -10,8 +10,7 @@ import styled from 'styled-components';
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {UserProfile} from '@mattermost/types/users';
 import {ChannelMembership} from '@mattermost/types/channels';
-import {getUser, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
-import {GlobalState} from '@mattermost/types/store';
+import {getUsers, getUserStatuses} from 'mattermost-redux/selectors/entities/users';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
@@ -58,13 +57,15 @@ function NotificationFromMembersModal(props: Props) {
     const dispatch = useDispatch();
     const channel = useSelector(getCurrentChannel);
     const teamUrl = useSelector(getCurrentRelativeTeamUrl);
+    const userProfiles = useSelector(getUsers);
+    const userStatuses = useSelector(getUserStatuses);
+    const displaySetting = useSelector(getTeammateNameDisplaySetting);
 
     const featureNotificationMembers: ChannelMember[] = [];
 
     props.userIds.forEach((userId) => {
-        const profile = useSelector((state: GlobalState) => getUser(state, userId));
-        const status = useSelector((state: GlobalState) => getStatusForUserId(state, userId));
-        const displaySetting = useSelector(getTeammateNameDisplaySetting);
+        const profile = userProfiles[userId];
+        const status = userStatuses[userId];
         const displayName = displayUsername(profile, displaySetting);
         const m = {
             user: profile,
