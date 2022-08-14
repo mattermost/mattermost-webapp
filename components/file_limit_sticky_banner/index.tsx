@@ -19,7 +19,7 @@ import NotifyAdminCTA from 'components/notify_admin_cta/notify_admin_cta';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 
-import Constants, {CloudProducts, Preferences} from 'utils/constants';
+import Constants, {CloudProducts, NonAdminPaidFeatures, Preferences} from 'utils/constants';
 import {asGBString} from 'utils/limits';
 
 interface FileLimitSnoozePreference {
@@ -147,7 +147,15 @@ function FileLimitStickyBanner() {
                 defaultMessage: 'Your free plan is limited to {storageGB} of files. New uploads will automatically archive older files. To view them again, <a>notify your admin to upgrade to a paid plan.</a>'},
             {
                 storageGB: asGBString(fileStorageLimit, formatNumber),
-                a: (chunks: React.ReactNode) => <NotifyAdminCTA ctaText={chunks}/>,
+                a: (chunks: React.ReactNode) => (
+                    <NotifyAdminCTA
+                        ctaText={chunks}
+                        notifyRequestData={{
+                            required_plan: CloudProducts.PROFESSIONAL,
+                            required_feature: NonAdminPaidFeatures.UNLIMITED_FILE_STORAGE,
+                            trial_notification: false,
+                        }}
+                    />),
             },
             )}
         </span>

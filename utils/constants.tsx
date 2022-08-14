@@ -442,6 +442,19 @@ export const CloudProducts = {
     LEGACY: 'cloud-legacy',
 };
 
+export const NonAdminPaidFeatures = {
+    GUEST_ACCOUNTS: 'Guest Accounts',
+    CUSTOM_USER_GROUPS: 'Custom User groups',
+    CREATE_MULTIPLE_TEAMS: 'Create Multiple Teams',
+    START_CALL: 'Start call',
+    PLAYBOOKS_RETRO: 'Playbooks Retrospective',
+    UNLIMITED_MESSAGES: 'Unlimited Messages',
+    UNLIMITED_FILE_STORAGE: 'Unlimited File Storage',
+    UNLIMITED_INTEGRATIONS: 'Unlimited Integrations',
+    UNLIMITED_BOARD_CARDS: 'Unlimited Board cards',
+    ALL_PROFESSIONAL_FEATURES: 'All Professional features',
+};
+
 export const SelfHostedLicenseSKUNames = {
     PROFESSIONAL: 'professional',
     ENTERPRISE: 'enterprise',

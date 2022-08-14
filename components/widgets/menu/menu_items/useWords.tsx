@@ -11,6 +11,7 @@ import {t} from 'utils/i18n';
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import {LimitTypes, LimitSummary} from 'components/common/hooks/useGetHighestThresholdCloudLimit';
 import NotifyAdminCTA from 'components/notify_admin_cta/notify_admin_cta';
+import {NonAdminPaidFeatures, CloudProducts} from 'utils/constants';
 
 interface Words {
     title: React.ReactNode;
@@ -49,12 +50,37 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
 
     };
 
+    let featureToNotifyOn = '';
+    switch (highestLimit.id) {
+    case LimitTypes.messageHistory:
+        featureToNotifyOn = NonAdminPaidFeatures.UNLIMITED_MESSAGES;
+        break;
+    case LimitTypes.fileStorage:
+        featureToNotifyOn = NonAdminPaidFeatures.UNLIMITED_FILE_STORAGE;
+        break;
+    case LimitTypes.enabledIntegrations:
+        featureToNotifyOn = NonAdminPaidFeatures.UNLIMITED_INTEGRATIONS;
+        break;
+    case LimitTypes.boardsCards:
+        featureToNotifyOn = NonAdminPaidFeatures.UNLIMITED_BOARD_CARDS;
+        break;
+    default:
+        break;
+    }
+
     if (!isAdminUser && (usageRatio >= limitThresholds.danger || usageRatio >= limitThresholds.exceeded)) {
         values.callToAction = intl.formatMessage({
             id: 'workspace_limits.menu_limit.notify_admin',
             defaultMessage: 'Notify admin',
         });
-        values.a = (chunks: React.ReactNode | React.ReactNodeArray) => <NotifyAdminCTA ctaText={chunks}/>;
+        values.a = (chunks: React.ReactNode | React.ReactNodeArray) => (
+            <NotifyAdminCTA
+                ctaText={chunks}
+                notifyRequestData={{
+                    required_feature: featureToNotifyOn,
+                    required_plan: CloudProducts.PROFESSIONAL,
+                    trial_notification: false}}
+            />);
     }
 
     switch (highestLimit.id) {

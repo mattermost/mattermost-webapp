@@ -5,7 +5,7 @@ import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {CloudLinks, CloudProducts, ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
+import {CloudLinks, CloudProducts, ModalIdentifiers, NonAdminPaidFeatures, TELEMETRY_CATEGORIES} from 'utils/constants';
 import {fallbackStarterLimits, fallbackProfessionalLimits, asGBString, hasSomeLimits} from 'utils/limits';
 
 import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
@@ -225,7 +225,13 @@ function Content(props: ContentProps) {
                                     bgColor='var(--center-channel-bg)'
                                     firstSvg={<CheckMarkSvg/>}
                                 />) : undefined}
-                        planExtraInformation={(!isAdmin && (isStarter || isEnterpriseTrial)) ? <NotifyAdminCTA/> : undefined}
+                        planExtraInformation={(!isAdmin && (isStarter || isEnterpriseTrial)) ? (
+                            <NotifyAdminCTA
+                                notifyRequestData={{
+                                    required_feature: NonAdminPaidFeatures.ALL_PROFESSIONAL_FEATURES,
+                                    required_plan: CloudProducts.PROFESSIONAL,
+                                    trial_notification: false}}
+                            />) : undefined}
                         buttonDetails={{
                             action: openPurchaseModal,
                             text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
@@ -271,7 +277,14 @@ function Content(props: ContentProps) {
                                     firstSvg={<CheckMarkSvg/>}
                                     renderLastDaysOnTrial={true}
                                 />) : undefined}
-                        planExtraInformation={(!isAdmin && (isStarter || isEnterpriseTrial)) ? <NotifyAdminCTA preTrial={isPreTrial}/> : undefined}
+                        planExtraInformation={(!isAdmin && (isStarter || isEnterpriseTrial)) ? (
+                            <NotifyAdminCTA
+                                preTrial={isPreTrial}
+                                notifyRequestData={{
+                                    required_feature: NonAdminPaidFeatures.ALL_PROFESSIONAL_FEATURES,
+                                    required_plan: CloudProducts.PROFESSIONAL,
+                                    trial_notification: isPreTrial}}
+                            />) : undefined}
                         buttonDetails={(isPostTrial || !isAdmin) ? {
                             action: () => {
                                 trackEvent('cloud_pricing', 'click_enterprise_contact_sales');

@@ -3,10 +3,9 @@
 import React, {useState} from 'react';
 import {useIntl} from 'react-intl';
 import styled from 'styled-components';
-import {useSelector} from 'react-redux';
 
 import {Client4} from 'mattermost-redux/client';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {NotifyAdminRequest} from '@mattermost/types/cloud';
 
 const Span = styled.span`
 font-family: 'Open Sans';
@@ -40,13 +39,16 @@ export enum DafaultBtnText {
     Failed = 'Try again later!',
 }
 
-type Props = {
+type HookProps = {
     ctaText?: React.ReactNode;
     preTrial?: boolean;
 }
 
-export function useNotifyAdmin<T = HTMLAnchorElement | HTMLButtonElement>(props: Props): [React.ReactNode, (e: React.MouseEvent<T, MouseEvent>) => void] {
-    const currentTeam = useSelector(getCurrentTeamId);
+type Props = HookProps & {
+    notifyRequestData: NotifyAdminRequest;
+}
+
+export function useNotifyAdmin<T = HTMLAnchorElement | HTMLButtonElement>(props: HookProps, reqData: NotifyAdminRequest): [React.ReactNode, (e: React.MouseEvent<T, MouseEvent>) => void] {
     const [notifyStatus, setStatus] = useState(NotifyStatus.NotStarted);
     const {formatMessage} = useIntl();
 
@@ -70,10 +72,7 @@ export function useNotifyAdmin<T = HTMLAnchorElement | HTMLButtonElement>(props:
         e.stopPropagation();
         try {
             setStatus(NotifyStatus.Started);
-            const req = {
-                current_team_id: currentTeam,
-            };
-            await Client4.notifyAdminToUpgrade(req);
+            await Client4.notifyAdminToUpgrade(reqData);
             setStatus(NotifyStatus.Success);
         } catch (error) {
             if (error && error.status_code === 403) {
@@ -88,7 +87,7 @@ export function useNotifyAdmin<T = HTMLAnchorElement | HTMLButtonElement>(props:
 }
 
 function NotifyAdminCTA(props: Props) {
-    const [status, notify] = useNotifyAdmin(props);
+    const [status, notify] = useNotifyAdmin(props, props.notifyRequestData);
     const {formatMessage} = useIntl();
     let title = formatMessage({id: 'pricing_modal.wantToUpgrade', defaultMessage: 'Want to upgrade? '});
     if (props.preTrial) {

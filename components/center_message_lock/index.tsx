@@ -19,6 +19,8 @@ import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import useGetLimits from 'components/common/hooks/useGetLimits';
 import {useNotifyAdmin} from 'components/notify_admin_cta/notify_admin_cta';
 
+import {CloudProducts, NonAdminPaidFeatures} from 'utils/constants';
+
 import './index.scss';
 
 const ONE_DAY_MS = 1000 * 60 * 60 * 24;
@@ -56,6 +58,10 @@ export default function CenterMessageLock(props: Props) {
             id: 'workspace_limits.message_history.locked.cta.end_user',
             defaultMessage: 'Notify Admin',
         }),
+    }, {
+        required_feature: NonAdminPaidFeatures.UNLIMITED_MESSAGES,
+        required_plan: CloudProducts.PROFESSIONAL,
+        trial_notification: false,
     });
 
     if (!limitsLoaded) {

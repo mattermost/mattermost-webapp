@@ -13,18 +13,7 @@ import {getUsers} from 'mattermost-redux/selectors/entities/users';
 import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurchaseModal';
 import {openModal} from 'actions/views/modals';
 import LearnMoreTrialModal from 'components/learn_more_trial_modal/learn_more_trial_modal';
-import {ModalIdentifiers} from 'utils/constants';
-
-const NonAdminPaidFeatures = {
-    GUEST_ACCOUNTS: 'Guest Accounts',
-    CUSTOM_USER_GROUPS: 'Custom User groups',
-    CREATE_MULTIPLE_TEAMS: 'Create Multiple Teams',
-    START_CALL: 'Start call',
-    PLAYBOOKS_RETRO: 'Playbooks Retrospective',
-    UNLIMITED_MESSAGES: 'Unlimited Messages',
-    UNLIMITED_FILE_STORAGE: 'Unlimited File Storage',
-    ALL_PROFESSIONAL_FEATURES: 'All Professional features',
-};
+import {ModalIdentifiers, NonAdminPaidFeatures} from 'utils/constants';
 
 const MinimumPlansForFeature = {
     Professional: 'Professional plan',
