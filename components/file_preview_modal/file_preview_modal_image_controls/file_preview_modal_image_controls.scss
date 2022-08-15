@@ -3,23 +3,23 @@
     display: flex;
     height: 48px;
     align-items: center;
-    color: white;
     justify-content: center;
     background: rgba(61, 60, 64, 1);
+    color: white;
 }
 
 .image-controls-dropdown {
     width: 140px;
     height: 32px;
-    font-size: 12px;
-    font-weight: 400;
     border: none;
-    line-height: 16px;
     border-bottom: 1px solid white;
-    color: white;
     background-color: transparent;
     border-bottom-left-radius: 4px 1px;
     border-bottom-right-radius: 4px 1px;
+    color: white;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
 }
 
 #rectangle {
@@ -30,17 +30,17 @@
 }
 
 .image-controls-button {
+    overflow: hidden;
+    align-items: center;
+    padding: 0 22px 0 0;
+    border: none;
+    background-color: transparent;
+    background-repeat: no-repeat;
     font-family: 'compass-icons';
     font-size: 18px;
     font-style: normal;
-    background-color: transparent;
     font-weight: 400;
-    overflow: hidden;
     line-height: 18px;
-    align-items: center;
-    border: none;
-    background-repeat: no-repeat;
-    padding: 0 22px 0 0;
     outline: none;
     text-align: center;
 
