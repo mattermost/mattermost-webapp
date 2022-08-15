@@ -102,7 +102,6 @@ export function verifySavedPost(postId, message) {
 
         // * Check that the post pre-header is not shown for the saved message in RHS
         cy.get('#search-items-container').within(() => {
-            cy.get('div.post__content').should('be.visible');
             cy.get(`#rhsPostMessageText_${postId}`).contains(message);
             cy.get('div.post-pre-header').should('not.exist');
         });
@@ -154,7 +153,6 @@ export function verifyUnsavedPost(postId) {
 
         // * Check that the post pre-header is not shown for the saved message in RHS
         cy.get('#search-items-container').within(() => {
-            cy.get('div.post__content').should('be.visible');
             cy.get(`#rhsPostMessageText_${postId}`).should('not.exist');
         });
     });
