@@ -72,13 +72,14 @@ describe('Settings > Display > Message Display: Colorize username', () => {
         cy.uiClose();
     });
 
-    it('MM-T4984_2 Message Display: colorize usernames option should exist in Compact mode', () => {
-        // * Verify 'Standard' is selected
+    it('MM-T4984_2 Message Display: colorize usernames option should exist in Compact mode and function as expected', () => {
+        // # Select 'Compact' option
         cy.findByRole('heading', {name: 'Message Display'}).click();
         cy.findByRole('radio', {name: 'Compact: Fit as many messages on the screen as we can.'}).click();
 
-        // * Verify Colorize usernames option exists
+        // * Verify Colorize usernames option exists and checked by default
         cy.findByRole('checkbox', {name: 'Colorize usernames: Use colors to distinguish users in compact mode'}).should('exist');
+        cy.findByRole('checkbox', {name: 'Colorize usernames: Use colors to distinguish users in compact mode'}).should('be.checked');
 
         // # Save and close the modal
         cy.uiSave();
@@ -103,6 +104,28 @@ describe('Settings > Display > Message Display: Colorize username', () => {
         });
         cy.findByText(otherUser.username).then((elements) => {
             cy.wrap(elements[0]).should('have.attr', 'style', colors[otherUser.username]);
+        });
+    });
+
+    it('MM-T4984_3 Message Display: disabling colorize should revert to colors to normal color', () => {
+        // # Select 'Compact' option
+        cy.findByRole('heading', {name: 'Message Display'}).click();
+        cy.findByRole('radio', {name: 'Compact: Fit as many messages on the screen as we can.'}).click();
+
+        // # Verify Colorize usernames option exists and make it unchecked
+        cy.findByRole('checkbox', {name: 'Colorize usernames: Use colors to distinguish users in compact mode'}).should('exist');
+        cy.findByRole('checkbox', {name: 'Colorize usernames: Use colors to distinguish users in compact mode'}).uncheck().should('not.be.checked');
+
+        // # Save and close the modal
+        cy.uiSave();
+        cy.uiClose();
+
+        // * Verify that colors are reverted to normal
+        cy.findByText(firstUser.username).then((elements) => {
+            cy.wrap(elements[0]).should('have.css', 'color', 'rgb(63, 67, 80)');
+        });
+        cy.findByText(otherUser.username).then((elements) => {
+            cy.wrap(elements[0]).should('have.css', 'color', 'rgb(63, 67, 80)');
         });
     });
 });
