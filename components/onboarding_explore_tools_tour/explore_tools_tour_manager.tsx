@@ -50,7 +50,9 @@ const useHandleNavigationAndExtraActions = () => {
     const currentUserId = useSelector(getCurrentUserId);
 
     const nextStepActions = useCallback((step: number) => {
+        dispatch(setProductMenuSwitcherOpen(true));
         if (step === ExploreOtherToolsTourSteps.FINISHED) {
+            dispatch(setProductMenuSwitcherOpen(false));
             let preferences = [
                 {
                     user_id: currentUserId,

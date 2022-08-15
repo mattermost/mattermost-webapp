@@ -104,13 +104,11 @@ const ProductMenu = (): JSX.Element => {
 
         // focalboard
         if (product.pluginId === 'focalboard' && showBoardsTour) {
-            dispatch(setProductMenuSwitcherOpen(true));
             tourTip = (<BoardsTourTip singleTip={!playbooks}/>);
         }
 
         // playbooks
         if (product.pluginId === 'playbooks' && showPlaybooksTour) {
-            dispatch(setProductMenuSwitcherOpen(true));
             tourTip = (<PlaybooksTourTip singleTip={!focalboard}/>);
         }
 

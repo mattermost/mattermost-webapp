@@ -32,7 +32,7 @@ export const PlaybooksTourTip = ({singleTip}: PlaybooksTourTipProps) => {
         </p>
     );
 
-    const overlayPunchOut = useMeasurePunchouts(['playbooks'], []);
+    const overlayPunchOut = useMeasurePunchouts(['product-menu-item-playbooks'], []);
 
     return (
         <OnboardingExploreToolsTourTip

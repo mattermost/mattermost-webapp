@@ -138,7 +138,7 @@ export const useTasksList = () => {
         delete list.START_TRIAL;
     }
 
-    if (isUserAdmin || (!pluginsList.playbooks && !pluginsList.focalboard)) {
+    if (!isUserAdmin || (!pluginsList.playbooks && !pluginsList.focalboard)) {
         delete list.EXPLORE_OTHER_TOOLS;
     }
 
@@ -248,6 +248,7 @@ export const useHandleOnBoardingTaskTrigger = () => {
             break;
         }
         case OnboardingTasksName.EXPLORE_OTHER_TOOLS: {
+            dispatch(setProductMenuSwitcherOpen(true));
             handleSaveData(taskName, TaskNameMapToSteps[taskName].STARTED, true);
             const tourCategory = TutorialTourName.EXPLORE_OTHER_TOOLS;
             const preferences = [
