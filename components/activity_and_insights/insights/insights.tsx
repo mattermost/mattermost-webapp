@@ -36,6 +36,7 @@ const Insights = () => {
     const [filterType, setFilterType] = useGlobalState(InsightsScopes.TEAM, 'insightsScope');
     const [timeFrame, setTimeFrame] = useGlobalState(TimeFrames.INSIGHTS_7_DAYS as string, 'insightsTimeFrame');
     const focalboardEnabled = useSelector((state: GlobalState) => state.plugins.plugins?.focalboard);
+    const playbooksEnabled = useSelector((state: GlobalState) => state.plugins.plugins?.playbooks);
 
     const setFilterTypeTeam = useCallback(() => {
         trackEvent('insights', 'change_scope_to_team_insights');
@@ -105,13 +106,17 @@ const Insights = () => {
                     class={'top-reactions-card'}
                     timeFrame={timeFrame as TimeFrame}
                 />
-                <TopPlaybooks
-                    size={CardSizes.medium}
-                    filterType={filterType}
-                    widgetType={InsightsWidgetTypes.TOP_PLAYBOOKS}
-                    class={'top-playbooks-card'}
-                    timeFrame={timeFrame as TimeFrame}
-                />
+                {
+                    playbooksEnabled &&
+                    <TopPlaybooks
+                        size={CardSizes.medium}
+                        filterType={filterType}
+                        widgetType={InsightsWidgetTypes.TOP_PLAYBOOKS}
+                        class={'top-playbooks-card'}
+                        timeFrame={timeFrame as TimeFrame}
+                    />
+                }
+                
             </div>
         </>
     );
