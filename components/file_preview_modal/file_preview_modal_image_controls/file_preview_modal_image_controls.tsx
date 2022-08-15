@@ -6,8 +6,8 @@
 import React, {ChangeEvent, memo, useEffect, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {clamp} from 'lodash';
-import {t} from 'utils/i18n';
 
+import {t} from 'utils/i18n';
 
 import {MIN_ZOOM_EXT, ZOOM_EXT} from '../image_preview';
 import './file_preview_modal_image_controls.scss';
@@ -31,9 +31,9 @@ const FilePreviewModalImageControls: React.FC<Props> = ({toolbarZoom, setToolbar
 
     // Initialize dropdown values
     const {formatMessage} = useIntl();
-    const autoText = formatMessage({id: t('imageToolbarZoomDropdown.automatic'), defaultMessage: 'Automatic'})
-    const fitWidthText = formatMessage({id: t('imageToolbarZoomDropdown.fitWidth'), defaultMessage: 'Fit width'})
-    const fitHeightText = formatMessage({id: t('imageToolbarZoomDropdown.fitHeight'), defaultMessage: 'Fit height'})
+    const autoText = formatMessage({id: t('imageToolbarZoomDropdown.automatic'), defaultMessage: 'Automatic'});
+    const fitWidthText = formatMessage({id: t('imageToolbarZoomDropdown.fitWidth'), defaultMessage: 'Fit width'});
+    const fitHeightText = formatMessage({id: t('imageToolbarZoomDropdown.fitHeight'), defaultMessage: 'Fit height'});
 
     const zoomLevels = new Map();
     zoomLevels.set('A', {text: autoText, type: 'auto'});
