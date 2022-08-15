@@ -10,6 +10,11 @@
     "node": ">=16.4.0"
   },
   "dependencies": {
+    "@babel/plugin-transform-react-display-name": "7.18.6",
+    "@babel/plugin-transform-react-jsx": "7.18.10",
+    "@babel/plugin-transform-react-jsx-development": "7.18.6",
+    "@babel/plugin-transform-react-pure-annotations": "7.18.6",
+    "@babel/plugin-transform-typescript": "7.18.12",
     "@floating-ui/react-dom": "0.7.2",
     "@mattermost/compass-components": "^0.2.12",
     "@mattermost/compass-icons": "0.1.24",
