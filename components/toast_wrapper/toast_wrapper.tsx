@@ -79,9 +79,9 @@ type State = {
     showUnreadWithBottomStartToast?: boolean;
 };
 
-export type Props = OwnProps & typeof ToastWrapper.defaultProps;
+export type Props = OwnProps;
 
-class ToastWrapper extends React.PureComponent<Props, State> {
+export class ToastWrapper extends React.PureComponent<Props, State> {
     mounted: boolean;
     static defaultProps = {
         focusedPostId: '',
