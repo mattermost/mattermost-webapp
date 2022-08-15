@@ -32,12 +32,12 @@ const TOAST_REL_RANGES = [
     RelativeRanges.TODAY_YESTERDAY,
 ];
 
-export type OwnProps = {
+type OwnProps = {
     unreadCountInChannel: number;
     newRecentMessagesCount: number;
     channelMarkedAsUnread?: boolean;
     isCollapsedThreadsEnabled?: boolean;
-    rootPosts: IDMappedObjects<Post>;
+    rootPosts?: IDMappedObjects<Post>;
     atLatestPost?: boolean;
     postListIds: string[];
     latestPostTimeStamp: number;
@@ -79,7 +79,7 @@ type State = {
     showUnreadWithBottomStartToast?: boolean;
 };
 
-type Props = OwnProps & typeof ToastWrapper.defaultProps;
+export type Props = OwnProps & typeof ToastWrapper.defaultProps;
 
 export class ToastWrapper extends React.PureComponent<Props, State> {
     mounted: boolean;
@@ -115,7 +115,7 @@ export class ToastWrapper extends React.PureComponent<Props, State> {
             if (props.unreadScrollPosition === Preferences.UNREAD_SCROLL_POSITION_START_FROM_NEWEST && prevState.unreadCountInChannel) {
                 unreadCount = prevState.unreadCountInChannel + props.newRecentMessagesCount;
             } else {
-                unreadCount = ToastWrapper.countNewMessages(props.postListIds, props.rootPosts, props.isCollapsedThreadsEnabled as boolean);
+                unreadCount = ToastWrapper.countNewMessages(props.postListIds, props.rootPosts as IDMappedObjects<Post>, props.isCollapsedThreadsEnabled as boolean);
             }
         } else if (props.channelMarkedAsUnread) {
             if (props.unreadScrollPosition === Preferences.UNREAD_SCROLL_POSITION_START_FROM_NEWEST) {
