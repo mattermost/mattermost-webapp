@@ -4,6 +4,7 @@
 import {Post, PostType} from '@mattermost/types/posts';
 import {Channel} from '@mattermost/types/channels';
 import {UserProfile} from '@mattermost/types/users';
+import {FileInfo} from '@mattermost/types/files';
 
 import {RHSStates} from 'utils/constants';
 
@@ -16,6 +17,14 @@ export type FakePost = {
     message: string;
     channel_id: Channel['id'];
     user_id: UserProfile['id'];
+};
+
+export type PostDraft = {
+    message: string;
+    fileInfos: FileInfo[];
+    uploadsInProgress: string[];
+    props?: any;
+    caretPosition?: number;
 };
 
 export type RhsViewState = {
