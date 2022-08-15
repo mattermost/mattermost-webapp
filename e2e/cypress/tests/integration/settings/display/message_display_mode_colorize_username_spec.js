@@ -17,7 +17,6 @@ describe('Settings > Display > Message Display: Colorize username', () => {
     const colors = {};
 
     before(() => {
-
         // # Login as new user and visit off-topic
         cy.apiInitSetup().then(({channel, user, team}) => {
             testTeam = team;
@@ -30,8 +29,6 @@ describe('Settings > Display > Message Display: Colorize username', () => {
                 // # Add user to team and channel
                 cy.apiAddUserToTeam(testTeam.id, otherUser.id).then(() => {
                     cy.apiAddUserToChannel(testChannel.id, otherUser.id);
-
-                    cy.visit(`/${team.name}/channels/${testChannel.name}`);
 
                     // # Post some messages
                     cy.postMessageAs({
@@ -46,73 +43,67 @@ describe('Settings > Display > Message Display: Colorize username', () => {
                     });
                 });
             });
-            goToMessageDisplaySetting();
         },
         );
     });
 
-    // it('MM-T4984_1 Message Display: colorize usernames option should not exist in Compact mode', () => {
-    //     // * Verify 'Standard' is selected
-    //     cy.findByRole('heading', {name: 'Message Display'}).click();
-    //     cy.findByRole('radio', {
-    //         name: 'Standard: Easy to scan and read.',
-    //     }).click();
+    beforeEach(() => {
+        // # Visit related channel
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
-    //     // * Verify Colorize usernames option doesn't exist;
-    //     cy.findByRole('checkbox', {
-    //         name: 'Colorize usernames: Use colors to distinguish users in compact mode',
-    //     }).should('not.exist');
+        // # Go to Settings modal - Display section - Message Display
+        goToMessageDisplaySetting();
+    });
 
-    //     // # Save and close the modal
-    //     cy.uiSave();
-    //     cy.uiClose();
-    // });
-    it('MM-T4984_2 Message Display: colorize usernames option should exist in Compact mode', () => {
+    it('MM-T4984_1 Message Display: colorize usernames option should not exist in Compact mode', () => {
         // * Verify 'Standard' is selected
         cy.findByRole('heading', {name: 'Message Display'}).click();
         cy.findByRole('radio', {
-            name: 'Compact: Fit as many messages on the screen as we can.',
+            name: 'Standard: Easy to scan and read.',
         }).click();
 
-        // * Verify Colorize usernames option exists;
+        // * Verify Colorize usernames option doesn't exist;
         cy.findByRole('checkbox', {
             name: 'Colorize usernames: Use colors to distinguish users in compact mode',
-        }).should('exist');
+        }).should('not.exist');
+
+        // # Save and close the modal
+        cy.uiSave();
+        cy.uiClose();
+    });
+
+    it('MM-T4984_2 Message Display: colorize usernames option should exist in Compact mode', () => {
+        // * Verify 'Standard' is selected
+        cy.findByRole('heading', {name: 'Message Display'}).click();
+        cy.findByRole('radio', {name: 'Compact: Fit as many messages on the screen as we can.'}).click();
+
+        // * Verify Colorize usernames option exists
+        cy.findByRole('checkbox', {name: 'Colorize usernames: Use colors to distinguish users in compact mode'}).should('exist');
 
         // # Save and close the modal
         cy.uiSave();
         cy.uiClose();
 
+        // # Save the color of the buttons
         cy.findByText(firstUser.username).then((elements) => {
             colors[firstUser.username] = elements[0].attributes.style.value;
-            console.log('------------------------------');
-            console.log(elements);
-            console.log(elements[0].attributes.style.value);
-            console.log('------------------------------');
-
-            // elements.each((index, element) => {
-            //     if (index === 0) {
-            //         // todo skip the first element
-            //     } else {
-            //         cy.wrap(element).should('have.attr', 'style', 'color: rgb(255, 0, 0)');
-
-            //         // cy.wrap(element).should('have.css', 'color', 'rgb(63, 67, 80)');  // todo check if there is a variable for defaul color
-            //     }
-            // });
         });
         cy.findByText(otherUser.username).then((elements) => {
             colors[otherUser.username] = elements[0].attributes.style.value;
-            console.log(colors);
-            console.log("------------------------------");
-            console.log(elements);
-            console.log(elements[0].attributes.style.value);
-            console.log("------------------------------");
         }).then(() => {
-            console.log(colors);
+            // * Verify that colors are different
             expect(colors[firstUser.username]).to.not.equal(colors[otherUser.username]);
         });
 
         cy.reload();
+
+        // * Verify that after reload colors are the same
+        cy.findByText(firstUser.username).then((elements) => {
+            cy.wrap(elements[0]).should('have.attr', 'style', colors[firstUser.username]);
+        });
+        cy.findByText(otherUser.username).then((elements) => {
+            cy.wrap(elements[0]).should('have.attr', 'style', colors[otherUser.username]);
+        });
     });
 });
 
@@ -124,18 +115,3 @@ function goToMessageDisplaySetting() {
         cy.get('#message_displayEdit').click();
     });
 }
-
-// # Open Settings > Display > Themes
-// cy.uiOpenSettingsModal('Display').within(() => {
-//     cy.get('#displayButton').click();
-//     cy.get('#displaySettingsTitle').should('exist');
-//     cy.get('#themeTitle').scrollIntoView().should('be.visible');
-//     cy.get('#themeEdit').click();
-
-//     // * Verify image alt in Theme Images
-//     cy.get('#displaySettings').within(() => {
-//         cy.get('.appearance-section>div').children().each(($el) => {
-//             cy.wrap($el).get('#denim-theme-icon').should('have.text', 'Denim theme icon');
-//         });
-//     });
-// });
