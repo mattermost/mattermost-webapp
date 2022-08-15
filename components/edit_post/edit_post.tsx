@@ -24,7 +24,7 @@ import DeletePostModal from 'components/delete_post_modal';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay';
 import Textbox, {TextboxClass, TextboxElement} from 'components/textbox';
 import {ModalData} from 'types/actions';
-import {PostDraft} from '../../types/store/rhs';
+import {PostDraft} from '../../types/store/draft';
 
 import EditPostFooter from './edit_post_footer';
 
