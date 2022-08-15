@@ -60,7 +60,6 @@ class TestHelper {
     fakeUser = () => {
         return {
             email: this.fakeEmail(),
-            allow_marketing: true,
             password: PASSWORD,
             locale: DEFAULT_LOCALE,
             username: this.generateId(),

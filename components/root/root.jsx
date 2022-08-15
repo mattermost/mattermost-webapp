@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable max-lines */
 import deepEqual from 'fast-deep-equal';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -252,18 +251,21 @@ export default class Root extends React.PureComponent {
 
         const iosDownloadLink = getConfig(store.getState()).IosAppDownloadLink;
         const androidDownloadLink = getConfig(store.getState()).AndroidAppDownloadLink;
+        const desktopAppDownloadLink = getConfig(store.getState()).AppDownloadLink;
 
         const toResetPasswordScreen = this.props.location.pathname === '/reset_password_complete';
 
         // redirect to the mobile landing page if the user hasn't seen it before
-        let mobileLanding;
+        let landing;
         if (UserAgent.isAndroidWeb()) {
-            mobileLanding = androidDownloadLink;
+            landing = androidDownloadLink;
         } else if (UserAgent.isIosWeb()) {
-            mobileLanding = iosDownloadLink;
+            landing = iosDownloadLink;
+        } else {
+            landing = desktopAppDownloadLink;
         }
 
-        if (mobileLanding && !BrowserStore.hasSeenLandingPage() && !toResetPasswordScreen && !this.props.location.pathname.includes('/landing')) {
+        if (landing && !BrowserStore.hasSeenLandingPage() && !toResetPasswordScreen && !this.props.location.pathname.includes('/landing') && !window.location.hostname?.endsWith('.test.mattermost.com') && !UserAgent.isDesktopApp()) {
             this.props.history.push('/landing#' + this.props.location.pathname + this.props.location.search);
             BrowserStore.setLandingPageSeen(true);
         }
