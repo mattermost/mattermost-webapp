@@ -14,10 +14,10 @@ import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import {PostListRowListIds} from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
 
-import ToastWrapper, {ToastWrapper as ToastWrapperClass} from './toast_wrapper';
+import ToastWrapper, {ToastWrapper as ToastWrapperClass, Props} from './toast_wrapper';
 
 describe('components/ToastWrapper', () => {
-    const baseProps = {
+    const baseProps: Omit<Props, 'intl'> = {
         unreadCountInChannel: 0,
         unreadScrollPosition: Preferences.UNREAD_SCROLL_POSITION_START_FROM_LEFT,
         newRecentMessagesCount: 0,

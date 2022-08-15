@@ -37,11 +37,11 @@ type OwnProps = {
     newRecentMessagesCount: number;
     channelMarkedAsUnread?: boolean;
     isCollapsedThreadsEnabled?: boolean;
-    rootPosts: IDMappedObjects<Post>;
+    rootPosts?: IDMappedObjects<Post>;
     atLatestPost?: boolean;
     postListIds: string[];
     latestPostTimeStamp: number;
-    atBottom?: boolean;
+    atBottom?: boolean | null;
     lastViewedBottom: number;
     width: number;
     lastViewedAt: number;
@@ -79,7 +79,7 @@ type State = {
     showUnreadWithBottomStartToast?: boolean;
 };
 
-type Props = OwnProps & typeof ToastWrapper.defaultProps;
+export type Props = OwnProps;
 
 export class ToastWrapper extends React.PureComponent<Props, State> {
     mounted: boolean;
@@ -115,7 +115,7 @@ export class ToastWrapper extends React.PureComponent<Props, State> {
             if (props.unreadScrollPosition === Preferences.UNREAD_SCROLL_POSITION_START_FROM_NEWEST && prevState.unreadCountInChannel) {
                 unreadCount = prevState.unreadCountInChannel + props.newRecentMessagesCount;
             } else {
-                unreadCount = ToastWrapper.countNewMessages(props.postListIds, props.rootPosts, props.isCollapsedThreadsEnabled as boolean);
+                unreadCount = ToastWrapper.countNewMessages(props.postListIds, props.rootPosts as IDMappedObjects<Post>, props.isCollapsedThreadsEnabled as boolean);
             }
         } else if (props.channelMarkedAsUnread) {
             if (props.unreadScrollPosition === Preferences.UNREAD_SCROLL_POSITION_START_FROM_NEWEST) {
@@ -485,6 +485,5 @@ export class ToastWrapper extends React.PureComponent<Props, State> {
     }
 }
 
-// @ts-expect-error TS(2769) FIXME: No overload matches this call.
 export default injectIntl(ToastWrapper);
 
