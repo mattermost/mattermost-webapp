@@ -14,9 +14,9 @@ import {ActionResult} from 'mattermost-redux/types/actions.js';
 
 import {CommandArgs} from '@mattermost/types/integrations.js';
 
-import {PostDraft} from 'types/store/rhs.js';
-
 import {ModalData} from 'types/actions.js';
+
+import {PostDraft} from 'types/store/draft';
 
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
@@ -44,13 +44,13 @@ import {Permissions, Posts, Preferences as PreferencesRedux} from 'mattermost-re
 
 import {connectionErrorCount} from 'selectors/views/system';
 
-import {addReaction, createPost, setEditingPost, emitShortcutReactToLastPostFrom} from 'actions/post_actions.jsx';
+import {addReaction, createPost, setEditingPost, emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 import {scrollPostListToBottom} from 'actions/views/channel';
 import {selectPostFromRightHandSideSearchByPostId} from 'actions/views/rhs';
 import {setShowPreviewOnCreatePost} from 'actions/views/textbox';
 import {executeCommand} from 'actions/command';
 import {runMessageWillBePostedHooks, runSlashCommandWillBePostedHooks} from 'actions/hooks';
-import {getPostDraft, getIsRhsExpanded} from 'selectors/rhs';
+import {getPostDraft, getIsRhsExpanded, getIsRhsOpen} from 'selectors/rhs';
 import {showPreviewOnCreatePost} from 'selectors/views/textbox';
 import {getCurrentLocale} from 'selectors/i18n';
 import {getEmojiMap, getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis';
@@ -117,6 +117,7 @@ function makeMapStateToProps() {
             maxPostSize: parseInt(config.MaxPostSize || '', 10) || Constants.DEFAULT_CHARACTER_LIMIT,
             userIsOutOfOffice,
             rhsExpanded: getIsRhsExpanded(state),
+            rhsOpen: getIsRhsOpen(state),
             emojiMap: getEmojiMap(state),
             badConnection,
             isTimezoneEnabled,

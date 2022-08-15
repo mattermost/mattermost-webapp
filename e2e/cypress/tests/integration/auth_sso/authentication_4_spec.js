@@ -131,11 +131,11 @@ describe('Authentication', () => {
             cy.visit('/admin_console/authentication/password');
             cy.get('.admin-console__header').should('be.visible').and('have.text', 'Password');
 
-            cy.findByTestId('passwordMinimumLengthinput').should('be.visible').and('have.value', '10');
-            cy.findByRole('checkbox', {name: 'At least one lowercase letter'}).should('be.checked');
-            cy.findByRole('checkbox', {name: 'At least one uppercase letter'}).should('be.checked');
-            cy.findByRole('checkbox', {name: 'At least one number'}).should('be.checked');
-            cy.findByRole('checkbox', {name: 'At least one symbol (e.g. "~!@#$%^&*()")'}).should('be.checked');
+            cy.findByTestId('passwordMinimumLengthinput').should('be.visible').and('have.value', '8');
+            cy.findByLabelText('At least one lowercase letter').get('input').should('not.be.checked');
+            cy.findByLabelText('At least one uppercase letter').get('input').should('not.be.checked');
+            cy.findByLabelText('At least one number').get('input').should('not.be.checked');
+            cy.findByLabelText('At least one symbol (e.g. "~!@#$%^&*()")').get('input').should('not.be.checked');
 
             if (!isCloudLicensed) {
                 cy.findByTestId('maximumLoginAttemptsinput').should('be.visible').and('have.value', '10');

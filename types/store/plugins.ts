@@ -12,7 +12,9 @@ import {Post, PostEmbed} from '@mattermost/types/posts';
 import {IDMappedObjects} from '@mattermost/types/utilities';
 import {TopBoardResponse} from '@mattermost/types/insights';
 
-import WebSocketClient from 'client/websocket_client';
+import {WebSocketClient} from '@mattermost/client';
+
+import {GlobalState} from 'types/store';
 
 export type PluginSiteStatsHandler = () => Promise<Record<string, PluginAnalyticsRow>>;
 
@@ -85,6 +87,7 @@ export type PluginComponent = {
     mobileIcon?: React.ReactElement;
     filter?: (id: string) => boolean;
     action?: (...args: any) => void; // TODO Add more concrete types?
+    shouldRender?: (state: GlobalState) => boolean;
 };
 
 export type FilePreviewComponent = {

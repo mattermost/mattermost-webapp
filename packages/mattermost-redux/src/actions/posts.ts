@@ -5,6 +5,11 @@ import {AnyAction} from 'redux';
 import {batchActions} from 'redux-batched-actions';
 
 import {FetchPaginatedThreadOptions} from '@mattermost/types/client4';
+import {ChannelUnread} from '@mattermost/types/channels';
+import {GlobalState} from '@mattermost/types/store';
+import {Post, PostList} from '@mattermost/types/posts';
+import {Reaction} from '@mattermost/types/reactions';
+import {UserProfile} from '@mattermost/types/users';
 
 import {Client4, DEFAULT_LIMIT_AFTER, DEFAULT_LIMIT_BEFORE} from 'mattermost-redux/client';
 import {General, Preferences, Posts} from '../constants';
@@ -19,11 +24,6 @@ import {isCombinedUserActivityPost} from 'mattermost-redux/utils/post_list';
 
 import {ActionResult, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
-import {ChannelUnread} from '@mattermost/types/channels';
-import {GlobalState} from '@mattermost/types/store';
-import {Post, PostList} from '@mattermost/types/posts';
-import {Reaction} from '@mattermost/types/reactions';
-import {UserProfile} from '@mattermost/types/users';
 import {getUnreadScrollPositionPreference, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {getProfilesByIds, getProfilesByUsernames, getStatusesByIds} from './users';
@@ -979,6 +979,7 @@ export function getPostsAround(channelId: string, postId: string, perPage = Post
             ],
             next_post_id: after.next_post_id,
             prev_post_id: before.prev_post_id,
+            first_inaccessible_post_time: Math.max(before.first_inaccessible_post_time, after.first_inaccessible_post_time, thread.first_inaccessible_post_time) || 0,
         };
 
         getProfilesAndStatusesForPosts(posts.posts, dispatch, getState);
