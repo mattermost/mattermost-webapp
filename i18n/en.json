@@ -4084,7 +4084,6 @@
   "onboarding_wizard.plugins.todo.tooltip": "A plugin to track Todo issues in a list and send you daily reminders about your Todo list",
   "onboarding_wizard.plugins.zoom": "Zoom",
   "onboarding_wizard.plugins.zoom.tooltip": "Start Zoom audio and video conferencing calls in Mattermost with a single click",
-  "onboarding_wizard.previous": "Previous",
   "onboarding_wizard.skip": "Skip for now",
   "onboarding_wizard.submit_error.generic": "Something went wrong. Please try again.",
   "onboarding_wizard.url.description": "This is the URL that users will use to access Mattermost. <a>See Documentation</a> for more.",
