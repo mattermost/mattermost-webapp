@@ -58,7 +58,6 @@ import {Constants, ActionTypes, EventTypes, PostRequestTypes} from 'utils/consta
 import {isMobile} from 'utils/utils';
 import LocalStorageStore from 'stores/local_storage_store.jsx';
 import {isArchivedChannel} from 'utils/channel_utils';
-import {unsetEditingPost} from '../post_actions';
 import type {GlobalState} from 'types/store';
 
 export function checkAndSetMobileView() {
@@ -123,8 +122,6 @@ export function switchToChannel(channel: Channel & {userId?: string}) {
         } else {
             browserHistory.push(`${teamUrl}/channels/${channel.name}`);
         }
-
-        dispatch(unsetEditingPost());
 
         return {data: true};
     };
