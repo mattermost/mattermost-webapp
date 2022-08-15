@@ -2,10 +2,10 @@
     position: relative;
     display: flex;
     height: 48px;
-    color: white;
     align-items: center;
-    background: rgba(61, 60, 64, 1);
+    color: white;
     justify-content: center;
+    background: rgba(61, 60, 64, 1);
 }
 
 .image-controls-dropdown {
@@ -13,10 +13,10 @@
     height: 32px;
     font-size: 12px;
     font-weight: 400;
-    line-height: 16px;
     border: none;
-    color: white;
+    line-height: 16px;
     border-bottom: 1px solid white;
+    color: white;
     background-color: transparent;
     border-bottom-left-radius: 4px 1px;
     border-bottom-right-radius: 4px 1px;
@@ -31,15 +31,15 @@
 
 .image-controls-button {
     font-family: 'compass-icons';
-    font-style: normal;
     font-size: 18px;
-    font-weight: 400;
+    font-style: normal;
     background-color: transparent;
-    line-height: 18px;
+    font-weight: 400;
     overflow: hidden;
+    line-height: 18px;
+    align-items: center;
     border: none;
     background-repeat: no-repeat;
-    align-items: center;
     padding: 0 22px 0 0;
     outline: none;
     text-align: center;
