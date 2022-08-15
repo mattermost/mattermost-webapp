@@ -30,6 +30,7 @@
     "color-hash": "2.0.1",
     "core-js": "3.23.3",
     "country-list": "2.2.0",
+    "crosspath": "2.0.0",
     "crypto-browserify": "3.12.0",
     "css-vars-ponyfill": "2.4.7",
     "dynamic-virtualized-list": "github:mattermost/dynamic-virtualized-list#77a0cb4c565bc239bab1ce5414b95bdd9a570963",
