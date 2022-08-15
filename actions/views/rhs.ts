@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable max-lines */
-
 import debounce from 'lodash/debounce';
 import {AnyAction} from 'redux';
 import {batchActions} from 'redux-batched-actions';
@@ -99,9 +97,11 @@ export function updateRhsState(rhsState: string, channelId?: string, previousRhs
 export function goBack() {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const prevState = getPreviousRhsState(getState() as GlobalState);
+        const defaultTab = 'channel-info';
+
         dispatch({
             type: ActionTypes.RHS_GO_BACK,
-            state: prevState,
+            state: prevState || defaultTab,
         });
 
         return {data: true};
