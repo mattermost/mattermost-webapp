@@ -41,7 +41,7 @@ type OwnProps = {
     atLatestPost?: boolean;
     postListIds: string[];
     latestPostTimeStamp: number;
-    atBottom?: boolean;
+    atBottom?: boolean | null;
     lastViewedBottom: number;
     width: number;
     lastViewedAt: number;
@@ -81,7 +81,7 @@ type State = {
 
 export type Props = OwnProps & typeof ToastWrapper.defaultProps;
 
-export class ToastWrapper extends React.PureComponent<Props, State> {
+class ToastWrapper extends React.PureComponent<Props, State> {
     mounted: boolean;
     static defaultProps = {
         focusedPostId: '',
