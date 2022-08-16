@@ -39,6 +39,7 @@ type SubscriptionBase = {
     last_invoice?: Invoice;
     trial_end_at: number;
     is_free_trial: string;
+    delinquent_since?: number;
 }
 
 export type Product = {
@@ -188,4 +189,8 @@ export type TeamsUsage = {
     active: number;
     cloudArchived: number;
     teamsLoaded: boolean;
+}
+
+export type ValidBusinessEmail = {
+    is_valid: boolean;
 }

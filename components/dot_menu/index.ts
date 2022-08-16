@@ -9,7 +9,7 @@ import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId, getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getCurrentTeam, getTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getThreadOrSynthetic} from 'mattermost-redux/selectors/entities/threads';
+import {makeGetThreadOrSynthetic} from 'mattermost-redux/selectors/entities/threads';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
@@ -97,6 +97,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
         )
     ) {
         const root = getPost(state, rootId);
+        const getThreadOrSynthetic = makeGetThreadOrSynthetic();
         if (root) {
             const thread = getThreadOrSynthetic(state, root);
             threadReplyCount = thread.reply_count;
