@@ -23,11 +23,11 @@ import useGetUsage from 'components/common/hooks/useGetUsage';
 import useGetLimits from 'components/common/hooks/useGetLimits';
 import SuccessModal from 'components/cloud_subscribe_result_modal/success';
 import ErrorModal from 'components/cloud_subscribe_result_modal/error';
-import PurchaseModal from 'components/purchase_modal';
 import CheckMarkSvg from 'components/widgets/icons/check_mark_icon';
 import PlanLabel from 'components/common/plan_label';
 import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
 import NotifyAdminCTA from 'components/notify_admin_cta/notify_admin_cta';
+import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurchaseModal';
 
 import DowngradeTeamRemovalModal from './downgrade_team_removal_modal';
 import ContactSalesCTA from './contact_sales_cta';
@@ -39,6 +39,10 @@ import './content.scss';
 
 type ContentProps = {
     onHide: () => void;
+
+    // callerCTA is information about the cta that opened this modal. This helps us provide a telemetry path
+    // showing information about how the modal was opened all the way to more CTAs within the modal itself
+    callerCTA?: string;
 }
 
 function Content(props: ContentProps) {
@@ -73,13 +77,11 @@ function Content(props: ContentProps) {
         isPostTrial = true;
     }
 
-    const openPurchaseModal = () => {
-        trackEvent('cloud_pricing', 'click_upgrade_button');
+    const openCloudPurchaseModal = useOpenCloudPurchaseModal({});
+    const openPurchaseModal = (callerInfo: string) => {
         props.onHide();
-        dispatch(openModal({
-            modalId: ModalIdentifiers.CLOUD_PURCHASE,
-            dialogType: PurchaseModal,
-        }));
+        const telemetryInfo = props.callerCTA + ' > ' + callerInfo;
+        openCloudPurchaseModal({trackingLocation: telemetryInfo});
     };
 
     const closePricingModal = () => {
@@ -225,9 +227,9 @@ function Content(props: ContentProps) {
                                     bgColor='var(--center-channel-bg)'
                                     firstSvg={<CheckMarkSvg/>}
                                 />) : undefined}
-                        planExtraInformation={(!isAdmin && (isStarter || isEnterpriseTrial)) ? <NotifyAdminCTA/> : undefined}
+                        planExtraInformation={(!isAdmin && (isStarter || isEnterpriseTrial)) ? <NotifyAdminCTA callerInfo='professional_plan_pricing_modal_card'/> : undefined}
                         buttonDetails={{
-                            action: openPurchaseModal,
+                            action: () => openPurchaseModal('click_pricing_modal_professional_card_upgrade_button'),
                             text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
                             disabled: !isAdmin || isProfessional || isEnterprise,
                             customClass: isPostTrial ? ButtonCustomiserClasses.special : ButtonCustomiserClasses.active,
@@ -271,7 +273,12 @@ function Content(props: ContentProps) {
                                     firstSvg={<CheckMarkSvg/>}
                                     renderLastDaysOnTrial={true}
                                 />) : undefined}
-                        planExtraInformation={(!isAdmin && (isStarter || isEnterpriseTrial)) ? <NotifyAdminCTA preTrial={isPreTrial}/> : undefined}
+                        planExtraInformation={(!isAdmin && (isStarter || isEnterpriseTrial)) ? (
+                            <NotifyAdminCTA
+                                callerInfo='enterprise_plan_pricing_modal_card'
+                                preTrial={isPreTrial}
+                            />
+                        ) : undefined}
                         buttonDetails={(isPostTrial || !isAdmin) ? {
                             action: () => {
                                 trackEvent('cloud_pricing', 'click_enterprise_contact_sales');
