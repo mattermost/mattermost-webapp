@@ -30,7 +30,6 @@ import GlobalHeader from 'components/global_header/global_header';
 import ModalController from 'components/modal_controller';
 import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_route';
 import {HFRoute} from 'components/header_footer_route/header_footer_route';
-import IntlProvider from 'components/intl_provider';
 import NeedsTeam from 'components/needs_team';
 import OnBoardingTaskList from 'components/onboarding_tasklist';
 import LaunchingWorkspace, {LAUNCHING_WORKSPACE_FULLSCREEN_Z_INDEX} from 'components/preparing_workspace/launching_workspace';
@@ -77,6 +76,7 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {applyLuxonDefaults} from './effects';
 
+import RootProvider from './root_provider';
 import RootRedirect from './root_redirect';
 
 const CreateTeam = makeAsyncComponent('CreateTeam', LazyCreateTeam);
@@ -456,7 +456,7 @@ export default class Root extends React.PureComponent<Props & RouteComponentProp
         }
 
         return (
-            <IntlProvider>
+            <RootProvider>
                 <Switch>
                     <Route
                         path={'/error'}
@@ -600,7 +600,7 @@ export default class Root extends React.PureComponent<Props & RouteComponentProp
                         <Pluggable pluggableName='Global'/>
                     </CompassThemeProvider>
                 </Switch>
-            </IntlProvider>
+            </RootProvider>
         );
     }
 }
