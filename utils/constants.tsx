@@ -148,6 +148,7 @@ export const Preferences = {
     ADVANCED_TEXT_EDITOR: 'advanced_text_editor',
 
     FORWARD_POST_VIEWED: 'forward_post_viewed',
+    USE_CASE: 'use_case',
 };
 
 // For one off things that have a special, attention-grabbing UI until you interact with them
