@@ -64,7 +64,7 @@ function handleReadChangedThread(state: ThreadsState['counts'], action: GenericA
         ...state[teamId],
     } : {
         total_unread_threads: prevUnreadReplies,
-        total: 1,
+        total: 0,
         total_unread_mentions: prevUnreadMentions,
     };
 
@@ -149,7 +149,7 @@ export function countsIncludingDirectReducer(state: ThreadsState['counts'] = {},
         return handleAllTeamThreadsRead(state, action);
     case ThreadTypes.READ_CHANGED_THREAD: {
         const {teamId, channelType} = action.data;
-        if (teamId === '' || isDmGmChannel(channelType)) {
+        if (isDmGmChannel(channelType)) {
             const teamIds = new Set(Object.keys(state));
 
             // if the case of dm/gm make sure we add counts for all teams
@@ -158,8 +158,8 @@ export function countsIncludingDirectReducer(state: ThreadsState['counts'] = {},
             }
 
             let newState = {...state};
-            teamIds.forEach((teamId) => {
-                newState = handleReadChangedThread(newState, action, teamId);
+            teamIds.forEach((id) => {
+                newState = handleReadChangedThread(newState, action, id);
             });
 
             return newState;
