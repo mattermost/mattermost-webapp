@@ -666,6 +666,98 @@ export const getUnreadStatus: (state: GlobalState) => BasicUnreadStatus = create
     },
 );
 
+type TeamsUnreadStatuses = Record<string, BasicUnreadMeta>;
+
+export const getTeamsUnreadStatuses: (state: GlobalState) => BasicUnreadStatus = createSelector(
+    'getTeamsUnreadStatuses',
+    getAllChannels,
+    getMyChannelMemberships,
+    getChannelMessageCounts,
+    getUsers,
+    getCurrentUserId,
+    getCurrentTeamId,
+    getMyTeams,
+    getTeamMemberships,
+    isCollapsedThreadsEnabled,
+    getThreadCounts,
+    getThreadCountsIncludingDirect,
+    (
+        channels,
+        myMembers,
+        messageCounts,
+        users,
+        currentUserId,
+        currentTeamId,
+        myTeams,
+        myTeamMemberships,
+        collapsedThreads,
+        threadCounts,
+        threadCountsIncludingDirect,
+    ) => {
+        const {
+            messages: currentTeamUnreadMessages,
+            mentions: currentTeamUnreadMentions,
+        } = Object.entries(myMembers).reduce((counts, [channelId, membership]) => {
+            const channel = channels[channelId];
+
+            if (!channel || !membership) {
+                return counts;
+            }
+
+            if (
+                // other-team non-DM/non-GM channels
+                channel.team_id !== currentTeamId &&
+                channel.type !== General.DM_CHANNEL &&
+                channel.type !== General.GM_CHANNEL
+            ) {
+                return counts;
+            }
+
+            const channelExists = channel.type === General.DM_CHANNEL ? users[getUserIdFromChannelName(currentUserId, channel.name)]?.delete_at === 0 : channel.delete_at === 0;
+            if (!channelExists) {
+                return counts;
+            }
+
+            const mentions = collapsedThreads ? membership.mention_count_root : membership.mention_count;
+            if (mentions) {
+                counts.mentions += mentions;
+            }
+
+            const unreadCount = calculateUnreadCount(messageCounts[channelId], myMembers[channelId], collapsedThreads);
+            if (unreadCount.showUnread) {
+                counts.messages += unreadCount.messages;
+            }
+
+            return counts;
+        }, {
+            messages: 0,
+            mentions: 0,
+        });
+
+        const totalUnreadMessages = currentTeamUnreadMessages;
+        let totalUnreadMentions = currentTeamUnreadMentions;
+        let anyUnreadThreads = false;
+
+        // when collapsed threads are enabled, we start with root-post counts from channels, then
+        // add the same thread-reply counts from the global threads view
+        if (collapsedThreads) {
+            Object.keys(threadCounts).forEach((teamId) => {
+                const c = threadCounts[teamId];
+                if (teamId === currentTeamId) {
+                    const currentTeamDirectCounts = threadCountsIncludingDirect[currentTeamId] || 0;
+                    anyUnreadThreads = Boolean(currentTeamDirectCounts.total_unread_threads);
+                    totalUnreadMentions += currentTeamDirectCounts.total_unread_mentions;
+                } else {
+                    anyUnreadThreads = anyUnreadThreads || Boolean(c.total_unread_threads);
+                    totalUnreadMentions += c.total_unread_mentions;
+                }
+            });
+        }
+
+        return totalUnreadMentions || anyUnreadThreads || Boolean(totalUnreadMessages);
+    },
+);
+
 export const getUnreadStatusInCurrentTeam: (state: GlobalState) => BasicUnreadStatus = createSelector(
     'getUnreadStatusInCurrentTeam',
     getCurrentChannelId,

@@ -1,13 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {connect} from 'react-redux';
-import {bindActionCreators, Dispatch} from 'redux';
-
+import {connect, ConnectedProps} from 'react-redux';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {withRouter} from 'react-router-dom';
 
-import {getTeams} from 'mattermost-redux/actions/teams';
+import {ClientConfig} from '@mattermost/types/config';
 
+import {getTeams} from 'mattermost-redux/actions/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {
     getCurrentTeamId,
@@ -16,18 +16,19 @@ import {
     getTeamMemberships,
 } from 'mattermost-redux/selectors/entities/teams';
 import {get, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
-
-import {ClientConfig} from '@mattermost/types/config';
+import {getTeamsUnreadStatuses} from 'mattermost-redux/selectors/entities/channels';
+import {getThreadCounts} from 'mattermost-redux/selectors/entities/threads';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
 
-import {getCurrentLocale} from 'selectors/i18n';
-import {getIsLhsOpen} from 'selectors/lhs';
-import {switchTeam, updateTeamsOrderForUser} from 'actions/team_actions.jsx';
-import {Preferences} from 'utils/constants';
 import {GlobalState} from 'types/store';
 
-import {getThreadCounts} from 'mattermost-redux/selectors/entities/threads';
+import {getCurrentLocale} from 'selectors/i18n';
+import {getIsLhsOpen} from 'selectors/lhs';
+
+import {switchTeam, updateTeamsOrderForUser} from 'actions/team_actions.jsx';
+
+import {Preferences} from 'utils/constants';
 
 import TeamSidebar from './team_sidebar';
 
@@ -51,12 +52,19 @@ function mapStateToProps(state: GlobalState) {
         userTeamsOrderPreference: get(state, Preferences.TEAMS_ORDER, '', ''),
         threadCounts: getThreadCounts(state),
         products,
+        teamsUnreadStatuses: getTeamsUnreadStatuses(state),
     };
+}
+
+type Actions = {
+    getTeams: (page?: number, perPage?: number, includeTotalCount?: boolean) => void;
+    switchTeam: (url: string, team?: Team) => (dispatch: Dispatch<GenericAction>, getState: GetStateFunc) => void;
+    updateTeamsOrderForUser: (teamIds: string[]) => (dispatch: Dispatch<GenericAction>, getState: GetStateFunc) => Promise<void>;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject, Actions>({
             getTeams,
             switchTeam,
             updateTeamsOrderForUser,
@@ -64,4 +72,8 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TeamSidebar));
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+export type PropsFromRedux = ConnectedProps<typeof connector>;
+
+export default withRouter(connector(TeamSidebar));

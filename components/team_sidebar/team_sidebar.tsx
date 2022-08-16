@@ -4,62 +4,34 @@
 import React from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 import {FormattedMessage} from 'react-intl';
-
 import classNames from 'classnames';
-
 import {DragDropContext, Droppable, DroppableProvided, DropResult} from 'react-beautiful-dnd';
-
-import {Dispatch} from 'redux';
-
 import {RouteComponentProps} from 'react-router-dom';
 
+import {Team} from '@mattermost/types/teams';
+
 import Permissions from 'mattermost-redux/constants/permissions';
-
-import {Team, TeamMembership} from '@mattermost/types/teams';
-
-import {GenericAction, GetStateFunc} from 'mattermost-redux/types/actions';
 
 import {Constants} from 'utils/constants';
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils';
 import * as Utils from 'utils/utils';
 
+import Pluggable from 'plugins/pluggable';
+
+import {getCurrentProduct} from 'selectors/products';
+
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
+import TeamButton from 'components/team_sidebar/components/team_button';
 
-import {ThreadsState} from '@mattermost/types/threads';
+import type {PropsFromRedux} from './index';
 
-import {ProductComponent} from '../../types/store/plugins';
-
-import Pluggable from '../../plugins/pluggable';
-
-import {getCurrentProduct} from '../../selectors/products';
-
-import TeamButton from './components/team_button';
-
-type Actions = {
-    getTeams: (page?: number, perPage?: number, includeTotalCount?: boolean) => void;
-    switchTeam: (url: string, team?: Team) => (dispatch: Dispatch<GenericAction>, getState: GetStateFunc) => void;
-    updateTeamsOrderForUser: (teamIds: string[]) => (dispatch: Dispatch<GenericAction>, getState: GetStateFunc) => Promise<void>;
+export interface Props extends PropsFromRedux {
+    location: RouteComponentProps['location'];
 }
 
 type State = {
     showOrder: boolean;
     teamsOrder: Team[];
-}
-
-export interface Props {
-    myTeams: Team[];
-    collapsedThreads: boolean;
-    currentTeamId: string;
-    moreTeamsToJoin: boolean;
-    myTeamMembers: Record<string, TeamMembership>;
-    isOpen: boolean;
-    experimentalPrimaryTeam?: string ;
-    locale: string;
-    actions: Actions;
-    userTeamsOrderPreference: string;
-    threadCounts: ThreadsState['counts'];
-    products: ProductComponent[];
-    location: RouteComponentProps['location'];
 }
 
 export function renderView(props: Props) {
@@ -219,6 +191,8 @@ export default class TeamSidebar extends React.PureComponent<Props, State> {
     }
 
     render() {
+        console.log('teams unread statuses', this.props.teamsUnreadStatuses);
+
         const root: Element | null = document.querySelector('#root');
         if (this.props.myTeams.length <= 1) {
             root!.classList.remove('multi-teams');
@@ -243,9 +217,9 @@ export default class TeamSidebar extends React.PureComponent<Props, State> {
                     tip={team.display_name}
                     active={team.id === this.props.currentTeamId}
                     displayName={team.display_name}
-                    unread={this.props.collapsedThreads ? (member.msg_count_root + this.props.threadCounts?.[team.id]?.total_unread_threads) > 0 : member.msg_count > 0}
                     order={index + 1}
                     showOrder={this.state.showOrder}
+                    unread={this.props.collapsedThreads ? (member.msg_count_root + this.props.threadCounts?.[team.id]?.total_unread_threads) > 0 : member.msg_count > 0}
                     mentions={this.props.collapsedThreads ? (member.mention_count_root + this.props.threadCounts?.[team.id]?.total_unread_mentions) : member.mention_count}
                     teamIconUrl={Utils.imageURLForTeam(team)}
                     switchTeam={(url: string) => this.props.actions.switchTeam(url, currentProduct ? team : undefined)}
