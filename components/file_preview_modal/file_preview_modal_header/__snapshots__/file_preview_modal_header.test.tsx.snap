@@ -106,3 +106,227 @@ exports[`components/file_preview_modal/file_preview_modal_header/FilePreviewModa
   />
 </Fragment>
 `;
+
+exports[`components/file_preview_modal/file_preview_modal_header/FilePreviewModalHeader should match snapshot with arbitrary zoom 1`] = `
+<Fragment>
+  <div
+    className="file-preview-modal-header"
+  >
+    <Memo(FilePreviewModalInfo)
+      filename="img.png"
+      post={Object {}}
+      showFileName={true}
+    />
+    <Memo(FilePreviewModalMainNav)
+      fileIndex={1}
+      handleNext={[MockFunction]}
+      handlePrev={[MockFunction]}
+      totalFiles={3}
+    />
+    <Memo(FilePreviewModalMainActions)
+      canDownloadFiles={true}
+      enablePublicLink={false}
+      fileInfo={
+        Object {
+          "clientId": "client_id",
+          "create_at": 1,
+          "delete_at": 1,
+          "extension": "jpg",
+          "has_preview_image": true,
+          "height": 200,
+          "id": "file_info_id",
+          "mime_type": "mime_type",
+          "name": "name",
+          "size": 1,
+          "update_at": 1,
+          "user_id": "user_id",
+          "width": 350,
+        }
+      }
+      fileURL="http://example.com/img.png"
+      filename="img.png"
+      handleModalClose={[MockFunction]}
+      handleNext={[MockFunction]}
+      handlePrev={[MockFunction]}
+      isExternalFile={false}
+      isMobileView={false}
+      onGetPublicLink={[MockFunction]}
+      showOnlyClose={false}
+      showPublicLink={false}
+      usedInside="Header"
+    />
+  </div>
+  <Memo(FilePreviewModalImageControls)
+    setToolbarZoom={[MockFunction]}
+    toolbarZoom={1.33}
+  />
+</Fragment>
+`;
+
+exports[`components/file_preview_modal/file_preview_modal_header/FilePreviewModalHeader should match snapshot with height zoom 1`] = `
+<Fragment>
+  <div
+    className="file-preview-modal-header"
+  >
+    <Memo(FilePreviewModalInfo)
+      filename="img.png"
+      post={Object {}}
+      showFileName={true}
+    />
+    <Memo(FilePreviewModalMainNav)
+      fileIndex={1}
+      handleNext={[MockFunction]}
+      handlePrev={[MockFunction]}
+      totalFiles={3}
+    />
+    <Memo(FilePreviewModalMainActions)
+      canDownloadFiles={true}
+      enablePublicLink={false}
+      fileInfo={
+        Object {
+          "clientId": "client_id",
+          "create_at": 1,
+          "delete_at": 1,
+          "extension": "jpg",
+          "has_preview_image": true,
+          "height": 200,
+          "id": "file_info_id",
+          "mime_type": "mime_type",
+          "name": "name",
+          "size": 1,
+          "update_at": 1,
+          "user_id": "user_id",
+          "width": 350,
+        }
+      }
+      fileURL="http://example.com/img.png"
+      filename="img.png"
+      handleModalClose={[MockFunction]}
+      handleNext={[MockFunction]}
+      handlePrev={[MockFunction]}
+      isExternalFile={false}
+      isMobileView={false}
+      onGetPublicLink={[MockFunction]}
+      showOnlyClose={false}
+      showPublicLink={false}
+      usedInside="Header"
+    />
+  </div>
+  <Memo(FilePreviewModalImageControls)
+    setToolbarZoom={[MockFunction]}
+    toolbarZoom="H"
+  />
+</Fragment>
+`;
+
+exports[`components/file_preview_modal/file_preview_modal_header/FilePreviewModalHeader should match snapshot with scale zoom 1`] = `
+<Fragment>
+  <div
+    className="file-preview-modal-header"
+  >
+    <Memo(FilePreviewModalInfo)
+      filename="img.png"
+      post={Object {}}
+      showFileName={true}
+    />
+    <Memo(FilePreviewModalMainNav)
+      fileIndex={1}
+      handleNext={[MockFunction]}
+      handlePrev={[MockFunction]}
+      totalFiles={3}
+    />
+    <Memo(FilePreviewModalMainActions)
+      canDownloadFiles={true}
+      enablePublicLink={false}
+      fileInfo={
+        Object {
+          "clientId": "client_id",
+          "create_at": 1,
+          "delete_at": 1,
+          "extension": "jpg",
+          "has_preview_image": true,
+          "height": 200,
+          "id": "file_info_id",
+          "mime_type": "mime_type",
+          "name": "name",
+          "size": 1,
+          "update_at": 1,
+          "user_id": "user_id",
+          "width": 350,
+        }
+      }
+      fileURL="http://example.com/img.png"
+      filename="img.png"
+      handleModalClose={[MockFunction]}
+      handleNext={[MockFunction]}
+      handlePrev={[MockFunction]}
+      isExternalFile={false}
+      isMobileView={false}
+      onGetPublicLink={[MockFunction]}
+      showOnlyClose={false}
+      showPublicLink={false}
+      usedInside="Header"
+    />
+  </div>
+  <Memo(FilePreviewModalImageControls)
+    setToolbarZoom={[MockFunction]}
+    toolbarZoom={1.25}
+  />
+</Fragment>
+`;
+
+exports[`components/file_preview_modal/file_preview_modal_header/FilePreviewModalHeader should match snapshot with width zoom 1`] = `
+<Fragment>
+  <div
+    className="file-preview-modal-header"
+  >
+    <Memo(FilePreviewModalInfo)
+      filename="img.png"
+      post={Object {}}
+      showFileName={true}
+    />
+    <Memo(FilePreviewModalMainNav)
+      fileIndex={1}
+      handleNext={[MockFunction]}
+      handlePrev={[MockFunction]}
+      totalFiles={3}
+    />
+    <Memo(FilePreviewModalMainActions)
+      canDownloadFiles={true}
+      enablePublicLink={false}
+      fileInfo={
+        Object {
+          "clientId": "client_id",
+          "create_at": 1,
+          "delete_at": 1,
+          "extension": "jpg",
+          "has_preview_image": true,
+          "height": 200,
+          "id": "file_info_id",
+          "mime_type": "mime_type",
+          "name": "name",
+          "size": 1,
+          "update_at": 1,
+          "user_id": "user_id",
+          "width": 350,
+        }
+      }
+      fileURL="http://example.com/img.png"
+      filename="img.png"
+      handleModalClose={[MockFunction]}
+      handleNext={[MockFunction]}
+      handlePrev={[MockFunction]}
+      isExternalFile={false}
+      isMobileView={false}
+      onGetPublicLink={[MockFunction]}
+      showOnlyClose={false}
+      showPublicLink={false}
+      usedInside="Header"
+    />
+  </div>
+  <Memo(FilePreviewModalImageControls)
+    setToolbarZoom={[MockFunction]}
+    toolbarZoom="W"
+  />
+</Fragment>
+`;
