@@ -163,7 +163,7 @@ export const UpgradeToProfessionalCard = () => {
                 id: t('admin.billing.subscriptions.billing_summary.upgrade_professional.cta'),
                 defaultMessage: 'Upgrade',
             }}
-            ctaAction={openPurchaseModal}
+            ctaAction={() => openPurchaseModal({trackingLocation: 'billing_summary_upsell_professional_card'})}
             ctaPrimary={true}
             andMore={true}
             advantages={professionalAdvantages}
