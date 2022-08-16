@@ -11,7 +11,7 @@ import {Post} from '@mattermost/types/posts';
 import FilePreviewModalInfo from '../file_preview_modal_info/file_preview_modal_info';
 import FilePreviewModalMainNav from '../file_preview_modal_main_nav/file_preview_modal_main_nav';
 import FilePreviewModalMainActions from '../file_preview_modal_main_actions/file_preview_modal_main_actions';
-import FilePreviewModalImageControls from '../file_preview_modal_image_controls/file_preview_modal_image_controls';
+import FilePreviewModalImageControls, {ZoomValue} from '../file_preview_modal_image_controls/file_preview_modal_image_controls';
 import {LinkInfo} from '../types';
 
 import './file_preview_modal_header.scss';
@@ -29,8 +29,8 @@ interface Props {
     canDownloadFiles: boolean;
     isExternalFile: boolean;
     fileType: string;
-    toolbarZoom: number | string;
-    setToolbarZoom: (toolbarZoom: number | string) => void;
+    toolbarZoom: ZoomValue;
+    setToolbarZoom: (toolbarZoom: ZoomValue) => void;
     handlePrev: () => void;
     handleNext: () => void;
     handleModalClose: () => void;
@@ -64,7 +64,7 @@ const FilePreviewModalHeader: React.FC<Props> = ({post, totalFiles, fileIndex, t
             usedInside='Header'
         />);
     return (
-        <React.Fragment>
+        <>
             <div className='file-preview-modal-header'>
                 {actionProps.isMobileView && actions}
                 {!actionProps.isMobileView &&
@@ -78,7 +78,7 @@ const FilePreviewModalHeader: React.FC<Props> = ({post, totalFiles, fileIndex, t
                 {!actionProps.isMobileView && actions}
             </div>
             {imageControls}
-        </React.Fragment>
+        </>
     );
 };
 

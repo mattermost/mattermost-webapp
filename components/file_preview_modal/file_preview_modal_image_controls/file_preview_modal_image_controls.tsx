@@ -1,39 +1,40 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable react-hooks/exhaustive-deps */
-
 import React, {ChangeEvent, memo, useEffect, useState} from 'react';
+import {PlusIcon, MinusIcon} from '@mattermost/compass-icons/components';
 import {useIntl} from 'react-intl';
 import {clamp} from 'lodash';
 
-import {t} from 'utils/i18n';
-
-import {MIN_ZOOM_EXT, ZOOM_EXT} from '../image_preview';
+import {minZoom, zoom} from '../image_preview';
 import './file_preview_modal_image_controls.scss';
 
-let zoomInButtonActive = true;
-let zoomOutButtonActive = false;
+let zoomInButtonDisabled = false;
+let zoomOutButtonDisabled = true;
+
+export type ZoomValue = 'A' | 'W' | 'H' | number;
 
 interface Props {
-    toolbarZoom: number | string;
-    setToolbarZoom: (toolbarZoom: number | string) => void;
+    toolbarZoom: ZoomValue;
+    setToolbarZoom: (toolbarZoom: ZoomValue) => void;
 }
 
-const FilePreviewModalImageControls: React.FC<Props> = ({toolbarZoom, setToolbarZoom}: Props) => {
+const FilePreviewModalImageControls = ({toolbarZoom, setToolbarZoom}: Props) => {
     // Initial variables and constants
     // zoom text
     const [zoomText, setZoomText] = useState<string>();
-    const [selectedZoomValue, setSelectedZoomValue] = useState<string>();
+    const [selectedZoomValue, setSelectedZoomValue] = useState<ZoomValue | 'customZoom'>();
 
-    const plusSign = <i className='icon-plus'/>;
-    const minusSign = <i className='icon-minus'/>;
+    // eslint-disable-next-line react/jsx-max-props-per-line
+    const plusSign = <PlusIcon size={16} color='currentColor'/>;
+    // eslint-disable-next-line react/jsx-max-props-per-line
+    const minusSign = <MinusIcon size={16} color='currentColor'/>;
 
     // Initialize dropdown values
     const {formatMessage} = useIntl();
-    const autoText = formatMessage({id: t('imageToolbarZoomDropdown.automatic'), defaultMessage: 'Automatic'});
-    const fitWidthText = formatMessage({id: t('imageToolbarZoomDropdown.fitWidth'), defaultMessage: 'Fit width'});
-    const fitHeightText = formatMessage({id: t('imageToolbarZoomDropdown.fitHeight'), defaultMessage: 'Fit height'});
+    const autoText = formatMessage({id: 'imageToolbarZoomDropdown.automatic', defaultMessage: 'Automatic'});
+    const fitWidthText = formatMessage({id: 'imageToolbarZoomDropdown.fitWidth', defaultMessage: 'Fit width'});
+    const fitHeightText = formatMessage({id: 'imageToolbarZoomDropdown.fitHeight', defaultMessage: 'Fit height'});
 
     const zoomLevels = new Map();
     zoomLevels.set('A', {text: autoText, type: 'auto'});
@@ -53,7 +54,9 @@ const FilePreviewModalImageControls: React.FC<Props> = ({toolbarZoom, setToolbar
             <option
                 key={zoomLevelKey}
                 value={zoomLevelKey}
-            >{zoomLevel.text}</option>,
+            >
+                {zoomLevel.text}
+            </option>,
         );
     }
 
@@ -74,79 +77,63 @@ const FilePreviewModalImageControls: React.FC<Props> = ({toolbarZoom, setToolbar
         if (zoomLevels.get(zoomLevel.value).type === 'scale') {
             setToolbarZoom(parseFloat(zoomLevel.value));
         } else {
-            setToolbarZoom(zoomLevel.value);
+            setToolbarZoom(zoomLevel.value as ZoomValue);
         }
     };
 
-    const handleZoomIn = () => {
-        handleZoomButtons(0.1);
-    };
-    const handleZoomOut = () => {
-        handleZoomButtons(-0.1);
-    };
-    const handleZoomButtons = (delta: number) => {
-        let newToolbarZoom = typeof toolbarZoom === 'string' ? ZOOM_EXT : toolbarZoom;
+    const makeZoomHandler = (delta: number) => () => {
+        let newToolbarZoom = typeof toolbarZoom === 'string' ? zoom : toolbarZoom;
         newToolbarZoom = Math.round(newToolbarZoom * 10) / 10;
-        newToolbarZoom = clamp(newToolbarZoom + delta, MIN_ZOOM_EXT, 5);
-        setToolbarZoom(newToolbarZoom === MIN_ZOOM_EXT ? 'A' : newToolbarZoom);
-
-        zoomInButtonActive = newToolbarZoom < 5;
-        zoomOutButtonActive = newToolbarZoom > MIN_ZOOM_EXT;
+        newToolbarZoom = clamp(newToolbarZoom + delta, minZoom, 5);
+        setToolbarZoom(newToolbarZoom === minZoom ? 'A' : newToolbarZoom);
     };
 
     // Callbacks
     useEffect(() => {
         if (typeof toolbarZoom === 'number') {
             setZoomText(`${Math.round(toolbarZoom * 100)}%`);
-            zoomInButtonActive = toolbarZoom < 5;
-            zoomOutButtonActive = toolbarZoom > MIN_ZOOM_EXT;
+            zoomInButtonDisabled = toolbarZoom >= 5;
+            zoomOutButtonDisabled = toolbarZoom <= minZoom;
         } else if (toolbarZoom === 'A') {
-            zoomInButtonActive = true;
-            zoomOutButtonActive = false;
+            zoomInButtonDisabled = false;
+            zoomOutButtonDisabled = true;
         }
 
-        if (zoomLevels.has(toolbarZoom.toString())) {
-            setSelectedZoomValue(toolbarZoom.toString());
+        if (zoomLevels.has(toolbarZoom)) {
+            setSelectedZoomValue(toolbarZoom);
         } else {
             setSelectedZoomValue('customZoom');
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [toolbarZoom]);
-
-    // Elements
-    const zoomDropdown = (
-        <select
-            onChange={handleZoomDropdown}
-            className='image-controls-dropdown'
-            defaultValue={'A'}
-            value={selectedZoomValue}
-        >
-            {zoomLevelOptions}
-        </select>
-    );
-
-    const zoomInButton = (
-        <button
-            onClick={handleZoomIn}
-            className={`image-controls-button ${zoomInButtonActive ? 'active' : 'inactive'}`}
-        >
-            {plusSign}
-        </button>
-    );
-    const zoomOutButton = (
-        <button
-            onClick={handleZoomOut}
-            className={`image-controls-button ${zoomOutButtonActive ? 'active' : 'inactive'}`}
-        >
-            {minusSign}
-        </button>
-    );
 
     // Render
     return (
         <div className='image-controls'>
-            {zoomOutButton}
-            {zoomInButton}
-            {zoomDropdown}
+            <button
+                onClick={makeZoomHandler(-0.1)}
+                className={'image-controls__button'}
+                disabled={zoomOutButtonDisabled}
+            >
+                {minusSign}
+            </button>
+
+            <button
+                onClick={makeZoomHandler(0.1)}
+                className={'image-controls__button'}
+                disabled={zoomInButtonDisabled}
+            >
+                {plusSign}
+            </button>
+
+            <select
+                onChange={handleZoomDropdown}
+                className='image-controls__dropdown'
+                defaultValue={'A'}
+                value={selectedZoomValue}
+            >
+                {zoomLevelOptions}
+            </select>
         </div>
     );
 };
