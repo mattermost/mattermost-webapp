@@ -12,6 +12,7 @@ import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 import {Post} from '@mattermost/types/posts';
 import {ExtendedPost} from 'mattermost-redux/actions/posts';
 
+import type {emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 import {trackEvent} from 'actions/telemetry_actions';
 import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils';
@@ -102,7 +103,7 @@ type Props = {
     /**
      * Set not to allow edits on post
      */
-    isReadOnly: boolean | null;
+    isReadOnly?: boolean;
 
     /**
      * To check if the state of emoji for last message and from where it was emitted
@@ -129,7 +130,7 @@ type Props = {
         /**
          * Function to set or unset emoji picker for last message
          */
-        emitShortcutReactToLastPostFrom?: (emittedFrom: string) => void;
+        emitShortcutReactToLastPostFrom?: typeof emitShortcutReactToLastPostFrom;
 
         /**
          * Function to set viewed Actions Menu for first time
@@ -277,7 +278,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
                     channelId={post.channel_id}
                     postId={post.id}
                     emojis={this.props.recentEmojis}
-                    teamId={this.props.teamId}
+                    teamId={this.props.teamId!}
                     getDotMenuRef={this.getDotMenu}
                 />
             );
@@ -335,7 +336,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
             postFlagIcon = (
                 <PostFlagIcon
                     postId={post.id}
-                    isFlagged={this.props.isFlagged}
+                    isFlagged={Boolean(this.props.isFlagged)}
                 />
             );
         }

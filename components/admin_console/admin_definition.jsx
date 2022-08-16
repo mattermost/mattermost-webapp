@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 /* eslint-disable max-lines */
 
 import React from 'react';
@@ -2043,9 +2044,7 @@ const AdminDefinition = {
                         label: t('admin.team.brandDescriptionTitle'),
                         label_default: 'Site Description: ',
                         help_text: t('admin.team.brandDescriptionHelp'),
-                        help_text_default: 'Description of service shown in login screens and UI. When not specified, "All team communication in one place, searchable and accessible anywhere" is displayed.',
-                        placeholder: t('web.root.signup_info'),
-                        placeholder_default: 'All team communication in one place, searchable and accessible anywhere',
+                        help_text_default: 'Displays as a title above the login form. When not specified, the phrase "Log in" is displayed.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
                     },
                     {

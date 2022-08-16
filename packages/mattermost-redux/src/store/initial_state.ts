@@ -3,6 +3,8 @@
 
 import {GlobalState} from '@mattermost/types/store';
 
+import {zeroStateLimitedViews} from '../reducers/entities/posts';
+
 const state: GlobalState = {
     entities: {
         general: {
@@ -73,6 +75,7 @@ const state: GlobalState = {
                     comment: -1,
                 },
             },
+            limitedViews: zeroStateLimitedViews,
         },
         threads: {
             threadsInTeam: {},
@@ -134,6 +137,7 @@ const state: GlobalState = {
             pinned: {},
             isSearchingTerm: false,
             isSearchGettingMore: false,
+            isLimitedResults: -1,
         },
         typing: {},
         roles: {
@@ -274,10 +278,6 @@ const state: GlobalState = {
             },
         },
         users: {
-            checkMfa: {
-                status: 'not_started',
-                error: null,
-            },
             login: {
                 status: 'not_started',
                 error: null,

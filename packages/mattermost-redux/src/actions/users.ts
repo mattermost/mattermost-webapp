@@ -17,13 +17,13 @@ import {bindClientFunc, forceLogoutIfNecessary, debounce} from 'mattermost-redux
 import {logError} from 'mattermost-redux/actions/errors';
 import {getMyPreferences} from 'mattermost-redux/actions/preferences';
 import {
+    currentUserInfoQuery,
+    CurrentUserInfoQueryResponseType,
     convertRolesNamesArrayToString,
-    myDataQuery,
-    MyDataQueryResponseType,
     transformToRecievedMeReducerPayload,
     transformToRecievedTeamsListReducerPayload,
-    transformToRecievedMyTeamMembersReducerPayload,
     transformToRecievedRolesReducerPayload,
+    transformToRecievedMyTeamMembersReducerPayload,
 } from 'mattermost-redux/actions/users_queries';
 
 import {getServerVersion} from 'mattermost-redux/selectors/entities/general';
@@ -33,21 +33,6 @@ import {isCollapsedThreadsEnabled, isGraphQLEnabled} from 'mattermost-redux/sele
 import {removeUserFromList} from 'mattermost-redux/utils/user_utils';
 import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
 import {General} from 'mattermost-redux/constants';
-
-export function checkMfa(loginId: string): ActionFunc {
-    return async (dispatch: DispatchFunc) => {
-        dispatch({type: UserTypes.CHECK_MFA_REQUEST, data: null});
-        try {
-            const data = await Client4.checkUserMfa(loginId);
-            dispatch({type: UserTypes.CHECK_MFA_SUCCESS, data: null});
-            return {data: data.mfa_required};
-        } catch (error) {
-            dispatch({type: UserTypes.CHECK_MFA_FAILURE, error});
-            dispatch(logError(error));
-            return {error};
-        }
-    };
-}
 
 export function generateMfaSecret(userId: string): ActionFunc {
     return bindClientFunc({
@@ -196,9 +181,9 @@ export function loadMe(): ActionFunc {
         const serverVersion = state.entities.general.serverVersion || Client4.getServerVersion();
         dispatch(setServerVersion(serverVersion));
 
-        let responseData: MyDataQueryResponseType['data'] | null = null;
+        let responseData: CurrentUserInfoQueryResponseType['data'] | null = null;
         try {
-            const {data} = await Client4.fetchWithGraphQL<MyDataQueryResponseType>(myDataQuery);
+            const {data} = await Client4.fetchWithGraphQL<CurrentUserInfoQueryResponseType>(currentUserInfoQuery);
             responseData = data;
         } catch (error) {
             dispatch(logError(error));
@@ -1530,7 +1515,6 @@ export function checkForModifiedUsers() {
 }
 
 export default {
-    checkMfa,
     generateMfaSecret,
     login,
     logout,

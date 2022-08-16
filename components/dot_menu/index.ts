@@ -9,7 +9,7 @@ import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId, getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getCurrentTeam, getTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getThreadOrSynthetic} from 'mattermost-redux/selectors/entities/threads';
+import {makeGetThreadOrSynthetic} from 'mattermost-redux/selectors/entities/threads';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getIsPostForwardingEnabled, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
@@ -33,7 +33,7 @@ import {
     unpinPost,
     setEditingPost,
     markPostAsUnread,
-} from 'actions/post_actions.jsx';
+} from 'actions/post_actions';
 
 import {getIsMobileView} from 'selectors/views/browser';
 
@@ -54,12 +54,12 @@ import DotMenu from './dot_menu';
 type Props = {
     post: Post;
     isFlagged?: boolean;
-    handleCommentClick: React.EventHandler<React.MouseEvent | React.KeyboardEvent>;
+    handleCommentClick?: React.EventHandler<React.MouseEvent | React.KeyboardEvent>;
     handleCardClick?: (post: Post) => void;
     handleDropdownOpened: (open: boolean) => void;
     handleAddReactionClick: () => void;
     isMenuOpen: boolean;
-    isReadOnly: boolean | null;
+    isReadOnly?: boolean;
     enableEmojiPicker?: boolean;
     location?: ComponentProps<typeof DotMenu>['location'];
 };
@@ -97,6 +97,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
         )
     ) {
         const root = getPost(state, rootId);
+        const getThreadOrSynthetic = makeGetThreadOrSynthetic();
         if (root) {
             const thread = getThreadOrSynthetic(state, root);
             threadReplyCount = thread.reply_count;

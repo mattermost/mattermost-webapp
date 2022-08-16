@@ -7,13 +7,13 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-function simulateSubscription(subscription) {
+function simulateSubscription(subscription, withLimits = true) {
     cy.intercept('GET', '**/api/v4/cloud/subscription', {
         statusCode: 200,
         body: subscription,
     });
 
-    cy.intercept('GET', '**/api/v4/cloud/products', {
+    cy.intercept('GET', '**/api/v4/cloud/products**', {
         statusCode: 200,
         body: [
             {
@@ -36,6 +36,17 @@ function simulateSubscription(subscription) {
             },
         ],
     });
+
+    if (withLimits) {
+        cy.intercept('GET', '**/api/v4/cloud/limits', {
+            statusCode: 200,
+            body: {
+                messages: {
+                    history: 10000,
+                },
+            },
+        });
+    }
 }
 
 describe('Pricing modal', () => {
@@ -234,7 +245,7 @@ describe('Pricing modal', () => {
         cy.get('#UpgradeButton').should('exist').click();
 
         // *Check for contact sales CTA
-        cy.get('#contact_sales_quote').contains('Contact Sales for a quote');
+        cy.get('#contact_sales_quote').contains('Contact Sales');
 
         // *Check that enterprise card action button shows Try free for 30 days
         cy.get('#pricingModal').get('#enterprise').get('#start_cloud_trial_btn').contains('Try free for 30 days');
@@ -261,15 +272,10 @@ describe('Pricing modal', () => {
         // *Check that starter Downgrade card  button exists
         cy.get('#pricingModal').get('#starter').get('#starter_action').contains('Downgrade');
 
-        // *Check that professsional card Upgrade button opens purchase modal
-        cy.get('#pricingModal').get('#professional').get('#professional_action').click();
-        cy.get('.PurchaseModal').should('exist');
-
-        // *Close PurchaseModal
-        cy.get('.close-x').click();
+        // *Check that professsional card Upgrade button is disabled while on enterprise
+        cy.get('#pricingModal').get('#professional').get('#professional_action').should('be.disabled');
 
         // *Check that enterprise card action button is disabled
-        cy.get('#UpgradeButton').should('exist').click();
         cy.get('#pricingModal').get('#enterprise').get('#start_cloud_trial_btn').contains('Try free for 30 days');
         cy.get('#pricingModal').get('#enterprise').get('#start_cloud_trial_btn').should('be.disabled');
     });
@@ -293,7 +299,7 @@ describe('Pricing modal', () => {
         cy.get('#pricingModal').should('exist');
         cy.get('#pricingModal').get('.PricingModal__header').contains('Select a plan');
 
-        // *Check that starter card Upgrade button is disabled
+        // *Check that starter card Downgrade button is disabled
         cy.get('#pricingModal').get('#starter').get('#starter_action').should('be.disabled').contains('Downgrade');
 
         // *Check that professsional card Upgrade button opens purchase modal
@@ -336,7 +342,52 @@ describe('Pricing modal', () => {
         cy.get('.CloudUsageModal').contains('Cloud Starter limits');
     });
 
-    it('should open team downgrade selection modal when attempting downgrading from paid to starter', () => {
+    it('should not show starter disclaimer CTA when on legacy starter product that has no limits', () => {
+        const subscription = {
+            id: 'sub_test1',
+            product_id: 'prod_1',
+            is_free_trial: 'false',
+            trial_end_at: 100000000, // signifies that this subscription has trialled before
+        };
+        simulateSubscription(subscription, false);
+        cy.apiLogout();
+        cy.apiAdminLogin();
+        cy.visit(urlL);
+
+        // # Open the pricing modal
+        cy.get('#UpgradeButton').should('exist').click();
+
+        // * Pricing modal should be open
+        cy.get('#pricingModal').should('exist');
+        cy.get('#pricingModal').get('.PricingModal__header').contains('Select a plan');
+
+        // * CTA should not show when there are no limits
+        cy.get('#pricingModal').get('#starter_plan_data_restrictions_cta').should('not.exist');
+    });
+
+    it('should allow downgrades from professional plans', () => {
+        const subscription = {
+            id: 'sub_test1',
+            product_id: 'prod_2',
+            is_free_trial: 'false',
+        };
+        simulateSubscription(subscription);
+        cy.apiLogout();
+        cy.apiAdminLogin();
+        cy.visit(urlL);
+
+        // # Open the pricing modal
+        cy.visit('/admin_console/billing/subscription?action=show_pricing_modal');
+
+        // *Pricing modal should be open
+        cy.get('#pricingModal').should('exist');
+        cy.get('#pricingModal').get('.PricingModal__header').contains('Select a plan');
+
+        // *Check that starter card Downgrade button is disabled
+        cy.get('#pricingModal').get('#starter').get('#starter_action').should('not.be.disabled').contains('Downgrade');
+    });
+
+    it('should not allow downgrades from enterprise trial', () => {
         const subscription = {
             id: 'sub_test1',
             product_id: 'prod_3',
@@ -354,14 +405,54 @@ describe('Pricing modal', () => {
         cy.get('#pricingModal').should('exist');
         cy.get('#pricingModal').get('.PricingModal__header').contains('Select a plan');
 
-        // *Check that starter card Upgrade button is enabled
-        cy.get('#pricingModal').get('#starter').get('#starter_action').should('not.be.disabled').contains('Downgrade');
+        // *Check that starter card Downgrade button is disabled
+        cy.get('#pricingModal').get('#starter').get('#starter_action').should('be.disabled').contains('Downgrade');
+    });
 
-        // *Check that starter downgrade button opens the downgrade team selection modal
-        cy.get('#pricingModal').get('#starter').get('#starter_action').click();
+    it('should not allow downgrades from enterprise plans', () => {
+        const subscription = {
+            id: 'sub_test1',
+            product_id: 'prod_3',
+            is_free_trial: 'false',
+        };
+        simulateSubscription(subscription);
+        cy.apiLogout();
+        cy.apiAdminLogin();
+        cy.visit(urlL);
 
-        // *Close PurchaseModal
-        cy.get('.DowngradeTeamRemovalModal__buttons').get('.btn.btn-primary').should('be.disabled');
-        cy.get('.DropdownInput').should('exist').should('be.visible');
+        // # Open the pricing modal
+        cy.visit('/admin_console/billing/subscription?action=show_pricing_modal');
+
+        // *Pricing modal should be open
+        cy.get('#pricingModal').should('exist');
+        cy.get('#pricingModal').get('.PricingModal__header').contains('Select a plan');
+
+        // *Check that starter card Downgrade button is disabled
+        cy.get('#pricingModal').get('#starter').get('#starter_action').should('be.disabled').contains('Downgrade');
+
+        // *Check that Trial button is disabled on enterprise trial
+        cy.get('#pricingModal').get('#enterprise').get('#start_cloud_trial_btn').should('be.disabled');
+    });
+
+    it('should not allow starting a trial from professional plans', () => {
+        const subscription = {
+            id: 'sub_test1',
+            product_id: 'prod_2',
+            is_free_trial: 'false',
+        };
+        simulateSubscription(subscription);
+        cy.apiLogout();
+        cy.apiAdminLogin();
+        cy.visit(urlL);
+
+        // # Open the pricing modal
+        cy.visit('/admin_console/billing/subscription?action=show_pricing_modal');
+
+        // *Pricing modal should be open
+        cy.get('#pricingModal').should('exist');
+        cy.get('#pricingModal').get('.PricingModal__header').contains('Select a plan');
+
+        // *Check that Trial button is disabled on enterprise trial
+        cy.get('#pricingModal').get('#enterprise').get('#start_cloud_trial_btn').should('be.disabled');
     });
 });

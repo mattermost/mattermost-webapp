@@ -59,7 +59,7 @@ const FeatureRestrictedModal = ({
     };
 
     const handleViewPlansClick = () => {
-        openPricingModal();
+        openPricingModal({trackingLocation: 'feature_restricted_modal'});
         dismissAction();
     };
 
@@ -93,7 +93,7 @@ const FeatureRestrictedModal = ({
         <GenericModal
             id='FeatureRestrictedModal'
             className='FeatureRestrictedModal'
-            useCompassDesign={true}
+            compassDesign={true}
             modalHeaderText={getTitle()}
             onExited={dismissAction}
         >

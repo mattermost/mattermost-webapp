@@ -7,6 +7,7 @@ import {useSelector} from 'react-redux';
 
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {trackEvent} from 'actions/telemetry_actions';
 
 const Span = styled.span`
 font-family: 'Open Sans';
@@ -40,36 +41,21 @@ export enum DafaultBtnText {
     Failed = 'Try again later!',
 }
 
-type Props = {
-    ctaText?: string | React.ReactNode;
+type HookProps = {
+    ctaText?: React.ReactNode;
+    preTrial?: boolean;
 }
 
-function NotifyAdminCTA(props: Props) {
+type Props = HookProps & {
+    callerInfo: string;
+}
+
+export function useNotifyAdmin<T = HTMLAnchorElement | HTMLButtonElement>(props: HookProps): [React.ReactNode, (e: React.MouseEvent<T, MouseEvent>, callerInfo: string) => void] {
+    const currentTeam = useSelector(getCurrentTeamId);
     const [notifyStatus, setStatus] = useState(NotifyStatus.NotStarted);
     const {formatMessage} = useIntl();
 
-    const currentTeam = useSelector(getCurrentTeamId);
-
-    const notifyFunc = async (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-        e.preventDefault();
-        e.stopPropagation();
-        try {
-            setStatus(NotifyStatus.Started);
-            const req = {
-                current_team_id: currentTeam,
-            };
-            await Client4.notifyAdminToUpgrade(req);
-            setStatus(NotifyStatus.Success);
-        } catch (error) {
-            if (error && error.status_code === 403) {
-                setStatus(NotifyStatus.AlreadyComplete);
-            } else {
-                setStatus(NotifyStatus.Failed);
-            }
-        }
-    };
-
-    const btnText = (status: NotifyStatus): string | React.ReactNode => {
+    const btnText = (status: NotifyStatus): React.ReactNode => {
         switch (status) {
         case NotifyStatus.Started:
             return formatMessage({id: 'notify_admin_to_upgrade_cta.notify-admin.notifying', defaultMessage: DafaultBtnText.Notifying});
@@ -80,12 +66,42 @@ function NotifyAdminCTA(props: Props) {
         case NotifyStatus.Failed:
             return formatMessage({id: 'notify_admin_to_upgrade_cta.notify-admin.failed', defaultMessage: DafaultBtnText.Failed});
         default:
-            if (props.ctaText) {
-                return props.ctaText;
-            }
-            return formatMessage({id: 'notify_admin_to_upgrade_cta.notify-admin.notify', defaultMessage: DafaultBtnText.NotifyAdmin});
+            return props.ctaText || formatMessage({id: 'notify_admin_to_upgrade_cta.notify-admin.notify', defaultMessage: DafaultBtnText.NotifyAdmin});
         }
     };
+
+    const notifyFunc = async (e: React.MouseEvent<T, MouseEvent>, callerInfo: string) => {
+        e.preventDefault();
+        e.stopPropagation();
+        try {
+            setStatus(NotifyStatus.Started);
+            const req = {
+                current_team_id: currentTeam,
+            };
+            await Client4.notifyAdminToUpgrade(req);
+            trackEvent('pricing', 'click_notify_admin_cta', {
+                callerInfo,
+            });
+            setStatus(NotifyStatus.Success);
+        } catch (error) {
+            if (error && error.status_code === 403) {
+                setStatus(NotifyStatus.AlreadyComplete);
+            } else {
+                setStatus(NotifyStatus.Failed);
+            }
+        }
+    };
+
+    return [btnText(notifyStatus), notifyFunc];
+}
+
+function NotifyAdminCTA(props: Props) {
+    const [status, notify] = useNotifyAdmin(props);
+    const {formatMessage} = useIntl();
+    let title = formatMessage({id: 'pricing_modal.wantToUpgrade', defaultMessage: 'Want to upgrade? '});
+    if (props.preTrial) {
+        title = formatMessage({id: 'pricing_modal.wantToTry', defaultMessage: 'Want to try? '});
+    }
 
     return (
         <>
@@ -93,19 +109,19 @@ function NotifyAdminCTA(props: Props) {
                 <span>
                     <StyledA
                         id='notify_admin_cta'
-                        onClick={notifyFunc}
+                        onClick={(e) => notify(e, props.callerInfo)}
                     >
-                        {btnText(notifyStatus)}
+                        {status}
                     </StyledA>
                 </span>
             ) : (
                 <Span>
-                    {formatMessage({id: 'pricing_modal.wantToUpgrade', defaultMessage: 'Want to upgrade? '})}
+                    {title}
                     <StyledA
                         id='notify_admin_cta'
-                        onClick={notifyFunc}
+                        onClick={(e) => notify(e, props.callerInfo)}
                     >
-                        {btnText(notifyStatus)}
+                        {status}
                     </StyledA>
                 </Span>
             )}

@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable max-lines */
-
 import {AnyAction} from 'redux';
 import {batchActions} from 'redux-batched-actions';
 
@@ -474,10 +472,10 @@ export function fetchMyChannelsAndMembers(teamId: string): ActionFunc {
         const state = getState();
         const shouldFetchArchived = isMinimumServerVersion(getServerVersion(state), 5, 21);
         try {
-            const channelRequest = Client4.getMyChannels(teamId, shouldFetchArchived);
-            const memberRequest = Client4.getMyChannelMembers(teamId);
-            channels = await channelRequest;
-            channelMembers = await memberRequest;
+            [channels, channelMembers] = await Promise.all([
+                Client4.getMyChannels(teamId, shouldFetchArchived),
+                Client4.getMyChannelMembers(teamId),
+            ]);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
             dispatch({type: ChannelTypes.CHANNELS_FAILURE, error});
@@ -643,7 +641,7 @@ export function leaveChannel(channelId: string): ActionFunc {
     };
 }
 
-export function joinChannel(userId: string, teamId: string, channelId: string, channelName: string): ActionFunc {
+export function joinChannel(userId: string, teamId: string, channelId: string, channelName?: string): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         if (!channelId && !channelName) {
             return {data: null};
@@ -656,7 +654,7 @@ export function joinChannel(userId: string, teamId: string, channelId: string, c
                 member = await Client4.addToChannel(userId, channelId);
                 channel = await Client4.getChannel(channelId);
             } else {
-                channel = await Client4.getChannelByName(teamId, channelName, true);
+                channel = await Client4.getChannelByName(teamId, channelName!, true);
                 if ((channel.type === General.GM_CHANNEL) || (channel.type === General.DM_CHANNEL)) {
                     member = await Client4.getChannelMember(channel.id, userId);
                 } else {
