@@ -56,7 +56,7 @@ const Plugins = (props: Props) => {
                     {props.previous}
                     <Title>
                         <FormattedMessage
-                            id={'onboarding_wizard.plugins.title1'}
+                            id={'onboarding_wizard.plugins.title'}
                             defaultMessage='Welcome to Mattermost!'
                         />
                         <div className='subtitle'>
@@ -69,7 +69,7 @@ const Plugins = (props: Props) => {
                     </Title>
                     <Description>
                         <FormattedMessage
-                            id={'onboarding_wizard.plugins.description1'}
+                            id={'onboarding_wizard.plugins.description'}
                             defaultMessage={'Mattermost is better when integrated with the tools your team uses for collaboration. Popular tools are below, select the ones your team uses and we\'ll add them to your workspace. Additional set up may be needed later.'}
                         />
                     </Description>
