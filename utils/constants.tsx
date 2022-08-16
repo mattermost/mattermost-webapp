@@ -453,6 +453,7 @@ export const NonAdminPaidFeatures = {
     UNLIMITED_INTEGRATIONS: 'Unlimited Integrations',
     UNLIMITED_BOARD_CARDS: 'Unlimited Board cards',
     ALL_PROFESSIONAL_FEATURES: 'All Professional features',
+    ALL_ENTERPRISE_FEATURES: 'All Enterprise features',
 };
 
 export const SelfHostedLicenseSKUNames = {
