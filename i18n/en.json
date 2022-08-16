@@ -2941,6 +2941,8 @@
   "claim.oauth_to_email.pwdNotMatch": "Passwords do not match.",
   "claim.oauth_to_email.switchTo": "Switch {type} to Email and Password",
   "claim.oauth_to_email.title": "Switch {type} Account to Email",
+  "cloud_delinquency.banner.buttonText": "Update billing now",
+  "cloud_delinquency.banner.title": "Update your billing information now to keep paid features.",
   "cloud_free.professional_feature.back": "Back",
   "cloud_free.professional_feature.professional": "Professional feature",
   "cloud_free.professional_feature.try_free": "Professional feature- try it out free",
