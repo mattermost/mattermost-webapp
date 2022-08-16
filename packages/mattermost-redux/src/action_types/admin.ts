@@ -4,12 +4,13 @@
 import keyMirror from 'mattermost-redux/utils/key_mirror';
 
 export default keyMirror({
-    LINK_LDAP_GROUP_FAILURE: null,
-    UNLINK_LDAP_GROUP_FAILURE: null,
-
     CREATE_COMPLIANCE_REQUEST: null,
     CREATE_COMPLIANCE_SUCCESS: null,
     CREATE_COMPLIANCE_FAILURE: null,
+
+    LINK_LDAP_GROUP_FAILURE: null,
+
+    UNLINK_LDAP_GROUP_FAILURE: null,
 
     PREV_TRIAL_LICENSE_SUCCESS: null,
 
