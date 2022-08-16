@@ -5,10 +5,18 @@ import {connect} from 'react-redux';
 
 import {getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
 
+import {GlobalState} from 'types/store';
+
+import {UserProfile} from '@mattermost/types/users';
+
 import UserListRow from './user_list_row';
 
-function mapStateToProps(state, ownProps) {
-    const user = ownProps.user || {};
+type OwnProps = {
+    user: UserProfile;
+}
+
+function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
+    const user = ownProps.user;
     return {
         status: getStatusForUserId(state, user.id),
     };
