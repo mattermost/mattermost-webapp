@@ -128,7 +128,7 @@ export default function CenterMessageLock(props: Props) {
         cta = (
             <button
                 className='btn is-admin'
-                onClick={() => openPricingModal({trackingLocation: 'center_message_lock'})}
+                onClick={() => openPricingModal({trackingLocation: 'center_channel_posts_over_limit_banner''})}
             >
                 {
                     intl.formatMessage({
