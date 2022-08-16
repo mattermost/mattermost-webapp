@@ -66,7 +66,7 @@
   "scripts": {
     "check-types": "tsc -b",
     "cypress:open": "cross-env TZ=Etc/UTC cypress open",
-    "cypress:run": "cross-env TZ=Etc/UTC cypress run --browser chrome --config excludeSpecPattern='**/enterprise/**/*.{js,ts}'",
+    "cypress:run": "cross-env TZ=Etc/UTC cypress run --browser chrome --config ignoreTestFiles='**/enterprise/**/*.{js,ts}'",
     "cypress:run:enterprise": "cross-env TZ=Etc/UTC cypress run --browser chrome --spec='tests/integration/enterprise/**/*_spec.{js,ts}'",
     "cypress:run:firefox": "cross-env TZ=Etc/UTC cypress run --browser firefox --config ignoreTestFiles='**/enterprise/**/*.{js,ts}'",
     "cypress:run:firefox:enterprise": "cross-env TZ=Etc/UTC cypress run --browser firefox --spec='tests/integration/enterprise/**/*_spec.{js,ts}'",
