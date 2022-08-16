@@ -4,8 +4,7 @@
 import resolve from '@rollup/plugin-node-resolve'; //eslint-disable-line
 import commonjs from '@rollup/plugin-commonjs';
 import scss from 'rollup-plugin-scss';
-
-import ts from 'rollup-plugin-ts';
+import typescript from '@rollup/plugin-typescript';
 
 import packagejson from './package.json';
 
@@ -34,10 +33,7 @@ export default [
                 extensions: ['.ts', '.tsx'],
             }),
             commonjs(),
-            ts({
-                transpiler: 'babel',
-                browserslist: false,
-            }),
+           typescript(),
         ],
         external: (pkg) => externals.some((external) => pkg.startsWith(external)),
         watch: {

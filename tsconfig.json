@@ -38,7 +38,6 @@
     "e2e",
     "!node_modules/@types",
     "coverage",
-    "packages/matermost-components"
   ],
   "references": [
     {"path": "./packages/client"},
