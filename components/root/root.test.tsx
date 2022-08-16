@@ -196,8 +196,6 @@ describe('components/Root', () => {
         test('should not set a TelemetryHandler when onConfigLoaded is called if Rudder is not configured', () => {
             const wrapper = shallow(<Root {...baseProps}/>);
 
-            // wrapper.instance().onConfigLoaded();
-
             Client4.trackEvent('category', 'event');
 
             expect(Client4.telemetryHandler).not.toBeDefined();
