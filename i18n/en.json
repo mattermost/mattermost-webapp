@@ -4055,7 +4055,7 @@
   "onboarding_wizard.plugins.jira": "Jira",
   "onboarding_wizard.plugins.jira.tooltip": "Create Jira tickets from messages in Mattermost, get notified of important updates in Jira",
   "onboarding_wizard.plugins.marketplace": "More tools can be added once your workspace is set up. To see all available integrations, <a>visit the Marketplace.</a>",
-  "onboarding_wizard.plugins.subtitle": "almost there!",
+  "onboarding_wizard.plugins.subtitle": "(almost there!)",
   "onboarding_wizard.plugins.title": "Welcome to Mattermost!",
   "onboarding_wizard.plugins.todo": "To do",
   "onboarding_wizard.plugins.todo.tooltip": "A plugin to track Todo issues in a list and send you daily reminders about your Todo list",

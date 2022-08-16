@@ -63,7 +63,7 @@ const Plugins = (props: Props) => {
                             <CelebrateSVG/>
                             <FormattedMessage
                                 id={'onboarding_wizard.plugins.subtitle'}
-                                defaultMessage='almost there!'
+                                defaultMessage='(almost there!)'
                             />
                         </div>
                     </Title>
