@@ -1,8 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React, {RefObject} from 'react';
+import {FormattedMessage, useIntl} from 'react-intl';
 
-import {FormattedMessage} from 'react-intl';
+import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 
 import {FileTypes} from 'utils/constants';
 
@@ -22,8 +23,25 @@ const StarterLeftPanel: React.FC<StarterEditionProps> = ({
     fileInputRef,
     handleChange,
 }: StarterEditionProps) => {
+    const openPricingModal = useOpenPricingModal();
+    const intl = useIntl();
+
+    const viewPlansButton = (
+        <button
+            id='starter_edition_view_plans'
+            onClick={() => openPricingModal({trackingLocation: 'license_settings_view_plans'})}
+            className='btn btn-secondary PlanDetails__viewPlansButton'
+        >
+            {intl.formatMessage({
+                id: 'workspace_limits.menu_limit.view_plans',
+                defaultMessage: 'View plans',
+            })}
+        </button>
+    );
+
     return (
         <div className='StarterLeftPanel'>
+            {viewPlansButton}
             <div className='pre-title'>
                 <FormattedMessage
                     id='admin.license.enterpriseEdition'

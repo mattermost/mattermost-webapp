@@ -69,7 +69,7 @@ const LimitReachedBanner = (props: Props) => {
         defaultMessage: 'View plans',
     };
 
-    let upgradeAction = openPricingModal;
+    let upgradeAction = () => openPricingModal({trackingLocation: 'limit_reached_banner'});
 
     if (props.product.sku === CloudProducts.PROFESSIONAL) {
         title = (
@@ -88,7 +88,7 @@ const LimitReachedBanner = (props: Props) => {
             id: t('workspace_limits.upgrade_button'),
             defaultMessage: 'Upgrade',
         };
-        upgradeAction = openPurchaseModal;
+        upgradeAction = () => openPurchaseModal({trackingLocation: 'admin_console_limit_reached_banner'});
     }
 
     const onDismiss = () => {

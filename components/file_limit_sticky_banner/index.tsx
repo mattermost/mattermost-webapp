@@ -130,7 +130,7 @@ function FileLimitStickyBanner() {
                                 onClick={
                                     (e) => {
                                         e.preventDefault();
-                                        openPricingModal();
+                                        openPricingModal({trackingLocation: 'file_limit_sticky_banner'});
                                     }
                                 }
                             >{chunks}</a>);
@@ -147,7 +147,11 @@ function FileLimitStickyBanner() {
                 defaultMessage: 'Your free plan is limited to {storageGB} of files. New uploads will automatically archive older files. To view them again, <a>notify your admin to upgrade to a paid plan.</a>'},
             {
                 storageGB: asGBString(fileStorageLimit, formatNumber),
-                a: (chunks: React.ReactNode) => <NotifyAdminCTA ctaText={chunks}/>,
+                a: (chunks: React.ReactNode) => (
+                    <NotifyAdminCTA
+                        callerInfo='file_limit_sticky_banner'
+                        ctaText={chunks}
+                    />),
             },
             )}
         </span>
