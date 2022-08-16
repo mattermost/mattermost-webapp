@@ -958,6 +958,9 @@ export default class Client4 {
         );
     };
 
+    /**
+     * @deprecated
+     */
     checkUserMfa = (loginId: string) => {
         return this.doFetch<{mfa_required: boolean}>(
             `${this.getUsersRoute()}/mfa`,
