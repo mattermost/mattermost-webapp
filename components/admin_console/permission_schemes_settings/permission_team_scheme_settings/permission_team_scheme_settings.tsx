@@ -3,7 +3,7 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {RouteComponentProps} from 'react-router';
+import {RouteComponentProps} from 'react-router-dom';
 
 import {PermissionsScope, ModalIdentifiers} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';

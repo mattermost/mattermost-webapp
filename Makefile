@@ -54,7 +54,7 @@ package: build ## Packages app
 	mv tmp/client dist
 	rmdir tmp
 
-package-ci: ## used in the CI to build the package and bypass the npm install
+package-ci: node_modules ## used in the CI to build the package and bypass the npm install
 	@echo Building mattermost Webapp
 
 	rm -rf dist
