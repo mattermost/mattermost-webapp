@@ -1,16 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {memo, useEffect, useState, useCallback} from 'react';
+import React, {memo, useEffect, useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {selectChannel} from 'mattermost-redux/actions/channels';
 import LocalStorageStore from 'stores/local_storage_store';
+import {useGlobalState} from 'stores/hooks';
 
-import {CardSizes, InsightsWidgetTypes, TimeFrames} from '@mattermost/types/insights';
+import {CardSizes, InsightsWidgetTypes, TimeFrame, TimeFrames} from '@mattermost/types/insights';
 
 import {InsightsScopes, PreviousViewedTypes} from 'utils/constants';
-import {localizeMessage} from 'utils/utils';
 
 import {GlobalState} from 'types/store';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
@@ -24,13 +24,16 @@ import TopBoards from './top_boards/top_boards';
 
 import './../activity_and_insights.scss';
 
+type SelectOption = {
+    value: string;
+    label: string;
+}
+
 const Insights = () => {
     const dispatch = useDispatch();
-    const [filterType, setFilterType] = useState(InsightsScopes.MY);
-    const [timeFrame, setTimeFrame] = useState({
-        value: TimeFrames.INSIGHTS_7_DAYS,
-        label: localizeMessage('insights.timeFrame.mediumRange', 'Last 7 days'),
-    });
+
+    const [filterType, setFilterType] = useGlobalState(InsightsScopes.TEAM, 'insightsScope');
+    const [timeFrame, setTimeFrame] = useGlobalState(TimeFrames.INSIGHTS_7_DAYS as string, 'insightsTimeFrame');
     const focalboardEnabled = useSelector((state: GlobalState) => state.plugins.plugins?.focalboard);
 
     const setFilterTypeTeam = useCallback(() => {
@@ -43,8 +46,8 @@ const Insights = () => {
         setFilterType(InsightsScopes.MY);
     }, []);
 
-    const setTimeFrameValue = useCallback((value) => {
-        setTimeFrame(value);
+    const setTimeFrameValue = useCallback((value: SelectOption) => {
+        setTimeFrame(value.value);
     }, []);
 
     const currentUserId = useSelector(getCurrentUserId);
@@ -75,16 +78,14 @@ const Insights = () => {
                     filterType={filterType}
                     widgetType={InsightsWidgetTypes.TOP_CHANNELS}
                     class={'top-channels-card'}
-                    timeFrame={timeFrame.value}
-                    timeFrameLabel={timeFrame.label}
+                    timeFrame={timeFrame as TimeFrame}
                 />
                 <TopThreads
                     size={focalboardEnabled ? CardSizes.small : CardSizes.medium}
                     filterType={filterType}
                     widgetType={InsightsWidgetTypes.TOP_THREADS}
                     class={'top-threads-card'}
-                    timeFrame={timeFrame.value}
-                    timeFrameLabel={timeFrame.label}
+                    timeFrame={timeFrame as TimeFrame}
                 />
                 {
                     focalboardEnabled &&
@@ -93,18 +94,15 @@ const Insights = () => {
                         filterType={filterType}
                         widgetType={InsightsWidgetTypes.TOP_BOARDS}
                         class={'top-boards-card'}
-                        timeFrame={timeFrame.value}
-                        timeFrameLabel={timeFrame.label}
+                        timeFrame={timeFrame as TimeFrame}
                     />
                 }
-
                 <TopReactions
                     size={focalboardEnabled ? CardSizes.small : CardSizes.medium}
                     filterType={filterType}
                     widgetType={InsightsWidgetTypes.TOP_REACTIONS}
                     class={'top-reactions-card'}
-                    timeFrame={timeFrame.value}
-                    timeFrameLabel={timeFrame.label}
+                    timeFrame={timeFrame as TimeFrame}
                 />
             </div>
         </>

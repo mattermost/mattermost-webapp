@@ -127,6 +127,7 @@ function advancedCreatePost({
             maxPostSize={Constants.DEFAULT_CHARACTER_LIMIT}
             userIsOutOfOffice={false}
             rhsExpanded={false}
+            rhsOpen={false}
             emojiMap={emojiMap}
             badConnection={false}
             shouldShowPreview={false}

@@ -22,18 +22,14 @@ type Props = {
     subtitle: string;
     filterType: string;
     timeFrame: TimeFrame;
-    timeFrameLabel: string;
 }
 
 const InsightsModal = (props: Props) => {
     const [show, setShow] = useState(true);
-    const [timeFrame, setTimeFrame] = useState({
-        value: props.timeFrame,
-        label: props.timeFrameLabel,
-    });
+    const [timeFrame, setTimeFrame] = useState(props.timeFrame);
 
     const setTimeFrameValue = useCallback((value) => {
-        setTimeFrame(value);
+        setTimeFrame(value.value);
     }, []);
 
     const doHide = useCallback(() => {
@@ -46,7 +42,7 @@ const InsightsModal = (props: Props) => {
             return (
                 <TopChannelsTable
                     filterType={props.filterType}
-                    timeFrame={timeFrame.value}
+                    timeFrame={timeFrame}
                     closeModal={doHide}
                 />
             );
@@ -54,14 +50,14 @@ const InsightsModal = (props: Props) => {
             return (
                 <TopReactionsTable
                     filterType={props.filterType}
-                    timeFrame={timeFrame.value}
+                    timeFrame={timeFrame}
                 />
             );
         case InsightsWidgetTypes.TOP_THREADS:
             return (
                 <TopThreadsTable
                     filterType={props.filterType}
-                    timeFrame={timeFrame.value}
+                    timeFrame={timeFrame}
                     closeModal={doHide}
                 />
             );
@@ -69,7 +65,7 @@ const InsightsModal = (props: Props) => {
             return (
                 <TopBoardsTable
                     filterType={props.filterType}
-                    timeFrame={timeFrame.value}
+                    timeFrame={timeFrame}
                     closeModal={doHide}
                 />
             );
