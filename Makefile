@@ -54,19 +54,21 @@ package: build ## Packages app
 	mv tmp/client dist
 	rmdir tmp
 
-package-ci: node_modules ## used in the CI to build the package and bypass the npm install
-	@echo Building mattermost Webapp
+package-ci: ## used in the CI to build the package and bypass the npm install
+    @echo Building mattermost Webapp
 
-	rm -rf dist
-	npm run build
+    rm -rf node_modules
+    npm ci
+    rm -rf dist
+    npm run build
 
-	@echo Packaging webapp
+    @echo Packaging webapp
 
-	mkdir tmp
-	mv dist tmp/client
-	tar -C tmp -czf mattermost-webapp.tar.gz client
-	mv tmp/client dist
-	rmdir tmp
+    mkdir tmp
+    mv dist tmp/client
+    tar -C tmp -czf mattermost-webapp.tar.gz client
+    mv tmp/client dist
+    rmdir tmp
 
 build: node_modules ## Builds the app
 	@echo Building mattermost Webapp
