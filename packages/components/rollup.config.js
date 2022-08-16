@@ -33,7 +33,7 @@ export default [
                 extensions: ['.ts', '.tsx'],
             }),
             commonjs(),
-           typescript(),
+            typescript(),
         ],
         external: (pkg) => externals.some((external) => pkg.startsWith(external)),
         watch: {

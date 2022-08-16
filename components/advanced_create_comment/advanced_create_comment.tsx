@@ -414,9 +414,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
     }
 
     toggleEmojiPicker = (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
-        if (e) {
-            e.stopPropagation();
-        }
+        e?.stopPropagation();
         const showEmojiPicker = !this.state.showEmojiPicker;
         this.setState({showEmojiPicker});
     };

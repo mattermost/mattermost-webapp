@@ -97,7 +97,8 @@ export default class ReactionList extends React.PureComponent<Props, State> {
         this.setState({showEmojiPicker: false});
     }
 
-    toggleEmojiPicker = (): void => {
+    toggleEmojiPicker = (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+        e?.stopPropagation();
         this.setState({showEmojiPicker: !this.state.showEmojiPicker});
     }
 

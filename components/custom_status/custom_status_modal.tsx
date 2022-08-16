@@ -191,9 +191,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     };
 
     const toggleEmojiPicker = (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
-        if (e) {
-            e.stopPropagation();
-        }
+        e?.stopPropagation();
         setShowEmojiPicker((prevShow) => !prevShow);
     };
 

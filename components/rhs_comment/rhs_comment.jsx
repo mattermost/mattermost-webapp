@@ -240,9 +240,7 @@ export default class RhsComment extends React.PureComponent {
     };
 
     toggleEmojiPicker = (e) => {
-        if (e) {
-            e.stopPropagation();
-        }
+        e?.stopPropagation();
         const showEmojiPicker = !this.state.showEmojiPicker;
         this.setState({
             showEmojiPicker,

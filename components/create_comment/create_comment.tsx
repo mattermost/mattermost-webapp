@@ -477,9 +477,7 @@ export class CreateComment extends React.PureComponent<Props, State> {
     }
 
     toggleEmojiPicker = (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
-        if (e) {
-            e.stopPropagation();
-        }
+        e?.stopPropagation();
 
         this.setState({showEmojiPicker: !this.state.showEmojiPicker});
     }
