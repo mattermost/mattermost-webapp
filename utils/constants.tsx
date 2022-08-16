@@ -150,6 +150,7 @@ export const Preferences = {
 
     FORWARD_POST_VIEWED: 'forward_post_viewed',
     HIDE_POST_FILE_UPGRADE_WARNING: 'hide_post_file_upgrade_warning',
+    USE_CASE: 'use_case',
 };
 
 // For one off things that have a special, attention-grabbing UI until you interact with them
