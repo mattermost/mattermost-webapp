@@ -411,7 +411,12 @@ export class FileUpload extends PureComponent<Props, State> {
 
         let dragsterActions = {};
         if (this.props.canUploadFiles) {
-            dragsterActions = {enter, leave, over, dropWithHiddenClass};
+            dragsterActions = {
+                enter,
+                leave,
+                over,
+                drop: dropWithHiddenClass,
+            };
         } else {
             dragsterActions = {drop};
         }
