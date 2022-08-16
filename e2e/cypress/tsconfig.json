@@ -15,6 +15,5 @@
       "@mattermost/types/*": ["node_modules/@mattermost/types/lib/*"]
     }
   },
-  "include": ["**/*.ts"],
-  "exclude": ["**/node_modules"],
+  "include": ["**/*.ts"]
 }
