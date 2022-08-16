@@ -50,17 +50,14 @@ describe('Settings > Display > Message Display: Colorize username', () => {
     beforeEach(() => {
         // # Visit related channel
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
-
-        // # Go to Settings modal - Display section - Message Display
-        goToMessageDisplaySetting();
     });
 
     it('MM-T4984_1 Message Display: colorize usernames option should not exist in Compact mode', () => {
-        // * Verify 'Standard' is selected
-        cy.findByRole('heading', {name: 'Message Display'}).click();
-        cy.findByRole('radio', {
-            name: 'Standard: Easy to scan and read.',
-        }).click();
+        // # Select 'Standard' option
+        cy.uiChangeMessageDisplaySetting();
+
+        // # Go to Settings modal - Display section - Message Display
+        goToMessageDisplaySetting();
 
         // * Verify Colorize usernames option doesn't exist;
         cy.findByRole('checkbox', {
@@ -68,22 +65,22 @@ describe('Settings > Display > Message Display: Colorize username', () => {
         }).should('not.exist');
 
         // # Save and close the modal
-        cy.uiSave();
-        cy.uiClose();
+        cy.uiSaveAndClose();
     });
 
     it('MM-T4984_2 Message Display: colorize usernames option should exist in Compact mode and function as expected', () => {
         // # Select 'Compact' option
-        cy.findByRole('heading', {name: 'Message Display'}).click();
-        cy.findByRole('radio', {name: 'Compact: Fit as many messages on the screen as we can.'}).click();
+        cy.uiChangeMessageDisplaySetting('COMPACT');
+
+        // # Go to Settings modal - Display section - Message Display
+        goToMessageDisplaySetting();
 
         // * Verify Colorize usernames option exists and checked by default
         cy.findByRole('checkbox', {name: 'Colorize usernames: Use colors to distinguish users in compact mode'}).should('exist');
         cy.findByRole('checkbox', {name: 'Colorize usernames: Use colors to distinguish users in compact mode'}).should('be.checked');
 
         // # Save and close the modal
-        cy.uiSave();
-        cy.uiClose();
+        cy.uiSaveAndClose();
 
         // # Save the color of the buttons
         cy.findByText(firstUser.username).then((elements) => {
@@ -109,16 +106,17 @@ describe('Settings > Display > Message Display: Colorize username', () => {
 
     it('MM-T4984_3 Message Display: disabling colorize should revert to colors to normal color', () => {
         // # Select 'Compact' option
-        cy.findByRole('heading', {name: 'Message Display'}).click();
-        cy.findByRole('radio', {name: 'Compact: Fit as many messages on the screen as we can.'}).click();
+        cy.uiChangeMessageDisplaySetting('COMPACT');
+
+        // # Go to Settings modal - Display section - Message Display
+        goToMessageDisplaySetting();
 
         // # Verify Colorize usernames option exists and make it unchecked
         cy.findByRole('checkbox', {name: 'Colorize usernames: Use colors to distinguish users in compact mode'}).should('exist');
         cy.findByRole('checkbox', {name: 'Colorize usernames: Use colors to distinguish users in compact mode'}).uncheck().should('not.be.checked');
 
         // # Save and close the modal
-        cy.uiSave();
-        cy.uiClose();
+        cy.uiSaveAndClose();
 
         // * Verify that colors are reverted to normal
         cy.findByText(firstUser.username).then((elements) => {
