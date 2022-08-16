@@ -16,6 +16,9 @@ import {GlobalState} from 'types/store';
 import {FilePreviewComponent} from 'types/store/plugins';
 
 import {canDownloadFiles} from 'utils/file_utils';
+import {ModalIdentifiers} from 'utils/constants';
+
+import {closeModal} from 'actions/views/modals';
 
 import type {Props} from './file_preview_modal';
 
@@ -35,6 +38,9 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         isMobileView: getIsMobileView(state),
         pluginFilePreviewComponents: state.plugins.components.FilePreview as unknown as FilePreviewComponent[],
         post: ownProps.post || getPost(state, ownProps.postId || ''),
+        onExited: () => {
+            closeModal(ModalIdentifiers.FILE_PREVIEW_MODAL);
+        },
     };
 }
 
