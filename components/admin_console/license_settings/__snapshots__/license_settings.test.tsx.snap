@@ -234,7 +234,6 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           enterpriseReady={true}
           gettingTrial={false}
           gettingTrialError={null}
-          gettingTrialResponseCode={null}
           handleRestart={[Function]}
           handleUpgrade={[Function]}
           isDisabled={false}

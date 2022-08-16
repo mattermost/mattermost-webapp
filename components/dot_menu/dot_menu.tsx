@@ -577,16 +577,9 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         onClick={this.handleMarkPostAsUnread}
                     />
                     <Menu.ItemAction
-                        show={isMobile && !isSystemMessage && this.props.isFlagged}
-                        text={Utils.localizeMessage('rhs_root.mobile.unflag', 'Remove from Saved')}
-                        icon={Utils.getMenuItemIcon('icon-bookmark')}
-                        rightDecorator={<ShortcutKey shortcutKey='S'/>}
-                        onClick={this.handleFlagMenuItemActivated}
-                    />
-                    <Menu.ItemAction
-                        show={isMobile && !isSystemMessage && !this.props.isFlagged}
-                        text={Utils.localizeMessage('rhs_root.mobile.flag', 'Save')}
-                        icon={Utils.getMenuItemIcon('icon-bookmark-outline')}
+                        show={!isSystemMessage}
+                        text={this.props.isFlagged ? Utils.localizeMessage('rhs_root.mobile.unflag', 'Remove from Saved') : Utils.localizeMessage('rhs_root.mobile.flag', 'Save')}
+                        icon={this.props.isFlagged ? Utils.getMenuItemIcon('icon-bookmark') : Utils.getMenuItemIcon('icon-bookmark-outline')}
                         rightDecorator={<ShortcutKey shortcutKey='S'/>}
                         onClick={this.handleFlagMenuItemActivated}
                     />

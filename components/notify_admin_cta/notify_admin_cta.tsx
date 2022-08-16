@@ -42,6 +42,7 @@ export enum DafaultBtnText {
 
 type Props = {
     ctaText?: React.ReactNode;
+    preTrial?: boolean;
 }
 
 export function useNotifyAdmin<T = HTMLAnchorElement | HTMLButtonElement>(props: Props): [React.ReactNode, (e: React.MouseEvent<T, MouseEvent>) => void] {
@@ -89,6 +90,10 @@ export function useNotifyAdmin<T = HTMLAnchorElement | HTMLButtonElement>(props:
 function NotifyAdminCTA(props: Props) {
     const [status, notify] = useNotifyAdmin(props);
     const {formatMessage} = useIntl();
+    let title = formatMessage({id: 'pricing_modal.wantToUpgrade', defaultMessage: 'Want to upgrade? '});
+    if (props.preTrial) {
+        title = formatMessage({id: 'pricing_modal.wantToTry', defaultMessage: 'Want to try? '});
+    }
 
     return (
         <>
@@ -103,7 +108,7 @@ function NotifyAdminCTA(props: Props) {
                 </span>
             ) : (
                 <Span>
-                    {formatMessage({id: 'pricing_modal.wantToUpgrade', defaultMessage: 'Want to upgrade? '})}
+                    {title}
                     <StyledA
                         id='notify_admin_cta'
                         onClick={notify}

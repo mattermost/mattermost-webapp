@@ -412,7 +412,7 @@ export const UserStatuses = {
     AWAY: 'away',
     ONLINE: 'online',
     DND: 'dnd',
-};
+} as const;
 
 export const EventTypes = Object.assign(
     {
@@ -440,6 +440,11 @@ export const CloudProducts = {
     PROFESSIONAL: 'cloud-professional',
     ENTERPRISE: 'cloud-enterprise',
     LEGACY: 'cloud-legacy',
+};
+
+export const SelfHostedLicenseSKUNames = {
+    PROFESSIONAL: 'professional',
+    ENTERPRISE: 'enterprise',
 };
 
 export const A11yClassNames = {
@@ -861,7 +866,7 @@ export const NotificationLevels = {
     ALL: 'all',
     MENTION: 'mention',
     NONE: 'none',
-};
+} as const;
 
 export const IgnoreChannelMentions = {
     ON: 'on',
@@ -957,6 +962,8 @@ export const DocLinks = {
 export const LicenseLinks = {
     CONTACT_SALES: 'https://mattermost.com/contact-sales/',
     SOFTWARE_EVALUATION_AGREEMENT: 'https://mattermost.com/software-evaluation-agreement/',
+    TRIAL_INFO_LINK: 'https://mattermost.com/trial',
+    EMBARGOED_COUNTRIES: 'https://mattermost.com/pl/limitations-for-embargoed-countries',
 };
 
 export const BillingSchemes = {
@@ -1644,9 +1651,9 @@ export const Constants = {
     HighlightedLanguages: {
         '1c': {name: '1C:Enterprise', extensions: ['bsl', 'os'], aliases: ['bsl']},
         actionscript: {name: 'ActionScript', extensions: ['as'], aliases: ['as', 'as3']},
-        applescript: {name: 'AppleScript', extensions: ['applescript', 'osascript', 'scpt']},
-        bash: {name: 'Bash', extensions: ['sh'], aliases: ['sh']},
-        clojure: {name: 'Clojure', extensions: ['clj', 'boot', 'cl2', 'cljc', 'cljs', 'cljs.hl', 'cljscm', 'cljx', 'hic']},
+        applescript: {name: 'AppleScript', extensions: ['applescript', 'osascript', 'scpt'], aliases: ['osascript']},
+        bash: {name: 'Bash', extensions: ['sh'], aliases: ['sh', 'zsh']},
+        clojure: {name: 'Clojure', extensions: ['clj', 'boot', 'cl2', 'cljc', 'cljs', 'cljs.hl', 'cljscm', 'cljx', 'hic'], aliases: ['clj']},
         coffeescript: {name: 'CoffeeScript', extensions: ['coffee', '_coffee', 'cake', 'cjsx', 'cson', 'iced'], aliases: ['coffee', 'coffee-script']},
         cpp: {name: 'C/C++', extensions: ['cpp', 'c', 'cc', 'h', 'c++', 'h++', 'hpp'], aliases: ['c++', 'c']},
         cs: {name: 'C#', extensions: ['cs', 'csharp'], aliases: ['c#', 'csharp']},
@@ -1655,35 +1662,35 @@ export const Constants = {
         dart: {name: 'Dart', extensions: ['dart']},
         delphi: {name: 'Delphi', extensions: ['delphi', 'dpr', 'dfm', 'pas', 'pascal', 'freepascal', 'lazarus', 'lpr', 'lfm']},
         diff: {name: 'Diff', extensions: ['diff', 'patch'], aliases: ['patch', 'udiff']},
-        django: {name: 'Django', extensions: ['django', 'jinja']},
+        django: {name: 'Django', extensions: ['django', 'jinja'], aliases: ['jinja']},
         dockerfile: {name: 'Dockerfile', extensions: ['dockerfile', 'docker'], aliases: ['docker']},
         elixir: {name: 'Elixir', extensions: ['ex', 'exs'], aliases: ['ex', 'exs']},
         erlang: {name: 'Erlang', extensions: ['erl'], aliases: ['erl']},
-        fortran: {name: 'Fortran', extensions: ['f90', 'f95']},
-        fsharp: {name: 'F#', extensions: ['fsharp', 'fs']},
+        fortran: {name: 'Fortran', extensions: ['f90', 'f95'], aliases: ['f90', 'f95']},
+        fsharp: {name: 'F#', extensions: ['fsharp', 'fs'], aliases: ['fs']},
         gcode: {name: 'G-Code', extensions: ['gcode', 'nc']},
         go: {name: 'Go', extensions: ['go'], aliases: ['golang']},
         groovy: {name: 'Groovy', extensions: ['groovy']},
         handlebars: {name: 'Handlebars', extensions: ['handlebars', 'hbs', 'html.hbs', 'html.handlebars'], aliases: ['hbs', 'mustache']},
         haskell: {name: 'Haskell', extensions: ['hs'], aliases: ['hs']},
-        haxe: {name: 'Haxe', extensions: ['hx']},
+        haxe: {name: 'Haxe', extensions: ['hx'], aliases: ['hx']},
         java: {name: 'Java', extensions: ['java', 'jsp']},
         javascript: {name: 'JavaScript', extensions: ['js', 'jsx'], aliases: ['js']},
         json: {name: 'JSON', extensions: ['json']},
         julia: {name: 'Julia', extensions: ['jl'], aliases: ['jl']},
-        kotlin: {name: 'Kotlin', extensions: ['kt', 'ktm', 'kts']},
+        kotlin: {name: 'Kotlin', extensions: ['kt', 'ktm', 'kts'], aliases: ['kt']},
         latex: {name: 'LaTeX', extensions: ['tex'], aliases: ['tex']},
         less: {name: 'Less', extensions: ['less']},
         lisp: {name: 'Lisp', extensions: ['lisp']},
         lua: {name: 'Lua', extensions: ['lua']},
-        makefile: {name: 'Makefile', extensions: ['mk', 'mak'], aliases: ['make', 'mf', 'gnumake', 'bsdmake']},
+        makefile: {name: 'Makefile', extensions: ['mk', 'mak'], aliases: ['make', 'mf', 'gnumake', 'bsdmake', 'mk']},
         markdown: {name: 'Markdown', extensions: ['md', 'mkdown', 'mkd'], aliases: ['md', 'mkd']},
         matlab: {name: 'Matlab', extensions: ['matlab', 'm'], aliases: ['m']},
         objectivec: {name: 'Objective C', extensions: ['mm', 'objc', 'obj-c'], aliases: ['objective_c', 'objc']},
-        ocaml: {name: 'OCaml', extensions: ['ml']},
+        ocaml: {name: 'OCaml', extensions: ['ml'], aliases: ['ml']},
         perl: {name: 'Perl', extensions: ['perl', 'pl'], aliases: ['pl']},
         pgsql: {name: 'PostgreSQL', extensions: ['pgsql', 'postgres', 'postgresql'], aliases: ['postgres', 'postgresql']},
-        php: {name: 'PHP', extensions: ['php', 'php3', 'php4', 'php5', 'php6'], aliases: ['php3', 'php4', 'php5']},
+        php: {name: 'PHP', extensions: ['php', 'php3', 'php4', 'php5', 'php6'], aliases: ['php3', 'php4', 'php5', 'php6']},
         powershell: {name: 'PowerShell', extensions: ['ps', 'ps1'], aliases: ['posh']},
         puppet: {name: 'Puppet', extensions: ['pp'], aliases: ['pp']},
         python: {name: 'Python', extensions: ['py', 'gyp'], aliases: ['py']},
@@ -1691,18 +1698,18 @@ export const Constants = {
         ruby: {name: 'Ruby', extensions: ['ruby', 'rb', 'gemspec', 'podspec', 'thor', 'irb'], aliases: ['rb']},
         rust: {name: 'Rust', extensions: ['rs'], aliases: ['rs']},
         scala: {name: 'Scala', extensions: ['scala']},
-        scheme: {name: 'Scheme', extensions: ['scm', 'sld']},
+        scheme: {name: 'Scheme', extensions: ['scm', 'sld'], aliases: ['scm']},
         scss: {name: 'SCSS', extensions: ['scss']},
         smalltalk: {name: 'Smalltalk', extensions: ['st'], aliases: ['st', 'squeak']},
         sql: {name: 'SQL', extensions: ['sql']},
         stylus: {name: 'Stylus', extensions: ['styl'], aliases: ['styl']},
         swift: {name: 'Swift', extensions: ['swift']},
-        text: {name: 'Text', extensions: ['txt', 'log']},
+        text: {name: 'Text', extensions: ['txt', 'log'], aliases: ['txt']},
         typescript: {name: 'TypeScript', extensions: ['ts', 'tsx'], aliases: ['ts', 'tsx']},
         vbnet: {name: 'VB.Net', extensions: ['vbnet', 'vb', 'bas'], aliases: ['vb', 'visualbasic']},
-        vbscript: {name: 'VBScript', extensions: ['vbs']},
+        vbscript: {name: 'VBScript', extensions: ['vbs'], aliases: ['vbs']},
         verilog: {name: 'Verilog', extensions: ['v', 'veo', 'sv', 'svh']},
-        vhdl: {name: 'VHDL', extensions: ['vhd', 'vhdl']},
+        vhdl: {name: 'VHDL', extensions: ['vhd', 'vhdl'], aliases: ['vhd']},
         xml: {name: 'HTML, XML', extensions: ['xml', 'html', 'xhtml', 'rss', 'atom', 'xsl', 'plist']},
         yaml: {name: 'YAML', extensions: ['yaml'], aliases: ['yml']},
     },

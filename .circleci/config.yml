@@ -7,18 +7,21 @@ orbs:
 executors:
   default:
     docker:
-      - image: mattermost/mattermost-build-webapp:20210524_node-16
+      - image: mattermost/mattermost-build-webapp:20220802_node-16.10.0@sha256:3272aa759f10c2ef1719ed08cc82ddb07224bec5be86f09800c72f5e2a623c3d
     resource_class: "xlarge"
 
 aliases:
   - &restore_cache
     restore_cache:
-      key: dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}-7
+      key: dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}-8
   - &save_cache
     save_cache:
-      key: dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}-7
+      key: dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}-8
       paths:
         - ~/mattermost/mattermost-webapp/node_modules
+        - ~/mattermost/mattermost-webapp/packages/client/lib
+        - ~/mattermost/mattermost-webapp/packages/components/dist
+        - ~/mattermost/mattermost-webapp/packages/types/lib
 
 jobs:
   install:
@@ -96,7 +99,6 @@ jobs:
       - checkout
       - *restore_cache
       - run: |
-          npm run build --workspace=packages/components
           npm run check
 
   i18n-check:
@@ -127,7 +129,6 @@ jobs:
       - checkout
       - *restore_cache
       - run: |
-          npm run build --workspace=packages/components
           npm run check-types
 
   test:
@@ -138,7 +139,6 @@ jobs:
       - checkout
       - *restore_cache
       - run: |
-          npm run build --workspace=packages/components
           npm run test-ci
       - store_test_results:
           path: build/

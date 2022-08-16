@@ -1,9 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
-import React from 'react';
-import ReactSelect from 'react-select';
+import React, {ChangeEvent, RefObject} from 'react';
+import ReactSelect, {ValueType} from 'react-select';
 import {FormattedMessage} from 'react-intl';
 
 import semver from 'semver';
@@ -15,8 +14,34 @@ import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 import {isDesktopApp} from 'utils/user_agent';
 
-export default class DesktopNotificationSettings extends React.PureComponent {
-    constructor(props) {
+type SelectedOption = {
+    label: string;
+    value: string;
+};
+
+type Props = {
+    activity: string;
+    threads?: string;
+    sound: string;
+    updateSection: (section: string) => void;
+    setParentState: (key: string, value: string | boolean) => void;
+    submit: () => void;
+    cancel: () => void;
+    error: string;
+    active: boolean;
+    saving: boolean;
+    selectedSound: string;
+    isCollapsedThreadsEnabled: boolean;
+};
+
+type State = {
+    selectedOption: SelectedOption;
+    blurDropdown: boolean;
+};
+
+export default class DesktopNotificationSettings extends React.PureComponent<Props, State> {
+    dropdownSoundRef: RefObject<ReactSelect>;
+    constructor(props: Props) {
         super(props);
         const selectedOption = {value: props.selectedSound, label: props.selectedSound};
         this.state = {
@@ -26,34 +51,35 @@ export default class DesktopNotificationSettings extends React.PureComponent {
         this.dropdownSoundRef = React.createRef();
     }
 
-    handleMinUpdateSection = (section) => {
+    handleMinUpdateSection = (section: string): void => {
         this.props.updateSection(section);
-
         this.props.cancel();
     }
 
-    handleMaxUpdateSection = (section) => {
-        this.props.updateSection(section);
-    }
+    handleMaxUpdateSection = (section: string): void => this.props.updateSection(section);
 
-    handleOnChange = (e) => {
+    handleOnChange = (e: ChangeEvent<HTMLInputElement>): void => {
         const key = e.currentTarget.getAttribute('data-key');
         const value = e.currentTarget.getAttribute('data-value');
-        this.props.setParentState(key, value);
+        if (key && value) {
+            this.props.setParentState(key, value);
+        }
     }
 
-    handleThreadsOnChange = (e) => {
+    handleThreadsOnChange = (e: ChangeEvent<HTMLInputElement>): void => {
         const value = e.target.checked ? NotificationLevels.ALL : NotificationLevels.MENTION;
         this.props.setParentState('desktopThreads', value);
     }
 
-    setDesktopNotificationSound = (selectedOption) => {
-        this.props.setParentState('desktopNotificationSound', selectedOption.value);
-        this.setState({selectedOption});
-        Utils.tryNotificationSound(selectedOption.value);
+    setDesktopNotificationSound: ReactSelect['onChange'] = (selectedOption: ValueType<SelectedOption>): void => {
+        if (selectedOption && 'value' in selectedOption) {
+            this.props.setParentState('desktopNotificationSound', selectedOption.value);
+            this.setState({selectedOption});
+            Utils.tryNotificationSound(selectedOption.value);
+        }
     }
 
-    blurDropdown() {
+    blurDropdown(): void {
         if (!this.state.blurDropdown) {
             this.setState({blurDropdown: true});
             if (this.dropdownSoundRef.current) {
@@ -62,7 +88,7 @@ export default class DesktopNotificationSettings extends React.PureComponent {
         }
     }
 
-    buildMaximizedSetting = () => {
+    buildMaximizedSetting = (): JSX.Element => {
         const inputs = [];
 
         const activityRadio = [false, false, false];
@@ -91,7 +117,7 @@ export default class DesktopNotificationSettings extends React.PureComponent {
                     return {value: sound, label: sound};
                 });
 
-                if (!isDesktopApp() || (window.desktop && semver.gte(window.desktop.version, '4.6.0'))) {
+                if (!isDesktopApp() || (window.desktop && semver.gte(window.desktop.version || '', '4.6.0'))) {
                     notificationSelection = (<div className='pt-2'>
                         <ReactSelect
                             className='react-select notification-sound-dropdown'
@@ -353,7 +379,6 @@ export default class DesktopNotificationSettings extends React.PureComponent {
             <SettingItemMin
                 title={Utils.localizeMessage('user.settings.notifications.desktop.title', 'Desktop Notifications')}
                 describe={<FormattedMessage {...formattedMessageProps}/>}
-                focused={this.props.focused}
                 section={'desktop'}
                 updateSection={this.handleMinUpdateSection}
             />
@@ -372,19 +397,3 @@ export default class DesktopNotificationSettings extends React.PureComponent {
         return this.buildMinimizedSetting();
     }
 }
-
-DesktopNotificationSettings.propTypes = {
-    activity: PropTypes.string.isRequired,
-    threads: PropTypes.string.isRequired,
-    sound: PropTypes.string.isRequired,
-    updateSection: PropTypes.func,
-    setParentState: PropTypes.func,
-    submit: PropTypes.func,
-    cancel: PropTypes.func,
-    error: PropTypes.string,
-    active: PropTypes.bool,
-    saving: PropTypes.bool,
-    focused: PropTypes.bool,
-    selectedSound: PropTypes.string,
-    isCollapsedThreadsEnabled: PropTypes.bool.isRequired,
-};
