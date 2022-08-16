@@ -10,6 +10,7 @@ import MultiSelectCards from 'components/common/multi_select_cards';
 
 import GithubSVG from 'components/common/svg_images_components/github_svg';
 import GitlabSVG from 'components/common/svg_images_components/gitlab_svg';
+import CelebrateSVG from 'components/common/svg_images_components/celebrate_svg';
 import JiraSVG from 'components/common/svg_images_components/jira_svg';
 import ZoomSVG from 'components/common/svg_images_components/zoom_svg';
 import TodoSVG from 'components/common/svg_images_components/todo_svg';
@@ -55,13 +56,20 @@ const Plugins = (props: Props) => {
                     {props.previous}
                     <Title>
                         <FormattedMessage
-                            id={'onboarding_wizard.plugins.title'}
+                            id={'onboarding_wizard.plugins.title1'}
                             defaultMessage='Welcome to Mattermost!'
                         />
+                        <div className='subtitle'>
+                            <CelebrateSVG/>
+                            <FormattedMessage
+                                id={'onboarding_wizard.plugins.subtitle'}
+                                defaultMessage='almost there!'
+                            />
+                        </div>
                     </Title>
                     <Description>
                         <FormattedMessage
-                            id={'onboarding_wizard.plugins.description'}
+                            id={'onboarding_wizard.plugins.description1'}
                             defaultMessage={'Mattermost is better when integrated with the tools your team uses for collaboration. Popular tools are below, select the ones your team uses and we\'ll add them to your workspace. Additional set up may be needed later.'}
                         />
                     </Description>

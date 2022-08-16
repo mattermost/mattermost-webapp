@@ -4,10 +4,21 @@
     color: var(--sidebar-header-bg);
     font-size: 56px;
     letter-spacing: -0.01em;
+    display: flex;
+
+    .subtitle {
+        font-size: 18px;
+        line-height: 28px;
+    }
 }
 
 @media screen and (max-width: 900px) {
     .PreparingWorkspaceTitle {
         font-size: 36px;
+        flex-direction: column;
+        .subtitle {
+            font-size: 14px;
+            line-height: 20px;
+        }
     }
 }
