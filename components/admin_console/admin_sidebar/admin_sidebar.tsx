@@ -311,8 +311,6 @@ class AdminSidebar extends React.PureComponent<Props, State> {
                     />
                 </div>
                 <Scrollbars
-                    // eslint-disable-next-line react/no-string-refs
-                    ref='scrollbar'
                     autoHide={true}
                     autoHideTimeout={500}
                     autoHideDuration={500}
