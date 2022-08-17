@@ -39,7 +39,7 @@ type GlobalState = ToastWrapperState & {
 
 type OwnProps = RouteComponentProps & {
     channelId: string;
-    atLatestPost: boolean;
+    atLatestPost?: boolean;
 }
 
 export function makeGetRootPosts() {
