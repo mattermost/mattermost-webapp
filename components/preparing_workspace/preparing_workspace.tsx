@@ -44,10 +44,6 @@ import LaunchingWorkspace, {START_TRANSITIONING_OUT} from './launching_workspace
 
 import './preparing_workspace.scss';
 
-export const OnboardingPreferences = {
-    USE_CASE: 'use_case',
-};
-
 const SubmissionStates = {
     Presubmit: 'Presubmit',
     UserRequested: 'UserRequested',

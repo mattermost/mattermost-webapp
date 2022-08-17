@@ -7,6 +7,7 @@ import {browserHistory} from 'utils/browser_history';
 
 import {openModal} from 'actions/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
+import {useWebSocket, useWebSocketClient, WebSocketContext} from 'utils/use_websocket';
 import {imageURLForUser} from 'utils/utils';
 
 import ChannelInviteModal from 'components/channel_invite_modal';
@@ -61,4 +62,12 @@ window.Components = {
     Avatar,
     imageURLForUser,
     BotBadge,
+};
+
+// This is a prototype of the Product API for use by internal plugins only while we transition to the proper architecture
+// for them using module federation.
+window.ProductApi = {
+    useWebSocket,
+    useWebSocketClient,
+    WebSocketProvider: WebSocketContext,
 };
