@@ -191,8 +191,6 @@ export default class TeamSidebar extends React.PureComponent<Props, State> {
     }
 
     render() {
-        console.log('teams unread statuses', this.props.teamsUnreadStatuses);
-
         const root: Element | null = document.querySelector('#root');
         if (this.props.myTeams.length <= 1) {
             root!.classList.remove('multi-teams');
@@ -209,7 +207,6 @@ export default class TeamSidebar extends React.PureComponent<Props, State> {
         }
 
         const teams = sortedTeams.map((team: Team, index: number) => {
-            const member = this.props.myTeamMembers[team.id];
             return (
                 <TeamButton
                     key={'switch_team_' + team.name}
@@ -219,8 +216,8 @@ export default class TeamSidebar extends React.PureComponent<Props, State> {
                     displayName={team.display_name}
                     order={index + 1}
                     showOrder={this.state.showOrder}
-                    unread={this.props.collapsedThreads ? (member.msg_count_root + this.props.threadCounts?.[team.id]?.total_unread_threads) > 0 : member.msg_count > 0}
-                    mentions={this.props.collapsedThreads ? (member.mention_count_root + this.props.threadCounts?.[team.id]?.total_unread_mentions) : member.mention_count}
+                    unread={this.props.unreadTeamsSet.has(team.id)}
+                    mentions={this.props.mentionsInTeamMap.has(team.id) ? this.props.mentionsInTeamMap.get(team.id) : 0}
                     teamIconUrl={Utils.imageURLForTeam(team)}
                     switchTeam={(url: string) => this.props.actions.switchTeam(url, currentProduct ? team : undefined)}
                     isDraggable={true}

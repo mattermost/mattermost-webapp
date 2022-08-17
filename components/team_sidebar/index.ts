@@ -6,6 +6,7 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {withRouter} from 'react-router-dom';
 
 import {ClientConfig} from '@mattermost/types/config';
+import {Team} from '@mattermost/types/teams';
 
 import {getTeams} from 'mattermost-redux/actions/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
@@ -13,13 +14,11 @@ import {
     getCurrentTeamId,
     getJoinableTeamIds,
     getMyTeams,
-    getTeamMemberships,
 } from 'mattermost-redux/selectors/entities/teams';
-import {get, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getTeamsUnreadStatuses} from 'mattermost-redux/selectors/entities/channels';
-import {getThreadCounts} from 'mattermost-redux/selectors/entities/threads';
 
-import {GenericAction} from 'mattermost-redux/types/actions';
+import {GenericAction, GetStateFunc} from 'mattermost-redux/types/actions';
 
 import {GlobalState} from 'types/store';
 
@@ -40,19 +39,19 @@ function mapStateToProps(state: GlobalState) {
     const moreTeamsToJoin: boolean = joinableTeams && joinableTeams.length > 0;
     const products = state.plugins.components.Product || [];
 
+    const [unreadTeamsSet, mentionsInTeamMap] = getTeamsUnreadStatuses(state);
+
     return {
         currentTeamId: getCurrentTeamId(state),
         myTeams: getMyTeams(state),
-        myTeamMembers: getTeamMemberships(state),
         isOpen: getIsLhsOpen(state),
-        collapsedThreads: isCollapsedThreadsEnabled(state),
         experimentalPrimaryTeam,
         locale: getCurrentLocale(state),
         moreTeamsToJoin,
         userTeamsOrderPreference: get(state, Preferences.TEAMS_ORDER, '', ''),
-        threadCounts: getThreadCounts(state),
         products,
-        teamsUnreadStatuses: getTeamsUnreadStatuses(state),
+        unreadTeamsSet,
+        mentionsInTeamMap,
     };
 }
 

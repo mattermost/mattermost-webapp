@@ -551,6 +551,7 @@ export const getMembersInCurrentChannel: (state: GlobalState) => Record<string, 
  */
 export type BasicUnreadStatus = boolean | number;
 export type BasicUnreadMeta = {isUnread: boolean; unreadMentionCount: number}
+
 export function basicUnreadMeta(unreadStatus: BasicUnreadStatus): BasicUnreadMeta {
     return {
         isUnread: Boolean(unreadStatus),
@@ -666,95 +667,96 @@ export const getUnreadStatus: (state: GlobalState) => BasicUnreadStatus = create
     },
 );
 
-type TeamsUnreadStatuses = Record<string, BasicUnreadMeta>;
-
-export const getTeamsUnreadStatuses: (state: GlobalState) => BasicUnreadStatus = createSelector(
+/**
+ * Return a tuple of
+ * - Set of team IDs that have unread messages
+ * - Map with team IDs as keys and unread mentions counts as values
+ */
+export const getTeamsUnreadStatuses: (state: GlobalState) => [Set<Team['id']>, Map<Team['id'], number>] = createSelector(
     'getTeamsUnreadStatuses',
     getAllChannels,
     getMyChannelMemberships,
     getChannelMessageCounts,
     getUsers,
     getCurrentUserId,
-    getCurrentTeamId,
-    getMyTeams,
-    getTeamMemberships,
     isCollapsedThreadsEnabled,
     getThreadCounts,
-    getThreadCountsIncludingDirect,
     (
         channels,
-        myMembers,
-        messageCounts,
+        channelMemberships,
+        channelMessageCounts,
         users,
         currentUserId,
-        currentTeamId,
-        myTeams,
-        myTeamMemberships,
         collapsedThreads,
-        threadCounts,
-        threadCountsIncludingDirect,
+        teamthreadCounts,
     ) => {
-        const {
-            messages: currentTeamUnreadMessages,
-            mentions: currentTeamUnreadMentions,
-        } = Object.entries(myMembers).reduce((counts, [channelId, membership]) => {
+        const teamUnreadsSet = new Set<Team['id']>();
+        const teamMentionsMap = new Map<Team['id'], number>();
+
+        for (const [channelId, channelMembership] of Object.entries(channelMemberships)) {
             const channel = channels[channelId];
 
-            if (!channel || !membership) {
-                return counts;
+            if (!channel || !channelMembership) {
+                continue;
             }
 
-            if (
-                // other-team non-DM/non-GM channels
-                channel.team_id !== currentTeamId &&
-                channel.type !== General.DM_CHANNEL &&
-                channel.type !== General.GM_CHANNEL
-            ) {
-                return counts;
+            // We skip DMs and GMs in counting since they are accesible through Direct messages across teams
+            if (channel.type === General.DM_CHANNEL || channel.type === General.GM_CHANNEL) {
+                continue;
             }
 
-            const channelExists = channel.type === General.DM_CHANNEL ? users[getUserIdFromChannelName(currentUserId, channel.name)]?.delete_at === 0 : channel.delete_at === 0;
-            if (!channelExists) {
-                return counts;
-            }
-
-            const mentions = collapsedThreads ? membership.mention_count_root : membership.mention_count;
-            if (mentions) {
-                counts.mentions += mentions;
-            }
-
-            const unreadCount = calculateUnreadCount(messageCounts[channelId], myMembers[channelId], collapsedThreads);
-            if (unreadCount.showUnread) {
-                counts.messages += unreadCount.messages;
-            }
-
-            return counts;
-        }, {
-            messages: 0,
-            mentions: 0,
-        });
-
-        const totalUnreadMessages = currentTeamUnreadMessages;
-        let totalUnreadMentions = currentTeamUnreadMentions;
-        let anyUnreadThreads = false;
-
-        // when collapsed threads are enabled, we start with root-post counts from channels, then
-        // add the same thread-reply counts from the global threads view
-        if (collapsedThreads) {
-            Object.keys(threadCounts).forEach((teamId) => {
-                const c = threadCounts[teamId];
-                if (teamId === currentTeamId) {
-                    const currentTeamDirectCounts = threadCountsIncludingDirect[currentTeamId] || 0;
-                    anyUnreadThreads = Boolean(currentTeamDirectCounts.total_unread_threads);
-                    totalUnreadMentions += currentTeamDirectCounts.total_unread_mentions;
-                } else {
-                    anyUnreadThreads = anyUnreadThreads || Boolean(c.total_unread_threads);
-                    totalUnreadMentions += c.total_unread_mentions;
+            // If other user is deleted in a DM channel, we skip its count
+            if (channel.type === General.DM_CHANNEL) {
+                const otherUserId = getUserIdFromChannelName(currentUserId, channel.name);
+                if (users[otherUserId]?.delete_at !== 0) {
+                    continue;
                 }
-            });
+            }
+
+            // If channel is deleted, we skip its count
+            if (channel.delete_at !== 0) {
+                continue;
+            }
+
+            // Add read/unread from channel membership
+            const unreadCountObjectForChannel = calculateUnreadCount(channelMessageCounts[channelId], channelMembership, collapsedThreads);
+            if (unreadCountObjectForChannel.showUnread) {
+                teamUnreadsSet.add(channel.team_id);
+            }
+
+            // Add mentions count from channel membership
+            if (unreadCountObjectForChannel.mentions > 0) {
+                const previousMentionsInTeam = teamMentionsMap.has(channel.team_id) ? teamMentionsMap.get(channel.team_id) as number : 0;
+                if (previousMentionsInTeam === 0) {
+                    teamMentionsMap.set(channel.team_id, unreadCountObjectForChannel.mentions);
+                } else {
+                    teamMentionsMap.set(channel.team_id, unreadCountObjectForChannel.mentions + previousMentionsInTeam);
+                }
+            }
         }
 
-        return totalUnreadMentions || anyUnreadThreads || Boolean(totalUnreadMessages);
+        if (collapsedThreads) {
+            for (const teamId of Object.keys(teamthreadCounts)) {
+                const threadCountsObjectForTeam = teamthreadCounts[teamId];
+
+                // Add read/unread from global threads view for team
+                if (threadCountsObjectForTeam.total_unread_threads > 0) {
+                    teamUnreadsSet.add(teamId);
+                }
+
+                // Add mentions count from global threads view for team
+                if (threadCountsObjectForTeam.total_unread_mentions > 0) {
+                    const previousMentionsInTeam = teamMentionsMap.has(teamId) ? teamMentionsMap.get(teamId) as number : 0;
+                    if (previousMentionsInTeam === 0) {
+                        teamMentionsMap.set(teamId, threadCountsObjectForTeam.total_unread_mentions);
+                    } else {
+                        teamMentionsMap.set(teamId, threadCountsObjectForTeam.total_unread_mentions + previousMentionsInTeam);
+                    }
+                }
+            }
+        }
+
+        return [teamUnreadsSet, teamMentionsMap];
     },
 );
 
