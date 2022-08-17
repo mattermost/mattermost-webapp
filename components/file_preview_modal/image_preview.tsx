@@ -100,6 +100,7 @@ export default function ImagePreview({fileInfo, toolbarZoom, setToolbarZoom}: Pr
         if (zoom <= maxCanvasZoom) {
             return {xPos: 0, yPos: 0};
         }
+
         return {
             xPos: horizontal ? clamp(x, w, -w) : 0,
             yPos: vertical ? clamp(y, h, -h) : 0,
@@ -155,7 +156,6 @@ export default function ImagePreview({fileInfo, toolbarZoom, setToolbarZoom}: Pr
         if (canvasRef.current) {
             background.onload = () => {
                 // Initialize with the zoom at minimum.
-                //zoom = minZoom; pretty sure that does fuck all, check tho
                 setIsReady(true);
             };
         }

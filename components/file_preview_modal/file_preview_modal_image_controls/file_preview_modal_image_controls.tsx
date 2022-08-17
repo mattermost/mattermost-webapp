@@ -25,10 +25,19 @@ const FilePreviewModalImageControls = ({toolbarZoom, setToolbarZoom}: Props) => 
     const [zoomText, setZoomText] = useState<string>();
     const [selectedZoomValue, setSelectedZoomValue] = useState<ZoomValue | 'customZoom'>();
 
-    // eslint-disable-next-line react/jsx-max-props-per-line
-    const plusSign = <PlusIcon size={16} color='currentColor'/>;
-    // eslint-disable-next-line react/jsx-max-props-per-line
-    const minusSign = <MinusIcon size={16} color='currentColor'/>;
+    const plusSign = (
+        <PlusIcon
+            size={16}
+            color='currentColor'
+        />
+    );
+
+    const minusSign = (
+        <MinusIcon
+            size={16}
+            color='currentColor'
+        />
+    );
 
     // Initialize dropdown values
     const {formatMessage} = useIntl();
