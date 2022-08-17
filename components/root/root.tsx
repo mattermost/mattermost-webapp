@@ -107,9 +107,9 @@ function LoggedInRoute<T>(props: LoggedInRouteProps<T>) {
     return (
         <Route
             {...rest}
-            render={(props) => (
-                <LoggedIn {...props}>
-                    <Component {...(props as T & RouteComponentProps)}/>
+            render={(routeProps: RouteComponentProps) => (
+                <LoggedIn {...routeProps}>
+                    <Component {...(routeProps as unknown as T)}/>
                 </LoggedIn>
             )}
         />
