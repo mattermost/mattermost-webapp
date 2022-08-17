@@ -83,11 +83,11 @@ type Props = {
     hideEmojiPicker: () => void;
     toggleAdvanceTextEditor: () => void;
     handleUploadProgress: (filePreviewInfo: FilePreviewInfo) => void;
-    handleUploadError: (err: string | ServerError, clientId: string, channelId: string) => void;
+    handleUploadError: (err: string | ServerError, clientId?: string, channelId?: string) => void;
     handleFileUploadComplete: (fileInfos: FileInfo[], clientIds: string[], channelId: string, rootId?: string) => void;
     handleUploadStart: (clientIds: string[], channelId: string) => void;
     handleFileUploadChange: () => void;
-    getFileUploadTarget: () => TextboxClass | null;
+    getFileUploadTarget: () => HTMLInputElement | null;
     fileUploadRef: React.RefObject<FileUploadClass>;
     prefillMessage?: (message: string, shouldFocus?: boolean) => void;
     channelId: string;
@@ -414,6 +414,7 @@ const AdvanceTextEditor = ({
                         badConnection={badConnection}
                         listenForMentionKeyClick={true}
                         useChannelMentions={useChannelMentions}
+                        rootId={postId}
                     />
                     {attachmentPreview}
                     <TexteditorActions

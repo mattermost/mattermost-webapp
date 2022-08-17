@@ -139,6 +139,9 @@ type Props = {
     userIsOutOfOffice: boolean;
     rhsExpanded: boolean;
 
+    //If RHS open
+    rhsOpen: boolean;
+
     //To check if the timezones are enable on the server.
     isTimezoneEnabled: boolean;
 
@@ -898,7 +901,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
     }
 
-    handleUploadError = (err: string | ServerError, clientId: string, channelId: string) => {
+    handleUploadError = (err: string | ServerError, clientId = '', channelId = '') => {
         const draft = {...this.draftsForChannel[channelId]!};
 
         let serverError = err;
@@ -966,6 +969,11 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     focusTextboxIfNecessary = (e: KeyboardEvent) => {
         // Focus should go to the RHS when it is expanded
         if (this.props.rhsExpanded) {
+            return;
+        }
+
+        // Hacky fix to avoid cursor jumping textbox sometimes
+        if (this.props.rhsOpen && document.activeElement?.tagName === 'BODY') {
             return;
         }
 

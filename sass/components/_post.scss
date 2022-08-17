@@ -1028,6 +1028,15 @@
 
                 span {
                     display: none;
+
+                    &.post-image__archived-name {
+                        display: inline-flex;
+                    }
+
+                    &.post-image__archived-filename,
+                    &.post-image__archived-label {
+                        display: inline-block;
+                    }
                 }
 
                 svg {
@@ -1963,7 +1972,6 @@
             -webkit-box-orient: vertical;
             -webkit-line-clamp: 4;
             text-overflow: ellipsis;
-            white-space: nowrap;
         }
 
         .post-preview-collapse__show-more-button {
