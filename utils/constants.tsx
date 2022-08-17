@@ -445,10 +445,13 @@ export const CloudProducts = {
     LEGACY: 'cloud-legacy',
 };
 
-export const SelfHostedLicenseSKUNames = {
-    PROFESSIONAL: 'professional',
-    ENTERPRISE: 'enterprise',
-};
+export enum LicenseSkus {
+    E10 = 'E10',
+    E20 = 'E20',
+    Starter = 'starter',
+    Professional = 'professional',
+    Enterprise = 'enterprise',
+}
 
 export const A11yClassNames = {
     REGION: 'a11y__region',
