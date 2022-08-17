@@ -130,7 +130,7 @@ function FileLimitStickyBanner() {
                                 onClick={
                                     (e) => {
                                         e.preventDefault();
-                                        openPricingModal();
+                                        openPricingModal({trackingLocation: 'file_limit_sticky_banner'});
                                     }
                                 }
                             >{chunks}</a>);
@@ -155,6 +155,7 @@ function FileLimitStickyBanner() {
                             required_feature: NonAdminPaidFeatures.UNLIMITED_FILE_STORAGE,
                             trial_notification: false,
                         }}
+                        callerInfo='file_limit_sticky_banner'
                     />),
             },
             )}

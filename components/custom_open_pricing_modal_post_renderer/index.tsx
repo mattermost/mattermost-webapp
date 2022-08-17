@@ -190,7 +190,7 @@ export default function OpenPricingModalPost(props: {post: Post}) {
                         {'Learn more about trial'}
                     </button>
                     <button
-                        onClick={openPricingModal}
+                        onClick={() => openPricingModal({trackingLocation: 'notify_admin_message_view_upgrade_options'})}
                         style={{...btnStyle, color: 'var(--button-bg)', background: 'rgba(var(--denim-button-bg-rgb), 0.08)'}}
                     >
                         {formatMessage({id: 'postypes.custom_open_pricing_modal_post_renderer.view_options', defaultMessage: 'View upgrade options'})}
@@ -209,7 +209,7 @@ export default function OpenPricingModalPost(props: {post: Post}) {
                         {'Upgrade to Professional'}
                     </button>
                     <button
-                        onClick={openPricingModal}
+                        onClick={() => openPricingModal({trackingLocation: 'notify_admin_message_view_upgrade_options'})}
                         style={{...btnStyle, color: 'var(--button-bg)', background: 'rgba(var(--denim-button-bg-rgb), 0.08)'}}
                     >
                         {formatMessage({id: 'postypes.custom_open_pricing_modal_post_renderer.view_options', defaultMessage: 'View upgrade options'})}
@@ -219,7 +219,7 @@ export default function OpenPricingModalPost(props: {post: Post}) {
         }
         return (
             <button
-                onClick={openPricingModal}
+                onClick={() => openPricingModal({trackingLocation: 'notify_admin_message_view_upgrade_options'})}
                 style={{...btnStyle, border: '1px solid var(--button-bg)', color: 'var(--button-bg)', background: 'var(--sidebar-text)'}}
             >
                 {formatMessage({id: 'postypes.custom_open_pricing_modal_post_renderer.view_options', defaultMessage: 'View upgrade options'})}

@@ -132,6 +132,7 @@ export const Preferences = {
     ONE_CLICK_REACTIONS_ENABLED_DEFAULT: 'true',
     CLOUD_TRIAL_END_BANNER: 'cloud_trial_end_banner',
     CLOUD_USER_EPHEMERAL_INFO: 'cloud_user_ephemeral_info',
+    CATEGORY_CLOUD_LIMITS: 'cloud_limits',
     THREE_DAYS_LEFT_TRIAL_MODAL: 'three_days_left_trial_modal',
 
     // For one off things that have a special, attention-grabbing UI until you interact with them
@@ -148,6 +149,8 @@ export const Preferences = {
     ADVANCED_TEXT_EDITOR: 'advanced_text_editor',
 
     FORWARD_POST_VIEWED: 'forward_post_viewed',
+    HIDE_POST_FILE_UPGRADE_WARNING: 'hide_post_file_upgrade_warning',
+    USE_CASE: 'use_case',
 };
 
 // For one off things that have a special, attention-grabbing UI until you interact with them

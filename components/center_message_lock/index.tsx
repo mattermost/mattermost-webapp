@@ -99,7 +99,7 @@ export default function CenterMessageLock(props: Props) {
     let cta = (
         <button
             className='btn btn-primary'
-            onClick={notifyAdmin}
+            onClick={(e) => notifyAdmin(e, 'center_channel_posts_over_limit_banner')}
         >
             {notifyAdminStatus}
         </button>);
@@ -122,7 +122,7 @@ export default function CenterMessageLock(props: Props) {
                         href='#'
                         onClick={(e: React.MouseEvent) => {
                             e.preventDefault();
-                            openPricingModal();
+                            openPricingModal({trackingLocation: 'center_channel_posts_over_limit_banner'});
                         }}
                     >
                         {chunks}
@@ -134,7 +134,7 @@ export default function CenterMessageLock(props: Props) {
         cta = (
             <button
                 className='btn is-admin'
-                onClick={openPricingModal}
+                onClick={() => openPricingModal({trackingLocation: 'center_channel_posts_over_limit_banner'})}
             >
                 {
                     intl.formatMessage({

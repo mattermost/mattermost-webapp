@@ -39,6 +39,7 @@ type SubscriptionBase = {
     last_invoice?: Invoice;
     trial_end_at: number;
     is_free_trial: string;
+    delinquent_since?: number;
 }
 
 export type Product = {

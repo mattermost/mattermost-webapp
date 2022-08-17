@@ -6,6 +6,7 @@ import styled from 'styled-components';
 
 import {Client4} from 'mattermost-redux/client';
 import {NotifyAdminRequest} from '@mattermost/types/cloud';
+import {trackEvent} from 'actions/telemetry_actions';
 
 const Span = styled.span`
 font-family: 'Open Sans';
@@ -45,10 +46,11 @@ type HookProps = {
 }
 
 type Props = HookProps & {
+    callerInfo: string;
     notifyRequestData: NotifyAdminRequest;
 }
 
-export function useNotifyAdmin<T = HTMLAnchorElement | HTMLButtonElement>(props: HookProps, reqData: NotifyAdminRequest): [React.ReactNode, (e: React.MouseEvent<T, MouseEvent>) => void] {
+export function useNotifyAdmin<T = HTMLAnchorElement | HTMLButtonElement>(props: HookProps, reqData: NotifyAdminRequest): [React.ReactNode, (e: React.MouseEvent<T, MouseEvent>, callerInfo: string) => void] {
     const [notifyStatus, setStatus] = useState(NotifyStatus.NotStarted);
     const {formatMessage} = useIntl();
 
@@ -67,12 +69,15 @@ export function useNotifyAdmin<T = HTMLAnchorElement | HTMLButtonElement>(props:
         }
     };
 
-    const notifyFunc = async (e: React.MouseEvent<T, MouseEvent>) => {
+    const notifyFunc = async (e: React.MouseEvent<T, MouseEvent>, callerInfo: string) => {
         e.preventDefault();
         e.stopPropagation();
         try {
             setStatus(NotifyStatus.Started);
             await Client4.notifyAdminToUpgrade(reqData);
+            trackEvent('pricing', 'click_notify_admin_cta', {
+                callerInfo,
+            });
             setStatus(NotifyStatus.Success);
         } catch (error) {
             if (error && error.status_code === 403) {
@@ -100,7 +105,7 @@ function NotifyAdminCTA(props: Props) {
                 <span>
                     <StyledA
                         id='notify_admin_cta'
-                        onClick={notify}
+                        onClick={(e) => notify(e, props.callerInfo)}
                     >
                         {status}
                     </StyledA>
@@ -110,7 +115,7 @@ function NotifyAdminCTA(props: Props) {
                     {title}
                     <StyledA
                         id='notify_admin_cta'
-                        onClick={notify}
+                        onClick={(e) => notify(e, props.callerInfo)}
                     >
                         {status}
                     </StyledA>
