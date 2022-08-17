@@ -40,7 +40,7 @@ type OwnProps = {
     rootPosts?: IDMappedObjects<Post>;
     atLatestPost?: boolean;
     postListIds: string[];
-    latestPostTimeStamp: number;
+    latestPostTimeStamp?: number;
     atBottom?: boolean | null;
     lastViewedBottom: number;
     width: number;
@@ -147,7 +147,7 @@ export class ToastWrapper extends React.PureComponent<Props, State> {
             showUnreadToast = true;
         }
 
-        if (!showUnreadToast && unreadCount > 0 && !props.atBottom && (props.lastViewedBottom < props.latestPostTimeStamp)) {
+        if (!showUnreadToast && unreadCount > 0 && !props.atBottom && (props.lastViewedBottom < (props.latestPostTimeStamp as number))) {
             showNewMessagesToast = true;
         }
 
