@@ -203,7 +203,7 @@ export default function OpenPricingModalPost(props: {post: Post}) {
             return (
                 <>
                     <button
-                        onClick={openPurchaseModal}
+                        onClick={() => openPurchaseModal({trackingLocation: 'notify_admin_message_view'})}
                         style={btnStyle}
                     >
                         {'Upgrade to Professional'}

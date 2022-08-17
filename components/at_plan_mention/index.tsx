@@ -21,7 +21,7 @@ function AtPlanMention(props: Props) {
         e.preventDefault();
 
         if (props.plan === 'Enterprise trial') {
-            openPricingModal();
+            openPricingModal({trackingLocation: 'notify_admin_message_view'});
         }
 
         if (props.plan === 'Enterprise plan') {
@@ -29,7 +29,7 @@ function AtPlanMention(props: Props) {
         }
 
         if (props.plan === 'Professional plan') {
-            openPurchaseModal();
+            openPurchaseModal({trackingLocation: 'notify_admin_message_view'});
         }
     };
     return (
