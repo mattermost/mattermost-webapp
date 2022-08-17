@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState, useCallback, useEffect, useMemo, useRef} from 'react';
+import React, {useState, useCallback, useEffect, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {RouterProps} from 'react-router-dom';
 import {useIntl} from 'react-intl';
@@ -18,7 +18,6 @@ import {getFirstAdminSetupComplete, getConfig} from 'mattermost-redux/selectors/
 import {Client4} from 'mattermost-redux/client';
 
 import Constants from 'utils/constants';
-import {getSiteURL} from 'utils/url';
 
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 
@@ -109,7 +108,6 @@ const PreparingWorkspace = (props: Props) => {
     const team = currentTeam || myTeams?.[0];
 
     const config = useSelector(getConfig);
-    const configSiteUrl = config.SiteURL;
     const pluginsEnabled = config.PluginsEnabled === 'true';
     const showOnMountTimeout = useRef<NodeJS.Timeout>();
 
@@ -122,10 +120,8 @@ const PreparingWorkspace = (props: Props) => {
 
     const [[mostRecentStep, currentStep], setStepHistory] = useState<[WizardStep, WizardStep]>([stepOrder[0], stepOrder[0]]);
     const [submissionState, setSubmissionState] = useState<SubmissionState>(SubmissionStates.Presubmit);
-    const browserSiteUrl = useMemo(getSiteURL, []);
     const [form, setForm] = useState({
         ...emptyForm,
-        url: configSiteUrl || browserSiteUrl,
     });
 
     useEffect(() => {
@@ -194,6 +190,7 @@ const PreparingWorkspace = (props: Props) => {
 
     const sendForm = async () => {
         const sendFormStart = Date.now();
+        setSubmissionState(SubmissionStates.Submitting);
 
         // send plugins
         const {skipped: skippedPlugins, ...pluginChoices} = form.plugins;
@@ -299,10 +296,12 @@ const PreparingWorkspace = (props: Props) => {
                     next={() => {
                         const pluginChoices = {...form.plugins};
                         delete pluginChoices.skipped;
+                        setSubmissionState(SubmissionStates.UserRequested);
                         makeNext(WizardSteps.Plugins)(pluginChoices);
                         skipPlugins(false);
                     }}
                     skip={() => {
+                        setSubmissionState(SubmissionStates.UserRequested);
                         makeNext(WizardSteps.Plugins, true)();
                         skipPlugins(true);
                     }}
