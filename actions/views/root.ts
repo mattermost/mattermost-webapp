@@ -8,10 +8,13 @@ import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {GlobalState} from 'types/store';
 
 import {getCurrentLocale, getTranslations} from 'selectors/i18n';
+import {Translations} from 'types/store/i18n';
 import {ActionTypes} from 'utils/constants';
 import en from 'i18n/en.json';
 
-const pluginTranslationSources: Record<string, (locale: string) => void> = {};
+const pluginTranslationSources: Record<string, TranslationPluginFunction> = {};
+
+type TranslationPluginFunction = (locale: string) => Translations
 
 export function loadConfigAndMe() {
     return async (dispatch: DispatchFunc) => {
@@ -37,7 +40,7 @@ export function loadConfigAndMe() {
     };
 }
 
-export function registerPluginTranslationsSource(pluginId: string, sourceFunction: (locale: string) => void) {
+export function registerPluginTranslationsSource(pluginId: string, sourceFunction: TranslationPluginFunction) {
     pluginTranslationSources[pluginId] = sourceFunction;
     return (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState() as GlobalState;

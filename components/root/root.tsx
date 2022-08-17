@@ -98,16 +98,23 @@ const Authorize = makeAsyncComponent('Authorize', LazyAuthorize);
 const Mfa = makeAsyncComponent('Mfa', LazyMfa);
 const PreparingWorkspace = makeAsyncComponent('PreparingWorkspace', LazyPreparingWorkspace);
 
-const LoggedInRoute = ({component: Component, ...rest}: {component: any; path: string}) => (
-    <Route
-        {...rest}
-        render={(props) => (
-            <LoggedIn {...props}>
-                <Component {...props}/>
-            </LoggedIn>
-        )}
-    />
-);
+type LoggedInRouteProps<T> = {
+    component: React.ComponentType<T>;
+    path: string;
+};
+function LoggedInRoute<T>(props: LoggedInRouteProps<T>) {
+    const {component: Component, ...rest} = props;
+    return (
+        <Route
+            {...rest}
+            render={(props) => (
+                <LoggedIn {...props}>
+                    <Component {...(props as T & RouteComponentProps)}/>
+                </LoggedIn>
+            )}
+        />
+    );
+}
 
 const noop = () => {}; // eslint-disable-line no-empty-function
 
@@ -120,7 +127,7 @@ export type Actions = {
     registerCustomPostRenderer: (type: string, component: any, id: string) => Promise<ActionResult>;
 }
 
-interface Props {
+type Props = {
     theme: Theme;
     telemetryEnabled: boolean;
     telemetryId?: string;
@@ -131,13 +138,13 @@ interface Props {
     plugins: PluginComponent[];
     products: ProductComponent[];
     showLaunchingWorkspace: boolean;
-}
+} & RouteComponentProps
 
 interface State {
     configLoaded?: boolean;
 }
 
-export default class Root extends React.PureComponent<Props & RouteComponentProps, State> {
+export default class Root extends React.PureComponent<Props, State> {
     private desktopMediaQuery: MediaQueryList;
     private smallDesktopMediaQuery: MediaQueryList;
     private tabletMediaQuery: MediaQueryList;
@@ -148,7 +155,7 @@ export default class Root extends React.PureComponent<Props & RouteComponentProp
     // so we do need this.
     private a11yController: A11yController; // eslint-disable-line no-unused-vars
 
-    constructor(props: Props & RouteComponentProps) {
+    constructor(props: Props) {
         super(props);
         this.mounted = false;
 
@@ -289,7 +296,7 @@ export default class Root extends React.PureComponent<Props & RouteComponentProp
         Utils.applyTheme(this.props.theme);
     }
 
-    componentDidUpdate(prevProps: Props & RouteComponentProps) {
+    componentDidUpdate(prevProps: Props) {
         if (!deepEqual(prevProps.theme, this.props.theme)) {
             Utils.applyTheme(this.props.theme);
         }
