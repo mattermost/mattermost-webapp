@@ -99,6 +99,8 @@ jobs:
       - checkout
       - *restore_cache
       - run: |
+          rm -rf node-modules
+          npm install
           npm run check
 
   i18n-check:
