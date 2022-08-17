@@ -16,7 +16,8 @@ endif
 
 check-style: node_modules ## Checks JS file for ESLint confirmity
 	@echo Checking for style guide compliance
-
+	rm -rf node-modules
+	npm install
 	npm run check
 
 fix-style: node_modules ## Fix JS file ESLint issues
