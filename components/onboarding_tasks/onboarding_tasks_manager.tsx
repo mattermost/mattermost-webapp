@@ -34,8 +34,7 @@ import {
     switchToChannels,
 } from 'actions/views/onboarding_tasks';
 
-import {Constants, ExploreOtherToolsTourSteps, ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
-import {OnboardingPreferences} from 'components/preparing_workspace/preparing_workspace';
+import {Constants, ExploreOtherToolsTourSteps, ModalIdentifiers, TELEMETRY_CATEGORIES, Preferences} from 'utils/constants';
 
 import {generateTelemetryTag} from './utils';
 import {OnboardingTaskCategory, OnboardingTaskList, OnboardingTasksName, TaskNameMapToSteps} from './constants';
@@ -121,7 +120,7 @@ export const useTasksList = () => {
     const showStartTrialTask = selfHostedTrialCondition || cloudTrialCondition;
 
     const list: Record<string, string> = {...OnboardingTasksName};
-    const pluginsPreferenceState = useSelector((state: GlobalState) => get(state, Constants.Preferences.ONBOARDING, OnboardingPreferences.USE_CASE));
+    const pluginsPreferenceState = useSelector((state: GlobalState) => get(state, Constants.Preferences.ONBOARDING, Preferences.USE_CASE));
     const pluginsPreference = pluginsPreferenceState && JSON.parse(pluginsPreferenceState);
     if ((pluginsPreference && !pluginsPreference.boards) || !pluginsList.focalboard || !isUserFirstAdmin) {
         delete list.BOARDS_TOUR;

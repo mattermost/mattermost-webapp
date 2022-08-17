@@ -278,10 +278,6 @@ const state: GlobalState = {
             },
         },
         users: {
-            checkMfa: {
-                status: 'not_started',
-                error: null,
-            },
             login: {
                 status: 'not_started',
                 error: null,
