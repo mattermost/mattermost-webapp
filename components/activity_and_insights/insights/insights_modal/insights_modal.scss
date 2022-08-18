@@ -281,6 +281,12 @@
                                 margin-left: auto;
                             }
 
+                            .role {
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                white-space: nowrap;
+                            }
+
                             .user-info {
                                 display: flex;
                                 overflow: hidden;
@@ -359,7 +365,14 @@
                         color: rgba(var(--center-channel-color-rgb), 0.56);
                     }
 
-                    :nth-of-type(1) {
+                    &:disabled {
+                        &:hover {
+                            background-color: transparent;
+                            color: rgba(var(--center-channel-color-rgb), 0.56);
+                        }
+                    }
+
+                    &:nth-of-type(1) {
                         margin-right: 4px;
                     }
 

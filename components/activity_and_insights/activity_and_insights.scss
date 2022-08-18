@@ -651,14 +651,14 @@
                     .dm-role {
                         overflow: hidden;
                         max-width: 150px;
+                        min-height: 16px;
                         margin-top: 4px;
                         color: rgba(var(--center-channel-color-rgb), 0.72);
-                        font-size: 11px;
+                        font-size: 12px;
                         font-weight: 400;
                         line-height: 16px;
                         text-overflow: ellipsis;
                         white-space: nowrap;
-                        min-height: 16px;
                     }
 
                     .channel-message-count {

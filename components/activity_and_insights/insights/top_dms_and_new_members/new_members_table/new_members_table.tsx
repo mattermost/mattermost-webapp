@@ -125,9 +125,9 @@ const NewMembersTable = (props: Props) => {
 
                         ),
                         position: (
-                            <>
+                            <span className='role'>
                                 {member.position}
-                            </>
+                            </span>
                         ),
                         joined: (
                             <span className='cell-text'>
