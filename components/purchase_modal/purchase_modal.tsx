@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable max-lines */
-
 import React, {ReactNode} from 'react';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
@@ -87,6 +85,10 @@ type Props = {
     currentTeam: Team;
     intl: IntlShape;
     theme: Theme;
+
+    // callerCTA is information about the cta that opened this modal. This helps us provide a telemetry path
+    // showing information about how the modal was opened all the way to more CTAs within the modal itself
+    callerCTA?: string;
     actions: {
         openModal: <P>(modalData: ModalData<P>) => void;
         closeModal: () => void;
@@ -107,6 +109,7 @@ type State = {
     currentProduct: Product | null | undefined;
     selectedProduct: Product | null | undefined;
     isUpgradeFromTrial: boolean;
+    buttonClickedInfo: string;
 }
 
 /**
@@ -214,6 +217,8 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             currentProduct: findProductInDictionary(props.products, props.productId),
             selectedProduct: getSelectedProduct(props.products, props.productId),
             isUpgradeFromTrial: props.isFreeTrial,
+            buttonClickedInfo: '',
+
         };
     }
 
@@ -248,17 +253,21 @@ class PurchaseModal extends React.PureComponent<Props, State> {
     }
 
     handleSubmitClick = async () => {
-        this.setState({processing: true, paymentInfoIsValid: false});
+        const callerInfo = this.props.callerCTA + '> purchase_modal > upgrade_button_click';
+        this.setState({processing: true, paymentInfoIsValid: false, buttonClickedInfo: callerInfo});
     }
 
     setIsUpgradeFromTrialToFalse = () => {
         this.setState({isUpgradeFromTrial: false});
     }
 
-    openPricingModal = () => {
+    openPricingModal = (callerInfo: string) => {
         this.props.actions.openModal({
             modalId: ModalIdentifiers.PRICING_MODAL,
             dialogType: PricingModal,
+            dialogProps: {
+                callerCTA: callerInfo,
+            },
         });
     };
 
@@ -267,7 +276,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             className='ml-1'
             onClick={() => {
                 trackEvent('cloud_pricing', 'click_compare_plans');
-                this.openPricingModal();
+                this.openPricingModal('purchase_modal_compare_plans_click');
             }}
         >
             <FormattedMessage
@@ -562,6 +571,9 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                                         this.state.selectedProduct?.billing_scheme === BillingSchemes.PER_SEAT}
                                         setIsUpgradeFromTrialToFalse={this.setIsUpgradeFromTrialToFalse}
                                         isUpgradeFromTrial={this.state.isUpgradeFromTrial}
+                                        telemetryProps={{
+                                            callerInfo: this.state.buttonClickedInfo,
+                                        }}
                                     />
                                 </div>
                             ) : null}

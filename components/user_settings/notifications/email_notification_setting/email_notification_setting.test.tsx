@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {ComponentProps} from 'react';
 import {shallow} from 'enzyme';
 
 import {Preferences, NotificationLevels} from 'utils/constants';
@@ -10,7 +10,7 @@ import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import EmailNotificationSetting from 'components/user_settings/notifications/email_notification_setting/email_notification_setting';
 
 describe('components/user_settings/notifications/EmailNotificationSetting', () => {
-    const requiredProps = {
+    const requiredProps: ComponentProps<typeof EmailNotificationSetting> = {
         currentUserId: 'current_user_id',
         activeSection: 'email',
         updateSection: jest.fn(),
