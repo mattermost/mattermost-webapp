@@ -40,7 +40,7 @@ import {
 import {fetchAllMyTeamsChannelsAndChannelMembers, searchAllChannels} from 'mattermost-redux/actions/channels';
 import {getThreadCountsInCurrentTeam} from 'mattermost-redux/selectors/entities/threads';
 import {logError} from 'mattermost-redux/actions/errors';
-import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_utils';
+import {sortChannelsByTypeAndDisplayName, isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 import SharedChannelIndicator from 'components/shared_channel_indicator';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
@@ -86,6 +86,10 @@ class SwitchChannelSuggestion extends Suggestion {
         const member = this.props.channelMember;
         const teammate = this.props.dmChannelTeammate;
         let badge = null;
+
+        if (isChannelMuted(member)) {
+            return null;
+        }
 
         if ((member && member.notify_props) || item.unread_mentions) {
             let unreadMentions;
