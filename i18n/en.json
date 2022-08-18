@@ -3089,7 +3089,7 @@
   "deactivate_member_modal.desc.confirm": " Are you sure you want to deactivate {username}?",
   "deactivate_member_modal.desc.for_users_with_bot_accounts1": "This action deactivates {username}.\\n \\n * They will be logged out and not have access to any teams or channels on this system.\\n * Bot accounts they manage will be disabled along with their integrations. To enable them again, go to [Integrations > Bot Accounts]({siteURL}/_redirect/integrations/bots). <link>Learn more about bot accounts</link>.\\n \\n \\n",
   "deactivate_member_modal.desc.for_users_with_bot_accounts2": "They will be logged out and not have access to any teams or channels on this system.",
-  "deactivate_member_modal.desc.for_users_with_bot_accounts3": "Bot accounts they manage will be disabled along with their integrations. To enable them again, go to <linkBots>Integrations > Bot Accounts</link>. <linkDocumentation>Learn more about bot accounts</linkDocumentation>.\\n\\n\\n\\n",
+  "deactivate_member_modal.desc.for_users_with_bot_accounts3": "Bot accounts they manage will be disabled along with their integrations. To enable them again, go to <linkBots>Integrations > Bot Accounts</linkBots>. <linkDocumentation>Learn more about bot accounts</linkDocumentation>.\\n\\n\\n\\n",
   "deactivate_member_modal.sso_warning": "You must also deactivate this user in the SSO provider or they will be reactivated on next login or sync.",
   "deactivate_member_modal.title": "Deactivate {username}",
   "delete_category_modal.delete": "Delete",
