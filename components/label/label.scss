@@ -1,0 +1,42 @@
+.label {
+    padding: 0.2em 0.5em 0.3em;
+    border-radius: 4px;
+    font-size: 10px;
+    display: inline-flex;
+    align-items: center;
+
+    &__icon {
+        margin-right: 3px;
+        width: 12px;
+        height: 12px;
+    }
+
+    &-danger {
+        background-color: var(--dnd-indicator);
+    }
+
+    &-success {
+        background-color: var(--online-indicator);
+    }
+
+    &-warning {
+        background-color: var(--away-indicator);
+    }
+
+    &-info {
+        background-color: var(--sidebar-text-active-border);
+    }
+
+    &-default {
+        background-color: var(--center-channel-color);
+        color: var(--center-channel-bg);
+    }
+
+    &-primary {
+        background-color: var(--button-bg);
+    }
+
+    &-primary-faded {
+        background-color: var(--sidebar-text-active-border);
+    }
+}

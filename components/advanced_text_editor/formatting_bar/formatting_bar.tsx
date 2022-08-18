@@ -142,6 +142,12 @@ interface FormattingBarProps {
      * location of the advanced text editor in the UI (center channel / RHS)
      */
     location: string;
+
+    /*
+     * controls that enhance the message,
+     * e.g: message priority picker
+     */
+    enhanceControls: React.ReactNodeArray;
 }
 
 const FormattingBar = (props: FormattingBarProps): JSX.Element => {
@@ -155,6 +161,7 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
         extraControls,
         toggleAdvanceTextEditor,
         location,
+        enhanceControls,
     } = props;
     const [showHiddenControls, setShowHiddenControls] = useState(false);
     const formattingBarRef = useRef<HTMLDivElement>(null);
@@ -264,6 +271,7 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
                 active={showFormattingControls}
                 disabled={false}
             />
+            {enhanceControls}
             <Separator show={true}/>
             {showFormattingControls && controls.map((mode) => {
                 const insertSeparator = mode === 'heading' || mode === 'ol';

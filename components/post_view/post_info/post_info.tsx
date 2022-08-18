@@ -26,6 +26,7 @@ import PostReaction from 'components/post_view/post_reaction';
 import PostRecentReactions from 'components/post_view/post_recent_reactions';
 import PostTime from 'components/post_view/post_time';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
+import PriorityLabel from 'components/post_priority/post_priority_label';
 import {Emoji} from '@mattermost/types/emojis';
 
 type Props = {
@@ -476,6 +477,11 @@ export default class PostInfo extends React.PureComponent<Props, State> {
             );
         }
 
+        let priority;
+        if (post.props?.priority) {
+            priority = <span className='pr-2'><PriorityLabel type={post.props.priority}/></span>;
+        }
+
         return (
             <div
                 className='post__header--info'
@@ -483,6 +489,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
             >
                 <div className='col'>
                     {postTime}
+                    {priority}
                     {postInfoIcon}
                     {visibleMessage}
                 </div>

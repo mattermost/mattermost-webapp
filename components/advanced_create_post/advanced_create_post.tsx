@@ -4,6 +4,10 @@
 /* eslint-disable max-lines */
 
 import React from 'react';
+import {FormattedMessage} from 'react-intl';
+import classNames from 'classnames';
+
+import {AlertCircleOutlineIcon} from '@mattermost/compass-icons/components';
 
 import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
@@ -37,6 +41,8 @@ import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
 import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload';
 import ResetStatusModal from 'components/reset_status_modal';
 import TextboxClass from 'components/textbox/textbox';
+import PostPriorityPickerOverlay from 'components/post_priority/post_priority_picker_overlay';
+import PriorityLabel from 'components/post_priority/post_priority_label';
 
 import {Channel, ChannelMemberCountsByGroup} from '@mattermost/types/channels';
 import {PostDraft} from 'types/store/draft';
@@ -54,6 +60,7 @@ import {FilePreviewInfo} from 'components/file_preview/file_preview';
 import {ApplyMarkdownOptions, applyMarkdown} from 'utils/markdown/apply_markdown';
 
 import AdvanceTextEditor from '../advanced_text_editor/advanced_text_editor';
+import {IconContainer} from '../advanced_text_editor/formatting_bar/formatting_icon';
 
 import FileLimitStickyBanner from '../file_limit_sticky_banner';
 const KeyCodes = Constants.KeyCodes;
@@ -234,6 +241,7 @@ type State = {
     postError?: React.ReactNode;
     showFormat: boolean;
     isFormattingBarHidden: boolean;
+    showPostPriorityPicker: boolean;
 };
 
 class AdvancedCreatePost extends React.PureComponent<Props, State> {
@@ -250,6 +258,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     private topDiv: React.RefObject<HTMLFormElement>;
     private textboxRef: React.RefObject<TextboxClass>;
     private fileUploadRef: React.RefObject<FileUploadClass>;
+    private postPriorityPickerRef: React.RefObject<HTMLButtonElement>;
 
     static getDerivedStateFromProps(props: Props, state: State): Partial<State> {
         let updatedState: Partial<State> = {
@@ -281,11 +290,13 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             serverError: null,
             showFormat: false,
             isFormattingBarHidden: props.isFormattingBarHidden,
+            showPostPriorityPicker: false,
         };
 
         this.topDiv = React.createRef<HTMLFormElement>();
         this.textboxRef = React.createRef<TextboxClass>();
         this.fileUploadRef = React.createRef<FileUploadClass>();
+        this.postPriorityPickerRef = React.createRef<HTMLButtonElement>();
     }
 
     componentDidMount() {
@@ -432,6 +443,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         const post = {} as Post;
         post.file_ids = [];
         post.message = message;
+        post.props = this.props.draft.props || {};
 
         if (post.message.trim().length === 0 && this.props.draft.fileInfos.length === 0) {
             return;
@@ -681,7 +693,10 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         post.user_id = userId;
         post.create_at = time;
         post.metadata = {} as PostMetadata;
-        post.props = {};
+        post.props = {
+            ...originalPost.props,
+        };
+
         if (!useChannelMentions && containsAtChannel(post.message, {checkAllMentions: true})) {
             post.props.mentionHighlightDisabled = true;
         }
@@ -1255,6 +1270,38 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         }]);
     }
 
+    handleRemovePriority = () => {
+        this.handlePostPriorityApply({priority: ''});
+    }
+
+    handlePostPriorityApply = ({priority}: {priority: string}) => {
+        const updatedDraft = {
+            ...this.props.draft,
+            props: {
+                ...this.props.draft.props,
+                priority,
+            },
+        };
+
+        this.props.actions.setDraft(StoragePrefixes.DRAFT + this.props.currentChannel.id, updatedDraft);
+    };
+
+    handlePostPriorityHide = () => {
+        this.setState({
+            showPostPriorityPicker: false,
+        });
+    };
+
+    togglePostPriorityPicker = () => {
+        this.setState((prev) => ({
+            showPostPriorityPicker: !prev.showPostPriorityPicker,
+        }));
+    };
+
+    getPostPriorityPickerRef = () => {
+        return this.postPriorityPickerRef.current;
+    };
+
     render() {
         let centerClass = '';
         if (!this.props.fullWidthTextBox) {
@@ -1323,6 +1370,46 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     fileUploadRef={this.fileUploadRef}
                     prefillMessage={this.prefillMessage}
                     textboxRef={this.textboxRef}
+                    priority={(
+                        this.props.draft?.props?.priority && (
+                            <div className='AdvancedTextEditor__priority'>
+                                <PriorityLabel type={this.props.draft.props.priority}/>
+                                <button
+                                    type='button'
+                                    className='close'
+                                    onClick={this.handleRemovePriority}
+                                >
+                                    <span aria-hidden='true'>{'×'}</span>
+                                    <span className='sr-only'>
+                                        <FormattedMessage
+                                            id={'post_priority.remove'}
+                                            defaultMessage={'Set standard priority'}
+                                        />
+                                    </span>
+                                </button>
+                            </div>
+                        )
+                    )}
+                    enhanceControls={[
+                        <React.Fragment key='PostPriorityPicker'>
+                            <PostPriorityPickerOverlay
+                                priority={this.props.draft?.props?.priority}
+                                show={this.state.showPostPriorityPicker}
+                                target={this.getPostPriorityPickerRef}
+                                onApply={this.handlePostPriorityApply}
+                                onHide={this.handlePostPriorityHide}
+                                defaultHorizontalPosition='left'
+                            />
+                            <IconContainer
+                                ref={this.postPriorityPickerRef}
+                                className={classNames({control: true, active: this.state.showPostPriorityPicker})}
+                                type='button'
+                                onClick={this.togglePostPriorityPicker}
+                            >
+                                <AlertCircleOutlineIcon/>
+                            </IconContainer>
+                        </React.Fragment>,
+                    ]}
                 />
             </form>
         );

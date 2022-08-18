@@ -94,6 +94,8 @@ type Props = {
     postId: string;
     textboxRef: React.RefObject<TextboxClass>;
     isThreadView?: boolean;
+    enhanceControls?: React.ReactNodeArray;
+    priority?: React.ReactNode;
 }
 
 const AdvanceTextEditor = ({
@@ -148,6 +150,8 @@ const AdvanceTextEditor = ({
     prefillMessage,
     textboxRef,
     isThreadView,
+    enhanceControls,
+    priority,
 }: Props) => {
     const readOnlyChannel = !canPost;
     const {formatMessage} = useIntl();
@@ -360,6 +364,7 @@ const AdvanceTextEditor = ({
             getCurrentSelection={getCurrentSelection}
             isOpen={true}
             disableControls={shouldShowPreview}
+            enhanceControls={enhanceControls}
             extraControls={extraControls}
             toggleAdvanceTextEditor={toggleAdvanceTextEditor}
             showFormattingControls={!isFormattingBarHidden}
@@ -391,6 +396,7 @@ const AdvanceTextEditor = ({
                     tabIndex={-1}
                     className='AdvancedTextEditor__cell a11y__region'
                 >
+                    {priority}
                     <Textbox
                         onChange={handleChange}
                         onKeyPress={postMsgKeyPress}

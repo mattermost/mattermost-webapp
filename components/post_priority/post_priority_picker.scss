@@ -1,0 +1,104 @@
+@charset "UTF-8";
+
+@import 'utils/mixins';
+@import 'utils/variables';
+
+.PostPriorityPicker {
+    position: absolute;
+    z-index: 1100;
+    display: flex;
+    width: 324px;
+    flex-direction: column;
+    border: 1px solid $light-gray;
+    margin-right: 3px;
+    background: var(--center-channel-bg);
+    border-radius: 4px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    user-select: none;
+
+    @include clearfix;
+
+    &__header {
+        display: flex;
+        align-items: center;
+        padding: 14px 20px;
+
+        > h4 {
+            display: inline;
+            font-family: Open Sans;
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 20px;
+            letter-spacing: 0em;
+            text-align: left;
+            margin-right: 4px;
+        }
+    }
+
+    &__body {
+        border-top: 1px solid rgba(var(--center-channel-text-rgb), 0.08);
+    }
+
+    &__menu {
+        list-style: none;
+        margin: 0;
+        padding: 8px 0;
+        color: var(--center-channel-text-rgb);
+    }
+
+    &__bottom {
+        text-align: right;
+        border-top: 1px solid rgba(var(--center-channel-text-rgb), 0.08);
+        padding: 14px 20px;
+    }
+
+    &__apply {
+        @include button-medium;
+        @include primary-button;
+
+        margin-left: 8px;
+    }
+
+    &__feedback {
+        @include button-small;
+        @include link;
+
+        margin-left: auto;
+    }
+
+    &__cancel {
+        @include button-medium;
+        @include tertiary-button;
+    }
+
+    &__standard > svg {
+        fill: rgba(var(--center-channel-text-rgb), 0.56);
+    }
+
+    &__important > svg {
+        fill: var(--sidebar-text-active-border);
+    }
+
+    &__urgent > svg {
+        fill: var(--dnd-indicator);
+    }
+
+    &__check {
+        margin-left: auto;
+        fill: var(--button-bg);
+    }
+
+    .Menu .MenuItem > button.PostPriorityPicker__item {
+        display: flex;
+        align-items: center;
+    }
+
+
+    .browser--ie & {
+        width: 325px;
+    }
+
+    .app__content & {
+        margin-right: 0;
+    }
+}
