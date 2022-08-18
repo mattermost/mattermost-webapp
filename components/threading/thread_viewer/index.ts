@@ -18,12 +18,14 @@ import {getThread as fetchThread, updateThreadRead} from 'mattermost-redux/actio
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {UserThread} from '@mattermost/types/threads';
 import {Channel} from '@mattermost/types/channels';
+import {Post} from '@mattermost/types/posts';
 
 import {getSocketStatus} from 'selectors/views/websocket';
 import {selectPostCard} from 'actions/views/rhs';
 import {getHighlightedPostId, getSelectedPostFocussedAt} from 'selectors/rhs';
 import {updateThreadLastOpened} from 'actions/views/threads';
 import {GlobalState} from 'types/store';
+import {FakePost} from 'types/store/rhs';
 
 import {fetchRHSAppsBindings} from 'mattermost-redux/actions/apps';
 
@@ -31,16 +33,17 @@ import ThreadViewer from './thread_viewer';
 
 type OwnProps = {
     rootPostId: string;
+    selected?: Post | FakePost;
 };
 
 function makeMapStateToProps() {
     const getPostIdsForThread = makeGetPostIdsForThread();
     const getChannel = makeGetChannel();
 
-    return function mapStateToProps(state: GlobalState, {rootPostId}: OwnProps) {
+    return function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         const currentUserId = getCurrentUserId(state);
         const currentTeamId = getCurrentTeamId(state);
-        const selected = getPost(state, rootPostId);
+        const selected = ownProps.selected || getPost(state, ownProps.rootPostId);
         const socketStatus = getSocketStatus(state);
         const highlightedPostId = getHighlightedPostId(state);
         const selectedPostFocusedAt = getSelectedPostFocussedAt(state);
