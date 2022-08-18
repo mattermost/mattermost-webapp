@@ -12,7 +12,7 @@ import menuItem from 'components/widgets/menu/menu_items/menu_item';
 import './post_priority_picker.scss';
 
 type Props = typeof PostPriorityPicker.defaultProps & {
-    priority: ''|'important'|'urgent';
+    priority?: ''|'important'|'urgent';
     onClose: () => void;
     onApply: (props: {priority: string}) => void;
     placement: string;

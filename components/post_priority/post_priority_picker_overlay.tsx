@@ -12,7 +12,7 @@ import PostPriorityPicker from './post_priority_picker';
 
 type Props = {
     show: boolean;
-    priority: ''|'important'|'urgent';
+    priority?: ''|'important'|'urgent';
     target: () => React.RefObject<HTMLButtonElement> | React.ReactInstance | null;
     onApply: (props: {priority: string}) => void;
     onHide: () => void;

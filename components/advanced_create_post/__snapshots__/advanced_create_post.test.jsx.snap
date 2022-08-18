@@ -29,6 +29,60 @@ exports[`components/advanced_create_post Show tutorial 1`] = `
     emitTypingEvent={[Function]}
     enableEmojiPicker={true}
     enableGifPicker={true}
+    enhanceControls={
+      Array [
+        <React.Fragment>
+          <PostPriorityPickerOverlay
+            defaultHorizontalPosition="left"
+            onApply={[Function]}
+            onHide={[Function]}
+            show={false}
+            target={[Function]}
+          />
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            delayShow={400}
+            overlay={
+              <Tooltip
+                id="post-priority-picker-tooltip"
+              >
+                <Memo(KeyboardShortcutSequence)
+                  hoistDescription={true}
+                  isInsideTooltip={true}
+                  shortcut={
+                    Object {
+                      "default": Object {
+                        "defaultMessage": "Message priority",
+                        "id": "shortcuts.msgs.formatting_bar.post_priority",
+                      },
+                      "mac": Object {
+                        "defaultMessage": "Message priority",
+                        "id": "shortcuts.msgs.formatting_bar.post_priority",
+                      },
+                    }
+                  }
+                />
+              </Tooltip>
+            }
+            placement="top"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <IconContainer
+              className="control"
+              onClick={[Function]}
+              type="button"
+            >
+              <AlertCircleOutlineIcon />
+            </IconContainer>
+          </OverlayTrigger>
+        </React.Fragment>,
+      ]
+    }
     errorClass={null}
     fileUploadRef={
       Object {
@@ -107,6 +161,60 @@ exports[`components/advanced_create_post should match snapshot for center textbo
     emitTypingEvent={[Function]}
     enableEmojiPicker={true}
     enableGifPicker={true}
+    enhanceControls={
+      Array [
+        <React.Fragment>
+          <PostPriorityPickerOverlay
+            defaultHorizontalPosition="left"
+            onApply={[Function]}
+            onHide={[Function]}
+            show={false}
+            target={[Function]}
+          />
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            delayShow={400}
+            overlay={
+              <Tooltip
+                id="post-priority-picker-tooltip"
+              >
+                <Memo(KeyboardShortcutSequence)
+                  hoistDescription={true}
+                  isInsideTooltip={true}
+                  shortcut={
+                    Object {
+                      "default": Object {
+                        "defaultMessage": "Message priority",
+                        "id": "shortcuts.msgs.formatting_bar.post_priority",
+                      },
+                      "mac": Object {
+                        "defaultMessage": "Message priority",
+                        "id": "shortcuts.msgs.formatting_bar.post_priority",
+                      },
+                    }
+                  }
+                />
+              </Tooltip>
+            }
+            placement="top"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <IconContainer
+              className="control"
+              onClick={[Function]}
+              type="button"
+            >
+              <AlertCircleOutlineIcon />
+            </IconContainer>
+          </OverlayTrigger>
+        </React.Fragment>,
+      ]
+    }
     errorClass={null}
     fileUploadRef={
       Object {
@@ -185,6 +293,60 @@ exports[`components/advanced_create_post should match snapshot when cannot post 
     emitTypingEvent={[Function]}
     enableEmojiPicker={true}
     enableGifPicker={true}
+    enhanceControls={
+      Array [
+        <React.Fragment>
+          <PostPriorityPickerOverlay
+            defaultHorizontalPosition="left"
+            onApply={[Function]}
+            onHide={[Function]}
+            show={false}
+            target={[Function]}
+          />
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            delayShow={400}
+            overlay={
+              <Tooltip
+                id="post-priority-picker-tooltip"
+              >
+                <Memo(KeyboardShortcutSequence)
+                  hoistDescription={true}
+                  isInsideTooltip={true}
+                  shortcut={
+                    Object {
+                      "default": Object {
+                        "defaultMessage": "Message priority",
+                        "id": "shortcuts.msgs.formatting_bar.post_priority",
+                      },
+                      "mac": Object {
+                        "defaultMessage": "Message priority",
+                        "id": "shortcuts.msgs.formatting_bar.post_priority",
+                      },
+                    }
+                  }
+                />
+              </Tooltip>
+            }
+            placement="top"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <IconContainer
+              className="control"
+              onClick={[Function]}
+              type="button"
+            >
+              <AlertCircleOutlineIcon />
+            </IconContainer>
+          </OverlayTrigger>
+        </React.Fragment>,
+      ]
+    }
     errorClass={null}
     fileUploadRef={
       Object {
@@ -263,6 +425,60 @@ exports[`components/advanced_create_post should match snapshot when file upload 
     emitTypingEvent={[Function]}
     enableEmojiPicker={true}
     enableGifPicker={true}
+    enhanceControls={
+      Array [
+        <React.Fragment>
+          <PostPriorityPickerOverlay
+            defaultHorizontalPosition="left"
+            onApply={[Function]}
+            onHide={[Function]}
+            show={false}
+            target={[Function]}
+          />
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            delayShow={400}
+            overlay={
+              <Tooltip
+                id="post-priority-picker-tooltip"
+              >
+                <Memo(KeyboardShortcutSequence)
+                  hoistDescription={true}
+                  isInsideTooltip={true}
+                  shortcut={
+                    Object {
+                      "default": Object {
+                        "defaultMessage": "Message priority",
+                        "id": "shortcuts.msgs.formatting_bar.post_priority",
+                      },
+                      "mac": Object {
+                        "defaultMessage": "Message priority",
+                        "id": "shortcuts.msgs.formatting_bar.post_priority",
+                      },
+                    }
+                  }
+                />
+              </Tooltip>
+            }
+            placement="top"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <IconContainer
+              className="control"
+              onClick={[Function]}
+              type="button"
+            >
+              <AlertCircleOutlineIcon />
+            </IconContainer>
+          </OverlayTrigger>
+        </React.Fragment>,
+      ]
+    }
     errorClass={null}
     fileUploadRef={
       Object {
@@ -341,6 +557,60 @@ exports[`components/advanced_create_post should match snapshot, can post; previe
     emitTypingEvent={[Function]}
     enableEmojiPicker={true}
     enableGifPicker={true}
+    enhanceControls={
+      Array [
+        <React.Fragment>
+          <PostPriorityPickerOverlay
+            defaultHorizontalPosition="left"
+            onApply={[Function]}
+            onHide={[Function]}
+            show={false}
+            target={[Function]}
+          />
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            delayShow={400}
+            overlay={
+              <Tooltip
+                id="post-priority-picker-tooltip"
+              >
+                <Memo(KeyboardShortcutSequence)
+                  hoistDescription={true}
+                  isInsideTooltip={true}
+                  shortcut={
+                    Object {
+                      "default": Object {
+                        "defaultMessage": "Message priority",
+                        "id": "shortcuts.msgs.formatting_bar.post_priority",
+                      },
+                      "mac": Object {
+                        "defaultMessage": "Message priority",
+                        "id": "shortcuts.msgs.formatting_bar.post_priority",
+                      },
+                    }
+                  }
+                />
+              </Tooltip>
+            }
+            placement="top"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <IconContainer
+              className="control"
+              onClick={[Function]}
+              type="button"
+            >
+              <AlertCircleOutlineIcon />
+            </IconContainer>
+          </OverlayTrigger>
+        </React.Fragment>,
+      ]
+    }
     errorClass={null}
     fileUploadRef={
       Object {
@@ -419,6 +689,60 @@ exports[`components/advanced_create_post should match snapshot, can post; previe
     emitTypingEvent={[Function]}
     enableEmojiPicker={true}
     enableGifPicker={true}
+    enhanceControls={
+      Array [
+        <React.Fragment>
+          <PostPriorityPickerOverlay
+            defaultHorizontalPosition="left"
+            onApply={[Function]}
+            onHide={[Function]}
+            show={false}
+            target={[Function]}
+          />
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            delayShow={400}
+            overlay={
+              <Tooltip
+                id="post-priority-picker-tooltip"
+              >
+                <Memo(KeyboardShortcutSequence)
+                  hoistDescription={true}
+                  isInsideTooltip={true}
+                  shortcut={
+                    Object {
+                      "default": Object {
+                        "defaultMessage": "Message priority",
+                        "id": "shortcuts.msgs.formatting_bar.post_priority",
+                      },
+                      "mac": Object {
+                        "defaultMessage": "Message priority",
+                        "id": "shortcuts.msgs.formatting_bar.post_priority",
+                      },
+                    }
+                  }
+                />
+              </Tooltip>
+            }
+            placement="top"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <IconContainer
+              className="control"
+              onClick={[Function]}
+              type="button"
+            >
+              <AlertCircleOutlineIcon />
+            </IconContainer>
+          </OverlayTrigger>
+        </React.Fragment>,
+      ]
+    }
     errorClass={null}
     fileUploadRef={
       Object {
@@ -497,6 +821,60 @@ exports[`components/advanced_create_post should match snapshot, cannot post; pre
     emitTypingEvent={[Function]}
     enableEmojiPicker={true}
     enableGifPicker={true}
+    enhanceControls={
+      Array [
+        <React.Fragment>
+          <PostPriorityPickerOverlay
+            defaultHorizontalPosition="left"
+            onApply={[Function]}
+            onHide={[Function]}
+            show={false}
+            target={[Function]}
+          />
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            delayShow={400}
+            overlay={
+              <Tooltip
+                id="post-priority-picker-tooltip"
+              >
+                <Memo(KeyboardShortcutSequence)
+                  hoistDescription={true}
+                  isInsideTooltip={true}
+                  shortcut={
+                    Object {
+                      "default": Object {
+                        "defaultMessage": "Message priority",
+                        "id": "shortcuts.msgs.formatting_bar.post_priority",
+                      },
+                      "mac": Object {
+                        "defaultMessage": "Message priority",
+                        "id": "shortcuts.msgs.formatting_bar.post_priority",
+                      },
+                    }
+                  }
+                />
+              </Tooltip>
+            }
+            placement="top"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <IconContainer
+              className="control"
+              onClick={[Function]}
+              type="button"
+            >
+              <AlertCircleOutlineIcon />
+            </IconContainer>
+          </OverlayTrigger>
+        </React.Fragment>,
+      ]
+    }
     errorClass={null}
     fileUploadRef={
       Object {
@@ -575,6 +953,60 @@ exports[`components/advanced_create_post should match snapshot, cannot post; pre
     emitTypingEvent={[Function]}
     enableEmojiPicker={true}
     enableGifPicker={true}
+    enhanceControls={
+      Array [
+        <React.Fragment>
+          <PostPriorityPickerOverlay
+            defaultHorizontalPosition="left"
+            onApply={[Function]}
+            onHide={[Function]}
+            show={false}
+            target={[Function]}
+          />
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            delayShow={400}
+            overlay={
+              <Tooltip
+                id="post-priority-picker-tooltip"
+              >
+                <Memo(KeyboardShortcutSequence)
+                  hoistDescription={true}
+                  isInsideTooltip={true}
+                  shortcut={
+                    Object {
+                      "default": Object {
+                        "defaultMessage": "Message priority",
+                        "id": "shortcuts.msgs.formatting_bar.post_priority",
+                      },
+                      "mac": Object {
+                        "defaultMessage": "Message priority",
+                        "id": "shortcuts.msgs.formatting_bar.post_priority",
+                      },
+                    }
+                  }
+                />
+              </Tooltip>
+            }
+            placement="top"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <IconContainer
+              className="control"
+              onClick={[Function]}
+              type="button"
+            >
+              <AlertCircleOutlineIcon />
+            </IconContainer>
+          </OverlayTrigger>
+        </React.Fragment>,
+      ]
+    }
     errorClass={null}
     fileUploadRef={
       Object {
@@ -653,6 +1085,60 @@ exports[`components/advanced_create_post should match snapshot, init 1`] = `
     emitTypingEvent={[Function]}
     enableEmojiPicker={true}
     enableGifPicker={true}
+    enhanceControls={
+      Array [
+        <React.Fragment>
+          <PostPriorityPickerOverlay
+            defaultHorizontalPosition="left"
+            onApply={[Function]}
+            onHide={[Function]}
+            show={false}
+            target={[Function]}
+          />
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            delayShow={400}
+            overlay={
+              <Tooltip
+                id="post-priority-picker-tooltip"
+              >
+                <Memo(KeyboardShortcutSequence)
+                  hoistDescription={true}
+                  isInsideTooltip={true}
+                  shortcut={
+                    Object {
+                      "default": Object {
+                        "defaultMessage": "Message priority",
+                        "id": "shortcuts.msgs.formatting_bar.post_priority",
+                      },
+                      "mac": Object {
+                        "defaultMessage": "Message priority",
+                        "id": "shortcuts.msgs.formatting_bar.post_priority",
+                      },
+                    }
+                  }
+                />
+              </Tooltip>
+            }
+            placement="top"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <IconContainer
+              className="control"
+              onClick={[Function]}
+              type="button"
+            >
+              <AlertCircleOutlineIcon />
+            </IconContainer>
+          </OverlayTrigger>
+        </React.Fragment>,
+      ]
+    }
     errorClass={null}
     fileUploadRef={
       Object {
