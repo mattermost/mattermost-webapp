@@ -4644,7 +4644,7 @@
   "start_trial.modal.loading": "Loading...",
   "start_trial.tutorialTip.desc": "Explore our most requested premium features. Determine user access with Guest Accounts, automate compliance reports, and send secure ID-only mobile push notifications.",
   "start_trial.tutorialTip.title": "Try our premium features for free",
-  "starter.banner.downgraded": "Your workspace now has restrictions and some data have been archived",
+  "starter.banner.downgraded": "Your workspace now has restrictions and some data has been archived",
   "status_dropdown.dnd_sub_menu_header": "Disable notifications until:",
   "status_dropdown.dnd_sub_menu_item.custom": "Custom",
   "status_dropdown.dnd_sub_menu_item.one_hour": "1 hour",
