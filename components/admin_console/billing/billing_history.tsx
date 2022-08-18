@@ -187,7 +187,7 @@ const BillingHistory = () => {
                                         ModalIdentifiers.CLOUD_INVOICE_PREVIEW,
                                     dialogType: CloudInvoicePreview,
                                     dialogProps: {
-                                        url: 'https://www.ridefox.com/dl/bike/my21/605-00-216_RevA-36-Tuning-Guide.pdf',
+                                        url: 'http://localhost:9005/api/v4/files/aphcmr1kjf8qmdqwp6ksqxeier?download=1',
                                     },
                                 }));
                             }}

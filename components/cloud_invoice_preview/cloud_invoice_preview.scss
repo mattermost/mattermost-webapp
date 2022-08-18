@@ -1,6 +1,6 @@
 .CloudInvoicePreview {
-    width: 740px;
-    height: 910px;
+    width: 860px;
+    height: 1030px;
     left: 50%;
     top: 50%;
     -webkit-transform: translate(-50%, -50%);
@@ -12,6 +12,7 @@
         display: block;
         color: #3F4350;
         border: none;
+        padding-bottom: 0;
         .modal-title {
             font-family: 'Metropolis';
             font-style: normal;
@@ -22,6 +23,9 @@
         .subtitle {
             font-size: 14px;
             color: rgba(#3D3C40, 0.72);
+            margin-top: 10px;
+            font-family: 'Metropolis';
+            font-style: normal;
         }
     }
     .modal-open {
@@ -41,6 +45,10 @@
         max-width: 100%;
     }
 
+    .modal-body {
+        padding: 0;
+    }
+
     .post-code {
         display: flex;
         canvas {
@@ -49,11 +57,22 @@
             margin-left: auto;
             margin-right: auto;
             display: block;
-            max-width: 812px;
-            overflow-x: hidden;
+            // max-width: 812px;
+            // overflow-x: hidden;
             max-height: 100%;
-            filter: drop-shadow(0px 20px 32px rgba(0, 0, 0, 0.12));
+            // width: calc(100% - 70px);
+            // height: calc(100% - 70px);
+            // filter: drop-shadow(0px 20px 32px rgba(0, 0, 0, 0.12));
         }
 
     }
+
+    // @media print {
+    //     * {
+    //         display: none;
+    //     }
+    //     canvas: {
+    //         display: block;
+    //     }
+    // }
 }

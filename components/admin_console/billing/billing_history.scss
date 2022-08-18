@@ -78,7 +78,9 @@
 
 .BillingHistory__table-row {
     border-bottom: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
-
+    &:hover {
+        cursor: pointer;
+    }
     &:nth-child(odd) {
         background: rgba(var(--sys-center-channel-color-rgb), 0.04);
     }

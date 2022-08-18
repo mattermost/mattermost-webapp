@@ -47,7 +47,19 @@ function CloudInvoicePreview(props: Props) {
             <Modal.Header>
                 <Modal.Title>{'Invoice'}</Modal.Title>
                 <div className={'subtitle'}>
-                    {'Download or Print this page for your records'}
+                    <FormattedMessage
+                        id='cloud.invoice_pdf_preview.download'
+                        values={{
+                            downloadLink: (msg: string) => (
+                                <a
+                                    href={props.url}
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>),
+                        }}
+                    />
                 </div>
             </Modal.Header>
             <Modal.Body>
@@ -58,10 +70,8 @@ function CloudInvoicePreview(props: Props) {
                             size: 0,
                             name: 'some-name.pdf',
                         }}
-                        fileUrl={
-                            'http://localhost:9005/api/v4/files/aphcmr1kjf8qmdqwp6ksqxeier?download=1'
-                        }
-                        scale={2}
+                        fileUrl={props.url}
+                        scale={1.4}
                         handleBgClose={() => {}}
                     />
                 </div>
