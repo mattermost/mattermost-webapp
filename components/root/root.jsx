@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable max-lines */
 import deepEqual from 'fast-deep-equal';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -29,7 +28,6 @@ import GlobalHeader from 'components/global_header/global_header';
 import ModalController from 'components/modal_controller';
 import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_route';
 import {HFRoute} from 'components/header_footer_route/header_footer_route';
-import IntlProvider from 'components/intl_provider';
 import NeedsTeam from 'components/needs_team';
 import OnBoardingTaskList from 'components/onboarding_tasklist';
 import LaunchingWorkspace, {LAUNCHING_WORKSPACE_FULLSCREEN_Z_INDEX} from 'components/preparing_workspace/launching_workspace';
@@ -72,6 +70,7 @@ import TeamSidebar from 'components/team_sidebar';
 
 import {applyLuxonDefaults} from './effects';
 
+import RootProvider from './root_provider';
 import RootRedirect from './root_redirect';
 
 const CreateTeam = makeAsyncComponent('CreateTeam', LazyCreateTeam);
@@ -266,7 +265,7 @@ export default class Root extends React.PureComponent {
             landing = desktopAppDownloadLink;
         }
 
-        if (landing && !BrowserStore.hasSeenLandingPage() && !toResetPasswordScreen && !this.props.location.pathname.includes('/landing') && !this.props.location.href.includes('.test.mattermost.com') && !UserAgent.isDesktopApp()) {
+        if (landing && !BrowserStore.hasSeenLandingPage() && !toResetPasswordScreen && !this.props.location.pathname.includes('/landing') && !window.location.hostname?.endsWith('.test.mattermost.com') && !UserAgent.isDesktopApp()) {
             this.props.history.push('/landing#' + this.props.location.pathname + this.props.location.search);
             BrowserStore.setLandingPageSeen(true);
         }
@@ -441,7 +440,7 @@ export default class Root extends React.PureComponent {
         }
 
         return (
-            <IntlProvider>
+            <RootProvider>
                 <Switch>
                     <Route
                         path={'/error'}
@@ -585,7 +584,7 @@ export default class Root extends React.PureComponent {
                         <Pluggable pluggableName='Global'/>
                     </CompassThemeProvider>
                 </Switch>
-            </IntlProvider>
+            </RootProvider>
         );
     }
 }

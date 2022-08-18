@@ -17,6 +17,7 @@ describe('search_results_header', () => {
             <Header
                 channelId={'abcdef'}
                 previousRhsState={RHSStates.CHANNEL_INFO as RhsState}
+                canGoBack={true}
                 isExpanded={false}
                 actions={{
                     closeRightHandSide: jest.fn(),
@@ -35,6 +36,7 @@ describe('search_results_header', () => {
             <Header
                 channelId={'abcdef'}
                 previousRhsState={RHSStates.CHANNEL_INFO as RhsState}
+                canGoBack={true}
                 isExpanded={false}
                 actions={{
                     closeRightHandSide: jest.fn(),
@@ -53,6 +55,7 @@ describe('search_results_header', () => {
             <Header
                 channelId={'abcdef'}
                 previousRhsState={RHSStates.FLAG as RhsState}
+                canGoBack={true}
                 isExpanded={false}
                 actions={{
                     closeRightHandSide: jest.fn(),

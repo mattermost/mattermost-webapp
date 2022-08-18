@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
+
 /* eslint-disable max-lines */
 
 import React, {ReactNode} from 'react';
@@ -780,6 +780,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
                     </button>
                     <h4
                         className='modal-title'
+                        // eslint-disable-next-line react/no-string-refs
                         ref='title'
                     >
                         <div className='modal-back'>
