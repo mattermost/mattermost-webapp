@@ -21,8 +21,8 @@ export const MAX_EXTRA_PAGES_LOADED = 10;
 function markAndMeasureChannelSwitchEnd(fresh = false) {
     mark('PostList#component');
 
-    const [dur1] = measure('SidebarChannelLink#click', 'PostList#component');
-    const [dur2] = measure('TeamLink#click', 'PostList#component');
+    const {duration: dur1, requestCount: requestCount1} = measure('SidebarChannelLink#click', 'PostList#component');
+    const {duration: dur2, requestCount: requestCount2} = measure('TeamLink#click', 'PostList#component');
 
     clearMarks([
         'SidebarChannelLink#click',
@@ -31,10 +31,18 @@ function markAndMeasureChannelSwitchEnd(fresh = false) {
     ]);
 
     if (dur1 !== -1) {
-        trackEvent('performance', 'channel_switch', {duration: Math.round(dur1), fresh});
+        trackEvent('performance', 'channel_switch', {
+            duration: Math.round(dur1),
+            fresh,
+            requestCount: requestCount1,
+        });
     }
     if (dur2 !== -1) {
-        trackEvent('performance', 'team_switch', {duration: Math.round(dur2), fresh});
+        trackEvent('performance', 'team_switch', {
+            duration: Math.round(dur2),
+            fresh,
+            requestCount: requestCount2,
+        });
     }
 }
 
