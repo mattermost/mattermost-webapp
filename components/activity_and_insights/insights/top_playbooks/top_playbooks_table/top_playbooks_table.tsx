@@ -63,7 +63,7 @@ const TopPlaybooksTable = (props: Props) => {
 
     const goToPlaybook = useCallback((playbook: TopPlaybook) => {
         props.closeModal();
-        trackEvent('insights', 'open_playbook_from_top_playbookss_modal');
+        trackEvent('insights', 'open_playbook_from_top_playbooks_modal');
         browserHistory.push(`/playbooks/playbooks/${playbook.playbook_id}`);
     }, [props.closeModal]);
 
