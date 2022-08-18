@@ -29,7 +29,7 @@ const StarterLeftPanel: React.FC<StarterEditionProps> = ({
     const viewPlansButton = (
         <button
             id='starter_edition_view_plans'
-            onClick={openPricingModal}
+            onClick={() => openPricingModal({trackingLocation: 'license_settings_view_plans'})}
             className='btn btn-secondary PlanDetails__viewPlansButton'
         >
             {intl.formatMessage({

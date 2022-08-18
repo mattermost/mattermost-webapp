@@ -13,12 +13,21 @@ exports[`components/RhsComment should match snapshot 1`] = `
       "create_at": 1502715365009,
       "delete_at": 0,
       "edit_at": 1502715372443,
+      "hashtags": "",
       "id": "id",
       "is_pinned": false,
       "message": "post message",
+      "metadata": Object {
+        "embeds": Array [],
+        "emojis": Array [],
+        "files": Array [],
+        "images": Object {},
+        "reactions": Array [],
+      },
       "original_id": "",
       "pending_post_id": "",
       "props": Object {},
+      "reply_count": 0,
       "root_id": "",
       "type": "",
       "update_at": 1502715372443,
@@ -26,7 +35,7 @@ exports[`components/RhsComment should match snapshot 1`] = `
     }
   }
   role="listitem"
-  tabIndex="-1"
+  tabIndex={-1}
 >
   <Connect(injectIntl(PostPreHeader))
     channelId="channel_id"
@@ -41,7 +50,6 @@ exports[`components/RhsComment should match snapshot 1`] = `
       className="post__img"
     >
       <Connect(PostProfilePicture)
-        channelId="channel_id"
         compactDisplay={true}
         isBusy={false}
         isRHS={true}
@@ -51,12 +59,21 @@ exports[`components/RhsComment should match snapshot 1`] = `
             "create_at": 1502715365009,
             "delete_at": 0,
             "edit_at": 1502715372443,
+            "hashtags": "",
             "id": "id",
             "is_pinned": false,
             "message": "post message",
+            "metadata": Object {
+              "embeds": Array [],
+              "emojis": Array [],
+              "files": Array [],
+              "images": Object {},
+              "reactions": Array [],
+            },
             "original_id": "",
             "pending_post_id": "",
             "props": Object {},
+            "reply_count": 0,
             "root_id": "",
             "type": "",
             "update_at": 1502715372443,
@@ -124,12 +141,21 @@ exports[`components/RhsComment should match snapshot 1`] = `
                   "create_at": 1502715365009,
                   "delete_at": 0,
                   "edit_at": 1502715372443,
+                  "hashtags": "",
                   "id": "id",
                   "is_pinned": false,
                   "message": "post message",
+                  "metadata": Object {
+                    "embeds": Array [],
+                    "emojis": Array [],
+                    "files": Array [],
+                    "images": Object {},
+                    "reactions": Array [],
+                  },
                   "original_id": "",
                   "pending_post_id": "",
                   "props": Object {},
+                  "reply_count": 0,
                   "root_id": "",
                   "type": "",
                   "update_at": 1502715372443,
@@ -149,12 +175,21 @@ exports[`components/RhsComment should match snapshot 1`] = `
               "create_at": 1502715365009,
               "delete_at": 0,
               "edit_at": 1502715372443,
+              "hashtags": "",
               "id": "id",
               "is_pinned": false,
               "message": "post message",
+              "metadata": Object {
+                "embeds": Array [],
+                "emojis": Array [],
+                "files": Array [],
+                "images": Object {},
+                "reactions": Array [],
+              },
               "original_id": "",
               "pending_post_id": "",
               "props": Object {},
+              "reply_count": 0,
               "root_id": "",
               "type": "",
               "update_at": 1502715372443,
@@ -181,12 +216,21 @@ exports[`components/RhsComment should match snapshot hovered 1`] = `
       "create_at": 1502715365009,
       "delete_at": 0,
       "edit_at": 1502715372443,
+      "hashtags": "",
       "id": "id",
       "is_pinned": false,
       "message": "post message",
+      "metadata": Object {
+        "embeds": Array [],
+        "emojis": Array [],
+        "files": Array [],
+        "images": Object {},
+        "reactions": Array [],
+      },
       "original_id": "",
       "pending_post_id": "",
       "props": Object {},
+      "reply_count": 0,
       "root_id": "",
       "type": "",
       "update_at": 1502715372443,
@@ -194,7 +238,7 @@ exports[`components/RhsComment should match snapshot hovered 1`] = `
     }
   }
   role="listitem"
-  tabIndex="-1"
+  tabIndex={-1}
 >
   <Connect(injectIntl(PostPreHeader))
     channelId="channel_id"
@@ -209,7 +253,6 @@ exports[`components/RhsComment should match snapshot hovered 1`] = `
       className="post__img"
     >
       <Connect(PostProfilePicture)
-        channelId="channel_id"
         compactDisplay={true}
         isBusy={false}
         isRHS={true}
@@ -219,12 +262,21 @@ exports[`components/RhsComment should match snapshot hovered 1`] = `
             "create_at": 1502715365009,
             "delete_at": 0,
             "edit_at": 1502715372443,
+            "hashtags": "",
             "id": "id",
             "is_pinned": false,
             "message": "post message",
+            "metadata": Object {
+              "embeds": Array [],
+              "emojis": Array [],
+              "files": Array [],
+              "images": Object {},
+              "reactions": Array [],
+            },
             "original_id": "",
             "pending_post_id": "",
             "props": Object {},
+            "reply_count": 0,
             "root_id": "",
             "type": "",
             "update_at": 1502715372443,
@@ -292,12 +344,21 @@ exports[`components/RhsComment should match snapshot hovered 1`] = `
                 "create_at": 1502715365009,
                 "delete_at": 0,
                 "edit_at": 1502715372443,
+                "hashtags": "",
                 "id": "id",
                 "is_pinned": false,
                 "message": "post message",
+                "metadata": Object {
+                  "embeds": Array [],
+                  "emojis": Array [],
+                  "files": Array [],
+                  "images": Object {},
+                  "reactions": Array [],
+                },
                 "original_id": "",
                 "pending_post_id": "",
                 "props": Object {},
+                "reply_count": 0,
                 "root_id": "",
                 "type": "",
                 "update_at": 1502715372443,
@@ -338,12 +399,21 @@ exports[`components/RhsComment should match snapshot hovered 1`] = `
                   "create_at": 1502715365009,
                   "delete_at": 0,
                   "edit_at": 1502715372443,
+                  "hashtags": "",
                   "id": "id",
                   "is_pinned": false,
                   "message": "post message",
+                  "metadata": Object {
+                    "embeds": Array [],
+                    "emojis": Array [],
+                    "files": Array [],
+                    "images": Object {},
+                    "reactions": Array [],
+                  },
                   "original_id": "",
                   "pending_post_id": "",
                   "props": Object {},
+                  "reply_count": 0,
                   "root_id": "",
                   "type": "",
                   "update_at": 1502715372443,
@@ -363,12 +433,21 @@ exports[`components/RhsComment should match snapshot hovered 1`] = `
               "create_at": 1502715365009,
               "delete_at": 0,
               "edit_at": 1502715372443,
+              "hashtags": "",
               "id": "id",
               "is_pinned": false,
               "message": "post message",
+              "metadata": Object {
+                "embeds": Array [],
+                "emojis": Array [],
+                "files": Array [],
+                "images": Object {},
+                "reactions": Array [],
+              },
               "original_id": "",
               "pending_post_id": "",
               "props": Object {},
+              "reply_count": 0,
               "root_id": "",
               "type": "",
               "update_at": 1502715372443,
@@ -395,12 +474,21 @@ exports[`components/RhsComment should match snapshot hovered on deleted post 1`]
       "create_at": 1502715365009,
       "delete_at": 0,
       "edit_at": 1502715372443,
+      "hashtags": "",
       "id": "id",
       "is_pinned": false,
       "message": "post message",
+      "metadata": Object {
+        "embeds": Array [],
+        "emojis": Array [],
+        "files": Array [],
+        "images": Object {},
+        "reactions": Array [],
+      },
       "original_id": "",
       "pending_post_id": "",
       "props": Object {},
+      "reply_count": 0,
       "root_id": "",
       "state": "DELETED",
       "type": "",
@@ -409,7 +497,7 @@ exports[`components/RhsComment should match snapshot hovered on deleted post 1`]
     }
   }
   role="listitem"
-  tabIndex="-1"
+  tabIndex={-1}
 >
   <Connect(injectIntl(PostPreHeader))
     channelId="channel_id"
@@ -424,7 +512,6 @@ exports[`components/RhsComment should match snapshot hovered on deleted post 1`]
       className="post__img"
     >
       <Connect(PostProfilePicture)
-        channelId="channel_id"
         compactDisplay={true}
         isBusy={false}
         isRHS={true}
@@ -434,12 +521,21 @@ exports[`components/RhsComment should match snapshot hovered on deleted post 1`]
             "create_at": 1502715365009,
             "delete_at": 0,
             "edit_at": 1502715372443,
+            "hashtags": "",
             "id": "id",
             "is_pinned": false,
             "message": "post message",
+            "metadata": Object {
+              "embeds": Array [],
+              "emojis": Array [],
+              "files": Array [],
+              "images": Object {},
+              "reactions": Array [],
+            },
             "original_id": "",
             "pending_post_id": "",
             "props": Object {},
+            "reply_count": 0,
             "root_id": "",
             "state": "DELETED",
             "type": "",
@@ -519,12 +615,21 @@ exports[`components/RhsComment should match snapshot hovered on deleted post 1`]
                   "create_at": 1502715365009,
                   "delete_at": 0,
                   "edit_at": 1502715372443,
+                  "hashtags": "",
                   "id": "id",
                   "is_pinned": false,
                   "message": "post message",
+                  "metadata": Object {
+                    "embeds": Array [],
+                    "emojis": Array [],
+                    "files": Array [],
+                    "images": Object {},
+                    "reactions": Array [],
+                  },
                   "original_id": "",
                   "pending_post_id": "",
                   "props": Object {},
+                  "reply_count": 0,
                   "root_id": "",
                   "state": "DELETED",
                   "type": "",
@@ -545,12 +650,21 @@ exports[`components/RhsComment should match snapshot hovered on deleted post 1`]
               "create_at": 1502715365009,
               "delete_at": 0,
               "edit_at": 1502715372443,
+              "hashtags": "",
               "id": "id",
               "is_pinned": false,
               "message": "post message",
+              "metadata": Object {
+                "embeds": Array [],
+                "emojis": Array [],
+                "files": Array [],
+                "images": Object {},
+                "reactions": Array [],
+              },
               "original_id": "",
               "pending_post_id": "",
               "props": Object {},
+              "reply_count": 0,
               "root_id": "",
               "state": "DELETED",
               "type": "",
@@ -578,12 +692,21 @@ exports[`components/RhsComment should match snapshot mobile 1`] = `
       "create_at": 1502715365009,
       "delete_at": 0,
       "edit_at": 1502715372443,
+      "hashtags": "",
       "id": "id",
       "is_pinned": false,
       "message": "post message",
+      "metadata": Object {
+        "embeds": Array [],
+        "emojis": Array [],
+        "files": Array [],
+        "images": Object {},
+        "reactions": Array [],
+      },
       "original_id": "",
       "pending_post_id": "",
       "props": Object {},
+      "reply_count": 0,
       "root_id": "",
       "type": "",
       "update_at": 1502715372443,
@@ -591,7 +714,7 @@ exports[`components/RhsComment should match snapshot mobile 1`] = `
     }
   }
   role="listitem"
-  tabIndex="-1"
+  tabIndex={-1}
 >
   <Connect(injectIntl(PostPreHeader))
     channelId="channel_id"
@@ -606,7 +729,6 @@ exports[`components/RhsComment should match snapshot mobile 1`] = `
       className="post__img"
     >
       <Connect(PostProfilePicture)
-        channelId="channel_id"
         compactDisplay={true}
         isBusy={false}
         isRHS={true}
@@ -616,12 +738,21 @@ exports[`components/RhsComment should match snapshot mobile 1`] = `
             "create_at": 1502715365009,
             "delete_at": 0,
             "edit_at": 1502715372443,
+            "hashtags": "",
             "id": "id",
             "is_pinned": false,
             "message": "post message",
+            "metadata": Object {
+              "embeds": Array [],
+              "emojis": Array [],
+              "files": Array [],
+              "images": Object {},
+              "reactions": Array [],
+            },
             "original_id": "",
             "pending_post_id": "",
             "props": Object {},
+            "reply_count": 0,
             "root_id": "",
             "type": "",
             "update_at": 1502715372443,
@@ -689,12 +820,21 @@ exports[`components/RhsComment should match snapshot mobile 1`] = `
                 "create_at": 1502715365009,
                 "delete_at": 0,
                 "edit_at": 1502715372443,
+                "hashtags": "",
                 "id": "id",
                 "is_pinned": false,
                 "message": "post message",
+                "metadata": Object {
+                  "embeds": Array [],
+                  "emojis": Array [],
+                  "files": Array [],
+                  "images": Object {},
+                  "reactions": Array [],
+                },
                 "original_id": "",
                 "pending_post_id": "",
                 "props": Object {},
+                "reply_count": 0,
                 "root_id": "",
                 "type": "",
                 "update_at": 1502715372443,
@@ -730,12 +870,21 @@ exports[`components/RhsComment should match snapshot mobile 1`] = `
                   "create_at": 1502715365009,
                   "delete_at": 0,
                   "edit_at": 1502715372443,
+                  "hashtags": "",
                   "id": "id",
                   "is_pinned": false,
                   "message": "post message",
+                  "metadata": Object {
+                    "embeds": Array [],
+                    "emojis": Array [],
+                    "files": Array [],
+                    "images": Object {},
+                    "reactions": Array [],
+                  },
                   "original_id": "",
                   "pending_post_id": "",
                   "props": Object {},
+                  "reply_count": 0,
                   "root_id": "",
                   "type": "",
                   "update_at": 1502715372443,
@@ -755,12 +904,21 @@ exports[`components/RhsComment should match snapshot mobile 1`] = `
               "create_at": 1502715365009,
               "delete_at": 0,
               "edit_at": 1502715372443,
+              "hashtags": "",
               "id": "id",
               "is_pinned": false,
               "message": "post message",
+              "metadata": Object {
+                "embeds": Array [],
+                "emojis": Array [],
+                "files": Array [],
+                "images": Object {},
+                "reactions": Array [],
+              },
               "original_id": "",
               "pending_post_id": "",
               "props": Object {},
+              "reply_count": 0,
               "root_id": "",
               "type": "",
               "update_at": 1502715372443,
@@ -787,12 +945,21 @@ exports[`components/RhsComment should match snapshot on CRT enabled 1`] = `
       "create_at": 1502715365009,
       "delete_at": 0,
       "edit_at": 1502715372443,
+      "hashtags": "",
       "id": "id",
       "is_pinned": false,
       "message": "post message",
+      "metadata": Object {
+        "embeds": Array [],
+        "emojis": Array [],
+        "files": Array [],
+        "images": Object {},
+        "reactions": Array [],
+      },
       "original_id": "",
       "pending_post_id": "",
       "props": Object {},
+      "reply_count": 0,
       "root_id": "",
       "type": "",
       "update_at": 1502715372443,
@@ -800,7 +967,7 @@ exports[`components/RhsComment should match snapshot on CRT enabled 1`] = `
     }
   }
   role="listitem"
-  tabIndex="-1"
+  tabIndex={-1}
 >
   <Connect(injectIntl(PostPreHeader))
     channelId="channel_id"
@@ -815,7 +982,6 @@ exports[`components/RhsComment should match snapshot on CRT enabled 1`] = `
       className="post__img"
     >
       <Connect(PostProfilePicture)
-        channelId="channel_id"
         compactDisplay={true}
         isBusy={false}
         isRHS={true}
@@ -825,12 +991,21 @@ exports[`components/RhsComment should match snapshot on CRT enabled 1`] = `
             "create_at": 1502715365009,
             "delete_at": 0,
             "edit_at": 1502715372443,
+            "hashtags": "",
             "id": "id",
             "is_pinned": false,
             "message": "post message",
+            "metadata": Object {
+              "embeds": Array [],
+              "emojis": Array [],
+              "files": Array [],
+              "images": Object {},
+              "reactions": Array [],
+            },
             "original_id": "",
             "pending_post_id": "",
             "props": Object {},
+            "reply_count": 0,
             "root_id": "",
             "type": "",
             "update_at": 1502715372443,
@@ -898,12 +1073,21 @@ exports[`components/RhsComment should match snapshot on CRT enabled 1`] = `
                   "create_at": 1502715365009,
                   "delete_at": 0,
                   "edit_at": 1502715372443,
+                  "hashtags": "",
                   "id": "id",
                   "is_pinned": false,
                   "message": "post message",
+                  "metadata": Object {
+                    "embeds": Array [],
+                    "emojis": Array [],
+                    "files": Array [],
+                    "images": Object {},
+                    "reactions": Array [],
+                  },
                   "original_id": "",
                   "pending_post_id": "",
                   "props": Object {},
+                  "reply_count": 0,
                   "root_id": "",
                   "type": "",
                   "update_at": 1502715372443,
@@ -923,12 +1107,21 @@ exports[`components/RhsComment should match snapshot on CRT enabled 1`] = `
               "create_at": 1502715365009,
               "delete_at": 0,
               "edit_at": 1502715372443,
+              "hashtags": "",
               "id": "id",
               "is_pinned": false,
               "message": "post message",
+              "metadata": Object {
+                "embeds": Array [],
+                "emojis": Array [],
+                "files": Array [],
+                "images": Object {},
+                "reactions": Array [],
+              },
               "original_id": "",
               "pending_post_id": "",
               "props": Object {},
+              "reply_count": 0,
               "root_id": "",
               "type": "",
               "update_at": 1502715372443,
@@ -955,12 +1148,21 @@ exports[`components/RhsComment should match snapshot when being edited 1`] = `
       "create_at": 1502715365009,
       "delete_at": 0,
       "edit_at": 1502715372443,
+      "hashtags": "",
       "id": "id",
       "is_pinned": false,
       "message": "post message",
+      "metadata": Object {
+        "embeds": Array [],
+        "emojis": Array [],
+        "files": Array [],
+        "images": Object {},
+        "reactions": Array [],
+      },
       "original_id": "",
       "pending_post_id": "",
       "props": Object {},
+      "reply_count": 0,
       "root_id": "",
       "type": "",
       "update_at": 1502715372443,
@@ -968,7 +1170,7 @@ exports[`components/RhsComment should match snapshot when being edited 1`] = `
     }
   }
   role="listitem"
-  tabIndex="-1"
+  tabIndex={-1}
 >
   <Connect(injectIntl(PostPreHeader))
     channelId="channel_id"
@@ -983,7 +1185,6 @@ exports[`components/RhsComment should match snapshot when being edited 1`] = `
       className="post__img"
     >
       <Connect(PostProfilePicture)
-        channelId="channel_id"
         compactDisplay={true}
         isBusy={false}
         isRHS={true}
@@ -993,12 +1194,21 @@ exports[`components/RhsComment should match snapshot when being edited 1`] = `
             "create_at": 1502715365009,
             "delete_at": 0,
             "edit_at": 1502715372443,
+            "hashtags": "",
             "id": "id",
             "is_pinned": false,
             "message": "post message",
+            "metadata": Object {
+              "embeds": Array [],
+              "emojis": Array [],
+              "files": Array [],
+              "images": Object {},
+              "reactions": Array [],
+            },
             "original_id": "",
             "pending_post_id": "",
             "props": Object {},
+            "reply_count": 0,
             "root_id": "",
             "type": "",
             "update_at": 1502715372443,
@@ -1066,12 +1276,21 @@ exports[`components/RhsComment should match snapshot when being edited 1`] = `
                   "create_at": 1502715365009,
                   "delete_at": 0,
                   "edit_at": 1502715372443,
+                  "hashtags": "",
                   "id": "id",
                   "is_pinned": false,
                   "message": "post message",
+                  "metadata": Object {
+                    "embeds": Array [],
+                    "emojis": Array [],
+                    "files": Array [],
+                    "images": Object {},
+                    "reactions": Array [],
+                  },
                   "original_id": "",
                   "pending_post_id": "",
                   "props": Object {},
+                  "reply_count": 0,
                   "root_id": "",
                   "type": "",
                   "update_at": 1502715372443,
@@ -1091,12 +1310,21 @@ exports[`components/RhsComment should match snapshot when being edited 1`] = `
               "create_at": 1502715365009,
               "delete_at": 0,
               "edit_at": 1502715372443,
+              "hashtags": "",
               "id": "id",
               "is_pinned": false,
               "message": "post message",
+              "metadata": Object {
+                "embeds": Array [],
+                "emojis": Array [],
+                "files": Array [],
+                "images": Object {},
+                "reactions": Array [],
+              },
               "original_id": "",
               "pending_post_id": "",
               "props": Object {},
+              "reply_count": 0,
               "root_id": "",
               "type": "",
               "update_at": 1502715372443,
@@ -1123,12 +1351,21 @@ exports[`components/RhsComment should match snapshot when highlighted 1`] = `
       "create_at": 1502715365009,
       "delete_at": 0,
       "edit_at": 1502715372443,
+      "hashtags": "",
       "id": "id",
       "is_pinned": false,
       "message": "post message",
+      "metadata": Object {
+        "embeds": Array [],
+        "emojis": Array [],
+        "files": Array [],
+        "images": Object {},
+        "reactions": Array [],
+      },
       "original_id": "",
       "pending_post_id": "",
       "props": Object {},
+      "reply_count": 0,
       "root_id": "",
       "type": "",
       "update_at": 1502715372443,
@@ -1136,7 +1373,7 @@ exports[`components/RhsComment should match snapshot when highlighted 1`] = `
     }
   }
   role="listitem"
-  tabIndex="-1"
+  tabIndex={-1}
 >
   <Connect(injectIntl(PostPreHeader))
     channelId="channel_id"
@@ -1151,7 +1388,6 @@ exports[`components/RhsComment should match snapshot when highlighted 1`] = `
       className="post__img"
     >
       <Connect(PostProfilePicture)
-        channelId="channel_id"
         compactDisplay={true}
         isBusy={false}
         isRHS={true}
@@ -1161,12 +1397,21 @@ exports[`components/RhsComment should match snapshot when highlighted 1`] = `
             "create_at": 1502715365009,
             "delete_at": 0,
             "edit_at": 1502715372443,
+            "hashtags": "",
             "id": "id",
             "is_pinned": false,
             "message": "post message",
+            "metadata": Object {
+              "embeds": Array [],
+              "emojis": Array [],
+              "files": Array [],
+              "images": Object {},
+              "reactions": Array [],
+            },
             "original_id": "",
             "pending_post_id": "",
             "props": Object {},
+            "reply_count": 0,
             "root_id": "",
             "type": "",
             "update_at": 1502715372443,
@@ -1234,12 +1479,21 @@ exports[`components/RhsComment should match snapshot when highlighted 1`] = `
                   "create_at": 1502715365009,
                   "delete_at": 0,
                   "edit_at": 1502715372443,
+                  "hashtags": "",
                   "id": "id",
                   "is_pinned": false,
                   "message": "post message",
+                  "metadata": Object {
+                    "embeds": Array [],
+                    "emojis": Array [],
+                    "files": Array [],
+                    "images": Object {},
+                    "reactions": Array [],
+                  },
                   "original_id": "",
                   "pending_post_id": "",
                   "props": Object {},
+                  "reply_count": 0,
                   "root_id": "",
                   "type": "",
                   "update_at": 1502715372443,
@@ -1259,12 +1513,21 @@ exports[`components/RhsComment should match snapshot when highlighted 1`] = `
               "create_at": 1502715365009,
               "delete_at": 0,
               "edit_at": 1502715372443,
+              "hashtags": "",
               "id": "id",
               "is_pinned": false,
               "message": "post message",
+              "metadata": Object {
+                "embeds": Array [],
+                "emojis": Array [],
+                "files": Array [],
+                "images": Object {},
+                "reactions": Array [],
+              },
               "original_id": "",
               "pending_post_id": "",
               "props": Object {},
+              "reply_count": 0,
               "root_id": "",
               "type": "",
               "update_at": 1502715372443,
