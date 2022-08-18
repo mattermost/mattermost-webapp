@@ -32,7 +32,7 @@ const NewMembersItem = ({newMember, team}: Props) => {
 
     const trackClick = useCallback(() => {
         trackEvent('insights', 'open_new_members_from_new_members_widget');
-    },[]);
+    }, []);
 
     return (
         <Link
