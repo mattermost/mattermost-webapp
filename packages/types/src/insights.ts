@@ -9,6 +9,7 @@ export enum InsightsWidgetTypes {
     TOP_REACTIONS = 'TOP_REACTIONS',
     TOP_THREADS = 'TOP_THREADS',
     TOP_BOARDS = 'TOP_BOARDS',
+    LEAST_ACTIVE_CHANNELS = 'LEAST_ACTIVE_CHANNELS',
 }
 
 export enum CardSizes {
@@ -101,4 +102,25 @@ export type TopBoard = {
 export type TopBoardResponse = {
     has_next: boolean;
     items: TopBoard[];
+};
+
+export type LeastActiveChannel = {
+    id: string;
+    display_name: string;
+    name: string;
+    participants: string[];
+    last_activity_at: number;
+    type: ChannelType;
+    team_id: string;
+    message_count: number;
+};
+
+export type LeastActiveChannelsResponse = {
+    has_next: boolean;
+    items: LeastActiveChannel[];
+};
+
+export type LeastActiveChannelsActionResult = {
+    data?: LeastActiveChannelsResponse;
+    error?: any;
 };

@@ -2024,6 +2024,24 @@ export const InsightsCardTitles = {
             defaultMessage: 'Most active boards I\'ve participated in',
         },
     },
+    LEAST_ACTIVE_CHANNELS: {
+        teamTitle: {
+            id: t('insights.leastActiveChannels.title'),
+            defaultMessage: 'Least active channels',
+        },
+        myTitle: {
+            id: t('insights.leastActiveChannels.myTitle'),
+            defaultMessage: 'My least active channels',
+        },
+        teamSubTitle: {
+            id: t('insights.leastActiveChannels.subTitle'),
+            defaultMessage: 'Channels with the least posts',
+        },
+        mySubTitle: {
+            id: t('insights.leastActiveChannels.mySubTitle'),
+            defaultMessage: 'My channels with the least posts',
+        },
+    },
 };
 
 export enum ClaimErrors {

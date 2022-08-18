@@ -11,6 +11,7 @@ import TopReactionsTable from '../top_reactions/top_reactions_table/top_reaction
 import TopChannelsTable from '../top_channels/top_channels_table/top_channels_table';
 import TopThreadsTable from '../top_threads/top_threads_table/top_threads_table';
 import TopBoardsTable from '../top_boards/top_boards_table/top_boards_table';
+import LeastActiveChannelsTable from '../least_active_channels/least_active_channels_table/least_active_channels_table';
 
 import './../../activity_and_insights.scss';
 import './insights_modal.scss';
@@ -64,6 +65,14 @@ const InsightsModal = (props: Props) => {
         case InsightsWidgetTypes.TOP_BOARDS:
             return (
                 <TopBoardsTable
+                    filterType={props.filterType}
+                    timeFrame={timeFrame}
+                    closeModal={doHide}
+                />
+            );
+        case InsightsWidgetTypes.LEAST_ACTIVE_CHANNELS:
+            return (
+                <LeastActiveChannelsTable
                     filterType={props.filterType}
                     timeFrame={timeFrame}
                     closeModal={doHide}

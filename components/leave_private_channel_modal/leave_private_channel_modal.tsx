@@ -5,11 +5,12 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Channel} from '@mattermost/types/channels';
+import {LeastActiveChannel} from '@mattermost/types/insights';
 
 import ConfirmModal from 'components/confirm_modal';
 
 type Props = {
-    channel: Channel;
+    channel: Channel | LeastActiveChannel;
     onExited: () => void;
     actions: {
         leaveChannel: (channelId: string) => any;

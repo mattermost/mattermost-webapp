@@ -1,3 +1,23 @@
+@mixin channel-display-name {
+    overflow: hidden;
+    margin-left: 7px;
+    color: var(--center-channel-color);
+    font-family: 'Open Sans';
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 16px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@mixin channel-icon {
+    width: 14px;
+    height: 14px;
+    color: rgba(var(--center-channel-color-rgb), 0.56);
+    font-size: 14px;
+}
+
 .ActivityAndInsights {
     background-color: rgba(var(--center-channel-color-rgb), 0.04);
 
@@ -80,6 +100,12 @@
         .top-boards-card {
             .Card__body {
                 padding: 0 12px 18px;
+            }
+        }
+
+        .least-active-channels-card {
+            .Card__body {
+                padding: 0 12px 12px;
             }
         }
 
@@ -231,23 +257,11 @@
                         flex: 1 0;
 
                         i.icon {
-                            width: 14px;
-                            height: 14px;
-                            color: rgba(var(--center-channel-color-rgb), 0.56);
-                            font-size: 14px;
+                            @include channel-icon;
                         }
 
                         .display-name {
-                            overflow: hidden;
-                            margin-left: 7px;
-                            color: var(--center-channel-color);
-                            font-family: 'Open Sans';
-                            font-size: 12px;
-                            font-style: normal;
-                            font-weight: 600;
-                            line-height: 16px;
-                            text-overflow: ellipsis;
-                            white-space: nowrap;
+                            @include channel-display-name;
                         }
                     }
 
@@ -517,6 +531,116 @@
                     .Avatars.Avatars___xs {
                         margin-left: auto;
                         float: right;
+                    }
+                }
+            }
+        }
+
+        .least-active-channels-container {
+            .least-active-channels-loading-container {
+                display: flex;
+                width: 100%;
+                align-items: center;
+                margin-top: 24px;
+
+                &:nth-of-type(1) {
+                    margin-top: 0px;
+                }
+
+                .title {
+                    margin-left: 6px;
+                    
+                    &:nth-of-type(3) {
+                        margin-left: 30px;
+                    }
+                    &:nth-of-type(4) {
+                        margin-left: 50px;
+                    }
+                }
+            }
+
+            .channel-list {
+                .channel-row{
+                    display: flex;
+                    align-items: center;
+                    padding: 10px 12px;
+
+                    &:hover {
+                        background: rgba(var(--center-channel-color-rgb), 0.08);
+                        border-radius: 4px;
+                        cursor: pointer;
+                        text-decoration: none;
+                    }
+
+                    &:focus {
+                        text-decoration: none;
+                    }
+
+                    .channel-info {
+                        display: flex;
+                        flex-direction: column;
+                        flex: .4;
+                        overflow: hidden;
+
+                        .channel-display-name {
+                            display: flex;
+                            overflow: hidden;
+    
+                            i.icon {
+                                @include channel-icon;
+                            }
+    
+                            .display-name {
+                                @include channel-display-name;
+                            }
+                        }
+                        .last-activity {
+                            color: rgba(var(--center-channel-color-rgb), 0.56);
+                            font-family: 'Open Sans';
+                            font-size: 11px;
+                            font-style: normal;
+                            font-weight: 400;
+                            line-height: 16px;
+                        }
+                    }
+                    .Avatars {
+                        margin-left: auto;
+                    }
+                    .channel-action {
+                        margin-left: auto;
+
+                        button.action-wrapper {
+                            display: flex;
+                            width: 32px;
+                            height: 32px;
+                            flex-direction: column;
+                            align-items: center;
+                            padding: 6px 8px;
+                            border: none;
+                            margin-left: auto;
+                            background: transparent;
+                            border-radius: 4px;
+                            color: rgba(var(--center-channel-color-rgb), 0.56);
+                            text-decoration: none;
+
+                            &:hover {
+                                background: rgba(var(--center-channel-color-rgb), 0.08);
+                                border-radius: 4px;
+                                color: rgba(var(--center-channel-color-rgb), 0.72);
+                                fill: rgba(var(--center-channel-color-rgb), 0.72);
+                            }
+    
+                            &:active {
+                                background-color: rgba(var(--button-bg-rgb), 0.08);
+                                color: var(--button-bg);
+                            }
+    
+                            i.icon {
+                                font-size: 18px;
+                                line-height: 18px;
+                            }
+                        }
+                        
                     }
                 }
             }
