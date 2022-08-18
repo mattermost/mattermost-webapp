@@ -428,4 +428,14 @@ export const KEYBOARD_SHORTCUTS = {
             defaultMessage: 'In channel:\t⌘|F',
         },
     },
+    msgPostPriority: {
+        default: {
+            id: t('shortcuts.msgs.formatting_bar.post_priority'),
+            defaultMessage: 'Message priority',
+        },
+        mac: {
+            id: t('shortcuts.msgs.formatting_bar.post_priority'),
+            defaultMessage: 'Message priority',
+        },
+    },
 };

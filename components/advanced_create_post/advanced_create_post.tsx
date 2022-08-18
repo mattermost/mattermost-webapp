@@ -35,6 +35,9 @@ import * as UserAgent from 'utils/user_agent';
 import {isMac} from 'utils/utils';
 import * as Utils from 'utils/utils';
 
+import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
+import Tooltip from 'components/tooltip';
+import OverlayTrigger from 'components/overlay_trigger';
 import NotifyConfirmModal from 'components/notify_confirm_modal';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
@@ -1400,14 +1403,29 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                                 onHide={this.handlePostPriorityHide}
                                 defaultHorizontalPosition='left'
                             />
-                            <IconContainer
-                                ref={this.postPriorityPickerRef}
-                                className={classNames({control: true, active: this.state.showPostPriorityPicker})}
-                                type='button'
-                                onClick={this.togglePostPriorityPicker}
+                            <OverlayTrigger
+                                placement='top'
+                                delayShow={Constants.OVERLAY_TIME_DELAY}
+                                trigger={Constants.OVERLAY_DEFAULT_TRIGGER}
+                                overlay={(
+                                    <Tooltip id='post-priority-picker-tooltip'>
+                                        <KeyboardShortcutSequence
+                                            shortcut={KEYBOARD_SHORTCUTS.msgPostPriority}
+                                            hoistDescription={true}
+                                            isInsideTooltip={true}
+                                        />
+                                    </Tooltip>
+                                )}
                             >
-                                <AlertCircleOutlineIcon/>
-                            </IconContainer>
+                                <IconContainer
+                                    ref={this.postPriorityPickerRef}
+                                    className={classNames({control: true, active: this.state.showPostPriorityPicker})}
+                                    type='button'
+                                    onClick={this.togglePostPriorityPicker}
+                                >
+                                    <AlertCircleOutlineIcon/>
+                                </IconContainer>
+                            </OverlayTrigger>
                         </React.Fragment>,
                     ]}
                 />
