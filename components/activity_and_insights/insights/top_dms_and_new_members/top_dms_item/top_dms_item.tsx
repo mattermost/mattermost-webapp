@@ -5,6 +5,8 @@ import {useSelector} from 'react-redux';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
+import {trackEvent} from 'actions/telemetry_actions';
+
 import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 
 import {UserProfile} from '@mattermost/types/users';
@@ -47,10 +49,15 @@ const TopDMsItem = ({dm, barSize, team}: Props) => {
         );
     }, []);
 
+    const trackClick = useCallback(() => {
+        trackEvent('insights', 'open_dm_from_top_dms_widget');
+    },[]);
+
     return (
         <Link
             className='top-dms-item'
             to={`/${team.name}/messages/@${dm.second_participant.username}`}
+            onClick={trackClick}
         >
             <Avatar
                 url={imageURLForUser(dm.second_participant.id, dm.second_participant.last_picture_update)}
