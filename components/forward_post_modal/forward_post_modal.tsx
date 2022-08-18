@@ -228,6 +228,7 @@ const ForwardPostModal = ({onExited, post, actions}: Props) => {
     return (
         <GenericModal
             className='a11y__modal forward-post'
+            id='forward-post-modal'
             show={true}
             enforceFocus={false}
             autoCloseOnConfirmButton={false}
