@@ -16,6 +16,7 @@
     "@babel/plugin-transform-react-pure-annotations": "7.18.6",
     "@babel/plugin-transform-typescript": "7.18.12",
     "@floating-ui/react-dom": "0.7.2",
+    "@floating-ui/react-dom-interactions": "0.9.1",
     "@mattermost/compass-components": "^0.2.12",
     "@mattermost/compass-icons": "0.1.24",
     "@stripe/react-stripe-js": "1.6.0",

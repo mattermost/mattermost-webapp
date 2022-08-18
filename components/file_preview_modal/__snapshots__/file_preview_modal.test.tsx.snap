@@ -63,6 +63,7 @@ exports[`components/FilePreviewModal should fall back to default preview if plug
             fileIndex={0}
             fileInfo={
               Object {
+                "archived": false,
                 "clientId": "client_id",
                 "create_at": 1,
                 "delete_at": 1,
@@ -195,6 +196,7 @@ exports[`components/FilePreviewModal should match snapshot 1`] = `
             fileIndex={0}
             fileInfo={
               Object {
+                "archived": false,
                 "clientId": "client_id",
                 "create_at": 1,
                 "delete_at": 1,
@@ -327,6 +329,7 @@ exports[`components/FilePreviewModal should match snapshot for external file 1`]
             fileIndex={0}
             fileInfo={
               Object {
+                "archived": false,
                 "clientId": "client_id",
                 "create_at": 1,
                 "delete_at": 1,
@@ -459,6 +462,7 @@ exports[`components/FilePreviewModal should match snapshot when plugin overrides
             fileIndex={0}
             fileInfo={
               Object {
+                "archived": false,
                 "clientId": "client_id",
                 "create_at": 1,
                 "delete_at": 1,
@@ -519,6 +523,7 @@ exports[`components/FilePreviewModal should match snapshot when plugin overrides
           <component
             fileInfo={
               Object {
+                "archived": false,
                 "clientId": "client_id",
                 "create_at": 1,
                 "delete_at": 1,
@@ -632,6 +637,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded 1`] = `
             fileIndex={0}
             fileInfo={
               Object {
+                "archived": false,
                 "clientId": "client_id",
                 "create_at": 1,
                 "delete_at": 1,
@@ -693,6 +699,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded 1`] = `
             canDownloadFiles={true}
             fileInfo={
               Object {
+                "archived": false,
                 "clientId": "client_id",
                 "create_at": 1,
                 "delete_at": 1,
@@ -779,6 +786,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded and showing f
             fileIndex={0}
             fileInfo={
               Object {
+                "archived": false,
                 "clientId": "client_id",
                 "create_at": 1,
                 "delete_at": 1,
@@ -840,6 +848,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded and showing f
             canDownloadFiles={true}
             fileInfo={
               Object {
+                "archived": false,
                 "clientId": "client_id",
                 "create_at": 1,
                 "delete_at": 1,
@@ -926,6 +935,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded with .js file
             fileIndex={0}
             fileInfo={
               Object {
+                "archived": false,
                 "clientId": "client_id",
                 "create_at": 1,
                 "delete_at": 1,
@@ -987,6 +997,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded with .js file
             className="file-preview-modal__code-preview"
             fileInfo={
               Object {
+                "archived": false,
                 "clientId": "client_id",
                 "create_at": 1,
                 "delete_at": 1,
@@ -1074,6 +1085,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded with .m4a fil
             fileIndex={0}
             fileInfo={
               Object {
+                "archived": false,
                 "clientId": "client_id",
                 "create_at": 1,
                 "delete_at": 1,
@@ -1134,6 +1146,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded with .m4a fil
           <Connect(AudioVideoPreview)
             fileInfo={
               Object {
+                "archived": false,
                 "clientId": "client_id",
                 "create_at": 1,
                 "delete_at": 1,
@@ -1221,6 +1234,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded with .mov fil
             fileIndex={0}
             fileInfo={
               Object {
+                "archived": false,
                 "clientId": "client_id",
                 "create_at": 1,
                 "delete_at": 1,
@@ -1281,6 +1295,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded with .mov fil
           <Connect(AudioVideoPreview)
             fileInfo={
               Object {
+                "archived": false,
                 "clientId": "client_id",
                 "create_at": 1,
                 "delete_at": 1,
@@ -1368,6 +1383,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded with footer 1
             fileIndex={0}
             fileInfo={
               Object {
+                "archived": false,
                 "clientId": "client_id",
                 "create_at": 1,
                 "delete_at": 1,
@@ -1429,6 +1445,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded with footer 1
             canDownloadFiles={true}
             fileInfo={
               Object {
+                "archived": false,
                 "clientId": "client_id",
                 "create_at": 1,
                 "delete_at": 1,
@@ -1515,6 +1532,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded with image 1`
             fileIndex={0}
             fileInfo={
               Object {
+                "archived": false,
                 "clientId": "client_id",
                 "create_at": 1,
                 "delete_at": 1,
@@ -1576,6 +1594,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded with image 1`
             canDownloadFiles={true}
             fileInfo={
               Object {
+                "archived": false,
                 "clientId": "client_id",
                 "create_at": 1,
                 "delete_at": 1,
@@ -1662,6 +1681,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded with other fi
             fileIndex={0}
             fileInfo={
               Object {
+                "archived": false,
                 "clientId": "client_id",
                 "create_at": 1,
                 "delete_at": 1,
@@ -1722,6 +1742,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded with other fi
           <Connect(FileInfoPreview)
             fileInfo={
               Object {
+                "archived": false,
                 "clientId": "client_id",
                 "create_at": 1,
                 "delete_at": 1,

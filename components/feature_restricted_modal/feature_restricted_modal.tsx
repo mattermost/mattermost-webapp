@@ -59,7 +59,7 @@ const FeatureRestrictedModal = ({
     };
 
     const handleViewPlansClick = () => {
-        openPricingModal();
+        openPricingModal({trackingLocation: 'feature_restricted_modal'});
         dismissAction();
     };
 

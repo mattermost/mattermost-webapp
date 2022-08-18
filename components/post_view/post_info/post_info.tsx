@@ -103,7 +103,7 @@ type Props = {
     /**
      * Set not to allow edits on post
      */
-    isReadOnly: boolean | null;
+    isReadOnly?: boolean;
 
     /**
      * To check if the state of emoji for last message and from where it was emitted

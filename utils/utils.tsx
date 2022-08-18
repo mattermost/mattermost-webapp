@@ -1281,11 +1281,11 @@ export function isFeatureEnabled(feature: {label: string}, state: GlobalState) {
     return getBool(state, Constants.Preferences.CATEGORY_ADVANCED_SETTINGS, Constants.FeatureTogglePrefix + feature.label);
 }
 
-export function fillArray<T>(value: T, length: number) {
-    const arr = [];
+export function fillRecord<T>(value: T, length: number): Record<number, T> {
+    const arr: Record<number, T> = {};
 
     for (let i = 0; i < length; i++) {
-        arr.push(value);
+        arr[i] = value;
     }
 
     return arr;

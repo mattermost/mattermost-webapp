@@ -2,16 +2,19 @@
 // See LICENSE.txt for license information.
 
 import {shallow} from 'enzyme';
-import React from 'react';
+import React, {ComponentProps} from 'react';
 
 import {Posts} from 'mattermost-redux/constants';
 
-import RhsComment from 'components/rhs_comment/rhs_comment.jsx';
-import EmojiMap from 'utils/emoji_map';
+import RhsComment from 'components/rhs_comment/rhs_comment';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
 import PostPreHeader from 'components/post_view/post_pre_header';
+
 import {Locations} from 'utils/constants';
 import {isSystemMessage} from 'utils/post_utils';
+import {TestHelper} from 'utils/test_helper';
+
+import UserProfile from '../user_profile';
 
 jest.mock('utils/post_utils', () => ({
     isEdited: jest.fn().mockReturnValue(true),
@@ -19,10 +22,8 @@ jest.mock('utils/post_utils', () => ({
     fromAutoResponder: jest.fn().mockReturnValue(false),
 }));
 
-import UserProfile from '../user_profile';
-
 describe('components/RhsComment', () => {
-    const post = {
+    const post = TestHelper.getPostMock({
         channel_id: 'channel_id',
         create_at: 1502715365009,
         delete_at: 0,
@@ -37,14 +38,12 @@ describe('components/RhsComment', () => {
         type: '',
         update_at: 1502715372443,
         user_id: 'user_id',
-    };
-    const baseProps = {
+    });
+    const baseProps: ComponentProps<typeof RhsComment> = {
         post,
         teamId: 'team_id',
         currentUserId: 'user_id',
         compactDisplay: true,
-        author: 'Author',
-        reactions: {},
         isFlagged: true,
         isBusy: false,
         shouldHighlight: false,
@@ -62,13 +61,14 @@ describe('components/RhsComment', () => {
         shortcutReactToLastPostEmittedFrom: '',
         actions: {
             markPostAsUnread: jest.fn(),
+            emitShortcutReactToLastPostFrom: jest.fn(),
+            setActionsMenuInitialisationState: jest.fn(),
         },
-        emojiMap: new EmojiMap(new Map()),
         isBot: false,
         collapsedThreadsEnabled: false,
-        isInViewport: jest.fn(),
         isPostBeingEdited: false,
         isMobileView: false,
+        recentEmojis: [],
     };
 
     test('should match snapshot', () => {
@@ -106,7 +106,7 @@ describe('components/RhsComment', () => {
             ...baseProps,
             post: {
                 ...baseProps.post,
-                state: Posts.POST_DELETED,
+                state: Posts.POST_DELETED as 'DELETED',
             },
         };
         const wrapper = shallow(
@@ -241,7 +241,7 @@ describe('components/RhsComment', () => {
     });
 
     test('should pass props correctly to UserProfile when sender is Bot', () => {
-        isSystemMessage.mockImplementationOnce(() => true);
+        (isSystemMessage as jest.MockedFunction<any>).mockImplementationOnce(() => true);
 
         const props = {
             ...baseProps,
@@ -258,9 +258,10 @@ describe('components/RhsComment', () => {
         expect(userProfile.prop('userId')).toEqual(props.post.user_id);
 
         const visibleMessage = wrapper.find('span[className="post__visibility"]');
+        const children = visibleMessage.prop('children') as JSX.Element;
         expect(visibleMessage).toHaveLength(1);
-        expect(visibleMessage.prop('children')).toBeTruthy();
-        expect(visibleMessage.prop('children').props).toBeTruthy();
-        expect(visibleMessage.prop('children').props.id).toEqual('post_info.message.visible');
+        expect(children).toBeTruthy();
+        expect(children).toBeTruthy();
+        expect(children.props.id).toEqual('post_info.message.visible');
     });
 });

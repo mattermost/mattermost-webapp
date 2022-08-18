@@ -7,6 +7,7 @@ exports[`components/FileUpload should match snapshot 1`] = `
   <div>
     <OverlayTrigger
       defaultOverlayShown={false}
+      delayShow={400}
       overlay={
         <Tooltip
           id="upload-tooltip"
@@ -39,7 +40,7 @@ exports[`components/FileUpload should match snapshot 1`] = `
     >
       <button
         aria-label="attachment"
-        className="style--none post-action"
+        className="style--none AdvancedTextEditor__action-button"
         id="fileUploadButton"
         onClick={[Function]}
         onTouchEnd={[Function]}
@@ -59,7 +60,7 @@ exports[`components/FileUpload should match snapshot 1`] = `
       multiple={true}
       onChange={[Function]}
       onClick={[Function]}
-      tabIndex="-1"
+      tabIndex={-1}
       type="file"
     />
   </div>

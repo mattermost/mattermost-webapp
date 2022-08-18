@@ -2,12 +2,14 @@
 // See LICENSE.txt for license information.
 import moment from 'moment';
 
-import {LicenseSkus} from 'mattermost-redux/types/general';
+import {ClientLicense} from '@mattermost/types/config';
+
+import {LicenseSkus} from 'utils/constants';
 
 const LICENSE_EXPIRY_NOTIFICATION = 1000 * 60 * 60 * 24 * 60; // 60 days
 const LICENSE_GRACE_PERIOD = 1000 * 60 * 60 * 24 * 10; // 10 days
 
-export function isLicenseExpiring(license) {
+export function isLicenseExpiring(license: ClientLicense) {
     // Skip license expiration checks for cloud licenses
     if (license.IsLicensed !== 'true' || isCloudLicense(license)) {
         return false;
@@ -21,7 +23,7 @@ export function isLicenseExpiring(license) {
     return timeDiff <= LICENSE_EXPIRY_NOTIFICATION;
 }
 
-export function daysToLicenseExpire(license) {
+export function daysToLicenseExpire(license: ClientLicense) {
     if (license.IsLicensed !== 'true' || isCloudLicense(license)) {
         return undefined;
     }
@@ -30,7 +32,7 @@ export function daysToLicenseExpire(license) {
     return moment(endDate).startOf('day').diff(moment().startOf('day'), 'days');
 }
 
-export function isLicenseExpired(license) {
+export function isLicenseExpired(license: ClientLicense) {
     if (license.IsLicensed !== 'true' || isCloudLicense(license)) {
         return false;
     }
@@ -40,7 +42,7 @@ export function isLicenseExpired(license) {
     return timeDiff < 0;
 }
 
-export function isLicensePastGracePeriod(license) {
+export function isLicensePastGracePeriod(license: ClientLicense) {
     if (license.IsLicensed !== 'true' || isCloudLicense(license)) {
         return false;
     }
@@ -49,7 +51,7 @@ export function isLicensePastGracePeriod(license) {
     return timeDiff > LICENSE_GRACE_PERIOD;
 }
 
-export function isTrialLicense(license) {
+export function isTrialLicense(license: ClientLicense) {
     if (license.IsLicensed !== 'true') {
         return false;
     }
@@ -68,14 +70,26 @@ export function isTrialLicense(license) {
     return timeDiff === trialLicenseDuration;
 }
 
-export function isCloudLicense(license) {
+export function isCloudLicense(license: ClientLicense) {
     return license?.Cloud === 'true';
 }
 
-export function getIsStarterLicense(license) {
+export function getIsStarterLicense(license: ClientLicense) {
     return license?.SkuShortName === LicenseSkus.Starter;
 }
 
-export function isEnterpriseOrE20License(license) {
+export function isEnterpriseOrE20License(license: ClientLicense) {
     return license?.SkuShortName === LicenseSkus.Enterprise || license?.SkuShortName === LicenseSkus.E20;
 }
+
+export const isEnterpriseLicense = (license?: ClientLicense) => {
+    switch (license?.SkuShortName) {
+    case LicenseSkus.Enterprise:
+    case LicenseSkus.E20:
+        return true;
+    }
+
+    return false;
+};
+
+export const isNonEnterpriseLicense = (license?: ClientLicense) => !isEnterpriseLicense(license);

@@ -34,21 +34,6 @@ import {removeUserFromList} from 'mattermost-redux/utils/user_utils';
 import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
 import {General} from 'mattermost-redux/constants';
 
-export function checkMfa(loginId: string): ActionFunc {
-    return async (dispatch: DispatchFunc) => {
-        dispatch({type: UserTypes.CHECK_MFA_REQUEST, data: null});
-        try {
-            const data = await Client4.checkUserMfa(loginId);
-            dispatch({type: UserTypes.CHECK_MFA_SUCCESS, data: null});
-            return {data: data.mfa_required};
-        } catch (error) {
-            dispatch({type: UserTypes.CHECK_MFA_FAILURE, error});
-            dispatch(logError(error));
-            return {error};
-        }
-    };
-}
-
 export function generateMfaSecret(userId: string): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.generateMfaSecret,
@@ -1530,7 +1515,6 @@ export function checkForModifiedUsers() {
 }
 
 export default {
-    checkMfa,
     generateMfaSecret,
     login,
     logout,

@@ -21,6 +21,7 @@ describe('FileThumbnail', () => {
         size: 100,
         mime_type: '',
         clientId: '',
+        archived: false,
     };
     const baseProps = {
         fileInfo,
