@@ -261,7 +261,7 @@ export default class RhsComment extends React.PureComponent<Props, State> {
         );
     };
 
-    toggleEmojiPicker = (e) => {
+    toggleEmojiPicker = (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         e?.stopPropagation();
         const showEmojiPicker = !this.state.showEmojiPicker;
         this.setState({
