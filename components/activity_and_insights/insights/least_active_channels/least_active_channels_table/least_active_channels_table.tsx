@@ -6,17 +6,22 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import classNames from 'classnames';
 
+import {trackEvent} from 'actions/telemetry_actions';
+
 import {getLeastActiveChannelsForTeam, getMyLeastActiveChannels} from 'mattermost-redux/actions/insights';
 
 import {LeastActiveChannel, TimeFrame} from '@mattermost/types/insights';
 
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
-import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentRelativeTeamUrl, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import Constants, {InsightsScopes} from 'utils/constants';
+import {browserHistory} from 'utils/browser_history';
+
 import Avatars from 'components/widgets/users/avatars';
 import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_grid';
+import Timestamp from 'components/timestamp';
+
+import ChannelActionsMenu from '../channel_actions_menu/channel_actions_menu';
 
 import './../../../activity_and_insights.scss';
 
@@ -24,6 +29,7 @@ type Props = {
     filterType: string;
     timeFrame: TimeFrame;
     closeModal: () => void;
+
 }
 
 const LeastActiveChannelsTable = (props: Props) => {
@@ -31,19 +37,19 @@ const LeastActiveChannelsTable = (props: Props) => {
 
     const [loading, setLoading] = useState(true);
     const [leastActiveChannels, setLeastActiveChannels] = useState([] as LeastActiveChannel[]);
+    const currentTeamUrl = useSelector(getCurrentRelativeTeamUrl);
 
     const currentTeamId = useSelector(getCurrentTeamId);
-    const myChannelMemberships = useSelector(getMyChannelMemberships);
 
     const getInactiveChannels = useCallback(async () => {
         setLoading(true);
         if (props.filterType === InsightsScopes.TEAM) {
-            const data: any = await dispatch(getLeastActiveChannelsForTeam(currentTeamId, 0, 3, props.timeFrame));
+            const data: any = await dispatch(getLeastActiveChannelsForTeam(currentTeamId, 0, 10, props.timeFrame));
             if (data.data?.items) {
                 setLeastActiveChannels(data.data.items);
             }
         } else {
-            const data: any = await dispatch(getMyLeastActiveChannels(currentTeamId, 0, 3, props.timeFrame));
+            const data: any = await dispatch(getMyLeastActiveChannels(currentTeamId, 0, 10, props.timeFrame));
             if (data.data?.items) {
                 setLeastActiveChannels(data.data.items);
             }
@@ -55,8 +61,10 @@ const LeastActiveChannelsTable = (props: Props) => {
         getInactiveChannels();
     }, [getInactiveChannels]);
 
-    const closeModal = useCallback(() => {
+    const goToChannel = useCallback((channel: LeastActiveChannel) => {
         props.closeModal();
+        trackEvent('insights', 'open_board_from_top_boards_modal');
+        browserHistory.push(`${currentTeamUrl}/channels/${channel.name}`);
     }, [props.closeModal]);
 
     const getColumns = useMemo((): Column[] => {
@@ -80,7 +88,7 @@ const LeastActiveChannelsTable = (props: Props) => {
                     />
                 ),
                 field: 'channel',
-                width: 0.63,
+                width: 0.53,
             },
             {
                 name: (
@@ -90,7 +98,7 @@ const LeastActiveChannelsTable = (props: Props) => {
                     />
                 ),
                 field: 'lastActivity',
-                width: 0.15,
+                width: 0.2,
             },
             {
                 name: (
@@ -99,8 +107,15 @@ const LeastActiveChannelsTable = (props: Props) => {
                         defaultMessage='Members'
                     />
                 ),
+                className: 'participants',
                 field: 'participants',
-                width: 0.15,
+                width: 0.1,
+            },
+            {
+                name: (''),
+                field: 'actions',
+                width: 0.1,
+                className: 'actions',
             },
         ];
         return columns;
@@ -108,12 +123,6 @@ const LeastActiveChannelsTable = (props: Props) => {
 
     const getRows = useMemo((): Row[] => {
         return leastActiveChannels.map((channel, i) => {
-            const channelMembership = myChannelMemberships[channel.id];
-            let isChannelMember = false;
-            if (typeof channelMembership !== 'undefined') {
-                isChannelMember = true;
-            }
-
             let iconToDisplay = <i className='icon icon-globe'/>;
 
             if (channel.type === Constants.PRIVATE_CHANNEL) {
@@ -139,7 +148,20 @@ const LeastActiveChannelsTable = (props: Props) => {
                             </div>
                         ),
                         lastActivity: (
-                            <span className='replies'>{channel.last_activity_at}</span>
+                            <span className='timestamp'>
+                                <Timestamp
+                                    value={channel.last_activity_at}
+                                    units={[
+                                        'now',
+                                        'minute',
+                                        'hour',
+                                        'day',
+                                        'week',
+                                        'month',
+                                    ]}
+                                    useTime={false}
+                                />
+                            </span>
                         ),
                         participants: (
                             <>
@@ -153,15 +175,18 @@ const LeastActiveChannelsTable = (props: Props) => {
                             </>
 
                         ),
-                        
+                        actions: (
+                            <ChannelActionsMenu
+                                channel={channel}
+                                actionCallback={getInactiveChannels}
+                            />
+                        ),
                     },
-                    onClick: () => {
-                        console.log('ggg')
-                    },
+                    onClick: () => goToChannel(channel),
                 }
             );
         });
-    }, [leastActiveChannels, myChannelMemberships]);
+    }, [leastActiveChannels]);
 
     return (
         <DataGrid

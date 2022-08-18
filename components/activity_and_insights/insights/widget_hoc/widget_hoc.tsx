@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {ComponentType, useCallback} from 'react';
+import React, {ComponentType, useCallback, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {useIntl} from 'react-intl';
 
@@ -28,6 +28,7 @@ function widgetHoc<T>(WrappedComponent: ComponentType<T>) {
     const Component = (props: T & WidgetHocProps) => {
         const {formatMessage} = useIntl();
         const dispatch = useDispatch<DispatchFunc>();
+        const [showModal, setShowModal] = useState(false);
 
         const title = useCallback(() => {
             if (props.filterType === InsightsScopes.MY) {
@@ -45,6 +46,7 @@ function widgetHoc<T>(WrappedComponent: ComponentType<T>) {
 
         const openInsightsModal = useCallback(() => {
             trackEvent('insights', `open_modal_${props.widgetType.toLowerCase()}`);
+            setShowModal(true);
             dispatch(openModal({
                 modalId: ModalIdentifiers.INSIGHTS,
                 dialogType: InsightsModal,
@@ -54,6 +56,7 @@ function widgetHoc<T>(WrappedComponent: ComponentType<T>) {
                     subtitle: subTitle(),
                     filterType: props.filterType,
                     timeFrame: props.timeFrame,
+                    setShowModal,
                 },
             }));
         }, [props.widgetType, title, subTitle, props.filterType, props.timeFrame]);
@@ -68,6 +71,7 @@ function widgetHoc<T>(WrappedComponent: ComponentType<T>) {
             >
                 <WrappedComponent
                     {...(props as unknown as T)}
+                    showModal={showModal}
                 />
             </InsightsCard>
         );

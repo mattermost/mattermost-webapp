@@ -20,6 +20,10 @@
     &.medium {
         width: calc((100%/2) - 16px);
         float: left;
+
+        @media screen and (max-width: 1279px) and (min-width: 769px) {
+            width: calc(100% - 16px);
+        }
     }
 
     &.small {

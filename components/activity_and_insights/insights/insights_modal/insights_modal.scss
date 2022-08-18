@@ -76,6 +76,10 @@
                 }
 
                 .DataGrid_rows {
+                    .DataGrid_loading {
+                        padding: 234px 0;
+                    }
+
                     .DataGrid_row {
                         display: flex;
                         flex-direction: row;
@@ -255,6 +259,17 @@
                             span.board-updates,
                             .Avatars___xs {
                                 margin-left: auto;
+                            }
+
+                            .timestamp {
+                                overflow: hidden;
+                                color: rgba(var(--center-channel-color-rgb), 0.72);
+                                text-overflow: ellipsis;
+                                white-space: nowrap;
+                            }
+
+                            &.actions {
+                                overflow: visible;
                             }
                         }
                     }

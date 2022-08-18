@@ -20,7 +20,11 @@ import LeastActiveChannelsItem from './least_active_channels_item/least_active_c
 
 import './../../activity_and_insights.scss';
 
-const LeastActiveChannels = (props: WidgetHocProps) => {
+interface Props {
+    showModal: boolean;
+}
+
+const LeastActiveChannels = (props: WidgetHocProps & Props) => {
     const dispatch = useDispatch();
 
     const [loading, setLoading] = useState(true);
@@ -29,20 +33,22 @@ const LeastActiveChannels = (props: WidgetHocProps) => {
     const currentTeamId = useSelector(getCurrentTeamId);
 
     const getInactiveChannels = useCallback(async () => {
-        setLoading(true);
-        if (props.filterType === InsightsScopes.TEAM) {
-            const data: any = await dispatch(getLeastActiveChannelsForTeam(currentTeamId, 0, 3, props.timeFrame));
-            if (data.data?.items) {
-                setLeastActiveChannels(data.data.items);
+        if (!props.showModal) {
+            setLoading(true);
+            if (props.filterType === InsightsScopes.TEAM) {
+                const data: any = await dispatch(getLeastActiveChannelsForTeam(currentTeamId, 0, 3, props.timeFrame));
+                if (data.data?.items) {
+                    setLeastActiveChannels(data.data.items);
+                }
+            } else {
+                const data: any = await dispatch(getMyLeastActiveChannels(currentTeamId, 0, 3, props.timeFrame));
+                if (data.data?.items) {
+                    setLeastActiveChannels(data.data.items);
+                }
             }
-        } else {
-            const data: any = await dispatch(getMyLeastActiveChannels(currentTeamId, 0, 3, props.timeFrame));
-            if (data.data?.items) {
-                setLeastActiveChannels(data.data.items);
-            }
+            setLoading(false);
         }
-        setLoading(false);
-    }, [props.timeFrame, currentTeamId, props.filterType]);
+    }, [props.timeFrame, currentTeamId, props.filterType, props.showModal]);
 
     useEffect(() => {
         getInactiveChannels();
