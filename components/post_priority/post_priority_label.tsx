@@ -6,18 +6,21 @@ import {useIntl} from 'react-intl';
 
 import {AlertOutlineIcon, AlertCircleOutlineIcon} from '@mattermost/compass-icons/components';
 
+import {PostPriority} from '@mattermost/types/posts';
+
 import Label, {LabelType} from 'components/label/label';
 
 type Props = {
-    type?: ''|'urgent'|'important';
+    priority?: PostPriority;
 }
-export default function PriorityLabel({type}: Props) {
+
+export default function PriorityLabel({priority}: Props) {
     const {formatMessage} = useIntl();
 
-    if (type === 'urgent') {
+    if (priority === PostPriority.URGENT) {
         return (
             <Label
-                type={LabelType.Danger}
+                variant={LabelType.Danger}
                 icon={(
                     <AlertOutlineIcon
                         color={'currentColor'}
@@ -30,10 +33,10 @@ export default function PriorityLabel({type}: Props) {
         );
     }
 
-    if (type === 'important') {
+    if (priority === PostPriority.IMPORTANT) {
         return (
             <Label
-                type={LabelType.PrimaryFaded}
+                variant={LabelType.PrimaryFaded}
                 icon={(
                     <AlertCircleOutlineIcon
                         color={'currentColor'}

@@ -479,7 +479,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
 
         let priority;
         if (post.props?.priority) {
-            priority = <span className='pr-2'><PriorityLabel type={post.props.priority}/></span>;
+            priority = <span className='pr-2'><PriorityLabel priority={post.props.priority}/></span>;
         }
 
         return (

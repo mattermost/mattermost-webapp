@@ -49,7 +49,7 @@ import PriorityLabel from 'components/post_priority/post_priority_label';
 
 import {Channel, ChannelMemberCountsByGroup} from '@mattermost/types/channels';
 import {PostDraft} from 'types/store/draft';
-import {Post, PostMetadata} from '@mattermost/types/posts';
+import {Post, PostMetadata, PostPriority} from '@mattermost/types/posts';
 import {PreferenceType} from '@mattermost/types/preferences';
 import EmojiMap from 'utils/emoji_map';
 import {ActionResult} from 'mattermost-redux/types/actions';
@@ -1274,10 +1274,10 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     }
 
     handleRemovePriority = () => {
-        this.handlePostPriorityApply({priority: ''});
+        this.handlePostPriorityApply({priority: undefined});
     }
 
-    handlePostPriorityApply = ({priority}: {priority: string}) => {
+    handlePostPriorityApply = ({priority}: {priority: PostPriority|undefined}) => {
         const updatedDraft = {
             ...this.props.draft,
             props: {
@@ -1376,7 +1376,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     priority={(
                         this.props.draft?.props?.priority && (
                             <div className='AdvancedTextEditor__priority'>
-                                <PriorityLabel type={this.props.draft.props.priority}/>
+                                <PriorityLabel priority={this.props.draft.props.priority}/>
                                 <button
                                     type='button'
                                     className='close'

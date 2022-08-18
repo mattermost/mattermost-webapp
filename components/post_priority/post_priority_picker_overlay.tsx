@@ -5,6 +5,8 @@ import React from 'react';
 import {Overlay} from 'react-bootstrap';
 import memoize from 'memoize-one';
 
+import {PostPriority} from '@mattermost/types/posts';
+
 import {popOverOverlayPosition} from 'utils/position_utils';
 import {Constants} from 'utils/constants';
 
@@ -12,7 +14,7 @@ import PostPriorityPicker from './post_priority_picker';
 
 type Props = {
     show: boolean;
-    priority?: ''|'important'|'urgent';
+    priority?: PostPriority;
     target: () => React.RefObject<HTMLButtonElement> | React.ReactInstance | null;
     onApply: (props: {priority: string}) => void;
     onHide: () => void;

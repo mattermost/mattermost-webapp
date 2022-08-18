@@ -18,14 +18,14 @@ export enum LabelType {
 }
 
 type Props = {
-    type: LabelType;
+    variant: LabelType;
     children: React.ReactNode;
     icon?: React.ReactNode;
 }
 
-function Label({type, children, icon}: Props) {
+function Label({variant, children, icon}: Props) {
     return (
-        <BSLabel bsStyle={type}>
+        <BSLabel bsStyle={variant}>
             {icon && (
                 <span className='label__icon'>{icon}</span>
             )}

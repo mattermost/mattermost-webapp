@@ -6,13 +6,15 @@ import {FormattedMessage} from 'react-intl';
 
 import {AlertOutlineIcon, AlertCircleOutlineIcon, MessageTextOutlineIcon, CheckIcon} from '@mattermost/compass-icons/components';
 
+import {PostPriority} from '@mattermost/types/posts';
+
 import Label, {LabelType} from 'components/label/label';
 import menuItem from 'components/widgets/menu/menu_items/menu_item';
 
 import './post_priority_picker.scss';
 
 type Props = typeof PostPriorityPicker.defaultProps & {
-    priority?: ''|'important'|'urgent';
+    priority?: PostPriority;
     onClose: () => void;
     onApply: (props: {priority: string}) => void;
     placement: string;
@@ -54,7 +56,7 @@ function Item({
 const MenuItem = menuItem(Item);
 
 type State = {
-    selected: ''|'important'|'urgent';
+    selected?: PostPriority;
 }
 
 export default class PostPriorityPicker extends React.PureComponent<Props, State> {
@@ -70,14 +72,14 @@ export default class PostPriorityPicker extends React.PureComponent<Props, State
         super(props);
 
         this.state = {
-            selected: props.priority ?? '',
+            selected: props.priority,
         };
 
         this.handleSelect = this.handleSelect.bind(this);
         this.handleApply = this.handleApply.bind(this);
     }
 
-    handleSelect(type: State['selected']) {
+    handleSelect(type?: State['selected']) {
         return () => {
             this.setState({
                 selected: type,
@@ -130,7 +132,7 @@ export default class PostPriorityPicker extends React.PureComponent<Props, State
                             defaultMessage={'Message Priority'}
                         />
                     </h4>
-                    <Label type={LabelType.Primary}>
+                    <Label variant={LabelType.Primary}>
                         {'BETA'}
                     </Label>
                     <button className='style--none PostPriorityPicker__feedback'>
@@ -146,8 +148,8 @@ export default class PostPriorityPicker extends React.PureComponent<Props, State
                 >
                     <ul className='PostPriorityPicker__menu Menu'>
                         <MenuItem
-                            onClick={this.handleSelect('')}
-                            isSelected={this.state.selected === ''}
+                            onClick={this.handleSelect()}
+                            isSelected={this.state.selected === undefined}
                             text={(
                                 <FormattedMessage
                                     id={'post_priority.priority.standard'}
@@ -161,14 +163,14 @@ export default class PostPriorityPicker extends React.PureComponent<Props, State
                             }
                         />
                         <MenuItem
-                            onClick={this.handleSelect('important')}
+                            onClick={this.handleSelect(PostPriority.IMPORTANT)}
                             text={(
                                 <FormattedMessage
                                     id={'post_priority.priority.important'}
                                     defaultMessage={'Important'}
                                 />
                             )}
-                            isSelected={this.state.selected === 'important'}
+                            isSelected={this.state.selected === PostPriority.IMPORTANT}
                             icon={
                                 <div className='PostPriorityPicker__important'>
                                     <AlertCircleOutlineIcon size={18}/>
@@ -176,14 +178,14 @@ export default class PostPriorityPicker extends React.PureComponent<Props, State
                             }
                         />
                         <MenuItem
-                            onClick={this.handleSelect('urgent')}
+                            onClick={this.handleSelect(PostPriority.URGENT)}
                             text={(
                                 <FormattedMessage
                                     id={'post_priority.priority.urgent'}
                                     defaultMessage={'Urgent'}
                                 />
                             )}
-                            isSelected={this.state.selected === 'urgent'}
+                            isSelected={this.state.selected === PostPriority.URGENT}
                             icon={
                                 <div className='PostPriorityPicker__urgent'>
                                     <AlertOutlineIcon size={18}/>
