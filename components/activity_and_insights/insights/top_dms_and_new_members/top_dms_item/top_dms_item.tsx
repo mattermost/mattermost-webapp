@@ -51,7 +51,7 @@ const TopDMsItem = ({dm, barSize, team}: Props) => {
 
     const trackClick = useCallback(() => {
         trackEvent('insights', 'open_dm_from_top_dms_widget');
-    },[]);
+    }, []);
 
     return (
         <Link

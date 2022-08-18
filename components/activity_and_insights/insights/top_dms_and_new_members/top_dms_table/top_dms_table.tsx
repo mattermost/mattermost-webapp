@@ -5,9 +5,9 @@ import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import {Link} from 'react-router-dom';
 
-import {trackEvent} from 'actions/telemetry_actions';
-
 import classNames from 'classnames';
+
+import {trackEvent} from 'actions/telemetry_actions';
 
 import {getMyTopDMs} from 'mattermost-redux/actions/insights';
 
