@@ -63,7 +63,7 @@ const LeastActiveChannelsTable = (props: Props) => {
 
     const goToChannel = useCallback((channel: LeastActiveChannel) => {
         props.closeModal();
-        trackEvent('insights', 'open_board_from_top_boards_modal');
+        trackEvent('insights', 'open_channel_from_least_active_channels_modal');
         browserHistory.push(`${currentTeamUrl}/channels/${channel.name}`);
     }, [props.closeModal]);
 

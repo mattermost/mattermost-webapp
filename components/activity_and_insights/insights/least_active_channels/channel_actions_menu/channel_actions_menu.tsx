@@ -3,6 +3,8 @@
 import React, {memo, useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
+import {trackEvent} from 'actions/telemetry_actions';
+
 import {openModal} from 'actions/views/modals';
 
 import {General} from 'mattermost-redux/constants';
@@ -38,6 +40,7 @@ const ChannelActionsMenu = ({channel, actionCallback}: Props) => {
 
     const handleLeave = useCallback(async (e: Event) => {
         e.preventDefault();
+        trackEvent('insights', 'leave_channel_action');
 
         if (channel.type === Constants.PRIVATE_CHANNEL) {
             dispatch(openModal({
@@ -55,6 +58,7 @@ const ChannelActionsMenu = ({channel, actionCallback}: Props) => {
     }, [channel]);
 
     const copyLink = useCallback(() => {
+        trackEvent('insights', 'copy_channel_link_action');
         copyToClipboard(`${getSiteURL()}${currentTeamUrl}/channels/${channel.name}`);
     }, [currentTeamUrl, channel]);
 
