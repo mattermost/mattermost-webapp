@@ -30,6 +30,8 @@ type RestrictedIndicatorProps = {
     ctaExtraContent?: React.ReactNode;
     clickCallback?: () => void;
     customSecondaryButtonInModal?: {msg: string; action: () => void};
+    feature?: string;
+    minimumPlanRequiredForFeature?: string;
 }
 
 const RestrictedIndicator = ({
@@ -47,6 +49,8 @@ const RestrictedIndicator = ({
     ctaExtraContent,
     clickCallback,
     customSecondaryButtonInModal,
+    feature,
+    minimumPlanRequiredForFeature,
 }: RestrictedIndicatorProps) => {
     const {formatMessage} = useIntl();
 
@@ -107,6 +111,8 @@ const RestrictedIndicator = ({
                             titleEndUser,
                             messageEndUser,
                             customSecondaryButton: customSecondaryButtonInModal,
+                            feature,
+                            minimumPlanRequiredForFeature,
                         }}
                     >
                         {icon}

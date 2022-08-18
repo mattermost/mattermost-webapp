@@ -3245,6 +3245,7 @@
   "error.team_not_found.message": "The team you're requesting is private or does not exist. Please contact your Administrator for an invitation.",
   "error.team_not_found.title": "Team Not Found",
   "feature_restricted_modal.agreement": "By selecting <highlight>Try free for {trialLength} days</highlight>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails.",
+  "feature_restricted_modal.button.notify": "Notify admin",
   "feature_restricted_modal.button.plans": "View plans",
   "file_attachment.thumbnail": "file thumbnail",
   "file_info_preview.size": "Size ",

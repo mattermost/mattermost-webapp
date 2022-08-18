@@ -19,7 +19,7 @@ import {closeModal, openModal} from 'actions/views/modals';
 import RadioGroup from 'components/common/radio_group';
 import RestrictedIndicator from 'components/widgets/menu/menu_items/restricted_indicator';
 
-import {CloudProducts, ModalIdentifiers} from 'utils/constants';
+import {CloudProducts, ModalIdentifiers, NonAdminPaidFeatures} from 'utils/constants';
 
 import {FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS} from 'utils/cloud_utils';
 
@@ -76,6 +76,8 @@ export default function InviteAs(props: Props) {
         const restrictedIndicator = (
             <RestrictedIndicator
                 blocked={!isCloudFreeTrial}
+                feature={NonAdminPaidFeatures.GUEST_ACCOUNTS}
+                minimumPlanRequiredForFeature={CloudProducts.PROFESSIONAL}
                 titleAdminPreTrial={formatMessage({
                     id: 'invite_modal.restricted_invite_guest.pre_trial_title',
                     defaultMessage: 'Try inviting guests with a free trial',
