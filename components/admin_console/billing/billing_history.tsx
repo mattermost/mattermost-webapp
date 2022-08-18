@@ -9,6 +9,7 @@ import {getInvoices} from 'mattermost-redux/actions/cloud';
 import {Client4} from 'mattermost-redux/client';
 import {Invoice} from '@mattermost/types/cloud';
 import {GlobalState} from '@mattermost/types/store';
+import {openModal} from 'actions/views/modals';
 
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 
@@ -17,11 +18,12 @@ import FormattedAdminHeader from 'components/widgets/admin_console/formatted_adm
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import EmptyBillingHistorySvg from 'components/common/svg_images_components/empty_billing_history_svg';
 
-import {CloudLinks} from 'utils/constants';
+import {CloudLinks, ModalIdentifiers} from 'utils/constants';
 
 import InvoiceUserCount from './invoice_user_count';
 
 import './billing_history.scss';
+import CloudInvoicePreview from 'components/cloud_invoice_preview';
 
 const PAGE_LENGTH = 4;
 
@@ -179,6 +181,16 @@ const BillingHistory = () => {
                         <tr
                             className='BillingHistory__table-row'
                             key={invoice.id}
+                            onClick={() => {
+                                dispatch(openModal({
+                                    modalId:
+                                        ModalIdentifiers.CLOUD_INVOICE_PREVIEW,
+                                    dialogType: CloudInvoicePreview,
+                                    dialogProps: {
+                                        url: 'https://www.ridefox.com/dl/bike/my21/605-00-216_RevA-36-Tuning-Guide.pdf',
+                                    },
+                                }));
+                            }}
                         >
                             <td>
                                 <FormattedDate
@@ -252,9 +264,7 @@ const BillingHistory = () => {
                         <div className='BillingHistory__cardBody'>
                             {invoices != null && (
                                 <>
-                                    {billingHistory ?
-                                        billingHistoryTable :
-                                        noBillingHistorySection}
+                                    {billingHistory ? billingHistoryTable : noBillingHistorySection}
                                 </>
                             )}
                             {invoices == null && (
