@@ -5,6 +5,8 @@ import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import {Link} from 'react-router-dom';
 
+import {trackEvent} from 'actions/telemetry_actions';
+
 import classNames from 'classnames';
 
 import {getMyTopDMs} from 'mattermost-redux/actions/insights';
@@ -56,6 +58,7 @@ const TopDMsTable = (props: Props) => {
     }, [getMyTopTeamDMs]);
 
     const closeModal = useCallback(() => {
+        trackEvent('insights', 'open_dm_from_top_dms_modal');
         props.closeModal();
     }, [props.closeModal]);
 
