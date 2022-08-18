@@ -66,9 +66,7 @@ describe('Profile > Profile Settings > Full Name', () => {
         cy.uiSave();
 
         // * Check that the full name was correctly cleared
-        cy.findByText("Click 'Edit' to add your full name").should(
-            'be.visible',
-        );
+        cy.findByText("Click 'Edit' to add your full name").should('be.visible');
 
         // # Click "Edit" to the right of "Full Name"
         cy.get('#nameEdit').should('be.visible').click();
