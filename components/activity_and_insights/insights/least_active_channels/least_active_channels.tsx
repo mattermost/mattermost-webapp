@@ -21,7 +21,7 @@ import LeastActiveChannelsItem from './least_active_channels_item/least_active_c
 import './../../activity_and_insights.scss';
 
 interface Props {
-    showModal: boolean;
+    showModal?: boolean;
 }
 
 const LeastActiveChannels = (props: WidgetHocProps & Props) => {
@@ -33,7 +33,7 @@ const LeastActiveChannels = (props: WidgetHocProps & Props) => {
     const currentTeamId = useSelector(getCurrentTeamId);
 
     const getInactiveChannels = useCallback(async () => {
-        if (!props.showModal) {
+        if (props.showModal === false) {
             setLoading(true);
             if (props.filterType === InsightsScopes.TEAM) {
                 const data: any = await dispatch(getLeastActiveChannelsForTeam(currentTeamId, 0, 3, props.timeFrame));
