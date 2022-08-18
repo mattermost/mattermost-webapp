@@ -44,7 +44,7 @@ function CloudInvoicePreview(props: Props) {
             id='cloud-invoice-preview'
             className='CloudInvoicePreview'
         >
-            <Modal.Header>
+            <Modal.Header closeButton={true}>
                 <Modal.Title>{'Invoice'}</Modal.Title>
                 <div className={'subtitle'}>
                     <FormattedMessage

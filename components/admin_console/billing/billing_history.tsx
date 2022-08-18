@@ -177,58 +177,63 @@ const BillingHistory = () => {
                         </th>
                         <th>{''}</th>
                     </tr>
-                    {billingHistory.map((invoice: Invoice) => (
-                        <tr
-                            className='BillingHistory__table-row'
-                            key={invoice.id}
-                            onClick={() => {
-                                dispatch(openModal({
-                                    modalId:
-                                        ModalIdentifiers.CLOUD_INVOICE_PREVIEW,
-                                    dialogType: CloudInvoicePreview,
-                                    dialogProps: {
-                                        url: 'http://localhost:9005/api/v4/files/aphcmr1kjf8qmdqwp6ksqxeier?download=1',
-                                    },
-                                }));
-                            }}
-                        >
-                            <td>
-                                <FormattedDate
-                                    value={new Date(invoice.period_start)}
-                                    month='2-digit'
-                                    day='2-digit'
-                                    year='numeric'
-                                    timeZone='UTC'
-                                />
-                            </td>
-                            <td>
-                                <div>{invoice.current_product_name}</div>
-                                <div className='BillingHistory__table-bottomDesc'>
-                                    <InvoiceUserCount invoice={invoice}/>
-                                </div>
-                            </td>
-                            <td className='BillingHistory__table-total'>
-                                <FormattedNumber
-                                    value={(invoice.total / 100.0)}
-                                    // eslint-disable-next-line react/style-prop-object
-                                    style='currency'
-                                    currency='USD'
-                                />
-                            </td>
-                            <td>
-                                {getPaymentStatus(invoice.status)}
-                            </td>
-                            <td className='BillingHistory__table-invoice'>
-                                <a
-                                    target='_self'
-                                    rel='noopener noreferrer'
-                                    href={Client4.getInvoicePdfUrl(invoice.id)}
-                                >
-                                    <i className='icon icon-file-pdf-outline'/>
-                                </a>
-                            </td>
-                        </tr>
-                    ))}
+                    {billingHistory.map((invoice: Invoice) => {
+                        const url = Client4.getInvoicePdfUrl(invoice.id);
+                        return (
+                            <tr
+                                className='BillingHistory__table-row'
+                                key={invoice.id}
+                                onClick={() => {
+                                    dispatch(
+                                        openModal({
+                                            modalId:
+                                            ModalIdentifiers.CLOUD_INVOICE_PREVIEW,
+                                            dialogType: CloudInvoicePreview,
+                                            dialogProps: {
+                                                url,
+                                            },
+                                        }),
+                                    );
+                                }}
+                            >
+                                <td>
+                                    <FormattedDate
+                                        value={new Date(invoice.period_start)}
+                                        month='2-digit'
+                                        day='2-digit'
+                                        year='numeric'
+                                        timeZone='UTC'
+                                    />
+                                </td>
+                                <td>
+                                    <div>{invoice.current_product_name}</div>
+                                    <div className='BillingHistory__table-bottomDesc'>
+                                        <InvoiceUserCount invoice={invoice}/>
+                                    </div>
+                                </td>
+                                <td className='BillingHistory__table-total'>
+                                    <FormattedNumber
+                                        value={(invoice.total / 100.0)}
+                                        // eslint-disable-next-line react/style-prop-object
+                                        style='currency'
+                                        currency='USD'
+                                    />
+                                </td>
+                                <td>
+                                    {getPaymentStatus(invoice.status)}
+                                </td>
+                                <td className='BillingHistory__table-invoice'>
+                                    <a
+                                        target='_self'
+                                        rel='noopener noreferrer'
+                                        href={url}
+                                    >
+                                        <i className='icon icon-file-pdf-outline'/>
+                                    </a>
+                                </td>
+                            </tr>
+                        );
+                    })}
                 </tbody>
             </table>
             {paging}

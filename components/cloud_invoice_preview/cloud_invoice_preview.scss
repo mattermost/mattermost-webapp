@@ -13,6 +13,11 @@
         color: #3F4350;
         border: none;
         padding-bottom: 0;
+        .close {
+            color: rgba(#3F4350, 0.56);
+            margin-top: auto;
+            margin-bottom: auto;
+        }
         .modal-title {
             font-family: 'Metropolis';
             font-style: normal;
