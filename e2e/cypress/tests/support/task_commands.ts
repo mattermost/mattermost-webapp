@@ -2,8 +2,6 @@
 // See LICENSE.txt for license information.
 import {AxiosResponse} from 'axios';
 
-import {Post} from '@mattermost/types/posts';
-
 import {ChainableT} from '../types';
 
 /**
@@ -17,13 +15,26 @@ import {ChainableT} from '../types';
 interface PostMessageResp {
     id: string;
     status: number;
-    data: Post;
+    data: any;
 }
 
-function postMessageAs({sender, message, channelId, rootId, createAt}): ChainableT<PostMessageResp> {
+interface PostMessageArg {
+    sender: {
+        username: string;
+        password: string;
+    };
+    message: string;
+    channelId: string;
+    rootId?: string;
+    createAt?: number;
+}
+
+function postMessageAs(arg: PostMessageArg): ChainableT<PostMessageResp> {
+    const {sender, message, channelId, rootId, createAt} = arg;
     const baseUrl = Cypress.config('baseUrl');
 
-    return cy.task('postMessageAs', {sender, message, channelId, rootId, createAt, baseUrl}).then(({status, data}) => {
+    return cy.task('postMessageAs', {sender, message, channelId, rootId, createAt, baseUrl}).then((response: AxiosResponse<{id: string}>) => {
+        const {status, data} = response;
         expect(status).to.equal(201);
 
         // # Return the data so it can be interacted in a test
@@ -74,7 +85,7 @@ Cypress.Commands.add('reactToMessageAs', ({sender, postId, reaction}) => {
 * @param {Object} data - payload on incoming webhook
 */
 
-function postIncomingWebhook({url, data, waitFor}): ChainableT<any> {
+function postIncomingWebhook({url, data, waitFor}): ChainableT {
     cy.task('postIncomingWebhook', {url, data}).its('status').should('be.equal', 200);
 
     if (!waitFor) {
@@ -159,7 +170,7 @@ Cypress.Commands.add('postBotMessage', postBotMessage);
 * @param {String} httpStatus - expected HTTP status
 */
 
-function urlHealthCheck({name, url, helperMessage, method, httpStatus}): ChainableT<any> {
+function urlHealthCheck({name, url, helperMessage, method, httpStatus}): ChainableT {
     Cypress.log({name, message: `Checking URL health at ${url}`});
 
     return cy.task('urlHealthCheck', {url, method}).then(({data, errorCode, status, success}) => {
@@ -269,9 +280,6 @@ declare global {
             postBotMessage: typeof postBotMessage;
 
             urlHealthCheck: typeof urlHealthCheck;
-
-            externalRequest: typeof externalRequest;
-
         }
     }
 }

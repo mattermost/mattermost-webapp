@@ -268,7 +268,7 @@ function uiGotoDirectMessageWithUser(user: User) {
 }
 Cypress.Commands.add('uiGotoDirectMessageWithUser', uiGotoDirectMessageWithUser);
 
-function sendDirectMessageToUser(user: User, message: string): ChainableT<any> {
+function sendDirectMessageToUser(user: User, message: string) {
     cy.uiGotoDirectMessageWithUser(user);
 
     // # Type message and send it to the user

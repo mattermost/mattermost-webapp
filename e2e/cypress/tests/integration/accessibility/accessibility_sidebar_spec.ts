@@ -43,7 +43,7 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
         }).then(() => {
             // # Post messages to have unread messages to test user
             for (let index = 0; index < 5; index++) {
-                (cy as any).postMessageAs({sender: otherUser, message: 'This is an old message', channelId: otherChannel.id});
+                cy.postMessageAs({sender: otherUser, message: 'This is an old message', channelId: otherChannel.id});
             }
         });
     });

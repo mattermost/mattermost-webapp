@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {ChainableT, ResponseT} from 'tests/types';
+
 import {getAdminAccount, User} from './env';
 
 // *****************************************************************************
@@ -14,7 +16,6 @@ import {getAdminAccount, User} from './env';
 // https://api.mattermost.com/#tag/commands
 // *****************************************************************************
 
-type AnyResponse = Cypress.Chainable<Cypress.Response<any>>;
 type CypressResponseAny = Cypress.Response<any>
 function apiCreateCommand(command: Record<string, any> = {}): Cypress.Chainable<{data: CypressResponseAny['body']; status: CypressResponseAny['status']}> {
     const options = {
@@ -35,7 +36,7 @@ Cypress.Commands.add('apiCreateCommand', apiCreateCommand);
 // *****************************************************************************
 // Email
 // *****************************************************************************
-function apiEmailTest(): AnyResponse {
+function apiEmailTest(): ResponseT {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/email/test',
@@ -52,7 +53,7 @@ Cypress.Commands.add('apiEmailTest', apiEmailTest);
 // https://api.mattermost.com/#tag/posts
 // *****************************************************************************
 
-function apiCreatePost(channelId: string, message: string, rootId: string, props: Record<string, any>, token = '', failOnStatusCode = true): AnyResponse {
+function apiCreatePost(channelId: string, message: string, rootId: string, props: Record<string, any>, token = '', failOnStatusCode = true): ResponseT {
     const headers: Record<string, string> = {'X-Requested-With': 'XMLHttpRequest'};
     if (token !== '') {
         headers.Authorization = `Bearer ${token}`;
@@ -106,7 +107,7 @@ Cypress.Commands.add('apiCreateToken', apiCreateToken);
  * Unpins pinned posts of given postID directly via API
  * This API assume that the user is logged in and has cookie to access
  */
-function apiUnpinPosts(postId: string): AnyResponse {
+function apiUnpinPosts(postId: string): ResponseT {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/posts/' + postId + '/unpin',
@@ -120,7 +121,7 @@ Cypress.Commands.add('apiUnpinPosts', apiUnpinPosts);
 // https://api.mattermost.com/#tag/webhooks
 // *****************************************************************************
 
-function apiCreateWebhook(hook: Record<string, any> = {}, isIncoming = true): Cypress.Chainable<{data: CypressResponseAny['body']; url: string}> {
+function apiCreateWebhook(hook: Record<string, any> = {}, isIncoming = true): ChainableT<{data: CypressResponseAny['body']; url: string}> {
     const hookUrl = isIncoming ? '/api/v4/hooks/incoming' : '/api/v4/hooks/outgoing';
     const options = {
         url: hookUrl,
@@ -137,7 +138,7 @@ function apiCreateWebhook(hook: Record<string, any> = {}, isIncoming = true): Cy
 
 Cypress.Commands.add('apiCreateWebhook', apiCreateWebhook);
 
-function apiGetTeam(teamId: string): Cypress.Chainable<Cypress.Response<any>> {
+function apiGetTeam(teamId: string): ChainableT<any> {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `api/v4/teams/${teamId}`,
@@ -185,7 +186,7 @@ Cypress.Commands.add('apiGetLDAPSync', apiGetLDAPSync);
 // Groups
 // https://api.mattermost.com/#tag/groups
 // *****************************************************************************
-function apiGetGroups(page = 0, perPage = 100): AnyResponse {
+function apiGetGroups(page = 0, perPage = 100): ResponseT {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `/api/v4/groups?page=${page}&per_page=${perPage}`,
@@ -198,7 +199,7 @@ function apiGetGroups(page = 0, perPage = 100): AnyResponse {
 }
 Cypress.Commands.add('apiGetGroups', apiGetGroups);
 
-function apiPatchGroup(groupID: string, patch: Record<string, any>): AnyResponse {
+function apiPatchGroup(groupID: string, patch: Record<string, any>): ResponseT {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `/api/v4/groups/${groupID}/patch`,
@@ -212,7 +213,7 @@ function apiPatchGroup(groupID: string, patch: Record<string, any>): AnyResponse
 }
 Cypress.Commands.add('apiPatchGroup', apiPatchGroup);
 
-function apiGetLDAPGroups(page = 0, perPage = 100): AnyResponse {
+function apiGetLDAPGroups(page = 0, perPage = 100): ResponseT {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `/api/v4/ldap/groups?page=${page}&per_page=${perPage}`,
@@ -251,7 +252,7 @@ function apiGetTeamGroups(teamId: string) {
 }
 Cypress.Commands.add('apiGetTeamGroups', apiGetTeamGroups);
 
-function apiDeleteLinkFromTeamToGroup(groupId: string, teamId: string): AnyResponse {
+function apiDeleteLinkFromTeamToGroup(groupId: string, teamId: string): ResponseT {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `/api/v4/groups/${groupId}/teams/${teamId}/link`,
@@ -264,17 +265,17 @@ function apiDeleteLinkFromTeamToGroup(groupId: string, teamId: string): AnyRespo
 }
 Cypress.Commands.add('apiDeleteLinkFromTeamToGroup', apiDeleteLinkFromTeamToGroup);
 
-function apiLinkGroup(groupID: string): AnyResponse {
+function apiLinkGroup(groupID: string): ResponseT {
     return linkUnlinkGroup(groupID, 'POST');
 }
 Cypress.Commands.add('apiLinkGroup', apiLinkGroup);
 
-function apiUnlinkGroup(groupID: string): AnyResponse {
+function apiUnlinkGroup(groupID: string): ResponseT {
     return linkUnlinkGroup(groupID, 'DELETE');
 }
 Cypress.Commands.add('apiUnlinkGroup', apiUnlinkGroup);
 
-function linkUnlinkGroup(groupID: string, httpMethod: string): AnyResponse {
+function linkUnlinkGroup(groupID: string, httpMethod: string): ResponseT {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `/api/v4/ldap/groups/${groupID}/link`,
@@ -286,27 +287,27 @@ function linkUnlinkGroup(groupID: string, httpMethod: string): AnyResponse {
     });
 }
 
-function apiGetGroupTeams(groupID: string): AnyResponse {
+function apiGetGroupTeams(groupID: string): ResponseT {
     return getGroupSyncables(groupID, 'team');
 }
 Cypress.Commands.add('apiGetGroupTeams', apiGetGroupTeams);
 
-function apiGetGroupTeam(groupID: string, teamID: string): AnyResponse {
+function apiGetGroupTeam(groupID: string, teamID: string): ResponseT {
     return getGroupSyncable(groupID, 'team', teamID);
 }
 Cypress.Commands.add('apiGetGroupTeam', apiGetGroupTeam);
 
-function apiGetGroupChannels(groupID: string): AnyResponse {
+function apiGetGroupChannels(groupID: string): ResponseT {
     return getGroupSyncables(groupID, 'channel');
 }
 Cypress.Commands.add('apiGetGroupChannels', apiGetGroupChannels);
 
-function apiGetGroupChannel(groupID: string, channelID: string): AnyResponse {
+function apiGetGroupChannel(groupID: string, channelID: string): ResponseT {
     return getGroupSyncable(groupID, 'channel', channelID);
 }
 Cypress.Commands.add('apiGetGroupChannel', apiGetGroupChannel);
 
-function getGroupSyncable(groupID: string, syncableType: string, syncableID: string): AnyResponse {
+function getGroupSyncable(groupID: string, syncableType: string, syncableID: string): ResponseT {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `/api/v4/groups/${groupID}/${syncableType}s/${syncableID}`,
@@ -318,7 +319,7 @@ function getGroupSyncable(groupID: string, syncableType: string, syncableID: str
     });
 }
 
-function getGroupSyncables(groupID: string, syncableType: string): AnyResponse {
+function getGroupSyncables(groupID: string, syncableType: string): ResponseT {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `/api/v4/groups/${groupID}/${syncableType}s?page=0&per_page=100`,
@@ -330,22 +331,22 @@ function getGroupSyncables(groupID: string, syncableType: string): AnyResponse {
     });
 }
 
-function apiUnlinkGroupTeam(groupID: string, teamID: string): AnyResponse {
+function apiUnlinkGroupTeam(groupID: string, teamID: string): ResponseT {
     return linkUnlinkGroupSyncable(groupID, teamID, 'team', 'DELETE');
 }
 Cypress.Commands.add('apiUnlinkGroupTeam', apiUnlinkGroupTeam);
 
-function apiLinkGroupTeam(groupID: string, teamID: string): AnyResponse {
+function apiLinkGroupTeam(groupID: string, teamID: string): ResponseT {
     return linkUnlinkGroupSyncable(groupID, teamID, 'team', 'POST');
 }
 Cypress.Commands.add('apiLinkGroupTeam', apiLinkGroupTeam);
 
-function apiUnlinkGroupChannel(groupID: string, channelID: string): AnyResponse {
+function apiUnlinkGroupChannel(groupID: string, channelID: string): ResponseT {
     return linkUnlinkGroupSyncable(groupID, channelID, 'channel', 'DELETE');
 }
 Cypress.Commands.add('apiUnlinkGroupChannel', apiUnlinkGroupChannel);
 
-function apiLinkGroupChannel(groupID: string, channelID: string): AnyResponse {
+function apiLinkGroupChannel(groupID: string, channelID: string): ResponseT {
     return linkUnlinkGroupSyncable(groupID, channelID, 'channel', 'POST');
 }
 Cypress.Commands.add('apiLinkGroupChannel', apiLinkGroupChannel);
