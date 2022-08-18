@@ -43,10 +43,9 @@ function Item({
         >
             {text && <span className='MenuItem__primary-text'>{text}</span>}
             {isSelected && (
-                <CheckIcon
-                    size={18}
-                    className='PostPriorityPicker__check'
-                />
+                <span className='PostPriorityPicker__check'>
+                    <CheckIcon size={18}/>
+                </span>
             )}
         </button>
     );
@@ -156,7 +155,7 @@ export default class PostPriorityPicker extends React.PureComponent<Props, State
                                 />
                             )}
                             icon={
-                                <div className="PostPriorityPicker__standard">
+                                <div className='PostPriorityPicker__standard'>
                                     <MessageTextOutlineIcon size={18}/>
                                 </div>
                             }
@@ -171,7 +170,7 @@ export default class PostPriorityPicker extends React.PureComponent<Props, State
                             )}
                             isSelected={this.state.selected === 'important'}
                             icon={
-                                <div className="PostPriorityPicker__important">
+                                <div className='PostPriorityPicker__important'>
                                     <AlertCircleOutlineIcon size={18}/>
                                 </div>
                             }
@@ -186,7 +185,7 @@ export default class PostPriorityPicker extends React.PureComponent<Props, State
                             )}
                             isSelected={this.state.selected === 'urgent'}
                             icon={
-                                <div className="PostPriorityPicker__urgent">
+                                <div className='PostPriorityPicker__urgent'>
                                     <AlertOutlineIcon size={18}/>
                                 </div>
                             }

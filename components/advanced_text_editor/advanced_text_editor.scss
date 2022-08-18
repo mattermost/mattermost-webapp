@@ -66,13 +66,13 @@
         padding: 14px 16px 0;
 
         button.close {
-            align-items: center;
             display: flex;
-            font-size: 17px;
+            align-items: center;
             justify-content: center;
-            visibility: hidden;
-            margin-left: 10px;
             margin-top: -1px;
+            margin-left: 10px;
+            font-size: 17px;
+            visibility: hidden;
         }
 
         &:hover {

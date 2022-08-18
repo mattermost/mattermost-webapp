@@ -1,14 +1,15 @@
 .label {
+    display: inline-flex;
+    align-items: center;
     padding: 0.2em 0.5em 0.3em;
     border-radius: 4px;
     font-size: 10px;
-    display: inline-flex;
-    align-items: center;
+    text-transform: uppercase;
 
     &__icon {
-        margin-right: 3px;
         width: 12px;
         height: 12px;
+        margin-right: 3px;
     }
 
     &-danger {

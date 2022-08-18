@@ -147,7 +147,7 @@ interface FormattingBarProps {
      * controls that enhance the message,
      * e.g: message priority picker
      */
-    enhanceControls: React.ReactNodeArray;
+    enhanceControls?: React.ReactNodeArray;
 }
 
 const FormattingBar = (props: FormattingBarProps): JSX.Element => {

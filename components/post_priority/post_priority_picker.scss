@@ -25,13 +25,13 @@
 
         > h4 {
             display: inline;
+            margin-right: 4px;
             font-family: Open Sans;
             font-size: 14px;
             font-weight: 600;
+            letter-spacing: 0;
             line-height: 20px;
-            letter-spacing: 0em;
             text-align: left;
-            margin-right: 4px;
         }
     }
 
@@ -40,16 +40,16 @@
     }
 
     &__menu {
-        list-style: none;
-        margin: 0;
         padding: 8px 0;
+        margin: 0;
         color: var(--center-channel-text-rgb);
+        list-style: none;
     }
 
     &__bottom {
-        text-align: right;
-        border-top: 1px solid rgba(var(--center-channel-text-rgb), 0.08);
         padding: 14px 20px;
+        border-top: 1px solid rgba(var(--center-channel-text-rgb), 0.08);
+        text-align: right;
     }
 
     &__apply {
@@ -84,15 +84,18 @@
     }
 
     &__check {
+        display: flex;
         margin-left: auto;
-        fill: var(--button-bg);
+
+        > svg {
+            fill: var(--button-bg);
+        }
     }
 
     .Menu .MenuItem > button.PostPriorityPicker__item {
         display: flex;
         align-items: center;
     }
-
 
     .browser--ie & {
         width: 325px;
