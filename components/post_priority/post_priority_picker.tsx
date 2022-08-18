@@ -1,8 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import React, {useState, useCallback, memo} from 'react';
+import {useIntl} from 'react-intl';
+import classNames from 'classnames';
 
 import {AlertOutlineIcon, AlertCircleOutlineIcon, MessageTextOutlineIcon, CheckIcon} from '@mattermost/compass-icons/components';
 
@@ -13,11 +14,14 @@ import menuItem from 'components/widgets/menu/menu_items/menu_item';
 
 import './post_priority_picker.scss';
 
-type Props = typeof PostPriorityPicker.defaultProps & {
+type Props = {
     priority?: PostPriority;
     onClose: () => void;
     onApply: (props: {priority: PostPriority|undefined}) => void;
     placement: string;
+    rightOffset?: number;
+    topOffset?: number;
+    leftOffset?: number;
     style?: React.CSSProperties;
 }
 
@@ -55,171 +59,140 @@ function Item({
 
 const MenuItem = menuItem(Item);
 
-type State = {
-    selected?: PostPriority;
-}
+function PostPriorityPicker({
+    priority,
+    onClose,
+    onApply,
+    placement,
+    rightOffset = 0,
+    topOffset = 0,
+    leftOffset = 0,
+    style,
+}: Props) {
+    const {formatMessage} = useIntl();
+    const [selected, setSelected] = useState<PostPriority|undefined>(priority);
 
-export default class PostPriorityPicker extends React.PureComponent<Props, State> {
-    state: State;
+    const handleSelect = useCallback((type?: PostPriority) => () => {
+        setSelected(type);
+    }, []);
 
-    static defaultProps = {
-        rightOffset: 0,
-        topOffset: 0,
-        leftOffset: 0,
-    }
+    const handleApply = useCallback(() => {
+        onApply({priority: selected});
+        onClose();
+    }, [selected]);
 
-    constructor(props: Props) {
-        super(props);
-
-        this.state = {
-            selected: props.priority,
-        };
-
-        this.handleSelect = this.handleSelect.bind(this);
-        this.handleApply = this.handleApply.bind(this);
-    }
-
-    handleSelect(type?: State['selected']) {
-        return () => {
-            this.setState({
-                selected: type,
-            });
-        };
-    }
-
-    handleApply() {
-        this.props.onApply({
-            priority: this.state.selected,
-        });
-        this.props.onClose();
-    }
-
-    render() {
-        let pickerStyle: React.CSSProperties = {};
-        if (this.props.style && !(this.props.style.left === 0 && this.props.style.top === 0)) {
-            if (this.props.placement === 'top' || this.props.placement === 'bottom') {
-                // Only take the top/bottom position passed by React Bootstrap since we want to be left-aligned
-                pickerStyle = {
-                    top: this.props.style.top,
-                    bottom: this.props.style.bottom,
-                    left: this.props.leftOffset,
-                };
-            } else {
-                pickerStyle = {...this.props.style};
-            }
-
-            pickerStyle.top = pickerStyle.top ? Number(pickerStyle.top) + this.props.topOffset : this.props.topOffset;
-
-            if (pickerStyle.right) {
-                pickerStyle.right = Number(pickerStyle.right) + this.props.rightOffset;
-            }
+    let pickerStyle: React.CSSProperties = {};
+    if (style && !(style.left === 0 && style.top === 0)) {
+        if (placement === 'top' || placement === 'bottom') {
+            // Only take the top/bottom position passed by React Bootstrap since we want to be left-aligned
+            pickerStyle = {
+                top: style.top,
+                bottom: style.bottom,
+                left: leftOffset,
+            };
+        } else {
+            pickerStyle = {...style};
         }
 
-        let pickerClass = 'PostPriorityPicker';
-        if (this.props.placement === 'bottom') {
-            pickerClass += ' bottom';
-        }
+        pickerStyle.top = pickerStyle.top ? Number(pickerStyle.top) + topOffset : topOffset;
 
-        return (
-            <div
-                style={pickerStyle}
-                className={pickerClass}
-            >
-                <div className='PostPriorityPicker__header'>
-                    <h4 className='modal-title'>
-                        <FormattedMessage
-                            id={'post_priority.picker.header'}
-                            defaultMessage={'Message Priority'}
-                        />
-                    </h4>
-                    <Label variant={LabelType.Primary}>
-                        {'BETA'}
-                    </Label>
-                    <button className='style--none PostPriorityPicker__feedback'>
-                        <FormattedMessage
-                            id={'post_priority.picker.feedback'}
-                            defaultMessage={'Give feedback'}
-                        />
-                    </button>
-                </div>
-                <div
-                    className='PostPriorityPicker__body'
-                    role='application'
-                >
-                    <ul className='PostPriorityPicker__menu Menu'>
-                        <MenuItem
-                            onClick={this.handleSelect()}
-                            isSelected={this.state.selected === undefined}
-                            text={(
-                                <FormattedMessage
-                                    id={'post_priority.priority.standard'}
-                                    defaultMessage={'Standard'}
-                                />
-                            )}
-                            icon={
-                                <div className='PostPriorityPicker__standard'>
-                                    <MessageTextOutlineIcon size={18}/>
-                                </div>
-                            }
-                        />
-                        <MenuItem
-                            onClick={this.handleSelect(PostPriority.IMPORTANT)}
-                            text={(
-                                <FormattedMessage
-                                    id={'post_priority.priority.important'}
-                                    defaultMessage={'Important'}
-                                />
-                            )}
-                            isSelected={this.state.selected === PostPriority.IMPORTANT}
-                            icon={
-                                <div className='PostPriorityPicker__important'>
-                                    <AlertCircleOutlineIcon size={18}/>
-                                </div>
-                            }
-                        />
-                        <MenuItem
-                            onClick={this.handleSelect(PostPriority.URGENT)}
-                            text={(
-                                <FormattedMessage
-                                    id={'post_priority.priority.urgent'}
-                                    defaultMessage={'Urgent'}
-                                />
-                            )}
-                            isSelected={this.state.selected === PostPriority.URGENT}
-                            icon={
-                                <div className='PostPriorityPicker__urgent'>
-                                    <AlertOutlineIcon size={18}/>
-                                </div>
-                            }
-                        />
-                    </ul>
-                </div>
-                <div
-                    className='PostPriorityPicker__bottom'
-                    role='application'
-                >
-                    <button
-                        type='button'
-                        className='PostPriorityPicker__cancel'
-                        onClick={this.props.onClose}
-                    >
-                        <FormattedMessage
-                            id={'post_priority.picker.cancel'}
-                            defaultMessage={'Cancel'}
-                        />
-                    </button>
-                    <button
-                        onClick={this.handleApply}
-                        type='button'
-                        className='PostPriorityPicker__apply'
-                    >
-                        <FormattedMessage
-                            id={'post_priority.picker.apply'}
-                            defaultMessage={'Apply'}
-                        />
-                    </button>
-                </div>
+        if (pickerStyle.right) {
+            pickerStyle.right = Number(pickerStyle.right) + rightOffset;
+        }
+    }
+
+    return (
+        <div
+            style={pickerStyle}
+            className={classNames({PostPriorityPicker: true, bottom: placement === 'bottom'})}
+        >
+            <div className='PostPriorityPicker__header'>
+                <h4 className='modal-title'>
+                    {formatMessage({
+                        id: 'post_priority.picker.header',
+                        defaultMessage: 'Message Priority',
+                    })}
+                </h4>
+                <Label variant={LabelType.Primary}>
+                    {'BETA'}
+                </Label>
+                <button className='style--none PostPriorityPicker__feedback'>
+                    {formatMessage({id: 'post_priority.picker.feedback', defaultMessage: 'Give feedback'})}
+                </button>
             </div>
-        );
-    }
+            <div
+                className='PostPriorityPicker__body'
+                role='application'
+            >
+                <ul className='PostPriorityPicker__menu Menu'>
+                    <MenuItem
+                        onClick={handleSelect()}
+                        isSelected={selected === undefined}
+                        text={formatMessage({
+                            id: 'post_priority.priority.standard',
+                            defaultMessage: 'Standard',
+                        })}
+                        icon={
+                            <div className='PostPriorityPicker__standard'>
+                                <MessageTextOutlineIcon size={18}/>
+                            </div>
+                        }
+                    />
+                    <MenuItem
+                        onClick={handleSelect(PostPriority.IMPORTANT)}
+                        text={formatMessage({
+                            id: 'post_priority.priority.important',
+                            defaultMessage: 'Important',
+                        })}
+                        isSelected={selected === PostPriority.IMPORTANT}
+                        icon={
+                            <div className='PostPriorityPicker__important'>
+                                <AlertCircleOutlineIcon size={18}/>
+                            </div>
+                        }
+                    />
+                    <MenuItem
+                        onClick={handleSelect(PostPriority.URGENT)}
+                        text={formatMessage({
+                            id: 'post_priority.priority.urgent',
+                            defaultMessage: 'Urgent',
+                        })}
+                        isSelected={selected === PostPriority.URGENT}
+                        icon={
+                            <div className='PostPriorityPicker__urgent'>
+                                <AlertOutlineIcon size={18}/>
+                            </div>
+                        }
+                    />
+                </ul>
+            </div>
+            <div
+                className='PostPriorityPicker__bottom'
+                role='application'
+            >
+                <button
+                    type='button'
+                    className='PostPriorityPicker__cancel'
+                    onClick={onClose}
+                >
+                    {formatMessage({
+                        id: 'post_priority.picker.cancel',
+                        defaultMessage: 'Cancel',
+                    })}
+                </button>
+                <button
+                    onClick={handleApply}
+                    type='button'
+                    className='PostPriorityPicker__apply'
+                >
+                    {formatMessage({
+                        id: 'post_priority.picker.apply',
+                        defaultMessage: 'Apply',
+                    })}
+                </button>
+            </div>
+        </div>
+    );
 }
+
+export default memo(PostPriorityPicker);

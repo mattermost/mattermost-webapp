@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {memo} from 'react';
 import {Overlay} from 'react-bootstrap';
 import memoize from 'memoize-one';
 
@@ -24,15 +24,22 @@ type Props = {
 const SPACE_REQUIRED_ABOVE = 476;
 const SPACE_REQUIRED_BELOW = 497;
 
-export default class PostPriorityPickerOverlay extends React.PureComponent<Props> {
-    pickerPosition = memoize((trigger, show) => {
+function PostPriorityPickerOverlay({
+    show,
+    priority,
+    target,
+    onApply,
+    onHide,
+    defaultHorizontalPosition,
+}: Props) {
+    const pickerPosition = memoize((trigger, show) => {
         if (show && trigger) {
             return trigger.getBoundingClientRect().right - Constants.DEFAULT_EMOJI_PICKER_LEFT_OFFSET;
         }
         return 0;
     });
 
-    getPlacement = memoize((target, defaultHorizontalPosition, show) => {
+    const getPlacement = memoize((target, defaultHorizontalPosition, show) => {
         if (!show) {
             return 'top';
         }
@@ -45,30 +52,28 @@ export default class PostPriorityPickerOverlay extends React.PureComponent<Props
         return 'top';
     });
 
-    render() {
-        const {target, defaultHorizontalPosition, show} = this.props;
+    const offset = pickerPosition(target(), show);
+    const placement = getPlacement(target(), defaultHorizontalPosition, show);
 
-        const offset = this.pickerPosition(target(), show);
-        const placement = this.getPlacement(target(), defaultHorizontalPosition, show);
-
-        return (
-            <Overlay
-                show={show}
+    return (
+        <Overlay
+            show={show}
+            placement={placement}
+            rootClose={true}
+            onHide={onHide}
+            target={target}
+            animation={false}
+        >
+            <PostPriorityPicker
+                priority={priority}
+                leftOffset={offset}
+                onApply={onApply}
+                topOffset={-7}
                 placement={placement}
-                rootClose={true}
-                onHide={this.props.onHide}
-                target={target}
-                animation={false}
-            >
-                <PostPriorityPicker
-                    priority={this.props.priority}
-                    leftOffset={offset}
-                    onApply={this.props.onApply}
-                    topOffset={-7}
-                    placement={placement}
-                    onClose={this.props.onHide}
-                />
-            </Overlay>
-        );
-    }
+                onClose={onHide}
+            />
+        </Overlay>
+    );
 }
+
+export default memo(PostPriorityPickerOverlay);
