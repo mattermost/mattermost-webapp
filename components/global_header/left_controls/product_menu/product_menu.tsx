@@ -83,7 +83,8 @@ const ProductMenu = (): JSX.Element => {
     const playbooksStep = focalboard ? 1 : 0;
 
     const showBoardsTour = enableTutorial && tutorialStep === boardsStep && exploreToolsTourTriggered && focalboard;
-    const showPlaybooksTour = (enableTutorial && tutorialStep === playbooksStep && exploreToolsTourTriggered && playbooks);
+    const showPlaybooksTour = enableTutorial && tutorialStep === playbooksStep && exploreToolsTourTriggered && playbooks;
+
     const handleClick = () => dispatch(setProductMenuSwitcherOpen(!switcherOpen));
 
     const handleOnBoardingTaskData = useHandleOnBoardingTaskData();
@@ -96,6 +97,9 @@ const ProductMenu = (): JSX.Element => {
     };
 
     useClickOutsideRef(menuRef, () => {
+        if (exploreToolsTourTriggered) {
+            return;
+        }
         dispatch(setProductMenuSwitcherOpen(false));
     });
 
