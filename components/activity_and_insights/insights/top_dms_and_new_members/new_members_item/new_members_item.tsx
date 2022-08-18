@@ -1,9 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {memo} from 'react';
+import React, {memo, useCallback} from 'react';
 import {useSelector} from 'react-redux';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
+
+import {trackEvent} from 'actions/telemetry_actions';
 
 import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 
@@ -28,9 +30,14 @@ type Props = {
 const NewMembersItem = ({newMember, team}: Props) => {
     const teammateNameDisplaySetting = useSelector(getTeammateNameDisplaySetting);
 
+    const trackClick = useCallback(() => {
+        trackEvent('insights', 'open_new_members_from_new_members_widget');
+    },[]);
+
     return (
         <Link
             className='top-dms-item new-members-item'
+            onClick={trackClick}
             to={`/${team.name}/messages/@${newMember.username}`}
         >
             <Avatar

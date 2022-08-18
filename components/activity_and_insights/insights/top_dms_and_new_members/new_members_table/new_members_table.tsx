@@ -7,6 +7,8 @@ import {Link} from 'react-router-dom';
 
 import classNames from 'classnames';
 
+import {trackEvent} from 'actions/telemetry_actions';
+
 import {getNewTeamMembers} from 'mattermost-redux/actions/insights';
 
 import {NewMember, TimeFrame} from '@mattermost/types/insights';
@@ -63,6 +65,7 @@ const NewMembersTable = (props: Props) => {
     }, [getNewTeamMembersList]);
 
     const closeModal = useCallback(() => {
+        trackEvent('insights', 'open_new_members_from_new_members_modal');
         props.closeModal();
     }, [props.closeModal]);
 
