@@ -16,7 +16,7 @@ import './post_priority_picker.scss';
 type Props = typeof PostPriorityPicker.defaultProps & {
     priority?: PostPriority;
     onClose: () => void;
-    onApply: (props: {priority: string}) => void;
+    onApply: (props: {priority: PostPriority|undefined}) => void;
     placement: string;
     style?: React.CSSProperties;
 }
