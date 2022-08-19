@@ -428,6 +428,21 @@ class PurchaseModal extends React.PureComponent<Props, State> {
         return productName;
     }
 
+    getShippingAddressForProcessing = (): Address => {
+        if (this.state.billingSameAsShipping) {
+            return {
+                line1: this.state.billingDetails?.address || '',
+                line2: this.state.billingDetails?.address2 || '',
+                city: this.state.billingDetails?.city || '',
+                state: this.state.billingDetails?.state || '',
+                postal_code: this.state.billingDetails?.postalCode || '',
+                country: this.state.billingDetails?.country || '',
+            };
+        }
+
+        return this.state.shippingAddress as Address;
+    }
+
     purchaseScreen = () => {
         const title = (
             <FormattedMessage
@@ -499,22 +514,18 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                                 </PaymentDetails>
                             </div>
                         )}
-                        <div className='Form-checkbox'>
+                        <div className='shipping-address-section'>
                             <input
                                 id='address-same-than-billing-address'
                                 className='Form-checkbox-input'
                                 name='terms'
                                 type='checkbox'
                                 checked={this.state.billingSameAsShipping}
-                                onChange={
-                                    this.
-                                        handleAddressSameThanBillingAddressClick
-                                }
-                                disabled={this.billingAddressFieldsHaveValues()}
+                                onChange={() => this.setState({billingSameAsShipping: !this.state.billingSameAsShipping})}
                             />
                             <span className='Form-checkbox-label'>
                                 <button
-                                    onClick={(event) => console.log(event)}
+                                    onClick={() => this.setState({billingSameAsShipping: !this.state.billingSameAsShipping})}
                                     type='button'
                                     className='no-style'
                                 >
@@ -526,27 +537,30 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                                 </button>
                             </span>
                         </div>
-                        <AddressForm
-                            onAddressChange={this.onShippingInput}
-                            onBlur={() => {}}
-                            title={'Address'}
-                            changePaymentMethod={this.state.editPaymentInfo}
-                            show={true}
-                            formId={'shippingAddress'}
+                        {
+                            !this.state.billingSameAsShipping &&
+                            <AddressForm
+                                onAddressChange={this.onShippingInput}
+                                onBlur={() => { }}
+                                title={'Address'}
+                                changePaymentMethod={this.state.editPaymentInfo}
+                                show={true}
+                                formId={'shippingAddress'}
 
-                            // Setup the initial country based on their billing country, or USA.
-                            initialAddress={
-                                {
-                                    country:
-                                        getName(
-                                            this.state.billingDetails?.
-                                                country || '',
-                                        ) ||
-                                        getName('US') ||
-                                        '',
-                                } as Address
-                            }
-                        />
+                                // Setup the initial country based on their billing country, or USA.
+                                initialAddress={
+                                    {
+                                        country:
+                                            getName(
+                                                this.state.billingDetails?.
+                                                    country || '',
+                                            ) ||
+                                            getName('US') ||
+                                            '',
+                                    } as Address
+                                }
+                            />
+                        }
                     </>
                 </div>
                 <div className='RHS'>
@@ -677,13 +691,19 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                                 <div>
                                     <ProcessPaymentSetup
                                         stripe={stripePromise}
-                                        billingDetails={this.state.billingDetails}
-                                        shippingAddress={this.state.shippingAddress}
+                                        billingDetails={
+                                            this.state.billingDetails
+                                        }
+                                        shippingAddress={
+                                            this.getShippingAddressForProcessing()
+                                        }
                                         addPaymentMethod={
-                                            this.props.actions.completeStripeAddPaymentMethod
+                                            this.props.actions.
+                                                completeStripeAddPaymentMethod
                                         }
                                         subscribeCloudSubscription={
-                                            this.props.actions.subscribeCloudSubscription
+                                            this.props.actions.
+                                                subscribeCloudSubscription
                                         }
                                         isDevMode={this.props.isDevMode}
                                         onClose={() => {
@@ -691,18 +711,38 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                                             this.props.actions.closeModal();
                                         }}
                                         onBack={() => {
-                                            this.setState({processing: false});
+                                            this.setState({
+                                                processing: false,
+                                            });
                                         }}
-                                        contactSupportLink={this.props.contactSalesLink}
+                                        contactSupportLink={
+                                            this.props.contactSalesLink
+                                        }
                                         currentTeam={this.props.currentTeam}
-                                        selectedProduct={this.state.selectedProduct}
-                                        currentProduct={this.state.currentProduct}
-                                        isProratedPayment={(!this.props.isFreeTrial && this.state.currentProduct?.billing_scheme === BillingSchemes.FLAT_FEE) &&
-                                        this.state.selectedProduct?.billing_scheme === BillingSchemes.PER_SEAT}
-                                        setIsUpgradeFromTrialToFalse={this.setIsUpgradeFromTrialToFalse}
-                                        isUpgradeFromTrial={this.state.isUpgradeFromTrial}
+                                        selectedProduct={
+                                            this.state.selectedProduct
+                                        }
+                                        currentProduct={
+                                            this.state.currentProduct
+                                        }
+                                        isProratedPayment={
+                                            !this.props.isFreeTrial &&
+                                            this.state.currentProduct?.
+                                                billing_scheme ===
+                                                BillingSchemes.FLAT_FEE &&
+                                            this.state.selectedProduct?.
+                                                billing_scheme ===
+                                                BillingSchemes.PER_SEAT
+                                        }
+                                        setIsUpgradeFromTrialToFalse={
+                                            this.setIsUpgradeFromTrialToFalse
+                                        }
+                                        isUpgradeFromTrial={
+                                            this.state.isUpgradeFromTrial
+                                        }
                                         telemetryProps={{
-                                            callerInfo: this.state.buttonClickedInfo,
+                                            callerInfo:
+                                                this.state.buttonClickedInfo,
                                         }}
                                     />
                                 </div>

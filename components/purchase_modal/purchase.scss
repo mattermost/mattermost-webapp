@@ -3,24 +3,31 @@
     height: 100%;
 
 
-    button.no-style {
-        outline: unset;
-        background: transparent;
 
-        &:focus {
+    .shipping-address-section {
+        padding: 0px 107px;
+        font-weight: normal;
+        padding-bottom: 28px;
+        button.no-style {
             outline: unset;
-        }
-    }
-    .Form-checkbox-label {
-        font-family: 'Open Sans', sans-serif;
-        cursor: default;
-        padding-left: 12px;
-        vertical-align: middle;
-    }
+            background: transparent;
 
-    .billing_address_btn_text {
-        font-family: 'Open Sans', sans-serif;
-        color: var(--center-channel-color);
+            &:focus {
+                outline: unset;
+            }
+        }
+        .Form-checkbox-label {
+            font-family: 'Open Sans', sans-serif;
+            cursor: default;
+            padding-left: 12px;
+            vertical-align: middle;
+        }
+
+        .billing_address_btn_text {
+            font-family: 'Open Sans', sans-serif;
+            font-weight: normal;
+            color: var(--center-channel-color);
+        }
     }
 
     >div {
