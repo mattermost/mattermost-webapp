@@ -386,8 +386,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             [Constants.KeyCodes.U, this.handleMarkPostAsUnread, null],
         ];
 
-        for (const shortcut of shortcuts) {
-            const [keyCode, func, condition] = shortcut;
+        for (const [keyCode, func, condition] of shortcuts) {
             const conditionMet = (condition === null) || (condition !== null && condition);
             if (Utils.isKeyPressed(e, keyCode) && conditionMet) {
                 this.handleShortCut(e, func);
