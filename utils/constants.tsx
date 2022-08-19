@@ -2030,6 +2030,24 @@ export const InsightsCardTitles = {
             defaultMessage: 'Most active boards I\'ve participated in',
         },
     },
+    TOP_DMS: {
+        teamTitle: {},
+        myTitle: {
+            id: t('insights.topDMs.myTitle'),
+            defaultMessage: 'My most active direct messages',
+        },
+        teamSubTitle: {},
+        mySubTitle: {},
+    },
+    NEW_TEAM_MEMBERS: {
+        teamTitle: {
+            id: t('insights.newTeamMembers.title'),
+            defaultMessage: 'New team members',
+        },
+        myTitle: {},
+        teamSubTitle: {},
+        mySubTitle: {},
+    },
 };
 
 export enum ClaimErrors {

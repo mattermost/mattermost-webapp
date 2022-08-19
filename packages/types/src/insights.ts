@@ -9,6 +9,8 @@ export enum InsightsWidgetTypes {
     TOP_REACTIONS = 'TOP_REACTIONS',
     TOP_THREADS = 'TOP_THREADS',
     TOP_BOARDS = 'TOP_BOARDS',
+    TOP_DMS = 'TOP_DMS',
+    NEW_TEAM_MEMBERS = 'NEW_TEAM_MEMBERS',
 }
 
 export enum CardSizes {
@@ -101,4 +103,28 @@ export type TopBoard = {
 export type TopBoardResponse = {
     has_next: boolean;
     items: TopBoard[];
+};
+
+export type TopDM = {
+    outgoing_message_count: number;
+    post_count: number;
+    second_participant: {
+        id: string;
+        first_name: string;
+        last_name: string;
+        last_picture_update: number;
+        nickname: string;
+        position: string;
+        username: string;
+    };
+};
+
+export type TopDMsResponse = {
+    has_next: boolean;
+    items: TopDM[];
+};
+
+export type TopDMsActionResult = {
+    data?: TopDMsResponse;
+    error?: any;
 };

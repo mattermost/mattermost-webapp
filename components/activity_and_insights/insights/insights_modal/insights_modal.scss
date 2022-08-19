@@ -54,6 +54,17 @@
                     }
                 }
 
+                &.TopDMsTable {
+                    .DataGrid_header {
+                        .DataGrid_cell {
+                            &:nth-of-type(3),
+                            &:nth-of-type(4) {
+                                text-align: right;
+                            }
+                        }
+                    }
+                }
+
                 .DataGrid_header {
                     padding: 12px 0;
                     border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
@@ -76,6 +87,8 @@
                 }
 
                 .DataGrid_rows {
+                    background: transparent;
+
                     .DataGrid_row {
                         display: flex;
                         flex-direction: row;
@@ -152,6 +165,10 @@
                             margin: 0;
                             white-space: normal;
 
+                            &.message-count {
+                                justify-content: end;
+                            }
+
                             &.rankCell {
                                 flex: 0.2 0;
                             }
@@ -208,6 +225,11 @@
                                     margin-left: 16px;
                                     background: var(--button-bg);
                                     border-radius: 6px;
+
+                                    &.top-dms {
+                                        background: var(--online-indicator);
+                                        opacity: 1;
+                                    }
                                 }
                             }
 
@@ -255,6 +277,29 @@
                             span.board-updates,
                             .Avatars___xs {
                                 margin-left: auto;
+                            }
+
+                            .user-info {
+                                display: flex;
+                                overflow: hidden;
+                                align-items: center;
+
+                                &:hover {
+                                    text-decoration: none;
+                                }
+
+                                .display-name {
+                                    overflow: hidden;
+                                    margin-left: 12px;
+                                    color: var(--center-channel-color);
+                                    font-family: 'Open Sans';
+                                    font-size: 14px;
+                                    font-style: normal;
+                                    font-weight: 600;
+                                    line-height: 20px;
+                                    text-overflow: ellipsis;
+                                    white-space: nowrap;
+                                }
                             }
                         }
                     }
