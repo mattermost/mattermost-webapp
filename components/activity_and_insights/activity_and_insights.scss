@@ -570,11 +570,9 @@
 
             .top-dms-item {
                 display: flex;
-                flex-basis: 16.66%;
+                width: 16.66%;
                 flex-direction: column;
-                flex-grow: 0;
                 padding: 12px;
-                margin: 0 12px;
                 margin-top: auto;
                 font-family: 'Open Sans';
 
@@ -594,8 +592,7 @@
                 }
 
                 @media screen and (max-width: 1279px) {
-                    width: auto;
-                    flex: 100% 0;
+                    width: 100%;
                     flex-direction: row;
                     align-items: center;
                     margin: 0;
@@ -606,7 +603,8 @@
                 }
 
                 @media screen and (max-width: 1279px) and (min-width: 880px) {
-                    flex: 50% 0;
+                    overflow: hidden;
+                    width: 50%;
 
                     &:nth-of-type(2) {
                         margin-top: 0;
@@ -614,7 +612,8 @@
                 }
 
                 @media screen and (max-width: 768px) and (min-width: 576px) {
-                    flex: 50% 0;
+                    overflow: hidden;
+                    width: 50%;
 
                     &:nth-of-type(2) {
                         margin-top: 0;
@@ -633,13 +632,16 @@
                     margin-top: 12px;
 
                     @media screen and (max-width: 1279px) {
+                        overflow: hidden;
+                        width: 90%;
                         margin-top: 0;
                         margin-left: 12px;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
                     }
 
                     .dm-name {
                         overflow: hidden;
-                        max-width: 150px;
                         color: var(--center-channel-color);
                         font-size: 14px;
                         font-weight: 600;
@@ -650,7 +652,6 @@
 
                     .dm-role {
                         overflow: hidden;
-                        max-width: 150px;
                         min-height: 16px;
                         margin-top: 4px;
                         color: rgba(var(--center-channel-color-rgb), 0.72);
