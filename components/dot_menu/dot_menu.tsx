@@ -28,6 +28,7 @@ import Badge from '../widgets/badges/badge';
 import {ChangeEvent, trackDotMenuEvent} from './utils';
 import './dot_menu.scss';
 
+type ShortcutFunc = (e: KeyboardEvent) => void
 type ShortcutKeyProps = {
     shortcutKey: string;
 };
@@ -360,73 +361,41 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         return (e).getModifierState !== undefined;
     }
 
-    onShortcutKeyDown = (e: KeyboardEvent): void => {
+    handleShortCut = (e: KeyboardEvent, f: ShortcutFunc) => {
         e.preventDefault();
+        f(e);
+        this.props.handleDropdownOpened(false);
+    }
+
+    onShortcutKeyDown = (e: KeyboardEvent): void => {
         if (!this.isKeyboardEvent(e)) {
             return;
         }
 
         const isShiftKeyPressed = e.shiftKey;
+        const shortcuts: Array<[[string, number], (e: KeyboardEvent) => void, null | boolean]> = [
+            [Constants.KeyCodes.R, this.handleCommentClick, null],
+            [Constants.KeyCodes.E, this.handleEditMenuItemActivated, null],
+            [Constants.KeyCodes.F, this.handleSetThreadFollow, !isShiftKeyPressed],
+            [Constants.KeyCodes.F, this.handleForwardMenuItemActivated, isShiftKeyPressed],
+            [Constants.KeyCodes.K, this.copyLink, null],
+            [Constants.KeyCodes.C, this.copyText, null],
+            [Constants.KeyCodes.DELETE, this.handleDeleteMenuItemActivated, null],
+            [Constants.KeyCodes.P, this.handlePinMenuItemActivated, null],
+            [Constants.KeyCodes.S, this.handleFlagMenuItemActivated, null],
+            [Constants.KeyCodes.U, this.handleMarkPostAsUnread, null],
+        ];
 
-        switch (true) {
-        case Utils.isKeyPressed(e, Constants.KeyCodes.R):
-            this.handleCommentClick(e);
-            this.props.handleDropdownOpened(false);
-            break;
-
-        // edit post
-        case Utils.isKeyPressed(e, Constants.KeyCodes.E):
-            this.handleEditMenuItemActivated(e);
-            this.props.handleDropdownOpened(false);
-            break;
-
-        // follow thread
-        case Utils.isKeyPressed(e, Constants.KeyCodes.F) && !isShiftKeyPressed:
-            this.handleSetThreadFollow(e);
-            this.props.handleDropdownOpened(false);
-            break;
-
-        // forward post
-        case Utils.isKeyPressed(e, Constants.KeyCodes.F) && isShiftKeyPressed:
-            this.handleForwardMenuItemActivated(e);
-            this.props.handleDropdownOpened(false);
-            break;
-
-        // copy link
-        case Utils.isKeyPressed(e, Constants.KeyCodes.K):
-            this.copyLink(e);
-            this.props.handleDropdownOpened(false);
-            break;
-
-        // copy text
-        case Utils.isKeyPressed(e, Constants.KeyCodes.C):
-            this.copyText(e);
-            this.props.handleDropdownOpened(false);
-            break;
-
-        // delete post
-        case Utils.isKeyPressed(e, Constants.KeyCodes.DELETE):
-            this.handleDeleteMenuItemActivated(e);
-            this.props.handleDropdownOpened(false);
-            break;
-
-        // pin / unpin
-        case Utils.isKeyPressed(e, Constants.KeyCodes.P):
-            this.handlePinMenuItemActivated(e);
-            this.props.handleDropdownOpened(false);
-            break;
-
-        // save / unsave
-        case Utils.isKeyPressed(e, Constants.KeyCodes.S):
-            this.handleFlagMenuItemActivated(e);
-            this.props.handleDropdownOpened(false);
-            break;
-
-        // mark as unread
-        case Utils.isKeyPressed(e, Constants.KeyCodes.U):
-            this.handleMarkPostAsUnread(e);
-            this.props.handleDropdownOpened(false);
-            break;
+        for (const shortcut of shortcuts) {
+            const [keyCode, func, condition] = shortcut;
+            if (Utils.isKeyPressed(e, keyCode) && condition === null) {
+                this.handleShortCut(e, func);
+                break;
+            }
+            if (Utils.isKeyPressed(e, keyCode) && condition !== null && condition) {
+                this.handleShortCut(e, func);
+                break;
+            }
         }
     }
 
