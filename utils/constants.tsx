@@ -2047,6 +2047,7 @@ export const InsightsCardTitles = {
             id: t('insights.topPlaybooks.mySubTitle'),
             defaultMessage: 'Playbooks I\'ve used with the most runs',
         },
+    },
     TOP_DMS: {
         teamTitle: {},
         myTitle: {

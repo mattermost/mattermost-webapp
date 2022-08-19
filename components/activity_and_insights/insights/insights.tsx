@@ -116,16 +116,19 @@ const Insights = () => {
                     class={'top-dms-card'}
                     timeFrame={timeFrame as TimeFrame}
                 />
-                {
-                    playbooksEnabled &&
-                    <TopPlaybooks
-                        size={CardSizes.medium}
-                        filterType={filterType}
-                        widgetType={InsightsWidgetTypes.TOP_PLAYBOOKS}
-                        class={'top-playbooks-card'}
-                        timeFrame={timeFrame as TimeFrame}
-                    />
-                }
+                <div className='card-row'>
+                    {
+                        playbooksEnabled &&
+                        <TopPlaybooks
+                            size={CardSizes.medium}
+                            filterType={filterType}
+                            widgetType={InsightsWidgetTypes.TOP_PLAYBOOKS}
+                            class={'top-playbooks-card'}
+                            timeFrame={timeFrame as TimeFrame}
+                        />
+                    }
+                </div>
+                
 
             </div>
         </>
