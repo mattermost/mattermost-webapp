@@ -53,6 +53,7 @@ const NewMembersTable = (props: Props) => {
             if (data.data?.items) {
                 setNewMembers(data.data.items);
             }
+
             // Workaround for null response from API
             if (data.data?.items === null) {
                 setNewMembers([]);
