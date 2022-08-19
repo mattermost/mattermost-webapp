@@ -110,10 +110,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     actions: bindActionCreators<ActionCreatorsMapObject<Action>, Props['actions']>({
         favoriteChannel,
         unfavoriteChannel,
-        showFlaggedPosts,
         showPinnedPosts,
         showChannelFiles,
-        showMentions,
         closeRightHandSide,
         getCustomEmojisInText,
         updateChannelNotifyProps,

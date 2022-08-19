@@ -69,10 +69,8 @@ export type Props = {
     actions: {
         favoriteChannel: (channelId: string) => void;
         unfavoriteChannel: (channelId: string) => void;
-        showFlaggedPosts: () => void; // check if it is used somewhere
         showPinnedPosts: (channelId?: string) => void;
         showChannelFiles: (channelId: string) => void;
-        showMentions: () => void; // check if it is used somewhere
         closeRightHandSide: () => void;
         getCustomEmojisInText: (text: string) => void;
         updateChannelNotifyProps: (userId: string, channelId: string, props: Partial<ChannelNotifyProps>) => void;
