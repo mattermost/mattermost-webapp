@@ -11,6 +11,8 @@ import {GetStateFunc, DispatchFunc, ActionFunc, ActionResult} from 'mattermost-r
 
 import {getRecentEmojisData} from 'selectors/emojis';
 
+import {CustomEmoji} from '@mattermost/types/emojis';
+
 import LocalStorageStore from 'stores/local_storage_store';
 
 import {GlobalState} from 'types/store';
