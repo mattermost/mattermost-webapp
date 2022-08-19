@@ -77,7 +77,7 @@ const InsightsModal = (props: Props) => {
         case InsightsWidgetTypes.TOP_PLAYBOOKS:
             return (
                 <TopPlaybooksTable
-                filterType={props.filterType}
+                    filterType={props.filterType}
                     timeFrame={timeFrame}
                     closeModal={doHide}
                 />

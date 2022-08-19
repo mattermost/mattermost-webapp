@@ -128,7 +128,6 @@ const Insights = () => {
                         />
                     }
                 </div>
-                
 
             </div>
         </>
