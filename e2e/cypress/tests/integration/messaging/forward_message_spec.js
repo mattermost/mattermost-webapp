@@ -51,7 +51,7 @@ describe('Forward Message', () => {
         cy.visit(townSquareUrl);
     });
 
-    it('MM-14934_1 Forward  root post from public channel to another public channel', () => {
+    it('MM-T4934_1 Forward  root post from public channel to another public channel', () => {
         // # Open the dotmenu
         cy.getLastPostId().then((postId) => {
             // # Check if ... button is visible in last post right side
@@ -104,8 +104,10 @@ describe('Forward Message', () => {
         });
     });
 
-    it('MM-14934_2 Forward root post from public channel to another public channel, long comment', () => {
-        const longMessage = '0'.repeat(16383);
+    it('MM-T4934_2 Forward root post from public channel to another public channel, long comment', () => {
+        const maxPostSize = 16383 - testPostPermalink.length - 1;
+        const longMessage = 'M'.repeat(maxPostSize);
+        const extraChars = 'X';
 
         // # Open the dotmenu
         cy.getLastPostId().then((postId) => {
@@ -135,26 +137,23 @@ describe('Forward Message', () => {
                 // * Assert if button is active
                 cy.get('.GenericModal__button.confirm').should('not.be.disabled');
 
-                // # Enter a comment that is too long
-                cy.get('#forward_post_textbox').click().type(longMessage, {delay: 0}).type('0');
+                // # Enter long comment and add one char to make it too long
+                cy.get('#forward_post_textbox').invoke('val', longMessage).trigger('change').type(extraChars, {delay: 500});
 
                 // * Assert if error message is shown
-                cy.get('label.post-error').scrollIntoView().should('be.visible').should('contain', 'Your message is too long. Character count: 16384/16383');
+                cy.get('label.post-error').scrollIntoView().should('be.visible').should('contain', `Your message is too long. Character count: ${longMessage.length + extraChars.length}/${maxPostSize}`);
 
                 // * Assert if button is disabled
                 cy.get('.GenericModal__button.confirm').should('be.disabled');
 
-                // # Enter a comment with a valid length
-                cy.get('#forward_post_textbox').type('{backspace}');
+                // # Enter a valid comment
+                cy.get('#forward_post_textbox').invoke('val', longMessage).trigger('change').type(' {backspace}');
 
                 // * Assert if error message is removed
                 cy.get('label.post-error').should('not.exist');
 
                 // * Assert if button is active again
-                cy.get('.GenericModal__button.confirm').should('not.be.disabled');
-
-                // # Forward the message
-                cy.get('.GenericModal__button.confirm').click();
+                cy.get('.GenericModal__button.confirm').should('not.be.disabled').click();
             });
         }).then(() => {
             // * Assert switch to testchannel

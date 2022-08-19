@@ -26,6 +26,8 @@ import Constants from 'utils/constants';
 
 import PostMessagePreview from 'components/post_view/post_message_preview';
 import GenericModal from 'components/generic_modal';
+import {getSiteURL} from '../../utils/url';
+import * as Utils from '../../utils/utils';
 
 import ForwardPostChannelSelect, {ChannelOption, makeSelectedChannelOption} from './forward_post_channel_select';
 import ForwardPostCommentInput from './forward_post_comment_input';
@@ -45,6 +47,9 @@ const ForwardPostModal = ({onExited, post, actions}: Props) => {
 
     const channel = useSelector((state: GlobalState) => getChannel(state, {id: post.channel_id}));
     const currentTeam = useSelector(getCurrentTeam);
+
+    const relativePermaLink = useSelector((state: GlobalState) => Utils.getPermalinkURL(state, currentTeam.id, post.id));
+    const permaLink = `${getSiteURL()}${relativePermaLink}`;
 
     const isPrivateConversation = channel.type !== General.OPEN_CHANNEL;
 
@@ -168,7 +173,7 @@ const ForwardPostModal = ({onExited, post, actions}: Props) => {
         setTimeout(() => setHasError(false), Constants.ANIMATION_TIMEOUT);
     };
 
-    const handleSubmit = useCallback(async () => {
+    const handleSubmit = async () => {
         if (postError) {
             return;
         }
@@ -215,7 +220,7 @@ const ForwardPostModal = ({onExited, post, actions}: Props) => {
         }
 
         onHide();
-    }, [postError, isPrivateConversation, channel, selectedChannel, actions, post, comment, onHide]);
+    };
 
     const postPreviewFooterMessage = formatMessage({
         id: 'forward_post_modal.preview.footer_message',
@@ -272,6 +277,7 @@ const ForwardPostModal = ({onExited, post, actions}: Props) => {
                     onError={handlePostError}
                     onSubmit={handleSubmit}
                     onHeightChange={onHeightChange}
+                    permaLinkLength={permaLink.length}
                 />
                 <div className={'forward-post__post-preview'}>
                     <span className={'forward-post__post-preview--title'}>
