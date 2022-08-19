@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/VersionBar should match snapshot - bar rendered after server version change 1`] = `""`;
+exports[`components/VersionBar should match snapshot - bar rendered after build hash change 1`] = `""`;
 
-exports[`components/VersionBar should match snapshot - bar rendered after server version change 2`] = `
+exports[`components/VersionBar should match snapshot - bar rendered after build hash change 2`] = `
 <Connect(AnnouncementBar)
   message={
     <React.Fragment>

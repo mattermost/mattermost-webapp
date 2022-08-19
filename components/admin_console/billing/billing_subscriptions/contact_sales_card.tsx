@@ -15,7 +15,7 @@ type Props = {
     isFreeTrial: boolean;
     trialQuestionsLink: any;
     subscriptionPlan: string | undefined;
-    onUpgradeMattermostCloud: () => void;
+    onUpgradeMattermostCloud: (callerInfo: string) => void;
 }
 
 const ContactSalesCard = (props: Props) => {
@@ -159,7 +159,7 @@ const ContactSalesCard = (props: Props) => {
                 {(!isFreeTrial && subscriptionPlan !== CloudProducts.ENTERPRISE && subscriptionPlan !== CloudProducts.LEGACY) &&
                     <button
                         type='button'
-                        onClick={onUpgradeMattermostCloud}
+                        onClick={() => onUpgradeMattermostCloud('admin_console_subscription_card_upgrade_now_button')}
                         className='PrivateCloudCard__actionButton'
                     >
                         <FormattedMessage

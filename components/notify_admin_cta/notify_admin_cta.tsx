@@ -7,6 +7,7 @@ import {useSelector} from 'react-redux';
 
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {trackEvent} from 'actions/telemetry_actions';
 
 const Span = styled.span`
 font-family: 'Open Sans';
@@ -40,12 +41,16 @@ export enum DafaultBtnText {
     Failed = 'Try again later!',
 }
 
-type Props = {
+type HookProps = {
     ctaText?: React.ReactNode;
     preTrial?: boolean;
 }
 
-export function useNotifyAdmin<T = HTMLAnchorElement | HTMLButtonElement>(props: Props): [React.ReactNode, (e: React.MouseEvent<T, MouseEvent>) => void] {
+type Props = HookProps & {
+    callerInfo: string;
+}
+
+export function useNotifyAdmin<T = HTMLAnchorElement | HTMLButtonElement>(props: HookProps): [React.ReactNode, (e: React.MouseEvent<T, MouseEvent>, callerInfo: string) => void] {
     const currentTeam = useSelector(getCurrentTeamId);
     const [notifyStatus, setStatus] = useState(NotifyStatus.NotStarted);
     const {formatMessage} = useIntl();
@@ -65,7 +70,7 @@ export function useNotifyAdmin<T = HTMLAnchorElement | HTMLButtonElement>(props:
         }
     };
 
-    const notifyFunc = async (e: React.MouseEvent<T, MouseEvent>) => {
+    const notifyFunc = async (e: React.MouseEvent<T, MouseEvent>, callerInfo: string) => {
         e.preventDefault();
         e.stopPropagation();
         try {
@@ -74,6 +79,9 @@ export function useNotifyAdmin<T = HTMLAnchorElement | HTMLButtonElement>(props:
                 current_team_id: currentTeam,
             };
             await Client4.notifyAdminToUpgrade(req);
+            trackEvent('pricing', 'click_notify_admin_cta', {
+                callerInfo,
+            });
             setStatus(NotifyStatus.Success);
         } catch (error) {
             if (error && error.status_code === 403) {
@@ -101,7 +109,7 @@ function NotifyAdminCTA(props: Props) {
                 <span>
                     <StyledA
                         id='notify_admin_cta'
-                        onClick={notify}
+                        onClick={(e) => notify(e, props.callerInfo)}
                     >
                         {status}
                     </StyledA>
@@ -111,7 +119,7 @@ function NotifyAdminCTA(props: Props) {
                     {title}
                     <StyledA
                         id='notify_admin_cta'
-                        onClick={notify}
+                        onClick={(e) => notify(e, props.callerInfo)}
                     >
                         {status}
                     </StyledA>

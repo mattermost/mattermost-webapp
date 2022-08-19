@@ -60,10 +60,6 @@ import UseCase from './use_case';
 
 import './preparing_workspace.scss';
 
-export const OnboardingPreferences = {
-    USE_CASE: 'use_case',
-};
-
 const SubmissionStates = {
     Presubmit: 'Presubmit',
     UserRequested: 'UserRequested',
@@ -247,7 +243,7 @@ export default function PreparingWorkspace(props: Props) {
             dispatch(savePreferences(user.id, [
                 {
                     category: Constants.Preferences.ONBOARDING,
-                    name: OnboardingPreferences.USE_CASE,
+                    name: Preferences.USE_CASE,
                     user_id: user.id,
                     value: JSON.stringify(form.useCase),
                 },
