@@ -55,6 +55,11 @@ const TopDMsAndNewMembers = (props: WidgetHocProps) => {
             if (data.data?.items) {
                 setNewMembers(data.data.items);
             }
+            // Workaround for null response from API
+            if (data.data?.items === null) {
+                setNewMembers([]);
+            }
+
             if (data.data?.total_count) {
                 setTotalNewMembers(data.data.total_count);
             }
