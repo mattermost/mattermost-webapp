@@ -431,7 +431,7 @@ describe('Pricing modal', () => {
         cy.get('#pricingModal').get('#starter').get('#starter_action').should('be.disabled').contains('Downgrade');
 
         // *Check that professsional card Upgrade button is disabled while on non trial enterprise
-        cy.get('#pricingModal').get('#professional').get('#professional_action').should('not.be.disabled');
+        cy.get('#pricingModal').get('#professional').get('#professional_action').should('be.disabled');
 
         // *Check that Trial button is disabled on enterprise trial
         cy.get('#pricingModal').get('#enterprise').get('#start_cloud_trial_btn').should('be.disabled');
