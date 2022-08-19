@@ -2,6 +2,27 @@
     overflow: hidden;
     height: 100%;
 
+
+    button.no-style {
+        outline: unset;
+        background: transparent;
+
+        &:focus {
+            outline: unset;
+        }
+    }
+    .Form-checkbox-label {
+        font-family: 'Open Sans', sans-serif;
+        cursor: default;
+        padding-left: 12px;
+        vertical-align: middle;
+    }
+
+    .billing_address_btn_text {
+        font-family: 'Open Sans', sans-serif;
+        color: var(--center-channel-color);
+    }
+
     >div {
         &.processing {
             display: none;

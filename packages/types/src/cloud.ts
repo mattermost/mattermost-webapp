@@ -40,6 +40,7 @@ type SubscriptionBase = {
     trial_end_at: number;
     is_free_trial: string;
     delinquent_since?: number;
+    compliance_blocked?: string;
 }
 
 export type Product = {

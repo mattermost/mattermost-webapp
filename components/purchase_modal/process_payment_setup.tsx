@@ -6,6 +6,8 @@ import {Stripe} from '@stripe/stripe-js';
 import {FormattedMessage} from 'react-intl';
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 
+import {Address, Product} from '@mattermost/types/cloud';
+
 import {BillingDetails} from 'types/cloud/sku';
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import {TELEMETRY_CATEGORIES} from 'utils/constants';
@@ -17,21 +19,28 @@ import {getNextBillingDate} from 'utils/utils';
 import CreditCardSvg from 'components/common/svg_images_components/credit_card_svg';
 import PaymentSuccessStandardSvg from 'components/common/svg_images_components/payment_success_standard_svg';
 import PaymentFailedSvg from 'components/common/svg_images_components/payment_failed_svg';
-
-import {Product} from '@mattermost/types/cloud';
+import ComplianceScreenFailedSvg from 'components/common/svg_images_components/compliance_screen_failed_svg';
 
 import IconMessage from './icon_message';
 
 import './process_payment.css';
 
+type ComplianceError = {
+    data: {
+        status: number;
+    };
+    error: string;
+}
+
 type Props = RouteComponentProps & {
     billingDetails: BillingDetails | null;
+    shippingAddress: Address | null;
     stripe: Promise<Stripe | null>;
     isDevMode: boolean;
     contactSupportLink: string;
     currentTeam: Team;
     addPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) => Promise<boolean | null>;
-    subscribeCloudSubscription: ((productId: string) => Promise<boolean | null>) | null;
+    subscribeCloudSubscription: ((productId: string, shippingAddress: Address) => Promise<boolean | null> | ComplianceError) | null;
     onBack: () => void;
     onClose: () => void;
     selectedProduct?: Product | null | undefined;
@@ -51,7 +60,8 @@ type State = {
 enum ProcessState {
     PROCESSING = 0,
     SUCCESS,
-    FAILED
+    FAILED,
+    FAILED_COMPLIANCE_SCREEN,
 }
 
 const MIN_PROCESSING_MILLISECONDS = 5000;
@@ -116,10 +126,20 @@ class ProcessPaymentSetup extends React.PureComponent<Props, State> {
         }
 
         if (subscribeCloudSubscription) {
-            const productUpdated = await subscribeCloudSubscription(this.props.selectedProduct?.id as string);
+            const productUpdated = await subscribeCloudSubscription(this.props.selectedProduct?.id as string, this.props.shippingAddress as Address);
 
             // the action subscribeCloudSubscription returns a true boolean when successful and an error when it fails
-            if (typeof productUpdated !== 'boolean') {
+            if (typeof productUpdated !== 'boolean' && productUpdated !== null) {
+                trackEvent('cloud_admin', 'complete_payment_failed_compliance_screen', {
+                    callerInfo: this.props.telemetryProps?.callerInfo,
+                });
+                if (productUpdated.data.status === 422) {
+                    this.setState({
+                        error: true,
+                        state: ProcessState.FAILED_COMPLIANCE_SCREEN,
+                    });
+                    return;
+                }
                 trackEvent('cloud_admin', 'complete_payment_failed', {
                     callerInfo: this.props.telemetryProps?.callerInfo,
                 });
@@ -289,6 +309,33 @@ class ProcessPaymentSetup extends React.PureComponent<Props, State> {
             );
         case ProcessState.SUCCESS:
             return this.sucessPage();
+        case ProcessState.FAILED_COMPLIANCE_SCREEN:
+            return (
+                <IconMessage
+                    title={t(
+                        'admin.billing.subscription.complianceScreenFailed.title',
+                    )}
+                    subtitle={t(
+                        'admin.billing.subscription.complianceScreenFailed.subtitle',
+                    )}
+                    icon={
+                        <ComplianceScreenFailedSvg
+                            width={444}
+                            height={313}
+                        />
+                    }
+                    error={error}
+                    buttonText={t(
+                        'admin.billing.subscription.complianceScreenFailed.button',
+                    )}
+                    buttonHandler={() => this.props.onClose()}
+                    linkText={t(
+                        'admin.billing.subscription.privateCloudCard.contactSupport',
+                    )}
+                    linkURL={this.props.contactSupportLink}
+                    className={'failed'}
+                />
+            );
         case ProcessState.FAILED:
             return (
                 <IconMessage

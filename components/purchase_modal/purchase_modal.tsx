@@ -9,9 +9,12 @@ import {loadStripe} from '@stripe/stripe-js/pure'; // https://github.com/stripe/
 import {Elements} from '@stripe/react-stripe-js';
 
 import {isEmpty} from 'lodash';
+import {getName} from 'country-list';
 
-import {CloudCustomer, Product} from '@mattermost/types/cloud';
-
+import {Address, CloudCustomer, Product} from '@mattermost/types/cloud';
+import {t} from 'utils/i18n';
+import AddressForm from 'components/payment_form/address_form';
+import ComplianceScreenFailedSvg from 'components/common/svg_images_components/compliance_screen_failed_svg';
 import {trackEvent, pageVisited} from 'actions/telemetry_actions';
 import {
     Constants,
@@ -41,6 +44,8 @@ import {Theme} from 'mattermost-redux/types/themes';
 import {getNextBillingDate} from 'utils/utils';
 
 import PaymentForm from '../payment_form/payment_form';
+
+import IconMessage from './icon_message';
 
 import ProcessPaymentSetup from './process_payment_setup';
 
@@ -85,6 +90,7 @@ type Props = {
     currentTeam: Team;
     intl: IntlShape;
     theme: Theme;
+    isComplianceBlocked: boolean;
 
     // callerCTA is information about the cta that opened this modal. This helps us provide a telemetry path
     // showing information about how the modal was opened all the way to more CTAs within the modal itself
@@ -94,7 +100,7 @@ type Props = {
         closeModal: () => void;
         getCloudProducts: () => void;
         completeStripeAddPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) => Promise<boolean | null>;
-        subscribeCloudSubscription: (productId: string) => Promise<boolean | null>;
+        subscribeCloudSubscription: (productId: string, shippingAddress: Address) => Promise<boolean | null>;
         getClientConfig: () => void;
         getCloudSubscription: () => void;
     };
@@ -103,7 +109,9 @@ type Props = {
 type State = {
     paymentInfoIsValid: boolean;
     billingDetails: BillingDetails | null;
+    shippingAddress: Address | null;
     cardInputComplete: boolean;
+    billingSameAsShipping: boolean;
     processing: boolean;
     editPaymentInfo: boolean;
     currentProduct: Product | null | undefined;
@@ -211,6 +219,8 @@ class PurchaseModal extends React.PureComponent<Props, State> {
         this.state = {
             paymentInfoIsValid: false,
             billingDetails: null,
+            billingSameAsShipping: true,
+            shippingAddress: null,
             cardInputComplete: false,
             processing: false,
             editPaymentInfo: isEmpty(props.customer?.payment_method && props.customer?.billing_address),
@@ -242,6 +252,10 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                 areBillingDetailsValid(billing) && this.state.cardInputComplete,
         });
         this.setState({billingDetails: billing});
+    }
+
+    onShippingInput = (address: Address) => {
+        this.setState({shippingAddress: {...this.state.shippingAddress, ...address}});
     }
 
     handleCardInputChange = (event: StripeCardElementChangeEvent) => {
@@ -445,75 +459,139 @@ class PurchaseModal extends React.PureComponent<Props, State> {
         return (
             <div className={this.state.processing ? 'processing' : ''}>
                 <div className='LHS'>
-                    <h2 className='title'>
-                        {title}
-                    </h2>
+                    <h2 className='title'>{title}</h2>
                     <UpgradeSvg
                         width={267}
                         height={227}
                     />
-                    <div className='footer-text'>
-                        {'Questions?'}
-                    </div>
+                    <div className='footer-text'>{'Questions?'}</div>
                     {this.contactSalesLink('Contact Sales')}
                 </div>
                 <div className='central-panel'>
-                    {(this.state.editPaymentInfo || !validBillingDetails) ? (<PaymentForm
-                        className='normal-text'
-                        onInputChange={this.onPaymentInput}
-                        onCardInputChange={this.handleCardInputChange}
-                        initialBillingDetails={initialBillingDetails}
-                        theme={this.props.theme}
-                    // eslint-disable-next-line react/jsx-closing-bracket-location
-                    />
-                    ) : (<div className='PaymentDetails'>
-                        <div className='title'>
-                            <FormattedMessage
-                                defaultMessage='Your saved payment details'
-                                id='admin.billing.purchaseModal.savedPaymentDetailsTitle'
+                    <>
+                        {this.state.editPaymentInfo || !validBillingDetails ? (
+                            <PaymentForm
+                                className='normal-text'
+                                onInputChange={this.onPaymentInput}
+                                onCardInputChange={this.handleCardInputChange}
+                                initialBillingDetails={initialBillingDetails}
+                                theme={this.props.theme}
+                                // eslint-disable-next-line react/jsx-closing-bracket-location
                             />
+                        ) : (
+                            <div className='PaymentDetails'>
+                                <div className='title'>
+                                    <FormattedMessage
+                                        defaultMessage='Your saved payment details'
+                                        id='admin.billing.purchaseModal.savedPaymentDetailsTitle'
+                                    />
+                                </div>
+                                <PaymentDetails>
+                                    <button
+                                        onClick={this.editPaymentInfoHandler}
+                                        className='editPaymentButton'
+                                    >
+                                        <FormattedMessage
+                                            defaultMessage='Edit'
+                                            id='admin.billing.purchaseModal.editPaymentInfoButton'
+                                        />
+                                    </button>
+                                </PaymentDetails>
+                            </div>
+                        )}
+                        <div className='Form-checkbox'>
+                            <input
+                                id='address-same-than-billing-address'
+                                className='Form-checkbox-input'
+                                name='terms'
+                                type='checkbox'
+                                checked={this.state.billingSameAsShipping}
+                                onChange={
+                                    this.
+                                        handleAddressSameThanBillingAddressClick
+                                }
+                                disabled={this.billingAddressFieldsHaveValues()}
+                            />
+                            <span className='Form-checkbox-label'>
+                                <button
+                                    onClick={(event) => console.log(event)}
+                                    type='button'
+                                    className='no-style'
+                                >
+                                    <span className='billing_address_btn_text'>
+                                        {
+                                            'My address is the same as my billing address'
+                                        }
+                                    </span>
+                                </button>
+                            </span>
                         </div>
-                        <PaymentDetails>
-                            <button
-                                onClick={this.editPaymentInfoHandler}
-                                className='editPaymentButton'
-                            >
-                                <FormattedMessage
-                                    defaultMessage='Edit'
-                                    id='admin.billing.purchaseModal.editPaymentInfoButton'
-                                />
-                            </button>
-                        </PaymentDetails>
-                    </div>)
-                    }
+                        <AddressForm
+                            onAddressChange={this.onShippingInput}
+                            onBlur={() => {}}
+                            title={'Address'}
+                            changePaymentMethod={this.state.editPaymentInfo}
+                            show={true}
+                            formId={'shippingAddress'}
+
+                            // Setup the initial country based on their billing country, or USA.
+                            initialAddress={
+                                {
+                                    country:
+                                        getName(
+                                            this.state.billingDetails?.
+                                                country || '',
+                                        ) ||
+                                        getName('US') ||
+                                        '',
+                                } as Address
+                            }
+                        />
+                    </>
                 </div>
                 <div className='RHS'>
                     <div
                         className='plan_comparison'
-                        style={{marginBottom: `${showPlanLabel ? '51' : '0'}px`}}//remove bottom pace when not taken up by PlanLabel
+                        style={{
+                            marginBottom: `${showPlanLabel ? '51' : '0'}px`,
+                        }} //remove bottom pace when not taken up by PlanLabel
                     >
                         {this.comparePlan}
                     </div>
                     <Card
                         topColor='#4A69AC'
-                        plan={this.getPlanNameFromProductName(this.state.selectedProduct ? this.state.selectedProduct.name : '')}
+                        plan={this.getPlanNameFromProductName(
+                            this.state.selectedProduct ? this.state.selectedProduct.name : '',
+                        )}
                         price={`$${this.state.selectedProduct?.price_per_seat?.toString()}`}
                         rate='/user/month'
                         planBriefing={this.paymentFooterText()}
                         buttonDetails={{
                             action: this.handleSubmitClick,
                             text: 'Upgrade',
-                            customClass: (!this.state.paymentInfoIsValid || this.state.selectedProduct?.billing_scheme === BillingSchemes.SALES_SERVE) ? ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.special,
-                            disabled: !this.state.paymentInfoIsValid || this.state.selectedProduct?.billing_scheme === BillingSchemes.SALES_SERVE,
+                            customClass:
+                                !this.state.paymentInfoIsValid ||
+                                this.state.selectedProduct?.billing_scheme ===
+                                    BillingSchemes.SALES_SERVE ? ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.special,
+                            disabled:
+                                !this.state.paymentInfoIsValid ||
+                                this.state.selectedProduct?.billing_scheme ===
+                                    BillingSchemes.SALES_SERVE,
                         }}
-                        planLabel={showPlanLabel ? (
-                            <PlanLabel
-                                text={formatMessage({id: 'pricing_modal.planLabel.mostPopular', defaultMessage: 'MOST POPULAR'})}
-                                bgColor='var(--title-color-indigo-500)'
-                                color='var(--button-color)'
-                                firstSvg={<StarMarkSvg/>}
-                                secondSvg={<StarMarkSvg/>}
-                            />) : undefined}
+                        planLabel={
+                            showPlanLabel ? (
+                                <PlanLabel
+                                    text={formatMessage({
+                                        id: 'pricing_modal.planLabel.mostPopular',
+                                        defaultMessage: 'MOST POPULAR',
+                                    })}
+                                    bgColor='var(--title-color-indigo-500)'
+                                    color='var(--button-color)'
+                                    firstSvg={<StarMarkSvg/>}
+                                    secondSvg={<StarMarkSvg/>}
+                                />
+                            ) : undefined
+                        }
                     />
                 </div>
             </div>
@@ -523,6 +601,57 @@ class PurchaseModal extends React.PureComponent<Props, State> {
     render() {
         if (!stripePromise) {
             stripePromise = loadStripe(STRIPE_PUBLIC_KEY);
+        }
+
+        if (this.props.isComplianceBlocked) {
+            return (
+                <Elements
+                    options={{fonts: [{cssSrc: STRIPE_CSS_SRC}]}}
+                    stripe={stripePromise}
+                >
+                    <RootPortal>
+                        <FullScreenModal
+                            show={Boolean(this.props.show)}
+                            onClose={() => {
+                                trackEvent(
+                                    TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
+                                    'click_close_purchasing_screen',
+                                );
+                                this.props.actions.getCloudSubscription();
+                                this.props.actions.closeModal();
+                            }}
+                            ref={this.modal}
+                            ariaLabelledBy='purchase_modal_title'
+                        >
+                            <div className='PurchaseModal'>
+                                <IconMessage
+                                    title={t(
+                                        'admin.billing.subscription.complianceScreenFailed.title',
+                                    )}
+                                    subtitle={t(
+                                        'admin.billing.subscription.complianceScreenFailed.subtitle',
+                                    )}
+                                    icon={
+                                        <ComplianceScreenFailedSvg
+                                            width={444}
+                                            height={313}
+                                        />
+                                    }
+                                    buttonText={t(
+                                        'admin.billing.subscription.complianceScreenFailed.button',
+                                    )}
+                                    buttonHandler={() => this.props.actions.closeModal()}
+                                    linkText={t(
+                                        'admin.billing.subscription.privateCloudCard.contactSupport',
+                                    )}
+                                    linkURL={this.props.contactSupportLink}
+                                    className={'failed'}
+                                />
+                            </div>
+                        </FullScreenModal>
+                    </RootPortal>
+                </Elements>
+            );
         }
         return (
             <Elements
@@ -549,6 +678,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                                     <ProcessPaymentSetup
                                         stripe={stripePromise}
                                         billingDetails={this.state.billingDetails}
+                                        shippingAddress={this.state.shippingAddress}
                                         addPaymentMethod={
                                             this.props.actions.completeStripeAddPaymentMethod
                                         }
