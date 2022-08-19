@@ -49,12 +49,13 @@ describe('Actions', () => {
     const channel3 = {id: 'channel_id3', name: 'achannel3', team_id: 'team_id1', type: 'O'};
     const channel4 = {id: 'channel_id4', name: 'additional-abilities---community-systems', team_id: 'team_id1', type: 'O'};
     const channel5 = {id: 'channel_id5', name: 'some-group-channel', team_id: 'team_id1', type: 'G'};
+    const channel6 = {id: 'channel_id6', name: '12345678901234567890123456', team_id: 'team_id1', type: 'O'};
 
     const initialState = {
         entities: {
             channels: {
                 currentChannelId: 'channel_id1',
-                channels: {channel_id1: channel1, channel_id2: channel2, channel_id3: channel3, channel_id4: channel4, channel_id5: channel5},
+                channels: {channel_id1: channel1, channel_id2: channel2, channel_id3: channel3, channel_id4: channel4, channel_id5: channel5, channel_id6: channel6},
                 myMembers: {channel_id1: {channel_id: 'channel_id1', user_id: 'current_user_id'}, channel_id2: {channel_id: 'channel_id2', user_id: 'current_user_id'}},
                 channelsInTeam: {team_id1: ['channel_id1'], team_id2: ['channel_id2']},
             },
@@ -107,9 +108,10 @@ describe('Actions', () => {
             });
 
             test.each([
-                {desc: 'identifier is a channel id', expected: 'channel_id', statusCode: 200, identifier: 'pjz4yj7jw7nzmmo3upi4htmt1y'},
-                {desc: 'identifier is a channel name', expected: 'channel_name', statusCode: 404, identifier: 'channelnamethatis26charlon'},
-                {desc: 'api call fails for other reason', expected: 'error', statusCode: 403, identifier: 'channelnamethatis26charlon'},
+                {desc: 'fetching a channel by id succeeds', expected: 'channel_id', statusCode: 200, identifier: 'pjz4yj7jw7nzmmo3upi4htmt1y'},
+                {desc: 'fetching a channel by id fails status 404', expected: 'channel_name', statusCode: 404, identifier: 'channelnamethatis26charlon'},
+                {desc: 'fetching a channel by id fails status not 404', expected: 'error', statusCode: 403, identifier: 'channelnamethatis26charlon'},
+                {desc: 'identifier is a channel name stored in redux (no fetching happens)', expected: 'channel_name', identifier: '12345678901234567890123456'},
             ])('Should return $expected if $desc', async ({expected, statusCode, identifier}) => {
                 const scope = nock(Client4.getBaseRoute()).
                     get(`/channels/${identifier}`).
@@ -118,7 +120,7 @@ describe('Actions', () => {
                 const res = await getPathFromIdentifier((initialState as any), 'channels', identifier);
                 expect(res).toEqual(expected);
 
-                scope.done();
+                expect(scope.isDone()).toBe(Boolean(statusCode));
             });
         });
     });
