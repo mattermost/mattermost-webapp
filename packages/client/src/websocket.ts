@@ -4,6 +4,7 @@
 const MAX_WEBSOCKET_FAILS = 7;
 const MIN_WEBSOCKET_RETRY_TIME = 3000; // 3 sec
 const MAX_WEBSOCKET_RETRY_TIME = 300000; // 5 mins
+const JITTER_RANGE = 2000; // 2 sec
 
 const WEBSOCKET_HELLO = 'hello';
 
@@ -141,6 +142,9 @@ export default class WebSocketClient {
                     retryTime = MAX_WEBSOCKET_RETRY_TIME;
                 }
             }
+
+            // Applying jitter to avoid thundering herd problems.
+            retryTime += Math.floor(Math.random() * JITTER_RANGE);
 
             setTimeout(
                 () => {
