@@ -35,12 +35,15 @@ import {
     RHSStates,
 } from 'utils/constants';
 import {handleFormattedTextClick, localizeMessage, isEmptyObject, toTitleCase} from 'utils/utils';
+import {t} from 'utils/i18n';
 
 import {UserCustomStatus, UserProfile} from '@mattermost/types/users';
 import {Channel, ChannelMembership, ChannelNotifyProps} from '@mattermost/types/channels';
 import {RhsState} from 'types/store/rhs';
 
 import {ModalData} from 'types/actions';
+
+import LocalizedIcon from 'components/localized_icon';
 
 import ChannelInfoButton from './channel_info_button';
 import HeaderIconWrapper from './components/header_icon_wrapper';
@@ -81,7 +84,7 @@ export type Props = {
     };
     teammateNameDisplaySetting: string;
     currentRelativeTeamUrl: string;
-    announcementBarCount?: number;
+    announcementBarCount: number;
     customStatus?: UserCustomStatus;
     isCustomStatusEnabled: boolean;
     isCustomStatusExpired: boolean;
@@ -223,7 +226,7 @@ class ChannelHeader extends React.PureComponent<Props, State> {
         }
 
         // add 40px to take the global header into account
-        const topOffset = (announcementBarSize * (this.props.announcementBarCount || 1)) + 40;
+        const topOffset = (announcementBarSize * this.props.announcementBarCount) + 40;
 
         this.setState({topOffset});
     }
@@ -591,17 +594,10 @@ class ChannelHeader extends React.PureComponent<Props, State> {
                                     id='channel_header.addChannelHeader'
                                     defaultMessage='Add a channel header'
                                 />
-                                <FormattedMessage
-                                    id='channel_header.editLink'
-                                    defaultMessage='Edit'
-                                >
-                                    {(message: string[]) => (
-                                        <i
-                                            aria-label={message[0]}
-                                            className='icon icon-pencil-outline edit-icon'
-                                        />
-                                    )}
-                                </FormattedMessage>
+                                <LocalizedIcon
+                                    className='icon icon-pencil-outline edit-icon'
+                                    ariaLabel={{id: t('channel_header.editLink'), defaultMessage: 'Edit'}}
+                                />
                             </button>
                         );
                     }
@@ -620,17 +616,10 @@ class ChannelHeader extends React.PureComponent<Props, State> {
                                     id='channel_header.addChannelHeader'
                                     defaultMessage='Add a channel header'
                                 />
-                                <FormattedMessage
-                                    id='channel_header.editLink'
-                                    defaultMessage='Edit'
-                                >
-                                    {(message: string[]) => (
-                                        <i
-                                            aria-label={message[0]}
-                                            className='icon icon-pencil-outline edit-icon'
-                                        />
-                                    )}
-                                </FormattedMessage>
+                                <LocalizedIcon
+                                    className='icon icon-pencil-outline edit-icon'
+                                    ariaLabel={{id: t('channel_header.editLink'), defaultMessage: 'Edit'}}
+                                />
                             </button>
                         </ChannelPermissionGate>
                     );
