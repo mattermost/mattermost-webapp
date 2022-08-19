@@ -88,7 +88,11 @@ export default function OpenPricingModalPost(props: {post: Post}) {
         const userNames: string[] = [];
         getUserIdsForUsersThatRequestedFeature(requests).forEach((userId: string) => {
             const profile = userProfiles[userId];
-            userNames.push('@' + profile?.username);
+            if (profile === undefined) {
+                userNames.push('@unknown');
+            } else {
+                userNames.push('@' + profile?.username);
+            }
         });
 
         return userNames;

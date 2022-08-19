@@ -99,6 +99,7 @@ const RestrictedIndicator = ({
             >
                 {useModal && blocked ? (
                     <ToggleModalButton
+                        id={`${feature}-restricted-indicator`.replaceAll(' ', '-')}
                         className='RestrictedIndicator__button'
                         modalId={ModalIdentifiers.FEATURE_RESTRICTED_MODAL}
                         dialogType={FeatureRestrictedModal}

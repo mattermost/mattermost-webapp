@@ -61,7 +61,7 @@ function NotificationFromMembersModal(props: Props) {
     const userStatuses = useSelector(getUserStatuses);
     const displaySetting = useSelector(getTeammateNameDisplaySetting);
 
-    const featureNotificationMembers: ChannelMember[] = [];
+    let featureNotificationMembers: ChannelMember[] = [];
 
     props.userIds.forEach((userId) => {
         const profile = userProfiles[userId];
@@ -73,6 +73,21 @@ function NotificationFromMembersModal(props: Props) {
             status,
         };
         featureNotificationMembers.push(m);
+    });
+
+    featureNotificationMembers = featureNotificationMembers.map((member) => {
+        if (member.user === undefined) {
+            return {
+                user: {
+                    id: 'unknown',
+                    username: 'unknown',
+                } as UserProfile,
+                displayName: member.displayName,
+                status: member.status,
+            };
+        }
+
+        return member;
     });
 
     const listcp: ListItem[] = [];

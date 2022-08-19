@@ -158,6 +158,7 @@ const FeatureRestrictedModal = ({
                 )}
                 <div className={classNames('FeatureRestrictedModal__buttons', {single: !showStartTrial})}>
                     <button
+                        id='button-plans'
                         className='button-plans'
                         onClick={secondaryBtnAction}
                     >

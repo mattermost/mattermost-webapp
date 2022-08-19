@@ -37,6 +37,7 @@ export const ProductMenuContainer = styled.nav`
 `;
 
 export const ProductMenuButton = styled(IconButton).attrs(() => ({
+    id: 'product_switch_menu',
     icon: 'products',
     size: 'sm',
 
