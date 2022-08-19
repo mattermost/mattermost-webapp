@@ -28,7 +28,6 @@ import Badge from '../widgets/badges/badge';
 import {ChangeEvent, trackDotMenuEvent} from './utils';
 import './dot_menu.scss';
 
-type ShortcutFunc = (e: KeyboardEvent) => void
 type ShortcutKeyProps = {
     shortcutKey: string;
 };
@@ -361,12 +360,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         return (e).getModifierState !== undefined;
     }
 
-    handleShortCut = (e: KeyboardEvent, f: ShortcutFunc) => {
-        e.preventDefault();
-        f(e);
-        this.props.handleDropdownOpened(false);
-    }
-
     onShortcutKeyDown = (e: KeyboardEvent): void => {
         if (!this.isKeyboardEvent(e)) {
             return;
@@ -389,7 +382,9 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         for (const [keyCode, func, condition] of shortcuts) {
             const conditionMet = (typeof condition === 'undefined') || (typeof condition === 'boolean' && condition);
             if (Utils.isKeyPressed(e, keyCode) && conditionMet) {
-                this.handleShortCut(e, func);
+                e.preventDefault();
+                func(e);
+                this.props.handleDropdownOpened(false);
                 break;
             }
         }
