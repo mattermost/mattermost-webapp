@@ -374,14 +374,14 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
 
         const isShiftKeyPressed = e.shiftKey;
         const shortcuts: Array<[[string, number], (e: KeyboardEvent) => void, null | boolean]> = [
-            [Constants.KeyCodes.R, this.handleCommentClick, null],
-            [Constants.KeyCodes.E, this.handleEditMenuItemActivated, null],
-            [Constants.KeyCodes.F, this.handleSetThreadFollow, !isShiftKeyPressed],
-            [Constants.KeyCodes.F, this.handleForwardMenuItemActivated, isShiftKeyPressed],
-            [Constants.KeyCodes.K, this.copyLink, null],
             [Constants.KeyCodes.C, this.copyText, null],
             [Constants.KeyCodes.DELETE, this.handleDeleteMenuItemActivated, null],
+            [Constants.KeyCodes.E, this.handleEditMenuItemActivated, null],
+            [Constants.KeyCodes.F, this.handleForwardMenuItemActivated, isShiftKeyPressed],
+            [Constants.KeyCodes.F, this.handleSetThreadFollow, !isShiftKeyPressed],
+            [Constants.KeyCodes.K, this.copyLink, null],
             [Constants.KeyCodes.P, this.handlePinMenuItemActivated, null],
+            [Constants.KeyCodes.R, this.handleCommentClick, null],
             [Constants.KeyCodes.S, this.handleFlagMenuItemActivated, null],
             [Constants.KeyCodes.U, this.handleMarkPostAsUnread, null],
         ];
