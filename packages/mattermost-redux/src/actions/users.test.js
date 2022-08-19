@@ -986,25 +986,6 @@ describe('Actions.Users', () => {
         assert.ok(currentUser.last_password_update_at > beforeTime);
     });
 
-    it('checkMfa', async () => {
-        const user = TestHelper.basicUser;
-
-        nock(Client4.getBaseRoute()).
-            post('/users/mfa').
-            reply(200, {mfa_required: false});
-
-        const {data: mfaRequired} = await Actions.checkMfa(user.email)(store.dispatch, store.getState);
-
-        const state = store.getState();
-        const mfaRequest = state.requests.users.checkMfa;
-
-        if (mfaRequest.status === RequestStatus.FAILURE) {
-            throw new Error(JSON.stringify(mfaRequest.error));
-        }
-
-        assert.ok(!mfaRequired);
-    });
-
     it('generateMfaSecret', async () => {
         const response = {secret: 'somesecret', qr_code: 'someqrcode'};
 

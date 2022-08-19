@@ -7,23 +7,17 @@ type Props = {
     unreadMentions: number;
 };
 
-type State = {
-
-};
-
-export default class ChannelMentionBadge extends React.PureComponent<Props, State> {
-    render() {
-        if (this.props.unreadMentions > 0) {
-            return (
-                <span
-                    id='unreadMentions'
-                    className='badge'
-                >
-                    {this.props.unreadMentions}
-                </span>
-            );
-        }
-
-        return null;
+export default function ChannelMentionBadge({unreadMentions}: Props) {
+    if (unreadMentions > 0) {
+        return (
+            <span
+                id='unreadMentions'
+                className='badge'
+            >
+                {unreadMentions}
+            </span>
+        );
     }
+
+    return null;
 }
