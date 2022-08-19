@@ -229,6 +229,7 @@
   "admin.authentication.signup": "Signup",
   "admin.banner.heading": "Note:",
   "admin.billing.company_info_display.companyDetails": "Company Details",
+  "admin.billing.company_info_display.detailsProvided": "Your company name and address",
   "admin.billing.company_info_display.noCompanyInfo": "There is currently no company information on file.",
   "admin.billing.company_info_display.provideDetails": "Provide your company name and address",
   "admin.billing.company_info_edit.cancel": "Cancel",
