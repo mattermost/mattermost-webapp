@@ -373,21 +373,21 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         }
 
         const isShiftKeyPressed = e.shiftKey;
-        const shortcuts: Array<[[string, number], (e: KeyboardEvent) => void, null | boolean]> = [
-            [Constants.KeyCodes.C, this.copyText, null],
-            [Constants.KeyCodes.DELETE, this.handleDeleteMenuItemActivated, null],
-            [Constants.KeyCodes.E, this.handleEditMenuItemActivated, null],
+        const shortcuts: Array<[[string, number], (e: KeyboardEvent) => void, (undefined | boolean)?]> = [
+            [Constants.KeyCodes.C, this.copyText],
+            [Constants.KeyCodes.DELETE, this.handleDeleteMenuItemActivated],
+            [Constants.KeyCodes.E, this.handleEditMenuItemActivated],
             [Constants.KeyCodes.F, this.handleForwardMenuItemActivated, isShiftKeyPressed],
             [Constants.KeyCodes.F, this.handleSetThreadFollow, !isShiftKeyPressed],
-            [Constants.KeyCodes.K, this.copyLink, null],
-            [Constants.KeyCodes.P, this.handlePinMenuItemActivated, null],
-            [Constants.KeyCodes.R, this.handleCommentClick, null],
-            [Constants.KeyCodes.S, this.handleFlagMenuItemActivated, null],
-            [Constants.KeyCodes.U, this.handleMarkPostAsUnread, null],
+            [Constants.KeyCodes.K, this.copyLink],
+            [Constants.KeyCodes.P, this.handlePinMenuItemActivated],
+            [Constants.KeyCodes.R, this.handleCommentClick],
+            [Constants.KeyCodes.S, this.handleFlagMenuItemActivated],
+            [Constants.KeyCodes.U, this.handleMarkPostAsUnread],
         ];
 
         for (const [keyCode, func, condition] of shortcuts) {
-            const conditionMet = (condition === null) || (condition !== null && condition);
+            const conditionMet = (!condition) || (typeof condition === 'boolean' && condition);
             if (Utils.isKeyPressed(e, keyCode) && conditionMet) {
                 this.handleShortCut(e, func);
                 break;
