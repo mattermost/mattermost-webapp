@@ -38,8 +38,6 @@ const TopDMsTable = (props: Props) => {
 
     const [loading, setLoading] = useState(false);
     const [topDMs, setTopDMs] = useState([] as TopDM[]);
-    const [hasNext, setHasNext] = useState(false);
-    const [offset, setOffset] = useState(0);
 
     const teammateNameDisplaySetting = useSelector(getTeammateNameDisplaySetting);
     const currentTeam = useSelector(getCurrentTeam);
@@ -47,17 +45,13 @@ const TopDMsTable = (props: Props) => {
     const getMyTopTeamDMs = useCallback(async () => {
         if (props.filterType === InsightsScopes.MY) {
             setLoading(true);
-            const data: any = await dispatch(getMyTopDMs(currentTeam.id, offset, 10, props.timeFrame));
-
+            const data: any = await dispatch(getMyTopDMs(currentTeam.id, 0, 10, props.timeFrame));
             if (data.data?.items) {
                 setTopDMs(data.data.items);
             }
-            if (data.data?.has_next) {
-                setHasNext(true);
-            }
             setLoading(false);
         }
-    }, [props.timeFrame, props.filterType, offset]);
+    }, [props.timeFrame, props.filterType]);
 
     useEffect(() => {
         getMyTopTeamDMs();
@@ -135,7 +129,7 @@ const TopDMsTable = (props: Props) => {
                     cells: {
                         rank: (
                             <span className='cell-text'>
-                                {((offset * 10) + (i + 1))}
+                                {i + 1}
                             </span>
                         ),
                         user: (
@@ -182,35 +176,18 @@ const TopDMsTable = (props: Props) => {
     }, [topDMs]);
 
     return (
-        <>
-            <DataGrid
-                columns={getColumns}
-                rows={getRows}
-                loading={loading}
-                page={0}
-                nextPage={() => {}}
-                previousPage={() => {}}
-                startCount={1}
-                endCount={10}
-                total={0}
-                className={classNames('InsightsTable', 'TopDMsTable')}
-            />
-            <div className='pagination-buttons'>
-                <button
-                    disabled={offset === 0}
-                >
-                    <i className='icon icon-chevron-left'/>
-                </button>
-                {offset + 1}
-                <button
-                    onClick={() => setOffset(offset + 1)}
-                    disabled={!hasNext}
-                >
-                    <i className='icon icon-chevron-right'/>
-                </button>
-            </div>
-        </>
-
+        <DataGrid
+            columns={getColumns}
+            rows={getRows}
+            loading={loading}
+            page={0}
+            nextPage={() => {}}
+            previousPage={() => {}}
+            startCount={1}
+            endCount={10}
+            total={0}
+            className={classNames('InsightsTable', 'TopDMsTable')}
+        />
     );
 };
 

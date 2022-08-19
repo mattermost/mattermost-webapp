@@ -1,7 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ComponentProps} from 'react';
+import React from 'react';
+import {IntlShape} from 'react-intl';
+
+import {ExperimentalSettings, PluginSettings, SSOSettings, Office365Settings} from '@mattermost/types/config';
 
 import {RESOURCE_KEYS} from 'mattermost-redux/constants/permissions_sysconsole';
 
@@ -11,6 +14,8 @@ import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import AdminSidebar from 'components/admin_console/admin_sidebar/admin_sidebar';
 import AdminDefinition from 'components/admin_console/admin_definition';
 import {generateIndex} from 'utils/admin_console_index';
+
+import type {Props} from 'components/admin_console/admin_sidebar/admin_sidebar';
 
 jest.mock('utils/utils', () => {
     const original = jest.requireActual('utils/utils');
@@ -23,21 +28,23 @@ jest.mock('utils/utils', () => {
 jest.mock('utils/admin_console_index');
 
 describe('components/AdminSidebar', () => {
-    const defaultProps: ComponentProps<typeof AdminSidebar> = {
+    const defaultProps: Props = {
         license: {},
         config: {
             ExperimentalSettings: {
                 RestrictSystemAdmin: false,
-            },
+            } as ExperimentalSettings,
             PluginSettings: {
                 Enable: true,
                 EnableUploads: true,
-            },
+            } as PluginSettings,
         },
+        intl: {} as IntlShape,
         adminDefinition: AdminDefinition,
         buildEnterpriseReady: false,
         navigationBlocked: false,
         siteName: 'test snap',
+        subscriptionProduct: undefined,
         plugins: {
             plugin_0: {
                 active: false,
@@ -131,20 +138,22 @@ describe('components/AdminSidebar', () => {
     });
 
     test('should match snapshot, render plugins without any settings as well', () => {
-        const props = {
+        const props: Props = {
             license: {},
             config: {
                 ExperimentalSettings: {
                     RestrictSystemAdmin: false,
-                },
+                } as ExperimentalSettings,
                 PluginSettings: {
                     Enable: true,
                     EnableUploads: true,
-                },
+                } as PluginSettings,
             },
+            intl: {} as IntlShape,
             adminDefinition: AdminDefinition,
             buildEnterpriseReady: false,
             siteName: 'test snap',
+            subscriptionProduct: undefined,
             navigationBlocked: false,
             plugins: {
                 plugin_0: {
@@ -175,20 +184,22 @@ describe('components/AdminSidebar', () => {
     });
 
     test('should match snapshot, not prevent the console from loading when empty settings_schema provided', () => {
-        const props = {
+        const props: Props = {
             license: {},
             config: {
                 ExperimentalSettings: {
                     RestrictSystemAdmin: false,
-                },
+                } as ExperimentalSettings,
                 PluginSettings: {
                     Enable: true,
                     EnableUploads: true,
-                },
+                } as PluginSettings,
             },
+            intl: {} as IntlShape,
             adminDefinition: AdminDefinition,
             buildEnterpriseReady: false,
             siteName: 'test snap',
+            subscriptionProduct: undefined,
             navigationBlocked: false,
             plugins: {
                 plugin_0: {
@@ -219,23 +230,25 @@ describe('components/AdminSidebar', () => {
     });
 
     test('should match snapshot, with license (without any explicit feature)', () => {
-        const props = {
+        const props: Props = {
             license: {
                 IsLicensed: 'true',
             },
             config: {
                 ExperimentalSettings: {
                     RestrictSystemAdmin: false,
-                },
+                } as ExperimentalSettings,
                 PluginSettings: {
                     Enable: true,
                     EnableUploads: true,
-                },
+                } as PluginSettings,
             },
+            intl: {} as IntlShape,
             adminDefinition: AdminDefinition,
             buildEnterpriseReady: true,
             navigationBlocked: false,
             siteName: 'test snap',
+            subscriptionProduct: undefined,
             plugins: {
                 plugin_0: {
                     active: false,
@@ -265,7 +278,7 @@ describe('components/AdminSidebar', () => {
     });
 
     test('should match snapshot, with license (with all feature)', () => {
-        const props = {
+        const props: Props = {
             license: {
                 IsLicensed: 'true',
                 DataRetention: 'true',
@@ -285,31 +298,33 @@ describe('components/AdminSidebar', () => {
             config: {
                 ExperimentalSettings: {
                     RestrictSystemAdmin: false,
-                },
+                } as ExperimentalSettings,
                 PluginSettings: {
                     Enable: true,
                     EnableUploads: true,
-                },
+                } as PluginSettings,
                 GoogleSettings: {
                     Id: 'googleID',
                     Secret: 'googleSecret',
                     Scope: 'scope',
-                },
+                } as SSOSettings,
                 GitLabSettings: {
                     Id: 'gitlabID',
                     Secret: 'gitlabSecret',
                     Scope: 'scope',
-                },
+                } as SSOSettings,
                 Office365Settings: {
                     Id: 'office365ID',
                     Secret: 'office365Secret',
                     Scope: 'scope',
-                },
+                } as Office365Settings,
             },
+            intl: {} as IntlShape,
             adminDefinition: AdminDefinition,
             buildEnterpriseReady: true,
             navigationBlocked: false,
             siteName: 'test snap',
+            subscriptionProduct: undefined,
             plugins: {
                 plugin_0: {
                     active: false,
@@ -339,24 +354,23 @@ describe('components/AdminSidebar', () => {
     });
 
     describe('generateIndex', () => {
-        const props = {
+        const props: Props = {
             license: {},
             config: {
-                ServiceSettings: {
-                    ExperimentalLdapGroupSync: true,
-                },
                 ExperimentalSettings: {
                     RestrictSystemAdmin: false,
-                },
+                } as ExperimentalSettings,
                 PluginSettings: {
                     Enable: true,
                     EnableUploads: true,
-                },
+                } as PluginSettings,
             },
+            intl: {} as IntlShape,
             adminDefinition: AdminDefinition,
             buildEnterpriseReady: true,
             navigationBlocked: false,
             siteName: 'test snap',
+            subscriptionProduct: undefined,
             plugins: {
                 'mattermost-autolink': samplePlugin1,
             },
@@ -428,24 +442,23 @@ describe('components/AdminSidebar', () => {
             (generateIndex as jest.Mock).mockReturnValue(idx);
         });
 
-        const props = {
+        const props: Props = {
             license: {},
             config: {
-                ServiceSettings: {
-                    ExperimentalLdapGroupSync: true,
-                },
                 ExperimentalSettings: {
                     RestrictSystemAdmin: false,
-                },
+                } as ExperimentalSettings,
                 PluginSettings: {
                     Enable: true,
                     EnableUploads: true,
-                },
+                } as PluginSettings,
             },
+            intl: {} as IntlShape,
             adminDefinition: AdminDefinition,
             buildEnterpriseReady: true,
             navigationBlocked: false,
             siteName: 'test snap',
+            subscriptionProduct: undefined,
             plugins: {
                 'mattermost-autolink': samplePlugin1,
             },

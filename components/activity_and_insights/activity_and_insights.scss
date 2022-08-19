@@ -699,15 +699,14 @@
             }
 
             .new-members-item {
-                flex: 0.1666;
+                width: 16.66%;
 
                 @media screen and (max-width: 1279px) {
                     width: auto;
-                    flex: 100% 0;
+                    width: 100%;
                     flex-direction: row;
                     align-items: center;
                     margin: 0;
-                    margin-top: 24px;
 
                     &:nth-of-type(1) {
                         margin-top: 0;
@@ -715,7 +714,25 @@
                 }
 
                 @media screen and (max-width: 1279px) and (min-width: 1020px) {
-                    flex: 50% 0;
+                    width: 50%;
+
+                    &:nth-of-type(2) {
+                        margin-top: 0;
+                    }
+                }
+
+                @media screen and (max-width: 1279px) and (min-width: 880px) {
+                    overflow: hidden;
+                    width: 50%;
+
+                    &:nth-of-type(2) {
+                        margin-top: 0;
+                    }
+                }
+
+                @media screen and (max-width: 768px) and (min-width: 576px) {
+                    overflow: hidden;
+                    width: 50%;
 
                     &:nth-of-type(2) {
                         margin-top: 0;
