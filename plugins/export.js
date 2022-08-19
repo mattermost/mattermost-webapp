@@ -13,6 +13,7 @@ import {imageURLForUser} from 'utils/utils';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import ChannelMembersModal from 'components/channel_members_modal';
 import PurchaseModal from 'components/purchase_modal';
+import {useNotifyAdmin} from 'components/notify_admin_cta/notify_admin_cta';
 import Timestamp from 'components/timestamp';
 import Avatar from 'components/widgets/users/avatar';
 import BotBadge from 'components/widgets/badges/bot_badge';
@@ -39,6 +40,7 @@ window.StyledComponents = require('styled-components');
 // Functions exposed on window for plugins to use.
 window.PostUtils = {formatText, messageHtmlToComponent};
 window.openInteractiveDialog = openInteractiveDialog;
+window.useNotifyAdmin = useNotifyAdmin;
 window.WebappUtils = {
     browserHistory,
     modals: {openModal, ModalIdentifiers},
