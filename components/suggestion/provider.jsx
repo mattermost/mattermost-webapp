@@ -7,6 +7,7 @@ export default class Provider {
         this.latestComplete = true;
         this.disableDispatches = false;
         this.requestStarted = false;
+        this.triggerCharacter = undefined;
     }
 
     handlePretextChanged(pretext, callback) { // eslint-disable-line no-unused-vars

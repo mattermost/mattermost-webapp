@@ -3,12 +3,6 @@
 
 import React from 'react';
 
-import AppCommandProvider from '../command_provider/app_provider';
-import AtMentionProvider from '../at_mention_provider';
-import ChannelMentionProvider from '../channel_mention_provider';
-import CommandProvider from '../command_provider/command_provider';
-import EmoticonProvider from '../emoticon_provider';
-
 import Constants from 'utils/constants';
 
 import * as Utils from 'utils/utils';
@@ -18,11 +12,14 @@ import {DefaultState, SuggestionBoxProps} from './suggestion_box';
 export type InputRef = React.RefObject<HTMLInputElement | HTMLTextAreaElement>;
 type SetStateHandler = React.Dispatch<React.SetStateAction<DefaultState>>;
 
-export type ProviderSuggestions = {
-    matchedPretext: any;
+export type ProviderSuggestions<T extends unknown> = {
+
+    /**Matched pretext item that is returned from the provider. */
+    matchedPretext: string;
     terms: string[];
-    items: any[];
+    items: T[];
     component: React.ReactNode;
+    getTriggerCharacter: string | undefined;
 }
 
 // Finds the longest substring that's at both the end of b and the start of a. For example,
@@ -51,7 +48,7 @@ export const getTextbox = (inputRef: InputRef) => {
 
 export const addTextAtCaret = (
     term: string,
-    matchedPretext: string,
+    matchedPretextItem: string,
     value: string,
     inputRef: InputRef,
     onChange?: (value: string) => void,
@@ -65,15 +62,15 @@ export const addTextAtCaret = (
 
     let prefix;
     let keepPretext = false;
-    if (tempPretext.toLowerCase().endsWith(matchedPretext.toLowerCase())) {
-        prefix = tempPretext.substring(0, tempPretext.length - matchedPretext.length);
+    if (tempPretext.toLowerCase().endsWith(matchedPretextItem.toLowerCase())) {
+        prefix = tempPretext.substring(0, tempPretext.length - matchedPretextItem.length);
     } else {
         // the pretext has changed since we got a term to complete so see if the term still fits the pretext
-        const termWithoutMatched = term.substring(matchedPretext.length);
+        const termWithoutMatched = term.substring(matchedPretextItem.length);
         const overlap = findOverlap(tempPretext, termWithoutMatched);
 
         keepPretext = overlap.length === 0;
-        prefix = tempPretext.substring(0, tempPretext.length - overlap.length - matchedPretext.length);
+        prefix = tempPretext.substring(0, tempPretext.length - overlap.length - matchedPretextItem.length);
     }
 
     const suffix = (caret) ? value.substring(caret) : undefined;
@@ -149,20 +146,19 @@ export const clear = (
     }
 };
 
-export const handleReceivedSuggestions = (
-    suggestions: ProviderSuggestions,
+export const handleReceivedSuggestions = <T, >(suggestions: ProviderSuggestions<T>,
     setState: SetStateHandler,
     state: DefaultState,
-    onSuggestionsReceived?: (suggestions: ProviderSuggestions) => void,
+    onSuggestionsReceived?: (suggestions: ProviderSuggestions<T>) => void,
 ) => {
     const newComponents: DefaultState['components'] = [];
-    const newPretext: DefaultState['matchedPretext'] = [];
+    const newPretextArray: DefaultState['matchedPretext'] = [];
     if (onSuggestionsReceived) {
         onSuggestionsReceived(suggestions);
     }
     suggestions.terms.forEach(() => {
         newComponents.push(suggestions.component);
-        newPretext.push(suggestions.matchedPretext);
+        newPretextArray.push(suggestions.matchedPretext);
     });
 
     const terms = suggestions.terms;
@@ -182,19 +178,19 @@ export const handleReceivedSuggestions = (
         selection,
         items,
         components: newComponents || [suggestions.component],
-        matchedPretext: newPretext,
+        matchedPretext: newPretextArray,
         terms,
     }));
 
     return {selection, matchedPretext: suggestions.matchedPretext};
 };
 
-export const handleReceivedSuggestionsAndComplete = (
-    suggestions: ProviderSuggestions,
+export const handleReceivedSuggestionsAndComplete = <T, >(
+    suggestions: ProviderSuggestions<T>,
     setState: SetStateHandler,
     state: DefaultState,
-    handleCompleteWord: (term: string, matchedPretext: string) => boolean,
-    onSuggestionsReceived?: (suggestions: ProviderSuggestions) => void,
+    handleCompleteWord: (term: string, matchedPretextItem: string) => boolean,
+    onSuggestionsReceived?: (suggestions: ProviderSuggestions<T>) => void,
 ) => {
     const {selection, matchedPretext} = handleReceivedSuggestions(suggestions, setState, state, onSuggestionsReceived);
     if (selection) {
@@ -202,7 +198,7 @@ export const handleReceivedSuggestionsAndComplete = (
     }
 };
 
-export const nonDebouncedPretextChanged = async (
+export const nonDebouncedPretextChanged = async<T, > (
     tempPretext: string,
     complete = false,
     providers: SuggestionBoxProps['providers'] = [],
@@ -210,11 +206,11 @@ export const nonDebouncedPretextChanged = async (
     inputRef: InputRef,
     setState: SetStateHandler,
 
-    handleReceivedSuggestions: (suggestions: ProviderSuggestions) => {
+    handleReceivedSuggestions: (suggestions: ProviderSuggestions<T>) => {
         selection: string;
-        matchedPretext: any;
+        matchedPretext: string;
     },
-    handleReceivedSuggestionsAndComplete: (suggestions: ProviderSuggestions) => void,
+    handleReceivedSuggestionsAndComplete: (suggestions: ProviderSuggestions<T>) => void,
 ) => {
     let handled = false;
     let callback: typeof handleReceivedSuggestions | typeof handleReceivedSuggestionsAndComplete = handleReceivedSuggestions;
@@ -227,15 +223,7 @@ export const nonDebouncedPretextChanged = async (
             tempPretext,
             callback) || handled;
 
-        if (handled && (
-
-            // not all providers support triggerCharacter
-            provider instanceof CommandProvider ||
-            provider instanceof AppCommandProvider ||
-            provider instanceof AtMentionProvider ||
-            provider instanceof ChannelMentionProvider ||
-            provider instanceof EmoticonProvider)
-        ) {
+        if (handled && provider.triggerCharacter) {
             if (!state.suggestionBoxAlgn && ['@', ':', '~', '/'].includes(provider.triggerCharacter)) {
                 const char = provider.triggerCharacter;
                 const pxToSubstract = Utils.getPxToSubstract(char);
@@ -266,20 +254,20 @@ export const nonDebouncedPretextChanged = async (
     }
 };
 
-export const debouncedPretextChanged = (
+export function debouncedPretextChanged<T>(
     tempPretext: string,
     timeoutId: NodeJS.Timeout | undefined,
     setTimeoutId: React.Dispatch<React.SetStateAction<NodeJS.Timeout | undefined>>,
     state: DefaultState,
     inputRef: InputRef,
     setState: SetStateHandler,
-    handleReceivedSuggestions: (suggestions: ProviderSuggestions) => {
+    handleReceivedSuggestions: (suggestions: ProviderSuggestions<T>) => {
         selection: string;
-        matchedPretext: any;
+        matchedPretext: string;
     },
-    handleReceivedSuggestionsAndComplete: (suggestions: ProviderSuggestions) => void,
+    handleReceivedSuggestionsAndComplete: (suggestions: ProviderSuggestions<T>) => void,
     providers: SuggestionBoxProps['providers'] = [],
-): void => {
+): void {
     if (timeoutId) {
         clearTimeout(timeoutId);
     }
@@ -293,7 +281,7 @@ export const debouncedPretextChanged = (
         handleReceivedSuggestions,
         handleReceivedSuggestionsAndComplete,
     ), Constants.SEARCH_TIMEOUT_MILLISECONDS));
-};
+}
 
 const setSelectionByDelta = (
     delta: number,

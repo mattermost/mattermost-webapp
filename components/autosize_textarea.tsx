@@ -71,8 +71,9 @@ export class AutosizeTextarea extends React.PureComponent<Props> {
 
         this.textarea = textarea;
     }
+
     handleOnInput = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        if (e.target.value && this.props.onInput) {
+        if (this.props.onInput) {
             this.props.onInput(e.target.value);
         }
     }

@@ -12,7 +12,7 @@ import QuickInput from 'components/quick_input';
 import Constants from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils';
-import AppCommandProvider from '../command_provider/app_provider';
+import AppCommandProvider, {Results as AppCommandResults} from '../command_provider/app_provider';
 import {TextboxElement} from 'components/textbox';
 import GenericUserProvider from 'components/suggestion/generic_user_provider.jsx';
 import AtMentionProvider from '../at_mention_provider';
@@ -170,7 +170,7 @@ export interface SuggestionBoxProps {
     /**
      * Allows parent to access received suggestions
      */
-    onSuggestionsReceived?: (suggestions: ProviderSuggestions) => void;
+    onSuggestionsReceived?: (suggestions: ProviderSuggestions<AppCommandResults>) => void;
 
     /**
      * To show suggestions even when focus is lost
@@ -211,9 +211,9 @@ type SuggestionBoxAlign ={
 export interface DefaultState {
     focused: boolean;
     cleared: boolean;
-    matchedPretext: Array<ProviderSuggestions['matchedPretext']>;
-    items: ProviderSuggestions['items'];
-    terms: ProviderSuggestions['terms'];
+    matchedPretext: Array<ProviderSuggestions<unknown>['matchedPretext']>;
+    items: ProviderSuggestions<unknown>['items'];
+    terms: ProviderSuggestions<unknown>['terms'];
     components: Array<React.Component<{item: Record<string, unknown>}>>;
     selection: string;
     selectionIndex: number;
@@ -393,8 +393,8 @@ const SuggestionBoxComponent: React.ForwardRefRenderFunction<SuggestionBoxForwar
         debouncedPretextChanged(
             tempPretext,
             timeoutId, setTimeoutId, state, inputRef, setState,
-            (suggestions: ProviderSuggestions) => handleReceivedSuggestions(suggestions, setState, state, onSuggestionsReceived),
-            (suggestions: ProviderSuggestions) => handleReceivedSuggestionsAndComplete(suggestions, setState, state, handleCompleteWord, onSuggestionsReceived),
+            (suggestions: ProviderSuggestions<AppCommandResults>) => handleReceivedSuggestions(suggestions, setState, state, onSuggestionsReceived),
+            (suggestions: ProviderSuggestions<AppCommandResults>) => handleReceivedSuggestionsAndComplete(suggestions, setState, state, handleCompleteWord, onSuggestionsReceived),
             providers,
         );
     };
@@ -574,8 +574,8 @@ const SuggestionBoxComponent: React.ForwardRefRenderFunction<SuggestionBoxForwar
                         state,
                         inputRef,
                         setState,
-                        (suggestions: ProviderSuggestions) => handleReceivedSuggestions(suggestions, setState, state, onSuggestionsReceived),
-                        (suggestions: ProviderSuggestions) => handleReceivedSuggestionsAndComplete(suggestions, setState, state, handleCompleteWord, onSuggestionsReceived),
+                        (suggestions: ProviderSuggestions<AppCommandResults>) => handleReceivedSuggestions(suggestions, setState, state, onSuggestionsReceived),
+                        (suggestions: ProviderSuggestions<AppCommandResults>) => handleReceivedSuggestionsAndComplete(suggestions, setState, state, handleCompleteWord, onSuggestionsReceived),
                     );
                 }
 
@@ -773,4 +773,5 @@ const SuggestionBox = React.forwardRef(SuggestionBoxComponent);
 
 export {
     SuggestionBox,
+    ProviderSuggestions,
 };
