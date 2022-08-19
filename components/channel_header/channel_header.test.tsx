@@ -18,10 +18,8 @@ describe('components/ChannelHeader', () => {
         actions: {
             favoriteChannel: jest.fn(),
             unfavoriteChannel: jest.fn(),
-            showFlaggedPosts: jest.fn(),
             showPinnedPosts: jest.fn(),
             showChannelFiles: jest.fn(),
-            showMentions: jest.fn(),
             closeRightHandSide: jest.fn(),
             openModal: jest.fn(),
             closeModal: jest.fn(),
@@ -30,6 +28,7 @@ describe('components/ChannelHeader', () => {
             goToLastViewedChannel: jest.fn(),
             showChannelMembers: jest.fn(),
         },
+        announcementBarCount: 1,
         teamId: 'team_id',
         channel: TestHelper.getChannelMock({}),
         channelMember: TestHelper.getChannelMembershipMock({}),
