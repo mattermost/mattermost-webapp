@@ -14,6 +14,8 @@ import {TopBoardResponse} from '@mattermost/types/insights';
 
 import {WebSocketClient} from '@mattermost/client';
 
+import {GlobalState} from 'types/store';
+
 export type PluginSiteStatsHandler = () => Promise<Record<string, PluginAnalyticsRow>>;
 
 export type PluginsState = {
@@ -31,6 +33,7 @@ export type PluginsState = {
         MobileChannelHeaderButton: PluginComponent[];
         AppBar: PluginComponent[];
         UserGuideDropdownItem: PluginComponent[];
+        FilesWillUploadHook: PluginComponent[];
         [componentName: string]: PluginComponent[];
     };
 
@@ -85,7 +88,12 @@ export type PluginComponent = {
     mobileIcon?: React.ReactElement;
     filter?: (id: string) => boolean;
     action?: (...args: any) => void; // TODO Add more concrete types?
+    shouldRender?: (state: GlobalState) => boolean;
 };
+
+export type FilesWillUploadHook = {
+    hook: (files: File[], uploadFiles: (files: File[]) => void) => { message?: string; files?: File[] };
+}
 
 export type FilePreviewComponent = {
     id: string;
