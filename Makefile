@@ -57,8 +57,6 @@ package: build ## Packages app
 package-ci: ## used in the CI to build the package and bypass the npm install
 	@echo Building mattermost Webapp
 
-	rm -rf node_modules
-	npm ci
 	rm -rf dist
 	npm run build
 
