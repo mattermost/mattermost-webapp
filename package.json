@@ -305,7 +305,8 @@
     "i18n-clean-empty": "npm run mmjstool -- i18n clean-empty --webapp-dir .",
     "i18n-check-empty-src": "npm run mmjstool -- i18n check-empty-src --webapp-dir .",
     "check-types": "tsc -b",
-    "make-emojis": "node --experimental-json-modules build/emoji/emoji_gen.mjs"
+    "make-emojis": "node --experimental-json-modules build/emoji/emoji_gen.mjs",
+    "bundlewatch": "bundlewatch --config bundlewatch.config.json"
   },
   "workspaces": [
     "packages/client",
