@@ -11,7 +11,7 @@ import GuestBadge from 'components/widgets/badges/guest_badge';
 import Constants, {RHSStates} from 'utils/constants';
 import {TestHelper} from '../../utils/test_helper';
 import {ChannelType} from '@mattermost/types/channels';
-import {UserCustomStatus, UserProfile} from '@mattermost/types/users';
+import {UserCustomStatus} from '@mattermost/types/users';
 
 describe('components/ChannelHeader', () => {
     const baseProps: ComponentProps<typeof ChannelHeader> = {
@@ -52,9 +52,10 @@ describe('components/ChannelHeader', () => {
             channel_id: 'channel_id',
             user_id: 'user_id',
         }),
-        currentUser: {
+        currentUser: TestHelper.getUserMock({
             id: 'user_id',
-        } as UserProfile,
+            bot_description: 'the bot description',
+        }),
     };
 
     test('should render properly when empty', () => {
