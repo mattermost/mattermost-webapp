@@ -687,8 +687,8 @@ export const getTeamsUnreadStatuses: (state: GlobalState) => [Set<Team['id']>, M
         channelMessageCounts,
         users,
         currentUserId,
-        collapsedThreads,
-        teamthreadCounts,
+        collapsedThreadsEnabled,
+        teamThreadCounts,
     ) => {
         const teamUnreadsSet = new Set<Team['id']>();
         const teamMentionsMap = new Map<Team['id'], number>();
@@ -719,7 +719,7 @@ export const getTeamsUnreadStatuses: (state: GlobalState) => [Set<Team['id']>, M
             }
 
             // Add read/unread from channel membership
-            const unreadCountObjectForChannel = calculateUnreadCount(channelMessageCounts[channelId], channelMembership, collapsedThreads);
+            const unreadCountObjectForChannel = calculateUnreadCount(channelMessageCounts[channelId], channelMembership, collapsedThreadsEnabled);
             if (unreadCountObjectForChannel.showUnread) {
                 teamUnreadsSet.add(channel.team_id);
             }
@@ -735,9 +735,9 @@ export const getTeamsUnreadStatuses: (state: GlobalState) => [Set<Team['id']>, M
             }
         }
 
-        if (collapsedThreads) {
-            for (const teamId of Object.keys(teamthreadCounts)) {
-                const threadCountsObjectForTeam = teamthreadCounts[teamId];
+        if (collapsedThreadsEnabled) {
+            for (const teamId of Object.keys(teamThreadCounts)) {
+                const threadCountsObjectForTeam = teamThreadCounts[teamId];
 
                 // Add read/unread from global threads view for team
                 if (threadCountsObjectForTeam.total_unread_threads > 0) {
@@ -779,7 +779,7 @@ export const getUnreadStatusInCurrentTeam: (state: GlobalState) => BasicUnreadSt
         users,
         currentUserId,
         currentTeamId,
-        collapsedThreads,
+        collapsedThreadsEnabled,
         threadCounts,
     ) => {
         const {
@@ -797,12 +797,12 @@ export const getUnreadStatusInCurrentTeam: (state: GlobalState) => BasicUnreadSt
                 return counts;
             }
 
-            const mentions = collapsedThreads ? m.mention_count_root : m.mention_count;
+            const mentions = collapsedThreadsEnabled ? m.mention_count_root : m.mention_count;
             if (mentions) {
                 counts.mentions += mentions;
             }
 
-            const unreadCount = calculateUnreadCount(messageCounts[channel.id], m, collapsedThreads);
+            const unreadCount = calculateUnreadCount(messageCounts[channel.id], m, collapsedThreadsEnabled);
             if (unreadCount.showUnread) {
                 counts.messages += unreadCount.messages;
             }
@@ -818,7 +818,7 @@ export const getUnreadStatusInCurrentTeam: (state: GlobalState) => BasicUnreadSt
 
         // when collapsed threads are enabled, we start with root-post counts from channels, then
         // add the same thread-reply counts from the global threads view IF we're not in global threads
-        if (collapsedThreads && currentChannelId) {
+        if (collapsedThreadsEnabled && currentChannelId) {
             const c = threadCounts[currentTeamId];
             if (c) {
                 anyUnreadThreads = anyUnreadThreads || Boolean(c.total_unread_threads);
