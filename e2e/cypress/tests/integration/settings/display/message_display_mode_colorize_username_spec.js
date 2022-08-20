@@ -15,6 +15,7 @@ describe('Settings > Display > Message Display: Colorize username', () => {
     let otherUser;
     let testChannel;
     const colors = {};
+    let defaultTextColor = '';
 
     before(() => {
         // # Login as new user and visit off-topic
@@ -55,6 +56,13 @@ describe('Settings > Display > Message Display: Colorize username', () => {
     it('MM-T4984_1 Message Display: colorize usernames option should not exist in Compact mode', () => {
         // # Select 'Standard' option
         cy.uiChangeMessageDisplaySetting();
+
+        // # Set the default text color
+        cy.findByText(firstUser.username).then((elements) => {
+            cy.window().then((win) => {
+                defaultTextColor = win.getComputedStyle(elements[0]).color;
+            });
+        });
 
         // # Go to Settings modal - Display section - Message Display
         goToMessageDisplaySetting();
@@ -120,10 +128,10 @@ describe('Settings > Display > Message Display: Colorize username', () => {
 
         // * Verify that colors are reverted to normal
         cy.findByText(firstUser.username).then((elements) => {
-            cy.wrap(elements[0]).should('have.css', 'color', 'rgb(63, 67, 80)');
+            cy.wrap(elements[0]).should('have.css', 'color', defaultTextColor);
         });
         cy.findByText(otherUser.username).then((elements) => {
-            cy.wrap(elements[0]).should('have.css', 'color', 'rgb(63, 67, 80)');
+            cy.wrap(elements[0]).should('have.css', 'color', defaultTextColor);
         });
     });
 });
