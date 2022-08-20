@@ -43,38 +43,32 @@ function simulateSubscription(subscription, withLimits = true) {
             statusCode: 200,
             body: {
                 messages: {
-                    history: 10000,
+                    history: 500,
+                },
+                teams: {
+                    active: 0,
+                    teamsLoaded: true,
                 },
             },
         });
     }
 }
 
-function userNotificationProcess(subscription, team, channel) {
-    simulateSubscription(subscription);
-
+function createUsersProcess(team, channel, times) {
     const users = [];
-
-    var times = 2;
     for (var i = 0; i < times; i++) {
         cy.apiCreateUser({prefix: 'other'}).then(({user}) => {
             users.push(user);
             cy.apiAddUserToTeam(team.id, user.id).then(() => {
                 cy.apiAddUserToChannel(channel.id, user.id);
             });
-
-            proo(subscription, user, team, channel);
         });
     }
 
     return users;
 }
 
-function proo(subscription, user, team, channel) {
-    simulateSubscription(subscription);
-    cy.apiLogin(user);
-    cy.visit(`/${team.name}/channels/${channel.name}`);
-
+function userGroupsNotification() {
     cy.get('#product_switch_menu').click().then((() => {
         cy.get('#Custom-User-groups-restricted-indicator').click();
     }));
@@ -82,6 +76,26 @@ function proo(subscription, user, team, channel) {
     cy.get('#FeatureRestrictedModal').should('exist');
 
     cy.get('#button-plans').click();
+
+    cy.get('.close').click();
+}
+
+function creatNewTeamNotification() {
+    cy.get('.test-team-header').click().then(() => {
+        cy.get('#Create-Multiple-Teams-restricted-indicator').click();
+    });
+
+    cy.get('#FeatureRestrictedModal').should('exist');
+
+    cy.get('#button-plans').click();
+
+    cy.get('.close').click();
+}
+
+function createMessageLimitNotification() {
+    cy.get('#product_switch_menu').click().then((() => {
+        cy.get('#notify_admin_cta').click();
+    }));
 }
 
 function triggerNotifications(url) {
@@ -102,16 +116,160 @@ describe('Notify Admin', () => {
         cy.apiRequireLicenseForFeature('Cloud');
     });
 
-    it('should', () => {
+    // it('should sent user groups notifications when user groups are restricted on starter plan', () => {
+    //     const subscription = {
+    //         id: 'sub_test1',
+    //         product_id: 'prod_1',
+    //         is_free_trial: 'false',
+    //     };
+
+    //     let myTeam;
+    //     let myChannel;
+    //     let myUrl;
+    //     let myUsers = [];
+
+    //     cy.apiInitSetup().then(({team, channel, offTopicUrl: url}) => {
+    //         myTeam = team;
+    //         myChannel = channel;
+    //         myUrl = url;
+    //         myUsers = createUsersProcess(myTeam, myChannel);
+    //     });
+
+    //     cy.then(() => {
+    //         myUsers.forEach((user) => {
+    //             simulateSubscription(subscription);
+    //             cy.apiLogin({...user, password: 'passwd'});
+    //             cy.visit(`/${myTeam.name}/channels/${myChannel.name}`);
+
+    //             userGroupsNotification();
+    //         });
+
+    //         triggerNotifications(myUrl);
+    //     });
+    // });
+
+    // it('should sent create new team notifications when create teams are restricted on trial plan', () => {
+    //     const subscription = {
+    //         id: 'sub_test1',
+    //         product_id: 'prod_1',
+    //         is_free_trial: 'false',
+    //     };
+
+    //     let myTeam;
+    //     let myChannel;
+    //     let myUrl;
+    //     let myUsers = [];
+
+    //     cy.apiInitSetup().then(({team, channel, offTopicUrl: url}) => {
+    //         myTeam = team;
+    //         myChannel = channel;
+    //         myUrl = url;
+    //         myUsers = createUsersProcess(myTeam, myChannel);
+    //     });
+
+    //     cy.then(() => {
+    //         myUsers.forEach((user) => {
+    //             simulateSubscription(subscription);
+    //             cy.apiLogin({...user, password: 'passwd'});
+    //             cy.visit(`/${myTeam.name}/channels/${myChannel.name}`);
+    //             creatNewTeamNotification();
+    //         });
+
+    //         triggerNotifications(myUrl);
+    //     });
+    // });
+
+    //     it('should sent message limit notifications when messages limit is reached', () => {
+    //         const subscription = {
+    //             id: 'sub_test1',
+    //             product_id: 'prod_1',
+    //             is_free_trial: 'false',
+    //         };
+
+    //         let myTeam;
+    //         let myChannel;
+    //         let myUrl;
+    //         let myUsers = [];
+
+    //         cy.apiInitSetup().then(({team, channel, offTopicUrl: url}) => {
+    //             myTeam = team;
+    //             myChannel = channel;
+    //             myUrl = url;
+    //             myUsers = createUsersProcess(myTeam, myChannel);
+    //         });
+
+    //         cy.then(() => {
+    //             myUsers.forEach((user) => {
+    //                 simulateSubscription(subscription);
+    //                 cy.apiLogin({...user, password: 'passwd'});
+    //                 cy.visit(`/${myTeam.name}/channels/${myChannel.name}`);
+    //                 createMessageLimitNotification();
+    //             });
+
+    //             // triggerNotifications(myUrl);
+    //         });
+    //     });
+    // });
+
+    it('should sent message limit notifications when messages limit is reached', () => {
         const subscription = {
             id: 'sub_test1',
             product_id: 'prod_1',
             is_free_trial: 'false',
         };
 
-        cy.apiInitSetup().then(({team, channel, offTopicUrl: url}) => {
-            userNotificationProcess(subscription, team, channel);
+        const url = setUpNotifications(subscription);
+        cy.then(() => {
             triggerNotifications(url);
         });
     });
 });
+
+function setUpNotifications(subscription) {
+    let myTeam;
+    let myChannel;
+    let myUrl;
+    let myMessageLimitUsers = [];
+    let myUnlimitedTeamsUsers = [];
+    let myUserGroupsUsers = [];
+
+    cy.apiInitSetup().then(({team, channel, offTopicUrl: url}) => {
+        myTeam = team;
+        myChannel = channel;
+        myUrl = url;
+        myMessageLimitUsers = createUsersProcess(myTeam, myChannel, 3);
+        myUnlimitedTeamsUsers = createUsersProcess(myTeam, myChannel, 2);
+        myUserGroupsUsers = createUsersProcess(myTeam, myChannel, 5);
+    });
+
+    cy.then(() => {
+        myMessageLimitUsers.forEach((user) => {
+            simulateSubscription(subscription);
+            cy.apiLogin({...user, password: 'passwd'});
+            cy.visit(`/${myTeam.name}/channels/${myChannel.name}`);
+            createMessageLimitNotification();
+        });
+    });
+
+    cy.then(() => {
+        myUnlimitedTeamsUsers.forEach((user) => {
+            simulateSubscription(subscription);
+            cy.apiLogin({...user, password: 'passwd'});
+            cy.visit(`/${myTeam.name}/channels/${myChannel.name}`);
+            creatNewTeamNotification();
+        });
+    });
+
+    cy.then(() => {
+        myUserGroupsUsers.forEach((user) => {
+            simulateSubscription(subscription);
+            cy.apiLogin({...user, password: 'passwd'});
+            cy.visit(`/${myTeam.name}/channels/${myChannel.name}`);
+            userGroupsNotification();
+        });
+    });
+
+    // cy.visit(myUrl);
+
+    return myUrl;
+}
