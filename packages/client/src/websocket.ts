@@ -144,7 +144,7 @@ export default class WebSocketClient {
             }
 
             // Applying jitter to avoid thundering herd problems.
-            retryTime += Math.floor(Math.random() * JITTER_RANGE);
+            retryTime += Math.random() * JITTER_RANGE;
 
             setTimeout(
                 () => {
