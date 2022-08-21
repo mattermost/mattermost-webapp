@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable max-lines */
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
@@ -86,10 +84,6 @@ class SwitchChannelSuggestion extends Suggestion {
         const member = this.props.channelMember;
         const teammate = this.props.dmChannelTeammate;
         let badge = null;
-
-        if (isChannelMuted(member)) {
-            return null;
-        }
 
         if ((member && member.notify_props) || item.unread_mentions) {
             let unreadMentions;
@@ -604,7 +598,7 @@ export default class SwitchChannelProvider extends Provider {
                     }
                 }
 
-                const unread = allUnreadChannelIdsSet.has(newChannel.id);
+                const unread = allUnreadChannelIdsSet.has(newChannel.id) && !isChannelMuted(members[channel.id]);
                 if (unread) {
                     wrappedChannel.unread = true;
                 }
@@ -631,7 +625,7 @@ export default class SwitchChannelProvider extends Provider {
                 continue;
             }
 
-            const unread = allUnreadChannelIdsSet.has(channel?.id);
+            const unread = allUnreadChannelIdsSet.has(channel?.id) && !isChannelMuted(members[channel.id]);
             if (unread) {
                 wrappedChannel.unread = true;
             }
@@ -767,11 +761,11 @@ export default class SwitchChannelProvider extends Provider {
                 );
                 wrappedChannel = {...wrappedChannel, ...userWrappedChannel};
             }
-            const unread = allUnreadChannelIdsSet.has(channel.id);
+            const unread = allUnreadChannelIdsSet.has(channel.id) && !isChannelMuted(member);
             if (unread) {
                 wrappedChannel.unread = true;
             }
-            wrappedChannel.type = channelType;
+            wrappedChannel.type = isChannelMuted(member) ? Constants.MENTION_RECENT_CHANNELS : channelType;
             channelList.push(wrappedChannel);
         }
         return channelList;
