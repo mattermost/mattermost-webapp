@@ -8,6 +8,7 @@ import styled, {css} from 'styled-components';
 type NotificationVariant = 'general' | 'info' | 'success'| 'warning' | 'danger';
 
 type NotificationProps = {
+    id?: string;
     dismissable?: boolean;
     title?: JSX.Element | string;
     text: JSX.Element | string;
@@ -73,7 +74,7 @@ const NotificationText = styled.p(({noTitle}: {noTitle: boolean}) => {
     `;
 });
 
-const NotificationBox = ({variant, title, text}: NotificationProps) => {
+const NotificationBox = ({variant, title, text, id = ''}: NotificationProps) => {
     const color = variantColorMap[variant];
 
     const iconProps = {
@@ -99,12 +100,22 @@ const NotificationBox = ({variant, title, text}: NotificationProps) => {
     }
 
     return (
-        <NotificationWrapper color={color}>
+        <NotificationWrapper
+            color={color}
+            data-testid={`notification${id ? `_${id}` : ''}`}
+        >
             <NotificationIcon>
                 {icon}
             </NotificationIcon>
             {title && <NotificationTitle>{title}</NotificationTitle>}
-            {text && <NotificationText noTitle={!title}>{text}</NotificationText>}
+            {text && (
+                <NotificationText
+                    noTitle={!title}
+                    data-testid={'notification-text'}
+                >
+                    {text}
+                </NotificationText>
+            )}
         </NotificationWrapper>
     );
 };

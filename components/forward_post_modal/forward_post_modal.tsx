@@ -163,6 +163,7 @@ const ForwardPostModal = ({onExited, post, actions}: Props) => {
             <NotificationBox
                 variant={'info'}
                 text={notificationText}
+                id={'forward_post'}
             />
         );
     }
