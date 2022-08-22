@@ -31,17 +31,23 @@ function widgetHoc<T>(WrappedComponent: ComponentType<T>) {
         const [showModal, setShowModal] = useState(false);
 
         const title = useCallback(() => {
-            if (props.filterType === InsightsScopes.MY) {
+            if (props.filterType === InsightsScopes.MY && Object.keys(InsightsCardTitles[props.widgetType].myTitle).length !== 0) {
                 return formatMessage(InsightsCardTitles[props.widgetType].myTitle);
             }
-            return formatMessage(InsightsCardTitles[props.widgetType].teamTitle);
+            if (props.filterType === InsightsScopes.TEAM && Object.keys(InsightsCardTitles[props.widgetType].teamTitle).length !== 0) {
+                return formatMessage(InsightsCardTitles[props.widgetType].teamTitle);
+            }
+            return '';
         }, [props.filterType, props.widgetType]);
 
         const subTitle = useCallback(() => {
-            if (props.filterType === InsightsScopes.MY) {
+            if (props.filterType === InsightsScopes.MY && Object.keys(InsightsCardTitles[props.widgetType].mySubTitle).length !== 0) {
                 return formatMessage(InsightsCardTitles[props.widgetType].mySubTitle);
             }
-            return formatMessage(InsightsCardTitles[props.widgetType].teamSubTitle);
+            if (props.filterType === InsightsScopes.TEAM && Object.keys(InsightsCardTitles[props.widgetType].teamSubTitle).length !== 0) {
+                return formatMessage(InsightsCardTitles[props.widgetType].teamSubTitle);
+            }
+            return '';
         }, [props.filterType, props.widgetType]);
 
         const openInsightsModal = useCallback(() => {

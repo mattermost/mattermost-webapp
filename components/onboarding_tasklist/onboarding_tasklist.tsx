@@ -38,7 +38,7 @@ const TaskItems = styled.div`
     border-radius: 4px;
     border: solid 1px rgba(var(--center-channel-color-rgb), 0.16);
     background-color: var(--center-channel-bg);
-    max-width: 352px;
+    width: 352px;
     padding: 24px 0;
     transform: scale(0);
     opacity: 0;
@@ -152,9 +152,9 @@ const PlayButton = styled.button`
 `;
 
 const Skeleton = styled.div`
-    width: 304px;
-    height: 137px;
-    margin: 8px auto;
+    height: auto;
+    margin: 0 auto;
+    padding: 0 20px;
     position: relative;
 `;
 
