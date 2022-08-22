@@ -30,6 +30,19 @@
                 color: var(--center-channel-bg);
                 transform-origin: center;
             }
+
+            // fix for https://mattermost.atlassian.net/browse/MM-41711. This covers the current placements we use for the channels and other tools tour
+            &[data-placement^=right] > .tippy-arrow {
+                transform: translate3d(0, 14px, 0) !important;
+            }
+
+            &[data-placement^=top] > .tippy-arrow {
+                transform: translate3d(14px, 0, 0) !important;
+            }
+
+            &[data-placement^=bottom] > .tippy-arrow {
+                transform: translate3d(317px, 0, 0) !important;
+            }
         }
     }
 
