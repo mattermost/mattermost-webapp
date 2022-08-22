@@ -2949,6 +2949,8 @@
   "cloud_free.professional_feature.try_free": "Professional feature- try it out free",
   "cloud_free.professional_feature.upgrade": "Upgrade",
   "cloud_subscribe.contact_support": "Compare plans",
+  "cloud_archived.error.title": "Message Archived",
+  "cloud_archived.error.access": "Permalink belongs to a message that has been archived because of cloud plan limits. Upgrade cloud plan to access message again.",
   "cloud.startTrial.modal.btn": "Start trial",
   "collapsed_reply_threads_modal.confirm": "Got it",
   "collapsed_reply_threads_modal.description": "Threads have been revamped to help you create organized conversation around specific messages. Now, channels will appear less cluttered as replies are collapsed under the original message, and all the conversations you're following are available in your **Threads** view. Take the tour to see what's new.",

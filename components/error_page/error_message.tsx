@@ -60,6 +60,16 @@ const ErrorMessage: React.FC<Props> = ({type, message, service, isGuest}: Props)
                 </p>
             );
             break;
+        case ErrorPageTypes.CLOUD_ARCHIVED:
+            errorMessage = (
+                <p>
+                    <FormattedMessage
+                        id='cloud_archived.error.access'
+                        defaultMessage='Permalink belongs to a message that has been archived because of cloud plan limits. Upgrade cloud plan to access message again.'
+                    />
+                </p>
+            );
+            break;
         case ErrorPageTypes.TEAM_NOT_FOUND:
             errorMessage = (
                 <p>

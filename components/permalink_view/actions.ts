@@ -81,6 +81,11 @@ export function focusPost(postId: string, returnTo = '', currentUserId: string) 
             return;
         }
 
+        if (data.first_inaccessible_post_time) {
+            browserHistory.replace(`/error?type=${ErrorPageTypes.CLOUD_ARCHIVED}&returnTo=${returnTo}`);
+            return;
+        }
+
         const state = getState();
         const isCollapsed = isCollapsedThreadsEnabled(state);
 
