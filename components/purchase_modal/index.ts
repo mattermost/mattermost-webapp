@@ -54,6 +54,7 @@ type Actions = {
     subscribeCloudSubscription: (productId: string) => Promise<boolean | null>;
     getClientConfig: () => void;
     getCloudSubscription: () => void;
+    getInvoices: () => void;
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {

@@ -100,13 +100,19 @@ type Props = {
         openModal: <P>(modalData: ModalData<P>) => void;
         closeModal: () => void;
         getCloudProducts: () => void;
-        completeStripeAddPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) => Promise<boolean | null>;
-        subscribeCloudSubscription: (productId: string) => Promise<boolean | null>;
+        completeStripeAddPaymentMethod: (
+            stripe: Stripe,
+            billingDetails: BillingDetails,
+            isDevMode: boolean
+        ) => Promise<boolean | null>;
+        subscribeCloudSubscription: (
+            productId: string
+        ) => Promise<boolean | null>;
         getClientConfig: () => void;
         getCloudSubscription: () => void;
         getInvoices: () => void;
     };
-}
+};
 
 type State = {
     paymentInfoIsValid: boolean;
