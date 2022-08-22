@@ -13,6 +13,7 @@ import {
 import {GfycatAPIItem} from 'types/external/gfycat';
 
 import SearchGrid from 'components/gif_picker/components/SearchGrid';
+import {appProps} from 'components/gif_picker/gif_picker';
 
 const mapDispatchToProps = ({
     searchCategory,
@@ -21,6 +22,7 @@ const mapDispatchToProps = ({
 });
 
 type Props = {
+    appProps: typeof appProps;
     searchIfNeededInitial: (searchText: string) => void;
     onCategories: () => void;
     saveSearchScrollPosition: (scrollPosition: number) => void;
@@ -37,9 +39,7 @@ export class Trending extends PureComponent<Props> {
         this.props.saveSearchScrollPosition(0);
     }
 
-    loadMore = () => {
-        this.props.searchCategory({tagName: 'trending'});
-    }
+    loadMore = () => this.props.searchCategory({tagName: 'trending'});
 
     render() {
         const {handleItemClick, onCategories} = this.props;

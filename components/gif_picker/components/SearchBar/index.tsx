@@ -53,18 +53,18 @@ const getStyle = makeStyleFromTheme((theme) => {
 });
 
 type Props = {
-    action: string;
+    action?: string;
     theme: Theme;
-    onSearch: () => void;
-    onTrending: () => void;
-    onCategories: () => void;
+    onSearch?: () => void;
+    onTrending?: () => void;
+    onCategories?: () => void;
     saveSearchBarText: (searchBarText: string) => void;
-    saveSearchScrollPosition: (scrollPosition: number) => void;
+    saveSearchScrollPosition?: (scrollPosition: number) => void;
     searchTextUpdate: (searchText: string) => void;
-    searchBarText: string;
-    defaultSearchText: string;
-    tagsList: GfycatAPITag[];
-    hasImageProxy: string;
+    searchBarText?: string;
+    defaultSearchText?: string;
+    tagsList?: GfycatAPITag[];
+    hasImageProxyd?: string;
     handleSearchTextChange: (text: string) => void;
 }
 
@@ -79,9 +79,7 @@ export class SearchBar extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
-        this.state = {
-            inputFocused: false,
-        };
+        this.state = {inputFocused: false};
         this.searchInputRef = React.createRef();
 
         const defaultSearchText = this.props.defaultSearchText || '';
@@ -94,7 +92,7 @@ export class SearchBar extends Component<Props, State> {
         const {searchBarText} = this.props;
 
         if (searchBarText !== prevProps.searchBarText) {
-            if (searchBarText === 'trending') {
+            if (!searchBarText || searchBarText === 'trending') {
                 this.updateSearchInputValue('');
             } else {
                 this.updateSearchInputValue(searchBarText);
@@ -126,8 +124,8 @@ export class SearchBar extends Component<Props, State> {
     triggerSearch = (searchText: string) => {
         const {onSearch} = this.props;
         this.props.searchTextUpdate(this.parseSearchText(searchText));
-        onSearch();
-        this.props.saveSearchScrollPosition(0);
+        onSearch?.();
+        this.props.saveSearchScrollPosition?.(0);
     }
 
     handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -140,7 +138,7 @@ export class SearchBar extends Component<Props, State> {
         this.props.handleSearchTextChange(searchText);
 
         if (searchText === '') {
-            onCategories();
+            onCategories?.();
         } else if (action !== 'reactions' || !this.isFilteredTags(searchText)) {
             // not reactions page or there's no reactions for this search request
             this.searchTimeout = setTimeout(() => {
@@ -174,9 +172,9 @@ export class SearchBar extends Component<Props, State> {
         const {action, onTrending, onCategories} = this.props;
         this.updateSearchInputValue('');
         if (action === 'reactions') {
-            onCategories();
+            onCategories?.();
         } else {
-            onTrending();
+            onTrending?.();
         }
     }
 
