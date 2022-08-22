@@ -150,7 +150,7 @@ describe('Forward Message', () => {
             cy.apiSaveCRTPreference(user.id, 'on');
 
             // # Create another user
-            return cy.apiCreateUser({prefix: 'second'});
+            return cy.apiCreateUser({prefix: 'second_'});
         }).then(({user}) => {
             user2 = user;
 
@@ -158,7 +158,7 @@ describe('Forward Message', () => {
             return cy.apiAddUserToTeam(testTeam.id, user2.id);
         }).then(() => {
             // # Create another user
-            return cy.apiCreateUser({prefix: 'third'});
+            return cy.apiCreateUser({prefix: 'third_'});
         }).then(({user}) => {
             user3 = user;
 
@@ -355,7 +355,7 @@ describe('Forward Message', () => {
         // # Forward Post
         forwardPost({channelId: gmChannel.id});
 
-        // * Assert switch to testchannel
+        // * Assert switch to GM channel
         const displayName = gmChannel.display_name.split(', ').filter(((username) => username !== user1.username)).join(', ');
         cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').should('contain', displayName);
 
@@ -376,7 +376,7 @@ describe('Forward Message', () => {
         // # Forward Post
         forwardPost({channelId: dmChannel.id});
 
-        // * Assert switch to testchannel
+        // * Assert switch to DM channel
         cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').should('contain', dmChannel.display_name);
 
         // * Assert post has been forwarded

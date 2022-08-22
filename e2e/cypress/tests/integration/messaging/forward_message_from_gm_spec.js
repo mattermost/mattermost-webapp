@@ -14,8 +14,10 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 describe('Forward Message', () => {
     let user1;
     let user2;
+    let user3;
     let testTeam;
-    let dmChannel;
+    let gmChannel;
+    let gmChannelName;
     let testPost;
     let replyPost;
 
@@ -67,7 +69,9 @@ describe('Forward Message', () => {
      * @param {string?} options.comment
      * @param {boolean?} options.cancel
      */
-    const forwardPostFromDM = ({comment = '', cancel = false} = {}) => {
+    const forwardPostFromGM = ({comment = '', cancel = false} = {}) => {
+        const participants = gmChannel.display_name.split(', ').slice(1).join(' and ');
+
         // * Assert visibility of the forward post modal
         cy.get('#forward-post-modal').should('be.visible').within(() => {
             // * Assert channel select is not existent
@@ -77,7 +81,7 @@ describe('Forward Message', () => {
             cy.get('.GenericModal__button.confirm').should('not.be.disabled');
 
             // * Assert Notificatio is shown
-            cy.findByTestId('notification_forward_post').should('be.visible').should('contain.text', `This message is from a private conversation and can only be shared with ${dmChannel.display_name}`);
+            cy.findByTestId('notification_forward_post').should('be.visible').should('contain.text', `This message is from a private conversation and can only be shared with ${participants}`);
 
             if (comment) {
                 // # Enter comment
@@ -89,7 +93,7 @@ describe('Forward Message', () => {
 
             if (cancel) {
                 // * Assert if button is active
-                cy.get('.GenericModal__button.cancel').should('not.be.disabled').type('{esc}', {force: true});
+                cy.uiCloseModal('Forward message');
             } else {
                 // * Assert if button is active
                 cy.get('.GenericModal__button.confirm').should('not.be.disabled').type('{enter}', {force: true});
@@ -128,32 +132,41 @@ describe('Forward Message', () => {
             // # Add other user to team
             return cy.apiAddUserToTeam(testTeam.id, user2.id);
         }).then(() => {
-            // # Create new DM channel
-            return cy.apiCreateDirectChannel([user1.id, user2.id]);
+            // # Create another user
+            return cy.apiCreateUser({prefix: 'third_'});
+        }).then(({user}) => {
+            user3 = user;
+
+            // # Add other user to team
+            return cy.apiAddUserToTeam(testTeam.id, user3.id);
+        }).then(() => {
+            // # Create new GM channel
+            return cy.apiCreateGroupChannel([user1.id, user2.id, user3.id]);
         }).then(({channel}) => {
-            dmChannel = channel;
+            gmChannel = channel;
+            gmChannelName = gmChannel.display_name.split(', ').filter(((username) => username !== user1.username)).join(', ');
 
             // # Post a sample message
-            return cy.postMessageAs({sender: user1, message, channelId: dmChannel.id});
+            return cy.postMessageAs({sender: user1, message, channelId: gmChannel.id});
         }).then((post) => {
             testPost = post.data;
 
             // # Post a reply
-            return cy.postMessageAs({sender: user1, message: replyMessage, channelId: dmChannel.id, rootId: testPost.id});
+            return cy.postMessageAs({sender: user1, message: replyMessage, channelId: gmChannel.id, rootId: testPost.id});
         }).then((post) => {
             replyPost = post.data;
 
             // # Got to Test channel
-            cy.visit(`/${testTeam.name}/channels/${dmChannel.name}`);
+            cy.visit(`/${testTeam.name}/channels/${gmChannel.name}`);
         });
     });
 
     afterEach(() => {
         // # Go to 1. public channel
-        cy.visit(`/${testTeam.name}/channels/${dmChannel.name}`);
+        cy.visit(`/${testTeam.name}/channels/${gmChannel.name}`);
     });
 
-    it('MM-T4936_1 Forward root post from DM', () => {
+    it('MM-T4937_1 Forward reply post from GM (with at least 2 other users)', () => {
         // # Check if ... button is visible in last post right side
         cy.get(`#CENTER_button_${testPost.id}`).should('not.exist');
 
@@ -164,16 +177,16 @@ describe('Forward Message', () => {
         cy.findByText('Forward').type('{shift}F');
 
         // # Forward Post
-        forwardPostFromDM();
+        forwardPostFromGM();
 
-        // * Assert switch to DM channel
-        cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').should('contain', dmChannel.display_name);
+        // * Assert switch to GM channel
+        cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').should('contain', gmChannelName);
 
         // * Assert post has been forwarded
         verifyForwardedMessage({post: testPost});
     });
 
-    it('MM-T4936_2 Forward reply post from DM', () => {
+    it('MM-T4937_2 Forward reply post from GM (with at least 2 other users)', () => {
         // # Open the RHS with replies to the root post
         cy.uiClickPostDropdownMenu(testPost.id, 'Reply', 'CENTER');
 
@@ -187,16 +200,16 @@ describe('Forward Message', () => {
         cy.findByText('Forward').type('{shift}F');
 
         // # Forward Post
-        forwardPostFromDM({comment: commentMessage});
+        forwardPostFromGM({comment: commentMessage});
 
-        // * Assert switch to DM channel
-        cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').should('contain', dmChannel.display_name);
+        // * Assert switch to GM channel
+        cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').should('contain', gmChannelName);
 
         // * Assert post has been forwarded
         verifyForwardedMessage({post: replyPost, comment: commentMessage});
     });
 
-    it('MM-T4936_3 Forward post from DM - Cancel using escape key', () => {
+    it('MM-T4937_3 Forward post from GM (with at least 2 other users) - Cancel using X', () => {
         // # Check if ... button is visible in last post right side
         cy.get(`#CENTER_button_${testPost.id}`).should('not.exist');
 
@@ -207,10 +220,10 @@ describe('Forward Message', () => {
         cy.findByText('Forward').type('{shift}F');
 
         // # Forward Post
-        forwardPostFromDM({cancel: true});
+        forwardPostFromGM({cancel: true});
 
-        // * Assert still in the DM channel
-        cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').should('contain', dmChannel.display_name);
+        // * Assert switch to GM channel
+        cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').should('contain', gmChannelName);
 
         // * Assert last post id is identical with testPost
         cy.getLastPostId((id) => {
