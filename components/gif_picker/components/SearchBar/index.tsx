@@ -1,22 +1,26 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+import React, {ChangeEvent, Component, FormEvent, RefObject} from 'react';
 import {connect} from 'react-redux';
 
 import {saveSearchScrollPosition, saveSearchBarText, searchTextUpdate} from 'mattermost-redux/actions/gifs';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import {changeOpacity, makeStyleFromTheme} from 'mattermost-redux/utils/theme_utils';
+import {Theme} from 'mattermost-redux/types/themes';
+
+import {GlobalState} from 'types/store';
+import {GfycatAPITag} from 'types/external/gfycat';
+
+import {t} from 'utils/i18n';
 
 import GifSearchIcon from 'components/widgets/icons/gif_search_icon';
 import GifSearchClearIcon from 'components/widgets/icons/gif_search_clear_icon';
 import LocalizedInput from 'components/localized_input/localized_input';
-import {t} from 'utils/i18n';
 
 import './SearchBar.scss';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     return {
         ...state.entities.gifs.categories,
         ...state.entities.gifs.search,
@@ -48,30 +52,37 @@ const getStyle = makeStyleFromTheme((theme) => {
     };
 });
 
-export class SearchBar extends Component {
-    static propTypes = {
-        searchBarText: PropTypes.string,
-        tagsList: PropTypes.array,
-        theme: PropTypes.object.isRequired,
-        onTrending: PropTypes.func,
-        onSearch: PropTypes.func,
-        onCategories: PropTypes.func,
-        action: PropTypes.string,
-        saveSearchScrollPosition: PropTypes.func,
-        saveSearchBarText: PropTypes.func,
-        searchTextUpdate: PropTypes.func,
-        defaultSearchText: PropTypes.string,
-        handleSearchTextChange: PropTypes.func.isRequired,
-    }
+type Props = {
+    action: string;
+    theme: Theme;
+    onSearch: () => void;
+    onTrending: () => void;
+    onCategories: () => void;
+    saveSearchBarText: (searchBarText: string) => void;
+    saveSearchScrollPosition: (scrollPosition: number) => void;
+    searchTextUpdate: (searchText: string) => void;
+    searchBarText: string;
+    defaultSearchText: string;
+    tagsList: GfycatAPITag[];
+    hasImageProxy: string;
+    handleSearchTextChange: (text: string) => void;
+}
 
-    constructor(props) {
+type State = {
+    inputFocused: boolean;
+}
+
+export class SearchBar extends Component<Props, State> {
+    private searchTimeout!: NodeJS.Timeout;
+    private searchInputRef: RefObject<HTMLInputElement>;
+
+    constructor(props: Props) {
         super(props);
 
         this.state = {
             inputFocused: false,
         };
-
-        this.searchTimeout = null;
+        this.searchInputRef = React.createRef();
 
         const defaultSearchText = this.props.defaultSearchText || '';
 
@@ -79,7 +90,7 @@ export class SearchBar extends Component {
         this.props.searchTextUpdate(defaultSearchText);
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props) {
         const {searchBarText} = this.props;
 
         if (searchBarText !== prevProps.searchBarText) {
@@ -94,34 +105,32 @@ export class SearchBar extends Component {
     /**
      * Returns text request with hyphens
      */
-    parseSearchText = (searchText) => {
-        return searchText.trim().split(/ +/).join('-');
-    }
+    parseSearchText = (searchText: string) => searchText.trim().split(/ +/).join('-');
 
-    removeExtraSpaces = (searchText) => {
-        return searchText.trim().split(/ +/).join(' ');
-    }
+    removeExtraSpaces = (searchText: string) => searchText.trim().split(/ +/).join(' ');
 
-    updateSearchInputValue = (searchText) => {
-        this.searchInput.value = searchText;
+    updateSearchInputValue = (searchText: string) => {
+        if (this.searchInputRef.current) {
+            this.searchInputRef.current.value = searchText;
+        }
         this.props.saveSearchBarText(searchText);
         this.props.handleSearchTextChange(searchText);
     }
 
-    handleSubmit = (event) => {
+    handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        this.triggerSearch(this.searchInput.value);
-        this.searchInput.blur();
+        this.triggerSearch(this.searchInputRef.current?.value || '');
+        this.searchInputRef.current?.blur();
     }
 
-    triggerSearch = (searchText) => {
+    triggerSearch = (searchText: string) => {
         const {onSearch} = this.props;
         this.props.searchTextUpdate(this.parseSearchText(searchText));
         onSearch();
         this.props.saveSearchScrollPosition(0);
     }
 
-    handleChange = (event) => {
+    handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         clearTimeout(this.searchTimeout);
 
         const searchText = event.target.value;
@@ -140,19 +149,14 @@ export class SearchBar extends Component {
         }
     }
 
-    focusInput = () => {
-        this.setState({inputFocused: true});
-    }
-
-    blurInput = () => {
-        this.setState({inputFocused: false});
-    }
+    focusInput = () => this.setState({inputFocused: true});
+    blurInput = () => this.setState({inputFocused: false});
 
     /**
      * Checks if there're reactions for a current searchText
      */
-    isFilteredTags = (searchText) => {
-        var text = this.removeExtraSpaces(searchText);
+    isFilteredTags = (searchText: string) => {
+        const text = this.removeExtraSpaces(searchText);
 
         const {tagsList} = this.props;
         const substr = text.toLowerCase();
@@ -176,31 +180,29 @@ export class SearchBar extends Component {
         }
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
+    shouldComponentUpdate(nextProps: Props, nextState: State) {
         return ((!nextProps.searchBarText && this.props.searchBarText) ||
             (nextProps.searchBarText && !this.props.searchBarText) ||
             (nextState.inputFocused !== this.state.inputFocused) ||
-            (nextProps.searchBarText !== this.props.searchBarText));
+            (nextProps.searchBarText !== this.props.searchBarText)) as boolean;
     }
 
     render() {
         const style = getStyle(this.props.theme);
         const {searchBarText} = this.props;
-        const clearSearchButton = searchBarText ?
-            (
-                <GifSearchClearIcon
-                    className='ic-clear-search'
-                    style={style.icon}
-                    onClick={this.clearSearchHandle}
-                />
-            ) : null;
+        const clearSearchButton = searchBarText ? (
+            <GifSearchClearIcon
+                className='ic-clear-search'
+                style={style.icon}
+                onClick={this.clearSearchHandle}
+            />
+        ) : null;
 
         return (
             <form
                 className='gfycat-search'
                 method='get'
                 target='_top'
-                noValidate=''
                 onSubmit={this.handleSubmit}
             >
                 <div
@@ -221,10 +223,7 @@ export class SearchBar extends Component {
                         autoCapitalize='off'
                         onFocus={this.focusInput}
                         onBlur={this.blurInput}
-                        ref={(input) => {
-                            this.searchInput = input;
-                            return input;
-                        }}
+                        ref={this.searchInputRef}
                         style={style.input}
                         value={searchBarText}
                     />
