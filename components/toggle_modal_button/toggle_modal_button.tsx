@@ -50,13 +50,10 @@ const ToggleModalButton = ({ariaLabel, children, modalId, dialogType, dialogProp
     const badge = showUnread ? <span className={'unread-badge'}/> : null;
 
     // allow callers to provide an onClick which will be called before the modal is shown
-    let clickHandler = (e: MouseEvent<HTMLButtonElement>) => show(e);
-    if (onClick) {
-        clickHandler = (e) => {
-            onClick();
-            show(e);
-        };
-    }
+    const clickHandler = (e: MouseEvent<HTMLButtonElement>) => {
+        onClick?.();
+        show(e);
+    };
 
     return (
         <button
