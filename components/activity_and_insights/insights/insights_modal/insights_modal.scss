@@ -283,9 +283,19 @@
                                 margin-left: auto;
                             }
 
-                            .timestamp {
-                                overflow: hidden;
-                                color: rgba(var(--center-channel-color-rgb), 0.72);
+                            &.last-activity {
+                                justify-content: flex-end;
+                                margin-right: 8px;
+
+                                .timestamp {
+                                    overflow: hidden;
+                                    color: rgba(var(--center-channel-color-rgb), 0.72);
+                                    text-overflow: ellipsis;
+    
+                                    time {
+                                        white-space: nowrap;
+                                    }
+                                }
                             }
 
                             .role {

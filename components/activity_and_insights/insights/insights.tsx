@@ -115,13 +115,16 @@ const Insights = () => {
                     class={'top-dms-card'}
                     timeFrame={timeFrame as TimeFrame}
                 />
-                <LeastActiveChannels
-                    size={CardSizes.medium}
-                    filterType={filterType}
-                    widgetType={InsightsWidgetTypes.LEAST_ACTIVE_CHANNELS}
-                    class={'least-active-channels-card'}
-                    timeFrame={timeFrame as TimeFrame}
-                />
+                <div className='card-row'>
+                    <LeastActiveChannels
+                        size={CardSizes.medium}
+                        filterType={filterType}
+                        widgetType={InsightsWidgetTypes.LEAST_ACTIVE_CHANNELS}
+                        class={'least-active-channels-card'}
+                        timeFrame={timeFrame as TimeFrame}
+                    />
+                </div>
+                
             </div>
         </>
     );

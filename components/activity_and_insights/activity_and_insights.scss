@@ -538,9 +538,14 @@
                 width: 100%;
                 align-items: center;
                 margin-top: 24px;
+                padding: 0 12px;
 
                 &:nth-of-type(1) {
-                    margin-top: 0;
+                    margin-top: 10px;
+                }
+
+                &:nth-of-type(4) {
+                    margin-bottom: 10px;
                 }
 
                 .title {

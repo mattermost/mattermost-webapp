@@ -24,6 +24,7 @@ import Timestamp from 'components/timestamp';
 import ChannelActionsMenu from '../channel_actions_menu/channel_actions_menu';
 
 import './../../../activity_and_insights.scss';
+import './least_active_channels_table.scss';
 
 type Props = {
     filterType: string;
@@ -97,6 +98,7 @@ const LeastActiveChannelsTable = (props: Props) => {
                         defaultMessage='Last activity'
                     />
                 ),
+                className: 'last-activity',
                 field: 'lastActivity',
                 width: 0.2,
             },
@@ -199,7 +201,7 @@ const LeastActiveChannelsTable = (props: Props) => {
             startCount={1}
             endCount={10}
             total={0}
-            className={classNames('InsightsTable', 'TopThreadsTable')}
+            className={classNames('InsightsTable', 'LeastActiveChannelsTable')}
         />
     );
 };
