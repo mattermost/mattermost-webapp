@@ -9,7 +9,7 @@ import {ArchiveOutlineIcon} from '@mattermost/compass-icons/components';
 import {getIsAdvancedTextEditorEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
-import {getPost} from 'mattermost-redux/selectors/entities/posts';
+import {getPost, getLimitedViews} from 'mattermost-redux/selectors/entities/posts';
 import {UserProfile} from '@mattermost/types/users';
 import {Post} from '@mattermost/types/posts';
 
@@ -40,8 +40,17 @@ const CreateComment = forwardRef<HTMLDivElement, Props>(({
 }: Props, ref) => {
     const getChannel = useMemo(makeGetChannel, []);
     const rootPost = useSelector((state: GlobalState) => getPost(state, threadId));
+    const threadIsLimited = useSelector(getLimitedViews).threads[threadId];
     const isAdvancedTextEditorEnabled = useSelector(getIsAdvancedTextEditorEnabled);
-    const channel = useSelector((state: GlobalState) => getChannel(state, {id: rootPost.channel_id}));
+    const channel = useSelector((state: GlobalState) => {
+        if (threadIsLimited) {
+            return null;
+        }
+        return getChannel(state, {id: rootPost.channel_id});
+    });
+    if (!channel || threadIsLimited) {
+        return null;
+    }
     const rootDeleted = (rootPost as Post).state === Posts.POST_DELETED;
     const isFakeDeletedPost = rootPost.type === Constants.PostTypes.FAKE_PARENT_DELETED;
 
