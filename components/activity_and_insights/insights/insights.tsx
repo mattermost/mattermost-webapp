@@ -124,7 +124,7 @@ const Insights = () => {
                         timeFrame={timeFrame as TimeFrame}
                     />
                 </div>
-                
+
             </div>
         </>
     );

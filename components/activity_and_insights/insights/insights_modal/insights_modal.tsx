@@ -25,7 +25,7 @@ type Props = {
     subtitle: string;
     filterType: string;
     timeFrame: TimeFrame;
-    setShowModal: (show: boolean) => void;
+    setShowModal?: (show: boolean) => void;
 }
 
 const InsightsModal = (props: Props) => {
@@ -39,7 +39,7 @@ const InsightsModal = (props: Props) => {
     }, []);
 
     const doHide = useCallback(() => {
-        props.setShowModal(false);
+        props.setShowModal?.(false);
         setShow(false);
     }, []);
 

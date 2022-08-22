@@ -291,7 +291,7 @@
                                     overflow: hidden;
                                     color: rgba(var(--center-channel-color-rgb), 0.72);
                                     text-overflow: ellipsis;
-    
+
                                     time {
                                         white-space: nowrap;
                                     }
@@ -307,6 +307,7 @@
                             &.actions {
                                 overflow: visible;
                             }
+
                             .user-info {
                                 display: flex;
                                 overflow: hidden;
