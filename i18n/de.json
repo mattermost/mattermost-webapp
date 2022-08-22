@@ -3287,8 +3287,6 @@
   "forward_post_modal.preview.footer_message": "Ursprünglich gepostet in ~{channel}",
   "forward_post_modal.preview.title": "Nachrichten Vorschau",
   "forward_post_modal.title": "Nachricht weiterleiten",
-  "freemium.banner.trial_ended.archived_data": "Dein Test ist beendet. Mache ein Upgrade um auf archivierte Daten wieder zugreifen zu können",
-  "freemium.banner.trial_ended.premium_features": "Dein Test ist beendet. Mache ein Upgrade um auf kostenpflichtige Funktionen wieder zugreifen zu können",
   "full_screen_modal.back": "Zurück",
   "full_screen_modal.close": "Schließen",
   "general_button.close": "Schließen",

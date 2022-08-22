@@ -3287,8 +3287,6 @@
   "forward_post_modal.preview.footer_message": "Oryginalnie opublikowane na ~{channel}",
   "forward_post_modal.preview.title": "Podgląd wiadomości",
   "forward_post_modal.title": "Przekazanie wiadomości",
-  "freemium.banner.trial_ended.archived_data": "Twój okres próbny został zakończony. Uaktualnij, aby odzyskać dostęp do zarchiwizowanych danych",
-  "freemium.banner.trial_ended.premium_features": "Twój okres próbny został zakończony. Uaktualnij, aby odzyskać dostęp do płatnych funkcji",
   "full_screen_modal.back": "Wstecz",
   "full_screen_modal.close": "Zamknij",
   "general_button.close": "Zamknij",

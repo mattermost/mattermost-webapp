@@ -3287,8 +3287,6 @@
   "forward_post_modal.preview.footer_message": "Özgün ileti ~{channel} içine gönderilmiş",
   "forward_post_modal.preview.title": "İleti ön izlemesi",
   "forward_post_modal.title": "İletiyi ilet",
-  "freemium.banner.trial_ended.archived_data": "Deneme süreniz sona ermiş. Arşivlenmiş verilere erişebilmek için tarifenizi yükseltin",
-  "freemium.banner.trial_ended.premium_features": "Deneme süreniz sona ermiş. Ücretli özelliklere erişmek için tarifenizi yükseltin",
   "full_screen_modal.back": "Geri",
   "full_screen_modal.close": "Kapat",
   "general_button.close": "Kapat",

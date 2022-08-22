@@ -3287,8 +3287,6 @@
   "forward_post_modal.preview.footer_message": "Ursprungligen postat i ~{channel}",
   "forward_post_modal.preview.title": "Förhandsgranskning av meddelanden",
   "forward_post_modal.title": "Vidarebefordra meddelandet",
-  "freemium.banner.trial_ended.archived_data": "Din prova-på-period har avslutats. Uppgradera för att åter få tillgång till arkiverade data",
-  "freemium.banner.trial_ended.premium_features": "Din prova-på-period har avslutats. Uppgradera för att få tillgång till betal-funktionerna",
   "full_screen_modal.back": "Tillbaka",
   "full_screen_modal.close": "Stäng",
   "general_button.close": "Stäng",

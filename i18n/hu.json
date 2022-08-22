@@ -3284,8 +3284,6 @@
   "forward_post_modal.preview.footer_message": "Eredetileg közzétéve a ~{channel} csatornában",
   "forward_post_modal.preview.title": "Üzenet előnézet",
   "forward_post_modal.title": "Üzenet továbbítása",
-  "freemium.banner.trial_ended.archived_data": "A próbaidőszak véget ért. Emelje meg csomagját az archivált adatokhoz való hozzáférés visszanyeréséhez",
-  "freemium.banner.trial_ended.premium_features": "A próbaidőszak véget ért. Emelje meg csomagját a fizetős szolgáltatásokhoz való hozzáférés visszanyeréséhez",
   "full_screen_modal.back": "Vissza",
   "full_screen_modal.close": "Bezárás",
   "general_button.close": "Bezárás",

@@ -3283,8 +3283,6 @@
   "forward_post_modal.preview.footer_message": "~{channel} への投稿",
   "forward_post_modal.preview.title": "メッセージプレビュー",
   "forward_post_modal.title": "メッセージを転送する",
-  "freemium.banner.trial_ended.archived_data": "トライアルは終了しました。アーカイブされたデータに再度アクセスするにはアップグレードしてください",
-  "freemium.banner.trial_ended.premium_features": "トライアルは終了しました。有料機能に再度アクセスするにはアップグレードしてください",
   "full_screen_modal.back": "戻る",
   "full_screen_modal.close": "閉じる",
   "general_button.close": "閉じる",

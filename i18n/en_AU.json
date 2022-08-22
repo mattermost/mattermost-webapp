@@ -3279,8 +3279,6 @@
   "forward_post_modal.preview.footer_message": "Originally posted in ~{channel}",
   "forward_post_modal.preview.title": "Message preview",
   "forward_post_modal.title": "Forward message",
-  "freemium.banner.trial_ended.archived_data": "Your trial has ended. Upgrade to regain access to archived data.",
-  "freemium.banner.trial_ended.premium_features": "Your trial has ended. Upgrade to regain access to paid features.",
   "full_screen_modal.back": "Back",
   "full_screen_modal.close": "Close",
   "general_button.close": "Close",
