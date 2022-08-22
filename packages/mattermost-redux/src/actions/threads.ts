@@ -164,7 +164,6 @@ export function getCountsAndThreadsSince(userId: string, teamId: string, since?:
 export function handleThreadArrived(dispatch: DispatchFunc, getState: GetStateFunc, threadData: UserThread, teamId: string, previousUnreadReplies?: number, previousUnreadMentions?: number) {
     const state = getState();
     const currentUserId = getCurrentUserId(state);
-    const currentTeamId = getCurrentTeamId(state);
     const crtEnabled = isCollapsedThreadsEnabled(state);
     const thread = {...threadData, is_following: true};
 
@@ -198,18 +197,19 @@ export function handleThreadArrived(dispatch: DispatchFunc, getState: GetStateFu
         (previousUnreadMentions != null && previousUnreadReplies != null) ||
         oldThreadData != null
     ) {
-        handleReadChanged(
-            dispatch,
-            thread.id,
-            teamId || currentTeamId,
-            thread.post.channel_id,
-            {
-                lastViewedAt: thread.last_viewed_at,
-                prevUnreadMentions: oldThreadData?.unread_mentions ?? previousUnreadMentions,
-                newUnreadMentions: thread.unread_mentions,
-                prevUnreadReplies: oldThreadData?.unread_replies ?? previousUnreadReplies,
-                newUnreadReplies: thread.unread_replies,
-            },
+        dispatch(
+            handleReadChanged(
+                thread.id,
+                teamId,
+                thread.post.channel_id,
+                {
+                    lastViewedAt: thread.last_viewed_at,
+                    prevUnreadMentions: oldThreadData?.unread_mentions ?? previousUnreadMentions,
+                    newUnreadMentions: thread.unread_mentions,
+                    prevUnreadReplies: oldThreadData?.unread_replies ?? previousUnreadReplies,
+                    newUnreadReplies: thread.unread_replies,
+                },
+            ),
         );
     }
 
@@ -316,7 +316,6 @@ export function updateThreadRead(userId: string, teamId: string, threadId: strin
 }
 
 export function handleReadChanged(
-    dispatch: DispatchFunc,
     threadId: string,
     teamId: string,
     channelId: string,
@@ -334,19 +333,25 @@ export function handleReadChanged(
         newUnreadReplies: number;
     },
 ) {
-    dispatch({
-        type: ThreadTypes.READ_CHANGED_THREAD,
-        data: {
-            id: threadId,
-            teamId,
-            channelId,
-            lastViewedAt,
-            prevUnreadMentions,
-            newUnreadMentions,
-            prevUnreadReplies,
-            newUnreadReplies,
-        },
-    });
+    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState();
+        const channel = getChannel(state, channelId);
+
+        return dispatch({
+            type: ThreadTypes.READ_CHANGED_THREAD,
+            data: {
+                id: threadId,
+                teamId,
+                channelId,
+                lastViewedAt,
+                prevUnreadMentions,
+                newUnreadMentions,
+                prevUnreadReplies,
+                newUnreadReplies,
+                channelType: channel.type,
+            },
+        });
+    };
 }
 
 export function handleFollowChanged(dispatch: DispatchFunc, threadId: string, teamId: string, following: boolean) {

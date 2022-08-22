@@ -1579,18 +1579,19 @@ function handleThreadReadChanged(msg) {
                 doDispatch(updateThreadLastOpened(thread.id, msg.data.timestamp));
             }
 
-            handleReadChanged(
-                doDispatch,
-                msg.data.thread_id,
-                msg.broadcast.team_id,
-                msg.data.channel_id,
-                {
-                    lastViewedAt: msg.data.timestamp,
-                    prevUnreadMentions: thread?.unread_mentions ?? msg.data.previous_unread_mentions,
-                    newUnreadMentions: msg.data.unread_mentions,
-                    prevUnreadReplies: thread?.unread_replies ?? msg.data.previous_unread_replies,
-                    newUnreadReplies: msg.data.unread_replies,
-                },
+            doDispatch(
+                handleReadChanged(
+                    msg.data.thread_id,
+                    msg.broadcast.team_id,
+                    msg.data.channel_id,
+                    {
+                        lastViewedAt: msg.data.timestamp,
+                        prevUnreadMentions: thread?.unread_mentions ?? msg.data.previous_unread_mentions,
+                        newUnreadMentions: msg.data.unread_mentions,
+                        prevUnreadReplies: thread?.unread_replies ?? msg.data.previous_unread_replies,
+                        newUnreadReplies: msg.data.unread_replies,
+                    },
+                ),
             );
         } else if (msg.broadcast.channel_id) {
             handleAllThreadsInChannelMarkedRead(doDispatch, doGetState, msg.broadcast.channel_id, msg.data.timestamp);
