@@ -110,6 +110,34 @@ function triggerNotifications(url) {
     cy.visit(url);
 }
 
+function assertNotification(featureName, minimumPlan, requestsCount, teamName) {
+    // # Open system-bot and admin DM
+    cy.visit(`/${teamName}/messages/@system-bot`);
+
+    // * Check for the post from the system-bot
+    cy.getLastPostId().then((postId) => {
+        cy.get(`#${postId}_message`).contains(`${10} members of the workspace have requested a workspace upgrade for:`);
+        cy.get(`#${featureName}-title`.replaceAll(' ', '-')).contains(featureName);
+
+        if (requestsCount >= 5) {
+            cy.get(`#${featureName}-subtitle`.replaceAll(' ', '-')).contains(`${requestsCount} members requested access to this feature`);
+            cy.get('#at_sum_of_members_mention').click().then(() => {
+                cy.get('#notificationFromMembersModal');
+                cy.get('#invitation_modal_title').contains(`Members that requested ${featureName}`).then(() => {
+                    cy.get('#closeIcon').click();
+                });
+            });
+        }
+
+        if (minimumPlan === 'Professional plan') {
+            cy.get('#at_plan_mention').click();
+            cy.get('.PurchaseModal').should('exist').then(() => {
+                cy.get('.close-x').click();
+            });
+        }
+    });
+}
+
 describe('Notify Admin', () => {
     before(() => {
         // * Check if server has license for Cloud
@@ -218,14 +246,11 @@ describe('Notify Admin', () => {
             is_free_trial: 'false',
         };
 
-        const url = setUpNotifications(subscription);
-        cy.then(() => {
-            triggerNotifications(url);
-        });
+        testNotifications(subscription);
     });
 });
 
-function setUpNotifications(subscription) {
+function testNotifications(subscription) {
     let myTeam;
     let myChannel;
     let myUrl;
@@ -269,7 +294,11 @@ function setUpNotifications(subscription) {
         });
     });
 
-    // cy.visit(myUrl);
+    cy.then(() => {
+        triggerNotifications(myUrl);
+    });
 
-    return myUrl;
+    cy.then(() => {
+        assertNotification('Custom User groups','Professional plan', 5, myTeam.name);
+    });
 }

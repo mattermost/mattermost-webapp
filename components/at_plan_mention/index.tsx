@@ -34,6 +34,7 @@ function AtPlanMention(props: Props) {
     };
     return (
         <a
+            id='at_plan_mention'
             onClick={handleClick}
         >
             {props.plan}

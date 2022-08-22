@@ -26,6 +26,7 @@ function AtSumOfMembersMention(props: Props) {
                 feature={props.messageMetadata.requestedFeature}
             />
             <a
+                id='at_sum_of_members_mention'
                 onClick={() => {
                     setShow(true);
                 }}

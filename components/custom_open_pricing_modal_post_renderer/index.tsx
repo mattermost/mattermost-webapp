@@ -140,7 +140,7 @@ export default function OpenPricingModalPost(props: {post: Post}) {
     if (requestFeatures) {
         for (const featureName of Object.keys(requestFeatures)) {
             const title = (
-                <div>
+                <div id={`${featureName}-title`.replaceAll(' ', '-')}>
                     <span>
                         <b>
                             {`${featureName}`}
@@ -154,7 +154,7 @@ export default function OpenPricingModalPost(props: {post: Post}) {
                     </span>
                 </div>);
             const subTitle = (
-                <ul>
+                <ul id={`${featureName}-subtitle`.replaceAll(' ', '-')}>
                     <li>
                         <Markdown
                             message={`${renderUsersThatRequestedFeature(requestFeatures[featureName])} requested access to this feature`}
