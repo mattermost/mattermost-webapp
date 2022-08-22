@@ -43,7 +43,6 @@ const RhsThread = ({
             />
             <ThreadViewer
                 rootPostId={selected.id}
-                selected={selected}
                 useRelativeTimestamp={false}
                 isThreadView={false}
             />
