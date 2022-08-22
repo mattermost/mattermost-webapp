@@ -101,3 +101,8 @@ export interface GfycatAPIUser {
     verified: boolean;
     views: number;
 }
+
+export interface GfycatAPITag {
+    tagName: string;
+    gfyId: string;
+}
