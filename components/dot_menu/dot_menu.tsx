@@ -360,13 +360,8 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         return (e).getModifierState !== undefined;
     }
 
-    onShortcutKeyDown = (e: KeyboardEvent): void => {
-        if (!this.isKeyboardEvent(e)) {
-            return;
-        }
-
-        const isShiftKeyPressed = e.shiftKey;
-        const shortcuts: Array<[[string, number], (e: KeyboardEvent) => void, boolean?]> = [
+    getShortcuts = (isShiftKeyPressed: boolean): Array<[[string, number], (e: KeyboardEvent) => void, boolean?]> => {
+        return [
             [Constants.KeyCodes.C, this.copyText],
             [Constants.KeyCodes.DELETE, this.handleDeleteMenuItemActivated],
             [Constants.KeyCodes.E, this.handleEditMenuItemActivated],
@@ -378,6 +373,21 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             [Constants.KeyCodes.S, this.handleFlagMenuItemActivated],
             [Constants.KeyCodes.U, this.handleMarkPostAsUnread],
         ];
+    }
+
+    onShortcutKeyDown = (e: KeyboardEvent): void => {
+        if (!this.isKeyboardEvent(e)) {
+            return;
+        }
+
+        // disable non shortcut keys to prevent typing in post input
+        // allow Tab key to tab through the menu items
+        if (!Utils.isKeyPressed(e, Constants.KeyCodes.TAB)) {
+            e.preventDefault();
+        }
+
+        const isShiftKeyPressed = e.shiftKey;
+        const shortcuts = this.getShortcuts(isShiftKeyPressed);
 
         for (const [keyCode, func, condition] of shortcuts) {
             const conditionMet = (typeof condition === 'undefined') || (typeof condition === 'boolean' && condition);
