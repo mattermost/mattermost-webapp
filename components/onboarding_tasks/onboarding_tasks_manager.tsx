@@ -21,7 +21,7 @@ import LearnMoreTrialModal from 'components/learn_more_trial_modal/learn_more_tr
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 
-import {get, makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
+import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {isCurrentUserSystemAdmin, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 
@@ -34,7 +34,7 @@ import {
     switchToChannels,
 } from 'actions/views/onboarding_tasks';
 
-import {Constants, ExploreOtherToolsTourSteps, ModalIdentifiers, TELEMETRY_CATEGORIES, Preferences} from 'utils/constants';
+import {ModalIdentifiers, TELEMETRY_CATEGORIES, ExploreOtherToolsTourSteps} from 'utils/constants';
 
 import {generateTelemetryTag} from './utils';
 import {OnboardingTaskCategory, OnboardingTaskList, OnboardingTasksName, TaskNameMapToSteps} from './constants';
@@ -120,12 +120,10 @@ export const useTasksList = () => {
     const showStartTrialTask = selfHostedTrialCondition || cloudTrialCondition;
 
     const list: Record<string, string> = {...OnboardingTasksName};
-    const pluginsPreferenceState = useSelector((state: GlobalState) => get(state, Constants.Preferences.ONBOARDING, Preferences.USE_CASE));
-    const pluginsPreference = pluginsPreferenceState && JSON.parse(pluginsPreferenceState);
-    if ((pluginsPreference && !pluginsPreference.boards) || !pluginsList.focalboard || !isUserFirstAdmin) {
+    if (!pluginsList.focalboard || !isUserFirstAdmin) {
         delete list.BOARDS_TOUR;
     }
-    if ((pluginsPreference && !pluginsPreference.playbooks) || !pluginsList.playbooks || !isUserFirstAdmin) {
+    if (!pluginsList.playbooks || !isUserFirstAdmin) {
         delete list.PLAYBOOKS_TOUR;
     }
     if (!showStartTrialTask) {
