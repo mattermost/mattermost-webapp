@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React, {PureComponent} from 'react';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import {saveSearchBarText, searchTextUpdate} from 'mattermost-redux/actions/gifs';
@@ -14,8 +13,11 @@ import SearchBar from 'components/gif_picker/components/SearchBar';
 import GifTrendingIcon from 'components/widgets/icons/gif_trending_icon';
 import GifReactionsIcon from 'components/widgets/icons/gif_reactions_icon';
 import './Header.scss';
+import {GlobalState} from 'types/store';
+import {appProps} from 'components/gif_picker/gif_picker';
+import {Theme} from 'mattermost-redux/types/themes';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     return {
         theme: getTheme(state),
     };
@@ -25,6 +27,14 @@ const mapDispatchToProps = ({
     saveSearchBarText,
     searchTextUpdate,
 });
+
+type Style = {
+    background: {backgroundColor: string};
+    header: {borderBottomColor: string};
+    icon: {fill: string};
+    iconActive: {fill: string};
+    iconHover: {fill: string};
+}
 
 const getStyle = makeStyleFromTheme((theme) => {
     return {
@@ -46,18 +56,25 @@ const getStyle = makeStyleFromTheme((theme) => {
     };
 });
 
-export class Header extends PureComponent {
-    static propTypes = {
-        action: PropTypes.string,
-        appProps: PropTypes.object,
-        saveSearchBarText: PropTypes.func,
-        searchTextUpdate: PropTypes.func,
-        theme: PropTypes.object.isRequired,
-        defaultSearchText: PropTypes.string,
-        handleSearchTextChange: PropTypes.func.isRequired,
-    }
+type Props = {
+    action: string;
+    appProps: typeof appProps;
+    saveSearchBarText: (searchBarText: string) => void;
+    searchTextUpdate: (searchText: string) => void;
+    theme: Theme;
+    defaultSearchText?: string;
+    onTrending?: () => void;
+    onCategories?: () => void;
+    onSearch?: () => void;
+    handleSearchTextChange: (text: string) => void;
+}
 
-    constructor(props) {
+type State = {
+    hovering: string;
+}
+
+export class Header extends PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
         this.state = {
             hovering: '',
@@ -83,47 +100,48 @@ export class Header extends PureComponent {
         );
     }
 
-    renderTabs(props, style) {
+    renderTabs(props: Props, style: Style) {
         const {appProps, onTrending, onCategories} = props;
         const {header} = appProps;
         return header.tabs.map((tab, index) => {
             let link;
             if (tab === constants.Tab.TRENDING) {
-                link = this.renderTab('trending', onTrending, GifTrendingIcon, index, style);
+                link = this.renderTab({name: 'trending', callback: onTrending, Icon: GifTrendingIcon, index, style});
             } else if (tab === constants.Tab.REACTIONS) {
-                link = this.renderTab('reactions', onCategories, GifReactionsIcon, index, style);
+                link = this.renderTab({name: 'reactions', callback: onCategories, Icon: GifReactionsIcon, index, style});
             }
             return link;
         });
     }
 
-    renderTab(name, callback, Icon, index, style) {
-        var props = this.props;
+    renderTab(renderTabParams: {name: string; Icon: typeof GifTrendingIcon; index: number; style: Style; callback?: () => void}) {
+        const props = this.props;
         const {action} = props;
+        const {Icon} = renderTabParams;
         function callbackWrapper() {
             props.searchTextUpdate('');
             props.saveSearchBarText('');
-            callback();
+            renderTabParams.callback?.();
         }
         return (
             <a
                 onClick={callbackWrapper}
                 onMouseOver={() => {
-                    this.setState({hovering: name});
+                    this.setState({hovering: renderTabParams.name});
                 }}
                 onMouseOut={() => {
                     this.setState({hovering: ''});
                 }}
                 style={{cursor: 'pointer'}}
-                key={index}
+                key={renderTabParams.index}
             >
                 <div style={{paddingTop: '2px'}}>
                     <Icon
                         style={(() => {
-                            if (this.state.hovering === name) {
-                                return style.iconHover;
+                            if (this.state.hovering === renderTabParams.name) {
+                                return renderTabParams.style.iconHover;
                             }
-                            return action === name ? style.iconActive : style.icon;
+                            return action === renderTabParams.name ? renderTabParams.style.iconActive : renderTabParams.style.icon;
                         })()}
                     />
                 </div>

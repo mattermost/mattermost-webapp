@@ -28,7 +28,7 @@ export const appProps = {
 type Props = {
     onGifClick?: (gif: string) => void;
     defaultSearchText?: string;
-    handleSearchTextChange: () => void;
+    handleSearchTextChange: (text: string) => void;
 }
 
 const GifPicker = (props: Props) => {
