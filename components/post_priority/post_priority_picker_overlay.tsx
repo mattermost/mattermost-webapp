@@ -8,7 +8,6 @@ import memoize from 'memoize-one';
 import {PostPriority} from '@mattermost/types/posts';
 
 import {popOverOverlayPosition} from 'utils/position_utils';
-import {Constants} from 'utils/constants';
 
 import PostPriorityPicker from './post_priority_picker';
 

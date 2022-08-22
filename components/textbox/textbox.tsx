@@ -64,7 +64,7 @@ export type Props = {
     inputComponent?: ElementType;
     openWhenEmpty?: boolean;
     priorityProfiles?: UserProfile[];
-    hasLabels: boolean;
+    hasLabels?: boolean;
 };
 
 export default class Textbox extends React.PureComponent<Props> {

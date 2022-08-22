@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState, useCallback, memo} from 'react';
+import React, {useCallback, memo} from 'react';
 import {useIntl} from 'react-intl';
 import classNames from 'classnames';
 
