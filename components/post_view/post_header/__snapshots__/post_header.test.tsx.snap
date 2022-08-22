@@ -25,7 +25,7 @@ exports[`components/post_view/post_header should match snapshot 1`] = `
     />
   </div>
   <div
-    className="col"
+    className="col d-flex align-items-center"
   >
     <Connect(PostInfo)
       handleCardClick={[MockFunction]}
@@ -90,7 +90,7 @@ exports[`components/post_view/post_header should match snapshot when custom stat
     />
   </div>
   <div
-    className="col"
+    className="col d-flex align-items-center"
   >
     <Connect(PostInfo)
       handleCardClick={[MockFunction]}
@@ -155,7 +155,7 @@ exports[`components/post_view/post_header should match snapshot when custom stat
     />
   </div>
   <div
-    className="col"
+    className="col d-flex align-items-center"
   >
     <Connect(PostInfo)
       handleCardClick={[MockFunction]}

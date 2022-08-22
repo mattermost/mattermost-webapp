@@ -34,7 +34,7 @@ function PostPriorityPickerOverlay({
 }: Props) {
     const pickerPosition = memoize((trigger, show) => {
         if (show && trigger) {
-            return trigger.getBoundingClientRect().right - Constants.DEFAULT_EMOJI_PICKER_LEFT_OFFSET;
+            return trigger.getBoundingClientRect().left;
         }
         return 0;
     });

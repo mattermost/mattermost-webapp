@@ -7,7 +7,7 @@
     position: absolute;
     z-index: 1100;
     display: flex;
-    width: 324px;
+    width: 220px;
     flex-direction: column;
     border: 1px solid $light-gray;
     margin-right: 3px;
@@ -95,10 +95,6 @@
     .Menu .MenuItem > button.PostPriorityPicker__item {
         display: flex;
         align-items: center;
-    }
-
-    .browser--ie & {
-        width: 325px;
     }
 
     .app__content & {

@@ -1287,12 +1287,14 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         };
 
         this.props.actions.setDraft(StoragePrefixes.DRAFT + this.props.currentChannel.id, updatedDraft);
+        this.focusTextbox();
     };
 
     handlePostPriorityHide = () => {
         this.setState({
             showPostPriorityPicker: false,
         });
+        this.focusTextbox();
     };
 
     togglePostPriorityPicker = () => {
@@ -1373,23 +1375,39 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     fileUploadRef={this.fileUploadRef}
                     prefillMessage={this.prefillMessage}
                     textboxRef={this.textboxRef}
-                    priority={(
+                    labels={(
                         this.props.draft?.props?.priority && (
                             <div className='AdvancedTextEditor__priority'>
                                 <PriorityLabel priority={this.props.draft.props.priority}/>
-                                <button
-                                    type='button'
-                                    className='close'
-                                    onClick={this.handleRemovePriority}
+                                <OverlayTrigger
+                                    placement='top'
+                                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                                    trigger={Constants.OVERLAY_DEFAULT_TRIGGER}
+                                    overlay={(
+                                        <Tooltip id='post-priority-picker-tooltip'>
+                                            <FormattedMessage
+                                                id={'post_priority.remove'}
+                                                defaultMessage={'Remove {priority} label'}
+                                                values={{priority: this.props.draft.props.priority}}
+                                            />
+                                        </Tooltip>
+                                    )}
                                 >
-                                    <span aria-hidden='true'>{'×'}</span>
-                                    <span className='sr-only'>
-                                        <FormattedMessage
-                                            id={'post_priority.remove'}
-                                            defaultMessage={'Set standard priority'}
-                                        />
-                                    </span>
-                                </button>
+                                    <button
+                                        type='button'
+                                        className='close'
+                                        onClick={this.handleRemovePriority}
+                                    >
+                                        <span aria-hidden='true'>{'×'}</span>
+                                        <span className='sr-only'>
+                                            <FormattedMessage
+                                                id={'post_priority.remove'}
+                                                defaultMessage={'Remove {priority} label'}
+                                                values={{priority: this.props.draft.props.priority}}
+                                            />
+                                        </span>
+                                    </button>
+                                </OverlayTrigger>
                             </div>
                         )
                     )}

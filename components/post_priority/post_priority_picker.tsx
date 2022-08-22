@@ -70,16 +70,11 @@ function PostPriorityPicker({
     style,
 }: Props) {
     const {formatMessage} = useIntl();
-    const [selected, setSelected] = useState<PostPriority|undefined>(priority);
 
     const handleSelect = useCallback((type?: PostPriority) => () => {
-        setSelected(type);
-    }, []);
-
-    const handleApply = useCallback(() => {
-        onApply({priority: selected});
+        onApply({priority: type});
         onClose();
-    }, [selected]);
+    }, []);
 
     let pickerStyle: React.CSSProperties = {};
     if (style && !(style.left === 0 && style.top === 0)) {
@@ -107,18 +102,15 @@ function PostPriorityPicker({
             className={classNames({PostPriorityPicker: true, bottom: placement === 'bottom'})}
         >
             <div className='PostPriorityPicker__header'>
-                <h4 className='modal-title'>
+                <h4 className='modal-title mr-2'>
                     {formatMessage({
                         id: 'post_priority.picker.header',
-                        defaultMessage: 'Message Priority',
+                        defaultMessage: 'Message priority',
                     })}
                 </h4>
                 <Label variant={LabelType.Primary}>
                     {'BETA'}
                 </Label>
-                <button className='style--none PostPriorityPicker__feedback'>
-                    {formatMessage({id: 'post_priority.picker.feedback', defaultMessage: 'Give feedback'})}
-                </button>
             </div>
             <div
                 className='PostPriorityPicker__body'
@@ -127,7 +119,7 @@ function PostPriorityPicker({
                 <ul className='PostPriorityPicker__menu Menu'>
                     <MenuItem
                         onClick={handleSelect()}
-                        isSelected={selected === undefined}
+                        isSelected={priority === undefined}
                         text={formatMessage({
                             id: 'post_priority.priority.standard',
                             defaultMessage: 'Standard',
@@ -144,7 +136,7 @@ function PostPriorityPicker({
                             id: 'post_priority.priority.important',
                             defaultMessage: 'Important',
                         })}
-                        isSelected={selected === PostPriority.IMPORTANT}
+                        isSelected={priority === PostPriority.IMPORTANT}
                         icon={
                             <div className='PostPriorityPicker__important'>
                                 <AlertCircleOutlineIcon size={18}/>
@@ -157,7 +149,7 @@ function PostPriorityPicker({
                             id: 'post_priority.priority.urgent',
                             defaultMessage: 'Urgent',
                         })}
-                        isSelected={selected === PostPriority.URGENT}
+                        isSelected={priority === PostPriority.URGENT}
                         icon={
                             <div className='PostPriorityPicker__urgent'>
                                 <AlertOutlineIcon size={18}/>
@@ -165,31 +157,6 @@ function PostPriorityPicker({
                         }
                     />
                 </ul>
-            </div>
-            <div
-                className='PostPriorityPicker__bottom'
-                role='application'
-            >
-                <button
-                    type='button'
-                    className='PostPriorityPicker__cancel'
-                    onClick={onClose}
-                >
-                    {formatMessage({
-                        id: 'post_priority.picker.cancel',
-                        defaultMessage: 'Cancel',
-                    })}
-                </button>
-                <button
-                    onClick={handleApply}
-                    type='button'
-                    className='PostPriorityPicker__apply'
-                >
-                    {formatMessage({
-                        id: 'post_priority.picker.apply',
-                        defaultMessage: 'Apply',
-                    })}
-                </button>
             </div>
         </div>
     );

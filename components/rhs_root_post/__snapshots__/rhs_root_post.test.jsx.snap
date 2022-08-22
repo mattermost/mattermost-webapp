@@ -93,7 +93,7 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
           />
         </div>
         <div
-          className="col"
+          className="col d-flex align-items-center"
         >
           <Connect(PostTime)
             eventTime={1502715365009}
@@ -333,7 +333,7 @@ exports[`components/RhsRootPost should match snapshot hovered 1`] = `
           />
         </div>
         <div
-          className="col"
+          className="col d-flex align-items-center"
         >
           <Connect(PostTime)
             eventTime={1502715365009}
@@ -573,7 +573,7 @@ exports[`components/RhsRootPost should match snapshot on CRT enabled 1`] = `
           />
         </div>
         <div
-          className="col"
+          className="col d-flex align-items-center"
         >
           <Connect(PostTime)
             eventTime={1502715365009}
@@ -815,7 +815,7 @@ exports[`components/RhsRootPost should match snapshot on deleted post 1`] = `
           />
         </div>
         <div
-          className="col"
+          className="col d-flex align-items-center"
         >
           <Connect(PostTime)
             eventTime={1502715365009}
@@ -988,7 +988,7 @@ exports[`components/RhsRootPost should match snapshot on flagged, deleted post 1
           />
         </div>
         <div
-          className="col"
+          className="col d-flex align-items-center"
         >
           <Connect(PostTime)
             eventTime={1502715365009}
@@ -1159,7 +1159,7 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
           />
         </div>
         <div
-          className="col"
+          className="col d-flex align-items-center"
         >
           <Connect(PostTime)
             eventTime={1502715365009}

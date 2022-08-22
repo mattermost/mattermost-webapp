@@ -5,7 +5,7 @@ exports[`components/post_view/PostInfo removePost, should have called props.acti
   className="post__header--info"
 >
   <div
-    className="col"
+    className="col d-flex align-items-center"
   />
   <div
     className="col post-menu"
@@ -19,7 +19,7 @@ exports[`components/post_view/PostInfo should match snapshot 1`] = `
   className="post__header--info"
 >
   <div
-    className="col"
+    className="col d-flex align-items-center"
   />
   <div
     className="col post-menu"
@@ -33,7 +33,7 @@ exports[`components/post_view/PostInfo should match snapshot, compact display 1`
   className="post__header--info"
 >
   <div
-    className="col"
+    className="col d-flex align-items-center"
   />
   <div
     className="col post-menu"
@@ -47,7 +47,7 @@ exports[`components/post_view/PostInfo should match snapshot, deleted post 1`] =
   className="post__header--info"
 >
   <div
-    className="col"
+    className="col d-flex align-items-center"
   />
   <div
     className="col col__remove"
@@ -68,7 +68,7 @@ exports[`components/post_view/PostInfo should match snapshot, enable emoji picke
   className="post__header--info"
 >
   <div
-    className="col"
+    className="col d-flex align-items-center"
   />
   <div
     className="col post-menu"
@@ -82,7 +82,7 @@ exports[`components/post_view/PostInfo should match snapshot, ephemeral deleted 
   className="post__header--info"
 >
   <div
-    className="col"
+    className="col d-flex align-items-center"
   />
   <div
     className="col col__remove"
@@ -103,7 +103,7 @@ exports[`components/post_view/PostInfo should match snapshot, ephemeral post 1`]
   className="post__header--info"
 >
   <div
-    className="col"
+    className="col d-flex align-items-center"
   >
     <span
       className="post__visibility"
@@ -133,7 +133,7 @@ exports[`components/post_view/PostInfo should match snapshot, flagged post 1`] =
   className="post__header--info"
 >
   <div
-    className="col"
+    className="col d-flex align-items-center"
   />
   <div
     className="col post-menu"
@@ -152,7 +152,7 @@ exports[`components/post_view/PostInfo should match snapshot, hover 1`] = `
   className="post__header--info"
 >
   <div
-    className="col"
+    className="col d-flex align-items-center"
   >
     <Connect(PostTime)
       eventTime={1502715365009}
@@ -254,7 +254,7 @@ exports[`components/post_view/PostInfo should match snapshot, isPostBeingEdited 
   className="post__header--info"
 >
   <div
-    className="col"
+    className="col d-flex align-items-center"
   />
 </div>
 `;
@@ -264,7 +264,7 @@ exports[`components/post_view/PostInfo should match snapshot, military time 1`] 
   className="post__header--info"
 >
   <div
-    className="col"
+    className="col d-flex align-items-center"
   />
   <div
     className="col post-menu"
@@ -278,7 +278,7 @@ exports[`components/post_view/PostInfo should match snapshot, pinned post 1`] = 
   className="post__header--info"
 >
   <div
-    className="col"
+    className="col d-flex align-items-center"
   />
   <div
     className="col post-menu"
@@ -292,7 +292,7 @@ exports[`components/post_view/PostInfo should match snapshot, showTimeWithoutHov
   className="post__header--info"
 >
   <div
-    className="col"
+    className="col d-flex align-items-center"
   >
     <Connect(PostTime)
       eventTime={1502715365009}
@@ -312,7 +312,7 @@ exports[`components/post_view/PostInfo toggleEmojiPicker, should have called pro
   className="post__header--info"
 >
   <div
-    className="col"
+    className="col d-flex align-items-center"
   />
   <div
     className="col post-menu"

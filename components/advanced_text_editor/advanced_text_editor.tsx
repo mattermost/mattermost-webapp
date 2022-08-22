@@ -95,7 +95,7 @@ type Props = {
     textboxRef: React.RefObject<TextboxClass>;
     isThreadView?: boolean;
     enhanceControls?: React.ReactNodeArray;
-    priority?: React.ReactNode;
+    labels?: React.ReactNode;
 }
 
 const AdvanceTextEditor = ({
@@ -151,7 +151,7 @@ const AdvanceTextEditor = ({
     textboxRef,
     isThreadView,
     enhanceControls,
-    priority,
+    labels,
 }: Props) => {
     const readOnlyChannel = !canPost;
     const {formatMessage} = useIntl();
@@ -396,8 +396,9 @@ const AdvanceTextEditor = ({
                     tabIndex={-1}
                     className='AdvancedTextEditor__cell a11y__region'
                 >
-                    {priority}
+                    {labels}
                     <Textbox
+                        hasLabels={Boolean(labels)}
                         onChange={handleChange}
                         onKeyPress={postMsgKeyPress}
                         onKeyDown={handleKeyDown}

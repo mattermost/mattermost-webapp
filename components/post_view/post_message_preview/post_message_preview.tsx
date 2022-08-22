@@ -13,6 +13,7 @@ import Avatar from 'components/widgets/users/avatar';
 import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils';
 import PostMessageView from 'components/post_view/post_message_view';
+import PriorityLabel from 'components/post_priority/post_priority_label';
 
 import Timestamp from 'components/timestamp';
 import PostAttachmentContainer from '../post_attachment_container/post_attachment_container';
@@ -175,7 +176,7 @@ const PostMessagePreview = (props: Props) => {
                             overwriteName={previewPost.props?.override_username || ''}
                         />
                     </div>
-                    <div className='col'>
+                    <div className='col d-flex align-items-center'>
                         <Timestamp
                             value={previewPost.create_at}
                             units={[
@@ -188,6 +189,11 @@ const PostMessagePreview = (props: Props) => {
                             day={'numeric'}
                             className='post-preview__time'
                         />
+                        {previewPost.props?.priority && (
+                            <span className='mr-2 ml-1'>
+                                <PriorityLabel priority={previewPost.props.priority}/>
+                            </span>
+                        )}
                     </div>
                 </div>
                 <PostMessageView

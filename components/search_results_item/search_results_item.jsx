@@ -29,6 +29,7 @@ import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import ThreadFooter from 'components/threading/channel_threads/thread_footer';
 import EditPost from 'components/edit_post';
+import PriorityLabel from 'components/post_priority/post_priority_label';
 
 import Constants, {AppEvents, Locations} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils';
@@ -468,8 +469,13 @@ export default class SearchResultsItem extends React.PureComponent {
                                     />
                                     <BotBadge show={Boolean(post.props && post.props.from_webhook && !this.props.isBot)}/>
                                 </div>
-                                <div className='col'>
+                                <div className='col d-flex align-items-center'>
                                     {this.renderPostTime()}
+                                    {post.props?.priority && (
+                                        <span className='ml-1 mr-2'>
+                                            <PriorityLabel priority={post.props.priority}/>
+                                        </span>
+                                    )}
                                     {postInfoIcon}
                                 </div>
                                 {!isPostBeingEditedInRHS && rhsControls}

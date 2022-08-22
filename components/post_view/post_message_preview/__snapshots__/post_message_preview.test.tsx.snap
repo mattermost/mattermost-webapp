@@ -40,7 +40,7 @@ exports[`PostMessagePreview direct and group messages should render preview for 
         />
       </div>
       <div
-        className="col"
+        className="col d-flex align-items-center"
       >
         <Connect(injectIntl(Timestamp))
           className="post-preview__time"
@@ -127,7 +127,7 @@ exports[`PostMessagePreview direct and group messages should render preview for 
         />
       </div>
       <div
-        className="col"
+        className="col d-flex align-items-center"
       >
         <Connect(injectIntl(Timestamp))
           className="post-preview__time"
@@ -214,7 +214,7 @@ exports[`PostMessagePreview nested previews should render file preview 1`] = `
         />
       </div>
       <div
-        className="col"
+        className="col d-flex align-items-center"
       >
         <Connect(injectIntl(Timestamp))
           className="post-preview__time"
@@ -321,7 +321,7 @@ exports[`PostMessagePreview nested previews should render opengraph preview 1`] 
         />
       </div>
       <div
-        className="col"
+        className="col d-flex align-items-center"
       >
         <Connect(injectIntl(Timestamp))
           className="post-preview__time"
@@ -436,7 +436,7 @@ exports[`PostMessagePreview should not render bot icon 1`] = `
         />
       </div>
       <div
-        className="col"
+        className="col d-flex align-items-center"
       >
         <Connect(injectIntl(Timestamp))
           className="post-preview__time"
@@ -528,7 +528,7 @@ exports[`PostMessagePreview should render bot icon 1`] = `
         />
       </div>
       <div
-        className="col"
+        className="col d-flex align-items-center"
       >
         <Connect(injectIntl(Timestamp))
           className="post-preview__time"
@@ -620,7 +620,7 @@ exports[`PostMessagePreview should render correctly 1`] = `
         />
       </div>
       <div
-        className="col"
+        className="col d-flex align-items-center"
       >
         <Connect(injectIntl(Timestamp))
           className="post-preview__time"

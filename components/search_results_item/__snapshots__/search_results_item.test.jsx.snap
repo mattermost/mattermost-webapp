@@ -93,7 +93,7 @@ exports[`components/SearchResultsItem should hide reply button when said so 1`] 
             />
           </div>
           <div
-            className="col"
+            className="col d-flex align-items-center"
           >
             <Connect(PostTime)
               eventTime={1502715365009}
@@ -325,7 +325,7 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
             />
           </div>
           <div
-            className="col"
+            className="col d-flex align-items-center"
           >
             <Connect(PostTime)
               eventTime={1502715365009}
@@ -568,7 +568,7 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
             />
           </div>
           <div
-            className="col"
+            className="col d-flex align-items-center"
           >
             <Connect(PostTime)
               eventTime={1502715365009}
@@ -800,7 +800,7 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
             />
           </div>
           <div
-            className="col"
+            className="col d-flex align-items-center"
           >
             <Connect(PostTime)
               eventTime={1502715365009}
@@ -1049,7 +1049,7 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
             />
           </div>
           <div
-            className="col"
+            className="col d-flex align-items-center"
           >
             <Connect(PostTime)
               eventTime={1502715365009}
@@ -1227,7 +1227,7 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
             />
           </div>
           <div
-            className="col"
+            className="col d-flex align-items-center"
           >
             <Connect(PostTime)
               eventTime={1502715365009}
@@ -1390,7 +1390,7 @@ exports[`components/SearchResultsItem should match snapshot with no thread in he
             />
           </div>
           <div
-            className="col"
+            className="col d-flex align-items-center"
           >
             <Connect(PostTime)
               eventTime={1502715365009}
@@ -1627,7 +1627,7 @@ exports[`components/SearchResultsItem should match snapshot with no thread in he
             />
           </div>
           <div
-            className="col"
+            className="col d-flex align-items-center"
           >
             <Connect(PostTime)
               eventTime={1502715365009}
@@ -1872,7 +1872,7 @@ exports[`components/SearchResultsItem should match snapshot with no thread in he
             />
           </div>
           <div
-            className="col"
+            className="col d-flex align-items-center"
           >
             <Connect(PostTime)
               eventTime={1502715365009}
@@ -2117,7 +2117,7 @@ exports[`components/SearchResultsItem should match snapshot with thread in heade
             />
           </div>
           <div
-            className="col"
+            className="col d-flex align-items-center"
           >
             <Connect(PostTime)
               eventTime={1502715365009}
@@ -2358,7 +2358,7 @@ exports[`components/SearchResultsItem should match snapshot with thread in heade
             />
           </div>
           <div
-            className="col"
+            className="col d-flex align-items-center"
           >
             <Connect(PostTime)
               eventTime={1502715365009}
@@ -2603,7 +2603,7 @@ exports[`components/SearchResultsItem should match snapshot with thread in heade
             />
           </div>
           <div
-            className="col"
+            className="col d-flex align-items-center"
           >
             <Connect(PostTime)
               eventTime={1502715365009}
@@ -2839,7 +2839,7 @@ exports[`components/SearchResultsItem should show team name when provided 1`] = 
             />
           </div>
           <div
-            className="col"
+            className="col d-flex align-items-center"
           >
             <Connect(PostTime)
               eventTime={1502715365009}

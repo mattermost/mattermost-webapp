@@ -64,6 +64,7 @@ export type Props = {
     inputComponent?: ElementType;
     openWhenEmpty?: boolean;
     priorityProfiles?: UserProfile[];
+    hasLabels: boolean;
 };
 
 export default class Textbox extends React.PureComponent<Props> {
@@ -256,6 +257,9 @@ export default class Textbox extends React.PureComponent<Props> {
         }
         if (this.props.badConnection) {
             textboxClassName += ' bad-connection';
+        }
+        if (this.props.hasLabels) {
+            textboxClassName += ' textarea--has-labels';
         }
         if (this.props.preview) {
             textboxClassName += ' custom-textarea--preview';

@@ -479,7 +479,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
 
         let priority;
         if (post.props?.priority) {
-            priority = <span className='pr-2'><PriorityLabel priority={post.props.priority}/></span>;
+            priority = <span className='mr-2 ml-1'><PriorityLabel priority={post.props.priority}/></span>;
         }
 
         return (
@@ -487,7 +487,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
                 className='post__header--info'
                 ref={this.postHeaderRef}
             >
-                <div className='col'>
+                <div className='col d-flex align-items-center'>
                     {postTime}
                     {priority}
                     {postInfoIcon}

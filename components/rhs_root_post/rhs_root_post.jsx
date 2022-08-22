@@ -27,6 +27,7 @@ import PostReaction from 'components/post_view/post_reaction';
 import MessageWithAdditionalContent from 'components/message_with_additional_content';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
+import PriorityLabel from 'components/post_priority/post_priority_label';
 
 import UserProfile from 'components/user_profile';
 import PostPreHeader from 'components/post_view/post_pre_header';
@@ -554,6 +555,11 @@ export default class RhsRootPost extends React.PureComponent {
             );
         }
 
+        let priority;
+        if (post.props?.priority) {
+            priority = <span className='mr-2 ml-1'><PriorityLabel priority={post.props.priority}/></span>;
+        }
+
         const message = (
             <MessageWithAdditionalContent
                 post={post}
@@ -608,8 +614,9 @@ export default class RhsRootPost extends React.PureComponent {
                                 {botIndicator}
                                 {customStatus}
                             </div>
-                            <div className='col'>
+                            <div className='col d-flex align-items-center'>
                                 {this.renderPostTime(isEphemeral)}
+                                {priority}
                                 {postInfoIcon}
                             </div>
                             {!isPostBeingEdited && dotMenuContainer}
