@@ -2,19 +2,23 @@
 // See LICENSE.txt for license information.
 
 import React, {PureComponent} from 'react';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import {requestCategoriesList, requestCategoriesListIfNeeded, saveSearchBarText, saveSearchScrollPosition, searchTextUpdate} from 'mattermost-redux/actions/gifs';
 
+import {GlobalState} from 'types/store';
+import {GfycatAPIItem, GfycatAPITag} from 'types/external/gfycat';
+
 import {trackEvent} from 'actions/telemetry_actions.jsx';
-import * as PostUtils from 'utils/post_utils';
+
+import {getImageSrc} from 'utils/post_utils';
 
 import InfiniteScroll from 'components/gif_picker/components/InfiniteScroll';
+import {appProps} from 'components/gif_picker/gif_picker';
 
 import './Categories.scss';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     return {
         ...state.entities.gifs.categories,
         ...state.entities.gifs.cache,
@@ -33,23 +37,23 @@ const mapDispatchToProps = ({
     requestCategoriesListIfNeeded,
 });
 
-export class Categories extends PureComponent {
-    static propTypes = {
-        appProps: PropTypes.object,
-        gifs: PropTypes.object,
-        hasMore: PropTypes.bool,
-        onSearch: PropTypes.func,
-        onTrending: PropTypes.func,
-        requestCategoriesList: PropTypes.func,
-        requestCategoriesListIfNeeded: PropTypes.func,
-        saveSearchBarText: PropTypes.func,
-        saveSearchScrollPosition: PropTypes.func,
-        searchTextUpdate: PropTypes.func,
-        searchBarText: PropTypes.string,
-        tagsList: PropTypes.array,
-        hasImageProxy: PropTypes.string,
-    }
+type Props = {
+    appProps: typeof appProps;
+    gifs?: Record<string, GfycatAPIItem>;
+    hasMore?: boolean;
+    onSearch: () => void;
+    onTrending: () => void;
+    requestCategoriesList: () => void;
+    requestCategoriesListIfNeeded: () => void;
+    saveSearchBarText: (searchBarText: string) => void;
+    saveSearchScrollPosition: (scrollPosition: number) => void;
+    searchTextUpdate: (searchText: string) => void;
+    searchBarText: string;
+    tagsList: GfycatAPITag[];
+    hasImageProxy: string;
+}
 
+export class Categories extends PureComponent<Props> {
     componentDidMount() {
         window.scrollTo(0, 0);
         this.props.requestCategoriesListIfNeeded();
@@ -90,16 +94,16 @@ export class Categories extends PureComponent {
     render() {
         const {hasMore, tagsList, gifs, onSearch, onTrending, hasImageProxy} = this.props;
 
-        const content = tagsList && tagsList.length ? this.filterTagsList(tagsList).map((item, index) => {
+        const content = tagsList && tagsList.length ? this.filterTagsList().map((item, index) => {
             const {tagName, gfyId} = item;
 
-            if (!gifs[gfyId]) {
+            if (!gifs?.[gfyId]) {
                 return null;
             }
 
             const gfyItem = gifs[gfyId];
-            const {max1mbGif, avgColor} = gfyItem;
-            const url = PostUtils.getImageSrc(max1mbGif, hasImageProxy === 'true');
+            const {max1mbGif, max2mbGif, avgColor} = gfyItem;
+            const url = getImageSrc(max1mbGif || max2mbGif, hasImageProxy === 'true');
             const searchText = tagName.replace(/\s/g, '-');
             const backgroundImage = {backgroundImage: `url(${url}`};
             const backgroundColor = {backgroundColor: avgColor};
@@ -131,9 +135,7 @@ export class Categories extends PureComponent {
         }) : [];
 
         return content && content.length ? (
-            <div
-                className='categories-container'
-            >
+            <div className='categories-container'>
                 <InfiniteScroll
                     hasMore={hasMore}
                     loadMore={this.loadMore}
@@ -143,9 +145,7 @@ export class Categories extends PureComponent {
                 </InfiniteScroll>
             </div>
         ) : (
-            <div
-                className='categories-container'
-            />
+            <div className='categories-container'/>
         );
     }
 }
