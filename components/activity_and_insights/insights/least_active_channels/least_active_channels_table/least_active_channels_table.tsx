@@ -94,7 +94,7 @@ const LeastActiveChannelsTable = (props: Props) => {
             {
                 name: (
                     <FormattedMessage
-                        id='insights.leastActiveChannels.lastActivity'
+                        id='insights.leastActiveChannels.lastActivityCell'
                         defaultMessage='Last activity'
                     />
                 ),
