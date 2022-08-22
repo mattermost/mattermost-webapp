@@ -42,6 +42,7 @@ export class SearchGrid extends PureComponent {
         containerClassName: PropTypes.string,
         keyword: PropTypes.string, // searchText, tagName
         handleItemClick: PropTypes.func,
+        onCategories: PropTypes.func,
         loadMore: PropTypes.func,
         numberOfColumns: PropTypes.number,
         scrollPosition: PropTypes.number,
