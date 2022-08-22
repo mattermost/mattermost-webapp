@@ -11,18 +11,10 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-const DEFAULT_CHARACTER_LIMIT = 16383;
-
 describe('Forward Message', () => {
     let user1;
-    let user2;
-    let user3;
     let testTeam;
-    let testChannel;
-    let otherChannel;
     let privateChannel;
-    let dmChannel;
-    let gmChannel;
     let testPost;
     let replyPost;
 
@@ -106,53 +98,17 @@ describe('Forward Message', () => {
         cy.apiInitSetup({loginAfter: true, promoteNewUserAsAdmin: true}).then(({
             user,
             team,
-            channel,
         }) => {
             user1 = user;
             testTeam = team;
-            testChannel = channel;
 
             // # enable CRT for the user
             cy.apiSaveCRTPreference(user.id, 'on');
 
-            // # Create another user
-            return cy.apiCreateUser({prefix: 'second'});
-        }).then(({user}) => {
-            user2 = user;
-
-            // # Add other user to team
-            return cy.apiAddUserToTeam(testTeam.id, user2.id);
-        }).then(() => {
-            // # Create another user
-            return cy.apiCreateUser({prefix: 'third'});
-        }).then(({user}) => {
-            user3 = user;
-
-            // # Add other user to team
-            return cy.apiAddUserToTeam(testTeam.id, user3.id);
-        }).then(() => {
-            cy.apiAddUserToChannel(testChannel.id, user2.id);
-            cy.apiAddUserToChannel(testChannel.id, user3.id);
-
-            // # Create new DM channel
-            return cy.apiCreateDirectChannel([user1.id, user2.id]);
-        }).then(({channel}) => {
-            dmChannel = channel;
-
-            // # Create new DM channel
-            return cy.apiCreateGroupChannel([user1.id, user2.id, user3.id]);
-        }).then(({channel}) => {
-            gmChannel = channel;
-
-            // # Create a private channel to forward to
+            // # Create a private channel
             return cy.apiCreateChannel(testTeam.id, 'private', 'Private', 'P');
         }).then(({channel}) => {
             privateChannel = channel;
-
-            // # Create a second channel to forward to
-            return cy.apiCreateChannel(testTeam.id, 'forward', 'Forward');
-        }).then(({channel}) => {
-            otherChannel = channel;
 
             // # Post a sample message
             return cy.postMessageAs({sender: user1, message, channelId: privateChannel.id});
