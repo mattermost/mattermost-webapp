@@ -34,7 +34,7 @@ const TIME_SPEC: Partial<ComponentProps<typeof Timestamp>> = {
     ],
     useTime: false,
     day: 'numeric',
-    style: 'narrow',
+    style: 'long',
 };
 
 const TopPlaybooks = (props: WidgetHocProps) => {

@@ -38,7 +38,7 @@ const TIME_SPEC: Partial<ComponentProps<typeof Timestamp>> = {
     ],
     useTime: false,
     day: 'numeric',
-    style: 'narrow',
+    style: 'long',
 };
 
 const TopPlaybooksTable = (props: Props) => {
@@ -98,7 +98,7 @@ const TopPlaybooksTable = (props: Props) => {
                     />
                 ),
                 field: 'lastRun',
-                width: 0.13,
+                width: 0.23,
             },
             {
                 name: (
@@ -108,7 +108,7 @@ const TopPlaybooksTable = (props: Props) => {
                     />
                 ),
                 field: 'totalRuns',
-                width: 0.4,
+                width: 0.3,
             },
         ];
         return columns;
