@@ -74,6 +74,7 @@ exports[`components/advanced_create_post Show tutorial 1`] = `
           >
             <IconContainer
               className="control"
+              disabled={false}
               onClick={[Function]}
               type="button"
             >
@@ -206,6 +207,7 @@ exports[`components/advanced_create_post should match snapshot for center textbo
           >
             <IconContainer
               className="control"
+              disabled={false}
               onClick={[Function]}
               type="button"
             >
@@ -338,6 +340,7 @@ exports[`components/advanced_create_post should match snapshot when cannot post 
           >
             <IconContainer
               className="control"
+              disabled={false}
               onClick={[Function]}
               type="button"
             >
@@ -470,6 +473,7 @@ exports[`components/advanced_create_post should match snapshot when file upload 
           >
             <IconContainer
               className="control"
+              disabled={false}
               onClick={[Function]}
               type="button"
             >
@@ -602,6 +606,7 @@ exports[`components/advanced_create_post should match snapshot, can post; previe
           >
             <IconContainer
               className="control"
+              disabled={false}
               onClick={[Function]}
               type="button"
             >
@@ -734,6 +739,7 @@ exports[`components/advanced_create_post should match snapshot, can post; previe
           >
             <IconContainer
               className="control"
+              disabled={false}
               onClick={[Function]}
               type="button"
             >
@@ -866,6 +872,7 @@ exports[`components/advanced_create_post should match snapshot, cannot post; pre
           >
             <IconContainer
               className="control"
+              disabled={false}
               onClick={[Function]}
               type="button"
             >
@@ -998,6 +1005,7 @@ exports[`components/advanced_create_post should match snapshot, cannot post; pre
           >
             <IconContainer
               className="control"
+              disabled={false}
               onClick={[Function]}
               type="button"
             >
@@ -1130,6 +1138,7 @@ exports[`components/advanced_create_post should match snapshot, init 1`] = `
           >
             <IconContainer
               className="control"
+              disabled={false}
               onClick={[Function]}
               type="button"
             >
