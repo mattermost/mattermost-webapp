@@ -4,27 +4,29 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
 
-import PropTypes from 'prop-types';
+import {GlobalState} from 'types/store';
+import {GfycatAPIItem} from 'types/external/gfycat';
+
+import {getImageSrc} from 'utils/post_utils';
 
 import './SearchItem.scss';
-import * as PostUtils from 'utils/post_utils';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     return {
         hasImageProxy: state.entities.general.config.HasImageProxy,
     };
 }
 
-export class SearchItem extends PureComponent {
-    static propTypes = {
-        gfyItem: PropTypes.object,
-        top: PropTypes.string,
-        left: PropTypes.string,
-        itemWidth: PropTypes.number,
-        itemClickHandler: PropTypes.func,
-        hasImageProxy: PropTypes.string,
-    }
+type Props = {
+    gfyItem: GfycatAPIItem;
+    top: string;
+    left: string;
+    itemWidth: number;
+    itemClickHandler: (gif: GfycatAPIItem) => void;
+    hasImageProxy?: string;
+}
 
+export class SearchItem extends PureComponent<Props> {
     render() {
         const {
             gfyItem,
@@ -34,9 +36,9 @@ export class SearchItem extends PureComponent {
             itemClickHandler,
         } = this.props;
 
-        const {width, height, max1mbGif, avgColor} = gfyItem;
+        const {width, height, max1mbGif, max2mbGif, avgColor} = gfyItem;
         const {hasImageProxy} = this.props;
-        const url = PostUtils.getImageSrc(max1mbGif, hasImageProxy === 'true');
+        const url = getImageSrc(max1mbGif || max2mbGif, hasImageProxy === 'true');
 
         const backgroundImage = {backgroundImage: `url(${url})`};
         const backgroundColor = {backgroundColor: avgColor};
