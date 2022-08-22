@@ -138,6 +138,18 @@ function assertNotification(featureName, minimumPlan, requestsCount, teamName) {
     });
 }
 
+function assertUpgradeMessageButton(onlyProfessionalFeatures) {
+    cy.get('#view_upgrade_options').contains('View upgrade options');
+    cy.get('#view_upgrade_options').click();
+    cy.get('#pricingModal').should('exist');
+
+    if (onlyProfessionalFeatures) {
+        cy.get('.close-x').click();
+        cy.get('#upgrade_to_professional').contains('Upgrade to Professional');
+        cy.get('.PurchaseModal').should('exist');
+    }
+}
+
 describe('Notify Admin', () => {
     before(() => {
         // * Check if server has license for Cloud
@@ -258,13 +270,18 @@ function testNotifications(subscription) {
     let myUnlimitedTeamsUsers = [];
     let myUserGroupsUsers = [];
 
+    const CREATE_MULTIPLE_TEAMS_USERS = 2;
+    const UNLIMITED_MESSAGES_USERS = 3;
+    const CUSTOM_USER_GROUPS = 5;
+
     cy.apiInitSetup().then(({team, channel, offTopicUrl: url}) => {
         myTeam = team;
         myChannel = channel;
         myUrl = url;
-        myMessageLimitUsers = createUsersProcess(myTeam, myChannel, 3);
-        myUnlimitedTeamsUsers = createUsersProcess(myTeam, myChannel, 2);
-        myUserGroupsUsers = createUsersProcess(myTeam, myChannel, 5);
+
+        myMessageLimitUsers = createUsersProcess(myTeam, myChannel, UNLIMITED_MESSAGES_USERS);
+        myUnlimitedTeamsUsers = createUsersProcess(myTeam, myChannel, CREATE_MULTIPLE_TEAMS_USERS);
+        myUserGroupsUsers = createUsersProcess(myTeam, myChannel, CUSTOM_USER_GROUPS);
     });
 
     cy.then(() => {
@@ -299,6 +316,9 @@ function testNotifications(subscription) {
     });
 
     cy.then(() => {
-        assertNotification('Custom User groups','Professional plan', 5, myTeam.name);
+        assertNotification('Custom User groups', 'Enterprise plan', CUSTOM_USER_GROUPS, myTeam.name);
+        assertNotification('Create Multiple Teams', 'Professional plan', CREATE_MULTIPLE_TEAMS_USERS, myTeam.name);
+        assertNotification('Unlimited Messages', 'Professional plan', UNLIMITED_MESSAGES_USERS, myTeam.name);
+        assertUpgradeMessageButton();
     });
 }

@@ -207,12 +207,14 @@ export default function OpenPricingModalPost(props: {post: Post}) {
             return (
                 <>
                     <button
+                        id='upgrade_to_professional'
                         onClick={() => openPurchaseModal({trackingLocation: 'notify_admin_message_view'})}
                         style={btnStyle}
                     >
                         {'Upgrade to Professional'}
                     </button>
                     <button
+                        id='view_upgrade_options'
                         onClick={() => openPricingModal({trackingLocation: 'notify_admin_message_view_upgrade_options'})}
                         style={{...btnStyle, color: 'var(--button-bg)', background: 'rgba(var(--denim-button-bg-rgb), 0.08)'}}
                     >
@@ -223,6 +225,7 @@ export default function OpenPricingModalPost(props: {post: Post}) {
         }
         return (
             <button
+                id='view_upgrade_options'
                 onClick={() => openPricingModal({trackingLocation: 'notify_admin_message_view_upgrade_options'})}
                 style={{...btnStyle, border: '1px solid var(--button-bg)', color: 'var(--button-bg)', background: 'var(--sidebar-text)'}}
             >
