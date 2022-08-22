@@ -11,6 +11,7 @@ import PurchaseModal from 'components/purchase_modal';
 interface OpenPurchaseModalOptions{
     onClick?: () => void;
     trackingLocation?: string;
+    isDelinquencyModal?: boolean;
 }
 type TelemetryProps = Pick<OpenPurchaseModalOptions, 'trackingLocation'>
 
@@ -20,7 +21,7 @@ export default function useOpenCloudPurchaseModal(options: OpenPurchaseModalOpti
         if (options.onClick) {
             options.onClick();
         }
-        trackEvent('cloud_admin', 'click_open_purchase_modal', {
+        trackEvent('cloud_admin', options.isDelinquencyModal ? 'click_open_delinquency_modal' : 'click_open_purchase_modal', {
             callerInfo: telemetryProps.trackingLocation,
         });
         dispatch(openModal({
@@ -28,6 +29,7 @@ export default function useOpenCloudPurchaseModal(options: OpenPurchaseModalOpti
             dialogType: PurchaseModal,
             dialogProps: {
                 callerCTA: telemetryProps.trackingLocation,
+                isDelinquencyModal: Boolean(options.isDelinquencyModal),
             },
         }));
     };

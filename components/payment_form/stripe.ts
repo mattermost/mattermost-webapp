@@ -23,7 +23,7 @@ function devConfirmCardSetup(confirmCardSetup: ConfirmCardSetupType): ConfirmCar
     };
 }
 
-export const getConfirmCardSetup = (isDevMode: boolean) => (isDevMode ? devConfirmCardSetup : prodConfirmCardSetup);
+export const getConfirmCardSetup = (isDevMode: boolean) => (false ? devConfirmCardSetup : prodConfirmCardSetup);
 
 export const STRIPE_CSS_SRC = 'https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i&display=swap';
 export const STRIPE_PUBLIC_KEY = 'pk_test_ttEpW6dCHksKyfAFzh6MvgBj';

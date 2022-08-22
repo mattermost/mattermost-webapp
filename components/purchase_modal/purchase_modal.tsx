@@ -10,7 +10,8 @@ import {Elements} from '@stripe/react-stripe-js';
 
 import {isEmpty} from 'lodash';
 
-import {CloudCustomer, Product} from '@mattermost/types/cloud';
+import BillingHistoryModal from 'components/admin_console/billing/billing_history_modal';
+import {CloudCustomer, Product, Invoice} from '@mattermost/types/cloud';
 
 import {trackEvent, pageVisited} from 'actions/telemetry_actions';
 import {
@@ -63,6 +64,10 @@ type ButtonDetails = {
     customClass?: ButtonCustomiserClasses;
 }
 
+type DelinquencyCardProps = CardProps & {
+    onViewBreakdownClick: () => void;
+};
+
 type CardProps = {
     topColor: string;
     plan: string;
@@ -85,6 +90,8 @@ type Props = {
     currentTeam: Team;
     intl: IntlShape;
     theme: Theme;
+    isDelinquencyModal?: boolean;
+    invoices?: Invoice[];
 
     // callerCTA is information about the cta that opened this modal. This helps us provide a telemetry path
     // showing information about how the modal was opened all the way to more CTAs within the modal itself
@@ -97,6 +104,7 @@ type Props = {
         subscribeCloudSubscription: (productId: string) => Promise<boolean | null>;
         getClientConfig: () => void;
         getCloudSubscription: () => void;
+        getInvoices: () => void;
     };
 }
 
@@ -203,6 +211,68 @@ function Card(props: CardProps) {
     );
 }
 
+function DelinquencyCard(props: DelinquencyCardProps) {
+    const seeHowBillingWorks = (
+        e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+    ) => {
+        e.preventDefault();
+        trackEvent(
+            TELEMETRY_CATEGORIES.CLOUD_ADMIN,
+            'click_see_how_billing_works',
+        );
+        window.open(CloudLinks.BILLING_DOCS, '_blank');
+    };
+    return (
+        <div className='PlanCard'>
+            {props.planLabel && props.planLabel}
+            <div
+                className='top'
+                style={{backgroundColor: props.topColor}}
+            />
+            <div className='bottom'>
+                <div className='delinquency_summary_section'>
+                    <h4>{props.plan}</h4>
+                    <div className={'summary-section'}>
+                        <div className='summary-title'>{'Total owed:'}</div>
+                        <div className='summary-total'>{props.price}</div>
+                        <div
+                            onClick={props.onViewBreakdownClick}
+                            className='view-breakdown'
+                        >{'View breakdown'}</div>
+                    </div>
+                </div>
+
+                <div>
+                    <button
+                        className={
+                            'plan_action_btn ' + props.buttonDetails.customClass
+                        }
+                        disabled={props.buttonDetails.disabled}
+                        onClick={props.buttonDetails.action}
+                    >
+                        {props.buttonDetails.text}
+                    </button>
+                </div>
+                {props.planBriefing}
+                <div className='plan_billing_cycle'>
+                    <FormattedMessage
+                        defaultMessage={
+                            'Your bill is calculated at the end of the billing cycle based on the number of enabled users. '
+                        }
+                        id={'admin.billing.subscription.freeTrialDisclaimer'}
+                    />
+                    <a onClick={seeHowBillingWorks}>
+                        <FormattedMessage
+                            defaultMessage={'See how billing works.'}
+                            id={'admin.billing.subscription.howItWorks'}
+                        />
+                    </a>
+                </div>
+            </div>
+        </div>
+    );
+}
+
 class PurchaseModal extends React.PureComponent<Props, State> {
     modal = React.createRef();
 
@@ -233,7 +303,19 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             });
         }
 
+        if (this.props.isDelinquencyModal) {
+            this.props.actions.getInvoices();
+        }
+
         this.props.actions.getClientConfig();
+    }
+
+    getDelinquencyTotalString = () => {
+        let totalOwed = 0;
+        this.props.invoices?.forEach((invoice) => {
+            totalOwed += invoice.total;
+        });
+        return `$${totalOwed / 100}`;
     }
 
     onPaymentInput = (billing: BillingDetails) => {
@@ -414,6 +496,16 @@ class PurchaseModal extends React.PureComponent<Props, State> {
         return productName;
     }
 
+    handleViewBreakdownClick = () => {
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.BILLING_HISTORY,
+            dialogType: BillingHistoryModal,
+            dialogProps: {
+                invoices: this.props.invoices,
+            },
+        });
+    }
+
     purchaseScreen = () => {
         const title = (
             <FormattedMessage
@@ -445,82 +537,131 @@ class PurchaseModal extends React.PureComponent<Props, State> {
         return (
             <div className={this.state.processing ? 'processing' : ''}>
                 <div className='LHS'>
-                    <h2 className='title'>
-                        {title}
-                    </h2>
+                    <h2 className='title'>{title}</h2>
                     <UpgradeSvg
                         width={267}
                         height={227}
                     />
-                    <div className='footer-text'>
-                        {'Questions?'}
-                    </div>
+                    <div className='footer-text'>{'Questions?'}</div>
                     {this.contactSalesLink('Contact Sales')}
                 </div>
                 <div className='central-panel'>
-                    {(this.state.editPaymentInfo || !validBillingDetails) ? (<PaymentForm
-                        className='normal-text'
-                        onInputChange={this.onPaymentInput}
-                        onCardInputChange={this.handleCardInputChange}
-                        initialBillingDetails={initialBillingDetails}
-                        theme={this.props.theme}
-                    // eslint-disable-next-line react/jsx-closing-bracket-location
-                    />
-                    ) : (<div className='PaymentDetails'>
-                        <div className='title'>
-                            <FormattedMessage
-                                defaultMessage='Your saved payment details'
-                                id='admin.billing.purchaseModal.savedPaymentDetailsTitle'
-                            />
-                        </div>
-                        <PaymentDetails>
-                            <button
-                                onClick={this.editPaymentInfoHandler}
-                                className='editPaymentButton'
-                            >
+                    {this.state.editPaymentInfo || !validBillingDetails ? (
+                        <PaymentForm
+                            className='normal-text'
+                            onInputChange={this.onPaymentInput}
+                            onCardInputChange={this.handleCardInputChange}
+                            initialBillingDetails={initialBillingDetails}
+                            theme={this.props.theme}
+                            // eslint-disable-next-line react/jsx-closing-bracket-location
+                        />
+                    ) : (
+                        <div className='PaymentDetails'>
+                            <div className='title'>
                                 <FormattedMessage
-                                    defaultMessage='Edit'
-                                    id='admin.billing.purchaseModal.editPaymentInfoButton'
+                                    defaultMessage='Your saved payment details'
+                                    id='admin.billing.purchaseModal.savedPaymentDetailsTitle'
                                 />
-                            </button>
-                        </PaymentDetails>
-                    </div>)
-                    }
+                            </div>
+                            <PaymentDetails>
+                                <button
+                                    onClick={this.editPaymentInfoHandler}
+                                    className='editPaymentButton'
+                                >
+                                    <FormattedMessage
+                                        defaultMessage='Edit'
+                                        id='admin.billing.purchaseModal.editPaymentInfoButton'
+                                    />
+                                </button>
+                            </PaymentDetails>
+                        </div>
+                    )}
                 </div>
                 <div className='RHS'>
                     <div
                         className='plan_comparison'
-                        style={{marginBottom: `${showPlanLabel ? '51' : '0'}px`}}//remove bottom pace when not taken up by PlanLabel
+                        style={{
+                            marginBottom: `${showPlanLabel ? '51' : '0'}px`,
+                        }} //remove bottom pace when not taken up by PlanLabel
                     >
                         {this.comparePlan}
                     </div>
-                    <Card
-                        topColor='#4A69AC'
-                        plan={this.getPlanNameFromProductName(this.state.selectedProduct ? this.state.selectedProduct.name : '')}
-                        price={`$${this.state.selectedProduct?.price_per_seat?.toString()}`}
-                        rate='/user/month'
-                        planBriefing={this.paymentFooterText()}
-                        buttonDetails={{
-                            action: this.handleSubmitClick,
-                            text: 'Upgrade',
-                            customClass: (!this.state.paymentInfoIsValid || this.state.selectedProduct?.billing_scheme === BillingSchemes.SALES_SERVE) ? ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.special,
-                            disabled: !this.state.paymentInfoIsValid || this.state.selectedProduct?.billing_scheme === BillingSchemes.SALES_SERVE,
-                        }}
-                        planLabel={showPlanLabel ? (
-                            <PlanLabel
-                                text={formatMessage({id: 'pricing_modal.planLabel.mostPopular', defaultMessage: 'MOST POPULAR'})}
-                                bgColor='var(--title-color-indigo-500)'
-                                color='var(--button-color)'
-                                firstSvg={<StarMarkSvg/>}
-                                secondSvg={<StarMarkSvg/>}
-                            />) : undefined}
-                    />
+                    {this.props.isDelinquencyModal ? (
+                        <DelinquencyCard
+                            topColor='#4A69AC'
+                            plan={'Settle Your Balance'}
+                            price={this.getDelinquencyTotalString()}
+                            planBriefing={(<div className='button-description'>{`Upon reactivation you will be charged ${this.getDelinquencyTotalString()}`}</div>)}
+                            buttonDetails={{
+                                action: this.handleSubmitClick,
+                                text: 'Re-active',
+                                customClass:
+                                    this.state.paymentInfoIsValid ? ButtonCustomiserClasses.special : ButtonCustomiserClasses.grayed,
+                                disabled:
+                                    !this.state.paymentInfoIsValid,
+                            }}
+                            onViewBreakdownClick={this.handleViewBreakdownClick}
+                            planLabel={
+                                showPlanLabel ? (
+                                    <PlanLabel
+                                        text={formatMessage({
+                                            id: 'pricing_modal.planLabel.mostPopular',
+                                            defaultMessage: 'MOST POPULAR',
+                                        })}
+                                        bgColor='var(--title-color-indigo-500)'
+                                        color='var(--button-color)'
+                                        firstSvg={<StarMarkSvg/>}
+                                        secondSvg={<StarMarkSvg/>}
+                                    />
+                                ) : undefined
+                            }
+                        />
+                    ) : (
+                        <Card
+                            topColor='#4A69AC'
+                            plan={this.getPlanNameFromProductName(
+                                this.state.selectedProduct ? this.state.selectedProduct.name : '',
+                            )}
+                            price={`$${this.state.selectedProduct?.price_per_seat?.toString()}`}
+                            rate='/user/month'
+                            planBriefing={this.paymentFooterText()}
+                            buttonDetails={{
+                                action: this.handleSubmitClick,
+                                text: 'Upgrade',
+                                customClass:
+                                    !this.state.paymentInfoIsValid ||
+                                    this.state.selectedProduct?.
+                                        billing_scheme ===
+                                        BillingSchemes.SALES_SERVE ? ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.special,
+                                disabled:
+                                    !this.state.paymentInfoIsValid ||
+                                    this.state.selectedProduct?.
+                                        billing_scheme ===
+                                        BillingSchemes.SALES_SERVE,
+                            }}
+                            planLabel={
+                                showPlanLabel ? (
+                                    <PlanLabel
+                                        text={formatMessage({
+                                            id: 'pricing_modal.planLabel.mostPopular',
+                                            defaultMessage: 'MOST POPULAR',
+                                        })}
+                                        bgColor='var(--title-color-indigo-500)'
+                                        color='var(--button-color)'
+                                        firstSvg={<StarMarkSvg/>}
+                                        secondSvg={<StarMarkSvg/>}
+                                    />
+                                ) : undefined
+                            }
+                        />
+                    )}
                 </div>
             </div>
         );
     }
 
     render() {
+        console.log(this.props.invoices);
         if (!stripePromise) {
             stripePromise = loadStripe(STRIPE_PUBLIC_KEY);
         }

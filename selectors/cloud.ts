@@ -1,9 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {Invoice} from '@mattermost/types/cloud';
+
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
-
 import {createSelector} from 'reselect';
 
 import {GlobalState} from 'types/store';
@@ -45,5 +46,22 @@ export const getCloudContactUsLink: (state: GlobalState) => (inquiry: InquiryTyp
 
             return `${cwsUrl}/cloud/contact-us?email=${encodeURIComponent(user.email)}&name=${encodeURIComponent(fullName)}&inquiry=${inquiry}${inquiryIssueQuery}`;
         };
+    },
+);
+
+export const getCloudDelinquentInvoices = createSelector(
+    'getCloudDelinquentInvoices',
+    (state: GlobalState) => state.entities.cloud.invoices as Record<string, Invoice>,
+    (invoices: Record<string, Invoice>) => {
+        const delinquentInvoices = [];
+        if (!invoices) {
+            return [];
+        }
+        for (const [id, invoice] of Object.entries(invoices)) {
+            if (invoice.status === 'failed') {
+                delinquentInvoices.push(invoice);
+            }
+        }
+        return delinquentInvoices;
     },
 );

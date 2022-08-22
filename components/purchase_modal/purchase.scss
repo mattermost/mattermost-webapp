@@ -236,6 +236,91 @@
                         }
                     }
 
+
+                    .button-description {
+                        font-family: 'Open Sans';
+                        font-style: normal;
+                        font-weight: 400;
+                        font-size: 14px;
+                        line-height: 20px;
+                        text-align: center;
+                        margin-top: 8px;
+                    }
+
+                    .delinquency_summary_section {
+                        width: 100%;
+                        height: 150px;
+                        font-weight: 400;
+                        letter-spacing: -0.02em;
+                        text-align: center;
+                        margin-bottom: 24px;
+
+                        .summary-section {
+                            background-color: rgba(#1C58D9, 0.08);
+                            border-radius: 4px;
+                            .summary-title {
+                                font-size: 14px;
+                                font-weight: 400;
+                                line-height: 20px;
+                                color: #152234;
+                                padding-top: 8px;
+                                padding-bottom: 12px;
+                            }
+                            .summary-total {
+                                font-size: 28px;
+                                font-weight: 600;
+                                line-height: 20px;
+                                color: #152234;
+                            }
+                            .view-breakdown {
+                                :hover {
+                                    cursor: pointer;
+                                }
+                                font-family: 'Metropolis';
+                                font-style: normal;
+                                font-weight: 400;
+                                font-size: 14px;
+                                line-height: 20px;
+                                color: #1C58D9;
+                                padding-top: 12px;
+                                padding-bottom: 8px;
+                            }
+                        }
+
+
+                        h4 {
+                            color: rgba(var(--center-channel-color-rgb), 0.72);
+                            font-family: 'Metropolis';
+                            font-size: 20px;
+                            font-style: normal;
+                            line-height: 30px;
+                            border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+                            padding-bottom:16px;
+                        }
+
+                        h1 {
+                            color: var(--center-channel-color);
+                            font-family: 'Metropolis';
+                            font-size: 52px;
+                            font-style: normal;
+                            font-weight: 700;
+                            line-height: 60px;
+                        }
+
+                        .enterprise_price {
+                            font-size: 32px;
+                        }
+
+                        p {
+                            color: rgba(var(--center-channel-color-rgb), 0.72);
+                            font-family: 'Metropolis';
+                            font-size: 18px;
+                            font-style: normal;
+                            line-height: 20px;
+                        }
+                    }
+
+
                     .plan_price_rate_section {
                         width: 100%;
                         height: 150px;

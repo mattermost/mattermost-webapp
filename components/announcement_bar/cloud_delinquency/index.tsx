@@ -18,10 +18,12 @@ import AnnouncementBar from '../default_announcement_bar';
 import useGetSubscription from 'components/common/hooks/useGetSubscription';
 import {isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurchaseModal';
 
 const CloudDelinquencyAnnouncementBar = () => {
     const subscription = useGetSubscription();
     const history = useHistory();
+    const openPurchaseModal = useOpenCloudPurchaseModal({isDelinquencyModal: true});
     const currentUser = useSelector((state: GlobalState) =>
         getCurrentUser(state),
     );
@@ -72,9 +74,12 @@ const CloudDelinquencyAnnouncementBar = () => {
         <AnnouncementBar
             type={getBannerType()}
             showCloseButton={false}
-            onButtonClick={() => {
-                history.push('/admin_console/billing/payment_info');
-            }}
+            onButtonClick={() =>
+                openPurchaseModal({
+                    trackingLocation:
+                        'cloud_delinquency_announcement_bar',
+                })
+            }
             modalButtonText={t('cloud_delinquency.banner.buttonText')}
             modalButtonDefaultText={'Update billing now'}
             message={<FormattedMessage {...message}/>}

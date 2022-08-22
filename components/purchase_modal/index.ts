@@ -8,7 +8,7 @@ import {Stripe} from '@stripe/stripe-js';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getClientConfig} from 'mattermost-redux/actions/general';
-import {getCloudProducts, getCloudSubscription} from 'mattermost-redux/actions/cloud';
+import {getCloudProducts, getCloudSubscription, getInvoices} from 'mattermost-redux/actions/cloud';
 import {Action} from 'mattermost-redux/types/actions';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
@@ -19,7 +19,7 @@ import {GlobalState} from 'types/store';
 import {BillingDetails} from 'types/cloud/sku';
 
 import {isModalOpen} from 'selectors/views/modals';
-import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
+import {getCloudContactUsLink, InquiryType, getCloudDelinquentInvoices} from 'selectors/cloud';
 
 import {ModalIdentifiers} from 'utils/constants';
 
@@ -37,6 +37,7 @@ function mapStateToProps(state: GlobalState) {
         products: state.entities.cloud!.products,
         isDevMode: getConfig(state).EnableDeveloper === 'true',
         contactSupportLink: getCloudContactUsLink(state)(InquiryType.Technical),
+        invoices: getCloudDelinquentInvoices(state),
         isFreeTrial: subscription?.is_free_trial === 'true',
         contactSalesLink: getCloudContactUsLink(state)(InquiryType.Sales),
         productId: subscription?.product_id,
@@ -66,6 +67,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
                 subscribeCloudSubscription,
                 getClientConfig,
                 getCloudSubscription,
+                getInvoices,
             },
             dispatch,
         ),
