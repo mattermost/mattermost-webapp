@@ -182,6 +182,7 @@ export function leaveChannel(channelId: string) {
             dispatch({type: TeamTypes.LEAVE_TEAM, data: currentTeam});
             browserHistory.push('/');
         } else if (channelId === currentChannelId) {
+            // We only need to leave the channel if we are in the channel
             browserHistory.push(teamUrl);
         }
 
