@@ -85,7 +85,7 @@ const TopBoards = (props: WidgetHocProps) => {
                                     className='board-item'
                                     onClick={trackClickEvent}
                                     key={i}
-                                    to={`/boards/workspace/${board.workspaceID}/${board.boardID}`}
+                                    to={`/boards/team/${currentTeamId}/${board.boardID}`}
                                 >
                                     <span className='board-icon'>{board.icon}</span>
                                     <div className='display-info'>
