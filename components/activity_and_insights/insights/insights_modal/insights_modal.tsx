@@ -11,6 +11,7 @@ import TopReactionsTable from '../top_reactions/top_reactions_table/top_reaction
 import TopChannelsTable from '../top_channels/top_channels_table/top_channels_table';
 import TopThreadsTable from '../top_threads/top_threads_table/top_threads_table';
 import TopBoardsTable from '../top_boards/top_boards_table/top_boards_table';
+import TopPlaybooksTable from '../top_playbooks/top_playbooks_table/top_playbooks_table';
 import TopDMsTable from '../top_dms_and_new_members/top_dms_table/top_dms_table';
 import NewMembersTable from '../top_dms_and_new_members/new_members_table/new_members_table';
 
@@ -68,6 +69,14 @@ const InsightsModal = (props: Props) => {
         case InsightsWidgetTypes.TOP_BOARDS:
             return (
                 <TopBoardsTable
+                    filterType={props.filterType}
+                    timeFrame={timeFrame}
+                    closeModal={doHide}
+                />
+            );
+        case InsightsWidgetTypes.TOP_PLAYBOOKS:
+            return (
+                <TopPlaybooksTable
                     filterType={props.filterType}
                     timeFrame={timeFrame}
                     closeModal={doHide}

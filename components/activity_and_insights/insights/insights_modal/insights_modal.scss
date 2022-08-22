@@ -45,6 +45,7 @@
                 padding: 0;
                 background: var(--center-channel-bg);
 
+                &.TopPlaybooksTable,
                 &.TopBoardsTable,
                 &.TopThreadsTable {
                     .DataGrid_row {
@@ -310,6 +311,12 @@
                                     text-overflow: ellipsis;
                                     white-space: nowrap;
                                 }
+                            }
+
+                            time {
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                white-space: nowrap;
                             }
                         }
                     }
