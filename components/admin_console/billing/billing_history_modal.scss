@@ -1,15 +1,18 @@
 .CloudBillingHistoryModal {
-    left: 50%;
     top: 50%;
+    left: 50%;
+    border-radius: 8px;
+    overflow-y: hidden !important;
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-    overflow-y: hidden !important;
-    border-radius: 8px;
+
     .modal-header {
-        background-color: #FFFFFF;
+        background-color: #fff;
+
         .modal-title {
-            color: #3F4350
+            color: #3f4350;
         }
+
         .modal-body {
             .BillingHistory__table {
                 border-radius: 8px;
@@ -17,8 +20,7 @@
         }
 
         .close {
-            color: rgba(#3F4350, 0.56)
+            color: rgba(#3f4350, 0.56);
         }
     }
-
 }

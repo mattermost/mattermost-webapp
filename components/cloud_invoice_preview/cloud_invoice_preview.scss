@@ -1,53 +1,59 @@
 .CloudInvoicePreview {
+    top: 50%;
+    left: 50%;
     width: 860px;
     height: 1030px;
-    left: 50%;
-    top: 50%;
+    border-radius: 8px;
+    overflow-y: hidden !important;
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-    overflow-y: hidden !important;
-    border-radius: 8px;
+
     .modal-header {
-        background-color: #FFF;
         display: block;
-        color: #3F4350;
-        border: none;
         padding-bottom: 0;
+        border: none;
+        background-color: #fff;
+        color: #3f4350;
+
         .close {
-            color: rgba(#3F4350, 0.56);
             margin-top: auto;
             margin-bottom: auto;
+            color: rgba(#3f4350, 0.56);
         }
+
         .modal-title {
-            font-family: 'Metropolis';
-            font-style: normal;
             color: inherit;
+            font-family: 'Metropolis';
             font-size: 22px;
+            font-style: normal;
             font-weight: 600;
         }
+
         .subtitle {
-            font-size: 14px;
-            color: rgba(#3D3C40, 0.72);
             margin-top: 10px;
+            color: rgba(#3d3c40, 0.72);
             font-family: 'Metropolis';
+            font-size: 14px;
             font-style: normal;
         }
     }
+
     .modal-open {
         overflow-y: hidden !important;
     }
+
     .modal {
-        margin: 0 !important;
         width: 100%;
-        height: 100%;
         max-width: 100%;
+        height: 100%;
+        margin: 0 !important;
     }
 
     .modal-dialog {
-        margin: 0 !important;
         width: 100%;
-        height: 100%;
         max-width: 100%;
+        height: 100%;
+        margin: 0 !important;
     }
 
     .modal-body {
@@ -56,13 +62,14 @@
 
     .post-code {
         display: flex;
+
         canvas {
-            padding-left: 0;
-            padding-right: 0;
-            margin-left: auto;
-            margin-right: auto;
             display: block;
             max-height: 100%;
+            padding-right: 0;
+            padding-left: 0;
+            margin-right: auto;
+            margin-left: auto;
         }
     }
 }
