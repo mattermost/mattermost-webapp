@@ -7,18 +7,22 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @messaging
+// Group: @enterprise @messaging
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 const DEFAULT_CHARACTER_LIMIT = 16383;
 
 describe('Forward Message', () => {
-    let testUser;
-    let otherUser;
+    let user1;
+    let user2;
+    let user3;
     let testTeam;
     let testChannel;
     let otherChannel;
+    let privateChannel;
+    let dmChannel;
+    let gmChannel;
     let testPost;
     let replyPost;
 
@@ -63,10 +67,11 @@ describe('Forward Message', () => {
      * Forward Post with optional comment.
      * Has the possibility to also test for the post-error on long comments
      *
+     * @param {string?} channelId
      * @param {string?} comment
      * @param {boolean?} testLongComment
      */
-    const forwardPost = (comment = '', testLongComment = false) => {
+    const forwardPost = ({channelId, comment = '', testLongComment = false}) => {
         const permalink = `${Cypress.config('baseUrl')}/${testTeam.name}/pl/${testPost.id}`;
         const maxPostSize = DEFAULT_CHARACTER_LIMIT - permalink.length - 1;
         const longMessage = 'M'.repeat(maxPostSize);
@@ -81,10 +86,10 @@ describe('Forward Message', () => {
             cy.get('.forward-post__select').should('be.visible').click();
 
             // # Select the testchannel to forward it to
-            cy.get(`#post-forward_channel-select_option_${otherChannel.id}`).scrollIntoView().click();
+            cy.get(`#post-forward_channel-select_option_${channelId}`).scrollIntoView().click();
 
             // * Assert that the testchannel is selected
-            cy.get(`#post-forward_channel-select_singleValue_${otherChannel.id}`).should('be.visible');
+            cy.get(`#post-forward_channel-select_singleValue_${channelId}`).should('be.visible');
 
             if (testLongComment) {
                 // # Enter long comment and add one char to make it too long
@@ -117,6 +122,10 @@ describe('Forward Message', () => {
     };
 
     before(() => {
+        // # Testing Forwarding from Insights view requires a license
+        cy.apiRequireLicense();
+        cy.shouldHaveFeatureFlag('InsightsEnabled', true);
+
         cy.apiUpdateConfig({
             ServiceSettings: {
                 ThreadAutoFollow: true,
@@ -130,7 +139,7 @@ describe('Forward Message', () => {
             team,
             channel,
         }) => {
-            testUser = user;
+            user1 = user;
             testTeam = team;
             testChannel = channel;
 
@@ -138,24 +147,48 @@ describe('Forward Message', () => {
             cy.apiSaveCRTPreference(user.id, 'on');
 
             // # Create another user
-            return cy.apiCreateUser({prefix: 'other'});
+            return cy.apiCreateUser({prefix: 'second'});
         }).then(({user}) => {
-            otherUser = user;
+            user2 = user;
 
             // # Add other user to team
-            return cy.apiAddUserToTeam(testTeam.id, otherUser.id);
+            return cy.apiAddUserToTeam(testTeam.id, user2.id);
         }).then(() => {
-            cy.apiAddUserToChannel(testChannel.id, otherUser.id);
+            // # Create another user
+            return cy.apiCreateUser({prefix: 'third'});
+        }).then(({user}) => {
+            user3 = user;
+
+            // # Add other user to team
+            return cy.apiAddUserToTeam(testTeam.id, user3.id);
+        }).then(() => {
+            cy.apiAddUserToChannel(testChannel.id, user2.id);
+            cy.apiAddUserToChannel(testChannel.id, user3.id);
 
             // # Post a sample message
-            return cy.postMessageAs({sender: testUser, message, channelId: testChannel.id});
+            return cy.postMessageAs({sender: user1, message, channelId: testChannel.id});
         }).then((post) => {
             testPost = post.data;
 
             // # Post a reply
-            return cy.postMessageAs({sender: testUser, message: replyMessage, channelId: testChannel.id, rootId: testPost.id});
+            return cy.postMessageAs({sender: user1, message: replyMessage, channelId: testChannel.id, rootId: testPost.id});
         }).then((post) => {
             replyPost = post.data;
+
+            // # Create new DM channel
+            return cy.apiCreateDirectChannel([user1.id, user2.id]);
+        }).then(({channel}) => {
+            dmChannel = channel;
+
+            // # Create new DM channel
+            return cy.apiCreateGroupChannel([user1.id, user2.id, user3.id]);
+        }).then(({channel}) => {
+            gmChannel = channel;
+
+            // # Create a private channel to forward to
+            return cy.apiCreateChannel(testTeam.id, 'private', 'Private');
+        }).then(({channel}) => {
+            privateChannel = channel;
 
             // # Create a second channel to forward to
             return cy.apiCreateChannel(testTeam.id, 'forward', 'Forward');
@@ -183,7 +216,7 @@ describe('Forward Message', () => {
         cy.findByText('Forward').click();
 
         // # Forward Post
-        forwardPost();
+        forwardPost({channelId: otherChannel.id});
 
         // * Assert switch to testchannel
         cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').should('contain', otherChannel.display_name);
@@ -205,7 +238,7 @@ describe('Forward Message', () => {
         cy.findByText('Forward').click();
 
         // # Forward Post
-        forwardPost(longMessage, true);
+        forwardPost({channelId: otherChannel.id, comment: longMessage, testLongComment: true});
 
         // * Assert switch to testchannel
         cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').should('contain', otherChannel.display_name);
@@ -228,7 +261,7 @@ describe('Forward Message', () => {
         cy.findByText('Forward').click();
 
         // * Forward Post
-        forwardPost();
+        forwardPost({channelId: otherChannel.id});
 
         // * Assert switch to testchannel
         cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').should('contain', otherChannel.display_name);
@@ -251,10 +284,36 @@ describe('Forward Message', () => {
         cy.findByText('Forward').click();
 
         // * Forward Post
-        forwardPost();
+        forwardPost({channelId: otherChannel.id});
 
         // * Assert switch to testchannel
         cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').should('contain', otherChannel.display_name);
+
+        // * Assert post has been forwarded
+        verifyForwardedMessage({post: replyPost, team: testTeam});
+    });
+
+    it('MM-T4934_5 Forward public channel post while viewing Insights', () => {
+        // # Open the RHS with replies to the root post
+        cy.uiClickPostDropdownMenu(testPost.id, 'Reply', 'CENTER');
+
+        // * Assert RHS is open
+        cy.get('#rhsContainer').should('be.visible');
+
+        // # Visit global threads
+        cy.uiClickSidebarItem('insights');
+
+        // # Click on ... button of reply post
+        cy.clickPostDotMenu(replyPost.id, 'RHS_COMMENT');
+
+        // * Assert availability of the Forward menu-item
+        cy.findByText('Forward').click();
+
+        // * Forward Post
+        forwardPost({channelId: privateChannel.id});
+
+        // * Assert switch to testchannel
+        cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').should('contain', privateChannel.display_name);
 
         // * Assert post has been forwarded
         verifyForwardedMessage({post: replyPost, team: testTeam});
