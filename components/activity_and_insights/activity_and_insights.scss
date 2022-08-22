@@ -565,6 +565,21 @@
 
             .channel-list {
                 .channel-row {
+                    display: flex;
+                    align-items: center;
+                    padding: 10px 12px;
+
+                    &:hover {
+                        background: rgba(var(--center-channel-color-rgb), 0.08);
+                        border-radius: 4px;
+                        cursor: pointer;
+                        text-decoration: none;
+                    }
+
+                    &:focus {
+                        text-decoration: none;
+                    }
+
                     .channel-info {
                         display: flex;
                         overflow: hidden;
