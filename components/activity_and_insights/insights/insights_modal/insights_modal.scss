@@ -45,7 +45,8 @@
                 padding: 0;
                 background: var(--center-channel-bg);
 
-                &.TopPlaybooksTable &.TopBoardsTable,
+                &.TopPlaybooksTable,
+                &.TopBoardsTable,
                 &.TopThreadsTable {
                     .DataGrid_row {
                         &:hover {

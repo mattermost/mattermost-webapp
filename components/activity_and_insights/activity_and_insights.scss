@@ -586,14 +586,26 @@
                         text-decoration: none;
                     }
 
+                    &:nth-of-type(2) {
+                        .horizontal-bar {
+                            opacity: 0.7;
+                        }
+                    }
+
+                    &:nth-of-type(3) {
+                        .horizontal-bar {
+                            opacity: 0.5;
+                        }
+                    }
+
                     .display-info {
                         display: flex;
                         overflow: hidden;
-                        flex: 0.8 0;
+                        flex: 0.6 0;
                         flex-direction: column;
 
                         &.run-info {
-                            flex: 0.2 0;
+                            flex: 0.4 0;
                         }
 
                         .display-name {
