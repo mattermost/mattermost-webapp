@@ -901,7 +901,11 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
     }
 
-    handleUploadError = (err: string | ServerError, clientId = '', channelId = '') => {
+    handleUploadError = (err: string | ServerError, clientId?: string, channelId?: string) => {
+        if (!channelId || !clientId) {
+            return;
+        }
+
         const draft = {...this.draftsForChannel[channelId]!};
 
         let serverError = err;
