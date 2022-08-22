@@ -1425,7 +1425,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                                 placement='top'
                                 delayShow={Constants.OVERLAY_TIME_DELAY}
                                 trigger={Constants.OVERLAY_DEFAULT_TRIGGER}
-                                overlay={(
+                                overlay={this.state.showPostPriorityPicker ? <span/> : (
                                     <Tooltip id='post-priority-picker-tooltip'>
                                         <KeyboardShortcutSequence
                                             shortcut={KEYBOARD_SHORTCUTS.msgPostPriority}
@@ -1438,6 +1438,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                                 <IconContainer
                                     ref={this.postPriorityPickerRef}
                                     className={classNames({control: true, active: this.state.showPostPriorityPicker})}
+                                    disabled={this.props.shouldShowPreview}
                                     type='button'
                                     onClick={this.togglePostPriorityPicker}
                                 >
