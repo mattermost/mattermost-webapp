@@ -17,7 +17,7 @@ const GIF_SEARCH_THROTTLE_TIME_MS = 1000;
 
 function mapStateToProps(state: GlobalState) {
     return {
-        ...state.entities.gifs.search,
+        searchText: state.entities.gifs.search.searchText,
     };
 }
 
@@ -48,7 +48,8 @@ export class Search extends PureComponent<Props> {
         }
     }
 
-    throttledSearchGif = throttle((searchText) => this.props.searchIfNeededInitial(searchText.split('-').join(' ')),
+    throttledSearchGif = throttle(
+        (searchText) => this.props.searchIfNeededInitial(searchText.split('-').join(' ')),
         GIF_SEARCH_THROTTLE_TIME_MS,
     );
 

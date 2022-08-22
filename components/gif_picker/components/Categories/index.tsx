@@ -20,9 +20,9 @@ import './Categories.scss';
 
 function mapStateToProps(state: GlobalState) {
     return {
-        ...state.entities.gifs.categories,
-        ...state.entities.gifs.cache,
-        appProps: state.entities.gifs.app,
+        tagsList: state.entities.gifs.categories.tagsList,
+        hasMore: state.entities.gifs.categories.hasMore,
+        gifs: state.entities.gifs.cache.gifs,
         searchText: state.entities.gifs.search.searchText,
         searchBarText: state.entities.gifs.search.searchBarText,
         hasImageProxy: state.entities.general.config.HasImageProxy,
@@ -50,7 +50,7 @@ type Props = {
     searchTextUpdate: (searchText: string) => void;
     searchBarText: string;
     tagsList: GfycatAPITag[];
-    hasImageProxy: string;
+    hasImageProxy?: string;
 }
 
 export class Categories extends PureComponent<Props> {
@@ -87,9 +87,7 @@ export class Categories extends PureComponent<Props> {
         }) : [];
     }
 
-    loadMore = () => {
-        this.props.requestCategoriesList();
-    }
+    loadMore = () => this.props.requestCategoriesList();
 
     render() {
         const {hasMore, tagsList, gifs, onSearch, onTrending, hasImageProxy} = this.props;
