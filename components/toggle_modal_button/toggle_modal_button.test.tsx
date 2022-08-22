@@ -15,6 +15,7 @@ class TestModal extends React.PureComponent {
         return (
             <Modal
                 show={true}
+                onHide={jest.fn()}
             >
                 <Modal.Header closeButton={true}/>
                 <Modal.Body/>
