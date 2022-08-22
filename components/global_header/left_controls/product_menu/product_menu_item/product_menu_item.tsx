@@ -2,8 +2,11 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+
 import {Link} from 'react-router-dom';
+
 import styled from 'styled-components';
+
 import Icon, {TIconGlyph} from '@mattermost/compass-components/foundations/icon';
 
 export interface ProductMenuItemProps {
@@ -12,6 +15,9 @@ export interface ProductMenuItemProps {
     text: React.ReactNode;
     active: boolean;
     onClick: () => void;
+
+    tourTip?: React.ReactNode;
+    id?: string;
 }
 
 const MenuItem = styled(Link)`
@@ -51,10 +57,11 @@ const MenuItemTextContainer = styled.div`
     line-height: 20px;
 `;
 
-const ProductMenuItem = ({icon, destination, text, active, onClick}: ProductMenuItemProps): JSX.Element => (
+const ProductMenuItem = ({icon, destination, text, active, onClick, tourTip, id}: ProductMenuItemProps): JSX.Element => (
     <MenuItem
         to={destination}
         onClick={onClick}
+        id={id}
     >
         <StyledIcon
             size={20}
@@ -69,6 +76,7 @@ const ProductMenuItem = ({icon, destination, text, active, onClick}: ProductMenu
                 glyph='check'
             />
         )}
+        {tourTip || null}
     </MenuItem>
 );
 
