@@ -35,7 +35,6 @@ describe('Forward Message', () => {
      * @param {string?} comment
      * @param {boolean?} showMore
      * @param {Post} post
-     * @param {Team} team
      */
     const verifyForwardedMessage = ({post, comment, showMore}) => {
         const permaLink = `${Cypress.config('baseUrl')}/${testTeam.name}/pl/${post.id}`;
@@ -67,9 +66,10 @@ describe('Forward Message', () => {
      * Forward Post with optional comment.
      * Has the possibility to also test for the post-error on long comments
      *
-     * @param {string?} channelId
-     * @param {string?} comment
-     * @param {boolean?} testLongComment
+     * @param {string?} options
+     * @param {string?} options.channelId
+     * @param {string?} options.comment
+     * @param {boolean?} options.testLongComment
      */
     const forwardPost = ({channelId, comment = '', testLongComment = false}) => {
         const permalink = `${Cypress.config('baseUrl')}/${testTeam.name}/pl/${testPost.id}`;
@@ -222,7 +222,7 @@ describe('Forward Message', () => {
         cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').should('contain', otherChannel.display_name);
 
         // * Assert post has been forwarded
-        verifyForwardedMessage({post: testPost, team: testTeam});
+        verifyForwardedMessage({post: testPost});
     });
 
     it('MM-T4934_2 Forward root post from public channel to another public channel, long comment', () => {
@@ -244,7 +244,7 @@ describe('Forward Message', () => {
         cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').should('contain', otherChannel.display_name);
 
         // * Assert post has been forwarded
-        verifyForwardedMessage({post: testPost, team: testTeam, comment: longMessage, showMore: true});
+        verifyForwardedMessage({post: testPost, comment: longMessage, showMore: true});
     });
 
     it('MM-T4934_3 Forward reply post from public channel to another public channel', () => {
@@ -267,7 +267,7 @@ describe('Forward Message', () => {
         cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').should('contain', otherChannel.display_name);
 
         // * Assert post has been forwarded
-        verifyForwardedMessage({post: replyPost, team: testTeam});
+        verifyForwardedMessage({post: replyPost});
     });
 
     it('MM-T4934_4 Forward public channel post from global threads', () => {
@@ -290,7 +290,7 @@ describe('Forward Message', () => {
         cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').should('contain', otherChannel.display_name);
 
         // * Assert post has been forwarded
-        verifyForwardedMessage({post: replyPost, team: testTeam});
+        verifyForwardedMessage({post: replyPost});
     });
 
     it('MM-T4934_5 Forward public channel post while viewing Insights', () => {
@@ -316,6 +316,67 @@ describe('Forward Message', () => {
         cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').should('contain', privateChannel.display_name);
 
         // * Assert post has been forwarded
-        verifyForwardedMessage({post: replyPost, team: testTeam});
+        verifyForwardedMessage({post: replyPost});
+    });
+
+    it('MM-T4934_6 Forward public channel post to Private channel', () => {
+        // # Check if ... button is visible in last post right side
+        cy.get(`#CENTER_button_${testPost.id}`).should('not.exist');
+
+        // # Click on ... button of last post
+        cy.clickPostDotMenu(testPost.id);
+
+        // * Assert availability of the Forward menu-item
+        cy.findByText('Forward').click();
+
+        // # Forward Post
+        forwardPost({channelId: privateChannel.id});
+
+        // * Assert switch to testchannel
+        cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').should('contain', privateChannel.display_name);
+
+        // * Assert post has been forwarded
+        verifyForwardedMessage({post: testPost});
+    });
+
+    it('MM-T4934_7 Forward public channel post to GM', () => {
+        // # Check if ... button is visible in last post right side
+        cy.get(`#CENTER_button_${testPost.id}`).should('not.exist');
+
+        // # Click on ... button of last post
+        cy.clickPostDotMenu(testPost.id);
+
+        // * Assert availability of the Forward menu-item
+        cy.findByText('Forward').click();
+
+        // # Forward Post
+        forwardPost({channelId: gmChannel.id});
+
+        // * Assert switch to testchannel
+        const displayName = gmChannel.display_name.split(', ').filter(((username) => username !== user1.username)).join(', ');
+        cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').should('contain', displayName);
+
+        // * Assert post has been forwarded
+        verifyForwardedMessage({post: testPost});
+    });
+
+    it('MM-T4934_8 Forward public channel post to DM', () => {
+        // # Check if ... button is visible in last post right side
+        cy.get(`#CENTER_button_${testPost.id}`).should('not.exist');
+
+        // # Click on ... button of last post
+        cy.clickPostDotMenu(testPost.id);
+
+        // * Assert availability of the Forward menu-item
+        cy.findByText('Forward').click();
+
+        // # Forward Post
+        forwardPost({channelId: dmChannel.id});
+
+        // * Assert switch to testchannel
+        cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').should('contain', dmChannel.display_name);
+
+        // * Assert post has been forwarded
+        verifyForwardedMessage({post: testPost});
     });
 });
