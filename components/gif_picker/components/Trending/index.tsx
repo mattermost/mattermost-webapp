@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React, {PureComponent} from 'react';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import {
@@ -10,6 +9,8 @@ import {
     searchIfNeededInitial,
     saveSearchScrollPosition,
 } from 'mattermost-redux/actions/gifs';
+
+import {GfycatAPIItem} from 'types/external/gfycat';
 
 import SearchGrid from 'components/gif_picker/components/SearchGrid';
 
@@ -19,15 +20,15 @@ const mapDispatchToProps = ({
     saveSearchScrollPosition,
 });
 
-export class Trending extends PureComponent {
-    static propTypes = {
-        handleItemClick: PropTypes.func,
-        onCategories: PropTypes.func,
-        searchCategory: PropTypes.func,
-        searchIfNeededInitial: PropTypes.func,
-        saveSearchScrollPosition: PropTypes.func,
-    }
+type Props = {
+    searchIfNeededInitial: (searchText: string) => void;
+    onCategories: () => void;
+    saveSearchScrollPosition: (scrollPosition: number) => void;
+    handleItemClick: (gif: GfycatAPIItem) => void;
+    searchCategory: (params: {tagName?: string}) => void;
+}
 
+export class Trending extends PureComponent<Props> {
     componentDidMount() {
         this.props.searchIfNeededInitial('trending');
     }
