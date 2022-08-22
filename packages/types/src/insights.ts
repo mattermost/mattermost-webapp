@@ -10,6 +10,7 @@ export enum InsightsWidgetTypes {
     TOP_THREADS = 'TOP_THREADS',
     TOP_BOARDS = 'TOP_BOARDS',
     LEAST_ACTIVE_CHANNELS = 'LEAST_ACTIVE_CHANNELS',
+    TOP_PLAYBOOKS = 'TOP_PLAYBOOKS',
     TOP_DMS = 'TOP_DMS',
     NEW_TEAM_MEMBERS = 'NEW_TEAM_MEMBERS',
 }
@@ -126,6 +127,18 @@ export type LeastActiveChannelsActionResult = {
     data?: LeastActiveChannelsResponse;
     error?: any;
 };
+export type TopPlaybook = {
+    playbook_id: string;
+    num_runs: number;
+    title: string;
+    last_run_at: number;
+};
+
+export type TopPlaybookResponse = {
+    has_next: boolean;
+    items: TopPlaybook[];
+};
+
 type MinUserProfile = {
     id: string;
     first_name: string;
