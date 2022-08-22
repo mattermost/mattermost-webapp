@@ -58,10 +58,10 @@ describe('Forward Message', () => {
 
                 // * Assert the text in the preview matches the original post message
                 cy.get(`#postMessageText_${post.id}`).should('be.visible').should('contain.text', post.message);
-
-                // # Cleanup
-                cy.apiDeletePost(id);
             });
+
+            // # Cleanup
+            cy.apiDeletePost(id);
         });
     };
 

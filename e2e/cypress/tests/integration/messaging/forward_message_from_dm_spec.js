@@ -13,13 +13,15 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Forward Message', () => {
     let user1;
+    let user2;
     let testTeam;
-    let privateChannel;
+    let dmChannel;
     let testPost;
     let replyPost;
 
     const message = 'Forward this message';
     const replyMessage = 'Forward this reply';
+    const commentMessage = 'Comment for the forwarded message';
 
     /**
      * Verify that the post has been forwarded
@@ -61,9 +63,11 @@ describe('Forward Message', () => {
      * Forward Post with optional comment.
      * Has the possibility to also test for the post-error on long comments
      *
-     * @param {boolean?} cancel
+     * @param {object?} options
+     * @param {string?} options.comment
+     * @param {boolean?} options.cancel
      */
-    const forwardPostFromPrivateChannel = (cancel = false) => {
+    const forwardPostFromPrivateChannel = ({comment = '', cancel = false} = {}) => {
         // * Assert visibility of the forward post modal
         cy.get('#forward-post-modal').should('be.visible').within(() => {
             // * Assert channel select is not existent
@@ -73,14 +77,22 @@ describe('Forward Message', () => {
             cy.get('.GenericModal__button.confirm').should('not.be.disabled');
 
             // * Assert Notificatio is shown
-            cy.findByTestId('notification_forward_post').should('be.visible').should('contain.text', `This message is from a private channel and can only be shared with ~${privateChannel.display_name}`);
+            cy.findByTestId('notification_forward_post').should('be.visible').should('contain.text', `This message is from a private conversation and can only be shared with ${dmChannel.display_name}`);
+
+            if (comment) {
+                // # Enter comment
+                cy.get('#forward_post_textbox').invoke('val', comment).trigger('change').type(' {backspace}');
+
+                // * Assert if error message is not present
+                cy.get('label.post-error').should('not.exist');
+            }
 
             if (cancel) {
                 // * Assert if button is active
-                cy.get('.GenericModal__button.cancel').should('not.be.disabled').click();
+                cy.get('.GenericModal__button.cancel').should('not.be.disabled').type('{esc}', {force: true});
             } else {
                 // * Assert if button is active
-                cy.get('.GenericModal__button.confirm').should('not.be.disabled').click();
+                cy.get('.GenericModal__button.confirm').should('not.be.disabled').type('{enter}', {force: true});
             }
         });
     };
@@ -108,29 +120,37 @@ describe('Forward Message', () => {
             // # enable CRT for the user
             cy.apiSaveCRTPreference(user.id, 'on');
 
-            // # Create a private channel
-            return cy.apiCreateChannel(testTeam.id, 'private', 'Private', 'P');
+            // # Create another user
+            return cy.apiCreateUser({prefix: 'second'});
+        }).then(({user}) => {
+            user2 = user;
+
+            // # Add other user to team
+            return cy.apiAddUserToTeam(testTeam.id, user2.id);
+        }).then(() => {
+            // # Create new DM channel
+            return cy.apiCreateDirectChannel([user1.id, user2.id]);
         }).then(({channel}) => {
-            privateChannel = channel;
+            dmChannel = channel;
 
             // # Post a sample message
-            return cy.postMessageAs({sender: user1, message, channelId: privateChannel.id});
+            return cy.postMessageAs({sender: user1, message, channelId: dmChannel.id});
         }).then((post) => {
             testPost = post.data;
 
             // # Post a reply
-            return cy.postMessageAs({sender: user1, message: replyMessage, channelId: privateChannel.id, rootId: testPost.id});
+            return cy.postMessageAs({sender: user1, message: replyMessage, channelId: dmChannel.id, rootId: testPost.id});
         }).then((post) => {
             replyPost = post.data;
 
-            // # Got to Private channel
-            cy.visit(`/${testTeam.name}/channels/${privateChannel.name}`);
+            // # Got to Test channel
+            cy.visit(`/${testTeam.name}/channels/${dmChannel.name}`);
         });
     });
 
     afterEach(() => {
         // # Go to 1. public channel
-        cy.visit(`/${testTeam.name}/channels/${privateChannel.name}`);
+        cy.visit(`/${testTeam.name}/channels/${dmChannel.name}`);
     });
 
     it('MM-T4935_1 Forward root post from private channel', () => {
@@ -147,7 +167,7 @@ describe('Forward Message', () => {
         forwardPostFromPrivateChannel();
 
         // * Assert switch to testchannel
-        cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').should('contain', privateChannel.display_name);
+        cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').should('contain', dmChannel.display_name);
 
         // * Assert post has been forwarded
         verifyForwardedMessage({post: testPost});
@@ -167,10 +187,10 @@ describe('Forward Message', () => {
         cy.findByText('Forward').type('{shift}F');
 
         // # Forward Post
-        forwardPostFromPrivateChannel();
+        forwardPostFromPrivateChannel({comment: commentMessage});
 
         // * Assert switch to testchannel
-        cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').should('contain', privateChannel.display_name);
+        cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').should('contain', dmChannel.display_name);
 
         // * Assert post has been forwarded
         verifyForwardedMessage({post: replyPost});
@@ -187,10 +207,10 @@ describe('Forward Message', () => {
         cy.findByText('Forward').type('{shift}F');
 
         // # Forward Post
-        forwardPostFromPrivateChannel(true);
+        forwardPostFromPrivateChannel({cancel: true});
 
         // * Assert switch to testchannel
-        cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').should('contain', privateChannel.display_name);
+        cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').should('contain', dmChannel.display_name);
 
         // * Assert last post id is identical with testPost
         cy.getLastPostId((id) => {
