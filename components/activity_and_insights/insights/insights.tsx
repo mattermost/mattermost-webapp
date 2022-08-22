@@ -1,16 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {memo, useEffect, useState, useCallback} from 'react';
+import React, {memo, useEffect, useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {selectChannel} from 'mattermost-redux/actions/channels';
 import LocalStorageStore from 'stores/local_storage_store';
+import {useGlobalState} from 'stores/hooks';
 
-import {CardSizes, InsightsWidgetTypes, TimeFrames} from '@mattermost/types/insights';
+import {CardSizes, InsightsWidgetTypes, TimeFrame, TimeFrames} from '@mattermost/types/insights';
 
 import {InsightsScopes, PreviousViewedTypes} from 'utils/constants';
-import {localizeMessage} from 'utils/utils';
 
 import {GlobalState} from 'types/store';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
@@ -21,16 +21,20 @@ import TopChannels from './top_channels/top_channels';
 import TopReactions from './top_reactions/top_reactions';
 import TopThreads from './top_threads/top_threads';
 import TopBoards from './top_boards/top_boards';
+import TopDMsAndNewMembers from './top_dms_and_new_members/top_dms_and_new_members';
 
 import './../activity_and_insights.scss';
 
+type SelectOption = {
+    value: string;
+    label: string;
+}
+
 const Insights = () => {
     const dispatch = useDispatch();
-    const [filterType, setFilterType] = useState(InsightsScopes.MY);
-    const [timeFrame, setTimeFrame] = useState({
-        value: TimeFrames.INSIGHTS_7_DAYS,
-        label: localizeMessage('insights.timeFrame.mediumRange', 'Last 7 days'),
-    });
+
+    const [filterType, setFilterType] = useGlobalState(InsightsScopes.TEAM, 'insightsScope');
+    const [timeFrame, setTimeFrame] = useGlobalState(TimeFrames.INSIGHTS_7_DAYS as string, 'insightsTimeFrame');
     const focalboardEnabled = useSelector((state: GlobalState) => state.plugins.plugins?.focalboard);
 
     const setFilterTypeTeam = useCallback(() => {
@@ -43,8 +47,8 @@ const Insights = () => {
         setFilterType(InsightsScopes.MY);
     }, []);
 
-    const setTimeFrameValue = useCallback((value) => {
-        setTimeFrame(value);
+    const setTimeFrameValue = useCallback((value: SelectOption) => {
+        setTimeFrame(value.value);
     }, []);
 
     const currentUserId = useSelector(getCurrentUserId);
@@ -75,36 +79,40 @@ const Insights = () => {
                     filterType={filterType}
                     widgetType={InsightsWidgetTypes.TOP_CHANNELS}
                     class={'top-channels-card'}
-                    timeFrame={timeFrame.value}
-                    timeFrameLabel={timeFrame.label}
+                    timeFrame={timeFrame as TimeFrame}
                 />
-                <TopThreads
-                    size={focalboardEnabled ? CardSizes.small : CardSizes.medium}
-                    filterType={filterType}
-                    widgetType={InsightsWidgetTypes.TOP_THREADS}
-                    class={'top-threads-card'}
-                    timeFrame={timeFrame.value}
-                    timeFrameLabel={timeFrame.label}
-                />
-                {
-                    focalboardEnabled &&
-                    <TopBoards
-                        size={CardSizes.small}
+                <div className='card-row'>
+                    <TopThreads
+                        size={focalboardEnabled ? CardSizes.small : CardSizes.medium}
                         filterType={filterType}
-                        widgetType={InsightsWidgetTypes.TOP_BOARDS}
-                        class={'top-boards-card'}
-                        timeFrame={timeFrame.value}
-                        timeFrameLabel={timeFrame.label}
+                        widgetType={InsightsWidgetTypes.TOP_THREADS}
+                        class={'top-threads-card'}
+                        timeFrame={timeFrame as TimeFrame}
                     />
-                }
-
-                <TopReactions
-                    size={focalboardEnabled ? CardSizes.small : CardSizes.medium}
+                    {
+                        focalboardEnabled &&
+                        <TopBoards
+                            size={CardSizes.small}
+                            filterType={filterType}
+                            widgetType={InsightsWidgetTypes.TOP_BOARDS}
+                            class={'top-boards-card'}
+                            timeFrame={timeFrame as TimeFrame}
+                        />
+                    }
+                    <TopReactions
+                        size={focalboardEnabled ? CardSizes.small : CardSizes.medium}
+                        filterType={filterType}
+                        widgetType={InsightsWidgetTypes.TOP_REACTIONS}
+                        class={'top-reactions-card'}
+                        timeFrame={timeFrame as TimeFrame}
+                    />
+                </div>
+                <TopDMsAndNewMembers
+                    size={CardSizes.large}
                     filterType={filterType}
-                    widgetType={InsightsWidgetTypes.TOP_REACTIONS}
-                    class={'top-reactions-card'}
-                    timeFrame={timeFrame.value}
-                    timeFrameLabel={timeFrame.label}
+                    widgetType={filterType === InsightsScopes.MY ? InsightsWidgetTypes.TOP_DMS : InsightsWidgetTypes.NEW_TEAM_MEMBERS}
+                    class={'top-dms-card'}
+                    timeFrame={timeFrame as TimeFrame}
                 />
             </div>
         </>

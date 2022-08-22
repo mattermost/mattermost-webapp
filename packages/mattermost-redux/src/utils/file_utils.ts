@@ -5,8 +5,6 @@ import {Files, General} from '../constants';
 import {Client4} from 'mattermost-redux/client';
 import {FileInfo} from '@mattermost/types/files';
 
-const mimeDB = require('mime-db');
-
 export function getFormattedFileSize(file: FileInfo): string {
     const bytes = file.size;
     const fileSizes = [
@@ -50,28 +48,6 @@ export function getFileType(file: FileInfo): string {
         const fileTypeExts = Files[constForFileTypeExtList];
         return fileTypeExts.indexOf(fileExt) > -1;
     }) || 'other';
-}
-
-let extToMime: Record<string, string>;
-function buildExtToMime() {
-    extToMime = {};
-    Object.keys(mimeDB).forEach((key) => {
-        const mime = mimeDB[key];
-        if (mime.extensions) {
-            mime.extensions.forEach((ext: string) => {
-                extToMime[ext] = key;
-            });
-        }
-    });
-}
-
-export function lookupMimeType(filename: string): string {
-    if (!extToMime) {
-        buildExtToMime();
-    }
-
-    const ext = filename.split('.').pop()!.toLowerCase();
-    return extToMime[ext] || 'application/octet-stream';
 }
 
 export function getFileUrl(fileId: string): string {

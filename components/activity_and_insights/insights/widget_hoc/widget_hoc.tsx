@@ -22,7 +22,6 @@ export interface WidgetHocProps {
     filterType: string;
     class: string;
     timeFrame: TimeFrame;
-    timeFrameLabel: string;
 }
 
 function widgetHoc<T>(WrappedComponent: ComponentType<T>) {
@@ -31,17 +30,23 @@ function widgetHoc<T>(WrappedComponent: ComponentType<T>) {
         const dispatch = useDispatch<DispatchFunc>();
 
         const title = useCallback(() => {
-            if (props.filterType === InsightsScopes.MY) {
+            if (props.filterType === InsightsScopes.MY && Object.keys(InsightsCardTitles[props.widgetType].myTitle).length !== 0) {
                 return formatMessage(InsightsCardTitles[props.widgetType].myTitle);
             }
-            return formatMessage(InsightsCardTitles[props.widgetType].teamTitle);
+            if (props.filterType === InsightsScopes.TEAM && Object.keys(InsightsCardTitles[props.widgetType].teamTitle).length !== 0) {
+                return formatMessage(InsightsCardTitles[props.widgetType].teamTitle);
+            }
+            return '';
         }, [props.filterType, props.widgetType]);
 
         const subTitle = useCallback(() => {
-            if (props.filterType === InsightsScopes.MY) {
+            if (props.filterType === InsightsScopes.MY && Object.keys(InsightsCardTitles[props.widgetType].mySubTitle).length !== 0) {
                 return formatMessage(InsightsCardTitles[props.widgetType].mySubTitle);
             }
-            return formatMessage(InsightsCardTitles[props.widgetType].teamSubTitle);
+            if (props.filterType === InsightsScopes.TEAM && Object.keys(InsightsCardTitles[props.widgetType].teamSubTitle).length !== 0) {
+                return formatMessage(InsightsCardTitles[props.widgetType].teamSubTitle);
+            }
+            return '';
         }, [props.filterType, props.widgetType]);
 
         const openInsightsModal = useCallback(() => {
@@ -55,10 +60,9 @@ function widgetHoc<T>(WrappedComponent: ComponentType<T>) {
                     subtitle: subTitle(),
                     filterType: props.filterType,
                     timeFrame: props.timeFrame,
-                    timeFrameLabel: props.timeFrameLabel,
                 },
             }));
-        }, [props.widgetType, title, subTitle, props.filterType, props.timeFrame, props.timeFrameLabel]);
+        }, [props.widgetType, title, subTitle, props.filterType, props.timeFrame]);
 
         return (
             <InsightsCard

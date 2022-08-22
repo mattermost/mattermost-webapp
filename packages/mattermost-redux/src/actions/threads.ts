@@ -4,33 +4,25 @@
 import {uniq} from 'lodash';
 import {batchActions} from 'redux-batched-actions';
 
-import {ThreadTypes, PostTypes, UserTypes} from 'mattermost-redux/action_types';
-import {Client4} from 'mattermost-redux/client';
-
-import ThreadConstants from 'mattermost-redux/constants/threads';
-
-import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-
 import type {UserThread, UserThreadList} from '@mattermost/types/threads';
-
 import {Post} from '@mattermost/types/posts';
 
+import {ThreadTypes, PostTypes, UserTypes} from 'mattermost-redux/action_types';
+import {Client4} from 'mattermost-redux/client';
+import ThreadConstants from 'mattermost-redux/constants/threads';
+import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
-
 import {getMissingFilesByPosts} from 'mattermost-redux/actions/files';
-
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-
 import {getThreadsInChannel, getThread as getThreadSelector} from 'mattermost-redux/selectors/entities/threads';
-
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
-
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {makeGetPostsForThread} from 'mattermost-redux/selectors/entities/posts';
 
 import {logError} from './errors';
 import {forceLogoutIfNecessary} from './helpers';
+import {getPostThread} from './posts';
 
 type ExtendedPost = Post & { system_post_ids?: string[] };
 
@@ -172,7 +164,6 @@ export function getCountsAndThreadsSince(userId: string, teamId: string, since?:
 export function handleThreadArrived(dispatch: DispatchFunc, getState: GetStateFunc, threadData: UserThread, teamId: string, previousUnreadReplies?: number, previousUnreadMentions?: number) {
     const state = getState();
     const currentUserId = getCurrentUserId(state);
-    const currentTeamId = getCurrentTeamId(state);
     const crtEnabled = isCollapsedThreadsEnabled(state);
     const thread = {...threadData, is_following: true};
 
@@ -206,18 +197,19 @@ export function handleThreadArrived(dispatch: DispatchFunc, getState: GetStateFu
         (previousUnreadMentions != null && previousUnreadReplies != null) ||
         oldThreadData != null
     ) {
-        handleReadChanged(
-            dispatch,
-            thread.id,
-            teamId || currentTeamId,
-            thread.post.channel_id,
-            {
-                lastViewedAt: thread.last_viewed_at,
-                prevUnreadMentions: oldThreadData?.unread_mentions ?? previousUnreadMentions,
-                newUnreadMentions: thread.unread_mentions,
-                prevUnreadReplies: oldThreadData?.unread_replies ?? previousUnreadReplies,
-                newUnreadReplies: thread.unread_replies,
-            },
+        dispatch(
+            handleReadChanged(
+                thread.id,
+                teamId,
+                thread.post.channel_id,
+                {
+                    lastViewedAt: thread.last_viewed_at,
+                    prevUnreadMentions: oldThreadData?.unread_mentions ?? previousUnreadMentions,
+                    newUnreadMentions: thread.unread_mentions,
+                    prevUnreadReplies: oldThreadData?.unread_replies ?? previousUnreadReplies,
+                    newUnreadReplies: thread.unread_replies,
+                },
+            ),
         );
     }
 
@@ -282,6 +274,33 @@ export function markThreadAsUnread(userId: string, teamId: string, threadId: str
     };
 }
 
+export function markLastPostInThreadAsUnread(userId: string, teamId: string, threadId: string) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const getPostsForThread = makeGetPostsForThread();
+        let posts = getPostsForThread(getState(), threadId);
+
+        const state = getState();
+        const thread = getThreadSelector(state, threadId);
+
+        // load posts in thread if they are not loaded already
+        if (thread?.reply_count === posts.length - 1) {
+            dispatch(markThreadAsUnread(userId, teamId, threadId, posts[0].id));
+        } else {
+            dispatch(getPostThread(threadId)).then(({data, error}) => {
+                if (data) {
+                    posts = getPostsForThread(getState(), threadId);
+                    dispatch(markThreadAsUnread(userId, teamId, threadId, posts[0].id));
+                } else if (error) {
+                    return {error};
+                }
+                return {};
+            });
+        }
+
+        return {};
+    };
+}
+
 export function updateThreadRead(userId: string, teamId: string, threadId: string, timestamp: number) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         try {
@@ -297,7 +316,6 @@ export function updateThreadRead(userId: string, teamId: string, threadId: strin
 }
 
 export function handleReadChanged(
-    dispatch: DispatchFunc,
     threadId: string,
     teamId: string,
     channelId: string,
@@ -315,19 +333,25 @@ export function handleReadChanged(
         newUnreadReplies: number;
     },
 ) {
-    dispatch({
-        type: ThreadTypes.READ_CHANGED_THREAD,
-        data: {
-            id: threadId,
-            teamId,
-            channelId,
-            lastViewedAt,
-            prevUnreadMentions,
-            newUnreadMentions,
-            prevUnreadReplies,
-            newUnreadReplies,
-        },
-    });
+    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState();
+        const channel = getChannel(state, channelId);
+
+        return dispatch({
+            type: ThreadTypes.READ_CHANGED_THREAD,
+            data: {
+                id: threadId,
+                teamId,
+                channelId,
+                lastViewedAt,
+                prevUnreadMentions,
+                newUnreadMentions,
+                prevUnreadReplies,
+                newUnreadReplies,
+                channelType: channel.type,
+            },
+        });
+    };
 }
 
 export function handleFollowChanged(dispatch: DispatchFunc, threadId: string, teamId: string, following: boolean) {

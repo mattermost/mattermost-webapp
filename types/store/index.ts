@@ -18,6 +18,5 @@ export type GlobalState = BaseGlobalState & {
         storage: Record<string, any>;
         initialized: boolean;
     };
-
     views: ViewsState;
 };
