@@ -25,6 +25,7 @@ const mapDispatchToProps = ({
 
 export class Search extends PureComponent {
     static propTypes = {
+        appProps: PropTypes.object,
         handleItemClick: PropTypes.func,
         onCategories: PropTypes.func,
         searchText: PropTypes.string,
