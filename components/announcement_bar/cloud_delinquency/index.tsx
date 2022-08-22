@@ -6,8 +6,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useSelector} from 'react-redux';
 
-import {useHistory} from 'react-router-dom';
-
 import {t} from 'utils/i18n';
 import {
     AnnouncementBarTypes,
@@ -22,7 +20,6 @@ import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurch
 
 const CloudDelinquencyAnnouncementBar = () => {
     const subscription = useGetSubscription();
-    const history = useHistory();
     const openPurchaseModal = useOpenCloudPurchaseModal({isDelinquencyModal: true});
     const currentUser = useSelector((state: GlobalState) =>
         getCurrentUser(state),

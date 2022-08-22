@@ -661,7 +661,6 @@ class PurchaseModal extends React.PureComponent<Props, State> {
     }
 
     render() {
-        console.log(this.props.invoices);
         if (!stripePromise) {
             stripePromise = loadStripe(STRIPE_PUBLIC_KEY);
         }

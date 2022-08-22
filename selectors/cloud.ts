@@ -57,8 +57,10 @@ export const getCloudDelinquentInvoices = createSelector(
         if (!invoices) {
             return [];
         }
-        for (const [id, invoice] of Object.entries(invoices)) {
-            if (invoice.status === 'failed') {
+
+        // No first element in the destructure, because we don't care about the object key
+        for (const [, invoice] of Object.entries(invoices)) {
+            if (invoice.status !== 'paid' && invoice.total > 0) {
                 delinquentInvoices.push(invoice);
             }
         }
