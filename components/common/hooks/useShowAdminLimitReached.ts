@@ -12,6 +12,7 @@ import {closeModal, openModal} from 'actions/views/modals';
 import {ModalIdentifiers, Preferences} from 'utils/constants';
 
 import CloudUsageModal from 'components/cloud_usage_modal';
+import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 
 import {t} from 'utils/i18n';
 
@@ -31,6 +32,7 @@ export default function useShowAdminLimitReached() {
         Preferences.CATEGORY_CLOUD_LIMITS,
         Preferences.SHOWN_LIMITS_REACHED_ON_LOGIN,
     );
+    const openPricingModal = useOpenPricingModal();
 
     if (!limitsLoaded || !usage.messages.historyLoaded || messageLimit === undefined || !needsLoggedInLimitReachedCheck || shownLimitsReachedOnLogin === 'true') {
         return;
@@ -42,8 +44,6 @@ export default function useShowAdminLimitReached() {
             modalId: ModalIdentifiers.CLOUD_LIMITS,
             dialogType: CloudUsageModal,
             dialogProps: {
-
-                // backdropClassName: 'cloud-usage-backdrop',
                 title: {
                     id: t('workspace_limits.modals.limits_reached.title'),
                     defaultMessage: '{limitName} limit reached',
@@ -65,6 +65,16 @@ export default function useShowAdminLimitReached() {
                     },
                     onClick: () => {
                         dispatch(closeModal(ModalIdentifiers.CLOUD_LIMITS));
+                    },
+                },
+                primaryAction: {
+                    message: {
+                        id: t('workspace_limits.modals.view_plan_options'),
+                        defaultMessage: 'View plan options',
+                    },
+                    onClick: () => {
+                        dispatch(closeModal(ModalIdentifiers.CLOUD_LIMITS));
+                        openPricingModal({trackingLocation: 'admin_login_limit_reached_dashboard'});
                     },
                 },
                 onClose: () => {
