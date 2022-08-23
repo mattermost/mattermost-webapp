@@ -19,8 +19,8 @@ const VERTICAL_PADDING = 168;
 const SCROLL_SENSITIVITY = 0.003;
 const MAX_ZOOM = 5;
 
-let zoom: number;
-let minZoom: number;
+let zoomExport: number;
+let minZoomExport: number;
 
 interface Props {
     fileInfo: FileInfo & LinkInfo;
@@ -49,7 +49,10 @@ export default function ImagePreview({fileInfo, toolbarZoom, setToolbarZoom}: Pr
     const {width, height} = background;
     const containerScale = fitCanvas(width, height);
 
-    minZoom = Math.min(containerScale, 1);
+    const zoom = useRef(0);
+    const minZoom = useRef(0);
+
+    minZoom.current = Math.min(containerScale, 1);
     const maxCanvasZoom = containerScale;
 
     let isFullscreen = {horizontal: false, vertical: false};
@@ -58,16 +61,16 @@ export default function ImagePreview({fileInfo, toolbarZoom, setToolbarZoom}: Pr
     // Set the zoom given by the toolbar dropdown
     switch (toolbarZoom) {
     case 'A':
-        zoom = minZoom;
+        zoom.current = minZoom.current;
         break;
     case 'W':
-        zoom = getWindowDimensions().maxWidth / width;
+        zoom.current = getWindowDimensions().maxWidth / width;
         break;
     case 'H':
-        zoom = getWindowDimensions().maxHeight / height;
+        zoom.current = getWindowDimensions().maxHeight / height;
         break;
     default:
-        zoom = toolbarZoom;
+        zoom.current = toolbarZoom;
         break;
     }
 
@@ -78,7 +81,7 @@ export default function ImagePreview({fileInfo, toolbarZoom, setToolbarZoom}: Pr
     const touch = useRef({x: 0, y: 0});
     const canvasBorder = useRef({w: 0, h: 0});
     const isMouseDown = useRef(false);
-    const containerRef = useRef(null);
+    const containerRef = useRef<HTMLDivElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
     const isExternalFile = !fileInfo.id;
@@ -98,7 +101,7 @@ export default function ImagePreview({fileInfo, toolbarZoom, setToolbarZoom}: Pr
         const {w, h} = canvasBorder.current;
         const {horizontal, vertical} = isFullscreen;
 
-        if (zoom <= maxCanvasZoom) {
+        if (zoom.current <= maxCanvasZoom) {
             return {xPos: 0, yPos: 0};
         }
 
@@ -112,8 +115,8 @@ export default function ImagePreview({fileInfo, toolbarZoom, setToolbarZoom}: Pr
         event.persist();
         const {deltaY} = event;
         if (!dragging) {
-            zoom = clamp(zoom + (deltaY * SCROLL_SENSITIVITY * -1), minZoom, MAX_ZOOM);
-            setToolbarZoom(zoom === minZoom ? 'A' : zoom);
+            zoom.current = clamp(zoom.current + (deltaY * SCROLL_SENSITIVITY * -1), minZoom.current, MAX_ZOOM);
+            setToolbarZoom(zoom.current === minZoom.current ? 'A' : zoom.current);
         }
     };
 
@@ -174,8 +177,8 @@ export default function ImagePreview({fileInfo, toolbarZoom, setToolbarZoom}: Pr
             context.imageSmoothingQuality = 'high';
 
             // Resize canvas to current zoom level
-            canvasRef.current.width = width * zoom;
-            canvasRef.current.height = height * zoom;
+            canvasRef.current.width = width * zoom.current;
+            canvasRef.current.height = height * zoom.current;
 
             // Update borders and clamp offset accordingly
             canvasBorder.current = {w: context.canvas.offsetLeft, h: context.canvas.offsetTop - 72 - 48};
@@ -188,7 +191,7 @@ export default function ImagePreview({fileInfo, toolbarZoom, setToolbarZoom}: Pr
             const {xPos, yPos} = clampOffset(offset.x, offset.y);
             context.translate(-xPos, -yPos);
 
-            context.drawImage(background, 0, 0, width * zoom, height * zoom);
+            context.drawImage(background, 0, 0, width * zoom.current, height * zoom.current);
         }
     }
 
@@ -206,9 +209,12 @@ export default function ImagePreview({fileInfo, toolbarZoom, setToolbarZoom}: Pr
 
     const containerClass = classNames({
         image_preview_div: true,
-        fullscreen: zoom >= maxCanvasZoom,
-        normal: zoom < maxCanvasZoom,
+        fullscreen: zoom.current >= maxCanvasZoom,
+        normal: zoom.current < maxCanvasZoom,
     });
+
+    zoomExport = zoom.current;
+    minZoomExport = minZoom.current;
 
     return (
         <div
@@ -228,4 +234,4 @@ export default function ImagePreview({fileInfo, toolbarZoom, setToolbarZoom}: Pr
     );
 }
 
-export {zoom, minZoom};
+export {zoomExport, minZoomExport};
