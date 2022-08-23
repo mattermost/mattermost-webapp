@@ -135,6 +135,7 @@ var config = {
         publicPath,
         filename: '[name].[contenthash].js',
         chunkFilename: '[name].[contenthash].js',
+        clean: true,
     },
     module: {
         rules: [
