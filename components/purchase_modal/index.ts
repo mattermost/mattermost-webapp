@@ -32,6 +32,8 @@ const PurchaseModal = makeAsyncComponent('PurchaseModal', React.lazy(() => impor
 function mapStateToProps(state: GlobalState) {
     const subscription = state.entities.cloud.subscription;
 
+    const isDelinquencyModal = Boolean(state.entities.cloud.subscription?.delinquent_since);
+
     return {
         show: isModalOpen(state, ModalIdentifiers.CLOUD_PURCHASE),
         products: state.entities.cloud!.products,
@@ -45,6 +47,7 @@ function mapStateToProps(state: GlobalState) {
         customer: state.entities.cloud.customer,
         currentTeam: getCurrentTeam(state),
         theme: getTheme(state),
+        isDelinquencyModal,
     };
 }
 type Actions = {

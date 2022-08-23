@@ -20,7 +20,7 @@ import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurch
 
 const CloudDelinquencyAnnouncementBar = () => {
     const subscription = useGetSubscription();
-    const openPurchaseModal = useOpenCloudPurchaseModal({isDelinquencyModal: true});
+    const openPurchaseModal = useOpenCloudPurchaseModal({});
     const currentUser = useSelector((state: GlobalState) =>
         getCurrentUser(state),
     );

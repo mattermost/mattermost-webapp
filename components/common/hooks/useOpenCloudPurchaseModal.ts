@@ -29,7 +29,6 @@ export default function useOpenCloudPurchaseModal(options: OpenPurchaseModalOpti
             dialogType: PurchaseModal,
             dialogProps: {
                 callerCTA: telemetryProps.trackingLocation,
-                isDelinquencyModal: Boolean(options.isDelinquencyModal),
             },
         }));
     };
