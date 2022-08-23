@@ -43,6 +43,7 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
         callToAction,
         a: (chunks: React.ReactNode | React.ReactNodeArray) => (
             <a
+                id='view_plans_cta'
                 onClick={() => openPricingModal({trackingLocation: callerInfo})}
             >
                 {chunks}

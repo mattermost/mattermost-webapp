@@ -89,7 +89,7 @@ export default function OpenPricingModalPost(props: {post: Post}) {
         getUserIdsForUsersThatRequestedFeature(requests).forEach((userId: string) => {
             const profile = userProfiles[userId];
             if (profile === undefined) {
-                userNames.push('@unknown');
+                userNames.push(formatMessage({id: 'postypes.custom_open_pricing_modal_post_renderer.unknown', defaultMessage: '@unknown'}));
             } else {
                 userNames.push('@' + profile?.username);
             }
@@ -100,7 +100,10 @@ export default function OpenPricingModalPost(props: {post: Post}) {
 
     const renderUsersThatRequestedFeature = (requests: FeatureRequest[]) => {
         if (requests.length >= 5) {
-            return `${requests.length} members `;
+            return formatMessage({
+                id: 'postypes.custom_open_pricing_modal_post_renderer.members',
+                defaultMessage: '{members} members'},
+            {members: requests.length});
         }
 
         let renderedUsers;
@@ -111,7 +114,7 @@ export default function OpenPricingModalPost(props: {post: Post}) {
             renderedUsers = users[0];
         } else {
             const lastUser = users.splice(-1, 1)[0];
-            users.push('and ' + lastUser);
+            users.push(formatMessage({id: 'postypes.custom_open_pricing_modal_post_renderer.and', defaultMessage: 'and '}) + lastUser);
             renderedUsers = users.join(', ').replace(/,([^,]*)$/, '$1');
         }
 
@@ -129,6 +132,7 @@ export default function OpenPricingModalPost(props: {post: Post}) {
         case NonAdminPaidFeatures.GUEST_ACCOUNTS:
         case NonAdminPaidFeatures.CREATE_MULTIPLE_TEAMS:
             return MinimumPlansForFeature.Professional;
+        case NonAdminPaidFeatures.ALL_ENTERPRISE_FEATURES:
         case NonAdminPaidFeatures.CUSTOM_USER_GROUPS:
             allProfessional = false;
             return MinimumPlansForFeature.Enterprise;
@@ -148,7 +152,7 @@ export default function OpenPricingModalPost(props: {post: Post}) {
                     </span>
                     <span>
                         <Markdown
-                            message={` - available on the ${mapFeatureToPlan(featureName)}`}
+                            message={formatMessage({id: 'postypes.custom_open_pricing_modal_post_renderer.availableOn', defaultMessage: ' - available on the {feature}'}, {feature: mapFeatureToPlan(featureName)})}
                             options={{...markDownOptions, atSumOfMembersMentions: false}}
                         />
                     </span>
@@ -157,7 +161,8 @@ export default function OpenPricingModalPost(props: {post: Post}) {
                 <ul id={`${featureName}-subtitle`.replaceAll(' ', '-')}>
                     <li>
                         <Markdown
-                            message={`${renderUsersThatRequestedFeature(requestFeatures[featureName])} requested access to this feature`}
+                            postId={props.post.id}
+                            message={formatMessage({id: 'postypes.custom_open_pricing_modal_post_renderer.userRequests', defaultMessage: '{userRequests} requested access to this feature'}, {userRequests: renderUsersThatRequestedFeature(requestFeatures[featureName])})}
                             options={markDownOptions}
                             userIds={getUserIdsForUsersThatRequestedFeature(requestFeatures[featureName])}
                             messageMetadata={{requestedFeature: featureName}}
@@ -188,10 +193,11 @@ export default function OpenPricingModalPost(props: {post: Post}) {
             return (
                 <>
                     <button
+                        id='learn_more_about_trial'
                         onClick={openLearnMoreTrialModal}
                         style={btnStyle}
                     >
-                        {'Learn more about trial'}
+                        {formatMessage({id: 'postypes.custom_open_pricing_modal_post_renderer.learn_trial', defaultMessage: 'Learn more about trial'})}
                     </button>
                     <button
                         onClick={() => openPricingModal({trackingLocation: 'notify_admin_message_view_upgrade_options'})}
@@ -211,7 +217,7 @@ export default function OpenPricingModalPost(props: {post: Post}) {
                         onClick={() => openPurchaseModal({trackingLocation: 'notify_admin_message_view'})}
                         style={btnStyle}
                     >
-                        {'Upgrade to Professional'}
+                        {formatMessage({id: 'postypes.custom_open_pricing_modal_post_renderer.upgrade_professional', defaultMessage: 'Upgrade to Professional'})}
                     </button>
                     <button
                         id='view_upgrade_options'

@@ -229,10 +229,11 @@ function Content(props: ContentProps) {
                                 />) : undefined}
                         planExtraInformation={(!isAdmin && (isStarter || isEnterpriseTrial)) ? (
                             <NotifyAdminCTA
+                                preTrial={isPreTrial}
                                 notifyRequestData={{
                                     required_feature: NonAdminPaidFeatures.ALL_PROFESSIONAL_FEATURES,
                                     required_plan: CloudProducts.PROFESSIONAL,
-                                    trial_notification: false}}
+                                    trial_notification: isPreTrial}}
                                 callerInfo='professional_plan_pricing_modal_card'
                             />) : undefined}
                         buttonDetails={{
@@ -285,8 +286,8 @@ function Content(props: ContentProps) {
                                 preTrial={isPreTrial}
                                 callerInfo='enterprise_plan_pricing_modal_card'
                                 notifyRequestData={{
-                                    required_feature: NonAdminPaidFeatures.ALL_PROFESSIONAL_FEATURES,
-                                    required_plan: CloudProducts.PROFESSIONAL,
+                                    required_feature: NonAdminPaidFeatures.ALL_ENTERPRISE_FEATURES,
+                                    required_plan: CloudProducts.ENTERPRISE,
                                     trial_notification: isPreTrial}}
                             />) : undefined}
                         buttonDetails={(isPostTrial || !isAdmin) ? {

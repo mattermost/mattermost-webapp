@@ -125,6 +125,7 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
                 const mentionName = node.attribs[mentionAttrib];
                 const sumOfMembersMention = (
                     <AtSumOfMembersMention
+                        postId={options.postId}
                         userIds={options.userIds}
                         messageMetadata={options.messageMetadata}
                         text={mentionName}

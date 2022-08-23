@@ -6,6 +6,7 @@ import React, {useState} from 'react';
 import NotificationFromMembersModal from './notifcation_from_members_modal';
 
 type Props = {
+    postId: string;
     text: string;
     userIds: string[];
     messageMetadata: Record<string, string>;
@@ -26,7 +27,7 @@ function AtSumOfMembersMention(props: Props) {
                 feature={props.messageMetadata.requestedFeature}
             />
             <a
-                id='at_sum_of_members_mention'
+                id={`${props.postId}_at_sum_of_members_mention`}
                 onClick={() => {
                     setShow(true);
                 }}

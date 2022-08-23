@@ -111,7 +111,7 @@ function NotifyAdminCTA(props: Props) {
                     </StyledA>
                 </span>
             ) : (
-                <Span>
+                <Span id='notify_cta_container'>
                     {title}
                     <StyledA
                         id='notify_admin_cta'
