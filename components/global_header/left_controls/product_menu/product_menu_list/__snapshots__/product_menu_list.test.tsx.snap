@@ -470,9 +470,11 @@ exports[`components/global/product_switcher_menu should match userGroups snapsho
   sibling={
     <RestrictedIndicator
       blocked={true}
+      feature="Custom User groups"
       messageAdminPostTrial="User groups are a way to organize users and apply actions to all users within that group. Upgrade to the Professional plan to create unlimited user groups."
       messageAdminPreTrial="Create unlimited user groups with one of our paid plans. Get the full experience of Enterprise when you start a free, 30 day trial."
       messageEndUser="User groups are a way to organize users and apply actions to all users within that group."
+      minimumPlanRequiredForFeature="cloud-professional"
       titleAdminPostTrial="Upgrade to create unlimited user groups"
       titleAdminPreTrial="Try unlimited user groups with a free trial"
       titleEndUser="User groups available in paid plans"
@@ -512,9 +514,11 @@ exports[`components/global/product_switcher_menu should match userGroups snapsho
   sibling={
     <RestrictedIndicator
       blocked={false}
+      feature="Custom User groups"
       messageAdminPostTrial="User groups are a way to organize users and apply actions to all users within that group. Upgrade to the Professional plan to create unlimited user groups."
       messageAdminPreTrial="Create unlimited user groups with one of our paid plans. Get the full experience of Enterprise when you start a free, 30 day trial."
       messageEndUser="User groups are a way to organize users and apply actions to all users within that group."
+      minimumPlanRequiredForFeature="cloud-professional"
       titleAdminPostTrial="Upgrade to create unlimited user groups"
       titleAdminPreTrial="Try unlimited user groups with a free trial"
       titleEndUser="User groups available in paid plans"
