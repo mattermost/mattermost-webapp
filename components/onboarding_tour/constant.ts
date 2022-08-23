@@ -15,11 +15,14 @@ export const AutoTourStatus = {
 // this should be used as for the tours related to channels
 export const ChannelsTour = 'channels_tour';
 
+export const OtherToolsTour = 'other_tools_tour';
+
 export const TutorialTourName = {
     ONBOARDING_TUTORIAL_STEP: 'tutorial_step',
     CRT_TUTORIAL_STEP: 'crt_tutorial_step',
     CRT_THREAD_PANE_STEP: 'crt_thread_pane_step',
     AUTO_TOUR_STATUS: 'auto_tour_status',
+    EXPLORE_OTHER_TOOLS: 'explore_tools',
 };
 
 export const OnboardingTourSteps = {
@@ -28,6 +31,12 @@ export const OnboardingTourSteps = {
     INVITE_PEOPLE: 2,
     SEND_MESSAGE: 3,
     CUSTOMIZE_EXPERIENCE: 4,
+    FINISHED,
+};
+
+export const ExploreOtherToolsTourSteps = {
+    BOARDS_TOUR: 0,
+    PLAYBOOKS_TOUR: 1,
     FINISHED,
 };
 
@@ -48,4 +57,5 @@ export const TTNameMapToATStatusKey = {
     [TutorialTourName.ONBOARDING_TUTORIAL_STEP]: TutorialTourName.ONBOARDING_TUTORIAL_STEP + AutoStatusSuffix,
     [TutorialTourName.CRT_TUTORIAL_STEP]: TutorialTourName.CRT_TUTORIAL_STEP + AutoStatusSuffix,
     [TutorialTourName.CRT_THREAD_PANE_STEP]: [TutorialTourName.CRT_THREAD_PANE_STEP] + AutoStatusSuffix,
+    [TutorialTourName.EXPLORE_OTHER_TOOLS]: [TutorialTourName.EXPLORE_OTHER_TOOLS] + AutoStatusSuffix,
 };
