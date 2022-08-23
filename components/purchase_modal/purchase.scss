@@ -249,25 +249,17 @@
                     .delinquency_summary_section {
                         width: 100%;
                         height: 150px;
-                        margin-bottom: 24px;
                         font-weight: 400;
                         letter-spacing: -0.02em;
                         text-align: center;
+                        margin-bottom: 24px;
 
                         .summary-section {
                             background-color: rgba(#1c58d9, 0.08);
                             border-radius: 4px;
 
-                            .summary-title {
-                                padding-top: 8px;
-                                padding-bottom: 12px;
-                                color: #152234;
-                                font-size: 14px;
-                                font-weight: 400;
-                                line-height: 20px;
-                            }
-
                             .summary-total {
+                                padding-top: 8px;
                                 color: #152234;
                                 font-size: 28px;
                                 font-weight: 600;
@@ -275,7 +267,7 @@
                             }
 
                             .view-breakdown {
-                                :hover {
+                                &:hover {
                                     cursor: pointer;
                                 }
 
@@ -291,6 +283,8 @@
                         }
 
                         h4 {
+                            margin-top: 0;
+                            padding-top: 24px;
                             padding-bottom: 16px;
                             border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
                             color: rgba(var(--center-channel-color-rgb), 0.72);

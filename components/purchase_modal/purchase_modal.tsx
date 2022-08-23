@@ -10,9 +10,10 @@ import {Elements} from '@stripe/react-stripe-js';
 
 import {isEmpty} from 'lodash';
 
+import {localizeMessage, getNextBillingDate} from 'utils/utils';
+
 import BillingHistoryModal from 'components/admin_console/billing/billing_history_modal';
 import {CloudCustomer, Product, Invoice} from '@mattermost/types/cloud';
-
 import {trackEvent, pageVisited} from 'actions/telemetry_actions';
 import {
     Constants,
@@ -38,8 +39,6 @@ import PlanLabel from 'components/common/plan_label';
 import {ModalData} from 'types/actions';
 import {Team} from '@mattermost/types/teams';
 import {Theme} from 'mattermost-redux/types/themes';
-
-import {getNextBillingDate} from 'utils/utils';
 
 import PaymentForm from '../payment_form/payment_form';
 
@@ -230,21 +229,31 @@ function DelinquencyCard(props: DelinquencyCardProps) {
     };
     return (
         <div className='PlanCard'>
-            {props.planLabel && props.planLabel}
             <div
                 className='top'
                 style={{backgroundColor: props.topColor}}
             />
             <div className='bottom'>
                 <div className='delinquency_summary_section'>
-                    <h4>{props.plan}</h4>
+                    <h4>
+                        <FormattedMessage
+                            id={'cloud_delinquency.cc_modal.card.totalOwed'}
+                            defaultMessage={'Total Owed'}
+                        />
+                    </h4>
                     <div className={'summary-section'}>
-                        <div className='summary-title'>{'Total owed:'}</div>
                         <div className='summary-total'>{props.price}</div>
                         <div
                             onClick={props.onViewBreakdownClick}
                             className='view-breakdown'
-                        >{'View breakdown'}</div>
+                        >
+                            <FormattedMessage
+                                defaultMessage={'View Breakdown'}
+                                id={
+                                    'cloud_delinquency.cc_modal.card.viewBreakdown'
+                                }
+                            />
+                        </div>
                     </div>
                 </div>
 
@@ -584,82 +593,80 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                     )}
                 </div>
                 <div className='RHS'>
-                    <div
-                        className='plan_comparison'
-                        style={{
-                            marginBottom: `${showPlanLabel ? '51' : '0'}px`,
-                        }} //remove bottom pace when not taken up by PlanLabel
-                    >
-                        {this.comparePlan}
-                    </div>
                     {this.props.isDelinquencyModal ? (
                         <DelinquencyCard
                             topColor='#4A69AC'
-                            plan={'Settle Your Balance'}
+                            plan={''}
                             price={this.getDelinquencyTotalString()}
-                            planBriefing={(<div className='button-description'>{`Upon reactivation you will be charged ${this.getDelinquencyTotalString()}`}</div>)}
+                            planBriefing={
+                                <div className='button-description'>
+                                    <FormattedMessage
+                                        id={'cloud_delinquency.cc_modal.card.buttonDescription'}
+                                        defaultMessage={'Upon reactivation you will be charged {amount}'}
+                                        values={{
+                                            amount: this.getDelinquencyTotalString(),
+                                        }}
+                                    />
+                                </div>
+                            }
                             buttonDetails={{
                                 action: this.handleSubmitClick,
-                                text: 'Re-active',
-                                customClass:
-                                    this.state.paymentInfoIsValid ? ButtonCustomiserClasses.special : ButtonCustomiserClasses.grayed,
-                                disabled:
-                                    !this.state.paymentInfoIsValid,
+                                text: localizeMessage('cloud_delinquency.cc_modal.card.reactivate', 'Re-active'),
+                                customClass: this.state.paymentInfoIsValid ? ButtonCustomiserClasses.special : ButtonCustomiserClasses.grayed,
+                                disabled: !this.state.paymentInfoIsValid,
                             }}
                             onViewBreakdownClick={this.handleViewBreakdownClick}
-                            planLabel={
-                                showPlanLabel ? (
-                                    <PlanLabel
-                                        text={formatMessage({
-                                            id: 'pricing_modal.planLabel.mostPopular',
-                                            defaultMessage: 'MOST POPULAR',
-                                        })}
-                                        bgColor='var(--title-color-indigo-500)'
-                                        color='var(--button-color)'
-                                        firstSvg={<StarMarkSvg/>}
-                                        secondSvg={<StarMarkSvg/>}
-                                    />
-                                ) : undefined
-                            }
                         />
                     ) : (
-                        <Card
-                            topColor='#4A69AC'
-                            plan={this.getPlanNameFromProductName(
-                                this.state.selectedProduct ? this.state.selectedProduct.name : '',
-                            )}
-                            price={`$${this.state.selectedProduct?.price_per_seat?.toString()}`}
-                            rate='/user/month'
-                            planBriefing={this.paymentFooterText()}
-                            buttonDetails={{
-                                action: this.handleSubmitClick,
-                                text: 'Upgrade',
-                                customClass:
-                                    !this.state.paymentInfoIsValid ||
-                                    this.state.selectedProduct?.
-                                        billing_scheme ===
-                                        BillingSchemes.SALES_SERVE ? ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.special,
-                                disabled:
-                                    !this.state.paymentInfoIsValid ||
-                                    this.state.selectedProduct?.
-                                        billing_scheme ===
-                                        BillingSchemes.SALES_SERVE,
-                            }}
-                            planLabel={
-                                showPlanLabel ? (
-                                    <PlanLabel
-                                        text={formatMessage({
-                                            id: 'pricing_modal.planLabel.mostPopular',
-                                            defaultMessage: 'MOST POPULAR',
-                                        })}
-                                        bgColor='var(--title-color-indigo-500)'
-                                        color='var(--button-color)'
-                                        firstSvg={<StarMarkSvg/>}
-                                        secondSvg={<StarMarkSvg/>}
-                                    />
-                                ) : undefined
-                            }
-                        />
+                        <>
+                            <div
+                                className='plan_comparison'
+                                style={{
+                                    marginBottom: `${
+                                        showPlanLabel ? '51' : '0'
+                                    }px`,
+                                }} //remove bottom pace when not taken up by PlanLabel
+                            >
+                                {this.comparePlan}
+                            </div>
+                            <Card
+                                topColor='#4A69AC'
+                                plan={this.getPlanNameFromProductName(
+                                    this.state.selectedProduct ? this.state.selectedProduct.name : '',
+                                )}
+                                price={`$${this.state.selectedProduct?.price_per_seat?.toString()}`}
+                                rate='/user/month'
+                                planBriefing={this.paymentFooterText()}
+                                buttonDetails={{
+                                    action: this.handleSubmitClick,
+                                    text: 'Upgrade',
+                                    customClass:
+                                        !this.state.paymentInfoIsValid ||
+                                        this.state.selectedProduct?.
+                                            billing_scheme ===
+                                            BillingSchemes.SALES_SERVE ? ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.special,
+                                    disabled:
+                                        !this.state.paymentInfoIsValid ||
+                                        this.state.selectedProduct?.
+                                            billing_scheme ===
+                                            BillingSchemes.SALES_SERVE,
+                                }}
+                                planLabel={
+                                    showPlanLabel ? (
+                                        <PlanLabel
+                                            text={formatMessage({
+                                                id: 'pricing_modal.planLabel.mostPopular',
+                                                defaultMessage: 'MOST POPULAR',
+                                            })}
+                                            bgColor='var(--title-color-indigo-500)'
+                                            color='var(--button-color)'
+                                            firstSvg={<StarMarkSvg/>}
+                                            secondSvg={<StarMarkSvg/>}
+                                        />
+                                    ) : undefined
+                                }
+                            />
+                        </>
                     )}
                 </div>
             </div>

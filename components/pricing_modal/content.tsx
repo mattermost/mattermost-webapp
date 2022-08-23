@@ -78,9 +78,15 @@ function Content(props: ContentProps) {
     }
 
     const openCloudPurchaseModal = useOpenCloudPurchaseModal({});
+    const openCloudDelinquencyModal = useOpenCloudPurchaseModal({
+        isDelinquencyModal: true,
+    });
     const openPurchaseModal = (callerInfo: string) => {
         props.onHide();
         const telemetryInfo = props.callerCTA + ' > ' + callerInfo;
+        if (subscription?.delinquent_since) {
+            openCloudDelinquencyModal({trackingLocation: telemetryInfo});
+        }
         openCloudPurchaseModal({trackingLocation: telemetryInfo});
     };
 

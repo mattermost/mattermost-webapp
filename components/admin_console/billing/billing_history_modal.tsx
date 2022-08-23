@@ -4,6 +4,7 @@ import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {Modal} from 'react-bootstrap';
+import {useIntl} from 'react-intl';
 
 import {isModalOpen} from 'selectors/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
@@ -29,6 +30,8 @@ const invoiceListToRecordList = (invoices: Invoice[]) => {
 
 export default function BillingHistoryModal(props: BillingHistoryModalProps) {
     const dispatch = useDispatch();
+    const {formatMessage} = useIntl();
+
     const isBillingHistoryModalOpen = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.BILLING_HISTORY));
 
     if (!props.invoices) {
@@ -52,7 +55,7 @@ export default function BillingHistoryModal(props: BillingHistoryModalProps) {
             className='CloudBillingHistoryModal'
         >
             <Modal.Header closeButton={true}>
-                <Modal.Title>{'Unpaid Invoice(s)'}</Modal.Title>
+                <Modal.Title>{formatMessage({id: 'cloud_billing_history_modal.title', defaultMessage: 'Unpaid Invoice(s)'})}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <BillingHistoryTable invoices={invoiceListToRecordList(props.invoices)}/>
