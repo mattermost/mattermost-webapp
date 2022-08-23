@@ -43,12 +43,12 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
             this.props.actions.getTotalUsersStats();
         }
     }
-    render() {
+
+    getIntroMessage = () => {
         const {
             currentUserId,
             channel,
             creatorName,
-            fullWidth,
             locale,
             enableUserCreation,
             isReadOnly,
@@ -61,16 +61,10 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
             boardComponent,
         } = this.props;
 
-        let centeredIntro = '';
-        if (!fullWidth) {
-            centeredIntro = 'channel-intro--centered';
-        }
-
         if (channel.type === Constants.DM_CHANNEL) {
             return (
                 <DMIntroMessage
                     channel={channel}
-                    centeredIntro={centeredIntro}
                     teammate={teammate}
                     teammateName={teammateName}
                     boardComponent={boardComponent}
@@ -82,7 +76,6 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
             return (
                 <GMIntroMessage
                     channel={channel}
-                    centeredIntro={centeredIntro}
                     profiles={channelProfiles}
                     currentUserId={currentUserId}
                     boardComponent={boardComponent}
@@ -94,7 +87,6 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
             return (
                 <DefaultIntroMessage
                     channel={channel}
-                    centeredIntro={centeredIntro}
                     stats={stats}
                     usersLimit={usersLimit}
                     enableUserCreation={enableUserCreation}
@@ -109,7 +101,6 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
             return (
                 <OffTopicIntroMessage
                     channel={channel}
-                    centeredIntro={centeredIntro}
                     stats={stats}
                     usersLimit={usersLimit}
                     boardComponent={boardComponent}
@@ -121,7 +112,6 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
             return (
                 <StandardIntroMessage
                     channel={channel}
-                    centeredIntro={centeredIntro}
                     stats={stats}
                     usersLimit={usersLimit}
                     locale={locale}
@@ -130,7 +120,25 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
                 />
             );
         }
-
         return null;
+    }
+
+    render() {
+        const introMessage = this.getIntroMessage();
+        const channelIntroId = 'channelIntro';
+
+        let centeredIntro = '';
+        if (!this.props.fullWidth) {
+            centeredIntro = 'channel-intro--centered';
+        }
+
+        return (
+            <div
+                id={channelIntroId}
+                className={'channel-intro ' + centeredIntro}
+            >
+                {introMessage}
+            </div>
+        );
     }
 }

@@ -16,7 +16,6 @@ import SetHeaderButton from '../set_header_button';
 
 type Props = {
     boardComponent?: PluginComponent;
-    centeredIntro: string;
     channel: Channel;
     currentUserId: string;
     profiles: UserProfileRedux[];
@@ -24,13 +23,10 @@ type Props = {
 
 const GMIntroMessage = ({
     boardComponent,
-    centeredIntro,
     channel,
     currentUserId,
     profiles,
 }: Props) => {
-    const channelIntroId = 'channelIntro';
-
     if (profiles.length > 0) {
         const pictures = profiles.
             filter((profile) => profile.id !== currentUserId).
@@ -45,10 +41,7 @@ const GMIntroMessage = ({
             ));
 
         return (
-            <div
-                id={channelIntroId}
-                className={'channel-intro ' + centeredIntro}
-            >
+            <>
                 <div className='post-profile-img__container channel-intro-img'>
                     {pictures}
                 </div>
@@ -68,22 +61,17 @@ const GMIntroMessage = ({
                 <SetHeaderButton
                     channel={channel}
                 />
-            </div>
+            </>
         );
     }
 
     return (
-        <div
-            id={channelIntroId}
-            className={'channel-intro ' + centeredIntro}
-        >
-            <p className='channel-intro-text'>
-                <FormattedMessage
-                    id='intro_messages.group_message'
-                    defaultMessage='This is the start of your group message history with these teammates. Messages and files shared here are not shown to people outside this area.'
-                />
-            </p>
-        </div>
+        <p className='channel-intro-text'>
+            <FormattedMessage
+                id='intro_messages.group_message'
+                defaultMessage='This is the start of your group message history with these teammates. Messages and files shared here are not shown to people outside this area.'
+            />
+        </p>
     );
 };
 

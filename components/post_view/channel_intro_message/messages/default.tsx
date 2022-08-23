@@ -25,7 +25,6 @@ import SetHeaderButton from '../set_header_button';
 
 type Props = {
     boardComponent?: PluginComponent;
-    centeredIntro: string;
     channel: Channel;
     enableUserCreation?: boolean;
     isReadOnly?: boolean;
@@ -36,7 +35,6 @@ type Props = {
 
 const DefaultIntroMessage = ({
     boardComponent,
-    centeredIntro,
     channel,
     enableUserCreation,
     isReadOnly,
@@ -45,7 +43,6 @@ const DefaultIntroMessage = ({
     usersLimit,
 }: Props) => {
     let teamInviteLink = null;
-    const channelIntroId = 'channelIntro';
     const totalUsers = stats.total_users_count;
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
 
@@ -118,10 +115,7 @@ const DefaultIntroMessage = ({
     }
 
     return (
-        <div
-            id={channelIntroId}
-            className={'channel-intro ' + centeredIntro}
-        >
+        <>
             <h2 className='channel-intro__title'>
                 <FormattedMessage
                     id='intro_messages.beginning'
@@ -155,7 +149,7 @@ const DefaultIntroMessage = ({
             {teamIsGroupConstrained && boardCreateButton}
             {teamIsGroupConstrained && setHeaderButton}
             <br/>
-        </div>
+        </>
     );
 };
 

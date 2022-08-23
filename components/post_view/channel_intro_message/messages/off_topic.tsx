@@ -18,7 +18,6 @@ import SetHeaderButton from '../set_header_button';
 
 type Props = {
     boardComponent?: PluginComponent;
-    centeredIntro: string;
     channel: Channel;
     stats: any;
     usersLimit: number;
@@ -26,12 +25,10 @@ type Props = {
 
 const OffTopicIntroMessage = ({
     boardComponent,
-    centeredIntro,
     channel,
     stats,
     usersLimit,
 }: Props) => {
-    const channelIntroId = 'channelIntro';
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
     const boardCreateButton = (
         <BoardsButton
@@ -70,10 +67,7 @@ const OffTopicIntroMessage = ({
     );
 
     return (
-        <div
-            id={channelIntroId}
-            className={'channel-intro ' + centeredIntro}
-        >
+        <>
             <h2 className='channel-intro__title'>
                 <FormattedMessage
                     id='intro_messages.beginning'
@@ -93,7 +87,7 @@ const OffTopicIntroMessage = ({
                 />
             </p>
             {channelInviteButton}
-        </div>
+        </>
     );
 };
 

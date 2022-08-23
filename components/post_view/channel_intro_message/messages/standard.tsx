@@ -19,7 +19,6 @@ import SetHeaderButton from '../set_header_button';
 
 type Props = {
     boardComponent?: PluginComponent;
-    centeredIntro: string;
     channel: Channel;
     creatorName: string;
     locale: string;
@@ -29,14 +28,12 @@ type Props = {
 
 const StandardIntroMessage = ({
     boardComponent,
-    centeredIntro,
     channel,
     creatorName,
     locale,
     stats,
     usersLimit,
 }: Props) => {
-    const channelIntroId = 'channelIntro';
     const uiName = channel.display_name;
     let memberMessage;
     const channelIsArchived = channel.delete_at !== 0;
@@ -180,10 +177,7 @@ const StandardIntroMessage = ({
     );
 
     return (
-        <div
-            id={channelIntroId}
-            className={'channel-intro ' + centeredIntro}
-        >
+        <>
             <h2 className='channel-intro__title'>
                 <FormattedMessage
                     id='intro_messages.beginning'
@@ -200,7 +194,7 @@ const StandardIntroMessage = ({
                 <br/>
             </p>
             {channelInviteButton}
-        </div>
+        </>
     );
 };
 

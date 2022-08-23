@@ -17,7 +17,6 @@ import SetHeaderButton from '../set_header_button';
 
 type Props = {
     boardComponent?: PluginComponent;
-    centeredIntro: string;
     channel: Channel;
     teammate?: UserProfileRedux;
     teammateName?: string;
@@ -25,12 +24,10 @@ type Props = {
 
 const DMIntroMessage = ({
     boardComponent,
-    centeredIntro,
     channel,
     teammate,
     teammateName,
 }: Props) => {
-    const channelIntroId = 'channelIntro';
     if (teammate) {
         const src = teammate ? Utils.imageURLForUser(teammate.id, teammate.last_picture_update) : '';
 
@@ -51,10 +48,7 @@ const DMIntroMessage = ({
         }
 
         return (
-            <div
-                id={channelIntroId}
-                className={'channel-intro ' + centeredIntro}
-            >
+            <>
                 <div className='post-profile-img__container channel-intro-img'>
                     <ProfilePicture
                         src={src}
@@ -82,22 +76,17 @@ const DMIntroMessage = ({
                 </p>
                 {boardCreateButton}
                 {setHeaderButton}
-            </div>
+            </>
         );
     }
 
     return (
-        <div
-            id={channelIntroId}
-            className={'channel-intro ' + centeredIntro}
-        >
-            <p className='channel-intro-text'>
-                <FormattedMessage
-                    id='intro_messages.teammate'
-                    defaultMessage='This is the start of your direct message history with this teammate. Direct messages and files shared here are not shown to people outside this area.'
-                />
-            </p>
-        </div>
+        <p className='channel-intro-text'>
+            <FormattedMessage
+                id='intro_messages.teammate'
+                defaultMessage='This is the start of your direct message history with this teammate. Direct messages and files shared here are not shown to people outside this area.'
+            />
+        </p>
     );
 };
 
