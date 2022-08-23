@@ -3,6 +3,7 @@
 
 import React, {useRef, useMemo, useEffect, useState} from 'react';
 import {clamp} from 'lodash';
+import classNames from 'classnames';
 
 import {getFilePreviewUrl, getFileDownloadUrl} from 'mattermost-redux/utils/file_utils';
 import {FileInfo} from '@mattermost/types/files';
@@ -203,10 +204,16 @@ export default function ImagePreview({fileInfo, toolbarZoom, setToolbarZoom}: Pr
         cursorType = 'normal';
     }
 
+    const containerClass = classNames({
+        image_preview_div: true,
+        fullscreen: zoom >= maxCanvasZoom,
+        normal: zoom < maxCanvasZoom,
+    });
+
     return (
         <div
             ref={containerRef}
-            className={`image_preview_div__${zoom >= maxCanvasZoom ? 'fullscreen' : 'normal'}`}
+            className={containerClass}
         >
             <canvas
                 onMouseDown={handleMouseDown}

@@ -1,11 +1,11 @@
 .image_preview_div {
-    &__normal {
+    &.normal {
         display: flex;
         align-items: center;
         text-align: center;
     }
 
-    &__fullscreen {
+    &.fullscreen {
         border-radius: 0;
     }
 }
