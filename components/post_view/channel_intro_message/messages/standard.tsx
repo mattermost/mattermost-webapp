@@ -36,6 +36,7 @@ const StandardIntroMessage = ({
     stats,
     usersLimit,
 }: Props) => {
+    const channelIntroId = 'channelIntro';
     const uiName = channel.display_name;
     let memberMessage;
     const channelIsArchived = channel.delete_at !== 0;
@@ -180,7 +181,7 @@ const StandardIntroMessage = ({
 
     return (
         <div
-            id='channelIntro'
+            id={channelIntroId}
             className={'channel-intro ' + centeredIntro}
         >
             <h2 className='channel-intro__title'>

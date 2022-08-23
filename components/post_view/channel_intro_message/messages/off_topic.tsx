@@ -31,6 +31,7 @@ const OffTopicIntroMessage = ({
     stats,
     usersLimit,
 }: Props) => {
+    const channelIntroId = 'channelIntro';
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
     const boardCreateButton = (
         <BoardsButton
@@ -70,7 +71,7 @@ const OffTopicIntroMessage = ({
 
     return (
         <div
-            id='channelIntro'
+            id={channelIntroId}
             className={'channel-intro ' + centeredIntro}
         >
             <h2 className='channel-intro__title'>

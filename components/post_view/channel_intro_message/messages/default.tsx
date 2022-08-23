@@ -45,6 +45,7 @@ const DefaultIntroMessage = ({
     usersLimit,
 }: Props) => {
     let teamInviteLink = null;
+    const channelIntroId = 'channelIntro';
     const totalUsers = stats.total_users_count;
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
 
@@ -118,7 +119,7 @@ const DefaultIntroMessage = ({
 
     return (
         <div
-            id='channelIntro'
+            id={channelIntroId}
             className={'channel-intro ' + centeredIntro}
         >
             <h2 className='channel-intro__title'>
