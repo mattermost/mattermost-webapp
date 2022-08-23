@@ -45,7 +45,7 @@ function navigationBlock(state = initialState, action: GenericAction) {
     }
 }
 
-function needsLoggedInLimitReachedCheck(state = false, action: GenericAction) {
+export function needsLoggedInLimitReachedCheck(state = false, action: GenericAction) {
     switch (action.type) {
     case ActionTypes.NEEDS_LOGGED_IN_LIMIT_REACHED_CHECK:
         return action.data;

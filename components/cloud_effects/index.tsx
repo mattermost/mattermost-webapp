@@ -19,7 +19,7 @@ export default function CloudEffectsWrapper() {
     }
 
     if (!isSystemAdmin(currentUser.roles)) {
-        return null
+        return null;
     }
 
     // This render can become more complex if need be, rendering multiple

@@ -26,7 +26,7 @@ export default function useShowAdminLimitReached() {
     const intl = useIntl();
     const [limits, limitsLoaded] = useGetLimits();
     const needsLoggedInLimitReachedCheck = useSelector(getNeedsLoggedInLimitReachedCheck);
-    const messageLimit = limits.messages?.history;
+    const messageLimit = limits?.messages?.history;
     const [shownLimitsReachedOnLogin, setShownLimitsReachedOnLogin] = usePreference(
         Preferences.CATEGORY_CLOUD_LIMITS,
         Preferences.SHOWN_LIMITS_REACHED_ON_LOGIN,
