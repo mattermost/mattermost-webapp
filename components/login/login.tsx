@@ -8,8 +8,11 @@ import {useSelector, useDispatch} from 'react-redux';
 import classNames from 'classnames';
 import throttle from 'lodash/throttle';
 
+import {UserProfile} from '@mattermost/types/users';
+
 import {redirectUserToDefaultTeam} from 'actions/global_actions';
 import {addUserToTeamFromInvite} from 'actions/team_actions';
+import {setNeedsLoggedInLimitReachedCheck} from 'actions/views/admin';
 import LocalStorageStore from 'stores/local_storage_store';
 import {login} from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
@@ -17,6 +20,9 @@ import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general
 import {getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
 import {getTeamByName, getMyTeamMember} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {isSystemAdmin} from 'mattermost-redux/utils/user_utils';
+
+import {isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
 import {RequestStatus} from 'mattermost-redux/constants';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {Team} from '@mattermost/types/teams';
@@ -96,6 +102,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
     const experimentalPrimaryTeam = useSelector((state: GlobalState) => (ExperimentalPrimaryTeam ? getTeamByName(state, ExperimentalPrimaryTeam) : undefined));
     const experimentalPrimaryTeamMember = useSelector((state: GlobalState) => getMyTeamMember(state, experimentalPrimaryTeam?.id ?? ''));
     const useCaseOnboarding = useSelector(getUseCaseOnboarding);
+    const isCloud = useSelector(isCurrentLicenseCloud);
 
     const loginIdInput = useRef<HTMLInputElement>(null);
     const passwordInput = useRef<HTMLInputElement>(null);
@@ -511,7 +518,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
     const submit = async ({loginId, password, token}: SubmitOptions) => {
         setIsWaiting(true);
 
-        const {error} = await dispatch(login(loginId, password, token));
+        const {data: userProfile, error} = await dispatch(login(loginId, password, token));
 
         // Ignore MFA required error (actions/views/login.js : ignoreMfaRequiredError)
         if (error && error.server_error_id !== 'api.context.mfa_required.app_error') {
@@ -576,17 +583,21 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
             const {data: team} = await dispatch(addUserToTeamFromInvite(inviteToken, inviteId));
 
             if (team) {
-                finishSignin(team);
+                finishSignin(userProfile, team);
             } else {
                 // there's not really a good way to deal with this, so just let the user log in like normal
-                finishSignin();
+                finishSignin(userProfile);
             }
         } else {
-            finishSignin();
+            finishSignin(userProfile);
         }
     };
 
-    const finishSignin = (team?: Team) => {
+    const finishSignin = (userProfile: UserProfile, team?: Team) => {
+        if (isCloud && isSystemAdmin(userProfile.roles)) {
+            dispatch(setNeedsLoggedInLimitReachedCheck(true));
+        }
+
         const query = new URLSearchParams(search);
         const redirectTo = query.get('redirect_to');
 

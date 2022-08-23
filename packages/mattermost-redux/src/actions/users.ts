@@ -72,8 +72,9 @@ export function login(loginId: string, password: string, mfaToken = '', ldapOnly
 
         const state = getState();
 
+        let profile: UserProfile | undefined;
         try {
-            await Client4.login(loginId, password, mfaToken, ldapOnly);
+            profile = await Client4.login(loginId, password, mfaToken, ldapOnly);
 
             let isSuccessfullyLoggedIn = false;
             if (isGraphQLEnabled(state)) {
@@ -96,7 +97,7 @@ export function login(loginId: string, password: string, mfaToken = '', ldapOnly
             return {error};
         }
 
-        return {data: true};
+        return {data: profile};
     };
 }
 

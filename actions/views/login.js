@@ -3,12 +3,6 @@
 
 import * as UserActions from 'mattermost-redux/actions/users';
 
-export function login(loginId, password, mfaToken) {
-    return (dispatch) => {
-        return ignoreMfaRequiredError(dispatch(UserActions.login(loginId, password, mfaToken)));
-    };
-}
-
 export function loginById(userId, password, mfaToken) {
     return (dispatch) => {
         return ignoreMfaRequiredError(dispatch(UserActions.loginById(userId, password, mfaToken)));

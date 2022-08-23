@@ -25,6 +25,7 @@ import {measurePageLoadTelemetry, trackSelectorMetrics} from 'actions/telemetry_
 import {makeAsyncComponent} from 'components/async_load';
 import CompassThemeProvider from 'components/compass_theme_provider/compass_theme_provider';
 import GlobalHeader from 'components/global_header/global_header';
+import CloudEffects from 'components/cloud_effects';
 import ModalController from 'components/modal_controller';
 import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_route';
 import {HFRoute} from 'components/header_footer_route/header_footer_route';
@@ -542,6 +543,7 @@ export default class Root extends React.PureComponent {
                         )}
                         <ModalController/>
                         <GlobalHeader/>
+                        <CloudEffects/>
                         <OnBoardingTaskList/>
                         <TeamSidebar/>
                         <Switch>
