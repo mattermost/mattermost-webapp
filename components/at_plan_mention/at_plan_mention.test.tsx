@@ -17,7 +17,7 @@ describe('components/AtPlanMention', () => {
         const openSalesLink = jest.fn();
         jest.spyOn(useOpenPricingModal, 'default').mockImplementation(() => openPricingModal);
         jest.spyOn(useOpenCloudPurchaseModal, 'default').mockImplementation(() => openCloudPurchaseModal);
-        jest.spyOn(useOpenSalesLink, 'default').mockImplementation((a) => openSalesLink);
+        jest.spyOn(useOpenSalesLink, 'default').mockImplementation(() => openSalesLink);
 
         const wrapper = shallow(<AtPlanMention plan='Enterprise trial'/>);
         wrapper.find('a').simulate('click', {
@@ -36,7 +36,7 @@ describe('components/AtPlanMention', () => {
         const openSalesLink = jest.fn();
         jest.spyOn(useOpenPricingModal, 'default').mockImplementation(() => openPricingModal);
         jest.spyOn(useOpenCloudPurchaseModal, 'default').mockImplementation(() => openCloudPurchaseModal);
-        jest.spyOn(useOpenSalesLink, 'default').mockImplementation((a) => openSalesLink);
+        jest.spyOn(useOpenSalesLink, 'default').mockImplementation(() => openSalesLink);
 
         const wrapper = shallow(<AtPlanMention plan='Enterprise plan'/>);
         wrapper.find('a').simulate('click', {
@@ -55,7 +55,7 @@ describe('components/AtPlanMention', () => {
         const openSalesLink = jest.fn();
         jest.spyOn(useOpenPricingModal, 'default').mockImplementation(() => openPricingModal);
         jest.spyOn(useOpenCloudPurchaseModal, 'default').mockImplementation(() => openCloudPurchaseModal);
-        jest.spyOn(useOpenSalesLink, 'default').mockImplementation((a) => openSalesLink);
+        jest.spyOn(useOpenSalesLink, 'default').mockImplementation(() => openSalesLink);
 
         const wrapper = shallow(<AtPlanMention plan='Professional plan'/>);
         wrapper.find('a').simulate('click', {
