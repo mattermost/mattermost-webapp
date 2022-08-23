@@ -12,6 +12,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const LiveReloadPlugin = require('webpack-livereload-plugin');
+const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
 
 const NPM_TARGET = process.env.npm_lifecycle_event; //eslint-disable-line no-process-env
 
@@ -134,6 +135,7 @@ var config = {
         publicPath,
         filename: '[name].[contenthash].js',
         chunkFilename: '[name].[contenthash].js',
+        clean: true,
     },
     module: {
         rules: [
@@ -368,6 +370,11 @@ var config = {
                 type: 'image/png',
                 sizes: '96x96',
             }],
+        }),
+        new BundleAnalyzerPlugin({
+            analyzerMode: 'disabled',
+            generateStatsFile: true,
+            statsFilename: 'bundlestats.json',
         }),
     ],
 };

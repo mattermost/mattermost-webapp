@@ -9,6 +9,7 @@ export enum InsightsWidgetTypes {
     TOP_REACTIONS = 'TOP_REACTIONS',
     TOP_THREADS = 'TOP_THREADS',
     TOP_BOARDS = 'TOP_BOARDS',
+    TOP_PLAYBOOKS = 'TOP_PLAYBOOKS',
     TOP_DMS = 'TOP_DMS',
     NEW_TEAM_MEMBERS = 'NEW_TEAM_MEMBERS',
 }
@@ -103,6 +104,18 @@ export type TopBoard = {
 export type TopBoardResponse = {
     has_next: boolean;
     items: TopBoard[];
+};
+
+export type TopPlaybook = {
+    playbook_id: string;
+    num_runs: number;
+    title: string;
+    last_run_at: number;
+};
+
+export type TopPlaybookResponse = {
+    has_next: boolean;
+    items: TopPlaybook[];
 };
 
 type MinUserProfile = {

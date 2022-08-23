@@ -5,6 +5,7 @@ import {bindActionCreators, ActionCreatorsMapObject, Dispatch} from 'redux';
 import {connect} from 'react-redux';
 
 import {Action} from 'mattermost-redux/types/actions';
+import {isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {shouldShowTermsOfService, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getTeam} from 'mattermost-redux/selectors/entities/teams';
@@ -44,6 +45,7 @@ function mapStateToProps(state: GlobalState) {
         plugins,
         products,
         showLaunchingWorkspace: getShowLaunchingWorkspace(state),
+        isCloud: isCurrentLicenseCloud(state),
     };
 }
 
