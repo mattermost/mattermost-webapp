@@ -120,6 +120,7 @@ const FilePreviewModalImageControls = ({toolbarZoom, setToolbarZoom}: Props) => 
     return (
         <div className='image-controls'>
             <button
+                id={'zoomOutButton'}
                 onClick={makeZoomHandler(-0.1)}
                 className={'image-controls__button'}
                 disabled={zoomOutButtonDisabled}
@@ -128,6 +129,7 @@ const FilePreviewModalImageControls = ({toolbarZoom, setToolbarZoom}: Props) => 
             </button>
 
             <button
+                id={'zoomInButton'}
                 onClick={makeZoomHandler(0.1)}
                 className={'image-controls__button'}
                 disabled={zoomInButtonDisabled}
