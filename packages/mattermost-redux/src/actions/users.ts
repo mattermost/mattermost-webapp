@@ -1448,7 +1448,6 @@ export function checkForModifiedUsers() {
 
 export default {
     generateMfaSecret,
-    login,
     logout,
     getProfiles,
     getProfilesByIds,

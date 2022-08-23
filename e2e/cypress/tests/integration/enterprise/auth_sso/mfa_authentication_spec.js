@@ -65,42 +65,43 @@ describe('Authentication', () => {
             cy.findByTestId('userListRow').find('.MenuWrapper a').should('be.visible').click();
             cy.findByText('Remove MFA').should('not.exist');
 
-            // # Login as test user
-            cy.apiLogin(testUser);
-            cy.visit('/');
-
-            // * MFA page is shown
-            cy.findByText('Multi-factor Authentication Setup', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('exist');
+            cy.apiLogout();
         });
+
+        // # Login as test user
+        cy.uiLogin(testUser);
+        cy.wait(TIMEOUTS.THREE_SEC);
+
+        // * MFA page is shown
+        cy.findByText('Multi-factor Authentication Setup', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('exist');
     });
 
     // This test relies on the previous test for having MFA enabled (MM-T1778)
     it('MM-T1781 - MFA - Admin removes another users MFA', () => {
         // # Login as test user
         cy.apiLogin(testUser);
-        cy.visit('/');
+        cy.wait(TIMEOUTS.THREE_SEC);
 
-        let token;
-        cy.url().then((url) => {
-            if (url.includes('mfa/setup')) {
-                // # Complete MFA setup if we are on token setup page /mfa/setup
-                cy.get('#mfa').wait(TIMEOUTS.HALF_SEC).find('.col-sm-12').then((p) => {
-                    const secretp = p.text();
-                    const testUserMFASecret = secretp.split(' ')[1];
+        // # Complete MFA setup which we didnt do for the test user
+        cy.get('#mfa').wait(TIMEOUTS.HALF_SEC).find('.col-sm-12').then((p) => {
+            const secretp = p.text();
+            const testUserMFASecret = secretp.split(' ')[1];
 
-                    token = authenticator.generateToken(testUserMFASecret);
-                    cy.findByPlaceholderText('MFA Code').type(token);
-                    cy.findByText('Save').click();
+            const token = authenticator.generateToken(testUserMFASecret);
+            cy.findByPlaceholderText('MFA Code').type(token);
+            cy.findByText('Save').click();
 
-                    cy.wait(TIMEOUTS.HALF_SEC);
-                    cy.findByText('Okay').click();
-                });
-            }
+            cy.wait(TIMEOUTS.HALF_SEC);
+            cy.findByText('Okay').click();
+
+            cy.apiLogout();
         });
 
+        cy.wait(TIMEOUTS.THREE_SEC);
+
         // # Login back as admin.
-        token = authenticator.generateToken(adminMFASecret);
-        cy.apiLoginWithMFA(mfaSysAdmin, token);
+        const adminMFAToken = authenticator.generateToken(adminMFASecret);
+        cy.apiLoginWithMFA(mfaSysAdmin, adminMFAToken);
 
         // # Navigate to System Console -> User Management -> Users
         cy.visit('/admin_console/user_management/users');
