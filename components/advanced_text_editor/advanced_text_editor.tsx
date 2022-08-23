@@ -94,7 +94,7 @@ type Props = {
     postId: string;
     textboxRef: React.RefObject<TextboxClass>;
     isThreadView?: boolean;
-    enhanceControls?: React.ReactNodeArray;
+    additionalControls?: React.ReactNodeArray;
     labels?: React.ReactNode;
 }
 
@@ -150,7 +150,7 @@ const AdvanceTextEditor = ({
     prefillMessage,
     textboxRef,
     isThreadView,
-    enhanceControls,
+    additionalControls,
     labels,
 }: Props) => {
     const readOnlyChannel = !canPost;
@@ -364,7 +364,7 @@ const AdvanceTextEditor = ({
             getCurrentSelection={getCurrentSelection}
             isOpen={true}
             disableControls={shouldShowPreview}
-            enhanceControls={enhanceControls}
+            additionalControls={additionalControls}
             extraControls={extraControls}
             toggleAdvanceTextEditor={toggleAdvanceTextEditor}
             showFormattingControls={!isFormattingBarHidden}

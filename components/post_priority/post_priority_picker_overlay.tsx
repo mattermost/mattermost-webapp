@@ -15,7 +15,7 @@ type Props = {
     show: boolean;
     priority?: PostPriority;
     target: () => React.RefObject<HTMLButtonElement> | React.ReactInstance | null;
-    onApply: (props: {priority: PostPriority|undefined}) => void;
+    onApply: (props: {priority?: PostPriority}) => void;
     onHide: () => void;
     defaultHorizontalPosition: 'left'|'right';
 };

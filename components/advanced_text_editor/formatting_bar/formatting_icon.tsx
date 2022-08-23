@@ -40,12 +40,6 @@ export const IconContainer = styled.button`
     border-radius: 4px;
     color: rgba(var(--center-channel-color-rgb), 0.56);
 
-    > svg {
-        width: 18px;
-        height: 18px;
-        fill: currentColor;
-    }
-
     &:hover {
         background: rgba(var(--center-channel-color-rgb), 0.08);
         color: rgba(var(--center-channel-color-rgb), 0.72);

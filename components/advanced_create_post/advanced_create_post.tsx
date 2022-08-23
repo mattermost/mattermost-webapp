@@ -1277,7 +1277,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         this.handlePostPriorityApply({priority: undefined});
     }
 
-    handlePostPriorityApply = ({priority}: {priority: PostPriority|undefined}) => {
+    handlePostPriorityApply = ({priority}: {priority?: PostPriority}) => {
         const updatedDraft = {
             ...this.props.draft,
             props: {
@@ -1303,9 +1303,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         }));
     };
 
-    getPostPriorityPickerRef = () => {
-        return this.postPriorityPickerRef.current;
-    };
+    getPostPriorityPickerRef = () => this.postPriorityPickerRef.current;
 
     render() {
         let centerClass = '';
@@ -1411,7 +1409,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                             </div>
                         )
                     )}
-                    enhanceControls={[
+                    additionalControls={[
                         <React.Fragment key='PostPriorityPicker'>
                             <PostPriorityPickerOverlay
                                 priority={this.props.draft?.props?.priority}
@@ -1425,7 +1423,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                                 placement='top'
                                 delayShow={Constants.OVERLAY_TIME_DELAY}
                                 trigger={Constants.OVERLAY_DEFAULT_TRIGGER}
-                                overlay={this.state.showPostPriorityPicker ? <span/> : (
+                                overlay={this.state.showPostPriorityPicker ? <React.Fragment/> : (
                                     <Tooltip id='post-priority-picker-tooltip'>
                                         <KeyboardShortcutSequence
                                             shortcut={KEYBOARD_SHORTCUTS.msgPostPriority}
@@ -1442,7 +1440,10 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                                     type='button'
                                     onClick={this.togglePostPriorityPicker}
                                 >
-                                    <AlertCircleOutlineIcon/>
+                                    <AlertCircleOutlineIcon
+                                        size={18}
+                                        color='currentColor'
+                                    />
                                 </IconContainer>
                             </OverlayTrigger>
                         </React.Fragment>,

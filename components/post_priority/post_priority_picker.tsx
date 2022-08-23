@@ -17,7 +17,7 @@ import './post_priority_picker.scss';
 type Props = {
     priority?: PostPriority;
     onClose: () => void;
-    onApply: (props: {priority: PostPriority|undefined}) => void;
+    onApply: (props: {priority?: PostPriority}) => void;
     placement: string;
     rightOffset?: number;
     topOffset?: number;
@@ -74,7 +74,7 @@ function PostPriorityPicker({
     const handleSelect = useCallback((type?: PostPriority) => () => {
         onApply({priority: type});
         onClose();
-    }, []);
+    }, [onApply, onClose]);
 
     let pickerStyle: React.CSSProperties = {};
     if (style && !(style.left === 0 && style.top === 0)) {
