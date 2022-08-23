@@ -74,7 +74,7 @@ const FeatureRestrictedModal = ({
         dispatch(closeModal(ModalIdentifiers.FEATURE_RESTRICTED_MODAL));
     };
 
-    const handleViewPlansClick = (e) => {
+    const handleViewPlansClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         if (isSystemAdmin) {
             openPricingModal({trackingLocation: 'feature_restricted_modal'});
             dismissAction();
