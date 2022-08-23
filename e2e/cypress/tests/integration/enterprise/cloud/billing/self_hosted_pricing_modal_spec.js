@@ -46,7 +46,7 @@ describe('Self hosted Pricing modal', () => {
         // * Check that Upgrade button does not show
         cy.get('#UpgradeButton').should('exist').contains('Upgrade');
 
-        // *Check for Upgrade button tooltip
+        // * Check for Upgrade button tooltip
         cy.get('#UpgradeButton').trigger('mouseover').then(() => {
             cy.get('#upgrade_button_tooltip').should('be.visible').contains('Only visible to system admins');
         });
@@ -61,8 +61,8 @@ describe('Self hosted Pricing modal', () => {
         cy.get('#UpgradeButton').should('not.exist');
     });
 
-    it('should not show Upgrade button for admin users on non trial licensed server', () => {
-        // *Ensure the server has trial license
+    it('should show Upgrade button for admin users on non trial licensed server', () => {
+        // * Ensure the server has trial license
         withTrialBefore('false');
         withTrialLicense('false');
 
@@ -71,7 +71,7 @@ describe('Self hosted Pricing modal', () => {
         cy.visit(urlL);
 
         // * Open pricing modal
-        cy.get('#UpgradeButton').should('not.exist');
+        cy.get('#UpgradeButton').should('exist');
     });
 
     it('Upgrade button should open pricing modal admin users when no trial has ever been added on starter plan', () => {
@@ -85,14 +85,20 @@ describe('Self hosted Pricing modal', () => {
         // * Open pricing modal
         cy.get('#UpgradeButton').should('exist').click();
 
-        // *Check that starter card Downgrade button is disabled
-        cy.get('#pricingModal').get('#starter').get('#starter_action').should('be.disabled').contains('Downgrade');
+        // * Check that starter card Downgrade button is disabled
+        cy.get('#pricingModal').should('be.visible');
+        cy.get('#starter').should('be.visible');
+        cy.get('#starter_action').should('be.disabled').contains('Downgrade');
 
-        // *Check that professional upgrade button is available
-        cy.get('#pricingModal').get('#professional').get('#professional_action').should('not.be.disabled').contains('Upgrade');
+        // * Check that professional upgrade button is available
+        cy.get('#pricingModal').should('be.visible');
+        cy.get('#professional').should('be.visible');
+        cy.get('#professional_action').should('not.be.disabled').contains('Upgrade');
 
-        // *Check that enteprise trial button is available
-        cy.get('#pricingModal').get('#enterprise').get('#start_trial_btn').should('not.be.disabled').contains('Try free for 30 days');
+        // * Check that enteprise trial button is available
+        cy.get('#pricingModal').should('be.visible');
+        cy.get('#enterprise').should('be.visible');
+        cy.get('#start_trial_btn').should('not.be.disabled').contains('Try free for 30 days');
     });
 
     it('Upgrade button should open pricing modal admin users when the server has requested a trial before on starter plan', () => {
@@ -107,20 +113,27 @@ describe('Self hosted Pricing modal', () => {
         cy.get('#UpgradeButton').should('exist').click();
 
         // *Check that option to get cloud exists
-        cy.get('.alert-option').get('span').contains('Looking for a cloud option?');
+        cy.get('.alert-option').should('be.visible');
+        cy.get('span').contains('Looking for a cloud option?');
 
-        // *Check that starter card Downgrade button is disabled
-        cy.get('#pricingModal').get('#starter').get('#starter_action').should('be.disabled').contains('Downgrade');
+        // * Check that starter card Downgrade button is disabled
+        cy.get('#pricingModal').should('be.visible');
+        cy.get('#starter').should('be.visible');
+        cy.get('#starter_action').should('be.disabled').contains('Downgrade');
 
-        // *Check that professional upgrade button is available
-        cy.get('#pricingModal').get('#professional').get('#professional_action').should('not.be.disabled').contains('Upgrade');
+        // * Check that professional upgrade button is available
+        cy.get('#pricingModal').should('be.visible');
+        cy.get('#professional').should('be.visible');
+        cy.get('#professional_action').should('not.be.disabled').contains('Upgrade');
 
-        // *Check that contact sales button is now showing and not trial button
-        cy.get('#pricingModal').get('#enterprise').get('#enterprise_action').should('not.be.disabled').contains('Contact Sales');
+        // * Check that contact sales button is now showing and not trial button
+        cy.get('#pricingModal').should('be.visible');
+        cy.get('#enterprise').should('be.visible');
+        cy.get('#enterprise_action').should('not.be.disabled').contains('Contact Sales');
     });
 
     it('Upgrade button should open pricing modal admin users when the server is on a trial', () => {
-        // *Ensure the server has trial license
+        // * Ensure the server has trial license
         withTrialBefore('false');
         withTrialLicense('true');
 
@@ -132,12 +145,18 @@ describe('Self hosted Pricing modal', () => {
         cy.get('#UpgradeButton').should('exist').click();
 
         // *Check that starter card Downgrade button is disabled
-        cy.get('#pricingModal').get('#starter').get('#starter_action').should('be.disabled').contains('Downgrade');
+        cy.get('#pricingModal').should('be.visible');
+        cy.get('#starter').should('be.visible');
+        cy.get('#starter_action').should('be.disabled').contains('Downgrade');
 
-        // *Check that professional upgrade button is available
-        cy.get('#pricingModal').get('#professional').get('#professional_action').should('not.be.disabled').contains('Upgrade');
+        // * Check that professional upgrade button is available
+        cy.get('#pricingModal').should('be.visible');
+        cy.get('#professional').should('be.visible');
+        cy.get('#professional_action').should('not.be.disabled').contains('Upgrade');
 
-        // *Check that contact sales button is now showing and not trial button
-        cy.get('#pricingModal').get('#enterprise').get('#start_trial_btn').should('be.disabled');
+        // * Check that contact sales button is now showing and not trial button
+        cy.get('#pricingModal').should('be.visible');
+        cy.get('#enterprise').should('be.visible');
+        cy.get('#start_trial_btn').should('be.disabled');
     });
 });
