@@ -1,10 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should match snapshot, no boards 1`] = `
-<div
-  className="channel-intro "
-  id="channelIntro"
->
+<Fragment>
   <h2
     className="channel-intro__title"
   >
@@ -31,6 +28,24 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
       }
     />
   </p>
+  <Memo(BoardsButton)
+    channel={
+      Object {
+        "create_at": 1508265709607,
+        "creator_id": "creator_id",
+        "delete_at": 0,
+        "display_name": "test channel",
+        "header": "test",
+        "id": "channel_id",
+        "last_post_at": 1508265709635,
+        "name": "town-square",
+        "purpose": "test",
+        "team_id": "team-id",
+        "type": "O",
+        "update_at": 1508265709607,
+      }
+    }
+  />
   <Connect(ChannelPermissionGate)
     channelId="channel_id"
     permissions={
@@ -40,54 +55,31 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
     }
     teamId="team-id"
   >
-    <Connect(injectIntl(ToggleModalButton))
-      ariaLabel="Set a Header"
-      className="intro-links color--link channelIntroButton"
-      dialogProps={
+    <Memo(SetHeaderButton)
+      channel={
         Object {
-          "channel": Object {
-            "create_at": 1508265709607,
-            "creator_id": "creator_id",
-            "delete_at": 0,
-            "display_name": "test channel",
-            "header": "test",
-            "id": "channel_id",
-            "last_post_at": 1508265709635,
-            "name": "town-square",
-            "purpose": "test",
-            "team_id": "team-id",
-            "type": "O",
-            "update_at": 1508265709607,
-          },
+          "create_at": 1508265709607,
+          "creator_id": "creator_id",
+          "delete_at": 0,
+          "display_name": "test channel",
+          "header": "test",
+          "id": "channel_id",
+          "last_post_at": 1508265709635,
+          "name": "town-square",
+          "purpose": "test",
+          "team_id": "team-id",
+          "type": "O",
+          "update_at": 1508265709607,
         }
       }
-      dialogType={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-          "displayName": "Connect(EditChannelHeaderModal)",
-          "type": [Function],
-        }
-      }
-      modalId="edit_channel_header"
-    >
-      <EditIcon />
-      <MemoizedFormattedMessage
-        defaultMessage="Set a Header"
-        id="intro_messages.setHeader"
-      />
-    </Connect(injectIntl(ToggleModalButton))>
+    />
   </Connect(ChannelPermissionGate)>
   <br />
-</div>
+</Fragment>
 `;
 
 exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should match snapshot, readonly 1`] = `
-<div
-  className="channel-intro "
-  id="channelIntro"
->
+<Fragment>
   <h2
     className="channel-intro__title"
   >
@@ -115,14 +107,11 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
     />
   </p>
   <br />
-</div>
+</Fragment>
 `;
 
 exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should match snapshot, with boards 1`] = `
-<div
-  className="channel-intro "
-  id="channelIntro"
->
+<Fragment>
   <h2
     className="channel-intro__title"
   >
@@ -149,16 +138,30 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
       }
     />
   </p>
-  <button
-    aria-label="Create a board"
-    className="intro-links color--link channelIntroButton style--none"
-    onClick={[Function]}
-  >
-    <MemoizedFormattedMessage
-      defaultMessage="Create a board"
-      id="intro_messages.createBoard"
-    />
-  </button>
+  <Memo(BoardsButton)
+    boardComponent={
+      Object {
+        "id": "board",
+        "pluginId": "board",
+      }
+    }
+    channel={
+      Object {
+        "create_at": 1508265709607,
+        "creator_id": "creator_id",
+        "delete_at": 0,
+        "display_name": "test channel",
+        "header": "test",
+        "id": "channel_id",
+        "last_post_at": 1508265709635,
+        "name": "town-square",
+        "purpose": "test",
+        "team_id": "team-id",
+        "type": "O",
+        "update_at": 1508265709607,
+      }
+    }
+  />
   <Connect(ChannelPermissionGate)
     channelId="channel_id"
     permissions={
@@ -168,54 +171,31 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
     }
     teamId="team-id"
   >
-    <Connect(injectIntl(ToggleModalButton))
-      ariaLabel="Set a Header"
-      className="intro-links color--link channelIntroButton"
-      dialogProps={
+    <Memo(SetHeaderButton)
+      channel={
         Object {
-          "channel": Object {
-            "create_at": 1508265709607,
-            "creator_id": "creator_id",
-            "delete_at": 0,
-            "display_name": "test channel",
-            "header": "test",
-            "id": "channel_id",
-            "last_post_at": 1508265709635,
-            "name": "town-square",
-            "purpose": "test",
-            "team_id": "team-id",
-            "type": "O",
-            "update_at": 1508265709607,
-          },
+          "create_at": 1508265709607,
+          "creator_id": "creator_id",
+          "delete_at": 0,
+          "display_name": "test channel",
+          "header": "test",
+          "id": "channel_id",
+          "last_post_at": 1508265709635,
+          "name": "town-square",
+          "purpose": "test",
+          "team_id": "team-id",
+          "type": "O",
+          "update_at": 1508265709607,
         }
       }
-      dialogType={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-          "displayName": "Connect(EditChannelHeaderModal)",
-          "type": [Function],
-        }
-      }
-      modalId="edit_channel_header"
-    >
-      <EditIcon />
-      <MemoizedFormattedMessage
-        defaultMessage="Set a Header"
-        id="intro_messages.setHeader"
-      />
-    </Connect(injectIntl(ToggleModalButton))>
+    />
   </Connect(ChannelPermissionGate)>
   <br />
-</div>
+</Fragment>
 `;
 
 exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should match snapshot, with boards, enable, group constrained 1`] = `
-<div
-  className="channel-intro "
-  id="channelIntro"
->
+<Fragment>
   <h2
     className="channel-intro__title"
   >
@@ -305,16 +285,30 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
       </Connect(injectIntl(ToggleModalButton))>
     </Connect(TeamPermissionGate)>
   </Connect(TeamPermissionGate)>
-  <button
-    aria-label="Create a board"
-    className="intro-links color--link channelIntroButton style--none"
-    onClick={[Function]}
-  >
-    <MemoizedFormattedMessage
-      defaultMessage="Create a board"
-      id="intro_messages.createBoard"
-    />
-  </button>
+  <Memo(BoardsButton)
+    boardComponent={
+      Object {
+        "id": "board",
+        "pluginId": "board",
+      }
+    }
+    channel={
+      Object {
+        "create_at": 1508265709607,
+        "creator_id": "creator_id",
+        "delete_at": 0,
+        "display_name": "test channel",
+        "header": "test",
+        "id": "channel_id",
+        "last_post_at": 1508265709635,
+        "name": "town-square",
+        "purpose": "test",
+        "team_id": "team-id",
+        "type": "O",
+        "update_at": 1508265709607,
+      }
+    }
+  />
   <Connect(ChannelPermissionGate)
     channelId="channel_id"
     permissions={
@@ -324,54 +318,31 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
     }
     teamId="team-id"
   >
-    <Connect(injectIntl(ToggleModalButton))
-      ariaLabel="Set a Header"
-      className="intro-links color--link channelIntroButton"
-      dialogProps={
+    <Memo(SetHeaderButton)
+      channel={
         Object {
-          "channel": Object {
-            "create_at": 1508265709607,
-            "creator_id": "creator_id",
-            "delete_at": 0,
-            "display_name": "test channel",
-            "header": "test",
-            "id": "channel_id",
-            "last_post_at": 1508265709635,
-            "name": "town-square",
-            "purpose": "test",
-            "team_id": "team-id",
-            "type": "O",
-            "update_at": 1508265709607,
-          },
+          "create_at": 1508265709607,
+          "creator_id": "creator_id",
+          "delete_at": 0,
+          "display_name": "test channel",
+          "header": "test",
+          "id": "channel_id",
+          "last_post_at": 1508265709635,
+          "name": "town-square",
+          "purpose": "test",
+          "team_id": "team-id",
+          "type": "O",
+          "update_at": 1508265709607,
         }
       }
-      dialogType={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-          "displayName": "Connect(EditChannelHeaderModal)",
-          "type": [Function],
-        }
-      }
-      modalId="edit_channel_header"
-    >
-      <EditIcon />
-      <MemoizedFormattedMessage
-        defaultMessage="Set a Header"
-        id="intro_messages.setHeader"
-      />
-    </Connect(injectIntl(ToggleModalButton))>
+    />
   </Connect(ChannelPermissionGate)>
   <br />
-</div>
+</Fragment>
 `;
 
 exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should match snapshot, with boards. enableUserCreation 1`] = `
-<div
-  className="channel-intro "
-  id="channelIntro"
->
+<Fragment>
   <h2
     className="channel-intro__title"
   >
@@ -432,16 +403,30 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
           }
         }
         createBoard={
-          <button
-            aria-label="Create a board"
-            className="intro-links color--link channelIntroButton style--none"
-            onClick={[Function]}
-          >
-            <Memo(MemoizedFormattedMessage)
-              defaultMessage="Create a board"
-              id="intro_messages.createBoard"
-            />
-          </button>
+          <Memo(BoardsButton)
+            boardComponent={
+              Object {
+                "id": "board",
+                "pluginId": "board",
+              }
+            }
+            channel={
+              Object {
+                "create_at": 1508265709607,
+                "creator_id": "creator_id",
+                "delete_at": 0,
+                "display_name": "test channel",
+                "header": "test",
+                "id": "channel_id",
+                "last_post_at": 1508265709635,
+                "name": "town-square",
+                "purpose": "test",
+                "team_id": "team-id",
+                "type": "O",
+                "update_at": 1508265709607,
+              }
+            }
+          />
         }
         setHeader={
           <Memo(Connect(ChannelPermissionGate))
@@ -453,44 +438,24 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
             }
             teamId="team-id"
           >
-            <Memo(Connect(injectIntl(ToggleModalButton)))
-              ariaLabel="Set a Header"
-              className="intro-links color--link channelIntroButton"
-              dialogProps={
+            <Memo(SetHeaderButton)
+              channel={
                 Object {
-                  "channel": Object {
-                    "create_at": 1508265709607,
-                    "creator_id": "creator_id",
-                    "delete_at": 0,
-                    "display_name": "test channel",
-                    "header": "test",
-                    "id": "channel_id",
-                    "last_post_at": 1508265709635,
-                    "name": "town-square",
-                    "purpose": "test",
-                    "team_id": "team-id",
-                    "type": "O",
-                    "update_at": 1508265709607,
-                  },
+                  "create_at": 1508265709607,
+                  "creator_id": "creator_id",
+                  "delete_at": 0,
+                  "display_name": "test channel",
+                  "header": "test",
+                  "id": "channel_id",
+                  "last_post_at": 1508265709635,
+                  "name": "town-square",
+                  "purpose": "test",
+                  "team_id": "team-id",
+                  "type": "O",
+                  "update_at": 1508265709607,
                 }
               }
-              dialogType={
-                Object {
-                  "$$typeof": Symbol(react.memo),
-                  "WrappedComponent": [Function],
-                  "compare": null,
-                  "displayName": "Connect(EditChannelHeaderModal)",
-                  "type": [Function],
-                }
-              }
-              modalId="edit_channel_header"
-            >
-              <EditIcon />
-              <Memo(MemoizedFormattedMessage)
-                defaultMessage="Set a Header"
-                id="intro_messages.setHeader"
-              />
-            </Memo(Connect(injectIntl(ToggleModalButton)))>
+            />
           </Memo(Connect(ChannelPermissionGate))>
         }
         usersLimit={10}
@@ -498,14 +463,11 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
     </Connect(TeamPermissionGate)>
   </Connect(TeamPermissionGate)>
   <br />
-</div>
+</Fragment>
 `;
 
 exports[`components/post_view/ChannelIntroMessages test DIRECT Channel should match snapshot, with teammate, with boards 1`] = `
-<div
-  className="channel-intro "
-  id="channelIntro"
->
+<Fragment>
   <div
     className="post-profile-img__container channel-intro-img"
   >
@@ -542,62 +504,53 @@ exports[`components/post_view/ChannelIntroMessages test DIRECT Channel should ma
       }
     />
   </p>
-  <button
-    aria-label="Create a board"
-    className="intro-links color--link channelIntroButton style--none"
-    onClick={[Function]}
-  >
-    <MemoizedFormattedMessage
-      defaultMessage="Create a board"
-      id="intro_messages.createBoard"
-    />
-  </button>
-  <Connect(injectIntl(ToggleModalButton))
-    ariaLabel="Set a Header"
-    className="intro-links color--link channelIntroButton"
-    dialogProps={
+  <Memo(BoardsButton)
+    boardComponent={
       Object {
-        "channel": Object {
-          "create_at": 1508265709607,
-          "creator_id": "creator_id",
-          "delete_at": 0,
-          "display_name": "test channel",
-          "header": "test",
-          "id": "channel_id",
-          "last_post_at": 1508265709635,
-          "name": "testing",
-          "purpose": "test",
-          "team_id": "team-id",
-          "type": "D",
-          "update_at": 1508265709607,
-        },
+        "id": "board",
+        "pluginId": "board",
       }
     }
-    dialogType={
+    channel={
       Object {
-        "$$typeof": Symbol(react.memo),
-        "WrappedComponent": [Function],
-        "compare": null,
-        "displayName": "Connect(EditChannelHeaderModal)",
-        "type": [Function],
+        "create_at": 1508265709607,
+        "creator_id": "creator_id",
+        "delete_at": 0,
+        "display_name": "test channel",
+        "header": "test",
+        "id": "channel_id",
+        "last_post_at": 1508265709635,
+        "name": "testing",
+        "purpose": "test",
+        "team_id": "team-id",
+        "type": "D",
+        "update_at": 1508265709607,
       }
     }
-    modalId="edit_channel_header"
-  >
-    <EditIcon />
-    <MemoizedFormattedMessage
-      defaultMessage="Set a Header"
-      id="intro_messages.setHeader"
-    />
-  </Connect(injectIntl(ToggleModalButton))>
-</div>
+  />
+  <Memo(SetHeaderButton)
+    channel={
+      Object {
+        "create_at": 1508265709607,
+        "creator_id": "creator_id",
+        "delete_at": 0,
+        "display_name": "test channel",
+        "header": "test",
+        "id": "channel_id",
+        "last_post_at": 1508265709635,
+        "name": "testing",
+        "purpose": "test",
+        "team_id": "team-id",
+        "type": "D",
+        "update_at": 1508265709607,
+      }
+    }
+  />
+</Fragment>
 `;
 
 exports[`components/post_view/ChannelIntroMessages test DIRECT Channel should match snapshot, with teammate, without boards 1`] = `
-<div
-  className="channel-intro "
-  id="channelIntro"
->
+<Fragment>
   <div
     className="post-profile-img__container channel-intro-img"
   >
@@ -634,84 +587,69 @@ exports[`components/post_view/ChannelIntroMessages test DIRECT Channel should ma
       }
     />
   </p>
-  <Connect(injectIntl(ToggleModalButton))
-    ariaLabel="Set a Header"
-    className="intro-links color--link channelIntroButton"
-    dialogProps={
+  <Memo(BoardsButton)
+    channel={
       Object {
-        "channel": Object {
-          "create_at": 1508265709607,
-          "creator_id": "creator_id",
-          "delete_at": 0,
-          "display_name": "test channel",
-          "header": "test",
-          "id": "channel_id",
-          "last_post_at": 1508265709635,
-          "name": "testing",
-          "purpose": "test",
-          "team_id": "team-id",
-          "type": "D",
-          "update_at": 1508265709607,
-        },
+        "create_at": 1508265709607,
+        "creator_id": "creator_id",
+        "delete_at": 0,
+        "display_name": "test channel",
+        "header": "test",
+        "id": "channel_id",
+        "last_post_at": 1508265709635,
+        "name": "testing",
+        "purpose": "test",
+        "team_id": "team-id",
+        "type": "D",
+        "update_at": 1508265709607,
       }
     }
-    dialogType={
+  />
+  <Memo(SetHeaderButton)
+    channel={
       Object {
-        "$$typeof": Symbol(react.memo),
-        "WrappedComponent": [Function],
-        "compare": null,
-        "displayName": "Connect(EditChannelHeaderModal)",
-        "type": [Function],
+        "create_at": 1508265709607,
+        "creator_id": "creator_id",
+        "delete_at": 0,
+        "display_name": "test channel",
+        "header": "test",
+        "id": "channel_id",
+        "last_post_at": 1508265709635,
+        "name": "testing",
+        "purpose": "test",
+        "team_id": "team-id",
+        "type": "D",
+        "update_at": 1508265709607,
       }
     }
-    modalId="edit_channel_header"
-  >
-    <EditIcon />
-    <MemoizedFormattedMessage
-      defaultMessage="Set a Header"
-      id="intro_messages.setHeader"
-    />
-  </Connect(injectIntl(ToggleModalButton))>
-</div>
+  />
+</Fragment>
 `;
 
 exports[`components/post_view/ChannelIntroMessages test DIRECT Channel should match snapshot, without teammate 1`] = `
-<div
-  className="channel-intro "
-  id="channelIntro"
+<p
+  className="channel-intro-text"
 >
-  <p
-    className="channel-intro-text"
-  >
-    <MemoizedFormattedMessage
-      defaultMessage="This is the start of your direct message history with this teammate. Direct messages and files shared here are not shown to people outside this area."
-      id="intro_messages.teammate"
-    />
-  </p>
-</div>
+  <MemoizedFormattedMessage
+    defaultMessage="This is the start of your direct message history with this teammate. Direct messages and files shared here are not shown to people outside this area."
+    id="intro_messages.teammate"
+  />
+</p>
 `;
 
 exports[`components/post_view/ChannelIntroMessages test Group Channel should match snapshot, no profiles 1`] = `
-<div
-  className="channel-intro "
-  id="channelIntro"
+<p
+  className="channel-intro-text"
 >
-  <p
-    className="channel-intro-text"
-  >
-    <MemoizedFormattedMessage
-      defaultMessage="This is the start of your group message history with these teammates. Messages and files shared here are not shown to people outside this area."
-      id="intro_messages.group_message"
-    />
-  </p>
-</div>
+  <MemoizedFormattedMessage
+    defaultMessage="This is the start of your group message history with these teammates. Messages and files shared here are not shown to people outside this area."
+    id="intro_messages.group_message"
+  />
+</p>
 `;
 
 exports[`components/post_view/ChannelIntroMessages test Group Channel should match snapshot, with profiles, with boards 1`] = `
-<div
-  className="channel-intro "
-  id="channelIntro"
->
+<Fragment>
   <div
     className="post-profile-img__container channel-intro-img"
   >
@@ -751,62 +689,53 @@ exports[`components/post_view/ChannelIntroMessages test Group Channel should mat
       }
     />
   </p>
-  <button
-    aria-label="Create a board"
-    className="intro-links color--link channelIntroButton style--none"
-    onClick={[Function]}
-  >
-    <MemoizedFormattedMessage
-      defaultMessage="Create a board"
-      id="intro_messages.createBoard"
-    />
-  </button>
-  <Connect(injectIntl(ToggleModalButton))
-    ariaLabel="Set a Header"
-    className="intro-links color--link channelIntroButton"
-    dialogProps={
+  <Memo(BoardsButton)
+    boardComponent={
       Object {
-        "channel": Object {
-          "create_at": 1508265709607,
-          "creator_id": "creator_id",
-          "delete_at": 0,
-          "display_name": "test channel",
-          "header": "test",
-          "id": "channel_id",
-          "last_post_at": 1508265709635,
-          "name": "testing",
-          "purpose": "test",
-          "team_id": "team-id",
-          "type": "G",
-          "update_at": 1508265709607,
-        },
+        "id": "board",
+        "pluginId": "board",
       }
     }
-    dialogType={
+    channel={
       Object {
-        "$$typeof": Symbol(react.memo),
-        "WrappedComponent": [Function],
-        "compare": null,
-        "displayName": "Connect(EditChannelHeaderModal)",
-        "type": [Function],
+        "create_at": 1508265709607,
+        "creator_id": "creator_id",
+        "delete_at": 0,
+        "display_name": "test channel",
+        "header": "test",
+        "id": "channel_id",
+        "last_post_at": 1508265709635,
+        "name": "testing",
+        "purpose": "test",
+        "team_id": "team-id",
+        "type": "G",
+        "update_at": 1508265709607,
       }
     }
-    modalId="edit_channel_header"
-  >
-    <EditIcon />
-    <MemoizedFormattedMessage
-      defaultMessage="Set a Header"
-      id="intro_messages.setHeader"
-    />
-  </Connect(injectIntl(ToggleModalButton))>
-</div>
+  />
+  <Memo(SetHeaderButton)
+    channel={
+      Object {
+        "create_at": 1508265709607,
+        "creator_id": "creator_id",
+        "delete_at": 0,
+        "display_name": "test channel",
+        "header": "test",
+        "id": "channel_id",
+        "last_post_at": 1508265709635,
+        "name": "testing",
+        "purpose": "test",
+        "team_id": "team-id",
+        "type": "G",
+        "update_at": 1508265709607,
+      }
+    }
+  />
+</Fragment>
 `;
 
 exports[`components/post_view/ChannelIntroMessages test Group Channel should match snapshot, with profiles, without boards 1`] = `
-<div
-  className="channel-intro "
-  id="channelIntro"
->
+<Fragment>
   <div
     className="post-profile-img__container channel-intro-img"
   >
@@ -846,52 +775,47 @@ exports[`components/post_view/ChannelIntroMessages test Group Channel should mat
       }
     />
   </p>
-  <Connect(injectIntl(ToggleModalButton))
-    ariaLabel="Set a Header"
-    className="intro-links color--link channelIntroButton"
-    dialogProps={
+  <Memo(BoardsButton)
+    channel={
       Object {
-        "channel": Object {
-          "create_at": 1508265709607,
-          "creator_id": "creator_id",
-          "delete_at": 0,
-          "display_name": "test channel",
-          "header": "test",
-          "id": "channel_id",
-          "last_post_at": 1508265709635,
-          "name": "testing",
-          "purpose": "test",
-          "team_id": "team-id",
-          "type": "G",
-          "update_at": 1508265709607,
-        },
+        "create_at": 1508265709607,
+        "creator_id": "creator_id",
+        "delete_at": 0,
+        "display_name": "test channel",
+        "header": "test",
+        "id": "channel_id",
+        "last_post_at": 1508265709635,
+        "name": "testing",
+        "purpose": "test",
+        "team_id": "team-id",
+        "type": "G",
+        "update_at": 1508265709607,
       }
     }
-    dialogType={
+  />
+  <Memo(SetHeaderButton)
+    channel={
       Object {
-        "$$typeof": Symbol(react.memo),
-        "WrappedComponent": [Function],
-        "compare": null,
-        "displayName": "Connect(EditChannelHeaderModal)",
-        "type": [Function],
+        "create_at": 1508265709607,
+        "creator_id": "creator_id",
+        "delete_at": 0,
+        "display_name": "test channel",
+        "header": "test",
+        "id": "channel_id",
+        "last_post_at": 1508265709635,
+        "name": "testing",
+        "purpose": "test",
+        "team_id": "team-id",
+        "type": "G",
+        "update_at": 1508265709607,
       }
     }
-    modalId="edit_channel_header"
-  >
-    <EditIcon />
-    <MemoizedFormattedMessage
-      defaultMessage="Set a Header"
-      id="intro_messages.setHeader"
-    />
-  </Connect(injectIntl(ToggleModalButton))>
-</div>
+  />
+</Fragment>
 `;
 
 exports[`components/post_view/ChannelIntroMessages test OFFTOPIC Channel should match snapshot, with boards 1`] = `
-<div
-  className="channel-intro "
-  id="channelIntro"
->
+<Fragment>
   <h2
     className="channel-intro__title"
   >
@@ -936,16 +860,30 @@ exports[`components/post_view/ChannelIntroMessages test OFFTOPIC Channel should 
       }
     }
     createBoard={
-      <button
-        aria-label="Create a board"
-        className="intro-links color--link channelIntroButton style--none"
-        onClick={[Function]}
-      >
-        <Memo(MemoizedFormattedMessage)
-          defaultMessage="Create a board"
-          id="intro_messages.createBoard"
-        />
-      </button>
+      <Memo(BoardsButton)
+        boardComponent={
+          Object {
+            "id": "board",
+            "pluginId": "board",
+          }
+        }
+        channel={
+          Object {
+            "create_at": 1508265709607,
+            "creator_id": "creator_id",
+            "delete_at": 0,
+            "display_name": "test channel",
+            "header": "test",
+            "id": "channel_id",
+            "last_post_at": 1508265709635,
+            "name": "off-topic",
+            "purpose": "test",
+            "team_id": "team-id",
+            "type": "O",
+            "update_at": 1508265709607,
+          }
+        }
+      />
     }
     setHeader={
       <Memo(Connect(ChannelPermissionGate))
@@ -957,56 +895,33 @@ exports[`components/post_view/ChannelIntroMessages test OFFTOPIC Channel should 
         }
         teamId="team-id"
       >
-        <Memo(Connect(injectIntl(ToggleModalButton)))
-          ariaLabel="Set a Header"
-          className="intro-links color--link channelIntroButton"
-          dialogProps={
+        <Memo(SetHeaderButton)
+          channel={
             Object {
-              "channel": Object {
-                "create_at": 1508265709607,
-                "creator_id": "creator_id",
-                "delete_at": 0,
-                "display_name": "test channel",
-                "header": "test",
-                "id": "channel_id",
-                "last_post_at": 1508265709635,
-                "name": "off-topic",
-                "purpose": "test",
-                "team_id": "team-id",
-                "type": "O",
-                "update_at": 1508265709607,
-              },
+              "create_at": 1508265709607,
+              "creator_id": "creator_id",
+              "delete_at": 0,
+              "display_name": "test channel",
+              "header": "test",
+              "id": "channel_id",
+              "last_post_at": 1508265709635,
+              "name": "off-topic",
+              "purpose": "test",
+              "team_id": "team-id",
+              "type": "O",
+              "update_at": 1508265709607,
             }
           }
-          dialogType={
-            Object {
-              "$$typeof": Symbol(react.memo),
-              "WrappedComponent": [Function],
-              "compare": null,
-              "displayName": "Connect(EditChannelHeaderModal)",
-              "type": [Function],
-            }
-          }
-          modalId="edit_channel_header"
-        >
-          <EditIcon />
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Set a Header"
-            id="intro_messages.setHeader"
-          />
-        </Memo(Connect(injectIntl(ToggleModalButton)))>
+        />
       </Memo(Connect(ChannelPermissionGate))>
     }
     usersLimit={10}
   />
-</div>
+</Fragment>
 `;
 
 exports[`components/post_view/ChannelIntroMessages test OFFTOPIC Channel should match snapshot, without boards 1`] = `
-<div
-  className="channel-intro "
-  id="channelIntro"
->
+<Fragment>
   <h2
     className="channel-intro__title"
   >
@@ -1050,7 +965,26 @@ exports[`components/post_view/ChannelIntroMessages test OFFTOPIC Channel should 
         "update_at": 1508265709607,
       }
     }
-    createBoard={null}
+    createBoard={
+      <Memo(BoardsButton)
+        channel={
+          Object {
+            "create_at": 1508265709607,
+            "creator_id": "creator_id",
+            "delete_at": 0,
+            "display_name": "test channel",
+            "header": "test",
+            "id": "channel_id",
+            "last_post_at": 1508265709635,
+            "name": "off-topic",
+            "purpose": "test",
+            "team_id": "team-id",
+            "type": "O",
+            "update_at": 1508265709607,
+          }
+        }
+      />
+    }
     setHeader={
       <Memo(Connect(ChannelPermissionGate))
         channelId="channel_id"
@@ -1061,56 +995,33 @@ exports[`components/post_view/ChannelIntroMessages test OFFTOPIC Channel should 
         }
         teamId="team-id"
       >
-        <Memo(Connect(injectIntl(ToggleModalButton)))
-          ariaLabel="Set a Header"
-          className="intro-links color--link channelIntroButton"
-          dialogProps={
+        <Memo(SetHeaderButton)
+          channel={
             Object {
-              "channel": Object {
-                "create_at": 1508265709607,
-                "creator_id": "creator_id",
-                "delete_at": 0,
-                "display_name": "test channel",
-                "header": "test",
-                "id": "channel_id",
-                "last_post_at": 1508265709635,
-                "name": "off-topic",
-                "purpose": "test",
-                "team_id": "team-id",
-                "type": "O",
-                "update_at": 1508265709607,
-              },
+              "create_at": 1508265709607,
+              "creator_id": "creator_id",
+              "delete_at": 0,
+              "display_name": "test channel",
+              "header": "test",
+              "id": "channel_id",
+              "last_post_at": 1508265709635,
+              "name": "off-topic",
+              "purpose": "test",
+              "team_id": "team-id",
+              "type": "O",
+              "update_at": 1508265709607,
             }
           }
-          dialogType={
-            Object {
-              "$$typeof": Symbol(react.memo),
-              "WrappedComponent": [Function],
-              "compare": null,
-              "displayName": "Connect(EditChannelHeaderModal)",
-              "type": [Function],
-            }
-          }
-          modalId="edit_channel_header"
-        >
-          <EditIcon />
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Set a Header"
-            id="intro_messages.setHeader"
-          />
-        </Memo(Connect(injectIntl(ToggleModalButton)))>
+        />
       </Memo(Connect(ChannelPermissionGate))>
     }
     usersLimit={10}
   />
-</div>
+</Fragment>
 `;
 
 exports[`components/post_view/ChannelIntroMessages test Open Channel should match snapshot, with boards 1`] = `
-<div
-  className="channel-intro "
-  id="channelIntro"
->
+<Fragment>
   <h2
     className="channel-intro__title"
   >
@@ -1180,16 +1091,30 @@ exports[`components/post_view/ChannelIntroMessages test Open Channel should matc
       }
     }
     createBoard={
-      <button
-        aria-label="Create a board"
-        className="intro-links color--link channelIntroButton style--none"
-        onClick={[Function]}
-      >
-        <Memo(MemoizedFormattedMessage)
-          defaultMessage="Create a board"
-          id="intro_messages.createBoard"
-        />
-      </button>
+      <Memo(BoardsButton)
+        boardComponent={
+          Object {
+            "id": "board",
+            "pluginId": "board",
+          }
+        }
+        channel={
+          Object {
+            "create_at": 1508265709607,
+            "creator_id": "creator_id",
+            "delete_at": 0,
+            "display_name": "test channel",
+            "header": "test",
+            "id": "channel_id",
+            "last_post_at": 1508265709635,
+            "name": "testing",
+            "purpose": "test",
+            "team_id": "team-id",
+            "type": "O",
+            "update_at": 1508265709607,
+          }
+        }
+      />
     }
     setHeader={
       <Memo(Connect(ChannelPermissionGate))
@@ -1201,56 +1126,33 @@ exports[`components/post_view/ChannelIntroMessages test Open Channel should matc
         }
         teamId="team-id"
       >
-        <Memo(Connect(injectIntl(ToggleModalButton)))
-          ariaLabel="Set a Header"
-          className="intro-links color--link channelIntroButton"
-          dialogProps={
+        <Memo(SetHeaderButton)
+          channel={
             Object {
-              "channel": Object {
-                "create_at": 1508265709607,
-                "creator_id": "creator_id",
-                "delete_at": 0,
-                "display_name": "test channel",
-                "header": "test",
-                "id": "channel_id",
-                "last_post_at": 1508265709635,
-                "name": "testing",
-                "purpose": "test",
-                "team_id": "team-id",
-                "type": "O",
-                "update_at": 1508265709607,
-              },
+              "create_at": 1508265709607,
+              "creator_id": "creator_id",
+              "delete_at": 0,
+              "display_name": "test channel",
+              "header": "test",
+              "id": "channel_id",
+              "last_post_at": 1508265709635,
+              "name": "testing",
+              "purpose": "test",
+              "team_id": "team-id",
+              "type": "O",
+              "update_at": 1508265709607,
             }
           }
-          dialogType={
-            Object {
-              "$$typeof": Symbol(react.memo),
-              "WrappedComponent": [Function],
-              "compare": null,
-              "displayName": "Connect(EditChannelHeaderModal)",
-              "type": [Function],
-            }
-          }
-          modalId="edit_channel_header"
-        >
-          <EditIcon />
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Set a Header"
-            id="intro_messages.setHeader"
-          />
-        </Memo(Connect(injectIntl(ToggleModalButton)))>
+        />
       </Memo(Connect(ChannelPermissionGate))>
     }
     usersLimit={10}
   />
-</div>
+</Fragment>
 `;
 
 exports[`components/post_view/ChannelIntroMessages test Open Channel should match snapshot, without boards 1`] = `
-<div
-  className="channel-intro "
-  id="channelIntro"
->
+<Fragment>
   <h2
     className="channel-intro__title"
   >
@@ -1319,7 +1221,26 @@ exports[`components/post_view/ChannelIntroMessages test Open Channel should matc
         "update_at": 1508265709607,
       }
     }
-    createBoard={null}
+    createBoard={
+      <Memo(BoardsButton)
+        channel={
+          Object {
+            "create_at": 1508265709607,
+            "creator_id": "creator_id",
+            "delete_at": 0,
+            "display_name": "test channel",
+            "header": "test",
+            "id": "channel_id",
+            "last_post_at": 1508265709635,
+            "name": "testing",
+            "purpose": "test",
+            "team_id": "team-id",
+            "type": "O",
+            "update_at": 1508265709607,
+          }
+        }
+      />
+    }
     setHeader={
       <Memo(Connect(ChannelPermissionGate))
         channelId="channel_id"
@@ -1330,47 +1251,27 @@ exports[`components/post_view/ChannelIntroMessages test Open Channel should matc
         }
         teamId="team-id"
       >
-        <Memo(Connect(injectIntl(ToggleModalButton)))
-          ariaLabel="Set a Header"
-          className="intro-links color--link channelIntroButton"
-          dialogProps={
+        <Memo(SetHeaderButton)
+          channel={
             Object {
-              "channel": Object {
-                "create_at": 1508265709607,
-                "creator_id": "creator_id",
-                "delete_at": 0,
-                "display_name": "test channel",
-                "header": "test",
-                "id": "channel_id",
-                "last_post_at": 1508265709635,
-                "name": "testing",
-                "purpose": "test",
-                "team_id": "team-id",
-                "type": "O",
-                "update_at": 1508265709607,
-              },
+              "create_at": 1508265709607,
+              "creator_id": "creator_id",
+              "delete_at": 0,
+              "display_name": "test channel",
+              "header": "test",
+              "id": "channel_id",
+              "last_post_at": 1508265709635,
+              "name": "testing",
+              "purpose": "test",
+              "team_id": "team-id",
+              "type": "O",
+              "update_at": 1508265709607,
             }
           }
-          dialogType={
-            Object {
-              "$$typeof": Symbol(react.memo),
-              "WrappedComponent": [Function],
-              "compare": null,
-              "displayName": "Connect(EditChannelHeaderModal)",
-              "type": [Function],
-            }
-          }
-          modalId="edit_channel_header"
-        >
-          <EditIcon />
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Set a Header"
-            id="intro_messages.setHeader"
-          />
-        </Memo(Connect(injectIntl(ToggleModalButton)))>
+        />
       </Memo(Connect(ChannelPermissionGate))>
     }
     usersLimit={10}
   />
-</div>
+</Fragment>
 `;

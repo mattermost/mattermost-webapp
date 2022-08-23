@@ -10,6 +10,11 @@ import {UserProfile} from '@mattermost/types/users';
 import {Channel, ChannelType} from '@mattermost/types/channels';
 
 import ChannelIntroMessage from './channel_intro_message';
+import DMIntroMessage from './messages/dm';
+import StandardIntroMessage from './messages/standard';
+import GMIntroMessage from './messages/gm';
+import DefaultIntroMessage from './messages/default';
+import OffTopicIntroMessage from './messages/off_topic';
 
 describe('components/post_view/ChannelIntroMessages', () => {
     const channel = {
@@ -56,10 +61,11 @@ describe('components/post_view/ChannelIntroMessages', () => {
     };
 
     describe('test Open Channel', () => {
+        const component = StandardIntroMessage;
         test('should match snapshot, without boards', () => {
             const wrapper = shallow(
                 <ChannelIntroMessage{...baseProps}/>,
-            );
+            ).find(component).dive();
             expect(wrapper).toMatchSnapshot();
         });
 
@@ -69,12 +75,13 @@ describe('components/post_view/ChannelIntroMessages', () => {
                     {...baseProps}
                     boardComponent={boardComponent}
                 />,
-            );
+            ).find(component).dive();
             expect(wrapper).toMatchSnapshot();
         });
     });
 
     describe('test Group Channel', () => {
+        const component = GMIntroMessage;
         const groupChannel = {
             ...channel,
             type: Constants.GM_CHANNEL as ChannelType,
@@ -89,7 +96,7 @@ describe('components/post_view/ChannelIntroMessages', () => {
                 <ChannelIntroMessage
                     {...props}
                 />,
-            );
+            ).find(component).dive();
             expect(wrapper).toMatchSnapshot();
         });
 
@@ -99,7 +106,7 @@ describe('components/post_view/ChannelIntroMessages', () => {
                     {...props}
                     channelProfiles={users}
                 />,
-            );
+            ).find(component).dive();
             expect(wrapper).toMatchSnapshot();
         });
 
@@ -110,12 +117,13 @@ describe('components/post_view/ChannelIntroMessages', () => {
                     channelProfiles={users}
                     boardComponent={boardComponent}
                 />,
-            );
+            ).find(component).dive();
             expect(wrapper).toMatchSnapshot();
         });
     });
 
     describe('test DIRECT Channel', () => {
+        const component = DMIntroMessage;
         const directChannel = {
             ...channel,
             type: Constants.DM_CHANNEL as ChannelType,
@@ -130,7 +138,7 @@ describe('components/post_view/ChannelIntroMessages', () => {
                 <ChannelIntroMessage
                     {...props}
                 />,
-            );
+            ).find(component).dive();
             expect(wrapper).toMatchSnapshot();
         });
 
@@ -141,7 +149,7 @@ describe('components/post_view/ChannelIntroMessages', () => {
                     teammate={user1 as UserProfile}
                     teammateName='my teammate'
                 />,
-            );
+            ).find(component).dive();
             expect(wrapper).toMatchSnapshot();
         });
 
@@ -152,12 +160,13 @@ describe('components/post_view/ChannelIntroMessages', () => {
                     teammate={user1 as UserProfile}
                     boardComponent={boardComponent}
                 />,
-            );
+            ).find(component).dive();
             expect(wrapper).toMatchSnapshot();
         });
     });
 
     describe('test DEFAULT Channel', () => {
+        const component = DefaultIntroMessage;
         const directChannel = {
             ...channel,
             name: Constants.DEFAULT_CHANNEL,
@@ -174,7 +183,7 @@ describe('components/post_view/ChannelIntroMessages', () => {
                     {...props}
                     isReadOnly={true}
                 />,
-            );
+            ).find(component).dive();
             expect(wrapper).toMatchSnapshot();
         });
 
@@ -184,7 +193,7 @@ describe('components/post_view/ChannelIntroMessages', () => {
                     {...props}
                     teamIsGroupConstrained={true}
                 />,
-            );
+            ).find(component).dive();
             expect(wrapper).toMatchSnapshot();
         });
 
@@ -195,7 +204,7 @@ describe('components/post_view/ChannelIntroMessages', () => {
                     teamIsGroupConstrained={true}
                     boardComponent={boardComponent}
                 />,
-            );
+            ).find(component).dive();
             expect(wrapper).toMatchSnapshot();
         });
 
@@ -206,7 +215,7 @@ describe('components/post_view/ChannelIntroMessages', () => {
                     enableUserCreation={true}
                     boardComponent={boardComponent}
                 />,
-            );
+            ).find(component).dive();
             expect(wrapper).toMatchSnapshot();
         });
 
@@ -218,12 +227,13 @@ describe('components/post_view/ChannelIntroMessages', () => {
                     teamIsGroupConstrained={true}
                     boardComponent={boardComponent}
                 />,
-            );
+            ).find(component).dive();
             expect(wrapper).toMatchSnapshot();
         });
     });
 
     describe('test OFFTOPIC Channel', () => {
+        const component = OffTopicIntroMessage;
         const directChannel = {
             ...channel,
             type: Constants.OPEN_CHANNEL as ChannelType,
@@ -239,7 +249,7 @@ describe('components/post_view/ChannelIntroMessages', () => {
                 <ChannelIntroMessage
                     {...props}
                 />,
-            );
+            ).find(component).dive();
             expect(wrapper).toMatchSnapshot();
         });
 
@@ -249,7 +259,7 @@ describe('components/post_view/ChannelIntroMessages', () => {
                     {...props}
                     boardComponent={boardComponent}
                 />,
-            );
+            ).find(component).dive();
             expect(wrapper).toMatchSnapshot();
         });
     });
