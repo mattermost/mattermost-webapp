@@ -100,7 +100,6 @@ const FilePreviewModalImageControls = ({toolbarZoom, setToolbarZoom}: Props) => 
         } else {
             setSelectedZoomValue('customZoom');
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [toolbarZoom]);
 
     // Render
