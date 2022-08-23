@@ -7,12 +7,10 @@ import * as reselect from 'reselect';
 
 import {Posts, Preferences} from 'mattermost-redux/constants';
 
-import {makeGetPostsForIds} from 'mattermost-redux/selectors/entities/posts';
+import {makeGetPostsForIds, UserActivityPost} from 'mattermost-redux/selectors/entities/posts';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {isTimezoneEnabled} from 'mattermost-redux/selectors/entities/timezone';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
-
-import {UserActivityPost} from 'mattermost-redux/types/posts';
 
 import {createIdsSelector, memoizeResult} from 'mattermost-redux/utils/helpers';
 import {isUserActivityPost, shouldFilterJoinLeavePost, isFromWebhook} from 'mattermost-redux/utils/post_utils';

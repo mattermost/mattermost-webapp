@@ -3,8 +3,6 @@
 
 import React from 'react';
 
-import PageLine from './page_line';
-
 import './single_column_layout.scss';
 
 type Props = {
@@ -17,19 +15,6 @@ type Props = {
 };
 
 export default function SingleColumnLayout(props: Props) {
-    let showBeforePath = true;
-    if (props.beforePath === false) {
-        showBeforePath = false;
-    }
-
-    let showAfterPath = true;
-    if (props.afterPath === false) {
-        showAfterPath = false;
-    }
-
-    const lineDistance = props.lineDistance === undefined ? 40 : Math.abs(props.lineDistance);
-    const lineLeft = props.lineLeft === undefined ? 99 : Math.abs(props.lineLeft);
-
     let children = props.children;
     if (React.Children.count(props.children) > 1) {
         children = <div>{props.children}</div>;
@@ -40,29 +25,7 @@ export default function SingleColumnLayout(props: Props) {
             className='SingleColumnLayout'
             style={props.style}
         >
-            {showBeforePath && (
-                <PageLine
-                    style={{
-                        flexGrow: '1',
-                        flexShrink: '1',
-                        height: '50vh',
-                        marginBottom: `${lineDistance}px`,
-                        left: `${lineLeft}px`,
-                    }}
-                />
-            )}
             {children}
-            {showAfterPath && (
-                <PageLine
-                    style={{
-                        flexGrow: '1',
-                        flexShrink: '1',
-                        height: '50vh',
-                        marginTop: `${lineDistance}px`,
-                        left: `${lineLeft}px`,
-                    }}
-                />
-            )}
         </div>
     );
 }
