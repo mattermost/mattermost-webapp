@@ -201,6 +201,7 @@ export default function BillingHistoryTable({invoices}: BillingHistoryTableProps
                                     <a
                                         target='_self'
                                         rel='noopener noreferrer'
+                                        onClick={(e) => e.stopPropagation()}
                                         href={url}
                                     >
                                         <i className='icon icon-file-pdf-outline'/>

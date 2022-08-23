@@ -2941,7 +2941,7 @@
   "claim.oauth_to_email.pwdNotMatch": "Passwords do not match.",
   "claim.oauth_to_email.switchTo": "Switch {type} to Email and Password",
   "claim.oauth_to_email.title": "Switch {type} Account to Email",
-  "cloud_billing_history_modal.title": "Upon reactivation you will be charged {amount}",
+  "cloud_billing_history_modal.title": "Invoice(s)",
   "cloud_delinquency.banner.buttonText": "Update billing now",
   "cloud_delinquency.banner.title": "Update your billing information now to keep paid features.",
   "cloud_delinquency.cc_modal.card.buttonDescription": "Upon reactivation you will be charged {amount}",
