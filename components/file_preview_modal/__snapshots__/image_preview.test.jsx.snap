@@ -2,7 +2,7 @@
 
 exports[`components/view_image/ImagePreview should match snapshot, with preview 1`] = `
 <div
-  className="image_preview_div__normal"
+  className="image_preview_div"
 >
   <canvas
     className="image_preview_canvas__normal"
@@ -17,7 +17,7 @@ exports[`components/view_image/ImagePreview should match snapshot, with preview 
 
 exports[`components/view_image/ImagePreview should match snapshot, with preview, cannot download 1`] = `
 <div
-  className="image_preview_div__normal"
+  className="image_preview_div"
 >
   <canvas
     className="image_preview_canvas__normal"
@@ -32,7 +32,7 @@ exports[`components/view_image/ImagePreview should match snapshot, with preview,
 
 exports[`components/view_image/ImagePreview should match snapshot, without preview 1`] = `
 <div
-  className="image_preview_div__normal"
+  className="image_preview_div"
 >
   <canvas
     className="image_preview_canvas__normal"
@@ -47,7 +47,7 @@ exports[`components/view_image/ImagePreview should match snapshot, without previ
 
 exports[`components/view_image/ImagePreview should match snapshot, without preview, cannot download 1`] = `
 <div
-  className="image_preview_div__normal"
+  className="image_preview_div"
 >
   <canvas
     className="image_preview_canvas__normal"
