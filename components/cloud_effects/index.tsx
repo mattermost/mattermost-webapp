@@ -6,8 +6,9 @@ import {useSelector} from 'react-redux';
 
 import {isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 
-import CloudEffects from './cloud_effects';
+import AdminCloudEffects from './admin_cloud_effects';
 
 export default function CloudEffectsWrapper() {
     const isCloud = useSelector(isCurrentLicenseCloud);
@@ -17,7 +18,11 @@ export default function CloudEffectsWrapper() {
         return null;
     }
 
+    if (!isSystemAdmin(currentUser.roles)) {
+        return null
+    }
+
     // This render can become more complex if need be, rendering multiple
     // effect components according to conditions.
-    return <CloudEffects/>;
+    return <AdminCloudEffects/>;
 }

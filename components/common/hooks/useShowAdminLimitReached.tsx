@@ -19,6 +19,7 @@ import useGetUsage from './useGetUsage';
 import useGetLimits from './useGetLimits';
 import usePreference from './usePreference';
 
+// intended to only be run for admins of cloud instances.
 export default function useShowAdminLimitReached() {
     const usage = useGetUsage();
     const dispatch = useDispatch();
