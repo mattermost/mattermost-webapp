@@ -76,7 +76,9 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
                     boardComponent={boardComponent}
                 />
             );
-        } else if (channel.type === Constants.GM_CHANNEL) {
+        }
+
+        if (channel.type === Constants.GM_CHANNEL) {
             return (
                 <GMIntroMessage
                     channel={channel}
@@ -86,7 +88,9 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
                     boardComponent={boardComponent}
                 />
             );
-        } else if (channel.name === Constants.DEFAULT_CHANNEL) {
+        }
+
+        if (channel.name === Constants.DEFAULT_CHANNEL) {
             return (
                 <DefaultIntroMessage
                     channel={channel}
@@ -99,7 +103,9 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
                     boardComponent={boardComponent}
                 />
             );
-        } else if (channel.name === Constants.OFFTOPIC_CHANNEL) {
+        }
+
+        if (channel.name === Constants.OFFTOPIC_CHANNEL) {
             return (
                 <OffTopicIntroMessage
                     channel={channel}
@@ -109,7 +115,9 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
                     boardComponent={boardComponent}
                 />
             );
-        } else if (channel.type === Constants.OPEN_CHANNEL || channel.type === Constants.PRIVATE_CHANNEL) {
+        }
+
+        if (channel.type === Constants.OPEN_CHANNEL || channel.type === Constants.PRIVATE_CHANNEL) {
             return (
                 <StandardIntroMessage
                     channel={channel}
@@ -122,6 +130,7 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
                 />
             );
         }
+
         return null;
     }
 }
