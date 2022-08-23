@@ -91,6 +91,7 @@ type Props = {
     theme: Theme;
     isDelinquencyModal?: boolean;
     invoices?: Invoice[];
+    isCloudDelinquencyGreaterThan90Days: boolean;
 
     // callerCTA is information about the cta that opened this modal. This helps us provide a telemetry path
     // showing information about how the modal was opened all the way to more CTAs within the modal itself
@@ -594,29 +595,48 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                 </div>
                 <div className='RHS'>
                     {this.props.isDelinquencyModal ? (
-                        <DelinquencyCard
-                            topColor='#4A69AC'
-                            plan={''}
-                            price={this.getDelinquencyTotalString()}
-                            planBriefing={
-                                <div className='button-description'>
-                                    <FormattedMessage
-                                        id={'cloud_delinquency.cc_modal.card.buttonDescription'}
-                                        defaultMessage={'Upon reactivation you will be charged {amount}'}
-                                        values={{
-                                            amount: this.getDelinquencyTotalString(),
-                                        }}
-                                    />
-                                </div>
-                            }
-                            buttonDetails={{
-                                action: this.handleSubmitClick,
-                                text: localizeMessage('cloud_delinquency.cc_modal.card.reactivate', 'Re-active'),
-                                customClass: this.state.paymentInfoIsValid ? ButtonCustomiserClasses.special : ButtonCustomiserClasses.grayed,
-                                disabled: !this.state.paymentInfoIsValid,
-                            }}
-                            onViewBreakdownClick={this.handleViewBreakdownClick}
-                        />
+                        <>
+                            {this.props.
+                                isCloudDelinquencyGreaterThan90Days ? null : (
+                                    <div
+                                        className='plan_comparison'
+                                    >
+                                        {this.comparePlan}
+                                    </div>
+                                )}
+                            <DelinquencyCard
+                                topColor='#4A69AC'
+                                plan={''}
+                                price={this.getDelinquencyTotalString()}
+                                planBriefing={
+                                    <div className='button-description'>
+                                        <FormattedMessage
+                                            id={
+                                                'cloud_delinquency.cc_modal.card.buttonDescription'
+                                            }
+                                            defaultMessage={
+                                                'Upon reactivation you will be charged {amount}'
+                                            }
+                                            values={{
+                                                amount: this.getDelinquencyTotalString(),
+                                            }}
+                                        />
+                                    </div>
+                                }
+                                buttonDetails={{
+                                    action: this.handleSubmitClick,
+                                    text: localizeMessage(
+                                        'cloud_delinquency.cc_modal.card.reactivate',
+                                        'Re-active',
+                                    ),
+                                    customClass: this.state.paymentInfoIsValid ? ButtonCustomiserClasses.special : ButtonCustomiserClasses.grayed,
+                                    disabled: !this.state.paymentInfoIsValid,
+                                }}
+                                onViewBreakdownClick={
+                                    this.handleViewBreakdownClick
+                                }
+                            />
+                        </>
                     ) : (
                         <>
                             <div

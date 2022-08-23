@@ -58,6 +58,13 @@
 
     .modal-body {
         padding: 0;
+        .view-image__loading {
+            color: #FFF;
+            background-color: #FFF;
+            .fa {
+                color: #3f4350;
+            }
+        }
     }
 
     .post-code {

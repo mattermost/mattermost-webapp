@@ -19,7 +19,7 @@ import {GlobalState} from 'types/store';
 import {BillingDetails} from 'types/cloud/sku';
 
 import {isModalOpen} from 'selectors/views/modals';
-import {getCloudContactUsLink, InquiryType, getCloudDelinquentInvoices} from 'selectors/cloud';
+import {getCloudContactUsLink, InquiryType, getCloudDelinquentInvoices, isCloudDelinquencyGreaterThan90Days} from 'selectors/cloud';
 
 import {ModalIdentifiers} from 'utils/constants';
 
@@ -38,6 +38,7 @@ function mapStateToProps(state: GlobalState) {
         isDevMode: getConfig(state).EnableDeveloper === 'true',
         contactSupportLink: getCloudContactUsLink(state)(InquiryType.Technical),
         invoices: getCloudDelinquentInvoices(state),
+        isCloudDelinquencyGreaterThan90Days: isCloudDelinquencyGreaterThan90Days(state),
         isFreeTrial: subscription?.is_free_trial === 'true',
         contactSalesLink: getCloudContactUsLink(state)(InquiryType.Sales),
         productId: subscription?.product_id,

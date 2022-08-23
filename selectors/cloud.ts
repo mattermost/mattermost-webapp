@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Invoice} from '@mattermost/types/cloud';
+import {Invoice, Subscription} from '@mattermost/types/cloud';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
@@ -65,5 +65,18 @@ export const getCloudDelinquentInvoices = createSelector(
             }
         }
         return delinquentInvoices;
+    },
+);
+
+export const isCloudDelinquencyGreaterThan90Days = createSelector(
+    'isCloudDelinquencyGreaterThan90Days',
+    (state: GlobalState) => state.entities.cloud.subscription as Subscription,
+    (subscription: Subscription) => {
+        if (!subscription || !subscription.delinquent_since) {
+            return false;
+        }
+        const now = new Date();
+        const delinquentDate = new Date(subscription.delinquent_since * 1000);
+        return (Math.floor((now.getTime() - delinquentDate.getTime()) / (1000 * 60 * 60 * 24)) >= 90);
     },
 );
