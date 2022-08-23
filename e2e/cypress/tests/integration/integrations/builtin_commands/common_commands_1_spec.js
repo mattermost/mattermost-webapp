@@ -166,7 +166,7 @@ describe('Integrations', () => {
         });
     });
 
-    it('/marketplace test', () => {
+    it('MM-T5100 /marketplace test', () => {
         // # Post "/marketplace" as testUser
         cy.postMessage('/marketplace ');
 
