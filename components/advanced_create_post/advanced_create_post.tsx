@@ -902,16 +902,17 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     }
 
     handleUploadError = (err: string | ServerError, clientId?: string, channelId?: string) => {
-        if (!channelId || !clientId) {
-            return;
-        }
-
-        const draft = {...this.draftsForChannel[channelId]!};
-
         let serverError = err;
         if (typeof serverError === 'string') {
             serverError = new Error(serverError);
         }
+
+        if (!channelId || !clientId) {
+            this.setState({serverError});
+            return;
+        }
+
+        const draft = {...this.draftsForChannel[channelId]!};
 
         if (draft.uploadsInProgress) {
             const index = draft.uploadsInProgress.indexOf(clientId);
