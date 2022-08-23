@@ -2,9 +2,10 @@
 // See LICENSE.txt for license information.
 
 import React, {ChangeEvent, memo, useEffect, useState} from 'react';
-import {PlusIcon, MinusIcon} from '@mattermost/compass-icons/components';
 import {useIntl} from 'react-intl';
 import {clamp} from 'lodash';
+
+import {PlusIcon, MinusIcon} from '@mattermost/compass-icons/components';
 
 import {minZoom, zoom} from '../image_preview';
 import './file_preview_modal_image_controls.scss';
