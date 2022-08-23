@@ -4,54 +4,27 @@
 import React from 'react';
 import {Route, Switch, Redirect} from 'react-router-dom';
 
-import {ActionFunc} from 'mattermost-redux/types/actions';
-import {AdminConfig, EnvironmentConfig, ClientLicense} from '@mattermost/types/config';
 import {Role} from '@mattermost/types/roles';
-import {ConsoleAccess} from 'mattermost-redux/types/admin';
 import {CloudState, Product} from '@mattermost/types/cloud';
-import {Team} from '@mattermost/types/teams';
 import {DeepPartial} from '@mattermost/types/utilities';
+import {AdminConfig, EnvironmentConfig, ClientLicense} from '@mattermost/types/config';
+
+import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import AnnouncementBar from 'components/announcement_bar';
 import SystemNotice from 'components/system_notice';
 import ModalController from 'components/modal_controller';
-
 import SchemaAdminSettings from 'components/admin_console/schema_admin_settings';
 import DiscardChangesModal from 'components/discard_changes_modal';
-
 import BackstageNavbar from 'components/backstage/components/backstage_navbar';
 
 import AdminSidebar from './admin_sidebar';
 import Highlight from './highlight';
-import AdminDefinition from './admin_definition';
 
-export type Props = {
-    config: DeepPartial<AdminConfig>;
-    adminDefinition: typeof AdminDefinition;
-    environmentConfig?: Partial<EnvironmentConfig>;
-    license: ClientLicense;
-    unauthorizedRoute: string;
-    buildEnterpriseReady: boolean;
-    roles: Record<string, Role>;
+import type {PropsFromRedux} from './index';
+
+export interface Props extends PropsFromRedux {
     match: {url: string};
-    showNavigationPrompt: boolean;
-    isCurrentUserSystemAdmin: boolean;
-    currentUserHasAnAdminRole: boolean;
-    consoleAccess: ConsoleAccess;
-    cloud: CloudState;
-    team: Team;
-    actions: {
-        getConfig: () => ActionFunc;
-        getEnvironmentConfig: () => ActionFunc;
-        setNavigationBlocked: () => void;
-        confirmNavigation: () => void;
-        cancelNavigation: () => void;
-        loadRolesIfNeeded: (roles: Iterable<string>) => ActionFunc;
-        selectChannel: (channelId: string) => void;
-        selectTeam: (teamId: string) => void;
-        editRole: (role: Role) => void;
-        updateConfig?: (config: AdminConfig) => ActionFunc;
-    };
 }
 
 type State = {
@@ -70,6 +43,11 @@ type ExtraProps = {
     updateConfig?: (config: AdminConfig) => ActionFunc;
     cloud: CloudState;
     isCurrentUserSystemAdmin: boolean;
+}
+
+type ConsoleAccess = {
+    read: Record<string, boolean>;
+    write: Record<string, boolean>;
 }
 
 type Item = {

@@ -82,6 +82,7 @@ export const Preferences = {
     CRT_TUTORIAL_TRIGGERED: 'crt_tutorial_triggered',
     CRT_TUTORIAL_AUTO_TOUR_STATUS: 'crt_tutorial_auto_tour_status',
     CRT_TUTORIAL_STEP: 'crt_tutorial_step',
+    EXPLORE_OTHER_TOOLS_TUTORIAL_STEP: 'explore_other_tools_step',
     CRT_THREAD_PANE_STEP: 'crt_thread_pane_step',
     CHANNEL_DISPLAY_MODE: 'channel_display_mode',
     CHANNEL_DISPLAY_MODE_CENTERED: 'centered',
@@ -302,7 +303,7 @@ export const ActionTypes = keyMirror({
 
     FIRST_CHANNEL_NAME: null,
 
-    RECEIVED_BOARDS_INSIGHTS: null,
+    RECEIVED_PLUGIN_INSIGHT: null,
     SET_EDIT_CHANNEL_MEMBERS: null,
 });
 
@@ -463,6 +464,13 @@ export const SelfHostedLicenseSKUNames = {
     PROFESSIONAL: 'professional',
     ENTERPRISE: 'enterprise',
 };
+export enum LicenseSkus {
+    E10 = 'E10',
+    E20 = 'E20',
+    Starter = 'starter',
+    Professional = 'professional',
+    Enterprise = 'enterprise',
+}
 
 export const A11yClassNames = {
     REGION: 'a11y__region',
@@ -585,6 +593,13 @@ export const CrtTutorialSteps = {
     UNREAD_POPOVER: 2,
     FINISHED: 999,
 };
+
+export const ExploreOtherToolsTourSteps = {
+    BOARDS_TOUR: 0,
+    PLAYBOOKS_TOUR: 1,
+    FINISHED: 999,
+};
+
 export const CrtTutorialTriggerSteps = {
     START: 0,
     STARTED: 1,
@@ -1227,6 +1242,7 @@ export const Constants = {
     AdminTutorialSteps,
     CrtTutorialSteps,
     CrtTutorialTriggerSteps,
+    ExploreOtherToolsTourSteps,
     AutoTourStatus,
     CrtThreadPaneSteps,
     PostTypes,
@@ -2042,6 +2058,42 @@ export const InsightsCardTitles = {
             id: t('insights.topBoards.mySubTitle'),
             defaultMessage: 'Most active boards I\'ve participated in',
         },
+    },
+    TOP_PLAYBOOKS: {
+        teamTitle: {
+            id: t('insights.topPlaybooks.title'),
+            defaultMessage: 'Top playbooks',
+        },
+        myTitle: {
+            id: t('insights.topPlaybooks.myTitle'),
+            defaultMessage: 'My top playbooks',
+        },
+        teamSubTitle: {
+            id: t('insights.topPlaybooks.subTitle'),
+            defaultMessage: 'Playbooks with the most runs',
+        },
+        mySubTitle: {
+            id: t('insights.topPlaybooks.mySubTitle'),
+            defaultMessage: 'Playbooks I\'ve used with the most runs',
+        },
+    },
+    TOP_DMS: {
+        teamTitle: {},
+        myTitle: {
+            id: t('insights.topDMs.myTitle'),
+            defaultMessage: 'My most active direct messages',
+        },
+        teamSubTitle: {},
+        mySubTitle: {},
+    },
+    NEW_TEAM_MEMBERS: {
+        teamTitle: {
+            id: t('insights.newTeamMembers.title'),
+            defaultMessage: 'New team members',
+        },
+        myTitle: {},
+        teamSubTitle: {},
+        mySubTitle: {},
     },
 };
 

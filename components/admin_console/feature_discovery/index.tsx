@@ -4,21 +4,21 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
-import withGetCloudSubscription from 'components/common/hocs/cloud/with_get_cloud_subscription';
-
 import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
+import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
 import {Action, GenericAction} from 'mattermost-redux/types/actions';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
-import {isCloudLicense} from 'utils/license_utils';
-
 import {checkHadPriorTrial} from 'mattermost-redux/selectors/entities/cloud';
-import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
-import {LicenseSkus} from 'mattermost-redux/types/general';
-
-import {openModal} from 'actions/views/modals';
 
 import {ModalData} from 'types/actions';
 import {GlobalState} from 'types/store';
+
+import {isCloudLicense} from 'utils/license_utils';
+import {LicenseSkus} from 'utils/constants';
+
+import {openModal} from 'actions/views/modals';
+
+import withGetCloudSubscription from 'components/common/hocs/cloud/with_get_cloud_subscription';
 
 import FeatureDiscovery from './feature_discovery';
 

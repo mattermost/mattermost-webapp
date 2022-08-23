@@ -185,6 +185,7 @@ const initialComponents: PluginsState['components'] = {
     Product: [],
     RightHandSidebarComponent: [],
     UserGuideDropdownItem: [],
+    FilesWillUploadHook: [],
 };
 
 function components(state: PluginsState['components'] = initialComponents, action: GenericAction) {
@@ -386,7 +387,7 @@ function siteStatsHandlers(state: PluginsState['siteStatsHandlers'] = {}, action
 
 function insightsHandlers(state: PluginsState['insightsHandlers'] = {}, action: GenericAction) {
     switch (action.type) {
-    case ActionTypes.RECEIVED_BOARDS_INSIGHTS:
+    case ActionTypes.RECEIVED_PLUGIN_INSIGHT:
         if (action.data) {
             const nextState = {...state};
             nextState[action.data.pluginId] = action.data.handler;

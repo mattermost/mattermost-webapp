@@ -116,7 +116,7 @@ import {
 import {CompleteOnboardingRequest} from '@mattermost/types/setup';
 
 import {UserThreadList, UserThread, UserThreadWithPost} from '@mattermost/types/threads';
-import {TopChannelResponse, TopReactionResponse, TopThreadResponse} from '@mattermost/types/insights';
+import {TopChannelResponse, TopDMsResponse, TopReactionResponse, TopThreadResponse} from '@mattermost/types/insights';
 
 import {cleanUrlForLogging} from './errors';
 import {buildQueryString} from './helpers';
@@ -2189,6 +2189,20 @@ export default class Client4 {
     getMyTopThreads = (teamId: string, page: number, perPage: number, timeRange: string) => {
         return this.doFetch<TopThreadResponse>(
             `${this.getUsersRoute()}/me/top/threads${buildQueryString({page, per_page: perPage, time_range: timeRange, team_id: teamId})}`,
+            {method: 'get'},
+        );
+    }
+
+    getMyTopDMs = (teamId: string, page: number, perPage: number, timeRange: string) => {
+        return this.doFetch<TopDMsResponse>(
+            `${this.getUsersRoute()}/me/top/dms${buildQueryString({page, per_page: perPage, time_range: timeRange, team_id: teamId})}`,
+            {method: 'get'},
+        );
+    }
+
+    getNewTeamMembers = (teamId: string, page: number, perPage: number, timeRange: string) => {
+        return this.doFetch<TopDMsResponse>(
+            `${this.getTeamRoute(teamId)}/top/team_members${buildQueryString({page, per_page: perPage, time_range: timeRange})}`,
             {method: 'get'},
         );
     }

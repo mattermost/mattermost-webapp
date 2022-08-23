@@ -16,6 +16,7 @@ import CreateComment, {CreateComment as CreateCommentClass, State, Props} from '
 import FileUpload from 'components/file_upload';
 import FilePreview from 'components/file_preview';
 import Textbox, {TextboxClass, TextboxElement} from 'components/textbox';
+import {FilePreviewInfo} from 'components/file_preview/file_preview';
 
 import {FileInfo} from '@mattermost/types/files';
 import {Emoji} from '@mattermost/types/emojis';
@@ -367,7 +368,7 @@ describe('components/CreateComment', () => {
 
         const uploadCompleteFileInfo = [{id: '3', name: 'ccc', create_at: 300} as FileInfo];
         const expectedNewFileInfos = fileInfos.concat(uploadCompleteFileInfo);
-        instance.handleFileUploadComplete(uploadCompleteFileInfo, '3', '', props.rootId);
+        instance.handleFileUploadComplete(uploadCompleteFileInfo, ['3'], '', props.rootId);
         expect(updateCommentDraftWithRootId).toHaveBeenCalled();
         expect(updateCommentDraftWithRootId.mock.calls[0][0]).toEqual(props.rootId);
         expect(updateCommentDraftWithRootId.mock.calls[0][1]).toEqual(
@@ -383,7 +384,7 @@ describe('components/CreateComment', () => {
             <CreateComment {...baseProps}/>,
         );
 
-        wrapper.find(FileUpload).prop('onUploadProgress')({clientId: 'clientId', name: 'name', percent: 10, type: 'type'});
+        wrapper.find(FileUpload).prop('onUploadProgress')({clientId: 'clientId', name: 'name', percent: 10, type: 'type'} as unknown as FilePreviewInfo);
         expect(wrapper.find(FilePreview).prop('uploadsProgressPercent')).toEqual({clientId: {clientId: 'clientId', percent: 10, name: 'name', type: 'type'}});
 
         expect(wrapper.state('uploadsProgressPercent')).toEqual({clientId: {clientId: 'clientId', percent: 10, name: 'name', type: 'type'}});
