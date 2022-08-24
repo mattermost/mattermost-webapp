@@ -31,6 +31,27 @@ import type {SearchType} from 'types/store/rhs';
 
 import type {Props, SearchFilterType} from './types';
 
+const findPrevFilter = (searchTerms: string, position: number): string | undefined => {
+    if (searchTerms.length > position) {
+        let start, end = 0;
+        for(let p = position; p >= 0; p--) {
+           if (searchTerms[p] === ':') {
+                end = p;
+            }
+        }
+
+        for(let p = end; p >= 0; p--) {
+            if (searchTerms[p] === ' ') {
+                 start = p;
+                 break;
+             }
+         }
+
+         return searchTerms.slice(start, end).join(' ');
+    }
+
+}
+
 interface SearchHintOption {
     searchTerm: string;
     message: {
@@ -54,9 +75,10 @@ const determineVisibleSearchHintOptions = (searchTerms: string, searchType: Sear
     const pretextArray = searchTerms.split(/\s+/g);
     const pretext = pretextArray[pretextArray.length - 1];
     const blankBeforeCursor = searchTerms[cursorPosition - 1] === ' ';
+    const filterIsNotIN = findPrevFilter(searchTerms, cursorPosition)?.toLowerCase() !== 'in';
     const cursorAtEnd = cursorPosition === searchTerms.length;
 
-    const shouldShowHintOptions = (blankBeforeCursor || cursorAtEnd) && !options.some(({searchTerm}) => searchTerms.toLowerCase().endsWith(searchTerm.toLowerCase()));
+    const shouldShowHintOptions = (blankBeforeCursor && filterIsNotIN || cursorAtEnd) && !options.some(({searchTerm}) => searchTerms.toLowerCase().endsWith(searchTerm.toLowerCase()));
 
     if (shouldShowHintOptions) {
         try {
