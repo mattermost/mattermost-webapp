@@ -1,0 +1,178 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/post_view/ChannelIntroMessages test Group Channel should match snapshot, no profiles 1`] = `
+<p
+  className="channel-intro-text"
+>
+  <MemoizedFormattedMessage
+    defaultMessage="This is the start of your group message history with these teammates. Messages and files shared here are not shown to people outside this area."
+    id="intro_messages.group_message"
+  />
+</p>
+`;
+
+exports[`components/post_view/ChannelIntroMessages test Group Channel should match snapshot, with profiles, with boards 1`] = `
+<Fragment>
+  <div
+    className="post-profile-img__container channel-intro-img"
+  >
+    <ProfilePicture
+      hasMention={false}
+      isEmoji={false}
+      isRHS={false}
+      key="introprofilepictureuser1"
+      popoverPlacement="right"
+      size="xl"
+      src="/api/v4/users/user1/image?_=0"
+      userId="user1"
+      wrapperClass=""
+    />
+    <ProfilePicture
+      hasMention={false}
+      isEmoji={false}
+      isRHS={false}
+      key="introprofilepictureguest1"
+      popoverPlacement="right"
+      size="xl"
+      src="/api/v4/users/guest1/image?_=0"
+      userId="guest1"
+      wrapperClass=""
+    />
+  </div>
+  <p
+    className="channel-intro-text"
+  >
+    <injectIntl(FormattedMarkdownMessage)
+      defaultMessage="This is the start of your group message history with {names}.\\\\nMessages and files shared here are not shown to people outside this area."
+      id="intro_messages.GM"
+      values={
+        Object {
+          "names": "test channel",
+        }
+      }
+    />
+  </p>
+  <Memo(BoardsButton)
+    boardComponent={
+      Object {
+        "id": "board",
+        "pluginId": "board",
+      }
+    }
+    channel={
+      Object {
+        "create_at": 1508265709607,
+        "creator_id": "creator_id",
+        "delete_at": 0,
+        "display_name": "test channel",
+        "header": "test",
+        "id": "channel_id",
+        "last_post_at": 1508265709635,
+        "name": "testing",
+        "purpose": "test",
+        "team_id": "team-id",
+        "type": "G",
+        "update_at": 1508265709607,
+      }
+    }
+  />
+  <Memo(SetHeaderButton)
+    channel={
+      Object {
+        "create_at": 1508265709607,
+        "creator_id": "creator_id",
+        "delete_at": 0,
+        "display_name": "test channel",
+        "header": "test",
+        "id": "channel_id",
+        "last_post_at": 1508265709635,
+        "name": "testing",
+        "purpose": "test",
+        "team_id": "team-id",
+        "type": "G",
+        "update_at": 1508265709607,
+      }
+    }
+  />
+</Fragment>
+`;
+
+exports[`components/post_view/ChannelIntroMessages test Group Channel should match snapshot, with profiles, without boards 1`] = `
+<Fragment>
+  <div
+    className="post-profile-img__container channel-intro-img"
+  >
+    <ProfilePicture
+      hasMention={false}
+      isEmoji={false}
+      isRHS={false}
+      key="introprofilepictureuser1"
+      popoverPlacement="right"
+      size="xl"
+      src="/api/v4/users/user1/image?_=0"
+      userId="user1"
+      wrapperClass=""
+    />
+    <ProfilePicture
+      hasMention={false}
+      isEmoji={false}
+      isRHS={false}
+      key="introprofilepictureguest1"
+      popoverPlacement="right"
+      size="xl"
+      src="/api/v4/users/guest1/image?_=0"
+      userId="guest1"
+      wrapperClass=""
+    />
+  </div>
+  <p
+    className="channel-intro-text"
+  >
+    <injectIntl(FormattedMarkdownMessage)
+      defaultMessage="This is the start of your group message history with {names}.\\\\nMessages and files shared here are not shown to people outside this area."
+      id="intro_messages.GM"
+      values={
+        Object {
+          "names": "test channel",
+        }
+      }
+    />
+  </p>
+  <Memo(BoardsButton)
+    channel={
+      Object {
+        "create_at": 1508265709607,
+        "creator_id": "creator_id",
+        "delete_at": 0,
+        "display_name": "test channel",
+        "header": "test",
+        "id": "channel_id",
+        "last_post_at": 1508265709635,
+        "name": "testing",
+        "purpose": "test",
+        "team_id": "team-id",
+        "type": "G",
+        "update_at": 1508265709607,
+      }
+    }
+  />
+  <Memo(SetHeaderButton)
+    channel={
+      Object {
+        "create_at": 1508265709607,
+        "creator_id": "creator_id",
+        "delete_at": 0,
+        "display_name": "test channel",
+        "header": "test",
+        "id": "channel_id",
+        "last_post_at": 1508265709635,
+        "name": "testing",
+        "purpose": "test",
+        "team_id": "team-id",
+        "type": "G",
+        "update_at": 1508265709607,
+      }
+    }
+  />
+</Fragment>
+`;

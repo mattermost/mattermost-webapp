@@ -1,0 +1,499 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should match snapshot, no boards 1`] = `
+<Fragment>
+  <h2
+    className="channel-intro__title"
+  >
+    <MemoizedFormattedMessage
+      defaultMessage="Beginning of {name}"
+      id="intro_messages.beginning"
+      values={
+        Object {
+          "name": "test channel",
+        }
+      }
+    />
+  </h2>
+  <p
+    className="channel-intro__content"
+  >
+    <injectIntl(FormattedMarkdownMessage)
+      defaultMessage="**Welcome to {display_name}!**\\\\n \\\\nPost messages here that you want everyone to see. Everyone automatically becomes a permanent member of this channel when they join the team."
+      id="intro_messages.default"
+      values={
+        Object {
+          "display_name": "test channel",
+        }
+      }
+    />
+  </p>
+  <Memo(BoardsButton)
+    channel={
+      Object {
+        "create_at": 1508265709607,
+        "creator_id": "creator_id",
+        "delete_at": 0,
+        "display_name": "test channel",
+        "header": "test",
+        "id": "channel_id",
+        "last_post_at": 1508265709635,
+        "name": "town-square",
+        "purpose": "test",
+        "team_id": "team-id",
+        "type": "O",
+        "update_at": 1508265709607,
+      }
+    }
+  />
+  <Connect(ChannelPermissionGate)
+    channelId="channel_id"
+    permissions={
+      Array [
+        "manage_public_channel_properties",
+      ]
+    }
+    teamId="team-id"
+  >
+    <Memo(SetHeaderButton)
+      channel={
+        Object {
+          "create_at": 1508265709607,
+          "creator_id": "creator_id",
+          "delete_at": 0,
+          "display_name": "test channel",
+          "header": "test",
+          "id": "channel_id",
+          "last_post_at": 1508265709635,
+          "name": "town-square",
+          "purpose": "test",
+          "team_id": "team-id",
+          "type": "O",
+          "update_at": 1508265709607,
+        }
+      }
+    />
+  </Connect(ChannelPermissionGate)>
+  <br />
+</Fragment>
+`;
+
+exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should match snapshot, no boards, archived channel 1`] = `
+<Fragment>
+  <h2
+    className="channel-intro__title"
+  >
+    <MemoizedFormattedMessage
+      defaultMessage="Beginning of {name}"
+      id="intro_messages.beginning"
+      values={
+        Object {
+          "name": "test channel",
+        }
+      }
+    />
+  </h2>
+  <p
+    className="channel-intro__content"
+  >
+    <injectIntl(FormattedMarkdownMessage)
+      defaultMessage="**Welcome to {display_name}!**\\\\n \\\\nPost messages here that you want everyone to see. Everyone automatically becomes a permanent member of this channel when they join the team."
+      id="intro_messages.default"
+      values={
+        Object {
+          "display_name": "test channel",
+        }
+      }
+    />
+  </p>
+  <br />
+</Fragment>
+`;
+
+exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should match snapshot, readonly 1`] = `
+<Fragment>
+  <h2
+    className="channel-intro__title"
+  >
+    <MemoizedFormattedMessage
+      defaultMessage="Beginning of {name}"
+      id="intro_messages.beginning"
+      values={
+        Object {
+          "name": "test channel",
+        }
+      }
+    />
+  </h2>
+  <p
+    className="channel-intro__content"
+  >
+    <injectIntl(FormattedMarkdownMessage)
+      defaultMessage="**Welcome to {display_name}!**\\\\n \\\\nMessages can only be posted by system admins. Everyone automatically becomes a permanent member of this channel when they join the team."
+      id="intro_messages.readonly.default"
+      values={
+        Object {
+          "display_name": "test channel",
+        }
+      }
+    />
+  </p>
+  <br />
+</Fragment>
+`;
+
+exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should match snapshot, with boards 1`] = `
+<Fragment>
+  <h2
+    className="channel-intro__title"
+  >
+    <MemoizedFormattedMessage
+      defaultMessage="Beginning of {name}"
+      id="intro_messages.beginning"
+      values={
+        Object {
+          "name": "test channel",
+        }
+      }
+    />
+  </h2>
+  <p
+    className="channel-intro__content"
+  >
+    <injectIntl(FormattedMarkdownMessage)
+      defaultMessage="**Welcome to {display_name}!**\\\\n \\\\nPost messages here that you want everyone to see. Everyone automatically becomes a permanent member of this channel when they join the team."
+      id="intro_messages.default"
+      values={
+        Object {
+          "display_name": "test channel",
+        }
+      }
+    />
+  </p>
+  <Memo(BoardsButton)
+    boardComponent={
+      Object {
+        "id": "board",
+        "pluginId": "board",
+      }
+    }
+    channel={
+      Object {
+        "create_at": 1508265709607,
+        "creator_id": "creator_id",
+        "delete_at": 0,
+        "display_name": "test channel",
+        "header": "test",
+        "id": "channel_id",
+        "last_post_at": 1508265709635,
+        "name": "town-square",
+        "purpose": "test",
+        "team_id": "team-id",
+        "type": "O",
+        "update_at": 1508265709607,
+      }
+    }
+  />
+  <Connect(ChannelPermissionGate)
+    channelId="channel_id"
+    permissions={
+      Array [
+        "manage_public_channel_properties",
+      ]
+    }
+    teamId="team-id"
+  >
+    <Memo(SetHeaderButton)
+      channel={
+        Object {
+          "create_at": 1508265709607,
+          "creator_id": "creator_id",
+          "delete_at": 0,
+          "display_name": "test channel",
+          "header": "test",
+          "id": "channel_id",
+          "last_post_at": 1508265709635,
+          "name": "town-square",
+          "purpose": "test",
+          "team_id": "team-id",
+          "type": "O",
+          "update_at": 1508265709607,
+        }
+      }
+    />
+  </Connect(ChannelPermissionGate)>
+  <br />
+</Fragment>
+`;
+
+exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should match snapshot, with boards, enable, group constrained 1`] = `
+<Fragment>
+  <h2
+    className="channel-intro__title"
+  >
+    <MemoizedFormattedMessage
+      defaultMessage="Beginning of {name}"
+      id="intro_messages.beginning"
+      values={
+        Object {
+          "name": "test channel",
+        }
+      }
+    />
+  </h2>
+  <p
+    className="channel-intro__content"
+  >
+    <injectIntl(FormattedMarkdownMessage)
+      defaultMessage="**Welcome to {display_name}!**\\\\n \\\\nPost messages here that you want everyone to see. Everyone automatically becomes a permanent member of this channel when they join the team."
+      id="intro_messages.default"
+      values={
+        Object {
+          "display_name": "test channel",
+        }
+      }
+    />
+  </p>
+  <Connect(TeamPermissionGate)
+    permissions={
+      Array [
+        "invite_user",
+      ]
+    }
+    teamId="team-id"
+  >
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "add_user_to_team",
+        ]
+      }
+      teamId="team-id"
+    >
+      <Connect(injectIntl(ToggleModalButton))
+        className="intro-links color--link"
+        dialogProps={
+          Object {
+            "channel": Object {
+              "create_at": 1508265709607,
+              "creator_id": "creator_id",
+              "delete_at": 0,
+              "display_name": "test channel",
+              "header": "test",
+              "id": "channel_id",
+              "last_post_at": 1508265709635,
+              "name": "town-square",
+              "purpose": "test",
+              "team_id": "team-id",
+              "type": "O",
+              "update_at": 1508265709607,
+            },
+          }
+        }
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(AddGroupsToTeamModal)",
+            "type": [Function],
+          }
+        }
+        modalId="add_groups_to_team"
+      >
+        <LocalizedIcon
+          className="fa fa-user-plus"
+          title={
+            Object {
+              "defaultMessage": "Add Icon",
+              "id": "generic_icons.add",
+            }
+          }
+        />
+        <MemoizedFormattedMessage
+          defaultMessage="Add other groups to this team"
+          id="intro_messages.addGroupsToTeam"
+        />
+      </Connect(injectIntl(ToggleModalButton))>
+    </Connect(TeamPermissionGate)>
+  </Connect(TeamPermissionGate)>
+  <Memo(BoardsButton)
+    boardComponent={
+      Object {
+        "id": "board",
+        "pluginId": "board",
+      }
+    }
+    channel={
+      Object {
+        "create_at": 1508265709607,
+        "creator_id": "creator_id",
+        "delete_at": 0,
+        "display_name": "test channel",
+        "header": "test",
+        "id": "channel_id",
+        "last_post_at": 1508265709635,
+        "name": "town-square",
+        "purpose": "test",
+        "team_id": "team-id",
+        "type": "O",
+        "update_at": 1508265709607,
+      }
+    }
+  />
+  <Connect(ChannelPermissionGate)
+    channelId="channel_id"
+    permissions={
+      Array [
+        "manage_public_channel_properties",
+      ]
+    }
+    teamId="team-id"
+  >
+    <Memo(SetHeaderButton)
+      channel={
+        Object {
+          "create_at": 1508265709607,
+          "creator_id": "creator_id",
+          "delete_at": 0,
+          "display_name": "test channel",
+          "header": "test",
+          "id": "channel_id",
+          "last_post_at": 1508265709635,
+          "name": "town-square",
+          "purpose": "test",
+          "team_id": "team-id",
+          "type": "O",
+          "update_at": 1508265709607,
+        }
+      }
+    />
+  </Connect(ChannelPermissionGate)>
+  <br />
+</Fragment>
+`;
+
+exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should match snapshot, with boards. enableUserCreation 1`] = `
+<Fragment>
+  <h2
+    className="channel-intro__title"
+  >
+    <MemoizedFormattedMessage
+      defaultMessage="Beginning of {name}"
+      id="intro_messages.beginning"
+      values={
+        Object {
+          "name": "test channel",
+        }
+      }
+    />
+  </h2>
+  <p
+    className="channel-intro__content"
+  >
+    <injectIntl(FormattedMarkdownMessage)
+      defaultMessage="**Welcome to {display_name}!**\\\\n \\\\nPost messages here that you want everyone to see. Everyone automatically becomes a permanent member of this channel when they join the team."
+      id="intro_messages.default"
+      values={
+        Object {
+          "display_name": "test channel",
+        }
+      }
+    />
+  </p>
+  <Connect(TeamPermissionGate)
+    permissions={
+      Array [
+        "invite_user",
+      ]
+    }
+    teamId="team-id"
+  >
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "add_user_to_team",
+        ]
+      }
+      teamId="team-id"
+    >
+      <Memo(AddMembersButton)
+        channel={
+          Object {
+            "create_at": 1508265709607,
+            "creator_id": "creator_id",
+            "delete_at": 0,
+            "display_name": "test channel",
+            "header": "test",
+            "id": "channel_id",
+            "last_post_at": 1508265709635,
+            "name": "town-square",
+            "purpose": "test",
+            "team_id": "team-id",
+            "type": "O",
+            "update_at": 1508265709607,
+          }
+        }
+        createBoard={
+          <Memo(BoardsButton)
+            boardComponent={
+              Object {
+                "id": "board",
+                "pluginId": "board",
+              }
+            }
+            channel={
+              Object {
+                "create_at": 1508265709607,
+                "creator_id": "creator_id",
+                "delete_at": 0,
+                "display_name": "test channel",
+                "header": "test",
+                "id": "channel_id",
+                "last_post_at": 1508265709635,
+                "name": "town-square",
+                "purpose": "test",
+                "team_id": "team-id",
+                "type": "O",
+                "update_at": 1508265709607,
+              }
+            }
+          />
+        }
+        setHeader={
+          <Memo(Connect(ChannelPermissionGate))
+            channelId="channel_id"
+            permissions={
+              Array [
+                "manage_public_channel_properties",
+              ]
+            }
+            teamId="team-id"
+          >
+            <Memo(SetHeaderButton)
+              channel={
+                Object {
+                  "create_at": 1508265709607,
+                  "creator_id": "creator_id",
+                  "delete_at": 0,
+                  "display_name": "test channel",
+                  "header": "test",
+                  "id": "channel_id",
+                  "last_post_at": 1508265709635,
+                  "name": "town-square",
+                  "purpose": "test",
+                  "team_id": "team-id",
+                  "type": "O",
+                  "update_at": 1508265709607,
+                }
+              }
+            />
+          </Memo(Connect(ChannelPermissionGate))>
+        }
+        usersLimit={10}
+      />
+    </Connect(TeamPermissionGate)>
+  </Connect(TeamPermissionGate)>
+  <br />
+</Fragment>
+`;

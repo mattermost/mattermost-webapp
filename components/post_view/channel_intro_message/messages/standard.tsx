@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useMemo} from 'react';
 
 import {FormattedDate, FormattedMessage} from 'react-intl';
 
@@ -35,90 +35,99 @@ const StandardIntroMessage = ({
     usersLimit,
 }: Props) => {
     const uiName = channel.display_name;
-    let memberMessage;
     const channelIsArchived = channel.delete_at !== 0;
     const totalUsers = stats.total_users_count;
 
-    if (channelIsArchived) {
-        memberMessage = '';
-    } else if (channel.type === Constants.PRIVATE_CHANNEL) {
-        memberMessage = (
-            <FormattedMessage
-                id='intro_messages.onlyInvited'
-                defaultMessage=' Only invited members can see this private channel.'
-            />
-        );
-    } else {
-        memberMessage = (
+    const memberMessage = useMemo(() => {
+        if (channelIsArchived) {
+            return '';
+        }
+        if (channel.type === Constants.PRIVATE_CHANNEL) {
+            return (
+                <FormattedMessage
+                    id='intro_messages.onlyInvited'
+                    defaultMessage=' Only invited members can see this private channel.'
+                />
+            );
+        }
+        return (
             <FormattedMessage
                 id='intro_messages.anyMember'
                 defaultMessage=' Any member can join and read this channel.'
             />
         );
-    }
+    }, [channelIsArchived, channel.type]);
 
-    const date = (
-        <FormattedDate
-            value={channel.create_at}
-            month={getMonthLong(locale)}
-            day='2-digit'
-            year='numeric'
-        />
-    );
+    const createMessage = useMemo(() => {
+        const date = (
+            <FormattedDate
+                value={channel.create_at}
+                month={getMonthLong(locale)}
+                day='2-digit'
+                year='numeric'
+            />
+        );
+        if (creatorName === '') {
+            if (channel.type === Constants.PRIVATE_CHANNEL) {
+                return (
+                    <FormattedMessage
+                        id='intro_messages.noCreatorPrivate'
+                        defaultMessage='This is the start of the {name} private channel, created on {date}.'
+                        values={{name: (uiName), date}}
+                    />
+                );
+            }
+            if (channel.type === Constants.OPEN_CHANNEL) {
+                return (
+                    <FormattedMessage
+                        id='intro_messages.noCreator'
+                        defaultMessage='This is the start of the {name} channel, created on {date}.'
+                        values={{name: (uiName), date}}
+                    />
+                );
+            }
+        }
 
-    let createMessage;
-    if (creatorName === '') {
         if (channel.type === Constants.PRIVATE_CHANNEL) {
-            createMessage = (
-                <FormattedMessage
-                    id='intro_messages.noCreatorPrivate'
-                    defaultMessage='This is the start of the {name} private channel, created on {date}.'
-                    values={{name: (uiName), date}}
-                />
-            );
-        } else if (channel.type === Constants.OPEN_CHANNEL) {
-            createMessage = (
-                <FormattedMessage
-                    id='intro_messages.noCreator'
-                    defaultMessage='This is the start of the {name} channel, created on {date}.'
-                    values={{name: (uiName), date}}
-                />
+            return (
+                <span>
+                    <FormattedMessage
+                        id='intro_messages.creatorPrivate'
+                        defaultMessage='This is the start of the {name} private channel, created by {creator} on {date}.'
+                        values={{
+                            name: (uiName),
+                            creator: (creatorName),
+                            date,
+                        }}
+                    />
+                </span>
             );
         }
-    } else if (channel.type === Constants.PRIVATE_CHANNEL) {
-        createMessage = (
-            <span>
-                <FormattedMessage
-                    id='intro_messages.creatorPrivate'
-                    defaultMessage='This is the start of the {name} private channel, created by {creator} on {date}.'
-                    values={{
-                        name: (uiName),
-                        creator: (creatorName),
-                        date,
-                    }}
-                />
-            </span>
-        );
-    } else if (channel.type === Constants.OPEN_CHANNEL) {
-        createMessage = (
-            <span>
-                <FormattedMessage
-                    id='intro_messages.creator'
-                    defaultMessage='This is the start of the {name} channel, created by {creator} on {date}.'
-                    values={{
-                        name: (uiName),
-                        creator: (creatorName),
-                        date,
-                    }}
-                />
-            </span>
-        );
-    }
 
-    let purposeMessage;
-    if (channel.purpose && channel.purpose !== '') {
+        if (channel.type === Constants.OPEN_CHANNEL) {
+            return (
+                <span>
+                    <FormattedMessage
+                        id='intro_messages.creator'
+                        defaultMessage='This is the start of the {name} channel, created by {creator} on {date}.'
+                        values={{
+                            name: (uiName),
+                            creator: (creatorName),
+                            date,
+                        }}
+                    />
+                </span>
+            );
+        }
+        return null;
+    }, [channel.create_at, channel.type, creatorName, locale, uiName]);
+
+    const purposeMessage = useMemo(() => {
+        if (!channel.purpose) {
+            return null;
+        }
         if (channel.type === Constants.PRIVATE_CHANNEL) {
-            purposeMessage = (
+            return (
                 <span>
                     <FormattedMessage
                         id='intro_messages.purposePrivate'
@@ -128,7 +137,7 @@ const StandardIntroMessage = ({
                 </span>
             );
         } else if (channel.type === Constants.OPEN_CHANNEL) {
-            purposeMessage = (
+            return (
                 <span>
                     <FormattedMessage
                         id='intro_messages.purpose'
@@ -138,7 +147,8 @@ const StandardIntroMessage = ({
                 </span>
             );
         }
-    }
+        return null;
+    }, [channel.purpose, channel.type]);
 
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
     let setHeaderButton = null;

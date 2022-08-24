@@ -1,0 +1,257 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/post_view/ChannelIntroMessages test Open Channel should match snapshot, with boards 1`] = `
+<Fragment>
+  <h2
+    className="channel-intro__title"
+  >
+    <MemoizedFormattedMessage
+      defaultMessage="Beginning of {name}"
+      id="intro_messages.beginning"
+      values={
+        Object {
+          "name": "test channel",
+        }
+      }
+    />
+  </h2>
+  <p
+    className="channel-intro__content"
+  >
+    <span>
+      <MemoizedFormattedMessage
+        defaultMessage="This is the start of the {name} channel, created by {creator} on {date}."
+        id="intro_messages.creator"
+        values={
+          Object {
+            "creator": "creatorName",
+            "date": <FormattedDate
+              day="2-digit"
+              month="long"
+              value={1508265709607}
+              year="numeric"
+            />,
+            "name": "test channel",
+          }
+        }
+      />
+    </span>
+    <MemoizedFormattedMessage
+      defaultMessage=" Any member can join and read this channel."
+      id="intro_messages.anyMember"
+    />
+    <span>
+      <MemoizedFormattedMessage
+        defaultMessage=" This channel's purpose is: {purpose}"
+        id="intro_messages.purpose"
+        values={
+          Object {
+            "purpose": "test",
+          }
+        }
+      />
+    </span>
+    <br />
+  </p>
+  <Memo(AddMembersButton)
+    channel={
+      Object {
+        "create_at": 1508265709607,
+        "creator_id": "creator_id",
+        "delete_at": 0,
+        "display_name": "test channel",
+        "header": "test",
+        "id": "channel_id",
+        "last_post_at": 1508265709635,
+        "name": "testing",
+        "purpose": "test",
+        "team_id": "team-id",
+        "type": "O",
+        "update_at": 1508265709607,
+      }
+    }
+    createBoard={
+      <Memo(BoardsButton)
+        boardComponent={
+          Object {
+            "id": "board",
+            "pluginId": "board",
+          }
+        }
+        channel={
+          Object {
+            "create_at": 1508265709607,
+            "creator_id": "creator_id",
+            "delete_at": 0,
+            "display_name": "test channel",
+            "header": "test",
+            "id": "channel_id",
+            "last_post_at": 1508265709635,
+            "name": "testing",
+            "purpose": "test",
+            "team_id": "team-id",
+            "type": "O",
+            "update_at": 1508265709607,
+          }
+        }
+      />
+    }
+    setHeader={
+      <Memo(Connect(ChannelPermissionGate))
+        channelId="channel_id"
+        permissions={
+          Array [
+            "manage_public_channel_properties",
+          ]
+        }
+        teamId="team-id"
+      >
+        <Memo(SetHeaderButton)
+          channel={
+            Object {
+              "create_at": 1508265709607,
+              "creator_id": "creator_id",
+              "delete_at": 0,
+              "display_name": "test channel",
+              "header": "test",
+              "id": "channel_id",
+              "last_post_at": 1508265709635,
+              "name": "testing",
+              "purpose": "test",
+              "team_id": "team-id",
+              "type": "O",
+              "update_at": 1508265709607,
+            }
+          }
+        />
+      </Memo(Connect(ChannelPermissionGate))>
+    }
+    usersLimit={10}
+  />
+</Fragment>
+`;
+
+exports[`components/post_view/ChannelIntroMessages test Open Channel should match snapshot, without boards 1`] = `
+<Fragment>
+  <h2
+    className="channel-intro__title"
+  >
+    <MemoizedFormattedMessage
+      defaultMessage="Beginning of {name}"
+      id="intro_messages.beginning"
+      values={
+        Object {
+          "name": "test channel",
+        }
+      }
+    />
+  </h2>
+  <p
+    className="channel-intro__content"
+  >
+    <span>
+      <MemoizedFormattedMessage
+        defaultMessage="This is the start of the {name} channel, created by {creator} on {date}."
+        id="intro_messages.creator"
+        values={
+          Object {
+            "creator": "creatorName",
+            "date": <FormattedDate
+              day="2-digit"
+              month="long"
+              value={1508265709607}
+              year="numeric"
+            />,
+            "name": "test channel",
+          }
+        }
+      />
+    </span>
+    <MemoizedFormattedMessage
+      defaultMessage=" Any member can join and read this channel."
+      id="intro_messages.anyMember"
+    />
+    <span>
+      <MemoizedFormattedMessage
+        defaultMessage=" This channel's purpose is: {purpose}"
+        id="intro_messages.purpose"
+        values={
+          Object {
+            "purpose": "test",
+          }
+        }
+      />
+    </span>
+    <br />
+  </p>
+  <Memo(AddMembersButton)
+    channel={
+      Object {
+        "create_at": 1508265709607,
+        "creator_id": "creator_id",
+        "delete_at": 0,
+        "display_name": "test channel",
+        "header": "test",
+        "id": "channel_id",
+        "last_post_at": 1508265709635,
+        "name": "testing",
+        "purpose": "test",
+        "team_id": "team-id",
+        "type": "O",
+        "update_at": 1508265709607,
+      }
+    }
+    createBoard={
+      <Memo(BoardsButton)
+        channel={
+          Object {
+            "create_at": 1508265709607,
+            "creator_id": "creator_id",
+            "delete_at": 0,
+            "display_name": "test channel",
+            "header": "test",
+            "id": "channel_id",
+            "last_post_at": 1508265709635,
+            "name": "testing",
+            "purpose": "test",
+            "team_id": "team-id",
+            "type": "O",
+            "update_at": 1508265709607,
+          }
+        }
+      />
+    }
+    setHeader={
+      <Memo(Connect(ChannelPermissionGate))
+        channelId="channel_id"
+        permissions={
+          Array [
+            "manage_public_channel_properties",
+          ]
+        }
+        teamId="team-id"
+      >
+        <Memo(SetHeaderButton)
+          channel={
+            Object {
+              "create_at": 1508265709607,
+              "creator_id": "creator_id",
+              "delete_at": 0,
+              "display_name": "test channel",
+              "header": "test",
+              "id": "channel_id",
+              "last_post_at": 1508265709635,
+              "name": "testing",
+              "purpose": "test",
+              "team_id": "team-id",
+              "type": "O",
+              "update_at": 1508265709607,
+            }
+          }
+        />
+      </Memo(Connect(ChannelPermissionGate))>
+    }
+    usersLimit={10}
+  />
+</Fragment>
+`;
