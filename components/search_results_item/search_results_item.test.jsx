@@ -357,5 +357,4 @@ describe('components/SearchResultsItem', () => {
         );
         expect(wrapper).toMatchSnapshot();
     });
-
 });
