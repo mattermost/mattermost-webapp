@@ -12,6 +12,7 @@ on:
       - "**.snap"
       - "**/*.test.jsx?"
       - "**/*.test.tsx?"
+      - "**.yml"
 
 jobs:  
   # Build main branch and upload its's bundle stats file
