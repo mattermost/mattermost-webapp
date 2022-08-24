@@ -478,7 +478,7 @@ export default class UserAccessTokenSection extends React.PureComponent<Props, S
                                     {msg}
                                 </a>
                             ),
-                            linkApi: (msg: React.ReactNode) => (
+                            linkAPI: (msg: React.ReactNode) => (
                                 <a
                                     href='https://api.mattermost.com/#tag/authentication'
                                     target='_blank'
