@@ -2,12 +2,15 @@
 // See LICENSE.txt for license information.
 
 import deepEqual from 'fast-deep-equal';
-import PropTypes from 'prop-types';
 import React from 'react';
-import {Route, Switch, Redirect} from 'react-router-dom';
+import {Route, Switch, Redirect, RouteComponentProps} from 'react-router-dom';
 import throttle from 'lodash/throttle';
 
 import classNames from 'classnames';
+
+import {Theme, getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
+
+import {ProductComponent, PluginComponent} from 'types/store/plugins';
 
 import {rudderAnalytics, RudderTelemetryHandler} from 'mattermost-redux/client/rudder';
 import {Client4} from 'mattermost-redux/client';
@@ -16,7 +19,6 @@ import {General} from 'mattermost-redux/constants';
 import {setSystemEmojis} from 'mattermost-redux/actions/emojis';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser, isCurrentUserSystemAdmin, checkIsFirstAdmin} from 'mattermost-redux/selectors/entities/users';
-import {getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
 
 import {loadRecentlyUsedCustomEmojis} from 'actions/emoji_actions';
 import * as GlobalActions from 'actions/global_actions';
@@ -68,6 +70,10 @@ import {getSiteURL} from 'utils/url';
 import A11yController from 'utils/a11y_controller';
 import TeamSidebar from 'components/team_sidebar';
 
+import {UserProfile} from '@mattermost/types/users';
+
+import {ActionResult} from 'mattermost-redux/types/actions';
+
 import {applyLuxonDefaults} from './effects';
 
 import RootProvider from './root_provider';
@@ -92,45 +98,66 @@ const Authorize = makeAsyncComponent('Authorize', LazyAuthorize);
 const Mfa = makeAsyncComponent('Mfa', LazyMfa);
 const PreparingWorkspace = makeAsyncComponent('PreparingWorkspace', LazyPreparingWorkspace);
 
-const LoggedInRoute = ({component: Component, ...rest}) => (
-    <Route
-        {...rest}
-        render={(props) => (
-            <LoggedIn {...props}>
-                <Component {...props}/>
-            </LoggedIn>
-        )}
-    />
-);
+type LoggedInRouteProps<T> = {
+    component: React.ComponentType<T>;
+    path: string;
+};
+function LoggedInRoute<T>(props: LoggedInRouteProps<T>) {
+    const {component: Component, ...rest} = props;
+    return (
+        <Route
+            {...rest}
+            render={(routeProps: RouteComponentProps) => (
+                <LoggedIn {...routeProps}>
+                    <Component {...(routeProps as unknown as T)}/>
+                </LoggedIn>
+            )}
+        />
+    );
+}
 
 const noop = () => {}; // eslint-disable-line no-empty-function
 
-export default class Root extends React.PureComponent {
-    static propTypes = {
-        theme: PropTypes.object,
-        telemetryEnabled: PropTypes.bool,
-        telemetryId: PropTypes.string,
-        noAccounts: PropTypes.bool,
-        showTermsOfService: PropTypes.bool,
-        permalinkRedirectTeamName: PropTypes.string,
-        actions: PropTypes.shape({
-            emitBrowserWindowResized: PropTypes.func.isRequired,
-            getFirstAdminSetupComplete: PropTypes.func.isRequired,
-            getProfiles: PropTypes.func.isRequired,
-            migrateRecentEmojis: PropTypes.func.isRequired,
-            loadConfigAndMe: PropTypes.func.isRequired,
-            savePreferences: PropTypes.func.isRequired,
-            registerCustomPostRenderer: PropTypes.func.isRequired,
-        }).isRequired,
-        plugins: PropTypes.array,
-        products: PropTypes.array,
-        showLaunchingWorkspace: PropTypes.bool,
-    }
+export type Actions = {
+    emitBrowserWindowResized: (size?: string) => void;
+    getFirstAdminSetupComplete: () => Promise<ActionResult>;
+    getProfiles: (page?: number, pageSize?: number, options?: Record<string, any>) => Promise<ActionResult>;
+    migrateRecentEmojis: () => void;
+    loadConfigAndMe: () => Promise<{data: boolean}>;
+    registerCustomPostRenderer: (type: string, component: any, id: string) => Promise<ActionResult>;
+}
 
-    constructor(props) {
+type Props = {
+    theme: Theme;
+    telemetryEnabled: boolean;
+    telemetryId?: string;
+    noAccounts: boolean;
+    showTermsOfService: boolean;
+    permalinkRedirectTeamName: string;
+    isCloud: boolean;
+    actions: Actions;
+    plugins: PluginComponent[];
+    products: ProductComponent[];
+    showLaunchingWorkspace: boolean;
+} & RouteComponentProps
+
+interface State {
+    configLoaded?: boolean;
+}
+
+export default class Root extends React.PureComponent<Props, State> {
+    private desktopMediaQuery: MediaQueryList;
+    private smallDesktopMediaQuery: MediaQueryList;
+    private tabletMediaQuery: MediaQueryList;
+    private mobileMediaQuery: MediaQueryList;
+    private mounted: boolean;
+
+    // The constructor adds a bunch of event listeners,
+    // so we do need this.
+    private a11yController: A11yController; // eslint-disable-line no-unused-vars
+
+    constructor(props: Props) {
         super(props);
-        this.currentCategoryFocus = 0;
-        this.currentSidebarFocus = 0;
         this.mounted = false;
 
         // Redux
@@ -139,14 +166,14 @@ export default class Root extends React.PureComponent {
         // Disable auth header to enable CSRF check
         Client4.setAuthHeader = false;
 
-        setSystemEmojis(EmojiIndicesByAlias);
+        setSystemEmojis(new Set(EmojiIndicesByAlias.keys()));
 
         // Force logout of all tabs if one tab is logged out
         window.addEventListener('storage', this.handleLogoutLoginSignal);
 
         // Prevent drag and drop files from navigating away from the app
         document.addEventListener('drop', (e) => {
-            if (e.dataTransfer.items.length > 0 && e.dataTransfer.items[0].kind === 'file') {
+            if (e.dataTransfer && e.dataTransfer.items.length > 0 && e.dataTransfer.items[0].kind === 'file') {
                 e.preventDefault();
                 e.stopPropagation();
             }
@@ -163,10 +190,7 @@ export default class Root extends React.PureComponent {
             configLoaded: false,
         };
 
-        // Keyboard navigation for accessibility
-        if (!UserAgent.isInternetExplorer()) {
-            this.a11yController = new A11yController();
-        }
+        this.a11yController = new A11yController();
 
         // set initial window size state
         this.desktopMediaQuery = window.matchMedia(`(min-width: ${Constants.DESKTOP_SCREEN_WIDTH + 1}px)`);
@@ -182,8 +206,8 @@ export default class Root extends React.PureComponent {
     onConfigLoaded = () => {
         const telemetryId = this.props.telemetryId;
 
-        let rudderKey = Constants.TELEMETRY_RUDDER_KEY;
-        let rudderUrl = Constants.TELEMETRY_RUDDER_DATAPLANE_URL;
+        let rudderKey: string | null | undefined = Constants.TELEMETRY_RUDDER_KEY;
+        let rudderUrl: string | null | undefined = Constants.TELEMETRY_RUDDER_DATAPLANE_URL;
 
         if (rudderKey.startsWith('placeholder') && rudderUrl.startsWith('placeholder')) {
             rudderKey = process.env.RUDDER_KEY; //eslint-disable-line no-process-env
@@ -191,15 +215,15 @@ export default class Root extends React.PureComponent {
         }
 
         if (rudderKey != null && rudderKey !== '' && this.props.telemetryEnabled) {
-            const rudderCfg = {};
+            const rudderCfg: {setCookieDomain?: string} = {};
             const siteURL = getConfig(store.getState()).SiteURL;
             if (siteURL !== '') {
                 try {
-                    rudderCfg.setCookieDomain = new URL(siteURL).hostname;
+                    rudderCfg.setCookieDomain = new URL(siteURL || '').hostname;
                     // eslint-disable-next-line no-empty
                 } catch (_) {}
             }
-            rudderAnalytics.load(rudderKey, rudderUrl, rudderCfg);
+            rudderAnalytics.load(rudderKey, rudderUrl || '', rudderCfg);
 
             rudderAnalytics.identify(telemetryId, {}, {
                 context: {
@@ -218,10 +242,10 @@ export default class Root extends React.PureComponent {
             rudderAnalytics.page('ApplicationLoaded', {
                 path: '',
                 referrer: '',
-                search: '',
+                search: ('' as any),
                 title: '',
                 url: '',
-            },
+            } as any,
             {
                 context: {
                     ip: '0.0.0.0',
@@ -265,7 +289,7 @@ export default class Root extends React.PureComponent {
             landing = desktopAppDownloadLink;
         }
 
-        if (landing && !BrowserStore.hasSeenLandingPage() && !toResetPasswordScreen && !this.props.location.pathname.includes('/landing') && !window.location.hostname?.endsWith('.test.mattermost.com') && !UserAgent.isDesktopApp()) {
+        if (landing && !this.props.isCloud && !BrowserStore.hasSeenLandingPage() && !toResetPasswordScreen && !this.props.location.pathname.includes('/landing') && !window.location.hostname?.endsWith('.test.mattermost.com') && !UserAgent.isDesktopApp()) {
             this.props.history.push('/landing#' + this.props.location.pathname + this.props.location.search);
             BrowserStore.setLandingPageSeen(true);
         }
@@ -273,7 +297,7 @@ export default class Root extends React.PureComponent {
         Utils.applyTheme(this.props.theme);
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props) {
         if (!deepEqual(prevProps.theme, this.props.theme)) {
             Utils.applyTheme(this.props.theme);
         }
@@ -313,7 +337,7 @@ export default class Root extends React.PureComponent {
         }
         const currentUser = getCurrentUser(store.getState());
         const adminProfiles = profilesResult.data.reduce(
-            (acc, curr) => {
+            (acc: Record<string, UserProfile>, curr: UserProfile) => {
                 acc[curr.id] = curr;
                 return acc;
             },
@@ -382,9 +406,9 @@ export default class Root extends React.PureComponent {
         }
     }
 
-    handleLogoutLoginSignal = (e) => {
+    handleLogoutLoginSignal = (e: StorageEvent) => {
         // when one tab on a browser logs out, it sets __logout__ in localStorage to trigger other tabs to log out
-        const isNewLocalStorageEvent = (event) => event.storageArea === localStorage && event.newValue;
+        const isNewLocalStorageEvent = (event: StorageEvent) => event.storageArea === localStorage && event.newValue;
 
         if (e.key === StoragePrefixes.LOGOUT && isNewLocalStorageEvent(e)) {
             console.log('detected logout from a different tab'); //eslint-disable-line no-console
@@ -411,7 +435,7 @@ export default class Root extends React.PureComponent {
         this.props.actions.emitBrowserWindowResized();
     }, 100);
 
-    handleMediaQueryChangeEvent = (e) => {
+    handleMediaQueryChangeEvent = (e: MediaQueryListEvent) => {
         if (e.matches) {
             this.updateWindowSize();
         }
@@ -566,7 +590,7 @@ export default class Root extends React.PureComponent {
                             {this.props.plugins?.map((plugin) => (
                                 <Route
                                     key={plugin.id}
-                                    path={'/plug/' + plugin.route}
+                                    path={'/plug/' + (plugin as any).route}
                                     render={() => (
                                         <Pluggable
                                             pluggableName={'CustomRouteComponent'}

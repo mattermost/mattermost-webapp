@@ -35,19 +35,19 @@ describe('root view actions', () => {
 
     afterAll(() => {
         document.cookie = origCookies;
-        localStorage.setItem('was_logged_in', origWasLoggedIn);
+        localStorage.setItem('was_logged_in', origWasLoggedIn || '');
     });
 
     describe('loadConfigAndMe', () => {
         test('loadConfigAndMe, without user logged in', async () => {
-            const testStore = await mockStore({});
+            const testStore = mockStore({});
 
             await testStore.dispatch(Actions.loadConfigAndMe());
             expect(testStore.getActions()).toEqual([{type: 'MOCK_GET_CLIENT_CONFIG'}, {type: 'MOCK_GET_LICENSE_CONFIG'}]);
         });
 
         test('loadConfigAndMe, with user logged in', async () => {
-            const testStore = await mockStore({});
+            const testStore = mockStore({});
 
             document.cookie = 'MMUSERID=userid';
             localStorage.setItem('was_logged_in', 'true');
@@ -61,7 +61,7 @@ describe('root view actions', () => {
         test('Should not dispatch action when getTranslation is empty', () => {
             const testStore = mockStore({});
 
-            jest.spyOn(i18nSelectors, 'getTranslations').mockReturnValue(undefined);
+            jest.spyOn(i18nSelectors, 'getTranslations').mockReturnValue(undefined as any);
             jest.spyOn(i18nSelectors, 'getCurrentLocale').mockReturnValue('en');
 
             testStore.dispatch(Actions.registerPluginTranslationsSource('plugin_id', jest.fn()));

@@ -4,7 +4,7 @@
 import {ReactWrapper, shallow} from 'enzyme';
 import React, {ComponentProps} from 'react';
 import nock from 'nock';
-import {match} from 'react-router';
+import {match} from 'react-router-dom';
 
 import {act} from 'react-dom/test-utils';
 
