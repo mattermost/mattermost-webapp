@@ -16,6 +16,8 @@ import {getFilePublicLink} from 'mattermost-redux/actions/files';
 import {getIsRhsOpen} from 'selectors/rhs';
 
 import SingleImageView from 'components/single_image_view/single_image_view';
+import { get } from 'mattermost-redux/selectors/entities/preferences';
+import {Preferences} from 'utils/constants';
 
 function mapStateToProps(state: GlobalState) {
     const isRhsOpen = getIsRhsOpen(state);
@@ -24,6 +26,7 @@ function mapStateToProps(state: GlobalState) {
     return {
         isRhsOpen,
         enablePublicLink: config.EnablePublicLink === 'true',
+        autoplayGifAndEmojis : get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.AUTOPLAY_GIF_AND_EMOJI, Preferences.LINK_PREVIEW_DISPLAY_DEFAULT),
     };
 }
 

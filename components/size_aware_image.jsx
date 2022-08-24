@@ -17,6 +17,8 @@ import OverlayTrigger from 'components/overlay_trigger';
 const MIN_IMAGE_SIZE = 48;
 const MIN_IMAGE_SIZE_FOR_INTERNAL_BUTTONS = 100;
 
+import ReactFreezeframe from 'react-freezeframe';
+
 // SizeAwareImage is a component used for rendering images where the dimensions of the image are important for
 // ensuring that the page is laid out correctly.
 export default class SizeAwareImage extends React.PureComponent {
@@ -77,6 +79,11 @@ export default class SizeAwareImage extends React.PureComponent {
          * Action to fetch public link of an image from server.
          */
         getFilePublicLink: PropTypes.func,
+
+         /**
+         * Enables autoplaying a gif if set to true in settings.
+         */
+        autoplayGifAndEmojis: PropTypes.string,
     }
 
     constructor(props) {
@@ -182,20 +189,41 @@ export default class SizeAwareImage extends React.PureComponent {
         }
 
         const image = (
-            <img
-                {...props}
-                aria-label={ariaLabelImage}
-                tabIndex='0'
-                onClick={this.handleImageClick}
-                onKeyDown={this.onEnterKeyDown}
-                className={
-                    this.props.className +
-                    (this.props.handleSmallImageContainer &&
-                        this.state.isSmallImage ? ' small-image--inside-container' : '')}
-                src={src}
-                onError={this.handleError}
-                onLoad={this.handleLoad}
-            />
+            this.props.autoplayGifAndEmojis === 'true' ? (
+                <img
+                    {...props}
+                    aria-label={ariaLabelImage}
+                    tabIndex='0'
+                    onClick={this.handleImageClick}
+                    onKeyDown={this.onEnterKeyDown}
+                    className={
+                        this.props.className +
+                        (this.props.handleSmallImageContainer &&
+                            this.state.isSmallImage ? ' small-image--inside-container' : '')}
+                    src={src}
+                    onError={this.handleError}
+                    onLoad={this.handleLoad}
+            /> 
+            ) :
+            <ReactFreezeframe   options={{
+                trigger: 'click'
+              }}>
+                <img
+                    {...props}
+                    aria-label={ariaLabelImage}
+                    tabIndex='0'
+                    onClick={this.handleImageClick}
+                    onKeyDown={this.onEnterKeyDown}
+                    className={
+                        this.props.className +
+                        (this.props.handleSmallImageContainer &&
+                            this.state.isSmallImage ? ' small-image--inside-container' : '')}
+                    src={src}
+                    onError={this.handleError}
+                    onLoad={this.handleLoad}
+                />
+            </ReactFreezeframe>
+          
         );
 
         // copyLink, download are two buttons overlayed on image preview

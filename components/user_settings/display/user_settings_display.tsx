@@ -42,6 +42,7 @@ function getDisplayStateFromProps(props: Props) {
         collapseDisplay: props.collapseDisplay,
         collapsedReplyThreads: props.collapsedReplyThreads,
         linkPreviewDisplay: props.linkPreviewDisplay,
+        autoplayGifAndEmojis: props.autoplayGifAndEmojis,
         oneClickReactionsOnPosts: props.oneClickReactionsOnPosts,
         clickToReply: props.clickToReply,
     };
@@ -117,6 +118,7 @@ type Props = {
     collapsedReplyThreadsAllowUserPreference: boolean;
     clickToReply: string;
     linkPreviewDisplay: string;
+    autoplayGifAndEmojis: string;
     oneClickReactionsOnPosts: string;
     emojiPickerEnabled: boolean;
     timezoneLabel: string;
@@ -138,6 +140,7 @@ type State = {
     collapseDisplay: string;
     collapsedReplyThreads: string;
     linkPreviewDisplay: string;
+    autoplayGifAndEmojis: string;
     oneClickReactionsOnPosts: string;
     clickToReply: string;
     handleSubmit?: () => void;
@@ -267,6 +270,12 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             name: Preferences.CLICK_TO_REPLY,
             value: this.state.clickToReply,
         };
+        const autoplayGifAndEmojisPreference = {
+            user_id: userId,
+            category: Preferences.CATEGORY_DISPLAY_SETTINGS,
+            name: Preferences.AUTOPLAY_GIF_AND_EMOJI,
+            value: this.state.autoplayGifAndEmojis,
+        };
 
         this.setState({isSaving: true});
 
@@ -280,6 +289,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             linkPreviewDisplayPreference,
             teammateNameDisplayPreference,
             availabilityStatusOnPostsPreference,
+            autoplayGifAndEmojisPreference,
             oneClickReactionsOnPostsPreference,
             colorizeUsernamesPreference,
         ];
@@ -671,6 +681,35 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
         } else {
             this.prevSections.message_display = this.prevSections.linkpreview;
         }
+
+        const gifAutoPlaySection = this.createSection({
+            section: 'gif',
+            display: 'autoplayGifAndEmojis',
+            value: this.state.autoplayGifAndEmojis,
+            defaultDisplay: 'false',
+            title: {
+                id: t('user.settings.display.gif'),
+                message: "Autoplay Gif's and Emojis"
+            },
+            firstOption: {
+                value: 'true',
+                radionButtonText: {
+                    id: t('user.settings.display.on'),
+                    message: 'on',
+                },
+            },
+            secondOption: {
+                value: 'false',
+                radionButtonText: {
+                    id: t('user.settings.display.off'),
+                    message: 'off',
+                },
+            },
+            description: {
+                id: t('user.settings.display.desc'),
+                message: 'By selecting on, Gifs and animated custom emojis will be playable automatically and appear as static otherwise.',
+            },
+        });
 
         const clockSection = this.createSection({
             section: 'clock',
@@ -1075,6 +1114,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                     {availabilityStatusOnPostsSection}
                     {timezoneSelection}
                     {linkPreviewSection}
+                    {gifAutoPlaySection}
                     {collapseSection}
                     {messageDisplaySection}
                     {clickToReply}

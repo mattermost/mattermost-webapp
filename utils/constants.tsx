@@ -133,6 +133,7 @@ export const Preferences = {
     CLOUD_TRIAL_END_BANNER: 'cloud_trial_end_banner',
     CLOUD_USER_EPHEMERAL_INFO: 'cloud_user_ephemeral_info',
     THREE_DAYS_LEFT_TRIAL_MODAL: 'three_days_left_trial_modal',
+    AUTOPLAY_GIF_AND_EMOJI: 'autoplay_Gif_And_Emojis',
 
     // For one off things that have a special, attention-grabbing UI until you interact with them
     TOUCHED: 'touched',
