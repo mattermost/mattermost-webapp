@@ -47,7 +47,7 @@ const findPrevFilter = (searchTerms: string, position: number): string | undefin
              }
          }
 
-         return searchTerms.slice(start, end).join(' ');
+         return searchTerms.slice(start, end);
     }
 
 }
