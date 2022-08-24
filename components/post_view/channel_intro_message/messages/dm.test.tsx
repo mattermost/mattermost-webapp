@@ -4,12 +4,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {Constants} from 'utils/constants';
 import {UserProfile} from '@mattermost/types/users';
 
-import {ChannelType} from '@mattermost/types/channels';
-
-import {channel, boardComponent, user1} from './utils.test';
+import {channel, boardComponent, directChannel, user1} from './utils';
 
 import DMIntroMessage from './dm';
 
@@ -19,10 +16,6 @@ describe('components/post_view/ChannelIntroMessages', () => {
     };
 
     describe('test DIRECT Channel', () => {
-        const directChannel = {
-            ...channel,
-            type: Constants.DM_CHANNEL as ChannelType,
-        };
         const props = {
             ...baseProps,
             channel: directChannel,

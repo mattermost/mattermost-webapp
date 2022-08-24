@@ -4,11 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {Constants} from 'utils/constants';
-
-import {ChannelType} from '@mattermost/types/channels';
-
-import {channel, boardComponent} from './utils.test';
+import {archivedChannel, boardComponent, channel, defaultChannel} from './utils';
 
 import DefaultIntroMessage from './default';
 
@@ -22,20 +18,9 @@ describe('components/post_view/ChannelIntroMessages', () => {
     };
 
     describe('test DEFAULT Channel', () => {
-        const directChannel = {
-            ...channel,
-            name: Constants.DEFAULT_CHANNEL,
-            type: Constants.OPEN_CHANNEL as ChannelType,
-        };
-        const archivedChannel = {
-            ...channel,
-            name: Constants.DEFAULT_CHANNEL,
-            type: Constants.OPEN_CHANNEL as ChannelType,
-            delete_at: 111111,
-        };
         const props = {
             ...baseProps,
-            channel: directChannel,
+            channel: defaultChannel,
         };
 
         test('should match snapshot, readonly', () => {

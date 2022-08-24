@@ -28,6 +28,28 @@ export const archivedChannel = {
     delete_at: 111111,
 };
 
+export const groupChannel = {
+    ...channel,
+    type: Constants.GM_CHANNEL as ChannelType,
+};
+
+export const directChannel = {
+    ...channel,
+    type: Constants.DM_CHANNEL as ChannelType,
+};
+
+export const defaultChannel = {
+    ...channel,
+    name: Constants.DEFAULT_CHANNEL,
+    type: Constants.OPEN_CHANNEL as ChannelType,
+};
+
+export const offTopicChannel = {
+    ...channel,
+    type: Constants.OPEN_CHANNEL as ChannelType,
+    name: Constants.OFFTOPIC_CHANNEL,
+};
+
 // type PluginComponent
 export const boardComponent = {
     id: 'board',

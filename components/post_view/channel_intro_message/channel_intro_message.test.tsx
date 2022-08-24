@@ -4,56 +4,25 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {Constants} from 'utils/constants';
-import {UserProfile} from '@mattermost/types/users';
-
-import {Channel, ChannelType} from '@mattermost/types/channels';
-
 import ChannelIntroMessage from './channel_intro_message';
 import DMIntroMessage from './messages/dm';
 import StandardIntroMessage from './messages/standard';
 import GMIntroMessage from './messages/gm';
 import DefaultIntroMessage from './messages/default';
 import OffTopicIntroMessage from './messages/off_topic';
+import {channel, defaultChannel, directChannel, groupChannel, offTopicChannel} from './messages/utils';
 
 describe('components/post_view/ChannelIntroMessages', () => {
-    const channel = {
-        create_at: 1508265709607,
-        creator_id: 'creator_id',
-        delete_at: 0,
-        display_name: 'test channel',
-        header: 'test',
-        id: 'channel_id',
-        last_post_at: 1508265709635,
-        name: 'testing',
-        purpose: 'test',
-        team_id: 'team-id',
-        type: 'O',
-        update_at: 1508265709607,
-    } as Channel;
-
-    // type PluginComponent
-    const boardComponent = {
-        id: 'board',
-        pluginId: 'board',
-    };
-
-    const user1 = {id: 'user1', roles: 'system_user'};
-    const users = [
-        {id: 'user1', roles: 'system_user'},
-        {id: 'guest1', roles: 'system_guest'},
-    ] as UserProfile[];
-
     const baseProps = {
-        currentUserId: 'test-user-id',
         channel,
+        channelProfiles: [],
+        creatorName: 'creatorName',
+        currentUserId: 'test-user-id',
+        enableUserCreation: false,
         fullWidth: true,
         locale: 'en',
-        channelProfiles: [],
-        enableUserCreation: false,
-        teamIsGroupConstrained: false,
-        creatorName: 'creatorName',
         stats: {},
+        teamIsGroupConstrained: false,
         usersLimit: 10,
         actions: {
             getTotalUsersStats: jest.fn().mockResolvedValue([]),
@@ -61,221 +30,60 @@ describe('components/post_view/ChannelIntroMessages', () => {
     };
 
     describe('test Open Channel', () => {
-        const component = StandardIntroMessage;
-        test('should match snapshot, without boards', () => {
+        test('should find StandardIntroMessage', () => {
             const wrapper = shallow(
                 <ChannelIntroMessage{...baseProps}/>,
-            ).find(component).dive();
-            expect(wrapper).toMatchSnapshot();
-        });
-
-        test('should match snapshot, with boards', () => {
-            const wrapper = shallow(
-                <ChannelIntroMessage
-                    {...baseProps}
-                    boardComponent={boardComponent}
-                />,
-            ).find(component).dive();
-            expect(wrapper).toMatchSnapshot();
+            );
+            expect(wrapper.find(StandardIntroMessage));
         });
     });
 
     describe('test Group Channel', () => {
-        const component = GMIntroMessage;
-        const groupChannel = {
-            ...channel,
-            type: Constants.GM_CHANNEL as ChannelType,
-        };
-        const props = {
-            ...baseProps,
-            channel: groupChannel,
-        };
-
-        test('should match snapshot, no profiles', () => {
+        test('should find GMIntroMessage', () => {
             const wrapper = shallow(
                 <ChannelIntroMessage
-                    {...props}
+                    {...baseProps}
+                    channel={groupChannel}
                 />,
-            ).find(component).dive();
-            expect(wrapper).toMatchSnapshot();
-        });
-
-        test('should match snapshot, with profiles, without boards', () => {
-            const wrapper = shallow(
-                <ChannelIntroMessage
-                    {...props}
-                    channelProfiles={users}
-                />,
-            ).find(component).dive();
-            expect(wrapper).toMatchSnapshot();
-        });
-
-        test('should match snapshot, with profiles, with boards', () => {
-            const wrapper = shallow(
-                <ChannelIntroMessage
-                    {...props}
-                    channelProfiles={users}
-                    boardComponent={boardComponent}
-                />,
-            ).find(component).dive();
-            expect(wrapper).toMatchSnapshot();
+            );
+            expect(wrapper.find(GMIntroMessage));
         });
     });
 
     describe('test DIRECT Channel', () => {
-        const component = DMIntroMessage;
-        const directChannel = {
-            ...channel,
-            type: Constants.DM_CHANNEL as ChannelType,
-        };
-        const props = {
-            ...baseProps,
-            channel: directChannel,
-        };
-
-        test('should match snapshot, without teammate', () => {
+        test('should find DMIntroMessage', () => {
             const wrapper = shallow(
                 <ChannelIntroMessage
-                    {...props}
+                    {...baseProps}
+                    channel={directChannel}
                 />,
-            ).find(component).dive();
-            expect(wrapper).toMatchSnapshot();
-        });
-
-        test('should match snapshot, with teammate, without boards', () => {
-            const wrapper = shallow(
-                <ChannelIntroMessage
-                    {...props}
-                    teammate={user1 as UserProfile}
-                    teammateName='my teammate'
-                />,
-            ).find(component).dive();
-            expect(wrapper).toMatchSnapshot();
-        });
-
-        test('should match snapshot, with teammate, with boards', () => {
-            const wrapper = shallow(
-                <ChannelIntroMessage
-                    {...props}
-                    teammate={user1 as UserProfile}
-                    boardComponent={boardComponent}
-                />,
-            ).find(component).dive();
-            expect(wrapper).toMatchSnapshot();
+            );
+            expect(wrapper.find(DMIntroMessage));
         });
     });
 
     describe('test DEFAULT Channel', () => {
-        const component = DefaultIntroMessage;
-        const directChannel = {
-            ...channel,
-            name: Constants.DEFAULT_CHANNEL,
-            type: Constants.OPEN_CHANNEL as ChannelType,
-        };
-        const archivedChannel = {
-            ...channel,
-            name: Constants.DEFAULT_CHANNEL,
-            type: Constants.OPEN_CHANNEL as ChannelType,
-            delete_at: 111111,
-        };
-        const props = {
-            ...baseProps,
-            channel: directChannel,
-        };
-
-        test('should match snapshot, readonly', () => {
-            const wrapper = shallow(
-                <ChannelIntroMessage
-                    {...props}
-                    isReadOnly={true}
-                />,
-            ).find(component).dive();
-            expect(wrapper).toMatchSnapshot();
-        });
-
-        test('should match snapshot, no boards', () => {
-            const wrapper = shallow(
-                <ChannelIntroMessage
-                    {...props}
-                    teamIsGroupConstrained={true}
-                />,
-            ).find(component).dive();
-            expect(wrapper).toMatchSnapshot();
-        });
-
-        test('should match snapshot, with boards', () => {
-            const wrapper = shallow(
-                <ChannelIntroMessage
-                    {...props}
-                    teamIsGroupConstrained={true}
-                    boardComponent={boardComponent}
-                />,
-            ).find(component).dive();
-            expect(wrapper).toMatchSnapshot();
-        });
-
-        test('should match snapshot, with boards. enableUserCreation', () => {
-            const wrapper = shallow(
-                <ChannelIntroMessage
-                    {...props}
-                    enableUserCreation={true}
-                    boardComponent={boardComponent}
-                />,
-            ).find(component).dive();
-            expect(wrapper).toMatchSnapshot();
-        });
-
-        test('should match snapshot, with boards, enable, group constrained', () => {
-            const wrapper = shallow(
-                <ChannelIntroMessage
-                    {...props}
-                    enableUserCreation={true}
-                    teamIsGroupConstrained={true}
-                    boardComponent={boardComponent}
-                />,
-            ).find(component).dive();
-            expect(wrapper).toMatchSnapshot();
-        });
-        test('should match snapshot, no boards, archived channel', () => {
+        test('should find DefaultIntroMessage', () => {
             const wrapper = shallow(
                 <ChannelIntroMessage
                     {...baseProps}
-                    channel={archivedChannel}
+                    channel={defaultChannel}
+                    isReadOnly={true}
                 />,
-            ).find(component).dive();
-            expect(wrapper).toMatchSnapshot();
+            );
+            expect(wrapper.find(DefaultIntroMessage));
         });
     });
 
     describe('test OFFTOPIC Channel', () => {
-        const component = OffTopicIntroMessage;
-        const directChannel = {
-            ...channel,
-            type: Constants.OPEN_CHANNEL as ChannelType,
-            name: Constants.OFFTOPIC_CHANNEL,
-        };
-        const props = {
-            ...baseProps,
-            channel: directChannel,
-        };
-
-        test('should match snapshot, without boards', () => {
+        test('should find OffTopicIntroMessage', () => {
             const wrapper = shallow(
                 <ChannelIntroMessage
-                    {...props}
+                    {...baseProps}
+                    channel={offTopicChannel}
                 />,
-            ).find(component).dive();
-            expect(wrapper).toMatchSnapshot();
-        });
-
-        test('should match snapshot, with boards', () => {
-            const wrapper = shallow(
-                <ChannelIntroMessage
-                    {...props}
-                    boardComponent={boardComponent}
-                />,
-            ).find(component).dive();
-            expect(wrapper).toMatchSnapshot();
+            );
+            expect(wrapper.find(OffTopicIntroMessage));
         });
     });
 });

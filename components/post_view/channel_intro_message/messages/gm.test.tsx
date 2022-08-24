@@ -4,11 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {Constants} from 'utils/constants';
-
-import {ChannelType} from '@mattermost/types/channels';
-
-import {boardComponent, channel, users} from './utils.test';
+import {boardComponent, channel, groupChannel, users} from './utils';
 
 import GMIntroMessage from './gm';
 
@@ -20,10 +16,6 @@ describe('components/post_view/ChannelIntroMessages', () => {
     };
 
     describe('test Group Channel', () => {
-        const groupChannel = {
-            ...channel,
-            type: Constants.GM_CHANNEL as ChannelType,
-        };
         const props = {
             ...baseProps,
             channel: groupChannel,
