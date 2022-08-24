@@ -185,7 +185,7 @@ describe('Forward Message', () => {
             // * Assert if button is enabled
             cy.get('.GenericModal__button.confirm').should('not.be.disabled');
 
-            // * Assert Notificatio is shown
+            // * Assert Notification is shown
             cy.findByTestId('notification_forward_post').should('be.visible').should('contain.text', `This message is from a private channel and can only be shared with ~${privateChannel.display_name}`);
 
             if (cancel) {
