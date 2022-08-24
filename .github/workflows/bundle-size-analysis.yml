@@ -4,11 +4,14 @@ on:
   pull_request:
     branches:
       - master
-    paths: 
-      - "**.js"
-      - "**.jsx"
-      - "**.ts"
-      - "**.tsx"
+    paths-ignore:
+      - "e2e/**"
+      - "scripts/**"
+      - "tests/**"
+      - "types/**"
+      - "**.snap"
+      - "**/*.test.jsx?"
+      - "**/*.test.tsx?"
 
 jobs:  
   # Build main branch and upload its's bundle stats file
