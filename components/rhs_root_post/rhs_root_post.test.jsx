@@ -61,6 +61,7 @@ describe('components/RhsRootPost', () => {
         emojiMap: new EmojiMap(new Map()),
         collapsedThreadsEnabled: false,
         isMobileView: false,
+        isPostPriorityEnabled: true,
     };
 
     test('should match snapshot', () => {
@@ -207,5 +208,23 @@ describe('components/RhsRootPost', () => {
         expect(postPreHeader.prop('isFlagged')).toEqual(baseProps.isFlagged);
         expect(postPreHeader.prop('isPinned')).toEqual(baseProps.post.is_pinned);
         expect(postPreHeader.prop('channelId')).toEqual(baseProps.post.channel_id);
+    });
+
+    test('should match snapshot when post priority is enabled', () => {
+        const props = {
+            ...baseProps,
+            post: {
+                ...baseProps.post,
+                props: {
+                    ...baseProps.post.props,
+                    priority: 'important',
+                },
+            },
+        };
+        const wrapper = shallow(
+            <RhsRootPost {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
     });
 });

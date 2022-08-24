@@ -71,6 +71,7 @@ describe('components/SearchResultsItem', () => {
         enablePostUsernameOverride: false,
         isBot: false,
         isMobileView: false,
+        isPostPriorityEnabled: true,
         actions: {
             closeRightHandSide: mockFunc,
             selectPost: mockFunc,
@@ -337,4 +338,24 @@ describe('components/SearchResultsItem', () => {
 
         expect(wrapper).toMatchSnapshot();
     });
+
+    test('should match snapshot for post with priority', () => {
+        const props = {
+            ...defaultProps,
+            isPostPriorityEnabled: true,
+            post: {
+                ...post,
+                props: {
+                    ...post.props,
+                    priority: 'important',
+                },
+            },
+        };
+
+        const wrapper = shallow(
+            <SearchResultsItem {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
 });
