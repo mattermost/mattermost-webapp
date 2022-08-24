@@ -6,9 +6,6 @@ on:
       - master
     paths-ignore:
       - "e2e/**"
-      - "scripts/**"
-      - "tests/**"
-      - "types/**"
       - "**.snap"
       - "**/*.test.jsx?"
       - "**/*.test.tsx?"

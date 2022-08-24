@@ -10,7 +10,6 @@ describe('Selectors.AdminConsole', () => {
         it('should return the default admin definition if there is not plugins', () => {
             const state = {plugins: {adminConsoleReducers: {}}};
             expect(getAdminDefinition(state)).toEqual(AdminDefinition);
-            expect(getAdminDefinition(state)).toEqual(AdminDefinition);
         });
 
         it('should allow to remove everything with a plugin', () => {
