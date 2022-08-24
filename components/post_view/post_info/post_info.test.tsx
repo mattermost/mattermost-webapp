@@ -50,6 +50,7 @@ describe('components/post_view/PostInfo', () => {
         oneClickReactionsEnabled: false,
         isPostBeingEdited: false,
         recentEmojis: [],
+        isPostPriorityEnabled: false,
     };
 
     test('should show actions menu', () => {
