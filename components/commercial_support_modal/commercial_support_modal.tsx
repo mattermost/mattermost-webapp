@@ -94,7 +94,6 @@ export default class CommercialSupportModal extends React.PureComponent<Props, S
                         <a
                             className='btn btn-primary DownloadSupportPacket'
                             href={`${Client4.getBaseRoute()}/system/support_packet`}
-                            target='_blank'
                             rel='noopener noreferrer'
                         >
                             <FormattedMessage
