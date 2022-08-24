@@ -10,7 +10,6 @@ export function showActionsDropdownPulsatingDot(state: GlobalState): boolean {
     if (getIsMobileView(state)) {
         return false;
     }
-    console.log('test');
     const actionsMenuTutorialState = get(state, Preferences.CATEGORY_ACTIONS_MENU, Preferences.NAME_ACTIONS_MENU_TUTORIAL_STATE, false);
     const modalAlreadyViewed = actionsMenuTutorialState && JSON.parse(actionsMenuTutorialState)[Preferences.ACTIONS_MENU_VIEWED];
     return !modalAlreadyViewed;
