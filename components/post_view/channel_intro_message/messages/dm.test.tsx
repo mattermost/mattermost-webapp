@@ -6,50 +6,37 @@ import {shallow} from 'enzyme';
 
 import {UserProfile} from '@mattermost/types/users';
 
-import {channel, boardComponent, directChannel, user1} from './utils';
+import {boardComponent, directChannel, user1} from './utils';
 
 import DMIntroMessage from './dm';
 
 describe('components/post_view/ChannelIntroMessages', () => {
-    const baseProps = {
-        channel,
-    };
-
     describe('test DIRECT Channel', () => {
-        const props = {
-            ...baseProps,
-            channel: directChannel,
+        const component = (otherProps: any) => {
+            return (
+                <DMIntroMessage
+                    channel={directChannel}
+                    {...otherProps}
+                />
+            );
         };
 
         test('should match snapshot, without teammate', () => {
-            const wrapper = shallow(
-                <DMIntroMessage
-                    {...props}
-                />,
-            );
-            expect(wrapper).toMatchSnapshot();
+            expect(shallow(component({}))).toMatchSnapshot();
         });
 
         test('should match snapshot, with teammate, without boards', () => {
-            const wrapper = shallow(
-                <DMIntroMessage
-                    {...props}
-                    teammate={user1 as UserProfile}
-                    teammateName='my teammate'
-                />,
-            );
-            expect(wrapper).toMatchSnapshot();
+            expect(shallow(component({
+                teammate: user1 as UserProfile,
+                teammateName: 'my teammate',
+            }))).toMatchSnapshot();
         });
 
         test('should match snapshot, with teammate, with boards', () => {
-            const wrapper = shallow(
-                <DMIntroMessage
-                    {...props}
-                    teammate={user1 as UserProfile}
-                    boardComponent={boardComponent}
-                />,
-            );
-            expect(wrapper).toMatchSnapshot();
+            expect(shallow(component({
+                teammate: user1 as UserProfile,
+                boardComponent,
+            }))).toMatchSnapshot();
         });
     });
 });

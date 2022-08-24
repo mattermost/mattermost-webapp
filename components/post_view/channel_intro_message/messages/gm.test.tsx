@@ -4,51 +4,38 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {boardComponent, channel, groupChannel, users} from './utils';
+import {boardComponent, groupChannel, users} from './utils';
 
 import GMIntroMessage from './gm';
 
 describe('components/post_view/ChannelIntroMessages', () => {
-    const baseProps = {
-        currentUserId: 'test-user-id',
-        channel,
-        profiles: [],
+    const component = (otherProps: any) => {
+        return (
+            <GMIntroMessage
+                currentUserId={'test-user-id'}
+                profiles={[]}
+                channel={groupChannel}
+                {...otherProps}
+            />
+        );
     };
 
     describe('test Group Channel', () => {
-        const props = {
-            ...baseProps,
-            channel: groupChannel,
-        };
-
         test('should match snapshot, no profiles', () => {
-            const wrapper = shallow(
-                <GMIntroMessage
-                    {...props}
-                />,
-            );
-            expect(wrapper).toMatchSnapshot();
+            expect(shallow(component({ }))).toMatchSnapshot();
         });
 
         test('should match snapshot, with profiles, without boards', () => {
-            const wrapper = shallow(
-                <GMIntroMessage
-                    {...props}
-                    profiles={users}
-                />,
-            );
-            expect(wrapper).toMatchSnapshot();
+            expect(shallow(component({
+                profiles: users,
+            }))).toMatchSnapshot();
         });
 
         test('should match snapshot, with profiles, with boards', () => {
-            const wrapper = shallow(
-                <GMIntroMessage
-                    {...props}
-                    profiles={users}
-                    boardComponent={boardComponent}
-                />,
-            );
-            expect(wrapper).toMatchSnapshot();
+            expect(shallow(component({
+                profiles: users,
+                boardComponent,
+            }))).toMatchSnapshot();
         });
     });
 });

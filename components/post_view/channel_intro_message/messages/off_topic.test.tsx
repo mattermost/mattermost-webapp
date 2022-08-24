@@ -4,40 +4,31 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {channel, boardComponent, offTopicChannel} from './utils';
+import {boardComponent, offTopicChannel} from './utils';
 
 import OffTopicIntroMessage from './off_topic';
 
 describe('components/post_view/ChannelIntroMessages', () => {
-    const baseProps = {
-        channel,
-        stats: {},
-        usersLimit: 10,
+    const component = (otherProps: any) => {
+        return (
+            <OffTopicIntroMessage
+                stats={{}}
+                usersLimit={10}
+                channel={offTopicChannel}
+                {...otherProps}
+            />
+        );
     };
 
     describe('test OFFTOPIC Channel', () => {
-        const props = {
-            ...baseProps,
-            channel: offTopicChannel,
-        };
-
         test('should match snapshot, without boards', () => {
-            const wrapper = shallow(
-                <OffTopicIntroMessage
-                    {...props}
-                />,
-            );
-            expect(wrapper).toMatchSnapshot();
+            expect(shallow(component({ }))).toMatchSnapshot();
         });
 
         test('should match snapshot, with boards', () => {
-            const wrapper = shallow(
-                <OffTopicIntroMessage
-                    {...props}
-                    boardComponent={boardComponent}
-                />,
-            );
-            expect(wrapper).toMatchSnapshot();
+            expect(shallow(component({
+                boardComponent,
+            }))).toMatchSnapshot();
         });
     });
 });
