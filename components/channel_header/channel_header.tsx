@@ -242,7 +242,7 @@ class ChannelHeader extends React.PureComponent<Props, State> {
     setPopoverOverlayWidth = () => {
         const headerDescriptionRect = this.headerDescriptionRef.current?.getBoundingClientRect();
         const ellipsisWidthAdjustment = 10;
-        this.setState({popoverOverlayWidth: (headerDescriptionRect?.width || 0) + ellipsisWidthAdjustment});
+        this.setState({popoverOverlayWidth: (headerDescriptionRect?.width ?? 0) + ellipsisWidthAdjustment});
     }
 
     handleFormattedTextClick = (e: MouseEvent<HTMLSpanElement>) => handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
