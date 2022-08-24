@@ -14,6 +14,7 @@ import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurch
 import {openModal} from 'actions/views/modals';
 import LearnMoreTrialModal from 'components/learn_more_trial_modal/learn_more_trial_modal';
 import {ModalIdentifiers, NonAdminPaidFeatures} from 'utils/constants';
+import {trackEvent} from 'actions/telemetry_actions';
 
 const MinimumPlansForFeature = {
     Professional: 'Professional plan',
@@ -194,7 +195,12 @@ export default function OpenPricingModalPost(props: {post: Post}) {
                 <>
                     <button
                         id='learn_more_about_trial'
-                        onClick={openLearnMoreTrialModal}
+                        onClick={() => {
+                            trackEvent('cloud_admin', 'click_learn_more_trial_modal', {
+                                callerInfo: 'notify_admin_learn_more_about_trial',
+                            });
+                            openLearnMoreTrialModal();
+                        }}
                         style={btnStyle}
                     >
                         {formatMessage({id: 'postypes.custom_open_pricing_modal_post_renderer.learn_trial', defaultMessage: 'Learn more about trial'})}
