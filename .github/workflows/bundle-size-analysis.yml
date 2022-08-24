@@ -1,7 +1,7 @@
 name: "Bundle size"
 
 on:
-  pull_request:
+  pull_request_target:
     branches: [ master ]
 
 jobs:  
@@ -48,7 +48,7 @@ jobs:
     - name: Checkout PR branch 
       uses: actions/checkout@v3.0.0
       with:
-        ref: ${{github.event.pull_request.head.ref}}
+        ref: ${{github.event.pull_request_target.head.ref}}
     
     - name: Setting up Node v16.10.0
       uses: actions/setup-node@v3.4.1
