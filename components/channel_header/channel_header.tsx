@@ -388,7 +388,7 @@ class ChannelHeader extends React.PureComponent<Props, State> {
                     <React.Fragment key={user?.id}>
                         {index > 0 && ', '}
                         {displayName}
-                        <GuestBadge show={isGuest(user?.roles || '')}/>
+                        <GuestBadge show={isGuest(user?.roles ?? '')}/>
                     </React.Fragment>
                 );
             });
