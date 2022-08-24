@@ -78,6 +78,38 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
 </Fragment>
 `;
 
+exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should match snapshot, no boards, archived channel 1`] = `
+<Fragment>
+  <h2
+    className="channel-intro__title"
+  >
+    <MemoizedFormattedMessage
+      defaultMessage="Beginning of {name}"
+      id="intro_messages.beginning"
+      values={
+        Object {
+          "name": "test channel",
+        }
+      }
+    />
+  </h2>
+  <p
+    className="channel-intro__content"
+  >
+    <injectIntl(FormattedMarkdownMessage)
+      defaultMessage="**Welcome to {display_name}!**\\\\n \\\\nPost messages here that you want everyone to see. Everyone automatically becomes a permanent member of this channel when they join the team."
+      id="intro_messages.default"
+      values={
+        Object {
+          "display_name": "test channel",
+        }
+      }
+    />
+  </p>
+  <br />
+</Fragment>
+`;
+
 exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should match snapshot, readonly 1`] = `
 <Fragment>
   <h2

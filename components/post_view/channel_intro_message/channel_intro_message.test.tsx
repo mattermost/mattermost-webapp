@@ -172,6 +172,12 @@ describe('components/post_view/ChannelIntroMessages', () => {
             name: Constants.DEFAULT_CHANNEL,
             type: Constants.OPEN_CHANNEL as ChannelType,
         };
+        const archivedChannel = {
+            ...channel,
+            name: Constants.DEFAULT_CHANNEL,
+            type: Constants.OPEN_CHANNEL as ChannelType,
+            delete_at: 111111,
+        };
         const props = {
             ...baseProps,
             channel: directChannel,
@@ -226,6 +232,15 @@ describe('components/post_view/ChannelIntroMessages', () => {
                     enableUserCreation={true}
                     teamIsGroupConstrained={true}
                     boardComponent={boardComponent}
+                />,
+            ).find(component).dive();
+            expect(wrapper).toMatchSnapshot();
+        });
+        test('should match snapshot, no boards, archived channel', () => {
+            const wrapper = shallow(
+                <ChannelIntroMessage
+                    {...baseProps}
+                    channel={archivedChannel}
                 />,
             ).find(component).dive();
             expect(wrapper).toMatchSnapshot();
