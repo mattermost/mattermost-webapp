@@ -52,6 +52,7 @@
             }
         }
 
+        .top-playbooks-card,
         .top-boards-card,
         .top-threads-card {
             &.small {
@@ -79,6 +80,7 @@
             }
         }
 
+        .top-playbooks-card,
         .top-boards-card {
             .Card__body {
                 padding: 0 12px 18px;
@@ -525,6 +527,118 @@
                     .Avatars.Avatars___xs {
                         margin-left: auto;
                         float: right;
+                    }
+                }
+            }
+        }
+
+        .top-playbooks-container {
+            .top-playbooks-loading-container {
+                padding: 0 12px;
+
+                .title {
+                    &:nth-of-type(1) {
+                        height: 12px;
+                        margin-bottom: 8px;
+                    }
+
+                    &:nth-of-type(2) {
+                        max-width: 80%;
+                        height: 8px;
+                        margin-bottom: 8px;
+                    }
+                }
+
+                &:nth-of-type(1) {
+                    margin-top: 2px;
+                }
+
+                &:nth-of-type(2) {
+                    margin-top: 24px;
+                    margin-bottom: 24px;
+                }
+
+                &:nth-of-type(3) {
+                    margin-bottom: 2px;
+
+                    .title {
+                        &:nth-of-type(2) {
+                            margin-bottom: 0;
+                        }
+                    }
+                }
+            }
+
+            .playbooks-list {
+                .playbook-item {
+                    display: flex;
+                    align-items: center;
+                    padding: 10px 12px;
+
+                    &:hover {
+                        background: rgba(var(--center-channel-color-rgb), 0.08);
+                        border-radius: 4px;
+                        cursor: pointer;
+                        text-decoration: none;
+                    }
+
+                    &:focus {
+                        text-decoration: none;
+                    }
+
+                    &:nth-of-type(2) {
+                        .horizontal-bar {
+                            opacity: 0.7;
+                        }
+                    }
+
+                    &:nth-of-type(3) {
+                        .horizontal-bar {
+                            opacity: 0.5;
+                        }
+                    }
+
+                    .display-info {
+                        display: flex;
+                        overflow: hidden;
+                        flex: 0.6 0;
+                        flex-direction: column;
+
+                        &.run-info {
+                            flex: 0.4 0;
+                        }
+
+                        .display-name {
+                            overflow: hidden;
+                            margin-right: 10px;
+                            margin-bottom: 2px;
+                            color: var(--center-channel-color);
+                            float: left;
+                            font-family: 'Open Sans';
+                            font-size: 12px;
+                            font-style: normal;
+                            font-weight: 600;
+                            line-height: 16px;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                        }
+
+                        .last-run-time {
+                            color: rgba(var(--center-channel-color-rgb), 0.56);
+                            font-family: 'Open Sans';
+                            font-size: 12px;
+                            font-style: normal;
+                            font-weight: 400;
+                            line-height: 16px;
+                        }
+
+                        .horizontal-bar {
+                            height: 8px;
+                            margin-top: 4px;
+                            margin-bottom: 4px;
+                            background-color: var(--button-bg);
+                            border-radius: 6px;
+                        }
                     }
                 }
             }

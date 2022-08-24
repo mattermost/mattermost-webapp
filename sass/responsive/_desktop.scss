@@ -30,6 +30,14 @@
                 margin-right: 500px;
             }
 
+            .ActivityAndInsights {
+                .insights-card {
+                    &.large {
+                        align-self: flex-start;
+                    }
+                }
+            }
+
             .app__content {
                 >.post-create__container {
                     width: calc(100% - 500px);
