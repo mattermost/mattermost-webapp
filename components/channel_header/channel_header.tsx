@@ -352,7 +352,7 @@ class ChannelHeader extends React.PureComponent<Props, State> {
             channelTitle = (
                 <React.Fragment>
                     {channelTitle}
-                    <GuestBadge show={isGuest(dmUser?.roles || '')}/>
+                    <GuestBadge show={isGuest(dmUser?.roles ?? '')}/>
                 </React.Fragment>
             );
         }
