@@ -8,7 +8,8 @@ import throttle from 'lodash/throttle';
 
 import classNames from 'classnames';
 
-import {Theme} from 'mattermost-redux/types/themes';
+import {Theme, getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
+
 import {ProductComponent, PluginComponent} from 'types/store/plugins';
 
 import {rudderAnalytics, RudderTelemetryHandler} from 'mattermost-redux/client/rudder';
@@ -18,7 +19,6 @@ import {General} from 'mattermost-redux/constants';
 import {setSystemEmojis} from 'mattermost-redux/actions/emojis';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser, isCurrentUserSystemAdmin, checkIsFirstAdmin} from 'mattermost-redux/selectors/entities/users';
-import {getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
 
 import {loadRecentlyUsedCustomEmojis} from 'actions/emoji_actions';
 import * as GlobalActions from 'actions/global_actions';

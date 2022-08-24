@@ -6,7 +6,8 @@ import {RouteComponentProps} from 'react-router-dom';
 import {shallow} from 'enzyme';
 import rudderAnalytics from 'rudder-sdk-js';
 
-import {Theme} from 'mattermost-redux/types/themes';
+import {Theme} from 'mattermost-redux/selectors/entities/preferences';
+
 import {Client4} from 'mattermost-redux/client';
 import {GeneralTypes} from 'mattermost-redux/action_types';
 
@@ -71,6 +72,7 @@ describe('components/Root', () => {
                 pathname: '/',
             },
         } as RouteComponentProps,
+        isCloud: false,
     };
 
     test('should load config and license on mount and redirect to sign-up page', () => {
