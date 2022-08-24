@@ -126,7 +126,7 @@ exports[`components/signup/Signup should match snapshot for all signup options e
         <p
           className="signup-body-card-agreement"
         >
-          <injectIntl(FormattedMarkdownMessage)
+          <FormattedMarkdownMessage
             defaultMessage="By proceeding to create your account and use {siteName}, you agree to our [Terms of Use]({TermsOfServiceLink}) and [Privacy Policy]({PrivacyPolicyLink}). If you do not agree, you cannot use {siteName}."
             id="create_team.agreement"
             values={
@@ -311,7 +311,7 @@ exports[`components/signup/Signup should match snapshot for all signup options e
         <p
           className="signup-body-card-agreement"
         >
-          <injectIntl(FormattedMarkdownMessage)
+          <FormattedMarkdownMessage
             defaultMessage="By proceeding to create your account and use {siteName}, you agree to our [Terms of Use]({TermsOfServiceLink}) and [Privacy Policy]({PrivacyPolicyLink}). If you do not agree, you cannot use {siteName}."
             id="create_team.agreement"
             values={

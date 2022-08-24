@@ -4,7 +4,7 @@
 import React, {useCallback} from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import TourTip from 'components/widgets/tour_tip';
 
 const translate = {x: 6, y: -16};

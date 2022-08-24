@@ -823,7 +823,7 @@ exports[`components/MarketplaceItemPlugin UpdateConfirmationModal should add ext
         />
       </p>,
       <p>
-        <injectIntl(FormattedMarkdownMessage)
+        <FormattedMarkdownMessage
           defaultMessage="You currently have {installedVersion} installed. View the [release notes](!{releaseNotesUrl}) to learn about the changes included in this update."
           id="marketplace_modal.list.update_confirmation.message.current_with_release_notes"
           values={
@@ -837,7 +837,7 @@ exports[`components/MarketplaceItemPlugin UpdateConfirmationModal should add ext
       <p
         className="alert alert-warning"
       >
-        <injectIntl(FormattedMarkdownMessage)
+        <FormattedMarkdownMessage
           defaultMessage="This update may contain breaking changes. Consult the [release notes](!{releaseNotesUrl}) before upgrading."
           id="marketplace_modal.list.update_confirmation.message.warning_major_version_with_release_notes"
           values={

@@ -85,7 +85,7 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot 1`] = `
       <span
         className="item-details__url word-break--all"
       >
-        <injectIntl(FormattedMarkdownMessage)
+        <FormattedMarkdownMessage
           defaultMessage="Is Trusted: **{isTrusted}**"
           id="installed_oauth_apps.is_trusted"
           values={
@@ -102,7 +102,7 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot 1`] = `
       <span
         className="item-details__token"
       >
-        <injectIntl(FormattedMarkdownMessage)
+        <FormattedMarkdownMessage
           defaultMessage="Client ID: **{clientId}**"
           id="installed_integrations.client_id"
           values={
@@ -313,7 +313,7 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, on err
       <span
         className="item-details__url word-break--all"
       >
-        <injectIntl(FormattedMarkdownMessage)
+        <FormattedMarkdownMessage
           defaultMessage="Is Trusted: **{isTrusted}**"
           id="installed_oauth_apps.is_trusted"
           values={
@@ -330,7 +330,7 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, on err
       <span
         className="item-details__token"
       >
-        <injectIntl(FormattedMarkdownMessage)
+        <FormattedMarkdownMessage
           defaultMessage="Client ID: **{clientId}**"
           id="installed_integrations.client_id"
           values={
@@ -488,7 +488,7 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, when o
       <span
         className="item-details__url word-break--all"
       >
-        <injectIntl(FormattedMarkdownMessage)
+        <FormattedMarkdownMessage
           defaultMessage="Is Trusted: **{isTrusted}**"
           id="installed_oauth_apps.is_trusted"
           values={
@@ -505,7 +505,7 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, when o
       <span
         className="item-details__token"
       >
-        <injectIntl(FormattedMarkdownMessage)
+        <FormattedMarkdownMessage
           defaultMessage="Client ID: **{clientId}**"
           id="installed_integrations.client_id"
           values={

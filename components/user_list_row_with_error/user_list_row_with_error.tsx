@@ -16,7 +16,7 @@ import * as Utils from 'utils/utils';
 import ProfilePicture from 'components/profile_picture';
 import BotBadge from 'components/widgets/badges/bot_badge';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 type Props = {
     user: UserProfile;

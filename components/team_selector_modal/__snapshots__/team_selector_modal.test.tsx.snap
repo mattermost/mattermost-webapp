@@ -40,7 +40,7 @@ exports[`components/TeamSelectorModal should hide group constrained teams when e
       componentClass="h1"
       id="teamSelectorModalLabel"
     >
-      <injectIntl(FormattedMarkdownMessage)
+      <FormattedMarkdownMessage
         defaultMessage="Add Teams to **Team Selection** List"
         id="add_teams_to_scheme.title"
       />
@@ -193,7 +193,7 @@ exports[`components/TeamSelectorModal should match snapshot 1`] = `
       componentClass="h1"
       id="teamSelectorModalLabel"
     >
-      <injectIntl(FormattedMarkdownMessage)
+      <FormattedMarkdownMessage
         defaultMessage="Add Teams to **Team Selection** List"
         id="add_teams_to_scheme.title"
       />
