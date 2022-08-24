@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @enterprise @messaging
+// Group: @prod @enterprise @messaging
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
@@ -22,80 +22,6 @@ describe('Forward Message', () => {
     const message = 'Forward this message';
     const replyMessage = 'Forward this reply';
     const commentMessage = 'Comment for the forwarded message';
-
-    /**
-     * Verify that the post has been forwarded
-     *
-     * @param {string?} comment
-     * @param {boolean?} showMore
-     * @param {Post} post
-     */
-    const verifyForwardedMessage = ({post, comment, showMore}) => {
-        const permaLink = `${Cypress.config('baseUrl')}/${testTeam.name}/pl/${post.id}`;
-
-        // * Assert post has been forwarded
-        cy.getLastPostId().then((id) => {
-            // * Assert last post is visible
-            cy.get(`#${id}_message`).should('be.visible').within(() => {
-                if (comment) {
-                    // * Assert the text in the post body is the permalink only
-                    cy.get(`#postMessageText_${id}`).should('be.visible').should('contain.text', permaLink).should('contain.text', comment);
-
-                    if (showMore) {
-                        // * Assert show more button is rendered and works as expected
-                        cy.get('#showMoreButton').should('be.visible').should('contain.text', 'Show more').click().should('contain.text', 'Show less').click();
-                    }
-                }
-
-                // * Assert there is only one preview element rendered
-                cy.get('.attachment.attachment--permalink').should('have.length', 1);
-
-                // * Assert the text in the preview matches the original post message
-                cy.get(`#postMessageText_${post.id}`).should('be.visible').should('contain.text', post.message);
-            });
-
-            // # Cleanup
-            cy.apiDeletePost(id);
-        });
-    };
-
-    /**
-     * Forward Post with optional comment.
-     * Has the possibility to also test for the post-error on long comments
-     *
-     * @param {object?} options
-     * @param {string?} options.comment
-     * @param {boolean?} options.cancel
-     */
-    const forwardPostFromDM = ({comment = '', cancel = false} = {}) => {
-        // * Assert visibility of the forward post modal
-        cy.get('#forward-post-modal').should('be.visible').within(() => {
-            // * Assert channel select is not existent
-            cy.get('.forward-post__select').should('not.exist');
-
-            // * Assert if button is enabled
-            cy.get('.GenericModal__button.confirm').should('not.be.disabled');
-
-            // * Assert Notificatio is shown
-            cy.findByTestId('notification_forward_post').should('be.visible').should('contain.text', `This message is from a private conversation and can only be shared with ${dmChannel.display_name}`);
-
-            if (comment) {
-                // # Enter comment
-                cy.get('#forward_post_textbox').invoke('val', comment).trigger('change').type(' {backspace}');
-
-                // * Assert if error message is not present
-                cy.get('label.post-error').should('not.exist');
-            }
-
-            if (cancel) {
-                // * Assert if button is active
-                cy.get('.GenericModal__button.cancel').should('not.be.disabled').type('{esc}', {force: true});
-            } else {
-                // * Assert if button is active
-                cy.get('.GenericModal__button.confirm').should('not.be.disabled').type('{enter}', {force: true});
-            }
-        });
-    };
 
     before(() => {
         // # Testing Forwarding from Insights view requires a license
@@ -217,4 +143,78 @@ describe('Forward Message', () => {
             assert.isEqual(id, testPost.id);
         });
     });
+
+    /**
+     * Verify that the post has been forwarded
+     *
+     * @param {string?} comment
+     * @param {boolean?} showMore
+     * @param {Post} post
+     */
+    const verifyForwardedMessage = ({post, comment, showMore}) => {
+        const permaLink = `${Cypress.config('baseUrl')}/${testTeam.name}/pl/${post.id}`;
+
+        // * Assert post has been forwarded
+        cy.getLastPostId().then((id) => {
+            // * Assert last post is visible
+            cy.get(`#${id}_message`).should('be.visible').within(() => {
+                if (comment) {
+                    // * Assert the text in the post body is the permalink only
+                    cy.get(`#postMessageText_${id}`).should('be.visible').should('contain.text', permaLink).should('contain.text', comment);
+
+                    if (showMore) {
+                        // * Assert show more button is rendered and works as expected
+                        cy.get('#showMoreButton').should('be.visible').should('contain.text', 'Show more').click().should('contain.text', 'Show less').click();
+                    }
+                }
+
+                // * Assert there is only one preview element rendered
+                cy.get('.attachment.attachment--permalink').should('have.length', 1);
+
+                // * Assert the text in the preview matches the original post message
+                cy.get(`#postMessageText_${post.id}`).should('be.visible').should('contain.text', post.message);
+            });
+
+            // # Cleanup
+            cy.apiDeletePost(id);
+        });
+    };
+
+    /**
+     * Forward Post with optional comment.
+     * Has the possibility to also test for the post-error on long comments
+     *
+     * @param {object?} options
+     * @param {string?} options.comment
+     * @param {boolean?} options.cancel
+     */
+    const forwardPostFromDM = ({comment = '', cancel = false} = {}) => {
+        // * Assert visibility of the forward post modal
+        cy.get('#forward-post-modal').should('be.visible').within(() => {
+            // * Assert channel select is not existent
+            cy.get('.forward-post__select').should('not.exist');
+
+            // * Assert if button is enabled
+            cy.get('.GenericModal__button.confirm').should('not.be.disabled');
+
+            // * Assert Notificatio is shown
+            cy.findByTestId('notification_forward_post').should('be.visible').should('contain.text', `This message is from a private conversation and can only be shared with ${dmChannel.display_name}`);
+
+            if (comment) {
+                // # Enter comment
+                cy.get('#forward_post_textbox').invoke('val', comment).trigger('change').type(' {backspace}');
+
+                // * Assert if error message is not present
+                cy.get('label.post-error').should('not.exist');
+            }
+
+            if (cancel) {
+                // * Assert if button is active
+                cy.get('.GenericModal__button.cancel').should('not.be.disabled').type('{esc}', {force: true});
+            } else {
+                // * Assert if button is active
+                cy.get('.GenericModal__button.confirm').should('not.be.disabled').type('{enter}', {force: true});
+            }
+        });
+    };
 });
