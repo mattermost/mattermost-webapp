@@ -1,8 +1,14 @@
 name: "Bundle size"
 
 on:
-  pull_request_target:
-    branches: [ master ]
+  pull_request:
+    branches:
+      - master
+    paths: 
+      - "**.js"
+      - "**.jsx"
+      - "**.ts"
+      - "**.tsx"
 
 jobs:  
   # Build main branch and upload its's bundle stats file
