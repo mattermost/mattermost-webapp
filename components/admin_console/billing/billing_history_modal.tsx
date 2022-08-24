@@ -12,8 +12,11 @@ import {Invoice} from '@mattermost/types/cloud';
 import {closeModal} from 'actions/views/modals';
 import {GlobalState} from 'types/store';
 
-import BillingHistoryTable from './billing_history_table';
 import './billing_history_modal.scss';
+
+import BillingHistoryTable from './billing_history_table';
+
+import './billing_history.scss';
 
 type BillingHistoryModalProps = {
     invoices: Invoice[] | undefined;
