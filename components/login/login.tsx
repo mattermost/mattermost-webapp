@@ -529,6 +529,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
                     }),
                 });
                 setHasError(true);
+                // casa
             } else if (error.server_error_id === 'api.user.check_user_password.invalid.app_error' ||
                 error.server_error_id === 'ent.ldap.do_login.invalid_password.app_error') {
                 setShowMfa(false);
