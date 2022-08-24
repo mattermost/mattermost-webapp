@@ -5,7 +5,7 @@ import React from 'react';
 
 import {WebSocketClient} from '@mattermost/client';
 
-import {Theme} from 'mattermost-redux/types/themes';
+import {Theme} from 'mattermost-redux/selectors/entities/preferences';
 
 import {ProductComponent} from 'types/store/plugins';
 import {GlobalState} from 'types/store';

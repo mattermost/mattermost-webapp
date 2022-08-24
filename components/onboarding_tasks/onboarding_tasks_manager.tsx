@@ -21,7 +21,7 @@ import LearnMoreTrialModal from 'components/learn_more_trial_modal/learn_more_tr
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 
-import {get, makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
+import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {isCurrentUserSystemAdmin, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 
@@ -34,7 +34,7 @@ import {
     switchToChannels,
 } from 'actions/views/onboarding_tasks';
 
-import {Constants, ModalIdentifiers, TELEMETRY_CATEGORIES, Preferences} from 'utils/constants';
+import {ModalIdentifiers, TELEMETRY_CATEGORIES, ExploreOtherToolsTourSteps} from 'utils/constants';
 
 import {generateTelemetryTag} from './utils';
 import {OnboardingTaskCategory, OnboardingTaskList, OnboardingTasksName, TaskNameMapToSteps} from './constants';
@@ -69,6 +69,12 @@ const taskLabels = {
         <FormattedMessage
             id='onboardingTask.checklist.task_complete_profile'
             defaultMessage='Complete your profile'
+        />
+    ),
+    [OnboardingTasksName.EXPLORE_OTHER_TOOLS]: (
+        <FormattedMessage
+            id='onboardingTask.checklist.explore_other_tools'
+            defaultMessage='Explore other tools in the platform'
         />
     ),
     [OnboardingTasksName.DOWNLOAD_APP]: (
@@ -114,12 +120,10 @@ export const useTasksList = () => {
     const showStartTrialTask = selfHostedTrialCondition || cloudTrialCondition;
 
     const list: Record<string, string> = {...OnboardingTasksName};
-    const pluginsPreferenceState = useSelector((state: GlobalState) => get(state, Constants.Preferences.ONBOARDING, Preferences.USE_CASE));
-    const pluginsPreference = pluginsPreferenceState && JSON.parse(pluginsPreferenceState);
-    if ((pluginsPreference && !pluginsPreference.boards) || !pluginsList.focalboard) {
+    if (!pluginsList.focalboard || !isUserFirstAdmin) {
         delete list.BOARDS_TOUR;
     }
-    if ((pluginsPreference && !pluginsPreference.playbooks) || !pluginsList.playbooks) {
+    if (!pluginsList.playbooks || !isUserFirstAdmin) {
         delete list.PLAYBOOKS_TOUR;
     }
     if (!showStartTrialTask) {
@@ -129,6 +133,11 @@ export const useTasksList = () => {
     if (!isUserFirstAdmin && !isUserAdmin) {
         delete list.VISIT_SYSTEM_CONSOLE;
         delete list.START_TRIAL;
+    }
+
+    // explore other tools tour is only shown to subsequent admins and end users
+    if (isUserFirstAdmin || (!pluginsList.playbooks && !pluginsList.focalboard)) {
+        delete list.EXPLORE_OTHER_TOOLS;
     }
 
     return Object.values(list);
@@ -232,6 +241,30 @@ export const useHandleOnBoardingTaskTrigger = () => {
             dispatch(setShowOnboardingCompleteProfileTour(true));
             handleSaveData(taskName, TaskNameMapToSteps[taskName].STARTED, true);
             if (inAdminConsole) {
+                dispatch(switchToChannels());
+            }
+            break;
+        }
+        case OnboardingTasksName.EXPLORE_OTHER_TOOLS: {
+            dispatch(setProductMenuSwitcherOpen(true));
+            handleSaveData(taskName, TaskNameMapToSteps[taskName].STARTED, true);
+            const tourCategory = TutorialTourName.EXPLORE_OTHER_TOOLS;
+            const preferences = [
+                {
+                    user_id: currentUserId,
+                    category: tourCategory,
+                    name: currentUserId,
+                    value: ExploreOtherToolsTourSteps.BOARDS_TOUR.toString(),
+                },
+                {
+                    user_id: currentUserId,
+                    category: tourCategory,
+                    name: TTNameMapToATStatusKey[tourCategory],
+                    value: AutoTourStatus.ENABLED.toString(),
+                },
+            ];
+            dispatch(savePreferences(currentUserId, preferences));
+            if (!inChannels) {
                 dispatch(switchToChannels());
             }
             break;

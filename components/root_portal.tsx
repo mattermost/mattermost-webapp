@@ -3,14 +3,14 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
 
-export default class RootPortal extends React.PureComponent {
-    static propTypes = {
-        children: PropTypes.node,
-    }
+interface Props {
+    children: React.ReactNode | React.ReactNodeArray;
+}
+export default class RootPortal extends React.PureComponent<Props> {
+    private el: HTMLDivElement
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
         this.el = document.createElement('div');
     }

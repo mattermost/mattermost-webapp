@@ -9,9 +9,9 @@ import {parseNeededCustomEmojisFromText} from 'mattermost-redux/utils/emoji_util
 
 import {GetStateFunc, DispatchFunc, ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 
-import {SystemEmoji, CustomEmoji} from '@mattermost/types/emojis';
-
 import {getRecentEmojisData} from 'selectors/emojis';
+
+import {CustomEmoji} from '@mattermost/types/emojis';
 
 import LocalStorageStore from 'stores/local_storage_store';
 
@@ -27,8 +27,8 @@ import {getProfilesByIds} from './users';
 
 import {savePreferences} from './preferences';
 
-export let systemEmojis: Map<string, SystemEmoji> = new Map();
-export function setSystemEmojis(emojis: Map<string, SystemEmoji>) {
+export let systemEmojis: Set<string> = new Set();
+export function setSystemEmojis(emojis: Set<string>) {
     systemEmojis = emojis;
 }
 

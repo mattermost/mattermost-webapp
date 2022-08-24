@@ -3,6 +3,8 @@
 
 import {History} from 'history';
 
+import {Client4} from 'mattermost-redux/client';
+
 import {joinChannel, getChannelByNameAndTeamName, getChannelMember, markGroupChannelOpen, fetchMyChannelsAndMembers} from 'mattermost-redux/actions/channels';
 import {getUser, getUserByUsername, getUserByEmail} from 'mattermost-redux/actions/users';
 import {getTeamByName} from 'mattermost-redux/selectors/entities/teams';
@@ -40,7 +42,7 @@ export function onChannelByIdentifierEnter({match, history}: MatchAndHistory): A
             return {data: undefined};
         }
 
-        const channelPath = getPathFromIdentifier(state, path, identifier);
+        const channelPath = await getPathFromIdentifier(state, path, identifier);
 
         switch (channelPath) {
         case 'channel_name':
@@ -73,7 +75,7 @@ export function onChannelByIdentifierEnter({match, history}: MatchAndHistory): A
     };
 }
 
-export function getPathFromIdentifier(state: GlobalState, path: string, identifier: string) {
+export async function getPathFromIdentifier(state: GlobalState, path: string, identifier: string) {
     if (path === 'channels') {
         // It's hard to tell an ID apart from a channel name of the same length, so check first if
         // the identifier matches a channel that we have
@@ -81,7 +83,18 @@ export function getPathFromIdentifier(state: GlobalState, path: string, identifi
         const moreChannelsByName = getOtherChannels(state).find((chan) => chan.name === identifier);
 
         if (identifier.length === LENGTH_OF_ID) {
-            return channelsByName || moreChannelsByName ? 'channel_name' : 'channel_id';
+            if (!channelsByName && !moreChannelsByName) {
+                try {
+                    await Client4.getChannel(identifier);
+                    return 'channel_id';
+                } catch (e) {
+                    if (e.status_code === 404) {
+                        return 'channel_name';
+                    }
+                    return 'error';
+                }
+            }
+            return 'channel_name';
         } else if (
             (!channelsByName && !moreChannelsByName && identifier.length === LENGTH_OF_GROUP_ID) ||
             (
