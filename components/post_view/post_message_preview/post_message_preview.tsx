@@ -34,6 +34,7 @@ export type Props = OwnProps & {
     enablePostIconOverride: boolean;
     isEmbedVisible: boolean;
     compactDisplay: boolean;
+    isPostPriorityEnabled: boolean;
     handleFileDropdownOpened?: (open: boolean) => void;
     actions: {
         toggleEmbedVisibility: (id: string) => void;
@@ -41,7 +42,7 @@ export type Props = OwnProps & {
 };
 
 const PostMessagePreview = (props: Props) => {
-    const {currentTeamUrl, channelDisplayName, user, previewPost, metadata, isEmbedVisible, compactDisplay, preventClickAction, previewFooterMessage, handleFileDropdownOpened} = props;
+    const {currentTeamUrl, channelDisplayName, user, previewPost, metadata, isEmbedVisible, compactDisplay, preventClickAction, previewFooterMessage, handleFileDropdownOpened, isPostPriorityEnabled} = props;
 
     const toggleEmbedVisibility = () => {
         if (previewPost) {
@@ -189,7 +190,7 @@ const PostMessagePreview = (props: Props) => {
                             day={'numeric'}
                             className='post-preview__time'
                         />
-                        {previewPost.props?.priority && (
+                        {previewPost.props?.priority && isPostPriorityEnabled && (
                             <span className='mr-2 ml-1'>
                                 <PriorityLabel priority={previewPost.props.priority}/>
                             </span>

@@ -86,6 +86,8 @@ export default class SearchResultsItem extends React.PureComponent {
 
         isMobileView: PropTypes.bool.isRequired,
 
+        isPostPriorityEnabled: PropTypes.bool.isRequired,
+
         /**
         *  Function used for closing LHS
         */
@@ -259,7 +261,7 @@ export default class SearchResultsItem extends React.PureComponent {
     }
 
     render() {
-        const {post, channelIsArchived, teamDisplayName, canReply, isPostBeingEditedInRHS} = this.props;
+        const {post, channelIsArchived, teamDisplayName, canReply, isPostBeingEditedInRHS, isPostPriorityEnabled} = this.props;
         const channelName = this.getChannelName();
 
         let overrideUsername;
@@ -471,7 +473,7 @@ export default class SearchResultsItem extends React.PureComponent {
                                 </div>
                                 <div className='col d-flex align-items-center'>
                                     {this.renderPostTime()}
-                                    {post.props?.priority && (
+                                    {post.props?.priority && isPostPriorityEnabled && (
                                         <span className='ml-1 mr-2'>
                                             <PriorityLabel priority={post.props.priority}/>
                                         </span>

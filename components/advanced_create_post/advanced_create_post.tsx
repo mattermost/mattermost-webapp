@@ -165,6 +165,8 @@ type Props = {
 
     isFormattingBarHidden: boolean;
 
+    isPostPriorityEnabled: boolean;
+
     actions: {
 
         //Set show preview for textbox
@@ -1374,7 +1376,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     prefillMessage={this.prefillMessage}
                     textboxRef={this.textboxRef}
                     labels={(
-                        this.props.draft?.props?.priority && (
+                        this.props.draft?.props?.priority && this.props.isPostPriorityEnabled && (
                             <div className='AdvancedTextEditor__priority'>
                                 <PriorityLabel priority={this.props.draft.props.priority}/>
                                 <OverlayTrigger
@@ -1410,43 +1412,45 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                         )
                     )}
                     additionalControls={[
-                        <React.Fragment key='PostPriorityPicker'>
-                            <PostPriorityPickerOverlay
-                                priority={this.props.draft?.props?.priority}
-                                show={this.state.showPostPriorityPicker}
-                                target={this.getPostPriorityPickerRef}
-                                onApply={this.handlePostPriorityApply}
-                                onHide={this.handlePostPriorityHide}
-                                defaultHorizontalPosition='left'
-                            />
-                            <OverlayTrigger
-                                placement='top'
-                                delayShow={Constants.OVERLAY_TIME_DELAY}
-                                trigger={Constants.OVERLAY_DEFAULT_TRIGGER}
-                                overlay={this.state.showPostPriorityPicker ? <React.Fragment/> : (
-                                    <Tooltip id='post-priority-picker-tooltip'>
-                                        <KeyboardShortcutSequence
-                                            shortcut={KEYBOARD_SHORTCUTS.msgPostPriority}
-                                            hoistDescription={true}
-                                            isInsideTooltip={true}
-                                        />
-                                    </Tooltip>
-                                )}
-                            >
-                                <IconContainer
-                                    ref={this.postPriorityPickerRef}
-                                    className={classNames({control: true, active: this.state.showPostPriorityPicker})}
-                                    disabled={this.props.shouldShowPreview}
-                                    type='button'
-                                    onClick={this.togglePostPriorityPicker}
+                        this.props.isPostPriorityEnabled ? (
+                            <React.Fragment key='PostPriorityPicker'>
+                                <PostPriorityPickerOverlay
+                                    priority={this.props.draft?.props?.priority}
+                                    show={this.state.showPostPriorityPicker}
+                                    target={this.getPostPriorityPickerRef}
+                                    onApply={this.handlePostPriorityApply}
+                                    onHide={this.handlePostPriorityHide}
+                                    defaultHorizontalPosition='left'
+                                />
+                                <OverlayTrigger
+                                    placement='top'
+                                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                                    trigger={Constants.OVERLAY_DEFAULT_TRIGGER}
+                                    overlay={this.state.showPostPriorityPicker ? <React.Fragment/> : (
+                                        <Tooltip id='post-priority-picker-tooltip'>
+                                            <KeyboardShortcutSequence
+                                                shortcut={KEYBOARD_SHORTCUTS.msgPostPriority}
+                                                hoistDescription={true}
+                                                isInsideTooltip={true}
+                                            />
+                                        </Tooltip>
+                                    )}
                                 >
-                                    <AlertCircleOutlineIcon
-                                        size={18}
-                                        color='currentColor'
-                                    />
-                                </IconContainer>
-                            </OverlayTrigger>
-                        </React.Fragment>,
+                                    <IconContainer
+                                        ref={this.postPriorityPickerRef}
+                                        className={classNames({control: true, active: this.state.showPostPriorityPicker})}
+                                        disabled={this.props.shouldShowPreview}
+                                        type='button'
+                                        onClick={this.togglePostPriorityPicker}
+                                    >
+                                        <AlertCircleOutlineIcon
+                                            size={18}
+                                            color='currentColor'
+                                        />
+                                    </IconContainer>
+                                </OverlayTrigger>
+                            </React.Fragment>
+                        ) : null,
                     ]}
                 />
             </form>

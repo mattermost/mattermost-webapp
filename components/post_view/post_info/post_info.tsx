@@ -121,6 +121,8 @@ type Props = {
      */
     showActionsMenuPulsatingDot: boolean;
 
+    isPostPriorityEnabled: boolean;
+
     actions: {
 
         /**
@@ -402,7 +404,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
     }
 
     render(): React.ReactNode {
-        const {post} = this.props;
+        const {post, isPostPriorityEnabled} = this.props;
 
         const isEphemeral = Utils.isPostEphemeral(post);
         const isSystemMessage = PostUtils.isSystemMessage(post);
@@ -478,7 +480,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
         }
 
         let priority;
-        if (post.props?.priority) {
+        if (post.props?.priority && isPostPriorityEnabled) {
             priority = <span className='mr-2 ml-1'><PriorityLabel priority={post.props.priority}/></span>;
         }
 

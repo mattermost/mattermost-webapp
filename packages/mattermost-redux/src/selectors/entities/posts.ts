@@ -8,6 +8,7 @@ import {Posts, Preferences} from 'mattermost-redux/constants';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
 import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {getUsers, getCurrentUserId, getUserStatuses} from 'mattermost-redux/selectors/entities/users';
+import {getFeatureFlagValue} from 'mattermost-redux/selectors/entities/general';
 
 import {PostWithFormatData} from 'mattermost-redux/types/posts';
 
@@ -730,4 +731,10 @@ export function getExpandedLink(state: GlobalState, link: string): string {
 
 export function getLimitedViews(state: GlobalState): GlobalState['entities']['posts']['limitedViews'] {
     return state.entities.posts.limitedViews;
+}
+
+export function isPostPriorityEnabled(state: GlobalState) {
+    return (
+        getFeatureFlagValue(state, 'PostPriority') === 'true'
+    );
 }

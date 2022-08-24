@@ -46,3 +46,4 @@ export function isInlineImageVisible(state: GlobalState, postId: string, imageKe
 
     return getGlobalItem(state, StoragePrefixes.INLINE_IMAGE_VISIBLE + currentUserId + '_' + postId + '_' + imageKey, !imageCollapsed);
 }
+

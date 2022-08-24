@@ -14,6 +14,7 @@ import {
     isCollapsedThreadsEnabled,
 } from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {isPostPriorityEnabled} from 'mattermost-redux/selectors/entities/posts';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
@@ -79,6 +80,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
 
         isPostBeingEdited: getIsPostBeingEditedInRHS(state, ownProps.post.id),
         isMobileView: getIsMobileView(state),
+        isPostPriorityEnabled: isPostPriorityEnabled(state),
     };
 }
 
