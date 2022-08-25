@@ -212,7 +212,7 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
                                 <li>
                                     <FormattedMessage
                                         id='deactivate_member_modal.desc.for_users_with_bot_accounts3'
-                                        defaultMessage='Bot accounts they manage will be disabled along with their integrations. To enable them again, go to <linkBots>Integrations > Bot Accounts</linkBots>. <linkDocumentation>Learn more about bot accounts</linkDocumentation>.'
+                                        defaultMessage='Bot accounts they manage will be disabled along with their integrations. To enable them again, go to <linkBots>Integrations > Bot Accounts</linkBots>. <linkDocumentation>Learn more about bot accounts</linkDocumentation><p><p>.'
                                         values={{
                                             siteURL: getSiteURL(),
                                             linkBots: (msg: React.ReactNode) => (
