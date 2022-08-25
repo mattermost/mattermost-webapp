@@ -7,19 +7,17 @@ import nock from 'nock';
 
 import * as Actions from 'mattermost-redux/actions/channels';
 import {addUserToTeam} from 'mattermost-redux/actions/teams';
-import {getProfilesByIds, login} from 'mattermost-redux/actions/users';
+import {getProfilesByIds, loadMeREST} from 'mattermost-redux/actions/users';
 import {createIncomingHook, createOutgoingHook} from 'mattermost-redux/actions/integrations';
-
 import {Client4} from 'mattermost-redux/client';
+import {UserTypes} from 'mattermost-redux/action_types';
+import TestHelper from 'mattermost-redux/test/test_helper';
+import configureStore from 'mattermost-redux/test/test_store';
+import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 
 import {General, RequestStatus, Preferences, Permissions} from '../constants';
 import {CategoryTypes} from '../constants/channel_categories';
 import {MarkUnread} from '../constants/channels';
-
-import TestHelper from 'mattermost-redux/test/test_helper';
-import configureStore from 'mattermost-redux/test/test_store';
-
-import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 
 const OK_RESPONSE = {status: 'OK'};
 
@@ -164,7 +162,10 @@ describe('Actions.Channels', () => {
         );
 
         TestHelper.mockLogin();
-        await store.dispatch(login(TestHelper.basicUser.email, TestHelper.basicUser.password));
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await store.dispatch(loadMeREST());
 
         nock(Client4.getBaseRoute()).
             post('/users/ids').
@@ -2449,7 +2450,10 @@ describe('Actions.Channels', () => {
 
     it('updateChannelScheme', async () => {
         TestHelper.mockLogin();
-        await store.dispatch(login(TestHelper.basicChannelMember.email, 'password1'));
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await store.dispatch(loadMeREST());
 
         nock(Client4.getBaseRoute()).
             post('/channels').
@@ -2479,7 +2483,10 @@ describe('Actions.Channels', () => {
 
     it('updateChannelMemberSchemeRoles', async () => {
         TestHelper.mockLogin();
-        await store.dispatch(login(TestHelper.basicChannelMember.email, 'password1'));
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await store.dispatch(loadMeREST());
 
         nock(Client4.getBaseRoute()).
             post('/channels').

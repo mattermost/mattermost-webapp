@@ -11,6 +11,10 @@ import TopReactionsTable from '../top_reactions/top_reactions_table/top_reaction
 import TopChannelsTable from '../top_channels/top_channels_table/top_channels_table';
 import TopThreadsTable from '../top_threads/top_threads_table/top_threads_table';
 import TopBoardsTable from '../top_boards/top_boards_table/top_boards_table';
+import LeastActiveChannelsTable from '../least_active_channels/least_active_channels_table/least_active_channels_table';
+import TopPlaybooksTable from '../top_playbooks/top_playbooks_table/top_playbooks_table';
+import TopDMsTable from '../top_dms_and_new_members/top_dms_table/top_dms_table';
+import NewMembersTable from '../top_dms_and_new_members/new_members_table/new_members_table';
 
 import './../../activity_and_insights.scss';
 import './insights_modal.scss';
@@ -22,17 +26,21 @@ type Props = {
     subtitle: string;
     filterType: string;
     timeFrame: TimeFrame;
+    setShowModal?: (show: boolean) => void;
 }
 
 const InsightsModal = (props: Props) => {
     const [show, setShow] = useState(true);
     const [timeFrame, setTimeFrame] = useState(props.timeFrame);
+    const [offset, setOffset] = useState(0);
 
     const setTimeFrameValue = useCallback((value) => {
         setTimeFrame(value.value);
+        setOffset(0);
     }, []);
 
     const doHide = useCallback(() => {
+        props.setShowModal?.(false);
         setShow(false);
     }, []);
 
@@ -69,10 +77,44 @@ const InsightsModal = (props: Props) => {
                     closeModal={doHide}
                 />
             );
+        case InsightsWidgetTypes.LEAST_ACTIVE_CHANNELS:
+            return (
+                <LeastActiveChannelsTable
+                    filterType={props.filterType}
+                    timeFrame={timeFrame}
+                    closeModal={doHide}
+                />
+            );
+        case InsightsWidgetTypes.TOP_PLAYBOOKS:
+            return (
+                <TopPlaybooksTable
+                    filterType={props.filterType}
+                    timeFrame={timeFrame}
+                    closeModal={doHide}
+                />
+            );
+        case InsightsWidgetTypes.TOP_DMS:
+            return (
+                <TopDMsTable
+                    filterType={props.filterType}
+                    timeFrame={timeFrame}
+                    closeModal={doHide}
+                />
+            );
+        case InsightsWidgetTypes.NEW_TEAM_MEMBERS:
+            return (
+                <NewMembersTable
+                    filterType={props.filterType}
+                    timeFrame={timeFrame}
+                    closeModal={doHide}
+                    offset={offset}
+                    setOffset={setOffset}
+                />
+            );
         default:
             return null;
         }
-    }, [props.widgetType, timeFrame]);
+    }, [props.widgetType, timeFrame, offset]);
 
     return (
         <Modal

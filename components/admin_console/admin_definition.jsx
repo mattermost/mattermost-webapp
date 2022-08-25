@@ -9,9 +9,8 @@ import {FormattedMessage} from 'react-intl';
 import {AccountMultipleOutlineIcon, ChartBarIcon, CogOutlineIcon, CreditCardOutlineIcon, FlaskOutlineIcon, FormatListBulletedIcon, InformationOutlineIcon, PowerPlugOutlineIcon, ServerVariantIcon, ShieldOutlineIcon, SitemapIcon} from '@mattermost/compass-icons/components';
 
 import {RESOURCE_KEYS} from 'mattermost-redux/constants/permissions_sysconsole';
-import {LicenseSkus} from 'mattermost-redux/types/general';
 
-import {Constants, LegacyFreeProductIds, CloudProducts} from 'utils/constants';
+import {Constants, LegacyFreeProductIds, CloudProducts, LicenseSkus} from 'utils/constants';
 import {isCloudFreePlan} from 'utils/cloud_utils';
 import {isCloudLicense} from 'utils/license_utils';
 import {getSiteURL} from 'utils/url';

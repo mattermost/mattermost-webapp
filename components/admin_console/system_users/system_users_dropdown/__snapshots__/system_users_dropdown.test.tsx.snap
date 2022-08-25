@@ -2,7 +2,7 @@
 
 exports[`components/admin_console/system_users/system_users_dropdown/system_users_dropdown renderDeactivateMemberModal should not render the bot accounts warning in case the user do not have any bot accounts 1`] = `
 <div>
-  <injectIntl(FormattedMarkdownMessage)
+  <FormattedMarkdownMessage
     defaultMessage="This action deactivates {username}. They will be logged out and not have access to any teams or channels on this system.\\\\n"
     id="deactivate_member_modal.desc"
     values={
@@ -11,7 +11,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
       }
     }
   />
-  <injectIntl(FormattedMarkdownMessage)
+  <FormattedMarkdownMessage
     defaultMessage="Are you sure you want to deactivate {username}?"
     id="deactivate_member_modal.desc.confirm"
     values={
@@ -25,7 +25,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
 
 exports[`components/admin_console/system_users/system_users_dropdown/system_users_dropdown renderDeactivateMemberModal should not render the bot accounts warning. owner_id has no enabled bot accounts 1`] = `
 <div>
-  <injectIntl(FormattedMarkdownMessage)
+  <FormattedMarkdownMessage
     defaultMessage="This action deactivates {username}. They will be logged out and not have access to any teams or channels on this system.\\\\n"
     id="deactivate_member_modal.desc"
     values={
@@ -34,7 +34,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
       }
     }
   />
-  <injectIntl(FormattedMarkdownMessage)
+  <FormattedMarkdownMessage
     defaultMessage="Are you sure you want to deactivate {username}?"
     id="deactivate_member_modal.desc.confirm"
     values={
@@ -80,7 +80,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
       </li>
     </ul>
   </React.Fragment>
-  <injectIntl(FormattedMarkdownMessage)
+  <FormattedMarkdownMessage
     defaultMessage="Are you sure you want to deactivate {username}?"
     id="deactivate_member_modal.desc.confirm"
     values={
@@ -104,7 +104,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
     }
     message={
       <div>
-        <injectIntl(FormattedMarkdownMessage)
+        <FormattedMarkdownMessage
           defaultMessage="This action deactivates {username}. They will be logged out and not have access to any teams or channels on this system.\\\\n"
           id="deactivate_member_modal.desc"
           values={
@@ -113,7 +113,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
             }
           }
         />
-        <injectIntl(FormattedMarkdownMessage)
+        <FormattedMarkdownMessage
           defaultMessage="Are you sure you want to deactivate {username}?"
           id="deactivate_member_modal.desc.confirm"
           values={
@@ -358,7 +358,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
     }
     message={
       <div>
-        <injectIntl(FormattedMarkdownMessage)
+        <FormattedMarkdownMessage
           defaultMessage="This action deactivates {username}. They will be logged out and not have access to any teams or channels on this system.\\\\n"
           id="deactivate_member_modal.desc"
           values={
@@ -367,7 +367,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
             }
           }
         />
-        <injectIntl(FormattedMarkdownMessage)
+        <FormattedMarkdownMessage
           defaultMessage="Are you sure you want to deactivate {username}?"
           id="deactivate_member_modal.desc.confirm"
           values={
