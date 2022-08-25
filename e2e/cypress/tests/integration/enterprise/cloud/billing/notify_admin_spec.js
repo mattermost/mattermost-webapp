@@ -12,7 +12,7 @@ function simulateSubscription(subscription, withLimits = {}) {
     cy.intercept('GET', '**/api/v4/cloud/subscription', {
         statusCode: 200,
         body: subscription,
-    });
+    }).as('subscription');
 
     cy.intercept('GET', '**/api/v4/cloud/products**', {
         statusCode: 200,
@@ -36,7 +36,7 @@ function simulateSubscription(subscription, withLimits = {}) {
                 name: 'Cloud Enterprise',
             },
         ],
-    });
+    }).as('products');
 
     if (withLimits) {
         cy.intercept('GET', '**/api/v4/cloud/limits', {
@@ -85,12 +85,15 @@ function creatNewTeamNotification() {
 }
 
 function createMessageLimitNotification() {
-    cy.get('#product_switch_menu').click().then((() => {
-        cy.get('#notify_admin_cta').click();
-    }));
+    cy.get('#product_switch_menu').click();
+    cy.get('#Custom-User-groups-restricted-indicator > i').click();
+    cy.findAllByRole('button', { name: 'Notify admin' }).should('be.visible').click()
+    cy.findAllByRole('button', { name: 'Notified!' }).should('be.visible').click()
+    cy.findAllByRole('button', { name: 'Already notified!' }).should('be.visible').click()
 }
 
 function createTrialNotificationForProfessionalFeatures() {
+    // createMessageLimitNotification()
     cy.get('#product_switch_menu').click().then((() => {
         cy.get('#view_plans_cta').click();
         cy.get('#pricingModal').get('#professional').within(() => {
@@ -101,8 +104,10 @@ function createTrialNotificationForProfessionalFeatures() {
 }
 
 function createTrialNotificationForEnterpriseFeatures() {
+    // createMessageLimitNotification()
     cy.get('#product_switch_menu').click().then((() => {
         cy.get('#view_plans_cta').click();
+        cy.pause();
         cy.get('#pricingModal').get('#enterprise').within(() => {
             cy.get('#notify_admin_cta').click();
         });
@@ -116,6 +121,7 @@ function triggerNotifications(url, trial = false) {
             headers: {'X-Requested-With': 'XMLHttpRequest'},
             method: 'POST',
             url: '/api/v4/cloud/trigger-notify-admin-posts',
+            failOnStatusCode: false,
             body: {
                 trial_notification: trial,
             },
@@ -213,6 +219,7 @@ function testTrialNotifications(subscription, limits) {
             simulateSubscription(subscription, limits);
             cy.apiLogin({...user, password: 'passwd'});
             cy.visit(`/${myTeam.name}/channels/${myChannel.name}`);
+            cy.wait(['@subscription', '@products']);
             createTrialNotificationForProfessionalFeatures();
         });
     });
@@ -223,6 +230,7 @@ function testTrialNotifications(subscription, limits) {
             simulateSubscription(subscription, limits);
             cy.apiLogin({...user, password: 'passwd'});
             cy.visit(`/${myTeam.name}/channels/${myChannel.name}`);
+            cy.wait(['@subscription', '@products']);
             createTrialNotificationForEnterpriseFeatures();
         });
     });
@@ -266,9 +274,11 @@ function testUpgradeNotifications(subscription, limits) {
     // # Click notify admin on message limit reached
     cy.then(() => {
         myMessageLimitUsers.forEach((user) => {
+            cy.clearCookies();
             simulateSubscription(subscription, limits);
             cy.apiLogin({...user, password: 'passwd'});
             cy.visit(`/${myTeam.name}/channels/${myChannel.name}`);
+            cy.wait(['@subscription', '@products']);
             createMessageLimitNotification();
         });
     });
@@ -276,9 +286,11 @@ function testUpgradeNotifications(subscription, limits) {
     // # Click notify admin on team limit reached
     cy.then(() => {
         myUnlimitedTeamsUsers.forEach((user) => {
+            cy.clearCookies();
             simulateSubscription(subscription, limits);
             cy.apiLogin({...user, password: 'passwd'});
             cy.visit(`/${myTeam.name}/channels/${myChannel.name}`);
+            cy.wait(['@subscription', '@products']);
             creatNewTeamNotification();
         });
     });
@@ -286,6 +298,7 @@ function testUpgradeNotifications(subscription, limits) {
     // # Click notify admin to allow user groups creation
     cy.then(() => {
         myUserGroupsUsers.forEach((user) => {
+            cy.clearCookies();
             simulateSubscription(subscription, limits);
             cy.apiLogin({...user, password: 'passwd'});
             cy.visit(`/${myTeam.name}/channels/${myChannel.name}`);
