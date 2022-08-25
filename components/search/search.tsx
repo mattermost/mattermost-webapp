@@ -31,26 +31,37 @@ import type {SearchType} from 'types/store/rhs';
 
 import type {Props, SearchFilterType} from './types';
 
-const findPrevFilter = (searchTerms: string, position: number): string | undefined => {
-    if (searchTerms.length > position) {
-        let start, end = 0;
-        for(let p = position; p >= 0; p--) {
-           if (searchTerms[p] === ':') {
-                end = p;
-            }
-        }
-
-        for(let p = end; p >= 0; p--) {
-            if (searchTerms[p] === ' ') {
-                 start = p;
-                 break;
-             }
-         }
-
-         return searchTerms.slice(start, end);
+const findPrevFilter = (
+    searchTerms: string,
+    position: number
+): string | undefined => {
+    if (searchTerms.length <= position) {
+        position = searchTerms.length - 1;
     }
 
-}
+    let start = 0;
+    let end = 0;
+
+    for (let p = position; p >= 0; p--) {
+        if (searchTerms[p] === ":") {
+            end = p;
+        }
+    }
+
+    for (let p = end; p >= 0; p--) {
+        if (searchTerms[p] === " ") {
+            start = p;
+            break;
+        }
+    }
+
+    if (end > start) {
+        return searchTerms.slice(start, end);
+    }
+
+    return undefined;
+};
+
 
 interface SearchHintOption {
     searchTerm: string;
