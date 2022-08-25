@@ -9,9 +9,11 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getSelectedPostCard} from 'selectors/rhs';
 import {getIsMobileView} from 'selectors/views/browser';
 
-import RhsCard from './rhs_card.jsx';
+import {GlobalState} from 'types/store';
 
-function mapStateToProps(state) {
+import RhsCard from './rhs_card';
+
+function mapStateToProps(state: GlobalState) {
     const selected = getSelectedPostCard(state);
     const config = getConfig(state);
     const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';

@@ -1,29 +1,29 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React from 'react';
+import React, {ComponentProps} from 'react';
 import {shallow} from 'enzyme';
 
-import RhsCard from './rhs_card.jsx';
+import {TestHelper} from 'utils/test_helper';
+
+import {PostPluginComponent} from 'types/store/plugins';
+import {RhsState} from 'types/store/rhs';
+
+import RhsCard from './rhs_card';
 
 describe('comoponents/rhs_card/RhsCard', () => {
-    const post = {
+    const post = TestHelper.getPostMock({
         id: '123',
         message: 'test',
-        type: 'test',
         create_at: 1542994995740,
         props: {},
-    };
+    });
 
-    const currentChannel = {
-        id: '111',
-        name: 'town-square',
-        display_name: 'Town Square',
-    };
-
-    const baseProps = {
-        channel: currentChannel,
+    const baseProps: ComponentProps<typeof RhsCard> = {
         isMobileView: false,
-        selected: null,
+        pluginPostCardTypes: {postType: {} as PostPluginComponent},
+        teamUrl: 'test-team-url',
+        enablePostUsernameOverride: false,
+        previousRhsState: {} as RhsState,
     };
 
     it('should match when no post is selected', () => {
@@ -52,7 +52,7 @@ describe('comoponents/rhs_card/RhsCard', () => {
             <RhsCard
                 {...baseProps}
                 selected={post}
-                pluginPostCardTypes={{notMatchingType: {component: () => <i/>}}}
+                pluginPostCardTypes={{notMatchingType: {component: () => <i/>} as unknown as PostPluginComponent}}
             />,
         );
 
@@ -64,7 +64,7 @@ describe('comoponents/rhs_card/RhsCard', () => {
             <RhsCard
                 {...baseProps}
                 selected={post}
-                pluginPostCardTypes={{test: {component: () => <i/>}}}
+                pluginPostCardTypes={{test: {component: () => <i/>} as unknown as PostPluginComponent}}
             />,
         );
 
