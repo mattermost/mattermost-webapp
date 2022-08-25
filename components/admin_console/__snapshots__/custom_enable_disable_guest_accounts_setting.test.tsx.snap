@@ -11,7 +11,7 @@ exports[`components/AdminConsole/CustomEnableDisableGuestAccountsSetting initial
       />
     }
     helpText={
-      <injectIntl(FormattedMarkdownMessage)
+      <FormattedMarkdownMessage
         defaultMessage="When true, external guest can be invited to channels within teams. Please see [Permissions Schemes](../user_management/permissions/system_scheme) for which roles can invite guests."
         id="admin.guest_access.enableDescription"
       />
@@ -72,7 +72,7 @@ exports[`components/AdminConsole/CustomEnableDisableGuestAccountsSetting initial
       />
     }
     helpText={
-      <injectIntl(FormattedMarkdownMessage)
+      <FormattedMarkdownMessage
         defaultMessage="When true, external guest can be invited to channels within teams. Please see [Permissions Schemes](../user_management/permissions/system_scheme) for which roles can invite guests."
         id="admin.guest_access.enableDescription"
       />

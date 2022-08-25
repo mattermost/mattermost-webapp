@@ -12,7 +12,7 @@ import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 
 import AlertBanner from 'components/alert_banner';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import {format} from 'utils/markdown';
 

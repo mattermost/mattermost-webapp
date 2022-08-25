@@ -107,17 +107,13 @@ export default class ChannelsInput extends React.PureComponent<Props, State> {
         const Msg: any = components.NoOptionsMessage;
         return (
             <div className='channels-input__option channels-input__option--no-matches'>
-                <FormattedMarkdownMessage
-                    id={this.props.noOptionsMessageId}
-                    defaultMessage={this.props.noOptionsMessageDefault}
-                    values={{text: inputValue}}
-                >
-                    {(message: React.ReactNode) => (
-                        <Msg {...props}>
-                            {message}
-                        </Msg>
-                    )}
-                </FormattedMarkdownMessage>
+                <Msg {...props}>
+                    <FormattedMarkdownMessage
+                        id={this.props.noOptionsMessageId}
+                        defaultMessage={this.props.noOptionsMessageDefault}
+                        values={{text: inputValue}}
+                    />
+                </Msg>
             </div>
         );
     };

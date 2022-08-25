@@ -53,7 +53,7 @@ exports[`components/QuickSwitchModal should match snapshot 1`] = `
         className="channel-switcher__hint"
         id="quickSwitchHint"
       >
-        <injectIntl(FormattedMarkdownMessage)
+        <FormattedMarkdownMessage
           defaultMessage="Type to find a channel. Use **UP/DOWN** to browse, **ENTER** to select, **ESC** to dismiss."
           id="quick_switch_modal.help_no_team"
         />

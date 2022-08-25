@@ -29,7 +29,7 @@ exports[`components/AnnouncementBar should match snapshot, bar not showing 1`] =
       <span
         onMouseEnter={[Function]}
       >
-        <injectIntl(FormattedMarkdownMessage)
+        <FormattedMarkdownMessage
           id="text"
         />
       </span>
@@ -70,7 +70,7 @@ exports[`components/AnnouncementBar should match snapshot, bar showing 1`] = `
       <span
         onMouseEnter={[Function]}
       >
-        <injectIntl(FormattedMarkdownMessage)
+        <FormattedMarkdownMessage
           id="text"
         />
       </span>
@@ -111,7 +111,7 @@ exports[`components/AnnouncementBar should match snapshot, bar showing, no dismi
       <span
         onMouseEnter={[Function]}
       >
-        <injectIntl(FormattedMarkdownMessage)
+        <FormattedMarkdownMessage
           id="text"
         />
       </span>
@@ -152,7 +152,7 @@ exports[`components/AnnouncementBar should match snapshot, dismissal 1`] = `
       <span
         onMouseEnter={[Function]}
       >
-        <injectIntl(FormattedMarkdownMessage)
+        <FormattedMarkdownMessage
           id="text"
         />
       </span>
@@ -193,7 +193,7 @@ exports[`components/AnnouncementBar should match snapshot, dismissal 2`] = `
       <span
         onMouseEnter={[Function]}
       >
-        <injectIntl(FormattedMarkdownMessage)
+        <FormattedMarkdownMessage
           id="text"
         />
       </span>
@@ -234,7 +234,7 @@ exports[`components/AnnouncementBar should match snapshot, dismissal 3`] = `
       <span
         onMouseEnter={[Function]}
       >
-        <injectIntl(FormattedMarkdownMessage)
+        <FormattedMarkdownMessage
           id="text"
         />
       </span>
@@ -275,7 +275,7 @@ exports[`components/AnnouncementBar should match snapshot, props change 1`] = `
       <span
         onMouseEnter={[Function]}
       >
-        <injectIntl(FormattedMarkdownMessage)
+        <FormattedMarkdownMessage
           id="text"
         />
       </span>
@@ -316,7 +316,7 @@ exports[`components/AnnouncementBar should match snapshot, props change 2`] = `
       <span
         onMouseEnter={[Function]}
       >
-        <injectIntl(FormattedMarkdownMessage)
+        <FormattedMarkdownMessage
           id="text"
         />
       </span>
@@ -357,7 +357,7 @@ exports[`components/AnnouncementBar should match snapshot, props change 3`] = `
       <span
         onMouseEnter={[Function]}
       >
-        <injectIntl(FormattedMarkdownMessage)
+        <FormattedMarkdownMessage
           id="text"
         />
       </span>
@@ -398,7 +398,7 @@ exports[`components/AnnouncementBar should match snapshot, props change 4`] = `
       <span
         onMouseEnter={[Function]}
       >
-        <injectIntl(FormattedMarkdownMessage)
+        <FormattedMarkdownMessage
           id="text"
         />
       </span>

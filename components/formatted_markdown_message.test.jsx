@@ -5,7 +5,9 @@ import React from 'react';
 import {mount} from 'enzyme';
 import {IntlProvider} from 'react-intl';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import FormattedMarkdownMessage from './formatted_markdown_message';
+
+jest.unmock('react-intl');
 
 describe('components/FormattedMarkdownMessage', () => {
     test('should render message', () => {

@@ -150,7 +150,7 @@ export default class AnnouncementBar extends React.PureComponent<Props, State> {
         let message = this.props.message;
         if (typeof message == 'string') {
             message = (
-                <FormattedMarkdownMessage id={this.props.message}/>
+                <FormattedMarkdownMessage id={this.props.message as string}/>
             );
         }
         const announcementTooltip = this.state.showTooltip ? (

@@ -77,7 +77,7 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
       clientError=""
       file={null}
       helpText={
-        <injectIntl(FormattedMarkdownMessage)
+        <FormattedMarkdownMessage
           defaultMessage="Upload a team icon in BMP, JPG or PNG format.\\\\nSquare images with a solid background color are recommended."
           id="setting_picture.help.team"
         />
@@ -209,7 +209,7 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
       clientError=""
       file={null}
       helpText={
-        <injectIntl(FormattedMarkdownMessage)
+        <FormattedMarkdownMessage
           defaultMessage="Upload a team icon in BMP, JPG or PNG format.\\\\nSquare images with a solid background color are recommended."
           id="setting_picture.help.team"
         />
@@ -331,7 +331,7 @@ exports[`components/TeamSettings should match snapshot when team is group constr
       clientError=""
       file={null}
       helpText={
-        <injectIntl(FormattedMarkdownMessage)
+        <FormattedMarkdownMessage
           defaultMessage="Upload a team icon in BMP, JPG or PNG format.\\\\nSquare images with a solid background color are recommended."
           id="setting_picture.help.team"
         />

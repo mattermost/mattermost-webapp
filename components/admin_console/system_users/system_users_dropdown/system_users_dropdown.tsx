@@ -13,7 +13,7 @@ import {Bot} from '@mattermost/types/bots';
 import {DeepPartial} from '@mattermost/types/utilities';
 
 import {adminResetMfa} from 'actions/admin_actions.jsx';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils';
 import {t} from 'utils/i18n';
