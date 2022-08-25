@@ -7,6 +7,8 @@ import classNames from 'classnames';
 
 import {Tooltip} from 'react-bootstrap';
 
+import {Link} from 'react-router-dom';
+
 import {getCurrentChannel, getMyCurrentChannelMembership} from 'mattermost-redux/selectors/entities/channels';
 
 import {getActivePluginId} from 'selectors/rhs';

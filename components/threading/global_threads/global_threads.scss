@@ -127,24 +127,3 @@
         --list: minmax(min-content, 500px);
     }
 }
-
-.sidebar--right.move--left {
-    ~ .inner-wrap {
-        --rhs-width: 0;
-
-        @media screen and (min-width: 1267px) {
-            --rhs-width: 400px;
-        }
-
-        @media screen and (min-width: 1680px) {
-            --rhs-width: 500px;
-        }
-
-        #app-content.GlobalThreads {
-            .ThreadList + .no-results__holder,
-            .ThreadPane {
-                padding-right: var(--rhs-width);
-            }
-        }
-    }
-}

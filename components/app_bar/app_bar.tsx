@@ -42,27 +42,36 @@ export default function AppBar() {
 
     return (
         <div className={'app-bar'}>
-            {coreProducts.map((product) => (
-                <AppBarPluginComponent
-                    key={product.id}
-                    component={product}
-                />
-            ))}
-            {isDividerVisible && (
-                <hr className={'app-bar__divider'}/>
-            )}
-            {pluginComponents.map((component) => (
-                <AppBarPluginComponent
-                    key={component.id}
-                    component={component}
-                />
-            ))}
-            {appBarBindings.map((binding) => (
-                <AppBarBinding
-                    key={`${binding.app_id}_${binding.label}`}
-                    binding={binding}
-                />
-            ))}
+            <div
+                css={`
+                    height: 100%;
+                    padding-top: 16px;
+                    border-left: solid 1px rgba(var(--center-channel-color-rgb), 0.12);
+                    background-color: rgba(var(--center-channel-color-rgb), 0.04);
+                `}
+            >
+                {coreProducts.map((product) => (
+                    <AppBarPluginComponent
+                        key={product.id}
+                        component={product}
+                    />
+                ))}
+                {isDividerVisible && (
+                    <hr className={'app-bar__divider'}/>
+                )}
+                {pluginComponents.map((component) => (
+                    <AppBarPluginComponent
+                        key={component.id}
+                        component={component}
+                    />
+                ))}
+                {appBarBindings.map((binding) => (
+                    <AppBarBinding
+                        key={`${binding.app_id}_${binding.label}`}
+                        binding={binding}
+                    />
+                ))}
+            </div>
         </div>
     );
 }

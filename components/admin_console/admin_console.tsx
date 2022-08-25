@@ -11,8 +11,6 @@ import {AdminConfig, EnvironmentConfig, ClientLicense} from '@mattermost/types/c
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
-import AnnouncementBar from 'components/announcement_bar';
-import SystemNotice from 'components/system_notice';
 import ModalController from 'components/modal_controller';
 import SchemaAdminSettings from 'components/admin_console/schema_admin_settings';
 import DiscardChangesModal from 'components/discard_changes_modal';
@@ -205,10 +203,7 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
 
         if (config && Object.keys(config).length === 0 && config.constructor === Object) {
             return (
-                <div className='admin-console__wrapper'>
-                    <AnnouncementBar/>
-                    <div className='admin-console'/>
-                </div>
+                <div className='admin-console__wrapper admin-console'/>
             );
         }
 
@@ -233,24 +228,20 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
             isCurrentUserSystemAdmin: this.props.isCurrentUserSystemAdmin,
         };
         return (
-            <div
-                className='admin-console__wrapper'
-                id='adminConsoleWrapper'
-            >
-                <AnnouncementBar/>
-                <BackstageNavbar
-                    team={this.props.team}
-                />
-                <SystemNotice/>
+            <>
+                <BackstageNavbar team={this.props.team}/>
                 <AdminSidebar onFilterChange={this.onFilterChange}/>
-                <div className='admin-console'>
+                <div
+                    className='admin-console__wrapper admin-console'
+                    id='adminConsoleWrapper'
+                >
                     <Highlight filter={this.state.filter}>
                         {this.renderRoutes(extraProps)}
                     </Highlight>
                 </div>
                 {discardChangesModal}
                 <ModalController/>
-            </div>
+            </>
         );
     }
 }

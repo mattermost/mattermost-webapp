@@ -140,18 +140,6 @@
         }
     }
 
-    .channel__wrap {
-
-        // indicates the RHS is open
-        &.move--left {
-
-            // adjust channel header width
-            #channel-header {
-                width: calc(100% - 400px);
-            }
-        }
-    }
-
     .search-help-popover {
         width: 274px;
     }
@@ -180,12 +168,6 @@
     }
 
     .sidebar--right {
-        top: 63px;
-
-        .announcement-bar--fixed & {
-            top: 95px;
-        }
-
         &.move--left {
             transform: translateX(0);
 
@@ -195,11 +177,7 @@
         }
 
         &.sidebar--right--expanded {
-            width: calc(100% - 220px - 48px);
-
-            .multi-teams & {
-                width: calc(100% - 285px - 48px);
-            }
+            width: min(60vw, 75rem);
 
             .search-bar__container {
                 padding-left: 10px;
@@ -218,18 +196,6 @@
                 .icon-arrow-collapse {
                     display: inline-block;
                 }
-            }
-        }
-    }
-
-    .move--left {
-        #post-list {
-            margin-right: 400px;
-        }
-
-        .app__content {
-            > .post-create__container {
-                width: calc(100% - 400px);
             }
         }
     }
@@ -478,10 +444,6 @@
         top: 0;
         transform: translateX(100%);
         transition: all 0.35s ease;
-
-        .announcement-bar--fixed & {
-            top: 32px;
-        }
 
         .sidebar-right-container {
             height: 100%;

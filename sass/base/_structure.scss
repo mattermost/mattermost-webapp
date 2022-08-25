@@ -89,10 +89,87 @@ body {
 
     position: relative;
     height: 100%;
+}
 
-    #root {
-        display: flex;
-        flex-direction: column;
+#root {
+    display: grid;
+    grid-template:
+        'announcement announcement announcement announcement announcement' min-content
+        'header header header header header' min-content
+        'team-sidebar lhs center rhs app-sidebar'
+        'footer footer footer footer footer' min-content
+        / min-content min-content minmax(385px, 1fr) minmax(0, auto) min-content
+    ;
+
+    > :only-child {
+        grid-area: center;
+        width: 100%;
+    }
+
+    #global-header {
+        grid-area: header;
+    }
+    .team-sidebar {
+        grid-area: team-sidebar;
+    }
+    #SidebarContainer {
+        grid-area: lhs;
+    }
+    #channel_view,
+    .product-wrapper {
+        grid-area: center;
+        overflow: hidden;
+    }
+    .sidebar--right--width-holder {
+        grid-area: rhs;
+    }
+    #sidebar-right {
+        grid-area: rhs;
+
+        @media screen and (min-width: 768px) {
+            position: absolute;
+            right: 0;
+        }
+    }
+    .app-bar {
+        grid-area: app-sidebar;
+    }
+
+    @media screen and (max-width: 768px) {
+        grid-template:
+            'header' min-content
+            'center'
+            / auto
+        ;
+        .team-sidebar,
+        #SidebarContainer,
+        #channel_view,
+        .product-wrapper,
+        #sidebar-right,
+        .app-bar {
+            grid-area: center;
+        }
+        #SidebarContainer.move--right {
+            position: relative;
+            left: 65px;
+        }
+    }
+
+    @media screen and (min-width: 768px) and(max-width: 1200px) {
+        &.rhs-open-expanded {
+            #channel_view,
+            .sidebar--right--width-holder {
+                display: none;
+            }
+            #sidebar-right {
+                position: relative;
+                width: 100%;
+                grid-area: center;
+            }
+        }
+        #sidebar-right {
+            transition: none;
+        }
     }
 }
 

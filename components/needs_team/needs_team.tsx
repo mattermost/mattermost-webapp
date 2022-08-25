@@ -76,7 +76,6 @@ type Props = {
     collapsedThreads: ReturnType<typeof isCollapsedThreadsEnabled>;
     plugins?: any;
     selectedThreadId: string | null;
-    shouldShowAppBar: boolean;
     isCustomGroupsEnabled: boolean;
 }
 
@@ -330,7 +329,6 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
                 <Route
                     render={() => (
                         <ChannelController
-                            shouldShowAppBar={this.props.shouldShowAppBar}
                             fetchingChannels={!this.state.finishedFetchingChannels}
                         />
                     )}

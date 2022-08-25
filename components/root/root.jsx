@@ -22,6 +22,11 @@ import {loadRecentlyUsedCustomEmojis} from 'actions/emoji_actions';
 import * as GlobalActions from 'actions/global_actions';
 import {measurePageLoadTelemetry, trackSelectorMetrics} from 'actions/telemetry_actions.jsx';
 
+import SidebarRight from 'components/sidebar_right';
+import SidebarRightMenu from 'components/sidebar_right_menu';
+import AnnouncementBarController from 'components/announcement_bar';
+import SystemNotice from 'components/system_notice';
+
 import {makeAsyncComponent} from 'components/async_load';
 import CompassThemeProvider from 'components/compass_theme_provider/compass_theme_provider';
 import GlobalHeader from 'components/global_header/global_header';
@@ -125,6 +130,10 @@ export default class Root extends React.PureComponent {
         plugins: PropTypes.array,
         products: PropTypes.array,
         showLaunchingWorkspace: PropTypes.bool,
+        rhsIsExpanded: PropTypes.bool,
+        rhsIsOpen: PropTypes.bool,
+        rhsState: PropTypes.string,
+        shouldShowAppBar: PropTypes.bool,
     }
 
     constructor(props) {
@@ -284,6 +293,14 @@ export default class Root extends React.PureComponent {
                 prevProps.history.push('/terms_of_service');
             }
         }
+        if (
+            this.props.rhsState !== prevProps.rhsState ||
+            this.props.shouldShowAppBar !== prevProps.shouldShowAppBar ||
+            this.props.rhsIsOpen !== prevProps.rhsIsOpen ||
+            this.props.rhsIsExpanded !== prevProps.rhsIsExpanded
+        ) {
+            this.setRootMeta();
+        }
     }
 
     async redirectToOnboardingOrDefaultTeam() {
@@ -417,6 +434,20 @@ export default class Root extends React.PureComponent {
         }
     }
 
+    setRootMeta = () => {
+        const root = document.getElementById('root');
+
+        for (const [className, enabled] of Object.entries({
+            'app-bar-enabled': this.props.shouldShowAppBar,
+            'rhs-open': this.props.rhsIsOpen,
+            'rhs-open-expanded': this.props.rhsIsExpanded,
+        })) {
+            root.classList.toggle(className, enabled);
+        }
+
+        root.setAttribute('data-rhs-state', this.props.rhsState);
+    }
+
     updateWindowSize = () => {
         switch (true) {
         case this.desktopMediaQuery.matches:
@@ -541,6 +572,8 @@ export default class Root extends React.PureComponent {
                             />
                         )}
                         <ModalController/>
+                        <AnnouncementBarController/>
+                        <SystemNotice/>
                         <GlobalHeader/>
                         <OnBoardingTaskList/>
                         <TeamSidebar/>
@@ -582,6 +615,8 @@ export default class Root extends React.PureComponent {
                             <RootRedirect/>
                         </Switch>
                         <Pluggable pluggableName='Global'/>
+                        <SidebarRight/>
+                        <SidebarRightMenu/>
                     </CompassThemeProvider>
                 </Switch>
             </RootProvider>

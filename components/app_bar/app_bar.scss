@@ -1,33 +1,14 @@
 $app-bar-icon-size: 24px;
 $app-bar-width: 48px;
-$channel-view-padding: 63px;
-
-.app-bar-enabled .sidebar--right {
-    @media screen and (min-width: 769px) {
-        right: $app-bar-width;
-    }
-}
-
-.channel-view-inner.app-bar-enabled {
-    @media screen and (min-width: 769px) {
-        padding-right: $channel-view-padding;
-    }
-}
 
 .app-bar {
     // Do not show App Bar if on mobile
     @media (max-width: 768px) {
         display: none;
     }
-
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
+    position: relative;
     width: $app-bar-width;
-    padding-top: 16px;
-    border-left: solid 1px rgba(var(--center-channel-color-rgb), 0.12);
-    background-color: rgba(var(--center-channel-color-rgb), 0.04);
+    background-color: var(--center-channel-bg);
     -ms-overflow-style: none;
     overflow-x: hidden;
     overflow-y: scroll;

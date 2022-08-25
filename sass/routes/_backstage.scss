@@ -1,10 +1,6 @@
-.backstage {
-    width: 100vw;
-    height: 100vh;
-}
-
 .backstage-navbar {
-    z-index: 10;
+    grid-area: header;
+    z-index: 100;
     height: $backstage-bar-height;
     padding: 10px 20px;
     border-bottom: 1px solid $light-gray;
@@ -29,17 +25,9 @@
 }
 
 .backstage-body {
-    top: 0;
-    bottom: 0;
-    display: inline-block;
+    grid-area: center;
     overflow: auto;
     width: 100%;
-    height: calc(100% - #{$announcement-bar-height});
-
-    body.announcement-bar--fixed & {
-        height: calc(100vh - #{$announcement-bar-height} - #{$backstage-bar-height});
-    }
-
     background-color: $bg--gray;
 }
 
@@ -555,13 +543,4 @@
 
 .bot-token-has-error {
     color: #a94442;
-}
-
-// global header style adjustments
-@media screen and (min-width: 769px) {
-    .backstage {
-        position: relative;
-        z-index: 110;
-        margin-top: -40px;
-    }
 }

@@ -5,8 +5,8 @@
 }
 
 .admin-console {
+    grid-area: center;
     height: 100%;
-    padding-left: 220px;
     color: #333;
     -webkit-overflow-scrolling: touch;
 
@@ -547,13 +547,10 @@
 }
 
 .admin-sidebar {
-    position: fixed;
+    grid-area: lhs;
     z-index: 10;
-    top: $backstage-bar-height;
-    left: 0;
     display: flex;
     width: 220px;
-    height: calc(100% - #{$announcement-bar-height});
     flex-direction: column;
     background: #111;
 
