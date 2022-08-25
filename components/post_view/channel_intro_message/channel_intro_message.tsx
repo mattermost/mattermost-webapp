@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import classNames from 'classnames';
+
 import {UserProfile as UserProfileRedux} from '@mattermost/types/users';
 
 import {Channel} from '@mattermost/types/channels';
@@ -61,7 +63,6 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
             boardComponent,
         } = this.props;
 
-        const channelIsArchived = channel.delete_at !== 0;
         if (channel.type === Constants.DM_CHANNEL) {
             return (
                 <DMIntroMessage
@@ -128,15 +129,13 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
         const introMessage = this.getIntroMessage();
         const channelIntroId = 'channelIntro';
 
-        let centeredIntro = '';
-        if (!this.props.fullWidth) {
-            centeredIntro = 'channel-intro--centered';
-        }
-
         return (
             <div
                 id={channelIntroId}
-                className={'channel-intro ' + centeredIntro}
+                className={classNames(
+                    'channel-intro ',
+                    {'channel-intro--centered': !this.props.fullWidth},
+                )}
             >
                 {introMessage}
             </div>
