@@ -5,12 +5,14 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Channel} from '@mattermost/types/channels';
+import {LeastActiveChannel} from '@mattermost/types/insights';
 
 import ConfirmModal from 'components/confirm_modal';
 
 type Props = {
-    channel: Channel;
+    channel: Channel | LeastActiveChannel;
     onExited: () => void;
+    callback?: () => any;
     actions: {
         leaveChannel: (channelId: string) => any;
     };
@@ -30,12 +32,13 @@ export default class LeavePrivateChannelModal extends React.PureComponent<Props,
     }
 
     handleSubmit = () => {
-        const {actions, channel} = this.props;
+        const {actions, channel, callback} = this.props;
 
         if (channel) {
             const channelId = channel.id;
             actions.leaveChannel(channelId).then((result: {data: boolean}) => {
                 if (result.data) {
+                    callback?.();
                     this.handleHide();
                 }
             });
