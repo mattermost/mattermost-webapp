@@ -1,8 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {connect} from 'react-redux';
+import {connect, ConnectedProps} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
+import {RouteComponentProps} from 'react-router-dom';
 
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {getProfiles} from 'mattermost-redux/actions/users';
@@ -22,16 +23,13 @@ import {PreviousViewedTypes} from 'utils/constants';
 
 import CenterChannel from './center_channel';
 
-type Props = {
-    match: {
-        url: string;
-        params: {
-            team: string;
-        };
-    };
-};
+type Params = {
+    team: string;
+}
 
-const mapStateToProps = (state: GlobalState, ownProps: Props) => {
+export type OwnProps = RouteComponentProps<Params>;
+
+const mapStateToProps = (state: GlobalState, ownProps: OwnProps) => {
     const lastViewedType = getLastViewedTypeByTeamName(state, ownProps.match.params.team);
     let channelName = getLastViewedChannelNameByTeamName(state, ownProps.match.params.team);
 
@@ -71,15 +69,19 @@ const mapStateToProps = (state: GlobalState, ownProps: Props) => {
 
 type Actions = {
     getProfiles: (page?: number, perPage?: number, options?: Record<string, string | boolean>) => ActionFunc;
-}
+};
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc|GenericAction>, Actions>({
+        actions: bindActionCreators<ActionCreatorsMapObject, Actions>({
             getProfiles,
         }, dispatch),
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CenterChannel);
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+export type PropsFromRedux = ConnectedProps<typeof connector>;
+
+export default connector(CenterChannel);
 

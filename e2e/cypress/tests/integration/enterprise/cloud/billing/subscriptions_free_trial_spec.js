@@ -14,14 +14,10 @@ import * as TIMEOUTS from '../../../../fixtures/timeouts';
 import billing from '../../../../fixtures/client_billing.json';
 
 describe('System Console - Subscriptions section', () => {
-    let adminUser;
+
     before(() => {
         // * Check if server has license for Cloud
         cy.apiRequireLicenseForFeature('Cloud');
-
-        cy.apiGetMe().then(({user}) => {
-            adminUser = user;
-        });
 
         // # Visit Subscription page
         cy.visit('/admin_console/billing/subscription');
@@ -85,8 +81,8 @@ describe('System Console - Subscriptions section', () => {
         // * Check for Compare plans navigation
         cy.contains('span', 'Compare plans').click();
 
-        cy.findByRole('heading', {  name: 'Select a plan'}).should('be.visible');
-        cy.findByRole('button', {  name: 'Close'}).click();
+        cy.findByRole('heading', {name: 'Select a plan'}).should('be.visible');
+        cy.findByRole('button', {name: 'Close'}).click();
 
         // * Check for See how billing works navigation
         cy.contains('span', 'See how billing works').should('be.visible');
