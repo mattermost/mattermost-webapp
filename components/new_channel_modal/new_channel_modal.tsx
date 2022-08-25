@@ -29,6 +29,7 @@ import {localizeMessage} from 'utils/utils';
 
 import './new_channel_modal.scss';
 
+
 export function getChannelTypeFromPermissions(canCreatePublicChannel: boolean, canCreatePrivateChannel: boolean) {
     let channelType = Constants.OPEN_CHANNEL;
 
