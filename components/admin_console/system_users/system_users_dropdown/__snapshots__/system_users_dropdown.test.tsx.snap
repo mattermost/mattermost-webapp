@@ -82,6 +82,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
       </li>
     </ul>
     <p />
+    <p />
   </React.Fragment>
   <injectIntl(FormattedMarkdownMessage)
     defaultMessage="Are you sure you want to deactivate {username}?"
