@@ -16,6 +16,7 @@ import ToggleModalButton from 'components/toggle_modal_button';
 import InvitationModal from 'components/invitation_modal';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import AddGroupsToChannelModal from 'components/add_groups_to_channel_modal';
+import {isArchivedChannel} from 'utils/channel_utils';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
@@ -109,8 +110,7 @@ const MoreThanMaxFreeUsers = ({channel, setHeader, createBoard}: {channel: Chann
 
     const modalId = channel.group_constrained ? ModalIdentifiers.ADD_GROUPS_TO_CHANNEL : ModalIdentifiers.CHANNEL_INVITE;
     const modal = channel.group_constrained ? AddGroupsToChannelModal : ChannelInviteModal;
-    const channelIsArchived = channel.delete_at !== 0;
-    if (channelIsArchived) {
+    if (isArchivedChannel(channel)) {
         return null;
     }
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;

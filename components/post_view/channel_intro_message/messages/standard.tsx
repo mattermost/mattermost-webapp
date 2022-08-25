@@ -8,6 +8,7 @@ import {FormattedDate, FormattedMessage} from 'react-intl';
 import {Constants} from 'utils/constants';
 
 import {Channel} from '@mattermost/types/channels';
+import {isArchivedChannel} from 'utils/channel_utils';
 import {PluginComponent} from 'types/store/plugins';
 import AddMembersButton from '../add_members_button';
 import {getMonthLong} from 'utils/i18n';
@@ -31,12 +32,11 @@ const StandardIntroMessage = ({
     usersLimit,
     boardComponent,
 }: Props) => {
-    const channelIsArchived = channel.delete_at !== 0;
     const uiName = channel.display_name;
     const totalUsers = stats.total_users_count;
 
     const memberMessage = useMemo(() => {
-        if (channelIsArchived) {
+        if (isArchivedChannel(channel)) {
             return null;
         }
         if (channel.type === Constants.PRIVATE_CHANNEL) {
@@ -53,7 +53,7 @@ const StandardIntroMessage = ({
                 defaultMessage=' Any member can join and read this channel.'
             />
         );
-    }, [channelIsArchived, channel.type]);
+    }, [channel]);
 
     const createMessage = useMemo(() => {
         const date = (
@@ -147,7 +147,7 @@ const StandardIntroMessage = ({
         return null;
     }, [channel.purpose, channel.type]);
 
-    const renderButtons = !channelIsArchived;
+    const renderButtons = !isArchivedChannel(channel);
     const setHeaderButton = renderButtons ? <SetHeaderButton channel={channel}/> : null;
     const boardCreateButton = renderButtons ? <BoardsButton boardComponent={boardComponent}/> : null;
 

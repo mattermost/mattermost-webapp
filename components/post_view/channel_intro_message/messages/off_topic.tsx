@@ -7,6 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {Channel} from '@mattermost/types/channels';
 import {PluginComponent} from 'types/store/plugins';
+import {isArchivedChannel} from 'utils/channel_utils';
 import AddMembersButton from '../add_members_button';
 import BoardsButton from '../boards_button';
 import SetHeaderButton from '../set_header_button';
@@ -24,10 +25,9 @@ const OffTopicIntroMessage = ({
     usersLimit,
     boardComponent,
 }: Props) => {
-    const channelIsArchived = channel.delete_at !== 0;
     const totalUsers = stats.total_users_count;
 
-    const renderButtons = !channelIsArchived;
+    const renderButtons = !isArchivedChannel(channel);
     const boardCreateButton = renderButtons ? <BoardsButton boardComponent={boardComponent}/> : null;
     const setHeaderButton = renderButtons ? <SetHeaderButton channel={channel}/> : null;
 

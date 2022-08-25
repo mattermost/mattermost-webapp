@@ -14,6 +14,7 @@ import UserProfile from 'components/user_profile';
 import * as Utils from 'utils/utils';
 import BoardsButton from '../boards_button';
 import SetHeaderButton from '../set_header_button';
+import {isArchivedChannel} from 'utils/channel_utils';
 
 type Props = {
     channel: Channel;
@@ -28,11 +29,10 @@ const DMIntroMessage = ({
     teammate,
     teammateName,
 }: Props) => {
-    const channelIsArchived = channel.delete_at !== 0;
     if (teammate) {
         const src = teammate ? Utils.imageURLForUser(teammate.id, teammate.last_picture_update) : '';
 
-        const renderButtons = !channelIsArchived && !teammate?.is_bot;
+        const renderButtons = !isArchivedChannel(channel) && !teammate?.is_bot;
         const boardCreateButton = renderButtons ? <BoardsButton boardComponent={boardComponent}/> : null;
         const setHeaderButton = renderButtons ? <SetHeaderButton channel={channel}/> : null;
 

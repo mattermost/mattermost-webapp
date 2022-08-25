@@ -7,6 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import EditIcon from 'components/widgets/icons/fa_edit_icon';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
+import {isArchivedChannel} from 'utils/channel_utils';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import ToggleModalButton from 'components/toggle_modal_button';
 import {ModalIdentifiers, Constants} from 'utils/constants';
@@ -19,8 +20,7 @@ type Props = {
 }
 
 const SetHeaderButton = ({channel}: Props): (React.ReactElement | null) => {
-    const channelIsArchived = channel.delete_at !== 0;
-    if (channelIsArchived) {
+    if (isArchivedChannel(channel)) {
         return null;
     }
 

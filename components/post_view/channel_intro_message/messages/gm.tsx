@@ -13,6 +13,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import * as Utils from 'utils/utils';
 import BoardsButton from '../boards_button';
 import SetHeaderButton from '../set_header_button';
+import {isArchivedChannel} from 'utils/channel_utils';
 
 type Props = {
     channel: Channel;
@@ -27,12 +28,6 @@ const GMIntroMessage = ({
     profiles,
     boardComponent,
 }: Props) => {
-    const channelIsArchived = channel.delete_at !== 0;
-
-    const renderButtons = !channelIsArchived;
-    const boardCreateButton = renderButtons ? <BoardsButton boardComponent={boardComponent}/> : null;
-    const setHeaderButton = renderButtons ? <SetHeaderButton channel={channel}/> : null;
-
     if (profiles.length > 0) {
         const pictures = profiles.
             filter((profile) => profile.id !== currentUserId).
@@ -60,8 +55,12 @@ const GMIntroMessage = ({
                         }}
                     />
                 </p>
-                {boardCreateButton}
-                {setHeaderButton}
+                {!isArchivedChannel(channel) &&
+                    <>
+                        <BoardsButton boardComponent={boardComponent}/>
+                        <SetHeaderButton channel={channel}/>
+                    </>
+                }
             </>
         );
     }

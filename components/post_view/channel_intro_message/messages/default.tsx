@@ -16,6 +16,7 @@ import ToggleModalButton from 'components/toggle_modal_button';
 
 import LocalizedIcon from 'components/localized_icon';
 import {Channel} from '@mattermost/types/channels';
+import {isArchivedChannel} from 'utils/channel_utils';
 import {PluginComponent} from 'types/store/plugins';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import AddMembersButton from '../add_members_button';
@@ -42,10 +43,9 @@ const DefaultIntroMessage = ({
     teamIsGroupConstrained,
 }: Props) => {
     let teamInviteLink = null;
-    const channelIsArchived = channel.delete_at !== 0;
     const totalUsers = stats.total_users_count;
 
-    const renderButtons = !isReadOnly && !channelIsArchived;
+    const renderButtons = !isReadOnly && !isArchivedChannel(channel);
     const boardCreateButton = renderButtons ? <BoardsButton boardComponent={boardComponent}/> : null;
     const setHeaderButton = renderButtons ? <SetHeaderButton channel={channel}/> : null;
 
