@@ -9,6 +9,7 @@ import * as Utils from 'utils/utils';
 import statusGreen from 'images/status_green.png';
 import statusYellow from 'images/status_yellow.png';
 import ReloadIcon from 'components/widgets/icons/fa_reload_icon';
+import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 
 export default class ClusterTable extends React.PureComponent {
     static propTypes = {
@@ -33,6 +34,10 @@ export default class ClusterTable extends React.PureComponent {
             />
         );
 
+        var versionMismatchWarning = (
+            <div/>
+        );
+
         var version = '';
         var configHash = '';
         var singleItem = false;
@@ -51,6 +56,18 @@ export default class ClusterTable extends React.PureComponent {
                         className='cluster-status'
                         src={statusYellow}
                     />
+                );
+                versionMismatchWarning = (
+                    <div
+                        style={style.warning}
+                        className='alert alert-warning'
+                    >
+                        <WarningIcon/>
+                        <FormattedMessage
+                            id='admin.cluster.version_mismatch_warning'
+                            defaultMessage='WARNING: Multiple versions of Mattermost has been detected in your HA cluster. Unless you are currently performing an upgrade please ensure all nodes in your cluster are running the same Mattermost version to avoid platform disruption.'
+                        />
+                    </div>
                 );
             }
 
@@ -168,6 +185,7 @@ export default class ClusterTable extends React.PureComponent {
                         {items}
                     </tbody>
                 </table>
+                {versionMismatchWarning}
             </div>
         );
     }
