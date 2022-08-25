@@ -73,7 +73,7 @@ const StandardIntroMessage = ({
                     <FormattedMessage
                         id='intro_messages.noCreatorPrivate'
                         defaultMessage='This is the start of the {name} private channel, created on {date}.'
-                        values={{name: (uiName), date}}
+                        values={{name: uiName, date}}
                     />
                 );
             }
@@ -82,7 +82,7 @@ const StandardIntroMessage = ({
                     <FormattedMessage
                         id='intro_messages.noCreator'
                         defaultMessage='This is the start of the {name} channel, created on {date}.'
-                        values={{name: (uiName), date}}
+                        values={{name: uiName, date}}
                     />
                 );
             }
@@ -95,8 +95,8 @@ const StandardIntroMessage = ({
                         id='intro_messages.creatorPrivate'
                         defaultMessage='This is the start of the {name} private channel, created by {creator} on {date}.'
                         values={{
-                            name: (uiName),
-                            creator: (creatorName),
+                            name: uiName,
+                            creator: creatorName,
                             date,
                         }}
                     />
@@ -111,8 +111,8 @@ const StandardIntroMessage = ({
                         id='intro_messages.creator'
                         defaultMessage='This is the start of the {name} channel, created by {creator} on {date}.'
                         values={{
-                            name: (uiName),
-                            creator: (creatorName),
+                            name: uiName,
+                            creator: creatorName,
                             date,
                         }}
                     />
@@ -193,7 +193,7 @@ const StandardIntroMessage = ({
                     id='intro_messages.beginning'
                     defaultMessage='Beginning of {name}'
                     values={{
-                        name: (uiName),
+                        name: uiName,
                     }}
                 />
             </h2>
