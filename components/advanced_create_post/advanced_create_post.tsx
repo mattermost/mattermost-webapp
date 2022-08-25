@@ -921,13 +921,18 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
     }
 
-    handleUploadError = (err: string | ServerError, clientId = '', channelId = '') => {
-        const draft = {...this.draftsForChannel[channelId]!};
-
-        let serverError = err;
-        if (typeof serverError === 'string') {
-            serverError = new Error(serverError);
+    handleUploadError = (err: string | ServerError, clientId?: string, channelId?: string) => {
+        let serverError = null;
+        if (typeof err === 'string' && err.length > 0) {
+            serverError = new Error(err);
         }
+
+        if (!channelId || !clientId) {
+            this.setState({serverError});
+            return;
+        }
+
+        const draft = {...this.draftsForChannel[channelId]!};
 
         if (draft.uploadsInProgress) {
             const index = draft.uploadsInProgress.indexOf(clientId);

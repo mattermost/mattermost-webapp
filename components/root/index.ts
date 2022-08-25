@@ -1,9 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, ActionCreatorsMapObject, Dispatch} from 'redux';
 import {connect} from 'react-redux';
 
+import {Action} from 'mattermost-redux/types/actions';
 import {isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {shouldShowTermsOfService, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
@@ -11,7 +12,6 @@ import {getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import {getFirstAdminSetupComplete} from 'mattermost-redux/actions/general';
 import {getProfiles} from 'mattermost-redux/actions/users';
-import {savePreferences} from 'mattermost-redux/actions/preferences';
 
 import {migrateRecentEmojis} from 'mattermost-redux/actions/emojis';
 
@@ -21,9 +21,11 @@ import {loadConfigAndMe, registerCustomPostRenderer} from 'actions/views/root';
 
 import LocalStorageStore from 'stores/local_storage_store';
 
-import Root from './root.jsx';
+import {GlobalState} from 'types/store/index';
 
-function mapStateToProps(state) {
+import Root, {Actions} from './root';
+
+function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
     const showTermsOfService = shouldShowTermsOfService(state);
     const plugins = state.plugins.components.CustomRouteComponent;
@@ -31,7 +33,7 @@ function mapStateToProps(state) {
     const userId = getCurrentUserId(state);
 
     const teamId = LocalStorageStore.getPreviousTeamId(userId);
-    const permalinkRedirectTeam = getTeam(state, teamId);
+    const permalinkRedirectTeam = getTeam(state, teamId!);
 
     return {
         theme: getTheme(state),
@@ -47,15 +49,14 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<Action>, Actions>({
             loadConfigAndMe,
             emitBrowserWindowResized,
             getFirstAdminSetupComplete,
             getProfiles,
             migrateRecentEmojis,
-            savePreferences,
             registerCustomPostRenderer,
         }, dispatch),
     };
