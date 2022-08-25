@@ -6,11 +6,13 @@ import {StripeElements, StripeCardElement, StripeCardElementChangeEvent} from '@
 import {ElementsConsumer, CardElement} from '@stripe/react-stripe-js';
 import {FormattedMessage} from 'react-intl';
 
-import {Theme} from 'mattermost-redux/types/themes';
+import {Theme} from 'mattermost-redux/selectors/entities/preferences';
+
 import {toRgbValues} from 'utils/utils';
 
-import './card_input.css';
 import 'components/widgets/inputs/input/input.scss';
+
+import './card_input.css';
 
 type OwnProps = {
     error?: string;

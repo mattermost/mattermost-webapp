@@ -68,4 +68,4 @@ export default compose(
     withRouter,
     connect(mapStateToProps, mapDispatchToProps),
     withUseGetUsageDelta,
-)(SelectTeam);
+)(SelectTeam) as any;

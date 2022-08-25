@@ -46,11 +46,11 @@ type Props = {
     teamId: string;
     location?: 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT' | 'SEARCH' | string;
     isFlagged?: boolean;
-    handleCommentClick: React.EventHandler<any>;
+    handleCommentClick?: React.EventHandler<any>;
     handleDropdownOpened: (open: boolean) => void;
     handleAddReactionClick?: () => void;
     isMenuOpen?: boolean;
-    isReadOnly: boolean | null;
+    isReadOnly?: boolean;
     isLicensed?: boolean; // TechDebt: Made non-mandatory while converting to typescript
     postEditTimeLimit?: string; // TechDebt: Made non-mandatory while converting to typescript
     enableEmojiPicker?: boolean; // TechDebt: Made non-mandatory while converting to typescript
@@ -330,7 +330,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
 
     handleCommentClick = (e: ChangeEvent) => {
         trackDotMenuEvent(e, TELEMETRY_LABELS.REPLY);
-        this.props.handleCommentClick(e);
+        this.props.handleCommentClick?.(e);
     }
 
     tooltip = (

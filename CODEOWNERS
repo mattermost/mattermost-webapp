@@ -1,0 +1,7 @@
+# Web Platform should be assigned to review all PRs that involve changing dependencies in the app, either intentional or accidental.
+package.json @mattermost/web-platform
+*/package.json @mattermost/web-platform
+package-lock.json @mattermost/web-platform
+
+# QA Plarform should be assigned to review all PRs that include end-to-end tests.
+/e2e/ @mattermost/qa-core-team

@@ -16,6 +16,7 @@ describe('components/activity_and_insights/insights/insights_modal', () => {
         title: 'Top reactions',
         subtitle: 'The team\'s most-used reactions',
         timeFrame: TimeFrames.INSIGHTS_7_DAYS,
+        setShowModal: jest.fn(),
     };
 
     test('should match snapshot with team', () => {

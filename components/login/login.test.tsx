@@ -13,7 +13,6 @@ import Input from 'components/widgets/inputs/input/input';
 import PasswordInput from 'components/widgets/inputs/password_input/password_input';
 import SaveButton from 'components/save_button';
 
-import users from 'mattermost-redux/actions/users';
 import {RequestStatus} from 'mattermost-redux/constants';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import {ClientConfig} from '@mattermost/types/config';
@@ -222,13 +221,6 @@ describe('components/login/Login', () => {
     it('should handle discard session expiry notification on failed sign in', () => {
         LocalStorageStore.setWasLoggedIn(true);
         mockConfig.EnableSignInWithEmail = 'true';
-
-        jest.spyOn(users, 'login').mockImplementation(jest.fn().mockResolvedValue({
-            type: 'MOCK_LOGIN_REQUEST',
-            error: {
-                server_error_id: 'api.user.login.invalid_credentials_email_username',
-            },
-        }));
 
         const wrapper = mount(
             <Login/>,

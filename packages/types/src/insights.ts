@@ -9,6 +9,10 @@ export enum InsightsWidgetTypes {
     TOP_REACTIONS = 'TOP_REACTIONS',
     TOP_THREADS = 'TOP_THREADS',
     TOP_BOARDS = 'TOP_BOARDS',
+    LEAST_ACTIVE_CHANNELS = 'LEAST_ACTIVE_CHANNELS',
+    TOP_PLAYBOOKS = 'TOP_PLAYBOOKS',
+    TOP_DMS = 'TOP_DMS',
+    NEW_TEAM_MEMBERS = 'NEW_TEAM_MEMBERS',
 }
 
 export enum CardSizes {
@@ -101,4 +105,77 @@ export type TopBoard = {
 export type TopBoardResponse = {
     has_next: boolean;
     items: TopBoard[];
+};
+
+export type LeastActiveChannel = {
+    id: string;
+    display_name: string;
+    name: string;
+    participants: string[];
+    last_activity_at: number;
+    type: ChannelType;
+    team_id: string;
+    message_count: number;
+};
+
+export type LeastActiveChannelsResponse = {
+    has_next: boolean;
+    items: LeastActiveChannel[];
+};
+
+export type LeastActiveChannelsActionResult = {
+    data?: LeastActiveChannelsResponse;
+    error?: any;
+};
+export type TopPlaybook = {
+    playbook_id: string;
+    num_runs: number;
+    title: string;
+    last_run_at: number;
+};
+
+export type TopPlaybookResponse = {
+    has_next: boolean;
+    items: TopPlaybook[];
+};
+
+type MinUserProfile = {
+    id: string;
+    first_name: string;
+    last_name: string;
+    last_picture_update: number;
+    nickname: string;
+    position: string;
+    username: string;
+};
+
+export type TopDM = {
+    outgoing_message_count: number;
+    post_count: number;
+    second_participant: MinUserProfile;
+};
+
+export type TopDMsResponse = {
+    has_next: boolean;
+    items: TopDM[];
+};
+
+export type TopDMsActionResult = {
+    data?: TopDMsResponse;
+    error?: any;
+};
+
+export type NewMember = MinUserProfile & {
+    create_at: number;
+};
+
+export type NewMembersResponse = {
+    has_next: boolean;
+    items: NewMember[];
+    total_count: number;
+};
+
+export type NewMembersActionResult = {
+    data?: NewMembersResponse;
+    error?: any;
 };
