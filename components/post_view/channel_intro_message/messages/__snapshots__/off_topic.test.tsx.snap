@@ -73,11 +73,6 @@ exports[`components/post_view/ChannelIntroMessages test OFF_TOPIC Channel should
             "update_at": 1508265709607,
           }
         }
-        permissions={
-          Array [
-            "manage_public_channel_properties",
-          ]
-        }
       />
     }
     usersLimit={10}
@@ -148,11 +143,6 @@ exports[`components/post_view/ChannelIntroMessages test OFF_TOPIC Channel should
             "type": "O",
             "update_at": 1508265709607,
           }
-        }
-        permissions={
-          Array [
-            "manage_public_channel_properties",
-          ]
         }
       />
     }

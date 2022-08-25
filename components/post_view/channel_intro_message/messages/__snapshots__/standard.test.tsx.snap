@@ -98,11 +98,6 @@ exports[`components/post_view/ChannelIntroMessages test Open Channel should matc
             "update_at": 1508265709607,
           }
         }
-        permissions={
-          Array [
-            "manage_public_channel_properties",
-          ]
-        }
       />
     }
     usersLimit={10}
@@ -198,11 +193,6 @@ exports[`components/post_view/ChannelIntroMessages test Open Channel should matc
             "type": "O",
             "update_at": 1508265709607,
           }
-        }
-        permissions={
-          Array [
-            "manage_public_channel_properties",
-          ]
         }
       />
     }

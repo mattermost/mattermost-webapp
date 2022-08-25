@@ -46,11 +46,6 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
         "update_at": 1508265709607,
       }
     }
-    permissions={
-      Array [
-        "manage_public_channel_properties",
-      ]
-    }
   />
   <br />
 </Fragment>
@@ -173,11 +168,6 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
         "update_at": 1508265709607,
       }
     }
-    permissions={
-      Array [
-        "manage_public_channel_properties",
-      ]
-    }
   />
   <br />
 </Fragment>
@@ -299,11 +289,6 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
         "update_at": 1508265709607,
       }
     }
-    permissions={
-      Array [
-        "manage_public_channel_properties",
-      ]
-    }
   />
   <br />
 </Fragment>
@@ -397,11 +382,6 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
                 "type": "O",
                 "update_at": 1508265709607,
               }
-            }
-            permissions={
-              Array [
-                "manage_public_channel_properties",
-              ]
             }
           />
         }
