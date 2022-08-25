@@ -107,7 +107,6 @@ function createTrialNotificationForEnterpriseFeatures() {
     // createMessageLimitNotification()
     cy.get('#product_switch_menu').click().then((() => {
         cy.get('#view_plans_cta').click();
-        cy.pause();
         cy.get('#pricingModal').get('#enterprise').within(() => {
             cy.get('#notify_admin_cta').click();
         });
