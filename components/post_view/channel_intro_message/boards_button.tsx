@@ -6,17 +6,14 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {PluginComponent} from 'types/store/plugins';
-import {Channel} from '@mattermost/types/channels';
 import * as Utils from 'utils/utils';
 
 type Props = {
-    channel: Channel;
     boardComponent?: PluginComponent;
 }
 
-const BoardsButton = ({channel, boardComponent}: Props) => {
-    const channelIsArchived = channel.delete_at !== 0;
-    if (channelIsArchived || boardComponent === undefined) {
+const BoardsButton = ({boardComponent}: Props) => {
+    if (boardComponent === undefined) {
         return null;
     }
 

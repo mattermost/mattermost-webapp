@@ -28,7 +28,8 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
       }
     />
   </p>
-  <Memo(BoardsButton)
+  <Memo(BoardsButton) />
+  <Memo(SetHeaderButton)
     channel={
       Object {
         "create_at": 1508265709607,
@@ -45,35 +46,12 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
         "update_at": 1508265709607,
       }
     }
-  />
-  <Connect(ChannelPermissionGate)
-    channelId="channel_id"
     permissions={
       Array [
         "manage_public_channel_properties",
       ]
     }
-    teamId="team-id"
-  >
-    <Memo(SetHeaderButton)
-      channel={
-        Object {
-          "create_at": 1508265709607,
-          "creator_id": "creator_id",
-          "delete_at": 0,
-          "display_name": "test channel",
-          "header": "test",
-          "id": "channel_id",
-          "last_post_at": 1508265709635,
-          "name": "town-square",
-          "purpose": "test",
-          "team_id": "team-id",
-          "type": "O",
-          "update_at": 1508265709607,
-        }
-      }
-    />
-  </Connect(ChannelPermissionGate)>
+  />
   <br />
 </Fragment>
 `;
@@ -177,6 +155,8 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
         "pluginId": "board",
       }
     }
+  />
+  <Memo(SetHeaderButton)
     channel={
       Object {
         "create_at": 1508265709607,
@@ -193,35 +173,12 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
         "update_at": 1508265709607,
       }
     }
-  />
-  <Connect(ChannelPermissionGate)
-    channelId="channel_id"
     permissions={
       Array [
         "manage_public_channel_properties",
       ]
     }
-    teamId="team-id"
-  >
-    <Memo(SetHeaderButton)
-      channel={
-        Object {
-          "create_at": 1508265709607,
-          "creator_id": "creator_id",
-          "delete_at": 0,
-          "display_name": "test channel",
-          "header": "test",
-          "id": "channel_id",
-          "last_post_at": 1508265709635,
-          "name": "town-square",
-          "purpose": "test",
-          "team_id": "team-id",
-          "type": "O",
-          "update_at": 1508265709607,
-        }
-      }
-    />
-  </Connect(ChannelPermissionGate)>
+  />
   <br />
 </Fragment>
 `;
@@ -324,6 +281,8 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
         "pluginId": "board",
       }
     }
+  />
+  <Memo(SetHeaderButton)
     channel={
       Object {
         "create_at": 1508265709607,
@@ -340,35 +299,12 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
         "update_at": 1508265709607,
       }
     }
-  />
-  <Connect(ChannelPermissionGate)
-    channelId="channel_id"
     permissions={
       Array [
         "manage_public_channel_properties",
       ]
     }
-    teamId="team-id"
-  >
-    <Memo(SetHeaderButton)
-      channel={
-        Object {
-          "create_at": 1508265709607,
-          "creator_id": "creator_id",
-          "delete_at": 0,
-          "display_name": "test channel",
-          "header": "test",
-          "id": "channel_id",
-          "last_post_at": 1508265709635,
-          "name": "town-square",
-          "purpose": "test",
-          "team_id": "team-id",
-          "type": "O",
-          "update_at": 1508265709607,
-        }
-      }
-    />
-  </Connect(ChannelPermissionGate)>
+  />
   <br />
 </Fragment>
 `;
@@ -442,6 +378,10 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
                 "pluginId": "board",
               }
             }
+          />
+        }
+        setHeader={
+          <Memo(SetHeaderButton)
             channel={
               Object {
                 "create_at": 1508265709607,
@@ -458,37 +398,12 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
                 "update_at": 1508265709607,
               }
             }
-          />
-        }
-        setHeader={
-          <Memo(Connect(ChannelPermissionGate))
-            channelId="channel_id"
             permissions={
               Array [
                 "manage_public_channel_properties",
               ]
             }
-            teamId="team-id"
-          >
-            <Memo(SetHeaderButton)
-              channel={
-                Object {
-                  "create_at": 1508265709607,
-                  "creator_id": "creator_id",
-                  "delete_at": 0,
-                  "display_name": "test channel",
-                  "header": "test",
-                  "id": "channel_id",
-                  "last_post_at": 1508265709635,
-                  "name": "town-square",
-                  "purpose": "test",
-                  "team_id": "team-id",
-                  "type": "O",
-                  "update_at": 1508265709607,
-                }
-              }
-            />
-          </Memo(Connect(ChannelPermissionGate))>
+          />
         }
         usersLimit={10}
       />

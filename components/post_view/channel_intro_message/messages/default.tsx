@@ -16,7 +16,6 @@ import ToggleModalButton from 'components/toggle_modal_button';
 
 import LocalizedIcon from 'components/localized_icon';
 import {Channel} from '@mattermost/types/channels';
-import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import {PluginComponent} from 'types/store/plugins';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import AddMembersButton from '../add_members_button';
@@ -43,35 +42,18 @@ const DefaultIntroMessage = ({
     teamIsGroupConstrained,
 }: Props) => {
     let teamInviteLink = null;
+    const channelIsArchived = channel.delete_at !== 0;
     const totalUsers = stats.total_users_count;
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
 
-    let setHeaderButton = null;
-    let boardCreateButton = null;
-    if (!isReadOnly) {
-        boardCreateButton = (
-            <BoardsButton
-                channel={channel}
-                boardComponent={boardComponent}
-            />
-        );
-        const children = (
-            <SetHeaderButton
-                channel={channel}
-            />
-        );
-        if (children) {
-            setHeaderButton = (
-                <ChannelPermissionGate
-                    teamId={channel.team_id}
-                    channelId={channel.id}
-                    permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
-                >
-                    {children}
-                </ChannelPermissionGate>
-            );
-        }
-    }
+    const renderButtons = !isReadOnly && !channelIsArchived;
+    const boardCreateButton = renderButtons ? <BoardsButton boardComponent={boardComponent}/> : null;
+    const setHeaderButton = renderButtons ? (
+        <SetHeaderButton
+            channel={channel}
+            permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
+        />
+    ) : null;
 
     if (!isReadOnly && enableUserCreation) {
         teamInviteLink = (

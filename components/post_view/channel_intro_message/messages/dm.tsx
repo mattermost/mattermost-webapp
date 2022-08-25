@@ -28,24 +28,13 @@ const DMIntroMessage = ({
     teammate,
     teammateName,
 }: Props) => {
+    const channelIsArchived = channel.delete_at !== 0;
     if (teammate) {
         const src = teammate ? Utils.imageURLForUser(teammate.id, teammate.last_picture_update) : '';
 
-        let setHeaderButton = null;
-        let boardCreateButton = null;
-        if (!teammate?.is_bot) {
-            boardCreateButton = (
-                <BoardsButton
-                    channel={channel}
-                    boardComponent={boardComponent}
-                />
-            );
-            setHeaderButton = (
-                <SetHeaderButton
-                    channel={channel}
-                />
-            );
-        }
+        const renderButtons = !channelIsArchived && !teammate?.is_bot;
+        const boardCreateButton = renderButtons ? <BoardsButton boardComponent={boardComponent}/> : null;
+        const setHeaderButton = renderButtons ? <SetHeaderButton channel={channel}/> : null;
 
         return (
             <>

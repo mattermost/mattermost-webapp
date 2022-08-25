@@ -6,6 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import EditIcon from 'components/widgets/icons/fa_edit_icon';
+import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import ToggleModalButton from 'components/toggle_modal_button';
 import {ModalIdentifiers} from 'utils/constants';
@@ -14,15 +15,16 @@ import * as Utils from 'utils/utils';
 
 type Props = {
     channel: Channel;
+    permissions?: string[];
 }
 
-const SetHeaderButton = ({channel}: Props) => {
+const SetHeaderButton = ({channel, permissions}: Props): (React.ReactElement | null) => {
     const channelIsArchived = channel.delete_at !== 0;
     if (channelIsArchived) {
         return null;
     }
 
-    return (
+    const toggleButton = (
         <ToggleModalButton
             modalId={ModalIdentifiers.EDIT_CHANNEL_HEADER}
             ariaLabel={Utils.localizeMessage('intro_messages.setHeader', 'Set a Header')}
@@ -37,6 +39,16 @@ const SetHeaderButton = ({channel}: Props) => {
             />
         </ToggleModalButton>
     );
+
+    return permissions ? (
+        <ChannelPermissionGate
+            teamId={channel.team_id}
+            channelId={channel.id}
+            permissions={permissions}
+        >
+            {toggleButton}
+        </ChannelPermissionGate>
+    ) : toggleButton;
 };
 
 export default React.memo(SetHeaderButton);

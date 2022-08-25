@@ -10,7 +10,6 @@ import {Permissions} from 'mattermost-redux/constants';
 import {Constants} from 'utils/constants';
 
 import {Channel} from '@mattermost/types/channels';
-import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import {PluginComponent} from 'types/store/plugins';
 import AddMembersButton from '../add_members_button';
 import {getMonthLong} from 'utils/i18n';
@@ -34,8 +33,8 @@ const StandardIntroMessage = ({
     usersLimit,
     boardComponent,
 }: Props) => {
-    const uiName = channel.display_name;
     const channelIsArchived = channel.delete_at !== 0;
+    const uiName = channel.display_name;
     const totalUsers = stats.total_users_count;
 
     const memberMessage = useMemo(() => {
@@ -151,30 +150,16 @@ const StandardIntroMessage = ({
     }, [channel.purpose, channel.type]);
 
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
-    let setHeaderButton = null;
-    const children = (
+
+    const renderButtons = !channelIsArchived;
+    const permissions = [isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES];
+    const setHeaderButton = renderButtons ? (
         <SetHeaderButton
             channel={channel}
+            permissions={permissions}
         />
-    );
-    if (children) {
-        setHeaderButton = (
-            <ChannelPermissionGate
-                teamId={channel.team_id}
-                channelId={channel.id}
-                permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
-            >
-                {children}
-            </ChannelPermissionGate>
-        );
-    }
-
-    const boardCreateButton = (
-        <BoardsButton
-            channel={channel}
-            boardComponent={boardComponent}
-        />
-    );
+    ) : null;
+    const boardCreateButton = renderButtons ? <BoardsButton boardComponent={boardComponent}/> : null;
 
     const channelInviteButton = (
         <AddMembersButton

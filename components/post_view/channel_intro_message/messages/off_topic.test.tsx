@@ -20,7 +20,7 @@ describe('components/post_view/ChannelIntroMessages', () => {
         );
     };
 
-    describe('test OFFTOPIC Channel', () => {
+    describe('test OFF_TOPIC Channel', () => {
         test('should match snapshot, without boards', () => {
             expect(shallow(component({ }))).toMatchSnapshot();
         });

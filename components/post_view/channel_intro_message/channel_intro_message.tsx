@@ -61,6 +61,7 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
             boardComponent,
         } = this.props;
 
+        const channelIsArchived = channel.delete_at !== 0;
         if (channel.type === Constants.DM_CHANNEL) {
             return (
                 <DMIntroMessage

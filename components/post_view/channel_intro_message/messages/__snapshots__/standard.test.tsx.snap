@@ -78,6 +78,10 @@ exports[`components/post_view/ChannelIntroMessages test Open Channel should matc
             "pluginId": "board",
           }
         }
+      />
+    }
+    setHeader={
+      <Memo(SetHeaderButton)
         channel={
           Object {
             "create_at": 1508265709607,
@@ -94,37 +98,12 @@ exports[`components/post_view/ChannelIntroMessages test Open Channel should matc
             "update_at": 1508265709607,
           }
         }
-      />
-    }
-    setHeader={
-      <Memo(Connect(ChannelPermissionGate))
-        channelId="channel_id"
         permissions={
           Array [
             "manage_public_channel_properties",
           ]
         }
-        teamId="team-id"
-      >
-        <Memo(SetHeaderButton)
-          channel={
-            Object {
-              "create_at": 1508265709607,
-              "creator_id": "creator_id",
-              "delete_at": 0,
-              "display_name": "test channel",
-              "header": "test",
-              "id": "channel_id",
-              "last_post_at": 1508265709635,
-              "name": "testing",
-              "purpose": "test",
-              "team_id": "team-id",
-              "type": "O",
-              "update_at": 1508265709607,
-            }
-          }
-        />
-      </Memo(Connect(ChannelPermissionGate))>
+      />
     }
     usersLimit={10}
   />
@@ -201,8 +180,9 @@ exports[`components/post_view/ChannelIntroMessages test Open Channel should matc
         "update_at": 1508265709607,
       }
     }
-    createBoard={
-      <Memo(BoardsButton)
+    createBoard={<Memo(BoardsButton) />}
+    setHeader={
+      <Memo(SetHeaderButton)
         channel={
           Object {
             "create_at": 1508265709607,
@@ -219,37 +199,12 @@ exports[`components/post_view/ChannelIntroMessages test Open Channel should matc
             "update_at": 1508265709607,
           }
         }
-      />
-    }
-    setHeader={
-      <Memo(Connect(ChannelPermissionGate))
-        channelId="channel_id"
         permissions={
           Array [
             "manage_public_channel_properties",
           ]
         }
-        teamId="team-id"
-      >
-        <Memo(SetHeaderButton)
-          channel={
-            Object {
-              "create_at": 1508265709607,
-              "creator_id": "creator_id",
-              "delete_at": 0,
-              "display_name": "test channel",
-              "header": "test",
-              "id": "channel_id",
-              "last_post_at": 1508265709635,
-              "name": "testing",
-              "purpose": "test",
-              "team_id": "team-id",
-              "type": "O",
-              "update_at": 1508265709607,
-            }
-          }
-        />
-      </Memo(Connect(ChannelPermissionGate))>
+      />
     }
     usersLimit={10}
   />

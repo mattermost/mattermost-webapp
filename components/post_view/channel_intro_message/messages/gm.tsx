@@ -27,6 +27,12 @@ const GMIntroMessage = ({
     profiles,
     boardComponent,
 }: Props) => {
+    const channelIsArchived = channel.delete_at !== 0;
+
+    const renderButtons = !channelIsArchived;
+    const boardCreateButton = renderButtons ? <BoardsButton boardComponent={boardComponent}/> : null;
+    const setHeaderButton = renderButtons ? <SetHeaderButton channel={channel}/> : null;
+
     if (profiles.length > 0) {
         const pictures = profiles.
             filter((profile) => profile.id !== currentUserId).
@@ -54,13 +60,8 @@ const GMIntroMessage = ({
                         }}
                     />
                 </p>
-                <BoardsButton
-                    channel={channel}
-                    boardComponent={boardComponent}
-                />
-                <SetHeaderButton
-                    channel={channel}
-                />
+                {boardCreateButton}
+                {setHeaderButton}
             </>
         );
     }

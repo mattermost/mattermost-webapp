@@ -59,22 +59,6 @@ exports[`components/post_view/ChannelIntroMessages test Group Channel should mat
         "pluginId": "board",
       }
     }
-    channel={
-      Object {
-        "create_at": 1508265709607,
-        "creator_id": "creator_id",
-        "delete_at": 0,
-        "display_name": "test channel",
-        "header": "test",
-        "id": "channel_id",
-        "last_post_at": 1508265709635,
-        "name": "testing",
-        "purpose": "test",
-        "team_id": "team-id",
-        "type": "G",
-        "update_at": 1508265709607,
-      }
-    }
   />
   <Memo(SetHeaderButton)
     channel={
@@ -138,24 +122,7 @@ exports[`components/post_view/ChannelIntroMessages test Group Channel should mat
       }
     />
   </p>
-  <Memo(BoardsButton)
-    channel={
-      Object {
-        "create_at": 1508265709607,
-        "creator_id": "creator_id",
-        "delete_at": 0,
-        "display_name": "test channel",
-        "header": "test",
-        "id": "channel_id",
-        "last_post_at": 1508265709635,
-        "name": "testing",
-        "purpose": "test",
-        "team_id": "team-id",
-        "type": "G",
-        "update_at": 1508265709607,
-      }
-    }
-  />
+  <Memo(BoardsButton) />
   <Memo(SetHeaderButton)
     channel={
       Object {
