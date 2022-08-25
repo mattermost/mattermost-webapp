@@ -1,0 +1,116 @@
+name: "Bundle size"
+
+on:
+  pull_request:
+    branches:
+      - master
+    paths-ignore:
+      - "e2e/**"
+      - "**.snap"
+      - "**/*.test.jsx?"
+      - "**/*.test.tsx?"
+      - "**.yml"
+
+jobs:  
+  # Build main branch and upload its's bundle stats file
+  build-main:
+    name: "Building master"
+    runs-on: ubuntu-latest
+  
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout master branch 
+        uses: actions/checkout@v3.0.0
+        with:
+          ref: master
+
+      - name: Setting up Node v16.10.0
+        uses: actions/setup-node@v3.4.1
+        with:
+          node-version: 16.10.0
+          
+      - name: Install dependencies
+        uses: bahmutov/npm-install@v1.6.0
+      
+      - name: Build app
+        run: npm run build
+        
+      - name: Upload bundlestats
+        uses: actions/upload-artifact@v3.1.0
+        with:
+          name: main-bundle-stats
+          path: ./dist/bundlestats.json
+
+  # Build current PR and upload it's bundle stats file
+  build-pr:
+    name: "Building pr"
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+    
+    steps:
+    - name: Checkout PR branch 
+      uses: actions/checkout@v3.0.0
+      with:
+        ref: ${{github.event.pull_request.head.ref}}
+    
+    - name: Setting up Node v16.10.0
+      uses: actions/setup-node@v3.4.1
+      with:
+        node-version: 16.10.0
+
+    - name: Install dependencies
+      uses: bahmutov/npm-install@v1.6.0
+      with:
+       install-command: npm install --force
+      
+    - name: Build app
+      run: npm run build
+      
+    - name: Upload bundlestats
+      uses: actions/upload-artifact@v3.1.0
+      with:
+        name: pr-bundle-stats
+        path: ./dist/bundlestats.json
+
+  # Compare bundle stats of main branch and current PR
+  compare-bundle:
+    name: "Compare sizes"
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+      pull-requests: write
+    
+    needs: [build-pr, build-main]
+    
+    steps:
+      - name: Setting up Node v16.10.0
+        uses: actions/setup-node@v3.4.1
+        with:
+          node-version: 16.10.0
+      
+      - name: Downloading Main bundle stats
+        uses: actions/download-artifact@v3.0.0
+        with:
+          name: main-bundle-stats
+          
+      - name: Downloading PR bundle stats
+        uses: actions/download-artifact@v3.0.0
+        with:
+          name: pr-bundle-stats
+      
+      - name: Checkout action repository
+        uses: actions/checkout@v3.0.0
+        with:
+          repository: github/webpack-bundlesize-compare-action
+    
+      - name: Bundlesize compare
+        uses: github/webpack-bundlesize-compare-action@v1.4.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          current-stats-json-path: ./pr-bundle-stats/bundlestats.json
+          base-stats-json-path: ./main-bundle-stats/bundlestats.json
