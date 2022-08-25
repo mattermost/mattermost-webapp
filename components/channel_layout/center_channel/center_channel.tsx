@@ -5,15 +5,18 @@ import React from 'react';
 import {Route, Switch, Redirect} from 'react-router-dom';
 import classNames from 'classnames';
 
-import {ActionFunc} from 'mattermost-redux/types/actions';
-
 import LoadingScreen from 'components/loading_screen';
 import PermalinkView from 'components/permalink_view';
-import ChannelHeaderMobile from 'components/channel_header_mobile';
 import ChannelIdentifierRouter from 'components/channel_layout/channel_identifier_router';
 import PlaybookRunner from 'components/channel_layout/playbook_runner';
-import ActivityAndInsights from 'components/activity_and_insights/activity_and_insights';
 import {makeAsyncComponent} from 'components/async_load';
+
+import type {OwnProps, PropsFromRedux} from './index';
+
+const LazyChannelHeaderMobile = makeAsyncComponent(
+    'LazyChannelHeaderMobile',
+    React.lazy(() => import('components/channel_header_mobile')),
+);
 
 const LazyGlobalThreads = makeAsyncComponent(
     'LazyGlobalThreads',
@@ -25,25 +28,17 @@ const LazyGlobalThreads = makeAsyncComponent(
     ),
 );
 
-type Props = {
-    match: {
-        url: string;
-    };
-    location: {
-        pathname: string;
-    };
-    lastChannelPath: string;
-    lhsOpen: boolean;
-    rhsOpen: boolean;
-    rhsMenuOpen: boolean;
-    isCollapsedThreadsEnabled: boolean;
-    currentUserId: string;
-    insightsAreEnabled: boolean;
-    isMobileView: boolean;
-    actions: {
-        getProfiles: (page?: number, perPage?: number, options?: Record<string, string | boolean>) => ActionFunc;
-    };
-};
+const LazyActivityAndInsights = makeAsyncComponent(
+    'LazyActivityAndInsights',
+    React.lazy(() => import('components/activity_and_insights/activity_and_insights')),
+    (
+        <div className='app__content'>
+            <LoadingScreen/>
+        </div>
+    ),
+);
+
+type Props = PropsFromRedux & OwnProps;
 
 type State = {
     returnTo: string;
@@ -90,7 +85,7 @@ export default class CenterChannel extends React.PureComponent<Props, State> {
                 {isMobileView && (
                     <div className='row header'>
                         <div id='navbar_wrapper'>
-                            <ChannelHeaderMobile/>
+                            <LazyChannelHeaderMobile/>
                         </div>
                     </div>
                 )}
@@ -123,7 +118,7 @@ export default class CenterChannel extends React.PureComponent<Props, State> {
                         {insightsAreEnabled ? (
                             <Route
                                 path='/:team/activity-and-insights'
-                                component={ActivityAndInsights}
+                                component={LazyActivityAndInsights}
                             />
                         ) : null}
                         <Redirect to={lastChannelPath}/>
