@@ -4,30 +4,47 @@
     height: 48px;
     align-items: center;
     justify-content: center;
-    background: rgba(61, 60, 64, 1);
+    background: #222224;
     color: white;
 
     &__dropdown {
-        width: 140px;
         height: 32px;
+        padding: 0 23px 0 12px;
         border: none;
-        border-bottom: 1px solid white;
-        background-color: transparent;
-        border-bottom-left-radius: 4px 1px;
-        border-bottom-right-radius: 4px 1px;
+        margin-left: 16px;
+        appearance: none;
+        background-color: rgba(255, 255, 255, 0.04);
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+        background-position: right 7px center;
+        background-repeat: no-repeat;
+        background-size: 1em;
+        border-radius: 4px;
         color: white;
         font-size: 12px;
-        font-weight: 400;
+        font-weight: 600;
         line-height: 16px;
+
+        &:hover:enabled {
+            background-color: rgba(255, 255, 255, 0.08);
+        }
+
+        &:active:enabled {
+            background-color: rgba(255, 255, 255, 0.16);
+        }
     }
 
-    &__button {
+    button + button {
+        margin-left: 8px;
+    }
+
+    button {
         overflow: hidden;
         align-items: center;
-        padding: 0 22px 0 0;
+        padding: 7.0545px 7px 4.4545px 7px;
         border: none;
         background-color: transparent;
         background-repeat: no-repeat;
+        border-radius: 4px;
         color: white;
         font-family: 'compass-icons';
         font-size: 18px;
@@ -40,6 +57,14 @@
         &[disabled],
         &:disabled {
             color: rgba(255, 255, 255, 0.56);
+        }
+
+        &:hover:enabled {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        &:active:enabled {
+            background: rgba(255, 255, 255, 0.16);
         }
     }
 }

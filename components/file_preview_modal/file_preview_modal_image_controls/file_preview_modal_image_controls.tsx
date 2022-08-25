@@ -108,11 +108,10 @@ const FilePreviewModalImageControls = ({toolbarZoom, setToolbarZoom}: Props) => 
             <button
                 id={'zoomOutButton'}
                 onClick={makeZoomHandler(-0.1)}
-                className={'image-controls__button'}
                 disabled={zoomOutButtonDisabled.current}
             >
                 <MinusIcon
-                    size={16}
+                    size={18}
                     color='currentColor'
                 />
             </button>
@@ -120,11 +119,10 @@ const FilePreviewModalImageControls = ({toolbarZoom, setToolbarZoom}: Props) => 
             <button
                 id={'zoomInButton'}
                 onClick={makeZoomHandler(0.1)}
-                className={'image-controls__button'}
                 disabled={zoomInButtonDisabled.current}
             >
                 <PlusIcon
-                    size={16}
+                    size={18}
                     color='currentColor'
                 />
             </button>
