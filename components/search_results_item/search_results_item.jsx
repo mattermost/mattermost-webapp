@@ -474,7 +474,7 @@ export default class SearchResultsItem extends React.PureComponent {
                                 <div className='col d-flex align-items-center'>
                                     {this.renderPostTime()}
                                     {post.props?.priority && isPostPriorityEnabled && (
-                                        <span className='ml-1 mr-2'>
+                                        <span className='d-flex mr-2 ml-1'>
                                             <PriorityLabel priority={post.props.priority}/>
                                         </span>
                                     )}

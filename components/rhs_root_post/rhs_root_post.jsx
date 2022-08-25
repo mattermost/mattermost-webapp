@@ -558,7 +558,7 @@ export default class RhsRootPost extends React.PureComponent {
 
         let priority;
         if (post.props?.priority && this.props.isPostPriorityEnabled) {
-            priority = <span className='mr-2 ml-1'><PriorityLabel priority={post.props.priority}/></span>;
+            priority = <span className='d-flex mr-2 ml-1'><PriorityLabel priority={post.props.priority}/></span>;
         }
 
         const message = (

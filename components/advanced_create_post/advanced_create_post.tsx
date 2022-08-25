@@ -1383,7 +1383,10 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     labels={(
                         this.props.draft?.props?.priority && this.props.isPostPriorityEnabled && (
                             <div className='AdvancedTextEditor__priority'>
-                                <PriorityLabel priority={this.props.draft.props.priority}/>
+                                <PriorityLabel
+                                    size='xs'
+                                    priority={this.props.draft.props.priority}
+                                />
                                 <OverlayTrigger
                                     placement='top'
                                     delayShow={Constants.OVERLAY_TIME_DELAY}

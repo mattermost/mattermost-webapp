@@ -1402,7 +1402,7 @@ exports[`components/SearchResultsItem should match snapshot for post with priori
               teamName="test"
             />
             <span
-              className="ml-1 mr-2"
+              className="d-flex mr-2 ml-1"
             >
               <PriorityLabel
                 priority="important"

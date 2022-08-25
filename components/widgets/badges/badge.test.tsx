@@ -30,4 +30,25 @@ describe('components/widgets/badges/Badge', () => {
         );
         expect(wrapper).toMatchInlineSnapshot('""');
     });
+
+    test('should match the snapshot on uppercase', () => {
+        const wrapper = shallow(
+            <Badge uppercase={true}>{'Test text'}</Badge>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match the snapshot on variant', () => {
+        const wrapper = shallow(
+            <Badge variant='success'>{'Test text'}</Badge>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match the snapshot on size', () => {
+        const wrapper = shallow(
+            <Badge size='lg'>{'Test text'}</Badge>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
 });

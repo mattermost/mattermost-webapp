@@ -1,18 +1,54 @@
 .Badge {
     display: inline-flex;
     align-items: center;
-    margin: 0 0 0 4px;
+
+    &__icon {
+        margin-right: 3px;
+        display: flex;
+        align-items: center;
+    }
+
+    &--uppercase {
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+    }
+
+    &--xs {
+        height: 16px;
+        line-height: 12px;
+        font-size: 10px;
+    }
+
+    &--sm {
+        height: 20px;
+        line-height: 16px;
+        font-size: 12px;
+    }
+
+    &--md {
+        height: 24px;
+        line-height: 20px;
+        font-size: 14px;
+    }
+
+    &--lg {
+        height: 28px;
+        line-height: 22px;
+        font-size: 16px;
+    }
 }
 
 .Badge__box {
-    padding: 1px 4px;
+    margin-left: 4px;
+    padding: 2px 5px;
     border: none;
-    background: rgba(var(--semantic-color-general), 0.16);
-    border-radius: 2px;
+    background: rgba(var(--semantic-color-general), 0.08);
+    color: var(--semantic-color-general);
+    border-radius: 4px;
     font-family: inherit;
-    font-size: 10px;
     font-weight: 600;
-    line-height: 14px;
+    display: inline-flex;
+    align-items: center;
 
     &.BotBadge,
     &.GuestBadge {
@@ -26,7 +62,6 @@
 
     &.success {
         background: rgb(var(--semantic-color-success));
-        border-radius: 4px;
         color: #fff;
     }
 

@@ -1412,7 +1412,7 @@ exports[`components/RhsRootPost should match snapshot when post priority is enab
             postId="id"
           />
           <span
-            className="mr-2 ml-1"
+            className="d-flex mr-2 ml-1"
           >
             <PriorityLabel
               priority="important"

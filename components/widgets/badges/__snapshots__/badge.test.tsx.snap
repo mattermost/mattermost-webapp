@@ -5,7 +5,43 @@ exports[`components/widgets/badges/Badge should match the snapshot on show 1`] =
   className="Badge"
 >
   <div
-    className="Badge__box test"
+    className="Badge__box test Badge--xs"
+  >
+    Test text
+  </div>
+</div>
+`;
+
+exports[`components/widgets/badges/Badge should match the snapshot on size 1`] = `
+<div
+  className="Badge"
+>
+  <div
+    className="Badge__box Badge--lg"
+  >
+    Test text
+  </div>
+</div>
+`;
+
+exports[`components/widgets/badges/Badge should match the snapshot on uppercase 1`] = `
+<div
+  className="Badge"
+>
+  <div
+    className="Badge__box Badge--xs Badge--uppercase"
+  >
+    Test text
+  </div>
+</div>
+`;
+
+exports[`components/widgets/badges/Badge should match the snapshot on variant 1`] = `
+<div
+  className="Badge"
+>
+  <div
+    className="Badge__box success Badge--xs"
   >
     Test text
   </div>
@@ -17,7 +53,7 @@ exports[`components/widgets/badges/Badge should transform into a button if onCli
   className="Badge"
 >
   <button
-    className="Badge__box"
+    className="Badge__box Badge--xs"
     onClick={
       [MockFunction] {
         "calls": Array [

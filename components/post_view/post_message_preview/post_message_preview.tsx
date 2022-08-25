@@ -191,7 +191,7 @@ const PostMessagePreview = (props: Props) => {
                             className='post-preview__time'
                         />
                         {previewPost.props?.priority && isPostPriorityEnabled && (
-                            <span className='mr-2 ml-1'>
+                            <span className='d-flex mr-2 ml-1'>
                                 <PriorityLabel priority={previewPost.props.priority}/>
                             </span>
                         )}

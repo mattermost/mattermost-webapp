@@ -8,30 +8,51 @@ import './badge.scss';
 
 export type BadgeVariant = 'info' | 'success' | 'warning' | 'danger';
 
+export type BadgeSize = 'xs' | 'sm' | 'md' | 'lg';
+
 type Props = {
-    show?: boolean;
-    variant?: BadgeVariant;
     children: ReactNode;
+    icon?: ReactNode;
+    show?: boolean;
+    size?: BadgeSize;
+    uppercase?: boolean;
+    variant?: BadgeVariant;
 };
 
 type Attrs = HTMLAttributes<HTMLElement>
 
 const Badge = ({
-    show = true,
     children,
+    icon,
+    show = true,
+    size = 'xs',
+    uppercase = false,
     variant,
     ...attrs
 }: Props & Attrs) => {
     if (!show) {
         return null;
     }
+
     const ButtonOrDiv: keyof JSX.IntrinsicElements = attrs.onClick ? 'button' : 'div';
+
     return (
         <div className='Badge'>
             <ButtonOrDiv
                 {...attrs}
-                className={classNames('Badge__box', attrs.className, {[`${variant}`]: variant})}
+                className={classNames(
+                    'Badge__box',
+                    attrs.className,
+                    {
+                        [`${variant}`]: variant,
+                        [`Badge--${size}`]: size,
+                        'Badge--uppercase': uppercase,
+                    },
+                )}
             >
+                {icon && (
+                    <span className='Badge__icon'>{icon}</span>
+                )}
                 {children}
             </ButtonOrDiv>
         </div>

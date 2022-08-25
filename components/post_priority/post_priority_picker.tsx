@@ -9,7 +9,7 @@ import {AlertOutlineIcon, AlertCircleOutlineIcon, MessageTextOutlineIcon, CheckI
 
 import {PostPriority} from '@mattermost/types/posts';
 
-import Label, {LabelType} from 'components/label/label';
+import Badge from 'components/widgets/badges/badge';
 import menuItem from 'components/widgets/menu/menu_items/menu_item';
 
 import './post_priority_picker.scss';
@@ -108,9 +108,13 @@ function PostPriorityPicker({
                         defaultMessage: 'Message priority',
                     })}
                 </h4>
-                <Label variant={LabelType.Primary}>
+                <Badge
+                    uppercase={true}
+                    variant='info'
+                    size='xs'
+                >
                     {'BETA'}
-                </Label>
+                </Badge>
             </div>
             <div
                 className='PostPriorityPicker__body'
