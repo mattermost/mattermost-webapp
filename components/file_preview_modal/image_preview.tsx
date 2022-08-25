@@ -151,15 +151,15 @@ export default function ImagePreview({fileInfo, toolbarZoom, setToolbarZoom}: Pr
     // Resume dragging if mouse stays clicked
     const handleMouseEnter = () => setDragging(isMouseDown.current);
 
-    // Initialize canvas
-    useEffect(() => {
+    // Load new image
+    const initializeCanvas = () => {
         // Global mouseup event, otherwise canvas can stay stuck on mouse when leaving canvas while dragging
         window.addEventListener('mouseup', handleMouseUp);
 
         background.src = previewUrl;
         if (canvasRef.current) {
             background.onload = () => {
-                // Initialize with the zoom at minimum.
+                // Change the state to re-render
                 setIsReady(true);
             };
         }
@@ -167,7 +167,18 @@ export default function ImagePreview({fileInfo, toolbarZoom, setToolbarZoom}: Pr
         return () => {
             window.removeEventListener('mouseup', handleMouseUp);
         };
+    };
+
+    // Initialize canvas
+    useEffect(() => {
+        initializeCanvas();
     }, []);
+
+    // if the previewUrl is changed, cause a re-render to display new image
+    useEffect(() => {
+        setIsReady(false);
+        initializeCanvas();
+    }, [previewUrl]);
 
     if (canvasRef.current) {
         const context = canvasRef.current.getContext('2d');
