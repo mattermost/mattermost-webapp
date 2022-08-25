@@ -23,11 +23,7 @@ const BoardsButton = ({channel, boardComponent}: Props) => {
     return (
         <button
             className={'intro-links color--link channelIntroButton style--none'}
-            onClick={() => {
-                if (boardComponent.action) {
-                    boardComponent.action();
-                }
-            }}
+            onClick={() => boardComponent.action?.()}
             aria-label={Utils.localizeMessage('intro_messages.createBoard', 'Create a board')}
         >
             {boardComponent.icon}
