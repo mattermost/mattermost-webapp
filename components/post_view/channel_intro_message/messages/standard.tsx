@@ -39,7 +39,7 @@ const StandardIntroMessage = ({
 
     const memberMessage = useMemo(() => {
         if (channelIsArchived) {
-            return '';
+            return null;
         }
         if (channel.type === Constants.PRIVATE_CHANNEL) {
             return (
@@ -66,7 +66,7 @@ const StandardIntroMessage = ({
                 year='numeric'
             />
         );
-        if (creatorName === '') {
+        if (!creatorName) {
             if (channel.type === Constants.PRIVATE_CHANNEL) {
                 return (
                     <FormattedMessage
