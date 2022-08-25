@@ -61,7 +61,7 @@ describe('Self hosted Pricing modal', () => {
         cy.get('#UpgradeButton').should('not.exist');
     });
 
-    it('should show Upgrade button for admin users on non trial licensed server', () => {
+    it('should not show Upgrade button for admin users on non trial licensed server', () => {
         // * Ensure the server has trial license
         withTrialBefore('false');
         withTrialLicense('false');
@@ -71,7 +71,7 @@ describe('Self hosted Pricing modal', () => {
         cy.visit(urlL);
 
         // * Open pricing modal
-        cy.get('#UpgradeButton').should('exist');
+        cy.get('#UpgradeButton').should('not.exist');
     });
 
     it('Upgrade button should open pricing modal admin users when no trial has ever been added on starter plan', () => {

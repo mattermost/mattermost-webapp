@@ -14,7 +14,6 @@ import * as TIMEOUTS from '../../../../fixtures/timeouts';
 import billing from '../../../../fixtures/client_billing.json';
 
 describe('System Console - Subscriptions section', () => {
-
     before(() => {
         // * Check if server has license for Cloud
         cy.apiRequireLicenseForFeature('Cloud');
