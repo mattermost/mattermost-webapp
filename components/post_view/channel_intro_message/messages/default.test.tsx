@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {archivedChannel, boardComponent, defaultChannel} from './utils';
+import {archivedChannel, boardComponent, defaultChannel} from './test_utils';
 
 import DefaultIntroMessage from './default';
 

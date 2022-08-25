@@ -10,7 +10,7 @@ import StandardIntroMessage from './messages/standard';
 import GMIntroMessage from './messages/gm';
 import DefaultIntroMessage from './messages/default';
 import OffTopicIntroMessage from './messages/off_topic';
-import {channel, defaultChannel, directChannel, groupChannel, offTopicChannel} from './messages/utils';
+import {channel, defaultChannel, directChannel, groupChannel, offTopicChannel} from './messages/test_utils';
 
 describe('components/post_view/ChannelIntroMessages', () => {
     const baseProps = {

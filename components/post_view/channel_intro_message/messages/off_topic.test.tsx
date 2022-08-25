@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {boardComponent, offTopicChannel} from './utils';
+import {boardComponent, offTopicChannel} from './test_utils';
 
 import OffTopicIntroMessage from './off_topic';
 

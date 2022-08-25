@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {boardComponent, groupChannel, users} from './utils';
+import {boardComponent, groupChannel, users} from './test_utils';
 
 import GMIntroMessage from './gm';
 

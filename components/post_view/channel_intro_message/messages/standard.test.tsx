@@ -5,7 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import StandardIntroMessage from './standard';
-import {boardComponent, channel} from './utils';
+import {boardComponent, channel} from './test_utils';
 
 describe('components/post_view/ChannelIntroMessages', () => {
     describe('test Open Channel', () => {
