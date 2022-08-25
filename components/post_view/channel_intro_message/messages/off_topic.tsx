@@ -56,16 +56,6 @@ const OffTopicIntroMessage = ({
         );
     }
 
-    const channelInviteButton = (
-        <AddMembersButton
-            setHeader={setHeaderButton}
-            totalUsers={totalUsers}
-            usersLimit={usersLimit}
-            channel={channel}
-            createBoard={boardCreateButton}
-        />
-    );
-
     return (
         <>
             <h2 className='channel-intro__title'>
@@ -86,7 +76,13 @@ const OffTopicIntroMessage = ({
                     }}
                 />
             </p>
-            {channelInviteButton}
+            <AddMembersButton
+                setHeader={setHeaderButton}
+                totalUsers={totalUsers}
+                usersLimit={usersLimit}
+                channel={channel}
+                createBoard={boardCreateButton}
+            />
         </>
     );
 };
