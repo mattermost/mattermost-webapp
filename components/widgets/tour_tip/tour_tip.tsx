@@ -37,6 +37,7 @@ type Props = {
     width?: string | number;
     zIndex?: number;
     className?: string;
+    showBackdrop?: boolean;
 
     // if you don't want punchOut just assign null, keep null as hook may return null first than actual value
     overlayPunchOut: TourTipOverlayPunchOut | null;
@@ -80,6 +81,7 @@ const TourTip = ({
     showOptOut = true,
     width = 352,
     zIndex = 999,
+    showBackdrop = true,
 }: Props) => {
     const triggerRef = useRef(null);
     const onJump = (event: React.MouseEvent, jumpToStep: number) => {
@@ -199,14 +201,16 @@ const TourTip = ({
             >
                 <PulsatingDot/>
             </div>
-            <TourTipBackdrop
-                show={show}
-                onDismiss={handleDismiss}
-                onPunchOut={handlePunchOut}
-                interactivePunchOut={interactivePunchOut}
-                overlayPunchOut={overlayPunchOut}
-                appendTo={rootPortal!}
-            />
+            {showBackdrop &&
+                <TourTipBackdrop
+                    show={show}
+                    onDismiss={handleDismiss}
+                    onPunchOut={handlePunchOut}
+                    interactivePunchOut={interactivePunchOut}
+                    overlayPunchOut={overlayPunchOut}
+                    appendTo={rootPortal!}
+                />
+            }
             {show && (
                 <Tippy
                     showOnCreate={show}

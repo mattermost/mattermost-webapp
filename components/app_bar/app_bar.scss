@@ -57,7 +57,7 @@ $channel-view-padding: 63px;
             }
 
             .app-bar__icon-inner,
-            span {
+            span:not(.pulsating_dot) {
                 box-shadow: 0 0 0 2px var(--sidebar-text-active-border);
 
                 &:hover {
@@ -67,7 +67,7 @@ $channel-view-padding: 63px;
         }
 
         .app-bar__icon-inner,
-        span {
+        span:not(.pulsating_dot) {
             display: block;
             overflow: hidden;
             width: $app-bar-icon-size;
@@ -85,7 +85,7 @@ $channel-view-padding: 63px;
             }
         }
 
-        span {
+        span:not(.pulsating_dot) {
             padding: 2px;
             background-color: white;
             fill: var(--button-bg);
@@ -135,4 +135,23 @@ $channel-view-padding: 63px;
 // This style is defined outside the .app-bar block above because it doesn't seem to work when defined there
 .app-bar::-webkit-scrollbar {
     display: none;
+}
+
+// this style is defined outside of the block scope because is intended to affect the tippy element
+.new-channel-with-board-tip {
+    background: var(--button-bg) !important;
+    color: var(--sidebar-text) !important;
+
+    .tippy-arrow {
+        border-color: var(--button-bg) !important;
+        color: var(--button-bg) !important;
+    }
+
+    .tour-tip__header {
+        font-weight: 600;
+    }
+
+    .icon-close {
+        color: var(--sidebar-text) !important;
+    }
 }

@@ -1,5 +1,6 @@
 .new-channel-modal {
-    .new-channel-modal-name-input {
+    .new-channel-modal-name-input,
+    .select-board-template-input {
         height: 34px !important;
         border: 0 !important;
         border-radius: 0 !important;
@@ -66,6 +67,45 @@
 
                 &::before {
                     margin: 0;
+                }
+            }
+        }
+
+        .add-board-to-channel {
+            margin-top: 24px;
+
+            label {
+                font-size: 14px;
+                font-weight: 400;
+                line-height: 20px;
+
+                input {
+                    width: 14px;
+                    height: 14px;
+                    margin-right: 11px;
+                    vertical-align: -2px;
+                }
+            }
+
+            i {
+                margin-left: 3px;
+            }
+        }
+
+        .new-channel-modal-board-template-selector {
+            margin-top: 16px;
+
+            .Menu {
+                position: fixed;
+                z-index: 10000;
+                width: calc(100% - 64px);
+
+                .dropdown-menu {
+                    position: absolute;
+                    width: 100%;
+                    max-width: none;
+                    max-height: 250px;
+                    overflow-y: auto;
                 }
             }
         }

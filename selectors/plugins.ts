@@ -7,6 +7,9 @@ import {AppBinding} from '@mattermost/types/apps';
 import {appBarEnabled, getAppBarAppBindings} from 'mattermost-redux/selectors/entities/apps';
 import {createShallowSelector} from 'mattermost-redux/utils/helpers';
 
+import {get} from 'mattermost-redux/selectors/entities/preferences';
+import {Preferences} from 'mattermost-redux/constants';
+
 import {GlobalState} from 'types/store';
 import {FileDropdownPluginComponent, PluginComponent} from '../types/store/plugins';
 
@@ -86,3 +89,9 @@ export const shouldShowAppBar = createSelector(
         return enabled && Boolean(bindings.length || appBarComponents.length || channelHeaderComponents.length);
     },
 );
+
+export function showNewChannelWithBoardPulsatingDot(state: GlobalState): boolean {
+    const pulsatingDotState = get(state, Preferences.APP_BAR, Preferences.NEW_CHANNEL_WITH_BOARD_TOUR_SHOWED, '');
+    const showPulsatingDot = pulsatingDotState !== '' && JSON.parse(pulsatingDotState)[Preferences.NEW_CHANNEL_WITH_BOARD_TOUR_SHOWED] === false;
+    return showPulsatingDot;
+}

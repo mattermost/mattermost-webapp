@@ -689,6 +689,7 @@ export const PostTypes = {
     PURPOSE_CHANGE: 'system_purpose_change' as const,
     CHANNEL_DELETED: 'system_channel_deleted' as const,
     CHANNEL_UNARCHIVED: 'system_channel_restored' as const,
+    SYSTEM_GENERIC: 'system_generic' as const,
     FAKE_PARENT_DELETED: 'system_fake_parent_deleted' as const,
     EPHEMERAL: 'system_ephemeral' as const,
     EPHEMERAL_ADD_TO_CHANNEL: 'system_ephemeral_add_to_channel' as const,

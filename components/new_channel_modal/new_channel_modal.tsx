@@ -3,24 +3,35 @@
 
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {useIntl} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
+import {Tooltip} from 'react-bootstrap';
 
 import classNames from 'classnames';
+
+import OverlayTrigger from 'components/overlay_trigger';
 
 import GenericModal from 'components/generic_modal';
 import Input from 'components/widgets/inputs/input/input';
 import PublicPrivateSelector from 'components/widgets/public-private-selector/public-private-selector';
 import URLInput from 'components/widgets/inputs/url_input/url_input';
+import MenuWrapper from 'components/widgets/menu/menu_wrapper';
+import Menu from 'components/widgets/menu/menu';
 
 import {createChannel} from 'mattermost-redux/actions/channels';
 import Permissions from 'mattermost-redux/constants/permissions';
+import {get as getPreference} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {switchToChannel} from 'actions/views/channel';
 import {closeModal} from 'actions/views/modals';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {ChannelType, Channel} from '@mattermost/types/channels';
+import {BoardPatch, BoardTemplate} from '@mattermost/types/boards';
 import {ServerError} from '@mattermost/types/errors';
 import {haveICurrentChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import Preferences from 'mattermost-redux/constants/preferences';
+import {attachBoardToChannel, createBoardFromTemplate, getBoardsTemplates, setNewChannelWithBoardPreference} from 'mattermost-redux/actions/boards';
+import {sendGenericPostMessage} from 'actions/global_actions';
 
 import {GlobalState} from 'types/store';
 import Constants, {ItemStatus, ModalIdentifiers} from 'utils/constants';
@@ -69,6 +80,8 @@ const NewChannelModal = () => {
     const {formatMessage} = intl;
 
     const {id: currentTeamId, name: currentTeamName} = useSelector((state: GlobalState) => getCurrentTeam(state));
+    const user = useSelector((state: GlobalState) => getCurrentUser(state));
+
     const canCreatePublicChannel = useSelector((state: GlobalState) => (currentTeamId ? haveICurrentChannelPermission(state, Permissions.CREATE_PUBLIC_CHANNEL) : false));
     const canCreatePrivateChannel = useSelector((state: GlobalState) => (currentTeamId ? haveICurrentChannelPermission(state, Permissions.CREATE_PRIVATE_CHANNEL) : false));
     const dispatch = useDispatch<DispatchFunc>();
@@ -83,6 +96,12 @@ const NewChannelModal = () => {
     const [urlError, setURLError] = useState('');
     const [purposeError, setPurposeError] = useState('');
     const [serverError, setServerError] = useState('');
+    const [selectedBoardTemplate, setSelectedBoardTemplate] = useState<BoardTemplate | null>(null);
+
+    // add boards
+    const [addBoard, setAddBoard] = useState(false);
+    const [boardTemplates, setBoardTemplates] = useState<BoardTemplate[]>([]);
+    const newChannelWithBoardPulsatingDotState = useSelector((state: GlobalState) => getPreference(state, Preferences.APP_BAR, Preferences.NEW_CHANNEL_WITH_BOARD_TOUR_SHOWED, ''));
 
     const handleOnModalConfirm = async () => {
         if (!canCreate) {
@@ -116,9 +135,51 @@ const NewChannelModal = () => {
             }
 
             handleOnModalCancel();
+
+            // If template selected, create a new board from this template
+            if (addBoard && selectedBoardTemplate) {
+                addBoardToChannel(newChannel.id);
+            }
+
             dispatch(switchToChannel(newChannel));
         } catch (e) {
             onCreateChannelError({message: formatMessage({id: 'channel_modal.error.generic', defaultMessage: 'Something went wrong. Please try again.'})});
+        }
+    };
+
+    const addBoardToChannel = async (channelId: string) => {
+        const {data: newBoard} = await dispatch(createBoardFromTemplate(selectedBoardTemplate!.id));
+        if (newBoard) {
+            const boardPatch: BoardPatch = {
+                channelId,
+                deletedCardProperties: [],
+                deletedProperties: [],
+                updatedCardProperties: [],
+                updatedProperties: {},
+            };
+            const {data: patchedBoard} = await dispatch(attachBoardToChannel(newBoard.id, boardPatch));
+
+            if (patchedBoard.channelId === channelId) {
+                const boardUrl = `${getSiteURL()}/boards/team/${currentTeamId}/${newBoard.id}`;
+
+                const newBoardMsg = formatMessage(
+                    {
+                        id: 'channel_modal.board.newBoardCreated2',
+                        defaultMessage: '**{user}** created the board [{board}]({boardUrl}) and linked it to this channel.',
+                    },
+                    {
+                        user: user.username,
+                        board: newBoard.title,
+                        boardUrl,
+                    },
+                );
+                dispatch(sendGenericPostMessage(newBoardMsg, channelId, ''));
+
+                // show the new channel with board tour tip
+                if (newChannelWithBoardPulsatingDotState === '') {
+                    dispatch(setNewChannelWithBoardPreference({[Preferences.NEW_CHANNEL_WITH_BOARD_TOUR_SHOWED]: false}));
+                }
+            }
         }
     };
 
@@ -219,6 +280,41 @@ const NewChannelModal = () => {
 
     const canCreate = displayName && !displayNameError && url && !urlError && type && !purposeError && !serverError;
 
+    const addBoardToggle = async () => {
+        setAddBoard(!addBoard);
+        const {data: boardTemplates} = await dispatch(getBoardsTemplates());
+        setBoardTemplates(boardTemplates);
+    };
+
+    const newBoardInfoIcon = () => {
+        const tooltip = (
+            <Tooltip id='new-board-tooltip'>
+                <>
+                    <div style={{fontWeight: 'bold'}}>
+                        <FormattedMessage
+                            id={'channel_modal.create_board.tooltip'}
+                            defaultMessage={'Manage your task with a board'}
+                        />
+                    </div>
+                    <FormattedMessage
+                        id={'channel_modal.create_board.tooltip'}
+                        defaultMessage={'Use any of our templates to manage your tasks or start from scratch with your own!'}
+                    />
+                </>
+            </Tooltip>
+        );
+
+        return (
+            <OverlayTrigger
+                delayShow={Constants.OVERLAY_TIME_DELAY}
+                placement='right'
+                overlay={tooltip}
+            >
+                <i className='icon-information-outline'/>
+            </OverlayTrigger>
+        );
+    };
+
     return (
         <GenericModal
             id='new-channel-modal'
@@ -299,6 +395,58 @@ const NewChannelModal = () => {
                             <span>
                                 {formatMessage({id: 'channel_modal.purpose.info', defaultMessage: 'This will be displayed when browsing for channels.'})}
                             </span>
+                        </div>
+                    )}
+                    <div className='add-board-to-channel'>
+                        <label>
+                            <input
+                                type='checkbox'
+                                onChange={addBoardToggle}
+                                checked={addBoard}
+                            />
+                            {formatMessage({id: 'channel_modal.create_board.title', defaultMessage: 'Create a board for this channel'})}
+                        </label>
+                        {newBoardInfoIcon()}
+                    </div>
+                    {addBoard && (
+                        <div className='new-channel-modal-board-template-selector'>
+                            <MenuWrapper
+                                id='selectBoardTemplate'
+                                className='select-board-template'
+                            >
+                                <Input
+                                    type='email'
+                                    autoComplete='off'
+                                    value={selectedBoardTemplate?.title ? `${selectedBoardTemplate.icon} ${selectedBoardTemplate.title}` : ''}
+                                    name='select-board-template'
+                                    containerClassName='select-board-template-container'
+                                    inputClassName='select-board-template-input'
+                                    label={formatMessage({id: 'channel_modal.create_board.select_template', defaultMessage: 'Select a template'})}
+                                    placeholder={formatMessage({id: 'channel_modal.create_board.select_template_placeholder', defaultMessage: 'Select a template'})}
+                                />
+                                <Menu
+                                    openLeft={true}
+                                    openUp={false}
+                                    id='SelectBoardTemplate'
+                                    className='SelectTemplateMenu'
+                                    ariaLabel={intl.formatMessage({id: 'channel_modal.create_board.select_template', defaultMessage: 'Select board template'})}
+                                >
+                                    <Menu.Group>
+                                        {boardTemplates?.map((boardTemplate: BoardTemplate) => {
+                                            return (
+                                                <Menu.ItemAction
+                                                    id={boardTemplate.title.replace(' ', '_')}
+                                                    onClick={() => setSelectedBoardTemplate(boardTemplate)}
+                                                    icon={boardTemplate.icon || <i className='icon icon-product-boards'/>}
+                                                    text={boardTemplate.title}
+                                                    extraText={boardTemplate.description ? `${boardTemplate.description.substring(0, 70)} ...` : ''}
+                                                    key={boardTemplate.id}
+                                                />
+                                            );
+                                        })}
+                                    </Menu.Group>
+                                </Menu>
+                            </MenuWrapper>
                         </div>
                     )}
                 </div>
