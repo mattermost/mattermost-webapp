@@ -163,15 +163,15 @@ export default function ImagePreview({fileInfo, toolbarZoom, setToolbarZoom}: Pr
                 setIsReady(true);
             };
         }
-
-        return () => {
-            window.removeEventListener('mouseup', handleMouseUp);
-        };
     };
 
     // Initialize canvas
     useEffect(() => {
         initializeCanvas();
+
+        return () => {
+            window.removeEventListener('mouseup', handleMouseUp);
+        };
     }, []);
 
     // if the previewUrl is changed, cause a re-render to display new image
