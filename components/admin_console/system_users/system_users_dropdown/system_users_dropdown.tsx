@@ -196,11 +196,11 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
                             <ul>
                                 <li>
                                     <FormattedMessage
-                                    id='deactivate_member_modal.desc.for_users_with_bot_accounts1'
-                                    defaultMessage='This action deactivates {username}<p>'
-                                    values={{
-                                        username: user.username,
-                                    }}
+                                        id='deactivate_member_modal.desc.for_users_with_bot_accounts1'
+                                        defaultMessage='This action deactivates {username}<p>'
+                                        values={{
+                                            username: user.username,
+                                        }}
                                     />
                                 </li>
                                 <li>
@@ -235,7 +235,8 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
                                     />
                                 </li>
                             </ul>
-                            <p></p>
+                            <p/>
+                            <p/>
                         </>
                     );
                     break;
