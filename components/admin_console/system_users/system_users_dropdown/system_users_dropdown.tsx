@@ -193,14 +193,16 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
                 if ((bot.owner_id === user.id) && this.state.showDeactivateMemberModal && (bot.delete_at === 0)) {
                     messageForUsersWithBotAccounts = (
                         <>
-                            <FormattedMessage
-                                id='deactivate_member_modal.desc.for_users_with_bot_accounts1'
-                                defaultMessage='This action deactivates {username}.\n \n * They will be logged out and not have access to any teams or channels on this system.\n * Bot accounts they manage will be disabled along with their integrations. To enable them again, go to [Integrations > Bot Accounts]({siteURL}/_redirect/integrations/bots). <link>Learn more about bot accounts</link>.\n \n \n'
-                                values={{
-                                    username: user.username,
-                                }}
-                            />
                             <ul>
+                                <li>
+                                    <FormattedMessage
+                                    id='deactivate_member_modal.desc.for_users_with_bot_accounts1'
+                                    defaultMessage='This action deactivates {username}<p>'
+                                    values={{
+                                        username: user.username,
+                                    }}
+                                    />
+                                </li>
                                 <li>
                                     <FormattedMessage
                                         id='deactivate_member_modal.desc.for_users_with_bot_accounts2'
@@ -210,7 +212,7 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
                                 <li>
                                     <FormattedMessage
                                         id='deactivate_member_modal.desc.for_users_with_bot_accounts3'
-                                        defaultMessage='Bot accounts they manage will be disabled along with their integrations. To enable them again, go to <linkBots>Integrations > Bot Accounts</linkBots>. <linkDocumentation>Learn more about bot accounts</linkDocumentation>.\n \n \n'
+                                        defaultMessage='Bot accounts they manage will be disabled along with their integrations. To enable them again, go to <linkBots>Integrations > Bot Accounts</linkBots>. <linkDocumentation>Learn more about bot accounts</linkDocumentation>.'
                                         values={{
                                             siteURL: getSiteURL(),
                                             linkBots: (msg: React.ReactNode) => (
